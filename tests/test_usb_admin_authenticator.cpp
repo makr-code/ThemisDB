@@ -1,8 +1,35 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_usb_admin_authenticator.cpp                   ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:35:03                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     409                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • c9429f8d3  2026-03-09  feat(security): HMAC challenge-response, Windows MachineG... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include <gtest/gtest.h>
 #include "security/usb_admin_authenticator.h"
 #include <filesystem>
 #include <fstream>
 #include <nlohmann/json.hpp>
+#include <openssl/hmac.h>
+#include <openssl/evp.h>
+#include <sstream>
+#include <iomanip>
 
 using namespace themis::security;
 namespace fs = std::filesystem;
@@ -249,4 +276,134 @@ TEST_F(USBAdminAuthenticatorTest, HardwareMismatchDeniesAccess) {
     // Should fail to load license due to hardware mismatch
     EXPECT_FALSE(auth.refreshUSBStatus());
     EXPECT_FALSE(auth.isAdminUSBPresent());
+}
+
+// ============================================================================
+// Challenge-Response Security Tests
+//
+// These tests verify that validateChallengeResponse() correctly enforces:
+//   - Challenge must have been issued by createChallenge()
+//   - Challenge is one-time-use (replay protection)
+//   - Challenge expires after challenge_ttl
+//   - Response must be a valid HMAC-SHA256 of the challenge
+// ============================================================================
+
+/**
+ * @brief Helper: compute HMAC-SHA256(key, message) as lowercase hex.
+ *
+ * Mirrors the production implementation so tests can generate valid responses.
+ */
+static std::string computeHmacResponse(const std::string& license_key,
+                                            const std::string& challenge) {
+    unsigned char hmac_out[EVP_MAX_MD_SIZE];
+    unsigned int  hmac_len = 0;
+    HMAC(EVP_sha256(),
+         license_key.data(), static_cast<int>(license_key.size()),
+         reinterpret_cast<const unsigned char*>(challenge.data()), challenge.size(),
+         hmac_out, &hmac_len);
+
+    std::ostringstream oss;
+    for (unsigned int i = 0; i < hmac_len; ++i) {
+        oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hmac_out[i]);
+    }
+    return oss.str();
+}
+
+class USBChallengeResponseTest : public USBAdminAuthenticatorTest {
+protected:
+    /// License key as stored in the test license JSON (must match createValidLicense()).
+    static constexpr const char* kLicenseKey = "THEMIS-ENT-ADMIN-TEST-12345678";
+
+    USBAdminAuthenticator makeAuthWithValidUSB() {
+        createValidLicense();
+        USBAdminConfig config;
+        config.mount_path             = test_mount_path_;
+        config.require_usb_for_admin  = true;
+        config.challenge_ttl          = std::chrono::seconds(300);
+        USBAdminAuthenticator auth(config);
+        auth.initialize();
+        auth.refreshUSBStatus();
+        return auth;
+    }
+};
+
+TEST_F(USBChallengeResponseTest, ValidHMAC_AcceptsCorrectResponse) {
+    auto auth = makeAuthWithValidUSB();
+    std::string challenge = auth.createChallenge();
+    std::string response  = computeHmacResponse(kLicenseKey, challenge);
+
+    EXPECT_TRUE(auth.validateChallengeResponse(challenge, response))
+        << "A correct HMAC-SHA256 response must be accepted";
+}
+
+TEST_F(USBChallengeResponseTest, WrongResponse_Rejected) {
+    auto auth = makeAuthWithValidUSB();
+    std::string challenge = auth.createChallenge();
+    EXPECT_FALSE(auth.validateChallengeResponse(challenge, "deadbeef"))
+        << "An incorrect response must be rejected";
+}
+
+TEST_F(USBChallengeResponseTest, OneTimeUse_SecondValidationFails) {
+    auto auth = makeAuthWithValidUSB();
+    std::string challenge = auth.createChallenge();
+    std::string response  = computeHmacResponse(kLicenseKey, challenge);
+
+    // First validation succeeds
+    ASSERT_TRUE(auth.validateChallengeResponse(challenge, response));
+
+    // Replay attempt: same challenge + same response must be rejected
+    EXPECT_FALSE(auth.validateChallengeResponse(challenge, response))
+        << "Replay attack: used challenge must not validate a second time";
+}
+
+TEST_F(USBChallengeResponseTest, UnknownChallenge_Rejected) {
+    auto auth = makeAuthWithValidUSB();
+    // Fabricated challenge that was never issued by this instance
+    std::string fake_challenge = std::string(64, 'a');
+    std::string response       = computeHmacResponse(kLicenseKey, fake_challenge);
+
+    EXPECT_FALSE(auth.validateChallengeResponse(fake_challenge, response))
+        << "A challenge that was not issued by this instance must be rejected";
+}
+
+TEST_F(USBChallengeResponseTest, ExpiredChallenge_Rejected) {
+    USBAdminConfig config;
+    config.mount_path    = test_mount_path_;
+    config.challenge_ttl = std::chrono::seconds(0); // TTL = 0 → immediately expired
+    createValidLicense();
+    USBAdminAuthenticator auth(config);
+    auth.initialize();
+    auth.refreshUSBStatus();
+
+    std::string challenge = auth.createChallenge();
+    std::string response  = computeHmacResponse(kLicenseKey, challenge);
+
+    // With TTL = 0 the challenge should be considered expired immediately
+    EXPECT_FALSE(auth.validateChallengeResponse(challenge, response))
+        << "A challenge with TTL=0 must be rejected as expired";
+}
+
+TEST_F(USBChallengeResponseTest, EmptyResponse_Rejected) {
+    auto auth = makeAuthWithValidUSB();
+    std::string challenge = auth.createChallenge();
+    EXPECT_FALSE(auth.validateChallengeResponse(challenge, ""))
+        << "Empty response must be rejected";
+}
+
+TEST_F(USBChallengeResponseTest, MultipleDistinctChallenges_EachUsableOnce) {
+    auto auth = makeAuthWithValidUSB();
+
+    std::string c1 = auth.createChallenge();
+    std::string c2 = auth.createChallenge();
+    EXPECT_NE(c1, c2) << "Two challenges must be distinct (CSPRNG)";
+
+    std::string r1 = computeHmacResponse(kLicenseKey, c1);
+    std::string r2 = computeHmacResponse(kLicenseKey, c2);
+
+    EXPECT_TRUE(auth.validateChallengeResponse(c1, r1)) << "Challenge 1 must validate";
+    EXPECT_TRUE(auth.validateChallengeResponse(c2, r2)) << "Challenge 2 must validate";
+
+    // Replay both
+    EXPECT_FALSE(auth.validateChallengeResponse(c1, r1)) << "Replay of c1 must fail";
+    EXPECT_FALSE(auth.validateChallengeResponse(c2, r2)) << "Replay of c2 must fail";
 }

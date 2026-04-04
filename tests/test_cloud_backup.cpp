@@ -1,11 +1,41 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_cloud_backup.cpp                              ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-03-30 04:25:30                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   84.0/100                                       ║
+    • Total Lines:     445                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • f82bf2ae9  2026-03-04  Refactor tenant manager tests and add new test cases ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 252b3f2e9  2026-02-07  Implement production GPU backend, cloud backup infrastruc... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include <gtest/gtest.h>
 #include "sharding/cloud_backup.h"
 #include "sharding/cloud_agent.h"
+#include "sharding/shard_topology.h"
 #include "storage/backup_manager.h"
 #include "storage/rocksdb_wrapper.h"
 #include <memory>
 #include <filesystem>
 #include <cstdlib>
+
+#ifdef _WIN32
+#define setenv(name, value, overwrite) _putenv_s(name, value)
+#define unsetenv(name) _putenv_s(name, "")
+#endif
 
 using namespace themis;
 using namespace themis::sharding;
@@ -30,7 +60,7 @@ protected:
         db_config.memtable_size_mb = 16;
         db_config.block_cache_size_mb = 16;
         
-        db_ = std::make_unique<RocksDBWrapper>(db_config);
+        db_ = std::make_shared<RocksDBWrapper>(db_config);
         ASSERT_TRUE(db_->open());
         
         // Create backup manager
@@ -65,7 +95,7 @@ protected:
     std::filesystem::path db_path_;
     std::filesystem::path local_backup_dir_;
     
-    std::unique_ptr<RocksDBWrapper> db_;
+    std::shared_ptr<RocksDBWrapper> db_;
     std::shared_ptr<BackupManager> backup_manager_;
     std::shared_ptr<ShardTopology> topology_;
     std::shared_ptr<CloudAgent> cloud_agent_;

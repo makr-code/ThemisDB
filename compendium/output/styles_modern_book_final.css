@@ -1,0 +1,585 @@
+/**
+ * ThemisDB Kompendium - Professional Book Layout CSS
+ * All styles for PDF generation, no inline styles
+ * Uses CSS custom properties for theme colors
+ */
+
+:root {
+  --primary-color: #1f2f3b;
+  --secondary-color: #2f5563;
+  --accent-color: #145b94;
+  --text-color: #243036;
+  --text-light: #4f5a60;
+  --background-color: #fff;
+  --code-bg-color: #f5f5f5;
+  --code-border-color: #e0e0e0;
+  --table-header-bg: #f0f0f0;
+  --table-row-alt-bg: #fafafa;
+  --link-color: #145b94;
+  --link-hover-color: #0d3f6a;
+  --heading-font: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  --body-font: 'Calibri', 'Segoe UI', Tahoma, sans-serif;
+  --code-font: 'Consolas', 'Monaco', 'Courier New', monospace;
+}
+
+/* ===== PAGE SETUP ===== */
+@page {
+  size: A4;
+  margin-top: 2cm;
+  margin-bottom: 1.7cm;
+  margin-left: 1.8cm;
+  margin-right: 1.8cm;
+
+  @top-center {
+    content: "ThemisDB Kompendium - Das vollständige Handbuch";
+    font-size: 9pt;
+    font-style: italic;
+    color: #666;
+    border-bottom: 0.5pt solid #ddd;
+    padding-bottom: 4pt;
+  }
+
+  @bottom-center {
+    content: "Seite " counter(page);
+    font-size: 10pt;
+    font-weight: 500;
+    color: #444;
+  }
+}
+
+@page :first {
+  @top-center { content: ""; }
+  @bottom-center { content: ""; }
+}
+
+@page toc {
+  @bottom-center {
+    content: counter(page, lower-roman);
+    font-size: 10pt;
+    color: #444;
+  }
+}
+
+@page :left {
+  margin-left: 2.1cm;
+  margin-right: 1.7cm;
+}
+
+@page :right {
+  margin-left: 1.7cm;
+  margin-right: 2.1cm;
+}
+
+/* ===== GLOBAL STYLES ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  orphans: 3;
+  widows: 3;
+}
+
+html, body {
+  font-family: var(--body-font);
+  line-height: 1.65;
+  color: var(--text-color);
+  background-color: var(--background-color);
+  text-align: justify;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  font-size: 11pt;
+  font-weight: 400;
+}
+
+/* ===== COVER PAGE ===== */
+.cover {
+  width: 100%;
+  min-height: 29.7cm;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: white;
+  color: var(--primary-color);
+  text-align: center;
+  page-break-after: always;
+  padding: 2.8cm 2.4cm;
+  border-top: 6pt solid var(--primary-color);
+}
+
+.cover h1 {
+  font-size: 42pt;
+  font-weight: 700;
+  margin-bottom: 10pt;
+  margin-top: 0;
+  font-family: var(--heading-font);
+  color: var(--primary-color);
+  letter-spacing: 0pt;
+  border: none;
+  padding-bottom: 0;
+  page-break-before: avoid;
+}
+
+.cover h2 {
+  font-size: 16pt;
+  color: var(--secondary-color);
+  margin-bottom: 24pt;
+  margin-top: 6pt;
+  font-weight: 400;
+  border: none;
+  padding-left: 0;
+}
+
+.cover p {
+  font-size: 11pt;
+  color: var(--text-color);
+  margin: 10pt 0 22pt;
+  max-width: 620px;
+  line-height: 1.6;
+}
+
+.cover hr {
+  display: none;
+}
+
+.cover-meta {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(160px, 1fr));
+  gap: 10pt 16pt;
+  margin-top: 6pt;
+  padding: 14pt 16pt;
+  border: 1.2pt solid var(--accent-color);
+  border-radius: 10pt;
+  background: #f8fbff;
+  color: var(--text-color);
+  max-width: 520px;
+}
+
+.cover-meta .label {
+  display: block;
+  font-size: 9pt;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted-text);
+}
+
+.cover-meta .value {
+  display: block;
+  font-size: 11pt;
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.cover strong {
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+/* ===== TABLE OF CONTENTS ===== */
+.toc-section,
+.figure-index {
+  page: toc;
+  page-break-before: always;
+  page-break-after: always;
+  padding: 32px 42px;
+}
+
+.toc-section h1,
+.figure-index h1 {
+  font-family: var(--heading-font);
+  color: var(--primary-color);
+  border-bottom: 3px solid var(--accent-color);
+  padding-bottom: 12pt;
+  margin-bottom: 24pt;
+  font-size: 24pt;
+  font-weight: 700;
+  page-break-after: avoid;
+}
+
+.toc-section-group {
+  margin-bottom: 18px;
+}
+
+.toc-section-title {
+  font-family: var(--heading-font);
+  color: var(--accent-color);
+  font-size: 16pt;
+  margin-bottom: 8px;
+  font-weight: bold;
+  page-break-after: avoid;
+}
+
+.toc-list {
+  list-style: none;
+  padding-left: 20px;
+  font-size: 10.2pt;
+  line-height: 1.3;
+}
+
+.toc-item {
+  margin-bottom: 5pt;
+  padding-bottom: 4pt;
+  border-bottom: 1px dotted #d5dce5;
+  page-break-inside: avoid;
+}
+
+.toc-link {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 6pt;
+  align-items: baseline;
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: all 0.2s ease;
+  padding-right: 4pt;
+}
+
+.toc-link:hover {
+  color: var(--link-hover-color);
+  border-bottom: 1px solid var(--link-hover-color);
+}
+
+.toc-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.toc-page {
+  color: var(--muted-text);
+  font-variant-numeric: tabular-nums;
+  justify-self: end;
+  min-width: 3.5ch;
+  content: target-counter(attr(href), page);
+}
+
+.figure-list {
+  list-style: none;
+  padding-left: 0;
+  font-size: 10pt;
+  line-height: 1.3;
+}
+
+.figure-list li {
+  margin-bottom: 6px;
+  padding-left: 26px;
+  text-indent: -26px;
+  page-break-inside: avoid;
+}
+
+.figure-link {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 6pt;
+  align-items: baseline;
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.figure-link:hover {
+  color: var(--link-hover-color);
+  border-bottom: 1px solid var(--link-hover-color);
+}
+
+.figure-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.figure-page {
+  color: var(--muted-text);
+  font-variant-numeric: tabular-nums;
+  justify-self: end;
+  min-width: 3.5ch;
+  content: target-counter(attr(href), page);
+}
+
+/* ===== SECTIONS & CHAPTERS ===== */
+.section-page {
+  page-break-before: always;
+  page-break-after: always;
+}
+
+.chapter {
+  margin-bottom: 40px;
+}
+
+.chapter-title {
+  page-break-after: avoid;
+  page-break-inside: avoid;
+  orphans: 3;
+  widows: 3;
+}
+
+.content {
+  padding: 28px 34px;
+  max-width: 950px;
+  margin: 0 auto;
+}
+
+.footer {
+  text-align: center;
+  font-size: 9pt;
+  color: #999;
+  margin-top: 30px;
+  padding-top: 15px;
+  border-top: 1px solid #ddd;
+  page-break-before: avoid;
+}
+
+/* ===== HEADINGS ===== */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--heading-font);
+  page-break-after: avoid;
+  page-break-inside: avoid;
+  orphans: 3;
+  widows: 3;
+}
+
+h1 {
+  page-break-before: always;
+  color: var(--primary-color);
+  border-bottom: 2pt solid var(--primary-color);
+  padding-bottom: 6pt;
+  font-size: 17.5pt;
+  margin-top: 0;
+  margin-bottom: 12pt;
+  font-weight: 650;
+  line-height: 1.25;
+  letter-spacing: 0.2pt;
+}
+
+h2 {
+  color: var(--secondary-color);
+  font-size: 13.8pt;
+  margin-top: 16pt;
+  margin-bottom: 8pt;
+  border-left: 2.5pt solid var(--accent-color);
+  padding-left: 8pt;
+  font-weight: 620;
+  line-height: 1.28;
+}
+
+h3 {
+  color: var(--primary-color);
+  font-size: 12pt;
+  margin-top: 14pt;
+  margin-bottom: 7pt;
+  font-weight: 620;
+  line-height: 1.3;
+}
+
+h4 {
+  color: var(--text-light);
+  font-size: 11pt;
+  margin-top: 12pt;
+  margin-bottom: 6pt;
+  font-weight: 600;
+  line-height: 1.28;
+}
+
+h5, h6 {
+  color: var(--text-light);
+  font-size: 11pt;
+  margin-top: 12pt;
+  margin-bottom: 4pt;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+/* ===== PARAGRAPHS & TEXT ===== */
+p {
+  margin-bottom: 12pt;
+  text-align: justify;
+  line-height: 1.65;
+  orphans: 3;
+  widows: 3;
+}
+
+p + p {
+  margin-top: 0;
+}
+
+/* ===== LISTS ===== */
+ul, ol {
+  margin-left: 24pt;
+  margin-bottom: 12pt;
+  margin-top: 8pt;
+  orphans: 3;
+  widows: 3;
+}
+
+li {
+  margin-bottom: 5pt;
+  line-height: 1.55;
+  page-break-inside: avoid;
+}
+
+ul ul, ol ol, ul ol, ol ul {
+  margin-top: 4pt;
+  margin-bottom: 4pt;
+}
+
+/* ===== CODE ===== */
+code {
+  background-color: var(--code-bg-color);
+  padding: 3pt 6pt;
+  border-radius: 3pt;
+  border: 0.5pt solid var(--code-border-color);
+  font-family: var(--code-font);
+  color: #c7254e;
+  font-size: 9.5pt;
+  font-weight: 500;
+}
+
+pre {
+  background-color: var(--code-bg-color);
+  padding: 12pt 14pt;
+  border-left: 3pt solid var(--accent-color);
+  border: 1pt solid var(--code-border-color);
+  border-left: 3pt solid var(--accent-color);
+  border-radius: 3pt;
+  margin: 14pt 0;
+  font-family: var(--code-font);
+  font-size: 9pt;
+  line-height: 1.5;
+  page-break-inside: avoid;
+  orphans: 4;
+  widows: 4;
+  overflow-x: auto;
+}
+
+pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: #333;
+  font-weight: 400;
+}
+
+/* ===== BLOCKQUOTES ===== */
+blockquote {
+  border-left: 3px solid #ccc;
+  padding-left: 12pt;
+  margin: 12pt 0 12pt 8pt;
+  color: #555;
+  font-style: italic;
+  font-size: 10pt;
+  page-break-inside: avoid;
+  orphans: 3;
+  widows: 3;
+  line-height: 1.5;
+}
+
+/* ===== TABLES ===== */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 14pt 0;
+  font-size: 9.5pt;
+  page-break-inside: avoid;
+  font-family: var(--heading-font);
+  border: 1pt solid #bbb;
+}
+
+table th {
+  background-color: var(--table-header-bg);
+  color: var(--text-color);
+  padding: 8pt 10pt;
+  text-align: left;
+  font-weight: 600;
+  page-break-after: avoid;
+  border-bottom: 2pt solid #999;
+  border-right: 1pt solid #ddd;
+}
+
+table th:last-child {
+  border-right: none;
+}
+
+table td {
+  border: 1pt solid #ddd;
+  border-right: 1pt solid #ddd;
+  padding: 6pt 10pt;
+  text-align: left;
+  vertical-align: top;
+}
+
+table td:last-child {
+  border-right: none;
+}
+
+table tr:nth-child(even) {
+  background-color: var(--table-row-alt-bg);
+}
+
+thead {
+  display: table-header-group;
+}
+
+tbody {
+  orphans: 3;
+  widows: 3;
+}
+
+/* ===== FIGURES & IMAGES ===== */
+figure {
+  margin: 16pt 0;
+  padding: 12pt;
+  text-align: center;
+  page-break-inside: avoid;
+  orphans: 3;
+  widows: 3;
+  border: 1pt solid #d0d0d0;
+  background: #fafafa;
+  border-radius: 2pt;
+}
+
+figure img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto 10pt auto;
+  border: 0.5pt solid #e0e0e0;
+}
+
+figcaption {
+  font-size: 9pt;
+  color: #666;
+  font-style: italic;
+  margin-top: 8pt;
+  text-align: center;
+  font-weight: 600;
+  font-family: var(--heading-font);
+  line-height: 1.4;
+}
+
+/* ===== PRINT OPTIMIZATIONS ===== */
+@media print {
+  * {
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  a {
+    text-decoration: underline;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid;
+  }
+
+  pre, blockquote, table, figure {
+    page-break-inside: avoid;
+  }
+
+  body {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+}

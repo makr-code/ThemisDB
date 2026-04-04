@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            adaptive_retention_example.cpp                     ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:05:05                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     536                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file adaptive_retention_example.cpp
  * @brief Example: Adaptive Data Retention Based on Variance
@@ -363,19 +386,19 @@ void example_configurable_adaptive(TaskScheduler& scheduler, QueryEngine* query_
                 << "RETURN {hour: hour, cv: cv, resolution: resolution}";
             
             // Execute query
-            auto [status, result] = executeAql(aql.str(), *query_engine);
+            auto result = executeAql(aql.str(), *query_engine);
             
-            if (!status.ok()) {
+            if (!result) {
                 return nlohmann::json{
                     {"status", "error"},
-                    {"message", status.message()}
+                    {"message", result.error().message()}
                 };
             }
             
             return nlohmann::json{
                 {"status", "success"},
                 {"policy", params},
-                {"result", result}
+                {"result", *result}
             };
         }
     );

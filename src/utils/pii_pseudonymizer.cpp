@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            pii_pseudonymizer.cpp                              ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:21:34                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     316                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • d012eef80  2026-03-10  feat(cache): implement 4 missing items from cache module ... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "utils/pii_pseudonymizer.h"
 #include "storage/rocksdb_wrapper.h"
 #include "utils/logger.h"
@@ -185,12 +208,28 @@ bool PIIPseudonymizer::erasePII(const std::string& pii_uuid) {
                     {"timestamp", std::time(nullptr)}
                 });
             }
+            // Propagate GDPR erasure to the cache layer, if registered.
+            if (cache_invalidator_) {
+                try {
+                    cache_invalidator_(pii_uuid);
+                } catch (const std::exception& e) {
+                    THEMIS_WARN("PIIPseudonymizer: cache_invalidator threw for {}: {}",
+                                pii_uuid, e.what());
+                }
+            }
             return true;
         }
         // Retry on busy/conflict
     }
     THEMIS_WARN("PIIPseudonymizer: erasePII commit failed after retries for {}", pii_uuid);
     return false;
+}
+
+void PIIPseudonymizer::registerCacheInvalidator(
+    std::function<void(const std::string&)> fn)
+{
+    std::scoped_lock lk(mu_);
+    cache_invalidator_ = std::move(fn);
 }
 
 bool PIIPseudonymizer::softDeletePII(const std::string& pii_uuid, const std::string& user_id) {

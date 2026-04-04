@@ -1,3 +1,25 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_snapshot_integration.cpp                      ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:33:55                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     395                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include <gtest/gtest.h>
 #include "transaction/snapshot_manager.h"
 #include "cdc/changefeed.h"
@@ -26,7 +48,7 @@ protected:
         db_ = std::make_unique<RocksDBWrapper>(config);
         ASSERT_TRUE(db_->open());
         
-        auto txn_db = db_->getTransactionDB();
+        auto* txn_db = db_->getRawDB();
         ASSERT_NE(txn_db, nullptr);
         
         changefeed_ = std::make_unique<Changefeed>(txn_db);
@@ -302,7 +324,7 @@ TEST_F(SnapshotIntegrationTest, RestartWithChangefeedAndTags) {
     db_ = std::make_unique<RocksDBWrapper>(config);
     ASSERT_TRUE(db_->open());
     
-    auto txn_db = db_->getTransactionDB();
+    auto* txn_db = db_->getRawDB();
     ASSERT_NE(txn_db, nullptr);
     
     changefeed_ = std::make_unique<Changefeed>(txn_db);

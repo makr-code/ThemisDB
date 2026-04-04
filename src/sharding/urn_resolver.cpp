@@ -1,4 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            urn_resolver.cpp                                   ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:20:23                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     129                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • c8d2c5254  2026-03-24  fix(query): address code review: two-part ring walk, fall... ║
+    • bc061a79d  2026-03-24  feat(query): QueryFederation shard-key routing v1.9.0 ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "sharding/urn_resolver.h"
+#include <spdlog/spdlog.h>
 
 namespace themis::sharding {
 
@@ -60,6 +85,35 @@ bool URNResolver::isLocal(const URN& urn) const {
 
 std::string URNResolver::getShardId(const URN& urn) const {
     return hash_ring_->getShardForURN(urn);
+}
+
+std::string URNResolver::getShardForKey(
+    const std::string& /*collection*/,
+    const std::string& key
+) const {
+    auto node = hash_ring_->getNode(key);
+    return node.value_or(std::string{});
+}
+
+std::vector<std::string> URNResolver::getShardsForKeyRange(
+    const std::string& /*collection*/,
+    const std::string& min_key,
+    const std::string& max_key
+) const {
+    uint64_t h_min = hash_ring_->hashKey(min_key);
+    uint64_t h_max = hash_ring_->hashKey(max_key);
+    auto shards = hash_ring_->getShardsInRange(h_min, h_max);
+    if (shards.empty()) {
+        spdlog::warn("URNResolver::getShardsForKeyRange: ring returned no shards for "
+                     "range [{}, {}] (h_min={:#x}, h_max={:#x}); falling back to all "
+                     "healthy shards — check ring configuration",
+                     min_key, max_key, h_min, h_max);
+        auto all = getHealthyShards();
+        for (const auto& s : all) {
+            shards.push_back(s.shard_id);
+        }
+    }
+    return shards;
 }
 
 std::vector<ShardInfo> URNResolver::getAllShards() const {

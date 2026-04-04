@@ -1,11 +1,92 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            changefeed.cpp                                     ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:14:39                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     1113                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
+    • a6b60b3e3  2026-03-18  Changes before error encountered         ║
+    • 5083e3481  2026-03-18  Changes before error encountered         ║
+    • 63b0ba358  2026-03-16  feat(cdc): implement Changefeed sequence counter via Rock... ║
+    • a9f387ce0  2026-03-11  feat(cdc): runtime-configurable change log retention poli... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "cdc/changefeed.h"
+#include "cdc/cdc_error.h"
 #include "utils/logger.h"
 #include <rocksdb/utilities/transaction_db.h>
 #include <rocksdb/utilities/transaction.h>
+#include <rocksdb/merge_operator.h>
 #include <thread>
 #include <chrono>
+#include <cstring>
+#include <unordered_map>
+#include <unordered_set>
 
 namespace themis {
+using namespace themis::cdc;
+
+// ---------------------------------------------------------------------------
+// SequenceIncrementOperator
+//
+// An AssociativeMergeOperator that treats SEQUENCE_KEY as a little-endian
+// uint64.  Each Merge operand is a little-endian uint64 delta (always 1 in
+// practice).  Handles legacy decimal-string base values for backward
+// compatibility with existing deployments.
+// ---------------------------------------------------------------------------
+namespace {
+
+class SequenceIncrementOperator : public rocksdb::AssociativeMergeOperator {
+public:
+    bool Merge(const rocksdb::Slice& /*key*/,
+               const rocksdb::Slice* existing_value,
+               const rocksdb::Slice& value,
+               std::string* new_value,
+               rocksdb::Logger* /*logger*/) const override {
+        uint64_t base = 0;
+        if (existing_value != nullptr && !existing_value->empty()) {
+            if (existing_value->size() == sizeof(uint64_t)) {
+                // Binary little-endian uint64 (new format)
+                memcpy(&base, existing_value->data(), sizeof(uint64_t));
+            } else {
+                // Legacy decimal-string format (backward compatibility)
+                try {
+                    base = std::stoull(std::string(existing_value->data(),
+                                                   existing_value->size()));
+                } catch (...) {
+                    base = 0;
+                }
+            }
+        }
+
+        uint64_t delta = 0;
+        if (value.size() == sizeof(uint64_t)) {
+            memcpy(&delta, value.data(), sizeof(uint64_t));
+        }
+
+        const uint64_t result = base + delta;
+        new_value->resize(sizeof(uint64_t));
+        memcpy(&(*new_value)[0], &result, sizeof(uint64_t));
+        return true;
+    }
+
+    const char* Name() const override { return "SequenceIncrementOperator"; }
+};
+
+} // anonymous namespace
 
 // ===== ChangeEvent JSON Serialization =====
 
@@ -29,7 +110,20 @@ nlohmann::json Changefeed::ChangeEvent::toJson() const {
     }
     j["timestamp_ms"] = timestamp_ms;
     j["metadata"] = metadata;
-    
+
+    // Before/after document snapshots (optional; only present when enriched)
+    if (before_snapshot.has_value()) {
+        j["before_snapshot"] = *before_snapshot;
+    }
+    if (after_snapshot.has_value()) {
+        j["after_snapshot"] = *after_snapshot;
+    }
+
+    // GDPR redaction marker (only written when true to keep the common case compact)
+    if (redacted) {
+        j["redacted"] = true;
+    }
+
     return j;
 }
 
@@ -56,18 +150,139 @@ Changefeed::ChangeEvent Changefeed::ChangeEvent::fromJson(const nlohmann::json& 
     if (j.contains("metadata")) {
         event.metadata = j["metadata"];
     }
-    
+
+    // Before/after document snapshots (optional enrichment fields)
+    if (j.contains("before_snapshot") && j["before_snapshot"].is_string()) {
+        event.before_snapshot = j["before_snapshot"].get<std::string>();
+    }
+    if (j.contains("after_snapshot") && j["after_snapshot"].is_string()) {
+        event.after_snapshot = j["after_snapshot"].get<std::string>();
+    }
+
+    // GDPR redaction marker
+    event.redacted = j.value("redacted", false);
+
     return event;
 }
 
 // ===== Changefeed Implementation =====
 
+std::shared_ptr<rocksdb::MergeOperator> Changefeed::makeSequenceMergeOperator() {
+    return std::make_shared<SequenceIncrementOperator>();
+}
+
+uint64_t Changefeed::loadInitialSequence() const {
+    std::string seq_value;
+    rocksdb::ReadOptions read_opts;
+    rocksdb::Status s;
+
+    if (cf_) {
+        s = db_->Get(read_opts, cf_, SEQUENCE_KEY, &seq_value);
+    } else {
+        s = db_->Get(read_opts, SEQUENCE_KEY, &seq_value);
+    }
+
+    if (s.ok() && !seq_value.empty()) {
+        // Binary little-endian uint64 format (new)
+        if (seq_value.size() == sizeof(uint64_t)) {
+            uint64_t val;
+            memcpy(&val, seq_value.data(), sizeof(val));
+            return val;
+        }
+        // Legacy decimal-string format (backward compatibility)
+        try {
+            return std::stoull(seq_value);
+        } catch (...) {}
+    }
+
+    if (s.IsNotFound()) {
+        return 0;
+    }
+
+    // Get failed (possibly due to unresolved Merge operands when the merge
+    // operator was not registered at DB open time).  Fall back to scanning
+    // stored events for the highest sequence number.
+    THEMIS_WARN("Changefeed: Get(SEQUENCE_KEY) failed ({}); scanning events for max sequence",
+                s.ToString());
+    return scanMaxSequence();
+}
+
+uint64_t Changefeed::scanMaxSequence() const {
+    uint64_t max_seq = 0;
+
+    rocksdb::ReadOptions read_opts;
+    std::unique_ptr<rocksdb::Iterator> it;
+    if (cf_) {
+        it.reset(db_->NewIterator(read_opts, cf_));
+    } else {
+        it.reset(db_->NewIterator(read_opts));
+    }
+
+    it->Seek(KEY_PREFIX);
+    for (; it->Valid(); it->Next()) {
+        const std::string k = it->key().ToString();
+        if (k.compare(0, strlen(KEY_PREFIX), KEY_PREFIX) != 0) {
+            break;
+        }
+        try {
+            const nlohmann::json j = nlohmann::json::parse(it->value().ToString());
+            const uint64_t seq = j.value("sequence", uint64_t(0));
+            if (seq > max_seq) {
+                max_seq = seq;
+            }
+        } catch (...) {
+            // Skip unparseable entries
+        }
+    }
+
+    return max_seq;
+}
+
 Changefeed::Changefeed(rocksdb::TransactionDB* db, 
-                       rocksdb::ColumnFamilyHandle* cf)
-    : db_(db), cf_(cf) {
+                       rocksdb::ColumnFamilyHandle* cf,
+                       RetentionPolicy retention)
+    : db_(db), cf_(cf), retention_policy_(std::move(retention)) {
     if (!db_) {
         throw std::invalid_argument("Changefeed: db cannot be null");
     }
+
+    // Initialise the in-process atomic counter from the persisted value so
+    // that sequence numbers are monotonically increasing across restarts.
+    const uint64_t initial_sequence = loadInitialSequence();
+    sequence_counter_.store(initial_sequence, std::memory_order_relaxed);
+    persisted_sequence_.store(initial_sequence, std::memory_order_relaxed);
+
+    // Keep Merge enabled by default and rely on the first Merge() status in
+    // nextSequence() to self-disable when the DB/CF was opened without a merge
+    // operator. TransactionDB option introspection can be unreliable across
+    // wrappers and may falsely report no merge operator.
+    // Detect merge operator support at construction time by querying the DB's
+    // ColumnFamilyOptions.  This MUST happen before the first nextSequence()
+    // call: calling db_->Merge() on a CF without a merge_operator triggers
+    // RocksDB's background error handler (stop=1) which permanently blocks
+    // all subsequent writes — even plain Put() calls.
+    {
+        bool merge_available = false;
+        try {
+            rocksdb::Options opts = cf_
+                ? db_->GetOptions(cf_)
+                : db_->GetOptions();
+            merge_available = (opts.merge_operator != nullptr);
+        } catch (...) {
+            // If introspection fails, default to disabled (safe — prevents error state).
+            merge_available = false;
+        }
+        sequence_merge_supported_.store(merge_available, std::memory_order_relaxed);
+    }
+    
+    // Start retention cleanup if enabled
+    if (retention_policy_.enabled) {
+        startRetentionCleanup();
+    }
+}
+
+Changefeed::~Changefeed() {
+    stopRetentionCleanup();
 }
 
 std::string Changefeed::makeKey(uint64_t sequence) const {
@@ -78,35 +293,72 @@ std::string Changefeed::makeKey(uint64_t sequence) const {
 }
 
 uint64_t Changefeed::nextSequence() {
-    // Simple atomic increment using RocksDB merge operator would be ideal,
-    // but for MVP we'll do a read-modify-write with a transaction
-    
-    std::string seq_value;
-    rocksdb::ReadOptions read_opts;
-    rocksdb::Status s;
-    
-    if (cf_) {
-        s = db_->Get(read_opts, cf_, SEQUENCE_KEY, &seq_value);
-    } else {
-        s = db_->Get(read_opts, SEQUENCE_KEY, &seq_value);
-    }
-    
-    uint64_t next_seq = 1;
-    if (s.ok() && !seq_value.empty()) {
-        next_seq = std::stoull(seq_value) + 1;
-    }
-    
-    // Write back incremented sequence
+    // Atomically increment the in-process counter — lock-free, O(1).
+    // No mutex needed; std::atomic<uint64_t> guarantees uniqueness across threads.
+    const uint64_t seq = sequence_counter_.fetch_add(1, std::memory_order_relaxed) + 1;
+
+    // Persist the increment to RocksDB via the SequenceIncrementOperator for
+    // crash recovery.  Merge() is non-blocking from the caller perspective
+    // (the operand is buffered in the LSM write-path and applied lazily).
     rocksdb::WriteOptions write_opts;
-    std::string next_seq_str = std::to_string(next_seq);
-    
-    if (cf_) {
-        db_->Put(write_opts, cf_, SEQUENCE_KEY, next_seq_str);
-    } else {
-        db_->Put(write_opts, SEQUENCE_KEY, next_seq_str);
+
+    if (sequence_merge_supported_.load(std::memory_order_acquire)) {
+        const uint64_t delta = 1;
+        const rocksdb::Slice delta_slice(reinterpret_cast<const char*>(&delta),
+                                         sizeof(delta));
+
+        rocksdb::Status s;
+        if (cf_) {
+            s = db_->Merge(write_opts, cf_, SEQUENCE_KEY, delta_slice);
+        } else {
+            s = db_->Merge(write_opts, SEQUENCE_KEY, delta_slice);
+        }
+
+        if (s.ok()) {
+            uint64_t persisted = persisted_sequence_.load(std::memory_order_relaxed);
+            while (persisted < seq &&
+                   !persisted_sequence_.compare_exchange_weak(
+                       persisted, seq, std::memory_order_relaxed)) {
+            }
+            return seq;
+        }
+
+        // Disable Merge path after first failure to avoid repeated write-path
+        // errors on DBs/CFs opened without a merge operator.
+        sequence_merge_supported_.store(false, std::memory_order_release);
+        THEMIS_ERROR("Changefeed: failed to persist sequence via Merge: {}",
+                     s.ToString());
     }
-    
-    return next_seq;
+
+    uint64_t persisted = persisted_sequence_.load(std::memory_order_acquire);
+    if (seq <= persisted) {
+        return seq;
+    }
+
+    std::lock_guard<std::mutex> lock(sequence_persist_mutex_);
+    persisted = persisted_sequence_.load(std::memory_order_relaxed);
+    if (seq <= persisted) {
+        return seq;
+    }
+
+    std::string seq_value(sizeof(uint64_t), '\0');
+    std::memcpy(seq_value.data(), &seq, sizeof(uint64_t));
+
+    rocksdb::Status persist_status;
+    if (cf_) {
+        persist_status = db_->Put(write_opts, cf_, SEQUENCE_KEY, seq_value);
+    } else {
+        persist_status = db_->Put(write_opts, SEQUENCE_KEY, seq_value);
+    }
+
+    if (!persist_status.ok()) {
+        THEMIS_ERROR("Changefeed: fallback Put persistence failed: {}",
+                     persist_status.ToString());
+    } else {
+        persisted_sequence_.store(seq, std::memory_order_release);
+    }
+
+    return seq;
 }
 
 Changefeed::ChangeEvent Changefeed::recordEvent(ChangeEvent event) {
@@ -135,12 +387,14 @@ Changefeed::ChangeEvent Changefeed::recordEvent(ChangeEvent event) {
     
     if (!s.ok()) {
         THEMIS_ERROR("Failed to record change event {}: {}", event.sequence, s.ToString());
-        throw std::runtime_error("Failed to record change event: " + s.ToString());
+        throw error::eventRecordFailed(s.ToString());
     }
     
     THEMIS_DEBUG("Recorded change event {} (type={}, key={})", 
                  event.sequence, static_cast<int>(event.type), event.key);
     
+    notifySubscribers(event);
+
     return event;
 }
 
@@ -170,31 +424,53 @@ std::vector<Changefeed::ChangeEvent> Changefeed::listEvents(const ListOptions& o
     it->Seek(start_key);
     
     size_t count = 0;
-    for (; it->Valid() && count < options.limit; it->Next()) {
+    for (; it->Valid(); it->Next()) {
         std::string key = it->key().ToString();
-        
+
         // Stop if we've left the changefeed prefix
         if (key.compare(0, strlen(KEY_PREFIX), KEY_PREFIX) != 0) {
             break;
         }
-        
+
+        // Check limit before parsing
+        if (count >= options.limit) {
+            break;
+        }
+
+        // Apply to_sequence upper bound using the RocksDB key (no JSON parse needed).
+        // Keys are formatted as KEY_PREFIX + zero-padded 20-digit sequence, and RocksDB
+        // iterates in lexicographic (== numeric) order, so we can break early here.
+        if (options.to_sequence > 0) {
+            const char* seq_start = key.c_str() + strlen(KEY_PREFIX);
+            char* end_ptr = nullptr;
+            uint64_t key_seq = std::strtoull(seq_start, &end_ptr, 10);
+            if (end_ptr != seq_start && key_seq > options.to_sequence) {
+                break;
+            }
+        }
+
         try {
             nlohmann::json j = nlohmann::json::parse(it->value().ToString());
             ChangeEvent event = ChangeEvent::fromJson(j);
-            
+
             // Apply filters
             bool matches = true;
-            
+
             if (options.key_prefix.has_value() &&
                 event.key.find(*options.key_prefix) != 0) {
                 matches = false;
             }
-            
-            if (options.event_type.has_value() &&
+
+            // Multi-type filter takes precedence; fall back to legacy single-type filter
+            if (!options.event_types.empty()) {
+                if (options.event_types.find(event.type) == options.event_types.end()) {
+                    matches = false;
+                }
+            } else if (options.event_type.has_value() &&
                 event.type != *options.event_type) {
                 matches = false;
             }
-            
+
             if (matches) {
                 results.push_back(event);
                 count++;
@@ -213,21 +489,8 @@ std::vector<Changefeed::ChangeEvent> Changefeed::listEvents() const {
 }
 
 uint64_t Changefeed::getLatestSequence() const {
-    std::string seq_value;
-    rocksdb::ReadOptions read_opts;
-    rocksdb::Status s;
-    
-    if (cf_) {
-        s = db_->Get(read_opts, cf_, SEQUENCE_KEY, &seq_value);
-    } else {
-        s = db_->Get(read_opts, SEQUENCE_KEY, &seq_value);
-    }
-    
-    if (s.ok() && !seq_value.empty()) {
-        return std::stoull(seq_value);
-    }
-    
-    return 0;
+    // Return the in-process atomic counter directly — no DB round-trip needed.
+    return sequence_counter_.load(std::memory_order_relaxed);
 }
 
 bool Changefeed::waitForEvents(uint64_t from_sequence, uint32_t timeout_ms) const {
@@ -254,6 +517,7 @@ bool Changefeed::waitForEvents(uint64_t from_sequence, uint32_t timeout_ms) cons
 Changefeed::Stats Changefeed::getStats() const {
     Stats stats{};
     stats.latest_sequence = getLatestSequence();
+    stats.watermarks = getWatermarks();
     
     rocksdb::ReadOptions read_opts;
     std::unique_ptr<rocksdb::Iterator> it;
@@ -313,14 +577,224 @@ void Changefeed::clear() {
         }
     }
     
-    // Reset sequence counter
+    // Reset the in-process counter and the persisted RocksDB base value.
+    // Using Put() overwrites any prior Merge operands so that subsequent
+    // Merge(+1) calls start from zero again.
+    sequence_counter_.store(0, std::memory_order_relaxed);
+    const uint64_t zero = 0;
+    const std::string zero_bytes(reinterpret_cast<const char*>(&zero), sizeof(zero));
     if (cf_) {
-        db_->Put(write_opts, cf_, SEQUENCE_KEY, "0");
+        db_->Put(write_opts, cf_, SEQUENCE_KEY, zero_bytes);
     } else {
-        db_->Put(write_opts, SEQUENCE_KEY, "0");
+        db_->Put(write_opts, SEQUENCE_KEY, zero_bytes);
     }
     
     THEMIS_INFO("Cleared {} change events", count);
+}
+
+Changefeed::ChangeEvent Changefeed::getEvent(uint64_t sequence) const {
+    std::string key = makeKey(sequence);
+    std::string value;
+    rocksdb::ReadOptions read_opts;
+    rocksdb::Status s;
+
+    if (cf_) {
+        s = db_->Get(read_opts, cf_, key, &value);
+    } else {
+        s = db_->Get(read_opts, key, &value);
+    }
+
+    if (!s.ok()) {
+        throw error::dbOperationFailed("getEvent", s.ToString());
+    }
+
+    nlohmann::json j = nlohmann::json::parse(value);
+    return ChangeEvent::fromJson(j);
+}
+
+Changefeed::CompactionResult Changefeed::compactByKey() {
+    CompactionResult result;
+
+    rocksdb::ReadOptions read_opts;
+    rocksdb::WriteOptions write_opts;
+
+    // Phase 1: Scan all events and record the latest sequence per document key.
+    // Use the rocksdb key string as the storage key (not the document key) to
+    // iterate in sequence order so we naturally see events oldest-first.
+    std::unordered_map<std::string, uint64_t> latest_seq_per_doc_key;
+
+    {
+        std::unique_ptr<rocksdb::Iterator> it;
+        if (cf_) {
+            it.reset(db_->NewIterator(read_opts, cf_));
+        } else {
+            it.reset(db_->NewIterator(read_opts));
+        }
+
+        it->Seek(KEY_PREFIX);
+        for (; it->Valid(); it->Next()) {
+            std::string k = it->key().ToString();
+            if (k.compare(0, strlen(KEY_PREFIX), KEY_PREFIX) != 0) {
+                break;
+            }
+
+            result.events_scanned++;
+            try {
+                nlohmann::json j = nlohmann::json::parse(it->value().ToString());
+                ChangeEvent ev = ChangeEvent::fromJson(j);
+                // Always overwrite: later iterations have higher sequence numbers
+                // because we iterate in key (sequence) order.
+                latest_seq_per_doc_key[ev.key] = ev.sequence;
+            } catch (const std::exception& e) {
+                THEMIS_WARN("compactByKey: failed to parse event at {}: {}", k, e.what());
+            }
+        }
+    }
+
+    // Phase 2: Re-scan and delete any event that is NOT the latest for its key,
+    // unless it is a DELETE event (tombstone must be preserved for consumers).
+    {
+        std::unique_ptr<rocksdb::Iterator> it;
+        if (cf_) {
+            it.reset(db_->NewIterator(read_opts, cf_));
+        } else {
+            it.reset(db_->NewIterator(read_opts));
+        }
+
+        it->Seek(KEY_PREFIX);
+        std::unordered_set<std::string> compacted_keys;
+
+        for (; it->Valid(); it->Next()) {
+            std::string k = it->key().ToString();
+            if (k.compare(0, strlen(KEY_PREFIX), KEY_PREFIX) != 0) {
+                break;
+            }
+
+            try {
+                nlohmann::json j = nlohmann::json::parse(it->value().ToString());
+                ChangeEvent ev = ChangeEvent::fromJson(j);
+
+                auto it_latest = latest_seq_per_doc_key.find(ev.key);
+                if (it_latest == latest_seq_per_doc_key.end()) {
+                    // This can happen if the event was added after Phase 1 scan,
+                    // or if Phase 1 failed to parse it.  Conservatively keep it.
+                    THEMIS_WARN("compactByKey: doc key '{}' not found in phase-1 map; "
+                                "retaining event seq={}", ev.key, ev.sequence);
+                    result.events_retained++;
+                    continue;
+                }
+
+                bool is_latest = (ev.sequence == it_latest->second);
+                bool is_delete = (ev.type == ChangeEventType::EVENT_DELETE);
+
+                if (!is_latest && !is_delete) {
+                    // Superseded — remove it
+                    rocksdb::Status s;
+                    if (cf_) {
+                        s = db_->Delete(write_opts, cf_, k);
+                    } else {
+                        s = db_->Delete(write_opts, k);
+                    }
+
+                    if (s.ok()) {
+                        result.events_deleted++;
+                        compacted_keys.insert(ev.key);
+                    } else {
+                        THEMIS_WARN("compactByKey: failed to delete event {}: {}", k, s.ToString());
+                        result.events_retained++;
+                    }
+                } else {
+                    result.events_retained++;
+                }
+            } catch (const std::exception& e) {
+                THEMIS_WARN("compactByKey: failed to parse event at {}: {}", k, e.what());
+                result.events_retained++;
+            }
+        }
+
+        result.keys_compacted = compacted_keys.size();
+    }
+
+    THEMIS_INFO("compactByKey: scanned={} deleted={} keys_compacted={} retained={}",
+                result.events_scanned, result.events_deleted,
+                result.keys_compacted, result.events_retained);
+    return result;
+}
+
+Changefeed::RedactionResult Changefeed::redactByKeyPrefix(const std::string& key_prefix) {
+    if (key_prefix.empty()) {
+        throw error::invalidArgument("redactByKeyPrefix: key_prefix cannot be empty");
+    }
+
+    RedactionResult result;
+
+    rocksdb::ReadOptions  read_opts;
+    rocksdb::WriteOptions write_opts;
+    std::unique_ptr<rocksdb::Iterator> it;
+
+    if (cf_) {
+        it.reset(db_->NewIterator(read_opts, cf_));
+    } else {
+        it.reset(db_->NewIterator(read_opts));
+    }
+
+    // Seek to the first changefeed entry (sequence 1)
+    it->Seek(makeKey(1));
+
+    for (; it->Valid(); it->Next()) {
+        const std::string rocksdb_key = it->key().ToString();
+
+        // Stop as soon as we leave the changefeed key-space
+        if (rocksdb_key.compare(0, strlen(KEY_PREFIX), KEY_PREFIX) != 0) {
+            break;
+        }
+
+        result.events_scanned++;
+
+        try {
+            nlohmann::json j = nlohmann::json::parse(it->value().ToString());
+            ChangeEvent event = ChangeEvent::fromJson(j);
+
+            // Skip events whose key does not start with key_prefix
+            if (event.key.compare(0, key_prefix.size(), key_prefix) != 0) {
+                continue;
+            }
+
+            // Skip events that are already redacted
+            if (event.redacted) {
+                continue;
+            }
+
+            // Scrub PII-bearing fields; preserve audit-critical fields
+            event.value           = "[REDACTED]";
+            event.before_snapshot = std::nullopt;
+            event.after_snapshot  = std::nullopt;
+            event.redacted        = true;
+
+            const std::string new_value = event.toJson().dump();
+            rocksdb::Status s;
+            if (cf_) {
+                s = db_->Put(write_opts, cf_, rocksdb_key, new_value);
+            } else {
+                s = db_->Put(write_opts, rocksdb_key, new_value);
+            }
+
+            if (!s.ok()) {
+                THEMIS_ERROR("redactByKeyPrefix: failed to overwrite event {}: {}",
+                             rocksdb_key, s.ToString());
+                continue;
+            }
+
+            result.events_redacted++;
+
+        } catch (const std::exception& e) {
+            THEMIS_WARN("redactByKeyPrefix: failed to parse event at {}: {}", rocksdb_key, e.what());
+        }
+    }
+
+    THEMIS_INFO("redactByKeyPrefix: key_prefix='{}' scanned={} redacted={}",
+                key_prefix, result.events_scanned, result.events_redacted);
+    return result;
 }
 
 size_t Changefeed::deleteOldEvents(uint64_t before_sequence) {
@@ -368,6 +842,344 @@ size_t Changefeed::deleteOldEvents(uint64_t before_sequence) {
     
     THEMIS_INFO("Deleted {} old change events (before sequence {})", count, before_sequence);
     return count;
+}
+
+Changefeed::Watermarks Changefeed::getWatermarks() const {
+    Watermarks wm{};
+    wm.low_watermark = 0;
+    wm.high_watermark = 0;
+    wm.oldest_timestamp_ms = 0;
+    wm.newest_timestamp_ms = 0;
+    
+    rocksdb::ReadOptions read_opts;
+    std::unique_ptr<rocksdb::Iterator> it;
+    
+    if (cf_) {
+        it.reset(db_->NewIterator(read_opts, cf_));
+    } else {
+        it.reset(db_->NewIterator(read_opts));
+    }
+    
+    // Find first (oldest) event
+    it->Seek(KEY_PREFIX);
+    if (it->Valid()) {
+        std::string key = it->key().ToString();
+        if (key.compare(0, strlen(KEY_PREFIX), KEY_PREFIX) == 0) {
+            try {
+                nlohmann::json j = nlohmann::json::parse(it->value().ToString());
+                ChangeEvent event = ChangeEvent::fromJson(j);
+                wm.low_watermark = event.sequence;
+                wm.oldest_timestamp_ms = event.timestamp_ms;
+            } catch (const std::exception& e) {
+                THEMIS_WARN("Failed to parse oldest event: {}", e.what());
+            }
+        }
+    }
+    
+    // Find last (newest) event - iterate to end
+    it->SeekToLast();
+    while (it->Valid()) {
+        std::string key = it->key().ToString();
+        if (key.compare(0, strlen(KEY_PREFIX), KEY_PREFIX) == 0) {
+            try {
+                nlohmann::json j = nlohmann::json::parse(it->value().ToString());
+                ChangeEvent event = ChangeEvent::fromJson(j);
+                wm.high_watermark = event.sequence;
+                wm.newest_timestamp_ms = event.timestamp_ms;
+                break;
+            } catch (const std::exception& e) {
+                THEMIS_WARN("Failed to parse newest event: {}", e.what());
+                it->Prev();
+            }
+        } else {
+            it->Prev();
+        }
+    }
+    
+    return wm;
+}
+
+size_t Changefeed::deleteOldEventsByTimestamp(int64_t before_timestamp_ms) {
+    rocksdb::ReadOptions read_opts;
+    rocksdb::WriteOptions write_opts;
+    std::unique_ptr<rocksdb::Iterator> it;
+    
+    if (cf_) {
+        it.reset(db_->NewIterator(read_opts, cf_));
+    } else {
+        it.reset(db_->NewIterator(read_opts));
+    }
+    
+    it->Seek(KEY_PREFIX);
+    
+    size_t count = 0;
+    for (; it->Valid(); it->Next()) {
+        std::string key = it->key().ToString();
+        
+        if (key.compare(0, strlen(KEY_PREFIX), KEY_PREFIX) != 0) {
+            break;
+        }
+        
+        try {
+            nlohmann::json j = nlohmann::json::parse(it->value().ToString());
+            ChangeEvent event = ChangeEvent::fromJson(j);
+            
+            if (event.timestamp_ms < before_timestamp_ms) {
+                rocksdb::Status s;
+                if (cf_) {
+                    s = db_->Delete(write_opts, cf_, key);
+                } else {
+                    s = db_->Delete(write_opts, key);
+                }
+                
+                if (s.ok()) {
+                    count++;
+                }
+            }
+        } catch (const std::exception& e) {
+            THEMIS_WARN("Failed to parse change event for deletion: {}", e.what());
+            continue;
+        }
+    }
+    
+    THEMIS_INFO("Deleted {} old change events (before timestamp {})", count, before_timestamp_ms);
+    return count;
+}
+
+size_t Changefeed::applyRetentionPolicy() {
+    // Take a local snapshot of the policy under the lock to avoid data races
+    // with concurrent calls to updateRetentionPolicy().
+    RetentionPolicy policy;
+    {
+        std::lock_guard<std::mutex> plk(retention_mutex_);
+        policy = retention_policy_;
+    }
+
+    if (!policy.enabled) {
+        return 0;
+    }
+    
+    size_t total_deleted = 0;
+    
+    // Get current stats
+    auto stats = getStats();
+    auto wm = stats.watermarks;
+    
+    // Apply time-based retention
+    if (policy.max_age_hours.count() > 0) {
+        auto now = std::chrono::system_clock::now().time_since_epoch();
+        auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(now).count();
+        auto cutoff_ms = now_ms - std::chrono::duration_cast<std::chrono::milliseconds>(
+            policy.max_age_hours
+        ).count();
+        
+        size_t deleted_by_time = deleteOldEventsByTimestamp(cutoff_ms);
+        total_deleted += deleted_by_time;
+        THEMIS_DEBUG("Retention: deleted {} events older than {}ms", deleted_by_time, cutoff_ms);
+    }
+    
+    // Apply count-based retention
+    if (stats.total_events > policy.max_event_count) {
+        // Delete oldest events to get under the limit
+        size_t to_delete = stats.total_events - policy.max_event_count;
+        uint64_t cutoff_sequence = wm.low_watermark + to_delete;
+        
+        size_t deleted_by_count = deleteOldEvents(cutoff_sequence);
+        total_deleted += deleted_by_count;
+        THEMIS_DEBUG("Retention: deleted {} events to maintain count limit", deleted_by_count);
+    }
+    
+    // Apply size-based retention
+    if (stats.total_size_bytes > policy.max_size_bytes) {
+        // Estimate how many events to delete based on average event size
+        size_t avg_event_size = stats.total_events > 0 ? 
+            (stats.total_size_bytes / stats.total_events) : 1024;
+        size_t excess_bytes = stats.total_size_bytes - policy.max_size_bytes;
+        
+        // Add buffer to ensure we get under the limit (account for estimation error)
+        constexpr size_t SIZE_RETENTION_BUFFER_EVENTS = 100;
+        size_t events_to_delete = (excess_bytes / avg_event_size) + SIZE_RETENTION_BUFFER_EVENTS;
+        
+        uint64_t cutoff_sequence = wm.low_watermark + events_to_delete;
+        size_t deleted_by_size = deleteOldEvents(cutoff_sequence);
+        total_deleted += deleted_by_size;
+        THEMIS_DEBUG("Retention: deleted {} events to maintain size limit", deleted_by_size);
+    }
+    
+    if (total_deleted > 0) {
+        THEMIS_INFO("Retention policy applied: deleted {} total events", total_deleted);
+    }
+    
+    return total_deleted;
+}
+
+void Changefeed::updateRetentionPolicy(const RetentionPolicy& policy) {
+    bool was_enabled;
+    {
+        std::lock_guard<std::mutex> lock(retention_mutex_);
+        was_enabled = retention_policy_.enabled;
+        retention_policy_ = policy;
+    }
+    THEMIS_INFO("RetentionPolicy updated: enabled={} max_age_hours={} max_event_count={} compact_on_cleanup={}",
+                policy.enabled, policy.max_age_hours.count(),
+                policy.max_event_count, policy.compact_on_cleanup);
+
+    if (policy.enabled && !was_enabled) {
+        // Retention was disabled; start the background cleanup thread now.
+        startRetentionCleanup();
+    } else if (!policy.enabled && was_enabled) {
+        // Retention was enabled; stop the background cleanup thread.
+        stopRetentionCleanup();
+    } else if (policy.enabled) {
+        // Policy remains enabled but settings may have changed (e.g. new interval).
+        // Wake the thread so it picks up the updated configuration immediately.
+        retention_cv_.notify_all();
+    }
+}
+
+Changefeed::RetentionPolicy Changefeed::getRetentionPolicy() const {
+    std::lock_guard<std::mutex> lock(retention_mutex_);
+    return retention_policy_;
+}
+
+void Changefeed::startRetentionCleanup() {
+    if (retention_thread_running_.exchange(true)) {
+        THEMIS_WARN("Retention cleanup thread already running");
+        return;
+    }
+    
+    retention_thread_ = std::thread(&Changefeed::retentionCleanupThread, this);
+    {
+        std::lock_guard<std::mutex> lk(retention_mutex_);
+        THEMIS_INFO("Started retention cleanup thread (interval: {}min)", 
+                    retention_policy_.cleanup_interval.count());
+    }
+}
+
+void Changefeed::stopRetentionCleanup() {
+    if (!retention_thread_running_.exchange(false)) {
+        return;
+    }
+    
+    retention_cv_.notify_all();
+    
+    if (retention_thread_.joinable()) {
+        retention_thread_.join();
+    }
+    
+    THEMIS_INFO("Stopped retention cleanup thread");
+}
+
+bool Changefeed::isRetentionCleanupRunning() const noexcept {
+    return retention_thread_running_.load();
+}
+
+void Changefeed::retentionCleanupThread() {
+    constexpr int ERROR_RETRY_DELAY_SECONDS = 60;
+    
+    while (retention_thread_running_.load()) {
+        try {
+            // Apply TTL/count/size-based retention
+            applyRetentionPolicy();
+
+            // Take a local copy of the policy fields we need, holding the lock
+            bool do_compact;
+            {
+                std::lock_guard<std::mutex> plk(retention_mutex_);
+                do_compact = retention_policy_.compact_on_cleanup;
+            }
+
+            // If configured, also compact superseded entries by key
+            if (do_compact) {
+                auto cr = compactByKey();
+                THEMIS_DEBUG("Retention compact pass: deleted={} keys_compacted={}",
+                             cr.events_deleted, cr.keys_compacted);
+            }
+            
+            // Wait for next cleanup interval
+            std::unique_lock<std::mutex> lock(retention_mutex_);
+            retention_cv_.wait_for(lock, retention_policy_.cleanup_interval, [this]() {
+                return !retention_thread_running_.load();
+            });
+        } catch (const std::exception& e) {
+            THEMIS_ERROR("Error in retention cleanup thread: {}", e.what());
+            // Sleep before retrying to avoid tight loop on persistent errors
+            std::this_thread::sleep_for(std::chrono::seconds(ERROR_RETRY_DELAY_SECONDS));
+        }
+    }
+    
+    THEMIS_DEBUG("Retention cleanup thread exiting");
+}
+
+// ---------------------------------------------------------------------------
+// Push-based subscription API
+// ---------------------------------------------------------------------------
+
+bool Changefeed::SubscriptionFilter::matches(const ChangeEvent& ev) const noexcept {
+    if (!key_prefix.empty() && ev.key.rfind(key_prefix, 0) != 0) return false;
+    if (!event_types.empty() && event_types.find(ev.type) == event_types.end()) return false;
+    return true;
+}
+
+Changefeed::SubscriptionHandle
+Changefeed::subscribe(SubscriptionFilter filter, SubscriptionCallback callback)
+{
+    const uint64_t id = next_subscription_id_.fetch_add(1, std::memory_order_relaxed);
+    {
+        std::lock_guard<std::mutex> lk(subscriptions_mutex_);
+        subscriptions_.emplace(id, SubscriptionEntry{std::move(filter), std::move(callback)});
+        subscription_count_.fetch_add(1, std::memory_order_release);
+    }
+    THEMIS_DEBUG("Changefeed: subscription {} registered", id);
+    return SubscriptionHandle{this, id};
+}
+
+void Changefeed::unsubscribe(uint64_t subscription_id) noexcept
+{
+    std::lock_guard<std::mutex> lk(subscriptions_mutex_);
+    if (subscriptions_.erase(subscription_id) > 0) {
+        subscription_count_.fetch_sub(1, std::memory_order_release);
+    }
+    THEMIS_DEBUG("Changefeed: subscription {} cancelled", subscription_id);
+}
+
+void Changefeed::notifySubscribers(const ChangeEvent& event)
+{
+    // Fast path: skip snapshot + mutex acquisition when no subscribers registered.
+    if (subscription_count_.load(std::memory_order_acquire) == 0) {
+        return;
+    }
+
+    // Take a snapshot of the current subscriber map under the lock so that
+    // callbacks can themselves call subscribe/unsubscribe without deadlocking.
+    std::vector<SubscriptionEntry> snapshot;
+    {
+        std::lock_guard<std::mutex> lk(subscriptions_mutex_);
+        snapshot.reserve(subscriptions_.size());
+        for (const auto& [id, entry] : subscriptions_) {
+            snapshot.push_back(entry);
+        }
+    }
+
+    for (const auto& entry : snapshot) {
+        if (entry.filter.matches(event)) {
+            try {
+                entry.callback(event);
+            } catch (...) {
+                // Callbacks must not throw; log and continue.
+                THEMIS_WARN("Changefeed: subscriber callback threw an exception — ignored");
+            }
+        }
+    }
+}
+
+void Changefeed::SubscriptionHandle::cancel() noexcept
+{
+    if (feed_) {
+        feed_->unsubscribe(id_);
+        feed_ = nullptr;
+        id_   = 0;
+    }
 }
 
 } // namespace themis

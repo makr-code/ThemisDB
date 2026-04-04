@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            http_server.cpp                                    ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:19:49                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   95.0/100                                       ║
+    • Total Lines:     10740                                          ║
+    • Open Issues:     TODOs: 1, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 490de27f0  2026-03-26  fix: implement all P0/P1 blockers - QueryEngine, RAG, eth... ║
+    • 80ae5c5d3  2026-03-15  fix(storage/audit): remove dead dsm.setRocksDBSize() call... ║
+    • 9f9d86ceb  2026-03-15  feat(storage): implement proper size calculation in Rocks... ║
+    • c9b143394  2026-03-15  feat(server): inject live ShardingManager into HttpServer... ║
+    • 2fed5b1c6  2026-03-15  fix(cdc): wire ConsumerGroupManager into WebSocket server... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // Ensure correct WinSock include order on Windows
 #ifdef _WIN32
 #ifndef WIN32_LEAN_AND_MEAN
@@ -23,6 +49,7 @@
 // Include full definitions BEFORE http_server.h to avoid incomplete types
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
+#include "storage/disk_space_monitor.h"
 #include "index/secondary_index.h"
 #include "index/graph_index.h"
 #include "index/vector_index.h"
@@ -38,6 +65,7 @@
 #include "utils/zstd_codec.h"
 #include "utils/cursor.h"
 #include "utils/pii_detector.h"
+#include "observability/alertmanager.h"
 #include "security/key_provider.h"
 #include "security/mock_key_provider.h"
 #include "security/pki_key_provider.h"
@@ -53,9 +81,13 @@
 
 // Sprint A features - include BEFORE http_server.h to have complete types
 #include "llm/llm_interaction_store.h"
-#include "llm/prompt_manager.h"
+#include "prompt_engineering/prompt_manager.h"
 #include "cdc/changefeed.h"
+#include "cdc/consumer_group.h"
 #include "transaction/snapshot_manager.h"
+#include "transaction/branch_manager.h"
+#include "transaction/merge_engine.h"
+#include "analytics/diff_engine.h"
 #include <algorithm>
 
 // Sprint B features
@@ -65,17 +97,33 @@
 
 // Sprint C features
 #include "index/adaptive_index.h"
+#include "server/tenant_manager.h"
 
 // Now include http_server.h which has forward declarations
 #include "server/http_server.h"
 #include "server/keys_api_handler.h"
+#include "server/api_key_mgmt_handler.h"
 #include "server/pki_api_handler.h"
 #include "server/classification_api_handler.h"
 #include "server/snapshot_api_handler.h"
+#include "server/mvcc_api_handler.h"
+#include "server/pitr_api_handler.h"
+#include "server/diff_api_handler.h"
+#include "server/pitr_api_handler.h"
+#include "server/branch_api_handler.h"
+#include "server/merge_api_handler.h"
+#include "server/feedback_api_handler.h"
+#include "server/http_type_adapter.h"  // TODO: Remove after migration to cpp-httplib (see HTTP_SERVER_REFACTORING_ACTION_PLAN.md)
+#include "analytics/diff_engine.h"
+#include "storage/pitr_manager.h"
 #include "sharding/multi_primary_coordinator.h"
 #include "sharding/health_monitor.h"
 #include "sharding/wal_manager.h"
 #include "sharding/wal_applier.h"
+#include "sharding/distributed_transaction.h"
+#include "sharding/truetime.h"
+#include "sharding/sharding_manager.h"
+#include "server/distributed_txn_api_handler.h"
 #if !defined(_WIN32)
 #include <time.h>
 #endif
@@ -99,19 +147,30 @@ static inline void portable_gmtime_r_impl(const time_t* t, std::tm* out) {
 #include "server/auth_middleware.h"
 #include "server/ranger_adapter.h"
 #include "server/pii_api_handler.h"
+#if THEMIS_ENABLE_LLM
 #include "server/feedback_api_handler.h"
-#include "server/schema_api_handler.h"
-#include "metadata/schema_manager.h"
 #include "llm/lora_framework/lora_feedback_storage.h"
 #include "llm/lora_framework/feedback_plugin.h"
 #include "llm/lora_framework/lora_training_config.h"
+#endif
+#include "config/config_path_resolver.h"
+#include "server/schema_api_handler.h"
+#include "server/graphql_api_handler.h"
+#include "server/grpc_web_proxy_handler.h"
+#include "server/serverless_function_api_handler.h"
+#include "metadata/schema_manager.h"
 
 #ifdef THEMIS_ENABLE_HTTP2
 #include "server/http2_session.h"
 #endif
 
+#ifdef THEMIS_ENABLE_HTTP3
+#include "server/http3_session.h"
+#endif
+
 #ifdef THEMIS_ENABLE_WEBSOCKET
 #include "server/websocket_session.h"
+#include "api/ws_handler.h"
 #endif
 
 #include "query/query_engine.h"
@@ -129,7 +188,14 @@ static inline void portable_gmtime_r_impl(const time_t* t, std::tm* out) {
 #include <openssl/hmac.h>
 #include <openssl/evp.h>
 
+// GraphQL types are included via server/graphql_api_handler.h (included in http_server.h)
+#include "server/api_version.h"
+#include "server/api_version_config.h"
+#include "server/route_version_router.h"
+#include "scheduler/task_scheduler.h"
+
 #include <nlohmann/json.hpp>
+#include <yaml-cpp/yaml.h>
 #include <algorithm>
 #include <sstream>
 #include <iomanip>
@@ -140,6 +206,7 @@ static inline void portable_gmtime_r_impl(const time_t* t, std::tm* out) {
 #include <functional>
 #include <cmath>
 #include <functional>
+#include <map>
 #include <unordered_map>
 #include <limits>
 #include <optional>
@@ -148,36 +215,6 @@ static inline void portable_gmtime_r_impl(const time_t* t, std::tm* out) {
 #include <iostream>
 
 using json = nlohmann::json;
-
-namespace {
-
-std::string hmacSha256Hex(const std::string& key, const std::string& data) {
-    unsigned int len = 0;
-    unsigned char* result = HMAC(EVP_sha256(), key.data(), static_cast<int>(key.size()),
-                                 reinterpret_cast<const unsigned char*>(data.data()), data.size(), nullptr, &len);
-    if (!result || len == 0) {
-        return {};
-    }
-    static constexpr char hex_digits[] = "0123456789abcdef";
-    std::string hex;
-    hex.reserve(len * 2);
-    for (unsigned int i = 0; i < len; ++i) {
-        hex.push_back(hex_digits[(result[i] >> 4) & 0x0F]);
-        hex.push_back(hex_digits[result[i] & 0x0F]);
-    }
-    return hex;
-}
-
-bool timingSafeEqual(const std::string& a, const std::string& b) {
-    if (a.size() != b.size()) return false;
-    unsigned char diff = 0;
-    for (size_t i = 0; i < a.size(); ++i) {
-        diff |= static_cast<unsigned char>(a[i] ^ b[i]);
-    }
-    return diff == 0;
-}
-
-} // namespace
 
 namespace themis {
 namespace server {
@@ -222,7 +259,10 @@ HttpServer::HttpServer(
     std::shared_ptr<sharding::WALManager> wal_manager,
     std::shared_ptr<sharding::ReplicationCoordinator> replication_coordinator,
     std::shared_ptr<sharding::MultiPrimaryCoordinator> multi_primary_coordinator,
-    std::shared_ptr<sharding::HealthMonitor> health_monitor
+    std::shared_ptr<sharding::HealthMonitor> health_monitor,
+    std::shared_ptr<sharding::CollectionRedundancyManager> redundancy_manager,
+    std::shared_ptr<sharding::ConsistentHashRing> hash_ring,
+    std::shared_ptr<sharding::ShardTopology> shard_topology
 )
     : config_(config)
     , storage_(std::move(storage))
@@ -235,6 +275,9 @@ HttpServer::HttpServer(
     , replication_coordinator_(std::move(replication_coordinator))
     , multi_primary_coordinator_(std::move(multi_primary_coordinator))
     , health_monitor_(std::move(health_monitor))
+    , redundancy_manager_(std::move(redundancy_manager))
+    , hash_ring_(std::move(hash_ring))
+    , shard_topology_(std::move(shard_topology))
     , ioc_(static_cast<int>(config_.num_threads))
     , acceptor_(ioc_)
     , start_time_(std::chrono::steady_clock::now())
@@ -250,11 +293,20 @@ HttpServer::HttpServer(
         if (const char* s = std::getenv("THEMIS_WAL_HMAC_SECRET")) {
             wal_hmac_secret_ = s;
         }
-        spatial_index_ = std::make_unique<index::SpatialIndexManager>(*storage_);
+        spatial_index_ = std::make_shared<index::SpatialIndexManager>(*storage_);
         
-        // Wire up exact geometry backend if available
+        // Wire up exact geometry backend.
+        // Prefer the GPU backend (always available via CPU fallback) so that
+        // the circuit-breaker, metrics, and audit log are active even on CPU-only
+        // machines.  Fall back to Boost.Geometry if the GPU backend is absent for
+        // any reason, and log an info message in all cases.
+        auto* gpu_backend = geo::getGpuSpatialBackend();
         auto* boost_backend = geo::getBoostCpuBackend();
-        if (boost_backend && boost_backend->isAvailable()) {
+        if (gpu_backend && gpu_backend->isAvailable()) {
+            spatial_index_->setExactBackend(gpu_backend);
+            THEMIS_INFO("Spatial Index Manager initialized with GPU spatial exact backend (device: {})",
+                        geo::getGpuSpatialBackendStatsJson());
+        } else if (boost_backend && boost_backend->isAvailable()) {
             spatial_index_->setExactBackend(boost_backend);
             THEMIS_INFO("Spatial Index Manager initialized with Boost.Geometry exact backend");
         } else {
@@ -281,18 +333,40 @@ HttpServer::HttpServer(
     if (config_.feature_semantic_cache) {
         // Use default column family for MVP (no dedicated CF needed)
         cache_cf_handle_ = nullptr;
-        semantic_cache_ = std::make_unique<SemanticCache>(
+        semantic_cache_ = std::make_shared<SemanticCache>(
             storage_->getRawDB(),
             cache_cf_handle_,
             3600 // default TTL: 1 hour
         );
         THEMIS_INFO("Semantic Cache initialized (TTL: 3600s) using default CF");
+        
+        // Initialize Cache API Handler
+        cache_api_ = nullptr; // Disabled for Windows build (shared_ptr mismatch)
+    }
+
+    // Initialize Cache Admin API Handler (Phase 3: Admin API for cache operations).
+    // This instance is dedicated to the admin API. Full integration with the query
+    // engine's AdaptiveQueryCache instance (owned by QueryCacheManager) is tracked
+    // as a follow-up task once QueryCacheManager exposes a shared accessor.
+    {
+        AdaptiveQueryCache::Config cache_admin_config;
+        cache_admin_config.l3_db_path = "./themis_admin_cache";
+        cache_admin_config.enable_circuit_breaker = true;
+        cache_admin_config.enable_tenant_isolation = true;
+        try {
+            adaptive_query_cache_ = std::make_shared<AdaptiveQueryCache>(cache_admin_config);
+            cache_admin_api_ = std::make_unique<themis::server::CacheAdminApiHandler>(
+                adaptive_query_cache_, auth_);
+            THEMIS_INFO("Cache Admin API Handler initialized");
+        } catch (const std::exception& e) {
+            THEMIS_WARN("Failed to initialize Cache Admin API Handler: {}", e.what());
+        }
     }
     
     // Initialize LLM Interaction Store (Sprint A) if feature enabled
     if (config_.feature_llm_store) {
         llm_cf_handle_ = nullptr; // Use default CF
-        llm_store_ = std::make_unique<LLMInteractionStore>(
+        llm_store_ = std::make_shared<LLMInteractionStore>(
             storage_->getRawDB(),
             llm_cf_handle_
         );
@@ -302,18 +376,111 @@ HttpServer::HttpServer(
     // Initialize Changefeed (Sprint A CDC) if feature enabled
     if (config_.feature_cdc) {
         cdc_cf_handle_ = nullptr; // Use default CF
+
+        // Load retention policy from config/data_management/cdc_retention.yaml if it exists
+        Changefeed::RetentionPolicy cdc_retention_policy;
+        {
+            static const char* CDC_RETENTION_CONFIG_PATH =
+                "config/data_management/cdc_retention.yaml";
+            auto cfg_path =
+                themis::config::ConfigPathResolver::tryResolve(CDC_RETENTION_CONFIG_PATH);
+            if (!cfg_path) {
+                // Fallback: check path as-is (e.g., when CWD is the repo root)
+                if (std::filesystem::exists(CDC_RETENTION_CONFIG_PATH)) {
+                    cfg_path = CDC_RETENTION_CONFIG_PATH;
+                }
+            }
+            if (cfg_path) {
+                try {
+                    YAML::Node root = YAML::LoadFile(*cfg_path);
+                    if (root["retention"]) {
+                        const auto& r = root["retention"];
+                        cdc_retention_policy.enabled = r["enabled"].as<bool>(false);
+                        if (r["max_age_hours"])
+                            cdc_retention_policy.max_age_hours =
+                                std::chrono::hours(
+                                    r["max_age_hours"].as<uint32_t>(168));  // default: 7 days
+                        if (r["max_event_count"])
+                            cdc_retention_policy.max_event_count =
+                                r["max_event_count"].as<uint64_t>(1000000); // default: 1M events
+                        if (r["max_size_bytes"])
+                            cdc_retention_policy.max_size_bytes =
+                                r["max_size_bytes"].as<size_t>(
+                                    Changefeed::RetentionPolicy::DEFAULT_MAX_SIZE_BYTES);
+                        if (r["cleanup_interval_minutes"])
+                            cdc_retention_policy.cleanup_interval =
+                                std::chrono::minutes(
+                                    r["cleanup_interval_minutes"].as<uint32_t>(60)); // default: 1 hour
+                        if (r["compact_on_cleanup"])
+                            cdc_retention_policy.compact_on_cleanup =
+                                r["compact_on_cleanup"].as<bool>(false);
+                    }
+                    THEMIS_INFO("CDC: loaded retention policy from {} (enabled={})",
+                                *cfg_path, cdc_retention_policy.enabled);
+                } catch (const std::exception& e) {
+                    THEMIS_WARN("CDC: failed to load retention config from {}: {} — using defaults",
+                                *cfg_path, e.what());
+                }
+            } else {
+                THEMIS_DEBUG("CDC: {} not found, using default retention policy (disabled)",
+                             CDC_RETENTION_CONFIG_PATH);
+            }
+        }
+
         // Changefeed constructor signature accepts (TransactionDB*, ColumnFamilyHandle*)
         // previous code attempted to pass Route identifiers which no longer apply.
         changefeed_ = std::make_shared<Changefeed>(
             storage_->getRawDB(),
-            cdc_cf_handle_
+            cdc_cf_handle_,
+            cdc_retention_policy
         );
         THEMIS_INFO("Changefeed initialized using default CF");
+
+        // Initialize ConsumerGroupManager for /v2/cdc/stream group-protocol
+        // sessions.  Uses the same RocksDB instance and CDC column family as
+        // the changefeed so group offsets are co-located with change events.
+        consumer_group_manager_ = std::make_unique<cdc::ConsumerGroupManager>(
+            storage_->getRawDB(),
+            cdc_cf_handle_
+        );
+        THEMIS_INFO("ConsumerGroupManager initialized (CDC consumer groups ready)");
         
         // Initialize SnapshotManager (Named Snapshots feature)
-        snapshot_manager_ = std::make_unique<SnapshotManager>(*storage_, *changefeed_);
-        snapshot_api_handler_ = std::make_unique<SnapshotApiHandler>(*snapshot_manager_);
+        snapshot_manager_ = std::make_unique<transaction::SnapshotManager>(*storage_, *changefeed_);
+        snapshot_api_handler_ = std::make_unique<server::SnapshotApiHandler>(*snapshot_manager_);
         THEMIS_INFO("SnapshotManager initialized");
+
+        // Initialize MVCC API Handler (per-record versioning + HLC)
+        {
+            auto clock = std::make_shared<themis::HybridLogicalClock>();
+            auto mvcc_store = std::make_shared<themis::MVCCStore>(storage_, std::move(clock));
+            mvcc_api_handler_ = std::make_unique<server::MvccApiHandler>(std::move(mvcc_store));
+        }
+        THEMIS_INFO("MVCC API Handler initialized");
+        
+        // Initialize PITRManager (Point-in-Time Recovery feature)
+        pitr_manager_ = std::make_unique<PITRManager>(storage_.get(), changefeed_.get(), snapshot_manager_.get());
+        pitr_api_handler_ = std::make_unique<server::PITRApiHandler>(*pitr_manager_);
+        THEMIS_INFO("PITRManager initialized");
+        
+        // Initialize BranchManager (Phase 4 - Persistent Branches)
+        branch_manager_ = std::make_unique<transaction::BranchManager>(*storage_, *changefeed_, *snapshot_manager_);
+        branch_api_handler_ = std::make_unique<BranchApiHandler>(*branch_manager_);
+        THEMIS_INFO("BranchManager initialized");
+        
+        // Initialize DiffEngine (Phase 2 MVCC features - required for MergeEngine)
+        diff_engine_ = std::make_unique<analytics::DiffEngine>(*changefeed_, snapshot_manager_.get());
+        diff_api_handler_ = std::make_unique<DiffApiHandler>(*diff_engine_);
+        THEMIS_INFO("DiffEngine initialized with SnapshotManager support");
+        
+        // Initialize MergeEngine and MergeApiHandler (Phase 5 MVCC features - 3-Way Merge)
+        merge_engine_ = std::make_unique<transaction::MergeEngine>(*diff_engine_, *snapshot_manager_, *changefeed_);
+        merge_api_handler_ = std::make_unique<MergeApiHandler>(*merge_engine_, *snapshot_manager_);
+        THEMIS_INFO("MergeEngine initialized for 3-way merge support");
+        
+        // Connect MergeEngine to BranchManager for non-fast-forward merges
+        branch_manager_->setMergeEngine(merge_engine_.get());
+        THEMIS_INFO("BranchManager connected to MergeEngine for 3-way merge support");
         
         // Initialize SSE Connection Manager for streaming (if enabled)
 #ifdef THEMIS_ENABLE_SSE
@@ -355,12 +522,13 @@ HttpServer::HttpServer(
 
     // Initialize PII Mappings ColumnFamily + Handler (independent of CDC)
     if (config_.feature_pii_manager) {
-        try {
-            pii_cf_handle_ = storage_->getOrCreateColumnFamily("pii_mappings");
+        auto cf_result = storage_->getOrCreateColumnFamily("pii_mappings");
+        if (cf_result) {
+            pii_cf_handle_ = *cf_result;
             pii_api_ = std::make_unique<PIIApiHandler>(storage_->getRawDB(), pii_cf_handle_);
             THEMIS_INFO("PII Manager initialized with dedicated CF 'pii_mappings'");
-        } catch (const std::exception& ex) {
-            THEMIS_ERROR("Failed to initialize PII Manager CF: {}", ex.what());
+        } else {
+            THEMIS_ERROR("Failed to initialize PII Manager CF: {}", cf_result.error().message());
         }
     } else {
         // Fallback: use default CF (still functional, just no separation)
@@ -373,22 +541,23 @@ HttpServer::HttpServer(
         // Try to create a dedicated column family for prompt templates; fall back to default CF
         prompt_cf_handle_ = nullptr;
         if (storage_) {
-            try {
-                prompt_cf_handle_ = storage_->getOrCreateColumnFamily("prompt_templates");
+            auto cf_result = storage_->getOrCreateColumnFamily("prompt_templates");
+            if (cf_result) {
+                prompt_cf_handle_ = *cf_result;
                 THEMIS_INFO("PromptManager: using dedicated CF 'prompt_templates'");
-                prompt_manager_ = std::make_unique<themis::PromptManager>(storage_.get(), prompt_cf_handle_);
-            } catch (const std::exception& ex) {
-                THEMIS_WARN("PromptManager: failed to create dedicated CF, falling back to in-memory: {}", ex.what());
-                prompt_manager_ = std::make_unique<themis::PromptManager>();
+                prompt_manager_ = std::make_shared<themis::prompt_engineering::PromptManager>(storage_.get(), prompt_cf_handle_);
+            } else {
+                THEMIS_WARN("PromptManager: failed to create dedicated CF, falling back to in-memory: {}", cf_result.error().message());
+                prompt_manager_ = std::make_shared<themis::prompt_engineering::PromptManager>();
             }
         } else {
             // No storage available (tests / in-memory run)
-            prompt_manager_ = std::make_unique<themis::PromptManager>();
+            prompt_manager_ = std::make_shared<themis::prompt_engineering::PromptManager>();
             THEMIS_INFO("PromptManager initialized in-memory (no storage provided)");
         }
     } catch (const std::exception& ex) {
         THEMIS_ERROR("PromptManager initialization failure: {}", ex.what());
-        prompt_manager_ = std::make_unique<themis::PromptManager>();
+        prompt_manager_ = std::make_shared<themis::prompt_engineering::PromptManager>();
     }
     
     // Initialize Time-Series Store (Sprint B) if feature enabled
@@ -399,6 +568,10 @@ HttpServer::HttpServer(
             ts_cf_handle_
         );
         THEMIS_INFO("Time-Series Store initialized using default CF");
+        
+        // Initialize TimeSeries API Handler (disabled for Windows build)
+        timeseries_api_ = nullptr;
+        THEMIS_INFO("TimeSeries API Handler disabled (Windows build)");
     }
 
     // CRITICAL FIX: Initialize Sharding Manager BEFORE AdaptiveIndexManager
@@ -423,20 +596,21 @@ HttpServer::HttpServer(
                 THEMIS_INFO("  Bootstrap shard: {}", bootstrap_shard);
             }
             
-            // TODO: Initialize actual ShardingManager here when available
-            // For now, setting a flag to indicate sharding context is active
-            // This prevents AdaptiveIndexManager from hanging on cluster MVCC coordination
-            THEMIS_INFO("Sharding context prepared (cluster discovery ready)");
+            // Initialize actual ShardingManager - use the live singleton instance
+            if (!sharding_manager_) {
+                sharding_manager_ = &themis::sharding::ShardingManager::GetInstance();
+            }
+            THEMIS_INFO("Sharding context prepared (ShardingManager initialized, cluster discovery ready)");
         }
     }
     
     // Initialize Adaptive Index Manager (Sprint C) - always enabled
     // Now safe to initialize because Sharding context (if needed) is prepared above
-    adaptive_index_ = std::make_unique<AdaptiveIndexManager>(storage_->getRawDB());
+    adaptive_index_ = std::make_shared<AdaptiveIndexManager>(storage_->getRawDB());
     THEMIS_INFO("Adaptive Index Manager initialized");
 
     // Initialize Authorization middleware (MVP: tokens via env)
-    auth_ = std::make_unique<themis::AuthMiddleware>();
+    auth_ = std::make_shared<themis::AuthMiddleware>();
     // Global-style helper for env lookup (reused across subsequent blocks)
     auto themis_get_env = [](const char* name) -> std::optional<std::string> {
         const char* v = std::getenv(name);
@@ -496,7 +670,7 @@ HttpServer::HttpServer(
 
     // Initialize ContentManager and register built-in processors (now with encryption)
     try {
-        content_manager_ = std::make_unique<themis::content::ContentManager>(
+        content_manager_ = std::make_shared<themis::content::ContentManager>(
             storage_, vector_index_, graph_index_, secondary_index_, field_encryption_);
         text_processor_ = std::make_unique<themis::content::TextProcessor>();
         content_manager_->registerProcessor(std::unique_ptr<themis::content::IContentProcessor>(text_processor_.release()));
@@ -511,6 +685,14 @@ HttpServer::HttpServer(
     // Initialize Keys API Handler with KeyProvider
     keys_api_ = std::make_unique<themis::server::KeysApiHandler>(key_provider_);
     THEMIS_INFO("Keys API Handler initialized");
+
+    // Initialize API Key Management Handler
+    api_key_mgmt_ = std::make_unique<themis::server::ApiKeyMgmtHandler>(auth_);
+    THEMIS_INFO("API Key Management Handler initialized");
+    // Initialize Session Management Handler
+    session_manager_ = std::make_shared<themis::auth::SessionManager>();
+    session_api_ = std::make_unique<themis::server::SessionApiHandler>(auth_, session_manager_);
+    THEMIS_INFO("Session Management Handler initialized");
     // Initialize PKI API Handler using a SigningService backed by the KeyProvider
     try {
         pki_api_ = std::make_unique<themis::server::PkiApiHandler>(themis::createKeyProviderSigningService(key_provider_));
@@ -568,6 +750,177 @@ HttpServer::HttpServer(
         THEMIS_WARN("Failed to initialize Audit components: {}", e.what());
     }
 
+    // Initialize Export API Handler (EXP-001)
+    export_api_ = std::make_unique<themis::server::ExportApiHandler>(
+        storage_, secondary_index_);
+    if (audit_logger_) {
+        export_api_->setAuditLogger(audit_logger_.get());
+    }
+    THEMIS_INFO("Export API Handler initialized");
+
+    // Initialize Admin API Handler
+    admin_api_ = std::make_unique<themis::server::AdminApiHandler>(
+        storage_, auth_
+    );
+    THEMIS_INFO("Admin API Handler initialized");
+    
+    // Initialize Vector API Handler
+    vector_api_ = std::make_unique<themis::server::VectorApiHandler>(
+        storage_, vector_index_, auth_, field_encryption_, key_provider_
+    );
+    THEMIS_INFO("Vector API Handler initialized");
+    
+    // Initialize RoPE API Handler
+    rope_api_ = std::make_unique<themis::server::RopeApiHandler>(
+        storage_, vector_index_, auth_
+    );
+    THEMIS_INFO("RoPE API Handler initialized");
+    
+    // Initialize Spatial API Handler
+    spatial_api_ = std::make_unique<themis::server::SpatialApiHandler>(
+        storage_, spatial_index_, auth_
+    );
+    THEMIS_INFO("Spatial API Handler initialized");
+
+    // Initialize Geo Topology API Handler
+    geo_topology_api_ = std::make_unique<themis::server::GeoTopologyApiHandler>(
+        shard_topology_, redundancy_manager_, auth_
+    );
+    THEMIS_INFO("Geo Topology API Handler initialized");
+
+    // Initialize Replication Topology API Handler (web UI visualizer)
+    {
+        std::string repl_primary_id;
+        if (const char* pid = std::getenv("THEMIS_WAL_PRIMARY_ID")) {
+            repl_primary_id = pid;
+        }
+        replication_topology_api_ = std::make_unique<themis::server::ReplicationTopologyApiHandler>(
+            replication_coordinator_, wal_manager_, repl_primary_id, auth_
+        );
+        THEMIS_INFO("Replication Topology API Handler initialized");
+    }
+    
+    // Initialize Monitoring API Handler
+    monitoring_api_ = std::make_unique<themis::server::MonitoringApiHandler>(
+        storage_, auth_, &request_count_, &error_count_, &start_time_,
+        secondary_index_, schema_manager_.get(), nullptr,
+        &running_, &active_requests_, &active_connections_,
+        concerns_   // may be nullptr – MonitoringApiHandler tolerates that
+    );
+    // Wire a disabled-by-default Alertmanager so the Operator API is always available.
+    // Operators can enable it via the THEMIS_ALERTMANAGER_URL environment variable.
+    {
+        observability::AlertmanagerConfig am_cfg;
+        const char* am_url = std::getenv("THEMIS_ALERTMANAGER_URL");
+        if (am_url && *am_url != '\0') {
+            am_cfg.endpoint_url = am_url;
+            am_cfg.enabled      = true;
+            const char* am_token = std::getenv("THEMIS_ALERTMANAGER_TOKEN");
+            if (am_token && *am_token != '\0') {
+                am_cfg.auth_token = am_token;
+            }
+            THEMIS_INFO("Alertmanager enabled: {}", am_cfg.endpoint_url);
+        }
+        auto alertmanager = std::make_shared<observability::DefaultAlertmanager>(am_cfg);
+        monitoring_api_->setAlertmanager(std::move(alertmanager));
+    }
+    THEMIS_INFO("Monitoring API Handler initialized");
+    // Initialize Query API Handler
+    query_api_ = std::make_unique<themis::server::QueryApiHandler>(
+        storage_, secondary_index_, graph_index_, field_encryption_, key_provider_,
+        semantic_cache_, llm_store_, prompt_manager_, auth_,
+        config_.feature_llm_query_enhancement,
+        config_.feature_llm_store
+    );
+    query_api_->setQueryMaskingPolicy(themis::security::QueryMaskingPolicy::create());
+    THEMIS_INFO("Query API Handler initialized");
+    // Initialize Policy API Handler
+    const char* ranger_service_env = std::getenv("THEMIS_RANGER_SERVICE");
+    std::string ranger_service = ranger_service_env ? ranger_service_env : "themisdb";
+    policy_api_ = std::make_unique<themis::server::PolicyApiHandler>(
+        storage_, 
+        ranger_client_.get(),
+        policy_engine_.get(),
+        auth_,
+        ranger_service
+    );
+    THEMIS_INFO("Policy API Handler initialized");
+    // Initialize Prompt API Handler
+    prompt_api_ = std::make_unique<themis::server::PromptApiHandler>(
+        storage_, prompt_manager_, auth_
+    );
+    THEMIS_INFO("Prompt API Handler initialized");
+    // Initialize Graph API Handler
+    graph_api_ = std::make_unique<themis::server::GraphApiHandler>(
+        storage_, graph_index_, auth_
+    );
+    THEMIS_INFO("Graph API Handler initialized");
+    // Initialize Index API Handler
+    index_api_ = std::make_unique<themis::server::IndexApiHandler>(
+        storage_, secondary_index_, adaptive_index_, auth_
+    );
+    THEMIS_INFO("Index API Handler initialized");
+    // Initialize Entity API Handler
+    server::EntityApiConfig entity_config;
+    entity_config.feature_cdc = config_.feature_cdc;
+    entity_config.feature_geo = true; // Enable geo if spatial_index exists
+    entity_config.feature_replication = (replication_coordinator_ != nullptr);
+    entity_config.feature_raid = (redundancy_manager_ != nullptr && hash_ring_ != nullptr && shard_topology_ != nullptr);
+    
+    entity_api_ = std::make_unique<themis::server::EntityApiHandler>(
+        storage_,
+        secondary_index_,
+        graph_index_,
+        tx_manager_,
+        field_encryption_,
+        key_provider_,
+        auth_,
+        entity_config,
+        spatial_index_.get(),
+        changefeed_,
+        wal_manager_,
+        replication_coordinator_,
+        multi_primary_coordinator_,
+        redundancy_manager_,
+        hash_ring_,
+        shard_topology_
+    );
+    THEMIS_INFO("Entity API Handler initialized (RAID: {})", entity_config.feature_raid ? "enabled" : "disabled");
+    
+    // Initialize BPMN API Handler
+    // Note: ProcessGraphManager must be explicitly created and passed to HttpServer
+    // For now, handler gracefully handles nullptr and returns 503 Service Unavailable
+    bpmn_api_ = std::make_unique<themis::server::BpmnApiHandler>(
+        process_graph_,  // May be nullptr if not initialized
+        auth_
+    );
+    if (process_graph_) {
+        THEMIS_INFO("BPMN API Handler initialized with ProcessGraphManager");
+    } else {
+        THEMIS_INFO("BPMN API Handler initialized (ProcessGraphManager not available - endpoints will return 503)");
+    }
+    
+    // Initialize Content API Handler
+    content_api_ = std::make_unique<themis::server::ContentApiHandler>(
+        storage_, content_manager_, nullptr, auth_,
+        secondary_index_, vector_index_
+    );
+    THEMIS_INFO("Content API Handler initialized");
+    
+    // Initialize Changefeed API Handler if changefeed is available
+    if (changefeed_) {
+        changefeed_api_ = std::make_unique<themis::server::ChangefeedApiHandler>(
+            storage_, changefeed_,
+#ifdef THEMIS_ENABLE_SSE
+            sse_manager_,
+#else
+            nullptr,
+#endif
+            auth_, config_.feature_cdc
+        );
+        THEMIS_INFO("Changefeed API Handler initialized");
+    }
+
     // Initialize PII Pseudonymizer (used for reveal/erase)
     // DEFERRED: Initialize on first use to avoid deadlock during server construction
     // try {
@@ -582,6 +935,49 @@ HttpServer::HttpServer(
     // Initialize Reports API Handler
     reports_api_ = std::make_unique<themis::server::ReportsApiHandler>();
     THEMIS_INFO("Reports API Handler initialized");
+    
+    // Initialize Transaction API Handler
+    transaction_api_ = std::make_unique<themis::server::TransactionApiHandler>(
+        storage_, tx_manager_, auth_
+    );
+    THEMIS_INFO("Transaction API Handler initialized");
+
+    // Initialize Distributed Transaction (2PC) API Handler
+    {
+        themis::sharding::TrueTime::Config tt_cfg;
+        tt_cfg.base_uncertainty_us = 1000;
+        auto truetime = std::make_shared<themis::sharding::TrueTime>(tt_cfg);
+        themis::sharding::DistributedTransactionCoordinator::Config dtxn_cfg;
+        dtxn_cfg.enable_recovery_log = false; // WAL dir not configured at server init time;
+                                              // configure via DistributedTransactionCoordinator::Config
+                                              // to enable durable recovery logging in production
+        auto dtxn_coordinator = std::make_shared<
+            themis::sharding::DistributedTransactionCoordinator>(truetime, dtxn_cfg);
+        distributed_txn_api_ = std::make_unique<themis::server::DistributedTxnApiHandler>(
+            dtxn_coordinator
+        );
+    }
+    THEMIS_INFO("Distributed Transaction (2PC) API Handler initialized");
+
+    // Initialize WAL API Handler
+    wal_api_ = std::make_unique<themis::server::WALApiHandler>(
+        storage_, wal_applier_, wal_manager_, replication_coordinator_, auth_,
+        wal_shared_secret_, wal_hmac_secret_
+    );
+    THEMIS_INFO("WAL API Handler initialized");
+
+    // Initialize Ethics AI API Handler
+    try {
+        ethics_query_engine_ = std::make_unique<QueryEngine>(*storage_, *secondary_index_);
+        ethics_api_ = std::make_unique<themis::server::EthicsApiHandler>(
+            storage_,
+            std::shared_ptr<QueryEngine>(ethics_query_engine_.get(), [](QueryEngine*) {}),
+            auth_
+        );
+        THEMIS_INFO("Ethics AI API Handler initialized");
+    } catch (const std::exception& e) {
+        THEMIS_WARN("Ethics AI API Handler skipped: " + std::string(e.what()));
+    }
 
     // Initialize Update Checker (if feature enabled)
     if (config_.feature_update_checker) {
@@ -622,6 +1018,7 @@ HttpServer::HttpServer(
     }
     
     // Initialize Feedback API Handler
+#if THEMIS_ENABLE_LLM
     try {
         using namespace llm::lora;
         
@@ -643,7 +1040,8 @@ HttpServer::HttpServer(
         
         // Try to load YAML configuration and register configured plugins
         try {
-            auto training_config = LoRATrainingConfig::loadFromFile("config/lora_training_config.yaml");
+            std::string config_path = themis::config::ConfigPathResolver::resolve("config/lora_training_config.yaml");
+            auto training_config = LoRATrainingConfig::loadFromFile(config_path);
             
             // Register cache weighting plugin from config
             auto cache_plugin = training_config.createCacheWeightingPlugin("themis_help_lora");
@@ -672,19 +1070,132 @@ HttpServer::HttpServer(
     } catch (const std::exception& e) {
         THEMIS_WARN("Failed to initialize Feedback API Handler: {}", e.what());
     }
+#else
+    feedback_api_handler_ = nullptr;
+#endif
 
     // Initialize SchemaManager and Schema API Handler
     try {
         if (storage_ && storage_->isOpen()) {
-            schema_manager_ = std::make_unique<SchemaManager>(*storage_, secondary_index_mgr_.get());
+            schema_manager_ = std::make_unique<SchemaManager>(*storage_, secondary_index_.get());
             schema_api_handler_ = std::make_unique<server::SchemaApiHandler>(
-                storage_, secondary_index_mgr_, schema_manager_.get());
-            THEMIS_INFO("SchemaManager and Schema API Handler initialized");
+                storage_, secondary_index_, schema_manager_.get());
+
+            // Wire metadata sub-components into SchemaApiHandler
+            stats_collector_    = std::make_unique<StatisticsCollector>(*storage_);
+            schema_constraints_ = std::make_unique<SchemaConstraints>();
+            schema_constraints_->loadFrom(*storage_);  // Reload persisted constraints
+            schema_version_mgr_ = std::make_unique<SchemaVersionManager>(*storage_, *schema_manager_);
+            index_recommender_  = std::make_unique<IndexRecommender>();
+            schema_audit_log_   = std::make_unique<SchemaAuditLog>(*storage_);
+
+            // Connect audit log to version manager so every version is audited
+            schema_version_mgr_->setAuditLog(schema_audit_log_.get());
+
+            schema_api_handler_->setStatisticsCollector(stats_collector_.get());
+            schema_api_handler_->setSchemaConstraints(schema_constraints_.get());
+            schema_api_handler_->setSchemaVersionManager(schema_version_mgr_.get());
+            schema_api_handler_->setIndexRecommender(index_recommender_.get());
+            schema_api_handler_->setAuditLog(schema_audit_log_.get());
+
+            // Wire ColumnLineageTracker into SchemaApiHandler
+            column_lineage_tracker_ = std::make_unique<themis::metadata::ColumnLineageTracker>();
+            schema_api_handler_->setColumnLineageTracker(column_lineage_tracker_.get());
+
+            // Wire IndexRecommender into query handler for access-pattern recording
+            if (query_api_) {
+                query_api_->setIndexRecommender(index_recommender_.get());
+                query_api_->setStatisticsCollector(stats_collector_.get());
+            }
+
+            // Background consistency checker (checks every 6 hours by default)
+            schema_consistency_checker_ = std::make_unique<SchemaConsistencyChecker>(
+                *storage_, *schema_manager_,
+                stats_collector_.get(),
+                schema_constraints_.get()
+            );
+            schema_consistency_checker_->startBackgroundCheck(std::chrono::hours(6));
+
+            // Wire changefeed for real-time schema change notifications (if CDC is enabled)
+            if (changefeed_) {
+                schema_manager_->setChangefeed(changefeed_.get());
+            }
+
+            THEMIS_INFO("SchemaManager, Schema API Handler, and metadata sub-components initialized");
         } else {
             THEMIS_WARN("Storage not open, SchemaManager initialization deferred");
         }
     } catch (const std::exception& e) {
         THEMIS_WARN("Failed to initialize SchemaManager/Schema API: {}", e.what());
+    }
+
+    // Initialize GraphQL API Handler
+    graphql_api_handler_ = std::make_unique<server::GraphQLApiHandler>();
+    THEMIS_INFO("GraphQL API handler initialized (endpoints: POST /graphql, GET /graphql/schema)");
+
+    // Initialize gRPC-Web proxy handler
+    {
+        GrpcWebProxyHandler::Config gwcfg;
+        gwcfg.backend_address = "localhost:18765";
+        grpc_web_proxy_ = std::make_unique<server::GrpcWebProxyHandler>(std::move(gwcfg));
+        THEMIS_INFO("gRPC-Web proxy handler initialized (endpoints: POST /grpc-web/*, GET /api/v1/grpc-web/status)");
+    }
+
+    // Initialize Serverless Function Hosting Handler
+    serverless_fn_handler_ = std::make_unique<server::ServerlessFunctionApiHandler>();
+    THEMIS_INFO("Serverless function handler initialized (endpoints: /api/v1/functions)");
+
+    udf_api_handler_ = std::make_unique<server::UdfApiHandler>();
+    THEMIS_INFO("UDF API handler initialized (endpoints: /api/v1/query/udfs)");
+
+    // Initialize Task Scheduler and its API / Web UI handler
+    {
+        TaskScheduler::Config sched_cfg;
+        sched_cfg.persist_tasks            = false;
+        sched_cfg.enable_audit_logging     = false;
+        sched_cfg.enable_anomaly_detection = false;
+        // Build a QueryEngine for the scheduler using the server's storage.
+        // task_scheduler_engine_ must outlive task_scheduler_.  The member
+        // declaration order in http_server.h guarantees this: unique_ptr members
+        // are destroyed in reverse declaration order, so task_scheduler_ is
+        // destroyed before task_scheduler_engine_.
+        task_scheduler_engine_ = std::make_unique<QueryEngine>(*storage_, *secondary_index_);
+        task_scheduler_ = std::make_unique<TaskScheduler>(task_scheduler_engine_.get(), sched_cfg);
+        task_scheduler_->start();
+        task_scheduler_api_ = std::make_unique<server::TaskSchedulerApiHandler>(task_scheduler_.get());
+        THEMIS_INFO("Task Scheduler API handler initialized (endpoints: /api/tasks, /ui/tasks)");
+
+        // Initialize Database Maintenance Orchestrator
+        maintenance_orchestrator_ = std::make_unique<themis::maintenance::DatabaseMaintenanceOrchestrator>(
+            task_scheduler_.get());
+        maintenance_orchestrator_->start();
+        maintenance_api_ = std::make_unique<server::MaintenanceApiHandler>(
+            maintenance_orchestrator_.get());
+        THEMIS_INFO("Database Maintenance Orchestrator initialized (endpoints: /api/v1/maintenance/*)");
+    }
+
+    // Initialize Async Job API Handler – long-running AQL query submission/polling
+    {
+        // Executor: builds a synthetic Beast request and delegates to
+        // the existing QueryApiHandler so all existing AQL machinery
+        // (validation, caching, masking) is reused.
+        auto* qapi = query_api_.get();
+        server::AsyncJobApiHandler::AqlExecutor executor =
+            [qapi](const std::string& aql_query,
+                   const std::string& auth_header) -> nlohmann::json {
+                http::request<http::string_body> inner{
+                    http::verb::post, "/query/aql", 11};
+                inner.set(http::field::content_type,  "application/json");
+                inner.set(http::field::authorization, auth_header);
+                nlohmann::json body = {{"query", aql_query}};
+                inner.body() = body.dump();
+                inner.prepare_payload();
+                auto response = qapi->handleQueryAql(inner);
+                return nlohmann::json::parse(response.body());
+            };
+        async_job_api_ = std::make_unique<server::AsyncJobApiHandler>(
+            std::move(executor), auth_);
+        THEMIS_INFO("Async job API handler initialized (endpoints: POST/GET/DELETE /v2/jobs)");
     }
 
     // Initialize Policy Engine (Governance)
@@ -776,7 +1287,32 @@ HttpServer::HttpServer(
             THEMIS_WARN("Failed to initialize Ranger client; integration disabled");
         }
     }
-    
+
+    // Initialize OPA evaluator (optional); enabled when THEMIS_OPA_ENDPOINT_URL is set.
+    // OPA acts as an alternative policy evaluation engine (policy-as-code via Rego).
+    // If OPA is unreachable or times out, PolicyEngine falls back to native evaluation
+    // and increments the opa_fallback_total metric.
+    if (auto opa_url = themis_get_env("THEMIS_OPA_ENDPOINT_URL")) {
+        themis::OpaAdapter::Config opa_cfg;
+        opa_cfg.endpoint_url = *opa_url;
+        if (auto path = themis_get_env("THEMIS_OPA_POLICY_PATH")) {
+            opa_cfg.policy_path = *path;
+        }
+        if (auto tms = themis_get_env("THEMIS_OPA_TIMEOUT_MS")) {
+            try { opa_cfg.timeout_ms = std::stol(*tms); } catch (...) {}
+        }
+        try {
+            opa_adapter_ = std::make_unique<themis::OpaAdapter>(opa_cfg);
+            if (policy_engine_) {
+                policy_engine_->setOpaEvaluator(opa_adapter_.get());
+            }
+            THEMIS_INFO("OPA evaluator configured: endpoint={}, path={}, timeout={}ms",
+                opa_cfg.endpoint_url, opa_cfg.policy_path, opa_cfg.timeout_ms);
+        } catch (const std::exception& e) {
+            THEMIS_WARN("Failed to initialize OPA evaluator: {}; native policy evaluation will be used", e.what());
+        }
+    }
+
     // Initialize Rate Limiter for DoS protection
     RateLimitConfig rate_config;
     rate_config.bucket_capacity = 100;
@@ -801,6 +1337,39 @@ HttpServer::HttpServer(
     
     rate_limiter_ = std::make_unique<RateLimiter>(rate_config);
     THEMIS_INFO("Rate Limiter initialized: {} req/min", rate_config.refill_rate * 60.0);
+
+    // Initialize rate limiting middleware with configurable per-client token bucket
+    {
+        RateLimitingMiddleware::Config rl_mw_config;
+        rl_mw_config.default_capacity    = rate_config.bucket_capacity;
+        rl_mw_config.default_refill_rate = rate_config.refill_rate;
+        rl_mw_config.whitelist_ips       = rate_config.whitelist_ips;
+        rl_mw_config.max_clients         = 10000;
+        rl_mw_config.send_rate_limit_headers = true;
+
+        // Apply a tighter limit on bulk-write paths to prevent abuse
+        rl_mw_config.endpoint_overrides = {
+            RateLimitingMiddleware::EndpointLimit{
+                "/v2/documents",
+                static_cast<size_t>(rl_mw_config.default_capacity / 2),
+                rl_mw_config.default_refill_rate / 2.0
+            },
+            RateLimitingMiddleware::EndpointLimit{
+                "/api/bulk",
+                static_cast<size_t>(rl_mw_config.default_capacity / 2),
+                rl_mw_config.default_refill_rate / 2.0
+            }
+        };
+
+        rate_limiting_middleware_ = std::make_unique<RateLimitingMiddleware>(rl_mw_config);
+        THEMIS_INFO("RateLimitingMiddleware initialized: {:.1f} req/min default, {} endpoint overrides",
+                    rl_mw_config.default_refill_rate * 60.0,
+                    rl_mw_config.endpoint_overrides.size());
+    }
+
+    // Initialize request correlation ID middleware
+    tracing_middleware_ = std::make_unique<api::TracingMiddleware>();
+    THEMIS_INFO("TracingMiddleware initialized: X-Correlation-ID propagation enabled");
 
     // ----------------------------------------------------------------------------
     // CORS configuration (from environment)
@@ -846,6 +1415,166 @@ HttpServer::HttpServer(
     }
     validator_ = std::make_unique<themis::utils::InputValidator>(schema_dir);
     THEMIS_INFO("InputValidator initialized with schema dir: {}", schema_dir);
+
+    // ----------------------------------------------------------------------------
+    // Request validation middleware (JSON Schema per endpoint)
+    // ----------------------------------------------------------------------------
+    request_validator_ = std::make_unique<RequestValidationMiddleware>();
+
+    // Register JSON Schema Draft-7 for core write endpoints.
+    // Schemas validate required fields, types and basic constraints.
+    // Operators can register additional schemas via getRequestValidator().
+
+    // Validation limits used in endpoint schemas
+    constexpr int MAX_QUERY_LIMIT       = 10000;  // max rows per query request
+    constexpr int MAX_AQL_QUERY_CHARS   = 100000; // max AQL query string length
+
+    // Reusable property definitions
+    const nlohmann::json entity_key_prop   = {{"type", "string"}, {"minLength", 1}, {"maxLength", 512}};
+    const nlohmann::json entity_data_prop  = {{"type", "object"}};
+    const nlohmann::json entity_tags_prop  = {{"type", "array"}};
+    const nlohmann::json entity_ttl_prop   = {{"type", "integer"}, {"minimum", 0}};
+
+    // POST /entities – create entity (key required in body)
+    request_validator_->registerSchema("POST", "/entities", {
+        {"type", "object"},
+        {"required", {"key"}},
+        {"properties", {
+            {"key",  entity_key_prop},
+            {"data", entity_data_prop},
+            {"tags", entity_tags_prop},
+            {"ttl",  entity_ttl_prop}
+        }}
+    });
+
+    // PUT /entities/<key> – upsert entity body (key is in the URL path, not in the body)
+    request_validator_->registerSchema("PUT", "/entities/", {
+        {"type", "object"},
+        {"properties", {
+            {"data", entity_data_prop},
+            {"tags", entity_tags_prop},
+            {"ttl",  entity_ttl_prop}
+        }}
+    });
+
+    // POST /query – structured query
+    request_validator_->registerSchema("POST", "/query", {
+        {"type", "object"},
+        {"required", {"query"}},
+        {"properties", {
+            {"query",   {{"type", "string"}, {"minLength", 1}}},
+            {"limit",   {{"type", "integer"}, {"minimum", 1}, {"maximum", MAX_QUERY_LIMIT}}},
+            {"offset",  {{"type", "integer"}, {"minimum", 0}}},
+            {"filters", {{"type", "object"}}},
+            {"sort",    {{"type", "array"}}}
+        }}
+    });
+
+    // AQL query schema (shared by /query/aql and /api/aql)
+    const nlohmann::json aql_schema = {
+        {"type", "object"},
+        {"required", {"query"}},
+        {"properties", {
+            {"query",    {{"type", "string"}, {"minLength", 1}, {"maxLength", MAX_AQL_QUERY_CHARS}}},
+            {"bindVars", {{"type", "object"}}}
+        }}
+    };
+    // POST /query/aql and POST /api/aql – further validated by validateAqlRequest
+    request_validator_->registerSchema("POST", "/query/aql", aql_schema);
+    request_validator_->registerSchema("POST", "/api/aql",   aql_schema);
+
+    // POST /v2/jobs – async job submission (same query shape as /query/aql)
+    request_validator_->registerSchema("POST", "/v2/jobs", aql_schema);
+
+    // POST /index/create – create index
+    request_validator_->registerSchema("POST", "/index/create", {
+        {"type", "object"},
+        {"required", {"field"}},
+        {"properties", {
+            {"field",   {{"type", "string"}, {"minLength", 1}, {"maxLength", 256}}},
+            {"type",    {{"type", "string"}}},
+            {"options", {{"type", "object"}}}
+        }}
+    });
+
+    // POST /api/v1/transactions – begin transaction
+    request_validator_->registerSchema("POST", "/api/v1/transactions", {
+        {"type", "object"},
+        {"properties", {
+            {"isolation_level", {{"type", "string"}}},
+            {"timeout_ms",      {{"type", "integer"}, {"minimum", 0}}}
+        }}
+    });
+
+    // DELETE /vector/by-filter – carries a body with filter criteria
+    request_validator_->registerSchema("DELETE", "/vector/by-filter", {
+        {"type", "object"},
+        {"required", {"filter"}},
+        {"properties", {
+            {"filter", {{"type", "object"}}}
+        }}
+    });
+
+    THEMIS_INFO("RequestValidationMiddleware initialized with {} endpoint schemas",
+                request_validator_->schemaCount());
+
+    // ----------------------------------------------------------------------------
+    // CDN / Edge Cache Middleware – Cache-Control header management
+    // ----------------------------------------------------------------------------
+    // Register default per-route policies.  Conservative no-store is the global
+    // fallback for unregistered paths; only well-defined read endpoints receive
+    // cacheable policies here.  Individual handlers may register additional
+    // policies or rely on the defaults.
+    {
+        // Health / liveness probes – very short public cache so CDNs and load
+        // balancers can coalesce repeated probes without hammering the origin.
+        CdnRoutePolicy health_policy;
+        health_policy.directive              = CacheDirective::PUBLIC;
+        health_policy.max_age_seconds        = 5;
+        health_policy.cdn_max_age_seconds    = 10;
+        health_policy.emit_cdn_cache_control = true;
+        health_policy.stale_if_error_seconds = 30;
+        cdn_cache_middleware_.registerPolicy("/health", health_policy);
+        cdn_cache_middleware_.registerPolicy("/status", health_policy);
+
+        // Entity read endpoints – private (user-specific data), enable ETag for
+        // conditional GET support so repeated fetches avoid re-transferring bodies.
+        CdnRoutePolicy entity_policy;
+        entity_policy.directive              = CacheDirective::PRIVATE;
+        entity_policy.max_age_seconds        = 60;
+        entity_policy.enable_etag            = true;
+        entity_policy.emit_cdn_cache_control = true;
+        cdn_cache_middleware_.registerPolicy("/entities/", entity_policy);
+
+        // Query / AQL endpoints – dynamic results, never cache.
+        CdnRoutePolicy query_policy;
+        query_policy.directive = CacheDirective::NO_CACHE;
+        cdn_cache_middleware_.registerPolicy("/query", query_policy);
+        cdn_cache_middleware_.registerPolicy("/api/aql", query_policy);
+        cdn_cache_middleware_.registerPolicy("/v2/jobs", query_policy);
+
+        // Monitoring metrics – short public cache for Prometheus scrapers.
+        CdnRoutePolicy metrics_policy;
+        metrics_policy.directive              = CacheDirective::PUBLIC;
+        metrics_policy.max_age_seconds        = 15;
+        metrics_policy.cdn_max_age_seconds    = 15;
+        metrics_policy.emit_cdn_cache_control = true;
+        cdn_cache_middleware_.registerPolicy("/metrics", metrics_policy);
+
+        // OpenAPI spec – stable across deploys, cache aggressively.
+        CdnRoutePolicy openapi_policy;
+        openapi_policy.directive              = CacheDirective::PUBLIC;
+        openapi_policy.max_age_seconds        = 3600;
+        openapi_policy.cdn_max_age_seconds    = 86400;
+        openapi_policy.stale_while_revalidate_seconds = 3600;
+        openapi_policy.emit_cdn_cache_control = true;
+        openapi_policy.emit_surrogate_control = true;
+        openapi_policy.surrogate_keys         = "openapi spec";
+        cdn_cache_middleware_.registerPolicy("/openapi", openapi_policy);
+        cdn_cache_middleware_.registerPolicy("/api-docs", openapi_policy);
+
+        THEMIS_INFO("CdnCacheMiddleware initialized with default route policies");
+    }
 
     // ----------------------------------------------------------------------------
     // Input validation limits
@@ -946,6 +1675,36 @@ HttpServer::HttpServer(
     } else {
         THEMIS_INFO("HTTP server running without TLS (plaintext mode)");
     }
+    
+    // Initialize Health/Error Service on separate port
+    if (config_.health_error_service_enabled) {
+        try {
+            // Check for environment variable override
+            std::string health_bind = config_.health_error_service_bind_address;
+            uint16_t health_port = config_.health_error_service_port;
+            
+            if (const char* env_port = std::getenv("THEMIS_HEALTH_PORT")) {
+                try {
+                    health_port = static_cast<uint16_t>(std::stoi(env_port));
+                } catch (...) {
+                    THEMIS_WARN("Invalid THEMIS_HEALTH_PORT value, using default {}", health_port);
+                }
+            }
+            
+            if (const char* env_bind = std::getenv("THEMIS_HEALTH_BIND_ADDRESS")) {
+                health_bind = env_bind;
+            }
+            
+            HealthErrorService::Config health_config(health_bind, health_port, true);
+            health_error_service_ = std::make_unique<HealthErrorService>(health_config);
+            THEMIS_INFO("Health/Error service created on {}:{}", health_bind, health_port);
+        } catch (const std::exception& e) {
+            THEMIS_ERROR("Failed to initialize Health/Error service: {}", e.what());
+            // Non-fatal: main server can continue without health service
+        }
+    } else {
+        THEMIS_INFO("Health/Error service disabled in configuration");
+    }
 }
 
 HttpServer::~HttpServer() {
@@ -981,6 +1740,45 @@ void HttpServer::start() {
             THEMIS_DEBUG("Worker thread {} stopped", i);
         });
     }
+    
+    // Start Health/Error Service (runs in separate thread)
+    if (health_error_service_) {
+        try {
+            health_error_service_->start();
+            THEMIS_INFO("Health/Error service started successfully");
+        } catch (const std::exception& e) {
+            THEMIS_ERROR("Failed to start Health/Error service: {}", e.what());
+            // Non-fatal: main server continues
+        }
+    }
+
+#ifdef THEMIS_ENABLE_HTTP3
+    // Start HTTP/3 (QUIC) handler on UDP port
+    if (config_.enable_http3) {
+        try {
+            if (!config_.enable_tls) {
+                THEMIS_WARN("HTTP/3 requires TLS; enable_http3 ignored because enable_tls=false");
+            } else {
+                uint16_t h3_port = config_.http3_port != 0 ? config_.http3_port : config_.port;
+                auto* ssl_ctx_raw = Http3Handler::createSslContext(
+                    config_.tls_cert_path, config_.tls_key_path);
+                if (ssl_ctx_raw) {
+                    http3_handler_ = std::make_shared<Http3Handler>(
+                        ioc_, config_.host, h3_port, this,
+                        ssl_ctx_raw,
+                        config_.http3_max_idle_timeout_ms);
+                    http3_handler_->start();
+                    THEMIS_INFO("HTTP/3 (QUIC) handler started on UDP {}:{}", config_.host, h3_port);
+                } else {
+                    THEMIS_ERROR("HTTP/3: Failed to create SSL context; HTTP/3 disabled");
+                }
+            }
+        } catch (const std::exception& e) {
+            THEMIS_ERROR("Failed to start HTTP/3 handler: {}; HTTP/3 disabled", e.what());
+            // Non-fatal: HTTP/1.1 and HTTP/2 continue
+        }
+    }
+#endif
 
 #ifdef THEMIS_VERSION_STRING
     THEMIS_INFO("🎉 ThemisDB {} is now READY for operations", THEMIS_VERSION_STRING);
@@ -999,14 +1797,50 @@ void HttpServer::stop() {
     THEMIS_INFO("Stopping HTTP Server...");
     THEMIS_INFO("Initiating graceful shutdown...");
     running_ = false;
+    
+    // Stop Health/Error Service first (independent service)
+    if (health_error_service_) {
+        try {
+            health_error_service_->stop();
+            THEMIS_INFO("Health/Error service stopped");
+        } catch (const std::exception& e) {
+            THEMIS_ERROR("Error stopping Health/Error service: {}", e.what());
+        }
+    }
 
     // Stop accepting new connections
     beast::error_code ec;
     acceptor_.close(ec);
 
-    // Give active requests time to complete
-    THEMIS_INFO("Waiting for active requests to complete...");
-    std::this_thread::sleep_for(std::chrono::seconds(2));
+#ifdef THEMIS_ENABLE_HTTP3
+    // Stop HTTP/3 QUIC handler
+    if (http3_handler_) {
+        try {
+            http3_handler_->stop();
+            http3_handler_.reset();
+            THEMIS_INFO("HTTP/3 handler stopped");
+        } catch (const std::exception& e) {
+            THEMIS_ERROR("Error stopping HTTP/3 handler: {}", e.what());
+        }
+    }
+#endif
+
+    // Drain active requests with configurable timeout
+    THEMIS_INFO("Draining active requests (timeout={}ms)...", config_.graceful_shutdown_timeout_ms);
+    {
+        const auto drain_deadline = std::chrono::steady_clock::now()
+            + std::chrono::milliseconds(config_.graceful_shutdown_timeout_ms);
+        while (active_requests_.load(std::memory_order_acquire) > 0
+               && std::chrono::steady_clock::now() < drain_deadline) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        }
+        auto remaining = active_requests_.load(std::memory_order_acquire);
+        if (remaining > 0) {
+            THEMIS_WARN("Shutdown timeout: {} request(s) still in flight – forcing close", remaining);
+        } else {
+            THEMIS_INFO("All active requests completed");
+        }
+    }
 
     // Flush and cleanup Sprint A/B features
     if (semantic_cache_) {
@@ -1029,6 +1863,17 @@ void HttpServer::stop() {
         // Time-series is in RocksDB, will be flushed with DB
     }
     
+    // Stop Task Scheduler gracefully before closing storage
+    if (task_scheduler_ && task_scheduler_->isRunning()) {
+        THEMIS_INFO("Stopping Task Scheduler...");
+        try {
+            task_scheduler_->stop();
+            THEMIS_INFO("Task Scheduler stopped");
+        } catch (const std::exception& e) {
+            THEMIS_ERROR("Error stopping Task Scheduler: {}", e.what());
+        }
+    }
+
     // Vector index auto-save
     if (vector_index_) {
         THEMIS_INFO("Saving vector index (if auto-save enabled)...");
@@ -1055,7 +1900,15 @@ void HttpServer::stop() {
     }
     threads_.clear();
 
+    // Shutdown core concerns (flush remaining logs/spans/metrics, release resources).
+    // Called last, after the final "stopped gracefully" log, so the logger is still
+    // available for that message.  The logger itself is the final resource torn down
+    // inside concerns_->shutdown().
     THEMIS_INFO("HTTP Server stopped gracefully");
+
+    if (concerns_) {
+        concerns_->shutdown();
+    }
 }
 
 void HttpServer::wait() {
@@ -1065,6 +1918,80 @@ void HttpServer::wait() {
         }
     }
 }
+
+bool HttpServer::reloadTls() {
+    if (!config_.enable_tls) {
+        THEMIS_WARN("TLS hot-reload requested but TLS is not enabled – ignoring");
+        return false;
+    }
+
+    if (config_.tls_cert_path.empty() || config_.tls_key_path.empty()) {
+        THEMIS_ERROR("TLS hot-reload: cert/key paths not configured");
+        return false;
+    }
+
+    THEMIS_INFO("TLS hot-reload: reloading certificate from {} and key from {}",
+        config_.tls_cert_path, config_.tls_key_path);
+
+    try {
+        // Build a fresh SSL context with the same settings
+        auto new_ctx = std::make_unique<boost::asio::ssl::context>(
+            config_.tls_min_version == "TLSv1.2"
+                ? boost::asio::ssl::context::tlsv12_server
+                : boost::asio::ssl::context::tlsv13_server
+        );
+
+        new_ctx->use_certificate_chain_file(config_.tls_cert_path);
+        new_ctx->use_private_key_file(config_.tls_key_path, boost::asio::ssl::context::pem);
+
+        if (!config_.tls_cipher_list.empty()) {
+            SSL_CTX_set_cipher_list(new_ctx->native_handle(), config_.tls_cipher_list.c_str());
+        } else {
+            SSL_CTX_set_cipher_list(new_ctx->native_handle(),
+                "ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-CHACHA20-POLY1305");
+        }
+
+        new_ctx->set_options(
+            boost::asio::ssl::context::default_workarounds |
+            boost::asio::ssl::context::no_sslv2 |
+            boost::asio::ssl::context::no_sslv3 |
+            boost::asio::ssl::context::no_tlsv1 |
+            boost::asio::ssl::context::no_tlsv1_1 |
+            boost::asio::ssl::context::single_dh_use
+        );
+
+        if (config_.tls_require_client_cert && !config_.tls_ca_cert_path.empty()) {
+            new_ctx->load_verify_file(config_.tls_ca_cert_path);
+            new_ctx->set_verify_mode(
+                boost::asio::ssl::verify_peer |
+                boost::asio::ssl::verify_fail_if_no_peer_cert
+            );
+        } else {
+            new_ctx->set_verify_mode(boost::asio::ssl::verify_none);
+        }
+
+#ifdef THEMIS_ENABLE_HTTP2
+        if (config_.enable_http2) {
+            Http2Handler::configureAlpn(*new_ctx);
+        }
+#endif
+
+        // Swap in the new context under the lock so doAccept and onAccept
+        // always see a consistent ssl_ctx_ pointer.
+        {
+            std::lock_guard<std::mutex> lock(ssl_ctx_mutex_);
+            ssl_ctx_ = std::move(new_ctx);
+        }
+
+        THEMIS_INFO("TLS hot-reload: certificate reloaded successfully");
+        return true;
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("TLS hot-reload failed: {}", e.what());
+        return false;
+    }
+}
+
+
 
 void HttpServer::doAccept() {
     acceptor_.async_accept(
@@ -1077,30 +2004,40 @@ void HttpServer::onAccept(beast::error_code ec, tcp::socket socket) {
     if (ec) {
         THEMIS_ERROR("Accept error: {}", ec.message());
     } else {
-        // Create new session for this connection
-        if (config_.enable_tls && ssl_ctx_) {
-#ifdef THEMIS_ENABLE_HTTP2
-            // If HTTP/2 is enabled, create HTTP/2 session which will handle ALPN negotiation
-            // and fallback to HTTP/1.1 if HTTP/2 is not negotiated
-            if (config_.enable_http2) {
-                std::make_shared<Http2Session>(
-                    std::move(socket),
-                    *ssl_ctx_,
-                    this,
-                    config_.http2_max_concurrent_streams,
-                    config_.http2_initial_window_size
-                )->start();
-            } else {
-                // TLS without HTTP/2
-                std::make_shared<SslSession>(std::move(socket), *ssl_ctx_, this)->start();
-            }
-#else
-            // TLS without HTTP/2 support
-            std::make_shared<SslSession>(std::move(socket), *ssl_ctx_, this)->start();
-#endif
+        // Enforce max_connections limit: close the socket immediately if exceeded
+        if (config_.max_connections > 0 &&
+            active_connections_.load(std::memory_order_relaxed) >= config_.max_connections) {
+            THEMIS_WARN("Max connections ({}) reached – rejecting new connection",
+                config_.max_connections);
+            beast::error_code close_ec;
+            socket.shutdown(tcp::socket::shutdown_both, close_ec);
+            socket.close(close_ec);
         } else {
-            // Plain HTTP/1.1 without TLS
-            std::make_shared<Session>(std::move(socket), this)->start();
+            // Create new session for this connection.
+            // Lock briefly to get a stable reference to ssl_ctx_ (hot-reload may swap it).
+            if (config_.enable_tls) {
+                std::lock_guard<std::mutex> lock(ssl_ctx_mutex_);
+                if (ssl_ctx_) {
+#ifdef THEMIS_ENABLE_HTTP2
+                    if (config_.enable_http2) {
+                        std::make_shared<Http2Session>(
+                            std::move(socket),
+                            *ssl_ctx_,
+                            this,
+                            config_.http2_max_concurrent_streams,
+                            config_.http2_initial_window_size
+                        )->start();
+                    } else {
+                        std::make_shared<SslSession>(std::move(socket), *ssl_ctx_, this)->start();
+                    }
+#else
+                    std::make_shared<SslSession>(std::move(socket), *ssl_ctx_, this)->start();
+#endif
+                }
+            } else {
+                // Plain HTTP/1.1 without TLS
+                std::make_shared<Session>(std::move(socket), this)->start();
+            }
         }
     }
 
@@ -1160,10 +2097,20 @@ namespace {
 
     enum class Route {
         Health,
+        HealthLive,    // GET /health/live  – liveness probe
+        HealthReady,   // GET /health/ready – readiness probe
+        OpenApi,       // GET /api/openapi.json – OpenAPI 3.1 spec export
         Version,
         Stats,
         CapabilitiesGet,
         Metrics,
+        MetricsHtml,    // GET /metrics/html – lightweight HTML dashboard
+        PluginMetrics,  // GET /api/plugins/metrics
+        // Operator observability API (Q1)
+        ObservabilityAlertsGet,        // GET  /api/v1/observability/alerts
+        ObservabilityAlertSilencePost, // POST /api/v1/observability/alerts/{id}/silence
+        ObservabilityHealthGet,        // GET  /api/v1/observability/health
+        LicenseStatusGet,              // GET  /api/v1/license/status
         Config,
         AdminBackupPost,
         AdminRestorePost,
@@ -1172,8 +2119,10 @@ namespace {
         EntitiesDelete,
         EntitiesPost,
         EntitiesBatchPost,
+        V2DocumentsBulkPost,        // POST /v2/documents – bulk insert via NDJSON
         QueryPost,
         QueryAqlPost,
+        QueryStreamSseGet,  // GET /v2/query/stream - SSE streaming of AQL results
         IndexCreatePost,
         IndexDropPost,
         IndexStatsGet,
@@ -1182,6 +2131,15 @@ namespace {
         GraphTraversePost,
     GraphEdgePost,
     GraphEdgeDelete,
+    GraphMetricsGet,
+    GraphMetricsPrometheusGet,
+    GraphQueryIncrementalPost,
+    GraphQueryIncrementalDelete,
+    GraphChangesPost,
+    GraphCostModelCalibratePost,
+    GraphCostModelGet,
+    GraphCostModelImportPost,
+    GraphQueryExplainPost,
         VectorSearchPost,
     VectorBatchInsertPost,
     VectorDeleteByFilterDelete,
@@ -1189,6 +2147,23 @@ namespace {
         CacheQueryPost,
         CachePutPost,
         CacheStatsGet,
+    // Admin cache endpoints (Phase 3: Admin API)
+    AdminCacheHealthGet,            // GET  /v1/admin/cache/health
+    AdminCacheStatsGet,             // GET  /v1/admin/cache/stats
+    AdminCacheEvictKeyDelete,       // DELETE /v1/admin/cache/key/{encoded_key}
+    AdminCacheEvictTenantDelete,    // DELETE /v1/admin/cache/tenant/{tenant_id}
+    AdminCacheCbResetPost,          // POST /v1/admin/cache/circuit-breaker/reset
+    AdminCacheCbStatusGet,          // GET  /v1/admin/cache/circuit-breaker
+    AdminCacheWarmupPost,           // POST /v1/admin/cache/warmup
+    AdminCacheSnapshotPost,         // POST /v1/admin/cache/snapshot
+    AdminCacheTenantsGet,           // GET  /v1/admin/cache/tenants
+    AdminCacheTenantStatsGet,       // GET  /v1/admin/cache/tenant/{tenant_id}/stats
+    AdminCacheTenantQuotaPatch,     // PATCH /v1/admin/cache/tenant/{tenant_id}/quota
+    AdminCachePiiEvictDelete,       // DELETE /v1/admin/cache/pii/{pii_uuid}
+    // Shard Admin endpoints
+    AdminShardsPost,                // POST /v1/admin/shards
+    AdminShardsGet,                 // GET  /v1/admin/shards
+    AdminStorageStatsGet,           // GET  /v1/admin/storage/stats
     // Prompt Template endpoints
     PromptTemplatePost,
     PromptTemplateList,
@@ -1201,8 +2176,13 @@ namespace {
         QueryEnhancedPost, // Enterprise: Query + LLM context
         ChangefeedGet,
         ChangefeedStreamSse,
+        ChangefeedStreamAckPost,
     ChangefeedStatsGet,
     ChangefeedRetentionPost,
+    ChangefeedRetentionGet,
+    ChangefeedRetentionPut,
+    ChangefeedCompactPost,
+    ChangefeedGdprRedactPost,
         // Sprint B
         TimeSeriesPut,
         TimeSeriesQuery,
@@ -1212,6 +2192,8 @@ namespace {
     // Additional TimeSeries endpoints (list aggregates/retention)
     TimeSeriesAggregatesGet,
     TimeSeriesRetentionGet,
+    TimeSeriesMetricsGet,
+    TimeSeriesPromRemoteWrite,
         // Sprint C
         IndexSuggestionsGet,
         IndexPatternsGet,
@@ -1222,11 +2204,31 @@ namespace {
         VectorIndexConfigGet,
         VectorIndexConfigPut,
         VectorIndexStatsGet,
+        VectorIndexIncrementalReindexPost,
+        // RoPE endpoints
+        RopeConfigPost,
+        RopeConfigGet,
+        RopeConfigDelete,
+        RopeAddPost,
+        RopeAddRelationalPost,
+        RopeSearchPost,
+        RopeBatchAddPost,
+        RopeStatsGet,
         TransactionPost,
         TransactionBeginPost,
         TransactionCommitPost,
         TransactionRollbackPost,
         TransactionStatsGet,
+        TransactionVersionGet,
+        TransactionExplainGet,
+        // Distributed (cross-shard) 2PC transaction endpoints
+        DtxnBeginPost,
+        DtxnOperationPost,
+        DtxnCommitPost,
+        DtxnAbortPost,
+        DtxnReadOnlyPost,
+        DtxnStatusGet,
+        DtxnStatsGet,
         ContentImportPost,
         ContentGet,
         ContentBlobGet,
@@ -1273,7 +2275,11 @@ namespace {
        // Audit API
        AuditQueryGet,
        AuditExportCsvGet,
-       
+
+    // Export API (JSONL LLM export — EXP-001)
+    ExportJsonlLlmPost,        // POST /api/v1/export/jsonl_llm
+    ExportStatusGet,           // GET  /api/v1/export/:id/status
+
     // Update API
     UpdateStatusGet,
     UpdateCheckPost,
@@ -1301,12 +2307,166 @@ namespace {
     SnapshotsTagGet,            // GET /api/v1/snapshots/tags/:name
     SnapshotsTagDelete,         // DELETE /api/v1/snapshots/tags/:name
     SnapshotsStatsGet,          // GET /api/v1/snapshots/stats
+    
+    // Diff API (Phase 2 MVCC)
+    DiffGet,                    // GET /api/v1/diff
+    DiffCacheStatsGet,          // GET /api/v1/diff/cache/stats
+    DiffCacheClear,             // DELETE /api/v1/diff/cache
+    
+    // PITR API (Point-in-Time Recovery - Phase 3 MVCC)
+    PITRRestorePost,            // POST /api/v1/restore/pitr
+    PITRPreviewPost,            // POST /api/v1/restore/preview
+    PITRProgressGet,            // GET /api/v1/restore/progress
+    // Branch API (Phase 4 MVCC - Optional)
+    BranchesPost,               // POST /api/v1/branches
+    BranchesGet,                // GET /api/v1/branches
+    BranchesActiveGet,          // GET /api/v1/branches/active
+    BranchesStatsGet,           // GET /api/v1/branches/stats
+    BranchGet,                  // GET /api/v1/branches/:name
+    BranchSwitchPost,           // POST /api/v1/branches/:name/switch
+    BranchDelete,               // DELETE /api/v1/branches/:name
+    BranchesMergePost,          // POST /api/v1/branches/merge
+    
+    // Merge API routes
+    MergePost,                  // POST /api/v1/merge
+    MergePreviewPost,           // POST /api/v1/merge/preview
+    MergeByTagPost,             // POST /api/v1/merge/by-tag
+    MergeCanFastForwardGet,     // GET /api/v1/merge/can-fast-forward
        
     // Schema API
     SchemaGetFull,            // GET /api/v1/schema
     SchemaGetTables,          // GET /api/v1/schema/tables
     SchemaGetTable,           // GET /api/v1/schema/tables/:name
+    SchemaPut,                // PUT /api/v1/schema/:tablename
+    SchemaPatch,              // PATCH /api/v1/schema/:tablename
+    // Schema versioning
+    SchemaVersionsGet,        // GET  /api/v1/schema/versions/:table
+    SchemaVersionsPost,       // POST /api/v1/schema/versions/:table
+    SchemaDiffGet,            // GET  /api/v1/schema/diff/:table?from=V&to=V
+    // INFORMATION_SCHEMA
+    InformationSchemaGet,     // GET /api/v1/information_schema[/...]
+    // Metadata extended
+    MetadataStatsGet,         // GET  /api/v1/metadata/stats/:table
+    MetadataStatsPost,        // POST /api/v1/metadata/stats/:table
+    MetadataConstraintsGet,   // GET  /api/v1/metadata/constraints/:table
+    MetadataIndexRecsGet,     // GET  /api/v1/metadata/index_recommendations[/:table]
+    MetadataAuditGet,         // GET  /api/v1/metadata/audit[/:table]
+    MetadataLineageGet,       // GET  /api/v1/metadata/lineage/:table[/:column]
+    MetadataLineagePost,      // POST /api/v1/metadata/lineage
+    MetadataSchemaImportPut,  // PUT  /api/v1/metadata/schema_import
+    MetadataBatchValidatePost,// POST /api/v1/metadata/constraints/validate/:table
        
+    // Error API
+    ErrorApiListGet,          // GET /api/v1/errors
+    ErrorApiGetByCode,        // GET /api/v1/errors/:code
+    ErrorApiCategoriesGet,    // GET /api/v1/errors/categories
+    ErrorApiSearchGet,        // GET /api/v1/errors/search
+    
+    // BPMN Process API
+    BpmnProcessStartPost,     // POST /api/v1/bpmn/process/start
+    BpmnTaskCompletePost,     // POST /api/v1/bpmn/task/:taskId/complete
+    BpmnInstanceQueryGet,     // GET /api/v1/bpmn/instance/:instanceId
+
+    // Geo Topology API
+    GeoTopologyGet,           // GET  /api/v1/geo/topology
+    GeoRegionsGet,            // GET  /api/v1/geo/regions
+    GeoHealthGet,             // GET  /api/v1/geo/health
+    GeoTopologyShardPost,     // POST /api/v1/geo/topology/shard
+    GeoTopologyShardDelete,   // DELETE /api/v1/geo/topology/shard/{shard_id}
+    GeoConfigGet,             // GET  /api/v1/geo/config/{collection}
+    GeoConfigPut,             // PUT  /api/v1/geo/config/{collection}
+
+    // Replication Topology API (web UI visualizer)
+    ReplicationTopologyGet,   // GET  /api/v1/replication/topology
+    ReplicationHealthGet,     // GET  /api/v1/replication/health
+    ReplicationTopologyUiGet, // GET  /ui/replication/topology
+       
+    // MVCC versioning API
+    MvccKeyGet,              // GET  /api/v1/mvcc/keys/{key}
+    MvccKeyPost,             // POST /api/v1/mvcc/keys/{key}
+    MvccKeyVersionsGet,      // GET  /api/v1/mvcc/keys/{key}/versions
+    MvccKeyVersionsDelete,   // DELETE /api/v1/mvcc/keys/{key}/versions
+    MvccClockGet,            // GET  /api/v1/mvcc/clock
+    MvccStatsGet,            // GET  /api/v1/mvcc/stats
+
+    // GraphQL endpoint
+    GraphQLPost,             // POST /graphql  or  POST /api/v1/graphql
+    GraphQLSchemaGet,        // GET  /graphql/schema  or  GET /api/v1/graphql/schema
+
+    // gRPC-Web proxy (browser clients)
+    GrpcWebPost,             // POST   /grpc-web/<service>/<method>
+    GrpcWebOptions,          // OPTIONS /grpc-web/<service>/<method>  (CORS preflight)
+    GrpcWebStatusGet,        // GET    /api/v1/grpc-web/status
+
+    // Serverless function hosting
+    ServerlessFnPost,        // POST /api/v1/functions
+    ServerlessFnListGet,     // GET  /api/v1/functions
+    ServerlessFnGet,         // GET  /api/v1/functions/{id}
+    ServerlessFnPut,         // PUT  /api/v1/functions/{id}
+    ServerlessFnDelete,      // DELETE /api/v1/functions/{id}
+    ServerlessFnInvokePost,  // POST /api/v1/functions/{id}/invoke
+    ServerlessFnVersionsGet, // GET  /api/v1/functions/{id}/versions
+
+    // Async job API – long-running AQL query submission and polling
+    AsyncJobSubmitPost,      // POST   /v2/jobs
+    AsyncJobListGet,         // GET    /v2/jobs
+    AsyncJobStatusGet,       // GET    /v2/jobs/{id}
+    AsyncJobCancelDelete,    // DELETE /v2/jobs/{id}
+    // API Key Management
+    ApiKeyPost,              // POST   /api/keys
+    ApiKeyListGet,           // GET    /api/keys
+    ApiKeyGet,               // GET    /api/keys/{id}
+    ApiKeyPut,               // PUT    /api/keys/{id}
+    ApiKeyDelete,            // DELETE /api/keys/{id}
+    // Session Management
+    SessionPost,             // POST   /auth/sessions
+    SessionListGet,          // GET    /auth/sessions
+    SessionDeleteById,       // DELETE /auth/sessions/{id}
+    SessionDeleteOthers,     // DELETE /auth/sessions  (revoke all others)
+
+    // SAML 2.0 SP
+    SamlLoginGet,            // GET    /api/v1/auth/saml/login
+    SamlAcsPost,             // POST   /api/v1/auth/saml/acs
+    SamlSloPost,             // POST   /api/v1/auth/saml/slo
+    SamlMetadataGet,         // GET    /api/v1/auth/saml/metadata
+
+    // UDF registration API – AQL user-defined functions
+    UdfPost,                 // POST   /api/v1/query/udfs
+    UdfListGet,              // GET    /api/v1/query/udfs
+    UdfGet,                  // GET    /api/v1/query/udfs/{name}
+    UdfDelete,               // DELETE /api/v1/query/udfs/{name}
+
+    // Task Scheduler API – manage scheduled tasks
+    TasksPost,               // POST   /api/tasks
+    TasksListGet,            // GET    /api/tasks
+    TasksStatsGet,           // GET    /api/tasks/stats
+    TasksGet,                // GET    /api/tasks/{id}
+    TasksPut,                // PUT    /api/tasks/{id}
+    TasksDelete,             // DELETE /api/tasks/{id}
+    TasksEnablePost,         // POST   /api/tasks/{id}/enable
+    TasksDisablePost,        // POST   /api/tasks/{id}/disable
+    TasksExecutePost,        // POST   /api/tasks/{id}/execute
+    TasksHistoryGet,         // GET    /api/tasks/{id}/history – searchable audit log
+    TasksUiGet,              // GET    /ui/tasks  – Web UI
+
+    // Database Maintenance Orchestrator API
+    // Schedule CRUD
+    MaintenanceSchedulesPost,       // POST   /api/v1/maintenance/schedules
+    MaintenanceSchedulesGet,        // GET    /api/v1/maintenance/schedules
+    MaintenanceScheduleGet,         // GET    /api/v1/maintenance/schedules/{id}
+    MaintenanceSchedulePut,         // PUT    /api/v1/maintenance/schedules/{id}
+    MaintenanceSchedulePatch,       // PATCH  /api/v1/maintenance/schedules/{id}
+    MaintenanceScheduleDelete,      // DELETE /api/v1/maintenance/schedules/{id}
+    MaintenanceScheduleRunPost,     // POST   /api/v1/maintenance/schedules/{id}/run
+    // Jobs
+    MaintenanceJobsGet,             // GET    /api/v1/maintenance/jobs
+    MaintenanceJobGet,              // GET    /api/v1/maintenance/jobs/{id}
+    MaintenanceJobCancelPost,       // POST   /api/v1/maintenance/jobs/{id}/cancel
+    // Observability
+    MaintenanceStatusGet,           // GET    /api/v1/maintenance/status
+    MaintenanceHealthGet,           // GET    /api/v1/maintenance/health
+    MaintenanceTaskHandlersGet,     // GET    /api/v1/maintenance/task-handlers
+
         NotFound
     };
 
@@ -1319,10 +2479,32 @@ namespace {
         if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
 
         if (target == "/" || target == "/health") return Route::Health;
-    if (target == "/version" && method == http::verb::get) return Route::Version;
+        if (target == "/health/live" && method == http::verb::get) return Route::HealthLive;
+        if (target == "/health/ready" && method == http::verb::get) return Route::HealthReady;
+        if (target == "/api/openapi.json" && method == http::verb::get) return Route::OpenApi;
+        if (target == "/version" && method == http::verb::get) return Route::Version;
     if (target == "/stats" && method == http::verb::get) return Route::Stats;
     if (target == "/api/capabilities" && method == http::verb::get) return Route::CapabilitiesGet;
     if (target == "/metrics" && method == http::verb::get) return Route::Metrics;
+    if (target == "/metrics/html" && method == http::verb::get) return Route::MetricsHtml;
+    if (target == "/api/plugins/metrics" && method == http::verb::get) return Route::PluginMetrics;
+    // Operator observability REST API (Q1)
+    if (target == "/api/v1/observability/alerts" && method == http::verb::get) return Route::ObservabilityAlertsGet;
+    if (target == "/api/v1/observability/health" && method == http::verb::get) return Route::ObservabilityHealthGet;
+    if (target == "/api/v1/license/status"       && method == http::verb::get) return Route::LicenseStatusGet;
+    {
+        // POST /api/v1/observability/alerts/{id}/silence
+        // path_only must start with the alerts prefix, have a non-empty {id} segment,
+        // and end with the /silence suffix.
+        static constexpr std::string_view kAlertsPrefix{"/api/v1/observability/alerts/"};
+        static constexpr std::string_view kSilenceSuffix{"/silence"};
+        if (method == http::verb::post &&
+            path_only.rfind(kAlertsPrefix.data(), 0) == 0 &&
+            path_only.size() > kAlertsPrefix.size() + kSilenceSuffix.size() &&
+            path_only.substr(path_only.size() - kSilenceSuffix.size()) == kSilenceSuffix) {
+            return Route::ObservabilityAlertSilencePost;
+        }
+    }
     if (path_only == "/api/v1/wal/apply" && method == http::verb::post) return Route::WalApplyPost;
     if (target == "/config" && (method == http::verb::get || method == http::verb::post)) return Route::Config;
     if (target == "/admin/backup" && method == http::verb::post) return Route::AdminBackupPost;
@@ -1331,6 +2513,8 @@ namespace {
         // Exact matches for /entities endpoints BEFORE parametrized routes
         if (target == "/entities" && method == http::verb::post) return Route::EntitiesPost;
         if (target == "/entities/batch" && method == http::verb::post) return Route::EntitiesBatchPost;
+        // POST /v2/documents – bulk insert via NDJSON (application/x-ndjson body)
+        if (path_only == "/v2/documents" && method == http::verb::post) return Route::V2DocumentsBulkPost;
 
         // Parametrized entity by key (e.g., /entities/users:123)
         if (target.rfind("/entities/", 0) == 0) {
@@ -1341,6 +2525,8 @@ namespace {
         }
         if (target == "/query" && method == http::verb::post) return Route::QueryPost;
     if (target == "/query/aql" && method == http::verb::post) return Route::QueryAqlPost;
+    // SSE streaming query result endpoint (v2)
+    if (path_only == "/v2/query/stream" && method == http::verb::get) return Route::QueryStreamSseGet;
     // Backward compatibility alias
     if (target == "/api/aql" && method == http::verb::post) return Route::QueryAqlPost;
         if (target == "/index/create" && method == http::verb::post) return Route::IndexCreatePost;
@@ -1358,6 +2544,15 @@ namespace {
         if (target == "/graph/traverse" && method == http::verb::post) return Route::GraphTraversePost;
     if (target == "/graph/edge" && method == http::verb::post) return Route::GraphEdgePost;
     if (target.rfind("/graph/edge/", 0) == 0 && method == http::verb::delete_) return Route::GraphEdgeDelete;
+    if (path_only == "/api/v1/graph/metrics" && method == http::verb::get) return Route::GraphMetricsGet;
+    if (path_only == "/api/v1/graph/metrics/prometheus" && method == http::verb::get) return Route::GraphMetricsPrometheusGet;
+    if (target == "/graph/query/incremental" && method == http::verb::post) return Route::GraphQueryIncrementalPost;
+    if (target.rfind("/graph/query/incremental/", 0) == 0 && method == http::verb::delete_) return Route::GraphQueryIncrementalDelete;
+    if (target == "/graph/changes" && method == http::verb::post) return Route::GraphChangesPost;
+    if (path_only == "/api/v1/graph/cost-model/calibrate" && method == http::verb::post) return Route::GraphCostModelCalibratePost;
+    if (path_only == "/api/v1/graph/cost-model" && method == http::verb::get) return Route::GraphCostModelGet;
+    if (path_only == "/api/v1/graph/cost-model" && method == http::verb::post) return Route::GraphCostModelImportPost;
+    if (path_only == "/api/v1/graph/query/explain" && method == http::verb::post) return Route::GraphQueryExplainPost;
         if (target == "/vector/search" && method == http::verb::post) return Route::VectorSearchPost;
     if (target == "/vector/batch_insert" && method == http::verb::post) return Route::VectorBatchInsertPost;
     if (target == "/vector/by-filter" && method == http::verb::delete_) return Route::VectorDeleteByFilterDelete;
@@ -1365,6 +2560,30 @@ namespace {
         if (target == "/cache/query" && method == http::verb::post) return Route::CacheQueryPost;
         if (target == "/cache/put" && method == http::verb::post) return Route::CachePutPost;
         if (target == "/cache/stats" && method == http::verb::get) return Route::CacheStatsGet;
+    // Admin cache endpoints – order matters: more-specific paths first
+    if (path_only == "/v1/admin/cache/health" && method == http::verb::get) return Route::AdminCacheHealthGet;
+    if (path_only == "/v1/admin/cache/stats" && method == http::verb::get) return Route::AdminCacheStatsGet;
+    if (path_only == "/v1/admin/cache/circuit-breaker" && method == http::verb::get) return Route::AdminCacheCbStatusGet;
+    if (path_only == "/v1/admin/cache/circuit-breaker/reset" && method == http::verb::post) return Route::AdminCacheCbResetPost;
+    if (path_only.rfind("/v1/admin/cache/key/", 0) == 0 && method == http::verb::delete_) return Route::AdminCacheEvictKeyDelete;
+    if (path_only == "/v1/admin/cache/tenants" && method == http::verb::get) return Route::AdminCacheTenantsGet;
+    // /v1/admin/cache/tenant/{id}/stats must be matched before the tenant evict DELETE
+    if (path_only.rfind("/v1/admin/cache/tenant/", 0) == 0 &&
+        path_only.size() > 23 &&
+        path_only.rfind("/stats") == path_only.size() - 6 &&
+        method == http::verb::get) return Route::AdminCacheTenantStatsGet;
+    // /v1/admin/cache/tenant/{id}/quota must be matched before the tenant evict DELETE
+    if (path_only.rfind("/v1/admin/cache/tenant/", 0) == 0 &&
+        path_only.size() > 23 &&
+        path_only.rfind("/quota") == path_only.size() - 6 &&
+        method == http::verb::patch) return Route::AdminCacheTenantQuotaPatch;
+    if (path_only.rfind("/v1/admin/cache/tenant/", 0) == 0 && method == http::verb::delete_) return Route::AdminCacheEvictTenantDelete;
+    if (path_only.rfind("/v1/admin/cache/pii/", 0) == 0 && method == http::verb::delete_) return Route::AdminCachePiiEvictDelete;
+    if (path_only == "/v1/admin/cache/warmup" && method == http::verb::post) return Route::AdminCacheWarmupPost;
+    if (path_only == "/v1/admin/cache/snapshot" && method == http::verb::post) return Route::AdminCacheSnapshotPost;
+    if (path_only == "/v1/admin/shards" && method == http::verb::post) return Route::AdminShardsPost;
+    if (path_only == "/v1/admin/shards" && method == http::verb::get) return Route::AdminShardsGet;
+    if (path_only == "/v1/admin/storage/stats" && method == http::verb::get) return Route::AdminStorageStatsGet;
     if (target == "/prompt_template" && method == http::verb::post) return Route::PromptTemplatePost;
     if (target == "/prompt_template" && method == http::verb::get) return Route::PromptTemplateList;
     if (target.rfind("/prompt_template/", 0) == 0 && method == http::verb::get) return Route::PromptTemplateGet;
@@ -1378,8 +2597,13 @@ namespace {
     // Changefeed endpoint should match even with query parameters
     if (path_only == "/changefeed" && method == http::verb::get) return Route::ChangefeedGet;
     if (path_only == "/changefeed/stream" && method == http::verb::get) return Route::ChangefeedStreamSse;
+    if (path_only == "/changefeed/stream/ack" && method == http::verb::post) return Route::ChangefeedStreamAckPost;
     if (path_only == "/changefeed/stats" && method == http::verb::get) return Route::ChangefeedStatsGet;
     if (path_only == "/changefeed/retention" && method == http::verb::post) return Route::ChangefeedRetentionPost;
+    if (path_only == "/changefeed/retention" && method == http::verb::get) return Route::ChangefeedRetentionGet;
+    if (path_only == "/changefeed/retention" && method == http::verb::put) return Route::ChangefeedRetentionPut;
+    if (path_only == "/changefeed/compact" && method == http::verb::post) return Route::ChangefeedCompactPost;
+    if (path_only == "/changefeed/redact" && method == http::verb::post) return Route::ChangefeedGdprRedactPost;
     
     // Snapshot API endpoints
     if (path_only == "/api/v1/snapshots/tags" && method == http::verb::post) return Route::SnapshotsTagsPost;
@@ -1387,6 +2611,35 @@ namespace {
     if (path_only.rfind("/api/v1/snapshots/tags/", 0) == 0 && method == http::verb::get) return Route::SnapshotsTagGet;
     if (path_only.rfind("/api/v1/snapshots/tags/", 0) == 0 && method == http::verb::delete_) return Route::SnapshotsTagDelete;
     if (path_only == "/api/v1/snapshots/stats" && method == http::verb::get) return Route::SnapshotsStatsGet;
+    
+    // Diff API endpoints
+    if (path_only == "/api/v1/diff" && method == http::verb::get) return Route::DiffGet;
+    if (path_only == "/api/v1/diff/cache/stats" && method == http::verb::get) return Route::DiffCacheStatsGet;
+    if (path_only == "/api/v1/diff/cache" && method == http::verb::delete_) return Route::DiffCacheClear;
+    
+    // PITR API endpoints
+    if (path_only == "/api/v1/pitr/preview" && method == http::verb::post) return Route::PITRPreviewPost;
+    if (path_only == "/api/v1/pitr/progress" && method == http::verb::get) return Route::PITRProgressGet;
+    if (path_only == "/api/v1/restore/pitr" && method == http::verb::post) return Route::PITRRestorePost;
+    if (path_only == "/api/v1/restore/preview" && method == http::verb::post) return Route::PITRPreviewPost;
+    if (path_only == "/api/v1/restore/progress" && method == http::verb::get) return Route::PITRProgressGet;
+    
+    // Sprint B endpoints - Time Series
+    // Branch API endpoints
+    if (path_only == "/api/v1/branches" && method == http::verb::post) return Route::BranchesPost;
+    if (path_only == "/api/v1/branches" && method == http::verb::get) return Route::BranchesGet;
+    if (path_only == "/api/v1/branches/active" && method == http::verb::get) return Route::BranchesActiveGet;
+    if (path_only == "/api/v1/branches/stats" && method == http::verb::get) return Route::BranchesStatsGet;
+    if (path_only == "/api/v1/branches/merge" && method == http::verb::post) return Route::BranchesMergePost;
+    if (path_only.rfind("/api/v1/branches/", 0) == 0 && path_only.rfind("/switch") == path_only.length() - 7 && method == http::verb::post) return Route::BranchSwitchPost;
+    if (path_only.rfind("/api/v1/branches/", 0) == 0 && method == http::verb::get) return Route::BranchGet;
+    if (path_only.rfind("/api/v1/branches/", 0) == 0 && method == http::verb::delete_) return Route::BranchDelete;
+    
+    // Merge API routes
+    if (path_only == "/api/v1/merge" && method == http::verb::post) return Route::MergePost;
+    if (path_only == "/api/v1/merge/preview" && method == http::verb::post) return Route::MergePreviewPost;
+    if (path_only == "/api/v1/merge/by-tag" && method == http::verb::post) return Route::MergeByTagPost;
+    if (path_only == "/api/v1/merge/can-fast-forward" && method == http::verb::get) return Route::MergeCanFastForwardGet;
     
         // Sprint B endpoints
     if (target == "/ts/put" && method == http::verb::post) return Route::TimeSeriesPut;
@@ -1396,6 +2649,8 @@ namespace {
     if (target == "/ts/config" && method == http::verb::put) return Route::TimeSeriesConfigPut;
     if (path_only == "/ts/aggregates" && method == http::verb::get) return Route::TimeSeriesAggregatesGet;
     if (path_only == "/ts/retention" && method == http::verb::get) return Route::TimeSeriesRetentionGet;
+    if (path_only == "/ts/metrics" && method == http::verb::get) return Route::TimeSeriesMetricsGet;
+    if (path_only == "/api/v1/prom/write" && method == http::verb::post) return Route::TimeSeriesPromRemoteWrite;
         // Sprint C endpoints
         if (target.find("/index/suggestions") == 0 && method == http::verb::get) return Route::IndexSuggestionsGet;
         if (target.find("/index/patterns") == 0 && method == http::verb::get) return Route::IndexPatternsGet;
@@ -1405,7 +2660,19 @@ namespace {
         if (target == "/vector/index/load" && method == http::verb::post) return Route::VectorIndexLoadPost;
         if (target == "/vector/index/config" && method == http::verb::get) return Route::VectorIndexConfigGet;
         if (target == "/vector/index/config" && method == http::verb::put) return Route::VectorIndexConfigPut;
-    if (target == "/vector/index/stats" && method == http::verb::get) return Route::VectorIndexStatsGet;
+        if (target == "/vector/index/stats" && method == http::verb::get) return Route::VectorIndexStatsGet;
+        if (target == "/vector/index/incremental-reindex" && method == http::verb::post) return Route::VectorIndexIncrementalReindexPost;
+        // RoPE endpoints - /api/v1/vector-index/{index_name}/rope/*
+        if (path_only.find("/api/v1/vector-index/") == 0 && path_only.find("/rope/config") != std::string::npos) {
+            if (method == http::verb::post) return Route::RopeConfigPost;
+            if (method == http::verb::get) return Route::RopeConfigGet;
+            if (method == http::verb::delete_) return Route::RopeConfigDelete;
+        }
+        if (path_only.find("/api/v1/vector-index/") == 0 && path_only.find("/rope/add-relational") != std::string::npos && method == http::verb::post) return Route::RopeAddRelationalPost;
+        if (path_only.find("/api/v1/vector-index/") == 0 && path_only.find("/rope/add") != std::string::npos && method == http::verb::post) return Route::RopeAddPost;
+        if (path_only.find("/api/v1/vector-index/") == 0 && path_only.find("/rope/search") != std::string::npos && method == http::verb::post) return Route::RopeSearchPost;
+        if (path_only.find("/api/v1/vector-index/") == 0 && path_only.find("/rope/batch-add") != std::string::npos && method == http::verb::post) return Route::RopeBatchAddPost;
+        if (path_only.find("/api/v1/vector-index/") == 0 && path_only.find("/rope/stats") != std::string::npos && method == http::verb::get) return Route::RopeStatsGet;
         // PKI endpoints
         if (path_only.rfind("/api/pki/", 0) == 0 && method == http::verb::post) {
             // Expect: /api/pki/:key_id/sign or /api/pki/:key_id/verify
@@ -1443,6 +2710,11 @@ namespace {
     // Audit API endpoints
     if (path_only == "/api/audit" && method == http::verb::get) return Route::AuditQueryGet;
     if (path_only == "/api/audit/export/csv" && method == http::verb::get) return Route::AuditExportCsvGet;
+    // Export API endpoints (EXP-001)
+    if (path_only == "/api/v1/export/jsonl_llm" && method == http::verb::post) return Route::ExportJsonlLlmPost;
+    if (path_only.rfind("/api/v1/export/", 0) == 0 &&
+        path_only.rfind("/status") == path_only.size() - 7 &&
+        method == http::verb::get) return Route::ExportStatusGet;
     // Update API endpoints
     if (path_only == "/api/updates" && method == http::verb::get) return Route::UpdateStatusGet;
     if (path_only == "/api/updates/check" && method == http::verb::post) return Route::UpdateCheckPost;
@@ -1469,11 +2741,61 @@ namespace {
         }
     }
     
+    // BPMN Process API routes
+    if (path_only == "/api/v1/bpmn/process/start" && method == http::verb::post) return Route::BpmnProcessStartPost;
+    
+    // Task completion route with strict validation
+    if (method == http::verb::post) {
+        const std::string task_prefix = "/api/v1/bpmn/task/";
+        const std::string complete_suffix = "/complete";
+        if (path_only.rfind(task_prefix, 0) == 0 &&
+            path_only.size() > task_prefix.size() + complete_suffix.size() &&
+            path_only.compare(path_only.size() - complete_suffix.size(), complete_suffix.size(), complete_suffix) == 0) {
+            // Ensure there is a non-empty taskId segment between prefix and suffix
+            const std::size_t task_id_start = task_prefix.size();
+            const std::size_t suffix_pos = path_only.size() - complete_suffix.size();
+            // Check that there's exactly the taskId between prefix and suffix (no additional slashes)
+            std::string task_id_segment = path_only.substr(task_id_start, suffix_pos - task_id_start);
+            if (!task_id_segment.empty() && task_id_segment.find('/') == std::string::npos) {
+                return Route::BpmnTaskCompletePost;
+            }
+        }
+    }
+    
+    if (path_only.rfind("/api/v1/bpmn/instance/", 0) == 0 && method == http::verb::get) return Route::BpmnInstanceQueryGet;
+
+    // Geo Topology API
+    if (path_only == "/api/v1/geo/topology" && method == http::verb::get) return Route::GeoTopologyGet;
+    if (path_only == "/api/v1/geo/regions"  && method == http::verb::get) return Route::GeoRegionsGet;
+    if (path_only == "/api/v1/geo/health"   && method == http::verb::get) return Route::GeoHealthGet;
+    if (path_only == "/api/v1/geo/topology/shard" && method == http::verb::post) return Route::GeoTopologyShardPost;
+    if (path_only.rfind("/api/v1/geo/topology/shard/", 0) == 0 && method == http::verb::delete_) return Route::GeoTopologyShardDelete;
+    if (path_only.rfind("/api/v1/geo/config/", 0) == 0 && method == http::verb::get) return Route::GeoConfigGet;
+    if (path_only.rfind("/api/v1/geo/config/", 0) == 0 && method == http::verb::put) return Route::GeoConfigPut;
+
+    // Replication Topology API
+    if (path_only == "/api/v1/replication/topology" && method == http::verb::get) return Route::ReplicationTopologyGet;
+    if (path_only == "/api/v1/replication/health"   && method == http::verb::get) return Route::ReplicationHealthGet;
+    if (path_only == "/ui/replication/topology"     && method == http::verb::get) return Route::ReplicationTopologyUiGet;
+    
         if (target == "/transaction" && method == http::verb::post) return Route::TransactionPost;
         if (target == "/transaction/begin" && method == http::verb::post) return Route::TransactionBeginPost;
         if (target == "/transaction/commit" && method == http::verb::post) return Route::TransactionCommitPost;
         if (target == "/transaction/rollback" && method == http::verb::post) return Route::TransactionRollbackPost;
         if (target == "/transaction/stats" && method == http::verb::get) return Route::TransactionStatsGet;
+        if (target == "/transaction/version" && method == http::verb::get) return Route::TransactionVersionGet;
+        // /transaction/{id}/explain  (GET)
+        if (path_only.starts_with("/transaction/") && path_only.ends_with("/explain") &&
+            method == http::verb::get) return Route::TransactionExplainGet;
+
+        // Distributed (cross-shard) 2PC transaction endpoints
+        if (target == "/dtxn/begin"    && method == http::verb::post) return Route::DtxnBeginPost;
+        if (target == "/dtxn/operation" && method == http::verb::post) return Route::DtxnOperationPost;
+        if (target == "/dtxn/commit"   && method == http::verb::post) return Route::DtxnCommitPost;
+        if (target == "/dtxn/abort"    && method == http::verb::post) return Route::DtxnAbortPost;
+        if (target == "/dtxn/readonly" && method == http::verb::post) return Route::DtxnReadOnlyPost;
+        if (target.rfind("/dtxn/status/", 0) == 0 && method == http::verb::get) return Route::DtxnStatusGet;
+        if (target == "/dtxn/stats"    && method == http::verb::get)  return Route::DtxnStatsGet;
 
         // Content API
         if (target == "/content/import" && method == http::verb::post) return Route::ContentImportPost;
@@ -1515,6 +2837,256 @@ namespace {
     if (path_only == "/api/v1/schema/tables" && method == http::verb::get) return Route::SchemaGetTables;
     if (path_only.rfind("/api/v1/schema/tables/", 0) == 0 && method == http::verb::get) return Route::SchemaGetTable;
 
+    // Schema versioning routes (must come before the generic SchemaPut/Patch catch)
+    if (path_only.rfind("/api/v1/schema/versions/", 0) == 0) {
+        if (method == http::verb::get)  return Route::SchemaVersionsGet;
+        if (method == http::verb::post) return Route::SchemaVersionsPost;
+    }
+    if (path_only.rfind("/api/v1/schema/diff/", 0) == 0 && method == http::verb::get)
+        return Route::SchemaDiffGet;
+
+    if (path_only.rfind("/api/v1/schema/", 0) == 0 && path_only != "/api/v1/schema/" && 
+        path_only != "/api/v1/schema/tables" && path_only.find("/api/v1/schema/tables/") != 0) {
+        if (method == http::verb::put) return Route::SchemaPut;
+        if (method == http::verb::patch) return Route::SchemaPatch;
+    }
+
+    // INFORMATION_SCHEMA routes
+    if (path_only.rfind("/api/v1/information_schema", 0) == 0 && method == http::verb::get)
+        return Route::InformationSchemaGet;
+
+    // Metadata extended routes (order: more specific first)
+    if (path_only.rfind("/api/v1/metadata/index_recommendations", 0) == 0 && method == http::verb::get)
+        return Route::MetadataIndexRecsGet;
+    if (path_only == "/api/v1/metadata/schema_import" && method == http::verb::put)
+        return Route::MetadataSchemaImportPut;
+    if (path_only.rfind("/api/v1/metadata/constraints/validate/", 0) == 0 && method == http::verb::post)
+        return Route::MetadataBatchValidatePost;
+    if (path_only.rfind("/api/v1/metadata/constraints/", 0) == 0 && method == http::verb::get)
+        return Route::MetadataConstraintsGet;
+    if (path_only.rfind("/api/v1/metadata/audit", 0) == 0 && method == http::verb::get)
+        return Route::MetadataAuditGet;
+    if (path_only.rfind("/api/v1/metadata/lineage", 0) == 0) {
+        if (method == http::verb::get)  return Route::MetadataLineageGet;
+        if (method == http::verb::post) return Route::MetadataLineagePost;
+    }
+    if (path_only.rfind("/api/v1/metadata/stats/", 0) == 0) {
+        if (method == http::verb::get)  return Route::MetadataStatsGet;
+        if (method == http::verb::post) return Route::MetadataStatsPost;
+    }
+
+    // MVCC versioning API endpoints
+    // Note: /versions suffix checked first to avoid matching it as a key named "versions"
+    if (path_only.rfind("/api/v1/mvcc/keys/", 0) == 0 &&
+        path_only.size() > 18 &&
+        path_only.rfind("/versions") == path_only.size() - 9) {
+        if (method == http::verb::get)     return Route::MvccKeyVersionsGet;
+        if (method == http::verb::delete_) return Route::MvccKeyVersionsDelete;
+    }
+    if (path_only.rfind("/api/v1/mvcc/keys/", 0) == 0 && path_only.size() > 18) {
+        if (method == http::verb::get)  return Route::MvccKeyGet;
+        if (method == http::verb::post) return Route::MvccKeyPost;
+    }
+    if (path_only == "/api/v1/mvcc/clock" && method == http::verb::get) return Route::MvccClockGet;
+    if (path_only == "/api/v1/mvcc/stats"  && method == http::verb::get) return Route::MvccStatsGet;
+
+    // GraphQL endpoint
+    if ((path_only == "/graphql" || path_only == "/api/v1/graphql") &&
+        method == http::verb::post) return Route::GraphQLPost;
+    if ((path_only == "/graphql/schema" || path_only == "/api/v1/graphql/schema") &&
+        method == http::verb::get) return Route::GraphQLSchemaGet;
+
+    // gRPC-Web proxy (browser clients)
+    // Routes: /grpc-web/<package>.<Service>/<Method>
+    {
+        static constexpr std::string_view kGrpcWebPrefix{"/grpc-web/"};
+        if (path_only.rfind(kGrpcWebPrefix.data(), 0) == 0 &&
+            path_only.size() > kGrpcWebPrefix.size()) {
+            if (method == http::verb::options) return Route::GrpcWebOptions;
+            if (method == http::verb::post)    return Route::GrpcWebPost;
+        }
+    }
+    if (path_only == "/api/v1/grpc-web/status" && method == http::verb::get)
+        return Route::GrpcWebStatusGet;
+
+    // Serverless function hosting
+    if (path_only == "/api/v1/functions" && method == http::verb::post)
+        return Route::ServerlessFnPost;
+    if (path_only == "/api/v1/functions" && method == http::verb::get)
+        return Route::ServerlessFnListGet;
+    {
+        // /api/v1/functions/{id}/invoke  (POST)
+        static constexpr std::string_view kFnInvokePrefix{"/api/v1/functions/"};
+        static constexpr std::string_view kInvokeSuffix{"/invoke"};
+        if (method == http::verb::post &&
+            path_only.rfind(kFnInvokePrefix.data(), 0) == 0 &&
+            path_only.size() > kFnInvokePrefix.size() + kInvokeSuffix.size() &&
+            path_only.substr(path_only.size() - kInvokeSuffix.size()) == kInvokeSuffix)
+            return Route::ServerlessFnInvokePost;
+
+        // /api/v1/functions/{id}/versions  (GET)
+        static constexpr std::string_view kVersionsSuffix{"/versions"};
+        if (method == http::verb::get &&
+            path_only.rfind(kFnInvokePrefix.data(), 0) == 0 &&
+            path_only.size() > kFnInvokePrefix.size() + kVersionsSuffix.size() &&
+            path_only.substr(path_only.size() - kVersionsSuffix.size()) == kVersionsSuffix)
+            return Route::ServerlessFnVersionsGet;
+
+        // /api/v1/functions/{id}  (GET / PUT / DELETE)
+        if (path_only.rfind(kFnInvokePrefix.data(), 0) == 0 &&
+            path_only.size() > kFnInvokePrefix.size()) {
+            if (method == http::verb::get)    return Route::ServerlessFnGet;
+            if (method == http::verb::put)    return Route::ServerlessFnPut;
+            if (method == http::verb::delete_) return Route::ServerlessFnDelete;
+        }
+    }
+
+    // Async job API  (/v2/jobs  and  /v2/jobs/{id})
+    {
+        static constexpr std::string_view kJobsPath{"/v2/jobs"};
+        static constexpr std::string_view kJobsPrefix{"/v2/jobs/"};
+
+        if (path_only == kJobsPath.data()) {
+            if (method == http::verb::post) return Route::AsyncJobSubmitPost;
+            if (method == http::verb::get)  return Route::AsyncJobListGet;
+        }
+        if (path_only.rfind(kJobsPrefix.data(), 0) == 0 &&
+            path_only.size() > kJobsPrefix.size()) {
+            if (method == http::verb::get)    return Route::AsyncJobStatusGet;
+            if (method == http::verb::delete_) return Route::AsyncJobCancelDelete;
+        }
+        }
+    // API Key Management: /api/keys and /api/keys/{id}
+    if (path_only == "/api/keys") {
+        if (method == http::verb::post) return Route::ApiKeyPost;
+        if (method == http::verb::get)  return Route::ApiKeyListGet;
+    }
+    if (path_only.rfind("/api/keys/", 0) == 0 && path_only.size() > 10) {
+        if (method == http::verb::get)    return Route::ApiKeyGet;
+        if (method == http::verb::put)    return Route::ApiKeyPut;
+        if (method == http::verb::delete_) return Route::ApiKeyDelete;
+    }
+    // Session Management: /auth/sessions and /auth/sessions/{id}
+    if (path_only == "/auth/sessions") {
+        if (method == http::verb::post)    return Route::SessionPost;
+        if (method == http::verb::get)     return Route::SessionListGet;
+        if (method == http::verb::delete_) return Route::SessionDeleteOthers;
+    }
+    if (path_only.rfind("/auth/sessions/", 0) == 0 && path_only.size() > 15) {
+        if (method == http::verb::delete_) return Route::SessionDeleteById;
+    }
+
+    // SAML 2.0 SP endpoints: /api/v1/auth/saml/*
+    if (path_only == "/api/v1/auth/saml/login" && method == http::verb::get)
+        return Route::SamlLoginGet;
+    if (path_only == "/api/v1/auth/saml/acs" && method == http::verb::post)
+        return Route::SamlAcsPost;
+    if (path_only == "/api/v1/auth/saml/slo" && method == http::verb::post)
+        return Route::SamlSloPost;
+    if (path_only == "/api/v1/auth/saml/metadata" && method == http::verb::get)
+        return Route::SamlMetadataGet;
+
+    // UDF registration API: /api/v1/query/udfs and /api/v1/query/udfs/{name}
+    if (path_only == "/api/v1/query/udfs") {
+        if (method == http::verb::post) return Route::UdfPost;
+        if (method == http::verb::get)  return Route::UdfListGet;
+    }
+    {
+        static constexpr std::string_view kUdfPrefix{"/api/v1/query/udfs/"};
+        if (path_only.rfind(kUdfPrefix.data(), 0) == 0 &&
+            path_only.size() > kUdfPrefix.size()) {
+            if (method == http::verb::get)     return Route::UdfGet;
+            if (method == http::verb::delete_) return Route::UdfDelete;
+        }
+    }
+
+    // Task Scheduler API: /api/tasks[/{id}[/action]] and /ui/tasks
+    if (path_only == "/ui/tasks" && method == http::verb::get) return Route::TasksUiGet;
+    if (path_only == "/api/tasks") {
+        if (method == http::verb::post) return Route::TasksPost;
+        if (method == http::verb::get)  return Route::TasksListGet;
+    }
+    if (path_only == "/api/tasks/stats" && method == http::verb::get) return Route::TasksStatsGet;
+    {
+        static constexpr std::string_view kTasksPrefix{"/api/tasks/"};
+        if (path_only.rfind(kTasksPrefix.data(), 0) == 0 &&
+            path_only.size() > kTasksPrefix.size()) {
+            std::string rest = path_only.substr(kTasksPrefix.size());
+            auto slash = rest.find('/');
+            if (slash == std::string::npos) {
+                // /api/tasks/{id}
+                if (method == http::verb::get)    return Route::TasksGet;
+                if (method == http::verb::put)    return Route::TasksPut;
+                if (method == http::verb::delete_) return Route::TasksDelete;
+            } else {
+                std::string action = rest.substr(slash + 1);
+                if (method == http::verb::post && action == "enable")  return Route::TasksEnablePost;
+                if (method == http::verb::post && action == "disable") return Route::TasksDisablePost;
+                if (method == http::verb::post && action == "execute") return Route::TasksExecutePost;
+                if (method == http::verb::get  && action == "history") return Route::TasksHistoryGet;
+            }
+        }
+    }
+
+    // Database Maintenance Orchestrator API: /api/v1/maintenance/*
+    {
+        static constexpr std::string_view kMaintBase{"/api/v1/maintenance/"};
+        static constexpr std::string_view kMaintStatus{"/api/v1/maintenance/status"};
+        static constexpr std::string_view kMaintHealth{"/api/v1/maintenance/health"};
+        static constexpr std::string_view kMaintTaskHandlers{"/api/v1/maintenance/task-handlers"};
+        static constexpr std::string_view kMaintSchedules{"/api/v1/maintenance/schedules"};
+        static constexpr std::string_view kMaintSchedulesPfx{"/api/v1/maintenance/schedules/"};
+        static constexpr std::string_view kMaintJobs{"/api/v1/maintenance/jobs"};
+        static constexpr std::string_view kMaintJobsPfx{"/api/v1/maintenance/jobs/"};
+
+        if (path_only == kMaintStatus && method == http::verb::get)
+            return Route::MaintenanceStatusGet;
+        if (path_only == kMaintHealth && method == http::verb::get)
+            return Route::MaintenanceHealthGet;
+        if (path_only == kMaintTaskHandlers && method == http::verb::get)
+            return Route::MaintenanceTaskHandlersGet;
+
+        // /api/v1/maintenance/schedules (collection)
+        if (path_only == kMaintSchedules) {
+            if (method == http::verb::post) return Route::MaintenanceSchedulesPost;
+            if (method == http::verb::get)  return Route::MaintenanceSchedulesGet;
+        }
+        // /api/v1/maintenance/schedules/{id}[/run]
+        if (path_only.rfind(kMaintSchedulesPfx.data(), 0) == 0 &&
+            path_only.size() > kMaintSchedulesPfx.size()) {
+            std::string rest = path_only.substr(kMaintSchedulesPfx.size());
+            auto slash = rest.find('/');
+            if (slash == std::string::npos) {
+                // /api/v1/maintenance/schedules/{id}
+                if (method == http::verb::get)    return Route::MaintenanceScheduleGet;
+                if (method == http::verb::put)    return Route::MaintenanceSchedulePut;
+                if (method == http::verb::patch)  return Route::MaintenanceSchedulePatch;
+                if (method == http::verb::delete_)return Route::MaintenanceScheduleDelete;
+            } else {
+                std::string action = rest.substr(slash + 1);
+                if (method == http::verb::post && action == "run")
+                    return Route::MaintenanceScheduleRunPost;
+            }
+        }
+
+        // /api/v1/maintenance/jobs (collection)
+        if (path_only == kMaintJobs && method == http::verb::get)
+            return Route::MaintenanceJobsGet;
+        // /api/v1/maintenance/jobs/{id}[/cancel]
+        if (path_only.rfind(kMaintJobsPfx.data(), 0) == 0 &&
+            path_only.size() > kMaintJobsPfx.size()) {
+            std::string rest = path_only.substr(kMaintJobsPfx.size());
+            auto slash = rest.find('/');
+            if (slash == std::string::npos) {
+                if (method == http::verb::get) return Route::MaintenanceJobGet;
+            } else {
+                std::string action = rest.substr(slash + 1);
+                if (method == http::verb::post && action == "cancel")
+                    return Route::MaintenanceJobCancelPost;
+            }
+        }
+    }
+
         return Route::NotFound;
     }
 }
@@ -1522,10 +3094,17 @@ namespace {
 http::response<http::string_body> HttpServer::routeRequest(
     const http::request<http::string_body>& req
 ) {
-     // Create span for the entire HTTP request
-     auto span = Tracer::startSpan("http_request");
-     span.setAttribute("http.method", std::string(http::to_string(req.method())));
-     span.setAttribute("http.target", std::string(req.target()));
+    // Create root span for this HTTP request.
+    // If the caller supplied a W3C traceparent header, the new span becomes
+    // a child of that upstream trace context (distributed tracing propagation).
+    std::map<std::string, std::string> req_headers;
+    for (auto const& field : req) {
+        req_headers.emplace(std::string(field.name_string()),
+                            std::string(field.value()));
+    }
+    auto span = Tracer::startSpanFromHeaders("http_request", req_headers);
+    span.setAttribute("http.method", std::string(http::to_string(req.method())));
+    span.setAttribute("http.target", std::string(req.target()));
     
     auto start = std::chrono::steady_clock::now();
     
@@ -1536,16 +3115,77 @@ http::response<http::string_body> HttpServer::routeRequest(
 
     // Increment request counter
     request_count_.fetch_add(1, std::memory_order_relaxed);
-    
+
+    // Track in-flight requests for graceful shutdown draining
+    active_requests_.fetch_add(1, std::memory_order_acquire);
+    // RAII guard to decrement on all exit paths
+    struct ActiveRequestGuard {
+        std::atomic<uint64_t>& counter;
+        ~ActiveRequestGuard() { counter.fetch_sub(1, std::memory_order_release); }
+    } active_guard{active_requests_};
+
     // Handle CORS preflight early
     if (method == http::verb::options) {
         return makePreflightResponse(req);
+    }
+
+    // Extract or generate request correlation ID (X-Correlation-ID).
+    // TracingMiddleware sets the logger pattern so every log line on this thread
+    // carries the correlation ID.  The RAII guard resets the context on all exit paths.
+    std::string correlation_id;
+    if (tracing_middleware_) {
+        auto corr_it = req.find("X-Correlation-ID");
+        std::string_view incoming_corr = (corr_it != req.end()) ? std::string_view(corr_it->value()) : "";
+        correlation_id = tracing_middleware_->processRequest(incoming_corr);
+    }
+    struct CorrelationIdGuard {
+        ~CorrelationIdGuard() { api::TracingMiddleware::clearContext(); }
+    } corr_guard;
+    span.setAttribute("correlation.id", correlation_id);
+
+    // Extract or generate request ID for tracing
+    std::string request_id;
+    auto req_id_it = req.find("X-Request-ID");
+    if (req_id_it != req.end() && !req_id_it->value().empty()) {
+        request_id = std::string(req_id_it->value());
+    } else {
+        // Generate a simple request ID from timestamp + counter
+        request_id = std::to_string(
+            std::chrono::steady_clock::now().time_since_epoch().count()
+        ) + "-" + std::to_string(request_count_.load(std::memory_order_relaxed));
+    }
+    span.setAttribute("request.id", request_id);
+
+    // Enforce max header size limit
+    if (config_.max_header_size_bytes > 0) {
+        size_t header_bytes = 0;
+        for (auto const& field : req) {
+            header_bytes += field.name_string().size() + field.value().size() + 4; // 2 for ": " + 2 for "\r\n"
+        }
+        if (header_bytes > config_.max_header_size_bytes) {
+            http::response<http::string_body> res{http::status::request_header_fields_too_large, req.version()};
+            res.set(http::field::content_type, "application/json");
+            res.set("X-Request-ID", request_id);
+            const auto& corr_id = api::TracingMiddleware::currentCorrelationId();
+            if (!corr_id.empty()) res.set("X-Correlation-ID", corr_id);
+            nlohmann::json body = {
+                {"error", "Request Header Fields Too Large"},
+                {"message", "Total header size exceeds maximum allowed"},
+                {"max_bytes", config_.max_header_size_bytes},
+                {"actual_bytes", header_bytes},
+                {"status_code", 431}
+            };
+            res.body() = body.dump();
+            res.prepare_payload();
+            return res;
+        }
     }
 
     // Enforce request body size limit (after OPTIONS preflight)
     if (req.body().size() > max_body_bytes_) {
         http::response<http::string_body> res{http::status::payload_too_large, req.version()};
         res.set(http::field::content_type, "application/json");
+        res.set("X-Request-ID", request_id);
         nlohmann::json body = {
             {"error", "Payload Too Large"},
             {"message", "Request body exceeds maximum size"},
@@ -1580,6 +3220,36 @@ http::response<http::string_body> HttpServer::routeRequest(
         }
     }
 
+    // ---------------------------------------------------------------------------
+    // Versioned path routing: redirect unversioned paths to /v1/<path>
+    //
+    // REST endpoints added before API versioning (e.g., /documents/{id}, /query)
+    // are implicitly treated as v1.  Clients that omit the version prefix receive a
+    // 301 Moved Permanently so their bookmarks / integrations are updated while
+    // the canonical /v1/ routes continue to function.
+    //
+    // Paths that are exempt from redirection (health-checks, already versioned
+    // paths, WebSocket endpoints, etc.) are defined in RouteVersionRouter.
+    // ---------------------------------------------------------------------------
+    {
+        static const RouteVersionRouter version_router;
+        if (auto redirect_target = version_router.getRedirectTarget(target)) {
+            http::response<http::string_body> res{http::status::moved_permanently, req.version()};
+            res.set(http::field::location, *redirect_target);
+            res.set(http::field::content_type, "application/json");
+            nlohmann::json body = {
+                {"status", 301},
+                {"message", "Moved Permanently – use versioned API path"},
+                {"location", *redirect_target}
+            };
+            res.body() = body.dump();
+            applyGovernanceHeaders(req, res);
+            res.prepare_payload();
+            recordLatency(std::chrono::microseconds(0));
+            return res;
+        }
+    }
+
     // Check rate limit BEFORE processing request
     if (auto rate_limit_response = checkRateLimit(req)) {
         auto end = std::chrono::steady_clock::now();
@@ -1589,59 +3259,225 @@ http::response<http::string_body> HttpServer::routeRequest(
         return *rate_limit_response;
     }
 
+    // Check tenant quotas BEFORE processing request
+    // Note: Tenant context will be acquired if tenant is identified
+    std::optional<themis::TenantContext> tenant_ctx_opt;
+    std::unique_ptr<themis::TenantContextGuard> tenant_guard;
+    {
+        auto& tenant_mgr = themis::TenantManager::instance();
+        
+        // Extract tenant ID from request - optimize by checking header directly first
+        std::optional<std::string> tenant_id_opt;
+        auto tenant_header_it = req.find("X-Tenant-ID");
+        if (tenant_header_it != req.end()) {
+            tenant_id_opt = std::string(tenant_header_it->value());
+        } else {
+            // Fallback: check path prefix (only if header not present)
+            std::unordered_map<std::string, std::string> headers;
+            for (auto const& field : req) {
+                headers[std::string(field.name_string())] = std::string(field.value());
+            }
+            tenant_id_opt = tenant_mgr.extractTenantId(headers, target);
+        }
+        
+        if (tenant_id_opt) {
+            const std::string& tenant_id = *tenant_id_opt;
+            
+            // Get tenant config and create context
+            auto tenant_config = tenant_mgr.getTenant(tenant_id);
+            if (tenant_config) {
+                tenant_ctx_opt = themis::TenantContext::fromConfig(*tenant_config, "");
+                
+                // Use RAII guard to acquire connection slot (automatically released on scope exit)
+                tenant_guard = std::make_unique<themis::TenantContextGuard>(*tenant_ctx_opt);
+                
+                if (!tenant_guard->hasConnection()) {
+                    // Connection quota exceeded
+                    auto end = std::chrono::steady_clock::now();
+                    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+                    
+                    THEMIS_WARN("Tenant connection quota exceeded: tenant={}", tenant_id);
+                    
+                    http::response<http::string_body> res{http::status::service_unavailable, req.version()};
+                    res.set(http::field::content_type, "application/json");
+                    nlohmann::json body = {
+                        {"error", "Service Unavailable"},
+                        {"message", "Tenant connection quota exceeded"},
+                        {"tenant_id", tenant_id},
+                        {"status_code", 503}
+                    };
+                    res.body() = body.dump();
+                    applyGovernanceHeaders(req, res);
+                    res.prepare_payload();
+                    // Use separate metric for quota exceeded (not rate limited)
+                    // tenant_mgr has no recordQuotaExceeded, so we document this in logs only
+                    recordLatency(duration);
+                    span.setStatus(false, "tenant_quota_exceeded");
+                    return res;
+                }
+                
+                // Check query quota for query endpoints
+                std::string path_only = target;
+                auto qpos = path_only.find('?');
+                if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
+                
+                // Use prefix match for /search/* to catch all search endpoints
+                bool is_query_endpoint = (path_only == "/query" || 
+                                         path_only.rfind("/search/", 0) == 0 ||
+                                         path_only.rfind("/api/aql", 0) == 0);
+                
+                if (is_query_endpoint) {
+                    // Acquire query slot via RAII guard
+                    if (!tenant_guard->acquireQuerySlot()) {
+                        // Query quota exceeded
+                        auto end = std::chrono::steady_clock::now();
+                        auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+                        
+                        THEMIS_WARN("Tenant query quota exceeded: tenant={}", tenant_id);
+                        
+                        http::response<http::string_body> res{http::status::service_unavailable, req.version()};
+                        res.set(http::field::content_type, "application/json");
+                        nlohmann::json body = {
+                            {"error", "Service Unavailable"},
+                            {"message", "Tenant query quota exceeded"},
+                            {"tenant_id", tenant_id},
+                            {"status_code", 503}
+                        };
+                        res.body() = body.dump();
+                        applyGovernanceHeaders(req, res);
+                        res.prepare_payload();
+                        recordLatency(duration);
+                        span.setStatus(false, "tenant_quota_exceeded");
+                        return res;
+                    }
+                }
+            }
+        }
+    }
+    // tenant_guard will automatically release connection/query slots when it goes out of scope
+
+    // Early routing for Ethics AI API
+    {
+        std::string path_only = target;
+        auto qpos = path_only.find('?');
+        if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
+        if (path_only.rfind("/ethics/", 0) == 0 || path_only.rfind("/api/ethics/", 0) == 0) {
+            if (ethics_api_) {
+                http::response<http::string_body> response = ethics_api_->handle(req, target);
+                applyGovernanceHeaders(req, response);
+                auto end = std::chrono::steady_clock::now();
+                auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+                recordLatency(duration);
+                span.setStatus(true);
+                return response;
+            }
+        }
+    }
+
+    // Request body validation (JSON Schema per endpoint)
+    // Validate all methods that may carry a body (POST, PUT, PATCH, DELETE).
+    // Safe methods (GET, HEAD) and OPTIONS are always skipped.
+    if (request_validator_ &&
+        method != http::verb::get   &&
+        method != http::verb::head  &&
+        method != http::verb::options) {
+        std::string path_without_query = target;
+        auto query_pos = path_without_query.find('?');
+        if (query_pos != std::string::npos) path_without_query = path_without_query.substr(0, query_pos);
+
+        auto validation_result = request_validator_->validate(
+            std::string(http::to_string(method)), path_without_query, req.body());
+
+        if (!validation_result.valid) {
+            span.setStatus(false, "validation_error");
+            auto validation_end_time = std::chrono::steady_clock::now();
+            auto validation_duration = std::chrono::duration_cast<std::chrono::microseconds>(
+                validation_end_time - start);
+            recordLatency(validation_duration);
+            return makeErrorResponse(http::status::bad_request, validation_result.error_message, req);
+        }
+    }
+
     http::response<http::string_body> response;
 
     try {
         switch (classifyRoute(req)) {
             case Route::Health:
-                response = handleHealthCheck(req);
+                response = monitoring_api_->handleHealthCheck(req);
+            break;
+        case Route::HealthLive:
+            response = monitoring_api_->handleLiveness(req);
+            break;
+        case Route::HealthReady:
+            response = monitoring_api_->handleReadiness(req);
+            break;
+        case Route::OpenApi:
+            response = monitoring_api_->handleOpenApi(req);
             break;
         case Route::Version:
-            response = handleVersion(req);
+            response = monitoring_api_->handleVersion(req);
             break;
         case Route::Stats:
-            response = handleStats(req);
+            response = monitoring_api_->handleStats(req);
             break;
         case Route::CapabilitiesGet:
-            response = handleCapabilities(req);
+            response = monitoring_api_->handleCapabilities(req);
             break;
         case Route::Metrics:
-            // Prefer the comprehensive metrics exporter (includes themis_* metrics).
-            // Historically there was an older/smaller `handleMetrics` implementation
-            // which only emitted content-related metrics. Use the more complete
-            // `handleMetricsJson` handler here so `/metrics` exposes the full set
-            // of Prometheus names expected by the tests.
-            response = handleMetricsJson(req);
+            // Delegate to MonitoringApiHandler for Prometheus metrics export
+            response = monitoring_api_->handleMetrics(req);
+            break;
+        case Route::MetricsHtml:
+            response = monitoring_api_->handleMetricsHtml(req);
+            break;
+        case Route::PluginMetrics:
+            // Delegate to MonitoringApiHandler for plugin metrics
+            response = monitoring_api_->handlePluginMetrics(req);
+            break;
+        case Route::ObservabilityAlertsGet:
+            response = monitoring_api_->handleObservabilityAlerts(req);
+            break;
+        case Route::ObservabilityAlertSilencePost:
+            response = monitoring_api_->handleObservabilityAlertSilence(req);
+            break;
+        case Route::ObservabilityHealthGet:
+            response = monitoring_api_->handleObservabilityHealth(req);
+            break;
+        case Route::LicenseStatusGet:
+            response = monitoring_api_->handleLicenseStatus(req);
             break;
         case Route::WalApplyPost:
-            response = handleWalApply(req);
+            response = wal_api_->handleApply(req);
             break;
         case Route::Config:
             response = handleConfig(req);
             break;
         case Route::AdminBackupPost:
-            response = handleAdminBackup(req);
+            response = admin_api_->handleBackup(req);
             break;
         case Route::AdminRestorePost:
-            response = handleAdminRestore(req);
+            response = admin_api_->handleRestore(req);
             break;
         case Route::EntitiesGet:
-            response = handleGetEntity(req);
+            response = entity_api_->handleGet(req);
             break;
         case Route::EntitiesPut:
-            response = handlePutEntity(req);
+            response = entity_api_->handlePut(req);
             break;
         case Route::EntitiesDelete:
-            response = handleDeleteEntity(req);
+            response = entity_api_->handleDelete(req);
             break;
         case Route::EntitiesPost:
-            response = handlePutEntity(req);
+            response = entity_api_->handlePut(req);
             break;
         case Route::EntitiesBatchPost:
-            response = handleEntitiesBatch(req);
+            response = entity_api_->handleBatch(req);
+            break;
+        case Route::V2DocumentsBulkPost:
+            response = entity_api_->handleBulkNdjson(req);
             break;
         case Route::QueryPost:
-            response = handleQuery(req);
+            response = query_api_->handleQuery(req);
             break;
         case Route::QueryAqlPost: {
             // AQL payload validation before handling
@@ -1658,72 +3494,374 @@ http::response<http::string_body> HttpServer::routeRequest(
                     return res;
                 }
             }
-            response = handleQueryAql(req);
+            response = query_api_->handleQueryAql(req);
             break;
         }
+        case Route::QueryStreamSseGet:
+            response = query_api_->handleQueryStreamSse(req);
+            break;
         case Route::IndexCreatePost:
-            response = handleCreateIndex(req);
+            response = index_api_->handleCreate(req);
             break;
         case Route::IndexDropPost:
-            response = handleDropIndex(req);
+            response = index_api_->handleDrop(req);
             break;
         case Route::IndexStatsGet:
-            response = handleIndexStats(req);
+            response = index_api_->handleStats(req);
             break;
         case Route::IndexRebuildPost:
-            response = handleIndexRebuild(req);
+            response = index_api_->handleRebuild(req);
             break;
         case Route::IndexReindexPost:
-            response = handleIndexReindex(req);
+            response = index_api_->handleReindex(req);
             break;
             
         // G5: Spatial Index Management handlers
         case Route::SpatialIndexCreatePost:
-            response = handleSpatialIndexCreate(req);
+            response = spatial_api_->handleIndexCreate(req);
+            applyGovernanceHeaders(req, response);
             break;
         case Route::SpatialIndexRebuildPost:
-            response = handleSpatialIndexRebuild(req);
+            response = spatial_api_->handleIndexRebuild(req);
+            applyGovernanceHeaders(req, response);
             break;
         case Route::SpatialIndexStatsGet:
-            response = handleSpatialIndexStats(req);
+            response = spatial_api_->handleIndexStats(req);
+            applyGovernanceHeaders(req, response);
             break;
         case Route::SpatialIndexMetricsGet:
-            response = handleSpatialMetrics(req);
+            response = spatial_api_->handleMetrics(req);
+            applyGovernanceHeaders(req, response);
             break;
             
         case Route::GraphTraversePost:
-            response = handleGraphTraverse(req);
+            if (graph_api_) {
+                response = graph_api_->handleTraverse(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
+            }
+            break;
+        case Route::GraphEdgePost:
+            if (graph_api_) {
+                response = graph_api_->handleEdgeCreate(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
+            }
+            break;
+        case Route::GraphEdgeDelete:
+            if (graph_api_) {
+                response = graph_api_->handleEdgeDelete(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
+            }
+            break;
+        case Route::GraphMetricsGet:
+            if (graph_api_) {
+                response = graph_api_->handleMetrics(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
+            }
+            break;
+        case Route::GraphMetricsPrometheusGet:
+            if (graph_api_) {
+                response = graph_api_->handleMetricsPrometheus(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
+            }
+            break;
+        case Route::GraphQueryIncrementalPost:
+            if (graph_api_) {
+                response = graph_api_->handleIncrementalQueryRegister(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
+            }
+            break;
+        case Route::GraphQueryIncrementalDelete:
+            if (graph_api_) {
+                response = graph_api_->handleIncrementalQueryUnregister(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
+            }
+            break;
+        case Route::GraphChangesPost:
+            if (graph_api_) {
+                response = graph_api_->handleGraphChanges(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
+            }
+            break;
+        case Route::GraphCostModelCalibratePost:
+            if (graph_api_) {
+                response = graph_api_->handleCostModelCalibrate(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
+            }
+            break;
+        case Route::GraphCostModelGet:
+            if (graph_api_) {
+                response = graph_api_->handleCostModelExport(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
+            }
+            break;
+        case Route::GraphCostModelImportPost:
+            if (graph_api_) {
+                response = graph_api_->handleCostModelImport(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
+            }
+            break;
+        case Route::GraphQueryExplainPost:
+            if (graph_api_) {
+                response = graph_api_->handleQueryExplain(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
+            }
             break;
         case Route::VectorSearchPost:
-            response = handleVectorSearch(req);
+            if (vector_api_) {
+                response = vector_api_->handleSearch(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Vector API not available", req);
+            }
             break;
         case Route::VectorBatchInsertPost:
-            response = handleVectorBatchInsert(req);
+            if (vector_api_) {
+                response = vector_api_->handleBatchInsert(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Vector API not available", req);
+            }
             break;
         case Route::VectorDeleteByFilterDelete:
-            response = handleVectorDeleteByFilter(req);
+            if (vector_api_) {
+                response = vector_api_->handleDeleteByFilter(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Vector API not available", req);
+            }
             break;
         case Route::CacheQueryPost:
-            response = handleCacheQuery(req);
+            if (cache_api_) {
+                response = cache_api_->handleQuery(req);
+            } else {
+                response = makeErrorResponse(http::status::not_found, "Cache API not initialized", req);
+            }
             break;
         case Route::PromptTemplatePost:
-            response = handlePromptTemplatePost(req);
+            if (prompt_api_) {
+                response = prompt_api_->handlePost(req);
+            } else {
+                response = makeErrorResponse(http::status::not_found, "Prompt API not initialized", req);
+            }
             break;
         case Route::PromptTemplateList:
-            response = handlePromptTemplateList(req);
+            if (prompt_api_) {
+                response = prompt_api_->handleList(req);
+            } else {
+                response = makeErrorResponse(http::status::not_found, "Prompt API not initialized", req);
+            }
             break;
         case Route::PromptTemplateGet:
-            response = handlePromptTemplateGet(req);
+            if (prompt_api_) {
+                response = prompt_api_->handleGet(req);
+            } else {
+                response = makeErrorResponse(http::status::not_found, "Prompt API not initialized", req);
+            }
             break;
         case Route::PromptTemplatePut:
-            response = handlePromptTemplatePut(req);
+            if (prompt_api_) {
+                response = prompt_api_->handlePut(req);
+            } else {
+                response = makeErrorResponse(http::status::not_found, "Prompt API not initialized", req);
+            }
             break;
         case Route::CachePutPost:
-            response = handleCachePut(req);
+            if (cache_api_) {
+                response = cache_api_->handlePut(req);
+            } else {
+                response = makeErrorResponse(http::status::not_found, "Cache API not initialized", req);
+            }
             break;
         case Route::CacheStatsGet:
-            response = handleCacheStats(req);
+            if (cache_api_) {
+                response = cache_api_->handleStats(req);
+            } else {
+                response = makeErrorResponse(http::status::not_found, "Cache API not initialized", req);
+            }
             break;
+        case Route::AdminCacheHealthGet:
+            if (cache_admin_api_) {
+                response = cache_admin_api_->handleHealth(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Cache admin API not initialized", req);
+            }
+            break;
+        case Route::AdminCacheStatsGet:
+            if (cache_admin_api_) {
+                response = cache_admin_api_->handleStats(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Cache admin API not initialized", req);
+            }
+            break;
+        case Route::AdminCacheEvictKeyDelete:
+            if (cache_admin_api_) {
+                response = cache_admin_api_->handleEvictKey(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Cache admin API not initialized", req);
+            }
+            break;
+        case Route::AdminCacheEvictTenantDelete:
+            if (cache_admin_api_) {
+                response = cache_admin_api_->handleEvictTenant(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Cache admin API not initialized", req);
+            }
+            break;
+        case Route::AdminCacheCbResetPost:
+            if (cache_admin_api_) {
+                response = cache_admin_api_->handleCircuitBreakerReset(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Cache admin API not initialized", req);
+            }
+            break;
+        case Route::AdminCacheCbStatusGet:
+            if (cache_admin_api_) {
+                response = cache_admin_api_->handleCircuitBreakerStatus(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Cache admin API not initialized", req);
+            }
+            break;
+        case Route::AdminCacheWarmupPost:
+            if (cache_admin_api_) {
+                response = cache_admin_api_->handleWarmup(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Cache admin API not initialized", req);
+            }
+            break;
+        case Route::AdminCacheSnapshotPost:
+            if (cache_admin_api_) {
+                response = cache_admin_api_->handleSnapshot(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Cache admin API not initialized", req);
+            }
+            break;
+        case Route::AdminCacheTenantsGet:
+            if (cache_admin_api_) {
+                response = cache_admin_api_->handleListTenants(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Cache admin API not initialized", req);
+            }
+            break;
+        case Route::AdminCacheTenantStatsGet:
+            if (cache_admin_api_) {
+                response = cache_admin_api_->handleTenantStats(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Cache admin API not initialized", req);
+            }
+            break;
+        case Route::AdminCacheTenantQuotaPatch:
+            if (cache_admin_api_) {
+                response = cache_admin_api_->handleUpdateTenantQuota(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Cache admin API not initialized", req);
+            }
+            break;
+        case Route::AdminCachePiiEvictDelete:
+            if (cache_admin_api_) {
+                response = cache_admin_api_->handlePiiEvict(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Cache admin API not initialized", req);
+            }
+            break;
+        case Route::AdminShardsPost: {
+            if (!sharding_manager_) {
+                sharding_manager_ = &themis::sharding::ShardingManager::GetInstance();
+            }
+            try {
+                auto body = json::parse(req.body());
+                themis::sharding::ShardNodeInfo node;
+                node.node_id      = body.value("node_id", uint32_t(0));
+                node.node_address = body.value("node_address", std::string{});
+                node.node_role    = body.value("node_role", std::string{"PRIMARY"});
+                node.is_healthy   = body.value("is_healthy", true);
+                if (node.node_address.empty()) {
+                    response = makeErrorResponse(http::status::bad_request, "node_address is required", req);
+                    break;
+                }
+                sharding_manager_->AddShardNode(node);
+                json result = {
+                    {"node_id",      node.node_id},
+                    {"node_address", node.node_address},
+                    {"node_role",    node.node_role},
+                    {"is_healthy",   node.is_healthy}
+                };
+                response = makeResponse(http::status::created, result.dump(), req);
+            } catch (const std::runtime_error& e) {
+                response = makeErrorResponse(http::status::conflict, e.what(), req);
+            } catch (const json::exception& e) {
+                response = makeErrorResponse(http::status::bad_request, std::string("invalid JSON: ") + e.what(), req);
+            }
+            break;
+        }
+        case Route::AdminShardsGet: {
+            if (!sharding_manager_) {
+                sharding_manager_ = &themis::sharding::ShardingManager::GetInstance();
+            }
+            auto nodes = sharding_manager_->GetAllNodes();
+            json shards_arr = json::array();
+            for (const auto& n : nodes) {
+                shards_arr.push_back({
+                    {"node_id",      n.node_id},
+                    {"node_address", n.node_address},
+                    {"node_role",    n.node_role},
+                    {"is_healthy",   n.is_healthy}
+                });
+            }
+            json result = {
+                {"shards",          shards_arr},
+                {"total",           sharding_manager_->GetNodeCount()},
+                {"max_nodes",       themis::sharding::ShardingManager::GetMaxShardNodes()},
+                {"remaining",       sharding_manager_->GetRemainingNodeCapacity()},
+                {"healthy_count",   sharding_manager_->GetHealthyNodeCount()}
+            };
+            response = makeResponse(http::status::ok, result.dump(), req);
+            break;
+        }
+        case Route::AdminStorageStatsGet: {
+            // GET /v1/admin/storage/stats
+            // Returns RocksDB on-disk SST size and OS-level disk space metrics
+            // for the storage path so admin tooling and quota logic can act on
+            // real numbers instead of the previous hard-coded 0.
+            try {
+                uint64_t rocksdb_size = storage_ ? storage_->getApproximateSize() : 0;
+
+                json storage_json = {
+                    {"rocksdb_sst_size_bytes", rocksdb_size}
+                };
+
+                // Include OS-level disk space for the storage path when available.
+                if (storage_) {
+                    const std::string& db_path = storage_->getConfig().db_path;
+                    storage::DiskSpaceMonitor dsm(db_path);
+                    auto space = dsm.checkSpace();
+
+                    storage_json["disk"] = {
+                        {"path",            space.path},
+                        {"total_bytes",     space.total_bytes},
+                        {"used_bytes",      space.used_bytes},
+                        {"free_bytes",      space.free_bytes},
+                        {"available_bytes", space.available_bytes},
+                        {"usage_percent",   space.usage_percent},
+                        {"free_percent",    space.free_percent}
+                    };
+                }
+
+                response = makeResponse(http::status::ok, storage_json.dump(), req);
+            } catch (const std::exception& e) {
+                response = makeErrorResponse(http::status::internal_server_error,
+                    std::string("Failed to get storage stats: ") + e.what(), req);
+            }
+            break;
+        }
         case Route::LlmInteractionPost:
             response = handleLlmInteractionPost(req);
             break;
@@ -1737,110 +3875,537 @@ http::response<http::string_body> HttpServer::routeRequest(
             response = handleLlmInteractionUpdateMetadata(req);
             break;
         case Route::QueryEnhancedPost:
-            response = handleQueryEnhanced(req);
+            response = query_api_->handleQueryEnhanced(req);
             break;
         case Route::ChangefeedGet:
-            response = handleChangefeedGet(req);
+            if (changefeed_api_) {
+                response = changefeed_api_->handleGet(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Changefeed not available", req);
+            }
             break;
         case Route::ChangefeedStreamSse:
-            response = handleChangefeedStreamSse(req);
+            if (changefeed_api_) {
+                response = changefeed_api_->handleStreamSse(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Changefeed not available", req);
+            }
+            break;
+        case Route::ChangefeedStreamAckPost:
+            if (changefeed_api_) {
+                response = changefeed_api_->handleStreamAck(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Changefeed not available", req);
+            }
             break;
         case Route::ChangefeedStatsGet:
-            response = handleChangefeedStats(req);
+            if (changefeed_api_) {
+                response = changefeed_api_->handleStats(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Changefeed not available", req);
+            }
             break;
         case Route::ChangefeedRetentionPost:
-            response = handleChangefeedRetention(req);
+            if (changefeed_api_) {
+                response = changefeed_api_->handleRetention(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Changefeed not available", req);
+            }
+            break;
+        case Route::ChangefeedRetentionGet:
+            if (changefeed_api_) {
+                response = changefeed_api_->handleRetentionGet(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Changefeed not available", req);
+            }
+            break;
+        case Route::ChangefeedRetentionPut:
+            if (changefeed_api_) {
+                response = changefeed_api_->handleRetentionPut(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Changefeed not available", req);
+            }
+            break;
+        case Route::ChangefeedCompactPost:
+            if (changefeed_api_) {
+                response = changefeed_api_->handleCompact(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Changefeed not available", req);
+            }
+            break;
+        case Route::ChangefeedGdprRedactPost:
+            if (changefeed_api_) {
+                response = changefeed_api_->handleGdprRedact(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Changefeed not available", req);
+            }
             break;
         
-        // Snapshot API
+        // Snapshot API (temporarily disabled - needs refactoring to Beast)
         case Route::SnapshotsTagsPost:
             if (snapshot_api_handler_) {
-                snapshot_api_handler_->handleCreateTag(req, response);
+                // Convert Beast → cpp-httplib types
+                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
+                httplib::Response httplib_res;
+                snapshot_api_handler_->handleCreateTag(httplib_req, httplib_res);
+                // Convert cpp-httplib → Beast types
+                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
             } else {
-                response = makeErrorResponse(http::status::service_unavailable, 
+                response = makeErrorResponse(http::status::service_unavailable,
                     "Snapshot API not available (requires CDC feature)", req);
             }
             break;
         case Route::SnapshotsTagsGet:
             if (snapshot_api_handler_) {
-                snapshot_api_handler_->handleListTags(req, response);
+                // Convert Beast → cpp-httplib types
+                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
+                httplib::Response httplib_res;
+                snapshot_api_handler_->handleListTags(httplib_req, httplib_res);
+                // Convert cpp-httplib → Beast types
+                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
             } else {
-                response = makeErrorResponse(http::status::service_unavailable, 
+                response = makeErrorResponse(http::status::service_unavailable,
                     "Snapshot API not available (requires CDC feature)", req);
             }
             break;
         case Route::SnapshotsTagGet:
             if (snapshot_api_handler_) {
-                snapshot_api_handler_->handleGetTag(req, response);
+                // Convert Beast → cpp-httplib types
+                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
+                httplib::Response httplib_res;
+                snapshot_api_handler_->handleGetTag(httplib_req, httplib_res);
+                // Convert cpp-httplib → Beast types
+                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
             } else {
-                response = makeErrorResponse(http::status::service_unavailable, 
+                response = makeErrorResponse(http::status::service_unavailable,
                     "Snapshot API not available (requires CDC feature)", req);
             }
             break;
         case Route::SnapshotsTagDelete:
             if (snapshot_api_handler_) {
-                snapshot_api_handler_->handleDeleteTag(req, response);
+                // Convert Beast → cpp-httplib types
+                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
+                httplib::Response httplib_res;
+                snapshot_api_handler_->handleDeleteTag(httplib_req, httplib_res);
+                // Convert cpp-httplib → Beast types
+                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
             } else {
-                response = makeErrorResponse(http::status::service_unavailable, 
+                response = makeErrorResponse(http::status::service_unavailable,
                     "Snapshot API not available (requires CDC feature)", req);
             }
             break;
         case Route::SnapshotsStatsGet:
             if (snapshot_api_handler_) {
-                snapshot_api_handler_->handleGetStats(req, response);
+                // Convert Beast → cpp-httplib types
+                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
+                httplib::Response httplib_res;
+                snapshot_api_handler_->handleGetStats(httplib_req, httplib_res);
+                // Convert cpp-httplib → Beast types
+                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
             } else {
-                response = makeErrorResponse(http::status::service_unavailable, 
+                response = makeErrorResponse(http::status::service_unavailable,
                     "Snapshot API not available (requires CDC feature)", req);
             }
             break;
         
+        // Diff API
+        case Route::DiffGet:
+            if (diff_api_handler_) {
+                // Convert Beast → cpp-httplib types
+                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
+                httplib::Response httplib_res;
+                diff_api_handler_->handleGetDiff(httplib_req, httplib_res);
+                // Convert cpp-httplib → Beast types
+                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Diff API not available (requires CDC feature)", req);
+            }
+            break;
+        case Route::DiffCacheStatsGet:
+            if (diff_api_handler_) {
+                // Convert Beast → cpp-httplib types
+                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
+                httplib::Response httplib_res;
+                diff_api_handler_->handleGetCacheStats(httplib_req, httplib_res);
+                // Convert cpp-httplib → Beast types
+                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Diff API not available (requires CDC feature)", req);
+            }
+            break;
+        case Route::DiffCacheClear:
+            if (diff_api_handler_) {
+                // Convert Beast → cpp-httplib types
+                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
+                httplib::Response httplib_res;
+                diff_api_handler_->handleClearCache(httplib_req, httplib_res);
+                // Convert cpp-httplib → Beast types
+                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Diff API not available (requires CDC feature)", req);
+            }
+            break;
+        
+        // PITR API
+        case Route::PITRRestorePost:
+            if (pitr_api_handler_) {
+                // Convert Beast → cpp-httplib types
+                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
+                httplib::Response httplib_res;
+                pitr_api_handler_->handleRestore(httplib_req, httplib_res);
+                // Convert cpp-httplib → Beast types
+                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "PITR API not available (requires CDC feature)", req);
+            }
+            break;
+        case Route::PITRPreviewPost:
+            if (pitr_api_handler_) {
+                // Convert Beast → cpp-httplib types
+                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
+                httplib::Response httplib_res;
+                pitr_api_handler_->handlePreview(httplib_req, httplib_res);
+                // Convert cpp-httplib → Beast types
+                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "PITR API not available (requires CDC feature)", req);
+            }
+            break;
+        case Route::PITRProgressGet:
+            if (pitr_api_handler_) {
+                // Convert Beast → cpp-httplib types
+                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
+                httplib::Response httplib_res;
+                pitr_api_handler_->handleGetProgress(httplib_req, httplib_res);
+                // Convert cpp-httplib → Beast types
+                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "PITR API not available (requires CDC feature)", req);
+            }
+            break;
+        // Branch API handlers
+        case Route::BranchesPost:
+            if (branch_api_handler_) {
+                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
+                httplib::Response httplib_res;
+                branch_api_handler_->handleCreateBranch(httplib_req, httplib_res);
+                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Branch API not available", req);
+            }
+            break;
+        case Route::BranchesGet:
+            if (branch_api_handler_) {
+                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
+                httplib::Response httplib_res;
+                branch_api_handler_->handleListBranches(httplib_req, httplib_res);
+                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Branch API not available", req);
+            }
+            break;
+        case Route::BranchesActiveGet:
+            if (branch_api_handler_) {
+                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
+                httplib::Response httplib_res;
+                branch_api_handler_->handleGetActiveBranch(httplib_req, httplib_res);
+                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Branch API not available", req);
+            }
+            break;
+        case Route::BranchesStatsGet:
+            if (branch_api_handler_) {
+                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
+                httplib::Response httplib_res;
+                branch_api_handler_->handleGetStats(httplib_req, httplib_res);
+                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Branch API not available", req);
+            }
+            break;
+        case Route::BranchGet:
+            if (branch_api_handler_) {
+                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
+                httplib::Response httplib_res;
+                branch_api_handler_->handleGetBranch(httplib_req, httplib_res);
+                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Branch API not available", req);
+            }
+            break;
+        case Route::BranchSwitchPost:
+            if (branch_api_handler_) {
+                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
+                httplib::Response httplib_res;
+                branch_api_handler_->handleSwitchBranch(httplib_req, httplib_res);
+                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Branch API not available", req);
+            }
+            break;
+        case Route::BranchDelete:
+            if (branch_api_handler_) {
+                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
+                httplib::Response httplib_res;
+                branch_api_handler_->handleDeleteBranch(httplib_req, httplib_res);
+                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Branch API not available", req);
+            }
+            break;
+        case Route::BranchesMergePost:
+            if (branch_api_handler_) {
+                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
+                httplib::Response httplib_res;
+                branch_api_handler_->handleMergeBranches(httplib_req, httplib_res);
+                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Branch API not available", req);
+            }
+            break;
+        
+        // Merge API handlers
+        case Route::MergePost:
+            if (merge_api_handler_) {
+                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
+                httplib::Response httplib_res;
+                merge_api_handler_->handleMerge(httplib_req, httplib_res);
+                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Merge API not available", req);
+            }
+            break;
+        case Route::MergePreviewPost:
+            if (merge_api_handler_) {
+                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
+                httplib::Response httplib_res;
+                merge_api_handler_->handleMergePreview(httplib_req, httplib_res);
+                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Merge API not available", req);
+            }
+            break;
+        case Route::MergeByTagPost:
+            if (merge_api_handler_) {
+                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
+                httplib::Response httplib_res;
+                merge_api_handler_->handleMergeByTag(httplib_req, httplib_res);
+                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Merge API not available", req);
+            }
+            break;
+        case Route::MergeCanFastForwardGet:
+            if (merge_api_handler_) {
+                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
+                httplib::Response httplib_res;
+                merge_api_handler_->handleCanFastForward(httplib_req, httplib_res);
+                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Merge API not available", req);
+            }
+            break;
+        
         case Route::TimeSeriesPut:
-            response = handleTimeSeriesPut(req);
+            if (timeseries_api_) {
+                response = timeseries_api_->handlePut(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, 
+                    "Time-series feature not enabled", req);
+            }
             break;
         case Route::TimeSeriesQuery:
-            response = handleTimeSeriesQuery(req);
+            if (timeseries_api_) {
+                response = timeseries_api_->handleQuery(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, 
+                    "Time-series feature not enabled", req);
+            }
             break;
         case Route::TimeSeriesAggregate:
-            response = handleTimeSeriesAggregate(req);
+            if (timeseries_api_) {
+                response = timeseries_api_->handleAggregate(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, 
+                    "Time-series feature not enabled", req);
+            }
             break;
         case Route::TimeSeriesConfigGet:
-            response = handleTimeSeriesConfigGet(req);
+            if (timeseries_api_) {
+                response = timeseries_api_->handleConfigGet(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, 
+                    "Time-series feature not enabled", req);
+            }
             break;
         case Route::TimeSeriesConfigPut:
-            response = handleTimeSeriesConfigPut(req);
+            if (timeseries_api_) {
+                response = timeseries_api_->handleConfigPut(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, 
+                    "Time-series feature not enabled", req);
+            }
             break;
         case Route::TimeSeriesAggregatesGet:
-            response = handleTimeSeriesAggregatesGet(req);
+            if (timeseries_api_) {
+                response = timeseries_api_->handleAggregatesGet(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, 
+                    "Time-series feature not enabled", req);
+            }
             break;
         case Route::TimeSeriesRetentionGet:
-            response = handleTimeSeriesRetentionGet(req);
+            if (timeseries_api_) {
+                response = timeseries_api_->handleRetentionGet(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, 
+                    "Time-series feature not enabled", req);
+            }
+            break;
+        case Route::TimeSeriesMetricsGet:
+            if (timeseries_api_) {
+                response = timeseries_api_->handleMetricsGet(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, 
+                    "Time-series feature not enabled", req);
+            }
+            break;
+        case Route::TimeSeriesPromRemoteWrite:
+            if (timeseries_api_) {
+                response = timeseries_api_->handlePrometheusRemoteWrite(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Time-series feature not enabled", req);
+            }
             break;
         case Route::IndexSuggestionsGet:
-            response = handleIndexSuggestions(req);
+            response = index_api_->handleSuggestions(req);
             break;
         case Route::IndexPatternsGet:
-            response = handleIndexPatterns(req);
+            response = index_api_->handlePatterns(req);
             break;
         case Route::IndexRecordPatternPost:
-            response = handleIndexRecordPattern(req);
+            response = index_api_->handleRecordPattern(req);
             break;
         case Route::IndexClearPatternsDelete:
-            response = handleIndexClearPatterns(req);
+            response = index_api_->handleClearPatterns(req);
             break;
         case Route::VectorIndexSavePost:
-            response = handleVectorIndexSave(req);
+            if (vector_api_) {
+                response = vector_api_->handleIndexSave(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Vector API not available", req);
+            }
             break;
         case Route::VectorIndexLoadPost:
-            response = handleVectorIndexLoad(req);
+            if (vector_api_) {
+                response = vector_api_->handleIndexLoad(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Vector API not available", req);
+            }
             break;
         case Route::VectorIndexConfigGet:
-            response = handleVectorIndexConfigGet(req);
+            if (vector_api_) {
+                response = vector_api_->handleIndexConfigGet(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Vector API not available", req);
+            }
             break;
         case Route::VectorIndexConfigPut:
-            response = handleVectorIndexConfigPut(req);
+            if (vector_api_) {
+                response = vector_api_->handleIndexConfigPut(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Vector API not available", req);
+            }
             break;
         case Route::VectorIndexStatsGet:
-            response = handleVectorIndexStats(req);
+            if (vector_api_) {
+                response = vector_api_->handleIndexStats(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Vector API not available", req);
+            }
+            break;
+        case Route::VectorIndexIncrementalReindexPost:
+            if (vector_api_) {
+                response = vector_api_->handleIncrementalReindex(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Vector API not available", req);
+            }
+            break;
+        case Route::RopeConfigPost:
+            if (rope_api_) {
+                response = rope_api_->handleConfigPost(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "RoPE API not available", req);
+            }
+            break;
+        case Route::RopeConfigGet:
+            if (rope_api_) {
+                response = rope_api_->handleConfigGet(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "RoPE API not available", req);
+            }
+            break;
+        case Route::RopeConfigDelete:
+            if (rope_api_) {
+                response = rope_api_->handleConfigDelete(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "RoPE API not available", req);
+            }
+            break;
+        case Route::RopeAddPost:
+            if (rope_api_) {
+                response = rope_api_->handleAddPost(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "RoPE API not available", req);
+            }
+            break;
+        case Route::RopeAddRelationalPost:
+            if (rope_api_) {
+                response = rope_api_->handleAddRelationalPost(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "RoPE API not available", req);
+            }
+            break;
+        case Route::RopeSearchPost:
+            if (rope_api_) {
+                response = rope_api_->handleSearchPost(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "RoPE API not available", req);
+            }
+            break;
+        case Route::RopeBatchAddPost:
+            if (rope_api_) {
+                response = rope_api_->handleBatchAddPost(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "RoPE API not available", req);
+            }
+            break;
+        case Route::RopeStatsGet:
+            if (rope_api_) {
+                response = rope_api_->handleStatsGet(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "RoPE API not available", req);
+            }
             break;
         case Route::KeysListGet:
             response = handleKeysListKeys(req);
@@ -1914,6 +4479,22 @@ http::response<http::string_body> HttpServer::routeRequest(
         case Route::AuditExportCsvGet:
             response = handleAuditExportCsv(req);
             break;
+        case Route::ExportJsonlLlmPost:
+            if (export_api_) {
+                response = export_api_->handleExportJsonlLlm(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Export API not enabled", req);
+            }
+            break;
+        case Route::ExportStatusGet:
+            if (export_api_) {
+                response = export_api_->handleExportStatus(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Export API not enabled", req);
+            }
+            break;
         case Route::UpdateStatusGet:
         case Route::UpdateCheckPost:
         case Route::UpdateConfigGet:
@@ -1926,6 +4507,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
             break;
             
+#if THEMIS_ENABLE_LLM
         // Feedback API routes
         case Route::FeedbackPost:
             if (feedback_api_handler_) {
@@ -2017,22 +4599,64 @@ http::response<http::string_body> HttpServer::routeRequest(
                     "Feedback API not available", req);
             }
             break;
+#else
+        case Route::FeedbackPost:
+        case Route::FeedbackGet:
+        case Route::FeedbackGetById:
+        case Route::FeedbackPut:
+        case Route::FeedbackDelete:
+        case Route::FeedbackAdapterGet:
+        case Route::FeedbackStatsGet:
+            response = makeErrorResponse(http::status::service_unavailable,
+                "Feedback API disabled (LLM feature off)", req);
+            break;
+#endif
             
         case Route::TransactionPost:
-            response = handleTransaction(req);
+            response = transaction_api_->handleTransaction(req);
             break;
         case Route::TransactionBeginPost:
-            response = handleTransactionBegin(req);
+            response = transaction_api_->handleBegin(req);
             break;
         case Route::TransactionCommitPost:
-            response = handleTransactionCommit(req);
+            response = transaction_api_->handleCommit(req);
             break;
         case Route::TransactionRollbackPost:
-            response = handleTransactionRollback(req);
+            response = transaction_api_->handleRollback(req);
             break;
         case Route::TransactionStatsGet:
-            response = handleTransactionStats(req);
+            response = transaction_api_->handleStats(req);
             break;
+        case Route::TransactionVersionGet:
+            response = transaction_api_->handleGetVersion(req);
+            break;
+
+        // Distributed (cross-shard) 2PC transaction endpoints
+        case Route::TransactionExplainGet:
+            response = transaction_api_->handleExplain(req);
+            break;
+        case Route::DtxnBeginPost:
+            response = distributed_txn_api_->handleBegin(req);
+            break;
+        case Route::DtxnOperationPost:
+            response = distributed_txn_api_->handleOperation(req);
+            break;
+        case Route::DtxnCommitPost:
+            response = distributed_txn_api_->handleCommit(req);
+            break;
+        case Route::DtxnAbortPost:
+            response = distributed_txn_api_->handleAbort(req);
+            break;
+        case Route::DtxnReadOnlyPost:
+            response = distributed_txn_api_->handleReadOnly(req);
+            break;
+        case Route::DtxnStatusGet:
+            response = distributed_txn_api_->handleStatus(req);
+            break;
+        case Route::DtxnStatsGet:
+            response = distributed_txn_api_->handleStats(req);
+            break;
+
         case Route::ContentImportPost:
             {
                 if (validator_) {
@@ -2048,50 +4672,70 @@ http::response<http::string_body> HttpServer::routeRequest(
                         break;
                     }
                 }
-                response = handleContentImport(req);
+                response = content_api_->handleImport(req);
             }
             break;
         case Route::ContentGet:
-            response = handleGetContent(req);
+            response = content_api_->handleGet(req);
             break;
         case Route::ContentBlobGet:
-            response = handleGetContentBlob(req);
+            response = content_api_->handleGetBlob(req);
             break;
         case Route::ContentChunksGet:
-            response = handleGetContentChunks(req);
+            response = content_api_->handleGetChunks(req);
             break;
         case Route::HybridSearchPost:
-            response = handleHybridSearch(req);
+            response = content_api_->handleHybridSearch(req);
             break;
         case Route::FusionSearchPost:
-            response = handleFusionSearch(req);
+            response = content_api_->handleFusionSearch(req);
             break;
         case Route::FulltextSearchPost:
-            response = handleFulltextSearch(req);
+            response = content_api_->handleFulltextSearch(req);
             break;
         case Route::ContentFilterSchemaGet:
-            response = handleContentFilterSchemaGet(req);
+            response = content_api_->handleContentFilterSchemaGet(req);
             break;
         case Route::ContentFilterSchemaPut:
-            response = handleContentFilterSchemaPut(req);
+            response = content_api_->handleContentFilterSchemaPut(req);
             break;
         case Route::ContentConfigGet:
-            response = handleContentConfigGet(req);
+            response = content_api_->handleConfigGet(req);
             break;
         case Route::ContentConfigPut:
-            response = handleContentConfigPut(req);
+            response = content_api_->handleConfigPut(req);
             break;
         case Route::EdgeWeightConfigGet:
-            response = handleEdgeWeightConfigGet(req);
+            response = content_api_->handleEdgeWeightConfigGet(req);
             break;
         case Route::EdgeWeightConfigPut:
-            response = handleEdgeWeightConfigPut(req);
+            response = content_api_->handleEdgeWeightConfigPut(req);
             break;
         case Route::EncryptionSchemaGet:
-            response = handleEncryptionSchemaGet(req);
+            // Check access control before delegating
+            if (auth_ && auth_->isEnabled()) {
+                std::string path_only = std::string(req.target());
+                auto qpos = path_only.find('?');
+                if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
+                if (auto resp = requireAccess(req, "config:read", "config.read", path_only)) {
+                    response = *resp;
+                    break;
+                }
+            }
+            response = content_api_->handleEncryptionSchemaGet(req);
             break;
         case Route::EncryptionSchemaPut:
-            response = handleEncryptionSchemaPut(req);
+            // Check access control before delegating
+            if (auth_ && auth_->isEnabled()) {
+                std::string path_only = std::string(req.target());
+                auto qpos = path_only.find('?');
+                if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
+                if (auto resp = requireAccess(req, "config:write", "config.write", path_only)) {
+                    response = *resp;
+                    break;
+                }
+            }
+            response = content_api_->handleEncryptionSchemaPut(req);
             break;
         case Route::ErrorApiListGet:
             response = handleErrorApiList(req);
@@ -2105,6 +4749,64 @@ http::response<http::string_body> HttpServer::routeRequest(
         case Route::ErrorApiSearchGet:
             response = handleErrorApiSearch(req);
             break;
+        case Route::BpmnProcessStartPost:
+            if (bpmn_api_) {
+                response = bpmn_api_->handleStartProcess(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "BPMN process engine not available", req);
+            }
+            break;
+        case Route::BpmnTaskCompletePost:
+            if (bpmn_api_) {
+                response = bpmn_api_->handleTaskComplete(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "BPMN process engine not available", req);
+            }
+            break;
+        case Route::BpmnInstanceQueryGet:
+            if (bpmn_api_) {
+                response = bpmn_api_->handleQueryInstance(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "BPMN process engine not available", req);
+            }
+            break;
+
+        // ── Geo Topology API ──────────────────────────────────────────────────
+        case Route::GeoTopologyGet:
+            response = geo_topology_api_->handleTopologyGet(req);
+            break;
+        case Route::GeoRegionsGet:
+            response = geo_topology_api_->handleRegionsGet(req);
+            break;
+        case Route::GeoHealthGet:
+            response = geo_topology_api_->handleHealthGet(req);
+            break;
+        case Route::GeoTopologyShardPost:
+            response = geo_topology_api_->handleTopologyShardPost(req);
+            break;
+        case Route::GeoTopologyShardDelete:
+            response = geo_topology_api_->handleTopologyShardDelete(req);
+            break;
+        case Route::GeoConfigGet:
+            response = geo_topology_api_->handleConfigGet(req);
+            break;
+        case Route::GeoConfigPut:
+            response = geo_topology_api_->handleConfigPut(req);
+            break;
+
+        // ── Replication Topology API ──────────────────────────────────────────
+        case Route::ReplicationTopologyGet:
+            response = replication_topology_api_->handleTopologyGet(req);
+            break;
+        case Route::ReplicationHealthGet:
+            response = replication_topology_api_->handleHealthGet(req);
+            break;
+        case Route::ReplicationTopologyUiGet:
+            response = replication_topology_api_->handleUiGet(req);
+            break;
         case Route::SchemaGetFull:
             response = handleSchemaGetFull(req);
             break;
@@ -2114,12 +4816,910 @@ http::response<http::string_body> HttpServer::routeRequest(
         case Route::SchemaGetTable:
             response = handleSchemaGetTable(req);
             break;
-        case Route::PoliciesImportRangerPost:
-            response = handlePoliciesImportRanger(req);
+        case Route::SchemaPut:
+            response = handleSchemaPut(req);
             break;
-        case Route::PoliciesExportRangerGet:
-            response = handlePoliciesExportRanger(req);
+        case Route::SchemaPatch:
+            response = handleSchemaPatch(req);
             break;
+        case Route::SchemaVersionsGet:
+            response = handleSchemaVersionHistory(req);
+            break;
+        case Route::SchemaVersionsPost:
+            response = handleSchemaCreateVersion(req);
+            break;
+        case Route::SchemaDiffGet:
+            response = handleSchemaDiff(req);
+            break;
+        case Route::InformationSchemaGet:
+            response = handleMetadataInformationSchema(req);
+            break;
+        case Route::MetadataStatsGet:
+            response = handleMetadataGetStats(req);
+            break;
+        case Route::MetadataStatsPost:
+            response = handleMetadataCollectStats(req);
+            break;
+        case Route::MetadataConstraintsGet:
+            response = handleMetadataGetConstraints(req);
+            break;
+        case Route::MetadataIndexRecsGet:
+            response = handleMetadataIndexRecommendations(req);
+            break;
+        case Route::MetadataAuditGet:
+            response = handleMetadataAuditLog(req);
+            break;
+        case Route::MetadataLineageGet:
+            response = handleMetadataGetColumnLineage(req);
+            break;
+        case Route::MetadataLineagePost:
+            response = handleMetadataRecordLineageDerivation(req);
+            break;
+        case Route::MetadataSchemaImportPut:
+            response = handleMetadataSchemaImport(req);
+            break;
+        case Route::MetadataBatchValidatePost:
+            response = handleMetadataBatchValidate(req);
+            break;
+        case Route::PoliciesImportRangerPost: {
+            // Require admin scope + policy action
+            if (auth_ && auth_->isEnabled()) {
+                std::string path_only = std::string(req.target());
+                auto qpos = path_only.find('?');
+                if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
+                if (auto resp = requireAccess(req, "admin", "admin", path_only)) {
+                    response = *resp;
+                    break;
+                }
+            }
+            // Delegate to PolicyApiHandler
+            if (policy_api_) {
+                response = policy_api_->handleImportRanger(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Policy API not initialized", req);
+            }
+            break;
+        }
+        case Route::PoliciesExportRangerGet: {
+            // Require admin scope + policy action
+            if (auth_ && auth_->isEnabled()) {
+                std::string path_only = std::string(req.target());
+                auto qpos = path_only.find('?');
+                if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
+                if (auto resp = requireAccess(req, "admin", "admin", path_only)) {
+                    response = *resp;
+                    break;
+                }
+            }
+            // Delegate to PolicyApiHandler
+            if (policy_api_) {
+                response = policy_api_->handleExportRanger(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Policy API not initialized", req);
+            }
+            break;
+        }
+
+        // ─── MVCC versioning API ───────────────────────────────────────────────
+        // Helper: extract the key from a path like /api/v1/mvcc/keys/{key}[/versions]
+        // and populate req.matches so MvccApiHandler::extractKey() works.
+        case Route::MvccKeyGet:
+        case Route::MvccKeyPost: {
+            if (mvcc_api_handler_) {
+                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
+                {
+                    static const std::regex re(R"(/api/v1/mvcc/keys/([^/]+))");
+                    std::smatch m;
+                    if (std::regex_search(httplib_req.path, m, re)) {
+                        httplib_req.matches = m;
+                    }
+                }
+                httplib::Response httplib_res;
+                if (req.method() == http::verb::get) {
+                    mvcc_api_handler_->handleGetKey(httplib_req, httplib_res);
+                } else {
+                    mvcc_api_handler_->handlePutKey(httplib_req, httplib_res);
+                }
+                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "MVCC API not available", req);
+            }
+            break;
+        }
+        case Route::MvccKeyVersionsGet:
+        case Route::MvccKeyVersionsDelete: {
+            if (mvcc_api_handler_) {
+                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
+                {
+                    static const std::regex re(R"(/api/v1/mvcc/keys/([^/]+)/versions)");
+                    std::smatch m;
+                    if (std::regex_search(httplib_req.path, m, re)) {
+                        httplib_req.matches = m;
+                    }
+                }
+                httplib::Response httplib_res;
+                if (req.method() == http::verb::get) {
+                    mvcc_api_handler_->handleListVersions(httplib_req, httplib_res);
+                } else {
+                    mvcc_api_handler_->handleGcVersions(httplib_req, httplib_res);
+                }
+                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "MVCC API not available", req);
+            }
+            break;
+        }
+        case Route::MvccClockGet: {
+            if (mvcc_api_handler_) {
+                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
+                httplib::Response httplib_res;
+                mvcc_api_handler_->handleGetClock(httplib_req, httplib_res);
+                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "MVCC API not available", req);
+            }
+            break;
+        }
+        case Route::MvccStatsGet: {
+            if (mvcc_api_handler_) {
+                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
+                httplib::Response httplib_res;
+                mvcc_api_handler_->handleGetStats(httplib_req, httplib_res);
+                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "MVCC API not available", req);
+            }
+            break;
+        }
+
+        case Route::GraphQLPost: {
+            response = graphql_api_handler_->handlePost(req);
+            break;
+        }
+
+        case Route::GraphQLSchemaGet: {
+            response = graphql_api_handler_->handleSchemaGet(req);
+            break;
+        }
+
+        // ── gRPC-Web proxy (browser clients) ─────────────────────────────────
+        case Route::GrpcWebOptions: {
+            response = grpc_web_proxy_->handleOptions(req);
+            break;
+        }
+        case Route::GrpcWebStatusGet: {
+            response = grpc_web_proxy_->handleStatus(req);
+            break;
+        }
+        case Route::GrpcWebPost: {
+            // Extract gRPC method path from /grpc-web/<method>
+            const std::string target_str{req.target()};
+            const auto qpos = target_str.find('?');
+            const std::string path_only = (qpos != std::string::npos)
+                ? target_str.substr(0, qpos) : target_str;
+            // Strip /grpc-web prefix – resulting path is "/<package>.<Service>/<Method>"
+            static constexpr std::string_view kGrpcWebPrefix{"/grpc-web"};
+            const std::string method_path = path_only.substr(kGrpcWebPrefix.size());
+            response = grpc_web_proxy_->handlePost(req, method_path);
+            break;
+        }
+
+        // ── Serverless function hosting ──────────────────────────────────────
+        case Route::ServerlessFnPost: {
+            response = serverless_fn_handler_->handleRegister(req);
+            break;
+        }
+        case Route::ServerlessFnListGet: {
+            response = serverless_fn_handler_->handleList(req);
+            break;
+        }
+        case Route::ServerlessFnGet:
+        case Route::ServerlessFnPut:
+        case Route::ServerlessFnDelete:
+        case Route::ServerlessFnInvokePost:
+        case Route::ServerlessFnVersionsGet: {
+            // Extract function {id} from /api/v1/functions/{id}[/invoke|/versions]
+            static constexpr std::string_view kFnPrefix{"/api/v1/functions/"};
+            const std::string target_str{req.target()};
+            const auto qpos = target_str.find('?');
+            const std::string path_only = (qpos != std::string::npos)
+                ? target_str.substr(0, qpos) : target_str;
+            std::string id = path_only.substr(kFnPrefix.size());
+            // Strip trailing sub-resource segment if present
+            for (const auto* suffix : {"/invoke", "/versions"}) {
+                const std::string_view sv{suffix};
+                if (id.size() > sv.size() &&
+                    id.substr(id.size() - sv.size()) == sv) {
+                    id = id.substr(0, id.size() - sv.size());
+                    break;
+                }
+            }
+            const auto method = req.method();
+            const bool has_invoke  = path_only.size() > 7 &&
+                path_only.substr(path_only.size() - 7) == "/invoke";
+            const bool has_versions = path_only.size() > 9 &&
+                path_only.substr(path_only.size() - 9) == "/versions";
+            if (has_invoke)
+                response = serverless_fn_handler_->handleInvoke(req, id);
+            else if (has_versions)
+                response = serverless_fn_handler_->handleVersions(req, id);
+            else if (method == http::verb::get)
+                response = serverless_fn_handler_->handleGet(req, id);
+            else if (method == http::verb::put)
+                response = serverless_fn_handler_->handleUpdate(req, id);
+            else
+                response = serverless_fn_handler_->handleDelete(req, id);
+            break;
+        }
+
+        // ── Async job API ────────────────────────────────────────────────────
+        case Route::AsyncJobSubmitPost:
+            if (async_job_api_)
+                response = async_job_api_->handleSubmit(req);
+            else
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Async job API not available", req);
+            break;
+
+        case Route::AsyncJobListGet:
+            if (async_job_api_)
+                response = async_job_api_->handleList(req);
+            else
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Async job API not available", req);
+            break;
+
+        case Route::AsyncJobStatusGet:
+            if (async_job_api_)
+                response = async_job_api_->handleGetStatus(req);
+            else
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Async job API not available", req);
+            break;
+
+        case Route::AsyncJobCancelDelete:
+            if (async_job_api_)
+                response = async_job_api_->handleCancel(req);
+            else
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Async job API not available", req);
+            break;
+
+        // ── API Key Management ───────────────────────────────────────────────
+        case Route::ApiKeyPost:
+            response = handleApiKeyCreate(req);
+            break;
+        case Route::ApiKeyListGet:
+            response = handleApiKeyList(req);
+            break;
+        case Route::ApiKeyGet:
+            response = handleApiKeyGet(req);
+            break;
+        case Route::ApiKeyPut:
+            response = handleApiKeyUpdate(req);
+            break;
+        case Route::ApiKeyDelete:
+            response = handleApiKeyDelete(req);
+            break;
+
+        // ── Session Management ────────────────────────────────────────────────
+        case Route::SessionPost:
+            response = handleSessionCreate(req);
+            break;
+        case Route::SessionListGet:
+            response = handleSessionList(req);
+            break;
+        case Route::SessionDeleteById:
+            response = handleSessionRevokeById(req);
+            break;
+        case Route::SessionDeleteOthers:
+            response = handleSessionRevokeOthers(req);
+            break;
+
+        // ── SAML 2.0 SP ───────────────────────────────────────────────────────
+        case Route::SamlLoginGet:
+            response = handleSamlLogin(req);
+            break;
+        case Route::SamlAcsPost:
+            response = handleSamlAcs(req);
+            break;
+        case Route::SamlSloPost:
+            response = handleSamlSlo(req);
+            break;
+        case Route::SamlMetadataGet:
+            response = handleSamlMetadata(req);
+            break;
+
+        // ── UDF Registration API ──────────────────────────────────────────────
+        case Route::UdfPost:
+            response = udf_api_handler_->handleRegister(req);
+            break;
+        case Route::UdfListGet:
+            response = udf_api_handler_->handleList(req);
+            break;
+        case Route::UdfGet: {
+            static constexpr std::string_view kUdfPfx{"/api/v1/query/udfs/"};
+            std::string path_only = std::string(req.target());
+            if (auto qp = path_only.find('?'); qp != std::string::npos)
+                path_only = path_only.substr(0, qp);
+            std::string udf_name = path_only.substr(kUdfPfx.size());
+            response = udf_api_handler_->handleGet(req, udf_name);
+            break;
+        }
+        case Route::UdfDelete: {
+            static constexpr std::string_view kUdfPfx{"/api/v1/query/udfs/"};
+            std::string path_only = std::string(req.target());
+            if (auto qp = path_only.find('?'); qp != std::string::npos)
+                path_only = path_only.substr(0, qp);
+            std::string udf_name = path_only.substr(kUdfPfx.size());
+            response = udf_api_handler_->handleDelete(req, udf_name);
+            break;
+        }
+
+        // ── Task Scheduler ────────────────────────────────────────────────
+        case Route::TasksUiGet: {
+            // Require read access for the UI
+            if (auto auth_err = requireAccess(req, "tasks:read", "tasks.ui", "/ui/tasks")) {
+                response = *auth_err;
+                break;
+            }
+            auto html = task_scheduler_api_
+                ? task_scheduler_api_->getWebUi()
+                : "<html><body>Task scheduler not initialized.</body></html>";
+            response = http::response<http::string_body>{http::status::ok, req.version()};
+            response.set(http::field::content_type, "text/html; charset=utf-8");
+            response.body() = std::move(html);
+            response.prepare_payload();
+            break;
+        }
+        case Route::TasksPost: {
+            if (auto auth_err = requireAccess(req, "tasks:write", "tasks.create", "/api/tasks")) {
+                response = *auth_err;
+                break;
+            }
+            auto body = nlohmann::json::parse(req.body(), nullptr, false);
+            if (body.is_discarded()) {
+                response = makeErrorResponse(http::status::bad_request, "Invalid JSON body", req);
+                break;
+            }
+            if (!task_scheduler_api_) {
+                response = makeErrorResponse(http::status::service_unavailable, "Scheduler not initialized", req);
+                break;
+            }
+            auto result = task_scheduler_api_->registerTask(body);
+            if (result.value("status", "") == "error") {
+                response = makeErrorResponse(http::status::bad_request, result.value("error", "Unknown error"), req);
+            } else {
+                response = makeResponse(http::status::created, result.dump(), req);
+            }
+            break;
+        }
+        case Route::TasksListGet: {
+            if (auto auth_err = requireAccess(req, "tasks:read", "tasks.list", "/api/tasks")) {
+                response = *auth_err;
+                break;
+            }
+            if (!task_scheduler_api_) {
+                response = makeErrorResponse(http::status::service_unavailable, "Scheduler not initialized", req);
+                break;
+            }
+            response = makeResponse(http::status::ok, task_scheduler_api_->listTasks().dump(), req);
+            break;
+        }
+        case Route::TasksStatsGet: {
+            if (auto auth_err = requireAccess(req, "tasks:read", "tasks.stats", "/api/tasks/stats")) {
+                response = *auth_err;
+                break;
+            }
+            if (!task_scheduler_api_) {
+                response = makeErrorResponse(http::status::service_unavailable, "Scheduler not initialized", req);
+                break;
+            }
+            response = makeResponse(http::status::ok, task_scheduler_api_->getStats().dump(), req);
+            break;
+        }
+        case Route::TasksGet: {
+            if (auto auth_err = requireAccess(req, "tasks:read", "tasks.get", "/api/tasks")) {
+                response = *auth_err;
+                break;
+            }
+            static constexpr std::string_view kTasksPfx{"/api/tasks/"};
+            std::string ponly = std::string(req.target());
+            if (auto qp = ponly.find('?'); qp != std::string::npos) ponly = ponly.substr(0, qp);
+            std::string task_id = ponly.substr(kTasksPfx.size());
+            if (!task_scheduler_api_) {
+                response = makeErrorResponse(http::status::service_unavailable, "Scheduler not initialized", req);
+                break;
+            }
+            auto result = task_scheduler_api_->getTask(task_id);
+            if (result.value("status", "") == "error") {
+                response = makeErrorResponse(http::status::not_found, result.value("error", "Not found"), req);
+            } else {
+                response = makeResponse(http::status::ok, result.dump(), req);
+            }
+            break;
+        }
+        case Route::TasksPut: {
+            if (auto auth_err = requireAccess(req, "tasks:write", "tasks.update", "/api/tasks")) {
+                response = *auth_err;
+                break;
+            }
+            static constexpr std::string_view kTasksPfx{"/api/tasks/"};
+            std::string ponly = std::string(req.target());
+            if (auto qp = ponly.find('?'); qp != std::string::npos) ponly = ponly.substr(0, qp);
+            std::string task_id = ponly.substr(kTasksPfx.size());
+            auto body = nlohmann::json::parse(req.body(), nullptr, false);
+            if (body.is_discarded()) {
+                response = makeErrorResponse(http::status::bad_request, "Invalid JSON body", req);
+                break;
+            }
+            if (!task_scheduler_api_) {
+                response = makeErrorResponse(http::status::service_unavailable, "Scheduler not initialized", req);
+                break;
+            }
+            auto result = task_scheduler_api_->updateTask(task_id, body);
+            if (result.value("status", "") == "error") {
+                response = makeErrorResponse(http::status::not_found, result.value("error", "Not found"), req);
+            } else {
+                response = makeResponse(http::status::ok, result.dump(), req);
+            }
+            break;
+        }
+        case Route::TasksDelete: {
+            if (auto auth_err = requireAccess(req, "tasks:write", "tasks.delete", "/api/tasks")) {
+                response = *auth_err;
+                break;
+            }
+            static constexpr std::string_view kTasksPfx{"/api/tasks/"};
+            std::string ponly = std::string(req.target());
+            if (auto qp = ponly.find('?'); qp != std::string::npos) ponly = ponly.substr(0, qp);
+            std::string task_id = ponly.substr(kTasksPfx.size());
+            if (!task_scheduler_api_) {
+                response = makeErrorResponse(http::status::service_unavailable, "Scheduler not initialized", req);
+                break;
+            }
+            auto result = task_scheduler_api_->unregisterTask(task_id);
+            if (result.value("status", "") == "error") {
+                response = makeErrorResponse(http::status::not_found, result.value("error", "Not found"), req);
+            } else {
+                response = makeResponse(http::status::ok, result.dump(), req);
+            }
+            break;
+        }
+        case Route::TasksEnablePost: {
+            if (auto auth_err = requireAccess(req, "tasks:write", "tasks.enable", "/api/tasks")) {
+                response = *auth_err;
+                break;
+            }
+            static constexpr std::string_view kTasksPfx{"/api/tasks/"};
+            std::string ponly = std::string(req.target());
+            if (auto qp = ponly.find('?'); qp != std::string::npos) ponly = ponly.substr(0, qp);
+            std::string rest = ponly.substr(kTasksPfx.size());
+            std::string task_id = rest.substr(0, rest.find('/'));
+            if (!task_scheduler_api_) {
+                response = makeErrorResponse(http::status::service_unavailable, "Scheduler not initialized", req);
+                break;
+            }
+            auto result = task_scheduler_api_->enableTask(task_id);
+            if (result.value("status", "") == "error") {
+                response = makeErrorResponse(http::status::not_found, result.value("error", "Not found"), req);
+            } else {
+                response = makeResponse(http::status::ok, result.dump(), req);
+            }
+            break;
+        }
+        case Route::TasksDisablePost: {
+            if (auto auth_err = requireAccess(req, "tasks:write", "tasks.disable", "/api/tasks")) {
+                response = *auth_err;
+                break;
+            }
+            static constexpr std::string_view kTasksPfx{"/api/tasks/"};
+            std::string ponly = std::string(req.target());
+            if (auto qp = ponly.find('?'); qp != std::string::npos) ponly = ponly.substr(0, qp);
+            std::string rest = ponly.substr(kTasksPfx.size());
+            std::string task_id = rest.substr(0, rest.find('/'));
+            if (!task_scheduler_api_) {
+                response = makeErrorResponse(http::status::service_unavailable, "Scheduler not initialized", req);
+                break;
+            }
+            auto result = task_scheduler_api_->disableTask(task_id);
+            if (result.value("status", "") == "error") {
+                response = makeErrorResponse(http::status::not_found, result.value("error", "Not found"), req);
+            } else {
+                response = makeResponse(http::status::ok, result.dump(), req);
+            }
+            break;
+        }
+        case Route::TasksExecutePost: {
+            if (auto auth_err = requireAccess(req, "tasks:admin", "tasks.execute", "/api/tasks")) {
+                response = *auth_err;
+                break;
+            }
+            static constexpr std::string_view kTasksPfx{"/api/tasks/"};
+            std::string ponly = std::string(req.target());
+            if (auto qp = ponly.find('?'); qp != std::string::npos) ponly = ponly.substr(0, qp);
+            std::string rest = ponly.substr(kTasksPfx.size());
+            std::string task_id = rest.substr(0, rest.find('/'));
+            if (!task_scheduler_api_) {
+                response = makeErrorResponse(http::status::service_unavailable, "Scheduler not initialized", req);
+                break;
+            }
+            auto result = task_scheduler_api_->executeTask(task_id);
+            if (result.value("status", "") == "error") {
+                response = makeErrorResponse(http::status::not_found, result.value("error", "Not found"), req);
+            } else {
+                response = makeResponse(http::status::ok, result.dump(), req);
+            }
+            break;
+        }
+        case Route::TasksHistoryGet: {
+            if (auto auth_err = requireAccess(req, "tasks:read", "tasks.history", "/api/tasks")) {
+                response = *auth_err;
+                break;
+            }
+            static constexpr std::string_view kTasksPfx{"/api/tasks/"};
+            nlohmann::json qparams = parseQueryParams(std::string(req.target()));
+            std::string target_path = std::string(req.target());
+            if (auto qp = target_path.find('?'); qp != std::string::npos) target_path = target_path.substr(0, qp);
+            std::string rest = target_path.substr(kTasksPfx.size());
+            std::string task_id = rest.substr(0, rest.find('/'));
+            if (!task_scheduler_api_) {
+                response = makeErrorResponse(http::status::service_unavailable, "Scheduler not initialized", req);
+                break;
+            }
+            auto result = task_scheduler_api_->getExecutionHistory(task_id, qparams);
+            response = makeResponse(http::status::ok, result.dump(), req);
+            break;
+        }
+
+        // ---- Database Maintenance Orchestrator API --------------------------
+
+        case Route::MaintenanceStatusGet: {
+            if (auto auth_err = requireAccess(req, "maintenance:read", "maintenance.status",
+                                              "/api/v1/maintenance/status")) {
+                response = *auth_err; break;
+            }
+            if (!maintenance_api_) {
+                response = makeErrorResponse(http::status::service_unavailable,
+                                             "Maintenance orchestrator not initialized", req);
+                break;
+            }
+            response = makeResponse(http::status::ok,
+                                    maintenance_api_->getStatus().dump(), req);
+            break;
+        }
+
+        case Route::MaintenanceHealthGet: {
+            if (auto auth_err = requireAccess(req, "maintenance:read", "maintenance.health",
+                                              "/api/v1/maintenance/health")) {
+                response = *auth_err; break;
+            }
+            if (!maintenance_api_) {
+                response = makeErrorResponse(http::status::service_unavailable,
+                                             "Maintenance orchestrator not initialized", req);
+                break;
+            }
+            response = makeResponse(http::status::ok,
+                                    maintenance_api_->getHealth().dump(), req);
+            break;
+        }
+
+        case Route::MaintenanceTaskHandlersGet: {
+            if (auto auth_err = requireAccess(req, "maintenance:read", "maintenance.task_handlers",
+                                              "/api/v1/maintenance/task-handlers")) {
+                response = *auth_err; break;
+            }
+            if (!maintenance_api_) {
+                response = makeErrorResponse(http::status::service_unavailable,
+                                             "Maintenance orchestrator not initialized", req);
+                break;
+            }
+            response = makeResponse(http::status::ok,
+                                    maintenance_api_->listTaskHandlers().dump(), req);
+            break;
+        }
+
+        // -- Schedule CRUD --------------------------------------------------
+
+        case Route::MaintenanceSchedulesPost: {
+            if (auto auth_err = requireAccess(req, "maintenance:write",
+                                              "maintenance.schedules.create",
+                                              "/api/v1/maintenance/schedules")) {
+                response = *auth_err; break;
+            }
+            auto body = nlohmann::json::parse(req.body(), nullptr, false);
+            if (body.is_discarded()) {
+                response = makeErrorResponse(http::status::bad_request, "Invalid JSON body", req);
+                break;
+            }
+            if (!maintenance_api_) {
+                response = makeErrorResponse(http::status::service_unavailable,
+                                             "Maintenance orchestrator not initialized", req);
+                break;
+            }
+            auto result = maintenance_api_->createSchedule(body);
+            if (result.value("status", "") == "error") {
+                response = makeErrorResponse(http::status::bad_request,
+                                             result.value("error", "Unknown error"), req);
+            } else {
+                response = makeResponse(http::status::created, result.dump(), req);
+            }
+            break;
+        }
+
+        case Route::MaintenanceSchedulesGet: {
+            if (auto auth_err = requireAccess(req, "maintenance:read",
+                                              "maintenance.schedules.list",
+                                              "/api/v1/maintenance/schedules")) {
+                response = *auth_err; break;
+            }
+            if (!maintenance_api_) {
+                response = makeErrorResponse(http::status::service_unavailable,
+                                             "Maintenance orchestrator not initialized", req);
+                break;
+            }
+            response = makeResponse(http::status::ok,
+                                    maintenance_api_->listSchedules().dump(), req);
+            break;
+        }
+
+        case Route::MaintenanceScheduleGet: {
+            if (auto auth_err = requireAccess(req, "maintenance:read",
+                                              "maintenance.schedules.get",
+                                              "/api/v1/maintenance/schedules")) {
+                response = *auth_err; break;
+            }
+            {
+                static constexpr std::string_view kPfx{"/api/v1/maintenance/schedules/"};
+                std::string ponly = std::string(req.target());
+                if (auto q = ponly.find('?'); q != std::string::npos) ponly = ponly.substr(0, q);
+                std::string id = ponly.substr(kPfx.size());
+                if (!maintenance_api_) {
+                    response = makeErrorResponse(http::status::service_unavailable,
+                                                 "Maintenance orchestrator not initialized", req);
+                    break;
+                }
+                auto result = maintenance_api_->getSchedule(id);
+                if (result.value("status", "") == "error") {
+                    response = makeErrorResponse(http::status::not_found,
+                                                 result.value("error", "Not found"), req);
+                } else {
+                    response = makeResponse(http::status::ok, result.dump(), req);
+                }
+            }
+            break;
+        }
+
+        case Route::MaintenanceSchedulePut: {
+            if (auto auth_err = requireAccess(req, "maintenance:write",
+                                              "maintenance.schedules.update",
+                                              "/api/v1/maintenance/schedules")) {
+                response = *auth_err; break;
+            }
+            {
+                static constexpr std::string_view kPfx{"/api/v1/maintenance/schedules/"};
+                std::string ponly = std::string(req.target());
+                if (auto q = ponly.find('?'); q != std::string::npos) ponly = ponly.substr(0, q);
+                std::string id = ponly.substr(kPfx.size());
+                auto body = nlohmann::json::parse(req.body(), nullptr, false);
+                if (body.is_discarded()) {
+                    response = makeErrorResponse(http::status::bad_request, "Invalid JSON body", req);
+                    break;
+                }
+                if (!maintenance_api_) {
+                    response = makeErrorResponse(http::status::service_unavailable,
+                                                 "Maintenance orchestrator not initialized", req);
+                    break;
+                }
+                auto result = maintenance_api_->updateSchedule(id, body);
+                if (result.value("status", "") == "error") {
+                    response = makeErrorResponse(http::status::not_found,
+                                                 result.value("error", "Not found"), req);
+                } else {
+                    response = makeResponse(http::status::ok, result.dump(), req);
+                }
+            }
+            break;
+        }
+
+        case Route::MaintenanceSchedulePatch: {
+            if (auto auth_err = requireAccess(req, "maintenance:write",
+                                              "maintenance.schedules.patch",
+                                              "/api/v1/maintenance/schedules")) {
+                response = *auth_err; break;
+            }
+            {
+                static constexpr std::string_view kPfx{"/api/v1/maintenance/schedules/"};
+                std::string ponly = std::string(req.target());
+                if (auto q = ponly.find('?'); q != std::string::npos) ponly = ponly.substr(0, q);
+                std::string id = ponly.substr(kPfx.size());
+                auto patch = nlohmann::json::parse(req.body(), nullptr, false);
+                if (patch.is_discarded()) {
+                    response = makeErrorResponse(http::status::bad_request, "Invalid JSON body", req);
+                    break;
+                }
+                if (!maintenance_api_) {
+                    response = makeErrorResponse(http::status::service_unavailable,
+                                                 "Maintenance orchestrator not initialized", req);
+                    break;
+                }
+                auto result = maintenance_api_->patchSchedule(id, patch);
+                if (result.value("status", "") == "error") {
+                    response = makeErrorResponse(http::status::not_found,
+                                                 result.value("error", "Not found"), req);
+                } else {
+                    response = makeResponse(http::status::ok, result.dump(), req);
+                }
+            }
+            break;
+        }
+
+        case Route::MaintenanceScheduleDelete: {
+            if (auto auth_err = requireAccess(req, "maintenance:write",
+                                              "maintenance.schedules.delete",
+                                              "/api/v1/maintenance/schedules")) {
+                response = *auth_err; break;
+            }
+            {
+                static constexpr std::string_view kPfx{"/api/v1/maintenance/schedules/"};
+                std::string ponly = std::string(req.target());
+                if (auto q = ponly.find('?'); q != std::string::npos) ponly = ponly.substr(0, q);
+                std::string id = ponly.substr(kPfx.size());
+                if (!maintenance_api_) {
+                    response = makeErrorResponse(http::status::service_unavailable,
+                                                 "Maintenance orchestrator not initialized", req);
+                    break;
+                }
+                auto result = maintenance_api_->deleteSchedule(id);
+                if (result.value("status", "") == "error") {
+                    response = makeErrorResponse(http::status::not_found,
+                                                 result.value("error", "Not found"), req);
+                } else {
+                    response = makeResponse(http::status::ok, result.dump(), req);
+                }
+            }
+            break;
+        }
+
+        case Route::MaintenanceScheduleRunPost: {
+            // Step 1: baseline auth – all callers need at least maintenance:write.
+            if (auto auth_err = requireAccess(req, "maintenance:write",
+                                              "maintenance.schedules.run",
+                                              "/api/v1/maintenance/schedules")) {
+                response = *auth_err; break;
+            }
+            // Step 2: parse and validate the optional body.
+            //   - Invalid JSON  → 400
+            //   - "force" not a boolean → 400
+            bool force_run = false;
+            {
+                const auto& body_str = req.body();
+                if (!body_str.empty()) {
+                    auto body = nlohmann::json::parse(body_str, nullptr, false);
+                    if (body.is_discarded()) {
+                        response = makeErrorResponse(http::status::bad_request,
+                                                     "Invalid JSON body", req);
+                        break;
+                    }
+                    if (body.is_object() && body.contains("force")) {
+                        if (!body["force"].is_boolean()) {
+                            response = makeErrorResponse(http::status::bad_request,
+                                                         "\"force\" must be a boolean", req);
+                            break;
+                        }
+                        force_run = body["force"].get<bool>();
+                    }
+                }
+            }
+            // Step 3: force=true requires elevated maintenance:admin scope.
+            if (force_run) {
+                if (auto auth_err = requireAccess(req, "maintenance:admin",
+                                                  "maintenance.schedules.run.force",
+                                                  "/api/v1/maintenance/schedules")) {
+                    response = *auth_err; break;
+                }
+            }
+            {
+                static constexpr std::string_view kPfx{"/api/v1/maintenance/schedules/"};
+                std::string ponly = std::string(req.target());
+                if (auto q = ponly.find('?'); q != std::string::npos) ponly = ponly.substr(0, q);
+                std::string rest = ponly.substr(kPfx.size());
+                std::string id   = rest.substr(0, rest.find('/'));
+                if (!maintenance_api_) {
+                    response = makeErrorResponse(http::status::service_unavailable,
+                                                 "Maintenance orchestrator not initialized", req);
+                    break;
+                }
+                auto result = maintenance_api_->triggerNow(id, force_run);
+                if (result.value("status", "") == "error") {
+                    response = makeErrorResponse(http::status::not_found,
+                                                 result.value("error", "Not found"), req);
+                } else {
+                    response = makeResponse(http::status::accepted, result.dump(), req);
+                }
+            }
+            break;
+        }
+
+        // -- Jobs -----------------------------------------------------------
+
+        case Route::MaintenanceJobsGet: {
+            if (auto auth_err = requireAccess(req, "maintenance:read",
+                                              "maintenance.jobs.list",
+                                              "/api/v1/maintenance/jobs")) {
+                response = *auth_err; break;
+            }
+            if (!maintenance_api_) {
+                response = makeErrorResponse(http::status::service_unavailable,
+                                             "Maintenance orchestrator not initialized", req);
+                break;
+            }
+            nlohmann::json qp = parseQueryParams(std::string(req.target()));
+            bool active_only = qp.value("active_only", false);
+            response = makeResponse(http::status::ok,
+                                    maintenance_api_->listJobs(active_only).dump(), req);
+            break;
+        }
+
+        case Route::MaintenanceJobGet: {
+            if (auto auth_err = requireAccess(req, "maintenance:read",
+                                              "maintenance.jobs.get",
+                                              "/api/v1/maintenance/jobs")) {
+                response = *auth_err; break;
+            }
+            {
+                static constexpr std::string_view kPfx{"/api/v1/maintenance/jobs/"};
+                std::string ponly = std::string(req.target());
+                if (auto q = ponly.find('?'); q != std::string::npos) ponly = ponly.substr(0, q);
+                std::string id = ponly.substr(kPfx.size());
+                if (!maintenance_api_) {
+                    response = makeErrorResponse(http::status::service_unavailable,
+                                                 "Maintenance orchestrator not initialized", req);
+                    break;
+                }
+                auto result = maintenance_api_->getJob(id);
+                if (result.value("status", "") == "error") {
+                    response = makeErrorResponse(http::status::not_found,
+                                                 result.value("error", "Not found"), req);
+                } else {
+                    response = makeResponse(http::status::ok, result.dump(), req);
+                }
+            }
+            break;
+        }
+
+        case Route::MaintenanceJobCancelPost: {
+            if (auto auth_err = requireAccess(req, "maintenance:write",
+                                              "maintenance.jobs.cancel",
+                                              "/api/v1/maintenance/jobs")) {
+                response = *auth_err; break;
+            }
+            {
+                static constexpr std::string_view kPfx{"/api/v1/maintenance/jobs/"};
+                std::string ponly = std::string(req.target());
+                if (auto q = ponly.find('?'); q != std::string::npos) ponly = ponly.substr(0, q);
+                std::string rest = ponly.substr(kPfx.size());
+                std::string id   = rest.substr(0, rest.find('/'));
+                if (!maintenance_api_) {
+                    response = makeErrorResponse(http::status::service_unavailable,
+                                                 "Maintenance orchestrator not initialized", req);
+                    break;
+                }
+                auto result = maintenance_api_->cancelJob(id);
+                if (result.value("status", "") == "error") {
+                    response = makeErrorResponse(http::status::not_found,
+                                                 result.value("error", "Not found"), req);
+                } else {
+                    response = makeResponse(http::status::ok, result.dump(), req);
+                }
+            }
+            break;
+        }
+
         case Route::NotFound:
         default:
             response = makeErrorResponse(http::status::not_found, "Endpoint not found", req);
@@ -2138,7 +5738,7 @@ http::response<http::string_body> HttpServer::routeRequest(
         span.setStatus(false);
     }
 
-    } catch (const nlohmann::json::exception& e) {
+} catch (const nlohmann::json::exception& e) {
         // JSON parsing errors (including invalid UTF-8)
         THEMIS_ERROR("JSON parsing error in routeRequest: {}", e.what());
         response = makeErrorResponse(http::status::bad_request, 
@@ -2162,225 +5762,29 @@ http::response<http::string_body> HttpServer::routeRequest(
         recordLatency(dur);
     }
 
-    return response;
-}
-
-// WAL replication apply endpoint
-http::response<http::string_body> HttpServer::handleWalApply(
-    const http::request<http::string_body>& req
-) {
-    // HMAC/shared-secret auth (optional)
-    if (!wal_shared_secret_.empty()) {
-        auto hdr = req.find("X-WAL-Auth");
-        if (hdr == req.end() || hdr->value() != wal_shared_secret_) {
-            http::response<http::string_body> res{http::status::unauthorized, req.version()};
-            res.set(http::field::content_type, "application/json");
-            nlohmann::json body = {
-                {"error", true},
-                {"message", "Unauthorized"},
-                {"status_code", static_cast<int>(res.result_int())}
-            };
-            res.body() = body.dump();
-            applyGovernanceHeaders(req, res);
-            res.prepare_payload();
-            return res;
-        }
+    // Propagate request ID to response
+    if (!request_id.empty()) {
+        response.set("X-Request-ID", request_id);
     }
 
-    if (!wal_hmac_secret_.empty()) {
-        auto hdr = req.find("X-WAL-HMAC");
-        if (hdr == req.end()) {
-            http::response<http::string_body> res{http::status::unauthorized, req.version()};
-            res.set(http::field::content_type, "application/json");
-            nlohmann::json body = {
-                {"error", true},
-                {"message", "Unauthorized"},
-                {"status_code", static_cast<int>(res.result_int())}
-            };
-            res.body() = body.dump();
-            applyGovernanceHeaders(req, res);
-            res.prepare_payload();
-            return res;
-        }
-        std::string expected = hmacSha256Hex(wal_hmac_secret_, req.body());
-        if (expected.empty() || !timingSafeEqual(expected, std::string(hdr->value()))) {
-            http::response<http::string_body> res{http::status::unauthorized, req.version()};
-            res.set(http::field::content_type, "application/json");
-            nlohmann::json body = {
-                {"error", true},
-                {"message", "Unauthorized"},
-                {"status_code", static_cast<int>(res.result_int())}
-            };
-            res.body() = body.dump();
-            applyGovernanceHeaders(req, res);
-            res.prepare_payload();
-            return res;
-        }
-    }
-
-    auto apply_start = std::chrono::steady_clock::now();
-
-    if (!wal_applier_) {
-        http::response<http::string_body> res{http::status::service_unavailable, req.version()};
-        res.set(http::field::content_type, "application/json");
-        nlohmann::json body = {
-            {"error", true},
-            {"message", "WAL applier not configured"},
-            {"status_code", static_cast<int>(res.result_int())}
-        };
-        res.body() = body.dump();
-        applyGovernanceHeaders(req, res);
-        res.prepare_payload();
-        return res;
-    }
-
-    nlohmann::json payload;
-    try {
-        payload = nlohmann::json::parse(req.body());
-    } catch (const std::exception& e) {
-        http::response<http::string_body> res{http::status::bad_request, req.version()};
-        res.set(http::field::content_type, "application/json");
-        nlohmann::json body = {
-            {"error", true},
-            {"message", std::string("Invalid JSON: ") + e.what()},
-            {"status_code", static_cast<int>(res.result_int())}
-        };
-        res.body() = body.dump();
-        applyGovernanceHeaders(req, res);
-        res.prepare_payload();
-        return res;
-    }
-
-    // Accept either raw entries or compressed payload from shipper
-    nlohmann::json entries_json;
-    if (payload.contains("entries") && payload["entries"].is_array()) {
-        entries_json = payload["entries"];
-    } else if (payload.contains("entries_compressed")) {
-        // entries_compressed is stored as binary in JSON (nlohmann::json::binary)
-        try {
-            const auto& bin = payload["entries_compressed"].get_binary();
-            std::vector<uint8_t> compressed(bin.begin(), bin.end());
-            auto decompressed = utils::zstd_decompress(compressed);
-            entries_json = nlohmann::json::parse(decompressed.begin(), decompressed.end());
-        } catch (const std::exception& e) {
-            http::response<http::string_body> res{http::status::bad_request, req.version()};
-            res.set(http::field::content_type, "application/json");
-            nlohmann::json body = {
-                {"error", true},
-                {"message", std::string("Failed to decode compressed entries: ") + e.what()},
-                {"status_code", static_cast<int>(res.result_int())}
-            };
-            res.body() = body.dump();
-            applyGovernanceHeaders(req, res);
-            res.prepare_payload();
-            return res;
-        }
-    } else {
-        http::response<http::string_body> res{http::status::bad_request, req.version()};
-        res.set(http::field::content_type, "application/json");
-        nlohmann::json body = {
-            {"error", true},
-            {"message", "Missing 'entries' array (or entries_compressed)"},
-            {"status_code", static_cast<int>(res.result_int())}
-        };
-        res.body() = body.dump();
-        applyGovernanceHeaders(req, res);
-        res.prepare_payload();
-        return res;
-    }
-
-    std::vector<sharding::WALEntry> entries;
-    entries.reserve(entries_json.size());
-
-    try {
-        for (const auto& item : entries_json) {
-            sharding::WALEntry e;
-            if (item.contains("lsn")) {
-                e.lsn = sharding::LSN::fromString(item.value("lsn", std::string("0/0")));
-            }
-            e.type = static_cast<sharding::WALEntryType>(item.value("type", 0));
-            e.timestamp = item.value("timestamp", uint64_t(0));
-            e.transaction_id = item.value("transaction_id", std::string());
-            if (item.contains("data")) {
-                e.data = item["data"]; // assumes valid JSON object/array
-            }
-            entries.push_back(std::move(e));
-        }
-    } catch (const std::exception& e) {
-        http::response<http::string_body> res{http::status::bad_request, req.version()};
-        res.set(http::field::content_type, "application/json");
-        nlohmann::json body = {
-            {"error", true},
-            {"message", std::string("Invalid WAL entry: ") + e.what()},
-            {"status_code", static_cast<int>(res.result_int())}
-        };
-        res.body() = body.dump();
-        applyGovernanceHeaders(req, res);
-        res.prepare_payload();
-        return res;
-    }
-
-    auto result = wal_applier_->applyBatch(entries);
-    if (!result.success) {
-        auto elapsed_us = std::chrono::duration_cast<std::chrono::microseconds>(
-            std::chrono::steady_clock::now() - apply_start).count();
-        wal_apply_latency_sum_us_.fetch_add(static_cast<uint64_t>(elapsed_us), std::memory_order_relaxed);
-        wal_apply_latency_count_.fetch_add(1, std::memory_order_relaxed);
-        if (elapsed_us <= 50'000) {
-            wal_apply_latency_le_50ms_.fetch_add(1, std::memory_order_relaxed);
-        } else if (elapsed_us <= 200'000) {
-            wal_apply_latency_le_200ms_.fetch_add(1, std::memory_order_relaxed);
-        } else if (elapsed_us <= 1'000'000) {
-            wal_apply_latency_le_1000ms_.fetch_add(1, std::memory_order_relaxed);
-        } else {
-            wal_apply_latency_gt_1000ms_.fetch_add(1, std::memory_order_relaxed);
-        }
-        wal_apply_fail_.fetch_add(1, std::memory_order_relaxed);
-        http::response<http::string_body> res{http::status::internal_server_error, req.version()};
-        res.set(http::field::content_type, "application/json");
-        nlohmann::json body = {
-            {"error", true},
-            {"message", "Apply failed"},
-            {"errors", result.errors},
-            {"status_code", static_cast<int>(res.result_int())}
-        };
-        res.body() = body.dump();
-        applyGovernanceHeaders(req, res);
-        res.prepare_payload();
-        return res;
-    }
-
-    wal_apply_success_.fetch_add(1, std::memory_order_relaxed);
+    // Emit structured JSON access log line
     {
-        std::lock_guard<std::mutex> lock(wal_metrics_mutex_);
-        wal_last_applied_lsn_ = result.last_applied_lsn.toString();
+        auto total_dur = std::chrono::duration_cast<std::chrono::microseconds>(
+            std::chrono::steady_clock::now() - start
+        );
+        double duration_ms = total_dur.count() / 1000.0;
+        std::string client_ip = extractClientIP(req);
+        THEMIS_INFO("access method={} path={} status={} duration_ms={:.3f} request_id={} client_ip={}",
+            std::string(http::to_string(req.method())),
+            target,
+            response.result_int(),
+            duration_ms,
+            request_id.empty() ? "-" : request_id,
+            client_ip.empty() ? "-" : client_ip
+        );
     }
 
-    auto elapsed_us = std::chrono::duration_cast<std::chrono::microseconds>(
-        std::chrono::steady_clock::now() - apply_start).count();
-    wal_apply_latency_sum_us_.fetch_add(static_cast<uint64_t>(elapsed_us), std::memory_order_relaxed);
-    wal_apply_latency_count_.fetch_add(1, std::memory_order_relaxed);
-    if (elapsed_us <= 50'000) {
-        wal_apply_latency_le_50ms_.fetch_add(1, std::memory_order_relaxed);
-    } else if (elapsed_us <= 200'000) {
-        wal_apply_latency_le_200ms_.fetch_add(1, std::memory_order_relaxed);
-    } else if (elapsed_us <= 1'000'000) {
-        wal_apply_latency_le_1000ms_.fetch_add(1, std::memory_order_relaxed);
-    } else {
-        wal_apply_latency_gt_1000ms_.fetch_add(1, std::memory_order_relaxed);
-    }
-
-    http::response<http::string_body> res{http::status::ok, req.version()};
-    res.set(http::field::content_type, "application/json");
-    nlohmann::json body = {
-        {"success", true},
-        {"entries_applied", result.entries_applied},
-        {"last_applied_lsn", result.last_applied_lsn.toString()}
-    };
-    res.body() = body.dump();
-    applyGovernanceHeaders(req, res);
-    res.prepare_payload();
-    return res;
+    return response;
 }
 
 // -----------------------------------------------------------------------------
@@ -2718,6 +6122,443 @@ http::response<http::string_body> HttpServer::handleKeysRotateKey(
     }
 }
 
+// -----------------------------------------------------------------------------
+// API Key Management Handlers
+// -----------------------------------------------------------------------------
+
+http::response<http::string_body> HttpServer::handleApiKeyCreate(
+    const http::request<http::string_body>& req
+) {
+    try {
+        if (!api_key_mgmt_) {
+            return makeErrorResponse(http::status::service_unavailable, "API Key Management not available", req);
+        }
+        if (auto resp = requireAccess(req, "admin:all", "api_key.create", "/api/keys")) return *resp;
+        if (req.body().empty()) {
+            return makeErrorResponse(http::status::bad_request, "Missing JSON body", req);
+        }
+        json body;
+        try { body = json::parse(req.body()); } catch (...) {
+            return makeErrorResponse(http::status::bad_request, "Invalid JSON body", req);
+        }
+        auto result = api_key_mgmt_->createKey(body);
+        if (result.contains("status_code")) {
+            int sc = result.value("status_code", 500);
+            return makeErrorResponse(static_cast<http::status>(sc), result.dump(), req);
+        }
+        return makeResponse(http::status::created, result.dump(), req);
+    } catch (const std::exception& e) {
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
+}
+
+http::response<http::string_body> HttpServer::handleApiKeyList(
+    const http::request<http::string_body>& req
+) {
+    try {
+        if (!api_key_mgmt_) {
+            return makeErrorResponse(http::status::service_unavailable, "API Key Management not available", req);
+        }
+        if (auto resp = requireAccess(req, "admin:all", "api_key.list", "/api/keys")) return *resp;
+        auto result = api_key_mgmt_->listKeys();
+        return makeResponse(http::status::ok, result.dump(), req);
+    } catch (const std::exception& e) {
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
+}
+
+http::response<http::string_body> HttpServer::handleApiKeyGet(
+    const http::request<http::string_body>& req
+) {
+    try {
+        if (!api_key_mgmt_) {
+            return makeErrorResponse(http::status::service_unavailable, "API Key Management not available", req);
+        }
+        if (auto resp = requireAccess(req, "admin:all", "api_key.get", "/api/keys")) return *resp;
+        auto key_id = extractPathParam(std::string(req.target()), "/api/keys/");
+        if (key_id.empty()) {
+            return makeErrorResponse(http::status::bad_request, "Missing key id", req);
+        }
+        if (validator_ && !validator_->validatePathSegment(key_id)) {
+            return makeErrorResponse(http::status::bad_request, "Invalid key id", req);
+        }
+        auto result = api_key_mgmt_->getKey(key_id);
+        if (result.contains("status_code")) {
+            int sc = result.value("status_code", 500);
+            return makeErrorResponse(static_cast<http::status>(sc), result.dump(), req);
+        }
+        return makeResponse(http::status::ok, result.dump(), req);
+    } catch (const std::exception& e) {
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
+}
+
+http::response<http::string_body> HttpServer::handleApiKeyUpdate(
+    const http::request<http::string_body>& req
+) {
+    try {
+        if (!api_key_mgmt_) {
+            return makeErrorResponse(http::status::service_unavailable, "API Key Management not available", req);
+        }
+        if (auto resp = requireAccess(req, "admin:all", "api_key.update", "/api/keys")) return *resp;
+        auto key_id = extractPathParam(std::string(req.target()), "/api/keys/");
+        if (key_id.empty()) {
+            return makeErrorResponse(http::status::bad_request, "Missing key id", req);
+        }
+        if (validator_ && !validator_->validatePathSegment(key_id)) {
+            return makeErrorResponse(http::status::bad_request, "Invalid key id", req);
+        }
+        json body;
+        try { if (!req.body().empty()) body = json::parse(req.body()); } catch (...) {
+            return makeErrorResponse(http::status::bad_request, "Invalid JSON body", req);
+        }
+        auto result = api_key_mgmt_->updateKey(key_id, body);
+        if (result.contains("status_code")) {
+            int sc = result.value("status_code", 500);
+            return makeErrorResponse(static_cast<http::status>(sc), result.dump(), req);
+        }
+        return makeResponse(http::status::ok, result.dump(), req);
+    } catch (const std::exception& e) {
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
+}
+
+http::response<http::string_body> HttpServer::handleApiKeyDelete(
+    const http::request<http::string_body>& req
+) {
+    try {
+        if (!api_key_mgmt_) {
+            return makeErrorResponse(http::status::service_unavailable, "API Key Management not available", req);
+        }
+        if (auto resp = requireAccess(req, "admin:all", "api_key.delete", "/api/keys")) return *resp;
+        auto key_id = extractPathParam(std::string(req.target()), "/api/keys/");
+        if (key_id.empty()) {
+            return makeErrorResponse(http::status::bad_request, "Missing key id", req);
+        }
+        if (validator_ && !validator_->validatePathSegment(key_id)) {
+            return makeErrorResponse(http::status::bad_request, "Invalid key id", req);
+        }
+        auto result = api_key_mgmt_->deleteKey(key_id);
+        if (result.contains("status_code")) {
+            int sc = result.value("status_code", 500);
+            return makeErrorResponse(static_cast<http::status>(sc), result.dump(), req);
+        }
+        return makeResponse(http::status::ok, result.dump(), req);
+    } catch (const std::exception& e) {
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
+}
+
+// -----------------------------------------------------------------------------
+// Session Management Handlers
+// -----------------------------------------------------------------------------
+
+http::response<http::string_body> HttpServer::handleSessionCreate(
+    const http::request<http::string_body>& req
+) {
+    try {
+        if (!session_api_) {
+            return makeErrorResponse(http::status::service_unavailable, "Session management not available", req);
+        }
+        auto it = req.find(http::field::authorization);
+        if (it == req.end()) {
+            return makeErrorResponse(http::status::unauthorized, "Missing Authorization header", req);
+        }
+        auto token = themis::AuthMiddleware::extractBearerToken(
+            std::string_view(it->value().data(), it->value().size()));
+        if (!token) {
+            return makeErrorResponse(http::status::unauthorized, "Invalid Bearer token format", req);
+        }
+        json body;
+        if (!req.body().empty()) {
+            try { body = json::parse(req.body()); } catch (...) {
+                return makeErrorResponse(http::status::bad_request, "Invalid JSON body", req);
+            }
+        }
+        // Extract client IP from X-Forwarded-For or remote endpoint
+        std::string client_ip;
+        auto fwd = req.find("X-Forwarded-For");
+        if (fwd != req.end()) {
+            client_ip = std::string(fwd->value());
+            auto comma = client_ip.find(',');
+            if (comma != std::string::npos) client_ip = client_ip.substr(0, comma);
+            // Trim leading and trailing whitespace
+            auto first = client_ip.find_first_not_of(" \t");
+            auto last  = client_ip.find_last_not_of(" \t");
+            client_ip = (first == std::string::npos) ? "" : client_ip.substr(first, last - first + 1);
+        }
+        auto result = session_api_->createSession(*token, body, client_ip);
+        if (result.contains("status_code")) {
+            int sc = result.value("status_code", 500);
+            return makeErrorResponse(static_cast<http::status>(sc), result.dump(), req);
+        }
+        return makeResponse(http::status::created, result.dump(), req);
+    } catch (const std::exception& e) {
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
+}
+
+http::response<http::string_body> HttpServer::handleSessionList(
+    const http::request<http::string_body>& req
+) {
+    try {
+        if (!session_api_) {
+            return makeErrorResponse(http::status::service_unavailable, "Session management not available", req);
+        }
+        auto it = req.find(http::field::authorization);
+        if (it == req.end()) {
+            return makeErrorResponse(http::status::unauthorized, "Missing Authorization header", req);
+        }
+        auto token = themis::AuthMiddleware::extractBearerToken(
+            std::string_view(it->value().data(), it->value().size()));
+        if (!token) {
+            return makeErrorResponse(http::status::unauthorized, "Invalid Bearer token format", req);
+        }
+        // Optionally accept current session from a header or query param
+        std::string current_session;
+        auto cs_hdr = req.find("X-Session-Id");
+        if (cs_hdr != req.end()) current_session = std::string(cs_hdr->value());
+        auto result = session_api_->listSessions(*token, current_session);
+        if (result.contains("status_code")) {
+            int sc = result.value("status_code", 500);
+            return makeErrorResponse(static_cast<http::status>(sc), result.dump(), req);
+        }
+        return makeResponse(http::status::ok, result.dump(), req);
+    } catch (const std::exception& e) {
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
+}
+
+http::response<http::string_body> HttpServer::handleSessionRevokeById(
+    const http::request<http::string_body>& req
+) {
+    try {
+        if (!session_api_) {
+            return makeErrorResponse(http::status::service_unavailable, "Session management not available", req);
+        }
+        auto it = req.find(http::field::authorization);
+        if (it == req.end()) {
+            return makeErrorResponse(http::status::unauthorized, "Missing Authorization header", req);
+        }
+        auto token = themis::AuthMiddleware::extractBearerToken(
+            std::string_view(it->value().data(), it->value().size()));
+        if (!token) {
+            return makeErrorResponse(http::status::unauthorized, "Invalid Bearer token format", req);
+        }
+        auto session_id = extractPathParam(std::string(req.target()), "/auth/sessions/");
+        if (session_id.empty()) {
+            return makeErrorResponse(http::status::bad_request, "Missing session id", req);
+        }
+        auto result = session_api_->revokeSession(*token, session_id);
+        if (result.contains("status_code")) {
+            int sc = result.value("status_code", 500);
+            return makeErrorResponse(static_cast<http::status>(sc), result.dump(), req);
+        }
+        return makeResponse(http::status::ok, result.dump(), req);
+    } catch (const std::exception& e) {
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
+}
+
+http::response<http::string_body> HttpServer::handleSessionRevokeOthers(
+    const http::request<http::string_body>& req
+) {
+    try {
+        if (!session_api_) {
+            return makeErrorResponse(http::status::service_unavailable, "Session management not available", req);
+        }
+        auto it = req.find(http::field::authorization);
+        if (it == req.end()) {
+            return makeErrorResponse(http::status::unauthorized, "Missing Authorization header", req);
+        }
+        auto token = themis::AuthMiddleware::extractBearerToken(
+            std::string_view(it->value().data(), it->value().size()));
+        if (!token) {
+            return makeErrorResponse(http::status::unauthorized, "Invalid Bearer token format", req);
+        }
+        std::string current_session;
+        if (!req.body().empty()) {
+            try {
+                auto body = json::parse(req.body());
+                if (body.contains("current_session_id") && body["current_session_id"].is_string()) {
+                    current_session = body["current_session_id"].get<std::string>();
+                }
+            } catch (...) {
+                return makeErrorResponse(http::status::bad_request, "Invalid JSON body", req);
+            }
+        }
+        auto result = session_api_->revokeAllOtherSessions(*token, current_session);
+        if (result.contains("status_code")) {
+            int sc = result.value("status_code", 500);
+            return makeErrorResponse(static_cast<http::status>(sc), result.dump(), req);
+        }
+        return makeResponse(http::status::ok, result.dump(), req);
+    } catch (const std::exception& e) {
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
+}
+
+// -----------------------------------------------------------------------------
+// SAML 2.0 SP Handlers
+// -----------------------------------------------------------------------------
+
+http::response<http::string_body> HttpServer::handleSamlLogin(
+    const http::request<http::string_body>& req
+) {
+    try {
+        if (!saml_provider_) {
+            return makeErrorResponse(http::status::service_unavailable,
+                                     "SAML provider not configured", req);
+        }
+        // Extract optional relay_state from query string.
+        std::string relay_state;
+        const std::string target = std::string(req.target());
+        auto qpos = target.find('?');
+        if (qpos != std::string::npos) {
+            const std::string qs = target.substr(qpos + 1);
+            std::istringstream iss(qs);
+            std::string kv;
+            while (std::getline(iss, kv, '&')) {
+                auto eq = kv.find('=');
+                if (eq != std::string::npos && kv.substr(0, eq) == "relay_state") {
+                    relay_state = urlDecode(kv.substr(eq + 1));
+                    break;
+                }
+            }
+        }
+        auto result = saml_provider_->handleLogin(relay_state);
+        if (result.contains("status_code")) {
+            int sc = result.value("status_code", 500);
+            return makeErrorResponse(static_cast<http::status>(sc), result.dump(), req);
+        }
+        // Return 302 redirect to IdP SSO URL.
+        auto redirect_url = result.value("redirect_url", "");
+        http::response<http::string_body> res{http::status::found, req.version()};
+        res.set(http::field::location, redirect_url);
+        res.set(http::field::content_type, "application/json");
+        res.keep_alive(req.keep_alive());
+        res.body() = result.dump();
+        res.prepare_payload();
+        return res;
+    } catch (const std::exception& e) {
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
+}
+
+http::response<http::string_body> HttpServer::handleSamlAcs(
+    const http::request<http::string_body>& req
+) {
+    try {
+        if (!saml_provider_) {
+            return makeErrorResponse(http::status::service_unavailable,
+                                     "SAML provider not configured", req);
+        }
+        // ACS receives an application/x-www-form-urlencoded POST body
+        // with SAMLResponse and optional RelayState fields (SAML 2.0 Bindings §3.5).
+        // InResponseTo is validated by SAMLAuthenticator from the XML assertion; the
+        // pending request_id stored during handleSamlLogin is supplied as in_response_to
+        // to enable server-side SP-initiated flow verification.  The request_id may be
+        // recovered from: (1) a server-side session keyed on the browser session cookie,
+        // or (2) the RelayState when it encodes the request_id.  For programmatic / test
+        // clients an explicit X-SAML-RequestId header is also accepted.
+        std::string saml_response_b64;
+        std::string relay_state;
+
+        const auto& body = req.body();
+        if (!body.empty()) {
+            std::istringstream iss(body);
+            std::string kv;
+            while (std::getline(iss, kv, '&')) {
+                auto eq = kv.find('=');
+                if (eq == std::string::npos) continue;
+                const auto key   = urlDecode(kv.substr(0, eq));
+                const auto value = urlDecode(kv.substr(eq + 1));
+                if (key == "SAMLResponse")  saml_response_b64 = value;
+                else if (key == "RelayState") relay_state      = value;
+            }
+        }
+        if (saml_response_b64.empty()) {
+            return makeErrorResponse(http::status::bad_request, "Missing SAMLResponse field", req);
+        }
+        // Recover the original SP-initiated request_id (if any).
+        // Check the X-SAML-RequestId header first (programmatic clients / proxies),
+        // then fall back to an empty string (IdP-initiated flow or no validation needed).
+        std::string in_response_to;
+        auto req_id_hdr = req.find("X-SAML-RequestId");
+        if (req_id_hdr != req.end()) {
+            in_response_to = std::string(req_id_hdr->value());
+        }
+        auto result = saml_provider_->handleAcs(saml_response_b64, relay_state, in_response_to);
+        if (result.contains("status_code")) {
+            int sc = result.value("status_code", 500);
+            return makeErrorResponse(static_cast<http::status>(sc), result.dump(), req);
+        }
+        return makeResponse(http::status::ok, result.dump(), req);
+    } catch (const std::exception& e) {
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
+}
+
+http::response<http::string_body> HttpServer::handleSamlSlo(
+    const http::request<http::string_body>& req
+) {
+    try {
+        if (!saml_provider_) {
+            return makeErrorResponse(http::status::service_unavailable,
+                                     "SAML provider not configured", req);
+        }
+        std::string session_index;
+        if (!req.body().empty()) {
+            try {
+                auto body_json = json::parse(req.body());
+                if (body_json.contains("session_index") && body_json["session_index"].is_string()) {
+                    session_index = body_json["session_index"].get<std::string>();
+                }
+            } catch (...) {
+                // Non-JSON bodies (e.g. form-encoded) are silently ignored for SLO.
+            }
+        }
+        auto result = saml_provider_->handleSlo(session_index);
+        if (result.contains("status_code")) {
+            int sc = result.value("status_code", 500);
+            return makeErrorResponse(static_cast<http::status>(sc), result.dump(), req);
+        }
+        // If result contains a redirect_url, issue 302.
+        if (result.contains("redirect_url") && !result["redirect_url"].get<std::string>().empty()) {
+            http::response<http::string_body> res{http::status::found, req.version()};
+            res.set(http::field::location, result["redirect_url"].get<std::string>());
+            res.set(http::field::content_type, "application/json");
+            res.keep_alive(req.keep_alive());
+            res.body() = result.dump();
+            res.prepare_payload();
+            return res;
+        }
+        return makeResponse(http::status::ok, result.dump(), req);
+    } catch (const std::exception& e) {
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
+}
+
+http::response<http::string_body> HttpServer::handleSamlMetadata(
+    const http::request<http::string_body>& req
+) {
+    try {
+        if (!saml_provider_) {
+            return makeErrorResponse(http::status::service_unavailable,
+                                     "SAML provider not configured", req);
+        }
+        const auto xml = saml_provider_->buildMetadataXml();
+        http::response<http::string_body> res{http::status::ok, req.version()};
+        res.set(http::field::content_type, "application/samlmetadata+xml");
+        res.keep_alive(req.keep_alive());
+        res.body() = xml;
+        res.prepare_payload();
+        return res;
+    } catch (const std::exception& e) {
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
+}
+
 http::response<http::string_body> HttpServer::handleClassificationListRules(
     const http::request<http::string_body>& req
 ) {
@@ -2745,98 +6586,6 @@ http::response<http::string_body> HttpServer::handleClassificationTest(
         auto body = json::parse(req.body());
         auto result = classification_api_->testClassification(body);
         return makeResponse(http::status::ok, result.dump(), req);
-    } catch (const std::exception& e) {
-        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
-    }
-}
-
-// -----------------------------------------------------------------------------
-// Prompt Template CRUD handlers
-// -----------------------------------------------------------------------------
-
-http::response<http::string_body> HttpServer::handlePromptTemplatePost(
-    const http::request<http::string_body>& req
-) {
-    try {
-        if (!prompt_manager_) return makeErrorResponse(http::status::service_unavailable, "PromptManager not available", req);
-        // Authorization: require data:write for creating templates
-        if (auto resp = requireAccess(req, "data:write", "prompt_template.create", "/prompt_template")) return *resp;
-
-        if (req.body().empty()) return makeErrorResponse(http::status::bad_request, "Missing JSON body", req);
-        auto body = json::parse(req.body());
-        themis::PromptManager::PromptTemplate t;
-        if (body.contains("id")) t.id = body.value("id", std::string());
-        if (body.contains("name")) t.name = body.value("name", std::string());
-        if (body.contains("version")) t.version = body.value("version", std::string());
-        if (body.contains("content")) t.content = body.value("content", std::string());
-        if (body.contains("metadata")) t.metadata = body["metadata"];
-        if (body.contains("active")) t.active = body.value("active", true);
-
-        auto created = prompt_manager_->createTemplate(std::move(t));
-        return makeResponse(http::status::created, created.toJson().dump(), req);
-    } catch (const std::exception& e) {
-        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
-    }
-}
-
-http::response<http::string_body> HttpServer::handlePromptTemplateList(
-    const http::request<http::string_body>& req
-) {
-    try {
-        if (!prompt_manager_) return makeErrorResponse(http::status::service_unavailable, "PromptManager not available", req);
-        // Authorization: require data:read for listing templates
-        if (auto resp = requireAccess(req, "data:read", "prompt_template.list", "/prompt_template")) return *resp;
-
-        auto list = prompt_manager_->listTemplates();
-        nlohmann::json out = nlohmann::json::array();
-        for (const auto& t : list) out.push_back(t.toJson());
-        return makeResponse(http::status::ok, out.dump(), req);
-    } catch (const std::exception& e) {
-        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
-    }
-}
-
-http::response<http::string_body> HttpServer::handlePromptTemplateGet(
-    const http::request<http::string_body>& req
-) {
-    try {
-        if (!prompt_manager_) return makeErrorResponse(http::status::service_unavailable, "PromptManager not available", req);
-        // Authorization: require data:read
-        if (auto resp = requireAccess(req, "data:read", "prompt_template.get", "/prompt_template")) return *resp;
-
-        std::string path = std::string(req.target());
-        auto id = extractPathParam(path, "/prompt_template/");
-        if (id.empty()) return makeErrorResponse(http::status::bad_request, "Missing template id", req);
-        auto opt = prompt_manager_->getTemplate(id);
-        if (!opt.has_value()) return makeErrorResponse(http::status::not_found, "Template not found", req);
-        return makeResponse(http::status::ok, opt->toJson().dump(), req);
-    } catch (const std::exception& e) {
-        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
-    }
-}
-
-http::response<http::string_body> HttpServer::handlePromptTemplatePut(
-    const http::request<http::string_body>& req
-) {
-    try {
-        if (!prompt_manager_) return makeErrorResponse(http::status::service_unavailable, "PromptManager not available", req);
-        // Authorization: require data:write for updates
-        if (auto resp = requireAccess(req, "data:write", "prompt_template.update", "/prompt_template")) return *resp;
-
-        std::string path = std::string(req.target());
-        auto id = extractPathParam(path, "/prompt_template/");
-        if (id.empty()) return makeErrorResponse(http::status::bad_request, "Missing template id", req);
-        if (req.body().empty()) return makeErrorResponse(http::status::bad_request, "Missing JSON body", req);
-        auto body = json::parse(req.body());
-        nlohmann::json metadata = nlohmann::json::object();
-        bool active = true;
-        if (body.contains("metadata")) metadata = body["metadata"];
-        if (body.contains("active")) active = body.value("active", true);
-        bool ok = prompt_manager_->updateTemplate(id, metadata, active);
-        if (!ok) return makeErrorResponse(http::status::not_found, "Template not found", req);
-        auto updated_opt = prompt_manager_->getTemplate(id);
-        nlohmann::json out = updated_opt ? updated_opt->toJson() : nlohmann::json::object();
-        return makeResponse(http::status::ok, out.dump(), req);
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::internal_server_error, e.what(), req);
     }
@@ -3023,14 +6772,14 @@ http::response<http::string_body> HttpServer::handleMetrics(const http::request<
         }
 
         // WAL replication metrics (always emit, even if replication not configured)
-        uint64_t wal_success = wal_apply_success_.load(std::memory_order_relaxed);
-        uint64_t wal_fail = wal_apply_fail_.load(std::memory_order_relaxed);
-        uint64_t wal_le_50ms = wal_apply_latency_le_50ms_.load(std::memory_order_relaxed);
-        uint64_t wal_le_200ms = wal_apply_latency_le_200ms_.load(std::memory_order_relaxed);
-        uint64_t wal_le_1000ms = wal_apply_latency_le_1000ms_.load(std::memory_order_relaxed);
-        uint64_t wal_gt_1000ms = wal_apply_latency_gt_1000ms_.load(std::memory_order_relaxed);
-        uint64_t wal_latency_count = wal_apply_latency_count_.load(std::memory_order_relaxed);
-        uint64_t wal_latency_sum_us = wal_apply_latency_sum_us_.load(std::memory_order_relaxed);
+        uint64_t wal_success = wal_api_ ? wal_api_->getApplySuccessCount() : 0;
+        uint64_t wal_fail = wal_api_ ? wal_api_->getApplyFailCount() : 0;
+        uint64_t wal_le_50ms = wal_api_ ? wal_api_->getApplyLatencyLe50ms() : 0;
+        uint64_t wal_le_200ms = wal_api_ ? wal_api_->getApplyLatencyLe200ms() : 0;
+        uint64_t wal_le_1000ms = wal_api_ ? wal_api_->getApplyLatencyLe1000ms() : 0;
+        uint64_t wal_gt_1000ms = wal_api_ ? wal_api_->getApplyLatencyGt1000ms() : 0;
+        uint64_t wal_latency_count = wal_api_ ? wal_api_->getApplyLatencyCount() : 0;
+        uint64_t wal_latency_sum_us = wal_api_ ? wal_api_->getApplyLatencySumUs() : 0;
 
         uint64_t wal_bucket_50 = wal_le_50ms;
         uint64_t wal_bucket_200 = wal_le_50ms + wal_le_200ms;
@@ -3049,9 +6798,8 @@ http::response<http::string_body> HttpServer::handleMetrics(const http::request<
         out.unsetf(std::ios::floatfield);
 
         std::string wal_last_lsn;
-        {
-            std::lock_guard<std::mutex> lock(wal_metrics_mutex_);
-            wal_last_lsn = wal_last_applied_lsn_;
+        if (wal_api_) {
+            wal_last_lsn = wal_api_->getLastAppliedLsn();
         }
         out << "themis_wal_last_applied_lsn{lsn=\"" << wal_last_lsn << "\"} 1\n";
 
@@ -3134,28 +6882,7 @@ http::response<http::string_body> HttpServer::handleMetrics(const http::request<
 // -----------------------------------------------------------------------------
 
 namespace {
-    // Percent-decode helper for application/x-www-form-urlencoded style (handles + and %HH)
-    static std::string urlDecode(const std::string& in) {
-        std::string out;
-        out.reserve(in.size());
-        for (size_t i = 0; i < in.size(); ++i) {
-            char c = in[i];
-            if (c == '+') { out.push_back(' '); }
-            else if (c == '%' && i + 2 < in.size()) {
-                auto hex = in.substr(i + 1, 2);
-                int v = 0;
-                if (std::isxdigit(static_cast<unsigned char>(hex[0])) && std::isxdigit(static_cast<unsigned char>(hex[1]))) {
-                    v = std::stoi(hex, nullptr, 16);
-                    out.push_back(static_cast<char>(v));
-                    i += 2;
-                } else {
-                    out.push_back(c);
-                }
-            } else { out.push_back(c); }
-        }
-        return out;
-    }
-
+    // NOTE: urlDecode already defined earlier in this file - removed duplicate
     // URL query parser with percent-decoding
     static std::unordered_map<std::string, std::string> parseQuery(const std::string& target) {
         std::unordered_map<std::string, std::string> out;
@@ -3372,284 +7099,8 @@ std::optional<http::response<http::string_body>> HttpServer::enforceAuditRateLim
     }
 }
 
-http::response<http::string_body> HttpServer::handleHealthCheck(
-    const http::request<http::string_body>& req
-) {
-    auto uptime_seconds = std::chrono::duration_cast<std::chrono::seconds>(
-        std::chrono::steady_clock::now() - start_time_
-    ).count();
-    
-    json response = {
-        {"status", "healthy"},
-        {"version", "0.1.0"},
-        {"database", "themis"},
-        {"uptime_seconds", uptime_seconds}
-    };
-    
-    // Add license information if available
-    auto license = themis::license::getEmbeddedLicense();
-    if (license) {
-        // Mask license key for security (show only first 8 chars)
-        std::string masked_key = license->license_key;
-        if (masked_key.length() > 8) {
-            masked_key = masked_key.substr(0, 8) + "...";
-        }
-        
-        response["license"] = {
-            {"organization", license->organization_name},
-            {"edition", license->edition},
-            {"license_key", masked_key},  // Masked for security
-            {"valid", themis::license::isLicenseValid(*license)},
-            {"days_until_expiry", themis::license::getDaysUntilExpiry(*license)}
-        };
-    }
-    
-    return makeResponse(http::status::ok, response.dump(), req);
-}
-
-http::response<http::string_body> HttpServer::handleVersion(
-    const http::request<http::string_body>& req
-) {
-    try {
-        auto build_config = themis::build_info::getBuildConfiguration();
-        
-        json response = {
-            {"edition", {
-                {"name", build_config.edition_name},
-                {"type", build_config.edition_type},
-                {"gpu_max_vram_gb", build_config.gpu_max_vram_gb},
-                {"sharding_max_nodes", build_config.sharding_max_nodes}
-            }},
-            {"build", {
-                {"compiler", build_config.compiler},
-                {"compiler_version", build_config.compiler_version},
-                {"build_type", build_config.build_type},
-                {"timestamp", build_config.build_timestamp}
-            }}
-        };
-        
-#ifdef THEMIS_VERSION_STRING
-        response["version"] = THEMIS_VERSION_STRING;
-#else
-        response["version"] = "unknown";
-#endif
-
-        // Add embedded license information if available
-        auto license = themis::license::getEmbeddedLicense();
-        if (license) {
-            response["license"] = {
-                {"organization_name", license->organization_name},
-                {"organization_id", license->organization_id},
-                {"contact_email", license->contact_email},
-                {"license_key", license->license_key},
-                {"edition", license->edition},
-                {"issued_date", license->issued_date},
-                {"expiry_date", license->expiry_date},
-                {"valid", themis::license::isLicenseValid(*license)},
-                {"days_until_expiry", themis::license::getDaysUntilExpiry(*license)},
-                {"limits", {
-                    {"max_nodes", license->max_nodes},
-                    {"max_cores", license->max_cores},
-                    {"max_storage_tb", license->max_storage_tb}
-                }},
-                {"build_id", license->build_id},
-                {"build_timestamp", license->build_timestamp}
-            };
-            
-            // Add signature status if present
-            if (!license->signature.empty()) {
-                response["license"]["signature_valid"] = themis::license::verifyLicenseSignature(*license);
-            }
-        }
-        
-        // Add module information
-        json modules_compiled = json::array();
-        json modules_disabled = json::array();
-        
-        for (const auto& mod : build_config.modules) {
-            json module_info = {
-                {"name", mod.name},
-                {"description", mod.description}
-            };
-            
-            if (mod.compiled_in) {
-                modules_compiled.push_back(module_info);
-            } else {
-                modules_disabled.push_back(module_info);
-            }
-        }
-        
-        response["modules"] = {
-            {"compiled_in", modules_compiled},
-            {"not_compiled", modules_disabled},
-            {"total", build_config.modules.size()},
-            {"compiled_count", modules_compiled.size()},
-            {"disabled_count", modules_disabled.size()}
-        };
-        
-        return makeResponse(http::status::ok, response.dump(2), req);
-    } catch (const std::exception& e) {
-        json error_response = {
-            {"error", "Failed to retrieve version information"},
-            {"message", e.what()}
-        };
-        return makeResponse(http::status::internal_server_error, error_response.dump(), req);
-    }
-}
-
-http::response<http::string_body> HttpServer::handleStats(
-    const http::request<http::string_body>& req
-) {
-    try {
-        auto uptime_seconds = std::chrono::duration_cast<std::chrono::seconds>(
-            std::chrono::steady_clock::now() - start_time_
-        ).count();
-        
-        uint64_t total_requests = request_count_.load(std::memory_order_relaxed);
-        uint64_t total_errors = error_count_.load(std::memory_order_relaxed);
-        double qps = uptime_seconds > 0 ? static_cast<double>(total_requests) / uptime_seconds : 0.0;
-        
-        // Get RocksDB stats (returns JSON string)
-        std::string rocksdb_stats = storage_->getStats();
-        
-        // Parse RocksDB JSON
-        json rocksdb_json;
-        try {
-            rocksdb_json = json::parse(rocksdb_stats);
-        } catch (...) {
-            rocksdb_json = {{"error", "Failed to parse RocksDB stats"}};
-        }
-        
-        // Build complete stats response
-        json response = {
-            {"server", {
-                {"uptime_seconds", uptime_seconds},
-                {"total_requests", total_requests},
-                {"total_errors", total_errors},
-                {"queries_per_second", qps},
-                {"threads", config_.num_threads}
-            }},
-            {"storage", rocksdb_json}
-        };
-        
-        return makeResponse(http::status::ok, response.dump(2), req); // Pretty print with indent 2
-    } catch (const std::exception& e) {
-        error_count_.fetch_add(1, std::memory_order_relaxed);
-        return makeErrorResponse(http::status::internal_server_error, 
-                                 std::string("Failed to get stats: ") + e.what(), req);
-    }
-}
-
-http::response<http::string_body> HttpServer::handleCapabilities(
-    const http::request<http::string_body>& req
-) {
-    // No auth required for capabilities (read-only, non-sensitive)
-    json caps;
-    
-    // Add edition and build information
-    try {
-        auto build_config = themis::build_info::getBuildConfiguration();
-        caps["edition"] = {
-            {"name", build_config.edition_name},
-            {"type", build_config.edition_type},
-            {"gpu_max_vram_gb", build_config.gpu_max_vram_gb},
-            {"sharding_max_nodes", build_config.sharding_max_nodes}
-        };
-        
-        caps["build"] = {
-            {"compiler", build_config.compiler},
-            {"version", build_config.compiler_version},
-            {"type", build_config.build_type}
-        };
-    } catch (...) {
-        // If build info fails, continue with basic capabilities
-    }
-
-    // Build flags
-#ifdef THEMIS_GEO_ENABLED
-    const bool geo_enabled = true;
-#else
-    const bool geo_enabled = false;
-#endif
-#ifdef THEMIS_GEO_SIMD_ENABLED
-    const bool geo_simd = true;
-#else
-    const bool geo_simd = false;
-#endif
-#ifdef THEMIS_GEO_GPU_ENABLED
-    const bool geo_gpu = true;
-#else
-    const bool geo_gpu = false;
-#endif
-#ifdef THEMIS_GEO_H3_ENABLED
-    const bool geo_h3 = true;
-#else
-    const bool geo_h3 = false;
-#endif
-#ifdef THEMIS_GEO_GEOS_PLUGIN_ENABLED
-    const bool geo_geos = true;
-#else
-    const bool geo_geos = false;
-#endif
-#ifdef THEMIS_ENTERPRISE_ENABLED
-    const bool enterprise = true;
-#else
-    const bool enterprise = false;
-#endif
-
-#ifdef THEMIS_GPU_ENABLED
-    const bool vector_gpu = true;
-#else
-    const bool vector_gpu = false;
-#endif
-
-    caps["geo"] = {
-        {"enabled", geo_enabled},
-        {"enterprise_compiled", enterprise},
-        {"accel", {
-            {"simd_compiled", geo_simd},
-            {"gpu_compiled", geo_gpu}
-        }},
-        {"plugins_compiled", {
-            {"geos", geo_geos},
-            {"h3", geo_h3}
-        }}
-    };
-
-    caps["vector"] = {
-        {"gpu_compiled", vector_gpu}
-    };
-
-    // Server basics
-    caps["server"] = {
-        {"version", "1.0.0"},
-        {"threads", config_.num_threads}
-    };
-
-    // Schema awareness (if available)
-    if (schema_manager_) {
-        try {
-            auto schema_caps = schema_manager_->getCapabilitiesJSON();
-            if (schema_caps.contains("capabilities")) {
-                caps["schema_awareness"] = {
-                    {"enabled", true},
-                    {"capabilities", schema_caps["capabilities"]}
-                };
-            }
-        } catch (...) {
-            // If schema manager fails, continue without schema capabilities
-            caps["schema_awareness"] = {
-                {"enabled", false}
-            };
-        }
-    } else {
-        caps["schema_awareness"] = {
-            {"enabled", false}
-        };
-    }
-
-    return makeResponse(http::status::ok, caps.dump(), req);
-}
+// Monitoring endpoints (Health, Version, Stats, Capabilities) have been
+// moved to MonitoringApiHandler for better code organization
 
 http::response<http::string_body> HttpServer::handleConfig(
     const http::request<http::string_body>& req
@@ -3746,9 +7197,13 @@ http::response<http::string_body> HttpServer::handleConfig(
                 if (hours < 1 || hours > 8760) { // 1 hour - 1 year
                     return makeErrorResponse(http::status::bad_request, "cdc_retention_hours must be 1-8760", req);
                 }
-                // Store retention policy (Changefeed class would need to expose this)
-                // For MVP, we'll just log it - actual auto-cleanup requires background task
-                THEMIS_INFO("Hot-reload: cdc_retention_hours set to {} (requires manual /changefeed/retention call)", hours);
+                // Apply TTL update to the live retention policy; the background cleanup
+                // thread is started automatically by updateRetentionPolicy() if not running.
+                auto policy = changefeed_->getRetentionPolicy();
+                policy.enabled       = true;
+                policy.max_age_hours = std::chrono::hours(hours);
+                changefeed_->updateRetentionPolicy(policy);
+                THEMIS_INFO("Hot-reload: cdc_retention_hours set to {} and retention policy enabled", hours);
             }
             
             // Respond with updated config
@@ -3796,6 +7251,9 @@ http::response<http::string_body> HttpServer::handleConfig(
                 {"compression_active", storage_->getCompressionType()},
                 {"db_size_bytes", storage_->getApproximateSize()}
             }},
+            {"logging", {
+                {"level", themis::utils::Logger::levelToString(themis::utils::Logger::getLevel())}
+            }},
             {"metrics", {
                 {"total_requests", request_count_.load(std::memory_order_relaxed)},
                 {"total_errors", error_count_.load(std::memory_order_relaxed)}
@@ -3810,357 +7268,10 @@ http::response<http::string_body> HttpServer::handleConfig(
     }
 }
 
-http::response<http::string_body> HttpServer::handleMetricsJson(
-    const http::request<http::string_body>& req
-) {
-    // Require metrics:read scope when auth is enabled
-    if (auth_ && auth_->isEnabled()) {
-        std::string path_only = std::string(req.target());
-        auto qpos = path_only.find('?');
-        if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
-        if (auto resp = requireAccess(req, "metrics:read", "metrics.read", path_only)) return *resp;
-    }
-    try {
-        auto uptime_seconds = std::chrono::duration_cast<std::chrono::seconds>(
-            std::chrono::steady_clock::now() - start_time_
-        ).count();
 
-        uint64_t total_requests = request_count_.load(std::memory_order_relaxed);
-        uint64_t total_errors = error_count_.load(std::memory_order_relaxed);
-        double qps = uptime_seconds > 0 ? static_cast<double>(total_requests) / uptime_seconds : 0.0;
+// Metrics endpoint (Prometheus format) has been moved to MonitoringApiHandler
+// for better code organization and maintainability
 
-        // Parse RocksDB stats JSON
-        json rdb;
-        try {
-            rdb = json::parse(storage_->getStats());
-        } catch (...) {
-            rdb = json::object();
-        }
-        json r = rdb.contains("rocksdb") ? rdb["rocksdb"] : json::object();
-
-        auto get_u64 = [&](const char* k) -> uint64_t {
-            if (r.contains(k) && r[k].is_number_unsigned()) return r[k].get<uint64_t>();
-            if (r.contains(k) && r[k].is_number_integer()) return static_cast<uint64_t>(r[k].get<int64_t>());
-            return 0ull;
-        };
-        uint64_t block_cache_usage = get_u64("block_cache_usage_bytes");
-        uint64_t block_cache_capacity = get_u64("block_cache_capacity_bytes");
-        uint64_t estimate_keys = get_u64("estimate_num_keys");
-        uint64_t pending_compaction = get_u64("estimate_pending_compaction_bytes");
-        uint64_t memtable_bytes = get_u64("memtable_size_bytes");
-
-        std::string out;
-        out.reserve(2048);
-        out += "# HELP process_uptime_seconds Process uptime in seconds\n";
-        out += "# TYPE process_uptime_seconds gauge\n";
-        out += "process_uptime_seconds " + std::to_string(uptime_seconds) + "\n";
-
-        out += "# HELP vccdb_requests_total Total HTTP requests handled\n";
-        out += "# TYPE vccdb_requests_total counter\n";
-        out += "vccdb_requests_total " + std::to_string(total_requests) + "\n";
-
-        out += "# HELP vccdb_errors_total Total HTTP errors returned\n";
-        out += "# TYPE vccdb_errors_total counter\n";
-        out += "vccdb_errors_total " + std::to_string(total_errors) + "\n";
-
-    out += "# HELP vccdb_qps Queries per second (approx)\n";
-        out += "# TYPE vccdb_qps gauge\n";
-        out += "vccdb_qps " + std::to_string(qps) + "\n";
-        // Auth metrics (if enabled)
-        if (auth_ && auth_->isEnabled()) {
-            const auto& m = auth_->getMetrics();
-            out += "# HELP themis_authz_success_total Successful authorizations\n";
-            out += "# TYPE themis_authz_success_total counter\n";
-            out += "themis_authz_success_total " + std::to_string(m.authz_success_total.load()) + "\n";
-            out += "# HELP themis_authz_denied_total Denied authorizations (forbidden)\n";
-            out += "# TYPE themis_authz_denied_total counter\n";
-            out += "themis_authz_denied_total " + std::to_string(m.authz_denied_total.load()) + "\n";
-            out += "# HELP themis_authz_invalid_token_total Invalid or missing tokens\n";
-            out += "# TYPE themis_authz_invalid_token_total counter\n";
-            out += "themis_authz_invalid_token_total " + std::to_string(m.authz_invalid_token_total.load()) + "\n";
-        }
-
-        // Policy Engine metrics (if enabled)
-        if (policy_engine_) {
-            const auto& pm = policy_engine_->getMetrics();
-            out += "# HELP themis_policy_eval_total Total policy evaluations\n";
-            out += "# TYPE themis_policy_eval_total counter\n";
-            out += "themis_policy_eval_total " + std::to_string(pm.policy_eval_total.load()) + "\n";
-            out += "# HELP themis_policy_allow_total Allow decisions by policy engine\n";
-            out += "# TYPE themis_policy_allow_total counter\n";
-            out += "themis_policy_allow_total " + std::to_string(pm.policy_allow_total.load()) + "\n";
-            out += "# HELP themis_policy_deny_total Deny decisions by policy engine\n";
-            out += "# TYPE themis_policy_deny_total counter\n";
-            out += "themis_policy_deny_total " + std::to_string(pm.policy_deny_total.load()) + "\n";
-        }
-
-        out += "# HELP rocksdb_block_cache_usage_bytes RocksDB block cache usage in bytes\n";
-        out += "# TYPE rocksdb_block_cache_usage_bytes gauge\n";
-        out += "rocksdb_block_cache_usage_bytes " + std::to_string(block_cache_usage) + "\n";
-
-        out += "# HELP rocksdb_block_cache_capacity_bytes RocksDB block cache capacity in bytes\n";
-        out += "# TYPE rocksdb_block_cache_capacity_bytes gauge\n";
-        out += "rocksdb_block_cache_capacity_bytes " + std::to_string(block_cache_capacity) + "\n";
-
-        out += "# HELP rocksdb_estimate_num_keys Estimated number of keys in DB\n";
-        out += "# TYPE rocksdb_estimate_num_keys gauge\n";
-        out += "rocksdb_estimate_num_keys " + std::to_string(estimate_keys) + "\n";
-
-        out += "# HELP rocksdb_pending_compaction_bytes Estimated pending compaction bytes\n";
-        out += "# TYPE rocksdb_pending_compaction_bytes gauge\n";
-        out += "rocksdb_pending_compaction_bytes " + std::to_string(pending_compaction) + "\n";
-
-        out += "# HELP rocksdb_memtable_size_bytes Current memtable size in bytes\n";
-        out += "# TYPE rocksdb_memtable_size_bytes gauge\n";
-        out += "rocksdb_memtable_size_bytes " + std::to_string(memtable_bytes) + "\n";
-
-        if (r.contains("files_per_level") && r["files_per_level"].is_object()) {
-            for (auto it = r["files_per_level"].begin(); it != r["files_per_level"].end(); ++it) {
-                std::string level = it.key();
-                uint64_t val = 0;
-                if (it.value().is_number_integer()) val = static_cast<uint64_t>(it.value().get<int64_t>());
-                else if (it.value().is_number_unsigned()) val = it.value().get<uint64_t>();
-                out += "rocksdb_files_level{level=\"" + level + "\"} " + std::to_string(val) + "\n";
-            }
-        }
-
-        // Export latency histogram buckets (ensure Prometheus cumulative semantics)
-        {
-            // load raw bucket values (may be cumulative already or per-bucket).
-            std::vector<uint64_t> raw = {
-                latency_bucket_100us_.load(std::memory_order_relaxed),
-                latency_bucket_500us_.load(std::memory_order_relaxed),
-                latency_bucket_1ms_.load(std::memory_order_relaxed),
-                latency_bucket_5ms_.load(std::memory_order_relaxed),
-                latency_bucket_10ms_.load(std::memory_order_relaxed),
-                latency_bucket_50ms_.load(std::memory_order_relaxed),
-                latency_bucket_100ms_.load(std::memory_order_relaxed),
-                latency_bucket_500ms_.load(std::memory_order_relaxed),
-                latency_bucket_1s_.load(std::memory_order_relaxed),
-                latency_bucket_5s_.load(std::memory_order_relaxed),
-                latency_bucket_inf_.load(std::memory_order_relaxed)
-            };
-
-            // detect if raw is already non-decreasing (cumulative). If not, treat as per-bucket and compute running sum.
-            bool non_decreasing = true;
-            for (size_t i = 1; i < raw.size(); ++i) if (raw[i] < raw[i-1]) { non_decreasing = false; break; }
-
-            uint64_t running = 0;
-            auto emit = [&](const char* name, uint64_t value){ out += std::string(name) + " " + std::to_string(value) + "\n"; };
-
-            const char* names[] = {
-                "vccdb_latency_bucket_microseconds{le=\"100\"}",
-                "vccdb_latency_bucket_microseconds{le=\"500\"}",
-                "vccdb_latency_bucket_microseconds{le=\"1000\"}",
-                "vccdb_latency_bucket_microseconds{le=\"5000\"}",
-                "vccdb_latency_bucket_microseconds{le=\"10000\"}",
-                "vccdb_latency_bucket_microseconds{le=\"50000\"}",
-                "vccdb_latency_bucket_microseconds{le=\"100000\"}",
-                "vccdb_latency_bucket_microseconds{le=\"500000\"}",
-                "vccdb_latency_bucket_microseconds{le=\"1000000\"}",
-                "vccdb_latency_bucket_microseconds{le=\"5000000\"}",
-                "vccdb_latency_bucket_microseconds{le=\"+Inf\"}"
-            };
-
-            for (size_t i = 0; i < raw.size(); ++i) {
-                if (non_decreasing) {
-                    // values already cumulative
-                    running = raw[i];
-                } else {
-                    // raw are per-bucket counts -> accumulate
-                    running += raw[i];
-                }
-                emit(names[i], running);
-            }
-        }
-
-        // Sum + count for histogram
-        uint64_t total_latency_us = latency_sum_us_.load(std::memory_order_relaxed);
-        uint64_t total_count = latency_bucket_inf_.load(std::memory_order_relaxed);
-        out += "# HELP vccdb_latency_sum_microseconds Total request latency in microseconds\n";
-        out += "# TYPE vccdb_latency_sum_microseconds counter\n";
-        out += "vccdb_latency_sum_microseconds " + std::to_string(total_latency_us) + "\n";
-        out += "# HELP vccdb_latency_count Total recorded requests for latency histogram\n";
-        out += "# TYPE vccdb_latency_count counter\n";
-        out += "vccdb_latency_count " + std::to_string(total_count) + "\n";
-
-    // Index rebuild metrics
-        auto& rebuild_metrics = secondary_index_->getRebuildMetrics();
-        uint64_t rebuild_count = rebuild_metrics.rebuild_count.load(std::memory_order_relaxed);
-        uint64_t rebuild_duration_ms = rebuild_metrics.rebuild_duration_ms.load(std::memory_order_relaxed);
-        uint64_t rebuild_entities = rebuild_metrics.rebuild_entities_processed.load(std::memory_order_relaxed);
-        
-        out += "# HELP themis_index_rebuilds_total Total number of index rebuilds performed\n";
-        out += "# TYPE themis_index_rebuilds_total counter\n";
-        out += "themis_index_rebuilds_total " + std::to_string(rebuild_count) + "\n";
-        
-        out += "# HELP themis_index_rebuild_duration_milliseconds_total Total duration of all index rebuilds in milliseconds\n";
-        out += "# TYPE themis_index_rebuild_duration_milliseconds_total counter\n";
-        out += "themis_index_rebuild_duration_milliseconds_total " + std::to_string(rebuild_duration_ms) + "\n";
-        
-        out += "# HELP themis_index_rebuild_entities_total Total number of entities processed during index rebuilds\n";
-        out += "# TYPE themis_index_rebuild_entities_total counter\n";
-        out += "themis_index_rebuild_entities_total " + std::to_string(rebuild_entities) + "\n";
-
-    // Query metrics from SecondaryIndexManager
-    auto& qmetrics = secondary_index_->getQueryMetrics();
-    uint64_t cursor_anchor_hits = qmetrics.cursor_anchor_hits_total.load(std::memory_order_relaxed);
-    uint64_t range_scan_steps = qmetrics.range_scan_steps_total.load(std::memory_order_relaxed);
-    out += "# HELP themis_cursor_anchor_hits_total Total number of cursor anchor usages in ORDER BY pagination\n";
-    out += "# TYPE themis_cursor_anchor_hits_total counter\n";
-    out += "themis_cursor_anchor_hits_total " + std::to_string(cursor_anchor_hits) + "\n";
-    out += "# HELP themis_range_scan_steps_total Total index scan steps performed during range scans\n";
-    out += "# TYPE themis_range_scan_steps_total counter\n";
-    out += "themis_range_scan_steps_total " + std::to_string(range_scan_steps) + "\n";
-
-    // Page fetch time histogram (ms) for cursor pagination
-    out += "# HELP themis_page_fetch_time_ms_bucket Cursor page fetch time histogram buckets (ms)\n";
-    out += "# TYPE themis_page_fetch_time_ms_bucket histogram\n";
-    {
-        std::vector<uint64_t> raw = {
-            page_bucket_1ms_.load(std::memory_order_relaxed),
-            page_bucket_5ms_.load(std::memory_order_relaxed),
-            page_bucket_10ms_.load(std::memory_order_relaxed),
-            page_bucket_25ms_.load(std::memory_order_relaxed),
-            page_bucket_50ms_.load(std::memory_order_relaxed),
-            page_bucket_100ms_.load(std::memory_order_relaxed),
-            page_bucket_250ms_.load(std::memory_order_relaxed),
-            page_bucket_500ms_.load(std::memory_order_relaxed),
-            page_bucket_1000ms_.load(std::memory_order_relaxed),
-            page_bucket_5000ms_.load(std::memory_order_relaxed),
-            page_bucket_inf_.load(std::memory_order_relaxed)
-        };
-        bool non_decreasing = true;
-        for (size_t i = 1; i < raw.size(); ++i) if (raw[i] < raw[i-1]) { non_decreasing = false; break; }
-        uint64_t running = 0;
-        const char* names[] = {
-            "themis_page_fetch_time_ms_bucket{le=\"1\"}",
-            "themis_page_fetch_time_ms_bucket{le=\"5\"}",
-            "themis_page_fetch_time_ms_bucket{le=\"10\"}",
-            "themis_page_fetch_time_ms_bucket{le=\"25\"}",
-            "themis_page_fetch_time_ms_bucket{le=\"50\"}",
-            "themis_page_fetch_time_ms_bucket{le=\"100\"}",
-            "themis_page_fetch_time_ms_bucket{le=\"250\"}",
-            "themis_page_fetch_time_ms_bucket{le=\"500\"}",
-            "themis_page_fetch_time_ms_bucket{le=\"1000\"}",
-            "themis_page_fetch_time_ms_bucket{le=\"5000\"}",
-            "themis_page_fetch_time_ms_bucket{le=\"+Inf\"}"
-        };
-        for (size_t i = 0; i < raw.size(); ++i) {
-            if (non_decreasing) running = raw[i]; else running += raw[i];
-            out += std::string(names[i]) + " " + std::to_string(running) + "\n";
-        }
-    }
-    out += "# HELP themis_page_fetch_time_ms_sum Total cursor page fetch time in milliseconds\n";
-    out += "# TYPE themis_page_fetch_time_ms_sum counter\n";
-    out += "themis_page_fetch_time_ms_sum " + std::to_string(page_sum_ms_.load(std::memory_order_relaxed)) + "\n";
-    out += "# HELP themis_page_fetch_time_ms_count Total number of cursor pages fetched\n";
-    out += "# TYPE themis_page_fetch_time_ms_count counter\n";
-    out += "themis_page_fetch_time_ms_count " + std::to_string(page_count_.load(std::memory_order_relaxed)) + "\n";
-
-        // Vector Index metrics
-        if (vector_index_) {
-            uint64_t vector_count = vector_index_->getVectorCount();
-            int dimension = vector_index_->getDimension();
-            bool hnsw_enabled = vector_index_->isHnswEnabled();
-            
-            out += "# HELP themis_vector_index_vectors_total Total number of vectors in the index\n";
-            out += "# TYPE themis_vector_index_vectors_total gauge\n";
-            out += "themis_vector_index_vectors_total " + std::to_string(vector_count) + "\n";
-            
-            out += "# HELP themis_vector_index_dimension Dimension of vectors in the index\n";
-            out += "# TYPE themis_vector_index_dimension gauge\n";
-            out += "themis_vector_index_dimension " + std::to_string(dimension) + "\n";
-            
-            out += "# HELP themis_vector_index_hnsw_enabled HNSW index enabled (1=yes, 0=no)\n";
-            out += "# TYPE themis_vector_index_hnsw_enabled gauge\n";
-            out += "themis_vector_index_hnsw_enabled " + std::to_string(hnsw_enabled ? 1 : 0) + "\n";
-            
-            if (hnsw_enabled) {
-                out += "# HELP themis_vector_index_ef_search Current efSearch parameter for HNSW\n";
-                out += "# TYPE themis_vector_index_ef_search gauge\n";
-                out += "themis_vector_index_ef_search " + std::to_string(vector_index_->getEfSearch()) + "\n";
-                
-                out += "# HELP themis_vector_index_m HNSW M parameter (neighbors per layer)\n";
-                out += "# TYPE themis_vector_index_m gauge\n";
-                out += "themis_vector_index_m " + std::to_string(vector_index_->getM()) + "\n";
-            }
-        }
-
-        // SSE/Changefeed streaming metrics
-    #ifdef THEMIS_ENABLE_SSE
-        if (sse_manager_) {
-            auto sstats = sse_manager_->getStats();
-            out += "# HELP themis_sse_active_connections Number of active SSE connections\n";
-            out += "# TYPE themis_sse_active_connections gauge\n";
-            out += "themis_sse_active_connections " + std::to_string(sstats.active_connections) + "\n";
-
-            out += "# HELP themis_sse_events_sent_total Total SSE events sent\n";
-            out += "# TYPE themis_sse_events_sent_total counter\n";
-            out += "themis_sse_events_sent_total " + std::to_string(sstats.total_events_sent) + "\n";
-
-            out += "# HELP themis_sse_heartbeats_total Total SSE heartbeats sent\n";
-            out += "# TYPE themis_sse_heartbeats_total counter\n";
-            out += "themis_sse_heartbeats_total " + std::to_string(sstats.total_heartbeats_sent) + "\n";
-
-            out += "# HELP themis_sse_dropped_events_total Total buffered SSE events dropped due to backpressure\n";
-            out += "# TYPE themis_sse_dropped_events_total counter\n";
-            out += "themis_sse_dropped_events_total " + std::to_string(sstats.total_dropped_events) + "\n";
-        }
-#endif
-        
-        // Rate Limiter metrics
-        if (rate_limiter_) {
-            auto rl_stats = rate_limiter_->getStatistics();
-            out += "# HELP themis_rate_limit_requests_total Total requests processed by rate limiter\n";
-            out += "# TYPE themis_rate_limit_requests_total counter\n";
-            out += "themis_rate_limit_requests_total " + std::to_string(rl_stats.total_requests) + "\n";
-            
-            out += "# HELP themis_rate_limit_allowed_total Requests allowed by rate limiter\n";
-            out += "# TYPE themis_rate_limit_allowed_total counter\n";
-            out += "themis_rate_limit_allowed_total " + std::to_string(rl_stats.allowed_requests) + "\n";
-            
-            out += "# HELP themis_rate_limit_rejected_total Requests rejected by rate limiter (429)\n";
-            out += "# TYPE themis_rate_limit_rejected_total counter\n";
-            out += "themis_rate_limit_rejected_total " + std::to_string(rl_stats.rejected_requests) + "\n";
-            
-            out += "# HELP themis_rate_limit_active_ip_buckets Active IP rate limit buckets\n";
-            out += "# TYPE themis_rate_limit_active_ip_buckets gauge\n";
-            out += "themis_rate_limit_active_ip_buckets " + std::to_string(rl_stats.active_ip_buckets) + "\n";
-            
-            out += "# HELP themis_rate_limit_active_user_buckets Active user rate limit buckets\n";
-            out += "# TYPE themis_rate_limit_active_user_buckets gauge\n";
-            out += "themis_rate_limit_active_user_buckets " + std::to_string(rl_stats.active_user_buckets) + "\n";
-        }
-
-        // ========== Sharding Metrics (Phase 6) ==========
-        // Include sharding metrics if available via global registry
-        // Sharding components can register metrics which will be exposed here
-        // This allows the /metrics endpoint to include sharding statistics
-        // without modifying the HttpServer constructor
-        auto sharding_metrics = themis::sharding::ShardingMetricsRegistry::instance().getMetricsString();
-        if (!sharding_metrics.empty()) {
-            out += "\n# Sharding Metrics\n";
-            out += sharding_metrics;
-        }
-        
-        // Build plain text response with proper content-type
-        http::response<http::string_body> res{http::status::ok, req.version()};
-        res.set(http::field::server, "THEMIS/0.1.0");
-        res.set(http::field::content_type, "text/plain; version=0.0.4");
-        res.keep_alive(req.keep_alive());
-        res.body() = std::move(out);
-    // Also apply governance headers to the metrics endpoint
-    applyGovernanceHeaders(req, res);
-        res.prepare_payload();
-        return res;
-    } catch (const std::exception& e) {
-        error_count_.fetch_add(1, std::memory_order_relaxed);
-        return makeErrorResponse(http::status::internal_server_error, std::string("metrics error: ") + e.what(), req);
-    }
-}
-
-// Authorization helper: returns optional error response if unauthorized
 std::optional<http::response<http::string_body>> HttpServer::requireScope(
     const http::request<http::string_body>& req,
     std::string_view scope
@@ -4771,157 +7882,6 @@ http::response<http::string_body> HttpServer::handlePiiExportCsv(
     res.prepare_payload();
     return res;
 }
-http::response<http::string_body> HttpServer::handleCacheQuery(
-    const http::request<http::string_body>& req
-) {
-    if (!config_.feature_semantic_cache) {
-        return makeErrorResponse(http::status::not_found, "Feature 'semantic_cache' disabled", req);
-    }
-    
-    auto span = Tracer::startSpan("handleCacheQuery");
-    span.setAttribute("http.path", "/cache/query");
-    
-    if (!semantic_cache_) {
-        span.setStatus(false, "cache_not_initialized");
-        return makeErrorResponse(http::status::internal_server_error, "Semantic cache not initialized", req);
-    }
-    
-    try {
-        nlohmann::json body = nlohmann::json::parse(req.body());
-        
-        if (!body.contains("prompt")) {
-            span.setStatus(false, "missing_prompt");
-            return makeErrorResponse(http::status::bad_request, "Missing 'prompt' field", req);
-        }
-        
-        std::string prompt = body["prompt"].get<std::string>();
-        nlohmann::json params = body.value("params", nlohmann::json::object());
-        
-        span.setAttribute("prompt.length", static_cast<int64_t>(prompt.size()));
-        
-        auto result = semantic_cache_->query(prompt, params);
-        
-        if (result) {
-            // Cache hit
-            span.setAttribute("cache.hit", true);
-            nlohmann::json response = {
-                {"hit", true},
-                {"response", result->response},
-                {"metadata", result->metadata},
-                {"timestamp_ms", result->timestamp_ms}
-            };
-            span.setStatus(true);
-            return makeResponse(http::status::ok, response.dump(), req);
-        } else {
-            // Cache miss
-            span.setAttribute("cache.hit", false);
-            nlohmann::json response = {
-                {"hit", false}
-            };
-            span.setStatus(true);
-            return makeResponse(http::status::ok, response.dump(), req);
-        }
-        
-    } catch (const nlohmann::json::exception& e) {
-        span.recordError(e.what());
-        span.setStatus(false, "json_parse_error");
-        return makeErrorResponse(http::status::bad_request, std::string("JSON error: ") + e.what(), req);
-    } catch (const std::exception& e) {
-        span.recordError(e.what());
-        span.setStatus(false, "internal_error");
-        return makeErrorResponse(http::status::internal_server_error, std::string("Error: ") + e.what(), req);
-    }
-}
-
-http::response<http::string_body> HttpServer::handleCachePut(
-    const http::request<http::string_body>& req
-) {
-    if (!config_.feature_semantic_cache) {
-        return makeErrorResponse(http::status::not_found, "Feature 'semantic_cache' disabled", req);
-    }
-    
-    auto span = Tracer::startSpan("handleCachePut");
-    span.setAttribute("http.path", "/cache/put");
-    
-    if (!semantic_cache_) {
-        span.setStatus(false, "cache_not_initialized");
-        return makeErrorResponse(http::status::internal_server_error, "Semantic cache not initialized", req);
-    }
-    
-    try {
-        nlohmann::json body = nlohmann::json::parse(req.body());
-        
-        if (!body.contains("prompt") || !body.contains("response")) {
-            span.setStatus(false, "missing_fields");
-            return makeErrorResponse(http::status::bad_request, "Missing 'prompt' or 'response' field", req);
-        }
-        
-        std::string prompt = body["prompt"].get<std::string>();
-        std::string response = body["response"].get<std::string>();
-        nlohmann::json params = body.value("params", nlohmann::json::object());
-        nlohmann::json metadata = body.value("metadata", nlohmann::json::object());
-        int ttl_seconds = body.value("ttl_seconds", 0);
-        
-        span.setAttribute("prompt.length", static_cast<int64_t>(prompt.size()));
-        span.setAttribute("response.length", static_cast<int64_t>(response.size()));
-        
-        bool success = semantic_cache_->put(prompt, params, response, metadata, ttl_seconds);
-        
-        if (success) {
-            nlohmann::json result = {
-                {"success", true},
-                {"message", "Response cached successfully"}
-            };
-            span.setStatus(true);
-            return makeResponse(http::status::ok, result.dump(), req);
-        } else {
-            span.setStatus(false, "cache_put_failed");
-            return makeErrorResponse(http::status::internal_server_error, "Failed to cache response", req);
-        }
-        
-    } catch (const nlohmann::json::exception& e) {
-        span.recordError(e.what());
-        span.setStatus(false, "json_parse_error");
-        return makeErrorResponse(http::status::bad_request, std::string("JSON error: ") + e.what(), req);
-    } catch (const std::exception& e) {
-        span.recordError(e.what());
-        span.setStatus(false, "internal_error");
-        return makeErrorResponse(http::status::internal_server_error, std::string("Error: ") + e.what(), req);
-    }
-}
-
-http::response<http::string_body> HttpServer::handleCacheStats(
-    const http::request<http::string_body>& req
-) {
-    if (!config_.feature_semantic_cache) {
-        return makeErrorResponse(http::status::not_found, "Feature 'semantic_cache' disabled", req);
-    }
-    
-    auto span = Tracer::startSpan("handleCacheStats");
-    span.setAttribute("http.path", "/cache/stats");
-    
-    if (!semantic_cache_) {
-        span.setStatus(false, "cache_not_initialized");
-        return makeErrorResponse(http::status::internal_server_error, "Semantic cache not initialized", req);
-    }
-    
-    try {
-        auto stats = semantic_cache_->getStats();
-        nlohmann::json response = stats.toJson();
-        
-        span.setAttribute("cache.hit_count", static_cast<int64_t>(stats.hit_count));
-        span.setAttribute("cache.miss_count", static_cast<int64_t>(stats.miss_count));
-        span.setAttribute("cache.hit_rate", stats.hit_rate);
-        
-        span.setStatus(true);
-        return makeResponse(http::status::ok, response.dump(), req);
-        
-    } catch (const std::exception& e) {
-        span.recordError(e.what());
-        span.setStatus(false, "internal_error");
-        return makeErrorResponse(http::status::internal_server_error, std::string("Error: ") + e.what(), req);
-    }
-}
 
 http::response<http::string_body> HttpServer::handleLlmInteractionPost(
     const http::request<http::string_body>& req
@@ -5165,437 +8125,6 @@ http::response<http::string_body> HttpServer::handleLlmInteractionUpdateMetadata
     }
 }
 
-http::response<http::string_body> HttpServer::handleChangefeedGet(
-    const http::request<http::string_body>& req
-) {
-    if (auth_ && auth_->isEnabled()) {
-        std::string path_only = std::string(req.target());
-        auto qpos = path_only.find('?');
-        if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
-        if (auto resp = requireAccess(req, "cdc:read", "cdc.read", path_only)) return *resp;
-    }
-    if (!config_.feature_cdc) {
-        return makeErrorResponse(http::status::not_found, "Feature 'cdc' disabled", req);
-    }
-    
-    auto span = Tracer::startSpan("handleChangefeedGet");
-    span.setAttribute("http.path", "/changefeed");
-    
-    try {
-        // Parse query parameters
-        Changefeed::ListOptions options;
-        
-        std::string target = std::string(req.target());
-        size_t query_pos = target.find('?');
-        if (query_pos != std::string::npos) {
-            std::string query_str = target.substr(query_pos + 1);
-            
-            // Parse from_seq
-            size_t from_pos = query_str.find("from_seq=");
-            if (from_pos != std::string::npos) {
-                size_t from_end = query_str.find('&', from_pos);
-                std::string from_str = query_str.substr(from_pos + 9,
-                    from_end == std::string::npos ? std::string::npos : from_end - from_pos - 9);
-                options.from_sequence = std::stoull(from_str);
-            }
-            
-            // Parse limit
-            size_t limit_pos = query_str.find("limit=");
-            if (limit_pos != std::string::npos) {
-                size_t limit_end = query_str.find('&', limit_pos);
-                std::string limit_str = query_str.substr(limit_pos + 6,
-                    limit_end == std::string::npos ? std::string::npos : limit_end - limit_pos - 6);
-                options.limit = std::stoull(limit_str);
-            }
-            
-            // Parse long_poll_ms
-            size_t poll_pos = query_str.find("long_poll_ms=");
-            if (poll_pos != std::string::npos) {
-                size_t poll_end = query_str.find('&', poll_pos);
-                std::string poll_str = query_str.substr(poll_pos + 13,
-                    poll_end == std::string::npos ? std::string::npos : poll_end - poll_pos - 13);
-                options.long_poll_ms = std::stoul(poll_str);
-            }
-            
-            // Parse key_prefix
-            size_t key_pos = query_str.find("key_prefix=");
-            if (key_pos != std::string::npos) {
-                size_t key_end = query_str.find('&', key_pos);
-                std::string key_prefix = query_str.substr(key_pos + 11,
-                    key_end == std::string::npos ? std::string::npos : key_end - key_pos - 11);
-                options.key_prefix = key_prefix;
-            }
-        }
-        
-        // List events
-        auto events = changefeed_->listEvents(options);
-        
-        // Build response
-        json response;
-        response["events"] = json::array();
-        for (const auto& event : events) {
-            response["events"].push_back(event.toJson());
-        }
-        response["count"] = events.size();
-        response["latest_sequence"] = changefeed_->getLatestSequence();
-        
-        span.setAttribute("events.count", static_cast<int64_t>(events.size()));
-        span.setAttribute("events.from_seq", static_cast<int64_t>(options.from_sequence));
-        span.setStatus(true);
-        
-        return makeResponse(http::status::ok, response.dump(), req);
-        
-    } catch (const std::exception& e) {
-        span.recordError(e.what());
-        span.setStatus(false, "internal_error");
-        return makeErrorResponse(http::status::internal_server_error, std::string("Error: ") + e.what(), req);
-    }
-}
-
-http::response<http::string_body> HttpServer::handleChangefeedStreamSse(
-    const http::request<http::string_body>& req
-) {
-    if (auth_ && auth_->isEnabled()) {
-        std::string path_only = std::string(req.target());
-        auto qpos = path_only.find('?');
-        if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
-        if (auto resp = requireAccess(req, "cdc:read", "cdc.read", path_only)) return *resp;
-    }
-    if (!config_.feature_cdc) {
-        return makeErrorResponse(http::status::not_found, "Feature 'cdc' disabled", req);
-    }
-    
-    auto span = Tracer::startSpan("handleChangefeedStreamSse");
-    span.setAttribute("http.path", "/changefeed/stream");
-    
-    try {
-        // Parse query parameters
-        uint64_t from_seq = 0;
-        std::string key_prefix;
-        bool keep_alive = true; // New parameter for production streaming
-        int max_seconds = 30;   // Optional limit for testability
-        int heartbeat_ms_override = -1; // Optional per-request heartbeat interval
-    int retry_ms = 3000;
-        size_t max_events_per_poll = 100; // Backpressure: limit events consumed per poll
-        
-        std::string target = std::string(req.target());
-        size_t query_pos = target.find('?');
-        if (query_pos != std::string::npos) {
-            std::string query_str = target.substr(query_pos + 1);
-            
-            // Parse from_seq
-            size_t from_pos = query_str.find("from_seq=");
-            if (from_pos != std::string::npos) {
-                size_t from_end = query_str.find('&', from_pos);
-                std::string from_str = query_str.substr(from_pos + 9,
-                    from_end == std::string::npos ? std::string::npos : from_end - from_pos - 9);
-                from_seq = std::stoull(from_str);
-            }
-            
-            // Parse key_prefix
-            size_t key_pos = query_str.find("key_prefix=");
-            if (key_pos != std::string::npos) {
-                size_t key_end = query_str.find('&', key_pos);
-                key_prefix = query_str.substr(key_pos + 11,
-                    key_end == std::string::npos ? std::string::npos : key_end - key_pos - 11);
-            }
-            
-            // Parse keep_alive (default true for production)
-            size_t ka_pos = query_str.find("keep_alive=");
-            if (ka_pos != std::string::npos) {
-                size_t ka_end = query_str.find('&', ka_pos);
-                std::string ka_str = query_str.substr(ka_pos + 11,
-                    ka_end == std::string::npos ? std::string::npos : ka_end - ka_pos - 11);
-                keep_alive = (ka_str == "true" || ka_str == "1");
-            }
-
-            // Parse max_seconds (bounds 1..60)
-            size_t ms_pos = query_str.find("max_seconds=");
-            if (ms_pos != std::string::npos) {
-                size_t ms_end = query_str.find('&', ms_pos);
-                std::string ms_str = query_str.substr(ms_pos + 12,
-                    ms_end == std::string::npos ? std::string::npos : ms_end - ms_pos - 12);
-                try {
-                    int v = std::stoi(ms_str);
-                    if (v < 1) {
-                        v = 1;
-                    }
-                    if (v > 60) {
-                        v = 60;
-                    }
-                    max_seconds = v;
-                } catch (...) {
-                    // ignore parse error, keep default
-                }
-            }
-
-            // Parse heartbeat_ms (test override)
-            size_t hb_pos = query_str.find("heartbeat_ms=");
-            if (hb_pos != std::string::npos) {
-                size_t hb_end = query_str.find('&', hb_pos);
-                std::string hb_str = query_str.substr(hb_pos + 13,
-                    hb_end == std::string::npos ? std::string::npos : hb_end - hb_pos - 13);
-                try {
-                    int v = std::stoi(hb_str);
-                    if (v < 100) v = 100; // minimum 100ms
-                    if (v > 60000) v = 60000;
-                    heartbeat_ms_override = v;
-                } catch (...) {
-                    // ignore parse error
-                }
-            }
-
-            // Parse retry_ms
-            size_t r_pos = query_str.find("retry_ms=");
-            if (r_pos != std::string::npos) {
-                size_t r_end = query_str.find('&', r_pos);
-                std::string r_str = query_str.substr(r_pos + 9,
-                    r_end == std::string::npos ? std::string::npos : r_end - r_pos - 9);
-                try {
-                    int v = std::stoi(r_str);
-                    if (v < 100) {
-                        v = 100;
-                    }
-                    if (v > 120000) {
-                        v = 120000;
-                    }
-                    retry_ms = v;
-                } catch (...) {}
-            }
-
-            // Parse max_events_per_poll
-            size_t me_pos = query_str.find("max_events=");
-            if (me_pos != std::string::npos) {
-                size_t me_end = query_str.find('&', me_pos);
-                std::string me_str = query_str.substr(me_pos + 11,
-                    me_end == std::string::npos ? std::string::npos : me_end - me_pos - 11);
-                try {
-                    int v = std::stoi(me_str);
-                    if (v < 1) {
-                        v = 1;
-                    }
-                    if (v > 1000) {
-                        v = 1000;
-                    }
-                    max_events_per_poll = static_cast<size_t>(v);
-                } catch (...) {}
-            }
-        }
-
-        // Support Last-Event-ID header for resume
-        // Search case-insensitively
-        for (const auto& h : req) {
-            auto name = h.name_string();
-            if (beast::iequals(name, "Last-Event-ID")) {
-                try {
-                    uint64_t last_id = std::stoull(std::string(h.value()));
-                    if (from_seq == 0) from_seq = last_id;
-                } catch (...) {}
-                break;
-            }
-        }
-        
-        // Build SSE response
-        http::response<http::string_body> res{http::status::ok, req.version()};
-        res.set(http::field::server, "THEMIS/0.1.0");
-    res.set(http::field::content_type, "text/event-stream");
-    res.set(http::field::cache_control, "no-cache, no-transform");
-        res.set(http::field::connection, "keep-alive");
-    // Best-effort proxies
-    res.set(http::field::access_control_allow_origin, "*");
-        res.keep_alive(true);
-        
-        std::ostringstream body;
-    // Advise client reconnect delay
-    body << "retry: " << retry_ms << "\n\n";
-        
-        // Production streaming path via SSE manager (only when enabled)
-    #ifdef THEMIS_ENABLE_SSE
-        if (keep_alive && sse_manager_) {
-            // Production mode: Register connection for streaming
-            // Note: Current Beast setup limits us to batch-based streaming
-            // Full keep-alive requires custom async write loop (see TODO in docs)
-            
-            uint64_t conn_id = sse_manager_->registerConnection(from_seq, key_prefix);
-            span.setAttribute("sse.connection_id", static_cast<int64_t>(conn_id));
-            
-            // Stream events for limited duration (configurable for tests)
-            auto start = std::chrono::steady_clock::now();
-            const auto max_duration = std::chrono::seconds(max_seconds);
-            size_t total_events = 0;
-            size_t heartbeats = 0;
-            
-            auto last_hb = start;
-            while (std::chrono::steady_clock::now() - start < max_duration) {
-                // Poll for new events
-                auto events = sse_manager_->pollEvents(conn_id, max_events_per_poll);
-                
-                if (!events.empty()) {
-                    for (const auto& event_line : events) {
-                        body << event_line;
-                        total_events++;
-                    }
-                } else {
-                    bool sent_hb = false;
-                    if (heartbeat_ms_override > 0) {
-                        auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
-                            std::chrono::steady_clock::now() - last_hb
-                        ).count();
-                        if (elapsed >= heartbeat_ms_override) {
-                            body << ": heartbeat\n\n";
-                            sse_manager_->recordHeartbeat(conn_id);
-                            heartbeats++;
-                            last_hb = std::chrono::steady_clock::now();
-                            sent_hb = true;
-                        }
-                    }
-                    if (!sent_hb && sse_manager_->needsHeartbeat(conn_id)) {
-                        body << ": heartbeat\n\n";
-                        sse_manager_->recordHeartbeat(conn_id);
-                        heartbeats++;
-                    }
-                }
-                
-                // Sleep briefly to avoid busy-wait
-                std::this_thread::sleep_for(std::chrono::milliseconds(100));
-            }
-            
-            // Cleanup connection
-            sse_manager_->unregisterConnection(conn_id);
-            
-            span.setAttribute("sse.total_events", static_cast<int64_t>(total_events));
-            span.setAttribute("sse.heartbeats", static_cast<int64_t>(heartbeats));
-            span.setAttribute("sse.duration_s", static_cast<int64_t>(max_seconds));
-            
-            THEMIS_INFO("SSE stream completed: conn={}, events={}, heartbeats={}",
-                conn_id, total_events, heartbeats);
-            
-        } else
-    #endif
-        {
-            // MVP mode: Send one batch and close (backward compatible)
-            Changefeed::ListOptions options;
-            options.from_sequence = from_seq;
-            options.limit = 1000;
-            
-            if (!key_prefix.empty()) {
-                options.key_prefix = key_prefix;
-            }
-            
-            auto events = changefeed_->listEvents(options);
-            
-            for (const auto& ev : events) {
-                body << "id: " << ev.sequence << "\n";
-                body << "data: " << ev.toJson().dump() << "\n\n";
-            }
-            
-            if (events.empty()) {
-                body << ": heartbeat\n\n";
-            }
-            
-            span.setAttribute("sse.mode", "mvp_batch");
-            span.setAttribute("events.count", static_cast<int64_t>(events.size()));
-        }
-        
-    res.body() = body.str();
-    // Apply governance headers also to SSE response
-    applyGovernanceHeaders(req, res);
-        res.prepare_payload();
-        
-        span.setStatus(true);
-        return res;
-        
-    } catch (const std::exception& e) {
-        span.recordError(e.what());
-        span.setStatus(false, "internal_error");
-        return makeErrorResponse(http::status::internal_server_error, std::string("Error: ") + e.what(), req);
-    }
-}
-
-http::response<http::string_body> HttpServer::handleChangefeedStats(
-    const http::request<http::string_body>& req
-) {
-    if (auth_ && auth_->isEnabled()) {
-        std::string path_only = std::string(req.target());
-        auto qpos = path_only.find('?');
-        if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
-        if (auto resp = requireAccess(req, "cdc:admin", "cdc.admin", path_only)) return *resp;
-    }
-    if (!config_.feature_cdc) {
-        return makeErrorResponse(http::status::not_found, "Feature 'cdc' disabled", req);
-    }
-
-    auto span = Tracer::startSpan("handleChangefeedStats");
-    span.setAttribute("http.path", "/changefeed/stats");
-
-    try {
-        auto stats = changefeed_->getStats();
-        nlohmann::json response = {
-            {"total_events", stats.total_events},
-            {"latest_sequence", stats.latest_sequence},
-            {"total_size_bytes", stats.total_size_bytes}
-        };
-        span.setAttribute("events.total", static_cast<int64_t>(stats.total_events));
-        span.setAttribute("events.latest_seq", static_cast<int64_t>(stats.latest_sequence));
-        span.setStatus(true);
-        return makeResponse(http::status::ok, response.dump(), req);
-    } catch (const std::exception& e) {
-        span.recordError(e.what());
-        span.setStatus(false, "internal_error");
-        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
-    }
-}
-
-http::response<http::string_body> HttpServer::handleChangefeedRetention(
-    const http::request<http::string_body>& req
-) {
-    if (auth_ && auth_->isEnabled()) {
-        std::string path_only = std::string(req.target());
-        auto qpos = path_only.find('?');
-        if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
-        if (auto resp = requireAccess(req, "cdc:admin", "cdc.admin", path_only)) return *resp;
-    }
-    if (!config_.feature_cdc) {
-        return makeErrorResponse(http::status::not_found, "Feature 'cdc' disabled", req);
-    }
-
-    auto span = Tracer::startSpan("handleChangefeedRetention");
-    span.setAttribute("http.path", "/changefeed/retention");
-
-    try {
-        auto body = nlohmann::json::parse(req.body());
-        // Support either before_sequence (explicit) or max_age_ms (relative)
-        uint64_t before_seq = 0;
-        if (body.contains("before_sequence")) {
-            before_seq = body["before_sequence"].get<uint64_t>();
-        } else if (body.contains("max_age_ms")) {
-            // Compute a cut based on timestamp: scan stats.latest_sequence backwards is expensive;
-            // MVP: if max_age_ms is provided, require also current latest_sequence from client or ignore.
-            // For simplicity, we ignore timestamp-based deletion in MVP and return 400 if latest not provided.
-            return makeErrorResponse(http::status::bad_request, "Only 'before_sequence' is supported for retention in MVP", req);
-        } else {
-            return makeErrorResponse(http::status::bad_request, "Provide 'before_sequence' (uint64)", req);
-        }
-
-        span.setAttribute("retention.before_seq", static_cast<int64_t>(before_seq));
-        auto deleted = changefeed_->deleteOldEvents(before_seq);
-        nlohmann::json response = {
-            {"deleted", deleted},
-            {"before_sequence", before_seq}
-        };
-        span.setAttribute("retention.deleted", static_cast<int64_t>(deleted));
-        span.setStatus(true);
-        return makeResponse(http::status::ok, response.dump(), req);
-    } catch (const nlohmann::json::exception& e) {
-        span.recordError(e.what());
-        span.setStatus(false, "json_parse_error");
-        return makeErrorResponse(http::status::bad_request, std::string("JSON error: ") + e.what(), req);
-    } catch (const std::exception& e) {
-        span.recordError(e.what());
-        span.setStatus(false, "internal_error");
-        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
-    }
-}
 
 void HttpServer::recordPageFetch(std::chrono::milliseconds duration_ms) {
     using namespace std::chrono;
@@ -5618,4298 +8147,14 @@ void HttpServer::recordPageFetch(std::chrono::milliseconds duration_ms) {
     page_count_.fetch_add(1, std::memory_order_relaxed);
 }
 
-http::response<http::string_body> HttpServer::handleGetEntity(
-    const http::request<http::string_body>& req
-) {
-    if (auth_ && auth_->isEnabled()) {
-        std::string path_only = std::string(req.target());
-        auto qpos = path_only.find('?');
-        if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
-        if (auto resp = requireAccess(req, "data:read", "read", path_only)) return *resp;
-    }
-    auto span = Tracer::startSpan("GET /entities/:key");
-    
-    try {
-        // Extract entity key from path: /entities/{key}
-        auto key = extractPathParam(std::string(req.target()), "/entities/");
-        if (key.empty()) {
-            span.setStatus(false, "Missing entity key");
-            return makeErrorResponse(http::status::bad_request, "Missing entity key", req);
-        }
-
-        span.setAttribute("entity.key", key);
-
-        // Retrieve entity blob (persisted JSON string)
-        auto blob_opt = storage_->get(key);
-        if (!blob_opt.has_value()) {
-            span.setStatus(false, "Entity not found");
-            return makeErrorResponse(http::status::not_found, "Entity not found", req);
-        }
-        const auto& blob_vec = blob_opt.value();
-        std::string blob_str(blob_vec.begin(), blob_vec.end());
-        span.setAttribute("entity.size_bytes", static_cast<int64_t>(blob_str.size()));
-
-        // Optional Entschluesselung via Query-Parameter ?decrypt=true
-        bool decrypt = false;
-        {
-            std::string target = std::string(req.target());
-            auto qpos = target.find('?');
-            if (qpos != std::string::npos) {
-                auto qs = target.substr(qpos + 1);
-                std::istringstream iss(qs);
-                std::string kv;
-                while (std::getline(iss, kv, '&')) {
-                    auto eq = kv.find('=');
-                    std::string k = (eq == std::string::npos) ? kv : kv.substr(0, eq);
-                    std::string v = (eq == std::string::npos) ? std::string() : kv.substr(eq + 1);
-                    if (k == "decrypt") {
-                        std::transform(v.begin(), v.end(), v.begin(), ::tolower);
-                        decrypt = (v == "true" || v == "1" || v == "yes");
-                    }
-                }
-            }
-        }
-
-        if (!decrypt) {
-            span.setStatus(true);
-            json response = {{"key", key}, {"blob", blob_str}};
-            return makeResponse(http::status::ok, response.dump(), req);
-        }
-
-        // Entschluesselung nur wenn Schema konfiguriert ist und Felder markiert
-        json entity_json;
-        try { entity_json = json::parse(blob_str); } catch (...) {
-            span.setStatus(false, "Stored blob is not valid JSON");
-            return makeErrorResponse(http::status::internal_server_error, "Stored entity JSON parse failed", req);
-        }
-
-        // Tabelle aus Key extrahieren (table:pk Format)
-        auto pos = key.find(':');
-        if (pos == std::string::npos || pos == 0 || pos == key.size()-1) {
-            span.setStatus(false, "Invalid key format");
-            return makeErrorResponse(http::status::bad_request, "Key must be in format 'table:pk'", req);
-        }
-        std::string table = key.substr(0, pos);
-
-        try {
-            auto schema_bytes = storage_->get("config:encryption_schema");
-            if (schema_bytes) {
-                std::string schema_json(schema_bytes->begin(), schema_bytes->end());
-                auto schema = nlohmann::json::parse(schema_json);
-                if (schema.contains("collections") && schema["collections"].contains(table)) {
-                    auto coll = schema["collections"][table];
-                    if (coll.contains("encryption") && coll["encryption"].value("enabled", false)) {
-                        std::string context_type = coll["encryption"].value("context_type", "user");
-                        std::vector<std::string> fields;
-                        if (coll["encryption"].contains("fields")) {
-                            for (auto& f : coll["encryption"]["fields"]) if (f.is_string()) fields.push_back(f.get<std::string>());
-                        }
-                        // Extract user_id and groups from JWT for decryption context
-                        auto auth_ctx = extractAuthContext(req);
-                        std::string user_ctx = auth_ctx.user_id.empty() ? "anonymous" : auth_ctx.user_id;
-                        auto pki = std::dynamic_pointer_cast<themis::security::PKIKeyProvider>(key_provider_);
-                        for (const auto& f : fields) {
-                            if (!entity_json.contains(f + "_enc") || !entity_json.contains(f + "_encrypted")) continue;
-                            bool encFlag = false;
-                            try { encFlag = entity_json[f + "_enc"].get<bool>(); } catch (...) { encFlag = false; }
-                            if (!encFlag) continue;
-                            try {
-                                auto enc_meta_str = entity_json[f + "_encrypted"].get<std::string>();
-                                auto enc_meta = nlohmann::json::parse(enc_meta_str);
-                                auto blob = themis::EncryptedBlob::fromJson(enc_meta);
-                                std::vector<uint8_t> raw_key;
-                                if (context_type == "group" && pki && entity_json.contains(f + "_group")) {
-                                    // Gruppen-Kontext (MVP: erste Gruppe / einzelner String)
-                                    std::string group_name;
-                                    try { group_name = entity_json[f + "_group"].get<std::string>(); } catch (...) { group_name.clear(); }
-                                    if (!group_name.empty()) {
-                                        auto gdek = pki->getGroupDEK(group_name);
-                                        std::vector<uint8_t> salt; // leer
-                                        std::string info = "field:" + f;
-                                        raw_key = themis::utils::HKDFHelper::derive(gdek, salt, info, 32);
-                                    }
-                                }
-                                if (raw_key.empty()) {
-                                    // User-/Anonymous-Kontext
-                                    auto dek = key_provider_->getKey("dek");
-                                    std::vector<uint8_t> salt(user_ctx.begin(), user_ctx.end());
-                                    std::string info = "field:" + f;
-                                    raw_key = themis::utils::HKDFHelper::derive(dek, salt, info, 32);
-                                }
-                                auto plain_bytes = field_encryption_->decryptWithKey(blob, raw_key);
-                                
-                                // Deserialisierung basierend auf Datenformat
-                                // Versuche JSON-Deserialisierung für strukturierte Typen
-                                std::string plain_str(plain_bytes.begin(), plain_bytes.end());
-                                
-                                // Heuristik: Wenn es wie JSON aussieht, parse es
-                                if (!plain_str.empty() && (plain_str[0] == '[' || plain_str[0] == '{')) {
-                                    try {
-                                        auto parsed = nlohmann::json::parse(plain_str);
-                                        entity_json[f] = parsed; // JSON-Struktur übernehmen
-                                    } catch (...) {
-                                        // Kein valides JSON → als String behandeln
-                                        entity_json[f] = plain_str;
-                                    }
-                                } else {
-                                    // Primitive Typen als String zurückgeben
-                                    entity_json[f] = plain_str;
-                                }
-                            } catch (const std::exception& e) {
-                                THEMIS_WARN("Entschluesselung Feld {} fehlgeschlagen: {}", f, e.what());
-                            }
-                        }
-                    }
-                }
-            }
-        } catch (const std::exception& e) {
-            THEMIS_WARN("Decrypt schema Verarbeitung Fehler: {}", e.what());
-        }
-
-        span.setStatus(true);
-        json response = {{"key", key}, {"decrypted", true}, {"entity", entity_json}};
-        return makeResponse(http::status::ok, response.dump(), req);
-
-    } catch (const std::exception& e) {
-        THEMIS_ERROR("GET entity error: {}", e.what());
-        span.setStatus(false, e.what());
-        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
-    }
-}
-
-http::response<http::string_body> HttpServer::handlePutEntity(
-    const http::request<http::string_body>& req
-) {
-    if (auth_ && auth_->isEnabled()) {
-        std::string path_only = std::string(req.target());
-        auto qpos = path_only.find('?');
-        if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
-        if (auto resp = requireAccess(req, "data:write", "write", path_only)) return *resp;
-    }
-    auto span = Tracer::startSpan("PUT /entities/:key");
-    
-    try {
-        // Parse request body
-        auto body_json = json::parse(req.body());
-        
-        std::string key;
-        if (body_json.contains("key")) {
-            key = body_json["key"].get<std::string>();
-        } else {
-            // Extract from path if PUT /entities/{key}
-            key = extractPathParam(std::string(req.target()), "/entities/");
-        }
-
-        if (key.empty()) {
-            span.setStatus(false, "Missing entity key");
-            return makeErrorResponse(http::status::bad_request, "Missing entity key", req);
-        }
-
-        span.setAttribute("entity.key", key);
-
-        if (!body_json.contains("blob")) {
-            span.setStatus(false, "Missing blob field");
-            return makeErrorResponse(http::status::bad_request, "Missing 'blob' field", req);
-        }
-
-        // Split key into table:pk
-        auto pos = key.find(':');
-        if (pos == std::string::npos || pos == 0 || pos == key.size()-1) {
-            span.setStatus(false, "Invalid key format");
-            return makeErrorResponse(http::status::bad_request, "Key must be in format 'table:pk'", req);
-        }
-        std::string table = key.substr(0, pos);
-        std::string pk = key.substr(pos+1);
-
-        span.setAttribute("entity.table", table);
-        span.setAttribute("entity.pk", pk);
-
-        // Build BaseEntity from blob (assume JSON payload string)
-        std::string blob_str = body_json["blob"].get<std::string>();
-        span.setAttribute("entity.size_bytes", static_cast<int64_t>(blob_str.size()));
-        
-        BaseEntity entity = BaseEntity::fromJson(pk, blob_str);
-
-        // Schema-basierte Feldverschlüsselung (MVP): Falls eine Encryption-Schema-Config persistiert ist,
-        // verschlüssele deklarierte Felder vor Index-/Storage-Persistenz.
-        try {
-            auto schema_bytes = storage_->get("config:encryption_schema");
-            if (schema_bytes) {
-                std::string schema_json(schema_bytes->begin(), schema_bytes->end());
-                auto schema = nlohmann::json::parse(schema_json);
-                if (schema.contains("collections") && schema["collections"].contains(table)) {
-                    auto coll = schema["collections"][table];
-                    if (coll.contains("encryption") && coll["encryption"].contains("enabled") && coll["encryption"]["enabled"].get<bool>()) {
-                        // Erforderliche Komponenten prüfen
-                        if (!field_encryption_) {
-                            THEMIS_WARN("Encryption schema aktiv aber field_encryption_ fehlt");
-                        } else if (!key_provider_) {
-                            THEMIS_WARN("Encryption schema aktiv aber key_provider_ fehlt");
-                        } else {
-                            // Kontexttyp (user|group)
-                            std::string context_type = coll["encryption"].value("context_type", "user");
-                            std::vector<std::string> fields;
-                            if (coll["encryption"].contains("fields")) {
-                                for (auto& f : coll["encryption"]["fields"]) {
-                                    if (f.is_string()) fields.push_back(f.get<std::string>());
-                                }
-                            }
-                            // Extract user_id and groups from JWT token
-                            auto auth_ctx = extractAuthContext(req);
-                            std::string user_id = auth_ctx.user_id;
-                            std::vector<std::string> groups_claim = auth_ctx.groups;
-                            // Hole DEK / Group-DEK aus PKIKeyProvider (dynamic_cast für Group-Funktionalität)
-                            auto pki = std::dynamic_pointer_cast<themis::security::PKIKeyProvider>(key_provider_);
-                            for (const auto& f : fields) {
-                                if (!entity.hasField(f)) continue; // Feld existiert nicht
-                                auto valOpt = entity.getField(f);
-                                if (!valOpt.has_value()) continue;
-                                
-                                // Serialisierung des Values für alle unterstützten Typen
-                                std::vector<uint8_t> plain_bytes;
-                                const auto& v = *valOpt;
-                                
-                                if (std::holds_alternative<std::string>(v)) {
-                                    const auto& str = std::get<std::string>(v);
-                                    plain_bytes.assign(str.begin(), str.end());
-                                } else if (std::holds_alternative<int64_t>(v)) {
-                                    std::string str = std::to_string(std::get<int64_t>(v));
-                                    plain_bytes.assign(str.begin(), str.end());
-                                } else if (std::holds_alternative<double>(v)) {
-                                    std::string str = std::to_string(std::get<double>(v));
-                                    plain_bytes.assign(str.begin(), str.end());
-                                } else if (std::holds_alternative<bool>(v)) {
-                                    std::string str = std::get<bool>(v) ? "true" : "false";
-                                    plain_bytes.assign(str.begin(), str.end());
-                                } else if (std::holds_alternative<std::vector<float>>(v)) {
-                                    // Vector<float>: Serialize als JSON-Array
-                                    const auto& vec = std::get<std::vector<float>>(v);
-                                    nlohmann::json j_arr = nlohmann::json::array();
-                                    for (float val : vec) j_arr.push_back(val);
-                                    std::string json_str = j_arr.dump();
-                                    plain_bytes.assign(json_str.begin(), json_str.end());
-                                } else if (std::holds_alternative<std::vector<uint8_t>>(v)) {
-                                    // Binary blob: direkt als Byte-Array
-                                    plain_bytes = std::get<std::vector<uint8_t>>(v);
-                                } else if (std::holds_alternative<std::monostate>(v)) {
-                                    // Null-Wert überspringen
-                                    continue;
-                                } else {
-                                    // Unbekannter Typ überspringen
-                                    THEMIS_WARN("Feldverschlüsselung: Unbekannter Typ für Feld {}", f);
-                                    continue;
-                                }
-                                
-                                std::vector<uint8_t> raw_key;
-                                std::string key_id;
-                                if (context_type == "group" && pki && !groups_claim.empty()) {
-                                    // Nehme erste Gruppe als Kontext (MVP)
-                                    auto gdek = pki->getGroupDEK(groups_claim.front());
-                                    // HKDF über gdek mit Info=field:<name>
-                                    std::vector<uint8_t> salt; // leer
-                                    std::string info = "field:" + f;
-                                    raw_key = utils::HKDFHelper::derive(gdek, salt, info, 32);
-                                    key_id = "group_field:" + f;
-                                    entity.setField(f + "_group", groups_claim.front());
-                                } else {
-                                    // Per-User oder fallback auf allgemeines Feld-Key
-                                    std::string user_ctx = user_id.empty() ? "anonymous" : user_id;
-                                    auto dek = key_provider_->getKey("dek");
-                                    // salt = user_id (kann leer sein) – falls leer, fallback auf statischen salt, um HKDF-Funktion stabil zu halten
-                                    std::vector<uint8_t> salt;
-                                    if (!user_ctx.empty()) salt.assign(user_ctx.begin(), user_ctx.end());
-                                    std::string info = "field:" + f;
-                                    raw_key = utils::HKDFHelper::derive(dek, salt, info, 32);
-                                    key_id = "user_field:" + f;
-                                }
-                                // Verschlüsseln
-                                try {
-                                    std::string plain_str(plain_bytes.begin(), plain_bytes.end());
-                                    auto blob = field_encryption_->encryptWithKey(plain_str, key_id, 1, raw_key);
-                                    auto j = blob.toJson();
-                                    entity.setField(f + "_encrypted", j.dump());
-                                    entity.setField(f + "_enc", true);
-                                    // Klartext entfernen
-                                    entity.setField(f, std::monostate{});
-                                } catch (const std::exception& e) {
-                                    THEMIS_WARN("Feldverschlüsselung fehlgeschlagen für {}: {}", f, e.what());
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        } catch (const std::exception& e) {
-            THEMIS_WARN("Schema Encryption Verarbeitung Fehler: {}", e.what());
-        }
-
-        // Upsert via SecondaryIndexManager to keep indexes consistent
-        auto st = secondary_index_->put(table, entity);
-        if (!st.ok) {
-            // Check for unique constraint violation
-            if (st.message.find("Unique constraint violation") != std::string::npos) {
-                span.setStatus(false, "Unique constraint violation");
-                return makeErrorResponse(http::status::conflict,
-                    st.message, req);
-            }
-            span.setStatus(false, st.message);
-            return makeErrorResponse(http::status::internal_server_error,
-                "Index/Storage update failed: " + st.message, req);
-        }
-        
-        // Geo MVP: Update spatial index if enabled (best-effort, non-transactional)
-        if (spatial_index_) {
-            try {
-                std::vector<uint8_t> blob_bytes(blob_str.begin(), blob_str.end());
-                api::GeoIndexHooks::onEntityPut(*storage_, spatial_index_.get(), table, pk, blob_bytes);
-            } catch (const std::exception& e) {
-                // Log but don't fail the request - geo index is best-effort
-                THEMIS_WARN("Geo index hook failed for {}:{}: {}", table, pk, e.what());
-            }
-        }
-
-        // Record CDC event if changefeed enabled
-        if (changefeed_ && config_.feature_cdc) {
-            try {
-                Changefeed::ChangeEvent event;
-                event.type = Changefeed::ChangeEventType::EVENT_PUT;
-                event.key = key;
-                event.value = blob_str;
-                event.timestamp_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
-                    std::chrono::system_clock::now().time_since_epoch()
-                ).count();
-                event.metadata = {{"table", table}, {"pk", pk}};
-                changefeed_->recordEvent(event);
-            } catch (const std::exception& e) {
-                // Log but don't fail the request
-                THEMIS_WARN("CDC event recording failed: {}", e.what());
-            }
-        }
-
-        span.setStatus(true);
-        span.setAttribute("entity.cdc_recorded", changefeed_ && config_.feature_cdc);
-
-        // Write concern enforcement (RAID replication)
-        // Parse write concern from query params (default: ONE)
-        std::string concern_str = "ONE";
-        auto target_str = std::string(req.target());
-        auto qpos = target_str.find('?');
-        if (qpos != std::string::npos) {
-            auto query = target_str.substr(qpos + 1);
-            auto params = query; // simple parse: write_concern=MAJORITY
-            auto wc_pos = params.find("write_concern=");
-            if (wc_pos != std::string::npos) {
-                auto wc_start = wc_pos + 14; // len("write_concern=")
-                auto wc_end = params.find('&', wc_start);
-                concern_str = params.substr(wc_start, wc_end == std::string::npos ? std::string::npos : wc_end - wc_start);
-            }
-        }
-
-        sharding::WriteConcernConfig wc_config;
-        wc_config.level = sharding::parseWriteConcern(concern_str);
-        wc_config.timeout = std::chrono::milliseconds(5000); // 5s default
-
-        // If replication coordinator exists and concern > ONE, wait for quorum
-        if (replication_coordinator_ && wc_config.level != sharding::WriteConcern::ONE) {
-            // Append to WAL to track LSN
-            sharding::WALEntry wal_entry;
-            wal_entry.lsn = wal_manager_ ? wal_manager_->getCurrentLSN() : sharding::LSN{0, 0};
-            wal_entry.type = sharding::WALEntryType::INSERT;
-            wal_entry.timestamp = std::chrono::duration_cast<std::chrono::milliseconds>(
-                std::chrono::system_clock::now().time_since_epoch()
-            ).count();
-            wal_entry.transaction_id = ""; // optional
-            wal_entry.data = nlohmann::json{{"key", key}, {"value", blob_str}};
-
-            if (wal_manager_) {
-                wal_entry.lsn = wal_manager_->append(wal_entry);
-            }
-
-            // Record multi-primary bookkeeping (logical clock/heartbeat)
-            if (multi_primary_coordinator_) {
-                multi_primary_coordinator_->recordWrite(wal_entry.lsn);
-            }
-
-            auto write_result = replication_coordinator_->waitForReplication(wal_entry.lsn, wc_config);
-            if (!write_result.success) {
-                THEMIS_WARN("Write concern {} failed for {}: {}", concern_str, key, write_result.error);
-                span.setStatus(false, write_result.error);
-                return makeErrorResponse(http::status::service_unavailable,
-                    "Write concern not met: " + write_result.error, req);
-            }
-            span.setAttribute("write_concern.level", concern_str);
-            span.setAttribute("write_concern.acks", static_cast<int64_t>(write_result.replicas_acknowledged));
-            span.setAttribute("write_concern.latency_ms", static_cast<int64_t>(write_result.latency.count()));
-        }
-
-        json response = {
-            {"success", true},
-            {"key", key},
-            {"blob_size", blob_str.size()}
-        };
-        return makeResponse(http::status::created, response.dump(), req);
-
-    } catch (const json::exception& e) {
-        THEMIS_ERROR("PUT entity JSON error: {}", e.what());
-        span.setStatus(false, e.what());
-        return makeErrorResponse(http::status::bad_request, 
-            "Invalid JSON: " + std::string(e.what()), req);
-    } catch (const std::exception& e) {
-        THEMIS_ERROR("PUT entity error: {}", e.what());
-        span.setStatus(false, e.what());
-        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
-    }
-}
-
-http::response<http::string_body> HttpServer::handleDeleteEntity(
-    const http::request<http::string_body>& req
-) {
-    if (auth_ && auth_->isEnabled()) {
-        std::string path_only = std::string(req.target());
-        auto qpos = path_only.find('?');
-        if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
-        if (auto resp = requireAccess(req, "data:write", "delete", path_only)) return *resp;
-    }
-    auto span = Tracer::startSpan("DELETE /entities/:key");
-    
-    try {
-        auto key = extractPathParam(std::string(req.target()), "/entities/");
-        if (key.empty()) {
-            span.setStatus(false, "Missing entity key");
-            return makeErrorResponse(http::status::bad_request, "Missing entity key", req);
-        }
-
-        span.setAttribute("entity.key", key);
-
-        // Split key into table:pk
-        auto pos = key.find(':');
-        if (pos == std::string::npos || pos == 0 || pos == key.size()-1) {
-            span.setStatus(false, "Invalid key format");
-            return makeErrorResponse(http::status::bad_request, "Key must be in format 'table:pk'", req);
-        }
-        std::string table = key.substr(0, pos);
-        std::string pk = key.substr(pos+1);
-
-        span.setAttribute("entity.table", table);
-        span.setAttribute("entity.pk", pk);
-        
-        // Geo MVP: Remove from spatial index before delete (best-effort)
-        if (spatial_index_) {
-            try {
-                // Get old blob for computing sidecar
-                std::string entity_key = "entity:" + table + ":" + pk;
-                auto old_blob = storage_->get(entity_key);
-                if (old_blob) {
-                    api::GeoIndexHooks::onEntityDelete(*storage_, spatial_index_.get(), table, pk, *old_blob);
-                }
-            } catch (const std::exception& e) {
-                // Log but don't fail the request - geo index is best-effort
-                THEMIS_WARN("Geo index delete hook failed for {}:{}: {}", table, pk, e.what());
-            }
-        }
-
-        auto st = secondary_index_->erase(table, pk);
-        if (!st.ok) {
-            span.setStatus(false, st.message);
-            return makeErrorResponse(http::status::internal_server_error,
-                "Index/Storage delete failed: " + st.message, req);
-        }
-
-        // Record CDC event if changefeed enabled
-        if (changefeed_ && config_.feature_cdc) {
-            try {
-                Changefeed::ChangeEvent event;
-                event.type = Changefeed::ChangeEventType::EVENT_DELETE;
-                event.key = key;
-                event.value = std::nullopt; // No value for DELETE
-                event.timestamp_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
-                    std::chrono::system_clock::now().time_since_epoch()
-                ).count();
-                event.metadata = {{"table", table}, {"pk", pk}};
-                changefeed_->recordEvent(event);
-            } catch (const std::exception& e) {
-                THEMIS_WARN("CDC event recording failed: {}", e.what());
-            }
-        }
-
-        span.setStatus(true);
-        span.setAttribute("entity.cdc_recorded", changefeed_ && config_.feature_cdc);
-
-        json response = {
-            {"success", true},
-            {"key", key}
-        };
-        return makeResponse(http::status::ok, response.dump(), req);
-
-    } catch (const std::exception& e) {
-        THEMIS_ERROR("DELETE entity error: {}", e.what());
-        span.setStatus(false, e.what());
-        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
-    }
-}
-
-/**
- * @brief Batch CRUD endpoint - Phase 1 Enterprise Feature
- * 
- * Accepts bulk PUT/DELETE operations in single request for optimal throughput.
- * Uses RocksDB WriteBatch for atomic commit of all operations.
- * 
- * Request format:
- * {
- *   "operations": [
- *     {"op": "put", "key": "users:user123", "blob": "{...}"},
- *     {"op": "delete", "key": "users:user456"},
- *     ...
- *   ]
- * }
- * 
- * Response format:
- * {
- *   "success": true,
- *   "total": 100,
- *   "succeeded": 98,
- *   "failed": 2,
- *   "errors": [
- *     {"index": 5, "key": "users:badkey", "error": "Invalid key format"},
- *     {"index": 42, "key": "orders:missing", "error": "Unique constraint violation"}
- *   ]
- * }
- */
-http::response<http::string_body> HttpServer::handleEntitiesBatch(
-    const http::request<http::string_body>& req
-) {
-    if (auth_ && auth_->isEnabled()) {
-        if (auto resp = requireAccess(req, "data:write", "write", "/entities/batch")) return *resp;
-    }
-    auto span = Tracer::startSpan("POST /entities/batch");
-    
-    try {
-        // Parse request
-        auto body_json = json::parse(req.body());
-        
-        if (!body_json.contains("operations") || !body_json["operations"].is_array()) {
-            span.setStatus(false, "Missing or invalid operations array");
-            return makeErrorResponse(http::status::bad_request, 
-                "Request must contain 'operations' array", req);
-        }
-        
-        auto& operations = body_json["operations"];
-        int64_t total = operations.size();
-        
-        if (total == 0) {
-            span.setStatus(false, "Empty operations array");
-            return makeErrorResponse(http::status::bad_request, 
-                "Operations array cannot be empty", req);
-        }
-        
-        // Limit batch size to prevent memory exhaustion
-        const int64_t MAX_BATCH_SIZE = 10000;
-        if (total > MAX_BATCH_SIZE) {
-            span.setStatus(false, "Batch too large");
-            return makeErrorResponse(http::status::bad_request, 
-                "Batch size exceeds maximum of " + std::to_string(MAX_BATCH_SIZE), req);
-        }
-        
-        span.setAttribute("batch.total_ops", total);
-        
-        // Collect errors during validation/processing
-        std::vector<json> errors;
-        int64_t succeeded = 0;
-        
-        // Phase 1: Validate all operations before committing anything
-        // This ensures we can provide partial success feedback
-        struct ValidatedOp {
-            std::string op_type; // "put" or "delete"
-            std::string table;
-            std::string pk;
-            std::string key; // table:pk
-            std::string blob; // Only for PUT
-            int64_t index;
-        };
-        std::vector<ValidatedOp> validated_ops;
-        validated_ops.reserve(total);
-        
-        for (int64_t i = 0; i < total; ++i) {
-            try {
-                const auto& op = operations[i];
-                
-                if (!op.contains("op") || !op["op"].is_string()) {
-                    errors.push_back({
-                        {"index", i},
-                        {"error", "Missing or invalid 'op' field"}
-                    });
-                    continue;
-                }
-                
-                if (!op.contains("key") || !op["key"].is_string()) {
-                    errors.push_back({
-                        {"index", i},
-                        {"error", "Missing or invalid 'key' field"}
-                    });
-                    continue;
-                }
-                
-                std::string op_type = op["op"].get<std::string>();
-                std::string key = op["key"].get<std::string>();
-                
-                // Validate operation type
-                if (op_type != "put" && op_type != "delete") {
-                    errors.push_back({
-                        {"index", i},
-                        {"key", key},
-                        {"error", "Invalid operation type: " + op_type}
-                    });
-                    continue;
-                }
-                
-                // Parse key format (table:pk)
-                auto pos = key.find(':');
-                if (pos == std::string::npos || pos == 0 || pos == key.size()-1) {
-                    errors.push_back({
-                        {"index", i},
-                        {"key", key},
-                        {"error", "Key must be in format 'table:pk'"}
-                    });
-                    continue;
-                }
-                
-                std::string table = key.substr(0, pos);
-                std::string pk = key.substr(pos+1);
-                
-                ValidatedOp vop;
-                vop.op_type = op_type;
-                vop.table = table;
-                vop.pk = pk;
-                vop.key = key;
-                vop.index = i;
-                
-                // For PUT operations, require blob field
-                if (op_type == "put") {
-                    if (!op.contains("blob") || !op["blob"].is_string()) {
-                        errors.push_back({
-                            {"index", i},
-                            {"key", key},
-                            {"error", "PUT operation requires 'blob' field"}
-                        });
-                        continue;
-                    }
-                    vop.blob = op["blob"].get<std::string>();
-                }
-                
-                validated_ops.push_back(std::move(vop));
-                
-            } catch (const json::exception& e) {
-                errors.push_back({
-                    {"index", i},
-                    {"error", std::string("JSON error: ") + e.what()}
-                });
-            } catch (const std::exception& e) {
-                errors.push_back({
-                    {"index", i},
-                    {"error", e.what()}
-                });
-            }
-        }
-        
-        // Phase 2: Execute validated operations using WriteBatch
-        auto batch = storage_->createWriteBatch();
-        
-        for (const auto& vop : validated_ops) {
-            try {
-                if (vop.op_type == "put") {
-                    // Build entity from blob
-                    BaseEntity entity = BaseEntity::fromJson(vop.pk, vop.blob);
-                    
-                    // Use SecondaryIndexManager batch variant for index consistency
-                    auto st = secondary_index_->put(vop.table, entity, *batch);
-                    if (!st.ok) {
-                        errors.push_back({
-                            {"index", vop.index},
-                            {"key", vop.key},
-                            {"error", st.message}
-                        });
-                        continue; // Skip this operation but continue with others
-                    }
-                    
-                    // Geo index update (best-effort, non-transactional)
-                    if (spatial_index_) {
-                        try {
-                            std::vector<uint8_t> blob_bytes(vop.blob.begin(), vop.blob.end());
-                            api::GeoIndexHooks::onEntityPut(*storage_, spatial_index_.get(), 
-                                vop.table, vop.pk, blob_bytes);
-                        } catch (const std::exception& e) {
-                            THEMIS_WARN("Geo index hook failed for {}:{}: {}", vop.table, vop.pk, e.what());
-                        }
-                    }
-                    
-                } else { // delete
-                    // Geo index cleanup (best-effort)
-                    if (spatial_index_) {
-                        try {
-                            std::string entity_key = "entity:" + vop.table + ":" + vop.pk;
-                            auto old_blob = storage_->get(entity_key);
-                            if (old_blob) {
-                                api::GeoIndexHooks::onEntityDelete(*storage_, spatial_index_.get(), 
-                                    vop.table, vop.pk, *old_blob);
-                            }
-                        } catch (const std::exception& e) {
-                            THEMIS_WARN("Geo index delete hook failed for {}:{}: {}", vop.table, vop.pk, e.what());
-                        }
-                    }
-                    
-                    auto st = secondary_index_->erase(vop.table, vop.pk, *batch);
-                    if (!st.ok) {
-                        errors.push_back({
-                            {"index", vop.index},
-                            {"key", vop.key},
-                            {"error", st.message}
-                        });
-                        continue;
-                    }
-                }
-                
-                succeeded++;
-                
-            } catch (const std::exception& e) {
-                errors.push_back({
-                    {"index", vop.index},
-                    {"key", vop.key},
-                    {"error", e.what()}
-                });
-            }
-        }
-        
-        // Phase 3: Atomic commit
-        bool commit_ok = batch->commit();
-        if (!commit_ok) {
-            span.setStatus(false, "WriteBatch commit failed");
-            return makeErrorResponse(http::status::internal_server_error, 
-                "Atomic batch commit failed", req);
-        }
-        
-        // Record CDC events if enabled (best-effort, after commit)
-        if (changefeed_ && config_.feature_cdc) {
-            auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
-                std::chrono::system_clock::now().time_since_epoch()
-            ).count();
-            
-            for (const auto& vop : validated_ops) {
-                try {
-                    Changefeed::ChangeEvent event;
-                    event.type = (vop.op_type == "put") ? 
-                        Changefeed::ChangeEventType::EVENT_PUT : 
-                        Changefeed::ChangeEventType::EVENT_DELETE;
-                    event.key = vop.key;
-                    if (vop.op_type == "put") {
-                        event.value = vop.blob;
-                    } else {
-                        event.value = std::nullopt;
-                    }
-                    event.timestamp_ms = now_ms;
-                    event.metadata = {{"table", vop.table}, {"pk", vop.pk}, {"batch", true}};
-                    changefeed_->recordEvent(event);
-                } catch (const std::exception& e) {
-                    // Log but don't fail the request
-                    THEMIS_WARN("CDC event recording failed for {}: {}", vop.key, e.what());
-                }
-            }
-        }
-        
-        int64_t failed = errors.size();
-        
-        span.setStatus(true);
-        span.setAttribute("batch.succeeded", succeeded);
-        span.setAttribute("batch.failed", failed);
-        span.setAttribute("batch.cdc_recorded", changefeed_ && config_.feature_cdc);
-        
-        json response = {
-            {"success", true},
-            {"total", total},
-            {"succeeded", succeeded},
-            {"failed", failed}
-        };
-        
-        if (!errors.empty()) {
-            response["errors"] = errors;
-        }
-        
-        return makeResponse(http::status::ok, response.dump(), req);
-        
-    } catch (const json::exception& e) {
-        THEMIS_ERROR("Batch entities JSON error: {}", e.what());
-        span.setStatus(false, e.what());
-        return makeErrorResponse(http::status::bad_request, 
-            "Invalid JSON: " + std::string(e.what()), req);
-    } catch (const std::exception& e) {
-        THEMIS_ERROR("Batch entities error: {}", e.what());
-        span.setStatus(false, e.what());
-        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
-    }
-}
-
-http::response<http::string_body> HttpServer::handleQuery(
-    const http::request<http::string_body>& req
-) {
-    if (auth_ && auth_->isEnabled()) {
-        std::string path_only = std::string(req.target());
-        auto qpos = path_only.find('?');
-        if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
-        if (auto resp = requireAccess(req, "data:read", "query", path_only)) return *resp;
-    }
-    auto span = Tracer::startSpan("POST /query");
-    
-    try {
-        auto body = json::parse(req.body());
-        if (!body.contains("table")) {
-            span.setStatus(false, "Missing table");
-            return makeErrorResponse(http::status::bad_request, "Missing 'table'", req);
-        }
-
-        std::string table = body["table"].get<std::string>();
-        span.setAttribute("query.table", table);
-        
-        std::vector<themis::PredicateEq> preds;
-        if (body.contains("predicates")) {
-            for (const auto& p : body["predicates"]) {
-                if (!p.contains("column") || !p.contains("value")) {
-                    span.setStatus(false, "Invalid predicate");
-                    return makeErrorResponse(http::status::bad_request, "Each predicate needs 'column' and 'value'", req);
-                }
-                preds.push_back({p["column"].get<std::string>(), p["value"].get<std::string>()});
-            }
-        }
-
-        span.setAttribute("query.predicates_count", static_cast<int64_t>(preds.size()));
-
-        // Range predicates (optional)
-        std::vector<themis::PredicateRange> rpreds;
-        if (body.contains("range")) {
-            for (const auto& r : body["range"]) {
-                if (!r.contains("column")) {
-                    return makeErrorResponse(http::status::bad_request, "Each range needs 'column'", req);
-                }
-                themis::PredicateRange pr;
-                pr.column = r["column"].get<std::string>();
-                if (r.contains("gte")) pr.lower = r["gte"].get<std::string>();
-                if (r.contains("lte")) pr.upper = r["lte"].get<std::string>();
-                pr.includeLower = true; pr.includeUpper = true;
-                if (r.contains("includeLower")) pr.includeLower = r["includeLower"].get<bool>();
-                if (r.contains("includeUpper")) pr.includeUpper = r["includeUpper"].get<bool>();
-                rpreds.push_back(std::move(pr));
-            }
-        }
-
-        // Optional ORDER BY
-        std::optional<themis::OrderBy> orderBy;
-        if (body.contains("order_by")) {
-            const auto& ob = body["order_by"];
-            if (!ob.contains("column")) return makeErrorResponse(http::status::bad_request, "order_by requires 'column'", req);
-            themis::OrderBy o; o.column = ob["column"].get<std::string>();
-            o.desc = ob.contains("desc") ? ob["desc"].get<bool>() : false;
-            o.limit = ob.contains("limit") ? ob["limit"].get<size_t>() : 1000;
-            orderBy = o;
-        }
-
-    bool optimize = body.contains("optimize") ? body["optimize"].get<bool>() : true;
-    bool allow_full_scan = body.contains("allow_full_scan") ? body["allow_full_scan"].get<bool>() : false;
-    bool explain = body.contains("explain") ? body["explain"].get<bool>() : false;
-    std::string ret = body.contains("return") ? body["return"].get<std::string>() : std::string("entities");
-    bool decrypt = body.contains("decrypt") ? body["decrypt"].get<bool>() : false;
-
-    themis::ConjunctiveQuery q{table, preds, {}, {}, {}, {}};
-    q.rangePredicates = std::move(rpreds);
-    q.orderBy = orderBy;
-    q.fulltextPredicate = {};
-    q.spatialPredicate = {};
-        themis::QueryEngine engine(*storage_, *secondary_index_);
-
-        // Optional plan/explain info
-        std::string exec_mode;
-        nlohmann::json plan_json;
-
-        if (ret == "keys") {
-            std::pair<themis::QueryEngine::Status, std::vector<std::string>> res;
-            if (allow_full_scan) {
-                exec_mode = "full_scan_fallback";
-                res = engine.executeAndKeysWithFallback(q, optimize);
-            } else {
-                if (optimize) {
-                    themis::QueryOptimizer opt(*secondary_index_);
-                    auto plan = opt.chooseOrderForAndQuery(q);
-                    res = opt.executeOptimizedKeys(engine, q, plan);
-                    exec_mode = "index_optimized";
-                    if (explain) {
-                        plan_json["mode"] = exec_mode;
-                        plan_json["order"] = nlohmann::json::array();
-                        for (const auto& p : plan.orderedPredicates) {
-                            plan_json["order"].push_back({{"column", p.column}, {"value", p.value}});
-                        }
-                        plan_json["estimates"] = nlohmann::json::array();
-                        for (const auto& d : plan.details) {
-                            plan_json["estimates"].push_back({
-                                {"column", d.pred.column}, {"value", d.pred.value},
-                                {"estimatedCount", d.estimatedCount}, {"capped", d.capped}
-                            });
-                        }
-                    }
-                } else {
-                    exec_mode = "index_parallel";
-                    res = engine.executeAndKeys(q);
-                    if (explain) {
-                        plan_json = {
-                            {"mode", exec_mode},
-                            {"order", nlohmann::json::array()}
-                        };
-                        for (const auto& p : q.predicates) {
-                            plan_json["order"].push_back({{"column", p.column}, {"value", p.value}});
-                        }
-                    }
-                }
-            }
-            if (!res.first.ok) {
-                span.setStatus(false, res.first.message);
-                return makeErrorResponse(http::status::bad_request, res.first.message, req);
-            }
-            
-            span.setAttribute("query.exec_mode", exec_mode);
-            span.setAttribute("query.result_count", static_cast<int64_t>(res.second.size()));
-            span.setStatus(true);
-            
-            json j = {{"table", table}, {"count", res.second.size()}, {"keys", res.second}};
-            if (explain && !plan_json.is_null()) j["plan"] = plan_json;
-            return makeResponse(http::status::ok, j.dump(), req);
-        } else {
-            std::pair<themis::QueryEngine::Status, std::vector<themis::BaseEntity>> res;
-            if (allow_full_scan) {
-                exec_mode = "full_scan_fallback";
-                res = engine.executeAndEntitiesWithFallback(q, optimize);
-            } else {
-                if (optimize) {
-                    themis::QueryOptimizer opt(*secondary_index_);
-                    auto plan = opt.chooseOrderForAndQuery(q);
-                    res = opt.executeOptimizedEntities(engine, q, plan);
-                    exec_mode = "index_optimized";
-                    if (explain) {
-                        plan_json["mode"] = exec_mode;
-                        plan_json["order"] = nlohmann::json::array();
-                        for (const auto& p : plan.orderedPredicates) {
-                            plan_json["order"].push_back({{"column", p.column}, {"value", p.value}});
-                        }
-                        plan_json["estimates"] = nlohmann::json::array();
-                        for (const auto& d : plan.details) {
-                            plan_json["estimates"].push_back({
-                                {"column", d.pred.column}, {"value", d.pred.value},
-                                {"estimatedCount", d.estimatedCount}, {"capped", d.capped}
-                            });
-                        }
-                    }
-                } else {
-                    exec_mode = "index_parallel";
-                    res = engine.executeAndEntities(q);
-                    if (explain) {
-                        plan_json = {
-                            {"mode", exec_mode},
-                            {"order", nlohmann::json::array()}
-                        };
-                        for (const auto& p : q.predicates) {
-                            plan_json["order"].push_back({{"column", p.column}, {"value", p.value}});
-                        }
-                    }
-                }
-            }
-            if (!res.first.ok) {
-                span.setStatus(false, res.first.message);
-                return makeErrorResponse(http::status::bad_request, res.first.message, req);
-            }
-            
-            span.setAttribute("query.exec_mode", exec_mode);
-            span.setAttribute("query.result_count", static_cast<int64_t>(res.second.size()));
-            span.setStatus(true);
-            
-            // Serialize entities; optional Entschluesselung basierend auf Schema
-            json entities = json::array();
-            if (!decrypt) {
-                for (const auto& e : res.second) {
-                    // Kompatible Rueckgabe: JSON-String je Entity
-                    entities.push_back(e.toJson());
-                }
-            } else {
-                // Lade Schema einmal
-                nlohmann::json schema;
-                try {
-                    if (auto schema_bytes = storage_->get("config:encryption_schema")) {
-                        std::string schema_json(schema_bytes->begin(), schema_bytes->end());
-                        schema = nlohmann::json::parse(schema_json);
-                    }
-                } catch (...) {}
-                bool enabled = false;
-                std::vector<std::string> fields;
-                std::string context_type = "user";
-                if (!schema.is_null() && schema.contains("collections") && schema["collections"].contains(table)) {
-                    auto coll = schema["collections"][table];
-                    enabled = coll.contains("encryption") && coll["encryption"].value("enabled", false);
-                    if (enabled && coll["encryption"].contains("fields")) {
-                        for (auto& f : coll["encryption"]["fields"]) if (f.is_string()) fields.push_back(f.get<std::string>());
-                        context_type = coll["encryption"].value("context_type", "user");
-                    }
-                }
-                // Extract user_id and groups from JWT for decryption context
-                auto auth_ctx = extractAuthContext(req);
-                std::string user_ctx = auth_ctx.user_id.empty() ? "anonymous" : auth_ctx.user_id;
-                auto pki = std::dynamic_pointer_cast<themis::security::PKIKeyProvider>(key_provider_);
-                for (const auto& e : res.second) {
-                    nlohmann::json obj;
-                    try { obj = nlohmann::json::parse(e.toJson()); } catch (...) { entities.push_back(e.toJson()); continue; }
-                    if (enabled) {
-                        for (const auto& f : fields) {
-                            if (!obj.contains(f + "_enc") || !obj.contains(f + "_encrypted")) continue;
-                            bool encFlag = false; try { encFlag = obj[f + "_enc"].get<bool>(); } catch (...) { encFlag = false; }
-                            if (!encFlag) continue;
-                            try {
-                                auto enc_meta_str = obj[f + "_encrypted"].get<std::string>();
-                                auto enc_meta = nlohmann::json::parse(enc_meta_str);
-                                auto blob = themis::EncryptedBlob::fromJson(enc_meta);
-                                std::vector<uint8_t> raw_key;
-                                if (context_type == "group" && pki && obj.contains(f + "_group")) {
-                                    std::string group_name; try { group_name = obj[f + "_group"].get<std::string>(); } catch (...) { group_name.clear(); }
-                                    if (!group_name.empty()) {
-                                        auto gdek = pki->getGroupDEK(group_name);
-                                        std::vector<uint8_t> salt; std::string info = "field:" + f;
-                                        raw_key = themis::utils::HKDFHelper::derive(gdek, salt, info, 32);
-                                    }
-                                }
-                                if (raw_key.empty()) {
-                                    auto dek = key_provider_->getKey("dek");
-                                    std::vector<uint8_t> salt(user_ctx.begin(), user_ctx.end());
-                                    std::string info = "field:" + f;
-                                    raw_key = themis::utils::HKDFHelper::derive(dek, salt, info, 32);
-                                }
-                                auto plain_bytes = field_encryption_->decryptWithKey(blob, raw_key);
-                                
-                                // Deserialisierung basierend auf Datenformat
-                                std::string plain_str(plain_bytes.begin(), plain_bytes.end());
-                                
-                                // Heuristik: JSON-Strukturen erkennen und parsen
-                                if (!plain_str.empty() && (plain_str[0] == '[' || plain_str[0] == '{')) {
-                                    try {
-                                        auto parsed = nlohmann::json::parse(plain_str);
-                                        obj[f] = parsed;
-                                    } catch (...) {
-                                        obj[f] = plain_str;
-                                    }
-                                } else {
-                                    obj[f] = plain_str;
-                                }
-                            } catch (const std::exception& ex) {
-                                THEMIS_WARN("Query decrypt field {} failed: {}", f, ex.what());
-                            }
-                        }
-                    }
-                    entities.push_back(obj);
-                }
-            }
-            json j = {{"table", table}, {"count", res.second.size()}, {"entities", entities}, {"decrypted", decrypt}};
-            if (explain && !plan_json.is_null()) j["plan"] = plan_json;
-            return makeResponse(http::status::ok, j.dump(), req);
-        }
-
-    } catch (const json::exception& e) {
-        span.setStatus(false, e.what());
-        return makeErrorResponse(http::status::bad_request,
-            "Invalid JSON: " + std::string(e.what()), req);
-    }
-}
-
-http::response<http::string_body> HttpServer::handleQueryAql(
-    const http::request<http::string_body>& req
-) {
-    auto span = Tracer::startSpan("POST /query/aql");
-    
-    try {
-        auto body = json::parse(req.body());
-        
-        // Validate request
-        if (!body.contains("query")) {
-            span.setStatus(false, "Missing query field");
-            return makeErrorResponse(http::status::bad_request, "Missing 'query' field", req);
-        }
-
-        std::string aql_query = body["query"].get<std::string>();
-        span.setAttribute("aql.query", aql_query);
-        bool explain = body.contains("explain") ? body["explain"].get<bool>() : false;
-        span.setAttribute("aql.explain", explain);
-        bool optimize = body.contains("optimize") ? body["optimize"].get<bool>() : true;
-        span.setAttribute("aql.optimize", optimize);
-        bool allow_full_scan = body.contains("allow_full_scan") ? body["allow_full_scan"].get<bool>() : false;
-        span.setAttribute("aql.allow_full_scan", allow_full_scan);
-        
-    // Cursor-based pagination parameters
-        std::string cursor_token = body.contains("cursor") ? body["cursor"].get<std::string>() : "";
-        bool use_cursor = body.contains("use_cursor") ? body["use_cursor"].get<bool>() : false;
-    auto page_fetch_start = std::chrono::steady_clock::now();
-        
-    // Cursor-Pagination: Wir verlagern Cursor-Handling in die Engine (Anker-basiert)
-        
-        // Optional: Frontier-Limits f�r Traversal (Soft-Limit)
-        size_t max_frontier_size = body.contains("max_frontier_size") ? body["max_frontier_size"].get<size_t>() : 100000;
-        size_t max_results = body.contains("max_results") ? body["max_results"].get<size_t>() : 10000;
-        
-        // Parse AQL query
-        auto parseSpan = Tracer::startSpan("aql.parse");
-        parseSpan.setAttribute("aql.query_length", static_cast<int64_t>(aql_query.size()));
-        themis::query::AQLParser parser;
-        auto parse_result = parser.parse(aql_query);
-        
-        if (!parse_result.success) {
-            std::string error_msg = "AQL parse error: " + parse_result.error.message + 
-                " at line " + std::to_string(parse_result.error.line) + 
-                ", column " + std::to_string(parse_result.error.column);
-            
-            if (!parse_result.error.context.empty()) {
-                error_msg += " (context: " + parse_result.error.context + ")";
-            }
-            
-            parseSpan.setStatus(false, error_msg);
-            span.setStatus(false, "Parse error");
-            return makeErrorResponse(http::status::bad_request, error_msg, req);
-        }
-        parseSpan.setStatus(true);
-
-        // EARLY: Join-Erkennung vor Translation (Translator unterstützt keine Field==Field Prädikate)
-        if (parse_result.query && parse_result.query->traversal == nullptr && !parse_result.query->for_nodes.empty() && parse_result.query->for_nodes.size() >= 2) {
-            // Wiederverwendung der Join-Logik wie weiter unten
-            auto joinSpan = Tracer::startSpan("aql.join");
-            const auto& f1 = parse_result.query->for_nodes[0];
-            const auto& f2 = parse_result.query->for_nodes[1];
-            const std::string var1 = f1.variable;
-            const std::string var2 = f2.variable;
-            const std::string table1 = f1.collection;
-            const std::string table2 = f2.collection;
-            joinSpan.setAttribute("join.var_left", var1);
-            joinSpan.setAttribute("join.var_right", var2);
-            joinSpan.setAttribute("join.table_left", table1);
-            joinSpan.setAttribute("join.table_right", table2);
-
-            using namespace themis::query;
-            std::function<std::string(const std::shared_ptr<Expression>&, std::string&)> fieldFromFA = [&](const std::shared_ptr<Expression>& expr, std::string& rootVar)->std::string {
-                auto* fa = dynamic_cast<FieldAccessExpr*>(expr.get());
-                if (!fa) return std::string();
-                std::vector<std::string> parts; parts.push_back(fa->field);
-                auto* cur = fa->object.get();
-                while (auto* fa2 = dynamic_cast<FieldAccessExpr*>(cur)) { parts.push_back(fa2->field); cur = fa2->object.get(); }
-                auto* root = dynamic_cast<VariableExpr*>(cur); if (!root) return std::string();
-                rootVar = root->name; std::string col; for (auto it = parts.rbegin(); it != parts.rend(); ++it) { if (!col.empty()) col += "."; col += *it; } return col;
-            };
-            auto literalToString = [&](const LiteralValue& value)->std::string{
-                return std::visit([](auto&& arg)->std::string{
-                    using T = std::decay_t<decltype(arg)>;
-                    if constexpr (std::is_same_v<T, std::nullptr_t>) return std::string("null");
-                    else if constexpr (std::is_same_v<T, bool>) return arg ? std::string("true") : std::string("false");
-                    else if constexpr (std::is_same_v<T, int64_t>) return std::to_string(arg);
-                    else if constexpr (std::is_same_v<T, double>) return std::to_string(arg);
-                    else if constexpr (std::is_same_v<T, std::string>) return arg;
-                    else return std::string();
-                }, value);
-            };
-            std::optional<std::pair<std::string,std::string>> joinCols; std::vector<PredicateEq> eq1, eq2; std::vector<PredicateRange> r1, r2;
-            std::function<void(const std::shared_ptr<Expression>&)> collectPreds;
-            collectPreds = [&](const std::shared_ptr<Expression>& e){
-                if (!e) return;
-                if (e->getType() != ASTNodeType::BinaryOp) return;
-                auto bin = std::static_pointer_cast<BinaryOpExpr>(e);
-                if (bin->op == BinaryOperator::And) {
-                    collectPreds(bin->left);
-                    collectPreds(bin->right);
-                    return;
-                }
-                if (bin->op == BinaryOperator::Eq) {
-                    std::string rvL, rvR; std::string colL = fieldFromFA(bin->left, rvL); std::string colR = fieldFromFA(bin->right, rvR);
-                    if (!colL.empty() && !colR.empty() && ((rvL == var1 && rvR == var2) || (rvL == var2 && rvR == var1))) {
-                        if (!joinCols.has_value()) { if (rvL == var1) joinCols = std::make_pair(colL, colR); else joinCols = std::make_pair(colR, colL); }
-                        return;
-                    }
-                    if (!colL.empty() && rvL == var1 && bin->right->getType() == ASTNodeType::Literal) { auto lit = std::static_pointer_cast<LiteralExpr>(bin->right); eq1.push_back({colL, literalToString(lit->value)}); return; }
-                    if (!colL.empty() && rvL == var2 && bin->right->getType() == ASTNodeType::Literal) { auto lit = std::static_pointer_cast<LiteralExpr>(bin->right); eq2.push_back({colL, literalToString(lit->value)}); return; }
-                    if (bin->left->getType() == ASTNodeType::Literal) { std::string rv; std::string col = fieldFromFA(bin->right, rv); if (!col.empty()) { auto lit = std::static_pointer_cast<LiteralExpr>(bin->left); if (rv == var1) eq1.push_back({col, literalToString(lit->value)}); else if (rv == var2) eq2.push_back({col, literalToString(lit->value)}); } return; }
-                }
-            };
-            for (const auto& f : parse_result.query->filters) collectPreds(f->condition);
-            if (!joinCols.has_value()) {
-                joinSpan.setStatus(false, "join_predicate_missing"); span.setStatus(false, "JOIN requires equality predicate between variables");
-                return makeErrorResponse(http::status::bad_request, "JOIN requires equality predicate between variables", req);
-            }
-            themis::ConjunctiveQuery q1; q1.table = table1; q1.predicates = eq1; q1.rangePredicates = r1;
-            themis::ConjunctiveQuery q2; q2.table = table2; q2.predicates = eq2; q2.rangePredicates = r2;
-            themis::QueryEngine engine(*storage_, *secondary_index_);
-            auto res1 = allow_full_scan ? engine.executeAndEntitiesWithFallback(q1, optimize) : engine.executeAndEntities(q1);
-            if (!res1.first.ok) { joinSpan.setStatus(false, res1.first.message); span.setStatus(false, "Left side execution failed"); return makeErrorResponse(http::status::bad_request, res1.first.message, req); }
-            auto res2 = allow_full_scan ? engine.executeAndEntitiesWithFallback(q2, optimize) : engine.executeAndEntities(q2);
-            if (!res2.first.ok) { joinSpan.setStatus(false, res2.first.message); span.setStatus(false, "Right side execution failed"); return makeErrorResponse(http::status::bad_request, res2.first.message, req); }
-            const auto& leftVec = res1.second; const auto& rightVec = res2.second; bool buildLeft = leftVec.size() <= rightVec.size();
-            const auto [colLeft, colRight] = *joinCols; std::unordered_multimap<std::string, themis::BaseEntity> hash;
-            auto getFieldStr = [&](const themis::BaseEntity& e, const std::string& col)->std::optional<std::string> { auto v = e.getFieldAsString(col); if (v.has_value()) return v; auto d = e.getFieldAsDouble(col); if (d.has_value()) return std::to_string(*d); return std::nullopt; };
-            if (buildLeft) { hash.reserve(leftVec.size()*2+1); for (const auto& e : leftVec) { auto k = getFieldStr(e, colLeft); if (k.has_value()) hash.emplace(*k, e); } }
-            else { hash.reserve(rightVec.size()*2+1); for (const auto& e : rightVec) { auto k = getFieldStr(e, colRight); if (k.has_value()) hash.emplace(*k, e); } }
-            std::string retVar; if (parse_result.query->return_node && parse_result.query->return_node->expression) { if (auto* v = dynamic_cast<VariableExpr*>(parse_result.query->return_node->expression.get())) { retVar = v->name; } }
-            if (retVar != var1 && retVar != var2) { joinSpan.setStatus(false, "return_not_supported_for_join"); span.setStatus(false, "JOIN currently supports RETURN of one bound variable (left or right)"); return makeErrorResponse(http::status::bad_request, "JOIN currently supports RETURN of one bound variable (left or right)", req); }
-            std::vector<themis::BaseEntity> out;
-            if (buildLeft) { for (const auto& e : rightVec) { auto k = getFieldStr(e, colRight); if (!k.has_value()) continue; auto range = hash.equal_range(*k); for (auto it = range.first; it != range.second; ++it) { const themis::BaseEntity& l = it->second; if (retVar == var1) out.push_back(l); else out.push_back(e); } } }
-            else { for (const auto& e : leftVec) { auto k = getFieldStr(e, colLeft); if (!k.has_value()) continue; auto range = hash.equal_range(*k); for (auto it = range.first; it != range.second; ++it) { const themis::BaseEntity& r = it->second; if (retVar == var1) out.push_back(e); else out.push_back(r); } } }
-            if (parse_result.query && parse_result.query->limit) { auto off = static_cast<size_t>(std::max<int64_t>(0, parse_result.query->limit->offset)); auto cnt = static_cast<size_t>(std::max<int64_t>(0, parse_result.query->limit->count)); if (off < out.size()) { size_t last = std::min(out.size(), off + cnt); std::vector<themis::BaseEntity> tmp; tmp.reserve(last - off); for (size_t i = off; i < last; ++i) tmp.emplace_back(std::move(out[i])); out.swap(tmp); } else { out.clear(); } }
-            nlohmann::json entities = nlohmann::json::array(); for (const auto& e : out) entities.push_back(e.toJson()); nlohmann::json response_body = {{"table_left", table1}, {"table_right", table2}, {"count", out.size()}, {"entities", entities}};
-            if (explain) { response_body["query"] = aql_query; response_body["ast"] = parse_result.query->toJSON(); nlohmann::json jp; jp["on_left"] = (*joinCols).first; jp["on_right"] = (*joinCols).second; response_body["join"] = jp; }
-            joinSpan.setAttribute("join.output_count", static_cast<int64_t>(out.size())); joinSpan.setStatus(true); span.setAttribute("aql.result_count", static_cast<int64_t>(out.size())); span.setStatus(true);
-            return makeResponse(http::status::ok, response_body.dump(), req);
-        }
-
-    // Translate AST to Query (relational oder traversal)
-    // Spezialfall: LET-Variablen in FILTER (MVP) – vor Übersetzung einfache Ersetzung erlauben
-    bool letFilterHandled = false; // wenn true, nutzen wir einen manuell konstruierten ConjunctiveQuery
-    themis::ConjunctiveQuery letQuery;
-    if (parse_result.query && parse_result.query->traversal == nullptr && !parse_result.query->for_nodes.empty()) {
-        // Wir unterstützen nur den einfachen relationalen Fall mit genau einer FOR-Klausel
-        const auto& forNode = parse_result.query->for_node;
-        const std::string loopVar = forNode.variable;
-        const std::string table = forNode.collection;
-        if (!parse_result.query->filters.empty() && !parse_result.query->let_nodes.empty()) {
-            // Map der LET-Bindings: var -> expr
-            std::unordered_map<std::string, std::shared_ptr<themis::query::Expression>> letMap;
-            for (const auto& ln : parse_result.query->let_nodes) letMap[ln.variable] = ln.expression;
-
-            using namespace themis::query;
-            // Helfer: löse Ausdruck zu einer Feldspalte der Loop-Variable auf, ggf. via LET-Variable
-            std::function<std::optional<std::string>(const std::shared_ptr<Expression>&)> resolveToLoopField;
-            resolveToLoopField = [&](const std::shared_ptr<Expression>& e)->std::optional<std::string> {
-                if (!e) return std::nullopt;
-                if (auto* fa = dynamic_cast<FieldAccessExpr*>(e.get())) {
-                    // Sammle Feldpfad und prüfe Root-Variable
-                    std::vector<std::string> parts; parts.push_back(fa->field);
-                    auto* cur = fa->object.get();
-                    while (auto* fa2 = dynamic_cast<FieldAccessExpr*>(cur)) { parts.push_back(fa2->field); cur = fa2->object.get(); }
-                    auto* root = dynamic_cast<VariableExpr*>(cur);
-                    if (!root || root->name != loopVar) return std::nullopt;
-                    std::string col; for (auto it = parts.rbegin(); it != parts.rend(); ++it) { if (!col.empty()) col += "."; col += *it; }
-                    return col;
-                }
-                if (auto* v = dynamic_cast<VariableExpr*>(e.get())) {
-                    auto it = letMap.find(v->name);
-                    if (it == letMap.end()) return std::nullopt;
-                    return resolveToLoopField(it->second);
-                }
-                return std::nullopt;
-            };
-
-            // Extrahiere Gleichheitsprädikate mit LET auf linkem oder rechtem Operand
-            std::vector<themis::PredicateEq> eqPreds;
-            bool unsupported = false;
-            // Lokale Literal-zu-String Konvertierung (wie im Übersetzer)
-            auto litToString = [&](const themis::query::LiteralValue& value)->std::string{
-                return std::visit([](auto&& arg)->std::string{
-                    using T = std::decay_t<decltype(arg)>;
-                    if constexpr (std::is_same_v<T, std::nullptr_t>) return std::string("null");
-                    else if constexpr (std::is_same_v<T, bool>) return arg ? std::string("true") : std::string("false");
-                    else if constexpr (std::is_same_v<T, int64_t>) return std::to_string(arg);
-                    else if constexpr (std::is_same_v<T, double>) return std::to_string(arg);
-                    else if constexpr (std::is_same_v<T, std::string>) return arg;
-                    else return std::string();
-                }, value);
-            };
-            std::function<void(const std::shared_ptr<Expression>&)> visit;
-            visit = [&](const std::shared_ptr<Expression>& ex){
-                if (!ex || unsupported) return;
-                if (auto* be = dynamic_cast<BinaryOpExpr*>(ex.get())) {
-                    if (be->op == BinaryOperator::And) { visit(be->left); visit(be->right); return; }
-                    if (be->op == BinaryOperator::Eq) {
-                        auto leftCol = resolveToLoopField(be->left);
-                        auto rightCol = resolveToLoopField(be->right);
-                        if (leftCol.has_value() && be->right->getType() == ASTNodeType::Literal) {
-                            auto lit = std::static_pointer_cast<LiteralExpr>(be->right);
-                            eqPreds.push_back({*leftCol, litToString(lit->value)});
-                            return;
-                        }
-                        if (rightCol.has_value() && be->left->getType() == ASTNodeType::Literal) {
-                            auto lit = std::static_pointer_cast<LiteralExpr>(be->left);
-                            eqPreds.push_back({*rightCol, litToString(lit->value)});
-                            return;
-                        }
-                    }
-                    // Alles andere (inkl. OR, Range, Funktionen) im MVP nicht via LET-Filter unterstützt
-                    // Wir markieren nicht global als unsupported, damit andere AND-Zweige extrahiert werden können.
-                    return;
-                }
-            };
-            for (const auto& f : parse_result.query->filters) visit(f->condition);
-
-            // Wenn wir etwas extrahieren konnten, nutzen wir dafür einen direkten ConjunctiveQuery
-            if (!eqPreds.empty()) {
-                letQuery.table = table;
-                letQuery.predicates = std::move(eqPreds);
-                letFilterHandled = true;
-            }
-        }
-    }
-
-    auto translateSpan = Tracer::startSpan("aql.translate");
-    auto translate_result = letFilterHandled
-        ? themis::AQLTranslator::TranslationResult::Success(letQuery)
-        : themis::AQLTranslator::translate(parse_result.query);
-        
-        if (!translate_result.success) {
-            translateSpan.setStatus(false, translate_result.error_message);
-            span.setStatus(false, "Translation error");
-            return makeErrorResponse(http::status::bad_request,
-                "AQL translation error: " + translate_result.error_message, req);
-        }
-        translateSpan.setStatus(true);
-        
-    // If traversal present, execute via GraphIndexManager
-        if (translate_result.traversal.has_value()) {
-            auto traversalSpan = Tracer::startSpan("aql.traversal");
-            if (!graph_index_) {
-                return makeErrorResponse(http::status::bad_request, "Graph traversal requested but graph index manager is not available", req);
-            }
-            const auto& t = translate_result.traversal.value();
-            traversalSpan.setAttribute("traversal.start_vertex", t.startVertex);
-            traversalSpan.setAttribute("traversal.min_depth", static_cast<int64_t>(t.minDepth));
-            traversalSpan.setAttribute("traversal.max_depth", static_cast<int64_t>(t.maxDepth));
-            std::string dirStr = (t.direction == themis::AQLTranslator::TranslationResult::TraversalQuery::Direction::Outbound) ? "OUTBOUND" :
-                                 (t.direction == themis::AQLTranslator::TranslationResult::TraversalQuery::Direction::Inbound) ? "INBOUND" : "ANY";
-            traversalSpan.setAttribute("traversal.direction", dirStr);
-            
-            if (t.minDepth < 0 || t.maxDepth < 0 || t.maxDepth < t.minDepth) {
-                traversalSpan.setStatus(false, "Invalid depth range");
-                span.setStatus(false, "Invalid traversal depth");
-                return makeErrorResponse(http::status::bad_request, "Invalid depth range in traversal", req);
-            }
-
-            // Bestimme Return-Modus anhand RETURN-Ausdruck: v (default), e, p
-            enum class RetMode { Vertex, Edge, Path };
-            RetMode retMode = RetMode::Vertex;
-            if (parse_result.query->return_node && parse_result.query->return_node->expression) {
-                using namespace themis::query;
-                auto* var = dynamic_cast<VariableExpr*>(parse_result.query->return_node->expression.get());
-                if (var) {
-                    if (var->name == "e") retMode = RetMode::Edge;
-                    else if (var->name == "p") retMode = RetMode::Path;
-                }
-            }
-
-            // Extrahiere einfache FILTER-Pr�dikate auf v/e im Format: FILTER v.<field> == <literal|funktion> oder FILTER e.<field> == <literal|funktion>
-            struct SimplePred {
-                enum class Op { Eq, Neq, Lt, Lte, Gt, Gte };
-                char var; // 'v' oder 'e'
-                std::string field;
-                nlohmann::json literal; // als JSON-Literal
-                Op op;
-            };
-            // Unterst�tzte Funktionsauswertung zur Reduktion auf Literale
-            std::function<bool(std::shared_ptr<themis::query::Expression>, nlohmann::json&)> evalExprToLiteral;
-            evalExprToLiteral = [&](std::shared_ptr<themis::query::Expression> expr, nlohmann::json& out)->bool {
-                using namespace themis::query;
-                if (auto* l = dynamic_cast<LiteralExpr*>(expr.get())) {
-                    out = l->toJSON()["value"]; return true;
-                }
-                auto* fc = dynamic_cast<FunctionCallExpr*>(expr.get());
-                if (!fc) return false;
-                // Funktionsnamen case-insensitiv vergleichen
-                std::string name = fc->name; std::transform(name.begin(), name.end(), name.begin(), ::tolower);
-                auto getArgLit = [&](size_t idx, nlohmann::json& argOut)->bool{
-                    if (idx >= fc->arguments.size()) return false;
-                    return evalExprToLiteral(fc->arguments[idx], argOut);
-                };
-                if (name == "abs") {
-                    nlohmann::json a; if (!getArgLit(0, a)) return false;
-                    if (a.is_number_integer()) { long long v = a.get<long long>(); if (v < 0) v = -v; out = v; return true; }
-                    if (a.is_number_float()) { double v = a.get<double>(); if (v < 0) v = -v; out = v; return true; }
-                    return false;
-                }
-                if (name == "ceil") {
-                    nlohmann::json a; if (!getArgLit(0, a)) return false;
-                    if (a.is_number()) { out = std::ceil(a.get<double>()); return true; }
-                    return false;
-                }
-                if (name == "floor") {
-                    nlohmann::json a; if (!getArgLit(0, a)) return false;
-                    if (a.is_number()) { out = std::floor(a.get<double>()); return true; }
-                    return false;
-                }
-                if (name == "round") {
-                    nlohmann::json a; if (!getArgLit(0, a)) return false;
-                    if (a.is_number()) { out = std::llround(a.get<double>()); return true; }
-                    return false;
-                }
-                if (name == "pow") {
-                    nlohmann::json a,b; if (!getArgLit(0, a) || !getArgLit(1, b)) return false;
-                    if (a.is_number() && b.is_number()) { out = std::pow(a.get<double>(), b.get<double>()); return true; }
-                    return false;
-                }
-                auto parseIso = [&](const std::string& s, std::tm& tm)->bool{
-                    memset(&tm, 0, sizeof tm);
-                    int Y=0,M=0,D=0,h=0,m=0,sec=0; char T='\0', Z='\0';
-                    if (s.size() == 10 && std::sscanf(s.c_str(), "%d-%d-%d", &Y,&M,&D) == 3) {
-                        tm.tm_year = Y-1900; tm.tm_mon = M-1; tm.tm_mday = D; tm.tm_hour = 0; tm.tm_min = 0; tm.tm_sec = 0; return true;
-                    }
-                    if (std::sscanf(s.c_str(), "%d-%d-%d%c%d:%d:%d%c", &Y,&M,&D,&T,&h,&m,&sec,&Z) >= 7) {
-                        tm.tm_year = Y-1900; tm.tm_mon = M-1; tm.tm_mday = D; tm.tm_hour = h; tm.tm_min = m; tm.tm_sec = sec; return true;
-                    }
-                    return false;
-                };
-                // Portable conversions between tm and time_t (UTC)
-                auto portable_mkgmtime = [&](const std::tm* tmin)->time_t {
-#ifdef _WIN32
-                    return _mkgmtime(const_cast<std::tm*>(tmin));
-#else
-                    return timegm(const_cast<std::tm*>(tmin));
-#endif
-                };
-                auto portable_gmtime_r = [&](const time_t* t, std::tm* out)->void {
-#ifdef _WIN32
-                    gmtime_s(out, t);
-#else
-                    gmtime_r(t, out);
-#endif
-                };
-                auto tmToDateStr = [&](const std::tm& tm)->std::string{
-                    char buf[32]; std::snprintf(buf, sizeof(buf), "%04d-%02d-%02d", tm.tm_year+1900, tm.tm_mon+1, tm.tm_mday); return std::string(buf);
-                };
-                if (name == "date_trunc") {
-                    // DATE_TRUNC(unit, dateStr)
-                    nlohmann::json unitJ, dateJ; if (!getArgLit(0, unitJ) || !getArgLit(1, dateJ)) return false;
-                    if (!unitJ.is_string() || !dateJ.is_string()) return false;
-                    std::string unit = unitJ.get<std::string>(); std::transform(unit.begin(), unit.end(), unit.begin(), ::tolower);
-                    std::tm tm{}; if (!parseIso(dateJ.get<std::string>(), tm)) return false;
-                    if (unit == "day") { /* already normalized by tmToDateStr */ }
-                    else if (unit == "month") { tm.tm_mday = 1; }
-                    else if (unit == "year") { tm.tm_mon = 0; tm.tm_mday = 1; }
-                    else return false;
-                    out = tmToDateStr(tm); return true;
-                }
-                if (name == "date_add" || name == "date_sub") {
-                    // DATE_ADD(dateStr, amount, unit) � unterst�tzt 'day','month','year'
-                    nlohmann::json dateJ, amountJ, unitJ; if (!getArgLit(0, dateJ) || !getArgLit(1, amountJ) || !getArgLit(2, unitJ)) return false;
-                    if (!dateJ.is_string() || !amountJ.is_number_integer() || !unitJ.is_string()) return false;
-                    std::string unit = unitJ.get<std::string>(); std::transform(unit.begin(), unit.end(), unit.begin(), ::tolower);
-                    std::tm tm{}; if (!parseIso(dateJ.get<std::string>(), tm)) return false;
-                    long long amt = amountJ.get<long long>(); if (name == "date_sub") amt = -amt;
-                    if (unit == "day") {
-                        time_t t = portable_mkgmtime(&tm); if (t == -1) return false;
-                        t += static_cast<time_t>(amt * 86400);
-                        std::tm outTm{}; portable_gmtime_r(&t, &outTm);
-                        out = tmToDateStr(outTm); return true;
-                    } else if (unit == "month") {
-                        tm.tm_mon += static_cast<int>(amt);
-                        time_t t = portable_mkgmtime(&tm); if (t == -1) return false;
-                        std::tm outTm{}; portable_gmtime_r(&t, &outTm);
-                        out = tmToDateStr(outTm); return true;
-                    } else if (unit == "year") {
-                        tm.tm_year += static_cast<int>(amt);
-                        time_t t = portable_mkgmtime(&tm); if (t == -1) return false;
-                        std::tm outTm{}; portable_gmtime_r(&t, &outTm);
-                        out = tmToDateStr(outTm); return true;
-                    } else {
-                        return false;
-                    }
-                }
-                if (name == "now") {
-                    // Gibt YYYY-MM-DD zur�ck (UTC)
-                    std::time_t t = std::time(nullptr); std::tm tm{}; portable_gmtime_r(&t, &tm);
-                    out = tmToDateStr(tm); return true;
-                }
-                return false; // unbekannte Funktion
-            };
-            std::vector<SimplePred> preds;
-            // XOR-Unterst�tzung: Paare einfacher Pr�dikate (links XOR rechts)
-            std::vector<std::pair<SimplePred, SimplePred>> xorPreds;
-            if (!parse_result.query->filters.empty()) {
-                using namespace themis::query;
-                for (const auto& f : parse_result.query->filters) {
-                    auto* be = dynamic_cast<BinaryOpExpr*>(f->condition.get());
-                    if (!be) continue;
-
-                    // Falls es ein XOR ist, versuchen wir links und rechts je als SimplePred zu parsen
-                    if (be->op == BinaryOperator::Xor) {
-                        auto mapOpInner = [&](BinaryOperator bop)->std::optional<SimplePred::Op> {
-                            switch (bop) {
-                                case BinaryOperator::Eq:  return SimplePred::Op::Eq;
-                                case BinaryOperator::Neq: return SimplePred::Op::Neq;
-                                case BinaryOperator::Lt:  return SimplePred::Op::Lt;
-                                case BinaryOperator::Lte: return SimplePred::Op::Lte;
-                                case BinaryOperator::Gt:  return SimplePred::Op::Gt;
-                                case BinaryOperator::Gte: return SimplePred::Op::Gte;
-                                default: return std::nullopt;
-                            }
-                        };
-                        auto parseSide = [&](std::shared_ptr<Expression> e, char& var, std::string& field) -> bool {
-                            auto* fa = dynamic_cast<FieldAccessExpr*>(e.get());
-                            if (!fa) return false;
-                            auto* v = dynamic_cast<VariableExpr*>(fa->object.get());
-                            if (!v) return false;
-                            if (v->name != "v" && v->name != "e") return false;
-                            var = v->name[0];
-                            field = fa->field;
-                            return true;
-                        };
-                        auto parseSimpleFromExpr = [&](std::shared_ptr<Expression> expr, SimplePred& out)->bool {
-                            auto* be2 = dynamic_cast<BinaryOpExpr*>(expr.get());
-                            if (!be2) return false;
-                            auto op_m2 = mapOpInner(be2->op);
-                            if (!op_m2.has_value()) return false;
-                            char var=0; std::string field; nlohmann::json lit;
-                            if (parseSide(be2->left, var, field)) {
-                                if (evalExprToLiteral(be2->right, lit)) { out = {var, field, lit, *op_m2}; return true; }
-                                return false;
-                            }
-                            {
-                                nlohmann::json leftLit;
-                                bool hasLeft = evalExprToLiteral(be2->left, leftLit);
-                                if (hasLeft && parseSide(be2->right, var, field)) {
-                                    auto invert = [&](SimplePred::Op o){
-                                        switch (o) {
-                                            case SimplePred::Op::Lt:  return SimplePred::Op::Gt;
-                                            case SimplePred::Op::Lte: return SimplePred::Op::Gte;
-                                            case SimplePred::Op::Gt:  return SimplePred::Op::Lt;
-                                            case SimplePred::Op::Gte: return SimplePred::Op::Lte;
-                                            default: return o;
-                                        }
-                                    };
-                                    lit = leftLit; out = {var, field, lit, invert(*op_m2)}; return true;
-                                }
-                            }
-                            return false;
-                        };
-
-                        SimplePred left{}, right{};
-                        if (parseSimpleFromExpr(be->left, left) && parseSimpleFromExpr(be->right, right)) {
-                            xorPreds.emplace_back(left, right);
-                        }
-                        // XOR-Filter als Ganzes sind verarbeitet; nicht in einfache Pr�dikate aufnehmen
-                        continue;
-                    }
-                    auto mapOp = [&](BinaryOperator bop)->std::optional<SimplePred::Op> {
-                        switch (bop) {
-                            case BinaryOperator::Eq:  return SimplePred::Op::Eq;
-                            case BinaryOperator::Neq: return SimplePred::Op::Neq;
-                            case BinaryOperator::Lt:  return SimplePred::Op::Lt;
-                            case BinaryOperator::Lte: return SimplePred::Op::Lte;
-                            case BinaryOperator::Gt:  return SimplePred::Op::Gt;
-                            case BinaryOperator::Gte: return SimplePred::Op::Gte;
-                            default: return std::nullopt;
-                        }
-                    };
-                    auto op_m = mapOp(be->op);
-                    if (!op_m.has_value()) continue; // nur Vergleichsoperatoren
-
-                    auto parseSide = [&](std::shared_ptr<Expression> e, char& var, std::string& field) -> bool {
-                        // Erwartet FieldAccess(Variable('v'|'e'), field)
-                        auto* fa = dynamic_cast<FieldAccessExpr*>(e.get());
-                        if (!fa) return false;
-                        auto* v = dynamic_cast<VariableExpr*>(fa->object.get());
-                        if (!v) return false;
-                        if (v->name != "v" && v->name != "e") return false;
-                        var = v->name[0];
-                        field = fa->field;
-                        return true;
-                    };
-
-                    char var = 0; std::string field; nlohmann::json lit;
-                    // v.field == <literal|funktion>
-                    if (parseSide(be->left, var, field)) {
-                        if (evalExprToLiteral(be->right, lit)) {
-                            preds.push_back({var, field, lit, *op_m});
-                        }
-                        continue;
-                    }
-                    // <literal|funktion> == v.field
-                    {
-                        nlohmann::json leftLit;
-                        bool hasLeft = evalExprToLiteral(be->left, leftLit);
-                        if (hasLeft) {
-                            if (parseSide(be->right, var, field)) {
-                                lit = leftLit; 
-                                // Operator invertieren (literal OP field) -> (field OP' literal)
-                                auto invert = [&](SimplePred::Op o){
-                                    switch (o) {
-                                        case SimplePred::Op::Lt:  return SimplePred::Op::Gt;
-                                        case SimplePred::Op::Lte: return SimplePred::Op::Gte;
-                                        case SimplePred::Op::Gt:  return SimplePred::Op::Lt;
-                                        case SimplePred::Op::Gte: return SimplePred::Op::Lte;
-                                        default: return o; // Eq/Neq symmetrisch
-                                    }
-                                };
-                                preds.push_back({var, field, lit, invert(*op_m)});
-                            }
-                        }
-                    }
-                }
-            }
-
-            auto cmp = [&](const std::string& a, const nlohmann::json& b, SimplePred::Op op)->bool{
-                // Versuch: Zahl-Vergleich
-                auto toDouble = [](const std::string& s, double& out)->bool{
-                    char* end=nullptr; out = strtod(s.c_str(), &end); return end && *end=='\0';
-                };
-                auto toBool = [](const std::string& s, bool& out)->bool{
-                    if (s == "true" || s == "1") { out = true; return true; }
-                    if (s == "false" || s == "0") { out = false; return true; }
-                    return false;
-                };
-                auto parseDate = [](const std::string& s, time_t& t)->bool{
-                    // Unterst�tzt YYYY-MM-DD oder YYYY-MM-DDTHH:MM:SSZ
-                    std::tm tm{}; memset(&tm, 0, sizeof tm);
-                    if (s.size() == 10 && std::sscanf(s.c_str(), "%d-%d-%d", &tm.tm_year, &tm.tm_mon, &tm.tm_mday) == 3) {
-                        tm.tm_year -= 1900; tm.tm_mon -= 1; tm.tm_hour = 0; tm.tm_min = 0; tm.tm_sec = 0;
-                        t = portable_mkgmtime_impl(&tm); return t != -1;
-                    }
-                    int Y,M,D,h=0,m=0,sec=0; char Z='\0', T='\0';
-                    if (std::sscanf(s.c_str(), "%d-%d-%d%c%d:%d:%d%c", &Y,&M,&D,&T,&h,&m,&sec,&Z) >= 7) {
-                        tm.tm_year = Y-1900; tm.tm_mon = M-1; tm.tm_mday = D; tm.tm_hour = h; tm.tm_min = m; tm.tm_sec = sec;
-                        t = portable_mkgmtime_impl(&tm); return t != -1;
-                    }
-                    return false;
-                };
-
-                // Literaltypen pr�fen
-                if (b.is_number()) {
-                    double lit = b.get<double>();
-                    double aval; if (!toDouble(a, aval)) return false;
-                    switch (op) {
-                        case SimplePred::Op::Eq:  return aval == lit;
-                        case SimplePred::Op::Neq: return aval != lit;
-                        case SimplePred::Op::Lt:  return aval <  lit;
-                        case SimplePred::Op::Lte: return aval <= lit;
-                        case SimplePred::Op::Gt:  return aval >  lit;
-                        case SimplePred::Op::Gte: return aval >= lit;
-                    }
-                } else if (b.is_boolean()) {
-                    bool lit = b.get<bool>(); bool av;
-                    if (!toBool(a, av)) return false;
-                    switch (op) {
-                        case SimplePred::Op::Eq:  return av == lit;
-                        case SimplePred::Op::Neq: return av != lit;
-                        default: return false; // <,> semantisch nicht definiert
-                    }
-                } else if (b.is_string()) {
-                    const std::string lit = b.get<std::string>();
-                    // Datumsvergleich falls beide ISO-�hnlich
-                    time_t ta = 0, tb = 0; bool da = parseDate(a, ta), db = parseDate(lit, tb);
-                    if (da && db) {
-                        switch (op) {
-                            case SimplePred::Op::Eq:  return ta == tb;
-                            case SimplePred::Op::Neq: return ta != tb;
-                            case SimplePred::Op::Lt:  return ta <  tb;
-                            case SimplePred::Op::Lte: return ta <= tb;
-                            case SimplePred::Op::Gt:  return ta >  tb;
-                            case SimplePred::Op::Gte: return ta >= tb;
-                        }
-                    }
-                    // Default: lexikographisch
-                    int c = a.compare(lit);
-                    switch (op) {
-                        case SimplePred::Op::Eq:  return c == 0;
-                        case SimplePred::Op::Neq: return c != 0;
-                        case SimplePred::Op::Lt:  return c <  0;
-                        case SimplePred::Op::Lte: return c <= 0;
-                        case SimplePred::Op::Gt:  return c >  0;
-                        case SimplePred::Op::Gte: return c >= 0;
-                    }
-                }
-                return false;
-            };
-
-            // Allgemeine Filterauswertung (AND/OR/NOT/XOR) auf AST-Basis
-            auto getVFieldString = [&](const std::string& pk, const std::string& field)->std::optional<std::string>{
-                if (field == "_key") return pk;
-                auto blob = storage_->get(pk);
-                if (!blob) return std::nullopt;
-                try {
-                    auto ent = themis::BaseEntity::deserialize(pk, *blob);
-                    return ent.getFieldAsString(field);
-                } catch (...) { return std::nullopt; }
-            };
-            auto getEFieldString = [&](const std::string& edgeId, const std::string& field)->std::optional<std::string>{
-                if (field == "id") return edgeId;
-                auto eblob = storage_->get(themis::KeySchema::makeGraphEdgeKey(edgeId));
-                if (!eblob) return std::nullopt;
-                try {
-                    auto ent = themis::BaseEntity::deserialize(edgeId, *eblob);
-                    return ent.getFieldAsString(field);
-                } catch (...) { return std::nullopt; }
-            };
-
-            using namespace themis::query;
-            size_t filterShortCircuits = 0;  // Z�hlt Short-Circuit-Evaluationen in Filtern
-            // Parent map used by path-based predicates is declared here so lambdas below can capture it
-            struct ParentInfo { std::string parent; std::string edgeId; };
-            std::unordered_map<std::string, ParentInfo> parent;
-
-            std::function<bool(const Expression*, const std::string&, const std::optional<std::string>&)> evalBoolExpr;
-            evalBoolExpr = [&](const Expression* e, const std::string& vpk, const std::optional<std::string>& eid)->bool{
-                if (!e) return true;
-                // Special handling: PATH.ALL / PATH.ANY / PATH.NONE
-                if (auto* fe = dynamic_cast<const FunctionCallExpr*>(e)) {
-                    std::string fname = fe->name; std::transform(fname.begin(), fname.end(), fname.begin(), ::tolower);
-                    if (fname == "path.all" || fname == "path.any" || fname == "path.none") {
-                        // Expect two arguments: variable name (v or e) and a predicate expression
-                        if (fe->arguments.size() != 2) return false;
-                        auto* varExpr = dynamic_cast<const VariableExpr*>(fe->arguments[0].get());
-                        if (!varExpr) return false;
-                        std::string varName = varExpr->name; // 'v' or 'e'
-                        const Expression* inner = fe->arguments[1].get();
-                        // Reconstruct path from startVertex to vpk using parent map
-                        std::vector<std::string> pathNodes;
-                        std::vector<std::string> pathEdges; // edges between pathNodes[i] -> pathNodes[i+1]
-                        std::string cur = vpk;
-                        // If vpk empty, nothing to evaluate
-                        if (cur.empty()) {
-                            // Empty path: PATH.ALL & PATH.NONE -> true, PATH.ANY -> false
-                            if (fname == "path.any") return false; else return true;
-                        }
-                        // Walk back using parent map if available
-                        pathNodes.push_back(cur);
-                        auto itp = parent.find(cur);
-                        while (itp != parent.end()) {
-                            pathEdges.push_back(itp->second.edgeId);
-                            pathNodes.push_back(itp->second.parent);
-                            itp = parent.find(pathNodes.back());
-                        }
-                        // Now reverse to get start->...->cur
-                        std::reverse(pathNodes.begin(), pathNodes.end());
-                        std::reverse(pathEdges.begin(), pathEdges.end());
-
-                        bool any = false;
-                        bool all = true;
-                        // If varName == "v", evaluate inner for each vertex in pathNodes
-                        if (varName == "v") {
-                            for (const auto& nodePk : pathNodes) {
-                                bool r = evalBoolExpr(inner, nodePk, std::nullopt);
-                                any = any || r;
-                                all = all && r;
-                            }
-                        } else if (varName == "e") {
-                            // Iterate over edges; align edge i with nodes i -> i+1
-                            for (size_t i = 0; i < pathEdges.size(); ++i) {
-                                const auto& eid2 = pathEdges[i];
-                                // For edge evaluation, set vpk to the 'to' vertex (pathNodes[i+1]) and eid to edge id
-                                bool r = evalBoolExpr(inner, pathNodes[i+1], std::optional<std::string>(eid2));
-                                any = any || r;
-                                all = all && r;
-                            }
-                        } else {
-                            return false; // unknown var
-                        }
-
-                        if (fname == "path.all") return all;
-                        if (fname == "path.none") return !any;
-                        return any; // path.any
-                    }
-                }
-                if (auto* ue = dynamic_cast<const UnaryOpExpr*>(e)) {
-                    if (ue->op == UnaryOperator::Not) return !evalBoolExpr(ue->operand.get(), vpk, eid);
-                    return false;
-                }
-                if (auto* be = dynamic_cast<const BinaryOpExpr*>(e)) {
-                    auto evalCmp = [&](const Expression* left, BinaryOperator op, const Expression* right)->bool{
-                        // Unterst�tze: FieldAccess(v|e).field <op> (Literal|Funktion) und umgekehrt
-                        auto parseFA = [&](const Expression* ex, char& var, std::string& field)->bool{
-                            auto* fa = dynamic_cast<const FieldAccessExpr*>(ex);
-                            if (!fa) return false;
-                            auto* v = dynamic_cast<const VariableExpr*>(fa->object.get());
-                            if (!v) return false;
-                            if (v->name != "v" && v->name != "e") return false;
-                            var = v->name[0]; field = fa->field; return true;
-                        };
-                        auto mapOp = [&](BinaryOperator bop)->std::optional<SimplePred::Op>{
-                            switch (bop) {
-                                case BinaryOperator::Eq: return SimplePred::Op::Eq;
-                                case BinaryOperator::Neq: return SimplePred::Op::Neq;
-                                case BinaryOperator::Lt: return SimplePred::Op::Lt;
-                                case BinaryOperator::Lte: return SimplePred::Op::Lte;
-                                case BinaryOperator::Gt: return SimplePred::Op::Gt;
-                                case BinaryOperator::Gte: return SimplePred::Op::Gte;
-                                default: return std::nullopt;
-                            }
-                        };
-                        auto op_m = mapOp(op); if (!op_m) return false;
-
-                        char var=0; std::string field; nlohmann::json lit;
-                        if (parseFA(left, var, field)) {
-                            // rechts Literal/Funktion
-                            if (!evalExprToLiteral(std::shared_ptr<Expression>(const_cast<Expression*>(right), [](Expression*){}), lit)) return false;
-                            std::optional<std::string> val;
-                            if (var=='v') val = getVFieldString(vpk, field);
-                            else { if (!eid) return false; val = getEFieldString(*eid, field); }
-                            if (!val) return false;
-                            return cmp(*val, lit, *op_m);
-                        }
-                        if (parseFA(right, var, field)) {
-                            // links Literal/Funktion
-                            if (!evalExprToLiteral(std::shared_ptr<Expression>(const_cast<Expression*>(left), [](Expression*){}), lit)) return false;
-                            // invertiere Operator
-                            auto invert = [&](SimplePred::Op o){
-                                switch (o) {
-                                    case SimplePred::Op::Lt: return SimplePred::Op::Gt;
-                                    case SimplePred::Op::Lte: return SimplePred::Op::Gte;
-                                    case SimplePred::Op::Gt: return SimplePred::Op::Lt;
-                                    case SimplePred::Op::Gte: return SimplePred::Op::Lte;
-                                    default: return o;
-                                }
-                            };
-                            auto op2 = invert(*op_m);
-                            std::optional<std::string> val;
-                            if (var=='v') val = getVFieldString(vpk, field);
-                            else { if (!eid) return false; val = getEFieldString(*eid, field); }
-                            if (!val) return false;
-                            return cmp(*val, lit, op2);
-                        }
-                        return false; // nicht unterst�tztes Muster
-                    };
-
-                    switch (be->op) {
-                        case BinaryOperator::And: {
-                            bool l = evalBoolExpr(be->left.get(), vpk, eid);
-                            if (!l) { filterShortCircuits++; return false; }
-                            return evalBoolExpr(be->right.get(), vpk, eid);
-                        }
-                        case BinaryOperator::Or: {
-                            bool l = evalBoolExpr(be->left.get(), vpk, eid);
-                            if (l) { filterShortCircuits++; return true; }
-                            return evalBoolExpr(be->right.get(), vpk, eid);
-                        }
-                        case BinaryOperator::Xor: { bool l = evalBoolExpr(be->left.get(), vpk, eid); bool r = evalBoolExpr(be->right.get(), vpk, eid); return l ^ r; }
-                        case BinaryOperator::Eq:
-                        case BinaryOperator::Neq:
-                        case BinaryOperator::Lt:
-                        case BinaryOperator::Lte:
-                        case BinaryOperator::Gt:
-                        case BinaryOperator::Gte:
-                            return evalCmp(be->left.get(), be->op, be->right.get());
-                        default:
-                            return false;
-                    }
-                }
-                // Literale/Variablen alleine als bool nicht unterst�tzt ? false
-                return false;
-            };
-
-            // Helper: pr�fe, ob ein Ausdruck v/e-Referenzen enth�lt (f�r konstante Vorabpr�fung)
-            std::function<bool(const Expression*)> usesVE;
-            usesVE = [&](const Expression* e)->bool{
-                if (!e) return false;
-                if (auto* le = dynamic_cast<const LiteralExpr*>(e)) {
-                    (void)le; return false;
-                }
-                if (auto* ve = dynamic_cast<const VariableExpr*>(e)) {
-                    return (ve->name == "v" || ve->name == "e");
-                }
-                if (auto* fa = dynamic_cast<const FieldAccessExpr*>(e)) {
-                    // Pr�fe, ob das Objekt eine Variable v/e ist
-                    if (auto* objVar = dynamic_cast<VariableExpr*>(fa->object.get())) {
-                        if (objVar->name == "v" || objVar->name == "e") return true;
-                    }
-                    // Auch verschachtelte Zugriffe k�nnen v/e enthalten
-                    return usesVE(fa->object.get());
-                }
-                if (auto* ue = dynamic_cast<const UnaryOpExpr*>(e)) {
-                    return usesVE(ue->operand.get());
-                }
-                if (auto* be = dynamic_cast<const BinaryOpExpr*>(e)) {
-                    return usesVE(be->left.get()) || usesVE(be->right.get());
-                }
-                if (auto* fe = dynamic_cast<const FunctionCallExpr*>(e)) {
-                    for (const auto& a : fe->arguments) {
-                        if (usesVE(a.get())) return true;
-                    }
-                    return false;
-                }
-                return false;
-            };
-
-            // Vorab: Wenn alle FILTER-Ausdr�cke keine v/e-Referenz enthalten, einmal bewerten und ggf. fr�h abbrechen
-            if (!parse_result.query->filters.empty()) {
-                bool anyUsesVE = false;
-                for (const auto& f : parse_result.query->filters) {
-                    if (usesVE(f->condition.get())) { anyUsesVE = true; break; }
-                }
-                if (!anyUsesVE) {
-                    bool allPass = true;
-                    for (const auto& f : parse_result.query->filters) {
-                        if (!evalBoolExpr(f->condition.get(), std::string{}, std::nullopt)) { allPass = false; break; }
-                    }
-                    if (!allPass) {
-                        nlohmann::json res;
-                        res["table"] = "graph";
-                        res["count"] = 0;
-                        res["entities"] = nlohmann::json::array();
-                        if (explain) {
-                            nlohmann::json metrics;
-                            metrics["constant_filter_precheck"] = true;
-                            metrics["constant_filter_result"] = false;
-                            metrics["edges_expanded"] = 0;
-                            metrics["pruned_last_level"] = 0;
-                            metrics["filter_evaluations_total"] = 1;
-                            metrics["filter_short_circuits"] = 0;
-                            metrics["frontier_processed_per_depth"] = nlohmann::json::object();
-                            metrics["enqueued_per_depth"] = nlohmann::json::object();
-                            res["metrics"] = metrics;
-                        }
-                        return makeResponse(http::status::ok, res.dump(), req);
-                    }
-                }
-                    // Joins via doppeltem FOR (MVP): Wenn mehrere FOR-Klauseln vorhanden sind und keine Traversal-Query aktiv ist
-                    if (parse_result.query && parse_result.query->traversal == nullptr && !parse_result.query->for_nodes.empty() && parse_result.query->for_nodes.size() >= 2) {
-                        auto joinSpan = Tracer::startSpan("aql.join");
-                        // Beschränkung: Genau zwei FOR-Klauseln, Equality-Join über FILTER lhs.field == rhs.field
-                        const auto& f1 = parse_result.query->for_nodes[0];
-                        const auto& f2 = parse_result.query->for_nodes[1];
-                        const std::string var1 = f1.variable;
-                        const std::string var2 = f2.variable;
-                        const std::string table1 = f1.collection;
-                        const std::string table2 = f2.collection;
-                        joinSpan.setAttribute("join.var_left", var1);
-                        joinSpan.setAttribute("join.var_right", var2);
-                        joinSpan.setAttribute("join.table_left", table1);
-                        joinSpan.setAttribute("join.table_right", table2);
-
-                        // Hilfsfunktionen zur Extraktion
-                        using namespace themis::query;
-                        std::function<std::string(const std::shared_ptr<Expression>&, std::string&)> fieldFromFA = [&](const std::shared_ptr<Expression>& expr, std::string& rootVar)->std::string {
-                            // Liefert Feldpfad ("a.b") und setzt rootVar auf Variablennamen
-                            auto* fa = dynamic_cast<FieldAccessExpr*>(expr.get());
-                            if (!fa) return std::string();
-                            std::vector<std::string> parts;
-                            parts.push_back(fa->field);
-                            auto* cur = fa->object.get();
-                            while (auto* fa2 = dynamic_cast<FieldAccessExpr*>(cur)) {
-                                parts.push_back(fa2->field);
-                                cur = fa2->object.get();
-                            }
-                            auto* root = dynamic_cast<VariableExpr*>(cur);
-                            if (!root) return std::string();
-                            rootVar = root->name;
-                            std::string col;
-                            for (auto it = parts.rbegin(); it != parts.rend(); ++it) { if (!col.empty()) col += "."; col += *it; }
-                            return col;
-                        };
-                        auto literalToString = [&](const LiteralValue& value)->std::string{
-                            return std::visit([](auto&& arg)->std::string{
-                                using T = std::decay_t<decltype(arg)>;
-                                if constexpr (std::is_same_v<T, std::nullptr_t>) return std::string("null");
-                                else if constexpr (std::is_same_v<T, bool>) return arg ? std::string("true") : std::string("false");
-                                else if constexpr (std::is_same_v<T, int64_t>) return std::to_string(arg);
-                                else if constexpr (std::is_same_v<T, double>) return std::to_string(arg);
-                                else if constexpr (std::is_same_v<T, std::string>) return arg;
-                                else return std::string();
-                            }, value);
-                        };
-
-                        // Zerlege FILTER in Konjunktions-Terme und identifiziere Join-Bedingung
-                        std::optional<std::pair<std::string,std::string>> joinCols; // (col1, col2)
-                        std::vector<PredicateEq> eq1, eq2; std::vector<PredicateRange> r1, r2;
-                        std::function<void(const std::shared_ptr<Expression>&)> collectPreds;
-                        collectPreds = [&](const std::shared_ptr<Expression>& e){
-                            if (!e) return;
-                            if (e->getType() == ASTNodeType::BinaryOp) {
-                                auto bin = std::static_pointer_cast<BinaryOpExpr>(e);
-                                if (bin->op == BinaryOperator::And) {
-                                    collectPreds(bin->left); collectPreds(bin->right); return;
-                                }
-                                // Join-Gleichheit: Field(var1.*) == Field(var2.*) oder umgekehrt
-                                if (bin->op == BinaryOperator::Eq) {
-                                    std::string rvL, rvR; std::string colL, colR;
-                                    colL = fieldFromFA(bin->left, rvL);
-                                    colR = fieldFromFA(bin->right, rvR);
-                                    if (!colL.empty() && !colR.empty()) {
-                                        // beide Seiten FieldAccess
-                                        if ((rvL == var1 && rvR == var2) || (rvL == var2 && rvR == var1)) {
-                                            if (joinCols.has_value()) {
-                                                joinSpan.setStatus(false, "multiple_join_predicates_not_supported");
-                                                span.setStatus(false, "Only single equality-join supported");
-                                                return; // ignore further
-                                            }
-                                            if (rvL == var1) joinCols = std::make_pair(colL, colR); else joinCols = std::make_pair(colR, colL);
-                                            return;
-                                        }
-                                    }
-                                    // Seiten-Literal Prädikat
-                                    if (!colL.empty() && rvL == var1 && bin->right->getType() == ASTNodeType::Literal) {
-                                        auto lit = std::static_pointer_cast<LiteralExpr>(bin->right);
-                                        if (!lit) return;
-                                        switch (bin->op) {
-                                            case BinaryOperator::Eq: eq1.push_back({colL, literalToString(lit->value)}); break;
-                                            case BinaryOperator::Lt: r1.push_back({colL, std::nullopt, literalToString(lit->value), true, false}); break;
-                                            case BinaryOperator::Lte: r1.push_back({colL, std::nullopt, literalToString(lit->value), true, true}); break;
-                                            case BinaryOperator::Gt: r1.push_back({colL, literalToString(lit->value), std::nullopt, false, true}); break;
-                                            case BinaryOperator::Gte: r1.push_back({colL, literalToString(lit->value), std::nullopt, true, true}); break;
-                                            default: break;
-                                        }
-                                        return;
-                                    }
-                                    if (!colL.empty() && rvL == var2 && bin->right->getType() == ASTNodeType::Literal) {
-                                        auto lit = std::static_pointer_cast<LiteralExpr>(bin->right);
-                                        switch (bin->op) {
-                                            case BinaryOperator::Eq: eq2.push_back({colL, literalToString(lit->value)}); break;
-                                            case BinaryOperator::Lt: r2.push_back({colL, std::nullopt, literalToString(lit->value), true, false}); break;
-                                            case BinaryOperator::Lte: r2.push_back({colL, std::nullopt, literalToString(lit->value), true, true}); break;
-                                            case BinaryOperator::Gt: r2.push_back({colL, literalToString(lit->value), std::nullopt, false, true}); break;
-                                            case BinaryOperator::Gte: r2.push_back({colL, literalToString(lit->value), std::nullopt, true, true}); break;
-                                            default: break;
-                                        }
-                                        return;
-                                    }
-                                    // Literal == Field(varX.*)
-                                    if (bin->left->getType() == ASTNodeType::Literal) {
-                                        std::string rv; std::string col = fieldFromFA(bin->right, rv);
-                                        if (!col.empty()) {
-                                            auto lit = std::static_pointer_cast<LiteralExpr>(bin->left);
-                                            if (rv == var1) eq1.push_back({col, literalToString(lit->value)});
-                                            else if (rv == var2) eq2.push_back({col, literalToString(lit->value)});
-                                        }
-                                        return;
-                                    }
-                                }
-                                // Range auf rechter oder linker Seite bereits obigen Fällen abgedeckt (nur MVP)
-                            }
-                        };
-                        for (const auto& f : parse_result.query->filters) {
-                            collectPreds(f->condition);
-                        }
-                        if (!joinCols.has_value()) {
-                            joinSpan.setStatus(false, "join_predicate_missing");
-                            span.setStatus(false, "JOIN requires equality predicate between variables");
-                            return makeErrorResponse(http::status::bad_request, "JOIN requires equality predicate between variables", req);
-                        }
-
-                        // Führe Seitenabfragen aus
-                        themis::ConjunctiveQuery q1; q1.table = table1; q1.predicates = eq1; q1.rangePredicates = r1;
-                        themis::ConjunctiveQuery q2; q2.table = table2; q2.predicates = eq2; q2.rangePredicates = r2;
-                        themis::QueryEngine engine(*storage_, *secondary_index_);
-                        auto res1 = allow_full_scan ? engine.executeAndEntitiesWithFallback(q1, optimize) : engine.executeAndEntities(q1);
-                        if (!res1.first.ok) {
-                            joinSpan.setStatus(false, res1.first.message);
-                            span.setStatus(false, "Left side execution failed");
-                            return makeErrorResponse(http::status::bad_request, res1.first.message, req);
-                        }
-                        auto res2 = allow_full_scan ? engine.executeAndEntitiesWithFallback(q2, optimize) : engine.executeAndEntities(q2);
-                        if (!res2.first.ok) {
-                            joinSpan.setStatus(false, res2.first.message);
-                            span.setStatus(false, "Right side execution failed");
-                            return makeErrorResponse(http::status::bad_request, res2.first.message, req);
-                        }
-
-                        // Wähle kleinere Seite für Hash-Index
-                        const auto& leftVec = res1.second; const auto& rightVec = res2.second;
-                        bool buildLeft = leftVec.size() <= rightVec.size();
-                        const auto [colLeft, colRight] = *joinCols;
-                        std::unordered_multimap<std::string, themis::BaseEntity> hash;
-                        auto getFieldStr = [&](const themis::BaseEntity& e, const std::string& col)->std::optional<std::string> { auto v = e.getFieldAsString(col); if (v.has_value()) return v; auto d = e.getFieldAsDouble(col); if (d.has_value()) return std::to_string(*d); return std::nullopt; };
-                        if (buildLeft) {
-                            hash.reserve(leftVec.size()*2+1);
-                            for (const auto& e : leftVec) { auto k = getFieldStr(e, colLeft); if (k.has_value()) hash.emplace(*k, e); }
-                        } else {
-                            hash.reserve(rightVec.size()*2+1);
-                            for (const auto& e : rightVec) { auto k = getFieldStr(e, colRight); if (k.has_value()) hash.emplace(*k, e); }
-                        }
-
-                        // Bestimme welche Variable im RETURN zurückgegeben werden soll
-                        std::string retVar;
-                        if (parse_result.query->return_node && parse_result.query->return_node->expression) {
-                            if (auto* v = dynamic_cast<VariableExpr*>(parse_result.query->return_node->expression.get())) {
-                                retVar = v->name;
-                            }
-                        }
-                        if (retVar != var1 && retVar != var2) {
-                            joinSpan.setStatus(false, "return_not_supported_for_join");
-                            span.setStatus(false, "JOIN currently supports RETURN of one bound variable (left or right)");
-                            return makeErrorResponse(http::status::bad_request, "JOIN currently supports RETURN of one bound variable (left or right)", req);
-                        }
-
-                        // Probiere Join und sammle Ergebnisse
-                        std::vector<themis::BaseEntity> out;
-                        if (buildLeft) {
-                            for (const auto& e : rightVec) {
-                                auto k = getFieldStr(e, colRight); if (!k.has_value()) continue;
-                                auto range = hash.equal_range(*k);
-                                for (auto it = range.first; it != range.second; ++it) {
-                                    const themis::BaseEntity& l = it->second;
-                                    if (retVar == var1) out.push_back(l); else out.push_back(e);
-                                }
-                            }
-                        } else {
-                            for (const auto& e : leftVec) {
-                                auto k = getFieldStr(e, colLeft); if (!k.has_value()) continue;
-                                auto range = hash.equal_range(*k);
-                                for (auto it = range.first; it != range.second; ++it) {
-                                    const themis::BaseEntity& r = it->second;
-                                    if (retVar == var1) out.push_back(e); else out.push_back(r);
-                                }
-                            }
-                        }
-
-                        // LIMIT (post-join slicing)
-                        if (parse_result.query && parse_result.query->limit) {
-                            auto off = static_cast<size_t>(std::max<int64_t>(0, parse_result.query->limit->offset));
-                            auto cnt = static_cast<size_t>(std::max<int64_t>(0, parse_result.query->limit->count));
-                            if (off < out.size()) {
-                                size_t last = std::min(out.size(), off + cnt);
-                                std::vector<themis::BaseEntity> tmp; tmp.reserve(last - off);
-                                for (size_t i = off; i < last; ++i) tmp.emplace_back(std::move(out[i]));
-                                out.swap(tmp);
-                            } else {
-                                out.clear();
-                            }
-                        }
-
-                        // Serialize
-                        nlohmann::json entities = nlohmann::json::array();
-                        for (const auto& e : out) entities.push_back(e.toJson());
-                        nlohmann::json response_body = {
-                            {"table_left", table1}, {"table_right", table2}, {"count", out.size()}, {"entities", entities}
-                        };
-                        if (explain) {
-                            response_body["query"] = aql_query;
-                            response_body["ast"] = parse_result.query->toJSON();
-                            nlohmann::json jp; jp["on_left"] = (*joinCols).first; jp["on_right"] = (*joinCols).second; response_body["join"] = jp;
-                        }
-                        joinSpan.setAttribute("join.output_count", static_cast<int64_t>(out.size()));
-                        joinSpan.setStatus(true);
-                        span.setAttribute("aql.result_count", static_cast<int64_t>(out.size()));
-                        span.setStatus(true);
-                        return makeResponse(http::status::ok, response_body.dump(), req);
-                    }
-
-            }
-
-            [[maybe_unused]]
-            auto evalV = [&](const std::string& pk)->bool{
-                for (const auto& p : preds) {
-                    if (p.var != 'v') continue;
-                    if (p.field == "_key") { // direkte PK-Vergleiche
-                        if (!cmp(pk, p.literal, p.op)) return false;
-                    } else {
-                        // Lade Entity und vergleiche typbewusst
-                        auto blob = storage_->get(pk);
-                        if (!blob) return false;
-                        try {
-                            auto ent = themis::BaseEntity::deserialize(pk, *blob);
-                            // bevorzugt String, f�r Zahlen k�nnte man auch getFieldAsDouble versuchen
-                            auto valOpt = ent.getFieldAsString(p.field);
-                            if (!valOpt) return false;
-                            if (!cmp(*valOpt, p.literal, p.op)) return false;
-                        } catch (...) { return false; }
-                    }
-                }
-                return true;
-            };
-
-            auto evalSingleV = [&](const std::string& pk, const SimplePred& p)->bool{
-                if (p.var != 'v') return true; // nicht zust�ndig
-                if (p.field == "_key") {
-                    return cmp(pk, p.literal, p.op);
-                } else {
-                    auto blob = storage_->get(pk);
-                    if (!blob) return false;
-                    try {
-                        auto ent = themis::BaseEntity::deserialize(pk, *blob);
-                        auto valOpt = ent.getFieldAsString(p.field);
-                        if (!valOpt) return false;
-                        return cmp(*valOpt, p.literal, p.op);
-                    } catch (...) { return false; }
-                }
-            };
-
-            [[maybe_unused]] auto evalE = [&](const std::string& edgeId)->bool{
-                bool needLoad = false;
-                for (const auto& p : preds) {
-                    if (p.var != 'e') continue;
-                    if (p.field == "id") {
-                        if (!cmp(edgeId, p.literal, p.op)) return false;
-                    } else {
-                        needLoad = true; // _from/_to oder andere Felder
-                    }
-                }
-                if (!needLoad) return true;
-                auto blob = storage_->get(themis::KeySchema::makeGraphEdgeKey(edgeId));
-                if (!blob) return false;
-                try {
-                    auto ent = themis::BaseEntity::deserialize(edgeId, *blob);
-                    for (const auto& p : preds) {
-                        if (p.var != 'e' || p.field == "id") continue;
-                        auto valOpt = ent.getFieldAsString(p.field);
-                        if (!valOpt) return false;
-                        if (!cmp(*valOpt, p.literal, p.op)) return false;
-                    }
-                } catch (...) { return false; }
-                return true;
-            };
-
-            auto evalSingleE = [&](const std::string& edgeId, const SimplePred& p)->bool{
-                if (p.var != 'e') return true; // nicht zust�ndig
-                if (p.field == "id") {
-                    return cmp(edgeId, p.literal, p.op);
-                }
-                auto blob = storage_->get(themis::KeySchema::makeGraphEdgeKey(edgeId));
-                if (!blob) return false;
-                try {
-                    auto ent = themis::BaseEntity::deserialize(edgeId, *blob);
-                    auto valOpt = ent.getFieldAsString(p.field);
-                    if (!valOpt) return false;
-                    return cmp(*valOpt, p.literal, p.op);
-                } catch (...) { return false; }
-            };
-
-            // BFS mit Eltern-/Kanten-Tracking f�r e/p
-            std::unordered_set<std::string> visited;
-            std::queue<std::pair<std::string,int>> qnodes;
-            qnodes.push({t.startVertex, 0});
-            visited.insert(t.startVertex);
-
-            // Metriken
-            bool constantFilterPrechecked = false; // bleibt false, wenn oben nicht gegriffen (true w�re nur beim Early-Return)
-            size_t edgesExpanded = 0;
-            size_t prunedLastLevel = 0;
-            std::unordered_map<int, size_t> frontierProcessedPerDepth;
-            std::unordered_map<int, size_t> enqueuedPerDepth;
-            size_t filterEvaluationsTotal = 0;
-            // filterShortCircuits bereits weiter oben definiert (Zeile ~1265)
-            size_t frontierLimitHits = 0;
-            size_t maxFrontierSizeReached = 0;
-            bool resultLimitReached = false;
-
-            // Ergebnis-Sammlungen
-            std::vector<std::string> resultVertices;
-            std::vector<std::string> resultEdgeIds;
-            std::vector<std::string> resultTerminalVertices; // f�r Pfadrekonstruktion
-
-            auto withinDepth = [&](int depth){ return depth >= t.minDepth && depth <= t.maxDepth; };
-
-            auto bfsSpan = Tracer::startSpan("aql.traversal.bfs");
-            bfsSpan.setAttribute("traversal.max_frontier_size_limit", static_cast<int64_t>(max_frontier_size));
-            bfsSpan.setAttribute("traversal.max_results_limit", static_cast<int64_t>(max_results));
-            
-            while (!qnodes.empty()) {
-                // Frontier-Size Limit Check (Soft Limit)
-                if (qnodes.size() > max_frontier_size) {
-                    frontierLimitHits++;
-                    // Optional: Abbruch oder nur Warnung
-                    // break;  // hart abbrechen (sp�ter konfigurierbar)
-                }
-                if (qnodes.size() > maxFrontierSizeReached) {
-                    maxFrontierSizeReached = qnodes.size();
-                }
-                
-                auto [node, depth] = qnodes.front();
-                qnodes.pop();
-                frontierProcessedPerDepth[depth]++;
-
-                if (withinDepth(depth)) {
-                    if (!(depth == 0 && t.minDepth > 0)) {
-                        // Filterauswertung pro "Zeile" (Knoten + eingehende Kante) mit voller Bool-Logik
-                        bool pass = true;
-                        if (!parse_result.query->filters.empty()) {
-                            filterEvaluationsTotal++;
-                            std::optional<std::string> edgeIdOpt;
-                            if (depth > 0) {
-                                auto itp = parent.find(node);
-                                if (itp != parent.end()) edgeIdOpt = itp->second.edgeId;
-                            }
-                            for (const auto& f : parse_result.query->filters) {
-                                if (!evalBoolExpr(f->condition.get(), node, edgeIdOpt)) { pass = false; break; }
-                            }
-                        }
-
-                        if (pass) {
-                            // Result-Limit Check
-                            size_t currentResultCount = (retMode == RetMode::Vertex) ? resultVertices.size() :
-                                                        (retMode == RetMode::Edge) ? resultEdgeIds.size() :
-                                                        resultTerminalVertices.size();
-                            if (currentResultCount >= max_results) {
-                                resultLimitReached = true;
-                                // Optional: BFS abbrechen (sp�ter konfigurierbar)
-                                // goto traversal_finished;
-                            }
-                            
-                            if (retMode == RetMode::Vertex) {
-                                resultVertices.push_back(node);
-                            } else if (retMode == RetMode::Edge) {
-                                auto it = parent.find(node);
-                                if (it != parent.end()) {
-                                    resultEdgeIds.push_back(it->second.edgeId);
-                                }
-                            } else { // Path
-                                if (node != t.startVertex) {
-                                    resultTerminalVertices.push_back(node);
-                                } else if (t.minDepth == 0) {
-                                    resultTerminalVertices.push_back(node);
-                                }
-                            }
-                        }
-                    }
-                }
-                if (depth == t.maxDepth) continue;
-
-                auto enqueueOut = [&](const std::vector<themis::GraphIndexManager::AdjacencyInfo>& adj){
-                    for (const auto& a : adj) {
-                        const std::string& nb = a.targetPk;
-                        edgesExpanded++;
-                        // Konservative Pruning-Strategie am letzten Level: wende einfache v/e-Pr�dikate an
-                        if (depth + 1 == t.maxDepth && !preds.empty()) {
-                            bool drop = false;
-                            for (const auto& p : preds) {
-                                if (p.var == 'e' && !evalSingleE(a.edgeId, p)) { drop = true; break; }
-                                if (p.var == 'v' && !evalSingleV(nb, p)) { drop = true; break; }
-                            }
-                            if (drop) { prunedLastLevel++; continue; }
-                        }
-                        if (visited.insert(nb).second) {
-                            parent[nb] = {node, a.edgeId};
-                            qnodes.push({nb, depth + 1});
-                            enqueuedPerDepth[depth + 1]++;
-                        }
-                    }
-                };
-                auto enqueueIn = [&](const std::vector<themis::GraphIndexManager::AdjacencyInfo>& adj){
-                    for (const auto& a : adj) {
-                        const std::string& nb = a.targetPk; // bei inAdjacency ist targetPk = fromPk
-                        edgesExpanded++;
-                        // Konservative Pruning-Strategie am letzten Level
-                        if (depth + 1 == t.maxDepth && !preds.empty()) {
-                            bool drop = false;
-                            for (const auto& p : preds) {
-                                if (p.var == 'e' && !evalSingleE(a.edgeId, p)) { drop = true; break; }
-                                if (p.var == 'v' && !evalSingleV(nb, p)) { drop = true; break; }
-                            }
-                            if (drop) { prunedLastLevel++; continue; }
-                        }
-                        if (visited.insert(nb).second) {
-                            parent[nb] = {node, a.edgeId};
-                            qnodes.push({nb, depth + 1});
-                            enqueuedPerDepth[depth + 1]++;
-                        }
-                    }
-                };
-
-                if (t.direction == themis::AQLTranslator::TranslationResult::TraversalQuery::Direction::Outbound ||
-                    t.direction == themis::AQLTranslator::TranslationResult::TraversalQuery::Direction::Any) {
-                    auto [stAdj, adj] = graph_index_->outAdjacency(node);
-                    if (!stAdj.ok) {
-                        return makeErrorResponse(http::status::internal_server_error, std::string("Graph outAdjacency failed: ") + stAdj.message, req);
-                    }
-                    enqueueOut(adj);
-                }
-                if (t.direction == themis::AQLTranslator::TranslationResult::TraversalQuery::Direction::Inbound ||
-                    t.direction == themis::AQLTranslator::TranslationResult::TraversalQuery::Direction::Any) {
-                    auto [stAdjIn, adjIn] = graph_index_->inAdjacency(node);
-                    if (!stAdjIn.ok) {
-                        return makeErrorResponse(http::status::internal_server_error, std::string("Graph inAdjacency failed: ") + stAdjIn.message, req);
-                    }
-                    enqueueIn(adjIn);
-                }
-            }
-            
-            bfsSpan.setAttribute("traversal.visited_count", static_cast<int64_t>(visited.size()));
-            bfsSpan.setAttribute("traversal.edges_expanded", static_cast<int64_t>(edgesExpanded));
-            bfsSpan.setAttribute("traversal.filter_evaluations", static_cast<int64_t>(filterEvaluationsTotal));
-            bfsSpan.setStatus(true);
-
-            // Serialisierung je nach Return-Modus
-            nlohmann::json res;
-            res["table"] = "graph";
-            res["entities"] = nlohmann::json::array();
-
-            if (retMode == RetMode::Vertex) {
-                res["count"] = static_cast<int>(resultVertices.size());
-                for (const auto& pk : resultVertices) {
-                    std::optional<std::vector<uint8_t>> blob = storage_->get(pk);
-                    if (!blob && pk.find(':') == std::string::npos) {
-                        blob = storage_->get(std::string("users:") + pk);
-                    }
-                    if (blob) {
-                        try {
-                            auto entity = themis::BaseEntity::deserialize(pk, *blob);
-                            res["entities"].push_back(entity.toJson());
-                        } catch (...) {
-                            res["entities"].push_back(nlohmann::json({{"_key", pk}}));
-                        }
-                    } else {
-                        res["entities"].push_back(nlohmann::json({{"_key", pk}}));
-                    }
-                }
-            } else if (retMode == RetMode::Edge) {
-                res["count"] = static_cast<int>(resultEdgeIds.size());
-                for (const auto& eid : resultEdgeIds) {
-                    auto eblob = storage_->get(themis::KeySchema::makeGraphEdgeKey(eid));
-                    if (eblob) {
-                        try {
-                            auto edgeEnt = themis::BaseEntity::deserialize(eid, *eblob);
-                            res["entities"].push_back(edgeEnt.toJson());
-                        } catch (...) {
-                            res["entities"].push_back(nlohmann::json({{"_edge", eid}}));
-                        }
-                    } else {
-                        res["entities"].push_back(nlohmann::json({{"_edge", eid}}));
-                    }
-                }
-            } else { // Path
-                // F�r jeden Terminalknoten Pfad rekonstruieren
-                res["count"] = static_cast<int>(resultTerminalVertices.size());
-                for (const auto& terminal : resultTerminalVertices) {
-                    // Rekonstruiere Knotenfolge und Kanten entlang Elternzeiger
-                    std::vector<std::string> vertices;
-                    std::vector<std::string> edges;
-                    std::string cur = terminal;
-                    vertices.push_back(cur);
-                    while (cur != t.startVertex) {
-                        auto it = parent.find(cur);
-                        if (it == parent.end()) break; // sollte bei Start aufh�ren
-                        edges.push_back(it->second.edgeId);
-                        cur = it->second.parent;
-                        vertices.push_back(cur);
-                    }
-                    std::reverse(vertices.begin(), vertices.end());
-                    std::reverse(edges.begin(), edges.end());
-
-                    nlohmann::json jpath;
-                    jpath["length"] = static_cast<int>(edges.size());
-                    jpath["vertices"] = nlohmann::json::array();
-                    jpath["edges"] = nlohmann::json::array();
-
-                    // Lade Vertex-Entities
-                    for (const auto& pk : vertices) {
-                        std::optional<std::vector<uint8_t>> blob = storage_->get(pk);
-                        if (!blob && pk.find(':') == std::string::npos) {
-                            blob = storage_->get(std::string("users:") + pk);
-                        }
-                        if (blob) {
-                            try {
-                                auto ent = themis::BaseEntity::deserialize(pk, *blob);
-                                jpath["vertices"].push_back(ent.toJson());
-                            } catch (...) {
-                                jpath["vertices"].push_back(nlohmann::json({{"_key", pk}}));
-                            }
-                        } else {
-                            jpath["vertices"].push_back(nlohmann::json({{"_key", pk}}));
-                        }
-                    }
-
-                    // Lade Edge-Entities
-                    for (const auto& eid : edges) {
-                        auto eblob = storage_->get(themis::KeySchema::makeGraphEdgeKey(eid));
-                        if (eblob) {
-                            try {
-                                auto eent = themis::BaseEntity::deserialize(eid, *eblob);
-                                jpath["edges"].push_back(eent.toJson());
-                            } catch (...) {
-                                jpath["edges"].push_back(nlohmann::json({{"_edge", eid}}));
-                            }
-                        } else {
-                            jpath["edges"].push_back(nlohmann::json({{"_edge", eid}}));
-                        }
-                    }
-
-                    res["entities"].push_back(std::move(jpath));
-                }
-            }
-            // EXPLAIN/PROFILE: Traversal-Metriken anh�ngen
-            if (explain) {
-                nlohmann::json metrics;
-                metrics["constant_filter_precheck"] = constantFilterPrechecked;
-                metrics["edges_expanded"] = static_cast<int>(edgesExpanded);
-                metrics["pruned_last_level"] = static_cast<int>(prunedLastLevel);
-                metrics["filter_evaluations_total"] = static_cast<int>(filterEvaluationsTotal);
-                metrics["filter_short_circuits"] = static_cast<int>(filterShortCircuits);
-                metrics["max_frontier_size_reached"] = static_cast<int>(maxFrontierSizeReached);
-                metrics["frontier_limit_hits"] = static_cast<int>(frontierLimitHits);
-                metrics["result_limit_reached"] = resultLimitReached;
-                nlohmann::json fp = nlohmann::json::object();
-                for (const auto& kv : frontierProcessedPerDepth) fp[std::to_string(kv.first)] = kv.second;
-                nlohmann::json eq = nlohmann::json::object();
-                for (const auto& kv : enqueuedPerDepth) eq[std::to_string(kv.first)] = kv.second;
-                metrics["frontier_processed_per_depth"] = std::move(fp);
-                metrics["enqueued_per_depth"] = std::move(eq);
-                res["metrics"] = std::move(metrics);
-            }
-            
-            traversalSpan.setAttribute("traversal.result_count", static_cast<int64_t>(res["count"].get<int>()));
-            traversalSpan.setStatus(true);
-            span.setAttribute("aql.result_count", static_cast<int64_t>(res["count"].get<int>()));
-            span.setStatus(true);
-            return makeResponse(http::status::ok, res.dump(), req);
-        }
-
-        // Disjunctive Query (OR support)
-        if (translate_result.disjunctive.has_value()) {
-            const auto& dq = translate_result.disjunctive.value();
-            auto orSpan = Tracer::startSpan("aql.or_execution");
-            orSpan.setAttribute("or.table", dq.table);
-            orSpan.setAttribute("or.disjunct_count", static_cast<int64_t>(dq.disjuncts.size()));
-            
-            themis::QueryEngine engine(*storage_, *secondary_index_);
-            // Nutze Fallback-Variante, damit OR-Queries auch ohne passende Indizes funktionieren
-            auto [status, keys] = engine.executeOrKeysWithFallback(dq, optimize);
-            
-            if (!status.ok) {
-                orSpan.setStatus(false, status.message);
-                span.setStatus(false, "OR execution failed");
-                return makeErrorResponse(http::status::bad_request, status.message, req);
-            }
-            
-            // Fetch entities
-            nlohmann::json entities = nlohmann::json::array();
-            for (const auto& key : keys) {
-                auto pk = themis::KeySchema::makeRelationalKey(dq.table, key);
-                auto blob = storage_->get(pk);
-                if (blob && !blob->empty()) {
-                    try {
-                        themis::BaseEntity::Blob entity_blob(blob->begin(), blob->end());
-                        auto entity = themis::BaseEntity::deserialize(key, entity_blob);
-                        entities.push_back(nlohmann::json::parse(entity.toJson()));
-                    } catch (...) {
-                        // Skip malformed entities
-                    }
-                }
-            }
-            
-            nlohmann::json response_body = {
-                {"table", dq.table},
-                {"count", entities.size()},
-                {"entities", entities}
-            };
-            // Provide "result" alias for compatibility with older clients/tests
-            try { response_body["result"] = response_body["entities"]; } catch (...) { /* ignore */ }
-            
-            if (explain) {
-                response_body["query"] = aql_query;
-                response_body["ast"] = parse_result.query->toJSON();
-                response_body["disjunctive_query"] = true;
-                response_body["disjunct_count"] = dq.disjuncts.size();
-            }
-            
-            orSpan.setAttribute("or.result_count", static_cast<int64_t>(entities.size()));
-            orSpan.setStatus(true);
-            span.setAttribute("aql.result_count", static_cast<int64_t>(entities.size()));
-            span.setStatus(true);
-            return makeResponse(http::status::ok, response_body.dump(), req);
-        }
-
-        // JOIN/LET Query (Multi-FOR or LET without COLLECT)
-        // Note: Single-FOR + COLLECT is handled by conversion to ConjunctiveQuery below
-        if (translate_result.join.has_value()) {
-            const auto& jq = translate_result.join.value();
-            
-            // For single-FOR + COLLECT, convert back to ConjunctiveQuery and skip to standard path
-            if (jq.for_nodes.size() == 1 && jq.collect) {
-                // Reconstruct ConjunctiveQuery from JoinQuery
-                themis::ConjunctiveQuery cq;
-                cq.table = jq.for_nodes[0].collection;
-                
-                // Convert simple equality filters to predicates
-                using namespace themis::query;
-                for (const auto& filter : jq.filters) {
-                    if (filter->condition->getType() == ASTNodeType::BinaryOp) {
-                        auto bin = std::static_pointer_cast<BinaryOpExpr>(filter->condition);
-                        if (bin->op == BinaryOperator::Eq) {
-                            // Check for pattern: var.field == literal
-                            if (bin->left->getType() == ASTNodeType::FieldAccess &&
-                                bin->right->getType() == ASTNodeType::Literal) {
-                                auto fa = std::static_pointer_cast<FieldAccessExpr>(bin->left);
-                                auto lit = std::static_pointer_cast<LiteralExpr>(bin->right);
-                                
-                                // Extract field path
-                                std::vector<std::string> parts;
-                                parts.push_back(fa->field);
-                                auto* cur = fa->object.get();
-                                while (auto* fa2 = dynamic_cast<FieldAccessExpr*>(cur)) {
-                                    parts.push_back(fa2->field);
-                                    cur = fa2->object.get();
-                                }
-                                
-                                // Verify it's rooted at the FOR variable
-                                if (auto* rootVar = dynamic_cast<VariableExpr*>(cur)) {
-                                    if (rootVar->name == jq.for_nodes[0].variable) {
-                                        std::string col;
-                                        for (auto it = parts.rbegin(); it != parts.rend(); ++it) {
-                                            if (!col.empty()) col += ".";
-                                            col += *it;
-                                        }
-                                        
-                                        // Convert literal to string
-                                        auto litToString = [](const LiteralValue& value)->std::string {
-                                            return std::visit([](auto&& arg)->std::string {
-                                                using T = std::decay_t<decltype(arg)>;
-                                                if constexpr (std::is_same_v<T, std::nullptr_t>) return std::string("null");
-                                                else if constexpr (std::is_same_v<T, bool>) return arg ? std::string("true") : std::string("false");
-                                                else if constexpr (std::is_same_v<T, int64_t>) return std::to_string(arg);
-                                                else if constexpr (std::is_same_v<T, double>) return std::to_string(arg);
-                                                else if constexpr (std::is_same_v<T, std::string>) return arg;
-                                                else return std::string();
-                                            }, value);
-                                        };
-                                        
-                                        cq.predicates.push_back({col, litToString(lit->value)});
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-                
-                // Store in translate_result.query for standard processing
-                translate_result.query = std::move(cq);
-                // Clear join to fall through to standard path
-                translate_result.join = std::nullopt;
-            } else if (!jq.collect) {
-                // Multi-FOR or single-FOR + LET: use executeJoin
-                auto joinSpan = Tracer::startSpan("aql.join_execution");
-                joinSpan.setAttribute("join.for_count", static_cast<int64_t>(jq.for_nodes.size()));
-                joinSpan.setAttribute("join.let_count", static_cast<int64_t>(jq.let_nodes.size()));
-                joinSpan.setAttribute("join.filter_count", static_cast<int64_t>(jq.filters.size()));
-                
-                themis::QueryEngine engine(*storage_, *secondary_index_);
-                auto res = engine.executeJoin(
-                    jq.for_nodes,
-                    jq.filters,
-                    jq.let_nodes,
-                    jq.return_node,
-                    jq.sort,
-                    jq.limit
-                );
-                
-                if (!res.first.ok) {
-                    joinSpan.setStatus(false, res.first.message);
-                    span.setStatus(false, "JOIN execution failed");
-                    return makeErrorResponse(http::status::bad_request, res.first.message, req);
-                }
-                
-                nlohmann::json response_body;
-                nlohmann::json entities = nlohmann::json::array();
-                for (const auto& result : res.second) {
-                    entities.push_back(result);
-                }
-                
-                // Determine table name for response (use first FOR collection)
-                std::string table = jq.for_nodes.empty() ? std::string("unknown") : jq.for_nodes[0].collection;
-
-                // Fallback: Single-FOR + LET + Object/Projection RETURN produced no results due to join-path edge case
-                if (entities.empty() && jq.for_nodes.size() == 1 && !jq.let_nodes.empty() && jq.return_node) {
-                    try {
-                        THEMIS_WARN("Join path returned 0 rows; applying single-FOR LET projection fallback");
-                        const auto& forNode = jq.for_nodes[0];
-                        const std::string prefix = forNode.collection + ":";
-                        // Minimal evaluator for LET + object projection
-                        storage_->scanPrefix(prefix, [&](std::string_view key, std::string_view value) -> bool {
-                            std::string pk = themis::KeySchema::extractPrimaryKey(key);
-                            std::vector<uint8_t> blob(value.begin(), value.end());
-                            try {
-                                BaseEntity be = BaseEntity::deserialize(pk, blob);
-                                nlohmann::json doc = nlohmann::json::parse(be.toJson());
-                                doc["_key"] = pk;
-                                // Simple recursive eval supporting Variable, FieldAccess, Literal, ObjectConstruct
-                                std::map<std::string, nlohmann::json> letValues;
-                                std::function<nlohmann::json(const std::shared_ptr<themis::query::Expression>&)> evalExpr;
-                                evalExpr = [&](const std::shared_ptr<themis::query::Expression>& e) -> nlohmann::json {
-                                    using namespace themis::query;
-                                    if (!e) return nullptr;
-                                    switch (e->getType()) {
-                                        case ASTNodeType::Literal: {
-                                            auto lit = std::static_pointer_cast<LiteralExpr>(e);
-                                            nlohmann::json j; std::visit([&](auto&& arg){ j = arg; }, lit->value); return j;
-                                        }
-                                        case ASTNodeType::Variable: {
-                                            auto v = std::static_pointer_cast<VariableExpr>(e);
-                                            if (v->name == forNode.variable) return doc;
-                                            auto it = letValues.find(v->name);
-                                            if (it != letValues.end()) return it->second;
-                                            return nullptr;
-                                        }
-                                        case ASTNodeType::FieldAccess: {
-                                            auto fa = std::static_pointer_cast<FieldAccessExpr>(e);
-                                            auto base = evalExpr(fa->object);
-                                            if (!base.is_object()) return nullptr;
-                                            if (base.contains(fa->field)) return base[fa->field];
-                                            return nullptr;
-                                        }
-                                        case ASTNodeType::ObjectConstruct: {
-                                            auto obj = std::static_pointer_cast<ObjectConstructExpr>(e);
-                                            nlohmann::json out = nlohmann::json::object();
-                                            for (const auto& [k, ce] : obj->fields) out[k] = evalExpr(ce);
-                                            return out;
-                                        }
-                                        case ASTNodeType::ArrayLiteral: {
-                                            auto arr = std::static_pointer_cast<ArrayLiteralExpr>(e);
-                                            nlohmann::json a = nlohmann::json::array();
-                                            for (const auto& ce : arr->elements) a.push_back(evalExpr(ce));
-                                            return a;
-                                        }
-                                        default: return nullptr;
-                                    }
-                                };
-                                // Evaluate LET nodes
-                                for (const auto& let : jq.let_nodes) {
-                                    letValues[let.variable] = evalExpr(let.expression);
-                                }
-                                // Project return
-                                auto projected = evalExpr(jq.return_node->expression);
-                                entities.push_back(projected);
-                            } catch (...) {
-                                // Skip malformed entry
-                            }
-                            return true; // continue scan
-                        });
-                    } catch (const std::exception& ex) {
-                        THEMIS_ERROR("LET projection fallback failed: {}", ex.what());
-                    }
-                }
-                
-                response_body = {
-                    {"table", table},
-                    {"count", entities.size()},
-                    {"entities", entities}
-                };
-                
-                if (explain) {
-                    response_body["query"] = aql_query;
-                    response_body["ast"] = parse_result.query->toJSON();
-                    response_body["join_query"] = true;
-                }
-                
-                joinSpan.setAttribute("join.result_count", static_cast<int64_t>(entities.size()));
-                joinSpan.setStatus(true);
-                span.setAttribute("aql.result_count", static_cast<int64_t>(entities.size()));
-                span.setStatus(true);
-                return makeResponse(http::status::ok, response_body.dump(), req);
-            }
-        }
-
-        // Relationale Query (mutable Kopie f�r Cursor-Anker/Limit-Anpassungen)
-    auto forSpan = Tracer::startSpan("aql.for");
-    auto q = translate_result.query;
-
-        // Detect function-based SORT (BM25(doc) or FULLTEXT_SCORE()) to avoid range-index ORDER BY
-        bool sortByScoreFunction = false;
-        bool sortAsc = true;
-        if (parse_result.query && parse_result.query->sort && !parse_result.query->sort->specifications.empty()) {
-            // Helper: recursively check if expression contains a specific function name
-            std::function<bool(const std::shared_ptr<themis::query::Expression>&, const std::string&)> exprContainsFn;
-            exprContainsFn = [&](const std::shared_ptr<themis::query::Expression>& expr, const std::string& name)->bool{
-                if (!expr) return false;
-                using namespace themis::query;
-                switch (expr->getType()) {
-                    case ASTNodeType::FunctionCall: {
-                        auto* fc = static_cast<FunctionCallExpr*>(expr.get());
-                        std::string n = fc->name; std::transform(n.begin(), n.end(), n.begin(), ::tolower);
-                        if (n == name) return true;
-                        for (const auto& a : fc->arguments) if (exprContainsFn(a, name)) return true;
-                        return false;
-                    }
-                    case ASTNodeType::BinaryOp: {
-                        auto* bo = static_cast<BinaryOpExpr*>(expr.get());
-                        return exprContainsFn(bo->left, name) || exprContainsFn(bo->right, name);
-                    }
-                    case ASTNodeType::UnaryOp: {
-                        auto* u = static_cast<UnaryOpExpr*>(expr.get());
-                        return exprContainsFn(u->operand, name);
-                    }
-                    case ASTNodeType::ArrayLiteral: {
-                        auto* ar = static_cast<ArrayLiteralExpr*>(expr.get());
-                        for (const auto& el : ar->elements) if (exprContainsFn(el, name)) return true;
-                        return false;
-                    }
-                    case ASTNodeType::ObjectConstruct: {
-                        auto* oc = static_cast<ObjectConstructExpr*>(expr.get());
-                        for (const auto& kv : oc->fields) if (exprContainsFn(kv.second, name)) return true;
-                        return false;
-                    }
-                    default:
-                        return false;
-                }
-            };
-            const auto& spec = parse_result.query->sort->specifications[0];
-            sortAsc = spec.ascending;
-            if (exprContainsFn(spec.expression, "bm25") || exprContainsFn(spec.expression, "fulltext_score")) {
-                sortByScoreFunction = true;
-            }
-        }
-        // If SORT uses BM25/FULLTEXT_SCORE, clear index ORDER BY and sort later in-memory
-        if (sortByScoreFunction && q.orderBy.has_value()) {
-            q.orderBy.reset();
-        }
-
-        std::string table = q.table;
-        forSpan.setAttribute("for.table", table);
-        forSpan.setAttribute("for.predicates_count", static_cast<int64_t>(q.predicates.size()));
-        forSpan.setAttribute("for.range_predicates_count", static_cast<int64_t>(q.rangePredicates.size()));
-        if (q.orderBy.has_value()) {
-            forSpan.setAttribute("for.order_by", q.orderBy->column);
-            forSpan.setAttribute("for.order_desc", q.orderBy->desc);
-        }
-
-        // Shared score map for BM25/FULLTEXT score lookups (filled on demand later)
-        std::unordered_map<std::string, double> fulltextScoreByPk;
-
-        // Cursor-Integration in die QueryEngine: falls ORDER BY vorhanden
-        bool early_empty_due_to_cursor = false;
-        size_t requested_count_for_cursor = 0;
-        if (use_cursor && q.orderBy.has_value()) {
-            // Bestimme angeforderte Seitengr��e aus LIMIT
-            if (parse_result.query && parse_result.query->limit) {
-                requested_count_for_cursor = static_cast<size_t>(std::max<int64_t>(1, parse_result.query->limit->count));
-            } else {
-                requested_count_for_cursor = 1000;
-            }
-            // Engine soll count+1 liefern (extra Element f�r has_more detection)
-            // Add safety margin for cursor pagination: when using cursor with ORDER BY,
-            // the query engine may filter items after cursor positioning (e.g., if there
-            // are equality predicates), which can result in fewer items than requested.
-            // Conservative approach: fetch extra items to account for potential filtering.
-            constexpr size_t CURSOR_SAFETY_MARGIN = 5;
-            size_t num_predicates = q.predicates.size();
-            size_t safety_margin = (num_predicates > 0) ? CURSOR_SAFETY_MARGIN * num_predicates : CURSOR_SAFETY_MARGIN;
-            q.orderBy->limit = requested_count_for_cursor + safety_margin + 1;
-
-            // Wenn ein Cursor-Token �bergeben wurde, ermittle Anker (value, pk)
-            if (!cursor_token.empty()) {
-                auto decoded = themis::utils::Cursor::decode(cursor_token);
-                if (!decoded.has_value()) {
-                    // Ung�ltiger Cursor: leere Seite zur�ck
-                    early_empty_due_to_cursor = true;
-                } else {
-                    auto [pk, collection] = *decoded;
-                    if (collection != table) {
-                        // Falsche Collection im Cursor
-                        early_empty_due_to_cursor = true;
-                    } else {
-                        // Entit�t laden, um Sortierspaltenwert zu extrahieren
-                        auto blob = storage_->get(table + ":" + pk);
-                        if (!blob.has_value()) {
-                            early_empty_due_to_cursor = true;
-                        } else {
-                            try {
-                                auto entity = themis::BaseEntity::deserialize(pk, *blob);
-                                // Sortierspalte extrahieren
-                                const std::string sortCol = q.orderBy->column;
-                                auto maybeVal = entity.extractField(sortCol);
-                                if (maybeVal.has_value()) {
-                                    q.orderBy->cursor_value = *maybeVal;
-                                    q.orderBy->cursor_pk = pk;
-                                } else {
-                                    // Ohne Sortwert kein sicherer Anker
-                                    early_empty_due_to_cursor = true;
-                                }
-                            } catch (...) {
-                                early_empty_due_to_cursor = true;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        
-        // Execute query
-        themis::QueryEngine engine(*storage_, *secondary_index_);
-        
-        std::string exec_mode;
-        nlohmann::json plan_json;
-        
-        std::pair<themis::QueryEngine::Status, std::vector<themis::BaseEntity>> res;
-        if (early_empty_due_to_cursor && use_cursor) {
-            // Liefere leere Seite sofort zur�ck
-            res = { themis::QueryEngine::Status::OK(), {} };
-        } else {
-        
-        if (allow_full_scan) {
-            exec_mode = "full_scan_fallback";
-            res = engine.executeAndEntitiesWithFallback(q, optimize);
-        } else {
-            // Wenn FULLTEXT vorhanden ist, delegiere direkt an Engine (Optimizer kennt FULLTEXT nicht)
-            if (q.fulltextPredicate.has_value()) {
-                exec_mode = "fulltext";
-                res = engine.executeAndEntities(q);
-            }
-            // Range-aware: Wenn Range-Prädikate oder ORDER BY vorhanden sind,
-            // nutze direkt die range-fähige Engine-Logik (Optimizer unterstützt nur Gleichheit).
-            else if (!q.rangePredicates.empty() || q.orderBy.has_value()) {
-                exec_mode = "index_rangeaware";
-                res = engine.executeAndEntities(q);
-            } else if (optimize) {
-                themis::QueryOptimizer opt(*secondary_index_);
-                auto plan = opt.chooseOrderForAndQuery(q);
-                res = opt.executeOptimizedEntities(engine, q, plan);
-                exec_mode = "index_optimized";
-                
-                if (explain) {
-                    plan_json["mode"] = exec_mode;
-                    plan_json["order"] = nlohmann::json::array();
-                    for (const auto& p : plan.orderedPredicates) {
-                        plan_json["order"].push_back({{"column", p.column}, {"value", p.value}});
-                    }
-                    plan_json["estimates"] = nlohmann::json::array();
-                    for (const auto& d : plan.details) {
-                        plan_json["estimates"].push_back({
-                            {"column", d.pred.column}, {"value", d.pred.value},
-                            {"estimatedCount", d.estimatedCount}, {"capped", d.capped}
-                        });
-                    }
-                }
-            } else {
-                exec_mode = "index_parallel";
-                res = engine.executeAndEntities(q);
-                
-                if (explain) {
-                    plan_json = {
-                        {"mode", exec_mode},
-                        {"order", nlohmann::json::array()}
-                    };
-                    for (const auto& p : q.predicates) {
-                        plan_json["order"].push_back({{"column", p.column}, {"value", p.value}});
-                    }
-                }
-            }
-        }
-        }
-        
-        if (!res.first.ok) {
-            forSpan.setStatus(false, res.first.message);
-            span.setStatus(false, "Query execution failed");
-            return makeErrorResponse(http::status::bad_request, res.first.message, req);
-        }
-        
-        forSpan.setAttribute("for.result_count", static_cast<int64_t>(res.second.size()));
-        forSpan.setAttribute("for.exec_mode", exec_mode);
-        forSpan.setStatus(true);
-        
-        // Apply LIMIT offset,count if provided in the AQL (post-fetch slicing)
-        std::vector<themis::BaseEntity> sliced;
-        sliced.reserve(res.second.size());
-        sliced = std::move(res.second);
-
-        // If SORT uses BM25/FULLTEXT_SCORE, compute scores and sort now (pre-LIMIT)
-        if (sortByScoreFunction) {
-            if (!q.fulltextPredicate.has_value()) {
-                forSpan.setStatus(false, "BM25/FULLTEXT_SCORE sort without FULLTEXT filter");
-                span.setStatus(false, "BM25/FULLTEXT_SCORE sort requires FULLTEXT() in FILTER");
-                return makeErrorResponse(http::status::bad_request, "SORT by BM25/FULLTEXT_SCORE requires a FULLTEXT(...) filter in the query", req);
-            }
-            const auto& ft = *q.fulltextPredicate;
-            auto scoreSpan = Tracer::startSpan("aql.fulltext_scores_fetch.sort");
-            scoreSpan.setAttribute("table", q.table);
-            scoreSpan.setAttribute("column", ft.column);
-            scoreSpan.setAttribute("limit", static_cast<int64_t>(ft.limit));
-            auto [st, results] = secondary_index_->scanFulltextWithScores(q.table, ft.column, ft.query, ft.limit);
-            if (!st.ok) {
-                scoreSpan.setStatus(false, st.message);
-                return makeErrorResponse(http::status::internal_server_error, std::string("Failed to fetch fulltext scores: ") + st.message, req);
-            }
-            fulltextScoreByPk.clear();
-            fulltextScoreByPk.reserve(results.size());
-            for (const auto& r : results) fulltextScoreByPk.emplace(r.pk, r.score);
-            scoreSpan.setAttribute("count", static_cast<int64_t>(results.size()));
-            scoreSpan.setStatus(true);
-
-            std::sort(sliced.begin(), sliced.end(), [&](const themis::BaseEntity& a, const themis::BaseEntity& b){
-                double sa = 0.0, sb = 0.0;
-                auto ita = fulltextScoreByPk.find(a.getPrimaryKey()); if (ita != fulltextScoreByPk.end()) sa = ita->second;
-                auto itb = fulltextScoreByPk.find(b.getPrimaryKey()); if (itb != fulltextScoreByPk.end()) sb = itb->second;
-                if (sortAsc) return sa < sb; else return sa > sb;
-            });
-        }
-
-        if (!use_cursor && parse_result.query && parse_result.query->limit) {
-            auto limitSpan = Tracer::startSpan("aql.limit");
-            // Klassisches LIMIT offset,count Verhalten
-            auto off = static_cast<size_t>(std::max<int64_t>(0, parse_result.query->limit->offset));
-            auto cnt = static_cast<size_t>(std::max<int64_t>(0, parse_result.query->limit->count));
-            limitSpan.setAttribute("limit.offset", static_cast<int64_t>(off));
-            limitSpan.setAttribute("limit.count", static_cast<int64_t>(cnt));
-            limitSpan.setAttribute("limit.input_count", static_cast<int64_t>(sliced.size()));
-            
-            if (off < sliced.size()) {
-                size_t last = std::min(sliced.size(), off + cnt);
-                std::vector<themis::BaseEntity> tmp;
-                tmp.reserve(last - off);
-                for (size_t i = off; i < last; ++i) tmp.emplace_back(std::move(sliced[i]));
-                sliced.swap(tmp);
-            } else {
-                sliced.clear();
-            }
-            
-            limitSpan.setAttribute("limit.output_count", static_cast<int64_t>(sliced.size()));
-            limitSpan.setStatus(true);
-        }
-
-        // Enrich plan (for explain) with execution mode and cursor metadata
-        if (explain) {
-            if (plan_json.is_null()) plan_json = nlohmann::json::object();
-            if (!exec_mode.empty()) plan_json["mode"] = exec_mode;
-            if (use_cursor) {
-                nlohmann::json cursor_meta = nlohmann::json::object();
-                cursor_meta["used"] = true;
-                cursor_meta["cursor_present"] = !cursor_token.empty();
-                if (q.orderBy.has_value()) {
-                    cursor_meta["sort_column"] = q.orderBy->column;
-                    cursor_meta["effective_limit"] = static_cast<int>(q.orderBy->limit);
-                    cursor_meta["anchor_set"] = q.orderBy->cursor_pk.has_value();
-                }
-                cursor_meta["requested_count"] = static_cast<int>(requested_count_for_cursor);
-                plan_json["cursor"] = std::move(cursor_meta);
-            }
-        }
-
-        // COLLECT/GROUP BY (MVP): falls vorhanden, f�hre In-Memory-Gruppierung/Aggregation �ber die Ergebnisse aus
-        if (parse_result.query && parse_result.query->collect && !use_cursor) {
-            auto collectSpan = Tracer::startSpan("aql.collect");
-            const auto& collect = *parse_result.query->collect;
-            using namespace themis::query;
-            
-            collectSpan.setAttribute("collect.input_count", static_cast<int64_t>(sliced.size()));
-            collectSpan.setAttribute("collect.group_by_count", static_cast<int64_t>(collect.groups.size()));
-            collectSpan.setAttribute("collect.aggregates_count", static_cast<int64_t>(collect.aggregations.size()));
-
-            // Extrahiere aus einem FieldAccess-Ausdruck die Feld-Pfad-Notation (z.B. doc.city -> "city", doc.addr.city -> "addr.city")
-            auto extractColumn = [&](const std::shared_ptr<themis::query::Expression>& expr)->std::string {
-                auto* fa = dynamic_cast<FieldAccessExpr*>(expr.get());
-                if (!fa) return std::string();
-                std::vector<std::string> parts;
-                parts.push_back(fa->field);
-                auto* cur = fa->object.get();
-                while (auto* fa2 = dynamic_cast<FieldAccessExpr*>(cur)) {
-                    parts.push_back(fa2->field);
-                    cur = fa2->object.get();
-                }
-                // Root erwartet Variable; deren Name wird ignoriert
-                std::string col;
-                for (auto it = parts.rbegin(); it != parts.rend(); ++it) {
-                    if (!col.empty()) col += ".";
-                    col += *it;
-                }
-                return col;
-            };
-
-            // MVP: Unterst�tze 0..1 Group-Variablen
-            std::string groupVarName;
-            std::string groupColumn;
-            if (!collect.groups.empty()) {
-                groupVarName = collect.groups[0].first;
-                if (collect.groups[0].second) {
-                    groupColumn = extractColumn(collect.groups[0].second);
-                }
-            }
-
-            struct AggSpec { std::string var; std::string func; std::string col; };
-            std::vector<AggSpec> aggs;
-            aggs.reserve(collect.aggregations.size());
-            for (const auto& a : collect.aggregations) {
-                std::string func = a.funcName; std::transform(func.begin(), func.end(), func.begin(), ::tolower);
-                std::string col;
-                if (a.argument) col = extractColumn(a.argument);
-                aggs.push_back({a.varName, func, col});
-            }
-
-            struct AggState { uint64_t cnt=0; double sum=0.0; double min=std::numeric_limits<double>::infinity(); double max=-std::numeric_limits<double>::infinity(); };
-            std::unordered_map<std::string, std::unordered_map<std::string, AggState>> acc;
-
-            auto toGroupKey = [&](const themis::BaseEntity& e)->std::string{
-                if (groupColumn.empty()) return std::string("__all__");
-                auto v = e.getFieldAsString(groupColumn);
-                return v.value_or(std::string(""));
-            };
-            auto toNumber = [&](const themis::BaseEntity& e, const std::string& col, std::optional<double>& out)->bool{
-                if (col.empty()) { out = 1.0; return true; }
-                auto dv = e.getFieldAsDouble(col);
-                if (dv.has_value()) { out = *dv; return true; }
-                auto sv = e.getFieldAsString(col);
-                if (sv.has_value()) {
-                    try { out = std::stod(*sv); return true; } catch (...) { /* ignore */ }
-                }
-                return false;
-            };
-
-            for (const auto& e : sliced) {
-                std::string key = toGroupKey(e);
-                auto& bucket = acc[key];
-                // Update je Aggregation
-                if (aggs.empty()) {
-                    bucket[std::string("count")].cnt += 1;
-                } else {
-                    for (const auto& a : aggs) {
-                        auto& st = bucket[a.var];
-                        if (a.func == "count") {
-                            st.cnt += 1;
-                        } else if (a.func == "sum" || a.func == "avg" || a.func == "min" || a.func == "max") {
-                            std::optional<double> num;
-                            if (toNumber(e, a.col, num) && num.has_value()) {
-                                st.cnt += 1;
-                                st.sum += *num;
-                                if (*num < st.min) st.min = *num;
-                                if (*num > st.max) st.max = *num;
-                            }
-                        }
-                    }
-                }
-            }
-
-            // Baue Ausgabe
-            nlohmann::json groups = nlohmann::json::array();
-            for (const auto& [k, mp] : acc) {
-                nlohmann::json row = nlohmann::json::object();
-                if (!groupVarName.empty()) row[groupVarName] = k;
-                if (aggs.empty()) {
-                    auto it = mp.find("count");
-                    uint64_t c = (it != mp.end()) ? it->second.cnt : 0;
-                    row["count"] = c;
-                } else {
-                    for (const auto& a : aggs) {
-                        const auto it = mp.find(a.var);
-                        if (it == mp.end()) continue;
-                        const auto& st = it->second;
-                        if (a.func == "count") row[a.var] = static_cast<uint64_t>(st.cnt);
-                        else if (a.func == "sum") row[a.var] = st.sum;
-                        else if (a.func == "avg") row[a.var] = (st.cnt ? (st.sum / static_cast<double>(st.cnt)) : 0.0);
-                        else if (a.func == "min") row[a.var] = (st.cnt ? st.min : 0.0);
-                        else if (a.func == "max") row[a.var] = (st.cnt ? st.max : 0.0);
-                    }
-                }
-                groups.push_back(std::move(row));
-            }
-
-            nlohmann::json response_body = {
-                {"table", table},
-                {"count", groups.size()},
-                {"groups", groups}
-            };
-            if (explain) {
-                response_body["query"] = aql_query;
-                response_body["ast"] = parse_result.query->toJSON();
-                if (!plan_json.is_null()) response_body["plan"] = plan_json;
-            }
-            
-            collectSpan.setAttribute("collect.group_count", static_cast<int64_t>(groups.size()));
-            collectSpan.setStatus(true);
-            span.setAttribute("aql.result_count", static_cast<int64_t>(groups.size()));
-            span.setStatus(true);
-            return makeResponse(http::status::ok, response_body.dump(), req);
-        }
-
-        // Serialize entities or projections with LET support
-        auto returnSpan = Tracer::startSpan("aql.return");
-        returnSpan.setAttribute("return.input_count", static_cast<int64_t>(sliced.size()));
-
-        using namespace themis::query;
-        const std::string loopVar = parse_result.query->for_node.variable;
-
-        // Helper: extract column path from FieldAccess rooted at loop var
-        std::function<std::optional<std::string>(const std::shared_ptr<Expression>&, bool&)> extractColFromFA;
-        extractColFromFA = [&](const std::shared_ptr<Expression>& expr, bool& rootedAtLoop)->std::optional<std::string> {
-            auto* fa = dynamic_cast<FieldAccessExpr*>(expr.get()); if (!fa) return std::nullopt;
-            std::vector<std::string> parts; parts.push_back(fa->field);
-            auto* cur = fa->object.get();
-            while (auto* fa2 = dynamic_cast<FieldAccessExpr*>(cur)) { parts.push_back(fa2->field); cur = fa2->object.get(); }
-            if (auto* rootVarExpr = dynamic_cast<VariableExpr*>(cur)) { rootedAtLoop = (rootVarExpr->name == loopVar); }
-            else { rootedAtLoop = false; }
-            std::string col; for (auto it = parts.rbegin(); it != parts.rend(); ++it) { if (!col.empty()) col += "."; col += *it; }
-            return col;
-        };
-
-        // Detect if RETURN/LET expressions reference FULLTEXT_SCORE()
-        std::function<bool(const std::shared_ptr<Expression>&, const std::string&)> containsFunction;
-        containsFunction = [&](const std::shared_ptr<Expression>& expr, const std::string& name)->bool{
-            if (!expr) return false;
-            switch (expr->getType()) {
-                case ASTNodeType::FunctionCall: {
-                    auto* fc = static_cast<FunctionCallExpr*>(expr.get());
-                    std::string n = fc->name; std::transform(n.begin(), n.end(), n.begin(), ::tolower);
-                    if (n == name) return true;
-                    for (const auto& a : fc->arguments) if (containsFunction(a, name)) return true;
-                    return false;
-                }
-                case ASTNodeType::BinaryOp: {
-                    auto* bo = static_cast<BinaryOpExpr*>(expr.get());
-                    return containsFunction(bo->left, name) || containsFunction(bo->right, name);
-                }
-                case ASTNodeType::UnaryOp: {
-                    auto* u = static_cast<UnaryOpExpr*>(expr.get());
-                    return containsFunction(u->operand, name);
-                }
-                case ASTNodeType::ArrayLiteral: {
-                    auto* ar = static_cast<ArrayLiteralExpr*>(expr.get());
-                    for (const auto& el : ar->elements) if (containsFunction(el, name)) return true;
-                    return false;
-                }
-                case ASTNodeType::ObjectConstruct: {
-                    auto* oc = static_cast<ObjectConstructExpr*>(expr.get());
-                    for (const auto& kv : oc->fields) if (containsFunction(kv.second, name)) return true;
-                    return false;
-                }
-                default:
-                    return false;
-            }
-        };
-
-        bool usesFulltextScore = false;
-        if (parse_result.query) {
-            // RETURN
-            if (parse_result.query->return_node && parse_result.query->return_node->expression) {
-                usesFulltextScore = containsFunction(parse_result.query->return_node->expression, "fulltext_score");
-            }
-            // LETs
-            if (!usesFulltextScore) {
-                for (const auto& ln : parse_result.query->let_nodes) {
-                    if (containsFunction(ln.expression, "fulltext_score")) { usesFulltextScore = true; break; }
-                }
-            }
-        }
-
-        // If FULLTEXT_SCORE() or BM25() is referenced in RETURN/LET, ensure scores are prepared (and validate FULLTEXT_SCORE usage)
-        bool usesScoreFn = usesFulltextScore;
-        if (!usesScoreFn && parse_result.query) {
-            if (parse_result.query->return_node && parse_result.query->return_node->expression) {
-                usesScoreFn = containsFunction(parse_result.query->return_node->expression, "bm25");
-            }
-            if (!usesScoreFn) {
-                for (const auto& ln : parse_result.query->let_nodes) {
-                    if (containsFunction(ln.expression, "bm25")) { usesScoreFn = true; break; }
-                }
-            }
-        }
-        if (usesFulltextScore && !q.fulltextPredicate.has_value()) {
-            forSpan.setStatus(false, "FULLTEXT_SCORE without FULLTEXT filter");
-            span.setStatus(false, "FULLTEXT_SCORE requires FULLTEXT() in FILTER");
-            return makeErrorResponse(http::status::bad_request, "FULLTEXT_SCORE() requires a FULLTEXT(...) filter in the query", req);
-        }
-        if ((usesScoreFn || sortByScoreFunction) && fulltextScoreByPk.empty() && q.fulltextPredicate.has_value()) {
-            const auto& ft = *q.fulltextPredicate;
-            auto scoreSpan = Tracer::startSpan("aql.fulltext_scores_fetch");
-            scoreSpan.setAttribute("table", q.table);
-            scoreSpan.setAttribute("column", ft.column);
-            scoreSpan.setAttribute("limit", static_cast<int64_t>(ft.limit));
-            auto [st, results] = secondary_index_->scanFulltextWithScores(q.table, ft.column, ft.query, ft.limit);
-            if (!st.ok) {
-                scoreSpan.setStatus(false, st.message);
-                return makeErrorResponse(http::status::internal_server_error, std::string("Failed to fetch fulltext scores: ") + st.message, req);
-            }
-            for (const auto& r : results) fulltextScoreByPk.emplace(r.pk, r.score);
-            scoreSpan.setAttribute("count", static_cast<int64_t>(results.size()));
-            scoreSpan.setStatus(true);
-        }
-
-        // Evaluate expressions to JSON (Literal, Variable, FieldAccess, Binary/Unary, Object, Array, selected FunctionCall)
-        std::function<nlohmann::json(const std::shared_ptr<Expression>&,
-                                     const themis::BaseEntity&,
-                                     const std::unordered_map<std::string, nlohmann::json>&)> evalExpr;
-        evalExpr = [&](const std::shared_ptr<Expression>& expr,
-                       const themis::BaseEntity& ent,
-                       const std::unordered_map<std::string, nlohmann::json>& env)->nlohmann::json {
-            if (!expr) return nlohmann::json();
-            switch (expr->getType()) {
-                case ASTNodeType::Literal: {
-                    // reuse toJSON Value
-                    return static_cast<LiteralExpr*>(expr.get())->toJSON()["value"]; }
-                case ASTNodeType::Variable: {
-                    auto* v = static_cast<VariableExpr*>(expr.get());
-                    if (v->name == loopVar) return ent.toJson();
-                    auto it = env.find(v->name); if (it != env.end()) return it->second; return nullptr; }
-                case ASTNodeType::FieldAccess: {
-                    bool rooted = false; auto colOpt = extractColFromFA(expr, rooted);
-                    if (colOpt.has_value() && rooted) {
-                        // Extract from entity
-                        auto asDouble = ent.getFieldAsDouble(*colOpt); if (asDouble.has_value()) return *asDouble;
-                        auto asStr = ent.getFieldAsString(*colOpt); if (asStr.has_value()) return *asStr; return nullptr;
-                    } else {
-                        // Evaluate object part and index JSON
-                        auto* fa = static_cast<FieldAccessExpr*>(expr.get());
-                        auto base = evalExpr(fa->object, ent, env);
-                        if (base.is_object()) {
-                            auto it = base.find(fa->field); if (it != base.end()) return *it; return nullptr;
-                        }
-                        return nullptr;
-                    }
-                }
-                case ASTNodeType::BinaryOp: {
-                    auto* bo = static_cast<BinaryOpExpr*>(expr.get());
-                    auto left = evalExpr(bo->left, ent, env);
-                    auto right = evalExpr(bo->right, ent, env);
-                    auto toNumber = [](const nlohmann::json& j, double& out)->bool{
-                        if (j.is_number()) { out = j.get<double>(); return true; }
-                        if (j.is_boolean()) { out = j.get<bool>() ? 1.0 : 0.0; return true; }
-                        if (j.is_string()) { char* end=nullptr; std::string s=j.get<std::string>(); out = strtod(s.c_str(), &end); return end && *end=='\0'; }
-                        return false;
-                    };
-                    switch (bo->op) {
-                        case BinaryOperator::Eq:  return left == right;
-                        case BinaryOperator::Neq: return left != right;
-                        case BinaryOperator::Lt:  return left < right;
-                        case BinaryOperator::Lte: return left <= right;
-                        case BinaryOperator::Gt:  return left > right;
-                        case BinaryOperator::Gte: return left >= right;
-                        case BinaryOperator::And: {
-                            bool lb = left.is_boolean() ? left.get<bool>() : (!left.is_null());
-                            bool rb = right.is_boolean() ? right.get<bool>() : (!right.is_null());
-                            return nlohmann::json(lb && rb);
-                        }
-                        case BinaryOperator::Or:  {
-                            bool lb = left.is_boolean() ? left.get<bool>() : (!left.is_null());
-                            bool rb = right.is_boolean() ? right.get<bool>() : (!right.is_null());
-                            return nlohmann::json(lb || rb);
-                        }
-                        case BinaryOperator::Add: {
-                            double a,b; if (toNumber(left,a) && toNumber(right,b)) return a+b; return nullptr; }
-                        case BinaryOperator::Sub: {
-                            double a,b; if (toNumber(left,a) && toNumber(right,b)) return a-b; return nullptr; }
-                        case BinaryOperator::Mul: {
-                            double a,b; if (toNumber(left,a) && toNumber(right,b)) return a*b; return nullptr; }
-                        case BinaryOperator::Div: {
-                            double a,b; if (toNumber(left,a) && toNumber(right,b) && b!=0.0) return a/b; return nullptr; }
-                        default: return nullptr;
-                    }
-                }
-                case ASTNodeType::UnaryOp: {
-                    auto* u = static_cast<UnaryOpExpr*>(expr.get());
-                    auto val = evalExpr(u->operand, ent, env);
-                    switch (u->op) {
-                        case UnaryOperator::Not:   return val.is_boolean() ? nlohmann::json(!val.get<bool>()) : nlohmann::json(false);
-                        case UnaryOperator::Minus: {
-                            if (val.is_number()) return -val.get<double>();
-                            if (val.is_string()) { char* end=nullptr; std::string s=val.get<std::string>(); double d=strtod(s.c_str(), &end); if (end && *end=='\0') return -d; }
-                            return nullptr; }
-                        case UnaryOperator::Plus:  {
-                            if (val.is_number()) return val.get<double>();
-                            if (val.is_string()) { char* end=nullptr; std::string s=val.get<std::string>(); double d=strtod(s.c_str(), &end); if (end && *end=='\0') return d; }
-                            return nullptr; }
-                        default: return nullptr;
-                    }
-                }
-                case ASTNodeType::FunctionCall: {
-                    auto* fc = static_cast<FunctionCallExpr*>(expr.get());
-                    std::string name = fc->name; std::transform(name.begin(), name.end(), name.begin(), ::tolower);
-                    if (name == "bm25") {
-                        // One-arg function: BM25(doc). Returns score for provided document object by _key/_pk
-                        if (fc->arguments.size() != 1) return 0.0;
-                        auto arg = evalExpr(fc->arguments[0], ent, env);
-                        if (arg.is_object()) {
-                            std::string pk;
-                            if (arg.contains("_key") && arg["_key"].is_string()) pk = arg["_key"].get<std::string>();
-                            else if (arg.contains("_pk") && arg["_pk"].is_string()) pk = arg["_pk"].get<std::string>();
-                            if (!pk.empty()) {
-                                auto it = fulltextScoreByPk.find(pk);
-                                if (it != fulltextScoreByPk.end()) return it->second; else return 0.0;
-                            }
-                        }
-                        return 0.0;
-                    }
-                    if (name == "fulltext_score") {
-                        // No-arg function returning score of current entity (requires FULLTEXT filter)
-                        auto it = fulltextScoreByPk.find(ent.getPrimaryKey());
-                        if (it != fulltextScoreByPk.end()) return it->second; else return 0.0; // default 0.0 when not present
-                    }
-                    auto evalArg = [&](size_t i)->nlohmann::json{ return (i<fc->arguments.size()) ? evalExpr(fc->arguments[i], ent, env) : nlohmann::json(); };
-                    if (name == "concat") {
-                        std::string out;
-                        for (size_t i=0;i<fc->arguments.size();++i) {
-                            auto a = evalArg(i);
-                            if (a.is_string()) out += a.get<std::string>();
-                            else if (a.is_number()) out += std::to_string(a.get<double>());
-                            else if (a.is_boolean()) out += (a.get<bool>()?"true":"false");
-                        }
-                        return out;
-                    }
-                    if (name == "substring" || name == "substr") {
-                        auto s = evalArg(0);
-                        auto off = evalArg(1);
-                        auto len = evalArg(2);
-                        if (!s.is_string()) return nullptr;
-                        std::string str = s.get<std::string>();
-                        int start = off.is_number_integer() ? static_cast<int>(off.get<int64_t>()) : 0;
-                        int count = len.is_number_integer() ? static_cast<int>(len.get<int64_t>()) : static_cast<int>(str.size() - std::min<int>(start,(int)str.size()));
-                        if (start < 0) {
-                            start = 0;
-                        }
-                        if (start > (int)str.size()) {
-                            start = (int)str.size();
-                        }
-                        if (count < 0) {
-                            count = 0;
-                        }
-                        if (start + count > (int)str.size()) {
-                            count = (int)str.size() - start;
-                        }
-                        return str.substr(static_cast<size_t>(start), static_cast<size_t>(count));
-                    }
-                    if (name == "length") {
-                        auto s = evalArg(0);
-                        if (s.is_string()) return static_cast<int64_t>(s.get<std::string>().size());
-                        if (s.is_array()) return static_cast<int64_t>(s.size());
-                        if (s.is_object()) return static_cast<int64_t>(s.size());
-                        return 0;
-                    }
-                    if (name == "lower") {
-                        auto s = evalArg(0); if (!s.is_string()) return nullptr; std::string t=s.get<std::string>();
-                        std::transform(t.begin(), t.end(), t.begin(), ::tolower); return t;
-                    }
-                    if (name == "upper") {
-                        auto s = evalArg(0); if (!s.is_string()) return nullptr; std::string t=s.get<std::string>();
-                        std::transform(t.begin(), t.end(), t.begin(), ::toupper); return t;
-                    }
-                    if (name == "to_number") {
-                        auto v = evalArg(0); if (v.is_number()) return v.get<double>(); if (v.is_boolean()) return v.get<bool>()?1.0:0.0; if (v.is_string()) { char* end=nullptr; std::string s=v.get<std::string>(); double d=strtod(s.c_str(), &end); if (end && *end=='\0') return d; }
-                        return nullptr;
-                    }
-                    if (name == "to_string") {
-                        auto v = evalArg(0); if (v.is_string()) return v; if (v.is_number()) return std::to_string(v.get<double>()); if (v.is_boolean()) return v.get<bool>()?"true":"false"; if (v.is_null()) return "null"; return v.dump();
-                    }
-                    if (name == "abs" || name == "ceil" || name == "floor" || name == "round") {
-                        auto v = evalArg(0); if (!v.is_number()) return nullptr; double d = v.get<double>();
-                        if (name == "abs") return std::abs(d);
-                        if (name == "ceil") return std::ceil(d);
-                        if (name == "floor") return std::floor(d);
-                        if (name == "round") return std::llround(d);
-                        return nullptr;
-                    }
-                    if (name == "coalesce") {
-                        for (size_t i=0;i<fc->arguments.size();++i) { auto a = evalArg(i); if (!a.is_null()) return a; }
-                        return nullptr;
-                    }
-                    // Unsupported function in MVP eval
-                    return nullptr;
-                }
-                case ASTNodeType::ObjectConstruct: {
-                    auto* oc = static_cast<ObjectConstructExpr*>(expr.get());
-                    nlohmann::json obj = nlohmann::json::object();
-                    for (const auto& kv : oc->fields) obj[kv.first] = evalExpr(kv.second, ent, env);
-                    return obj; }
-                case ASTNodeType::ArrayLiteral: {
-                    auto* ar = static_cast<ArrayLiteralExpr*>(expr.get());
-                    nlohmann::json arr = nlohmann::json::array();
-                    for (const auto& el : ar->elements) arr.push_back(evalExpr(el, ent, env));
-                    return arr; }
-                default:
-                    return nullptr;
-            }
-        };
-
-        // Decide if we can fast-path return of the loop variable
-        bool simpleReturnLoopVar = false;
-        if (parse_result.query->return_node && parse_result.query->return_node->expression) {
-            if (auto* v = dynamic_cast<VariableExpr*>(parse_result.query->return_node->expression.get())) {
-                simpleReturnLoopVar = (v->name == loopVar) && (parse_result.query->let_nodes.empty());
-            }
-        }
-
-        json entities = json::array();
-        if (simpleReturnLoopVar) {
-            for (const auto& e : sliced) entities.push_back(e.toJson());
-        } else {
-            for (const auto& e : sliced) {
-                // Build LET environment per row
-                std::unordered_map<std::string, nlohmann::json> env;
-                for (const auto& ln : parse_result.query->let_nodes) {
-                    // Only allow Literal, FieldAccess and Variable
-                    auto val = evalExpr(ln.expression, e, env);
-                    env[ln.variable] = std::move(val);
-                }
-                // Evaluate RETURN expression; if missing, default to loop var entity
-                if (parse_result.query->return_node && parse_result.query->return_node->expression) {
-                    auto out = evalExpr(parse_result.query->return_node->expression, e, env);
-                    entities.push_back(std::move(out));
-                } else {
-                    entities.push_back(e.toJson());
-                }
-            }
-        }
-        
-        returnSpan.setStatus(true);
-        
-        json response_body;
-        
-        if (use_cursor) {
-            // Cursor-basierte Antwort wurde nach Engine-Paginierung erstellt
-            themis::utils::PaginatedResponse paged;
-            // Bestimme angeforderte Seitengr��e
-            size_t requested_count = parse_result.query && parse_result.query->limit 
-                ? static_cast<size_t>(std::max<int64_t>(1, parse_result.query->limit->count))
-                : 1000;
-
-            bool has_more = false;
-            if (sliced.size() > requested_count) {
-                has_more = true;
-                // Trenne das +1 Element ab (nur f�r has_more Erkennung)
-                sliced.resize(requested_count);
-            }
-
-            // Serialize final page
-            json page_items = json::array();
-            for (const auto& e : sliced) page_items.push_back(e.toJson());
-
-            paged.items = std::move(page_items);
-            paged.batch_size = sliced.size();
-            paged.has_more = has_more;
-            if (has_more && !sliced.empty()) {
-                paged.next_cursor = themis::utils::Cursor::encode(sliced.back().getPrimaryKey(), table);
-            }
-            response_body = paged.toJSON();
-        } else {
-            // Traditional response format
-            response_body = {
-                {"table", table},
-                {"count", sliced.size()},
-                {"entities", entities}
-            };
-            // Provide "result" alias for compatibility
-            try { response_body["result"] = response_body["entities"]; } catch (...) { /* ignore */ }
-        }
-        
-        if (explain) {
-            response_body["query"] = aql_query;
-            response_body["ast"] = parse_result.query->toJSON();
-            if (!plan_json.is_null()) {
-                // Markiere, wenn LET-Filter vor der Übersetzung extrahiert wurden (MVP-Sonderpfad)
-                if (letFilterHandled) {
-                    try { plan_json["let_pre_extracted"] = true; } catch (...) { /* noop */ }
-                }
-                response_body["plan"] = plan_json;
-            }
-        }
-        
-    span.setAttribute("aql.result_count", static_cast<int64_t>(sliced.size()));
-    span.setStatus(true);
-    auto final_res = makeResponse(http::status::ok, response_body.dump(), req);
-        // Record page fetch time histogram for cursor-based pagination
-        if (use_cursor) {
-            auto end = std::chrono::steady_clock::now();
-            auto dur_ms = std::chrono::duration_cast<std::chrono::milliseconds>(end - page_fetch_start);
-            recordPageFetch(dur_ms);
-        }
-        return final_res;
-        
-    } catch (const json::exception& e) {
-        span.recordError("JSON parse error: " + std::string(e.what()));
-    span.setStatus(false);
-        return makeErrorResponse(http::status::bad_request,
-            "Invalid JSON: " + std::string(e.what()), req);
-    }
-}
-
-http::response<http::string_body> HttpServer::handleGraphTraverse(
-    const http::request<http::string_body>& req
-) {
-    auto span = Tracer::startSpan("handleGraphTraverse");
-    span.setAttribute("http.method", "POST");
-    span.setAttribute("http.path", "/graph/traverse");
-    
-    try {
-        auto body_json = json::parse(req.body());
-        
-        if (!body_json.contains("start_vertex") || !body_json.contains("max_depth")) {
-            span.setAttribute("error", "missing_required_fields");
-            span.setStatus(false, "Missing required fields");
-            return makeErrorResponse(http::status::bad_request,
-                "Missing 'start_vertex' or 'max_depth'", req);
-        }
-
-        std::string start_vertex = body_json["start_vertex"];
-        size_t max_depth = body_json["max_depth"];
-        
-        span.setAttribute("graph.start_vertex", start_vertex);
-        span.setAttribute("graph.max_depth", static_cast<int64_t>(max_depth));
-
-        // Perform BFS traversal
-        auto [status, visited] = graph_index_->bfs(start_vertex, static_cast<int>(max_depth));
-
-        if (!status.ok) {
-            span.setAttribute("error", "traversal_failed");
-            span.setStatus(false, status.message);
-            span.setStatus(false);
-            return makeErrorResponse(http::status::internal_server_error,
-                "Traversal failed", req);
-        }
-        
-        span.setAttribute("graph.visited_count", static_cast<int64_t>(visited.size()));
-    span.setStatus(true);
-
-        json response = {
-            {"start_vertex", start_vertex},
-            {"max_depth", max_depth},
-            {"visited_count", visited.size()},
-            {"visited", visited}
-        };
-        return makeResponse(http::status::ok, response.dump(), req);
-
-    } catch (const json::exception& e) {
-        span.recordError("JSON parse error: " + std::string(e.what()));
-    span.setStatus(false);
-        return makeErrorResponse(http::status::bad_request,
-            "Invalid JSON: " + std::string(e.what()), req);
-    } catch (const std::exception& e) {
-        span.recordError(e.what());
-    span.setStatus(false);
-        THEMIS_ERROR("Graph traverse error: {}", e.what());
-        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
-    }
-}
-
-http::response<http::string_body> HttpServer::handleVectorSearch(
-    const http::request<http::string_body>& req
-) {
-    if (auth_) {
-        std::string path_only = std::string(req.target());
-        auto qpos = path_only.find('?');
-        if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
-        if (auto resp = requireAccess(req, "data:read", "vector.search", path_only)) return *resp;
-    }
-    auto span = Tracer::startSpan("handleVectorSearch");
-    span.setAttribute("http.method", "POST");
-    span.setAttribute("http.path", "/vector/search");
-    
-    try {
-        // Governance enforcement: block ANN for certain classifications in enforce mode
-        auto to_lower = [](std::string s){ for (auto& c : s) c = static_cast<char>(::tolower(static_cast<unsigned char>(c))); return s; };
-        std::string classification;
-        std::string mode = "observe";
-        for (const auto& h : req) {
-            auto name = h.name_string();
-            if (beast::iequals(name, "X-Classification")) classification = to_lower(std::string(h.value()));
-            else if (beast::iequals(name, "X-Governance-Mode")) mode = to_lower(std::string(h.value()));
-        }
-        if (mode == "enforce") {
-            if (classification == "geheim" || classification == "streng-geheim") {
-                nlohmann::json j = {{"error","policy_denied"},{"message","ANN blocked by classification"}};
-                auto res = makeResponse(http::status::forbidden, j.dump(), req);
-                return res;
-            }
-        }
-
-        auto body_json = json::parse(req.body());
-        
-        // Validate required fields
-        if (!body_json.contains("vector")) {
-            span.setAttribute("error", "missing_vector_field");
-            span.setStatus(false, "Missing vector field");
-            return makeErrorResponse(http::status::bad_request,
-                "Missing required field: vector", req);
-        }
-        
-        // Parse query vector
-        std::vector<float> queryVector;
-        if (body_json["vector"].is_array()) {
-            for (const auto& val : body_json["vector"]) {
-                if (val.is_number()) {
-                    queryVector.push_back(val.get<float>());
-                } else {
-                    span.setStatus(false, "Invalid vector element");
-                    return makeErrorResponse(http::status::bad_request,
-                        "Vector elements must be numbers", req);
-                }
-            }
-        } else {
-            span.setStatus(false, "Vector must be array");
-            return makeErrorResponse(http::status::bad_request,
-                "Field 'vector' must be an array", req);
-        }
-        
-        // Parse k (default: 10)
-        size_t k = body_json.value("k", 10);
-            span.setAttribute("vector.k", static_cast<int64_t>(k));
-            span.setAttribute("vector.dimension", static_cast<int64_t>(queryVector.size()));
-        
-    if (k == 0) {
-        span.setAttribute("error", "invalid_k_value");
-        span.setStatus(false, "K must be greater than 0");
-            return makeErrorResponse(http::status::bad_request,
-                "Field 'k' must be greater than 0", req);
-        }
-        
-        // Validate dimension
-        int expectedDim = vector_index_->getDimension();
-        if (expectedDim > 0 && static_cast<int>(queryVector.size()) != expectedDim) {
-            span.setStatus(false, "Dimension mismatch");
-            return makeErrorResponse(http::status::bad_request,
-                "Vector dimension mismatch: expected " + std::to_string(expectedDim) +
-                ", got " + std::to_string(queryVector.size()), req);
-        }
-        
-        // Optional cursor-based pagination for vector search
-        bool use_cursor = body_json.value("use_cursor", false);
-        size_t offset = 0;
-        if (use_cursor && body_json.contains("cursor")) {
-            try {
-                // Einfaches Cursor-Format: numerischer Offset als String
-                std::string cur = body_json["cursor"].get<std::string>();
-                offset = static_cast<size_t>(std::stoull(cur));
-            } catch (...) {
-                offset = 0;
-            }
-        }
-
-        size_t want_k = use_cursor ? (k + offset + 1) : k;
-
-        // Perform k-NN search (ggf. mit erweitertem k für Pagination)
-        auto [status, results] = vector_index_->searchKnn(queryVector, want_k);
-        
-        if (!status.ok) {
-            span.setStatus(false, status.message);
-            return makeErrorResponse(http::status::internal_server_error,
-                "Vector search failed: " + status.message, req);
-        }
-        
-        if (use_cursor) {
-            // Slice [offset, offset+k) und Cursor-Felder setzen
-            json items = json::array();
-            size_t start = std::min(offset, results.size());
-            size_t end = std::min(results.size(), start + k);
-            for (size_t i = start; i < end; ++i) {
-                items.push_back({{"pk", results[i].pk}, {"distance", results[i].distance}});
-            }
-            bool has_more = results.size() > end;
-            json response = {
-                {"items", items},
-                {"batch_size", end - start},
-                {"has_more", has_more}
-            };
-            if (has_more) response["next_cursor"] = std::to_string(end);
-            span.setAttribute("vector.results_count", static_cast<int64_t>(end - start));
-            span.setStatus(true);
-            return makeResponse(http::status::ok, response.dump(), req);
-        } else {
-            // Legacy Format
-            json resultJson = json::array();
-            for (const auto& result : results) {
-                resultJson.push_back({{"pk", result.pk}, {"distance", result.distance}});
-            }
-            json response = {{"results", resultJson}, {"k", k}, {"count", results.size()}};
-            span.setAttribute("vector.results_count", static_cast<int64_t>(results.size()));
-            span.setStatus(true);
-            return makeResponse(http::status::ok, response.dump(), req);
-        }
-
-    } catch (const json::exception& e) {
-        span.setStatus(false, e.what());
-        return makeErrorResponse(http::status::bad_request,
-            "Invalid JSON: " + std::string(e.what()), req);
-    } catch (const std::exception& e) {
-        span.setStatus(false, e.what());
-        THEMIS_ERROR("Vector search error: {}", e.what());
-        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
-    }
-}
-
-http::response<http::string_body> HttpServer::handleVectorIndexSave(
-    const http::request<http::string_body>& req
-) {
-    try {
-        auto body_json = json::parse(req.body());
-        
-        // Optional: directory parameter, default to "./data/vector_index"
-        std::string directory = body_json.value("directory", "./data/vector_index");
-        
-        auto status = vector_index_->saveIndex(directory);
-        
-        if (!status.ok) {
-            return makeErrorResponse(http::status::internal_server_error,
-                "Failed to save index: " + status.message, req);
-        }
-        
-        json response = {
-            {"message", "Vector index saved successfully"},
-            {"directory", directory}
-        };
-        return makeResponse(http::status::ok, response.dump(), req);
-
-    } catch (const json::exception& e) {
-        return makeErrorResponse(http::status::bad_request,
-            "Invalid JSON: " + std::string(e.what()), req);
-    } catch (const std::exception& e) {
-        THEMIS_ERROR("Vector index save error: {}", e.what());
-        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
-    }
-}
-
-http::response<http::string_body> HttpServer::handleVectorIndexLoad(
-    const http::request<http::string_body>& req
-) {
-    try {
-        auto body_json = json::parse(req.body());
-        
-        // Required: directory parameter
-        if (!body_json.contains("directory")) {
-            return makeErrorResponse(http::status::bad_request,
-                "Missing required field: directory", req);
-        }
-        
-        std::string directory = body_json["directory"];
-        
-        auto status = vector_index_->loadIndex(directory);
-        
-        if (!status.ok) {
-            return makeErrorResponse(http::status::internal_server_error,
-                "Failed to load index: " + status.message, req);
-        }
-        
-        json response = {
-            {"message", "Vector index loaded successfully"},
-            {"directory", directory}
-        };
-        return makeResponse(http::status::ok, response.dump(), req);
-
-    } catch (const json::exception& e) {
-        return makeErrorResponse(http::status::bad_request,
-            "Invalid JSON: " + std::string(e.what()), req);
-    } catch (const std::exception& e) {
-        THEMIS_ERROR("Vector index load error: {}", e.what());
-        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
-    }
-}
-
-http::response<http::string_body> HttpServer::handleVectorIndexConfigGet(
-    const http::request<http::string_body>& req
-) {
-    try {
-        std::string metricStr;
-        if (vector_index_->getMetric() == themis::VectorIndexManager::Metric::L2) {
-            metricStr = "L2";
-        } else if (vector_index_->getMetric() == themis::VectorIndexManager::Metric::DOT) {
-            metricStr = "DOT";
-        } else {
-            metricStr = "COSINE";
-        }
-        
-        json response = {
-            {"objectName", vector_index_->getObjectName()},
-            {"dimension", vector_index_->getDimension()},
-            {"metric", metricStr},
-            {"efSearch", vector_index_->getEfSearch()},
-            {"M", vector_index_->getM()},
-            {"efConstruction", vector_index_->getEfConstruction()},
-            {"hnswEnabled", vector_index_->isHnswEnabled()}
-        };
-        return makeResponse(http::status::ok, response.dump(), req);
-
-    } catch (const std::exception& e) {
-        THEMIS_ERROR("Vector config get error: {}", e.what());
-        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
-    }
-}
-
-http::response<http::string_body> HttpServer::handleVectorIndexConfigPut(
-    const http::request<http::string_body>& req
-) {
-    try {
-        auto body_json = json::parse(req.body());
-        
-        // Hot-update efSearch
-        if (body_json.contains("efSearch")) {
-            int efSearch = body_json["efSearch"];
-            if (efSearch < 1 || efSearch > 10000) {
-                return makeErrorResponse(http::status::bad_request,
-                    "efSearch must be between 1 and 10000", req);
-            }
-            
-            auto status = vector_index_->setEfSearch(efSearch);
-            if (!status.ok) {
-                return makeErrorResponse(http::status::internal_server_error,
-                    "Failed to set efSearch: " + status.message, req);
-            }
-        }
-        
-        json response = {
-            {"message", "Vector index configuration updated"},
-            {"updated_fields", body_json}
-        };
-        return makeResponse(http::status::ok, response.dump(), req);
-
-    } catch (const json::exception& e) {
-        return makeErrorResponse(http::status::bad_request,
-            "Invalid JSON: " + std::string(e.what()), req);
-    } catch (const std::exception& e) {
-        THEMIS_ERROR("Vector config update error: {}", e.what());
-        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
-    }
-}
-
-http::response<http::string_body> HttpServer::handleVectorIndexStats(
-    const http::request<http::string_body>& req
-) {
-    try {
-        std::string metricStr;
-        if (vector_index_->getMetric() == themis::VectorIndexManager::Metric::L2) {
-            metricStr = "L2";
-        } else if (vector_index_->getMetric() == themis::VectorIndexManager::Metric::DOT) {
-            metricStr = "DOT";
-        } else {
-            metricStr = "COSINE";
-        }
-        
-        json response = {
-            {"objectName", vector_index_->getObjectName()},
-            {"dimension", vector_index_->getDimension()},
-            {"metric", metricStr},
-            {"vectorCount", vector_index_->getVectorCount()},
-            {"efSearch", vector_index_->getEfSearch()},
-            {"M", vector_index_->getM()},
-            {"efConstruction", vector_index_->getEfConstruction()},
-            {"hnswEnabled", vector_index_->isHnswEnabled()}
-        };
-        return makeResponse(http::status::ok, response.dump(), req);
-
-    } catch (const std::exception& e) {
-        THEMIS_ERROR("Vector stats error: {}", e.what());
-        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
-    }
-}
-
-http::response<http::string_body> HttpServer::handleVectorBatchInsert(
-    const http::request<http::string_body>& req
-) {
-    if (auth_) {
-        std::string path_only = std::string(req.target());
-        auto qpos = path_only.find('?');
-        if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
-        if (auto resp = requireAccess(req, "data:write", "vector.write", path_only)) return *resp;
-    }
-    auto span = Tracer::startSpan("handleVectorBatchInsert");
-    span.setAttribute("http.method", "POST");
-    span.setAttribute("http.path", "/vector/batch_insert");
-
-    try {
-        auto body = json::parse(req.body());
-
-        if (!body.contains("items") || !body["items"].is_array()) {
-            span.setStatus(false, "missing_items");
-            return makeErrorResponse(http::status::bad_request, "Missing required field: items (array)", req);
-        }
-
-        std::string vector_field = body.value("vector_field", std::string("embedding"));
-        std::string object_name = vector_index_->getObjectName();
-        int configured_dim = vector_index_->getDimension();
-        size_t inserted = 0;
-        size_t errors = 0;
-
-        // Optionale Auto-Init falls noch nicht konfiguriert
-        if (configured_dim <= 0) {
-            // Dimension aus dem ersten Element ableiten
-            for (const auto& it : body["items"]) {
-                if (it.contains("vector") && it["vector"].is_array()) {
-                    int dim = static_cast<int>(it["vector"].size());
-                    if (dim > 0) {
-                        auto st = vector_index_->init("vectors", dim, themis::VectorIndexManager::Metric::COSINE);
-                        if (!st.ok) {
-                            span.setStatus(false, st.message);
-                            return makeErrorResponse(http::status::internal_server_error, std::string("Failed to init vector index: ") + st.message, req);
-                        }
-                        configured_dim = dim;
-                        object_name = vector_index_->getObjectName();
-                    }
-                    break;
-                }
-            }
-            if (configured_dim <= 0) {
-                span.setStatus(false, "cannot_infer_dim");
-                return makeErrorResponse(http::status::bad_request, "Cannot infer dimension from items", req);
-            }
-        }
-
-        // Use a single WriteBatch for higher throughput
-        // Load optional encryption schema once (for vector metadata encryption)
-        json vector_enc_cfg;
-        bool vector_enc_enabled = false;
-        std::vector<std::string> vector_enc_fields;
-        try {
-            if (auto schema_bytes = storage_->get("config:encryption_schema")) {
-                std::string s(schema_bytes->begin(), schema_bytes->end());
-                auto schema_json = json::parse(s);
-                if (schema_json.contains("collections") && schema_json["collections"].is_object()) {
-                    // Collection name: use object_name resolved after possible auto-init (e.g. "vectors" or custom)
-                    if (schema_json["collections"].contains(object_name)) {
-                        auto coll = schema_json["collections"][object_name];
-                        if (coll.contains("encryption") && coll["encryption"].is_object()) {
-                            auto ecfg = coll["encryption"];
-                            vector_enc_enabled = ecfg.value("enabled", false);
-                            if (ecfg.contains("fields") && ecfg["fields"].is_array()) {
-                                for (const auto& f : ecfg["fields"]) if (f.is_string()) vector_enc_fields.push_back(f.get<std::string>());
-                            }
-                        }
-                        // Backward-compatible schema: { collections: { name: { fields: { fld: { encrypt: true } } } } }
-                        if (!vector_enc_enabled && coll.contains("fields") && coll["fields"].is_object()) {
-                            for (auto itf = coll["fields"].begin(); itf != coll["fields"].end(); ++itf) {
-                                try {
-                                    if (itf.value().is_object() && itf.value().value("encrypt", false)) {
-                                        vector_enc_fields.push_back(itf.key());
-                                    }
-                                } catch (...) { /* ignore */ }
-                            }
-                            vector_enc_enabled = !vector_enc_fields.empty();
-                        }
-                    }
-                }
-            }
-        } catch (...) {
-            vector_enc_enabled = false; // fail-safe
-        }
-
-        // Extract auth context for user-based HKDF (salt = user_id) if encryption active
-        std::string enc_user_ctx;
-        if (vector_enc_enabled) {
-            auto auth_ctx = extractAuthContext(req);
-            enc_user_ctx = auth_ctx.user_id.empty() ? "anonymous" : auth_ctx.user_id;
-        }
-
-        auto batch = storage_->createWriteBatch();
-        for (const auto& it : body["items"]) {
-            try {
-                if (!it.contains("pk") || !it["pk"].is_string()) { ++errors; continue; }
-                if (!it.contains("vector") || !it["vector"].is_array()) { ++errors; continue; }
-
-                std::string pk = it["pk"].get<std::string>();
-                std::vector<float> vec;
-                vec.reserve(it["vector"].size());
-                for (const auto& v : it["vector"]) {
-                    if (!v.is_number()) { vec.clear(); break; }
-                    vec.push_back(v.get<float>());
-                }
-                if (vec.empty() || static_cast<int>(vec.size()) != configured_dim) { ++errors; continue; }
-
-                // Build entity
-                BaseEntity e(pk);
-                e.setField(vector_field, vec);
-                if (it.contains("fields") && it["fields"].is_object()) {
-                    for (auto fit = it["fields"].begin(); fit != it["fields"].end(); ++fit) {
-                        const auto& val = fit.value();
-                        const std::string key = fit.key();
-                        if (val.is_string()) e.setField(key, val.get<std::string>());
-                        else if (val.is_number_integer()) e.setField(key, static_cast<int64_t>(val.get<int64_t>()));
-                        else if (val.is_number_float()) e.setField(key, val.get<double>());
-                        else if (val.is_boolean()) e.setField(key, val.get<bool>());
-                    }
-                }
-
-                // Vector metadata encryption (schema-driven) - do NOT encrypt actual embedding
-                if (vector_enc_enabled && !vector_enc_fields.empty() && field_encryption_) {
-                    for (const auto& mf : vector_enc_fields) {
-                        if (mf == vector_field) continue; // never encrypt embedding itself
-                        if (!e.hasField(mf)) continue;
-                        auto valOpt = e.getField(mf);
-                        if (!valOpt.has_value()) continue;
-                        // Serialize value to string (reuse logic similar to handlePutEntity for primitives)
-                        std::string plain_str;
-                        const auto& v = *valOpt;
-                        if (std::holds_alternative<std::string>(v)) plain_str = std::get<std::string>(v);
-                        else if (std::holds_alternative<int64_t>(v)) plain_str = std::to_string(std::get<int64_t>(v));
-                        else if (std::holds_alternative<double>(v)) plain_str = std::to_string(std::get<double>(v));
-                        else if (std::holds_alternative<bool>(v)) plain_str = std::get<bool>(v) ? "true" : "false";
-                        else {
-                            // skip unsupported complex types in metadata for now
-                            continue;
-                        }
-                        try {
-                            // Derive field key: HKDF(DEK, user_id, "field:"+mf)
-                            auto dek = key_provider_->getKey("dek");
-                            std::vector<uint8_t> salt;
-                            if (!enc_user_ctx.empty()) salt.assign(enc_user_ctx.begin(), enc_user_ctx.end());
-                            std::string info = std::string("field:") + mf;
-                            auto raw_key = utils::HKDFHelper::derive(dek, salt, info, 32);
-                            auto blob = field_encryption_->encryptWithKey(plain_str, "vector_meta:" + mf, 1, raw_key);
-                            auto j = blob.toJson();
-                            e.setField(mf + "_encrypted", j.dump());
-                            e.setField(mf + "_enc", true);
-                            // remove plaintext
-                            e.setField(mf, std::monostate{});
-                        } catch (const std::exception& ex) {
-                            THEMIS_WARN("Vector metadata encryption failed for {}: {}", mf, ex.what());
-                        }
-                    }
-                }
-
-                auto st = vector_index_->addEntity(e, *batch, vector_field);
-                if (st.ok) ++inserted; else { ++errors; }
-            } catch (...) {
-                ++errors;
-            }
-        }
-        // Commit once for the whole batch
-        if (!batch->commit()) {
-            span.setStatus(false, "batch_commit_failed");
-            return makeErrorResponse(http::status::internal_server_error, "Vector batch commit failed", req);
-        }
-
-        json response = {
-            {"inserted", inserted},
-            {"errors", errors},
-            {"objectName", vector_index_->getObjectName()},
-            {"dimension", vector_index_->getDimension()}
-        };
-        span.setAttribute("batch.inserted", static_cast<int64_t>(inserted));
-        span.setAttribute("batch.errors", static_cast<int64_t>(errors));
-        span.setStatus(true);
-        return makeResponse(http::status::ok, response.dump(), req);
-
-    } catch (const json::exception& e) {
-        span.setStatus(false, e.what());
-        return makeErrorResponse(http::status::bad_request, std::string("Invalid JSON: ") + e.what(), req);
-    } catch (const std::exception& e) {
-        span.setStatus(false, e.what());
-        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
-    }
-}
-
-http::response<http::string_body> HttpServer::handleVectorDeleteByFilter(
-    const http::request<http::string_body>& req
-) {
-    if (auth_) {
-        std::string path_only = std::string(req.target());
-        auto qpos = path_only.find('?');
-        if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
-        if (auto resp = requireAccess(req, "data:write", "vector.write", path_only)) return *resp;
-    }
-    auto span = Tracer::startSpan("handleVectorDeleteByFilter");
-    span.setAttribute("http.method", "DELETE");
-    span.setAttribute("http.path", "/vector/by-filter");
-
-    try {
-        if (req.body().empty()) {
-            return makeErrorResponse(http::status::bad_request, "Empty body; expected { pks: [...]} or { prefix: '...' }", req);
-        }
-        auto body = json::parse(req.body());
-
-        size_t deleted = 0;
-        if (body.contains("pks") && body["pks"].is_array()) {
-            for (const auto& v : body["pks"]) {
-                if (!v.is_string()) continue;
-                auto st = vector_index_->removeByPk(v.get<std::string>());
-                if (st.ok) ++deleted;
-            }
-            json resp = {{"deleted", deleted}, {"method", "pks"}};
-            span.setAttribute("deleted", static_cast<int64_t>(deleted));
-            span.setStatus(true);
-            return makeResponse(http::status::ok, resp.dump(), req);
-        }
-
-        if (body.contains("prefix") && body["prefix"].is_string()) {
-            std::string prefix = body["prefix"].get<std::string>();
-            // Scan RocksDB for keys starting with objectName:prefix
-            std::string fullPrefix = vector_index_->getObjectName() + ":" + prefix;
-            storage_->scanPrefix(fullPrefix, [&](std::string_view key, std::string_view /*value*/){
-                try {
-                    std::string pk = KeySchema::extractPrimaryKey(key);
-                    auto st = vector_index_->removeByPk(pk);
-                    if (st.ok) ++deleted;
-                } catch (...) {}
-                return true; // continue
-            });
-            json resp = {{"deleted", deleted}, {"method", "prefix"}, {"prefix", prefix}};
-            span.setAttribute("deleted", static_cast<int64_t>(deleted));
-            span.setStatus(true);
-            return makeResponse(http::status::ok, resp.dump(), req);
-        }
-
-        return makeErrorResponse(http::status::bad_request, "Provide either 'pks' array or 'prefix' string", req);
-    } catch (const json::exception& e) {
-        span.setStatus(false, e.what());
-        return makeErrorResponse(http::status::bad_request, std::string("Invalid JSON: ") + e.what(), req);
-    } catch (const std::exception& e) {
-        span.setStatus(false, e.what());
-        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
-    }
-}
-
-// ===================== Admin: Backup & Restore =====================
-
-http::response<http::string_body> HttpServer::handleAdminBackup(
-    const http::request<http::string_body>& req
-) {
-    try {
-        json body = json::parse(req.body());
-        std::string dir = body.value("directory", std::string("./data/backup_") + std::to_string(std::time(nullptr)));
-        bool ok = storage_->createCheckpoint(dir);
-        if (!ok) {
-            return makeErrorResponse(http::status::internal_server_error, std::string("Failed to create checkpoint at ") + dir, req);
-        }
-        json resp = {{"status", "ok"}, {"directory", dir}};
-        return makeResponse(http::status::ok, resp.dump(), req);
-    } catch (const json::exception& e) {
-        return makeErrorResponse(http::status::bad_request, std::string("Invalid JSON: ") + e.what(), req);
-    } catch (const std::exception& e) {
-        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
-    }
-}
-
-http::response<http::string_body> HttpServer::handleAdminRestore(
-    const http::request<http::string_body>& req
-) {
-    try {
-        json body = json::parse(req.body());
-        if (!body.contains("directory") || !body["directory"].is_string()) {
-            return makeErrorResponse(http::status::bad_request, "Missing required field: directory", req);
-        }
-        std::string dir = body["directory"].get<std::string>();
-        bool ok = storage_->restoreFromCheckpoint(dir);
-        if (!ok) {
-            return makeErrorResponse(http::status::internal_server_error, std::string("Failed to restore from checkpoint ") + dir, req);
-        }
-        json resp = {{"status", "ok"}, {"restored_from", dir}};
-        return makeResponse(http::status::ok, resp.dump(), req);
-    } catch (const json::exception& e) {
-        return makeErrorResponse(http::status::bad_request, std::string("Invalid JSON: ") + e.what(), req);
-    } catch (const std::exception& e) {
-        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
-    }
-}
-
-http::response<http::string_body> HttpServer::handleTransaction(
-    const http::request<http::string_body>& req
-) {
-    try {
-        auto body_json = json::parse(req.body());
-        
-        // TODO: Implement transaction endpoint
-        json response = {
-            {"message", "Transaction endpoint not yet fully implemented"},
-            {"request", body_json}
-        };
-        return makeResponse(http::status::not_implemented, response.dump(), req);
-
-    } catch (const json::exception& e) {
-        return makeErrorResponse(http::status::bad_request,
-            "Invalid JSON: " + std::string(e.what()), req);
-    }
-}
-
-// ===================== Content API =====================
-
-http::response<http::string_body> HttpServer::handleContentImport(
-    const http::request<http::string_body>& req
-) {
-    try {
-        auto body = json::parse(req.body());
-        
-        // Extract optional blob (can be base64 or raw string)
-        std::optional<std::string> blob;
-        if (body.contains("blob")) {
-            blob = body["blob"].get<std::string>();
-        } else if (body.contains("blob_base64")) {
-            // Simple base64 decode (minimal implementation - consider using proper library)
-            blob = body["blob_base64"].get<std::string>(); // TODO: actual base64 decode
-        }
-        
-        // Call ContentManager::importContent with structured JSON spec
-    auto auth_ctx = extractAuthContext(req);
-    std::string user_ctx = auth_ctx.user_id;
-    auto status = content_manager_->importContent(body, blob, user_ctx);
-        
-        if (!status.ok) {
-            return makeErrorResponse(http::status::internal_server_error, status.message, req);
-        }
-        
-        // Return success response with content_id from the spec
-        json response_json = {{"status", "success"}};
-        if (body.contains("content") && body["content"].contains("id")) {
-            response_json["content_id"] = body["content"]["id"].get<std::string>();
-        }
-        
-        return makeResponse(http::status::ok, response_json.dump(), req);
-        
-    } catch (const json::exception& e) {
-        return makeErrorResponse(http::status::bad_request, std::string("Invalid JSON: ") + e.what(), req);
-    } catch (const std::exception& e) {
-        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
-    }
-}
+// ============================================================================
+// Entity Handlers (handleGetEntity, handlePutEntity, handleDeleteEntity, handleEntitiesBatch)
+// These handlers (~980 lines) have been extracted to EntityApiHandler (entity_api_)
+// and are no longer part of HttpServer. See:
+// - include/server/entity_api_handler.h
+// - src/server/entity_api_handler.cpp
+// Routing delegated at lines 1951-1963 in this file.
+// ============================================================================
 
 http::response<http::string_body> HttpServer::handleGetContent(
     const http::request<http::string_body>& req
@@ -10608,69 +8853,6 @@ http::response<http::string_body> HttpServer::handleEncryptionSchemaPut(
     }
 }
 
-// ===================== Policies: Ranger Import/Export =====================
-
-http::response<http::string_body> HttpServer::handlePoliciesImportRanger(
-    const http::request<http::string_body>& req
-) {
-    // Require admin scope + policy action
-    if (auth_ && auth_->isEnabled()) {
-        std::string path_only = std::string(req.target());
-        auto qpos = path_only.find('?');
-        if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
-        if (auto resp = requireAccess(req, "admin", "admin", path_only)) return *resp;
-    }
-    if (!ranger_client_) {
-        return makeErrorResponse(http::status::service_unavailable, "Ranger client not configured", req);
-    }
-    try {
-        std::string err;
-        auto jsonOpt = ranger_client_->fetchPolicies(&err);
-        if (!jsonOpt) {
-            return makeErrorResponse(http::status::bad_gateway, std::string("Ranger fetch failed: ") + err, req);
-        }
-        auto internal = themis::server::RangerClient::convertFromRanger(*jsonOpt);
-        if (internal.empty()) {
-            return makeErrorResponse(http::status::bad_request, "No policies converted from Ranger response", req);
-        }
-        if (!policy_engine_) policy_engine_ = std::make_unique<themis::PolicyEngine>();
-        policy_engine_->setPolicies(internal);
-        // Persist to local file
-        std::string save_err;
-        bool saved = policy_engine_->saveToFile("config/policies.json", &save_err);
-        nlohmann::json resp = {
-            {"imported", internal.size()},
-            {"saved", saved}
-        };
-        if (!saved) resp["save_error"] = save_err;
-        return makeResponse(http::status::ok, resp.dump(), req);
-    } catch (const std::exception& e) {
-        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
-    }
-}
-
-http::response<http::string_body> HttpServer::handlePoliciesExportRanger(
-    const http::request<http::string_body>& req
-) {
-    if (auth_ && auth_->isEnabled()) {
-        std::string path_only = std::string(req.target());
-        auto qpos = path_only.find('?');
-        if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
-        if (auto resp = requireAccess(req, "admin", "admin", path_only)) return *resp;
-    }
-    try {
-        if (!policy_engine_) {
-            return makeErrorResponse(http::status::service_unavailable, "Policy engine not initialized", req);
-        }
-        auto list = policy_engine_->listPolicies();
-        std::string service = "themisdb";
-        auto out = themis::server::RangerClient::convertToRanger(list, service);
-        return makeResponse(http::status::ok, out.dump(2), req);
-    } catch (const std::exception& e) {
-        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
-    }
-}
-
 http::response<http::string_body> HttpServer::handleCreateIndex(
     const http::request<http::string_body>& req
 ) {
@@ -10979,6 +9161,51 @@ void HttpServer::applyGovernanceHeaders(
     res.set("X-Themis-Retention-Days", retention_days);
 
     // ------------------------------------------------------------------------
+    // API Versioning Headers (RFC 8594 Sunset + custom API-Version)
+    // ------------------------------------------------------------------------
+    {
+        static const APIVersionManager api_version_mgr;
+
+        // Determine requested version from Accept-Version or API-Version request header
+        std::string version_header;
+        auto av_it = req.find(APIHeaders::ACCEPT_VERSION);
+        if (av_it != req.end()) {
+            version_header = std::string(av_it->value());
+        }
+        auto resolved = api_version_mgr.resolveVersion(version_header);
+        // Emit the resolved (actual) API version used
+        res.set(APIHeaders::API_VERSION, resolved.toString());
+
+        // Emit deprecation headers if the endpoint is scheduled for removal
+        auto dep_info = api_version_mgr.getDeprecationInfo(path_only, resolved);
+        if (dep_info.has_value()) {
+            // RFC 8594: Deprecation header (ISO 8601 date of deprecation)
+            {
+                std::time_t dep_t = std::chrono::system_clock::to_time_t(dep_info->deprecation_date);
+                std::tm dep_tm{};
+                portable_gmtime_r_impl(&dep_t, &dep_tm);
+                char buf[64];
+                std::strftime(buf, sizeof(buf), "%a, %d %b %Y %H:%M:%S GMT", &dep_tm);
+                res.set(APIHeaders::DEPRECATION_WARNING, buf);
+            }
+            // RFC 8594: Sunset header (ISO 8601 date of removal)
+            {
+                std::time_t sun_t = std::chrono::system_clock::to_time_t(dep_info->removal_date);
+                std::tm sun_tm{};
+                portable_gmtime_r_impl(&sun_t, &sun_tm);
+                char buf[64];
+                std::strftime(buf, sizeof(buf), "%a, %d %b %Y %H:%M:%S GMT", &sun_tm);
+                res.set(APIHeaders::SUNSET, buf);
+            }
+            // Link to migration guide if available
+            if (!dep_info->migration_guide_url.empty()) {
+                res.set(APIHeaders::LINK,
+                    "<" + dep_info->migration_guide_url + ">; rel=\"deprecation\"");
+            }
+        }
+    }
+
+    // ------------------------------------------------------------------------
     // Security Headers (global defaults, safe for JSON APIs)
     // ------------------------------------------------------------------------
     res.set("X-Frame-Options", "DENY");
@@ -11024,6 +9251,20 @@ void HttpServer::applyGovernanceHeaders(
             set_cors_common(origin);
         }
     }
+
+    // Echo the request correlation ID on all responses so clients can correlate
+    // log entries with their own request traces.
+    const auto& corr_id = api::TracingMiddleware::currentCorrelationId();
+    if (!corr_id.empty()) {
+        res.set("X-Correlation-ID", corr_id);
+    }
+
+    // ------------------------------------------------------------------------
+    // CDN / Edge Cache headers (Cache-Control, CDN-Cache-Control, ETag, etc.)
+    // Applied after governance so X-Themis-Cache: disabled is already set and
+    // the middleware can honour it.
+    // ------------------------------------------------------------------------
+    cdn_cache_middleware_.apply(req, res);
 }
 
 void HttpServer::recordLatency(std::chrono::microseconds duration) {
@@ -11103,7 +9344,36 @@ void HttpServer::ensurePIIPseudonymizer() {
 HttpServer::Session::Session(tcp::socket socket, HttpServer* server)
     : socket_(std::move(socket))
     , server_(server)
+    , read_timer_(socket_.get_executor())
 {
+    server_->active_connections_.fetch_add(1, std::memory_order_relaxed);
+}
+
+HttpServer::Session::~Session() {
+    server_->active_connections_.fetch_sub(1, std::memory_order_relaxed);
+}
+
+void HttpServer::Session::armReadTimer() {
+    if (server_->config_.request_timeout_ms == 0) return;
+    read_timer_.expires_after(
+        std::chrono::milliseconds(server_->config_.request_timeout_ms)
+    );
+    read_timer_.async_wait([self = shared_from_this()](beast::error_code ec) {
+        if (!ec) {
+            // Timer fired before I/O completed: cancel the pending socket operation
+            THEMIS_WARN("Request read timeout ({}ms) – closing connection",
+                self->server_->config_.request_timeout_ms);
+            beast::error_code close_ec;
+            self->socket_.shutdown(tcp::socket::shutdown_both, close_ec);
+            if (close_ec) THEMIS_DEBUG("Session shutdown on timeout: {}", close_ec.message());
+            self->socket_.close(close_ec);
+            if (close_ec) THEMIS_DEBUG("Session close on timeout: {}", close_ec.message());
+        }
+    });
+}
+
+void HttpServer::Session::cancelReadTimer() {
+    read_timer_.cancel(); // cancels the pending async_wait, if any
 }
 
 void HttpServer::Session::start() {
@@ -11112,6 +9382,7 @@ void HttpServer::Session::start() {
 
 void HttpServer::Session::doRead() {
     request_ = {};
+    armReadTimer();
 
     http::async_read(
         socket_,
@@ -11126,6 +9397,7 @@ void HttpServer::Session::onRead(
     std::size_t bytes_transferred
 ) {
     boost::ignore_unused(bytes_transferred);
+    cancelReadTimer();
 
     if (ec == http::error::end_of_stream) {
         // Client closed connection
@@ -11148,13 +9420,109 @@ void HttpServer::Session::processRequest() {
         // Check for WebSocket upgrade request
         if (server_->config_.enable_websocket && 
             websocket::is_upgrade(request_)) {
+            // Extract path_only for route-specific WebSocket handling.
+            const std::string ws_target(request_.target());
+            const auto ws_qpos = ws_target.find('?');
+            const std::string ws_path = (ws_qpos == std::string::npos)
+                                            ? ws_target
+                                            : ws_target.substr(0, ws_qpos);
+
+            if (api::WsChangeHandler::isChangeStreamPath(ws_path)) {
+                // Dedicated /v2/changes endpoint: validate auth and CDC params
+                // before accepting the WebSocket handshake.
+                api::WsChangeHandler ws_handler(server_->auth_,
+                                                server_->changefeed_.get());
+                const auto decision = ws_handler.validate(request_);
+                if (!decision.should_upgrade) {
+                    THEMIS_WARN("WebSocket /v2/changes rejected ({}): {}",
+                                static_cast<int>(decision.reject_status),
+                                decision.reject_reason);
+                    response_.result(decision.reject_status);
+                    response_.set(http::field::content_type, "application/json");
+                    nlohmann::json err = {{"error", decision.reject_reason}};
+                    response_.body() = err.dump();
+                    response_.prepare_payload();
+                    return;
+                }
+                THEMIS_INFO("WebSocket /v2/changes upgrade accepted "
+                            "(user={}, from_seq={}, prefix='{}')",
+                            decision.user_id, decision.from_sequence,
+                            decision.key_prefix);
+
+                auto ws_session = std::make_shared<WebSocketSession>(
+                    std::move(socket_), server_);
+                ws_session->setRequestPath(ws_path);
+                // Pre-configure CDC subscription from URL parameters for the
+                // legacy /v2/changes protocol only.  The new /v2/cdc/stream
+                // endpoint receives subscriptions via JSON frames after connect.
+                if (ws_path == "/v2/changes") {
+                    ws_session->subscribeToCDC(decision.from_sequence,
+                                               decision.key_prefix);
+                }
+                if (server_->websocket_manager_) {
+                    server_->websocket_manager_->addSession(ws_session);
+                }
+                ws_session->run(std::move(request_));
+                return;
+            }
+
+            // Generic WebSocket upgrade (any path other than /v2/changes)
             THEMIS_INFO("WebSocket upgrade requested from plain HTTP");
+
+            // Validate JWT from the HTTP upgrade Authorization header before
+            // accepting the WebSocket handshake so that auth cannot be bypassed
+            // via the WebSocket upgrade path.
+            std::string ws_auth_token;
+            if (server_->auth_ && server_->auth_->isEnabled()) {
+                auto auth_it = request_.find(http::field::authorization);
+                if (auth_it == request_.end()) {
+                    response_.result(http::status::unauthorized);
+                    response_.set(http::field::www_authenticate, "Bearer realm=\"themis\"");
+                    response_.set(http::field::content_type, "application/json");
+                    response_.keep_alive(false);
+                    response_.body() = R"({"error":"missing_authorization","message":"Missing Authorization header"})";
+                    response_.prepare_payload();
+                    doWrite();
+                    return;
+                }
+                auto token = themis::AuthMiddleware::extractBearerToken(
+                    std::string_view(auth_it->value().data(), auth_it->value().size()));
+                if (!token) {
+                    response_.result(http::status::unauthorized);
+                    response_.set(http::field::content_type, "application/json");
+                    response_.keep_alive(false);
+                    response_.body() = R"({"error":"invalid_authorization","message":"Invalid Authorization header"})";
+                    response_.prepare_payload();
+                    doWrite();
+                    return;
+                }
+                auto ar = server_->auth_->validateToken(*token);
+                if (!ar.authorized) {
+                    response_.result(http::status::forbidden);
+                    response_.set(http::field::content_type, "application/json");
+                    response_.keep_alive(false);
+                    response_.body() = R"({"error":"forbidden","message":"Access denied"})";
+                    response_.prepare_payload();
+                    doWrite();
+                    return;
+                }
+                ws_auth_token = *token;
+            }
             
+            // Capture the request path before moving the request
+            std::string ws_path = std::string(request_.target());
+            auto qs = ws_path.find('?');
+            if (qs != std::string::npos) ws_path = ws_path.substr(0, qs);
+
             // Create WebSocket session and transfer socket ownership
             auto ws_session = std::make_shared<WebSocketSession>(
                 std::move(socket_),
                 server_
             );
+            ws_session->setRequestPath(ws_path);
+            if (!ws_auth_token.empty()) {
+                ws_session->setAuthToken(ws_auth_token);
+            }
             
             // Add to manager
             if (server_->websocket_manager_) {
@@ -11169,6 +9537,24 @@ void HttpServer::Session::processRequest() {
         }
 #endif
         
+        // Rewrite path for tenant-prefixed namespace routing.
+        // When the URL path contains the tenant prefix ("/tenants/{id}/..."),
+        // extract the tenant ID, set it as X-Tenant-ID header (if not already
+        // present), and strip the prefix so the request reaches normal API
+        // handlers.  This makes header-based and path-based routing equivalent.
+        // e.g., /tenants/acme-corp/documents/123  ->  /documents/123
+        //                                             + X-Tenant-ID: acme-corp
+        {
+            const auto rw = themis::TenantManager::instance()
+                                .rewriteTenantPath(request_.target());
+            if (rw.rewritten) {
+                if (request_.find("X-Tenant-ID") == request_.end()) {
+                    request_.set("X-Tenant-ID", rw.tenant_id);
+                }
+                request_.target(rw.effective_path);
+            }
+        }
+
         // Route request to appropriate handler
         response_ = server_->routeRequest(request_);
     } catch (const std::exception& e) {
@@ -11231,7 +9617,36 @@ void HttpServer::Session::onWrite(
 HttpServer::SslSession::SslSession(tcp::socket socket, boost::asio::ssl::context& ssl_ctx, HttpServer* server)
     : stream_(std::move(socket), ssl_ctx)
     , server_(server)
+    , read_timer_(stream_.get_executor())
 {
+    server_->active_connections_.fetch_add(1, std::memory_order_relaxed);
+}
+
+HttpServer::SslSession::~SslSession() {
+    server_->active_connections_.fetch_sub(1, std::memory_order_relaxed);
+}
+
+void HttpServer::SslSession::armReadTimer() {
+    if (server_->config_.request_timeout_ms == 0) return;
+    read_timer_.expires_after(
+        std::chrono::milliseconds(server_->config_.request_timeout_ms)
+    );
+    read_timer_.async_wait([self = shared_from_this()](beast::error_code ec) {
+        if (!ec) {
+            THEMIS_WARN("Request read timeout ({}ms) – closing TLS connection",
+                self->server_->config_.request_timeout_ms);
+            beast::error_code close_ec;
+            self->stream_.lowest_layer().shutdown(tcp::socket::shutdown_both, close_ec);
+            if (close_ec) THEMIS_DEBUG("SslSession shutdown on timeout: {}", close_ec.message());
+            self->stream_.lowest_layer().close(close_ec);
+            if (close_ec) THEMIS_DEBUG("SslSession close on timeout: {}", close_ec.message());
+        }
+    });
+}
+
+void HttpServer::SslSession::cancelReadTimer() {
+    beast::error_code ec;
+    read_timer_.cancel();
 }
 
 void HttpServer::SslSession::start() {
@@ -11239,6 +9654,8 @@ void HttpServer::SslSession::start() {
 }
 
 void HttpServer::SslSession::doHandshake() {
+    // Arm timeout for TLS handshake as well
+    armReadTimer();
     stream_.async_handshake(
         boost::asio::ssl::stream_base::server,
         beast::bind_front_handler(&SslSession::onHandshake, shared_from_this())
@@ -11246,6 +9663,7 @@ void HttpServer::SslSession::doHandshake() {
 }
 
 void HttpServer::SslSession::onHandshake(beast::error_code ec) {
+    cancelReadTimer();
     if (ec) {
         THEMIS_ERROR("TLS handshake error: {}", ec.message());
         return;
@@ -11275,6 +9693,7 @@ void HttpServer::SslSession::onHandshake(beast::error_code ec) {
 
 void HttpServer::SslSession::doRead() {
     request_ = {};
+    armReadTimer();
 
     http::async_read(
         stream_,
@@ -11289,6 +9708,7 @@ void HttpServer::SslSession::onRead(
     std::size_t bytes_transferred
 ) {
     boost::ignore_unused(bytes_transferred);
+    cancelReadTimer();
 
     if (ec == http::error::end_of_stream) {
         doShutdown();
@@ -11309,13 +9729,108 @@ void HttpServer::SslSession::processRequest() {
         // Check for WebSocket upgrade request
         if (server_->config_.enable_websocket && 
             websocket::is_upgrade(request_)) {
+            // Extract path_only for route-specific WebSocket handling.
+            const std::string ws_target(request_.target());
+            const auto ws_qpos = ws_target.find('?');
+            const std::string ws_path = (ws_qpos == std::string::npos)
+                                            ? ws_target
+                                            : ws_target.substr(0, ws_qpos);
+
+            if (api::WsChangeHandler::isChangeStreamPath(ws_path)) {
+                // Dedicated /v2/changes endpoint: validate auth and CDC params
+                // before accepting the WebSocket handshake.
+                api::WsChangeHandler ws_handler(server_->auth_,
+                                                server_->changefeed_.get());
+                const auto decision = ws_handler.validate(request_);
+                if (!decision.should_upgrade) {
+                    THEMIS_WARN("WebSocket /v2/changes (TLS) rejected ({}): {}",
+                                static_cast<int>(decision.reject_status),
+                                decision.reject_reason);
+                    response_.result(decision.reject_status);
+                    response_.set(http::field::content_type, "application/json");
+                    nlohmann::json err = {{"error", decision.reject_reason}};
+                    response_.body() = err.dump();
+                    response_.prepare_payload();
+                    return;
+                }
+                THEMIS_INFO("WebSocket /v2/changes (TLS) upgrade accepted "
+                            "(user={}, from_seq={}, prefix='{}')",
+                            decision.user_id, decision.from_sequence,
+                            decision.key_prefix);
+
+                auto ws_session = std::make_shared<WebSocketSession>(
+                    std::move(stream_), server_);
+                ws_session->setRequestPath(ws_path);
+                // Pre-configure CDC subscription from URL parameters for the
+                // legacy /v2/changes protocol only.  The new /v2/cdc/stream
+                // endpoint receives subscriptions via JSON frames after connect.
+                if (ws_path == "/v2/changes") {
+                    ws_session->subscribeToCDC(decision.from_sequence,
+                                               decision.key_prefix);
+                }
+                if (server_->websocket_manager_) {
+                    server_->websocket_manager_->addSession(ws_session);
+                }
+                ws_session->run(std::move(request_));
+                return;
+            }
+
+            // Generic WebSocket upgrade (any path other than /v2/changes)
             THEMIS_INFO("WebSocket upgrade requested from HTTPS");
+
+            // Validate JWT from the HTTP upgrade Authorization header before
+            // accepting the WebSocket handshake.
+            std::string ws_auth_token;
+            if (server_->auth_ && server_->auth_->isEnabled()) {
+                auto auth_it = request_.find(http::field::authorization);
+                if (auth_it == request_.end()) {
+                    response_.result(http::status::unauthorized);
+                    response_.set(http::field::www_authenticate, "Bearer realm=\"themis\"");
+                    response_.set(http::field::content_type, "application/json");
+                    response_.keep_alive(false);
+                    response_.body() = R"({"error":"missing_authorization","message":"Missing Authorization header"})";
+                    response_.prepare_payload();
+                    doWrite();
+                    return;
+                }
+                auto token = themis::AuthMiddleware::extractBearerToken(
+                    std::string_view(auth_it->value().data(), auth_it->value().size()));
+                if (!token) {
+                    response_.result(http::status::unauthorized);
+                    response_.set(http::field::content_type, "application/json");
+                    response_.keep_alive(false);
+                    response_.body() = R"({"error":"invalid_authorization","message":"Invalid Authorization header"})";
+                    response_.prepare_payload();
+                    doWrite();
+                    return;
+                }
+                auto ar = server_->auth_->validateToken(*token);
+                if (!ar.authorized) {
+                    response_.result(http::status::forbidden);
+                    response_.set(http::field::content_type, "application/json");
+                    response_.keep_alive(false);
+                    response_.body() = R"({"error":"forbidden","message":"Access denied"})";
+                    response_.prepare_payload();
+                    doWrite();
+                    return;
+                }
+                ws_auth_token = *token;
+            }
+
+            // Capture the request path before moving the request
+            std::string ws_path = std::string(request_.target());
+            auto qs = ws_path.find('?');
+            if (qs != std::string::npos) ws_path = ws_path.substr(0, qs);
             
             // Create WebSocket session and transfer SSL stream ownership
             auto ws_session = std::make_shared<WebSocketSession>(
                 std::move(stream_),
                 server_
             );
+            ws_session->setRequestPath(ws_path);
+            if (!ws_auth_token.empty()) {
+                ws_session->setAuthToken(ws_auth_token);
+            }
             
             // Add to manager
             if (server_->websocket_manager_) {
@@ -11330,6 +9845,24 @@ void HttpServer::SslSession::processRequest() {
         }
 #endif
         
+        // Rewrite path for tenant-prefixed namespace routing.
+        // When the URL path contains the tenant prefix ("/tenants/{id}/..."),
+        // extract the tenant ID, set it as X-Tenant-ID header (if not already
+        // present), and strip the prefix so the request reaches normal API
+        // handlers.  This makes header-based and path-based routing equivalent.
+        // e.g., /tenants/acme-corp/documents/123  ->  /documents/123
+        //                                             + X-Tenant-ID: acme-corp
+        {
+            const auto rw = themis::TenantManager::instance()
+                                .rewriteTenantPath(request_.target());
+            if (rw.rewritten) {
+                if (request_.find("X-Tenant-ID") == request_.end()) {
+                    request_.set("X-Tenant-ID", rw.tenant_id);
+                }
+                request_.target(rw.effective_path);
+            }
+        }
+
         // Route request to appropriate handler
         response_ = server_->routeRequest(request_);
         
@@ -11566,495 +10099,11 @@ http::response<http::string_body> HttpServer::handleIndexReindex(
     }
 }
 
-// ===== Transaction Endpoints =====
-
-http::response<http::string_body> HttpServer::handleTransactionBegin(
-    const http::request<http::string_body>& req
-) {
-    try {
-        // Parse optional isolation level from request body
-        IsolationLevel isolation = IsolationLevel::ReadCommitted;
-        
-        if (!req.body().empty()) {
-            json body = json::parse(req.body());
-            if (body.contains("isolation")) {
-                std::string isolation_str = body["isolation"];
-                if (isolation_str == "snapshot") {
-                    isolation = IsolationLevel::Snapshot;
-                } else if (isolation_str != "read_committed") {
-                    return makeErrorResponse(http::status::bad_request, 
-                        "Invalid isolation level. Use 'read_committed' or 'snapshot'", req);
-                }
-            }
-        }
-        
-        auto txn_id = tx_manager_->beginTransaction(isolation);
-        
-        json response = {
-            {"transaction_id", txn_id},
-            {"isolation", isolation == IsolationLevel::ReadCommitted ? "read_committed" : "snapshot"},
-            {"status", "active"}
-        };
-        
-        return makeResponse(http::status::ok, response.dump(2), req);
-    } catch (const json::exception& e) {
-        return makeErrorResponse(http::status::bad_request, "Invalid JSON: " + std::string(e.what()), req);
-    } catch (const std::exception& e) {
-        return makeErrorResponse(http::status::internal_server_error, "Error: " + std::string(e.what()), req);
-    }
-}
-
-http::response<http::string_body> HttpServer::handleTransactionCommit(
-    const http::request<http::string_body>& req
-) {
-    try {
-        json body = json::parse(req.body());
-        
-        if (!body.contains("transaction_id")) {
-            return makeErrorResponse(http::status::bad_request, "Missing 'transaction_id'", req);
-        }
-        
-        TransactionManager::TransactionId txn_id = body["transaction_id"];
-        
-        auto status = tx_manager_->commitTransaction(txn_id);
-        
-        if (status.ok) {
-            json response = {
-                {"transaction_id", txn_id},
-                {"status", "committed"},
-                {"message", "Transaction committed successfully"}
-            };
-            return makeResponse(http::status::ok, response.dump(2), req);
-        } else {
-            json response = {
-                {"transaction_id", txn_id},
-                {"status", "failed"},
-                {"error", status.message}
-            };
-            return makeResponse(http::status::internal_server_error, response.dump(2), req);
-        }
-    } catch (const json::exception& e) {
-        return makeErrorResponse(http::status::bad_request, "Invalid JSON: " + std::string(e.what()), req);
-    } catch (const std::exception& e) {
-        return makeErrorResponse(http::status::internal_server_error, "Error: " + std::string(e.what()), req);
-    }
-}
-
-http::response<http::string_body> HttpServer::handleTransactionRollback(
-    const http::request<http::string_body>& req
-) {
-    try {
-        json body = json::parse(req.body());
-        
-        if (!body.contains("transaction_id")) {
-            return makeErrorResponse(http::status::bad_request, "Missing 'transaction_id'", req);
-        }
-        
-        TransactionManager::TransactionId txn_id = body["transaction_id"];
-        
-        tx_manager_->rollbackTransaction(txn_id);
-        
-        json response = {
-            {"transaction_id", txn_id},
-            {"status", "rolled_back"},
-            {"message", "Transaction rolled back successfully"}
-        };
-        
-        return makeResponse(http::status::ok, response.dump(2), req);
-    } catch (const json::exception& e) {
-        return makeErrorResponse(http::status::bad_request, "Invalid JSON: " + std::string(e.what()), req);
-    } catch (const std::exception& e) {
-        return makeErrorResponse(http::status::internal_server_error, "Error: " + std::string(e.what()), req);
-    }
-}
-
-http::response<http::string_body> HttpServer::handleTransactionStats(
-    const http::request<http::string_body>& req
-) {
-    try {
-        auto stats = tx_manager_->getStats();
-        
-        json response = {
-            {"total_begun", stats.total_begun},
-            {"total_committed", stats.total_committed},
-            {"total_aborted", stats.total_aborted},
-            {"active_count", stats.active_count},
-            {"avg_duration_ms", stats.avg_duration_ms},
-            {"max_duration_ms", stats.max_duration_ms},
-            {"success_rate", stats.total_begun > 0 
-                ? static_cast<double>(stats.total_committed) / stats.total_begun 
-                : 0.0}
-        };
-        
-        return makeResponse(http::status::ok, response.dump(2), req);
-    } catch (const std::exception& e) {
-        return makeErrorResponse(http::status::internal_server_error, "Error: " + std::string(e.what()), req);
-    }
-}
-
 // ============================================================================
 // Sprint B: Time-Series Endpoints
 // ============================================================================
-
-http::response<http::string_body> HttpServer::handleTimeSeriesPut(
-    const http::request<http::string_body>& req
-) {
-    auto span = Tracer::startSpan("handleTimeSeriesPut");
-    
-    if (!timeseries_) {
-        span.setStatus(false, "feature_disabled");
-        return makeErrorResponse(http::status::not_implemented, "Time-series feature not enabled", req);
-    }
-    
-    try {
-        json body = json::parse(req.body());
-        
-        if (!body.contains("metric") || !body.contains("entity") || !body.contains("value")) {
-            span.setStatus(false, "invalid_request");
-            return makeErrorResponse(http::status::bad_request, 
-                "Missing required fields: metric, entity, value", req);
-        }
-        
-        std::string metric = body["metric"];
-        std::string entity = body["entity"];
-        
-        // Build TSStore DataPoint directly from request
-        TSStore::DataPoint ts_point;
-        ts_point.metric = metric;
-        ts_point.entity = entity;
-        ts_point.value = body["value"].get<double>();
-        ts_point.timestamp_ms = body.value("timestamp_ms", 
-            std::chrono::duration_cast<std::chrono::milliseconds>(
-                std::chrono::system_clock::now().time_since_epoch()
-            ).count());
-        ts_point.tags = body.value("tags", json::object());
-        ts_point.metadata = body.value("metadata", json::object());
-        
-        auto status = timeseries_->putDataPoint(ts_point);
-        
-        if (!status.ok) {
-            span.setStatus(false, "put_failed");
-            return makeErrorResponse(http::status::internal_server_error, 
-                status.message.empty() ? "Failed to store data point" : status.message, req);
-        }
-        
-        json response = {
-            {"success", true},
-            {"metric", metric},
-            {"entity", entity},
-            {"timestamp_ms", ts_point.timestamp_ms}
-        };
-        
-        span.setStatus(true);
-        return makeResponse(http::status::created, response.dump(), req);
-        
-    } catch (const json::exception& e) {
-        span.setStatus(false, "json_error");
-        return makeErrorResponse(http::status::bad_request, "JSON error: " + std::string(e.what()), req);
-    } catch (const std::exception& e) {
-        span.setStatus(false, "error");
-        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
-    }
-}
-
-http::response<http::string_body> HttpServer::handleTimeSeriesQuery(
-    const http::request<http::string_body>& req
-) {
-    auto span = Tracer::startSpan("handleTimeSeriesQuery");
-    
-    if (!timeseries_) {
-        span.setStatus(false, "feature_disabled");
-        return makeErrorResponse(http::status::not_implemented, "Time-series feature not enabled", req);
-    }
-    
-    try {
-        json body = json::parse(req.body());
-        
-        // Only 'metric' is required; 'entity' is optional per tests
-        if (!body.contains("metric")) {
-            span.setStatus(false, "invalid_request");
-            return makeErrorResponse(http::status::bad_request, 
-                "Missing required field: metric", req);
-        }
-        
-        std::string metric = body["metric"];
-        
-        TSStore::QueryOptions query_opts;
-        query_opts.metric = metric;
-        // Optional entity filter
-        if (body.contains("entity") && !body["entity"].is_null()) {
-            query_opts.entity = body["entity"].get<std::string>();
-        }
-        query_opts.from_timestamp_ms = body.value("from_ms", int64_t(0));
-        query_opts.to_timestamp_ms = body.value("to_ms", INT64_MAX);
-        query_opts.limit = body.value("limit", size_t(1000));
-        if (body.contains("tags")) {
-            query_opts.tag_filter = body["tags"];
-        }
-        
-        auto [status, points] = timeseries_->query(query_opts);
-        
-        if (!status.ok) {
-            span.setStatus(false, "query_failed");
-            return makeErrorResponse(http::status::internal_server_error, 
-                status.message.empty() ? "Query failed" : status.message, req);
-        }
-        
-        json response = {
-            {"metric", metric},
-            {"count", points.size()},
-            {"data", json::array()}
-        };
-        
-        for (const auto& p : points) {
-            json point_json = {
-                {"entity", p.entity},
-                {"timestamp_ms", p.timestamp_ms},
-                {"value", p.value},
-                {"tags", p.tags}
-            };
-            response["data"].push_back(point_json);
-        }
-        
-        span.setAttribute("points_count", static_cast<int64_t>(points.size()));
-        span.setStatus(true);
-        return makeResponse(http::status::ok, response.dump(), req);
-        
-    } catch (const json::exception& e) {
-        span.setStatus(false, "json_error");
-        return makeErrorResponse(http::status::bad_request, "JSON error: " + std::string(e.what()), req);
-    } catch (const std::exception& e) {
-        span.setStatus(false, "error");
-        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
-    }
-}
-
-http::response<http::string_body> HttpServer::handleTimeSeriesAggregate(
-    const http::request<http::string_body>& req
-) {
-    auto span = Tracer::startSpan("handleTimeSeriesAggregate");
-    
-    if (!timeseries_) {
-        span.setStatus(false, "feature_disabled");
-        return makeErrorResponse(http::status::not_implemented, "Time-series feature not enabled", req);
-    }
-    
-    try {
-        json body = json::parse(req.body());
-        
-        // Only 'metric' is required; 'entity' optional
-        if (!body.contains("metric")) {
-            span.setStatus(false, "invalid_request");
-            return makeErrorResponse(http::status::bad_request, 
-                "Missing required field: metric", req);
-        }
-        
-        std::string metric = body["metric"];
-        
-        TSStore::QueryOptions query_opts;
-        query_opts.metric = metric;
-        if (body.contains("entity") && !body["entity"].is_null()) {
-            query_opts.entity = body["entity"].get<std::string>();
-        }
-        query_opts.from_timestamp_ms = body.value("from_ms", int64_t(0));
-        query_opts.to_timestamp_ms = body.value("to_ms", INT64_MAX);
-        query_opts.limit = body.value("limit", size_t(1000000)); // No limit for aggregation
-        if (body.contains("tags")) {
-            query_opts.tag_filter = body["tags"];
-        }
-        
-        auto [status, agg] = timeseries_->aggregate(query_opts);
-        
-        if (!status.ok) {
-            span.setStatus(false, "aggregate_failed");
-            return makeErrorResponse(http::status::internal_server_error, 
-                status.message.empty() ? "Aggregation failed" : status.message, req);
-        }
-        
-        json response = {
-            {"metric", metric},
-            {"aggregation", {
-                {"min", agg.min},
-                {"max", agg.max},
-                {"avg", agg.avg},
-                {"sum", agg.sum},
-                {"count", agg.count},
-                {"first_timestamp_ms", agg.first_timestamp_ms},
-                {"last_timestamp_ms", agg.last_timestamp_ms}
-            }}
-        };
-        
-        span.setAttribute("agg_count", static_cast<int64_t>(agg.count));
-        span.setStatus(true);
-        return makeResponse(http::status::ok, response.dump(), req);
-        
-    } catch (const json::exception& e) {
-        span.setStatus(false, "json_error");
-        return makeErrorResponse(http::status::bad_request, "JSON error: " + std::string(e.what()), req);
-    } catch (const std::exception& e) {
-        span.setStatus(false, "error");
-        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
-    }
-}
-
-http::response<http::string_body> HttpServer::handleTimeSeriesAggregatesGet(
-    const http::request<http::string_body>& req
-) {
-    auto span = Tracer::startSpan("handleTimeSeriesAggregatesGet");
-    try {
-        // Minimal placeholder: list supported aggregate functions
-        json response = {
-            {"aggregates", json::array({"min","max","avg","sum","count"})}
-        };
-        span.setStatus(true);
-        return makeResponse(http::status::ok, response.dump(), req);
-    } catch (const std::exception& e) {
-        span.setStatus(false, "error");
-        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
-    }
-}
-
-http::response<http::string_body> HttpServer::handleTimeSeriesRetentionGet(
-    const http::request<http::string_body>& req
-) {
-    auto span = Tracer::startSpan("handleTimeSeriesRetentionGet");
-    try {
-        // Minimal placeholder: empty list of retention policies
-        json response = {
-            {"policies", json::array()}
-        };
-        span.setStatus(true);
-        return makeResponse(http::status::ok, response.dump(), req);
-    } catch (const std::exception& e) {
-        span.setStatus(false, "error");
-        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
-    }
-}
-
-http::response<http::string_body> HttpServer::handleTimeSeriesConfigGet(
-    const http::request<http::string_body>& req
-) {
-    auto span = Tracer::startSpan("handleTimeSeriesConfigGet");
-    
-    if (!timeseries_) {
-        span.setStatus(false, "feature_disabled");
-        return makeErrorResponse(http::status::not_implemented, "Time-series feature not enabled", req);
-    }
-    
-    try {
-        // Prefer persisted config if present so settings survive restarts
-        auto stored = storage_->get("config:timeseries");
-        json response;
-        if (stored) {
-            std::string s(stored->begin(), stored->end());
-            response = json::parse(s);
-        } else {
-            const auto& config = timeseries_->getConfig();
-            response = {
-                {"compression", config.compression == TSStore::CompressionType::Gorilla ? "gorilla" : "none"},
-                {"chunk_size_hours", config.chunk_size_hours}
-            };
-        }
-
-        span.setStatus(true);
-        return makeResponse(http::status::ok, response.dump(), req);
-        
-    } catch (const std::exception& e) {
-        span.setStatus(false, "error");
-        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
-    }
-}
-
-http::response<http::string_body> HttpServer::handleTimeSeriesConfigPut(
-    const http::request<http::string_body>& req
-) {
-    auto span = Tracer::startSpan("handleTimeSeriesConfigPut");
-    
-    if (!timeseries_) {
-        span.setStatus(false, "feature_disabled");
-        return makeErrorResponse(http::status::not_implemented, "Time-series feature not enabled", req);
-    }
-    
-    try {
-        json body = json::parse(req.body());
-        // Load current persisted config if present, otherwise use in-memory defaults
-        json persisted;
-        auto v = storage_->get("config:timeseries");
-        if (v) {
-            std::string s(v->begin(), v->end());
-            persisted = json::parse(s);
-        } else {
-            const auto& cur = timeseries_->getConfig();
-            persisted = {
-                {"compression", cur.compression == TSStore::CompressionType::Gorilla ? "gorilla" : "none"},
-                {"chunk_size_hours", cur.chunk_size_hours}
-            };
-        }
-
-        // Apply updates from request body into persisted JSON
-        if (body.contains("compression")) {
-            if (!body["compression"].is_string()) {
-                span.setStatus(false, "invalid_compression_type");
-                return makeErrorResponse(http::status::bad_request, "compression must be a string", req);
-            }
-            std::string compression_str = body["compression"];
-            if (compression_str != "gorilla" && compression_str != "none") {
-                span.setStatus(false, "invalid_compression");
-                return makeErrorResponse(http::status::bad_request, 
-                    "Invalid compression type. Must be 'gorilla' or 'none'", req);
-            }
-            persisted["compression"] = compression_str;
-        }
-
-        if (body.contains("chunk_size_hours")) {
-            if (!body["chunk_size_hours"].is_number_integer()) {
-                span.setStatus(false, "invalid_chunk_size_type");
-                return makeErrorResponse(http::status::bad_request, "chunk_size_hours must be an integer", req);
-            }
-            int chunk_size = body["chunk_size_hours"];
-            if (chunk_size <= 0 || chunk_size > 168) { // Max 1 week
-                span.setStatus(false, "invalid_chunk_size");
-                return makeErrorResponse(http::status::bad_request, 
-                    "chunk_size_hours must be between 1 and 168 (1 week)", req);
-            }
-            persisted["chunk_size_hours"] = chunk_size;
-        }
-
-        // Persist to storage
-        std::string config_str = persisted.dump();
-        std::vector<uint8_t> bytes(config_str.begin(), config_str.end());
-        bool ok = storage_->put("config:timeseries", bytes);
-        if (!ok) {
-            span.setStatus(false, "storage_error");
-            return makeErrorResponse(http::status::internal_server_error, "Failed to store timeseries config", req);
-        }
-
-        // Apply to in-memory TSStore (affects new data points only)
-        TSStore::Config new_config = timeseries_->getConfig();
-        if (persisted.contains("compression")) {
-            std::string compression_str = persisted["compression"];
-            new_config.compression = (compression_str == "gorilla") ? TSStore::CompressionType::Gorilla : TSStore::CompressionType::None;
-        }
-        if (persisted.contains("chunk_size_hours")) {
-            new_config.chunk_size_hours = persisted["chunk_size_hours"];
-        }
-        timeseries_->setConfig(new_config);
-
-        json response = persisted;
-        response["status"] = "ok";
-        response["note"] = "Configuration updated. Changes apply to new data points only.";
-
-        span.setStatus(true);
-        return makeResponse(http::status::ok, response.dump(), req);
-        
-    } catch (const json::exception& e) {
-        span.setStatus(false, "json_error");
-        return makeErrorResponse(http::status::bad_request, "JSON error: " + std::string(e.what()), req);
-    } catch (const std::exception& e) {
-        span.setStatus(false, "error");
-        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
-    }
-}
+// Note: Time-Series endpoints have been extracted to TimeSeriesApiHandler
+// See: src/server/timeseries_api_handler.cpp
 
 // ============================================================================
 // Sprint C: Adaptive Indexing Endpoints
@@ -12289,7 +10338,42 @@ std::optional<http::response<http::string_body>> HttpServer::checkRateLimit(
         }
     }
     
-    // Check rate limit
+    // Prefer the per-client middleware (per-endpoint configurable token bucket).
+    if (rate_limiting_middleware_) {
+        std::string path = std::string(req.target());
+        // Strip query string for path matching
+        auto qpos = path.find('?');
+        if (qpos != std::string::npos) path = path.substr(0, qpos);
+
+        // Use authenticated user ID when available, otherwise fall back to IP
+        const std::string& client_key = user_id.empty() ? client_ip : user_id;
+
+        auto result = rate_limiting_middleware_->check(client_key, path);
+        if (!result.allowed) {
+            http::response<http::string_body> response;
+            response.result(http::status::too_many_requests);
+            response.set(http::field::content_type, "application/json");
+            for (const auto& [k, v] : result.headers) {
+                response.set(k, v);
+            }
+
+            json error_body = {
+                {"error", "Too Many Requests"},
+                {"message", "Rate limit exceeded. Please retry after " +
+                             std::to_string(result.retry_after_seconds) + " seconds."},
+                {"retry_after_seconds", result.retry_after_seconds},
+                {"status_code", 429}
+            };
+
+            response.body() = error_body.dump();
+            applyGovernanceHeaders(req, response);
+            response.prepare_payload();
+            return response;
+        }
+        return std::nullopt; // Rate limit OK
+    }
+
+    // Fallback to legacy rate limiter
     if (!rate_limiter_->allowRequest(client_ip, user_id)) {
         uint32_t retry_after = rate_limiter_->getRetryAfter(client_ip, user_id);
         
@@ -12313,7 +10397,6 @@ std::optional<http::response<http::string_body>> HttpServer::checkRateLimit(
         };
         
         response.body() = error_body.dump();
-        // Apply governance and security headers as with normal responses
         applyGovernanceHeaders(req, response);
         response.prepare_payload();
         
@@ -12324,348 +10407,6 @@ std::optional<http::response<http::string_body>> HttpServer::checkRateLimit(
 }
 
 // ============================================================================
-// G5: Spatial Index Management Handlers
-// ============================================================================
-
-http::response<http::string_body> HttpServer::handleSpatialIndexCreate(
-    const http::request<http::string_body>& req
-) {
-    auto span = Tracer::startSpan("http.spatial_index_create");
-    http::response<http::string_body> res{http::status::ok, req.version()};
-    res.set(http::field::content_type, "application/json");
-    
-    try {
-        auto j = json::parse(req.body());
-        
-        if (!j.contains("table") || !j["table"].is_string()) {
-            return makeErrorResponse(http::status::bad_request, "Missing or invalid 'table' field", req);
-        }
-        
-        std::string table = j["table"];
-        std::string geometry_column = j.value("geometry_column", "geometry");
-        
-        if (!spatial_index_) {
-            return makeErrorResponse(http::status::internal_server_error, "Spatial index manager not available", req);
-        }
-        
-        // Parse optional config
-        index::RTreeConfig config;
-        if (j.contains("config") && j["config"].is_object()) {
-            auto cfg = j["config"];
-            if (cfg.contains("total_bounds") && cfg["total_bounds"].is_object()) {
-                auto bounds = cfg["total_bounds"];
-                config.total_bounds = themis::geo::MBR(
-                    bounds.value("minx", -180.0),
-                    bounds.value("miny", -90.0),
-                    bounds.value("maxx", 180.0),
-                    bounds.value("maxy", 90.0)
-                );
-            }
-        }
-        
-        auto status = spatial_index_->createSpatialIndex(table, geometry_column, config);
-        
-        if (!status) {
-            span.setStatus(false, status.message);
-            return makeErrorResponse(http::status::bad_request, status.message, req);
-        }
-        
-        json response;
-        response["success"] = true;
-        response["table"] = table;
-        response["geometry_column"] = geometry_column;
-        response["message"] = "Spatial index created successfully";
-        
-        res.body() = response.dump();
-        span.setStatus(true);
-        
-    } catch (const json::exception& e) {
-        span.setStatus(false, e.what());
-        return makeErrorResponse(http::status::bad_request, std::string("JSON error: ") + e.what(), req);
-    } catch (const std::exception& e) {
-        span.setStatus(false, e.what());
-        return makeErrorResponse(http::status::internal_server_error, std::string("Error: ") + e.what(), req);
-    }
-    
-    applyGovernanceHeaders(req, res);
-    res.prepare_payload();
-    return res;
-}
-
-http::response<http::string_body> HttpServer::handleSpatialIndexRebuild(
-    const http::request<http::string_body>& req
-) {
-    auto span = Tracer::startSpan("http.spatial_index_rebuild");
-    http::response<http::string_body> res{http::status::ok, req.version()};
-    res.set(http::field::content_type, "application/json");
-    
-    try {
-        auto j = json::parse(req.body());
-        
-        if (!j.contains("table") || !j["table"].is_string()) {
-            return makeErrorResponse(http::status::bad_request, "Missing or invalid 'table' field", req);
-        }
-        
-        std::string table = j["table"];
-        
-        if (!spatial_index_) {
-            return makeErrorResponse(http::status::internal_server_error, "Spatial index manager not available", req);
-        }
-        
-        // TODO: Implement rebuild by scanning all entities in table and re-indexing
-        // For now, return a not-implemented response
-        json response;
-        response["success"] = false;
-        response["table"] = table;
-        response["message"] = "Spatial index rebuild not yet implemented. Use drop + create for now.";
-        response["status_code"] = 501;
-        
-        res.result(http::status::not_implemented);
-        res.body() = response.dump();
-        span.setStatus(false, "not_implemented");
-        
-    } catch (const json::exception& e) {
-        span.setStatus(false, e.what());
-        return makeErrorResponse(http::status::bad_request, std::string("JSON error: ") + e.what(), req);
-    } catch (const std::exception& e) {
-        span.setStatus(false, e.what());
-        return makeErrorResponse(http::status::internal_server_error, std::string("Error: ") + e.what(), req);
-    }
-    
-    applyGovernanceHeaders(req, res);
-    res.prepare_payload();
-    return res;
-}
-
-http::response<http::string_body> HttpServer::handleSpatialIndexStats(
-    const http::request<http::string_body>& req
-) {
-    auto span = Tracer::startSpan("http.spatial_index_stats");
-    http::response<http::string_body> res{http::status::ok, req.version()};
-    res.set(http::field::content_type, "application/json");
-    
-    try {
-        auto params = parseQuery(std::string(req.target()));
-        std::string table = params["table"];
-        
-        if (table.empty()) {
-            return makeErrorResponse(http::status::bad_request, "Missing 'table' query parameter", req);
-        }
-        
-        if (!spatial_index_) {
-            return makeErrorResponse(http::status::internal_server_error, "Spatial index manager not available", req);
-        }
-        
-        auto stats = spatial_index_->getStats(table);
-        json response;
-        response["success"] = true;
-        response["table"] = table;
-        response["entry_count"] = stats.entry_count;
-        response["total_bounds"] = {
-            {"minx", stats.total_bounds.minx},
-            {"miny", stats.total_bounds.miny},
-            {"maxx", stats.total_bounds.maxx},
-            {"maxy", stats.total_bounds.maxy}
-        };
-        response["avg_area"] = stats.avg_area;
-        response["morton_buckets"] = stats.morton_buckets;
-        res.body() = response.dump();
-        span.setStatus(true);
-        
-    } catch (const std::exception& e) {
-        span.setStatus(false, e.what());
-        return makeErrorResponse(http::status::internal_server_error, std::string("Error: ") + e.what(), req);
-    }
-    
-    applyGovernanceHeaders(req, res);
-    res.prepare_payload();
-    return res;
-}
-
-http::response<http::string_body> HttpServer::handleSpatialMetrics(
-    const http::request<http::string_body>& req
-) {
-    auto span = Tracer::startSpan("http.spatial_metrics");
-    http::response<http::string_body> res{http::status::ok, req.version()};
-    res.set(http::field::content_type, "application/json");
-    
-    try {
-        if (!spatial_index_) {
-            return makeErrorResponse(http::status::internal_server_error, "Spatial index manager not available", req);
-        }
-        
-        const auto& metrics = spatial_index_->getMetrics();
-        
-        json response;
-        response["query_count"] = metrics.query_count.load();
-        response["mbr_candidate_count"] = metrics.mbr_candidate_count.load();
-        response["exact_check_count"] = metrics.exact_check_count.load();
-        response["exact_check_passed"] = metrics.exact_check_passed.load();
-        response["exact_check_failed"] = metrics.exact_check_failed.load();
-        response["insert_count"] = metrics.insert_count.load();
-        response["remove_count"] = metrics.remove_count.load();
-        response["update_count"] = metrics.update_count.load();
-        
-        // Compute derived metrics
-        uint64_t total_exact = metrics.exact_check_count.load();
-        if (total_exact > 0) {
-            double precision = static_cast<double>(metrics.exact_check_passed.load()) / total_exact;
-            response["exact_check_precision"] = precision;
-            response["false_positive_rate"] = 1.0 - precision;
-        } else {
-            response["exact_check_precision"] = nullptr;
-            response["false_positive_rate"] = nullptr;
-        }
-        
-        uint64_t total_queries = metrics.query_count.load();
-        if (total_queries > 0) {
-            response["avg_candidates_per_query"] = static_cast<double>(metrics.mbr_candidate_count.load()) / total_queries;
-        } else {
-            response["avg_candidates_per_query"] = nullptr;
-        }
-        
-        res.body() = response.dump();
-        span.setStatus(true);
-        
-    } catch (const std::exception& e) {
-        span.setStatus(false, e.what());
-        return makeErrorResponse(http::status::internal_server_error, std::string("Error: ") + e.what(), req);
-    }
-    
-    applyGovernanceHeaders(req, res);
-    res.prepare_payload();
-    return res;
-}
-
-// ===== Enterprise Feature: Enhanced Query with LLM Context =====
-
-http::response<http::string_body> HttpServer::handleQueryEnhanced(
-    const http::request<http::string_body>& req
-) {
-    if (!config_.feature_llm_query_enhancement) {
-        return makeErrorResponse(http::status::not_found, 
-            "Enterprise feature 'llm_query_enhancement' disabled", req);
-    }
-    
-    if (!config_.feature_llm_store) {
-        return makeErrorResponse(http::status::not_found, 
-            "Feature 'llm_store' must be enabled for enhanced queries", req);
-    }
-    
-    auto span = Tracer::startSpan("handleQueryEnhanced");
-    span.setAttribute("http.path", "/query/enhanced");
-    span.setAttribute("enterprise.feature", true);
-    
-    try {
-        auto body = json::parse(req.body());
-        
-        // Execute standard query first
-        json query_response;
-        
-        // Check if this is an AQL query or standard query
-        if (body.contains("aql")) {
-            // Use AQL query path
-            json aql_req_body;
-            aql_req_body["query"] = body["aql"];
-            if (body.contains("parameters")) {
-                aql_req_body["parameters"] = body["parameters"];
-            }
-            
-            // Create temporary request for AQL handler
-            http::request<http::string_body> aql_req{req};
-            aql_req.body() = aql_req_body.dump();
-            aql_req.prepare_payload();
-            
-            auto aql_response = handleQueryAql(aql_req);
-            
-            if (aql_response.result() != http::status::ok) {
-                // Return the error response directly
-                return aql_response;
-            }
-            
-            query_response = json::parse(aql_response.body());
-            
-        } else if (body.contains("table")) {
-            // Use standard query path
-            http::request<http::string_body> std_req{req};
-            std_req.body() = body.dump();
-            std_req.prepare_payload();
-            
-            auto std_response = handleQuery(std_req);
-            
-            if (std_response.result() != http::status::ok) {
-                return std_response;
-            }
-            
-            query_response = json::parse(std_response.body());
-        } else {
-            span.setStatus(false, "missing_query");
-            return makeErrorResponse(http::status::bad_request, 
-                "Request must contain either 'aql' or 'table' field", req);
-        }
-        
-        // Get LLM context options from request
-        json llm_options;
-        if (body.contains("llm_context")) {
-            llm_options = body["llm_context"];
-        }
-        
-        // Fetch relevant LLM interactions
-        LLMInteractionStore::ListOptions list_opts;
-        list_opts.limit = llm_options.value("limit", 10);
-        
-        if (llm_options.contains("model")) {
-            list_opts.filter_model = llm_options["model"].get<std::string>();
-        }
-        
-        if (llm_options.contains("since_timestamp_ms")) {
-            list_opts.since_timestamp_ms = llm_options["since_timestamp_ms"].get<int64_t>();
-        }
-        
-        auto llm_interactions = llm_store_->listInteractions(list_opts);
-        
-        // Build enhanced response
-        json enhanced_response;
-        enhanced_response["query_results"] = query_response;
-        enhanced_response["llm_context"] = json::array();
-        
-        for (const auto& interaction : llm_interactions) {
-            json llm_entry;
-            llm_entry["id"] = interaction.id;
-            llm_entry["prompt"] = interaction.prompt;
-            llm_entry["response"] = interaction.response;
-            llm_entry["model_version"] = interaction.model_version;
-            llm_entry["timestamp_ms"] = interaction.timestamp_ms;
-            
-            // Include metadata (which may contain feedback from enterprise addons)
-            if (!interaction.metadata.empty()) {
-                llm_entry["metadata"] = interaction.metadata;
-            }
-            
-            enhanced_response["llm_context"].push_back(llm_entry);
-        }
-        
-        enhanced_response["llm_context_count"] = llm_interactions.size();
-        
-        span.setAttribute("query.result_count", static_cast<int64_t>(query_response.value("count", 0)));
-        span.setAttribute("llm.context_count", static_cast<int64_t>(llm_interactions.size()));
-        span.setStatus(true);
-        
-        return makeResponse(http::status::ok, enhanced_response.dump(), req);
-        
-    } catch (const json::exception& e) {
-        span.recordError(e.what());
-        span.setStatus(false, "json_parse_error");
-        return makeErrorResponse(http::status::bad_request, 
-            std::string("JSON error: ") + e.what(), req);
-    } catch (const std::exception& e) {
-        span.recordError(e.what());
-        span.setStatus(false, "internal_error");
-        return makeErrorResponse(http::status::internal_server_error, 
-            std::string("Error: ") + e.what(), req);
-    }
-}
-
 // Error API handlers
 http::response<http::string_body> HttpServer::handleErrorApiList(
     const http::request<http::string_body>& req
@@ -12839,6 +10580,160 @@ http::response<http::string_body> HttpServer::handleSchemaGetTable(
             "Schema API not available", req);
     }
     return schema_api_handler_->handleGetTable(req);
+}
+
+http::response<http::string_body> HttpServer::handleSchemaPut(
+    const http::request<http::string_body>& req
+) {
+    if (!schema_api_handler_) {
+        return makeErrorResponse(http::status::service_unavailable, 
+            "Schema API not available", req);
+    }
+    return schema_api_handler_->handlePutSchema(req);
+}
+
+http::response<http::string_body> HttpServer::handleSchemaPatch(
+    const http::request<http::string_body>& req
+) {
+    if (!schema_api_handler_) {
+        return makeErrorResponse(http::status::service_unavailable, 
+            "Schema API not available", req);
+    }
+    return schema_api_handler_->handlePatchSchema(req);
+}
+
+// ============================================================================
+// Metadata extended handler shims
+// ============================================================================
+
+http::response<http::string_body> HttpServer::handleMetadataInformationSchema(
+    const http::request<http::string_body>& req)
+{
+    if (!schema_api_handler_) {
+        return makeErrorResponse(http::status::service_unavailable,
+            "Schema API not available", req);
+    }
+    return schema_api_handler_->handleGetInformationSchema(req);
+}
+
+http::response<http::string_body> HttpServer::handleMetadataGetStats(
+    const http::request<http::string_body>& req)
+{
+    if (!schema_api_handler_) {
+        return makeErrorResponse(http::status::service_unavailable,
+            "Schema API not available", req);
+    }
+    return schema_api_handler_->handleGetStats(req);
+}
+
+http::response<http::string_body> HttpServer::handleMetadataCollectStats(
+    const http::request<http::string_body>& req)
+{
+    if (!schema_api_handler_) {
+        return makeErrorResponse(http::status::service_unavailable,
+            "Schema API not available", req);
+    }
+    return schema_api_handler_->handleCollectStats(req);
+}
+
+http::response<http::string_body> HttpServer::handleMetadataGetConstraints(
+    const http::request<http::string_body>& req)
+{
+    if (!schema_api_handler_) {
+        return makeErrorResponse(http::status::service_unavailable,
+            "Schema API not available", req);
+    }
+    return schema_api_handler_->handleGetConstraints(req);
+}
+
+http::response<http::string_body> HttpServer::handleMetadataIndexRecommendations(
+    const http::request<http::string_body>& req)
+{
+    if (!schema_api_handler_) {
+        return makeErrorResponse(http::status::service_unavailable,
+            "Schema API not available", req);
+    }
+    return schema_api_handler_->handleGetIndexRecommendations(req);
+}
+
+http::response<http::string_body> HttpServer::handleSchemaVersionHistory(
+    const http::request<http::string_body>& req)
+{
+    if (!schema_api_handler_) {
+        return makeErrorResponse(http::status::service_unavailable,
+            "Schema API not available", req);
+    }
+    return schema_api_handler_->handleGetVersionHistory(req);
+}
+
+http::response<http::string_body> HttpServer::handleSchemaCreateVersion(
+    const http::request<http::string_body>& req)
+{
+    if (!schema_api_handler_) {
+        return makeErrorResponse(http::status::service_unavailable,
+            "Schema API not available", req);
+    }
+    return schema_api_handler_->handleCreateVersion(req);
+}
+
+http::response<http::string_body> HttpServer::handleSchemaDiff(
+    const http::request<http::string_body>& req)
+{
+    if (!schema_api_handler_) {
+        return makeErrorResponse(http::status::service_unavailable,
+            "Schema API not available", req);
+    }
+    return schema_api_handler_->handleGetDiff(req);
+}
+
+http::response<http::string_body> HttpServer::handleMetadataAuditLog(
+    const http::request<http::string_body>& req)
+{
+    if (!schema_api_handler_) {
+        return makeErrorResponse(http::status::service_unavailable,
+            "Schema API not available", req);
+    }
+    return schema_api_handler_->handleGetAuditLog(req);
+}
+
+http::response<http::string_body> HttpServer::handleMetadataSchemaImport(
+    const http::request<http::string_body>& req)
+{
+    if (!schema_api_handler_) {
+        return makeErrorResponse(http::status::service_unavailable,
+            "Schema API not available", req);
+    }
+    return schema_api_handler_->handleSchemaImport(req);
+}
+
+http::response<http::string_body> HttpServer::handleMetadataBatchValidate(
+    const http::request<http::string_body>& req)
+{
+    if (!schema_api_handler_) {
+        return makeErrorResponse(http::status::service_unavailable,
+            "Schema API not available", req);
+    }
+    return schema_api_handler_->handleBatchConstraintValidation(req);
+}
+
+http::response<http::string_body> HttpServer::handleMetadataGetColumnLineage(
+    const http::request<http::string_body>& req)
+{
+    if (!schema_api_handler_) {
+        return makeErrorResponse(http::status::service_unavailable,
+            "Schema API not available", req);
+    }
+    return schema_api_handler_->handleGetColumnLineage(req);
+}
+
+http::response<http::string_body> HttpServer::handleMetadataRecordLineageDerivation(
+    const http::request<http::string_body>& req)
+{
+    if (!schema_api_handler_) {
+        return makeErrorResponse(http::status::service_unavailable,
+            "Schema API not available", req);
+    }
+    return schema_api_handler_->handleRecordLineageDerivation(req);
 }
 
 } // namespace server

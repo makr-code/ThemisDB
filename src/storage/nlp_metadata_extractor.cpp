@@ -1,3 +1,25 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            nlp_metadata_extractor.cpp                         ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:20:32                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     383                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file nlp_metadata_extractor.cpp
  * @brief Implementation of NLP-based metadata extraction
@@ -17,6 +39,19 @@ namespace storage {
 using json = nlohmann::json;
 using namespace analytics;
 
+// Map analyzer Language enum to short code
+static std::string languageToCode(NlpTextAnalyzer::Language lang) {
+    switch (lang) {
+    case NlpTextAnalyzer::Language::ENGLISH: return "en";
+    case NlpTextAnalyzer::Language::GERMAN: return "de";
+    case NlpTextAnalyzer::Language::FRENCH: return "fr";
+    case NlpTextAnalyzer::Language::SPANISH: return "es";
+    case NlpTextAnalyzer::Language::ITALIAN: return "it";
+    case NlpTextAnalyzer::Language::DUTCH: return "nl";
+    default: return "";
+    }
+}
+
 // Constructor
 NlpMetadataExtractor::NlpMetadataExtractor(const Config& config)
     : config_(config) {
@@ -24,9 +59,9 @@ NlpMetadataExtractor::NlpMetadataExtractor(const Config& config)
     NlpTextAnalyzer::Config nlp_config;
     nlp_config.max_keywords = config.max_keywords;
     nlp_config.enable_stopwords = config.enable_stopwords;
-    if (!config.stopwords_path.empty()) {
-        nlp_config.stopwords_path = config.stopwords_path;
-    }
+    nlp_config.stopwords_directory = config.stopwords_path.empty()
+        ? nlp_config.stopwords_directory
+        : config.stopwords_path;
     nlp_ = NlpTextAnalyzer(nlp_config);
 }
 
@@ -41,18 +76,16 @@ NlpMetadataExtractor::extractMetadata(const std::string& text) const {
     
     // 1. Extract keywords
     if (config_.max_keywords > 0) {
-        meta.keyword_scores = nlp_.extractKeywords(text);
-        
-        // Sort by score and take top N
-        std::vector<std::pair<std::string, double>> sorted_keywords(
-            meta.keyword_scores.begin(), meta.keyword_scores.end());
-        std::sort(sorted_keywords.begin(), sorted_keywords.end(),
-            [](const auto& a, const auto& b) { return a.second > b.second; });
-        
-        size_t n = std::min(config_.max_keywords, sorted_keywords.size());
+        auto keywords = nlp_.extractKeywords(text, config_.max_keywords);
+
+        for (const auto& kw : keywords) {
+            meta.keyword_scores[kw.text] = kw.score;
+        }
+
+        size_t n = std::min(config_.max_keywords, keywords.size());
         for (size_t i = 0; i < n; ++i) {
-            if (sorted_keywords[i].first.length() >= config_.min_keyword_length) {
-                meta.keywords.push_back(sorted_keywords[i].first);
+            if (keywords[i].text.length() >= config_.min_keyword_length) {
+                meta.keywords.push_back(keywords[i].text);
             }
         }
     }
@@ -75,7 +108,7 @@ NlpMetadataExtractor::extractMetadata(const std::string& text) const {
     
     // 3. Detect language
     if (config_.detect_language) {
-        meta.detected_language = nlp_.detectLanguage(text);
+        meta.detected_language = languageToCode(nlp_.detectLanguage(text));
         // Confidence based on text length (heuristic)
         if (text.length() > 1000) {
             meta.language_confidence = 0.9;
@@ -88,12 +121,15 @@ NlpMetadataExtractor::extractMetadata(const std::string& text) const {
     
     // 4. Compute sentiment
     if (config_.compute_sentiment) {
-        meta.sentiment_score = nlp_.analyzeSentiment(text);
+        auto sentiment = nlp_.analyzeSentiment(text);
+        meta.sentiment_score = sentiment.score;
     }
     
     // 5. Compute text complexity
     if (config_.compute_complexity) {
-        meta.text_complexity = nlp_.analyzeTextComplexity(text);
+        auto complexity = nlp_.analyzeComplexity(text);
+        // Use lexical diversity as a simple complexity proxy
+        meta.text_complexity = complexity.lexical_diversity;
     }
     
     // 6. Compute text statistics
@@ -168,22 +204,16 @@ bool NlpMetadataExtractor::enrichEntity(
 std::vector<std::string> NlpMetadataExtractor::extractKeywords(
     const std::string& text,
     size_t max_keywords) const {
-    
-    auto keyword_scores = nlp_.extractKeywords(text);
-    
-    // Sort by score
-    std::vector<std::pair<std::string, double>> sorted_keywords(
-        keyword_scores.begin(), keyword_scores.end());
-    std::sort(sorted_keywords.begin(), sorted_keywords.end(),
-        [](const auto& a, const auto& b) { return a.second > b.second; });
-    
-    // Take top N
+
+    auto keywords_scored = nlp_.extractKeywords(text, max_keywords);
+
+    // Already sorted by score in analyzer; enforce length filter
     std::vector<std::string> keywords;
-    size_t n = std::min(max_keywords, sorted_keywords.size());
-    for (size_t i = 0; i < n; ++i) {
-        if (sorted_keywords[i].first.length() >= config_.min_keyword_length) {
-            keywords.push_back(sorted_keywords[i].first);
+    for (const auto& kw : keywords_scored) {
+        if (kw.text.length() >= config_.min_keyword_length) {
+            keywords.push_back(kw.text);
         }
+        if (keywords.size() >= max_keywords) break;
     }
     
     return keywords;
@@ -191,7 +221,7 @@ std::vector<std::string> NlpMetadataExtractor::extractKeywords(
 
 // Detect language only
 std::string NlpMetadataExtractor::detectLanguage(const std::string& text) const {
-    return nlp_.detectLanguage(text);
+    return languageToCode(nlp_.detectLanguage(text));
 }
 
 // Extract named entities only
@@ -219,13 +249,13 @@ void NlpMetadataExtractor::computeTextStats(
     // Tokenize text
     auto tokens = nlp_.tokenize(text);
     meta.total_words = tokens.size();
-    
-    // Count unique words
+
+    // Count unique words (use token.text from analytics::Token)
     std::set<std::string> unique_tokens;
     size_t total_chars = 0;
     for (const auto& token : tokens) {
-        unique_tokens.insert(token);
-        total_chars += token.length();
+        unique_tokens.insert(token.text);
+        total_chars += token.text.length();
     }
     meta.unique_words = unique_tokens.size();
     

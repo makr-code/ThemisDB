@@ -1,11 +1,35 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_llm_caching.cpp                               ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:29:11                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     379                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include <gtest/gtest.h>
 #include "llm/model_metadata_cache.h"
 #include "llm/lora_metadata_cache.h"
 #include "llm/paged_block_manager.h"
+#include "utils/type_conversion.h"
 #include <thread>
 #include <vector>
 
 using namespace themis::llm;
+using themis::utils::conversion::safe_size_to_int;
 
 // ============================================================================
 // ModelMetadataCache Tests
@@ -218,10 +242,21 @@ TEST(PagedBlockManagerTest, GetBlock) {
     auto block_ids = mgr.allocateBlocks(1);
     ASSERT_FALSE(block_ids.empty());
     
-    auto* block = mgr.getBlock(block_ids[0]);
-    ASSERT_NE(block, nullptr);
-    EXPECT_EQ(block->block_id, block_ids[0]);
-    EXPECT_FALSE(block->is_free);
+    // Test callback pattern (withBlock)
+    bool callback_executed = false;
+    mgr.withBlock(block_ids[0], [&](const PagedBlockManager::Block& block) {
+        callback_executed = true;
+        EXPECT_EQ(block.block_id, block_ids[0]);
+        EXPECT_FALSE(block.is_free);
+    });
+    EXPECT_TRUE(callback_executed);
+    
+    // Test reference wrapper pattern (getBlockRef)
+    auto block_ref = mgr.getBlockRef(block_ids[0]);
+    ASSERT_TRUE(block_ref.has_value());
+    const PagedBlockManager::Block& block = block_ref->get();
+    EXPECT_EQ(block.block_id, block_ids[0]);
+    EXPECT_FALSE(block.is_free);
 }
 
 TEST(PagedBlockManagerTest, ConcurrentAllocation) {
@@ -247,7 +282,7 @@ TEST(PagedBlockManagerTest, ConcurrentAllocation) {
     // Verify all allocations succeeded
     int total_allocated = 0;
     for (const auto& ids : all_allocated) {
-        total_allocated += ids.size();
+        total_allocated += safe_size_to_int(ids.size());
     }
     
     EXPECT_EQ(total_allocated, 500);

@@ -1,10 +1,36 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            query_optimizer.cpp                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:20:55                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     399                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 822b0afce  2026-03-15  feat(timeseries): implement TSStore single-point insert b... ║
+    • fe42ba76e  2026-03-09  feat(timeseries): add FlushController adaptive flush, Dow... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "timeseries/query_optimizer.h"
 #include "timeseries/tsstore.h"
 #include "timeseries/continuous_agg.h"
+#include "timeseries/downsampling.h"
 #include "utils/logger.h"
 #include "utils/tracing.h"
 #include <algorithm>
 #include <sstream>
+#include <iomanip>
 
 namespace themis {
 
@@ -40,11 +66,29 @@ TSQueryOptimizer::QueryPlan TSQueryOptimizer::optimizeAggregateQuery(
         span.setAttribute("entity", *entity);
     }
     span.setAttribute("time_range_ms", to_timestamp_ms - from_timestamp_ms);
+
+    // Check query plan cache first
+    if (hint.use_cache) {
+        std::string cache_key = buildCacheKey(metric, entity, from_timestamp_ms, to_timestamp_ms, hint);
+        std::lock_guard<std::mutex> lock(cache_mutex_);
+        auto it = plan_cache_.find(cache_key);
+        if (it != plan_cache_.end()) {
+            cache_hits_++;
+            THEMIS_DEBUG("Cache hit for query plan: {}", cache_key);
+            return it->second;
+        }
+        cache_misses_++;
+    }
     
     QueryPlan plan;
     plan.source_metric = metric;
     plan.from_timestamp_ms = from_timestamp_ms;
     plan.to_timestamp_ms = to_timestamp_ms;
+    // Include active predicates in the plan
+    plan.active_predicates = hint.predicates;
+    // Propagate decode-width hint to the plan so range-scan callers can configure
+    // the Gorilla SIMD decoder for width-specific vectorisation paths.
+    plan.decode_width = hint.decode_width;
     
     int64_t time_range_ms = to_timestamp_ms - from_timestamp_ms;
     size_t raw_points = estimateRawPointCount(time_range_ms);
@@ -54,6 +98,11 @@ TSQueryOptimizer::QueryPlan TSQueryOptimizer::optimizeAggregateQuery(
     if (!hint.use_aggregates) {
         plan.explanation = "Aggregates disabled by hint";
         span.setAttribute("uses_aggregate", false);
+        if (hint.use_cache) {
+            std::string cache_key = buildCacheKey(metric, entity, from_timestamp_ms, to_timestamp_ms, hint);
+            std::lock_guard<std::mutex> lock(cache_mutex_);
+            plan_cache_[cache_key] = plan;
+        }
         return plan;
     }
     
@@ -61,6 +110,11 @@ TSQueryOptimizer::QueryPlan TSQueryOptimizer::optimizeAggregateQuery(
         plan.explanation = "Time range too small for aggregates (< " + 
                           std::to_string(hint.min_window_for_agg_ms / 1000) + "s)";
         span.setAttribute("uses_aggregate", false);
+        if (hint.use_cache) {
+            std::string cache_key = buildCacheKey(metric, entity, from_timestamp_ms, to_timestamp_ms, hint);
+            std::lock_guard<std::mutex> lock(cache_mutex_);
+            plan_cache_[cache_key] = plan;
+        }
         return plan;
     }
     
@@ -71,6 +125,11 @@ TSQueryOptimizer::QueryPlan TSQueryOptimizer::optimizeAggregateQuery(
         plan.explanation = "No suitable aggregate found for metric: " + metric;
         span.setAttribute("uses_aggregate", false);
         span.recordError("No aggregate available");
+        if (hint.use_cache) {
+            std::string cache_key = buildCacheKey(metric, entity, from_timestamp_ms, to_timestamp_ms, hint);
+            std::lock_guard<std::mutex> lock(cache_mutex_);
+            plan_cache_[cache_key] = plan;
+        }
         return plan;
     }
     
@@ -93,6 +152,11 @@ TSQueryOptimizer::QueryPlan TSQueryOptimizer::optimizeAggregateQuery(
         plan.explanation = "Aggregate not cost-effective (raw: " + std::to_string(raw_points) + 
                           " points, agg: " + std::to_string(agg_points) + " points)";
         span.setAttribute("uses_aggregate", false);
+        if (hint.use_cache) {
+            std::string cache_key = buildCacheKey(metric, entity, from_timestamp_ms, to_timestamp_ms, hint);
+            std::lock_guard<std::mutex> lock(cache_mutex_);
+            plan_cache_[cache_key] = plan;
+        }
         return plan;
     }
     
@@ -109,6 +173,12 @@ TSQueryOptimizer::QueryPlan TSQueryOptimizer::optimizeAggregateQuery(
     
     THEMIS_DEBUG("Query optimized: {} → {} (speedup: {:.2f}x, raw: {}, agg: {})",
                  metric, agg_metric, plan.estimated_speedup, raw_points, agg_points);
+
+    if (hint.use_cache) {
+        std::string cache_key = buildCacheKey(metric, entity, from_timestamp_ms, to_timestamp_ms, hint);
+        std::lock_guard<std::mutex> lock(cache_mutex_);
+        plan_cache_[cache_key] = plan;
+    }
     
     return plan;
 }
@@ -160,9 +230,9 @@ bool TSQueryOptimizer::aggregateExists(
     opts.metric = agg_metric;
     opts.limit = 1;  // Just check existence
     
-    auto [status, points] = store_->query(opts);
+    auto result = store_->query(opts);
     
-    return status.ok && !points.empty();
+    return result.has_value() && !result.value().empty();
 }
 
 void TSQueryOptimizer::registerAvailableAggregate(
@@ -172,6 +242,49 @@ void TSQueryOptimizer::registerAvailableAggregate(
     // For future optimization: Could cache available aggregates
     // to avoid repeated TSStore queries
     THEMIS_DEBUG("Registered aggregate: {} (window: {}ms)", metric, window.count());
+}
+
+// ========== Query Plan Cache ==========
+
+void TSQueryOptimizer::clearCache() {
+    std::lock_guard<std::mutex> lock(cache_mutex_);
+    plan_cache_.clear();
+}
+
+size_t TSQueryOptimizer::cacheSize() const {
+    std::lock_guard<std::mutex> lock(cache_mutex_);
+    return plan_cache_.size();
+}
+
+// ========== Index-Aware Query Planning ==========
+
+void TSQueryOptimizer::registerIndexHint(IndexHint hint) {
+    std::lock_guard<std::mutex> lock(index_mutex_);
+    index_hints_[hint.metric] = std::move(hint);
+}
+
+std::optional<TSQueryOptimizer::IndexHint> TSQueryOptimizer::getIndexHint(
+    const std::string& metric) const {
+    std::lock_guard<std::mutex> lock(index_mutex_);
+    auto it = index_hints_.find(metric);
+    if (it == index_hints_.end()) return std::nullopt;
+    return it->second;
+}
+
+std::string TSQueryOptimizer::buildCacheKey(
+    const std::string& metric,
+    const std::optional<std::string>& entity,
+    int64_t from_ms, int64_t to_ms,
+    const OptimizationHint& hint) const {
+    std::ostringstream oss;
+    oss << metric << "|" << (entity.has_value() ? *entity : "") << "|"
+        << from_ms << "|" << to_ms << "|"
+        << hint.use_aggregates << "|" << hint.min_window_for_agg_ms << "|"
+        << hint.max_raw_points;
+    for (const auto& p : hint.predicates) {
+        oss << "|" << p.tag_key << "=" << p.tag_value;
+    }
+    return oss.str();
 }
 
 // ===== Helpers =====
@@ -226,6 +339,61 @@ std::string TSQueryOptimizer::buildExplanation(
     }
     
     return oss.str();
+}
+
+// =========================================================================
+// Downsampling Tier Integration
+// =========================================================================
+
+void TSQueryOptimizer::setTierSelector(const TierSelector* selector) {
+    tier_selector_ = selector;
+}
+
+TSQueryOptimizer::QueryPlan TSQueryOptimizer::optimizeWithTiers(
+    const std::string& metric,
+    const std::optional<std::string>& entity,
+    int64_t from_timestamp_ms,
+    int64_t to_timestamp_ms,
+    std::chrono::milliseconds requested_resolution_ms,
+    const OptimizationHint& hint)
+{
+    // If a TierSelector is registered and the caller requests a coarser resolution,
+    // try to find a matching downsampled tier before falling back to the standard
+    // aggregate lookup.
+    if (tier_selector_ && requested_resolution_ms.count() > 0) {
+        auto tier_metric = tier_selector_->selectTier(metric, requested_resolution_ms);
+        if (tier_metric.has_value()) {
+            int64_t time_range_ms = to_timestamp_ms - from_timestamp_ms;
+            size_t raw_points     = estimateRawPointCount(time_range_ms);
+            size_t agg_points     = estimateAggregatePointCount(
+                                        time_range_ms, requested_resolution_ms);
+
+            QueryPlan plan;
+            plan.uses_aggregate        = true;
+            plan.source_metric         = *tier_metric;
+            plan.from_timestamp_ms     = from_timestamp_ms;
+            plan.to_timestamp_ms       = to_timestamp_ms;
+            plan.estimated_points      = agg_points;
+            plan.estimated_speedup     = raw_points > 0
+                                             ? static_cast<double>(raw_points) / std::max(agg_points, size_t{1})
+                                             : 1.0;
+            if (hint.explain) {
+                std::ostringstream oss;
+                oss << "Tier routing: using downsampled metric '" << *tier_metric
+                    << "' (resolution=" << requested_resolution_ms.count() << "ms"
+                    << ", scans " << agg_points << " vs " << raw_points << " raw, "
+                    << std::fixed << std::setprecision(1) << plan.estimated_speedup << "x speedup)";
+                plan.explanation = oss.str();
+            }
+
+            THEMIS_DEBUG("TSQueryOptimizer::optimizeWithTiers: routed '{}' → '{}' ({}x speedup)",
+                         metric, *tier_metric, plan.estimated_speedup);
+            return plan;
+        }
+    }
+
+    // Fall back to standard aggregate optimisation
+    return optimizeAggregateQuery(metric, entity, from_timestamp_ms, to_timestamp_ms, hint);
 }
 
 } // namespace themis

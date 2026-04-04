@@ -32,6 +32,25 @@ Welcome to the ThemisDB documentation! This guide will help you find the informa
 - [Architecture Overview](architecture/OVERVIEW.md) - Understand how ThemisDB works
 - [🧠 LLM Complete Setup Guide](guides/LLM_COMPLETE_SETUP_GUIDE.md) - **NEU** Vollständiger Guide für LLM-Setup und Inferencing
 
+**Module Documentation:**
+Module documentation is located directly in the source code directories:
+- Source modules: `../../src/<module>/README.md` and `../../src/<module>/FUTURE_ENHANCEMENTS.md`
+- Header documentation: `../../include/<module>/README.md`
+
+**Module-specific Documentation in docs/de/:**
+All source code modules now have corresponding documentation directories for German-language guides, tutorials, and implementation notes:
+- **Foundation Layer:** [core](core/), [storage](storage/), [transaction](transaction/), [themis](themis/), [base](base/), [utils](utils/)
+- **Query & Index:** [query](query/), [aql](aql/), [index](index/), [search](search/), [temporal](temporal/), [timeseries](timeseries/)
+- **Security:** [security](security/), [auth](auth/), [governance](governance/)
+- **Server & Network:** [server](server/), [network](network/), [api](api/), [sharding](sharding/)
+- **Intelligence:** [rag](rag/), [llm](llm/), [analytics](analytics/), [voice](voice/)
+- **Operations:** [performance](performance/), [observability](observability/), [updates](updates/), [scheduler](scheduler/)
+- **Data Integration:** [importers](importers/), [exporters](exporters/), [cdc](cdc/), [plugins](plugins/)
+- **Distributed:** [replication](replication/), sharding
+- **Specialized:** [graph](graph/), [chimera](chimera/), [geo](geo/), [acceleration](acceleration/)
+- **Utility:** [metadata](metadata/), [gpu](gpu/), [cache](cache/), [content](content/)
+- **Additional:** [prompt_engineering](prompt_engineering/)
+
 **Business & Strategy:**
 - [Strategiepapier: Industrie 4.0 & IoT](strategie/STRATEGIEPAPIER_INDUSTRIE_4_0_IOT.md) - ThemisDB für Smart Manufacturing & IoT-Anwendungen
 
@@ -152,8 +171,11 @@ Welcome to the ThemisDB documentation! This guide will help you find the informa
 | Document | Description |
 |----------|-------------|
 | [Changelog](releases/CHANGELOG.md) | Version history and changes |
-| [Roadmap](roadmap/ROADMAP.md) | Future plans and features |
-| [v1.3.0 Release](releases/RELEASE_NOTES_v1.3.0.md) | Latest release notes |
+| [Roadmap](roadmap/roadmap_overview.md) | Future plans and features |
+| [v1.8.0 Release](releases/RELEASE_NOTES_v1.8.0.md) | Latest release notes |
+| [v1.7.0 Release](releases/RELEASE_NOTES_v1.7.0.md) | Previous release |
+| [v1.5.0 Release](releases/RELEASE_NOTES_v1.5.0.md) | Previous release |
+| [v1.3.0 Release](releases/RELEASE_NOTES_v1.3.0.md) | Previous release |
 | [v1.2.0 Release](releases/v1.2.0.md) | Previous release |
 | [v1.1.0 Release](releases/v1.1.0.md) | Previous release |
 | [Migration Guides](guides/MIGRATION.md) | Upgrade between versions |

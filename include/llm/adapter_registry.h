@@ -1,11 +1,40 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            adapter_registry.h                                 ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:08:17                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     366                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
+    • 2873683f7  2026-03-18  Changes before error encountered         ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 011803ade  2026-02-28  feat(llm): add hotLoad() and addHotLoadObserver() to Adap... ║
+    • 28a4b23b9  2026-02-23  Refactor tests and update error handling ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include "storage/security_signature_manager.h"
+#include "llm/lora_framework/lora_provenance.h"
 #include <string>
 #include <vector>
 #include <optional>
 #include <map>
 #include <memory>
+#include <functional>
+#include <shared_mutex>
 #include <nlohmann/json.hpp>
 
 namespace themis {
@@ -161,6 +190,7 @@ struct AdapterMetadata {
 class AdapterRegistry {
 public:
     explicit AdapterRegistry(std::shared_ptr<storage::SecuritySignatureManager> sig_manager);
+    ~AdapterRegistry();
     
     // CRUD Operations
     
@@ -251,17 +281,84 @@ public:
     };
     
     RegistryStats getStats() const;
+
+    // Hot-Loading Interface
+
+    /// Callback type invoked when an adapter is hot-loaded via hotLoad().
+    /// @param adapter_id   The unique adapter identifier.
+    /// @param weights_path Filesystem path to the adapter weights file.
+    /// @param scale        LoRA scaling factor.
+    using HotLoadCallback = std::function<void(const std::string& adapter_id,
+                                               const std::string& weights_path,
+                                               float scale)>;
+
+    /// Register a LoRA adapter for hot-loading at inference time without
+    /// engine restart.  Registers (or updates) the adapter metadata and then
+    /// invokes all callbacks previously registered with addHotLoadObserver().
+    ///
+    /// Thread-safe: metadata update is protected by the registry mutex;
+    /// callbacks are dispatched outside the lock to avoid inversion.
+    ///
+    /// @param adapter_id   Unique identifier for the adapter; must not be empty.
+    /// @param weights_path Filesystem path to the adapter weights; must not be empty.
+    /// @param metadata     Adapter metadata (base_model_name, version, etc.).
+    /// @param scale        LoRA scaling factor (default 1.0).
+    /// @return true if the adapter was registered/updated and callbacks fired
+    ///         successfully, false on validation failure.
+    bool hotLoad(const std::string& adapter_id,
+                 const std::string& weights_path,
+                 const AdapterMetadata& metadata,
+                 float scale = 1.0f);
+
+    /// Register an observer callback that is invoked whenever hotLoad() is
+    /// called successfully.  Callbacks are dispatched in registration order.
+    ///
+    /// Thread-safe: protected by the registry mutex.
+    ///
+    /// @param callback Observer to register; must be non-null.
+    void addHotLoadObserver(HotLoadCallback callback);
+
+    // Provenance Integration
     
+    /// Attach a cryptographic provenance record to a registered adapter.
+    /// Returns false if the adapter does not exist.
+    bool attachProvenance(const std::string& adapter_id,
+                          const lora::LoRAProvenanceRecord& record);
+
+    /// Retrieve the provenance record attached to an adapter.
+    std::optional<lora::LoRAProvenanceRecord> getProvenanceRecord(
+        const std::string& adapter_id) const;
+
+    /// Record one inference event in the Merkle-chained audit log for an adapter.
+    /// Populates entry_id, timestamp, previous_hash and entry_hash automatically.
+    lora::InferenceAuditEntry recordInferenceAudit(
+        const std::string& adapter_id,
+        lora::InferenceAuditEntry entry);
+
+    /// Retrieve the full Merkle-chained inference audit log for an adapter.
+    std::vector<lora::InferenceAuditEntry> getInferenceAuditLog(
+        const std::string& adapter_id) const;
+
+    /// Verify the integrity of the Merkle audit chain for an adapter.
+    bool verifyAuditChain(const std::string& adapter_id) const;
+
 private:
     std::shared_ptr<storage::SecuritySignatureManager> sig_manager_;
     static constexpr const char* ADAPTER_KEY_PREFIX = "adapter:";
     static constexpr const char* BASE_MODEL_INDEX_PREFIX = "adapter_by_base_model:";
     static constexpr const char* DOMAIN_INDEX_PREFIX = "adapter_by_domain:";
-    
+
+    // Provenance manager for cryptographic audit and MVCC snapshots
+    lora::LoRAProvenanceManager provenance_mgr_;
+
+    // Pimpl for in-memory storage (thread-safe via mutex)
+    struct Impl;
+    std::unique_ptr<Impl> impl_;
+
     std::string makeAdapterKey(const std::string& adapter_id) const;
     std::string makeBaseModelIndexKey(const std::string& base_model) const;
     std::string makeDomainIndexKey(const std::string& domain) const;
-    
+
     // Helper: Update indices when adapter is registered/updated/deleted
     void updateIndices(const AdapterMetadata& metadata, bool remove = false);
 };

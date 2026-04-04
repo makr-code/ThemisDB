@@ -1,3 +1,27 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            shard_load_detector.cpp                            ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:20:22                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     577                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 226748f4e  2026-03-14  fix(sharding): address code review feedback on adaptive s... ║
+    • 33f9fb777  2026-03-14  feat(sharding): implement adaptive shard rebalancer with ... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "sharding/shard_load_detector.h"
 #include "sharding/shard_topology.h"
 #include "sharding/prometheus_metrics.h"
@@ -31,6 +55,13 @@ void ShardLoadDetector::updateShardLoad(const std::string& shard_id, const Shard
     std::lock_guard<std::mutex> lock(mutex_);
     
     shard_loads_[shard_id] = load;
+
+    // Append to per-shard history for forecasting; enforce ring-buffer size
+    auto& history = shard_load_history_[shard_id];
+    history.push_back(load);
+    while (history.size() > kMaxHistorySamples) {
+        history.pop_front();
+    }
     
     // Update Prometheus metrics
     if (metrics_) {
@@ -415,6 +446,131 @@ nlohmann::json ShardLoadDetector::getStatistics() const {
     }
     
     return stats;
+}
+
+// ──────────────────────────────────────────────────────────────────────────────
+// Load Forecasting
+// ──────────────────────────────────────────────────────────────────────────────
+
+std::pair<double, double> ShardLoadDetector::linearRegression(const std::vector<double>& values) {
+    if (values.size() < 2) {
+        return {0.0, values.empty() ? 0.0 : values[0]};
+    }
+
+    const double n = static_cast<double>(values.size());
+    double sum_x = 0.0, sum_y = 0.0, sum_xy = 0.0, sum_xx = 0.0;
+
+    for (size_t i = 0; i < values.size(); ++i) {
+        const double x = static_cast<double>(i);
+        sum_x  += x;
+        sum_y  += values[i];
+        sum_xy += x * values[i];
+        sum_xx += x * x;
+    }
+
+    const double denom = n * sum_xx - sum_x * sum_x;
+    if (std::abs(denom) < 1e-12) {
+        return {0.0, sum_y / n};
+    }
+
+    const double slope     = (n * sum_xy - sum_x * sum_y) / denom;
+    const double intercept = (sum_y - slope * sum_x) / n;
+    return {slope, intercept};
+}
+
+std::optional<LoadForecast> ShardLoadDetector::forecastLoad(
+    const std::string& shard_id,
+    std::chrono::minutes horizon
+) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    auto it_current = shard_loads_.find(shard_id);
+    if (it_current == shard_loads_.end()) {
+        return std::nullopt;
+    }
+
+    LoadForecast forecast;
+    forecast.shard_id = shard_id;
+    forecast.horizon  = horizon;
+
+    auto it_hist = shard_load_history_.find(shard_id);
+    const bool has_history = (it_hist != shard_load_history_.end()) &&
+                             (it_hist->second.size() >= config_.min_samples_per_shard);
+    forecast.has_sufficient_history = has_history;
+
+    if (!has_history) {
+        // Fall back to current snapshot (no extrapolation)
+        const auto& current = it_current->second;
+        forecast.predicted_cpu_percent      = current.cpu_usage_percent;
+        forecast.predicted_storage_percent  = current.storage_usage_percent;
+        forecast.predicted_composite_load   = calculateLoad(current);
+        forecast.confidence_interval        = 0.0;
+        return forecast;
+    }
+
+    const auto& history = it_hist->second;
+    const size_t n = history.size();
+
+    // Build per-metric time-series (sample index as proxy for time)
+    std::vector<double> cpu_series, storage_series, composite_series;
+    cpu_series.reserve(n);
+    storage_series.reserve(n);
+    composite_series.reserve(n);
+
+    for (const auto& sample : history) {
+        cpu_series.push_back(sample.cpu_usage_percent);
+        storage_series.push_back(sample.storage_usage_percent);
+        composite_series.push_back(calculateLoad(sample));
+    }
+
+    // Determine how many additional samples the horizon corresponds to.
+    // We estimate the inter-sample interval from the history timestamps.
+    double steps_ahead = 1.0;
+    if (history.size() >= 2) {
+        const auto& first = history.front();
+        const auto& last  = history.back();
+        auto total_duration = std::chrono::duration_cast<std::chrono::milliseconds>(
+            last.last_update - first.last_update
+        ).count();
+        if (total_duration > 0) {
+            const double interval_ms = static_cast<double>(total_duration) / (n - 1);
+            const double horizon_ms  =
+                static_cast<double>(std::chrono::duration_cast<std::chrono::milliseconds>(horizon).count());
+            steps_ahead = horizon_ms / interval_ms;
+        }
+    }
+
+    // Apply linear regression and extrapolate
+    auto [cpu_slope,     cpu_intercept]     = linearRegression(cpu_series);
+    auto [storage_slope, storage_intercept] = linearRegression(storage_series);
+    auto [comp_slope,    comp_intercept]    = linearRegression(composite_series);
+
+    const double future_x = static_cast<double>(n - 1) + steps_ahead;
+
+    forecast.predicted_cpu_percent     = std::clamp(cpu_slope * future_x + cpu_intercept, 0.0, 100.0);
+    forecast.predicted_storage_percent = std::clamp(storage_slope * future_x + storage_intercept, 0.0, 100.0);
+    forecast.predicted_composite_load  = std::clamp(comp_slope * future_x + comp_intercept, 0.0, 100.0);
+
+    // Residual standard deviation as a proxy for confidence interval
+    double residual_sum = 0.0;
+    for (size_t i = 0; i < composite_series.size(); ++i) {
+        const double predicted = comp_slope * static_cast<double>(i) + comp_intercept;
+        const double diff = composite_series[i] - predicted;
+        residual_sum += diff * diff;
+    }
+    forecast.confidence_interval = (n > 2)
+        ? std::sqrt(residual_sum / static_cast<double>(n - 2))
+        : 0.0;
+
+    THEMIS_DEBUG("ShardLoadDetector::forecastLoad shard={} horizon={}min "
+                 "predicted_cpu={:.1f}% predicted_storage={:.1f}% composite={:.1f}±{:.1f}",
+                 shard_id, horizon.count(),
+                 forecast.predicted_cpu_percent,
+                 forecast.predicted_storage_percent,
+                 forecast.predicted_composite_load,
+                 forecast.confidence_interval);
+
+    return forecast;
 }
 
 } // namespace sharding

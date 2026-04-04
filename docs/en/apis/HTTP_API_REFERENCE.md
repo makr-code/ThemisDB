@@ -378,6 +378,87 @@ Execute an AQL (Advanced Query Language) query.
 
 ---
 
+#### Pagination Support
+
+AQL queries support multiple pagination strategies for efficient handling of large result sets.
+
+**Request Parameters:**
+```json
+{
+  "query": "FOR user IN users SORT user.name RETURN user",
+  "use_cursor": true,
+  "cursor": "eyJwayI6InVzZXJzOmFsaWNlIiwiY29sbGVjdGlvbiI6InVzZXJzIiwidmVyc2lvbiI6MX0=",
+  "page_size": 100
+}
+```
+
+**Pagination Parameters:**
+- `use_cursor` (boolean): Enable cursor-based pagination
+- `cursor` (string, optional): Base64-encoded cursor token from previous page
+- `page_size` (integer, optional): Items per page (min: 1, max: 10,000, default: 100)
+
+**Paginated Response:**
+```json
+{
+  "items": [
+    {"name": "Alice", "age": 30},
+    {"name": "Bob", "age": 32}
+  ],
+  "has_more": true,
+  "next_cursor": "eyJwayI6InVzZXJzOmJvYiIsImNvbGxlY3Rpb24iOiJ1c2VycyIsInZlcnNpb24iOjF9",
+  "batch_size": 100,
+  "page_info": {
+    "page_size": 100,
+    "has_next_page": true,
+    "has_prev_page": false
+  },
+  "pagination_method": "cursor"
+}
+```
+
+**Pagination Methods:**
+- **cursor**: Stateless cursor-based pagination (recommended for distributed systems)
+- **keyset**: Efficient ORDER BY-based pagination (O(log n) performance)
+- **offset**: Traditional offset-based pagination (compatibility)
+
+**Features:**
+- ✅ Cursor expiration (1-hour TTL by default)
+- ✅ ORDER BY value encoding for keyset pagination (eliminates database lookups)
+- ✅ Configurable page size limits prevent memory exhaustion
+- ✅ Backward compatible with non-paginated queries
+- ✅ Stateless design suitable for distributed systems
+
+**Example - First Page:**
+```bash
+curl -X POST http://localhost:8765/query/aql \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $TOKEN" \
+  -d '{
+    "query": "FOR user IN users SORT user.name RETURN user",
+    "use_cursor": true,
+    "page_size": 50
+  }'
+```
+
+**Example - Next Page:**
+```bash
+curl -X POST http://localhost:8765/query/aql \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $TOKEN" \
+  -d '{
+    "query": "FOR user IN users SORT user.name RETURN user",
+    "use_cursor": true,
+    "cursor": "eyJwayI6InVzZXJzOmFsaWNlIiwiY29sbGVjdGlvbiI6InVzZXJzIn0=",
+    "page_size": 50
+  }'
+```
+
+**Error Handling:**
+- `400 Bad Request`: Invalid cursor or expired cursor
+- `400 Bad Request`: Page size out of range (< 1 or > 10,000)
+
+---
+
 ## Index Management
 
 ### POST /index/create

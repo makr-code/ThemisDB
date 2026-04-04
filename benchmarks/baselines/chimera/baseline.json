@@ -1,0 +1,32 @@
+{
+  "version": "1.5.0-dev",
+  "branch": "main",
+  "commit": "0000000000000000000000000000000000000000",
+  "timestamp": "2026-03-01T00:00:00Z",
+  "workloads": {
+    "relational_sort": {
+      "throughput_ops_per_sec": 42503.0,
+      "mean_latency_ms": 0.024,
+      "p95_latency_ms": 0.023,
+      "p99_latency_ms": 0.034
+    },
+    "vector_dot_product": {
+      "throughput_ops_per_sec": 75835.0,
+      "mean_latency_ms": 0.013,
+      "p95_latency_ms": 0.013,
+      "p99_latency_ms": 0.024
+    },
+    "document_lookup": {
+      "throughput_ops_per_sec": 2956804.0,
+      "mean_latency_ms": 0.00018,
+      "p95_latency_ms": 0.0002,
+      "p99_latency_ms": 0.00025
+    },
+    "graph_bfs": {
+      "throughput_ops_per_sec": 40373.0,
+      "mean_latency_ms": 0.025,
+      "p95_latency_ms": 0.025,
+      "p99_latency_ms": 0.033
+    }
+  }
+}

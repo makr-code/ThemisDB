@@ -1,0 +1,70 @@
+# Multi-Level Encrypted User Storage Configuration
+#
+# This file defines the security classification levels and their encryption settings.
+# Each level maps to German Federal classification (Verschlusssache).
+
+multi_level_storage:
+  # Level 1: offen (Public, unencrypted)
+  levels:
+    - name: "offen"
+      path: "/var/lib/themisdb/offen"
+      encrypted: false
+      
+    # Level 2: vs-nfd (Restricted, encrypted with Vault)
+    - name: "vs-nfd"
+      encrypted_dir: "/var/lib/themisdb/encrypted/vs-nfd"
+      mount_point: "/var/lib/themisdb/mnt/vs-nfd"
+      encrypted: true
+      encryption:
+        backend: "gocryptfs"
+        key_id: "user_storage_vs_nfd"
+        key_provider: "vault"
+        vault_addr: "https://vault.company.com:8200"
+        vault_mount: "themis"
+      rotation:
+        enabled: true
+        interval_days: 90
+        auto_rotate: true
+        
+    # Level 3: geheim (Secret, encrypted with Vault, no ANN)
+    - name: "geheim"
+      encrypted_dir: "/var/lib/themisdb/encrypted/geheim"
+      mount_point: "/var/lib/themisdb/mnt/geheim"
+      encrypted: true
+      encryption:
+        backend: "gocryptfs"
+        key_id: "user_storage_geheim"
+        key_provider: "vault"
+        vault_addr: "https://vault.company.com:8200"
+        vault_mount: "themis"
+      rotation:
+        enabled: true
+        interval_days: 60
+        auto_rotate: true
+        
+    # Level 4: streng-geheim (Top Secret, HSM-backed)
+    - name: "streng-geheim"
+      encrypted_dir: "/var/lib/themisdb/encrypted/streng-geheim"
+      mount_point: "/var/lib/themisdb/mnt/streng-geheim"
+      encrypted: true
+      encryption:
+        backend: "gocryptfs"
+        key_id: "user_storage_streng_geheim"
+        key_provider: "hsm"
+        hsm_library: "/usr/lib/softhsm/libsofthsm2.so"
+        hsm_slot: 0
+        hsm_key_label: "themis-streng-geheim-kek"
+      rotation:
+        enabled: true
+        interval_days: 30
+        auto_rotate: true
+        notification:
+          email: "security@company.com"
+
+# Apache Ranger Integration (optional)
+ranger:
+  enabled: false
+  url: "http://ranger:6080"
+  service_name: "themisdb"
+  api_key: "${RANGER_API_KEY}"
+  cache_ttl: 300  # Cache policy decisions for 5 minutes

@@ -1,0 +1,160 @@
+#version 450
+
+// NF4 Quantization Compute Shader
+// Quantizes float32 values to 4-bit NormalFloat format
+
+layout(local_size_x = 256) in;
+
+// Input/Output buffers
+layout(binding = 0) buffer InputBuffer {
+    float input_data[];
+};
+
+layout(binding = 1) buffer OutputBuffer {
+    uint output_data[];  // Packed NF4: 2 values per byte, 8 values per uint
+};
+
+layout(binding = 2) buffer ScalesBuffer {
+    float scales[];
+};
+
+layout(binding = 3) buffer ZerosBuffer {
+    float zeros[];
+};
+
+// Push constants for parameters
+layout(push_constant) uniform PushConstants {
+    uint num_elements;
+    uint block_size;
+    uint num_blocks;
+};
+
+// NF4 quantization lookup table
+const float NF4_VALUES[16] = float[16](
+    -1.0, -0.6962, -0.5251, -0.3949,
+    -0.2844, -0.1848, -0.0911, 0.0,
+    0.0796, 0.1609, 0.2461, 0.3379,
+    0.4407, 0.5626, 0.7230, 1.0
+);
+
+// Shared memory for parallel reduction
+shared float shared_values[256];  // For reduction
+
+/**
+ * @brief Find nearest NF4 bin for a normalized value
+ */
+uint find_nf4_bin(float value) {
+    // Clamp to [-1, 1]
+    value = clamp(value, -1.0, 1.0);
+    
+    uint best_bin = 0;
+    float min_dist = abs(value - NF4_VALUES[0]);
+    
+    for (uint i = 1; i < 16; i++) {
+        float dist = abs(value - NF4_VALUES[i]);
+        if (dist < min_dist) {
+            min_dist = dist;
+            best_bin = i;
+        }
+    }
+    
+    return best_bin;
+}
+
+void main() {
+    uint gid = gl_GlobalInvocationID.x;
+    uint lid = gl_LocalInvocationID.x;
+    uint block_id = gl_WorkGroupID.x;
+    
+    uint block_start = block_id * block_size;
+    uint block_end = min(block_start + block_size, num_elements);
+    
+    if (block_start >= num_elements) {
+        return;
+    }
+    
+    // Initialize shared memory (only needed for reduction result)
+    float block_max = -3.402823466e+38;
+    float block_min = 3.402823466e+38;
+    float block_scale;
+    float block_zero;
+    barrier();
+    
+    // Phase 1: Find min/max in block with parallel reduction
+    float local_max = -3.402823466e+38;
+    float local_min = 3.402823466e+38;
+    
+    for (uint i = block_start + lid; i < block_end; i += gl_WorkGroupSize.x) {
+        float val = input_data[i];
+        local_max = max(local_max, val);
+        local_min = min(local_min, val);
+    }
+    
+    // Store local results in shared memory
+    shared_values[lid] = local_max;
+    barrier();
+    
+    // Tree reduction for max
+    for (uint stride = gl_WorkGroupSize.x / 2; stride > 0; stride /= 2) {
+        if (lid < stride) {
+            shared_values[lid] = max(shared_values[lid], shared_values[lid + stride]);
+        }
+        barrier();
+    }
+    
+    if (lid == 0) {
+        block_max = shared_values[0];
+    }
+    barrier();
+    
+    // Repeat for min
+    shared_values[lid] = local_min;
+    barrier();
+    
+    for (uint stride = gl_WorkGroupSize.x / 2; stride > 0; stride /= 2) {
+        if (lid < stride) {
+            shared_values[lid] = min(shared_values[lid], shared_values[lid + stride]);
+        }
+        barrier();
+    }
+    
+    if (lid == 0) {
+        block_min = shared_values[0];
+    }
+    barrier();
+    
+    // Phase 2: Compute scale and zero point
+    if (lid == 0) {
+        if (abs(block_max - block_min) < 1e-8) {
+            block_scale = 1.0;
+            block_zero = 0.0;
+        } else {
+            block_scale = (block_max - block_min) / 2.0;
+            block_zero = (block_max + block_min) / 2.0;
+        }
+        
+        scales[block_id] = block_scale;
+        zeros[block_id] = block_zero;
+    }
+    barrier();
+    
+    // Phase 3: Quantize and pack values
+    // Read scale and zero from global memory
+    float scale = scales[block_id];
+    float zero = zeros[block_id];
+    
+    for (uint i = block_start + lid; i < block_end; i += gl_WorkGroupSize.x) {
+        // Normalize to [-1, 1]
+        float normalized = (input_data[i] - zero) / scale;
+        
+        // Find NF4 bin
+        uint bin = find_nf4_bin(normalized);
+        
+        // Pack into output (8 values per uint)
+        uint uint_idx = i / 8;
+        uint bit_offset = (i % 8) * 4;
+        
+        // Atomic OR to safely pack multiple values
+        atomicOr(output_data[uint_idx], bin << bit_offset);
+    }
+}

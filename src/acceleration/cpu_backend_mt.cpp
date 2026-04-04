@@ -1,8 +1,33 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            cpu_backend_mt.cpp                                 ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:13:43                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     361                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 14566f756  2026-02-23  fix(acceleration): extend BatchValidator to MT/TBB/HIP ba... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // Multi-Threaded CPU Backend with OpenMP and SIMD optimizations
 // Provides high-performance CPU-based acceleration for vector, graph, and geo operations
 // Copyright (c) 2024 ThemisDB
 
 #include "acceleration/cpu_backend.h"
+#include "acceleration/batch_validator.h"
+#include "utils/simd_distance.h"
 #include <cmath>
 #include <algorithm>
 #include <queue>
@@ -74,73 +99,22 @@ public:
         enableSIMD_ = enable;
     }
     
-    std::string name() const override {
+    const char* name() const noexcept override {
         return "CPU Multi-Threaded (OpenMP + SIMD)";
     }
     
-    // Optimized L2 distance computation with SIMD
-    float computeL2Distance(const float* a, const float* b, size_t dim) const override {
-#if THEMIS_HAS_SIMD_X86 && defined(__AVX2__)
-        if (enableSIMD_ && dim >= 8) {
-            __m256 sum_vec = _mm256_setzero_ps();
-            size_t i = 0;
-            
-            // Process 8 floats at a time with AVX2
-            for (; i + 7 < dim; i += 8) {
-                __m256 a_vec = _mm256_loadu_ps(a + i);
-                __m256 b_vec = _mm256_loadu_ps(b + i);
-                __m256 diff = _mm256_sub_ps(a_vec, b_vec);
-                sum_vec = _mm256_fmadd_ps(diff, diff, sum_vec); // FMA: diff*diff + sum
-            }
-            
-            // Horizontal sum
-            __m128 sum_high = _mm256_extractf128_ps(sum_vec, 1);
-            __m128 sum_low = _mm256_castps256_ps128(sum_vec);
-            __m128 sum = _mm_add_ps(sum_low, sum_high);
-            sum = _mm_hadd_ps(sum, sum);
-            sum = _mm_hadd_ps(sum, sum);
-            
-            float result = _mm_cvtss_f32(sum);
-            
-            // Handle remaining elements
-            for (; i < dim; ++i) {
-                float diff = a[i] - b[i];
-                result += diff * diff;
-            }
-            
-            return std::sqrt(result);
+    // Optimized L2 distance computation with SIMD (hides base class method)
+    float computeL2Distance(const float* a, const float* b, size_t dim) const {
+        // Use optimized SIMD implementation with cache prefetching
+        if (enableSIMD_) {
+            return themis::simd::l2_distance(a, b, dim);
         }
-#elif THEMIS_HAS_SIMD_ARM
-        if (enableSIMD_ && dim >= 4) {
-            float32x4_t sum_vec = vdupq_n_f32(0.0f);
-            size_t i = 0;
-            
-            // Process 4 floats at a time with NEON
-            for (; i + 3 < dim; i += 4) {
-                float32x4_t a_vec = vld1q_f32(a + i);
-                float32x4_t b_vec = vld1q_f32(b + i);
-                float32x4_t diff = vsubq_f32(a_vec, b_vec);
-                sum_vec = vmlaq_f32(sum_vec, diff, diff); // diff*diff + sum
-            }
-            
-            // Horizontal sum
-            float result = vaddvq_f32(sum_vec); // ARM64 only
-            
-            // Handle remaining elements
-            for (; i < dim; ++i) {
-                float diff = a[i] - b[i];
-                result += diff * diff;
-            }
-            
-            return std::sqrt(result);
-        }
-#endif
-        // Fallback to scalar implementation
+        // Fallback to base implementation
         return CPUVectorBackend::computeL2Distance(a, b, dim);
     }
     
-    // Optimized cosine distance with SIMD
-    float computeCosineDistance(const float* a, const float* b, size_t dim) const override {
+    // Optimized cosine distance with SIMD (hides base class method)
+    float computeCosineDistance(const float* a, const float* b, size_t dim) const {
 #if THEMIS_HAS_SIMD_X86 && defined(__AVX2__)
         if (enableSIMD_ && dim >= 8) {
             __m256 dot_vec = _mm256_setzero_ps();
@@ -157,7 +131,7 @@ public:
             }
             
             // Horizontal sum
-            auto hsum = [](__ m256 v) {
+            auto hsum = [](__m256 v) {
                 __m128 sum_high = _mm256_extractf128_ps(v, 1);
                 __m128 sum_low = _mm256_castps256_ps128(v);
                 __m128 sum = _mm_add_ps(sum_low, sum_high);
@@ -222,7 +196,7 @@ public:
         return CPUVectorBackend::computeCosineDistance(a, b, dim);
     }
     
-    // Multi-threaded batch distance computation
+    // Multi-threaded batch distance computation with improved cache utilization
     std::vector<float> computeDistances(
         const float* queries,
         size_t numQueries,
@@ -231,18 +205,35 @@ public:
         size_t numVectors,
         bool useL2
     ) override {
+        auto sink = [this](ErrorContext e){ setError(std::move(e)); };
+        if (!BatchValidator::validateVectorBatch(name(), queries, numQueries, dim,
+                                                 vectors, numVectors, sink)) {
+            return {};
+        }
+
         std::vector<float> distances(numQueries * numVectors);
         
 #if THEMIS_HAS_OPENMP
-        // Parallel processing with OpenMP
+        // Parallel processing with OpenMP - improved cache locality
         #pragma omp parallel for schedule(dynamic, 16)
         for (size_t q = 0; q < numQueries; ++q) {
             const float* query = queries + q * dim;
-            for (size_t v = 0; v < numVectors; ++v) {
-                const float* vector = vectors + v * dim;
-                float dist = useL2 ? computeL2Distance(query, vector, dim)
-                                  : computeCosineDistance(query, vector, dim);
-                distances[q * numVectors + v] = dist;
+            float* result = &distances[q * numVectors];
+            
+            if (useL2 && enableSIMD_) {
+                // Compute squared distances with batch optimization
+                themis::simd::batch_l2_distance_sq(query, vectors, numVectors, dim, result);
+                // Convert to actual distances in same loop - better cache locality
+                for (size_t v = 0; v < numVectors; ++v) {
+                    result[v] = std::sqrt(result[v]);
+                }
+            } else {
+                // Standard processing for cosine or when SIMD disabled
+                for (size_t v = 0; v < numVectors; ++v) {
+                    const float* vector = vectors + v * dim;
+                    result[v] = useL2 ? computeL2Distance(query, vector, dim)
+                                      : computeCosineDistance(query, vector, dim);
+                }
             }
         }
 #else
@@ -263,6 +254,15 @@ public:
         size_t k,
         bool useL2
     ) override {
+        auto sink = [this](ErrorContext e){ setError(std::move(e)); };
+        if (!BatchValidator::validateVectorBatch(name(), queries, numQueries, dim,
+                                                 vectors, numVectors, sink)) {
+            return {};
+        }
+        if (!BatchValidator::validateK(name(), k, sink)) {
+            return {};
+        }
+
         std::vector<std::vector<std::pair<uint32_t, float>>> results(numQueries);
         
 #if THEMIS_HAS_OPENMP
@@ -318,7 +318,7 @@ public:
 #endif
     }
     
-    std::string name() const override {
+    const char* name() const noexcept override {
         return "CPU Geo Multi-Threaded (OpenMP)";
     }
     

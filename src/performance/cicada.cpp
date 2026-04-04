@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            cicada.cpp                                         ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:17:51                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     115                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • e8990043f  2026-03-09  fix(performance): implement Cicada install_writes() data ... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "performance/cicada.h"
 #include <algorithm>
 
@@ -8,8 +31,8 @@ void CicadaTransaction::record_read(CicadaRecord* record, uint64_t version_read)
     read_set_.push_back({record, version_read});
 }
 
-void CicadaTransaction::record_write(CicadaRecord* record) {
-    write_set_.push_back({record, ""});
+void CicadaTransaction::record_write(CicadaRecord* record, std::string data) {
+    write_set_.push_back({record, std::move(data)});
 }
 
 bool CicadaTransaction::execute(const TransactionFunc& func) {
@@ -40,9 +63,10 @@ bool CicadaTransaction::acquire_write_locks() {
 }
 
 void CicadaTransaction::install_writes() {
-    // Phase 3: Install new versions
+    // Phase 3: Install new versions — write pending data then release the lock
     for (const auto& entry : write_set_) {
-        // Would write actual data here
+        // Write the new data value into the record while the write lock is held
+        entry.record->set_data(entry.data);
         entry.record->unlock_and_increment_version();
     }
 }

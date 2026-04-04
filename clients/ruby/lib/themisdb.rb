@@ -23,6 +23,11 @@ module ThemisDB
 
     attr_reader :endpoints, :namespace, :timeout, :max_retries
 
+    # Circuit breaker states
+    CIRCUIT_CLOSED = :closed
+    CIRCUIT_OPEN = :open
+    CIRCUIT_HALF_OPEN = :half_open
+
     # Create a new ThemisDB client
     #
     # @param endpoints [Array<String>] List of ThemisDB server endpoints
@@ -32,6 +37,8 @@ module ThemisDB
     # @option options [Integer] :max_retries (3) Maximum retry attempts
     # @option options [String] :metadata_endpoint Custom metadata endpoint
     # @option options [String] :metadata_path Metadata path
+    # @option options [Hash] :circuit_breaker Circuit breaker configuration
+    # @option options [Hash] :logging Logging configuration
     def initialize(endpoints, **options)
       raise ArgumentError, 'endpoints must not be empty' if endpoints.empty?
 
@@ -43,6 +50,34 @@ module ThemisDB
       @metadata_path = options[:metadata_path] || DEFAULT_METADATA_PATH
       @shard_endpoints = @endpoints.dup
       @topology_cache = nil
+      
+      # Circuit breaker configuration
+      cb_config = options[:circuit_breaker] || {}
+      if cb_config[:enabled]
+        @circuit_breaker_enabled = true
+        @circuit_breaker_failure_threshold = cb_config[:failure_threshold] || 5
+        @circuit_breaker_reset_timeout = cb_config[:reset_timeout] || 60
+        @circuit_breaker_half_open_max = cb_config[:half_open_max_requests] || 3
+        @circuit_breaker_state = CIRCUIT_CLOSED
+        @circuit_breaker_failure_count = 0
+        @circuit_breaker_success_count = 0
+        @circuit_breaker_next_attempt_time = nil
+      else
+        @circuit_breaker_enabled = false
+      end
+      
+      # Logging configuration
+      log_config = options[:logging] || {}
+      @logging_enabled = log_config[:enabled] || false
+      @log_requests = log_config[:log_requests] || false
+      @log_responses = log_config[:log_responses] || false
+    end
+    
+    # Get circuit breaker state
+    #
+    # @return [Symbol, nil] :closed, :open, :half_open, or nil if disabled
+    def circuit_breaker_state
+      @circuit_breaker_enabled ? @circuit_breaker_state : nil
     end
 
     # Check server health
@@ -331,6 +366,15 @@ module ThemisDB
 
     # @api private
     def request(method, url, body = nil, headers = {})
+      # Check circuit breaker
+      if @circuit_breaker_enabled && !can_execute_request?
+        log('ERROR', "Circuit breaker is OPEN for #{url}")
+        raise StandardError, 'Circuit breaker is OPEN'
+      end
+      
+      # Log request
+      log('INFO', "#{method.upcase} #{url}") if @log_requests
+      
       uri = URI(url)
       http = Net::HTTP.new(uri.host, uri.port)
       http.read_timeout = @timeout
@@ -356,20 +400,32 @@ module ThemisDB
       @max_retries.times do |attempt|
         response = http.request(request)
         
+        # Log response
+        log('INFO', "#{method.upcase} #{url} -> #{response.code}") if @log_responses
+        
         case response.code.to_i
         when 200..299
+          record_circuit_breaker_success
           return response.body.empty? ? {} : JSON.parse(response.body)
         when 404
+          record_circuit_breaker_failure
           raise NotFoundError, "Resource not found: #{url}"
         when 500..599
+          record_circuit_breaker_failure
+          log('WARN', "Server error #{response.code}, retrying...")
           raise StandardError, "HTTP #{response.code}: #{response.body}" if attempt == @max_retries - 1
           last_error = StandardError.new("HTTP #{response.code}: #{response.body}")
+          sleep(backoff_delay(attempt))
         else
+          record_circuit_breaker_failure
           raise StandardError, "HTTP #{response.code}: #{response.body}"
         end
       rescue StandardError => e
+        record_circuit_breaker_failure
+        log('ERROR', "Request failed: #{e.message}")
         raise if attempt == @max_retries - 1
         last_error = e
+        sleep(backoff_delay(attempt))
       end
 
       raise last_error if last_error
@@ -377,6 +433,59 @@ module ThemisDB
     end
 
     private
+
+    def log(level, message)
+      return unless @logging_enabled
+      puts "[ThemisDB] [#{level}] #{message}"
+    end
+    
+    def backoff_delay(attempt)
+      (2 ** attempt) * 0.1  # Exponential backoff: 0.1s, 0.2s, 0.4s, etc.
+    end
+    
+    def can_execute_request?
+      return true unless @circuit_breaker_enabled
+      
+      case @circuit_breaker_state
+      when CIRCUIT_CLOSED
+        true
+      when CIRCUIT_OPEN
+        if Time.now >= @circuit_breaker_next_attempt_time
+          @circuit_breaker_state = CIRCUIT_HALF_OPEN
+          @circuit_breaker_success_count = 0
+          true
+        else
+          false
+        end
+      when CIRCUIT_HALF_OPEN
+        @circuit_breaker_success_count < @circuit_breaker_half_open_max
+      end
+    end
+    
+    def record_circuit_breaker_success
+      return unless @circuit_breaker_enabled
+      
+      @circuit_breaker_failure_count = 0
+      
+      if @circuit_breaker_state == CIRCUIT_HALF_OPEN
+        @circuit_breaker_success_count += 1
+        if @circuit_breaker_success_count >= @circuit_breaker_half_open_max
+          @circuit_breaker_state = CIRCUIT_CLOSED
+        end
+      end
+    end
+    
+    def record_circuit_breaker_failure
+      return unless @circuit_breaker_enabled
+      
+      @circuit_breaker_failure_count += 1
+      @circuit_breaker_success_count = 0
+      
+      if @circuit_breaker_failure_count >= @circuit_breaker_failure_threshold
+        @circuit_breaker_state = CIRCUIT_OPEN
+        @circuit_breaker_next_attempt_time = Time.now + @circuit_breaker_reset_timeout
+      end
+    end
 
     def build_urn(model, collection, uuid)
       "urn:themis:#{model}:#{@namespace}:#{collection}:#{uuid}"

@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            sse_connection_manager.cpp                         ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:20:07                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     334                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • b006db51f  2026-02-23  Implement CDC event filtering by operation type (INSERT/U... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "server/sse_connection_manager.h"
 #include "cdc/changefeed.h"
 #include "utils/logger.h"
@@ -40,7 +63,8 @@ SseConnectionManager::~SseConnectionManager() {
 
 uint64_t SseConnectionManager::registerConnection(
     uint64_t from_seq,
-    const std::string& key_prefix
+    const std::string& key_prefix,
+    const std::set<Changefeed::ChangeEventType>& event_types
 ) {
     uint64_t conn_id = 0;
     bool start_background = false;
@@ -52,6 +76,7 @@ uint64_t SseConnectionManager::registerConnection(
         conn->id = next_conn_id_++;
         conn->current_sequence = from_seq;
         conn->key_prefix = key_prefix;
+        conn->event_types = event_types;
         conn->last_activity = std::chrono::steady_clock::now();
         conn->last_heartbeat = std::chrono::steady_clock::now();
 
@@ -256,6 +281,10 @@ void SseConnectionManager::backgroundPollTask() {
             
             if (!conn->key_prefix.empty()) {
                 options.key_prefix = conn->key_prefix;
+            }
+            
+            if (!conn->event_types.empty()) {
+                options.event_types = conn->event_types;
             }
             
             auto events = changefeed_->listEvents(options);

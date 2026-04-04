@@ -408,16 +408,67 @@ m.percentile_value = 95.0;  // 95. Perzentil
 - Keine automatische View-Auswahl
 - Keine parallele Aggregation (single-threaded)
 
+## Data Export
+
+### Arrow Export (GAP-003) - 🚧 Phase 1 Complete
+
+**Apache Arrow Integration: OPTIONAL** (via `THEMIS_ENABLE_ARROW` flag)
+
+OLAP-Ergebnisse können in verschiedene Formate exportiert werden. Die Export-Funktionalität ist **immer verfügbar**, auch ohne Apache Arrow:
+
+```cpp
+#include "analytics/arrow_export.h"
+#include "analytics/analytics_export.h"
+
+// OLAP Query ausführen
+auto result = engine.execute(query);
+
+// Zu RecordBatch konvertieren
+ArrowRecordBatch batch;
+batch.addColumn({"dimension", ArrowRecordBatch::DataType::STRING, false});
+batch.addColumn({"measure", ArrowRecordBatch::DataType::DOUBLE, false});
+
+for (const auto& row : result.rows) {
+    // Konvertiere OLAP Result zu RecordBatch
+    // ... (Implementierung folgt in Phase 2)
+}
+
+// Export zu JSON oder CSV (IMMER verfügbar)
+auto exporter = ExporterFactory::createDefaultExporter();
+ExportOptions options;
+options.format = ExportFormat::JSON;
+
+auto export_result = exporter->exportToFile(batch, "analytics.json", options);
+```
+
+**Unterstützte Formate (ohne Arrow-Abhängigkeit):**
+- ✅ JSON (vollständig implementiert, immer verfügbar)
+- ✅ CSV (vollständig implementiert, immer verfügbar)
+- ⚠️ Arrow IPC (Placeholder für Phase 2, optional mit `THEMIS_ENABLE_ARROW=ON`)
+- ⚠️ Parquet (geplant für Phase 2, optional mit `THEMIS_ENABLE_ARROW=ON`)
+
+**Wichtig:** ThemisDB funktioniert **komplett ohne Apache Arrow**. Arrow ist eine optionale Erweiterung für Performance-Optimierungen und native Arrow-Formate.
+
+Siehe [GAP-003 Dokumentation](../analytics/GAP_003_ARROW_ANALYTICS.md) für Details zur optionalen Arrow-Integration.
+
 ## Roadmap
 
 - [ ] Persistente Columnar Storage
 - [ ] Parallel Aggregation
 - [ ] Automatic View Selection
 - [ ] Incremental View Refresh
-- [ ] Apache Arrow Integration
-- [ ] GPU-beschleunigte Aggregation
+- [x] Analytics Export Interface (GAP-003 Phase 1)
+- [ ] Apache Arrow C++ Integration - **OPTIONAL** (GAP-003 Phase 2, via `THEMIS_ENABLE_ARROW`)
+- [ ] Parquet Format Support - **OPTIONAL** (benötigt Arrow)
+- [ ] GPU-beschleunigte Aggregation - **OPTIONAL**
+
+## Siehe auch
+
+- [GAP-003: Arrow Analytics](../analytics/GAP_003_ARROW_ANALYTICS.md)
+- [Analytics Module README](../../../src/analytics/README.md)
+- [OLAP Guide](../analytics/olap_guide.md)
 
 ---
 
-**Letzte Aktualisierung:** 30. November 2025  
+**Letzte Aktualisierung:** 04. Februar 2026  
 **Maintainer:** ThemisDB Team

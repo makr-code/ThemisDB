@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            bench_advanced_patterns.cpp                        ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:03:57                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     3345                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file bench_advanced_patterns.cpp
  * @brief Advanced benchmark patterns following OOP and best-practices
@@ -3315,5 +3338,8 @@ static void BM_Phase2H_FullOptimized(benchmark::State& state) {
 BENCHMARK(BM_Phase2H_FullOptimized)
     ->Arg(1)->Arg(4)->Arg(8)->Arg(16)->Arg(32)
     ->Unit(benchmark::kMillisecond)->UseRealTime();
+
+// ============================================================================
+// NOTE: duplicate sharded benchmark block removed (definitions already exist above). Keeping single BENCHMARK_MAIN below.
 
 BENCHMARK_MAIN();

@@ -1,3 +1,25 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            paged_block_manager.cpp                            ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:17:13                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     181                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "llm/paged_block_manager.h"
 #include <algorithm>
 
@@ -94,30 +116,20 @@ void PagedBlockManager::deallocate(int block_id) {
     freeBlocks({block_id});
 }
 
-PagedBlockManager::Block* PagedBlockManager::getBlock(int block_id) {
+void PagedBlockManager::withBlock(int block_id, std::function<void(const Block&)> callback) const {
     auto block_opt = blocks_.get(block_id);
     if (block_opt) {
-        // Warning: Returning pointer to temporary is unsafe
-        // This is a stub implementation
-        // TODO: v1.3.1 - Use accessor pattern for safe block access
-        static thread_local Block temp_block;
-        temp_block = *block_opt;
-        return &temp_block;
+        callback(*block_opt);
     }
-    return nullptr;
 }
 
-const PagedBlockManager::Block* PagedBlockManager::getBlock(int block_id) const {
+std::optional<std::reference_wrapper<const PagedBlockManager::Block>> 
+PagedBlockManager::getBlockRef(int block_id) const {
     auto block_opt = blocks_.get(block_id);
     if (block_opt) {
-        // Warning: Returning pointer to temporary is unsafe
-        // This is a stub implementation
-        // TODO: v1.3.1 - Use accessor pattern for safe block access
-        static thread_local Block temp_block;
-        temp_block = *block_opt;
-        return &temp_block;
+        return std::reference_wrapper<const Block>(*block_opt);
     }
-    return nullptr;
+    return std::nullopt;
 }
 
 PagedBlockManager::Stats PagedBlockManager::getStats() const {

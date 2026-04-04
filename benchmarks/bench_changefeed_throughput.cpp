@@ -1,7 +1,32 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            bench_changefeed_throughput.cpp                    ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:04:01                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   97.0/100                                       ║
+    • Total Lines:     578                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • a604a37fc  2026-02-28  feat(cdc): add event recording/polling latency benchmarks... ║
+    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // Benchmark: Changefeed Throughput
 // Measures CDC event processing performance and subscriber scalability
 
 #include "cdc/changefeed.h"
+#include "cdc/cdc_metrics.h"
 #include "storage/rocksdb_wrapper.h"
 #include <benchmark/benchmark.h>
 #include <filesystem>
@@ -33,9 +58,8 @@ public:
         config.block_cache_size_mb = 256;
         
         db_ = std::make_unique<RocksDBWrapper>(config);
-       if (!db_->open()) { throw std::runtime_error("Failed to open RocksDB in benchmark"); }
         if (!db_->open()) {
-            throw std::runtime_error("Failed to open database");
+            throw std::runtime_error("Failed to open RocksDB in benchmark");
         }
         
         // Create changefeed
@@ -409,5 +433,146 @@ static void BM_ReplicationLag(benchmark::State& state) {
 BENCHMARK(BM_ReplicationLag)
     ->Unit(benchmark::kMillisecond)
     ->Iterations(5);
+
+// ============================================================================
+// Benchmark: Event Recording Latency (p50 / p95 / p99)
+// Uses ManualTime so each iteration time is the raw recordEvent() cost.
+// Percentile counters are computed from a LatencyHistogram and reported
+// as benchmark counters so they appear in every output format.
+// ============================================================================
+
+static void BM_RecordEventLatency(benchmark::State& state) {
+    std::string test_db_path = "./data/bench_changefeed_record_latency_tmp";
+    if (std::filesystem::exists(test_db_path)) {
+        std::filesystem::remove_all(test_db_path);
+    }
+
+    RocksDBWrapper::Config config;
+    config.db_path = test_db_path;
+    config.memtable_size_mb = 128;
+
+    auto db = std::make_unique<RocksDBWrapper>(config);
+    if (!db->open()) {
+        state.SkipWithError("Failed to open RocksDB");
+        return;
+    }
+    auto changefeed = std::make_unique<Changefeed>(db->getRawDB(), nullptr);
+
+    themis::cdc::LatencyHistogram hist;
+    size_t event_count = 0;
+
+    for (auto _ : state) {
+        Changefeed::ChangeEvent event;
+        event.type = Changefeed::ChangeEventType::EVENT_PUT;
+        event.key = "latency_key_" + std::to_string(event_count++);
+        event.value = "{\"v\":" + std::to_string(event_count) + "}";
+
+        auto t0 = std::chrono::steady_clock::now();
+        auto recorded = changefeed->recordEvent(event);
+        auto t1 = std::chrono::steady_clock::now();
+        benchmark::DoNotOptimize(recorded);
+
+        auto elapsed_us = std::chrono::duration_cast<std::chrono::microseconds>(t1 - t0).count();
+        hist.record(static_cast<uint64_t>(elapsed_us));
+        state.SetIterationTime(static_cast<double>(elapsed_us) * 1e-6);
+    }
+
+    state.counters["p50_us"] = static_cast<double>(hist.p50());
+    state.counters["p95_us"] = static_cast<double>(hist.p95());
+    state.counters["p99_us"] = static_cast<double>(hist.p99());
+    state.counters["avg_us"] = hist.average();
+    state.counters["events_per_sec"] = benchmark::Counter(
+        state.iterations(), benchmark::Counter::kIsRate);
+
+    changefeed.reset();
+    db->close();
+    db.reset();
+    if (std::filesystem::exists(test_db_path)) {
+        std::filesystem::remove_all(test_db_path);
+    }
+}
+
+BENCHMARK(BM_RecordEventLatency)
+    ->UseManualTime()
+    ->Threads(1)
+    ->Threads(4)
+    ->Unit(benchmark::kMicrosecond);
+
+// ============================================================================
+// Benchmark: Event Polling Latency (p50 / p95 / p99)
+// Pre-populates a fixed set of events then measures listEvents() latency.
+// ============================================================================
+
+static void BM_ListEventsLatency(benchmark::State& state) {
+    const int num_events = static_cast<int>(state.range(0));
+
+    std::string test_db_path = "./data/bench_changefeed_list_latency_tmp";
+    if (std::filesystem::exists(test_db_path)) {
+        std::filesystem::remove_all(test_db_path);
+    }
+
+    RocksDBWrapper::Config config;
+    config.db_path = test_db_path;
+    config.memtable_size_mb = 256;
+
+    auto db = std::make_unique<RocksDBWrapper>(config);
+    if (!db->open()) {
+        state.SkipWithError("Failed to open RocksDB");
+        return;
+    }
+    auto changefeed = std::make_unique<Changefeed>(db->getRawDB(), nullptr);
+
+    for (int i = 0; i < num_events; i++) {
+        Changefeed::ChangeEvent event;
+        event.type = Changefeed::ChangeEventType::EVENT_PUT;
+        event.key = "poll_key_" + std::to_string(i);
+        event.value = "{\"i\":" + std::to_string(i) + "}";
+        changefeed->recordEvent(event);
+    }
+
+    themis::cdc::LatencyHistogram hist;
+    uint64_t last_seq = 0;
+
+    for (auto _ : state) {
+        Changefeed::ListOptions opts;
+        opts.from_sequence = last_seq;
+        opts.limit = 100;
+        opts.long_poll_ms = 0;
+
+        auto t0 = std::chrono::steady_clock::now();
+        auto events = changefeed->listEvents(opts);
+        auto t1 = std::chrono::steady_clock::now();
+        benchmark::DoNotOptimize(events);
+
+        auto elapsed_us = std::chrono::duration_cast<std::chrono::microseconds>(t1 - t0).count();
+        hist.record(static_cast<uint64_t>(elapsed_us));
+        state.SetIterationTime(static_cast<double>(elapsed_us) * 1e-6);
+
+        if (!events.empty()) {
+            last_seq = events.back().sequence;
+        } else {
+            last_seq = 0; // wrap around for next iteration
+        }
+    }
+
+    state.counters["p50_us"] = static_cast<double>(hist.p50());
+    state.counters["p95_us"] = static_cast<double>(hist.p95());
+    state.counters["p99_us"] = static_cast<double>(hist.p99());
+    state.counters["avg_us"] = hist.average();
+    state.counters["preloaded_events"] = num_events;
+
+    changefeed.reset();
+    db->close();
+    db.reset();
+    if (std::filesystem::exists(test_db_path)) {
+        std::filesystem::remove_all(test_db_path);
+    }
+}
+
+BENCHMARK(BM_ListEventsLatency)
+    ->UseManualTime()
+    ->Arg(1000)
+    ->Arg(10000)
+    ->Unit(benchmark::kMicrosecond);
 
 // benchmark_main wird über CMake verlinkt

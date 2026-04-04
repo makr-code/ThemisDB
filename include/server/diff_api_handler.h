@@ -1,10 +1,39 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            diff_api_handler.h                                 ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:11:06                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     141                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #ifndef THEMIS_DIFF_API_HANDLER_H
 #define THEMIS_DIFF_API_HANDLER_H
 
+#ifndef THEMIS_ENABLE_HTTP_SERVER
+#define THEMIS_ENABLE_HTTP_SERVER 1
+#endif
+
 #include "analytics/diff_engine.h"
-#include <httplib.h>
 #include <memory>
 #include <nlohmann/json.hpp>
+
+#ifdef THEMIS_ENABLE_HTTP_SERVER
+#include <httplib.h>
+#endif
 
 namespace themis {
 namespace server {
@@ -38,13 +67,14 @@ public:
     DiffApiHandler(DiffApiHandler&&) = default;
     DiffApiHandler& operator=(DiffApiHandler&&) = default;
 
+#ifdef THEMIS_ENABLE_HTTP_SERVER
     /**
      * @brief Register routes with HTTP server
      * @param server HTTP server instance
      */
     void registerRoutes(httplib::Server& server);
 
-private:
+public:
     analytics::DiffEngine& diff_engine_;
 
     /**
@@ -73,6 +103,8 @@ private:
      */
     void handleClearCache(const httplib::Request& req, httplib::Response& res);
 
+private:
+
     /**
      * @brief Parse query parameters into DiffOptions
      */
@@ -97,6 +129,10 @@ private:
      * @brief Create success response with JSON body
      */
     void sendJson(httplib::Response& res, const json& data, int status_code = 200) const;
+#else
+private:
+    analytics::DiffEngine& diff_engine_;
+#endif
 };
 
 } // namespace server

@@ -1,6 +1,30 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            snapshot_api_handler.cpp                           ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:20:07                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     211                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • a2a0e15fa  2026-03-11  Changes before error encountered         ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "server/snapshot_api_handler.h"
 #include <spdlog/spdlog.h>
 #include <fmt/format.h>
+#include "utils/tracing.h"
 
 namespace themis {
 namespace server {
@@ -40,6 +64,7 @@ void SnapshotApiHandler::registerRoutes(httplib::Server& server) {
 
 void SnapshotApiHandler::handleCreateTag(const httplib::Request& req, httplib::Response& res) {
     try {
+    auto span = Tracer::startSpan("handleCreateTag");
         // Parse request body
         json body = json::parse(req.body);
         
@@ -72,6 +97,7 @@ void SnapshotApiHandler::handleCreateTag(const httplib::Request& req, httplib::R
 
 void SnapshotApiHandler::handleListTags(const httplib::Request& req, httplib::Response& res) {
     try {
+    auto span = Tracer::startSpan("handleListTags");
         // Parse query parameters
         size_t limit = 0;
         if (req.has_param("limit")) {
@@ -112,6 +138,7 @@ void SnapshotApiHandler::handleListTags(const httplib::Request& req, httplib::Re
 
 void SnapshotApiHandler::handleGetTag(const httplib::Request& req, httplib::Response& res) {
     try {
+    auto span = Tracer::startSpan("handleGetTag");
         // Extract tag name from URL
         std::string tag_name = req.matches[1];
         
@@ -132,6 +159,7 @@ void SnapshotApiHandler::handleGetTag(const httplib::Request& req, httplib::Resp
 
 void SnapshotApiHandler::handleDeleteTag(const httplib::Request& req, httplib::Response& res) {
     try {
+    auto span = Tracer::startSpan("handleDeleteTag");
         // Extract tag name from URL
         std::string tag_name = req.matches[1];
         
@@ -155,6 +183,7 @@ void SnapshotApiHandler::handleDeleteTag(const httplib::Request& req, httplib::R
 
 void SnapshotApiHandler::handleGetStats(const httplib::Request& req, httplib::Response& res) {
     try {
+    auto span = Tracer::startSpan("handleGetStats");
         auto stats = snapshot_manager_.getStats();
         sendJson(res, stats.toJson());
     } catch (const std::exception& e) {

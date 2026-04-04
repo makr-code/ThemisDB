@@ -1,6 +1,30 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            classification_api_handler.cpp                     ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:19:43                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     155                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • a2a0e15fa  2026-03-11  Changes before error encountered         ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "server/classification_api_handler.h"
 #include "utils/logger.h"
 #include "utils/pii_detection_engine.h"
+#include "utils/tracing.h"
 
 namespace themis { namespace server {
 
@@ -10,6 +34,7 @@ ClassificationApiHandler::ClassificationApiHandler(std::shared_ptr<themis::utils
 
 nlohmann::json ClassificationApiHandler::listRules() {
     try {
+    auto span = Tracer::startSpan("listRules");
         if (!pii_detector_) {
             THEMIS_WARN("Classification API: PIIDetector not initialized");
             return {
@@ -63,6 +88,7 @@ nlohmann::json ClassificationApiHandler::listRules() {
 
 nlohmann::json ClassificationApiHandler::testClassification(const nlohmann::json& body) {
     try {
+    auto span = Tracer::startSpan("testClassification");
         if (!pii_detector_) {
             THEMIS_ERROR("Classification API: PIIDetector not initialized");
             return {

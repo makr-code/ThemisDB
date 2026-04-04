@@ -1,7 +1,32 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            retention_api_handler.cpp                          ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:20:01                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     249                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 8452353dc  2026-03-12  Add unit tests for sync-issues-from-roadmap.py ║
+    • a2a0e15fa  2026-03-11  Changes before error encountered         ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "server/retention_api_handler.h"
 
 #include <algorithm>
 #include <spdlog/spdlog.h>
+#include "utils/tracing.h"
 
 using nlohmann::json;
 
@@ -25,6 +50,7 @@ json RetentionApiHandler::listPolicies(const RetentionQueryFilter& filter) {
     filtered.reserve(all_policies.size());
     
     for (const auto& policy : all_policies) {
+    auto span = Tracer::startSpan("listPolicies");
         bool matches = true;
         
         // Name filter (substring match)
@@ -70,6 +96,7 @@ json RetentionApiHandler::listPolicies(const RetentionQueryFilter& filter) {
 
 json RetentionApiHandler::createOrUpdatePolicy(const json& policy_json) {
     try {
+    auto span = Tracer::startSpan("createOrUpdatePolicy");
         auto policy = jsonToPolicy(policy_json);
         
         // Check if policy already exists
@@ -100,6 +127,7 @@ json RetentionApiHandler::createOrUpdatePolicy(const json& policy_json) {
 
 json RetentionApiHandler::deletePolicy(const std::string& policy_name) {
     if (!retention_manager_->removePolicy(policy_name)) {
+    auto span = Tracer::startSpan("deletePolicy");
         return json{
             {"status", "error"},
             {"error", "Policy not found or could not be deleted"}
@@ -119,6 +147,7 @@ json RetentionApiHandler::getHistory(size_t limit) {
     
     json items = json::array();
     for (const auto& action : actions) {
+    auto span = Tracer::startSpan("getHistory");
         items.push_back(actionToJson(action));
     }
     
@@ -130,6 +159,7 @@ json RetentionApiHandler::getHistory(size_t limit) {
 }
 
 json RetentionApiHandler::getPolicyStats(const std::string& policy_name) {
+    auto span = Tracer::startSpan("getPolicyStats");
     auto stats = retention_manager_->getPolicyStats(policy_name);
     
     return json{
@@ -146,6 +176,7 @@ json RetentionApiHandler::getPolicyStats(const std::string& policy_name) {
 // Helper methods
 
 json RetentionApiHandler::policyToJson(const vcc::RetentionManager::RetentionPolicy& policy) {
+    auto span = Tracer::startSpan("policyToJson");
     return json{
         {"name", policy.name},
         {"retention_period_days", policy.retention_period.count() / 86400},
@@ -187,6 +218,7 @@ vcc::RetentionManager::RetentionPolicy RetentionApiHandler::jsonToPolicy(const j
 }
 
 json RetentionApiHandler::actionToJson(const vcc::RetentionManager::RetentionAction& action) {
+    auto span = Tracer::startSpan("actionToJson");
     // Convert timestamp to ISO 8601 string
     auto timestamp_t = std::chrono::system_clock::to_time_t(action.timestamp);
     std::tm tm;

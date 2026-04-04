@@ -1,7 +1,29 @@
+"""
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            parse_build_errors.py                              ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:36:24                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     203                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+"""
+
 #!/usr/bin/env python3
 """
-Build Error Parser für ThemisDB CI/CD Pipeline
-Analysiert Build-Logs und extrahiert strukturierte Fehlerinformationen
+Build Error Parser for CI/CD
+Parst Compiler-Ausgaben und erstellt strukturierte Fehlerberichte
 """
 
 import re
@@ -11,260 +33,171 @@ import argparse
 from pathlib import Path
 from collections import defaultdict
 from typing import List, Dict, Tuple
-from dataclasses import dataclass, asdict
 
-
-@dataclass
-class BuildError:
-    """Repräsentiert einen einzelnen Build-Fehler"""
-    file: str
-    line: int
-    column: int
-    severity: str
-    message: str
-    category: str = "other"
+def parse_gcc_clang_errors(log_file: str) -> Tuple[List[Dict], List[Dict]]:
+    """Parst GCC/Clang Fehler und Warnungen"""
+    errors = []
+    warnings = []
     
-    def to_dict(self):
-        return asdict(self)
-
-
-class BuildErrorParser:
-    """Parser für verschiedene Compiler-Ausgaben"""  
-    
-    # Regex-Patterns für verschiedene Compiler
-    GCC_CLANG_PATTERN = re.compile(
-        r'(?P<file>[\\w./-]+):(?P<line>\d+):(?P<col>\d+):\s+'
-        r'(?P<severity>error|warning|note):\s+(?P<message>.*?)(?:\n|$)'
+    error_pattern = re.compile(
+        r'(?P<file>[\w./\-]+):(?P<line>\d+):(?P<col>\d+): '
+        r'(?P<severity>error|warning): (?P<message>.*?)(?:\n|$)'
     )
     
-    MSVC_PATTERN = re.compile(
-        r'(?P<file>[\\w:./-]+)\((?P<line>\d+)\):\s+'
-        r'(?P<severity>error|warning)\s+\w+:\s+(?P<message>.*?)(?:\n|$)'
-    )
-    
-    # Kategorisierungs-Keywords
-    CATEGORIES = {
-        'linking': ['undefined reference', 'unresolved external', 'cannot find -l', 'ld returned'],
-        'syntax': ['syntax error', 'expected', 'unexpected token', 'invalid syntax'],
-        'missing_file': ['no such file', 'cannot find', 'file not found', 'cannot open'],
-        'type': ['cannot convert', 'type mismatch', 'incompatible types', 'invalid conversion'],
-        'ambiguity': ['ambiguous', 'overload', 'multiple definitions'],
-        'deprecated': ['deprecated', 'is deprecated'],
-        'template': ['template', 'instantiation', 'substitution failure'],
-        'nullptr': ['nullptr', 'null pointer', 'segmentation fault'],
-        'memory': ['memory', 'allocation failed', 'out of memory'],
-    }
-    
-    def __init__(self, log_file: Path, compiler: str = 'gcc'):
-        self.log_file = log_file
-        self.compiler = compiler.lower()
-        self.errors: List[BuildError] = []
-        self.warnings: List[BuildError] = []
+    try:
+        with open(log_file, 'r', errors='ignore') as f:
+            content = f.read()
+    except FileNotFoundError:
+        print(f"Error: Log file {log_file} not found", file=sys.stderr)
+        return errors, warnings
         
-    def parse(self) -> Tuple[List[BuildError], List[BuildError]]:
-        """Hauptmethode zum Parsen der Build-Logs"""
-        if not self.log_file.exists():
-            print(f"⚠️  Log-Datei nicht gefunden: {self.log_file}", file=sys.stderr)
-            return [], []
-            
-        content = self.log_file.read_text(errors='ignore')
+    for match in error_pattern.finditer(content):
+        entry = {
+            'file': match.group('file'),
+            'line': int(match.group('line')),
+            'column': int(match.group('col')),
+            'severity': match.group('severity'),
+            'message': match.group('message').strip()
+        }
         
-        if self.compiler in ['gcc', 'clang', 'g++', 'clang++']:
-            self._parse_gcc_clang(content)
-        elif self.compiler == 'msvc':
-            self._parse_msvc(content)
+        if entry['severity'] == 'error':
+            errors.append(entry)
         else:
-            # Versuche beide Patterns
-            self._parse_gcc_clang(content)
-            if not self.errors and not self.warnings:
-                self._parse_msvc(content)
-        
-        return self.errors, self.warnings
+            warnings.append(entry)
     
-    def _parse_gcc_clang(self, content: str):
-        """Parse GCC/Clang Fehler"""
-        for match in self.GCC_CLANG_PATTERN.finditer(content):
-            error = BuildError(
-                file=match.group('file'),
-                line=int(match.group('line')), 
-                column=int(match.group('col')),
-                severity=match.group('severity'),
-                message=match.group('message').strip()
-            )
-            
-            error.category = self._categorize_error(error.message)
-            
-            if error.severity == 'error':
-                self.errors.append(error)
-            elif error.severity == 'warning':
-                self.warnings.append(error)
-    
-    def _parse_msvc(self, content: str):
-        """Parse MSVC Fehler"""
-        for match in self.MSVC_PATTERN.finditer(content):
-            error = BuildError(
-                file=match.group('file'),
-                line=int(match.group('line')),
-                column=0,  # MSVC gibt keine Spalte an
-                severity=match.group('severity'),
-                message=match.group('message').strip()
-            )
-            
-            error.category = self._categorize_error(error.message)
-            
-            if error.severity == 'error':
-                self.errors.append(error)
-            elif error.severity == 'warning':
-                self.warnings.append(error)
-    
-    def _categorize_error(self, message: str) -> str:
-        """Kategorisiert Fehler basierend auf der Fehlermeldung"""
-        message_lower = message.lower()
-        
-        for category, keywords in self.CATEGORIES.items():
-            if any(keyword in message_lower for keyword in keywords):
-                return category
-        
-        return 'other'
-    
-    def get_statistics(self) -> Dict:
-        """Erstellt Statistiken über die gefundenen Fehler"""
-        error_by_category = defaultdict(int)
-        error_by_file = defaultdict(int)
-        
-        for error in self.errors:
-            error_by_category[error.category] += 1
-            error_by_file[error.file] += 1
-        
-        return {
-            'total_errors': len(self.errors),
-            'total_warnings': len(self.warnings),
-            'errors_by_category': dict(error_by_category),
-            'errors_by_file': dict(error_by_file),
-            'most_affected_files': sorted(
-                error_by_file.items(), 
-                key=lambda x: x[1], 
-                reverse=True
-            )[:10]
-        }
-    
-    def generate_summary(self, output_file: Path = None) -> Dict:
-        """Generiert eine Zusammenfassung für GitHub Actions"""
-        stats = self.get_statistics()
-        
-        summary = {
-            'total_errors': stats['total_errors'],
-            'total_warnings': stats['total_warnings'],
-            'categories': stats['errors_by_category'],
-            'top_errors': [e.to_dict() for e in self.errors[:10]],
-            'affected_files': list(stats['errors_by_file'].keys())
-        }
-        
-        if output_file:
-            output_file.write_text(json.dumps(summary, indent=2))
-        
-        return summary
-    
-    def generate_markdown_report(self, output_file: Path = None) -> str:
-        """Erstellt einen Markdown-Report"""
-        stats = self.get_statistics()
-        
-        md = "# 🔨 Build Error Report\n\n"
-        md += f"## Zusammenfassung\n\n"
-        md += f"- **Fehler:** {stats['total_errors']}\n"
-        md += f"- **Warnungen:** {stats['total_warnings']}\n\n"
-        
-        if stats['errors_by_category']:
-            md += "## Fehler nach Kategorie\n\n"
-            for category, count in sorted(
-                stats['errors_by_category'].items(), 
-                key=lambda x: x[1], 
-                reverse=True
-            ):
-                md += f"- **{category}:** {count}\n"
-            md += "\n"
-        
-        if stats['most_affected_files']:
-            md += "## Am meisten betroffene Dateien\n\n"
-            for file, count in stats['most_affected_files']:
-                md += f"- `{file}` ({count} Fehler)\n"
-            md += "\n"
-        
-        if self.errors:
-            md += "## Top 10 Fehler\n\n"
-            for i, error in enumerate(self.errors[:10], 1):
-                md += f"### {i}. {error.file}:{error.line}\n\n"
-                md += f"**Kategorie:** {error.category}\n\n"
-                md += f"```
-{error.message}
-```
-\n"
-        
-        if output_file:
-            output_file.write_text(md)
-        
-        return md
+    return errors, warnings
 
+def parse_msvc_errors(log_file: str) -> Tuple[List[Dict], List[Dict]]:
+    """Parst MSVC Fehler und Warnungen"""
+    errors = []
+    warnings = []
+    
+    # MSVC Format: file(line): error C1234: message
+    error_pattern = re.compile(
+        r'(?P<file>[\w:/\\.\-]+)\((?P<line>\d+)\): '
+        r'(?P<severity>error|warning) (?P<code>[A-Z]\d+): (?P<message>.*?)(?:\n|$)'
+    )
+    
+    try:
+        with open(log_file, 'r', errors='ignore') as f:
+            content = f.read()
+    except FileNotFoundError:
+        return errors, warnings
+        
+    for match in error_pattern.finditer(content):
+        entry = {
+            'file': match.group('file'),
+            'line': int(match.group('line')),
+            'column': 0,  # MSVC doesn't always provide column
+            'severity': match.group('severity'),
+            'code': match.group('code'),
+            'message': match.group('message').strip()
+        }
+        
+        if entry['severity'] == 'error':
+            errors.append(entry)
+        else:
+            warnings.append(entry)
+    
+    return errors, warnings
+
+def categorize_errors(errors: List[Dict]) -> Dict[str, List[Dict]]:
+    """Kategorisiert Fehler nach Typ"""
+    categories = defaultdict(list)
+    
+    for error in errors:
+        msg = error['message'].lower()
+        
+        if 'undefined reference' in msg or 'unresolved external' in msg:
+            categories['linking'].append(error)
+        elif 'syntax error' in msg or 'expected' in msg:
+            categories['syntax'].append(error)
+        elif 'no such file' in msg or 'cannot find' in msg:
+            categories['missing_file'].append(error)
+        elif 'ambiguous' in msg or 'overload' in msg:
+            categories['ambiguity'].append(error)
+        elif 'deprecated' in msg:
+            categories['deprecated'].append(error)
+        else:
+            categories['other'].append(error)
+    
+    return dict(categories)
+
+def generate_summary(errors: List[Dict], warnings: List[Dict], 
+                    categories: Dict[str, List[Dict]]) -> Dict:
+    """Generiert Zusammenfassung"""
+    summary = {
+        'total_errors': len(errors),
+        'total_warnings': len(warnings),
+        'categories': {k: len(v) for k, v in categories.items()},
+        'top_errors': errors[:10],  # Top 10
+        'affected_files': list(set(e['file'] for e in errors))
+    }
+    return summary
+
+def generate_markdown_report(summary: Dict) -> str:
+    """Generiert Markdown-Report"""
+    md = "## Build Fehler Zusammenfassung\n\n"
+    md += f"- **Fehler:** {summary['total_errors']}\n"
+    md += f"- **Warnungen:** {summary['total_warnings']}\n"
+    md += f"- **Betroffene Dateien:** {len(summary['affected_files'])}\n\n"
+    
+    if summary['categories']:
+        md += "### Fehler nach Kategorie\n\n"
+        for cat, count in summary['categories'].items():
+            md += f"- **{cat}:** {count}\n"
+        md += "\n"
+    
+    if summary['top_errors']:
+        md += "### Top Fehler\n\n"
+        for idx, error in enumerate(summary['top_errors'], 1):
+            md += f"{idx}. `{error['file']}:{error['line']}` - {error['message'][:100]}\n"
+    
+    return md
 
 def main():
     parser = argparse.ArgumentParser(
-        description='Parse build logs and extract error information'
+        description='Parse build errors from compiler output'
     )
-    parser.add_argument(
-        'log_file',
-        type=Path,
-        help='Path to the build log file'
-    )
-    parser.add_argument(
-        '--compiler',
-        choices=['gcc', 'clang', 'msvc', 'auto'],
-        default='auto',
-        help='Compiler type (default: auto-detect)'
-    )
-    parser.add_argument(
-        '--json',
-        type=Path,
-        help='Output JSON summary to file'
-    )
-    parser.add_argument(
-        '--markdown',
-        type=Path,
-        help='Output Markdown report to file'
-    )
-    parser.add_argument(
-        '--verbose',
-        action='store_true',
-        help='Print detailed information'
-    )
+    parser.add_argument('log_file', help='Build log file to parse')
+    parser.add_argument('--compiler', choices=['gcc', 'clang', 'msvc'], 
+                       default='gcc', help='Compiler type')
+    parser.add_argument('--json', help='Output JSON file')
+    parser.add_argument('--markdown', help='Output Markdown file')
     
     args = parser.parse_args()
     
-    # Parse Fehler
-    parser_instance = BuildErrorParser(args.log_file, args.compiler)
-    errors, warnings = parser_instance.parse()
+    # Parse errors based on compiler
+    if args.compiler in ['gcc', 'clang']:
+        errors, warnings = parse_gcc_clang_errors(args.log_file)
+    elif args.compiler == 'msvc':
+        errors, warnings = parse_msvc_errors(args.log_file)
     
-    if args.verbose:
-        print(f"✅ Parsed {len(errors)} errors and {len(warnings)} warnings")
+    # Categorize and summarize
+    categories = categorize_errors(errors)
+    summary = generate_summary(errors, warnings, categories)
     
-    # Generiere Outputs
+    # Output JSON
     if args.json:
-        summary = parser_instance.generate_summary(args.json)
-        if args.verbose:
-            print(f"📄 JSON summary written to {args.json}")
+        with open(args.json, 'w') as f:
+            json.dump(summary, f, indent=2)
+        print(f"JSON report written to {args.json}")
     
+    # Output Markdown
     if args.markdown:
-        report = parser_instance.generate_markdown_report(args.markdown)
-        if args.verbose:
-            print(f"📝 Markdown report written to {args.markdown}")
+        md = generate_markdown_report(summary)
+        with open(args.markdown, 'w') as f:
+            f.write(md)
+        print(f"Markdown report written to {args.markdown}")
     
-    # Für GitHub Actions Output
-    if not args.json and not args.markdown:
-        summary = parser_instance.generate_summary()
-        print(json.dumps(summary, indent=2))
+    # Console output
+    print(f"\nBuild Error Summary:")
+    print(f"  Errors: {summary['total_errors']}")
+    print(f"  Warnings: {summary['total_warnings']}")
+    print(f"  Affected files: {len(summary['affected_files'])}")
     
-    # Exit code basierend auf Fehleranzahl
-    return min(len(errors), 1)
-
+    # Exit code based on errors
+    sys.exit(1 if summary['total_errors'] > 0 else 0)
 
 if __name__ == '__main__':
-    sys.exit(main())
+    main()

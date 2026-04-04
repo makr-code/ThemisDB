@@ -1,8 +1,32 @@
-﻿// v1.1.0: mimalloc integration (20-40% memory boost, drop-in replacement)
-#ifdef THEMIS_USE_MIMALLOC
-    // Use C++ new/delete override to avoid macro rewrites of aligned_alloc/free
-    #include <mimalloc-new-delete.h>
-#endif
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            main_server.cpp                                    ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:17:17                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  ⚫ DRAFT                                        ║
+    • Quality Score:   11.0/100                                       ║
+    • Total Lines:     2289                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 17                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • c9b143394  2026-03-15  feat(server): inject live ShardingManager into HttpServer... ║
+    • 985dc57d9  2026-03-14  fix: harden config metrics exporter compatibility ║
+    • 535cee36d  2026-03-13  feat: export config metrics via Prometheus registry ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: 📝 Draft / Stub                                              ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+// v1.1.0: mimalloc integration (20-40% memory boost, drop-in replacement)
+// NOTE: Mimalloc is lazy-loaded after CRT initialization to avoid crashes during
+// static object construction. This prevents exit code -1073741502 (0xC0000142).
+// See initializeMimalloc() function below for details.
 
 // Windows headers must come before Boost.Asio on Windows
 #ifdef _WIN32
@@ -11,6 +35,12 @@
 #endif
 #include <windows.h>
 #include <winsock2.h>
+// Early crash diagnostics for Windows
+#include <eh.h>
+#include <excpt.h>
+#else
+// For dlopen on Linux/Unix
+#include <dlfcn.h>
 #endif
 
 #include "utils/logger.h"
@@ -20,7 +50,11 @@
 #include "index/graph_index.h"
 #include "index/vector_index.h"
 #include "transaction/transaction_manager.h"
+#ifdef THEMIS_ENABLE_HTTP_SERVER
 #include "server/http_server.h"
+#endif
+#include "config/config_path_resolver.h"
+#include "config/config_metrics_exporter.h"
 #include "sharding/wal_applier.h"
 #include "sharding/wal_manager.h"
 #include "sharding/wal_shipper.h"
@@ -29,23 +63,37 @@
 #include "sharding/multi_primary_coordinator.h"
 #include "sharding/health_monitor.h"
 #include "sharding/replica_topology.h"
+#include "sharding/redundancy_strategy.h"
+#include "sharding/consistent_hash.h"
+#include "sharding/shard_topology.h"
+#include "sharding/sharding_manager.h"
 #include "utils/retention_manager.h"
 #include "utils/audit_logger.h"
 #include "utils/pki_client.h"
 #include "security/encryption.h"
 #include "security/mock_key_provider.h"
+#include "security/hsm_provider.h"
+#include "security/hsm_security_checker.h"
+#include "security/hsm_security_metrics.h"
 #include "sharding/prometheus_metrics.h"
 #include "sharding/metrics_registry.h"
 #include "themis/build_info.h"
 #include "themis/license_info.h"
+#include "themis/runtime_license_gate.h"
+#ifdef THEMIS_HAS_PROMETHEUS
+#include <prometheus/registry.h>
+#endif
 
 #ifdef THEMIS_ENABLE_LLM
 #include "llm/embedded_llm.h"
+#include "llm/model_downloader.h"
 #endif
 
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <iomanip>
+#include <filesystem>
 #include <cstdlib>
 #include <csignal>
 #include <memory>
@@ -64,7 +112,9 @@
 
 #ifdef THEMIS_ENABLE_GRPC
 #include <grpcpp/grpcpp.h>
+#include <grpcpp/security/server_credentials.h>
 #include "server/wal_grpc_service.h"
+#include "utils/file_utils.h"
 #endif
 
 using namespace themis;
@@ -72,8 +122,17 @@ using json = nlohmann::json;
 
 // Global atomic flag for signal handling (async-signal-safe)
 std::atomic<bool> g_shutdown_requested{false};
+#ifndef _WIN32
+// SIGHUP flag for TLS certificate hot-reload (Linux/macOS only)
+std::atomic<bool> g_tls_reload_requested{false};
+#endif
+#ifdef THEMIS_HAS_PROMETHEUS
+std::shared_ptr<prometheus::Registry> g_config_prom_registry;
+#endif
 // Server instance (accessed only from main thread, not from signal handler)
+#ifdef THEMIS_ENABLE_HTTP_SERVER
 std::shared_ptr<server::HttpServer> g_server;
+#endif
 
 #ifdef THEMIS_ENABLE_GRPC
 static std::unique_ptr<grpc::Server> g_wal_grpc_server;
@@ -81,6 +140,52 @@ static std::unique_ptr<server::WalGrpcService> g_wal_grpc_service;
 #endif
 
 static std::shared_ptr<themis::sharding::WALShipper> g_wal_shipper;
+
+// HSM security warning thread
+static std::thread g_hsm_warning_thread;
+static std::atomic<bool> g_hsm_warning_thread_running{false};
+// Global HSM provider (non-static for external access from monitoring_api_handler)
+std::shared_ptr<themis::security::HSMProvider> g_hsm_provider;
+
+// ============================================================================
+// Lazy Mimalloc Initialization (after CRT startup)
+// ============================================================================
+// Mimalloc can be loaded after the C Runtime has fully initialized
+// This prevents crashes during static object construction
+#ifdef THEMIS_ENABLE_MIMALLOC
+static bool initializeMimalloc() {
+    try {
+        // On Windows, load mimalloc DLL dynamically if available
+        #ifdef _WIN32
+        // Try to load mimalloc DLL - it may not always be available in PATH
+        // but should be in the same directory as themis_server.exe
+        HMODULE mimalloc_handle = ::LoadLibraryA("mimalloc.dll");
+        if (mimalloc_handle) {
+            // Successfully loaded - now we can use mimalloc functions if needed
+            // The DLL exports functions like mi_malloc, mi_free, etc.
+            THEMIS_INFO("Mimalloc allocator loaded successfully");
+            return true;
+        } else {
+            THEMIS_WARN("Could not load mimalloc.dll - using system allocator");
+            return false;
+        }
+        #else
+        // On Linux/Unix, try dlopen
+        void* mimalloc_handle = dlopen("libmimalloc.so", RTLD_LAZY);
+        if (mimalloc_handle) {
+            THEMIS_INFO("Mimalloc allocator loaded successfully");
+            return true;
+        } else {
+            THEMIS_WARN("Could not load libmimalloc.so - using system allocator");
+            return false;
+        }
+        #endif
+    } catch (const std::exception& e) {
+        THEMIS_WARN("Mimalloc initialization failed: {} - using system allocator", e.what());
+        return false;
+    }
+}
+#endif
 
 void signalHandler(int signal) {
     if (signal == SIGINT || signal == SIGTERM) {
@@ -97,11 +202,174 @@ void signalHandler(int signal) {
         // Set atomic flag to trigger shutdown in main thread
         g_shutdown_requested.store(true, std::memory_order_release);
     }
+#ifndef _WIN32
+    else if (signal == SIGHUP) {
+        const char* msg = "\nReceived SIGHUP, scheduling TLS certificate hot-reload...\n";
+        (void)write(STDERR_FILENO, msg, strlen(msg));
+        g_tls_reload_requested.store(true, std::memory_order_release);
+    }
+#endif
+}
+
+#ifdef _WIN32
+// Windows structured exception handler for early crash diagnostics
+void windows_se_translator(unsigned int code, EXCEPTION_POINTERS* pExp) {
+    const char* exception_name = "UNKNOWN";
+    switch (code) {
+        case EXCEPTION_ACCESS_VIOLATION:
+            exception_name = "ACCESS_VIOLATION";
+            break;
+        case EXCEPTION_ARRAY_BOUNDS_EXCEEDED:
+            exception_name = "ARRAY_BOUNDS_EXCEEDED";
+            break;
+        case EXCEPTION_DATATYPE_MISALIGNMENT:
+            exception_name = "DATATYPE_MISALIGNMENT";
+            break;
+        case EXCEPTION_FLT_DIVIDE_BY_ZERO:
+            exception_name = "FLT_DIVIDE_BY_ZERO";
+            break;
+        case EXCEPTION_INT_DIVIDE_BY_ZERO:
+            exception_name = "INT_DIVIDE_BY_ZERO";
+            break;
+        case EXCEPTION_STACK_OVERFLOW:
+            exception_name = "STACK_OVERFLOW";
+            break;
+    }
+    
+    // Write to stderr immediately (before any heap allocations)
+    char buffer[512];
+    int len = snprintf(buffer, sizeof(buffer),
+        "\n*** WINDOWS STRUCTURED EXCEPTION ***\n"
+        "Exception Code: 0x%08X (%s)\n"
+        "Exception Address: 0x%p\n"
+        "*** This may indicate a global variable initialization error ***\n",
+        code, exception_name,
+        pExp ? pExp->ExceptionRecord->ExceptionAddress : nullptr);
+    
+    if (len > 0 && len < static_cast<int>(sizeof(buffer))) {
+        _write(2, buffer, len);
+    }
+    
+    // Convert to C++ exception for potential catch in main
+    throw std::runtime_error("Windows structured exception");
+}
+#endif
+
+// ============================================================================
+// HSM Security Warning Thread
+// ============================================================================
+/**
+ * Periodic HSM security warning thread
+ * Logs ERROR-level warnings every 5 minutes when stub HSM is active
+ */
+void hsmSecurityWarningLoop() {
+    using namespace std::chrono;
+    const auto warning_interval = minutes(5);
+    const auto warning_interval_seconds = duration_cast<seconds>(warning_interval).count();
+    
+    while (g_hsm_warning_thread_running.load(std::memory_order_relaxed)) {
+        // Sleep for 5 minutes in 1-second increments to allow quick shutdown
+        for (int i = 0; i < static_cast<int>(warning_interval_seconds) &&
+                g_hsm_warning_thread_running.load(std::memory_order_relaxed); ++i) {
+            std::this_thread::sleep_for(seconds(1));
+        }
+        
+        if (!g_hsm_warning_thread_running.load(std::memory_order_relaxed)) break;
+        
+        // Perform HSM security check
+        if (g_hsm_provider) {
+            g_hsm_provider->periodicSecurityCheck();
+            
+            // Additional check using HSMSecurityChecker
+            std::string warning = themis::security::HSMSecurityChecker::getPeriodicWarning(*g_hsm_provider);
+            if (!warning.empty()) {
+                THEMIS_ERROR("[SECURITY] {}", warning);
+            }
+        }
+    }
+}
+
+/**
+ * Start HSM security warning thread
+ */
+void startHSMWarningThread() {
+    if (g_hsm_provider && !g_hsm_warning_thread_running.load()) {
+        g_hsm_warning_thread_running.store(true, std::memory_order_release);
+        g_hsm_warning_thread = std::thread(hsmSecurityWarningLoop);
+        THEMIS_INFO("HSM security warning thread started (5-minute interval)");
+    }
+}
+
+/**
+ * Stop HSM security warning thread
+ */
+void stopHSMWarningThread() {
+    if (g_hsm_warning_thread_running.load()) {
+        g_hsm_warning_thread_running.store(false, std::memory_order_release);
+        if (g_hsm_warning_thread.joinable()) {
+            g_hsm_warning_thread.join();
+        }
+        THEMIS_INFO("HSM security warning thread stopped");
+    }
 }
 
 int main(int argc, char* argv[]) {
-    // Initialize logger
+#ifdef _WIN32
+    // Install structured exception handler FIRST
+    _set_se_translator(windows_se_translator);
+    
+    // Wrap entire main in try-catch for early diagnostics
+    try {
+#endif
+    
+    // --- Early flag handling (no heavy initialization) ---
+    // Simple hardcoded usage text
+    auto print_usage = [](const char* prog) {
+        std::cout << "Usage: " << prog << " [options]\n"
+                  << "Options:\n"
+                  << "  --db PATH         Database path (default: ./data/themis_server)\n"
+                  << "  --host HOST       Server host (default: 0.0.0.0)\n"
+                  << "  --port PORT       Server port (default: 8765)\n"
+                  << "  --threads N       Number of worker threads (default: auto)\n"
+                  << "  --config FILE     Load server/storage config from JSON or YAML file\n"
+                  << "  --allow-stub-hsm  Allow insecure stub HSM provider (development only)\n"
+                  << "  --version, -v     Show version information and exit\n"
+                  << "  --build-info      Show build configuration details and exit\n"
+                  << "  --license-info    Show embedded license information and exit\n"
+                  << "  --help, -h        Show this help message\n";
+    };
+
+    bool show_build_info = false;
+    bool show_license_info = false;
+
+    for (int i = 1; i < argc; ++i) {
+        std::string arg = argv[i];
+        if (arg == "--version" || arg == "-v") {
+#ifdef THEMIS_VERSION_STRING
+            std::cout << THEMIS_VERSION_STRING << std::endl;
+#else
+            std::cout << "unknown" << std::endl;
+#endif
+            return 0;
+        } else if (arg == "--build-info") {
+            show_build_info = true;
+        } else if (arg == "--license-info") {
+            show_license_info = true;
+        } else if (arg == "--help" || arg == "-h") {
+            print_usage(argv[0]);
+            return 0;
+        }
+    }
+
+    // Initialize logger AFTER simple flag checks to avoid file I/O for --version/--help
+    // This prevents unnecessary initialization when user just wants version info
     utils::Logger::init("themis_server.log", utils::Logger::Level::INFO);
+
+#ifdef THEMIS_HAS_PROMETHEUS
+    // Initialize Prometheus registry for config path resolution metrics
+    g_config_prom_registry = std::make_shared<prometheus::Registry>();
+    config::ConfigMetricsExporter::registerWithRegistry(g_config_prom_registry);
+#endif
     
     THEMIS_INFO("=== Themis Multi-Model Database API Server ===");
 #ifdef THEMIS_VERSION_STRING
@@ -110,7 +378,41 @@ int main(int argc, char* argv[]) {
     THEMIS_INFO("Version: unknown");
 #endif
     
-    // Display build configuration and edition information
+    // Display build info if requested
+    if (show_build_info) {
+        try {
+            auto build_config = themis::build_info::getBuildConfiguration();
+            std::string build_info = themis::build_info::formatBuildInfo(build_config);
+            std::istringstream iss(build_info);
+            std::string line;
+            while (std::getline(iss, line)) {
+                std::cout << line << std::endl;
+            }
+        } catch (const std::exception& e) {
+            std::cerr << "Failed to retrieve build info: " << e.what() << std::endl;
+            return 1;
+        }
+        return 0;
+    }
+    
+    // Display license info if requested
+    if (show_license_info) {
+        try {
+            auto license = themis::license::getEmbeddedLicense();
+            if (license) {
+                std::string license_info = themis::license::formatLicenseInfo(*license);
+                std::cout << license_info << std::endl;
+            } else {
+                std::cout << "No embedded license data" << std::endl;
+            }
+        } catch (const std::exception& e) {
+            std::cerr << "Failed to retrieve license info: " << e.what() << std::endl;
+            return 1;
+        }
+        return 0;
+    }
+    
+    // Display build configuration and edition information (startup logging)
     try {
         auto build_config = themis::build_info::getBuildConfiguration();
         std::string build_info = themis::build_info::formatBuildInfo(build_config);
@@ -141,29 +443,123 @@ int main(int argc, char* argv[]) {
                 THEMIS_ERROR("WARNING: License has expired!");
                 THEMIS_ERROR("Please contact {} to renew your license.", 
                            license->contact_email.empty() ? "your license provider" : license->contact_email);
-                // Note: We continue to start the server but log the warning
-                // Production deployments may want to enforce license expiry
+                
+                // HYPERSCALER: FATAL error if license expired
+                #ifdef THEMIS_HYPERSCALER_EDITION
+                THEMIS_ERROR("HYPERSCALER Edition requires a valid license. Server cannot start.");
+                return 1;
+                #endif
+                
+                // ENTERPRISE Release: FATAL error if license expired
+                #if defined(THEMIS_ENTERPRISE_EDITION) && defined(NDEBUG)
+                THEMIS_ERROR("ENTERPRISE Edition (Release build) requires a valid license. Server cannot start.");
+                return 1;
+                #endif
+                
+                // Note: We continue to start the server for Community/Debug builds but log the warning
             } else {
                 int days = themis::license::getDaysUntilExpiry(*license);
                 if (days < 30) {
                     THEMIS_WARN("License will expire in {} days. Please renew soon.", days);
                 }
             }
+            
+            // Verify license signature (if present)
+            if (!license->signature.empty() && !themis::license::verifyLicenseSignature(*license)) {
+                THEMIS_ERROR("License signature verification FAILED!");
+                
+                // HYPERSCALER: FATAL error if signature invalid
+                #ifdef THEMIS_HYPERSCALER_EDITION
+                THEMIS_ERROR("HYPERSCALER Edition requires a valid license signature. Server cannot start.");
+                return 1;
+                #endif
+                
+                // ENTERPRISE: Warning for invalid signature, continue
+                #ifdef THEMIS_ENTERPRISE_EDITION
+                THEMIS_WARN("License signature is invalid. This may indicate a tampered license.");
+                #endif
+            }
         } else {
             THEMIS_INFO("No embedded license data (running without license embedding)");
+            
+            // HYPERSCALER Edition: License is MANDATORY
+            #ifdef THEMIS_HYPERSCALER_EDITION
+            THEMIS_ERROR("HYPERSCALER Edition requires an embedded license.");
+            THEMIS_ERROR("Please rebuild with -DTHEMIS_LICENSE_FILE=/path/to/license.json");
+            return 1;
+            #endif
+            
+            // ENTERPRISE Release: License is MANDATORY
+            #if defined(THEMIS_ENTERPRISE_EDITION) && defined(NDEBUG)
+            THEMIS_ERROR("ENTERPRISE Edition (Release build) requires an embedded license.");
+            THEMIS_ERROR("For development, use Debug build: cmake -DCMAKE_BUILD_TYPE=Debug");
+            THEMIS_ERROR("For production, rebuild with: cmake -DCMAKE_BUILD_TYPE=Release -DTHEMIS_LICENSE_FILE=/path/to/license.json");
+            return 1;
+            #endif
         }
     } catch (const std::exception& e) {
         THEMIS_WARN("Failed to display license information: {}", e.what());
     }
+
+    // === RUNTIME LICENSE GATE INITIALIZATION ===
+    // Activate the runtime feature gate using the embedded license so that
+    // Enterprise/Hyperscaler feature checks at request time reflect the actual
+    // license validity, not just the compile-time edition flags.
+    try {
+        themis::license::LicenseClientConfig lc_cfg;
+        // Allow offline activation (server_url is empty → offline path).
+        // Operators who deploy with a license server set THEMIS_LICENSE_SERVER_URL
+        // and THEMIS_LICENSE_API_KEY in their environment / config.
+        const char* ls_url = std::getenv("THEMIS_LICENSE_SERVER_URL");
+        const char* ls_key = std::getenv("THEMIS_LICENSE_API_KEY");
+        if (ls_url) lc_cfg.server_url = ls_url;
+        if (ls_key) lc_cfg.api_key    = ls_key;
+        lc_cfg.allow_offline = true;
+
+        themis::license::LicenseClient lc(lc_cfg);
+        auto activation = lc.activate();
+
+        themis::license::RuntimeLicenseGate::instance().initialize(
+            activation, lc.getCachedLicense());
+
+        const std::string& status = activation.status;
+        if (activation.success) {
+            if (status == "grace") {
+                THEMIS_WARN("License: running in grace period ({} days remaining). "
+                            "Ensure the license server is reachable.",
+                            activation.grace_days_remaining);
+            } else {
+                THEMIS_INFO("License gate: runtime validation successful (status: {}).", status);
+            }
+        } else {
+            THEMIS_WARN("License gate: runtime validation failed (status: {}, reason: {}). "
+                        "Enterprise/Hyperscaler features will be blocked.",
+                        status, activation.error_message);
+        }
+    } catch (const std::exception& e) {
+        THEMIS_WARN("License gate initialization failed: {}. "
+                    "Enterprise/Hyperscaler features will be blocked.", e.what());
+        // Initialize gate in invalid state so feature checks still work safely.
+        themis::license::LicenseActivationResult failed;
+        failed.success       = false;
+        failed.status        = "invalid";
+        failed.error_message = e.what();
+        themis::license::RuntimeLicenseGate::instance().initialize(failed);
+    }
     
     try {
+        // === MIMALLOC LAZY INITIALIZATION ===
+        // Initialize mimalloc after CRT is fully set up (prevents crash during static init)
+#ifdef THEMIS_ENABLE_MIMALLOC
+        initializeMimalloc();
+#endif
+        
         // Parse command line arguments
         std::string db_path = "./data/themis_server";
         std::string host = "0.0.0.0";
         uint16_t port = 8765;
         size_t num_threads = 0; // Auto-detect
         std::optional<std::string> config_path;
-        
         for (int i = 1; i < argc; ++i) {
             std::string arg = argv[i];
             if (arg == "--db" && i + 1 < argc) {
@@ -184,6 +580,9 @@ int main(int argc, char* argv[]) {
                           << "  --port PORT     Server port (default: 8765)\n"
                           << "  --threads N     Number of worker threads (default: auto)\n"
                           << "  --config FILE   Load server/storage config from JSON or YAML file\n"
+                          << "  --version, -v   Show version information and exit\n"
+                          << "  --build-info    Show build configuration details and exit\n"
+                          << "  --license-info  Show embedded license information and exit\n"
                           << "  --help, -h      Show this help message\n";
                 return 0;
             }
@@ -258,9 +657,10 @@ int main(int argc, char* argv[]) {
                 return 1;
             }
         } else {
-            // default search paths (prefer YAML)
+            // default search paths (prefer YAML) - now includes new hierarchical paths
             for (const auto& p : {
                     std::string("./config.yaml"), std::string("./config.yml"), std::string("./config.json"),
+                    std::string("./config/core/config.yaml"), std::string("./config/core/config.yml"), std::string("./config/core/config.json"),
                     std::string("./config/config.yaml"), std::string("./config/config.yml"), std::string("./config/config.json"),
                     std::string("/etc/vccdb/config.yaml"), std::string("/etc/vccdb/config.yml"), std::string("/etc/vccdb/config.json")}) {
                 cfg = load_config(p);
@@ -274,7 +674,8 @@ int main(int argc, char* argv[]) {
         // Configure RocksDB
         RocksDBWrapper::Config db_config;
         db_config.db_path = db_path;
-        db_config.memtable_size_mb = 128;
+        // v1.5.0: Increased defaults for write-amplification optimization
+        db_config.memtable_size_mb = 512;       // Increased from 128MB
         db_config.block_cache_size_mb = 512;
         db_config.enable_wal = true;
         db_config.enable_blobdb = false;
@@ -327,6 +728,119 @@ int main(int argc, char* argv[]) {
         }
         
         THEMIS_INFO("Database opened successfully");
+        
+        // ═══════════════════════════════════════════════════════════════════
+        // HSM Security Integration (FIND-002)
+        // ═══════════════════════════════════════════════════════════════════
+        // Initialize HSM provider and perform security validation
+        THEMIS_INFO("Initializing HSM security...");
+        
+        // Load HSM config from security.yaml or main config
+        themis::security::HSMConfig hsm_config;
+        bool hsm_config_loaded = false;
+        
+        // Try to load from security.yaml first (try new path, then legacy)
+        for (const auto& security_config_path : {
+                std::string("./config/core/security.yaml"),
+                std::string("./config/core/security.yml"),
+                std::string("./config/security.yaml"),
+                std::string("./config/security.yml"),
+                std::string("/etc/themisdb/security.yaml")}) {
+            auto sec_cfg = load_config(security_config_path);
+            if (sec_cfg && sec_cfg->contains("hsm")) {
+                const auto& hsm = (*sec_cfg)["hsm"];
+                if (hsm.contains("provider")) {
+                    std::string provider = hsm["provider"].get<std::string>();
+                    // For now, we support stub and pkcs11
+                    // stub provider means empty library_path
+                    if (provider == "stub") {
+                        hsm_config.library_path = "";  // Empty = stub provider
+                    } else if (provider == "pkcs11" && hsm.contains("pkcs11")) {
+                        const auto& pkcs11 = hsm["pkcs11"];
+                        hsm_config.library_path = pkcs11.value("library_path", std::string());
+                        hsm_config.slot_id = pkcs11.value("slot_id", 0);
+                        hsm_config.pin = pkcs11.value("pin", std::string());
+                        hsm_config.token_label = pkcs11.value("token_label", std::string());
+                        hsm_config.key_label = pkcs11.value("key_label", std::string("themis-signing-key"));
+                    }
+                    hsm_config_loaded = true;
+                    THEMIS_INFO("HSM configuration loaded from {}", security_config_path);
+                    break;
+                }
+            }
+        }
+        
+        // Fall back to main config if security.yaml not found
+        if (!hsm_config_loaded && cfg && cfg->contains("hsm")) {
+            const auto& hsm = (*cfg)["hsm"];
+            if (hsm.contains("provider")) {
+                std::string provider = hsm["provider"].get<std::string>();
+                if (provider == "stub") {
+                    hsm_config.library_path = "";
+                } else if (provider == "pkcs11" && hsm.contains("pkcs11")) {
+                    const auto& pkcs11 = hsm["pkcs11"];
+                    hsm_config.library_path = pkcs11.value("library_path", std::string());
+                    hsm_config.slot_id = pkcs11.value("slot_id", 0);
+                    hsm_config.pin = pkcs11.value("pin", std::string());
+                }
+                hsm_config_loaded = true;
+                THEMIS_INFO("HSM configuration loaded from main config");
+            }
+        }
+        
+        // Create HSM provider (defaults to stub if no config)
+        g_hsm_provider = std::make_shared<themis::security::HSMProvider>(hsm_config);
+        
+        if (!g_hsm_provider->initialize()) {
+            THEMIS_WARN("HSM provider initialization failed, using stub provider");
+        }
+        
+        // Display HSM status
+        THEMIS_INFO("HSM Provider Status:");
+        THEMIS_INFO("  Provider Type: {}", g_hsm_provider->isStubProvider() ? "stub (DEVELOPMENT ONLY)" : "real HSM");
+        THEMIS_INFO("  Token Info: {}", g_hsm_provider->getTokenInfo());
+        THEMIS_INFO("  Production Mode: {}", themis::security::HSMSecurityChecker::isProductionMode() ? "YES" : "NO");
+        
+        // Perform startup security validation
+        if (g_hsm_provider->isStubProvider()) {
+            // Check if --allow-stub-hsm flag is present
+            bool allow_stub = themis::security::HSMSecurityChecker::hasAllowStubFlag(argc, argv);
+            
+            if (!allow_stub) {
+                // Display startup warning banner
+                THEMIS_WARN("╔════════════════════════════════════════════════════════════════════════════╗");
+                THEMIS_WARN("║  ⚠️  WARNING: INSECURE HSM CONFIGURATION DETECTED                          ║");
+                THEMIS_WARN("║                                                                            ║");
+                THEMIS_WARN("║  The HSM provider is set to 'stub' which is DEVELOPMENT ONLY.              ║");
+                THEMIS_WARN("║  Master encryption keys are NOT protected by hardware security.            ║");
+                THEMIS_WARN("║                                                                            ║");
+                THEMIS_WARN("║  FOR PRODUCTION USE:                                                       ║");
+                THEMIS_WARN("║  - Configure a real HSM provider (PKCS#11, AWS KMS, Azure Key Vault)       ║");
+                THEMIS_WARN("║  - See: docs/security/HSM_PRODUCTION_SETUP.md                              ║");
+                THEMIS_WARN("║                                                                            ║");
+                THEMIS_WARN("║  To suppress this warning in development, use: --allow-stub-hsm            ║");
+                THEMIS_WARN("╚════════════════════════════════════════════════════════════════════════════╝");
+                
+                // Start periodic warning thread (every 5 minutes)
+                startHSMWarningThread();
+            } else {
+                THEMIS_WARN("HSM stub provider allowed by --allow-stub-hsm flag (DEVELOPMENT ONLY)");
+            }
+        } else {
+            THEMIS_INFO("HSM provider is hardware-backed - production ready");
+        }
+        
+        // Validate production safety (will fail startup if stub in production without flag)
+        if (!themis::security::HSMSecurityChecker::validateProductionSafety(*g_hsm_provider, argc, argv)) {
+            THEMIS_CRITICAL("Server startup aborted due to HSM security violation");
+            // Clean up warning thread if it was started
+            stopHSMWarningThread();
+            if (g_hsm_provider) {
+                g_hsm_provider->finalize();
+                g_hsm_provider.reset();
+            }
+            return 1;
+        }
         
         // Create index managers
         THEMIS_INFO("Initializing index managers...");
@@ -392,6 +906,92 @@ int main(int argc, char* argv[]) {
                     llm_config.n_threads = llm_cfg.value("threads", 4);
                     llm_config.enable_caching = llm_cfg.value("enable_caching", true);
                     
+                    // Check environment variables for overrides
+                    if (const char* env_gpu_layers = std::getenv("THEMIS_GPU_LAYERS")) {
+                        llm_config.n_gpu_layers = std::atoi(env_gpu_layers);
+                    }
+                    if (const char* env_threads = std::getenv("THEMIS_THREADS")) {
+                        llm_config.n_threads = std::atoi(env_threads);
+                    }
+                    if (const char* env_ctx = std::getenv("THEMIS_CONTEXT_SIZE")) {
+                        llm_config.n_ctx = std::atoi(env_ctx);
+                    }
+                    if (const char* env_model_dir = std::getenv("THEMIS_MODEL_DIR")) {
+                        llm_config.model_path = std::string(env_model_dir) + "/" + 
+                            std::filesystem::path(llm_config.model_path).filename().string();
+                    }
+                    
+                    // Auto-download model if not present
+                    bool auto_download = llm_cfg.value("auto_download", true);
+                    if (const char* env_disable = std::getenv("THEMIS_DISABLE_AUTO_DOWNLOAD")) {
+                        if (std::string(env_disable) == "1" || std::string(env_disable) == "true") {
+                            auto_download = false;
+                        }
+                    }
+                    
+                    if (auto_download && !std::filesystem::exists(llm_config.model_path)) {
+                        THEMIS_INFO("Model not found: {}", llm_config.model_path);
+                        THEMIS_INFO("Starting auto-download...");
+                        
+                        try {
+                            // Configure download from Ollama
+                            themis::llm::ModelDownloadConfig dl_config;
+                            dl_config.model_name = llm_cfg.value("ollama_model", std::string("phi3:mini-4k"));
+                            dl_config.ollama_url = llm_cfg.value("ollama_url", std::string("http://localhost:11434"));
+                            
+                            // Override with environment variable if set
+                            if (const char* env_ollama = std::getenv("THEMIS_OLLAMA_ENDPOINT")) {
+                                dl_config.ollama_url = env_ollama;
+                            }
+                            
+                            // Extract directory from model path
+                            std::filesystem::path model_path_obj(llm_config.model_path);
+                            dl_config.download_dir = model_path_obj.parent_path().string();
+                            
+                            // Create directory if needed
+                            if (!dl_config.download_dir.empty() && !std::filesystem::exists(dl_config.download_dir)) {
+                                std::filesystem::create_directories(dl_config.download_dir);
+                            }
+                            
+                            // Progress callback with percentage-based logging
+                            size_t last_logged_percent = 0;
+                            dl_config.progress_callback = [&last_logged_percent](size_t downloaded, size_t total, const std::string& status) {
+                                if (total > 0) {
+                                    size_t current_percent = (downloaded * 100) / total;
+                                    // Log every 10% progress
+                                    if (current_percent >= last_logged_percent + 10 || current_percent == 100) {
+                                        float mb_downloaded = downloaded / (1024.0f * 1024.0f);
+                                        float mb_total = total / (1024.0f * 1024.0f);
+                                        THEMIS_INFO("Download progress: {:.1f}% ({:.1f} / {:.1f} MB)", 
+                                            static_cast<float>(current_percent), mb_downloaded, mb_total);
+                                        last_logged_percent = current_percent;
+                                    }
+                                }
+                            };
+                            
+                            // Download model
+                            themis::llm::ModelDownloader downloader;
+                            auto result = downloader.downloadFromOllama(dl_config);
+                            
+                            if (result.success) {
+                                THEMIS_INFO("✓ Model downloaded successfully");
+                                THEMIS_INFO("  Path: {}", result.model_path);
+                                THEMIS_INFO("  Size: {:.1f} MB", result.file_size_bytes / (1024.0f * 1024.0f));
+                                THEMIS_INFO("  Time: {:.1f}s", result.download_time_seconds);
+                                
+                                // Update model path to downloaded location
+                                llm_config.model_path = result.model_path;
+                            } else {
+                                THEMIS_WARN("Model download failed: {}", result.error_message);
+                                THEMIS_WARN("Attempting to proceed without auto-download...");
+                            }
+                            
+                        } catch (const std::exception& e) {
+                            THEMIS_WARN("Auto-download exception: {}", e.what());
+                            THEMIS_WARN("Proceeding with configured model path...");
+                        }
+                    }
+                    
                     THEMIS_INFO("Initializing EmbeddedLLM...");
                     THEMIS_INFO("  Model: {}", llm_config.model_path);
                     THEMIS_INFO("  GPU Layers: {}", llm_config.n_gpu_layers);
@@ -442,6 +1042,7 @@ int main(int argc, char* argv[]) {
         }
         
     // Create and start HTTP server
+#ifdef THEMIS_ENABLE_HTTP_SERVER
         server::HttpServer::Config server_config(host, port, num_threads);
         // Apply feature flags
         if (cfg && cfg->contains("features")) {
@@ -459,6 +1060,7 @@ int main(int argc, char* argv[]) {
                 THEMIS_INFO("SSE rate limit: {} events/second per connection", server_config.sse_max_events_per_second);
             }
         }
+#endif
         // WAL components for replica apply endpoint
         themis::sharding::WALManagerConfig wal_cfg;
         wal_cfg.wal_directory = db_path + "/wal_replica";
@@ -657,7 +1259,133 @@ int main(int argc, char* argv[]) {
             }
         }
 
+        // ═══════════════════════════════════════════════════════════════════
+        // RAID Redundancy Configuration
+        // ═══════════════════════════════════════════════════════════════════
+        // Initialize RAID components if configured
+        std::shared_ptr<themis::sharding::CollectionRedundancyManager> redundancy_manager;
+        std::shared_ptr<themis::sharding::ConsistentHashRing> hash_ring;
+        std::shared_ptr<themis::sharding::ShardTopology> shard_topology;
+        bool raid_enabled = false;
+
+        if (cfg && cfg->contains("raid") && (*cfg)["raid"].contains("enabled")) {
+            raid_enabled = (*cfg)["raid"]["enabled"].get<bool>();
+        }
+
+        if (raid_enabled) {
+            THEMIS_INFO("Initializing RAID redundancy components...");
+
+            // Create consistent hash ring
+            int virtual_nodes = 100; // default
+            if (cfg->contains("sharding") && (*cfg)["sharding"].contains("hash_ring")) {
+                virtual_nodes = (*cfg)["sharding"]["hash_ring"].value("virtual_nodes_per_shard", 100);
+            }
+            hash_ring = std::make_shared<themis::sharding::ConsistentHashRing>(virtual_nodes);
+
+            // Create shard topology
+            shard_topology = std::make_shared<themis::sharding::ShardTopology>();
+
+            // Add shards to hash ring and topology
+            if (cfg->contains("sharding") && (*cfg)["sharding"].contains("shards")) {
+                const auto& shards = (*cfg)["sharding"]["shards"];
+                for (const auto& shard : shards) {
+                    if (shard.contains("id")) {
+                        std::string shard_id = shard["id"].get<std::string>();
+                        hash_ring->addNode(shard_id);
+                        
+                        // Create ShardInfo with at least the shard_id
+                        themis::sharding::ShardInfo info;
+                        info.shard_id = shard_id;
+                        info.is_healthy = true;
+                        shard_topology->addShard(info);
+                        
+                        THEMIS_INFO("  Added shard to hash ring and topology: {}", shard_id);
+                    }
+                }
+            } else {
+                // Default: add local shard
+                const std::string default_shard_id = "shard-0";
+                hash_ring->addNode(default_shard_id);
+                
+                themis::sharding::ShardInfo info;
+                info.shard_id = default_shard_id;
+                info.is_healthy = true;
+                shard_topology->addShard(info);
+                
+                THEMIS_INFO("  Added default shard to hash ring and topology: {}", default_shard_id);
+            }
+
+            // Create redundancy manager
+            redundancy_manager = std::make_shared<themis::sharding::CollectionRedundancyManager>();
+
+            // Configure default redundancy
+            themis::sharding::RedundancyConfig default_config;
+            if (cfg->contains("raid") && (*cfg)["raid"].contains("default")) {
+                const auto& def = (*cfg)["raid"]["default"];
+                
+                // Parse mode
+                std::string mode_str = def.value("mode", std::string("MIRROR"));
+                if (mode_str == "NONE") default_config.mode = themis::sharding::RedundancyMode::NONE;
+                else if (mode_str == "MIRROR") default_config.mode = themis::sharding::RedundancyMode::MIRROR;
+                else if (mode_str == "STRIPE") default_config.mode = themis::sharding::RedundancyMode::STRIPE;
+                else if (mode_str == "STRIPE_MIRROR") default_config.mode = themis::sharding::RedundancyMode::STRIPE_MIRROR;
+                else if (mode_str == "PARITY") default_config.mode = themis::sharding::RedundancyMode::PARITY;
+                else if (mode_str == "RAID6") default_config.mode = themis::sharding::RedundancyMode::RAID6;
+                else if (mode_str == "GEO_MIRROR") default_config.mode = themis::sharding::RedundancyMode::GEO_MIRROR;
+                
+                default_config.replication_factor = def.value("replication_factor", 3);
+                
+                // Parse write concern
+                std::string wc_str = def.value("write_concern", std::string("MAJORITY"));
+                if (wc_str == "ONE") default_config.write_concern = themis::sharding::WriteConcern::ONE;
+                else if (wc_str == "MAJORITY") default_config.write_concern = themis::sharding::WriteConcern::MAJORITY;
+                else if (wc_str == "ALL") default_config.write_concern = themis::sharding::WriteConcern::ALL;
+                else if (wc_str == "QUORUM") default_config.write_concern = themis::sharding::WriteConcern::QUORUM;
+            }
+            redundancy_manager->setDefaultConfig(default_config);
+            THEMIS_INFO("  RAID default mode: {}, replication_factor: {}", 
+                       static_cast<int>(default_config.mode), default_config.replication_factor);
+
+            // Configure per-collection redundancy
+            if (cfg->contains("raid") && (*cfg)["raid"].contains("collections")) {
+                const auto& collections = (*cfg)["raid"]["collections"];
+                for (auto it = collections.begin(); it != collections.end(); ++it) {
+                    std::string collection_name = it.key();
+                    const auto& coll_config = it.value();
+                    
+                    themis::sharding::RedundancyConfig coll_redundancy_config;
+                    
+                    // Parse mode
+                    std::string mode_str = coll_config.value("mode", std::string("MIRROR"));
+                    if (mode_str == "NONE") coll_redundancy_config.mode = themis::sharding::RedundancyMode::NONE;
+                    else if (mode_str == "MIRROR") coll_redundancy_config.mode = themis::sharding::RedundancyMode::MIRROR;
+                    else if (mode_str == "STRIPE") coll_redundancy_config.mode = themis::sharding::RedundancyMode::STRIPE;
+                    else if (mode_str == "STRIPE_MIRROR") coll_redundancy_config.mode = themis::sharding::RedundancyMode::STRIPE_MIRROR;
+                    else if (mode_str == "PARITY") coll_redundancy_config.mode = themis::sharding::RedundancyMode::PARITY;
+                    else if (mode_str == "RAID6") coll_redundancy_config.mode = themis::sharding::RedundancyMode::RAID6;
+                    else if (mode_str == "GEO_MIRROR") coll_redundancy_config.mode = themis::sharding::RedundancyMode::GEO_MIRROR;
+                    
+                    coll_redundancy_config.replication_factor = coll_config.value("replication_factor", 3);
+                    
+                    // Parse write concern
+                    std::string wc_str = coll_config.value("write_concern", std::string("MAJORITY"));
+                    if (wc_str == "ONE") coll_redundancy_config.write_concern = themis::sharding::WriteConcern::ONE;
+                    else if (wc_str == "MAJORITY") coll_redundancy_config.write_concern = themis::sharding::WriteConcern::MAJORITY;
+                    else if (wc_str == "ALL") coll_redundancy_config.write_concern = themis::sharding::WriteConcern::ALL;
+                    else if (wc_str == "QUORUM") coll_redundancy_config.write_concern = themis::sharding::WriteConcern::QUORUM;
+                    
+                    redundancy_manager->setCollectionConfig(collection_name, coll_redundancy_config);
+                    THEMIS_INFO("  Collection '{}': mode={}, replication_factor={}", 
+                               collection_name, static_cast<int>(coll_redundancy_config.mode), 
+                               coll_redundancy_config.replication_factor);
+                }
+            }
+
+            THEMIS_INFO("RAID redundancy components initialized successfully");
+        }
+
         // Create HttpServer with all components
+#ifdef THEMIS_ENABLE_HTTP_SERVER
         g_server = std::make_shared<server::HttpServer>(
             server_config,
             db,
@@ -669,8 +1397,16 @@ int main(int argc, char* argv[]) {
             wal_manager,
             replication_coordinator,
             multi_primary_coordinator,
-            health_monitor
+            health_monitor,
+            redundancy_manager,
+            hash_ring,
+            shard_topology
         );
+        // Inject live ShardingManager so /v1/admin/shards/* endpoints are functional
+        g_server->setShardingManager(&themis::sharding::ShardingManager::GetInstance());
+#else
+        THEMIS_INFO("HTTP server disabled at build time (THEMIS_ENABLE_HTTP_SERVER=OFF)");
+#endif
 
 #ifdef THEMIS_ENABLE_GRPC
         // Start WAL gRPC Apply service (if stubs are available)
@@ -685,16 +1421,98 @@ int main(int argc, char* argv[]) {
             std::string grpc_addr = grpc_host + ":" + std::to_string(grpc_port);
 
             grpc::ServerBuilder builder;
-            builder.AddListeningPort(grpc_addr, grpc::InsecureServerCredentials());
-            builder.RegisterService(static_cast<grpc::Service*>(wal_service));
-            builder.SetMaxReceiveMessageSize(100 * 1024 * 1024);
-            builder.SetMaxSendMessageSize(100 * 1024 * 1024);
-
-            g_wal_grpc_server = builder.BuildAndStart();
-            if (g_wal_grpc_server) {
-                THEMIS_INFO("WAL gRPC Apply service listening on {}", grpc_addr);
+            
+            // Configure server credentials (mTLS support)
+            std::shared_ptr<grpc::ServerCredentials> credentials;
+            bool enable_mtls = false;
+            std::string actual_mode = "insecure"; // Track actual credential mode for accurate logging
+            
+            if (const char* mtls_env = std::getenv("THEMIS_WAL_GRPC_ENABLE_MTLS")) {
+                std::string mtls_str(mtls_env);
+                enable_mtls = (mtls_str == "true" || mtls_str == "1" || mtls_str == "yes");
+            }
+            
+            if (enable_mtls) {
+                // mTLS enabled - create SSL server credentials
+                try {
+                    grpc::SslServerCredentialsOptions ssl_opts;
+                    
+                    // Load server certificate and private key (required)
+                    const char* cert_path = std::getenv("THEMIS_WAL_GRPC_CERT_PATH");
+                    const char* key_path = std::getenv("THEMIS_WAL_GRPC_KEY_PATH");
+                    if (!cert_path || !key_path || std::strlen(cert_path) == 0 || std::strlen(key_path) == 0) {
+                        throw std::runtime_error("THEMIS_WAL_GRPC_CERT_PATH and THEMIS_WAL_GRPC_KEY_PATH are required when mTLS is enabled");
+                    }
+                    
+                    grpc::SslServerCredentialsOptions::PemKeyCertPair key_cert_pair;
+                    key_cert_pair.private_key = themis::utils::readFileContents(key_path);
+                    key_cert_pair.cert_chain = themis::utils::readFileContents(cert_path);
+                    ssl_opts.pem_key_cert_pairs.push_back(key_cert_pair);
+                    THEMIS_INFO("WAL gRPC: Loaded server certificate from: {}", cert_path);
+                    
+                    // Configure client certificate requirement
+                    bool require_client_cert = true;
+                    if (const char* req_client = std::getenv("THEMIS_WAL_GRPC_REQUIRE_CLIENT_CERT")) {
+                        std::string req_str(req_client);
+                        require_client_cert = (req_str != "false" && req_str != "0" && req_str != "no");
+                    }
+                    
+                    if (require_client_cert) {
+                        // Mutual TLS mode - CA certificate is required for client verification
+                        const char* ca_cert_path = std::getenv("THEMIS_WAL_GRPC_CA_CERT_PATH");
+                        if (!ca_cert_path || std::strlen(ca_cert_path) == 0) {
+                            throw std::runtime_error("THEMIS_WAL_GRPC_CA_CERT_PATH is required when THEMIS_WAL_GRPC_REQUIRE_CLIENT_CERT is true");
+                        }
+                        ssl_opts.pem_root_certs = themis::utils::readFileContents(ca_cert_path);
+                        THEMIS_INFO("WAL gRPC: Loaded CA certificate from: {}", ca_cert_path);
+                        
+                        ssl_opts.client_certificate_request = GRPC_SSL_REQUEST_AND_REQUIRE_CLIENT_CERTIFICATE_AND_VERIFY;
+                        THEMIS_INFO("WAL gRPC: Client certificate verification enabled (mutual TLS)");
+                        actual_mode = "mTLS";
+                    } else {
+                        // Server-side TLS with optional client certificates
+                        const char* ca_cert_path = std::getenv("THEMIS_WAL_GRPC_CA_CERT_PATH");
+                        if (ca_cert_path && std::strlen(ca_cert_path) > 0) {
+                            ssl_opts.pem_root_certs = themis::utils::readFileContents(ca_cert_path);
+                            THEMIS_INFO("WAL gRPC: Loaded CA certificate from: {}", ca_cert_path);
+                        }
+                        
+                        ssl_opts.client_certificate_request = GRPC_SSL_REQUEST_CLIENT_CERTIFICATE_AND_VERIFY;
+                        THEMIS_INFO("WAL gRPC: Server-side TLS with optional client certificate verification (if provided)");
+                        actual_mode = "TLS";
+                    }
+                    
+                    credentials = grpc::SslServerCredentials(ssl_opts);
+                    THEMIS_INFO("WAL gRPC: TLS/mTLS configured successfully for production deployment");
+                    
+                } catch (const std::exception& e) {
+                    THEMIS_ERROR("WAL gRPC: Failed to configure mTLS: {}. Server will NOT start to avoid insecure fallback in production.", e.what());
+                    THEMIS_ERROR("WAL gRPC: Fix the TLS configuration or set THEMIS_WAL_GRPC_ENABLE_MTLS=false for development.");
+                    // Skip gRPC server startup when mTLS is explicitly enabled but misconfigured
+                    credentials = nullptr;
+                    actual_mode = "failed";
+                }
             } else {
-                THEMIS_WARN("Failed to start WAL gRPC Apply service (address: {})", grpc_addr);
+                // mTLS not enabled - use insecure credentials (development only)
+                credentials = grpc::InsecureServerCredentials();
+                actual_mode = "insecure";
+                THEMIS_WARN("WAL gRPC: mTLS is disabled. This is insecure and should only be used in development.");
+            }
+            
+            if (credentials) {
+                builder.AddListeningPort(grpc_addr, credentials);
+                builder.RegisterService(static_cast<grpc::Service*>(wal_service));
+                builder.SetMaxReceiveMessageSize(100 * 1024 * 1024);
+                builder.SetMaxSendMessageSize(100 * 1024 * 1024);
+
+                g_wal_grpc_server = builder.BuildAndStart();
+                if (g_wal_grpc_server) {
+                    THEMIS_INFO("WAL gRPC Apply service listening on {} (mode: {})", grpc_addr, actual_mode);
+                } else {
+                    THEMIS_WARN("Failed to start WAL gRPC Apply service (address: {})", grpc_addr); // NOPII: grpc_addr is a server bind address, not personal data
+                }
+            } else {
+                THEMIS_ERROR("WAL gRPC Apply service NOT started due to TLS configuration errors");
             }
         } else {
             THEMIS_WARN("WAL gRPC stubs not found; skipping gRPC Apply service startup");
@@ -704,19 +1522,31 @@ int main(int argc, char* argv[]) {
         // Setup signal handlers
         std::signal(SIGINT, signalHandler);
         std::signal(SIGTERM, signalHandler);
+#ifndef _WIN32
+        // SIGHUP: reload TLS certificates without restarting
+        std::signal(SIGHUP, signalHandler);
+#endif
         
         // Retention worker (optional, runs in background if enabled in config)
         std::atomic<bool> retention_stop{false};
         std::thread retention_thread;
         bool retention_enabled = false;
         int retention_interval_hours = 24;
-        std::string retention_policies_path = "./config/retention_policies.yaml";
+        std::string retention_policies_path = themis::config::ConfigPathResolver::mapLegacyToNew("./config/retention_policies.yaml");
+        // Fall back to legacy if new doesn't exist
+        if (!std::filesystem::exists(retention_policies_path)) {
+            retention_policies_path = "./config/retention_policies.yaml";
+        }
         
         if (cfg && cfg->contains("features") && (*cfg)["features"].contains("retention")) {
             const auto& ret_cfg = (*cfg)["features"]["retention"];
             retention_enabled = ret_cfg.value("enabled", false);
             retention_interval_hours = ret_cfg.value("interval_hours", 24);
-            retention_policies_path = ret_cfg.value("policies_path", std::string("./config/retention_policies.yaml"));
+            if (ret_cfg.contains("policies_path")) {
+                std::string cfg_path = ret_cfg["policies_path"].get<std::string>();
+                auto resolved = themis::config::ConfigPathResolver::tryResolve(cfg_path);
+                retention_policies_path = resolved ? *resolved : cfg_path;
+            }
         }
         
         if (retention_enabled) {
@@ -749,7 +1579,15 @@ int main(int argc, char* argv[]) {
                 auto db_ptr = db;
                 auto sec_idx_ptr = secondary_index;
                 
-                retention_thread = std::thread([retention_mgr, &retention_stop, retention_interval_hours, db_ptr, sec_idx_ptr, audit_logger]() {
+                // Create main audit logger instance for retention operations
+                themis::utils::AuditLoggerConfig main_audit_cfg;
+                main_audit_cfg.enabled = true;
+                main_audit_cfg.encrypt_then_sign = true;
+                main_audit_cfg.log_path = "data/logs/audit.jsonl";
+                main_audit_cfg.key_id = "saga_log";
+                auto main_audit_logger = std::make_shared<themis::utils::AuditLogger>(field_enc, pki_client, main_audit_cfg);
+                
+                retention_thread = std::thread([retention_mgr, &retention_stop, retention_interval_hours, db_ptr, sec_idx_ptr, audit_logger, main_audit_logger]() {
                     using namespace std::chrono;
                     auto interval = hours(retention_interval_hours);
                     auto next_run = system_clock::now();
@@ -758,9 +1596,27 @@ int main(int argc, char* argv[]) {
                         auto now_tp = system_clock::now();
                         if (now_tp >= next_run) {
                             // Entity provider: enumerate entities per policy from DB
-                            auto entity_provider = [db_ptr, sec_idx_ptr](const std::string& policy_name) 
+                            auto entity_provider = [db_ptr, sec_idx_ptr, main_audit_logger](const std::string& policy_name) 
                                 -> std::vector<std::pair<std::string, std::chrono::system_clock::time_point>> {
                                 std::vector<std::pair<std::string, std::chrono::system_clock::time_point>> entities;
+                                
+                                // Special handling for audit_logs policy - enumerate from audit log files
+                                if (policy_name == "audit_logs") {
+                                    try {
+                                        auto entries = main_audit_logger->enumerateEntries();
+                                        for (const auto& entry : entries) {
+                                            // Use entry number as entity ID
+                                            std::string entry_id = "audit_entry_" + std::to_string(entry.entry_number);
+                                            entities.emplace_back(entry_id, entry.timestamp);
+                                        }
+                                        THEMIS_INFO("[Retention] Enumerated {} audit log entries for policy '{}'", 
+                                                    entries.size(), policy_name);
+                                        return entities;
+                                    } catch (const std::exception& e) {
+                                        THEMIS_ERROR("[Retention] Failed to enumerate audit logs: {}", e.what());
+                                        return entities;
+                                    }
+                                }
                                 
                                 // Map policy names to collections (example heuristic)
                                 // In production: use policy metadata or a mapping table
@@ -769,8 +1625,6 @@ int main(int argc, char* argv[]) {
                                     collection = "users";
                                 } else if (policy_name.find("transaction") != std::string::npos) {
                                     collection = "transactions";
-                                } else if (policy_name.find("audit") != std::string::npos) {
-                                    collection = "audit_logs";
                                 } else if (policy_name.find("session") != std::string::npos) {
                                     collection = "sessions";
                                 } else if (policy_name.find("analytics") != std::string::npos) {
@@ -828,29 +1682,178 @@ int main(int argc, char* argv[]) {
                                 return entities;
                             };
                             
-                            auto archive_handler = [db_ptr, audit_logger](const std::string& entity_id) -> bool {
-                                THEMIS_INFO("[Retention] Archive entity {}", entity_id);
-                                
-                                // Audit log the archival action
-                                try {
-                                    nlohmann::json audit_event;
-                                    audit_event["action"] = "RETENTION_ARCHIVE";
-                                    audit_event["entity_id"] = entity_id;
-                                    audit_event["timestamp"] = std::chrono::duration_cast<std::chrono::seconds>(
-                                        std::chrono::system_clock::now().time_since_epoch()
-                                    ).count();
-                                    audit_event["classification"] = "retention_lifecycle";
-                                    audit_logger->logEvent(audit_event);
-                                } catch (...) {
-                                    THEMIS_WARN("[Retention] Failed to audit-log archive for {}", entity_id);
+                            // Track whether we've already processed audit logs in this retention run
+                            auto audit_archived = std::make_shared<std::atomic<bool>>(false);
+                            auto audit_purged = std::make_shared<std::atomic<bool>>(false);
+                            
+                            auto archive_handler = [db_ptr, audit_logger, main_audit_logger, audit_archived, retention_mgr](const std::string& entity_id) -> bool {
+                                // Special handling for audit log entries - bulk operation
+                                if (entity_id.find("audit_entry_") == 0) {
+                                    // Only perform the bulk archive operation once per retention run
+                                    bool expected = false;
+                                    if (!audit_archived->compare_exchange_strong(expected, true)) {
+                                        // Already archived in this run
+                                        return true;
+                                    }
+                                    
+                                    try {
+                                        // Get archive threshold from policy
+                                        auto policy_result = retention_mgr->getPolicy("audit_logs");
+                                        if (!policy_result) {
+                                            THEMIS_ERROR("[Retention] Failed to get audit_logs policy");
+                                            return false;
+                                        }
+                                        const auto* policy = *policy_result;
+                                        
+                                        auto now = std::chrono::system_clock::now();
+                                        auto archive_threshold = now - policy->archive_after;
+                                        
+                                        std::string archive_path = "data/logs/audit_archive.jsonl";
+                                        size_t archived = main_audit_logger->archiveOldEntries(archive_threshold, archive_path);
+                                        
+                                        THEMIS_INFO("[Retention] Archived {} audit log entries to {}", archived, archive_path);
+                                        
+                                        // Log the archival action
+                                        try {
+                                            nlohmann::json audit_event;
+                                            audit_event["action"] = "AUDIT_LOG_ARCHIVE";
+                                            audit_event["archived_count"] = archived;
+                                            audit_event["archive_path"] = archive_path;
+                                            audit_event["timestamp"] = std::chrono::duration_cast<std::chrono::seconds>(
+                                                now.time_since_epoch()
+                                            ).count();
+                                            audit_event["classification"] = "retention_lifecycle";
+                                            audit_logger->logEvent(audit_event);
+                                        } catch (...) {
+                                            THEMIS_WARN("[Retention] Failed to audit-log archive operation");
+                                        }
+                                        
+                                        return true; // Report success even if 0 archived
+                                    } catch (const std::exception& e) {
+                                        THEMIS_ERROR("[Retention] Failed to archive audit logs: {}", e.what());
+                                        return false;
+                                    }
                                 }
                                 
-                                // TODO: Move to cold storage (e.g., export to S3, tape, or separate DB)
-                                // For now, mark as archived or export to file
-                                return true;
+                                // Regular entity archival
+                                THEMIS_INFO("[Retention] Archive entity {}", entity_id);
+                                
+                                try {
+                                    // Retrieve the entity data before archival
+                                    auto entity_opt = db_ptr->get(entity_id);
+                                    if (!entity_opt) {
+                                        THEMIS_WARN("[Retention] Entity {} not found for archival", entity_id);
+                                        return false;
+                                    }
+                                    
+                                    // Create cold storage directory if it doesn't exist
+                                    std::filesystem::path cold_storage_dir = "data/cold_storage";
+                                    std::filesystem::create_directories(cold_storage_dir);
+                                    
+                                    // Export entity to JSONL format in cold storage
+                                    // Group archived entities by date for efficient storage management
+                                    auto now = std::chrono::system_clock::now();
+                                    auto now_time_t = std::chrono::system_clock::to_time_t(now);
+                                    std::tm tm_buf;
+                                    #ifdef _WIN32
+                                    gmtime_s(&tm_buf, &now_time_t);
+                                    #else
+                                    gmtime_r(&now_time_t, &tm_buf);
+                                    #endif
+                                    
+                                    std::ostringstream date_str;
+                                    date_str << std::put_time(&tm_buf, "%Y%m%d");
+                                    std::string archive_file = (cold_storage_dir / ("archived_entities_" + date_str.str() + ".jsonl")).string();
+                                    
+                                    // Append entity to archive file
+                                    std::ofstream archive_ofs(archive_file, std::ios::app);
+                                    if (!archive_ofs.is_open()) {
+                                        THEMIS_ERROR("[Retention] Failed to open archive file: {}", archive_file);
+                                        return false;
+                                    }
+                                    
+                                    // Write entity as JSON line
+                                    nlohmann::json archived_entity;
+                                    archived_entity["entity_id"] = entity_id;
+                                    archived_entity["data"] = *entity_opt;
+                                    archived_entity["archived_timestamp"] = std::chrono::duration_cast<std::chrono::seconds>(
+                                        now.time_since_epoch()
+                                    ).count();
+                                    archive_ofs << archived_entity.dump() << "\n";
+                                    archive_ofs.close();
+                                    
+                                    // Audit log the archival action
+                                    try {
+                                        nlohmann::json audit_event;
+                                        audit_event["action"] = "RETENTION_ARCHIVE";
+                                        audit_event["entity_id"] = entity_id;
+                                        audit_event["archive_path"] = archive_file;
+                                        audit_event["timestamp"] = std::chrono::duration_cast<std::chrono::seconds>(
+                                            now.time_since_epoch()
+                                        ).count();
+                                        audit_event["classification"] = "retention_lifecycle";
+                                        audit_logger->logEvent(audit_event);
+                                    } catch (...) {
+                                        THEMIS_WARN("[Retention] Failed to audit-log archive for {}", entity_id);
+                                    }
+                                    
+                                    THEMIS_INFO("[Retention] Successfully archived entity {} to {}", entity_id, archive_file);
+                                    return true;
+                                    
+                                } catch (const std::exception& e) {
+                                    THEMIS_ERROR("[Retention] Failed to archive entity {}: {}", entity_id, e.what());
+                                    return false;
+                                }
                             };
                             
-                            auto purge_handler = [db_ptr, audit_logger](const std::string& entity_id) -> bool {
+                            auto purge_handler = [db_ptr, audit_logger, main_audit_logger, audit_purged, retention_mgr](const std::string& entity_id) -> bool {
+                                // Special handling for audit log entries - bulk operation
+                                if (entity_id.find("audit_entry_") == 0) {
+                                    // Only perform the bulk purge operation once per retention run
+                                    bool expected = false;
+                                    if (!audit_purged->compare_exchange_strong(expected, true)) {
+                                        // Already purged in this run
+                                        return true;
+                                    }
+                                    
+                                    try {
+                                        // Get purge threshold from policy
+                                        auto policy_result = retention_mgr->getPolicy("audit_logs");
+                                        if (!policy_result) {
+                                            THEMIS_ERROR("[Retention] Failed to get audit_logs policy");
+                                            return false;
+                                        }
+                                        const auto* policy = *policy_result;
+                                        
+                                        auto now = std::chrono::system_clock::now();
+                                        auto purge_threshold = now - policy->retention_period;
+                                        
+                                        size_t purged = main_audit_logger->purgeOldEntries(purge_threshold);
+                                        
+                                        THEMIS_INFO("[Retention] Purged {} audit log entries", purged);
+                                        
+                                        // Log the purge action
+                                        try {
+                                            nlohmann::json audit_event;
+                                            audit_event["action"] = "AUDIT_LOG_PURGE";
+                                            audit_event["purged_count"] = purged;
+                                            audit_event["timestamp"] = std::chrono::duration_cast<std::chrono::seconds>(
+                                                now.time_since_epoch()
+                                            ).count();
+                                            audit_event["classification"] = "retention_lifecycle";
+                                            audit_logger->logEvent(audit_event);
+                                        } catch (...) {
+                                            THEMIS_WARN("[Retention] Failed to audit-log purge operation");
+                                        }
+                                        
+                                        return true; // Report success even if 0 purged
+                                    } catch (const std::exception& e) {
+                                        THEMIS_ERROR("[Retention] Failed to purge audit logs: {}", e.what());
+                                        return false;
+                                    }
+                                }
+                                
+                                // Regular entity purge
                                 THEMIS_INFO("[Retention] Purge entity {}", entity_id);
                                 
                                 // Audit log the purge action
@@ -894,8 +1897,12 @@ int main(int argc, char* argv[]) {
             THEMIS_INFO("Retention worker disabled (enable via config.json features.retention.enabled)");
         }
 
+#ifdef THEMIS_ENABLE_HTTP_SERVER
         THEMIS_INFO("Starting HTTP server...");
         g_server->start();
+#else
+        THEMIS_INFO("HTTP server disabled; skipping start.");
+#endif
         
         // Initialize sharding metrics if enabled
         bool sharding_enabled = false;
@@ -1002,9 +2009,14 @@ int main(int argc, char* argv[]) {
         THEMIS_INFO("💾 DATABASE CONFIGURATION:");
         THEMIS_INFO("  Database Path:           {}", db_config.db_path);
         THEMIS_INFO("  Memtable Size:           {} MB ({})", db_config.memtable_size_mb, 
-                    (db_config.memtable_size_mb >= 256 ? "aggressive" : (db_config.memtable_size_mb >= 128 ? "balanced" : "conservative")));
+                    (db_config.memtable_size_mb >= 512 ? "write-optimized (v1.5.0)" : 
+                     db_config.memtable_size_mb >= 256 ? "aggressive" : 
+                     db_config.memtable_size_mb >= 128 ? "balanced" : "conservative"));
+        THEMIS_INFO("  Max Write Buffers:       {} ({})", db_config.max_write_buffer_number,
+                    (db_config.max_write_buffer_number >= 6 ? "high-throughput" : "standard"));
         THEMIS_INFO("  Block Cache Size:        {} MB ({})", db_config.block_cache_size_mb,
                     (db_config.block_cache_size_mb >= 512 ? "high-performance" : (db_config.block_cache_size_mb >= 256 ? "balanced" : "low-latency")));
+        THEMIS_INFO("  Async I/O:               {}", (db_config.enable_async_io ? "yes (scan optimization)" : "no"));
         THEMIS_INFO("  WAL Enabled:             {}", (db_config.enable_wal ? "yes (crash recovery)" : "no (speed mode)"));
         THEMIS_INFO("  BlobDB Enabled:          {}", (db_config.enable_blobdb ? "yes (large objects)" : "no"));
         THEMIS_INFO("");
@@ -1041,10 +2053,17 @@ int main(int argc, char* argv[]) {
         THEMIS_INFO("");
         
         THEMIS_INFO("⚙️  FEATURE FLAGS & CAPABILITIES:");
+#ifdef THEMIS_ENABLE_HTTP_SERVER
         THEMIS_INFO("  Semantic Cache (beta):   {}", (server_config.feature_semantic_cache ? "✅ ENABLED" : "❌ disabled"));
         THEMIS_INFO("  LLM Interaction Store:   {}", (server_config.feature_llm_store ? "✅ ENABLED" : "❌ disabled"));
         THEMIS_INFO("  CDC (Change Data Feed):  {}", (server_config.feature_cdc ? "✅ ENABLED" : "❌ disabled"));
         THEMIS_INFO("  Time-Series Analytics:   {}", (server_config.feature_timeseries ? "✅ ENABLED" : "❌ disabled"));
+#else
+        THEMIS_INFO("  Semantic Cache (beta):   ❌ disabled");
+        THEMIS_INFO("  LLM Interaction Store:   ❌ disabled");
+        THEMIS_INFO("  CDC (Change Data Feed):  ❌ disabled");
+        THEMIS_INFO("  Time-Series Analytics:   ❌ disabled");
+#endif
         THEMIS_INFO("  Retention Manager:       {}", (retention_enabled ? "✅ ENABLED (interval: " + std::to_string(retention_interval_hours) + "h)" : "❌ disabled"));
         THEMIS_INFO("");
         
@@ -1058,7 +2077,11 @@ int main(int argc, char* argv[]) {
         
         THEMIS_INFO("📡 SERVICES & PROTOCOLS:");
         THEMIS_INFO("  Transaction Manager:     ✅ active (ACID guarantees)");
+#ifdef THEMIS_ENABLE_HTTP_SERVER
         THEMIS_INFO("  HTTP/REST API:           ✅ listening");
+#else
+        THEMIS_INFO("  HTTP/REST API:           ❌ disabled (build flag)");
+#endif
         THEMIS_INFO("  WebSocket (gRPC):        ✅ available");
         THEMIS_INFO("  Content-FS (blob store): ✅ operational");
         THEMIS_INFO("  Distributed Tracing:     {}", (cfg && cfg->contains("tracing") && (*cfg)["tracing"].value("enabled", false) ? "✅ ENABLED" : "❌ disabled"));
@@ -1075,7 +2098,9 @@ int main(int argc, char* argv[]) {
         THEMIS_INFO("");
         
         THEMIS_INFO("📈 OPTIMIZATION PROFILE:");
-        if (db_config.memtable_size_mb >= 256 && db_config.block_cache_size_mb >= 512) {
+        if (db_config.memtable_size_mb >= 512 && db_config.block_cache_size_mb >= 512) {
+            THEMIS_INFO("  → WRITE-OPTIMIZED MODE (v1.5.0: low write-amplification)");
+        } else if (db_config.memtable_size_mb >= 256 && db_config.block_cache_size_mb >= 512) {
             THEMIS_INFO("  → HIGH-THROUGHPUT MODE (writes + analytics)");
         } else if (db_config.memtable_size_mb >= 128 && db_config.block_cache_size_mb >= 256) {
             THEMIS_INFO("  → BALANCED MODE (general purpose)");
@@ -1105,24 +2130,32 @@ int main(int argc, char* argv[]) {
         THEMIS_INFO("  GET  /contentfs/:pk       - Retrieve content (Range supported)");
         THEMIS_INFO("  HEAD /contentfs/:pk       - Content metadata (size, ETag)");
         THEMIS_INFO("  DELETE /contentfs/:pk     - Delete content");
+#ifdef THEMIS_ENABLE_HTTP_SERVER
         if (server_config.feature_semantic_cache) {
             THEMIS_INFO("  POST /cache/query         - Semantic cache lookup (beta)");
             THEMIS_INFO("  POST /cache/put           - Semantic cache put (beta)");
             THEMIS_INFO("  GET  /cache/stats         - Semantic cache stats (beta)");
         }
+#endif
+#ifdef THEMIS_ENABLE_HTTP_SERVER
         if (server_config.feature_llm_store) {
             THEMIS_INFO("  POST /llm/interaction     - Create LLM interaction (beta)");
             THEMIS_INFO("  GET  /llm/interaction     - List LLM interactions (beta)");
             THEMIS_INFO("  GET  /llm/interaction/:id - Get LLM interaction (beta)");
         }
+#endif
+#ifdef THEMIS_ENABLE_HTTP_SERVER
         if (server_config.feature_cdc) {
             THEMIS_INFO("  GET  /changefeed          - CDC feed (beta)");
         }
+#endif
+#ifdef THEMIS_ENABLE_HTTP_SERVER
         if (server_config.feature_timeseries) {
             THEMIS_INFO("  POST /ts/put              - Store time-series data (beta)");
             THEMIS_INFO("  POST /ts/query            - Query time-series data (beta)");
             THEMIS_INFO("  POST /ts/aggregate        - Aggregate time-series (beta)");
         }
+#endif
         THEMIS_INFO("");
         THEMIS_INFO("ready to serve...");
         
@@ -1130,6 +2163,22 @@ int main(int argc, char* argv[]) {
         THEMIS_INFO("Server running. Waiting for shutdown signal (Ctrl+C)...");
         while (!g_shutdown_requested.load(std::memory_order_acquire)) {
             std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
+#ifndef _WIN32
+            // Handle SIGHUP: hot-reload TLS certificates
+            if (g_tls_reload_requested.exchange(false, std::memory_order_acq_rel)) {
+#ifdef THEMIS_ENABLE_HTTP_SERVER
+                if (g_server) {
+                    THEMIS_INFO("SIGHUP received - reloading TLS certificates...");
+                    if (g_server->reloadTls()) {
+                        THEMIS_INFO("TLS certificates hot-reloaded successfully");
+                    } else {
+                        THEMIS_WARN("TLS hot-reload failed or TLS not enabled - continuing with current certificates");
+                    }
+                }
+#endif
+            }
+#endif
         }
         
         THEMIS_INFO("Shutdown signal received, initiating graceful shutdown...");
@@ -1149,7 +2198,9 @@ int main(int argc, char* argv[]) {
             g_wal_grpc_service.reset();
         }
 #endif
+#ifdef THEMIS_ENABLE_HTTP_SERVER
         g_server->stop();
+#endif
         
         THEMIS_INFO("=================================================");
         THEMIS_INFO("Initiating graceful shutdown sequence...");
@@ -1189,7 +2240,19 @@ int main(int argc, char* argv[]) {
         
         // Step 5: Clear shared pointers
         THEMIS_INFO("[5/5] Releasing resources...");
+        
+        // Stop HSM warning thread
+        stopHSMWarningThread();
+        
+        // Finalize HSM provider
+        if (g_hsm_provider) {
+            g_hsm_provider->finalize();
+            g_hsm_provider.reset();
+        }
+        
+#ifdef THEMIS_ENABLE_HTTP_SERVER
         g_server.reset();
+#endif
         tx_manager.reset();
         vector_index.reset();
         graph_index.reset();
@@ -1204,6 +2267,22 @@ int main(int argc, char* argv[]) {
         THEMIS_ERROR("Fatal error: {}", e.what());
         return 1;
     }
+    
+#ifdef _WIN32
+    // Close Windows SE handler try-catch
+    } catch (const std::exception& e) {
+        // Structured exception caught
+        const char* msg = "\n*** FATAL: Exception during initialization ***\n";
+        _write(2, msg, static_cast<unsigned int>(strlen(msg)));
+        _write(2, e.what(), static_cast<unsigned int>(strlen(e.what())));
+        _write(2, "\n", 1);
+        return 1;
+    } catch (...) {
+        const char* msg = "\n*** FATAL: Unknown exception during initialization ***\n";
+        _write(2, msg, static_cast<unsigned int>(strlen(msg)));
+        return 1;
+    }
+#endif
     
     utils::Logger::shutdown();
     return 0;

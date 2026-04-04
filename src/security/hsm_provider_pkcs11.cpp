@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            hsm_provider_pkcs11.cpp                            ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:19:27                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  ⚫ DRAFT                                        ║
+    • Quality Score:   0.0/100                                        ║
+    • Total Lines:     1056                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 23                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • e45182eb8  2026-03-01  feat(security): implement PKCS#11 token init, slot select... ║
+    • 14140888f  2026-02-22  feat: Complete HSM PKCS#11 direct integration with RSA-OA... ║
+    • 309347f92  2026-02-22  audit(security): fix null-pointer guards and remaining si... ║
+    • 69ccec431  2026-02-22  fix(security): address code review - fail on RAND_bytes e... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: 📝 Draft / Stub                                              ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #ifdef THEMIS_ENABLE_HSM_REAL
 #include "security/hsm_provider.h"
 #include "security/pkcs11_minimal.h"
@@ -12,6 +38,11 @@
 #include <atomic>
 #include <cstring>
 #include <openssl/evp.h>
+#include <openssl/rand.h>
+#include <openssl/x509.h>
+#include <openssl/bio.h>
+#include <openssl/pem.h>
+#include <openssl/bn.h>
 
 #if defined(_WIN32)
     #include <windows.h>
@@ -82,24 +113,86 @@ static std::vector<uint8_t> fromBase64(const std::string& b64) {
     return decoded;
 }
 
+// AES-256-GCM encrypt (fallback): returns iv(12) || ciphertext || tag(16)
+static std::vector<uint8_t> pkcs11_stub_aes_encrypt(const std::vector<uint8_t>& key, const std::vector<uint8_t>& data) {
+    if (key.size() != 32) return {};
+    std::vector<uint8_t> iv(12);
+    if (RAND_bytes(iv.data(), 12) != 1) return {};
+    EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new();
+    if (!ctx) return {};
+    std::vector<uint8_t> ciphertext(data.size() + 16);
+    std::vector<uint8_t> tag(16);
+    int len = 0, ct_len = 0;
+    bool ok =
+        EVP_EncryptInit_ex(ctx, EVP_aes_256_gcm(), nullptr, nullptr, nullptr) == 1 &&
+        EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_IVLEN, 12, nullptr) == 1 &&
+        EVP_EncryptInit_ex(ctx, nullptr, nullptr, key.data(), iv.data()) == 1 &&
+        EVP_EncryptUpdate(ctx, ciphertext.data(), &len, data.data(), (int)data.size()) == 1;
+    ct_len = len;
+    if (ok) ok = EVP_EncryptFinal_ex(ctx, ciphertext.data() + len, &len) == 1;
+    ct_len += len;
+    if (ok) ok = EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_GET_TAG, 16, tag.data()) == 1;
+    EVP_CIPHER_CTX_free(ctx);
+    if (!ok) return {};
+    ciphertext.resize(ct_len);
+    std::vector<uint8_t> result;
+    result.insert(result.end(), iv.begin(), iv.end());
+    result.insert(result.end(), ciphertext.begin(), ciphertext.end());
+    result.insert(result.end(), tag.begin(), tag.end());
+    return result;
+}
+
+// AES-256-GCM decrypt (fallback): expects iv(12) || ciphertext || tag(16)
+static std::vector<uint8_t> pkcs11_stub_aes_decrypt(const std::vector<uint8_t>& key, const std::vector<uint8_t>& encrypted) {
+    if (key.size() != 32 || encrypted.size() < 12 + 16) return {};
+    const uint8_t* iv  = encrypted.data();
+    size_t ct_len      = encrypted.size() - 12 - 16;
+    const uint8_t* ct  = encrypted.data() + 12;
+    const uint8_t* tag = encrypted.data() + 12 + ct_len;
+    EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new();
+    if (!ctx) return {};
+    std::vector<uint8_t> plaintext(ct_len);
+    int len = 0, pt_len = 0;
+    bool ok =
+        EVP_DecryptInit_ex(ctx, EVP_aes_256_gcm(), nullptr, nullptr, nullptr) == 1 &&
+        EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_IVLEN, 12, nullptr) == 1 &&
+        EVP_DecryptInit_ex(ctx, nullptr, nullptr, key.data(), iv) == 1 &&
+        EVP_DecryptUpdate(ctx, plaintext.data(), &len, ct, (int)ct_len) == 1;
+    pt_len = len;
+    if (ok) ok = EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_TAG, 16, (void*)tag) == 1;
+    if (ok) ok = EVP_DecryptFinal_ex(ctx, plaintext.data() + len, &len) > 0;
+    pt_len += len;
+    EVP_CIPHER_CTX_free(ctx);
+    if (!ok) return {};
+    plaintext.resize(pt_len);
+    return plaintext;
+}
+
+// Define HSMProvider::SessionEntry (forward-declared in hsm_provider.h).
+// This must appear before HSMProvider::Impl so that Impl::pool can use the
+// outer type and the helper functions (discoverKeysSession, acquireSession, …)
+// operate on the same concrete type.
+struct HSMProvider::SessionEntry {
+    CK_SESSION_HANDLE handle = 0;
+    CK_OBJECT_HANDLE privKey = 0;
+    CK_OBJECT_HANDLE pubKey = 0;
+    CK_OBJECT_HANDLE certObj = 0;
+    bool ready = false;
+};
+
 class HSMProvider::Impl {
 public:
     explicit Impl(HSMConfig cfg): config(cfg), next_session_idx(0) {}
     HSMConfig config;
 
     PKCS11Loader loader;
-    struct SessionEntry {
-        CK_SESSION_HANDLE handle = 0;
-        CK_OBJECT_HANDLE privKey = 0;
-        CK_OBJECT_HANDLE pubKey = 0;
-        CK_OBJECT_HANDLE certObj = 0;
-        bool ready = false;
-    };
-    std::vector<SessionEntry> pool;
+    CK_SESSION_HANDLE session = 0; // Main session handle (for backwards compatibility)
+    std::vector<HSMProvider::SessionEntry> pool;
     bool real_ready = false; // true wenn mind. eine Session mit privKey
     std::mutex mtx;
     std::string cert_serial_cache_;
     std::atomic<uint32_t> next_session_idx; // Lock-free round-robin counter
+    std::vector<uint8_t> stub_kek; // Fallback AES-256 KEK when real HSM unavailable
 
     // Performance metrics
     std::atomic<uint64_t> sign_count{0};
@@ -125,6 +218,8 @@ static std::string mapError(CK_RV rv){
         case CKR_GENERAL_ERROR: return "General error";
         case CKR_ARGUMENTS_BAD: return "Bad arguments";
         case CKR_SIGNATURE_INVALID: return "Signature invalid";
+        case CKR_USER_ALREADY_LOGGED_IN: return "User already logged in";
+        case CKR_USER_NOT_LOGGED_IN: return "User not logged in";
         default: {
             std::ostringstream oss; oss << "CKR_0x" << std::hex << rv; return oss.str();
         }
@@ -137,72 +232,205 @@ HSMProvider::~HSMProvider(){ finalize(); }
 HSMProvider::HSMProvider(HSMProvider&&) noexcept = default;
 HSMProvider& HSMProvider::operator=(HSMProvider&&) noexcept = default;
 
+// ---------------------------------------------------------------------------
+// selectSlot – choose the PKCS#11 slot to use during initialization.
+//
+// Priority:
+//   1. token_label set → scan all slots via C_GetTokenInfo, return first match.
+//   2. slot_id != 0    → find the slot ID in the enumerated list.
+//   3. fallback        → use the first slot (slots[0]).
+//
+// When only a fallback is used, a diagnostic message is written to error_out.
+// ---------------------------------------------------------------------------
+static CK_SLOT_ID selectSlot(
+        CK_FUNCTION_LIST_PTR api,
+        const std::vector<CK_SLOT_ID>& slots,
+        uint32_t config_slot_id,
+        const std::string& token_label,
+        std::string& error_out)
+{
+    // 1. Token-label based selection (preferred)
+    if (!token_label.empty() && api && api->C_GetTokenInfo) {
+        for (CK_SLOT_ID slot : slots) {
+            CK_TOKEN_INFO info{};
+            if (api->C_GetTokenInfo(slot, &info) != CKR_OK) continue;
+            // PKCS#11 labels are exactly 32 bytes, blank-padded, no null terminator.
+            // Comparison is case-sensitive per PKCS#11 v2.20 §9.2 (labels are opaque
+            // UTF-8 sequences). Ensure HSMConfig::token_label matches the exact
+            // capitalisation used during token initialisation (e.g. softhsm2-util --label).
+            std::string lbl(reinterpret_cast<const char*>(info.label), 32);
+            auto pos = lbl.find_last_not_of(' ');
+            lbl = (pos != std::string::npos) ? lbl.substr(0, pos + 1) : "";
+            if (lbl == token_label) {
+                THEMIS_INFO("PKCS#11 slot {} selected by token label '{}'", slot, token_label);
+                return slot;
+            }
+        }
+        error_out = "Token with label '" + token_label +
+                    "' not found in any slot; using first available slot";
+        return slots[0];
+    }
+
+    // 2. Explicit slot-ID based selection
+    if (config_slot_id != 0) {
+        for (CK_SLOT_ID slot : slots) {
+            if (slot == static_cast<CK_SLOT_ID>(config_slot_id)) {
+                THEMIS_INFO("PKCS#11 slot {} selected by slot_id", slot);
+                return slot;
+            }
+        }
+        error_out = "Configured slot_id=" + std::to_string(config_slot_id) +
+                    " not found in slot list; using first available slot";
+    }
+
+    // 3. Fallback: first slot
+    return slots[0];
+}
+
 bool HSMProvider::initialize(){
     std::lock_guard<std::mutex> lock(impl_->mtx);
     if(initialized_) return true;
     // Attempt real PKCS#11
     if(!config_.library_path.empty() && impl_->loader.load(config_.library_path)){
         auto api = impl_->loader.api();
-        if(!api){ impl_->fallbackLogOnce("Function list leer"); }
+        if(!api){
+            last_error_ = "PKCS#11 function list is null after library load";
+            impl_->fallbackLogOnce(last_error_);
+        }
         else {
-            // Slot list
-            uint32_t slotCount = 0; CK_RV rv = api->C_GetSlotList(1, nullptr, &slotCount);
+            // Enumerate slots with a token present (CK_TRUE = 1)
+            uint32_t slotCount = 0;
+            CK_RV rv = api->C_GetSlotList(1, nullptr, &slotCount);
             if(rv == CKR_OK && slotCount){
                 std::vector<CK_SLOT_ID> slots(slotCount);
                 rv = api->C_GetSlotList(1, slots.data(), &slotCount);
                 if(rv == CKR_OK){
-                    CK_SLOT_ID chosen = slots[0];
-                    if(api->C_OpenSession(chosen, CKF_SERIAL_SESSION, nullptr, nullptr, &impl_->session) == CKR_OK){
-                        std::string pin = config_.pin;
-                        if(pin.empty()){ const char* envPin = std::getenv("THEMIS_HSM_PIN"); if(envPin) pin = envPin; }
-                        if(!pin.empty()){
-                            rv = api->C_Login(impl_->session, CKU_USER, (CK_BYTE_PTR)pin.data(), (uint32_t)pin.size());
-                            if(rv == CKR_OK){ 
-                                // Discover private/public key by label (best effort)
-                                // Session-Pool erstellen
-                                uint32_t poolSize = config_.session_pool_size;
-                                if(const char* envPool = std::getenv("THEMIS_HSM_SESSION_POOL")){
-                                    poolSize = std::max(1u, (uint32_t)std::atoi(envPool));
-                                }
-                                impl_->pool.resize(poolSize);
-                                for(uint32_t i=0;i<poolSize;++i){
-                                    if(api->C_OpenSession(chosen, CKF_SERIAL_SESSION, nullptr, nullptr, &impl_->pool[i].handle) != CKR_OK){
-                                        impl_->fallbackLogOnce("OpenSession im Pool fehlgeschlagen");
-                                        continue;
-                                    }
-                                    // Login pro Session (einige HSMs verlangen das)
-                                    if(!pin.empty()){
-                                        CK_RV rvLogin = api->C_Login(impl_->pool[i].handle, CKU_USER, (CK_BYTE_PTR)pin.data(), (uint32_t)pin.size());
-                                        if(rvLogin != CKR_OK && rvLogin != CKR_PIN_INCORRECT){
-                                            impl_->fallbackLogOnce("Login in Session fehlgeschlagen");
-                                            continue;
-                                        }
-                                    }
-                                    discoverKeysSession(impl_->pool[i]);
-                                    discoverCertificateSession(impl_->pool[i]);
-                                    impl_->pool[i].ready = (impl_->pool[i].privKey != 0);
-                                }
-                                // Serial einmalig setzen (erste gefundene Zert-Session)
-                                for(auto& s : impl_->pool){ if(s.certObj){ impl_->real_ready = s.ready; break; } }
-                                if(!impl_->real_ready){
-                                    // Falls kein privKey entdeckt, dennoch fallback aktiv
-                                    impl_->fallbackLogOnce("Kein Private Key im Pool gefunden – Fallback");
-                                }
-                                if(!impl_->real_ready) impl_->fallbackLogOnce("Kein Private Key gefunden – Fallback aktiv");
-                            }
-                            else { last_error_ = mapError(rv); impl_->fallbackLogOnce("Login fehlgeschlagen"); }
-                        } else {
-                            impl_->fallbackLogOnce("PIN leer – Login uebersprungen");
+                    // Select slot by token label or slot ID
+                    std::string slot_err;
+                    CK_SLOT_ID chosen = selectSlot(api, slots, config_.slot_id,
+                                                   config_.token_label, slot_err);
+                    if (!slot_err.empty()) {
+                        last_error_ = slot_err;
+                        impl_->fallbackLogOnce(slot_err);
+                    }
+
+                    // Resolve PIN: config overrides env variable
+                    std::string pin = config_.pin;
+                    if(pin.empty()){
+                        const char* envPin = std::getenv("THEMIS_HSM_PIN");
+                        if(envPin) pin = envPin;
+                    }
+                    
+                    uint32_t poolSize = config_.session_pool_size;
+                    if(const char* envPool = std::getenv("THEMIS_HSM_SESSION_POOL")){
+                        poolSize = std::max(1u, (uint32_t)std::atoi(envPool));
+                    }
+                    impl_->pool.resize(poolSize);
+                    for(uint32_t i=0;i<poolSize;++i){
+                        if(api->C_OpenSession(chosen, CKF_SERIAL_SESSION, nullptr, nullptr,
+                                              &impl_->pool[i].handle) != CKR_OK){
+                            impl_->pool[i].handle = 0;
+                            std::string err = "C_OpenSession failed for pool slot " +
+                                             std::to_string(i);
+                            last_error_ = err;
+                            impl_->fallbackLogOnce(err);
+                            continue;
                         }
-                    } else impl_->fallbackLogOnce("Session Open fehlgeschlagen");
-                } else impl_->fallbackLogOnce("SlotList Abruf fehlgeschlagen");
-            } else impl_->fallbackLogOnce("Keine Slots gefunden");
+                        // Authenticate session with user PIN
+                        if(!pin.empty()){
+                            CK_RV rvLogin = api->C_Login(
+                                impl_->pool[i].handle, CKU_USER,
+                                (CK_BYTE_PTR)pin.data(), (uint32_t)pin.size());
+                            if(rvLogin == CKR_USER_ALREADY_LOGGED_IN){
+                                // Session is already authenticated – this is fine
+                                THEMIS_DEBUG("PKCS#11 session {} already logged in", i);
+                            } else if(rvLogin == CKR_PIN_INCORRECT){
+                                std::string err = "C_Login failed: PIN incorrect (session " +
+                                                 std::to_string(i) + ")";
+                                last_error_ = err;
+                                impl_->fallbackLogOnce(err);
+                                continue;
+                            } else if(rvLogin != CKR_OK){
+                                std::string err = "C_Login failed: " + mapError(rvLogin) +
+                                                 " (session " + std::to_string(i) + ")";
+                                last_error_ = err;
+                                impl_->fallbackLogOnce(err);
+                                continue;
+                            }
+                        } else {
+                            THEMIS_DEBUG("PKCS#11 PIN not set – skipping C_Login for session {}", i);
+                        }
+                        discoverKeysSession(impl_->pool[i]);
+                        discoverCertificateSession(impl_->pool[i]);
+                        impl_->pool[i].ready = (impl_->pool[i].privKey != 0);
+                    }
+                    // Set global ready flag if at least one session found a private key
+                    impl_->real_ready = false;
+                    for(auto& s : impl_->pool){
+                        if(s.ready){
+                            impl_->real_ready = true;
+                            break;
+                        }
+                    }
+                    if(!impl_->real_ready){
+                        std::string err = "No private key found in any pool session – "
+                                         "check key_label='" + config_.key_label + "'";
+                        if (last_error_.empty()) last_error_ = err;
+                        impl_->fallbackLogOnce(err);
+                    }
+                    if(pin.empty()){
+                        impl_->fallbackLogOnce("PIN not set – C_Login skipped for all sessions");
+                    }
+                } else {
+                    last_error_ = "C_GetSlotList failed: " + mapError(rv);
+                    impl_->fallbackLogOnce(last_error_);
+                }
+            } else {
+                last_error_ = rv != CKR_OK
+                    ? "C_GetSlotList (count query) failed: " + mapError(rv)
+                    : "No PKCS#11 slots with token present found";
+                impl_->fallbackLogOnce(last_error_);
+            }
         }
     } else {
-        impl_->fallbackLogOnce("Bibliothek konnte nicht geladen werden");
+        last_error_ = config_.library_path.empty()
+            ? "library_path is not configured"
+            : "Failed to load PKCS#11 library: " + config_.library_path;
+        impl_->fallbackLogOnce(last_error_);
     }
     initialized_ = true;
     THEMIS_INFO("HSMProvider init (real_ready={})", impl_->real_ready?"true":"false");
+    
+    // Generate fallback stub KEK for consistent wrap/unwrap when real HSM is unavailable
+    if (!impl_->real_ready) {
+        impl_->stub_kek.resize(32);
+        if (RAND_bytes(impl_->stub_kek.data(), 32) != 1) {
+            THEMIS_ERROR("HSMProvider: failed to generate stub KEK - aborting initialization");
+            initialized_ = false;
+            return false;
+        }
+    }
+    
+    // Security warning if using fallback stub
+    if (!impl_->real_ready) {
+        THEMIS_WARN("╔═══════════════════════════════════════════════════════════════╗");
+        THEMIS_WARN("║  ⚠️  HSM FALLBACK STUB ACTIVE - INSECURE CONFIGURATION  ⚠️   ║");
+        THEMIS_WARN("╠═══════════════════════════════════════════════════════════════╣");
+        THEMIS_WARN("║  Real PKCS#11 HSM connection failed.                         ║");
+        THEMIS_WARN("║  Master keys are NOT protected by hardware security.         ║");
+        THEMIS_WARN("║  This configuration is NOT SECURE for production!            ║");
+        THEMIS_WARN("║                                                               ║");
+        THEMIS_WARN("║  Fix HSM configuration immediately:                          ║");
+        THEMIS_WARN("║  - Check library_path: {}",
+                     config_.library_path.empty() ? "NOT SET" : config_.library_path);
+        THEMIS_WARN("║  - Check HSM PIN: {}",
+                     config_.pin.empty() ? "NOT SET" : "SET");
+        THEMIS_WARN("║  - Verify HSM device is connected and accessible             ║");
+        THEMIS_WARN("║                                                               ║");
+        THEMIS_WARN("║  See: docs/security/HSM_PRODUCTION_SETUP.md                  ║");
+        THEMIS_WARN("╚═══════════════════════════════════════════════════════════════╝");
+    }
+    
     return true;
 }
 
@@ -211,9 +439,24 @@ void HSMProvider::finalize(){
     if(!initialized_) return;
     if(impl_->real_ready && impl_->loader.api()){
         auto api = impl_->loader.api();
-        if(impl_->session) { api->C_Logout(impl_->session); api->C_CloseSession(impl_->session); }
+        // Close all sessions in the pool
+        for(auto& s : impl_->pool) {
+            if(s.handle) {
+                CK_RV rv = api->C_Logout(s.handle);
+                if(rv != CKR_OK && rv != CKR_USER_NOT_LOGGED_IN){
+                    THEMIS_WARN("PKCS11 C_Logout failed for session: {}", mapError(rv));
+                }
+                rv = api->C_CloseSession(s.handle);
+                if(rv != CKR_OK){
+                    THEMIS_WARN("PKCS11 C_CloseSession failed for session: {}", mapError(rv));
+                }
+                s.handle = 0;
+            }
+        }
+        impl_->pool.clear();
         impl_->loader.unload();
     }
+    impl_->pool.clear();
     impl_->real_ready = false;
     initialized_ = false;
 }
@@ -245,6 +488,17 @@ static std::vector<uint8_t> makeDigestInfo(const std::vector<uint8_t>& digest){
     return di;
 }
 
+// Build RSA-OAEP mechanism parameters (SHA-256 hash + MGF1-SHA-256, no label)
+static CK_RSA_PKCS_OAEP_PARAMS makeOaepParams() {
+    CK_RSA_PKCS_OAEP_PARAMS p{};
+    p.hashAlg = CKM_SHA256;
+    p.mgf = CKG_MGF1_SHA256;
+    p.source = CKZ_DATA_SPECIFIED;
+    p.pSourceData = nullptr;
+    p.ulSourceDataLen = 0;
+    return p;
+}
+
 // Key discovery helper
 void HSMProvider::discoverKeysSession(SessionEntry& s){
     auto api = impl_->loader.api(); if(!api || !s.handle) return;
@@ -272,14 +526,28 @@ void HSMProvider::discoverCertificateSession(SessionEntry& s){
     if(api->C_FindObjectsInit(s.handle, certTemplate, 2)==CKR_OK){
         CK_OBJECT_HANDLE h; uint32_t found=0; if(api->C_FindObjects(s.handle,&h,1,&found)==CKR_OK && found==1) s.certObj=h; api->C_FindObjectsFinal(s.handle);
     }
-    if(s.certObj && api->C_GetAttributeValue && cert_serial_cache_.empty()){
+    if(s.certObj && api->C_GetAttributeValue && impl_->cert_serial_cache_.empty()){
         CK_ATTRIBUTE valAttr; valAttr.type=CKA_VALUE; valAttr.pValue=nullptr; valAttr.ulValueLen=0;
         if(api->C_GetAttributeValue(s.handle, s.certObj, &valAttr, 1)==CKR_OK && valAttr.ulValueLen>0){
             std::vector<unsigned char> der(valAttr.ulValueLen); valAttr.pValue=der.data();
             if(api->C_GetAttributeValue(s.handle, s.certObj, &valAttr, 1)==CKR_OK){
-                const unsigned char* p = der.data(); X509* x = d2i_X509(nullptr,&p,der.size());
-                if(x){ ASN1_INTEGER* si = X509_get_serialNumber(x); if(si){ BIGNUM* bn=ASN1_INTEGER_to_BN(si,nullptr); if(bn){ char* hex=BN_bn2hex(bn); if(hex){ cert_serial_cache_ = hex; OPENSSL_free(hex);} BN_free(bn);} }
-                    X509_free(x); }
+                const unsigned char* p = der.data(); 
+                X509* x = d2i_X509(nullptr, &p, der.size());
+                if(x){
+                    ASN1_INTEGER* si = X509_get_serialNumber(x);
+                    if(si){
+                        BIGNUM* bn = ASN1_INTEGER_to_BN(si, nullptr);
+                        if(bn){
+                            char* hex = BN_bn2hex(bn);
+                            if(hex){
+                                impl_->cert_serial_cache_ = hex;
+                                OPENSSL_free(hex);
+                            }
+                            BN_free(bn);
+                        }
+                    }
+                    X509_free(x);
+                }
             }
         }
     }
@@ -378,7 +646,7 @@ HSMSignatureResult HSMProvider::signHash(const std::vector<uint8_t>& hash, const
     r.signature_b64 = toBase64(std::vector<uint8_t>(sig.begin(), sig.end()));
     r.algorithm = config_.signature_algorithm; 
     r.key_id = key_label.empty()?config_.key_label:key_label; 
-    r.cert_serial = cert_serial_cache_.empty()?"REAL-CERT":cert_serial_cache_; 
+    r.cert_serial = impl_->cert_serial_cache_.empty()?"REAL-CERT":impl_->cert_serial_cache_; 
     r.timestamp_ms = nowMs();
     releaseSession(sess);
     return r;
@@ -442,25 +710,271 @@ std::vector<HSMKeyInfo> HSMProvider::listKeys(){
     HSMKeyInfo info; info.label = config_.key_label; info.id = impl_->real_ready?"real-id":"stub-id"; info.algorithm = config_.signature_algorithm; info.can_sign = true; info.can_verify = true; info.extractable = false; info.key_size = impl_->real_ready?2048:0; return {info};
 }
 
+std::vector<uint8_t> HSMProvider::encryptData(const std::vector<uint8_t>& data, const std::string& key_label){
+    std::lock_guard<std::mutex> lock(impl_->mtx);
+    if (!initialized_) { last_error_ = "Not initialized"; return {}; }
+    if (!impl_->real_ready || !impl_->loader.api()) {
+        // Fallback: AES-256-GCM with stub KEK
+        auto result = pkcs11_stub_aes_encrypt(impl_->stub_kek, data);
+        if (result.empty()) last_error_ = "Stub AES encrypt failed";
+        return result;
+    }
+    auto api = impl_->loader.api();
+    if (!api) { last_error_ = "PKCS#11 API not available"; return {}; }
+    auto sess = acquireSession();
+    if (!sess || sess->pubKey == 0) {
+        last_error_ = "No public key available for encryption";
+        return {};
+    }
+    // Use RSA-OAEP (SHA-256 + MGF1-SHA-256) for secure DEK wrapping
+    auto oaep_params = makeOaepParams();
+    CK_MECHANISM mech{};
+    mech.mechanism = CKM_RSA_PKCS_OAEP;
+    mech.pParameter = &oaep_params;
+    mech.ulParameterLen = sizeof(oaep_params);
+    CK_RV rv = api->C_EncryptInit(sess->handle, &mech, sess->pubKey);
+    if (rv != CKR_OK) {
+        last_error_ = "C_EncryptInit failed: " + mapError(rv);
+        releaseSession(sess);
+        return {};
+    }
+    // Pre-allocate output buffer: RSA output size equals modulus size (max 512 bytes for RSA-4096)
+    const CK_ULONG kMaxRsaBytes = 512;
+    std::vector<uint8_t> ciphertext(kMaxRsaBytes);
+    CK_ULONG outLen = kMaxRsaBytes;
+    rv = api->C_Encrypt(sess->handle, (CK_BYTE_PTR)data.data(), (CK_ULONG)data.size(), ciphertext.data(), &outLen);
+    releaseSession(sess);
+    if (rv != CKR_OK) {
+        last_error_ = "C_Encrypt failed: " + mapError(rv);
+        return {};
+    }
+    ciphertext.resize(outLen);
+    (void)key_label;
+    return ciphertext;
+}
+
+std::vector<uint8_t> HSMProvider::decryptData(const std::vector<uint8_t>& encrypted, const std::string& key_label){
+    std::lock_guard<std::mutex> lock(impl_->mtx);
+    if (!initialized_) { last_error_ = "Not initialized"; return {}; }
+    if (!impl_->real_ready || !impl_->loader.api()) {
+        // Fallback: AES-256-GCM with stub KEK
+        auto result = pkcs11_stub_aes_decrypt(impl_->stub_kek, encrypted);
+        if (result.empty()) last_error_ = "Stub AES decrypt failed (bad ciphertext or mismatched key)";
+        return result;
+    }
+    auto api = impl_->loader.api();
+    if (!api) { last_error_ = "PKCS#11 API not available"; return {}; }
+    auto sess = acquireSession();
+    if (!sess || sess->privKey == 0) {
+        last_error_ = "No private key available for decryption";
+        return {};
+    }
+    // Use RSA-OAEP (SHA-256 + MGF1-SHA-256) matching the encryption mechanism
+    auto oaep_params = makeOaepParams();
+    CK_MECHANISM mech{};
+    mech.mechanism = CKM_RSA_PKCS_OAEP;
+    mech.pParameter = &oaep_params;
+    mech.ulParameterLen = sizeof(oaep_params);
+    CK_RV rv = api->C_DecryptInit(sess->handle, &mech, sess->privKey);
+    if (rv != CKR_OK) {
+        last_error_ = "C_DecryptInit failed: " + mapError(rv);
+        releaseSession(sess);
+        return {};
+    }
+    // Pre-allocate output buffer: plaintext <= ciphertext size (RSA modulus size)
+    std::vector<uint8_t> plaintext(encrypted.size());
+    CK_ULONG outLen = (CK_ULONG)encrypted.size();
+    rv = api->C_Decrypt(sess->handle, (CK_BYTE_PTR)encrypted.data(), (CK_ULONG)encrypted.size(), plaintext.data(), &outLen);
+    releaseSession(sess);
+    if (rv != CKR_OK) {
+        last_error_ = "C_Decrypt failed: " + mapError(rv);
+        return {};
+    }
+    plaintext.resize(outLen);
+    (void)key_label;
+    return plaintext;
+}
+
 bool HSMProvider::generateKeyPair(const std::string& label, uint32_t key_size, bool extractable){
     std::lock_guard<std::mutex> lock(impl_->mtx);
-    if(!impl_->real_ready){ THEMIS_WARN("generateKeyPair Fallback stub (label='{}')", label); return false; }
-    // Key generation omitted (would use C_GenerateKeyPair)
-    THEMIS_WARN("generateKeyPair reale Implementierung noch nicht vorhanden");
-    return false;
+    if(!impl_->real_ready){ 
+        THEMIS_WARN("generateKeyPair Fallback stub (label='{}')", label); 
+        return false; 
+    }
+    
+    auto api = impl_->loader.api();
+    if(!api) return false;
+    
+    // Get first ready session
+    auto sess = acquireSession();
+    if(!sess || !sess->handle){
+        THEMIS_ERROR("generateKeyPair: No ready session available");
+        return false;
+    }
+    
+    // Validate key size
+    if(key_size != 2048 && key_size != 3072 && key_size != 4096){
+        THEMIS_ERROR("generateKeyPair: Invalid key size {}. Must be 2048, 3072, or 4096", key_size);
+        releaseSession(sess);
+        return false;
+    }
+    
+    // Use local variables for object class values so we can take their address
+    CK_OBJECT_CLASS cls_pub  = CKO_PUBLIC_KEY;
+    CK_OBJECT_CLASS cls_priv = CKO_PRIVATE_KEY;
+    CK_BBOOL ck_true       = CK_TRUE;
+    CK_BBOOL ck_extractable = extractable ? CK_TRUE : CK_FALSE;
+    CK_ULONG modulus_bits = key_size;
+    CK_BYTE public_exponent[] = {0x01, 0x00, 0x01}; // 65537
+    
+    CK_ATTRIBUTE pub_template[] = {
+        {CKA_CLASS, &cls_pub, sizeof(cls_pub)},
+        {CKA_LABEL, (void*)label.c_str(), label.size()},
+        {CKA_TOKEN, &ck_true, sizeof(ck_true)},
+        {CKA_VERIFY, &ck_true, sizeof(ck_true)},
+        {CKA_MODULUS_BITS, &modulus_bits, sizeof(modulus_bits)},
+        {CKA_PUBLIC_EXPONENT, public_exponent, sizeof(public_exponent)}
+    };
+    
+    // Private key template
+    CK_ATTRIBUTE priv_template[] = {
+        {CKA_CLASS, &cls_priv, sizeof(cls_priv)},
+        {CKA_LABEL, (void*)label.c_str(), label.size()},
+        {CKA_TOKEN, &ck_true, sizeof(ck_true)},
+        {CKA_PRIVATE, &ck_true, sizeof(ck_true)},
+        {CKA_SENSITIVE, &ck_true, sizeof(ck_true)},
+        {CKA_SIGN, &ck_true, sizeof(ck_true)},
+        {CKA_EXTRACTABLE, &ck_extractable, sizeof(ck_extractable)}
+    };
+    
+    CK_MECHANISM mech = {CKM_RSA_PKCS_KEY_PAIR_GEN, nullptr, 0};
+    CK_OBJECT_HANDLE pub_key = 0, priv_key = 0;
+    
+    CK_RV rv = api->C_GenerateKeyPair(
+        sess->handle,
+        &mech,
+        pub_template, sizeof(pub_template) / sizeof(CK_ATTRIBUTE),
+        priv_template, sizeof(priv_template) / sizeof(CK_ATTRIBUTE),
+        &pub_key,
+        &priv_key
+    );
+    
+    releaseSession(sess);
+    
+    if(rv != CKR_OK){
+        last_error_ = mapError(rv);
+        THEMIS_ERROR("generateKeyPair failed: {}", last_error_);
+        return false;
+    }
+    
+    THEMIS_INFO("Generated RSA-{} key pair with label '{}'", key_size, label);
+    return true;
 }
 
 bool HSMProvider::importCertificate(const std::string& key_label, const std::string& cert_pem){
     std::lock_guard<std::mutex> lock(impl_->mtx);
-    if(!impl_->real_ready){ THEMIS_WARN("importCertificate Fallback stub (key='{}')", key_label); return false; }
-    // Would create certificate object; store serial
-    return false;
+    if(!impl_->real_ready){ 
+        THEMIS_WARN("importCertificate Fallback stub (key='{}')", key_label); 
+        return false; 
+    }
+    
+    auto api = impl_->loader.api();
+    if(!api) return false;
+    
+    // Get first ready session
+    auto sess = acquireSession();
+    if(!sess || !sess->handle){
+        THEMIS_ERROR("importCertificate: No ready session available");
+        return false;
+    }
+    
+    // Parse PEM certificate to DER format
+    BIO* bio = BIO_new_mem_buf(cert_pem.data(), cert_pem.size());
+    if(!bio){
+        THEMIS_ERROR("importCertificate: Failed to create BIO");
+        releaseSession(sess);
+        return false;
+    }
+    
+    X509* x509 = PEM_read_bio_X509(bio, nullptr, nullptr, nullptr);
+    BIO_free(bio);
+    
+    if(!x509){
+        THEMIS_ERROR("importCertificate: Failed to parse PEM certificate");
+        releaseSession(sess);
+        return false;
+    }
+    
+    // Convert to DER
+    unsigned char* der = nullptr;
+    int der_len = i2d_X509(x509, &der);
+    if(der_len <= 0 || !der){
+        THEMIS_ERROR("importCertificate: Failed to convert certificate to DER");
+        X509_free(x509);
+        releaseSession(sess);
+        return false;
+    }
+    
+    // Extract serial number for metadata
+    ASN1_INTEGER* serial_int = X509_get_serialNumber(x509);
+    std::string serial_hex;
+    if(serial_int){
+        BIGNUM* bn = ASN1_INTEGER_to_BN(serial_int, nullptr);
+        if(bn){
+            char* hex = BN_bn2hex(bn);
+            if(hex){
+                serial_hex = hex;
+                OPENSSL_free(hex);
+            }
+            BN_free(bn);
+        }
+    }
+    
+    // Create certificate object in HSM
+    CK_OBJECT_CLASS cert_class = CKO_CERTIFICATE;
+    CK_CERTIFICATE_TYPE cert_type = CKC_X_509;
+    CK_BBOOL ck_true = CK_TRUE;
+    
+    CK_ATTRIBUTE cert_template[] = {
+        {CKA_CLASS, &cert_class, sizeof(cert_class)},
+        {CKA_CERTIFICATE_TYPE, &cert_type, sizeof(cert_type)},
+        {CKA_LABEL, (void*)key_label.c_str(), key_label.size()},
+        {CKA_TOKEN, &ck_true, sizeof(ck_true)},
+        {CKA_VALUE, der, (CK_ULONG)der_len}
+    };
+    
+    CK_OBJECT_HANDLE cert_obj = 0;
+    CK_RV rv = api->C_CreateObject(
+        sess->handle,
+        cert_template,
+        sizeof(cert_template) / sizeof(CK_ATTRIBUTE),
+        &cert_obj
+    );
+    
+    // Cleanup
+    OPENSSL_free(der);
+    X509_free(x509);
+    releaseSession(sess);
+    
+    if(rv != CKR_OK){
+        last_error_ = mapError(rv);
+        THEMIS_ERROR("importCertificate failed: {}", last_error_);
+        return false;
+    }
+    
+    // Update cert serial cache if this is the first certificate
+    if(impl_->cert_serial_cache_.empty() && !serial_hex.empty()){
+        impl_->cert_serial_cache_ = serial_hex;
+    }
+    
+    THEMIS_INFO("Imported certificate for key '{}' (serial: {})", key_label, serial_hex);
+    return true;
 }
 
 std::optional<std::string> HSMProvider::getCertificate(const std::string& key_label){
     std::lock_guard<std::mutex> lock(impl_->mtx);
     if(!impl_->real_ready) return std::string("-----BEGIN CERTIFICATE-----\nSTUB\n-----END CERTIFICATE-----\n");
-    auto api = impl_->loader.api(); if(!api || impl_->certObj==0 || !api->C_GetAttributeValue) return std::nullopt;
+    auto api = impl_->loader.api(); if(!api || !api->C_GetAttributeValue) return std::nullopt;
     CK_ATTRIBUTE valAttr; valAttr.type = CKA_VALUE; valAttr.pValue = nullptr; valAttr.ulValueLen = 0;
     // Zertifikat aus erster Session mit certObj
     HSMProvider::SessionEntry* sess = nullptr; for(auto& s: impl_->pool){ if(s.certObj){ sess=&s; break; } }
@@ -480,7 +994,16 @@ std::optional<std::string> HSMProvider::getCertificate(const std::string& key_la
 
 bool HSMProvider::isReady() const { return impl_->real_ready || initialized_; }
 
-std::string HSMProvider::getTokenInfo() const { return impl_->real_ready?"PKCS11 real session active":"PKCS11 fallback stub"; }
+std::string HSMProvider::getTokenInfo() const {
+    if (!impl_->real_ready) return "PKCS11 fallback stub";
+    std::ostringstream oss;
+    oss << "PKCS11 real session active (slot=" << config_.slot_id;
+    if (!config_.token_label.empty()) {
+        oss << ", label=" << config_.token_label;
+    }
+    oss << ", pool=" << impl_->pool.size() << ")";
+    return oss.str();
+}
 
 std::string HSMProvider::getLastError() const { return last_error_; }
 
@@ -505,6 +1028,28 @@ void HSMProvider::resetStats() {
     impl_->total_sign_time_us.store(0, std::memory_order_relaxed);
     impl_->total_verify_time_us.store(0, std::memory_order_relaxed);
     impl_->pool_round_robin_hits.store(0, std::memory_order_relaxed);
+}
+
+bool HSMProvider::isStubProvider() const {
+    // False if real HSM is active, true if fallback stub
+    return !impl_->real_ready;
+}
+
+void HSMProvider::periodicSecurityCheck() {
+    std::lock_guard<std::mutex> lock(impl_->mtx);
+    
+    if (!initialized_) return;
+    
+    // If using stub fallback (no real HSM), log security warning
+    if (!impl_->real_ready) {
+        THEMIS_ERROR("⚠️  HSM SECURITY WARNING: PKCS#11 fallback stub active!");
+        THEMIS_ERROR("Real HSM connection failed. Keys are NOT hardware-protected.");
+        THEMIS_ERROR("Compliance impact: NIST SP 800-53 SC-12, PCI DSS 3.6, GDPR Art. 32");
+        THEMIS_ERROR("Check HSM configuration: library_path={}, pin={}", 
+                     config_.library_path.empty() ? "NOT SET" : config_.library_path,
+                     config_.pin.empty() ? "NOT SET" : "SET");
+        THEMIS_ERROR("See: docs/security/HSM_PRODUCTION_SETUP.md");
+    }
 }
 
 } } // namespace themis::security

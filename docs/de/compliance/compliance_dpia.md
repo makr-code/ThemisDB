@@ -1,10 +1,11 @@
 # Datenschutz-Folgenabschätzung (DPIA) - ThemisDB
 
-**Stand:** 22. Dezember 2025  
-**Version:** v1.3.0  
+**Stand:** 3. Februar 2026  
+**Version:** v1.4.1  
 **Kategorie:** 🔒 Compliance  
 **Klassifizierung:** Vertraulich  
-**Basis:** DSGVO Art. 35, ISO 27701, BSI Standard 200-3
+**Basis:** DSGVO Art. 35, ISO 27701, BSI Standard 200-3  
+**Status:** ✅ VOLLSTÄNDIG (FIND-021 behoben)
 
 ---
 
@@ -12,7 +13,15 @@
 
 - [Übersicht](#-übersicht)
 - [Beschreibung der Verarbeitung](#1-beschreibung-der-verarbeitung)
-- [Risikoanalyse](#risikoanalyse)
+- [PII-Inventar](#15-pii-inventar-personenbezogene-daten)
+- [Notwendigkeits- und Verhältnismäßigkeitsprüfung](#2-notwendigkeits--und-verhältnismäßigkeitsprüfung)
+- [Risikobewertung](#3-risikobewertung)
+- [Technische und organisatorische Maßnahmen](#4-technische-und-organisatorische-maßnahmen-toms)
+- [Betroffenenrechte](#5-betroffenenrechte)
+- [Datentransfers](#6-datentransfers)
+- [Risiko-Minderung](#7-risiko-minderung)
+- [Konsultation](#8-konsultation)
+- [Schlussfolgerung](#9-schlussfolgerung)
 
 ---
 
@@ -79,6 +88,59 @@ ThemisDB ist eine Multi-Model-Datenbank, die verschiedene Datenmodelle (Relation
 
 ---
 
+## 1.5 PII-Inventar (Personenbezogene Daten)
+
+### 1.5.1 Automatische PII-Erkennung
+
+ThemisDB verfügt über ein automatisches PII-Detection-System, das folgende Kategorien personenbezogener Daten erkennt und markiert:
+
+| PII-Typ | Erkennungsmuster | Sensibilität | DSGVO Art. | Verschlüsselung |
+|---------|------------------|--------------|------------|-----------------|
+| **E-Mail-Adressen** | RFC 5322 Regex | Mittel | Art. 6(1) | Field-Level Encryption |
+| **Telefonnummern** | E.164, lokale Formate | Mittel | Art. 6(1) | Field-Level Encryption |
+| **Kreditkartennummern** | Luhn-Check, BIN-Pattern | Hoch | Art. 6(1)(b) | Mandatory Encryption |
+| **IBAN** | ISO 13616 | Hoch | Art. 6(1)(b) | Mandatory Encryption |
+| **Sozialversicherungsnummer** | Länder-spezifisch | Sehr Hoch | Art. 9 | Mandatory Encryption |
+| **IP-Adressen** | IPv4/IPv6 | Niedrig-Mittel | Art. 6(1)(f) | Optional |
+| **Namen** | NER (Named Entity Recognition) | Mittel | Art. 6(1) | Optional |
+| **Adressen** | Geo-Patterns | Mittel | Art. 6(1) | Optional |
+
+### 1.5.2 PII-Verarbeitungszwecke
+
+| Verarbeitung | Zweck | Rechtsgrundlage | Retention | Löschung |
+|-------------|-------|-----------------|-----------|----------|
+| **Benutzerkonto-Daten** | Authentifizierung, Zugangsverwaltung | Art. 6(1)(b) Vertragserfüllung | Kontolebenszeit + 90 Tage | Automatisch nach Retention |
+| **Transaktionsdaten** | Geschäftsabwicklung, Audit | Art. 6(1)(b) Vertragserfüllung | 10 Jahre (HGB §257) | Nach gesetzlicher Frist |
+| **Audit-Logs** | Sicherheit, Compliance | Art. 6(1)(f) Berechtigtes Interesse | 365 Tage | Automatisch nach Retention |
+| **Zahlungsinformationen** | Payment Processing | Art. 6(1)(b) Vertragserfüllung | 30 Tage + gesetzliche Fristen | Nach Abschluss + Frist |
+| **Gesundheitsdaten** | Anwendungsspezifisch | Art. 9(2)(a) Explizite Einwilligung | Anwendungsabhängig | Auf Widerruf |
+| **Kommunikationsdaten** | Support, Customer Service | Art. 6(1)(b) Vertragserfüllung | 3 Jahre | Nach Retention |
+
+### 1.5.3 Datenverarbeitungsaktivitäten (Verzeichnis)
+
+| ID | Aktivität | Kategorien | Empfänger | Transfer | Risiko |
+|----|-----------|-----------|-----------|----------|--------|
+| **DPA-001** | Benutzerverwaltung | Identifikation, Kontakt | ThemisDB Betreiber | Lokal/EU | Mittel |
+| **DPA-002** | Zahlungsverarbeitung | Finanzdaten, Identifikation | Payment Processor | EU/Drittland | Hoch |
+| **DPA-003** | Audit-Logging | Verhaltensdaten, IP | Security Team | Lokal | Niedrig |
+| **DPA-004** | Backup & Archivierung | Alle Kategorien | Backup Provider | EU/Drittland | Mittel |
+| **DPA-005** | Gesundheitsanwendung | Gesundheitsdaten (Art. 9) | Anwendungsbetreiber | Lokal/EU | Sehr Hoch |
+| **DPA-006** | Customer Analytics | Verhaltensdaten | Analytics Team | Lokal | Niedrig |
+
+### 1.5.4 Datenschutz-Kontrollmechanismen
+
+| Kontrolle | Implementierung | Status | Effektivität |
+|-----------|----------------|--------|--------------|
+| **PII-Detection** | `pii_detector.cpp` - 7 PII-Typen | ✅ Aktiv | Hoch |
+| **Automatische Klassifizierung** | Governance Engine | ✅ Aktiv | Hoch |
+| **Field-Level Encryption** | AES-256-GCM | ✅ Aktiv | Sehr Hoch |
+| **Retention Policies** | Automatische Löschung | ✅ Aktiv | Hoch |
+| **Access Logging** | Audit Trail für PII-Zugriffe | ✅ Aktiv | Hoch |
+| **Pseudonymisierung** | Encryption als Pseudonymisierung | ✅ Verfügbar | Hoch |
+| **Data Masking** | API-Level Masking | ⚠️ Optional | Mittel |
+
+---
+
 ## 2. Notwendigkeits- und Verhältnismäßigkeitsprüfung
 
 ### 2.1 Rechtsgrundlage
@@ -112,17 +174,27 @@ ThemisDB ist eine Multi-Model-Datenbank, die verschiedene Datenmodelle (Relation
 
 ## 3. Risikobewertung
 
-### 3.1 Risiko-Matrix
+### 3.1 Risiko-Matrix (FIND-021 Erweitert)
 
-| Risiko | Wahrscheinlichkeit | Auswirkung | Risikostufe |
-|--------|-------------------|------------|-------------|
-| Datenverlust | Niedrig | Hoch | Mittel |
-| Unbefugter Zugriff | Mittel | Hoch | Hoch |
-| Datenmanipulation | Niedrig | Hoch | Mittel |
-| Fehlende Verschlüsselung | Sehr Niedrig | Hoch | Niedrig |
-| Unzureichende Löschung | Niedrig | Mittel | Niedrig |
-| Excessive Logging | Niedrig | Mittel | Niedrig |
-| Fehlende Zugriffskontrolle | Sehr Niedrig | Sehr Hoch | Niedrig |
+| ID | Risiko | Wahrscheinlichkeit | Auswirkung | Risikostufe | Risikoscore |
+|----|--------|-------------------|------------|-------------|-------------|
+| **R-001** | Datenverlust | Niedrig (2) | Hoch (4) | 🟡 Mittel | 8 |
+| **R-002** | Unbefugter Zugriff | Mittel (3) | Hoch (4) | 🟠 Hoch | 12 |
+| **R-003** | Datenmanipulation | Niedrig (2) | Hoch (4) | 🟡 Mittel | 8 |
+| **R-004** | Fehlende Verschlüsselung | Sehr Niedrig (1) | Hoch (4) | 🟢 Niedrig | 4 |
+| **R-005** | Unzureichende Löschung | Niedrig (2) | Mittel (3) | 🟢 Niedrig | 6 |
+| **R-006** | Excessive Logging (PII) | Niedrig (2) | Mittel (3) | 🟢 Niedrig | 6 |
+| **R-007** | Fehlende Zugriffskontrolle | Sehr Niedrig (1) | Sehr Hoch (5) | 🟡 Mittel | 5 |
+| **R-008** | Datenleck bei Transfer | Niedrig (2) | Sehr Hoch (5) | 🟡 Mittel | 10 |
+| **R-009** | Insider-Bedrohung | Niedrig (2) | Hoch (4) | 🟡 Mittel | 8 |
+| **R-010** | Compliance-Verstoß | Niedrig (2) | Sehr Hoch (5) | 🟡 Mittel | 10 |
+
+**Risikoscore-Berechnung:** Wahrscheinlichkeit (1-5) × Auswirkung (1-5)  
+**Risikostufen:**
+- 🔴 Sehr Hoch: 16-25 (sofortige Maßnahmen erforderlich)
+- 🟠 Hoch: 10-15 (prioritäre Behandlung)
+- 🟡 Mittel: 5-9 (überwachte Behandlung)
+- 🟢 Niedrig: 1-4 (akzeptables Restrisiko)
 
 ### 3.2 Detaillierte Risikoanalyse
 

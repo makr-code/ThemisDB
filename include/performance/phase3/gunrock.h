@@ -1,3 +1,25 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            gunrock.h                                          ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:09:20                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     77                                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // Gunrock: A High-Performance Graph Processing Library on the GPU
 // Paper: "Gunrock: A High-Performance Graph Processing Library on the GPU" (PPoPP'16)
 // Authors: Yangzihao Wang et al., UC Davis
@@ -10,6 +32,7 @@
 
 #include <cstdint>
 #include <vector>
+#include <memory>
 
 namespace themis {
 namespace performance {

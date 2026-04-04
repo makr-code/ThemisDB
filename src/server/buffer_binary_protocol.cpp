@@ -1,3 +1,25 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            buffer_binary_protocol.cpp                         ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:19:41                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     455                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "server/buffer_binary_protocol.h"
 #include "timeseries/ts_auto_buffer.h"
 #include "index/vector_auto_buffer.h"
@@ -5,7 +27,7 @@
 #include "timeseries/tsstore.h"
 #include "index/vector_index_manager.h"
 #include "index/property_graph.h"
-#include "utils/logging.h"
+#include "utils/logger.h"
 
 #include <msgpack.hpp>
 #include <stdexcept>
@@ -14,9 +36,9 @@ namespace themisdb {
 namespace server {
 
 BufferBinaryProtocolHandler::BufferBinaryProtocolHandler(
-    std::shared_ptr<TSStore> tsstore,
-    std::shared_ptr<VectorIndexManager> vector_index,
-    std::shared_ptr<PropertyGraph> property_graph
+    std::shared_ptr<themis::TSStore> tsstore,
+    std::shared_ptr<themis::VectorIndexManager> vector_index,
+    std::shared_ptr<themis::PropertyGraphManager> property_graph
 ) : tsstore_(tsstore),
     vector_index_(vector_index),
     property_graph_(property_graph),
@@ -31,40 +53,40 @@ BufferBinaryProtocolHandler::~BufferBinaryProtocolHandler() {
 
 void BufferBinaryProtocolHandler::start() {
     if (running_) {
-        LOG_WARN("BufferBinaryProtocolHandler already running");
+        THEMIS_WARN("BufferBinaryProtocolHandler already running");
         return;
     }
     
     // Initialize TSAutoBuffer with default configuration
-    TSAutoBufferConfig ts_config;
+    themis::TSAutoBufferConfig ts_config;
     ts_config.max_points_per_buffer = 1000;
     ts_config.flush_interval = std::chrono::milliseconds(5000);
     ts_config.max_memory_bytes = 100 * 1024 * 1024;  // 100 MB
-    ts_config.compression = TSStore::CompressionType::Gorilla;
+    ts_config.compression = themis::TSStore::CompressionType::Gorilla;
     
-    ts_buffer_ = std::make_unique<TSAutoBuffer>(tsstore_.get(), ts_config);
+    ts_buffer_ = std::make_unique<themis::TSAutoBuffer>(tsstore_.get(), ts_config);
     ts_buffer_->start();
     
     // Initialize VectorAutoBuffer with default configuration
-    VectorAutoBufferConfig vector_config;
+    themis::VectorAutoBufferConfig vector_config;
     vector_config.max_vectors_per_buffer = 1000;
     vector_config.flush_interval = std::chrono::milliseconds(5000);
     vector_config.max_memory_bytes = 500 * 1024 * 1024;  // 500 MB
     
-    vector_buffer_ = std::make_unique<VectorAutoBuffer>(vector_index_.get(), vector_config);
+    vector_buffer_ = std::make_unique<themis::VectorAutoBuffer>(vector_index_.get(), vector_config);
     vector_buffer_->start();
     
     // Initialize GraphAutoBuffer with default configuration
-    GraphAutoBufferConfig graph_config;
+    themis::GraphAutoBufferConfig graph_config;
     graph_config.max_nodes_per_buffer = 1000;
     graph_config.max_edges_per_buffer = 1000;
     graph_config.flush_interval = std::chrono::milliseconds(5000);
     
-    graph_buffer_ = std::make_unique<GraphAutoBuffer>(property_graph_.get(), graph_config);
+    graph_buffer_ = std::make_unique<themis::GraphAutoBuffer>(property_graph_.get(), graph_config);
     graph_buffer_->start();
     
     running_ = true;
-    LOG_INFO("BufferBinaryProtocolHandler started");
+    THEMIS_INFO("BufferBinaryProtocolHandler started");
 }
 
 void BufferBinaryProtocolHandler::stop() {
@@ -84,7 +106,7 @@ void BufferBinaryProtocolHandler::stop() {
     }
     
     running_ = false;
-    LOG_INFO("BufferBinaryProtocolHandler stopped");
+    THEMIS_INFO("BufferBinaryProtocolHandler stopped");
 }
 
 std::vector<uint8_t> BufferBinaryProtocolHandler::handleMessage(
@@ -119,7 +141,7 @@ std::vector<uint8_t> BufferBinaryProtocolHandler::handleMessage(
                 return createErrorResponse(STATUS_INVALID_OPCODE, "Unknown opcode");
         }
     } catch (const std::exception& e) {
-        LOG_ERROR("Error handling message: " + std::string(e.what()));
+        THEMIS_ERROR("Error handling message: {}", e.what());
         return createErrorResponse(STATUS_PROCESSING_ERROR, e.what());
     }
 }
@@ -139,20 +161,19 @@ std::vector<uint8_t> BufferBinaryProtocolHandler::handleTSPutBuffered(
         std::map<std::string, msgpack::object> data;
         obj.convert(data);
         
-        TSStore::DataPoint point;
+        themis::TSStore::DataPoint point;
         point.metric = data["metric"].as<std::string>();
         point.entity = data["entity"].as<std::string>();
-        point.timestamp = data["timestamp"].as<int64_t>();
+        point.timestamp_ms = data["timestamp_ms"].as<int64_t>();
         point.value = data["value"].as<double>();
         
         // Add to buffer
         auto status = ts_buffer_->add(point);
         
-        if (status == TSStore::Status::OK) {
+        if (status.has_value()) {
             return createResponse(STATUS_SUCCESS);
-        } else {
-            return createErrorResponse(STATUS_PROCESSING_ERROR, "Failed to buffer data point");
         }
+        return createErrorResponse(STATUS_PROCESSING_ERROR, status.error().message());
     } catch (const std::exception& e) {
         return createErrorResponse(STATUS_MALFORMED_PAYLOAD, e.what());
     }
@@ -175,14 +196,14 @@ std::vector<uint8_t> BufferBinaryProtocolHandler::handleTSPutBufferedBatch(
         
         size_t buffered_count = 0;
         for (const auto& data : batch) {
-            TSStore::DataPoint point;
+            themis::TSStore::DataPoint point;
             point.metric = data.at("metric").as<std::string>();
             point.entity = data.at("entity").as<std::string>();
-            point.timestamp = data.at("timestamp").as<int64_t>();
+            point.timestamp_ms = data.at("timestamp_ms").as<int64_t>();
             point.value = data.at("value").as<double>();
             
             auto status = ts_buffer_->add(point);
-            if (status == TSStore::Status::OK) {
+            if (status.has_value()) {
                 buffered_count++;
             }
         }
@@ -217,18 +238,17 @@ std::vector<uint8_t> BufferBinaryProtocolHandler::handleVectorAddBuffered(
         obj.convert(data);
         
         // Create BaseEntity (simplified for this example)
-        BaseEntity entity;
-        entity.pk = data["pk"].as<std::string>();
+        themis::BaseEntity entity;
+        entity.setPrimaryKey(data["pk"].as<std::string>());
         // Additional field extraction would go here
         
         // Add to buffer
         auto status = vector_buffer_->add(entity);
         
-        if (status == VectorAutoBuffer::Status::OK) {
+        if (status.ok) {
             return createResponse(STATUS_SUCCESS);
-        } else {
-            return createErrorResponse(STATUS_PROCESSING_ERROR, "Failed to buffer vector add");
         }
+        return createErrorResponse(STATUS_PROCESSING_ERROR, status.message);
     } catch (const std::exception& e) {
         return createErrorResponse(STATUS_MALFORMED_PAYLOAD, e.what());
     }
@@ -258,11 +278,10 @@ std::vector<uint8_t> BufferBinaryProtocolHandler::handleVectorRemoveBuffered(
         
         auto status = vector_buffer_->remove(pk);
         
-        if (status == VectorAutoBuffer::Status::OK) {
+        if (status.ok) {
             return createResponse(STATUS_SUCCESS);
-        } else {
-            return createErrorResponse(STATUS_PROCESSING_ERROR, "Failed to buffer vector remove");
         }
+        return createErrorResponse(STATUS_PROCESSING_ERROR, status.message);
     } catch (const std::exception& e) {
         return createErrorResponse(STATUS_MALFORMED_PAYLOAD, e.what());
     }
@@ -281,17 +300,16 @@ std::vector<uint8_t> BufferBinaryProtocolHandler::handleGraphNodeBuffered(
         std::map<std::string, msgpack::object> data;
         obj.convert(data);
         
-        BaseEntity node;
-        node.pk = data["pk"].as<std::string>();
+        themis::BaseEntity node;
+        node.setPrimaryKey(data["pk"].as<std::string>());
         std::string graph_id = data["graph_id"].as<std::string>();
         
         auto status = graph_buffer_->addNode(node, graph_id);
         
-        if (status == GraphAutoBuffer::Status::OK) {
+        if (status.ok) {
             return createResponse(STATUS_SUCCESS);
-        } else {
-            return createErrorResponse(STATUS_PROCESSING_ERROR, "Failed to buffer graph node");
         }
+        return createErrorResponse(STATUS_PROCESSING_ERROR, status.message);
     } catch (const std::exception& e) {
         return createErrorResponse(STATUS_MALFORMED_PAYLOAD, e.what());
     }
@@ -309,9 +327,9 @@ std::vector<uint8_t> BufferBinaryProtocolHandler::handleBufferStats(
 ) {
     try {
         // Get statistics from all buffers
-        auto ts_stats = ts_buffer_->getStatistics();
-        auto vector_stats = vector_buffer_->getStatistics();
-        auto graph_stats = graph_buffer_->getStatistics();
+        auto ts_stats = ts_buffer_->getStats();
+        auto vector_stats = vector_buffer_->getStats();
+        auto graph_stats = graph_buffer_->getStats();
         
         // Pack statistics into MessagePack
         msgpack::sbuffer sbuf;
@@ -321,37 +339,35 @@ std::vector<uint8_t> BufferBinaryProtocolHandler::handleBufferStats(
         
         // TS buffer stats
         packer.pack("ts_buffer");
-        packer.pack_map(4);
-        packer.pack("enabled");
-        packer.pack(true);
+        packer.pack_map(3);
         packer.pack("points_buffered");
-        packer.pack(ts_stats.operations_buffered);
+        packer.pack(ts_stats.points_buffered.load());
         packer.pack("points_flushed");
-        packer.pack(ts_stats.operations_flushed);
+        packer.pack(ts_stats.points_flushed.load());
         packer.pack("current_buffer_size");
         packer.pack(ts_stats.current_buffer_size);
         
         // Vector buffer stats
         packer.pack("vector_buffer");
-        packer.pack_map(4);
-        packer.pack("enabled");
-        packer.pack(true);
+        packer.pack_map(3);
         packer.pack("vectors_buffered");
-        packer.pack(vector_stats.operations_buffered);
+        packer.pack(vector_stats.vectors_buffered.load());
         packer.pack("vectors_flushed");
-        packer.pack(vector_stats.operations_flushed);
+        packer.pack(vector_stats.vectors_flushed.load());
         packer.pack("current_buffer_size");
         packer.pack(vector_stats.current_buffer_size);
         
         // Graph buffer stats
         packer.pack("graph_buffer");
-        packer.pack_map(4);
-        packer.pack("enabled");
-        packer.pack(true);
-        packer.pack("operations_buffered");
-        packer.pack(graph_stats.operations_buffered);
-        packer.pack("operations_flushed");
-        packer.pack(graph_stats.operations_flushed);
+        packer.pack_map(5);
+        packer.pack("nodes_buffered");
+        packer.pack(graph_stats.nodes_buffered.load());
+        packer.pack("edges_buffered");
+        packer.pack(graph_stats.edges_buffered.load());
+        packer.pack("nodes_flushed");
+        packer.pack(graph_stats.nodes_flushed.load());
+        packer.pack("edges_flushed");
+        packer.pack(graph_stats.edges_flushed.load());
         packer.pack("current_buffer_size");
         packer.pack(graph_stats.current_buffer_size);
         
@@ -430,14 +446,8 @@ std::vector<uint8_t> BufferBinaryProtocolHandler::createErrorResponse(
     uint8_t status,
     const std::string& error_message
 ) {
-    // Pack error message into MessagePack
-    msgpack::sbuffer sbuf;
-    msgpack::packer<msgpack::sbuffer> packer(sbuf);
-    packer.pack_map(1);
-    packer.pack("error");
-    packer.pack(error_message);
-    
-    std::vector<uint8_t> payload(sbuf.data(), sbuf.data() + sbuf.size());
+    // Encode error as plain UTF-8 bytes
+    std::vector<uint8_t> payload(error_message.begin(), error_message.end());
     return createResponse(status, payload);
 }
 

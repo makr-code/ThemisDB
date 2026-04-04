@@ -1,3 +1,28 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            docs_assistant_functions.h                         ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:05:46                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     307                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • a7b41e3e7  2026-03-22  feat(docs): refactor DocsAssistantFunctions to use unique... ║
+    • f62f9c89c  2026-03-14  feat(aql): wire detectIntentWithNativeNLP() to IClassifyF... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file docs_assistant_functions.h
  * @brief AQL function wrappers for Documentation Assistant with LoRA support
@@ -40,8 +65,17 @@
  * ```
  */
 
+// Forward declarations
+namespace themis {
+namespace llm {
+    struct DocumentEntry;
+}
+}
+
+
 #pragma once
 
+#include "aql/classify_bridge.h"
 #include <string>
 #include <vector>
 #include <memory>
@@ -187,20 +221,45 @@ public:
      */
     json getPerformanceMetrics() const;
 
-private:
-    class Impl;
-    std::unique_ptr<Impl> impl_;
-    
+    /**
+     * @brief Inject a classifier for native NLP intent detection.
+     *
+     * When a non-null @p classifier is provided, detectIntentWithNativeNLP()
+     * delegates to it instead of returning "unknown".  Pass nullptr (or omit
+     * the call) to revert to the no-op NullClassifyFn behaviour.
+     *
+     * Ownership is NOT transferred; the caller must keep the object alive for
+     * the lifetime of this DocsAssistantFunctions instance.
+     *
+     * Typical usage:
+     * @code
+     * static AQLFunctionClassifyBridge bridge;
+     * getDocsAssistantFunctions().setClassifier(&bridge);
+     * @endcode
+     */
+    void setClassifier(IClassifyFn* classifier);
+
+protected:
     /**
      * @brief Detect user intent using native NLP (primary method)
      * @param query User query
      * @return Intent: "configuration", "troubleshooting", "search", "general", or "unknown"
-     * 
-     * Uses ThemisDB's native CLASSIFY() function for zero-shot classification.
-     * Currently returns "unknown" as placeholder - will be integrated at AQL parser level.
+     *
+     * Delegates to the IClassifyFn set via setClassifier() when non-null.
+     * Returns "unknown" (triggering LLM fallback) when no classifier has been
+     * injected.
      */
     std::string detectIntentWithNativeNLP(const std::string& query);
-    
+
+private:
+    class Impl;
+  Impl& ensureImpl();
+  Impl* tryGetImpl() const;
+  mutable std::unique_ptr<Impl> impl_;
+
+    /// Injected classifier; null means native NLP is not available (NullClassifyFn semantics).
+    IClassifyFn* classifier_ = nullptr;
+
     /**
      * @brief Detect user intent using LLM (secondary method)
      * @param query User query

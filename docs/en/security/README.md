@@ -1,9 +1,9 @@
 # 🔒 Security Module - Main Overview
 
 **Category:** 📋 Reports & Documentation  
-**Version:** v1.3.0  
+**Version:** v1.5.1  
 **Status:** ✅ Production Ready  
-**Last Updated:** December 22, 2025
+**Last Updated:** February 2026
 
 ---
 
@@ -37,13 +37,114 @@ The Security Module implements comprehensive security features for ThemisDB, inc
 | RBAC | `rbac.h` | `rbac.cpp` | Role-Based Access |
 | MalwareScanner | `malware_scanner.h` | `malware_scanner.cpp` | Content Scanning |
 | CMSSigning | `cms_signing.h` | `cms_signing.cpp` | CMS Signatures |
-| TimestampAuthority | `timestamp_authority.h` | `timestamp_authority.cpp` | RFC 3161 TSA |
+| **TimestampAuthority** | `timestamp_authority.h` | `timestamp_authority_openssl.cpp` | **RFC 3161 TSA (Production)** ✅ |
+| **PIIRedactionPolicy** | `pii_redaction_policy.h` | `pii_redaction_policy.cpp` | **PII Redaction – Logs/Traces/Metrics** ✅ |
 
-**Total:** 16 Headers, 16 Source Files, ~8,100 LOC
+**Total:** 17 Headers, 17 Source Files, ~8,500 LOC
 
 ---
 
 ## ✨ Features & Highlights
+
+### 🆕 PII Redaction Policy (v1.5.1) - PRODUCTION READY ✅
+
+**Quick Start:**
+- **[PII_REDACTION_POLICY.md](PII_REDACTION_POLICY.md)** - Full policy document (PII taxonomy, architecture, configuration, developer checklist)
+
+**Features:**
+- ✅ Automatic PII redaction enforced at the infrastructure level (no call-site changes needed)
+- ✅ `PIIRedactingSink` wraps every spdlog sink — all `THEMIS_*` log macros auto-redact
+- ✅ `Tracer::Span::setAttribute(string)` and `recordError()` auto-redact before OTel
+- ✅ `MetricsCollector::makeKey()` auto-redacts label maps before Prometheus export
+- ✅ Configurable per-pattern mode (`partial` / `strict`); global `THEMIS_PII_STRICT=1` override
+- ✅ CI gate: `check_pii_leakage.py` fails the build on new unredacted PII writes
+- ✅ AFL++ fuzz harness with 7-seed corpus and PII dictionary
+- ✅ 18 unit tests covering all three telemetry channels
+
+**PII Categories Covered:**
+
+| Category | Example | Redaction |
+|----------|---------|-----------|
+| Email | `alice@example.com` | Partial |
+| Phone | `+49-123-456789` | Partial |
+| SSN | `123-45-6789` | Strict |
+| Credit Card | `4242-4242-4242-4242` | Strict |
+| IBAN | `DE89370400440532013000` | Strict |
+| IP Address | `192.168.1.42` | Partial |
+
+**Architecture:**
+```
+Application Code  →  Logger / Tracer::Span / MetricsCollector
+                          ↓ (automatic)
+              PIIRedactionPolicy singleton
+                          ↓
+                    PIIDetector pipeline
+                    (RegexEngine + optional NER/Embedding)
+                          ↓
+       spdlog sinks / OTel SDK / Prometheus endpoint
+```
+
+**Configuration:**
+```yaml
+# config/pii_patterns.yaml
+detection_engines:
+  - type: regex
+    patterns:
+      - name: email
+        pattern: "[a-zA-Z0-9._%+\\-]+@[a-zA-Z0-9.\\-]+\\.[a-zA-Z]{2,}"
+        mode: partial
+```
+
+**Example:**
+```cpp
+// Automatic – no changes needed for new code using Logger/Tracer/MetricsCollector:
+THEMIS_INFO("Invoice sent to {}", recipient);  // 'recipient' auto-redacted by PIIRedactingSink
+
+// Explicit pre-redaction for bare spdlog:: calls before Logger::init():
+auto safe = PIIRedactionPolicy::get().redactForLog(raw_value);
+spdlog::info("Value: {}", safe);
+
+// Strict mode (environment variable or runtime):
+// THEMIS_PII_STRICT=1  or  PIIRedactionPolicy::get().setStrictMode(true);
+```
+
+### 🆕 RFC 3161 Timestamp Authority (v1.5.0) - PRODUCTION READY ✅
+
+**Quick Start:**
+- **[TSA_SETUP.md](TSA_SETUP.md)** - Comprehensive TSA setup guide (400+ lines)
+
+**Features:**
+- ✅ Full RFC 3161 Time-Stamp Protocol implementation
+- ✅ OpenSSL-based cryptographic operations (SHA-256, SHA-384, SHA-512)
+- ✅ Integration with external TSA providers (FreeTSA, DigiCert, Sectigo)
+- ✅ eIDAS compliance support for qualified electronic timestamps
+- ✅ Long-term validation (LTV) for 30-year timestamp retention
+- ✅ Certificate chain validation and verification
+- ✅ 10+ comprehensive tests
+
+**Use Cases:**
+- eIDAS qualified electronic timestamps (Art. 42)
+- Long-term signature validation (30 years)
+- Audit trail compliance (DSGVO Art. 30)
+- Non-repudiation and legal proof of timing
+- Document timestamping for regulated industries
+
+**Configuration:**
+```yaml
+timestamp_authority:
+  enabled: true
+  url: "https://freetsa.org/tsr"
+  hash_algorithm: "SHA256"
+  verify_tsa_cert: true
+```
+
+**Example:**
+```cpp
+TSAConfig config;
+config.url = "https://freetsa.org/tsr";
+TimestampAuthority tsa(config);
+auto token = tsa.getTimestamp(data);
+```
 
 ### 🆕 Vector Encryption (Phase 1 + 2) - FULLY IMPLEMENTED ✅
 
@@ -92,12 +193,14 @@ Detailed analysis of encryption across **all data model layers**: Relational, Ve
 - **[Key Lifecycle Management](../../de/security/KEY_LIFECYCLE_MANAGEMENT.md)** - Complete key lifecycle per BSI C5 CRY-02
 - **[Executive Summary (EN)](../../de/security/BSI_C5_EXECUTIVE_SUMMARY.md)** - Brief summary for stakeholders
 
-### 🛡️ Implementation Status (December 2025)
+### 🛡️ Implementation Status (December 2025 / February 2026)
 
 | Component | Status | Implementation |
 |-----------|--------|----------------|
 | **RBAC/ABAC Policy Engine** | ✅ Production Ready | Ranger-compatible |
 | **Apache Ranger Integration** | ✅ Production Ready | `src/server/ranger_adapter.cpp` |
+| **RFC 3161 Timestamp Authority** | ✅ Production Ready (v1.5.0) | `src/security/timestamp_authority_openssl.cpp` |
+| **PII Redaction Policy** | ✅ Production Ready (v1.5.1) | `src/security/pii_redaction_policy.cpp` |
 | **VaultKeyProvider (KMS)** | ✅ Production Ready | `src/security/vault_key_provider.cpp` |
 | **HSMProvider (PKCS#11)** | ✅ Production Ready | `src/security/hsm_provider_pkcs11.cpp` |
 | **PKI Client (OpenSSL)** | ✅ Production Ready | `src/utils/pki_client.cpp` |
@@ -159,7 +262,8 @@ if (rbac.authorize("user@example.com", "data", "read")) {
 
 ### 🔒 Encryption
 
-For detailed encryption documentation, please refer to the German documentation:
+For detailed encryption documentation:
+- **[at_rest_encryption_research.md](at_rest_encryption_research.md)** ⭐ - At-Rest Encryption Research (AWS, Google Cloud, Azure)
 - [security_encryption_strategy.md](../../de/security/security_encryption_strategy.md) - Encryption strategy
 - [security_column_encryption.md](../../de/security/security_column_encryption.md) - Column encryption
 - [security_encryption_deployment.md](../../de/security/security_encryption_deployment.md) - Deployment guide
@@ -301,6 +405,15 @@ pkcs11-tool --login --test
 ---
 
 ## 📝 Changelog
+
+### v1.5.1 (February 2026)
+- ✅ **PII Redaction Policy** – `PIIRedactionPolicy` singleton with automatic enforcement
+- ✅ `PIIRedactingSink` – every spdlog sink auto-redacts via `Logger::init()`
+- ✅ `Tracer::Span::setAttribute(string)` / `recordError()` auto-redact PII
+- ✅ `MetricsCollector::makeKey()` auto-redacts Prometheus label values
+- ✅ CI gate: `check_pii_leakage.py` fails on new unredacted PII writes
+- ✅ AFL++ fuzz harness (`pii_redaction`) with corpus seeds and dictionary
+- ✅ Documentation: [PII_REDACTION_POLICY.md](PII_REDACTION_POLICY.md)
 
 ### v1.3.0 (December 2025)
 - ✅ Vector encryption fully implemented (Phase 1 + 2)

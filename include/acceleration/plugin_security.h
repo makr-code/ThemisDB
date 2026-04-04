@@ -1,9 +1,40 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            plugin_security.h                                  ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:05:17                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     359                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
+    • adb14cd81  2026-03-16  feat(acceleration): implement PE certificate table extrac... ║
+    • e4976f04e  2026-03-16  feat(acceleration): implement CRL/OCSP certificate revoca... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • f2b4fd08c  2026-02-26  fix(audit): correct enum ordering, string JSON serializat... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include <string>
 #include <vector>
 #include <cstdint>
 #include <optional>
+#include <chrono>
+#include <mutex>
+#include <openssl/x509.h>
+#include <openssl/evp.h>
+#include <openssl/err.h>
 
 namespace themis {
 namespace acceleration {
@@ -63,6 +94,9 @@ struct PluginSecurityPolicy {
     // Check certificate revocation (CRL/OCSP)
     bool checkRevocation = true;
     
+    // Timeout for CRL/OCSP network requests in seconds (default: 5)
+    int revocation_timeout_seconds = 5;
+    
     // Minimum trust level required
     PluginTrustLevel minTrustLevel = PluginTrustLevel::TRUSTED;
     
@@ -110,26 +144,162 @@ public:
     // Get current policy
     const PluginSecurityPolicy& getPolicy() const { return policy_; }
     
+    // Check certificate revocation list (public for testing)
+    bool checkCRL(const std::string& certificate);
+    
+    // OCSP (Online Certificate Status Protocol) check (public for testing)
+    bool checkOCSP(const std::string& certificate);
+    
+    // Validate plugin path to prevent path traversal attacks.
+    // Returns true if path is safe, false if it contains traversal sequences
+    // or other disallowed patterns.
+    static bool validatePluginPath(const std::string& path, std::string& errorMessage);
+    
+private:
+    PluginSecurityPolicy policy_;
+};
+
+// ============================================================================
+// Enhanced Plugin Security with Embedded Signatures
+// ============================================================================
+
+/**
+ * @brief Enhanced plugin security verifier with multi-level verification
+ * 
+ * This class extends the basic PluginSecurityVerifier with support for:
+ * - Embedded manufacturer certificates (in DLL/SO)
+ * - Platform-native code signing (Authenticode, codesign, GPG)
+ * - Multi-level verification (4 levels from hash-only to full chain)
+ * - Certificate chain validation
+ */
+class EnhancedPluginSecurityVerifier {
+public:
+    /**
+     * @brief Verification level defines how thorough the plugin check should be
+     */
+    enum class VerificationLevel {
+        LEVEL_1_HASH_ONLY,           ///< Only SHA-256 hash (fast)
+        LEVEL_2_EMBEDDED_SIGNATURE,  ///< Embedded signature check
+        LEVEL_3_PLATFORM_SIGNATURE,  ///< Platform code-signing (PE/ELF/Mach-O)
+        LEVEL_4_FULL_CHAIN           ///< Complete cert chain + CRL/OCSP
+    };
+    
+    /**
+     * @brief Detailed verification result
+     */
+    struct VerificationResult {
+        bool passed = false;
+        VerificationLevel level_achieved = VerificationLevel::LEVEL_1_HASH_ONLY;
+        std::string error_message;
+        
+        // Individual check results
+        bool hash_verified = false;
+        bool embedded_signature_verified = false;
+        bool platform_signature_verified = false;
+        bool certificate_chain_verified = false;
+        bool certificate_not_revoked = false;
+        
+        // Certificate information
+        std::string issuer;
+        std::string subject;
+        std::chrono::system_clock::time_point valid_from;
+        std::chrono::system_clock::time_point valid_until;
+        bool is_themisdb_official = false;
+    };
+    
+    explicit EnhancedPluginSecurityVerifier(const PluginSecurityPolicy& policy);
+    ~EnhancedPluginSecurityVerifier() = default;
+    
+    /**
+     * @brief Verify plugin with multi-level checks
+     * @param plugin_path Path to DLL/SO file
+     * @param required_level Minimum verification level required
+     * @return Verification result with detailed information
+     */
+    VerificationResult verifyPlugin(
+        const std::string& plugin_path,
+        VerificationLevel required_level = VerificationLevel::LEVEL_3_PLATFORM_SIGNATURE
+    );
+    
+    /**
+     * @brief Update security policy at runtime
+     */
+    void updatePolicy(const PluginSecurityPolicy& policy);
+    
+    /**
+     * @brief Get current policy
+     */
+    const PluginSecurityPolicy& getPolicy() const { return policy_; }
+    
 private:
     PluginSecurityPolicy policy_;
     
-    // OpenSSL integration for signature verification
-    bool verifyRSASignature(const std::vector<uint8_t>& data, 
-                           const std::vector<uint8_t>& signature,
-                           const std::string& publicKey);
+    // Level 1: Hash verification (from base class)
+    bool verifyHash(const std::string& plugin_path, VerificationResult& result);
     
-    bool verifyECDSASignature(const std::vector<uint8_t>& data,
-                             const std::vector<uint8_t>& signature, 
-                             const std::string& publicKey);
+    // Level 2: Embedded signature verification
+    bool verifyEmbeddedSignature(const std::string& plugin_path, VerificationResult& result);
     
-    // Load and verify X.509 certificate
-    bool loadCertificate(const std::string& certPEM);
+    // Level 3: Platform-specific code signing
+    bool verifyPlatformSignature(const std::string& plugin_path, VerificationResult& result);
     
-    // Check certificate revocation list
-    bool checkCRL(const std::string& certificate);
+    // Level 4: Full certificate chain + revocation
+    bool verifyFullChain(const std::string& plugin_path, VerificationResult& result);
     
-    // OCSP (Online Certificate Status Protocol) check
-    bool checkOCSP(const std::string& certificate);
+    // Extract embedded certificate from DLL/SO
+    std::optional<std::vector<uint8_t>> extractEmbeddedCertificate(
+        const std::string& plugin_path
+    );
+    
+    // Extract embedded signature from DLL/SO
+    std::optional<std::vector<uint8_t>> extractEmbeddedSignature(
+        const std::string& plugin_path
+    );
+    
+    // Verify ThemisDB.org official certificate
+    bool isOfficialThemisDBCertificate(X509* cert);
+    
+    // Platform-specific signature verification
+#ifdef _WIN32
+    bool verifyAuthenticodeSignature(const std::string& plugin_path, VerificationResult& result);
+#elif defined(__APPLE__)
+    bool verifyMacOSCodeSignature(const std::string& plugin_path, VerificationResult& result);
+#else
+    bool verifyGPGSignature(const std::string& plugin_path, VerificationResult& result);
+#endif
+    
+    // Helper: Calculate hash excluding signature section
+    std::vector<uint8_t> calculateHashExcludingSignature(const std::string& plugin_path);
+    
+    // Helper: Verify RSA signature
+    bool verifyRSASignature(
+        const std::vector<uint8_t>& data,
+        const std::vector<uint8_t>& signature,
+        EVP_PKEY* pubkey
+    );
+    
+    // Helper: Get certificate issuer DN
+    std::string getCertificateIssuer(X509* cert);
+    
+    // Helper: Get certificate subject DN
+    std::string getCertificateSubject(X509* cert);
+    
+    // Helper: Check if certificate is currently valid
+    bool isCertificateValid(X509* cert);
+    
+    // Helper: Load plugin metadata for chain validation
+    std::optional<PluginMetadata> loadPluginMetadataForChainValidation(
+        const std::string& plugin_path
+    );
+
+public:
+#ifdef THEMIS_TEST_BUILD
+    // Exposes extractEmbeddedCertificate() for white-box unit testing only.
+    std::optional<std::vector<uint8_t>> extractSigningCertificateForTesting(
+        const std::string& plugin_path) {
+        return extractEmbeddedCertificate(plugin_path);
+    }
+#endif
 };
 
 // Audit logging for plugin security events
@@ -144,7 +314,8 @@ struct PluginSecurityEvent {
         UNTRUSTED_ISSUER,
         CERTIFICATE_EXPIRED,
         CERTIFICATE_REVOKED,
-        POLICY_VIOLATION
+        POLICY_VIOLATION,
+        PLUGIN_UNLOADED
     };
     
     EventType type;
@@ -159,16 +330,16 @@ class PluginSecurityAuditor {
 public:
     static PluginSecurityAuditor& instance();
     
-    // Log security event
+    // Log security event (thread-safe)
     void logEvent(const PluginSecurityEvent& event);
     
-    // Get security events for a specific plugin
+    // Get security events for a specific plugin (thread-safe, returns copy)
     std::vector<PluginSecurityEvent> getEventsForPlugin(const std::string& pluginPath) const;
     
-    // Get all security events
-    const std::vector<PluginSecurityEvent>& getAllEvents() const { return events_; }
+    // Get a snapshot of all security events (thread-safe, returns copy)
+    std::vector<PluginSecurityEvent> getAllEvents() const;
     
-    // Clear event log
+    // Clear event log (thread-safe)
     void clearEvents();
     
     // Export events to file (for compliance/audit)
@@ -180,6 +351,7 @@ private:
     PluginSecurityAuditor(const PluginSecurityAuditor&) = delete;
     PluginSecurityAuditor& operator=(const PluginSecurityAuditor&) = delete;
     
+    mutable std::mutex mutex_;
     std::vector<PluginSecurityEvent> events_;
 };
 

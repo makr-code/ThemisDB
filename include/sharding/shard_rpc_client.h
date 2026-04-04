@@ -1,7 +1,35 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            shard_rpc_client.h                                 ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:11:38                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     268                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 971a3c49d  2026-03-20  Build/test fixes and auth role mapping refactor ║
+    • 715714948  2026-03-15  feat(sharding): fix coordinator ID + implement SAGA compe... ║
+    • 2a280bfd0  2026-03-15  feat: Complete Shard RPC Integration acceptance criteria ... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • cd1278c92  2026-02-27  Implement circuit breaker integration and retry policy in... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include <string>
 #include <memory>
+#include <stdexcept>
+#include <functional>
 #include <nlohmann/json.hpp>
 
 #ifdef THEMIS_ENABLE_GRPC
@@ -9,6 +37,50 @@
 #endif
 
 namespace themis::sharding {
+
+// Forward declarations
+class PrometheusMetrics;
+class MTLSConnectionPoolManager;
+
+} // namespace themis::sharding
+
+namespace themisdb::sharding {
+class OperationalMetrics;
+}
+
+namespace themis::sharding {
+
+/**
+ * @brief Exception thrown for non-retryable RPC errors.
+ *
+ * Thrown when a gRPC status code is classified as non-retryable
+ * (e.g., INVALID_ARGUMENT, ALREADY_EXISTS, PERMISSION_DENIED).
+ * The retry loop will rethrow this immediately without further attempts.
+ */
+class NonRetryableRpcError : public std::runtime_error {
+public:
+    using std::runtime_error::runtime_error;
+};
+
+/**
+ * @brief Retry policy for cross-shard RPC calls.
+ *
+ * Classifies gRPC status codes into retryable and non-retryable categories
+ * and integrates with the CircuitBreaker to prevent retry storms.
+ *
+ * Retryable status codes:
+ *   UNAVAILABLE, DEADLINE_EXCEEDED, RESOURCE_EXHAUSTED, ABORTED, INTERNAL
+ *
+ * Non-retryable status codes (raise NonRetryableRpcError immediately):
+ *   INVALID_ARGUMENT, NOT_FOUND, ALREADY_EXISTS, PERMISSION_DENIED,
+ *   UNAUTHENTICATED, FAILED_PRECONDITION, OUT_OF_RANGE, UNIMPLEMENTED
+ */
+struct ShardRpcRetryPolicy {
+    int max_attempts         = 3;     ///< Maximum total attempts (1 + retries).
+    int initial_backoff_ms   = 100;   ///< Initial delay before first retry.
+    int max_backoff_ms       = 5000;  ///< Upper cap for exponential back-off.
+    bool use_circuit_breaker = true;  ///< Gate retries through the circuit breaker.
+};
 
 /**
  * @brief RPC Client for shard-to-shard communication
@@ -27,9 +99,30 @@ class ShardRPCClient {
 public:
     struct Config {
         std::string endpoint;           // Shard endpoint (e.g., "shard1:50051" for gRPC)
+        std::string shard_id;           // Local shard identifier used for metric labels
         int timeout_ms = 5000;          // RPC timeout in milliseconds
         int max_retries = 3;            // Maximum retry attempts
         int retry_delay_ms = 100;       // Initial delay between retries (exponential backoff)
+        
+        // mTLS Configuration (optional, required for production)
+        bool enable_mtls = false;       // Enable mutual TLS authentication
+        std::string tls_cert_path;      // Path to client certificate (PEM format)
+        std::string tls_key_path;       // Path to client private key (PEM format)
+        std::string tls_ca_cert_path;   // Path to CA certificate for server verification (PEM format)
+        bool tls_verify_server = true;  // Verify server certificate against CA
+
+        // Connection pool (optional, shared across ShardRPCClient instances)
+        MTLSConnectionPoolManager* connection_pool = nullptr; // Non-owning; nullptr disables pooling
+        int max_pool_connections = 50;  // Per-endpoint pool size; propagated via GossipConfigManager
+
+        // Circuit Breaker Configuration
+        bool enable_circuit_breaker = true;          // Enable circuit breaker protection
+        int circuit_breaker_failure_threshold = 5;   // Failures before opening circuit
+        int circuit_breaker_recovery_ms = 5000;      // Milliseconds before half-open probe (default 5 s)
+
+        // Metrics (optional, non-owning pointers; nullptr disables the respective metric sink)
+        themisdb::sharding::OperationalMetrics* operational_metrics = nullptr;
+        PrometheusMetrics*  prometheus_metrics  = nullptr;
     };
     
     explicit ShardRPCClient(const Config& config);
@@ -69,6 +162,17 @@ public:
      * @return true if aborted successfully
      */
     bool abort(const std::string& txn_id);
+    
+    /**
+     * @brief Send COMPENSATE request (SAGA compensation)
+     * @param txn_id Transaction ID
+     * @param operation Compensation operation JSON payload
+     * @return true if compensation executed successfully
+     */
+    bool compensate(
+        const std::string& txn_id,
+        const nlohmann::json& operation
+    );
     
     /**
      * @brief Execute snapshot read at specific timestamp

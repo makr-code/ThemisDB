@@ -21,16 +21,18 @@ function(add_perf_benchmark name)
         PRIVATE 
             benchmark::benchmark
             benchmark::benchmark_main
+            themis_core  # Link against themis_core to get compile definitions
     )
+    if(TARGET themis_storage)
+        target_link_libraries(${name} PRIVATE themis_storage)
+    endif()
+    if(TARGET themis_llm)
+        target_link_libraries(${name} PRIVATE themis_llm)
+    endif()
     target_include_directories(${name} 
         PRIVATE 
             ${CMAKE_SOURCE_DIR}/include
     )
-    
-    # Link performance optimization libraries if enabled
-    if(THEMIS_ENABLE_MIMALLOC AND mimalloc_FOUND)
-        target_link_libraries(${name} PRIVATE mimalloc)
-    endif()
     
     set_target_properties(${name} PROPERTIES
         CXX_STANDARD 20
@@ -57,15 +59,21 @@ if(THEMIS_BUILD_BENCHMARKS)
         benchmark_lirs_cache.cpp
     )
     
+    add_perf_benchmark(benchmark_safe_fail
+        benchmark_safe_fail.cpp
+    )
+    
     message(STATUS "Performance benchmarks enabled:")
     message(STATUS "  - benchmark_mimalloc")
     message(STATUS "  - benchmark_huge_pages")
     message(STATUS "  - benchmark_rcu_index")
     message(STATUS "  - benchmark_lirs_cache")
+    message(STATUS "  - benchmark_safe_fail")
     message(STATUS "")
     message(STATUS "Run benchmarks with:")
     message(STATUS "  ./build/benchmarks/benchmark_mimalloc")
     message(STATUS "  ./build/benchmarks/benchmark_huge_pages")
     message(STATUS "  ./build/benchmarks/benchmark_rcu_index")
     message(STATUS "  ./build/benchmarks/benchmark_lirs_cache")
+    message(STATUS "  ./build/benchmarks/benchmark_safe_fail")
 endif()

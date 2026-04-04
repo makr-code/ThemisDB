@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            gorilla.cpp                                        ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:20:52                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     314                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 022228c57  2026-03-20  Changes before error encountered         ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "timeseries/gorilla.h"
 #include <cstring>
 #include <limits>
@@ -197,20 +220,49 @@ void GorillaEncoder::add(int64_t timestamp_ms, double value) {
 }
 
 std::vector<uint8_t> GorillaEncoder::finish() {
-    return bw_.finish();
+    auto payload = bw_.finish();
+    std::vector<uint8_t> result;
+    result.reserve(3 + payload.size());
+    result.push_back(kGorillaMagic0);
+    result.push_back(kGorillaMagic1);
+    result.push_back(kGorillaCurrentVersion);
+    result.insert(result.end(), payload.begin(), payload.end());
+    return result;
 }
 
 // ------- GorillaDecoder -------
 GorillaDecoder::GorillaDecoder(const std::vector<uint8_t>& data)
-    : br_(data) {}
+    : data_(gorilla_strip_header(data, error_))
+    , br_(data_) {}
+
+// Strip the 3-byte chunk header if present and return the payload slice.
+// Sets error=true when magic bytes are present but the version is unsupported.
+// Legacy chunks (no header) are returned unchanged.
+/* static */ std::vector<uint8_t> GorillaDecoder::gorilla_strip_header(
+        const std::vector<uint8_t>& data, bool& error_out) {
+    if (data.size() >= 3 &&
+            data[0] == kGorillaMagic0 &&
+            data[1] == kGorillaMagic1) {
+        if (data[2] != kGorillaCurrentVersion) {
+            error_out = true;
+            return {};
+        }
+        return std::vector<uint8_t>(data.begin() + 3, data.end());
+    }
+    // Legacy format: no header — return as-is
+    return data;
+}
 
 std::optional<std::pair<int64_t,double>> GorillaDecoder::next() {
+    if (error_) return std::nullopt;
+
     if (first_) {
         if (br_.eof()) return std::nullopt;
         // First timestamp varint is at byte boundary
         br_.alignToByte();
         if (br_.eof()) return std::nullopt;
         int64_t ts = br_.readZigZag64();
+        if (br_.eof()) { error_ = true; return std::nullopt; }
         uint64_t vbits = br_.readBits(64);
         prev_ts_ = ts;
         prev_dt_ = 0;
@@ -218,6 +270,7 @@ std::optional<std::pair<int64_t,double>> GorillaDecoder::next() {
         prev_leading_ = 64;
         prev_trailing_ = 64;
         first_ = false;
+        decoded_count_++;
         return std::make_pair(ts, bits_to_dbl(vbits));
     }
 
@@ -231,16 +284,21 @@ std::optional<std::pair<int64_t,double>> GorillaDecoder::next() {
     prev_dt_ = dt;
     prev_ts_ = ts;
 
-    if (br_.eof()) return std::nullopt;
+    if (br_.eof()) { error_ = true; return std::nullopt; }
     bool different = br_.readBit();
     
     uint64_t vbits;
     if (!different) {
         vbits = prev_vbits_;
     } else {
+        if (br_.eof()) { error_ = true; return std::nullopt; }
         int leading = static_cast<int>(br_.readBits(6));
+        if (br_.eof()) { error_ = true; return std::nullopt; }
         int significant = static_cast<int>(br_.readBits(6));
         if (significant == 0) significant = 64;  // 0 encodes 64
+        // Validate leading + significant fits in 64 bits
+        if (leading + significant > 64) { error_ = true; return std::nullopt; }
+        if (br_.eof() && significant > 0) { error_ = true; return std::nullopt; }
         uint64_t payload = br_.readBits(significant);
         int trailing = 64 - leading - significant;
         uint64_t xorv = (payload << trailing);
@@ -250,6 +308,7 @@ std::optional<std::pair<int64_t,double>> GorillaDecoder::next() {
     }
     
     prev_vbits_ = vbits;
+    decoded_count_++;
     return std::make_optional(std::make_pair(ts, bits_to_dbl(vbits)));
 }
 

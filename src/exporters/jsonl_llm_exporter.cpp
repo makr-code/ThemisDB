@@ -1,8 +1,47 @@
-﻿#include "exporters/jsonl_llm_exporter.h"
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            jsonl_llm_exporter.cpp                             ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:15:30                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     1148                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 44514d5a1  2026-03-15  feat(exporters): replace zlib with ZSTD as sole StreamWri... ║
+    • 2dba94765  2026-03-11  feat(exporters): PolicyEngine export authorization with a... ║
+    • a765a0369  2026-03-11  feat(exporters): add validate_template dry-run mode to ve... ║
+    • 3db37eb45  2026-03-10  feat(exporters): implement EXP-001 PolicyEngine auth, EXP... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+#include "exporters/jsonl_llm_exporter.h"
+#include "exporters/aql_predicate_filter.h"
+#include "exporters/exporter_errors.h"
+#include "exporters/exporter_metrics.h"
+#include "exporters/export_encryption.h"
+#include "exporters/format_template.h"
+#include "exporters/pii_detector.h"
+#include "exporters/stream_writer.h"
+#include "governance/policy_engine.h"
+#include "governance/model_governance.h"
+#include "utils/audit_logger.h"
 #include "utils/logger.h"
+#include <filesystem>
 #include <fstream>
 #include <sstream>
+#include <algorithm>
 #include <chrono>
+#include <cmath>
 #include <set>
 #include <nlohmann/json.hpp>
 
@@ -15,161 +54,417 @@ std::string ExportStats::toJson() const {
     j["total_entities"] = total_entities;
     j["exported_entities"] = exported_entities;
     j["failed_entities"] = failed_entities;
+    j["skipped_entities"] = skipped_entities;
     j["bytes_written"] = bytes_written;
     j["duration_ms"] = duration.count();
+    j["estimated_eta_seconds"] = estimated_eta_seconds;
     j["errors"] = errors;
+    
+    // Include metrics if available
+    if (metrics) {
+        j["metrics"] = metrics->toJson();
+    }
+    
     return j.dump(2);
 }
 
+void enforceExportPolicy(const ExportOptions& options) {
+    if (!options.policy_engine) {
+        return;  // No policy engine attached — backward-compatible no-op.
+    }
+
+    themis::governance::ModelTrainingExportRequest req;
+    req.export_job_id    = "export-" + options.output_path;
+    req.collection_ids   = options.collection_name.empty()
+                               ? std::vector<std::string>{}
+                               : std::vector<std::string>{options.collection_name};
+    req.requesting_user  = options.requesting_user.empty()
+                               ? (options.tenant_context
+                                      ? options.tenant_context->user_id
+                                      : std::string{})
+                               : options.requesting_user;
+    req.field_selectors  = options.include_fields;
+    req.purpose          = "MODEL_TRAINING";
+
+    const auto decision = options.policy_engine->checkExportPermission(req);
+    if (!decision.is_permitted) {
+        if (options.audit_logger) {
+            options.audit_logger->logSecurityEvent(
+                themis::utils::SecurityEventType::EXPORT_DENIED,
+                req.requesting_user,
+                options.collection_name,
+                {{"denial_reason", decision.denial_reason},
+                 {"export_job_id", req.export_job_id}});
+        }
+        throw ExporterException(
+            themis::errors::ErrorCode::ERR_EXPORT_POLICY_DENIED,
+            "Export denied by PolicyEngine: " + decision.denial_reason,
+            "collection=" + options.collection_name
+                + ", user=" + req.requesting_user
+        );
+    }
+
+    if (options.audit_logger) {
+        options.audit_logger->logSecurityEvent(
+            themis::utils::SecurityEventType::BULK_EXPORT,
+            req.requesting_user,
+            options.collection_name,
+            {{"export_job_id", req.export_job_id}});
+    }
+}
+
 JSONLLLMExporter::JSONLLLMExporter(const JSONLLLMConfig& config)
-    : config_(config) {}
+    : config_(config),
+      metrics_(std::make_shared<ExporterMetrics>()),
+      format_template_(makeFormatTemplate(config.format_template_type)) {}
 
 ExportStats JSONLLLMExporter::exportEntities(
     const std::vector<BaseEntity>& entities,
     const ExportOptions& options
 ) {
+    // Policy check before any cursor or file is opened (EXP-001).
+    enforceExportPolicy(options);
+
     ExportStats stats;
+    stats.metrics = metrics_;  // Attach metrics to stats
     auto start_time = std::chrono::steady_clock::now();
     
-    std::ofstream output(options.output_path);
-    if (!output.is_open()) {
-        stats.errors.push_back("Failed to open output file: " + options.output_path);
-        return stats;
+    // P1: Tenant isolation check
+    if (options.tenant_context && options.tenant_context->enforce_isolation) {
+        // Check required scopes
+        if (!options.tenant_context->hasScope("export:read") && 
+            !options.tenant_context->hasScope("export:write")) {
+            throw ExporterException(
+                themis::errors::ErrorCode::ERR_EXPORT_TENANT_UNAUTHORIZED,
+                "Insufficient permissions for export operation",
+                "tenant_id=" + options.tenant_context->tenant_id
+            );
+        }
+        
+        THEMIS_INFO("Export for tenant: {}, user: {}", 
+                   options.tenant_context->tenant_id,
+                   options.tenant_context->user_id);
     }
     
-    std::set<std::string> seen_hashes;  // For duplicate detection
-    
-    for (const auto& entity : entities) {
-        stats.total_entities++;
+    // P1: Initialize PII detector if enabled
+    std::unique_ptr<PIIDetector> pii_detector;
+    if (config_.pii_config.enable_detection) {
+        PIIDetector::Config pii_config;
+        pii_config.detect_email = config_.pii_config.detect_email;
+        pii_config.detect_phone = config_.pii_config.detect_phone;
+        pii_config.detect_ssn = config_.pii_config.detect_ssn;
+        pii_config.detect_credit_card = config_.pii_config.detect_credit_card;
         
-        try {
-            // Quality filtering
-            if (!passesQualityFilter(entity)) {
-                continue;
+        // Map redaction strategy string to enum
+        if (config_.pii_config.redaction_strategy == "hash") {
+            pii_config.default_strategy = PIIDetector::RedactionStrategy::HASH;
+        } else if (config_.pii_config.redaction_strategy == "remove") {
+            pii_config.default_strategy = PIIDetector::RedactionStrategy::REMOVE;
+        } else if (config_.pii_config.redaction_strategy == "partial") {
+            pii_config.default_strategy = PIIDetector::RedactionStrategy::PARTIAL;
+        } else {
+            pii_config.default_strategy = PIIDetector::RedactionStrategy::MASK;
+        }
+        
+        pii_detector = std::make_unique<PIIDetector>(pii_config);
+    }
+    
+    try {
+        // P2: Use StreamWriter for compression and streaming
+        StreamWriter::Config writer_config;
+        writer_config.output_path = options.output_path;
+        writer_config.buffer_size = options.buffer_size_bytes;
+        writer_config.max_file_size = options.max_file_size_bytes;
+        
+        if (options.compress) {
+            if (options.compression_type == "gzip" || options.compression_type == "zstd") {
+                writer_config.compression = CompressionType::ZSTD;
             }
+            writer_config.compression_level = options.compression_level;
+        }
+        
+        StreamWriter writer(writer_config);
+
+        // AQL predicate filter (compiled once, reused per entity)
+        std::unique_ptr<AqlPredicateFilter> aql_filter;
+        if (!options.filter_expression.empty()) {
+            aql_filter = std::make_unique<AqlPredicateFilter>(options.filter_expression);
+        }
+
+        std::set<std::string> seen_hashes;  // For duplicate detection
+        const size_t total_count = entities.size();  // Known in advance for ETA calculation
+        
+        for (const auto& entity : entities) {
+            stats.total_entities++;
             
-            // Calculate weight
-            double weight = calculateWeight(entity);
-            
-            // Format based on style
-            std::string line;
-            switch (config_.style) {
-                case JSONLFormat::Style::INSTRUCTION_TUNING:
-                    line = formatInstructionTuning(entity, weight);
-                    break;
-                case JSONLFormat::Style::CHAT_COMPLETION:
-                    line = formatChatCompletion(entity, weight);
-                    break;
-                case JSONLFormat::Style::TEXT_COMPLETION:
-                    line = formatTextCompletion(entity, weight);
-                    break;
-                default:
-                    line = formatInstructionTuning(entity, weight);
-            }
-            
-            if (line.empty()) {
-                continue;
-            }
-            
-            // Schema validation (Outlines open-source integration)
-            if (config_.structured_gen.enable_schema_validation) {
-                std::string validation_error;
-                if (!validateAgainstSchema(line, &validation_error)) {
-                    if (config_.structured_gen.reject_invalid_samples) {
-                        stats.failed_entities++;
-                        stats.errors.push_back(
-                            "Schema validation failed for " + entity.getPrimaryKey() + 
-                            ": " + validation_error
-                        );
-                        continue;  // Skip this sample
-                    }
-                    // Otherwise, log but continue
-                    THEMIS_WARN("Schema validation warning for {}: {}", 
-                               entity.getPrimaryKey(), validation_error);
-                }
-                
-                // Add schema to output if requested (for Outlines)
-                if (config_.structured_gen.include_schema_in_output) {
-                    try {
-                        auto j = json::parse(line);
-                        j["__schema__"] = json::parse(config_.structured_gen.json_schema);
-                        line = j.dump();
-                    } catch (const std::exception& e) {
-                        THEMIS_WARN("Failed to add schema to output: {}", e.what());
-                    }
-                }
-            }
-            
-            // Track quality metrics
-            if (config_.quality_metrics.enable_metrics) {
-                // Track length distribution
-                if (config_.quality_metrics.track_length_distribution) {
-                    constexpr size_t BUCKET_SIZE = 100;  // 100-char buckets
-                    size_t bucket = (line.size() / BUCKET_SIZE) * BUCKET_SIZE;
-                    runtime_metrics_.length_distribution[bucket]++;
-                }
-            }
-            
-            // Duplicate detection
-            if (config_.quality.skip_duplicates) {
-                std::hash<std::string> hasher;
-                auto hash = std::to_string(hasher(line));
-                if (seen_hashes.count(hash)) {
-                    continue;
-                }
-                seen_hashes.insert(hash);
-            }
-            
-            // Write line
-            output << line << "\n";
-            stats.bytes_written += line.size() + 1;
-            stats.exported_entities++;
-            
-            // Progress reporting
-            if (options.progress_callback && 
-                stats.exported_entities % options.progress_interval == 0) {
-                options.progress_callback(stats);
-            }
-            
-        } catch (const std::exception& e) {
-            stats.failed_entities++;
-            stats.errors.push_back(
-                "Entity " + entity.getPrimaryKey() + ": " + e.what()
-            );
-            
-            if (stats.errors.size() >= options.max_errors) {
-                THEMIS_ERROR("Max errors reached, stopping export");
+            // P2: Check size limit
+            if (writer.isLimitReached()) {
+                THEMIS_WARN("Export size limit reached, stopping at {} entities", stats.total_entities);
                 break;
             }
             
-            if (!options.continue_on_error) {
+            try {
+                // P1: Tenant isolation - check entity belongs to tenant
+                if (options.tenant_context && options.tenant_context->enforce_isolation) {
+                    auto tenant_field = entity.getFieldAsString("tenant_id");
+                    if (tenant_field && *tenant_field != options.tenant_context->tenant_id) {
+                        metrics_->recordError("tenant_isolation_violation");
+                        continue;  // Skip entity from different tenant
+                    }
+                }
+
+                // AQL predicate filter
+                if (aql_filter && !aql_filter->evaluate(entity)) {
+                    metrics_->recordQualityFilterRejection("aql_predicate_filtered");
+                    continue;
+                }
+                
+                // Quality filtering
+                if (!passesQualityFilter(entity)) {
+                    metrics_->recordQualityFilterRejection("quality_filter_failed");
+                    continue;
+                }
+                
+                // Calculate weight
+                double weight = calculateWeight(entity);
+                
+                // Format based on style or named template
+                std::string line;
+                if (format_template_) {
+                    line = formatWithTemplate(entity, weight, options);
+                } else {
+                    switch (config_.style) {
+                        case JSONLFormat::Style::INSTRUCTION_TUNING:
+                            line = formatInstructionTuning(entity, weight, options);
+                            break;
+                        case JSONLFormat::Style::CHAT_COMPLETION:
+                            line = formatChatCompletion(entity, weight, options);
+                            break;
+                        case JSONLFormat::Style::TEXT_COMPLETION:
+                            line = formatTextCompletion(entity, weight, options);
+                            break;
+                        default:
+                            line = formatInstructionTuning(entity, weight, options);
+                    }
+                }
+                
+                if (line.empty()) {
+                    metrics_->recordQualityFilterRejection("empty_formatted_line");
+                    continue;
+                }
+                
+                // P1: PII detection and redaction
+                if (pii_detector) {
+                    if (pii_detector->containsPII(line)) {
+                        metrics_->recordPIIDetection();
+                        
+                        if (config_.pii_config.fail_on_pii && !config_.pii_config.enable_redaction) {
+                            throw ExporterException(
+                                themis::errors::ErrorCode::ERR_EXPORT_PII_VIOLATION,
+                                "PII detected in export data without redaction",
+                                "entity_id=" + entity.getPrimaryKey()
+                            );
+                        }
+                        
+                        if (config_.pii_config.enable_redaction) {
+                            line = pii_detector->redactPII(line);
+                            metrics_->recordPIIRedaction();
+                        }
+                    }
+                }
+                
+                // Schema validation (Outlines open-source integration)
+                if (config_.structured_gen.enable_schema_validation) {
+                    std::string validation_error;
+                    bool validation_passed = validateAgainstSchema(line, &validation_error);
+                    metrics_->recordSchemaValidation(validation_passed);
+                    
+                    if (!validation_passed) {
+                        if (config_.structured_gen.reject_invalid_samples) {
+                            stats.failed_entities++;
+                            stats.errors.push_back(
+                                "Schema validation failed for " + entity.getPrimaryKey() + 
+                                ": " + validation_error
+                            );
+                            metrics_->recordError("schema_validation_failed");
+                            continue;  // Skip this sample
+                        }
+                        // Otherwise, log but continue
+                        THEMIS_WARN("Schema validation warning for {}: {}", 
+                                   entity.getPrimaryKey(), validation_error);
+                    }
+                    
+                    // Add schema to output if requested (for Outlines)
+                    if (config_.structured_gen.include_schema_in_output) {
+                        try {
+                            auto j = json::parse(line);
+                            j["__schema__"] = json::parse(config_.structured_gen.json_schema);
+                            line = j.dump();
+                        } catch (const std::exception& e) {
+                            THEMIS_WARN("Failed to add schema to output: {}", e.what());
+                        }
+                    }
+                }
+                
+                // Track quality metrics
+                if (config_.quality_metrics.enable_metrics) {
+                    // Track length distribution
+                    if (config_.quality_metrics.track_length_distribution) {
+                        constexpr size_t BUCKET_SIZE = 100;  // 100-char buckets
+                        size_t bucket = (line.size() / BUCKET_SIZE) * BUCKET_SIZE;
+                        runtime_metrics_.length_distribution[bucket]++;
+                    }
+                }
+                
+                // Duplicate detection
+                if (config_.quality.skip_duplicates) {
+                    std::hash<std::string> hasher;
+                    auto hash = std::to_string(hasher(line));
+                    if (seen_hashes.count(hash)) {
+                        metrics_->recordDuplicate();
+                        continue;
+                    }
+                    seen_hashes.insert(hash);
+                }
+                
+                // P2: Write using StreamWriter (handles compression)
+                line += "\n";
+                writer.write(line);
+                stats.bytes_written += line.size();
+                stats.exported_entities++;
+                
+                // Progress reporting with duration and ETA
+                if (options.progress_callback &&
+                    stats.exported_entities % options.progress_interval == 0) {
+                    auto now = std::chrono::steady_clock::now();
+                    stats.duration = std::chrono::duration_cast<std::chrono::milliseconds>(
+                        now - start_time);
+                    if (total_count > 0 && stats.exported_entities < total_count) {
+                        double elapsed = std::chrono::duration<double>(
+                            now - start_time).count();
+                        double rate = static_cast<double>(stats.exported_entities) / elapsed;
+                        stats.estimated_eta_seconds =
+                            static_cast<double>(total_count - stats.exported_entities) / rate;
+                    } else {
+                        stats.estimated_eta_seconds = 0.0;
+                    }
+                    options.progress_callback(stats);
+                }
+                
+            } catch (const ExporterException& e) {
+                stats.failed_entities++;
+                std::string error_msg = "Entity " + entity.getPrimaryKey() + 
+                                      ": [" + std::to_string(static_cast<int>(e.getErrorCode())) + 
+                                      "] " + e.what();
+                stats.errors.push_back(error_msg);
+                metrics_->recordError("exporter_exception");
+                
+                if (stats.errors.size() >= options.max_errors) {
+                    THEMIS_ERROR("Max errors reached, stopping export");
+                    break;
+                }
+                
+                if (!options.continue_on_error) {
+                    throw;
+                }
+            } catch (const std::exception& e) {
+                stats.failed_entities++;
+                stats.errors.push_back(
+                    "Entity " + entity.getPrimaryKey() + ": " + e.what()
+                );
+                metrics_->recordError("generic_exception");
+                
+                if (stats.errors.size() >= options.max_errors) {
+                    THEMIS_ERROR("Max errors reached, stopping export");
+                    break;
+                }
+                
+                if (!options.continue_on_error) {
+                    throw;
+                }
+            }
+        }
+        
+        // Flush and close writer
+        writer.close();
+        
+        auto end_time = std::chrono::steady_clock::now();
+        stats.duration = std::chrono::duration_cast<std::chrono::milliseconds>(
+            end_time - start_time
+        );
+        
+        // ETA is zero at completion
+        stats.estimated_eta_seconds = 0.0;
+        
+        // P2: Record compression metrics
+        if (options.compress) {
+            metrics_->recordCompression(writer.getBytesWritten(), 
+                                       writer.getCompressedBytesWritten());
+        }
+
+        // P3: Encrypt output file if configured
+        if (options.encryption_config && !options.encryption_config->empty()) {
+            const std::string enc_tmp = options.output_path + ".enc_tmp";
+            try {
+                ExportEncryptor encryptor(*options.encryption_config);
+                const size_t enc_bytes =
+                    encryptor.encryptFile(options.output_path, enc_tmp);
+                std::error_code rename_ec;
+                std::filesystem::rename(enc_tmp, options.output_path, rename_ec);
+                if (rename_ec) {
+                    std::filesystem::remove(enc_tmp);
+                    throw ExportIOException(
+                        "Failed to rename encrypted file: " + rename_ec.message(),
+                        enc_tmp);
+                }
+                metrics_->recordEncryption(enc_bytes);
+            } catch (const std::exception& e) {
+                std::error_code ec;
+                std::filesystem::remove(enc_tmp, ec);
                 throw;
             }
         }
+
+        // Record export metrics
+        metrics_->recordExport(stats.exported_entities, stats.bytes_written, stats.duration);
+        
+        THEMIS_INFO("JSONL export completed: {} entities in {}ms{}",
+                    stats.exported_entities, stats.duration.count(),
+                    options.compress ? " (compressed)" : "");
+        
+        return stats;
+        
+    } catch (const ExportIOException& e) {
+        stats.errors.push_back(
+            "[" + std::to_string(static_cast<int>(e.getErrorCode())) + "] " + 
+            e.what() + " (file: " + e.getFilePath() + ")"
+        );
+        metrics_->recordError("io_exception");
+        
+        auto end_time = std::chrono::steady_clock::now();
+        stats.duration = std::chrono::duration_cast<std::chrono::milliseconds>(
+            end_time - start_time
+        );
+        
+        return stats;
     }
-    
-    auto end_time = std::chrono::steady_clock::now();
-    stats.duration = std::chrono::duration_cast<std::chrono::milliseconds>(
-        end_time - start_time
-    );
-    
-    output.close();
-    
-    THEMIS_INFO("JSONL export completed: {} entities in {}ms",
-                stats.exported_entities, stats.duration.count());
-    
-    return stats;
 }
 
 std::string JSONLLLMExporter::formatInstructionTuning(
     const BaseEntity& entity,
-    double& weight
+    double& weight,
+    const ExportOptions& options
 ) {
     json j;
     
     auto& mapping = config_.field_mapping;
     
-    // Required fields
+    // Required fields — skip entity if a core field is explicitly excluded
+    if (!isFieldAllowed(mapping.instruction_field, options.include_fields, options.exclude_fields) ||
+        !isFieldAllowed(mapping.output_field, options.include_fields, options.exclude_fields)) {
+        return "";
+    }
+
     auto instruction = entity.getFieldAsString(mapping.instruction_field);
     auto output = entity.getFieldAsString(mapping.output_field);
     
@@ -181,9 +476,11 @@ std::string JSONLLLMExporter::formatInstructionTuning(
     j["output"] = *output;
     
     // Optional input field
-    auto input = entity.getFieldAsString(mapping.input_field);
-    if (input && !input->empty()) {
-        j["input"] = *input;
+    if (isFieldAllowed(mapping.input_field, options.include_fields, options.exclude_fields)) {
+        auto input = entity.getFieldAsString(mapping.input_field);
+        if (input && !input->empty()) {
+            j["input"] = *input;
+        }
     }
     
     // Add weight
@@ -193,7 +490,7 @@ std::string JSONLLLMExporter::formatInstructionTuning(
     
     // Add metadata
     if (config_.include_metadata) {
-        auto metadata_str = extractMetadata(entity);
+        auto metadata_str = extractMetadata(entity, options);
         if (!metadata_str.empty()) {
             j["metadata"] = json::parse(metadata_str);
         }
@@ -204,7 +501,8 @@ std::string JSONLLLMExporter::formatInstructionTuning(
 
 std::string JSONLLLMExporter::formatChatCompletion(
     const BaseEntity& entity,
-    double& weight
+    double& weight,
+    const ExportOptions& options
 ) {
     json j;
     auto& mapping = config_.field_mapping;
@@ -212,15 +510,20 @@ std::string JSONLLLMExporter::formatChatCompletion(
     json messages = json::array();
     
     // System message (optional)
-    auto system = entity.getFieldAsString(mapping.system_field);
-    if (system && !system->empty()) {
-        messages.push_back({
-            {"role", "system"},
-            {"content", *system}
-        });
+    if (isFieldAllowed(mapping.system_field, options.include_fields, options.exclude_fields)) {
+        auto system = entity.getFieldAsString(mapping.system_field);
+        if (system && !system->empty()) {
+            messages.push_back({
+                {"role", "system"},
+                {"content", *system}
+            });
+        }
     }
     
-    // User message (required)
+    // User message (required) — skip entity if excluded
+    if (!isFieldAllowed(mapping.user_field, options.include_fields, options.exclude_fields)) {
+        return "";
+    }
     auto user = entity.getFieldAsString(mapping.user_field);
     if (!user) {
         return "";
@@ -231,7 +534,10 @@ std::string JSONLLLMExporter::formatChatCompletion(
         {"content", *user}
     });
     
-    // Assistant response (required)
+    // Assistant response (required) — skip entity if excluded
+    if (!isFieldAllowed(mapping.assistant_field, options.include_fields, options.exclude_fields)) {
+        return "";
+    }
     auto assistant = entity.getFieldAsString(mapping.assistant_field);
     if (!assistant) {
         return "";
@@ -251,7 +557,7 @@ std::string JSONLLLMExporter::formatChatCompletion(
     
     // Add metadata
     if (config_.include_metadata) {
-        auto metadata_str = extractMetadata(entity);
+        auto metadata_str = extractMetadata(entity, options);
         if (!metadata_str.empty()) {
             j["metadata"] = json::parse(metadata_str);
         }
@@ -262,11 +568,17 @@ std::string JSONLLLMExporter::formatChatCompletion(
 
 std::string JSONLLLMExporter::formatTextCompletion(
     const BaseEntity& entity,
-    double& weight
+    double& weight,
+    const ExportOptions& options
 ) {
     json j;
     auto& mapping = config_.field_mapping;
     
+    // Skip entity if the text field is excluded
+    if (!isFieldAllowed(mapping.text_field, options.include_fields, options.exclude_fields)) {
+        return "";
+    }
+
     auto text = entity.getFieldAsString(mapping.text_field);
     if (!text) {
         return "";
@@ -281,13 +593,62 @@ std::string JSONLLLMExporter::formatTextCompletion(
     
     // Add metadata
     if (config_.include_metadata) {
-        auto metadata_str = extractMetadata(entity);
+        auto metadata_str = extractMetadata(entity, options);
         if (!metadata_str.empty()) {
             j["metadata"] = json::parse(metadata_str);
         }
     }
     
     return j.dump();
+}
+
+std::string JSONLLLMExporter::formatWithTemplate(
+    const BaseEntity& entity,
+    double& weight,
+    const ExportOptions& options
+) {
+    if (!format_template_) {
+        return {};
+    }
+
+    std::string line = format_template_->render(entity, config_.template_field_mapping);
+    if (line.empty()) {
+        return {};
+    }
+
+    // Optionally inject weight into the rendered object
+    if (config_.weighting.enable_weights) {
+        try {
+            auto j = json::parse(line);
+            j["weight"] = weight;
+            line = j.dump();
+        } catch (const std::exception& e) {
+            // Weight injection requires a JSON object at the top level.
+            // If the rendered output cannot be parsed, log and skip injection.
+            THEMIS_WARN("format_template: weight injection skipped ({})", e.what());
+        }
+    }
+
+    // Apply field exclusion to the rendered JSON object
+    if (!options.exclude_fields.empty() || !options.include_fields.empty()) {
+        try {
+            auto j = json::parse(line);
+            if (j.is_object()) {
+                for (auto it = j.begin(); it != j.end(); ) {
+                    if (!isFieldAllowed(it.key(), options.include_fields, options.exclude_fields)) {
+                        it = j.erase(it);
+                    } else {
+                        ++it;
+                    }
+                }
+                line = j.dump();
+            }
+        } catch (const std::exception& e) {
+            THEMIS_WARN("format_template: field filtering skipped ({})", e.what());
+        }
+    }
+
+    return line;
 }
 
 double JSONLLLMExporter::calculateWeight(const BaseEntity& entity) {
@@ -317,31 +678,113 @@ double JSONLLLMExporter::calculateWeight(const BaseEntity& entity) {
     if (weight_cfg.auto_weight_by_freshness) {
         auto timestamp_str = entity.getFieldAsString(weight_cfg.timestamp_field);
         if (timestamp_str) {
-            // TODO: Parse timestamp and calculate freshness factor
-            // Newer data gets higher weight
+            try {
+                // Parse timestamp (assuming Unix timestamp in milliseconds or seconds)
+                int64_t timestamp_value = std::stoll(*timestamp_str);
+                
+                // Determine if timestamp is in seconds or milliseconds
+                // Timestamps > 10^10 are likely in milliseconds
+                auto timestamp_ms = (timestamp_value > 10000000000LL) ? 
+                    timestamp_value : timestamp_value * 1000;
+                
+                auto timestamp_tp = std::chrono::system_clock::time_point(
+                    std::chrono::milliseconds(timestamp_ms)
+                );
+                
+                auto now = std::chrono::system_clock::now();
+                auto age = std::chrono::duration_cast<std::chrono::hours>(
+                    now - timestamp_tp
+                ).count();
+                
+                // Validate timestamp is not in the future
+                if (age < 0) {
+                    THEMIS_WARN("Timestamp '{}' is in the future, skipping freshness calculation", 
+                               *timestamp_str);
+                    // Skip freshness calculation for future timestamps
+                } else {
+                    // Calculate freshness factor using exponential decay
+                    // Age in days: divide hours by 24
+                    double age_days = age / 24.0;
+                    
+                    // Decay factor: newer data gets weight closer to 1.0
+                    // Data older than 365 days gets significantly reduced weight
+                    // Using formula: freshness = exp(-age_days / decay_constant)
+                    // where decay_constant = 180 (half-life of ~6 months)
+                    double freshness_factor = std::exp(-age_days / 180.0);
+                    
+                    // Apply freshness factor (multiply by 0.5 to 1.0 range)
+                    // Very fresh data (< 1 week): ~1.0x
+                    // 6 month old data: ~0.5x
+                    // 1+ year old data: ~0.25x
+                    calculated_weight *= (0.5 + 0.5 * freshness_factor);
+                }
+                
+            } catch (const std::exception& e) {
+                // If timestamp parsing fails, log warning and use default weight
+                THEMIS_WARN("Failed to parse timestamp '{}' for freshness calculation: {}", 
+                           *timestamp_str, e.what());
+            }
         }
     }
     
     return std::clamp(calculated_weight, 0.0, 2.0);
 }
 
+// Heuristic toxicity score: counts hostile/offensive term occurrences and maps
+// to [0.0, 1.0]. Returns 0.0 for benign text. 5+ hits saturates to 1.0.
+// Markers cover both English and German to support multilingual training corpora.
+static double computeToxicityScore(const std::string& text) {
+    static const std::vector<std::string> toxic_markers = {
+        // German markers
+        "hass", "beleidigung", "gewalt", "diskriminierung",
+        // English markers
+        "hate", "insult", "violence", "discrimination"
+    };
+    // Saturation: reaching this many hits maps to a score of 1.0
+    constexpr int kToxicitySaturationHits = 5;
+
+    std::string lower = text;
+    std::transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
+
+    int hits = 0;
+    for (const auto& marker : toxic_markers) {
+        size_t pos = 0;
+        while ((pos = lower.find(marker, pos)) != std::string::npos) {
+            ++hits;
+            pos += marker.size();
+        }
+    }
+    return std::min(1.0, static_cast<double>(hits) / kToxicitySaturationHits);
+}
+
 bool JSONLLLMExporter::passesQualityFilter(const BaseEntity& entity) {
     auto& quality = config_.quality;
     
-    // Get output field based on style
+    // Determine which field carries the "output" text for quality checks.
+    // Alpaca (completion format): uses the dedicated output field.
+    // ShareGPT / ChatML / OpenAI fine-tuning (conversation format): uses the assistant field.
+    // The style-based path is unchanged for backward compatibility.
     std::string output_field;
-    switch (config_.style) {
-        case JSONLFormat::Style::INSTRUCTION_TUNING:
-            output_field = config_.field_mapping.output_field;
-            break;
-        case JSONLFormat::Style::CHAT_COMPLETION:
-            output_field = config_.field_mapping.assistant_field;
-            break;
-        case JSONLFormat::Style::TEXT_COMPLETION:
-            output_field = config_.field_mapping.text_field;
-            break;
-        default:
-            output_field = config_.field_mapping.output_field;
+    if (config_.format_template_type != FormatTemplateType::NONE) {
+        if (config_.format_template_type == FormatTemplateType::ALPACA) {
+            output_field = config_.template_field_mapping.output_field;
+        } else {
+            output_field = config_.template_field_mapping.assistant_field;
+        }
+    } else {
+        switch (config_.style) {
+            case JSONLFormat::Style::INSTRUCTION_TUNING:
+                output_field = config_.field_mapping.output_field;
+                break;
+            case JSONLFormat::Style::CHAT_COMPLETION:
+                output_field = config_.field_mapping.assistant_field;
+                break;
+            case JSONLFormat::Style::TEXT_COMPLETION:
+                output_field = config_.field_mapping.text_field;
+                break;
+            default:
+                output_field = config_.field_mapping.output_field;
+        }
     }
     
     auto output = entity.getFieldAsString(output_field);
@@ -359,13 +802,25 @@ bool JSONLLLMExporter::passesQualityFilter(const BaseEntity& entity) {
         }
     }
     
+    // Toxicity filtering: reject samples whose toxicity score exceeds threshold
+    if (quality.enable_toxicity_filter && output) {
+        double toxicity = computeToxicityScore(*output);
+        if (toxicity > quality.max_toxicity_score) {
+            return false;
+        }
+    }
+    
     return true;
 }
 
-std::string JSONLLLMExporter::extractMetadata(const BaseEntity& entity) {
+std::string JSONLLLMExporter::extractMetadata(const BaseEntity& entity,
+                                              const ExportOptions& options) {
     json metadata;
     
     for (const auto& field_name : config_.metadata_fields) {
+        if (!isFieldAllowed(field_name, options.include_fields, options.exclude_fields)) {
+            continue;
+        }
         if (entity.hasField(field_name)) {
             auto value = entity.getFieldAsString(field_name);
             if (value) {
@@ -379,6 +834,28 @@ std::string JSONLLLMExporter::extractMetadata(const BaseEntity& entity) {
     }
     
     return metadata.dump();
+}
+
+bool JSONLLLMExporter::isFieldAllowed(const std::string& field_name,
+                                       const std::vector<std::string>& include_fields,
+                                       const std::vector<std::string>& exclude_fields) {
+    // Linear search is acceptable: field lists are typically very short (< 100 entries).
+    // If exclude list is set, reject fields explicitly listed
+    for (const auto& excl : exclude_fields) {
+        if (excl == field_name) {
+            return false;
+        }
+    }
+    // If include list is set, only allow fields explicitly listed
+    if (!include_fields.empty()) {
+        for (const auto& incl : include_fields) {
+            if (incl == field_name) {
+                return true;
+            }
+        }
+        return false;
+    }
+    return true;
 }
 
 // ============================================================================
@@ -443,6 +920,20 @@ bool JSONLLLMExporter::validateJsonSchema(
         }
         return false;
     }
+}
+
+// ============================================================================
+// Template dry-run validation
+// ============================================================================
+
+TemplateValidationResult JSONLLLMExporter::validateTemplate(
+    const std::vector<BaseEntity>& sample
+) const {
+    return themis::exporters::validateTemplate(
+        config_.format_template_type,
+        config_.template_field_mapping,
+        sample
+    );
 }
 
 // ============================================================================

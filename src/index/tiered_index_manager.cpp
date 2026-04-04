@@ -1,0 +1,341 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            tiered_index_manager.cpp                           ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-03-30 04:16:39                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     341                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • e102e2b8e  2026-02-28  feat(index): complete cold/warm tier index migration (Iss... ║
+    • 3a3113eda  2026-02-27  feat(index): Cold/warm tier index migration (Issue #2407) ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+// Cold/Warm Tier Index Migration — implementation
+//
+// See include/index/tiered_index_manager.h for design notes.
+
+#include "index/tiered_index_manager.h"
+
+#include <algorithm>
+#include <cassert>
+#include <chrono>
+#include <sstream>
+#include <stdexcept>
+
+namespace themis {
+namespace index {
+
+// ---------------------------------------------------------------------------
+// Construction
+// ---------------------------------------------------------------------------
+
+TieredIndexManager::TieredIndexManager(std::string warm_base_dir,
+                                         std::string cold_base_dir)
+    : warm_base_dir_(std::move(warm_base_dir))
+    , cold_base_dir_(std::move(cold_base_dir))
+    , export_fn_([](const std::string&, const std::string&) { return true; })
+    , import_fn_([](const std::string&, const std::string&) { return true; })
+{}
+
+// ---------------------------------------------------------------------------
+// Configuration
+// ---------------------------------------------------------------------------
+
+void TieredIndexManager::setPolicy(const TierMigrationPolicy& policy) {
+    std::lock_guard<std::mutex> lk(registry_mutex_);
+    policy_ = policy;
+}
+
+TierMigrationPolicy TieredIndexManager::policy() const {
+    std::lock_guard<std::mutex> lk(registry_mutex_);
+    return policy_;
+}
+
+void TieredIndexManager::setExportFn(ExportFn fn) {
+    std::lock_guard<std::mutex> lk(registry_mutex_);
+    export_fn_ = fn ? std::move(fn)
+                    : [](const std::string&, const std::string&) { return true; };
+}
+
+void TieredIndexManager::setImportFn(ImportFn fn) {
+    std::lock_guard<std::mutex> lk(registry_mutex_);
+    import_fn_ = fn ? std::move(fn)
+                    : [](const std::string&, const std::string&) { return true; };
+}
+
+// ---------------------------------------------------------------------------
+// Registry
+// ---------------------------------------------------------------------------
+
+bool TieredIndexManager::registerIndex(const std::string& name,
+                                         const std::string& data_path,
+                                         uint64_t           size_bytes) {
+    return registerIndex(name, IndexTierMeta::Tier::HOT, data_path, size_bytes);
+}
+
+bool TieredIndexManager::registerIndex(const std::string&  name,
+                                         IndexTierMeta::Tier tier,
+                                         const std::string&  data_path,
+                                         uint64_t            size_bytes) {
+    if (name.empty()) return false;
+
+    std::lock_guard<std::mutex> lk(registry_mutex_);
+    if (registry_.count(name)) return false;   // already registered
+
+    IndexTierMeta meta;
+    meta.tier         = tier;
+    meta.data_path    = data_path;
+    meta.last_access  = std::chrono::steady_clock::now();
+    meta.access_count = 0;
+    meta.size_bytes   = size_bytes;
+    registry_.emplace(name, std::move(meta));
+    return true;
+}
+
+bool TieredIndexManager::unregisterIndex(const std::string& name) {
+    std::lock_guard<std::mutex> lk(registry_mutex_);
+    return registry_.erase(name) > 0;
+}
+
+bool TieredIndexManager::hasIndex(const std::string& name) const {
+    std::lock_guard<std::mutex> lk(registry_mutex_);
+    return registry_.count(name) > 0;
+}
+
+std::optional<IndexTierMeta> TieredIndexManager::getMetadata(
+        const std::string& name) const {
+    std::lock_guard<std::mutex> lk(registry_mutex_);
+    auto it = registry_.find(name);
+    if (it == registry_.end()) return std::nullopt;
+    return it->second;
+}
+
+std::vector<std::string> TieredIndexManager::listIndexes() const {
+    std::lock_guard<std::mutex> lk(registry_mutex_);
+    std::vector<std::string> names;
+    names.reserve(registry_.size());
+    for (const auto& [k, _] : registry_) names.push_back(k);
+    return names;
+}
+
+std::vector<std::string> TieredIndexManager::listIndexesByTier(
+        IndexTierMeta::Tier tier) const {
+    std::lock_guard<std::mutex> lk(registry_mutex_);
+    std::vector<std::string> names;
+    for (const auto& [k, v] : registry_) {
+        if (v.tier == tier) names.push_back(k);
+    }
+    return names;
+}
+
+// ---------------------------------------------------------------------------
+// Access tracking
+// ---------------------------------------------------------------------------
+
+bool TieredIndexManager::recordAccess(const std::string& name) {
+    std::lock_guard<std::mutex> lk(registry_mutex_);
+    auto it = registry_.find(name);
+    if (it == registry_.end()) return false;
+    it->second.last_access = std::chrono::steady_clock::now();
+    ++it->second.access_count;
+    return true;
+}
+
+bool TieredIndexManager::resetAccessCount(const std::string& name) {
+    std::lock_guard<std::mutex> lk(registry_mutex_);
+    auto it = registry_.find(name);
+    if (it == registry_.end()) return false;
+    it->second.access_count = 0;
+    return true;
+}
+
+// ---------------------------------------------------------------------------
+// Manual migration (public wrappers)
+// ---------------------------------------------------------------------------
+
+MigrationResult TieredIndexManager::migrateTo(const std::string&  name,
+                                                IndexTierMeta::Tier target) {
+    // Snapshot current tier under lock.
+    IndexTierMeta::Tier current{};
+    {
+        std::lock_guard<std::mutex> lk(registry_mutex_);
+        auto it = registry_.find(name);
+        if (it == registry_.end()) {
+            return MigrationResult::Err(name, "index not found");
+        }
+        current = it->second.tier;
+    }
+
+    if (current == target) {
+        // Already in requested tier – treat as success.
+        return MigrationResult::Ok(name, current, target);
+    }
+
+    return doMigrate(name, current, target);
+}
+
+MigrationResult TieredIndexManager::promoteToHot(const std::string& name) {
+    return migrateTo(name, IndexTierMeta::Tier::HOT);
+}
+
+MigrationResult TieredIndexManager::demoteToWarm(const std::string& name) {
+    return migrateTo(name, IndexTierMeta::Tier::WARM);
+}
+
+MigrationResult TieredIndexManager::demoteToCold(const std::string& name) {
+    return migrateTo(name, IndexTierMeta::Tier::COLD);
+}
+
+// ---------------------------------------------------------------------------
+// Automatic migration pass
+// ---------------------------------------------------------------------------
+
+std::vector<MigrationResult> TieredIndexManager::runMigrationPass() {
+    using Tier = IndexTierMeta::Tier;
+
+    // Snapshot registry state under lock to avoid holding the mutex during
+    // potentially long export/import callbacks.
+    TierMigrationPolicy pol;
+    std::vector<std::pair<std::string, IndexTierMeta>> snapshot;
+    {
+        std::lock_guard<std::mutex> lk(registry_mutex_);
+        pol = policy_;
+        snapshot.reserve(registry_.size());
+        for (const auto& [k, v] : registry_) snapshot.emplace_back(k, v);
+    }
+
+    const auto now = std::chrono::steady_clock::now();
+
+    std::vector<MigrationResult> results;
+
+    for (const auto& [name, meta] : snapshot) {
+        const auto idle_secs = static_cast<uint64_t>(
+            std::chrono::duration_cast<std::chrono::seconds>(
+                now - meta.last_access).count());
+
+        // ---- Demotion checks (age-based) -----------------------------------
+        if (meta.tier == Tier::HOT && idle_secs >= pol.hot_to_warm_idle_secs) {
+            results.push_back(doMigrate(name, Tier::HOT, Tier::WARM));
+            continue;
+        }
+
+        if (meta.tier == Tier::WARM && idle_secs >= pol.warm_to_cold_idle_secs) {
+            results.push_back(doMigrate(name, Tier::WARM, Tier::COLD));
+            continue;
+        }
+
+        // ---- Promotion checks (access-count based) -------------------------
+        // Only consider accesses within the promotion window.
+        const bool in_window = (idle_secs <= pol.promotion_window_secs);
+
+        if (meta.tier == Tier::WARM && in_window
+                && meta.access_count >= pol.warm_to_hot_access_threshold) {
+            results.push_back(doMigrate(name, Tier::WARM, Tier::HOT));
+            continue;
+        }
+
+        if (meta.tier == Tier::COLD && in_window
+                && meta.access_count >= pol.cold_to_warm_access_threshold) {
+            results.push_back(doMigrate(name, Tier::COLD, Tier::WARM));
+            continue;
+        }
+    }
+
+    return results;
+}
+
+// ---------------------------------------------------------------------------
+// Tier path helpers
+// ---------------------------------------------------------------------------
+
+std::string TieredIndexManager::warmPath(const std::string& name) const {
+    return warm_base_dir_ + "/" + name;
+}
+
+std::string TieredIndexManager::coldPath(const std::string& name) const {
+    return cold_base_dir_ + "/" + name;
+}
+
+std::string TieredIndexManager::pathForTier(const std::string&  name,
+                                              IndexTierMeta::Tier tier) const {
+    using Tier = IndexTierMeta::Tier;
+    switch (tier) {
+        case Tier::WARM: return warmPath(name);
+        case Tier::COLD: return coldPath(name);
+        default:         return {};          // HOT: live path managed by caller
+    }
+}
+
+// ---------------------------------------------------------------------------
+// doMigrate – execute migration, update registry
+// ---------------------------------------------------------------------------
+
+MigrationResult TieredIndexManager::doMigrate(const std::string&  name,
+                                                IndexTierMeta::Tier from,
+                                                IndexTierMeta::Tier to) {
+    using Tier = IndexTierMeta::Tier;
+
+    // Capture callbacks under lock so we can call them outside.
+    ExportFn export_fn;
+    ImportFn import_fn;
+    std::string live_path;
+    {
+        std::lock_guard<std::mutex> lk(registry_mutex_);
+        auto it = registry_.find(name);
+        if (it == registry_.end()) {
+            return MigrationResult::Err(name, "index not found during migration");
+        }
+        export_fn = export_fn_;
+        import_fn = import_fn_;
+        live_path = it->second.data_path;
+    }
+
+    const std::string dest_path = pathForTier(name, to);
+    const std::string src_path  = pathForTier(name, from);
+
+    const bool is_demotion = (static_cast<int>(to) > static_cast<int>(from));
+
+    if (is_demotion) {
+        // Export (serialize) the index to the destination tier path.
+        if (!export_fn(name, dest_path.empty() ? live_path : dest_path)) {
+            return MigrationResult::Err(
+                name,
+                std::string("export failed while demoting to ") + IndexTierMeta::tierName(to));
+        }
+    } else {
+        // Promotion: import (deserialize) from the source tier path.
+        const std::string& load_from = src_path.empty() ? live_path : src_path;
+        if (!import_fn(name, load_from)) {
+            return MigrationResult::Err(
+                name,
+                std::string("import failed while promoting to ") + IndexTierMeta::tierName(to));
+        }
+    }
+
+    // Update registry.
+    {
+        std::lock_guard<std::mutex> lk(registry_mutex_);
+        auto it = registry_.find(name);
+        if (it != registry_.end()) {
+            it->second.tier      = to;
+            it->second.data_path = dest_path.empty() ? live_path : dest_path;
+        }
+    }
+
+    return MigrationResult::Ok(name, from, to);
+}
+
+} // namespace index
+} // namespace themis

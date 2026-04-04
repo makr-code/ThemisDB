@@ -1,3 +1,28 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            stt_processor.h                                    ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:06:52                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     221                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 56baadb99  2026-02-28  feat(voice): implement multi-speaker diarization via k-me... ║
+    • 450c6d7a4  2026-02-22  audit: update ROADMAP, fix stale Stubs metadata after str... ║
+    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file stt_processor.h
  * @brief Speech-to-Text (STT) Processor Plugin
@@ -106,6 +131,30 @@ public:
     bool streamTranscribe(
         const std::vector<uint8_t>& audio_stream,
         std::function<void(const TranscriptionSegment&)> callback
+    );
+
+    /**
+     * @brief Assign speaker IDs to transcription segments via acoustic clustering.
+     *
+     * Extracts sub-band RMS + zero-crossing-rate feature vectors for each
+     * segment's audio window and clusters them with k-means (cosine distance,
+     * k-means++ seeding).  The number of speakers used is @p max_speakers when
+     * > 0, otherwise min(4, segment_count).
+     *
+     * This method is also called automatically by transcribe() when the
+     * "speaker_diarization" option is set to true.
+     *
+     * @param segments    Transcription segments with timestamp information.
+     * @param pcm_data    Full-audio PCM samples (float, 16 kHz mono).
+     * @param max_speakers Maximum number of speakers to cluster (0 = auto).
+     * @return Segments with speaker_id filled in (0-based cluster index).
+     *         Returns @p segments unchanged when fewer than 2 segments are
+     *         provided or @p pcm_data is empty.
+     */
+    static std::vector<TranscriptionSegment> diarizeSegments(
+        const std::vector<TranscriptionSegment>& segments,
+        const std::vector<float>& pcm_data,
+        int max_speakers = 0
     );
     
     /**

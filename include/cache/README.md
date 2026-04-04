@@ -12,4 +12,5 @@ See `../../src/cache/` for the implementation code.
 
 ## Documentation
 
-See `../../docs/src/cache/` for detailed module documentation.
+See `../../src/cache/README.md` for detailed module documentation.
+For secondary (German-language) docs see `../../docs/de/src/cache/`.

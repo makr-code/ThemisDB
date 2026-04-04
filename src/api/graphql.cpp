@@ -1,4 +1,33 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            graphql.cpp                                        ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:13:57                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     1534                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 13e4bb297  2026-03-26  Enhance GraphQL Performance Tests and Saga Operation Comp... ║
+    • e5cd79501  2026-03-10  Changes before error encountered         ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 6e489011a  2026-02-28  feat(api/graphql): Implement multi-model schema - add exp... ║
+    • d4f10b4fd  2026-02-24  fix(api/graphql): correct SDL list-type rendering and upd... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "api/graphql.h"
+#include "api/graphql_cache.h"
+#include "api/graphql_metrics.h"
+#include "utils/error_registry.h"
 #include <cctype>
 #include <sstream>
 #include <algorithm>
@@ -6,46 +35,162 @@
 namespace themis {
 namespace graphql {
 
+using errors::ErrorCode;
+
 // ============================================================================
 // Parser Implementation
 // ============================================================================
 
-Parser::Parser(std::string_view query) : source_(query) {}
+Parser::Parser(std::string_view query, const QueryLimits& limits) 
+    : source_(query), limits_(limits) {}
 
 Parser::Result Parser::parse(std::string_view query) {
-    Parser parser(query);
+    const std::string query_str(query);
+    
+    // Check query plan cache first to avoid re-parsing identical queries.
+    // Only the default-limits path is cached; custom-limits calls bypass the cache.
+    auto& plan_cache = QueryPlanCache::instance();
+    auto cached_plan = plan_cache.get(query_str);
+    if (cached_plan && cached_plan->validation_passed) {
+        Result result;
+        result.success = true;
+        result.document = cached_plan->parsed_document;
+        return result;
+    }
+    
+    const QueryLimits limits = QueryLimits::defaults();
+    Parser parser(query, limits);
+    Result result = parser.parseDocument();
+    
+    // Populate the query plan cache on success
+    if (result.success) {
+        QueryPlanCache::QueryPlan plan;
+        plan.query_hash = query_str;
+        plan.depth = parser.max_depth_reached_;
+        plan.field_count = parser.field_count_;
+        plan.ast_node_count = parser.ast_node_count_;
+        plan.validation_passed = true;
+        plan.parsed_document = result.document;
+        plan_cache.put(query_str, plan);
+    }
+    
+    return result;
+}
+
+Parser::Result Parser::parse(std::string_view query, const QueryLimits& limits) {
+    Parser parser(query, limits);
     return parser.parseDocument();
+}
+
+bool Parser::checkQuerySize() {
+    if (source_.size() > limits_.max_query_size_bytes) {
+        error("Query size exceeds maximum allowed size of " + 
+              std::to_string(limits_.max_query_size_bytes) + " bytes");
+        return false;
+    }
+    return true;
+}
+
+bool Parser::checkDepthLimit(size_t depth) {
+    if (depth > max_depth_reached_) {
+        max_depth_reached_ = depth;
+    }
+    if (depth > limits_.max_depth) {
+        error("Query depth exceeds maximum allowed depth of " + 
+              std::to_string(limits_.max_depth));
+        return false;
+    }
+    return true;
+}
+
+bool Parser::checkFieldLimit() {
+    if (field_count_ > limits_.max_fields) {
+        error("Query field count exceeds maximum allowed fields of " + 
+              std::to_string(limits_.max_fields));
+        return false;
+    }
+    return true;
+}
+
+bool Parser::checkASTNodeLimit() {
+    if (ast_node_count_ > limits_.max_ast_nodes) {
+        error("Query AST node count exceeds maximum allowed nodes of " + 
+              std::to_string(limits_.max_ast_nodes));
+        return false;
+    }
+    return true;
+}
+
+/*static*/
+bool Parser::isIntrospectionFieldName(std::string_view field_name) noexcept {
+    return field_name == "__schema"
+        || field_name == "__type"
+        || field_name == "__typename";
 }
 
 Parser::Result Parser::parseDocument() {
     Result result;
     result.success = true;
     
+    // Check query size first
+    if (!checkQuerySize()) {
+        result.success = false;
+        result.errors = errors_;
+        return result;
+    }
+    
     skipWhitespace();
+
+    // Empty or whitespace-only documents are invalid GraphQL input.
+    if (pos_ >= source_.size()) {
+        result.success = false;
+        result.errors.push_back(ParseError{
+            .message = "Document must contain at least one operation",
+            .line = line_,
+            .column = column_
+        });
+        return result;
+    }
     
     while (pos_ < source_.size()) {
-        auto op = parseOperation();
-        if (op) {
-            result.document.operations.push_back(std::move(*op));
-        } else if (!errors_.empty()) {
+        auto opResult = parseOperation();
+        if (opResult) {
+            result.document.operations.push_back(std::move(*opResult));
+        } else {
+            result.errors.push_back(convertToParseError(opResult.error()));
             result.success = false;
             break;
         }
         skipWhitespace();
     }
     
-    result.errors = std::move(errors_);
-    if (!result.errors.empty()) {
+    // Add any accumulated errors from the error() method
+    if (!errors_.empty()) {
+        result.errors.insert(result.errors.end(), errors_.begin(), errors_.end());
         result.success = false;
     }
     
     return result;
 }
 
-std::optional<Operation> Parser::parseOperation() {
+themis::Result<Operation> Parser::parseOperation() {
     Operation op;
+    incrementASTNodeCount();
+    
+    if (!checkASTNodeLimit()) {
+        return themis::Err<Operation>(ErrorCode::ERR_QUERY_INVALID_SYNTAX, 
+            "Query exceeds maximum AST node limit");
+    }
     
     skipWhitespace();
+
+    // Explicit version-gated unsupported feature handling.
+    if (match("fragment")) {
+        return themis::Err<Operation>(
+            ErrorCode::ERR_QUERY_INVALID_SYNTAX,
+            "GraphQL fragment definitions are unsupported in v1.x API parser; planned for v2.0"
+        );
+    }
     
     // Check for operation type keyword
     if (match("query")) {
@@ -58,17 +203,17 @@ std::optional<Operation> Parser::parseOperation() {
         // Anonymous query
         op.type = OperationType::Query;
     } else {
-        error("Expected 'query', 'mutation', 'subscription', or '{'");
-        return std::nullopt;
+        return themis::Err<Operation>(ErrorCode::ERR_QUERY_INVALID_SYNTAX, 
+            getLocationContext() + ": Expected 'query', 'mutation', 'subscription', or '{'");
     }
     
     skipWhitespace();
     
     // Optional operation name
     if (op.type != OperationType::Query || !peek('{') && !peek('(')) {
-        auto name = parseName();
-        if (name) {
-            op.name = *name;
+        auto nameResult = parseName();
+        if (nameResult) {
+            op.name = *nameResult;
         }
     }
     
@@ -78,16 +223,17 @@ std::optional<Operation> Parser::parseOperation() {
     if (match('(')) {
         while (!peek(')') && pos_ < source_.size()) {
             skipWhitespace();
-            auto varDef = parseVariableDefinition();
-            if (varDef) {
-                op.variables.push_back(std::move(*varDef));
+            auto varDefResult = parseVariableDefinition();
+            if (!varDefResult) {
+                return themis::Err<Operation>(varDefResult.error().code(), varDefResult.error().context());
             }
+            op.variables.push_back(std::move(*varDefResult));
+            incrementASTNodeCount();
             skipWhitespace();
             match(',');
         }
         if (!match(')')) {
-            error("Expected ')'");
-            return std::nullopt;
+            return themis::Err<Operation>(ErrorCode::ERR_QUERY_INVALID_SYNTAX, getLocationContext() + ": Expected ')'");
         }
     }
     
@@ -95,53 +241,81 @@ std::optional<Operation> Parser::parseOperation() {
     
     // Selection set
     if (!match('{')) {
-        error("Expected '{'");
-        return std::nullopt;
+        return themis::Err<Operation>(ErrorCode::ERR_QUERY_INVALID_SYNTAX, getLocationContext() + ": Expected '{'");
     }
     
     while (!peek('}') && pos_ < source_.size()) {
         skipWhitespace();
-        auto field = parseField();
-        if (field) {
-            op.selections.push_back(std::move(*field));
+        auto fieldResult = parseField(1);  // Start at depth 1
+        if (!fieldResult) {
+            return themis::Err<Operation>(fieldResult.error().code(), fieldResult.error().context());
         }
+        op.selections.push_back(std::move(*fieldResult));
         skipWhitespace();
     }
     
     if (!match('}')) {
-        error("Expected '}'");
-        return std::nullopt;
+        return themis::Err<Operation>(ErrorCode::ERR_QUERY_INVALID_SYNTAX, getLocationContext() + ": Expected '}'");
     }
     
-    return op;
+    return themis::Ok(std::move(op));
 }
 
-std::optional<Field> Parser::parseField() {
+themis::Result<Field> Parser::parseField(size_t depth) {
     Field field;
+    incrementFieldCount();
+    incrementASTNodeCount();
+    
+    // Check limits
+    if (!checkDepthLimit(depth)) {
+        return themis::Err<Field>(ErrorCode::ERR_QUERY_INVALID_SYNTAX, 
+            "Query exceeds maximum depth limit");
+    }
+    if (!checkFieldLimit()) {
+        return themis::Err<Field>(ErrorCode::ERR_QUERY_INVALID_SYNTAX, 
+            "Query exceeds maximum field limit");
+    }
+    if (!checkASTNodeLimit()) {
+        return themis::Err<Field>(ErrorCode::ERR_QUERY_INVALID_SYNTAX, 
+            "Query exceeds maximum AST node limit");
+    }
     
     skipWhitespace();
+
+    // Explicitly reject fragment spread / inline fragments for v1.x.
+    if (match("...")) {
+        return themis::Err<Field>(
+            ErrorCode::ERR_QUERY_INVALID_SYNTAX,
+            "GraphQL fragment spread / inline fragments are unsupported in v1.x API parser; planned for v2.0"
+        );
+    }
     
     // Field name or alias
-    auto nameOrAlias = parseName();
-    if (!nameOrAlias) {
-        error("Expected field name");
-        return std::nullopt;
+    auto nameOrAliasResult = parseName();
+    if (!nameOrAliasResult) {
+        return themis::Err<Field>(nameOrAliasResult.error().code(), nameOrAliasResult.error().context());
     }
     
     skipWhitespace();
     
     // Check for alias
     if (match(':')) {
-        field.alias = *nameOrAlias;
+        field.alias = *nameOrAliasResult;
         skipWhitespace();
-        auto fieldName = parseName();
-        if (!fieldName) {
-            error("Expected field name after alias");
-            return std::nullopt;
+        auto fieldNameResult = parseName();
+        if (!fieldNameResult) {
+            return themis::Err<Field>(ErrorCode::ERR_QUERY_INVALID_SYNTAX, 
+                getLocationContext() + ": Expected field name after alias");
         }
-        field.name = *fieldName;
+        field.name = *fieldNameResult;
     } else {
-        field.name = *nameOrAlias;
+        field.name = *nameOrAliasResult;
+    }
+
+    // Reject introspection fields when allow_introspection is false.
+    if (!limits_.allow_introspection && isIntrospectionFieldName(field.name)) {
+        return themis::Err<Field>(ErrorCode::ERR_QUERY_INVALID_SYNTAX,
+            "GraphQL introspection is disabled: field '" + field.name + "' is not allowed");
     }
     
     skipWhitespace();
@@ -150,75 +324,81 @@ std::optional<Field> Parser::parseField() {
     if (match('(')) {
         while (!peek(')') && pos_ < source_.size()) {
             skipWhitespace();
-            auto argName = parseName();
-            if (!argName) {
-                error("Expected argument name");
-                return std::nullopt;
+            auto argNameResult = parseName();
+            if (!argNameResult) {
+                return themis::Err<Field>(ErrorCode::ERR_QUERY_INVALID_SYNTAX, 
+                    getLocationContext() + ": Expected argument name");
             }
             skipWhitespace();
             if (!match(':')) {
-                error("Expected ':' after argument name");
-                return std::nullopt;
+                return themis::Err<Field>(ErrorCode::ERR_QUERY_INVALID_SYNTAX, 
+                    getLocationContext() + ": Expected ':' after argument name");
             }
             skipWhitespace();
-            auto argValue = parseValue();
-            if (!argValue) {
-                return std::nullopt;
+            auto argValueResult = parseValue();
+            if (!argValueResult) {
+                return themis::Err<Field>(argValueResult.error().code(), argValueResult.error().context());
             }
-            field.arguments[*argName] = *argValue;
+            field.arguments[*argNameResult] = *argValueResult;
             skipWhitespace();
             match(',');
         }
         if (!match(')')) {
-            error("Expected ')'");
-            return std::nullopt;
+            return themis::Err<Field>(ErrorCode::ERR_QUERY_INVALID_SYNTAX, getLocationContext() + ": Expected ')'");
         }
     }
     
     skipWhitespace();
     
     // Nested selection set
+    if (peek('@')) {
+        return themis::Err<Field>(
+            ErrorCode::ERR_QUERY_INVALID_SYNTAX,
+            "GraphQL directives are unsupported in v1.x API parser; planned for v2.0"
+        );
+    }
+
     if (match('{')) {
         while (!peek('}') && pos_ < source_.size()) {
             skipWhitespace();
-            auto nestedField = parseField();
-            if (nestedField) {
-                field.selections.push_back(std::move(*nestedField));
+            auto nestedFieldResult = parseField(depth + 1);  // Increment depth for nested fields
+            if (!nestedFieldResult) {
+                return themis::Err<Field>(nestedFieldResult.error().code(), nestedFieldResult.error().context());
             }
+            field.selections.push_back(std::move(*nestedFieldResult));
             skipWhitespace();
         }
         if (!match('}')) {
-            error("Expected '}'");
-            return std::nullopt;
+            return themis::Err<Field>(ErrorCode::ERR_QUERY_INVALID_SYNTAX, getLocationContext() + ": Expected '}'");
         }
     }
     
-    return field;
+    return themis::Ok(std::move(field));
 }
 
-std::optional<std::shared_ptr<Value>> Parser::parseValue() {
+themis::Result<std::shared_ptr<Value>> Parser::parseValue() {
     skipWhitespace();
     
     // Null
     if (match("null")) {
-        return Value::null();
+        return themis::Ok(Value::null());
     }
     
     // Boolean
     if (match("true")) {
-        return Value::boolean(true);
+        return themis::Ok(Value::boolean(true));
     }
     if (match("false")) {
-        return Value::boolean(false);
+        return themis::Ok(Value::boolean(false));
     }
     
     // String
     if (peek('"')) {
-        auto str = parseString();
-        if (str) {
-            return Value::string(std::move(*str));
+        auto strResult = parseString();
+        if (!strResult) {
+            return themis::Err<std::shared_ptr<Value>>(strResult.error().code(), strResult.error().context());
         }
-        return std::nullopt;
+        return themis::Ok(Value::string(std::move(*strResult)));
     }
     
     // Number (int or float)
@@ -262,9 +442,9 @@ std::optional<std::shared_ptr<Value>> Parser::parseValue() {
         
         std::string numStr(source_.substr(start, pos_ - start));
         if (isFloat) {
-            return Value::floating(std::stod(numStr));
+            return themis::Ok(Value::floating(std::stod(numStr)));
         } else {
-            return Value::integer(std::stoll(numStr));
+            return themis::Ok(Value::integer(std::stoll(numStr)));
         }
     }
     
@@ -273,19 +453,18 @@ std::optional<std::shared_ptr<Value>> Parser::parseValue() {
         ValueList list;
         while (!peek(']') && pos_ < source_.size()) {
             skipWhitespace();
-            auto val = parseValue();
-            if (!val) {
-                return std::nullopt;
+            auto valResult = parseValue();
+            if (!valResult) {
+                return themis::Err<std::shared_ptr<Value>>(valResult.error().code(), valResult.error().context());
             }
-            list.push_back(*val);
+            list.push_back(*valResult);
             skipWhitespace();
             match(',');
         }
         if (!match(']')) {
-            error("Expected ']'");
-            return std::nullopt;
+            return themis::Err<std::shared_ptr<Value>>(ErrorCode::ERR_QUERY_INVALID_SYNTAX, getLocationContext() + ": Expected ']'");
         }
-        return Value::list(std::move(list));
+        return themis::Ok(Value::list(std::move(list)));
     }
     
     // Object
@@ -293,72 +472,69 @@ std::optional<std::shared_ptr<Value>> Parser::parseValue() {
         ValueMap obj;
         while (!peek('}') && pos_ < source_.size()) {
             skipWhitespace();
-            auto key = parseName();
-            if (!key) {
-                error("Expected object key");
-                return std::nullopt;
+            auto keyResult = parseName();
+            if (!keyResult) {
+                return themis::Err<std::shared_ptr<Value>>(ErrorCode::ERR_QUERY_INVALID_SYNTAX, 
+                    getLocationContext() + ": Expected object key");
             }
             skipWhitespace();
             if (!match(':')) {
-                error("Expected ':' in object");
-                return std::nullopt;
+                return themis::Err<std::shared_ptr<Value>>(ErrorCode::ERR_QUERY_INVALID_SYNTAX, 
+                    getLocationContext() + ": Expected ':' in object");
             }
             skipWhitespace();
-            auto val = parseValue();
-            if (!val) {
-                return std::nullopt;
+            auto valResult = parseValue();
+            if (!valResult) {
+                return themis::Err<std::shared_ptr<Value>>(valResult.error().code(), valResult.error().context());
             }
-            obj[*key] = *val;
+            obj[*keyResult] = *valResult;
             skipWhitespace();
             match(',');
         }
         if (!match('}')) {
-            error("Expected '}'");
-            return std::nullopt;
+            return themis::Err<std::shared_ptr<Value>>(ErrorCode::ERR_QUERY_INVALID_SYNTAX, getLocationContext() + ": Expected '}'");
         }
-        return Value::object(std::move(obj));
+        return themis::Ok(Value::object(std::move(obj)));
     }
     
     // Variable reference ($name)
     if (match('$')) {
-        auto name = parseName();
-        if (!name) {
-            error("Expected variable name after '$'");
-            return std::nullopt;
+        auto nameResult = parseName();
+        if (!nameResult) {
+            return themis::Err<std::shared_ptr<Value>>(ErrorCode::ERR_QUERY_INVALID_SYNTAX, 
+                getLocationContext() + ": Expected variable name after '$'");
         }
         // Return as special string value (will be resolved at execution)
-        return Value::string("$" + *name);
+        return themis::Ok(Value::string("$" + *nameResult));
     }
     
     // Enum value (bare name)
-    auto enumVal = parseName();
-    if (enumVal) {
-        return Value::enumValue(std::move(*enumVal));
+    auto enumValResult = parseName();
+    if (enumValResult) {
+        return themis::Ok(Value::enumValue(std::move(*enumValResult)));
     }
     
-    error("Expected value");
-    return std::nullopt;
+    return themis::Err<std::shared_ptr<Value>>(ErrorCode::ERR_QUERY_INVALID_SYNTAX, getLocationContext() + ": Expected value");
 }
 
-std::optional<VariableDefinition> Parser::parseVariableDefinition() {
+themis::Result<VariableDefinition> Parser::parseVariableDefinition() {
     VariableDefinition def;
     
     if (!match('$')) {
-        error("Expected '$' for variable definition");
-        return std::nullopt;
+        return themis::Err<VariableDefinition>(ErrorCode::ERR_QUERY_INVALID_SYNTAX, 
+            getLocationContext() + ": Expected '$' for variable definition");
     }
     
-    auto name = parseName();
-    if (!name) {
-        error("Expected variable name");
-        return std::nullopt;
+    auto nameResult = parseName();
+    if (!nameResult) {
+        return themis::Err<VariableDefinition>(nameResult.error().code(), nameResult.error().context());
     }
-    def.name = *name;
+    def.name = *nameResult;
     
     skipWhitespace();
     if (!match(':')) {
-        error("Expected ':' after variable name");
-        return std::nullopt;
+        return themis::Err<VariableDefinition>(ErrorCode::ERR_QUERY_INVALID_SYNTAX, 
+            getLocationContext() + ": Expected ':' after variable name");
     }
     
     skipWhitespace();
@@ -367,26 +543,23 @@ std::optional<VariableDefinition> Parser::parseVariableDefinition() {
     if (match('[')) {
         def.is_list = true;
         skipWhitespace();
-        auto typeName = parseName();
-        if (!typeName) {
-            error("Expected type name");
-            return std::nullopt;
+        auto typeNameResult = parseName();
+        if (!typeNameResult) {
+            return themis::Err<VariableDefinition>(typeNameResult.error().code(), typeNameResult.error().context());
         }
-        def.type_name = *typeName;
+        def.type_name = *typeNameResult;
         skipWhitespace();
         match('!');  // Inner non-null
         skipWhitespace();
         if (!match(']')) {
-            error("Expected ']'");
-            return std::nullopt;
+            return themis::Err<VariableDefinition>(ErrorCode::ERR_QUERY_INVALID_SYNTAX, getLocationContext() + ": Expected ']'");
         }
     } else {
-        auto typeName = parseName();
-        if (!typeName) {
-            error("Expected type name");
-            return std::nullopt;
+        auto typeNameResult = parseName();
+        if (!typeNameResult) {
+            return themis::Err<VariableDefinition>(typeNameResult.error().code(), typeNameResult.error().context());
         }
-        def.type_name = *typeName;
+        def.type_name = *typeNameResult;
     }
     
     skipWhitespace();
@@ -399,14 +572,14 @@ std::optional<VariableDefinition> Parser::parseVariableDefinition() {
     // Default value
     if (match('=')) {
         skipWhitespace();
-        auto val = parseValue();
-        if (!val) {
-            return std::nullopt;
+        auto valResult = parseValue();
+        if (!valResult) {
+            return themis::Err<VariableDefinition>(valResult.error().code(), valResult.error().context());
         }
-        def.default_value = *val;
+        def.default_value = *valResult;
     }
     
-    return def;
+    return themis::Ok(std::move(def));
 }
 
 void Parser::skipWhitespace() {
@@ -466,7 +639,7 @@ bool Parser::peek(char c) const {
     return pos_ < source_.size() && source_[pos_] == c;
 }
 
-std::optional<std::string> Parser::parseName() {
+themis::Result<std::string> Parser::parseName() {
     size_t start = pos_;
     
     // Name must start with letter or underscore
@@ -477,14 +650,14 @@ std::optional<std::string> Parser::parseName() {
             ++pos_;
             ++column_;
         }
-        return std::string(source_.substr(start, pos_ - start));
+        return themis::Ok(std::string(source_.substr(start, pos_ - start)));
     }
-    return std::nullopt;
+    return themis::Err<std::string>(ErrorCode::ERR_QUERY_INVALID_SYNTAX, getLocationContext() + ": Expected name");
 }
 
-std::optional<std::string> Parser::parseString() {
+themis::Result<std::string> Parser::parseString() {
     if (!match('"')) {
-        return std::nullopt;
+        return themis::Err<std::string>(ErrorCode::ERR_QUERY_INVALID_SYNTAX, getLocationContext() + ": Expected string");
     }
     
     std::string result;
@@ -505,8 +678,7 @@ std::optional<std::string> Parser::parseString() {
                 ++column_;
             }
         } else if (source_[pos_] == '\n') {
-            error("Unterminated string");
-            return std::nullopt;
+            return themis::Err<std::string>(ErrorCode::ERR_QUERY_INVALID_SYNTAX, getLocationContext() + ": Unterminated string");
         } else {
             result += source_[pos_];
             ++pos_;
@@ -515,11 +687,10 @@ std::optional<std::string> Parser::parseString() {
     }
     
     if (!match('"')) {
-        error("Unterminated string");
-        return std::nullopt;
+        return themis::Err<std::string>(ErrorCode::ERR_QUERY_INVALID_SYNTAX, getLocationContext() + ": Unterminated string");
     }
     
-    return result;
+    return themis::Ok(std::move(result));
 }
 
 void Parser::error(std::string message) {
@@ -530,9 +701,35 @@ void Parser::error(std::string message) {
     errors_.push_back(std::move(err));
 }
 
+std::string Parser::getLocationContext() const {
+    return "Line " + std::to_string(line_) + ", Column " + std::to_string(column_);
+}
+
+ParseError Parser::convertToParseError(const themis::Error& error) {
+    ParseError err;
+    err.message = error.message();
+    // Note: Location information is already included in the error message's context,
+    // which was captured at the point where the error occurred.
+    // The current parser line/column are set here to provide position where the error was detected.
+    err.line = line_;
+    err.column = column_;
+    return err;
+}
+
 // ============================================================================
 // Executor Implementation
 // ============================================================================
+
+// Compute the maximum nesting depth of a field selection tree.
+static size_t computeSelectionDepth(const std::vector<Field>& selections, size_t current = 1) {
+    size_t max_depth = current;
+    for (const auto& field : selections) {
+        if (!field.selections.empty()) {
+            max_depth = std::max(max_depth, computeSelectionDepth(field.selections, current + 1));
+        }
+    }
+    return max_depth;
+}
 
 Executor::Result Executor::execute(
     const Document& document,
@@ -543,14 +740,43 @@ Executor::Result Executor::execute(
     
     const Operation* op = document.getOperation(operation_name);
     if (!op) {
-        result.errors.push_back("Operation not found");
+        result.addError(
+            "Operation not found: " + std::string(operation_name),
+            "ERR_OPERATION_NOT_FOUND",
+            context.mask_errors
+        );
         return result;
     }
     
+    // Determine operation type string for metrics
+    std::string op_type_str;
+    switch (op->type) {
+        case OperationType::Query:        op_type_str = "Query"; break;
+        case OperationType::Mutation:     op_type_str = "Mutation"; break;
+        case OperationType::Subscription: op_type_str = "Subscription"; break;
+    }
+    
+    // Track execution time and record metrics via RAII.
+    // Compute actual max depth from the selection tree so metrics are accurate.
+    size_t field_count = op->selections.size();
+    size_t depth = op->selections.empty() ? 0u : computeSelectionDepth(op->selections);
+    QueryTimer timer(op_type_str, depth, field_count);
+    
     try {
         result.data = executeOperation(*op, context);
+        timer.setSuccess(true);
     } catch (const std::exception& e) {
-        result.errors.push_back(std::string("Execution error: ") + e.what());
+        result.addError(
+            std::string("Execution error: ") + e.what(),
+            "ERR_EXECUTION_FAILED",
+            context.mask_errors
+        );
+    } catch (...) {
+        result.addError(
+            "Unknown execution error",
+            "ERR_EXECUTION_FAILED",
+            context.mask_errors
+        );
     }
     
     return result;
@@ -703,7 +929,13 @@ std::string Schema::toSDL() const {
             case TypeDefinition::Kind::InputObject:
                 oss << "input " << name << " {\n";
                 for (const auto& field : type.fields) {
-                    oss << "  " << field.name << ": " << field.type.name;
+                    oss << "  " << field.name << ": ";
+                    if (field.type.is_list) oss << "[";
+                    oss << field.type.name;
+                    // TypeRef uses is_non_null for both element and list
+                    // wrapper: [Type!]! when both flags are set.
+                    if (field.type.is_non_null && field.type.is_list) oss << "!";
+                    if (field.type.is_list) oss << "]";
                     if (field.type.is_non_null) oss << "!";
                     oss << "\n";
                 }
@@ -726,13 +958,24 @@ std::string Schema::toSDL() const {
                         bool first = true;
                         for (const auto& [argName, argType] : field.arguments) {
                             if (!first) oss << ", ";
-                            oss << argName << ": " << argType.name;
+                            oss << argName << ": ";
+                            if (argType.is_list) oss << "[";
+                            oss << argType.name;
+                            // TypeRef uses is_non_null for both element and list
+                            // wrapper: [Type!]! when both flags are set.
+                            if (argType.is_non_null && argType.is_list) oss << "!";
+                            if (argType.is_list) oss << "]";
                             if (argType.is_non_null) oss << "!";
                             first = false;
                         }
                         oss << ")";
                     }
-                    oss << ": " << field.type.name;
+                    oss << ": ";
+                    if (field.type.is_list) oss << "[";
+                    oss << field.type.name;
+                    // TypeRef uses is_non_null for both element and list
+                    // wrapper: [Type!]! when both flags are set.
+                    if (field.type.is_non_null && field.type.is_list) oss << "!";
                     if (field.type.is_list) oss << "]";
                     if (field.type.is_non_null) oss << "!";
                     oss << "\n";
@@ -745,12 +988,116 @@ std::string Schema::toSDL() const {
     return oss.str();
 }
 
-// ============================================================================
-// ThemisSchemaBuilder Implementation
-// ============================================================================
+std::shared_ptr<Value> Schema::introspect(const Field& field) const {
+    if (!introspection_enabled_) {
+        return Value::null();
+    }
+
+    if (field.name == "__schema") {
+        // Return schema-level introspection
+        ValueMap schema_obj;
+
+        // types array
+        ValueList type_list;
+        for (const auto& [name, type] : types_) {
+            ValueMap type_obj;
+            type_obj["name"] = Value::string(name);
+            type_obj["description"] = Value::string(type.description);
+
+            std::string kind_str;
+            switch (type.kind) {
+                case TypeDefinition::Kind::Scalar:      kind_str = "SCALAR"; break;
+                case TypeDefinition::Kind::Object:      kind_str = "OBJECT"; break;
+                case TypeDefinition::Kind::Interface:   kind_str = "INTERFACE"; break;
+                case TypeDefinition::Kind::Union:       kind_str = "UNION"; break;
+                case TypeDefinition::Kind::Enum:        kind_str = "ENUM"; break;
+                case TypeDefinition::Kind::InputObject: kind_str = "INPUT_OBJECT"; break;
+            }
+            type_obj["kind"] = Value::string(kind_str);
+
+            // fields
+            ValueList field_list;
+            for (const auto& fd : type.fields) {
+                ValueMap field_obj;
+                field_obj["name"] = Value::string(fd.name);
+                field_obj["description"] = Value::string(fd.description);
+
+                ValueMap type_ref;
+                type_ref["name"] = Value::string(fd.type.name);
+                type_ref["kind"] = Value::string(fd.type.is_list ? "LIST" : "SCALAR");
+                field_obj["type"] = Value::object(std::move(type_ref));
+                field_list.push_back(Value::object(std::move(field_obj)));
+            }
+            type_obj["fields"] = Value::list(std::move(field_list));
+
+            type_list.push_back(Value::object(std::move(type_obj)));
+        }
+        schema_obj["types"] = Value::list(std::move(type_list));
+        schema_obj["queryType"] = Value::object({{"name", Value::string(query_type_)}});
+        if (!mutation_type_.empty()) {
+            schema_obj["mutationType"] = Value::object({{"name", Value::string(mutation_type_)}});
+        } else {
+            schema_obj["mutationType"] = Value::null();
+        }
+        if (!subscription_type_.empty()) {
+            schema_obj["subscriptionType"] = Value::object({{"name", Value::string(subscription_type_)}});
+        } else {
+            schema_obj["subscriptionType"] = Value::null();
+        }
+        return Value::object(std::move(schema_obj));
+    }
+
+    if (field.name == "__type") {
+        // Look up a specific type by name
+        auto name_it = field.arguments.find("name");
+        if (name_it == field.arguments.end() || !name_it->second->isString()) {
+            return Value::null();
+        }
+        const std::string& type_name = name_it->second->asString();
+        const TypeDefinition* type = getType(type_name);
+        if (!type) {
+            return Value::null();
+        }
+
+        ValueMap type_obj;
+        type_obj["name"] = Value::string(type->name);
+        type_obj["description"] = Value::string(type->description);
+
+        std::string kind_str;
+        switch (type->kind) {
+            case TypeDefinition::Kind::Scalar:      kind_str = "SCALAR"; break;
+            case TypeDefinition::Kind::Object:      kind_str = "OBJECT"; break;
+            case TypeDefinition::Kind::Interface:   kind_str = "INTERFACE"; break;
+            case TypeDefinition::Kind::Union:       kind_str = "UNION"; break;
+            case TypeDefinition::Kind::Enum:        kind_str = "ENUM"; break;
+            case TypeDefinition::Kind::InputObject: kind_str = "INPUT_OBJECT"; break;
+        }
+        type_obj["kind"] = Value::string(kind_str);
+
+        ValueList field_list;
+        for (const auto& fd : type->fields) {
+            ValueMap field_obj;
+            field_obj["name"] = Value::string(fd.name);
+            field_obj["description"] = Value::string(fd.description);
+            ValueMap type_ref;
+            type_ref["name"] = Value::string(fd.type.name);
+            type_ref["kind"] = Value::string(fd.type.is_list ? "LIST" : "SCALAR");
+            field_obj["type"] = Value::object(std::move(type_ref));
+            field_list.push_back(Value::object(std::move(field_obj)));
+        }
+        type_obj["fields"] = Value::list(std::move(field_list));
+
+        return Value::object(std::move(type_obj));
+    }
+
+    return Value::null();
+}
 
 Schema ThemisSchemaBuilder::build() {
     Schema schema;
+    
+    // Add custom geo scalar types
+    addGeoScalarTypes(schema);
     
     addDocumentTypes(schema);
     addGraphTypes(schema);
@@ -758,8 +1105,74 @@ Schema ThemisSchemaBuilder::build() {
     addTimeseriesTypes(schema);
     addQueryType(schema);
     addMutationType(schema);
+    addSubscriptionType(schema);
     
     return schema;
+}
+
+void ThemisSchemaBuilder::addGeoScalarTypes(Schema& schema) {
+    // Latitude scalar type
+    TypeDefinition latType;
+    latType.kind = TypeDefinition::Kind::Scalar;
+    latType.name = "Latitude";
+    latType.description = "The `Latitude` scalar type represents a latitude coordinate in decimal degrees. "
+                          "Valid range: -90.0 to 90.0 (WGS84).";
+    schema.addType(latType);
+    
+    // Longitude scalar type
+    TypeDefinition lonType;
+    lonType.kind = TypeDefinition::Kind::Scalar;
+    lonType.name = "Longitude";
+    lonType.description = "The `Longitude` scalar type represents a longitude coordinate in decimal degrees. "
+                          "Valid range: -180.0 to 180.0 (WGS84).";
+    schema.addType(lonType);
+    
+    // GeoPoint type
+    TypeDefinition geoPointType;
+    geoPointType.kind = TypeDefinition::Kind::Object;
+    geoPointType.name = "GeoPoint";
+    geoPointType.description = "A geographic point with latitude and longitude coordinates (WGS84).";
+    
+    FieldDefinition latField;
+    latField.name = "lat";
+    latField.description = "Latitude coordinate (-90 to 90)";
+    latField.type = {"Latitude", true, false, nullptr};
+    geoPointType.fields.push_back(latField);
+    
+    FieldDefinition lonField;
+    lonField.name = "lon";
+    lonField.description = "Longitude coordinate (-180 to 180)";
+    lonField.type = {"Longitude", true, false, nullptr};
+    geoPointType.fields.push_back(lonField);
+    
+    schema.addType(geoPointType);
+    
+    // GeoPointInput type for mutations
+    TypeDefinition geoPointInputType;
+    geoPointInputType.kind = TypeDefinition::Kind::InputObject;
+    geoPointInputType.name = "GeoPointInput";
+    geoPointInputType.description = "Input type for geographic coordinates.";
+    
+    FieldDefinition latInputField;
+    latInputField.name = "lat";
+    latInputField.description = "Latitude coordinate (-90 to 90)";
+    latInputField.type = {"Latitude", true, false, nullptr};
+    geoPointInputType.fields.push_back(latInputField);
+    
+    FieldDefinition lonInputField;
+    lonInputField.name = "lon";
+    lonInputField.description = "Longitude coordinate (-180 to 180)";
+    lonInputField.type = {"Longitude", true, false, nullptr};
+    geoPointInputType.fields.push_back(lonInputField);
+    
+    schema.addType(geoPointInputType);
+    
+    // GeoJSON scalar type
+    TypeDefinition geoJSONType;
+    geoJSONType.kind = TypeDefinition::Kind::Scalar;
+    geoJSONType.name = "GeoJSON";
+    geoJSONType.description = "The `GeoJSON` scalar type represents GeoJSON geometry objects as defined in RFC 7946.";
+    schema.addType(geoJSONType);
 }
 
 void ThemisSchemaBuilder::addDocumentTypes(Schema& schema) {
@@ -972,7 +1385,38 @@ void ThemisSchemaBuilder::addQueryType(Schema& schema) {
     graphQuery.arguments["depth"] = {"Int", false, false, nullptr};
     graphQuery.arguments["direction"] = {"String", false, false, nullptr};
     queryType.fields.push_back(graphQuery);
-    
+
+    // timeseriesRange(series: String!, from: String!, to: String!, limit: Int): [TimeseriesPoint!]!
+    FieldDefinition tsRangeQuery;
+    tsRangeQuery.name = "timeseriesRange";
+    tsRangeQuery.description = "Query timeseries data points within a time range";
+    tsRangeQuery.type = {"TimeseriesPoint", true, true, nullptr};
+    tsRangeQuery.arguments["series"] = {"String", true, false, nullptr};
+    tsRangeQuery.arguments["from"] = {"String", true, false, nullptr};
+    tsRangeQuery.arguments["to"] = {"String", true, false, nullptr};
+    tsRangeQuery.arguments["limit"] = {"Int", false, false, nullptr};
+    queryType.fields.push_back(tsRangeQuery);
+
+    // timeseriesLatest(series: String!, count: Int): [TimeseriesPoint!]!
+    FieldDefinition tsLatestQuery;
+    tsLatestQuery.name = "timeseriesLatest";
+    tsLatestQuery.description = "Query the most recent timeseries data points for a series";
+    tsLatestQuery.type = {"TimeseriesPoint", true, true, nullptr};
+    tsLatestQuery.arguments["series"] = {"String", true, false, nullptr};
+    tsLatestQuery.arguments["count"] = {"Int", false, false, nullptr};
+    queryType.fields.push_back(tsLatestQuery);
+
+    // nearbyDocuments(collection: String!, center: GeoPointInput!, radiusKm: Float!, limit: Int): [Document!]!
+    FieldDefinition geoQuery;
+    geoQuery.name = "nearbyDocuments";
+    geoQuery.description = "Query documents within a geographic radius";
+    geoQuery.type = {"Document", true, true, nullptr};
+    geoQuery.arguments["collection"] = {"String", true, false, nullptr};
+    geoQuery.arguments["center"] = {"GeoPointInput", true, false, nullptr};
+    geoQuery.arguments["radiusKm"] = {"Float", true, false, nullptr};
+    geoQuery.arguments["limit"] = {"Int", false, false, nullptr};
+    queryType.fields.push_back(geoQuery);
+
     schema.addType(queryType);
 }
 
@@ -1017,7 +1461,96 @@ void ThemisSchemaBuilder::addMutationType(Schema& schema) {
     createEdge.arguments["properties"] = {"JSON", false, false, nullptr};
     mutationType.fields.push_back(createEdge);
     
+    // insertTimeseriesPoint(series: String!, timestamp: String!, value: Float!, tags: JSON): TimeseriesPoint!
+    FieldDefinition insertTsPoint;
+    insertTsPoint.name = "insertTimeseriesPoint";
+    insertTsPoint.description = "Insert a single timeseries data point";
+    insertTsPoint.type = {"TimeseriesPoint", true, false, nullptr};
+    insertTsPoint.arguments["series"] = {"String", true, false, nullptr};
+    insertTsPoint.arguments["timestamp"] = {"String", true, false, nullptr};
+    insertTsPoint.arguments["value"] = {"Float", true, false, nullptr};
+    insertTsPoint.arguments["tags"] = {"JSON", false, false, nullptr};
+    mutationType.fields.push_back(insertTsPoint);
+
     schema.addType(mutationType);
+}
+
+void ThemisSchemaBuilder::addSubscriptionType(Schema& schema) {
+    // ChangeType enum
+    TypeDefinition changeTypeEnum;
+    changeTypeEnum.kind = TypeDefinition::Kind::Enum;
+    changeTypeEnum.name = "ChangeType";
+    changeTypeEnum.description = "The type of change event on a document";
+    changeTypeEnum.enum_values = {"CREATED", "UPDATED", "DELETED"};
+    schema.addType(changeTypeEnum);
+
+    // ChangeFilter input type
+    TypeDefinition changeFilterInput;
+    changeFilterInput.kind = TypeDefinition::Kind::InputObject;
+    changeFilterInput.name = "ChangeFilter";
+    changeFilterInput.description = "Filter criteria for change event subscriptions";
+    FieldDefinition filterTypeField;
+    filterTypeField.name = "type";
+    filterTypeField.description = "Only receive events of this change type";
+    filterTypeField.type = {"ChangeType", false, false, nullptr};
+    changeFilterInput.fields.push_back(filterTypeField);
+    schema.addType(changeFilterInput);
+
+    // ChangeEvent object type
+    TypeDefinition changeEventType;
+    changeEventType.kind = TypeDefinition::Kind::Object;
+    changeEventType.name = "ChangeEvent";
+    changeEventType.description = "A change event emitted when a document is created, updated, or deleted";
+
+    FieldDefinition seqField;
+    seqField.name = "sequence";
+    seqField.description = "Monotonically increasing sequence number for ordering events";
+    seqField.type = {"Int", true, false, nullptr};
+    changeEventType.fields.push_back(seqField);
+
+    FieldDefinition evtTypeField;
+    evtTypeField.name = "type";
+    evtTypeField.description = "The type of change (CREATED, UPDATED, DELETED)";
+    evtTypeField.type = {"ChangeType", true, false, nullptr};
+    changeEventType.fields.push_back(evtTypeField);
+
+    FieldDefinition keyField;
+    keyField.name = "key";
+    keyField.description = "The document key that was changed";
+    keyField.type = {"String", true, false, nullptr};
+    changeEventType.fields.push_back(keyField);
+
+    FieldDefinition docField;
+    docField.name = "document";
+    docField.description = "The new document state (null for DELETED events)";
+    docField.type = {"JSON", false, false, nullptr};
+    changeEventType.fields.push_back(docField);
+
+    FieldDefinition tsField;
+    tsField.name = "timestampMs";
+    tsField.description = "Unix timestamp in milliseconds when the change occurred";
+    tsField.type = {"Int", true, false, nullptr};
+    changeEventType.fields.push_back(tsField);
+
+    schema.addType(changeEventType);
+
+    // Subscription type
+    TypeDefinition subscriptionType;
+    subscriptionType.kind = TypeDefinition::Kind::Object;
+    subscriptionType.name = "Subscription";
+    subscriptionType.description = "ThemisDB real-time change subscriptions";
+
+    // onChange(collection: String!, filter: ChangeFilter): ChangeEvent!
+    FieldDefinition onChangeField;
+    onChangeField.name = "onChange";
+    onChangeField.description = "Subscribe to document change events in a collection";
+    onChangeField.type = {"ChangeEvent", true, false, nullptr};
+    onChangeField.arguments["collection"] = {"String", true, false, nullptr};
+    onChangeField.arguments["filter"] = {"ChangeFilter", false, false, nullptr};
+    subscriptionType.fields.push_back(onChangeField);
+
+    schema.addType(subscriptionType);
+    schema.setSubscriptionType("Subscription");
 }
 
 } // namespace graphql

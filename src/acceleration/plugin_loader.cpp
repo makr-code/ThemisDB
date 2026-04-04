@@ -1,5 +1,31 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            plugin_loader.cpp                                  ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:13:47                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     322                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • ce91302f7  2026-02-24  feat: erweitere die ModularBuild-Konfiguration und implem... ║
+    • 3f47ce19e  2026-02-23  feat(acceleration): security hardening pass for plugin/dr... ║
+    • 40c623acf  2026-02-23  Implement security audit for backend plugin loading and r... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "acceleration/plugin_loader.h"
 #include "acceleration/plugin_security.h"
+#include <algorithm>
 #include <filesystem>
 #include <iostream>
 
@@ -7,6 +33,7 @@
     #include <windows.h>
 #else
     #include <dlfcn.h>
+    #include <sys/stat.h>
 #endif
 
 namespace themis {
@@ -20,7 +47,7 @@ void* PluginLoader::loadLibrary(const std::string& path) {
 #ifdef _WIN32
     return LoadLibraryA(path.c_str());
 #else
-    return dlopen(path.c_str(), RTLD_LAZY | RTLD_LOCAL);
+    return dlopen(path.c_str(), RTLD_NOW | RTLD_LOCAL);
 #endif
 }
 
@@ -43,6 +70,56 @@ void PluginLoader::unloadLibrary(void* handle) {
 }
 
 bool PluginLoader::loadPlugin(const std::string& libraryPath) {
+    // SECURITY: Validate path to prevent path traversal attacks
+    std::string pathError;
+    if (!PluginSecurityVerifier::validatePluginPath(libraryPath, pathError)) {
+        std::cerr << "SECURITY: Plugin path validation failed: " << libraryPath << std::endl;
+        std::cerr << "  Reason: " << pathError << std::endl;
+        auto& auditor = PluginSecurityAuditor::instance();
+        auditor.logEvent({
+            PluginSecurityEvent::EventType::POLICY_VIOLATION,
+            libraryPath, "", pathError,
+            static_cast<uint64_t>(std::time(nullptr)),
+            "ERROR"
+        });
+        return false;
+    }
+
+#ifndef _WIN32
+    // SECURITY: Reject plugins with insecure file permissions (group/world writable)
+    // and enforce a maximum file size to guard against resource exhaustion.
+    {
+        struct stat st;
+        if (stat(libraryPath.c_str(), &st) == 0) {
+            if (st.st_mode & (S_IWGRP | S_IWOTH)) {
+                std::string reason = "Plugin file has insecure permissions (group/world writable)";
+                std::cerr << "SECURITY: " << reason << ": " << libraryPath << std::endl;
+                auto& auditor = PluginSecurityAuditor::instance();
+                auditor.logEvent({
+                    PluginSecurityEvent::EventType::POLICY_VIOLATION,
+                    libraryPath, "", reason,
+                    static_cast<uint64_t>(std::time(nullptr)),
+                    "ERROR"
+                });
+                return false;
+            }
+            constexpr off_t kMaxPluginBytes = 128LL * 1024 * 1024;  // 128 MB
+            if (st.st_size > kMaxPluginBytes) {
+                std::string reason = "Plugin file exceeds maximum allowed size (128 MB)";
+                std::cerr << "SECURITY: " << reason << ": " << libraryPath << std::endl;
+                auto& auditor = PluginSecurityAuditor::instance();
+                auditor.logEvent({
+                    PluginSecurityEvent::EventType::POLICY_VIOLATION,
+                    libraryPath, "", reason,
+                    static_cast<uint64_t>(std::time(nullptr)),
+                    "ERROR"
+                });
+                return false;
+            }
+        }
+    }
+#endif
+
     // SECURITY: Verify plugin before loading
     PluginSecurityPolicy policy;
     // Load policy from config if available
@@ -132,6 +209,14 @@ size_t PluginLoader::loadPluginsFromDirectory(const std::string& directoryPath) 
         return 0;
     }
     
+    // SECURITY: Resolve the canonical directory path once to detect symlink escapes
+    std::error_code ec;
+    fs::path canonicalDir = fs::canonical(directoryPath, ec);
+    if (ec) {
+        std::cerr << "SECURITY: Cannot resolve canonical directory path: " << directoryPath << std::endl;
+        return 0;
+    }
+    
     size_t loadedCount = 0;
     
     // Determine the platform-specific library extension
@@ -145,7 +230,36 @@ size_t PluginLoader::loadPluginsFromDirectory(const std::string& directoryPath) 
     
     // Scan directory for plugin libraries
     for (const auto& entry : fs::directory_iterator(directoryPath)) {
-        if (!entry.is_regular_file()) continue;
+        // SECURITY: Skip symlinks to prevent escaping the plugin directory
+        if (entry.is_symlink()) {
+            // Resolve symlink target and verify it stays within the directory
+            // by comparing path components, not string prefixes, to avoid
+            // false positives (e.g. /plugins_evil matching /plugins).
+            fs::path resolvedTarget = fs::canonical(entry.path(), ec);
+            bool escaped = (ec.value() != 0);
+            if (!escaped) {
+                auto [dirIt, tgtIt] = std::mismatch(
+                    canonicalDir.begin(), canonicalDir.end(),
+                    resolvedTarget.begin(), resolvedTarget.end()
+                );
+                escaped = (dirIt != canonicalDir.end());
+            }
+            if (escaped) {
+                std::cerr << "SECURITY: Skipping symlink that escapes plugin directory: "
+                          << entry.path() << std::endl;
+                auto& auditor = PluginSecurityAuditor::instance();
+                auditor.logEvent({
+                    PluginSecurityEvent::EventType::POLICY_VIOLATION,
+                    entry.path().string(), "",
+                    "Symlink escapes plugin directory",
+                    static_cast<uint64_t>(std::time(nullptr)),
+                    "WARNING"
+                });
+                continue;
+            }
+        }
+
+        if (!entry.is_regular_file() && !entry.is_symlink()) continue;
         
         std::string path = entry.path().string();
         std::string filename = entry.path().filename().string();

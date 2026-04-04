@@ -1,3 +1,25 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            pitr_manager.cpp                                   ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:20:34                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     396                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "storage/pitr_manager.h"
 #include "storage/rocksdb_wrapper.h"
 #include "cdc/changefeed.h"
@@ -5,6 +27,7 @@
 #include "utils/logger.h"
 #include <chrono>
 #include <algorithm>
+#include <set>
 
 namespace themis {
 
@@ -17,7 +40,7 @@ int64_t PITRManager::RestoreProgress::getCurrentTimeMs() {
 
 PITRManager::PITRManager(RocksDBWrapper* db,
                         Changefeed* changefeed,
-                        SnapshotManager* snapshot_mgr)
+                        transaction::SnapshotManager* snapshot_mgr)
     : db_(db), changefeed_(changefeed), snapshot_mgr_(snapshot_mgr) {
     if (!db_) {
         throw std::invalid_argument("PITRManager: db cannot be null");
@@ -191,6 +214,18 @@ bool PITRManager::isRestoreInProgress() const {
            progress_.phase != RestoreProgress::Phase::ROLLED_BACK;
 }
 
+std::optional<uint64_t> PITRManager::getSequenceForTag(const std::string& tag_name) const {
+    auto snapshot = snapshot_mgr_->getTag(tag_name);
+    if (snapshot.has_value()) {
+        return snapshot->sequence_number;
+    }
+    return std::nullopt;
+}
+
+std::optional<uint64_t> PITRManager::getSequenceForTimestamp(int64_t timestamp_ms) const {
+    return findSequenceForTimestamp(timestamp_ms);
+}
+
 std::optional<uint64_t> PITRManager::findSequenceForTimestamp(int64_t timestamp_ms) const {
     // Get all events
     auto events = changefeed_->listEvents();
@@ -274,15 +309,12 @@ PITRManager::Status PITRManager::replayBackward(uint64_t from_sequence, uint64_t
 
 PITRManager::Status PITRManager::applyEventReverse(const Changefeed::ChangeEvent& event) {
     // Reverse the operation
-    rocksdb::WriteOptions write_opts;
-    rocksdb::Status s;
-
     switch (event.type) {
         case Changefeed::ChangeEventType::EVENT_PUT:
             // PUT → DELETE (remove the key)
-            s = db_->del(event.key);
-            if (!s.ok() && !s.IsNotFound()) {
-                return Status::Error("Failed to delete key: " + s.ToString());
+            // RocksDBWrapper::del() returns bool - true on success
+            if (!db_->del(event.key)) {
+                return Status::Error("Failed to delete key: " + event.key);
             }
             break;
 
@@ -304,14 +336,14 @@ PITRManager::Status PITRManager::applyEventReverse(const Changefeed::ChangeEvent
 
 PITRManager::Status PITRManager::createAutoBackup(const RestoreOptions& options) {
     // Create a snapshot tag for the current state
-    auto status = snapshot_mgr_->createTag(
+    auto snapshot = snapshot_mgr_->createTag(
         options.backup_tag,
         "Auto-backup before PITR restore",
         "pitr_manager"
     );
 
-    if (!status.ok) {
-        return Status::Error("Failed to create auto-backup: " + status.message);
+    if (!snapshot.has_value()) {
+        return Status::Error("Failed to create auto-backup");
     }
 
     THEMIS_INFO("Auto-backup created: tag={}", options.backup_tag);
@@ -337,6 +369,28 @@ void PITRManager::updateProgress(RestoreProgress::Phase phase, const std::string
     if (!message.empty()) {
         progress_.last_error = message;
     }
+}
+
+// Overloaded functions with default options
+namespace {
+    // Static default options to avoid repeated construction
+    static const PITRManager::RestoreOptions kDefaultRestoreOptions{};
+}
+
+PITRManager::Status PITRManager::restoreToSequence(uint64_t target_sequence) {
+    return restoreToSequence(target_sequence, kDefaultRestoreOptions);
+}
+
+PITRManager::Status PITRManager::restoreToTag(const std::string& tag_name) {
+    return restoreToTag(tag_name, kDefaultRestoreOptions);
+}
+
+PITRManager::Status PITRManager::restoreToTimestamp(int64_t timestamp_ms) {
+    return restoreToTimestamp(timestamp_ms, kDefaultRestoreOptions);
+}
+
+PITRManager::RestorePreview PITRManager::previewRestore(uint64_t target_sequence) const {
+    return previewRestore(target_sequence, kDefaultRestoreOptions);
 }
 
 } // namespace themis

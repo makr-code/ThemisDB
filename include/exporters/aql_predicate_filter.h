@@ -1,0 +1,101 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            aql_predicate_filter.h                             ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-03-30 04:07:06                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     101                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • d2bec4ef7  2026-02-27  feat(exporters): implement AQL predicate filtering for ex... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+#pragma once
+
+#include <string>
+#include <vector>
+#include <memory>
+#include <stdexcept>
+#include "storage/base_entity.h"
+
+// Forward declarations
+namespace themis {
+namespace query {
+    struct FilterNode;
+} // namespace query
+} // namespace themis
+
+namespace themis::exporters {
+
+/// Exception thrown when an AQL predicate expression cannot be parsed.
+class AqlPredicateFilterException : public std::runtime_error {
+public:
+    explicit AqlPredicateFilterException(const std::string& msg)
+        : std::runtime_error(msg) {}
+};
+
+/**
+ * @brief Evaluates an AQL FILTER predicate against a BaseEntity.
+ *
+ * Accepts a predicate expression using the loop variable `doc`, for example:
+ *   - `doc.category == "active"`
+ *   - `doc.age > 18 AND doc.country == "DE"`
+ *   - `doc.score >= 0.5`
+ *
+ * The expression is parsed once at construction time and reused for every
+ * call to evaluate(), making batch filtering efficient.
+ *
+ * Usage:
+ * @code
+ *   AqlPredicateFilter filter("doc.category == \"active\"");
+ *   for (const auto& entity : entities) {
+ *       if (filter.evaluate(entity)) {
+ *           // entity matches predicate
+ *       }
+ *   }
+ * @endcode
+ */
+class AqlPredicateFilter {
+public:
+    /**
+     * @brief Construct and compile the predicate.
+     * @param predicate AQL FILTER expression (e.g. `doc.age > 18`)
+     * @throws AqlPredicateFilterException if the predicate cannot be parsed
+     */
+    explicit AqlPredicateFilter(const std::string& predicate);
+
+    ~AqlPredicateFilter();
+
+    /// Non-copyable, movable
+    AqlPredicateFilter(const AqlPredicateFilter&) = delete;
+    AqlPredicateFilter& operator=(const AqlPredicateFilter&) = delete;
+    AqlPredicateFilter(AqlPredicateFilter&&) noexcept = default;
+    AqlPredicateFilter& operator=(AqlPredicateFilter&&) noexcept = default;
+
+    /**
+     * @brief Evaluate the predicate against a single entity.
+     * @param entity The entity to test
+     * @return true if the entity satisfies the predicate, false otherwise
+     */
+    bool evaluate(const BaseEntity& entity) const;
+
+    /// Returns the original predicate string.
+    const std::string& getPredicate() const { return predicate_; }
+
+private:
+    std::string predicate_;
+    std::vector<std::shared_ptr<themis::query::FilterNode>> filter_nodes_;
+};
+
+} // namespace themis::exporters

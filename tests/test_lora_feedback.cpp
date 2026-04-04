@@ -1,3 +1,25 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_lora_feedback.cpp                             ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:29:28                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     416                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file test_lora_feedback.cpp
  * @brief Unit tests for LoRA feedback system
@@ -27,7 +49,9 @@ protected:
         std::filesystem::create_directories(db_path_);
         
         // Initialize RocksDB
-        db_ = std::make_unique<RocksDBWrapper>(db_path_.string());
+        RocksDBWrapper::Config db_config;
+        db_config.db_path = db_path_.string();
+        db_ = std::make_unique<RocksDBWrapper>(db_config);
         
         // Create feedback storage service
         FeedbackStorageService::Config config;

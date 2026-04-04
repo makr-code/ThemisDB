@@ -1,3 +1,25 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            write_concern.h                                    ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:11:41                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     98                                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include <cstdint>
@@ -13,7 +35,8 @@ namespace themis::sharding {
 enum class WriteConcern {
     ONE,        // Only primary must acknowledge (fastest, lowest durability)
     MAJORITY,   // Majority of replicas must acknowledge (balanced)
-    ALL         // All replicas must acknowledge (slowest, highest durability)
+    ALL,        // All replicas must acknowledge (slowest, highest durability)
+    QUORUM      // Configurable quorum (use write_quorum)
 };
 
 /**
@@ -26,17 +49,6 @@ struct WriteConcernConfig {
 };
 
 /**
- * Write Result with replication status
- */
-struct WriteResult {
-    bool success = false;
-    size_t replicas_acknowledged = 0;
-    size_t replicas_required = 0;
-    std::string error;
-    std::chrono::milliseconds latency{0};
-};
-
-/**
  * Parse WriteConcern from string
  */
 inline WriteConcern parseWriteConcern(const std::string& str) {
@@ -46,6 +58,8 @@ inline WriteConcern parseWriteConcern(const std::string& str) {
         return WriteConcern::MAJORITY;
     } else if (str == "ALL" || str == "all") {
         return WriteConcern::ALL;
+    } else if (str == "QUORUM" || str == "quorum" || str == "Q") {
+        return WriteConcern::QUORUM;
     }
     return WriteConcern::ONE; // default
 }
@@ -58,6 +72,7 @@ inline std::string toString(WriteConcern wc) {
         case WriteConcern::ONE: return "ONE";
         case WriteConcern::MAJORITY: return "MAJORITY";
         case WriteConcern::ALL: return "ALL";
+        case WriteConcern::QUORUM: return "QUORUM";
         default: return "ONE";
     }
 }
@@ -73,6 +88,8 @@ inline size_t calculateRequiredReplicas(WriteConcern concern, size_t total_repli
             return (total_replicas / 2) + 1; // Quorum
         case WriteConcern::ALL:
             return total_replicas; // All replicas
+        case WriteConcern::QUORUM:
+            return (total_replicas / 2) + 1; // Default quorum
         default:
             return 1;
     }

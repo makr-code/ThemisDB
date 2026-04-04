@@ -1,0 +1,37 @@
+# Vertical Pod Autoscaler (VPA) configuration
+# Automatically adjusts CPU and memory requests/limits
+
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: themisdb-vpa
+  namespace: themisdb
+  labels:
+    app: themisdb
+    component: autoscaling
+spec:
+  targetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: themisdb
+  
+  updatePolicy:
+    updateMode: "Auto"  # Automatically apply recommendations
+    # Options: "Off", "Initial", "Recreate", "Auto"
+  
+  resourcePolicy:
+    containerPolicies:
+      - containerName: themisdb
+        minAllowed:
+          cpu: 500m
+          memory: 1Gi
+        maxAllowed:
+          cpu: 8
+          memory: 32Gi
+        controlledResources: ["cpu", "memory"]
+        
+        # Controlled values
+        controlledValues: RequestsAndLimits
+        
+      - containerName: themisdb-sidecar
+        mode: "Off"  # Don't autoscale sidecar

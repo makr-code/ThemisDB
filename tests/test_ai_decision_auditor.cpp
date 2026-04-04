@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_ai_decision_auditor.cpp                       ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:23:56                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     350                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • f82bf2ae9  2026-03-04  Refactor tenant manager tests and add new test cases ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include <gtest/gtest.h>
 #include "llm/ai_decision_auditor.h"
 #include "security/mock_key_provider.h"
@@ -278,7 +301,8 @@ TEST_F(AIDecisionAuditorTest, ExportForCompliance) {
     auditor_->logDecision(audit);
     
     std::string export_path = "data/test_compliance_export.json";
-    std::filesystem::remove(export_path);
+    std::error_code cleanup_ec;
+    std::filesystem::remove(export_path, cleanup_ec);
     
     // Export
     AIDecisionAuditor::QueryFilter filter;
@@ -290,12 +314,13 @@ TEST_F(AIDecisionAuditorTest, ExportForCompliance) {
     // Verify export contains valid JSON
     std::ifstream ifs(export_path);
     json export_data = json::parse(ifs);
+    ifs.close();
     
     EXPECT_TRUE(export_data.contains("total_decisions"));
     EXPECT_TRUE(export_data.contains("decisions"));
     EXPECT_GT(export_data["total_decisions"].get<int>(), 0);
     
-    std::filesystem::remove(export_path);
+    std::filesystem::remove(export_path, cleanup_ec);
 }
 
 TEST_F(AIDecisionAuditorTest, VerifyIntegrity) {

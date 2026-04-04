@@ -1,16 +1,22 @@
 # Blob Storage Plugins
 
+## Status: ✅ Production-Ready
+
 External blob storage backend implementations for ThemisDB.
 
 ## Available Backends
 
-### Azure Blob Storage
+### Azure Blob Storage ✅
 **Path:** `azure/`
+
+**Status:** Production-ready
 
 Integration with Microsoft Azure Blob Storage for external blob storage.
 
-### Amazon S3
+### Amazon S3 ✅
 **Path:** `s3/`
+
+**Status:** Production-ready
 
 Integration with Amazon S3 (and S3-compatible services) for external blob storage.
 

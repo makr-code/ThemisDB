@@ -1,3 +1,27 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            bwtree.h                                           ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:09:20                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     189                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 68293f645  2026-03-09  fix(performance): complete all open tasks — implement rem... ║
+    • 4cb76e4fe  2026-03-09  fix(performance): implement epoch-based memory reclamatio... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // Bw-Tree: A Lock-Free B-tree for Multi-core Systems
 // Paper: "The Bw-Tree: A B-tree for New Hardware Platforms" (ICDE'13)
 // Authors: Justin Levandoski et al., Microsoft Research
@@ -9,9 +33,11 @@
 #pragma once
 
 #include <atomic>
+#include <mutex>
 #include <vector>
 #include <memory>
 #include <cstdint>
+#include <string>
 
 namespace themis {
 namespace performance {
@@ -55,6 +81,15 @@ struct DeltaInsert : public BwTreePage {
     }
 };
 
+/// Delta record for delete
+struct DeltaDelete : public BwTreePage {
+    int64_t key;
+
+    explicit DeltaDelete(int64_t k) : key(k) {
+        type = PageType::DELTA_DELETE;
+    }
+};
+
 /// Mapping table (lock-free hash table)
 class MappingTable {
 public:
@@ -95,11 +130,58 @@ private:
     PageID root_pid_;
     std::atomic<PageID> next_pid_{1};
     
+    // Delta consolidation threshold
+    static constexpr size_t DELTA_CHAIN_THRESHOLD = 10;
+    
     // Delta consolidation
     void consolidate(PageID pid);
     
     // Helper: Apply deltas to get consolidated page
     std::unique_ptr<LeafPage> apply_deltas(BwTreePage* page) const;
+    
+    // Helper: Count delta chain length
+    size_t count_delta_chain_length(BwTreePage* page) const;
+
+    // -----------------------------------------------------------------------
+    // Epoch-based memory reclamation for retired delta chains
+    //
+    // After a successful CAS in consolidate(), the old chain head is still
+    // reachable from in-flight readers that loaded the mapping-table pointer
+    // before the CAS.  We defer deletion until at least kSafeReclaimEpochs
+    // consolidation rounds have elapsed, giving those readers time to finish
+    // their apply_deltas() traversal (which is bounded by
+    // DELTA_CHAIN_THRESHOLD nodes and completes in O(ns)).
+    // -----------------------------------------------------------------------
+
+    /// One entry in the deferred-deletion list.
+    struct RetiredChain {
+        BwTreePage* head;              ///< Head of the retired chain
+        uint64_t    retirement_epoch;  ///< Value of consolidation_epoch_ at retirement
+    };
+
+    /// Number of additional consolidation epochs a retired chain must survive
+    /// before it is considered safe to reclaim.  Three epochs provide a very
+    /// conservative window: at the threshold of 10 deltas per chain, three
+    /// more consolidation cycles mean ≥30 additional insert operations
+    /// between retirement and reclamation.
+    static constexpr uint64_t kSafeReclaimEpochs = 3;
+
+    std::atomic<uint64_t>    consolidation_epoch_{0};
+    std::mutex               retired_mutex_;
+    std::vector<RetiredChain> retired_chains_;
+
+    /// Push @p head onto the deferred-deletion list, tagged with the
+    /// current consolidation epoch.
+    void retire_chain(BwTreePage* head) noexcept;
+
+    /// Walk the retired-chain list and delete chains whose retirement epoch
+    /// satisfies (current_epoch - retirement_epoch) >= kSafeReclaimEpochs.
+    /// Uses wrapping unsigned subtraction so the epoch counter can roll over
+    /// UINT64_MAX without triggering premature reclamation.
+    void reclaim_retired_chains() noexcept;
+
+    /// Delete an entire delta chain starting at @p head.
+    static void delete_chain(BwTreePage* head) noexcept;
 };
 
 } // namespace phase3

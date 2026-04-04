@@ -1,3 +1,25 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_recursive_path_query.cpp                      ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:32:46                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     249                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // Unit-Tests für Recursive Path Queries & Multi-Hop Reasoning
 
 #include <gtest/gtest.h>
@@ -108,8 +130,9 @@ TEST_F(RecursivePathQueryTest, SimplePathQuery) {
     q.end_node = "D";
     q.max_depth = 5;
 
-    auto [st, paths] = engine->executeRecursivePathQuery(q);
-    ASSERT_TRUE(st.ok) << st.message;
+    auto result = engine->executeRecursivePathQuery(q);
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    auto paths = std::move(*result);
     ASSERT_EQ(paths.size(), 1);
     
     // Path should be A -> B -> C -> D
@@ -126,9 +149,10 @@ TEST_F(RecursivePathQueryTest, PathNotFound) {
     q.end_node = "A"; // Reverse direction, no path
     q.max_depth = 5;
 
-    auto [st, paths] = engine->executeRecursivePathQuery(q);
+    auto result = engine->executeRecursivePathQuery(q);
     // Should not find a path (graph is directed)
-    EXPECT_TRUE(st.ok); // No error, just empty result
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    auto paths = std::move(*result);
     EXPECT_EQ(paths.size(), 0);
 }
 
@@ -140,8 +164,9 @@ TEST_F(RecursivePathQueryTest, BFSReachableNodes) {
     // No end_node: find all reachable
     q.max_depth = 2;
 
-    auto [st, paths] = engine->executeRecursivePathQuery(q);
-    ASSERT_TRUE(st.ok) << st.message;
+    auto result = engine->executeRecursivePathQuery(q);
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    auto paths = std::move(*result);
     
     // Should reach B and C (depth 2)
     EXPECT_GE(paths.size(), 2);
@@ -156,8 +181,9 @@ TEST_F(RecursivePathQueryTest, TemporalPathQuery_ValidTime) {
     q.max_depth = 3;
     q.valid_from = "1600"; // At time 1600, both e1 and e2 are valid
 
-    auto [st, paths] = engine->executeRecursivePathQuery(q);
-    ASSERT_TRUE(st.ok) << st.message;
+    auto result = engine->executeRecursivePathQuery(q);
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    auto paths = std::move(*result);
     ASSERT_GE(paths.size(), 1);
     
     // Should find path A -> B -> C (both edges valid at 1600)
@@ -174,9 +200,10 @@ TEST_F(RecursivePathQueryTest, TemporalPathQuery_InvalidTime) {
     q.max_depth = 3;
     q.valid_from = "500"; // At time 500, no edges are valid
 
-    auto [st, paths] = engine->executeRecursivePathQuery(q);
+    auto result = engine->executeRecursivePathQuery(q);
     // Should not find path (edges not valid at time 500)
-    EXPECT_TRUE(st.ok); // No error, just empty result
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    auto paths = std::move(*result);
     EXPECT_EQ(paths.size(), 0);
 }
 
@@ -188,10 +215,10 @@ TEST_F(RecursivePathQueryTest, MaxDepthLimit) {
     q.end_node = "D";
     q.max_depth = 2; // Only reach to C, not D
 
-    auto [st, paths] = engine->executeRecursivePathQuery(q);
+    auto result = engine->executeRecursivePathQuery(q);
     // May or may not find path depending on BFS implementation
     // This test verifies max_depth is respected
-    EXPECT_TRUE(st.ok);
+    ASSERT_TRUE(result.has_value()) << result.error().message();
 }
 
 TEST_F(RecursivePathQueryTest, EmptyStartNode) {
@@ -199,9 +226,11 @@ TEST_F(RecursivePathQueryTest, EmptyStartNode) {
     q.start_node = "";
     q.end_node = "A";
 
-    auto [st, paths] = engine->executeRecursivePathQuery(q);
-    EXPECT_FALSE(st.ok);
-    EXPECT_NE(st.message.find("start_node"), std::string::npos);
+    auto result = engine->executeRecursivePathQuery(q);
+    EXPECT_FALSE(result.has_value());
+    if (!result) {
+        EXPECT_NE(result.error().message().find("start_node"), std::string::npos);
+    }
 }
 
 TEST_F(RecursivePathQueryTest, NoGraphIndexManager) {
@@ -212,7 +241,9 @@ TEST_F(RecursivePathQueryTest, NoGraphIndexManager) {
     q.start_node = "A";
     q.end_node = "B";
 
-    auto [st, paths] = engineNoGraph.executeRecursivePathQuery(q);
-    EXPECT_FALSE(st.ok);
-    EXPECT_NE(st.message.find("GraphIndexManager"), std::string::npos);
+    auto result = engineNoGraph.executeRecursivePathQuery(q);
+    EXPECT_FALSE(result.has_value());
+    if (!result) {
+        EXPECT_NE(result.error().message().find("GraphIndexManager"), std::string::npos);
+    }
 }

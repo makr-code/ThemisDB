@@ -1,5 +1,30 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            circuit_breaker.cpp                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:20:12                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     264                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 34f7ce66d  2026-03-21  feat(sharding): register 7 missing test targets, fix circ... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • cd1278c92  2026-02-27  Implement circuit breaker integration and retry policy in... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "sharding/circuit_breaker.h"
 #include <algorithm>
+#include <spdlog/spdlog.h>
 
 namespace themis::sharding {
 
@@ -126,9 +151,7 @@ void CircuitBreaker::transitionTo(State new_state) {
     State old_state = state_.load();
     if (old_state != new_state) {
         state_.store(new_state);
-        // TODO: Log state transition for monitoring
-        // THEMIS_INFO("Circuit breaker: {} → {}", 
-        //             stateToString(old_state), stateToString(new_state));
+        spdlog::info("CircuitBreaker: {} → {}", stateToString(old_state), stateToString(new_state));
     }
 }
 
@@ -138,7 +161,7 @@ bool CircuitBreaker::isTimeoutElapsed() const {
     }
     
     auto now = std::chrono::steady_clock::now();
-    auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(
+    auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
         now - open_timestamp_
     );
     

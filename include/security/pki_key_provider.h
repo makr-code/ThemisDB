@@ -1,3 +1,25 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            pki_key_provider.h                                 ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:10:52                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     162                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include "security/encryption.h"
@@ -34,6 +56,25 @@ public:
     PKIKeyProvider(std::shared_ptr<utils::VCCPKIClient> pki,
                    std::shared_ptr<themis::RocksDBWrapper> db,
                    const std::string& service_id);
+    
+    /**
+     * @brief Initialize with certificate file paths (file-based mode)
+     * 
+     * This constructor enables certificate-based key derivation without requiring
+     * a VCC-PKI service. Keys are derived from the certificate's public key using HKDF.
+     * 
+     * @param cert_path Path to X.509 certificate file (PEM format)
+     * @param private_key_path Path to private key file (PEM format) - optional, used for validation
+     * @param db RocksDB for encrypted DEK storage
+     * @param service_id Service identifier for key derivation context
+     * @param validate_cert If true, validate certificate expiration and properties
+     * @throws std::runtime_error if certificate cannot be loaded or is invalid
+     */
+    PKIKeyProvider(const std::string& cert_path,
+                   const std::string& private_key_path,
+                   std::shared_ptr<themis::RocksDBWrapper> db,
+                   const std::string& service_id,
+                   bool validate_cert = true);
     
     // KeyProvider interface
     std::vector<uint8_t> getKey(const std::string& key_id) override;

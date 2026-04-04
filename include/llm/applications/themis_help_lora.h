@@ -1,6 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            themis_help_lora.h                                 ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:08:18                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     248                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
-#include "llm/lora_framework/lora_adapter_manager.h"
+#include "llm/lora_framework/lora_config.h"
 #include "llm/lora_framework/lora_training_service.h"
 #include "llm/lora_framework/lora_storage_service.h"
 #include "llm/feedback_store.h"
@@ -16,6 +39,28 @@ namespace applications {
 
 using json = nlohmann::json;
 using llm::FeedbackType;  // Make FeedbackType available in this namespace
+
+/**
+ * @brief Performance metrics for ThemisHelpLoRA
+ */
+struct PerformanceMetrics {
+    int64_t total_queries = 0;
+    int64_t successful_queries = 0;
+    int64_t failed_queries = 0;
+    double success_rate = 0.0;
+    double average_latency_ms = 0.0;
+    double cache_hit_rate = 0.0;
+};
+
+/**
+ * @brief Feedback statistics
+ */
+struct FeedbackStats {
+    size_t total_feedback = 0;
+    size_t positive_feedback = 0;
+    size_t negative_feedback = 0;
+    double positive_ratio = 0.0;
+};
 
 /**
  * @brief ThemisDB Documentation Assistant with LoRA fine-tuning
@@ -58,7 +103,8 @@ public:
         bool enable_auto_rollback = true;
     };
     
-    explicit ThemisHelpLoRA(const Config& config = Config{});
+    explicit ThemisHelpLoRA(const Config& config);
+    ThemisHelpLoRA();
     ~ThemisHelpLoRA();
     
     // Disable copy
@@ -134,6 +180,26 @@ public:
      * @return true if trained
      */
     bool isTrained() const;
+
+    /**
+     * @brief Check if the adapter is currently loaded
+     */
+    bool isAdapterLoaded() const;
+
+    /**
+     * @brief Reload the adapter after an update
+     */
+    bool reloadAdapter();
+
+    /**
+     * @brief Get current adapter version
+     */
+    std::string getAdapterVersion() const;
+
+    /**
+     * @brief Roll back to the previous adapter version
+     */
+    bool rollbackToPreviousVersion();
     
 private:
     /**
@@ -165,28 +231,6 @@ struct FeedbackItem {
     std::string user_id;
     std::chrono::system_clock::time_point timestamp;
     bool used_for_training = false;
-};
-
-/**
- * @brief Performance metrics for ThemisHelpLoRA
- */
-struct PerformanceMetrics {
-    int64_t total_queries = 0;
-    int64_t successful_queries = 0;
-    int64_t failed_queries = 0;
-    double success_rate = 0.0;
-    double average_latency_ms = 0.0;
-    double cache_hit_rate = 0.0;
-};
-
-/**
- * @brief Feedback statistics
- */
-struct FeedbackStats {
-    size_t total_feedback = 0;
-    size_t positive_feedback = 0;
-    size_t negative_feedback = 0;
-    double positive_ratio = 0.0;
 };
 
 /**

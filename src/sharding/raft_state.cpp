@@ -1,3 +1,27 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            raft_state.cpp                                     ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:20:21                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     358                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 16db53f83  2026-03-12  feat(sharding): implement Raft snapshot compaction and lo... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 429d2af3c  2026-02-25  fix(audit): close all gaps in joint consensus implementation ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "sharding/raft_state.h"
 #include <algorithm>
 #include <iostream>
@@ -193,6 +217,11 @@ std::vector<std::string> RaftState::getClusterMembers() const {
     return config_.cluster_members;
 }
 
+void RaftState::setClusterMembers(const std::vector<std::string>& members) {
+    std::lock_guard<std::mutex> lock(state_mutex_);
+    config_.cluster_members = members;
+}
+
 size_t RaftState::getQuorumSize() const {
     return (config_.cluster_members.size() / 2) + 1;
 }
@@ -305,6 +334,24 @@ bool RaftState::hasQuorum() const {
         }
     }
     return votes >= getQuorumSize();
+}
+
+void RaftState::setSnapshotMeta(uint64_t index, uint64_t term) {
+    std::lock_guard<std::mutex> lock(state_mutex_);
+    snapshot_index_ = index;
+    snapshot_term_  = term;
+    // Keep the log's snapshot meta in sync so hasEntry() works after compaction
+    log_.setSnapshotMeta(index, term);
+}
+
+uint64_t RaftState::getSnapshotIndex() const {
+    std::lock_guard<std::mutex> lock(state_mutex_);
+    return snapshot_index_;
+}
+
+uint64_t RaftState::getSnapshotTerm() const {
+    std::lock_guard<std::mutex> lock(state_mutex_);
+    return snapshot_term_;
 }
 
 }  // namespace sharding

@@ -1,0 +1,136 @@
+{
+  "meta": {
+    "generated_at": "2026-03-09T12:14:33Z",
+    "module": "cache",
+    "module_paths": ["src/cache/", "include/cache/"],
+    "repo": "makr-code/ThemisDB",
+    "validated_commit": "a97c2d3",
+    "validated_branch": "develop",
+    "audit_note": "Reality-check performed 2026-03-09 against source code on branch copilot/update-cache-module-docs.",
+    "total_findings": 5,
+    "blocking_findings": 0,
+    "non_blocking_findings": 5
+  },
+  "findings": [
+    {
+      "id": 1,
+      "title": "invalidatePII() not auto-integrated into PIIPseudonymizer::erasePII()",
+      "claim_source": "src/cache/FUTURE_ENHANCEMENTS.md",
+      "claim_section": "GDPR-Aware Cache Invalidation — Remaining follow-up items",
+      "category": "missing_integration",
+      "severity": "medium",
+      "blocking": false,
+      "expected": "Calling PIIPseudonymizer::erasePII(uuid) automatically triggers AdaptiveQueryCache::invalidatePII(uuid) without manual caller coordination.",
+      "observed": "invalidatePII() is fully implemented in adaptive_query_cache.h (line ~360). No call to invalidatePII() found in PIIPseudonymizer::erasePII().",
+      "evidence": {
+        "expected_symbols": ["PIIPseudonymizer::erasePII", "AdaptiveQueryCache::invalidatePII"],
+        "file_results": {
+          "src/cache/adaptive_query_cache.cpp": true,
+          "include/cache/adaptive_query_cache.h": true,
+          "src/cache/adaptive_query_cache.cpp#invalidatePII": true,
+          "src/cache/adaptive_query_cache.cpp#PIIPseudonymizer_integration": false
+        },
+        "all_required_present": false
+      },
+      "suggested_issue_title": "[cache] Auto-trigger invalidatePII() from PIIPseudonymizer::erasePII() for GDPR Art. 17 compliance",
+      "suggested_labels": ["module:cache", "gdpr", "enhancement", "priority:high"]
+    },
+    {
+      "id": 2,
+      "title": "Signed invalidation messages for RedisCacheCoordinator not implemented",
+      "claim_source": "src/cache/FUTURE_ENHANCEMENTS.md",
+      "claim_section": "Security / Reliability",
+      "category": "missing_security_feature",
+      "severity": "medium",
+      "blocking": false,
+      "expected": "RedisCacheCoordinator validates that incoming invalidation messages carry a signed node token to prevent unauthenticated cache-flush attacks.",
+      "observed": "include/cache/redis_cache_coordinator.h has no signature/HMAC/node_token fields. src/cache/redis_cache_coordinator.cpp has no signature validation. Only node_id self-echo prevention is present.",
+      "evidence": {
+        "expected_symbols": ["RedisCacheCoordinator::validateSignature", "node_token", "HMAC"],
+        "file_results": {
+          "include/cache/redis_cache_coordinator.h": true,
+          "src/cache/redis_cache_coordinator.cpp": true,
+          "include/cache/redis_cache_coordinator.h#signature_field": false,
+          "src/cache/redis_cache_coordinator.cpp#signature_validation": false
+        },
+        "all_required_present": false
+      },
+      "suggested_issue_title": "[cache] Add signed invalidation messages to RedisCacheCoordinator to prevent unauthenticated cache-flush attacks",
+      "suggested_labels": ["module:cache", "security", "enhancement", "priority:medium"]
+    },
+    {
+      "id": 3,
+      "title": "HTTP endpoint DELETE /v1/admin/cache/pii/{pii_uuid} not implemented",
+      "claim_source": "src/cache/FUTURE_ENHANCEMENTS.md",
+      "claim_section": "GDPR-Aware Cache Invalidation — Remaining follow-up items",
+      "category": "missing_api_endpoint",
+      "severity": "medium",
+      "blocking": false,
+      "expected": "A DELETE /v1/admin/cache/pii/{pii_uuid} HTTP endpoint in cache_admin_api_handler.cpp that calls invalidatePII() and writes a GDPR audit log entry.",
+      "observed": "src/server/cache_admin_api_handler.cpp has no /pii/ route. invalidatePII() is only accessible via the C++ API.",
+      "evidence": {
+        "expected_symbols": ["DELETE /v1/admin/cache/pii/{pii_uuid}", "handlePIIErasure"],
+        "file_results": {
+          "src/server/cache_admin_api_handler.cpp": true,
+          "src/server/cache_admin_api_handler.cpp#pii_route": false
+        },
+        "all_required_present": false
+      },
+      "suggested_issue_title": "[cache] Add DELETE /v1/admin/cache/pii/{pii_uuid} admin endpoint for GDPR erasure",
+      "suggested_labels": ["module:cache", "gdpr", "api", "enhancement", "priority:high"]
+    },
+    {
+      "id": 4,
+      "title": "Unit test coverage >80% not measured or verified",
+      "claim_source": "src/cache/ROADMAP.md",
+      "claim_section": "Production Readiness Checklist",
+      "category": "missing_ci_measurement",
+      "severity": "low",
+      "blocking": false,
+      "existing_issue": "#1596",
+      "expected": "Automated unit test coverage measurement (lcov/gcov) configured in CMakeLists.txt with >80% target enforced in CI.",
+      "observed": "34 cache-related test files exist in tests/. No coverage measurement targets are configured in CMakeLists.txt. Actual coverage percentage is unknown.",
+      "evidence": {
+        "expected_symbols": ["lcov_target", "gcov_target", "coverage_report"],
+        "file_results": {
+          "tests/test_adaptive_query_cache.cpp": true,
+          "tests/test_bounded_lru_cache.cpp": true,
+          "tests/test_cache_admin_api_handler.cpp": true,
+          "CMakeLists.txt#coverage_target": false
+        },
+        "all_required_present": false,
+        "test_files_count": 34
+      },
+      "suggested_issue_title": "[cache] Unit test coverage measurement and tracking (>80% target)",
+      "suggested_labels": ["module:cache", "testing", "ci"],
+      "note": "Issue #1596 already open for this finding."
+    },
+    {
+      "id": 5,
+      "title": "Public header interfaces (ICache, ICacheWarmup, ICacheAdminOps, IGDPRPurgeHook, ITTLAdapter) not in include/cache/",
+      "claim_source": "include/cache/FUTURE_ENHANCEMENTS.md",
+      "claim_section": "Planned Features",
+      "category": "deferred_interface_design",
+      "severity": "low",
+      "blocking": false,
+      "expected": "Pluggable public header interfaces ICache<K,V>, ICacheWarmup, ICacheAdminOps, IGDPRPurgeHook, ITTLAdapter defined in include/cache/.",
+      "observed": "None of the named interfaces exist in include/cache/. Related interfaces (ICacheCoordinator, ICacheReplicationListener) are present. A generic ICache<K,V> exists in include/core/concerns/i_cache.h but is not cache-module-specific.",
+      "evidence": {
+        "expected_symbols": ["ICache", "ICacheWarmup", "ICacheAdminOps", "IGDPRPurgeHook", "ITTLAdapter"],
+        "file_results": {
+          "include/cache/FUTURE_ENHANCEMENTS.md": true,
+          "include/cache/ICache.h": false,
+          "include/cache/ICacheWarmup.h": false,
+          "include/cache/ICacheAdminOps.h": false,
+          "include/cache/IGDPRPurgeHook.h": false,
+          "include/cache/ITTLAdapter.h": false,
+          "include/core/concerns/i_cache.h": true
+        },
+        "all_required_present": false
+      },
+      "suggested_issue_title": "[cache] Define ICache<K,V>, ICacheAdminOps, IGDPRPurgeHook, ITTLAdapter in include/cache/ for pluggable architecture",
+      "suggested_labels": ["module:cache", "architecture", "enhancement", "priority:low"],
+      "note": "Deliberately deferred; include/cache/FUTURE_ENHANCEMENTS.md is an interface design planning document. Concrete implementations are production-ready without these interfaces."
+    }
+  ]
+}

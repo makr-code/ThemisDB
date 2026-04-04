@@ -1,9 +1,34 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            llm_deployment_plugin.h                            ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-03-30 04:08:24                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     374                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 10bb6eb49  2026-03-19  fix(llm): address PR review — key_prefix rename, source t... ║
+    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
+    • f9096b78d  2026-03-17  feat(llm): LLMDeploymentPlugin RocksDB model storage (v1.... ║
+    • 7015dd866  2026-03-16  feat(llm): implement RocksDB model storage for LLMDeploym... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include "llm/model_downloader.h"
 #include "llm/llm_plugin_interface.h"
-// NOTE: LLMModelStorage is forward-declared to avoid link dependency until implementation exists
-// #include "llm/llm_model_storage.h"
+#include "llm/llm_model_storage.h"
 #include "storage/base_entity.h"
 #include "storage/rocksdb_wrapper.h"
 #include <string>
@@ -17,10 +42,6 @@ namespace themis {
 namespace llm {
 
 using json = nlohmann::json;
-
-// Forward declaration to avoid linker errors until llm_model_storage.cpp is implemented
-class LLMModelStorage;
-struct LLMModelMetadata;
 
 /**
  * @brief Deployment mode for LLM models
@@ -58,7 +79,12 @@ struct DeploymentConfig {
     // BaseEntity storage (RocksDB integration)
     bool use_base_entity_storage = true;  // Store models in RocksDB as BaseEntity
     std::shared_ptr<RocksDBWrapper> db;   // RocksDB instance
-    std::string collection_name = "llm_models";  // Collection name in RocksDB
+    // Key prefix for RocksDB entries. Keys are constructed as: key_prefix + model_id
+    // (e.g. default "llm_model::" + "my-model" → "llm_model::my-model").
+    std::string key_prefix = "llm_model::";
+    // Set to true only when a BlobStorageManager is configured; otherwise only
+    // metadata is persisted and model weights remain on the local filesystem.
+    bool store_weights_in_rocksdb = false;
     
     // Model sources (checked in priority order)
     std::vector<ModelSource> sources;
@@ -147,10 +173,27 @@ public:
     explicit LLMDeploymentPlugin(const DeploymentConfig& config);
     
     ~LLMDeploymentPlugin() = default;
-    
+
     // ═══════════════════════════════════════════════════════════
-    // Core Deployment Operations
+    // Thread-local request context (JWT user propagation)
     // ═══════════════════════════════════════════════════════════
+
+    /// Authentication context set by HTTP handlers before invoking deployment operations.
+    struct RequestContext {
+        std::string user_id;    ///< Authenticated user / service account
+        std::string client_ip;  ///< Originating client IP address (may be empty)
+    };
+
+    /// Set the authentication context for the calling thread.
+    /// Must be called before any method that performs audit logging.
+    static void setRequestContext(const RequestContext& ctx) noexcept;
+
+    /// Clear the authentication context for the calling thread.
+    static void clearRequestContext() noexcept;
+
+    /// Return the user_id from the thread-local request context, or @p fallback.
+    static std::string currentUserId(const char* fallback = "system") noexcept;
+
     
     /**
      * @brief Deploy a model (download if needed, verify, make available)
@@ -316,6 +359,9 @@ private:
     void loadModelRegistry();
     std::optional<ModelSource> findBestSource(const std::string& model_id);
     std::string getModelPath(const std::string& model_id) const;
+    /// Converts a model_id into a sanitised filename (colons/slashes → '_', '.gguf' appended
+    /// when no recognised extension is present). Shared by getModelPath() and findBestSource().
+    static std::string modelIdToFilename(const std::string& model_id);
     bool verifyChecksum(const std::string& file_path, 
                         const std::string& expected_checksum,
                         const std::string& checksum_type);

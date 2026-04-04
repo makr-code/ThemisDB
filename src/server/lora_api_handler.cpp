@@ -1,14 +1,44 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            lora_api_handler.cpp                               ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:19:51                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     1468                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 13e4bb297  2026-03-26  Enhance GraphQL Performance Tests and Saga Operation Comp... ║
+    • afc6b2738  2026-03-26  fix: Resolve BSI/RAG production blockers – JWT, mTLS, CRL... ║
+    • ac1c6ff53  2026-03-26  fix: thread pool priority queue + latency, lora memory/ba... ║
+    • 490de27f0  2026-03-26  fix: implement all P0/P1 blockers - QueryEngine, RAG, eth... ║
+    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "server/lora_api_handler.h"
 #include "auth/jwt_validator.h"
 #include "llm/lora_framework/lora_orchestrator.h"
-#include "llm/lora_framework/lora_adapter_manager.h"
 #include "llm/lora_framework/lora_storage_service.h"
 #include "llm/lora_framework/lora_training_service.h"
 #include "llm/lora_framework/lora_config.h"
+#include "llm/lora_framework/adapter_consistency_checker.h"
+#include "llm/inference_engine_enhanced.h"
+#include "utils/zstd_codec.h"
+#include "utils/cursor.h"
 #include <nlohmann/json.hpp>
 #include <sstream>
 #include <regex>
 #include <iostream>
+#include "utils/tracing.h"
 
 namespace themis::server {
 
@@ -46,10 +76,22 @@ void LoRAApiHandler::configureJWT(const auth::JWTValidatorConfig& config) {
     jwt_validator_ = std::make_unique<auth::JWTValidator>(config);
 }
 
+void LoRAApiHandler::setInferenceEngine(
+        std::shared_ptr<llm::InferenceEngineEnhanced> engine) {
+    inference_engine_ = std::move(engine);
+}
+
 http::response<http::string_body> LoRAApiHandler::handleRequest(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleRequest");
     
-    // Validate Bearer Token (JWT) authentication
+    std::string_view target = req.target();
+    auto method = req.method();
+    
+    // Validate Bearer Token (JWT) authentication for all endpoints.
+    // Cross-shard calls to /api/v1/lora/receive are now authenticated via
+    // Authorization: Bearer <token> forwarded by SecureTransportClient, so
+    // no special bypass is required.
     if (!validateBearerToken(req)) {
         return createErrorResponse(
             http::status::unauthorized,
@@ -57,9 +99,6 @@ http::response<http::string_body> LoRAApiHandler::handleRequest(
             "Valid Bearer Token required. Include 'Authorization: Bearer <token>' header."
         );
     }
-    
-    std::string_view target = req.target();
-    auto method = req.method();
     
     // Route to appropriate handler based on path and method
     
@@ -80,9 +119,17 @@ http::response<http::string_body> LoRAApiHandler::handleRequest(
     } else if (target == "/api/v1/llm/lora/adapters" && method == http::verb::get) {
         return handleListAdapters(req);
     } else if (target.starts_with("/api/v1/llm/lora/adapters/") && method == http::verb::get) {
-        // Check if it's a status or get request
-        if (target.ends_with("/status")) {
+        // Check if it's a status, provenance, audit, snapshots, or load-status request
+        if (target.ends_with("/load-status")) {
+            return handleHotLoadStatus(req);
+        } else if (target.ends_with("/status")) {
             return handleAdapterStatus(req);
+        } else if (target.ends_with("/provenance")) {
+            return handleGetProvenance(req);
+        } else if (target.ends_with("/audit")) {
+            return handleGetAuditLog(req);
+        } else if (target.ends_with("/snapshots")) {
+            return handleListSnapshots(req);
         } else {
             return handleGetAdapter(req);
         }
@@ -98,10 +145,22 @@ http::response<http::string_body> LoRAApiHandler::handleRequest(
     } else if (target.starts_with("/api/v1/llm/lora/adapters/") && target.ends_with("/unload") && method == http::verb::post) {
         return handleUnloadAdapter(req);
     }
+
+    // Provenance POST endpoints
+    else if (target.starts_with("/api/v1/llm/lora/adapters/") && target.ends_with("/provenance") && method == http::verb::post) {
+        return handleAttachProvenance(req);
+    } else if (target.starts_with("/api/v1/llm/lora/adapters/") && target.ends_with("/verify") && method == http::verb::post) {
+        return handleVerifyAuditChain(req);
+    }
     
     // Inference endpoint
     else if (target == "/api/v1/llm/lora/query" && method == http::verb::post) {
         return handleLoRAQuery(req);
+    }
+    
+    // Cross-shard sync endpoint
+    else if (target == "/api/v1/lora/receive" && method == http::verb::post) {
+        return handleReceiveAdapter(req);
     }
     
     // Health & monitoring endpoints
@@ -124,6 +183,7 @@ http::response<http::string_body> LoRAApiHandler::handleRequest(
 
 http::response<http::string_body> LoRAApiHandler::handleRegisterModel(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleRegisterModel");
     
     auto body = parseRequestBody(req);
     if (!body) {
@@ -167,6 +227,7 @@ http::response<http::string_body> LoRAApiHandler::handleRegisterModel(
 
 http::response<http::string_body> LoRAApiHandler::handleGetModel(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleGetModel");
     
     std::string model_id = extractPathParameter(req.target(), "/api/v1/llm/models/");
     
@@ -197,6 +258,7 @@ http::response<http::string_body> LoRAApiHandler::handleGetModel(
 
 http::response<http::string_body> LoRAApiHandler::handleListModels(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleListModels");
     
     try {
         // Parse query parameters
@@ -255,6 +317,7 @@ http::response<http::string_body> LoRAApiHandler::handleListModels(
 
 http::response<http::string_body> LoRAApiHandler::handleDeleteModel(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleDeleteModel");
     
     std::string model_id = extractPathParameter(req.target(), "/api/v1/llm/models/");
     
@@ -282,6 +345,7 @@ http::response<http::string_body> LoRAApiHandler::handleDeleteModel(
 
 http::response<http::string_body> LoRAApiHandler::handleCreateAdapter(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleCreateAdapter");
     
     auto body = parseRequestBody(req);
     if (!body) {
@@ -348,6 +412,7 @@ http::response<http::string_body> LoRAApiHandler::handleCreateAdapter(
 
 http::response<http::string_body> LoRAApiHandler::handleGetAdapter(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleGetAdapter");
     
     std::string adapter_id = extractPathParameter(req.target(), "/api/v1/llm/lora/adapters/");
     
@@ -385,6 +450,7 @@ http::response<http::string_body> LoRAApiHandler::handleGetAdapter(
 
 http::response<http::string_body> LoRAApiHandler::handleUpdateAdapter(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleUpdateAdapter");
     
     std::string adapter_id = extractPathParameter(req.target(), "/api/v1/llm/lora/adapters/");
     
@@ -441,6 +507,7 @@ http::response<http::string_body> LoRAApiHandler::handleUpdateAdapter(
 
 http::response<http::string_body> LoRAApiHandler::handleDeleteAdapter(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleDeleteAdapter");
     
     std::string adapter_id = extractPathParameter(req.target(), "/api/v1/llm/lora/adapters/");
     
@@ -484,6 +551,7 @@ http::response<http::string_body> LoRAApiHandler::handleDeleteAdapter(
 
 http::response<http::string_body> LoRAApiHandler::handleListAdapters(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleListAdapters");
     
     try {
         // Parse query parameters
@@ -585,6 +653,7 @@ http::response<http::string_body> LoRAApiHandler::handleListAdapters(
 
 http::response<http::string_body> LoRAApiHandler::handleLoadAdapter(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleLoadAdapter");
     
     std::string_view target = req.target();
     std::string prefix = "/api/v1/llm/lora/adapters/";
@@ -601,25 +670,22 @@ http::response<http::string_body> LoRAApiHandler::handleLoadAdapter(
     }
     
     try {
-        auto start_time = std::chrono::steady_clock::now();
-        
-        std::string job_id = orchestrator_->loadAdapter(adapter_id, false);  // sync
-        
-        auto end_time = std::chrono::steady_clock::now();
-        auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
+        // Trigger hot-load asynchronously; returns a job_id immediately.
+        std::string job_id = orchestrator_->loadAdapter(adapter_id, /*async=*/true);
         
         json response_data = {
             {"adapter_id", adapter_id},
-            {"status", "loaded"},
-            {"load_time_ms", duration.count()}
+            {"job_id",     job_id},
+            {"status",     "loading"}
         };
         
-        return createJsonResponse(response_data);
+        // 202 Accepted: the load is in progress; poll /load-status for completion.
+        return createJsonResponse(response_data, http::status::accepted);
         
     } catch (const std::exception& e) {
         return createErrorResponse(
             http::status::internal_server_error,
-            "Failed to load adapter",
+            "Failed to initiate adapter hot-load",
             e.what()
         );
     }
@@ -627,6 +693,7 @@ http::response<http::string_body> LoRAApiHandler::handleLoadAdapter(
 
 http::response<http::string_body> LoRAApiHandler::handleUnloadAdapter(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleUnloadAdapter");
     
     std::string_view target = req.target();
     std::string prefix = "/api/v1/llm/lora/adapters/";
@@ -671,6 +738,7 @@ http::response<http::string_body> LoRAApiHandler::handleUnloadAdapter(
 
 http::response<http::string_body> LoRAApiHandler::handleAdapterStatus(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleAdapterStatus");
     
     std::string_view target = req.target();
     std::string prefix = "/api/v1/llm/lora/adapters/";
@@ -688,11 +756,18 @@ http::response<http::string_body> LoRAApiHandler::handleAdapterStatus(
     
     try {
         bool is_loaded = orchestrator_->isLoaded(adapter_id);
-        
+
+        // Calculate per-adapter memory from orchestrator.
+        double memory_mb = 0.0;
+        auto adapter_opt = orchestrator_->getAdapter(adapter_id);
+        if (adapter_opt.has_value()) {
+            memory_mb = static_cast<double>(adapter_opt->memory_bytes) / (1024.0 * 1024.0);
+        }
+
         json response_data = {
             {"adapter_id", adapter_id},
             {"is_loaded", is_loaded},
-            {"memory_usage_mb", 0},  // TODO: Calculate actual memory usage from adapter manager
+            {"memory_usage_mb", memory_mb},
             {"last_used", std::chrono::system_clock::now().time_since_epoch().count()}
         };
         
@@ -708,11 +783,86 @@ http::response<http::string_body> LoRAApiHandler::handleAdapterStatus(
 }
 
 // ═══════════════════════════════════════════════════════════
+// Hot-Load Status Endpoint
+// ═══════════════════════════════════════════════════════════
+
+http::response<http::string_body> LoRAApiHandler::handleHotLoadStatus(
+    const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleHotLoadStatus");
+
+    std::string_view target = req.target();
+    std::string prefix = "/api/v1/llm/lora/adapters/";
+    std::string suffix = "/load-status";
+
+    if (!target.starts_with(prefix) || !target.ends_with(suffix)) {
+        return createErrorResponse(http::status::bad_request, "Invalid endpoint");
+    }
+
+    std::string adapter_id{target.substr(prefix.length(),
+                                          target.length() - prefix.length() - suffix.length())};
+
+    if (adapter_id.empty()) {
+        return createErrorResponse(http::status::bad_request, "Missing adapter_id");
+    }
+
+    try {
+        // Find the most recent loading job for this adapter.
+        auto jobs = orchestrator_->listJobs();
+        std::optional<llm::lora::LoRAOrchestrator::JobInfo> latest;
+        for (const auto& job : jobs) {
+            if (job.adapter_id == adapter_id &&
+                job.type == llm::lora::LoRAOrchestrator::JobType::Loading) {
+                if (!latest || job.started_at > latest->started_at) {
+                    latest = job;
+                }
+            }
+        }
+
+        if (!latest) {
+            return createErrorResponse(
+                http::status::not_found,
+                "No load job found for adapter",
+                "No hot-load job has been submitted for adapter: " + adapter_id
+            );
+        }
+
+        std::string status_str;
+        switch (latest->status) {
+            case llm::lora::LoRAOrchestrator::JobStatus::Pending:   status_str = "pending";   break;
+            case llm::lora::LoRAOrchestrator::JobStatus::Running:   status_str = "loading";   break;
+            case llm::lora::LoRAOrchestrator::JobStatus::Completed: status_str = "loaded";    break;
+            case llm::lora::LoRAOrchestrator::JobStatus::Failed:    status_str = "failed";    break;
+            case llm::lora::LoRAOrchestrator::JobStatus::Cancelled: status_str = "cancelled"; break;
+        }
+
+        json response_data = {
+            {"adapter_id", adapter_id},
+            {"job_id",     latest->job_id},
+            {"status",     status_str},
+            {"progress",   latest->progress}
+        };
+        if (!latest->error_message.empty()) {
+            response_data["error"] = latest->error_message;
+        }
+
+        return createJsonResponse(response_data);
+
+    } catch (const std::exception& e) {
+        return createErrorResponse(
+            http::status::internal_server_error,
+            "Failed to get hot-load status",
+            e.what()
+        );
+    }
+}
+
+// ═══════════════════════════════════════════════════════════
 // Inference Endpoint
 // ═══════════════════════════════════════════════════════════
 
 http::response<http::string_body> LoRAApiHandler::handleLoRAQuery(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleLoRAQuery");
     
     auto body = parseRequestBody(req);
     if (!body) {
@@ -735,13 +885,48 @@ http::response<http::string_body> LoRAApiHandler::handleLoRAQuery(
             return createErrorResponse(http::status::bad_request, "Missing 'adapter_id' field");
         }
         
-        // Perform inference (simplified - would use actual LLM integration)
+        // Perform inference using InferenceEngineEnhanced when available.
         auto start_time = std::chrono::steady_clock::now();
-        
-        // TODO: Integrate with actual LLM inference engine
-        // This is a placeholder response for API structure demonstration
-        std::string response_text = "This is a placeholder response. In production, this would perform actual inference with adapter: " + adapter_id;
-        
+
+        std::string response_text;
+        int tokens_used = 0;
+
+        if (inference_engine_) {
+            // Build an EnhancedInferenceRequest from the LoRA query parameters.
+            llm::InferenceEngineEnhanced::EnhancedInferenceRequest eng_req;
+            eng_req.base_request.prompt     = prompt;
+            eng_req.base_request.model_id   = model_id.empty() ? "default" : model_id;
+            eng_req.base_request.max_tokens = max_tokens;
+            eng_req.base_request.temperature = static_cast<float>(temperature);
+            if (!adapter_id.empty()) {
+                eng_req.base_request.lora_adapter_id = adapter_id;
+            }
+            eng_req.priority             = 0;
+            eng_req.timeout              = std::chrono::milliseconds(30000);
+            eng_req.preferred_model_id   = model_id;
+
+            try {
+                auto handle   = inference_engine_->submit(eng_req);
+                auto response = handle.get();  // blocking wait
+                response_text = response.text;
+                tokens_used   = response.tokens_generated;
+            } catch (const std::exception& ex) {
+                return createErrorResponse(
+                    http::status::internal_server_error,
+                    "Inference failed",
+                    ex.what()
+                );
+            }
+        } else {
+            // Inference engine not configured — return a clear 501.
+            return createErrorResponse(
+                http::status::not_implemented,
+                "Inference engine not configured",
+                "Set up an InferenceEngineEnhanced via LoRAApiHandler::setInferenceEngine() "
+                "to enable actual LLM inference."
+            );
+        }
+
         auto end_time = std::chrono::steady_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
         
@@ -749,7 +934,7 @@ http::response<http::string_body> LoRAApiHandler::handleLoRAQuery(
             {"response", response_text},
             {"model_id", model_id.empty() ? "default" : model_id},
             {"adapter_id", adapter_id},
-            {"tokens_used", 145},
+            {"tokens_used", tokens_used},
             {"inference_time_ms", duration.count()},
             {"audit_id", "audit_" + std::to_string(std::chrono::system_clock::now().time_since_epoch().count())}
         };
@@ -771,6 +956,7 @@ http::response<http::string_body> LoRAApiHandler::handleLoRAQuery(
 
 http::response<http::string_body> LoRAApiHandler::handleLoRAStats(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleLoRAStats");
     
     try {
         auto stats = orchestrator_->getStats();
@@ -797,6 +983,7 @@ http::response<http::string_body> LoRAApiHandler::handleLoRAStats(
 
 http::response<http::string_body> LoRAApiHandler::handleLoRAHealth(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleLoRAHealth");
     
     try {
         bool healthy = orchestrator_->healthCheck();
@@ -871,6 +1058,7 @@ http::response<http::string_body> LoRAApiHandler::createErrorResponse(
 http::response<http::string_body> LoRAApiHandler::createJsonResponse(
     const json& data,
     http::status status) {
+    auto span = Tracer::startSpan("createJsonResponse");
     
     http::response<http::string_body> res{status, 11};
     res.set(http::field::content_type, "application/json");
@@ -912,6 +1100,372 @@ std::string LoRAApiHandler::extractPathParameter(
     }
     
     return param;
+}
+
+// ═══════════════════════════════════════════════════════════
+// Cross-Shard Sync Endpoint
+// ═══════════════════════════════════════════════════════════
+
+http::response<http::string_body> LoRAApiHandler::handleReceiveAdapter(
+    const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleReceiveAdapter");
+    
+    auto body = parseRequestBody(req);
+    if (!body) {
+        return createErrorResponse(http::status::bad_request, "Invalid JSON body");
+    }
+    
+    try {
+        // Extract metadata
+        if (!body->contains("metadata")) {
+            return createErrorResponse(http::status::bad_request, "Missing 'metadata' field");
+        }
+        
+        if (!body->contains("data")) {
+            return createErrorResponse(http::status::bad_request, "Missing 'data' field");
+        }
+        
+        auto& metadata_json = body->at("metadata");
+        
+        // Extract adapter ID
+        std::string adapter_id = metadata_json.at("adapter_id").get<std::string>();
+        std::string version = metadata_json.at("version").get<std::string>();
+        std::string base_model = metadata_json.at("base_model").get<std::string>();
+        
+        // Extract and decode base64-encoded data using Cursor::base64Decode.
+        std::string data_str;
+        if (body->at("data").is_string()) {
+            std::string data_base64 = body->at("data").get<std::string>();
+            auto decoded = utils::Cursor::base64Decode(data_base64);
+            if (!decoded.has_value()) {
+                return createErrorResponse(http::status::bad_request,
+                                           "Invalid base64-encoded data");
+            }
+            data_str = std::move(*decoded);
+        } else {
+            return createErrorResponse(http::status::bad_request, "Data must be base64-encoded string");
+        }
+        
+        // Check if data is compressed
+        bool compressed = false;
+        std::string compression = body->value("compression", "none");
+        
+        std::vector<uint8_t> weights_data;
+        if (compression == "zstd") {
+            // Decompress data
+            auto decompressed = utils::zstd_decompress(
+                std::vector<uint8_t>(data_str.begin(), data_str.end())
+            );
+            if (decompressed.empty()) {
+                return createErrorResponse(
+                    http::status::bad_request,
+                    "Failed to decompress data"
+                );
+            }
+            weights_data = decompressed;
+            compressed = true;
+        } else {
+            weights_data = std::vector<uint8_t>(data_str.begin(), data_str.end());
+        }
+        
+        // Get consistency checker once for all validations
+        auto consistency_checker = orchestrator_->getConsistencyChecker();
+        
+        // Verify integrity checks if present
+        if (body->contains("checksum")) {
+            std::string expected_checksum = body->at("checksum").get<std::string>();
+            
+            // Calculate checksum and verify
+            if (consistency_checker) {
+                std::string actual_checksum = consistency_checker->calculateChecksum(weights_data);
+                if (actual_checksum != expected_checksum) {
+                    return createErrorResponse(
+                        http::status::bad_request,
+                        "Checksum verification failed",
+                        "Data integrity check failed"
+                    );
+                }
+            }
+        }
+        
+        if (body->contains("signature")) {
+            std::string signature = body->at("signature").get<std::string>();
+            
+            // Verify signature
+            if (consistency_checker) {
+                if (!consistency_checker->verifySignature(weights_data, signature)) {
+                    return createErrorResponse(
+                        http::status::bad_request,
+                        "Signature verification failed",
+                        "Data authenticity check failed"
+                    );
+                }
+            }
+        }
+        
+        // Build AdapterWeights structure
+        llm::lora::AdapterWeights weights;
+        weights.data = weights_data;
+        weights.size_bytes = weights_data.size();
+        weights.format = metadata_json.value("format", "safetensors");
+        
+        if (metadata_json.contains("hyperparameters")) {
+            weights.hyperparameters = llm::lora::LoRAHyperparameters::fromJSON(
+                metadata_json["hyperparameters"]
+            );
+        }
+        
+        // Build AdapterMetadata structure
+        llm::lora::AdapterMetadata metadata;
+        metadata.adapter_id = adapter_id;
+        metadata.version = version;
+        metadata.base_model = base_model;
+        metadata.description = metadata_json.value("description", "");
+        metadata.training_samples = metadata_json.value("training_samples", 0);
+        metadata.validation_accuracy = metadata_json.value("validation_accuracy", 0.0f);
+        
+        if (metadata_json.contains("checksum")) {
+            metadata.checksum = metadata_json["checksum"].get<std::string>();
+        }
+        if (metadata_json.contains("signature")) {
+            metadata.signature = metadata_json["signature"].get<std::string>();
+        }
+        
+        // Parse timestamps
+        if (metadata_json.contains("created_at")) {
+            auto created_ns = metadata_json["created_at"].get<uint64_t>();
+            metadata.created_at = std::chrono::system_clock::time_point(
+                std::chrono::duration_cast<std::chrono::system_clock::duration>(
+                    std::chrono::nanoseconds(created_ns)
+                )
+            );
+        }
+        if (metadata_json.contains("updated_at")) {
+            auto updated_ns = metadata_json["updated_at"].get<uint64_t>();
+            metadata.updated_at = std::chrono::system_clock::time_point(
+                std::chrono::duration_cast<std::chrono::system_clock::duration>(
+                    std::chrono::nanoseconds(updated_ns)
+                )
+            );
+        }
+        
+        if (metadata_json.contains("custom_metadata")) {
+            metadata.custom_metadata = metadata_json["custom_metadata"];
+        }
+        
+        // Store the adapter via storage service
+        auto storage_service = orchestrator_->getStorageService();
+        if (!storage_service) {
+            return createErrorResponse(
+                http::status::internal_server_error,
+                "Storage service not available"
+            );
+        }
+        
+        bool stored = storage_service->saveAdapter(adapter_id, weights, metadata);
+        
+        if (stored) {
+            json response_data = {
+                {"adapter_id", adapter_id},
+                {"version", version},
+                {"status", "received"},
+                {"bytes_received", weights_data.size()},
+                {"compressed", compressed},
+                {"timestamp", std::chrono::system_clock::now().time_since_epoch().count()}
+            };
+            
+            return createJsonResponse(response_data, http::status::created);
+        } else {
+            return createErrorResponse(
+                http::status::internal_server_error,
+                "Failed to store adapter"
+            );
+        }
+        
+    } catch (const json::exception& e) {
+        return createErrorResponse(
+            http::status::bad_request,
+            "JSON parsing error",
+            e.what()
+        );
+    } catch (const std::exception& e) {
+        return createErrorResponse(
+            http::status::internal_server_error,
+            "Internal server error",
+            e.what()
+        );
+    }
+}
+
+// ============================================================================
+// Provenance, Snapshots, and Audit Log endpoints
+// ============================================================================
+
+namespace {
+    constexpr std::string_view kAdaptersPrefix = "/api/v1/llm/lora/adapters/";
+} // namespace
+
+// GET /api/v1/llm/lora/adapters/{id}/provenance
+http::response<http::string_body> LoRAApiHandler::handleGetProvenance(
+    const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleGetProvenance");
+
+    if (!orchestrator_) {
+        return createErrorResponse(http::status::service_unavailable, "Orchestrator not available");
+    }
+
+    std::string_view target = req.target();
+    constexpr std::string_view suffix = "/provenance";
+    if (!target.starts_with(kAdaptersPrefix) || !target.ends_with(suffix)) {
+        return createErrorResponse(http::status::bad_request, "Invalid endpoint");
+    }
+    const std::string adapter_id{target.substr(kAdaptersPrefix.length(),
+        target.length() - (kAdaptersPrefix.length() + suffix.length()))};
+    if (adapter_id.empty()) {
+        return createErrorResponse(http::status::bad_request, "Missing adapter_id");
+    }
+
+    auto prov_opt = orchestrator_->getProvenanceRecord(adapter_id);
+    if (!prov_opt) {
+        return createErrorResponse(http::status::not_found,
+                                   "Provenance record not found for adapter: " + adapter_id);
+    }
+
+    return createJsonResponse(prov_opt->toJSON());
+}
+
+// POST /api/v1/llm/lora/adapters/{id}/provenance
+http::response<http::string_body> LoRAApiHandler::handleAttachProvenance(
+    const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleAttachProvenance");
+
+    if (!orchestrator_) {
+        return createErrorResponse(http::status::service_unavailable, "Orchestrator not available");
+    }
+
+    std::string_view target = req.target();
+    constexpr std::string_view suffix = "/provenance";
+    if (!target.starts_with(kAdaptersPrefix) || !target.ends_with(suffix)) {
+        return createErrorResponse(http::status::bad_request, "Invalid endpoint");
+    }
+    const std::string adapter_id{target.substr(kAdaptersPrefix.length(),
+        target.length() - (kAdaptersPrefix.length() + suffix.length()))};
+    if (adapter_id.empty()) {
+        return createErrorResponse(http::status::bad_request, "Missing adapter_id");
+    }
+
+    auto body_opt = parseRequestBody(req);
+    if (!body_opt) {
+        return createErrorResponse(http::status::bad_request, "Invalid or missing JSON body");
+    }
+
+    try {
+        const auto record = llm::lora::LoRAProvenanceRecord::fromJSON(*body_opt);
+        const bool ok = orchestrator_->attachProvenance(adapter_id, record);
+        if (!ok) {
+            return createErrorResponse(http::status::not_found,
+                                       "Adapter not found: " + adapter_id);
+        }
+        return createJsonResponse(json{{"adapter_id", adapter_id}, {"status", "provenance_attached"}},
+                                  http::status::created);
+    } catch (const json::exception& e) {
+        return createErrorResponse(http::status::bad_request, "JSON parsing error", e.what());
+    }
+}
+
+// GET /api/v1/llm/lora/adapters/{id}/audit
+http::response<http::string_body> LoRAApiHandler::handleGetAuditLog(
+    const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleGetAuditLog");
+
+    if (!orchestrator_) {
+        return createErrorResponse(http::status::service_unavailable, "Orchestrator not available");
+    }
+
+    std::string_view target = req.target();
+    constexpr std::string_view suffix = "/audit";
+    if (!target.starts_with(kAdaptersPrefix) || !target.ends_with(suffix)) {
+        return createErrorResponse(http::status::bad_request, "Invalid endpoint");
+    }
+    const std::string adapter_id{target.substr(kAdaptersPrefix.length(),
+        target.length() - (kAdaptersPrefix.length() + suffix.length()))};
+    if (adapter_id.empty()) {
+        return createErrorResponse(http::status::bad_request, "Missing adapter_id");
+    }
+
+    const auto entries = orchestrator_->getInferenceAuditLog(adapter_id);
+    json arr = json::array();
+    for (const auto& e : entries) {
+        arr.push_back(e.toJSON());
+    }
+    return createJsonResponse(json{
+        {"adapter_id", adapter_id},
+        {"count",      entries.size()},
+        {"entries",    arr}
+    });
+}
+
+// GET /api/v1/llm/lora/adapters/{id}/snapshots
+http::response<http::string_body> LoRAApiHandler::handleListSnapshots(
+    const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleListSnapshots");
+
+    if (!orchestrator_) {
+        return createErrorResponse(http::status::service_unavailable, "Orchestrator not available");
+    }
+
+    std::string_view target = req.target();
+    constexpr std::string_view suffix = "/snapshots";
+    if (!target.starts_with(kAdaptersPrefix) || !target.ends_with(suffix)) {
+        return createErrorResponse(http::status::bad_request, "Invalid endpoint");
+    }
+    const std::string adapter_id{target.substr(kAdaptersPrefix.length(),
+        target.length() - (kAdaptersPrefix.length() + suffix.length()))};
+    if (adapter_id.empty()) {
+        return createErrorResponse(http::status::bad_request, "Missing adapter_id");
+    }
+
+    const auto snaps = orchestrator_->listAdapterSnapshots(adapter_id);
+    json arr = json::array();
+    for (const auto& s : snaps) {
+        arr.push_back(s.toJSON());
+    }
+    return createJsonResponse(json{
+        {"adapter_id", adapter_id},
+        {"count",      snaps.size()},
+        {"snapshots",  arr}
+    });
+}
+
+// POST /api/v1/llm/lora/adapters/{id}/verify
+http::response<http::string_body> LoRAApiHandler::handleVerifyAuditChain(
+    const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleVerifyAuditChain");
+
+    if (!orchestrator_) {
+        return createErrorResponse(http::status::service_unavailable, "Orchestrator not available");
+    }
+
+    std::string_view target = req.target();
+    constexpr std::string_view suffix = "/verify";
+    if (!target.starts_with(kAdaptersPrefix) || !target.ends_with(suffix)) {
+        return createErrorResponse(http::status::bad_request, "Invalid endpoint");
+    }
+    const std::string adapter_id{target.substr(kAdaptersPrefix.length(),
+        target.length() - (kAdaptersPrefix.length() + suffix.length()))};
+    if (adapter_id.empty()) {
+        return createErrorResponse(http::status::bad_request, "Missing adapter_id");
+    }
+
+    const bool intact = orchestrator_->verifyAuditChain(adapter_id);
+    const http::status status = intact ? http::status::ok : http::status::conflict;
+
+    return createJsonResponse(json{
+        {"adapter_id",  adapter_id},
+        {"chain_valid", intact},
+        {"message",     intact ? "Merkle audit chain is intact"
+                                : "Merkle audit chain verification FAILED — possible tampering"}
+    }, status);
 }
 
 } // namespace themis::server

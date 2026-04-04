@@ -1,3 +1,27 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            diff_api_handler.cpp                               ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:19:44                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   99.0/100                                       ║
+    • Total Lines:     253                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • a2a0e15fa  2026-03-11  Changes before error encountered         ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • e812e3a43  2026-02-24  feat(cache): implement adaptive TTL tuning based on slidi... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "server/diff_api_handler.h"
 #include <spdlog/spdlog.h>
 #include <fmt/format.h>
@@ -5,6 +29,9 @@
 #include <chrono>
 #include <iomanip>
 #include <sstream>
+#include "utils/tracing.h"
+
+#ifdef THEMIS_ENABLE_HTTP_SERVER
 
 namespace themis {
 namespace server {
@@ -34,6 +61,7 @@ void DiffApiHandler::registerRoutes(httplib::Server& server) {
 
 void DiffApiHandler::handleGetDiff(const httplib::Request& req, httplib::Response& res) {
     try {
+    auto span = Tracer::startSpan("handleGetDiff");
         // Parse query parameters
         auto options = parseOptions(req);
         
@@ -87,6 +115,7 @@ void DiffApiHandler::handleGetDiff(const httplib::Request& req, httplib::Respons
 
 void DiffApiHandler::handleGetCacheStats(const httplib::Request& req, httplib::Response& res) {
     try {
+    auto span = Tracer::startSpan("handleGetCacheStats");
         auto stats = diff_engine_.getCacheStats();
         sendJson(res, stats);
     } catch (const std::exception& e) {
@@ -96,6 +125,7 @@ void DiffApiHandler::handleGetCacheStats(const httplib::Request& req, httplib::R
 
 void DiffApiHandler::handleClearCache(const httplib::Request& req, httplib::Response& res) {
     try {
+    auto span = Tracer::startSpan("handleClearCache");
         diff_engine_.clearCache();
         json response;
         response["status"] = "success";
@@ -159,7 +189,7 @@ int64_t DiffApiHandler::parseTimestamp(const std::string& str) const {
     try {
         return std::stoll(str);
     } catch (...) {
-        // Not a number, try ISO 8601
+        spdlog::debug("DiffApiHandler::parseTimestamp: '{}' is not a numeric millisecond timestamp, trying ISO 8601", str);
     }
     
     // Parse ISO 8601 format: YYYY-MM-DDTHH:MM:SS or YYYY-MM-DD
@@ -219,3 +249,5 @@ void DiffApiHandler::sendJson(httplib::Response& res, const json& data, int stat
 
 } // namespace server
 } // namespace themis
+
+#endif // THEMIS_ENABLE_HTTP_SERVER

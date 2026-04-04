@@ -1,0 +1,332 @@
+# CHIMERA Benchmark Configuration Template
+# Hardware Profiling and Dataset Transparency
+
+# This template provides a structured format for documenting all
+# benchmark configurations, hardware specifications, and dataset
+# parameters to ensure full reproducibility per ACM standards.
+
+# ============================================================
+# BENCHMARK METADATA
+# ============================================================
+
+[metadata]
+benchmark_suite = "CHIMERA"
+version = "1.0.0"
+timestamp = "2026-01-19T11:14:35Z"  # ISO 8601 format
+run_id = "unique-run-identifier"
+operator = "researcher-name"
+organization = "institution-name"
+
+# ============================================================
+# HARDWARE PROFILE
+# ============================================================
+
+[hardware]
+# Automatically collected via HardwareProfile.collect()
+# Can be manually specified for validation
+
+# System Information
+hostname = "benchmark-system-01"
+platform = "Linux-6.1.0-x86_64"  # OS-Version-Architecture
+architecture = "x86_64"
+
+# CPU Specifications
+[hardware.cpu]
+model = "Intel(R) Core(TM) i9-13900K"
+vendor = "GenuineIntel"
+cores_physical = 24
+cores_logical = 32
+frequency_ghz = 5.8
+frequency_base_ghz = 3.0
+cache_l1_kb = 80
+cache_l2_kb = 2048
+cache_l3_kb = 36864
+features = ["AVX2", "AVX512", "FMA3"]
+
+# Memory Specifications
+[hardware.memory]
+total_gb = 64.0
+available_gb = 60.5
+type = "DDR5"
+speed_mhz = 5600
+channels = 2
+swap_total_gb = 16.0
+
+# Storage Specifications
+[hardware.storage]
+type = "NVMe"
+model = "Samsung 990 PRO"
+capacity_gb = 2048
+interface = "PCIe 4.0 x4"
+sequential_read_mb_s = 7450
+sequential_write_mb_s = 6900
+random_read_iops = 1400000
+random_write_iops = 1550000
+filesystem = "ext4"
+mount_options = "noatime,data=ordered"
+
+# GPU Specifications (if applicable)
+[[hardware.gpu]]
+index = 0
+name = "NVIDIA GeForce RTX 4090"
+memory_gb = 24
+cuda_version = "12.3"
+compute_capability = "8.9"
+driver_version = "545.29.06"
+pcie_generation = 4
+pcie_lanes = 16
+
+[[hardware.gpu]]
+index = 1
+name = "NVIDIA GeForce RTX 4090"
+memory_gb = 24
+cuda_version = "12.3"
+compute_capability = "8.9"
+driver_version = "545.29.06"
+pcie_generation = 4
+pcie_lanes = 16
+
+# Network Configuration
+[hardware.network]
+interfaces = ["eth0", "lo"]
+bandwidth_gbps = 10.0
+latency_us = 0.1
+type = "Ethernet"
+
+# ============================================================
+# SOFTWARE ENVIRONMENT
+# ============================================================
+
+[software]
+os_distribution = "Ubuntu 22.04.3 LTS"
+kernel_version = "6.1.0-1027-aws"
+compiler = "GCC 11.4.0"
+compiler_flags = "-O3 -march=native -mtune=native"
+build_type = "Release"
+
+# Database Version
+database_name = "System Under Test"
+database_version = "1.0.0"
+database_commit = "abc123def456"
+
+# Dependencies
+[software.dependencies]
+rocksdb = "8.9.1"
+llama_cpp = "b1696"
+cuda_toolkit = "12.3"
+cudnn = "8.9.7"
+python = "3.11.6"
+numpy = "1.26.2"
+scipy = "1.11.4"
+
+# ============================================================
+# BENCHMARK CONFIGURATION
+# ============================================================
+
+[benchmark]
+category = "transactional"  # transactional, analytical, vector, graph, llm, rag, system, multi-model
+test_name = "YCSB_WorkloadA"
+standard_reference = "YCSB"  # Reference benchmark standard
+
+# Execution Parameters
+repetitions = 10
+iterations_per_run = 100
+warmup_runs = 5
+timeout_seconds = 300
+random_seed = 42
+deterministic = true
+
+# Threading Configuration
+thread_count = 8
+thread_affinity = true
+cpu_pinning = [0, 1, 2, 3, 4, 5, 6, 7]
+
+# Memory Configuration
+batch_size = 32
+buffer_size_mb = 256
+cache_size_mb = 1024
+
+# ============================================================
+# DATASET SPECIFICATION
+# ============================================================
+
+[dataset]
+name = "ycsb_workload_a"
+type = "synthetic"  # synthetic or real-world
+size_mb = 1024
+record_count = 1000000
+generation_method = "ycsb_generator"
+generation_script = "scripts/generate_ycsb_data.sh"
+random_seed = 42
+checksum_sha256 = "abcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890"
+generation_timestamp = "2026-01-19T10:00:00Z"
+
+# Dataset Parameters
+[dataset.parameters]
+field_count = 10
+field_length = 100
+record_size_bytes = 1000
+key_distribution = "zipfian"
+zipfian_constant = 0.99
+read_proportion = 0.50
+update_proportion = 0.50
+insert_proportion = 0.00
+scan_proportion = 0.00
+
+# Data Characteristics
+[dataset.characteristics]
+unique_keys = 1000000
+total_records = 1000000
+size_on_disk_mb = 1024
+compression = "none"
+data_format = "key-value"
+
+# ============================================================
+# DATABASE CONFIGURATION
+# ============================================================
+
+[database_config]
+cache_size_mb = 1024
+write_buffer_size_mb = 256
+max_write_buffer_number = 4
+max_background_jobs = 8
+compression_type = "zstd"
+compression_level = 3
+block_size_kb = 16
+bloom_filter_bits_per_key = 10
+enable_statistics = true
+enable_profiling = true
+
+# RocksDB Specific Options
+[database_config.rocksdb]
+max_open_files = -1
+allow_mmap_reads = false
+allow_mmap_writes = false
+use_direct_reads = true
+use_direct_io_for_flush_and_compaction = true
+compaction_style = "level"
+level0_file_num_compaction_trigger = 4
+level0_slowdown_writes_trigger = 20
+level0_stop_writes_trigger = 36
+
+# ============================================================
+# STATISTICAL CONFIGURATION
+# ============================================================
+
+[statistics]
+# Outlier Detection
+remove_outliers = true
+outlier_method = "iqr"  # iqr, zscore, modified_zscore
+iqr_multiplier = 1.5
+zscore_threshold = 3.0
+
+# Confidence Intervals
+confidence_level = 0.95  # 95% CI
+alternative_ci = 0.99    # 99% CI also reported
+
+# Significance Testing
+significance_alpha = 0.05  # α = 0.05 (95% confidence)
+test_method = "t-test"     # t-test, mann-whitney, anova
+two_tailed = true
+
+# Effect Size
+effect_size_method = "cohens_d"  # cohens_d, hedges_g
+interpret_effect_size = true
+
+# Power Analysis
+target_power = 0.80
+minimum_detectable_effect = 0.5  # Cohen's d = 0.5 (medium effect)
+
+# ============================================================
+# REPRODUCIBILITY CHECKLIST
+# ============================================================
+
+[reproducibility]
+# ACM Artifact Badging Compliance
+artifacts_available = true
+artifacts_functional = true
+results_reproducible = true
+
+# Documentation
+methodology_documented = true
+hardware_documented = true
+software_documented = true
+dataset_documented = true
+parameters_documented = true
+
+# Version Control
+code_repository = "https://github.com/your-org/your-system"
+commit_hash = "abc123def456"
+tag = "v1.0.0"
+
+# Data Availability
+data_generation_scripts = true
+raw_results_available = true
+analysis_scripts_available = true
+
+# Environment
+containerized = true
+container_image = "your-org/system-benchmark:1.0.0"
+container_registry = "docker.io"
+
+# ============================================================
+# PERFORMANCE TARGETS (Optional)
+# ============================================================
+
+[targets]
+# Define expected performance targets for validation
+throughput_ops_per_sec = 100000
+latency_p50_ms = 2.0
+latency_p95_ms = 5.0
+latency_p99_ms = 10.0
+memory_usage_mb = 1024
+cpu_utilization_percent = 80.0
+
+# ============================================================
+# NOTES AND OBSERVATIONS
+# ============================================================
+
+[notes]
+# Free-form notes about the benchmark run
+pre_test_observations = """
+System was in idle state before benchmark.
+All non-essential services stopped.
+CPU governor set to 'performance'.
+"""
+
+post_test_observations = """
+No thermal throttling observed.
+Memory usage remained stable throughout test.
+No I/O errors logged.
+"""
+
+known_issues = """
+None
+"""
+
+# ============================================================
+# CONTACT INFORMATION
+# ============================================================
+
+[contact]
+researcher = "Researcher Name"
+email = "researcher@institution.edu"
+institution = "Research Institution"
+project = "CHIMERA Benchmark Suite"
+funding = "Grant Number (if applicable)"
+
+# ============================================================
+# VALIDATION SIGNATURE
+# ============================================================
+
+[validation]
+# For multi-party validation and review
+reviewed_by = ["reviewer1@domain.com", "reviewer2@domain.com"]
+review_date = "2026-01-20"
+validation_notes = """
+Configuration reviewed and approved.
+Hardware specifications verified.
+Dataset integrity confirmed.
+"""
+
+signature_hash = "signature_placeholder"

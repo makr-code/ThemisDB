@@ -1,3 +1,25 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            shard_topology.h                                   ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:11:39                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     257                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include <string>
@@ -7,6 +29,7 @@
 #include <map>
 #include <optional>
 #include <algorithm>
+#include "sharding/shard_capabilities.h"
 
 namespace themis::sharding {
 
@@ -20,6 +43,8 @@ struct ShardInfo {
     std::string primary_endpoint;            // themis-shard001.dc1.example.com:8080
     std::vector<std::string> replica_endpoints; // replica nodes
     std::string datacenter;                  // dc1, dc2, us-east-1, eu-west-1
+    std::string region;                      // us-east, eu-west, ap-south (geo region)
+    std::string zone;                        // us-east-1a, eu-west-1b (availability zone)
     std::string rack;                        // rack01, rack02 (locality awareness)
     uint64_t token_start;                    // Consistent Hash Range Start
     uint64_t token_end;                      // Consistent Hash Range End
@@ -29,11 +54,28 @@ struct ShardInfo {
     std::string certificate_serial;          // X.509 certificate serial number
     std::vector<std::string> capabilities;   // read, write, replicate, admin
     
+    // Domain capability for adaptive routing
+    DomainCapability domain_capability;      // Domain specialization info
+    
+    // Raft consensus state (optional, populated when Raft is enabled)
+    std::string raft_role;                   // "LEADER", "FOLLOWER", "CANDIDATE", or empty
+    uint64_t raft_term;                      // Current Raft term (0 if not using Raft)
+    uint64_t raft_commit_index;              // Raft commit index
+    std::string raft_leader_id;              // Current leader shard ID (empty if unknown)
+    bool raft_has_quorum;                    // Does this shard have Raft quorum?
+    
     /**
      * Check if this shard has a specific capability
      */
     bool hasCapability(const std::string& cap) const {
         return std::find(capabilities.begin(), capabilities.end(), cap) != capabilities.end();
+    }
+    
+    /**
+     * Check if this shard is the Raft leader
+     */
+    bool isRaftLeader() const {
+        return raft_role == "LEADER";
     }
 };
 
@@ -144,6 +186,56 @@ public:
         shards_.clear();
     }
     
+    /**
+     * Update Raft status for a shard
+     * @param shard_id Shard identifier
+     * @param role Raft role (LEADER, FOLLOWER, CANDIDATE)
+     * @param term Current Raft term
+     * @param commit_index Raft commit index
+     * @param leader_id Current leader shard ID
+     * @param has_quorum Does shard have quorum?
+     */
+    void updateRaftStatus(const std::string& shard_id,
+                         const std::string& role,
+                         uint64_t term,
+                         uint64_t commit_index,
+                         const std::string& leader_id,
+                         bool has_quorum);
+    
+    /**
+     * Get shards that are Raft leaders
+     * @return Vector of shard IDs that are leaders
+     */
+    std::vector<std::string> getRaftLeaders() const;
+
+    /**
+     * Get shards in a specific region
+     * @param region Region name (e.g. "us-east", "eu-west")
+     * @return Vector of ShardInfo for all shards in that region
+     */
+    std::vector<ShardInfo> getShardsInRegion(const std::string& region) const;
+
+    /**
+     * Get healthy shards in a specific region
+     * @param region Region name
+     * @return Vector of healthy ShardInfo for that region
+     */
+    std::vector<ShardInfo> getHealthyShardsInRegion(const std::string& region) const;
+
+    /**
+     * Get all distinct regions present in the topology
+     * @return Sorted list of unique region names
+     */
+    std::vector<std::string> getRegions() const;
+
+    /**
+     * Check if a region has enough healthy shards to meet a quorum requirement
+     * @param region Region name
+     * @param required Minimum number of healthy shards required
+     * @return true if region meets quorum
+     */
+    bool regionHasQuorum(const std::string& region, uint32_t required) const;
+
 private:
     Config config_;
     std::map<std::string, ShardInfo> shards_;

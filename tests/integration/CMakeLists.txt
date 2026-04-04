@@ -3,6 +3,8 @@
 # Note: This file is a template for organizing integration tests.
 # Uncomment and configure sections as tests are implemented.
 
+option(THEMIS_ENABLE_PROCESS_MINING_TESTS "Build process mining integration tests" OFF)
+
 # Integration test infrastructure
 set(INTEGRATION_TEST_COMMON
     test_fixture.h
@@ -44,94 +46,123 @@ function(add_integration_test TEST_NAME TEST_SOURCE)
 endfunction()
 
 # ============================================================================
+# Base Module Integration Tests
+# ============================================================================
+
+# HotReloadManager integration tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/hot_reload_manager_integration_test.cpp")
+    add_integration_test(
+        hot_reload_manager_integration_test
+        hot_reload_manager_integration_test.cpp
+    )
+    target_link_libraries(hot_reload_manager_integration_test PRIVATE
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+    set_tests_properties(hot_reload_manager_integration_test PROPERTIES
+        LABELS "integration;base;hot_reload"
+    )
+endif()
+
+# ============================================================================
 # Storage Integration Tests
 # ============================================================================
 
-# Uncomment when backup/recovery implementation is ready
-# if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/storage/backup_recovery_integration_test.cpp")
-#     add_integration_test(
-#         backup_recovery_integration_test
-#         storage/backup_recovery_integration_test.cpp
-#     )
-#     set_tests_properties(backup_recovery_integration_test PROPERTIES
-#         LABELS "integration;storage;backup"
-#     )
-# endif()
+# Backup/Recovery integration tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/storage/backup_recovery_integration_test.cpp")
+    add_integration_test(
+        backup_recovery_integration_test
+        storage/backup_recovery_integration_test.cpp
+    )
+    set_tests_properties(backup_recovery_integration_test PROPERTIES
+        LABELS "integration;storage;backup"
+    )
+endif()
 
 # ============================================================================
-# LLM Integration Tests
+# LLM Integration Tests (if available)
 # ============================================================================
 
-# Uncomment when LLM implementation is ready
-# if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/llm/llm_inference_integration_test.cpp")
-#     add_integration_test(
-#         llm_inference_integration_test
-#         llm/llm_inference_integration_test.cpp
-#     )
-#     set_tests_properties(llm_inference_integration_test PROPERTIES
-#         LABELS "integration;llm;inference"
-#     )
-# endif()
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/llm/llm_inference_integration_test.cpp")
+    add_integration_test(
+        llm_inference_integration_test
+        llm/llm_inference_integration_test.cpp
+    )
+    set_tests_properties(llm_inference_integration_test PROPERTIES
+        LABELS "integration;llm;inference"
+    )
+endif()
 
 # ============================================================================
 # RPC Integration Tests
 # ============================================================================
 
-# Uncomment when RPC implementation is ready
-# if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/rpc/rpc_service_integration_test.cpp")
-#     add_integration_test(
-#         rpc_service_integration_test
-#         rpc/rpc_service_integration_test.cpp
-#     )
-#     target_link_libraries(rpc_service_integration_test PRIVATE
-#         # Add gRPC dependencies
-#         # gRPC::grpc++
-#     )
-#     set_tests_properties(rpc_service_integration_test PROPERTIES
-#         LABELS "integration;rpc;grpc"
-#     )
-# endif()
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/rpc/rpc_service_integration_test.cpp")
+    add_integration_test(
+        rpc_service_integration_test
+        rpc/rpc_service_integration_test.cpp
+    )
+    target_link_libraries(rpc_service_integration_test PRIVATE
+        # Add gRPC dependencies
+        # gRPC::grpc++
+    )
+    set_tests_properties(rpc_service_integration_test PROPERTIES
+        LABELS "integration;rpc;grpc"
+    )
+endif()
 
 # ============================================================================
 # Security Integration Tests
 # ============================================================================
 
-# Uncomment when encryption implementation is ready
-# if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/encryption_key_rotation_integration_test.cpp")
-#     add_integration_test(
-#         encryption_key_rotation_integration_test
-#         security/encryption_key_rotation_integration_test.cpp
-#     )
-#     target_link_libraries(encryption_key_rotation_integration_test PRIVATE
-#         OpenSSL::SSL
-#         OpenSSL::Crypto
-#     )
-#     set_tests_properties(encryption_key_rotation_integration_test PROPERTIES
-#         LABELS "integration;security;encryption"
-#     )
-# endif()
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/encryption_key_rotation_integration_test.cpp")
+    add_integration_test(
+        encryption_key_rotation_integration_test
+        security/encryption_key_rotation_integration_test.cpp
+    )
+    target_link_libraries(encryption_key_rotation_integration_test PRIVATE
+        OpenSSL::SSL
+        OpenSSL::Crypto
+    )
+    set_tests_properties(encryption_key_rotation_integration_test PROPERTIES
+        LABELS "integration;security;encryption"
+    )
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/zero_trust_access_control_integration_test.cpp")
+    add_integration_test(
+        zero_trust_access_control_integration_test
+        security/zero_trust_access_control_integration_test.cpp
+    )
+    target_link_libraries(zero_trust_access_control_integration_test PRIVATE
+        themis_core
+    )
+    set_tests_properties(zero_trust_access_control_integration_test PROPERTIES
+        LABELS "integration;security;zero-trust"
+    )
+endif()
 
 # ============================================================================
 # End-to-End Integration Tests
 # ============================================================================
 
-# Uncomment when full stack integration is ready
-# if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/end_to_end/full_query_flow_e2e_test.cpp")
-#     add_integration_test(
-#         full_query_flow_e2e_test
-#         end_to_end/full_query_flow_e2e_test.cpp
-#     )
-#     set_tests_properties(full_query_flow_e2e_test PROPERTIES
-#         LABELS "integration;e2e;query"
-#         TIMEOUT 600  # 10 minutes for complex E2E tests
-#     )
-# endif()
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/end_to_end/full_query_flow_e2e_test.cpp")
+    add_integration_test(
+        full_query_flow_e2e_test
+        end_to_end/full_query_flow_e2e_test.cpp
+    )
+    set_tests_properties(full_query_flow_e2e_test PROPERTIES
+        LABELS "integration;e2e;query"
+        TIMEOUT 600  # 10 minutes for complex E2E tests
+    )
+endif()
 
 # ============================================================================
 # Existing Integration Test (keep original)
 # ============================================================================
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_process_mining_e2e.cpp")
+if(THEMIS_ENABLE_PROCESS_MINING_TESTS AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_process_mining_e2e.cpp")
     add_integration_test(
         test_process_mining_e2e
         test_process_mining_e2e.cpp

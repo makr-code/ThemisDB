@@ -1,6 +1,33 @@
-﻿#pragma once
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            vector_index.h                                     ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:08:06                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     524                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • f38c013cd  2026-03-29  Enhance various components with improvements and fixes ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • ade1fdc2e  2026-02-25  fix(index): wire ann_backend_ into addEntity/searchKnn/sh... ║
+    • e6e7fc6bb  2026-02-25  feat(index): DiskANN/ScaNN alternative ANN algorithms for... ║
+    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+#pragma once
 
 #include "storage/rocksdb_wrapper.h"
+#include "index/ann_index.h"
 #include <string>
 #include <string_view>
 #include <vector>
@@ -14,6 +41,11 @@ namespace themis {
 class BaseEntity;
 class SecondaryIndexManager;
 class ProductQuantizer;
+class IExpressionEvaluator;
+class HnswLayerOptimizer;
+class RotaryEmbedding;
+struct HnswOptimizationConfig;
+struct RotationConfig;
 
 namespace utils {
     class AuditLogger;
@@ -26,6 +58,14 @@ namespace utils {
 /// - Atomare Operationen via WriteBatch (analog zu Secondary/Graph-Indizes)
 /// - In-Memory Cache für schnellen Zugriff, optional HNSW-Index für ANN
 /// - Optional: Audit Logging für Vector-Operationen (Phase 1 Knowledge Graph Protection)
+///
+/// @sources
+/// - HNSW Algorithm: Malkov, Y. A., & Yashunin, D. A. (2018).
+///   "Efficient and robust approximate nearest neighbor search using Hierarchical Navigable Small World graphs"
+///   IEEE Transactions on Pattern Analysis and Machine Intelligence
+/// - Library: hnswlib - https://github.com/nmslib/hnswlib
+/// - License: Apache 2.0
+/// - ThemisDB Integration: Transactional updates, RocksDB persistence, audit logging
 class VectorIndexManager {
 public:
     enum class Metric { L2, COSINE, DOT };
@@ -50,6 +90,57 @@ public:
     
     // Set user context for audit logging
     void setUserContext(std::string user_id);
+    
+    // Phase 4: Set optional expression evaluator for advanced filtering
+    void setExpressionEvaluator(std::shared_ptr<IExpressionEvaluator> evaluator);
+    
+    // Get expression evaluator
+    std::shared_ptr<IExpressionEvaluator> getExpressionEvaluator() const;
+    
+    // Advanced Vector Index Integration (v1.5.0+)
+    // Enable FAISS-based advanced indexing (IVF+PQ/HNSW) for large-scale datasets
+    // Note: Requires THEMIS_GPU_ENABLED for FAISS/DiskANN support
+    struct AdvancedIndexConfig {
+        bool enabled = false;           // Enable advanced indexing
+        size_t nlist = 1024;           // Number of IVF clusters
+        size_t nprobe = 64;            // Number of clusters to search
+        bool use_pq = true;            // Enable Product Quantization
+        size_t pq_m = 8;               // Number of sub-quantizers
+        size_t pq_nbits = 8;           // Bits per sub-quantizer
+        bool use_gpu = false;          // Use GPU acceleration
+        int gpu_device = 0;            // GPU device ID
+        size_t train_size = 100000;    // Training set size
+        enum class Type {
+            IVF_FLAT,     // IVF without compression
+            IVF_PQ,       // IVF + Product Quantization (default)
+            HNSW_FLAT,    // HNSW without IVF
+            IVF_HNSW_PQ,  // IVF + HNSW + PQ
+            SCANN,        // ScaNN: tree-AH partitioned ANN (pure C++, no extra deps)
+            DISKANN       // DiskANN: SSD-resident graph index (requires THEMIS_ENABLE_DISKANN)
+        } index_type = Type::IVF_PQ;
+
+        // ScaNN-specific parameters (used when index_type == SCANN)
+        size_t scann_num_leaves           = 1000; // Voronoi cells
+        size_t scann_leaves_to_search     = 100;  // Cells probed per query
+        size_t scann_reorder_num_neighbors = 200; // Re-ranking candidates
+
+        // DiskANN-specific parameters (used when index_type == DISKANN)
+        std::string diskann_index_path;      // On-disk graph file path (required)
+        size_t      diskann_cache_mb = 1024; // RAM cache budget in MiB
+    };
+    
+    // Enable advanced indexing with specified configuration
+    // Must be called before init() to take effect
+    Status setAdvancedIndexConfig(const AdvancedIndexConfig& config);
+    
+    // Get current advanced index configuration
+    AdvancedIndexConfig getAdvancedIndexConfig() const { return advanced_config_; }
+    
+    // Check if advanced indexing is enabled and available
+    bool isAdvancedIndexEnabled() const {
+        return (advanced_config_.enabled && advanced_index_ != nullptr) ||
+               ann_backend_ != nullptr;
+    }
 
 
     // Initialisierung eines Index-Namespace (z. B. "documents"): Dimension, M/ef, Metrik
@@ -66,6 +157,39 @@ public:
 
     // Index aus Storage aufbauen (scannt Prefix objectName:) — optional
     Status rebuildFromStorage();
+
+    // ===== Incremental Re-indexing =====
+
+    /// Statistics returned by incrementalReindex().
+    struct IncrementalReindexStats {
+        size_t added     = 0; ///< Vectors added to HNSW (new in storage)
+        size_t removed   = 0; ///< Vectors marked deleted in HNSW (gone from storage)
+        size_t updated   = 0; ///< Vectors updated in-place in HNSW (data changed)
+        size_t unchanged = 0; ///< Vectors already up-to-date (no action taken)
+        size_t total_scanned = 0; ///< Total storage entries scanned
+        bool   full_rebuild_triggered = false; ///< True when auto full-rebuild ran
+    };
+
+    /// Incremental re-index: sync the HNSW index with current storage state
+    /// without performing a full rebuild.
+    ///
+    /// Compares in-memory index state against storage and:
+    ///   - Adds new vectors found in storage but missing from index
+    ///   - Marks deleted vectors present in index but removed from storage
+    ///   - Updates vectors whose data has changed in storage
+    ///   - Skips unchanged vectors (preserves HNSW graph connectivity)
+    ///
+    /// If the ratio of soft-deleted HNSW labels exceeds @p rebuild_threshold,
+    /// a full rebuild is triggered automatically and
+    /// IncrementalReindexStats::full_rebuild_triggered is set to true.
+    ///
+    /// @param rebuild_threshold  Deleted-label fraction that triggers full rebuild (0.0–1.0).
+    ///                           Pass 0 to disable automatic full rebuild.
+    /// @param vectorField        Name of the vector field in entities (default "embedding").
+    /// @return {Status, IncrementalReindexStats}
+    std::pair<Status, IncrementalReindexStats> incrementalReindex(
+        float rebuild_threshold = 0.20f,
+        std::string_view vectorField = "embedding");
 
     // Persistenz (optional, nur wenn HNSW aktiv): speichert Index + Mapping + Metadaten im Verzeichnis
     Status saveIndex(const std::string& directory) const;
@@ -239,30 +363,79 @@ public:
     QuantizationStats getQuantizationStats() const;
 
     // Getter für Konfiguration & Statistiken
-    std::string getObjectName() const { return objectName_; }
+    const std::string& getObjectName() const { return objectName_; }
     int getDimension() const { return dim_; }
     Metric getMetric() const { return metric_; }
     int getEfSearch() const { return efSearch_; }
     int getM() const { return m_; }
     int getEfConstruction() const { return efConstruction_; }
-    size_t getVectorCount() const { return pkToId_.size(); }
+    size_t getVectorCount() const {
+        if (useHnsw_ || ann_backend_ != nullptr) {
+            return pkToId_.size();
+        }
+        return cache_.size();
+    }
     bool isHnswEnabled() const { return useHnsw_; }
-        std::string getSavePath() const { return savePath_; }
+    const std::string& getSavePath() const { return savePath_; }
+    
+    /// Get vector by primary key (for searchById support)
+    /// Returns nullopt if vector doesn't exist
+    std::optional<std::vector<float>> getVectorByPk(std::string_view pk) const;
     
     // Encryption configuration (Phase 1)
     bool isVectorEncryptionEnabled() const;
     void setVectorEncryptionEnabled(bool enabled);
-    std::string getVectorKeyId() const { return vectorKeyId_; }
+    const std::string& getVectorKeyId() const { return vectorKeyId_; }
     void setVectorKeyId(const std::string& keyId) { vectorKeyId_ = keyId; }
     
     // Phase 2: HNSW index encryption
     bool isHnswEncryptionEnabled() const;
     void setHnswEncryptionEnabled(bool enabled);
-    std::string getHnswKeyId() const { return hnswKeyId_; }
+    const std::string& getHnswKeyId() const { return hnswKeyId_; }
     void setHnswKeyId(const std::string& keyId) { hnswKeyId_ = keyId; }
+    
+    // Phase 4: HNSW Layer Optimizer access
+    HnswLayerOptimizer* getHnswOptimizer() const { return hnsw_optimizer_.get(); }
     
     // Flush pending encrypted writes (Phase 1 batching)
     void flushEncryptedWrites() const;
+    
+    // ===== Rotary Embeddings Support =====
+    
+    /// Enable/disable rotary embeddings with configuration
+    Status setRotaryEmbeddingConfig(const struct RotationConfig& config);
+    
+    /// Check if rotary embeddings are enabled
+    bool isRotaryEmbeddingEnabled() const { return rotary_enabled_; }
+    
+    /// Get current rotary embedding configuration
+    /// Returns nullopt if rotary embeddings are not enabled
+    std::optional<struct RotationConfig> getRotaryEmbeddingConfig() const;
+    
+    /// Add entity with automatic positional rotation
+    /// The embedding is rotated based on the position parameter before storage
+    Status addEntityWithRotation(
+        const BaseEntity& e,
+        std::string_view vectorField,
+        size_t position
+    );
+    
+    /// Add entity with relational rotation (for Knowledge Graph edges)
+    /// The embedding is rotated based on the relation type
+    Status addEntityWithRelationalRotation(
+        const BaseEntity& e,
+        std::string_view vectorField,
+        const std::string& relation_type
+    );
+    
+    /// KNN search with rotation-aware query
+    /// Rotates the query vector before search
+    std::pair<Status, std::vector<Result>> searchWithRotation(
+        const std::vector<float>& query,
+        int k,
+        size_t query_position,
+        const std::vector<std::string>* whitelistPks = nullptr
+    ) const;
 
 private:
     RocksDBWrapper& db_;
@@ -325,9 +498,28 @@ private:
     std::shared_ptr<utils::AuditLogger> audit_logger_;
     std::string user_context_ = "system";  // Default user context
     
+    // Phase 4: Optional ExpressionEvaluator for advanced filtering
+    std::shared_ptr<IExpressionEvaluator> expression_evaluator_;
+    
+    // Phase 4: HNSW Layer Optimizer for vector index optimization
+    std::unique_ptr<HnswLayerOptimizer> hnsw_optimizer_;
+    
+    // Rotary Embeddings support
+    std::unique_ptr<RotaryEmbedding> rotary_embedding_;
+    bool rotary_enabled_ = false;
+    
+    // Advanced Vector Index Integration (v1.5.0+)
+    AdvancedIndexConfig advanced_config_;
+    std::unique_ptr<class AdvancedVectorIndex> advanced_index_;
+    // Alternative ANN backends (ScaNN / DiskANN) – active when index_type is SCANN or DISKANN
+    std::unique_ptr<index::IAnnIndex> ann_backend_;
+    
     // Helper: Log audit event if logger is set
     void logAuditEvent_(const std::string& event_type, const std::string& resource,
                        const std::string& operation, size_t count = 0) const;
+    
+    // Helper: Load HNSW optimization configuration from YAML
+    void loadHnswOptimizationConfig_();
 };
 
 } // namespace themis

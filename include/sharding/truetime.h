@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            truetime.h                                         ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:11:40                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     263                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2bbac9e44  2026-03-14  feat: implement Percolator-style distributed transaction ... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // Copyright 2025 ThemisDB
 // Licensed under MIT License
 
@@ -125,6 +148,20 @@ public:
      * @return TTInterval representing current time with uncertainty
      */
     TTInterval now() const;
+
+    /**
+     * @brief Get current time as an interval with explicit uncertainty bounds.
+     *
+     * Convenience alias for now() that emphasises the [earliest, latest] semantics
+     * used by the Percolator commit-wait protocol:
+     *
+     *   auto tt = truetime->now_with_uncertainty();
+     *   // commit_ts = tt.latest
+     *   // wait until TT.now().earliest > commit_ts + max_uncertainty
+     *
+     * @return TTInterval with earliest = now - epsilon, latest = now + epsilon
+     */
+    TTInterval now_with_uncertainty() const;
     
     /**
      * @brief Wait until a specific timestamp is definitely in the past

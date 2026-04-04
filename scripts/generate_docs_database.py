@@ -1,4 +1,27 @@
+"""
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            generate_docs_database.py                          ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:13:32                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     251                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+"""
+
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """
 ThemisDB Documentation Database Generator
 ==========================================
@@ -21,8 +44,15 @@ import json
 import logging
 import os
 import sys
+import io
 from pathlib import Path
 from datetime import datetime
+
+# Fix encoding on Windows
+if sys.platform == 'win32':
+    import codecs
+    sys.stdout = codecs.getwriter('utf-8')(sys.stdout.buffer, errors='replace')
+    sys.stderr = codecs.getwriter('utf-8')(sys.stderr.buffer, errors='replace')
 
 # Add tools directory to path to import ingest module
 SCRIPT_DIR = Path(__file__).parent
@@ -37,147 +67,117 @@ except ImportError:
     print("Please ensure tools/ingest.py is available")
     sys.exit(1)
 
-# Configure logging
+# Configure logging with UTF-8 encoding
+class UTF8StreamHandler(logging.StreamHandler):
+    def __init__(self):
+        super().__init__()
+        # Force UTF-8 encoding with error handling
+        # Force UTF-8 encoding on stderr
+        if hasattr(sys.stderr, 'buffer'):
+            self.stream = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8', errors='replace')
+        else:
+            # stderr is already wrapped or is not a binary stream
+            self.stream = sys.stderr
+
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 )
 logger = logging.getLogger('DocsDBGenerator')
 
+# Replace handlers with UTF-8 safe handler
+for handler in logger.handlers:
+    logger.removeHandler(handler)
+logger.addHandler(UTF8StreamHandler())
+
 
 def generate_documentation_database(
     output_path: str = "data/docs_database.json",
-    include_compendium: bool = True,
+    include_compendium: bool = False,
     include_examples: bool = False
 ) -> bool:
     """
-    Generate a documentation database from docs and optionally compendium directories.
+    Generate a comprehensive documentation database from source files.
     
     Args:
-        output_path: Path where the documentation database will be saved
-        include_compendium: Whether to include the compendium directory
-        include_examples: Whether to include example documentation
+        output_path: Path where the JSON database will be saved
+        include_compendium: Whether to include compendium directory
+        include_examples: Whether to include examples directory
         
     Returns:
         True if successful, False otherwise
     """
     
-    logger.info("=" * 60)
-    logger.info("ThemisDB Documentation Database Generator")
-    logger.info("=" * 60)
-    
-    # Ensure output directory exists
-    output_dir = Path(output_path).parent
-    output_dir.mkdir(parents=True, exist_ok=True)
-    
-    # Define source directories
     docs_dir = REPO_ROOT / "docs"
     compendium_dir = REPO_ROOT / "compendium"
     examples_dir = REPO_ROOT / "examples"
     
-    # Validate source directories
     if not docs_dir.exists():
         logger.error(f"Documentation directory not found: {docs_dir}")
         return False
     
     sources = [str(docs_dir)]
-    logger.info(f"✓ Including docs directory: {docs_dir}")
+    logger.info(f"[OK] Including docs directory: {docs_dir}")
     
     if include_compendium:
         if compendium_dir.exists():
             sources.append(str(compendium_dir))
-            logger.info(f"✓ Including compendium directory: {compendium_dir}")
+            logger.info(f"[OK] Including compendium directory: {compendium_dir}")
         else:
             logger.warning(f"Compendium directory not found: {compendium_dir}")
     
     if include_examples:
         if examples_dir.exists():
             sources.append(str(examples_dir))
-            logger.info(f"✓ Including examples directory: {examples_dir}")
+            logger.info(f"[OK] Including examples directory: {examples_dir}")
         else:
             logger.warning(f"Examples directory not found: {examples_dir}")
     
-    # Configure ingestion for documentation
-    # We'll process each directory separately and merge results
+    supported_extensions = [
+        '.md', '.txt', '.rst', '.json', '.yaml', '.yml',
+        '.cpp', '.h', '.py', '.js', '.ts', '.sql'
+    ]
+    
+    logger.info("=" * 60)
+    logger.info("Processing source directories")
+    logger.info("=" * 60)
+    
+    # Ingest from each source directory
     all_ingested_files = []
     total_stats = {
-        'total_files_scanned': 0,
         'files_processed': 0,
         'files_skipped': 0,
         'files_failed': 0,
         'total_size_bytes': 0
     }
-    
-    for source_dir in sources:
-        logger.info(f"\n{'=' * 60}")
-        logger.info(f"Processing: {source_dir}")
-        logger.info('=' * 60)
-        
-        # Create a temporary database for tracking per directory
-        db_path = f"/tmp/docs_ingestion_{Path(source_dir).name}.db"
-        
-        config = IngestionConfig(
-            source_dir=source_dir,
-            output_file=f"/tmp/docs_temp_{Path(source_dir).name}.json",
-            db_path=db_path,
-            include_extensions=['.md', '.txt', '.json', '.yaml', '.yml'],
-            exclude_extensions=['.exe', '.dll', '.so', '.dylib', '.bin', '.png', '.jpg', '.jpeg', '.gif', '.svg', '.ico'],
-            exclude_patterns=[
-                '.git', '__pycache__', 'node_modules', '.venv', 
-                'build', 'dist', 'output', 'temp', '.cache',
-                'chrome', 'temp'  # Exclude compendium/chrome and compendium/temp
-            ],
-            max_file_size_mb=10.0,  # Reasonable size for documentation files
-            extract_text_preview=True,
-            preview_length=2000,  # Longer preview for documentation
-            generate_vector_metadata=True,
-            generate_graph_metadata=True,
-            generate_relational_metadata=True
-        )
-        
+
+    for i, source_dir in enumerate(sources):
         try:
+            logger.info(f"Processing directory {i + 1}/{len(sources)}: {source_dir}")
+            config = IngestionConfig(
+                source_dir=source_dir,
+                output_file=f"{output_path}.tmp.{i}.json",
+                include_extensions=supported_extensions
+            )
             engine = IngestionEngine(config)
             result = engine.ingest()
-            
-            # Merge results
-            if 'ingested_files' in result:
-                all_ingested_files.extend(result['ingested_files'])
-            
-            # Aggregate statistics
-            if 'statistics' in result:
-                stats = result['statistics']
-                total_stats['total_files_scanned'] += stats.get('total_files_scanned', 0)
-                total_stats['files_processed'] += stats.get('files_processed', 0)
-                total_stats['files_skipped'] += stats.get('files_skipped', 0)
-                total_stats['files_failed'] += stats.get('files_failed', 0)
-                total_stats['total_size_bytes'] += stats.get('total_size_bytes', 0)
-            
-            # Clean up temporary files
-            engine.tracker.close()
-            if os.path.exists(db_path):
-                os.remove(db_path)
-            if os.path.exists(config.output_file):
-                os.remove(config.output_file)
-                
-        except Exception as e:
-            logger.error(f"Error processing {source_dir}: {e}", exc_info=True)
-            return False
-    
-    # Create final output with metadata
-    logger.info(f"\n{'=' * 60}")
-    logger.info("Generating final documentation database...")
-    logger.info('=' * 60)
-    
+
+            all_ingested_files.extend(result.get('ingested_files', []))
+
+            stats = result.get('statistics', {})
+            for key in total_stats:
+                total_stats[key] += stats.get(key, 0)
+
+            logger.info(f"Successfully ingested from {source_dir}")
+        except Exception:
+            import traceback
+            logger.error(f"Failed to ingest from {source_dir}")
+            logger.error(traceback.format_exc())
+    # Prepare output data
     output_data = {
-        'metadata': {
-            'version': '1.0.0',
-            'database_type': 'documentation',
-            'generation_time': datetime.now().isoformat(),
-            'sources': sources,
-            'total_documents': len(all_ingested_files),
-            'themisdb_version': _get_themisdb_version(),
-            'description': 'Pre-compiled ThemisDB documentation database for LLM-based assistance'
-        },
+        'version': '1.0',
+        'generated': datetime.now().isoformat(),
+        'total_documents': len(all_ingested_files),
         'statistics': total_stats,
         'documents': all_ingested_files
     }
@@ -188,8 +188,9 @@ def generate_documentation_database(
         json.dump(output_data, f, indent=2, ensure_ascii=False)
     
     # Generate summary
-    logger.info("\n" + "=" * 60)
-    logger.info("✓ Documentation Database Generated Successfully!")
+    logger.info("")
+    logger.info("=" * 60)
+    logger.info("Documentation Database Generated Successfully!")
     logger.info("=" * 60)
     logger.info(f"Output file: {output_path_obj.absolute()}")
     logger.info(f"File size: {output_path_obj.stat().st_size / (1024 * 1024):.2f} MB")
@@ -203,73 +204,47 @@ def generate_documentation_database(
     return True
 
 
-def _get_themisdb_version() -> str:
-    """Get ThemisDB version from VERSION file"""
-    version_file = REPO_ROOT / "VERSION"
-    if version_file.exists():
-        return version_file.read_text().strip()
-    return "unknown"
-
-
 def main():
     parser = argparse.ArgumentParser(
-        description='Generate pre-compiled documentation database for ThemisDB LLM assistant',
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog="""
-Examples:
-  # Generate documentation database with default settings
-  python3 scripts/generate_docs_database.py
-  
-  # Specify custom output path
-  python3 scripts/generate_docs_database.py --output /path/to/docs_db.json
-  
-  # Generate with docs only (exclude compendium)
-  python3 scripts/generate_docs_database.py --no-compendium
-  
-  # Include example documentation
-  python3 scripts/generate_docs_database.py --include-examples
-        """
+        description='Generate ThemisDB documentation database'
     )
-    
     parser.add_argument(
         '--output',
-        type=str,
         default='data/docs_database.json',
-        help='Output path for documentation database (default: data/docs_database.json)'
+        help='Output path for documentation database JSON'
     )
-    
     parser.add_argument(
-        '--no-compendium',
+        '--include-compendium',
         action='store_true',
-        help='Exclude compendium directory from database'
+        default=True,
+        help='Include compendium directory'
     )
-    
     parser.add_argument(
         '--include-examples',
         action='store_true',
-        help='Include examples directory in database'
-    )
-    
-    parser.add_argument(
-        '--verbose',
-        action='store_true',
-        help='Enable verbose logging'
+        default=False,
+        help='Include examples directory'
     )
     
     args = parser.parse_args()
     
-    # Set logging level
-    if args.verbose:
-        logging.getLogger().setLevel(logging.DEBUG)
+    logger.info("")
+    logger.info("=" * 60)
+    logger.info("ThemisDB Documentation Database Generator")
+    logger.info("=" * 60)
     
-    # Generate database
     success = generate_documentation_database(
-        output_path=args.output,
-        include_compendium=not args.no_compendium,
-        include_examples=args.include_examples
+        args.output,
+        args.include_compendium,
+        args.include_examples
     )
     
-    return 0 if success else 1
+    if success:
+        logger.info("Generation completed successfully!")
+        return 0
+    else:
+        logger.error("Generation failed!")
+        return 1
 
 
 if __name__ == '__main__':

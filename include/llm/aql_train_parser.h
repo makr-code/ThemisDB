@@ -1,3 +1,27 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            aql_train_parser.h                                 ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:08:18                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     298                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 5e637e76d  2026-02-24  AQL: rename distributed training struct  ║
+    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include <memory>
@@ -92,7 +116,7 @@ struct MultiModelEnrichment {
 };
 
 /// Distributed training configuration
-struct DistributedTrainingConfig {
+struct AQLDistributedTrainingConfig {
     bool enabled = false;
     std::string sync_strategy = "ALL_REDUCE";   // "ALL_REDUCE", "PARAMETER_SERVER"
     std::string coordinator_shard;              // Shard to coordinate training
@@ -100,7 +124,7 @@ struct DistributedTrainingConfig {
     int sync_frequency = 1;                     // Sync every N batches
     
     nlohmann::json toJSON() const;
-    static DistributedTrainingConfig fromJSON(const nlohmann::json& j);
+    static AQLDistributedTrainingConfig fromJSON(const nlohmann::json& j);
 };
 
 /// TRAIN ADAPTER statement AST node
@@ -119,7 +143,7 @@ struct TrainAdapterStmt {
     TrainStatementConfig config;
     
     // Distributed training (optional)
-    DistributedTrainingConfig distributed;
+    AQLDistributedTrainingConfig distributed;
     
     // Output
     std::string output_path;                    // Where to save adapter
@@ -212,7 +236,7 @@ private:
     GraphContextConfig parseGraphContext(const std::string& args);
     VectorSimilarityConfig parseVectorSimilarity(const std::string& args);
     RelationalJoinConfig parseRelationalJoin(const std::string& args);
-    DistributedTrainingConfig parseDistributed(const std::string& aql);
+    AQLDistributedTrainingConfig parseDistributed(const std::string& aql);
     
     // Tokenization helpers
     std::vector<std::string> tokenize(const std::string& input);
@@ -255,7 +279,7 @@ public:
     TrainingQueryBuilder& signAdapter(bool sign);
     
     // Distributed training
-    TrainingQueryBuilder& distributed(const DistributedTrainingConfig& config);
+    TrainingQueryBuilder& distributed(const AQLDistributedTrainingConfig& config);
     
     // Output
     TrainingQueryBuilder& outputPath(const std::string& path);

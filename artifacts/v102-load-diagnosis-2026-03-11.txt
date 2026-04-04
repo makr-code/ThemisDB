@@ -1,0 +1,50 @@
+V102_TOTAL=210
+CREATED_MIN=11/20/2025 09:48:15
+CREATED_MAX=03/11/2026 12:47:02
+MONTH_COUNTS
+2025-11 2
+2025-12 5
+2026-01 70
+2026-02 40
+2026-03 93
+LATE_ISSUES
+#3779 11.03.2026 12:47:02 | [research] Weighted Edge Evolution: Nutzungsgesteuerte Verst├ñrkung und temporaler Decay
+#3775 11.03.2026 12:34:47 | [FEATURE] Scheduled Semantic Graph Edge Refresh Module
+#3748 11.03.2026 09:34:13 | [FEATURE] Real LoRA Model Weight Manipulation Implementation
+#3746 11.03.2026 09:32:35 | [FEATURE] Wire LegalAutoLabeler DB fetch to AQL query executor
+#3727 11.03.2026 08:24:39 | feat(training): implement LoRA model weight manipulation for fine-tuning
+#3725 11.03.2026 08:24:05 | feat(training): wire LegalAutoLabeler DB fetch to AQL query executor
+#3714 11.03.2026 08:13:45 | [FEATURE] Zip-bomb protection decompression-ratio check enforcement
+#3710 11.03.2026 08:03:53 | [FEATURE] Distributed API Gateway
+#3707 11.03.2026 08:01:39 | [ENHANCEMENT] Alerting Engine ÔÇö Rule-based alerting
+#3706 11.03.2026 08:01:20 | [FEATURE] Distributed Tracing ÔÇö OpenTelemetry integration
+#3705 11.03.2026 08:00:59 | [FEATURE] Backpressure Handling ÔÇö TCP backlog management
+#3704 11.03.2026 08:00:08 | [FEATURE] SAML 2.0 Service Provider
+#3703 11.03.2026 07:59:42 | [FEATURE] Circuit Breaker Pattern ÔÇö Network resilience
+#3702 11.03.2026 07:59:09 | [FEATURE] Connection Pooling ÔÇö Implement adaptive pool sizing
+#3701 11.03.2026 07:56:35 | [FEATURE] WireProtocol V1 ÔÇö Complete Opcode Handler Implementation
+#3693 11.03.2026 07:12:37 | Observability: Implement Tracer.cpp and Log_Aggregator.cpp Structure with Real Files
+#3692 11.03.2026 07:12:13 | WireProtocol V1 Opcode Handler: Implement Complete Handlers for All Opcodes
+#3691 11.03.2026 07:11:50 | Performance Benchmarks missing for Metadata Cache
+#3690 11.03.2026 07:11:26 | GPU Memory Allocation & Recovery: Implement ActiveVRAMAllocator for LLM Module
+#3689 11.03.2026 07:10:56 | HTTP Client Simulation in Ingestion Module - Replace Stub with Real Implementation
+#3684 11.03.2026 06:50:39 | [FEATURE] exporters: stream JSONL shards directly from memory for HuggingFaceHubClient uploads
+#3683 11.03.2026 06:50:09 | [FEATURE] exporters: add hf_token_kek_id for protected HuggingFace Hub token lookup
+#3682 11.03.2026 06:49:33 | [FEATURE] exporters: register format templates in ExportFormatRegistry and support user-defined templates via JSON config
+#3681 11.03.2026 06:48:27 | [FEATURE] exporters: add validate_template dry-run mode to verify required fields before export
+#3680 11.03.2026 06:36:34 | [ENHANCEMENT] implement LibreOffice headless fallback in office_processor.cpp for legacy .doc/.xls/.ppt
+#3679 11.03.2026 06:34:27 | feat(content): add ContentPolicy::ocrEnabled() and wire OCR trigger in MimeDetector
+#3678 11.03.2026 06:34:14 | feat(content): add 300-DPI rescaling and adaptive binarisation in ocr_processor.cpp
+#3677 11.03.2026 06:33:54 | feat(content): default ocr_processor data_dir to config/ai_ml/tesseract_lang/ via ConfigPathResolver
+#3676 11.03.2026 06:33:36 | feat(content): implement back-pressure in async_ingestion_worker.cpp for ingestStream()
+#3675 11.03.2026 06:33:23 | fix(content/security): add zip-bomb protection in archive_processor.cpp via content_security.cpp
+#3674 11.03.2026 06:33:01 | fix(content/security): ensure LibreOffice subprocess in office_processor.cpp uses posix_spawn with restricted user
+#3673 11.03.2026 06:05:39 | [ENHANCEMENT] Add loadAsJson(string_content) overload to ConfigSchemaValidator
+#3672 11.03.2026 06:05:21 | [ENHANCEMENT] Add format and uniqueItems JSON Schema keywords
+#3671 11.03.2026 06:05:00 | [ENHANCEMENT] Implement $ref/$defs JSON Schema keyword in ConfigSchemaValidator
+#3670 11.03.2026 06:04:41 | [ENHANCEMENT] Implement allOf/anyOf/oneOf JSON Schema keywords in ConfigSchemaValidator
+#3669 11.03.2026 06:04:20 | [ENHANCEMENT] Add dedicated metrics scrape latency test
+#3668 11.03.2026 06:04:07 | [ENHANCEMENT] Add migration scanner performance benchmark
+#3660 11.03.2026 05:59:44 | [ENHANCEMENT] Runtime-configurable change log retention policies (TTL + size-based)
+#3659 11.03.2026 05:59:32 | [ENHANCEMENT] Increase unit test coverage for CDC module to >80% (closes #1623)
+#3658 11.03.2026 05:59:06 | [ENHANCEMENT] Extend at-least-once delivery guarantee to SSE connections

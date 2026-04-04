@@ -1,3 +1,28 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            llm_model_storage.h                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:08:24                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     360                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 10bb6eb49  2026-03-19  fix(llm): address PR review — key_prefix rename, source t... ║
+    • f9096b78d  2026-03-17  feat(llm): LLMDeploymentPlugin RocksDB model storage (v1.... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include "storage/base_entity.h"
@@ -163,9 +188,11 @@ public:
         std::shared_ptr<RocksDBWrapper> db;
         std::shared_ptr<storage::BlobStorageManager> blob_manager;
         std::shared_ptr<storage::SecuritySignatureManager> signature_manager;
+        std::shared_ptr<KeyProvider> key_provider;  // Configurable key provider (Vault/HSM/Mock)
         
-        // Collection settings
-        std::string collection_name = "llm_models";
+        // Storage key prefix
+        // Keys are constructed as: key_prefix + model_id (e.g. "llm_model::my-model")
+        std::string key_prefix = "llm_model::";  // Full RocksDB key prefix
         
         // Security
         bool enable_encryption = false;
@@ -177,7 +204,8 @@ public:
         size_t inline_threshold_mb = 100;  // Files > 100MB go to blob storage
     };
     
-    explicit LLMModelStorage(const Config& config = Config{});
+    LLMModelStorage();
+    explicit LLMModelStorage(const Config& config);
     ~LLMModelStorage();
     
     // ═══════════════════════════════════════════════════════════
@@ -201,6 +229,17 @@ public:
      * @return Optional model metadata
      */
     std::optional<LLMModelMetadata> loadModel(const std::string& model_id);
+    
+    /**
+     * @brief Load model blob data from storage
+     * 
+     * Retrieves the actual model file data from blob storage or inline storage.
+     * Handles both inline storage (for small models) and blob storage (for large models).
+     * 
+     * @param model_id Model identifier
+     * @return Optional vector containing model file data, or nullopt if not found/error
+     */
+    std::optional<std::vector<uint8_t>> loadModelBlob(const std::string& model_id);
     
     /**
      * @brief Update model metadata
@@ -306,10 +345,17 @@ public:
      * @return Statistics as JSON
      */
     json getStats() const;
+    
+    /**
+     * @brief Get configuration (for accessing blob manager, etc.)
+     * @return Configuration object
+     */
+    const Config& getConfig() const;
 
 private:
     class Impl;
     std::unique_ptr<Impl> impl_;
+    Config config_;  // Store config for external access
 };
 
 } // namespace llm

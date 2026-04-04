@@ -1,3 +1,27 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            content_plugin_interface.h                         ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:06:47                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     493                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • b410ac7d0  2026-02-26  feat(content): Extract video metadata and thumbnails - AP... ║
+    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file content_plugin_interface.h
  * @brief Content Processor Plugin Interface
@@ -87,6 +111,11 @@ struct MediaExtractionData {
     int sample_rate = 0;
     int channels = 0;
     std::string container_format;
+    
+    // Extended fields for video processing
+    std::vector<int64_t> keyframe_timestamps;  // Keyframe positions in ms
+    std::vector<int64_t> scene_boundaries;     // Scene change positions in ms
+    std::string subtitles;                     // Extracted subtitle text
 };
 
 /**
@@ -186,6 +215,19 @@ public:
      */
     const json& raw() const { return settings_; }
     
+    /**
+     * @brief Set configuration value
+     */
+    template<typename T>
+    void set(const std::string& path, T value) {
+        try {
+            std::string fixed_path = path;
+            std::replace(fixed_path.begin(), fixed_path.end(), '.', '/');
+            json::json_pointer ptr("/" + fixed_path);
+            settings_[ptr] = value;
+        } catch (...) {}
+    }
+    
 private:
     json settings_;
 };
@@ -198,6 +240,9 @@ struct ExtractionOptions {
     bool extract_metadata = true;
     bool generate_thumbnail = false;
     bool generate_embedding = false;
+    bool extract_keyframes = false;   // Extract keyframe timestamps
+    bool extract_scenes = false;      // Detect scene boundaries
+    bool extract_subtitles = true;    // Extract embedded subtitles
     
     // Chunking options
     int chunk_max_tokens = 512;
@@ -359,7 +404,11 @@ using GetVersionFunc = const char* (*)();
  * 
  * THEMIS_CONTENT_PLUGIN(MyProcessor)
  * @endcode
+ * 
+ * NOTE: Only used when building standalone plugins. When building monolithic
+ * themis_core, these functions are not exported to avoid duplicate symbols.
  */
+#ifdef THEMIS_BUILD_STANDALONE_PLUGINS
 #define THEMIS_CONTENT_PLUGIN(PluginClass) \
     extern "C" { \
         THEMIS_PLUGIN_API IContentProcessorPlugin* themis_create_plugin() { \
@@ -372,6 +421,9 @@ using GetVersionFunc = const char* (*)();
             return THEMIS_PLUGIN_API_VERSION; \
         } \
     }
+#else
+#define THEMIS_CONTENT_PLUGIN(PluginClass) // No-op when building monolithic core
+#endif
 
 // ============================================================================
 // Helper Functions

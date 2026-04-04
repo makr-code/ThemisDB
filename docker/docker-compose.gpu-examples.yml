@@ -1,0 +1,282 @@
+# ============================================================================
+# ThemisDB Docker Compose - GPU Support Examples
+# ============================================================================
+# This file demonstrates different GPU configurations for Docker deployments
+# 
+# Variants:
+#   1. CPU-only (fallback, no GPU)
+#   2. Vulkan GPU (Intel/AMD via DRI)
+#   3. NVIDIA CUDA GPU (nvidia-docker)
+#
+# Usage:
+#   docker-compose -f docker-compose.gpu-examples.yml up themisdb-cpu
+#   docker-compose -f docker-compose.gpu-examples.yml up themisdb-vulkan
+#   docker-compose -f docker-compose.gpu-examples.yml up themisdb-cuda
+# ============================================================================
+
+version: '3.8'
+
+services:
+  # ==========================================================================
+  # Example 1: CPU-only (no GPU, fallback mode)
+  # ==========================================================================
+  # Use case: Development, testing, systems without GPU
+  # Performance: Baseline (CPU vector search ~120ms)
+  # Image: Built with FORCE_CPU_ONLY=ON or uses edition defaults with CPU fallback
+  # ==========================================================================
+  themisdb-cpu:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.unified
+      args:
+        THEMIS_EDITION: COMMUNITY
+        ENABLE_LLM: "ON"
+        FORCE_CPU_ONLY: "ON"  # Explicitly disable GPU for smaller image
+    image: themisdb:community-cpu
+    container_name: themisdb-cpu
+    hostname: themisdb-cpu
+    ports:
+      - "8529:8529"
+    volumes:
+      - themisdb-cpu-data:/var/lib/themisdb/data
+      - ./config:/etc/themisdb:ro
+    environment:
+      - THEMIS_EDITION=COMMUNITY
+      - THEMIS_HTTP_PORT=8529
+      - THEMIS_LOG_LEVEL=info
+    networks:
+      - themis-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8529/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    # Expected log:
+    # [WARN] Vulkan backend: Not available (disabled at build time)
+    # [INFO] Using CPU backend
+
+  # ==========================================================================
+  # Example 2: Vulkan GPU via DRI (Intel/AMD/integrated GPUs)
+  # ==========================================================================
+  # Use case: Production with Intel/AMD GPUs, cross-platform acceleration
+  # Performance: ~20x speedup over CPU (vector search ~6ms)
+  # Requirements:
+  #   - /dev/dri device (GPU access)
+  #   - Vulkan ICD files from host
+  #   - 'video' and 'render' groups
+  # ==========================================================================
+  themisdb-vulkan:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.unified
+      args:
+        THEMIS_EDITION: COMMUNITY
+        ENABLE_LLM: "ON"
+        # FORCE_CPU_ONLY: "OFF" (default) - uses edition defaults (Vulkan=ON)
+    image: themisdb:community-vulkan
+    container_name: themisdb-vulkan
+    hostname: themisdb-vulkan
+    ports:
+      - "8530:8529"
+    devices:
+      - /dev/dri:/dev/dri  # GPU access via Direct Rendering Infrastructure
+    volumes:
+      - themisdb-vulkan-data:/var/lib/themisdb/data
+      - ./config:/etc/themisdb:ro
+      # Mount Vulkan ICD files from host
+      - /usr/share/vulkan/icd.d:/usr/share/vulkan/icd.d:ro
+      - /etc/vulkan/icd.d:/etc/vulkan/icd.d:ro
+    environment:
+      - THEMIS_EDITION=COMMUNITY
+      - THEMIS_HTTP_PORT=8529
+      - THEMIS_LOG_LEVEL=info
+      # Optional: Specify ICD file for specific GPU vendor
+      # Intel:
+      - VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/intel_icd.x86_64.json
+      # AMD (alternative):
+      # - VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/radeon_icd.x86_64.json
+    group_add:
+      - video   # Required for GPU access
+      - render  # Required for render nodes
+    networks:
+      - themis-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8529/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    # Expected log:
+    # [INFO] Vulkan backend: Available
+    # [INFO] Device: Intel(R) UHD Graphics 770
+    # [INFO] Using Vulkan GPU acceleration
+
+  # ==========================================================================
+  # Example 3: NVIDIA CUDA GPU (nvidia-docker)
+  # ==========================================================================
+  # Use case: Production with NVIDIA GPUs, maximum performance
+  # Performance: ~24x speedup over CPU (vector search ~5ms)
+  # Requirements:
+  #   - nvidia-container-toolkit installed on host
+  #   - NVIDIA driver on host
+  #   - Image built with CUDA support (optional, Vulkan also works on NVIDIA)
+  # ==========================================================================
+  themisdb-cuda:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.unified
+      args:
+        THEMIS_EDITION: ENTERPRISE
+        ENABLE_LLM: "ON"
+        # Note: This uses edition defaults (Vulkan=ON)
+        # For explicit CUDA support, would need CUDA SDK in Dockerfile
+    image: themisdb:enterprise-gpu
+    container_name: themisdb-cuda
+    hostname: themisdb-cuda
+    runtime: nvidia  # Requires nvidia-container-runtime
+    ports:
+      - "8531:8529"
+    volumes:
+      - themisdb-cuda-data:/var/lib/themisdb/data
+      - ./config:/etc/themisdb:ro
+    environment:
+      - THEMIS_EDITION=ENTERPRISE
+      - THEMIS_HTTP_PORT=8529
+      - THEMIS_LOG_LEVEL=info
+      # NVIDIA-specific environment variables
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1  # Number of GPUs to use
+              capabilities: [gpu]
+    networks:
+      - themis-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8529/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    # Expected log (if CUDA enabled):
+    # [INFO] CUDA backend: Available
+    # [INFO] Device: NVIDIA GeForce RTX 4090
+    # [INFO] Using CUDA GPU acceleration
+    # 
+    # Or (if only Vulkan):
+    # [INFO] Vulkan backend: Available
+    # [INFO] Device: NVIDIA GeForce RTX 4090
+    # [INFO] Using Vulkan GPU acceleration
+
+  # ==========================================================================
+  # Example 4: Enterprise with automatic GPU detection
+  # ==========================================================================
+  # Use case: Production deployment with flexible GPU support
+  # Behavior: Uses GPU if available via DRI, falls back to CPU if not
+  # ==========================================================================
+  themisdb-enterprise-auto:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.unified
+      args:
+        THEMIS_EDITION: ENTERPRISE
+        ENABLE_LLM: "ON"
+    image: themisdb:enterprise
+    container_name: themisdb-enterprise
+    hostname: themisdb-enterprise
+    ports:
+      - "8532:8529"
+    # Conditionally mount GPU devices (graceful fallback if not present)
+    devices:
+      - /dev/dri:/dev/dri
+    volumes:
+      - themisdb-enterprise-data:/var/lib/themisdb/data
+      - ./config:/etc/themisdb:ro
+      - /usr/share/vulkan/icd.d:/usr/share/vulkan/icd.d:ro
+    environment:
+      - THEMIS_EDITION=ENTERPRISE
+      - THEMIS_HTTP_PORT=8529
+      - THEMIS_LOG_LEVEL=info
+    group_add:
+      - video
+      - render
+    networks:
+      - themis-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8529/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+
+# ============================================================================
+# Networks
+# ============================================================================
+networks:
+  themis-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.29.0.0/16
+
+# ============================================================================
+# Volumes
+# ============================================================================
+volumes:
+  themisdb-cpu-data:
+    driver: local
+  themisdb-vulkan-data:
+    driver: local
+  themisdb-cuda-data:
+    driver: local
+  themisdb-enterprise-data:
+    driver: local
+
+# ============================================================================
+# Build Commands Reference
+# ============================================================================
+# 
+# Build CPU-only image (smaller, no GPU):
+#   docker-compose -f docker-compose.gpu-examples.yml build themisdb-cpu
+#
+# Build with Vulkan support (edition defaults):
+#   docker-compose -f docker-compose.gpu-examples.yml build themisdb-vulkan
+#
+# Build Enterprise edition:
+#   docker-compose -f docker-compose.gpu-examples.yml build themisdb-enterprise-auto
+#
+# ============================================================================
+# Runtime Commands
+# ============================================================================
+#
+# Start CPU-only instance:
+#   docker-compose -f docker-compose.gpu-examples.yml up -d themisdb-cpu
+#
+# Start with Vulkan GPU (Intel/AMD):
+#   docker-compose -f docker-compose.gpu-examples.yml up -d themisdb-vulkan
+#
+# Start with NVIDIA GPU (requires nvidia-docker):
+#   docker-compose -f docker-compose.gpu-examples.yml up -d themisdb-cuda
+#
+# Check logs:
+#   docker-compose -f docker-compose.gpu-examples.yml logs -f themisdb-vulkan
+#
+# Test GPU availability in container:
+#   docker exec themisdb-vulkan vulkaninfo | head -20
+#   docker exec themisdb-cuda nvidia-smi  # If CUDA installed
+#
+# ============================================================================
+# Performance Comparison
+# ============================================================================
+#
+# | Setup                  | Vector Search | Image Size | Complexity |
+# |------------------------|---------------|------------|------------|
+# | themisdb-cpu           | 120 ms        | ~500 MB    | Simple     |
+# | themisdb-vulkan (DRI)  | 6-8 ms        | ~650 MB    | Medium     |
+# | themisdb-cuda (NVIDIA) | 5 ms          | ~800 MB    | Complex    |
+#
+# ============================================================================

@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            vulkan_backend_full.cpp                            ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:13:48                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   99.0/100                                       ║
+    • Total Lines:     499                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • efc8af71b  2026-03-11  feat: add LLM-assisted content analysis methods and impro... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // Full Vulkan Backend Implementation for ThemisDB
 // Provides GPU-accelerated vector operations using Vulkan Compute Shaders
 // Cross-platform support: Windows, Linux, macOS (via MoltenVK), Android
@@ -8,7 +31,9 @@
 #include <vector>
 #include <algorithm>
 #include <cstring>
+#ifndef _WIN32
 #include <dlfcn.h>  // For dynamic library loading (Unix)
+#endif
 
 #ifdef _WIN32
 #include <windows.h>

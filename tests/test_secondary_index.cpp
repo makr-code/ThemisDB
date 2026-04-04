@@ -1,3 +1,27 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_secondary_index.cpp                           ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:33:30                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     412                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 2c5066b72  2026-02-25  Code audit: fix header annotations, add PARTIAL to IndexT... ║
+    • 4eeafc8f5  2026-02-25  Implement partial/filtered indexes on secondary index man... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include <gtest/gtest.h>
 #include <filesystem>
 #include <chrono>
@@ -15,7 +39,7 @@ using namespace themis;
 
 TEST(KeySchemaTest, MakeRelationalKey) {
     std::string key = KeySchema::makeRelationalKey("users", "123");
-    EXPECT_EQ(key, "users:123");
+    EXPECT_EQ(key, "rel:users:123"); // v1.5.0+ format with prefix
 }
 
 TEST(KeySchemaTest, MakeGraphNodeKey) {
@@ -44,7 +68,8 @@ TEST(KeySchemaTest, MakeGraphIndexKey) {
 }
 
 TEST(KeySchemaTest, ExtractPrimaryKey) {
-    std::string pk = KeySchema::extractPrimaryKey("users:123");
+    // v1.5.0+ format with prefixes
+    std::string pk = KeySchema::extractPrimaryKey("rel:users:123");
     EXPECT_EQ(pk, "123");
     
     pk = KeySchema::extractPrimaryKey("idx:users:age:30:user_456");
@@ -52,11 +77,17 @@ TEST(KeySchemaTest, ExtractPrimaryKey) {
 }
 
 TEST(KeySchemaTest, ParseKeyType) {
+    // v1.5.0+ format tests
+    EXPECT_EQ(KeySchema::parseKeyType("rel:users:123"), KeySchema::KeyType::RELATIONAL);
+    EXPECT_EQ(KeySchema::parseKeyType("doc:orders:456"), KeySchema::KeyType::DOCUMENT);
     EXPECT_EQ(KeySchema::parseKeyType("idx:users:age:30:pk"), KeySchema::KeyType::SECONDARY_INDEX);
     EXPECT_EQ(KeySchema::parseKeyType("graph:out:alice:e1"), KeySchema::KeyType::GRAPH_OUTDEX);
     EXPECT_EQ(KeySchema::parseKeyType("graph:in:bob:e1"), KeySchema::KeyType::GRAPH_INDEX);
     EXPECT_EQ(KeySchema::parseKeyType("node:alice"), KeySchema::KeyType::GRAPH_NODE);
     EXPECT_EQ(KeySchema::parseKeyType("edge:e1"), KeySchema::KeyType::GRAPH_EDGE);
+    
+    // Legacy format (pre-1.5.0) - defaults to DOCUMENT for backward compatibility
+    EXPECT_EQ(KeySchema::parseKeyType("users:123"), KeySchema::KeyType::DOCUMENT);
 }
 
 // ----------------- SecondaryIndex integration tests -----------------
@@ -103,8 +134,8 @@ TEST(SecondaryIndexTest, CreatePutScanDelete) {
     ASSERT_TRUE(st.ok) << st.message;
 
     // Scan equals age=30 -> expect u1
-    auto [st1, keys] = idx.scanKeysEqual("users", "age", "30");
-    ASSERT_TRUE(st1.ok) << st1.message;
+    auto [status1, keys] = idx.scanKeysEqual("users", "age", "30");
+    ASSERT_TRUE(status1.ok);
     ASSERT_EQ(keys.size(), 1);
     EXPECT_EQ(keys[0], "u1");
 
@@ -115,20 +146,20 @@ TEST(SecondaryIndexTest, CreatePutScanDelete) {
     ASSERT_TRUE(st.ok) << st.message;
 
     // Old index should be gone
-    auto [st2a, keys_old] = idx.scanKeysEqual("users", "age", "30");
-    ASSERT_TRUE(st2a.ok);
+    auto [status2a, keys_old] = idx.scanKeysEqual("users", "age", "30");
+    ASSERT_TRUE(status2a.ok);
     EXPECT_TRUE(keys_old.empty());
     // New index
-    auto [st2b, keys_new] = idx.scanKeysEqual("users", "age", "31");
-    ASSERT_TRUE(st2b.ok);
+    auto [status2b, keys_new] = idx.scanKeysEqual("users", "age", "31");
+    ASSERT_TRUE(status2b.ok);
     ASSERT_EQ(keys_new.size(), 1);
     EXPECT_EQ(keys_new[0], "u1");
 
     // Delete entity
     st = idx.erase("users", "u1");
     ASSERT_TRUE(st.ok) << st.message;
-    auto [st3, keys_post] = idx.scanKeysEqual("users", "age", "31");
-    ASSERT_TRUE(st3.ok);
+    auto [status3, keys_post] = idx.scanKeysEqual("users", "age", "31");
+    ASSERT_TRUE(status3.ok);
     EXPECT_TRUE(keys_post.empty());
 
     db.close();
@@ -142,8 +173,8 @@ TEST(SecondaryIndexTest, EstimateCountAndNoIndex) {
     SecondaryIndexManager idx(db);
 
     // No index yet -> scans should error, estimate = 0
-    auto [st0, keys0] = idx.scanKeysEqual("users", "age", "30");
-    EXPECT_FALSE(st0.ok);
+    auto [status0, keys0] = idx.scanKeysEqual("users", "age", "30");
+    EXPECT_FALSE(status0.ok);
     bool capped=false; 
     EXPECT_EQ(idx.estimateCountEqual("users","age","30", 10, &capped), 0u);
     EXPECT_FALSE(capped);
@@ -161,9 +192,221 @@ TEST(SecondaryIndexTest, EstimateCountAndNoIndex) {
     EXPECT_EQ(c, 2u);
     EXPECT_TRUE(capped);
 
-    auto [st1, keys] = idx.scanKeysEqual("users","age","30");
-    ASSERT_TRUE(st1.ok);
+    auto [status1, keys] = idx.scanKeysEqual("users","age","30");
+    ASSERT_TRUE(status1.ok);
     EXPECT_EQ(keys.size(), 3u);
+
+    db.close();
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Partial (filtered) index tests
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST(SecondaryIndexTest, PartialIndex_CreateHasDrop) {
+    RocksDBWrapper::Config cfg;
+    cfg.db_path = makeTempDbPath("vccdb_partidx_lifecycle_");
+    RocksDBWrapper db(cfg);
+    ASSERT_TRUE(db.open());
+    SecondaryIndexManager idx(db);
+
+    // Initially no partial index
+    EXPECT_FALSE(idx.hasPartialIndex("orders", "customer_id"));
+    EXPECT_FALSE(idx.getPartialIndexPredicate("orders", "customer_id").has_value());
+
+    // Create partial index
+    auto st = idx.createPartialIndex("orders", "customer_id", "status = 'active'");
+    ASSERT_TRUE(st.ok) << st.message;
+    EXPECT_TRUE(idx.hasPartialIndex("orders", "customer_id"));
+
+    // Predicate should be retrievable
+    auto pred = idx.getPartialIndexPredicate("orders", "customer_id");
+    ASSERT_TRUE(pred.has_value());
+    EXPECT_EQ(*pred, "status = 'active'");
+
+    // Drop partial index
+    st = idx.dropPartialIndex("orders", "customer_id");
+    ASSERT_TRUE(st.ok) << st.message;
+    EXPECT_FALSE(idx.hasPartialIndex("orders", "customer_id"));
+
+    db.close();
+}
+
+TEST(SecondaryIndexTest, PartialIndex_FilteringOnPut) {
+    RocksDBWrapper::Config cfg;
+    cfg.db_path = makeTempDbPath("vccdb_partidx_filter_");
+    RocksDBWrapper db(cfg);
+    ASSERT_TRUE(db.open());
+    SecondaryIndexManager idx(db);
+
+    // Create partial index on "email" for active users only
+    auto st = idx.createPartialIndex("users", "email", "status = 'active'");
+    ASSERT_TRUE(st.ok) << st.message;
+
+    // Insert 3 users: 2 active, 1 inactive
+    BaseEntity::FieldMap f1{{"email", std::string("alice@example.com")}, {"status", std::string("active")}};
+    BaseEntity::FieldMap f2{{"email", std::string("bob@example.com")},   {"status", std::string("active")}};
+    BaseEntity::FieldMap f3{{"email", std::string("carol@example.com")}, {"status", std::string("inactive")}};
+
+    ASSERT_TRUE(idx.put("users", BaseEntity::fromFields("u1", f1)).ok);
+    ASSERT_TRUE(idx.put("users", BaseEntity::fromFields("u2", f2)).ok);
+    ASSERT_TRUE(idx.put("users", BaseEntity::fromFields("u3", f3)).ok);
+
+    // scanKeysEqualPartial should return only the 2 active users for their emails
+    auto [st1, keys1] = idx.scanKeysEqualPartial("users", "email", "alice@example.com");
+    ASSERT_TRUE(st1.ok) << st1.message;
+    ASSERT_EQ(keys1.size(), 1u);
+    EXPECT_EQ(keys1[0], "u1");
+
+    auto [st2, keys2] = idx.scanKeysEqualPartial("users", "email", "bob@example.com");
+    ASSERT_TRUE(st2.ok) << st2.message;
+    ASSERT_EQ(keys2.size(), 1u);
+    EXPECT_EQ(keys2[0], "u2");
+
+    // Inactive user should NOT be in the partial index
+    auto [st3, keys3] = idx.scanKeysEqualPartial("users", "email", "carol@example.com");
+    ASSERT_TRUE(st3.ok) << st3.message;
+    EXPECT_TRUE(keys3.empty());
+
+    db.close();
+}
+
+TEST(SecondaryIndexTest, PartialIndex_UpdateRemovesOldEntry) {
+    RocksDBWrapper::Config cfg;
+    cfg.db_path = makeTempDbPath("vccdb_partidx_update_");
+    RocksDBWrapper db(cfg);
+    ASSERT_TRUE(db.open());
+    SecondaryIndexManager idx(db);
+
+    // Partial index on "score" for active entities
+    ASSERT_TRUE(idx.createPartialIndex("items", "score", "active = '1'").ok);
+
+    // Insert active entity
+    BaseEntity::FieldMap f1{{"score", std::string("100")}, {"active", std::string("1")}};
+    ASSERT_TRUE(idx.put("items", BaseEntity::fromFields("item1", f1)).ok);
+
+    // Verify it's indexed
+    auto [st1, keys1] = idx.scanKeysEqualPartial("items", "score", "100");
+    ASSERT_TRUE(st1.ok);
+    ASSERT_EQ(keys1.size(), 1u);
+
+    // Deactivate the entity (predicate no longer matches)
+    BaseEntity::FieldMap f2{{"score", std::string("100")}, {"active", std::string("0")}};
+    ASSERT_TRUE(idx.put("items", BaseEntity::fromFields("item1", f2)).ok);
+
+    // Should no longer be in the partial index
+    auto [st2, keys2] = idx.scanKeysEqualPartial("items", "score", "100");
+    ASSERT_TRUE(st2.ok);
+    EXPECT_TRUE(keys2.empty());
+
+    db.close();
+}
+
+TEST(SecondaryIndexTest, PartialIndex_NumericPredicate) {
+    RocksDBWrapper::Config cfg;
+    cfg.db_path = makeTempDbPath("vccdb_partidx_numeric_");
+    RocksDBWrapper db(cfg);
+    ASSERT_TRUE(db.open());
+    SecondaryIndexManager idx(db);
+
+    // Partial index on "product_id" for high-value orders (amount > 500)
+    ASSERT_TRUE(idx.createPartialIndex("orders", "product_id", "amount > 500").ok);
+
+    BaseEntity::FieldMap f1{{"product_id", std::string("p1")}, {"amount", std::string("1000")}};
+    BaseEntity::FieldMap f2{{"product_id", std::string("p1")}, {"amount", std::string("200")}};
+    BaseEntity::FieldMap f3{{"product_id", std::string("p2")}, {"amount", std::string("750")}};
+
+    ASSERT_TRUE(idx.put("orders", BaseEntity::fromFields("o1", f1)).ok); // high value
+    ASSERT_TRUE(idx.put("orders", BaseEntity::fromFields("o2", f2)).ok); // low value
+    ASSERT_TRUE(idx.put("orders", BaseEntity::fromFields("o3", f3)).ok); // high value
+
+    // High-value orders for product p1
+    auto [st1, keys1] = idx.scanKeysEqualPartial("orders", "product_id", "p1");
+    ASSERT_TRUE(st1.ok);
+    ASSERT_EQ(keys1.size(), 1u);
+    EXPECT_EQ(keys1[0], "o1");
+
+    // High-value orders for product p2
+    auto [st2, keys2] = idx.scanKeysEqualPartial("orders", "product_id", "p2");
+    ASSERT_TRUE(st2.ok);
+    ASSERT_EQ(keys2.size(), 1u);
+    EXPECT_EQ(keys2[0], "o3");
+
+    // Low-value order o2 should not be indexed
+    auto [st3, keys3] = idx.scanKeysEqualPartial("orders", "product_id", "p1");
+    ASSERT_TRUE(st3.ok);
+    // o2 has product_id p1 but amount 200, so not indexed - only o1
+    EXPECT_EQ(keys3.size(), 1u);
+
+    db.close();
+}
+
+TEST(SecondaryIndexTest, PartialIndex_IsNotNullPredicate) {
+    RocksDBWrapper::Config cfg;
+    cfg.db_path = makeTempDbPath("vccdb_partidx_isnull_");
+    RocksDBWrapper db(cfg);
+    ASSERT_TRUE(db.open());
+    SecondaryIndexManager idx(db);
+
+    // Partial index on "category" for entities that have a non-null "tag"
+    ASSERT_TRUE(idx.createPartialIndex("products", "category", "tag IS NOT NULL").ok);
+
+    // Entity with a tag
+    BaseEntity::FieldMap f1{{"category", std::string("electronics")}, {"tag", std::string("sale")}};
+    // Entity without a tag
+    BaseEntity::FieldMap f2{{"category", std::string("electronics")}};
+
+    ASSERT_TRUE(idx.put("products", BaseEntity::fromFields("prod1", f1)).ok);
+    ASSERT_TRUE(idx.put("products", BaseEntity::fromFields("prod2", f2)).ok);
+
+    // Only prod1 should appear in partial index (has tag)
+    auto [st, keys] = idx.scanKeysEqualPartial("products", "category", "electronics");
+    ASSERT_TRUE(st.ok);
+    ASSERT_EQ(keys.size(), 1u);
+    EXPECT_EQ(keys[0], "prod1");
+
+    db.close();
+}
+
+TEST(SecondaryIndexTest, PartialIndex_ErrorOnNoIndex) {
+    RocksDBWrapper::Config cfg;
+    cfg.db_path = makeTempDbPath("vccdb_partidx_noindex_");
+    RocksDBWrapper db(cfg);
+    ASSERT_TRUE(db.open());
+    SecondaryIndexManager idx(db);
+
+    // Scan on non-existent partial index should return error
+    auto [st, keys] = idx.scanKeysEqualPartial("users", "email", "foo@bar.com");
+    EXPECT_FALSE(st.ok);
+    EXPECT_TRUE(keys.empty());
+
+    db.close();
+}
+
+TEST(SecondaryIndexTest, PartialIndex_DeleteRemovesEntry) {
+    RocksDBWrapper::Config cfg;
+    cfg.db_path = makeTempDbPath("vccdb_partidx_delete_");
+    RocksDBWrapper db(cfg);
+    ASSERT_TRUE(db.open());
+    SecondaryIndexManager idx(db);
+
+    ASSERT_TRUE(idx.createPartialIndex("sessions", "user_id", "valid = '1'").ok);
+
+    BaseEntity::FieldMap f{{"user_id", std::string("u42")}, {"valid", std::string("1")}};
+    ASSERT_TRUE(idx.put("sessions", BaseEntity::fromFields("s1", f)).ok);
+
+    // Verify indexed
+    auto [st1, keys1] = idx.scanKeysEqualPartial("sessions", "user_id", "u42");
+    ASSERT_TRUE(st1.ok);
+    ASSERT_EQ(keys1.size(), 1u);
+
+    // Erase entity
+    ASSERT_TRUE(idx.erase("sessions", "s1").ok);
+
+    // Should be gone from partial index
+    auto [st2, keys2] = idx.scanKeysEqualPartial("sessions", "user_id", "u42");
+    ASSERT_TRUE(st2.ok);
+    EXPECT_TRUE(keys2.empty());
 
     db.close();
 }

@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            cep_engine.h                                       ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:05:22                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     1223                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
+    • 5706ac4f3  2026-03-18  fix(analytics): streaming_window — configurable expiry in... ║
+    • 41d5cc48b  2026-03-17  fix(analytics): address all code review findings from aut... ║
+    • c826f73cd  2026-03-17  feat(analytics): implement memory pool allocator for hot ... ║
+    • 245a5fba1  2026-03-16  fix(analytics): release window lock before invoking user ... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * ThemisDB Complex Event Processing (CEP) Engine
  * 
@@ -33,6 +59,9 @@
 #include <variant>
 #include <any>
 #include <regex>
+
+// Lock-free MPMC ring buffer for the CEP event queue.
+#include "analytics/detail/ring_buffer.h"
 
 namespace themisdb {
 namespace analytics {
@@ -307,6 +336,9 @@ struct WindowConfig {
     bool emit_on_close = true;                   // Emit results when window closes
     bool emit_on_event = false;                  // Emit on every event
     std::chrono::milliseconds allowed_lateness{0}; // Late event tolerance
+    /// How often the timer thread wakes to emit GLOBAL window snapshots and
+    /// close expired SESSION windows.  Smaller values reduce emission latency.
+    std::chrono::milliseconds global_window_emit_interval_ms{500};
 };
 
 /**
@@ -406,6 +438,7 @@ struct CEPConfig {
     // Backpressure
     bool backpressure_enabled = true;
     float global_backpressure_threshold = 0.9f;
+    size_t max_queue_depth = 65536;             // Max pending events in engine queue
     
     // Metrics
     bool metrics_enabled = true;
@@ -544,6 +577,24 @@ public:
      */
     size_t getPendingMatchCount() const;
 
+    /**
+     * Serialize in-progress NFA partial match state to a multi-line string.
+     * Used by CEPEngine::createCheckpoint() to persist stateful pattern matching
+     * across restarts.
+     *
+     * Format (one partial match per "pm_match=" line, followed by pm_ev= lines):
+     *   pm_match=<group_key_hex>|<current_state>|<age_ms>
+     *   pm_ev=<event_hex>
+     *   ...
+     */
+    std::string serializeState() const;
+
+    /**
+     * Restore in-progress NFA partial match state from the string produced by
+     * serializeState().  Clears existing partial matches before restoring.
+     */
+    void restoreState(const std::string& data);
+
 private:
     PatternConfig config_;
     std::atomic<uint64_t> match_count_{0};
@@ -626,6 +677,16 @@ public:
     };
     Stats getStats() const;
 
+    /**
+     * Carries a snapshot of window data for deferred callback dispatch.
+     * Events are moved in to avoid copies when closing windows.
+     */
+    struct WindowCallbackBatch {
+        std::vector<Event> events;
+        std::chrono::system_clock::time_point start;
+        std::chrono::system_clock::time_point end;
+    };
+
 private:
     WindowConfig config_;
     WindowCallback callback_;
@@ -658,7 +719,9 @@ private:
     std::mutex timer_mutex_;
     
     void timerLoop();
-    void closeWindow(Window& window);
+    // Marks window closed and returns a batch for deferred dispatch (lock must
+    // be held by caller; callback is NOT invoked here).
+    std::optional<WindowCallbackBatch> closeWindow(Window& window);
     void handleTumblingWindow(const Event& event);
     void handleSlidingWindow(const Event& event);
     void handleSessionWindow(const Event& event);
@@ -784,7 +847,22 @@ public:
     std::vector<Alert> processEvent(const Event& event);
     
     /**
-     * Parse EPL string to rule config
+     * Parse EPL string to rule config.
+     *
+     * Supported syntax:
+     *   [CREATE RULE <name> AS | NAME <name>]
+     *   SELECT [<agg_fn>(<field>) [AS <alias>], ...] FROM <stream>
+     *   [WHERE <filter>]
+     *   [PATTERN (SEQUENCE|SEQ|AND|OR|NOT) (<types>) [WITHIN <n>(ms|s|MINUTES|HOURS)]]
+     *   [WINDOW (TUMBLING|SLIDING|SESSION|HOPPING|COUNT)(<n> UNIT[, <n> UNIT])]
+     *   [GROUP BY <field>[, ...]]
+     *   [HAVING <condition>]
+     *   [ACTION (alert|webhook|db_write|log|slack|kafka|email)(<params>)
+     *    | ON MATCH ALERT [severity=<s>] [message=<m>]]
+     *
+     * Aggregation functions: COUNT, SUM, AVG, MIN, MAX, FIRST, LAST,
+     *   STDDEV, VARIANCE, PERCENTILE, DISTINCT_COUNT, COLLECT, TOPN
+     * Time units: ms, s/second(s), minute(s), hour(s), day(s)
      */
     static std::optional<RuleConfig> parseEPL(const std::string& epl);
     
@@ -799,6 +877,19 @@ public:
         std::chrono::milliseconds avg_processing_time{0};
     };
     RuleStats getRuleStats(const std::string& rule_id) const;
+
+    /**
+     * Serialize all pattern matcher states for use in a checkpoint.
+     * Returns a multi-line string with pm_rule= / pm_rule_end blocks.
+     */
+    std::string serializeMatcherStates() const;
+
+    /**
+     * Restore pattern matcher states from the string produced by
+     * serializeMatcherStates().  Only matchers for rules that currently exist
+     * in the engine are restored; unknown rule IDs are silently skipped.
+     */
+    void restoreMatcherStates(const std::string& data);
 
 private:
     CEPEngine* engine_;
@@ -947,9 +1038,11 @@ public:
         uint64_t events_received = 0;
         uint64_t events_processed = 0;
         uint64_t events_dropped = 0;
+        uint64_t backpressure_events = 0;
         uint64_t pattern_matches = 0;
         uint64_t rules_triggered = 0;
         uint64_t alerts_generated = 0;
+        size_t queue_depth = 0;
         size_t active_streams = 0;
         size_t active_rules = 0;
         std::chrono::milliseconds avg_latency{0};
@@ -965,12 +1058,49 @@ public:
     // ========== Checkpointing ==========
     
     /**
-     * Create checkpoint
+     * Create a checkpoint of the current engine state.
+     *
+     * Writes a text file to the configured checkpoint_path directory containing:
+     *   - Basic counters (events_received, events_processed, alerts_generated)
+     *   - Rule enabled/disabled states
+     *   - In-progress NFA partial match states for all registered pattern matchers
+     *
+     * The checkpoint can be used with restoreFromCheckpoint() to resume stateful
+     * pattern sequences across restarts.
+     *
+     * @return true on success, false if checkpointing is disabled or an I/O error
+     *         occurs.
      */
     bool createCheckpoint();
     
     /**
-     * Restore from checkpoint
+     * Restore engine state from a previously created checkpoint.
+     *
+     * Reads the checkpoint file written by createCheckpoint() and restores:
+     *   1. The enabled/disabled state of each rule.
+     *   2. The in-progress NFA partial match state for each pattern matcher,
+     *      allowing stateful sequences (e.g. SEQUENCE A→B) that were partially
+     *      matched before the checkpoint to continue after restart.
+     *
+     * Rules / matchers that exist in the checkpoint but are no longer registered
+     * in the engine are silently skipped.
+     *
+     * Checkpoint file format:
+     *   events_received=<N>
+     *   events_processed=<N>
+     *   alerts_generated=<N>
+     *   rule=<rule_id>:<rule_name>:<1|0>          (1 = enabled, 0 = disabled)
+     *   pm_rule=<rule_id>                          (start of matcher state block)
+     *   pm_match=<group_key_hex>|<nfa_state>|<age_ms>
+     *   pm_ev=<hex-encoded-serialized-event>       (one line per matched event)
+     *   ...additional pm_match/pm_ev lines...
+     *   pm_rule_end                                (end of matcher state block)
+     *
+     * @param checkpoint_id  Name of the checkpoint (stem of the .txt file
+     *                       inside the configured checkpoint_path directory).
+     *                       Use listCheckpoints() to enumerate available IDs.
+     * @return true on success, false if the checkpoint file does not exist or
+     *         cannot be opened.
      */
     bool restoreFromCheckpoint(const std::string& checkpoint_id);
     
@@ -1000,6 +1130,7 @@ private:
     std::atomic<uint64_t> events_received_{0};
     std::atomic<uint64_t> events_processed_{0};
     std::atomic<uint64_t> events_dropped_{0};
+    std::atomic<uint64_t> backpressure_events_{0};
     std::atomic<uint64_t> pattern_matches_{0};
     std::atomic<uint64_t> alerts_generated_{0};
     
@@ -1010,10 +1141,16 @@ private:
     std::thread metrics_thread_;
     std::condition_variable cv_;
     std::mutex mutex_;
+    // Used by metricsLoop() to wake immediately when running_ becomes false.
+    std::condition_variable metrics_cv_;
+    std::mutex metrics_mutex_;
     
-    // Processing
-    std::queue<std::pair<std::string, Event>> event_queue_;
-    std::mutex queue_mutex_;
+    // Processing — lock-free MPMC ring buffer replaces std::queue + mutex.
+    // Capacity mirrors max_queue_depth from CEPConfig (set during initialize()).
+    // The ring buffer is re-created if initialize() is called again.
+    std::unique_ptr<themis::analytics::detail::EventRingBuffer<
+        std::pair<std::string, Event>>> event_queue_;
+    // size_approx() is used for backpressure fill-ratio checks and getStats().
     
     void workerLoop();
     void metricsLoop();

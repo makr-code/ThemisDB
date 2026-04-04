@@ -1,3 +1,25 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            wal_grpc_service.cpp                               ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:20:10                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   95.0/100                                       ║
+    • Total Lines:     192                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "server/wal_grpc_service.h"
 
 #include "sharding/wal_applier.h"
@@ -10,7 +32,7 @@
 
 #if __has_include("sharding/shard_rpc.grpc.pb.h")
 #include <grpcpp/grpcpp.h>
-#include "shard_rpc.grpc.pb.h"
+#include "sharding/shard_rpc.grpc.pb.h"
 #include "shard_rpc.pb.h"
 #define THEMIS_HAS_SHARD_GRPC 1
 #else

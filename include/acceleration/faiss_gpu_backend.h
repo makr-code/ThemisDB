@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            faiss_gpu_backend.h                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:05:14                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     195                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include "acceleration/compute_backend.h"
@@ -29,8 +52,20 @@ namespace acceleration {
 #ifdef THEMIS_ENABLE_CUDA
 
 /**
- * Faiss GPU Vector Backend
- * Production-grade GPU vector search using Facebook's Faiss library
+ * FAISS GPU Vector Backend
+ * Production-grade GPU vector search using Facebook's FAISS library
+ * 
+ * @sources
+ * - Library: FAISS (Facebook AI Similarity Search)
+ * - Repository: https://github.com/facebookresearch/faiss
+ * - License: MIT
+ * - Paper: Johnson, J., Douze, M., & Jégou, H. (2019)
+ *          "Billion-scale similarity search with GPUs"
+ *          IEEE Transactions on Big Data, 7(3), 535-547
+ * - arXiv: https://arxiv.org/abs/1702.08734
+ * - Index Types Used: IndexFlatL2, IndexFlatIP, IndexIVFFlat, IndexIVFPQ
+ * - ThemisDB Integration: Multi-backend GPU support wrapper, integrated with
+ *   RocksDB persistence and ACID transaction system
  */
 class FaissGPUVectorBackend : public IVectorBackend {
 public:

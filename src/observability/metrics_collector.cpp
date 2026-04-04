@@ -1,5 +1,31 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            metrics_collector.cpp                              ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:17:43                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     461                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 692780f01  2026-03-15  feat(observability): upgrade MetricsCollector to shared_m... ║
+    • 240f91cc6  2026-03-09  feat(observability): add Prometheus exemplar support on h... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "observability/metrics_collector.h"
+#include "security/pii_redaction_policy.h"
 #include <algorithm>
+#include <shared_mutex>
 #include <sstream>
 #include <iomanip>
 #include <numeric>
@@ -133,10 +159,25 @@ void MetricsCollector::recordDiskIOps(size_t read_ops, size_t write_ops) {
     incrementCounter("disk_write_ops_total", {});
 }
 
+// ===== Tracing Metrics =====
+
+void MetricsCollector::recordSpanDuration(const std::string& span_name, double duration_ms) {
+    observeHistogram("trace_span_duration_ms", duration_ms, {{"span", span_name}});
+    incrementCounter("trace_spans_total", {{"span", span_name}});
+}
+
+void MetricsCollector::recordActiveSpans(int64_t count) {
+    setGauge("trace_active_spans", static_cast<double>(count), {});
+}
+
+void MetricsCollector::recordTotalSpans(int64_t count) {
+    setGauge("trace_total_spans", static_cast<double>(count), {});
+}
+
 // ===== Prometheus Text Format Export =====
 
 std::string MetricsCollector::getPrometheusMetrics() const {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::shared_lock<std::shared_mutex> lock(mutex_);
     std::ostringstream oss;
     
     // Header
@@ -177,7 +218,19 @@ std::string MetricsCollector::getPrometheusMetrics() const {
         oss << name << labels << "{quantile=\"0.5\"} " << std::fixed << std::setprecision(2) 
             << hist->percentile(0.5) << "\n";
         oss << name << labels << "{quantile=\"0.95\"} " << hist->percentile(0.95) << "\n";
-        oss << name << labels << "{quantile=\"0.99\"} " << hist->percentile(0.99) << "\n";
+
+        // p99 – attach exemplar when one has been recorded for this series
+        {
+            double p99 = hist->percentile(0.99);
+            std::string exemplar_str = formatExemplar(hist->latest_exemplar);
+            oss << name << labels << "{quantile=\"0.99\"} "
+                << std::fixed << std::setprecision(2) << p99;
+            if (!exemplar_str.empty()) {
+                oss << " " << exemplar_str;
+            }
+            oss << "\n";
+        }
+
         oss << name << "_count" << labels << " " << hist->values.size() << "\n";
         oss << name << "_sum" << labels << " " << std::accumulate(hist->values.begin(), hist->values.end(), 0.0) << "\n";
     }
@@ -186,27 +239,101 @@ std::string MetricsCollector::getPrometheusMetrics() const {
 }
 
 void MetricsCollector::reset() {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     counters_.clear();
     gauges_.clear();
     histograms_.clear();
+    series_count_per_metric_.clear();
+    dropped_series_.store(0);
 }
 
-// ===== Helper Functions =====
+// ===== Cardinality control =====
+
+void MetricsCollector::setCardinalityLimit(size_t limit) {
+    std::unique_lock<std::shared_mutex> lock(mutex_);
+    cardinality_limit_ = limit;
+}
+
+size_t MetricsCollector::getCardinalityLimit() const {
+    std::shared_lock<std::shared_mutex> lock(mutex_);
+    return cardinality_limit_;
+}
+
+int64_t MetricsCollector::getDroppedSeriesCount() const {
+    // dropped_series_ is std::atomic<int64_t>; accessed both inside and outside
+    // the mutex.  Callers that need a consistent view of dropped count together
+    // with other counters should hold the mutex themselves.  The atomic read
+    // here is safe for monitoring/metrics purposes without holding the mutex.
+    return dropped_series_.load();
+}
+
+bool MetricsCollector::checkCardinality(const std::string& name, const std::string& key) {
+    if (cardinality_limit_ == 0) return true;
+
+    // If the key already exists in one of the maps it's an existing series - allow it.
+    if (counters_.count(key) || gauges_.count(key) || histograms_.count(key)) {
+        return true;
+    }
+
+    // New series: check per-metric-name count
+    size_t current = series_count_per_metric_[name];
+    if (current >= cardinality_limit_) {
+        dropped_series_++;
+        return false;
+    }
+    series_count_per_metric_[name] = current + 1;
+    return true;
+}
+
+// ===== Exporter health =====
+
+void MetricsCollector::recordExporterFailure(const std::string& exporter_name) {
+    incrementCounter("exporter_failures_total", {{"exporter", exporter_name}});
+}
+
+void MetricsCollector::recordExporterRecovery(const std::string& exporter_name) {
+    incrementCounter("exporter_recoveries_total", {{"exporter", exporter_name}});
+}
+
+// ===== Generic metric recording (used by adapters) =====
+
+void MetricsCollector::addCounter(const std::string& name, int64_t delta,
+                                   const std::map<std::string, std::string>& labels) {
+    std::string key = makeKey(name, labels);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
+    if (!checkCardinality(name, key)) return;
+    counters_[key] += delta;
+}
+
+void MetricsCollector::modifyGauge(const std::string& name, double delta,
+                                    const std::map<std::string, std::string>& labels) {
+    std::string key = makeKey(name, labels);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
+    if (!checkCardinality(name, key)) return;
+    // Read current value (treat as 0 if the gauge doesn't exist yet) then add delta.
+    auto it = gauges_.find(key);
+    double current = (it != gauges_.end()) ? it->second.load() : 0.0;
+    gauges_[key].store(current + delta);
+}
 
 void MetricsCollector::incrementCounter(const std::string& name, const std::map<std::string, std::string>& labels) {
     std::string key = makeKey(name, labels);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
+    if (!checkCardinality(name, key)) return;
     counters_[key]++;
 }
 
 void MetricsCollector::setGauge(const std::string& name, double value, const std::map<std::string, std::string>& labels) {
     std::string key = makeKey(name, labels);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
+    if (!checkCardinality(name, key)) return;
     gauges_[key].store(value);
 }
 
 void MetricsCollector::observeHistogram(const std::string& name, double value, const std::map<std::string, std::string>& labels) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     std::string key = makeKey(name, labels);
+    if (!checkCardinality(name, key)) return;
     
     if (histograms_.find(key) == histograms_.end()) {
         histograms_[key] = std::make_shared<Histogram>();
@@ -215,11 +342,32 @@ void MetricsCollector::observeHistogram(const std::string& name, double value, c
     histograms_[key]->observe(value);
 }
 
+void MetricsCollector::observeHistogramWithExemplar(const std::string& name, double value,
+                                                    const Exemplar& exemplar,
+                                                    const std::map<std::string, std::string>& labels) {
+    std::unique_lock<std::shared_mutex> lock(mutex_);
+    std::string key = makeKey(name, labels);
+    if (!checkCardinality(name, key)) return;
+
+    if (histograms_.find(key) == histograms_.end()) {
+        histograms_[key] = std::make_shared<Histogram>();
+    }
+
+    histograms_[key]->observe(value);
+    // Overwrite the latest exemplar (last-write-wins, only when a trace_id is provided)
+    if (!exemplar.trace_id.empty()) {
+        histograms_[key]->latest_exemplar = exemplar;
+    }
+}
+
 std::string MetricsCollector::makeKey(const std::string& name, const std::map<std::string, std::string>& labels) const {
     if (labels.empty()) {
         return name;
     }
-    return name + formatLabels(labels);
+    // Redact PII from label values before they are incorporated into the metric
+    // key or written to the Prometheus endpoint.
+    auto safe_labels = themis::security::PIIRedactionPolicy::get().redactLabels(labels);
+    return name + formatLabels(safe_labels);
 }
 
 std::string MetricsCollector::formatLabels(const std::map<std::string, std::string>& labels) const {
@@ -243,6 +391,23 @@ std::string MetricsCollector::formatMetricLine(const std::string& name, const st
     return oss.str();
 }
 
+std::string MetricsCollector::formatExemplar(const Exemplar& exemplar) {
+    if (exemplar.trace_id.empty()) return "";
+
+    // Emit in Prometheus OpenMetrics exemplar format:
+    // # {traceID="<id>"} <value> <unix_seconds_with_millis>
+    auto ts_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+                     exemplar.timestamp.time_since_epoch())
+                     .count();
+    double ts_sec = static_cast<double>(ts_ms) / 1000.0;
+
+    std::ostringstream oss;
+    oss << "# {traceID=\"" << exemplar.trace_id << "\"} "
+        << std::fixed << std::setprecision(3) << exemplar.value
+        << " " << std::fixed << std::setprecision(3) << ts_sec;
+    return oss.str();
+}
+
 // ===== Histogram Implementation =====
 
 void MetricsCollector::Histogram::observe(double value) {
@@ -257,6 +422,7 @@ void MetricsCollector::Histogram::observe(double value) {
 void MetricsCollector::Histogram::reset() {
     values.clear();
     last_reset = std::chrono::steady_clock::now();
+    latest_exemplar = Exemplar{};
 }
 
 double MetricsCollector::Histogram::percentile(double p) const {

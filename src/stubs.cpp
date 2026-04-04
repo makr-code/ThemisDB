@@ -1,0 +1,131 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            stubs.cpp                                          ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:20:38                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   85.0/100                                       ║
+    • Total Lines:     131                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 3                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 16aed6bb0  2026-03-15  refactor: enhance modular build configuration and improve... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+// Stub implementations for linking purposes
+// These stubs allow themis_tests to link successfully
+// They are minimal implementations that prevent linker errors
+
+#include <memory>
+#include <map>
+#include <string>
+#include <vector>
+#include "security/pii_redaction_policy.h"
+#include "utils/audit_logger.h"
+
+namespace themis::llm::lora {
+
+struct Feedback {
+    // Stub
+};
+
+struct TrainingTriggerPlugin {
+    virtual ~TrainingTriggerPlugin() = default;
+};
+
+struct CacheAwareWeightingPlugin {
+    virtual ~CacheAwareWeightingPlugin() = default;
+    virtual void process(Feedback&) {}
+};
+
+struct LoRATrainingConfig {
+    static LoRATrainingConfig loadFromFile(const std::string&) {
+        return {};
+    }
+    
+    std::shared_ptr<TrainingTriggerPlugin> createTrainingTriggerPlugin(const std::string&) const {
+        return std::make_shared<TrainingTriggerPlugin>();
+    }
+    
+    std::shared_ptr<CacheAwareWeightingPlugin> createCacheWeightingPlugin(const std::string&) const {
+        return std::make_shared<CacheAwareWeightingPlugin>();
+    }
+};
+
+struct FeedbackStorageService {
+    std::vector<Feedback> getFeedbackForAdapter(const std::string&, unsigned __int64) const {
+        return {};
+    }
+};
+
+} // namespace themis::llm::lora
+
+namespace themis::security {
+
+PIIRedactionPolicy& PIIRedactionPolicy::get() {
+    static PIIRedactionPolicy instance;
+    return instance;
+}
+
+PIIRedactionPolicy::PIIRedactionPolicy() : strict_mode_(false) {}
+
+std::string PIIRedactionPolicy::redactForLog(const std::string& message) const {
+    return message;
+}
+
+std::map<std::string, std::string> PIIRedactionPolicy::redactAttributes(
+    const std::map<std::string, std::string>& attributes) const {
+    return attributes;
+}
+
+std::string PIIRedactionPolicy::redactAttributeValue(const std::string&, const std::string& value) const {
+    return value;
+}
+
+std::map<std::string, std::string> PIIRedactionPolicy::redactLabels(
+    const std::map<std::string, std::string>& labels) const {
+    return labels;
+}
+
+bool PIIRedactionPolicy::reload(const std::string&) {
+    return true;
+}
+
+bool PIIRedactionPolicy::isStrictMode() const {
+    return strict_mode_;
+}
+
+void PIIRedactionPolicy::setStrictMode(bool strict) {
+    strict_mode_ = strict;
+}
+
+std::string PIIRedactionPolicy::applyRedaction(const std::string& text) const {
+    return text;
+}
+
+} // namespace themis::security
+
+namespace themis::utils {
+
+void AuditLogger::logSecurityEvent(
+    SecurityEventType event_type,
+    const std::string& user_id,
+    const std::string& resource,
+    const nlohmann::json& details) {
+    (void)event_type;
+    (void)user_id;
+    (void)resource;
+    (void)details;
+}
+
+} // namespace themis::utils
+

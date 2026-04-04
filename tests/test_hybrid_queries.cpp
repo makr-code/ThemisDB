@@ -1,3 +1,25 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_hybrid_queries.cpp                            ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:28:23                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     561                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include <gtest/gtest.h>
 #include "query/query_engine.h"
 #include "query/aql_parser.h"
@@ -6,6 +28,7 @@
 #include "index/vector_index.h"
 #include "index/spatial_index.h"
 #include "api/geo_index_hooks.h"
+#include "geo/spatial_backend.h"
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
 #include <nlohmann/json.hpp>
@@ -31,6 +54,11 @@ protected:
         graphIdx = std::make_unique<GraphIndexManager>(*db);
         vectorIdx = std::make_unique<VectorIndexManager>(*db);
         spatialIdx = std::make_unique<SpatialIndexManager>(*db);
+
+        // Wire GPU backend (CPU fallback always available)
+        auto* gpu_backend = geo::getGpuSpatialBackend();
+        if (gpu_backend) spatialIdx->setExactBackend(gpu_backend);
+
         engine = std::make_unique<QueryEngine>(*db, *secIdx, *graphIdx, vectorIdx.get(), spatialIdx.get());
 
         // Create fulltext index for Content+Geo tests
@@ -226,8 +254,9 @@ TEST_F(HybridQueriesTest, VectorGeo_SpatialFilteredANN_BerlinRegion)
         EXPECT_TRUE(filterPassed) << "Spatial filter should pass for img1 (Berlin in Berlin-region)";
     }
 
-    auto [st, results] = engine->executeVectorGeoQuery(q);
-    ASSERT_TRUE(st.ok) << st.message;
+    auto result = engine->executeVectorGeoQuery(q);
+    ASSERT_TRUE(result) << result.error().message();
+    auto& results = *result;
 
     // Only img1 (Berlin) should match; img2 (Paris), img3 (Munich) outside region
     ASSERT_EQ(results.size(), 1u);
@@ -265,8 +294,9 @@ TEST_F(HybridQueriesTest, VectorGeo_NoSpatialMatches_EmptyResult)
         std::vector<std::shared_ptr<Expression>>{ callGeomFromJSON, callBBox }
     );
 
-    auto [st, results] = engine->executeVectorGeoQuery(q);
-    ASSERT_TRUE(st.ok) << st.message;
+    auto result = engine->executeVectorGeoQuery(q);
+    ASSERT_TRUE(result) << result.error().message();
+    auto& results = *result;
     EXPECT_EQ(results.size(), 0u);
 }
 
@@ -304,8 +334,9 @@ TEST_F(HybridQueriesTest, ContentGeo_FulltextWithSpatial_BerlinHotels)
         std::vector<std::shared_ptr<Expression>>{ callGeomFromJSON, callBBox }
     );
 
-    auto [st, results] = engine->executeContentGeoQuery(q);
-    ASSERT_TRUE(st.ok) << st.message;
+    auto result = engine->executeContentGeoQuery(q);
+    ASSERT_TRUE(result) << result.error().message();
+    auto& results = *result;
 
     // Only doc1 (Berlin hotel) should match
     ASSERT_EQ(results.size(), 1u);
@@ -347,8 +378,9 @@ TEST_F(HybridQueriesTest, ContentGeo_ProximityBoosting_NearestFirst)
         std::vector<std::shared_ptr<Expression>>{ callGeomFromJSON, callCenter, litDist }
     );
 
-    auto [st, results] = engine->executeContentGeoQuery(q);
-    ASSERT_TRUE(st.ok) << st.message;
+    auto result = engine->executeContentGeoQuery(q);
+    ASSERT_TRUE(result) << result.error().message();
+    auto& results = *result;
 
     // All hotels match, but Berlin should be first (closest)
     ASSERT_GE(results.size(), 1u);
@@ -395,8 +427,9 @@ TEST_F(HybridQueriesTest, GraphGeo_SpatialConstrainedTraversal_GermanyOnly)
 
     q.spatial_constraint = sc;
 
-    auto [st, paths] = engine->executeRecursivePathQuery(q);
-    ASSERT_TRUE(st.ok) << st.message;
+    auto result = engine->executeRecursivePathQuery(q);
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    auto paths = std::move(*result);
 
     // Should reach Potsdam and Dresden, but NOT Paris
     ASSERT_GE(paths.size(), 1u);
@@ -445,8 +478,9 @@ TEST_F(HybridQueriesTest, GraphGeo_ShortestPathWithSpatialFilter_BerlinToDresden
     // DEBUG: Check if edges exist
     auto [adjSt, adj] = graphIdx->outAdjacency("locations/berlin");
 
-    auto [st, paths] = engine->executeRecursivePathQuery(q);
-    ASSERT_TRUE(st.ok) << st.message;
+    auto result = engine->executeRecursivePathQuery(q);
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    auto paths = std::move(*result);
 
     // Should find path: Berlin -> Potsdam -> Dresden
     ASSERT_EQ(paths.size(), 1u);
@@ -462,8 +496,8 @@ TEST_F(HybridQueriesTest, GraphGeo_ShortestPathWithSpatialFilter_BerlinToDresden
 TEST_F(HybridQueriesTest, VectorGeo_WithVectorIndexManager_UsesHNSW)
 {
     // Setup: Create VectorIndexManager for images table
-    auto vectorIdx = std::make_unique<VectorIndexManager>(*db);
-    auto initSt = vectorIdx->init("images", 3, VectorIndexManager::Metric::L2);
+    auto vectorIndexMgr = std::make_unique<VectorIndexManager>(*db);
+    auto initSt = vectorIndexMgr->init("images", 3, VectorIndexManager::Metric::L2);
     ASSERT_TRUE(initSt.ok) << initSt.message;
 
     // Add vectors to index
@@ -471,18 +505,18 @@ TEST_F(HybridQueriesTest, VectorGeo_WithVectorIndexManager_UsesHNSW)
     img1.setField("name", std::string("Berlin Tower"));
     img1.setField("embedding", std::vector<float>{0.1f, 0.2f, 0.3f});
     img1.setField("location", std::string(R"({"type":"Point","coordinates":[13.405,52.52]})"));
-    vectorIdx->addEntity(img1, "embedding");
+    vectorIndexMgr->addEntity(img1, "embedding");
     secIdx->put("images", img1);
 
     BaseEntity img2("img2");
     img2.setField("name", std::string("Paris Tower"));
     img2.setField("embedding", std::vector<float>{0.15f, 0.25f, 0.35f});
     img2.setField("location", std::string(R"({"type":"Point","coordinates":[2.35,48.86]})"));
-    vectorIdx->addEntity(img2, "embedding");
+    vectorIndexMgr->addEntity(img2, "embedding");
     secIdx->put("images", img2);
 
     // Create optimized QueryEngine with VectorIndexManager
-    auto optimizedEngine = std::make_unique<QueryEngine>(*db, *secIdx, *graphIdx, vectorIdx.get(), nullptr);
+    auto optimizedEngine = std::make_unique<QueryEngine>(*db, *secIdx, *graphIdx, vectorIndexMgr.get(), nullptr);
 
     // Query: Find similar images within Berlin region
     VectorGeoQuery q;
@@ -512,8 +546,9 @@ TEST_F(HybridQueriesTest, VectorGeo_WithVectorIndexManager_UsesHNSW)
         std::vector<std::shared_ptr<Expression>>{ callGeomFromJSON, callBBox }
     );
 
-    auto [st, results] = optimizedEngine->executeVectorGeoQuery(q);
-    ASSERT_TRUE(st.ok) << st.message;
+    auto result = optimizedEngine->executeVectorGeoQuery(q);
+    ASSERT_TRUE(result) << result.error().message();
+    auto& results = *result;
 
     // Only img1 (Berlin) should match
     ASSERT_EQ(results.size(), 1u);

@@ -1,7 +1,33 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            spatial_index.h                                    ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:08:04                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     350                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 10732a3a8  2026-03-12  feat(geo): add SpatialIndexManager::bulkLoad and improve ... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 4e4639844  2026-02-24  feat(geo): integrate R-tree index with CPU backend (Spati... ║
+    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include "utils/geo/ewkb.h"
 #include "geo/spatial_backend.h"
+#include "geo/geo_rtree.h"
 #include "storage/rocksdb_wrapper.h"
 #include <string>
 #include <string_view>
@@ -10,6 +36,8 @@
 #include <optional>
 #include <cfloat>
 #include <atomic>
+#include <unordered_map>
+#include <unordered_set>
 
 namespace themis {
 namespace index {
@@ -131,10 +159,50 @@ public:
     };
     IndexStats getStats(std::string_view table) const;
     
+    // ===== Bulk Operations =====
+
+    /**
+     * @brief Bulk-load a collection of (primary_key, sidecar) pairs into the
+     *        spatial index for a given table.
+     *
+     * Uses STR (Sort-Tile-Recursive) packing via GeoRTree::bulkLoad(), which
+     * is 3–5× faster than incremental insertion for read-heavy workloads.
+     * Replaces any previously cached in-memory R-tree for the table.
+     *
+     * Memory usage is reported as a structured log entry with field
+     * `geo_index_bytes_allocated` after the bulk load completes.
+     *
+     * @param table   Name of the table whose spatial index should be populated.
+     * @param entries Vector of {primary_key, GeoSidecar} pairs to index.
+     * @return Status::OK() on success or Status::Error() if the table has no
+     *         spatial index registered.
+     */
+    Status bulkLoad(
+        std::string_view table,
+        const std::vector<std::pair<std::string, geo::GeoSidecar>>& entries
+    );
+
     // ===== Insert/Update/Delete =====
     
     /// Insert entity into spatial index
     Status insert(
+        std::string_view table,
+        std::string_view primary_key,
+        const geo::GeoSidecar& sidecar
+    );
+    
+    /// Insert entity into spatial index using WriteBatch (atomic with entity write)
+    /// This is used by GeoIndexHooks::onEntityPutAtomic for transactional updates
+    Status insertBatch(
+        RocksDBWrapper::WriteBatchWrapper& batch,
+        std::string_view table,
+        std::string_view primary_key,
+        const geo::GeoSidecar& sidecar
+    );
+    
+    /// Remove entity from spatial index using WriteBatch (atomic)
+    Status removeBatch(
+        RocksDBWrapper::WriteBatchWrapper& batch,
         std::string_view table,
         std::string_view primary_key,
         const geo::GeoSidecar& sidecar
@@ -219,6 +287,25 @@ private:
     RocksDBWrapper& db_;
     geo::ISpatialComputeBackend* exact_backend_ = nullptr; // Optional exact geometry backend
     mutable Metrics metrics_; // G5: Performance metrics
+
+    // ── In-memory R-tree index (per table) ──────────────────────────────
+    // Populated lazily on first spatial query; updated on every write.
+    // Provides O(log n + k) MBR pre-filtering, replacing the O(n) Morton
+    // code range scan for tables with > 10 000 entries.
+    mutable std::unordered_map<std::string, geo::GeoRTree> rtrees_;
+    // Per-table, per-PK MBR cache used to reconstruct SpatialResult after
+    // R-tree query (avoids a per-PK RocksDB point lookup in the hot path).
+    mutable std::unordered_map<std::string,
+                               std::unordered_map<std::string, geo::MBR>> mbr_cache_;
+    // Set of tables whose R-tree has been built (lazily or from writes).
+    mutable std::unordered_set<std::string> rtree_built_;
+
+    // Lazily build the R-tree for `table` by scanning per-PK RocksDB keys.
+    // No-op if already built.  Called automatically inside searchIntersects.
+    void ensureRTree(std::string_view table) const;
+
+    // Convert an MBR to a GeometryInfo (polygon) suitable for GeoRTree.
+    static geo::GeometryInfo mbrToGeometryInfo(const geo::MBR& mbr);
     
     // RocksDB key prefixes
     std::string getSpatialKeyPrefix(std::string_view table) const;

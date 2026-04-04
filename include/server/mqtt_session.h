@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            mqtt_session.h                                     ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:11:14                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     316                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 21fb5b70f  2026-03-27  Add CMake source coverage audit workflow and baseline script ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #ifdef THEMIS_ENABLE_MQTT
@@ -44,6 +67,39 @@ struct MqttMetrics {
     std::chrono::steady_clock::time_point startTime;
     
     MqttMetrics() : startTime(std::chrono::steady_clock::now()) {}
+
+    MqttMetrics(const MqttMetrics& other)
+        : messagesReceived(other.messagesReceived.load())
+        , messagesSent(other.messagesSent.load())
+        , bytesReceived(other.bytesReceived.load())
+        , bytesSent(other.bytesSent.load())
+        , connectCount(other.connectCount.load())
+        , disconnectCount(other.disconnectCount.load())
+        , subscribeCount(other.subscribeCount.load())
+        , publishCount(other.publishCount.load())
+        , qos0Messages(other.qos0Messages.load())
+        , qos1Messages(other.qos1Messages.load())
+        , qos2Messages(other.qos2Messages.load())
+        , rateLimitedMessages(other.rateLimitedMessages.load())
+        , startTime(other.startTime) {}
+
+    MqttMetrics& operator=(const MqttMetrics& other) {
+        if (this == &other) return *this;
+        messagesReceived.store(other.messagesReceived.load());
+        messagesSent.store(other.messagesSent.load());
+        bytesReceived.store(other.bytesReceived.load());
+        bytesSent.store(other.bytesSent.load());
+        connectCount.store(other.connectCount.load());
+        disconnectCount.store(other.disconnectCount.load());
+        subscribeCount.store(other.subscribeCount.load());
+        publishCount.store(other.publishCount.load());
+        qos0Messages.store(other.qos0Messages.load());
+        qos1Messages.store(other.qos1Messages.load());
+        qos2Messages.store(other.qos2Messages.load());
+        rateLimitedMessages.store(other.rateLimitedMessages.load());
+        startTime = other.startTime;
+        return *this;
+    }
     
     void reset() {
         messagesReceived = 0;
@@ -172,6 +228,7 @@ private:
     
     asio::ip::tcp::socket socket_;
     std::shared_ptr<websocket::stream<asio::ip::tcp::socket>> wsStream_;
+    boost::beast::flat_buffer wsReadBuffer_;
     TransportType transportType_;
     std::array<char, 8192> buffer_;
     bool isConnected_;

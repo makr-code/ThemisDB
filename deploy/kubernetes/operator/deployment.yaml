@@ -1,0 +1,84 @@
+# ThemisDB Operator – Deployment
+# Runs the operator controller with leader election for HA.
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: themisdb-system
+  labels:
+    app.kubernetes.io/name: themisdb-operator
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: themisdb-operator
+  namespace: themisdb-system
+  labels:
+    app.kubernetes.io/name: themisdb-operator
+    app.kubernetes.io/managed-by: themisdb-operator
+spec:
+  replicas: 2   # Two replicas; only one is active (leader election)
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: themisdb-operator
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: themisdb-operator
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8080"
+        prometheus.io/path: "/metrics"
+    spec:
+      serviceAccountName: themisdb-operator
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65532
+        fsGroup: 65532
+      containers:
+        - name: operator
+          image: ghcr.io/makr-code/themisdb-operator:latest
+          imagePullPolicy: IfNotPresent
+          args:
+            - --metrics-bind-address=:8080
+            - --health-probe-bind-address=:8081
+            - --leader-elect=true
+            - --leader-election-id=themisdb-operator-leader
+          env:
+            # Restrict to a single namespace by setting WATCH_NAMESPACE.
+            # Leave empty ("") to watch all namespaces.
+            - name: WATCH_NAMESPACE
+              value: ""
+          ports:
+            - name: metrics
+              containerPort: 8080
+              protocol: TCP
+            - name: health
+              containerPort: 8081
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: health
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: health
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 200m
+              memory: 256Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
+      terminationGracePeriodSeconds: 10

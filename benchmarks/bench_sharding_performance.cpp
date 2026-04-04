@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            bench_sharding_performance.cpp                     ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:04:28                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   83.0/100                                       ║
+    • Total Lines:     790                                            ║
+    • Open Issues:     TODOs: 1, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // Benchmark: Comprehensive Sharding Performance
 // Measures scatter-gather latency, cross-shard joins, rebalancing, and P2P gossip overhead
 //
@@ -367,7 +390,8 @@ BENCHMARK_DEFINE_F(RebalancingFixture, BatchSerializationThroughput)(benchmark::
         // Simulate batch serialization for migration
         std::string batch_payload = "[";
         
-        for (int i = 0; i < batch_size_ && i < static_cast<int>(entities_.size()); i++) {
+        size_t max_items = std::min(static_cast<size_t>(batch_size_), entities_.size());
+        for (size_t i = 0; i < max_items; i++) {
             if (i > 0) batch_payload += ",";
             batch_payload += entities_[i];
         }
@@ -394,7 +418,8 @@ BENCHMARK_REGISTER_F(RebalancingFixture, BatchSerializationThroughput)
 BENCHMARK_DEFINE_F(RebalancingFixture, BatchDeserializationThroughput)(benchmark::State& state) {
     // Pre-create batch payload
     std::string batch_payload = "[";
-    for (int i = 0; i < batch_size_ && i < static_cast<int>(entities_.size()); i++) {
+    size_t max_items = std::min(static_cast<size_t>(batch_size_), entities_.size());
+    for (size_t i = 0; i < max_items; i++) {
         if (i > 0) batch_payload += ",";
         batch_payload += entities_[i];
     }

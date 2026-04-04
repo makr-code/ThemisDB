@@ -1,3 +1,28 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            pdf_processor.h                                    ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:06:51                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     210                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 33a86557e  2026-02-23  Fix triple PDF loading regression + add content_pdf_extra... ║
+    • be51d5459  2026-02-22  Add PDF text extraction with layout preservation using po... ║
+    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file pdf_processor.h
  * @brief PDF Content Processor for ThemisDB
@@ -17,8 +42,14 @@
 #include <memory>
 #include <optional>
 
+#ifdef THEMIS_ENABLE_PDF
+#include <poppler/cpp/poppler-page.h>
+#endif
+
 namespace themis {
 namespace content {
+
+class ContentMetrics;  // forward declaration
 
 /**
  * @brief PDF Page Information
@@ -75,6 +106,7 @@ public:
         bool detect_tables = false;       // Basic table detection
         int max_pages = 0;                // 0 = no limit
         std::string password;             // For encrypted PDFs
+        ContentMetrics* metrics = nullptr; // Optional: report pdf_extracted / extract_error counters
     };
 
     PDFProcessor();
@@ -151,6 +183,16 @@ private:
 
     // Check PDF header/signature
     bool isPDFValid(const std::string& blob);
+
+#ifdef THEMIS_ENABLE_PDF
+    // Assemble text from positioned poppler text boxes preserving reading order.
+    // Sorts boxes top-to-bottom then left-to-right and inserts newlines at line breaks.
+    // Populates positions_out with (x, y) of each box for downstream use.
+    static std::string assembleTextWithLayout(
+        const std::vector<poppler::text_box>& boxes,
+        std::vector<std::pair<float, float>>& positions_out
+    );
+#endif
 };
 
 /**

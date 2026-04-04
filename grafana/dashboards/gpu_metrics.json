@@ -1,0 +1,276 @@
+{
+  "dashboard": {
+    "title": "ThemisDB - GPU Module Metrics",
+    "tags": ["themisdb", "gpu", "vram", "operations"],
+    "timezone": "browser",
+    "refresh": "15s",
+    "time": {
+      "from": "now-1h",
+      "to": "now"
+    },
+    "panels": [
+      {
+        "id": 1,
+        "title": "VRAM Allocated (bytes)",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "themisdb_gpu_vram_allocated_bytes",
+            "legendFormat": "Allocated"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "bytes",
+            "thresholds": {
+              "mode": "percentage",
+              "steps": [
+                { "value": 0,  "color": "green" },
+                { "value": 70, "color": "yellow" },
+                { "value": 90, "color": "red" }
+              ]
+            }
+          }
+        },
+        "gridPos": { "x": 0, "y": 0, "w": 6, "h": 4 }
+      },
+      {
+        "id": 2,
+        "title": "VRAM Peak (bytes)",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "themisdb_gpu_vram_peak_bytes",
+            "legendFormat": "Peak"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": { "unit": "bytes" }
+        },
+        "gridPos": { "x": 6, "y": 0, "w": 6, "h": 4 }
+      },
+      {
+        "id": 3,
+        "title": "Alloc Success Rate",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "rate(themisdb_gpu_alloc_success_total[5m])",
+            "legendFormat": "Successes/s"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "ops",
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                { "value": 0, "color": "green" }
+              ]
+            }
+          }
+        },
+        "gridPos": { "x": 12, "y": 0, "w": 6, "h": 4 }
+      },
+      {
+        "id": 4,
+        "title": "Alloc Failure Rate",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "rate(themisdb_gpu_alloc_fail_total[5m])",
+            "legendFormat": "Failures/s"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "ops",
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                { "value": 0,    "color": "green" },
+                { "value": 0.01, "color": "yellow" },
+                { "value": 0.1,  "color": "red" }
+              ]
+            }
+          }
+        },
+        "gridPos": { "x": 18, "y": 0, "w": 6, "h": 4 }
+      },
+      {
+        "id": 5,
+        "title": "VRAM Usage Over Time",
+        "type": "timeseries",
+        "targets": [
+          {
+            "expr": "themisdb_gpu_vram_allocated_bytes",
+            "legendFormat": "Allocated"
+          },
+          {
+            "expr": "themisdb_gpu_vram_peak_bytes",
+            "legendFormat": "Peak"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": { "unit": "bytes" }
+        },
+        "gridPos": { "x": 0, "y": 4, "w": 12, "h": 8 }
+      },
+      {
+        "id": 6,
+        "title": "CPU Fallback Rate",
+        "type": "timeseries",
+        "targets": [
+          {
+            "expr": "rate(themisdb_gpu_cpu_fallback_total[5m])",
+            "legendFormat": "Fallbacks/s"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "ops",
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                { "value": 0,   "color": "green" },
+                { "value": 0.1, "color": "yellow" },
+                { "value": 1.0, "color": "red" }
+              ]
+            }
+          }
+        },
+        "gridPos": { "x": 12, "y": 4, "w": 12, "h": 8 }
+      },
+      {
+        "id": 7,
+        "title": "Per-Tenant VRAM Usage",
+        "type": "timeseries",
+        "targets": [
+          {
+            "expr": "themisdb_gpu_tenant_vram_allocated_bytes",
+            "legendFormat": "{{tenant_id}}"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": { "unit": "bytes" }
+        },
+        "gridPos": { "x": 0, "y": 12, "w": 12, "h": 8 }
+      },
+      {
+        "id": 8,
+        "title": "Circuit Breaker State",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "themisdb_gpu_circuit_open",
+            "legendFormat": "Circuit Open (1=open, 0=closed)"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                { "value": 0, "color": "green" },
+                { "value": 1, "color": "red" }
+              ]
+            },
+            "mappings": [
+              { "type": "value", "options": { "0": { "text": "CLOSED" }, "1": { "text": "OPEN" } } }
+            ]
+          }
+        },
+        "gridPos": { "x": 12, "y": 12, "w": 6, "h": 4 }
+      },
+      {
+        "id": 9,
+        "title": "Memory Pool: Hit vs Miss Rate",
+        "type": "timeseries",
+        "targets": [
+          {
+            "expr": "rate(themisdb_gpu_pool_hit_total[5m])",
+            "legendFormat": "Pool Hits/s"
+          },
+          {
+            "expr": "rate(themisdb_gpu_pool_miss_total[5m])",
+            "legendFormat": "Pool Misses/s"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": { "unit": "ops" }
+        },
+        "gridPos": { "x": 18, "y": 12, "w": 6, "h": 4 }
+      },
+      {
+        "id": 10,
+        "title": "Memory Pool Fragmentation",
+        "type": "gauge",
+        "targets": [
+          {
+            "expr": "themisdb_gpu_pool_fragmentation_ratio",
+            "legendFormat": "Fragmentation"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "percentunit",
+            "min": 0,
+            "max": 1,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                { "value": 0,   "color": "green" },
+                { "value": 0.3, "color": "yellow" },
+                { "value": 0.6, "color": "red" }
+              ]
+            }
+          }
+        },
+        "gridPos": { "x": 0, "y": 20, "w": 6, "h": 4 }
+      },
+      {
+        "id": 11,
+        "title": "Kernel Validator: Accepted vs Rejected",
+        "type": "timeseries",
+        "targets": [
+          {
+            "expr": "rate(themisdb_gpu_kernel_accepted_total[5m])",
+            "legendFormat": "Accepted/s"
+          },
+          {
+            "expr": "rate(themisdb_gpu_kernel_rejected_total[5m])",
+            "legendFormat": "Rejected/s"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": { "unit": "ops" }
+        },
+        "gridPos": { "x": 6, "y": 20, "w": 12, "h": 4 }
+      },
+      {
+        "id": 12,
+        "title": "Active Alert Count",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "themisdb_gpu_active_alert_count",
+            "legendFormat": "Active Alerts"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                { "value": 0, "color": "green" },
+                { "value": 1, "color": "yellow" },
+                { "value": 3, "color": "red" }
+              ]
+            }
+          }
+        },
+        "gridPos": { "x": 18, "y": 20, "w": 6, "h": 4 }
+      }
+    ]
+  }
+}

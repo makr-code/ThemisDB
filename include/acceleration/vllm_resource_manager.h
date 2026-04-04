@@ -1,9 +1,39 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            vllm_resource_manager.h                            ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:05:19                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     233                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
+    • 137d06cfe  2026-03-18  fix: handle dtotal==0 CPU cache-hit and guard perf test a... ║
+    • 3254a3d48  2026-03-18  feat(acceleration): VLLMResourceManager multi-GPU NVML mo... ║
+    • 7a41ab30d  2026-03-18  feat(acceleration): implement CPU snapshot cache (200ms T... ║
+    • 592b54382  2026-03-15  fix(scheduler,acceleration): remove stale TODOs, add VLLM... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include <cstdint>
+#include <chrono>
+#include <mutex>
+#include <functional>
 #include <string>
 #include <memory>
 #include <optional>
+#include <vector>
 
 namespace themis {
 namespace acceleration {
@@ -44,6 +74,19 @@ public:
         size_t max_gpu_vram_mb = 2048;      // 2 GB per GPU for ThemisDB
         size_t max_vector_batch_size = 1024; // Small batches to avoid blocking vLLM
         int gpu_priority = -1;               // Lower priority than vLLM
+
+        // GPU device selection for NVML monitoring.
+        // If gpu_device_indices is non-empty it takes precedence over gpu_device_index
+        // and queryGPUUtilization() returns the *maximum* utilization across all listed
+        // devices (so a single busy GPU blocks new ThemisDB work on any device).
+        //
+        // Example (4-GPU node, GPUs 0-1 reserved for vLLM, 2-3 for ThemisDB):
+        //   config.gpu_device_indices = {2, 3};
+        //
+        // When both fields are at their defaults the manager monitors device 0 only
+        // (backward-compatible behaviour).
+        uint32_t gpu_device_index = 0;                        ///< Primary device to monitor (default: 0)
+        std::vector<uint32_t> gpu_device_indices;             ///< Explicit multi-device override; empty = use gpu_device_index
     };
     
     /**
@@ -74,11 +117,11 @@ public:
     explicit VLLMResourceManager(const Config& config);
     ~VLLMResourceManager();
     
-    // Disable copy, allow move
+    // Disable copy and move (std::mutex member is not movable/copyable)
     VLLMResourceManager(const VLLMResourceManager&) = delete;
     VLLMResourceManager& operator=(const VLLMResourceManager&) = delete;
-    VLLMResourceManager(VLLMResourceManager&&) = default;
-    VLLMResourceManager& operator=(VLLMResourceManager&&) = default;
+    VLLMResourceManager(VLLMResourceManager&&) = delete;
+    VLLMResourceManager& operator=(VLLMResourceManager&&) = delete;
     
     /**
      * @brief Initialize resource manager and detect hardware
@@ -123,12 +166,51 @@ public:
      */
     void setConfig(const Config& config);
     
+    /**
+     * @brief Inject a GPU utilization provider for testing (bypasses NVML).
+     *
+     * When set, canUseGPU() and queryGPUUtilization() call this function instead
+     * of querying the real NVML stack. Allows CI tests to simulate any GPU
+     * utilization level without physical GPU hardware.
+     *
+     * Pass an empty std::function to clear the override.
+     *
+     * @param provider Returns the simulated GPU utilization (0–100), or nullopt
+     *                 if the GPU cannot be queried (treated as GPU busy).
+     */
+    void setGpuUtilizationProviderForTesting(
+        std::function<std::optional<double>()> provider);
+
 private:
     Config config_;
     bool initialized_ = false;
     
-    // NVML handle for GPU monitoring (opaque pointer)
+    // CPU snapshot cache: avoids a blocking 100 ms sleep when getStats() is called
+    // repeatedly within the 200 ms TTL window.  Three uint64_t fields store the
+    // most recent raw OS counters without requiring platform-specific types:
+    //   Linux   – v0 = total jiffies, v1 = idle jiffies, v2 = (unused)
+    //   Windows – v0 = idle FILETIME, v1 = kernel FILETIME, v2 = user FILETIME
+    struct CpuSnapshot {
+        uint64_t v0 = 0;          // Linux: total; Windows: idle
+        uint64_t v1 = 0;          // Linux: idle;  Windows: kernel
+        uint64_t v2 = 0;          // Linux: (unused); Windows: user
+        double last_cpu_util = 0.0; // last successfully computed utilization [0,100]
+        std::chrono::steady_clock::time_point ts;
+        bool valid = false;
+    };
+    mutable CpuSnapshot cpu_snapshot_cache_;
+    mutable std::mutex  cpu_cache_mutex_;
+
+    // Test-only GPU utilization override (see setGpuUtilizationProviderForTesting).
+    std::function<std::optional<double>()> gpu_util_provider_for_testing_;
+
+    // NVML handles for GPU monitoring (opaque pointers to nvmlDevice_t).
+    // nvml_devices_ is the authoritative list; nvml_device_ is a convenience
+    // alias to nvml_devices_.front() used only by canUseGPU() for the
+    // timeout-guarded primary-device utilization query.
+    // Both fields are always kept in sync by initializeNVML()/shutdownNVML().
     void* nvml_device_ = nullptr;
+    std::vector<void*> nvml_devices_;
     
     /**
      * @brief Initialize NVML for GPU monitoring
@@ -142,6 +224,9 @@ private:
     
     /**
      * @brief Query GPU utilization via NVML
+     *
+     * When multiple devices are monitored (gpu_device_indices), returns the
+     * maximum utilization across all of them.
      */
     std::optional<double> queryGPUUtilization();
 };

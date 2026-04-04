@@ -1,29 +1,46 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            replica_topology.h                                 ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:11:38                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     191                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
+#include <algorithm>
 #include <string>
 #include <vector>
 #include <map>
 #include <memory>
 #include <mutex>
 #include <cstdint>
+#include <unordered_set>
 #include <nlohmann/json.hpp>
+
+#include "sharding/redundancy_strategy.h"
 
 namespace themis::sharding {
 
 /**
  * Replica Topology Mapping
- * 
- * Maps shard IDs to replica sets for RAID 1/10 replication.
- * Supports stripe + mirror configurations.
+ *
+ * Maps shard IDs to replica sets for mirror and stripe-mirror replication.
  */
-
-enum class RedundancyMode {
-    NONE = 0,           // No replication
-    RAID1 = 1,          // Mirror (1:1 replica)
-    RAID10 = 10,        // Stripe + mirror (1:2 replicas per stripe)
-    RAID5 = 5,          // Stripe + parity (n+1 replicas)
-    RAID6 = 6           // Stripe + dual parity (n+2 replicas)
-};
 
 /**
  * Shard replica set (e.g., [primary, replica1, replica2])
@@ -32,9 +49,13 @@ struct ShardReplicaSet {
     std::string shard_id;
     std::string primary_id;
     std::vector<std::string> replicas;  // replica_ids (excludes primary)
-    RedundancyMode redundancy = RedundancyMode::RAID1;
-    uint64_t stripe_key = 0;            // For RAID 10: stripe group identifier
+    RedundancyMode redundancy = RedundancyMode::MIRROR;
+    uint64_t stripe_key = 0;            // For STRIPE_MIRROR: stripe group identifier
     bool is_healthy = true;
+
+    // Geo placement metadata (used for GEO_MIRROR and Raft placement)
+    std::string region;   // e.g. "us-east", "eu-west"
+    std::string zone;     // e.g. "us-east-1a", "eu-west-1b"
     
     size_t quorum_size() const {
         // Quorum = majority of all members (primary + replicas)
@@ -122,6 +143,39 @@ public:
     size_t getShardCount() const {
         std::lock_guard<std::mutex> lock(mutex_);
         return replica_sets_.size();
+    }
+
+    /**
+     * Get all replica sets whose primary is in a specific region
+     * @param region Region name (e.g. "us-east")
+     * @return Vector of matching ShardReplicaSet values
+     */
+    std::vector<ShardReplicaSet> getReplicaSetsInRegion(const std::string& region) const {
+        std::lock_guard<std::mutex> lock(mutex_);
+        std::vector<ShardReplicaSet> result;
+        for (const auto& [shard_id, rs] : replica_sets_) {
+            if (rs.region == region) {
+                result.push_back(rs);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Get all distinct regions present in the replica topology
+     * @return Sorted list of unique region names
+     */
+    std::vector<std::string> getRegions() const {
+        std::lock_guard<std::mutex> lock(mutex_);
+        std::unordered_set<std::string> seen;
+        for (const auto& [shard_id, rs] : replica_sets_) {
+            if (!rs.region.empty()) {
+                seen.insert(rs.region);
+            }
+        }
+        std::vector<std::string> regions(seen.begin(), seen.end());
+        std::sort(regions.begin(), regions.end());
+        return regions;
     }
     
     /**

@@ -1,6 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            feedback_store.cpp                                 ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:16:55                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   96.0/100                                       ║
+    • Total Lines:     863                                            ║
+    • Open Issues:     TODOs: 2, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "llm/feedback_store.h"
 #include "llm/lora_framework/lora_graph.h"
 #include "utils/logger.h"
+#include "utils/pointer_utils.h"
 #include <random>
 #include <sstream>
 #include <iomanip>
@@ -253,6 +276,11 @@ std::vector<FeedbackStore::FeedbackEntry> FeedbackStore::listFeedback(const List
         it.reset(db_->NewIterator(read_opts));
     }
     
+    if (!it) {
+        THEMIS_ERROR("Failed to create RocksDB iterator for feedback listing");
+        return results; // Return empty vector
+    }
+    
     // Start from beginning or after cursor
     std::string start_key = KEY_PREFIX;
     if (options.start_after_id) {
@@ -330,6 +358,11 @@ FeedbackStore::Stats FeedbackStore::getStats() const {
         it.reset(db_->NewIterator(read_opts, cf_));
     } else {
         it.reset(db_->NewIterator(read_opts));
+    }
+    
+    if (!it) {
+        THEMIS_ERROR("Failed to create RocksDB iterator for feedback stats");
+        return stats; // Return empty stats
     }
     
     std::string start_key = KEY_PREFIX;
@@ -465,6 +498,11 @@ void FeedbackStore::clear() {
         it.reset(db_->NewIterator(read_opts, cf_));
     } else {
         it.reset(db_->NewIterator(read_opts));
+    }
+    
+    if (!it) {
+        THEMIS_ERROR("Failed to create RocksDB iterator for feedback clearing");
+        return;
     }
     
     std::string start_key = KEY_PREFIX;
@@ -686,6 +724,11 @@ std::vector<FeedbackStore::FeedbackEntry> FeedbackStore::getFeedbackForAdapter(
         it.reset(db_->NewIterator(read_opts));
     }
     
+    if (!it) {
+        THEMIS_ERROR("Failed to create RocksDB iterator for adapter feedback lookup");
+        return results; // Return empty vector
+    }
+    
     // Scan graph edges
     std::string edge_prefix = GRAPH_EDGE_PREFIX;
     it->Seek(edge_prefix);
@@ -747,6 +790,11 @@ std::vector<FeedbackStore::FeedbackEntry> FeedbackStore::getFeedbackForAdapter(
     return results;
 }
 
+std::vector<FeedbackStore::FeedbackEntry> FeedbackStore::getFeedbackForAdapter(
+    const std::string& adapter_id) const {
+    return getFeedbackForAdapter(adapter_id, ListOptions{});
+}
+
 std::vector<std::string> FeedbackStore::getLinkedAdapters(const std::string& feedback_id) const {
     std::vector<std::string> adapter_ids;
     
@@ -757,6 +805,11 @@ std::vector<std::string> FeedbackStore::getLinkedAdapters(const std::string& fee
         it.reset(db_->NewIterator(read_opts, cf_));
     } else {
         it.reset(db_->NewIterator(read_opts));
+    }
+    
+    if (!it) {
+        THEMIS_ERROR("Failed to create RocksDB iterator for linked adapters lookup");
+        return adapter_ids; // Return empty vector
     }
     
     // Search for edges starting with this feedback ID

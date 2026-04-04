@@ -1,4 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            crypto_capabilities.h                              ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:10:49                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     133                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • d9d75ee09  2026-03-01  feat(security): implement FIPS 140-2/3 validated cryptogr... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include <iostream>
+#include <sstream>
+#include <chrono>
 #include <openssl/evp.h>
 #include <openssl/engine.h>
 
@@ -57,13 +82,52 @@ std::string getEncryptionCapabilities() {
 }
 
 /**
- * @brief Benchmark encryption performance
- * 
- * @return Operations per second
+ * @brief Benchmark AES-256-GCM encryption throughput.
+ *
+ * Encrypts a 1 KiB buffer in a tight loop for approximately one second and
+ * returns the measured throughput in operations per second.  Uses
+ * OpenSSL EVP_CIPHER_CTX with a fixed test key and IV so that the result
+ * is deterministic across calls on the same platform.
+ *
+ * @return Operations per second (encrypt of 1 KiB payload), or 0.0 on error.
  */
 double benchmarkEncryption() {
-    // ... implementation ...
-    return 0.0;
+    // 256-bit test key and 96-bit IV — fixed values, not used for real data.
+    const unsigned char key[32] = {
+        0x60, 0x3d, 0xeb, 0x10, 0x15, 0xca, 0x71, 0xbe,
+        0x2b, 0x73, 0xae, 0xf0, 0x85, 0x7d, 0x77, 0x81,
+        0x1f, 0x35, 0x2c, 0x07, 0x3b, 0x61, 0x08, 0xd7,
+        0x2d, 0x98, 0x10, 0xa3, 0x09, 0x14, 0xdf, 0xf4
+    };
+    const unsigned char iv[12] = {
+        0x00, 0x01, 0x02, 0x03, 0x04, 0x05,
+        0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b
+    };
+
+    constexpr int payload_size = 1024;
+    unsigned char plaintext[payload_size] = {};
+    unsigned char ciphertext[payload_size + 16] = {};
+    unsigned char tag[16] = {};
+
+    EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new();
+    if (!ctx) return 0.0;
+
+    using clock = std::chrono::steady_clock;
+    const auto deadline = clock::now() + std::chrono::seconds(1);
+    long long ops = 0;
+
+    while (clock::now() < deadline) {
+        int len = 0;
+        if (EVP_EncryptInit_ex(ctx, EVP_aes_256_gcm(), nullptr, key, iv) != 1) break;
+        if (EVP_EncryptUpdate(ctx, ciphertext, &len, plaintext, payload_size) != 1) break;
+        int final_len = 0;
+        if (EVP_EncryptFinal_ex(ctx, ciphertext + len, &final_len) != 1) break;
+        EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_GET_TAG, 16, tag);
+        ++ops;
+    }
+
+    EVP_CIPHER_CTX_free(ctx);
+    return static_cast<double>(ops);
 }
 
 }  // namespace themis

@@ -1,8 +1,32 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            lora_audit_logger.h                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:08:28                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     380                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include "utils/audit_logger.h"
+#include "llm/lora_framework/lora_provenance.h"
 #include <string>
 #include <chrono>
+#include <memory>
 #include <nlohmann/json.hpp>
 
 namespace themis {
@@ -71,7 +95,14 @@ enum class LoRAAuditEventType {
     // System Events
     CACHE_HIT,                  // Adapter cache hit
     CACHE_MISS,                 // Adapter cache miss
-    CACHE_EVICTION              // Adapter evicted from cache
+    CACHE_EVICTION,             // Adapter evicted from cache
+
+    // Provenance & Audit-Chain Events
+    PROVENANCE_ATTACHED,        // Cryptographic provenance record attached
+    PROVENANCE_VERIFIED,        // Provenance record verified against stored hashes
+    SNAPSHOT_CREATED,           // MVCC snapshot of adapter state created
+    AUDIT_CHAIN_VERIFIED,       // Merkle audit chain integrity confirmed
+    AUDIT_CHAIN_TAMPERED        // Merkle audit chain integrity check FAILED
 };
 
 /**
@@ -289,6 +320,45 @@ public:
      * @brief Flush logs to disk
      */
     void flush();
+
+    // ── Provenance & Merkle-chain integration ────────────────────────────────
+
+    /**
+     * @brief Wire a LoRAProvenanceManager so that every logInference() call
+     *        also appends an InferenceAuditEntry to the cryptographic Merkle chain.
+     *
+     * Must be called before the first logInference() for chain-based audit to work.
+     * Passing nullptr disconnects the provenance manager.
+     */
+    void setProvenanceManager(std::shared_ptr<LoRAProvenanceManager> mgr);
+
+    /**
+     * @brief Log that a provenance record was attached to an adapter.
+     *
+     * Emits a PROVENANCE_ATTACHED event and, if a provenance manager is set,
+     * records the attachment in the Merkle chain metadata.
+     */
+    void logProvenanceAttached(const std::string& adapter_id,
+                                const LoRAProvenanceRecord& record);
+
+    /**
+     * @brief Log that an MVCC snapshot was created.
+     *
+     * Emits a SNAPSHOT_CREATED event containing snapshot_id, version, and
+     * weights_hash.
+     */
+    void logSnapshotCreated(const std::string& adapter_id,
+                             const AdapterSnapshot& snapshot);
+
+    /**
+     * @brief Log the result of a Merkle audit-chain verification.
+     *
+     * Emits AUDIT_CHAIN_VERIFIED or AUDIT_CHAIN_TAMPERED based on @p valid,
+     * and includes the entry count.
+     */
+    void logAuditChainVerified(const std::string& adapter_id,
+                                bool valid,
+                                std::size_t entry_count);
 
 private:
     class Impl;

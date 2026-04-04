@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            llm_response_cache.h                               ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:08:24                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     232                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include <string>
@@ -5,7 +28,7 @@
 #include <chrono>
 #include <unordered_map>
 #include <mutex>
-#include <string>
+#include <atomic>
 #include <memory>
 #include <functional>
 #include "llm_plugin_interface.h"
@@ -28,6 +51,12 @@ namespace llm {
 
 /**
  * @brief LLM response cache using VectorIndexManager for semantic similarity caching
+ * 
+ * Thread-Safety:
+ * - All public methods are thread-safe (protected by internal mutex)
+ * - Cache statistics use atomic operations for lock-free updates
+ * - Concurrent get() and put() operations are safe
+ * - Statistics updates happen outside the main cache lock for better concurrency
  * 
  * Uses ThemisDB's VectorIndexManager with HNSW indexing to provide:
  * - Semantic similarity matching via cosine similarity
@@ -66,14 +95,34 @@ public:
     };
 
     struct CacheStatistics {
-        size_t hits = 0;
-        size_t misses = 0;
-        size_t total_entries = 0;
-        double avg_lookup_time_ms = 0.0;
+        std::atomic<size_t> hits{0};
+        std::atomic<size_t> misses{0};
+        std::atomic<size_t> total_entries{0};
+        std::atomic<double> avg_lookup_time_ms{0.0};
         
         double getHitRate() const {
-            if (hits + misses == 0) return 0.0;
-            return static_cast<double>(hits) / (hits + misses);
+            size_t h = hits.load();
+            size_t m = misses.load();
+            if (h + m == 0) return 0.0;
+            return static_cast<double>(h) / (h + m);
+        }
+        
+        // Default constructor
+        CacheStatistics() : hits(0), misses(0), total_entries(0), avg_lookup_time_ms(0) {}
+        
+        // Explicitly define copy constructor to handle atomic members
+        CacheStatistics(const CacheStatistics& other)
+            : hits(other.hits.load(std::memory_order_relaxed)),
+              misses(other.misses.load(std::memory_order_relaxed)),
+              total_entries(other.total_entries.load(std::memory_order_relaxed)),
+              avg_lookup_time_ms(other.avg_lookup_time_ms.load(std::memory_order_relaxed)) {}
+        
+        CacheStatistics& operator=(const CacheStatistics& other) {
+            hits.store(other.hits.load(std::memory_order_relaxed), std::memory_order_relaxed);
+            misses.store(other.misses.load(std::memory_order_relaxed), std::memory_order_relaxed);
+            total_entries.store(other.total_entries.load(std::memory_order_relaxed), std::memory_order_relaxed);
+            avg_lookup_time_ms.store(other.avg_lookup_time_ms.load(std::memory_order_relaxed), std::memory_order_relaxed);
+            return *this;
         }
     };
 
@@ -136,6 +185,7 @@ private:
         std::string prompt;
         InferenceResponse response;
         std::chrono::system_clock::time_point timestamp;
+        std::vector<float> embedding;
     };
 
     std::string cache_name_;

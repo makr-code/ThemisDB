@@ -1,3 +1,28 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            diskann.cpp                                        ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:17:55                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     529                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 5432ec11f  2026-02-28  fix(diskann): persist dimension in metadata; fix adapter ... ║
+    • cebce18b1  2026-02-28  feat(index): fix DiskANN offset tracking, implement graph... ║
+    • e6e7fc6bb  2026-02-25  feat(index): DiskANN/ScaNN alternative ANN algorithms for... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "performance/phase3/diskann.h"
 #include <algorithm>
 #include <cmath>
@@ -69,6 +94,7 @@ void DiskANNIndex::build(const std::vector<std::pair<VectorID, std::vector<float
     }
     
     // Step 2: Build graph by connecting each node to R nearest neighbors
+    size_t edge_count = 0;
     for (size_t i = 0; i < nodes.size(); i++) {
         std::priority_queue<std::pair<float, size_t>> nearest;
         
@@ -93,18 +119,23 @@ void DiskANNIndex::build(const std::vector<std::pair<VectorID, std::vector<float
         }
         
         std::reverse(nodes[i].neighbors.begin(), nodes[i].neighbors.end());
+        edge_count += nodes[i].neighbors.size();
+    }
+    total_edges_.store(edge_count, std::memory_order_relaxed);
+    
+    // Step 3: Save nodes to disk, recording exact byte offsets
+    for (auto& node : nodes) {
+        // Seek to end to capture the exact write position before appending
+        {
+            std::lock_guard<std::mutex> lock(file_mutex_);
+            graph_file_->seekp(0, std::ios::end);
+            vector_offsets_[node.id] = static_cast<uint64_t>(graph_file_->tellp());
+        }
+        save_node(node);
     }
     
-    // Step 3: Save nodes to disk
-    uint64_t offset = 0;
-    for (auto& node : nodes) {
-        vector_offsets_[node.id] = offset;
-        save_node(node);
-        
-        // Estimate offset (simplified)
-        offset += sizeof(VectorID) + dimension_ * sizeof(float) + 
-                  node.neighbors.size() * sizeof(VectorID) + 16;
-    }
+    // Step 4: Build VP-tree for fast entry point selection
+    vp_tree_ = std::make_unique<VantagePointTree>(vectors);
     
     flush();
 }
@@ -142,9 +173,14 @@ void DiskANNIndex::add(VectorID id, const std::vector<float>& vector) {
     }
     
     std::reverse(node.neighbors.begin(), node.neighbors.end());
+    total_edges_.fetch_add(node.neighbors.size(), std::memory_order_relaxed);
     
-    // Save to disk
-    vector_offsets_[id] = graph_file_->tellp();
+    // Record exact write position before appending
+    {
+        std::lock_guard<std::mutex> lock(file_mutex_);
+        graph_file_->seekp(0, std::ios::end);
+        vector_offsets_[id] = static_cast<uint64_t>(graph_file_->tellp());
+    }
     save_node(node);
 }
 
@@ -155,8 +191,10 @@ std::vector<DiskANNIndex::SearchResult> DiskANNIndex::search(
         return {};
     }
     
-    // Select entry point (first vector for simplicity, could use VP-tree)
-    VectorID entry_point = vector_offsets_.begin()->first;
+    // Select entry point using VP-tree if available, otherwise fall back to first vector
+    VectorID entry_point = vp_tree_
+        ? vp_tree_->find_entry_point(query)
+        : vector_offsets_.begin()->first;
     
     // Greedy search from entry point
     auto candidates = greedy_search_internal(query, entry_point, beam_width, k * 2);
@@ -185,7 +223,7 @@ std::vector<DiskANNIndex::SearchResult> DiskANNIndex::search(
 DiskANNIndex::Stats DiskANNIndex::get_stats() const {
     Stats stats;
     stats.num_vectors = vector_offsets_.size();
-    stats.graph_edges = 0;  // Would need to scan all nodes
+    stats.graph_edges = total_edges_.load(std::memory_order_relaxed);
     stats.cache_hits = cache_hits_.load(std::memory_order_relaxed);
     stats.cache_misses = cache_misses_.load(std::memory_order_relaxed);
     stats.disk_reads = disk_reads_.load(std::memory_order_relaxed);
@@ -196,6 +234,68 @@ void DiskANNIndex::flush() {
     if (graph_file_) {
         graph_file_->flush();
     }
+}
+
+bool DiskANNIndex::save(const std::string& path) const {
+    return save_metadata(path + ".meta");
+}
+
+bool DiskANNIndex::load(const std::string& path) {
+    return load_metadata(path + ".meta");
+}
+
+bool DiskANNIndex::save_metadata(const std::string& meta_path) const {
+    std::ofstream ofs(meta_path, std::ios::binary | std::ios::trunc);
+    if (!ofs) return false;
+
+    // Write dimension (needed to correctly reconstruct the index on load)
+    ofs.write(reinterpret_cast<const char*>(&dimension_), sizeof(dimension_));
+
+    // Write edge count
+    size_t edges = total_edges_.load(std::memory_order_relaxed);
+    ofs.write(reinterpret_cast<const char*>(&edges), sizeof(edges));
+
+    // Write number of offset entries
+    size_t n = vector_offsets_.size();
+    ofs.write(reinterpret_cast<const char*>(&n), sizeof(n));
+
+    // Write each (VectorID, offset) pair
+    for (const auto& [vid, off] : vector_offsets_) {
+        ofs.write(reinterpret_cast<const char*>(&vid), sizeof(vid));
+        ofs.write(reinterpret_cast<const char*>(&off), sizeof(off));
+    }
+    return ofs.good();
+}
+
+bool DiskANNIndex::load_metadata(const std::string& meta_path) {
+    std::ifstream ifs(meta_path, std::ios::binary);
+    if (!ifs) return false;
+
+    // Read dimension
+    size_t dim = 0;
+    ifs.read(reinterpret_cast<char*>(&dim), sizeof(dim));
+    if (dim != dimension_) {
+        // Stored dimension must match the instance dimension
+        return false;
+    }
+
+    size_t edges = 0;
+    ifs.read(reinterpret_cast<char*>(&edges), sizeof(edges));
+    total_edges_.store(edges, std::memory_order_relaxed);
+
+    size_t n = 0;
+    ifs.read(reinterpret_cast<char*>(&n), sizeof(n));
+
+    vector_offsets_.clear();
+    vector_offsets_.reserve(n);
+    for (size_t i = 0; i < n; ++i) {
+        VectorID vid = 0;
+        uint64_t off = 0;
+        ifs.read(reinterpret_cast<char*>(&vid), sizeof(vid));
+        ifs.read(reinterpret_cast<char*>(&off), sizeof(off));
+        vector_offsets_[vid] = off;
+    }
+    return ifs.good();
 }
 
 DiskANNNode DiskANNIndex::load_node(VectorID id) {

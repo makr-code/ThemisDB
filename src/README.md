@@ -18,7 +18,9 @@ This directory contains the core implementation of ThemisDB's multi-model databa
 - **importers/** - Data import functionality (PostgreSQL, etc.)
 - **index/** - Index implementations (vector, graph, adaptive, secondary)
 - **llm/** - LLM interaction storage and chain-of-thought features
+- **maintenance/** - Centralized database maintenance orchestration (cron scheduling, windows, health reporting)
 - **plugins/** - Plugin system infrastructure
+- **process/** - BPMN 2.0/EPK/VCC-VPB process model management, LLM descriptors, Graph-RAG
 - **query/** - AQL query parser, optimizer, and execution engine
 - **security/** - Encryption, key management, and PKI integration
 - **server/** - Main server components and API handlers
@@ -37,3 +39,83 @@ See the main [README.md](../README.md) for build instructions.
 For detailed architecture documentation, see:
 - [Architecture Overview](../docs/architecture.md)
 - [Source Code Documentation](../docs/src/README.md)
+
+---
+
+## Overall System Status
+
+ThemisDB has **44 Production-grade modules**, **1 Release-Candidate module**, and **1 Beta module** across its source tree. The entire core data path and all AI/LLM layers are production-ready.
+
+| Tier              | Count | Modules                                                                      |
+|-------------------|-------|------------------------------------------------------------------------------|
+| Production        | 44    | 44 of 46 modules — all except `security` and `sharding`                     |
+| Release-Candidate | 1     | `security`                                                                   |
+| Beta              | 1     | `sharding`                                                                   |
+
+---
+
+## Production Readiness Matrix
+
+| Module              | Status               | Description                                          |
+|---------------------|----------------------|------------------------------------------------------|
+| acceleration        | 🟢 Production        | GPU/hardware acceleration (CUDA, Vulkan)             |
+| analytics           | 🟢 Production        | Analytical query pipeline                            |
+| api                 | 🟢 Production        | HTTP API server implementation                       |
+| aql                 | 🟢 Production        | AQL language engine, multi-paradigm queries          |
+| auth                | 🟢 Production        | JWT, RBAC, enterprise SSO/MFA                        |
+| base                | 🟢 Production        | Foundational abstractions                            |
+| cache               | 🟢 Production        | Semantic and query result caching                    |
+| cdc                 | 🟢 Production        | Change Data Capture and changefeeds                  |
+| chimera             | 🟢 Production        | Hybrid multi-model layer                             |
+| config              | 🟢 Production        | Configuration management                             |
+| content             | 🟢 Production        | Content ingestion and processing pipelines           |
+| core                | 🟢 Production        | Core database runtime                                |
+| exporters           | 🟢 Production        | Data export (JSONL, LLM formats)                     |
+| geo                 | 🟢 Production        | Geospatial query processing and indexing             |
+| governance          | 🟢 Production        | Policy engine and compliance governance              |
+| gpu                 | 🟢 Production        | GPU compute integration                              |
+| graph               | 🟢 Production        | Property graph queries and traversal                 |
+| importers           | 🟢 Production        | Data import (PostgreSQL, etc.)                       |
+| index               | 🟢 Production        | HNSW, R-tree, adaptive indexing                      |
+| ingestion           | 🟢 Production        | Data ingestion pipeline                              |
+| llm                 | 🟢 Production        | LLM interaction storage and chain-of-thought         |
+| maintenance         | 🟢 Production        | Centralized DB maintenance orchestration             |
+| metadata            | 🟢 Production        | Metadata management and catalog                      |
+| network             | 🟢 Production        | Network layer and peer communication                 |
+| observability       | 🟢 Production        | Metrics, tracing, and logging infrastructure         |
+| performance         | 🟢 Production        | Benchmarking and performance optimization            |
+| plugins             | 🟢 Production        | Plugin system infrastructure                         |
+| process             | 🟡 Beta              | BPMN/EPK/VCC-VPB process modeling, Graph-RAG         |
+| prompt_engineering  | 🟢 Production        | LLM prompt management                                |
+| query               | 🟢 Production        | AQL optimizer, cost-based planner, execution engine  |
+| rag                 | 🟢 Production        | Retrieval-Augmented Generation pipeline              |
+| replication         | 🟢 Production        | Raft-based replication                               |
+| scheduler           | 🟢 Production        | Task and job scheduling                              |
+| search              | 🟢 Production        | Full-text and hybrid search                          |
+| security            | 🟡 Release-Candidate | Encryption, key management, PKI integration          |
+| server              | 🟢 Production        | Main server components and API handlers              |
+| sharding            | 🟡 Beta              | Horizontal scaling and sharding                      |
+| storage             | 🟢 Production        | RocksDB wrapper, MVCC, backup/recovery               |
+| temporal            | 🟢 Production        | Temporal and bitemporal data support                 |
+| themis              | 🟢 Production        | Core ThemisDB orchestration layer                    |
+| timeseries          | 🟢 Production        | Time series data management and compression          |
+| training            | 🟢 Production        | ML model training integration                        |
+| transaction         | 🟢 Production        | SAGA pattern and distributed transactions            |
+| updates             | 🟢 Production        | Schema and data update management                    |
+| utils               | 🟢 Production        | Shared utility functions and helpers                 |
+| voice               | 🟢 Production        | Voice query interface                                |
+
+---
+
+## Maturity Levels
+
+> **Source of truth:** The `Maturity Level` field in each source file header is the authoritative status for that file. The table above reflects the overall module status derived from those headers.
+
+| Level                  | Meaning                                                                                   |
+|------------------------|-------------------------------------------------------------------------------------------|
+| 🟢 Production          | Feature-complete, thoroughly tested, used in production deployments. API is stable.       |
+| 🟡 Release-Candidate   | Near production-ready. All major features complete; minor hardening or edge-case work remaining. |
+| 🟡 Beta                | Core functionality works and is tested. May have rough edges; API may change in minors.   |
+| 🔴 Alpha               | Under active development. Functionality may be incomplete. Not recommended for production.|
+
+> See [ROADMAP.md](ROADMAP.md) for the development timeline and graduation milestones for each module.

@@ -1,3 +1,25 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_graph_type_filtering.cpp                      ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:27:53                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     343                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include <gtest/gtest.h>
 #include "storage/rocksdb_wrapper.h"
 #include "index/graph_index.h"
@@ -114,8 +136,8 @@ TEST_F(GraphTypeFilteringTest, BFS_WithTypeFilter_OnlyTraversesMatchingEdges) {
     ASSERT_TRUE(graphIdx_->rebuildTopology().ok);
 
     // BFS from alice with FOLLOWS filter (should reach bob and dave via bob)
-    auto [st1, followsNodes] = graphIdx_->bfs("alice", 3, "FOLLOWS", "social");
-    ASSERT_TRUE(st1.ok);
+    auto [followsStatus, followsNodes] = graphIdx_->bfs("alice", 3, "FOLLOWS", "social");
+    ASSERT_TRUE(followsStatus.ok) << followsStatus.message;
     EXPECT_EQ(followsNodes.size(), 3); // alice, bob, dave
     EXPECT_TRUE(std::find(followsNodes.begin(), followsNodes.end(), "alice") != followsNodes.end());
     EXPECT_TRUE(std::find(followsNodes.begin(), followsNodes.end(), "bob") != followsNodes.end());
@@ -123,8 +145,8 @@ TEST_F(GraphTypeFilteringTest, BFS_WithTypeFilter_OnlyTraversesMatchingEdges) {
     EXPECT_FALSE(std::find(followsNodes.begin(), followsNodes.end(), "charlie") != followsNodes.end());
 
     // BFS from alice with LIKES filter (should reach dave only)
-    auto [st2, likesNodes] = graphIdx_->bfs("alice", 3, "LIKES", "social");
-    ASSERT_TRUE(st2.ok);
+    auto [likesStatus, likesNodes] = graphIdx_->bfs("alice", 3, "LIKES", "social");
+    ASSERT_TRUE(likesStatus.ok) << likesStatus.message;
     EXPECT_EQ(likesNodes.size(), 2); // alice, dave
     EXPECT_TRUE(std::find(likesNodes.begin(), likesNodes.end(), "alice") != likesNodes.end());
     EXPECT_TRUE(std::find(likesNodes.begin(), likesNodes.end(), "dave") != likesNodes.end());
@@ -132,8 +154,8 @@ TEST_F(GraphTypeFilteringTest, BFS_WithTypeFilter_OnlyTraversesMatchingEdges) {
     EXPECT_FALSE(std::find(likesNodes.begin(), likesNodes.end(), "charlie") != likesNodes.end());
 
     // BFS from alice without filter (should reach all)
-    auto [st3, allNodes] = graphIdx_->bfs("alice", 3);
-    ASSERT_TRUE(st3.ok);
+    auto [allStatus, allNodes] = graphIdx_->bfs("alice", 3);
+    ASSERT_TRUE(allStatus.ok) << allStatus.message;
     EXPECT_EQ(allNodes.size(), 4); // alice, bob, charlie, dave
 }
 
@@ -184,24 +206,24 @@ TEST_F(GraphTypeFilteringTest, Dijkstra_WithTypeFilter_FindsShortestPathOfType) 
     ASSERT_TRUE(graphIdx_->rebuildTopology().ok);
 
     // Find shortest path with FOLLOWS filter
-    auto [st1, followsPath] = graphIdx_->dijkstra("alice", "charlie", "FOLLOWS", "social");
-    ASSERT_TRUE(st1.ok);
+    auto [followsStatus, followsPath] = graphIdx_->dijkstra("alice", "charlie", "FOLLOWS", "social");
+    ASSERT_TRUE(followsStatus.ok) << followsStatus.message;
     ASSERT_EQ(followsPath.path.size(), 3); // alice -> bob -> charlie
     EXPECT_EQ(followsPath.path[0], "alice");
     EXPECT_EQ(followsPath.path[1], "bob");
     EXPECT_EQ(followsPath.path[2], "charlie");
 
     // Find shortest path with LIKES filter
-    auto [st2, likesPath] = graphIdx_->dijkstra("alice", "charlie", "LIKES", "social");
-    ASSERT_TRUE(st2.ok);
+    auto [likesStatus, likesPath] = graphIdx_->dijkstra("alice", "charlie", "LIKES", "social");
+    ASSERT_TRUE(likesStatus.ok) << likesStatus.message;
     ASSERT_EQ(likesPath.path.size(), 3); // alice -> dave -> charlie
     EXPECT_EQ(likesPath.path[0], "alice");
     EXPECT_EQ(likesPath.path[1], "dave");
     EXPECT_EQ(likesPath.path[2], "charlie");
 
     // Find shortest path without filter (should use any edge type)
-    auto [st3, anyPath] = graphIdx_->dijkstra("alice", "charlie");
-    ASSERT_TRUE(st3.ok);
+    auto [anyStatus, anyPath] = graphIdx_->dijkstra("alice", "charlie");
+    ASSERT_TRUE(anyStatus.ok) << anyStatus.message;
     EXPECT_EQ(anyPath.path.size(), 3); // Could be either path
 }
 
@@ -239,8 +261,9 @@ TEST_F(GraphTypeFilteringTest, RecursivePathQuery_WithTypeFilter_UsesServerSideF
     q1.graph_id = "social";
     q1.max_depth = 3;
 
-    auto [st1, paths1] = queryEngine_->executeRecursivePathQuery(q1);
-    ASSERT_TRUE(st1.ok);
+    auto result1 = queryEngine_->executeRecursivePathQuery(q1);
+    ASSERT_TRUE(result1.has_value()) << result1.error().message();
+    auto paths1 = std::move(*result1);
     // Should reach bob (via FOLLOWS) but not charlie (blocked by LIKES edge)
     EXPECT_EQ(paths1.size(), 1);
     EXPECT_EQ(paths1[0].size(), 2); // alice -> bob
@@ -254,8 +277,9 @@ TEST_F(GraphTypeFilteringTest, RecursivePathQuery_WithTypeFilter_UsesServerSideF
     q2.graph_id = "social";
     q2.max_depth = 3;
 
-    auto [st2, paths2] = queryEngine_->executeRecursivePathQuery(q2);
-    ASSERT_TRUE(st2.ok);
+    auto result2 = queryEngine_->executeRecursivePathQuery(q2);
+    ASSERT_TRUE(result2.has_value()) << result2.error().message();
+    auto paths2 = std::move(*result2);
     EXPECT_EQ(paths2.size(), 1);
     EXPECT_EQ(paths2[0].size(), 2); // bob -> charlie
     EXPECT_EQ(paths2[0][0], "bob");
@@ -269,8 +293,9 @@ TEST_F(GraphTypeFilteringTest, RecursivePathQuery_WithTypeFilter_UsesServerSideF
     q3.graph_id = "social";
     q3.max_depth = 3;
 
-    auto [st3, paths3] = queryEngine_->executeRecursivePathQuery(q3);
-    ASSERT_TRUE(st3.ok);
+    auto result3 = queryEngine_->executeRecursivePathQuery(q3);
+    ASSERT_TRUE(result3.has_value()) << result3.error().message();
+    auto paths3 = std::move(*result3);
     // Should fail because alice -> charlie requires FOLLOWS then LIKES
     EXPECT_EQ(paths3.size(), 0);
 
@@ -281,8 +306,9 @@ TEST_F(GraphTypeFilteringTest, RecursivePathQuery_WithTypeFilter_UsesServerSideF
     q4.graph_id = "social";
     q4.max_depth = 3;
 
-    auto [st4, paths4] = queryEngine_->executeRecursivePathQuery(q4);
-    ASSERT_TRUE(st4.ok);
+    auto result4 = queryEngine_->executeRecursivePathQuery(q4);
+    ASSERT_TRUE(result4.has_value()) << result4.error().message();
+    auto paths4 = std::move(*result4);
     EXPECT_EQ(paths4.size(), 1);
     EXPECT_EQ(paths4[0].size(), 3); // alice -> bob -> charlie
 }
@@ -310,8 +336,8 @@ TEST_F(GraphTypeFilteringTest, TypeFilter_WithNonexistentType_ReturnsEmpty) {
     ASSERT_TRUE(graphIdx_->rebuildTopology().ok);
 
     // Query with nonexistent type
-    auto [st, nodes] = graphIdx_->bfs("alice", 3, "NONEXISTENT", "social");
-    ASSERT_TRUE(st.ok);
+    auto [status, nodes] = graphIdx_->bfs("alice", 3, "NONEXISTENT", "social");
+    ASSERT_TRUE(status.ok) << status.message;
     EXPECT_EQ(nodes.size(), 1); // Only alice (start node)
     EXPECT_EQ(nodes[0], "alice");
 }

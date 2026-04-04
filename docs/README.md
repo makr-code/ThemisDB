@@ -15,12 +15,21 @@ This root file is language-neutral. Bitte wähle eine Sprachversion:
 - **[Changelog](../CHANGELOG.md)** - Vollständige Versionshistorie (v1.2.0, v1.1.0, v1.0.2, v1.0.1, v1.0.0)
 - **[🆕 Roadmap v1.1.0](roadmap/roadmap_overview.md)** - **AKTUALISIERT:** Q1 2026 Optimization Release
 - **[Architecture Overview](architecture/ARCHITECTURE_OVERVIEW.md)** - Komplette Systemarchitektur mit Diagrammen
+- **[🆕 Source Directory Guide](architecture/SOURCE_DIRECTORY_GUIDE.md)** - **NEU:** Comprehensive guide to all 35 src/ directories (100% coverage)
 - **[Source Code Changes v1.0](development/SOURCE_CODE_CHANGES_v1.0.md)** - Detaillierte Quellcode-Dokumentation (191 Dateien, 26 Module)
 - **[Features Liste](features/features_overview.md)** - Vollständige Feature-Übersicht mit Status
+- **[🆕 Examples Index](EXAMPLES_INDEX.md)** - **NEU:** Vollständiger Index aller 37+ Beispiele
+- **[🆕 Examples Quickstart](EXAMPLES_QUICKSTART.md)** - **NEU:** In 10 Minuten mit ThemisDB starten
 
 ---
 
 ## 🎯 Nach Zielgruppe
+
+### Für neue Nutzer & Lernende
+- **[🚀 Examples Quickstart Guide](EXAMPLES_QUICKSTART.md)** - **START HERE:** In 10 Minuten mit ThemisDB beginnen
+- **[📚 Examples Index](EXAMPLES_INDEX.md)** - Vollständiger Katalog aller 37+ Beispiele
+- **[🎓 Learning Paths](EXAMPLES_INDEX.md#-learning-paths)** - Geführte Lernpfade nach Rolle (Web Dev, Data Engineer, ML Engineer, etc.)
+- **[Main Examples](../examples/)** - 22 vollständige Beispielanwendungen
 
 ### Für Stakeholder & Management
 - **[Themis Sachstandsbericht 2025](de/reports/themis_sachstandsbericht_2025.md)** - Executive Summary, Status v1.0.1
@@ -35,6 +44,7 @@ This root file is language-neutral. Bitte wähle eine Sprachversion:
 - **[🆕 External Libraries Analysis](de/reports/EXTERNAL_LIBRARIES_FEATURES_ANALYSIS.md)** - **NEU:** Feature-Gap-Analyse (RocksDB, TBB, CUDA, Arrow)
 - **[🆕 Library Interactions](de/reports/LIBRARY_INTERACTIONS_AND_EXTENSIONS.md)** - **NEU:** Wechselwirkungen & zusätzliche Libraries
 - **[Source Code Audit](de/development/SOURCE_CODE_AUDIT.md)** - Code-Analyse (132 Header, 124 Sources, 90.829 LOC)
+- **🆕 Code Duplicate Audit Template** ([Template](https://github.com/makr-code/ThemisDB/blob/main/.github/ISSUE_TEMPLATE/code_duplicate_audit.yml)) - **NEU:** Systematisches Issue-Template für Code-Duplikat-Audits und unvollständige Implementierungen (CI-fähig)
 - **[Documentation Index](de/DOCUMENTATION_INDEX.md)** - Vollständiger Dokumentations-Index mit Modul-Mapping
 - **[Documentation Verification](reports/documentation_verification_report.md)** - Verifizierung Dokumentation ↔ Code
 
@@ -68,7 +78,7 @@ This root file is language-neutral. Bitte wähle eine Sprachversion:
 - **[Storage Module](de/storage/README.md)** - RocksDB Wrapper, LSM-Tree, MVCC (76K LOC)
 - **[Index Module](de/search/README.md)** - Vector HNSW, Graph, Secondary, Spatial (400K LOC)
 - **[Cache Module](de/storage/README.md)** - Semantic Cache, Result Cache
-- **[Timeseries Module](de/timeseries/README.md)** - Gorilla Compression, Aggregates (39K LOC)
+- **[Timeseries Module](timeseries/README.md)** - Time-Series Engine, Gorilla Compression, Continuous Aggregates ([German](de/timeseries/README.md))
 
 ### Distribution & Scaling Layer
 - **[Sharding Module](de/sharding/README.md)** - VCC-URN Sharding, Auto-Rebalancing, Gossip (300K LOC)
@@ -88,6 +98,7 @@ This root file is language-neutral. Bitte wähle eine Sprachversion:
 - **[Server Module](de/server/README.md)** - HTTP Server, 21 API Handlers (164K LOC)
 - **[HTTP API Referenz](de/apis/HTTP_API_REFERENCE.md)** - **Vollständige HTTP Endpoint-Dokumentation** ⭐
 - **[API Documentation](de/apis/README.md)** - REST API Übersicht
+- **[Wire Protocol](wire-protocol.md)** - Binary protocol for client-server communication with TLS/mTLS
 - **[LLM Module](de/llm/README.md)** - LLM Interaction Store, Prompt Manager
 
 ### Security & Governance Layer
@@ -133,6 +144,8 @@ This root file is language-neutral. Bitte wähle eine Sprachversion:
 - **[Plugins](plugins/README.md)** - Plugin System
 - **[Plugin Security](plugins/PLUGIN_SECURITY.md)** - Security & Sandboxing
 - **[Plugin Migration](plugins/PLUGIN_MIGRATION.md)** - Migration Guide
+- **[WordPress Plugin Automatic Updates](plugins/WORDPRESS_PLUGIN_AUTOMATIC_UPDATES.md)** - Update-Architektur, Metadaten und Release-Konventionen
+- **[WordPress Plugin Update Examples](plugins/WORDPRESS_PLUGIN_UPDATE_EXAMPLES.md)** - Praxisbeispiele fuer Admins, Entwickler und Betrieb
 
 ---
 
@@ -150,12 +163,15 @@ This root file is language-neutral. Bitte wähle eine Sprachversion:
 - **[Vault Integration](de/guides/vault.md)** - HashiCorp Vault Setup
 - **[RBAC Setup](de/guides/rbac.md)** - Access Control Configuration
 - **[Code Quality](de/guides/code_quality.md)** - Code Quality Tools
+- **[WordPress Plugin Release Pipeline](ci-cd/WORDPRESS_PLUGIN_RELEASE_PIPELINE.md)** - CI/CD Workflow fuer plugin-spezifische Releases
+- **[WordPress Plugin Operations Runbook](ci-cd/WORDPRESS_PLUGIN_OPERATIONS.md)** - Operativer Ablauf fuer Dry-Run, Pilot-Release und Batch-Rollout
 
 ### Performance & Monitoring
 - **[Performance Tuning](de/performance/README.md)** - Performance-Optimierung
 - **[Benchmarks](de/performance/benchmarks.md)** - Performance-Benchmarks
 - **[Memory Tuning](de/performance/memory_tuning.md)** - Speicher-Optimierung
-- **[Observability](de/observability/README.md)** - Monitoring & Metrics
+- **[Observability & Monitoring Overview](observability/README.md)** - **Central Hub:** Logging, Tracing, Metrics & Alerting
+- **[Observability (DE)](de/observability/README.md)** - German Documentation: Monitoring & Metrics
 
 ---
 

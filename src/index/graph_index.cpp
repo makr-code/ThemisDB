@@ -1,4 +1,30 @@
-﻿// Graph adjacency index implementation
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            graph_index.cpp                                    ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:16:34                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     2177                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 5bfa861df  2026-03-23  Add runtime DLL copying functionality and error handling ║
+    • 87955cec9  2026-03-11  feat(graph): implement ScheduledGraphEdgeRefreshEngine mo... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 5cac3c4d2  2026-02-26  audit(graph): fix allVertices RocksDB fallback, cleanup f... ║
+    • f22c734c5  2026-02-25  feat(graph): implement GPU-accelerated BFS/DFS for massiv... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+// Graph adjacency index implementation
 
 #include "index/graph_index.h"
 #include "storage/rocksdb_wrapper.h"
@@ -30,6 +56,15 @@ void GraphIndexManager::setAuditLogger(std::shared_ptr<utils::AuditLogger> logge
 
 void GraphIndexManager::setUserContext(std::string user_id) {
 	user_context_ = std::move(user_id);
+}
+
+// Phase 4: Set expression evaluator for advanced filtering
+void GraphIndexManager::setExpressionEvaluator(std::shared_ptr<IExpressionEvaluator> evaluator) {
+	expression_evaluator_ = std::move(evaluator);
+}
+
+std::shared_ptr<IExpressionEvaluator> GraphIndexManager::getExpressionEvaluator() const {
+	return expression_evaluator_;
 }
 
 // Helper: Log audit event if audit logger is configured
@@ -70,6 +105,10 @@ void GraphIndexManager::logAuditEvent_(const std::string& event_type, const std:
 		// Don't fail graph operations if audit logging fails
 		THEMIS_WARN("Failed to log audit event: {}", e.what());
 	}
+}
+
+std::unique_ptr<RocksDBWrapper::WriteBatchWrapper> GraphIndexManager::createWriteBatch() {
+	return db_.createWriteBatch();
 }
 
 GraphIndexManager::Status GraphIndexManager::addEdge(const BaseEntity& edge) {
@@ -614,6 +653,59 @@ size_t GraphIndexManager::getTopologyNodeCount() const {
 	return nodes.size();
 }
 
+std::pair<GraphIndexManager::Status, std::vector<std::string>>
+GraphIndexManager::allVertices() const {
+	{
+		std::lock_guard<std::mutex> lock(topology_mutex_);
+		if (topologyLoaded_) {
+			// Fast path: in-memory topology is populated.
+			std::unordered_set<std::string> seen;
+			for (const auto& [v, _] : outEdges_) seen.insert(v);
+			for (const auto& [v, _] : inEdges_)  seen.insert(v);
+			return {Status::OK(), std::vector<std::string>(seen.begin(), seen.end())};
+		}
+	}
+	// Slow path: topology not yet in memory – enumerate vertices directly from
+	// RocksDB by scanning the outdex and index key prefixes.
+	std::unordered_set<std::string> seen;
+	constexpr std::string_view kOutPrefix = "graph:out:";
+	constexpr std::string_view kInPrefix  = "graph:in:";
+	db_.scanPrefix(std::string(kOutPrefix), [&seen, kOutPrefix](std::string_view key, std::string_view /*val*/) {
+		// key format: "graph:out:<fromPk>:<edgeId>"
+		//          or "graph:out:<graphId>:<fromPk>:<edgeId>"
+		// We want fromPk. Use the same logic as parseOutKey_:
+		//   strip "graph:out:" prefix, then split on ':'
+		const std::string_view tail = key.substr(kOutPrefix.size());
+		const size_t first = tail.find(':');
+		if (first == std::string_view::npos) return true;
+		const size_t last  = tail.rfind(':');
+		std::string fromPk;
+		if (last == first) {
+			// legacy: no graphId
+			fromPk = std::string(tail.substr(0, first));
+		} else {
+			fromPk = std::string(tail.substr(first + 1, last - first - 1));
+		}
+		if (!fromPk.empty()) seen.insert(std::move(fromPk));
+		return true;
+	});
+	db_.scanPrefix(std::string(kInPrefix), [&seen, kInPrefix](std::string_view key, std::string_view /*val*/) {
+		const std::string_view tail = key.substr(kInPrefix.size());
+		const size_t first = tail.find(':');
+		if (first == std::string_view::npos) return true;
+		const size_t last  = tail.rfind(':');
+		std::string toPk;
+		if (last == first) {
+			toPk = std::string(tail.substr(0, first));
+		} else {
+			toPk = std::string(tail.substr(first + 1, last - first - 1));
+		}
+		if (!toPk.empty()) seen.insert(std::move(toPk));
+		return true;
+	});
+	return {Status::OK(), std::vector<std::string>(seen.begin(), seen.end())};
+}
+
 size_t GraphIndexManager::getTopologyEdgeCount() const {
 	std::lock_guard<std::mutex> lock(topology_mutex_);
 	size_t total = 0;
@@ -621,6 +713,14 @@ size_t GraphIndexManager::getTopologyEdgeCount() const {
 		total += edges.size();
 	}
 	return total;
+}
+
+std::vector<std::string> GraphIndexManager::getAllVertices() const {
+	std::lock_guard<std::mutex> lock(topology_mutex_);
+	std::unordered_set<std::string> nodes;
+	for (const auto& [node, _] : outEdges_) nodes.insert(node);
+	for (const auto& [node, _] : inEdges_) nodes.insert(node);
+	return {nodes.begin(), nodes.end()};
 }
 
 // ────────────────────────────────────────────────────────────────────────────
@@ -668,6 +768,90 @@ double GraphIndexManager::getEdgeWeight_(std::string_view graphId, std::string_v
 	}
 
 	return 1.0;
+}
+
+// Public method for retrieving edge weight with custom attribute
+double GraphIndexManager::getEdgeWeight(std::string_view graphId, std::string_view edgeId, 
+                                       std::string_view weightAttribute) const {
+	// Try both storage formats: with graphId (edge:<graphId>:<edgeId>) and without (edge:<edgeId>)
+	const std::string edgeKeyWithGid = std::string("edge:") + std::string(graphId) + ":" + std::string(edgeId);
+	auto blob = db_.get(edgeKeyWithGid);
+	if (!blob.has_value()) {
+		const std::string edgeKey = std::string("edge:") + std::string(edgeId);
+		blob = db_.get(edgeKey);
+		if (!blob.has_value()) return 1.0; // Default weight
+	}
+
+	BaseEntity edge = BaseEntity::deserialize(std::string(edgeId), *blob);
+	std::string attrName = std::string(weightAttribute);
+	
+	// Prefer numeric representation
+	if (auto weightOpt = edge.getFieldAsDouble(attrName); weightOpt) return *weightOpt;
+
+	// If stored as string it might be either a plain number or an encrypted blob
+	if (auto wstrOpt = edge.getFieldAsString(attrName); wstrOpt) {
+		const std::string& wstr = *wstrOpt;
+		// Try to detect encrypted blob and decrypt when possible
+		try {
+			auto eb = EncryptedBlob::fromBase64(wstr);
+			if (field_encryption_) {
+				std::string dec = field_encryption_->decryptToString(eb);
+				try {
+					return std::stod(dec);
+				} catch (...) {
+					// fallthrough
+				}
+			}
+		} catch (...) {
+			// not an encrypted blob
+		}
+
+		// Fallback: attempt to parse as number
+		try {
+			return std::stod(wstr);
+		} catch (...) {
+			return 1.0;
+		}
+	}
+
+	return 1.0;
+}
+
+std::optional<std::string> GraphIndexManager::getEdgeField(
+	std::string_view edgeId, std::string_view fieldName) const {
+	// Try both storage formats: "edge:<edgeId>" and, for in-memory topology keys,
+	// iterate over all known graphIds.  Prefer the format without graphId for
+	// simplicity (matches the common single-graph use-case).
+	const std::string edgeKey = std::string("edge:") + std::string(edgeId);
+	auto blob = db_.get(edgeKey);
+	if (!blob.has_value()) {
+		// Try the topology keys in the in-memory edge map to find a graphId
+		std::lock_guard<std::mutex> lk(topology_mutex_);
+		for (const auto& [from, adj_list] : outEdges_) {
+			for (const auto& adj : adj_list) {
+				if (adj.edgeId == edgeId && !adj.graphId.empty()) {
+					const std::string edgeKeyWithGid =
+						std::string("edge:") + adj.graphId + ":" + std::string(edgeId);
+					blob = db_.get(edgeKeyWithGid);
+					if (blob.has_value()) break;
+				}
+			}
+			if (blob.has_value()) break;
+		}
+	}
+	if (!blob.has_value()) return std::nullopt;
+
+	BaseEntity edge = BaseEntity::deserialize(std::string(edgeId), *blob);
+	return edge.getFieldAsString(fieldName);
+}
+
+std::optional<std::string> GraphIndexManager::getNodeField(
+	std::string_view vertexId, std::string_view fieldName) const {
+	const std::string nodeKey = KeySchema::makeGraphNodeKey(vertexId);
+	auto blob = db_.get(nodeKey);
+	if (!blob.has_value()) return std::nullopt;
+	BaseEntity vertex = BaseEntity::deserialize(std::string(vertexId), *blob);
+	return vertex.getFieldAsString(fieldName);
 }
 
 std::string GraphIndexManager::getEdgeType_(std::string_view graphId, std::string_view edgeId) const {
@@ -1393,8 +1577,21 @@ GraphIndexManager::getEdgesInTimeRange(int64_t range_start_ms, int64_t range_end
 		if (!blob.has_value()) return true;
 
 		BaseEntity edge = BaseEntity::deserialize(edgeId, *blob);
-		std::optional<int64_t> valid_from = edge.getFieldAsInt("valid_from");
-		std::optional<int64_t> valid_to = edge.getFieldAsInt("valid_to");
+		auto parseTemporalField = [&edge](std::string_view field) -> std::optional<int64_t> {
+			auto as_int = edge.getFieldAsInt(field);
+			if (as_int.has_value()) return as_int;
+			auto as_str = edge.getFieldAsString(field);
+			if (!as_str.has_value()) return std::nullopt;
+			try {
+				size_t pos = 0;
+				int64_t parsed = std::stoll(*as_str, &pos, 10);
+				if (pos == as_str->size()) return parsed;
+			} catch (...) {
+			}
+			return std::nullopt;
+		};
+		std::optional<int64_t> valid_from = parseTemporalField("valid_from");
+		std::optional<int64_t> valid_to = parseTemporalField("valid_to");
 
 		// Check if edge is in time range
 		bool match = require_full_containment 
@@ -1439,8 +1636,21 @@ GraphIndexManager::getOutEdgesInTimeRange(std::string_view fromPk, int64_t range
 		if (!blob.has_value()) return true;
 
 		BaseEntity edge = BaseEntity::deserialize(edgeId, *blob);
-		std::optional<int64_t> valid_from = edge.getFieldAsInt("valid_from");
-		std::optional<int64_t> valid_to = edge.getFieldAsInt("valid_to");
+		auto parseTemporalField = [&edge](std::string_view field) -> std::optional<int64_t> {
+			auto as_int = edge.getFieldAsInt(field);
+			if (as_int.has_value()) return as_int;
+			auto as_str = edge.getFieldAsString(field);
+			if (!as_str.has_value()) return std::nullopt;
+			try {
+				size_t pos = 0;
+				int64_t parsed = std::stoll(*as_str, &pos, 10);
+				if (pos == as_str->size()) return parsed;
+			} catch (...) {
+			}
+			return std::nullopt;
+		};
+		std::optional<int64_t> valid_from = parseTemporalField("valid_from");
+		std::optional<int64_t> valid_to = parseTemporalField("valid_to");
 
 		// Check if edge is in time range
 		bool match = require_full_containment 

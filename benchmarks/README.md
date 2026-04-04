@@ -1,13 +1,46 @@
-# ThemisDB Benchmarks
+# ThemisDB Benchmarks - CHIMERA Suite
 
-This directory contains performance benchmarks and testing utilities for ThemisDB.
+**CHIMERA Suite** - _Comprehensive Hybrid Inferencing & Multi-model Evaluation Resource Assessment_
 
-## 🎯 NEW: Advanced Scientific Benchmark Suite
+> **"Benchmark the Unbenchmarkable"** - The industry's first comprehensive benchmark suite for hybrid multi-model databases with native AI/LLM integration.
 
-**Status:** ✅ Phases 1-4 Complete (Weeks 1-8) - Ahead of Schedule  
-**Documentation:** ~125KB | **Code:** ~70KB C++ | **Timeline:** 14 weeks total
+This directory contains the CHIMERA Suite, a scientifically rigorous benchmark framework for ThemisDB and comparative database systems.
 
-> **Zusammenfassung (German):** Als Antwort auf die Anforderung nach mehr und besseren Benchmarks für moderne Datenbanken und KI-Systeme haben wir eine umfassende Forschungs- und Implementierungsgrundlage geschaffen, die auf wissenschaftlichen und industriellen Standards (TPC, YCSB, LDBC, ANN-Benchmarks) basiert. **Phasen 1-4 sind komplett:** Research, Hardware-Skalierung, TPC-C, YCSB, und der weltweit erste MMDB-E Benchmark für Multi-Modell-Datenbanken mit Embeddings und LLM-Integration.
+## 🎯 What is CHIMERA Suite?
+
+The CHIMERA Suite represents a new generation of database benchmarking that goes beyond traditional single-model tests. Like the mythical Chimera - a creature composed of multiple beings - this suite evaluates the hybrid nature of modern databases:
+
+- **Multi-Model Workloads**: Graph + Vector + Relational + Document in unified transactions
+- **AI/LLM Integration**: Native LLM inference, LoRA adapters, RAG workflows
+- **Hybrid Inferencing**: Combining database queries with machine learning inference
+- **Scientific Standards**: IEEE/ACM compliant methodology with vendor neutrality
+
+## 📚 Scientific Foundation & Standards
+
+**[CHIMERA Suite Documentation](chimera/README.md)** ⭐ Core Framework
+- Comprehensive Hybrid Inferencing & Multi-model Evaluation Resource Assessment
+- Vendor-neutral reporting framework with IEEE/ACM compliance
+- Statistical rigor (t-test, Mann-Whitney, Cohen's d, confidence intervals)
+- Color-blind friendly visualizations (Okabe-Ito, Paul Tol palettes)
+- Multi-format reports (HTML, CSV, PDF)
+
+**[CHIMERA Scientific Foundation](../docs/benchmarks/CHIMERA_SCIENTIFIC_FOUNDATION.md)** ⭐ Methodology
+- IEEE/ACM standard citations for all benchmark categories
+- Statistical methodology with complete mathematical foundations
+- Reproducibility standards (ACM Artifact Badging compliance)
+- Hardware profiling and dataset transparency specifications
+- Complete bibliography with BibTeX export
+
+**[BibTeX References](../docs/benchmarks/references.bib)** - Complete bibliography for scientific papers
+
+**[Configuration Template](../docs/benchmarks/benchmark_config_template.toml)** - Hardware profiling and reproducibility template
+
+## 🎯 CHIMERA Suite: Advanced Scientific Benchmarks
+
+**Status:** ✅ Phases 1-4 Complete (Weeks 1-8) - Production Ready  
+**Documentation:** ~125KB | **Code:** ~70KB C++ | **Framework:** Python + C++
+
+> **Mission:** Provide the world's first comprehensive benchmark suite for hybrid multi-model databases with native AI/LLM integration, following scientific standards (TPC, YCSB, LDBC, ANN-Benchmarks) with vendor neutrality.
 
 ### 📖 Start Here
 
@@ -279,3 +312,67 @@ When adding new benchmarks, please:
 3. Include baseline comparisons
 4. Update this README with benchmark descriptions
 5. Add appropriate `--benchmark_filter` tags
+
+---
+
+## 🚨 Performance Regression Detection & Baseline Management
+
+**Automated performance monitoring with PR blocking for regressions > 10%**
+
+ThemisDB includes an automated performance regression detection system that:
+
+- 📊 **Stores baselines** per branch (main/develop) and release
+- 🚫 **Blocks PRs** automatically if regressions exceed 10%
+- 📈 **Tracks trends** via Grafana dashboards
+- 🔔 **Sends alerts** for performance violations
+- 📝 **Full documentation** of thresholds and pipelines
+
+### Quick Start
+
+```bash
+# Check for regressions in your changes
+python performance_regression_detector.py \
+  --baseline baselines/main/latest.json \
+  --current my_results.json \
+  --output report.txt
+
+# View available baselines
+python baseline_manager.py list
+
+# Export metrics for Grafana
+python metrics_exporter.py \
+  --baseline baselines/main/latest.json \
+  --output metrics.prom
+```
+
+### Key Features
+
+- **Thresholds**: Minor (5%), Major (10% - blocks PR), Critical (20%)
+- **Metrics**: Throughput, latency, CPU time, memory usage
+- **Workflows**: 
+  - `nightly.yml` - Nightly performance benchmarks
+  - `tests-extended.yml` - Extended performance tests
+  - `ops-automation.yml` - Baseline updates
+- **Dashboard**: Grafana configuration in `monitoring/`
+
+### Documentation
+
+- 📖 **[Performance Regression Detection Guide](../docs/PERFORMANCE_REGRESSION_DETECTION.md)** - Complete documentation
+- 📋 **[Quick Reference](../docs/PERFORMANCE_REGRESSION_QUICK_REFERENCE.md)** - Common commands and scenarios
+- 🔔 **[Alerting Configuration](../docs/PERFORMANCE_ALERTING_CONFIG.md)** - Slack, email, PagerDuty setup
+
+### Files
+
+```
+benchmarks/
+├── baselines/                    # Baseline storage
+│   ├── main/latest.json         # Main branch baseline
+│   ├── develop/latest.json      # Develop branch baseline
+│   └── releases/v*.json         # Release baselines
+├── baseline_manager.py           # Manage baselines
+├── performance_regression_detector.py  # Detect regressions
+├── metrics_exporter.py           # Export to Prometheus
+└── monitoring/
+    └── performance_regression_dashboard.json  # Grafana dashboard
+```
+

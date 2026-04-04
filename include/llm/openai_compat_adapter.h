@@ -1,0 +1,210 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            openai_compat_adapter.h                            ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-03-30 04:08:36                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     210                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 8f8969876  2026-02-27  feat(llm): OpenAI-compatible /v1/chat/completions passthr... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+#pragma once
+
+#include "llm/llm_plugin_interface.h"
+#include <nlohmann/json.hpp>
+#include <string>
+#include <variant>
+#include <optional>
+
+/**
+ * @file openai_compat_adapter.h
+ * @brief OpenAI-compatible /v1/chat/completions passthrough adapter
+ *
+ * Translates OpenAI Chat Completions API requests into ThemisDB
+ * @c InferenceRequest structs and converts @c InferenceResponse objects
+ * back into OpenAI-compatible JSON, enabling existing OpenAI API clients
+ * (LangChain, LlamaIndex, OpenAI Python SDK) to target ThemisDB's local
+ * inference engine without code changes.
+ *
+ * Supported request fields:
+ *   - @c model          — forwarded as @c InferenceRequest::model_id
+ *   - @c messages       — mapped to @c system_prompt + @c prompt
+ *   - @c temperature    — forwarded as-is
+ *   - @c max_tokens     — forwarded as-is
+ *   - @c stream         — when @c true, callers must supply a @c stream_callback
+ *   - @c stop           — forwarded as @c InferenceRequest::stop_sequences
+ *   - @c tools          — serialised to @c InferenceRequest::tools
+ *
+ * Usage:
+ * @code
+ *   auto result = OpenAICompatAdapter::parseRequest(json_body);
+ *   if (std::holds_alternative<std::string>(result)) {
+ *       // error message in the std::string variant
+ *   } else {
+ *       auto& req = std::get<InferenceRequest>(result);
+ *       // submit req to InferenceEngineEnhanced or ILLMPlugin
+ *   }
+ * @endcode
+ *
+ * Thread safety: all public methods are stateless and reentrant.
+ */
+
+namespace themis {
+namespace llm {
+
+using json = nlohmann::json;
+
+/**
+ * @brief Stateless adapter for the OpenAI Chat Completions API.
+ *
+ * All methods are static; no instantiation is required.
+ */
+class OpenAICompatAdapter {
+public:
+    /**
+     * @brief Parse an OpenAI @c /v1/chat/completions request body.
+     *
+     * Converts the @c messages array and generation parameters into a
+     * @c InferenceRequest.  The @c stream_callback field is left unset;
+     * callers that need streaming must attach the callback themselves after
+     * parsing.
+     *
+     * @param body Parsed JSON body of the HTTP POST request.
+     * @return @c InferenceRequest on success, or an error string on failure.
+     */
+    static std::variant<InferenceRequest, std::string> parseRequest(
+        const json& body);
+
+    /**
+     * @brief Build an OpenAI-compatible non-streaming response JSON.
+     *
+     * Produces a @c chat.completion object matching the OpenAI API schema:
+     * @code
+     * {
+     *   "id":      "chatcmpl-<uuid>",
+     *   "object":  "chat.completion",
+     *   "created": <unix_timestamp>,
+     *   "model":   "<model_id>",
+     *   "choices": [{"index":0,"message":{"role":"assistant","content":"..."},
+     *                "finish_reason":"stop"}],
+     *   "usage":   {"prompt_tokens":N,"completion_tokens":M,"total_tokens":N+M}
+     * }
+     * @endcode
+     *
+     * @param response    Completed inference response from the engine.
+     * @param model_id    Model identifier to embed in the response.
+     * @param completion_id Pre-generated completion ID (e.g. "chatcmpl-xxx").
+     *                     If empty a new one is generated automatically.
+     * @return OpenAI-compatible JSON object.
+     */
+    static json buildResponse(
+        const InferenceResponse& response,
+        const std::string& model_id,
+        const std::string& completion_id = "");
+
+    /**
+     * @brief Format a single streaming delta as an SSE data line.
+     *
+     * Produces one SSE chunk in the OpenAI streaming format:
+     * @code
+     *   data: {"id":"chatcmpl-xxx","object":"chat.completion.chunk",
+     *           "created":<ts>,"model":"<model>",
+     *           "choices":[{"index":0,"delta":{"content":"<token>"},
+     *                       "finish_reason":null}]}\n\n
+     * @endcode
+     *
+     * @param token         Token text to include in the delta.
+     * @param completion_id Completion ID (e.g. "chatcmpl-xxx").
+     * @param model_id      Model name embedded in each chunk.
+     * @param created       Unix timestamp for the response; 0 uses current time.
+     * @return SSE-formatted string ready to write to the HTTP response body.
+     */
+    static std::string buildStreamChunk(
+        const std::string& token,
+        const std::string& completion_id,
+        const std::string& model_id,
+        int64_t created = 0);
+
+    /**
+     * @brief Build the final streaming chunk with @c finish_reason="stop".
+     *
+     * Signals to the client that token generation is complete:
+     * @code
+     *   data: {"id":"chatcmpl-xxx","object":"chat.completion.chunk",
+     *           "created":<ts>,"model":"<model>",
+     *           "choices":[{"index":0,"delta":{},
+     *                       "finish_reason":"stop"}]}\n\n
+     * @endcode
+     *
+     * @param completion_id Completion ID.
+     * @param model_id      Model name.
+     * @param created       Unix timestamp; 0 uses current time.
+     * @return SSE-formatted terminal chunk string.
+     */
+    static std::string buildStreamFinalChunk(
+        const std::string& completion_id,
+        const std::string& model_id,
+        int64_t created = 0);
+
+    /**
+     * @brief Return the canonical OpenAI stream termination sentinel.
+     *
+     * @return The string @c "data: [DONE]\n\n".
+     */
+    static std::string buildStreamDone();
+
+    /**
+     * @brief Build an OpenAI-compatible error JSON body.
+     *
+     * @param message Human-readable error description.
+     * @param type    OpenAI error type string (e.g. "invalid_request_error").
+     * @param code    Optional short error code string.
+     * @return Error JSON object.
+     */
+    static json buildError(
+        const std::string& message,
+        const std::string& type = "invalid_request_error",
+        const std::string& code = "");
+
+    /**
+     * @brief Generate a unique completion ID of the form @c "chatcmpl-<uuid>".
+     *
+     * @return A new completion ID string.
+     */
+    static std::string generateCompletionId();
+
+private:
+    /**
+     * @brief Extract system_prompt and conversation prompt from messages.
+     *
+     * The first @c "system" role message becomes @c InferenceRequest::system_prompt.
+     * Remaining @c "user" and @c "assistant" messages are concatenated into
+     * @c InferenceRequest::prompt using a simple role-prefixed format compatible
+     * with the chat templates already used by @c InferenceEngineEnhanced.
+     *
+     * @param messages JSON array of message objects.
+     * @param system_prompt Output for the extracted system prompt (may be empty).
+     * @param prompt        Output for the conversation prompt.
+     * @return Empty string on success, error description on failure.
+     */
+    static std::string extractPrompts(
+        const json& messages,
+        std::optional<std::string>& system_prompt,
+        std::string& prompt);
+};
+
+} // namespace llm
+} // namespace themis

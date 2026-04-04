@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            content_type.cpp                                   ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:15:08                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     656                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 8bd1fe74d  2026-02-26  Audit fixes: preserve_heading_markers, xhtml+xml registry... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "content/content_type.h"
 #include <algorithm>
 #include <cctype>
@@ -31,9 +54,31 @@ json ContentType::toJson() const {
 }
 
 ContentType ContentType::fromJson(const json& j) {
+    auto parseCategory = [](const json& value) -> ContentCategory {
+        if (value.is_number_integer()) {
+            return static_cast<ContentCategory>(value.get<int>());
+        }
+        if (value.is_string()) {
+            std::string category = value.get<std::string>();
+            std::transform(category.begin(), category.end(), category.begin(),
+                           [](unsigned char ch) { return static_cast<char>(std::toupper(ch)); });
+            if (category == "TEXT") return ContentCategory::TEXT;
+            if (category == "IMAGE") return ContentCategory::IMAGE;
+            if (category == "AUDIO") return ContentCategory::AUDIO;
+            if (category == "VIDEO") return ContentCategory::VIDEO;
+            if (category == "GEO") return ContentCategory::GEO;
+            if (category == "CAD") return ContentCategory::CAD;
+            if (category == "ARCHIVE") return ContentCategory::ARCHIVE;
+            if (category == "STRUCTURED") return ContentCategory::STRUCTURED;
+            if (category == "BINARY") return ContentCategory::BINARY;
+            if (category == "UNKNOWN") return ContentCategory::UNKNOWN;
+        }
+        return ContentCategory::UNKNOWN;
+    };
+
     ContentType type;
     type.mime_type = j["mime_type"];
-    type.category = static_cast<ContentCategory>(j["category"].get<int>());
+    type.category = parseCategory(j["category"]);
     type.extensions = j["extensions"].get<std::vector<std::string>>();
     type.supports_text_extraction = j["supports_text_extraction"];
     type.supports_embedding = j["supports_embedding"];
@@ -228,6 +273,17 @@ void ContentTypeRegistry::registerDefaultTypes() {
         .mime_type = "text/html",
         .category = ContentCategory::TEXT,
         .extensions = {".html", ".htm"},
+        .supports_text_extraction = true,
+        .supports_embedding = true,
+        .supports_chunking = true,
+        .supports_metadata_extraction = true,
+        .binary_storage_required = false
+    });
+
+    registerType({
+        .mime_type = "application/xhtml+xml",
+        .category = ContentCategory::TEXT,
+        .extensions = {".xhtml", ".xht"},
         .supports_text_extraction = true,
         .supports_embedding = true,
         .supports_chunking = true,

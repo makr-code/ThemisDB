@@ -1,5 +1,30 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            pii_detector.cpp                                   ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:21:34                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     537                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 1914efd40  2026-02-22  audit(utils): fix broken test assertion and update qualit... ║
+    • a4012d8fa  2026-02-22  fix(utils): resolve stub in pii_detection_engine.h and lo... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "utils/pii_detector.h"
 #include "utils/pii_detection_engine.h"
+#include "config/config_path_resolver.h"
 #include <algorithm>
 #include <fstream>
 #include <yaml-cpp/yaml.h>
@@ -172,27 +197,33 @@ nlohmann::json PIIDetector::getEngineMetadata() const {
 
 bool PIIDetector::loadFromYaml(const std::string& path) {
     try {
-        // If the provided path doesn't point to an existing file, and is
-        // relative, try walking up a few parent directories to find a
-        // repository-level `config/` directory (useful when running tests
-        // from the `build/` directory).
-        std::string resolved = path;
-        if (!std::filesystem::exists(resolved)) {
-            if (!std::filesystem::path(resolved).is_absolute()) {
-                std::filesystem::path cur = std::filesystem::current_path();
-                bool found = false;
-                // Try up to 4 levels up
-                for (int i = 0; i < 4; ++i) {
-                    std::filesystem::path candidate = cur;
-                    for (int j = 0; j < i; ++j) candidate = candidate.parent_path();
-                    candidate /= resolved;
-                    if (std::filesystem::exists(candidate)) {
-                        resolved = candidate.string();
-                        found = true;
-                        break;
+        // Use ConfigPathResolver to handle both new and legacy paths
+        std::string resolved;
+        auto maybe_resolved = themis::config::ConfigPathResolver::tryResolve(path);
+        if (maybe_resolved) {
+            resolved = *maybe_resolved;
+        } else {
+            // If the provided path doesn't point to an existing file, and is
+            // relative, try walking up a few parent directories to find a
+            // repository-level `config/` directory (useful when running tests
+            // from the `build/` directory).
+            resolved = path;
+            if (!std::filesystem::exists(resolved)) {
+                if (!std::filesystem::path(resolved).is_absolute()) {
+                    std::filesystem::path cur = std::filesystem::current_path();
+                    [[maybe_unused]] bool found = false;
+                    // Try up to 4 levels up
+                    for (int i = 0; i < 4; ++i) {
+                        std::filesystem::path candidate = cur;
+                        for (int j = 0; j < i; ++j) candidate = candidate.parent_path();
+                        candidate /= resolved;
+                        if (std::filesystem::exists(candidate)) {
+                            resolved = candidate.string();
+                            found = true;
+                            break;
+                        }
                     }
                 }
-                (void)found; // keep current behavior if not found
             }
         }
 
@@ -288,26 +319,42 @@ bool PIIDetector::loadFromYaml(const std::string& path) {
 
 void PIIDetector::initializeDefaultEngine() {
     engines_.clear();
-    
+
+    nlohmann::json default_config;
+    default_config["enabled"] = true;
+
     // Create unsigned regex engine with embedded defaults
-    auto engine = PIIDetectionEngineFactory::createUnsigned("regex");
-    if (!engine) {
-        spdlog::error("PIIDetector: Failed to create default regex engine");
-        return;
+    auto regex_result = PIIDetectionEngineFactory::createUnsigned("regex");
+    if (!regex_result) {
+        spdlog::error("PIIDetector: Failed to create default regex engine: {}",
+                     regex_result.error().message());
+    } else {
+        auto regex_engine = std::move(*regex_result);
+        if (!regex_engine->initialize(default_config)) {
+            spdlog::error("PIIDetector: Failed to initialize default regex engine: {}",
+                         regex_engine->getLastError());
+        } else {
+            engines_.push_back(std::move(regex_engine));
+        }
     }
-    
-    // Initialize with empty config (will use embedded defaults)
-    nlohmann::json empty_config;
-    empty_config["enabled"] = true;
-    
-    if (!engine->initialize(empty_config)) {
-        spdlog::error("PIIDetector: Failed to initialize default regex engine: {}", 
-                     engine->getLastError());
-        return;
+
+    // Create unsigned NER engine with embedded defaults (complements regex for
+    // person names, organizations, and locations that regex cannot detect)
+    auto ner_result = PIIDetectionEngineFactory::createUnsigned("ner");
+    if (!ner_result) {
+        spdlog::error("PIIDetector: Failed to create default NER engine: {}",
+                     ner_result.error().message());
+    } else {
+        auto ner_engine = std::move(*ner_result);
+        if (!ner_engine->initialize(default_config)) {
+            spdlog::error("PIIDetector: Failed to initialize default NER engine: {}",
+                         ner_engine->getLastError());
+        } else {
+            engines_.push_back(std::move(ner_engine));
+        }
     }
-    
-    engines_.push_back(std::move(engine));
-    spdlog::info("PIIDetector: Initialized with embedded unsigned regex engine");
+
+    spdlog::info("PIIDetector: Initialized with {} embedded unsigned engine(s)", engines_.size());
 }
 
 bool PIIDetector::verifyAndLoadEngine(const nlohmann::json& engine_config) {
@@ -327,16 +374,15 @@ bool PIIDetector::verifyAndLoadEngine(const nlohmann::json& engine_config) {
         }
         
         std::unique_ptr<IPIIDetectionEngine> engine;
-        std::string error_msg;
         
         // If PKI client is configured, use signed loading
         if (pki_client_) {
-            engine = PIIDetectionEngineFactory::createSigned(
-                engine_type, engine_config, *pki_client_, error_msg);
+            auto engine_result = PIIDetectionEngineFactory::createSigned(
+                engine_type, engine_config, *pki_client_);
             
-            if (!engine) {
+            if (!engine_result) {
                 spdlog::error("PIIDetector: PKI verification failed for '{}': {}", 
-                             engine_type, error_msg);
+                             engine_type, engine_result.error().message());
                 
                 // Check if fallback to unsigned is allowed
                 auto global_settings = engine_config.value("global_settings", nlohmann::json::object());
@@ -344,23 +390,31 @@ bool PIIDetector::verifyAndLoadEngine(const nlohmann::json& engine_config) {
                 
                 if (allow_fallback && engine_type == "regex") {
                     spdlog::warn("PIIDetector: Falling back to unsigned regex engine");
-                    engine = PIIDetectionEngineFactory::createUnsigned(engine_type);
-                    if (engine) {
+                    auto unsigned_result = PIIDetectionEngineFactory::createUnsigned(engine_type);
+                    if (unsigned_result) {
+                        engine = std::move(*unsigned_result);
                         engine->initialize(engine_config);
+                    } else {
+                        return false;
                     }
                 } else {
                     return false;
                 }
+            } else {
+                engine = std::move(*engine_result);
             }
         } else {
             // No PKI client - load unsigned
             spdlog::warn("PIIDetector: Loading engine '{}' WITHOUT PKI verification", engine_type);
-            engine = PIIDetectionEngineFactory::createUnsigned(engine_type);
+            auto engine_result = PIIDetectionEngineFactory::createUnsigned(engine_type);
             
-            if (!engine) {
-                spdlog::error("PIIDetector: Failed to create engine '{}'", engine_type);
+            if (!engine_result) {
+                spdlog::error("PIIDetector: Failed to create engine '{}': {}", 
+                             engine_type, engine_result.error().message());
                 return false;
             }
+            
+            engine = std::move(*engine_result);
             
             if (!engine->initialize(engine_config)) {
                 spdlog::error("PIIDetector: Engine '{}' initialization failed: {}", 

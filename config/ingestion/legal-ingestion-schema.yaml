@@ -1,0 +1,546 @@
+# Legal Document Ingestion Schema with LLM-driven Semantic Extraction Rules
+# =============================================================================
+# Version: 1.0.0
+# Description: Defines AI-driven ingestion rules for German administrative law
+#              documents (Verwaltungsrecht). Covers deontic logic extraction,
+#              entity recognition, temporal validity parsing, reference
+#              validation, quality gates, and agentic verification agents.
+#
+# Supported document types: BImSchG, StGB, DSGVO, EU-Richtlinien,
+#   Verwaltungsvorschriften, Bescheide
+#
+# Usage in IngestionBuilder:
+#   builder.withLegalIngestionSchema("config/ingestion/legal-ingestion-schema.yaml")
+# =============================================================================
+
+version: "1.0.0"
+
+metadata:
+  name: "legal-text-ingestion"
+  description: "Schema with LLM-driven extraction rules for German legal texts"
+  use_case: "BImSchG, StGB, DSGVO, EU Directives, administrative regulations"
+  author: "ThemisDB Legal Ingestion Pipeline"
+  created: "2026-03-11"
+  schema_type: "legal_ingestion"
+
+# =============================================================================
+# INGESTION RULES: AI PIPELINE DEFINITIONS
+# =============================================================================
+ingestion_rules:
+
+  # ---------------------------------------------------------------------------
+  # 1. STRUCTURE EXTRACTION (Hierarchical parsing: § → Abs → Nr)
+  # ---------------------------------------------------------------------------
+  structure_extraction:
+    enabled: true
+    model: "regex-based"
+    description: "Parses German legal text into hierarchical section structure"
+
+    rules:
+      # Main section (Paragraph): § 1 Geltungsbereich
+      - name: "section"
+        pattern: '^\s*§\s*(\d+[a-z]*)\s+(.*?)$'
+        capture:
+          number: 1
+          title: 2
+        entity_type: "section"
+        parent: null
+
+      # Subsection (Absatz): (1) Text...
+      - name: "subsection"
+        pattern: '^\s*\((\d+)\)\s+(.*)'
+        capture:
+          number: 1
+          text: 2
+        entity_type: "subsection"
+        parent: "section"
+
+      # Numbered item (Nummer): 1. Text... or 1) Text...
+      - name: "number_item"
+        pattern: '^\s*(\d+)[.)]\s+(.*)'
+        capture:
+          number: 1
+          text: 2
+        entity_type: "number"
+        parent: "subsection"
+
+      # Lettered item (Buchstabe): a) Text...
+      - name: "letter_item"
+        pattern: '^\s*([a-z])\)\s+(.*)'
+        capture:
+          letter: 1
+          text: 2
+        entity_type: "letter"
+        parent: "number"
+
+  # ---------------------------------------------------------------------------
+  # 2. DEONTIC LOGIC EXTRACTION (Obligation/Permission/Prohibition)
+  # ---------------------------------------------------------------------------
+  deontic_extraction:
+    enabled: true
+    description: "Extracts deontic modalities from German legal text"
+
+    # Phase 1: Regex-based patterns (no LLM required)
+    # Phase 2: LLM fine-tuned model (see llm_config below)
+    model: "regex-based"
+
+    llm_config:
+      base_model: "mistral-7b"
+      adapter: "legal-lora-adapter"
+      adapter_rank: 32
+      temperature: 0.1
+      enabled: false   # Enable when LoRA adapter is available
+
+    categories:
+      - name: "obligation"
+        description: "Legal duty or requirement"
+        german_patterns:
+          - "muss"
+          - "müssen"
+          - "hat zu"
+          - "haben zu"
+          - "ist verpflichtet"
+          - "sind verpflichtet"
+          - "ist zu"
+          - "sind zu"
+          - "bedarf"
+          - "bedürfen"
+          - "ist erforderlich"
+          - "sind erforderlich"
+          - "hat sicherzustellen"
+
+      - name: "permission"
+        description: "Allowed action or authorization"
+        german_patterns:
+          - "darf"
+          - "dürfen"
+          - "kann"
+          - "können"
+          - "ist berechtigt"
+          - "sind berechtigt"
+          - "ist zulässig"
+          - "sind zulässig"
+          - "steht frei"
+          - "ist gestattet"
+
+      - name: "prohibition"
+        description: "Forbidden action"
+        german_patterns:
+          - "darf nicht"
+          - "dürfen nicht"
+          - "ist verboten"
+          - "sind verboten"
+          - "ist unzulässig"
+          - "sind unzulässig"
+          - "ist nicht gestattet"
+          - "ist untersagt"
+          - "sind untersagt"
+
+      - name: "definition"
+        description: "Definitional provision"
+        german_patterns:
+          - "im Sinne dieses Gesetzes"
+          - "im Sinne dieser Verordnung"
+          - "im Sinne des § "
+          - "gilt als"
+          - "gelten als"
+          - "versteht man"
+          - "sind Anlagen"
+          - "ist Anlage"
+
+      - name: "condition"
+        description: "Conditional provision"
+        german_patterns:
+          - "wenn"
+          - "falls"
+          - "sofern"
+          - "unter der Voraussetzung"
+          - "soweit"
+          - "vorbehaltlich"
+          - "im Fall"
+          - "bei Vorliegen"
+
+      - name: "exception"
+        description: "Exception or exclusion"
+        german_patterns:
+          - "ausgenommen"
+          - "außer"
+          - "mit Ausnahme"
+          - "gilt nicht für"
+          - "findet keine Anwendung"
+          - "Absatz .* gilt nicht"
+          - "es sei denn"
+
+      - name: "reference"
+        description: "Cross-reference to another provision"
+        german_patterns:
+          - "gemäß"
+          - "nach Maßgabe"
+          - "im Sinne des §"
+          - "nach § "
+          - "entsprechend §"
+          - "nach Absatz"
+          - "nach Satz"
+
+    output_field: "deontic_category"
+    confidence_threshold: 0.75
+    reject_below_threshold: false   # Warn only; do not reject
+
+  # ---------------------------------------------------------------------------
+  # 3. ENTITY RECOGNITION (Rechtliche Entitäten)
+  # ---------------------------------------------------------------------------
+  entity_extraction:
+    enabled: true
+    description: "Recognizes named legal entities in German text"
+    model: "regex-based"   # Phase 1; Phase 2: spacy-legal-ner
+
+    spacy_config:
+      model: "de_legal_ner"
+      enabled: false   # Enable when SpaCy model is available
+
+    entity_types:
+      - name: "law_reference"
+        description: "Reference to a specific law or regulation"
+        patterns:
+          - '§\s*\d+[a-z]*(\s+Abs\.\s*\d+)?(\s+Satz\s*\d+)?(\s+Nr\.\s*\d+)?'
+          - 'Artikel\s+\d+[a-z]*'
+          - 'Art\.\s*\d+[a-z]*'
+          - '\b(BImSchG|StGB|DSGVO|GG|BGB|HGB|VwVfG|UmwG|KrWG)\b'
+          - 'Verordnung\s+(?:Nr\.\s*)?\d+'
+          - 'Richtlinie\s+\d+/\d+/EU'
+
+      - name: "person_role"
+        description: "Role or position of a legal person"
+        patterns:
+          - '\b(Antragsteller|Genehmigungsinhaber|Betreiber|Behörde|Beamter|Richter)\b'
+          - '\b(Kläger|Beklagter|Beigeladener|Widerspruchsführer)\b'
+          - '\b(Bevollmächtigter|Vertreter|Beistand)\b'
+          - '\b(natürliche Person|juristische Person|Personengesellschaft)\b'
+
+      - name: "organization"
+        description: "Government authority or agency"
+        patterns:
+          - '\b(Umweltbundesamt|UBA)\b'
+          - '\b(Bundesministerium|Ministerium)\b'
+          - '\b(Behörde|Verwaltungsbehörde|Genehmigungsbehörde)\b'
+          - '\b(Landkreis|Gemeinde|Stadt|Land)\b'
+          - '\b(Bundesamt|Landesamt)\b'
+
+      - name: "temporal"
+        description: "Time period or deadline"
+        patterns:
+          - '\d+\s+(?:Tage?|Wochen?|Monate?|Jahre?)'
+          - 'innerhalb von\s+\d+'
+          - 'binnen\s+\d+'
+          - 'bis zum\s+\d{1,2}\.\s*\w+\s*\d{4}'
+          - 'ab\s+\d{1,2}\.\s*\w+\s*\d{4}'
+          - 'spätestens\s+\d+'
+
+      - name: "threshold_value"
+        description: "Numerical threshold or limit"
+        patterns:
+          - '\d+(?:[,.]\d+)?\s*(?:mg|kg|t|m³|l|kW|MW|GW|dB|µg)'
+          - 'mehr als\s+\d+'
+          - 'mindestens\s+\d+'
+          - 'höchstens\s+\d+'
+          - 'bis zu\s+\d+'
+
+  # ---------------------------------------------------------------------------
+  # 4. TEMPORAL VALIDITY (Gültigkeitszeiträume)
+  # ---------------------------------------------------------------------------
+  temporal_analysis:
+    enabled: true
+    description: "Extracts temporal validity information from legal texts"
+
+    patterns:
+      - name: "entry_into_force"
+        pattern: '(?:in Kraft getreten|in Kraft getreten am|ab)\s*(?:dem\s+)?(\d{1,2}\.\s*\w+\s*\d{4})'
+        output_field: "effective_from"
+
+      - name: "date_of_law"
+        pattern: 'vom\s+(\d{1,2}\.\s*\w+\s*\d{4})'
+        output_field: "law_date"
+
+      - name: "amendment_date"
+        pattern: 'geändert\s+(?:durch|zuletzt\s+durch).*?vom\s+(\d{1,2}\.\s*\w+\s*\d{4})'
+        output_field: "last_amended"
+
+      - name: "expiry_date"
+        pattern: 'tritt\s+(?:am\s+)?(\d{1,2}\.\s*\w+\s*\d{4})\s+außer\s+Kraft'
+        output_field: "effective_to"
+
+      - name: "application_period"
+        pattern: 'gilt\s+(?:bis|bis zum)\s+(\d{1,2}\.\s*\w+\s*\d{4})'
+        output_field: "valid_until"
+
+    output_fields:
+      - effective_from
+      - effective_to
+      - law_date
+      - last_amended
+      - valid_until
+
+    # German month name normalization
+    month_mapping:
+      Januar: "01"
+      Februar: "02"
+      März: "03"
+      April: "04"
+      Mai: "05"
+      Juni: "06"
+      Juli: "07"
+      August: "08"
+      September: "09"
+      Oktober: "10"
+      November: "11"
+      Dezember: "12"
+
+  # ---------------------------------------------------------------------------
+  # 5. REFERENCE EXTRACTION AND VALIDATION
+  # ---------------------------------------------------------------------------
+  reference_analysis:
+    enabled: true
+    description: "Extracts and validates cross-references to other legal provisions"
+
+    extract_patterns:
+      # § 1 Abs. 1 Nr. 2 Satz 3
+      - '§\s*(\d+[a-z]*)\s*(?:Abs(?:atz|\.)?\s*(\d+))?\s*(?:Satz\s*(\d+))?\s*(?:Nr(?:ummer|\.)?\s*(\d+))?'
+      # Artikel 5 Abs. 1
+      - 'Art(?:ikel|\.)?\s*(\d+[a-z]*)\s*(?:Abs(?:atz|\.)?\s*(\d+))?'
+      # Named law references
+      - '\b(BImSchG|StGB|DSGVO|GG|BGB|HGB|VwVfG|UmwG|KrWG)\b'
+      # EU directive references
+      - 'Richtlinie\s+(\d+)/(\d+)/EU'
+
+    validate_existence: true
+    knowledge_base: "integrated_german_laws"
+    flag_dangling: true
+    dangling_action: "warn"   # warn | reject | flag_for_review
+
+  # ---------------------------------------------------------------------------
+  # 6. QUALITY GATES
+  # ---------------------------------------------------------------------------
+  quality_gates:
+    description: "Acceptance criteria for ingested legal documents"
+
+    gates:
+      - name: "min_confidence"
+        description: "Overall extraction confidence must meet threshold"
+        threshold: 0.80
+        fail_action: "warn"    # warn | reject | flag_for_review
+
+      - name: "deontic_confidence"
+        description: "Deontic extraction confidence must meet threshold"
+        threshold: 0.75
+        fail_action: "warn"
+
+      - name: "temporal_present"
+        description: "Document must contain at least one temporal expression"
+        required: false        # Only warn if missing
+        fail_action: "warn"
+
+      - name: "section_hierarchy"
+        description: "Document must have detectable section structure"
+        required: true
+        fail_action: "flag_for_review"
+
+      - name: "no_dangling_refs"
+        description: "All cross-references should resolve"
+        required: false        # References may point to external laws not yet loaded
+        fail_action: "warn"
+
+    fail_if:
+      - condition: "deontic_categories_empty"
+        description: "At least one provision must have a deontic category"
+
+    warn_if:
+      - condition: "low_confidence_entities"
+        threshold: 0.60
+      - condition: "ambiguous_deontic_logic"
+        threshold: 0.80
+      - condition: "missing_temporal_info"
+
+# =============================================================================
+# DATA SCHEMA: STRUCTURES AFTER EXTRACTION
+# =============================================================================
+tables:
+  legal_documents:
+    description: "Top-level legal document (Gesetz, Verordnung, Richtlinie)"
+    fields:
+      document_id:
+        type: string
+        required: true
+        description: "Unique identifier, e.g. 'BImSchG_2024'"
+      text:
+        type: text
+        required: true
+        min_length: 50
+      document_type:
+        type: string
+        enum: [law, regulation, directive, administrative, court_decision]
+        required: true
+      effective_from:
+        type: date
+        nullable: true
+      effective_to:
+        type: date
+        nullable: true
+      law_date:
+        type: date
+        nullable: true
+      last_amended:
+        type: date
+        nullable: true
+      quality_score:
+        type: number
+        min: 0
+        max: 1
+      deontic_categories:
+        type: array
+        description: "All deontic categories found in this document"
+      extracted_entities:
+        type: array
+      cross_references:
+        type: array
+      extraction_metadata:
+        type: object
+        description: "Gates passed/failed, confidence scores, warnings"
+
+  legal_provisions:
+    description: "Individual provision (Paragraph, Absatz, Nummer)"
+    fields:
+      provision_id:
+        type: string
+        required: true
+        description: "e.g. 'BImSchG_§4_Abs1'"
+      document_id:
+        type: string
+        required: true
+      section_ref:
+        type: string
+        description: "Human-readable reference, e.g. '§4 Abs. 1'"
+      text:
+        type: text
+        required: true
+      deontic_category:
+        type: string
+        enum: [obligation, permission, prohibition, definition, condition, exception, reference, unknown]
+      category_confidence:
+        type: number
+        min: 0
+        max: 1
+      entities:
+        type: array
+        description: "Extracted entities (law_reference, person_role, etc.)"
+      obligations:
+        type: array
+        description: "Structured obligations: actor, action, condition"
+      parent_section:
+        type: string
+        nullable: true
+      references_to:
+        type: array
+        description: "Cross-references extracted from this provision"
+      effective_from:
+        type: date
+        nullable: true
+      effective_to:
+        type: date
+        nullable: true
+
+  quality_logs:
+    description: "Quality gate results for each document ingestion"
+    fields:
+      document_id:
+        type: string
+        required: true
+      extraction_timestamp:
+        type: timestamp
+      gates_passed:
+        type: array
+      gates_failed:
+        type: array
+      low_confidence_items:
+        type: array
+      warnings:
+        type: array
+      overall_score:
+        type: number
+        min: 0
+        max: 1
+
+# =============================================================================
+# AGENTIC VERIFICATION: AUTOMATED REVIEW AGENTS
+# =============================================================================
+agentic_verification:
+  enabled: true
+  description: "Agentic AI agents for post-extraction verification and repair"
+
+  agents:
+    - agent_id: "reference_validator"
+      description: "Validates that all extracted cross-references exist in knowledge base"
+      task: "For each extracted law/section reference, check existence in integrated_german_laws"
+      action_on_missing: "flag_for_review"
+      action_on_dangling: "warn"
+      llm_model: null   # Phase 1: regex-based only
+
+    - agent_id: "deontic_consistency_checker"
+      description: "Checks deontic logic consistency across provisions"
+      task: "Detect contradictions: provision A obliges X while provision B prohibits X"
+      action_on_contradiction: "flag_for_review"
+      llm_model: null   # Phase 2: LLM-based
+
+    - agent_id: "temporal_validator"
+      description: "Validates temporal expressions and date logic"
+      task: "Ensure effective_from <= effective_to; validate date formats"
+      action_on_invalid: "reject"
+      llm_model: null   # Phase 1: rule-based
+
+    - agent_id: "hierarchy_fixer"
+      description: "Auto-repairs broken section hierarchies"
+      task: "Detect missing parent sections and infer hierarchy from context"
+      action_on_missing_parent: "auto_fix"
+      confidence_threshold: 0.90
+      llm_model: null   # Phase 1: heuristic
+
+# =============================================================================
+# GERMAN LEGAL TEXT EXAMPLE (BImSchG)
+# =============================================================================
+examples:
+  bimschg_section_1:
+    input: |
+      § 1 Zweck des Gesetzes
+
+      Zweck dieses Gesetzes ist es, Menschen, Tiere und Pflanzen,
+      den Boden, das Wasser, die Atmosphäre sowie Kultur- und sonstige
+      Sachgüter vor schädlichen Umwelteinwirkungen zu schützen und dem
+      Entstehen schädlicher Umwelteinwirkungen vorzubeugen.
+
+    expected_output:
+      section_ref: "§1"
+      deontic_category: "definition"
+      entities:
+        - type: "definition"
+          value: "Zweck"
+      quality_score: 0.85
+
+  bimschg_section_4:
+    input: |
+      § 4 Genehmigung
+
+      (1) Die Errichtung und der Betrieb von Anlagen, die auf Grund
+      ihrer Beschaffenheit oder ihres Betriebs in besonderem Maße
+      geeignet sind, schädliche Umwelteinwirkungen herbeizuführen
+      oder in anderer Weise die Allgemeinheit oder die Nachbarschaft
+      zu gefährden, erheblich zu benachteiligen oder erheblich zu
+      belästigen, sowie von ortsfesten Abfallentsorgungsanlagen zur
+      Lagerung oder Behandlung von Abfällen bedürfen einer Genehmigung.
+
+    expected_output:
+      section_ref: "§4 Abs. 1"
+      deontic_category: "obligation"
+      obligations:
+        - actor: "Betreiber"
+          action: "Genehmigung einholen"
+          condition: "Errichtung und Betrieb von Anlagen"
+      quality_score: 0.90

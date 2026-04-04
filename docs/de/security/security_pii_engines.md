@@ -1,7 +1,7 @@
 # PII Detection Engine Extensions
 
-**Stand:** 5. Dezember 2025  
-**Version:** v1.3.0  
+**Stand:** 22. Februar 2026  
+**Version:** v1.4.0  
 **Kategorie:** 🔒 Security
 
 ---
@@ -10,7 +10,7 @@
 
 - [Overview](#overview)
 - [Current Status](#current-status)
-- [Future Engine: NER (Named Entity Recognition)](#future-engine-ner-named-entity-recognition)
+- [NERDetectionEngine (Rule-Based Gazetteer)](#nerdetectionengine-rule-based-gazetteer)
 - [Future Engine: Embeddings (Semantic Similarity)](#future-engine-embeddings-semantic-similarity)
 
 ---
@@ -21,34 +21,35 @@
 The PII detection system uses a plugin architecture that allows multiple detection engines to work together:
 
 1. **RegexDetectionEngine** (default, always available)
-2. **NERDetectionEngine** (optional, requires external dependencies)
-3. **EmbeddingDetectionEngine** (optional, requires external dependencies)
+2. **NERDetectionEngine** (built-in, rule-based gazetteer — always available)
+3. **EmbeddingDetectionEngine** (optional, requires fastText or word2vec)
 
 ## Current Status
 
 ✅ **Implemented:**
 - Plugin architecture (`IPIIDetectionEngine` interface)
-- RegexDetectionEngine with YAML configuration
+- `RegexDetectionEngine` with YAML configuration
+- `NERDetectionEngine` — rule-based Named Entity Recognition (no external ML dependency)
 - Engine factory and orchestration
-- Runtime reload with validation
+- Runtime reload with validation and config rollback
 
 ⏳ **Ready for Implementation:**
-- NERDetectionEngine (requires MITIE or ONNX Runtime)
 - EmbeddingDetectionEngine (requires fastText or word2vec)
 
-## Future Engine: NER (Named Entity Recognition)
+---
 
-### Dependencies
+## NERDetectionEngine (Rule-Based Gazetteer)
 
-**Option 1: MITIE (Recommended for C++)**
-```bash
-vcpkg install mitie
-```
+The `NERDetectionEngine` is a built-in engine that detects unstructured PII which regex cannot
+capture. It requires **no external ML framework** and operates entirely on configurable gazetteers.
 
-**Option 2: ONNX Runtime (For pre-trained BERT/RoBERTa models)**
-```bash
-vcpkg install onnxruntime
-```
+### Detected Entity Types
+
+| Entity | Trigger | Confidence |
+|--------|---------|-----------|
+| `PERSON_NAME` | Honorific prefix (`Mr.`, `Dr.`, `Prof.`, etc.) + following capitalised tokens | 0.80–0.92 |
+| `ORGANIZATION` | Legal-entity suffix (`Inc.`, `Corp.`, `GmbH`, etc.) + capitalised prefix tokens | 0.65–0.88 |
+| `LOCATION` | Geographic preposition (`in`, `at`, `from`, `near`, etc.) + capitalised token | 0.72–0.82 |
 
 ### YAML Configuration
 
@@ -56,101 +57,73 @@ vcpkg install onnxruntime
 detection_engines:
   - type: "ner"
     enabled: true
+    version: "1.0.0"
     settings:
-      model_path: "models/pii_ner.dat"  # MITIE model
-      # OR
-      model_path: "models/bert_ner.onnx"  # ONNX BERT model
-      model_type: "mitie"  # or "onnx_bert"
-      confidence_threshold: 0.85
-      batch_size: 32  # For ONNX models
-    
-    entity_types:
-      - name: "PERSON"
-        pii_type: "PERSON_NAME"
-        redaction_mode: "strict"
-        enabled: true
-      
-      - name: "GPE"  # Geo-Political Entity (locations)
-        pii_type: "LOCATION"
-        redaction_mode: "partial"
-        enabled: false
-      
-      - name: "ORG"
-        pii_type: "ORGANIZATION"
-        redaction_mode: "none"
-        enabled: false
+      min_confidence: 0.70
+      default_redaction_mode: "strict"
+
+    honorifics:
+      - "Mr."
+      - "Mrs."
+      - "Dr."
+      - "Prof."
+
+    org_suffixes:
+      - "Inc."
+      - "Corp."
+      - "Ltd."
+      - "GmbH"
+
+    location_prepositions:
+      - "in"
+      - "at"
+      - "from"
+      - "near"
+
+    redaction_modes:
+      PERSON_NAME: "strict"
+      ORGANIZATION: "partial"
+      LOCATION: "partial"
 ```
 
-### Implementation Sketch
+### Example Detection
 
 ```cpp
-class NERDetectionEngine : public IPIIDetectionEngine {
-private:
-    std::unique_ptr<MitieNER> ner_model_;  // or ONNXRuntime
-    std::unordered_map<std::string, PIIType> entity_mapping_;
-    
-public:
-    bool initialize(const nlohmann::json& config) override {
-        std::string model_path = config["settings"]["model_path"];
-        std::string model_type = config["settings"]["model_type"];
-        
-        if (model_type == "mitie") {
-            ner_model_ = std::make_unique<MitieNER>(model_path);
-        } else if (model_type == "onnx_bert") {
-            ner_model_ = std::make_unique<OnnxBertNER>(model_path);
-        }
-        
-        // Map entity types to PII types
-        for (const auto& entity : config["entity_types"]) {
-            if (entity["enabled"].get<bool>()) {
-                entity_mapping_[entity["name"]] = 
-                    PIITypeUtils::fromString(entity["pii_type"]);
-            }
-        }
-        
-        return ner_model_->isLoaded();
-    }
-    
-    std::vector<PIIFinding> detectInText(const std::string& text) const override {
-        auto entities = ner_model_->extract(text);
-        std::vector<PIIFinding> findings;
-        
-        for (const auto& entity : entities) {
-            auto it = entity_mapping_.find(entity.label);
-            if (it != entity_mapping_.end()) {
-                PIIFinding finding;
-                finding.type = it->second;
-                finding.value = entity.text;
-                finding.start_offset = entity.start;
-                finding.end_offset = entity.end;
-                finding.confidence = entity.score;
-                finding.pattern_name = entity.label;
-                finding.engine_name = "ner";
-                findings.push_back(finding);
-            }
-        }
-        
-        return findings;
-    }
-};
+PIIDetector detector("config/pii_patterns.yaml");
+std::string text = "Please contact Dr. Anna Mueller at Acme Corp. in Berlin.";
+auto findings = detector.detectInText(text);
+
+// Detected by NER engine:
+// PERSON_NAME  "Dr. Anna Mueller"  confidence=0.92  engine="ner"
+// ORGANIZATION "Acme Corp."        confidence=0.88  engine="ner"
+// LOCATION     "Berlin"            confidence=0.72  engine="ner"
 ```
 
-### Training Custom NER Models
+### Field Name Classification
 
-**MITIE Training:**
-```bash
-# Prepare annotated data (CoNLL format)
-# Train MITIE model
-mitie-train ner_trainer pii_training_data.txt pii_ner.dat
+The NER engine also classifies JSON field names:
+
+```cpp
+detector.classifyFieldName("full_name");   // PIIType::PERSON_NAME
+detector.classifyFieldName("company");     // PIIType::ORGANIZATION
+detector.classifyFieldName("city");        // PIIType::LOCATION
+detector.classifyFieldName("created_at"); // PIIType::UNKNOWN
 ```
 
-**ONNX Models:**
-- Use pre-trained models from Hugging Face
-- Convert to ONNX format with `transformers` library
-- Example models:
-  - `dslim/bert-base-NER` (English)
-  - `dbmdz/bert-large-cased-finetuned-conll03-english`
-  - German: `deepset/gbert-base-germandpr`
+### Build Integration
+
+The NER engine is compiled unconditionally — no feature flags required:
+
+```cmake
+# ner_detection_engine.cpp is always included:
+set(THEMIS_CORE_SOURCES
+    ...
+    ../src/utils/pii_detection_engine.cpp
+    ../src/utils/regex_detection_engine.cpp
+    ../src/utils/ner_detection_engine.cpp
+    ...
+)
+```
 
 ## Future Engine: Embeddings (Semantic Similarity)
 
@@ -250,37 +223,30 @@ public:
 
 ## Integration Steps
 
-### 1. Add Dependencies to vcpkg.json
+### NER Engine (Built-In — No Dependencies)
+
+The `NERDetectionEngine` is compiled unconditionally. No vcpkg packages or CMake feature flags
+are needed:
+
+```cmake
+# ner_detection_engine.cpp is already included in THEMIS_CORE_SOURCES
+# No optional flags required
+```
+
+To enable the NER engine at runtime, set `enabled: true` in `pii_patterns.yaml` (enabled by
+default in v1.4.0+).
+
+### Embedding Engine (Optional)
 
 ```json
 {
   "dependencies": [
-    "mitie",        // For NER
-    "onnxruntime",  // For BERT-based NER
-    "fasttext"      // For embeddings
-  ],
-  "overrides": [
-    {
-      "name": "mitie",
-      "version": "0.7"
-    }
+    "fasttext"
   ]
 }
 ```
 
-### 2. Update CMakeLists.txt
-
 ```cmake
-# Optional NER support
-option(ENABLE_PII_NER "Enable NER-based PII detection" OFF)
-if(ENABLE_PII_NER)
-    find_package(mitie CONFIG)
-    if(mitie_FOUND)
-        target_link_libraries(themis_core PRIVATE mitie::mitie)
-        target_compile_definitions(themis_core PRIVATE THEMIS_ENABLE_NER)
-    endif()
-endif()
-
 # Optional embedding support
 option(ENABLE_PII_EMBEDDING "Enable embedding-based PII detection" OFF)
 if(ENABLE_PII_EMBEDDING)
@@ -292,66 +258,38 @@ if(ENABLE_PII_EMBEDDING)
 endif()
 ```
 
-### 3. Conditional Compilation
-
-```cpp
-// In pii_detection_engine_factory.cpp
-std::unique_ptr<IPIIDetectionEngine> PIIDetectionEngineFactory::create(
-    const std::string& engine_type) {
-    
-    if (engine_type == "regex") {
-        return std::make_unique<RegexDetectionEngine>();
-    }
-    
-#ifdef THEMIS_ENABLE_NER
-    if (engine_type == "ner") {
-        return std::make_unique<NERDetectionEngine>();
-    }
-#endif
-    
-#ifdef THEMIS_ENABLE_EMBEDDING
-    if (engine_type == "embedding") {
-        return std::make_unique<EmbeddingDetectionEngine>();
-    }
-#endif
-    
-    return nullptr;
-}
-```
-
 ## Performance Considerations
 
 | Engine | Speed | Accuracy | Memory | Use Case |
 |--------|-------|----------|--------|----------|
 | Regex | Very Fast | Good (95%+) | Low | Structured PII (email, SSN, cards) |
-| NER | Medium | Excellent (98%+) | Medium | Names, locations, organizations |
+| NER (rule-based) | Fast | Good (85%+) | Very Low | Names, orgs, locations via honorifics/suffixes |
 | Embedding | Slow | Variable | High | Context-based, semantic PII |
 
 **Recommendation:**
-- Default: Regex only (fast, low overhead)
-- Enhanced: Regex + NER (best balance)
+- Default: Regex + NER (enabled by default, no overhead for NER)
 - Advanced: All three (highest accuracy, higher latency)
 
 ## Testing Strategy
 
 ```cpp
 TEST(PIIDetectorTest, MultiEngineDetection) {
-    // Enable both regex and NER
-    PIIDetector detector("config/pii_patterns_with_ner.yaml");
+    // Both regex and NER are enabled by default
+    PIIDetector detector("config/pii_patterns.yaml");
     
-    std::string text = "Contact Max Mustermann at max@example.com";
+    std::string text = "Contact Dr. Max Mustermann at max@example.com";
     auto findings = detector.detectInText(text);
     
-    // Should find:
-    // 1. "Max Mustermann" via NER (PERSON_NAME)
+    // Should find (at minimum):
+    // 1. "Dr. Max Mustermann" via NER (PERSON_NAME)
     // 2. "max@example.com" via Regex (EMAIL)
-    ASSERT_EQ(findings.size(), 2);
-    
-    EXPECT_EQ(findings[0].engine_name, "ner");
-    EXPECT_EQ(findings[0].type, PIIType::PERSON_NAME);
-    
-    EXPECT_EQ(findings[1].engine_name, "regex");
-    EXPECT_EQ(findings[1].type, PIIType::EMAIL);
+    bool found_person = false, found_email = false;
+    for (const auto& f : findings) {
+        if (f.type == PIIType::PERSON_NAME && f.engine_name == "ner") found_person = true;
+        if (f.type == PIIType::EMAIL && f.engine_name == "regex") found_email = true;
+    }
+    EXPECT_TRUE(found_person);
+    EXPECT_TRUE(found_email);
 }
 ```
 
@@ -359,18 +297,15 @@ TEST(PIIDetectorTest, MultiEngineDetection) {
 
 **Production Checklist:**
 1. ✅ Regex engine always enabled (safe default)
-2. ⏳ NER engine optional (enable for high-value data)
+2. ✅ NER engine enabled by default (rule-based, no external model files needed)
 3. ⏳ Embedding engine optional (enable for advanced use cases)
 4. ✅ YAML config with engine sections
 5. ✅ Fallback to embedded defaults
-6. ⏳ Model files deployed to `models/` directory
-7. ⏳ Memory limits configured (prevent OOM)
-8. ⏳ Performance monitoring (track detection latency)
 
 ## Future Enhancements
 
-- **Multi-language Support**: Load language-specific models per tenant
-- **Custom Training**: API for training custom NER models on tenant data
-- **Explainability**: Return detection reasoning (which words triggered)
+- **Multi-language Support**: Load language-specific honorific/suffix lists per locale
+- **Gazetteer Expansion**: Add city/country name lists for higher-precision location detection
+- **Explainability**: Return detection reasoning (which rule triggered)
 - **Confidence Calibration**: Adjust thresholds based on false positive rates
-- **GPU Acceleration**: Use CUDA for ONNX models in high-throughput scenarios
+- **Optional ML Upgrade**: Drop-in MITIE or ONNX model support via the same `IPIIDetectionEngine` interface

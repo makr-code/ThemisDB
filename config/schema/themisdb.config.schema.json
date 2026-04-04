@@ -1,0 +1,207 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ThemisDB Configuration Schema",
+  "description": "JSON Schema (Draft 7) for the ThemisDB main configuration file (config/config.json or config/config-minimal.yaml).",
+  "type": "object",
+  "properties": {
+    "storage": {
+      "type": "object",
+      "description": "RocksDB storage settings",
+      "required": ["rocksdb_path"],
+      "properties": {
+        "rocksdb_path": {
+          "type": "string",
+          "description": "Filesystem path for the RocksDB data directory",
+          "minLength": 1
+        },
+        "memtable_size_mb": {
+          "type": "integer",
+          "description": "RocksDB write-buffer / memtable size in megabytes",
+          "minimum": 1
+        },
+        "block_cache_size_mb": {
+          "type": "integer",
+          "description": "RocksDB block cache size in megabytes",
+          "minimum": 0
+        },
+        "enable_blobdb": {
+          "type": "boolean",
+          "description": "Enable RocksDB BlobDB for large value storage"
+        },
+        "compression": {
+          "type": "object",
+          "description": "Per-level compression settings",
+          "properties": {
+            "default": {
+              "type": "string",
+              "description": "Compression algorithm for all levels except bottommost",
+              "enum": ["none", "snappy", "lz4", "zstd", "zlib", "bzip2"]
+            },
+            "bottommost": {
+              "type": "string",
+              "description": "Compression algorithm for the bottommost level",
+              "enum": ["none", "snappy", "lz4", "zstd", "zlib", "bzip2"]
+            }
+          }
+        }
+      }
+    },
+    "server": {
+      "type": "object",
+      "description": "HTTP server settings",
+      "required": ["host", "port"],
+      "properties": {
+        "host": {
+          "type": "string",
+          "description": "Interface address to bind to (e.g. '0.0.0.0' or '127.0.0.1')",
+          "minLength": 1
+        },
+        "port": {
+          "type": "integer",
+          "description": "TCP port to listen on",
+          "minimum": 1,
+          "maximum": 65535
+        },
+        "worker_threads": {
+          "type": "integer",
+          "description": "Number of HTTP worker threads",
+          "minimum": 1
+        }
+      }
+    },
+    "vector_index": {
+      "type": "object",
+      "description": "Vector index configuration",
+      "properties": {
+        "object_name": {
+          "type": "string",
+          "description": "Default collection name used by the vector index",
+          "minLength": 1
+        },
+        "dimension": {
+          "type": "integer",
+          "description": "Embedding vector dimensionality",
+          "minimum": 1
+        },
+        "metric": {
+          "type": "string",
+          "description": "Distance / similarity metric",
+          "enum": ["COSINE", "L2", "IP", "HAMMING"]
+        },
+        "engine": {
+          "type": "string",
+          "description": "Vector index engine",
+          "enum": ["hnsw", "flat", "ivf"]
+        },
+        "hnsw_m": {
+          "type": "integer",
+          "description": "HNSW M parameter (number of bi-directional links)",
+          "minimum": 2
+        },
+        "hnsw_ef_construction": {
+          "type": "integer",
+          "description": "HNSW ef_construction parameter",
+          "minimum": 1
+        },
+        "ef_search": {
+          "type": "integer",
+          "description": "HNSW ef_search parameter (query-time exploration factor)",
+          "minimum": 1
+        },
+        "use_gpu": {
+          "type": "boolean",
+          "description": "Enable GPU acceleration for vector operations"
+        },
+        "auto_save": {
+          "type": "boolean",
+          "description": "Automatically persist index snapshots"
+        },
+        "save_path": {
+          "type": "string",
+          "description": "Directory for persisted vector index snapshots",
+          "minLength": 1
+        },
+        "save_on_shutdown": {
+          "type": "boolean",
+          "description": "Persist index on clean shutdown"
+        },
+        "load_on_startup": {
+          "type": "boolean",
+          "description": "Restore index from snapshot on startup"
+        }
+      }
+    },
+    "tracing": {
+      "type": "object",
+      "description": "OpenTelemetry distributed tracing settings",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enable distributed tracing"
+        },
+        "service_name": {
+          "type": "string",
+          "description": "Service name reported to the tracing backend",
+          "minLength": 1
+        },
+        "otlp_endpoint": {
+          "type": "string",
+          "description": "OTLP exporter endpoint (HTTP)",
+          "minLength": 1
+        }
+      }
+    },
+    "features": {
+      "type": "object",
+      "description": "Feature flags",
+      "properties": {
+        "semantic_cache": {
+          "type": "boolean",
+          "description": "Enable semantic (embedding-based) query cache"
+        },
+        "llm_store": {
+          "type": "boolean",
+          "description": "Enable LLM model metadata storage"
+        },
+        "cdc": {
+          "type": "boolean",
+          "description": "Enable Change Data Capture"
+        },
+        "timeseries": {
+          "type": "boolean",
+          "description": "Enable time-series data storage"
+        },
+        "retention": {
+          "type": "object",
+          "description": "Data retention policy settings",
+          "properties": {
+            "enabled": {
+              "type": "boolean"
+            },
+            "interval_hours": {
+              "type": "integer",
+              "description": "Retention policy evaluation interval in hours",
+              "minimum": 1
+            },
+            "policies_path": {
+              "type": "string",
+              "description": "Path to the retention policies YAML file",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    },
+    "sse": {
+      "type": "object",
+      "description": "Server-Sent Events settings",
+      "properties": {
+        "max_events_per_second": {
+          "type": "integer",
+          "description": "Rate limit for SSE events per connection (0 = unlimited)",
+          "minimum": 0
+        }
+      }
+    }
+  }
+}

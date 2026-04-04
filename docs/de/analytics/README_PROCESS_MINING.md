@@ -102,6 +102,18 @@ This documentation suite covers the complete design and implementation plan for 
 
 ---
 
+### 5. [bpmn_future_enhancements.md](./bpmn_future_enhancements.md)
+**Future Enhancements** - Planned improvements for BPMN/process engine
+
+**Contents**:
+- Wire protocol migration to binary protobuf
+- Individual node visit timestamp tracking
+- ProcessGraphManager initialization improvements
+
+**Audience**: Developers, architects, project managers
+
+---
+
 ## 💻 Code Documentation
 
 ### 1. [process_pattern_matcher.h](../../include/analytics/process_pattern_matcher.h)

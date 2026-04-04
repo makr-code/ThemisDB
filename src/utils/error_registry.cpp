@@ -1,6 +1,32 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            error_registry.cpp                                 ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:21:32                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   90.0/100                                       ║
+    • Total Lines:     1632                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 2                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • ab3b22a88  2026-03-09  feat(query): implement query cancellation via request ID ... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 1b5d8a188  2026-02-23  feat(query): implement per-query resource limits (max row... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "utils/error_registry.h"
 #include "utils/string_utils.h"
 #include <algorithm>
+#include <iostream>
+#include <stdexcept>
 
 namespace themis {
 namespace errors {
@@ -24,7 +50,15 @@ ErrorRegistry& ErrorRegistry::getInstance() {
 }
 
 ErrorRegistry::ErrorRegistry() {
-    registerDefaultErrors();
+    try {
+        registerDefaultErrors();
+    } catch (const std::exception& ex) {
+        // Avoid throwing from constructor during static initialization
+        // Log to stderr directly to avoid logger initialization issues
+        std::cerr << "ERROR: ErrorRegistry initialization failed: " << ex.what() << std::endl;
+    } catch (...) {
+        std::cerr << "ERROR: ErrorRegistry initialization failed with unknown exception" << std::endl;
+    }
 }
 
 void ErrorRegistry::registerDefaultErrors() {
@@ -80,6 +114,208 @@ void ErrorRegistry::registerDefaultErrors() {
         "4. Check system logs for hardware errors",
         {"/docs/backup.md", "/docs/recovery.md"},
         {"corruption", "data", "integrity", "storage"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
+        "Storage",
+        "Error",
+        "Transaction failed: {}",
+        "A database transaction could not be completed successfully.",
+        "1. Check if the database is in read-only mode\n"
+        "2. Verify transaction timeout settings\n"
+        "3. Check for deadlocks in system logs\n"
+        "4. Ensure sufficient resources (memory, disk space)",
+        {"/docs/transactions.md", "/docs/troubleshooting.md"},
+        {"transaction", "commit", "rollback", "storage", "database"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_STORAGE_CACHE_ERROR,
+        "Storage",
+        "Warning",
+        "Cache operation failed: {}",
+        "The cache layer encountered an error during read or write operation.",
+        "1. Check cache configuration settings\n"
+        "2. Verify cache size limits are not exceeded\n"
+        "3. Clear cache if corrupted: themis-admin cache clear\n"
+        "4. Review cache eviction policies",
+        {"/docs/caching.md", "/docs/performance.md"},
+        {"cache", "memory", "eviction", "storage"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_STORAGE_LOG_FULL,
+        "Storage",
+        "Critical",
+        "Write-ahead log is full: {}",
+        "The write-ahead log (WAL) has reached capacity and cannot accept new writes.",
+        "1. Trigger log checkpoint: themis-admin checkpoint\n"
+        "2. Increase WAL size limit in configuration\n"
+        "3. Check if log archiving is working\n"
+        "4. Verify disk space is available",
+        {"/docs/wal.md", "/docs/configuration.md"},
+        {"wal", "log", "full", "checkpoint", "storage"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_STORAGE_REDUNDANCY_FAILED,
+        "Storage",
+        "Error",
+        "Redundancy operation failed: {}",
+        "Failed to maintain data redundancy across storage backends.",
+        "1. Check connectivity to all storage backends\n"
+        "2. Verify backend credentials and permissions\n"
+        "3. Review redundancy policy configuration\n"
+        "4. Check available space on all backends",
+        {"/docs/redundancy.md", "/docs/backup.md"},
+        {"redundancy", "replication", "backup", "storage", "backend"}
+    });
+    
+    // Backup & Recovery Errors
+    registerError({
+        ErrorCode::ERR_BACKUP_CREATION_FAILED,
+        "Backup",
+        "Error",
+        "Backup creation failed: {}",
+        "Failed to create database backup.",
+        "1. Check available disk space\n"
+        "2. Verify backup destination permissions\n"
+        "3. Ensure database is accessible\n"
+        "4. Review backup logs for specific errors",
+        {"/docs/backup.md", "/docs/operations.md"},
+        {"backup", "creation", "failed"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_BACKUP_RESTORATION_FAILED,
+        "Backup",
+        "Error",
+        "Backup restoration failed: {}",
+        "Failed to restore database from backup.",
+        "1. Verify backup integrity\n"
+        "2. Check backup file permissions\n"
+        "3. Ensure sufficient disk space\n"
+        "4. Try restoring from an earlier backup",
+        {"/docs/backup.md", "/docs/recovery.md"},
+        {"backup", "restore", "recovery", "failed"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_BACKUP_VERIFICATION_FAILED,
+        "Backup",
+        "Warning",
+        "Backup verification failed: {}",
+        "Backup integrity check detected issues.",
+        "1. Run full backup verification\n"
+        "2. Check backup checksums\n"
+        "3. Consider creating a new full backup",
+        {"/docs/backup.md"},
+        {"backup", "verification", "integrity"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_BACKUP_NOT_FOUND,
+        "Backup",
+        "Error",
+        "Backup not found: {}",
+        "The specified backup does not exist.",
+        "1. Verify backup path\n"
+        "2. List available backups\n"
+        "3. Check backup retention policies",
+        {"/docs/backup.md"},
+        {"backup", "not found", "missing"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_BACKUP_INVALID_TYPE,
+        "Backup",
+        "Error",
+        "Invalid backup type: {}",
+        "The backup type is not supported for this operation.",
+        "1. Use full backup for restoration\n"
+        "2. Restore from full backup then apply incremental/differential",
+        {"/docs/backup.md"},
+        {"backup", "type", "invalid"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_BACKUP_INCOMPLETE,
+        "Backup",
+        "Critical",
+        "Backup incomplete: {}",
+        "Backup is missing required components (e.g., RAID shards).",
+        "1. Verify all backup components exist\n"
+        "2. For RAID configs, ensure all shards are backed up\n"
+        "3. Create a new complete backup",
+        {"/docs/backup.md", "/docs/raid.md"},
+        {"backup", "incomplete", "missing", "raid"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_BACKUP_COMPRESSION_FAILED,
+        "Backup",
+        "Error",
+        "Backup compression failed: {}",
+        "Failed to compress backup data.",
+        "1. Check available disk space\n"
+        "2. Verify tar/gzip availability\n"
+        "3. Check file permissions",
+        {"/docs/backup.md"},
+        {"backup", "compression", "failed"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_BACKUP_DECOMPRESSION_FAILED,
+        "Backup",
+        "Error",
+        "Backup decompression failed: {}",
+        "Failed to decompress backup archive.",
+        "1. Verify backup file integrity\n"
+        "2. Check for corruption\n"
+        "3. Ensure tar/gzip is available",
+        {"/docs/backup.md"},
+        {"backup", "decompression", "failed"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_BACKUP_CHECKSUM_MISMATCH,
+        "Backup",
+        "Critical",
+        "Backup checksum mismatch: {}",
+        "Backup file checksum does not match expected value.",
+        "1. Do not use this backup - it may be corrupted\n"
+        "2. Verify backup source integrity\n"
+        "3. Create a new backup\n"
+        "4. Check for disk errors",
+        {"/docs/backup.md", "/docs/troubleshooting.md"},
+        {"backup", "checksum", "corruption", "integrity"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_BACKUP_MANIFEST_CORRUPT,
+        "Backup",
+        "Error",
+        "Backup manifest corrupt: {}",
+        "Backup metadata file is corrupted or unreadable.",
+        "1. Check backup directory structure\n"
+        "2. Verify JSON format of MANIFEST.json\n"
+        "3. Restore from an earlier backup",
+        {"/docs/backup.md"},
+        {"backup", "manifest", "corrupt", "metadata"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_BACKUP_WAL_ARCHIVE_FAILED,
+        "Backup",
+        "Error",
+        "WAL archive failed: {}",
+        "Failed to archive Write-Ahead Log files.",
+        "1. Check WAL directory permissions\n"
+        "2. Verify available disk space\n"
+        "3. Review database logs",
+        {"/docs/backup.md", "/docs/wal.md"},
+        {"backup", "wal", "archive", "failed"}
     });
     
     // LLM Errors
@@ -256,6 +492,21 @@ void ErrorRegistry::registerDefaultErrors() {
         {"gpu", "peer access", "failed", "multi-gpu"}
     });
     
+    registerError({
+        ErrorCode::ERR_LLM_BATCH_SIZE_EXCEEDED,
+        "LLM",
+        "Error",
+        "Batch size {} exceeds maximum allowed: {}",
+        "The requested batch size is larger than the configured maximum.",
+        "1. Reduce batch size in the request\n"
+        "2. Increase max_batch_size in llm_config.yaml\n"
+        "3. Enable continuous batching for dynamic sizing\n"
+        "4. Split large batches into multiple smaller requests\n"
+        "5. Check available GPU memory if using GPU acceleration",
+        {"/docs/llm/batching.md", "/docs/llm/performance.md"},
+        {"llm", "batch", "size", "exceeded", "limit"}
+    });
+    
     // LoRA Errors
     registerError({
         ErrorCode::ERR_LORA_NOT_LOADED,
@@ -351,6 +602,38 @@ void ErrorRegistry::registerDefaultErrors() {
         "4. Try loading on different GPU or CPU",
         {"/docs/llm/lora_gpu.md"},
         {"lora", "gpu", "load", "failed"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_LORA_ADAPTER_CONFLICT,
+        "LoRA",
+        "Error",
+        "LoRA adapter conflict detected: {}",
+        "Multiple LoRA adapters are attempting to modify the same model layers causing conflicts.",
+        "1. Review adapter layer mappings for overlaps\n"
+        "2. Use adapters that target different layers\n"
+        "3. Load adapters sequentially instead of simultaneously\n"
+        "4. Consider merging adapters offline before loading\n"
+        "5. Check adapter metadata for layer compatibility",
+        {"/docs/llm/lora_conflicts.md", "/docs/llm/lora_fusion.md"},
+        {"lora", "conflict", "adapter", "layers", "overlap"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_LORA_TRAINING_DIVERGED,
+        "LoRA",
+        "Critical",
+        "LoRA training diverged: loss={}, gradient_norm={}",
+        "Training loss diverged or gradients exploded during LoRA fine-tuning.",
+        "1. Reduce learning rate (try 1e-5 or lower)\n"
+        "2. Enable gradient clipping (max_grad_norm=1.0)\n"
+        "3. Use smaller LoRA rank (r=8 or r=16)\n"
+        "4. Check for corrupted training data\n"
+        "5. Increase warmup steps\n"
+        "6. Use mixed precision training (fp16/bf16)\n"
+        "7. Review training loss curves for instability",
+        {"/docs/llm/lora_training.md", "/docs/llm/lora_troubleshooting.md"},
+        {"lora", "training", "diverged", "loss", "gradient", "explosion"}
     });
     
     // MCP Errors
@@ -509,6 +792,757 @@ void ErrorRegistry::registerDefaultErrors() {
         {"/docs/networking.md"},
         {"network", "dns", "resolution", "hostname"}
     });
+    
+    // Index Errors
+    registerError({
+        ErrorCode::ERR_INDEX_NOT_INITIALIZED,
+        "Index",
+        "Error",
+        "Index manager not initialized",
+        "The index manager or index subsystem has not been properly initialized.",
+        "1. Ensure database initialization completed successfully\n"
+        "2. Check initialization logs for errors\n"
+        "3. Verify configuration is correct\n"
+        "4. Try restarting the database",
+        {"/docs/index/initialization.md"},
+        {"index", "manager", "not initialized"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_INDEX_CREATION_FAILED,
+        "Index",
+        "Error",
+        "Failed to create index: {}",
+        "The system could not create the requested index.",
+        "1. Check available disk space\n"
+        "2. Verify index type is supported\n"
+        "3. Check for duplicate index names\n"
+        "4. Review error logs for specific failure reason",
+        {"/docs/index/management.md"},
+        {"index", "creation", "failed"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_INDEX_NOT_FOUND,
+        "Index",
+        "Error",
+        "Index not found: {}",
+        "The requested index does not exist.",
+        "1. List available indexes\n"
+        "2. Check index name spelling\n"
+        "3. Verify index was created successfully\n"
+        "4. Check if index was dropped",
+        {"/docs/index/management.md"},
+        {"index", "not found"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_INDEX_INVALID_TYPE,
+        "Index",
+        "Error",
+        "Invalid index type: {}",
+        "The specified index type is not supported or recognized.",
+        "1. Review supported index types in documentation\n"
+        "2. Check type name spelling\n"
+        "3. Verify database version supports this type",
+        {"/docs/index/types.md"},
+        {"index", "type", "invalid"}
+    });
+    
+    // Query Errors
+    registerError({
+        ErrorCode::ERR_QUERY_PARSE_FAILED,
+        "Query",
+        "Error",
+        "Query parsing failed: {}",
+        "The query could not be parsed due to syntax or semantic errors.",
+        "1. Review query syntax\n"
+        "2. Check for typos in keywords\n"
+        "3. Verify table/field names exist\n"
+        "4. Consult query language documentation",
+        {"/docs/query/syntax.md"},
+        {"query", "parse", "failed", "syntax"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_QUERY_INVALID_SYNTAX,
+        "Query",
+        "Error",
+        "Invalid query syntax at position {}: {}",
+        "The query contains invalid syntax.",
+        "1. Check query syntax matches AQL/GraphQL specification\n"
+        "2. Verify all brackets/quotes are balanced\n"
+        "3. Check for reserved keyword usage\n"
+        "4. Review query examples in documentation",
+        {"/docs/query/syntax.md"},
+        {"query", "syntax", "invalid"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+        "Query",
+        "Error",
+        "Query execution failed: {}",
+        "The query was parsed successfully but failed during execution.",
+        "1. Check if referenced tables/indexes exist\n"
+        "2. Verify data types are compatible\n"
+        "3. Review constraints and permissions\n"
+        "4. Check system resources (memory, disk)",
+        {"/docs/query/execution.md"},
+        {"query", "execution", "failed"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_QUERY_TIMEOUT,
+        "Query",
+        "Warning",
+        "Query execution timeout after {} seconds",
+        "The query did not complete within the configured timeout period.",
+        "1. Increase query timeout in configuration\n"
+        "2. Optimize query (add indexes, reduce data scanned)\n"
+        "3. Check for missing indexes on filter columns\n"
+        "4. Consider breaking query into smaller operations",
+        {"/docs/query/optimization.md"},
+        {"query", "timeout", "performance"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_QUERY_CTE_CYCLE_DETECTED,
+        "Query",
+        "Error",
+        "Circular CTE reference detected: {}",
+        "Common Table Expression contains a circular reference.",
+        "1. Review CTE dependencies\n"
+        "2. Remove circular references\n"
+        "3. Restructure query to avoid cycles",
+        {"/docs/query/cte.md"},
+        {"query", "cte", "cycle", "circular"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_QUERY_SUBQUERY_FAILED,
+        "Query",
+        "Error",
+        "Subquery execution failed: {}",
+        "A subquery within the main query failed to execute.",
+        "1. Check subquery syntax and logic\n"
+        "2. Verify subquery returns expected result type\n"
+        "3. Test subquery independently",
+        {"/docs/query/subqueries.md"},
+        {"query", "subquery", "failed"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_QUERY_INVALID_WINDOW_SPEC,
+        "Query",
+        "Error",
+        "Invalid window specification: {}",
+        "Window function specification is invalid or malformed.",
+        "1. Check window frame bounds (ROWS/RANGE)\n"
+        "2. Verify PARTITION BY and ORDER BY clauses\n"
+        "3. Review window function documentation",
+        {"/docs/query/window_functions.md"},
+        {"query", "window", "invalid", "specification"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_QUERY_RESOURCE_EXHAUSTED,
+        "Query",
+        "Error",
+        "Query resource limit exceeded: {}",
+        "The query exceeded a configured per-query resource limit (rows, memory, or timeout).",
+        "1. Reduce result set size with additional FILTER/LIMIT clauses\n"
+        "2. Increase the per-query resource limit in configuration\n"
+        "3. Break the query into smaller operations\n"
+        "4. Add indexes to speed up execution and reduce scanned rows",
+        {"/docs/query/resource-limits.md"},
+        {"query", "resource", "limit", "exhausted", "timeout", "memory", "rows"}
+    });
+
+    registerError({
+        ErrorCode::ERR_QUERY_CANCELLED,
+        "Query",
+        "Warning",
+        "Query cancelled by request: {}",
+        "The query was explicitly cancelled via its request ID before or during execution.",
+        "1. Retry the query if cancellation was unintended\n"
+        "2. Check client-side cancellation logic\n"
+        "3. Review query timeout and resource settings",
+        {"/docs/query/cancellation.md"},
+        {"query", "cancel", "request", "abort"}
+    });
+
+    registerError({
+        ErrorCode::ERR_QUERY_INVALID_INPUT,
+        "Query",
+        "Error",
+        "Invalid input for statistical function: {}",
+        "The input parameters for a statistical aggregation function are invalid.",
+        "1. Check parameter ranges (e.g., percentile 0-100)\n"
+        "2. Verify data types are numeric\n"
+        "3. Ensure input is not null or empty\n"
+        "4. Review function documentation",
+        {"/docs/query/statistical_functions.md"},
+        {"query", "statistical", "invalid", "input"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_QUERY_INSUFFICIENT_DATA,
+        "Query",
+        "Error",
+        "Insufficient data for statistical function: {}",
+        "The statistical function requires more data points than provided.",
+        "1. Check minimum data requirements (e.g., variance needs ≥2 values)\n"
+        "2. Filter out null or non-numeric values\n"
+        "3. Verify data source is not empty\n"
+        "4. Consider using different aggregation function",
+        {"/docs/query/statistical_functions.md"},
+        {"query", "statistical", "insufficient", "data"}
+    });
+    
+    // API Errors
+    registerError({
+        ErrorCode::ERR_API_INVALID_REQUEST,
+        "API",
+        "Error",
+        "Invalid API request: {}",
+        "The API request is malformed or contains invalid parameters.",
+        "1. Verify request format (JSON/GraphQL/etc.)\n"
+        "2. Check required parameters are provided\n"
+        "3. Validate parameter types and values\n"
+        "4. Review API documentation",
+        {"/docs/api/reference.md"},
+        {"api", "request", "invalid"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_API_UNAUTHORIZED,
+        "API",
+        "Error",
+        "Unauthorized: {}",
+        "The request lacks valid authentication credentials.",
+        "1. Verify API key or token is provided\n"
+        "2. Check credentials are not expired\n"
+        "3. Ensure user has required permissions\n"
+        "4. Review authentication configuration",
+        {"/docs/security/authentication.md"},
+        {"api", "unauthorized", "authentication"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_API_RATE_LIMIT,
+        "API",
+        "Warning",
+        "Rate limit exceeded: {} requests per {}",
+        "The API rate limit has been exceeded.",
+        "1. Reduce request frequency\n"
+        "2. Implement exponential backoff\n"
+        "3. Request rate limit increase if needed\n"
+        "4. Use batch operations where possible",
+        {"/docs/api/rate_limits.md"},
+        {"api", "rate limit", "throttling"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_API_INTERNAL_ERROR,
+        "API",
+        "Critical",
+        "Internal API error: {}",
+        "An unexpected internal error occurred while processing the request.",
+        "1. Check server logs for details\n"
+        "2. Retry the request\n"
+        "3. If persistent, report to support\n"
+        "4. Verify system health and resources",
+        {"/docs/troubleshooting.md"},
+        {"api", "internal", "error"}
+    });
+    
+    // Plugin Errors
+    registerError({
+        ErrorCode::ERR_PLUGIN_NOT_FOUND,
+        "Plugin",
+        "Error",
+        "Plugin not found: {}",
+        "The requested plugin does not exist or is not loaded.",
+        "1. List available plugins\n"
+        "2. Check plugin name spelling\n"
+        "3. Verify plugin file exists in plugins directory\n"
+        "4. Check plugin is enabled in configuration",
+        {"/docs/plugins/management.md"},
+        {"plugin", "not found"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+        "Plugin",
+        "Error",
+        "Failed to load plugin: {}",
+        "The plugin file exists but could not be loaded.",
+        "1. Check plugin file is not corrupted\n"
+        "2. Verify plugin is compatible with current version\n"
+        "3. Review plugin dependencies\n"
+        "4. Check file permissions",
+        {"/docs/plugins/development.md"},
+        {"plugin", "load", "failed"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_PLUGIN_INCOMPATIBLE,
+        "Plugin",
+        "Error",
+        "Plugin incompatible: {} requires version {}, found {}",
+        "The plugin is not compatible with the current database version.",
+        "1. Update plugin to compatible version\n"
+        "2. Check plugin version requirements\n"
+        "3. Update database if appropriate\n"
+        "4. Contact plugin developer for compatibility",
+        {"/docs/plugins/compatibility.md"},
+        {"plugin", "incompatible", "version"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_PLUGIN_INVALID_SIGNATURE,
+        "Plugin",
+        "Error",
+        "Plugin signature verification failed: {}",
+        "The plugin signature is invalid or missing.",
+        "1. Re-download plugin from trusted source\n"
+        "2. Verify plugin checksum\n"
+        "3. Check signature file exists\n"
+        "4. If self-signed, add to trusted keys",
+        {"/docs/plugins/security.md"},
+        {"plugin", "signature", "security"}
+    });
+    
+    // Compression Errors
+    registerError({
+        ErrorCode::ERR_COMPRESSION_FAILED,
+        "Compression",
+        "Error",
+        "Compression operation failed: {}",
+        "Failed to compress data using the specified algorithm.",
+        "1. Verify input data is not corrupted\n"
+        "2. Check compression algorithm is supported\n"
+        "3. Ensure sufficient memory is available\n"
+        "4. Try a different compression level",
+        {"/docs/compression.md"},
+        {"compression", "failed", "algorithm"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_COMPRESSION_BUFFER_TOO_SMALL,
+        "Compression",
+        "Error",
+        "Compression buffer too small: {} bytes required, {} bytes available",
+        "The output buffer is insufficient for compressed data.",
+        "1. Increase buffer size in configuration\n"
+        "2. Use dynamic buffer allocation\n"
+        "3. Check compression ratio estimates",
+        {"/docs/compression.md"},
+        {"compression", "buffer", "size"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_COMPRESSION_INVALID_FORMAT,
+        "Compression",
+        "Error",
+        "Invalid compression format: {}",
+        "The compressed data format is not recognized or corrupted.",
+        "1. Verify data was compressed with supported algorithm\n"
+        "2. Check for data corruption during transfer\n"
+        "3. Ensure compression format version is compatible\n"
+        "4. Re-compress data if source is available",
+        {"/docs/compression.md"},
+        {"compression", "format", "invalid", "corrupted"}
+    });
+    
+    // Crypto Errors
+    registerError({
+        ErrorCode::ERR_CRYPTO_ENCRYPTION_FAILED,
+        "Crypto",
+        "Error",
+        "Encryption operation failed: {}",
+        "Failed to encrypt data using the specified algorithm.",
+        "1. Verify encryption key is valid\n"
+        "2. Check encryption algorithm is supported\n"
+        "3. Ensure input data format is correct\n"
+        "4. Verify OpenSSL/crypto library is properly initialized",
+        {"/docs/security/encryption.md"},
+        {"crypto", "encryption", "failed"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_CRYPTO_DECRYPTION_FAILED,
+        "Crypto",
+        "Error",
+        "Decryption operation failed: {}",
+        "Failed to decrypt data, possibly due to wrong key or corrupted data.",
+        "1. Verify decryption key matches encryption key\n"
+        "2. Check ciphertext is not corrupted\n"
+        "3. Ensure correct algorithm and mode are used\n"
+        "4. Verify IV/nonce if applicable",
+        {"/docs/security/encryption.md"},
+        {"crypto", "decryption", "failed", "key"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_CRYPTO_KEY_GENERATION_FAILED,
+        "Crypto",
+        "Error",
+        "Key generation failed: {}",
+        "Failed to generate cryptographic key.",
+        "1. Verify entropy source is available (/dev/urandom)\n"
+        "2. Check key size is supported\n"
+        "3. Ensure crypto library is properly initialized\n"
+        "4. Verify sufficient system resources",
+        {"/docs/security/key_management.md"},
+        {"crypto", "key", "generation", "failed"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_CRYPTO_INVALID_KEY,
+        "Crypto",
+        "Error",
+        "Invalid cryptographic key: {}",
+        "The provided key is invalid or malformed.",
+        "1. Verify key format (PEM, DER, etc.)\n"
+        "2. Check key size matches algorithm requirements\n"
+        "3. Ensure key is not corrupted\n"
+        "4. Verify key type (RSA, EC, etc.) is correct",
+        {"/docs/security/key_management.md"},
+        {"crypto", "key", "invalid"}
+    });
+    
+    // Utility Errors
+    registerError({
+        ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
+        "Utility",
+        "Error",
+        "Invalid argument: {}",
+        "A function was called with an invalid argument.",
+        "1. Check function parameters are correct\n"
+        "2. Verify input data format\n"
+        "3. Review API documentation for parameter constraints\n"
+        "4. Check for null or empty values",
+        {"/docs/api/utilities.md"},
+        {"utility", "invalid", "argument", "parameter"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
+        "Utility",
+        "Error",
+        "File operation failed: {}",
+        "A file operation (read, write, delete) failed.",
+        "1. Check file path is correct\n"
+        "2. Verify file permissions\n"
+        "3. Ensure parent directory exists\n"
+        "4. Check disk space is available",
+        {"/docs/troubleshooting.md"},
+        {"utility", "file", "operation", "failed"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_UTIL_PERMISSION_DENIED,
+        "Utility",
+        "Error",
+        "Permission denied: {}",
+        "Insufficient permissions to perform the operation.",
+        "1. Check user/process permissions\n"
+        "2. Verify file/directory ownership\n"
+        "3. Review SELinux/AppArmor policies\n"
+        "4. Run with appropriate privileges if needed",
+        {"/docs/security.md"},
+        {"utility", "permission", "denied", "access"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_UTIL_PKI_CERT_LOAD_FAILED,
+        "Utility",
+        "Error",
+        "Failed to load PKI certificate: {}",
+        "Could not load or parse the certificate file.",
+        "1. Verify certificate file path is correct\n"
+        "2. Check certificate format (PEM expected)\n"
+        "3. Ensure certificate is not expired\n"
+        "4. Verify file is readable and not corrupted",
+        {"/docs/security/pki.md"},
+        {"utility", "pki", "certificate", "load", "failed"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_UTIL_PKI_KEY_LOAD_FAILED,
+        "Utility",
+        "Error",
+        "Failed to load PKI private key: {}",
+        "Could not load or parse the private key file.",
+        "1. Verify private key file path is correct\n"
+        "2. Check key format (PEM expected)\n"
+        "3. Ensure passphrase is correct if key is encrypted\n"
+        "4. Verify file is readable and not corrupted",
+        {"/docs/security/pki.md"},
+        {"utility", "pki", "key", "private", "load", "failed"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_UTIL_PII_ENGINE_CREATION_FAILED,
+        "Utility",
+        "Error",
+        "Failed to create PII detection engine: {}",
+        "Could not instantiate the PII detection engine.",
+        "1. Verify engine type is supported (regex, ner, embedding)\n"
+        "2. Check engine configuration is valid\n"
+        "3. Ensure PKI signature is valid if signed engine\n"
+        "4. Review engine initialization logs",
+        {"/docs/privacy/pii_detection.md"},
+        {"utility", "pii", "detection", "engine", "failed"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_UTIL_POLICY_NOT_FOUND,
+        "Utility",
+        "Error",
+        "Retention policy not found: {}",
+        "The specified retention policy does not exist.",
+        "1. Verify policy name is correct\n"
+        "2. Check policy configuration file\n"
+        "3. Ensure policy was registered successfully\n"
+        "4. Review retention manager logs",
+        {"/docs/retention.md"},
+        {"utility", "retention", "policy", "not found"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_UTIL_COMPRESSION_FAILED,
+        "Utility",
+        "Error",
+        "Compression operation failed: {}",
+        "Failed to compress or decompress data using ZSTD.",
+        "1. Check if data is corrupted\n"
+        "2. Verify input data is valid\n"
+        "3. Review compression error logs\n"
+        "4. Check available memory",
+        {"/docs/utils/compression.md"},
+        {"utility", "compression", "zstd", "failed"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_UTIL_ALLOCATION_FAILED,
+        "Utility",
+        "Critical",
+        "Memory allocation failed: {}",
+        "Failed to allocate memory for compression/decompression operation.",
+        "1. Check available system memory\n"
+        "2. Reduce input data size\n"
+        "3. Check for memory leaks\n"
+        "4. Consider increasing system resources",
+        {"/docs/utils/compression.md"},
+        {"utility", "memory", "allocation", "failed", "oom"}
+    });
+    
+    // Memory Pool Errors
+    registerError({
+        ErrorCode::ERR_MEMORY_POOL_EXHAUSTED,
+        "Memory",
+        "Critical",
+        "Memory pool exhausted: requested {} bytes, available {} bytes",
+        "The memory pool has run out of available memory blocks.",
+        "1. Increase pool size in configuration\n"
+        "2. Enable dynamic pool expansion\n"
+        "3. Check for memory leaks\n"
+        "4. Review allocation patterns and optimize",
+        {"/docs/memory/pool_allocator.md"},
+        {"memory", "pool", "exhausted", "out of memory"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_MEMORY_ALLOCATION_FAILED,
+        "Memory",
+        "Critical",
+        "Memory allocation failed: requested {} bytes",
+        "Failed to allocate memory from the system.",
+        "1. Check available system memory\n"
+        "2. Reduce memory usage in configuration\n"
+        "3. Enable memory compression\n"
+        "4. Check for memory leaks",
+        {"/docs/memory/troubleshooting.md"},
+        {"memory", "allocation", "failed", "oom"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_MEMORY_INVALID_SIZE,
+        "Memory",
+        "Error",
+        "Invalid allocation size: {} bytes",
+        "The requested allocation size is invalid or exceeds limits.",
+        "1. Verify allocation size is positive and non-zero\n"
+        "2. Check size does not exceed max allocation limit\n"
+        "3. Ensure size is properly aligned if required",
+        {"/docs/memory/pool_allocator.md"},
+        {"memory", "invalid", "size", "allocation"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_MEMORY_INVALID_ALIGNMENT,
+        "Memory",
+        "Error",
+        "Invalid memory alignment: requested {} bytes, must be power of 2",
+        "The requested alignment is not a power of 2.",
+        "1. Verify alignment is a power of 2 (e.g., 8, 16, 32, 64)\n"
+        "2. Use standard alignment values (16 or 64 bytes)\n"
+        "3. Check alignment requirements for your data structure",
+        {"/docs/memory/pool_allocator.md"},
+        {"memory", "alignment", "invalid", "power of 2"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_MEMORY_DOUBLE_FREE,
+        "Memory",
+        "Critical",
+        "Double free detected: address {}",
+        "Attempted to free memory that was already freed.",
+        "1. Check for double free bugs in code\n"
+        "2. Ensure proper ownership semantics\n"
+        "3. Use smart pointers or RAII patterns\n"
+        "4. Run with AddressSanitizer to detect memory errors",
+        {"/docs/memory/debugging.md"},
+        {"memory", "double free", "corruption", "bug"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_MEMORY_POOL_NOT_INITIALIZED,
+        "Memory",
+        "Error",
+        "Memory pool not initialized",
+        "Attempted to use a memory pool before initialization.",
+        "1. Ensure pool is initialized before use\n"
+        "2. Check initialization order\n"
+        "3. Verify pool configuration is valid",
+        {"/docs/memory/pool_allocator.md"},
+        {"memory", "pool", "not initialized", "initialization"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_MEMORY_FRAGMENTATION,
+        "Memory",
+        "Warning",
+        "Memory fragmentation detected: {} free blocks, largest {} bytes",
+        "Memory pool is fragmented with many small free blocks.",
+        "1. Enable pool defragmentation\n"
+        "2. Increase pool size\n"
+        "3. Adjust allocation sizes\n"
+        "4. Consider pool reset during low-activity periods",
+        {"/docs/memory/pool_allocator.md"},
+        {"memory", "fragmentation", "performance", "optimization"}
+    });
+    
+    // Security Errors
+    registerError({
+        ErrorCode::ERR_SECURITY_INJECTION_DETECTED,
+        "Security",
+        "Critical",
+        "AQL injection detected: {}",
+        "The query contains patterns that indicate a SQL/AQL injection attempt.",
+        "1. Use parameterized queries instead of string concatenation\n"
+        "2. Validate all user input before using in queries\n"
+        "3. Review the query for suspicious patterns (DROP, DELETE, --, etc.)\n"
+        "4. Check security audit logs for the source of the malicious query",
+        {"/docs/security/injection_prevention.md"},
+        {"security", "injection", "sql", "aql", "validation", "attack"}
+    });
+
+    // Graph Errors (6400-6499)
+    registerError({
+        ErrorCode::ERR_GRAPH_NO_SUCH_VERTEX,
+        "Graph",
+        "Error",
+        "Vertex not found: {}",
+        "The referenced vertex does not exist in the graph.",
+        "1. Verify the vertex ID is correct\n"
+        "2. Ensure the vertex was added before querying\n"
+        "3. Check for typos in the vertex identifier",
+        {"/docs/graph_roadmap.md"},
+        {"graph", "vertex", "not found", "missing"}
+    });
+
+    registerError({
+        ErrorCode::ERR_GRAPH_NO_SUCH_EDGE,
+        "Graph",
+        "Error",
+        "Edge not found: {}",
+        "The referenced edge does not exist in the graph.",
+        "1. Verify the edge ID is correct\n"
+        "2. Ensure the edge was added before querying\n"
+        "3. Check for typos in the edge identifier",
+        {"/docs/graph_roadmap.md"},
+        {"graph", "edge", "not found", "missing"}
+    });
+
+    registerError({
+        ErrorCode::ERR_GRAPH_CONSTRAINT_CONFLICT,
+        "Graph",
+        "Error",
+        "Contradictory path constraints: {}",
+        "The path constraints are contradictory and cannot be satisfied simultaneously.",
+        "1. Review path constraints for conflicting requirements\n"
+        "2. Ensure a node/edge is not both required and forbidden\n"
+        "3. Check that min_length <= max_length",
+        {"/docs/graph_roadmap.md"},
+        {"graph", "constraint", "conflict", "path", "contradictory"}
+    });
+
+    registerError({
+        ErrorCode::ERR_GRAPH_PATH_NOT_FOUND,
+        "Graph",
+        "Error",
+        "No path found from '{}' to '{}'",
+        "No path satisfying all constraints exists between the given vertices.",
+        "1. Verify the graph is connected between the start and end vertices\n"
+        "2. Relax path constraints (increase max_length, remove forbidden nodes)\n"
+        "3. Check if there are any isolated subgraphs",
+        {"/docs/graph_roadmap.md"},
+        {"graph", "path", "not found", "unreachable", "disconnected"}
+    });
+
+    registerError({
+        ErrorCode::ERR_GRAPH_CYCLE_DETECTED,
+        "Graph",
+        "Error",
+        "Cycle detected at vertex: {}",
+        "A cycle was encountered during a traversal that requires an acyclic path.",
+        "1. Remove the acyclic constraint if cycles are acceptable\n"
+        "2. Use UNIQUE_NODES constraint to avoid revisiting vertices\n"
+        "3. Pre-check the graph for cycles before running acyclic traversals",
+        {"/docs/graph_roadmap.md"},
+        {"graph", "cycle", "acyclic", "path", "loop"}
+    });
+
+    registerError({
+        ErrorCode::ERR_GRAPH_DEPTH_EXCEEDED,
+        "Graph",
+        "Warning",
+        "Query depth exceeded limit of {}",
+        "The graph traversal exceeded the configured maximum depth limit.",
+        "1. Increase the max_depth constraint if deeper traversal is needed\n"
+        "2. Use a more targeted query starting closer to the target vertex\n"
+        "3. Consider using an index for faster traversal",
+        {"/docs/graph_roadmap.md"},
+        {"graph", "depth", "limit", "traversal", "exceeded"}
+    });
+
+    registerError({
+        ErrorCode::ERR_GRAPH_RATE_LIMIT_EXCEEDED,
+        "Graph",
+        "Warning",
+        "Graph query rate limit exceeded (max {} queries/second)",
+        "The query was rejected because the per-second query budget set by "
+        "setMaxQueriesPerSecond() has been exhausted for the current window.",
+        "1. Reduce query frequency or batch multiple queries\n"
+        "2. Increase the rate limit via setMaxQueriesPerSecond()\n"
+        "3. Set max_qps to 0 to disable rate limiting",
+        {"/docs/graph_roadmap.md"},
+        {"graph", "rate", "limit", "qps", "throttle"}
+    });
 }
 
 void ErrorRegistry::registerError(const ErrorMetadata& metadata) {
@@ -588,6 +1622,10 @@ json ErrorRegistry::toJSON() const {
     }
     
     return result;
+}
+
+std::string ErrorRegistry::getRecoveryHint(ErrorCode code) const {
+    return getError(code).solution;
 }
 
 } // namespace errors

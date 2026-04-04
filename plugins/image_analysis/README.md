@@ -1,10 +1,24 @@
 # Image Analysis Plugins for ThemisDB
 
-This directory contains image analysis AI plugins that can be loaded dynamically as DLLs/shared libraries.
+## Status Overview
+
+This directory contains image analysis plugins that enable ThemisDB to process and analyze image data.
+
+### Production Status
+- ✅ **ONNX CLIP Plugin** - Production-ready, actively used
+
+### Planned Plugins
+- 📋 llama.cpp Vision Plugin - Planned
+- 📋 OpenCV DNN Plugin - Planned
+- 📋 Stable Diffusion Plugin - Planned
+
+---
 
 ## Overview
 
 Image analysis plugins enable ThemisDB to process and analyze image data in parallel with LLM operations. Each plugin implements the `IImageAnalysisBackend` interface and can provide capabilities such as:
+
+For integrated plugins, canonical implementation code lives under `src/`, public API headers live under `include/plugins/`, and this directory primarily serves as documentation, manifests, and compatibility CMake entry points.
 
 - **Image Embeddings**: Generate semantic vectors for similarity search (CLIP, etc.)
 - **Image Captioning**: Generate text descriptions (LLaVA, BLIP-2, etc.)
@@ -15,11 +29,15 @@ Image analysis plugins enable ThemisDB to process and analyze image data in para
 
 ## Available Plugins
 
-### 1. ONNX CLIP Plugin (`onnx_clip/`)
+### 1. ONNX CLIP Plugin (`onnx_clip/`) ✅
 
-**Status**: ⏳ In Development
+**Status**: ✅ Production-Ready
 
 CLIP-based image embedding generation using ONNX Runtime.
+
+**Public API:** `include/plugins/image_analysis/onnx_clip_plugin.h`  
+**Implementation:** `src/onnx_clip/`  
+**Legacy compatibility path:** `plugins/image_analysis/onnx_clip/`
 
 **Features**:
 - CLIP ViT-B/32 and ViT-L/14 support
@@ -48,11 +66,9 @@ manager.loadPlugin("onnx_clip", config);
 EmbeddingResult result = manager.generateEmbedding(image_bytes);
 ```
 
----
+### 2. llama.cpp Vision Plugin (`llamacpp_vision/`) 📋
 
-### 2. llama.cpp Vision Plugin (`llamacpp_vision/`)
-
-**Status**: ⏳ Planned
+**Status**: 📋 Planned
 
 Vision-language models (LLaVA) using llama.cpp.
 
@@ -63,11 +79,9 @@ Vision-language models (LLaVA) using llama.cpp.
 - Unified memory with LLM system
 - GGML quantization (4-bit, 5-bit, 8-bit)
 
----
+### 3. OpenCV DNN Plugin (`opencv_dnn/`) 📋
 
-### 3. OpenCV DNN Plugin (`opencv_dnn/`)
-
-**Status**: ⏳ Planned
+**Status**: 📋 Planned
 
 CPU-optimized image analysis using OpenCV DNN module.
 
@@ -77,11 +91,9 @@ CPU-optimized image analysis using OpenCV DNN module.
 - Lightweight and fast
 - Object detection and classification
 
----
+### 4. Stable Diffusion ONNX Plugin (`stable_diffusion_onnx/`) 📋
 
-### 4. Stable Diffusion ONNX Plugin (`stable_diffusion_onnx/`)
-
-**Status**: ⏳ Planned
+**Status**: 📋 Planned
 
 Image generation using Stable Diffusion via ONNX Runtime.
 
@@ -116,6 +128,8 @@ Image generation using Stable Diffusion via ONNX Runtime.
 └─────────────────────────────────────────────────────┘
 ```
 
+Integrated production plugins are built from `src/*`; legacy plugin subdirectories under `plugins/image_analysis/*` are retained for compatibility and documentation.
+
 ## Plugin Naming Convention
 
 Plugin DLLs must follow this naming pattern:
@@ -133,17 +147,17 @@ Examples:
 
 ## Creating a New Plugin
 
-### 1. Create Plugin Directory
+### 1. Create Plugin Sources
 
 ```bash
-mkdir plugins/image_analysis/my_plugin
-cd plugins/image_analysis/my_plugin
+mkdir src/my_image_plugin
+mkdir include/plugins/image_analysis
 ```
 
 ### 2. Implement Plugin Interface
 
 ```cpp
-// my_plugin.h
+// include/plugins/image_analysis/my_plugin.h
 #include "plugins/image_analysis_interface.h"
 
 class MyImagePlugin : public IImageAnalysisBackend {
@@ -175,8 +189,6 @@ public:
     // ... other methods
 };
 
-// Export plugin
-THEMIS_IMAGE_PLUGIN(MyImagePlugin)
 ```
 
 ### 3. Create CMakeLists.txt
@@ -190,7 +202,8 @@ add_library(themis_image_my_plugin SHARED
 )
 
 target_include_directories(themis_image_my_plugin PRIVATE
-    ${CMAKE_SOURCE_DIR}/include
+    ${THEMIS_ROOT_DIR}/include
+    ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 target_link_libraries(themis_image_my_plugin PRIVATE
@@ -202,6 +215,8 @@ install(TARGETS themis_image_my_plugin
     RUNTIME DESTINATION lib/themis/plugins
 )
 ```
+
+The plugin export macro should stay in the implementation translation unit, not in the public header.
 
 ### 4. Build Plugin
 

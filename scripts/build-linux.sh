@@ -36,7 +36,11 @@ fi
 
 # Step 2: Configure with CMake
 echo -e "\n[2/3] Configuring CMake..."
-BUILD_DIR="$ROOT_DIR/build-linux"
+if [ "$DEBUG" = "true" ]; then
+    BUILD_DIR="$ROOT_DIR/build-linux-ninja-debug"
+else
+    BUILD_DIR="$ROOT_DIR/build-linux-ninja-release"
+fi
 [ -d "$BUILD_DIR" ] && rm -rf "$BUILD_DIR"
 
 cmake -S "$ROOT_DIR" -B "$BUILD_DIR" \

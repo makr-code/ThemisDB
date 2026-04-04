@@ -151,7 +151,7 @@ on:
 
 **Current:**
 ```markdown
-[![CI](https://github.com/makr-code/ThemisDB/actions/workflows/ci.yml/badge.svg)](...)
+[![CI](https://github.com/makr-code/ThemisDB/actions/workflows/01-core_themis-core-ci.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/01-core_themis-core-ci.yml)
 ```
 
 **Recommended:**

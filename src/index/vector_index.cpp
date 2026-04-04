@@ -1,14 +1,44 @@
-﻿// Vector ANN index implementation
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            vector_index.cpp                                   ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:16:39                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
+    • Quality Score:   68.0/100                                       ║
+    • Total Lines:     3039                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 0c973a286  2026-02-26  Refactor and enhance ThemisDB components ║
+    • ade1fdc2e  2026-02-25  fix(index): wire ann_backend_ into addEntity/searchKnn/sh... ║
+    • e6e7fc6bb  2026-02-25  feat(index): DiskANN/ScaNN alternative ANN algorithms for... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ⚠️  Needs Work                                              ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+// Vector ANN index implementation
 
 #include "index/vector_index.h"
+#include "index/advanced_vector_index.h"
+#include "index/ann_index.h"
+#include "index/rotary_embeddings.h"
 #include "index/product_quantizer.h"
 #include "index/secondary_index.h"
+#include "index/hnsw_layer_optimizer.h"
 #include "storage/rocksdb_wrapper.h"
 #include "storage/key_schema.h"
 #include "storage/base_entity.h"
 #include "utils/logger.h"
 #include "utils/simd_distance.h"
 #include "utils/audit_logger.h"  // Phase 1: Knowledge Graph Protection
+#include "config/config_path_resolver.h"
 
 // EXPERIMENTAL: Lossless vector compression support
 // NOTE: This is a scientific experiment and may be rolled back.
@@ -39,6 +69,7 @@
 #include <fstream>
 #include <unordered_set>
 #include <nlohmann/json.hpp>
+#include <yaml-cpp/yaml.h>
 
 namespace themis {
 
@@ -56,6 +87,45 @@ void VectorIndexManager::setAuditLogger(std::shared_ptr<utils::AuditLogger> logg
 
 void VectorIndexManager::setUserContext(std::string user_id) {
 	user_context_ = std::move(user_id);
+}
+
+// Phase 4: Set expression evaluator for advanced filtering
+void VectorIndexManager::setExpressionEvaluator(std::shared_ptr<IExpressionEvaluator> evaluator) {
+	expression_evaluator_ = std::move(evaluator);
+}
+
+std::shared_ptr<IExpressionEvaluator> VectorIndexManager::getExpressionEvaluator() const {
+	return expression_evaluator_;
+}
+
+// Advanced Vector Index Integration (v1.5.0+)
+VectorIndexManager::Status VectorIndexManager::setAdvancedIndexConfig(const AdvancedIndexConfig& config) {
+	if (config.enabled && !objectName_.empty()) {
+		return Status::Error("Cannot enable advanced index after init() has been called. Call setAdvancedIndexConfig() before init()");
+	}
+	
+	advanced_config_ = config;
+	
+	if (config.enabled) {
+		THEMIS_INFO("Advanced vector indexing enabled: type={}, nlist={}, nprobe={}, use_pq={}, gpu={}",
+		           static_cast<int>(config.index_type), config.nlist, config.nprobe, 
+		           config.use_pq, config.use_gpu);
+		
+		// SCANN and DISKANN are pure-C++ backends that do not require FAISS/GPU
+		bool needs_faiss = (config.index_type != AdvancedIndexConfig::Type::SCANN &&
+		                    config.index_type != AdvancedIndexConfig::Type::DISKANN);
+		#ifndef THEMIS_GPU_ENABLED
+		if (needs_faiss) {
+			THEMIS_WARN("Advanced vector indexing requires THEMIS_GPU_ENABLED (FAISS support). "
+			            "Falling back to standard HNSW indexing.");
+			advanced_config_.enabled = false;
+			return Status::Error("Advanced indexing requires FAISS support (THEMIS_GPU_ENABLED not defined)");
+		}
+		#endif
+		(void)needs_faiss;
+	}
+	
+	return Status::OK();
 }
 
 // Helper: Log audit event if audit logger is configured
@@ -91,9 +161,96 @@ void VectorIndexManager::logAuditEvent_(const std::string& event_type, const std
 	}
 }
 
+// Phase 4: Load HNSW optimization configuration from YAML
+void VectorIndexManager::loadHnswOptimizationConfig_() {
+	try {
+		// Try to load configuration from scaling_optimizations.yaml (new path first, then legacy)
+		std::string config_path = themis::config::ConfigPathResolver::mapLegacyToNew("./config/scaling_optimizations.yaml");
+		if (!std::filesystem::exists(config_path)) {
+			config_path = "./config/scaling_optimizations.yaml";
+		}
+		if (!std::filesystem::exists(config_path)) {
+			THEMIS_DEBUG("HNSW optimization config not found at {}, using defaults", config_path);
+			return;
+		}
+		
+		YAML::Node config = YAML::LoadFile(config_path);
+		if (!config["hnsw_optimization"]) {
+			THEMIS_DEBUG("No hnsw_optimization section in config");
+			return;
+		}
+		
+		HnswOptimizationConfig opt_config;
+		auto hnsw_opt = config["hnsw_optimization"];
+		
+		opt_config.enabled = hnsw_opt["enabled"].as<bool>(false);
+		
+		if (hnsw_opt["layer_pruning"]) {
+			auto lp = hnsw_opt["layer_pruning"];
+			opt_config.layer_pruning.enabled = lp["enabled"].as<bool>(false);
+			opt_config.layer_pruning.threshold_multiplier = lp["threshold_multiplier"].as<double>(5.0);
+			opt_config.layer_pruning.min_samples = lp["min_samples"].as<size_t>(5);
+		}
+		
+		if (hnsw_opt["adaptive_layer_selection"]) {
+			auto als = hnsw_opt["adaptive_layer_selection"];
+			opt_config.adaptive_layer_selection.enabled = als["enabled"].as<bool>(false);
+			opt_config.adaptive_layer_selection.stats_window_size = als["stats_window_size"].as<size_t>(1000);
+			opt_config.adaptive_layer_selection.min_samples = als["min_samples"].as<size_t>(10);
+		}
+		
+		if (hnsw_opt["batch_insert"]) {
+			auto bi = hnsw_opt["batch_insert"];
+			opt_config.batch_insert.enabled = bi["enabled"].as<bool>(false);
+			opt_config.batch_insert.batch_size = bi["batch_size"].as<size_t>(100);
+		}
+		
+		// Create optimizer if configuration is enabled
+		if (opt_config.enabled) {
+			try {
+				hnsw_optimizer_ = std::make_unique<HnswLayerOptimizer>(opt_config);
+				if (!hnsw_optimizer_) {
+					THEMIS_WARN("Failed to create HNSW optimizer for index '{}'", objectName_);
+					hnsw_optimizer_.reset();
+				} else {
+					THEMIS_INFO("HNSW optimization enabled for index '{}'", objectName_);
+				}
+			} catch (const std::exception& opt_error) {
+				THEMIS_WARN("Failed to create HNSW optimizer for index '{}': {}", objectName_, opt_error.what());
+				hnsw_optimizer_.reset();
+			}
+		} else {
+			THEMIS_DEBUG("HNSW optimization disabled in configuration");
+		}
+		
+	} catch (const std::exception& e) {
+		THEMIS_WARN("Failed to load HNSW optimization config: {}", e.what());
+	}
+}
+
 VectorIndexManager::Status VectorIndexManager::shutdown() {
 	// Flush pending encrypted batch writes before shutdown
 	flushEncBatch();
+	
+	// Save advanced index if enabled
+	#ifdef THEMIS_GPU_ENABLED
+	if (advanced_index_ && !savePath_.empty()) {
+		try {
+			namespace fs = std::filesystem;
+			std::string advanced_path = savePath_ + "/advanced";
+			fs::create_directories(advanced_path);
+			
+			if (advanced_index_->save(advanced_path)) {
+				THEMIS_INFO("Advanced vector index saved to '{}'", advanced_path);
+			} else {
+				THEMIS_WARN("Failed to save advanced vector index to '{}'", advanced_path);
+			}
+		} catch (const std::exception& e) {
+			THEMIS_WARN("Exception while saving advanced index: {}", e.what());
+		}
+	}
+	#endif
+	
 	if (autoSave_ && !savePath_.empty() && !objectName_.empty() && useHnsw_) {
 		THEMIS_INFO("VectorIndexManager::shutdown - Auto-saving index for '{}' to '{}'", objectName_, savePath_);
 		auto status = saveIndex(savePath_);
@@ -102,6 +259,21 @@ VectorIndexManager::Status VectorIndexManager::shutdown() {
 			return status;
 		}
 		THEMIS_INFO("VectorIndexManager::shutdown - Index saved successfully");
+	}
+	// Persist ScaNN / DiskANN backend if a save path is configured
+	if (ann_backend_ && !savePath_.empty()) {
+		try {
+			namespace fs = std::filesystem;
+			fs::create_directories(savePath_);
+			std::string ann_path = savePath_ + "/ann_backend.bin";
+			if (ann_backend_->save(ann_path)) {
+				THEMIS_INFO("ANN backend saved to '{}'", ann_path);
+			} else {
+				THEMIS_WARN("ANN backend save returned false for '{}'", ann_path);
+			}
+		} catch (const std::exception& ex) {
+			THEMIS_WARN("Exception while saving ANN backend: {}", ex.what());
+		}
 	}
 	return Status::OK();
 }
@@ -257,6 +429,8 @@ float VectorIndexManager::dotProduct(const std::vector<float>& a, const std::vec
 }
 
 // Mean-centered cosine distance (1 - cosine) – improves matching for near-constant queries
+// Note: Currently unused, kept for future implementation
+#if 0
 static float cosineOneMinusMeanCentered(const std::vector<float>& a, const std::vector<float>& b) {
 	if (a.size() != b.size() || a.empty()) return 1.0f;
 	std::vector<float> ac(a), bc(b);
@@ -278,6 +452,7 @@ static float cosineOneMinusMeanCentered(const std::vector<float>& a, const std::
 	float cosv = denom > 0 ? (dot / denom) : 0.0f;
 	return 1.0f - cosv;
 }
+#endif
 
 void VectorIndexManager::normalizeL2(std::vector<float>& v) {
 	float n2 = 0.0f;
@@ -340,6 +515,128 @@ VectorIndexManager::Status VectorIndexManager::init(std::string_view objectName,
 		autoSave_ = true;
 	}
 
+	// Initialize Advanced Vector Index if enabled
+	// ScaNN and DiskANN are pure-C++ backends that don't require THEMIS_GPU_ENABLED
+	if (advanced_config_.enabled &&
+	    (advanced_config_.index_type == AdvancedIndexConfig::Type::SCANN ||
+	     advanced_config_.index_type == AdvancedIndexConfig::Type::DISKANN)) {
+		try {
+			if (advanced_config_.index_type == AdvancedIndexConfig::Type::SCANN) {
+				index::ScaNNConfig scann_cfg;
+				scann_cfg.num_leaves           = advanced_config_.scann_num_leaves;
+				scann_cfg.num_leaves_to_search = advanced_config_.scann_leaves_to_search;
+				scann_cfg.reorder_num_neighbors = advanced_config_.scann_reorder_num_neighbors;
+				scann_cfg.pq_num_subspaces     = advanced_config_.pq_m;
+				scann_cfg.pq_bits_per_subspace = advanced_config_.pq_nbits;
+				ann_backend_ = std::make_unique<index::ScaNN>(scann_cfg);
+				THEMIS_INFO("ScaNN index backend initialized for '{}'", objectName_);
+				// Load persisted index if available
+				if (!savePath_.empty()) {
+					std::string ann_path = savePath_ + "/ann_backend.bin";
+					if (std::filesystem::exists(ann_path)) {
+						if (ann_backend_->load(ann_path)) {
+							THEMIS_INFO("ANN backend loaded from '{}'", ann_path);
+						} else {
+							THEMIS_WARN("ANN backend load failed for '{}', starting fresh", ann_path);
+						}
+					}
+				}
+			}
+#ifdef THEMIS_ENABLE_DISKANN
+			else if (advanced_config_.index_type == AdvancedIndexConfig::Type::DISKANN) {
+				if (advanced_config_.diskann_index_path.empty()) {
+					THEMIS_ERROR("DiskANN index_path must be set in AdvancedIndexConfig");
+					advanced_config_.enabled = false;
+					// Fall through to HNSW
+				} else {
+					ann_backend_ = std::make_unique<index::DiskAnnAdapter>(
+					    advanced_config_.diskann_index_path,
+					    advanced_config_.diskann_cache_mb);
+					THEMIS_INFO("DiskANN index backend initialized for '{}' at '{}'",
+					            objectName_, advanced_config_.diskann_index_path);
+				}
+			}
+#else
+			else if (advanced_config_.index_type == AdvancedIndexConfig::Type::DISKANN) {
+				THEMIS_WARN("DiskANN requires THEMIS_ENABLE_DISKANN. Falling back to HNSW.");
+				advanced_config_.enabled = false;
+			}
+#endif
+			if (ann_backend_) {
+				useHnsw_ = false;
+				return Status::OK();
+			}
+		} catch (const std::exception& e) {
+			THEMIS_ERROR("Failed to initialize ANN backend: {}", e.what());
+			ann_backend_.reset();
+			advanced_config_.enabled = false;
+		}
+	}
+
+	#ifdef THEMIS_GPU_ENABLED
+	if (advanced_config_.enabled) {
+		try {
+			AdvancedVectorIndex::Config faiss_config;
+			faiss_config.nlist = advanced_config_.nlist;
+			faiss_config.nprobe = advanced_config_.nprobe;
+			faiss_config.use_pq = advanced_config_.use_pq;
+			faiss_config.pq_m = advanced_config_.pq_m;
+			faiss_config.pq_nbits = advanced_config_.pq_nbits;
+			faiss_config.use_gpu = advanced_config_.use_gpu;
+			faiss_config.gpu_device = advanced_config_.gpu_device;
+			faiss_config.train_size = advanced_config_.train_size;
+			
+			// Map index type
+			switch (advanced_config_.index_type) {
+				case AdvancedIndexConfig::Type::IVF_FLAT:
+					faiss_config.index_type = AdvancedVectorIndex::Config::Type::IVF_FLAT;
+					break;
+				case AdvancedIndexConfig::Type::IVF_PQ:
+					faiss_config.index_type = AdvancedVectorIndex::Config::Type::IVF_PQ;
+					break;
+				case AdvancedIndexConfig::Type::HNSW_FLAT:
+					faiss_config.index_type = AdvancedVectorIndex::Config::Type::HNSW_FLAT;
+					break;
+				case AdvancedIndexConfig::Type::IVF_HNSW_PQ:
+					faiss_config.index_type = AdvancedVectorIndex::Config::Type::IVF_HNSW_PQ;
+					break;
+				default:
+					// SCANN/DISKANN handled above; should not reach here
+					faiss_config.index_type = AdvancedVectorIndex::Config::Type::IVF_PQ;
+					break;
+			}
+			
+			advanced_index_ = std::make_unique<AdvancedVectorIndex>(dim, faiss_config);
+			THEMIS_INFO("Advanced vector index initialized for '{}'", objectName_);
+			
+			// Load existing index if available
+			if (!savePath_.empty()) {
+				namespace fs = std::filesystem;
+				std::string advanced_path = savePath_ + "/advanced";
+				if (fs::exists(advanced_path)) {
+					if (advanced_index_->load(advanced_path)) {
+						THEMIS_INFO("Advanced vector index loaded from '{}'", advanced_path);
+					} else {
+						THEMIS_WARN("Failed to load advanced index from '{}', will create new", advanced_path);
+					}
+				}
+			}
+			
+			// When using advanced index, skip standard HNSW initialization
+			// but still perform other initialization tasks if needed in the future
+			THEMIS_INFO("Using advanced vector index, skipping standard HNSW initialization");
+			useHnsw_ = false;  // Explicitly mark HNSW as disabled
+			return Status::OK();
+			
+		} catch (const std::exception& e) {
+			THEMIS_ERROR("Failed to initialize advanced vector index: {}", e.what());
+			advanced_index_.reset();
+			advanced_config_.enabled = false;
+			// Fall through to standard HNSW initialization
+		}
+	}
+	#endif
+
 	// Versuche Index zu laden, falls vorhanden (savePath kann aus Param oder vorheriger Konfiguration stammen)
 	if (!savePath_.empty()) {
 		namespace fs = std::filesystem;
@@ -370,6 +667,9 @@ VectorIndexManager::Status VectorIndexManager::init(std::string_view objectName,
 		appr->ef_ = efSearch;
 		hnswIndex_ = static_cast<void*>(appr);
 		useHnsw_ = true;
+		
+		// Phase 4: Load HNSW optimization configuration
+		loadHnswOptimizationConfig_();
 	} catch (...) {
 		useHnsw_ = false;
 		THEMIS_WARN("init: HNSW initialisierung fehlgeschlagen, Fallback auf Brute-Force");
@@ -484,6 +784,160 @@ VectorIndexManager::Status VectorIndexManager::rebuildFromStorage() {
 	}
 	
 	return Status::OK();
+}
+
+std::pair<VectorIndexManager::Status, VectorIndexManager::IncrementalReindexStats>
+VectorIndexManager::incrementalReindex(float rebuild_threshold, std::string_view vectorField) {
+	IncrementalReindexStats stats;
+	if (objectName_.empty() || dim_ <= 0)
+		return {Status::Error("incrementalReindex: Manager nicht initialisiert"), stats};
+
+	// --- Phase 1: scan storage and collect current vectors ---
+	// Use the same key prefix as addEntity() stores:
+	// KeySchema::makeVectorKey(objectName_, pk) = "vec:<objectName>:<pk>"
+	const std::string prefix = KeySchema::makeVectorKey(objectName_, "");
+	std::unordered_map<std::string, std::vector<float>> storage_vectors;
+
+	db_.scanPrefix(prefix, [&](std::string_view key, std::string_view value) {
+		std::string pk = KeySchema::extractPrimaryKey(key);
+		std::vector<uint8_t> bytes(value.begin(), value.end());
+		try {
+			BaseEntity e = BaseEntity::deserialize(pk, bytes);
+			std::vector<float> v;
+
+			// Mirror the extraction logic used in rebuildFromStorage
+			auto encFieldOpt = e.getField("embedding_encrypted");
+			if (encFieldOpt) {
+				try {
+					const auto* enc_str = std::get_if<std::string>(&(*encFieldOpt));
+					if (enc_str && !enc_str->empty()) {
+						auto enc_field = EncryptedField<std::vector<float>>::fromBase64(*enc_str);
+						v = enc_field.decrypt();
+					}
+				} catch (const std::exception& ex) {
+					THEMIS_WARN("incrementalReindex: decrypt failed for pk={}: {}", pk, ex.what());
+					return true;
+				}
+			} else if (auto lv = experimental::VectorCompressionHelper::decompressVector(e); lv.has_value()) {
+				v = std::move(*lv);
+			} else {
+				auto vecOpt = e.extractVector(std::string(vectorField));
+				if (vecOpt && vecOpt->size() == static_cast<size_t>(dim_)) {
+					v = *vecOpt;
+				} else {
+					auto qbufOpt  = e.getField("embedding_q");
+					auto scaleOpt = e.getFieldAsDouble("embedding_scale");
+					if (!qbufOpt || !scaleOpt) return true;
+					const auto* qv = std::get_if<std::vector<uint8_t>>(&(*qbufOpt));
+					if (!qv || qv->size() != static_cast<size_t>(dim_)) return true;
+					v.resize(dim_);
+					float s = static_cast<float>(*scaleOpt);
+					for (size_t i = 0; i < qv->size(); ++i) {
+						int8_t code = static_cast<int8_t>((*qv)[i]);
+						v[i] = static_cast<float>(code) * s;
+					}
+				}
+			}
+
+			if (v.empty() || v.size() != static_cast<size_t>(dim_)) return true;
+			if (metric_ == Metric::COSINE && !isVectorEncryptionEnabled()) normalizeL2(v);
+			storage_vectors.emplace(std::move(pk), std::move(v));
+			++stats.total_scanned;
+		} catch (...) {
+			THEMIS_WARN("incrementalReindex: deserialization failed for pk={}", pk);
+		}
+		return true;
+	});
+
+	// --- Phase 2: remove vectors deleted from storage ---
+	std::vector<std::string> to_delete;
+	for (const auto& [pk, cached_vec] : cache_) {
+		(void)cached_vec;
+		if (storage_vectors.find(pk) == storage_vectors.end())
+			to_delete.push_back(pk);
+	}
+	for (const auto& pk : to_delete) {
+		cache_.erase(pk);
+#ifdef THEMIS_HNSW_ENABLED
+		if (useHnsw_) {
+			auto* appr = static_cast<hnswlib::HierarchicalNSW<float>*>(hnswIndex_);
+			auto it = pkToId_.find(pk);
+			if (it != pkToId_.end()) {
+				try { appr->markDelete(it->second); } catch (...) {}
+			}
+		}
+#endif
+		// Remove from PK→label mapping so getVectorCount() stays accurate.
+		// We intentionally keep idToPk_ entries as holes (label slots) so Phase 3
+		// can reuse the label when a new PK arrives, avoiding unbounded label growth.
+		pkToId_.erase(pk);
+		++stats.removed;
+	}
+
+	// --- Phase 3: add new vectors and update changed vectors ---
+	for (const auto& [pk, new_vec] : storage_vectors) {
+		auto cache_it = cache_.find(pk);
+		if (cache_it == cache_.end()) {
+			// New vector: add to cache and HNSW
+			cache_[pk] = new_vec;
+#ifdef THEMIS_HNSW_ENABLED
+			if (useHnsw_ && !isHnswEncryptionEnabled()) {
+				auto* appr = static_cast<hnswlib::HierarchicalNSW<float>*>(hnswIndex_);
+				size_t id;
+				auto id_it = pkToId_.find(pk);
+				if (id_it == pkToId_.end()) {
+					id = idToPk_.size();
+					pkToId_[pk] = id;
+					idToPk_.push_back(pk);
+				} else {
+					id = id_it->second; // reuse label of a previously deleted entry
+					idToPk_[id] = pk;   // update reverse mapping to the new PK
+				}
+				try { appr->addPoint(new_vec.data(), id); } catch (...) {}
+			}
+#endif
+			++stats.added;
+		} else if (cache_it->second != new_vec) {
+			// Changed vector: update cache and HNSW in-place
+			cache_it->second = new_vec;
+#ifdef THEMIS_HNSW_ENABLED
+			if (useHnsw_ && !isHnswEncryptionEnabled()) {
+				auto* appr = static_cast<hnswlib::HierarchicalNSW<float>*>(hnswIndex_);
+				auto id_it = pkToId_.find(pk);
+				if (id_it != pkToId_.end()) {
+					try { appr->addPoint(new_vec.data(), id_it->second); } catch (...) {}
+				}
+			}
+#endif
+			++stats.updated;
+		} else {
+			++stats.unchanged;
+		}
+	}
+
+	// --- Phase 4: auto full-rebuild when soft-deleted label ratio is too high ---
+	if (rebuild_threshold > 0.0f && rebuild_threshold <= 1.0f) {
+		// idToPk_.size() = total ever-allocated labels (including holes for deleted entries)
+		// pkToId_.size() = currently active labels
+		size_t total_ever  = idToPk_.size();
+		size_t active      = pkToId_.size();
+		size_t holes       = (total_ever > active) ? (total_ever - active) : 0;
+		float  ratio       = (total_ever > 0)
+		                         ? (static_cast<float>(holes) / static_cast<float>(total_ever))
+		                         : 0.0f;
+		if (ratio > rebuild_threshold && total_ever > 0) {
+			THEMIS_INFO("incrementalReindex: deleted ratio {:.1f}% > threshold {:.1f}%, full rebuild",
+			            ratio * 100.0f, rebuild_threshold * 100.0f);
+			auto s = rebuildFromStorage();
+			if (!s.ok) return {s, stats};
+			stats.full_rebuild_triggered = true;
+		}
+	}
+
+	THEMIS_INFO("incrementalReindex: added={} removed={} updated={} unchanged={} scanned={}{}",
+	            stats.added, stats.removed, stats.updated, stats.unchanged, stats.total_scanned,
+	            stats.full_rebuild_triggered ? " [full rebuild]" : "");
+	return {Status::OK(), stats};
 }
 
 VectorIndexManager::Status VectorIndexManager::addEntity(const BaseEntity& e, std::string_view vectorField) {
@@ -619,6 +1073,19 @@ VectorIndexManager::Status VectorIndexManager::addEntity(const BaseEntity& e, st
 		try { appr->addPoint(cache_[pk].data(), id); } catch (...) { /* evtl. schon vorhanden */ }
 	}
 #endif
+	// ScaNN / DiskANN alternative ANN backend
+	if (ann_backend_) {
+		auto it = pkToId_.find(pk);
+		int64_t ann_id;
+		if (it == pkToId_.end()) {
+			ann_id = static_cast<int64_t>(idToPk_.size());
+			pkToId_[pk] = static_cast<size_t>(ann_id);
+			idToPk_.push_back(pk);
+		} else {
+			ann_id = static_cast<int64_t>(it->second);
+		}
+		ann_backend_->add(ann_id, cache_[pk].data(), static_cast<size_t>(dim_));
+	}
 	return Status::OK();
 }
 
@@ -686,6 +1153,19 @@ VectorIndexManager::Status VectorIndexManager::addEntity(const BaseEntity& e, Ro
 		try { appr->addPoint(cache_[pk].data(), id); } catch (...) { /* evtl. schon vorhanden */ }
 	}
 #endif
+	// ScaNN / DiskANN alternative ANN backend
+	if (ann_backend_) {
+		auto it = pkToId_.find(pk);
+		int64_t ann_id;
+		if (it == pkToId_.end()) {
+			ann_id = static_cast<int64_t>(idToPk_.size());
+			pkToId_[pk] = static_cast<size_t>(ann_id);
+			idToPk_.push_back(pk);
+		} else {
+			ann_id = static_cast<int64_t>(it->second);
+		}
+		ann_backend_->add(ann_id, cache_[pk].data(), static_cast<size_t>(dim_));
+	}
 	return Status::OK();
 }
 
@@ -748,6 +1228,11 @@ std::vector<VectorIndexManager::Result>
 VectorIndexManager::bruteForceSearch_(const std::vector<float>& query, size_t k,
 									  const std::vector<std::string>* whitelist) const {
 	// Cache-aware optimized implementation with prefetching and partial sort
+	// Cache Optimization: Cache-blocking for 1536D vectors
+	// - Block size: 8 vectors (~48KB) to fit in L1 cache
+	// - Prefetch ahead: 2 blocks (16 vectors) into L2 cache
+	// - Multi-level prefetch: start, middle, and end of each 1536D vector
+	// - Expected improvement: 10-15% reduction in cache misses
 	std::vector<Result> heap;
 	heap.reserve(k * 2);  // Reserve extra space to reduce reallocations
 	float threshold = std::numeric_limits<float>::infinity();
@@ -871,8 +1356,44 @@ VectorIndexManager::bruteForceSearch_(const std::vector<float>& query, size_t k,
 				return true;
 			});
 		} else {
-			for (const auto& [pk, vec] : cache_) {
-				if (vec.size() == static_cast<size_t>(dim_)) consider(pk, vec);
+			// Cache-blocking optimization for 1536D vectors
+			// Process cache entries in blocks to improve temporal locality
+			// For 1536D float vectors (6KB each), process 8 vectors at a time (~48KB per block)
+			constexpr size_t BLOCK_SIZE = 8;  // Process 8 vectors at a time
+			constexpr size_t PREFETCH_AHEAD = 2;  // Prefetch 2 blocks ahead
+			
+			std::vector<const std::pair<const std::string, std::vector<float>>*> cache_ptrs;
+			cache_ptrs.reserve(cache_.size());
+			for (const auto& entry : cache_) {
+				cache_ptrs.push_back(&entry);
+			}
+			
+			for (size_t block_start = 0; block_start < cache_ptrs.size(); block_start += BLOCK_SIZE) {
+				// Prefetch next block of vectors into L2 cache
+				size_t prefetch_start = block_start + BLOCK_SIZE * PREFETCH_AHEAD;
+				if (prefetch_start < cache_ptrs.size()) {
+					size_t prefetch_end = std::min(prefetch_start + BLOCK_SIZE, cache_ptrs.size());
+					for (size_t i = prefetch_start; i < prefetch_end; ++i) {
+						const auto& vec = cache_ptrs[i]->second;
+						if (!vec.empty()) {
+							// Use prefetch lambda defined earlier in this function
+							prefetch(&vec.front());
+							// Prefetch middle and end of 1536D vector (spans 6KB / ~96 cache lines)
+							if (vec.size() > 384) prefetch(&vec[384]);
+							if (vec.size() > 768) prefetch(&vec[768]);
+							if (vec.size() > 1152) prefetch(&vec[1152]);
+						}
+					}
+				}
+				
+				// Process current block
+				size_t block_end = std::min(block_start + BLOCK_SIZE, cache_ptrs.size());
+				for (size_t i = block_start; i < block_end; ++i) {
+					const auto& [pk, vec] = *cache_ptrs[i];
+					if (vec.size() == static_cast<size_t>(dim_)) {
+						consider(pk, vec);
+					}
+				}
 			}
 		}
 	}
@@ -910,7 +1431,35 @@ VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const s
 			auto* appr = static_cast<hnswlib::HierarchicalNSW<float>*>(hnswIndex_);
 			std::vector<float> q = query;
 			if (metric_ == Metric::COSINE) normalizeL2(q);
+			
+			// Phase 4: Use adaptive ef parameter if optimizer is enabled
+			int ef_to_use = efSearch_;
+			if (hnsw_optimizer_ && hnsw_optimizer_->isEnabled()) {
+				int optimal_ef = hnsw_optimizer_->getOptimalEf(k);
+				if (optimal_ef > 0) {
+					ef_to_use = optimal_ef;
+					appr->ef_ = ef_to_use;
+					THEMIS_DEBUG("Using adaptive ef={} for k={}", ef_to_use, k);
+				}
+			}
+			
+			// Phase 4: Record query start time
+			auto query_start = std::chrono::steady_clock::now();
+			
 			auto topk = appr->searchKnn(q.data(), static_cast<size_t>(k));
+			
+			// Phase 4: Record query statistics
+			if (hnsw_optimizer_ && hnsw_optimizer_->isEnabled()) {
+				auto query_end = std::chrono::steady_clock::now();
+				double query_time_ms = std::chrono::duration<double, std::milli>(query_end - query_start).count();
+				
+				// Estimate layers traversed (HNSW formula: log2(N))
+				// Note: This is an approximation based on the probabilistic layer model.
+				// For more accurate layer information, consider using actual layer data from the HNSW index.
+				int estimated_layers = static_cast<int>(std::log2(idToPk_.size() + 1));
+				hnsw_optimizer_->recordQueryStats(estimated_layers, ef_to_use, estimated_layers, k, query_time_ms);
+			}
+			
 			std::vector<Result> out;
 			out.reserve(topk.size());
 			while (!topk.empty()) {
@@ -1024,6 +1573,23 @@ VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const s
 		}
 	}
 #endif
+	// Alternative ANN backend (ScaNN / DiskANN)
+	if (ann_backend_ && (!whitelist || whitelist->empty())) {
+		std::vector<float> q = query;
+		if (metric_ == Metric::COSINE) normalizeL2(q);
+		auto raw = ann_backend_->search(q.data(), static_cast<size_t>(dim_), static_cast<int>(k));
+		std::vector<Result> out;
+		out.reserve(raw.size());
+		for (const auto& r : raw) {
+			size_t idx = static_cast<size_t>(r.id);
+			if (idx < idToPk_.size()) {
+				out.push_back({idToPk_[idx], r.distance});
+			}
+		}
+		logAuditEvent_("EMBEDDING_QUERY", objectName_, "searchKnn_ann", out.size());
+		return {Status::OK(), std::move(out)};
+	}
+
 	// Fallback oder Whitelist-Fall: Brute-Force
 	auto results = bruteForceSearch_(query, k, whitelist);
 	
@@ -2296,6 +2862,178 @@ VectorIndexManager::QuantizationStats VectorIndexManager::getQuantizationStats()
 	}
 	
 	return stats;
+}
+
+// ============================================================================
+// Rotary Embeddings Support
+// ============================================================================
+
+VectorIndexManager::Status VectorIndexManager::setRotaryEmbeddingConfig(const RotationConfig& config) {
+	if (!config.isValid()) {
+		return Status::Error("Invalid RotationConfig");
+	}
+	
+	try {
+		// Create new rotary embedding instance
+		rotary_embedding_ = std::make_unique<RotaryEmbedding>(config);
+		rotary_enabled_ = true;
+		
+		THEMIS_INFO("VectorIndexManager::setRotaryEmbeddingConfig - Rotary embeddings enabled: "
+		           "dim={}, rotation_pairs={}, base_theta={}, normalize_after={}",
+		           config.hidden_dim, config.num_rotation_pairs, config.base_theta, config.normalize_after);
+		
+		// Log audit event if logger is set
+		logAuditEvent_("config", "rotary_embeddings", "enable", config.num_rotation_pairs);
+		
+		return Status::OK();
+	} catch (const std::exception& e) {
+		rotary_enabled_ = false;
+		rotary_embedding_.reset();
+		return Status::Error(std::string("Failed to enable rotary embeddings: ") + e.what());
+	}
+}
+
+std::optional<RotationConfig> VectorIndexManager::getRotaryEmbeddingConfig() const {
+	if (!rotary_enabled_ || !rotary_embedding_) {
+		return std::nullopt;
+	}
+	return rotary_embedding_->getConfig();
+}
+
+VectorIndexManager::Status VectorIndexManager::addEntityWithRotation(
+	const BaseEntity& e,
+	std::string_view vectorField,
+	size_t position
+) {
+	if (!rotary_enabled_ || !rotary_embedding_) {
+		return Status::Error("Rotary embeddings not enabled");
+	}
+	
+	// Extract original vector
+	auto vec_opt = e.extractVector(vectorField);
+	if (!vec_opt) {
+		return Status::Error("Vector field not found or invalid: " + std::string(vectorField));
+	}
+	
+	try {
+		// Apply rotation
+		auto rotated = rotary_embedding_->rotate(*vec_opt, position);
+		
+		// Create new entity with rotated embedding and metadata
+		BaseEntity rotated_entity = e;
+		rotated_entity.setField(std::string(vectorField), rotated);
+		rotated_entity.setField(std::string(vectorField) + "_rotation_pos", 
+		                       static_cast<int64_t>(position));
+		
+		// Store using existing method
+		auto status = addEntity(rotated_entity, vectorField);
+		
+		// Log audit event if logger is set
+		if (status.ok) {
+			logAuditEvent_("vector", e.getPrimaryKey(), "add_with_rotation", position);
+		}
+		
+		return status;
+	} catch (const std::exception& e) {
+		return Status::Error(std::string("Rotation failed: ") + e.what());
+	}
+}
+
+VectorIndexManager::Status VectorIndexManager::addEntityWithRelationalRotation(
+	const BaseEntity& e,
+	std::string_view vectorField,
+	const std::string& relation_type
+) {
+	if (!rotary_enabled_ || !rotary_embedding_) {
+		return Status::Error("Rotary embeddings not enabled");
+	}
+	
+	// Extract original vector
+	auto vec_opt = e.extractVector(vectorField);
+	if (!vec_opt) {
+		return Status::Error("Vector field not found or invalid: " + std::string(vectorField));
+	}
+	
+	try {
+		// Apply relational rotation
+		auto rotated = rotary_embedding_->rotateRelational(*vec_opt, relation_type);
+		
+		// Create new entity with rotated embedding and metadata
+		BaseEntity rotated_entity = e;
+		rotated_entity.setField(std::string(vectorField), rotated);
+		rotated_entity.setField(std::string(vectorField) + "_rotation_type", relation_type);
+		
+		// Store using existing method
+		auto status = addEntity(rotated_entity, vectorField);
+		
+		// Log audit event if logger is set
+		if (status.ok) {
+			logAuditEvent_("vector", e.getPrimaryKey(), "add_with_relational_rotation", 0);
+		}
+		
+		return status;
+	} catch (const std::exception& e) {
+		return Status::Error(std::string("Relational rotation failed: ") + e.what());
+	}
+}
+
+std::pair<VectorIndexManager::Status, std::vector<VectorIndexManager::Result>> 
+VectorIndexManager::searchWithRotation(
+	const std::vector<float>& query,
+	int k,
+	size_t query_position,
+	const std::vector<std::string>* whitelistPks
+) const {
+	if (!rotary_enabled_ || !rotary_embedding_) {
+		return {Status::Error("Rotary embeddings not enabled"), {}};
+	}
+	
+	try {
+		// Rotate query vector
+		auto rotated_query = rotary_embedding_->rotate(query, query_position);
+		
+		// Perform standard search with rotated query
+		auto [status, results] = searchKnn(rotated_query, k, whitelistPks);
+		
+		// Log audit event if logger is set
+		if (status.ok) {
+			logAuditEvent_("vector", "query", "search_with_rotation", results.size());
+		}
+		
+		return {status, results};
+	} catch (const std::exception& e) {
+		return {Status::Error(std::string("Rotation search failed: ") + e.what()), {}};
+	}
+}
+
+std::optional<std::vector<float>> VectorIndexManager::getVectorByPk(std::string_view pk) const {
+	// Check cache first
+	std::string pkStr(pk);
+	auto it = cache_.find(pkStr);
+	if (it != cache_.end()) {
+		return it->second;
+	}
+	
+	// Load from RocksDB storage
+	std::string key = makeObjectKey(pk);
+	auto blob = db_.get(key);
+	if (!blob) {
+		return std::nullopt;
+	}
+	
+	try {
+		BaseEntity e = BaseEntity::deserialize(pkStr, *blob);
+		auto vecOpt = e.extractVector("embedding");
+		if (!vecOpt) {
+			return std::nullopt;
+		}
+		
+		// Update cache for future lookups
+		cache_[pkStr] = *vecOpt;
+		return *vecOpt;
+	} catch (...) {
+		return std::nullopt;
+	}
 }
 
 } // namespace themis

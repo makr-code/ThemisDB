@@ -1,3 +1,25 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            http_client_pool.h                                 ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:12:57                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     294                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include <string>
@@ -5,10 +27,13 @@
 #include <memory>
 #include <mutex>
 #include <queue>
+#include <deque>
 #include <condition_variable>
 #include <future>
 #include <chrono>
 #include <unordered_map>
+#include <atomic>
+#include <thread>
 #include <cstddef>
 #include <nlohmann/json.hpp>
 
@@ -20,6 +45,7 @@
 #include <boost/asio/connect.hpp>
 #include <boost/asio/ip/tcp.hpp>
 #include <boost/asio/ssl/stream.hpp>
+#include <boost/asio/post.hpp>
 
 namespace beast = boost::beast;
 namespace http = beast::http;
@@ -87,6 +113,7 @@ public:
  * - Keep-Alive support
  * - Configurable timeouts
  * - Thread-safe access
+ * - Optimized for high-concurrency with reduced lock contention
  */
 class HTTPClientPool {
 public:
@@ -95,7 +122,10 @@ public:
         std::chrono::seconds idle_timeout{30};    ///< Connection idle timeout
         std::chrono::seconds connect_timeout{5};  ///< Connection timeout
         std::chrono::seconds request_timeout{30}; ///< Request timeout
+        std::chrono::seconds acquire_timeout{10}; ///< Timeout for acquiring connection
         bool enable_keepalive = true;             ///< HTTP Keep-Alive
+        size_t io_threads = 4;                    ///< Number of I/O threads
+        size_t lock_stripes = 8;                  ///< Number of lock stripes for reduced contention
     };
     
     explicit HTTPClientPool(const Config& config);
@@ -132,6 +162,20 @@ public:
         size_t total_connections = 0;
         size_t available_connections = 0;
         size_t in_use_connections = 0;
+        size_t stale_connections_removed = 0;
+        size_t acquire_timeouts = 0;
+        size_t requests_served = 0;
+        size_t connections_created = 0;
+        size_t connections_reused = 0;
+        
+        /**
+         * @brief Calculate connection reuse rate (0.0 - 1.0)
+         */
+        double getReuseRate() const {
+            size_t total = connections_created + connections_reused;
+            if (total == 0) return 0.0;
+            return static_cast<double>(connections_reused) / static_cast<double>(total);
+        }
     };
     
     Stats getStats() const;
@@ -141,7 +185,40 @@ public:
      */
     void clear();
     
+    /**
+     * @brief Warm up pool with minimum connections
+     * 
+     * Pre-creates connections to reduce cold-start latency.
+     * Useful for production deployments.
+     * 
+     * @param num_connections Number of connections to pre-create
+     */
+    void warmup(size_t num_connections);
+    
 private:
+    /**
+     * @brief Pooled connection with metadata
+     */
+    struct PooledConnection {
+        std::shared_ptr<HTTPClient> client;
+        std::chrono::steady_clock::time_point last_used;
+        bool in_use = false;
+        
+        bool isStale(std::chrono::seconds timeout) const {
+            auto now = std::chrono::steady_clock::now();
+            return std::chrono::duration_cast<std::chrono::seconds>(now - last_used) > timeout;
+        }
+    };
+    
+    /**
+     * @brief Lock stripe for reduced contention
+     */
+    struct LockStripe {
+        std::mutex mutex;
+        std::condition_variable cv;
+        std::deque<std::shared_ptr<PooledConnection>> connections;
+    };
+    
     /**
      * @brief Get connection from pool (or create new)
      */
@@ -157,12 +234,28 @@ private:
      */
     std::shared_ptr<HTTPClient> createClient();
     
+    /**
+     * @brief Remove stale connections from pool
+     */
+    void pruneStaleConnections();
+    
+    /**
+     * @brief Get stripe index for load distribution
+     */
+    size_t getStripeIndex() const;
+    
     Config config_;
-    std::queue<std::shared_ptr<HTTPClient>> available_clients_;
-    std::vector<std::shared_ptr<HTTPClient>> all_clients_;
-    mutable std::mutex mutex_;
-    std::condition_variable cv_;
-    bool shutdown_ = false;
+    std::vector<std::unique_ptr<LockStripe>> stripes_;
+    std::shared_ptr<net::io_context> io_context_;
+    std::vector<std::thread> io_threads_;
+    std::atomic<size_t> total_connections_{0};
+    std::atomic<size_t> requests_served_{0};
+    std::atomic<size_t> stale_removed_{0};
+    std::atomic<size_t> acquire_timeouts_{0};
+    std::atomic<size_t> connections_created_{0};
+    std::atomic<size_t> connections_reused_{0};
+    std::atomic<bool> shutdown_{false};
+    mutable std::atomic<size_t> round_robin_{0};
 };
 
 /**
@@ -170,7 +263,7 @@ private:
  */
 class BeastHTTPClient : public HTTPClient {
 public:
-    explicit BeastHTTPClient(const HTTPClientPool::Config& config);
+    BeastHTTPClient(const HTTPClientPool::Config& config, std::shared_ptr<net::io_context> ioc);
     ~BeastHTTPClient() override;
     
     HTTPResponse post(
@@ -193,7 +286,7 @@ private:
     );
     
     HTTPClientPool::Config config_;
-    net::io_context ioc_;
+    std::shared_ptr<net::io_context> ioc_;
     ssl::context ssl_ctx_;
 };
 

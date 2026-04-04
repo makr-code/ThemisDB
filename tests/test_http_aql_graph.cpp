@@ -1,3 +1,27 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_http_aql_graph.cpp                            ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:28:15                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     552                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • efa84641f  2026-02-27  fix(graph): update stale file-header metadata after incre... ║
+    • 0ba7cfc69  2026-02-27  feat(graph): implement incremental graph query HTTP API (... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include <gtest/gtest.h>
 #include <nlohmann/json.hpp>
 #include <boost/asio.hpp>
@@ -97,6 +121,30 @@ protected:
             return res;
         } catch (const std::exception& e) {
             ADD_FAILURE() << "POST failed: " << e.what();
+            return http::response<http::string_body>{http::status::internal_server_error, 11};
+        }
+    }
+
+    http::response<http::string_body> delete_(const std::string& target) {
+        try {
+            net::io_context ioc;
+            tcp::resolver resolver(ioc);
+            beast::tcp_stream stream(ioc);
+            auto const results = resolver.resolve("127.0.0.1", "18092");
+            stream.connect(results);
+
+            http::request<http::string_body> req{http::verb::delete_, target, 11};
+            req.set(http::field::host, "127.0.0.1");
+            req.prepare_payload();
+
+            http::write(stream, req);
+            beast::flat_buffer buf;
+            http::response<http::string_body> res;
+            http::read(stream, buf, res);
+            beast::error_code ec; stream.socket().shutdown(tcp::socket::shutdown_both, ec);
+            return res;
+        } catch (const std::exception& e) {
+            ADD_FAILURE() << "DELETE failed: " << e.what();
             return http::response<http::string_body>{http::status::internal_server_error, 11};
         }
     }
@@ -393,4 +441,112 @@ TEST_F(HttpAqlGraphApiTest, Traversal_Filter_Function_DATE_SUB_DAY) {
     ASSERT_EQ(res.result(), http::status::ok) << res.body();
     auto body = json::parse(res.body());
     EXPECT_EQ(body["count"], 1);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Incremental graph query HTTP API tests (POST /graph/query/incremental,
+// DELETE /graph/query/incremental/:handle, POST /graph/changes)
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST_F(HttpAqlGraphApiTest, IncrementalQuery_Register_ReturnHandleAndInitialResults) {
+    json req = {
+        {"start_vertex", "user1"},
+        {"max_depth",    2}
+    };
+    auto res = post("/graph/query/incremental", req);
+    ASSERT_EQ(res.result(), http::status::created) << res.body();
+    auto body = json::parse(res.body());
+    EXPECT_TRUE(body.contains("handle"));
+    EXPECT_TRUE(body.contains("initial_results"));
+    EXPECT_GT(body["handle"].get<uint64_t>(), 0u);
+    // user2 and user3 are reachable from user1 within depth 2
+    EXPECT_EQ(body["initial_results"].size(), 2u);
+}
+
+TEST_F(HttpAqlGraphApiTest, IncrementalQuery_Register_MissingStartVertex_Returns400) {
+    json req = {{"max_depth", 2}};
+    auto res = post("/graph/query/incremental", req);
+    EXPECT_EQ(res.result(), http::status::bad_request);
+}
+
+TEST_F(HttpAqlGraphApiTest, IncrementalQuery_Unregister_ValidHandle_Returns200) {
+    // First register
+    json reg_req = {{"start_vertex", "user1"}, {"max_depth", 2}};
+    auto reg_res = post("/graph/query/incremental", reg_req);
+    ASSERT_EQ(reg_res.result(), http::status::created);
+    uint64_t handle = json::parse(reg_res.body())["handle"].get<uint64_t>();
+
+    // Then unregister
+    auto del_res = delete_("/graph/query/incremental/" + std::to_string(handle));
+    EXPECT_EQ(del_res.result(), http::status::ok);
+    auto body = json::parse(del_res.body());
+    EXPECT_EQ(body["handle"].get<uint64_t>(), handle);
+}
+
+TEST_F(HttpAqlGraphApiTest, IncrementalQuery_Unregister_UnknownHandle_Returns404) {
+    auto res = delete_("/graph/query/incremental/999999");
+    EXPECT_EQ(res.result(), http::status::not_found);
+}
+
+TEST_F(HttpAqlGraphApiTest, IncrementalQuery_Unregister_InvalidHandle_Returns400) {
+    auto res = delete_("/graph/query/incremental/not-a-number");
+    EXPECT_EQ(res.result(), http::status::bad_request);
+}
+
+TEST_F(HttpAqlGraphApiTest, GraphChanges_EmptyArray_Returns200WithZeroReexecuted) {
+    json req = {{"changes", json::array()}};
+    auto res = post("/graph/changes", req);
+    ASSERT_EQ(res.result(), http::status::ok) << res.body();
+    auto body = json::parse(res.body());
+    EXPECT_EQ(body["queries_reexecuted"].get<size_t>(), 0u);
+    EXPECT_EQ(body["changes_applied"].get<size_t>(), 0u);
+}
+
+TEST_F(HttpAqlGraphApiTest, GraphChanges_MissingChangesField_Returns400) {
+    json req = {{"foo", "bar"}};
+    auto res = post("/graph/changes", req);
+    EXPECT_EQ(res.result(), http::status::bad_request);
+}
+
+TEST_F(HttpAqlGraphApiTest, GraphChanges_WithRegisteredQuery_ReexecutesAffectedQuery) {
+    // Register a BFS query from user1 depth 2
+    json reg_req = {{"start_vertex", "user1"}, {"max_depth", 2}};
+    auto reg_res = post("/graph/query/incremental", reg_req);
+    ASSERT_EQ(reg_res.result(), http::status::created);
+    uint64_t handle = json::parse(reg_res.body())["handle"].get<uint64_t>();
+
+    // Post a change set that touches a vertex in the result (user2)
+    json changes_req = {
+        {"changes", json::array({
+            {{"type", "edge_added"}, {"id", "edge3"}, {"from", "user1"}, {"to", "user2"}}
+        })}
+    };
+    auto chg_res = post("/graph/changes", changes_req);
+    ASSERT_EQ(chg_res.result(), http::status::ok) << chg_res.body();
+    auto body = json::parse(chg_res.body());
+    // The query covering user1..user2 should be re-executed
+    EXPECT_GE(body["queries_reexecuted"].get<size_t>(), 1u);
+
+    // Cleanup
+    delete_("/graph/query/incremental/" + std::to_string(handle));
+}
+
+TEST_F(HttpAqlGraphApiTest, EdgeCreate_AutomaticallyNotifiesIncrementalQueries) {
+    // Register a BFS query
+    json reg_req = {{"start_vertex", "user1"}, {"max_depth", 3}};
+    auto reg_res = post("/graph/query/incremental", reg_req);
+    ASSERT_EQ(reg_res.result(), http::status::created);
+    uint64_t handle = json::parse(reg_res.body())["handle"].get<uint64_t>();
+
+    // Create a new edge that touches user2 (which is in the BFS result)
+    json edge_req = {
+        {"id",    "edge_new_1"},
+        {"_from", "user2"},
+        {"_to",   "user_new"}
+    };
+    auto edge_res = post("/graph/edge", edge_req);
+    EXPECT_EQ(edge_res.result(), http::status::created) << edge_res.body();
+
+    // Cleanup
+    delete_("/graph/query/incremental/" + std::to_string(handle));
 }

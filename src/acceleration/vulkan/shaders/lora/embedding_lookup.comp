@@ -1,0 +1,60 @@
+#version 450
+
+// Embedding Lookup Compute Shader for LoRA Training
+// Looks up embeddings from embedding matrix based on token IDs
+// ThemisDB Vulkan Compute Shader
+
+layout(local_size_x = 256) in;
+
+// Input: Token IDs (stored as floats, will be converted to int)
+layout(std430, binding = 0) readonly buffer TokenIDs {
+    float token_ids[];
+};
+
+// Input: Embedding weight matrix [vocab_size, hidden_dim]
+layout(std430, binding = 1) readonly buffer EmbeddingWeights {
+    float embedding_weights[];
+};
+
+// Output: Embeddings [batch_size, seq_len, hidden_dim]
+layout(std430, binding = 2) writeonly buffer Embeddings {
+    float embeddings[];
+};
+
+layout(push_constant) uniform PushConstants {
+    uint batch_size;
+    uint seq_len;
+    uint hidden_dim;
+    uint vocab_size;
+} pc;
+
+void main() {
+    // Each thread processes one token
+    uint idx = gl_GlobalInvocationID.x;
+    uint total_tokens = pc.batch_size * pc.seq_len;
+    
+    if (idx >= total_tokens) {
+        return;
+    }
+    
+    // Convert float token ID to int (with rounding)
+    int token_id = int(round(token_ids[idx]));
+    
+    // Bounds check
+    if (token_id >= 0 && token_id < int(pc.vocab_size)) {
+        // Calculate source and destination pointers
+        uint src_offset = uint(token_id) * pc.hidden_dim;
+        uint dst_offset = idx * pc.hidden_dim;
+        
+        // Copy embedding vector
+        for (uint i = 0; i < pc.hidden_dim; i++) {
+            embeddings[dst_offset + i] = embedding_weights[src_offset + i];
+        }
+    } else {
+        // Out of bounds - fill with zeros
+        uint dst_offset = idx * pc.hidden_dim;
+        for (uint i = 0; i < pc.hidden_dim; i++) {
+            embeddings[dst_offset + i] = 0.0;
+        }
+    }
+}

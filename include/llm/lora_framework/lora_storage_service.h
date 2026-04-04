@@ -1,3 +1,25 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            lora_storage_service.h                             ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:08:30                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     304                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include "lora_config.h"
@@ -75,11 +97,39 @@ public:
         std::string encryption_key_id = "lora_adapters";  // Key ID for encryption
         bool enable_signatures = true;  // Digital signatures for integrity
         
+        // HSM configuration (Hardware Security Module)
+        bool use_hsm_for_encryption = false;           // Enable HSM-backed encryption
+        std::string hsm_library_path;                   // PKCS#11 library path (e.g., "/usr/lib/softhsm/libsofthsm2.so")
+        uint32_t hsm_slot_id = 0;                       // HSM slot ID (default: 0)
+        std::string hsm_pin;                            // HSM user PIN (keep secure!)
+        std::string hsm_key_label = "lora-adapter-kek"; // HSM key label for KEK
+        uint32_t hsm_session_pool_size = 4;             // Parallel sessions for performance
+      
+        // PKI configuration for certificate-based encryption
+        bool use_pki_for_encryption = false;        // Enable PKI-based encryption
+        std::string pki_cert_path;                  // Certificate file path (PEM format)
+        std::string pki_private_key_path;           // Private key file path (PEM format)
+        std::string pki_ca_bundle_path;             // CA bundle for verification (optional)
+        bool pki_verify_certificate = true;         // Verify certificate validity (default: true)
+      
+        // Vault Key Provider configuration
+        bool use_vault_for_encryption = false;  // Enable Vault encryption (default: false)
+        std::string vault_addr;          // Vault server address
+        std::string vault_token;         // Vault authentication token
+        std::string vault_kv_mount = "themis";      // KV mount path (default: "themis")
+        
         // RAID/Redundancy (automatically detected from environment)
         bool auto_detect_raid = true;  // Auto-detect RAID configuration
+        
+        // Quorum-based consistency (for distributed LoRA adapters)
+        bool enable_quorum_writes = false;      // Enable quorum enforcement for writes (default: OFF)
+        bool enable_partition_detection = false; // Enable network partition detection
+        uint32_t write_quorum_size = 2;         // Number of replicas for write quorum
+        uint32_t read_quorum_size = 1;          // Number of replicas for read quorum
     };
     
-    explicit LoRAStorageService(const Config& config = Config{});
+    explicit LoRAStorageService(const Config& config);
+    explicit LoRAStorageService();
     ~LoRAStorageService();
     
     // Disable copy

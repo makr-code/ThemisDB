@@ -1,238 +1,297 @@
 ---
 category: "🔨 Build/Deployment"
-version: "v1.3.0"
+version: "v1.4.0"
 status: "✅"
-date: "22.12.2025"
+date: "23.01.2026"
 ---
 
-# 🔨 ThemisDB Build Toolchain
+# 🔨 ThemisDB Build Guide
 
-Comprehensive guide to building ThemisDB across all platforms.
+Schnelleinstieg für das Bauen von ThemisDB auf allen Plattformen.
 
 ## 📋 Inhaltsverzeichnis
 
-- [📋 Übersicht](#-übersicht)
-- [✨ Features](#-features)
-- [🚀 Quick Start](#-quick-start)
-- [📖 Build Strategien](#-build-strategien)
-- [💡 Best Practices](#-best-practices)
-- [🔧 Troubleshooting](#-troubleshooting)
-- [📚 Siehe auch](#-siehe-auch)
-- [📝 Changelog](#-changelog)
+- [Übersicht](#-übersicht)
+- [Choose Your Edition First](#-choose-your-edition-first)
+- [Quick Start (5 min)](#-quick-start-5-min)
+- [Platform-Specific Builds](#-platform-specific-builds)
+- [Build Scripts](#-build-scripts)
+- [Architecture & Details](#-architecture--details)
+- [Troubleshooting](#-troubleshooting)
+- [Siehe auch](#-siehe-auch)
 
 ---
 
 ## 📋 Übersicht
 
-Complete guide for compiling ThemisDB across Windows, Linux, Docker, and ARM64 platforms.
+ThemisDB bietet flexible Build-Optionen für alle Plattformen:
 
-**Stand:** 22. Dezember 2025  
-**Version:** 1.3.0  
-**Kategorie:** 🔨 Build/Deployment
+**Plattformen:**
+- 🪟 **Windows** - MSVC/ClangCL (VS 2022)
+- 🐧 **Linux** - GCC/Clang
+- 🐳 **Docker** - Multi-arch builds
+- 🦾 **ARM** - Raspberry Pi, Graviton
 
----
-
-## ✨ Features
-
-- 🪟 **Windows (MSVC/Clang)** - VS 2022 generator
-- 🐧 **Linux** - GCC/Clang with preset configs
-- 🐳 **Docker** - Multi-stage builds, quick & full
-- 🦾 **ARM64** - Raspberry Pi & IoT devices
-- ⚡ **Parallel** - Multi-core compilation
-- 📦 **Release Automation** - Version management & tagging
+**Stand:** 23. Januar 2026  
+**Version:** v1.4.0  
 
 ---
 
-## 🚀 Quick Start
+## 🎯 Choose Your Edition First!
 
-### Windows
+**WICHTIG:** Wählen Sie zuerst Ihre Edition aus!
+
+### Quick Edition Comparison
+
+| Edition | Max Nodes | GPU VRAM | License | Use Case |
+|---------|-----------|----------|---------|----------|
+| **MINIMAL** | 1 | 0 GB | Optional | Embedded, IoT |
+| **COMMUNITY** | **5** ✅ | 24 GB | Optional | Dev, Test, Startups |
+| **ENTERPRISE** | **100** ✅ | 256 GB | Required (Release) ⚠️ | Production |
+| **HYPERSCALER** | ∞ | ∞ | Mandatory ❌ | Enterprise Scale |
+
+**Siehe:** [Edition Limits Matrix](../deployment/EDITION_LIMITS_MATRIX.md) für vollständigen Vergleich.
+
+### License Requirements
+
+**Brauche ich eine Lizenz?**
+
+- ✅ **MINIMAL/COMMUNITY:** Keine Lizenz erforderlich (Open Source)
+- ⚠️ **ENTERPRISE:** Lizenz erforderlich für **Release** Builds (Debug optional)
+- ❌ **HYPERSCALER:** Lizenz **immer** erforderlich (auch Debug)
+
+**Siehe:** [License Requirements](../deployment/LICENSE_REQUIREMENTS.md) für Details.
+
+---
+
+## 🚀 Quick Start (5 min)
+
+### Community Edition (Most Common)
+
+```bash
+# Windows
+.\scripts\build-community-release.ps1 -Platform windows -Configuration Release
+
+# Linux
+./scripts/build-linux.sh --config release --edition COMMUNITY --llm --gpu
+
+# Docker
+.\scripts\build-docker.ps1 -Tag themisdb:latest -Edition COMMUNITY
+```
+
+**Output:** `themis_server.exe` (Windows) oder `themis_server` (Linux)
+
+### Enterprise Edition (License Required for Release)
+
+```bash
+# Windows - Release (License Required!)
+.\scripts\build-enterprise-release.ps1 `
+  -Environment production `
+  -Configuration Release `
+  -LicenseFile "C:\licenses\enterprise-license.json"
+
+# Windows - Debug (No License Required)
+.\scripts\build-enterprise-release.ps1 `
+  -Environment development `
+  -Configuration Debug
+```
+
+**Siehe:** [License Requirements](../deployment/LICENSE_REQUIREMENTS.md)
+
+---
+
+## 🖥️ Platform-Specific Builds
+
+### Windows Build (MSVC 2022)
+
 ```powershell
-# Debug build with MSVC
-.\build-unified.ps1 -Platform windows -Config debug
+# Option 1: Use Build Script (Recommended)
+.\scripts\build-community-release.ps1 -Platform windows -Configuration Release
 
-# Release build with ClangCL
-.\build-unified.ps1 -Platform windows -Config release -Compiler clangcl
+# Option 2: Manual CMake
+cmake -B build -S . -G "Visual Studio 17 2022" -A x64 `
+  -DCMAKE_TOOLCHAIN_FILE=vcpkg/scripts/buildsystems/vcpkg.cmake `
+  -DTHEMIS_EDITION=COMMUNITY `
+  -DCMAKE_BUILD_TYPE=Release `
+  -DTHEMIS_ENABLE_LLM=ON `
+  -DTHEMIS_ENABLE_GPU=ON
+
+cmake --build build --config Release --parallel 8
 ```
 
-### Linux/WSL
-```powershell
-# Build on WSL from Windows
-.\build-unified.ps1 -Platform linux -Config release
+**Output:** `build/Release/themis_server.exe`
 
-# Or directly on Linux
-./build.sh
+**Siehe:** [Platform-specific docs](BUILD_WINDOWS.md)
+
+### Linux Build
+
+```bash
+# Option 1: Use Build Script (Recommended)
+./scripts/build-linux.sh --config release --edition COMMUNITY
+
+# Option 2: Manual CMake
+cmake -B build -S . \
+  -DCMAKE_TOOLCHAIN_FILE=vcpkg/scripts/buildsystems/vcpkg.cmake \
+  -DTHEMIS_EDITION=COMMUNITY \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DTHEMIS_ENABLE_LLM=ON \
+  -DTHEMIS_ENABLE_GPU=ON
+
+cmake --build build -j$(nproc)
 ```
 
-### Docker
-```powershell
-# Standard Docker image (Ubuntu 24.04)
-.\build-unified.ps1 -Platform docker -Tag themisdb:latest
+**Output:** `build/themis_server`
 
-# Quick build with pre-compiled binary
-.\build-docker-simple.ps1
- 
-# QNAP (Ubuntu 20.04, GLIBC 2.31) statischer Build mit separatem Manifest
- .\build-qnap.ps1
+**Siehe:** [Linux Build Guide](BUILD_LINUX.md)
+
+### Docker Build
+
+```bash
+# Single platform
+.\scripts\build-docker.ps1 -Tag themisdb:latest -Edition COMMUNITY
+
+# Multi-arch (x86_64 + ARM64)
+.\scripts\build-docker.ps1 `
+  -Tag themisdb:1.4.0 `
+  -Edition COMMUNITY `
+  -Platform "linux/amd64,linux/arm64" `
+  -Push
 ```
 
-### ARM64 / Raspberry Pi
-```powershell
-# Cross-compile for ARM64
-.\build-unified.ps1 -Platform arm64 -Config release
+**Siehe:** [Docker Guide](BUILD_DOCKER.md)
 
-# Raspberry Pi specific
-.\build-unified.ps1 -Platform rpi -Config release
+### ARM64 / Raspberry Pi (Cross-Compile)
+
+```bash
+# Cross-compile from x86_64 host
+cmake -B build-arm64 -S . \
+  -DCMAKE_TOOLCHAIN_FILE=vcpkg/scripts/buildsystems/vcpkg.cmake \
+  -DVCPKG_CHAINLOAD_TOOLCHAIN_FILE=cmake/toolchains/arm64-linux-gnu.cmake \
+  -DVCPKG_TARGET_TRIPLET=arm64-linux \
+  -DTHEMIS_EDITION=MINIMAL \
+  -DCMAKE_BUILD_TYPE=Release
+
+cmake --build build-arm64 --parallel 8
 ```
 
-## Release Workflow
+**Siehe:** [Cross-Compile Complete Guide](CROSS_COMPILE_COMPLETE.md)
 
-### 1. Prepare Release
-```powershell
-# Dry run to verify changes
-.\scripts\release.ps1 -Version 0.2.0 -DryRun
+---
 
-# Update version, commit, and tag
-.\scripts\release.ps1 -Version 0.2.0
+## 🔧 Build Scripts
+
+ThemisDB bietet automatisierte Build-Scripts für alle Szenarien:
+
+### Edition-Specific Scripts
+
+| Script | Edition | License Required |
+|--------|---------|-----------------|
+| `build-community-release.ps1` | COMMUNITY | ❌ No |
+| `build-enterprise-release.ps1` | ENTERPRISE | ⚠️ Yes (Release only) |
+| `build-hyperscaler-release.ps1` | HYPERSCALER | ❌ Yes (always) |
+
+**Siehe:** [Build Scripts Reference](BUILD_SCRIPTS_REFERENCE.md) für vollständige Dokumentation.
+
+---
+
+## 📚 Architecture & Details
+
+### Build System Architecture
+
+ThemisDB nutzt ein **3-Tier CMake Build System**:
+
+1. **Platform Detection** - OS, CPU, Cross-Compile
+2. **Edition System** - MINIMAL, COMMUNITY, ENTERPRISE, HYPERSCALER
+3. **Feature System** - 60+ CMake Options
+
+**Siehe:** [CMake Build System Overview](../deployment/CMAKE_BUILD_SYSTEM_OVERVIEW.md)
+
+### Build Options Reference
+
+60+ CMake-Optionen für granulare Konfiguration:
+
+- **Editions:** THEMIS_EDITION
+- **Features:** THEMIS_ENABLE_LLM, THEMIS_ENABLE_GPU, THEMIS_ENABLE_GRPC
+- **Performance:** THEMIS_ENABLE_MIMALLOC, THEMIS_ENABLE_HUGE_PAGES
+- **License:** THEMIS_LICENSE_FILE
+
+**Siehe:** [Build Options Reference](../deployment/BUILD_OPTIONEN_REFERENZ.md)
+
+---
+
+## 🔧 Troubleshooting
+
+### Problem: License File Not Found
+
+```
+ERROR: License file not found: /path/to/license.json
 ```
 
-### 2. Build Artifacts
-```powershell
-# Build all platforms
-.\scripts\release.ps1 -Version 0.2.0 -Platforms windows,linux,docker
-
-# Build specific platforms only
-.\scripts\release.ps1 -Version 0.2.0 -Platforms docker
+**Solution:**
+```bash
+# Use absolute path
+cmake -B build -S . -DTHEMIS_LICENSE_FILE=/absolute/path/to/license.json
 ```
 
-### 3. Deploy
-```powershell
-# Push to GitHub and Docker Hub
-.\scripts\release.ps1 -Version 0.2.0 -PushGit -PushDocker
-```
+**Siehe:** [License Requirements](../deployment/LICENSE_REQUIREMENTS.md) - Troubleshooting
 
-## File Structure
+### Problem: CMake Configuration Fails
 
 ```
-themis/
-├── build-unified.ps1          # Main build script (all platforms)
-├── build-docker-simple.ps1    # Quick Docker build (pre-built binary)
-├── scripts/
-│   └── release.ps1           # Release automation
-├── Dockerfile                 # Full Docker build (Ubuntu 24.04)
-├── Dockerfile.simple          # Minimal Docker (pre-built binary)
-├── docker-compose.yml         # Standard deployment
-├── docker-compose-arm.yml     # ARM64 deployment
-├── CMakePresets.json          # Platform-specific CMake configs
-└── BUILD_STRATEGY.md          # Detailed build documentation
+ERROR: vcpkg not found
 ```
 
-## Deprecated Files (To Remove)
-
-The following files are obsolete and should be removed:
-
-- `Dockerfile.old` - Replaced by Dockerfile.simple
-- `Dockerfile.runtime` - Redundant
-- `Dockerfile.qnap` - Non-functional (vcpkg issues)
-- `Dockerfile.qnap.simple` - Incomplete
-- `build-docker-qnap.ps1` - Non-functional
-- `build-docker-qnap-simple.ps1` - Incomplete
-- `build-tests-msvc.ps1` - Use CMakePresets instead
-- `build-msvc/` directory - Old build artifacts
-- `build-wsl/` directory - Use CMakePresets instead
-
-## Platform-Specific Notes
-
-### Windows
-- Requires Visual Studio 2022 or LLVM/Clang
-- vcpkg automatically handled by CMake
-
-### Linux/WSL
-- Requires GCC 11+ or Clang 14+
-- Ubuntu 24.04 LTS recommended (GLIBC 2.38+)
-
-### Docker
-- Standard: Ubuntu 24.04 (GLIBC 2.38+)
-- QNAP: Ubuntu 20.04 (GLIBC 2.31) via `build-qnap.ps1` (statisch, separates Manifest `vcpkg.qnap.json`)
-
-### ARM64
-- Tested on Raspberry Pi 4/5
-- Debian Bullseye or Ubuntu 22.04 recommended
-
-## Common Tasks
-
-### Clean Build
-```powershell
-.\build-unified.ps1 -Clean
+**Solution:**
+```bash
+# Set VCPKG_ROOT
+export VCPKG_ROOT=/path/to/vcpkg
+cmake -B build -S . -DCMAKE_TOOLCHAIN_FILE=${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake
 ```
 
-### Build with Tests
-```powershell
-.\build-unified.ps1 -Platform windows -Tests
+### Problem: Build Too Slow
+
+**Solution:**
+```bash
+# Use Ninja (faster than Make)
+cmake -B build -S . -GNinja
+ninja -C build -j$(nproc)
+
+# Enable ccache
+cmake -B build -S . -DCMAKE_C_COMPILER_LAUNCHER=ccache
 ```
 
-### Build with Benchmarks
-```powershell
-.\build-unified.ps1 -Platform linux -Benchmarks
-```
+**Siehe:** [Cross-Compile Guide](CROSS_COMPILE_COMPLETE.md) - Performance Optimization
 
-### Static Build (for QNAP)
-```powershell
-.\build-unified.ps1 -Platform linux -Static
-# Alternativ mit QNAP Manifest (Tests/Benchmarks/Tracing aktiv)
-.\build-qnap.ps1
-```
+---
 
-### Docker Build without Cache
-```powershell
-.\build-unified.ps1 -Platform docker -NoCache
-```
+## 📚 Siehe auch
 
-## Troubleshooting
+### Build & Deployment
+- [CMake Build System Overview](../deployment/CMAKE_BUILD_SYSTEM_OVERVIEW.md) - Zentrale Architektur-Referenz
+- [Build Scripts Reference](BUILD_SCRIPTS_REFERENCE.md) - Automatisierte Build-Scripts
+- [Cross-Compile Complete Guide](CROSS_COMPILE_COMPLETE.md) - Cross-Compilation für alle Szenarien
+- [Build Options Reference](../deployment/BUILD_OPTIONEN_REFERENZ.md) - 60+ CMake-Optionen
+- [Deployment Strategy](../deployment/deployment_strategy.md) - Deployment-Strategien
 
-### vcpkg Download Failures
-Use the simplified Docker build:
-```powershell
-.\build-docker-simple.ps1
-```
+### Editions & Licensing
+- [Edition Limits Matrix](../deployment/EDITION_LIMITS_MATRIX.md) - **Single Source of Truth** für Limits
+- [License Requirements](../deployment/LICENSE_REQUIREMENTS.md) - Wann ist Lizenz erforderlich?
+- [Edition Control Mechanisms](../deployment/EDITION_CONTROL_MECHANISMS.md) - Technische Details
 
-### QNAP GLIBC Errors
-Nutze QNAP Build-Script (statisch + eigenes Manifest):
-```powershell
-.\build-qnap.ps1
-```
+### Platform-Specific
+- [Windows Build](BUILD_WINDOWS.md) - Windows-spezifische Details
+- [Linux Build](BUILD_LINUX.md) - Linux-spezifische Details
+- [Docker Build](BUILD_DOCKER.md) - Docker & Container
+- [ARM Deployment](../deployment/deployment_arm_build.md) - Raspberry Pi & ARM
 
-### WSL Path Issues
-Ensure project is in `/mnt/c/VCC/themis` or adjust paths in scripts.
+### Advanced Topics
+- [LLM Complete Setup](LLM_COMPLETE_SETUP_GUIDE.md) - LLM Integration
+- [GPU Support](../DOCKER_GPU_SUPPORT.md) - GPU Konfiguration
+- [vcpkg Offline Strategy](../deployment/VCPKG_OFFLINE_STRATEGY.md) - Offline Builds
 
-## Version Management
+---
 
-Version is centrally managed in `CMakeLists.txt`:
-```cmake
-project(ThemisDB VERSION 0.1.0)
-```
-
-Release script automatically updates:
-- CMakeLists.txt
-- CHANGELOG.md
-- Git tags
-- Docker tags
-
-## Continuous Integration
-
-GitHub Actions workflows:
-- `.github/workflows/ci.yml` - Build and test
-- `.github/workflows/build-multiarch.yml` - Multi-platform builds
-- `.github/workflows/arm-build.yml` - ARM64 builds
-
-Triggers:
-- Push to `main` - Full CI
-- Tags `v*.*.*` - Release builds
-
-## Next Steps
-
-See [BUILD_STRATEGY.md](BUILD_STRATEGY.md) for:
-- Detailed platform matrix
-- QNAP deployment solutions
-	- Separates Manifest: `vcpkg.qnap.json` (inkl. tests/benchmarks/tracing, statischer Triplet)
-- Packaging strategy (.deb, .rpm, etc.)
-- Migration plan
+**Letzte Aktualisierung:** 23. Januar 2026  
+**Version:** v1.4.0  
+**Kategorie:** 🔨 Build/Deployment  
+**Kontakt:** service@themisdb.org

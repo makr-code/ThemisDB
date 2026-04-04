@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_http_timeseries.cpp                           ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:28:21                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     541                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • fef313e1c  2026-02-22  fix(timeseries): wire up OOO metrics and add missing test... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file test_http_timeseries.cpp
  * @brief HTTP tests for Time Series API endpoints
@@ -465,4 +488,54 @@ TEST_F(HttpTimeSeriesTest, PutTSConfig_Persistence) {
     auto config = json::parse(get_res.body());
     EXPECT_EQ(config["compression"], "none");
     EXPECT_EQ(config["chunk_size_hours"], 48);
+}
+
+// Test: late_arrival_window_ms config field – set and read back
+TEST_F(HttpTimeSeriesTest, PutTSConfig_LateArrivalWindow) {
+    // Enable a 1-hour late-arrival window
+    json body = {{"late_arrival_window_ms", 3600000}};
+    auto res = put("/ts/config", body);
+    ASSERT_EQ(res.result(), http::status::ok);
+
+    auto response = json::parse(res.body());
+    EXPECT_EQ(response["late_arrival_window_ms"], 3600000);
+    EXPECT_EQ(response["status"], "ok");
+
+    // Read it back via GET
+    auto get_res = get("/ts/config");
+    ASSERT_EQ(get_res.result(), http::status::ok);
+    auto config = json::parse(get_res.body());
+    EXPECT_EQ(config["late_arrival_window_ms"], 3600000);
+}
+
+// Test: late_arrival_window_ms = 0 disables the window
+TEST_F(HttpTimeSeriesTest, PutTSConfig_LateArrivalWindowZeroDisables) {
+    // First enable
+    json body1 = {{"late_arrival_window_ms", 60000}};
+    auto res1 = put("/ts/config", body1);
+    ASSERT_EQ(res1.result(), http::status::ok);
+
+    // Now disable
+    json body2 = {{"late_arrival_window_ms", 0}};
+    auto res2 = put("/ts/config", body2);
+    ASSERT_EQ(res2.result(), http::status::ok);
+
+    auto get_res = get("/ts/config");
+    ASSERT_EQ(get_res.result(), http::status::ok);
+    auto config = json::parse(get_res.body());
+    EXPECT_EQ(config["late_arrival_window_ms"], 0);
+}
+
+// Test: negative late_arrival_window_ms is rejected
+TEST_F(HttpTimeSeriesTest, PutTSConfig_LateArrivalWindowNegativeRejected) {
+    json body = {{"late_arrival_window_ms", -1}};
+    auto res = put("/ts/config", body);
+    EXPECT_EQ(res.result(), http::status::bad_request);
+}
+
+// Test: non-integer late_arrival_window_ms is rejected
+TEST_F(HttpTimeSeriesTest, PutTSConfig_LateArrivalWindowNonIntegerRejected) {
+    json body = {{"late_arrival_window_ms", "notanumber"}};
+    auto res = put("/ts/config", body);
+    EXPECT_EQ(res.result(), http::status::bad_request);
 }

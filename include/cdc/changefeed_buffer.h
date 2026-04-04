@@ -1,3 +1,27 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            changefeed_buffer.h                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:06:16                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     324                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • b7ab19d6f  2026-02-24  feat(cdc): implement dead-letter queue for failed event d... ║
+    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * ThemisDB Changefeed Auto-Batching Buffer
  * 
@@ -19,6 +43,8 @@
 #pragma once
 
 #include "cdc/changefeed.h"
+#include "cdc/cdc_metrics.h"
+#include "cdc/dead_letter_queue.h"
 #include <deque>
 #include <map>
 #include <mutex>
@@ -29,6 +55,7 @@
 #include <memory>
 
 namespace themis {
+using namespace themis::cdc;
 
 /**
  * @brief Configuration for changefeed auto-batching
@@ -51,6 +78,16 @@ struct ChangefeedBufferConfig {
     // Compression for event payloads
     bool compress_payloads = true;            // Zstd compression for large payloads
     size_t compression_threshold_bytes = 1024;  // Compress payloads > 1KB
+    
+    // Retry and error handling
+    int max_retry_attempts = 3;               // Max retries for failed flushes
+    std::chrono::milliseconds retry_backoff_ms{100};  // Initial backoff for retries
+    bool exponential_backoff = true;          // Use exponential backoff for retries
+    
+    // Rate limiting
+    bool enable_rate_limiting = false;        // Enable rate limiting
+    size_t max_events_per_second = 10000;    // Max events per second (0 = unlimited)
+    std::chrono::milliseconds rate_limit_window{1000};  // Rate limit window
 };
 
 /**
@@ -66,12 +103,24 @@ struct ChangefeedBufferStats {
     std::atomic<uint64_t> time_triggered_flush{0};
     std::atomic<uint64_t> buffer_overflow_count{0};
     std::atomic<uint64_t> compressed_payloads{0};
+    std::atomic<uint64_t> retry_attempts{0};         // Total retry attempts
+    std::atomic<uint64_t> retry_successes{0};        // Successful retries
+    std::atomic<uint64_t> retry_failures{0};         // Failed retries (exhausted)
+    std::atomic<uint64_t> flush_errors{0};           // Total flush errors
+    std::atomic<uint64_t> rate_limited_events{0};    // Events delayed by rate limiting
     
     size_t current_buffer_size{0};
     size_t current_buffer_memory{0};
     double avg_compression_ratio{1.0};
     
     std::chrono::steady_clock::time_point last_flush_time;
+    
+    // Delete copy operations due to atomic members
+    ChangefeedBufferStats(const ChangefeedBufferStats&) = delete;
+    ChangefeedBufferStats& operator=(const ChangefeedBufferStats&) = delete;
+    ChangefeedBufferStats(ChangefeedBufferStats&&) = default;
+    ChangefeedBufferStats& operator=(ChangefeedBufferStats&&) = default;
+    ChangefeedBufferStats() = default;
 };
 
 /**
@@ -149,7 +198,18 @@ public:
     /**
      * @brief Get current buffer statistics
      */
-    ChangefeedBufferStats getStats() const;
+    const ChangefeedBufferStats& getStats() const;
+    
+    /**
+     * @brief Get enhanced metrics (latency, throughput, etc.)
+     * @return CDCMetrics with histograms and counters
+     */
+    const CDCMetrics& getMetrics() const { return metrics_; }
+    
+    /**
+     * @brief Reset metrics (for testing or periodic reset)
+     */
+    void resetMetrics() { metrics_.reset(); }
     
     /**
      * @brief Get current configuration
@@ -166,7 +226,25 @@ public:
      */
     bool isRunning() const { return running_.load(); }
 
+    /**
+     * @brief Attach a dead-letter queue to receive events that exhaust retries.
+     *
+     * When set, any event for which all delivery attempts fail is enqueued in
+     * the provided DeadLetterQueue instead of being silently discarded.
+     * The DeadLetterQueue is NOT owned by this buffer.
+     *
+     * @param dlq  Pointer to an existing DeadLetterQueue, or nullptr to detach.
+     */
+    void setDeadLetterQueue(cdc::DeadLetterQueue* dlq) { dlq_ = dlq; }
+
+    /**
+     * @brief Return the attached dead-letter queue (may be nullptr).
+     */
+    cdc::DeadLetterQueue* getDeadLetterQueue() const { return dlq_; }
+
 private:
+    // Dead-letter queue (optional, not owned)
+    cdc::DeadLetterQueue* dlq_ = nullptr;
     // Buffered event wrapper
     struct BufferedEvent {
         Changefeed::ChangeEvent event;
@@ -219,6 +297,9 @@ private:
     // Statistics
     ChangefeedBufferStats stats_;
     
+    // Enhanced metrics (P1 feature)
+    CDCMetrics metrics_;
+    
     // Helper functions
     std::string makeBufferKey(const Changefeed::ChangeEvent& event) const;
     void flushThread();
@@ -227,9 +308,17 @@ private:
     bool shouldFlushBuffer(const EventTypeBuffer& buffer) const;
     bool shouldFlushGlobal() const;
     
+    // Rate limiting helper
+    bool checkRateLimit();
+    
     // Compression helpers
     std::string compressPayload(const std::string& payload);
     std::string decompressPayload(const std::string& compressed);
+    
+    // Rate limiting state
+    std::chrono::steady_clock::time_point rate_limit_window_start_;
+    std::atomic<size_t> events_in_current_window_{0};
+    std::mutex rate_limit_mutex_;
 };
 
 } // namespace themis

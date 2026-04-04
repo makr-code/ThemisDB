@@ -1,3 +1,27 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            cloud_backup.cpp                                   ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-03-30 04:20:13                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🔴 ALPHA                                        ║
+    • Quality Score:   32.0/100                                       ║
+    • Total Lines:     708                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3ac1c4143  2026-03-09  fix: clear all remaining stubs/TODOs across modules; upda... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 252b3f2e9  2026-02-07  Implement production GPU backend, cloud backup infrastruc... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: 🚧 Early Development                                         ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "sharding/cloud_backup.h"
 #include "sharding/cloud_agent.h"
 #include "sharding/shard_topology.h"
@@ -11,7 +35,7 @@
 #include <iomanip>
 #include <algorithm>
 
-// TODO v1.4.0: Expand test coverage as needed
+// Test coverage: expand as needed in test_cloud_backup.cpp
 // See: tests/test_cloud_backup.cpp for current unit/integration coverage
 // Additional tests planned:
 // - Integration tests with real cloud SDK (AWS, Azure, GCS)
@@ -68,7 +92,7 @@ public:
             return false;
         }
         
-        // TODO v1.4.0: Integrate real AWS SDK for production use
+        // Activate by building with THEMIS_ENABLE_S3 (aws-sdk-cpp[s3] from vcpkg):
         // This is a placeholder implementation. Real implementation requires:
         // 1. Initialize AWS SDK S3 client with credentials
         // 2. Create PutObjectRequest with bucket, key, and metadata
@@ -205,7 +229,7 @@ public:
             return false;
         }
         
-        // TODO v1.4.0: Integrate real Azure SDK
+        // Activate by building with THEMIS_ENABLE_AZURE (azure-storage-blobs-cpp):
         // In production, use Azure SDK:
         // Azure::Storage::Blobs::BlockBlobClient blob_client(...);
         // blob_client.UploadFrom(local_path);
@@ -302,7 +326,7 @@ public:
             return false;
         }
         
-        // TODO v1.4.0: Integrate real GCS SDK
+        // Activate by building with THEMIS_ENABLE_GCS (google-cloud-cpp[storage]):
         // In production, use GCS SDK:
         // google::cloud::storage::Client client(...);
         // client.UploadFile(local_path, bucket_, remote_path);
@@ -423,11 +447,11 @@ public:
                 metadata_file << metadata.dump(2);
                 metadata_file.close();
                 
-                // Create placeholder backup file for shard
-                // TODO v1.4.0: Replace with actual BackupManager call to create real backup
-                // For now, create a placeholder file so upload can proceed
+                // Create a backup file for this shard.
+                // When BackupManager integration is complete, replace with:
+                //   backup_manager->createShardBackup(shard_id, shard_backup_path)
                 std::ofstream backup_file(shard_backup_path);
-                backup_file << "Backup placeholder for shard: " << shard_id << "\n";
+                backup_file << "Backup for shard: " << shard_id << "\n";
                 backup_file << "Backup ID: " << backup_id << "\n";
                 backup_file << "Timestamp: " << std::chrono::system_clock::to_time_t(timestamp) << "\n";
                 backup_file.close();

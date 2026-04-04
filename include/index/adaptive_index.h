@@ -1,3 +1,27 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            adaptive_index.h                                   ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:07:55                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     325                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • b3eabcc0a  2026-03-09  feat(index): implement parallel batch search, GPU utiliza... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #ifndef THEMIS_ADAPTIVE_INDEX_H
 #define THEMIS_ADAPTIVE_INDEX_H
 
@@ -7,6 +31,7 @@
 #include <memory>
 #include <mutex>
 #include <chrono>
+#include <unordered_set>
 #include <nlohmann/json.hpp>
 #include "storage/rocksdb_wrapper.h"
 
@@ -31,6 +56,11 @@ public:
         int64_t total_time_ms = 0;
         int64_t last_seen_ms = 0;
         
+        // Phase 2: Cache-aware metrics
+        int64_t cache_misses = 0;           // L3 cache misses for this pattern
+        int64_t cache_hits = 0;             // L3 cache hits for this pattern
+        double avg_cache_miss_penalty_ms = 0.0;  // Average penalty from cache miss
+        
         nlohmann::json toJson() const;
         static QueryPattern fromJson(const nlohmann::json& j);
     };
@@ -44,11 +74,15 @@ public:
      * @param field Field name used in filter/join
      * @param operation Type of operation (eq, range, in, join)
      * @param execution_time_ms Query execution time
+     * @param cache_miss Optional: whether this query experienced cache miss
+     * @param cache_miss_penalty_ms Optional: penalty from cache miss
      */
     void recordPattern(const std::string& collection,
                       const std::string& field,
                       const std::string& operation,
-                      int64_t execution_time_ms);
+                      int64_t execution_time_ms,
+                      bool cache_miss = false,
+                      double cache_miss_penalty_ms = 0.0);
     
     /**
      * @brief Get all tracked patterns for a collection
@@ -105,6 +139,10 @@ public:
         double selectivity = 0.0;  // unique_values / total_documents
         std::string distribution;   // "uniform", "skewed", "sparse"
         
+        // Phase 2: Cache-aware metrics
+        double estimated_l3_cache_fit_ratio = 0.0;  // % of index that fits in L3 (20MB)
+        double estimated_cache_miss_rate = 0.0;      // Estimated cache miss rate
+        
         nlohmann::json toJson() const;
         static SelectivityStats fromJson(const nlohmann::json& j);
     };
@@ -129,6 +167,19 @@ public:
      * @return Score where 1.0 = highly beneficial, 0.0 = not beneficial
      */
     double calculateIndexBenefit(const SelectivityStats& stats) const;
+    
+    /**
+     * @brief Calculate cache-aware selectivity (Phase 2)
+     * 
+     * Estimates how much of the index will fit in L3 cache (20MB)
+     * and adjusts selectivity score accordingly.
+     * 
+     * @param stats Selectivity statistics
+     * @param l3_cache_size_mb L3 cache size in MB (default: 20MB)
+     * @return Adjusted selectivity stats with cache metrics
+     */
+    SelectivityStats analyzeCacheAware(const SelectivityStats& stats,
+                                       size_t l3_cache_size_mb = 20) const;
 
 private:
     rocksdb::TransactionDB* db_;
@@ -175,6 +226,24 @@ public:
         size_t limit = 10);
     
     /**
+     * @brief Generate cache-aware index suggestions (Phase 2)
+     * 
+     * Analyzes query patterns and cache behavior to recommend indexes
+     * that maximize L3 cache utilization and minimize cache misses.
+     * 
+     * @param collection Collection to analyze (empty = all collections)
+     * @param target_cache_hit_rate Target cache hit rate (0.0 - 1.0, default: 0.70)
+     * @param min_score Minimum score threshold (0.0 - 1.0)
+     * @param limit Maximum number of suggestions
+     * @return Cache-aware suggestions sorted by score (descending)
+     */
+    std::vector<IndexSuggestion> generateCacheAwareIndexes(
+        const std::string& collection = "",
+        float target_cache_hit_rate = 0.70f,
+        double min_score = 0.5,
+        size_t limit = 10);
+    
+    /**
      * @brief Check if an index already exists
      * @param collection Collection name
      * @param field Field name
@@ -183,9 +252,28 @@ public:
     bool indexExists(const std::string& collection,
                     const std::string& field) const;
 
+    /**
+     * @brief Register an existing index so it is excluded from suggestions
+     * @param collection Collection name
+     * @param field Field name
+     */
+    void registerIndex(const std::string& collection, const std::string& field);
+
+    /**
+     * @brief Unregister an existing index (e.g. after it has been dropped)
+     * @param collection Collection name
+     * @param field Field name
+     */
+    void unregisterIndex(const std::string& collection, const std::string& field);
+
 private:
     QueryPatternTracker* tracker_;
     SelectivityAnalyzer* analyzer_;
+
+    // In-memory registry of indexes that already exist.
+    // Key format: "<collection>:<field>"
+    mutable std::mutex existingIndexesMutex_;
+    std::unordered_set<std::string> existingIndexes_;
     
     double calculateScore(const QueryPatternTracker::QueryPattern& pattern,
                          const SelectivityAnalyzer::SelectivityStats& stats) const;

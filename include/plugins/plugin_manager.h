@@ -1,7 +1,38 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            plugin_manager.h                                   ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:09:29                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     412                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 18598257e  2026-03-01  feat(plugins): add OciRegistryClient and loadPluginFromOc... ║
+    • 3d4510f1a  2026-02-28  fix(plugins): mark runtime plugin capability negotiation ... ║
+    • 88c2ff1ef  2026-02-28  feat(plugins): integrate PluginHealthMonitor into PluginM... ║
+    • d7e3e58b0  2026-02-28  feat(plugins): implement PluginManager::negotiateCapabili... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include "plugins/plugin_interface.h"
+#include "plugins/plugin_metrics.h"
+#include "plugins/plugin_dependency_resolver.h"  // Dependency resolution
+#include "plugins/plugin_hot_plug_monitor.h"  // HotPlugConfig definition
+#include "plugins/oci_registry_client.h"  // OCI registry pull support
 #include "acceleration/plugin_loader.h"  // Reuse existing loader
+#include "utils/expected.h"
 #include <string>
 #include <memory>
 #include <unordered_map>
@@ -14,6 +45,33 @@ namespace themis {
 namespace plugins {
 
 using json = nlohmann::json;
+
+// Forward declarations
+class PluginHotPlugMonitor;
+struct HotPlugConfig;
+class PluginHealthMonitor;
+
+/**
+ * @brief Plugin Reload Phase
+ * 
+ * Used for event notifications during hot-reload operations
+ */
+enum class PluginReloadPhase {
+    BEFORE_UNLOAD,  ///< About to unload plugin
+    AFTER_UNLOAD,   ///< Plugin unloaded successfully
+    AFTER_LOAD      ///< Plugin reloaded successfully
+};
+
+/**
+ * @brief Plugin Reload Event Listener
+ * 
+ * Callback type for reload event notifications.
+ * Listeners are notified during different phases of plugin reload.
+ * 
+ * @param plugin_name Name of the plugin being reloaded
+ * @param phase Current reload phase
+ */
+using PluginReloadListener = std::function<void(const std::string& plugin_name, PluginReloadPhase phase)>;
 
 /**
  * @brief Unified Plugin Manager
@@ -47,6 +105,10 @@ private:
     
     std::unordered_map<std::string, PluginEntry> plugins_;  // name -> entry
     std::unordered_map<PluginType, std::vector<std::string>> type_index_;  // type -> plugin names
+    PluginMetrics metrics_;  // Plugin metrics tracker
+    std::unique_ptr<PluginHotPlugMonitor> hot_plug_monitor_;  // Hot-plug filesystem monitor
+    std::vector<PluginReloadListener> reload_listeners_;  // Reload event listeners
+    PluginHealthMonitor* health_monitor_ = nullptr;  // Optional health monitor (non-owning)
     mutable std::mutex mutex_;
     
     // Reuse existing platform-specific loading from acceleration/plugin_loader.cpp
@@ -65,6 +127,10 @@ private:
     
     std::string calculateFileHash(const std::string& path);
     
+    // Hot-reload helper methods
+    std::vector<std::string> findDependentPlugins(const std::string& name) const;
+    void notifyPluginReload(const std::string& name, PluginReloadPhase phase);
+    
 public:
     PluginManager() = default;
     ~PluginManager();
@@ -76,45 +142,69 @@ public:
     /**
      * @brief Scan plugin directory for manifests
      * @param directory Path to plugin directory
-     * @return Number of plugins discovered
+     * @return Result<size_t> - Number of plugins discovered or error
      */
-    size_t scanPluginDirectory(const std::string& directory);
+    Result<size_t> scanPluginDirectory(const std::string& directory);
     
     /**
      * @brief Load a plugin by name
      * @param name Plugin name (from manifest)
-     * @return Loaded plugin instance or nullptr
+     * @return Result<IThemisPlugin*> with loaded plugin instance or error
      */
-    IThemisPlugin* loadPlugin(const std::string& name);
+    Result<IThemisPlugin*> loadPlugin(const std::string& name);
     
     /**
      * @brief Load a plugin from explicit path
      * @param path Path to plugin DLL/SO
      * @param config Optional configuration JSON
-     * @return Loaded plugin instance or nullptr
+     * @return Result<IThemisPlugin*> with loaded plugin instance or error
      */
-    IThemisPlugin* loadPluginFromPath(
+    Result<IThemisPlugin*> loadPluginFromPath(
         const std::string& path,
         const std::string& config = "{}"
+    );
+
+    /**
+     * @brief Pull a plugin from an OCI registry and load it.
+     *
+     * Parses the OCI reference, downloads the plugin binary layer into
+     * @p cache_dir (reusing a cached copy when the SHA-256 digest matches),
+     * verifies the binary, and delegates to loadPluginFromPath().
+     *
+     * OCI reference format: [registry/]name[:tag][@digest]
+     * Example: "ghcr.io/themisdb/plugins/s3_blob:1.2.0"
+     *
+     * @param oci_ref   OCI image reference string.
+     * @param cache_dir Local directory for cached plugin binaries.
+     *                  Defaults to the system temp directory when empty.
+     * @param auth_token Optional Bearer token for authenticated registries.
+     * @return Result<IThemisPlugin*> with loaded plugin or error.
+     */
+    Result<IThemisPlugin*> loadPluginFromOci(
+        const std::string& oci_ref,
+        const std::string& cache_dir   = "",
+        const std::string& auth_token  = ""
     );
     
     /**
      * @brief Unload a plugin
      * @param name Plugin name
+     * @return Result<void> - success or error
      */
-    void unloadPlugin(const std::string& name);
+    Result<void> unloadPlugin(const std::string& name);
     
     /**
      * @brief Unload all plugins
+     * @return Result<void> - success or error
      */
-    void unloadAllPlugins();
+    Result<void> unloadAllPlugins();
     
     /**
      * @brief Get loaded plugin by name
      * @param name Plugin name
-     * @return Plugin instance or nullptr if not loaded
+     * @return Result<IThemisPlugin*> with plugin instance or ERR_PLUGIN_NOT_FOUND if not loaded
      */
-    IThemisPlugin* getPlugin(const std::string& name) const;
+    Result<IThemisPlugin*> getPlugin(const std::string& name) const;
     
     /**
      * @brief Get all plugins of a specific type
@@ -143,24 +233,114 @@ public:
     bool isPluginLoaded(const std::string& name) const;
     
     /**
-     * @brief Reload a plugin (hot-reload)
+     * @brief Hot-reload a plugin without server restart (atomic with rollback)
+     *
+     * Reload process:
+     *  1. Validate plugin is loaded; fail if dependents exist
+     *  2. Save IStatefulPlugin state (if applicable)
+     *  3. Verify new binary (hash + signature) — old plugin still running
+     *  4. Load new binary, create instance, initialize, restore state
+     *  5. If any of the above fail: return error, old plugin continues unaffected
+     *  6. Atomically swap old entry for new entry under mutex
+     *  7. Notify BEFORE_UNLOAD / AFTER_UNLOAD listeners
+     *  8. Shutdown and unload old binary (outside mutex)
+     *  9. Notify AFTER_LOAD listeners
+     *
      * @param name Plugin name
-     * @return true if successful
+     * @return Result<void> - success or error; old plugin remains running on failure
      */
-    bool reloadPlugin(const std::string& name);
+    Result<void> reloadPlugin(const std::string& name);
     
     /**
      * @brief Auto-load plugins marked with auto_load=true
-     * @return Number of plugins loaded
+     * @return Result<size_t> - Number of plugins loaded or error
      */
-    size_t autoLoadPlugins();
+    Result<size_t> autoLoadPlugins();
     
     /**
      * @brief Get plugin manifest
      * @param name Plugin name
-     * @return Manifest or nullopt if not found
+     * @return Result<PluginManifest> - Manifest or error if not found
      */
-    std::optional<PluginManifest> getManifest(const std::string& name) const;
+    Result<PluginManifest> getManifest(const std::string& name) const;
+
+    /**
+     * @brief Negotiate capabilities between a loaded plugin and a set of requirements.
+     *
+     * Checks that the named plugin is loaded, then delegates to
+     * PluginCapabilityNegotiator::negotiate() to verify each requirement against
+     * the plugin's capability flags and version.
+     *
+     * @param name         Name of the loaded plugin.
+     * @param requirements List of capability requirements (name + optional version range).
+     * @return PluginNegotiationResult with success flag and per-requirement details.
+     *         If the plugin is not found/loaded, success is false and error_message is set.
+     */
+    PluginNegotiationResult negotiateCapabilities(
+        const std::string& name,
+        const std::vector<PluginCapabilityRequirement>& requirements) const;
+    
+    /**
+     * @brief Get plugin metrics
+     * @return Reference to plugin metrics
+     */
+    const PluginMetrics& getMetrics() const { return metrics_; }
+    
+    /**
+     * @brief Get mutable plugin metrics (for testing)
+     * @return Mutable reference to plugin metrics
+     */
+    PluginMetrics& getMetricsMutable() { return metrics_; }
+    
+    /**
+     * @brief Enable hot-plug monitoring for a directory
+     * @param directory Directory to monitor
+     * @param config Hot-plug configuration
+     * @return true if monitoring started successfully
+     */
+    bool enableHotPlug(const std::string& directory, const HotPlugConfig& config = HotPlugConfig());
+    
+    /**
+     * @brief Disable hot-plug monitoring
+     */
+    void disableHotPlug();
+    
+    /**
+     * @brief Check if hot-plug monitoring is enabled
+     * @return true if monitoring is active
+     */
+    bool isHotPlugEnabled() const;
+    
+    /**
+     * @brief Register a reload event listener
+     * 
+     * Listeners are notified during plugin reload phases:
+     * - BEFORE_UNLOAD: Before unloading old plugin
+     * - AFTER_UNLOAD: After unloading old plugin
+     * - AFTER_LOAD: After loading new plugin
+     * 
+     * @param listener Callback function to be notified
+     * @note Thread-safe: Can be called from any thread
+     */
+    void registerReloadListener(PluginReloadListener listener);
+    
+    /**
+     * @brief Clear all reload event listeners
+     * @note Thread-safe: Can be called from any thread
+     */
+    void clearReloadListeners();
+    
+    /**
+     * @brief Attach a health monitor to observe loaded self-healing plugins.
+     *
+     * When set, every plugin that implements ISelfHealingPlugin is automatically
+     * registered with the monitor on load and unregistered on unload.
+     *
+     * @param monitor Pointer to an existing PluginHealthMonitor (non-owning).
+     *                Pass nullptr to detach the current monitor.
+     * @note Thread-safe: Can be called from any thread
+     */
+    void attachHealthMonitor(PluginHealthMonitor* monitor);
     
     /**
      * @brief Singleton instance
@@ -174,7 +354,7 @@ public:
  * Global registry for type-specific plugin factories.
  * Allows third-party code to register plugin types.
  */
-class PluginRegistry {
+class PluginManagerRegistry {
 public:
     using PluginFactory = std::function<std::unique_ptr<IThemisPlugin>()>;
     
@@ -200,7 +380,7 @@ public:
     /**
      * @brief Get singleton instance
      */
-    static PluginRegistry& instance();
+    static PluginManagerRegistry& instance();
     
 private:
     std::unordered_map<std::string, std::pair<PluginType, PluginFactory>> factories_;
@@ -217,10 +397,10 @@ private:
  * ```
  */
 template<typename PluginClass>
-class PluginRegistrar {
+class PluginManagerRegistrar {
 public:
-    PluginRegistrar(const std::string& name, PluginType type) {
-        PluginRegistry::registerFactory(
+    PluginManagerRegistrar(const std::string& name, PluginType type) {
+        PluginManagerRegistry::registerFactory(
             name,
             type,
             []() { return std::make_unique<PluginClass>(); }

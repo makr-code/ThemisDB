@@ -1,7 +1,37 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            tsstore.cpp                                        ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:20:57                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     1134                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 79f081505  2026-03-28  Add test statistics documentation and collection script ║
+    • cafa45a9d  2026-03-15  fix(audit): upgrade tsstore decode path to GorillaSIMDDec... ║
+    • d9e68edf7  2026-03-15  fix: address code review - INVALID_INPUT status, test acc... ║
+    • 822b0afce  2026-03-15  feat(timeseries): implement TSStore single-point insert b... ║
+    • c7373858e  2026-03-14  fix(timeseries): address all PR review comments on chunk-... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "timeseries/tsstore.h"
+#include "timeseries/timeseries_metrics.h"
+#include "timeseries/encrypted_chunk_store.h"
+#include "timeseries/ts_auto_buffer.h"
 #include "utils/logger.h"
 #include "utils/tracing.h"
 #include "timeseries/gorilla.h"
+#include "timeseries/gorilla_simd.h"
 #include "timeseries/query_optimizer.h"
 #include <rocksdb/utilities/transaction_db.h>
 #include <rocksdb/utilities/transaction.h>
@@ -11,7 +41,7 @@
 #include <map>
 #include <unordered_set>
 #include <algorithm>
-#include <unordered_set>
+#include <chrono>
 
 namespace themis {
 
@@ -67,7 +97,7 @@ std::string TSStore::makeKey(const std::string& metric,
 }
 
 std::optional<TSStore::KeyComponents> 
-TSStore::parseKey(const std::string& key) const {
+TSStore::parseKeyInternal(const std::string& key) const {
     // Expected format: "ts:{metric}:{entity}:{timestamp_ms}"
     if (key.compare(0, strlen(KEY_PREFIX), KEY_PREFIX) != 0) {
         return std::nullopt;
@@ -93,6 +123,18 @@ TSStore::parseKey(const std::string& key) const {
     return comp;
 }
 
+Result<TSStore::KeyComponents> 
+TSStore::parseKey(const std::string& key) const {
+    auto comp = parseKeyInternal(key);
+    if (!comp.has_value()) {
+        return Err<KeyComponents>(
+            errors::ErrorCode::ERR_QUERY_PARSE_FAILED,
+            fmt::format("Invalid time-series key format: {}", key)
+        );
+    }
+    return Ok(std::move(*comp));
+}
+
 bool TSStore::matchesTagFilter(const DataPoint& point, 
                                        const nlohmann::json& tag_filter) const {
     if (tag_filter.is_null() || tag_filter.empty()) {
@@ -111,30 +153,82 @@ bool TSStore::matchesTagFilter(const DataPoint& point,
     return true;
 }
 
-TSStore::Status TSStore::putDataPoint(const DataPoint& point) {
+int TSStore::checkAndUpdateWatermarkLocked(const std::string& wm_key, int64_t timestamp_ms) {
+    auto it = watermarks_.find(wm_key);
+    if (it != watermarks_.end()) {
+        int64_t watermark = it->second;
+        if (timestamp_ms < watermark - config_.late_arrival_window_ms) {
+            return -1; // rejected: outside late-arrival window
+        }
+        if (timestamp_ms < watermark) {
+            return 1;  // accepted: out-of-order but within window
+        }
+        it->second = timestamp_ms; // advance watermark
+        return 0; // in-order
+    }
+    watermarks_[wm_key] = timestamp_ms;
+    return 0; // first write for this series
+}
+
+Result<void> TSStore::putDataPoint(const DataPoint& point) {
     auto span = Tracer::startSpan("TSStore.putDataPoint");
     span.setAttribute("metric", point.metric);
     span.setAttribute("entity", point.entity);
     span.setAttribute("timestamp_ms", point.timestamp_ms);
+    auto start_time = std::chrono::steady_clock::now();
     
     if (point.metric.empty()) {
         span.recordError("Metric name cannot be empty");
-        return Status::Error("Metric name cannot be empty");
+        return ErrVoid(errors::ErrorCode::ERR_API_INVALID_REQUEST, "Metric name cannot be empty");
     }
     if (point.entity.empty()) {
         span.recordError("Entity ID cannot be empty");
-        return Status::Error("Entity ID cannot be empty");
+        return ErrVoid(errors::ErrorCode::ERR_API_INVALID_REQUEST, "Entity ID cannot be empty");
+    }
+
+    // Late-arrival / out-of-order check
+    if (config_.late_arrival_window_ms > 0) {
+        std::lock_guard<std::mutex> lock(watermark_mutex_);
+        std::string wm_key = point.metric + ":" + point.entity;
+        int result = checkAndUpdateWatermarkLocked(wm_key, point.timestamp_ms);
+        if (result < 0) {
+            ooo_rejected_.fetch_add(1, std::memory_order_relaxed);
+            if (metrics_) metrics_->recordOutOfOrderWrite(point.metric, /*rejected=*/true);
+            span.recordError("Data point outside late-arrival window");
+            return ErrVoid(errors::ErrorCode::ERR_TIMESERIES_LATE_ARRIVAL,
+                fmt::format("Data point timestamp {} is outside the late-arrival window "
+                            "(window={}ms)",
+                            point.timestamp_ms, config_.late_arrival_window_ms));
+        }
+        if (result > 0) {
+            ooo_accepted_.fetch_add(1, std::memory_order_relaxed);
+            if (metrics_) metrics_->recordOutOfOrderWrite(point.metric, /*rejected=*/false);
+            THEMIS_DEBUG("Out-of-order write accepted: metric={}, ts={}",
+                         point.metric, point.timestamp_ms);
+        }
     }
     
-    // STORAGE METHOD: Singular RocksDB Entity
-    // Single data points are always stored as individual RocksDB entities,
-    // regardless of the compression configuration.
-    // Key format: ts:{metric}:{entity}:{timestamp_ms}
-    // Value format: JSON with full DataPoint information
-    // 
-    // For Gorilla compression, we'd need to buffer points and flush in chunks.
-    // TODO: Implement buffering strategy for single-point inserts with Gorilla
-    // Use putDataPoints() for batch inserts with Gorilla compression.
+    // STORAGE METHOD: Singular RocksDB Entity (or buffered Gorilla when auto_buffer_ is set)
+    // When a TSAutoBuffer is attached and Gorilla compression is enabled, single-point
+    // inserts are routed through the buffer so they can be Gorilla-encoded in batches
+    // (gorilla_batch_size, default 128).  This resolves the IoT write pattern problem
+    // where individual inserts would otherwise bypass compression entirely.
+    // Falls back to direct RocksDB write when:
+    //   • no auto_buffer_ is configured, or
+    //   • auto_buffer_->push() returns BUFFER_FULL (non-blocking backpressure signal), or
+    //   • compression is not Gorilla.
+    if (config_.compression == CompressionType::Gorilla && auto_buffer_ != nullptr) {
+        auto status = auto_buffer_->push(point);
+        if (status == TSAutoBuffer::PushStatus::OK) {
+            THEMIS_DEBUG("Buffered single-point via TSAutoBuffer: metric={}, entity={}, ts={}",
+                         point.metric, point.entity, point.timestamp_ms);
+            return OkVoid();
+        }
+        // INVALID_INPUT is unreachable here (metric/entity validated above).
+        // BUFFER_FULL: fall through to direct uncompressed write as graceful degradation.
+        THEMIS_WARN("TSAutoBuffer BUFFER_FULL for metric={}, falling back to direct write",
+                    point.metric);
+    }
     
     std::string key = makeKey(point.metric, point.entity, point.timestamp_ms);
     std::string value = point.toJson().dump();
@@ -148,24 +242,29 @@ TSStore::Status TSStore::putDataPoint(const DataPoint& point) {
         s = db_->Put(write_opts, key, value);
     }
     
+    auto latency = std::chrono::duration<double, std::milli>(
+        std::chrono::steady_clock::now() - start_time).count();
+    
     if (!s.ok()) {
         THEMIS_ERROR("Failed to write data point {}: {}", key, s.ToString());
-        return Status::Error("Failed to write data point: " + s.ToString());
+        return ErrVoid(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
+                       fmt::format("Failed to write data point {}: {}", key, s.ToString()));
     }
     
     THEMIS_DEBUG("Wrote data point: metric={}, entity={}, timestamp={}, value={}, compression={}", 
                  point.metric, point.entity, point.timestamp_ms, point.value,
                  config_.compression == CompressionType::Gorilla ? "gorilla" : "none");
     
-    return Status::OK();
+    return OkVoid();
 }
 
-TSStore::Status TSStore::putDataPoints(const std::vector<DataPoint>& points) {
+Result<void> TSStore::putDataPoints(const std::vector<DataPoint>& points) {
     auto span = Tracer::startSpan("TSStore.putDataPoints");
     span.setAttribute("batch_size", static_cast<int64_t>(points.size()));
+    auto start_time = std::chrono::steady_clock::now();
     
     if (points.empty()) {
-        return Status::OK();
+        return OkVoid();
     }
     
     // STORAGE METHOD: Batch with Gorilla Compression (if enabled)
@@ -182,7 +281,8 @@ TSStore::Status TSStore::putDataPoints(const std::vector<DataPoint>& points) {
         std::map<std::string, std::vector<DataPoint>> grouped;
         for (const auto& point : points) {
             if (point.metric.empty() || point.entity.empty()) {
-                return Status::Error("Invalid data point: metric and entity cannot be empty");
+                return ErrVoid(errors::ErrorCode::ERR_API_INVALID_REQUEST,
+                               "Invalid data point: metric and entity cannot be empty");
             }
             std::string group_key = point.metric + ":" + point.entity;
             grouped[group_key].push_back(point);
@@ -196,6 +296,27 @@ TSStore::Status TSStore::putDataPoints(const std::vector<DataPoint>& points) {
                 [](const DataPoint& a, const DataPoint& b) {
                     return a.timestamp_ms < b.timestamp_ms;
                 });
+
+            // Late-arrival / out-of-order check per group (sorted ascending)
+            if (config_.late_arrival_window_ms > 0) {
+                std::lock_guard<std::mutex> lock(watermark_mutex_);
+                for (const auto& p : group_points) {
+                    int r = checkAndUpdateWatermarkLocked(group_key, p.timestamp_ms);
+                    if (r < 0) {
+                        ooo_rejected_.fetch_add(1, std::memory_order_relaxed);
+                        if (metrics_) metrics_->recordOutOfOrderWrite(p.metric, /*rejected=*/true);
+                        span.recordError("Data point outside late-arrival window");
+                        return ErrVoid(errors::ErrorCode::ERR_TIMESERIES_LATE_ARRIVAL,
+                            fmt::format("Data point timestamp {} is outside the late-arrival window "
+                                        "(window={}ms)",
+                                        p.timestamp_ms, config_.late_arrival_window_ms));
+                    }
+                    if (r > 0) {
+                        ooo_accepted_.fetch_add(1, std::memory_order_relaxed);
+                        if (metrics_) metrics_->recordOutOfOrderWrite(p.metric, /*rejected=*/false);
+                    }
+                }
+            }
             
             // Extract timestamps and values
             std::vector<int64_t> timestamps;
@@ -230,8 +351,26 @@ TSStore::Status TSStore::putDataPoints(const std::vector<DataPoint>& points) {
                 chunk_meta["count"] = group_points.size();
                 chunk_meta["tags"] = group_points.front().tags;
                 chunk_meta["metadata"] = group_points.front().metadata;
-                chunk_meta["data"] = nlohmann::json::binary(compressed);
-                
+
+                // Compress-then-encrypt: apply AES-256-GCM after Gorilla compression
+                // when an EncryptedChunkStore is attached (transparent to query path).
+                if (enc_chunk_store_) {
+                    std::string series_id = group_points.front().metric + ":" +
+                                            group_points.front().entity;
+                    std::string chunk_range = "[" + std::to_string(timestamps.front()) +
+                                              "," + std::to_string(timestamps.back()) + "]";
+                    // encryptChunk() returns {key_id, blob} from a single current_key_fn_()
+                    // call, guaranteeing that chunk_meta["key_id"] always matches the key_id
+                    // embedded in the blob header even if the master key rotates mid-write.
+                    auto enc_result =
+                        enc_chunk_store_->encryptChunk(series_id, compressed, chunk_range);
+                    chunk_meta["encryption"] = "aes-256-gcm";
+                    chunk_meta["key_id"]     = enc_result.key_id;
+                    chunk_meta["data"]       = nlohmann::json::binary(enc_result.blob);
+                } else {
+                    chunk_meta["data"] = nlohmann::json::binary(compressed);
+                }
+
                 std::string value = chunk_meta.dump();
                 
                 if (cf_) {
@@ -244,23 +383,34 @@ TSStore::Status TSStore::putDataPoints(const std::vector<DataPoint>& points) {
                     group_points.size(), group_key,
                     static_cast<double>(group_points.size() * (sizeof(int64_t) + sizeof(double))) / compressed.size());
                 
+                // Record compression metrics
+                if (metrics_) {
+                    size_t uncompressed_size = group_points.size() * (sizeof(int64_t) + sizeof(double));
+                    metrics_->recordCompression(group_points.front().metric, uncompressed_size, compressed.size());
+                }
+                
             } catch (const std::exception& e) {
                 THEMIS_ERROR("Gorilla compression failed for {}: {}", group_key, e.what());
-                return Status::Error("Gorilla compression failed: " + std::string(e.what()));
+                return ErrVoid(errors::ErrorCode::ERR_COMPRESSION_FAILED,
+                               fmt::format("Gorilla compression failed for {}: {}", group_key, e.what()));
             }
         }
         
         rocksdb::WriteOptions write_opts;
         rocksdb::Status s = db_->Write(write_opts, &batch);
         
+        auto latency = std::chrono::duration<double, std::milli>(
+            std::chrono::steady_clock::now() - start_time).count();
+        
         if (!s.ok()) {
             THEMIS_ERROR("Failed to write Gorilla-compressed batch: {}", s.ToString());
-            return Status::Error("Failed to write batch: " + s.ToString());
+            return ErrVoid(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
+                           fmt::format("Failed to write batch: {}", s.ToString()));
         }
         
         THEMIS_INFO("Wrote Gorilla-compressed batch of {} data points ({} chunks)", 
             points.size(), grouped.size());
-        return Status::OK();
+        return OkVoid();
     }
     
     // STORAGE METHOD: Singular RocksDB Entities (No Compression)
@@ -271,7 +421,27 @@ TSStore::Status TSStore::putDataPoints(const std::vector<DataPoint>& points) {
     
     for (const auto& point : points) {
         if (point.metric.empty() || point.entity.empty()) {
-            return Status::Error("Invalid data point: metric and entity cannot be empty");
+            return ErrVoid(errors::ErrorCode::ERR_API_INVALID_REQUEST,
+                           "Invalid data point: metric and entity cannot be empty");
+        }
+
+        // Late-arrival / out-of-order check (no-compression path)
+        if (config_.late_arrival_window_ms > 0) {
+            std::lock_guard<std::mutex> lock(watermark_mutex_);
+            std::string wm_key = point.metric + ":" + point.entity;
+            int r = checkAndUpdateWatermarkLocked(wm_key, point.timestamp_ms);
+            if (r < 0) {
+                ooo_rejected_.fetch_add(1, std::memory_order_relaxed);
+                if (metrics_) metrics_->recordOutOfOrderWrite(point.metric, /*rejected=*/true);
+                return ErrVoid(errors::ErrorCode::ERR_TIMESERIES_LATE_ARRIVAL,
+                    fmt::format("Data point timestamp {} is outside the late-arrival window "
+                                "(window={}ms)",
+                                point.timestamp_ms, config_.late_arrival_window_ms));
+            }
+            if (r > 0) {
+                ooo_accepted_.fetch_add(1, std::memory_order_relaxed);
+                if (metrics_) metrics_->recordOutOfOrderWrite(point.metric, /*rejected=*/false);
+            }
         }
         
         std::string key = makeKey(point.metric, point.entity, point.timestamp_ms);
@@ -287,17 +457,22 @@ TSStore::Status TSStore::putDataPoints(const std::vector<DataPoint>& points) {
     rocksdb::WriteOptions write_opts;
     rocksdb::Status s = db_->Write(write_opts, &batch);
     
+    auto latency = std::chrono::duration<double, std::milli>(
+        std::chrono::steady_clock::now() - start_time).count();
+    
     if (!s.ok()) {
         THEMIS_ERROR("Failed to write batch of {} data points: {}", points.size(), s.ToString());
-        return Status::Error("Failed to write batch: " + s.ToString());
+        return ErrVoid(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
+                       fmt::format("Failed to write batch of {} data points: {}", points.size(), s.ToString()));
     }
     
     THEMIS_INFO("Wrote batch of {} data points (raw)", points.size());
-    return Status::OK();
+    return OkVoid();
 }
 
-std::pair<TSStore::Status, std::vector<TSStore::DataPoint>>
+Result<std::vector<TSStore::DataPoint>>
 TSStore::query(const QueryOptions& options) const {
+    auto start_time = std::chrono::steady_clock::now();
     auto span = Tracer::startSpan("TSStore.query");
     span.setAttribute("metric", options.metric);
     if (options.entity.has_value()) {
@@ -311,7 +486,8 @@ TSStore::query(const QueryOptions& options) const {
     
     if (options.metric.empty()) {
         span.recordError("Metric name is required");
-        return {Status::Error("Metric name is required"), results};
+        return Err<std::vector<DataPoint>>(errors::ErrorCode::ERR_API_INVALID_REQUEST,
+                                             "Metric name is required");
     }
     
     // Scan both raw data (ts:) and compressed chunks (tsc:)
@@ -396,29 +572,76 @@ TSStore::query(const QueryOptions& options) const {
                     it->Next();
                     continue;
                 }
-                
-                // Decode Gorilla-compressed data
-                auto compressed_data = chunk_meta["data"].get<std::vector<uint8_t>>();
-                GorillaDecoder decoder(compressed_data);
-                
-                // Extract tags/metadata from chunk
-                nlohmann::json tags = chunk_meta.value("tags", nlohmann::json::object());
-                nlohmann::json metadata = chunk_meta.value("metadata", nlohmann::json::object());
-                
+
                 // Parse chunk key to get metric and entity
                 // Key format: "tsc:{metric}:{entity}:{first_ts}:{last_ts}"
                 size_t pos1 = strlen(GORILLA_CHUNK_PREFIX);
                 size_t pos2 = key.find(':', pos1);
-                size_t pos3 = key.find(':', pos2 + 1);
-                
+                size_t pos3 = (pos2 != std::string::npos) ? key.find(':', pos2 + 1) : std::string::npos;
+                if (pos2 == std::string::npos || pos3 == std::string::npos) {
+                    it->Next();
+                    continue;
+                }
+
                 std::string metric = key.substr(pos1, pos2 - pos1);
                 std::string entity = key.substr(pos2 + 1, pos3 - pos2 - 1);
+
+                const bool is_encrypted =
+                    (chunk_meta.value("encryption", "") == "aes-256-gcm");
+                if (is_encrypted && !enc_chunk_store_) {
+                    // We cannot return partial results — the query must fail so
+                    // callers are not silently handed incomplete data.
+                    return Err<std::vector<DataPoint>>(
+                        errors::ErrorCode::ERR_CRYPTO_DECRYPTION_FAILED,
+                        "Encrypted chunk at " + key +
+                        " cannot be decrypted: no EncryptedChunkStore attached");
+                }
+
+                std::vector<uint8_t> raw_data;
+                if (chunk_meta.contains("data") && chunk_meta["data"].is_binary()) {
+                    raw_data = chunk_meta["data"].get<std::vector<uint8_t>>();
+                } else if (chunk_meta.contains("data") && chunk_meta["data"].is_array()) {
+                    raw_data = chunk_meta["data"].get<std::vector<uint8_t>>();
+                } else if (chunk_meta.contains("data") && chunk_meta["data"].is_object() &&
+                           chunk_meta["data"].contains("bytes") &&
+                           chunk_meta["data"]["bytes"].is_array()) {
+                    raw_data = chunk_meta["data"]["bytes"].get<std::vector<uint8_t>>();
+                } else {
+                    THEMIS_WARN("Chunk {} has unsupported data field encoding", key);
+                    it->Next();
+                    continue;
+                }
+
+                if (is_encrypted) {
+                    size_t pos4 = key.find(':', pos3 + 1);
+                    std::string chunk_range;
+                    if (pos4 == std::string::npos) {
+                        // Malformed chunk key — log a warning and skip.
+                        THEMIS_WARN("Malformed encrypted chunk key (missing last_ts): {}", key);
+                        it->Next();
+                        continue;
+                    }
+                    chunk_range = "[" + key.substr(pos3 + 1, pos4 - pos3 - 1)
+                                + "," + key.substr(pos4 + 1) + "]";
+                    std::string series_id = metric + ":" + entity;
+                    raw_data = enc_chunk_store_->decryptChunk(series_id, raw_data, chunk_range);
+                }
+
+                // Decode Gorilla-compressed data.
+                // Use GorillaSIMDDecoder which dispatches at runtime to the best
+                // available SIMD path (AVX2 on x86-64, NEON on AArch64) and falls
+                // back to the scalar GorillaDecoder on other platforms.
+                GorillaSIMDDecoder decoder(raw_data);
+                std::vector<std::pair<int64_t, double>> chunk_points;
+                chunk_points.reserve(128); // typical gorilla_batch_size
+                decoder.decodeAll(chunk_points);
+
+                // Extract tags/metadata from chunk
+                nlohmann::json tags = chunk_meta.value("tags", nlohmann::json::object());
+                nlohmann::json metadata = chunk_meta.value("metadata", nlohmann::json::object());
                 
-                // Decode all points from chunk
-                while (auto point_opt = decoder.next()) {
-                    auto [timestamp_ms, value] = *point_opt;
-                    
-                    // Check timestamp bounds
+                // Apply time-range filter and tag filter to decoded points
+                for (const auto& [timestamp_ms, value] : chunk_points) {
                     if (timestamp_ms < options.from_timestamp_ms || timestamp_ms > options.to_timestamp_ms) {
                         continue;
                     }
@@ -453,20 +676,26 @@ TSStore::query(const QueryOptions& options) const {
         });
     
     if (!it->status().ok()) {
-        return {Status::Error("Scan failed: " + it->status().ToString()), results};
+        return Err<std::vector<DataPoint>>(errors::ErrorCode::ERR_STORAGE_CORRUPTION,
+                                             fmt::format("Scan failed: {}", it->status().ToString()));
     }
     
+    auto latency = std::chrono::duration<double, std::milli>(
+        std::chrono::steady_clock::now() - start_time).count();
+    int64_t time_range = options.to_timestamp_ms - options.from_timestamp_ms;
+    
     THEMIS_DEBUG("Query returned {} data points for metric={}", results.size(), options.metric);
-    return {Status::OK(), results};
+    return Ok(std::move(results));
 }
 
-std::pair<TSStore::Status, TSStore::AggregationResult>
+Result<TSStore::AggregationResult>
 TSStore::aggregate(const QueryOptions& options) const {
     return aggregateOptimized(options, true);
 }
 
-std::pair<TSStore::Status, TSStore::AggregationResult>
+Result<TSStore::AggregationResult>
 TSStore::aggregateOptimized(const QueryOptions& options, bool use_optimizer) const {
+    auto start_time = std::chrono::steady_clock::now();
     auto span = Tracer::startSpan("TSStore.aggregate");
     span.setAttribute("metric", options.metric);
     if (options.entity.has_value()) {
@@ -477,6 +706,7 @@ TSStore::aggregateOptimized(const QueryOptions& options, bool use_optimizer) con
     span.setAttribute("use_optimizer", use_optimizer);
     
     AggregationResult result;
+    bool optimizer_used = false;
     
     // Try optimizer first if enabled
     if (use_optimizer) {
@@ -495,6 +725,7 @@ TSStore::aggregateOptimized(const QueryOptions& options, bool use_optimizer) con
         );
         
         if (plan.uses_aggregate) {
+            optimizer_used = true;
             THEMIS_INFO("Using pre-computed aggregate: {} ({}x speedup)", 
                        plan.source_metric, plan.estimated_speedup);
             span.setAttribute("optimized", true);
@@ -505,14 +736,15 @@ TSStore::aggregateOptimized(const QueryOptions& options, bool use_optimizer) con
             QueryOptions agg_options = options;
             agg_options.metric = plan.source_metric;
             
-            auto [status, data_points] = query(agg_options);
-            if (!status.ok) {
+            auto result_or_error = query(agg_options);
+            if (!result_or_error) {
                 // Fallback to raw data
-                THEMIS_WARN("Aggregate query failed, falling back to raw data: {}", status.message);
+                THEMIS_WARN("Aggregate query failed, falling back to raw data: {}", result_or_error.error().message());
             } else {
+                auto data_points = std::move(*result_or_error);
                 if (data_points.empty()) {
                     span.setAttribute("result_count", static_cast<int64_t>(0));
-                    return {Status::OK(), result};
+                    return Ok(AggregationResult{});
                 }
                 
                 result.count = data_points.size();
@@ -534,7 +766,7 @@ TSStore::aggregateOptimized(const QueryOptions& options, bool use_optimizer) con
                 THEMIS_DEBUG("Aggregation (optimized): count={}, min={}, max={}, avg={}, sum={}", 
                            result.count, result.min, result.max, result.avg, result.sum);
                 
-                return {Status::OK(), result};
+                return Ok(std::move(result));
             }
         } else {
             span.setAttribute("optimized", false);
@@ -543,15 +775,16 @@ TSStore::aggregateOptimized(const QueryOptions& options, bool use_optimizer) con
     }
     
     // Original implementation (raw data)
-    auto [status, data_points] = query(options);
-    if (!status.ok) {
-        span.recordError("Query failed: " + status.message);
-        return {status, result};
+    auto result_or_error = query(options);
+    if (!result_or_error) {
+        span.recordError("Query failed: " + result_or_error.error().message());
+        return tl::unexpected(result_or_error.error());
     }
     
+    auto data_points = std::move(*result_or_error);
     if (data_points.empty()) {
         span.setAttribute("result_count", static_cast<int64_t>(0));
-        return {Status::OK(), result};
+        return Ok(AggregationResult{});
     }
     
     result.count = data_points.size();
@@ -573,7 +806,7 @@ TSStore::aggregateOptimized(const QueryOptions& options, bool use_optimizer) con
     THEMIS_DEBUG("Aggregation: count={}, min={}, max={}, avg={}, sum={}", 
                  result.count, result.min, result.max, result.avg, result.sum);
     
-    return {Status::OK(), result};
+    return Ok(std::move(result));
 }
 
 TSStore::Stats TSStore::getStats() const {
@@ -603,7 +836,7 @@ TSStore::Stats TSStore::getStats() const {
             break;
         }
         
-        auto comp = parseKey(key);
+        auto comp = parseKeyInternal(key);
         if (comp.has_value()) {
             unique_metrics.insert(comp->metric);
             oldest_ts = std::min(oldest_ts, comp->timestamp_ms);
@@ -620,10 +853,35 @@ TSStore::Stats TSStore::getStats() const {
     stats.newest_timestamp_ms = newest_ts;
     stats.total_size_bytes = total_size;
     
+    // Update metrics if available
+    if (metrics_) {
+        metrics_->updateStorageStats(stats.total_data_points, stats.total_metrics, stats.total_size_bytes);
+    }
+    
     return stats;
 }
 
+TSStore::OutOfOrderStats TSStore::getOutOfOrderStats() const {
+    OutOfOrderStats stats;
+    stats.out_of_order_accepted = ooo_accepted_.load(std::memory_order_relaxed);
+    stats.late_arrival_rejected = ooo_rejected_.load(std::memory_order_relaxed);
+    return stats;
+}
+
+void TSStore::setMetrics(std::shared_ptr<TimeSeriesMetrics> metrics) {
+    metrics_ = metrics;
+}
+
+void TSStore::setEncryptedChunkStore(std::shared_ptr<EncryptedChunkStore> enc_store) {
+    enc_chunk_store_ = std::move(enc_store);
+}
+
+std::shared_ptr<EncryptedChunkStore> TSStore::getEncryptedChunkStore() const {
+    return enc_chunk_store_;
+}
+
 size_t TSStore::deleteOldData(int64_t before_timestamp_ms) {
+    auto start_time = std::chrono::steady_clock::now();
     size_t deleted_count = 0;
     
     rocksdb::ReadOptions read_opts;
@@ -646,7 +904,7 @@ size_t TSStore::deleteOldData(int64_t before_timestamp_ms) {
             break;
         }
         
-        auto comp = parseKey(key);
+        auto comp = parseKeyInternal(key);
         if (comp.has_value() && comp->timestamp_ms < before_timestamp_ms) {
             if (cf_) {
                 batch.Delete(cf_, key);
@@ -672,11 +930,18 @@ size_t TSStore::deleteOldData(int64_t before_timestamp_ms) {
                     deleted_count, before_timestamp_ms);
     }
     
+    auto latency = std::chrono::duration<double, std::milli>(
+        std::chrono::steady_clock::now() - start_time).count();
+    if (metrics_) {
+        metrics_->recordRetention("", deleted_count, latency);
+    }
+    
     return deleted_count;
 }
 
 size_t TSStore::deleteOldDataForMetric(const std::string& metric, int64_t before_timestamp_ms) {
     if (metric.empty()) return 0;
+    auto start_time = std::chrono::steady_clock::now();
     size_t deleted_count = 0;
     rocksdb::ReadOptions read_opts;
     std::unique_ptr<rocksdb::Iterator> it;
@@ -694,7 +959,7 @@ size_t TSStore::deleteOldDataForMetric(const std::string& metric, int64_t before
     while (it->Valid()) {
         std::string key = it->key().ToString();
         if (key.compare(0, prefix.size(), prefix) != 0) break;
-        auto comp = parseKey(key);
+        auto comp = parseKeyInternal(key);
         if (comp.has_value() && comp->metric == metric && comp->timestamp_ms < before_timestamp_ms) {
             if (cf_) batch.Delete(cf_, key); else batch.Delete(key);
             deleted_count++;
@@ -710,12 +975,19 @@ size_t TSStore::deleteOldDataForMetric(const std::string& metric, int64_t before
         }
         THEMIS_INFO("Deleted {} old data points for metric {} (before {})", deleted_count, metric, before_timestamp_ms);
     }
+    
+    auto latency = std::chrono::duration<double, std::milli>(
+        std::chrono::steady_clock::now() - start_time).count();
+    if (metrics_) {
+        metrics_->recordRetention(metric, deleted_count, latency);
+    }
+    
     return deleted_count;
 }
 
-TSStore::Status TSStore::deleteMetric(const std::string& metric) {
+Result<void> TSStore::deleteMetric(const std::string& metric) {
     if (metric.empty()) {
-        return Status::Error("Metric name cannot be empty");
+        return ErrVoid(errors::ErrorCode::ERR_API_INVALID_REQUEST, "Metric name cannot be empty");
     }
     
     rocksdb::ReadOptions read_opts;
@@ -755,13 +1027,14 @@ TSStore::Status TSStore::deleteMetric(const std::string& metric) {
         
         if (!s.ok()) {
             THEMIS_ERROR("Failed to delete metric {}: {}", metric, s.ToString());
-            return Status::Error("Failed to delete metric: " + s.ToString());
+            return ErrVoid(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
+                           fmt::format("Failed to delete metric {}: {}", metric, s.ToString()));
         }
         
         THEMIS_INFO("Deleted metric {} ({} data points)", metric, count);
     }
     
-    return Status::OK();
+    return OkVoid();
 }
 
 void TSStore::clear() {
@@ -800,6 +1073,62 @@ void TSStore::clear() {
         db_->Write(write_opts, &batch);
         THEMIS_INFO("Cleared all time-series data ({} data points)", count);
     }
+}
+
+// ============================================================
+// System Metadata (WAL-durable key-value store for bookkeeping)
+// ============================================================
+
+Result<void> TSStore::putSystemMeta(const std::string& key, const std::string& value) {
+    std::string full_key = std::string(SYS_META_PREFIX) + key;
+    rocksdb::WriteOptions write_opts;
+    rocksdb::Status s;
+    if (cf_) {
+        s = db_->Put(write_opts, cf_, full_key, value);
+    } else {
+        s = db_->Put(write_opts, full_key, value);
+    }
+    if (!s.ok()) {
+        return ErrVoid(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
+                         fmt::format("putSystemMeta failed for key '{}': {}", key, s.ToString()));
+    }
+    return OkVoid();
+}
+
+Result<std::optional<std::string>> TSStore::getSystemMeta(const std::string& key) const {
+    std::string full_key = std::string(SYS_META_PREFIX) + key;
+    std::string value;
+    rocksdb::ReadOptions read_opts;
+    rocksdb::Status s;
+    if (cf_) {
+        s = db_->Get(read_opts, cf_, full_key, &value);
+    } else {
+        s = db_->Get(read_opts, full_key, &value);
+    }
+    if (s.IsNotFound()) {
+        return Ok(std::optional<std::string>{std::nullopt});
+    }
+    if (!s.ok()) {
+        return Err<std::optional<std::string>>(errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+                         fmt::format("getSystemMeta failed for key '{}': {}", key, s.ToString()));
+    }
+    return Ok(std::optional<std::string>{value});
+}
+
+Result<void> TSStore::deleteSystemMeta(const std::string& key) {
+    std::string full_key = std::string(SYS_META_PREFIX) + key;
+    rocksdb::WriteOptions write_opts;
+    rocksdb::Status s;
+    if (cf_) {
+        s = db_->Delete(write_opts, cf_, full_key);
+    } else {
+        s = db_->Delete(write_opts, full_key);
+    }
+    if (!s.ok() && !s.IsNotFound()) {
+        return ErrVoid(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
+                         fmt::format("deleteSystemMeta failed for key '{}': {}", key, s.ToString()));
+    }
+    return OkVoid();
 }
 
 } // namespace themis

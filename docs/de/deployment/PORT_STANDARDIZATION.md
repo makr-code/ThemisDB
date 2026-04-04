@@ -1,7 +1,7 @@
 # Port Standardization Summary
 
-**Stand:** 22. Dezember 2025  
-**Version:** v1.3.0  
+**Stand:** 15. Februar 2026  
+**Version:** v1.5.0-dev  
 **Kategorie:** 🚀 Deployment
 
 ---

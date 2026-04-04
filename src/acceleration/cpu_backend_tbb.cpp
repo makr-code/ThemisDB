@@ -1,9 +1,33 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            cpu_backend_tbb.cpp                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:13:43                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     439                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 14566f756  2026-02-23  fix(acceleration): extend BatchValidator to MT/TBB/HIP ba... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // Intel TBB-Based CPU Backend Implementation
 // Provides high-performance multi-threaded acceleration using Intel TBB
 // Superior to OpenMP for dynamic workloads with work-stealing scheduler
 // Copyright (c) 2024 ThemisDB
 
 #include "acceleration/cpu_backend.h"
+#include "acceleration/batch_validator.h"
 #include <tbb/parallel_for.h>
 #include <tbb/blocked_range.h>
 #include <tbb/blocked_range2d.h>
@@ -69,12 +93,12 @@ public:
         enableSIMD_ = enable;
     }
     
-    std::string name() const override {
+    const char* name() const noexcept override {
         return "CPU Multi-Threaded (Intel TBB + SIMD)";
     }
     
     // SIMD-optimized L2 distance (same as OpenMP version)
-    float computeL2Distance(const float* a, const float* b, size_t dim) const override {
+    float computeL2Distance(const float* a, const float* b, size_t dim) const {
 #if THEMIS_HAS_SIMD_X86 && defined(__AVX2__)
         if (enableSIMD_ && dim >= 8) {
             __m256 sum_vec = _mm256_setzero_ps();
@@ -129,7 +153,7 @@ public:
     }
     
     // SIMD-optimized cosine distance (same as OpenMP version)
-    float computeCosineDistance(const float* a, const float* b, size_t dim) const override {
+    float computeCosineDistance(const float* a, const float* b, size_t dim) const {
 #if THEMIS_HAS_SIMD_X86 && defined(__AVX2__)
         if (enableSIMD_ && dim >= 8) {
             __m256 dot_vec = _mm256_setzero_ps();
@@ -145,7 +169,7 @@ public:
                 normB_vec = _mm256_fmadd_ps(b_vec, b_vec, normB_vec);
             }
             
-            auto hsum = [](__ m256 v) {
+            auto hsum = [](__m256 v) {
                 __m128 sum_high = _mm256_extractf128_ps(v, 1);
                 __m128 sum_low = _mm256_castps256_ps128(v);
                 __m128 sum = _mm_add_ps(sum_low, sum_high);
@@ -218,6 +242,12 @@ public:
         size_t numVectors,
         bool useL2
     ) override {
+        auto sink = [this](ErrorContext e){ setError(std::move(e)); };
+        if (!BatchValidator::validateVectorBatch(name(), queries, numQueries, dim,
+                                                 vectors, numVectors, sink)) {
+            return {};
+        }
+
         std::vector<float> distances(numQueries * numVectors);
         
         // Use TBB parallel_for with work-stealing
@@ -252,6 +282,15 @@ public:
         size_t k,
         bool useL2
     ) override {
+        auto sink = [this](ErrorContext e){ setError(std::move(e)); };
+        if (!BatchValidator::validateVectorBatch(name(), queries, numQueries, dim,
+                                                 vectors, numVectors, sink)) {
+            return {};
+        }
+        if (!BatchValidator::validateK(name(), k, sink)) {
+            return {};
+        }
+
         std::vector<std::vector<std::pair<uint32_t, float>>> results(numQueries);
         
         // TBB parallel_for with dynamic load balancing
@@ -307,7 +346,7 @@ public:
         arena_ = std::make_unique<tbb::task_arena>(numThreads);
     }
     
-    std::string name() const override {
+    const char* name() const noexcept override {
         return "CPU Geo Multi-Threaded (Intel TBB)";
     }
     
@@ -387,11 +426,13 @@ public:
 
 // Factory functions
 std::unique_ptr<CPUVectorBackend> createTBBCPUVectorBackend() {
-    return std::make_unique<CPUVectorBackendTBB>();
+    auto backend = std::make_unique<CPUVectorBackendTBB>();
+    return backend;
 }
 
 std::unique_ptr<CPUGeoBackend> createTBBCPUGeoBackend() {
-    return std::make_unique<CPUGeoBackendTBB>();
+    auto backend = std::make_unique<CPUGeoBackendTBB>();
+    return backend;
 }
 
 } // namespace acceleration

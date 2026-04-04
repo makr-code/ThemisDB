@@ -1,12 +1,47 @@
-﻿#pragma once
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            query_optimizer.h                                  ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:10:04                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     337                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 2                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3d37c77d3  2026-03-13  feat(query): wire StatisticsCollector and MetricsCollecto... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 5af2d754f  2026-02-28  feat: integrate per-query cost model into query optimizer... ║
+    • 78e4e67bb  2026-02-25  feat(performance): per-query cost model integration with ... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+#pragma once
 
 #include <string>
 #include <string_view>
 #include <vector>
 #include <utility>
 #include <map>
+#include <memory>
 
 #include "query/query_engine.h"
+#include "query/adaptive_optimizer.h"
+
+// Forward-declare PerQueryCostModel to avoid a hard dependency;
+// callers that want to use it must include the full header.
+namespace themis { namespace performance { namespace phase3 { class PerQueryCostModel; } } }
+
+// Forward-declare StatisticsCollector and MetricsCollector to avoid hard dependencies.
+namespace themis { class StatisticsCollector; }
+namespace themis { namespace observability { class MetricsCollector; } }
 
 namespace themis {
 
@@ -30,7 +65,12 @@ public:
         std::map<std::string, std::string> nlp_hints;   // Semantic optimization hints
     };
 
-    QueryOptimizer(SecondaryIndexManager& secIdx);
+    /// @param secIdx          Secondary index manager (required).
+    /// @param stats_collector Optional statistics collector for cardinality/histogram estimates.
+    /// @param metrics_collector Optional metrics collector for Prometheus instrumentation.
+    QueryOptimizer(SecondaryIndexManager& secIdx,
+                   StatisticsCollector* stats_collector = nullptr,
+                   observability::MetricsCollector* metrics_collector = nullptr);
 
     // Schätzt Selektivitäten der Gleichheitsprädikate und liefert eine Ordnung (kleinste zuerst)
     Plan chooseOrderForAndQuery(const ConjunctiveQuery& q, size_t maxProbePerPred = 1000) const;
@@ -42,11 +82,48 @@ public:
                                        size_t maxProbePerPred = 1000) const;
 
     // Führt die Anfrage mit der geplanten Reihenfolge aus (sequenziell)
-    std::pair<QueryEngine::Status, std::vector<std::string>>
+    Result<std::vector<std::string>>
     executeOptimizedKeys(QueryEngine& engine, const ConjunctiveQuery& q, const Plan& plan) const;
 
-    std::pair<QueryEngine::Status, std::vector<BaseEntity>>
+    Result<std::vector<BaseEntity>>
     executeOptimizedEntities(QueryEngine& engine, const ConjunctiveQuery& q, const Plan& plan) const;
+
+    // =============================
+    // Per-Query Cost Model Integration (Phase 3, Issue #2419)
+    // =============================
+
+    /**
+     * @brief Attach a PerQueryCostModel for runtime cost recording and calibration.
+     *
+     * When attached, executeOptimizedKeys and executeOptimizedEntities will record
+     * actual execution time into the model.  Pass nullptr to detach.
+     */
+    void attachPerQueryCostModel(
+        std::shared_ptr<performance::phase3::PerQueryCostModel> cost_model);
+
+    /** @brief Return the currently attached PerQueryCostModel (may be nullptr). */
+    std::shared_ptr<performance::phase3::PerQueryCostModel> perQueryCostModel() const;
+
+    /**
+     * @brief Execute keys query and record timing in the attached PerQueryCostModel.
+     *
+     * Functionally identical to executeOptimizedKeys; the extra @p estimated_cost
+     * value is forwarded to the cost model to compute the cost ratio.
+     */
+    Result<std::vector<std::string>>
+    executeOptimizedKeysWithCost(QueryEngine& engine,
+                                  const ConjunctiveQuery& q,
+                                  const Plan& plan,
+                                  double estimated_cost = 0.0) const;
+
+    /**
+     * @brief Execute entities query and record timing in the attached PerQueryCostModel.
+     */
+    Result<std::vector<BaseEntity>>
+    executeOptimizedEntitiesWithCost(QueryEngine& engine,
+                                      const ConjunctiveQuery& q,
+                                      const Plan& plan,
+                                      double estimated_cost = 0.0) const;
 
     // =============================
     // Hybrid Vector+Geo Cost Model
@@ -101,8 +178,160 @@ public:
     };
     static GraphPathCostResult estimateGraphPath(const GraphPathCostInput& in);
 
+    // =============================
+    // Adaptive & Distributed Optimization (New)
+    // =============================
+    
+    /**
+     * @brief Enable adaptive optimization with runtime statistics
+     */
+    void enableAdaptiveOptimization(bool enable = true);
+    
+    /**
+     * @brief Check if adaptive optimization is enabled
+     */
+    bool isAdaptiveOptimizationEnabled() const { return adaptive_enabled_; }
+    
+    /**
+     * @brief Record query execution statistics for adaptive learning
+     */
+    void recordQueryExecution(
+        const std::string& query_hash,
+        size_t estimated_rows,
+        size_t actual_rows,
+        double execution_time_ms);
+    
+    /**
+     * @brief Get adaptive adjustment factor for a query pattern
+     */
+    double getAdaptiveAdjustment(const std::string& query_hash) const;
+    
+    /**
+     * @brief Optimize for distributed/sharded execution
+     */
+    struct DistributedPlan {
+        std::vector<std::string> shard_ids;
+        bool use_partition_pruning = false;
+        std::string join_strategy;  // "broadcast", "repartition", "semi_join"
+        size_t recommended_parallelism = 1;
+        bool enable_numa_awareness = false;
+        std::vector<int> preferred_cpu_affinity;
+    };
+    
+    DistributedPlan optimizeForDistribution(
+        const ConjunctiveQuery& q,
+        const std::vector<std::string>& available_shards,
+        bool enable_partition_pruning = true) const;
+    
+    /**
+     * @brief Optimize for vector workload with adaptive HNSW tuning
+     */
+    struct VectorWorkloadPlan {
+        int recommended_ef_search;
+        size_t recommended_k_overfetch;
+        bool use_prefiltering;
+        std::string index_type;  // "hnsw", "ivf", "flat"
+    };
+    
+    VectorWorkloadPlan optimizeVectorWorkload(
+        size_t k,
+        size_t dataset_size,
+        size_t dimension,
+        double target_recall = 0.95) const;
+    
+    /**
+     * @brief Optimize for graph workload
+     */
+    struct GraphWorkloadPlan {
+        size_t max_expansion_depth;
+        bool use_bidirectional_search;
+        bool enable_spatial_pruning;
+        size_t recommended_parallelism;
+    };
+    
+    GraphWorkloadPlan optimizeGraphWorkload(
+        size_t max_depth,
+        size_t estimated_branching_factor,
+        bool has_spatial_constraint = false) const;
+
 private:
     SecondaryIndexManager& secIdx_;
+    bool adaptive_enabled_ = false;
+
+    // Injected collectors (non-owning pointers; callers manage lifetime)
+    StatisticsCollector* stats_collector_ = nullptr;
+    observability::MetricsCollector* metrics_collector_ = nullptr;
+
+    // Per-query cost model (Phase 3, Issue #2419)
+    mutable std::shared_ptr<performance::phase3::PerQueryCostModel> per_query_cost_model_;
+
+    // Adaptive query optimization components
+    // Use the full implementations from adaptive_optimizer.h
+    using AdaptiveQueryStats = ::themis::AdaptiveQueryStats;
+    using AdaptivePlanSelector = ::themis::AdaptivePlanSelector;
+    
+    class DistributedQueryCostModel {
+    public:
+        explicit DistributedQueryCostModel(
+            StatisticsCollector* stats = nullptr,
+            observability::MetricsCollector* metrics = nullptr)
+            : stats_collector_(stats), metrics_collector_(metrics) {}
+
+        struct ShardInfo {
+            std::string shard_id;
+            size_t estimated_rows = 0;
+            double network_latency_ms = 0.0;
+            bool is_local = false;
+        };
+        
+        /**
+         * @brief Determine if a partition should be pruned based on selectivity
+         * Production implementation - uses actual shard metadata
+         */
+        bool shouldPrunePartition(const ShardInfo& info, size_t total_shards, double selectivity) const;
+        
+        /**
+         * @brief Get optimal parallelism for distributed query
+         * Production implementation - considers shard count and hardware
+         */
+        size_t getOptimalParallelism(const std::vector<ShardInfo>& shards, size_t available_threads) const;
+        
+        /**
+         * @brief Get shard metadata for row count estimation
+         * Integrates with MetadataShard system (v1.5.x)
+         */
+        size_t getShardRowCount(const std::string& shard_id, const std::string& table) const;
+        
+        /**
+         * @brief Measure network latency to a shard
+         * Integrates with PrometheusMetrics system (v1.5.x)
+         */
+        double measureShardLatency(const std::string& shard_id) const;
+        
+        /**
+         * @brief Calculate predicate selectivity from query predicates
+         * Histogram-based estimation (v1.5.x)
+         */
+        double calculatePredicateSelectivity(
+            const std::vector<PredicateEq>& predicates,
+            const std::string& table) const;
+
+    private:
+        // Non-owning pointers injected at construction time
+        StatisticsCollector* stats_collector_ = nullptr;
+        observability::MetricsCollector* metrics_collector_ = nullptr;
+    };
+    
+    class MultiIndexOptimizer {
+    public:
+        MultiIndexOptimizer() = default;
+    };
+    
+    // These will be initialized when adaptive optimization is enabled
+    mutable std::shared_ptr<AdaptiveQueryStats> adaptive_stats_;
+    mutable std::shared_ptr<AdaptivePlanSelector> adaptive_selector_;
+    mutable std::shared_ptr<DistributedQueryCostModel> distributed_model_;
+    mutable std::shared_ptr<MultiIndexOptimizer> multi_index_optimizer_;
 };
 
 } // namespace themis

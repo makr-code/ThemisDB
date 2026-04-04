@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_bwtree.cpp                                    ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:23:18                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     453                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 68293f645  2026-03-09  fix(performance): complete all open tasks — implement rem... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // Unit tests for Bw-Tree (Phase 3)
 // Based on "The Bw-Tree: A B-tree for New Hardware Platforms" (ICDE'13)
 
@@ -253,7 +276,178 @@ TEST(BwTreeTest, MixedConcurrentOperations) {
     EXPECT_EQ(insert_count.load(), 50);
 }
 
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
+// Test for double-free bug fix: concurrent operations with high contention
+// This test creates many concurrent inserts which will trigger consolidation
+// when delta chains exceed the threshold, testing the ownership transfer fix
+TEST(BwTreeTest, ConcurrentConsolidationSafety) {
+    BwTree tree;
+    
+    // Pre-populate with data to create delta chain
+    for (int i = 0; i < 20; i++) {
+        tree.insert(i, "initial_" + std::to_string(i));
+    }
+    
+    // Create heavy contention with concurrent inserts and searches
+    // This increases the likelihood of CAS failures during consolidation
+    std::vector<std::thread> threads;
+    std::atomic<bool> stop{false};
+    
+    // Writer threads - create delta chains
+    for (int t = 0; t < 4; t++) {
+        threads.emplace_back([&tree, &stop, t]() {
+            int count = 0;
+            while (!stop.load() && count < 50) {
+                for (int i = 0; i < 5; i++) {
+                    int key = (t * 10 + i) % 20;
+                    tree.insert(key, "updated_" + std::to_string(t) + "_" + std::to_string(count));
+                }
+                count++;
+            }
+        });
+    }
+    
+    // Reader threads - trigger apply_deltas() in search operations
+    // This creates temporary consolidated views for reading
+    for (int t = 0; t < 4; t++) {
+        threads.emplace_back([&tree, &stop]() {
+            int count = 0;
+            while (!stop.load() && count < 100) {
+                for (int i = 0; i < 20; i++) {
+                    std::string value;
+                    tree.search(i, value);
+                }
+                count++;
+            }
+        });
+    }
+    
+    // Let threads run for a bit
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    stop.store(true);
+    
+    for (auto& thread : threads) {
+        thread.join();
+    }
+    
+    // If there was a double-free bug, the test would likely crash or 
+    // trigger memory sanitizer errors. The fact that we reach here means
+    // memory management is correct.
+    
+    // Verify tree is still functional
+    std::string value;
+    EXPECT_TRUE(tree.search(5, value));
 }
+
+// Test that consolidation is triggered when delta chain gets too long
+TEST(BwTreeTest, AutomaticConsolidation) {
+    BwTree tree;
+    
+    // Insert more than DELTA_CHAIN_THRESHOLD (defined as 10 in bwtree.h) records
+    // on the same key so they all land in a single growing delta chain.
+    for (int i = 0; i < 15; i++) {
+        EXPECT_TRUE(tree.insert(1, "value_" + std::to_string(i)));
+    }
+    
+    // Get stats to verify consolidation happened
+    auto stats = tree.get_stats();
+    
+    // After 15 inserts with DELTA_CHAIN_THRESHOLD=10 we should have triggered
+    // at least one consolidation, so delta count should be < 15
+    EXPECT_LT(stats.num_deltas, 15u);
+    
+    // Verify the tree still works correctly after consolidation
+    std::string value;
+    EXPECT_TRUE(tree.search(1, value));
+    EXPECT_EQ(value, "value_14");  // Last inserted value
+}
+
+// ==================== Remove Tests ====================
+
+TEST(BwTreeTest, RemoveExistingKey) {
+    BwTree tree;
+
+    tree.insert(10, "ten");
+    tree.insert(20, "twenty");
+    tree.insert(30, "thirty");
+
+    // Remove an existing key
+    EXPECT_TRUE(tree.remove(20));
+
+    // Removed key must not be found
+    std::string value;
+    EXPECT_FALSE(tree.search(20, value));
+
+    // Other keys must still be present
+    EXPECT_TRUE(tree.search(10, value));
+    EXPECT_EQ(value, "ten");
+    EXPECT_TRUE(tree.search(30, value));
+    EXPECT_EQ(value, "thirty");
+}
+
+TEST(BwTreeTest, RemoveNonExistentKeyReturnsFalse) {
+    BwTree tree;
+
+    tree.insert(10, "ten");
+
+    // remove() installs a DeltaDelete unconditionally when it succeeds via CAS.
+    // The delta has no effect during apply_deltas() if the key was never present,
+    // but the operation itself is valid (and returns true on CAS success).
+    // The important invariant: the key must not appear in subsequent searches.
+    tree.remove(99);  // key absent — operation is benign
+
+    // Existing key must be unaffected
+    std::string value;
+    EXPECT_TRUE(tree.search(10, value));
+    EXPECT_FALSE(tree.search(99, value));
+}
+
+TEST(BwTreeTest, RemoveThenReinsert) {
+    BwTree tree;
+
+    tree.insert(42, "original");
+    EXPECT_TRUE(tree.remove(42));
+
+    std::string value;
+    EXPECT_FALSE(tree.search(42, value));
+
+    // Re-insert the same key with a different value
+    EXPECT_TRUE(tree.insert(42, "reinserted"));
+    EXPECT_TRUE(tree.search(42, value));
+    EXPECT_EQ(value, "reinserted");
+}
+
+TEST(BwTreeTest, RemoveAffectsRangeScan) {
+    BwTree tree;
+
+    tree.insert(10, "ten");
+    tree.insert(20, "twenty");
+    tree.insert(30, "thirty");
+
+    tree.remove(20);
+
+    auto results = tree.range_scan(10, 30);
+
+    // Only 10 and 30 should remain
+    EXPECT_EQ(results.size(), 2u);
+    EXPECT_EQ(results[0].first, 10);
+    EXPECT_EQ(results[1].first, 30);
+}
+
+TEST(BwTreeTest, RemoveAfterConsolidation) {
+    BwTree tree;
+
+    // Insert more than DELTA_CHAIN_THRESHOLD (10) distinct keys to trigger at
+    // least one consolidation before we attempt the remove.
+    for (int i = 0; i < 15; i++) {
+        tree.insert(i * 10, "val_" + std::to_string(i));
+    }
+
+    // Remove a key that survived consolidation
+    EXPECT_TRUE(tree.remove(50));
+
+    std::string value;
+    EXPECT_FALSE(tree.search(50, value));
+    EXPECT_TRUE(tree.search(40, value));
+    EXPECT_TRUE(tree.search(60, value));
+}
+

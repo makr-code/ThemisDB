@@ -1,12 +1,39 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            model_loader.h                                     ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:08:33                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     325                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include "llm/llm_plugin_interface.h"
+#include "utils/expected.h"
 #include <memory>
 #include <string>
 #include <unordered_map>
 #include <chrono>
 #include <mutex>
 #include <optional>
+#include <future>
+#include <thread>
+#include <functional>
+#include <atomic>
 
 /**
  * @file model_loader.h
@@ -27,6 +54,51 @@
 
 namespace themis {
 namespace llm {
+
+/**
+ * @brief Model loading phases for progress tracking
+ */
+enum class LoadPhase {
+    PARSING,        // 0-20% - Parse GGUF file
+    ALLOCATING,     // 20-70% - Allocate model weights
+    INITIALIZING    // 70-100% - Initialize context
+};
+
+/**
+ * @brief Progress information for async model loading
+ */
+struct LoadProgress {
+    LoadPhase phase;
+    double phase_progress;        // 0.0-1.0 within current phase
+    double overall_percent;       // 0-100 overall progress
+    std::string status_msg;
+    std::chrono::steady_clock::time_point start_time;
+    
+    LoadProgress() 
+        : phase(LoadPhase::PARSING), 
+          phase_progress(0.0), 
+          overall_percent(0.0),
+          start_time(std::chrono::steady_clock::now()) {}
+};
+
+/**
+ * @brief Progress callback function type
+ */
+using ProgressCallback = std::function<void(const LoadProgress&)>;
+
+/**
+ * @brief Cancellation token for async operations
+ */
+class CancellationToken {
+public:
+    CancellationToken() : cancelled_(std::make_shared<std::atomic<bool>>(false)) {}
+    
+    void cancel() { cancelled_->store(true); }
+    bool is_cancelled() const { return cancelled_->load(); }
+    
+private:
+    std::shared_ptr<std::atomic<bool>> cancelled_;
+};
 
 /**
  * @brief Model cache entry with metadata
@@ -79,6 +151,10 @@ public:
         int default_n_gpu_layers = 32;
         int default_n_ctx = 4096;
         bool use_mmap = true;
+        
+        // GGUF Loader preference (security - embedded safetensor)
+        bool prefer_custom_gguf_loader = true;  // Prefer custom GGUFLoader over native llama.cpp
+        bool fallback_to_native = true;          // Fallback to llama_load_model_from_file() on error
     };
     
     explicit LazyModelLoader(const Config& config);
@@ -114,6 +190,27 @@ public:
     bool preloadModel(
         const std::string& model_id,
         const std::string& model_path,
+        const json& load_config = {}
+    );
+    
+    /**
+     * @brief Load model asynchronously with progress callback
+     * 
+     * Non-blocking model load with progress reporting and cancellation support.
+     * This prevents query threads from blocking during model initialization.
+     * 
+     * @param model_id Unique model identifier
+     * @param model_path Path to model file
+     * @param progress_cb Optional callback for progress updates
+     * @param cancel_token Optional cancellation token
+     * @param load_config Optional loading configuration
+     * @return Future that resolves to model handle or nullptr on failure
+     */
+    std::future<CachedModel*> loadAsync(
+        const std::string& model_id,
+        const std::string& model_path,
+        ProgressCallback progress_cb = nullptr,
+        CancellationToken cancel_token = CancellationToken(),
         const json& load_config = {}
     );
     
@@ -198,16 +295,23 @@ private:
     std::unordered_map<std::string, std::unique_ptr<CachedModel>> models_;
     mutable std::mutex mutex_;
     
+    // Async loading tracking
+    std::unordered_map<std::string, std::future<CachedModel*>> pending_loads_;
+    
     // Statistics
+    // Note: total_vram_mb_ and total_ram_mb_ are protected by mutex_ since they're 
+    // updated together with models_ map modifications
     size_t total_vram_mb_ = 0;
     size_t total_ram_mb_ = 0;
-    size_t cache_hits_ = 0;
-    size_t cache_misses_ = 0;
-    size_t evictions_ = 0;
-    size_t models_loaded_ = 0;
+    
+    // Thread-safe counters using atomics (accessed outside critical sections)
+    std::atomic<size_t> cache_hits_{0};
+    std::atomic<size_t> cache_misses_{0};
+    std::atomic<size_t> evictions_{0};
+    std::atomic<size_t> models_loaded_{0};
     
     // Internal helpers
-    CachedModel* loadModelInternal(
+    Result<CachedModel*> loadModelInternal(
         const std::string& model_id,
         const std::string& model_path,
         const json& config

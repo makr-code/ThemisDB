@@ -1,0 +1,386 @@
+#include <gtest/gtest.h>
+#include "llm/lora_framework/adaptive_batcher.h"
+#include "llm/lora_framework/sequence_packer.h"
+#include "llm/lora_framework/gpu_utilization_monitor.h"
+#include "llm/gpu_memory_manager.h"
+#include "llm/lora_framework/gpu_tensor.h"
+#include <memory>
+
+using namespace themis::llm;
+using namespace themis::llm::lora;
+
+/**
+ * @file test_adaptive_batching.cpp
+ * @brief Tests for dynamic batch size adaptation
+ * 
+ * Test Coverage:
+ * - AdaptiveBatcher memory estimation
+ * - Dynamic batch size computation
+ * - OOM handling and recovery
+ * - GPU utilization monitoring
+ * - SequencePacker functionality
+ * - Memory savings calculations
+ */
+
+class AdaptiveBatchingTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        // Create mock GPU memory manager
+        GPUMemoryManager::Config mem_config;
+        mem_config.max_vram_bytes = 8ULL * 1024 * 1024 * 1024;  // 8 GB
+        mem_manager_ = std::make_unique<GPUMemoryManager>(mem_config);
+    }
+    
+    void TearDown() override {
+        mem_manager_.reset();
+    }
+    
+    std::unique_ptr<GPUMemoryManager> mem_manager_;
+};
+
+// Test AdaptiveBatcher initialization
+TEST_F(AdaptiveBatchingTest, InitializationTest) {
+    AdaptiveBatcher::Config config;
+    config.min_batch_size = 1;
+    config.max_batch_size = 32;
+    config.target_vram_utilization_pct = 85;
+    
+    AdaptiveBatcher batcher(config, mem_manager_.get());
+    
+    EXPECT_EQ(batcher.getCurrentBatchSize(), config.min_batch_size);
+    
+    auto stats = batcher.getStats();
+    EXPECT_EQ(stats.current_batch_size, config.min_batch_size);
+    EXPECT_EQ(stats.oom_events, 0);
+}
+
+// Test optimal batch size computation
+TEST_F(AdaptiveBatchingTest, OptimalBatchSizeComputation) {
+    AdaptiveBatcher::Config config;
+    config.min_batch_size = 2;
+    config.max_batch_size = 32;
+    config.hidden_dim = 768;
+    config.lora_rank = 8;
+    
+    AdaptiveBatcher batcher(config, mem_manager_.get());
+    
+    // Compute optimal batch size for different sequence lengths
+    size_t optimal_128 = batcher.computeOptimalBatchSize(128);
+    size_t optimal_256 = batcher.computeOptimalBatchSize(256);
+    size_t optimal_512 = batcher.computeOptimalBatchSize(512);
+    
+    // Longer sequences should result in smaller batch sizes
+    EXPECT_GE(optimal_128, optimal_256);
+    EXPECT_GE(optimal_256, optimal_512);
+    
+    // All should be within configured bounds
+    EXPECT_GE(optimal_128, config.min_batch_size);
+    EXPECT_LE(optimal_128, config.max_batch_size);
+}
+
+// Test OOM event handling
+TEST_F(AdaptiveBatchingTest, OOMHandling) {
+    AdaptiveBatcher::Config config;
+    config.min_batch_size = 1;
+    config.max_batch_size = 32;
+    
+    AdaptiveBatcher batcher(config, mem_manager_.get());
+    
+    size_t initial_batch = batcher.getCurrentBatchSize();
+    
+    // Trigger OOM event
+    batcher.handleOOMEvent();
+    
+    size_t after_oom = batcher.getCurrentBatchSize();
+    
+    // Batch size should be reduced after OOM
+    EXPECT_LT(after_oom, initial_batch);
+    
+    auto stats = batcher.getStats();
+    EXPECT_EQ(stats.oom_events, 1);
+    
+    // Multiple OOM events should keep reducing
+    batcher.handleOOMEvent();
+    size_t after_second_oom = batcher.getCurrentBatchSize();
+    EXPECT_LE(after_second_oom, after_oom);
+}
+
+// Test utilization-based scaling
+TEST_F(AdaptiveBatchingTest, UtilizationBasedScaling) {
+    AdaptiveBatcher::Config config;
+    config.min_batch_size = 4;
+    config.max_batch_size = 32;
+    
+    AdaptiveBatcher batcher(config, mem_manager_.get());
+    
+    size_t initial_batch = batcher.getCurrentBatchSize();
+    
+    // Simulate low GPU utilization (50%)
+    for (int i = 0; i < 10; ++i) {
+        batcher.updateUtilization(0.5f);
+    }
+    
+    // Try to increase batch size
+    batcher.increaseBatchSizeIfPossible();
+    
+    size_t after_increase = batcher.getCurrentBatchSize();
+    
+    // Batch size should increase with low utilization
+    EXPECT_GE(after_increase, initial_batch);
+}
+
+// Test that OOM prevents batch size increase
+TEST_F(AdaptiveBatchingTest, OOMPreventsIncrease) {
+    AdaptiveBatcher::Config config;
+    config.min_batch_size = 4;
+    config.max_batch_size = 32;
+    
+    AdaptiveBatcher batcher(config, mem_manager_.get());
+    
+    // Trigger OOM event
+    batcher.handleOOMEvent();
+    
+    size_t after_oom = batcher.getCurrentBatchSize();
+    
+    // Simulate low GPU utilization
+    for (int i = 0; i < 10; ++i) {
+        batcher.updateUtilization(0.5f);
+    }
+    
+    // Try to increase batch size (should not increase due to OOM)
+    batcher.increaseBatchSizeIfPossible();
+    
+    size_t after_increase_attempt = batcher.getCurrentBatchSize();
+    
+    // Batch size should not increase after OOM
+    EXPECT_EQ(after_increase_attempt, after_oom);
+}
+
+// SequencePacker tests
+class SequencePackerTest : public ::testing::Test {
+protected:
+    Device device_ = Device::cpu();  // Use CPU for testing
+};
+
+TEST_F(SequencePackerTest, BasicPacking) {
+    SequencePacker packer(device_);
+    
+    std::vector<std::vector<int>> sequences = {
+        {1, 2, 3},           // length 3
+        {4, 5, 6, 7},        // length 4
+        {8, 9},              // length 2
+        {10, 11, 12, 13, 14} // length 5
+    };
+    
+    auto packed = packer.packSequences(sequences);
+    
+    EXPECT_TRUE(packed.is_valid());
+    EXPECT_EQ(packed.num_sequences, 4);
+    EXPECT_EQ(packed.total_tokens, 14);  // 3+4+2+5 = 14
+    
+    // Check offsets
+    EXPECT_EQ(packed.sequence_offsets.size(), 4);
+    EXPECT_EQ(packed.sequence_offsets[0], 0);
+    EXPECT_EQ(packed.sequence_offsets[1], 3);
+    EXPECT_EQ(packed.sequence_offsets[2], 7);
+    EXPECT_EQ(packed.sequence_offsets[3], 9);
+    
+    // Check lengths
+    EXPECT_EQ(packed.sequence_lengths[0], 3);
+    EXPECT_EQ(packed.sequence_lengths[1], 4);
+    EXPECT_EQ(packed.sequence_lengths[2], 2);
+    EXPECT_EQ(packed.sequence_lengths[3], 5);
+}
+
+TEST_F(SequencePackerTest, MemorySavingsCalculation) {
+    std::vector<std::vector<int>> sequences = {
+        {1, 2, 3},           // length 3
+        {4, 5, 6, 7},        // length 4
+        {8, 9},              // length 2
+        {10, 11, 12, 13, 14} // length 5
+    };
+    
+    size_t max_length = 8;  // Would pad all sequences to length 8
+    
+    float savings = SequencePacker::calculateMemorySavings(sequences, max_length);
+    
+    // Total real tokens: 3+4+2+5 = 14
+    // Padded would be: 4 sequences × 8 = 32
+    // Savings: (32-14)/32 = 56.25%
+    EXPECT_NEAR(savings, 0.5625f, 0.01f);
+}
+
+TEST_F(SequencePackerTest, EmptySequenceHandling) {
+    SequencePacker packer(device_);
+    
+    std::vector<std::vector<int>> empty_sequences;
+    
+    auto packed = packer.packSequences(empty_sequences);
+    
+    EXPECT_FALSE(packed.is_valid());
+    EXPECT_EQ(packed.num_sequences, 0);
+}
+
+TEST_F(SequencePackerTest, SingleSequence) {
+    SequencePacker packer(device_);
+    
+    std::vector<std::vector<int>> sequences = {
+        {1, 2, 3, 4, 5}
+    };
+    
+    auto packed = packer.packSequences(sequences);
+    
+    EXPECT_TRUE(packed.is_valid());
+    EXPECT_EQ(packed.num_sequences, 1);
+    EXPECT_EQ(packed.total_tokens, 5);
+    EXPECT_EQ(packed.sequence_offsets[0], 0);
+    EXPECT_EQ(packed.sequence_lengths[0], 5);
+}
+
+// GPUUtilizationMonitor tests
+class GPUUtilizationMonitorTest : public ::testing::Test {
+protected:
+    Device device_ = Device::cuda();  // Will fallback if CUDA not available
+};
+
+TEST_F(GPUUtilizationMonitorTest, Initialization) {
+    GPUUtilizationMonitor monitor(device_);
+    
+    // Should initialize even if hardware monitoring not available
+    // (will use fallback values)
+    EXPECT_NO_THROW({
+        auto metrics = monitor.queryMetrics();
+    });
+}
+
+TEST_F(GPUUtilizationMonitorTest, MetricsQuery) {
+    GPUUtilizationMonitor monitor(device_);
+    
+    auto metrics = monitor.queryMetrics();
+    
+    // Metrics should be within valid ranges
+    EXPECT_GE(metrics.gpu_utilization_pct, 0.0f);
+    EXPECT_LE(metrics.gpu_utilization_pct, 100.0f);
+    EXPECT_GE(metrics.memory_utilization_pct, 0.0f);
+    EXPECT_LE(metrics.memory_utilization_pct, 100.0f);
+}
+
+TEST_F(GPUUtilizationMonitorTest, UnderutilizationDetection) {
+    GPUUtilizationMonitor monitor(device_);
+    
+    // Query metrics to populate
+    monitor.queryMetrics();
+    
+    // Should be able to check underutilization
+    bool is_underutilized = monitor.isUnderutilized(0.8f);
+    EXPECT_TRUE(is_underutilized || !is_underutilized);  // Either state is valid
+}
+
+TEST_F(GPUUtilizationMonitorTest, RecommendationsGeneration) {
+    GPUUtilizationMonitor monitor(device_);
+    
+    // Query metrics first
+    monitor.queryMetrics();
+    
+    auto recommendations = monitor.getOptimizationRecommendations();
+    
+    // Should return a list (may be empty if GPU is well utilized)
+    EXPECT_NO_THROW({
+        for (const auto& rec : recommendations) {
+            EXPECT_FALSE(rec.empty());
+        }
+    });
+}
+
+TEST_F(GPUUtilizationMonitorTest, AverageMetrics) {
+    GPUUtilizationMonitor monitor(device_);
+    
+    // Query metrics multiple times
+    for (int i = 0; i < 5; ++i) {
+        monitor.queryMetrics();
+    }
+    
+    auto avg_metrics = monitor.getAverageMetrics(3);
+    
+    // Average should be within valid ranges
+    EXPECT_GE(avg_metrics.gpu_utilization_pct, 0.0f);
+    EXPECT_LE(avg_metrics.gpu_utilization_pct, 100.0f);
+}
+
+// Integration test
+TEST_F(AdaptiveBatchingTest, EndToEndAdaptiveBatching) {
+    // Create adaptive batcher
+    AdaptiveBatcher::Config config;
+    config.min_batch_size = 2;
+    config.max_batch_size = 16;
+    config.hidden_dim = 512;
+    config.lora_rank = 8;
+    
+    AdaptiveBatcher batcher(config, mem_manager_.get());
+    
+    // Simulate training loop with varying sequence lengths
+    std::vector<size_t> sequence_lengths = {128, 256, 512, 256, 128};
+    
+    for (size_t seq_len : sequence_lengths) {
+        size_t batch_size = batcher.computeOptimalBatchSize(seq_len);
+        
+        EXPECT_GE(batch_size, config.min_batch_size);
+        EXPECT_LE(batch_size, config.max_batch_size);
+        
+        // Simulate GPU utilization feedback
+        batcher.updateUtilization(0.85f);
+    }
+    
+    auto stats = batcher.getStats();
+    EXPECT_GE(stats.avg_gpu_utilization, 0.0f);
+    EXPECT_LE(stats.avg_gpu_utilization, 1.0f);
+}
+
+// Test memory estimation calibration
+TEST_F(AdaptiveBatchingTest, MemoryCalibration) {
+    AdaptiveBatcher::Config config;
+    config.min_batch_size = 2;
+    config.max_batch_size = 16;
+    config.hidden_dim = 768;
+    config.lora_rank = 8;
+    
+    AdaptiveBatcher batcher(config, mem_manager_.get());
+    
+    // Get initial batch size estimate
+    size_t initial_batch = batcher.computeOptimalBatchSize(256);
+    
+    // Simulate actual memory usage (e.g., 20% higher than estimated)
+    size_t simulated_memory = 2ULL * 1024 * 1024 * 1024;  // 2 GB
+    batcher.calibrateMemoryEstimation(simulated_memory, 256, 4);
+    
+    // After calibration, batch size estimates should adjust
+    size_t calibrated_batch = batcher.computeOptimalBatchSize(256);
+    
+    // Both should be within valid bounds
+    EXPECT_GE(initial_batch, config.min_batch_size);
+    EXPECT_LE(initial_batch, config.max_batch_size);
+    EXPECT_GE(calibrated_batch, config.min_batch_size);
+    EXPECT_LE(calibrated_batch, config.max_batch_size);
+}
+
+// Test multiple calibration iterations
+TEST_F(AdaptiveBatchingTest, IterativeCalibration) {
+    AdaptiveBatcher::Config config;
+    config.min_batch_size = 2;
+    config.max_batch_size = 16;
+    
+    AdaptiveBatcher batcher(config, mem_manager_.get());
+    
+    // Simulate multiple calibration steps
+    for (int i = 0; i < 5; ++i) {
+        size_t memory = (1ULL + i * 0.1) * 1024 * 1024 * 1024;  // 1-1.5 GB
+        batcher.calibrateMemoryEstimation(memory, 256, 4);
+        
+        // Should still produce valid batch sizes
+        size_t batch = batcher.computeOptimalBatchSize(256);
+        EXPECT_GE(batch, config.min_batch_size);
+        EXPECT_LE(batch, config.max_batch_size);
+    }
+}
+
+

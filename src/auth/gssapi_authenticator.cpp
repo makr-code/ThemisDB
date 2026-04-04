@@ -1,8 +1,38 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            gssapi_authenticator.cpp                           ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:14:11                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     502                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • c8f827534  2026-02-23  feat(auth): add audit logging for all authentication even... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "auth/gssapi_authenticator.h"
 #include "utils/logger.h"
+#include "utils/audit_logger.h"
 #include <algorithm>
 #include <sstream>
 #include <cstring>
+
+#ifdef _WIN32
+#ifndef MICROSOFT_KERBEROS_NAME_A
+#define MICROSOFT_KERBEROS_NAME_A "Kerberos"
+#endif
+#endif
 
 #ifndef _WIN32
 #include <krb5.h>
@@ -146,10 +176,18 @@ bool GSSAPIAuthenticator::initializeServerCredentials() {
 
 GSSAPIAuthResult GSSAPIAuthenticator::authenticateToken(const std::string& token) {
     if (!initialized_) {
+        if (audit_logger_) {
+            audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_FAILED,
+                "", "kerberos/principal", {{"reason", "not_initialized"}});
+        }
         return GSSAPIAuthResult::Failed("GSSAPI authenticator not initialized");
     }
     
     if (token.empty()) {
+        if (audit_logger_) {
+            audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_FAILED,
+                "", "kerberos/principal", {{"reason", "empty_token"}});
+        }
         return GSSAPIAuthResult::Failed("Empty authentication token");
     }
     
@@ -159,14 +197,30 @@ GSSAPIAuthResult GSSAPIAuthenticator::authenticateToken(const std::string& token
     
     std::string principal_name;
     if (!acceptSecurityContext(token_bytes, principal_name)) {
+        if (audit_logger_) {
+            audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_FAILED,
+                "", "kerberos/principal", {{"reason", "context_rejected"}});
+        }
         return GSSAPIAuthResult::Failed("Failed to accept security context");
     }
     
     // Map principal to roles
     auto roles = mapPrincipalToRoles(principal_name);
-    
+
+    std::string roles_str;
+    for (size_t i = 0; i < roles.size(); ++i) {
+        if (i > 0) {
+            roles_str += ", ";
+        }
+        roles_str += roles[i];
+    }
+
     THEMIS_INFO("Authenticated Kerberos principal: {} with roles: [{}]",
-               principal_name, fmt::join(roles, ", "));
+               principal_name, roles_str);
+    if (audit_logger_) {
+        audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_SUCCESS,
+            principal_name, "kerberos/principal", {});
+    }
     
     return GSSAPIAuthResult::Success(principal_name, roles);
 }

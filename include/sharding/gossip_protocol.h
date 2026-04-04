@@ -1,3 +1,25 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            gossip_protocol.h                                  ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:11:32                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     346                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #ifndef THEMIS_SHARDING_GOSSIP_PROTOCOL_H
 #define THEMIS_SHARDING_GOSSIP_PROTOCOL_H
 
@@ -18,6 +40,25 @@ namespace sharding {
 // Forward declarations
 class ShardTopology;
 class MTLSClient;
+
+/**
+ * @brief Gossip Protocol for Cluster Membership and Failure Detection
+ * 
+ * @sources
+ * - Algorithm: Gossip Protocol (Epidemic/Anti-Entropy)
+ * - Inspired by: Apache Cassandra's Gossip Implementation
+ * - Paper: van Renesse, R., Birman, K. P., & Vogels, W. (2003)
+ *          "Astrolabe: A robust and scalable technology for distributed system monitoring,
+ *           management, and data mining"
+ *          ACM Transactions on Computer Systems, 21(2), 164-206
+ * - Cassandra: https://cassandra.apache.org/doc/latest/architecture/gossip.html
+ * - License: Apache 2.0 (Cassandra)
+ * - ThemisDB Implementation: Custom gossip protocol with:
+ *   - Integration with VCC-URN sharding
+ *   - mTLS certificate-based peer validation
+ *   - Datacenter/region-aware topology
+ *   - Optimized for database cluster state synchronization
+ */
 
 /**
  * Peer Information

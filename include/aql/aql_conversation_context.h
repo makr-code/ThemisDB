@@ -1,0 +1,217 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            aql_conversation_context.h                         ║
+  Version:         0.0.28                                             ║
+  Last Modified:   2026-03-30 04:05:42                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     216                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 67965456c  2026-03-22  Add constructors with default config for various classes ... ║
+    • d630135fe  2026-03-13  fix(aql): address PR review comments on bounded conversat... ║
+    • d231050f3  2026-03-13  feat(aql): bounded conversation history with context-wind... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+#pragma once
+
+#include "aql/llm_aql_handler.h"
+#include "aql/llm_token_estimator.h"
+#include <string>
+#include <vector>
+#include <memory>
+#include <cstddef>
+#include <functional>
+
+namespace themis {
+namespace aql {
+
+/**
+ * @brief Multi-turn conversation context for iterative AQL query refinement.
+ *
+ * Maintains a conversation history between the user and the LLM.  Each
+ * `refine()` call appends the user's follow-up message to the history and
+ * asks the LLM to produce an improved AQL query, taking all previous
+ * exchanges into account.
+ *
+ * The context enforces a sliding-window budget: when the conversation exceeds
+ * @c Config::max_turns rounds or @c Config::max_history_tokens estimated
+ * tokens, the oldest user+assistant message pair is evicted (the system
+ * message is always preserved).
+ *
+ * All reads and writes to the conversation history are protected by an
+ * internal mutex, so `start()`, `refine()`, `reset()`, `turnCount()`,
+ * `tokenCount()`, and `getHistory()` are safe to call concurrently on the
+ * same instance.
+ *
+ * Usage example:
+ * @code
+ * LLMAQLHandler handler;
+ * AQLConversationContext ctx(handler);
+ * ctx.setSchemaContext("Collections:\n- users: {name, email, city}\n");
+ *
+ * // First attempt – natural-language intent
+ * std::string q1 = ctx.start("Find all users in Berlin");
+ * // q1: "FOR u IN users FILTER u.city == \"Berlin\" RETURN u"
+ *
+ * // Iterative refinement
+ * std::string q2 = ctx.refine("Also filter by age > 18");
+ * // q2: "FOR u IN users FILTER u.city == \"Berlin\" AND u.age > 18 RETURN u"
+ *
+ * std::string q3 = ctx.refine("Sort by name and limit to 20");
+ * // q3: "FOR u IN users FILTER u.city == \"Berlin\" AND u.age > 18
+ * //       SORT u.name ASC LIMIT 20 RETURN u"
+ *
+ * // Inspect the full conversation history
+ * auto history = ctx.getHistory();
+ * @endcode
+ */
+class AQLConversationContext {
+public:
+    /**
+     * @brief Runtime configuration for the conversation context.
+     *
+     * Pass an instance to the constructor to override the defaults.
+     */
+    struct Config {
+        /** Maximum number of user/assistant turn pairs to keep in history.
+         *  When this limit is reached, the oldest pair is evicted before
+         *  adding a new user message.  Set to 0 to disable turn-count
+         *  eviction.  Defaults to 50. */
+        std::size_t max_turns = 50;
+
+        /** Maximum total estimated tokens in the conversation history
+         *  (including the system message).  Oldest user+assistant pairs are
+         *  evicted until the new message fits within this budget.
+         *  Set to 0 to disable token-budget enforcement.  Defaults to 8192.
+         *
+         *  @note This is a best-effort limit.  If the system prompt alone
+         *  exceeds the budget, it is preserved and no further eviction is
+         *  possible; the configured limit will be exceeded in that case. */
+        std::size_t max_history_tokens = 8192;
+
+        /**
+         * @brief Optional LLM executor override.
+         *
+         * If set, this function is called instead of `LLMAQLHandler::executeChat`
+         * for every LLM invocation.  Primarily intended for unit testing so that
+         * tests can drive the conversation without a real model loaded.
+         *
+         * The callback receives the current conversation history and must return
+         * the assistant response string (or throw on error).
+         *
+         * Leave as `nullptr` (default) to use the real `LLMAQLHandler`.
+         */
+        std::function<std::string(const std::vector<std::pair<std::string, std::string>>&)>
+            llm_executor = nullptr;
+    };
+
+    /**
+     * @brief Construct a context that will use @p handler for LLM calls.
+     * @param handler   Reference to an LLMAQLHandler instance.
+     *                  The handler must outlive this context.
+     * @param config    Optional runtime configuration (max turns, token budget).
+     * @param estimator Optional token estimator; defaults to
+     *                  CharDivisionEstimator (4 chars per token).
+     */
+    explicit AQLConversationContext(LLMAQLHandler& handler);
+    explicit AQLConversationContext(
+      LLMAQLHandler& handler,
+      Config config,
+      std::unique_ptr<TokenEstimator> estimator = nullptr
+    );
+    ~AQLConversationContext();
+
+    // Non-copyable, movable
+    AQLConversationContext(const AQLConversationContext&) = delete;
+    AQLConversationContext& operator=(const AQLConversationContext&) = delete;
+    AQLConversationContext(AQLConversationContext&&) noexcept;
+    AQLConversationContext& operator=(AQLConversationContext&&) noexcept;
+
+    // =========================================================================
+    // Configuration
+    // =========================================================================
+
+    /**
+     * @brief Set the database schema context injected into every LLM request.
+     *
+     * Should describe available collections and their fields so the LLM can
+     * produce more accurate AQL.  Can be updated between calls.
+     */
+    void setSchemaContext(const std::string& schema);
+
+    /** @brief Return the current schema context string. */
+    std::string getSchemaContext() const;
+
+    // =========================================================================
+    // Conversation
+    // =========================================================================
+
+    /**
+     * @brief Start a new conversation with an initial natural-language intent.
+     *
+     * Clears any existing history before sending the first message.
+     *
+     * @param intent Natural-language description of what the user wants
+     * @return Generated AQL query string; empty string if the LLM is unavailable
+     */
+    std::string start(const std::string& intent);
+
+    /**
+     * @brief Refine the last generated query with an additional instruction.
+     *
+     * Appends the instruction to the running conversation and asks the LLM to
+     * revise the query accordingly.  Requires a prior call to `start()`.
+     *
+     * @param instruction Follow-up instruction (e.g., "Add a LIMIT 10 clause")
+     * @return Refined AQL query string; empty string if the LLM is unavailable
+     * @throws std::logic_error if called before `start()`
+     */
+    std::string refine(const std::string& instruction);
+
+    /**
+     * @brief Reset the conversation history.
+     *
+     * After this call `refine()` must not be called before `start()`.
+     */
+    void reset();
+
+    // =========================================================================
+    // Inspection
+    // =========================================================================
+
+    /** @brief Number of user turns currently retained in history (≤ Config::max_turns). */
+    std::size_t turnCount() const;
+
+    /** @brief Estimated total token count of the current conversation history. */
+    std::size_t tokenCount() const;
+
+    /** @brief Return the last AQL query generated, or empty string if none. */
+    std::string lastQuery() const;
+
+    /**
+     * @brief Full conversation history as role/content message pairs.
+     *
+     * Each element is a pair: {role, content} where role is "system",
+     * "user", or "assistant".
+     */
+    std::vector<std::pair<std::string, std::string>> getHistory() const;
+
+private:
+    class Impl;
+    std::unique_ptr<Impl> impl_;
+};
+
+} // namespace aql
+} // namespace themis

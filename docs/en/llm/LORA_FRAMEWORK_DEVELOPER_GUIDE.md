@@ -223,68 +223,73 @@ if (job.status == JobStatus::Completed) {
 
 ### 2. Adapter Manager
 
-Manages adapter lifecycle and caching.
+Manages adapter lifecycle, hot-swapping, and multi-GPU placement.
 
-#### Header: `lora_adapter_manager.h`
+> **Note:** `LoRAAdapterManager` was removed in v1.5.0. Use `MultiLoRAManager`
+> for all new code. See `docs/llm/LORA_ADAPTER_MIGRATION.md` for the full
+> migration guide.
+
+#### Header: `llm/multi_lora_manager.h`
 
 ```cpp
-namespace themis::llm::lora {
+namespace themis::llm {
 
-class LoRAAdapterManager {
+class MultiLoRAManager {
 public:
     struct Config {
-        size_t max_cache_size = 10;  // Max number of cached adapters
-        std::chrono::minutes cache_ttl{60};  // Time to live
-        bool enable_metrics = true;
+        size_t max_loaded_adapters = 10;
+        bool enable_hot_swap       = true;
+        bool enable_metrics        = true;
     };
-    
-    explicit LoRAAdapterManager(const Config& config);
-    
-    // Load adapter into memory
-    bool loadAdapter(const std::string& adapter_id);
-    
+
+    explicit MultiLoRAManager(const Config& config,
+                              std::shared_ptr<LlamaWrapper> wrapper);
+
+    // Load adapter into memory (thread-safe)
+    bool loadAdapter(const std::string& adapter_id,
+                     const std::string& adapter_path);
+
     // Unload adapter from memory
     bool unloadAdapter(const std::string& adapter_id);
-    
-    // Get loaded adapter
-    std::shared_ptr<LoRAAdapter> getAdapter(const std::string& adapter_id);
-    
-    // Check if adapter is loaded
-    bool isLoaded(const std::string& adapter_id) const;
-    
-    // Get cache statistics
-    CacheStats getCacheStats() const;
-    
-    // Clear cache
-    void clearCache();
+
+    // Apply adapter to an inference context
+    bool applyAdapter(llama_context* ctx,
+                      const std::string& adapter_id,
+                      float scale = 1.0f);
+
+    // List all currently loaded adapter IDs
+    std::vector<std::string> listAdapters() const;
+
+    // Check GPU health for a device index
+    bool isGPUHealthy(int gpu_id) const;
 };
 
-} // namespace themis::llm::lora
+} // namespace themis::llm
 ```
 
 #### Usage Example
 
 ```cpp
-#include "llm/lora_framework/lora_adapter_manager.h"
+#include "llm/multi_lora_manager.h"
 
-LoRAAdapterManager::Config config;
-config.max_cache_size = 20;
-config.cache_ttl = std::chrono::hours(2);
+MultiLoRAManager::Config config;
+config.max_loaded_adapters = 20;
+config.enable_hot_swap     = true;
 
-auto manager = std::make_shared<LoRAAdapterManager>(config);
+auto manager = std::make_shared<MultiLoRAManager>(config, wrapper);
 
 // Load adapter
-bool loaded = manager->loadAdapter("documentation_assistant");
+bool loaded = manager->loadAdapter("documentation_assistant",
+                                   "/models/lora/doc_assistant.gguf");
 if (loaded) {
-    auto adapter = manager->getAdapter("documentation_assistant");
-    // Use adapter for inference
+    // Apply to an active inference context
+    manager->applyAdapter(ctx, "documentation_assistant", /*scale=*/1.0f);
 }
 
-// Check cache stats
-auto stats = manager->getCacheStats();
-std::cout << "Cache hits: " << stats.hits << "\n";
-std::cout << "Cache misses: " << stats.misses << "\n";
-std::cout << "Hit rate: " << stats.hit_rate << "\n";
+// Enumerate loaded adapters
+for (const auto& id : manager->listAdapters()) {
+    std::cout << "Loaded: " << id << "\n";
+}
 ```
 
 ### 3. Storage Service

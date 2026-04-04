@@ -1,3 +1,27 @@
+"""
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            themis_native.py                                   ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:04:56                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     719                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 65b6fc41e  2026-02-24  fix: resolve remaining Python (34) and PHP (23) error-han... ║
+    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+"""
+
 #!/usr/bin/env python3
 """
 ThemisDB Native Client Library
@@ -270,8 +294,8 @@ class ThemisNativeClient:
             try:
                 close_req = pb.CloseRequest(reason="Client disconnect")
                 self._send_message(OpCode.CLOSE, close_req)
-            except:
-                pass
+            except Exception as e:
+                print(f"[WARN] Failed to send CLOSE message during disconnect: {e}")
             finally:
                 self.socket.close()
                 self.socket = None

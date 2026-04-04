@@ -1,0 +1,72 @@
+# Advanced HPA with GPU-aware scaling
+# Requires metrics-server and custom metrics API
+
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: themisdb-gpu-hpa
+  namespace: themisdb
+  labels:
+    app: themisdb
+    component: autoscaling
+    gpu: enabled
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: themisdb-gpu
+  
+  minReplicas: 1
+  maxReplicas: 5  # Limited by GPU availability
+  
+  metrics:
+    # GPU utilization (custom metric)
+    - type: Pods
+      pods:
+        metric:
+          name: themisdb_gpu_utilization_percent
+        target:
+          type: AverageValue
+          averageValue: "85"  # Scale when GPU util > 85%
+    
+    # GPU memory utilization (custom metric)
+    - type: Pods
+      pods:
+        metric:
+          name: themisdb_gpu_memory_utilization_percent
+        target:
+          type: AverageValue
+          averageValue: "90"  # Scale when GPU memory > 90%
+    
+    # Inference latency (custom metric via Prometheus)
+    - type: Pods
+      pods:
+        metric:
+          name: themisdb_inference_latency_p95_milliseconds
+        target:
+          type: AverageValue
+          averageValue: "100"  # Scale when P95 latency > 100ms
+    
+    # Request queue depth
+    - type: Pods
+      pods:
+        metric:
+          name: themisdb_request_queue_depth
+        target:
+          type: AverageValue
+          averageValue: "20"
+  
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 600  # Wait 10 min (GPU workloads are expensive)
+      policies:
+        - type: Pods
+          value: 1  # Remove only 1 pod at a time
+          periodSeconds: 120
+    
+    scaleUp:
+      stabilizationWindowSeconds: 30  # Quick scale up for GPU workloads
+      policies:
+        - type: Pods
+          value: 1  # Add 1 GPU pod at a time
+          periodSeconds: 30

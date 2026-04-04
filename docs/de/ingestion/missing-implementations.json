@@ -1,0 +1,113 @@
+{
+  "meta": {
+    "generated_at": "2026-03-09T16:39:52Z",
+    "updated_at": "2026-03-10T00:00:00Z",
+    "module": "ingestion",
+    "source_paths": [
+      "src/ingestion/",
+      "include/ingestion/"
+    ],
+    "validated_branch": "develop",
+    "audit_note": "Reality-check performed during PR copilot/update-documentation-reality-check (2026-03-09). Items 1-3 resolved by follow-up work (2026-03-10)."
+  },
+  "missing_implementations": [
+    {
+      "id": "INGESTION-MISSING-001",
+      "title": "HuggingFaceConnector — HTTP GET client is simulated (stub)",
+      "claim_source": "src/ingestion/README.md",
+      "claim_section": "HuggingFaceConnector ('Downloads and ingests datasets from the HuggingFace Hub API')",
+      "expected": "HuggingFaceConnector::HttpClient::get() sends real HTTP GET requests to the HuggingFace API via libcurl",
+      "observed": "HttpClient::get() always returned {status_code=200, body='{\"status\": \"available\", \"rows\": 12000}'} — no actual network call.",
+      "status": "resolved",
+      "resolved_date": "2026-03-10",
+      "resolution": "hfHttpGet() now uses curl_easy_perform with TLS verification, Bearer-token Authorization header, and configurable timeout. File header Stubs: 0 confirmed. ROADMAP [x] Issue #1915.",
+      "evidence": {
+        "files": ["src/ingestion/huggingface_connector.cpp"],
+        "file_header_stubs": 0,
+        "roadmap_note": "src/ingestion/ROADMAP.md §Completed: [x] Replace libcurl stubs (Issue: #1915)"
+      },
+      "roadmap_status": "resolved",
+      "roadmap_marker": "[x]",
+      "issue_number": 1915,
+      "criticality": "high",
+      "suggested_issue_title": "[ingestion] Replace HuggingFaceConnector simulated HTTP client with real libcurl implementation",
+      "suggested_labels": ["type:bug", "priority:high", "ingestion", "status:resolved"]
+    },
+    {
+      "id": "INGESTION-MISSING-002",
+      "title": "CdcConnector — ingestFromStream() is a compile-time gated stub",
+      "claim_source": "src/ingestion/ROADMAP.md",
+      "claim_section": "Completed ✅ — CDC source for live database streams (Issue: #2199)",
+      "expected": "CdcConnector::ingestFromStream() consumes a replication stream (PostgreSQL logical replication / MySQL binlog) and produces CdcEvent objects",
+      "observed": "Previously returned IngestionErrorCode::CONNECTOR_NOT_SUPPORTED unconditionally.",
+      "status": "resolved",
+      "resolved_date": "2026-03-10",
+      "resolution": "ingestFromStream() implemented using PostgreSQL logical replication protocol (libpq, test_decoding output plugin) under #ifdef THEMIS_ENABLE_CDC_STREAM. Without the build flag, CONNECTOR_NOT_SUPPORTED is returned (legitimate build gate). File header Stubs: 0 confirmed.",
+      "evidence": {
+        "files": ["src/ingestion/cdc_connector.cpp"],
+        "file_header_stubs": 0,
+        "roadmap_note": "Marked [x] in ROADMAP — CdcConnector registration and PostgreSQL replication path both implemented"
+      },
+      "roadmap_status": "resolved",
+      "roadmap_marker": "[x]",
+      "issue_number": 2199,
+      "criticality": "medium",
+      "suggested_issue_title": "[ingestion] Implement CdcConnector ingestFromStream() with PostgreSQL/MySQL replication driver",
+      "suggested_labels": ["type:feature", "priority:medium", "ingestion", "cdc", "status:resolved"]
+    },
+    {
+      "id": "INGESTION-MISSING-003",
+      "title": "IngestionAdminApi::retryQuarantineItem() — write success always true (unreachable failure branch)",
+      "claim_source": "src/ingestion/ROADMAP.md",
+      "claim_section": "Completed ✅ — Per-document quarantine retry with exponential back-off (Issue: #1916)",
+      "expected": "retryQuarantineItem(doc_id) calls the storage write path and returns true/false based on actual write result",
+      "observed": "Write success was always true; storage layer not wired.",
+      "status": "resolved",
+      "resolved_date": "2026-03-10",
+      "resolution": "DocumentWriteFn injection via IngestionManager::setDocumentWriteForTesting() implemented. When a write function is injected, its result is used; otherwise true (production deployments wire the write function through the orchestration layer). File header Stubs: 0 confirmed.",
+      "evidence": {
+        "files": ["src/ingestion/ingestion_manager.cpp"],
+        "file_header_stubs": 0,
+        "roadmap_note": "ROADMAP [x] DocumentWriteFn injection — eliminates last write stub"
+      },
+      "roadmap_status": "resolved",
+      "roadmap_marker": "[x]",
+      "issue_number": 1916,
+      "criticality": "medium",
+      "suggested_issue_title": "[ingestion] Wire IngestionAdminApi::retryQuarantineItem() to real storage write path",
+      "suggested_labels": ["type:bug", "priority:medium", "ingestion", "status:resolved"]
+    },
+    {
+      "id": "INGESTION-MISSING-004",
+      "title": "End-to-end ingestion lineage tracking — not implemented",
+      "claim_source": "src/ingestion/ROADMAP.md",
+      "claim_section": "Planned Features / Remaining — End-to-end ingestion lineage tracking (Issue: #1901)",
+      "expected": "Each ingested document is linked to a lineage record: source, timestamp, connector version, transformation steps",
+      "observed": "No matches for IngestionLineage, LineageRecord, or lineage_tracking in src/ingestion/. The IngestionReport structure contains statistics but no lineage data",
+      "status": "open",
+      "evidence": {
+        "files": [],
+        "search_result": "No code matches for lineage tracking in src/ingestion/",
+        "roadmap_marker_file": "src/ingestion/ROADMAP.md",
+        "pr_evidence": "none"
+      },
+      "roadmap_status": "planned",
+      "roadmap_marker": "[I]",
+      "issue_number": 1901,
+      "criticality": "low",
+      "suggested_issue_title": "[ingestion] Implement end-to-end ingestion lineage tracking",
+      "suggested_labels": ["type:feature", "priority:low", "ingestion", "observability", "status:open"]
+    }
+  ],
+  "summary": {
+    "total_findings": 4,
+    "open": 1,
+    "resolved": 3,
+    "by_criticality": {
+      "high": 1,
+      "medium": 2,
+      "low": 1
+    },
+    "note": "Items 1-3 resolved as of 2026-03-10. Item 4 (lineage tracking) remains open (Issue #1901)."
+  }
+}

@@ -159,12 +159,20 @@ Die Dokumentation wurde neu strukturiert für bessere Übersichtlichkeit:
 
 **Organisierte Ordner:**
 - `aql/` - **AQL Grammatik (EBNF)** ⭐ **v1.3.0**
+- `reports/` - **Build & Code Reviews** - Build-Reports, Code-Reviews, Analyse-Berichte ⭐ **NEU**
+- `guides/` - **Setup & Build-Guides** - Quickstart, Docker, Windows, VS Code Setup ⭐ **NEU**
+- `releases/` - **Release-Planung** - RC-Checklisten, Roadmaps ⭐ **NEU**
+- `performance/` - **Performance-Optimierung** - Cache, Query, Library Optimizations ⭐ **NEU**
+- `implementation/` - **Implementierungs-Summaries** - Feature-Implementierungen (AQL, LoRA, etc.) ⭐ **NEU**
+- `features/` - **Feature-Dokumentation** - Cloud Storage, CRON, gRPC, TLS, etc. ⭐ **NEU**
+- `phase_reports/` - **Projekt-Phasen** - Phase 3-6 Zusammenfassungen ⭐ **NEU**
+- `security/` - **Security Hardening** - Security Summaries & Analysen ⭐ **NEU**
+- `lora/` - **LoRA-Stabilisierung** - LoRA-spezifische Analysen & Pläne ⭐ **NEU**
+- `architecture/` - **Architektur-Dokumentation** - Vector Indexing, etc. ⭐ **NEU**
+- `reference/` - **Referenz-Dokumentation** - Dependencies, Sources ⭐ **NEU**
 - `build/` - Build-System-Dokumentation (BUILD-SYSTEM.md, BUILDGUIDE.md, etc.)
 - `development/` - Entwicklungs-Dokumentation (IMPLEMENTATION-*.md, CODE_REVIEW-*.md)
-- `guides/` - Benutzer- und Entwickler-Guides (RAILWAY_COMPLETE_GUIDE.md, etc.)
-- `architecture/` - Architektur-Dokumentation (ARCHITECTURE_OVERVIEW.md, etc.)
 - `stakeholder/` - Stakeholder-Dokumentation
-- `releases/` - Release-Notizen (v1.3.0.md, v1.2.0.md, v1.1.0.md, etc.)
 - `llm/` - **LLM & AI Integration** ⭐ **v1.3.0 RELEASED**
 - `plugins/` - **RPC Framework** ⭐ **v1.3.0**
 - `archive/` - Alte/historische Dokumentation
@@ -206,7 +214,7 @@ Die Dokumentation wurde neu strukturiert für bessere Übersichtlichkeit:
 - **[Changelog](releases/CHANGELOG.md)** - Vollständige Versionshistorie (v1.2.0, v1.1.0, v1.0.2, v1.0.1, v1.0.0)
 - **[🆕 Roadmap v1.1.0](roadmap/roadmap_overview.md)** - **AKTUALISIERT:** Q1 2026 Optimization Release
 - **[Architecture Overview](architecture/ARCHITECTURE_OVERVIEW.md)** - Komplette Systemarchitektur mit Diagrammen
-- **[Source Code Changes v1.0](development/SOURCE_CODE_CHANGES_v1.0.md)** - Detaillierte Quellcode-Dokumentation (191 Dateien, 26 Module)
+- **[Source Code Changes v1.0](development/SOURCE_CODE_CHANGES_v1.0.md)** - Detaillierte Quellcode-Dokumentation (191 Dateien, 44 Module)
 - **[Features Liste](features/features_overview.md)** - Vollständige Feature-Übersicht mit Status
 
 ---
@@ -389,35 +397,72 @@ Die Dokumentation wurde neu strukturiert für bessere Übersichtlichkeit:
 
 ## 🔍 Source Code Dokumentation
 
-### Module Documentation (src/)
-Alle 26 Module mit detaillierter Dokumentation in [src/](src/README.md):
+### Gesamtstatus Produktionsbereitschaft
 
-- **Acceleration** - GPU/CPU Backends (173K LOC)
-- **Analytics** - OLAP, CEP (57K LOC)
-- **API** - GraphQL, Geo Hooks
-- **Auth** - JWT Validation
-- **Cache** - Semantic Cache
-- **CDC** - Change Data Capture
-- **Content** - 15 File Processors (256K LOC)
-- **Exporters** - Data Export
-- **Geo** - Spatial Operations
-- **Governance** - Policy Engine
-- **Importers** - Data Import
-- **Index** - Vector, Graph, Secondary (400K LOC)
-- **LLM** - LLM Integration
-- **Network** - Wire Protocol
-- **Observability** - Metrics, Tracing
-- **Plugins** - Plugin System
-- **Query** - AQL Engine (240K LOC)
-- **Replication** - Leader-Follower, Multi-Master (12K LOC)
-- **Security** - Encryption, RBAC (187K LOC)
-- **Server** - HTTP, API Handlers (164K LOC)
-- **Sharding** - VCC-URN, Gossip (300K LOC)
-- **Storage** - RocksDB, MVCC (76K LOC)
-- **Timeseries** - Gorilla Compression (39K LOC)
-- **Transaction** - MVCC, SAGA (42K LOC)
-- **Updates** - Schema Migration
-- **Utils** - Utilities (120K LOC)
+ThemisDB verfügt über **42 produktionsreife Module**, **1 Release-Candidate-Modul** und **1 Beta-Modul** im gesamten Quellcode-Baum. Der gesamte Core-Datenpfad und alle KI/LLM-Ebenen sind produktionsbereit.
+
+| Stufe              | Anzahl | Module                                                                        |
+|--------------------|--------|-------------------------------------------------------------------------------|
+| Produktionsreif    | 42     | 42 von 44 Modulen — alle außer `security` und `sharding`                      |
+| Release-Candidate  | 1      | `security`                                                                    |
+| Beta               | 1      | `sharding`                                                                    |
+
+### Module Documentation (src/)
+Alle 44 ThemisDB-Module mit vollständiger Dokumentation direkt in den Source-Verzeichnissen:
+
+**Dokumentation pro Modul in `../../src/<module>/`:**
+- `README.md` - Modul-Übersicht, Architektur, APIs
+- `FUTURE_ENHANCEMENTS.md` - Geplante Features & Verbesserungen (falls vorhanden)
+
+**Header-Dokumentation in `../../include/<module>/`:**
+- `README.md` - Header-Dokumentation und API-Referenz
+
+**Module nach Kategorie:**
+
+- **acceleration** 🟢 - GPU/CPU Backends (CUDA, Vulkan)
+- **analytics** 🟢 - OLAP, CEP, Process Mining (57K LOC)
+- **api** 🟢 - GraphQL, Geo Hooks, HTTP API
+- **aql** 🟢 - AQL-Sprachengine, Multi-Paradigma-Abfragen
+- **auth** 🟢 - JWT, RBAC, Enterprise SSO/MFA
+- **base** 🟢 - Grundlegende Abstraktionen
+- **cache** 🟢 - Semantischer Cache, Abfrageergebnis-Cache
+- **cdc** 🟢 - Change Data Capture, Changefeeds
+- **chimera** 🟢 - Hybride Multi-Modell-Schicht
+- **config** 🟢 - Konfigurationsverwaltung
+- **content** 🟢 - 15 Dateiformat-Prozessoren (256K LOC)
+- **core** 🟢 - Core-Datenbank-Runtime
+- **exporters** 🟢 - Datenexport (JSONL, LLM-Formate)
+- **geo** 🟢 - Geospatiale Abfragen und Indizierung
+- **governance** 🟢 - Policy Engine, Compliance-Governance
+- **gpu** 🟢 - GPU-Compute-Integration
+- **graph** 🟢 - Property-Graph-Abfragen und -Traversal
+- **importers** 🟢 - Datenimport (PostgreSQL u. a.)
+- **index** 🟢 - HNSW, R-Baum, adaptive Indizierung (400K LOC)
+- **ingestion** 🟢 - Datenaufnahme-Pipeline
+- **llm** 🟢 - LLM-Interaktionsspeicher, Chain-of-Thought
+- **metadata** 🟢 - Metadatenverwaltung und -katalog
+- **network** 🟢 - Netzwerkschicht und Peer-Kommunikation
+- **observability** 🟢 - Metriken, Tracing und Logging
+- **performance** 🟢 - Benchmarking und Leistungsoptimierung
+- **plugins** 🟢 - Plugin-System-Infrastruktur
+- **prompt_engineering** 🟢 - LLM-Prompt-Verwaltung
+- **query** 🟢 - AQL-Optimierer, kostenbasierter Planer, Ausführungsengine (240K LOC)
+- **rag** 🟢 - Retrieval-Augmented Generation Pipeline
+- **replication** 🟢 - Raft-basierte Replikation (12K LOC)
+- **scheduler** 🟢 - Aufgaben- und Job-Planung
+- **search** 🟢 - Volltext- und Hybrid-Suche
+- **security** 🟡 RC - Verschlüsselung, Schlüsselverwaltung, PKI-Integration (187K LOC)
+- **server** 🟢 - HTTP-Server, API-Handler (164K LOC)
+- **sharding** 🟡 Beta - Horizontale Skalierung, VCC-URN, Gossip (300K LOC)
+- **storage** 🟢 - RocksDB-Wrapper, MVCC, Backup/Recovery (76K LOC)
+- **temporal** 🟢 - Temporale und bitemporale Datenverwaltung
+- **themis** 🟢 - Core ThemisDB-Orchestrierungsschicht
+- **timeseries** 🟢 - Zeitreihendatenverwaltung, Gorilla-Kompression (39K LOC)
+- **training** 🟢 - ML-Modell-Training-Integration
+- **transaction** 🟢 - SAGA-Muster, verteilte Transaktionen (42K LOC)
+- **updates** 🟢 - Schema- und Daten-Update-Verwaltung
+- **utils** 🟢 - Gemeinsame Hilfsfunktionen (120K LOC)
+- **voice** 🟢 - Sprach-Abfrage-Schnittstelle
 
 ---
 
@@ -484,16 +529,18 @@ Dokumentation wird automatisch zu GitHub Pages deployt bei Merge zu main.
 
 | Metrik | Wert |
 |--------|------|
-| **Dokumentationsdateien** | 456+ |
-| **Dokumentationsordner** | 71 |
-| **Source-Code LOC** | 90.829 |
-| **Source Files** | 191 (.cpp) |
-| **Header Files** | 132 (.h) |
-| **Module** | 26 Verzeichnisse |
-| **Logische Komponenten** | 16 |
+| **Dokumentationsdateien** | 887+ |
+| **Dokumentationsordner** | 71+ |
+| **Source-Code LOC** | 90.829+ |
+| **Source Files** | 191+ (.cpp) |
+| **Header Files** | 132+ (.h) |
+| **Module** | 44 |
+| **Produktionsreife Module** | 42 🟢 |
+| **Release-Candidate Module** | 1 🟡 |
+| **Beta Module** | 1 🟡 |
 
 ---
 
-**Version:** 1.3.0  
-**Last Updated:** 20. Dezember 2025  
+**Version:** 1.5.0  
+**Last Updated:** 8. März 2026  
 **License:** See [LICENSE](../LICENSE)

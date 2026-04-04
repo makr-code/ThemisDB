@@ -1,0 +1,77 @@
+{
+  "module": "exporters",
+  "validated": "2026-03-11",
+  "revision": "HEAD",
+  "checked_paths": [
+    "src/exporters/",
+    "include/exporters/",
+    "cmake/CMakeLists.txt",
+    "cmake/ModularBuild.cmake",
+    "tests/CMakeLists.txt",
+    "benchmarks/",
+    "tools/"
+  ],
+  "summary": {
+    "total": 7,
+    "critical": 0,
+    "medium": 0,
+    "low": 0,
+    "resolved": 7
+  },
+  "entries": [
+    {
+      "id": "EXP-001",
+      "severity": "medium",
+      "status": "resolved",
+      "resolved_in": "feat(exporters): implement remaining open items (EXP-001,002,004,005)",
+      "title": "PolicyEngine Integration for Export Authorization",
+      "resolution": "ERR_EXPORT_POLICY_DENIED (9310) added to error_registry.h. ExportOptions extended with collection_name, requesting_user, and policy_engine* fields. enforceExportPolicy() free function implemented in jsonl_llm_exporter.cpp and called at the top of exportEntities() in all 6 exporters (JSONL, HuggingFace, Parquet, ArrowIPC, Streaming, Incremental). EXPORT_DENIED audit event logged with severity MEDIUM on denial; BULK_EXPORT event logged on approval. 10 unit tests in tests/exporters/test_export_encryption.cpp (ExportPolicyEnforcementTest)."
+    },
+    {
+      "id": "EXP-002",
+      "severity": "medium",
+      "status": "resolved",
+      "resolved_in": "feat(exporters): implement remaining open items (EXP-001,002,004,005)",
+      "title": "Hub Direct Upload Integration Not Implemented",
+      "resolution": "HuggingFaceHubClient implemented in include/exporters/huggingface_hub_client.h + src/exporters/huggingface_hub_client.cpp. Uses libcurl (CURL_ENABLED guard) with retry logic (exponential back-off), 401 Unauthorized surfacing, 413 split-shard hint, and HF_TOKEN env fallback. Registered in cmake/CMakeLists.txt, cmake/ModularBuild.cmake, and tests/CMakeLists.txt (HuggingFaceHubClientFocusedTests)."
+    },
+    {
+      "id": "EXP-003",
+      "severity": "low",
+      "status": "resolved",
+      "resolved_in": "feat(exporters): register missing source files, add focused test targets, fix stale TODO annotation",
+      "title": "Stale TODO Counter in pii_detector.cpp Header"
+    },
+    {
+      "id": "EXP-004",
+      "severity": "low",
+      "status": "resolved",
+      "resolved_in": "feat(exporters): implement remaining open items (EXP-001,002,004,005)",
+      "title": "--incremental CLI Flag Missing",
+      "resolution": "tools/export_cli.cpp created (themis-export binary). Supports --format incremental and the dedicated --incremental flag (EXP-004). Registered in cmake/CMakeLists.txt. Supports --collection, --output, --format, --incremental, --watermark, --filter, --include-field, --exclude-field, --compress, --user, --progress, --output-json."
+    },
+    {
+      "id": "EXP-005",
+      "severity": "low",
+      "status": "resolved",
+      "resolved_in": "feat(exporters): implement remaining open items (EXP-001,002,004,005)",
+      "title": "ExportFormatRegistry Not Implemented",
+      "resolution": "ExportFormatRegistry singleton implemented in include/exporters/export_format_registry.h + src/exporters/export_format_registry.cpp. registerBuiltins() registers 9 built-in formats (jsonl, llm_jsonl, parquet, arrow, arrow_stream, huggingface, hf_datasets, streaming, incremental). Thread-safe, additive, override-friendly. 13 unit tests in tests/exporters/test_export_format_registry.cpp."
+    },
+    {
+      "id": "EXP-006",
+      "severity": "low",
+      "status": "resolved",
+      "resolved_in": "feat(exporters): register missing source files, add focused test targets, fix stale TODO annotation",
+      "title": "huggingface_exporter.cpp and data_augmentation.cpp Not Registered in Build System"
+    },
+    {
+      "id": "EXP-007",
+      "severity": "low",
+      "status": "resolved",
+      "resolved_in": "feat(exporters): register missing source files, add focused test targets, fix stale TODO annotation",
+      "title": "No Focused Test Targets for Exporters Module",
+      "resolution": "12 focused test targets total (10 original + ExportFormatRegistryFocusedTests + HuggingFaceHubClientFocusedTests)."
+    }
+  ]
+}

@@ -1,9 +1,37 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            pii_detection_engine.h                             ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:12:58                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     419                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
+    • b2513b8c2  2026-03-16  Fix compilation errors: kDefaultLookaheadBytes forward-de... ║
+    • 3b849f06c  2026-03-15  feat(pii-streaming): complete remaining acceptance criter... ║
+    • 15a0bb670  2026-03-09  feat(utils): add BloomFilter, ConsistentHashRing, RateLim... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include "pki_client.h"
-#include <string>
-#include <vector>
+#include "expected.h"
 #include <memory>
+#include <string>
+#include <string_view>
+#include <vector>
 #include <nlohmann/json.hpp>
 
 namespace themis {
@@ -67,6 +95,10 @@ struct PluginSignature {
      */
     static std::string computeConfigHash(const nlohmann::json& config);
 };
+
+/// Default lookahead buffer size for cross-chunk entity span detection.
+/// Forward-declared here so IPIIDetectionEngine::maxPatternLength() can use it.
+static constexpr size_t kDefaultLookaheadBytes = 256;
 
 /**
  * @brief Abstract base class for PII detection engines
@@ -175,6 +207,17 @@ public:
      * @return JSON object with engine metadata
      */
     virtual nlohmann::json getMetadata() const = 0;
+
+    /**
+     * @brief Return the maximum number of bytes a single entity span can occupy.
+     *
+     * Used by PIIStreamScanner to size its cross-chunk lookahead buffer so that
+     * entity spans straddling a chunk boundary are detected correctly.  The
+     * sliding-window overlap used for cross-chunk regex matching equals this value.
+     *
+     * @return Maximum entity length in bytes (default: 256).
+     */
+    virtual size_t maxPatternLength() const { return kDefaultLookaheadBytes; }
 };
 
 /**
@@ -199,14 +242,12 @@ public:
      * @param engine_type Engine type ("regex", "ner", "embedding")
      * @param config Engine configuration with signature metadata
      * @param pki_client PKI client for signature verification
-     * @param error_msg Output parameter for error details
-     * @return Unique pointer to engine, or nullptr if verification/creation failed
+     * @return Result containing unique pointer to engine, or error on failure
      */
-    static std::unique_ptr<IPIIDetectionEngine> createSigned(
+    static Result<std::unique_ptr<IPIIDetectionEngine>> createSigned(
         const std::string& engine_type,
         const nlohmann::json& config,
-        const VCCPKIClient& pki_client,
-        std::string& error_msg);
+        const VCCPKIClient& pki_client);
     
     /**
      * @brief Create detection engine WITHOUT signature verification
@@ -218,9 +259,9 @@ public:
      * - Fallback when PKI is unavailable
      * 
      * @param engine_type Engine type ("regex", "ner", "embedding")
-     * @return Unique pointer to engine, or nullptr if type unknown
+     * @return Result containing unique pointer to engine, or error if type unknown
      */
-    static std::unique_ptr<IPIIDetectionEngine> createUnsigned(
+    static Result<std::unique_ptr<IPIIDetectionEngine>> createUnsigned(
         const std::string& engine_type);
     
     /**
@@ -276,9 +317,102 @@ public:
      * @return Masked value (e.g., "***@example.com", "**** **** **** 1234")
      */
     static std::string maskValue(PIIType type, const std::string& value, const std::string& mode);
-// Forward declaration for engine creation functions
-std::unique_ptr<IPIIDetectionEngine> createRegexEngine();
+};
 
+// ---------------------------------------------------------------------------
+// PIIStreamScanner
+// ---------------------------------------------------------------------------
+
+/// Default lookahead buffer size for cross-chunk entity span detection.
+/// Also used as the floor value returned by IPIIDetectionEngine::maxPatternLength()
+/// when no patterns are loaded.
+// Note: kDefaultLookaheadBytes is forward-declared above IPIIDetectionEngine.
+
+/**
+ * @brief Configuration for streaming PII scanner.
+ */
+struct PIIStreamScannerConfig {
+    size_t lookahead_bytes = kDefaultLookaheadBytes; ///< Buffer to handle cross-chunk entity spans
+    double min_confidence  = 0.5;
+};
+
+/**
+ * @brief Stateful streaming PII scanner for large documents.
+ *
+ * Process arbitrarily large documents without full in-memory loading.
+ * Handles entity spans that straddle chunk boundaries via a lookahead buffer.
+ *
+ * Usage:
+ * @code
+ *   PIIStreamScanner scanner(engine);
+ *   while (has_more_data) {
+ *       auto findings = scanner.scan_chunk(next_chunk());
+ *       process(findings);
+ *   }
+ *   auto last = scanner.scan_chunk(last_chunk, true);
+ * @endcode
+ */
+class PIIStreamScanner {
+public:
+    explicit PIIStreamScanner(std::shared_ptr<IPIIDetectionEngine> engine,
+                               PIIStreamScannerConfig cfg = {});
+
+    /**
+     * @brief Feed the next chunk of text. is_last=true signals end of document.
+     * @return Finalized findings with absolute offsets from document start.
+     */
+    std::vector<PIIFinding> scan_chunk(std::string_view chunk, bool is_last = false);
+
+    /** @brief Reset state for a new document. */
+    void reset();
+
+    /** @brief Total bytes processed since last reset(). */
+    size_t bytes_processed() const;
+
+private:
+    std::shared_ptr<IPIIDetectionEngine> engine_;
+    PIIStreamScannerConfig cfg_;
+    std::string lookahead_buf_;
+    size_t global_offset_ = 0;
+};
+
+// ---------------------------------------------------------------------------
+// PIIStreamPseudonymizer
+// ---------------------------------------------------------------------------
+
+// Forward declaration — full type in lek_manager.h
+class LEKManager;
+
+/**
+ * @brief Stateful streaming PII pseudonymizer companion for PIIStreamScanner.
+ *
+ * Scans each chunk for PII and replaces each detected span with a
+ * deterministic HMAC-SHA-256 pseudonym derived from the tenant root key.
+ */
+class PIIStreamPseudonymizer {
+public:
+    struct Config {
+        std::string tenant_id;
+        size_t lookahead_bytes = 256;
+    };
+
+    PIIStreamPseudonymizer(std::shared_ptr<IPIIDetectionEngine> engine,
+                            std::shared_ptr<LEKManager>          lek_mgr,
+                            Config                               cfg);
+
+    /**
+     * @brief Process a chunk: scan + pseudonymize findings.
+     * @return Text chunk with PII replaced by deterministic 8-hex-char pseudonyms.
+     */
+    std::string process_chunk(std::string_view chunk, bool is_last = false);
+
+    /** @brief Reset state for a new document. */
+    void reset();
+
+private:
+    PIIStreamScanner             scanner_;
+    std::shared_ptr<LEKManager>  lek_mgr_;
+    Config                       cfg_;
 };
 
 } // namespace utils

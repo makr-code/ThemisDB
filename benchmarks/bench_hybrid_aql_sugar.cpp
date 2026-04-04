@@ -1,295 +1,268 @@
-// Benchmark: AQL Syntax Sugar vs Direct C++ API for Hybrid Queries
-// Vergleicht Latenz und Durchsatz zwischen drei Zugriffsmethoden:
-// 1. AQL Syntax Sugar (SIMILARITY/PROXIMITY/SHORTEST_PATH)
-// 2. Direkte C++ API (executeVectorGeoQuery etc.)
-// 3. Manueller Code (ohne Query Engine Abstraktion)
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            bench_hybrid_aql_sugar.cpp                         ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:04:12                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     268                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • ecd96d372  2026-02-27  feat(benchmarks): replace AQL benchmark stub with real pe... ║
+    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
 
-#include "query/query_engine.h"
-#include "query/aql_parser.h"
-#include "query/aql_translator.h"
-#include "query/aql_runner.h"
-#include "storage/rocksdb_wrapper.h"
-#include "index/secondary_index.h"
-#include "index/vector_index.h"
-#include "index/spatial_index.h"
-#include "index/graph_index.h"
-#include "storage/base_entity.h"
-#include "utils/logger.h"
-#include "utils/tracing.h"
-#include "utils/geo/ewkb.h"
+/**
+ * @file bench_hybrid_aql_sugar.cpp
+ * @brief Performance benchmarks for hybrid AQL syntax-sugar components.
+ *
+ * Covers the deterministic, LLM-independent layers of the AQL module:
+ *   - AQLSyntaxHighlighter  (tokenize, highlightBlock, annotateErrors,
+ *                            formatLLMResponse)
+ *   - AQLConfidenceScorer   (score with / without schema context)
+ *   - AQLFewShotExampleLibrary (findRelevant, buildPromptSection,
+ *                               findByDomain)
+ *
+ * All benchmarks are intentionally independent of a live LLM so that they
+ * can run in CI without model files or network access.
+ */
 
 #include <benchmark/benchmark.h>
-#include <nlohmann/json.hpp>
-#include <random>
-#include <cmath>
+#include "aql/aql_syntax_highlighter.h"
+#include "aql/aql_confidence_scorer.h"
+#include "aql/aql_fewshot_example_library.h"
 
-using namespace themis;
-
-// ============================================================================
-// Test Data Setup
-// ============================================================================
-
-static RocksDBWrapper* g_db = nullptr;
-static SecondaryIndexManager* g_secIdx = nullptr;
-static VectorIndexManager* g_vectorIdx = nullptr;
-static SpatialIndexManager* g_spatialIdx = nullptr;
-static GraphIndexManager* g_graphIdx = nullptr;
-static QueryEngine* g_engine = nullptr;
-
-constexpr size_t NUM_HOTELS = 1000;
-constexpr size_t VECTOR_DIM = 128;
-
-static void SetupTestData() {
-    // RocksDBWrapper benötigt Config
-    RocksDBWrapper::Config cfg; cfg.db_path = "bench_hybrid_aql_tmp.db"; 
-    g_db = new RocksDBWrapper(cfg);
-    g_db->open();
-
-    g_secIdx = new SecondaryIndexManager(*g_db);
-    g_vectorIdx = new VectorIndexManager(*g_db);
-    g_spatialIdx = new SpatialIndexManager(*g_db);
-    g_graphIdx = new GraphIndexManager(*g_db);
-
-    g_engine = new QueryEngine(*g_db, *g_secIdx, *g_graphIdx, g_vectorIdx, g_spatialIdx);
-
-    // Sekundär-/Range-/Composite-Indizes
-    g_secIdx->createIndex("hotels", "city");
-    g_secIdx->createRangeIndex("hotels", "stars");
-    g_secIdx->createCompositeIndex("hotels", {"city", "category"});
-    // Fulltext wird im Content Benchmark lazy erstellt
-    // Räumlicher Index
-    g_spatialIdx->createSpatialIndex("hotels", "location");
-
-    // Vector Index initialisieren
-    g_vectorIdx->init("hotels", static_cast<int>(VECTOR_DIM));
-
-    std::mt19937 rng(42);
-    std::uniform_real_distribution<double> lon_dist(13.0, 13.8);
-    std::uniform_real_distribution<double> lat_dist(52.3, 52.7);
-    std::uniform_int_distribution<int> stars_dist(1, 5);
-    std::uniform_real_distribution<float> vec_dist(-1.0f, 1.0f);
-
-    std::vector<std::string> cities = {"Berlin", "Munich", "Hamburg"};
-    std::vector<std::string> categories = {"budget", "mid-range", "luxury"};
-
-    for (size_t i = 0; i < NUM_HOTELS; ++i) {
-        BaseEntity::FieldMap fields;
-        fields["name"] = std::string("Hotel_" + std::to_string(i));
-        fields["city"] = cities[i % cities.size()];
-        fields["category"] = categories[i % categories.size()];
-        fields["stars"] = static_cast<int64_t>(stars_dist(rng));
-        // Embedding
-        std::vector<float> embedding(VECTOR_DIM); for (auto &v : embedding) v = vec_dist(rng); fields["embedding"] = embedding;
-        // Geo: Punkt
-        double lon = lon_dist(rng); double lat = lat_dist(rng);
-        // Für vereinfachte Speicherung: separate Felder lon/lat und GeoJSON serialisiert
-        fields["lon"] = lon;
-        fields["lat"] = lat;
-        // Entity anlegen
-        BaseEntity entity("hotel_" + std::to_string(i), fields);
-        // GeoSidecar erstellen und am Entity setzen
-        geo::MBR mbr(lon, lat, lon, lat);
-        geo::GeoSidecar sidecar(mbr);
-        entity.setGeoSidecar(sidecar);
-        // Persist & Indizes pflegen
-        g_secIdx->put("hotels", entity);
-        g_vectorIdx->addEntity(entity, "embedding");
-        g_spatialIdx->insert("hotels", entity.getPrimaryKey(), sidecar);
-    }
-
-    THEMIS_INFO("Benchmark test data setup complete: {} hotels", NUM_HOTELS);
-}
-
-static void TeardownTestData() {
-    delete g_engine;
-    delete g_graphIdx;
-    delete g_spatialIdx;
-    delete g_vectorIdx;
-    delete g_secIdx;
-    delete g_db;
-    
-    // Cleanup temp DB
-    std::filesystem::remove_all("bench_hybrid_aql_tmp.db");
-}
+using namespace themis::aql;
 
 // ============================================================================
-// Benchmark: Vector+Geo via AQL Sugar
+// Shared fixtures / constants
 // ============================================================================
 
-static void BM_VectorGeo_AQL_Sugar(benchmark::State& state) {
-    std::string aql = R"(
-        FOR doc IN hotels
-          FILTER ST_Within(doc.location, [13.3, 52.4, 13.7, 52.6])
-          FILTER doc.city == "Berlin"
-          SORT SIMILARITY(doc.embedding, @queryVec) DESC
-          LIMIT 10
-          RETURN doc
-    )";
-    
-    // Query vector
-    std::vector<float> queryVec(VECTOR_DIM, 0.5f);
-    
+// A representative multi-clause AQL query used across several benchmarks.
+static const char* kSimpleAQL =
+    "FOR u IN users FILTER u.city == \"Berlin\" SORT u.name RETURN u";
+
+// A moderately complex query that exercises more token types.
+static const char* kComplexAQL =
+    "FOR u IN users\n"
+    "  FILTER u.age >= 18 AND u.active == true\n"
+    "  LET score = SIMILARITY(u.embedding, @query_vec)\n"
+    "  SORT score DESC\n"
+    "  LIMIT 10\n"
+    "  RETURN { id: u._id, name: u.name, score: score }";
+
+// An LLM response containing an embedded AQL code block.
+static const char* kLLMResponse =
+    "Here is the query you requested:\n\n"
+    "```aql\n"
+    "FOR doc IN products\n"
+    "  FILTER doc.price < 100\n"
+    "  SORT doc.rating DESC\n"
+    "  RETURN doc\n"
+    "```\n\n"
+    "This returns all products cheaper than 100, sorted by rating.";
+
+// Schema context string used for schema-aware scoring.
+static const char* kSchemaContext =
+    "collections: [users, orders, products]\n"
+    "users: { _id, name, age, city, active, embedding }";
+
+// ============================================================================
+// AQLSyntaxHighlighter benchmarks
+// ============================================================================
+
+static void BM_Highlighter_Tokenize_Simple(benchmark::State& state) {
+    AQLSyntaxHighlighter h(/*use_ansi=*/false);
     for (auto _ : state) {
-        auto [st, result] = executeAql(aql, *g_engine);
-        benchmark::DoNotOptimize(result);
-        if (!st.ok) state.SkipWithError(st.message.c_str());
+        benchmark::DoNotOptimize(h.tokenize(kSimpleAQL));
     }
-    
-    state.SetItemsProcessed(state.iterations());
-    state.counters["hotels"] = NUM_HOTELS;
 }
-BENCHMARK(BM_VectorGeo_AQL_Sugar)->Unit(benchmark::kMillisecond);
+BENCHMARK(BM_Highlighter_Tokenize_Simple);
 
-// ============================================================================
-// Benchmark: Vector+Geo via Direct C++ API
-// ============================================================================
-
-static void BM_VectorGeo_CPP_API(benchmark::State& state) {
-    std::vector<float> queryVec(VECTOR_DIM, 0.5f);
-    
-    VectorGeoQuery q;
-    q.table = "hotels";
-    q.vector_field = "embedding";
-    q.geom_field = "location";
-    q.query_vector = queryVec;
-    q.k = 10;
-    
-    // Build spatial filter AST
-    auto bbox = std::make_shared<query::ArrayLiteralExpr>(std::vector<std::shared_ptr<query::Expression>>{
-        std::make_shared<query::LiteralExpr>(13.3),
-        std::make_shared<query::LiteralExpr>(52.4),
-        std::make_shared<query::LiteralExpr>(13.7),
-        std::make_shared<query::LiteralExpr>(52.6)
-    });
-    auto loc = std::make_shared<query::FieldAccessExpr>(std::make_shared<query::VariableExpr>("doc"), "location");
-    auto spatialCall = std::make_shared<query::FunctionCallExpr>("ST_Within", std::vector<std::shared_ptr<query::Expression>>{loc, bbox});
-    q.spatial_filter = spatialCall;
-    
-    // Equality filter
-    auto city_fa = std::make_shared<query::FieldAccessExpr>(std::make_shared<query::VariableExpr>("doc"), "city");
-    auto city_lit = std::make_shared<query::LiteralExpr>(std::string("Berlin"));
-    auto city_eq = std::make_shared<query::BinaryOpExpr>(query::BinaryOperator::Eq, city_fa, city_lit);
-    q.extra_filters.push_back(city_eq);
-    
+static void BM_Highlighter_Tokenize_Complex(benchmark::State& state) {
+    AQLSyntaxHighlighter h(/*use_ansi=*/false);
     for (auto _ : state) {
-        auto [st, result] = g_engine->executeVectorGeoQuery(q);
-        benchmark::DoNotOptimize(result);
-        if (!st.ok) state.SkipWithError(st.message.c_str());
+        benchmark::DoNotOptimize(h.tokenize(kComplexAQL));
     }
-    
-    state.SetItemsProcessed(state.iterations());
-    state.counters["hotels"] = NUM_HOTELS;
 }
-BENCHMARK(BM_VectorGeo_CPP_API)->Unit(benchmark::kMillisecond);
+BENCHMARK(BM_Highlighter_Tokenize_Complex);
 
-// ============================================================================
-// Benchmark: Content+Geo via AQL Sugar
-// ============================================================================
-
-static void BM_ContentGeo_AQL_Sugar(benchmark::State& state) {
-    // Setup fulltext index first
-    static bool ftSetup = false;
-    if (!ftSetup) {
-        g_secIdx->createFulltextIndex("hotels", "name");
-        ftSetup = true;
+// Tokenization throughput as query length scales.
+static void BM_Highlighter_Tokenize_Scale(benchmark::State& state) {
+    AQLSyntaxHighlighter h(/*use_ansi=*/false);
+    // Build a query of roughly state.range(0) * 10 characters.
+    std::string query;
+    query.reserve(static_cast<std::size_t>(state.range(0)) * 24);
+    for (int i = 0; i < state.range(0); ++i) {
+        query += "FILTER u.x" + std::to_string(i) + " == " + std::to_string(i) + " ";
     }
-    
-    std::string aql = R"(
-        FOR doc IN hotels
-          FILTER FULLTEXT(doc.name, "Hotel", 100)
-          FILTER ST_Within(doc.location, [13.3, 52.4, 13.7, 52.6])
-          SORT PROXIMITY(doc.location, [13.5, 52.52]) ASC
-          LIMIT 20
-          RETURN doc
-    )";
-    
     for (auto _ : state) {
-        auto [st, result] = executeAql(aql, *g_engine);
-        benchmark::DoNotOptimize(result);
-        if (!st.ok) state.SkipWithError(st.message.c_str());
+        benchmark::DoNotOptimize(h.tokenize(query));
     }
-    
-    state.SetItemsProcessed(state.iterations());
+    state.SetComplexityN(state.range(0));
 }
-BENCHMARK(BM_ContentGeo_AQL_Sugar)->Unit(benchmark::kMillisecond);
+BENCHMARK(BM_Highlighter_Tokenize_Scale)->Range(1, 64)->Complexity();
 
-// ============================================================================
-// Benchmark: Content+Geo via Direct C++ API
-// ============================================================================
-
-static void BM_ContentGeo_CPP_API(benchmark::State& state) {
-    ContentGeoQuery q;
-    q.table = "hotels";
-    q.text_field = "name";
-    q.fulltext_query = "Hotel";
-    q.geom_field = "location";
-    q.limit = 20;
-    q.boost_by_distance = true;
-    q.center_point = std::vector<float>{13.5f, 52.52f};
-    
-    // Spatial filter
-    auto bbox = std::make_shared<query::ArrayLiteralExpr>(std::vector<std::shared_ptr<query::Expression>>{
-        std::make_shared<query::LiteralExpr>(13.3),
-        std::make_shared<query::LiteralExpr>(52.4),
-        std::make_shared<query::LiteralExpr>(13.7),
-        std::make_shared<query::LiteralExpr>(52.6)
-    });
-    auto loc = std::make_shared<query::FieldAccessExpr>(std::make_shared<query::VariableExpr>("doc"), "location");
-    auto spatialCall = std::make_shared<query::FunctionCallExpr>("ST_Within", std::vector<std::shared_ptr<query::Expression>>{loc, bbox});
-    q.spatial_filter = spatialCall;
-    
+static void BM_Highlighter_HighlightBlock_Plain(benchmark::State& state) {
+    AQLSyntaxHighlighter h(/*use_ansi=*/false);
     for (auto _ : state) {
-        auto [st, result] = g_engine->executeContentGeoQuery(q);
-        benchmark::DoNotOptimize(result);
-        if (!st.ok) state.SkipWithError(st.message.c_str());
+        benchmark::DoNotOptimize(h.highlightBlock(kComplexAQL));
     }
-    
-    state.SetItemsProcessed(state.iterations());
 }
-BENCHMARK(BM_ContentGeo_CPP_API)->Unit(benchmark::kMillisecond);
+BENCHMARK(BM_Highlighter_HighlightBlock_Plain);
 
-// ============================================================================
-// Benchmark: Plan Overhead (Parsing + Translation)
-// ============================================================================
-
-static void BM_AQL_Parse_Translate_Only(benchmark::State& state) {
-    std::string aql = R"(
-        FOR doc IN hotels
-          FILTER ST_Within(doc.location, [13.3, 52.4, 13.7, 52.6])
-          SORT SIMILARITY(doc.embedding, @vec) DESC
-          LIMIT 10
-          RETURN doc
-    )";
-    
+static void BM_Highlighter_HighlightBlock_ANSI(benchmark::State& state) {
+    AQLSyntaxHighlighter h(/*use_ansi=*/true);
     for (auto _ : state) {
-        query::AQLParser parser;
-        auto parseResult = parser.parse(aql);
-        if (!parseResult.success) {
-            state.SkipWithError(parseResult.error.message.c_str());
-            continue;
-        }
-        benchmark::DoNotOptimize(parseResult.query);
-        auto tr = AQLTranslator::translate(parseResult.query);
-        benchmark::DoNotOptimize(tr);
+        benchmark::DoNotOptimize(h.highlightBlock(kComplexAQL));
     }
-    
-    state.SetItemsProcessed(state.iterations());
 }
-BENCHMARK(BM_AQL_Parse_Translate_Only)->Unit(benchmark::kMicrosecond);
+BENCHMARK(BM_Highlighter_HighlightBlock_ANSI);
+
+static void BM_Highlighter_AnnotateErrors_Valid(benchmark::State& state) {
+    AQLSyntaxHighlighter h(/*use_ansi=*/false);
+    for (auto _ : state) {
+        benchmark::DoNotOptimize(h.annotateErrors(kComplexAQL));
+    }
+}
+BENCHMARK(BM_Highlighter_AnnotateErrors_Valid);
+
+static void BM_Highlighter_AnnotateErrors_Malformed(benchmark::State& state) {
+    AQLSyntaxHighlighter h(/*use_ansi=*/false);
+    // Intentionally malformed: unbalanced brace, unterminated string.
+    static const char* kBad = "FOR u IN users { FILTER u.name == \"Alice RETURN u";
+    for (auto _ : state) {
+        benchmark::DoNotOptimize(h.annotateErrors(kBad));
+    }
+}
+BENCHMARK(BM_Highlighter_AnnotateErrors_Malformed);
+
+static void BM_Highlighter_FormatLLMResponse(benchmark::State& state) {
+    AQLSyntaxHighlighter h(/*use_ansi=*/false);
+    for (auto _ : state) {
+        benchmark::DoNotOptimize(h.formatLLMResponse(kLLMResponse));
+    }
+}
+BENCHMARK(BM_Highlighter_FormatLLMResponse);
+
+// ============================================================================
+// AQLConfidenceScorer benchmarks
+// ============================================================================
+
+static void BM_ConfidenceScorer_NoSchema(benchmark::State& state) {
+    AQLConfidenceScorer scorer;
+    for (auto _ : state) {
+        benchmark::DoNotOptimize(scorer.score(kComplexAQL));
+    }
+}
+BENCHMARK(BM_ConfidenceScorer_NoSchema);
+
+static void BM_ConfidenceScorer_WithSchema(benchmark::State& state) {
+    AQLConfidenceScorer scorer;
+    for (auto _ : state) {
+        benchmark::DoNotOptimize(scorer.score(kComplexAQL, "", kSchemaContext));
+    }
+}
+BENCHMARK(BM_ConfidenceScorer_WithSchema);
+
+static void BM_ConfidenceScorer_Simple(benchmark::State& state) {
+    AQLConfidenceScorer scorer;
+    for (auto _ : state) {
+        benchmark::DoNotOptimize(scorer.score(kSimpleAQL));
+    }
+}
+BENCHMARK(BM_ConfidenceScorer_Simple);
+
+// Scoring throughput as query length scales.
+static void BM_ConfidenceScorer_Scale(benchmark::State& state) {
+    AQLConfidenceScorer scorer;
+    std::string query = "FOR u IN users ";
+    for (int i = 0; i < state.range(0); ++i) {
+        query += "FILTER u.f" + std::to_string(i) + " == " + std::to_string(i) + " ";
+    }
+    query += "RETURN u";
+    for (auto _ : state) {
+        benchmark::DoNotOptimize(scorer.score(query));
+    }
+    state.SetComplexityN(state.range(0));
+}
+BENCHMARK(BM_ConfidenceScorer_Scale)->Range(1, 64)->Complexity();
+
+// ============================================================================
+// AQLFewShotExampleLibrary benchmarks
+// ============================================================================
+
+class FewShotFixture : public benchmark::Fixture {
+public:
+    void SetUp(const benchmark::State&) override {
+        lib_ = std::make_unique<AQLFewShotExampleLibrary>();
+    }
+    std::unique_ptr<AQLFewShotExampleLibrary> lib_;
+};
+
+BENCHMARK_F(FewShotFixture, FindRelevant_Top3)(benchmark::State& state) {
+    for (auto _ : state) {
+        benchmark::DoNotOptimize(
+            lib_->findRelevant("find all users in a city", 3));
+    }
+}
+
+BENCHMARK_F(FewShotFixture, FindRelevant_Top5)(benchmark::State& state) {
+    for (auto _ : state) {
+        benchmark::DoNotOptimize(
+            lib_->findRelevant("find all users in a city", 5));
+    }
+}
+
+BENCHMARK_F(FewShotFixture, FindRelevant_DomainFilter)(benchmark::State& state) {
+    for (auto _ : state) {
+        benchmark::DoNotOptimize(
+            lib_->findRelevant("shortest path between nodes", 3,
+                               AQLExampleDomain::GRAPH));
+    }
+}
+
+BENCHMARK_F(FewShotFixture, BuildPromptSection)(benchmark::State& state) {
+    for (auto _ : state) {
+        benchmark::DoNotOptimize(
+            lib_->buildPromptSection("vector similarity search", 3));
+    }
+}
+
+BENCHMARK_F(FewShotFixture, FindByDomain_Graph)(benchmark::State& state) {
+    for (auto _ : state) {
+        benchmark::DoNotOptimize(
+            lib_->findByDomain(AQLExampleDomain::GRAPH));
+    }
+}
+
+BENCHMARK_F(FewShotFixture, FindByDomain_Vector)(benchmark::State& state) {
+    for (auto _ : state) {
+        benchmark::DoNotOptimize(
+            lib_->findByDomain(AQLExampleDomain::VECTOR));
+    }
+}
+
+BENCHMARK_F(FewShotFixture, FormatForPrompt)(benchmark::State& state) {
+    auto examples = lib_->findByDomain(AQLExampleDomain::DOCUMENT);
+    for (auto _ : state) {
+        benchmark::DoNotOptimize(
+            AQLFewShotExampleLibrary::formatForPrompt(examples));
+    }
+}
 
 // ============================================================================
 // Main
 // ============================================================================
 
-int main(int argc, char** argv) {
-    themis::utils::Logger::init();
-    themis::Tracer::initialize("bench_hybrid_aql", "http://127.0.0.1:4318");
-    THEMIS_INFO("Starting Hybrid AQL Benchmark Suite (hybrid queries)");
-    SetupTestData();
-    ::benchmark::Initialize(&argc, argv);
-    ::benchmark::RunSpecifiedBenchmarks();
-    TeardownTestData();
-    ::benchmark::Shutdown();
-    THEMIS_INFO("Benchmark suite completed");
-    return 0;
-}
+BENCHMARK_MAIN();

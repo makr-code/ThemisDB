@@ -1,3 +1,25 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_predictive_detector.cpp                       ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:31:34                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     482                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include <gtest/gtest.h>
 #include "sharding/predictive_detector.h"
 #include "sharding/redundancy_strategy.h"
@@ -31,8 +53,8 @@ protected:
         
         // Create redundancy strategy
         RedundancyConfig raid_config;
-        raid_config.mode = RedundancyMode::RAID5;
-        raid_config.stripe_size = 3;
+        raid_config.mode = RedundancyMode::PARITY;  // Use PARITY instead of RAID5
+        // raid_config.stripe_size removed - not part of RedundancyConfig
         strategy_ = std::make_unique<RedundancyStrategy>(raid_config);
     }
     
@@ -369,7 +391,7 @@ TEST_F(PredictiveDetectorTest, TruePositiveRate) {
 TEST_F(PredictiveDetectorTest, MonitoringLoopIntegration) {
     PredictiveConfig config;
     config.enabled = true;
-    config.check_interval = std::chrono::milliseconds(100);  // Fast for testing
+    config.check_interval = std::chrono::seconds(1);  // 1 second for testing (must be chrono::seconds)
     
     int alert_count = 0;
     config.alert_callback = [&alert_count](const std::string& msg) {

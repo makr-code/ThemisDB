@@ -1,7 +1,7 @@
-﻿# MVCC Design für THEMIS
+# MVCC Design für THEMIS
 
-**Stand:** 5. Dezember 2025  
-**Version:** v1.3.0  
+**Stand:** 3. März 2026  
+**Version:** v0.0.33  
 **Kategorie:** 🧩 Architecture
 
 ---
@@ -9,25 +9,48 @@
 ## 📑 Inhaltsverzeichnis
 
 - [Übersicht](#übersicht)
-- [Implementierte Lösung](#implementierte-lösung-engine-gestützte-mvcc)
-- [Architektur](#architektur)
+- [Zwei MVCC-Subsysteme](#zwei-mvcc-subsysteme)
+- [Implementierte Lösung: Engine-gestützte MVCC](#implementierte-lösung-engine-gestützte-mvcc)
 - [Indexe mit MVCC](#indexe-mit-mvcc)
 - [Aktuelle Situation vs. MVCC](#aktuelle-situation-vs-mvcc)
-- [Kernkomponenten](#kernkomponenten-skizze)
-- [Originales Design](#originales-design-archiv---nicht-implementiert)
+- [Design-Optionen (Archiv)](#design-optionen-archiv)
+- [Kernkomponenten (Skizze)](#kernkomponenten-skizze)
+- [Originales Design (Archiv)](#originales-design-archiv---nicht-implementiert)
+- [Storage-Hinweise](#storage-hinweise)
+- [Migration Plan (abgeschlossen)](#migration-plan)
+- [Performance-Überlegungen](#performance-überlegungen)
+- [Alternativen (Archiv)](#alternativen)
+- [Ressourcen](#ressourcen)
+- [Verwandte Dokumentation](#verwandte-dokumentation)
+
+> **Weiterführende Dokumentation:**
+> - Vollständige Referenz des `MVCCStore`/HLC-Subsystems → [Compendium Kapitel 18 – MVCC und HLC](../../../compendium/docs/chapter_mvcc_hlc.md)
+> - Tuning und Konfiguration der `TransactionManager`-Schicht → [MVCC Tuning Guide (EN)](../../en/features/MVCC_TUNING_GUIDE.md)
 
 ## ✅ IMPLEMENTIERUNGSSTATUS: PRODUKTIONSREIF
 
-MVCC ist implementiert (Snapshot-Isolation, Konflikterkennung). Die aktuell produktive Variante entspricht der in „Option 1“ beschriebenen Engine-gestützten Lösung. Details zum physischen Layout und zu WAL/Snapshots siehe „RocksDB Storage“.
+MVCC ist vollständig implementiert (Snapshot-Isolation, Konflikterkennung, HLC-basierte Versionierung). Details zum physischen Layout und zu WAL/Snapshots siehe „RocksDB Storage“.
+
+## Zwei MVCC-Subsysteme
+
+ThemisDB nutzt zwei komplementäre MVCC-Schichten:
+
+| Subsystem | Klassen | Zweck | Dokumentation |
+|-----------|---------|-------|---------------|
+| **MVCCStore / HLC** | `MVCCStore`, `HybridLogicalClock` | Per-Record-Versionierung mit HLC-Zeitstempeln; Snapshot-Reads ohne Locks; REST-API `/api/v1/mvcc/…` | [Compendium Kap. 18](../../../compendium/docs/chapter_mvcc_hlc.md) |
+| **TransactionManager / RocksDB** | `TransactionManager`, `RocksDBWrapper::TransactionWrapper` | ACID-Transaktionen, Write-Write-Konflikterkennung, atomares Commit über alle Indizes | [MVCC Tuning Guide](../../en/features/MVCC_TUNING_GUIDE.md) |
+
+Beide Schichten ergänzen sich: `MVCCStore` wird für HLC-gestempelten Zugriff auf einzelne Records und den MVCC-REST-Endpunkt eingesetzt; `TransactionManager` koordiniert zusammengesetzte Transaktionen über primäre Daten und alle Index-Typen.
 
 ### Test-Resultate
 - **Transaction Tests**: 27/27 PASS (100%)
 - **MVCC Tests**: 12/12 PASS (100%)
-- **Performance**: Minimal Overhead gegenüber WriteBatch
+- **Performance** (TransactionManager-Schicht, Minimal-Overhead gegenüber WriteBatch):
   - SingleEntity: MVCC ~3.4k/s vs WriteBatch ~3.1k/s
   - Batch 100: WriteBatch ~27.8k/s
   - Rollback: MVCC ~35.3k/s
   - Snapshot Reads: ~44k/s
+- Weitere Benchmarks (TransactionManager + RocksDB-Ebene): siehe [MVCC Tuning Guide](../../en/features/MVCC_TUNING_GUIDE.md#performance-benchmarks)
 
 ---
 
@@ -273,7 +296,7 @@ class MVCCGarbageCollector {
 
 ## Storage-Hinweise
 
-Siehe ergänzend: [RocksDB Storage](storage/rocksdb_layout.md) für WAL, Snapshots und Compaction sowie Schlüsselpräfixe (entities, idx, ridx, graph, vector, changefeed, ts).
+Siehe ergänzend: [RocksDB Storage](../../storage/rocksdb_layout.md) für WAL, Snapshots und Compaction sowie Schlüsselpräfixe (entities, idx, ridx, graph, vector, changefeed, ts).
 
 ```cpp
 #include <rocksdb/utilities/transaction_db.h>
@@ -510,38 +533,19 @@ class MVCCGraphIndex {
 - Nur Conflict Detection, kein Locking
 - **Aufwand**: 2-3 Wochen, **Benefit**: 80% von MVCC
 
-## Empfehlung
-
-**Start: Hybrid-Ansatz (SAGA + Optimistic Locking)**
-
-1. **Kurzfristig** (1-2 Wochen):
-   - Write-Write Conflict Detection zu SAGA hinzufügen
-   - Version-Counter in TransactionManager
-   - Conflict-Check vor Commit
-   - **Ergebnis**: 70% MVCC-Benefit, minimaler Aufwand
-
-2. **Mittelfristig** (1-2 Monate):
-   - Migration zu RocksDB OptimisticTransactionDB
-   - Snapshot Isolation implementieren
-   - Index-Versionierung
-   - **Ergebnis**: Vollständiges MVCC
-
-3. **Langfristig** (3-6 Monate):
-   - Garbage Collection optimieren
-   - Temporal Queries (Time-Travel)
-   - Performance Tuning
-   - **Ergebnis**: Production-ready MVCC
-
-## Nächste Schritte
-
-1. **Proof of Concept**: RocksDB TransactionDB Test (1 Tag)
-2. **Benchmark**: SAGA vs. Optimistic vs. Full MVCC (2 Tage)
-3. **Entscheidung**: Hybrid oder Full MVCC
-4. **Implementation**: Nach gewähltem Ansatz
-
 ## Ressourcen
 
 - [RocksDB Transactions Wiki](https://github.com/facebook/rocksdb/wiki/Transactions)
 - [PostgreSQL MVCC Internals](https://www.postgresql.org/docs/current/mvcc.html)
 - [Cockroach MVCC Design](https://www.cockroachlabs.com/docs/stable/architecture/transaction-layer.html)
 - [Percolator Paper](https://research.google/pubs/pub36726/) - Google's MVCC System
+- [Git/GitHub/GitOps Vergleich](../../research/git_gitops_themis_vergleich.md) - Vergleich zur Code-Versionskontrolle
+
+## Verwandte Dokumentation
+
+| Dokument | Inhalt |
+|----------|--------|
+| [Compendium Kap. 18 – MVCC und HLC](../../../compendium/docs/chapter_mvcc_hlc.md) | Vollständige Referenz: `MVCCStore`, HLC-API, REST-Endpunkte, Metriken, Raft-Bridge |
+| [MVCC Tuning Guide (EN)](../../en/features/MVCC_TUNING_GUIDE.md) | Konfiguration, Tuning und Benchmarks der TransactionManager-Schicht |
+| [RocksDB Storage Layout](../../storage/rocksdb_layout.md) | Schlüsselpräfixe, WAL, Compaction, Snapshots |
+| [Transaction Best Practices (EN)](../../en/features/TRANSACTION_BEST_PRACTICES.md) | Anwendungsempfehlungen für Transaktionen |

@@ -1,3 +1,27 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            process_pattern_matcher.h                          ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:05:32                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     448                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • edf27e3ee  2026-02-26  Refactor CMake configuration, add vision components, and ... ║
+    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include "analytics/process_mining.h"
@@ -7,6 +31,9 @@
 #include <map>
 #include <string>
 #include <optional>
+#include <mutex>
+#include <set>
+#include <algorithm>
 
 namespace themis {
 
@@ -167,10 +194,11 @@ class GraphIndex;
 class ProcessPatternMatcher {
 public:
     struct Status {
-        bool ok = true;
+        bool is_ok = true;
         std::string message;
         static Status OK() { return {}; }
         static Status Error(std::string msg) { return Status{false, std::move(msg)}; }
+        bool ok() const { return is_ok; }
     };
     
     /**
@@ -219,7 +247,7 @@ public:
      * @param ideal_pattern Expected/ideal process pattern
      * @return Detailed comparison including deviations
      */
-    std::pair<Status, ConformanceResult> compareWithIdeal(
+    std::pair<Status, ProcessMining::ConformanceResult> compareWithIdeal(
         const std::string& case_id,
         const ProcessPattern& ideal_pattern
     );
@@ -291,9 +319,9 @@ public:
      * - Average similarity scores
      */
     struct PatternStatistics {
-        int total_patterns_cached;
-        int total_comparisons_performed;
-        double avg_computation_time_ms;
+        int total_patterns_cached = 0;
+        int total_comparisons_performed = 0;
+        double avg_computation_time_ms = 0.0;
         std::map<std::string, int> pattern_frequency;  ///< pattern_id -> usage count
         std::map<std::string, double> avg_similarity;  ///< pattern_id -> average score
     };
@@ -308,7 +336,7 @@ private:
     RocksDBWrapper& db_;
     VectorIndex* vector_index_;
     GraphIndex* graph_index_;
-    ProcessMining process_mining_;
+    mutable ProcessMining process_mining_;
     
     // Cache for frequent patterns
     mutable std::map<std::string, std::vector<SimilarityResult>> pattern_cache_;

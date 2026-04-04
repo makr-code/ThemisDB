@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            office_processor.cpp                               ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:15:14                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     1159                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 0e0f8092c  2026-03-11  audit(content): fix EINTR/read-error bugs, add missing te... ║
+    • a8e6e6790  2026-03-11  feat(content): add focused test targets and fix stale doc... ║
+    • cc5f91a2a  2026-03-11  fix: code audit — update docs and metadata consistency fo... ║
+    • be3d43d96  2026-03-11  feat: LibreOffice headless fallback for legacy .doc/.xls/... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file office_processor.cpp
  * @brief Office Content Processor Implementation
@@ -12,11 +38,24 @@
  */
 
 #include "content/office_processor.h"
+#include "content/content_metrics.h"
 #include <regex>
 #include <sstream>
 #include <cstring>
 #include <algorithm>
 #include <map>
+
+// POSIX subprocess support for LibreOffice headless fallback
+#ifndef _WIN32
+#   include <spawn.h>
+#   include <sys/wait.h>
+#   include <unistd.h>
+#   include <fcntl.h>
+#   include <signal.h>
+#   include <sys/stat.h>
+#   include <cerrno>
+#   include <ctime>
+#endif
 
 // ZIP handling (minizip or libzip)
 #ifdef THEMIS_ENABLE_OFFICE
@@ -76,8 +115,9 @@ OfficeDocumentType OfficeProcessor::detectDocumentType(const std::string& blob) 
         // Check for legacy Office formats (OLE Compound Document)
         if (blob.size() >= 8) {
             const unsigned char* data = reinterpret_cast<const unsigned char*>(blob.data());
-            // OLE header: D0 CF 11 E0 A1 B1 1A E1
-            if (data[0] == 0xD0 && data[1] == 0xCF && data[2] == 0x11 && data[3] == 0xE0) {
+            // Full 8-byte OLE Compound Document header: D0 CF 11 E0 A1 B1 1A E1
+            if (data[0] == 0xD0 && data[1] == 0xCF && data[2] == 0x11 && data[3] == 0xE0 &&
+                data[4] == 0xA1 && data[5] == 0xB1 && data[6] == 0x1A && data[7] == 0xE1) {
                 // Legacy Office format - try to determine type
                 // This is a simplified check
                 if (blob.find("WordDocument") != std::string::npos) {
@@ -148,30 +188,33 @@ ExtractionResult OfficeProcessor::extract(
         case OfficeDocumentType::DOCX:
             result.metadata["document_type"] = "docx";
             result.metadata["mime_type"] = DOCX_CONTENT_TYPE;
-            return extractDOCX(blob);
+            result = extractDOCX(blob);
+            break;
             
         case OfficeDocumentType::XLSX:
             result.metadata["document_type"] = "xlsx";
             result.metadata["mime_type"] = XLSX_CONTENT_TYPE;
-            return extractXLSX(blob);
+            result = extractXLSX(blob);
+            break;
             
         case OfficeDocumentType::PPTX:
             result.metadata["document_type"] = "pptx";
             result.metadata["mime_type"] = PPTX_CONTENT_TYPE;
-            return extractPPTX(blob);
+            result = extractPPTX(blob);
+            break;
             
         case OfficeDocumentType::ODT:
         case OfficeDocumentType::ODS:
         case OfficeDocumentType::ODP:
             result.metadata["document_type"] = "odf";
-            return extractODF(blob, doc_type);
+            result = extractODF(blob, doc_type);
+            break;
             
         case OfficeDocumentType::DOC:
         case OfficeDocumentType::XLS:
         case OfficeDocumentType::PPT:
-            result.error_message = "Legacy Office formats (DOC/XLS/PPT) not fully supported. Please convert to OOXML format.";
-            result.metadata["document_type"] = "legacy_office";
-            return result;
+            result = extractLegacyViaLibreOffice(blob, doc_type);
+            break;
             
         case OfficeDocumentType::RTF:
             result.metadata["document_type"] = "rtf";
@@ -194,12 +237,23 @@ ExtractionResult OfficeProcessor::extract(
                 result.metadata["extraction_method"] = "basic_rtf";
                 result.ok = true;
             }
-            return result;
+            break;
             
         default:
             result.error_message = "Unknown or unsupported Office document format";
-            return result;
+            break;
     }
+
+    // Report metrics if a ContentMetrics instance was configured
+    if (config_.metrics) {
+        if (result.ok) {
+            config_.metrics->recordOfficeExtracted();
+        } else {
+            config_.metrics->recordExtractError();
+        }
+    }
+
+    return result;
 }
 
 ExtractionResult OfficeProcessor::extractDOCX(const std::string& blob) {
@@ -698,6 +752,304 @@ std::vector<std::string> OfficeProcessor::listZipEntries(const std::string&) {
     return {};
 }
 #endif
+
+// ============================================================================
+// LibreOffice headless fallback for legacy OLE formats (DOC/XLS/PPT)
+// ============================================================================
+
+ExtractionResult OfficeProcessor::extractLegacyViaLibreOffice(
+    const std::string& blob,
+    OfficeDocumentType doc_type
+) {
+    ExtractionResult result;
+    result.ok = false;
+    result.metadata = json::object();
+
+    // Map document type to file extension and metadata string
+    const char* ext = nullptr;
+    const char* type_str = nullptr;
+    switch (doc_type) {
+        case OfficeDocumentType::DOC: ext = ".doc"; type_str = "doc"; break;
+        case OfficeDocumentType::XLS: ext = ".xls"; type_str = "xls"; break;
+        case OfficeDocumentType::PPT: ext = ".ppt"; type_str = "ppt"; break;
+        default:
+            result.error_message = "extractLegacyViaLibreOffice: unsupported document type";
+            return result;
+    }
+    result.metadata["document_type"] = type_str;
+    result.metadata["extraction_method"] = "libreoffice_headless";
+
+    // Validate OLE Compound Document header: D0 CF 11 E0 A1 B1 1A E1 (all 8 bytes)
+    if (blob.size() < 8) {
+        result.error_message = "Legacy Office document too small (< 8 bytes)";
+        return result;
+    }
+    const auto* raw = reinterpret_cast<const unsigned char*>(blob.data());
+    if (!(raw[0] == 0xD0 && raw[1] == 0xCF && raw[2] == 0x11 && raw[3] == 0xE0 &&
+          raw[4] == 0xA1 && raw[5] == 0xB1 && raw[6] == 0x1A && raw[7] == 0xE1)) {
+        result.error_message = "Legacy Office document has invalid OLE header (expected D0 CF 11 E0 A1 B1 1A E1)";
+        return result;
+    }
+
+#ifndef _WIN32
+    // -----------------------------------------------------------------------
+    // Create an isolated temp directory.
+    // Use P_tmpdir (POSIX) to honour TMPDIR; fall back to /tmp.
+    // -----------------------------------------------------------------------
+    std::string tmp_base = P_tmpdir ? std::string(P_tmpdir) : std::string("/tmp");
+    std::string tmpdir_tpl = tmp_base + "/themisdb_lo_XXXXXX";
+    std::vector<char> tmpdir_buf(tmpdir_tpl.begin(), tmpdir_tpl.end());
+    tmpdir_buf.push_back('\0');
+    char* tmpdir_ptr = mkdtemp(tmpdir_buf.data());
+    if (!tmpdir_ptr) {
+        result.error_message = std::string("Failed to create temp directory: ") + strerror(errno);
+        return result;
+    }
+    std::string tmp_dir(tmpdir_ptr);
+
+    // RAII guard: always remove temp dir + tracked files on scope exit
+    struct TempGuard {
+        std::string dir;
+        std::string in_file;
+        std::string out_file;
+        ~TempGuard() {
+            if (!in_file.empty())  unlink(in_file.c_str());
+            if (!out_file.empty()) unlink(out_file.c_str());
+            if (!dir.empty())      rmdir(dir.c_str());
+        }
+    } guard;
+    guard.dir = tmp_dir;
+
+    // -----------------------------------------------------------------------
+    // Write the blob to a temp input file.
+    // mkstemps ensures the name is unpredictable and collision-free.
+    // -----------------------------------------------------------------------
+    std::string in_tpl = tmp_dir + "/input_XXXXXX" + ext;
+    std::vector<char> in_buf(in_tpl.begin(), in_tpl.end());
+    in_buf.push_back('\0');
+    int in_fd = mkstemps(in_buf.data(), static_cast<int>(strlen(ext)));
+    if (in_fd < 0) {
+        result.error_message = std::string("Failed to create temp input file: ") + strerror(errno);
+        return result;
+    }
+    guard.in_file = std::string(in_buf.data());
+
+    // Restrict permissions: only the current user may read/write the temp file
+    fchmod(in_fd, S_IRUSR | S_IWUSR);
+
+    const char* bdata = blob.data();
+    size_t remaining = blob.size();
+    while (remaining > 0) {
+        ssize_t written = write(in_fd, bdata, remaining);
+        if (written < 0) {
+            if (errno == EINTR) continue;  // retry on signal interrupt
+            close(in_fd);
+            result.error_message = std::string("Failed to write temp input file: ") + strerror(errno);
+            return result;
+        }
+        bdata += written;
+        remaining -= static_cast<size_t>(written);
+    }
+    close(in_fd);
+
+    // -----------------------------------------------------------------------
+    // Build soffice argv.
+    // Command: soffice --headless --convert-to txt --outdir <tmpdir> <infile>
+    // -----------------------------------------------------------------------
+    const std::string lo_path = config_.libreoffice_path.empty()
+        ? std::string("/usr/bin/soffice")
+        : config_.libreoffice_path;
+
+    // Require an absolute path to prevent PATH-hijacking attacks
+    if (lo_path.empty() || lo_path[0] != '/') {
+        result.error_message = "libreoffice_path must be an absolute path (got: '" + lo_path + "')";
+        return result;
+    }
+
+    char* const argv[] = {
+        const_cast<char*>(lo_path.c_str()),
+        const_cast<char*>("--headless"),
+        const_cast<char*>("--convert-to"),
+        const_cast<char*>("txt"),
+        const_cast<char*>("--outdir"),
+        const_cast<char*>(tmp_dir.c_str()),
+        const_cast<char*>(guard.in_file.c_str()),
+        nullptr
+    };
+
+    // Minimal, sanitized environment to limit the subprocess attack surface.
+    // HOME is set to the tmp dir so soffice cannot modify the user's home dir.
+    std::string home_env  = "HOME=" + tmp_dir;
+    std::string tmpdir_env = "TMPDIR=" + tmp_dir;
+    char* const envp[] = {
+        const_cast<char*>("PATH=/usr/bin:/usr/local/bin:/bin"),
+        const_cast<char*>(home_env.c_str()),
+        const_cast<char*>(tmpdir_env.c_str()),
+        nullptr
+    };
+
+    // -----------------------------------------------------------------------
+    // Configure posix_spawn file actions:
+    //   • stdout and stderr → /dev/null (avoid polluting caller's streams)
+    // -----------------------------------------------------------------------
+    posix_spawn_file_actions_t file_actions;
+    posix_spawn_file_actions_init(&file_actions);
+    posix_spawn_file_actions_addopen(&file_actions, STDOUT_FILENO,
+                                     "/dev/null", O_WRONLY, 0);
+    posix_spawn_file_actions_addopen(&file_actions, STDERR_FILENO,
+                                     "/dev/null", O_WRONLY, 0);
+
+    // -----------------------------------------------------------------------
+    // Configure posix_spawnattr:
+    //   • POSIX_SPAWN_SETPGROUP  – new process group (enables kill(-pgid) on timeout)
+    //   • POSIX_SPAWN_SETSIGDEF  – reset all signal handlers to default
+    //   • POSIX_SPAWN_RESETIDS   – effective UID/GID = real UID/GID (drop SUID bits)
+    // -----------------------------------------------------------------------
+    posix_spawnattr_t spawnattr;
+    posix_spawnattr_init(&spawnattr);
+
+    short flags = POSIX_SPAWN_SETPGROUP | POSIX_SPAWN_SETSIGDEF | POSIX_SPAWN_RESETIDS;
+    posix_spawnattr_setflags(&spawnattr, flags);
+    posix_spawnattr_setpgroup(&spawnattr, 0);  // subprocess in its own process group
+
+    sigset_t sigset_all;
+    sigfillset(&sigset_all);
+    posix_spawnattr_setsigdefault(&spawnattr, &sigset_all);
+
+    // -----------------------------------------------------------------------
+    // Spawn soffice.
+    // -----------------------------------------------------------------------
+    pid_t pid = -1;
+    int spawn_ret = posix_spawn(&pid, lo_path.c_str(),
+                                &file_actions, &spawnattr,
+                                argv, envp);
+    posix_spawn_file_actions_destroy(&file_actions);
+    posix_spawnattr_destroy(&spawnattr);
+
+    if (spawn_ret != 0) {
+        result.error_message = std::string("posix_spawn failed for soffice: ") + strerror(spawn_ret);
+        return result;
+    }
+
+    // -----------------------------------------------------------------------
+    // Wait for completion with a hard timeout.
+    // Poll every 100 ms; kill the entire process group on timeout.
+    // -----------------------------------------------------------------------
+    int timeout_sec = (config_.libreoffice_timeout_seconds > 0)
+                      ? config_.libreoffice_timeout_seconds
+                      : 30;
+
+    // Record the deadline as wall-clock seconds via clock_gettime
+    struct timespec now_ts{};
+    clock_gettime(CLOCK_MONOTONIC, &now_ts);
+    long deadline_sec = now_ts.tv_sec + timeout_sec;
+
+    int wait_status = -1;
+    bool timed_out = false;
+
+    while (true) {
+        pid_t wp = waitpid(pid, &wait_status, WNOHANG);
+        if (wp == pid) {
+            break;  // child finished
+        }
+        if (wp < 0) {
+            // waitpid error: terminate the group and abort
+            kill(-pid, SIGTERM);
+            struct timespec grace = {2, 0};
+            nanosleep(&grace, nullptr);
+            kill(-pid, SIGKILL);
+            waitpid(pid, &wait_status, 0);
+            result.error_message = std::string("waitpid error: ") + strerror(errno);
+            return result;
+        }
+
+        // Check timeout
+        clock_gettime(CLOCK_MONOTONIC, &now_ts);
+        if (now_ts.tv_sec >= deadline_sec) {
+            timed_out = true;
+            // Two-phase shutdown: SIGTERM first, escalate to SIGKILL after 2 s
+            kill(-pid, SIGTERM);
+            {
+                struct timespec grace = {2, 0};
+                nanosleep(&grace, nullptr);
+            }
+            if (waitpid(pid, &wait_status, WNOHANG) != pid) {
+                kill(-pid, SIGKILL);
+                waitpid(pid, &wait_status, 0);
+            }
+            break;
+        }
+
+        // Sleep 100 ms before next poll
+        struct timespec sleep_ts = {0, 100000000L};
+        nanosleep(&sleep_ts, nullptr);
+    }
+
+    if (timed_out) {
+        result.error_message = "LibreOffice conversion timed out after "
+                               + std::to_string(timeout_sec) + " seconds";
+        result.metadata["timed_out"] = true;
+        return result;
+    }
+
+    if (!WIFEXITED(wait_status) || WEXITSTATUS(wait_status) != 0) {
+        int exit_code = WIFEXITED(wait_status) ? WEXITSTATUS(wait_status) : -1;
+        result.error_message = "LibreOffice conversion failed with exit code "
+                               + std::to_string(exit_code);
+        return result;
+    }
+
+    // -----------------------------------------------------------------------
+    // Locate the output file.
+    // soffice writes <basename_without_ext>.txt into --outdir.
+    // -----------------------------------------------------------------------
+    std::string in_full = guard.in_file;
+    std::size_t slash_pos = in_full.rfind('/');
+    std::string in_basename = (slash_pos != std::string::npos)
+                              ? in_full.substr(slash_pos + 1)
+                              : in_full;
+    // Strip the original extension and append .txt
+    std::size_t ext_len = strlen(ext);
+    std::string out_basename = (in_basename.size() > ext_len)
+                               ? in_basename.substr(0, in_basename.size() - ext_len) + ".txt"
+                               : in_basename + ".txt";
+    std::string out_path = tmp_dir + "/" + out_basename;
+    guard.out_file = out_path;
+
+    int out_fd = open(out_path.c_str(), O_RDONLY);
+    if (out_fd < 0) {
+        result.error_message = "LibreOffice output file not found at: " + out_path;
+        return result;
+    }
+
+    // Read converted text
+    std::string extracted_text;
+    {
+        char buf[4096];
+        ssize_t n;
+        while ((n = read(out_fd, buf, sizeof(buf))) > 0) {
+            extracted_text.append(buf, static_cast<size_t>(n));
+        }
+        if (n < 0) {
+            close(out_fd);
+            result.error_message = std::string("Failed to read LibreOffice output file: ") + strerror(errno);
+            return result;
+        }
+        close(out_fd);
+    }
+
+    result.text = extracted_text;
+    result.metadata["token_count"] = countTokens(extracted_text);
+    result.metadata["size_bytes"] = blob.size();
+    result.ok = true;
+    return result;
+
+#else
+    // Windows: LibreOffice headless fallback via posix_spawn is not supported.
+    result.error_message = "LibreOffice headless fallback is not supported on Windows";
+    return result;
+#endif
+}
 
 std::vector<json> OfficeProcessor::chunk(
     const ExtractionResult& extraction_result,

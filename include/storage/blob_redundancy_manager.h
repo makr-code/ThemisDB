@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            blob_redundancy_manager.h                          ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:11:43                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     586                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 78f419ea2  2026-03-13  feat(storage): implement BlobRedundancyEventListener for ... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * ThemisDB Blob-Level Redundancy Manager
  * 
@@ -33,6 +56,7 @@
 #include <condition_variable>
 
 #include <rocksdb/listener.h>
+#include "utils/expected.h"
 
 // Forward declaration for RocksDB
 namespace rocksdb {
@@ -45,6 +69,9 @@ namespace rocksdb {
 
 namespace themisdb {
 namespace storage {
+
+// Make themis::Result available in this namespace
+using themis::Result;
 
 /**
  * Blob Type Classification
@@ -282,17 +309,6 @@ struct BlobMetadata {
 };
 
 /**
- * Blob Operation Result
- */
-struct BlobOperationResult {
-    bool success = false;
-    std::string blob_id;
-    std::string error_message;
-    std::chrono::milliseconds latency{0};
-    std::vector<std::string> affected_shards;
-};
-
-/**
  * Blob Redundancy Statistics
  */
 struct BlobRedundancyStats {
@@ -407,36 +423,36 @@ public:
     void unregisterBlob(const std::string& blob_id);
     
     // Redundancy Operations
-    BlobOperationResult ensureRedundancy(const std::string& blob_id);
-    BlobOperationResult repairBlob(const std::string& blob_id);
+    Result<void> ensureRedundancy(const std::string& blob_id);
+    Result<void> repairBlob(const std::string& blob_id);
     bool verifyBlob(const std::string& blob_id);
     
     // Read/Write with redundancy
-    BlobOperationResult writeBlob(
+    Result<void> writeBlob(
         const std::string& blob_id,
         const std::vector<uint8_t>& data,
         WriteHandler handler
     );
     
-    std::optional<std::vector<uint8_t>> readBlob(
+    Result<std::vector<uint8_t>> readBlob(
         const std::string& blob_id,
         ReadHandler handler
     );
     
-    BlobOperationResult deleteBlob(
+    Result<void> deleteBlob(
         const std::string& blob_id,
         DeleteHandler handler
     );
     
     // Tier Management
-    BlobOperationResult tierDown(const std::string& blob_id, StorageTier target);
-    BlobOperationResult tierUp(const std::string& blob_id, StorageTier target);
-    std::vector<std::string> getBlobsForTierDown();
+    Result<void> tierDown(const std::string& blob_id, StorageTier target);
+    Result<void> tierUp(const std::string& blob_id, StorageTier target);
+    std::vector<std::string> getBlobsForTierDown() const;
     
     // Health and Monitoring
-    BlobMetadata getBlobMetadata(const std::string& blob_id);
-    std::vector<std::string> getDegradedBlobs();
-    std::vector<std::string> getCriticalBlobs();
+    BlobMetadata getBlobMetadata(const std::string& blob_id) const;
+    std::vector<std::string> getDegradedBlobs() const;
+    std::vector<std::string> getCriticalBlobs() const;
     BlobRedundancyStats getStats() const;
     
     // Maintenance
@@ -448,7 +464,12 @@ public:
     std::string exportPrometheusMetrics() const;
     
     // RocksDB Integration
-    std::shared_ptr<rocksdb::EventListener> createRocksDBListener();
+    Result<std::shared_ptr<rocksdb::EventListener>> createRocksDBListener();
+    
+    // Called by RocksDBBlobListener when an SST file is deleted by RocksDB.
+    // Marks all blob locations backed by the deleted file as unhealthy and
+    // queues the affected blobs for re-replication.
+    void notifySSTFileDeleted(const std::string& file_path);
     
 private:
     Config config_;

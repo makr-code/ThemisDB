@@ -1,3 +1,26 @@
+"""
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            step1_generate_svgs.py                             ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:04:56                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     169                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+"""
+
 #!/usr/bin/env python3
 """
 Generate SVGs with mmdc - with Puppeteer configuration and proper error handling
@@ -8,9 +31,11 @@ import subprocess
 import tempfile
 import json
 import signal
+import argparse
 from pathlib import Path
 
 COMPENDIUM_DIR = Path(__file__).parent
+DOCS_DIR = COMPENDIUM_DIR / "docs"
 OUTPUT_DIR = COMPENDIUM_DIR / "output"
 SVG_OUTPUT_DIR = OUTPUT_DIR / "mermaid_svg"
 
@@ -20,7 +45,7 @@ def extract_all_diagrams():
     """Extract all diagram chapters from markdown"""
     diagrams = []
     
-    for md_file in sorted(COMPENDIUM_DIR.glob("chapter_*.md")) + sorted(COMPENDIUM_DIR.glob("appendix_*.md")):
+    for md_file in sorted(DOCS_DIR.glob("chapter_*.md")) + sorted(DOCS_DIR.glob("appendix_*.md")):
         if not md_file.exists():
             continue
         
@@ -30,21 +55,25 @@ def extract_all_diagrams():
             continue
         
         pattern = r'```mermaid\n(.*?)\n```'
+        diagram_index = 0
         for match in re.finditer(pattern, content, re.DOTALL):
             code = match.group(1).strip()
             if code:
                 diagrams.append({
                     'chapter': md_file.stem,
+                    'index': diagram_index,
                     'code': code
                 })
+                diagram_index += 1
     
     return diagrams
 
 def convert_diagram(diagram):
     """Convert a single diagram with Puppeteer config"""
     chapter = diagram['chapter']
+    index = diagram['index']
     code = diagram['code']
-    svg_file = SVG_OUTPUT_DIR / f"{chapter}.svg"
+    svg_file = SVG_OUTPUT_DIR / f"{chapter}_{index}.svg"
     
     # Skip if exists
     if svg_file.exists() and svg_file.stat().st_size > 200:
@@ -132,5 +161,9 @@ def main():
 
 if __name__ == "__main__":
     import sys
+    parser = argparse.ArgumentParser(description='Generate SVG diagrams from Mermaid code')
+    parser.add_argument('--version', action='version', version='step1_generate_svgs.py v1.4.0')
+    parser.parse_args()
+    
     success = main()
     sys.exit(0 if success else 1)

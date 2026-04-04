@@ -1,11 +1,42 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            inference_engine_enhanced.h                        ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:08:21                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     527                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
+    • d1f0cf3ca  2026-03-19  fix(llm): address all PR review issues - sentinel deliver... ║
+    • cdc974975  2026-03-18  Changes before error encountered         ║
+    • c3fa68410  2026-03-11  fix(llm): audit pass 2 - fix generated_text, prompt-key c... ║
+    • 5f9187ff6  2026-03-11  feat(llm): implement KV-cache prewarming with embedding-b... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
-#include "llm/async_inference_engine.h"
+#include "llm/inference_handle.h"
 #include "llm/continuous_batch_scheduler.h"
 #include "llm/paged_kv_cache.h"
 #include "llm/llm_prefix_cache.h"
 #include "llm/llm_plugin_interface.h"
+#include "llm/model_router.h"
+#include "llm/multi_lora_manager.h"
+#include "llm/shared_worker_pool.h"
+#include "llm/speculative_decoder.h"
 #include <memory>
+#include <mutex>
 #include <vector>
 #include <unordered_map>
 #include <queue>
@@ -70,6 +101,17 @@ public:
         
         // Worker threads
         size_t num_worker_threads = 4;
+
+        // Speculative decoding (Phase 3 — latency reduction)
+        // Requires a draft model registered under speculative_draft_model_id.
+        // Automatically disabled when grammar constraints are active on a request.
+        bool enable_speculative_decoding = false;
+        /// Number of draft tokens generated per speculative step (K).
+        size_t speculative_draft_tokens = 4;
+        /// Model ID of the draft model registered via registerModel().
+        /// The draft model is typically a small, quantised variant of the
+        /// target model (e.g., INT4-quantised 0.5 B parameters).
+        std::string speculative_draft_model_id;
     };
     
     /**
@@ -105,8 +147,33 @@ public:
         double p95_latency_ms = 0.0;
         double p99_latency_ms = 0.0;
         double tokens_per_second = 0.0;
+        size_t total_tokens_generated = 0;
+
+        // Speculative decoding metrics
+        size_t speculative_draft_tokens_total = 0;    ///< Total draft tokens proposed.
+        size_t speculative_accepted_tokens = 0;       ///< Draft tokens accepted.
+        size_t speculative_rejected_tokens = 0;       ///< Draft tokens rejected.
+        double speculative_avg_acceptance_rate = 0.0; ///< Running avg acceptance rate (0-1).
+        size_t speculative_steps = 0;                 ///< Total verify() calls.
     };
     
+    /**
+     * @brief Per-model resource quota limits.
+     *
+     * Both fields default to 0, which means "unlimited".
+     * Set via setModelQuota() after registering a model.
+     */
+    struct ModelResourceQuota {
+        /// Maximum number of concurrently active requests for this model.
+        /// 0 = unlimited.
+        size_t max_concurrent_requests = 0;
+        /// Maximum memory this model may consume, in megabytes.
+        /// 0 = unlimited.  Informational only — the engine does not enforce
+        /// memory allocation; callers may use this to avoid scheduling new
+        /// requests when the model's reported footprint exceeds the limit.
+        size_t max_memory_mb = 0;
+    };
+
     /**
      * @brief Model information for load balancing
      */
@@ -117,6 +184,7 @@ public:
         double avg_response_time_ms = 0.0;
         size_t total_requests = 0;
         bool is_available = true;
+        ModelResourceQuota quota;  ///< Per-model resource limits (0 = unlimited)
     };
     
     /**
@@ -135,18 +203,181 @@ public:
     };
     
     explicit InferenceEngineEnhanced(const Config& config);
+
+    /**
+     * @brief Create enhanced engine backed by a shared worker pool.
+     *
+     * When @p pool is non-null the engine runs a single batch-coordinator
+     * thread (instead of N private worker threads).  The coordinator forms
+     * batches and submits them to the shared pool for execution, so both
+     * this engine and an AsyncInferenceEngine can share a common thread
+     * set and avoid competing for CPU cores.
+     *
+     * @param config Engine configuration.
+     * @param pool   Shared thread pool; must outlive this engine.
+     */
+    InferenceEngineEnhanced(const Config& config,
+                            std::shared_ptr<SharedWorkerPool> pool);
+
     ~InferenceEngineEnhanced();
     
     // Model management
     void registerModel(const std::string& model_id, std::shared_ptr<ILLMPlugin> plugin);
     void unregisterModel(const std::string& model_id);
     std::vector<std::string> getAvailableModels() const;
-    
+
+    /**
+     * @brief Hot-swap the plugin for a registered model without restarting the engine.
+     *
+     * Atomically replaces the plugin associated with @p model_id.  In-flight
+     * requests that have already taken a reference to the old plugin complete
+     * normally; requests dispatched after this call returns will use @p new_plugin.
+     *
+     * Thread-safe: protected by the existing models_mutex_.
+     *
+     * @param model_id   The model whose plugin should be replaced.
+     * @param new_plugin Replacement plugin; must not be null.
+     * @throws std::invalid_argument if @p new_plugin is null or @p model_id is
+     *         not registered.
+     */
+    void swapModel(const std::string& model_id, std::shared_ptr<ILLMPlugin> new_plugin);
+
+    /**
+     * @brief Hot-load a LoRA adapter into all registered model plugins at inference time.
+     *
+     * Registers the adapter metadata and immediately calls plugin->loadLoRA() on
+     * every model plugin that is currently registered with this engine (or only on
+     * @p model_id when non-empty).  Requests submitted after this call that carry
+     * the same @p adapter_id in InferenceRequest::lora_adapter_id will use the
+     * newly loaded adapter without any engine restart.
+     *
+     * Thread-safe: protected by lora_adapters_mutex_ and models_mutex_.
+     *
+     * @param adapter_id  Unique identifier for the adapter.
+     * @param path        Filesystem path to the adapter weights file.
+     * @param scale       LoRA scaling factor (default 1.0).
+     * @param model_id    Optional: restrict loading to this model only.
+     *                    When empty the adapter is loaded on all registered models.
+     * @throws std::invalid_argument if @p adapter_id or @p path is empty.
+     */
+    void loadLoRAAdapter(const std::string& adapter_id,
+                         const std::string& path,
+                         float scale = 1.0f,
+                         const std::string& model_id = "");
+
+    /**
+     * @brief Hot-unload a LoRA adapter from all registered model plugins.
+     *
+     * Removes the adapter registration and calls plugin->unloadLoRA() on every
+     * model plugin (or only @p model_id when non-empty).  In-flight requests that
+     * have already started generating with this adapter will complete normally.
+     *
+     * Thread-safe: protected by lora_adapters_mutex_ and models_mutex_.
+     *
+     * @param adapter_id Adapter to unload; no-op when not registered.
+     * @param model_id   Optional: restrict unloading to this model only.
+     * @return true if the adapter was registered and unloaded, false otherwise.
+     */
+    bool unloadLoRAAdapter(const std::string& adapter_id,
+                           const std::string& model_id = "");
+
+    /**
+     * @brief Return metadata for all currently hot-loaded LoRA adapters.
+     *
+     * @return Vector of LoRAInfo for every adapter registered via loadLoRAAdapter().
+     */
+    std::vector<LoRAInfo> getLoadedLoRAAdapters() const;
+
+    /**
+     * @brief Set (or replace) the resource quota for a registered model.
+     *
+     * Thread-safe: protected by models_mutex_.
+     *
+     * @param model_id Model identifier; must be registered.
+     * @param quota    Quota to apply.  Fields set to 0 are unlimited.
+     * @throws std::invalid_argument if @p model_id is not registered.
+     */
+    void setModelQuota(const std::string& model_id, const ModelResourceQuota& quota);
+
+    /**
+     * @brief Retrieve the current resource quota for a registered model.
+     *
+     * @param model_id Model identifier.
+     * @return Current quota, or a zero-limit quota if @p model_id is unknown.
+     */
+    ModelResourceQuota getModelQuota(const std::string& model_id) const;
+
+    // ── Content-based / metadata-tag routing ────────────────────────────────
+
+    /**
+     * @brief Add (or replace) a routing rule.
+     *
+     * When a rule matches the prompt or metadata tags of an incoming request
+     * its `target_model_id` is preferred before the normal load-balancing
+     * strategy runs.  Multiple rules are evaluated in descending priority order.
+     *
+     * @param rule  Rule to register.  Must have a non-empty `id` and
+     *              `target_model_id`, and at least one pattern or tag.
+     * @throws std::invalid_argument on invalid rule fields or bad regex.
+     */
+    void addRoutingRule(const RoutingRule& rule);
+
+    /**
+     * @brief Remove a routing rule by ID.
+     * @return true if the rule existed and was removed.
+     */
+    bool removeRoutingRule(const std::string& rule_id);
+
+    /**
+     * @brief Return all registered routing rules in priority order.
+     */
+    std::vector<RoutingRule> getRoutingRules() const;
+
+    /**
+     * @brief Remove all routing rules, restoring pure load-balancing behaviour.
+     */
+    void clearRoutingRules();
+
     // Inference submission
     InferenceHandle submit(const EnhancedInferenceRequest& request);
     std::string submitAsync(
         const EnhancedInferenceRequest& request,
         std::function<void(const InferenceResponse&)> callback
+    );
+
+    /**
+     * @brief Token-streaming callback type (mirrors AsyncInferenceEngine::TokenCallback).
+     *
+     * Called once per decoded token with @p is_final == false, and once more
+     * with an empty token string and @p is_final == true when the stream ends
+     * (normal completion or cancellation).  Must be thread-safe.
+     *
+     * @note The @p token view is only valid for the duration of the callback
+     *       invocation.  If the value needs to be retained beyond the callback
+     *       return, copy it into a @c std::string before returning.
+     */
+    using TokenCallback = std::function<void(std::string_view token, bool is_final)>;
+
+    /**
+     * @brief Submit a streaming inference request.
+     *
+     * Wraps the provided @p callback into the batch scheduler's streaming
+     * path: each decoded token is delivered via @p callback with
+     * @p is_final == false; once the stream ends (completion or
+     * InferenceHandle::cancel()) a final call with an empty token and
+     * @p is_final == true is made exactly once.
+     *
+     * Thread-safety: @p callback is invoked from the batch-processing thread;
+     * implementations must be safe for concurrent access from the HTTP layer.
+     *
+     * @param request  Enhanced inference request; any existing
+     *                 base_request.stream_callback is overwritten.
+     * @param callback Per-token callback (see TokenCallback).
+     * @return Handle for result retrieval and cancellation.
+     */
+    InferenceHandle submitStreaming(
+        const EnhancedInferenceRequest& request,
+        TokenCallback                   callback
     );
     
     // Request management
@@ -169,24 +400,48 @@ public:
 private:
     Config config_;
     std::atomic<bool> running_{false};
-    
+
+    // Optional shared worker pool (nullptr → private worker threads used)
+    std::shared_ptr<SharedWorkerPool> shared_pool_;
+
     // Core components
     std::unique_ptr<LLMPrefixCache> prefix_cache_;
     std::shared_ptr<PagedKVCache> kv_cache_;
     std::shared_ptr<PagedBlockManager> block_manager_;
     std::unique_ptr<ContinuousBatchScheduler> batch_scheduler_;
+
+    // Speculative decoding — one decoder per engine instance.
+    // nullptr when enable_speculative_decoding == false.
+    std::unique_ptr<SpeculativeDecoder> speculative_decoder_;
+
+    // Content-based / metadata-tag model router (Phase 3).
+    // Evaluated in selectModel() before load-balancing strategies.
+    ModelRouter model_router_;
     
     // Model registry for load balancing
     std::unordered_map<std::string, ModelInfo> models_;
     mutable std::mutex models_mutex_;
     std::atomic<size_t> round_robin_index_{0};
-    
+
+    // LoRA adapter registry for hot-loading
+    struct LoRAAdapterEntry {
+        std::string path;          ///< Filesystem path to adapter weights
+        float       scale = 1.0f; ///< LoRA scaling factor
+        std::string model_id;      ///< Pinned model (empty = all models)
+    };
+    std::unordered_map<std::string, LoRAAdapterEntry> lora_adapters_;
+    mutable std::mutex lora_adapters_mutex_;
+
     // Request tracking
     struct TrackedRequest {
         EnhancedInferenceRequest request;
         std::chrono::steady_clock::time_point deadline;
         std::promise<InferenceResponse> promise;
         std::function<void(const InferenceResponse&)> callback;
+        // Shared cancellation token — held by the InferenceHandle so
+        // InferenceHandle::cancel() propagates here immediately.
+        std::shared_ptr<std::atomic<bool>> cancel_token =
+            std::make_shared<std::atomic<bool>>(false);
     };
     std::unordered_map<std::string, std::shared_ptr<TrackedRequest>> tracked_requests_;
     mutable std::mutex requests_mutex_;
@@ -195,6 +450,7 @@ private:
     Statistics stats_;
     mutable std::mutex stats_mutex_;
     std::vector<double> latency_samples_;  // For percentile calculation
+    std::chrono::steady_clock::time_point engine_start_time_{std::chrono::steady_clock::now()};
     
     // Worker threads for request processing
     std::vector<std::thread> worker_threads_;
@@ -209,11 +465,15 @@ private:
     void workerLoop(size_t worker_id);
     void timeoutMonitorLoop();
     void processBatch(const std::vector<std::shared_ptr<TrackedRequest>>& batch);
+
+    // Batch coordinator used when a shared pool is provided.
+    // Forms batches from the internal queue and submits processBatch()
+    // tasks to shared_pool_ rather than executing them inline.
+    void batchCoordinatorLoop();
     
     // Cache integration
     std::optional<InferenceResponse> checkCache(const InferenceRequest& request);
     void updateCache(const InferenceRequest& request, const InferenceResponse& response);
-    std::string generateCacheKey(const InferenceRequest& request);
     
     // Load balancing
     std::string selectModel(const EnhancedInferenceRequest& request);
@@ -226,12 +486,37 @@ private:
     // Timeout handling
     void checkAndHandleTimeouts();
     
+    // Embedding helper for cache operations.
+    // Uses the first available plugin (see implementation for selection rationale).
+    // Returns an empty vector when no plugin is registered or embedding fails
+    // (graceful degradation: falls back to exact-key matching only).
+    std::vector<float> computeEmbeddingForCache(const std::string& text);
+
+    // Build a token-ID sequence for a given prompt.
+    // Uses the rough heuristic of 4 chars ≈ 1 token as a lightweight
+    // approximation.  A real tokenizer call would be required for exact counts,
+    // but the ILLMPlugin interface does not expose a standalone tokenize()
+    // method at this level of abstraction.
+    static std::vector<int> estimateTokenSequence(const std::string& text);
+
     // Statistics updates
     void recordCacheHit(size_t tokens_saved);
     void recordCacheMiss();
     void recordBatchCompletion(size_t batch_size);
-    void recordRequestCompletion(double latency_ms, const std::string& model_id);
+    void recordRequestCompletion(double latency_ms, const std::string& model_id,
+                                 size_t tokens_generated = 0);
     void recordRequestTimeout();
+    void recordSpeculativeStep(const SpeculativeDecoder::VerifyResult& result);
+
+    // Speculative decoding helpers
+    // Returns true and fills `response` when speculative generation succeeds.
+    // Returns false to fall back to standard generation.
+    bool trySpeculativeGeneration(
+        const InferenceRequest&    request,
+        std::shared_ptr<ILLMPlugin> target_plugin,
+        std::shared_ptr<ILLMPlugin> draft_plugin,
+        InferenceResponse&         response
+    );
     
     // Helper methods
     std::string generateRequestId();

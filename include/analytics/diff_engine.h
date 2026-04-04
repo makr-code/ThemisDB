@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            diff_engine.h                                      ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:05:27                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     326                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 197320301  2026-03-28  Implement SequenceU64Increment merge operator for RocksDB... ║
+    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
+    • a6b60b3e3  2026-03-18  Changes before error encountered         ║
+    • 1df049d48  2026-03-18  audit: add opt-in perf tests, fix getenv null-check, depr... ║
+    • 5083e3481  2026-03-18  Changes before error encountered         ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #ifndef THEMIS_DIFF_ENGINE_H
 #define THEMIS_DIFF_ENGINE_H
 
@@ -7,6 +33,10 @@
 #include <vector>
 #include <optional>
 #include <chrono>
+#include <condition_variable>
+#include <functional>
+#include <mutex>
+#include <unordered_set>
 #include <nlohmann/json.hpp>
 
 namespace themis {
@@ -113,11 +143,12 @@ public:
     
     ~DiffEngine() = default;
 
-    // Disable copy, allow move
+    // Disable copy; move is implicitly deleted because std::mutex / std::condition_variable
+    // are non-movable — keep = default so the compiler enforces this clearly.
     DiffEngine(const DiffEngine&) = delete;
     DiffEngine& operator=(const DiffEngine&) = delete;
-    DiffEngine(DiffEngine&&) = default;
-    DiffEngine& operator=(DiffEngine&&) = default;
+    DiffEngine(DiffEngine&&) = delete;
+    DiffEngine& operator=(DiffEngine&&) = delete;
 
     /**
      * @brief Compute diff between two sequence numbers
@@ -129,8 +160,15 @@ public:
     DiffResult computeDiff(
         uint64_t from_sequence,
         uint64_t to_sequence,
-        const DiffOptions& options = {}
+        const DiffOptions& options
     );
+    
+    DiffResult computeDiff(
+        uint64_t from_sequence,
+        uint64_t to_sequence
+    ) {
+        return computeDiff(from_sequence, to_sequence, DiffOptions{});
+    }
 
     /**
      * @brief Compute diff between two timestamps
@@ -142,8 +180,15 @@ public:
     DiffResult computeDiffByTimestamp(
         int64_t from_timestamp,
         int64_t to_timestamp,
-        const DiffOptions& options = {}
+        const DiffOptions& options
     );
+    
+    DiffResult computeDiffByTimestamp(
+        int64_t from_timestamp,
+        int64_t to_timestamp
+    ) {
+        return computeDiffByTimestamp(from_timestamp, to_timestamp, DiffOptions{});
+    }
 
     /**
      * @brief Compute diff between two tags
@@ -158,8 +203,15 @@ public:
     DiffResult computeDiffByTag(
         const std::string& from_tag,
         const std::string& to_tag,
-        const DiffOptions& options = {}
+        const DiffOptions& options
     );
+    
+    DiffResult computeDiffByTag(
+        const std::string& from_tag,
+        const std::string& to_tag
+    ) {
+        return computeDiffByTag(from_tag, to_tag, DiffOptions{});
+    }
 
     /**
      * @brief Clear any cached diff results
@@ -171,6 +223,16 @@ public:
      */
     json getCacheStats() const;
 
+    /**
+     * @brief Testing hook: called once per unique range computation, just before
+     *        listEvents().  May throw to simulate a mid-computation failure.
+     *        Pass an empty function to disable the hook.
+     *        NOT thread-safe — must be set before concurrent callers start.
+     */
+    void setComputeHookForTesting(std::function<void()> hook) {
+        compute_hook_for_testing_ = std::move(hook);
+    }
+
 private:
     Changefeed& changefeed_;
     transaction::SnapshotManager* snapshot_manager_;  // Optional, for tag-based diff
@@ -181,17 +243,38 @@ private:
         DiffResult result;
         std::chrono::system_clock::time_point cached_at;
     };
-    mutable std::map<std::pair<uint64_t, uint64_t>, CachedDiff> diff_cache_;
+
+    // Cache key type: (from_sequence, to_sequence)
+    using CacheKey = std::pair<uint64_t, uint64_t>;
+
+    // Hash functor for CacheKey (std::pair has no default hash)
+    struct CacheKeyHash {
+        std::size_t operator()(const CacheKey& k) const noexcept {
+            std::size_t h1 = std::hash<uint64_t>{}(k.first);
+            std::size_t h2 = std::hash<uint64_t>{}(k.second);
+            // Mix with a large prime to reduce collisions
+            return h1 ^ (h2 * 0x9e3779b97f4a7c15ULL + (h1 << 6) + (h1 >> 2));
+        }
+    };
+
+    mutable std::map<CacheKey, CachedDiff> diff_cache_;
     mutable std::mutex cache_mutex_;
+    mutable std::condition_variable inflight_cv_;
+    mutable std::unordered_set<CacheKey, CacheKeyHash> inflight_keys_;
     static constexpr std::chrono::seconds CACHE_TTL{300}; // 5 minutes
     static constexpr size_t MAX_CACHE_SIZE = 100;
+    static constexpr size_t MAX_DIFF_LIMIT = 1000000; // Maximum allowed limit
+
+    // Testing hook — see setComputeHookForTesting()
+    std::function<void()> compute_hook_for_testing_;
     
     /**
      * @brief Process changefeed events and categorize them
      */
     DiffResult processEvents(
         const std::vector<Changefeed::ChangeEvent>& events,
-        const DiffOptions& options
+        const DiffOptions& options,
+        uint64_t from_sequence
     );
     
     /**
@@ -232,6 +315,10 @@ private:
     
     /**
      * @brief Evict oldest cache entries if cache is full
+     * @deprecated The eviction logic is now inlined in computeDiff() using the
+     *             copy-evict-then-lock pattern. This function is retained for
+     *             backward-compatibility but is NOT called from the hot path.
+     *             Must NOT be called while holding cache_mutex_.
      */
     void evictOldCacheEntries();
 };

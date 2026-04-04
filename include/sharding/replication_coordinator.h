@@ -1,3 +1,27 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            replication_coordinator.h                          ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:11:38                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     166                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 1f19586bc  2026-02-22  Implement getTopologySnapshot for MultiMasterReplicationM... ║
+    • da1a879d5  2026-02-22  feat(replication): add topology visualizer web UI (Issue ... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include "sharding/write_concern.h"
@@ -18,6 +42,17 @@ namespace themis::sharding {
  */
 class ReplicationCoordinator {
 public:
+    /**
+     * Result of a replication wait operation
+     */
+    struct ReplicationResult {
+        bool success = false;                       // Whether write succeeded
+        size_t replicas_acknowledged = 0;          // Number of replicas that acknowledged
+        size_t replicas_required = 0;              // Number of replicas required by write concern
+        std::chrono::milliseconds latency{0};      // Time to acquire required acknowledgments
+        std::string error_message;                 // Error details if failed
+    };
+
     explicit ReplicationCoordinator(std::shared_ptr<WALShipper> shipper);
     ~ReplicationCoordinator();
 
@@ -26,9 +61,9 @@ public:
      * @param entry_lsn LSN of the written entry
      * @param concern Write concern level
      * @param timeout Max time to wait for acknowledgments
-     * @return WriteResult with success status and replica count
+     * @return ReplicationResult with success status and replica count
      */
-    WriteResult waitForReplication(
+    ReplicationResult waitForReplication(
         const LSN& entry_lsn,
         const WriteConcernConfig& concern
     );
@@ -44,6 +79,17 @@ public:
      * Get current replica count (for quorum calculation)
      */
     size_t getReplicaCount() const;
+
+    /**
+     * Get current replica topology info (delegates to WALShipper)
+     * Returns an empty vector if no shipper is configured.
+     */
+    std::vector<ReplicaInfo> getReplicaInfo() const;
+
+    /**
+     * Get WAL shipper statistics (delegates to WALShipper)
+     */
+    WALShipperStats getShipperStats() const;
 
     /**
      * Enable/disable coordinator (useful for testing)

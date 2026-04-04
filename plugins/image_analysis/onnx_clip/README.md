@@ -50,8 +50,8 @@ cd /path/to/ThemisDB
 mkdir build && cd build
 
 cmake .. \
-  -DTHEMIS_BUILD_IMAGE_PLUGINS=ON \
-  -DTHEMIS_BUILD_ONNX_CLIP_PLUGIN=ON \
+  -DTHEMIS_BUILD_ENTERPRISE_PLUGINS=ON \
+  -DTHEMIS_PLUGIN_IMAGE_ANALYSIS_ONNX=ON \
   -DCMAKE_TOOLCHAIN_FILE=/path/to/vcpkg/scripts/buildsystems/vcpkg.cmake
 
 cmake --build . --target themis_image_onnx_clip
@@ -316,7 +316,7 @@ performMultimodalRAG(image_result.embedding, llm_response);
 
 ```bash
 # Build with debug symbols
-cmake .. -DCMAKE_BUILD_TYPE=Debug -DTHEMIS_BUILD_ONNX_CLIP_PLUGIN=ON
+cmake .. -DCMAKE_BUILD_TYPE=Debug -DTHEMIS_BUILD_ENTERPRISE_PLUGINS=ON -DTHEMIS_PLUGIN_IMAGE_ANALYSIS_ONNX=ON
 cmake --build .
 
 # Run with verbose logging

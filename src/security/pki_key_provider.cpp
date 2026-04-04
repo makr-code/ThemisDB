@@ -1,10 +1,39 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            pki_key_provider.cpp                               ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:19:29                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     688                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "security/pki_key_provider.h"
 #include "storage/rocksdb_wrapper.h"
 #include "utils/hkdf_helper.h"
 
 #include <openssl/rand.h>
 #include <openssl/evp.h>
+#include <openssl/pem.h>
+#include <openssl/x509.h>
+#include <openssl/x509v3.h>
+#include <openssl/bio.h>
 #include <stdexcept>
+#include <fstream>
+#include <sstream>
+#include <spdlog/spdlog.h>
 
 namespace themis {
 namespace security {
@@ -21,6 +50,100 @@ PKIKeyProvider::PKIKeyProvider(std::shared_ptr<utils::VCCPKIClient> pki,
     
     // Load or create initial DEK
     loadOrCreateDEK(current_dek_version_);
+}
+
+// File-based constructor
+PKIKeyProvider::PKIKeyProvider(const std::string& cert_path,
+                               const std::string& private_key_path,
+                               std::shared_ptr<themis::RocksDBWrapper> db,
+                               const std::string& service_id,
+                               bool validate_cert)
+    : pki_(nullptr)  // No VCC-PKI client in file-based mode
+    , db_(std::move(db))
+    , service_id_(service_id) {
+    
+    spdlog::info("PKIKeyProvider: Initializing with certificate file: {}", cert_path);
+    
+    // Load and validate certificate
+    std::ifstream cert_file(cert_path);
+    if (!cert_file.is_open()) {
+        throw std::runtime_error("Failed to open certificate file: " + cert_path);
+    }
+    
+    std::stringstream cert_stream;
+    cert_stream << cert_file.rdbuf();
+    std::string cert_pem = cert_stream.str();
+    cert_file.close();
+    
+    if (cert_pem.empty()) {
+        throw std::runtime_error("Certificate file is empty: " + cert_path);
+    }
+    
+    // Parse certificate using OpenSSL
+    BIO* bio = BIO_new_mem_buf(cert_pem.data(), static_cast<int>(cert_pem.size()));
+    if (!bio) {
+        throw std::runtime_error("Failed to create BIO for certificate");
+    }
+    
+    X509* cert = PEM_read_bio_X509(bio, nullptr, nullptr, nullptr);
+    BIO_free(bio);
+    
+    if (!cert) {
+        throw std::runtime_error("Failed to parse X.509 certificate from: " + cert_path);
+    }
+    
+    // Validate certificate if requested
+    if (validate_cert) {
+        // Check if certificate has expired
+        int result = X509_cmp_current_time(X509_get0_notAfter(cert));
+        if (result < 0) {
+            X509_free(cert);
+            throw std::runtime_error("Certificate has expired: " + cert_path);
+        }
+        
+        // Check if certificate is not yet valid
+        result = X509_cmp_current_time(X509_get0_notBefore(cert));
+        if (result > 0) {
+            X509_free(cert);
+            throw std::runtime_error("Certificate is not yet valid: " + cert_path);
+        }
+        
+        spdlog::info("PKIKeyProvider: Certificate validation passed");
+    }
+    
+    // Extract public key from certificate
+    EVP_PKEY* pkey = X509_get_pubkey(cert);
+    if (!pkey) {
+        X509_free(cert);
+        throw std::runtime_error("Failed to extract public key from certificate");
+    }
+    
+    // Serialize public key to DER format for key derivation
+    unsigned char* pubkey_der = nullptr;
+    int pubkey_len = i2d_PUBKEY(pkey, &pubkey_der);
+    if (pubkey_len <= 0 || !pubkey_der) {
+        EVP_PKEY_free(pkey);
+        X509_free(cert);
+        throw std::runtime_error("Failed to serialize public key");
+    }
+    
+    // Derive KEK from public key using HKDF
+    std::vector<uint8_t> pubkey_bytes(pubkey_der, pubkey_der + pubkey_len);
+    OPENSSL_free(pubkey_der);
+    EVP_PKEY_free(pkey);
+    X509_free(cert);
+    
+    // Use HKDF to derive KEK from certificate's public key
+    std::string info = "PKI-KEK:" + service_id_;
+    std::vector<uint8_t> salt;  // Empty salt
+    kek_ = utils::HKDFHelper::derive(pubkey_bytes, salt, info, 32);
+    
+    spdlog::info("PKIKeyProvider: KEK derived from certificate public key ({} bytes)", kek_.size());
+    
+    // Load or create initial DEK
+    loadOrCreateDEK(current_dek_version_);
+    
+    spdlog::info("PKIKeyProvider: Initialization complete with certificate-based encryption");
 }
 
 std::vector<uint8_t> PKIKeyProvider::deriveKEK() {

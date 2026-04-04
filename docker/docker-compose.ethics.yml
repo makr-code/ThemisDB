@@ -1,0 +1,437 @@
+# ============================================================================
+# ThemisDB Ethics AI Framework - Docker Compose Configuration
+# ============================================================================
+# Complete production stack for ethical AI framework with monitoring
+# Services: ThemisDB, Ethics AI, Prometheus, Grafana, Load Balancer
+#
+# Quick Start:
+#   docker-compose -f docker-compose.ethics.yml up -d
+#
+# Access:
+#   - Ethics AI:   http://localhost:8080
+#   - ThemisDB:    http://localhost:8529
+#   - Prometheus:  http://localhost:9091
+#   - Grafana:     http://localhost:3000 (admin/admin)
+#   - Load Balancer: http://localhost:80
+# ============================================================================
+
+version: '3.8'
+
+services:
+  # ==========================================================================
+  # ThemisDB - Multi-Model Database
+  # ==========================================================================
+  themisdb:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.themisdb
+      args:
+        BUILD_TYPE: Release
+        ENABLE_LLM: "ON"
+        ENABLE_LORA: "ON"
+        BUILD_TESTS: "OFF"
+    image: themisdb/themisdb:ethics-latest
+    container_name: ethics-themisdb
+    hostname: themisdb
+    restart: unless-stopped
+    
+    ports:
+      - "8529:8529"  # HTTP API
+      - "9090:9090"  # Metrics
+    
+    volumes:
+      - themisdb-data:/var/lib/themisdb/data
+      - themisdb-logs:/var/lib/themisdb/logs
+      - ../config:/etc/themisdb:ro
+    
+    environment:
+      - THEMIS_ENABLE_LLM=true
+      - THEMIS_LORA_ENABLED=true
+      - THEMIS_HTTP_PORT=8529
+      - THEMIS_METRICS_PORT=9090
+      - THEMIS_LOG_LEVEL=info
+      - THEMIS_DATA_DIR=/var/lib/themisdb/data
+      - THEMIS_LOG_DIR=/var/lib/themisdb/logs
+      - THEMIS_MAX_MEMORY=8G
+      - THEMIS_CACHE_SIZE=2G
+    
+    networks:
+      - ethics-ai-network
+    
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8529/api/version"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    
+    deploy:
+      resources:
+        limits:
+          cpus: '4'
+          memory: 8G
+        reservations:
+          cpus: '2'
+          memory: 4G
+    
+    labels:
+      - "com.themisdb.service=database"
+      - "com.themisdb.component=ethics-ai"
+      - "com.themisdb.environment=production"
+
+  # ==========================================================================
+  # Ethics AI Service - Primary Application (Multiple Replicas)
+  # ==========================================================================
+  ethics-ai-1:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.ethics-ai
+      target: production
+    image: themisdb/ethics-ai:latest
+    container_name: ethics-ai-service-1
+    hostname: ethics-ai-1
+    restart: unless-stopped
+    
+    ports:
+      - "8081:8080"  # Application port (replica 1)
+      - "8091:8081"  # Metrics port
+    
+    volumes:
+      - ethics-ai-logs:/app/logs
+      - ethics-ai-data:/app/data
+      - ethics-ai-models:/app/models
+    
+    environment:
+      - THEMIS_HOST=themisdb
+      - THEMIS_PORT=8529
+      - SERVICE_PORT=8080
+      - METRICS_PORT=8081
+      - LOG_LEVEL=info
+      - WORKERS=4
+      - REPLICA_ID=1
+    
+    networks:
+      - ethics-ai-network
+    
+    depends_on:
+      themisdb:
+        condition: service_healthy
+    
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 4G
+        reservations:
+          cpus: '1'
+          memory: 2G
+    
+    labels:
+      - "com.themisdb.service=ethics-ai"
+      - "com.themisdb.component=application"
+      - "com.themisdb.replica=1"
+
+  ethics-ai-2:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.ethics-ai
+      target: production
+    image: themisdb/ethics-ai:latest
+    container_name: ethics-ai-service-2
+    hostname: ethics-ai-2
+    restart: unless-stopped
+    
+    ports:
+      - "8082:8080"  # Application port (replica 2)
+      - "8092:8081"  # Metrics port
+    
+    volumes:
+      - ethics-ai-logs:/app/logs
+      - ethics-ai-data:/app/data
+      - ethics-ai-models:/app/models
+    
+    environment:
+      - THEMIS_HOST=themisdb
+      - THEMIS_PORT=8529
+      - SERVICE_PORT=8080
+      - METRICS_PORT=8081
+      - LOG_LEVEL=info
+      - WORKERS=4
+      - REPLICA_ID=2
+    
+    networks:
+      - ethics-ai-network
+    
+    depends_on:
+      themisdb:
+        condition: service_healthy
+    
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 4G
+        reservations:
+          cpus: '1'
+          memory: 2G
+    
+    labels:
+      - "com.themisdb.service=ethics-ai"
+      - "com.themisdb.component=application"
+      - "com.themisdb.replica=2"
+
+  # ==========================================================================
+  # NGINX Load Balancer
+  # ==========================================================================
+  nginx:
+    image: nginx:alpine
+    container_name: ethics-nginx-lb
+    hostname: nginx-lb
+    restart: unless-stopped
+    
+    ports:
+      - "80:80"
+      - "443:443"
+    
+    volumes:
+      - ./nginx/nginx-ethics.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+      - nginx-cache:/var/cache/nginx
+    
+    networks:
+      - ethics-ai-network
+    
+    depends_on:
+      - ethics-ai-1
+      - ethics-ai-2
+    
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 512M
+        reservations:
+          cpus: '0.5'
+          memory: 256M
+    
+    labels:
+      - "com.themisdb.service=load-balancer"
+      - "com.themisdb.component=nginx"
+
+  # ==========================================================================
+  # Prometheus - Metrics Collection
+  # ==========================================================================
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: ethics-prometheus
+    hostname: prometheus
+    restart: unless-stopped
+    
+    ports:
+      - "9091:9090"
+    
+    volumes:
+      - ../config/prometheus_ethics.yml:/etc/prometheus/prometheus.yml:ro
+      - ../prometheus/alerts:/etc/prometheus/alerts:ro
+      - prometheus-data:/prometheus
+    
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--storage.tsdb.retention.time=30d'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+      - '--web.enable-lifecycle'
+    
+    networks:
+      - ethics-ai-network
+    
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:9090/-/healthy"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 2G
+        reservations:
+          cpus: '0.5'
+          memory: 1G
+    
+    labels:
+      - "com.themisdb.service=monitoring"
+      - "com.themisdb.component=prometheus"
+
+  # ==========================================================================
+  # Grafana - Visualization
+  # ==========================================================================
+  grafana:
+    image: grafana/grafana:latest
+    container_name: ethics-grafana
+    hostname: grafana
+    restart: unless-stopped
+    
+    ports:
+      - "3000:3000"
+    
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ../grafana/provisioning:/etc/grafana/provisioning:ro
+      - ../grafana/dashboards:/var/lib/grafana/dashboards:ro
+    
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+      - GF_SERVER_ROOT_URL=http://localhost:3000
+      - GF_INSTALL_PLUGINS=grafana-piechart-panel,grafana-clock-panel
+      - GF_AUTH_ANONYMOUS_ENABLED=false
+      - GF_LOG_LEVEL=info
+    
+    networks:
+      - ethics-ai-network
+    
+    depends_on:
+      - prometheus
+    
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 1G
+        reservations:
+          cpus: '0.25'
+          memory: 512M
+    
+    labels:
+      - "com.themisdb.service=monitoring"
+      - "com.themisdb.component=grafana"
+
+  # ==========================================================================
+  # Redis - Caching and Session Management
+  # ==========================================================================
+  redis:
+    image: redis:7-alpine
+    container_name: ethics-redis
+    hostname: redis
+    restart: unless-stopped
+    
+    ports:
+      - "6379:6379"
+    
+    volumes:
+      - redis-data:/data
+    
+    command: redis-server --appendonly yes --maxmemory 512mb --maxmemory-policy allkeys-lru
+    
+    networks:
+      - ethics-ai-network
+    
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 1G
+        reservations:
+          cpus: '0.25'
+          memory: 512M
+    
+    labels:
+      - "com.themisdb.service=cache"
+      - "com.themisdb.component=redis"
+
+# ==============================================================================
+# Networks
+# ==============================================================================
+networks:
+  ethics-ai-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.28.0.0/16
+    labels:
+      - "com.themisdb.network=ethics-ai"
+
+# ==============================================================================
+# Volumes
+# ==============================================================================
+volumes:
+  themisdb-data:
+    driver: local
+    labels:
+      - "com.themisdb.volume=themisdb-data"
+  
+  themisdb-logs:
+    driver: local
+    labels:
+      - "com.themisdb.volume=themisdb-logs"
+  
+  ethics-ai-logs:
+    driver: local
+    labels:
+      - "com.themisdb.volume=ethics-ai-logs"
+  
+  ethics-ai-data:
+    driver: local
+    labels:
+      - "com.themisdb.volume=ethics-ai-data"
+  
+  ethics-ai-models:
+    driver: local
+    labels:
+      - "com.themisdb.volume=ethics-ai-models"
+  
+  prometheus-data:
+    driver: local
+    labels:
+      - "com.themisdb.volume=prometheus-data"
+  
+  grafana-data:
+    driver: local
+    labels:
+      - "com.themisdb.volume=grafana-data"
+  
+  redis-data:
+    driver: local
+    labels:
+      - "com.themisdb.volume=redis-data"
+  
+  nginx-cache:
+    driver: local
+    labels:
+      - "com.themisdb.volume=nginx-cache"

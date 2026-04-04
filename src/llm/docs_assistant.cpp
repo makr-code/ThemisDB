@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            docs_assistant.cpp                                 ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:16:54                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     338                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 334ca1434  2026-03-11  fix: selectAdapterForRequest traffic routing; DocsAssista... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file docs_assistant.cpp
  * @brief Implementation of Documentation Assistant
@@ -225,9 +248,12 @@ std::string DocsAssistant::generateAnswer(const std::string& query,
     
     // Generate answer using LLM
     try {
-        // Use the embedded LLM macros
-        std::string answer = THEMIS_LLM_COMPLETE(prompt.str());
-        return answer;
+#ifdef THEMIS_ENABLE_LLM
+        if (themis::llm::EmbeddedLLMManager::instance().isInitialized()) {
+            return THEMIS_LLM_GENERATE(prompt.str());
+        }
+#endif
+        return "[LLM not available — initialize EmbeddedLLM to enable answer generation]";
     } catch (const std::exception& e) {
         return "Error generating answer: " + std::string(e.what());
     }

@@ -1,7 +1,11 @@
-# Analytics Module
+# Observability & Analytics Module
 
-**Stand:** 22. Dezember 2025  
-**Version:** v1.3.0  
+<!-- Status: current | validated: 2026-03-09 -->
+<!-- Links: README.md · ../../../src/observability/README.md · ../../../src/observability/ARCHITECTURE.md · missing-implementations.md -->
+<!-- Primärdokumentation: ../../../src/observability/ -->
+
+**Stand:** 9. März 2026
+**Version:** v1.1
 **Kategorie:** 🔍 Observability
 
 ---
@@ -9,10 +13,43 @@
 ## 📑 Inhaltsverzeichnis
 
 - [Übersicht](#übersicht)
+- [GAP-008: Neue Observability Features](#gap-008-neue-observability-features)
 - [Source-Code Referenz](#source-code-referenz)
 - [Implementierte Klassen](#implementierte-klassen)
 
 ## Übersicht
+
+Das Observability-Modul bietet umfassende Überwachungs- und Analysefunktionen für ThemisDB, einschließlich:
+- Metrics Collection und Export
+- Health Checks und Liveness Probes
+- Alerting und Alert Management
+- OLAP und Complex Event Processing (CEP)
+- Distributed Tracing
+
+## GAP-008: Neue Observability Features
+
+**Version:** v1.4.1-dev  
+**Status:** ✅ Base Structure Implementiert
+
+### Alertmanager Integration (Stub)
+Alert-Management-Interface für Prometheus Alertmanager:
+- Alert-Erstellung und -Verwaltung
+- Severity Levels (INFO, WARNING, ERROR, CRITICAL)
+- Alert Status Tracking (FIRING, RESOLVED, SILENCED)
+
+**Siehe:** [GAP-008 Dokumentation](../features/GAP-008_Observability_Backup_Automation.md)
+
+### Bestehende Health Check Systeme
+ThemisDB verfügt bereits über umfassende Health Check Systeme:
+1. **`sharding::HealthCheckSystem`** - Shard/Cluster Gesundheitsüberwachung
+2. **`sharding::HealthMonitor`** - Node Health mit Auto-Failover
+3. **`server::HealthErrorService`** - HTTP Health Endpoint (Port 9090)
+
+**Keine Duplikate** - GAP-008 nutzt diese bestehenden Systeme.
+
+---
+
+## Analytics Module
 
 Das Analytics-Modul bietet erweiterte OLAP-Funktionen (Online Analytical Processing) und Complex Event Processing (CEP) für ThemisDB.
 

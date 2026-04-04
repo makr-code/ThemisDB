@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            voice_assistant.cpp                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:21:41                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     685                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • b3d8aa4a5  2026-03-15  refactor: streamline performance statistics retrieval and... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • fc3311312  2026-03-01  feat(voice): implement language detection and auto-locale... ║
+    • 49fd40219  2026-03-01  feat(voice): expose speaker verification REST API endpoints ║
+    • 75c7c24ea  2026-03-01  feat(voice): implement voice session playback and search ... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file voice_assistant.cpp
  * @brief Voice Assistant Manager Implementation
@@ -15,7 +41,13 @@ namespace themis {
 namespace voice {
 
 VoiceAssistant::VoiceAssistant(const Config& config)
-    : config_(config) {
+    : config_(config), voice_authenticator_(config.voice_auth_config) {
+    // Initialise wake-word detector regardless of the enable flag so that
+    // detectWakeWord() is always safe to call; the caller can gate on the flag.
+    wake_word_detector_ = std::make_unique<WakeWordDetector>(config_.wake_word_config);
+    for (const auto& entry : config_.wake_words) {
+        wake_word_detector_->addWakeWord(entry.first, entry.second);
+    }
 }
 
 VoiceAssistant::~VoiceAssistant() {
@@ -58,16 +90,22 @@ bool VoiceAssistant::initialize() {
             return false;
         }
         
-        // Initialize LLM engine
-        llm::LlamaCppInferenceEngine::Config llm_config;
+        // Initialize LLM using unified LlamaWrapper implementation
+        llm::LlamaWrapper::Config llm_config;
         llm_config.n_ctx = config_.llm_n_ctx;
         llm_config.n_gpu_layers = config_.llm_n_gpu_layers;
         llm_config.use_mmap = true;
+        llm_config.n_threads = 4;
+        llm_config.n_batch = 512;
         
-        llm_engine_ = std::make_unique<llm::LlamaCppInferenceEngine>(llm_config);
+        llm_wrapper_ = std::make_unique<llm::LlamaWrapper>(llm_config);
         
         if (!config_.llm_model_path.empty()) {
-            llm_engine_->loadModel(config_.llm_model_path, "voice-assistant-model");
+            json model_config = {
+                {"model_path", config_.llm_model_path},
+                {"model_id", "voice-assistant-model"}
+            };
+            llm_wrapper_->loadModel(model_config);
         }
         
         initialized_ = true;
@@ -91,10 +129,11 @@ void VoiceAssistant::shutdown() {
         tts_processor_->shutdown();
     }
     
-    if (llm_engine_) {
-        llm_engine_->unloadModel();
+    if (llm_wrapper_) {
+        llm_wrapper_->unloadModel();
     }
     
+    sessions_.clear();
     initialized_ = false;
 }
 
@@ -105,7 +144,25 @@ std::vector<uint8_t> VoiceAssistant::processVoiceCommand(
     if (!initialized_) {
         return {};
     }
-    
+
+    // Voice biometric authentication gate
+    if (config_.enable_voice_auth) {
+        auto auth_session = getSession(session_id);
+        const std::string& uid = auth_session.user_id;
+        if (!uid.empty()) {
+            auto auth_result = voice_authenticator_.authenticate(uid, audio_data);
+            if (!auth_result.authenticated) {
+                content::TTSOptions tts_opts;
+                tts_opts.voice_id = config_.tts_voice;
+                tts_opts.format   = "wav";
+                auto tts_result   = tts_processor_->synthesize(
+                    "Voice authentication failed. Please try again.",
+                    tts_opts);
+                return tts_result.audio_data;
+            }
+        }
+    }
+
     // Get or create session
     auto session = getSession(session_id);
     
@@ -125,6 +182,12 @@ std::vector<uint8_t> VoiceAssistant::processVoiceCommand(
         
         return tts_result.audio_data;
     }
+
+    // Auto-locale switching: when language is set to "auto", update the session's
+    // preferred language from the STT-detected language and adapt TTS accordingly.
+    if (config_.stt_language == "auto" && !transcription.detected_language.empty()) {
+        session.preferred_language = transcription.detected_language;
+    }
     
     // Add to conversation history
     session.history.push_back("User: " + transcription.full_text);
@@ -141,11 +204,12 @@ std::vector<uint8_t> VoiceAssistant::processVoiceCommand(
         sessions_[session_id] = session;
     }
     
-    // Synthesize response
+    // Synthesize response - use the session's (potentially auto-detected) language
     content::TTSOptions tts_options;
     tts_options.voice_id = config_.tts_voice;
     tts_options.speed = config_.tts_speed;
     tts_options.format = "wav";
+    tts_options.language = session.preferred_language;
     
     auto tts_result = tts_processor_->synthesize(llm_response, tts_options);
     
@@ -160,6 +224,16 @@ std::string VoiceAssistant::processTextCommand(
         return "Voice assistant not initialized";
     }
     
+    // Check if the text matches a registered voice macro trigger.
+    const MacroID matched_id = macro_manager_.matchTrigger(text);
+    if (!matched_id.empty()) {
+        MacroResult result = macro_manager_.executeMacro(matched_id);
+        if (result.success) {
+            return result.output;
+        }
+        // Fall through to LLM on macro failure.
+    }
+
     // Get or create session
     auto session = getSession(session_id);
     
@@ -179,6 +253,113 @@ std::string VoiceAssistant::processTextCommand(
     }
     
     return llm_response;
+}
+
+std::vector<uint8_t> VoiceAssistant::streamProcessVoiceCommand(
+    const std::vector<uint8_t>& audio_data,
+    const std::string& session_id,
+    std::function<void(const content::TranscriptionSegment&)> segment_callback
+) {
+    if (!initialized_) {
+        return {};
+    }
+
+    // Voice biometric authentication gate (mirrors processVoiceCommand)
+    if (config_.enable_voice_auth) {
+        auto auth_session = getSession(session_id);
+        const std::string& uid = auth_session.user_id;
+        if (!uid.empty()) {
+            auto auth_result = voice_authenticator_.authenticate(uid, audio_data);
+            if (!auth_result.authenticated) {
+                content::TTSOptions tts_opts;
+                tts_opts.voice_id = config_.tts_voice;
+                tts_opts.format   = "wav";
+                auto tts_result   = tts_processor_->synthesize(
+                    "Voice authentication failed. Please try again.",
+                    tts_opts);
+                return tts_result.audio_data;
+            }
+        }
+    }
+
+    auto session = getSession(session_id);
+
+    // Accumulate all segments delivered by the streaming transcription.
+    std::string full_transcript;
+    std::mutex transcript_mutex;
+
+    auto on_segment = [&](const content::TranscriptionSegment& seg) {
+        {
+            std::lock_guard<std::mutex> lock(transcript_mutex);
+            if (!full_transcript.empty()) {
+                full_transcript += ' ';
+            }
+            full_transcript += seg.text;
+        }
+        // Forward to caller's callback if provided.
+        if (segment_callback) {
+            segment_callback(seg);
+        }
+    };
+
+    bool ok = stt_processor_->streamTranscribe(audio_data, on_segment);
+
+    // For auto-locale switching: also run batch transcription to get detected_language.
+    std::string detected_lang;
+    if (!ok || full_transcript.empty()) {
+        // Fall back to batch transcription so the pipeline always returns audio.
+        auto transcription = stt_processor_->transcribe(audio_data);
+        if (transcription.success) {
+            full_transcript = transcription.full_text;
+            detected_lang = transcription.detected_language;
+        }
+    } else if (config_.stt_language == "auto") {
+        // When language auto-detection is enabled and streaming succeeded, run a
+        // lightweight batch transcription to obtain detected_language.  The full
+        // streaming pipeline does not expose per-call language information, so
+        // this one-shot check is the minimal way to capture the locale.  The
+        // overhead is bounded by the same audio length already processed above.
+        auto transcription = stt_processor_->transcribe(audio_data);
+        if (transcription.success) {
+            detected_lang = transcription.detected_language;
+        }
+    }
+
+    // Auto-locale switching: update session language from STT detection.
+    if (config_.stt_language == "auto" && !detected_lang.empty()) {
+        session.preferred_language = detected_lang;
+    }
+
+    if (full_transcript.empty()) {
+        content::TTSOptions tts_options;
+        tts_options.voice_id = config_.tts_voice;
+        tts_options.format = "wav";
+        auto tts_result = tts_processor_->synthesize(
+            "I'm sorry, I couldn't understand that. Please try again.",
+            tts_options
+        );
+        return tts_result.audio_data;
+    }
+
+    session.history.push_back("User: " + full_transcript);
+
+    std::string llm_response = generateLLMResponse(full_transcript, session);
+
+    session.history.push_back("Assistant: " + llm_response);
+
+    {
+        std::lock_guard<std::mutex> lock(sessions_mutex_);
+        sessions_[session_id] = session;
+    }
+
+    content::TTSOptions tts_options;
+    tts_options.voice_id = config_.tts_voice;
+    tts_options.speed    = config_.tts_speed;
+    tts_options.format   = "wav";
+    tts_options.language = session.preferred_language;
+
+    auto tts_result = tts_processor_->synthesize(llm_response, tts_options);
+    return tts_result.audio_data;
 }
 
 json VoiceAssistant::recordPhoneCall(
@@ -336,19 +517,11 @@ std::string VoiceAssistant::storeRecording(
     const std::string& transcript,
     const json& metadata
 ) {
-    // Real implementation would:
-    // 1. Generate unique entity ID
-    // 2. Create base entity with audio blob
-    // 3. Add transcript as text field
-    // 4. Add metadata
-    // 5. Enable revision control
-    // 6. Store in ThemisDB
-    
-    // Placeholder: generate a UUID-like ID
-    auto now = std::chrono::system_clock::now().time_since_epoch().count();
-    std::stringstream ss;
-    ss << "recording:" << std::hex << now;
-    return ss.str();
+    // Store in the embedded VoiceAudioStorage so recordings are
+    // accessible for playback and transcript search via audioStorage().
+    AudioFormat fmt = audio_storage_.detectFormat(audio_data);
+    fmt.duration_seconds = metadata.value("duration_seconds", 0.0f);
+    return audio_storage_.store(audio_data, fmt, transcript, metadata);
 }
 
 VoiceSession VoiceAssistant::getSession(const std::string& session_id) {
@@ -396,15 +569,18 @@ json VoiceAssistant::getStatistics() const {
         stats["tts"] = tts_processor_->getStatistics();
     }
     
-    if (llm_engine_) {
-        auto llm_stats = llm_engine_->getStats();
-        stats["llm"]["tokens_processed"] = llm_stats.total_tokens_processed;
-        stats["llm"]["cache_hits"] = llm_stats.cache_hits;
-        stats["llm"]["cache_misses"] = llm_stats.cache_misses;
-        stats["llm"]["avg_latency_ms"] = llm_stats.avg_latency_ms;
-        stats["llm"]["vram_used_mb"] = llm_stats.vram_used_mb;
+    if (llm_wrapper_) {
+        stats["llm"] = llm_wrapper_->getPerformanceStats();
     }
     
+    if (wake_word_detector_) {
+        stats["wake_word"] = wake_word_detector_->getStatistics();
+    }
+
+    stats["voice_auth"] = voice_authenticator_.get_statistics();
+
+    stats["macros"] = macro_manager_.getStatistics();
+
     {
         std::lock_guard<std::mutex> lock(const_cast<std::mutex&>(sessions_mutex_));
         stats["active_sessions"] = sessions_.size();
@@ -414,150 +590,6 @@ json VoiceAssistant::getStatistics() const {
 }
 
 // Private implementation methods
-
-std::string VoiceAssistant::generateLLMResponse(
-    const std::string& user_input,
-    const VoiceSession& session
-) {
-    if (!llm_engine_) {
-        return "I'm sorry, the language model is not available.";
-    }
-    
-    // Build prompt with conversation history
-    std::stringstream prompt;
-    prompt << "You are a helpful voice assistant integrated into ThemisDB. ";
-    prompt << "You help users with database queries, data analysis, and general tasks.\n\n";
-    
-    // Add conversation history (last 5 exchanges)
-    size_t history_start = session.history.size() > 10 ? session.history.size() - 10 : 0;
-    for (size_t i = history_start; i < session.history.size(); ++i) {
-        prompt << session.history[i] << "\n";
-    }
-    
-    prompt << "User: " << user_input << "\n";
-    prompt << "Assistant: ";
-    
-    // Prepare inference request
-    llm::InferenceRequest request;
-    request.prompt = prompt.str();
-    request.max_tokens = 256;
-    request.temperature = 0.7f;
-    request.top_p = 0.9f;
-    request.stop_sequences = {"\nUser:", "\nAssistant:"};
-    
-    // Run inference
-    auto response = llm_engine_->infer(request);
-    
-    if (!response.success) {
-        return "I'm sorry, I encountered an error processing your request.";
-    }
-    
-    return response.text;
-}
-
-json VoiceAssistant::generateSummary(const std::string& transcript) {
-    if (!llm_engine_ || transcript.empty()) {
-        return "No summary available";
-    }
-    
-    // Build prompt for summary generation
-    std::stringstream prompt;
-    prompt << "Please provide a concise summary of the following transcript:\n\n";
-    prompt << transcript << "\n\n";
-    prompt << "Summary: ";
-    
-    llm::InferenceRequest request;
-    request.prompt = prompt.str();
-    request.max_tokens = 512;
-    request.temperature = 0.5f;
-    
-    auto response = llm_engine_->infer(request);
-    
-    if (response.success) {
-        return response.text;
-    }
-    
-    return "Summary generation failed";
-}
-
-json VoiceAssistant::extractKeyPoints(const std::string& transcript) {
-    if (!llm_engine_ || transcript.empty()) {
-        return json::array();
-    }
-    
-    // Build prompt for key points extraction
-    std::stringstream prompt;
-    prompt << "Extract the key points from the following transcript as a bullet list:\n\n";
-    prompt << transcript << "\n\n";
-    prompt << "Key Points:\n";
-    
-    llm::InferenceRequest request;
-    request.prompt = prompt.str();
-    request.max_tokens = 512;
-    request.temperature = 0.5f;
-    
-    auto response = llm_engine_->infer(request);
-    
-    if (response.success) {
-        // Parse bullet points from response
-        json key_points = json::array();
-        std::istringstream iss(response.text);
-        std::string line;
-        while (std::getline(iss, line)) {
-            // Remove bullet point markers
-            if (line.find("- ") == 0 || line.find("* ") == 0) {
-                line = line.substr(2);
-            }
-            if (!line.empty()) {
-                key_points.push_back(line);
-            }
-        }
-        return key_points;
-    }
-    
-    return json::array();
-}
-
-json VoiceAssistant::extractActionItems(const std::string& transcript) {
-    if (!llm_engine_ || transcript.empty()) {
-        return json::array();
-    }
-    
-    // Build prompt for action items extraction
-    std::stringstream prompt;
-    prompt << "Extract action items and tasks from the following transcript:\n\n";
-    prompt << transcript << "\n\n";
-    prompt << "Action Items:\n";
-    
-    llm::InferenceRequest request;
-    request.prompt = prompt.str();
-    request.max_tokens = 512;
-    request.temperature = 0.5f;
-    
-    auto response = llm_engine_->infer(request);
-    
-    if (response.success) {
-        // Parse action items from response
-        json action_items = json::array();
-        std::istringstream iss(response.text);
-        std::string line;
-        while (std::getline(iss, line)) {
-            // Remove bullet point markers
-            if (line.find("- ") == 0 || line.find("* ") == 0) {
-                line = line.substr(2);
-            }
-            if (!line.empty()) {
-                json item;
-                item["description"] = line;
-                item["status"] = "pending";
-                action_items.push_back(item);
-            }
-        }
-        return action_items;
-    }
-    
-    return json::array();
-}
 
 std::string VoiceAssistant::createRevisionEntry(
     const std::string& entity_id,
@@ -576,6 +608,77 @@ std::string VoiceAssistant::createRevisionEntry(
     std::stringstream ss;
     ss << "revision:" << std::hex << now;
     return ss.str();
+}
+
+// ---------------------------------------------------------------------------
+// Voice biometric authentication
+// ---------------------------------------------------------------------------
+
+bool VoiceAssistant::enrollSpeaker(
+    const std::string&                        user_id,
+    const std::vector<std::vector<uint8_t>>& audio_samples,
+    VoiceProfileID&                           out_profile_id,
+    const EnrollmentConfig&                   config)
+{
+    return voice_authenticator_.enroll_voice(user_id, audio_samples, out_profile_id, config);
+}
+
+VoiceAuthResult VoiceAssistant::authenticateSpeaker(
+    const std::string&          user_id,
+    const std::vector<uint8_t>& audio_sample)
+{
+    return voice_authenticator_.authenticate(user_id, audio_sample);
+}
+
+VerificationResult VoiceAssistant::verifyVoiceSpeaker(
+    const VoiceProfileID&         profile_id,
+    const std::vector<uint8_t>&   audio_sample)
+{
+    return voice_authenticator_.verify_speaker(profile_id, audio_sample);
+}
+
+IdentificationResult VoiceAssistant::identifyVoiceProfiles(
+    const std::vector<VoiceProfileID>& candidate_profiles,
+    const std::vector<uint8_t>&        audio_sample)
+{
+    return voice_authenticator_.identify_speaker(candidate_profiles, audio_sample);
+}
+
+bool VoiceAssistant::deleteVoiceProfile(const VoiceProfileID& profile_id)
+{
+    return voice_authenticator_.delete_profile(profile_id);
+}
+
+std::vector<VoiceProfileID> VoiceAssistant::listVoiceProfiles() const
+{
+    return voice_authenticator_.list_profiles();
+}
+
+
+WakeWordDetectionResult VoiceAssistant::detectWakeWord(
+    const std::vector<uint8_t>& audio_chunk
+) {
+    return wake_word_detector_->processAudioChunk(audio_chunk);
+}
+
+void VoiceAssistant::setWakeWordCallback(WakeWordDetector::DetectionCallback callback) {
+    wake_word_detector_->setDetectionCallback(std::move(callback));
+}
+
+VoiceMacroManager& VoiceAssistant::macroManager() {
+    return macro_manager_;
+}
+
+const VoiceMacroManager& VoiceAssistant::macroManager() const {
+    return macro_manager_;
+}
+
+VoiceAudioStorage& VoiceAssistant::audioStorage() {
+    return audio_storage_;
+}
+
+const VoiceAudioStorage& VoiceAssistant::audioStorage() const {
+    return audio_storage_;
 }
 
 } // namespace voice

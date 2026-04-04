@@ -1,10 +1,40 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            geo_functions.h                                    ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:09:55                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     1343                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • f82bf2ae9  2026-03-04  Refactor tenant manager tests and add new test cases ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 1d23633fa  2026-02-26  audit(geo): add GEO_BUFFER alias and geodesic handler in ... ║
+    • 584c8a7ea  2026-02-26  feat(geo): add StBufferFunction to function registry in g... ║
+    • 0608dd49e  2026-02-25  feat(geo): complete ST_UNION/ST_DIFFERENCE – AQL function... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include "function_registry.h"
+#include "geo/spatial_backend.h"
+#include "utils/geo/ewkb.h"
 #include <cmath>
 #include <sstream>
 #include <algorithm>
 #include <limits>
+
+
 
 // Ensure M_PI is defined for portability
 #ifndef M_PI
@@ -19,6 +49,24 @@ namespace functions {
  * @brief Geo/Spatial Functions for AQL
  * 
  * Provides OGC-compatible spatial functions using GeoJSON format.
+ * 
+ * @sources
+ * - Standards: OGC Simple Features Specification
+ *   URL: https://www.ogc.org/standards/sfa
+ * - GeoJSON: RFC 7946
+ *   URL: https://tools.ietf.org/html/rfc7946
+ * - Inspiration: ArangoDB Geo Functions
+ *   Repository: https://github.com/arangodb/arangodb
+ *   License: Apache 2.0
+ *   Documentation: https://www.arangodb.com/docs/stable/aql/functions-geo.html
+ * - Inspiration: PostGIS
+ *   Repository: https://github.com/postgis/postgis
+ *   License: GPL 2.0
+ * - ThemisDB Implementation: Custom spatial functions with AQL-compatible syntax
+ *   - OGC Simple Features compliance
+ *   - GeoJSON format support
+ *   - Great-circle distance calculations (Haversine formula)
+ *   - Integration with ThemisDB spatial indexes
  * 
  * ## Supported Geometry Types
  * - Point, LineString, Polygon
@@ -193,7 +241,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         double x = args[0].get<double>();
         double y = args[1].get<double>();
         
@@ -232,7 +280,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         nlohmann::json geojson;
         geojson["type"] = "LineString";
         geojson["coordinates"] = args[0];
@@ -261,7 +309,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         nlohmann::json geojson;
         geojson["type"] = "Polygon";
         geojson["coordinates"] = args[0];
@@ -290,7 +338,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         std::string wkt = args[0].get<std::string>();
         
         // Trim whitespace
@@ -411,7 +459,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         const auto& arg = args[0];
         
         // Already a GeoJSON object
@@ -458,7 +506,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         auto [x1, y1, z1] = geo_helpers::extractPoint(args[0]);
         auto [x2, y2, z2] = geo_helpers::extractPoint(args[1]);
         
@@ -502,7 +550,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         auto [x1, y1, z1] = geo_helpers::extractPoint(args[0]);
         auto [x2, y2, z2] = geo_helpers::extractPoint(args[1]);
         return geo_helpers::haversineDistance(x1, y1, x2, y2);
@@ -530,7 +578,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         const auto& geom = args[0];
         if (!geom.is_object() || geom["type"] != "LineString") {
             throw std::runtime_error("ST_LENGTH requires LineString geometry");
@@ -577,7 +625,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         const auto& geom = args[0];
         if (!geom.is_object() || geom["type"] != "Polygon") {
             throw std::runtime_error("ST_AREA requires Polygon geometry");
@@ -627,7 +675,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         auto mbr1 = geo_helpers::extractMBR(args[0]);
         auto mbr2 = geo_helpers::extractMBR(args[1]);
         return mbr1.intersects(mbr2);
@@ -656,7 +704,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         auto mbr1 = geo_helpers::extractMBR(args[0]);
         auto mbr2 = geo_helpers::extractMBR(args[1]);
         return mbr1.containsMBR(mbr2);
@@ -685,7 +733,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         auto mbr1 = geo_helpers::extractMBR(args[0]);
         auto mbr2 = geo_helpers::extractMBR(args[1]);
         return mbr2.containsMBR(mbr1);
@@ -715,7 +763,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         auto [x1, y1, z1] = geo_helpers::extractPoint(args[0]);
         auto [x2, y2, z2] = geo_helpers::extractPoint(args[1]);
         double maxDistance = args[2].get<double>();
@@ -760,7 +808,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         auto mbr = geo_helpers::extractMBR(args[0]);
         auto [x, y, z] = geo_helpers::extractPoint(args[1]);
         return mbr.contains(x, y);
@@ -792,7 +840,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         auto [x, y, z] = geo_helpers::extractPoint(args[0]);
         return x;
     }
@@ -819,7 +867,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         auto [x, y, z] = geo_helpers::extractPoint(args[0]);
         return y;
     }
@@ -846,7 +894,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         const auto& geom = args[0];
         if (geom.is_object() && geom["type"] == "Point" && 
             geom["coordinates"].size() >= 3) {
@@ -877,7 +925,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         const auto& geom = args[0];
         if (!geom.is_object() || !geom.contains("coordinates")) {
             return false;
@@ -921,7 +969,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         return args[0].dump();
     }
 };
@@ -947,7 +995,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         const auto& geom = args[0];
         std::string type = geom["type"];
         const auto& coords = geom["coordinates"];
@@ -1014,7 +1062,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         const auto& geom = args[0];
         std::string type = geom["type"];
         
@@ -1081,7 +1129,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         auto mbr = geo_helpers::extractMBR(args[0]);
         
         nlohmann::json envelope;
@@ -1100,9 +1148,152 @@ public:
     }
 };
 
+/**
+ * @brief ST_BUFFER(geom, distance_m [, arc_points]) - Expand a geometry by a
+ * fixed geodesic distance.
+ *
+ * Returns a GeoJSON Polygon that approximates the input geometry expanded
+ * outward by `distance_m` metres.  Converts metres to degrees using the
+ * latitude of the geometry's centroid for geodesic accuracy at scales up to
+ * ~100 km.
+ *
+ * Supported input types:
+ *   - Point   → circular polygon with `arc_points` vertices (default 36).
+ *   - Polygon → outward ring expansion via edge-shift method.
+ *
+ * Returns an empty GeometryCollection for unsupported geometry types or when
+ * `distance_m` ≤ 0.
+ *
+ * Uses the CPU-exact spatial backend.
+ */
+class StBufferFunction : public IFunction {
+public:
+    FunctionSignature signature() const override {
+        return {
+            "ST_BUFFER",
+            "Geo",
+            "Expand a geometry by a fixed geodesic distance in metres",
+            {
+                {"geometry",   ArgType::GEOMETRY, true,  nullptr, "Input geometry (Point or Polygon)"},
+                {"distance_m", ArgType::NUMBER,   true,  nullptr, "Buffer distance in metres (must be > 0)"},
+                {"arc_points", ArgType::NUMBER,   false, 36,      "Vertices per arc for circular approximation (default 36, min 3)"}
+            },
+            ArgType::GEOMETRY,
+            true,
+            false,
+            {"ST_BUFFER(point, 500)", "ST_BUFFER(polygon, 1000)", "ST_BUFFER(point, 500, 64)"}
+        };
+    }
+
+    nlohmann::json execute(const std::vector<nlohmann::json>& args,
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
+        using namespace themis::geo;
+        const GeometryInfo geom = EWKBParser::parseGeoJSON(args[0].dump());
+        const double distance_m = args[1].get<double>();
+        // Truncation is intentional: arc_points must be a whole number of vertices.
+        const int arc_points = (args.size() >= 3 && args[2].is_number())
+                               ? static_cast<int>(args[2].get<double>())
+                               : 36;
+        const GeometryInfo result = getCpuExactBackend()->stBuffer(geom, distance_m, arc_points);
+        const std::string json_str = EWKBParser::toGeoJSON(result);
+        if (json_str == "{}" || json_str.empty() || json_str == "null") {
+            nlohmann::json empty;
+            empty["type"] = "GeometryCollection";
+            empty["geometries"] = nlohmann::json::array();
+            return empty;
+        }
+        return nlohmann::json::parse(json_str);
+    }
+};
+
 // ============================================================================
 // Registration Function
 // ============================================================================
+
+/**
+ * @brief ST_UNION(geom1, geom2) - Compute the geometric union of two geometries.
+ *
+ * Returns a GeoJSON geometry that contains all points from either input.
+ * Non-overlapping polygons produce a GeometryCollection; overlapping polygons
+ * are merged into a single Polygon.  Uses the CPU-exact spatial backend.
+ */
+class StUnionFunction : public IFunction {
+public:
+    FunctionSignature signature() const override {
+        return {
+            "ST_UNION",
+            "Geo",
+            "Compute the geometric union of two geometries",
+            {
+                {"geom1", ArgType::GEOMETRY, true, nullptr, "First geometry"},
+                {"geom2", ArgType::GEOMETRY, true, nullptr, "Second geometry"}
+            },
+            ArgType::GEOMETRY,
+            true,
+            false,
+            {"ST_UNION(polygon_a, polygon_b)"}
+        };
+    }
+
+    nlohmann::json execute(const std::vector<nlohmann::json>& args,
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
+        using namespace themis::geo;
+        const GeometryInfo g1 = EWKBParser::parseGeoJSON(args[0].dump());
+        const GeometryInfo g2 = EWKBParser::parseGeoJSON(args[1].dump());
+        const GeometryInfo result = getCpuExactBackend()->stUnion(g1, g2);
+        const std::string json_str = EWKBParser::toGeoJSON(result);
+        if (json_str == "{}" || json_str.empty() || json_str == "null") {
+            nlohmann::json empty;
+            empty["type"] = "GeometryCollection";
+            empty["geometries"] = nlohmann::json::array();
+            return empty;
+        }
+        return nlohmann::json::parse(json_str);
+    }
+};
+
+/**
+ * @brief ST_DIFFERENCE(geom1, geom2) - Compute the set-difference geom1 \ geom2.
+ *
+ * Returns the part of geom1 that is not in geom2.  Returns an empty
+ * GeometryCollection when geom1 is fully contained in geom2.  Uses the
+ * CPU-exact spatial backend.
+ */
+class StDifferenceFunction : public IFunction {
+public:
+    FunctionSignature signature() const override {
+        return {
+            "ST_DIFFERENCE",
+            "Geo",
+            "Compute the set-difference of two geometries (geom1 minus geom2)",
+            {
+                {"geom1", ArgType::GEOMETRY, true, nullptr, "First geometry (minuend)"},
+                {"geom2", ArgType::GEOMETRY, true, nullptr, "Second geometry (subtrahend)"}
+            },
+            ArgType::GEOMETRY,
+            true,
+            false,
+            {"ST_DIFFERENCE(polygon_a, polygon_b)"}
+        };
+    }
+
+    nlohmann::json execute(const std::vector<nlohmann::json>& args,
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
+        using namespace themis::geo;
+        const GeometryInfo g1 = EWKBParser::parseGeoJSON(args[0].dump());
+        const GeometryInfo g2 = EWKBParser::parseGeoJSON(args[1].dump());
+        const GeometryInfo result = getCpuExactBackend()->stDifference(g1, g2);
+        const std::string json_str = EWKBParser::toGeoJSON(result);
+        if (json_str == "{}" || json_str.empty() || json_str == "null") {
+            // Empty difference — geom1 is fully contained in geom2.
+            nlohmann::json empty;
+            empty["type"] = "GeometryCollection";
+            empty["geometries"] = nlohmann::json::array();
+            return empty;
+        }
+        return nlohmann::json::parse(json_str);
+    }
+};
 
 /**
  * @brief Register all Geo functions with the registry
@@ -1139,8 +1330,14 @@ inline void registerGeoFunctions(FunctionRegistry& registry) {
     // Processing
     registry.registerFunction(std::make_unique<StCentroidFunction>());
     registry.registerFunction(std::make_unique<StEnvelopeFunction>());
+    registry.registerFunction(std::make_unique<StBufferFunction>());
+    // ArangoDB-compatible alias: GEO_BUFFER maps to the same geodesic ST_BUFFER backend.
+    registry.registerAlias("GEO_BUFFER", "ST_BUFFER");
+    registry.registerFunction(std::make_unique<StUnionFunction>());
+    registry.registerFunction(std::make_unique<StDifferenceFunction>());
 }
 
 } // namespace functions
 } // namespace query
 } // namespace themis
+

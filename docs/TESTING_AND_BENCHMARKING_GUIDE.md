@@ -2,7 +2,69 @@
 
 ## Übersicht
 
-Dieses Dokument beschreibt alle Funktionstests und Benchmarks für die Phase 1 Performance-Optimierungen:
+ThemisDB verfügt über eine umfassende Test- und Benchmark-Abdeckung:
+
+| Kategorie | Dateien | Funktionen | Beschreibung |
+|-----------|---------|-----------|-------------|
+| **C++ Benchmarks** | **122** | **1.108** | Google Benchmark – in `benchmarks/` |
+| **C++ Tests** | **732** | **10.436** | Google Test – in `tests/` |
+| **Go Client Tests** | **4** | **40** | Unit/Integration – in `clients/go/` |
+| **Go Client Benchmarks** | **2** | **25** | Benchmarks – in `clients/go/` |
+| **Python Tools/Scripts** | **9+** | – | Tools, Analyse-Skripte |
+
+Vollständige Inventur: [TEST_AND_BENCHMARK_INVENTORY.md](TEST_AND_BENCHMARK_INVENTORY.md)
+
+---
+
+### C++ Benchmark-Kategorien
+
+| Kategorie | Benchmarks (Auswahl) |
+|-----------|---------------------|
+| Core CRUD & Storage | `bench_crud.cpp`, `bench_insert_profiling.cpp`, `bench_storage_performance.cpp` |
+| OLAP & Analytics | `bench_olap_performance.cpp`, `bench_tpcc.cpp`, `bench_tpch.cpp`, `bench_ycsb.cpp` |
+| LLM & KI | `bench_llm_infrastructure.cpp`, `bench_llm_inference_performance.cpp`, `bench_embedded_llm.cpp` |
+| LoRA & Training | `bench_lora_inline.cpp`, `bench_qlora_gpu_kernels.cpp`, `bench_multi_gpu_lora_advanced.cpp` |
+| GPU & Beschleunigung | `bench_gpu_backends.cpp`, `bench_fused_kernels.cpp`, `bench_flash_attention.cpp` |
+| Vektor-Suche | `bench_mmdb.cpp`, `bench_vector_search.cpp`, `bench_mixed_precision_perf.cpp` |
+| PostgreSQL Wire | `bench_postgres_e2e.cpp`, `bench_postgres_transactions.cpp` |
+| Graph | `bench_graph_traversal.cpp`, `bench_pagerank.cpp` |
+| Sharding | `bench_shard_routing.cpp`, `bench_sharding_performance.cpp` |
+| Sicherheit | `bench_encryption.cpp`, `bench_ethics_ai_plugin.cpp` |
+| Content & Medien | `bench_text_extraction.cpp`, `bench_image_analysis.cpp`, `bench_video_processor.cpp` |
+
+### Go Client Tests (`clients/go/`)
+
+| Datei | Typ | Beschreibung |
+|-------|-----|-------------|
+| `client_test.go` | Unit Test | Client-Basis-Funktionalität |
+| `wire_protocol_test.go` | Unit Test | Wire Protocol |
+| `tls_config_test.go` | Unit Test | TLS-Konfiguration |
+| `client_rest_test.go` | Integration Test | REST API |
+| `client_bench_test.go` | Benchmark | Client-Performance |
+| `wire_protocol_bench_test.go` | Benchmark | Wire-Protocol-Performance |
+
+```bash
+# Go Tests ausführen
+cd clients/go
+go test ./...
+go test -bench=. -benchmem ./...
+```
+
+### Python-Werkzeuge
+
+| Datei | Pfad | Zweck |
+|-------|------|-------|
+| `statistics.py` | `benchmarks/chimera/` | Statistische Analyse |
+| `reporter.py` | `benchmarks/chimera/` | CHIMERA-Reporting |
+| `ingest.py` | `tools/` | Data Ingestion |
+| `train_failure_model.py` | `scripts/` | Failure Prediction ML |
+| `link-check.py` | `scripts/` | Link-Validierung |
+
+---
+
+### Phase 1 Performance-Optimierungen
+
+Dieses Dokument beschreibt außerdem die Tests und Benchmarks für die Phase 1 Performance-Optimierungen:
 - **Mimalloc**: Schneller Speicher-Allocator (+10-20%)
 - **Huge Pages**: Große Speicherseiten (+15-30%)
 - **RCU Index**: Lock-free Lesezugriffe (+200-500%)

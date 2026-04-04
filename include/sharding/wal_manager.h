@@ -1,3 +1,25 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            wal_manager.h                                      ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:11:41                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     301                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 // Prevent/clean Windows macro pollution that can break enum/identifiers
@@ -107,7 +129,8 @@ enum class WALEntryType : uint8_t {
     BEGIN_TX = 4,
     COMMIT_TX = 5,
     ABORT_TX = 6,
-    CHECKPOINT = 7
+    CHECKPOINT = 7,
+    PREPARE_TX = 8   // 2PC PREPARE phase log entry (in-doubt recovery)
 };
 
 /**

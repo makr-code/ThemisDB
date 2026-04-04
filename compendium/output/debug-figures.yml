@@ -1,0 +1,338 @@
+total_figures: 112
+figures:
+- id: diagram-1
+  title: 'Abb. 1: Diagramm 1'
+  source_file: chapter_00_genesis
+- id: diagram-2
+  title: 'Abb. 2: Diagramm 2'
+  source_file: chapter_00_genesis
+- id: diagram-3
+  title: 'Abb. 3: Diagramm 3'
+  source_file: chapter_00_genesis
+- id: diagram-4
+  title: 'Abb. 4: Diagramm 4'
+  source_file: chapter_00_genesis
+- id: diagram-5
+  title: 'Abb. 5: Diagramm 5'
+  source_file: chapter_00_genesis
+- id: diagram-6
+  title: 'Abb. 6: Diagramm 1'
+  source_file: chapter_01_introduction
+- id: diagram-7
+  title: 'Abb. 7: Diagramm 2'
+  source_file: chapter_01_introduction
+- id: diagram-8
+  title: 'Abb. 8: Diagramm 3'
+  source_file: chapter_01_introduction
+- id: diagram-9
+  title: 'Abb. 9: Diagramm 4'
+  source_file: chapter_01_introduction
+- id: diagram-10
+  title: 'Abb. 10: Diagramm 5'
+  source_file: chapter_01_introduction
+- id: diagram-11
+  title: 'Abb. 11: Diagramm 1'
+  source_file: chapter_02_architecture
+- id: diagram-12
+  title: 'Abb. 12: Diagramm 2'
+  source_file: chapter_02_architecture
+- id: diagram-13
+  title: 'Abb. 13: Diagramm 3'
+  source_file: chapter_02_architecture
+- id: diagram-14
+  title: 'Abb. 14: Diagramm 4'
+  source_file: chapter_02_architecture
+- id: diagram-15
+  title: 'Abb. 15: Diagramm 5'
+  source_file: chapter_02_architecture
+- id: diagram-16
+  title: 'Abb. 16: Diagramm 6'
+  source_file: chapter_02_architecture
+- id: diagram-17
+  title: 'Abb. 17: Diagramm 7'
+  source_file: chapter_02_architecture
+- id: diagram-18
+  title: 'Abb. 18: Diagramm 8'
+  source_file: chapter_02_architecture
+- id: diagram-19
+  title: 'Abb. 19: Diagramm 1'
+  source_file: chapter_03_multimodel
+- id: diagram-20
+  title: 'Abb. 20: Diagramm 2'
+  source_file: chapter_03_multimodel
+- id: diagram-21
+  title: 'Abb. 21: Diagramm 1'
+  source_file: chapter_04_installation
+- id: diagram-22
+  title: 'Abb. 22: Diagramm 1'
+  source_file: chapter_05_relational
+- id: diagram-23
+  title: 'Abb. 23: Diagramm 2'
+  source_file: chapter_05_relational
+- id: diagram-24
+  title: 'Abb. 24: Diagramm 1'
+  source_file: chapter_06_graph
+- id: diagram-25
+  title: 'Abb. 25: Diagramm 2'
+  source_file: chapter_06_graph
+- id: diagram-26
+  title: 'Abb. 26: Diagramm 3'
+  source_file: chapter_06_graph
+- id: diagram-27
+  title: 'Abb. 27: Diagramm 4'
+  source_file: chapter_06_graph
+- id: diagram-28
+  title: 'Abb. 28: Diagramm 1'
+  source_file: chapter_07_document
+- id: diagram-29
+  title: 'Abb. 29: Diagramm 1'
+  source_file: chapter_08_vector
+- id: diagram-30
+  title: 'Abb. 30: Diagramm 2'
+  source_file: chapter_08_vector
+- id: diagram-31
+  title: 'Abb. 31: Diagramm 3'
+  source_file: chapter_08_vector
+- id: diagram-32
+  title: 'Abb. 32: Diagramm 1'
+  source_file: chapter_08_storage_layer
+- id: diagram-33
+  title: 'Abb. 33: Diagramm 1'
+  source_file: chapter_09_timeseries
+- id: diagram-34
+  title: 'Abb. 34: Diagramm 2'
+  source_file: chapter_09_timeseries
+- id: diagram-35
+  title: 'Abb. 35: Diagramm 3'
+  source_file: chapter_09_timeseries
+- id: diagram-36
+  title: 'Abb. 36: Diagramm 1'
+  source_file: chapter_10_enterprise
+- id: diagram-37
+  title: 'Abb. 37: Diagramm 2'
+  source_file: chapter_10_enterprise
+- id: diagram-38
+  title: 'Abb. 38: Diagramm 3'
+  source_file: chapter_10_enterprise
+- id: diagram-39
+  title: 'Abb. 39: Diagramm 4'
+  source_file: chapter_10_enterprise
+- id: diagram-40
+  title: 'Abb. 40: Diagramm 1'
+  source_file: chapter_11_realtime
+- id: diagram-41
+  title: 'Abb. 41: Diagramm 2'
+  source_file: chapter_11_realtime
+- id: diagram-42
+  title: 'Abb. 42: Diagramm 1'
+  source_file: chapter_12_computervision
+- id: diagram-43
+  title: 'Abb. 43: Diagramm 1'
+  source_file: chapter_13_fulltext
+- id: diagram-44
+  title: 'Abb. 44: Diagramm 1'
+  source_file: chapter_14_geospatial
+- id: diagram-45
+  title: 'Abb. 45: Diagramm 2'
+  source_file: chapter_14_geospatial
+- id: diagram-46
+  title: 'Abb. 46: Diagramm 1'
+  source_file: chapter_15_analytics
+- id: diagram-47
+  title: 'Abb. 47: Diagramm 1'
+  source_file: chapter_16_sharding
+- id: diagram-48
+  title: 'Abb. 48: Diagramm 2'
+  source_file: chapter_16_sharding
+- id: diagram-49
+  title: 'Abb. 49: Diagramm 3'
+  source_file: chapter_16_sharding
+- id: diagram-50
+  title: 'Abb. 50: Diagramm 4'
+  source_file: chapter_16_sharding
+- id: diagram-51
+  title: 'Abb. 51: Diagramm 5'
+  source_file: chapter_16_sharding
+- id: diagram-52
+  title: 'Abb. 52: Diagramm 6'
+  source_file: chapter_16_sharding
+- id: diagram-53
+  title: 'Abb. 53: Diagramm 1'
+  source_file: chapter_17_llm_integration
+- id: diagram-54
+  title: 'Abb. 54: Diagramm 2'
+  source_file: chapter_17_llm_integration
+- id: diagram-55
+  title: 'Abb. 55: Diagramm 3'
+  source_file: chapter_17_llm_integration
+- id: diagram-56
+  title: 'Abb. 56: Diagramm 4'
+  source_file: chapter_17_llm_integration
+- id: diagram-57
+  title: 'Abb. 57: Diagramm 5'
+  source_file: chapter_17_llm_integration
+- id: diagram-58
+  title: 'Abb. 58: Diagramm 6'
+  source_file: chapter_17_llm_integration
+- id: diagram-59
+  title: 'Abb. 59: Diagramm 7'
+  source_file: chapter_17_llm_integration
+- id: diagram-60
+  title: 'Abb. 60: Diagramm 1'
+  source_file: chapter_18_ml
+- id: diagram-61
+  title: 'Abb. 61: Diagramm 1'
+  source_file: chapter_19_monitoring_observability
+- id: diagram-62
+  title: 'Abb. 62: Diagramm 2'
+  source_file: chapter_19_monitoring_observability
+- id: diagram-63
+  title: 'Abb. 63: Diagramm 1'
+  source_file: chapter_20_backup
+- id: diagram-64
+  title: 'Abb. 64: Diagramm 2'
+  source_file: chapter_20_backup
+- id: diagram-65
+  title: 'Abb. 65: Diagramm 1'
+  source_file: chapter_21_performance
+- id: diagram-66
+  title: 'Abb. 66: Diagramm 2'
+  source_file: chapter_21_performance
+- id: diagram-67
+  title: 'Abb. 67: Diagramm 3'
+  source_file: chapter_21_performance
+- id: diagram-68
+  title: 'Abb. 68: Diagramm 4'
+  source_file: chapter_21_performance
+- id: diagram-69
+  title: 'Abb. 69: Diagramm 5'
+  source_file: chapter_21_performance
+- id: diagram-70
+  title: 'Abb. 70: Diagramm 6'
+  source_file: chapter_21_performance
+- id: diagram-71
+  title: 'Abb. 71: Diagramm 1'
+  source_file: chapter_22_clients
+- id: diagram-72
+  title: 'Abb. 72: Diagramm 1'
+  source_file: chapter_23_testing_qa
+- id: diagram-73
+  title: 'Abb. 73: Diagramm 2'
+  source_file: chapter_23_testing_qa
+- id: diagram-74
+  title: 'Abb. 74: Diagramm 3'
+  source_file: chapter_23_testing_qa
+- id: diagram-75
+  title: 'Abb. 75: Diagramm 1'
+  source_file: chapter_24_ai_ethics
+- id: diagram-76
+  title: 'Abb. 76: Diagramm 2'
+  source_file: chapter_24_ai_ethics
+- id: diagram-77
+  title: 'Abb. 77: Diagramm 3'
+  source_file: chapter_24_ai_ethics
+- id: diagram-78
+  title: 'Abb. 78: Diagramm 4'
+  source_file: chapter_24_ai_ethics
+- id: diagram-79
+  title: 'Abb. 79: Diagramm 5'
+  source_file: chapter_24_ai_ethics
+- id: diagram-80
+  title: 'Abb. 80: Diagramm 6'
+  source_file: chapter_24_ai_ethics
+- id: diagram-81
+  title: 'Abb. 81: Diagramm 7'
+  source_file: chapter_24_ai_ethics
+- id: diagram-82
+  title: 'Abb. 82: Diagramm 8'
+  source_file: chapter_24_ai_ethics
+- id: diagram-83
+  title: 'Abb. 83: Diagramm 9'
+  source_file: chapter_24_ai_ethics
+- id: diagram-84
+  title: 'Abb. 84: Diagramm 1'
+  source_file: chapter_25_devops_infrastructure
+- id: diagram-85
+  title: 'Abb. 85: Diagramm 1'
+  source_file: chapter_26_migration_legacy
+- id: diagram-86
+  title: 'Abb. 86: Diagramm 2'
+  source_file: chapter_26_migration_legacy
+- id: diagram-87
+  title: 'Abb. 87: Diagramm 1'
+  source_file: chapter_27_troubleshooting
+- id: diagram-88
+  title: 'Abb. 88: Diagramm 2'
+  source_file: chapter_27_troubleshooting
+- id: diagram-89
+  title: 'Abb. 89: Diagramm 1'
+  source_file: chapter_28_aql_reference
+- id: diagram-90
+  title: 'Abb. 90: Diagramm 1'
+  source_file: chapter_29_analytics_process_mining
+- id: diagram-91
+  title: 'Abb. 91: Diagramm 2'
+  source_file: chapter_29_analytics_process_mining
+- id: diagram-92
+  title: 'Abb. 92: Diagramm 3'
+  source_file: chapter_29_analytics_process_mining
+- id: diagram-93
+  title: 'Abb. 93: Diagramm 4'
+  source_file: chapter_29_analytics_process_mining
+- id: diagram-94
+  title: 'Abb. 94: Diagramm 1'
+  source_file: chapter_30_deployment_operations
+- id: diagram-95
+  title: 'Abb. 95: Diagramm 1'
+  source_file: chapter_31_api_protocols
+- id: diagram-96
+  title: 'Abb. 96: Diagramm 2'
+  source_file: chapter_31_api_protocols
+- id: diagram-97
+  title: 'Abb. 97: Diagramm 1'
+  source_file: chapter_33_best_practices
+- id: diagram-98
+  title: 'Abb. 98: Diagramm 1'
+  source_file: chapter_34_query_optimization
+- id: diagram-99
+  title: 'Abb. 99: Diagramm 2'
+  source_file: chapter_34_query_optimization
+- id: diagram-100
+  title: 'Abb. 100: Diagramm 1'
+  source_file: chapter_35_data_modeling_patterns
+- id: diagram-101
+  title: 'Abb. 101: Diagramm 2'
+  source_file: chapter_35_data_modeling_patterns
+- id: diagram-102
+  title: 'Abb. 102: Diagramm 1'
+  source_file: chapter_36_security_hardening
+- id: diagram-103
+  title: 'Abb. 103: Diagramm 2'
+  source_file: chapter_36_security_hardening
+- id: diagram-104
+  title: 'Abb. 104: Diagramm 1'
+  source_file: chapter_37_ecosystem_integration
+- id: diagram-105
+  title: 'Abb. 105: Diagramm 2'
+  source_file: chapter_37_ecosystem_integration
+- id: diagram-106
+  title: 'Abb. 106: Diagramm 1'
+  source_file: chapter_38_observability_sre
+- id: diagram-107
+  title: 'Abb. 107: Diagramm 2'
+  source_file: chapter_38_observability_sre
+- id: diagram-108
+  title: 'Abb. 108: Diagramm 1'
+  source_file: chapter_39_performance_tuning_cookbook
+- id: diagram-109
+  title: 'Abb. 109: Diagramm 2'
+  source_file: chapter_39_performance_tuning_cookbook
+- id: diagram-110
+  title: 'Abb. 110: Diagramm 1'
+  source_file: chapter_40_data_governance_compliance
+- id: diagram-111
+  title: 'Abb. 111: Diagramm 2'
+  source_file: chapter_40_data_governance_compliance
+- id: diagram-112
+  title: 'Abb. 112: Diagramm 1'
+  source_file: chapter_41_hands_on_labs

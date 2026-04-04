@@ -1,3 +1,25 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            buffer_api_handler.cpp                             ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:19:41                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     453                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "server/buffer_api_handler.h"
 #include "timeseries/tsstore.h"
 #include "timeseries/ts_auto_buffer.h"
@@ -20,41 +42,41 @@ BufferAPIHandler::BufferAPIHandler(
 {
     // Initialize TSAutoBuffer if TSStore is available
     if (tsstore_) {
-        timeseries::TSAutoBufferConfig ts_config;
+        TSAutoBufferConfig ts_config;
         ts_config.max_points_per_buffer = 1000;
         ts_config.flush_interval = std::chrono::milliseconds(5000);
         ts_config.max_memory_bytes = 100 * 1024 * 1024;  // 100 MB
         ts_config.compression = TSStore::CompressionType::Gorilla;
         ts_config.async_flush = true;
         
-        ts_buffer_ = std::make_unique<timeseries::TSAutoBuffer>(tsstore_.get(), ts_config);
+        ts_buffer_ = std::make_unique<TSAutoBuffer>(tsstore_.get(), ts_config);
         THEMIS_INFO("TSAutoBuffer initialized with max_points={}, flush_interval={}ms",
                    ts_config.max_points_per_buffer, ts_config.flush_interval.count());
     }
     
     // Initialize VectorAutoBuffer if VectorIndexManager is available
     if (vector_index_) {
-        index::VectorAutoBufferConfig vec_config;
+        VectorAutoBufferConfig vec_config;
         vec_config.max_vectors_per_buffer = 1000;
         vec_config.flush_interval = std::chrono::milliseconds(5000);
         vec_config.max_memory_bytes = 500 * 1024 * 1024;  // 500 MB
         vec_config.async_flush = true;
-        vec_config.compression = index::VectorAutoBufferConfig::Compression::None;
+        vec_config.compression = VectorAutoBufferConfig::Compression::None;
         
-        vector_buffer_ = std::make_unique<index::VectorAutoBuffer>(vector_index_.get(), vec_config);
+        vector_buffer_ = std::make_unique<VectorAutoBuffer>(vector_index_.get(), vec_config);
         THEMIS_INFO("VectorAutoBuffer initialized with max_vectors={}, flush_interval={}ms",
                    vec_config.max_vectors_per_buffer, vec_config.flush_interval.count());
     }
     
     // Initialize GraphAutoBuffer if PropertyGraphManager is available
     if (graph_manager_) {
-        index::GraphAutoBufferConfig graph_config;
+        GraphAutoBufferConfig graph_config;
         graph_config.max_nodes_per_buffer = 1000;
         graph_config.max_edges_per_buffer = 1000;
         graph_config.flush_interval = std::chrono::milliseconds(5000);
         graph_config.async_flush = true;
         
-        graph_buffer_ = std::make_unique<index::GraphAutoBuffer>(graph_manager_.get(), graph_config);
+        graph_buffer_ = std::make_unique<GraphAutoBuffer>(graph_manager_.get(), graph_config);
         THEMIS_INFO("GraphAutoBuffer initialized with max_nodes={}, max_edges={}, flush_interval={}ms",
                    graph_config.max_nodes_per_buffer,
                    graph_config.max_edges_per_buffer,
@@ -120,15 +142,17 @@ http::response<http::string_body> BufferAPIHandler::handleTSPutBuffered(
         TSStore::DataPoint point;
         point.metric = body["metric"].get<std::string>();
         point.entity = body["entity"].get<std::string>();
-        point.timestamp = body["timestamp"].get<int64_t>();
+        point.timestamp_ms = body["timestamp"].get<int64_t>();
         point.value = body["value"].get<double>();
         
         // Add to buffer
         auto status = ts_buffer_->add(point);
-        
-        if (!status.ok) {
-            return makeErrorResponse(http::status::internal_server_error,
-                                    status.error, req);
+
+        if (!status.has_value()) {
+            return makeErrorResponse(
+                http::status::internal_server_error,
+                status.error().message(),
+                req);
         }
         
         // Return success with stats
@@ -138,8 +162,8 @@ http::response<http::string_body> BufferAPIHandler::handleTSPutBuffered(
             {"metric", point.metric},
             {"entity", point.entity},
             {"buffer_stats", {
-                {"points_buffered", stats.points_buffered},
-                {"points_flushed", stats.points_flushed},
+                {"points_buffered", stats.points_buffered.load()},
+                {"points_flushed", stats.points_flushed.load()},
                 {"current_buffer_size", stats.current_buffer_size},
                 {"current_buffer_memory", stats.current_buffer_memory}
             }}
@@ -181,15 +205,15 @@ http::response<http::string_body> BufferAPIHandler::handleVectorAddBuffered(
         
         // Store embedding in metadata
         if (body.contains("metadata")) {
-            entity.setData(body["metadata"]);
+            entity.setField("metadata", body["metadata"].dump());
         }
         
         // Add to buffer
         auto status = vector_buffer_->add(entity);
-        
+
         if (!status.ok) {
             return makeErrorResponse(http::status::internal_server_error,
-                                    status.error, req);
+                                    status.message, req);
         }
         
         // Return success with stats
@@ -198,8 +222,8 @@ http::response<http::string_body> BufferAPIHandler::handleVectorAddBuffered(
             {"status", "buffered"},
             {"pk", entity.getPrimaryKey()},
             {"buffer_stats", {
-                {"vectors_buffered", stats.vectors_buffered},
-                {"vectors_flushed", stats.vectors_flushed},
+                {"vectors_buffered", stats.vectors_buffered.load()},
+                {"vectors_flushed", stats.vectors_flushed.load()},
                 {"current_buffer_size", stats.current_buffer_size},
                 {"current_buffer_memory", stats.current_buffer_memory}
             }}
@@ -244,7 +268,7 @@ http::response<http::string_body> BufferAPIHandler::handleGraphAddBuffered(
         entity.setPrimaryKey(body["pk"].get<std::string>());
         
         if (body.contains("properties")) {
-            entity.setData(body["properties"]);
+            entity.setField("properties", body["properties"].dump());
         }
         
         PropertyGraphManager::Status status;
@@ -260,7 +284,7 @@ http::response<http::string_body> BufferAPIHandler::handleGraphAddBuffered(
         
         if (!status.ok) {
             return makeErrorResponse(http::status::internal_server_error,
-                                    status.error, req);
+                                    status.message, req);
         }
         
         // Return success with stats
@@ -271,10 +295,10 @@ http::response<http::string_body> BufferAPIHandler::handleGraphAddBuffered(
             {"type", type},
             {"pk", entity.getPrimaryKey()},
             {"buffer_stats", {
-                {"nodes_buffered", stats.nodes_buffered},
-                {"edges_buffered", stats.edges_buffered},
-                {"nodes_flushed", stats.nodes_flushed},
-                {"edges_flushed", stats.edges_flushed},
+                {"nodes_buffered", stats.nodes_buffered.load()},
+                {"edges_buffered", stats.edges_buffered.load()},
+                {"nodes_flushed", stats.nodes_flushed.load()},
+                {"edges_flushed", stats.edges_flushed.load()},
                 {"current_buffer_size", stats.current_buffer_size}
             }}
         };
@@ -303,13 +327,13 @@ http::response<http::string_body> BufferAPIHandler::handleBufferStats(
         auto stats = ts_buffer_->getStats();
         response["buffers"]["ts_buffer"] = {
             {"enabled", true},
-            {"points_buffered", stats.points_buffered},
-            {"points_flushed", stats.points_flushed},
+            {"points_buffered", stats.points_buffered.load()},
+            {"points_flushed", stats.points_flushed.load()},
             {"current_buffer_size", stats.current_buffer_size},
             {"current_buffer_memory", stats.current_buffer_memory},
-            {"flush_count", stats.flush_count},
-            {"auto_flush_count", stats.auto_flush_count},
-            {"buffer_overflow_count", stats.buffer_overflow_count}
+            {"flush_count", stats.flush_count.load()},
+            {"auto_flush_count", stats.auto_flush_count.load()},
+            {"buffer_overflow_count", stats.buffer_overflow_count.load()}
         };
     } else {
         response["buffers"]["ts_buffer"] = {{"enabled", false}};
@@ -319,12 +343,12 @@ http::response<http::string_body> BufferAPIHandler::handleBufferStats(
         auto stats = vector_buffer_->getStats();
         response["buffers"]["vector_buffer"] = {
             {"enabled", true},
-            {"vectors_buffered", stats.vectors_buffered},
-            {"vectors_flushed", stats.vectors_flushed},
+            {"vectors_buffered", stats.vectors_buffered.load()},
+            {"vectors_flushed", stats.vectors_flushed.load()},
             {"current_buffer_size", stats.current_buffer_size},
             {"current_buffer_memory", stats.current_buffer_memory},
-            {"flush_count", stats.flush_count},
-            {"auto_flush_count", stats.auto_flush_count}
+            {"flush_count", stats.flush_count.load()},
+            {"auto_flush_count", stats.auto_flush_count.load()}
         };
     } else {
         response["buffers"]["vector_buffer"] = {{"enabled", false}};
@@ -334,12 +358,12 @@ http::response<http::string_body> BufferAPIHandler::handleBufferStats(
         auto stats = graph_buffer_->getStats();
         response["buffers"]["graph_buffer"] = {
             {"enabled", true},
-            {"nodes_buffered", stats.nodes_buffered},
-            {"edges_buffered", stats.edges_buffered},
-            {"nodes_flushed", stats.nodes_flushed},
-            {"edges_flushed", stats.edges_flushed},
+            {"nodes_buffered", stats.nodes_buffered.load()},
+            {"edges_buffered", stats.edges_buffered.load()},
+            {"nodes_flushed", stats.nodes_flushed.load()},
+            {"edges_flushed", stats.edges_flushed.load()},
             {"current_buffer_size", stats.current_buffer_size},
-            {"flush_count", stats.flush_count}
+            {"flush_count", stats.flush_count.load()}
         };
     } else {
         response["buffers"]["graph_buffer"] = {{"enabled", false}};

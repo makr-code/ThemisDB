@@ -1,5 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_performance_allocator.cpp                     ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:30:57                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     149                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 9b3cc73d2  2026-02-25  fix(audit): complete jemalloc integration post-review gaps ║
+    • 08786682d  2026-02-25  feat: integrate jemalloc as alternative allocator ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // Test for performance allocator
-// Tests memory allocation with optional mimalloc optimization
+// Tests memory allocation with optional jemalloc or mimalloc optimization
 
 #include <performance/allocator.h>
 #include <gtest/gtest.h>
@@ -81,12 +105,18 @@ TEST(PerformanceAllocatorTest, AllocatorInfo) {
     ASSERT_NE(name, nullptr);
     EXPECT_TRUE(std::strlen(name) > 0);
     
-    #ifdef THEMIS_USE_MIMALLOC
+    #ifdef THEMIS_ENABLE_JEMALLOC
+    EXPECT_STREQ(name, "jemalloc");
+    EXPECT_TRUE(is_jemalloc_enabled());
+    EXPECT_FALSE(is_mimalloc_enabled());
+    #elif defined(THEMIS_ENABLE_MIMALLOC)
     EXPECT_STREQ(name, "mimalloc");
     EXPECT_TRUE(is_mimalloc_enabled());
+    EXPECT_FALSE(is_jemalloc_enabled());
     #else
     EXPECT_STREQ(name, "system");
     EXPECT_FALSE(is_mimalloc_enabled());
+    EXPECT_FALSE(is_jemalloc_enabled());
     #endif
 }
 
@@ -109,7 +139,10 @@ TEST(PerformanceAllocatorTest, PerformanceBenchmark) {
     // Just verify it completes in reasonable time (not a real perf test)
     EXPECT_LT(duration.count(), 100000) << "Allocations took too long: " << duration.count() << "us";
     
-    #ifdef THEMIS_USE_MIMALLOC
+    #ifdef THEMIS_ENABLE_JEMALLOC
+    std::cout << "Jemalloc performance: " << duration.count() << "us for " 
+              << iterations << " allocations" << std::endl;
+    #elif defined(THEMIS_ENABLE_MIMALLOC)
     std::cout << "Mimalloc performance: " << duration.count() << "us for " 
               << iterations << " allocations" << std::endl;
     #endif

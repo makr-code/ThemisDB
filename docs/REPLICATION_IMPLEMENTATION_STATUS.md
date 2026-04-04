@@ -1,10 +1,32 @@
 # WAL-basierte Replikation - Implementierungs-Status
 
+> **Related Documentation (English):**
+> - **[replication-ha-guide.md](./replication-ha-guide.md)** - Complete HA/replication deployment guide
+> - **[replication_raid_plan.md](./replication_raid_plan.md)** - RAID 1/10 implementation roadmap
+
 ## 📋 Zusammenfassung
 
 Das Themis-Datenbanksystem hat eine **vollständige WAL-basierte Replikationsinfrastruktur** mit RAID 1/10-Unterstützung implementiert.
 
 **Status: ✅ ~85% IMPLEMENTIERT**
+
+### Modul-Organisation
+
+Die Replikationsinfrastruktur ist auf zwei Hauptmodule aufgeteilt:
+
+**`replication/` Modul** - High-Level Orchestrierung:
+- `include/replication/`, `src/replication/`
+- ReplicationManager für Lifecycle-Management
+- MultiMasterReplicationManager für Multi-Master-Koordination
+
+**`sharding/` Modul** - Low-Level WAL-Infrastruktur (Hauptfokus dieses Dokuments):
+- `include/sharding/`, `src/sharding/`
+- Alle WAL-Komponenten (Manager, Shipper, Applier)
+- ReplicationCoordinator für Write-Concern
+- Consensus-Module (Raft, Gossip, Paxos)
+- Topology und Health-Management
+
+Diese Aufteilung ermöglicht es, dass `replication/` sich auf Business-Logik konzentriert, während `sharding/` die komplexe Infrastruktur für verteilte Systeme bereitstellt.
 
 ---
 
@@ -104,6 +126,35 @@ Das Themis-Datenbanksystem hat eine **vollständige WAL-basierte Replikationsinf
   6. ✅ **RAID10TopologyValidation** - RAID10 mit 2 Replicas verifiziert
   7. ✅ **ReplicaFailureDetection** - Topology API tracking Replica-Gesundheit
   8. ✅ **WriteConcernTimeout** - Timeout-Handling funktioniert
+
+### 9. **Replication Topology Visualizer** (Web UI) ✨ *NEU*
+- **Datei:** `include/server/replication_topology_api_handler.h` + `src/server/replication_topology_api_handler.cpp`
+- **Endpoints:**
+  - `GET /api/v1/replication/topology` — JSON-Snapshot aller Nodes mit Rolle, Health, WAL-Lag
+  - `GET /api/v1/replication/health` — Aggregierter Cluster-Health-Status (Quorum, Lag, Ship-Statistiken)
+  - `GET /ui/replication/topology` — Interaktive SVG-Topologieseite (automatisches Refresh alle 5 s)
+- **Features:**
+  - Radial SVG-Graph: Primary (blau, `P`) im Zentrum, Replicas farblich nach Health
+  - Gerichtete WAL-Stream-Kanten mit Pfeilspitzen
+  - Per-Replica Lag-Label direkt am Knoten
+  - Sidebar mit Cluster-Statistiken und Node-Tabelle
+  - `API_BASE` automatisch aus dem `Host`-Header injiziert
+  - 503-Antwort bei nicht konfigurierter Replikation (tolerant gegenüber null-Coordinator)
+- **Tests:** `tests/test_replication_topology_api_handler.cpp`
+- **Erweiterung von `ReplicationCoordinator`:** neue Methoden `getReplicaInfo()` und `getShipperStats()` (delegiert an `WALShipper`)
+
+### 10. **Cross-Cluster Publish/Subscribe Replication** ✨ *NEU*
+- **Datei:** `include/replication/replication_manager.h` + `src/replication/replication_manager.cpp`
+- **Klassen:**
+  - `PublicationFilter` — Filtert WAL-Einträge nach Collection-Namen und/oder Operationstyp (INSERT/UPDATE/DELETE). Leerer Filter = alle Einträge durchlassen.
+  - `CrossClusterPublication` — Implementiert `IReplicationListener`; wird per `ReplicationManager::addListener()` in die WAL-Pipeline eingehängt und leitet passende Einträge an alle registrierten Remote-Subscriber-Callbacks weiter.
+  - `CrossClusterSubscription` — Registriert einen lokalen Apply-Callback bei einer Publication; idempotentes `enable()`/`disable()`; Auto-Deregistrierung im Destruktor.
+- **Features:**
+  - Thread-sichere Filteraktualisierung via `shared_mutex`
+  - Fehlerresilienz: Apply-Ausnahmen werden gezählt (`errorCount()`), Delivery läuft weiter
+  - Tracking: `appliedCount()`, `lastAppliedSequence()`, `errorCount()`
+  - Prometheus-Metriken: `published_total`, `subscribers`, `applied_total`, `errors_total`, `last_applied_sequence`
+- **Tests:** `tests/test_replication_ha.cpp` — 31 Test-Cases (PublicationFilter, CrossClusterPublication, CrossClusterSubscription, E2E, Integration, Prometheus)
 
 ---
 
@@ -238,5 +289,19 @@ tests/
 
 ---
 
-**Letztes Update:** 2026-01-04
+**Letztes Update:** 2026-02-09
 **Implementierungs-Umfang:** ~85% (inklusive Tests)
+
+---
+
+## 📚 Weitere Dokumentation
+
+### Englischsprachige Dokumentation
+- **[replication-ha-guide.md](./replication-ha-guide.md)** - Vollständiger HA/Replication Guide mit Deployment-Topologien, Konfiguration, Monitoring und Troubleshooting
+- **[replication_raid_plan.md](./replication_raid_plan.md)** - RAID 1/10 Readiness Plan und Implementierungs-Roadmap
+- **[docs/replication/](./replication/)** - Zusätzliche Replikations-Dokumentation und Beispiele
+
+### Verwandte Systemdokumentation
+- [Distributed Sharding Architecture](./de/sharding/DISTRIBUTED_SHARDING_ARCHITECTURE.md) - Sharding-Modul Dokumentation
+- [ARCHITECTURE.md](../ARCHITECTURE.md) - System-Architektur-Übersicht
+- [SECURITY.md](../SECURITY.md) - Sicherheitskonfiguration

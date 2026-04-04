@@ -1,3 +1,25 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            wisckey.h                                          ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:09:25                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     139                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // WiscKey: Separation of Keys and Values for LSM Trees
 // Paper: "WiscKey: Separating Keys from Values in SSD-conscious Storage" (FAST'16)
 // Authors: Lanyue Lu et al., University of Wisconsin-Madison
@@ -12,9 +34,11 @@
 #include <string>
 #include <vector>
 #include <mutex>
+#include <shared_mutex>
 #include <memory>
 #include <fstream>
 #include <optional>
+#include <atomic>
 
 namespace themis {
 namespace performance {
@@ -56,19 +80,24 @@ public:
     std::optional<std::string> read(const ValueAddress& addr);
     
     // Get current log size in bytes
-    uint64_t size() const { return current_offset_; }
+    uint64_t size() const { 
+        std::shared_lock<std::shared_mutex> lock(rw_mutex_);
+        return current_offset_; 
+    }
     
     // Sync log to disk
     void sync();
     
     // Garbage collection (optional, for future optimization)
-    void compact(const std::vector<ValueAddress>& live_addresses);
+    // Compacts the log by copying only live values to a new log file.
+    // Updates the addresses vector in-place with new offsets.
+    void compact(std::vector<ValueAddress>& live_addresses);
 
 private:
     std::string log_path_;
     std::unique_ptr<std::fstream> log_file_;
     uint64_t current_offset_;
-    mutable std::mutex mutex_;
+    mutable std::shared_mutex rw_mutex_;  // Reader-writer lock for concurrent reads
 };
 
 /// WiscKey storage engine wrapper

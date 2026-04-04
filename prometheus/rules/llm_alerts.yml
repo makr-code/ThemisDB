@@ -1,0 +1,216 @@
+groups:
+  - name: llm_errors
+    interval: 30s
+    rules:
+      # ─── Inference error rate ────────────────────────────────────────────────
+      - alert: LLMHighErrorRate
+        expr: |
+          (
+            sum(rate(llm_inference_failures_total[5m]))
+            /
+            sum(rate(llm_inference_requests_total[5m]))
+          ) > 0.01
+        for: 5m
+        labels:
+          severity: critical
+          component: llm
+        annotations:
+          summary: "LLM inference error rate above 1%"
+          description: >
+            LLM inference error rate is {{ $value | humanizePercentage }}
+            (threshold: 1%). Check logs for the failing model_id label.
+          runbook: "https://github.com/makr-code/ThemisDB/blob/develop/docs/operations/llm/GPU_OOM_RECOVERY.md"
+
+      # ─── Error rate – per model ───────────────────────────────────────────────
+      - alert: LLMHighErrorRatePerModel
+        expr: |
+          (
+            rate(llm_inference_failures_total[5m])
+            /
+            rate(llm_inference_requests_total[5m])
+          ) > 0.05
+        for: 5m
+        labels:
+          severity: warning
+          component: llm
+        annotations:
+          summary: "LLM error rate above 5 % for model {{ $labels.model_id }}"
+          description: >
+            Model {{ $labels.model_id }} error rate is
+            {{ $value | humanizePercentage }}.
+          runbook: "https://github.com/makr-code/ThemisDB/blob/develop/docs/operations/llm/MODEL_SWAP_PROCEDURE.md"
+
+  - name: llm_latency
+    interval: 30s
+    rules:
+      # ─── p99 first-token latency ──────────────────────────────────────────────
+      - alert: LLMHighFirstTokenLatency
+        expr: |
+          histogram_quantile(
+            0.99,
+            sum by (le, model_id) (
+              rate(llm_first_token_latency_ms_bucket[5m])
+            )
+          ) > 5000
+        for: 10m
+        labels:
+          severity: warning
+          component: llm
+        annotations:
+          summary: "LLM p99 first-token latency above 5 s for {{ $labels.model_id }}"
+          description: >
+            p99 time-to-first-token for model {{ $labels.model_id }} is
+            {{ $value }}ms (threshold: 5 000 ms).
+
+      # ─── p99 end-to-end inference latency ────────────────────────────────────
+      - alert: LLMHighEndToEndLatency
+        expr: |
+          histogram_quantile(
+            0.99,
+            sum by (le, model_id) (
+              rate(llm_inference_duration_ms_bucket[5m])
+            )
+          ) > 30000
+        for: 10m
+        labels:
+          severity: warning
+          component: llm
+        annotations:
+          summary: "LLM p99 inference latency above 30 s for {{ $labels.model_id }}"
+          description: >
+            p99 end-to-end inference duration for model {{ $labels.model_id }} is
+            {{ $value }}ms (threshold: 30 000 ms).
+
+  - name: llm_queue
+    interval: 15s
+    rules:
+      # ─── Scheduler queue saturation ───────────────────────────────────────────
+      - alert: LLMQueueDepthHigh
+        expr: llm_scheduler_queue_length > 100
+        for: 2m
+        labels:
+          severity: warning
+          component: llm
+        annotations:
+          summary: "LLM scheduler queue depth above 100"
+          description: >
+            The LLM scheduler queue has {{ $value }} pending requests.
+            Sustained pressure may cause request timeouts or OOM.
+          runbook: "https://github.com/makr-code/ThemisDB/blob/develop/docs/operations/llm/QUOTA_TUNING.md"
+
+      - alert: LLMQueueDepthCritical
+        expr: llm_scheduler_queue_length > 500
+        for: 1m
+        labels:
+          severity: critical
+          component: llm
+        annotations:
+          summary: "LLM scheduler queue depth above 500 — backpressure imminent"
+          description: >
+            Queue depth is {{ $value }}.  Backpressure shedding should
+            activate.  If not, check ContinuousBatchScheduler configuration.
+          runbook: "https://github.com/makr-code/ThemisDB/blob/develop/docs/operations/llm/QUOTA_TUNING.md"
+
+  - name: llm_gpu
+    interval: 30s
+    rules:
+      # ─── GPU VRAM utilisation ─────────────────────────────────────────────────
+      - alert: LLMGPUMemoryHigh
+        expr: |
+          (llm_gpu_memory_used_mb / llm_gpu_memory_total_mb) > 0.90
+        for: 5m
+        labels:
+          severity: warning
+          component: llm
+        annotations:
+          summary: "LLM GPU VRAM utilisation above 90 %"
+          description: >
+            GPU VRAM is {{ $value | humanizePercentage }} full
+            ({{ $labels.instance }}).
+            Consider unloading unused models or reducing batch size.
+          runbook: "https://github.com/makr-code/ThemisDB/blob/develop/docs/operations/llm/GPU_OOM_RECOVERY.md"
+
+      - alert: LLMGPUMemoryCritical
+        expr: |
+          (llm_gpu_memory_used_mb / llm_gpu_memory_total_mb) > 0.97
+        for: 2m
+        labels:
+          severity: critical
+          component: llm
+        annotations:
+          summary: "LLM GPU VRAM critically full (> 97 %) — OOM risk"
+          description: >
+            GPU VRAM is {{ $value | humanizePercentage }} full.
+            Inference requests are likely to fail with OOM errors.
+          runbook: "https://github.com/makr-code/ThemisDB/blob/develop/docs/operations/llm/GPU_OOM_RECOVERY.md"
+
+      # ─── GPU temperature ──────────────────────────────────────────────────────
+      - alert: LLMGPUTemperatureHigh
+        expr: llm_gpu_temperature_celsius > 85
+        for: 5m
+        labels:
+          severity: warning
+          component: llm
+        annotations:
+          summary: "LLM GPU temperature above 85 °C"
+          description: >
+            GPU temperature is {{ $value }} °C.
+            Sustained high temperature may cause thermal throttling or hardware damage.
+
+  - name: llm_throughput
+    interval: 60s
+    rules:
+      # ─── Token throughput below SLO floor ─────────────────────────────────────
+      - alert: LLMThroughputLow
+        expr: |
+          sum(rate(llm_tokens_generated_total[5m])) < 50
+        for: 10m
+        labels:
+          severity: warning
+          component: llm
+        annotations:
+          summary: "LLM token throughput below 50 tokens/s"
+          description: >
+            Token generation rate is {{ $value }} tokens/s.
+            Verify the inference engine is running and no requests are stalled.
+
+  - name: llm_models
+    interval: 60s
+    rules:
+      # ─── No models loaded ─────────────────────────────────────────────────────
+      - alert: LLMNoModelsLoaded
+        expr: llm_models_loaded == 0
+        for: 5m
+        labels:
+          severity: critical
+          component: llm
+        annotations:
+          summary: "No LLM models are loaded"
+          description: >
+            Zero models are currently loaded.
+            All inference requests will fail until at least one model is available.
+          runbook: "https://github.com/makr-code/ThemisDB/blob/develop/docs/operations/llm/MODEL_SWAP_PROCEDURE.md"
+
+  - name: llm_cache
+    interval: 120s
+    rules:
+      # ─── Low response cache hit rate ──────────────────────────────────────────
+      - alert: LLMCacheHitRateLow
+        expr: |
+          (
+            sum(rate(llm_cache_hits_total[10m]))
+            /
+            (
+              sum(rate(llm_cache_hits_total[10m]))
+              + sum(rate(llm_cache_misses_total[10m]))
+            )
+          ) < 0.20
+        for: 15m
+        labels:
+          severity: warning
+          component: llm
+        annotations:
+          summary: "LLM response cache hit rate below 20 %"
+          description: >
+            Cache hit rate is {{ $value | humanizePercentage }}.
+            Check cache TTL and max-entries configuration.

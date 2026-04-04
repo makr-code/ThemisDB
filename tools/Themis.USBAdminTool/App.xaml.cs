@@ -1,0 +1,74 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            App.xaml.cs                                        ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-30 04:36:17                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     64                                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 684f1ae3b  2026-03-24  Changes before error encountered         ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using System.IO;
+using System.Windows;
+using Themis.USBAdminTool.Services;
+using Themis.USBAdminTool.ViewModels;
+using Themis.USBAdminTool.Views;
+
+namespace Themis.USBAdminTool;
+
+public partial class App : Application
+{
+    private ServiceProvider? _serviceProvider;
+
+    protected override void OnStartup(StartupEventArgs e)
+    {
+        base.OnStartup(e);
+
+        var configuration = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+            .Build();
+
+        var services = new ServiceCollection();
+        ConfigureServices(services, configuration);
+        _serviceProvider = services.BuildServiceProvider();
+
+        var mainWindow = _serviceProvider.GetRequiredService<MainWindow>();
+        mainWindow.Show();
+    }
+
+    private static void ConfigureServices(IServiceCollection services, IConfiguration configuration)
+    {
+        // Core services
+        services.AddSingleton<HashService>();
+        services.AddSingleton<UsbDetectionService>();
+        services.AddSingleton<UsbProvisioningService>();
+
+        // ViewModels
+        services.AddTransient<MainViewModel>();
+
+        // Views
+        services.AddTransient<MainWindow>();
+    }
+
+    protected override void OnExit(ExitEventArgs e)
+    {
+        _serviceProvider?.Dispose();
+        base.OnExit(e);
+    }
+}

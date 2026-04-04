@@ -1,10 +1,16 @@
 cmake_minimum_required(VERSION 3.20)
 
+# When building directly from the cmake/ subdirectory (e.g. cmake -S cmake),
+# THEMIS_ROOT_DIR is not yet set.  Default it to the parent of this file.
+if(NOT THEMIS_ROOT_DIR)
+    get_filename_component(THEMIS_ROOT_DIR "${CMAKE_CURRENT_SOURCE_DIR}/.." ABSOLUTE)
+endif()
+
 # VERSION ist Single-Source-of-Truth: zwingend aus Datei lesen
-if(NOT EXISTS "${CMAKE_SOURCE_DIR}/VERSION")
+if(NOT EXISTS "${THEMIS_ROOT_DIR}/VERSION")
     message(FATAL_ERROR "VERSION file not found at project root. Please create and set semantic version (e.g., 1.2.3).")
 endif()
-file(READ "${CMAKE_SOURCE_DIR}/VERSION" _ver)
+file(READ "${THEMIS_ROOT_DIR}/VERSION" _ver)
 string(STRIP "${_ver}" _ver)
 # Accept semantic versions with optional pre-release/build suffixes, but sanitize for CMake's project(VERSION)
 if(NOT _ver MATCHES "^[0-9]+\\.[0-9]+\\.[0-9]+(.*)?$")
@@ -30,6 +36,11 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+# Runtime library for static linking on Windows
+if(MSVC AND VCPKG_TARGET_TRIPLET MATCHES "static")
+    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>" CACHE STRING "" FORCE)
+endif()
+
 # Enable CUDA if requested
 if(THEMIS_ENABLE_CUDA)
     enable_language(CUDA)
@@ -53,6 +64,9 @@ find_package(OpenSSL CONFIG)
 if(NOT OpenSSL_FOUND)
     find_package(OpenSSL REQUIRED)
 endif()
+
+# zlib (required for SAML HTTP-Redirect binding DEFLATE compression)
+find_package(ZLIB REQUIRED)
 
 # Make CURL optional: some environments (CI/dev) may not have dev package installed.
 # If found, create CURL::libcurl target; otherwise provide a fallback and continue.
@@ -78,13 +92,14 @@ else()
     message(WARNING "Archive processing will not be available")
 endif()
 
+# pugixml is used by SAML/XML parsing and Office processing.
+find_package(pugixml CONFIG)
+if(NOT pugixml_FOUND)
+    find_package(pugixml)
+endif()
+
 # Office support requires both libzip and pugixml
 if(THEMIS_ENABLE_OFFICE)
-    find_package(pugixml CONFIG)
-    if(NOT pugixml_FOUND)
-        find_package(pugixml)
-    endif()
-    
     if(libzip_FOUND AND pugixml_FOUND)
         message(STATUS "Office support enabled - libzip and pugixml found")
         add_compile_definitions(THEMIS_ENABLE_OFFICE)
@@ -97,10 +112,84 @@ if(THEMIS_ENABLE_OFFICE)
     endif()
 endif()
 
+# PDF support requires poppler-cpp
+if(THEMIS_ENABLE_PDF)
+    find_package(Poppler CONFIG COMPONENTS cpp QUIET)
+    if(NOT Poppler_FOUND)
+        find_package(Poppler COMPONENTS cpp QUIET)
+    endif()
+
+    if(Poppler_FOUND)
+        message(STATUS "PDF support enabled - poppler-cpp found")
+        add_compile_definitions(THEMIS_ENABLE_PDF)
+    else()
+        message(WARNING "poppler-cpp not found - Install with: vcpkg install poppler")
+        message(WARNING "Disabling PDF layout preservation due to missing dependencies")
+        set(THEMIS_ENABLE_PDF OFF CACHE BOOL "PDF support disabled - missing poppler-cpp" FORCE)
+    endif()
+endif()
+
+# OCR support requires libtesseract + leptonica
+if(THEMIS_ENABLE_OCR)
+    find_package(Tesseract CONFIG QUIET)
+    if(NOT Tesseract_FOUND)
+        find_package(Tesseract QUIET)
+    endif()
+
+    if(Tesseract_FOUND)
+        message(STATUS "OCR support enabled - libtesseract found")
+        add_compile_definitions(THEMIS_ENABLE_OCR)
+    else()
+        message(WARNING "libtesseract not found - Install with: vcpkg install tesseract")
+        message(WARNING "Disabling OCR support due to missing dependencies")
+        set(THEMIS_ENABLE_OCR OFF CACHE BOOL "OCR support disabled - missing libtesseract" FORCE)
+    endif()
+endif()
+
+# FFmpeg support for video processing (optional)
+# Priority: 1) Local Submodule, 2) vcpkg, 3) System
+find_package(FFmpeg CONFIG QUIET)
+if(NOT FFmpeg_FOUND)
+    find_package(FFmpeg QUIET)
+endif()
+
+# If not found, try building from local submodule
+if(NOT FFmpeg_FOUND AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../ffmpeg/CMakeLists.txt")
+    message(STATUS "Found FFmpeg submodule - building from source")
+    set(FFMPEG_ENABLE_SMALL ON CACHE BOOL "Build small FFmpeg" FORCE)
+    set(FFMPEG_ENABLE_OPTIMIZED_BUILD ON CACHE BOOL "Build optimized FFmpeg" FORCE)
+    # Note: FFmpeg might not have CMakeLists directly; requires configure + make wrapper
+    # For now, mark as found if directory exists
+    set(FFmpeg_FOUND TRUE)
+    set(FFMPEG_SUBMODULE_BUILD ON)
+    message(STATUS "FFmpeg submodule found at: ${CMAKE_CURRENT_SOURCE_DIR}/../ffmpeg")
+endif()
+
+if(FFmpeg_FOUND)
+    if(FFMPEG_SUBMODULE_BUILD)
+        message(STATUS "FFmpeg will be built from submodule")
+    else()
+        message(STATUS "Found FFmpeg: ${FFmpeg_DIR}")
+    endif()
+    set(FFMPEG_FOUND TRUE)
+else()
+    message(STATUS "FFmpeg not found - attempting to build from submodule or install with: vcpkg install ffmpeg")
+    set(FFMPEG_FOUND FALSE)
+endif()
+
 # Build options
 option(THEMIS_BUILD_TESTS "Build unit tests" ON)
 option(THEMIS_BUILD_BENCHMARKS "Build performance benchmarks" ON)
-option(THEMIS_ENABLE_GPU "Enable GPU acceleration for vector search" OFF)
+
+# GPU and LLM defaults (can be overridden via -D flags)
+# GPU acceleration includes FAISS, OpenBLAS, LAPACK via vcpkg
+if(NOT DEFINED THEMIS_ENABLE_GPU)
+    set(THEMIS_ENABLE_GPU ON CACHE BOOL "Enable GPU acceleration for vector search (default ON)" )
+endif()
+if(NOT DEFINED THEMIS_ENABLE_LLM)
+    set(THEMIS_ENABLE_LLM ON CACHE BOOL "Enable LLM plugin support with llama.cpp (default ON)" )
+endif()
+
 option(THEMIS_ENABLE_TRACING "Enable OpenTelemetry distributed tracing" ON)
 option(THEMIS_ENABLE_ASAN "Enable AddressSanitizer for debugging" OFF)
 option(THEMIS_STRICT_BUILD "Treat warnings as errors" OFF)
@@ -118,35 +207,116 @@ if(THEMIS_QNAP_BUILD OR THEMIS_STATIC_BUILD)
     set(THEMIS_CORE_SHARED OFF CACHE BOOL "Force static core to avoid Windows DLL export limit (LNK1189)" FORCE)
 endif()
 
-# LLM Support (v1.3.0+)
+# Note: THEMIS_ENABLE_LLM is now set above as FORCE ON (Core Feature)
 # Community Edition: LLM is a core feature (llama.cpp Embedding, Similarity, Inference)
 # Enterprise/Hyperscaler: Advanced LLM features (Fine-Tuning, Model Management) available as add-on module
-option(THEMIS_ENABLE_LLM "Enable LLM plugin support with llama.cpp (v1.3.0+)" OFF)
 
 # Voice Assistant Support (v1.4.0+) - Enterprise Feature
 # Requires: Whisper.cpp (STT), Piper TTS (TTS), llama.cpp (LLM)
 option(THEMIS_ENABLE_VOICE_ASSISTANT "Enable Voice Assistant with STT/TTS/LLM (v1.4.0+)" OFF)
 option(THEMIS_ENABLE_WHISPER "Enable Whisper.cpp for Speech-to-Text" OFF)
 option(THEMIS_ENABLE_PIPER_TTS "Enable Piper TTS for Text-to-Speech" OFF)
+option(THEMIS_ENABLE_RNNOISE "Enable RNNoise deep-learning noise suppression" OFF)
 
 # Hardware acceleration backend options
 option(THEMIS_ENABLE_CUDA "Enable NVIDIA CUDA acceleration" OFF)
 option(THEMIS_ENABLE_HIP "Enable AMD HIP acceleration" OFF)
+option(THEMIS_ENABLE_NCCL "Enable NCCL for NVIDIA multi-GPU (v2.5+)" OFF)
+option(THEMIS_ENABLE_RCCL "Enable RCCL for AMD multi-GPU (v2.5+)" OFF)
+
+# cuVS/RAFT GPU-accelerated ANN (Approximate Nearest Neighbor) search.
+# Requires THEMIS_ENABLE_CUDA=ON and the cuVS/RAFT CMake package to be
+# installed (e.g. via conda: `conda install -c rapidsai cuvs`).
+# When OFF the CPU brute-force fallback in GPUQueryAccelerator::annSearch()
+# is used unconditionally.
+if(THEMIS_ENABLE_CUDA)
+    option(THEMIS_ENABLE_CUVS "Enable cuVS/RAFT GPU-accelerated ANN search (requires CUDA)" OFF)
+else()
+    set(THEMIS_ENABLE_CUVS OFF CACHE BOOL
+        "cuVS/RAFT ANN search (requires THEMIS_ENABLE_CUDA=ON)" FORCE)
+endif()
 
 # Geospatial Processing (P2 - v1.4.0+)
 # Enables GDAL integration for Shapefile and GeoTIFF support
 option(THEMIS_ENABLE_GDAL "Enable GDAL integration for geospatial data processing" OFF)
 
+# Geospatial CUDA kernel dispatch (v2.1.0+)
+# Enables real CUDA kernels for batch point-in-polygon and Haversine distance in
+# the geo GPU backend.  Requires THEMIS_ENABLE_CUDA=ON and CMAKE_CUDA_COMPILER.
+# Default OFF so CPU-only builds are unaffected.
+if(THEMIS_ENABLE_CUDA AND CMAKE_CUDA_COMPILER)
+    option(THEMIS_GEO_CUDA "Enable CUDA kernel dispatch in geo GPU backend" ON)
+else()
+    set(THEMIS_GEO_CUDA OFF CACHE BOOL
+        "CUDA geo kernels (requires THEMIS_ENABLE_CUDA=ON)" FORCE)
+endif()
+
+# Geospatial HIP kernel dispatch (ROCm/AMD hardware)
+# Enables real HIP kernels for batch point-in-polygon and Haversine distance in
+# the geo GPU backend.  Requires THEMIS_ENABLE_HIP=ON.
+# THEMIS_GEO_CUDA takes precedence when both are available.
+# Default OFF so CPU-only and CUDA-only builds are unaffected.
+if(THEMIS_ENABLE_HIP AND NOT THEMIS_GEO_CUDA)
+    option(THEMIS_GEO_HIP "Enable HIP kernel dispatch in geo GPU backend (AMD ROCm)" ON)
+else()
+    set(THEMIS_GEO_HIP OFF CACHE BOOL
+        "HIP geo kernels (requires THEMIS_ENABLE_HIP=ON and THEMIS_GEO_CUDA=OFF)" FORCE)
+endif()
+
+# PDF Document Processing (Q2 2026)
+# Enables poppler-cpp integration for layout-preserving PDF text extraction
+option(THEMIS_ENABLE_PDF "Enable PDF text extraction with layout preservation (requires poppler-cpp)" OFF)
+
 # Office Document Processing (P2 - v1.4.0+)
 # Enables libzip and pugixml integration for DOCX/XLSX/PPTX support
 option(THEMIS_ENABLE_OFFICE "Enable Office document support (DOCX/XLSX/PPTX) with libzip+pugixml" ON)
 
+# OCR Processing (Phase 3 - Advanced Format Support)
+# Enables Tesseract OCR for text extraction from image content (JPEG, PNG, TIFF)
+option(THEMIS_ENABLE_OCR "Enable Tesseract OCR for image text extraction (requires libtesseract+leptonica)" OFF)
+
 # Performance Optimization Options (Research-based, see docs/de/research/)
 # Phase 1: Quick Wins - Low effort, high impact optimizations (from PR #157)
+# NOTE: These are automatically enabled when building tests/benchmarks for accurate performance measurement
 option(THEMIS_ENABLE_MIMALLOC "Use mimalloc allocator for +10-20% performance" OFF)
+option(THEMIS_ENABLE_JEMALLOC "Use jemalloc allocator as alternative (best fragmentation resistance, Linux/Mac only)" OFF)
 option(THEMIS_ENABLE_HUGE_PAGES "Enable huge pages support for +15-30% memory performance" OFF)
 option(THEMIS_ENABLE_RCU_INDEX "Use RCU for read-heavy index paths (+200-500% read performance)" OFF)
 option(THEMIS_ENABLE_LIRS_CACHE "Use LIRS cache replacement policy (+30-40% hit rate)" OFF)
+
+# Auto-enable Phase 1 performance features for tests/benchmarks
+if(THEMIS_BUILD_TESTS OR THEMIS_BUILD_BENCHMARKS)
+    if(NOT DEFINED THEMIS_PERF_AUTO_ENABLE)
+        set(THEMIS_PERF_AUTO_ENABLE ON CACHE BOOL "Auto-enable performance features for tests/benchmarks")
+    endif()
+    
+    if(THEMIS_PERF_AUTO_ENABLE)
+        message(STATUS "Auto-enabling Phase 1 performance optimizations for tests/benchmarks")
+        message(STATUS "  (Disable with: cmake -DTHEMIS_PERF_AUTO_ENABLE=OFF)")
+        
+        # Only auto-enable if not explicitly set by user
+        if(NOT THEMIS_ENABLE_MIMALLOC)
+            set(THEMIS_ENABLE_MIMALLOC ON CACHE BOOL "Auto-enabled for tests/benchmarks" FORCE)
+            message(STATUS "  → THEMIS_ENABLE_MIMALLOC=ON (auto)")
+        endif()
+        
+        if(NOT THEMIS_ENABLE_RCU_INDEX)
+            set(THEMIS_ENABLE_RCU_INDEX ON CACHE BOOL "Auto-enabled for tests/benchmarks" FORCE)
+            message(STATUS "  → THEMIS_ENABLE_RCU_INDEX=ON (auto)")
+        endif()
+        
+        if(NOT THEMIS_ENABLE_LIRS_CACHE)
+            set(THEMIS_ENABLE_LIRS_CACHE ON CACHE BOOL "Auto-enabled for tests/benchmarks" FORCE)
+            message(STATUS "  → THEMIS_ENABLE_LIRS_CACHE=ON (auto)")
+        endif()
+        
+        # Huge Pages nur auf Linux auto-enablen
+        if(NOT WIN32 AND NOT THEMIS_ENABLE_HUGE_PAGES)
+            set(THEMIS_ENABLE_HUGE_PAGES ON CACHE BOOL "Auto-enabled for tests/benchmarks (Linux only)" FORCE)
+            message(STATUS "  → THEMIS_ENABLE_HUGE_PAGES=ON (auto, Linux)")
+        endif()
+    endif()
+endif()
 
 # Phase 2: Medium-Term - Higher impact, medium effort optimizations (from PR #156/#157 research)
 # Medium-term optimizations (3-6 months effort, +100-200% overall performance)
@@ -163,6 +333,13 @@ option(THEMIS_ENABLE_BWTREE "Enable Bw-Tree lock-free index (+100-200%)" OFF)
 option(THEMIS_ENABLE_SPLINTERDB "Enable SplinterDB concurrent compaction (-70% P99)" OFF)
 option(THEMIS_ENABLE_GUNROCK "Enable Gunrock GPU graph analytics (+1000-3000%)" OFF)
 option(THEMIS_ENABLE_BAO "Enable Bao ML query optimizer (+30-70%)" OFF)
+option(THEMIS_ENABLE_PER_QUERY_COST_MODEL "Enable per-query cost model integration with query optimizer (+10-30% plan accuracy)" OFF)
+
+# Phase 4: ML & CI Integration - Very high impact, very high effort (Issue #2424)
+# Long-term optimizations (6-12 months effort, +50-200% PMem-heavy workloads)
+option(THEMIS_ENABLE_PMEM "Enable Persistent Memory (Optane) aware storage layout (+50-200%)" OFF)
+option(THEMIS_ENABLE_PMU_COUNTERS "Enable hardware performance counter (PMU) integration for cache-miss analysis" OFF)
+option(THEMIS_ENABLE_IO_URING "Enable io_uring zero-copy I/O path for network performance (Linux kernel ≥ 5.1)" OFF)
 
 # Build options
 option(THEMIS_BUILD_BENCHMARKS "Build performance benchmarks (requires Google Benchmark)" ON)
@@ -177,9 +354,47 @@ if(THEMIS_ENABLE_MIMALLOC)
         set(THEMIS_ENABLE_MIMALLOC OFF CACHE BOOL "mimalloc not available" FORCE)
     else()
         message(STATUS "Found mimalloc: ${mimalloc_DIR}")
-        add_compile_definitions(THEMIS_USE_MIMALLOC)
+        add_compile_definitions(THEMIS_ENABLE_MIMALLOC)
+        
+        # On Windows: exclude mimalloc-redirect.dll to prevent DLL-injection crash
+        # Use only mimalloc.dll (static override is safer)
+        if(WIN32)
+            message(STATUS "Windows: Disabling mimalloc-redirect DLL to prevent loader crash")
+            # Tell mimalloc to use static override instead of DLL redirection
+            add_compile_definitions(MI_DISABLE_REDIRECT=1)
+        endif()
     endif()
 endif()
+
+if(THEMIS_ENABLE_JEMALLOC)
+    if(WIN32)
+        message(WARNING "jemalloc is not supported on Windows. THEMIS_ENABLE_JEMALLOC will be ignored.")
+        set(THEMIS_ENABLE_JEMALLOC OFF CACHE BOOL "jemalloc not supported on Windows" FORCE)
+    else()
+        message(STATUS "Enabling jemalloc allocator (best fragmentation resistance for RocksDB-heavy workloads)")
+        if(THEMIS_ENABLE_MIMALLOC)
+            message(WARNING "Both THEMIS_ENABLE_JEMALLOC and THEMIS_ENABLE_MIMALLOC are ON. jemalloc takes priority.")
+            set(THEMIS_ENABLE_MIMALLOC OFF CACHE BOOL "Disabled: jemalloc selected" FORCE)
+        endif()
+        find_package(jemalloc CONFIG QUIET)
+        if(NOT jemalloc_FOUND)
+            # Try pkg-config fallback
+            find_package(PkgConfig QUIET)
+            if(PkgConfig_FOUND)
+                pkg_check_modules(jemalloc QUIET jemalloc)
+            endif()
+        endif()
+        if(NOT jemalloc_FOUND AND NOT jemalloc_LIBRARIES)
+            message(WARNING "jemalloc not found via vcpkg or pkg-config. Install with: vcpkg install jemalloc OR apt install libjemalloc-dev")
+            message(WARNING "Building without jemalloc. Performance optimization disabled.")
+            set(THEMIS_ENABLE_JEMALLOC OFF CACHE BOOL "jemalloc not available" FORCE)
+        else()
+            message(STATUS "Found jemalloc")
+            add_compile_definitions(THEMIS_ENABLE_JEMALLOC)
+        endif()
+    endif()
+endif()
+
 
 if(THEMIS_ENABLE_HUGE_PAGES)
     message(STATUS "Enabling huge pages optimization (+15-30% memory performance)")
@@ -253,7 +468,6 @@ option(ENABLE_LOCAL_CLANG_TIDY "Enable local clang-tidy analysis (off by default
 
 
 # v1.1.0 Build Variants (Q1 2026)
-option(THEMIS_USE_MIMALLOC "Use mimalloc allocator (v1.1.0 - 20-40% memory boost)" ON)
 option(THEMIS_ENABLE_OLAP_VARIANT "Build with DuckDB for OLAP workloads" OFF)
 option(THEMIS_EMBEDDED "Build embedded/lightweight variant (reduced dependencies)" OFF)
 option(THEMIS_VLLM_COLOCATION "Optimize for vLLM co-location (AI/ML workloads)" OFF)
@@ -270,6 +484,8 @@ option(THEMIS_ENABLE_SSE "Enable Server-Sent Events (SSE) support" ON)  # Alread
 option(THEMIS_ENABLE_MCP "Enable Model Context Protocol (MCP) support for LLM integration" OFF)
 option(THEMIS_ENABLE_MQTT "Enable MQTT protocol support (IoT)" OFF)
 option(THEMIS_ENABLE_POSTGRES_WIRE "Enable PostgreSQL Wire Protocol support" OFF)
+option(THEMIS_ENABLE_KAFKA "Enable Kafka-compatible CDC producer (requires librdkafka)" OFF)
+option(THEMIS_ENABLE_SERVICE_MESH "Enable Istio/Envoy service mesh sidecar proxy mode (xDS v3 REST client)" OFF)
 
 # vLLM Co-Location: Automatically enable CUDA (Kernbestand, not Enterprise!)
 if(THEMIS_VLLM_COLOCATION)
@@ -332,6 +548,7 @@ if(THEMIS_EDITION STREQUAL "MINIMAL")
     set(THEMIS_ENABLE_VOICE_ASSISTANT OFF CACHE INTERNAL "Voice assistant disabled in Minimal")
     set(THEMIS_ENABLE_WHISPER OFF CACHE INTERNAL "Whisper disabled in Minimal")
     set(THEMIS_ENABLE_PIPER_TTS OFF CACHE INTERNAL "Piper TTS disabled in Minimal")
+    set(THEMIS_ENABLE_RNNOISE OFF CACHE INTERNAL "RNNoise disabled in Minimal")
     set(THEMIS_ENABLE_GRPC OFF CACHE INTERNAL "gRPC disabled in Minimal")
     set(THEMIS_ENABLE_HTTP2 OFF CACHE INTERNAL "HTTP/2 disabled in Minimal")
     set(THEMIS_ENABLE_HTTP3 OFF CACHE INTERNAL "HTTP/3 disabled in Minimal")
@@ -348,14 +565,37 @@ if(THEMIS_EDITION STREQUAL "MINIMAL")
     
 elseif(THEMIS_EDITION STREQUAL "COMMUNITY")
     set(THEMIS_GPU_MAX_VRAM_GB 24 CACHE INTERNAL "Max GPU VRAM for Community Edition")
-    set(THEMIS_SHARDING_MAX_NODES 1 CACHE INTERNAL "Max sharding nodes for Community Edition")
+    set(THEMIS_SHARDING_MAX_NODES 5 CACHE INTERNAL "Max sharding nodes for Community Edition")
     set(THEMIS_ENABLE_ENTERPRISE_PLUGINS OFF CACHE INTERNAL "Enterprise plugins disabled in Community")
     set(THEMIS_ENABLE_MULTI_MASTER OFF CACHE INTERNAL "Multi-master replication disabled in Community")
     set(THEMIS_ENABLE_FIELD_ENCRYPTION OFF CACHE INTERNAL "Field-level encryption disabled in Community")
     set(THEMIS_ENABLE_RBAC OFF CACHE INTERNAL "RBAC disabled in Community")
     set(THEMIS_ENABLE_HSM OFF CACHE INTERNAL "HSM disabled in Community")
-    # LLM is a core feature in Community Edition (v1.3.0+) - can be enabled via THEMIS_ENABLE_LLM option
-    message(STATUS "Edition: COMMUNITY - GPU limited to ${THEMIS_GPU_MAX_VRAM_GB}GB, single-node")
+    
+    # GPU acceleration: Vulkan as default (cross-platform, multi-vendor)
+    # Vulkan works on NVIDIA, AMD, Intel GPUs across Windows/Linux/macOS/Android
+    # CUDA is vendor-specific (NVIDIA only) and must be explicitly enabled
+    if(NOT DEFINED THEMIS_ENABLE_VULKAN)
+        set(THEMIS_ENABLE_VULKAN ON CACHE BOOL "Enable Vulkan GPU acceleration (default ON, cross-platform)")
+    endif()
+    
+    # CUDA is OFF by default (NVIDIA-specific, use -DTHEMIS_ENABLE_CUDA=ON to enable)
+    # When enabled alongside Vulkan, CUDA takes priority for NVIDIA GPUs
+    if(NOT DEFINED THEMIS_ENABLE_CUDA)
+        set(THEMIS_ENABLE_CUDA OFF CACHE BOOL "Enable CUDA GPU acceleration (default OFF, NVIDIA-specific)")
+    endif()
+    
+    # LLM support enabled by default in Community Edition (v1.3.0+)
+    if(NOT DEFINED THEMIS_ENABLE_LLM)
+        set(THEMIS_ENABLE_LLM ON CACHE BOOL "Enable LLM support in Community Edition (default ON)")
+    endif()
+    
+    message(STATUS "Edition: COMMUNITY - GPU limited to ${THEMIS_GPU_MAX_VRAM_GB}GB, up to ${THEMIS_SHARDING_MAX_NODES} nodes")
+    message(STATUS "  GPU Backend: Vulkan=${THEMIS_ENABLE_VULKAN} (cross-platform), CUDA=${THEMIS_ENABLE_CUDA} (NVIDIA-only)")
+    message(STATUS "  LLM Support: ${THEMIS_ENABLE_LLM}")
+    if(THEMIS_ENABLE_VULKAN)
+        message(STATUS "  Vulkan will provide GPU acceleration on NVIDIA/AMD/Intel GPUs with CPU fallback")
+    endif()
 
 elseif(THEMIS_EDITION STREQUAL "ENTERPRISE")
     set(THEMIS_GPU_MAX_VRAM_GB 256 CACHE INTERNAL "Max GPU VRAM for Enterprise Edition")
@@ -365,7 +605,25 @@ elseif(THEMIS_EDITION STREQUAL "ENTERPRISE")
     set(THEMIS_ENABLE_FIELD_ENCRYPTION ON CACHE INTERNAL "Field-level encryption enabled")
     set(THEMIS_ENABLE_RBAC ON CACHE INTERNAL "RBAC enabled")
     set(THEMIS_ENABLE_HSM ON CACHE INTERNAL "HSM enabled")
+    
+    # GPU acceleration: Vulkan as default (cross-platform, multi-vendor)
+    if(NOT DEFINED THEMIS_ENABLE_VULKAN)
+        set(THEMIS_ENABLE_VULKAN ON CACHE BOOL "Enable Vulkan GPU acceleration (default ON, cross-platform)")
+    endif()
+    
+    # CUDA OFF by default (enable with -DTHEMIS_ENABLE_CUDA=ON for NVIDIA-specific optimizations)
+    if(NOT DEFINED THEMIS_ENABLE_CUDA)
+        set(THEMIS_ENABLE_CUDA OFF CACHE BOOL "Enable CUDA GPU acceleration (default OFF, NVIDIA-specific)")
+    endif()
+    
+    # LLM support enabled by default
+    if(NOT DEFINED THEMIS_ENABLE_LLM)
+        set(THEMIS_ENABLE_LLM ON CACHE BOOL "Enable LLM support in Enterprise Edition (default ON)")
+    endif()
+    
     message(STATUS "Edition: ENTERPRISE - GPU up to ${THEMIS_GPU_MAX_VRAM_GB}GB, up to ${THEMIS_SHARDING_MAX_NODES} nodes")
+    message(STATUS "  GPU Backend: Vulkan=${THEMIS_ENABLE_VULKAN} (cross-platform), CUDA=${THEMIS_ENABLE_CUDA} (NVIDIA-only)")
+    message(STATUS "  LLM Support: ${THEMIS_ENABLE_LLM}")
 
 elseif(THEMIS_EDITION STREQUAL "HYPERSCALER")
     set(THEMIS_GPU_MAX_VRAM_GB 999999 CACHE INTERNAL "Max GPU VRAM for Hyperscaler Edition (unlimited)")
@@ -375,8 +633,80 @@ elseif(THEMIS_EDITION STREQUAL "HYPERSCALER")
     set(THEMIS_ENABLE_FIELD_ENCRYPTION ON CACHE INTERNAL "Field-level encryption enabled")
     set(THEMIS_ENABLE_RBAC ON CACHE INTERNAL "RBAC enabled")
     set(THEMIS_ENABLE_HSM ON CACHE INTERNAL "HSM enabled")
+    
+    # GPU acceleration: Vulkan as default (cross-platform, multi-vendor)
+    if(NOT DEFINED THEMIS_ENABLE_VULKAN)
+        set(THEMIS_ENABLE_VULKAN ON CACHE BOOL "Enable Vulkan GPU acceleration (default ON, cross-platform)")
+    endif()
+    
+    # CUDA OFF by default (enable with -DTHEMIS_ENABLE_CUDA=ON for NVIDIA-specific optimizations)
+    if(NOT DEFINED THEMIS_ENABLE_CUDA)
+        set(THEMIS_ENABLE_CUDA OFF CACHE BOOL "Enable CUDA GPU acceleration (default OFF, NVIDIA-specific)")
+    endif()
+    
+    # LLM support enabled by default
+    if(NOT DEFINED THEMIS_ENABLE_LLM)
+        set(THEMIS_ENABLE_LLM ON CACHE BOOL "Enable LLM support in Hyperscaler Edition (default ON)")
+    endif()
+    
+    message(STATUS "Edition: HYPERSCALER - Unlimited GPU/VRAM and nodes")
+    message(STATUS "  GPU Backend: Vulkan=${THEMIS_ENABLE_VULKAN} (cross-platform), CUDA=${THEMIS_ENABLE_CUDA} (NVIDIA-only)")
+    message(STATUS "  LLM Support: ${THEMIS_ENABLE_LLM}")
+    set(THEMIS_ENABLE_ENTERPRISE_PLUGINS ON CACHE INTERNAL "Enterprise plugins enabled")
+    set(THEMIS_ENABLE_MULTI_MASTER ON CACHE INTERNAL "Multi-master replication enabled")
+    set(THEMIS_ENABLE_FIELD_ENCRYPTION ON CACHE INTERNAL "Field-level encryption enabled")
+    set(THEMIS_ENABLE_RBAC ON CACHE INTERNAL "RBAC enabled")
+    set(THEMIS_ENABLE_HSM ON CACHE INTERNAL "HSM enabled")
     message(STATUS "Edition: HYPERSCALER - Unlimited GPU VRAM, unlimited nodes, full custom capabilities")
 
+endif()
+
+# ============================================================================
+# LICENSE ENFORCEMENT (v1.4.0+)
+# ============================================================================
+# Enforce license requirements for ENTERPRISE and HYPERSCALER editions
+
+# ENTERPRISE Edition: License REQUIRED for Release builds only
+if(THEMIS_EDITION STREQUAL "ENTERPRISE")
+    # Check CMAKE_BUILD_TYPE - if not set, default to Release for safety
+    if(NOT CMAKE_BUILD_TYPE)
+        set(CMAKE_BUILD_TYPE "Release" CACHE STRING "Build type" FORCE)
+    endif()
+    
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        # Release builds: License is MANDATORY
+        if(NOT THEMIS_LICENSE_FILE OR THEMIS_LICENSE_FILE STREQUAL "")
+            message(FATAL_ERROR 
+                "ENTERPRISE Edition Release builds require an embedded license file.\n"
+                "Usage: cmake -B build -S . \\\n"
+                "  -DTHEMIS_EDITION=ENTERPRISE \\\n"
+                "  -DCMAKE_BUILD_TYPE=Release \\\n"
+                "  -DTHEMIS_LICENSE_FILE=/path/to/license.json\n"
+                "\n"
+                "For development/testing, use Debug build:\n"
+                "  cmake -B build -S . -DTHEMIS_EDITION=ENTERPRISE -DCMAKE_BUILD_TYPE=Debug\n")
+        endif()
+        message(STATUS "ENTERPRISE Edition (Release): License requirement ENFORCED")
+    else()
+        # Debug/Development builds: License is OPTIONAL
+        message(STATUS "ENTERPRISE Edition (${CMAKE_BUILD_TYPE}): License requirement OPTIONAL (dev build)")
+    endif()
+endif()
+
+# HYPERSCALER Edition: License ALWAYS MANDATORY (no exceptions)
+if(THEMIS_EDITION STREQUAL "HYPERSCALER")
+    if(NOT THEMIS_LICENSE_FILE OR THEMIS_LICENSE_FILE STREQUAL "")
+        message(FATAL_ERROR 
+            "HYPERSCALER Edition requires an embedded license file (mandatory for all builds).\n"
+            "This edition is only available with volume licensing.\n"
+            "\n"
+            "Usage: cmake -B build -S . \\\n"
+            "  -DTHEMIS_EDITION=HYPERSCALER \\\n"
+            "  -DTHEMIS_LICENSE_FILE=/path/to/hyperscaler-license.json\n"
+            "\n"
+            "For licensing inquiries, contact: licensing@themisdb.io\n")
+    endif()
+    message(STATUS "HYPERSCALER Edition: License requirement ENFORCED (mandatory)")
 endif()
 
 # Compile-time edition identifier for runtime checks and telemetry
@@ -387,8 +717,74 @@ add_compile_definitions(
 )
 
 # ============================================================================
-# LICENSE DATA EMBEDDING (v1.4.0+)
+# BUILD REPRODUCIBILITY – Git commit metadata (v1.7.0+)
 # ============================================================================
+# Capture the current HEAD commit, branch, dirty flag, and build environment
+# so that any binary can be traced back to its exact source revision.
+
+find_package(Git QUIET)
+
+set(_THEMIS_GIT_COMMIT      "unknown")
+set(_THEMIS_GIT_COMMIT_DATE "unknown")
+set(_THEMIS_GIT_BRANCH      "unknown")
+set(_THEMIS_GIT_DIRTY       0)
+
+if(Git_FOUND)
+    execute_process(
+        COMMAND ${GIT_EXECUTABLE} log -1 --format=%H
+        WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
+        OUTPUT_VARIABLE _THEMIS_GIT_COMMIT
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+        ERROR_QUIET
+    )
+    execute_process(
+        COMMAND ${GIT_EXECUTABLE} log -1 --format=%ci
+        WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
+        OUTPUT_VARIABLE _THEMIS_GIT_COMMIT_DATE
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+        ERROR_QUIET
+    )
+    execute_process(
+        COMMAND ${GIT_EXECUTABLE} rev-parse --abbrev-ref HEAD
+        WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
+        OUTPUT_VARIABLE _THEMIS_GIT_BRANCH
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+        ERROR_QUIET
+    )
+    execute_process(
+        COMMAND ${GIT_EXECUTABLE} status --porcelain
+        WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
+        OUTPUT_VARIABLE _git_dirty_output
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+        ERROR_QUIET
+    )
+    if(_git_dirty_output)
+        set(_THEMIS_GIT_DIRTY 1)
+    endif()
+endif()
+
+# Build host / user (best-effort)
+cmake_host_system_information(RESULT _THEMIS_BUILD_HOST QUERY HOSTNAME)
+if(DEFINED ENV{USER})
+    set(_THEMIS_BUILD_USER "$ENV{USER}")
+elseif(DEFINED ENV{USERNAME})
+    set(_THEMIS_BUILD_USER "$ENV{USERNAME}")
+else()
+    set(_THEMIS_BUILD_USER "unknown")
+endif()
+
+message(STATUS "Build reproducibility: commit=${_THEMIS_GIT_COMMIT} branch=${_THEMIS_GIT_BRANCH} dirty=${_THEMIS_GIT_DIRTY}")
+
+add_compile_definitions(
+    "THEMIS_GIT_COMMIT=\"${_THEMIS_GIT_COMMIT}\""
+    "THEMIS_GIT_COMMIT_DATE=\"${_THEMIS_GIT_COMMIT_DATE}\""
+    "THEMIS_GIT_BRANCH=\"${_THEMIS_GIT_BRANCH}\""
+    "THEMIS_GIT_DIRTY=${_THEMIS_GIT_DIRTY}"
+    "THEMIS_BUILD_HOST=\"${_THEMIS_BUILD_HOST}\""
+    "THEMIS_BUILD_USER=\"${_THEMIS_BUILD_USER}\""
+)
+
+
 # Allows embedding company/license data into the binary at build time.
 # This supports both offline deployments and CI/CD pipelines.
 # 
@@ -420,7 +816,7 @@ set(THEMIS_LICENSE_FILE "" CACHE FILEPATH "Path to license JSON file for embeddi
 
 # Auto-detect default license file if none specified
 if(NOT THEMIS_LICENSE_FILE OR THEMIS_LICENSE_FILE STREQUAL "")
-    set(DEFAULT_LICENSE_FILE "${CMAKE_SOURCE_DIR}/config/license_community_default.json")
+    set(DEFAULT_LICENSE_FILE "${THEMIS_ROOT_DIR}/config/license_community_default.json")
     if(EXISTS "${DEFAULT_LICENSE_FILE}")
         set(THEMIS_LICENSE_FILE "${DEFAULT_LICENSE_FILE}")
         message(STATUS "No license file specified, using default community license: ${THEMIS_LICENSE_FILE}")
@@ -495,7 +891,16 @@ if(THEMIS_LICENSE_FILE AND EXISTS "${THEMIS_LICENSE_FILE}")
     
     # Validate that license edition matches build edition
     if(THEMIS_LICENSE_EDITION AND NOT THEMIS_LICENSE_EDITION STREQUAL THEMIS_EDITION)
-        message(WARNING "License edition (${THEMIS_LICENSE_EDITION}) does not match build edition (${THEMIS_EDITION})")
+        # For ENTERPRISE and HYPERSCALER, edition mismatch is a FATAL error
+        if(THEMIS_EDITION STREQUAL "ENTERPRISE" OR THEMIS_EDITION STREQUAL "HYPERSCALER")
+            message(FATAL_ERROR 
+                "License edition mismatch: License is for '${THEMIS_LICENSE_EDITION}' but build is '${THEMIS_EDITION}'.\n"
+                "You must use a license file that matches your build edition.\n"
+                "License file: ${THEMIS_LICENSE_FILE}")
+        else()
+            # For MINIMAL/COMMUNITY, just warn
+            message(WARNING "License edition (${THEMIS_LICENSE_EDITION}) does not match build edition (${THEMIS_EDITION})")
+        endif()
     endif()
 else()
     if(THEMIS_LICENSE_FILE)
@@ -537,17 +942,8 @@ if(MSVC)
     endforeach()
 endif()
 
-# Detect target architecture
-set(THEMIS_TARGET_ARCH "unknown")
-if(CMAKE_SYSTEM_PROCESSOR MATCHES "^(x86_64|amd64|AMD64|x64)$")
-    set(THEMIS_TARGET_ARCH "x86_64")
-elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "^(aarch64|arm64|ARM64)$")
-    set(THEMIS_TARGET_ARCH "aarch64")
-elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "^(arm|ARM|armv7l)$")
-    set(THEMIS_TARGET_ARCH "armv7")
-endif()
-
-message(STATUS "Target architecture: ${THEMIS_TARGET_ARCH} (${CMAKE_SYSTEM_PROCESSOR})")
+# Note: Architecture detection and optimization moved to cmake/platforms/
+# See cmake/platforms/PlatformDetection.cmake and ArchitectureOptimizations.cmake
 
 # Compiler warnings and optimizations
 if(MSVC)
@@ -564,44 +960,21 @@ if(MSVC)
     endif()
     add_compile_definitions(NOMINMAX _CRT_SECURE_NO_WARNINGS _WIN32_WINNT=0x0A00)
     # Apply Release-specific settings for single- and multi-config generators
-    add_compile_options($<$<CONFIG:Release>:/O2> $<$<CONFIG:Release>:/GL>)
+    add_compile_options($<$<CONFIG:Release>:/O2>)
     # Disable iterator debugging in Release to match vcpkg RocksDB
     add_compile_definitions($<$<CONFIG:Release>:_ITERATOR_DEBUG_LEVEL=0>)
-    if(THEMIS_ENABLE_AVX2 AND THEMIS_TARGET_ARCH STREQUAL "x86_64" AND NOT THEMIS_QNAP_BUILD)
-        add_compile_options($<$<CONFIG:Release>:/arch:AVX2>)
-    endif()
-    # Ensure Link-Time Code Generation to avoid link restart messages
-    add_link_options($<$<CONFIG:Release>:/LTCG>)
+    # Note: AVX2 optimization moved to cmake/platforms/ArchitectureOptimizations.cmake
+    # Disable LTCG to avoid file locking issues on Windows with Ninja
+    add_link_options($<$<CONFIG:Release>:/INCREMENTAL:NO>)
 else()
     add_compile_options(-Wall -Wextra -Wpedantic)
     if(THEMIS_STRICT_BUILD)
         add_compile_options(-Werror)
     endif()
+    
     if(CMAKE_BUILD_TYPE STREQUAL "Release")
         add_compile_options(-O3)
-        # Architecture-specific optimizations
-        if(THEMIS_TARGET_ARCH STREQUAL "x86_64")
-            # QNAP build: disable AVX/FMA for old Celeron CPUs (N5095 has AVX2 but no FMA3)
-            if(THEMIS_QNAP_BUILD)
-                add_compile_options(-march=x86-64 -msse4.2)
-                message(STATUS "QNAP build: SSE4.2 only (Celeron compatible, no AVX/FMA)")
-            else()
-                # Use native optimizations for x86_64 (maximum performance)
-                add_compile_options(-march=native)
-            endif()
-        elseif(THEMIS_TARGET_ARCH STREQUAL "aarch64")
-            # ARM64/AArch64 optimizations - enable NEON (standard on AArch64)
-            add_compile_options(-march=armv8-a)
-            message(STATUS "Enabling ARM64 NEON optimizations")
-        elseif(THEMIS_TARGET_ARCH STREQUAL "armv7")
-            # ARMv7 optimizations - enable NEON if available
-            # Note: Not all ARMv7 CPUs have NEON, but Raspberry Pi 2/3 do
-            add_compile_options(-march=armv7-a -mfpu=neon -mfloat-abi=hard)
-            message(STATUS "Enabling ARMv7 NEON optimizations")
-        else()
-            # Generic optimizations for unknown architectures
-            message(STATUS "Using generic optimizations for ${THEMIS_TARGET_ARCH}")
-        endif()
+        # Note: Architecture-specific optimizations moved to cmake/platforms/ArchitectureOptimizations.cmake
     endif()
 endif()
 
@@ -612,6 +985,16 @@ if(THEMIS_ENABLE_ASAN)
     else()
         add_compile_options(-fsanitize=address -fno-omit-frame-pointer)
         add_link_options(-fsanitize=address)
+    endif()
+endif()
+
+# LeakSanitizer support
+if(THEMIS_ENABLE_LSAN)
+    if(NOT MSVC)
+        add_compile_options(-fsanitize=leak -fno-omit-frame-pointer)
+        add_link_options(-fsanitize=leak)
+    else()
+        message(WARNING "LeakSanitizer not supported on MSVC")
     endif()
 endif()
 
@@ -694,13 +1077,24 @@ if(NOT TARGET RocksDB::rocksdb AND NOT TARGET RocksDB::rocksdb-shared)
 endif()
 
 # Core packages via vcpkg (or system where available)
-find_package(simdjson CONFIG REQUIRED)
-find_package(TBB CONFIG REQUIRED)
+find_package(simdjson CONFIG QUIET)
+if(NOT simdjson_FOUND)
+    message(WARNING "simdjson not found - some features may be disabled")
+endif()
+
+find_package(TBB CONFIG QUIET)
+if(NOT TBB_FOUND)
+    message(WARNING "TBB not found - will use fallback threading")
+endif()
+
 find_package(Arrow CONFIG QUIET)
 find_package(fmt CONFIG REQUIRED)
 find_package(spdlog CONFIG REQUIRED)
 find_package(nlohmann_json CONFIG REQUIRED)
-find_package(Boost REQUIRED COMPONENTS system)
+find_package(Boost QUIET COMPONENTS system)
+if(NOT Boost_FOUND)
+    message(WARNING "Boost not found - some features may be disabled")
+endif()
 
 # yaml-cpp might be found via PkgConfig or CONFIG
 find_package(yaml-cpp CONFIG QUIET)
@@ -740,9 +1134,13 @@ if(TARGET yaml-cpp::yaml-cpp)
 endif()
 
 # Defensive check: Ensure Boost::system target exists after find_package
-if(NOT TARGET Boost::system)
-    message(FATAL_ERROR "Required CMake target 'Boost::system' not found. "
-                        "Ensure Boost was found and the 'system' component is available.")
+if(Boost_FOUND)
+    if(NOT TARGET Boost::system)
+        message(FATAL_ERROR "Required CMake target 'Boost::system' not found. "
+                            "Ensure Boost was found and the 'system' component is available.")
+    endif()
+else()
+    message(WARNING "Boost not available - network features may be disabled")
 endif()
 # Optional ZSTD for content compression wrappers
 # Note: ZSTD packages may expose different target names depending on the build system
@@ -760,6 +1158,60 @@ elseif(NOT zstd_FOUND)
     endif()
 endif()
 
+# Optional LZ4 for connection-level frame compression
+find_package(lz4 CONFIG QUIET)
+if(lz4_FOUND)
+    if(TARGET LZ4::lz4_shared)
+        set(THEMIS_LZ4_TARGET LZ4::lz4_shared)
+    elseif(TARGET LZ4::lz4_static)
+        set(THEMIS_LZ4_TARGET LZ4::lz4_static)
+    elseif(TARGET lz4::lz4)
+        set(THEMIS_LZ4_TARGET lz4::lz4)
+    endif()
+    message(STATUS "LZ4 found via CONFIG")
+else()
+    # Fallback: pkg-config
+    find_package(PkgConfig QUIET)
+    if(PkgConfig_FOUND)
+        pkg_check_modules(LZ4_PKG QUIET liblz4)
+        if(LZ4_PKG_FOUND AND NOT TARGET LZ4::lz4_shared)
+            add_library(LZ4::lz4_shared INTERFACE IMPORTED)
+            set_target_properties(LZ4::lz4_shared PROPERTIES
+                INTERFACE_INCLUDE_DIRECTORIES "${LZ4_PKG_INCLUDE_DIRS}"
+                INTERFACE_LINK_LIBRARIES "${LZ4_PKG_LIBRARIES}")
+            set(THEMIS_LZ4_TARGET LZ4::lz4_shared)
+            message(STATUS "LZ4 found via pkg-config")
+        endif()
+    endif()
+endif()
+
+# Snappy compression – required for Prometheus remote-write endpoint compatibility.
+# Snappy is a transitive dependency of RocksDB (vcpkg feature "snappy"), so it is
+# typically available automatically.  We discover it here so we can link it
+# explicitly against themis_core and surface a clear warning when absent.
+find_package(Snappy CONFIG QUIET)
+if(Snappy_FOUND OR TARGET Snappy::snappy)
+    set(THEMIS_SNAPPY_TARGET Snappy::snappy)
+    message(STATUS "Snappy found – Prometheus remote-write snappy decompression enabled")
+else()
+    # Fallback: system library via pkg-config
+    find_package(PkgConfig QUIET)
+    if(PkgConfig_FOUND)
+        pkg_check_modules(SNAPPY_PKG QUIET snappy)
+        if(SNAPPY_PKG_FOUND AND NOT TARGET Snappy::snappy)
+            add_library(Snappy::snappy INTERFACE IMPORTED)
+            set_target_properties(Snappy::snappy PROPERTIES
+                INTERFACE_INCLUDE_DIRECTORIES "${SNAPPY_PKG_INCLUDE_DIRS}"
+                INTERFACE_LINK_LIBRARIES "${SNAPPY_PKG_LIBRARIES}")
+            set(THEMIS_SNAPPY_TARGET Snappy::snappy)
+            message(STATUS "Snappy found via pkg-config")
+        endif()
+    endif()
+    if(NOT THEMIS_SNAPPY_TARGET)
+        message(WARNING "Snappy not found – Prometheus remote-write snappy decompression will be unavailable. Install with: vcpkg install snappy")
+    endif()
+endif()
+
 # Optional: HNSW (if not using Faiss)
 find_package(hnswlib CONFIG)
 
@@ -771,9 +1223,9 @@ if(THEMIS_ENABLE_GPU)
     # Try to locate OpenBLAS/LAPACK provided by vcpkg (CONFIG mode)
     find_package(OpenBLAS CONFIG QUIET)
     if(OpenBLAS_FOUND)
-        message(STATUS "OpenBLAS gefunden � BLAS-Unterst�tzung aktiv")
+        message(STATUS "OpenBLAS found - BLAS support enabled")
     else()
-        message(WARNING "OpenBLAS nicht gefunden � installieren mit: vcpkg install openblas")
+        message(WARNING "OpenBLAS not found - install with: vcpkg install openblas")
     endif()
 
     find_package(LAPACK CONFIG QUIET)
@@ -784,7 +1236,7 @@ if(THEMIS_ENABLE_GPU)
     # FAISS (CONFIG mode via vcpkg). If missing, gracefully disable GPU.
     find_package(faiss CONFIG)
     if(NOT faiss_FOUND)
-        message(WARNING "Faiss nicht gefunden � GPU-Unterst�tzung wird automatisch deaktiviert.")
+        message(WARNING "Faiss not found - GPU support will be automatically disabled.")
         set(THEMIS_ENABLE_GPU OFF CACHE BOOL "Enable GPU acceleration for vector search" FORCE)
     endif()
 endif()
@@ -877,8 +1329,8 @@ include_directories(
 # Copy runtime config files into the build directory so tests and local runs
 # can find `config/*` when executed from ${CMAKE_BINARY_DIR} (common when
 # running tests via CTest/gtest_discover_tests). This is safe and cheap.
-if(EXISTS "${CMAKE_SOURCE_DIR}/config")
-    file(COPY "${CMAKE_SOURCE_DIR}/config" DESTINATION "${CMAKE_BINARY_DIR}")
+if(EXISTS "${THEMIS_ROOT_DIR}/config")
+    file(COPY "${THEMIS_ROOT_DIR}/config" DESTINATION "${CMAKE_BINARY_DIR}")
 endif()
 
 # -----------------------------------------------------------
@@ -887,16 +1339,19 @@ endif()
 if(THEMIS_ENABLE_LLM)
     message(STATUS "LLM support enabled - integrating llama.cpp")
 
+    # Prefer local static build of llama.cpp to avoid shared DLL issues
+    option(THEMIS_FORCE_LLAMA_SUBDIR "Prefer local static llama.cpp even if a target exists" OFF)
+
     # Check if llama was already found via find_package (e.g. from installed version)
-    if(TARGET llama)
+    if(TARGET llama AND NOT THEMIS_FORCE_LLAMA_SUBDIR)
         message(STATUS "llama.cpp already available as target (from find_package) - skipping add_subdirectory")
     else()
-        # Prefer local, non-committed root clone at ${CMAKE_SOURCE_DIR}/llama.cpp
+        # Prefer local, non-committed root clone at ${THEMIS_ROOT_DIR}/llama.cpp
         # Fallback to legacy path external/llama.cpp if present
-        set(LLAMA_SRC_DIR "${CMAKE_SOURCE_DIR}/llama.cpp")
+        set(LLAMA_SRC_DIR "${THEMIS_ROOT_DIR}/llama.cpp")
         if(NOT EXISTS "${LLAMA_SRC_DIR}/CMakeLists.txt")
-            if(EXISTS "${CMAKE_SOURCE_DIR}/external/llama.cpp/CMakeLists.txt")
-                set(LLAMA_SRC_DIR "${CMAKE_SOURCE_DIR}/external/llama.cpp")
+            if(EXISTS "${THEMIS_ROOT_DIR}/external/llama.cpp/CMakeLists.txt")
+                set(LLAMA_SRC_DIR "${THEMIS_ROOT_DIR}/external/llama.cpp")
                 message(WARNING "Using legacy llama.cpp at external/llama.cpp. Prefer root llama.cpp/ (ignored by Git/Docker).")
             else()
                 message(FATAL_ERROR
@@ -937,8 +1392,15 @@ if(THEMIS_ENABLE_LLM)
     
     # Add llama.cpp subdirectory (resolved via LLAMA_SRC_DIR)
     # When LLAMA_SRC_DIR is outside the current source dir (cmake/), CMake requires an explicit binary dir.
-    set(LLAMA_BIN_DIR "${CMAKE_BINARY_DIR}/llama_cpp_build")
-    add_subdirectory(${LLAMA_SRC_DIR} ${LLAMA_BIN_DIR} EXCLUDE_FROM_ALL)
+    # Guard against double-add since Dependencies.cmake may have already added it
+    if(NOT TARGET llama)
+        if(THEMIS_FORCE_LLAMA_SUBDIR)
+            set(LLAMA_BIN_DIR "${CMAKE_BINARY_DIR}/llama_cpp_forced_build")
+        else()
+            set(LLAMA_BIN_DIR "${CMAKE_BINARY_DIR}/llama_cpp_build")
+        endif()
+        add_subdirectory(${LLAMA_SRC_DIR} ${LLAMA_BIN_DIR} EXCLUDE_FROM_ALL)
+    endif()
     
     # MSVC fix: char8_t string literals in llama-chat.cpp require /Zc:char8_t-
     if(MSVC AND TARGET llama)
@@ -957,7 +1419,7 @@ function(_themis_normalize_sources list_var)
     set(_normalized "")
     foreach(_entry IN LISTS ${list_var})
         if(_entry MATCHES "^/")
-            list(APPEND _normalized "${CMAKE_SOURCE_DIR}${_entry}")
+            list(APPEND _normalized "${THEMIS_ROOT_DIR}${_entry}")
         else()
             list(APPEND _normalized "${_entry}")
         endif()
@@ -971,11 +1433,45 @@ set(THEMIS_CORE_SOURCES
     ../src/storage/base_entity.cpp
     ../src/storage/key_schema.cpp
     ../src/storage/backup_manager.cpp
-    
+    ../src/storage/database_connection_manager.cpp
+    ../src/storage/disk_space_monitor.cpp
+    ../src/storage/nlp_metadata_extractor.cpp
+    ../src/storage/columnar_format.cpp
+    ../src/storage/batch_write_optimizer.cpp
+    ../src/storage/wal_storage.cpp
+    ../src/storage/transaction_retry_manager.cpp
+    ../src/storage/compaction_manager.cpp
+    ../src/storage/adaptive_compaction.cpp
+    ../src/storage/merge_operators.cpp
+    ../src/storage/wom_tree.cpp
+    ../src/storage/compressed_storage.cpp
+    ../src/storage/compression_strategy.cpp
+    ../src/storage/gpu_compression.cpp
+    ../src/storage/index_maintenance.cpp
+    ../src/storage/storage_engine.cpp
+    ../src/storage/blob_backend_filesystem.cpp
+    ../src/storage/blob_backend_s3.cpp
+    ../src/storage/blob_backend_azure.cpp
+    ../src/storage/blob_backend_webdav.cpp
+    ../src/storage/blob_backend_gcs.cpp
+    # nvme_manager.cpp is registered via cmake/StorageEnhancements.cmake
+
     ../src/metadata/schema_manager.cpp
+    ../src/metadata/statistics_collector.cpp
+    ../src/metadata/information_schema.cpp
+    ../src/metadata/schema_constraints.cpp
+    ../src/metadata/schema_version_manager.cpp
+    ../src/metadata/schema_audit_log.cpp
+    ../src/metadata/schema_consistency_checker.cpp
+    ../src/metadata/index_recommender.cpp
+    ../src/metadata/column_lineage.cpp
+    ../src/metadata/catalog_exporter.cpp
+    ../src/metadata/distributed_catalog.cpp
+    ../src/metadata/er_diagram_exporter.cpp
     ../src/server/schema_api_handler.cpp
     
     ../src/index/secondary_index.cpp
+    ../src/index/inverted_index.cpp
     ../src/index/graph_index.cpp
     ../src/index/temporal_graph.cpp
     ../src/index/property_graph.cpp
@@ -983,114 +1479,434 @@ set(THEMIS_CORE_SOURCES
     ../src/index/process_graph.cpp
     ../src/index/gnn_embeddings.cpp
     ../src/index/graph_analytics.cpp
+    ../src/index/graph_auto_buffer.cpp
     ../src/index/vector_index.cpp
+    ../src/index/ann_index.cpp
+    ../src/index/advanced_vector_index.cpp
+    ../src/index/approximate_radius_search.cpp
+    ../src/index/hnsw_layer_optimizer.cpp
+    ../src/index/hnsw_parameter_tuner.cpp
+    ../src/index/hnsw_production_defaults.cpp
+    ../src/index/cuda_hnsw_graph_traversal.cpp
     ../src/index/product_quantizer.cpp
+    ../src/index/binary_quantizer.cpp
+    ../src/index/learned_quantizer.cpp
+    ../src/index/residual_quantizer.cpp
     ../src/index/adaptive_index.cpp
+    ../src/index/workload_replay.cpp
+    ../src/index/index_manager.cpp
+    ../src/index/rotary_embeddings.cpp
+    ../src/index/rotary_embeddings_gpu_cpu.cpp
+    ../src/index/learnable_rope.cpp
+    ../src/index/lora_rope.cpp
+    ../src/index/multi_vector_search.cpp
+    ../src/index/distributed_vector_index.cpp
+    ../src/index/tiered_index_manager.cpp
+    ../src/index/vector_auto_buffer.cpp
+    ../src/index/gpu_memory_oversubscription.cpp
+    ../src/index/index_compression.cpp
+    $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/index/gpu_vector_index.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/index/multi_gpu_vector_index.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_VULKAN}>:../src/index/gpu_vector_index_vulkan.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CUDA}>:../src/index/rotary_embeddings_cuda.cu>
+    $<$<BOOL:${THEMIS_ENABLE_HIP}>:../src/index/rotary_embeddings_hip.cpp>
     
     ../src/security/mock_key_provider.cpp
     ../src/security/vault_key_provider.cpp
     ../src/security/key_cache.cpp
     ../src/security/keyprovider_signing.cpp
+    ../src/security/hsm_signing.cpp
     ../src/security/vault_signing_provider.cpp
     ../src/security/field_encryption.cpp
     ../src/security/encrypted_field.cpp
     ../src/security/malware_scanner.cpp
     ../src/security/usb_admin_authenticator.cpp
+    ../src/security/usb_volume_hardening.cpp
+    ../src/security/aql_injection_detector.cpp
+    ../src/core/security_initialization.cpp
+    ../src/performance/cycle_metrics.cpp
+    ../src/performance/numa_topology.cpp
+    ../src/performance/workload_predictor.cpp
+    ../src/performance/async_metrics_exporter.cpp
+    ../src/performance/chimera_exporter.cpp
+    ../src/performance/prometheus_exporter.cpp
+    ../src/performance/prometheus_exporter.cpp
+    ../src/performance/chimera_exporter.cpp
+    ../src/performance/async_metrics_exporter.cpp
+    
+    ../src/config/config_path_resolver.cpp
+    ../src/config/config_metrics_exporter.cpp
+    ../src/config/config_schema_validator.cpp
+    ../src/config/config_file_watcher.cpp
+    ../src/config/config_audit_log.cpp
+    ../src/config/config_encrypted_store.cpp
     
     ../src/transaction/transaction_manager.cpp
     ../src/transaction/saga.cpp
+    ../src/transaction/distributed_saga.cpp
+    ../src/transaction/saga_orchestrator.cpp
     ../src/transaction/snapshot_manager.cpp
+    ../src/transaction/merge_engine.cpp
+    ../src/transaction/branch_manager.cpp
+    ../src/transaction/lock_manager.cpp
+    ../src/transaction/crash_recovery_manager.cpp
+    ../src/transaction/global_transaction_manager.cpp
+    ../src/transaction/deadlock_predictor.cpp
     
     ../src/query/query_engine.cpp
     ../src/query/query_optimizer.cpp
+    ../src/query/adaptive_optimizer.cpp
+    ../src/query/adaptive_join.cpp
+    ../src/query/runtime_reoptimizer.cpp
+    ../src/graph/graph_query_optimizer.cpp
+    ../src/graph/path_constraints.cpp
+    ../src/graph/gpu_traversal.cpp
+    ../src/graph/parallel_traversal.cpp
+    ../src/graph/distributed_graph.cpp
+    ../src/graph/scheduled_edge_refresh.cpp
+    ../src/query/optimizer_cost_model.cpp
     ../src/query/aql_parser.cpp
     ../src/query/aql_parser_json.cpp
     ../src/query/aql_translator.cpp
     ../src/query/aql_runner.cpp
+    ../src/query/result_type_annotation.cpp
+    ../src/query/query_plan_visualizer.cpp
+    ../src/query/sql_parser.cpp
+    ../src/query/sparql_parser.cpp
+    ../src/query/cypher_parser.cpp
+    ../src/query/gremlin_parser.cpp
     ../src/query/let_evaluator.cpp
     ../src/query/window_evaluator.cpp
     ../src/query/cte_subquery.cpp
     ../src/query/cte_cache.cpp
+    ../src/query/materialized_cte.cpp
+    ../src/query/result_stream.cpp
+    ../src/query/query_cache.cpp
 
-    
-    
+    # Vectorized Execution Engine – column-store style batch processing (Issue #2434)
+    ../src/query/vectorized_execution.cpp
+    ../src/query/parallel_executor.cpp
+
     ../src/query/statistical_aggregator.cpp
     ../src/query/semantic_cache.cpp
+    ../src/query/cross_cluster_federation.cpp
+    ../src/query/workload_cache_strategy.cpp
+    ../src/query/query_cache_manager.cpp
+    ../src/query/query_canceller.cpp
+    ../src/query/query_federation.cpp
+    ../src/query/plan_cache.cpp
+    ../src/query/query_compiler.cpp
     ../src/query/functions/function_registry.cpp
+    ../src/query/functions/ethics_functions.cpp
+    ../src/query/functions/fulltext_functions.cpp
+    ../src/query/functions/lora_functions.cpp
+    ../src/query/functions/process_mining_functions.cpp
+    ../src/query/functions/udf_registry.cpp
+    ../src/prompt_engineering/prompt_manager.cpp
+    ../src/prompt_engineering/prompt_engineering_metrics.cpp
+    ../src/prompt_engineering/feedback_collector.cpp
+    ../src/prompt_engineering/prompt_evaluator.cpp
+    ../src/prompt_engineering/meta_prompt_generator.cpp
+    ../src/prompt_engineering/prompt_optimizer.cpp
+    ../src/prompt_engineering/prompt_performance_tracker.cpp
+    ../src/prompt_engineering/prompt_version_control.cpp
+    ../src/prompt_engineering/self_improvement_orchestrator.cpp
+    ../src/prompt_engineering/prompt_engineering_integration.cpp
+    ../src/prompt_engineering/prompt_injection_detector.cpp
+    ../src/prompt_engineering/chain_of_thought.cpp
+    ../src/prompt_engineering/rag_prompt_builder.cpp
+    ../src/prompt_engineering/system_prompt_manager.cpp
+    ../src/prompt_engineering/context_window_manager.cpp
+    ../src/prompt_engineering/reflection_tuner.cpp
+    ../src/prompt_engineering/llm_reflection_adapter.cpp
+    ../src/prompt_engineering/cot_tracer.cpp
+    ../src/prompt_engineering/prompt_regression_runner.cpp
+    ../src/prompt_engineering/prompt_ab_experiment.cpp
+    ../src/prompt_engineering/prompt_library_io.cpp
+    ../src/prompt_engineering/tree_of_thoughts.cpp
+    ../src/prompt_engineering/protegi_optimizer.cpp
+    ../src/prompt_engineering/dspy_module.cpp
     
-    ../src/server/http_server.cpp
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/http_server.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/transaction_api_handler.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/distributed_txn_api_handler.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/auth_middleware.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/request_validation_middleware.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/api_auth_config.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/api_security_audit.cpp>
     $<$<BOOL:${THEMIS_ENABLE_SSE}>:../src/server/sse_connection_manager.cpp>
+    ../src/server/cache_api_handler.cpp
+    ../src/server/cache_admin_api_handler.cpp
+    ../src/server/admin_api_handler.cpp
+    ../src/server/vector_api_handler.cpp
+    ../src/server/rope_api_handler.cpp
+    ../src/server/spatial_api_handler.cpp
+    ../src/server/openapi_route_registry.cpp
+    ../src/server/monitoring_api_handler.cpp
+    ../src/server/query_api_handler.cpp
+    ../src/server/udf_api_handler.cpp
+    ../src/server/policy_api_handler.cpp
+    ../src/server/policy_manager_api_handler.cpp
+    ../src/server/policy_versioning_api_handler.cpp
+    ../src/server/policy_template_api_handler.cpp
+    ../src/server/compliance_reporting_api_handler.cpp
+    ../src/server/policy_validation_api_handler.cpp
+    ../src/server/review_scheduling_api_handler.cpp
+    ../src/server/prompt_api_handler.cpp
+    ../src/server/prompt_engineering_api_handler.cpp
+    ../src/server/bpmn_api_handler.cpp
+    ../src/server/branch_api_handler.cpp
+    ../src/server/graph_api_handler.cpp
+    ../src/server/index_api_handler.cpp
+    ../src/server/timeseries_api_handler.cpp
+    ../src/server/entity_api_handler.cpp
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/server/content_api_handler.cpp>
+    ../src/server/changefeed_api_handler.cpp
+    ../src/server/chunked_response_writer.cpp
+    ../src/server/wal_api_handler.cpp
+    ../src/server/replication_topology_api_handler.cpp
     ../src/server/audit_api_handler.cpp
     ../src/server/pki_api_handler.cpp
     ../src/server/saga_api_handler.cpp
     ../src/server/pii_api_handler.cpp
     ../src/server/retention_api_handler.cpp
     ../src/server/keys_api_handler.cpp
+    ../src/server/api_key_mgmt_handler.cpp
+    ../src/server/session_api_handler.cpp
+    ../src/server/saml_auth_provider.cpp
+    ../src/server/oauth2_provider.cpp
     ../src/server/classification_api_handler.cpp
     ../src/server/reports_api_handler.cpp
     ../src/server/ranger_adapter.cpp
     ../src/server/policy_engine.cpp
+    ../src/server/opa_adapter.cpp
     ../src/server/auth_middleware.cpp
     $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/server/wal_grpc_service.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/server/pitr_grpc_service.cpp>
     
     # LLM integration (server/API/grpc) is added conditionally below
     ../src/server/rate_limiter.cpp
     ../src/server/rate_limiter_v2.cpp
+    ../src/server/adaptive_rate_limiter.cpp
+    ../src/server/cost_based_rate_limiter.cpp
+    ../src/server/rate_limiting_middleware.cpp
     ../src/server/load_shedder.cpp
+    ../src/server/api_version.cpp
+    ../src/server/response_transformer.cpp
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/api_gateway.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/distributed_gateway.cpp>
     ../src/server/update_api_handler.cpp
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/maintenance_api_handler.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/geo_topology_api_handler.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/mvcc_api_handler.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/serverless_function_api_handler.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/async_job_api_handler.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/maintenance/database_maintenance_orchestrator.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/maintenance/maintenance_schedule_store.cpp>
     ../src/server/hot_reload_api_handler.cpp
     ../src/server/export_api_handler.cpp
-    ../src/server/feedback_api_handler.cpp
-    ../src/server/snapshot_api_handler.cpp
+    $<$<AND:$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>,$<BOOL:${THEMIS_ENABLE_LLM}>>:../src/server/feedback_api_handler.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/snapshot_api_handler.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/pitr_api_handler.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/cdn_cache_middleware.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/import_api_handler.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/import_wizard_builder.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/profiling_api_handler.cpp>
+    $<$<AND:$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>,$<BOOL:${THEMIS_ENABLE_LLM}>>:../src/server/ethics_api_handler.cpp>
+    $<$<AND:$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>,$<BOOL:${THEMIS_ENABLE_VOICE_ASSISTANT}>>:../src/server/voice_api_handler.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/server/prompt_engineering_grpc_service.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/server/themis_core_grpc_service.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/cdc/cdc_admin.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/task_scheduler_api_handler.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/scheduler/task_scheduler.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/scheduler/task_audit_event.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/scheduler/task_audit_manager.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/scheduler/task_result_store.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/scheduler/task_anomaly_detector.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/scheduler/hybrid_retention_manager.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/scheduler/event_trigger.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/scheduler/external_scheduler_adapter.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/scheduler/distributed_task_coordinator.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP2}>:../src/server/http2_session.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP3}>:../src/server/http3_session.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP3}>:../src/server/http3_datagram.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP3}>:../src/server/http3_production_config.cpp>
     $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:../src/server/websocket_session.cpp>
     $<$<BOOL:${THEMIS_ENABLE_MQTT}>:../src/server/mqtt_session.cpp>
     $<$<BOOL:${THEMIS_ENABLE_POSTGRES_WIRE}>:../src/server/postgres_session.cpp>
     $<$<BOOL:${THEMIS_ENABLE_MCP}>:../src/server/mcp_server.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/server/grpc_web_proxy_handler.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_SERVICE_MESH}>:../src/server/service_mesh_api_handler.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/wasm_handler_registry.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP3}>:../src/server/http3_datagram.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/server/prompt_engineering_grpc_service.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/server/themis_core_grpc_service.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_VOICE_ASSISTANT}>:../src/server/voice_api_handler.cpp>
+    ../src/server/cdn_cache_middleware.cpp
+    ../src/server/ethics_api_handler.cpp
+    ../src/server/import_api_handler.cpp
+    ../src/server/import_wizard_builder.cpp
+    ../src/server/profiling_api_handler.cpp
     
-    ../src/content/content_type.cpp
-    ../src/content/content_manager.cpp
-    ../src/content/text_processor.cpp
-    ../src/content/mock_clip_processor.cpp
-    ../src/content/mime_detector.cpp
-    ../src/content/content_policy.cpp
-    ../src/content/content_fs.cpp
-    ../src/content/version_manager.cpp
-    $<$<BOOL:${THEMIS_ENABLE_OFFICE}>:../src/content/office_processor.cpp>
-    ../src/content/archive_processor.cpp  # Archive processing (uses libzip, always available)
-    ../src/content/async_ingestion_worker.cpp  # Async ingestion for development/showcase
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_type.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_manager.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/text_processor.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/html_processor.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/markdown_processor.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/video_processor.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/audio_processor.cpp>
+    $<$<AND:$<BOOL:${THEMIS_ENABLE_CONTENT}>,$<NOT:$<BOOL:${THEMIS_ENABLE_VOICE_ASSISTANT}>>>:../src/content/stt_processor.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/image_processor.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/pdf_processor.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/ocr_processor.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/geo_processor.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/cad_processor.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/mock_clip_processor.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/mime_detector.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_policy.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_errors.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_validator.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_metrics.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_logger.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_security.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/abuse_detector.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_fs.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/version_manager.cpp>
+    $<$<AND:$<BOOL:${THEMIS_ENABLE_CONTENT}>,$<BOOL:${THEMIS_ENABLE_OFFICE}>>:../src/content/office_processor.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/archive_processor.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/async_ingestion_worker.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/ingestion_plugin.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/deduplication_checker.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/language_detector.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/embedding_pipeline.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_manager_embedding.cpp>
+    $<$<AND:$<BOOL:${THEMIS_ENABLE_CONTENT}>,$<NOT:$<BOOL:${THEMIS_ENABLE_VOICE_ASSISTANT}>>>:../src/content/tts_processor.cpp>
+    $<$<AND:$<BOOL:${THEMIS_ENABLE_CONTENT}>,$<BOOL:${THEMIS_ENABLE_LLM}>>:../src/content/content_manager_llm.cpp>
+    
+    # Content Pipeline (GAP-005) - Enhanced with streaming and multi-modal support
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/pipeline/zstd_compression.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/pipeline/content_chunker.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/pipeline/bulk_upload_interface.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/pipeline/async_bulk_uploader.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/pipeline/multimodal_chunker.cpp>
     
     ../src/cache/semantic_cache.cpp
+    ../src/cache/adaptive_query_cache.cpp
     ../src/cache/embedding_cache.cpp
+    ../src/cache/bounded_lru_cache.cpp
+    ../src/cache/warmup.cpp
+    ../src/cache/cache_hit_rate_slo_monitor.cpp
+    ../src/cache/predictive_prefetcher.cpp
+    ../src/cache/cache_replication.cpp
+    ../src/cache/cache_replication_coordinator.cpp
+    $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/cache/grpc_remote_cache_peer.cpp>
+    ../src/cache/distributed_cache_coordinator.cpp
+    # ../src/cache/redis_cache_coordinator.cpp   # Legacy hiredis impl; conflicts with distributed_cache_coordinator
+    
+    # Ingestion module – unified data intake layer (filesystem, REST, HuggingFace,
+    # Kafka, S3/GCS/Azure, JDBC, web-crawler, CDC, distributed coordinator)
+    ../src/ingestion/ingestion_manager.cpp
+    ../src/ingestion/filesystem_ingester.cpp
+    ../src/ingestion/api_connector.cpp
+    ../src/ingestion/huggingface_connector.cpp
+    ../src/ingestion/kafka_connector.cpp
+    ../src/ingestion/object_storage_connector.cpp
+    # s3_connector.cpp: dedicated S3-optimised connector (incremental mode,
+    # concurrent downloads, flat-file delegation); uses #ifdef THEMIS_ENABLE_S3
+    # internally – always compiles without the AWS SDK.
+    ../src/ingestion/s3_connector.cpp
+    ../src/ingestion/database_connector.cpp
+    ../src/ingestion/web_crawler_connector.cpp
+    ../src/ingestion/ingestion_coordinator.cpp
+    # cdc_connector.cpp uses #ifdef THEMIS_ENABLE_CDC_STREAM internally; the file
+    # always compiles and returns CONNECTOR_NOT_SUPPORTED when the flag is OFF.
+    ../src/ingestion/cdc_connector.cpp
+    # Legal ingestion pipeline: deontic extraction, semantic validation, reference validation
+    ../src/ingestion/deontic_extractor.cpp
+    ../src/ingestion/semantic_validator.cpp
+    ../src/ingestion/agentic_reference_validator.cpp
+    ../src/ingestion/llm_adapter.cpp
+
     # LLM core components are added conditionally below
     ../src/cdc/changefeed.cpp
+    ../src/cdc/changefeed_buffer.cpp
+    ../src/cdc/consumer_group.cpp
+    ../src/cdc/cross_collection_stream.cpp
+    ../src/cdc/cdc_materialized_view.cpp
+    ../src/cdc/tenant_buffer_manager.cpp
+    $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:../src/cdc/ws_transport.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_KAFKA}>:../src/cdc/kafka_cdc_producer.cpp>
+    ../src/cdc/delivery_tracker.cpp
+    ../src/cdc/dead_letter_queue.cpp
+    ../src/cdc/outbox.cpp
     
     # Replication
+    ../src/cdc/cdc_ws_handler.cpp
     ../src/replication/replication_manager.cpp
+    ../src/replication/observability.cpp
+    ../src/replication/conflict_resolution.cpp
+    ../src/replication/event_stream.cpp
+    ../src/replication/policy.cpp
+    ../src/replication/replication_slot.cpp
+    ../src/replication/raft_v2.cpp
+    ../src/replication/schema_cdc.cpp
+    ../src/replication/multi_tier_replication.cpp
+    ../src/replication/logical_replication.cpp
     
-    # Temporal conflict resolution
+    # Temporal versioning and query engine
     ../src/temporal/temporal_conflict_resolver.cpp
+    ../src/temporal/system_versioned_table.cpp
+    ../src/temporal/temporal_query_engine.cpp
+    ../src/temporal/bi_temporal.cpp
+    ../src/temporal/temporal_index.cpp
+    ../src/temporal/temporal_aggregator.cpp
+    ../src/temporal/snapshot_manager.cpp
+    ../src/temporal/retention_manager.cpp
+    ../src/temporal/bitemporal_join.cpp
+    ../src/temporal/interval_tree_index.cpp
+    ../src/temporal/temporal_compressor.cpp
+    ../src/temporal/temporal_cdc.cpp
     
     ../src/timeseries/timeseries.cpp
+    ../src/timeseries/timeseries_metrics.cpp
     ../src/timeseries/tsstore.cpp
     ../src/timeseries/gorilla.cpp
+    ../src/timeseries/gorilla_simd.cpp
     ../src/timeseries/retention.cpp
     ../src/timeseries/continuous_agg.cpp
     ../src/timeseries/aggregate_scheduler.cpp
     ../src/timeseries/aggregate_scheduler_helper.cpp
     ../src/timeseries/query_optimizer.cpp
+    ../src/timeseries/prometheus_remote_write.cpp
+    ../src/timeseries/ts_auto_buffer.cpp
+    ../src/timeseries/hypertable.cpp
+    ../src/timeseries/aggregates.cpp
+    ../src/timeseries/downsampling.cpp
+    ../src/timeseries/ts_auto_buffer_adaptive.cpp
+    ../src/timeseries/encrypted_chunk_store.cpp
+    ../src/timeseries/ts_encrypted_key_rotation.cpp
     
     ../src/utils/serialization.cpp
     ../src/utils/logger.cpp
     ../src/utils/cursor.cpp
     ../src/utils/tracing.cpp
+    
+    # Cross-cutting concerns abstraction layer
+    ../src/core/concerns/i_logger.cpp
+    ../src/core/concerns/concerns_context.cpp
+    ../src/core/concerns/context_propagation.cpp
+    ../src/core/adapters/otel_tracer.cpp
+    ../src/core/concerns/prometheus_metrics.cpp
+    ../src/core/concerns/lockfree_metrics.cpp
+    ../src/core/concerns/redis_cache.cpp
+    ../src/core/concerns/zero_copy_logger.cpp
     ../src/utils/zstd_codec.cpp
     ../src/utils/pki_client.cpp
     ../src/utils/input_validator.cpp
     ../src/utils/audit_logger.cpp
     ../src/utils/pii_detection_engine.cpp
     ../src/utils/regex_detection_engine.cpp
+    ../src/utils/ner_detection_engine.cpp
     ../src/utils/pii_detector.cpp
     ../src/utils/retention_manager.cpp
     ../src/utils/hkdf_helper.cpp
@@ -1104,16 +1920,42 @@ set(THEMIS_CORE_SOURCES
     ../src/utils/simd_distance.cpp
     ../src/utils/update_checker.cpp
     ../src/utils/http_client_pool.cpp
-    ../src/utils/build_info.cpp
-    ../src/utils/license_info.cpp
+    ../src/utils/grpc_channel_pool.cpp
+    ../src/utils/thread_pool_manager.cpp
+    ../src/themis/build_info.cpp
+    ../src/themis/license_info.cpp
+    ../src/utils/runtime_license_gate.cpp
     ../src/utils/error_registry.cpp
+    ../src/utils/memory/pool_allocator.cpp
     ../src/utils/checksum_utils.cpp           # SHA256/MD5 checksum utilities for model verification
+    ../src/utils/bloom_filter.cpp             # Bloom filter for membership testing
+    ../src/utils/consistent_hash.cpp          # Consistent hash ring utilities
+    ../src/utils/pii_stream_scanner.cpp       # Streaming PII detection and redaction
+    ../src/utils/sampled_logger.cpp           # Sampling-based logger to avoid log flooding
+    ../src/utils/timestamp_utils.cpp          # Timestamp formatting and conversion utilities
+    ../src/utils/rate_limiter.cpp             # Token-bucket rate limiter (utils namespace)
+    ../src/utils/utils_adapters.cpp           # Concrete adapters for utils abstract interfaces
     
     # Updates (hot-reload)
     ../src/updates/release_manifest.cpp
     ../src/updates/manifest_database.cpp
     ../src/updates/hot_reload_engine.cpp
     ../src/updates/updates_config.cpp
+    ../src/updates/update_state_machine.cpp
+    ../src/updates/canary_rollout.cpp
+    ../src/updates/delta_update_engine.cpp
+    ../src/updates/parallel_downloader.cpp
+    ../src/updates/dependency_resolver.cpp
+    ../src/updates/schema_migration_tester.cpp
+    ../src/updates/in_place_schema_migrator.cpp
+    ../src/updates/schema_migration.cpp
+    ../src/updates/update_history_logger.cpp
+    ../src/updates/notification_webhook.cpp
+    ../src/updates/blue_green_deployment.cpp
+    ../src/updates/coordinated_update_manager.cpp
+    ../src/updates/cluster_update_manager.cpp
+    ../src/updates/preflight_health_check.cpp
+    ../src/updates/tenant_update_scheduler.cpp
     
     # Geo utilities
     ../src/utils/geo/ewkb.cpp
@@ -1121,41 +1963,144 @@ set(THEMIS_CORE_SOURCES
     # Spatial index
     ../src/index/spatial_index.cpp
     
-    # Hybrid search (BM25 + Vector)
+    # Hybrid search (BM25 + Vector) and v1.5.0 search components
     ../src/search/hybrid_search.cpp
+    ../src/search/query_expander.cpp
+    ../src/search/fuzzy_matcher.cpp
+    ../src/search/faceted_search.cpp
+    ../src/search/search_analytics.cpp
+    ../src/search/autocomplete.cpp
+    ../src/search/learning_to_rank.cpp
+    ../src/search/multi_modal_search.cpp
+    ../src/search/llm_query_rewriter.cpp
+    ../src/search/llm_reranker.cpp
+    ../src/search/personalized_ranker.cpp
+    ../src/search/multi_field_search.cpp
+    ../src/search/cross_lingual_search.cpp
+    ../src/search/neural_sparse_retrieval.cpp
+    ../src/search/search_highlighter.cpp
+    ../src/search/negative_keyword_filter.cpp
+    ../src/search/distributed_hybrid_search.cpp
     ../src/security/pki_key_provider.cpp
     ../src/security/cms_signing.cpp
     ../src/security/rbac.cpp
+    ../src/security/access_control_manager.cpp
+    ../src/security/zero_trust_policy_enforcer.cpp
+    ../src/security/access_control.cpp
+    ../src/security/user_registration_plugin.cpp
+    ../src/security/arrow_user_registration_plugin.cpp
+    ../src/security/webdav_user_registration_plugin.cpp
+    ../src/security/embedded_user_registration_plugin.cpp
     ../src/security/hsm_provider.cpp
-    ../src/security/hsm_provider_pkcs11.cpp
+    ../src/security/hsm_key_provider_adapter.cpp
     ../src/security/timestamp_authority.cpp
     ../src/security/timestamp_authority_openssl.cpp
+    ../src/security/tsa_api.cpp
+    ../src/security/vram_secure_clear.cpp
     ../src/security/vcc_pki_client.cpp
+    ../src/security/pii_redaction_policy.cpp
+    ../src/security/row_level_security.cpp
+    ../src/security/query_masking_policy.cpp
     ../src/storage/security_signature.cpp
     ../src/storage/security_signature_manager.cpp
+    ../src/security/binary_manifest.cpp
+    ../src/security/manifest_signer.cpp
+    ../src/security/confidential_computing.cpp
+    ../src/security/fips_crypto_mode.cpp
+    ../src/security/post_quantum_crypto.cpp
+    ../src/security/secret_manager.cpp
+    ../src/security/security_evidence_collector.cpp
     ../src/auth/jwt_validator.cpp
+    ../src/auth/jwks_validator.cpp
     ../src/auth/gssapi_authenticator.cpp
+    ../src/auth/ldap_authenticator.cpp
+    ../src/auth/ldap_connection_pool.cpp
+    ../src/auth/mtls_authenticator.cpp
+    ../src/auth/saml_authenticator.cpp
+    ../src/auth/oauth_device_flow.cpp
+    ../src/auth/oauth_pkce_flow.cpp
+    ../src/auth/oidc_provider.cpp
+    ../src/auth/federated_identity_manager.cpp
+    ../src/auth/auth_rate_limiter.cpp
+    ../src/auth/rate_limiter_backend.cpp
+    ../src/auth/api_key_authenticator.cpp
+    ../src/auth/session_manager.cpp
+    ../src/auth/token_blacklist.cpp
+    ../src/auth/redis_token_blacklist.cpp
+    ../src/auth/rocksdb_token_blacklist.cpp
+    ../src/auth/zero_trust_auth_verifier.cpp
+    ../src/auth/auth_audit_logger.cpp
+    ../src/auth/mfa_authenticator.cpp
+    ../src/auth/password_policy.cpp
+    ../src/auth/webauthn_authenticator.cpp
+    ../src/auth/auth_metrics.cpp
+    ../src/auth/auth_error.cpp
+    ../src/auth/jwks_security.cpp
+    ../src/auth/kerberos_security.cpp
+    ../src/auth/totp_replay_cache.cpp
+    ../src/auth/totp_secret_encryption.cpp
+    ../src/auth/jwt_key_rotation_manager.cpp
+    ../src/auth/principal_validator.cpp
     ../src/governance/policy_engine.cpp
+    ../src/governance/opa_adapter.cpp
+    ../src/governance/policy_manager.cpp
+    ../src/governance/cross_tenant_policy_inheritance.cpp
+    ../src/governance/policy_template.cpp
+    ../src/governance/policy_coordinator.cpp
+    ../src/governance/compliance_reporting.cpp
+    ../src/governance/policy_validation.cpp
+    ../src/governance/policy_version_history.cpp
+    ../src/governance/policy_manager_versioned.cpp
+    ../src/governance/compliance_reporter.cpp
+    ../src/governance/policy_validator.cpp
+    ../src/governance/review_scheduler.cpp
+    ../src/governance/policy_review.cpp
+    ../src/governance/policy_file_watcher.cpp
+    ../src/governance/data_lineage.cpp
+    ../src/governance/ccpa_rules.cpp
+    ../src/governance/soc2_controls.cpp
+    ../src/governance/model_governance.cpp
+    ../src/governance/pci_dss_rules.cpp
+    ../src/governance/data_masker.cpp
     # Geo scaffolding (headers + stubs; safe no-ops until used)
     ../src/geo/cpu_backend.cpp
     ../src/geo/gpu_backend_stub.cpp
     ../src/geo/boost_cpu_exact_backend.cpp
+    ../src/geo/geo_rtree.cpp
+    ../src/geo/geo_clustering.cpp
+    ../src/geo/spatial_join.cpp
+    ../src/geo/raster.cpp
+    ../src/geo/temporal_spatial_query.cpp
+    ../src/geo/tile_server.cpp
+    ../src/geo/device_detector.cpp
+    ../src/geo/gpu_backend_production.cpp
     ../src/api/geo_index_hooks.cpp
+    ../src/api/tracing_middleware.cpp
+    ../src/api/otlp_exporter.cpp
     
     # Sharding (horizontal scaling)
     ../src/utils/boost_throw_exception.cpp
     ../src/sharding/urn.cpp
     ../src/sharding/consistent_hash.cpp
     ../src/sharding/shard_topology.cpp
+    ../src/sharding/metadata_shard.cpp
     ../src/sharding/urn_resolver.cpp
     ../src/sharding/pki_shard_certificate.cpp
     ../src/sharding/mtls_client.cpp
+    ../src/sharding/mtls_connection_pool.cpp
     ../src/sharding/signed_request.cpp
     ../src/sharding/remote_executor.cpp
     ../src/sharding/shard_rpc_client.cpp
+    ../src/utils/file_utils.cpp
+    ../src/utils/capability_auto_generator.cpp
+    ../src/utils/self_awareness.cpp
+    ../src/stubs.cpp
     ../src/sharding/shard_router.cpp
+    ../src/sharding/capability_matcher.cpp
+    ../src/sharding/adaptive_shard_router.cpp
     ../src/sharding/rebalance_operation.cpp
     ../src/sharding/data_migrator.cpp
+    ../src/sharding/hardware_migration_manager.cpp
     ../src/sharding/shard_load_detector.cpp
     ../src/sharding/auto_rebalancer.cpp
     ../src/sharding/prometheus_metrics.cpp
@@ -1163,12 +2108,23 @@ set(THEMIS_CORE_SOURCES
     ../src/sharding/health_check.cpp
     ../src/sharding/admin_api.cpp
     ../src/sharding/cloud_agent.cpp
+    ../src/sharding/cloud_backup.cpp
+    ../src/sharding/orphan_detector.cpp
     ../src/sharding/circuit_breaker.cpp
     ../src/sharding/gossip_protocol.cpp
+    ../src/sharding/gossip_config_manager.cpp
+    ../src/sharding/distributed_coordinator.cpp
+    ../src/sharding/shard_resource_manager.cpp
+    ../src/sharding/locality_aware_router.cpp
     ../src/sharding/raft_configuration.cpp
     ../src/sharding/raft_log.cpp
     ../src/sharding/raft_state.cpp
     ../src/sharding/raft_wal_integration.cpp
+    ../src/sharding/raft_consensus.cpp
+    ../src/sharding/raft_shard_manager.cpp
+    ../src/sharding/quorum_manager.cpp
+    ../src/sharding/partition_detector.cpp
+    ../src/sharding/replica_consistency.cpp
     ../src/sharding/stream_protocol.cpp
     ../src/sharding/wal_applier.cpp
     ../src/sharding/wal_manager.cpp
@@ -1177,56 +2133,277 @@ set(THEMIS_CORE_SOURCES
     ../src/sharding/replica_topology.cpp
     ../src/sharding/multi_primary_coordinator.cpp
     ../src/sharding/health_monitor.cpp
+    ../src/sharding/shard_durability.cpp
     ../src/sharding/truetime.cpp
+    ../src/sharding/secure_transport_client.cpp
+    ../src/sharding/distributed_time_coordinator.cpp
     ../src/sharding/distributed_transaction.cpp
+    ../src/sharding/two_phase_commit_participant.cpp
+    ../src/sharding/two_phase_commit_coordinator.cpp
+    ../src/sharding/consensus_factory.cpp
+    ../src/sharding/raft_consensus_adapter.cpp
+    ../src/sharding/gossip_consensus_adapter.cpp
+    ../src/sharding/metadata_wal.cpp
+    ../src/sharding/metadata_snapshot.cpp
+    ../src/sharding/paxos_consensus.cpp
+    ../src/sharding/paxos_wal.cpp
+    ../src/sharding/paxos_snapshot.cpp
+    ../src/sharding/paxos_state_persistence.cpp
+    ../src/sharding/cross_shard_transaction.cpp
+    ../src/sharding/transaction_wal.cpp
+    ../src/sharding/transaction_snapshot.cpp
     ../src/sharding/redundancy_strategy.cpp
     ../src/sharding/hot_spare_manager.cpp
     ../src/sharding/predictive_detector.cpp
+    ../src/sharding/shard_repair_engine.cpp
     ../src/sharding/shard_rpc_server.cpp
-    $<$<BOOL:${THEMIS_ENABLE_CUDA}>:/src/sharding/gpu_erasure_coder.cpp>
-    $<$<BOOL:${THEMIS_ENABLE_CUDA}>:/src/sharding/gpu_erasure_coder.cu>
-    $<$<BOOL:${THEMIS_ENABLE_OPENCL}>:/src/sharding/gpu_erasure_coder_opencl.cpp>
+    ../src/sharding/cloud_backup.cpp
+    ../src/sharding/orphan_detector.cpp
+    $<$<BOOL:${THEMIS_ENABLE_CUDA}>:../src/sharding/gpu_erasure_coder.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CUDA}>:../src/sharding/gpu_erasure_coder.cu>
+    $<$<BOOL:${THEMIS_ENABLE_OPENCL}>:../src/sharding/gpu_erasure_coder_opencl.cpp>
     ../src/storage/blob_redundancy_manager.cpp
+    ../src/storage/erasure_coding_backend.cpp
     ../src/server/sharding_metrics_handler.cpp
-    
+
+    # Enhanced sharding features
+    ../src/sharding/admin_operations.cpp
+    ../src/sharding/operational_metrics.cpp
+    ../src/sharding/sharding_manager_edition.cpp
+    ../src/sharding/slo_monitor.cpp
+
     # Hardware acceleration (core abstraction layer - always included)
+    ../src/acceleration/compute_backend.cpp
     ../src/acceleration/backend_registry.cpp
     ../src/acceleration/cpu_backend.cpp
+    ../src/acceleration/multi_gpu_backend.cpp
+    ../src/acceleration/tensor_core_matmul.cpp
     ../src/acceleration/plugin_loader.cpp
     ../src/acceleration/plugin_security.cpp
+    ../src/acceleration/geo_acceleration_bridge.cpp
+    ../src/acceleration/device_manager.cpp
+    ../src/acceleration/vllm_resource_manager.cpp
+    # shader_integrity.cpp uses only OpenSSL (SHA-256) — no GPU/graphics dependency.
+    # Compiled unconditionally so ShaderIntegrityVerifier is always available.
+    ../src/acceleration/shader_integrity.cpp
     # Plugin manager (core plugin orchestration)
     ../src/plugins/plugin_manager.cpp
+    ../src/plugins/plugin_hot_plug_monitor.cpp
+    ../src/plugins/plugin_registry.cpp
+    ../src/plugins/plugin_metrics.cpp
+    ../src/plugins/plugin_health_monitor.cpp
+    ../src/plugins/plugin_system_edition.cpp
+    ../src/plugins/signed_plugin_repository.cpp
+    ../src/plugins/huggingface_ingestion_plugin.cpp
+    ../src/plugins/oci_registry_client.cpp
+    ../src/plugins/rpc_service_registry.cpp
     
     # Multi-tenancy support
     ../src/server/tenant_manager.cpp
     
     # Network
     ../src/network/wire_protocol_server.cpp
+    ../src/network/wire_protocol_helpers.cpp
+    ../src/network/wire_protocol_connection_pool.cpp
+    ../src/network/wire_protocol_v2.cpp
+    ../src/network/wire_protocol_performance.cpp
+    ../src/network/wire_protocol_zero_copy.cpp
+    ../src/network/wire_protocol_batch.cpp
+    ../src/network/connection_compression.cpp
+    ../src/network/socket_timeout_manager.cpp
+    ../src/network/adaptive_circuit_breaker.cpp
+    ../src/network/qos_manager.cpp
+    ../src/network/udp_fast_path.cpp
+    $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:../src/network/wire_protocol_server_ws.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP3}>:../src/network/quic_transport.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/network/grpc_transport.cpp>
+    ../src/network/geo_topology_router.cpp
+    $<$<BOOL:${THEMIS_ENABLE_SERVICE_MESH}>:../src/network/service_mesh.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_SERVICE_MESH}>:../src/network/envoy_xds.cpp>
+
+    # Themis core module (Phase 3: Wire Protocol – themis::wire namespace)
+    ../src/themis/wire_protocol_server.cpp
+    ../src/themis/module_dependency_resolver.cpp
+    ../src/themis/edition_manager.cpp
+    ../src/themis/module_hash_verifier.cpp
+    ../src/themis/module_signature_verifier.cpp
     
-    # Observability
+    # Observability (GAP-008: Alertmanager integration + continuous profiling)
     ../src/observability/metrics_collector.cpp
-    
+    ../src/observability/alertmanager.cpp
+    ../src/observability/continuous_profiler.cpp
+    ../src/observability/ebpf_tracer.cpp
+    ../src/observability/distributed_flame_graph.cpp
+    ../src/observability/slo_reporter.cpp
+    ../src/observability/metric_anomaly_detector.cpp
+    ../src/observability/query_profiler.cpp
+    ../src/observability/storage_profiler.cpp
+    ../src/observability/performance_analyzer.cpp
+    # Observability: standalone span management and structured log aggregation (OBS-MISSING-001)
+    ../src/observability/tracer.cpp
+    ../src/observability/log_aggregator.cpp
+    # Observability: rule-based alerting engine with configurable notification channels
+    ../src/observability/alerting_engine.cpp
+    # Observability: Prometheus advanced — rate calculation, histogram aggregation, cardinality
+    ../src/observability/metric_aggregator.cpp
+    # Observability: real-time metric streaming via WebSocket / SSE (v1.6.0, Issue #82)
+    ../src/observability/metrics_stream_server.cpp
+    # Observability: custom metric types — summary, exponential histogram, cardinality, TWA, rate (v1.6.0)
+    ../src/observability/advanced_metrics.cpp
+    # Observability: OpenTelemetry Full Integration (v1.6.0)
+    ../src/observability/opentelemetry_tracer.cpp
+    # Observability: ML-based anomaly detection on metrics time-series (v1.7.0, Issue #2097)
+    ../src/observability/ml_anomaly_detector.cpp
+    # Observability: automated root cause identification for performance issues (v1.7.0, Issue #84)
+    ../src/observability/root_cause_analyzer.cpp
+
     # GraphQL API (conditional)
     $<$<BOOL:${THEMIS_ENABLE_GRAPHQL}>:../src/api/graphql.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_GRAPHQL}>:../src/server/graphql_api_handler.cpp>
+
+    # WebSocket change-stream handler (conditional)
+    $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:../src/api/ws_handler.cpp>
+    # GraphQL over WebSocket (graphql-transport-ws) handler (conditional)
+    $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:../src/api/graphql_ws_handler.cpp>
+
+    # gRPC API server alongside REST (conditional)
+    $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/api/grpc_server.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/api/themisdb_grpc_service.cpp>
     
     # Exporters and Importers
     ../src/exporters/jsonl_llm_exporter.cpp
+    ../src/exporters/format_template.cpp
+    ../src/exporters/parquet_exporter.cpp
+    ../src/exporters/exporter_metrics.cpp
+    ../src/exporters/pii_detector.cpp
+    ../src/exporters/stream_writer.cpp
+    ../src/exporters/streaming_exporter.cpp
+    ../src/exporters/aql_predicate_filter.cpp
+    ../src/exporters/arrow_ipc_exporter.cpp
+    ../src/exporters/incremental_exporter.cpp
+    ../src/exporters/export_encryption.cpp
+    ../src/exporters/data_augmentation.cpp
+    ../src/exporters/huggingface_exporter.cpp
+    ../src/exporters/huggingface_exporter.cpp
+    ../src/exporters/data_augmentation.cpp
+    ../src/exporters/export_format_registry.cpp
+    ../src/exporters/join_exporter.cpp
+    ../src/exporters/huggingface_hub_client.cpp
     ../src/importers/postgres_importer.cpp
-    
+    ../src/importers/mysql_importer.cpp
+    ../src/importers/mongo_importer.cpp
+    ../src/importers/sqlite_importer.cpp
+    ../src/importers/flatfile_importer.cpp
+    ../src/importers/schema_validator.cpp
+    ../src/importers/conflict_resolver.cpp
+    ../src/importers/kafka_importer.cpp
+    ../src/importers/oracle_importer.cpp
+    ../src/importers/gui_import_wizard.cpp
+    $<$<BOOL:${THEMIS_ENABLE_S3}>:../src/importers/s3_importer.cpp>
+    ../src/importers/schema_inference.cpp
+    ../src/importers/column_importance.cpp
+    ../src/importers/crdt_importer.cpp
+    ../src/importers/postgres_cdc.cpp
+    ../src/importers/data_quality.cpp
+    ../src/importers/audit_trail.cpp
+    ../src/importers/adaptive_import.cpp
+    ../src/importers/polyglot_mapper.cpp
+    ../src/importers/temporal_support.cpp
+    ../src/importers/blockchain_integrity.cpp
+    ../src/importers/federated_learning.cpp
+    ../src/importers/graphql_federation.cpp
+    ../src/importers/deterministic_matcher.cpp
+    ../src/importers/semantic_matcher.cpp
+    ../src/importers/entity_linker.cpp
+    ../src/importers/canonical_resolver.cpp
+    ../src/importers/mdm_engine.cpp
+    ../src/importers/mdm_audit_trail.cpp
+    ../src/importers/mdm_metrics.cpp
+    ../src/importers/postgres_importer_mdm.cpp
+    ../src/aql/llm_metrics_collector.cpp
+    ../src/aql/aql_syntax_highlighter.cpp
+
+    # Process Modeling Module (BPMN/EPK/VCC-VPB + Graph-RAG for Verwaltungsvorgänge)
+    ../src/process/process_model_manager.cpp
+    ../src/process/bpmn_serializer.cpp
+    ../src/process/epk_serializer.cpp
+    ../src/process/llm_process_descriptor.cpp
+    ../src/process/vcc_vpb_importer.cpp
+    ../src/process/process_linker.cpp
+    ../src/process/process_graph_rag.cpp
+
     # OLAP Analytics
     ../src/analytics/olap.cpp
     ../src/analytics/process_mining.cpp
     ../src/analytics/nlp_text_analyzer.cpp
-    
+    ../src/analytics/arrow_export.cpp
+    ../src/analytics/analytics_export.cpp
+    ../src/analytics/incremental_view.cpp
+
+    # CEP Engine – NFA pattern matching, EPL parser, window+aggregation pipeline (Phase 2)
+    ../src/analytics/cep_engine.cpp
+
+    # Streaming Aggregation Windows (Phase 2)
+    ../src/analytics/streaming_window.cpp
+
+    # Columnar Execution Engine with Vectorized Operator Pipeline (Phase 3)
+    ../src/analytics/columnar_execution.cpp
+
+    # LLVM-JIT compilation for hot aggregation paths (Phase 3, Issue #1482)
+    ../src/analytics/jit_aggregation.cpp
+
+    # Predictive Analytics & Time-Series Forecasting (Phase 3)
+    ../src/analytics/forecasting.cpp
+
+    # ML Serving Integration – ONNX Runtime + TF Serving (Issue #1476)
+    ../src/analytics/ml_serving.cpp
+    # Model Serving and Online Inference Pipeline (Issue #1477)
+    ../src/analytics/model_serving.cpp
+
+    # Arrow Flight RPC support for remote analytics (Issue #1472)
+    ../src/analytics/arrow_flight.cpp
+
+    # Process Pattern Matcher – conformance checking and behavioral similarity (Phase 1)
+    ../src/analytics/process_pattern_matcher.cpp
+
+    # Real-Time Anomaly Detection – Z-Score, IQR, Isolation Forest, LOF, Ensemble (Phase 3)
+    ../src/analytics/anomaly_detection.cpp
+
+    # AutoML – automated model selection, hyperparameter search, SHAP explanations (Phase 3)
+    ../src/analytics/automl.cpp
+
+    # Distributed Analytics Sharding – scatter-gather coordinator for distributed OLAP (Phase 3)
+    ../src/analytics/distributed_analytics.cpp
+
     # Git-like MVCC Features
     # Phase 1: Named Snapshots
     ../src/transaction/snapshot_manager.cpp
-    ../src/server/snapshot_api_handler.cpp
+    ../src/storage/pitr_manager.cpp
     
     # Phase 2: Diff Engine
     ../src/analytics/diff_engine.cpp
-    ../src/server/diff_api_handler.cpp
+    
+    # Phase 5: Three-Way Merge
+    ../src/transaction/merge_engine.cpp
 )
+
+# Geo CUDA/HIP kernel dispatch — add the right implementation based on THEMIS_GEO_CUDA / THEMIS_GEO_HIP.
+if(THEMIS_GEO_CUDA)
+    list(APPEND THEMIS_CORE_SOURCES ../src/geo/gpu_backend_cuda.cu)
+elseif(THEMIS_GEO_HIP)
+    list(APPEND THEMIS_CORE_SOURCES ../src/geo/gpu_backend_hip.cpp)
+else()
+    list(APPEND THEMIS_CORE_SOURCES ../src/geo/gpu_kernel_dispatcher_cpu.cpp)
+endif()
+
+# HTTP Server API handlers (only if HTTP server enabled)
+if(THEMIS_ENABLE_HTTP_SERVER)
+    list(APPEND THEMIS_CORE_SOURCES
+        ../src/server/diff_api_handler.cpp
+        ../src/server/merge_api_handler.cpp
+        ../src/server/pitr_api_handler.cpp
+    )
+endif()
 
 # Phase 2 Performance Optimizations (PR #156/#157)
 # Conditionally add Phase 2 optimization sources when enabled
@@ -1263,6 +2440,14 @@ endif()
 # Conditionally add Phase 3 optimization sources when enabled
 list(APPEND THEMIS_CORE_SOURCES
     ../src/performance/phase3/feature_flags.cpp
+    # per_query_cost_model is always compiled because query_optimizer.cpp
+    # unconditionally links against it (attachPerQueryCostModel, executeOptimizedKeysWithCost, etc.)
+    ../src/performance/phase3/per_query_cost_model.cpp
+    # memory_pressure is always compiled: uses only platform OS memory APIs
+    # (Linux: /proc/meminfo, macOS: sysctl/host_statistics64, Windows: GlobalMemoryStatusEx).
+    ../src/performance/phase3/memory_pressure.cpp
+    # adaptive_batch_tuner is always compiled: pure CPU, no GPU required
+    ../src/performance/phase3/adaptive_batch_tuner.cpp
 )
 
 if(THEMIS_ENABLE_DISKANN)
@@ -1290,13 +2475,75 @@ if(THEMIS_ENABLE_BAO)
     list(APPEND THEMIS_CORE_SOURCES ../src/performance/phase3/bao.cpp)
 endif()
 
+if(THEMIS_ENABLE_PER_QUERY_COST_MODEL)
+    message(STATUS "Per-query cost model integration enabled (THEMIS_ENABLE_PER_QUERY_COST_MODEL=ON)")
+endif()
+
+# Phase 4 Performance Optimizations (Issue #2424)
+# Conditionally add Phase 4 optimization sources when enabled
+list(APPEND THEMIS_CORE_SOURCES
+    ../src/performance/phase4/feature_flags.cpp
+    ../src/performance/phase4/pmu_counters.cpp
+)
+
+if(THEMIS_ENABLE_PMEM)
+    message(STATUS "Including Persistent Memory aware storage layout (THEMIS_ENABLE_PMEM=ON)")
+    list(APPEND THEMIS_CORE_SOURCES ../src/performance/phase4/pmem_storage.cpp)
+endif()
+
+if(THEMIS_ENABLE_PMU_COUNTERS)
+    message(STATUS "Hardware PMU counter integration enabled (THEMIS_ENABLE_PMU_COUNTERS=ON)")
+    # pmu_counters.cpp is already compiled unconditionally above (provides graceful stub
+    # fallbacks when perf_event_open is unavailable).  This flag only adds the compile
+    # definition that activates the real PMU paths inside pmu_counters.cpp.
+    add_compile_definitions(THEMIS_ENABLE_PMU_COUNTERS)
+endif()
+
+if(THEMIS_ENABLE_IO_URING)
+    message(STATUS "Including io_uring zero-copy I/O path (THEMIS_ENABLE_IO_URING=ON)")
+    list(APPEND THEMIS_CORE_SOURCES ../src/performance/phase4/io_uring_zero_copy.cpp)
+    add_compile_definitions(THEMIS_ENABLE_IO_URING)
+endif()
+
+# ============================================================================
+# MODULAR SOURCE FILES (organized by feature/component)
+# ============================================================================
+include(${CMAKE_CURRENT_SOURCE_DIR}/AccelerationBackends.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/ContentProcessors.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/LLMIntegration.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/LegalTraining.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/DistributedTraining.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/ChimeraAdapters.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/VoiceAssistant.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/BlobStorage.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/BufferManagement.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/ErrorHealthServices.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/IndexQueryEnhancements.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/EditionFeatures.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/StorageEnhancements.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/RPCServices.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/MiscellaneousFeatures.cmake)
+
 # Conditionally add LLM sources (v1.3.0+) only when enabled
 if(THEMIS_ENABLE_LLM)
     message(STATUS "Including LLM server and core sources (THEMIS_ENABLE_LLM=ON)")
     list(APPEND THEMIS_CORE_SOURCES
         # Server/API (HTTP + optional gRPC)
     ../src/server/llm_api_handler.cpp
+    # AQL handlers (LLM-enabled path)
     ../src/aql/llm_aql_handler.cpp
+    ../src/aql/aql_confidence_scorer.cpp
+    ../src/aql/aql_query_builder.cpp
+    ../src/aql/aql_query_validator.cpp
+    ../src/aql/aql_optimizer_advisor.cpp
+    ../src/aql/aql_query_template_library.cpp
+    ../src/aql/aql_fewshot_example_library.cpp
+    ../src/aql/aql_conversation_context.cpp
+    ../src/aql/aql_schema_provider.cpp
+    ../src/aql/aql_lora_finetuner.cpp
+    ../src/aql/aql_migration_assistant.cpp
+    ../src/aql/aql_autocomplete.cpp
+    ../src/aql/aql_agent.cpp
 
         # Optional: gRPC service and generated proto headers (guarded by gRPC)
         # Only add when gRPC is available, otherwise skip to prevent missing headers
@@ -1323,8 +2570,81 @@ if(THEMIS_ENABLE_LLM)
     ../src/llm/prompt_manager.cpp
     ../src/llm/block_table.cpp
     ../src/llm/paged_kv_cache.cpp
+    ../src/llm/adapter_load_balancer.cpp
+    ../src/llm/lora_framework/resource_profiler.cpp
+    ../src/llm/lora_framework/model_compatibility.cpp
+    ../src/llm/lora_framework/embedding_provider.cpp
+    ../src/llm/llm_model_audit_logger.cpp
+    ../src/llm/llama_lora_adapter.cpp
+    ../src/llm/llama_grammar_adapter.cpp
+    ../src/llm/aql_train_parser.cpp
+    # GPU VRAM Allocation (vLLM-inspired)
+    ../src/llm/adaptive_vram_allocator.cpp
+    ../src/llm/active_vram_allocator.cpp
+    ../src/llm/multi_gpu_memory_coordinator.cpp
+    ../src/llm/paged_kv_cache_manager.cpp
+    ../src/llm/mixed_precision_inference.cpp
+    # Multi-GPU Communication Backends (NCCL/RCCL - stub implementations when not available)
+    ../src/llm/lora_framework/nccl_backend.cpp
+    ../src/llm/lora_framework/rccl_backend.cpp
     )
-endif()
+
+    # GPU LoRA/VRAM implementation (GPU-only)
+    if(THEMIS_ENABLE_GPU)
+        list(APPEND THEMIS_CORE_SOURCES
+            ../src/llm/lora_framework/gpu_tensor.cpp
+            ../src/llm/lora_framework/vram_allocator.cpp
+            ../src/llm/lora_framework/gpu_lora_layers.cpp
+            ../src/llm/lora_framework/paged_memory_manager.cpp
+            ../src/llm/lora_framework/custom_allreduce.cpp
+            ../src/llm/lora_framework/multi_gpu.cpp
+            ../src/llm/lora_framework/multi_gpu_trainer.cpp
+            ../src/llm/lora_framework/multi_gpu_lora_layer.cpp
+        )
+    endif()
+    
+    # RAG enhancement modules (Phase 1: Knowledge Gap Detector)
+    list(APPEND THEMIS_CORE_SOURCES
+    ../src/rag/knowledge_gap_detector.cpp
+    # Phase 2: Streaming Retrieval & Re-Ranking
+    ../src/rag/streaming_retriever.cpp
+    ../src/rag/reranker.cpp
+    # Phase 2: Hallucination Rate Tracking Dashboard
+    ../src/rag/hallucination_dashboard.cpp
+    # Phase 3: Citation Highlighting
+    ../src/rag/citation_highlighter.cpp
+    # Phase 3: Configurable chunk size and overlap for document splitting
+    ../src/rag/document_splitter.cpp
+    # Phase 3: Hybrid Retrieval (BM25 + vector, configurable RRF weights)
+    ../src/rag/hybrid_retriever.cpp
+    # Continuous Learning Orchestrator (Phase 2)
+    ../src/rag/learning_metrics.cpp
+    ../src/rag/bayesian_optimizer.cpp
+    ../src/rag/ab_testing_framework.cpp
+    ../src/rag/continuous_learning_orchestrator.cpp
+    # Phase 4: Agentic RAG with iterative retrieval loops
+    ../src/rag/agentic_rag.cpp
+    # Phase 4: Multi-modal RAG (image + text retrieval)
+    ../src/rag/multimodal_rag.cpp
+    # Phase 5: Distributed evaluation and security
+    ../src/rag/distributed_rag_evaluator.cpp
+    ../src/rag/prompt_injection_detector.cpp
+    # Phase 5: Evaluation pipeline (evaluation report, cache, calibration, batch evaluator, bias detection)
+    ../src/rag/evaluation_report_exporter.cpp
+    ../src/rag/evaluation_cache.cpp
+    ../src/rag/calibration_manager.cpp
+    ../src/rag/batch_evaluator.cpp
+    ../src/rag/bias_detector.cpp
+    # Phase 1-3: Core evaluator building blocks (no direct LLM header dependency)
+    ../src/rag/continuous_learning_client.cpp
+    ../src/rag/http_metrics_client.cpp
+    ../src/rag/judge_config.cpp
+    ../src/rag/knowledge_graph_retriever.cpp
+    ../src/rag/onnx_model_loader.cpp
+    ../src/rag/prompt_templates.cpp
+    ../src/rag/response_parser.cpp
+    )
+endif()  # Close if(THEMIS_ENABLE_LLM)
 
 # Ensure minimal LLM components are available when referenced from http_server.
 # These have lightweight dependencies and avoid undefined references if LLM is disabled.
@@ -1332,10 +2652,152 @@ if(NOT THEMIS_ENABLE_LLM)
     list(APPEND THEMIS_CORE_SOURCES
     ../src/llm/llm_interaction_store.cpp
     ../src/llm/prompt_manager.cpp
+    ../src/llm/embedded_llm_stub.cpp
+    ../src/llm/ethical_guidelines_manager.cpp
+    # Citation highlighting has no LLM dependency; always include so non-LLM
+    # builds can use and test the CitationHighlighter class.
+    ../src/rag/citation_highlighter.cpp
     )
 endif()
 
 _themis_normalize_sources(THEMIS_CORE_SOURCES)
+
+# ============================================================================
+# Wire Protocol V1 Protobuf Generation
+# (required by src/themis/wire_protocol_server.cpp)
+# ============================================================================
+find_package(Protobuf CONFIG QUIET)
+if(NOT Protobuf_FOUND)
+    find_package(Protobuf MODULE QUIET)
+endif()
+
+if(Protobuf_FOUND)
+    set(WIRE_V1_PROTO ${THEMIS_ROOT_DIR}/src/network/themis_wire_v1.proto)
+    set(WIRE_V1_PROTO_GEN_DIR ${CMAKE_BINARY_DIR}/proto_generated)
+    file(MAKE_DIRECTORY ${WIRE_V1_PROTO_GEN_DIR})
+
+    set(WIRE_V1_PROTO_SRC ${WIRE_V1_PROTO_GEN_DIR}/themis_wire_v1.pb.cc)
+    set(WIRE_V1_PROTO_HDR ${WIRE_V1_PROTO_GEN_DIR}/themis_wire_v1.pb.h)
+
+    add_custom_command(
+        OUTPUT  ${WIRE_V1_PROTO_SRC} ${WIRE_V1_PROTO_HDR}
+        COMMAND $<TARGET_FILE:protobuf::protoc>
+        ARGS    --cpp_out ${WIRE_V1_PROTO_GEN_DIR}
+                -I ${THEMIS_ROOT_DIR}/src/network
+                ${WIRE_V1_PROTO}
+        DEPENDS ${WIRE_V1_PROTO} protobuf::protoc
+        COMMENT "Generating protobuf C++ sources for themis_wire_v1.proto"
+        VERBATIM
+    )
+
+    list(APPEND THEMIS_CORE_SOURCES ${WIRE_V1_PROTO_SRC})
+    set(THEMIS_WIRE_V1_PROTO_AVAILABLE ON)
+    message(STATUS "themis_wire_v1.proto: protobuf generation configured")
+else()
+    message(STATUS "Protobuf not found – themis_wire_v1.pb.h will not be generated; "
+                   "wire_protocol_server (themis::wire) compiles without proto handlers")
+endif()
+
+# ============================================================================
+# BUILD MODE SELECTION: Modular vs Monolithic
+# ============================================================================
+# Check if modular build is enabled (v1.4.0+ feature)
+if(THEMIS_BUILD_MODULAR)
+    message(STATUS "==============================================")
+    message(STATUS "MODULAR BUILD MODE ENABLED")
+    message(STATUS "Building ThemisDB as separate module libraries")
+    message(STATUS "==============================================")
+    
+    # Generate shard RPC protobuf stubs BEFORE modular build (required by sharding module)
+    if(THEMIS_ENABLE_GRPC)
+        find_package(gRPC CONFIG)
+        find_package(Protobuf CONFIG)
+        if(gRPC_FOUND AND Protobuf_FOUND)
+            set(SHARD_PROTO ${THEMIS_ROOT_DIR}/proto/sharding/shard_rpc.proto)
+            set(SHARD_PROTO_GEN_DIR ${CMAKE_BINARY_DIR}/proto_generated)
+            file(MAKE_DIRECTORY ${SHARD_PROTO_GEN_DIR})
+
+            # Manually generate protobuf files
+            set(SHARD_PROTO_SRCS
+                ${SHARD_PROTO_GEN_DIR}/shard_rpc.pb.cc
+                ${SHARD_PROTO_GEN_DIR}/shard_rpc.grpc.pb.cc
+            )
+            set(SHARD_PROTO_HDRS
+                ${SHARD_PROTO_GEN_DIR}/shard_rpc.pb.h
+                ${SHARD_PROTO_GEN_DIR}/shard_rpc.grpc.pb.h
+            )
+
+            add_custom_command(
+                OUTPUT ${SHARD_PROTO_SRCS} ${SHARD_PROTO_HDRS}
+                COMMAND $<TARGET_FILE:protobuf::protoc>
+                ARGS --cpp_out ${SHARD_PROTO_GEN_DIR}
+                     --grpc_out ${SHARD_PROTO_GEN_DIR}
+                     --plugin=protoc-gen-grpc=$<TARGET_FILE:gRPC::grpc_cpp_plugin>
+                     -I ${THEMIS_ROOT_DIR}/proto/sharding
+                     ${SHARD_PROTO}
+                DEPENDS ${SHARD_PROTO} protobuf::protoc gRPC::grpc_cpp_plugin
+                COMMENT "Generating protobuf and gRPC sources for shard_rpc.proto"
+                VERBATIM
+            )
+
+            add_library(themis_shard_proto STATIC ${SHARD_PROTO_SRCS} ${SHARD_PROTO_HDRS})
+            target_include_directories(themis_shard_proto PUBLIC ${SHARD_PROTO_GEN_DIR})
+            target_link_libraries(themis_shard_proto PUBLIC gRPC::grpc++ protobuf::libprotobuf)
+
+            # Suppress warnings in generated protobuf files
+            if(MSVC)
+                target_compile_options(themis_shard_proto PRIVATE /wd4996 /wd4018 /wd4244 /wd4267)
+            else()
+                target_compile_options(themis_shard_proto PRIVATE -Wno-unused-parameter -Wno-deprecated-declarations -Wno-conversion)
+            endif()
+
+            message(STATUS "themis_shard_proto library created for inter-shard communication (modular build)")
+        else()
+            message(WARNING "gRPC/Protobuf not found - shard RPC stubs will not be generated")
+        endif()
+    endif()
+    
+    # Call the modular build function to create all module targets
+    themis_build_modular()
+    
+    # Wire Protocol V1 protobuf compile flag and link for the network module
+    # (mirrors the monolithic build setup below; required by src/themis/wire_protocol_server.cpp)
+    if(THEMIS_WIRE_V1_PROTO_AVAILABLE AND TARGET themis_network)
+        target_sources(themis_network PRIVATE ${WIRE_V1_PROTO_SRC})
+        target_compile_definitions(themis_network PUBLIC THEMIS_WIRE_V1_PROTO_AVAILABLE)
+        target_link_libraries(themis_network PRIVATE protobuf::libprotobuf)
+        target_include_directories(themis_network PRIVATE ${CMAKE_BINARY_DIR}/proto_generated)
+        message(STATUS "THEMIS_WIRE_V1_PROTO_AVAILABLE: enabled for themis_network (themis::wire protobuf handlers active)")
+    endif()
+
+    # Create themis_core as an interface library that links all modules
+    # This maintains compatibility with existing code that links to themis_core
+    add_library(themis_core INTERFACE)
+    target_link_libraries(themis_core INTERFACE ${THEMIS_ALL_MODULES})
+    foreach(_themis_mod IN ITEMS
+        themis_base
+        themis_storage
+        themis_query
+        themis_security
+        themis_transaction
+        themis_network
+        themis_sharding
+        themis_timeseries
+        themis_llm
+        themis_geo
+        themis_graph
+        themis_content
+    )
+        if(TARGET ${_themis_mod})
+            target_link_libraries(themis_core INTERFACE ${_themis_mod})
+        endif()
+    endforeach()
+    
+    message(STATUS "Created themis_core interface library linking: ${THEMIS_ALL_MODULES}")
+    
+else()
+    # Traditional monolithic build (default for v1.3.x and earlier)
+    message(STATUS "Building ThemisDB as monolithic themis_core library")
 
 # Define core library early so subsequent target_* commands are valid
 set(_THEMIS_CORE_LIBTYPE STATIC)
@@ -1344,18 +2806,48 @@ if(THEMIS_CORE_SHARED)
 endif()
 add_library(themis_core ${_THEMIS_CORE_LIBTYPE} ${THEMIS_CORE_SOURCES})
 
+# Enable Unity Build only on MSVC to reduce object file count
+# (fixes MSVC LNK1189 with 65535 objects limit).
+# On non-MSVC (e.g. Linux/GCC), unity builds can trigger ODR/redefinition
+# collisions across large translation units.
+if(MSVC)
+    set_target_properties(themis_core PROPERTIES
+        UNITY_BUILD ON
+        UNITY_BUILD_BATCH_SIZE 20
+    )
+else()
+    set_target_properties(themis_core PROPERTIES
+        UNITY_BUILD OFF
+    )
+endif()
+
 # Base include directories for core headers
 # Needed to resolve includes like "sharding/...", "llm/...", etc.
 target_include_directories(themis_core
     PUBLIC
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+        ${CMAKE_BINARY_DIR}/proto_generated
 )
 
 # Per-file compile options for heavy AQL parser translation units (MSVC-only)
 if(MSVC)
     set_source_files_properties(src/query/aql_parser.cpp PROPERTIES COMPILE_OPTIONS "/O1;/bigobj;/Bt+")
     set_source_files_properties(src/query/aql_parser_json.cpp PROPERTIES COMPILE_OPTIONS "/O1;/bigobj")
+    
+    # Exclude files with macro/ODR conflicts from Unity Build
+    set_source_files_properties(
+        ../src/content/audio_processor.cpp
+        ../src/content/cad_processor.cpp
+        ../src/content/geo_processor.cpp
+        ../src/content/image_processor.cpp
+        ../src/content/video_processor.cpp
+        ../src/observability/alertmanager.cpp
+        ../src/plugins/plugin_registry.cpp
+        ../src/sharding/hot_spare_manager.cpp
+        ../src/sharding/signed_request.cpp
+        PROPERTIES SKIP_UNITY_BUILD_INCLUSION ON
+    )
 endif()
 
 # On Windows, export all symbols automatically for shared builds to avoid needing __declspec(dllexport)
@@ -1388,25 +2880,160 @@ if(THEMIS_ENABLE_CUDA)
     # Add CUDA source files
     list(APPEND THEMIS_ACCELERATION_SOURCES 
     ../src/acceleration/cuda_backend.cpp
+    ../src/acceleration/cuda/ann_kernels.cu
     ../src/acceleration/cuda/vector_kernels.cu
+    ../src/acceleration/cuda/tensor_core_matmul.cu
+    ../src/acceleration/cuda/geo_kernels.cu
+    ../src/acceleration/cuda/cuda_hnsw_kernels.cu
+    ../src/acceleration/cuda/graph_kernels.cu
     )
     
     target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_CUDA)
     target_include_directories(themis_core PRIVATE ${CUDAToolkit_INCLUDE_DIRS})
-    target_link_libraries(themis_core PRIVATE CUDA::cudart CUDA::cuda_driver)
+    target_link_libraries(themis_core PRIVATE CUDA::cudart CUDA::cuda_driver CUDA::cublas)
+    
+    # Link NCCL if available
+    if(NCCL_FOUND)
+        target_include_directories(themis_core PRIVATE ${NCCL_INCLUDE_DIRS})
+        target_link_libraries(themis_core PRIVATE ${NCCL_LIBRARIES})
+        message(STATUS "NCCL libraries linked: ${NCCL_LIBRARIES}")
+    endif()
     
     message(STATUS "CUDA acceleration enabled")
     message(STATUS "  CUDA Version: ${CUDAToolkit_VERSION}")
     message(STATUS "  CUDA Include: ${CUDAToolkit_INCLUDE_DIRS}")
+
+    # cuVS/RAFT GPU-accelerated ANN (IVF-Flat index build + search).
+    # Activated with -DTHEMIS_ENABLE_CUVS=ON; requires the cuVS CMake package
+    # (install via conda: `conda install -c rapidsai cuvs`).
+    if(THEMIS_ENABLE_CUVS)
+        find_package(cuvs CONFIG REQUIRED)
+        target_link_libraries(themis_core PRIVATE cuvs::cuvs)
+        target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_CUVS)
+        message(STATUS "cuVS/RAFT ANN search enabled (THEMIS_ENABLE_CUVS=ON)")
+    endif()
+    
+    # Propagate geo-CUDA flag to the build system.
+    if(THEMIS_GEO_CUDA)
+        target_compile_definitions(themis_core PUBLIC THEMIS_GEO_CUDA)
+        message(STATUS "Geo CUDA kernel dispatch: ENABLED (THEMIS_GEO_CUDA=ON)")
+    endif()
+endif()
+
+# Propagate geo-HIP flag to the build system (outside the CUDA block so it
+# works for HIP-only builds where THEMIS_ENABLE_CUDA is OFF).
+if(THEMIS_GEO_HIP)
+    target_compile_definitions(themis_core PUBLIC THEMIS_GEO_HIP)
+    message(STATUS "Geo HIP kernel dispatch: ENABLED (THEMIS_GEO_HIP=ON)")
 endif()
 
 # Graphics API backends
 if(THEMIS_ENABLE_DIRECTX OR THEMIS_ENABLE_VULKAN OR THEMIS_ENABLE_OPENGL)
-    list(APPEND THEMIS_ACCELERATION_SOURCES ../src/acceleration/graphics_backends.cpp)
+    list(APPEND THEMIS_ACCELERATION_SOURCES
+        ../src/acceleration/graphics_backends.cpp
+    )
     
     if(THEMIS_ENABLE_DIRECTX)
+        # Add DirectX 12 compute pipeline sources
+        list(APPEND THEMIS_ACCELERATION_SOURCES
+            ../src/llm/lora_framework/directx_context.cpp
+            ../src/llm/lora_framework/directx_buffer.cpp
+            ../src/llm/lora_framework/directx_descriptors.cpp
+            ../src/llm/lora_framework/directx_shader.cpp
+            ../src/llm/lora_framework/directx_pipeline.cpp
+            ../src/llm/lora_framework/kernels/directx_kernels.cpp
+        )
+        
         target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_DIRECTX)
-        message(STATUS "DirectX acceleration enabled (stub)")
+        
+        # Link DirectX 12 libraries (Windows only)
+        if(WIN32)
+            target_link_libraries(themis_core PRIVATE d3d12 dxgi)
+            
+            # Find DXC shader compiler (part of Windows SDK or DirectX Agility SDK)
+            find_program(DXC_COMPILER dxc
+                HINTS
+                    "$ENV{WindowsSdkDir}bin/${CMAKE_VS_PLATFORM_NAME}"
+                    "$ENV{WindowsSdkDir}bin/x64"
+                    "$ENV{ProgramFiles\(x86\)}/Windows Kits/10/bin/10.0.22621.0/x64"
+                    "$ENV{ProgramFiles\(x86\)}/Windows Kits/10/bin/10.0.19041.0/x64"
+            )
+            
+            if(DXC_COMPILER)
+                message(STATUS "DirectX 12 acceleration enabled")
+                message(STATUS "  DirectX compute pipeline integrated")
+                message(STATUS "  DXC compiler found: ${DXC_COMPILER}")
+                
+                # Set shader output directory
+                set(SHADER_OUTPUT_DIR "${CMAKE_BINARY_DIR}/shaders/lora")
+                file(MAKE_DIRECTORY ${SHADER_OUTPUT_DIR})
+                
+                # Compile HLSL shaders to DXIL bytecode
+                set(SHADER_SOURCE_DIR "${THEMIS_ROOT_DIR}/src/acceleration/directx/shaders/lora")
+                
+                # Matmul shader
+                add_custom_command(
+                    OUTPUT ${SHADER_OUTPUT_DIR}/matmul.cso
+                    COMMAND ${DXC_COMPILER} -T cs_6_0 -E main
+                            ${SHADER_SOURCE_DIR}/matmul.hlsl
+                            -Fo ${SHADER_OUTPUT_DIR}/matmul.cso
+                    DEPENDS ${SHADER_SOURCE_DIR}/matmul.hlsl
+                    COMMENT "Compiling matmul.hlsl to DXIL bytecode"
+                    VERBATIM
+                )
+                
+                # Elementwise shader
+                add_custom_command(
+                    OUTPUT ${SHADER_OUTPUT_DIR}/elementwise.cso
+                    COMMAND ${DXC_COMPILER} -T cs_6_0 -E main
+                            ${SHADER_SOURCE_DIR}/elementwise.hlsl
+                            -Fo ${SHADER_OUTPUT_DIR}/elementwise.cso
+                    DEPENDS ${SHADER_SOURCE_DIR}/elementwise.hlsl
+                    COMMENT "Compiling elementwise.hlsl to DXIL bytecode"
+                    VERBATIM
+                )
+                
+                # Gradient shader
+                add_custom_command(
+                    OUTPUT ${SHADER_OUTPUT_DIR}/gradient.cso
+                    COMMAND ${DXC_COMPILER} -T cs_6_0 -E main
+                            ${SHADER_SOURCE_DIR}/gradient.hlsl
+                            -Fo ${SHADER_OUTPUT_DIR}/gradient.cso
+                    DEPENDS ${SHADER_SOURCE_DIR}/gradient.hlsl
+                    COMMENT "Compiling gradient.hlsl to DXIL bytecode"
+                    VERBATIM
+                )
+                
+                # Custom target to compile all shaders
+                add_custom_target(directx_shaders ALL
+                    DEPENDS
+                        ${SHADER_OUTPUT_DIR}/matmul.cso
+                        ${SHADER_OUTPUT_DIR}/elementwise.cso
+                        ${SHADER_OUTPUT_DIR}/gradient.cso
+                    COMMENT "Building DirectX shaders"
+                )
+                
+                # Install shaders to output directory
+                install(FILES
+                    ${SHADER_OUTPUT_DIR}/matmul.cso
+                    ${SHADER_OUTPUT_DIR}/elementwise.cso
+                    ${SHADER_OUTPUT_DIR}/gradient.cso
+                    DESTINATION bin/shaders/lora
+                    COMPONENT shaders
+                )
+                
+                # Make themis_core depend on shader compilation
+                add_dependencies(themis_core directx_shaders)
+                
+                message(STATUS "  Shaders: matmul.hlsl, elementwise.hlsl, gradient.hlsl → .cso")
+            else()
+                message(WARNING "DXC compiler not found - DirectX shaders will not be compiled")
+                message(WARNING "  Install Windows 10 SDK 10.0.19041.0+ or DirectX Agility SDK")
+                message(WARNING "  DirectX backend will require pre-compiled shaders or fail at runtime")
+            endif()
+        else()
+            message(WARNING "DirectX is only available on Windows")
+        endif()
     endif()
     
     if(THEMIS_ENABLE_VULKAN)
@@ -1415,6 +3042,8 @@ if(THEMIS_ENABLE_DIRECTX OR THEMIS_ENABLE_VULKAN OR THEMIS_ENABLE_OPENGL)
         if(Vulkan_FOUND)
             target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_VULKAN)
             target_include_directories(themis_core PRIVATE ${Vulkan_INCLUDE_DIRS})
+            target_link_libraries(themis_core PRIVATE Vulkan::Vulkan)
+            list(APPEND THEMIS_ACCELERATION_SOURCES ../src/acceleration/vulkan_backend_full.cpp)
             message(STATUS "Vulkan acceleration enabled")
             message(STATUS "  Vulkan Version: ${Vulkan_VERSION}")
         else()
@@ -1424,8 +3053,33 @@ if(THEMIS_ENABLE_DIRECTX OR THEMIS_ENABLE_VULKAN OR THEMIS_ENABLE_OPENGL)
     
     if(THEMIS_ENABLE_OPENGL)
         target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_OPENGL)
-        message(STATUS "OpenGL acceleration enabled (stub)")
+        # Link dl for dynamic loading of libEGL/libGL at runtime (Linux/Unix)
+        if(UNIX AND NOT APPLE)
+            target_link_libraries(themis_core PRIVATE dl)
+        endif()
+        message(STATUS "OpenGL acceleration enabled (EGL/GL 4.3+ compute shaders with CPU fallback)")
     endif()
+endif()
+
+# ZLUDA backend (AMD GPUs via CUDA API compatibility layer)
+if(THEMIS_ENABLE_ZLUDA)
+    list(APPEND THEMIS_ACCELERATION_SOURCES ../src/acceleration/zluda_backend.cpp)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_ZLUDA)
+    message(STATUS "ZLUDA acceleration enabled (AMD GPU via CUDA compatibility layer)")
+endif()
+
+# Metal backend (Apple Silicon / macOS)
+if(THEMIS_ENABLE_METAL AND APPLE)
+    list(APPEND THEMIS_ACCELERATION_SOURCES ../src/acceleration/metal_backend.mm)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_METAL)
+    target_link_libraries(themis_core PRIVATE "-framework Metal" "-framework Foundation")
+    message(STATUS "Metal acceleration enabled (Apple Silicon / macOS)")
+endif()
+
+# Vulkan full backend (cross-platform GPU compute)
+if(THEMIS_ENABLE_VULKAN)
+    list(APPEND THEMIS_ACCELERATION_SOURCES ../src/acceleration/vulkan_backend_full.cpp)
+    message(STATUS "Vulkan full backend enabled (cross-platform GPU compute)")
 endif()
 
 # Add acceleration sources to core if any were selected
@@ -1439,6 +3093,13 @@ endif()
 if(THEMIS_ENABLE_HSM_REAL)
     target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_HSM_REAL)
     target_sources(themis_core PRIVATE ../src/security/hsm_provider_pkcs11.cpp)
+endif()
+
+# Wire Protocol V1 protobuf compile flag and link
+if(THEMIS_WIRE_V1_PROTO_AVAILABLE)
+    target_compile_definitions(themis_core PUBLIC THEMIS_WIRE_V1_PROTO_AVAILABLE)
+    target_link_libraries(themis_core PRIVATE protobuf::libprotobuf)
+    message(STATUS "THEMIS_WIRE_V1_PROTO_AVAILABLE: enabled (themis::wire protobuf handlers active)")
 endif()
 
 # Geo feature flags and Boost.Geometry support
@@ -1499,35 +3160,47 @@ endif()
 target_link_libraries(themis_core
     PUBLIC
         ${THEMIS_ROCKSDB_TARGET}
-        simdjson::simdjson
-        TBB::tbb
+        $<$<TARGET_EXISTS:simdjson::simdjson>:simdjson::simdjson>
+        $<$<TARGET_EXISTS:TBB::tbb>:TBB::tbb>
         ${THEMIS_ARROW_TARGET}
         ${THEMIS_PARQUET_TARGET}
         fmt::fmt
         spdlog::spdlog
-        Boost::system
+        $<$<TARGET_EXISTS:Boost::system>:Boost::system>
         nlohmann_json::nlohmann_json
     $<$<BOOL:${CURL_FOUND}>:CURL::libcurl>
         ${THEMIS_YAML_TARGET}
     OpenSSL::SSL
     OpenSSL::Crypto
-    TBB::tbb
+    ZLIB::ZLIB
+    $<$<BOOL:${prometheus-cpp_FOUND}>:prometheus-cpp::core>
 )
+
+# Link ONNX Runtime when available (ML Serving backend)
+if(onnxruntime_FOUND)
+    target_link_libraries(themis_core PUBLIC onnxruntime::onnxruntime)
+endif()
+
+if(WIN32)
+    target_link_libraries(themis_core PUBLIC Secur32)
+endif()
 
 # Link libzip (for archive and office processing)
 if(libzip_FOUND)
     # libzip may export as libzip::zip or libzip::libzip depending on version
     if(TARGET libzip::zip)
         target_link_libraries(themis_core PUBLIC libzip::zip)
+        target_compile_definitions(themis_core PRIVATE THEMIS_HAVE_LIBZIP)
     elseif(TARGET libzip::libzip)
         target_link_libraries(themis_core PUBLIC libzip::libzip)
+        target_compile_definitions(themis_core PRIVATE THEMIS_HAVE_LIBZIP)
     else()
         message(WARNING "libzip target not found - please check libzip installation")
     endif()
 endif()
 
-# Link pugixml (for office processing) if enabled
-if(THEMIS_ENABLE_OFFICE AND pugixml_FOUND)
+# Link pugixml (required for XML/SAML parsing, also used by Office processing)
+if(pugixml_FOUND)
     # pugixml should export as pugixml::pugixml or pugixml::static
     if(TARGET pugixml::pugixml)
         target_link_libraries(themis_core PUBLIC pugixml::pugixml)
@@ -1538,8 +3211,36 @@ if(THEMIS_ENABLE_OFFICE AND pugixml_FOUND)
     else()
         message(WARNING "pugixml target not found - please check pugixml installation")
     endif()
-    
-    message(STATUS "Office support linked: libzip and pugixml")
+
+    if(THEMIS_ENABLE_OFFICE)
+        message(STATUS "Office support linked: libzip and pugixml")
+    else()
+        message(STATUS "pugixml linked for core XML/SAML support")
+    endif()
+endif()
+
+# Link poppler-cpp (for PDF layout-preserving extraction) if enabled
+if(THEMIS_ENABLE_PDF AND Poppler_FOUND)
+    if(TARGET Poppler::cpp)
+        target_link_libraries(themis_core PUBLIC Poppler::cpp)
+    elseif(TARGET poppler-cpp)
+        target_link_libraries(themis_core PUBLIC poppler-cpp)
+    else()
+        message(WARNING "Poppler::cpp target not found - please check poppler installation")
+    endif()
+    message(STATUS "PDF support linked: poppler-cpp")
+endif()
+
+# Link libtesseract (for OCR text extraction from images) if enabled
+if(THEMIS_ENABLE_OCR AND Tesseract_FOUND)
+    if(TARGET Tesseract::libtesseract)
+        target_link_libraries(themis_core PUBLIC Tesseract::libtesseract)
+    elseif(TARGET tesseract)
+        target_link_libraries(themis_core PUBLIC tesseract)
+    else()
+        message(WARNING "Tesseract target not found - please check libtesseract installation")
+    endif()
+    message(STATUS "OCR support linked: libtesseract")
 endif()
 
 # Link Kerberos/GSSAPI if enabled
@@ -1560,10 +3261,32 @@ if(THEMIS_ENABLE_KERBEROS)
     message(STATUS "Kerberos/GSSAPI authentication enabled")
 endif()
 
+# Link LDAP / Active Directory if found
+if(THEMIS_LDAP_FOUND AND THEMIS_LDAP_LIBRARIES)
+    target_link_libraries(themis_core PUBLIC ${THEMIS_LDAP_LIBRARIES})
+    if(THEMIS_LDAP_INCLUDE_DIRS)
+        target_include_directories(themis_core PUBLIC ${THEMIS_LDAP_INCLUDE_DIRS})
+    endif()
+    target_compile_definitions(themis_core PUBLIC THEMIS_HAS_LDAP=1)
+    message(STATUS "LDAP/AD authentication linked: ${THEMIS_LDAP_LIBRARIES}")
+endif()
+
 # Link ZSTD if available and define compile flag
 if(DEFINED THEMIS_ZSTD_TARGET)
     target_link_libraries(themis_core PUBLIC ${THEMIS_ZSTD_TARGET})
     target_compile_definitions(themis_core PUBLIC THEMIS_HAS_ZSTD)
+endif()
+
+# Link LZ4 if available and define compile flag
+if(DEFINED THEMIS_LZ4_TARGET)
+    target_link_libraries(themis_core PUBLIC ${THEMIS_LZ4_TARGET})
+    target_compile_definitions(themis_core PUBLIC THEMIS_HAS_LZ4)
+endif()
+
+# Link Snappy if available (required for Prometheus remote-write decompression)
+if(DEFINED THEMIS_SNAPPY_TARGET AND NOT "${THEMIS_SNAPPY_TARGET}" STREQUAL "")
+    target_link_libraries(themis_core PUBLIC ${THEMIS_SNAPPY_TARGET})
+    target_compile_definitions(themis_core PUBLIC THEMIS_HAS_SNAPPY)
 endif()
 
 # Define THEMIS_ENABLE_CURL if CURL is found
@@ -1571,13 +3294,50 @@ if(CURL_FOUND)
     target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_CURL)
 endif()
 
+# Link cpp-httplib (HTTP server) if available
+if(TARGET httplib::httplib)
+    target_link_libraries(themis_core PUBLIC httplib::httplib)
+    target_compile_definitions(themis_core PUBLIC THEMIS_HAS_HTTPLIB)
+else()
+    message(STATUS "cpp-httplib target not found - HTTP server adapter may fail to build")
+endif()
+
+# Link MessagePack if available (target names vary by package)
+if(TARGET msgpack-cxx)
+    target_link_libraries(themis_core PUBLIC msgpack-cxx)
+    target_compile_definitions(themis_core PUBLIC THEMIS_HAS_MSGPACK)
+elseif(TARGET msgpack::msgpack)
+    target_link_libraries(themis_core PUBLIC msgpack::msgpack)
+    target_compile_definitions(themis_core PUBLIC THEMIS_HAS_MSGPACK)
+else()
+    message(STATUS "MessagePack target not found - buffer binary protocol may fail to build")
+endif()
+
+# Link hiredis for Redis distributed cache coordination if enabled
+if(THEMIS_ENABLE_REDIS AND hiredis_FOUND)
+    if(TARGET hiredis::hiredis)
+        target_link_libraries(themis_core PUBLIC hiredis::hiredis)
+    elseif(TARGET hiredis)
+        target_link_libraries(themis_core PUBLIC hiredis)
+    endif()
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_REDIS=1)
+    message(STATUS "Redis distributed cache coordination linked (hiredis)")
+endif()
+
+# RFC 3161 Timestamp Authority (TSA) - OpenSSL implementation
 # Enable OpenSSL-based Timestamp Authority (RFC 3161) if both OpenSSL and CURL are available
 # OpenSSL is required for cryptographic operations, CURL for HTTP/HTTPS communication with TSA servers
-if(OpenSSL_FOUND AND CURL_FOUND)
+if(THEMIS_USE_OPENSSL_TSA AND OpenSSL_FOUND AND CURL_FOUND)
     target_compile_definitions(themis_core PUBLIC THEMIS_USE_OPENSSL_TSA)
-    message(STATUS "Timestamp Authority (RFC 3161): Enabled with OpenSSL and CURL")
+    message(STATUS "Timestamp Authority (RFC 3161): OpenSSL implementation enabled")
 else()
-    message(STATUS "Timestamp Authority (RFC 3161): Using stub implementation (OpenSSL=${OpenSSL_FOUND}, CURL=${CURL_FOUND})")
+    if(THEMIS_USE_OPENSSL_TSA AND NOT OpenSSL_FOUND)
+        message(WARNING "RFC 3161 TSA: OpenSSL mode requested but OpenSSL not found - falling back to stub mode")
+    endif()
+    if(THEMIS_USE_OPENSSL_TSA AND NOT CURL_FOUND)
+        message(WARNING "RFC 3161 TSA: OpenSSL mode requested but CURL not found - falling back to stub mode")
+    endif()
+    message(STATUS "Timestamp Authority (RFC 3161): Using stub implementation (development only - NOT for production)")
 endif()
 
 # Define version string for runtime use
@@ -1621,6 +3381,12 @@ endif()
 if(THEMIS_ENABLE_BAO)
     target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_BAO)
 endif()
+if(THEMIS_ENABLE_PER_QUERY_COST_MODEL)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_PER_QUERY_COST_MODEL)
+endif()
+if(THEMIS_ENABLE_PMEM)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_PMEM)
+endif()
 
 if(THEMIS_ENABLE_GPU)
     target_link_libraries(themis_core PUBLIC faiss)
@@ -1631,10 +3397,59 @@ elseif(hnswlib_FOUND)
 endif()
 
 # v1.1.0: Link mimalloc (20-40% memory boost, drop-in replacement)
-if(THEMIS_USE_MIMALLOC AND mimalloc_FOUND)
-    target_link_libraries(themis_core PUBLIC mimalloc-static)
-    target_compile_definitions(themis_core PUBLIC THEMIS_USE_MIMALLOC)
+if(THEMIS_ENABLE_MIMALLOC AND mimalloc_FOUND)
+    # Use DLL version on Windows (mimalloc-static not available in vcpkg binary cache)
+    if(WIN32)
+        target_link_libraries(themis_core PUBLIC mimalloc)
+    else()
+        target_link_libraries(themis_core PUBLIC mimalloc-static)
+    endif()
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_MIMALLOC)
     message(STATUS "mimalloc linked to themis_core")
+endif()
+
+# Phase 3: Link jemalloc as alternative allocator (best fragmentation resistance)
+if(THEMIS_ENABLE_JEMALLOC)
+    if(jemalloc_FOUND)
+        target_link_libraries(themis_core PUBLIC jemalloc::jemalloc)
+    elseif(jemalloc_LIBRARIES)
+        target_link_libraries(themis_core PUBLIC ${jemalloc_LIBRARIES})
+        target_include_directories(themis_core PUBLIC ${jemalloc_INCLUDE_DIRS})
+    endif()
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_JEMALLOC)
+    message(STATUS "jemalloc linked to themis_core")
+endif()
+
+# FFmpeg support for video processing (optional)
+if(FFMPEG_FOUND)
+    target_link_libraries(themis_core PUBLIC FFmpeg::avformat)
+    message(STATUS "FFmpeg linked to themis_core - real video processing enabled")
+endif()
+
+# ============================================================================
+# PHASE 1 PERFORMANCE FEATURES
+# ============================================================================
+
+# RCU Index (Read-Copy-Update for lock-free reads, +200-500% for read-heavy workloads)
+if(THEMIS_ENABLE_RCU_INDEX)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_RCU_INDEX)
+    message(STATUS "RCU Index enabled (+200-500% read performance)")
+endif()
+
+# LIRS Cache (Low Inter-reference Recency Set, +30-40% cache hit rate)
+if(THEMIS_ENABLE_LIRS_CACHE)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_LIRS_CACHE)
+    message(STATUS "LIRS Cache enabled (+30-40% hit rate improvement)")
+endif()
+
+# Huge Pages (Linux-only, Windows uses automatic large pages)
+if(THEMIS_ENABLE_HUGE_PAGES)
+    if(NOT WIN32)
+        target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_HUGE_PAGES)
+        message(STATUS "Huge pages enabled")
+    else()
+        message(STATUS "Huge pages disabled on Windows (automatic large pages used)")
+    endif()
 endif()
 
 # HTTP/2 Protocol Support
@@ -1649,6 +3464,12 @@ if(THEMIS_ENABLE_HTTP3 AND nghttp3_FOUND AND ngtcp2_FOUND)
     target_link_libraries(themis_core PUBLIC nghttp3::nghttp3 ngtcp2::ngtcp2)
     target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_HTTP3)
     message(STATUS "HTTP/3 support enabled and linked to themis_core")
+endif()
+
+# HTTP Server Support
+if(THEMIS_ENABLE_HTTP_SERVER)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_HTTP_SERVER)
+    message(STATUS "HTTP/REST server enabled")
 endif()
 
 # GDAL Geospatial Processing Support
@@ -1676,6 +3497,20 @@ if(THEMIS_ENABLE_WEBSOCKET)
     message(STATUS "WebSocket protocol support enabled")
 endif()
 
+# Kafka CDC Producer Support
+if(THEMIS_ENABLE_KAFKA)
+    find_package(RdKafka CONFIG QUIET)
+    if(RdKafka_FOUND)
+        target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_KAFKA)
+        target_link_libraries(themis_core PUBLIC RdKafka::rdkafka RdKafka::rdkafka++)
+        message(STATUS "Kafka CDC producer enabled (librdkafka found)")
+    else()
+        message(WARNING "THEMIS_ENABLE_KAFKA=ON but librdkafka not found; "
+                        "KafkaCDCProducer will compile as a no-op stub. "
+                        "Install librdkafka or add it via vcpkg to enable Kafka support.")
+    endif()
+endif()
+
 # MCP (Model Context Protocol) Support
 if(THEMIS_ENABLE_MCP)
     target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_MCP)
@@ -1696,6 +3531,12 @@ if(THEMIS_ENABLE_POSTGRES_WIRE)
     message(STATUS "PostgreSQL Wire Protocol support enabled")
 endif()
 
+# Service mesh sidecar proxy mode (Envoy xDS v3 REST client)
+if(THEMIS_ENABLE_SERVICE_MESH)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_SERVICE_MESH)
+    message(STATUS "Service mesh sidecar proxy mode enabled (Envoy xDS v3 REST)")
+endif()
+
 # gRPC Protocol Support (inter-shard communication - implemented in v1.3.0)
 if(THEMIS_ENABLE_GRPC)
     target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_GRPC)
@@ -1703,16 +3544,44 @@ if(THEMIS_ENABLE_GRPC)
     find_package(gRPC CONFIG)
     find_package(Protobuf CONFIG)
     if(gRPC_FOUND AND Protobuf_FOUND)
-        target_link_libraries(themis_core PUBLIC gRPC::grpc++ gRPC::grpc++_reflection protobuf::libprotobuf)
-        message(STATUS "gRPC and Protobuf found - linking to themis_core")
+        if(NOT TARGET gRPC::grpc++_reflection)
+            # vcpkg static triplet may not export reflection target; try to create an imported target
+            find_library(GRPCPP_REFLECTION_LIB NAMES grpc++_reflection
+                PATHS
+                    ${CMAKE_BINARY_DIR}/vcpkg_installed/${VCPKG_TARGET_TRIPLET}/lib
+                    ${CMAKE_BINARY_DIR}/vcpkg_installed/${VCPKG_TARGET_TRIPLET}/debug/lib
+                NO_DEFAULT_PATH)
+            if(GRPCPP_REFLECTION_LIB)
+                add_library(gRPC::grpc++_reflection UNKNOWN IMPORTED)
+                set_target_properties(gRPC::grpc++_reflection PROPERTIES
+                    IMPORTED_LOCATION ${GRPCPP_REFLECTION_LIB}
+                    IMPORTED_LINK_INTERFACE_LANGUAGES "CXX")
+                message(STATUS "gRPC reflection library found manually: ${GRPCPP_REFLECTION_LIB}")
+            else()
+                message(WARNING "gRPC reflection library not found; proceeding without reflection")
+            endif()
+        endif()
 
-        if(COMMAND protobuf_generate)
-            # Generate shard RPC stubs (ApplyWalBatch, etc.)
-            set(SHARD_PROTO ${CMAKE_SOURCE_DIR}/proto/sharding/shard_rpc.proto)
+        if(TARGET gRPC::grpc++_reflection)
+            target_link_libraries(themis_core PUBLIC gRPC::grpc++ gRPC::grpc++_reflection protobuf::libprotobuf)
+            message(STATUS "gRPC and Protobuf found - linking to themis_core (with reflection)")
+        else()
+            target_link_libraries(themis_core PUBLIC gRPC::grpc++ protobuf::libprotobuf)
+            message(WARNING "gRPC::grpc++_reflection not found; linking without reflection to themis_core")
+        endif()
+
+        # Link to generated shard proto library (generated outside this block)
+        # In modular builds, themis_sharding owns this dependency to avoid
+        # duplicate static proto objects in final executables.
+        if(TARGET themis_shard_proto AND NOT THEMIS_BUILD_MODULAR)
+            target_link_libraries(themis_core PUBLIC themis_shard_proto)
+        endif()
+
+        if(NOT THEMIS_BUILD_MODULAR AND NOT TARGET themis_shard_proto)
+            set(SHARD_PROTO ${THEMIS_ROOT_DIR}/proto/sharding/shard_rpc.proto)
             set(SHARD_PROTO_GEN_DIR ${CMAKE_BINARY_DIR}/proto_generated)
             file(MAKE_DIRECTORY ${SHARD_PROTO_GEN_DIR})
 
-            # Manually generate protobuf files
             set(SHARD_PROTO_SRCS
                 ${SHARD_PROTO_GEN_DIR}/shard_rpc.pb.cc
                 ${SHARD_PROTO_GEN_DIR}/shard_rpc.grpc.pb.cc
@@ -1728,7 +3597,7 @@ if(THEMIS_ENABLE_GRPC)
                 ARGS --cpp_out ${SHARD_PROTO_GEN_DIR}
                      --grpc_out ${SHARD_PROTO_GEN_DIR}
                      --plugin=protoc-gen-grpc=$<TARGET_FILE:gRPC::grpc_cpp_plugin>
-                     -I ${CMAKE_SOURCE_DIR}/proto/sharding
+                     -I ${THEMIS_ROOT_DIR}/proto/sharding
                      ${SHARD_PROTO}
                 DEPENDS ${SHARD_PROTO} protobuf::protoc gRPC::grpc_cpp_plugin
                 COMMENT "Generating protobuf and gRPC sources for shard_rpc.proto"
@@ -1739,9 +3608,67 @@ if(THEMIS_ENABLE_GRPC)
             target_include_directories(themis_shard_proto PUBLIC ${SHARD_PROTO_GEN_DIR})
             target_link_libraries(themis_shard_proto PUBLIC gRPC::grpc++ protobuf::libprotobuf)
 
+            if(MSVC)
+                target_compile_options(themis_shard_proto PRIVATE /wd4996 /wd4018 /wd4244 /wd4267)
+            else()
+                target_compile_options(themis_shard_proto PRIVATE -Wno-unused-parameter -Wno-deprecated-declarations -Wno-conversion)
+            endif()
+
+            add_dependencies(themis_core themis_shard_proto)
             target_link_libraries(themis_core PUBLIC themis_shard_proto)
+            message(STATUS "themis_shard_proto library created for inter-shard communication (monolithic build)")
+        endif()
+
+        # ── ThemisDB API proto (client-facing gRPC surface, api module) ──────
+        # Generates C++ stubs from proto/themisdb.proto.
+        # The library `themis_api_proto` is linked into themis_core so that
+        # GrpcApiServer can register ThemisDBService implementations.
+        if(COMMAND protobuf_generate)
+            set(THEMISDB_API_PROTO ${THEMIS_ROOT_DIR}/proto/themisdb.proto)
+            set(THEMISDB_API_PROTO_GEN_DIR ${CMAKE_BINARY_DIR}/proto_generated)
+            file(MAKE_DIRECTORY ${THEMISDB_API_PROTO_GEN_DIR})
+
+            set(THEMISDB_API_PROTO_SRCS
+                ${THEMISDB_API_PROTO_GEN_DIR}/themisdb.pb.cc
+                ${THEMISDB_API_PROTO_GEN_DIR}/themisdb.grpc.pb.cc
+            )
+            set(THEMISDB_API_PROTO_HDRS
+                ${THEMISDB_API_PROTO_GEN_DIR}/themisdb.pb.h
+                ${THEMISDB_API_PROTO_GEN_DIR}/themisdb.grpc.pb.h
+            )
+
+            add_custom_command(
+                OUTPUT ${THEMISDB_API_PROTO_SRCS} ${THEMISDB_API_PROTO_HDRS}
+                COMMAND $<TARGET_FILE:protobuf::protoc>
+                ARGS --cpp_out ${THEMISDB_API_PROTO_GEN_DIR}
+                     --grpc_out ${THEMISDB_API_PROTO_GEN_DIR}
+                     --plugin=protoc-gen-grpc=$<TARGET_FILE:gRPC::grpc_cpp_plugin>
+                     -I ${THEMIS_ROOT_DIR}/proto
+                     ${THEMISDB_API_PROTO}
+                DEPENDS ${THEMISDB_API_PROTO} protobuf::protoc gRPC::grpc_cpp_plugin
+                COMMENT "Generating protobuf and gRPC sources for themisdb.proto (API service)"
+                VERBATIM
+            )
+
+            add_library(themis_api_proto STATIC
+                ${THEMISDB_API_PROTO_SRCS}
+                ${THEMISDB_API_PROTO_HDRS}
+            )
+            target_include_directories(themis_api_proto PUBLIC ${THEMISDB_API_PROTO_GEN_DIR})
+            target_link_libraries(themis_api_proto PUBLIC gRPC::grpc++ protobuf::libprotobuf)
+
+            if(MSVC)
+                target_compile_options(themis_api_proto PRIVATE
+                    /wd4996 /wd4018 /wd4244 /wd4267)
+            else()
+                target_compile_options(themis_api_proto PRIVATE
+                    -Wno-unused-parameter -Wno-deprecated-declarations -Wno-conversion)
+            endif()
+
+            target_link_libraries(themis_core PUBLIC themis_api_proto)
+            message(STATUS "themis_api_proto library created for ThemisDB API gRPC service")
         else()
-            message(WARNING "protobuf_generate() not available; skipping shard RPC stub generation")
+            message(WARNING "protobuf_generate() unavailable – themisdb.proto stubs will not be generated")
         endif()
     else()
         message(WARNING "gRPC/Protobuf not found - WAL gRPC service will be disabled at runtime")
@@ -1767,6 +3694,8 @@ if(THEMIS_ENABLE_WEBSOCKET)
     message(STATUS "WebSocket support enabled (Boost.Beast has native support)")
     # Note: Boost.Beast already provides WebSocket support, just needs integration
 endif()
+
+# Kafka CDC Producer Support (handled above with full librdkafka setup)
 
 # MQTT Protocol Support (placeholder for future implementation)
 if(THEMIS_ENABLE_MQTT)
@@ -1803,22 +3732,47 @@ if(THEMIS_ENABLE_LLM)
         ../src/llm/embedded_llm.cpp          # Embedded LLM facade for system-wide use
         ../src/llm/llm_plugin_manager.cpp
         ../src/llm/model_loader.cpp          # Ollama-style lazy loading
+        ../src/llm/model_quantization_pipeline.cpp  # GGUF/AWQ/GPTQ quantization pipeline (Phase 3)
         ../src/llm/multi_lora_manager.cpp    # vLLM-style multi-LoRA
         ../src/llm/async_inference_engine.cpp # Async threading (independent from DB)
+        ../src/llm/shared_worker_pool.cpp    # Shared work-stealing thread pool (Phase 2)
         # v1.3.1: Cache Reuse Integration (Phase 2)
         ../src/llm/model_metadata_cache.cpp  # Model metadata caching with ConcurrentCache
         ../src/llm/lora_metadata_cache.cpp   # LoRA metadata caching with ConcurrentCache
         
-        # LoRA Adapter Framework (Issue #319)
+        # LoRA Adapter Framework (Issue #319) - RE-ENABLED WITH FIXED APIs
         ../src/llm/lora_framework/lora_orchestrator.cpp       # LoRA CRUD orchestrator
-        ../src/llm/lora_framework/lora_adapter_manager.cpp    # Adapter lifecycle & caching
-        ../src/llm/lora_framework/lora_storage_service.cpp    # BaseEntity storage integration
-        ../src/llm/lora_framework/lora_storage_service_themisdb.cpp  # ThemisDB storage backend
-        ../src/llm/lora_framework/lora_training_service.cpp   # Training pipeline
+        # Note: lora_storage_service.cpp removed to avoid duplicate symbol errors
+        # Only using lora_storage_service_themisdb.cpp which has complete ThemisDB + FileSystem implementations
+        ../src/llm/lora_framework/lora_storage_service_themisdb.cpp  # ThemisDB storage backend (complete implementation)
+        ../src/llm/lora_framework/lora_checkpoint_manager.cpp  # Checkpoint lifecycle management
+        ../src/llm/lora_framework/lora_training_service.cpp   # Training pipeline (re-enabled for distributed training integration)
+        ../src/llm/lora_framework/training_service_registry.cpp  # Service registry for dependency injection
+        ../src/llm/lora_framework/lora_layers.cpp             # LoRA layer implementations
         ../src/llm/lora_framework/lora_audit_logger.cpp       # Audit logging
         ../src/llm/lora_framework/feedback_plugin.cpp         # Feedback plugin system
         ../src/llm/lora_framework/lora_feedback_storage.cpp   # Feedback storage service
         ../src/llm/lora_framework/lora_training_config.cpp    # YAML training configuration
+        ../src/llm/lora_framework/lora_layers.cpp             # LoRA layers and tensor operations (Phase 1)
+        ../src/llm/lora_framework/base_model_adapter.cpp      # Base model loading and LoRA injection (Phase 2)
+        ../src/llm/lora_framework/data_loader.cpp             # Text data loading and tokenization (Phase 2)
+        ../src/llm/lora_framework/llama_tokenizer.cpp         # llama.cpp native tokenizer integration
+        # Production training features
+        ../src/llm/lora_framework/mixed_precision.cpp         # Mixed precision training (FP16/BF16)
+        ../src/llm/lora_framework/lr_scheduler.cpp            # Learning rate schedulers
+        ../src/llm/lora_framework/gradient_utils.cpp          # Gradient clipping & accumulation
+        ../src/llm/lora_framework/distributed_trainer.cpp     # Multi-GPU distributed training
+        # QLoRA quantization support
+        ../src/llm/lora_framework/quantization.cpp            # NF4/INT8 quantization (CPU)
+        ../src/llm/lora_framework/quantized_model.cpp         # Quantized model management
+        ../src/llm/distributed_training_coordinator.cpp       # Coordinator implementation (link fixes)
+        ../src/llm/applications/themis_help_lora.cpp          # Themis Help LoRA app (link fixes)
+        ../src/llm/security/signature_verifier.cpp            # LLM signature verification
+        
+        # Dynamic batch size adaptation (Issue #39)
+        ../src/llm/lora_framework/adaptive_batcher.cpp        # Adaptive batch sizing for optimal GPU utilization
+        ../src/llm/lora_framework/sequence_packer.cpp         # Sequence packing to reduce padding waste
+        ../src/llm/lora_framework/gpu_utilization_monitor.cpp # GPU utilization monitoring (NVML/ROCm)
         
         ../src/llm/paged_block_manager.cpp   # Block management for PagedAttention (v1.4.0 prep)
         ../src/llm/kv_cache_buffer.cpp       # KV cache batching with VectorAutoBuffer (Phase 2.2)
@@ -1827,10 +3781,12 @@ if(THEMIS_ENABLE_LLM)
         # Phase 3.2: Grammar-Constrained Generation
         ../src/llm/grammar.cpp               # Grammar parsing and compilation
         ../src/llm/grammar_cache.cpp         # Grammar caching for performance
+        ../src/llm/json_schema_converter.cpp # JSON schema → GBNF and tool-call support (Issue #1922)
         
         # Phase 4+5 Week 4-6: llama.cpp Integration
         ../src/llm/gguf_loader.cpp           # GGUF model file loader with memory-mapping
         ../src/llm/llamacpp_inference_engine.cpp # llama.cpp inference engine with PagedAttention
+        ../src/llm/llm_model_storage.cpp     # LLM model storage and metadata management
         
         # Week 13-14: Production Validation & Testing (P1 Enterprise Features)
         ../src/llm/production_validator.cpp  # Production-grade LLM validation and benchmarking
@@ -1840,11 +3796,69 @@ if(THEMIS_ENABLE_LLM)
         ../src/llm/llm_prefix_cache.cpp           # Context caching with prefix reuse
         ../src/llm/grafana_metrics.cpp            # Prometheus/Grafana metrics integration
         ../src/llm/inference_engine_enhanced.cpp  # Enhanced inference engine with P1 features
+        ../src/llm/streaming_handler.cpp          # SSE / chunked-response streaming handler (Phase 2)
+        ../src/llm/openai_compat_adapter.cpp      # OpenAI-compatible /v1/chat/completions adapter (Phase 3)
+        ../src/llm/speculative_decoder.cpp        # Speculative decoding for latency reduction (Phase 3)
         
         # AI Decision Auditing and Explainability (EU AI Act, GDPR Compliance)
         ../src/llm/ai_decision_auditor.cpp        # AI decision auditing with cryptographic signing
         ../src/llm/explanation_generator.cpp      # Human-readable explanation generation
+        ../src/llm/ethical_guidelines_manager.cpp # Ethical guidelines management
+        ../src/llm/constitutional_reasoning_engine.cpp # Constitutional-AI constraint checking
+        ../src/llm/ethics_aware_confidence_detector.cpp # Ethics-aware confidence scoring
+        ../src/llm/moral_analyzer.cpp             # Moral dimension extraction and scoring
+        ../src/llm/multi_perspective_generator.cpp # Multi-perspective generation for ethical queries
+        ../src/llm/meta_prompt_generator.cpp      # Meta-prompt generation for self-improvement
+        ../src/llm/prompt_evaluator.cpp           # Prompt quality evaluation
+        ../src/llm/prompt_optimizer.cpp           # Prompt optimisation pipeline
+
+        # AI Orchestrator: YAML-configurable LLM pipeline modes (ask, edit, rag, agentic, ethics, multi_agent)
+        ../src/llm/mode_spec_loader.cpp           # ThemisModePack YAML loader + validator
+        ../src/llm/ai_orchestrator.cpp            # Orchestrator runtime with ToolRegistry and mode pipelines
+
+        # MCP ↔ Orchestrator bridge (compiled when both THEMIS_ENABLE_LLM and THEMIS_ENABLE_MCP are active)
+        $<$<BOOL:${THEMIS_ENABLE_MCP}>:../src/llm/mcp_tool_bridge.cpp>
+
+        # RAG Enhancement: Quality Evaluation and Gap Detection
+        ../src/rag/llm_meta_analyzer.cpp          # Base class for LLM-based meta-analysis
+        ../src/rag/rag_judge.cpp                  # LLM-as-Judge for RAG quality evaluation
+        ../src/rag/knowledge_gap_detector.cpp     # Knowledge gap detection
+        ../src/rag/llm_judge_client.cpp           # LLM Judge Client connecting to InferenceEngineEnhanced
+        ../src/rag/nli_faithfulness_verifier.cpp  # NLI-based faithfulness verification
+        ../src/rag/quality_control_pipeline.cpp   # Multi-stage quality control pipeline
         
+        # Continuous Learning Orchestrator (Phase 2)
+        ../src/rag/learning_metrics.cpp
+        ../src/rag/bayesian_optimizer.cpp
+        ../src/rag/ab_testing_framework.cpp
+        ../src/rag/continuous_learning_orchestrator.cpp
+
+        # RAG Enhancement: Hallucination Rate Tracking Dashboard (Phase 2)
+        ../src/rag/hallucination_dashboard.cpp
+
+        # RAG Enhancement: Citation Highlighting (Phase 3)
+        ../src/rag/citation_highlighter.cpp
+
+        # RAG Enhancement: Distributed Evaluation and Security (Phase 5)
+        ../src/rag/distributed_rag_evaluator.cpp
+        ../src/rag/prompt_injection_detector.cpp
+
+        # RAG Enhancement: LLM-dependent evaluators (Phase 1–4)
+        ../src/rag/llm_integration.cpp
+        ../src/rag/llm_judge_integration.cpp
+        ../src/rag/geval_evaluator.cpp
+        ../src/rag/claim_extractor.cpp
+        ../src/rag/coherence_evaluator.cpp
+        ../src/rag/completeness_evaluator.cpp
+        ../src/rag/cot_evaluator.cpp
+        ../src/rag/document_summarizer.cpp
+        ../src/rag/faithfulness_evaluator.cpp
+        ../src/rag/judge_ensemble.cpp
+        ../src/rag/pairwise_comparator.cpp
+        ../src/rag/quality_control_factory.cpp
+        ../src/rag/relevance_evaluator.cpp
+        ../src/rag/rubric_evaluator.cpp
+
         # Model Deployment Plugin (Ollama-inspired, production-ready)
         ../src/llm/model_downloader.cpp           # Model downloading from Ollama/HTTP/local sources
         ../src/llm/llm_deployment_plugin.cpp      # Production LLM deployment with caching and audit
@@ -1853,9 +3867,53 @@ if(THEMIS_ENABLE_LLM)
         # vision_encoder.cpp is added conditionally below via THEMIS_ENABLE_VISION
         ../src/llm/gpu_memory_manager.cpp         # GPU memory management (CPU fallback when CUDA disabled)
         ../src/llm/kernel_fusion.cpp              # Kernel fusion with CPU fallback
+
+        # Inference & Sampling core (Phase 2 refactor)
+        ../src/llm/inference_handle.cpp           # InferenceHandle implementation
+        ../src/llm/sampling_strategy.cpp          # Token sampling strategies (top-p, top-k, mirostat)
+
+        # Ethics, AI Safety & Multi-Perspective Generation
+        ../src/llm/constitutional_reasoning_engine.cpp   # Constitutional AI reasoning
+        ../src/llm/ethics_aware_confidence_detector.cpp  # Ethics-aware confidence scoring
+        ../src/llm/moral_analyzer.cpp                    # Moral reasoning analysis
+        ../src/llm/multi_perspective_generator.cpp       # Multi-perspective response generation
+
+        # Feedback & Security
+        ../src/llm/feedback_plugin_basic.cpp      # Basic feedback plugin implementation
+        ../src/llm/llm_security_utils.cpp         # LLM security utilities (prompt sanitization)
+
+        # Vision resource monitoring
+        ../src/llm/vision_resource_monitor.cpp    # Vision model resource monitoring
+
+        # LoRA framework additions (unconditional)
+        ../src/llm/lora_framework/distributed_dataloader.cpp     # Distributed data loading for training
+        ../src/llm/lora_framework/kernels/cpu_fused_kernels.cpp  # CPU fused LoRA kernels (non-GPU fallback)
+        ../src/llm/lora_framework/paged_optimizer.cpp            # Paged AdamW optimizer for memory-efficient training
     )
 
+    if(THEMIS_ENABLE_GPU)
+        target_sources(themis_core PRIVATE
+            ../src/llm/lora_framework/gpu_lora_layers.cpp         # GPU LoRA layer implementations
+            ../src/llm/lora_framework/gpu_tensor.cpp              # GPU tensor operations
+            ../src/llm/lora_framework/gpu_memory.cpp              # GPU memory management
+            ../src/llm/lora_framework/vram_allocator.cpp          # VRAM allocation and tracking
+            ../src/llm/lora_framework/gpu_data_loader.cpp         # GPU data loader with async transfers
+            ../src/llm/lora_framework/gpu_training_loop.cpp       # GPU training loop implementation
+            ../src/llm/lora_framework/gpu_embedding_layer.cpp     # GPU embedding layer for real embeddings
+        )
+        message(STATUS "Including LoRA GPU sources (THEMIS_ENABLE_GPU=ON)")
+    else()
+        message(STATUS "Skipping LoRA GPU sources (THEMIS_ENABLE_GPU=OFF)")
+    endif()
+
     # Add CLIP vision encoder only when explicitly enabled
+    target_sources(themis_core PRIVATE
+        ../src/llm/vision_config.cpp
+        ../src/llm/vision_resource_monitor.cpp    # Vision resource tracking and VRAM budget
+        ../src/llm/inference_handle.cpp           # Per-request inference handle with cancellation
+        ../src/llm/llm_security_utils.cpp         # LLM security utilities (API key masking, etc.)
+    )
+
     if(THEMIS_ENABLE_VISION)
         target_sources(themis_core PRIVATE
             ../src/llm/vision_encoder.cpp
@@ -1869,9 +3927,43 @@ if(THEMIS_ENABLE_LLM)
     # Add CUDA kernel fusion sources when CUDA is enabled
     if(THEMIS_ENABLE_CUDA)
         list(APPEND THEMIS_CORE_SOURCES
-            ../src/llm/kernel_fusion.cu           # Flash Attention CUDA kernels
+            ../src/llm/kernel_fusion.cu                        # Flash Attention CUDA kernels
+            ../src/llm/lora_framework/kernels/cuda_kernels.cu  # LoRA CUDA kernels
+            ../src/llm/lora_framework/kernels/quantization_kernels.cu  # QLoRA quantization GPU kernels
+            ../src/llm/lora_framework/kernels/cuda_fused_kernels.cu  # LoRA fused CUDA kernels (Phase 10.3)
+            ../src/llm/lora_framework/kernels/cuda_fp16_kernels.cu  # FP16 mixed precision kernels (Phase 10.4)
+            ../src/llm/lora_framework/kernels/cuda_bf16_kernels.cu  # BF16 mixed precision kernels (Phase 10.4)
+            ../src/llm/lora_framework/kernels/cuda_flash_lora_kernels.cu  # FlashLoRA memory-efficient kernels
         )
-        message(STATUS "LLM: CUDA kernel fusion enabled (Flash Attention)")
+        message(STATUS "LLM: CUDA kernel fusion enabled (Flash Attention + LoRA)")
+    endif()
+    
+    # Add HIP kernel sources when HIP is enabled
+    if(THEMIS_ENABLE_HIP)
+        list(APPEND THEMIS_CORE_SOURCES
+            ../src/llm/lora_framework/kernels/hip_kernels.cpp       # LoRA HIP kernels (AMD)
+            ../src/llm/lora_framework/kernels/hip_fused_kernels.cpp # LoRA HIP fused kernels (AMD)
+        )
+        
+        # Link RCCL if available
+        if(RCCL_FOUND)
+            target_include_directories(themis_core PRIVATE ${RCCL_INCLUDE_DIRS})
+            target_link_libraries(themis_core PRIVATE ${RCCL_LIBRARIES})
+            message(STATUS "RCCL libraries linked: ${RCCL_LIBRARIES}")
+        endif()
+        
+        message(STATUS "LoRA: HIP kernels enabled (AMD ROCm support)")
+    endif()
+    
+    # Add Vulkan kernel sources when Vulkan is enabled
+    if(THEMIS_ENABLE_VULKAN)
+        list(APPEND THEMIS_CORE_SOURCES
+            ../src/llm/lora_framework/kernels/vulkan_kernels.cpp  # LoRA Vulkan compute
+            ../src/llm/lora_framework/vulkan_buffer.cpp           # Vulkan buffer management for LoRA
+            ../src/llm/lora_framework/vulkan_context.cpp          # Vulkan context initialization
+            ../src/llm/lora_framework/vulkan_pipeline.cpp         # Vulkan compute pipeline for LoRA
+        )
+        message(STATUS "LoRA: Vulkan compute kernels enabled (cross-platform)")
     endif()
     
     # Threading support required for async inference
@@ -1884,6 +3976,8 @@ if(THEMIS_ENABLE_LLM)
         # Include headers for llama.cpp
         if(DEFINED LLAMA_SRC_DIR)
             target_include_directories(themis_core PRIVATE ${LLAMA_SRC_DIR}/include)
+            # Access internal llama grammar headers when needed
+            target_include_directories(themis_core PRIVATE ${LLAMA_SRC_DIR}/src)
         endif()
         message(STATUS "LLM Plugin: Linked llama.cpp library")
     else()
@@ -1947,6 +4041,13 @@ if(THEMIS_ENABLE_TRACING)
     target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_TRACING)
 endif()
 
+# End of monolithic build configuration
+endif() # THEMIS_BUILD_MODULAR
+
+# ============================================================================
+# EXECUTABLES AND TESTS (work with both modular and monolithic builds)
+# ============================================================================
+
 # Main executable (demo)
 add_executable(themis_demo
     ../src/main.cpp
@@ -1977,231 +4078,32 @@ target_link_libraries(themis_server
         themis_core
 )
 
-# Link performance optimization libraries
-if(THEMIS_ENABLE_MIMALLOC AND mimalloc_FOUND)
-    target_link_libraries(themis_server PRIVATE mimalloc)
-    message(STATUS "Linking themis_server with mimalloc")
+# Set output directory to bin/ folder (consistent with test binaries)
+set_target_properties(themis_server PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
+    RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_BINARY_DIR}/bin"
+    RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_BINARY_DIR}/bin"
+)
+
+# Ensure themis_server does not directly link mimalloc; rely on themis_core
+if(WIN32 AND THEMIS_ENABLE_MIMALLOC)
+    get_target_property(_srv_libs themis_server LINK_LIBRARIES)
+    if(_srv_libs)
+        list(REMOVE_ITEM _srv_libs mimalloc mimalloc-debug mimalloc-static)
+        set_target_properties(themis_server PROPERTIES LINK_LIBRARIES "${_srv_libs}")
+        message(STATUS "Pruned mimalloc libs from themis_server link libraries")
+    endif()
 endif()
 
-# Tests
+# Tests - Delegated to tests/CMakeLists.txt
 if(THEMIS_BUILD_TESTS)
     enable_testing()
     find_package(GTest CONFIG REQUIRED)
-    
-    add_executable(themis_tests
-        ${CMAKE_SOURCE_DIR}/tests/test_env.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_base_entity.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_rocksdb_high_parallel_tuning.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_rocksdb_stats_json.cpp
-        # Library integration tests (systematic coverage)
-        ${CMAKE_SOURCE_DIR}/tests/test_lib_rocksdb_integration.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_lib_openssl_integration.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_lib_json_integration.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_lib_hnsw_integration.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_lib_boost_integration.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_lib_tbb_integration.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_secondary_index.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_composite_index.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_unique_index.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_range_index.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_sparse_geo_index.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_ttl_fulltext_index.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_index_stats.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_graph_index.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_vector_index.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_query_engine.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_query_or.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_stats_api.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_http_range_index.cpp
-              ${CMAKE_SOURCE_DIR}/tests/test_stemming.cpp
-              ${CMAKE_SOURCE_DIR}/tests/test_stopwords.cpp
-              ${CMAKE_SOURCE_DIR}/tests/test_normalization.cpp
-              ${CMAKE_SOURCE_DIR}/tests/test_phrase_search.cpp
-              ${CMAKE_SOURCE_DIR}/tests/test_aql_fulltext.cpp
-              ${CMAKE_SOURCE_DIR}/tests/test_aql_or.cpp
-              ${CMAKE_SOURCE_DIR}/tests/test_aql_fulltext_hybrid.cpp
-              ${CMAKE_SOURCE_DIR}/tests/test_aql_bm25.cpp
-              ${CMAKE_SOURCE_DIR}/tests/test_aql_similarity.cpp
-              ${CMAKE_SOURCE_DIR}/tests/test_aql_similarity_dispatch.cpp
-              ${CMAKE_SOURCE_DIR}/tests/test_aql_proximity.cpp
-              ${CMAKE_SOURCE_DIR}/tests/test_aql_proximity_dispatch.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_metrics_api.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_http_query_range.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_http_aql.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_http_aql_fulltext_score.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_http_aql_fulltext_or.cpp
-    ${CMAKE_SOURCE_DIR}/tests/test_http_aql_join.cpp
-    ${CMAKE_SOURCE_DIR}/tests/test_http_aql_let.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_http_aql_collect.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_http_config.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_http_aql_graph.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_crash_recovery_direct.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_http_aql_collect.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_http_vector.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_http_vector_largescale.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_http_content.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_video_processor_extended.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_http_changefeed.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_http_changefeed_sse.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_http_timeseries.cpp
-    ${CMAKE_SOURCE_DIR}/tests/test_stemming.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_stopwords.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_http_governance.cpp
-        
-        # Geo tests
-        ${CMAKE_SOURCE_DIR}/tests/geo/test_geo_ewkb.cpp
-        ${CMAKE_SOURCE_DIR}/tests/geo/test_spatial_index.cpp
-        ${CMAKE_SOURCE_DIR}/tests/geo/test_aql_st_functions.cpp
-        ${CMAKE_SOURCE_DIR}/tests/geo/test_aql_st_queryengine.cpp
-        ${CMAKE_SOURCE_DIR}/tests/geo/test_geo_3d_functions.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_geo_index_integration.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_aql_let_st.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_hybrid_queries.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_http_audit.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_transaction_manager.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_transaction_isolation.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_snapshot_manager.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_changefeed_ordering.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_gorilla_codec_edge_cases.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_saga_concurrent_execution.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_consistent_hash_distribution.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_vulkan_backend.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_postgres_importer_datatypes.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_plugin_lifecycle.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_mvcc.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_aql_parser.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_aql_with_clause.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_aql_subqueries.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_cte_cache.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_aql_translator.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_text_processor.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_nlp_integration.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_nlp_metadata_extractor.cpp
-    ${CMAKE_SOURCE_DIR}/tests/test_prompt_manager.cpp
-    ${CMAKE_SOURCE_DIR}/tests/test_mock_clip.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_image_analysis_interface.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_image_analysis_quality.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_backup_restore.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_raid5_backup.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_cursor.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_temporal_graph.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_temporal_aggregation.cpp
-    ${CMAKE_SOURCE_DIR}/tests/test_temporal_aggregation_property.cpp
-        ${CMAKE_SOURCE_DIR}/tests/temporal/test_temporal_conflict_resolver.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_recursive_path_query.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_timerange_query.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_property_graph.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_graph_type_filtering.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_gnn_embeddings.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_semantic_cache.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_tsstore.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_gorilla.cpp
-    ${CMAKE_SOURCE_DIR}/tests/test_gorilla_probe.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_timeseries_retention.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_continuous_agg.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_adaptive_index.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_http_adaptive_index.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_encryption.cpp
-    ${CMAKE_SOURCE_DIR}/tests/test_hkdf_cache.cpp
-    ${CMAKE_SOURCE_DIR}/tests/test_field_encryption_batch.cpp
-    ${CMAKE_SOURCE_DIR}/tests/test_pki_eidas.cpp
-    ${CMAKE_SOURCE_DIR}/tests/test_pki_api_handler.cpp
-    ${CMAKE_SOURCE_DIR}/tests/test_wal_archiving.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_encryption_e2e.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_vault_key_provider.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_vault_key_provider_retry.cpp
-    ${CMAKE_SOURCE_DIR}/tests/test_wal_backup_manager.cpp
-    ${CMAKE_SOURCE_DIR}/tests/test_wal_grpc_apply.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_wal_replication_integration.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_audit_logger.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_pii_detector.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_retention_manager.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_saga_logger.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_http_retention_api.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_policy_yaml.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_pki_client.cpp
-    ${CMAKE_SOURCE_DIR}/tests/test_cms_signing.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_keyprovider_signing.cpp
-    ${CMAKE_SOURCE_DIR}/tests/test_vault_signing_provider.cpp
-        # Enterprise tests (only if enterprise source is available)
-        $<$<AND:$<BOOL:${THEMIS_BUILD_ENTERPRISE}>,$<TARGET_EXISTS:themis_enterprise_common>>:tests/test_enterprise_scalability.cpp>
-        ${CMAKE_SOURCE_DIR}/tests/test_http_policies_export.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_pii_soft_delete.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_http_pii_lazy_init.cpp
-    ${CMAKE_SOURCE_DIR}/tests/test_http_pii_manager_new.cpp
-    ${CMAKE_SOURCE_DIR}/tests/test_jwt_validator.cpp
-    ${CMAKE_SOURCE_DIR}/tests/test_gssapi_authenticator.cpp
-    ${CMAKE_SOURCE_DIR}/tests/test_jwt_integration.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_jwt_rotation_unit.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_llm_api_handler_jwt.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_auth_middleware.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_usb_admin_authenticator.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_pki_client_rest.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_group_dek.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_input_validator.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_sharding_core.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_raid_redundancy.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_hot_spare.cpp
-        $<$<BOOL:${THEMIS_ENABLE_LLM}>:${CMAKE_SOURCE_DIR}/tests/test_lora_framework.cpp>  # LoRA Adapter Framework tests (Issue #319)
-        $<$<BOOL:${THEMIS_ENABLE_LLM}>:${CMAKE_SOURCE_DIR}/tests/test_lora_feedback.cpp>  # LoRA Feedback System tests
-        ${CMAKE_SOURCE_DIR}/tests/test_raid_integration.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_predictive_detector.cpp
-        $<$<BOOL:${THEMIS_ENABLE_CUDA}>:${CMAKE_SOURCE_DIR}/tests/test_gpu_erasure_coding.cpp>
-        $<$<BOOL:${THEMIS_ENABLE_OFFICE}>:${CMAKE_SOURCE_DIR}/tests/test_office_processor.cpp>
-        ${CMAKE_SOURCE_DIR}/tests/test_stream_protocol_extended.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_cloud_agent.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_pki_shard_certificate.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_mtls_client.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_signed_request.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_shard_communication.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_rebalance_migration.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_monitoring_ops.cpp
-        ${CMAKE_SOURCE_DIR}/tests/update_checker_test.cpp
-        
-        # New feature tests
-        ${CMAKE_SOURCE_DIR}/tests/test_tenant_manager.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_graphql.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_olap.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_olap_extended.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_process_mining_extended.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_async_io_multiscan.cpp  # v1.3.0 Phase 2: Async I/O MultiScan tests
-        
-        # Phase 1 Performance Optimization Tests (from PR #157)
-        ${CMAKE_SOURCE_DIR}/tests/test_performance_feature_flags.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_performance_allocator.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_huge_pages.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_rcu_index.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_lirs_cache.cpp
-        
-        # Phase 2 Performance Optimization Tests (from this PR)
-        ${CMAKE_SOURCE_DIR}/tests/test_phase2_optimizations.cpp
-        
-        # Protocol tests (conditional based on build flags)
-        $<$<BOOL:${THEMIS_ENABLE_HTTP2}>:tests/test_http2_protocol.cpp>
-        $<$<BOOL:${THEMIS_ENABLE_HTTP2}>:tests/test_http2_server_push.cpp>
-        $<$<BOOL:${THEMIS_ENABLE_HTTP3}>:tests/test_http3_protocol.cpp>
-        $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:tests/test_websocket_cdc.cpp>
-        $<$<BOOL:${THEMIS_ENABLE_MQTT}>:tests/test_mqtt_protocol.cpp>
-        $<$<BOOL:${THEMIS_ENABLE_POSTGRES_WIRE}>:tests/test_postgres_wire.cpp>
-        $<$<BOOL:${THEMIS_ENABLE_MCP}>:tests/test_mcp_protocol.cpp>
-        
-        # Vector encryption integration tests
-        ${CMAKE_SOURCE_DIR}/tests/test_vector_encryption_integration.cpp
-        
-        # LLM plugin tests (v1.3.0+) are added conditionally below
-    )
-    
-    target_link_libraries(themis_tests
-        PRIVATE
-            themis_core
-            GTest::gtest
-            GTest::gtest_main
-            Boost::system
-    )
+    add_subdirectory(${THEMIS_ROOT_DIR}/tests tests)
 
     # Leichtgewichtiger Test-Target: Nur SecondaryIndex-Tests
     add_executable(themis_secidx_tests
-        ${CMAKE_SOURCE_DIR}/tests/test_secondary_index.cpp
+        ${THEMIS_ROOT_DIR}/tests/test_secondary_index.cpp
     )
     target_link_libraries(themis_secidx_tests
         PRIVATE
@@ -2218,12 +4120,27 @@ if(THEMIS_BUILD_TESTS)
         CONFIGURATIONS Release Debug
     )
 
+    # Sync runtime DLLs next to the secidx test binary so CTest discovery
+    # can resolve them without a manual PATH adjustment.
+    if(WIN32)
+        add_custom_command(TARGET themis_secidx_tests POST_BUILD
+            COMMAND ${CMAKE_COMMAND}
+                    -D "BIN_DIR=${CMAKE_BINARY_DIR}/bin"
+                -D "DST_DIR=$<TARGET_FILE_DIR:themis_secidx_tests>"
+                -P "${THEMIS_ROOT_DIR}/cmake/CopyRuntimeDlls.cmake"
+            COMMENT "Syncing runtime DLLs for themis_secidx_tests"
+            VERBATIM
+        )
+    endif()
+
     # CRITICAL TESTS ONLY (for fast validation)
     add_executable(themis_tests_critical
-        ${CMAKE_SOURCE_DIR}/tests/test_lib_rocksdb_integration.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_lib_hnsw_integration.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_lib_boost_integration.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_secondary_index.cpp
+        ${THEMIS_ROOT_DIR}/tests/test_lib_rocksdb_integration.cpp
+        ${THEMIS_ROOT_DIR}/tests/test_lib_hnsw_integration.cpp
+        ${THEMIS_ROOT_DIR}/tests/test_lib_boost_integration.cpp
+        ${THEMIS_ROOT_DIR}/tests/test_secondary_index.cpp
+        ${THEMIS_ROOT_DIR}/tests/test_thread_pool_manager.cpp
+        ${THEMIS_ROOT_DIR}/tests/test_batch_write_optimizer.cpp
     )
     target_link_libraries(themis_tests_critical
         PRIVATE
@@ -2242,47 +4159,44 @@ if(THEMIS_BUILD_TESTS)
 
     # Conditionally add LLM tests only when LLM is enabled
     if(THEMIS_ENABLE_LLM)
-        target_sources(themis_tests PRIVATE
-            ${CMAKE_SOURCE_DIR}/tests/test_llm_plugin.cpp
-            ${CMAKE_SOURCE_DIR}/tests/test_llamacpp_integration.cpp
-            ${CMAKE_SOURCE_DIR}/tests/test_llm_caching.cpp
-            ${CMAKE_SOURCE_DIR}/tests/test_kv_cache_buffer.cpp
-            ${CMAKE_SOURCE_DIR}/tests/test_llm_response_cache.cpp
-            ${CMAKE_SOURCE_DIR}/tests/test_paged_attention.cpp
-            ${CMAKE_SOURCE_DIR}/tests/test_continuous_batch_scheduler.cpp
-            ${CMAKE_SOURCE_DIR}/tests/test_production_validator.cpp  # P1 Enterprise: Production validation tests
-            ${CMAKE_SOURCE_DIR}/tests/test_llm_grafana_metrics.cpp   # P1 Enterprise: Grafana metrics integration tests
-            ${CMAKE_SOURCE_DIR}/tests/test_llm_response_cache_metrics.cpp  # P1 Enterprise: Response cache metrics tests
-        )
-
-        # P1: Enhanced inference engine tests
-        target_sources(themis_tests PRIVATE
-            ${CMAKE_SOURCE_DIR}/tests/test_inference_engine_enhanced.cpp
-        )
+        # LLM tests are now handled in tests/CMakeLists.txt via file(GLOB_RECURSE)
 
         # Lightweight LLM-only test target to avoid unrelated suite breakages
-        add_executable(themis_llm_tests
-            ${CMAKE_SOURCE_DIR}/tests/test_llamacpp_integration.cpp
-        )
-        target_link_libraries(themis_llm_tests
-            PRIVATE
-                themis_core
-                GTest::gtest
-                GTest::gtest_main
-                Boost::system
-        )
-            include(GoogleTest)
-        gtest_discover_tests(themis_llm_tests
-            DISCOVERY_MODE PRE_TEST
-            WORKING_DIRECTORY $<TARGET_FILE_DIR:themis_llm_tests>
-            EXTRA_ARGS --gtest_color=yes
-            CONFIGURATIONS Release Debug
-        )
+        # Disabled: test_llamacpp_integration.cpp does not exist
+        # add_executable(themis_llm_tests
+        #     ${THEMIS_ROOT_DIR}/tests/test_llamacpp_integration.cpp
+        # )
+        # target_link_libraries(themis_llm_tests
+        #     PRIVATE
+        #         themis_core
+        #         GTest::gtest
+        #         GTest::gtest_main
+        #         Boost::system
+        # )
+        # if(TARGET llama)
+        #     add_custom_command(TARGET themis_llm_tests POST_BUILD
+        #         COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        #                 $<TARGET_FILE:llama>
+        #                 $<TARGET_FILE_DIR:themis_llm_tests>
+        #     )
+        #     add_custom_command(TARGET themis_llm_tests POST_BUILD
+        #         COMMAND ${CMAKE_COMMAND} -E copy_directory
+        #                 $<TARGET_FILE_DIR:llama>
+        #                 $<TARGET_FILE_DIR:themis_llm_tests>
+        #     )
+        # endif()
+        # include(GoogleTest)
+        # gtest_discover_tests(themis_llm_tests
+        #     DISCOVERY_MODE PRE_TEST
+        #     WORKING_DIRECTORY $<TARGET_FILE_DIR:themis_llm_tests>
+        #     EXTRA_ARGS --gtest_color=yes
+        #     CONFIGURATIONS Release Debug
+        # )
         
         # Phase 1 Feature Tests (Flash Attention, KV-Cache Reuse, Embeddings)
         # Flash Attention Tests
         add_executable(test_phase1_flash_attention
-            ${CMAKE_SOURCE_DIR}/tests/test_phase1_flash_attention.cpp
+            ${THEMIS_ROOT_DIR}/tests/test_phase1_flash_attention.cpp
         )
         target_link_libraries(test_phase1_flash_attention
             PRIVATE
@@ -2299,7 +4213,7 @@ if(THEMIS_BUILD_TESTS)
         
         # KV-Cache Reuse Tests
         add_executable(test_phase1_kv_cache_reuse
-            ${CMAKE_SOURCE_DIR}/tests/test_phase1_kv_cache_reuse.cpp
+            ${THEMIS_ROOT_DIR}/tests/test_phase1_kv_cache_reuse.cpp
         )
         target_link_libraries(test_phase1_kv_cache_reuse
             PRIVATE
@@ -2315,30 +4229,298 @@ if(THEMIS_BUILD_TESTS)
         )
     endif()
 
-    # Discover individual GoogleTest tests for better CTest integration
-    include(GoogleTest)
-    # On multi-config generators (MSVC), ensure correct working dir for runtime assets
-    if(CMAKE_CONFIGURATION_TYPES)
-        set(_gtest_workdir "$<TARGET_FILE_DIR:themis_tests>")
-    else()
-        set(_gtest_workdir ${CMAKE_CURRENT_BINARY_DIR})
+    # Note: themis_tests discovery is now handled in tests/CMakeLists.txt
+    
+    # ScaNN / DiskANN alternative ANN index tests (Issue #1865/#1876)
+    # ScaNN is pure C++ – always build when tests are enabled
+    add_executable(test_ann_index
+        ${THEMIS_ROOT_DIR}/tests/index/test_ann_index.cpp
+    )
+    target_link_libraries(test_ann_index
+        PRIVATE
+            themis_core
+            GTest::gtest
+            GTest::gtest_main
+    )
+    if(THEMIS_ENABLE_DISKANN)
+        target_compile_definitions(test_ann_index PRIVATE THEMIS_ENABLE_DISKANN)
     endif()
-    gtest_discover_tests(themis_tests
+    gtest_discover_tests(test_ann_index
         DISCOVERY_MODE PRE_TEST
-        WORKING_DIRECTORY ${_gtest_workdir}
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_ann_index>
         EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
     )
 
-    # Note: Do not add an aggregate test that runs the entire suite again.
-    # gtest_discover_tests already registers each test case with CTest. Adding
-    # an extra `add_test(NAME ThemisTests COMMAND themis_tests ...)` would run
-    # the full suite a second time and can make CI appear to hang on the last
-    # test (previously "Test #619: ThemisTests").
-    
+    # ── New feature tests ────────────────────────────────────────────────────
+
+    # Erasure Coding Backend Tests (v1.7.0 – Issue #207)
+    add_executable(test_erasure_coding_backend
+        ${THEMIS_ROOT_DIR}/tests/test_erasure_coding_backend.cpp
+    )
+    target_link_libraries(test_erasure_coding_backend
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(test_erasure_coding_backend
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_erasure_coding_backend>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+        PROPERTIES
+            LABELS "storage;erasure-coding;blob;reed-solomon;unit"
+            TIMEOUT 60
+    )
+
+    add_executable(test_search_highlighter
+        ${THEMIS_ROOT_DIR}/tests/test_search_highlighter.cpp
+    )
+    target_link_libraries(test_search_highlighter
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(test_search_highlighter
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_search_highlighter>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+    )
+
+    add_executable(test_distributed_hybrid_search
+        ${THEMIS_ROOT_DIR}/tests/test_distributed_hybrid_search.cpp
+    )
+    target_link_libraries(test_distributed_hybrid_search
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(test_distributed_hybrid_search
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_distributed_hybrid_search>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+    )
+
+    add_executable(test_bitemporal_join
+        ${THEMIS_ROOT_DIR}/tests/test_bitemporal_join.cpp
+    )
+    target_link_libraries(test_bitemporal_join
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(test_bitemporal_join
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_bitemporal_join>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+    )
+
+    # Temporal Snapshot Isolation Tests (v1.1.0 – Issue: Snapshot Isolation)
+    if(EXISTS "${THEMIS_ROOT_DIR}/tests/temporal/test_snapshot_manager.cpp")
+        add_executable(test_temporal_snapshot_manager
+            ${THEMIS_ROOT_DIR}/tests/temporal/test_snapshot_manager.cpp
+            ${THEMIS_ROOT_DIR}/src/temporal/snapshot_manager.cpp
+            ${THEMIS_ROOT_DIR}/src/temporal/system_versioned_table.cpp
+        )
+        target_include_directories(test_temporal_snapshot_manager
+            PRIVATE ${THEMIS_ROOT_DIR}/include
+        )
+        target_link_libraries(test_temporal_snapshot_manager
+            PRIVATE GTest::gtest GTest::gtest_main nlohmann_json::nlohmann_json Threads::Threads
+        )
+        gtest_discover_tests(test_temporal_snapshot_manager
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_temporal_snapshot_manager>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
+            PROPERTIES
+                LABELS "temporal;snapshot;isolation;unit"
+                TIMEOUT 60
+        )
+        message(STATUS "  TemporalSnapshotManager: versioning, GC (TTL + max-count), metadata, isolation")
+    endif()
+
+    if(EXISTS "${THEMIS_ROOT_DIR}/tests/temporal/test_interval_tree_index.cpp")
+        add_executable(test_interval_tree_index
+            ${THEMIS_ROOT_DIR}/tests/temporal/test_interval_tree_index.cpp
+            ${THEMIS_ROOT_DIR}/src/temporal/interval_tree_index.cpp
+        )
+        target_include_directories(test_interval_tree_index
+            PRIVATE ${THEMIS_ROOT_DIR}/include
+        )
+        target_link_libraries(test_interval_tree_index
+            PRIVATE GTest::gtest GTest::gtest_main nlohmann_json::nlohmann_json Threads::Threads
+        )
+        gtest_discover_tests(test_interval_tree_index
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_interval_tree_index>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
+            PROPERTIES
+                LABELS "temporal;interval-tree;unit"
+                TIMEOUT 60
+        )
+        message(STATUS "  IntervalTreeIndex: augmented interval tree, O(log n + k) overlap queries")
+    endif()
+
+    if(EXISTS "${THEMIS_ROOT_DIR}/tests/temporal/test_temporal_compressor.cpp")
+        add_executable(test_temporal_compressor
+            ${THEMIS_ROOT_DIR}/tests/temporal/test_temporal_compressor.cpp
+            ${THEMIS_ROOT_DIR}/src/temporal/temporal_compressor.cpp
+            ${THEMIS_ROOT_DIR}/src/temporal/system_versioned_table.cpp
+        )
+        target_include_directories(test_temporal_compressor
+            PRIVATE ${THEMIS_ROOT_DIR}/include
+        )
+        target_link_libraries(test_temporal_compressor
+            PRIVATE GTest::gtest GTest::gtest_main nlohmann_json::nlohmann_json Threads::Threads
+        )
+        gtest_discover_tests(test_temporal_compressor
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_temporal_compressor>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
+            PROPERTIES
+                LABELS "temporal;compressor;unit"
+                TIMEOUT 60
+        )
+        message(STATUS "  TemporalCompressor: delta/ZSTD/Gorilla/dictionary compression")
+    endif()
+
+    if(EXISTS "${THEMIS_ROOT_DIR}/tests/temporal/test_temporal_cdc.cpp")
+        add_executable(test_temporal_cdc
+            ${THEMIS_ROOT_DIR}/tests/temporal/test_temporal_cdc.cpp
+            ${THEMIS_ROOT_DIR}/src/temporal/temporal_cdc.cpp
+        )
+        target_include_directories(test_temporal_cdc
+            PRIVATE ${THEMIS_ROOT_DIR}/include
+        )
+        target_link_libraries(test_temporal_cdc
+            PRIVATE GTest::gtest GTest::gtest_main nlohmann_json::nlohmann_json Threads::Threads
+        )
+        gtest_discover_tests(test_temporal_cdc
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_temporal_cdc>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
+            PROPERTIES
+                LABELS "temporal;cdc;unit"
+                TIMEOUT 60
+        )
+        message(STATUS "  TemporalCDC: subscribe/publish/replay change data capture")
+    endif()
+
+    add_executable(test_ts_auto_buffer_adaptive
+        ${THEMIS_ROOT_DIR}/tests/test_ts_auto_buffer_adaptive.cpp
+    )
+    target_link_libraries(test_ts_auto_buffer_adaptive
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(test_ts_auto_buffer_adaptive
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_ts_auto_buffer_adaptive>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+    )
+
+    add_executable(test_chunk_level_encryption
+        ${THEMIS_ROOT_DIR}/tests/test_chunk_level_encryption.cpp
+    )
+    target_link_libraries(test_chunk_level_encryption
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(test_chunk_level_encryption
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_chunk_level_encryption>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+        PROPERTIES LABELS "timeseries;encryption;security;integration" TIMEOUT 60
+    )
+
+    if(THEMIS_ENABLE_CUDA)
+        add_executable(test_cuda_hnsw_graph_traversal
+            ${THEMIS_ROOT_DIR}/tests/test_cuda_hnsw_graph_traversal.cpp
+        )
+        target_link_libraries(test_cuda_hnsw_graph_traversal
+            PRIVATE themis_core GTest::gtest GTest::gtest_main
+        )
+        gtest_discover_tests(test_cuda_hnsw_graph_traversal
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_cuda_hnsw_graph_traversal>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
+        )
+
+        add_executable(test_cuda_ann_search
+            ${THEMIS_ROOT_DIR}/tests/test_cuda_ann_search.cpp
+        )
+        target_link_libraries(test_cuda_ann_search
+            PRIVATE themis_core GTest::gtest GTest::gtest_main
+        )
+        gtest_discover_tests(test_cuda_ann_search
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_cuda_ann_search>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
+        )
+    endif()
+
+    add_executable(test_wasm_runtime_injector
+        ${THEMIS_ROOT_DIR}/tests/test_wasm_runtime_injector.cpp
+    )
+    target_link_libraries(test_wasm_runtime_injector
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(test_wasm_runtime_injector
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_wasm_runtime_injector>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+    )
+
+    # WASM Sandbox Injection focused tests (v1.8.0 – Issue #1572)
+    add_executable(WasmSandboxInjectionFocusedTests
+        ${THEMIS_ROOT_DIR}/tests/test_module_sandbox_wasm_injection.cpp
+    )
+    target_link_libraries(WasmSandboxInjectionFocusedTests
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(WasmSandboxInjectionFocusedTests
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:WasmSandboxInjectionFocusedTests>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+    )
+
+    if(THEMIS_ENABLE_VOICE_ASSISTANT)
+        add_executable(test_voice_browser_streaming
+            ${THEMIS_ROOT_DIR}/tests/test_voice_browser_streaming.cpp
+        )
+        target_link_libraries(test_voice_browser_streaming
+            PRIVATE themis_core GTest::gtest GTest::gtest_main
+        )
+        gtest_discover_tests(test_voice_browser_streaming
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_voice_browser_streaming>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
+        )
+
+        add_executable(test_voice_telephony
+            ${THEMIS_ROOT_DIR}/tests/test_voice_telephony.cpp
+        )
+        target_link_libraries(test_voice_telephony
+            PRIVATE themis_core GTest::gtest GTest::gtest_main
+        )
+        gtest_discover_tests(test_voice_telephony
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_voice_telephony>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
+        )
+    endif()
+
+    # ── End new feature tests ─────────────────────────────────────────────────
+
     # Phase 3 Performance Optimization Tests (separate executables)
     if(THEMIS_ENABLE_DISKANN)
         add_executable(test_diskann
-            ${CMAKE_SOURCE_DIR}/tests/performance/phase3/test_diskann.cpp
+            ${THEMIS_ROOT_DIR}/tests/performance/phase3/test_diskann.cpp
         )
         target_link_libraries(test_diskann
             PRIVATE
@@ -2348,14 +4530,14 @@ if(THEMIS_BUILD_TESTS)
         )
         gtest_discover_tests(test_diskann
             DISCOVERY_MODE PRE_TEST
-            WORKING_DIRECTORY ${_gtest_workdir}
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_diskann>
             EXTRA_ARGS --gtest_color=yes
         )
     endif()
     
     if(THEMIS_ENABLE_BWTREE)
         add_executable(test_bwtree
-            ${CMAKE_SOURCE_DIR}/tests/performance/phase3/test_bwtree.cpp
+            ${THEMIS_ROOT_DIR}/tests/performance/phase3/test_bwtree.cpp
         )
         target_link_libraries(test_bwtree
             PRIVATE
@@ -2365,14 +4547,14 @@ if(THEMIS_BUILD_TESTS)
         )
         gtest_discover_tests(test_bwtree
             DISCOVERY_MODE PRE_TEST
-            WORKING_DIRECTORY ${_gtest_workdir}
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_bwtree>
             EXTRA_ARGS --gtest_color=yes
         )
     endif()
     
     if(THEMIS_ENABLE_SPLINTERDB)
         add_executable(test_splinterdb
-            ${CMAKE_SOURCE_DIR}/tests/performance/phase3/test_splinterdb.cpp
+            ${THEMIS_ROOT_DIR}/tests/performance/phase3/test_splinterdb.cpp
         )
         target_link_libraries(test_splinterdb
             PRIVATE
@@ -2382,14 +4564,14 @@ if(THEMIS_BUILD_TESTS)
         )
         gtest_discover_tests(test_splinterdb
             DISCOVERY_MODE PRE_TEST
-            WORKING_DIRECTORY ${_gtest_workdir}
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_splinterdb>
             EXTRA_ARGS --gtest_color=yes
         )
     endif()
     
     if(THEMIS_ENABLE_GUNROCK)
         add_executable(test_gunrock
-            ${CMAKE_SOURCE_DIR}/tests/performance/phase3/test_gunrock.cpp
+            ${THEMIS_ROOT_DIR}/tests/performance/phase3/test_gunrock.cpp
         )
         target_link_libraries(test_gunrock
             PRIVATE
@@ -2399,14 +4581,14 @@ if(THEMIS_BUILD_TESTS)
         )
         gtest_discover_tests(test_gunrock
             DISCOVERY_MODE PRE_TEST
-            WORKING_DIRECTORY ${_gtest_workdir}
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_gunrock>
             EXTRA_ARGS --gtest_color=yes
         )
     endif()
     
     if(THEMIS_ENABLE_BAO)
         add_executable(test_bao
-            ${CMAKE_SOURCE_DIR}/tests/performance/phase3/test_bao.cpp
+            ${THEMIS_ROOT_DIR}/tests/performance/phase3/test_bao.cpp
         )
         target_link_libraries(test_bao
             PRIVATE
@@ -2416,21 +4598,400 @@ if(THEMIS_BUILD_TESTS)
         )
         gtest_discover_tests(test_bao
             DISCOVERY_MODE PRE_TEST
-            WORKING_DIRECTORY ${_gtest_workdir}
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_bao>
             EXTRA_ARGS --gtest_color=yes
+        )
+    endif()
+
+    if(THEMIS_ENABLE_PER_QUERY_COST_MODEL)
+        add_executable(test_per_query_cost_model
+            ${THEMIS_ROOT_DIR}/tests/performance/phase3/test_per_query_cost_model.cpp
+        )
+        target_link_libraries(test_per_query_cost_model
+            PRIVATE
+                themis_core
+                GTest::gtest
+                GTest::gtest_main
+        )
+        gtest_discover_tests(test_per_query_cost_model
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_per_query_cost_model>
+            EXTRA_ARGS --gtest_color=yes
+        )
+    endif()
+
+    # AVX-512 SIMD path for vector distance computations (Phase 3, Issue #1964)
+    add_executable(test_simd_distance
+        ${THEMIS_ROOT_DIR}/tests/performance/phase3/test_simd_distance.cpp
+    )
+    target_link_libraries(test_simd_distance
+        PRIVATE
+            themis_core
+            GTest::gtest
+            GTest::gtest_main
+    )
+    gtest_discover_tests(test_simd_distance
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_simd_distance>
+        EXTRA_ARGS --gtest_color=yes
+    )
+
+    # Memory pressure monitoring with automatic cache eviction (Phase 3)
+    # Tests SystemMemoryPressureMonitor: level classification, callback registration/
+    # unregistration, eviction triggering under simulated high-pressure conditions,
+    # thread lifecycle, and cache-size reduction via eviction callbacks.
+    add_executable(test_memory_pressure
+        ${THEMIS_ROOT_DIR}/tests/performance/phase3/test_memory_pressure.cpp
+    )
+    target_link_libraries(test_memory_pressure
+        PRIVATE
+            themis_core
+            GTest::gtest
+            GTest::gtest_main
+    )
+    gtest_discover_tests(test_memory_pressure
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_memory_pressure>
+        EXTRA_ARGS --gtest_color=yes
+    )
+
+    # Phase 4 Performance Optimization Tests (separate executables)
+    if(THEMIS_ENABLE_PMEM)
+        add_executable(test_pmem_storage
+            ${THEMIS_ROOT_DIR}/tests/performance/phase4/test_pmem_storage.cpp
+        )
+        target_link_libraries(test_pmem_storage
+            PRIVATE
+                themis_core
+                GTest::gtest
+                GTest::gtest_main
+        )
+        gtest_discover_tests(test_pmem_storage
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_pmem_storage>
+            EXTRA_ARGS --gtest_color=yes
+        )
+    endif()
+
+    # PMU counter tests (Phase 4 – cache miss analysis, Issue #2422)
+    if(THEMIS_ENABLE_PMU_COUNTERS)
+        add_executable(test_pmu_counters
+            ${THEMIS_ROOT_DIR}/tests/performance/phase4/test_pmu_counters.cpp
+        )
+        target_link_libraries(test_pmu_counters
+            PRIVATE
+                themis_core
+                GTest::gtest
+                GTest::gtest_main
+        )
+        gtest_discover_tests(test_pmu_counters
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_pmu_counters>
+            EXTRA_ARGS --gtest_color=yes
+        )
+    endif()
+
+    # ML-based workload predictor tests (Phase 4)
+    add_executable(test_workload_predictor
+        ${THEMIS_ROOT_DIR}/tests/performance/test_workload_predictor.cpp
+    )
+    target_link_libraries(test_workload_predictor
+        PRIVATE
+            themis_core
+            GTest::gtest
+            GTest::gtest_main
+    )
+    gtest_discover_tests(test_workload_predictor
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_workload_predictor>
+        EXTRA_ARGS --gtest_color=yes
+    )
+
+    # RaBitQ ProductQuantizer k-means tests
+    if(THEMIS_ENABLE_RABITQ)
+        add_executable(test_rabitq_product_quantizer
+            ${THEMIS_ROOT_DIR}/tests/performance/test_rabitq_product_quantizer.cpp
+        )
+        target_link_libraries(test_rabitq_product_quantizer
+            PRIVATE
+                themis_core
+                GTest::gtest
+                GTest::gtest_main
+        )
+        gtest_discover_tests(test_rabitq_product_quantizer
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_rabitq_product_quantizer>
+            EXTRA_ARGS --gtest_color=yes
+        )
+    endif()
+
+    # Cicada OCC data-install and transaction-protocol tests
+    if(THEMIS_ENABLE_CICADA)
+        add_executable(test_cicada
+            ${THEMIS_ROOT_DIR}/tests/performance/test_cicada.cpp
+        )
+        target_link_libraries(test_cicada
+            PRIVATE
+                themis_core
+                GTest::gtest
+                GTest::gtest_main
+        )
+        gtest_discover_tests(test_cicada
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_cicada>
+            EXTRA_ARGS --gtest_color=yes
+        )
+    endif()
+
+    # Cycle metrics tests (Phase 1 – hardware cycle counter accuracy, Issue #2425)
+    add_executable(test_cycle_metrics
+        ${THEMIS_ROOT_DIR}/tests/performance/test_cycle_metrics.cpp
+    )
+    target_link_libraries(test_cycle_metrics
+        PRIVATE
+            themis_core
+            GTest::gtest
+            GTest::gtest_main
+    )
+    gtest_discover_tests(test_cycle_metrics
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_cycle_metrics>
+        EXTRA_ARGS --gtest_color=yes
+    )
+
+    # NUMA topology tests (Phase 2 – topology detection and thread pinning, Issue #2426)
+    add_executable(test_numa_topology
+        ${THEMIS_ROOT_DIR}/tests/performance/test_numa_topology.cpp
+    )
+    target_link_libraries(test_numa_topology
+        PRIVATE
+            themis_core
+            GTest::gtest
+            GTest::gtest_main
+    )
+    gtest_discover_tests(test_numa_topology
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_numa_topology>
+        EXTRA_ARGS --gtest_color=yes
+    )
+
+    # Wire protocol performance benchmark tests
+    add_executable(test_wire_perf_benchmark
+        ${THEMIS_ROOT_DIR}/tests/performance/test_wire_perf_benchmark.cpp
+    )
+    target_link_libraries(test_wire_perf_benchmark
+        PRIVATE
+            themis_core
+            GTest::gtest
+            GTest::gtest_main
+    )
+    gtest_discover_tests(test_wire_perf_benchmark
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_wire_perf_benchmark>
+        EXTRA_ARGS --gtest_color=yes
+    )
+
+    # Adaptive batch size tuner tests (Phase 3 – LLM inference batch tuning, Issue #1996)
+    add_executable(test_adaptive_batch_tuner
+        ${THEMIS_ROOT_DIR}/tests/performance/phase3/test_adaptive_batch_tuner.cpp
+    )
+    target_link_libraries(test_adaptive_batch_tuner
+        PRIVATE
+            themis_core
+            GTest::gtest
+            GTest::gtest_main
+    )
+    gtest_discover_tests(test_adaptive_batch_tuner
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_adaptive_batch_tuner>
+        EXTRA_ARGS --gtest_color=yes
+    )
+
+    # io_uring zero-copy I/O tests (Phase 4 – DPDK/io_uring network path, Issue #2217)
+    if(THEMIS_ENABLE_IO_URING)
+        add_executable(test_io_uring_zero_copy
+            ${THEMIS_ROOT_DIR}/tests/performance/phase4/test_io_uring_zero_copy.cpp
+        ${THEMIS_ROOT_DIR}/src/performance/phase4/io_uring_zero_copy.cpp
+        )
+        target_link_libraries(test_io_uring_zero_copy
+            PRIVATE
+                themis_core
+                GTest::gtest
+                GTest::gtest_main
+        )
+        gtest_discover_tests(test_io_uring_zero_copy
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_io_uring_zero_copy>
+            EXTRA_ARGS --gtest_color=yes
+        )
+    endif()
+
+    # GPU Graph Cache, Query Accelerator, and Stream Manager Tests
+    # (Issue: #1801 — CUDA graph capture for recurring query execution patterns)
+    if(THEMIS_ENABLE_GPU)
+        add_executable(test_gpu_graph_cache
+            ${THEMIS_ROOT_DIR}/tests/test_gpu_graph_cache.cpp
+        )
+        target_link_libraries(test_gpu_graph_cache
+            PRIVATE
+                themis_core
+                GTest::gtest
+                GTest::gtest_main
+        )
+        gtest_discover_tests(test_gpu_graph_cache
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_gpu_graph_cache>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
+        )
+
+        add_executable(test_gpu_query_accelerator
+            ${THEMIS_ROOT_DIR}/tests/test_gpu_query_accelerator.cpp
+        )
+        target_link_libraries(test_gpu_query_accelerator
+            PRIVATE
+                themis_core
+                GTest::gtest
+                GTest::gtest_main
+        )
+        gtest_discover_tests(test_gpu_query_accelerator
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_gpu_query_accelerator>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
+        )
+
+        add_executable(test_gpu_stream_manager
+            ${THEMIS_ROOT_DIR}/tests/test_gpu_stream_manager.cpp
+        )
+        target_link_libraries(test_gpu_stream_manager
+            PRIVATE
+                themis_core
+                GTest::gtest
+                GTest::gtest_main
+        )
+        gtest_discover_tests(test_gpu_stream_manager
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_gpu_stream_manager>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
+        )
+    endif() # THEMIS_ENABLE_GPU
+
+    # -----------------------------------------------------------------------
+    # GPU Module Focused Test Targets
+    # Each target exercises one GPU subsystem in isolation.  All paths use
+    # CPU-side bookkeeping so no GPU hardware is required.
+    # -----------------------------------------------------------------------
+    if(THEMIS_ENABLE_GPU)
+        # Helper macro to reduce boilerplate
+        macro(_themis_gpu_test _name)
+            add_executable(${_name}
+                ${THEMIS_ROOT_DIR}/tests/${_name}.cpp
+            )
+            target_link_libraries(${_name}
+                PRIVATE
+                    themis_core
+                    GTest::gtest
+                    GTest::gtest_main
+            )
+            gtest_discover_tests(${_name}
+                DISCOVERY_MODE PRE_TEST
+                WORKING_DIRECTORY $<TARGET_FILE_DIR:${_name}>
+                EXTRA_ARGS --gtest_color=yes
+                CONFIGURATIONS Release Debug
+            )
+        endmacro()
+
+        _themis_gpu_test(test_gpu_admin_api)
+        _themis_gpu_test(test_gpu_alerts)
+        _themis_gpu_test(test_gpu_audit_log)
+        _themis_gpu_test(test_gpu_config)
+        _themis_gpu_test(test_gpu_device_discovery)
+        _themis_gpu_test(test_gpu_feature_flags)
+        _themis_gpu_test(test_gpu_kernel_validator)
+        _themis_gpu_test(test_gpu_launcher)
+        _themis_gpu_test(test_gpu_memory_management)
+        _themis_gpu_test(test_gpu_module)
+        _themis_gpu_test(test_gpu_olap_accelerator)
+        _themis_gpu_test(test_gpu_policy)
+        _themis_gpu_test(test_gpu_safe_fail)
+        _themis_gpu_test(test_gpu_safe_fail_module)
+        _themis_gpu_test(test_gpu_stubs_comprehensive)
+        _themis_gpu_test(test_gpu_tensor)
+        _themis_gpu_test(test_gpu_training_loop)
+        _themis_gpu_test(test_gpu_vram_allocation)
+    endif() # THEMIS_ENABLE_GPU (focused GPU module targets)
+
+    # GPU Vector Index Test
+    if(THEMIS_ENABLE_GPU AND THEMIS_ENABLE_VECTOR_SEARCH)
+        add_executable(test_gpu_vector_index
+            ${THEMIS_ROOT_DIR}/tests/test_gpu_vector_index.cpp
+        )
+        target_link_libraries(test_gpu_vector_index
+            PRIVATE
+                themis_core
+                GTest::gtest
+                GTest::gtest_main
+        )
+        gtest_discover_tests(test_gpu_vector_index
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_gpu_vector_index>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
+        )
+        
+        # Multi-GPU Vector Index Test
+        add_executable(test_multi_gpu_vector_index
+            ${THEMIS_ROOT_DIR}/tests/test_multi_gpu_vector_index.cpp
+        )
+        target_link_libraries(test_multi_gpu_vector_index
+            PRIVATE
+                themis_core
+                GTest::gtest
+                GTest::gtest_main
+        )
+        gtest_discover_tests(test_multi_gpu_vector_index
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_multi_gpu_vector_index>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
+        )
+        
+        # NCCL/RCCL Collective Backends Test (v2.5+)
+        add_executable(test_collective_backends
+            ${THEMIS_ROOT_DIR}/tests/test_collective_backends.cpp
+        )
+        target_link_libraries(test_collective_backends
+            PRIVATE
+                themis_core
+                GTest::gtest
+        )
+        gtest_discover_tests(test_collective_backends
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_collective_backends>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
         )
     endif()
 endif()
 
-# Benchmarks
-option(THEMIS_BUILD_DOCKER_RAID_BENCHMARK "Build Docker RAID comprehensive benchmark" OFF)
+# ============================================================================
+# BENCHMARKS: Now managed via benchmarks/CMakeLists.txt (included via add_subdirectory)
+# ============================================================================
+# Previous benchmark definitions have been moved to the dedicated benchmarks/
+# subdirectory. All benchmark targets should be defined in benchmarks/CMakeLists.txt
+# to avoid duplicate target errors. The benchmarks are included via:
+#   add_subdirectory(benchmarks)
+# ============================================================================
+if(THEMIS_BUILD_BENCHMARKS AND EXISTS "${THEMIS_ROOT_DIR}/benchmarks/CMakeLists.txt")
+    add_subdirectory(${THEMIS_ROOT_DIR}/benchmarks benchmarks)
+    message(STATUS "Benchmarks enabled – including benchmarks/CMakeLists.txt")
+endif()
+if(FALSE)  # Disabled - benchmarks now defined in benchmarks/CMakeLists.txt
 
-if(THEMIS_BUILD_BENCHMARKS)
-    find_package(benchmark CONFIG REQUIRED)
-    
-    # Modern performance benchmarks (all core areas)
     add_executable(bench_core_performance
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_core_performance.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_core_performance.cpp
     )
     
     target_link_libraries(bench_core_performance
@@ -2442,7 +5003,7 @@ if(THEMIS_BUILD_BENCHMARKS)
     
     # Comprehensive benchmark suite (simple/complex, LLM, AQL, binary, stress tests)
     add_executable(bench_comprehensive
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_comprehensive.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_comprehensive.cpp
     )
     
     target_link_libraries(bench_comprehensive
@@ -2452,20 +5013,10 @@ if(THEMIS_BUILD_BENCHMARKS)
             benchmark::benchmark_main
     )
     
-    # Advanced patterns: Read/Write ratios, Parallelity, Self-Protection, Best-Practices, Gap-Analysis
-    add_executable(bench_advanced_patterns
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_advanced_patterns.cpp
-    )
-    
-    target_link_libraries(bench_advanced_patterns
-        PRIVATE
-            themis_core
-            benchmark::benchmark
-            benchmark::benchmark_main
-    )
+    # Note: bench_advanced_patterns is now defined in benchmarks/CMakeLists.txt
 
     add_executable(bench_hotspots_micro
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_hotspots_micro.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_hotspots_micro.cpp
     )
 
     target_link_libraries(bench_hotspots_micro
@@ -2476,7 +5027,7 @@ if(THEMIS_BUILD_BENCHMARKS)
     )
 
     add_executable(bench_lock_contention
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_lock_contention.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_lock_contention.cpp
     )
     target_link_libraries(bench_lock_contention
         PRIVATE
@@ -2486,7 +5037,7 @@ if(THEMIS_BUILD_BENCHMARKS)
     )
 
     add_executable(bench_wal_stress
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_wal_stress.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_wal_stress.cpp
     )
     target_link_libraries(bench_wal_stress
         PRIVATE
@@ -2496,11 +5047,16 @@ if(THEMIS_BUILD_BENCHMARKS)
     )
     
     add_executable(themis_benchmarks
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_crud.cpp
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_query.cpp
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_vector_search.cpp
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_wal_apply_grpc.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_crud.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_query.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_vector_search.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_wal_apply_grpc.cpp
     )
+
+    # Many legacy benchmark sources embed their own BENCHMARK_MAIN / int main().
+    # Linking them all into the unified themis_benchmarks target produced duplicate
+    # entry points on MSVC. Until those files are refactored to be main-free, keep
+    # the unified binary minimal to avoid linker collisions.
     
     target_link_libraries(themis_benchmarks
         PRIVATE
@@ -2508,10 +5064,22 @@ if(THEMIS_BUILD_BENCHMARKS)
             benchmark::benchmark
             benchmark::benchmark_main
     )
+    if(TARGET llama)
+        add_custom_command(TARGET themis_benchmarks POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                    $<TARGET_FILE:llama>
+                    $<TARGET_FILE_DIR:themis_benchmarks>
+        )
+        add_custom_command(TARGET themis_benchmarks POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_directory
+                    $<TARGET_FILE_DIR:llama>
+                    $<TARGET_FILE_DIR:themis_benchmarks>
+        )
+    endif()
     
     # Compression benchmark (standalone)
     add_executable(bench_compression
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_compression.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_compression.cpp
     )
     
     target_link_libraries(bench_compression
@@ -2522,7 +5090,7 @@ if(THEMIS_BUILD_BENCHMARKS)
     
     # Index rebuild benchmark (standalone)
     add_executable(bench_index_rebuild
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_index_rebuild.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_index_rebuild.cpp
     )
     
     target_link_libraries(bench_index_rebuild
@@ -2533,7 +5101,7 @@ if(THEMIS_BUILD_BENCHMARKS)
     
     # MVCC performance benchmark (standalone)
     add_executable(bench_mvcc
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_mvcc.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_mvcc.cpp
     )
     
     target_link_libraries(bench_mvcc
@@ -2545,7 +5113,7 @@ if(THEMIS_BUILD_BENCHMARKS)
 
     # Encryption performance benchmark (standalone)
     add_executable(bench_encryption
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_encryption.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_encryption.cpp
     )
     
     target_link_libraries(bench_encryption
@@ -2557,7 +5125,7 @@ if(THEMIS_BUILD_BENCHMARKS)
 
     # OLAP Analytics benchmark (v1.3.0 Phase 2)
     add_executable(bench_olap_analytics
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_olap_analytics.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_olap_analytics.cpp
     )
     
     target_link_libraries(bench_olap_analytics
@@ -2569,7 +5137,7 @@ if(THEMIS_BUILD_BENCHMARKS)
 
     # Video Processor benchmark (v1.3.0 Phase 2)
     add_executable(bench_video_processor
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_video_processor.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_video_processor.cpp
     )
     
     target_link_libraries(bench_video_processor
@@ -2581,7 +5149,7 @@ if(THEMIS_BUILD_BENCHMARKS)
 
     # Stream Protocol benchmark (v1.3.0 Phase 2)
     add_executable(bench_stream_protocol
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_stream_protocol.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_stream_protocol.cpp
     )
     
     target_link_libraries(bench_stream_protocol
@@ -2593,7 +5161,7 @@ if(THEMIS_BUILD_BENCHMARKS)
 
     # Process Mining benchmark (v1.3.0 Phase 2)
     add_executable(bench_process_mining
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_process_mining.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_process_mining.cpp
     )
     
     target_link_libraries(bench_process_mining
@@ -2605,7 +5173,7 @@ if(THEMIS_BUILD_BENCHMARKS)
 
     # Async I/O MultiScan benchmark (v1.3.0 Phase 2)
     add_executable(bench_async_io_multiscan
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_async_io_multiscan.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_async_io_multiscan.cpp
     )
     
     target_link_libraries(bench_async_io_multiscan
@@ -2617,7 +5185,7 @@ if(THEMIS_BUILD_BENCHMARKS)
 
     # Hybrid AQL Syntax Sugar benchmark (Phase 2.5)
     add_executable(bench_hybrid_aql_sugar
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_hybrid_aql_sugar.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_hybrid_aql_sugar.cpp
     )
     
     target_link_libraries(bench_hybrid_aql_sugar
@@ -2628,7 +5196,7 @@ if(THEMIS_BUILD_BENCHMARKS)
 
     # HSM Provider performance benchmark (standalone)
     add_executable(bench_hsm_provider
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_hsm_provider.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_hsm_provider.cpp
     )
     
     target_link_libraries(bench_hsm_provider
@@ -2642,7 +5210,7 @@ if(THEMIS_BUILD_BENCHMARKS)
 
     # Shard Routing benchmark
     add_executable(bench_shard_routing
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_shard_routing.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_shard_routing.cpp
     )
     
     target_link_libraries(bench_shard_routing
@@ -2654,7 +5222,7 @@ if(THEMIS_BUILD_BENCHMARKS)
 
     # Transaction Throughput benchmark
     add_executable(bench_transaction_throughput
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_transaction_throughput.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_transaction_throughput.cpp
     )
     
     target_link_libraries(bench_transaction_throughput
@@ -2666,7 +5234,7 @@ if(THEMIS_BUILD_BENCHMARKS)
 
     # Changefeed Throughput benchmark
     add_executable(bench_changefeed_throughput
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_changefeed_throughput.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_changefeed_throughput.cpp
     )
     
     target_link_libraries(bench_changefeed_throughput
@@ -2678,7 +5246,7 @@ if(THEMIS_BUILD_BENCHMARKS)
 
     # Timeseries Ingestion benchmark
     add_executable(bench_timeseries_ingestion
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_timeseries_ingestion.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_timeseries_ingestion.cpp
     )
     
     target_link_libraries(bench_timeseries_ingestion
@@ -2688,9 +5256,21 @@ if(THEMIS_BUILD_BENCHMARKS)
             benchmark::benchmark_main
     )
 
+    # Ingestion Key-Value throughput benchmark (Issue #1911 – docs/sec, MB/sec)
+    add_executable(bench_ingestion_kv
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_ingestion_kv.cpp
+    )
+
+    target_link_libraries(bench_ingestion_kv
+        PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+    )
+
     # SAGA Compensation benchmark
     add_executable(bench_saga_compensation
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_saga_compensation.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_saga_compensation.cpp
     )
     
     target_link_libraries(bench_saga_compensation
@@ -2704,7 +5284,7 @@ if(THEMIS_BUILD_BENCHMARKS)
     
     # Flash Attention Benchmark
     add_executable(bench_phase1_flash_attention
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_phase1_flash_attention.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_phase1_flash_attention.cpp
     )
     
     target_link_libraries(bench_phase1_flash_attention
@@ -2718,7 +5298,7 @@ if(THEMIS_BUILD_BENCHMARKS)
 
     # Graph Traversal benchmark
     add_executable(bench_graph_traversal
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_graph_traversal.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_graph_traversal.cpp
     )
     
     target_link_libraries(bench_graph_traversal
@@ -2727,10 +5307,22 @@ if(THEMIS_BUILD_BENCHMARKS)
             benchmark::benchmark
             benchmark::benchmark_main
     )
+    
+    # Graph Query Optimizer benchmark
+    add_executable(bench_graph_query_optimizer
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_graph_query_optimizer.cpp
+    )
+    
+    target_link_libraries(bench_graph_query_optimizer
+        PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+    )
 
     # PageRank benchmark
     add_executable(bench_pagerank
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_pagerank.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_pagerank.cpp
     )
     
     target_link_libraries(bench_pagerank
@@ -2742,7 +5334,7 @@ if(THEMIS_BUILD_BENCHMARKS)
 
     # GPU Backends benchmark
     add_executable(bench_gpu_backends
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_gpu_backends.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_gpu_backends.cpp
     )
     
     target_link_libraries(bench_gpu_backends
@@ -2751,10 +5343,34 @@ if(THEMIS_BUILD_BENCHMARKS)
             benchmark::benchmark
             benchmark::benchmark_main
     )
+    
+    # GPU Vector Index benchmark
+    if(THEMIS_ENABLE_GPU AND THEMIS_ENABLE_VECTOR_SEARCH)
+        add_executable(bench_gpu_vector_index
+            ${THEMIS_ROOT_DIR}/benchmarks/bench_gpu_vector_index.cpp
+        )
+        
+        target_link_libraries(bench_gpu_vector_index
+            PRIVATE
+                themis_core
+                benchmark::benchmark
+                benchmark::benchmark_main
+        )
+        
+        # Multi-GPU Vector Index example (also works as benchmark)
+        add_executable(multi_gpu_vector_index_example
+            ${THEMIS_ROOT_DIR}/examples/multi_gpu_vector_index_example.cpp
+        )
+        
+        target_link_libraries(multi_gpu_vector_index_example
+            PRIVATE
+                themis_core
+        )
+    endif()
 
     # GNN Embeddings benchmark
     add_executable(bench_gnn_embeddings
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_gnn_embeddings.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_gnn_embeddings.cpp
     )
     
     target_link_libraries(bench_gnn_embeddings
@@ -2766,7 +5382,7 @@ if(THEMIS_BUILD_BENCHMARKS)
     
     # Phase 3: Content Management & Governance Benchmarks
     add_executable(bench_content_versioning
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_content_versioning.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_content_versioning.cpp
     )
     
     target_link_libraries(bench_content_versioning
@@ -2777,7 +5393,7 @@ if(THEMIS_BUILD_BENCHMARKS)
     )
     
     add_executable(bench_text_extraction
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_text_extraction.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_text_extraction.cpp
     )
     
     target_link_libraries(bench_text_extraction
@@ -2788,7 +5404,7 @@ if(THEMIS_BUILD_BENCHMARKS)
     )
     
     add_executable(bench_image_analysis
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_image_analysis.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_image_analysis.cpp
     )
     
     target_link_libraries(bench_image_analysis
@@ -2799,7 +5415,7 @@ if(THEMIS_BUILD_BENCHMARKS)
     )
     
     add_executable(bench_image_analysis_latency
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_image_analysis_latency.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_image_analysis_latency.cpp
     )
     
     target_link_libraries(bench_image_analysis_latency
@@ -2810,7 +5426,7 @@ if(THEMIS_BUILD_BENCHMARKS)
     )
     
     add_executable(bench_policy_evaluation
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_policy_evaluation.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_policy_evaluation.cpp
     )
     
     target_link_libraries(bench_policy_evaluation
@@ -2822,7 +5438,7 @@ if(THEMIS_BUILD_BENCHMARKS)
     
     # Image Analysis Plugin Benchmark
     add_executable(benchmark_image_analysis
-        ${CMAKE_SOURCE_DIR}/benchmarks/benchmark_image_analysis.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/benchmark_image_analysis.cpp
     )
     
     target_link_libraries(benchmark_image_analysis
@@ -2835,7 +5451,7 @@ if(THEMIS_BUILD_BENCHMARKS)
     # Scientific Standard Benchmarks (Phase 2-4)
     # TPC-C: OLTP benchmark (Transaction Processing Council Standard)
     add_executable(bench_tpcc
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_tpcc.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_tpcc.cpp
     )
     
     target_link_libraries(bench_tpcc
@@ -2847,7 +5463,7 @@ if(THEMIS_BUILD_BENCHMARKS)
 
     # YCSB: Yahoo Cloud Serving Benchmark (Workloads A-F)
     add_executable(bench_ycsb
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_ycsb.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_ycsb.cpp
     )
     
     target_link_libraries(bench_ycsb
@@ -2859,7 +5475,7 @@ if(THEMIS_BUILD_BENCHMARKS)
 
     # MMDB-E: Multi-Modal Database Benchmark with Embeddings (Industry-First)
     add_executable(bench_mmdb
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_mmdb.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_mmdb.cpp
     )
     
     target_link_libraries(bench_mmdb
@@ -2871,7 +5487,7 @@ if(THEMIS_BUILD_BENCHMARKS)
 
     # TPC-H: Decision Support (OLAP) Benchmark - 22 Analytical Queries
     add_executable(bench_tpch
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_tpch.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_tpch.cpp
     )
     
     target_link_libraries(bench_tpch
@@ -2885,147 +5501,224 @@ if(THEMIS_BUILD_BENCHMARKS)
     
     # AQL Functions Benchmark
     add_executable(bench_aql_functions
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_aql_functions.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_aql_functions.cpp
     )
     target_link_libraries(bench_aql_functions PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
 
     # ARM Memory Benchmark
     add_executable(bench_arm_memory
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_arm_memory.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_arm_memory.cpp
     )
     target_link_libraries(bench_arm_memory PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
 
     # ARM SIMD Benchmark
     add_executable(bench_arm_simd
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_arm_simd.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_arm_simd.cpp
     )
     target_link_libraries(bench_arm_simd PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
 
     # Auto Buffers Benchmark
     add_executable(bench_auto_buffers
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_auto_buffers.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_auto_buffers.cpp
     )
     target_link_libraries(bench_auto_buffers PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
 
     # Blob ZSTD Compression Benchmark
     add_executable(bench_blob_zstd
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_blob_zstd.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_blob_zstd.cpp
     )
     target_link_libraries(bench_blob_zstd PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
 
     # HNSW Prefilter Minimal Benchmark
     add_executable(bench_hnsw_prefilter_minimal
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_hnsw_prefilter_minimal.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_hnsw_prefilter_minimal.cpp
     )
     target_link_libraries(bench_hnsw_prefilter_minimal PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
 
     # Hybrid Vector+Geo Benchmark
     add_executable(bench_hybrid_vector_geo
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_hybrid_vector_geo.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_hybrid_vector_geo.cpp
     )
     target_link_libraries(bench_hybrid_vector_geo PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
 
     # Lossy vs Lossless Compression Benchmark
     add_executable(bench_lossy_vs_lossless
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_lossy_vs_lossless.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_lossy_vs_lossless.cpp
     )
     target_link_libraries(bench_lossy_vs_lossless PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
 
     # Product Quantization Benchmark
     add_executable(bench_product_quantization
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_product_quantization.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_product_quantization.cpp
     )
     target_link_libraries(bench_product_quantization PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
 
     # Sanity Tests Benchmark
     add_executable(bench_sanity
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_sanity.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_sanity.cpp
     )
     target_link_libraries(bench_sanity PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
 
+    # Acceleration (CUDA vs CPU) Benchmark — Issue #1375 / #1392 / #1393
+    # CPU kernels always built; CUDA kernels activated via THEMIS_ENABLE_CUDA.
+    # Benchmark gracefully skips CUDA cases at runtime when no GPU is detected.
+    if(EXISTS "${THEMIS_ROOT_DIR}/benchmarks/bench_cuda_vs_cpu.cpp")
+        add_executable(bench_cuda_vs_cpu
+            ${THEMIS_ROOT_DIR}/benchmarks/bench_cuda_vs_cpu.cpp
+        )
+        target_link_libraries(bench_cuda_vs_cpu PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+            Threads::Threads
+        )
+        target_compile_definitions(bench_cuda_vs_cpu PRIVATE
+            THEMIS_BENCHMARK_BUILD=1
+        )
+        if(THEMIS_ENABLE_CUDA)
+            target_compile_definitions(bench_cuda_vs_cpu PRIVATE
+                THEMIS_ENABLE_CUDA=1
+            )
+        endif()
+        if(CMAKE_BUILD_TYPE STREQUAL "Release" AND NOT MSVC)
+            target_compile_options(bench_cuda_vs_cpu PRIVATE -O3 -DNDEBUG)
+        endif()
+        message(STATUS "Added bench_cuda_vs_cpu (acceleration benchmarks)")
+    endif()
+
     # Sharding Performance Benchmark
     add_executable(bench_sharding_performance
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_sharding_performance.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_sharding_performance.cpp
     )
     target_link_libraries(bench_sharding_performance PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
 
     # SIMD Distance Benchmark
     add_executable(bench_simd_distance
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_simd_distance.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_simd_distance.cpp
     )
     target_link_libraries(bench_simd_distance PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
 
     # Spatial Index Benchmark
     add_executable(bench_spatial_index
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_spatial_index.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_spatial_index.cpp
     )
     target_link_libraries(bench_spatial_index PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
 
+    # Spatial JOIN Benchmark (AC5: two 100k-point collections, 1km threshold, first 1000 ≤ 500ms)
+    add_executable(bench_spatial_join
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_spatial_join.cpp
+    )
+    target_link_libraries(bench_spatial_join PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+
+    # Geo CPU vs GPU Throughput Benchmark
+    add_executable(bench_geo_cpu_gpu
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_geo_cpu_gpu.cpp
+    )
+    target_link_libraries(bench_geo_cpu_gpu PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+
     # V1.3.0 Features Benchmark (Critical for Release Testing)
-    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}${CMAKE_SOURCE_DIR}/benchmarks/bench_v1_3_0_features.cpp")
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}${THEMIS_ROOT_DIR}/benchmarks/bench_v1_3_0_features.cpp")
         add_executable(bench_v1_3_0_features
-            ${CMAKE_CURRENT_SOURCE_DIR}${CMAKE_SOURCE_DIR}/benchmarks/bench_v1_3_0_features.cpp
+            ${CMAKE_CURRENT_SOURCE_DIR}${THEMIS_ROOT_DIR}/benchmarks/bench_v1_3_0_features.cpp
         )
         target_link_libraries(bench_v1_3_0_features PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
     endif()
 
+    # Hybrid Search Algorithm Benchmarks (RRF, linear combination, normalizeScores)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}${THEMIS_ROOT_DIR}/benchmarks/benchmark_hybrid_search.cpp")
+        add_executable(benchmark_hybrid_search
+            ${CMAKE_CURRENT_SOURCE_DIR}${THEMIS_ROOT_DIR}/benchmarks/benchmark_hybrid_search.cpp
+        )
+        target_link_libraries(benchmark_hybrid_search PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+    endif()
+
+    # Distributed Hybrid Search Benchmarks (cross-shard RRF merge, fault tolerance overhead)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}${THEMIS_ROOT_DIR}/benchmarks/benchmark_distributed_hybrid_search.cpp")
+        add_executable(benchmark_distributed_hybrid_search
+            ${CMAKE_CURRENT_SOURCE_DIR}${THEMIS_ROOT_DIR}/benchmarks/benchmark_distributed_hybrid_search.cpp
+        )
+        target_link_libraries(benchmark_distributed_hybrid_search PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+    endif()
+
     # Vector Compression Lossless Benchmark
-    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}${CMAKE_SOURCE_DIR}/benchmarks/bench_vector_compression_lossless.cpp")
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}${THEMIS_ROOT_DIR}/benchmarks/bench_vector_compression_lossless.cpp")
         add_executable(bench_vector_compression_lossless
-            ${CMAKE_CURRENT_SOURCE_DIR}${CMAKE_SOURCE_DIR}/benchmarks/bench_vector_compression_lossless.cpp
+            ${CMAKE_CURRENT_SOURCE_DIR}${THEMIS_ROOT_DIR}/benchmarks/bench_vector_compression_lossless.cpp
         )
         target_link_libraries(bench_vector_compression_lossless PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
     endif()
 
     # Vector Prefilter Benchmark
-    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}${CMAKE_SOURCE_DIR}/benchmarks/bench_vector_prefilter.cpp")
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}${THEMIS_ROOT_DIR}/benchmarks/bench_vector_prefilter.cpp")
         add_executable(bench_vector_prefilter
-            ${CMAKE_CURRENT_SOURCE_DIR}${CMAKE_SOURCE_DIR}/benchmarks/bench_vector_prefilter.cpp
+            ${CMAKE_CURRENT_SOURCE_DIR}${THEMIS_ROOT_DIR}/benchmarks/bench_vector_prefilter.cpp
         )
         target_link_libraries(bench_vector_prefilter PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
     endif()
 
     # Phase 2 Performance Optimization Benchmarks
-    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}${CMAKE_SOURCE_DIR}/benchmarks/performance_optimizations/phase2/benchmark_phase2.cpp")
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}${THEMIS_ROOT_DIR}/benchmarks/performance_optimizations/phase2/benchmark_phase2.cpp")
         add_executable(bench_phase2
-            ${CMAKE_CURRENT_SOURCE_DIR}${CMAKE_SOURCE_DIR}/benchmarks/performance_optimizations/phase2/benchmark_phase2.cpp
+            ${CMAKE_CURRENT_SOURCE_DIR}${THEMIS_ROOT_DIR}/benchmarks/performance_optimizations/phase2/benchmark_phase2.cpp
         )
         target_link_libraries(bench_phase2 PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
     endif()
 
     # v1.3.4 Optimization Benchmarks
-    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}${CMAKE_SOURCE_DIR}/benchmarks/bench_v1_3_4_optimizations.cpp")
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}${THEMIS_ROOT_DIR}/benchmarks/bench_v1_3_4_optimizations.cpp")
         add_executable(bench_v1_3_4_optimizations
-            ${CMAKE_CURRENT_SOURCE_DIR}${CMAKE_SOURCE_DIR}/benchmarks/bench_v1_3_4_optimizations.cpp
+            ${CMAKE_CURRENT_SOURCE_DIR}${THEMIS_ROOT_DIR}/benchmarks/bench_v1_3_4_optimizations.cpp
         )
         target_link_libraries(bench_v1_3_4_optimizations PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
     endif()
 
     # v1.3.4 Batch Insert Benchmark (optional if source exists)
-    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}${CMAKE_SOURCE_DIR}/benchmarks/bench_batch_insert.cpp")
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}${THEMIS_ROOT_DIR}/benchmarks/bench_batch_insert.cpp")
         add_executable(bench_batch_insert
-            ${CMAKE_CURRENT_SOURCE_DIR}${CMAKE_SOURCE_DIR}/benchmarks/bench_batch_insert.cpp
+            ${CMAKE_CURRENT_SOURCE_DIR}${THEMIS_ROOT_DIR}/benchmarks/bench_batch_insert.cpp
         )
         target_link_libraries(bench_batch_insert PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
     endif()
 
     # Simple insert test for debugging (optional if source exists)
-    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}${CMAKE_SOURCE_DIR}/benchmarks/bench_simple_insert_test.cpp")
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}${THEMIS_ROOT_DIR}/benchmarks/bench_simple_insert_test.cpp")
         add_executable(bench_simple_insert_test
-            ${CMAKE_CURRENT_SOURCE_DIR}${CMAKE_SOURCE_DIR}/benchmarks/bench_simple_insert_test.cpp
+            ${CMAKE_CURRENT_SOURCE_DIR}${THEMIS_ROOT_DIR}/benchmarks/bench_simple_insert_test.cpp
         )
         target_link_libraries(bench_simple_insert_test PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
     endif()
 
     # RAID and LoRA Adapter Benchmark (optional if source exists)
-    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}${CMAKE_SOURCE_DIR}/benchmarks/bench_raid_lora.cpp")
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}${THEMIS_ROOT_DIR}/benchmarks/bench_raid_lora.cpp")
         add_executable(bench_raid_lora
-            ${CMAKE_CURRENT_SOURCE_DIR}${CMAKE_SOURCE_DIR}/benchmarks/bench_raid_lora.cpp
+            ${CMAKE_CURRENT_SOURCE_DIR}${THEMIS_ROOT_DIR}/benchmarks/bench_raid_lora.cpp
         )
         target_link_libraries(bench_raid_lora PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
     endif()
+    
+    # QLoRA GPU Kernels Benchmark (only when CUDA is enabled)
+    if(THEMIS_ENABLE_CUDA AND THEMIS_ENABLE_LLM)
+        add_executable(bench_qlora_gpu_kernels
+            ${THEMIS_ROOT_DIR}/benchmarks/bench_qlora_gpu_kernels.cpp
+        )
+        target_link_libraries(bench_qlora_gpu_kernels PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+        message(STATUS "QLoRA GPU Kernels Benchmark: Enabled")
+    endif()
+    
+    # Plugin Hot-Plug Monitoring Benchmark
+    if(EXISTS "${THEMIS_ROOT_DIR}/benchmarks/bench_plugin_hot_plug.cpp")
+        add_executable(bench_plugin_hot_plug
+            ${THEMIS_ROOT_DIR}/benchmarks/bench_plugin_hot_plug.cpp
+        )
+        target_link_libraries(bench_plugin_hot_plug PRIVATE 
+            themis_core 
+            benchmark::benchmark 
+            benchmark::benchmark_main
+        )
+        message(STATUS "Plugin Hot-Plug Monitoring Benchmark: Enabled")
+    endif()
 
-endif()
+endif()  # if(FALSE) - Disabled old benchmark definitions
 
 if(THEMIS_BUILD_DOCKER_RAID_BENCHMARK)
     find_package(benchmark CONFIG REQUIRED)
@@ -3033,9 +5726,9 @@ if(THEMIS_BUILD_DOCKER_RAID_BENCHMARK)
     # Docker RAID Comprehensive Benchmark (v1.3.4+)
     # 1+ hour benchmark suite for Docker multi-container RAID testing
     # Tests RAID0, RAID1, RAID5, RAID6, RAID10 configurations
-    # See: ${CMAKE_SOURCE_DIR}/benchmarks/DOCKER_RAID_BENCHMARK_SUITE_README.md
+    # See: ${THEMIS_ROOT_DIR}/benchmarks/DOCKER_RAID_BENCHMARK_SUITE_README.md
     add_executable(bench_docker_raid_comprehensive
-        ${CMAKE_CURRENT_SOURCE_DIR}${CMAKE_SOURCE_DIR}/benchmarks/bench_docker_raid_comprehensive.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}${THEMIS_ROOT_DIR}/benchmarks/bench_docker_raid_comprehensive.cpp
     )
     target_link_libraries(bench_docker_raid_comprehensive PRIVATE 
         themis_core 
@@ -3048,7 +5741,7 @@ if(THEMIS_BUILD_DOCKER_RAID_BENCHMARK)
     # GPU Erasure Coding Benchmark (conditionally compiled if CUDA is enabled)
     if(THEMIS_ENABLE_CUDA)
         add_executable(bench_gpu_erasure
-            ${CMAKE_SOURCE_DIR}/benchmarks/bench_gpu_erasure.cpp
+            ${THEMIS_ROOT_DIR}/benchmarks/bench_gpu_erasure.cpp
         )
         target_link_libraries(bench_gpu_erasure PRIVATE 
             themis_core 
@@ -3056,18 +5749,141 @@ if(THEMIS_BUILD_DOCKER_RAID_BENCHMARK)
             benchmark::benchmark_main
         )
     endif()
+endif()  # THEMIS_BUILD_DOCKER_RAID_BENCHMARK
+
+# Config Migration Scanner CLI Tool
+if(EXISTS "${THEMIS_ROOT_DIR}/tools/config_migration_scanner.cpp")
+    add_executable(config_migration_scanner
+        ${THEMIS_ROOT_DIR}/tools/config_migration_scanner.cpp
+    )
+    target_compile_features(config_migration_scanner PRIVATE cxx_std_20)
+    target_include_directories(config_migration_scanner PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+    target_link_libraries(config_migration_scanner PRIVATE themis_core)
+    message(STATUS "Config Migration Scanner: Enabled (config_migration_scanner)")
+    install(TARGETS config_migration_scanner
+        RUNTIME DESTINATION bin
+        COMPONENT tools
+    )
 endif()
 
 # Admin Tools (.NET)
 option(THEMIS_BUILD_ADMIN_TOOLS "Build .NET admin tools (requires .NET SDK 8.0+)" OFF)
 if(THEMIS_BUILD_ADMIN_TOOLS)
-    add_subdirectory(tools)
+    add_subdirectory(${THEMIS_ROOT_DIR}/tools ${CMAKE_CURRENT_BINARY_DIR}/tools)
+endif()
+
+# Export CLI Tool (themis-export)
+if(EXISTS "${THEMIS_ROOT_DIR}/tools/export_cli.cpp")
+    add_executable(themis-export
+        ${THEMIS_ROOT_DIR}/tools/export_cli.cpp
+    )
+    target_link_libraries(themis-export PRIVATE
+        themis_core
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+    if(TARGET CURL::libcurl)
+        target_link_libraries(themis-export PRIVATE CURL::libcurl)
+        target_compile_definitions(themis-export PRIVATE CURL_ENABLED=1)
+    endif()
+    target_include_directories(themis-export PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../include)
+    message(STATUS "Export CLI Tool: Enabled (themis-export)")
+
+    install(TARGETS themis-export
+        RUNTIME DESTINATION bin
+    )
+endif()
+
+# LLM Model Management CLI Tool (themis-model)
+if(THEMIS_ENABLE_LLM)
+    if(EXISTS "${THEMIS_ROOT_DIR}/tools/themis_model_cli.cpp")
+        add_executable(themis-model
+            ${THEMIS_ROOT_DIR}/tools/themis_model_cli.cpp
+        )
+        target_link_libraries(themis-model PRIVATE 
+            themis_core
+            CURL::libcurl
+            OpenSSL::SSL
+            OpenSSL::Crypto
+            yaml-cpp
+        )
+        target_include_directories(themis-model PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../include)
+        message(STATUS "LLM Model CLI Tool: Enabled (themis-model)")
+        
+        # Install the tool
+        install(TARGETS themis-model
+            RUNTIME DESTINATION bin
+        )
+    endif()
 endif()
 
 # Enterprise Plugins
-option(THEMIS_BUILD_ENTERPRISE_PLUGINS "Build enterprise plugins" ON)
-if(THEMIS_BUILD_ENTERPRISE_PLUGINS AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/plugins")
-    add_subdirectory(plugins)
+# Plugin feature flags are defined in cmake/features/PluginFeatures.cmake which is
+# already included via FeatureDefaults.cmake.
+#
+# Plugin implementations live flat under src/ (sources + private headers) and
+# include/ (public API headers) — no extra plugins/ subdirectory.
+# Manifest / configuration files for non-compiled plugins remain in plugins/.
+#
+# THEMIS_ENABLE_ENTERPRISE_PLUGINS is set by the edition (ON for ENTERPRISE and
+# above, OFF for MINIMAL/COMMUNITY).  THEMIS_BUILD_ENTERPRISE_PLUGINS lets users
+# override that default at configure time.
+if(NOT DEFINED THEMIS_BUILD_ENTERPRISE_PLUGINS)
+    if(DEFINED THEMIS_ENABLE_ENTERPRISE_PLUGINS)
+        set(_plugin_default ${THEMIS_ENABLE_ENTERPRISE_PLUGINS})
+    else()
+        set(_plugin_default ON)
+    endif()
+    option(THEMIS_BUILD_ENTERPRISE_PLUGINS "Build enterprise plugins" ${_plugin_default})
+else()
+    option(THEMIS_BUILD_ENTERPRISE_PLUGINS "Build enterprise plugins" ON)
+endif()
+
+if(THEMIS_BUILD_ENTERPRISE_PLUGINS)
+    # -------------------------------------------------------------------------
+    # Ethics AI Plugin (v1.4.0+) – src/ethics_ai/
+    # Flag: THEMIS_PLUGIN_ETHICS_AI
+    # -------------------------------------------------------------------------
+    if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${THEMIS_ROOT_DIR}/src/ethics_ai/CMakeLists.txt")
+        add_subdirectory(${THEMIS_ROOT_DIR}/src/ethics_ai
+                         ${CMAKE_CURRENT_BINARY_DIR}/src/ethics_ai)
+    endif()
+
+    # -------------------------------------------------------------------------
+    # gRPC RPC Plugin (v1.3.0+) – src/rpc_grpc/
+    # Flag: THEMIS_PLUGIN_RPC_GRPC
+    # -------------------------------------------------------------------------
+    if(THEMIS_PLUGIN_RPC_GRPC AND EXISTS "${THEMIS_ROOT_DIR}/src/rpc_grpc/CMakeLists.txt")
+        add_subdirectory(${THEMIS_ROOT_DIR}/src/rpc_grpc
+                         ${CMAKE_CURRENT_BINARY_DIR}/src/rpc_grpc)
+    endif()
+
+    # -------------------------------------------------------------------------
+    # ONNX CLIP Image Analysis Plugin – src/onnx_clip/
+    # Flag: THEMIS_PLUGIN_IMAGE_ANALYSIS_ONNX
+    # -------------------------------------------------------------------------
+    if(THEMIS_PLUGIN_IMAGE_ANALYSIS_ONNX AND EXISTS "${THEMIS_ROOT_DIR}/src/onnx_clip/CMakeLists.txt")
+        add_subdirectory(${THEMIS_ROOT_DIR}/src/onnx_clip
+                         ${CMAKE_CURRENT_BINARY_DIR}/src/onnx_clip)
+    endif()
+
+    # -------------------------------------------------------------------------
+    # User Storage Encrypted Plugin (v1.5.0+) – src/user_storage_encrypted/
+    # Flag: THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED
+    # -------------------------------------------------------------------------
+    if(THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED AND EXISTS "${THEMIS_ROOT_DIR}/src/user_storage_encrypted/CMakeLists.txt")
+        add_subdirectory(${THEMIS_ROOT_DIR}/src/user_storage_encrypted
+                         ${CMAKE_CURRENT_BINARY_DIR}/src/user_storage_encrypted)
+    endif()
+
+    # Non-compiled plugin manifests / legacy orchestration: plugins/
+    if(EXISTS "${THEMIS_ROOT_DIR}/plugins/CMakeLists.txt")
+        add_subdirectory(${THEMIS_ROOT_DIR}/plugins
+                         ${CMAKE_CURRENT_BINARY_DIR}/plugins)
+    endif()
 endif()
 
 # Enterprise Modules (new modular DLL architecture)
@@ -3088,8 +5904,9 @@ install(TARGETS themis_server themis_core
     ARCHIVE DESTINATION lib
 )
 
-install(DIRECTORY /include/
+install(DIRECTORY ${THEMIS_ROOT_DIR}/include/
     DESTINATION include
+    PATTERN "mock_clip_processor.h" EXCLUDE
 )
 
 # Performance Optimization Benchmarks
@@ -3113,8 +5930,3 @@ if(MSVC)
         endforeach()
     endforeach()
 endif()
-
-
-
-
-

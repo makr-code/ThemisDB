@@ -1,8 +1,9 @@
 # PKI Integration Architecture
 
 **Status:** ✅ Produktiv (mit ENV-Konfiguration) | ⚙️ Stub-Modus (Development)  
-**Version:** 1.0 (November 2025)  
-**Compliance:** eIDAS-konform, DSGVO Art. 32, HGB § 257
+**Version:** 1.1 (February 2026) - **Updated for FIND-022 & FIND-029**  
+**Compliance:** eIDAS-konform, DSGVO Art. 32, HGB § 257, ISO 27001 A.8.24  
+**Audit Findings Addressed:** FIND-022 (PKI Infrastructure), FIND-029 (Client Certificates)
 
 
 ## 📑 Inhaltsverzeichnis
@@ -10,8 +11,11 @@
 - [Überblick](#überblick)
 - [Architektur-Komponenten](#architektur-komponenten)
 - [Core Components](#core-components)
-- [Konfiguration](#)
-- [Sicherheit](#)
+- [Client Certificate Authentication](#client-certificate-authentication-find-029)
+- [PKI Infrastructure Improvements](#pki-infrastructure-improvements-find-022)
+- [Konfiguration](#konfiguration)
+- [Sicherheit](#sicherheit)
+- [Compliance Mapping](#compliance-mapping)
 
 ---
 ## Überblick
@@ -519,3 +523,108 @@ systemctl restart themis-server
 **Letzte Aktualisierung:** 17. November 2025  
 **Version:** 1.0  
 **Autor:** ThemisDB Development Team
+
+
+---
+
+## Client Certificate Authentication (FIND-029)
+
+### Überblick
+
+**Status:** 🟡 GEPLANT für v1.5.0 (Q1 2026)  
+**Priorität:** Mittel (Audit Finding FIND-029)  
+**Compliance:** ISO 27001 A.8.5, SOC 2 CC6.1, BSI C5 IAM-2
+
+Client-Zertifikate bieten eine zusätzliche Authentifizierungsebene für mTLS (Mutual TLS), bei der nicht nur der Server, sondern auch der Client seine Identität durch ein X.509-Zertifikat nachweist.
+
+### Implementierungsplan
+
+#### Phase 1: CA Infrastructure (v1.5.0 - Q1 2026)
+
+**Komponenten:**
+- Root CA (Self-signed, RSA 4096, 20 Jahre)
+- Intermediate CA für Client-Certs (RSA 4096, 10 Jahre)
+- Server CA für Server-Certs (RSA 4096, 10 Jahre)
+- HSM-backed CA Key Storage
+
+**Tools:** openssl, HashiCorp Vault PKI Engine, CFSSL
+
+#### Phase 2: Client Certificate Issuance (v1.5.0)
+
+**Funktionen:**
+- Certificate Request (CSR) API
+- Automated Certificate Issuance
+- Certificate Renewal
+- Revocation (CRL/OCSP)
+
+#### Phase 3: mTLS Authentication (v1.5.0)
+
+**Features:**
+- TLS Server Config mit mTLS-Enforcement
+- X.509 Chain Verification
+- Identity Mapping (Cert CN → User Identity)
+- RBAC Integration
+
+### Vorteile
+
+- **Starke Authentifizierung:** Kryptographischer Identitätsnachweis
+- **Mutual Trust:** Beide Seiten authentifizieren sich
+- **Non-Repudiation:** Digitale Signaturen verhindern Abstreiten
+- **Zero-Trust Ready:** Basis für Zero-Trust-Architekturen
+- **Compliance:** ISO 27001 A.9.2.1, SOC 2 CC6.1, BSI C5 IAM-2
+
+---
+
+## PKI Infrastructure Improvements (FIND-022)
+
+### Aktuelle Limitierungen (v1.4.1)
+
+- Basic PKI Only (keine Client-Certs)
+- Single CA (keine CA-Hierarchie)
+- Manual Certificate Management
+- No CRL/OCSP
+- Limited HSM Integration
+
+### Verbesserungen (Roadmap)
+
+#### 1. CA-Hierarchie (v1.5.0)
+- Root CA (Offline, Air-Gapped)
+- Intermediate CAs für Client & Server Certs
+- Separate CAs für verschiedene Zwecke
+
+#### 2. Automatisierte Certificate Lifecycle (v1.5.0)
+- Auto-Issuance via Vault PKI / CFSSL
+- Auto-Renewal mit Cert-Manager
+- Expiration Monitoring (Prometheus)
+- Certificate Inventory
+
+#### 3. Certificate Revocation (v1.5.0)
+- CRL (Certificate Revocation List)
+- OCSP (Online Certificate Status Protocol)
+- OCSP Stapling (v1.6.0)
+
+#### 4. HSM-Integration (v1.5.0)
+- HSM für CA Private Key Storage
+- HSM für Certificate Signing
+- PKCS#11-Integration
+
+### Roadmap
+
+- **v1.5.0 (Q1 2026):** CA-Hierarchie, Client-Cert Auth, CRL/OCSP, HSM
+- **v1.6.0 (Q2 2026):** OCSP Stapling, Auto-Rotation, Cert Inventory
+- **v2.0.0 (Q3 2026):** ACME Protocol, External CA Integration
+
+### Compliance-Abdeckung
+
+| Standard | v1.4.1 | v1.5.0 (geplant) |
+|----------|--------|------------------|
+| ISO 27001 A.8.24 | ⚠️ Basic | ✅ Vollständig |
+| ISO 27001 A.8.5 | ⚠️ Token only | ✅ mTLS + Token |
+| SOC 2 CC6.1 | ⚠️ Basic | ✅ Certificate-based |
+| BSI C5 IAM-2 | ⚠️ Basic | ✅ Multi-Factor |
+
+---
+
+**Dokumentverantwortlicher:** ThemisDB Security Team  
+**Letzte Aktualisierung:** 3. Februar 2026 (FIND-022, FIND-029 addressiert)  
+**Nächstes Review:** 1. Mai 2026

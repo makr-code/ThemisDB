@@ -1,3 +1,27 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            mcp_server.h                                       ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:11:13                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     395                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 39e499706  2026-02-23  fix: code-audit – namespace corruption, wildcard false-po... ║
+    • e2cf1a07c  2026-02-22  feat: MCP ↔ AIOrchestrator bidirectional integration (MCP... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #ifdef THEMIS_ENABLE_MCP
@@ -11,6 +35,13 @@
 #include <nlohmann/json.hpp>
 #include <boost/asio.hpp>
 
+// Forward-declare AIOrchestrator for the MCP ↔ Orchestrator integration bridge.
+// Declared at global scope before the server namespace block to avoid the
+// namespace being re-opened inside an already-open namespace.
+#ifdef THEMIS_ENABLE_LLM
+namespace themis::llm { class AIOrchestrator; }
+#endif
+
 namespace themis {
 namespace server {
 
@@ -23,7 +54,11 @@ class HttpServer;
 class RocksDBWrapper;
 class SecondaryIndexManager;
 class SchemaManager;
+class QueryEngine;
+
+namespace prompt_engineering {
 class PromptManager;
+}
 
 /**
  * @brief MCP (Model Context Protocol) Server Implementation
@@ -76,7 +111,8 @@ public:
         int websocket_ping_interval_ms = 30000;
     };
 
-    explicit McpServer(asio::io_context& io_context, const Config& config = Config());
+    explicit McpServer(asio::io_context& io_context);
+    explicit McpServer(asio::io_context& io_context, const Config& config);
     ~McpServer();
 
     // Lifecycle
@@ -102,6 +138,24 @@ public:
     // Transport management
     void attachHttpServer(std::shared_ptr<HttpServer> http_server);
     void attachDatabase(std::shared_ptr<RocksDBWrapper> db);
+
+    /**
+     * @brief Attach an AIOrchestrator to expose mode-based LLM pipelines as MCP tools.
+     *
+     * When attached, two new MCP tools are registered:
+     *  - **llm_orchestrate**: executes an AIOrchestrator pipeline for a given mode.
+     *  - **llm_list_modes**: returns all available modes from the loaded ModePack.
+     *
+     * This is the primary integration point between the Model Context Protocol
+     * transport layer and the YAML-configurable LLM orchestration layer.
+     *
+     * Only available when both THEMIS_ENABLE_MCP and THEMIS_ENABLE_LLM are set.
+     *
+     * @param orchestrator Shared pointer to a fully initialised AIOrchestrator.
+     */
+    #ifdef THEMIS_ENABLE_LLM
+    void attachOrchestrator(std::shared_ptr<themis::llm::AIOrchestrator> orchestrator);
+    #endif
     std::shared_ptr<McpTransport> getStdioTransport() const { return stdio_transport_; }
     std::shared_ptr<McpTransport> getSseTransport() const { return sse_transport_; }
     std::shared_ptr<McpTransport> getWebSocketTransport() const { return ws_transport_; }
@@ -126,6 +180,8 @@ private:
     json toolGetEntity(const json& args);
     json toolDeleteEntity(const json& args);
     json toolCreateIndex(const json& args);
+    json toolDropIndex(const json& args);
+    json toolListIndexes(const json& args);
     json toolGetSchema(const json& args);
     json toolGetStats(const json& args);
 
@@ -141,6 +197,10 @@ private:
     json toolLLMEmbed(const json& args);
     json toolLLMChat(const json& args);
     json toolDatabaseQueryWithLLM(const json& args);
+
+    // AI Orchestrator tools – mode-based LLM pipelines (ask / edit / rag / agentic / ethics …)
+    json toolLLMOrchestrate(const json& args);
+    json toolLLMListModes(const json& args);
     #endif
 
     // Default resource handlers
@@ -204,12 +264,20 @@ private:
     std::shared_ptr<SecondaryIndexManager> index_mgr_;
     std::unique_ptr<SchemaManager> schema_mgr_;
     
+    // Query engine for AQL execution
+    std::unique_ptr<QueryEngine> query_engine_;
+    
     // Prompt management for natural language queries
-    std::unique_ptr<PromptManager> prompt_mgr_;
+    std::unique_ptr<themis::prompt_engineering::PromptManager> prompt_mgr_;
 
     // Session state
     bool initialized_ = false;
     std::string client_info_;
+
+    // AI Orchestrator reference (optional – set via attachOrchestrator())
+    #ifdef THEMIS_ENABLE_LLM
+    std::shared_ptr<themis::llm::AIOrchestrator> orchestrator_;
+    #endif
 };
 
 /**

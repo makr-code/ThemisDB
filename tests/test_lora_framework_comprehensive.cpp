@@ -1,9 +1,31 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_lora_framework_comprehensive.cpp              ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:29:29                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   88.0/100                                       ║
+    • Total Lines:     1022                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file test_lora_framework_comprehensive.cpp
  * @brief Comprehensive unit tests for LoRA Framework with complete coverage
  * 
  * This file provides 100% test coverage for the LoRA framework including:
- * - LoRAAdapterManager (lifecycle, caching, hot-swapping, memory management)
+ * - Adapter Management (lifecycle, caching, hot-swapping, memory management — via MultiLoRAManager)
  * - LoRAStorageService (storage backends, versioning, graph operations)
  * - LoRATrainingService (on-the-fly, batch, callbacks, error handling)
  * - MultiLoRAManager (multi-adapter, quantization, multi-GPU support)
@@ -24,7 +46,6 @@
 #include <gtest/gtest.h>
 
 // LoRA Framework headers
-#include "llm/lora_framework/lora_adapter_manager.h"
 #include "llm/lora_framework/lora_storage_service.h"
 #include "llm/lora_framework/lora_training_service.h"
 #include "llm/lora_framework/lora_orchestrator.h"
@@ -40,6 +61,7 @@
 #include <sstream>
 #include <thread>
 #include <vector>
+#include <unordered_set>
 
 using namespace themis::llm::lora;
 using namespace themis::llm;
@@ -287,7 +309,7 @@ TEST_F(LoRAFrameworkComprehensiveTest, StorageService_SpecialCharacters_InID) {
 }
 
 // ============================================================================
-// LoRAAdapterManager Tests - Lifecycle & Caching
+// Adapter Management Tests - Lifecycle & Caching (using MultiLoRAManager)
 // ============================================================================
 
 TEST_F(LoRAFrameworkComprehensiveTest, AdapterManager_LoadUnload_BasicLifecycle) {
@@ -997,34 +1019,4 @@ TEST_F(LoRAFrameworkComprehensiveTest, Integration_MultiAdapterScenario) {
 // Main
 // ============================================================================
 
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    
-    // Print test banner using GTest's testing::Message
-    testing::Message banner;
-    banner << "\n";
-    banner << "╔══════════════════════════════════════════════════════════════════╗\n";
-    banner << "║  ThemisDB LoRA Framework - Comprehensive Unit Test Suite        ║\n";
-    banner << "╚══════════════════════════════════════════════════════════════════╝\n";
-    banner << "\n";
-    banner << "Test Coverage:\n";
-    banner << "  ✓ LoRAStorageService (save, load, delete, versioning)\n";
-    banner << "  ✓ LoRAAdapterManager (lifecycle, caching, hot-swap)\n";
-    banner << "  ✓ LoRATrainingService (training, callbacks, checkpoints)\n";
-    banner << "  ✓ MultiLoRAManager (quantization, multi-GPU, fusion)\n";
-    banner << "  ✓ Thread-safety (concurrent reads/writes)\n";
-    banner << "  ✓ Error handling and edge cases\n";
-    banner << "  ✓ Memory management and leak detection\n";
-    banner << "  ✓ Performance benchmarks\n";
-    banner << "  ✓ Integration scenarios\n";
-    banner << "\n";
-    
-    // Only print banner if not in quiet mode
-    if (testing::GTEST_FLAG(print_time) || !testing::GTEST_FLAG(brief)) {
-        printf("%s", banner.GetString().c_str());
-    }
-    
-    int result = RUN_ALL_TESTS();
-    
-    return result;
-}
+

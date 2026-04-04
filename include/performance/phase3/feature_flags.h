@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            feature_flags.h                                    ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:09:20                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     188                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 1973a06f2  2026-02-28  feat(performance): Adaptive batch size tuning for LLM inf... ║
+    • 54593e02c  2026-02-27  feat(performance): AVX-512 SIMD path for vector distance ... ║
+    • 0c973a286  2026-02-26  Refactor and enhance ThemisDB components ║
+    • da9b09bcc  2026-02-25  chore: code-audit fixes - update header metadata, remove ... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // Phase 3 Performance Optimizations Feature Flags
 // Based on scientific research from PR #156 (45+ peer-reviewed papers)
 // Implementation framework from PR #157 (Phase 1) and current PR (Phase 2)
@@ -49,6 +75,32 @@ public:
     bool bao_enabled() const { return bao_enabled_.load(std::memory_order_relaxed); }
     void set_bao_enabled(bool enabled) { bao_enabled_.store(enabled, std::memory_order_relaxed); }
 
+    // Per-query cost model integration with query optimizer (Phase 3, Issue #2419)
+    // Calibrates OptimizerCostModel constants from actual hardware cycle measurements.
+    // Expected gain: ~10-30% better plan selection accuracy on repeat queries.
+    bool per_query_cost_model_enabled() const { return per_query_cost_model_enabled_.load(std::memory_order_relaxed); }
+    void set_per_query_cost_model_enabled(bool enabled) { per_query_cost_model_enabled_.store(enabled, std::memory_order_relaxed); }
+    // Memory Pressure Monitoring with Automatic Cache Eviction
+    // Monitors system RAM usage and triggers registered eviction callbacks
+    // when configurable thresholds are exceeded.
+    bool memory_pressure_enabled() const { return memory_pressure_enabled_.load(std::memory_order_relaxed); }
+    void set_memory_pressure_enabled(bool enabled) { memory_pressure_enabled_.store(enabled, std::memory_order_relaxed); }
+
+    // AVX-512 SIMD path for vector distance computations (Phase 3, Issue #1964)
+    // Enables 4-wide unrolled AVX-512 kernels for L2, inner-product, and cosine
+    // distance calculations. Falls back to AVX2/NEON/scalar at compile time when
+    // the target CPU does not support AVX-512.
+    // Expected gain: +200-400% throughput for high-dimensional (>=256D) vector search.
+    bool avx512_distance_enabled() const { return avx512_distance_enabled_.load(std::memory_order_relaxed); }
+    void set_avx512_distance_enabled(bool enabled) { avx512_distance_enabled_.store(enabled, std::memory_order_relaxed); }
+
+    // Adaptive batch size tuning for LLM inference (Phase 3, Issue #1996)
+    // Dynamically adjusts the LLM inference batch size based on measured
+    // throughput and latency using hardware cycle counters.
+    // Expected gain: +15-40% throughput for variable-length LLM inference workloads.
+    bool adaptive_batch_tuner_enabled() const { return adaptive_batch_tuner_enabled_.load(std::memory_order_relaxed); }
+    void set_adaptive_batch_tuner_enabled(bool enabled) { adaptive_batch_tuner_enabled_.store(enabled, std::memory_order_relaxed); }
+
     // Load configuration from JSON file
     void load_from_config(const std::string& config_path);
 
@@ -63,6 +115,16 @@ private:
     std::atomic<bool> splinterdb_enabled_{false};
     std::atomic<bool> gunrock_enabled_{false};
     std::atomic<bool> bao_enabled_{false};
+    std::atomic<bool> per_query_cost_model_enabled_{false};
+    std::atomic<bool> memory_pressure_enabled_{false};
+    std::atomic<bool> avx512_distance_enabled_{
+#if defined(__AVX512F__)
+        true
+#else
+        false
+#endif
+    };
+    std::atomic<bool> adaptive_batch_tuner_enabled_{true};
 };
 
 // Macro helpers for compile-time + runtime checks
@@ -95,6 +157,31 @@ private:
 #else
     #define THEMIS_PHASE3_BAO_ENABLED() (false)
 #endif
+
+#ifdef THEMIS_ENABLE_PER_QUERY_COST_MODEL
+    #define THEMIS_PHASE3_PER_QUERY_COST_MODEL_ENABLED() (::themis::performance::phase3::Phase3FeatureFlags::instance().per_query_cost_model_enabled())
+#else
+    #define THEMIS_PHASE3_PER_QUERY_COST_MODEL_ENABLED() (false)
+#endif
+
+#ifdef THEMIS_ENABLE_MEMORY_PRESSURE
+    #define THEMIS_PHASE3_MEMORY_PRESSURE_ENABLED() (::themis::performance::phase3::Phase3FeatureFlags::instance().memory_pressure_enabled())
+#else
+    #define THEMIS_PHASE3_MEMORY_PRESSURE_ENABLED() (false)
+#endif
+
+// AVX-512 SIMD distance flag: enabled at compile time when __AVX512F__ is set,
+// and can be toggled at runtime for testing/diagnostics.
+#ifdef __AVX512F__
+    #define THEMIS_PHASE3_AVX512_DISTANCE_ENABLED() (::themis::performance::phase3::Phase3FeatureFlags::instance().avx512_distance_enabled())
+#else
+    #define THEMIS_PHASE3_AVX512_DISTANCE_ENABLED() (false)
+#endif
+
+// Adaptive batch size tuning for LLM inference (Phase 3, Issue #1996).
+// Enabled by default; disable at runtime for A/B testing or fixed-batch mode.
+#define THEMIS_PHASE3_ADAPTIVE_BATCH_TUNER_ENABLED() \
+    (::themis::performance::phase3::Phase3FeatureFlags::instance().adaptive_batch_tuner_enabled())
 
 } // namespace phase3
 } // namespace performance

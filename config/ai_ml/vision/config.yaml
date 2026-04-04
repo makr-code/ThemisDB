@@ -1,0 +1,435 @@
+# ThemisDB Vision/Multi-Modal Configuration
+# Production-ready configuration for LLAVA/CLIP and multi-modal processing
+# Version: 1.0.0
+
+vision:
+  # =====================================================
+  # API Configuration
+  # =====================================================
+  api:
+    version: "1.0.0"
+    enabled: true
+    
+    # API Stability guarantees
+    stability:
+      level: "stable"  # experimental, beta, stable, deprecated
+      min_supported_version: "1.0.0"
+      deprecation_policy: "12_months"  # Notice period before removal
+      breaking_changes_notification: true
+    
+    # Versioning strategy
+    versioning:
+      strategy: "semantic"  # semantic, date-based
+      backward_compatible: true
+      api_prefix: "/api/v1/vision"
+  
+  # =====================================================
+  # License Management
+  # =====================================================
+  licensing:
+    # Model license validation
+    enforce_licenses: true
+    
+    # License database
+    license_db_path: "./config/vision_licenses.yaml"
+    
+    # Allowed model licenses
+    allowed_licenses:
+      - "MIT"
+      - "Apache-2.0"
+      - "BSD-3-Clause"
+      - "CC-BY-4.0"
+      - "Llama-2-Community"
+      - "OpenRAIL-M"
+    
+    # License restrictions
+    restrictions:
+      # Block models with restrictive licenses for production
+      block_non_commercial: false
+      block_research_only: true
+      require_attribution: true
+      
+      # Usage tracking for licensed models
+      track_usage: true
+      usage_reporting_endpoint: null  # Optional reporting URL
+    
+    # Model-specific license overrides
+    model_licenses:
+      "llava-v1.5-7b": 
+        license: "Llama-2-Community"
+        attribution_required: true
+        commercial_use: true
+        derivative_works: true
+        restrictions: "Must include attribution and license notice"
+      
+      "clip-vit-base-patch32":
+        license: "MIT"
+        attribution_required: false
+        commercial_use: true
+        derivative_works: true
+        restrictions: "None"
+      
+      "mmproj-model-f16":
+        license: "Llama-2-Community"
+        attribution_required: true
+        commercial_use: true
+        derivative_works: true
+        restrictions: "Part of LLaVA model family"
+  
+  # =====================================================
+  # Monitoring & Observability
+  # =====================================================
+  monitoring:
+    enabled: true
+    
+    # Metrics collection
+    metrics:
+      enabled: true
+      collect_interval_seconds: 10
+      
+      # Metric types
+      track_latency: true
+      track_throughput: true
+      track_error_rate: true
+      track_resource_usage: true
+      track_model_usage: true
+      
+      # Prometheus integration
+      prometheus:
+        enabled: true
+        port: 9092
+        path: "/metrics"
+        namespace: "themisdb_vision"
+    
+    # Structured logging
+    logging:
+      level: "INFO"  # DEBUG, INFO, WARN, ERROR
+      format: "json"  # json, text
+      
+      # Log destinations
+      destinations:
+        - type: "file"
+          path: "./logs/vision.log"
+          rotation: "daily"
+          retention_days: 30
+        
+        - type: "console"
+          enabled: true
+      
+      # Log specific events
+      log_requests: true
+      log_responses: false  # May contain sensitive data
+      log_errors: true
+      log_security_events: true
+    
+    # Audit trail
+    audit:
+      enabled: true
+      
+      # Audit events
+      events:
+        - "model_load"
+        - "model_unload"
+        - "inference_request"
+        - "inference_error"
+        - "license_violation"
+        - "resource_limit_exceeded"
+        - "security_violation"
+      
+      # Audit storage
+      storage:
+        type: "database"  # database, file, syslog
+        retention_days: 90
+        
+      # Compliance
+      compliance_mode: "standard"  # none, standard, strict, custom
+      include_pii: false  # Be careful with user data
+  
+  # =====================================================
+  # Resource Management & Restrictions
+  # =====================================================
+  resources:
+    # Global resource limits
+    limits:
+      # Memory limits
+      max_memory_mb: 8192  # 8GB for all vision processing
+      max_memory_per_request_mb: 2048  # 2GB per request
+      
+      # GPU limits
+      max_vram_mb: 16384  # 16GB VRAM
+      max_vram_per_model_mb: 8192  # 8GB per model
+      
+      # Processing limits
+      max_concurrent_requests: 16
+      max_concurrent_models: 4
+      max_queue_size: 100
+      
+      # Time limits
+      max_inference_time_seconds: 60
+      max_model_load_time_seconds: 120
+      request_timeout_seconds: 90
+    
+    # Rate limiting
+    rate_limiting:
+      enabled: true
+      
+      # Global rate limits
+      global:
+        requests_per_minute: 120
+        requests_per_hour: 3600
+        requests_per_day: 50000
+      
+      # Per-user rate limits
+      per_user:
+        enabled: true
+        requests_per_minute: 10
+        requests_per_hour: 300
+        requests_per_day: 5000
+      
+      # Per-model rate limits
+      per_model:
+        enabled: true
+        requests_per_minute: 60
+        
+      # Burst allowance
+      burst_size: 20
+      
+      # Rate limit exceeded behavior
+      on_limit_exceeded: "reject"  # reject, queue, throttle
+    
+    # Resource quotas
+    quotas:
+      enabled: true
+      
+      # Quota enforcement
+      enforcement: "soft"  # soft, hard
+      
+      # Default quotas (can be overridden per user/tenant)
+      default:
+        daily_requests: 10000
+        monthly_requests: 300000
+        total_inference_time_minutes: 600  # 10 hours/month
+        total_vram_hours: 100  # GPU hours
+      
+      # Quota reset period
+      reset_period: "monthly"  # daily, weekly, monthly
+  
+  # =====================================================
+  # Security & Sandboxing
+  # =====================================================
+  security:
+    # Input validation
+    validation:
+      enabled: true
+      
+      # Image validation
+      max_image_size_mb: 25
+      max_image_resolution: [4096, 4096]  # width, height
+      allowed_formats: ["JPEG", "PNG", "BMP", "WEBP"]
+      validate_image_integrity: true
+      scan_for_malware: false  # Requires external scanner
+      
+      # Prompt validation
+      max_prompt_length: 2048
+      sanitize_prompts: true
+      block_injection_attempts: true
+    
+    # Sandboxing (experimental)
+    sandboxing:
+      enabled: false  # Set to true for maximum isolation
+      
+      # Sandbox type
+      type: "container"  # process, container, vm
+      
+      # Resource isolation
+      isolate_memory: true
+      isolate_network: true
+      isolate_filesystem: true
+      
+      # Allowed operations
+      allow_file_read: false
+      allow_file_write: false
+      allow_network: false
+      
+      # Sandbox limits
+      sandbox_memory_mb: 4096
+      sandbox_cpu_cores: 2
+      sandbox_timeout_seconds: 120
+    
+    # Model verification
+    model_verification:
+      enabled: true
+      
+      # Verify model signatures
+      verify_signatures: true
+      trusted_publishers: ["llama.cpp", "OpenAI", "Meta", "HuggingFace"]
+      
+      # Verify model checksums
+      verify_checksums: true
+      checksum_algorithm: "SHA256"
+      
+      # Malware scanning
+      scan_models: false  # Requires external scanner
+    
+    # Access control
+    access_control:
+      enabled: true
+      
+      # Authentication required
+      require_authentication: true
+      
+      # Authorization
+      role_based_access: true
+      allowed_roles: ["admin", "data_scientist", "api_user"]
+      
+      # API keys
+      require_api_key: false
+      api_key_header: "X-ThemisDB-Vision-API-Key"
+  
+  # =====================================================
+  # Pipeline Configuration
+  # =====================================================
+  pipeline:
+    # Pipeline stability
+    stability: "production"  # development, staging, production
+    
+    # Error handling
+    error_handling:
+      strategy: "graceful"  # fail_fast, graceful, retry
+      
+      # Retry configuration
+      retry:
+        enabled: true
+        max_attempts: 3
+        backoff_strategy: "exponential"  # linear, exponential, fixed
+        initial_delay_ms: 100
+        max_delay_ms: 5000
+      
+      # Fallback behavior
+      fallback:
+        enabled: true
+        use_cpu_fallback: true  # Fallback to CPU if GPU fails
+        use_smaller_model: true  # Fallback to smaller model if OOM
+        return_error_response: true
+    
+    # Preprocessing
+    preprocessing:
+      enabled: true
+      
+      # Image preprocessing
+      resize_strategy: "adaptive"  # fixed, adaptive, none
+      normalize: true
+      augmentation: false  # For training only
+      
+      # Caching
+      cache_preprocessed: true
+      cache_ttl_seconds: 3600
+    
+    # Postprocessing
+    postprocessing:
+      enabled: true
+      
+      # Response formatting
+      format: "json"  # json, protobuf
+      include_metadata: true
+      include_timings: true
+      include_confidence_scores: true
+      
+      # Filtering
+      min_confidence_threshold: 0.5
+      max_results: 10
+  
+  # =====================================================
+  # Model Management
+  # =====================================================
+  models:
+    # Model loading
+    loading:
+      strategy: "lazy"  # eager, lazy, on_demand
+      preload_models: []  # List of model IDs to preload
+      
+      # Memory management
+      enable_model_unloading: true
+      model_ttl_seconds: 3600  # Unload after 1 hour of inactivity
+      keep_in_memory: ["default_llava"]  # Models to keep loaded
+    
+    # Model registry
+    registry:
+      enabled: true
+      registry_path: "./config/vision_models.yaml"
+      
+      # Auto-discovery
+      auto_discover: true
+      scan_directories: ["./models", "./models/vision"]
+    
+    # Model versioning
+    versioning:
+      enabled: true
+      track_versions: true
+      allow_version_pinning: true
+      default_version_strategy: "latest_stable"  # latest, latest_stable, pinned
+  
+  # =====================================================
+  # Feature Flags
+  # =====================================================
+  features:
+    # Core features
+    clip_encoding: true
+    llava_inference: true
+    multi_image: true
+    image_generation: false  # Stable Diffusion, etc.
+    
+    # Experimental features (use with caution)
+    experimental:
+      video_processing: false
+      real_time_streaming: false
+      batch_inference: true
+      distributed_inference: false
+    
+    # Beta features
+    beta:
+      semantic_image_search: true
+      image_similarity: true
+      zero_shot_classification: true
+  
+  # =====================================================
+  # Integration
+  # =====================================================
+  integration:
+    # Vector database integration
+    vector_db:
+      enabled: true
+      auto_index_embeddings: true
+      
+    # LLM integration
+    llm:
+      enabled: true
+      fallback_to_text_only: true
+      
+    # Storage integration
+    storage:
+      cache_embeddings: true
+      cache_results: true
+      
+    # External services
+    external:
+      huggingface_hub: false
+      openai_api: false
+
+# =====================================================
+# Production Deployment Recommendations
+# =====================================================
+# 
+# For production deployment, ensure:
+# 1. Set stability.level to "stable"
+# 2. Enable all monitoring and audit logging
+# 3. Configure appropriate resource limits based on hardware
+# 4. Enable sandboxing for maximum security
+# 5. Set up rate limiting to prevent abuse
+# 6. Configure license enforcement
+# 7. Enable model verification and checksums
+# 8. Set up proper authentication and authorization
+# 9. Configure appropriate retention policies
+# 10. Test failover and error handling scenarios
+#
+# Review and adjust settings based on your specific requirements.

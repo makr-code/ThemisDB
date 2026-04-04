@@ -1,0 +1,333 @@
+# Immanuel Kant - Kantische Ethik
+
+school_id: kant
+name: "Kantian Ethics"
+name_de: "Kantische Ethik"
+
+## Hauptvertreter
+founders:
+  - name: "Immanuel Kant"
+    years: "1724-1804"
+    nationality: "Deutsch"
+    birthplace: "Königsberg, Preußen"
+    key_works:
+      - title: "Grundlegung zur Metaphysik der Sitten"
+        year: 1785
+        significance: "Einführung des kategorischen Imperativs"
+      - title: "Kritik der praktischen Vernunft"
+        year: 1788
+        significance: "Systematische Darstellung der moralischen Philosophie"
+      - title: "Die Metaphysik der Sitten"
+        year: 1797
+        significance: "Anwendung auf Recht und Tugendlehre"
+    biography: "Kant verbrachte sein ganzes Leben in Königsberg. Seine kritische Philosophie revolutionierte die Ethik durch die Betonung von Vernunft und Autonomie."
+
+## Historischer Kontext
+historical_context:
+  period: "Aufklärung (18. Jahrhundert)"
+  philosophical_movement: "Deutscher Idealismus"
+  zeitgeist: "Betonung von Vernunft, Wissenschaft und menschlicher Würde"
+  influences:
+    - source: "Rationalismus"
+      thinkers: ["Leibniz", "Wolff"]
+      impact: "Betonung apriorischer Prinzipien"
+    - source: "Empirismus"  
+      thinkers: ["Hume"]
+      impact: "Kant's 'Erweckung aus dogmatischem Schlummer'"
+    - source: "Rousseau"
+      impact: "Einfluss auf Freiheits- und Autonomiebegriff"
+  reactions_against:
+    - "Moralischen Relativismus"
+    - "Rein konsequentialistische Ethik"
+    - "Heteronome Moralsysteme"
+
+## Hauptthesen
+
+main_theses:
+  - thesis_id: "kategorischer_imperativ"
+    name: "Kategorischer Imperativ"
+    description: "Handle nur nach derjenigen Maxime, durch die du zugleich wollen kannst, dass sie ein allgemeines Gesetz werde."
+    explanation: |
+      Der kategorische Imperativ ist der oberste Grundsatz der Moral. Er verlangt, dass
+      Handlungsmaximen universalisierbar sein müssen. Eine Handlung ist nur dann moralisch,
+      wenn ihre zugrunde liegende Maxime ohne Widerspruch als allgemeines Gesetz gelten könnte.
+    formulations:
+      - name: "Allgemeines Gesetz Formel"
+        text: "Handle nur nach derjenigen Maxime, durch die du zugleich wollen kannst, dass sie ein allgemeines Gesetz werde."
+        explanation: "Prüft die Universalisierbarkeit von Handlungsgrundsätzen"
+      - name: "Naturgesetz Formel"
+        text: "Handle so, als ob die Maxime deiner Handlung durch deinen Willen zum allgemeinen Naturgesetze werden sollte."
+        explanation: "Stellt sich vor, die Maxime würde naturgesetzlich gelten"
+      - name: "Selbstzweckformel"
+        text: "Handle so, dass du die Menschheit sowohl in deiner Person, als in der Person eines jeden anderen jederzeit zugleich als Zweck, niemals bloß als Mittel brauchst."
+        explanation: "Verbietet Instrumentalisierung von Personen"
+      - name: "Autonomie Formel"
+        text: "Handle so, dass dein Wille durch seine Maxime sich selbst zugleich als allgemein gesetzgebend betrachten könne."
+        explanation: "Betont die Selbstgesetzgebung rationaler Wesen"
+      - name: "Reich der Zwecke Formel"
+        text: "Handle so, als ob du durch deine Maxime jederzeit ein gesetzgebendes Glied im allgemeinen Reich der Zwecke wärst."
+        explanation: "Ideal einer Gemeinschaft rationaler Wesen"
+    practical_application: |
+      Beispiel Lügen: Kann ich wollen, dass jeder lügt, wenn es vorteilhaft ist?
+      Nein - denn wenn alle lügen würden, würde das Konzept der Wahrhaftigkeit
+      zusammenbrechen und damit auch die Möglichkeit zu lügen.
+
+  - thesis_id: "selbstzweck"
+    name: "Menschen als Selbstzweck"
+    description: "Menschen haben intrinsischen Wert und dürfen niemals bloß als Mittel behandelt werden."
+    explanation: |
+      Jeder Mensch besitzt Würde (nicht bloß Preis) kraft seiner Rationalität und Autonomie.
+      Dies begründet ein absolutes Verbot, Menschen bloß als Werkzeug für andere Zwecke zu benutzen.
+      Menschen dürfen nur unter Bedingungen als Mittel behandelt werden, denen sie rational
+      zustimmen könnten.
+    implications:
+      - "Verbot von Sklaverei und Ausbeutung"
+      - "Recht auf informierte Zustimmung"
+      - "Achtung der Autonomie anderer"
+      - "Verbot manipulativer Praktiken"
+    examples:
+      positive: "Einem Arbeitnehmer faire Löhne zahlen respektiert seine Würde"
+      negative: "Jemanden ohne sein Wissen für Experimente nutzen verletzt seine Würde"
+
+  - thesis_id: "autonomie_wuerde"
+    name: "Autonomie und Würde"
+    description: "Die Würde des Menschen liegt in seiner Fähigkeit zur autonomen Selbstgesetzgebung."
+    explanation: |
+      Moralische Subjekte sind rationale Wesen, die sich selbst Gesetze geben können.
+      Diese Autonomie - die Fähigkeit, nach selbstgegebenen vernünftigen Gesetzen zu handeln -
+      ist die Quelle aller Würde und allen moralischen Werts.
+    components:
+      - aspect: "Positive Freiheit"
+        description: "Fähigkeit zur Selbstbestimmung nach Vernunftprinzipien"
+      - aspect: "Würde (Dignitas)"
+        description: "Unbedingter, unvergleichlicher Wert rationaler Wesen"
+      - aspect: "Selbstgesetzgebung"
+        description: "Das moralische Gesetz entspringt der eigenen Vernunft"
+    relation_to_heteronomy: |
+      Heteronomie (Fremdgesetzgebung) - etwa durch Neigung, Autorität oder Konsequenzen -
+      untergräbt moralischen Wert. Wahre Moralität erfordert Handeln aus Achtung
+      vor dem selbstgegebenen Gesetz.
+
+  - thesis_id: "pflicht_neigung"
+    name: "Pflicht über Neigung"
+    description: "Der moralische Wert einer Handlung liegt in der Pflicht, nicht in Neigungen oder Konsequenzen."
+    explanation: |
+      Eine Handlung hat nur dann moralischen Wert, wenn sie aus Pflicht geschieht -
+      d.h. aus Achtung vor dem moralischen Gesetz. Handlungen aus Neigung (Wunsch, Sympathie)
+      oder zur Erlangung bestimmter Zwecke haben keinen genuinen moralischen Wert,
+      selbst wenn sie pflichtgemäß sind.
+    distinctions:
+      - case: "Aus Pflicht"
+        description: "Handlung wird vollzogen, weil sie moralisch geboten ist"
+        moral_worth: "Hoch"
+        example: "Jemandem helfen, weil es richtig ist, auch wenn man keine Sympathie empfindet"
+      - case: "Pflichtgemäß aus Neigung"
+        description: "Handlung entspricht der Pflicht, wird aber aus Neigung vollzogen"
+        moral_worth: "Keinen (obwohl lobenswert)"
+        example: "Jemandem helfen, weil man Mitgefühl empfindet"
+      - case: "Pflichtwidrig"
+        description: "Handlung verstößt gegen moralisches Gesetz"
+        moral_worth: "Negativ"
+        example: "Lügen aus Eigeninteresse"
+    controversies: |
+      Kritiker argumentieren, dass diese Sicht Emotionen und Mitgefühl unzulässig abwertet.
+      Kant entgegnet, dass Neigungen unzuverlässig sind und nur die Pflicht universelle
+      moralische Orientierung bietet.
+
+## Nebenthesen
+
+secondary_theses:
+  - thesis_id: "guter_wille"
+    name: "Der gute Wille"
+    description: "Das einzige uneingeschränkt Gute ist der gute Wille."
+    explanation: |
+      Alle anderen Güter (Talente, Glück, Macht) können zum Schlechten verwendet werden.
+      Nur der gute Wille - der Wille, aus Pflicht zu handeln - ist intrinsisch und
+      bedingungslos gut. Selbst wenn der gute Wille nichts erreicht, behält er seinen vollen Wert.
+    implications:
+      - "Konsequenzen sind für moralischen Wert sekundär"
+      - "Intentionen und Motive sind zentral"
+      - "Moralischer Wert ist handlungsimmanent, nicht resultatabhängig"
+
+  - thesis_id: "hypothetischer_imperativ"
+    name: "Hypothetische vs. Kategorische Imperative"
+    description: "Hypothetische Imperative sind bedingt, kategorische unbedingt."
+    explanation: |
+      Hypothetische Imperative haben die Form: "Wenn du X willst, dann tu Y."
+      Sie gelten nur unter Bedingung eines bestimmten Ziels. Kategorische Imperative
+      gelten unbedingt für alle rationalen Wesen, unabhängig von individuellen Zielen.
+    examples:
+      hypothetical:
+        - "Wenn du gesund sein willst, treibe Sport"
+        - "Wenn du reich werden willst, investiere klug"
+      categorical:
+        - "Lüge nicht"
+        - "Respektiere die Würde anderer"
+
+  - thesis_id: "rigorismus"
+    name: "Moralischer Rigorismus"
+    description: "Moralische Pflichten gelten ausnahmslos."
+    explanation: |
+      Kant vertritt einen strengen moralischen Rigorismus: Moralische Gebote kennen
+      keine Ausnahmen. Selbst in Extremfällen bleibt die Pflicht bestehen. Dies führt
+      zu kontroversen Positionen (z.B. Lügenverbot auch zum Schutz Unschuldiger).
+    controversial_implications:
+      - "Lügen ist immer falsch, auch um Leben zu retten"
+      - "Versprechen müssen immer gehalten werden"
+      - "Keine Güterabwägung bei moralischen Konflikten"
+    defenses: |
+      Kant argumentiert, dass Ausnahmen die Universalität und damit die Rationalität
+      der Moral untergraben würden. Neuere Kantianer schlagen differenziertere
+      Lösungen vor (z.B. konkretere Maximenspezifikation).
+
+  - thesis_id: "vernunftreligion"
+    name: "Religion innerhalb der Grenzen der bloßen Vernunft"
+    description: "Moralisches Gesetz führt zu Postulaten der praktischen Vernunft."
+    explanation: |
+      Die Moral selbst erfordert keine religiösen Grundlagen. Jedoch führen
+      praktische Anforderungen der Moral zu "Postulaten": Freiheit, Unsterblichkeit
+      der Seele, und Existenz Gottes als notwendige Annahmen für die Möglichkeit
+      des höchsten Guts.
+    postulates:
+      - name: "Freiheit"
+        reason: "Moralität setzt Freiheit des Willens voraus"
+      - name: "Unsterblichkeit"
+        reason: "Vollkommene Tugend erfordert unendlichen Fortschritt"
+      - name: "Gott"
+        reason: "Übereinstimmung von Tugend und Glückseligkeit erfordert höchstes Wesen"
+
+  - thesis_id: "rechtslehre"
+    name: "Recht und Moral"
+    description: "Äußeres Recht unterscheidet sich von innerer Moral."
+    explanation: |
+      Recht betrifft äußere Handlungen und deren Vereinbarkeit mit der Freiheit anderer.
+      Moral betrifft innere Gesinnung und Motive. Das Recht darf äußeren Zwang ausüben,
+      die Moral nicht. Beide entspringen jedoch dem kategorischen Imperativ.
+    key_principles:
+      - "Allgemeines Rechtsgesetz: Handle so, dass dein Wille mit der Freiheit aller nach einem allgemeinen Gesetz zusammen bestehen kann"
+      - "Recht auf Eigentum basiert auf ursprünglicher Besitznahme"
+      - "Rechtsstaat als Realisierung äußerer Freiheit"
+
+  - thesis_id: "tugendlehre"
+    name: "Tugendlehre"
+    description: "Tugendpflichten sind Pflichten gegen sich selbst und andere."
+    explanation: |
+      Während die Rechtslehre erzwingbare Pflichten behandelt, befasst sich die
+      Tugendlehre mit nicht-erzwingbaren ethischen Pflichten. Diese umfassen
+      Selbstvervollkommnung und Beförderung fremder Glückseligkeit.
+    duties:
+      to_self:
+        - "Erhaltung der eigenen moralischen Integrität"
+        - "Entwicklung der eigenen Talente"
+        - "Vermeidung von Lastern (Lüge, Geiz, Völlerei)"
+      to_others:
+        - "Wohltätigkeit (nach Vermögen)"
+        - "Dankbarkeit"
+        - "Teilnehmende Empfindung"
+
+## Entscheidungsrahmen
+decision_framework:
+  question_sequence:
+    - "Was ist die Maxime meiner Handlung?"
+    - "Kann ich wollen, dass diese Maxime ein allgemeines Gesetz werde?"
+    - "Behandle ich alle Betroffenen als Selbstzweck?"
+    - "Handle ich aus Pflicht oder nur pflichtgemäß?"
+  tests:
+    - name: "Universalisierungstest"
+      procedure: "Prüfe, ob die Maxime widerspruchsfrei universalisiert werden kann"
+    - name: "Selbstzwecktest"
+      procedure: "Prüfe, ob die Handlung die Menschheit als bloßes Mittel behandelt"
+    - name: "Autonomietest"
+      procedure: "Prüfe, ob die Handlung die Autonomie respektiert"
+
+## Stärken und Schwächen
+
+strengths:
+  - point: "Klare, rationale Prinzipien"
+    elaboration: "Bietet eindeutige Orientierung durch universelle Gesetze"
+  - point: "Schutz der Menschenwürde"
+    elaboration: "Absolutes Verbot der Instrumentalisierung von Personen"
+  - point: "Unabhängig von Konsequenzen"
+    elaboration: "Moralität hängt nicht von unvorhersehbaren Folgen ab"
+  - point: "Respekt vor Autonomie"
+    elaboration: "Zentrale Stellung der Selbstbestimmung"
+  - point: "Egalitarismus"
+    elaboration: "Alle rationalen Wesen haben gleiche Würde"
+
+weaknesses:
+  - point: "Übermäßiger Rigorismus"
+    elaboration: "Keine Ausnahmen selbst in Extremfällen erscheint unrealistisch"
+  - point: "Konflikte zwischen Pflichten"
+    elaboration: "Keine klare Methode zur Auflösung von Pflichtenkollisionen"
+  - point: "Vernachlässigung von Emotionen"
+    elaboration: "Mitgefühl und Fürsorge werden als moralisch irrelevant behandelt"
+  - point: "Abstraktheit"
+    elaboration: "Schwierig, auf konkrete Situationen anzuwenden"
+  - point: "Maximenspezifikation unklar"
+    elaboration: "Auf welcher Ebene ist die Handlungsmaxime zu formulieren?"
+
+## Moderne Entwicklungen
+
+contemporary_extensions:
+  - thinker: "Christine Korsgaard"
+    contribution: "Konstitutivistische Interpretation: Moralische Gesetze als Bedingungen praktischer Identität"
+  - thinker: "Onora O'Neill"
+    contribution: "Anwendung kantischer Prinzipien auf globale Gerechtigkeit und Bioethik"
+  - thinker: "Barbara Herman"
+    contribution: "Rolle von Urteilskraft und Kontextsensitivität in kantischer Ethik"
+  - thinker: "Allen Wood"
+    contribution: "Integration kantischer Ethik mit Tugendethik"
+
+## Anwendungsbereiche
+
+application_areas:
+  - domain: "Bioethik"
+    issues:
+      - "Informed Consent in medizinischer Forschung"
+      - "Verbot instrumenteller Nutzung von Embryonen"
+      - "Würdebasierte Argumente gegen Euthanasie"
+  - domain: "Wirtschaftsethik"
+    issues:
+      - "Faire Behandlung von Arbeitnehmern"
+      - "Verbot betrügerischer Geschäftspraktiken"
+      - "Verantwortung gegenüber Stakeholdern"
+  - domain: "Politische Philosophie"
+    issues:
+      - "Menschenrechte als Ausdruck der Würde"
+      - "Demokratische Legitimation"
+      - "Kosmopolitismus und globale Gerechtigkeit"
+  - domain: "Umweltethik"
+    issues:
+      - "Kritik: Beschränkung auf rationale Wesen problematisch"
+      - "Indirekte Pflichten gegenüber Natur möglich"
+      - "Generationengerechtigkeit"
+
+## Zitate
+
+famous_quotes:
+  - quote: "Handle so, dass die Maxime deines Willens jederzeit zugleich als Prinzip einer allgemeinen Gesetzgebung gelten könne."
+    source: "Kritik der praktischen Vernunft"
+    context: "Grundformel des kategorischen Imperativs"
+  
+  - quote: "Zwei Dinge erfüllen das Gemüt mit immer neuer und zunehmender Bewunderung und Ehrfurcht: der bestirnte Himmel über mir und das moralische Gesetz in mir."
+    source: "Kritik der praktischen Vernunft"
+    context: "Schlusssatz, drückt Ehrfurcht vor Moral aus"
+  
+  - quote: "Der Mensch ist zwar unheilig genug, aber die Menschheit in seiner Person muss ihm heilig sein."
+    source: "Kritik der praktischen Vernunft"
+    context: "Würde der Menschheit in jedem Menschen"
+
+## Bibliographie
+
+key_literature:
+  primary:
+    - "Kant, Immanuel. Grundlegung zur Metaphysik der Sitten (1785)"
+    - "Kant, Immanuel. Kritik der praktischen Vernunft (1788)"
+    - "Kant, Immanuel. Die Metaphysik der Sitten (1797)"
+  
+  secondary:
+    - "Korsgaard, Christine M. Creating the Kingdom of Ends (1996)"
+    - "O'Neill, Onora. Acting on Principle (1975)"
+    - "Wood, Allen W. Kant's Ethical Thought (1999)"
+    - "Herman, Barbara. The Practice of Moral Judgment (1993)"
+    - "Hill, Thomas E. Dignity and Practical Reason in Kant's Moral Theory (1992)"

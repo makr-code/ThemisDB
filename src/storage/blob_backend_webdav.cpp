@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            blob_backend_webdav.cpp                            ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:20:26                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     386                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • edcfeb984  2026-03-11  feat: add scripts for auditing and reconciling GitHub iss... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "storage/blob_storage_backend.h"
 #include "utils/logger.h"
 #include <curl/curl.h>
@@ -92,12 +115,15 @@ public:
             base_url_, username_, verify_ssl_);
     }
     
-    BlobRef put(const std::string& blob_id, const std::vector<uint8_t>& data) override {
+    Result<BlobRef> put(const std::string& blob_id, const std::vector<uint8_t>& data) override {
         std::string url = getBlobUrl(blob_id);
         
         CURL* curl = curl_easy_init();
         if (!curl) {
-            throw std::runtime_error("Failed to initialize CURL");
+            return Err<BlobRef>(
+                errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
+                "Failed to initialize CURL"
+            );
         }
         
         try {
@@ -132,7 +158,8 @@ public:
             
             if (res != CURLE_OK) {
                 curl_easy_cleanup(curl);
-                throw std::runtime_error(
+                return Err<BlobRef>(
+                    errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
                     "WebDAV PUT failed: " + std::string(curl_easy_strerror(res))
                 );
             }
@@ -142,7 +169,8 @@ public:
             curl_easy_cleanup(curl);
             
             if (response_code < 200 || response_code >= 300) {
-                throw std::runtime_error(
+                return Err<BlobRef>(
+                    errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
                     "WebDAV PUT failed with HTTP " + std::to_string(response_code)
                 );
             }
@@ -161,19 +189,25 @@ public:
             THEMIS_DEBUG("WebDAVBlobBackend: Stored blob {} ({} bytes) at {}", 
                 blob_id, data.size(), url);
             
-            return ref;
+            return Ok(ref);
             
-        } catch (...) {
+        } catch (const std::exception& e) {
             curl_easy_cleanup(curl);
-            throw;
+            return Err<BlobRef>(
+                errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
+                "WebDAV PUT exception: " + std::string(e.what())
+            );
         }
     }
     
-    std::optional<std::vector<uint8_t>> get(const BlobRef& ref) override {
+    Result<std::vector<uint8_t>> get(const BlobRef& ref) override {
         CURL* curl = curl_easy_init();
         if (!curl) {
             THEMIS_ERROR("Failed to initialize CURL");
-            return std::nullopt;
+            return Err<std::vector<uint8_t>>(
+                errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
+                "Failed to initialize CURL"
+            );
         }
         
         try {
@@ -194,7 +228,10 @@ public:
             if (res != CURLE_OK) {
                 THEMIS_ERROR("WebDAV GET failed: {}", curl_easy_strerror(res));
                 curl_easy_cleanup(curl);
-                return std::nullopt;
+                return Err<std::vector<uint8_t>>(
+                    errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
+                    "WebDAV GET failed: " + std::string(curl_easy_strerror(res))
+                );
             }
             
             long response_code;
@@ -203,30 +240,42 @@ public:
             
             if (response_code == 404) {
                 THEMIS_WARN("WebDAVBlobBackend: Blob not found: {}", ref.uri);
-                return std::nullopt;
+                return Err<std::vector<uint8_t>>(
+                    errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND,
+                    "Blob not found: " + ref.uri
+                );
             }
             
             if (response_code < 200 || response_code >= 300) {
                 THEMIS_ERROR("WebDAV GET failed with HTTP {}", response_code);
-                return std::nullopt;
+                return Err<std::vector<uint8_t>>(
+                    errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
+                    "WebDAV GET failed with HTTP " + std::to_string(response_code)
+                );
             }
             
             THEMIS_DEBUG("WebDAVBlobBackend: Retrieved blob {} ({} bytes)", 
                 ref.id, data.size());
             
-            return data;
+            return Ok(data);
             
         } catch (const std::exception& e) {
             THEMIS_ERROR("WebDAVBlobBackend::get failed: {}", e.what());
             curl_easy_cleanup(curl);
-            return std::nullopt;
+            return Err<std::vector<uint8_t>>(
+                errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
+                "WebDAV GET exception: " + std::string(e.what())
+            );
         }
     }
     
-    bool remove(const BlobRef& ref) override {
+    Result<void> remove(const BlobRef& ref) override {
         CURL* curl = curl_easy_init();
         if (!curl) {
-            return false;
+            return Err<void>(
+                errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
+                "Failed to initialize CURL"
+            );
         }
         
         try {
@@ -249,14 +298,20 @@ public:
             
             if (res == CURLE_OK && (response_code == 200 || response_code == 204)) {
                 THEMIS_DEBUG("WebDAVBlobBackend: Removed blob {}", ref.id);
-                return true;
+                return OkVoid();
             }
             
-            return false;
+            return Err<void>(
+                errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
+                "WebDAV DELETE failed with code: " + std::to_string(response_code)
+            );
             
-        } catch (...) {
+        } catch (const std::exception& e) {
             curl_easy_cleanup(curl);
-            return false;
+            return Err<void>(
+                errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
+                "WebDAV DELETE exception: " + std::string(e.what())
+            );
         }
     }
     
@@ -286,7 +341,8 @@ public:
             
             return res == CURLE_OK && response_code == 200;
             
-        } catch (...) {
+        } catch (const std::exception& e) {
+            THEMIS_WARN("WebDAVBlobBackend::exists check failed: {}", e.what());
             curl_easy_cleanup(curl);
             return false;
         }
@@ -318,7 +374,8 @@ public:
             
             return res == CURLE_OK;
             
-        } catch (...) {
+        } catch (const std::exception& e) {
+            THEMIS_WARN("WebDAVBlobBackend::isAvailable check failed: {}", e.what());
             curl_easy_cleanup(curl);
             return false;
         }

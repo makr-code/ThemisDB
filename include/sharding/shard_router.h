@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            shard_router.h                                     ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:11:38                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     288                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • bc061a79d  2026-03-24  feat(query): QueryFederation shard-key routing v1.9.0 ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include "sharding/urn_resolver.h"
@@ -121,7 +144,7 @@ public:
      * @param query Query string (e.g., AQL query)
      * @return Combined results from all relevant shards
      */
-    nlohmann::json executeQuery(const std::string& query);
+    virtual nlohmann::json executeQuery(const std::string& query);
     
     /**
      * Determine routing strategy for a query
@@ -137,7 +160,30 @@ public:
      * @param query Query to execute
      * @return Merged results from all shards
      */
-    std::vector<ShardResult> scatterGather(const std::string& query);
+    virtual std::vector<ShardResult> scatterGather(const std::string& query);
+
+    /**
+     * Execute a query on a specific subset of shards.
+     *
+     * Behaves identically to scatterGather but only contacts the shards
+     * whose IDs appear in @p shard_ids.  Unknown or unhealthy shard IDs are
+     * skipped with a WARN log rather than causing an error.
+     *
+     * @param query     AQL query string
+     * @param shard_ids Shard identifiers to target
+     * @return Results from the targeted shards (success + failure entries)
+     */
+    virtual std::vector<ShardResult> executeOnShards(
+        const std::string& query,
+        const std::vector<std::string>& shard_ids
+    );
+
+    /**
+     * Access the URN resolver to perform key-based shard lookups.
+     * @return Reference to the resolver
+     */
+    URNResolver& getResolver() { return *resolver_; }
+    const URNResolver& getResolver() const { return *resolver_; }
     
     /**
      * Execute cross-shard join (simplified two-phase approach)

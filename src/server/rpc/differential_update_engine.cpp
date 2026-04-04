@@ -1,3 +1,25 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            differential_update_engine.cpp                     ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:20:01                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   98.0/100                                       ║
+    • Total Lines:     287                                            ║
+    • Open Issues:     TODOs: 1, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "server/rpc/differential_update_engine.h"
 #include <openssl/sha.h>
 #include <fstream>
@@ -46,7 +68,7 @@ public:
     
     std::vector<ChunkInfo> GenerateManifest(
         const std::string& blob_path,
-        themis::sharding::DifferentialMode mode,
+        themis::sharding::proto::DifferentialMode mode,
         uint32_t chunk_size_kb
     ) {
         std::vector<ChunkInfo> manifest;
@@ -62,15 +84,15 @@ public:
         file.close();
         
         switch (mode) {
-            case themis::sharding::DIFFERENTIAL_CDC:
+            case themis::sharding::proto::DIFFERENTIAL_CDC:
                 manifest = GenerateManifestCDC(data);
                 break;
                 
-            case themis::sharding::DIFFERENTIAL_FIXED_BLOCK:
+            case themis::sharding::proto::DIFFERENTIAL_FIXED_BLOCK:
                 manifest = GenerateManifestFixedBlock(data, chunk_size_kb);
                 break;
                 
-            case themis::sharding::DIFFERENTIAL_BSDIFF:
+            case themis::sharding::proto::DIFFERENTIAL_BSDIFF:
                 // For bsdiff, treat whole file as single chunk
                 manifest = GenerateManifestWhole(data);
                 break;
@@ -119,23 +141,23 @@ public:
         return result;
     }
     
-    themis::sharding::DifferentialMode SelectStrategy(
+    themis::sharding::proto::DifferentialMode SelectStrategy(
         const BlobMetadata& metadata
     ) {
         double change_rate = metadata.estimated_change_rate;
         
         if (change_rate < 0.05) {
             // < 5% change: Binary diff is optimal
-            return themis::sharding::DIFFERENTIAL_BSDIFF;
+            return themis::sharding::proto::DIFFERENTIAL_BSDIFF;
         } else if (change_rate < 0.30) {
             // 5-30% change: Fixed-block works well
-            return themis::sharding::DIFFERENTIAL_FIXED_BLOCK;
+            return themis::sharding::proto::DIFFERENTIAL_FIXED_BLOCK;
         } else if (change_rate < 0.90) {
             // 30-90% change: CDC gives best deduplication
-            return themis::sharding::DIFFERENTIAL_CDC;
+            return themis::sharding::proto::DIFFERENTIAL_CDC;
         } else {
             // > 90% change: Full transfer is more efficient
-            return themis::sharding::DIFFERENTIAL_NONE;
+            return themis::sharding::proto::DIFFERENTIAL_NONE;
         }
     }
     
@@ -235,7 +257,7 @@ DifferentialUpdateEngine::~DifferentialUpdateEngine() = default;
 
 std::vector<ChunkInfo> DifferentialUpdateEngine::GenerateManifest(
     const std::string& blob_path,
-    themis::sharding::DifferentialMode mode,
+    themis::sharding::proto::DifferentialMode mode,
     uint32_t chunk_size_kb
 ) {
     return impl_->GenerateManifest(blob_path, mode, chunk_size_kb);
@@ -248,7 +270,7 @@ DeltaResult DifferentialUpdateEngine::ComputeDelta(
     return impl_->ComputeDelta(base_manifest, target_manifest);
 }
 
-themis::sharding::DifferentialMode DifferentialUpdateEngine::SelectStrategy(
+themis::sharding::proto::DifferentialMode DifferentialUpdateEngine::SelectStrategy(
     const BlobMetadata& metadata
 ) {
     return impl_->SelectStrategy(metadata);

@@ -1,0 +1,199 @@
+# =============================================================================
+# ThemisDB Docker Compose - Prebuild Cache Configuration
+# =============================================================================
+# This docker-compose file demonstrates how to use prebuilt vcpkg packages
+# to dramatically speed up Docker builds.
+#
+# Prerequisites:
+#   1. Generate prebuilt cache:
+#      Linux/WSL: ./scripts/prebuild-vcpkg-linux.sh release
+#      Windows:   .\scripts\prebuild-vcpkg-windows.ps1 -BuildType release
+#
+#   2. Ensure BuildKit is enabled:
+#      export DOCKER_BUILDKIT=1
+#      export COMPOSE_DOCKER_CLI_BUILD=1
+#
+# Usage:
+#   docker-compose -f docker-compose.prebuild.yml build
+#   docker-compose -f docker-compose.prebuild.yml up
+#
+# =============================================================================
+
+version: '3.8'
+
+x-vcpkg-cache-volumes: &vcpkg-cache-volumes
+  # Prebuilt cache mount (read-only)
+  - ./prebuilt-cache/x64-linux/release/vcpkg_installed:/vcpkg-prebuilt/x64-linux:ro
+  # Binary cache for additional packages
+  - vcpkg-binary-cache:/opt/vcpkg-binary-cache
+
+services:
+  # ==========================================================================
+  # ThemisDB with Prebuilt Cache - Community Edition
+  # ==========================================================================
+  themisdb-community:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        THEMIS_EDITION: COMMUNITY
+        ENABLE_LLM: "ON"
+        ENABLE_GPU: "OFF"
+        FORCE_CPU_ONLY: "ON"
+        BUILD_TESTS: "OFF"
+        BUILD_BENCHMARKS: "OFF"
+        ENABLE_VCPKG_CACHE: "ON"  # Enable prebuilt cache usage
+        SKIP_VCPKG_INSTALL: "OFF" # Still validate/install missing packages
+      target: runtime
+      cache_from:
+        - type=local,src=.docker-cache
+      cache_to:
+        - type=local,dest=.docker-cache,mode=max
+      # Mount prebuilt artifacts
+      additional_contexts:
+        prebuilt: ./prebuilt-cache/x64-linux/release
+    image: themisdb:community-prebuild
+    container_name: themisdb-community-prebuild
+    ports:
+      - "8080:8080"
+      - "18765:18765"
+      - "4318:4318"
+    volumes:
+      - themisdb-data:/data
+      - themisdb-logs:/logs
+    environment:
+      - THEMIS_EDITION=COMMUNITY
+      - THEMIS_DATA_DIR=/data
+      - THEMIS_LOG_LEVEL=info
+    restart: unless-stopped
+    networks:
+      - themisdb-network
+
+  # ==========================================================================
+  # ThemisDB with Prebuilt Cache - Minimal Edition
+  # ==========================================================================
+  themisdb-minimal:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        THEMIS_EDITION: MINIMAL
+        ENABLE_LLM: "OFF"
+        ENABLE_GPU: "OFF"
+        FORCE_CPU_ONLY: "ON"
+        BUILD_TESTS: "OFF"
+        BUILD_BENCHMARKS: "OFF"
+        ENABLE_VCPKG_CACHE: "ON"
+        SKIP_VCPKG_INSTALL: "OFF"
+      target: runtime
+      cache_from:
+        - type=local,src=.docker-cache
+      cache_to:
+        - type=local,dest=.docker-cache,mode=max
+      additional_contexts:
+        prebuilt: ./prebuilt-cache/x64-linux/release
+    image: themisdb:minimal-prebuild
+    container_name: themisdb-minimal-prebuild
+    ports:
+      - "8081:8080"
+      - "18766:18765"
+    volumes:
+      - themisdb-minimal-data:/data
+    environment:
+      - THEMIS_EDITION=MINIMAL
+      - THEMIS_DATA_DIR=/data
+      - THEMIS_LOG_LEVEL=info
+    restart: unless-stopped
+    networks:
+      - themisdb-network
+
+  # ==========================================================================
+  # ThemisDB with Debug Prebuilt Cache (for development)
+  # ==========================================================================
+  themisdb-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        THEMIS_EDITION: COMMUNITY
+        ENABLE_LLM: "ON"
+        ENABLE_GPU: "OFF"
+        FORCE_CPU_ONLY: "ON"
+        BUILD_TESTS: "ON"
+        BUILD_BENCHMARKS: "ON"
+        ENABLE_VCPKG_CACHE: "ON"
+      target: builder  # Stop at builder stage for development
+      cache_from:
+        - type=local,src=.docker-cache
+      cache_to:
+        - type=local,dest=.docker-cache,mode=max
+      additional_contexts:
+        prebuilt: ./prebuilt-cache/x64-linux/debug
+    image: themisdb:dev-prebuild
+    container_name: themisdb-dev-prebuild
+    volumes:
+      - ./build:/build  # Mount build directory
+      - themisdb-dev-data:/data
+    environment:
+      - THEMIS_EDITION=COMMUNITY
+      - CMAKE_BUILD_TYPE=Debug
+    command: /bin/bash
+    stdin_open: true
+    tty: true
+    networks:
+      - themisdb-network
+
+volumes:
+  themisdb-data:
+    driver: local
+  themisdb-logs:
+    driver: local
+  themisdb-minimal-data:
+    driver: local
+  themisdb-dev-data:
+    driver: local
+  vcpkg-binary-cache:
+    driver: local
+
+networks:
+  themisdb-network:
+    driver: bridge
+
+# =============================================================================
+# Performance Comparison
+# =============================================================================
+#
+# Without prebuilt cache:
+#   - First build: ~30 minutes (compile all vcpkg packages)
+#   - Binary cache: ~15 minutes (reuse compiled binaries)
+#
+# With prebuilt cache:
+#   - First build: ~2-5 minutes (copy prebuilt packages + build ThemisDB)
+#   - Subsequent builds: ~30 seconds (reuse everything)
+#
+# =============================================================================
+# Notes
+# =============================================================================
+#
+# 1. Prebuilt cache structure:
+#    prebuilt-cache/
+#    └── x64-linux/
+#        ├── debug/
+#        │   └── vcpkg_installed/
+#        └── release/
+#            └── vcpkg_installed/
+#
+# 2. Generate prebuilt cache:
+#    ./scripts/prebuild-vcpkg-linux.sh both
+#
+# 3. Cross-platform workflow:
+#    - Build on Windows: .\scripts\prebuild-vcpkg-windows.ps1
+#    - Copy to WSL: cp -r /mnt/c/path/to/prebuilt-cache ./
+#    - Use in Docker: docker-compose -f docker-compose.prebuild.yml build
+#
+# 4. Sharing prebuilt cache:
+#    - Archive: tar czf vcpkg-x64-linux-release.tar.gz prebuilt-cache/
+#    - Upload to shared storage (S3, Azure Blob, network share)
+#    - Team members download and extract
+#
+# =============================================================================

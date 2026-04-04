@@ -1,3 +1,25 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            lora_metrics.h                                     ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:08:30                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     269                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file lora_metrics.h
  * @brief Prometheus/Grafana metrics for LoRA Adapter Framework
@@ -67,7 +89,8 @@ public:
     };
     
     explicit LoRAMetricsCollector(std::shared_ptr<prometheus::Registry> registry,
-                                 const Config& config = Config{});
+                                 const Config& config);
+    explicit LoRAMetricsCollector(std::shared_ptr<prometheus::Registry> registry);
     
     // Adapter Lifecycle Metrics
     void recordAdapterLoad(const std::string& adapter_id, double duration_ms);

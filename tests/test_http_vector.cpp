@@ -1,3 +1,25 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_http_vector.cpp                               ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:28:21                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     763                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include <gtest/gtest.h>
 #include <nlohmann/json.hpp>
 #include <boost/asio.hpp>
@@ -661,3 +683,81 @@ TEST_F(HttpVectorApiTest, VectorIndexStats_DOTMetric_NoNormalization) {
     std::filesystem::remove_all(db_path_dot);
 }
 
+
+// ============================================================
+// Tests: POST /vector/index/incremental-reindex
+// ============================================================
+
+TEST_F(HttpVectorApiTest, IncrementalReindex_EmptyIndex_ReturnsOk) {
+    // No vectors in the index
+    auto response = httpPost("/vector/index/incremental-reindex", json::object());
+
+    ASSERT_TRUE(response.contains("success"));
+    EXPECT_TRUE(response["success"].get<bool>());
+    EXPECT_EQ(response["added"].get<int>(),     0);
+    EXPECT_EQ(response["removed"].get<int>(),   0);
+    EXPECT_EQ(response["updated"].get<int>(),   0);
+    EXPECT_EQ(response["unchanged"].get<int>(), 0);
+    EXPECT_FALSE(response["full_rebuild_triggered"].get<bool>());
+}
+
+TEST_F(HttpVectorApiTest, IncrementalReindex_SyncedIndex_AllUnchanged) {
+    // Insert three vectors via the API
+    json batch = {
+        {"vector_field", "embedding"},
+        {"items", json::array({
+            json{{"pk","ir1"}, {"vector", {1.0f, 0.0f, 0.0f}}},
+            json{{"pk","ir2"}, {"vector", {0.0f, 1.0f, 0.0f}}},
+            json{{"pk","ir3"}, {"vector", {0.0f, 0.0f, 1.0f}}}
+        })}
+    };
+    auto ins = httpPost("/vector/batch_insert", batch);
+    ASSERT_TRUE(ins.contains("inserted"));
+
+    auto response = httpPost("/vector/index/incremental-reindex", json::object());
+
+    ASSERT_TRUE(response.contains("success"));
+    EXPECT_TRUE(response["success"].get<bool>());
+    // All three are already in the index and storage; nothing to do
+    EXPECT_EQ(response["added"].get<int>(),     0);
+    EXPECT_EQ(response["removed"].get<int>(),   0);
+    EXPECT_EQ(response["unchanged"].get<int>(), 3);
+    EXPECT_EQ(response["vector_count"].get<int>(), 3);
+}
+
+TEST_F(HttpVectorApiTest, IncrementalReindex_WithCustomThreshold_ReturnsOk) {
+    json body = {
+        {"rebuild_threshold", 0.50f}
+    };
+    auto response = httpPost("/vector/index/incremental-reindex", body);
+
+    ASSERT_TRUE(response.contains("success"));
+    EXPECT_TRUE(response["success"].get<bool>());
+}
+
+TEST_F(HttpVectorApiTest, IncrementalReindex_InvalidJson_ReturnsBadRequest) {
+    // Send malformed JSON directly through the beast HTTP layer
+    namespace beast = boost::beast;
+    namespace http  = beast::http;
+    namespace net   = boost::asio;
+    using tcp = net::ip::tcp;
+
+    net::io_context ioc;
+    tcp::socket sock(ioc);
+    tcp::resolver resolver(ioc);
+    auto eps = resolver.resolve("127.0.0.1", std::to_string(port_));
+    net::connect(sock, eps);
+
+    http::request<http::string_body> req(http::verb::post, "/vector/index/incremental-reindex", 11);
+    req.set(http::field::host, "127.0.0.1");
+    req.set(http::field::content_type, "application/json");
+    req.body() = "{ this is not valid json }";
+    req.prepare_payload();
+    http::write(sock, req);
+
+    beast::flat_buffer buf;
+    http::response<http::string_body> res;
+    http::read(sock, buf, res);
+
+    EXPECT_EQ(res.result(), http::status::bad_request);
+}

@@ -66,10 +66,16 @@ type ListLlmInteractionsOptions struct {
 
 // Client is the ThemisDB client
 type Client struct {
-	endpoints  []string
-	httpClient *http.Client
-	mu         sync.RWMutex
-	activeIdx  int
+	endpoints      []string
+	httpClient     *http.Client
+	mu             sync.RWMutex
+	activeIdx      int
+	maxRetries     int
+	circuitBreaker *circuitBreaker
+	loggingEnabled bool
+	logRequests    bool
+	logResponses   bool
+	logger         func(string, string)
 }
 
 // Config holds client configuration
@@ -80,6 +86,142 @@ type Config struct {
 	Timeout time.Duration
 	// MaxRetries for failed requests (default: 3)
 	MaxRetries int
+	// CircuitBreaker configuration
+	CircuitBreaker *CircuitBreakerConfig
+	// Logging configuration
+	Logging *LoggingConfig
+}
+
+// CircuitBreakerConfig holds circuit breaker configuration
+type CircuitBreakerConfig struct {
+	// Enabled turns on circuit breaker
+	Enabled bool
+	// FailureThreshold is the number of failures before opening circuit (default: 5)
+	FailureThreshold int
+	// ResetTimeout is how long to wait before attempting reset (default: 60s)
+	ResetTimeout time.Duration
+	// HalfOpenMaxRequests is max requests in half-open state (default: 3)
+	HalfOpenMaxRequests int
+}
+
+// LoggingConfig holds logging configuration
+type LoggingConfig struct {
+	// Enabled turns on logging
+	Enabled bool
+	// LogRequests enables request logging
+	LogRequests bool
+	// LogResponses enables response logging
+	LogResponses bool
+	// Logger is a custom logger function
+	Logger func(message string, level string)
+}
+
+// circuitBreakerState represents the state of a circuit breaker
+type circuitBreakerState int
+
+const (
+	circuitClosed circuitBreakerState = iota
+	circuitOpen
+	circuitHalfOpen
+)
+
+// circuitBreaker implements the circuit breaker pattern
+type circuitBreaker struct {
+	state               circuitBreakerState
+	failureCount        int
+	successCount        int
+	nextAttemptTime     time.Time
+	failureThreshold    int
+	resetTimeout        time.Duration
+	halfOpenMaxRequests int
+	mu                  sync.RWMutex
+}
+
+func newCircuitBreaker(config *CircuitBreakerConfig) *circuitBreaker {
+	if config.FailureThreshold == 0 {
+		config.FailureThreshold = 5
+	}
+	if config.ResetTimeout == 0 {
+		config.ResetTimeout = 60 * time.Second
+	}
+	if config.HalfOpenMaxRequests == 0 {
+		config.HalfOpenMaxRequests = 3
+	}
+	
+	return &circuitBreaker{
+		state:               circuitClosed,
+		failureThreshold:    config.FailureThreshold,
+		resetTimeout:        config.ResetTimeout,
+		halfOpenMaxRequests: config.HalfOpenMaxRequests,
+	}
+}
+
+func (cb *circuitBreaker) canExecute() bool {
+	cb.mu.RLock()
+	defer cb.mu.RUnlock()
+	
+	if cb.state == circuitClosed {
+		return true
+	}
+	if cb.state == circuitOpen {
+		if time.Now().After(cb.nextAttemptTime) {
+			// Don't transition here, let caller handle it if request succeeds
+			return true
+		}
+		return false
+	}
+	// half-open state
+	return cb.successCount < cb.halfOpenMaxRequests
+}
+
+func (cb *circuitBreaker) recordSuccess() {
+	cb.mu.Lock()
+	defer cb.mu.Unlock()
+	
+	if cb.state == circuitHalfOpen {
+		cb.successCount++
+		if cb.successCount >= cb.halfOpenMaxRequests {
+			cb.state = circuitClosed
+			cb.failureCount = 0
+		}
+	} else if cb.state == circuitClosed {
+		cb.failureCount = 0
+	}
+}
+
+func (cb *circuitBreaker) recordFailure() {
+	cb.mu.Lock()
+	defer cb.mu.Unlock()
+	
+	cb.failureCount++
+	if cb.failureCount >= cb.failureThreshold {
+		cb.state = circuitOpen
+		cb.nextAttemptTime = time.Now().Add(cb.resetTimeout)
+	}
+}
+
+func (cb *circuitBreaker) transitionToHalfOpen() {
+	cb.mu.Lock()
+	defer cb.mu.Unlock()
+	
+	cb.state = circuitHalfOpen
+	cb.successCount = 0
+}
+
+func (cb *circuitBreaker) getState() string {
+	cb.mu.RLock()
+	defer cb.mu.RUnlock()
+	
+	switch cb.state {
+	case circuitClosed:
+		return "CLOSED"
+	case circuitOpen:
+		return "OPEN"
+	case circuitHalfOpen:
+		return "HALF_OPEN"
+	default:
+		return "UNKNOWN"
+	}
 }
 
 // NewClient creates a new ThemisDB client
@@ -94,13 +236,35 @@ func NewClient(config Config) *Client {
 		config.Endpoints = []string{"http://localhost:8080"}
 	}
 
-	return &Client{
+	client := &Client{
 		endpoints: config.Endpoints,
 		httpClient: &http.Client{
 			Timeout: config.Timeout,
 		},
-		activeIdx: 0,
+		activeIdx:  0,
+		maxRetries: config.MaxRetries,
 	}
+
+	// Initialize circuit breaker if enabled
+	if config.CircuitBreaker != nil && config.CircuitBreaker.Enabled {
+		client.circuitBreaker = newCircuitBreaker(config.CircuitBreaker)
+	}
+
+	// Initialize logging
+	if config.Logging != nil && config.Logging.Enabled {
+		client.loggingEnabled = true
+		client.logRequests = config.Logging.LogRequests
+		client.logResponses = config.Logging.LogResponses
+		if config.Logging.Logger != nil {
+			client.logger = config.Logging.Logger
+		} else {
+			client.logger = func(msg, level string) {
+				fmt.Printf("[ThemisDB] [%s] %s\n", level, msg)
+			}
+		}
+	}
+
+	return client
 }
 
 // Get retrieves an entity by UUID
@@ -222,48 +386,129 @@ func (c *Client) ListLlmInteractions(ctx context.Context, opts *ListLlmInteracti
 	return response.Interactions, nil
 }
 
-// request performs an HTTP request
+// request performs an HTTP request with retry and circuit breaker support
 func (c *Client) request(ctx context.Context, method, path string, body interface{}, result interface{}, headers map[string]string) error {
-	var reqBody io.Reader
-	if body != nil {
-		data, err := json.Marshal(body)
+	// Check circuit breaker
+	if c.circuitBreaker != nil {
+		if !c.circuitBreaker.canExecute() {
+			err := fmt.Errorf("circuit breaker is OPEN")
+			if c.loggingEnabled {
+				c.logger(fmt.Sprintf("Circuit breaker blocked request: %s %s", method, path), "WARN")
+			}
+			return err
+		}
+		// Transition to half-open if needed (under lock)
+		c.circuitBreaker.mu.Lock()
+		if c.circuitBreaker.state == circuitOpen && time.Now().After(c.circuitBreaker.nextAttemptTime) {
+			c.circuitBreaker.state = circuitHalfOpen
+			c.circuitBreaker.successCount = 0
+		}
+		c.circuitBreaker.mu.Unlock()
+	}
+
+	var lastErr error
+	for attempt := 0; attempt < c.maxRetries; attempt++ {
+		if attempt > 0 {
+			// Exponential backoff
+			backoff := time.Duration(1<<uint(attempt-1)) * 100 * time.Millisecond
+			if c.loggingEnabled {
+				c.logger(fmt.Sprintf("Retry attempt %d after %v", attempt, backoff), "INFO")
+			}
+			time.Sleep(backoff)
+		}
+
+		var reqBody io.Reader
+		if body != nil {
+			data, err := json.Marshal(body)
+			if err != nil {
+				return fmt.Errorf("failed to marshal request body: %w", err)
+			}
+			reqBody = bytes.NewReader(data)
+		}
+
+		endpoint := c.getEndpoint()
+		url := endpoint + path
+
+		// Log request if enabled
+		if c.loggingEnabled && c.logRequests {
+			c.logger(fmt.Sprintf("Request: %s %s", method, url), "INFO")
+		}
+
+		req, err := http.NewRequestWithContext(ctx, method, url, reqBody)
 		if err != nil {
-			return fmt.Errorf("failed to marshal request body: %w", err)
+			return fmt.Errorf("failed to create request: %w", err)
 		}
-		reqBody = bytes.NewReader(data)
-	}
 
-	endpoint := c.getEndpoint()
-	url := endpoint + path
-
-	req, err := http.NewRequestWithContext(ctx, method, url, reqBody)
-	if err != nil {
-		return fmt.Errorf("failed to create request: %w", err)
-	}
-
-	req.Header.Set("Content-Type", "application/json")
-	for key, value := range headers {
-		req.Header.Set(key, value)
-	}
-
-	resp, err := c.httpClient.Do(req)
-	if err != nil {
-		return fmt.Errorf("request failed: %w", err)
-	}
-	defer resp.Body.Close()
-
-	if resp.StatusCode >= 400 {
-		bodyBytes, _ := io.ReadAll(resp.Body)
-		return fmt.Errorf("request failed with status %d: %s", resp.StatusCode, string(bodyBytes))
-	}
-
-	if result != nil && resp.StatusCode != http.StatusNoContent {
-		if err := json.NewDecoder(resp.Body).Decode(result); err != nil {
-			return fmt.Errorf("failed to decode response: %w", err)
+		req.Header.Set("Content-Type", "application/json")
+		for key, value := range headers {
+			req.Header.Set(key, value)
 		}
+
+		resp, err := c.httpClient.Do(req)
+		if err != nil {
+			lastErr = fmt.Errorf("request failed: %w", err)
+			if c.loggingEnabled {
+				c.logger(fmt.Sprintf("Request error: %v", err), "ERROR")
+			}
+			// Record failure for circuit breaker
+			if c.circuitBreaker != nil {
+				c.circuitBreaker.recordFailure()
+			}
+			continue
+		}
+		defer resp.Body.Close()
+
+		// Log response if enabled
+		if c.loggingEnabled && c.logResponses {
+			c.logger(fmt.Sprintf("Response: %s %s - Status: %d", method, url, resp.StatusCode), "INFO")
+		}
+
+		// Retry on 5xx errors
+		if resp.StatusCode >= 500 && attempt+1 < c.maxRetries {
+			bodyBytes, _ := io.ReadAll(resp.Body)
+			lastErr = fmt.Errorf("request failed with status %d: %s", resp.StatusCode, string(bodyBytes))
+			if c.loggingEnabled {
+				c.logger(fmt.Sprintf("Server error %d, will retry", resp.StatusCode), "WARN")
+			}
+			// Record failure for circuit breaker
+			if c.circuitBreaker != nil {
+				c.circuitBreaker.recordFailure()
+			}
+			continue
+		}
+
+		if resp.StatusCode >= 400 {
+			bodyBytes, _ := io.ReadAll(resp.Body)
+			err := fmt.Errorf("request failed with status %d: %s", resp.StatusCode, string(bodyBytes))
+			// Record failure for circuit breaker
+			if c.circuitBreaker != nil {
+				c.circuitBreaker.recordFailure()
+			}
+			return err
+		}
+
+		// Success - record for circuit breaker
+		if c.circuitBreaker != nil {
+			c.circuitBreaker.recordSuccess()
+		}
+
+		if result != nil && resp.StatusCode != http.StatusNoContent {
+			if err := json.NewDecoder(resp.Body).Decode(result); err != nil {
+				return fmt.Errorf("failed to decode response: %w", err)
+			}
+		}
+
+		return nil
 	}
 
-	return nil
+	// All retries exhausted
+	if c.circuitBreaker != nil {
+		c.circuitBreaker.recordFailure()
+	}
+	if lastErr != nil {
+		return fmt.Errorf("all retries exhausted: %w", lastErr)
+	}
+	return fmt.Errorf("request failed after %d attempts", c.maxRetries)
 }
 
 // getEndpoint returns the current active endpoint
@@ -565,4 +810,12 @@ func (c *Client) VectorUpsert(ctx context.Context, id string, embedding []float6
 func (c *Client) VectorDelete(ctx context.Context, id string) error {
 	path := fmt.Sprintf("/vector/%s", id)
 	return c.request(ctx, "DELETE", path, nil, nil, nil)
+}
+
+// GetCircuitBreakerState returns the current circuit breaker state or empty string if disabled
+func (c *Client) GetCircuitBreakerState() string {
+	if c.circuitBreaker == nil {
+		return ""
+	}
+	return c.circuitBreaker.getState()
 }

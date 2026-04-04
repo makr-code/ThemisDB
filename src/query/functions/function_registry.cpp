@@ -1,3 +1,27 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            function_registry.cpp                              ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:18:28                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     149                                            ║
+    • Open Issues:     TODOs: 1, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3da4977c8  2026-03-14  fix(aql): address classify-bridge PR review comments ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 5239b2166  2026-02-24  Code audit: register betweenness centrality at startup an... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file function_registry.cpp
  * @brief Implementation of the AQL Function Registry
@@ -32,53 +56,92 @@
 #include "query/functions/array_functions.h"
 #include "query/functions/date_functions.h"
 #include "query/functions/document_functions.h"
+#include "query/functions/json_path_functions.h"
 #include "query/functions/geo_functions.h"
 #include "query/functions/crs_functions.h"
 #include "query/functions/vector_functions.h"
 #include "query/functions/graph_functions.h"
+#include "query/functions/graph_extensions.h"
 #include "query/functions/relational_functions.h"
 #include "query/functions/file_functions.h"
 #include "query/functions/collection_functions.h"
 #include "query/functions/security_functions.h"
+#ifdef THEMIS_ENABLE_LLM
 #include "query/functions/lora_functions.h"
+#include "aql/classify_bridge.h"
+#endif
+#include "query/functions/ethics_functions.h"
+#include "query/functions/process_mining_functions.h"
+#include "query/functions/fulltext_functions.h"
+
+#include <iostream>
+#include <stdexcept>
 
 namespace themis {
 namespace query {
 namespace functions {
 
 void registerBuiltinFunctions() {
-    auto& registry = FunctionRegistry::instance();
-    
-    // Core data manipulation functions
-    registerStringFunctions(registry);
-    registerMathFunctions(registry);
-    registerArrayFunctions(registry);
-    registerDateFunctions(registry);
-    registerDocumentFunctions(registry);
-    
-    // Multi-model functions
-    registerGeoFunctions(registry);         // Spatial/GIS operations
-    registerCrsFunctions(registry);         // Coordinate transformations (ETRS89, UTM, etc.)
-    registerVectorFunctions(registry);      // ML embeddings & similarity
-    registerGraphFunctions(registry);       // Graph traversal & analysis
-    
-    // SQL-compatible functions
-    registerRelationalFunctions(registry);  // Joins, aggregation, window functions
-    
-    // File/storage functions
-    registerFileFunctions(registry);        // Path manipulation, MIME types
-    
-    // Collection and logical functions (JSON-native, Excel-style)
-    // Includes: ARRAY, DICT, JSON, HOLIDAYS, AND, OR, IF, SWITCH, ALL, ANY, etc.
-    registerCollectionFunctions(registry);
-    
-    // Security functions (validation, sanitization, masking)
-    // Includes: IS_EMAIL, IS_URL, IS_UUID, SANITIZE, HAS_INJECTION, MASK, etc.
-    registerSecurityFunctions();
-    
-    // LoRA functions (LLM adapter management and operations)
-    // Includes: LORA_TRAIN, LORA_QUERY, LORA_SIMILAR, LORA_PATH, LORA_STATS, LORA_RECOMMEND, LORA_LINEAGE
-    registerLoRAFunctions(registry);
+    try {
+        auto& registry = FunctionRegistry::instance();
+        
+        // Core data manipulation functions
+        registerStringFunctions(registry);
+        registerMathFunctions(registry);
+        registerArrayFunctions(registry);
+        registerDateFunctions(registry);
+        registerDocumentFunctions(registry);
+        registerJsonPathFunctions(registry);    // JSONPath query functions
+        
+        // Multi-model functions
+        registerGeoFunctions(registry);         // Spatial/GIS operations
+        registerCrsFunctions(registry);         // Coordinate transformations (ETRS89, UTM, etc.)
+        registerVectorFunctions(registry);      // ML embeddings & similarity
+        registerGraphFunctions(registry);       // Graph traversal & analysis
+        registerGraphExtensions(registry);      // Advanced graph functions (betweenness centrality, community detection)
+        
+        // SQL-compatible functions
+        registerRelationalFunctions(registry);  // Joins, aggregation, window functions
+        
+        // File/storage functions
+        registerFileFunctions(registry);        // Path manipulation, MIME types
+        
+        // Collection and logical functions (JSON-native, Excel-style)
+        // Includes: ARRAY, DICT, JSON, HOLIDAYS, AND, OR, IF, SWITCH, ALL, ANY, etc.
+        registerCollectionFunctions(registry);
+        
+        // Security functions (validation, sanitization, masking)
+        // Includes: IS_EMAIL, IS_URL, IS_UUID, SANITIZE, HAS_INJECTION, MASK, etc.
+        registerSecurityFunctions();
+        
+#ifdef THEMIS_ENABLE_LLM
+        // LoRA functions (LLM adapter management and operations)
+        // Includes: LORA_TRAIN, LORA_QUERY, LORA_SIMILAR, LORA_PATH, LORA_STATS, LORA_RECOMMEND, LORA_LINEAGE
+        registerLoRAFunctions(registry);
+        
+        // Wire the CLASSIFY bridge into DocsAssistantFunctions so that
+        // detectIntentWithNativeNLP() uses the native NLP path instead of
+        // always falling through to the LLM intent-detection round-trip.
+        themis::aql::registerClassifyBridge();
+#endif
+        
+        // Ethics AI functions (ethical decision-making and evaluation)
+        // Includes: ETHICS_MAKE_DECISION, ETHICS_EVALUATE, ETHICS_GET_ARGUMENTS, ETHICS_FIND_SIMILAR_DILEMMAS, etc.
+        registerEthicsFunctions(registry);
+        
+        // Process Mining functions (process discovery, conformance checking, pattern matching)
+        // Includes: PM_EXTRACT_LOG, PM_DISCOVER_PROCESS, PM_FIND_SIMILAR, PM_COMPARE_IDEAL, PM_CONFORMANCE, etc.
+        registerProcessMiningFunctions(registry);
+        
+        // Fulltext functions (search, phrase matching, fuzzy search, n-gram similarity)
+        // Includes: FULLTEXT, PHRASE, FUZZY, NGRAM_MATCH, TOKENS, SOUNDEX, METAPHONE, DOUBLE_METAPHONE
+            // TODO: registerFulltextFunctions - optional fulltext module
+            // registerFulltextFunctions(registry);
+    } catch (const std::exception& ex) {
+        // Re-throw with more context - will be caught by FunctionRegistryInitializer
+        std::cerr << "registerBuiltinFunctions() exception: " << ex.what() << std::endl;
+        throw std::runtime_error(std::string("Failed to register builtin functions: ") + ex.what());
+    }
 }
 
 } // namespace functions

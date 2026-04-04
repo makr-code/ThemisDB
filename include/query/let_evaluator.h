@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            let_evaluator.h                                    ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:09:57                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     183                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 8ec7a5768  2026-02-21  feat(query): wire FULLTEXT/PHRASE/FUZZY AQL functions to ... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include <string>
@@ -6,6 +29,10 @@
 #include <optional>
 #include <nlohmann/json.hpp>
 #include "query/aql_parser.h"
+
+namespace themis {
+    class SecondaryIndexManager;
+}
 
 namespace themis {
 namespace query {
@@ -30,6 +57,12 @@ namespace query {
 class LetEvaluator {
 public:
     LetEvaluator() = default;
+
+    /// Wire a SecondaryIndexManager so that FULLTEXT/PHRASE/FUZZY AQL functions
+    /// can call through to the real index.  Caller retains ownership.
+    void setSecondaryIndexManager(themis::SecondaryIndexManager* mgr) {
+        secondary_idx_mgr_ = mgr;
+    }
 
     /**
      * @brief Evaluiert einen LET-Node und speichert das Binding
@@ -81,6 +114,9 @@ public:
 private:
     // Variable bindings: Variable Name → JSON Value
     std::unordered_map<std::string, nlohmann::json> bindings_;
+
+    // Optional secondary index manager for FULLTEXT/PHRASE/FUZZY AQL functions
+    themis::SecondaryIndexManager* secondary_idx_mgr_ = nullptr;
 
     // Helper: Evaluiert Field Access (z.B. doc.age, doc.address.city)
     nlohmann::json evaluateFieldAccess(

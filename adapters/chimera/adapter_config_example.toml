@@ -1,0 +1,193 @@
+# CHIMERA Adapter Configuration Examples
+
+# =============================================================================
+# ThemisDB Adapter Configuration
+# =============================================================================
+
+[themisdb]
+host = "localhost"
+port = 18765
+database = "benchmark_db"
+username = "bench_user"
+password = "secure_password"
+
+# Connection pool settings
+pool_size = 20
+timeout_ms = 30000
+
+# Protocol settings
+protocol = "binary_wire"  # Options: binary_wire, http_rest, grpc
+
+# TLS/SSL settings
+use_tls = true
+tls_cert = "/path/to/cert.pem"
+tls_key = "/path/to/key.pem"
+
+# Additional parameters
+[themisdb.parameters]
+max_batch_size = 1000
+enable_compression = true
+read_preference = "primary"
+
+# =============================================================================
+# PostgreSQL + pgvector Adapter Configuration
+# =============================================================================
+
+[postgresql]
+host = "localhost"
+port = 5432
+database = "benchmark_db"
+username = "bench_user"
+password = "secure_password"
+
+# Connection pool settings
+pool_size = 20
+timeout_ms = 30000
+
+# TLS/SSL settings
+use_tls = true
+sslmode = "require"  # Options: disable, allow, prefer, require, verify-ca, verify-full
+
+# Additional parameters
+[postgresql.parameters]
+# Enable pgvector extension (requires CREATE EXTENSION permission)
+enable_pgvector = true
+
+# Application name for monitoring
+application_name = "chimera_benchmark"
+
+# Connection string format (alternative to individual parameters)
+# connection_string = "postgresql://user:pass@localhost:5432/dbname?sslmode=require"
+
+# =============================================================================
+# MongoDB Adapter Configuration
+# =============================================================================
+
+[mongodb]
+host = "localhost"
+port = 27017
+database = "benchmark_db"
+username = "bench_user"
+password = "secure_password"
+
+# Connection pool settings
+pool_size = 20
+timeout_ms = 30000
+
+# TLS/SSL settings
+use_tls = false
+
+# Additional parameters
+[mongodb.parameters]
+# Atlas connection string (overrides host/port when set)
+# connection_string = "mongodb+srv://user:pass@cluster.mongodb.net/benchmark_db"
+
+# Direct wire protocol connection options
+auth_source = "admin"           # Authentication database
+auth_mechanism = "SCRAM-SHA-256"
+
+# Replica set name (required for multi-document transactions)
+# replica_set = "rs0"
+
+# Atlas Vector Search index name used for vector similarity queries
+vector_index_name = "embedding_index"
+
+# Read preference for replica-set deployments
+# Options: primary, primaryPreferred, secondary, secondaryPreferred, nearest
+read_preference = "primary"
+
+# =============================================================================
+# Weaviate Adapter Configuration
+# =============================================================================
+
+[weaviate]
+host = "localhost"
+port = 8080
+database = "default"  # Weaviate doesn't use database concept, but kept for consistency
+
+# Connection settings
+timeout_ms = 30000
+
+# TLS/SSL settings
+use_tls = false
+
+# Additional parameters
+[weaviate.parameters]
+scheme = "http"  # Options: http, https
+api_key = ""     # Optional API key for authentication
+
+# Weaviate-specific settings
+inference_url = ""  # Optional URL for custom inference API
+vectorizer = "text2vec-openai"  # Default vectorizer module
+
+# Batch import settings
+batch_size = 100
+batch_timeout_ms = 5000
+
+# =============================================================================
+# Generic Adapter Configuration Template
+# =============================================================================
+
+[generic]
+host = "localhost"
+port = 0
+database = "benchmark_db"
+username = "user"
+password = "password"
+
+pool_size = 20
+timeout_ms = 30000
+use_tls = false
+
+[generic.parameters]
+# Add database-specific parameters here
+custom_param1 = "value1"
+custom_param2 = "value2"
+
+# =============================================================================
+# Environment Variable Support
+# =============================================================================
+
+# All configuration values support environment variable substitution:
+# host = "${DB_HOST}"
+# password = "${DB_PASSWORD}"
+
+# Example with environment variables:
+[production]
+host = "${CHIMERA_DB_HOST:localhost}"      # Default: localhost
+port = "${CHIMERA_DB_PORT:5432}"           # Default: 5432
+database = "${CHIMERA_DB_NAME}"            # No default
+username = "${CHIMERA_DB_USER}"            # No default
+password = "${CHIMERA_DB_PASSWORD}"        # No default
+use_tls = "${CHIMERA_USE_TLS:true}"       # Default: true
+
+# =============================================================================
+# Multiple Adapter Configurations
+# =============================================================================
+
+# You can define multiple configurations for different environments:
+
+[development.postgresql]
+host = "localhost"
+port = 5432
+database = "dev_db"
+username = "dev_user"
+password = "dev_password"
+use_tls = false
+
+[staging.postgresql]
+host = "staging.example.com"
+port = 5432
+database = "staging_db"
+username = "staging_user"
+password = "staging_password"
+use_tls = true
+
+[production.postgresql]
+host = "prod.example.com"
+port = 5432
+database = "prod_db"
+username = "prod_user"
+password = "${PROD_DB_PASSWORD}"
+use_tls = true
+sslmode = "verify-full"

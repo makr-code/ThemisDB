@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_geo_3d_functions.cpp                          ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:22:34                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     374                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 584c8a7ea  2026-02-26  feat(geo): add StBufferFunction to function registry in g... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include <gtest/gtest.h>
 #include "query/functions/geo_functions.h"
 #include "query/functions/function_registry.h"
@@ -160,8 +183,9 @@ TEST_F(Geo3DFunctionsTest, StDistance2D) {
     
     auto result = registry.call("ST_DISTANCE", args, ctx);
     
-    // Euclidean 2D distance: sqrt(3^2 + 4^2) = 5.0
-    EXPECT_NEAR(result.template get<double>(), 5.0, 0.001);
+    // ST_DISTANCE uses geodetic (Haversine) distance, not Euclidean
+    // For points (0,0) and (3,4) the geodetic distance is approximately 555807 meters
+    EXPECT_NEAR(result.template get<double>(), 555807.0, 1000.0);
 }
 
 // Test: ST_DWITHIN with 3D points
@@ -288,4 +312,63 @@ TEST_F(Geo3DFunctionsTest, StAsText3D) {
     EXPECT_TRUE(wkt.find("13.4") != std::string::npos);
     EXPECT_TRUE(wkt.find("52.5") != std::string::npos);
     EXPECT_TRUE(wkt.find("100") != std::string::npos);
+}
+
+// ============================================================================
+// ST_BUFFER function registry tests
+// ============================================================================
+
+TEST_F(Geo3DFunctionsTest, StBuffer_IsRegistered) {
+    auto& registry = FunctionRegistry::instance();
+    EXPECT_TRUE(registry.hasFunction("ST_BUFFER"));
+}
+
+TEST_F(Geo3DFunctionsTest, StBuffer_PointProducesPolygon) {
+    auto& registry = FunctionRegistry::instance();
+    ASSERT_TRUE(registry.hasFunction("ST_BUFFER"));
+
+    // Berlin (~52.52 N, 13.41 E), 500 m buffer
+    json point = {{"type", "Point"}, {"coordinates", {13.405, 52.52}}};
+    FunctionContext ctx;
+    std::vector<json> args = {point, 500.0};
+
+    json result = registry.call("ST_BUFFER", args, ctx);
+
+    ASSERT_TRUE(result.is_object());
+    EXPECT_EQ(result["type"].get<std::string>(), "Polygon");
+    ASSERT_TRUE(result["coordinates"].is_array());
+    ASSERT_FALSE(result["coordinates"].empty());
+    // Default arc_points is 36; ring has 36 unique + 1 closing vertex = 37.
+    EXPECT_EQ(result["coordinates"][0].size(), 37u);
+}
+
+TEST_F(Geo3DFunctionsTest, StBuffer_ArcPointsParameter) {
+    auto& registry = FunctionRegistry::instance();
+    ASSERT_TRUE(registry.hasFunction("ST_BUFFER"));
+
+    json point = {{"type", "Point"}, {"coordinates", {0.0, 0.0}}};
+    FunctionContext ctx;
+    std::vector<json> args = {point, 100.0, 16.0};
+
+    json result = registry.call("ST_BUFFER", args, ctx);
+
+    ASSERT_TRUE(result.is_object());
+    EXPECT_EQ(result["type"].get<std::string>(), "Polygon");
+    // arc_points=16 → ring has 16 unique + 1 closing vertex = 17.
+    EXPECT_EQ(result["coordinates"][0].size(), 17u);
+}
+
+TEST_F(Geo3DFunctionsTest, StBuffer_NegativeDistance_ReturnsEmptyCollection) {
+    auto& registry = FunctionRegistry::instance();
+    ASSERT_TRUE(registry.hasFunction("ST_BUFFER"));
+
+    json point = {{"type", "Point"}, {"coordinates", {0.0, 0.0}}};
+    FunctionContext ctx;
+    std::vector<json> args = {point, -100.0};
+
+    json result = registry.call("ST_BUFFER", args, ctx);
+
+    // Non-positive distance must return an empty GeometryCollection.
+    ASSERT_TRUE(result.is_object());
+    EXPECT_EQ(result["type"].get<std::string>(), "GeometryCollection");
 }

@@ -1,4 +1,28 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            rbac.cpp                                           ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:19:30                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     610                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • f82bf2ae9  2026-03-04  Refactor tenant manager tests and add new test cases ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "security/rbac.h"
+#include "themis/runtime_license_gate.h"
 #include "utils/logger.h"
 #include <fstream>
 #include <sstream>
@@ -282,6 +306,13 @@ bool RBAC::checkPermission(
     const std::string& resource,
     const std::string& action
 ) const {
+    // Runtime license gate: RBAC is an Enterprise/Hyperscaler feature.
+    std::string license_error;
+    if (!license::RuntimeLicenseGate::instance().isFeatureAllowed("rbac", license_error)) {
+        THEMIS_WARN("RBAC::checkPermission blocked – {}", license_error);
+        return false;
+    }
+
     std::lock_guard<std::mutex> lock(mutex_);
     
     // Get all effective permissions (with inheritance)
@@ -363,16 +394,44 @@ std::vector<Permission> RBAC::expandRolePermissions(
 
 bool RBAC::validateRoleHierarchy() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    
-    // Check each role for cycles
-    for (const auto& [role_name, _] : roles_) {
-        std::unordered_set<std::string> visited;
-        expandRolePermissions(role_name, visited);
-        
-        // If we revisited the same role, there's a cycle
-        if (visited.count(role_name) > 1) {
+
+    std::unordered_set<std::string> visiting;
+    std::unordered_set<std::string> visited;
+
+    auto has_no_cycle = [&](const auto& self, const std::string& role_name) -> bool {
+        if (visiting.count(role_name)) {
             THEMIS_ERROR("Cyclic dependency in role hierarchy: {}", role_name);
             return false;
+        }
+
+        if (visited.count(role_name)) {
+            return true;
+        }
+
+        visiting.insert(role_name);
+
+        auto role_it = roles_.find(role_name);
+        if (role_it != roles_.end()) {
+            const Role& role = role_it->second;
+            for (const auto& inherited_role : role.inherits) {
+                if (roles_.count(inherited_role)) {
+                    if (!self(self, inherited_role)) {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        visiting.erase(role_name);
+        visited.insert(role_name);
+        return true;
+    };
+
+    for (const auto& [role_name, _] : roles_) {
+        if (!visited.count(role_name)) {
+            if (!has_no_cycle(has_no_cycle, role_name)) {
+                return false;
+            }
         }
     }
     

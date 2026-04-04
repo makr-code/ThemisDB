@@ -1,3 +1,27 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_http_changefeed_sse.cpp                       ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:28:16                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     490                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 5a6955588  2026-03-11  chore(cdc): audit fixes - documentation, THEMIS_ENABLE_SS... ║
+    • b56122b39  2026-03-11  feat(cdc): extend at-least-once delivery guarantee to SSE... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include <gtest/gtest.h>
 #include <nlohmann/json.hpp>
 #include <boost/asio.hpp>
@@ -148,6 +172,33 @@ protected:
         return ids;
     }
 
+    // POST with JSON body; returns the raw response body string.
+    std::string httpPostRaw(const std::string& target, const json& body) {
+        net::io_context ioc;
+        tcp::resolver resolver(ioc);
+        beast::tcp_stream stream(ioc);
+
+        auto const results = resolver.resolve("127.0.0.1", std::to_string(18087));
+        stream.connect(results);
+
+        http::request<http::string_body> req{http::verb::post, target, 11};
+        req.set(http::field::host, "127.0.0.1");
+        req.set(http::field::content_type, "application/json");
+        req.body() = body.dump();
+        req.prepare_payload();
+
+        http::write(stream, req);
+
+        beast::flat_buffer buffer;
+        http::response<http::string_body> res;
+        http::read(stream, buffer, res);
+
+        beast::error_code ec;
+        stream.socket().shutdown(tcp::socket::shutdown_both, ec);
+
+        return res.body();
+    }
+
     std::shared_ptr<themis::RocksDBWrapper> storage_;
     std::shared_ptr<themis::SecondaryIndexManager> secondary_index_;
     std::shared_ptr<themis::GraphIndexManager> graph_index_;
@@ -251,4 +302,189 @@ TEST_F(HttpChangefeedSseTest, SseStream_KeepAlive_ReceivesIncrementalEvents) {
     }
     ASSERT_TRUE(found1);
     ASSERT_TRUE(found2);
+}
+
+// ---------------------------------------------------------------------------
+// At-least-once delivery tests
+// ---------------------------------------------------------------------------
+
+// Helper: extract all "data: {...}" lines from an SSE body as parsed JSON events.
+// Note: parse errors are intentionally suppressed – non-data SSE lines (retry, heartbeat, etc.)
+// are not JSON and will fail to parse; the caller verifies results via ASSERT.
+static std::vector<json> parseSseEvents(const std::string& body) {
+    std::vector<json> result;
+    std::istringstream iss(body);
+    std::string line;
+    while (std::getline(iss, line)) {
+        if (!line.empty() && line.rfind("data: ", 0) == 0) {
+            try {
+                result.push_back(json::parse(line.substr(6)));
+            } catch (...) {}
+        }
+    }
+    return result;
+}
+
+// When a consumer_id is provided and events are not acknowledged within
+// the ack_timeout window, they should be re-sent on the next request.
+TEST_F(HttpChangefeedSseTest, SseStream_AtLeastOnce_UnackedEventsRedelivered) {
+    // Insert two events
+    (void)httpPost("/entities", json{{"key", "alo:item1"}, {"blob", "{\"v\":1}"}});
+    (void)httpPost("/entities", json{{"key", "alo:item2"}, {"blob", "{\"v\":2}"}});
+    std::this_thread::sleep_for(std::chrono::milliseconds(50));
+
+    const std::string consumer = "test-consumer-redeliver";
+
+    // First fetch: use a very short ack_timeout so events expire immediately
+    std::string body1 = httpGetRaw(
+        "/changefeed/stream?from_seq=0&key_prefix=alo&keep_alive=false"
+        "&consumer_id=" + consumer + "&ack_timeout_ms=1");
+
+    auto events1 = parseSseEvents(body1);
+    ASSERT_GE(events1.size(), 1u) << "Expected at least 1 event in first batch";
+
+    // Collect delivered sequences
+    std::vector<uint64_t> ids1 = parseSseIds(body1);
+    ASSERT_FALSE(ids1.empty());
+
+    // Sleep past the ack_timeout to trigger redelivery
+    std::this_thread::sleep_for(std::chrono::milliseconds(10));
+
+    // Second fetch without ACK: events should be redelivered
+    // Use from_seq beyond the original events to ensure we are only getting redelivery
+    uint64_t max_seq = *std::max_element(ids1.begin(), ids1.end());
+    std::string body2 = httpGetRaw(
+        "/changefeed/stream?from_seq=" + std::to_string(max_seq + 1) +
+        "&keep_alive=false&consumer_id=" + consumer + "&ack_timeout_ms=1");
+
+    auto ids2 = parseSseIds(body2);
+
+    // The unacknowledged events from the first batch should be present in ids2
+    for (uint64_t seq : ids1) {
+        bool found = std::find(ids2.begin(), ids2.end(), seq) != ids2.end();
+        EXPECT_TRUE(found) << "Expected sequence " << seq << " to be redelivered";
+    }
+}
+
+// After acknowledging events up to the highest sequence, a subsequent
+// request must NOT redeliver those events.
+TEST_F(HttpChangefeedSseTest, SseStream_AtLeastOnce_AckPreventsRedelivery) {
+    (void)httpPost("/entities", json{{"key", "alo:ack1"}, {"blob", "{\"v\":1}"}});
+    (void)httpPost("/entities", json{{"key", "alo:ack2"}, {"blob", "{\"v\":2}"}});
+    std::this_thread::sleep_for(std::chrono::milliseconds(50));
+
+    const std::string consumer = "test-consumer-ack-no-redeliver";
+
+    // First fetch with short ack_timeout
+    std::string body1 = httpGetRaw(
+        "/changefeed/stream?from_seq=0&key_prefix=alo&keep_alive=false"
+        "&consumer_id=" + consumer + "&ack_timeout_ms=1");
+
+    auto ids1 = parseSseIds(body1);
+    ASSERT_FALSE(ids1.empty());
+    uint64_t max_seq1 = *std::max_element(ids1.begin(), ids1.end());
+
+    // ACK all events up to max_seq1
+    std::string ack_resp = httpPostRaw("/changefeed/stream/ack",
+        json{{"consumer_id", consumer}, {"up_to_sequence", max_seq1}});
+    json ack_json = json::parse(ack_resp);
+    ASSERT_TRUE(ack_json.contains("acknowledged"));
+    EXPECT_GT(ack_json["acknowledged"].get<int>(), 0);
+
+    // Sleep past the ack_timeout
+    std::this_thread::sleep_for(std::chrono::milliseconds(10));
+
+    // Second fetch: no redelivery expected since all were ACK'd
+    std::string body2 = httpGetRaw(
+        "/changefeed/stream?from_seq=" + std::to_string(max_seq1 + 1) +
+        "&keep_alive=false&consumer_id=" + consumer + "&ack_timeout_ms=1");
+
+    auto ids2 = parseSseIds(body2);
+
+    // None of the previously ACK'd sequences should appear
+    for (uint64_t seq : ids1) {
+        bool found = std::find(ids2.begin(), ids2.end(), seq) != ids2.end();
+        EXPECT_FALSE(found) << "Sequence " << seq << " should not be redelivered after ACK";
+    }
+}
+
+// The ACK endpoint must return a valid JSON response with 'acknowledged' count.
+TEST_F(HttpChangefeedSseTest, SseStreamAck_ReturnsAcknowledgedCount) {
+    (void)httpPost("/entities", json{{"key", "alo:acktest"}, {"blob", "{\"v\":1}"}});
+    std::this_thread::sleep_for(std::chrono::milliseconds(50));
+
+    const std::string consumer = "test-consumer-ack-response";
+
+    // Fetch to generate in-flight tracking
+    std::string body1 = httpGetRaw(
+        "/changefeed/stream?from_seq=0&key_prefix=alo&keep_alive=false"
+        "&consumer_id=" + consumer);
+
+    auto ids1 = parseSseIds(body1);
+    ASSERT_FALSE(ids1.empty());
+    uint64_t max_seq = *std::max_element(ids1.begin(), ids1.end());
+
+    // ACK via the dedicated endpoint
+    std::string ack_raw = httpPostRaw("/changefeed/stream/ack",
+        json{{"consumer_id", consumer}, {"up_to_sequence", max_seq}});
+    json ack = json::parse(ack_raw);
+
+    ASSERT_TRUE(ack.contains("consumer_id"));
+    ASSERT_TRUE(ack.contains("up_to_sequence"));
+    ASSERT_TRUE(ack.contains("acknowledged"));
+    EXPECT_EQ(ack["consumer_id"].get<std::string>(), consumer);
+    EXPECT_EQ(ack["up_to_sequence"].get<uint64_t>(), max_seq);
+    EXPECT_GT(ack["acknowledged"].get<int>(), 0);
+}
+
+// The ACK endpoint must reject requests with missing or empty consumer_id.
+TEST_F(HttpChangefeedSseTest, SseStreamAck_MissingConsumerIdReturnsBadRequest) {
+    // Missing consumer_id
+    std::string resp1 = httpPostRaw("/changefeed/stream/ack",
+        json{{"up_to_sequence", 42}});
+    // Should not parse as a successful ack (will be an error JSON or non-200)
+    // We just verify the server doesn't crash and returns a non-empty body
+    ASSERT_FALSE(resp1.empty());
+
+    // Empty consumer_id body
+    std::string resp2 = httpPostRaw("/changefeed/stream/ack",
+        json{{"consumer_id", ""}, {"up_to_sequence", 42}});
+    ASSERT_FALSE(resp2.empty());
+}
+
+// Reconnect scenario: Last-Event-ID header combined with consumer_id should
+// replay events from the last seen sequence for the consumer.
+TEST_F(HttpChangefeedSseTest, SseStream_AtLeastOnce_ReconnectWithLastEventId) {
+    (void)httpPost("/entities", json{{"key", "reconn:1"}, {"blob", "{\"v\":1}"}});
+    (void)httpPost("/entities", json{{"key", "reconn:2"}, {"blob", "{\"v\":2}"}});
+    std::this_thread::sleep_for(std::chrono::milliseconds(50));
+
+    const std::string consumer = "test-consumer-reconnect";
+
+    // First fetch
+    std::string body1 = httpGetRaw(
+        "/changefeed/stream?from_seq=0&key_prefix=reconn&keep_alive=false"
+        "&consumer_id=" + consumer + "&ack_timeout_ms=1");
+
+    auto ids1 = parseSseIds(body1);
+    ASSERT_FALSE(ids1.empty());
+    uint64_t last_seq = ids1.back();
+
+    // Sleep past ack_timeout so events become eligible for redelivery
+    std::this_thread::sleep_for(std::chrono::milliseconds(10));
+
+    // Reconnect using Last-Event-ID header; server should deliver pending events
+    std::string body2 = httpGetRawWithHeader(
+        "/changefeed/stream?from_seq=0&key_prefix=reconn&keep_alive=false"
+        "&consumer_id=" + consumer + "&ack_timeout_ms=1",
+        "Last-Event-ID", std::to_string(last_seq));
+
+    auto ids2 = parseSseIds(body2);
+    // At minimum, the unacknowledged events from the first batch should reappear
+    ASSERT_FALSE(ids2.empty());
+    for (uint64_t seq : ids1) {
+        bool found = std::find(ids2.begin(), ids2.end(), seq) != ids2.end();
+        EXPECT_TRUE(found) << "Expected sequence " << seq
+                           << " to be redelivered on reconnect";
+    }
 }

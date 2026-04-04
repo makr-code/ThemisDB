@@ -1,4 +1,31 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            llm_deployment_plugin.cpp                          ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-03-30 04:16:58                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     1187                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 10bb6eb49  2026-03-19  fix(llm): address PR review — key_prefix rename, source t... ║
+    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
+    • f9096b78d  2026-03-17  feat(llm): LLMDeploymentPlugin RocksDB model storage (v1.... ║
+    • 7015dd866  2026-03-16  feat(llm): implement RocksDB model storage for LLMDeploym... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "llm/llm_deployment_plugin.h"
+#include "llm/llm_model_storage.h"
 #include "utils/logger.h"
 #include "utils/checksum_utils.h"
 #include <fstream>
@@ -83,34 +110,58 @@ std::chrono::system_clock::time_point iso8601ToTime(const std::string& iso) {
 } // anonymous namespace
 
 // ============================================================================
+// Thread-local request context
+// ============================================================================
+
+namespace {
+struct TLSRequestContext {
+    std::string user_id;
+    std::string client_ip;
+    bool is_set = false;
+};
+static thread_local TLSRequestContext tls_deploy_ctx;
+} // namespace
+
+void LLMDeploymentPlugin::setRequestContext(const RequestContext& ctx) noexcept {
+    tls_deploy_ctx.user_id   = ctx.user_id;
+    tls_deploy_ctx.client_ip = ctx.client_ip;
+    tls_deploy_ctx.is_set    = true;
+}
+
+void LLMDeploymentPlugin::clearRequestContext() noexcept {
+    tls_deploy_ctx = {};
+}
+
+std::string LLMDeploymentPlugin::currentUserId(const char* fallback) noexcept {
+    if (tls_deploy_ctx.is_set && !tls_deploy_ctx.user_id.empty()) {
+        return tls_deploy_ctx.user_id;
+    }
+    return fallback ? fallback : "system";
+}
+
+// ============================================================================
 // LLMDeploymentPlugin Implementation
 // ============================================================================
 
 LLMDeploymentPlugin::LLMDeploymentPlugin(const DeploymentConfig& config)
     : config_(config), downloader_(std::make_unique<ModelDownloader>()) {
     
-    // NOTE: BaseEntity storage integration is prepared but disabled until
-    // llm_model_storage.cpp is implemented to avoid linker errors
-    /*
     // Initialize BaseEntity storage if enabled
     if (config_.use_base_entity_storage && config_.db) {
         LLMModelStorage::Config storage_config;
         storage_config.db = config_.db;
-        storage_config.collection_name = config_.collection_name;
+        storage_config.key_prefix = config_.key_prefix;
         storage_config.enable_encryption = false;
         storage_config.enable_signatures = true;
-        storage_config.use_blob_storage = true;
+        storage_config.use_blob_storage = config_.store_weights_in_rocksdb;
         storage_config.inline_threshold_mb = 100;
         
         model_storage_ = std::make_shared<LLMModelStorage>(storage_config);
-        LOG_INFO("LLM Deployment Plugin: BaseEntity storage initialized (collection: {})", 
-                 config_.collection_name);
+        LOG_INFO("LLM Deployment Plugin: BaseEntity storage initialized (key_prefix: {})", 
+                 config_.key_prefix);
     } else {
         LOG_INFO("LLM Deployment Plugin: Filesystem-only mode (no BaseEntity storage)");
     }
-    */
-    
-    LOG_INFO("LLM Deployment Plugin: Filesystem-only mode (BaseEntity storage TODO)");
     
     // Create cache directory if it doesn't exist
     if (!fs::exists(config_.cache_directory)) {
@@ -134,7 +185,7 @@ LLMDeploymentPlugin::LLMDeploymentPlugin(const DeploymentConfig& config)
         }
     }
     
-    // Load model registry from filesystem (BaseEntity loading not yet implemented)
+    // Load model registry from filesystem
     loadModelRegistry();
     
     LOG_INFO("LLM Deployment Plugin initialized (mode: {}, cache: {})", 
@@ -149,7 +200,16 @@ std::optional<ModelStatus> LLMDeploymentPlugin::deployModel(const std::string& m
     audit.operation = "deploy";
     audit.model_id = model_id;
     audit.timestamp = std::chrono::system_clock::now();
-    audit.user = "system"; // TODO(feature): Implement user context tracking for audit compliance
+    audit.user = currentUserId();
+
+    // Reject empty model identifiers immediately with a clear error
+    if (model_id.empty()) {
+        audit.success = false;
+        audit.error_message = "model_id must not be empty";
+        logAudit(audit);
+        LOG_ERROR("{}", audit.error_message);
+        return std::nullopt;
+    }
     
     try {
         std::string model_path = getModelPath(model_id);
@@ -247,8 +307,7 @@ std::optional<ModelStatus> LLMDeploymentPlugin::deployModel(const std::string& m
             status.checksum_type = "sha256";
         }
         
-        // Store in BaseEntity storage (RocksDB) - TODO: Uncomment when llm_model_storage.cpp exists
-        /*
+        // Store in BaseEntity storage (RocksDB)
         if (config_.use_base_entity_storage && model_storage_) {
             bool stored = saveModelToStorage(status, model_path);
             if (stored) {
@@ -257,7 +316,6 @@ std::optional<ModelStatus> LLMDeploymentPlugin::deployModel(const std::string& m
                 LOG_WARN("Failed to store model metadata in RocksDB: {}", model_id);
             }
         }
-        */
         
         // Update registry (filesystem fallback)
         auto it = std::find_if(model_registry_.begin(), model_registry_.end(),
@@ -469,7 +527,7 @@ std::optional<ModelStatus> LLMDeploymentPlugin::updateModel(const std::string& m
     audit.operation = "update";
     audit.model_id = model_id;
     audit.timestamp = std::chrono::system_clock::now();
-    audit.user = "system";
+    audit.user = currentUserId();
     
     // Force re-download
     auto result = deployModel(model_id, true);
@@ -494,7 +552,7 @@ bool LLMDeploymentPlugin::removeModel(const std::string& model_id, bool force) {
     audit.operation = "remove";
     audit.model_id = model_id;
     audit.timestamp = std::chrono::system_clock::now();
-    audit.user = "system";
+    audit.user = currentUserId();
     
     auto status = getModelStatus(model_id);
     if (!status) {
@@ -872,6 +930,12 @@ void LLMDeploymentPlugin::loadModelRegistry() {
 }
 
 std::optional<ModelSource> LLMDeploymentPlugin::findBestSource(const std::string& model_id) {
+    // Validate model_id before attempting any source lookup
+    if (model_id.empty()) {
+        LOG_ERROR("findBestSource: model_id must not be empty");
+        return std::nullopt;
+    }
+
     if (config_.sources.empty()) {
         // Default: try Ollama
         ModelSource source;
@@ -889,35 +953,59 @@ std::optional<ModelSource> LLMDeploymentPlugin::findBestSource(const std::string
                   return a.priority > b.priority;
               });
     
-    // Return first source (highest priority)
-    // TODO(enhancement): In the future, this could check if model_id exists
-    // in each source's model list and select the best match
-    LOG_DEBUG("Selected source '{}' (priority {}) for model '{}'",
-              sorted_sources[0].type, sorted_sources[0].priority, model_id);
-    return sorted_sources[0];
+    // Iterate sources in priority order; for "local" sources verify the model
+    // file is actually present before committing to that source so callers
+    // receive a clear "model not found" error rather than a confusing copy failure.
+    for (const auto& src : sorted_sources) {
+        if (src.type == "local") {
+            fs::path src_path(src.location);
+            // If the location is a directory, check whether the expected model
+            // file (derived from model_id) exists inside it.
+            if (fs::is_directory(src_path)) {
+                std::string sanitized = model_id;
+                std::replace(sanitized.begin(), sanitized.end(), ':', '_');
+                std::replace(sanitized.begin(), sanitized.end(), '/', '_');
+                src_path /= sanitized;
+                // Also try with .gguf extension if no extension present
+                if (!fs::exists(src_path)) {
+                    src_path += ".gguf";
+                }
+            }
+            if (!fs::exists(src_path)) {
+                LOG_DEBUG("Local source '{}' does not contain model '{}', skipping",
+                          src.location, model_id);
+                continue;
+            }
+        }
+        LOG_DEBUG("Selected source '{}' (priority {}) for model '{}'",
+                  src.type, src.priority, model_id);
+        return src;
+    }
+
+    LOG_ERROR("No source contains model '{}'; checked {} source(s)", model_id, sorted_sources.size());
+    return std::nullopt;
 }
 
-std::string LLMDeploymentPlugin::getModelPath(const std::string& model_id) const {
-    // Sanitize model_id for filesystem
+std::string LLMDeploymentPlugin::modelIdToFilename(const std::string& model_id) {
     std::string filename = model_id;
     std::replace(filename.begin(), filename.end(), ':', '_');
     std::replace(filename.begin(), filename.end(), '/', '_');
-    
-    // Check if filename already has a known model file extension
+
     fs::path temp_path{filename};
     std::string ext = temp_path.extension().string();
     std::transform(ext.begin(), ext.end(), ext.begin(),
                    [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
-    
-    bool has_known_extension = (ext == ".gguf" || ext == ".bin" || 
+
+    bool has_known_extension = (ext == ".gguf" || ext == ".bin" ||
                                 ext == ".safetensors" || ext == ".onnx");
-    
-    // Add .gguf extension if no known extension is present
     if (!has_known_extension) {
         filename += ".gguf";
     }
-    
-    fs::path path = fs::path(config_.cache_directory) / filename;
+    return filename;
+}
+
+std::string LLMDeploymentPlugin::getModelPath(const std::string& model_id) const {
+    fs::path path = fs::path(config_.cache_directory) / modelIdToFilename(model_id);
     return path.string();
 }
 
@@ -1010,9 +1098,11 @@ bool LLMDeploymentPlugin::saveModelToStorage(const ModelStatus& status, const st
         // Store custom metadata
         metadata.custom_metadata = status.metadata;
         
-        // Optionally load model file data for blob storage
+        // Only load model weights when explicitly configured to do so (store_weights_in_rocksdb).
+        // By default only metadata is persisted; weights remain on the local filesystem.
+        // This prevents RocksDB from being bloated with large model blobs.
         std::optional<std::vector<uint8_t>> model_data;
-        if (config_.use_base_entity_storage && fs::exists(file_path)) {
+        if (config_.store_weights_in_rocksdb && fs::exists(file_path)) {
             size_t file_size = fs::file_size(file_path);
             
             // Only load into memory if below threshold (100MB default)

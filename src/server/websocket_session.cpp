@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            websocket_session.cpp                              ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:20:11                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     834                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2fed5b1c6  2026-03-15  fix(cdc): wire ConsumerGroupManager into WebSocket server... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 3e1a33c4c  2026-03-01  feat(network/server): implement WebSocket binary frame su... ║
+    • 6d03c85c7  2026-02-24  feat(cdc): WebSocket transport for /v2/cdc/stream with at... ║
+    • 22ffc8614  2026-02-23  feat(api): implement WebSocket back-pressure, filter fiel... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #ifdef THEMIS_ENABLE_WEBSOCKET
 
 #include "server/websocket_session.h"
@@ -21,6 +47,7 @@ WebSocketSession::WebSocketSession(tcp::socket socket, HttpServer* server)
     , active_(false)
     , is_tls_(false)
     , writing_(false)
+    , close_due_to_backpressure_(false)
     , cdc_subscribed_(false)
     , cdc_from_sequence_(0)
     , cdc_last_sent_sequence_(0)
@@ -39,6 +66,7 @@ WebSocketSession::WebSocketSession(beast::ssl_stream<beast::tcp_stream> stream, 
     , active_(false)
     , is_tls_(true)
     , writing_(false)
+    , close_due_to_backpressure_(false)
     , cdc_subscribed_(false)
     , cdc_from_sequence_(0)
     , cdc_last_sent_sequence_(0)
@@ -57,6 +85,19 @@ WebSocketSession::~WebSocketSession() {
 }
 
 void WebSocketSession::run(http::request<http::string_body> req) {
+    // Initialise the CdcWebSocketHandler for the /v2/cdc/stream endpoint so
+    // that processMessage() can delegate named-subscription frames to it.
+    if (request_path_ == "/v2/cdc/stream") {
+        // Pass the ConsumerGroupManager (if available) so that group-protocol
+        // subscriptions get durable offset tracking and partition filtering.
+        cdc::ConsumerGroupManager* cgm =
+            (server_ && server_->consumer_group_manager_)
+                ? server_->consumer_group_manager_.get()
+                : nullptr;
+        cdc_stream_handler_ = std::make_unique<cdc::CdcWebSocketHandler>(
+            cdc::CdcWebSocketHandler::kMaxPendingAck, cgm);
+    }
+
     // Set suggested timeout settings for the websocket
     if (is_tls_) {
         ws_tls_->set_option(websocket::stream_base::timeout::suggested(beast::role_type::server));
@@ -139,13 +180,28 @@ void WebSocketSession::onRead(beast::error_code ec, std::size_t bytes_transferre
         return;
     }
     
-    // Process the received message
-    std::string message = beast::buffers_to_string(buffer_.data());
-    buffer_.consume(buffer_.size());
-    
-    THEMIS_DEBUG("WebSocket message received ({}): {}", session_id_, message);
-    
-    processMessage(message);
+    // Determine whether the incoming frame is binary or text so that each
+    // frame type is routed to the appropriate handler.
+    const bool is_binary = is_tls_ ? ws_tls_->got_binary()
+                                   : ws_plain_->got_binary();
+
+    if (is_binary) {
+        // Binary frame: collect the raw bytes and dispatch to the binary handler.
+        const auto* raw = static_cast<const uint8_t*>(buffer_.data().data());
+        std::vector<uint8_t> frame_data(raw, raw + buffer_.size());
+        buffer_.consume(buffer_.size());
+
+        THEMIS_DEBUG("WebSocket binary frame received ({}): {} bytes",
+                     session_id_, frame_data.size());
+        processBinaryMessage(frame_data);
+    } else {
+        // Text frame: decode as UTF-8 string and dispatch to the JSON handler.
+        std::string message = beast::buffers_to_string(buffer_.data());
+        buffer_.consume(buffer_.size());
+
+        THEMIS_DEBUG("WebSocket message received ({}): {}", session_id_, message);
+        processMessage(message);
+    }
     
     // Continue reading
     doRead();
@@ -155,7 +211,31 @@ void WebSocketSession::processMessage(const std::string& message) {
     try {
         // Parse JSON message
         auto msg = json::parse(message);
-        
+
+        // "/v2/cdc/stream" endpoint: delegate entirely to CdcWebSocketHandler
+        // which handles the named-subscription protocol (subscribe/unsubscribe/ack).
+        if (request_path_ == "/v2/cdc/stream" && cdc_stream_handler_) {
+            auto responses = cdc_stream_handler_->handleFrame(msg);
+            for (const auto& resp : responses) {
+                send(resp.dump());
+            }
+            return;
+        }
+
+        // "/v2/changes" endpoint uses {"action":"subscribe","collection":"..."} frame format;
+        // normalise to the generic {"type":"subscribe","channel":"..."} convention so the
+        // rest of the handler remains path-agnostic.
+        if (request_path_ == "/v2/changes") {
+            if (msg.contains("action") && !msg.contains("type")) {
+                msg["type"] = msg["action"];
+            }
+            if (msg.contains("collection") && !msg.contains("channel")) {
+                // Map "collection" to the "changefeed" channel; also preserve as key_prefix
+                msg["channel"]    = "changefeed";
+                msg["key_prefix"] = msg["collection"].get<std::string>() + ":";
+            }
+        }
+
         std::string type = msg.value("type", "unknown");
         
         if (type == "ping") {
@@ -175,8 +255,26 @@ void WebSocketSession::processMessage(const std::string& message) {
                 // Subscribe to CDC changefeed
                 uint64_t from_seq = msg.value("from_sequence", 0);
                 std::string key_prefix = msg.value("key_prefix", "");
-                
-                subscribeToCDC(from_seq, key_prefix);
+
+                // Parse optional filter.type field (e.g. {"filter":{"type":"PUT"}})
+                std::set<Changefeed::ChangeEventType> event_types;
+                if (msg.contains("filter") && msg["filter"].is_object()) {
+                    const auto& flt = msg["filter"];
+                    if (flt.contains("type") && flt["type"].is_string()) {
+                        const std::string& ft = flt["type"].get<std::string>();
+                        if (ft == "PUT") {
+                            event_types.insert(Changefeed::ChangeEventType::EVENT_PUT);
+                        } else if (ft == "DELETE") {
+                            event_types.insert(Changefeed::ChangeEventType::EVENT_DELETE);
+                        } else if (ft == "TRANSACTION_COMMIT") {
+                            event_types.insert(Changefeed::ChangeEventType::EVENT_TRANSACTION_COMMIT);
+                        } else if (ft == "TRANSACTION_ROLLBACK") {
+                            event_types.insert(Changefeed::ChangeEventType::EVENT_TRANSACTION_ROLLBACK);
+                        }
+                    }
+                }
+
+                subscribeToCDC(from_seq, key_prefix, event_types);
                 
                 json response = {
                     {"type", "subscribed"},
@@ -212,14 +310,61 @@ void WebSocketSession::processMessage(const std::string& message) {
             send(response.dump());
         }
         else if (type == "query") {
-            // Handle query request
-            // TODO: Integrate with HttpServer query handlers
-            json response = {
-                {"type", "query_response"},
-                {"status", "not_implemented"},
-                {"message", "Query via WebSocket not yet implemented"}
-            };
-            send(response.dump());
+            // Dispatch to the server's query handler.
+            // WebSocketSession is a friend of HttpServer, so we can access
+            // the private query_api_ member directly.
+            if (!server_ || !server_->query_api_) {
+                json response = {
+                    {"type", "query_response"},
+                    {"status", "error"},
+                    {"message", "Query engine not available"}
+                };
+                send(response.dump());
+                return;
+            }
+
+            // Determine handler variant: "aql" key → AQL, otherwise regular query
+            const bool is_aql = msg.contains("aql");
+
+            // Build a synthetic HTTP POST request from the WebSocket message.
+            // The body is the raw query JSON; strip out the "type" wrapper if present.
+            json query_body = msg;
+            query_body.erase("type");
+
+            http::request<http::string_body> http_req{http::verb::post,
+                                                       is_aql ? "/query/aql" : "/query", 11};
+            http_req.set(http::field::content_type, "application/json");
+            // Forward any Authorization header the WS client may have sent
+            if (msg.contains("authorization"))
+                http_req.set(http::field::authorization, msg["authorization"].get<std::string>());
+            http_req.body() = query_body.dump();
+            http_req.prepare_payload();
+
+            try {
+                http::response<http::string_body> http_resp =
+                    is_aql ? server_->query_api_->handleQueryAql(http_req)
+                           : server_->query_api_->handleQuery(http_req);
+
+                const bool ok = (http_resp.result_int() >= 200 && http_resp.result_int() < 300);
+                json ws_resp;
+                try {
+                    ws_resp = json::parse(http_resp.body());
+                } catch (const json::parse_error&) {
+                    ws_resp = {{"body", http_resp.body()}};
+                }
+                ws_resp["type"]        = "query_response";
+                ws_resp["status"]      = ok ? "ok" : "error";
+                ws_resp["http_status"] = http_resp.result_int();
+                send(ws_resp.dump());
+            } catch (const std::exception& e) {
+                THEMIS_ERROR("WebSocket query error ({}): {}", session_id_, e.what());
+                json response = {
+                    {"type",    "query_response"},
+                    {"status",  "error"},
+                    {"message", e.what()}
+                };
+                send(response.dump());
+            }
         }
         else {
             // Unknown message type
@@ -245,22 +390,62 @@ void WebSocketSession::processMessage(const std::string& message) {
     }
 }
 
+void WebSocketSession::processBinaryMessage(const std::vector<uint8_t>& data) {
+    // The HTTP WebSocket endpoint (/v1/ws, /v2/changes, /v2/cdc/stream) uses a
+    // text/JSON protocol.  Binary frames are not part of its contract.
+    //
+    // Clients that require binary wire-protocol frame transport should connect
+    // to the dedicated wire-protocol WebSocket endpoint on port 8766 where
+    // WireProtocolWebSocketSession handles the full binary frame dispatch.
+    THEMIS_WARN("WebSocket session {} received unexpected binary frame ({} bytes); "
+                "binary frames are not supported on this endpoint",
+                session_id_, data.size());
+
+    json response = {
+        {"type",     "error"},
+        {"status",   "unsupported"},
+        {"message",  "Binary WebSocket frames are not supported on the HTTP API endpoint. "
+                     "Connect to the wire-protocol WebSocket endpoint (port 8766) for "
+                     "binary wire-protocol frame support."},
+        {"bytes_received", data.size()}
+    };
+    send(response.dump());
+}
+
 void WebSocketSession::send(const std::string& message) {
     std::lock_guard<std::mutex> lock(write_mutex_);
-    
-    write_queue_.push(message);
+
+    // Back-pressure: close with code 1011 (Internal Error) when the outbound
+    // queue is saturated to avoid unbounded memory growth.
+    constexpr size_t kMaxQueueSize = 1000;
+    if (write_queue_.size() >= kMaxQueueSize) {
+        THEMIS_WARN("WebSocket session {} outbound queue full ({}), closing with 1011",
+                    session_id_, write_queue_.size());
+        active_ = false;
+        beast::error_code ec;
+        if (is_tls_) {
+            ws_tls_->close(websocket::close_code::internal_error, ec);
+        } else {
+            ws_plain_->close(websocket::close_code::internal_error, ec);
+        }
+        return;
+    }
+
+    write_queue_.push({message, /*is_binary=*/false});
     
     if (!writing_) {
         writing_ = true;
         
         if (is_tls_) {
+            ws_tls_->text(true);
             ws_tls_->async_write(
-                net::buffer(write_queue_.front()),
+                net::buffer(write_queue_.front().data),
                 beast::bind_front_handler(&WebSocketSession::onWrite, shared_from_this())
             );
         } else {
+            ws_plain_->text(true);
             ws_plain_->async_write(
-                net::buffer(write_queue_.front()),
+                net::buffer(write_queue_.front().data),
                 beast::bind_front_handler(&WebSocketSession::onWrite, shared_from_this())
             );
         }
@@ -270,9 +455,17 @@ void WebSocketSession::send(const std::string& message) {
 void WebSocketSession::sendBinary(const std::vector<uint8_t>& data) {
     std::lock_guard<std::mutex> lock(write_mutex_);
     
-    // Convert binary data to string for queue
-    std::string binary_str(data.begin(), data.end());
-    write_queue_.push(binary_str);
+    // Back-pressure: same limit as send()
+    if (write_queue_.size() >= kMaxQueueDepth) {
+        THEMIS_WARN("WebSocket session {} binary queue depth {} >= {}: closing with 1011",
+                    session_id_, write_queue_.size(), kMaxQueueDepth);
+        active_ = false;
+        close_due_to_backpressure_ = true;
+        return;
+    }
+
+    // Store as binary entry so onWrite uses the correct frame type
+    write_queue_.push({std::string(data.begin(), data.end()), /*is_binary=*/true});
     
     if (!writing_) {
         writing_ = true;
@@ -280,13 +473,13 @@ void WebSocketSession::sendBinary(const std::vector<uint8_t>& data) {
         if (is_tls_) {
             ws_tls_->binary(true);
             ws_tls_->async_write(
-                net::buffer(write_queue_.front()),
+                net::buffer(write_queue_.front().data),
                 beast::bind_front_handler(&WebSocketSession::onWrite, shared_from_this())
             );
         } else {
             ws_plain_->binary(true);
             ws_plain_->async_write(
-                net::buffer(write_queue_.front()),
+                net::buffer(write_queue_.front().data),
                 beast::bind_front_handler(&WebSocketSession::onWrite, shared_from_this())
             );
         }
@@ -310,21 +503,36 @@ void WebSocketSession::onWrite(beast::error_code ec, std::size_t bytes_transferr
     
     // Check if there are more messages to send
     if (!write_queue_.empty()) {
+        const auto& next = write_queue_.front();
         if (is_tls_) {
-            ws_tls_->text(true); // Reset to text mode
+            ws_tls_->text(!next.is_binary);
             ws_tls_->async_write(
-                net::buffer(write_queue_.front()),
+                net::buffer(next.data),
                 beast::bind_front_handler(&WebSocketSession::onWrite, shared_from_this())
             );
         } else {
-            ws_plain_->text(true); // Reset to text mode
+            ws_plain_->text(!next.is_binary);
             ws_plain_->async_write(
-                net::buffer(write_queue_.front()),
+                net::buffer(next.data),
                 beast::bind_front_handler(&WebSocketSession::onWrite, shared_from_this())
             );
         }
     } else {
         writing_ = false;
+
+        // If the queue was closed due to back-pressure, send the 1011 close
+        // frame now that all pending writes have drained.
+        if (close_due_to_backpressure_) {
+            close_due_to_backpressure_ = false;
+            beast::error_code close_ec;
+            if (is_tls_) {
+                ws_tls_->close(websocket::close_code::internal_error, close_ec);
+            } else {
+                ws_plain_->close(websocket::close_code::internal_error, close_ec);
+            }
+            THEMIS_INFO("WebSocket session {} closed with 1011 after back-pressure",
+                        session_id_);
+        }
     }
 }
 
@@ -354,16 +562,18 @@ void WebSocketSession::doClose() {
     }
 }
 
-void WebSocketSession::subscribeToCDC(uint64_t from_sequence, const std::string& key_prefix) {
+void WebSocketSession::subscribeToCDC(uint64_t from_sequence, const std::string& key_prefix,
+                                      const std::set<Changefeed::ChangeEventType>& event_types) {
     std::lock_guard<std::mutex> lock(cdc_mutex_);
     cdc_subscribed_ = true;
     cdc_from_sequence_ = from_sequence;
     // Set last_sent to from_sequence - 1 so first poll gets events > from_sequence
     cdc_last_sent_sequence_ = (from_sequence > 0) ? (from_sequence - 1) : 0;
     cdc_key_prefix_ = key_prefix;
+    cdc_event_types_ = event_types;
     
-    THEMIS_INFO("WebSocket session {} subscribed to CDC (from_seq={}, last_sent={}, prefix='{}')", 
-                session_id_, from_sequence, cdc_last_sent_sequence_, key_prefix);
+    THEMIS_INFO("WebSocket session {} subscribed to CDC (from_seq={}, last_sent={}, prefix='{}', event_types={})", 
+                session_id_, from_sequence, cdc_last_sent_sequence_, key_prefix, event_types.size());
 }
 
 void WebSocketSession::unsubscribeFromCDC() {
@@ -384,7 +594,8 @@ WebSocketSession::CDCSubscription WebSocketSession::getCDCSubscription() const {
     return CDCSubscription{
         cdc_from_sequence_,
         cdc_key_prefix_,
-        cdc_last_sent_sequence_
+        cdc_last_sent_sequence_,
+        cdc_event_types_
     };
 }
 
@@ -448,7 +659,34 @@ void WebSocketManager::pollCDCEvents() {
             if (!session->isActive()) {
                 continue;
             }
-            
+
+            // /v2/cdc/stream sessions: delegate to CdcWebSocketHandler which
+            // tracks named subscriptions and implements at-least-once delivery.
+            if (auto* handler = session->getCdcStreamHandler()) {
+                if (!handler->hasSubscriptions()) continue;
+                try {
+                    auto frames = handler->pollEvents(*changefeed_);
+                    for (const auto& frame : frames) {
+                        session->send(frame.dump());
+                    }
+                    auto redeliveries = handler->checkRedelivery();
+                    for (const auto& frame : redeliveries) {
+                        session->send(frame.dump());
+                    }
+                    if (!frames.empty() || !redeliveries.empty()) {
+                        THEMIS_DEBUG("Sent {} new + {} redelivered CDC events via "
+                                     "CdcWebSocketHandler to session {}",
+                                     frames.size(), redeliveries.size(),
+                                     session->getSessionId());
+                    }
+                } catch (const std::exception& e) {
+                    THEMIS_ERROR("Error polling CDC stream handler for session {}: {}",
+                                 session->getSessionId(), e.what());
+                }
+                continue;
+            }
+
+            // Legacy /v2/changes polling path.
             auto sub = session->getCDCSubscription();
             
             // Get new events since last sent sequence (use last_sent + 1 to avoid re-sending)
@@ -458,6 +696,10 @@ void WebSocketManager::pollCDCEvents() {
             options.long_poll_ms = 0; // No blocking
             if (!sub.key_prefix.empty()) {
                 options.key_prefix = sub.key_prefix;
+            }
+            // Apply per-subscription event-type filter if set
+            if (!sub.event_types.empty()) {
+                options.event_types = sub.event_types;
             }
             
             try {

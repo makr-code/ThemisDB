@@ -1,11 +1,40 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            grafana_metrics.h                                  ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:08:20                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     464                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 6e4b52d94  2026-02-26  feat(llm): unified metrics dashboard for both engines ║
+    • b7c3c3b83  2026-02-22  fix(llm): correct stats over-counting and tasks_completed... ║
+    • a2c5bc969  2026-02-22  feat(llm): add SharedWorkerPool shared between AsyncInfer... ║
+    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include <string>
 #include <unordered_map>
 #include <mutex>
+#include <atomic>
 #include <chrono>
 #include <vector>
 #include <memory>
+#include <functional>
+#include <thread>
 
 namespace themis {
 namespace llm {
@@ -93,7 +122,32 @@ private:
  */
 class LLMMetricsCollector {
 public:
+    /**
+     * @brief Configuration for LLMMetricsCollector.
+     *
+     * All threshold fields accept values in milliseconds and can be tuned
+     * without recompilation:
+     *
+     *  - Distributed / high-latency deployments: raise thresholds (200–500 ms)
+     *  - Local / high-performance deployments: lower thresholds (50–100 ms)
+     *
+     * Additional per-metric thresholds (e.g. first-token latency alert budget)
+     * may be added to this struct in future minor versions without breaking
+     * existing call sites.
+     */
+    struct Config {
+        /**
+         * @brief Minimum wait time (ms) that counts as a lock-contention event.
+         *
+         * Increments `llm_context_lock_contention_total` whenever
+         * `recordContextLockWait()` is called with a value exceeding this.
+         * Default: 100 ms.
+         */
+        double lock_contention_threshold_ms = 100.0;
+    };
+
     explicit LLMMetricsCollector(PrometheusExporter* exporter);
+    LLMMetricsCollector(PrometheusExporter* exporter, const Config& config);
     
     // Inference metrics
     void recordInferenceRequest(const std::string& model_id);
@@ -129,6 +183,9 @@ public:
     void recordQueueLength(size_t length);
     void recordPreemptions(size_t count);
     void recordSchedulingLatency(double latency_ms);
+    // Increments llm_backpressure_drops_total when the scheduler rejects a
+    // request because max_queue_depth has been reached.
+    void recordBackpressureDrop();
     
     // Quantization metrics
     void recordQuantizationFormat(const std::string& model_id, const std::string& format);
@@ -137,10 +194,76 @@ public:
     // Error metrics
     void recordError(const std::string& error_type, const std::string& component);
     
+    // Extended Context Window metrics (v1.4.0+)
+    void recordContextLength(const std::string& model_id, size_t context_length);
+    void recordContextCacheSize(const std::string& model_id, size_t cache_size_mb);
+    void recordExtendedContextEnabled(const std::string& model_id, bool enabled);
+    void recordContextScalingFactor(const std::string& model_id, double scaling_factor);
+    
+    // RoPE/YARN Scaling metrics (v1.4.0+)
+    void recordRoPEScalingMethod(const std::string& model_id, const std::string& method);
+    void recordRoPEScalingError(const std::string& model_id, const std::string& error);
+    void recordYARNParameters(const std::string& model_id, 
+                              double ext_factor, double attn_factor,
+                              double beta_fast, double beta_slow);
+    
+    // Memory Profiling metrics (v1.4.0+)
+    void recordRAMUsage(const std::string& model_id, size_t ram_mb, size_t total_ram_mb);
+    void recordVRAMUsage(const std::string& model_id, size_t vram_mb, size_t total_vram_mb);
+    void recordMemoryPressure(const std::string& model_id, double pressure_pct);
+    void recordOOMEvent(const std::string& model_id, const std::string& reason);
+    void recordMemoryEstimate(const std::string& model_id, 
+                             size_t estimated_mb, size_t actual_mb);
+    
+    // Thread Safety metrics (v1.4.0+)
+    void recordLoRAAdapterSwitch(const std::string& model_id, 
+                                 const std::string& from_adapter,
+                                 const std::string& to_adapter,
+                                 double duration_ms);
+    void recordContextLockWait(const std::string& model_id, double wait_time_ms);
+    void recordConcurrentLoRAOperation(const std::string& model_id, bool sequential_mode);
+
+    // Shared Worker Pool metrics (Phase 2 — Q2 2026)
+    // llm_worker_pool_queue_depth  : gauge   — current pending-task depth
+    // llm_worker_pool_tasks_completed_total : counter — tasks finished since start
+    void recordWorkerPoolQueueDepth(size_t depth);
+    void recordWorkerPoolTasksCompleted(uint64_t total_completed);
+
+    // ── Unified dashboard metrics (Phase 2 — Q3 2026) ────────────────────────
+    // Engine-typed variants for the unified metrics dashboard.
+    // engine_type: "async"     → AsyncInferenceEngine
+    //              "enhanced"  → InferenceEngineEnhanced
+    //
+    // Prometheus metric names used:
+    //   llm_engine_inference_requests_total{model_id, engine_type}
+    //   llm_engine_inference_success_total{model_id, engine_type}
+    //   llm_engine_inference_failures_total{model_id, engine_type, error}
+    //   llm_engine_inference_duration_ms{model_id, engine_type}
+    //   llm_engine_tokens_generated_total{model_id, engine_type}
+    //   llm_engine_queue_depth{engine_type}
+    void recordEngineInferenceRequest(const std::string& model_id,
+                                      const std::string& engine_type);
+    void recordEngineInferenceSuccess(const std::string& model_id,
+                                      const std::string& engine_type,
+                                      double duration_ms);
+    void recordEngineInferenceFailure(const std::string& model_id,
+                                      const std::string& engine_type,
+                                      const std::string& error);
+    void recordEngineTokensGenerated(const std::string& model_id,
+                                     const std::string& engine_type,
+                                     size_t count);
+    void recordEngineQueueDepth(const std::string& engine_type, size_t depth);
+
 private:
     PrometheusExporter* exporter_;
-    
+    Config config_;
+
+    // Last absolute value reported by recordWorkerPoolTasksCompleted().
+    // Used to compute the delta for the Prometheus counter increment.
+    std::atomic<uint64_t> last_pool_tasks_completed_{0};
+
     void initializeMetrics();
+    void initializeExtendedContextMetrics();  // v1.4.0+ metrics
 };
 
 /**
@@ -161,6 +284,16 @@ public:
     
     // Generate complete dashboard JSON
     std::string generateDashboard() const;
+
+    /**
+     * @brief Generate a unified Grafana dashboard JSON for both engines.
+     *
+     * Produces a Grafana dashboard that displays engine-typed metrics
+     * (label engine_type="async" for AsyncInferenceEngine and
+     * engine_type="enhanced" for InferenceEngineEnhanced) side-by-side,
+     * together with shared worker-pool and cache panels.
+     */
+    std::string generateUnifiedDashboard() const;
     
     // Generate individual panels
     std::string generateInferencePanel() const;
@@ -195,8 +328,14 @@ public:
         std::string host = "0.0.0.0";
         int port = 9090;
         bool enable_cors = true;
-        std::string metrics_path = "/metrics";
-        std::string dashboard_path = "/dashboard";
+        std::string metrics_path        = "/metrics";
+        std::string dashboard_path      = "/dashboard";
+        std::string health_path         = "/health";
+        std::string ready_path          = "/ready";
+        std::string models_path         = "/models";
+        std::string admin_reload_path   = "/admin/models/reload";
+        std::string admin_simulate_path = "/admin/prompt/simulate";
+        std::string admin_sessions_path = "/admin/sessions";
     };
     
     explicit MetricsServer(const ServerConfig& config,
@@ -208,17 +347,116 @@ public:
     void stop();
     bool isRunning() const;
     
-    // Get server URL
+    // Get server URLs
     std::string getMetricsURL() const;
     std::string getDashboardURL() const;
+    std::string getHealthURL() const;
+    std::string getReadyURL() const;
+    std::string getModelsURL() const;
+    std::string getAdminReloadURL() const;
+    std::string getAdminSimulateURL() const;
+    std::string getAdminSessionsURL() const;
+
+    /**
+     * @brief Register a callback for GET /models.
+     * Callable () -> std::string (JSON array). nullptr = return "[]".
+     */
+    void setModelInfoCallback(std::function<std::string()> cb) {
+        model_info_cb_ = std::move(cb);
+    }
+
+    /**
+     * @brief Register a callback for GET /dashboard.
+     *
+     * Invoked with no arguments; should return a Grafana dashboard JSON string.
+     * When not set, the server generates a default unified dashboard using
+     * GrafanaDashboardGenerator with default config.
+     *
+     * @param cb  Callable () -> std::string (Grafana dashboard JSON).
+     */
+    void setDashboardCallback(std::function<std::string()> cb) {
+        dashboard_cb_ = std::move(cb);
+    }
+
+    /**
+     * @brief Register a callback for POST /admin/models/reload.
+     *
+     * Invoked with the raw POST body.  Should trigger a hot-reload of the
+     * model named in the body and return a JSON result string.
+     * nullptr = return a "not implemented" JSON body.
+     *
+     * @param cb  Callable (const std::string& body) -> std::string.
+     */
+    void setReloadCallback(std::function<std::string(const std::string&)> cb) {
+        reload_cb_ = std::move(cb);
+    }
+
+    /**
+     * @brief Register a callback for POST /admin/prompt/simulate.
+     *
+     * Invoked with the raw POST body (a JSON object with "prompt" and
+     * optionally "model_id").  Should perform a dry-run policy check +
+     * tokenization and return a JSON result string.
+     * nullptr = return a "not implemented" JSON body.
+     *
+     * @param cb  Callable (const std::string& body) -> std::string.
+     */
+    void setSimulateCallback(std::function<std::string(const std::string&)> cb) {
+        simulate_cb_ = std::move(cb);
+    }
+
+    /**
+     * @brief Register a callback for GET /admin/sessions.
+     *
+     * Should return a JSON array of active inference session objects.
+     * Each session object should include at least: session_id, model_id,
+     * state, queued_at.
+     * nullptr = return "[]".
+     *
+     * @param cb  Callable () -> std::string (JSON array).
+     */
+    void setSessionListCallback(std::function<std::string()> cb) {
+        session_list_cb_ = std::move(cb);
+    }
+
+    /**
+     * @brief Register a callback for DELETE /admin/sessions/{id}.
+     *
+     * Invoked with the session_id extracted from the URL path.
+     * Should cancel/remove the named session and return a JSON result.
+     * nullptr = return a "not implemented" JSON body.
+     *
+     * @param cb  Callable (const std::string& session_id) -> std::string.
+     */
+    void setSessionDeleteCallback(std::function<std::string(const std::string&)> cb) {
+        session_delete_cb_ = std::move(cb);
+    }
     
 private:
     ServerConfig config_;
     PrometheusExporter* exporter_;
     bool running_ = false;
+    std::function<std::string()> model_info_cb_;
+    std::function<std::string()> dashboard_cb_;
+    std::function<std::string(const std::string&)> reload_cb_;
+    std::function<std::string(const std::string&)> simulate_cb_;
+    std::function<std::string()> session_list_cb_;
+    std::function<std::string(const std::string&)> session_delete_cb_;
+
+    // Pimpl: holds httplib::Server and the background listener thread.
+    // Defined in grafana_metrics.cpp to keep <httplib.h> out of this header.
+    struct Impl;
+    std::unique_ptr<Impl> impl_;
     
-    // HTTP request handling
+    // HTTP request handling (called from httplib route handlers inside Impl)
     void handleRequest(const std::string& path, std::string& response);
+    // POST body is passed separately to keep GET paths clean.
+    void handlePost(const std::string& path, const std::string& body,
+                    std::string& response);
+    // DELETE handler: path includes the resource prefix (e.g. "/admin/sessions"),
+    // resource_id carries the extracted ID segment (e.g. the session UUID).
+    void handleDelete(const std::string& path, const std::string& resource_id,
+                      std::string& response);
 };
 
 } // namespace monitoring

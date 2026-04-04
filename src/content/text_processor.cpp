@@ -1,6 +1,33 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            text_processor.cpp                                 ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:15:14                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   97.0/100                                       ║
+    • Total Lines:     412                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 60c5ea72d  2026-02-28  Add multi-language text detection and routing for content... ║
+    • 8af0ff1a8  2026-02-27  refactor(content): address code review feedback on dedupl... ║
+    • 95da435db  2026-02-27  feat(content): add content deduplication via perceptual h... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "content/content_processor.h"
+#include "content/language_detector.h"
 #include <algorithm>
 #include <cctype>
+#include <climits>
 #include <regex>
 #include <sstream>
 #include <cmath>
@@ -59,7 +86,17 @@ ExtractionResult TextProcessor::extract(
     // Sentence count (approximate)
     auto sentences = splitIntoSentences(result.text);
     result.metadata["sentence_count"] = sentences.size();
-    
+
+    // Multi-language detection and routing
+    {
+        LanguageDetector lang_detector;
+        DetectedLanguage lang = lang_detector.detect(result.text);
+        result.metadata["detected_language"]     = lang.code;
+        result.metadata["language_name"]         = lang.name;
+        result.metadata["language_confidence"]   = lang.confidence;
+        result.metadata["language_routing_hint"] = LanguageDetector::routingHint(lang.code);
+    }
+
     return result;
 }
 
@@ -310,6 +347,65 @@ std::vector<std::string> TextProcessor::splitIntoSentences(const std::string& te
     }
     
     return sentences;
+}
+
+// ---------------------------------------------------------------------------
+// computeMinHash — 128-permutation MinHash over 3-word shingles
+// ---------------------------------------------------------------------------
+
+/*static*/ std::vector<uint32_t> TextProcessor::computeMinHash(
+    const std::string& text,
+    size_t num_hashes
+) {
+    std::vector<uint32_t> signature(num_hashes, UINT32_MAX);
+    if (text.empty() || num_hashes == 0) return signature;
+
+    // Tokenise into words (lowercase)
+    std::vector<std::string> words;
+    {
+        std::istringstream iss(text);
+        std::string w;
+        while (iss >> w) {
+            std::transform(w.begin(), w.end(), w.begin(),
+                           [](unsigned char c){ return static_cast<char>(std::tolower(c)); });
+            words.push_back(std::move(w));
+        }
+    }
+    if (words.empty()) return signature;
+
+    // Build 3-word shingles (fall back to unigrams for very short texts)
+    std::vector<std::string> shingles;
+    if (words.size() < 3) {
+        shingles = words;
+    } else {
+        shingles.reserve(words.size() - 2);
+        for (size_t i = 0; i + 3 <= words.size(); ++i) {
+            shingles.push_back(words[i] + " " + words[i + 1] + " " + words[i + 2]);
+        }
+    }
+
+    // For each shingle, update each MinHash slot.
+    // Hash function h_k(s) = FNV-1a(s) XOR-mixed with seed k.
+    static constexpr uint32_t kFnvPrime  = 16777619u;
+    static constexpr uint32_t kFnvOffset = 2166136261u;
+    static constexpr uint32_t kSeedMix   = 2246822519u;
+
+    for (const auto& shingle : shingles) {
+        for (size_t k = 0; k < num_hashes; ++k) {
+            // FNV-1a over the shingle bytes, seeded by k
+            uint32_t h = kFnvOffset ^ (static_cast<uint32_t>(k) * 2654435761u);
+            for (unsigned char c : shingle) {
+                h ^= c;
+                h *= kFnvPrime;
+            }
+            h ^= static_cast<uint32_t>(k) * kSeedMix;
+            if (h < signature[k]) {
+                signature[k] = h;
+            }
+        }
+    }
+
+    return signature;
 }
 
 } // namespace content

@@ -1,3 +1,25 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            vault_key_provider.cpp                             ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:19:35                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     739                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "security/vault_key_provider.h"
 #include "security/key_provider.h"
 #include <nlohmann/json.hpp>
@@ -332,7 +354,11 @@ std::vector<uint8_t> VaultKeyProvider::parseKeyFromVaultResponse(const std::stri
         key_b64 = j["data"]["key"].get<std::string>();
     }
     
-    return base64_decode(key_b64);
+    auto key_bytes = base64_decode(key_b64);
+    if (key_bytes.empty()) {
+        throw KeyOperationException("Vault returned an empty key - refusing to use zero-length key material");
+    }
+    return key_bytes;
 }
 
 KeyMetadata VaultKeyProvider::parseMetadataFromVaultResponse(const std::string& json_response) {

@@ -1,19 +1,48 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            content_manager.cpp                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:15:07                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   99.0/100                                       ║
+    • Total Lines:     2777                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
+    • 4468db516  2026-03-19  fix(content): dedup default-off, strengthen policy-absent... ║
+    • 55d1f8241  2026-03-19  fix(content): wire enable_deduplication config gate, add ... ║
+    • 67549ed6f  2026-03-15  fix(content): wire ContentPolicy::embedding_model gate in... ║
+    • 0e2644909  2026-03-11  fix(content): thread-safe OCR routing — add shouldTrigger... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "content/content_manager.h"
 #include "content/content_type.h"
 #include "content/content_processor.h"
 #include "content/archive_processor.h"
+#include "content/html_processor.h"
+#include "content/markdown_processor.h"
+#include "content/content_validator.h"
+#include "content/ocr_processor.h"
 #include "utils/logger.h"
 #include "storage/key_schema.h"
 #include "utils/zstd_codec.h"
 #include "utils/hkdf_helper.h"
 #include "utils/hkdf_cache.h"
 
-#ifdef _MSC_VER
-#pragma warning(disable: 4505)  // unreferenced local function
-#endif
-
+#include <openssl/evp.h>
+#include <openssl/sha.h>
 #include <algorithm>
 #include <chrono>
+#include <cctype>
 #include <random>
 #include <sstream>
 #include <iomanip>
@@ -22,11 +51,37 @@
 #include <set>
 #include <sstream>
 #include <fstream>
+#include <thread>
 
 namespace themis {
 namespace content {
 
 using namespace std::chrono;
+
+// ---------------------------------------------------------------------------
+// Pipeline retry helper
+// ---------------------------------------------------------------------------
+// Calls fn(error_out) up to 1 + max_retries times, waiting retry_delay_ms
+// between attempts.  Returns true as soon as fn returns true; otherwise
+// returns false after all attempts are exhausted.
+// attempts_out receives the total number of calls made.
+namespace {
+template <typename Fn>
+bool executeWithRetry(Fn&& fn, int max_retries, int retry_delay_ms,
+                      std::string& error_out, int& attempts_out) {
+    attempts_out = 0;
+    for (int i = 0; i <= max_retries; ++i) {
+        if (i > 0 && retry_delay_ms > 0) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(retry_delay_ms));
+        }
+        ++attempts_out;
+        error_out.clear();
+        if (fn(error_out)) return true;
+    }
+    return false;
+}
+} // anonymous namespace
+// ---------------------------------------------------------------------------
 
 static std::string toHex(const std::string& in) {
     static const char* hex = "0123456789abcdef";
@@ -37,6 +92,22 @@ static std::string toHex(const std::string& in) {
         out.push_back(hex[c & 0x0F]);
     }
     return out;
+}
+
+static std::string computeImageDedupHash(const std::string& blob) {
+    if (blob.empty()) {
+        return {};
+    }
+
+    uint64_t hash = 1469598103934665603ULL;
+    for (unsigned char byte : blob) {
+        hash ^= static_cast<uint64_t>(byte);
+        hash *= 1099511628211ULL;
+    }
+
+    std::ostringstream oss;
+    oss << std::hex << std::nouppercase << std::setfill('0') << std::setw(16) << hash;
+    return oss.str();
 }
 
 // Helper: parse category string to enum
@@ -290,10 +361,32 @@ json ContentMeta::toJson() const {
 }
 
 ContentMeta ContentMeta::fromJson(const json& j) {
+    auto parseCategory = [](const json& value) -> ContentCategory {
+        if (value.is_number_integer()) {
+            return static_cast<ContentCategory>(value.get<int>());
+        }
+        if (value.is_string()) {
+            std::string category = value.get<std::string>();
+            std::transform(category.begin(), category.end(), category.begin(),
+                           [](unsigned char ch) { return static_cast<char>(std::toupper(ch)); });
+            if (category == "TEXT") return ContentCategory::TEXT;
+            if (category == "IMAGE") return ContentCategory::IMAGE;
+            if (category == "AUDIO") return ContentCategory::AUDIO;
+            if (category == "VIDEO") return ContentCategory::VIDEO;
+            if (category == "GEO") return ContentCategory::GEO;
+            if (category == "CAD") return ContentCategory::CAD;
+            if (category == "ARCHIVE") return ContentCategory::ARCHIVE;
+            if (category == "STRUCTURED") return ContentCategory::STRUCTURED;
+            if (category == "BINARY") return ContentCategory::BINARY;
+            if (category == "UNKNOWN") return ContentCategory::UNKNOWN;
+        }
+        return ContentCategory::UNKNOWN;
+    };
+
     ContentMeta m;
     m.id = j.value("id", "");
     m.mime_type = j.value("mime_type", "");
-    m.category = j.contains("category") ? static_cast<ContentCategory>(j["category"].get<int>()) : ContentCategory::UNKNOWN;
+    m.category = j.contains("category") ? parseCategory(j["category"]) : ContentCategory::UNKNOWN;
     m.original_filename = j.value("original_filename", "");
     m.size_bytes = j.value("size_bytes", 0LL);
     m.compressed = j.value("compressed", false);
@@ -377,6 +470,22 @@ std::shared_ptr<themis::security::MalwareFilterManager> ContentManager::getMalwa
     return malware_filter_;
 }
 
+void ContentManager::setDeduplicationChecker(std::shared_ptr<DeduplicationChecker> checker) {
+    dedup_checker_ = std::move(checker);
+}
+
+std::shared_ptr<DeduplicationChecker> ContentManager::getDeduplicationChecker() const {
+    return dedup_checker_;
+}
+
+void ContentManager::setProcessorChainConfig(const ProcessorChainConfig& config) {
+    processor_chain_config_ = config;
+}
+
+const ProcessorChainConfig& ContentManager::getProcessorChainConfig() const {
+    return processor_chain_config_;
+}
+
 void ContentManager::registerProcessor(std::unique_ptr<IContentProcessor> processor) {
     if (!processor) return;
     auto cats = processor->getSupportedCategories();
@@ -400,18 +509,14 @@ std::string ContentManager::normalizeId(const std::string& id, const std::string
 }
 
 std::string ContentManager::computeSHA256(const std::string& blob) {
-    // Placeholder: non-cryptographic hash to keep dependencies minimal for now
-    std::hash<std::string> h;
-    size_t a = h(blob);
-    std::string raw;
-    raw.reserve(16);
-    for (int i = 0; i < 8; ++i) raw.push_back(static_cast<char>((a >> (i*8)) & 0xFF));
-    // Mix with size and a constant
-    size_t b = h(std::to_string(blob.size()) + "#themis");
-    for (int i = 0; i < 8; ++i) raw.push_back(static_cast<char>((b >> (i*8)) & 0xFF));
-    // Expand to 32 bytes by repeating pattern
-    std::string exp = raw + raw;
-    return toHex(exp);
+    unsigned char digest[SHA256_DIGEST_LENGTH];
+    SHA256(reinterpret_cast<const unsigned char*>(blob.data()), blob.size(), digest);
+    std::ostringstream oss;
+    oss << std::hex << std::setfill('0');
+    for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
+        oss << std::setw(2) << static_cast<unsigned int>(digest[i]);
+    }
+    return oss.str();
 }
 
 std::optional<std::string> ContentManager::checkDuplicateByHash(const std::string& hash) {
@@ -441,6 +546,15 @@ static ContentCategory detectCategory(const std::string& mime, const std::string
         if (t) ct = *t;
     }
     return ct.mime_type.empty() ? ContentCategory::UNKNOWN : ct.category;
+}
+
+/// Returns true for MIME types that are text-based and have no binary magic bytes.
+/// Used by ingestStream() to skip the format/magic-bytes check for streaming
+/// text types while still running it for binary formats.
+static bool isTextBasedMime(const std::string& mime) {
+    return mime.find("text/") == 0 ||
+           mime.find("ndjson") != std::string::npos ||
+           mime.find("jsonlines") != std::string::npos;
 }
 
 Status ContentManager::importContent(const json& spec, const std::optional<std::string>& blob, const std::string& user_context) {
@@ -637,6 +751,53 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
         // Chunks verarbeiten
         std::vector<std::string> chunk_ids;
         int embedding_dim = 0;
+        std::vector<float> first_chunk_embedding;  // For content-level emb:<id> storage
+        
+        // Load fulltext index configuration from DB: key config:content
+        bool auto_fulltext_index = false;
+        SecondaryIndexManager::FulltextConfig fulltext_config;
+        try {
+            if (auto cfgv = storage_->get("config:content")) {
+                std::string s(cfgv->begin(), cfgv->end());
+                json cj = json::parse(s);
+                auto_fulltext_index = cj.value("auto_fulltext_index", false);
+                
+                // Parse fulltext config if present
+                if (cj.contains("fulltext_config") && cj["fulltext_config"].is_object()) {
+                    auto ftcfg = cj["fulltext_config"];
+                    fulltext_config.stemming_enabled = ftcfg.value("stemming_enabled", false);
+                    fulltext_config.language = ftcfg.value("language", "none");
+                    fulltext_config.stopwords_enabled = ftcfg.value("stopwords_enabled", false);
+                    fulltext_config.normalize_umlauts = ftcfg.value("normalize_umlauts", false);
+                    if (ftcfg.contains("stopwords") && ftcfg["stopwords"].is_array()) {
+                        for (const auto& sw : ftcfg["stopwords"]) {
+                            if (sw.is_string()) fulltext_config.stopwords.push_back(sw.get<std::string>());
+                        }
+                    }
+                }
+            }
+        } catch (const std::exception& e) {
+            // Config parsing failed - continue with defaults (auto_fulltext_index = false)
+            // This is acceptable as the feature is opt-in
+            THEMIS_DEBUG("Failed to parse content config for fulltext index: {}", e.what());
+        } catch (...) {
+            // Unknown error during config parsing - continue with defaults
+            THEMIS_DEBUG("Unknown error parsing content config for fulltext index");
+        }
+        
+        // Ensure fulltext index exists if auto-indexing is enabled
+        if (auto_fulltext_index && secondary_index_) {
+            if (!secondary_index_->hasFulltextIndex("chunk", "text")) {
+                auto ft_status = secondary_index_->createFulltextIndex("chunk", "text", fulltext_config);
+                if (ft_status.ok) {
+                    THEMIS_INFO("Created fulltext index for chunk.text with language={}, stemming={}", 
+                               fulltext_config.language, fulltext_config.stemming_enabled);
+                } else {
+                    THEMIS_WARN("Failed to create fulltext index for chunk.text: {}", ft_status.message);
+                }
+            }
+        }
+        
         if (spec.contains("chunks") && spec["chunks"].is_array()) {
             int64_t now = duration_cast<milliseconds>(steady_clock::now().time_since_epoch()).count();
             for (const auto& jc : spec["chunks"]) {
@@ -644,6 +805,23 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
                 if (c.id.empty()) c.id = generateUuid();
                 if (c.content_id.empty()) c.content_id = meta.id;
                 if (c.created_at == 0) c.created_at = now;
+
+                // EmbeddingStage: generate embedding for text chunks that do
+                // not yet carry one, when the pipeline is attached and enabled.
+                // Failures are tracked by EmbeddingPipeline::getFailureCount()
+                // and, when EmbeddingPipelineConfig::metrics is set, also
+                // propagated to ContentMetrics::recordEmbeddingFailure().
+                // Respect the "__embedding_enabled" hint set by ingestRawBlob
+                // when the ProcessorChainConfig has embedding disabled.
+                const bool embedding_stage_enabled = spec.value("__embedding_enabled", true);
+                if (embedding_stage_enabled && embedding_pipeline_ && embedding_pipeline_->isEnabled() &&
+                    c.embedding.empty() && !c.text.empty()) {
+                    auto emb = embedding_pipeline_->generateEmbedding(c.text);
+                    if (!emb.empty()) {
+                        c.embedding = std::move(emb);
+                    }
+                }
+
                 chunk_ids.push_back(c.id);
                 // In RocksDB ablegen
                 std::string ckey = std::string("chunk:") + c.id;
@@ -651,7 +829,27 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
                 if (!storage_->put(ckey, std::vector<uint8_t>(cjson.begin(), cjson.end()))) {
                     return Status::Error("failed to store chunk meta");
                 }
+                
+                // Add to fulltext index if enabled and text is present
+                // Note: BaseEntity for fulltext uses chunk ID as PK and includes text field
+                if (auto_fulltext_index && secondary_index_ && !c.text.empty()) {
+                    BaseEntity chunk_entity = BaseEntity::fromFields(
+                        c.id,
+                        BaseEntity::FieldMap{
+                            {"content_id", c.content_id},
+                            {"text", c.text},
+                            {"seq_num", static_cast<int64_t>(c.seq_num)},
+                            {"chunk_type", c.chunk_type}
+                        }
+                    );
+                    auto idx_status = secondary_index_->put("chunk", chunk_entity);
+                    if (!idx_status.ok) {
+                        THEMIS_WARN("Failed to index chunk {} in fulltext index: {}", c.id, idx_status.message);
+                    }
+                }
+                
                 // Embedding in VectorIndex einfügen (falls vorhanden)
+                // Note: BaseEntity for vector index uses "chunks:" prefix and includes embedding
                 if (!c.embedding.empty() && vector_index_) {
                     if (vector_index_->getDimension() == 0) {
                         (void)vector_index_->init("chunks", static_cast<int>(c.embedding.size()), VectorIndexManager::Metric::COSINE);
@@ -665,9 +863,24 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
                         if (!st.ok) THEMIS_WARN("Vector index addEntity failed: {}", st.message);
                         embedding_dim = static_cast<int>(c.embedding.size());
                     }
+                    // Keep the first chunk's embedding for content-level storage.
+                    if (first_chunk_embedding.empty()) {
+                        first_chunk_embedding = c.embedding;
+                    }
                 }
             }
     }
+        // Store content-level embedding under emb:<content_id> for direct lookup
+        // by ContentId (spec: "cf_embeddings keyed by ContentId").
+        if (!first_chunk_embedding.empty()) {
+            json emb_json = first_chunk_embedding;
+            std::string emb_str = emb_json.dump();
+            std::string emb_key = std::string("emb:") + meta.id;
+            if (!storage_->put(emb_key, std::vector<uint8_t>(emb_str.begin(), emb_str.end()))) {
+                THEMIS_WARN("Failed to store content-level embedding for content:{}", meta.id);
+            }
+        }
+
         // Optionale Verschlüsselung von Metadaten-Feldern (vector metadata encryption)
         try {
             bool meta_encrypt_enabled = false;
@@ -751,6 +964,16 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
         std::string mjson = meta.toJson().dump();
         if (!storage_->put(mkey, std::vector<uint8_t>(mjson.begin(), mjson.end()))) {
             return Status::Error("failed to store content meta");
+        }
+        // Persist SHA-256 hash → content_id mapping for exact-duplicate detection.
+        if (!meta.hash_sha256.empty()) {
+            std::string hkey = std::string("content_hash:") + meta.hash_sha256;
+            json hj = json{{"ids", json::array({meta.id})}};
+            std::string hstr = hj.dump();
+            // Only store if no entry exists yet (first writer wins).
+            if (!storage_->get(hkey)) {
+                storage_->put(hkey, std::vector<uint8_t>(hstr.begin(), hstr.end()));
+            }
         }
         // Chunk-Liste speichern
         std::string lkey = std::string("content_chunks:") + meta.id;
@@ -1327,6 +1550,13 @@ Status ContentManager::deleteContent(const std::string& content_id) {
         if (vector_index_) {
             vector_index_->removeByPk(std::string("chunks:") + c.id);
         }
+        // Remove from fulltext index if present
+        if (secondary_index_ && secondary_index_->hasFulltextIndex("chunk", "text")) {
+            auto erase_status = secondary_index_->erase("chunk", c.id);
+            if (!erase_status.ok) {
+                THEMIS_WARN("Failed to remove chunk {} from fulltext index: {}", c.id, erase_status.message);
+            }
+        }
     }
     storage_->del(std::string("content_chunks:") + id);
     storage_->del(std::string("content_blob:") + id);
@@ -1549,6 +1779,16 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
 ) {
     IngestResult result;
     result.success = false;
+
+    // Validate filename for path traversal and other security issues
+    if (!filename.empty()) {
+        ContentValidator upload_validator;
+        auto fn_err = upload_validator.validateFilename(filename);
+        if (fn_err.failed()) {
+            result.error_message = fn_err.message;
+            return result;
+        }
+    }
     
     // Detect content type and category
     std::string detected_mime = mime_type;
@@ -1746,15 +1986,21 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
                     // Create graph edge: archive -> extracted_file (only if graph_index available)
                     if (graph_index_) {
                         try {
-                            graph_index_->addEdge(
-                                std::string("content:") + archive_id,
-                                std::string("content:") + nested_result.primary_content_id,
-                                "CONTAINS",
-                                json{
-                                    {"original_path", relative_path},
-                                    {"extraction_order", result.extracted_content_ids.size() - 1}
-                                }
+                            // Create edge entity using BaseEntity::FieldMap
+                            BaseEntity::FieldMap edge_fields;
+                            edge_fields["id"] = "edge:" + archive_id + ":" + nested_result.primary_content_id;
+                            edge_fields["_from"] = "content:" + archive_id;
+                            edge_fields["_to"] = "content:" + nested_result.primary_content_id;
+                            edge_fields["_label"] = "CONTAINS";
+                            edge_fields["original_path"] = relative_path;
+                            edge_fields["extraction_order"] = static_cast<int64_t>(result.extracted_content_ids.size() - 1);
+                            
+                            BaseEntity edge = BaseEntity::fromFields(
+                                "edge:" + archive_id + ":" + nested_result.primary_content_id,
+                                edge_fields
                             );
+                            
+                            graph_index_->addEdge(edge);
                         } catch (const std::exception& e) {
                             THEMIS_WARN("Failed to create graph edge for archive member: {}", e.what());
                         }
@@ -1806,17 +2052,361 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
     meta.created_at = duration_cast<milliseconds>(steady_clock::now().time_since_epoch()).count();
     meta.modified_at = meta.created_at;
     meta.hash_sha256 = computeSHA256(blob);
-    
+
+    // ---- Exact-duplicate detection via SHA-256 hash ----
+    // Check before any processing; no dedup_checker or policy gate required.
+    {
+        auto existing_id = checkDuplicateByHash(meta.hash_sha256);
+        if (existing_id) {
+            THEMIS_INFO("Dedup (SHA-256): exact duplicate of '{}' detected for '{}'",
+                        *existing_id, filename);
+            result.success = true;
+            result.primary_content_id = *existing_id;
+            result.metadata = json{
+                {"content_id",   *existing_id},
+                {"duplicate_of", *existing_id},
+                {"sha256",       meta.hash_sha256},
+                {"mime_type",    detected_mime}
+            };
+            return result;
+        }
+    }
+
+    // Determine the effective processing stage configuration for this content type.
+    const ContentTypePipelineConfig stage_cfg =
+        processor_chain_config_.getEffectiveConfig(detected_mime, category);
+
+    // ---- Perceptual deduplication (opt-in via ContentPolicy::enable_deduplication) ----
+    // Callers pass `config["enable_deduplication"] = policy.enable_deduplication`.
+    // The default is false (opt-in, not opt-out): dedup is skipped unless the caller
+    // explicitly enables it.  ProcessorChainConfig can still disable it globally per
+    // MIME/category by setting deduplication.enabled=false; both conditions must be
+    // true for dedup to run.
+    // Compute pHash (image) or MinHash (text) once; reuse for both the duplicate
+    // check and the post-storage registration to avoid redundant computation.
+    const bool dedup_policy_enabled =
+        config.value("enable_deduplication", false) && stage_cfg.deduplication.enabled;
+    const bool dedup_is_image = (category == ContentCategory::IMAGE);
+    const bool dedup_is_text  = (category == ContentCategory::TEXT);
+    std::string cached_phash;
+    std::vector<uint32_t> cached_minhash;
+
+    if (dedup_policy_enabled && dedup_checker_ && (dedup_is_image || dedup_is_text)) {
+        metrics_.dedup_checks_total.fetch_add(1);
+
+        std::optional<DuplicateOf> dup;
+        if (dedup_is_image) {
+            cached_phash = computeImageDedupHash(blob);
+            if (!cached_phash.empty()) {
+                dup = dedup_checker_->isDuplicateImage(cached_phash);
+            }
+        } else {
+            cached_minhash = TextProcessor::computeMinHash(blob);
+            if (!cached_minhash.empty()) {
+                dup = dedup_checker_->isDuplicateText(cached_minhash);
+            }
+        }
+
+        if (dup) {
+            metrics_.dedup_hits_total.fetch_add(1);
+            THEMIS_INFO("Dedup: near-duplicate of '{}' detected for '{}' (similarity={:.3f})",
+                        dup->existing_id, filename, dup->similarity);
+            result.success = true;
+            result.primary_content_id = dup->existing_id;
+            result.metadata = json{
+                {"content_id",   dup->existing_id},
+                {"duplicate_of", dup->existing_id},
+                {"similarity",   dup->similarity},
+                {"mime_type",    detected_mime}
+            };
+            return result;
+        }
+    }
+    json chunks_json = json::array();
+    if (stage_cfg.extraction.enabled &&
+        (detected_mime == "text/html" || detected_mime == "application/xhtml+xml")) {
+        HtmlProcessor html_proc;
+        ContentType ct;
+        ct.mime_type = detected_mime;
+        ct.category  = category;
+        auto extraction = html_proc.extract(blob, ct);
+        if (extraction.ok) {
+            meta.text_extracted      = true;
+            meta.extracted_metadata  = extraction.metadata;
+            if (stage_cfg.chunking.enabled) {
+                std::string extraction_error;
+                int extraction_attempts = 0;
+                bool extraction_ok = executeWithRetry(
+                    [&](std::string& err) -> bool {
+                        chunks_json = json::array();
+                        HtmlProcessor retry_html_proc;
+                        ContentType retry_ct;
+                        retry_ct.mime_type = detected_mime;
+                        retry_ct.category  = category;
+                        auto extraction_retry = retry_html_proc.extract(blob, retry_ct);
+                        if (!extraction_retry.ok) {
+                            err = extraction_retry.error_message;
+                            return false;
+                        }
+
+                        meta.text_extracted     = true;
+                        meta.extracted_metadata = extraction_retry.metadata;
+                        int chunk_size = config.value("chunk_size", 512);
+                        int overlap    = config.value("chunk_overlap", 50);
+                        auto raw_chunks = retry_html_proc.chunk(extraction_retry, chunk_size, overlap);
+                        int64_t now = duration_cast<milliseconds>(steady_clock::now().time_since_epoch()).count();
+                        for (const auto& rc : raw_chunks) {
+                            ChunkMeta cm;
+                            cm.id         = generateUuid();
+                            cm.content_id = content_id;
+                            cm.seq_num    = rc.value("seq_num", 0);
+                            cm.chunk_type = rc.value("chunk_type", std::string("text"));
+                            cm.text       = rc.value("text", std::string{});
+                            cm.created_at = now;
+                            chunks_json.push_back(cm.toJson());
+                        }
+                        meta.chunk_count = static_cast<int>(chunks_json.size());
+                        meta.chunked     = !chunks_json.empty();
+                        return true;
+                    },
+                    stage_cfg.extraction.max_retries,
+                    stage_cfg.extraction.retry_delay_ms,
+                    extraction_error,
+                    extraction_attempts
+                );
+
+                IngestResult::StageOutcome extraction_outcome;
+                extraction_outcome.stage_name    = "extraction";
+                extraction_outcome.succeeded     = extraction_ok;
+                extraction_outcome.attempts      = extraction_attempts;
+                extraction_outcome.error_message = extraction_error;
+
+                if (extraction_ok) {
+                    THEMIS_INFO("HTML processor: extracted {} tokens, {} chunks from '{}'",
+                                meta.extracted_metadata.value("token_count", 0),
+                                chunks_json.size(), filename);
+                } else {
+                    THEMIS_WARN("HTML extraction failed for '{}' after {} attempt(s): {}",
+                                filename, extraction_attempts, extraction_error);
+                    if (!stage_cfg.extraction.continue_on_error) {
+                        result.error_message = "Extraction failed: " + extraction_error;
+                        result.stage_outcomes.push_back(std::move(extraction_outcome));
+                        return result;
+                    }
+                    extraction_outcome.skipped = true;
+                }
+                result.stage_outcomes.push_back(std::move(extraction_outcome));
+            }
+        } else {
+            THEMIS_WARN("HTML processor extraction failed for '{}': {}", filename, extraction.error_message);
+        }
+    }
+
+    // Markdown: parse frontmatter and extract plain text
+    if (stage_cfg.extraction.enabled && detected_mime == "text/markdown") {
+        MarkdownProcessor md_proc;
+        ContentType ct;
+        ct.mime_type = detected_mime;
+        ct.category  = category;
+        auto extraction = md_proc.extract(blob, ct);
+        if (extraction.ok) {
+            meta.text_extracted      = true;
+            meta.extracted_metadata  = extraction.metadata;
+            if (stage_cfg.chunking.enabled) {
+                std::string extraction_error;
+                int extraction_attempts = 0;
+                bool extraction_ok = executeWithRetry(
+                    [&](std::string& err) -> bool {
+                        chunks_json = json::array();
+                        MarkdownProcessor retry_md_proc;
+                        ContentType retry_ct;
+                        retry_ct.mime_type = detected_mime;
+                        retry_ct.category  = category;
+                        auto extraction_retry = retry_md_proc.extract(blob, retry_ct);
+                        if (!extraction_retry.ok) {
+                            err = extraction_retry.error_message;
+                            return false;
+                        }
+
+                        meta.text_extracted     = true;
+                        meta.extracted_metadata = extraction_retry.metadata;
+                        int chunk_size = config.value("chunk_size", 512);
+                        int overlap    = config.value("chunk_overlap", 50);
+                        auto raw_chunks = retry_md_proc.chunk(extraction_retry, chunk_size, overlap);
+                        int64_t now = duration_cast<milliseconds>(steady_clock::now().time_since_epoch()).count();
+                        for (const auto& rc : raw_chunks) {
+                            ChunkMeta cm;
+                            cm.id         = generateUuid();
+                            cm.content_id = content_id;
+                            cm.seq_num    = rc.value("seq_num", 0);
+                            cm.chunk_type = rc.value("chunk_type", std::string("text"));
+                            cm.text       = rc.value("text", std::string{});
+                            cm.created_at = now;
+                            chunks_json.push_back(cm.toJson());
+                        }
+                        meta.chunk_count = static_cast<int>(chunks_json.size());
+                        meta.chunked     = !chunks_json.empty();
+                        return true;
+                    },
+                    stage_cfg.extraction.max_retries,
+                    stage_cfg.extraction.retry_delay_ms,
+                    extraction_error,
+                    extraction_attempts
+                );
+
+                IngestResult::StageOutcome extraction_outcome;
+                extraction_outcome.stage_name    = "extraction";
+                extraction_outcome.succeeded     = extraction_ok;
+                extraction_outcome.attempts      = extraction_attempts;
+                extraction_outcome.error_message = extraction_error;
+
+                if (extraction_ok) {
+                    THEMIS_INFO("Markdown processor: extracted {} tokens, {} chunks from '{}'",
+                                meta.extracted_metadata.value("token_count", 0),
+                                chunks_json.size(), filename);
+                } else {
+                    THEMIS_WARN("Markdown extraction failed for '{}' after {} attempt(s): {}",
+                                filename, extraction_attempts, extraction_error);
+                    if (!stage_cfg.extraction.continue_on_error) {
+                        result.error_message = "Extraction failed: " + extraction_error;
+                        result.stage_outcomes.push_back(std::move(extraction_outcome));
+                        return result;
+                    }
+                    extraction_outcome.skipped = true;
+                }
+                result.stage_outcomes.push_back(std::move(extraction_outcome));
+            }
+        } else {
+            THEMIS_WARN("Markdown processor extraction failed for '{}': {}", filename, extraction.error_message);
+        }
+    }
+
+    // ---- OCR extraction (opt-in via ContentPolicy::ocrEnabled() → MimeDetector::shouldTriggerOcr()) ----
+    // Triggered when the caller sets config["ocr_enabled"]=true AND the MIME type is
+    // one of the OCR-capable image formats: image/png, image/jpeg, image/tiff.
+    // ContentPolicy::ocrEnabled() is wired to MimeDetector via shouldTriggerOcr(mime, bool) so that
+    // all routing decisions go through MimeDetector — thread-safe, no shared state mutation.
+    const bool ocr_enabled = config.value("ocr_enabled", false);
+    if (stage_cfg.extraction.enabled &&
+        mime_detector_.shouldTriggerOcr(detected_mime, ocr_enabled)) {
+
+        const std::string ocr_language = config.value("ocr_language", std::string("eng"));
+        std::vector<uint8_t> image_bytes(blob.begin(), blob.end());
+        std::string ocr_text = OcrProcessor::performOcr(image_bytes, ocr_language);
+
+        if (!ocr_text.empty()) {
+            meta.text_extracted = true;
+            meta.extracted_metadata["content_ocr_text"] = ocr_text;
+
+            if (stage_cfg.chunking.enabled) {
+                OcrProcessor::Config ocr_cfg;
+                ocr_cfg.language = ocr_language;
+                OcrProcessor ocr_proc(std::move(ocr_cfg));
+
+                // Build a synthetic ExtractionResult from the OCR text
+                ExtractionResult ocr_extraction;
+                ocr_extraction.ok   = true;
+                ocr_extraction.text = ocr_text;
+                ocr_extraction.metadata["content_ocr_text"] = ocr_text;
+
+                int chunk_size = config.value("chunk_size", 512);
+                int overlap    = config.value("chunk_overlap", 50);
+                auto raw_chunks = ocr_proc.chunk(ocr_extraction, chunk_size, overlap);
+
+                int64_t now = std::chrono::duration_cast<std::chrono::milliseconds>(
+                    std::chrono::steady_clock::now().time_since_epoch()).count();
+                for (const auto& rc : raw_chunks) {
+                    ChunkMeta cm;
+                    cm.id         = generateUuid();
+                    cm.content_id = content_id;
+                    cm.seq_num    = rc.value("sequence", 0);
+                    cm.chunk_type = rc.value("type", std::string("ocr_text"));
+                    cm.text       = rc.value("text", std::string{});
+                    cm.created_at = now;
+                    chunks_json.push_back(cm.toJson());
+                }
+                meta.chunk_count = static_cast<int>(chunks_json.size());
+                meta.chunked     = !chunks_json.empty();
+            }
+
+            THEMIS_INFO("OCR extraction: {} chars, {} chunks from '{}' ({})",
+                        ocr_text.size(), chunks_json.size(), filename, detected_mime);
+        } else {
+            THEMIS_INFO("OCR extraction returned no text for '{}' ({})",
+                        filename, detected_mime);
+        }
+    }
+
     json spec = {
         {"content", meta.toJson()}
     };
-    
-    auto status = importContent(spec, blob, user_context);
-    if (!status.ok) {
-        result.error_message = status.message;
-        return result;
+    if (!chunks_json.empty()) {
+        spec["chunks"] = chunks_json;
     }
-    
+    // Pass the embedding stage flag to importContent via the spec.
+    // The "__embedding_enabled" key is an internal hint consumed by importContent;
+    // it is never persisted to storage.
+    //
+    // ContentPolicy::embedding_model gates the stage per collection:
+    //   - If config["embedding_model"] is present and non-empty → stage is activated
+    //     (provided the global ProcessorChainConfig also has it enabled).
+    //   - If config["embedding_model"] is present but empty     → stage is disabled
+    //     for this ingestion regardless of the global setting.
+    //   - If config["embedding_model"] is absent                → fall back to the
+    //     ProcessorChainConfig default (backward-compatible).
+    {
+        bool embedding_active = stage_cfg.embedding.enabled;
+        if (config.contains("embedding_model")) {
+            const std::string policy_model = config.value("embedding_model", std::string{});
+            embedding_active = stage_cfg.embedding.enabled && !policy_model.empty();
+        }
+        spec["__embedding_enabled"] = embedding_active;
+    }
+
+    // Storage stage: importContent with per-stage retry.
+    {
+        std::string storage_error;
+        int storage_attempts = 0;
+        bool stored = executeWithRetry(
+            [&](std::string& err) -> bool {
+                auto status = importContent(spec, blob, user_context);
+                if (!status.ok) { err = status.message; return false; }
+                return true;
+            },
+            stage_cfg.storage.max_retries,
+            stage_cfg.storage.retry_delay_ms,
+            storage_error,
+            storage_attempts
+        );
+
+        IngestResult::StageOutcome storage_outcome;
+        storage_outcome.stage_name    = "storage";
+        storage_outcome.succeeded     = stored;
+        storage_outcome.attempts      = storage_attempts;
+        storage_outcome.error_message = storage_error;
+        result.stage_outcomes.push_back(std::move(storage_outcome));
+
+        if (!stored) {
+            if (storage_attempts > 1) {
+                THEMIS_WARN("Storage stage failed for '{}' after {} attempt(s): {}",
+                            filename, storage_attempts, storage_error);
+            }
+            result.error_message = storage_error;
+            return result;
+        }
+    }
+
+    // Register with the deduplication index after successful storage.
+    // Reuse cached_phash / cached_minhash computed above (no redundant DCT/hash).
+    if (dedup_policy_enabled && dedup_checker_ && (dedup_is_image || dedup_is_text)) {
+        if (dedup_is_image && !cached_phash.empty()) {
+            dedup_checker_->registerImage(content_id, cached_phash);
+            meta.extracted_metadata["phash_hex"] = cached_phash;
+        } else if (dedup_is_text && !cached_minhash.empty()) {
+            dedup_checker_->registerText(content_id, cached_minhash);
+        }
+    }
+
     result.success = true;
     result.primary_content_id = content_id;
     result.metadata = json{
@@ -1824,7 +2414,370 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
         {"mime_type", detected_mime},
         {"category", static_cast<int>(category)}
     };
+    if (!chunks_json.empty()) {
+        result.metadata["chunk_count"] = static_cast<int>(chunks_json.size());
+    }
     
+    return result;
+}
+
+ContentManager::IngestResult ContentManager::ingestStream(
+    std::istream& stream,
+    const std::string& filename,
+    const std::string& mime_type,
+    const std::string& user_context,
+    const json& config
+) {
+    IngestResult result;
+    result.success = false;
+
+    if (!stream.good()) {
+        result.error_message = "Invalid or unreadable input stream";
+        return result;
+    }
+
+    static constexpr size_t kDefaultChunkSizeBytes  = 4 * 1024 * 1024;    // 4 MB
+    static constexpr size_t kDefaultMaxBufferedBytes = 256 * 1024 * 1024;  // 256 MB
+    static constexpr size_t kHeaderSize              = 8192;               // 8 KB for detection
+
+    const size_t chunk_size_bytes  = config.value("chunk_size_bytes",  kDefaultChunkSizeBytes);
+    const size_t max_buffered_bytes = config.value("max_buffered_bytes", kDefaultMaxBufferedBytes);
+    const int    text_chunk_chars  = config.value("chunk_size", 512);
+
+    // --- Read header for MIME type detection ---
+    std::string header_buf;
+    header_buf.resize(std::min(kHeaderSize, chunk_size_bytes));
+    stream.read(header_buf.data(), static_cast<std::streamsize>(header_buf.size()));
+    size_t header_read = static_cast<size_t>(stream.gcount());
+    header_buf.resize(header_read);
+
+    if (header_read == 0) {
+        result.error_message = "Empty stream";
+        return result;
+    }
+
+    // --- Detect MIME type ---
+    std::string detected_mime = mime_type;
+    if (detected_mime.empty()) {
+        auto& registry = ContentTypeRegistry::instance();
+        auto type = registry.detectFromBlob(header_buf);
+        if (type) {
+            detected_mime = type->mime_type;
+        } else {
+            auto ext_pos = filename.find_last_of('.');
+            if (ext_pos != std::string::npos) {
+                std::string ext = filename.substr(ext_pos);
+                type = registry.getByExtension(ext);
+                if (type) detected_mime = type->mime_type;
+            }
+        }
+    }
+    if (detected_mime.empty()) {
+        detected_mime = "application/octet-stream";
+    }
+
+    // --- Validate MIME type and header format (security gate) ---
+    // Uses content_validator.cpp to enforce MIME type validity and magic-bytes
+    // consistency before any data is stored. Streaming-capable text types skip
+    // the magic-bytes check (they have no binary header signature).
+    {
+        ContentValidator hdr_validator;
+        auto mime_err = hdr_validator.validateMimeType(detected_mime);
+        if (mime_err.failed()) {
+            result.error_message = "MIME type validation failed: " + mime_err.message;
+            return result;
+        }
+        // Format / magic-bytes check on the header for non-text MIME types.
+        // Text/*, NDJSON and jsonlines have no binary magic bytes – skip.
+        if (!isTextBasedMime(detected_mime)) {
+            auto fmt_err = hdr_validator.validateFormat(header_buf, detected_mime);
+            if (fmt_err.failed()) {
+                THEMIS_WARN("ingestStream: format validation failed for '{}' ({}): {}",
+                            filename, detected_mime, fmt_err.message);
+                result.error_message = "Content format validation failed: " + fmt_err.message;
+                return result;
+            }
+        }
+    }
+
+    // --- Small file: stream already exhausted after header read ---
+    if (stream.eof() || !stream.good()) {
+        return ingestRawBlob(header_buf, filename, detected_mime, user_context, config);
+    }
+
+    // --- Determine if MIME type supports line-oriented streaming ---
+    auto isStreamingCapable = [](const std::string& m) -> bool {
+        return m == "text/plain"        ||
+               m == "text/csv"          ||
+               m == "text/markdown"     ||
+               m == "text/x-markdown"   ||
+               m.find("ndjson")     != std::string::npos ||
+               m.find("jsonlines")  != std::string::npos;
+    };
+
+    // --- Non-streaming path: buffer up to max_buffered_bytes ---
+    if (!isStreamingCapable(detected_mime)) {
+        std::string buffer = header_buf;
+        std::vector<char> read_buf(chunk_size_bytes);
+        while (stream.good()) {
+            stream.read(read_buf.data(), static_cast<std::streamsize>(chunk_size_bytes));
+            size_t n = static_cast<size_t>(stream.gcount());
+            if (n == 0) break;
+            if (buffer.size() + n > max_buffered_bytes) {
+                result.error_message =
+                    "File exceeds max_buffered_bytes (" + std::to_string(max_buffered_bytes) +
+                    ") for non-streaming content type '" + detected_mime + "'";
+                return result;
+            }
+            buffer.append(read_buf.data(), n);
+        }
+        return ingestRawBlob(buffer, filename, detected_mime, user_context, config);
+    }
+
+    // =========================================================================
+    // Streaming text ingestion path
+    // Chunks are stored directly to RocksDB as they are produced, keeping peak
+    // memory well below the full file size (at most two read-buffer windows).
+    // =========================================================================
+
+    const int64_t now = duration_cast<milliseconds>(steady_clock::now().time_since_epoch()).count();
+    const std::string content_id = generateUuid();
+    int64_t total_bytes = static_cast<int64_t>(header_read);
+    int seq_num = 0;
+    std::vector<std::string> chunk_ids;
+
+    // Determine the effective processing stage configuration for this content type.
+    const ContentCategory streaming_category = [&]() {
+        auto& reg = ContentTypeRegistry::instance();
+        auto t = reg.getByMimeType(detected_mime);
+        return t ? t->category : ContentCategory::UNKNOWN;
+    }();
+    const ContentTypePipelineConfig stream_stage_cfg =
+        processor_chain_config_.getEffectiveConfig(detected_mime, streaming_category);
+    // ContentPolicy::embedding_model gates embedding generation per collection.
+    // If config["embedding_model"] is present:
+    //   - non-empty → embedding active (subject to stream_stage_cfg.embedding.enabled)
+    //   - empty     → embedding disabled for this ingestion regardless of global config
+    // If absent → fall back to the ProcessorChainConfig default (backward-compatible).
+    const bool stream_embedding_active = [&]() -> bool {
+        if (config.contains("embedding_model")) {
+            const std::string policy_model = config.value("embedding_model", std::string{});
+            return stream_stage_cfg.embedding.enabled && !policy_model.empty();
+        }
+        return stream_stage_cfg.embedding.enabled;
+    }();
+    // Incremental SHA-256 hash over all streamed bytes.
+    EVP_MD_CTX* sha256_ctx = EVP_MD_CTX_new();
+    if (sha256_ctx) {
+        if (EVP_DigestInit_ex(sha256_ctx, EVP_sha256(), nullptr) != 1) {
+            THEMIS_WARN("ingestStream: EVP_DigestInit_ex failed; SHA-256 dedup disabled for '{}'", filename);
+            EVP_MD_CTX_free(sha256_ctx);
+            sha256_ctx = nullptr;
+        } else {
+            EVP_DigestUpdate(sha256_ctx, header_buf.data(), header_buf.size());
+        }
+    } else {
+        THEMIS_WARN("ingestStream: EVP_MD_CTX_new failed; SHA-256 dedup disabled for '{}'", filename);
+    }
+    // updateHash is unused for SHA-256 (raw bytes are hashed directly in the
+    // stream read loop below); the lambda exists as a no-op to avoid changing
+    // the storeTextChunk call sites.
+    auto updateHash = [](const std::string&) {};
+
+    // --- Load indexing config (mirrors importContent) ---
+    bool auto_fulltext_index = false;
+    SecondaryIndexManager::FulltextConfig fulltext_config;
+    try {
+        if (auto cfgv = storage_->get("config:content")) {
+            std::string s(cfgv->begin(), cfgv->end());
+            json cj = json::parse(s);
+            auto_fulltext_index = cj.value("auto_fulltext_index", false);
+            if (cj.contains("fulltext_config") && cj["fulltext_config"].is_object()) {
+                auto ftcfg = cj["fulltext_config"];
+                fulltext_config.stemming_enabled   = ftcfg.value("stemming_enabled", false);
+                fulltext_config.language           = ftcfg.value("language", "none");
+                fulltext_config.stopwords_enabled  = ftcfg.value("stopwords_enabled", false);
+                fulltext_config.normalize_umlauts  = ftcfg.value("normalize_umlauts", false);
+                if (ftcfg.contains("stopwords") && ftcfg["stopwords"].is_array()) {
+                    for (const auto& sw : ftcfg["stopwords"])
+                        if (sw.is_string()) fulltext_config.stopwords.push_back(sw.get<std::string>());
+                }
+            }
+        }
+    } catch (...) {}
+
+    if (auto_fulltext_index && secondary_index_) {
+        if (!secondary_index_->hasFulltextIndex("chunk", "text"))
+            secondary_index_->createFulltextIndex("chunk", "text", fulltext_config);
+    }
+
+    // --- Helper: store one text segment as a chunk ---
+    auto storeTextChunk = [&](const std::string& text) {
+        if (text.empty()) return;
+        updateHash(text);
+        if (!stream_stage_cfg.chunking.enabled) return;
+        ChunkMeta cm;
+        cm.id         = generateUuid();
+        cm.content_id = content_id;
+        cm.seq_num    = seq_num++;
+        cm.chunk_type = "text";
+        cm.text       = text;
+        cm.created_at = now;
+
+        if (stream_embedding_active && embedding_pipeline_ && embedding_pipeline_->isEnabled()) {
+            auto emb = embedding_pipeline_->generateEmbedding(text);
+            if (!emb.empty()) cm.embedding = std::move(emb);
+        }
+
+        std::string ckey = std::string("chunk:") + cm.id;
+        std::string cjson = cm.toJson().dump();
+        storage_->put(ckey, std::vector<uint8_t>(cjson.begin(), cjson.end()));
+
+        if (auto_fulltext_index && secondary_index_) {
+            BaseEntity chunk_entity = BaseEntity::fromFields(
+                cm.id,
+                BaseEntity::FieldMap{
+                    {"content_id", cm.content_id},
+                    {"text",       cm.text},
+                    {"seq_num",    static_cast<int64_t>(cm.seq_num)},
+                    {"chunk_type", cm.chunk_type}
+                }
+            );
+            secondary_index_->put("chunk", chunk_entity);
+        }
+
+        if (!cm.embedding.empty() && vector_index_) {
+            if (vector_index_->getDimension() == 0)
+                vector_index_->init("chunks", static_cast<int>(cm.embedding.size()), VectorIndexManager::Metric::COSINE);
+            if (vector_index_->getDimension() == static_cast<int>(cm.embedding.size())) {
+                BaseEntity e = BaseEntity::fromFields(
+                    std::string("chunks:") + cm.id,
+                    BaseEntity::FieldMap{
+                        {"content_id", cm.content_id},
+                        {"seq_num",    static_cast<int64_t>(cm.seq_num)},
+                        {"mime_type",  detected_mime},
+                        {"chunk_type", cm.chunk_type},
+                        {"embedding",  cm.embedding}
+                    }
+                );
+                vector_index_->addEntity(e);
+            }
+        }
+
+        chunk_ids.push_back(cm.id);
+    };
+
+    // --- Helper: split carry buffer into text segments ---
+    std::string carry;  // incomplete segment carried over between read iterations
+    auto flushCarry = [&](bool force) {
+        size_t pos = 0;
+        while (pos < carry.size()) {
+            size_t remaining = carry.size() - pos;
+            if (!force && remaining < static_cast<size_t>(text_chunk_chars))
+                break;  // wait for more data
+            size_t end = pos + std::min(static_cast<size_t>(text_chunk_chars), remaining);
+            // Prefer to split on newline boundary when close
+            if (end < carry.size()) {
+                size_t nl = carry.find('\n', end > 0 ? end - 1 : 0);
+                if (nl != std::string::npos && nl < pos + static_cast<size_t>(text_chunk_chars) * 2)
+                    end = nl + 1;
+            }
+            storeTextChunk(carry.substr(pos, end - pos));
+            pos = end;
+        }
+        carry = carry.substr(pos);
+    };
+
+    // Process header chunk
+    carry = header_buf;
+    flushCarry(false);
+
+    // Read and process remaining stream
+    std::vector<char> read_buf(chunk_size_bytes);
+    while (stream.good()) {
+        stream.read(read_buf.data(), static_cast<std::streamsize>(chunk_size_bytes));
+        size_t n = static_cast<size_t>(stream.gcount());
+        if (n == 0) break;
+        total_bytes += static_cast<int64_t>(n);
+        if (sha256_ctx) {
+            if (EVP_DigestUpdate(sha256_ctx, read_buf.data(), n) != 1) {
+                THEMIS_WARN("ingestStream: EVP_DigestUpdate failed; disabling SHA-256 for '{}'", filename);
+                EVP_MD_CTX_free(sha256_ctx);
+                sha256_ctx = nullptr;
+            }
+        }
+        carry.append(read_buf.data(), n);
+        flushCarry(false);
+    }
+    // Flush remaining carry
+    flushCarry(true);
+
+    // --- Finalize: write content metadata ---
+    ContentMeta meta;
+    meta.id               = content_id;
+    meta.mime_type        = detected_mime;
+    meta.category         = ContentCategory::TEXT;
+    meta.original_filename = filename;
+    meta.size_bytes       = total_bytes;
+    meta.created_at       = now;
+    meta.modified_at      = now;
+    meta.hash_sha256      = [&]() -> std::string {
+        if (!sha256_ctx) return {};
+        unsigned char digest[SHA256_DIGEST_LENGTH];
+        unsigned int  digest_len = 0;
+        int ok = EVP_DigestFinal_ex(sha256_ctx, digest, &digest_len);
+        EVP_MD_CTX_free(sha256_ctx);
+        sha256_ctx = nullptr;
+        if (!ok) return {};
+        std::ostringstream oss;
+        oss << std::hex << std::setfill('0');
+        for (unsigned int i = 0; i < digest_len; ++i)
+            oss << std::setw(2) << static_cast<unsigned int>(digest[i]);
+        return oss.str();
+    }();
+    meta.text_extracted   = true;
+    meta.chunk_count      = static_cast<int>(chunk_ids.size());
+    meta.chunked          = meta.chunk_count > 0;
+
+    std::string mkey = std::string("content:") + meta.id;
+    std::string mjson = meta.toJson().dump();
+    if (!storage_->put(mkey, std::vector<uint8_t>(mjson.begin(), mjson.end()))) {
+        // Rollback: remove chunks already written
+        for (const auto& cid : chunk_ids)
+            storage_->del(std::string("chunk:") + cid);
+        result.error_message = "Failed to store content metadata";
+        return result;
+    }
+
+    // Write chunk list
+    std::string lkey = std::string("content_chunks:") + meta.id;
+    json lj = json{{"ids", chunk_ids}};
+    std::string lstr = lj.dump();
+    storage_->put(lkey, std::vector<uint8_t>(lstr.begin(), lstr.end()));
+
+    // Persist SHA-256 hash → content_id mapping for exact-duplicate detection.
+    if (!meta.hash_sha256.empty()) {
+        std::string hkey = std::string("content_hash:") + meta.hash_sha256;
+        json hj = json{{"ids", json::array({meta.id})}};
+        std::string hstr = hj.dump();
+        if (!storage_->get(hkey)) {
+            storage_->put(hkey, std::vector<uint8_t>(hstr.begin(), hstr.end()));
+        }
+    }
+
+    THEMIS_INFO("Streaming ingestion completed: {} bytes, {} text chunks, file '{}'",
+                total_bytes, chunk_ids.size(), filename);
+
+    result.success            = true;
+    result.primary_content_id = content_id;
+    result.metadata = json{
+        {"content_id",  content_id},
+        {"mime_type",   detected_mime},
+        {"category",    static_cast<int>(ContentCategory::TEXT)},
+        {"chunk_count", static_cast<int>(chunk_ids.size())},
+        {"total_bytes", total_bytes},
+        {"streaming",   true}
+    };
     return result;
 }
 

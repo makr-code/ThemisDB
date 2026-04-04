@@ -1,4 +1,27 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            ethical_guidelines_manager.cpp                     ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:16:54                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     670                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "llm/ethical_guidelines_manager.h"
+#include "plugins/ethics_ai/ethics_ai_types.h"
 #include "utils/logger.h"
 #include <yaml-cpp/yaml.h>
 #include <fstream>
@@ -6,6 +29,11 @@
 #include <algorithm>
 #include <cctype>
 #include <regex>
+
+// Map legacy logging calls to project-wide macros
+#define LogInfo  THEMIS_INFO
+#define LogWarning THEMIS_WARN
+#define LogError THEMIS_ERROR
 
 namespace themis {
 namespace llm {
@@ -514,9 +542,6 @@ void EthicalGuidelinesManager::resetStatistics() {
     statistics_ = Statistics{};
 }
 
-} // namespace llm
-} // namespace themis
-
 EthicalGuidelinesManager::DetectionResult 
 EthicalGuidelinesManager::detectWithLLMJudge(
     const std::string& text,
@@ -579,3 +604,67 @@ Analyze the above text and context. Respond in JSON format:
     
     return result;
 }
+
+// ═══════════════════════════════════════════════════════════
+// Plugin Integration API Implementation
+// ═══════════════════════════════════════════════════════════
+
+bool EthicalGuidelinesManager::registerPhilosophy(
+    const std::string& school_id,
+    const themis::plugins::ethics::PhilosophyProfile& profile) {
+    
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    if (school_id.empty()) {
+        LogWarning("Cannot register philosophy with empty school_id");
+        return false;
+    }
+    
+    // Validate profile has minimum required fields
+    if (profile.name.empty()) {
+        LogWarning("Cannot register philosophy '{}' with empty name", school_id);
+        return false;
+    }
+    
+    // Check if already registered
+    if (philosophy_profiles_.find(school_id) != philosophy_profiles_.end()) {
+        LogInfo("Philosophy '{}' already registered, updating", school_id);
+    }
+    
+    // Store the profile
+    philosophy_profiles_[school_id] = profile;
+    
+    LogInfo("Registered philosophy profile: {} ({})", school_id, profile.name);
+    return true;
+}
+
+size_t EthicalGuidelinesManager::mergePhilosophies(
+    const std::map<std::string, themis::plugins::ethics::PhilosophyProfile>& profiles) {
+    
+    size_t registered_count = 0;
+    
+    for (const auto& [school_id, profile] : profiles) {
+        if (registerPhilosophy(school_id, profile)) {
+            registered_count++;
+        }
+    }
+    
+    LogInfo("Merged {} philosophy profiles into EthicalGuidelinesManager", registered_count);
+    return registered_count;
+}
+
+std::vector<std::string> EthicalGuidelinesManager::getRegisteredPhilosophies() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    std::vector<std::string> schools;
+    schools.reserve(philosophy_profiles_.size());
+    
+    for (const auto& [school_id, profile] : philosophy_profiles_) {
+        schools.push_back(school_id);
+    }
+    
+    return schools;
+}
+
+} // namespace llm
+} // namespace themis

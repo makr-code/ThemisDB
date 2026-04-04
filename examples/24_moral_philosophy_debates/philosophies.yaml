@@ -1,0 +1,415 @@
+# Moral Philosophy Schools Configuration
+# This file defines the philosophical schools, their core principles,
+# founders/key thinkers, and historical context.
+
+philosophies:
+  kant:
+    name: "Kantian Ethics"
+    name_de: "Kantische Ethik"
+    
+    founders:
+      - name: "Immanuel Kant"
+        years: "1724-1804"
+        nationality: "Deutsch"
+        key_works:
+          - "Grundlegung zur Metaphysik der Sitten (1785)"
+          - "Kritik der praktischen Vernunft (1788)"
+          - "Die Metaphysik der Sitten (1797)"
+    
+    historical_context:
+      period: "Aufklärung (18. Jahrhundert)"
+      philosophical_movement: "Deutscher Idealismus"
+      influences:
+        - "Rationalismus (Leibniz, Wolff)"
+        - "Empirismus (Hume)"
+        - "Rousseau"
+    
+    core_theses:
+      - thesis: "Kategorischer Imperativ"
+        description: "Handle nur nach derjenigen Maxime, durch die du zugleich wollen kannst, dass sie ein allgemeines Gesetz werde."
+        explanation: "Handlungen sind nur dann moralisch, wenn ihre Maxime universalisierbar ist."
+      
+      - thesis: "Selbstzweckformel"
+        description: "Handle so, dass du die Menschheit sowohl in deiner Person, als in der Person eines jeden anderen jederzeit zugleich als Zweck, niemals bloß als Mittel brauchst."
+        explanation: "Menschen haben intrinsischen Wert und dürfen nicht instrumentalisiert werden."
+      
+      - thesis: "Autonomie und Würde"
+        description: "Die Würde des Menschen liegt in seiner Fähigkeit zur autonomen Selbstgesetzgebung."
+        explanation: "Moralische Subjekte sind rationale Wesen, die sich selbst Gesetze geben können."
+      
+      - thesis: "Pflicht über Neigung"
+        description: "Der moralische Wert einer Handlung liegt in der Pflicht, nicht in ihren Folgen oder Neigungen."
+        explanation: "Aus Pflicht handeln bedeutet, aus Achtung vor dem moralischen Gesetz zu handeln."
+    
+    decision_framework: "Prüfe, ob die Handlungsmaxime universalisierbar ist und menschliche Würde respektiert."
+    
+    strengths:
+      - "Klare, rationale Prinzipien"
+      - "Schutz der Menschenwürde"
+      - "Unabhängig von Konsequenzen"
+    
+    weaknesses:
+      - "Kann zu rigoristisch sein"
+      - "Konflikte zwischen Pflichten schwer lösbar"
+      - "Vernachlässigt Emotionen und Kontexte"
+
+  utilitarianism:
+    name: "Utilitarianism"
+    name_de: "Utilitarismus"
+    
+    founders:
+      - name: "Jeremy Bentham"
+        years: "1748-1832"
+        nationality: "Englisch"
+        key_works:
+          - "An Introduction to the Principles of Morals and Legislation (1789)"
+      
+      - name: "John Stuart Mill"
+        years: "1806-1873"
+        nationality: "Englisch"
+        key_works:
+          - "Utilitarianism (1863)"
+          - "On Liberty (1859)"
+      
+      - name: "Henry Sidgwick"
+        years: "1838-1900"
+        nationality: "Englisch"
+        key_works:
+          - "The Methods of Ethics (1874)"
+    
+    historical_context:
+      period: "19. Jahrhundert"
+      philosophical_movement: "Britischer Empirismus, Sozialreform"
+      influences:
+        - "Epikureismus"
+        - "Aufklärung"
+        - "Industrialisierung und Sozialreform"
+    
+    core_theses:
+      - thesis: "Prinzip des größten Glücks"
+        description: "Eine Handlung ist richtig, wenn sie das größte Glück für die größte Zahl produziert."
+        explanation: "Moralität bemisst sich am aggregierten Nutzen aller Betroffenen."
+      
+      - thesis: "Konsequentialismus"
+        description: "Die Moralität einer Handlung wird ausschließlich durch ihre Folgen bestimmt."
+        explanation: "Intentionen und Handlungstypen sind sekundär gegenüber Ergebnissen."
+      
+      - thesis: "Hedonistisches Kalkül"
+        description: "Glück = Lust minus Leid; diese Größen sind messbar und vergleichbar."
+        explanation: "Ethische Entscheidungen erfordern Kosten-Nutzen-Abwägung."
+      
+      - thesis: "Unparteilichkeit"
+        description: "Jeder zählt als einer und niemand als mehr als einer."
+        explanation: "Alle Interessen sind gleich zu berücksichtigen, unabhängig von der Person."
+    
+    decision_framework: "Berechne den erwarteten Nutzen für alle Betroffenen und wähle die Handlung mit maximalem Gesamtnutzen."
+    
+    strengths:
+      - "Fokus auf Wohlergehen"
+      - "Demokratisch und egalitär"
+      - "Pragmatisch anwendbar"
+    
+    weaknesses:
+      - "Schwierig, alle Konsequenzen vorherzusehen"
+      - "Kann Rechte von Minderheiten verletzen"
+      - "Interpersonelle Nutzenvergleiche problematisch"
+
+  deontology:
+    name: "Deontological Ethics"
+    name_de: "Deontologische Ethik"
+    
+    founders:
+      - name: "William David Ross"
+        years: "1877-1971"
+        nationality: "Schottisch"
+        key_works:
+          - "The Right and the Good (1930)"
+          - "Foundations of Ethics (1939)"
+      
+      - name: "Thomas Nagel"
+        years: "1937-heute"
+        nationality: "Amerikanisch"
+        key_works:
+          - "The Possibility of Altruism (1970)"
+          - "Mortal Questions (1979)"
+    
+    historical_context:
+      period: "20. Jahrhundert"
+      philosophical_movement: "Analytische Philosophie, Post-Kantianismus"
+      influences:
+        - "Kant"
+        - "Intuitionismus (G.E. Moore)"
+        - "Common Sense Philosophie"
+    
+    core_theses:
+      - thesis: "Prima Facie Pflichten"
+        description: "Es gibt mehrere grundlegende moralische Pflichten, die prima facie bindend sind."
+        explanation: "Treue, Wiedergutmachung, Dankbarkeit, Gerechtigkeit, Wohltätigkeit, Selbstverbesserung, Nicht-Schädigung."
+      
+      - thesis: "Moralische Absolutheit"
+        description: "Bestimmte Handlungen sind intrinsisch falsch, unabhängig von Konsequenzen."
+        explanation: "Es gibt moralische Grenzen, die nicht überschritten werden dürfen."
+      
+      - thesis: "Rechtebasierte Moral"
+        description: "Individuen haben unveräußerliche Rechte, die respektiert werden müssen."
+        explanation: "Rechte schaffen Verpflichtungen für andere und können nicht durch Nutzenkalküle aufgewogen werden."
+      
+      - thesis: "Handlungstypen vs. Konsequenzen"
+        description: "Die moralische Qualität liegt im Handlungstyp selbst, nicht nur in den Folgen."
+        explanation: "Lügen ist falsch wegen des Typs der Handlung, nicht nur wegen schlechter Folgen."
+    
+    decision_framework: "Identifiziere relevante Pflichten und Rechte; folge denjenigen, die in der Situation das größte Gewicht haben."
+    
+    strengths:
+      - "Schützt individuelle Rechte"
+      - "Berücksichtigt Pluralismus moralischer Werte"
+      - "Intuitiv plausibel"
+    
+    weaknesses:
+      - "Konflikte zwischen Pflichten schwer lösbar"
+      - "Keine klare Rangordnung der Pflichten"
+      - "Kann zu unintuitiven Ergebnissen führen"
+
+  contractualism:
+    name: "Contractualism"
+    name_de: "Kontraktualismus"
+    
+    founders:
+      - name: "Thomas Hobbes"
+        years: "1588-1679"
+        nationality: "Englisch"
+        key_works:
+          - "Leviathan (1651)"
+        context: "Früher Kontraktualismus (politisch)"
+      
+      - name: "John Rawls"
+        years: "1921-2002"
+        nationality: "Amerikanisch"
+        key_works:
+          - "A Theory of Justice (1971)"
+          - "Political Liberalism (1993)"
+      
+      - name: "T.M. Scanlon"
+        years: "1940-heute"
+        nationality: "Amerikanisch"
+        key_works:
+          - "What We Owe to Each Other (1998)"
+        context: "Moralischer Kontraktualismus"
+    
+    historical_context:
+      period: "17. Jahrhundert (Hobbes); 20. Jahrhundert (Rawls, Scanlon)"
+      philosophical_movement: "Sozialvertragstheorie, Politische Philosophie"
+      influences:
+        - "Kant"
+        - "Liberalismus"
+        - "Analytische Ethik"
+    
+    core_theses:
+      - thesis: "Vernünftige Zurückweisung"
+        description: "Eine Handlung ist falsch, wenn sie nach Prinzipien erfolgt, die niemand vernünftigerweise zurückweisen könnte."
+        explanation: "Moralische Regeln müssen für alle rechtfertigbar sein."
+      
+      - thesis: "Schleier des Nichtwissens (Rawls)"
+        description: "Gerechte Prinzipien sind solche, die rationale Personen hinter einem Schleier des Nichtwissens wählen würden."
+        explanation: "Faire Regeln werden gewählt, wenn niemand seine Position in der Gesellschaft kennt."
+      
+      - thesis: "Reziprozität"
+        description: "Moralische Verpflichtungen beruhen auf wechselseitiger Anerkennung und fairen Kooperationsbedingungen."
+        explanation: "Moral ist ein System fairer Zusammenarbeit zwischen freien und gleichen Personen."
+      
+      - thesis: "Rechtfertigung gegenüber anderen"
+        description: "Moralische Regeln müssen jedem einzelnen Individuum gegenüber rechtfertigbar sein."
+        explanation: "Nicht aggregierter Nutzen, sondern individuelle Rechtfertigung ist zentral."
+    
+    decision_framework: "Frage: Könnte jemand diese Regel vernünftigerweise zurückweisen? Berücksichtige alle Standpunkte."
+    
+    strengths:
+      - "Betont Fairness und Reziprozität"
+      - "Respektiert individuelle Perspektiven"
+      - "Vermeidet Aggregationsprobleme des Utilitarismus"
+    
+    weaknesses:
+      - "Was als 'vernünftig' gilt, ist umstritten"
+      - "Anwendung auf konkrete Fälle unklar"
+      - "Möglicherweise zu konservativ"
+
+  virtue_ethics:
+    name: "Virtue Ethics"
+    name_de: "Tugendethik"
+    
+    founders:
+      - name: "Aristoteles"
+        years: "384-322 v. Chr."
+        nationality: "Griechisch"
+        key_works:
+          - "Nikomachische Ethik"
+          - "Eudemische Ethik"
+      
+      - name: "Philippa Foot"
+        years: "1920-2010"
+        nationality: "Britisch"
+        key_works:
+          - "Virtues and Vices (1978)"
+          - "Natural Goodness (2001)"
+      
+      - name: "Alasdair MacIntyre"
+        years: "1929-heute"
+        nationality: "Schottisch-Amerikanisch"
+        key_works:
+          - "After Virtue (1981)"
+    
+    historical_context:
+      period: "Antike (Aristoteles); Wiederbelebung im 20. Jahrhundert"
+      philosophical_movement: "Aristotelismus, Neo-Aristotelismus"
+      influences:
+        - "Platon"
+        - "Stoizismus"
+        - "Christliche Ethik (Thomas von Aquin)"
+    
+    core_theses:
+      - thesis: "Eudaimonia (Menschliches Gedeihen)"
+        description: "Das höchste Gut ist Eudaimonia - ein Leben des Gedeihens und der Selbstverwirklichung."
+        explanation: "Moralität zielt auf vollständige menschliche Entfaltung, nicht nur auf Pflichterfüllung."
+      
+      - thesis: "Tugenden als Charaktereigenschaften"
+        description: "Tugenden sind erworbene Dispositionen zu exzellentem Handeln."
+        explanation: "Mut, Weisheit, Gerechtigkeit, Mäßigung - diese prägen guten Charakter."
+      
+      - thesis: "Die Goldene Mitte (Mesotes)"
+        description: "Tugend ist die Mitte zwischen zwei Extremen."
+        explanation: "Mut liegt zwischen Feigheit und Tollkühnheit; Großzügigkeit zwischen Geiz und Verschwendung."
+      
+      - thesis: "Praktische Weisheit (Phronesis)"
+        description: "Moralisches Urteil erfordert praktische Weisheit, nicht nur Regelbefolgung."
+        explanation: "Der Tugendhafte erkennt situationsangemessen, was zu tun ist."
+      
+      - thesis: "Gemeinschaft und Telos"
+        description: "Tugenden sind nur im Kontext sozialer Praktiken und Gemeinschaften verständlich."
+        explanation: "Ethik ist eingebettet in soziale Rollen und kulturelle Traditionen."
+    
+    decision_framework: "Frage: Was würde eine tugendhafte Person in dieser Situation tun? Strebe nach der Mitte."
+    
+    strengths:
+      - "Ganzheitlicher Fokus auf Charakter"
+      - "Berücksichtigt Kontexte und Beziehungen"
+      - "Betont moralische Bildung"
+    
+    weaknesses:
+      - "Wenig handlungsleitend in Dilemmata"
+      - "Kulturrelativismus-Problem"
+      - "Unklar, welche Tugenden universell sind"
+
+  care_ethics:
+    name: "Care Ethics"
+    name_de: "Fürsorgeethik"
+    
+    founders:
+      - name: "Carol Gilligan"
+        years: "1936-heute"
+        nationality: "Amerikanisch"
+        key_works:
+          - "In a Different Voice (1982)"
+      
+      - name: "Nel Noddings"
+        years: "1929-heute"
+        nationality: "Amerikanisch"
+        key_works:
+          - "Caring: A Feminine Approach to Ethics (1984)"
+      
+      - name: "Virginia Held"
+        years: "1929-heute"
+        nationality: "Amerikanisch"
+        key_works:
+          - "The Ethics of Care (2006)"
+    
+    historical_context:
+      period: "Spätes 20. Jahrhundert"
+      philosophical_movement: "Feministische Philosophie, Kritik des liberalen Individualismus"
+      influences:
+        - "Feministische Theorie"
+        - "Psychologie der moralischen Entwicklung"
+        - "Kritik an Rawls und Kant"
+    
+    core_theses:
+      - thesis: "Relationalität"
+        description: "Moralische Subjekte sind fundamental relational und interdependent, nicht atomistisch."
+        explanation: "Identität und Moral entstehen in Beziehungen und Fürsorgebeziehungen."
+      
+      - thesis: "Kontextsensitivität"
+        description: "Moralisches Urteilen muss die konkreten Umstände und Beziehungen berücksichtigen."
+        explanation: "Abstrakte Prinzipien sind unzureichend; Situationen sind partikulär."
+      
+      - thesis: "Affektive Dimension"
+        description: "Emotionen wie Mitgefühl, Empathie und Liebe sind zentral für Moral."
+        explanation: "Moral ist nicht rein rational, sondern affektiv und responsiv."
+      
+      - thesis: "Asymmetrische Verantwortung"
+        description: "Fürsorge erkennt unterschiedliche Bedürfnisse und Vulnerabilitäten an."
+        explanation: "Nicht alle haben gleiche Pflichten; Abhängigkeit schafft besondere Verantwortung."
+    
+    decision_framework: "Berücksichtige Beziehungen, Bedürfnisse und Vulnerabilitäten; reagiere mitfühlend und responsiv."
+    
+    strengths:
+      - "Erfasst Moral des Alltags"
+      - "Würdigt affektive und relationale Aspekte"
+      - "Kritisiert übermäßigen Individualismus"
+    
+    weaknesses:
+      - "Gefahr des Partikularismus"
+      - "Kann patriarchale Strukturen verfestigen"
+      - "Schwierig zu systematisieren"
+
+  discourse_ethics:
+    name: "Discourse Ethics"
+    name_de: "Diskursethik"
+    
+    founders:
+      - name: "Jürgen Habermas"
+        years: "1929-heute"
+        nationality: "Deutsch"
+        key_works:
+          - "Moralbewusstsein und kommunikatives Handeln (1983)"
+          - "Faktizität und Geltung (1992)"
+      
+      - name: "Karl-Otto Apel"
+        years: "1922-2017"
+        nationality: "Deutsch"
+        key_works:
+          - "Transformation der Philosophie (1973)"
+    
+    historical_context:
+      period: "Spätes 20. Jahrhundert"
+      philosophical_movement: "Frankfurter Schule, Kritische Theorie"
+      influences:
+        - "Kant"
+        - "Pragmatismus (Peirce)"
+        - "Sprachphilosophie (Austin, Searle)"
+    
+    core_theses:
+      - thesis: "Diskursprinzip"
+        description: "Gültig sind nur die Normen, denen alle Betroffenen in einem rationalen Diskurs zustimmen könnten."
+        explanation: "Legitimität durch argumentativen Konsens unter idealen Bedingungen."
+      
+      - thesis: "Universalisierungsgrundsatz"
+        description: "Eine Norm ist gültig, wenn die Folgen ihrer Befolgung von allen akzeptiert werden können."
+        explanation: "Verallgemeinerung durch tatsächlichen Diskurs, nicht durch individuelle Reflexion."
+      
+      - thesis: "Ideale Sprechsituation"
+        description: "Rationaler Diskurs setzt Symmetrie, Zwangfreiheit und Wahrhaftigkeit voraus."
+        explanation: "Kommunikative Vernunft impliziert normative Ideale."
+      
+      - thesis: "Performativer Widerspruch"
+        description: "Wer argumentiert, akzeptiert implizit die Normen rationalen Diskurses."
+        explanation: "Diskursethik hat transzendentalpragmatische Begründung."
+    
+    decision_framework: "Organisiere einen fairen, zwangfreien Diskurs und suche nach Konsens unter allen Betroffenen."
+    
+    strengths:
+      - "Demokratisch und partizipativ"
+      - "Verknüpft Moral und Rationalität"
+      - "Prozedural fair"
+    
+    weaknesses:
+      - "Ideale Sprechsituation unerreichbar"
+      - "Zeitaufwendig und unpraktisch"
+      - "Konsens nicht immer möglich oder wünschenswert"

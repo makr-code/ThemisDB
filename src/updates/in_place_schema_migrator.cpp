@@ -1,0 +1,258 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            in_place_schema_migrator.cpp                       ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-03-30 04:21:19                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     257                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 39ac8c3ef  2026-03-20  Split default-arg constructors into overloads ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 4801e2151  2026-03-01  feat(updates): add MigrationChangePreview dry-run preview... ║
+    • f7fdc80f2  2026-02-23  audit: fix banner line counts, add fresh-table integratio... ║
+    • 4ce167b67  2026-02-23  feat(updates): implement InPlaceSchemaMigrator for additi... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+// SPDX-License-Identifier: Apache-2.0
+// Copyright (c) 2026 ThemisDB Contributors
+
+#include "updates/in_place_schema_migrator.h"
+#include "utils/logger.h"
+
+#define LOG_ERROR(...) SPDLOG_ERROR(__VA_ARGS__)
+#define LOG_INFO(...)  SPDLOG_INFO(__VA_ARGS__)
+
+#include <map>
+
+namespace themis {
+namespace updates {
+
+// ============================================================================
+// InPlaceSchemaMigrator
+// ============================================================================
+
+InPlaceSchemaMigrator::InPlaceSchemaMigrator()
+    : InPlaceSchemaMigrator(Config{})
+{
+}
+
+InPlaceSchemaMigrator::InPlaceSchemaMigrator(const Config& config)
+    : config_(config) {}
+
+// ----------------------------------------------------------------------------
+// isAdditiveMigration (static)
+// ----------------------------------------------------------------------------
+
+bool InPlaceSchemaMigrator::isAdditiveMigration(
+    const SchemaManager::TableSchema& from_schema,
+    const SchemaManager::TableSchema& to_schema)
+{
+    // Build a map of existing columns for fast lookup
+    std::map<std::string, const SchemaManager::PropertyInfo*> from_props;
+    for (const auto& p : from_schema.properties) {
+        from_props[p.name] = &p;
+    }
+
+    // Every column in from_schema must appear unchanged in to_schema
+    std::map<std::string, const SchemaManager::PropertyInfo*> to_props;
+    for (const auto& p : to_schema.properties) {
+        to_props[p.name] = &p;
+    }
+
+    for (const auto& [name, from_p] : from_props) {
+        auto it = to_props.find(name);
+        if (it == to_props.end()) {
+            // A column was removed – not additive
+            return false;
+        }
+        const auto* to_p = it->second;
+        if (to_p->type != from_p->type || to_p->nullable != from_p->nullable) {
+            // A column was modified – not additive
+            return false;
+        }
+    }
+
+    // to_schema must add at least one new column
+    return to_schema.properties.size() > from_schema.properties.size();
+}
+
+// ----------------------------------------------------------------------------
+// findAddedColumns (static, private)
+// ----------------------------------------------------------------------------
+
+std::vector<std::string> InPlaceSchemaMigrator::findAddedColumns(
+    const SchemaManager::TableSchema& from_schema,
+    const SchemaManager::TableSchema& to_schema)
+{
+    std::map<std::string, bool> from_names;
+    for (const auto& p : from_schema.properties) {
+        from_names[p.name] = true;
+    }
+
+    std::vector<std::string> added;
+    for (const auto& p : to_schema.properties) {
+        if (from_names.find(p.name) == from_names.end()) {
+            added.push_back(p.name);
+        }
+    }
+    return added;
+}
+
+// ----------------------------------------------------------------------------
+// preview (static)
+// ----------------------------------------------------------------------------
+
+MigrationChangePreview InPlaceSchemaMigrator::preview(
+    const SchemaManager::TableSchema& from_schema,
+    const SchemaManager::TableSchema& to_schema)
+{
+    MigrationChangePreview result;
+
+    // Build property maps for O(1) lookup
+    std::map<std::string, const SchemaManager::PropertyInfo*> from_map;
+    for (const auto& p : from_schema.properties) {
+        from_map[p.name] = &p;
+    }
+    std::map<std::string, const SchemaManager::PropertyInfo*> to_map;
+    for (const auto& p : to_schema.properties) {
+        to_map[p.name] = &p;
+    }
+
+    // Added columns: present in to_schema but not in from_schema
+    for (const auto& p : to_schema.properties) {
+        if (from_map.find(p.name) == from_map.end()) {
+            result.added_columns.push_back(p);
+        }
+    }
+
+    // Removed columns: present in from_schema but not in to_schema
+    for (const auto& p : from_schema.properties) {
+        if (to_map.find(p.name) == to_map.end()) {
+            result.removed_columns.push_back(p);
+        }
+    }
+
+    // Modified columns: present in both but with changed type or nullability
+    for (const auto& [name, from_p] : from_map) {
+        auto it = to_map.find(name);
+        if (it == to_map.end()) continue;  // already counted as removed
+        const auto* to_p = it->second;
+        if (to_p->type != from_p->type || to_p->nullable != from_p->nullable) {
+            ColumnModification mod;
+            mod.column_name  = name;
+            mod.old_type     = from_p->type;
+            mod.new_type     = to_p->type;
+            mod.old_nullable = from_p->nullable;
+            mod.new_nullable = to_p->nullable;
+            result.modified_columns.push_back(std::move(mod));
+        }
+    }
+
+    // is_additive: only new columns are introduced, nothing removed or modified
+    result.is_additive = result.removed_columns.empty() &&
+                         result.modified_columns.empty() &&
+                         !result.added_columns.empty();
+
+    // is_valid (strict mode): migration must be purely additive
+    if (result.is_additive) {
+        result.is_valid = true;
+    } else if (result.changeCount() == 0) {
+        result.is_valid      = false;
+        result.error_message =
+            "Migration preview: no changes detected between from_schema and to_schema";
+    } else {
+        result.is_valid      = false;
+        result.error_message =
+            "Migration preview: migration is not purely additive "
+            "(" + std::to_string(result.removed_columns.size()) + " removed, "
+            + std::to_string(result.modified_columns.size()) + " modified); "
+            "use SchemaMigrationTester for destructive or type-changing migrations";
+    }
+
+    return result;
+}
+
+// ----------------------------------------------------------------------------
+// apply
+// ----------------------------------------------------------------------------
+
+InPlaceMigrationResult InPlaceSchemaMigrator::apply(
+    const std::string& table_name,
+    const SchemaManager::TableSchema& from_schema,
+    const SchemaManager::TableSchema& to_schema,
+    SchemaManager& schema_mgr,
+    SchemaVersionManager& version_mgr,
+    const std::string& author)
+{
+    InPlaceMigrationResult result;
+
+    if (table_name.empty()) {
+        result.error_message = "table_name must not be empty";
+        LOG_ERROR("InPlaceSchemaMigrator: {}", result.error_message);
+        return result;
+    }
+
+    if (config_.strict_additive && !isAdditiveMigration(from_schema, to_schema)) {
+        result.error_message =
+            "Migration for table '" + table_name +
+            "' is not purely additive; use SchemaMigrationTester for "
+            "destructive or type-changing migrations";
+        LOG_ERROR("InPlaceSchemaMigrator: {}", result.error_message);
+        return result;
+    }
+
+    result.added_columns = findAddedColumns(from_schema, to_schema);
+
+    // Apply the new schema metadata in-place (no data copy)
+    if (!schema_mgr.setTableSchema(table_name, to_schema)) {
+        result.error_message =
+            "SchemaManager rejected the new schema for table '" + table_name + "'";
+        LOG_ERROR("InPlaceSchemaMigrator: {}", result.error_message);
+        return result;
+    }
+
+    // Record the change in version history
+    auto ver_result = version_mgr.createSchemaVersion(
+        table_name,
+        author,
+        "in-place additive migration: added " +
+            std::to_string(result.added_columns.size()) + " column(s)");
+
+    if (!ver_result.ok) {
+        // Schema was already applied; attempt to report the version error
+        result.error_message =
+            "Schema applied but version recording failed: " + ver_result.error_message;
+        LOG_ERROR("InPlaceSchemaMigrator: {}", result.error_message);
+        return result;
+    }
+
+    result.schema_version = ver_result.value;
+    result.success        = true;
+
+    std::string cols_str;
+    for (size_t i = 0; i < result.added_columns.size(); ++i) {
+        if (i) cols_str += ", ";
+        cols_str += result.added_columns[i];
+    }
+    LOG_INFO(
+        "InPlaceSchemaMigrator: table '{}' migrated in-place to v{}; "
+        "added {} column(s): {}",
+        table_name, result.schema_version, result.added_columns.size(),
+        cols_str);
+
+    return result;
+}
+
+} // namespace updates
+} // namespace themis

@@ -1,0 +1,6 @@
+{
+  "hidden_dim": 128,
+  "base_theta": 10000.0,
+  "num_rotation_pairs": 64,
+  "normalize_after": false
+}

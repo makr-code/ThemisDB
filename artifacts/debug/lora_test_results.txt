@@ -1,0 +1,420 @@
+Running main() from C:\VCC\themis\vcpkg\buildtrees\gtest\src\v1.15.2-41f5afb119.clean\googletest\src\gtest_main.cc
+Note: Google Test filter = *LoraAdapter*
+[==========] Running 18 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 18 tests from LoraAdapterApplicationTest
+[ RUN      ] LoraAdapterApplicationTest.LoadLoRASuccess
+[2026-02-12 15:42:15.672] [info] MultiLoRAManager initialized (vLLM-style):
+[2026-02-12 15:42:15.672] [info]   Max LoRA VRAM: 1024 MB
+[2026-02-12 15:42:15.672] [info]   Max LoRA slots: 10
+[2026-02-12 15:42:15.672] [info]   LoRA TTL: 3600 seconds
+[2026-02-12 15:42:15.672] [info]   Multi-LoRA batching: disabled
+[2026-02-12 15:42:15.672] [info]   Multi-GPU: disabled (single GPU mode)
+[2026-02-12 15:42:15.672] [info]   Background eviction thread started (TTL: 3600s)
+[2026-02-12 15:42:15.672] [info] LoRA cache miss: adapter1 - loading with placement: SINGLE_GPU
+[2026-02-12 15:42:15.673] [info] Loading LoRA: adapter1 from C:\Users\mkrueger\AppData\Local\Temp\themis_lora_test\adapter1.bin (placement: SINGLE_GPU)
+[2026-02-12 15:42:15.673] [info] LoRA adapter1 loaded on GPU 0 (32 MB)
+[2026-02-12 15:42:15.673] [info] [AUDIT] GPU Transfer: type=load, lora=adapter1, tenant=, src_gpu=-1, tgt_gpu=0, vram=32MB, details=LoRA loaded successfully
+[2026-02-12 15:42:15.673] [info] LoRA loaded successfully: adapter1 (32 MB VRAM, GPU(s): 1)
+[2026-02-12 15:42:15.673] [info] Eviction worker thread started (TTL: 3600s)
+[2026-02-12 15:42:15.673] [info] Eviction worker thread stopped
+[2026-02-12 15:42:15.673] [info] Unloading LoRA: adapter1
+[2026-02-12 15:42:15.673] [info] MultiLoRAManager destroyed, all LoRAs unloaded
+[       OK ] LoraAdapterApplicationTest.LoadLoRASuccess (7 ms)
+[ RUN      ] LoraAdapterApplicationTest.LoadLoRAFailsWithInvalidPath
+[2026-02-12 15:42:15.680] [info] MultiLoRAManager initialized (vLLM-style):
+[2026-02-12 15:42:15.680] [info]   Max LoRA VRAM: 1024 MB
+[2026-02-12 15:42:15.680] [info]   Max LoRA slots: 10
+[2026-02-12 15:42:15.680] [info]   LoRA TTL: 3600 seconds
+[2026-02-12 15:42:15.680] [info]   Multi-LoRA batching: disabled
+[2026-02-12 15:42:15.680] [info]   Multi-GPU: disabled (single GPU mode)
+[2026-02-12 15:42:15.680] [info]   Background eviction thread started (TTL: 3600s)
+[2026-02-12 15:42:15.680] [info] LoRA cache miss: invalid_adapter - loading with placement: SINGLE_GPU
+[2026-02-12 15:42:15.680] [error] LoRA file not found: /invalid/path/adapter.bin for adapter invalid_adapter
+[2026-02-12 15:42:15.680] [info] Eviction worker thread started (TTL: 3600s)
+[2026-02-12 15:42:15.680] [info] Eviction worker thread stopped
+[2026-02-12 15:42:15.680] [info] MultiLoRAManager destroyed, all LoRAs unloaded
+[       OK ] LoraAdapterApplicationTest.LoadLoRAFailsWithInvalidPath (6 ms)
+[ RUN      ] LoraAdapterApplicationTest.LoadMultipleLoRAs
+[2026-02-12 15:42:15.687] [info] MultiLoRAManager initialized (vLLM-style):
+[2026-02-12 15:42:15.687] [info]   Max LoRA VRAM: 1024 MB
+[2026-02-12 15:42:15.687] [info]   Max LoRA slots: 10
+[2026-02-12 15:42:15.687] [info]   LoRA TTL: 3600 seconds
+[2026-02-12 15:42:15.687] [info]   Multi-LoRA batching: disabled
+[2026-02-12 15:42:15.687] [info]   Multi-GPU: disabled (single GPU mode)
+[2026-02-12 15:42:15.688] [info]   Background eviction thread started (TTL: 3600s)
+[2026-02-12 15:42:15.688] [info] LoRA cache miss: adapter1 - loading with placement: SINGLE_GPU
+[2026-02-12 15:42:15.688] [info] Loading LoRA: adapter1 from C:\Users\mkrueger\AppData\Local\Temp\themis_lora_test\adapter1.bin (placement: SINGLE_GPU)
+[2026-02-12 15:42:15.688] [info] LoRA adapter1 loaded on GPU 0 (32 MB)
+[2026-02-12 15:42:15.688] [info] [AUDIT] GPU Transfer: type=load, lora=adapter1, tenant=, src_gpu=-1, tgt_gpu=0, vram=32MB, details=LoRA loaded successfully
+[2026-02-12 15:42:15.688] [info] Eviction worker thread started (TTL: 3600s)
+[2026-02-12 15:42:15.688] [info] LoRA loaded successfully: adapter1 (32 MB VRAM, GPU(s): 1)
+[2026-02-12 15:42:15.688] [info] LoRA cache miss: adapter2 - loading with placement: SINGLE_GPU
+[2026-02-12 15:42:15.688] [info] Loading LoRA: adapter2 from C:\Users\mkrueger\AppData\Local\Temp\themis_lora_test\adapter2.bin (placement: SINGLE_GPU)
+[2026-02-12 15:42:15.688] [info] LoRA adapter2 loaded on GPU 0 (32 MB)
+[2026-02-12 15:42:15.688] [info] [AUDIT] GPU Transfer: type=load, lora=adapter2, tenant=, src_gpu=-1, tgt_gpu=0, vram=32MB, details=LoRA loaded successfully
+[2026-02-12 15:42:15.688] [info] LoRA loaded successfully: adapter2 (32 MB VRAM, GPU(s): 1)
+[2026-02-12 15:42:15.688] [info] LoRA cache miss: adapter3 - loading with placement: SINGLE_GPU
+[2026-02-12 15:42:15.688] [info] Loading LoRA: adapter3 from C:\Users\mkrueger\AppData\Local\Temp\themis_lora_test\adapter3.bin (placement: SINGLE_GPU)
+[2026-02-12 15:42:15.688] [info] LoRA adapter3 loaded on GPU 0 (32 MB)
+[2026-02-12 15:42:15.688] [info] [AUDIT] GPU Transfer: type=load, lora=adapter3, tenant=, src_gpu=-1, tgt_gpu=0, vram=32MB, details=LoRA loaded successfully
+[2026-02-12 15:42:15.688] [info] LoRA loaded successfully: adapter3 (32 MB VRAM, GPU(s): 1)
+[2026-02-12 15:42:15.688] [info] Eviction worker thread stopped
+[2026-02-12 15:42:15.688] [info] Unloading LoRA: adapter1
+[2026-02-12 15:42:15.688] [info] Unloading LoRA: adapter2
+[2026-02-12 15:42:15.688] [info] Unloading LoRA: adapter3
+[2026-02-12 15:42:15.688] [info] MultiLoRAManager destroyed, all LoRAs unloaded
+[       OK ] LoraAdapterApplicationTest.LoadMultipleLoRAs (8 ms)
+[ RUN      ] LoraAdapterApplicationTest.LoadLoRACachesAdapters
+[2026-02-12 15:42:15.696] [info] MultiLoRAManager initialized (vLLM-style):
+[2026-02-12 15:42:15.696] [info]   Max LoRA VRAM: 1024 MB
+[2026-02-12 15:42:15.696] [info]   Max LoRA slots: 10
+[2026-02-12 15:42:15.696] [info]   LoRA TTL: 3600 seconds
+[2026-02-12 15:42:15.696] [info]   Multi-LoRA batching: disabled
+[2026-02-12 15:42:15.696] [info]   Multi-GPU: disabled (single GPU mode)
+[2026-02-12 15:42:15.696] [info]   Background eviction thread started (TTL: 3600s)
+[2026-02-12 15:42:15.696] [info] LoRA cache miss: adapter1 - loading with placement: SINGLE_GPU
+[2026-02-12 15:42:15.696] [info] Loading LoRA: adapter1 from C:\Users\mkrueger\AppData\Local\Temp\themis_lora_test\adapter1.bin (placement: SINGLE_GPU)
+[2026-02-12 15:42:15.696] [info] LoRA adapter1 loaded on GPU 0 (32 MB)
+[2026-02-12 15:42:15.696] [info] [AUDIT] GPU Transfer: type=load, lora=adapter1, tenant=, src_gpu=-1, tgt_gpu=0, vram=32MB, details=LoRA loaded successfully
+[2026-02-12 15:42:15.696] [info] Eviction worker thread started (TTL: 3600s)
+[2026-02-12 15:42:15.696] [info] LoRA loaded successfully: adapter1 (32 MB VRAM, GPU(s): 1)
+C:\VCC\themis\tests\llm\test_lora_adapter_application.cpp(129): error: Expected: (cached_load_ms) < (first_load_ms), actual: 0 vs 0
+
+[2026-02-12 15:42:15.696] [info] Eviction worker thread stopped
+[2026-02-12 15:42:15.697] [info] Unloading LoRA: adapter1
+[2026-02-12 15:42:15.697] [info] MultiLoRAManager destroyed, all LoRAs unloaded
+[  FAILED  ] LoraAdapterApplicationTest.LoadLoRACachesAdapters (8 ms)
+[ RUN      ] LoraAdapterApplicationTest.UnloadLoRA
+[2026-02-12 15:42:15.703] [info] MultiLoRAManager initialized (vLLM-style):
+[2026-02-12 15:42:15.703] [info]   Max LoRA VRAM: 1024 MB
+[2026-02-12 15:42:15.703] [info]   Max LoRA slots: 10
+[2026-02-12 15:42:15.703] [info]   LoRA TTL: 3600 seconds
+[2026-02-12 15:42:15.703] [info]   Multi-LoRA batching: disabled
+[2026-02-12 15:42:15.703] [info]   Multi-GPU: disabled (single GPU mode)
+[2026-02-12 15:42:15.703] [info]   Background eviction thread started (TTL: 3600s)
+[2026-02-12 15:42:15.703] [info] LoRA cache miss: adapter1 - loading with placement: SINGLE_GPU
+[2026-02-12 15:42:15.703] [info] Loading LoRA: adapter1 from C:\Users\mkrueger\AppData\Local\Temp\themis_lora_test\adapter1.bin (placement: SINGLE_GPU)
+[2026-02-12 15:42:15.703] [info] Eviction worker thread started (TTL: 3600s)
+[2026-02-12 15:42:15.703] [info] LoRA adapter1 loaded on GPU 0 (32 MB)
+[2026-02-12 15:42:15.703] [info] [AUDIT] GPU Transfer: type=load, lora=adapter1, tenant=, src_gpu=-1, tgt_gpu=0, vram=32MB, details=LoRA loaded successfully
+[2026-02-12 15:42:15.703] [info] LoRA loaded successfully: adapter1 (32 MB VRAM, GPU(s): 1)
+[2026-02-12 15:42:15.703] [info] Unloading LoRA: adapter1
+[2026-02-12 15:42:15.703] [info] [AUDIT] GPU Transfer: type=unload, lora=adapter1, tenant=, src_gpu=0, tgt_gpu=-1, vram=32MB, details=Normal unload
+[2026-02-12 15:42:15.703] [info] LoRA adapter1 successfully unloaded
+[2026-02-12 15:42:15.703] [info] Eviction worker thread stopped
+[2026-02-12 15:42:15.703] [info] MultiLoRAManager destroyed, all LoRAs unloaded
+[       OK ] LoraAdapterApplicationTest.UnloadLoRA (6 ms)
+[ RUN      ] LoraAdapterApplicationTest.PinAndUnpinLoRA
+[2026-02-12 15:42:15.710] [info] MultiLoRAManager initialized (vLLM-style):
+[2026-02-12 15:42:15.710] [info]   Max LoRA VRAM: 1024 MB
+[2026-02-12 15:42:15.710] [info]   Max LoRA slots: 10
+[2026-02-12 15:42:15.710] [info]   LoRA TTL: 3600 seconds
+[2026-02-12 15:42:15.710] [info]   Multi-LoRA batching: disabled
+[2026-02-12 15:42:15.710] [info]   Multi-GPU: disabled (single GPU mode)
+[2026-02-12 15:42:15.710] [info]   Background eviction thread started (TTL: 3600s)
+[2026-02-12 15:42:15.710] [info] LoRA cache miss: adapter1 - loading with placement: SINGLE_GPU
+[2026-02-12 15:42:15.710] [info] Loading LoRA: adapter1 from C:\Users\mkrueger\AppData\Local\Temp\themis_lora_test\adapter1.bin (placement: SINGLE_GPU)
+[2026-02-12 15:42:15.710] [info] LoRA adapter1 loaded on GPU 0 (32 MB)
+[2026-02-12 15:42:15.710] [info] Eviction worker thread started (TTL: 3600s)
+[2026-02-12 15:42:15.710] [info] [AUDIT] GPU Transfer: type=load, lora=adapter1, tenant=, src_gpu=-1, tgt_gpu=0, vram=32MB, details=LoRA loaded successfully
+[2026-02-12 15:42:15.710] [info] LoRA loaded successfully: adapter1 (32 MB VRAM, GPU(s): 1)
+[2026-02-12 15:42:15.710] [info] LoRA pinned in memory: adapter1
+[2026-02-12 15:42:15.710] [warning] LoRA adapter1 is pinned, cannot unload (use force=true)
+[2026-02-12 15:42:15.710] [info] Unloading LoRA: adapter1
+[2026-02-12 15:42:15.710] [info] [AUDIT] GPU Transfer: type=unload, lora=adapter1, tenant=, src_gpu=0, tgt_gpu=-1, vram=32MB, details=Forced unload
+[2026-02-12 15:42:15.710] [info] LoRA adapter1 successfully unloaded
+[2026-02-12 15:42:15.710] [info] Eviction worker thread stopped
+[2026-02-12 15:42:15.710] [info] MultiLoRAManager destroyed, all LoRAs unloaded
+[       OK ] LoraAdapterApplicationTest.PinAndUnpinLoRA (7 ms)
+[ RUN      ] LoraAdapterApplicationTest.ApplyLoRAWithNullContext
+[2026-02-12 15:42:15.718] [info] MultiLoRAManager initialized (vLLM-style):
+[2026-02-12 15:42:15.718] [info]   Max LoRA VRAM: 1024 MB
+[2026-02-12 15:42:15.718] [info]   Max LoRA slots: 10
+[2026-02-12 15:42:15.718] [info]   LoRA TTL: 3600 seconds
+[2026-02-12 15:42:15.718] [info]   Multi-LoRA batching: disabled
+[2026-02-12 15:42:15.718] [info]   Multi-GPU: disabled (single GPU mode)
+[2026-02-12 15:42:15.718] [info]   Background eviction thread started (TTL: 3600s)
+[2026-02-12 15:42:15.718] [info] LoRA cache miss: adapter1 - loading with placement: SINGLE_GPU
+[2026-02-12 15:42:15.718] [info] Loading LoRA: adapter1 from C:\Users\mkrueger\AppData\Local\Temp\themis_lora_test\adapter1.bin (placement: SINGLE_GPU)
+[2026-02-12 15:42:15.718] [info] LoRA adapter1 loaded on GPU 0 (32 MB)
+[2026-02-12 15:42:15.718] [info] Eviction worker thread started (TTL: 3600s)
+[2026-02-12 15:42:15.718] [info] [AUDIT] GPU Transfer: type=load, lora=adapter1, tenant=, src_gpu=-1, tgt_gpu=0, vram=32MB, details=LoRA loaded successfully
+[2026-02-12 15:42:15.718] [info] LoRA loaded successfully: adapter1 (32 MB VRAM, GPU(s): 1)
+[2026-02-12 15:42:15.718] [warning] applyLoRA called with null context (test/mock mode)
+[2026-02-12 15:42:15.718] [info] LoRA adapter1 marked as active (mock mode)
+[2026-02-12 15:42:15.718] [info] Eviction worker thread stopped
+[2026-02-12 15:42:15.718] [info] Unloading LoRA: adapter1
+[2026-02-12 15:42:15.718] [info] MultiLoRAManager destroyed, all LoRAs unloaded
+[       OK ] LoraAdapterApplicationTest.ApplyLoRAWithNullContext (7 ms)
+[ RUN      ] LoraAdapterApplicationTest.ApplyNonexistentLoRA
+[2026-02-12 15:42:15.724] [info] MultiLoRAManager initialized (vLLM-style):
+[2026-02-12 15:42:15.724] [info]   Max LoRA VRAM: 1024 MB
+[2026-02-12 15:42:15.724] [info]   Max LoRA slots: 10
+[2026-02-12 15:42:15.724] [info]   LoRA TTL: 3600 seconds
+[2026-02-12 15:42:15.724] [info]   Multi-LoRA batching: disabled
+[2026-02-12 15:42:15.724] [info]   Multi-GPU: disabled (single GPU mode)
+[2026-02-12 15:42:15.724] [info]   Background eviction thread started (TTL: 3600s)
+[2026-02-12 15:42:15.724] [info] Eviction worker thread started (TTL: 3600s)
+[2026-02-12 15:42:15.724] [error] [2100] LoRA adapter not loaded: nonexistent
+[2026-02-12 15:42:15.724] [info] Eviction worker thread stopped
+[2026-02-12 15:42:15.724] [info] MultiLoRAManager destroyed, all LoRAs unloaded
+[       OK ] LoraAdapterApplicationTest.ApplyNonexistentLoRA (6 ms)
+[ RUN      ] LoraAdapterApplicationTest.RemoveLoRA
+[2026-02-12 15:42:15.731] [info] MultiLoRAManager initialized (vLLM-style):
+[2026-02-12 15:42:15.731] [info]   Max LoRA VRAM: 1024 MB
+[2026-02-12 15:42:15.731] [info]   Max LoRA slots: 10
+[2026-02-12 15:42:15.731] [info]   LoRA TTL: 3600 seconds
+[2026-02-12 15:42:15.731] [info]   Multi-LoRA batching: disabled
+[2026-02-12 15:42:15.731] [info]   Multi-GPU: disabled (single GPU mode)
+[2026-02-12 15:42:15.731] [info]   Background eviction thread started (TTL: 3600s)
+[2026-02-12 15:42:15.731] [info] LoRA cache miss: adapter1 - loading with placement: SINGLE_GPU
+[2026-02-12 15:42:15.731] [info] Loading LoRA: adapter1 from C:\Users\mkrueger\AppData\Local\Temp\themis_lora_test\adapter1.bin (placement: SINGLE_GPU)
+[2026-02-12 15:42:15.731] [info] LoRA adapter1 loaded on GPU 0 (32 MB)
+[2026-02-12 15:42:15.731] [info] [AUDIT] GPU Transfer: type=load, lora=adapter1, tenant=, src_gpu=-1, tgt_gpu=0, vram=32MB, details=LoRA loaded successfully
+[2026-02-12 15:42:15.731] [info] LoRA loaded successfully: adapter1 (32 MB VRAM, GPU(s): 1)
+[2026-02-12 15:42:15.731] [warning] applyLoRA called with null context (test/mock mode)
+[2026-02-12 15:42:15.731] [info] Eviction worker thread started (TTL: 3600s)
+[2026-02-12 15:42:15.731] [info] LoRA adapter1 marked as active (mock mode)
+[2026-02-12 15:42:15.731] [error] Cannot remove LoRA: null context
+C:\VCC\themis\tests\llm\test_lora_adapter_application.cpp(183): error: Value of: removed
+  Actual: false
+Expected: true
+
+[2026-02-12 15:42:15.731] [info] Eviction worker thread stopped
+[2026-02-12 15:42:15.731] [info] Unloading LoRA: adapter1
+[2026-02-12 15:42:15.731] [info] MultiLoRAManager destroyed, all LoRAs unloaded
+[  FAILED  ] LoraAdapterApplicationTest.RemoveLoRA (6 ms)
+[ RUN      ] LoraAdapterApplicationTest.GetLoRAInfo
+[2026-02-12 15:42:15.739] [info] MultiLoRAManager initialized (vLLM-style):
+[2026-02-12 15:42:15.739] [info]   Max LoRA VRAM: 1024 MB
+[2026-02-12 15:42:15.739] [info]   Max LoRA slots: 10
+[2026-02-12 15:42:15.739] [info]   LoRA TTL: 3600 seconds
+[2026-02-12 15:42:15.739] [info]   Multi-LoRA batching: disabled
+[2026-02-12 15:42:15.739] [info]   Multi-GPU: disabled (single GPU mode)
+[2026-02-12 15:42:15.739] [info]   Background eviction thread started (TTL: 3600s)
+[2026-02-12 15:42:15.739] [info] LoRA cache miss: adapter1 - loading with placement: SINGLE_GPU
+[2026-02-12 15:42:15.740] [info] Loading LoRA: adapter1 from C:\Users\mkrueger\AppData\Local\Temp\themis_lora_test\adapter1.bin (placement: SINGLE_GPU)
+[2026-02-12 15:42:15.740] [info] Eviction worker thread started (TTL: 3600s)
+[2026-02-12 15:42:15.740] [info] LoRA adapter1 loaded on GPU 0 (32 MB)
+[2026-02-12 15:42:15.740] [info] [AUDIT] GPU Transfer: type=load, lora=adapter1, tenant=, src_gpu=-1, tgt_gpu=0, vram=32MB, details=LoRA loaded successfully
+[2026-02-12 15:42:15.740] [info] LoRA loaded successfully: adapter1 (32 MB VRAM, GPU(s): 1)
+C:\VCC\themis\tests\llm\test_lora_adapter_application.cpp(191): error: Expected equality of these values:
+  info->lora_id
+    Which is: ""
+  "adapter1"
+
+[2026-02-12 15:42:15.740] [info] Eviction worker thread stopped
+[2026-02-12 15:42:15.740] [info] Unloading LoRA: adapter1
+[2026-02-12 15:42:15.740] [info] MultiLoRAManager destroyed, all LoRAs unloaded
+[  FAILED  ] LoraAdapterApplicationTest.GetLoRAInfo (8 ms)
+[ RUN      ] LoraAdapterApplicationTest.ListLoRAs
+[2026-02-12 15:42:15.749] [info] MultiLoRAManager initialized (vLLM-style):
+[2026-02-12 15:42:15.749] [info]   Max LoRA VRAM: 1024 MB
+[2026-02-12 15:42:15.749] [info]   Max LoRA slots: 10
+[2026-02-12 15:42:15.749] [info]   LoRA TTL: 3600 seconds
+[2026-02-12 15:42:15.749] [info]   Multi-LoRA batching: disabled
+[2026-02-12 15:42:15.749] [info]   Multi-GPU: disabled (single GPU mode)
+[2026-02-12 15:42:15.749] [info]   Background eviction thread started (TTL: 3600s)
+[2026-02-12 15:42:15.749] [info] LoRA cache miss: adapter1 - loading with placement: SINGLE_GPU
+[2026-02-12 15:42:15.749] [info] Eviction worker thread started (TTL: 3600s)
+[2026-02-12 15:42:15.749] [info] Loading LoRA: adapter1 from C:\Users\mkrueger\AppData\Local\Temp\themis_lora_test\adapter1.bin (placement: SINGLE_GPU)
+[2026-02-12 15:42:15.749] [info] LoRA adapter1 loaded on GPU 0 (32 MB)
+[2026-02-12 15:42:15.749] [info] [AUDIT] GPU Transfer: type=load, lora=adapter1, tenant=, src_gpu=-1, tgt_gpu=0, vram=32MB, details=LoRA loaded successfully
+[2026-02-12 15:42:15.749] [info] LoRA loaded successfully: adapter1 (32 MB VRAM, GPU(s): 1)
+[2026-02-12 15:42:15.749] [info] LoRA cache miss: adapter2 - loading with placement: SINGLE_GPU
+[2026-02-12 15:42:15.749] [info] Loading LoRA: adapter2 from C:\Users\mkrueger\AppData\Local\Temp\themis_lora_test\adapter2.bin (placement: SINGLE_GPU)
+[2026-02-12 15:42:15.749] [info] LoRA adapter2 loaded on GPU 0 (32 MB)
+[2026-02-12 15:42:15.749] [info] [AUDIT] GPU Transfer: type=load, lora=adapter2, tenant=, src_gpu=-1, tgt_gpu=0, vram=32MB, details=LoRA loaded successfully
+[2026-02-12 15:42:15.749] [info] LoRA loaded successfully: adapter2 (32 MB VRAM, GPU(s): 1)
+[2026-02-12 15:42:15.749] [info] Eviction worker thread stopped
+[2026-02-12 15:42:15.749] [info] Unloading LoRA: adapter1
+[2026-02-12 15:42:15.749] [info] Unloading LoRA: adapter2
+[2026-02-12 15:42:15.749] [info] MultiLoRAManager destroyed, all LoRAs unloaded
+[       OK ] LoraAdapterApplicationTest.ListLoRAs (9 ms)
+[ RUN      ] LoraAdapterApplicationTest.GetMemoryStats
+[2026-02-12 15:42:15.759] [info] MultiLoRAManager initialized (vLLM-style):
+[2026-02-12 15:42:15.759] [info]   Max LoRA VRAM: 1024 MB
+[2026-02-12 15:42:15.759] [info]   Max LoRA slots: 10
+[2026-02-12 15:42:15.759] [info]   LoRA TTL: 3600 seconds
+[2026-02-12 15:42:15.759] [info]   Multi-LoRA batching: disabled
+[2026-02-12 15:42:15.759] [info]   Multi-GPU: disabled (single GPU mode)
+[2026-02-12 15:42:15.759] [info]   Background eviction thread started (TTL: 3600s)
+[2026-02-12 15:42:15.759] [info] LoRA cache miss: adapter1 - loading with placement: SINGLE_GPU
+[2026-02-12 15:42:15.760] [info] Loading LoRA: adapter1 from C:\Users\mkrueger\AppData\Local\Temp\themis_lora_test\adapter1.bin (placement: SINGLE_GPU)
+[2026-02-12 15:42:15.760] [info] LoRA adapter1 loaded on GPU 0 (32 MB)
+[2026-02-12 15:42:15.760] [info] [AUDIT] GPU Transfer: type=load, lora=adapter1, tenant=, src_gpu=-1, tgt_gpu=0, vram=32MB, details=LoRA loaded successfully
+[2026-02-12 15:42:15.760] [info] LoRA loaded successfully: adapter1 (32 MB VRAM, GPU(s): 1)
+[2026-02-12 15:42:15.760] [info] Eviction worker thread started (TTL: 3600s)
+[2026-02-12 15:42:15.760] [info] Eviction worker thread stopped
+[2026-02-12 15:42:15.760] [info] Unloading LoRA: adapter1
+[2026-02-12 15:42:15.760] [info] MultiLoRAManager destroyed, all LoRAs unloaded
+[       OK ] LoraAdapterApplicationTest.GetMemoryStats (9 ms)
+[ RUN      ] LoraAdapterApplicationTest.GetCacheStats
+[2026-02-12 15:42:15.766] [info] MultiLoRAManager initialized (vLLM-style):
+[2026-02-12 15:42:15.766] [info]   Max LoRA VRAM: 1024 MB
+[2026-02-12 15:42:15.766] [info]   Max LoRA slots: 10
+[2026-02-12 15:42:15.766] [info]   LoRA TTL: 3600 seconds
+[2026-02-12 15:42:15.766] [info]   Multi-LoRA batching: disabled
+[2026-02-12 15:42:15.766] [info]   Multi-GPU: disabled (single GPU mode)
+[2026-02-12 15:42:15.766] [info]   Background eviction thread started (TTL: 3600s)
+[2026-02-12 15:42:15.766] [info] LoRA cache miss: adapter1 - loading with placement: SINGLE_GPU
+[2026-02-12 15:42:15.767] [info] Eviction worker thread started (TTL: 3600s)
+[2026-02-12 15:42:15.767] [info] Loading LoRA: adapter1 from C:\Users\mkrueger\AppData\Local\Temp\themis_lora_test\adapter1.bin (placement: SINGLE_GPU)
+[2026-02-12 15:42:15.767] [info] LoRA adapter1 loaded on GPU 0 (32 MB)
+[2026-02-12 15:42:15.767] [info] [AUDIT] GPU Transfer: type=load, lora=adapter1, tenant=, src_gpu=-1, tgt_gpu=0, vram=32MB, details=LoRA loaded successfully
+[2026-02-12 15:42:15.767] [info] LoRA loaded successfully: adapter1 (32 MB VRAM, GPU(s): 1)
+[2026-02-12 15:42:15.767] [info] Eviction worker thread stopped
+[2026-02-12 15:42:15.767] [info] Unloading LoRA: adapter1
+[2026-02-12 15:42:15.767] [info] MultiLoRAManager destroyed, all LoRAs unloaded
+[       OK ] LoraAdapterApplicationTest.GetCacheStats (6 ms)
+[ RUN      ] LoraAdapterApplicationTest.QuantizeLoRAINT8
+[2026-02-12 15:42:15.773] [info] MultiLoRAManager initialized (vLLM-style):
+[2026-02-12 15:42:15.773] [info]   Max LoRA VRAM: 1024 MB
+[2026-02-12 15:42:15.773] [info]   Max LoRA slots: 10
+[2026-02-12 15:42:15.773] [info]   LoRA TTL: 3600 seconds
+[2026-02-12 15:42:15.773] [info]   Multi-LoRA batching: disabled
+[2026-02-12 15:42:15.773] [info]   Multi-GPU: disabled (single GPU mode)
+[2026-02-12 15:42:15.773] [info]   Background eviction thread started (TTL: 3600s)
+[2026-02-12 15:42:15.773] [info] MultiLoRAManager initialized (vLLM-style):
+[2026-02-12 15:42:15.773] [info]   Max LoRA VRAM: 1024 MB
+[2026-02-12 15:42:15.773] [info]   Max LoRA slots: 10
+[2026-02-12 15:42:15.773] [info]   LoRA TTL: 3600 seconds
+[2026-02-12 15:42:15.773] [info]   Multi-LoRA batching: disabled
+[2026-02-12 15:42:15.773] [info]   Quantization: enabled (mode: INT8)
+[2026-02-12 15:42:15.773] [info]   Multi-GPU: disabled (single GPU mode)
+[2026-02-12 15:42:15.773] [info]   Background eviction thread started (TTL: 3600s)
+[2026-02-12 15:42:15.773] [info] LoRA cache miss: adapter_quant - loading with placement: SINGLE_GPU
+[2026-02-12 15:42:15.773] [info] Eviction worker thread started (TTL: 3600s)
+[2026-02-12 15:42:15.773] [info] Loading LoRA: adapter_quant from C:\Users\mkrueger\AppData\Local\Temp\themis_lora_test\adapter1.bin (placement: SINGLE_GPU)
+[2026-02-12 15:42:15.774] [info] Applying INT8 quantization to LoRA: adapter_quant
+[2026-02-12 15:42:15.774] [info] Eviction worker thread started (TTL: 3600s)
+[2026-02-12 15:42:15.941] [info] Quantization successful: 33554432 -> 8388640 bytes (4.0├ù compression)
+[2026-02-12 15:42:15.941] [info] LoRA adapter_quant loaded on GPU 0 (8 MB)
+[2026-02-12 15:42:15.941] [info] [AUDIT] GPU Transfer: type=load, lora=adapter_quant, tenant=, src_gpu=-1, tgt_gpu=0, vram=8MB, details=LoRA loaded successfully
+[2026-02-12 15:42:15.941] [info] LoRA loaded successfully: adapter_quant (8 MB VRAM, GPU(s): 1)
+[2026-02-12 15:42:15.941] [info] Eviction worker thread stopped
+[2026-02-12 15:42:15.942] [info] Unloading LoRA: adapter_quant
+[2026-02-12 15:42:15.942] [info] MultiLoRAManager destroyed, all LoRAs unloaded
+[2026-02-12 15:42:15.942] [info] Eviction worker thread stopped
+[2026-02-12 15:42:15.942] [info] MultiLoRAManager destroyed, all LoRAs unloaded
+[       OK ] LoraAdapterApplicationTest.QuantizeLoRAINT8 (175 ms)
+[ RUN      ] LoraAdapterApplicationTest.QuantizeLoRAINT4
+[2026-02-12 15:42:15.948] [info] MultiLoRAManager initialized (vLLM-style):
+[2026-02-12 15:42:15.948] [info]   Max LoRA VRAM: 1024 MB
+[2026-02-12 15:42:15.948] [info]   Max LoRA slots: 10
+[2026-02-12 15:42:15.948] [info]   LoRA TTL: 3600 seconds
+[2026-02-12 15:42:15.948] [info]   Multi-LoRA batching: disabled
+[2026-02-12 15:42:15.948] [info]   Multi-GPU: disabled (single GPU mode)
+[2026-02-12 15:42:15.949] [info]   Background eviction thread started (TTL: 3600s)
+[2026-02-12 15:42:15.949] [info] MultiLoRAManager initialized (vLLM-style):
+[2026-02-12 15:42:15.949] [info]   Max LoRA VRAM: 1024 MB
+[2026-02-12 15:42:15.949] [info]   Max LoRA slots: 10
+[2026-02-12 15:42:15.949] [info]   LoRA TTL: 3600 seconds
+[2026-02-12 15:42:15.949] [info]   Multi-LoRA batching: disabled
+[2026-02-12 15:42:15.949] [info]   Quantization: enabled (mode: INT4)
+[2026-02-12 15:42:15.949] [info]   Multi-GPU: disabled (single GPU mode)
+[2026-02-12 15:42:15.949] [info]   Background eviction thread started (TTL: 3600s)
+[2026-02-12 15:42:15.949] [info] LoRA cache miss: adapter_quant - loading with placement: SINGLE_GPU
+[2026-02-12 15:42:15.949] [info] Eviction worker thread started (TTL: 3600s)
+[2026-02-12 15:42:15.949] [info] Loading LoRA: adapter_quant from C:\Users\mkrueger\AppData\Local\Temp\themis_lora_test\adapter1.bin (placement: SINGLE_GPU)
+[2026-02-12 15:42:15.949] [info] Applying INT4 quantization to LoRA: adapter_quant
+[2026-02-12 15:42:15.949] [info] Eviction worker thread started (TTL: 3600s)
+[2026-02-12 15:42:16.116] [info] Quantization successful: 33554432 -> 4456448 bytes (7.5├ù compression)
+[2026-02-12 15:42:16.116] [info] LoRA adapter_quant loaded on GPU 0 (4 MB)
+[2026-02-12 15:42:16.116] [info] [AUDIT] GPU Transfer: type=load, lora=adapter_quant, tenant=, src_gpu=-1, tgt_gpu=0, vram=4MB, details=LoRA loaded successfully
+[2026-02-12 15:42:16.116] [info] LoRA loaded successfully: adapter_quant (4 MB VRAM, GPU(s): 1)
+[2026-02-12 15:42:16.117] [info] Eviction worker thread stopped
+[2026-02-12 15:42:16.117] [info] Unloading LoRA: adapter_quant
+[2026-02-12 15:42:16.117] [info] MultiLoRAManager destroyed, all LoRAs unloaded
+[2026-02-12 15:42:16.117] [info] Eviction worker thread stopped
+[2026-02-12 15:42:16.117] [info] MultiLoRAManager destroyed, all LoRAs unloaded
+[       OK ] LoraAdapterApplicationTest.QuantizeLoRAINT4 (175 ms)
+[ RUN      ] LoraAdapterApplicationTest.LoadLoRAWithZeroScale
+[2026-02-12 15:42:16.127] [info] MultiLoRAManager initialized (vLLM-style):
+[2026-02-12 15:42:16.127] [info]   Max LoRA VRAM: 1024 MB
+[2026-02-12 15:42:16.127] [info]   Max LoRA slots: 10
+[2026-02-12 15:42:16.127] [info]   LoRA TTL: 3600 seconds
+[2026-02-12 15:42:16.127] [info]   Multi-LoRA batching: disabled
+[2026-02-12 15:42:16.127] [info]   Multi-GPU: disabled (single GPU mode)
+[2026-02-12 15:42:16.127] [info]   Background eviction thread started (TTL: 3600s)
+[2026-02-12 15:42:16.127] [info] LoRA cache miss: adapter_zero - loading with placement: SINGLE_GPU
+[2026-02-12 15:42:16.127] [info] Loading LoRA: adapter_zero from C:\Users\mkrueger\AppData\Local\Temp\themis_lora_test\adapter1.bin (placement: SINGLE_GPU)
+[2026-02-12 15:42:16.127] [info] LoRA adapter_zero loaded on GPU 0 (32 MB)
+[2026-02-12 15:42:16.127] [info] [AUDIT] GPU Transfer: type=load, lora=adapter_zero, tenant=, src_gpu=-1, tgt_gpu=0, vram=32MB, details=LoRA loaded successfully
+[2026-02-12 15:42:16.127] [info] LoRA loaded successfully: adapter_zero (32 MB VRAM, GPU(s): 1)
+[2026-02-12 15:42:16.127] [info] Eviction worker thread started (TTL: 3600s)
+[2026-02-12 15:42:16.127] [info] Eviction worker thread stopped
+[2026-02-12 15:42:16.127] [info] Unloading LoRA: adapter_zero
+[2026-02-12 15:42:16.127] [info] MultiLoRAManager destroyed, all LoRAs unloaded
+[       OK ] LoraAdapterApplicationTest.LoadLoRAWithZeroScale (9 ms)
+[ RUN      ] LoraAdapterApplicationTest.LoadLoRAWithHighScale
+[2026-02-12 15:42:16.134] [info] MultiLoRAManager initialized (vLLM-style):
+[2026-02-12 15:42:16.134] [info]   Max LoRA VRAM: 1024 MB
+[2026-02-12 15:42:16.134] [info]   Max LoRA slots: 10
+[2026-02-12 15:42:16.134] [info]   LoRA TTL: 3600 seconds
+[2026-02-12 15:42:16.134] [info]   Multi-LoRA batching: disabled
+[2026-02-12 15:42:16.134] [info]   Multi-GPU: disabled (single GPU mode)
+[2026-02-12 15:42:16.134] [info]   Background eviction thread started (TTL: 3600s)
+[2026-02-12 15:42:16.134] [info] LoRA cache miss: adapter_high - loading with placement: SINGLE_GPU
+[2026-02-12 15:42:16.134] [info] Loading LoRA: adapter_high from C:\Users\mkrueger\AppData\Local\Temp\themis_lora_test\adapter1.bin (placement: SINGLE_GPU)
+[2026-02-12 15:42:16.134] [info] LoRA adapter_high loaded on GPU 0 (32 MB)
+[2026-02-12 15:42:16.134] [info] [AUDIT] GPU Transfer: type=load, lora=adapter_high, tenant=, src_gpu=-1, tgt_gpu=0, vram=32MB, details=LoRA loaded successfully
+[2026-02-12 15:42:16.134] [info] LoRA loaded successfully: adapter_high (32 MB VRAM, GPU(s): 1)
+[2026-02-12 15:42:16.134] [info] Eviction worker thread started (TTL: 3600s)
+[2026-02-12 15:42:16.134] [info] Eviction worker thread stopped
+[2026-02-12 15:42:16.134] [info] Unloading LoRA: adapter_high
+[2026-02-12 15:42:16.134] [info] MultiLoRAManager destroyed, all LoRAs unloaded
+[       OK ] LoraAdapterApplicationTest.LoadLoRAWithHighScale (6 ms)
+[ RUN      ] LoraAdapterApplicationTest.CacheFillAndEviction
+[2026-02-12 15:42:16.140] [info] MultiLoRAManager initialized (vLLM-style):
+[2026-02-12 15:42:16.140] [info]   Max LoRA VRAM: 1024 MB
+[2026-02-12 15:42:16.140] [info]   Max LoRA slots: 10
+[2026-02-12 15:42:16.140] [info]   LoRA TTL: 3600 seconds
+[2026-02-12 15:42:16.140] [info]   Multi-LoRA batching: disabled
+[2026-02-12 15:42:16.140] [info]   Multi-GPU: disabled (single GPU mode)
+[2026-02-12 15:42:16.140] [info]   Background eviction thread started (TTL: 3600s)
+[2026-02-12 15:42:16.140] [info] MultiLoRAManager initialized (vLLM-style):
+[2026-02-12 15:42:16.140] [info]   Max LoRA VRAM: 512 MB
+[2026-02-12 15:42:16.140] [info]   Max LoRA slots: 2
+[2026-02-12 15:42:16.140] [info]   LoRA TTL: 3600 seconds
+[2026-02-12 15:42:16.140] [info]   Multi-LoRA batching: disabled
+[2026-02-12 15:42:16.140] [info]   Multi-GPU: disabled (single GPU mode)
+[2026-02-12 15:42:16.140] [info]   Background eviction thread started (TTL: 3600s)
+[2026-02-12 15:42:16.140] [info] LoRA cache miss: adapter1 - loading with placement: SINGLE_GPU
+[2026-02-12 15:42:16.140] [info] Loading LoRA: adapter1 from C:\Users\mkrueger\AppData\Local\Temp\themis_lora_test\adapter1.bin (placement: SINGLE_GPU)
+[2026-02-12 15:42:16.140] [info] Eviction worker thread started (TTL: 3600s)
+[2026-02-12 15:42:16.140] [info] LoRA adapter1 loaded on GPU 0 (32 MB)
+[2026-02-12 15:42:16.140] [info] [AUDIT] GPU Transfer: type=load, lora=adapter1, tenant=, src_gpu=-1, tgt_gpu=0, vram=32MB, details=LoRA loaded successfully
+[2026-02-12 15:42:16.140] [info] LoRA loaded successfully: adapter1 (32 MB VRAM, GPU(s): 1)
+[2026-02-12 15:42:16.140] [info] LoRA cache miss: adapter2 - loading with placement: SINGLE_GPU
+[2026-02-12 15:42:16.140] [info] Eviction worker thread started (TTL: 3600s)
+[2026-02-12 15:42:16.140] [info] Loading LoRA: adapter2 from C:\Users\mkrueger\AppData\Local\Temp\themis_lora_test\adapter2.bin (placement: SINGLE_GPU)
+[2026-02-12 15:42:16.140] [info] LoRA adapter2 loaded on GPU 0 (32 MB)
+[2026-02-12 15:42:16.140] [info] [AUDIT] GPU Transfer: type=load, lora=adapter2, tenant=, src_gpu=-1, tgt_gpu=0, vram=32MB, details=LoRA loaded successfully
+[2026-02-12 15:42:16.140] [info] LoRA loaded successfully: adapter2 (32 MB VRAM, GPU(s): 1)
+[2026-02-12 15:42:16.140] [info] LoRA cache miss: adapter3 - loading with placement: SINGLE_GPU
+[2026-02-12 15:42:16.140] [info] LoRA cache full, evicting LRU
+[2026-02-12 15:42:16.140] [info] Evicting LRU LoRA: adapter1 (freed 32 MB VRAM)
+[2026-02-12 15:42:16.141] [info] Loading LoRA: adapter3 from C:\Users\mkrueger\AppData\Local\Temp\themis_lora_test\adapter3.bin (placement: SINGLE_GPU)
+[2026-02-12 15:42:16.141] [info] LoRA adapter3 loaded on GPU 0 (32 MB)
+[2026-02-12 15:42:16.141] [info] [AUDIT] GPU Transfer: type=load, lora=adapter3, tenant=, src_gpu=-1, tgt_gpu=0, vram=32MB, details=LoRA loaded successfully
+[2026-02-12 15:42:16.141] [info] LoRA loaded successfully: adapter3 (32 MB VRAM, GPU(s): 1)
+[2026-02-12 15:42:16.141] [info] Eviction worker thread stopped
+[2026-02-12 15:42:16.141] [info] Unloading LoRA: adapter2
+[2026-02-12 15:42:16.141] [info] Unloading LoRA: adapter3
+[2026-02-12 15:42:16.141] [info] MultiLoRAManager destroyed, all LoRAs unloaded
+[2026-02-12 15:42:16.141] [info] Eviction worker thread stopped
+[2026-02-12 15:42:16.141] [info] MultiLoRAManager destroyed, all LoRAs unloaded
+[       OK ] LoraAdapterApplicationTest.CacheFillAndEviction (7 ms)
+[----------] 18 tests from LoraAdapterApplicationTest (476 ms total)
+
+[----------] Global test environment tear-down
+[==========] 18 tests from 1 test suite ran. (476 ms total)
+[  PASSED  ] 15 tests.
+[  FAILED  ] 3 tests, listed below:
+[  FAILED  ] LoraAdapterApplicationTest.LoadLoRACachesAdapters
+[  FAILED  ] LoraAdapterApplicationTest.RemoveLoRA
+[  FAILED  ] LoraAdapterApplicationTest.GetLoRAInfo
+
+ 3 FAILED TESTS

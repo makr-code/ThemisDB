@@ -1,6 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            encryption.h                                       ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:10:49                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     610                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include "security/key_provider.h"
+#include "themis/base/interfaces/security_interface.h"
 #include <nlohmann/json.hpp>
 #include <string>
 #include <vector>
@@ -8,6 +31,7 @@
 #include <stdexcept>
 #include <atomic>
 #include <optional>
+#include <unordered_set>
 
 namespace themis {
 
@@ -136,7 +160,28 @@ struct EncryptedBlob {
  * assert(decrypted == plaintext);
  * @endcode
  */
-class FieldEncryption {
+
+/**
+ * @brief Configuration for field-level encryption
+ * 
+ * Defines which fields should be encrypted and with which keys
+ */
+struct EncryptionConfig {
+    /// Map of field name patterns to key IDs
+    std::unordered_map<std::string, std::string> field_key_mapping;
+    
+    /// Set of field names that should be encrypted
+    std::unordered_set<std::string> encrypted_fields;
+    
+    /// Default key ID for fields not explicitly mapped
+    std::string default_key_id = "default";
+    
+    bool empty() const {
+        return field_key_mapping.empty() && encrypted_fields.empty();
+    }
+};
+
+class FieldEncryption : public IFieldEncryption {
 public:
     /**
      * @brief Construct field encryption engine
@@ -147,6 +192,14 @@ public:
     explicit FieldEncryption(std::shared_ptr<KeyProvider> key_provider);
     
     ~FieldEncryption();
+    
+    /**
+     * @brief Factory method for default configuration
+     * Creates a FieldEncryption with MockKeyProvider for testing
+     * 
+     * @return Shared pointer to FieldEncryption instance
+     */
+    static std::shared_ptr<FieldEncryption> createDefault();
     
     /**
      * @brief Encrypt a string using AES-256-GCM
@@ -268,6 +321,46 @@ public:
     std::shared_ptr<KeyProvider> getKeyProvider() const { 
         return key_provider_; 
     }
+    
+    // IFieldEncryption interface implementation
+    
+    /**
+     * @brief Encrypt a field value (interface method)
+     * 
+     * @param field_name Name of the field being encrypted
+     * @param plaintext The plaintext data to encrypt
+     * @return Encrypted data as byte vector
+     */
+    std::vector<uint8_t> encrypt_field(
+        const std::string& field_name,
+        const std::vector<uint8_t>& plaintext) override;
+    
+    /**
+     * @brief Decrypt a field value (interface method)
+     * 
+     * @param field_name Name of the field being decrypted
+     * @param ciphertext The encrypted data to decrypt
+     * @return Decrypted plaintext as byte vector
+     */
+    std::vector<uint8_t> decrypt_field(
+        const std::string& field_name,
+        const std::vector<uint8_t>& ciphertext) override;
+    
+    /**
+     * @brief Check if a field should be encrypted (interface method)
+     * 
+     * @param field_name Name of the field to check
+     * @return true if field should be encrypted, false otherwise
+     */
+    bool should_encrypt(const std::string& field_name) const override;
+    
+    /**
+     * @brief Set encryption configuration
+     * Defines which fields to encrypt and their key mappings
+     * 
+     * @param config Encryption configuration
+     */
+    void setEncryptionConfig(const EncryptionConfig& config);
 
     /**
      * @brief Decrypt and optionally re-encrypt with current key version (lazy re-encryption)
@@ -350,10 +443,13 @@ public:
 
 private:
     std::shared_ptr<KeyProvider> key_provider_;
+    EncryptionConfig config_;
     mutable Metrics metrics_;  // Thread-safe atomic counters
     
     // Internal helpers
     std::vector<uint8_t> generateIV() const;
+    
+    std::string getKeyIdForField(const std::string& field_name) const;
     
     EncryptedBlob encryptInternal(const std::vector<uint8_t>& plaintext,
                                    const std::string& key_id,

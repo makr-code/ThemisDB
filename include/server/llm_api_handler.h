@@ -1,3 +1,28 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            llm_api_handler.h                                  ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:11:12                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     269                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • be24ea91f  2026-03-13  fix(llm): wire PolicyEngine::checkInferencePermission() i... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 5d9b398ef  2026-02-28  feat(aql): implement streaming AQL explanation HTTP endpoint ║
+    • 8f8969876  2026-02-27  feat(llm): OpenAI-compatible /v1/chat/completions passthr... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include <boost/beast.hpp>
@@ -14,9 +39,16 @@ namespace llm {
 class ILLMPlugin;
 class LLMPluginManager;
 class AsyncInferenceEngine;
+class FeedbackStore;
+}
+namespace aql {
+class LLMAQLHandler;
 }
 namespace auth {
 class JWTValidator;
+}
+namespace governance {
+class PolicyEngine;
 }
 namespace server {
 class LoRAApiHandler;
@@ -36,7 +68,8 @@ using json = nlohmann::json;
  * - POST /api/v1/llm/inference - Standard text generation
  * - POST /api/v1/llm/rag - Retrieval-Augmented Generation
  * - POST /api/v1/llm/embed - Generate embeddings
- * - GET  /api/v1/llm/stream - Server-Sent Events streaming
+ * - GET  /api/v1/llm/stream - Server-Sent Events streaming (general LLM inference)
+ * - POST /api/v1/llm/aql/explain/stream - Stream AQL natural language explanation as SSE
  * - GET  /api/v1/llm/models - List available models
  * - POST /api/v1/llm/models/load - Load a model
  * - POST /api/v1/llm/models/unload - Unload a model
@@ -55,8 +88,12 @@ using json = nlohmann::json;
  * - GET  /api/v1/llm/feedback/{id} - Retrieve specific feedback
  * - GET  /api/v1/llm/feedback - List feedback with filters
  * - GET  /api/v1/llm/feedback/stats - Get feedback statistics
+ * - POST /v1/chat/completions - OpenAI-compatible chat completions passthrough
+ * - GET  /v1/models - OpenAI-compatible model list
  * 
  * All endpoints require Bearer Token (JWT) authentication via Authorization header.
+ * Exception: /v1/chat/completions and /v1/models accept the API key in the
+ * Authorization: Bearer header for drop-in OpenAI SDK compatibility.
  */
 class LLMApiHandler {
 public:
@@ -85,6 +122,27 @@ public:
     void setLoRAHandler(std::shared_ptr<LoRAApiHandler> lora_handler);
     
     /**
+     * @brief Set FeedbackStore for persisting user feedback
+     * 
+     * @param feedback_store FeedbackStore instance
+     */
+    void setFeedbackStore(std::shared_ptr<llm::FeedbackStore> feedback_store);
+
+    /**
+     * @brief Attach a PolicyEngine for inference permission checks on the
+     *        OpenAI-compatible @c /v1/chat/completions endpoint.
+     *
+     * When set, @c handleOpenAIChatCompletions() calls
+     * @c PolicyEngine::checkInferencePermission() before processing the request
+     * and returns HTTP 401/403 on denial.  Pass @c nullptr to detach (disables
+     * the policy gate; JWT validation still applies).
+     *
+     * @param policy_engine Pointer to a PolicyEngine instance.  The caller is
+     *                      responsible for the lifetime of the engine.
+     */
+    void setPolicyEngine(governance::PolicyEngine* policy_engine);
+    
+    /**
      * @brief Handle LLM API request
      * 
      * Routes request to appropriate handler based on path and method.
@@ -109,6 +167,10 @@ private:
         const http::request<http::string_body>& req);
     
     http::response<http::string_body> handleStreamInference(
+        const http::request<http::string_body>& req);
+    
+    // AQL streaming explanation endpoint
+    http::response<http::string_body> handleStreamExplainAql(
         const http::request<http::string_body>& req);
     
     // Model management endpoints
@@ -172,6 +234,13 @@ private:
     
     http::response<http::string_body> handleFeedbackStats(
         const http::request<http::string_body>& req);
+
+    // OpenAI-compatible endpoints
+    http::response<http::string_body> handleOpenAIChatCompletions(
+        const http::request<http::string_body>& req);
+
+    http::response<http::string_body> handleOpenAIListModels(
+        const http::request<http::string_body>& req);
     
     // Helper methods
     bool validateBearerToken(const http::request<http::string_body>& req);
@@ -191,6 +260,10 @@ private:
     std::shared_ptr<llm::LLMPluginManager> plugin_manager_;
     std::unique_ptr<auth::JWTValidator> jwt_validator_;
     std::shared_ptr<LoRAApiHandler> lora_handler_;
+    std::shared_ptr<llm::FeedbackStore> feedback_store_;
+    /// Optional governance policy engine for /v1/chat/completions permission checks.
+    /// Raw non-owning pointer; nullptr when not configured.
+    governance::PolicyEngine* policy_engine_ = nullptr;
 };
 
 } // namespace themis::server

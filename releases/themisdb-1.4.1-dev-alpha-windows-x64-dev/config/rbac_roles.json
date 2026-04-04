@@ -1,0 +1,103 @@
+{
+  "roles": [
+    {
+      "name": "admin",
+      "description": "Administrator with full system access",
+      "permissions": [
+        {
+          "resource": "*",
+          "action": "*"
+        }
+      ],
+      "inherits": []
+    },
+    {
+      "name": "operator",
+      "description": "Operator with data and key management permissions",
+      "permissions": [
+        {
+          "resource": "data",
+          "action": "read"
+        },
+        {
+          "resource": "data",
+          "action": "write"
+        },
+        {
+          "resource": "data",
+          "action": "delete"
+        },
+        {
+          "resource": "keys",
+          "action": "read"
+        },
+        {
+          "resource": "keys",
+          "action": "rotate"
+        },
+        {
+          "resource": "audit",
+          "action": "read"
+        }
+      ],
+      "inherits": ["analyst"]
+    },
+    {
+      "name": "analyst",
+      "description": "Analyst with read-only data access",
+      "permissions": [
+        {
+          "resource": "data",
+          "action": "read"
+        },
+        {
+          "resource": "audit",
+          "action": "read"
+        },
+        {
+          "resource": "metrics",
+          "action": "read"
+        }
+      ],
+      "inherits": ["readonly"]
+    },
+    {
+      "name": "readonly",
+      "description": "Read-only user with limited access",
+      "permissions": [
+        {
+          "resource": "metrics",
+          "action": "read"
+        },
+        {
+          "resource": "health",
+          "action": "read"
+        }
+      ],
+      "inherits": []
+    },
+    {
+      "name": "developer",
+      "description": "Developer with schema and query access",
+      "permissions": [
+        {
+          "resource": "schema",
+          "action": "read"
+        },
+        {
+          "resource": "schema",
+          "action": "write"
+        },
+        {
+          "resource": "query",
+          "action": "execute"
+        },
+        {
+          "resource": "data",
+          "action": "read"
+        }
+      ],
+      "inherits": []
+    }
+  ]
+}

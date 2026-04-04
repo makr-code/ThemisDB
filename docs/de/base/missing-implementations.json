@@ -1,0 +1,125 @@
+{
+  "module": "base",
+  "validated": "2026-03-09",
+  "updated": "2026-03-10",
+  "audit_commit": "0091524",
+  "follow_up_pr": "copilot/sync-developer-docs-module",
+  "source_paths": [
+    "src/base/",
+    "include/themis/base/"
+  ],
+  "findings": [
+    {
+      "id": 1,
+      "title": "Plugin health monitoring & automatic restart",
+      "claim_source": "src/base/ROADMAP.md",
+      "claim_section": "Completed ✅",
+      "claim_text": "[x] Plugin health monitoring and automatic restart (Issue: #2373)",
+      "expected": "Plugins are automatically restarted after a health-check failure (watchdog mechanism).",
+      "observed": "Health-check infrastructure exists in module_loader.cpp (healthChecks_ map, runHealthChecks(), lines 452–1178). Checks run at module activation stage. No automatic restart mechanism found in any base source file (no restart_count, watchdog, or auto_recover symbol in module_loader.cpp, hot_reload_manager.cpp, or module_sandbox.cpp).",
+      "severity": "medium",
+      "status": "open",
+      "evidence": [
+        {
+          "path": "src/base/module_loader.cpp",
+          "detail": "healthChecks_ map; activation stage lines 452–476; runHealthChecks() lines 1148–1190"
+        },
+        {
+          "path": "include/themis/base/module_loader.h",
+          "detail": "registerHealthCheck() API present; no restart API"
+        },
+        {
+          "path": "src/base/hot_reload_manager.cpp",
+          "detail": "no restart/watchdog symbol"
+        },
+        {
+          "path": "include/themis/base/module_sandbox.h",
+          "detail": "no restart/watchdog symbol"
+        }
+      ],
+      "issue_title_suggestion": "feat(base): implement automatic plugin restart on health-check failure",
+      "label_suggestions": ["enhancement", "module:base", "priority:medium"],
+      "related_issue": "#2373"
+    },
+    {
+      "id": 2,
+      "title": "WASM-based plugin isolation — WasmRuntime injection required",
+      "claim_source": "src/base/ROADMAP.md",
+      "claim_section": "Completed ✅",
+      "claim_text": "[x] WASM-based plugin isolation for untrusted code (Issue: #1572)",
+      "expected": "Fully functional WASM isolation for untrusted plugins, operational without additional setup.",
+      "observed": "WasmPluginSandbox infrastructure is fully implemented. setRuntime(std::unique_ptr<WasmRuntime>) must be called before callExport(); without injection, callExport() fails with 'inject a WasmRuntime before calling callExport()' (wasm_plugin_sandbox.cpp line 457). No concrete WasmRuntime implementation (Wasmtime, WasmEdge) found in the repository.",
+      "severity": "medium",
+      "status": "open",
+      "evidence": [
+        {
+          "path": "src/base/wasm_plugin_sandbox.cpp",
+          "detail": "setRuntime() at line 288; error message at line 457"
+        },
+        {
+          "path": "include/themis/base/wasm_plugin_sandbox.h",
+          "detail": "WasmRuntime abstract interface defined; no concrete implementation"
+        }
+      ],
+      "issue_title_suggestion": "feat(base): integrate concrete WasmRuntime (Wasmtime or WasmEdge) into WasmPluginSandbox",
+      "label_suggestions": ["enhancement", "module:base", "priority:medium"],
+      "related_issue": "#1572"
+    },
+    {
+      "id": 3,
+      "title": "Signed plugin repository — public-key pinning missing",
+      "claim_source": "src/base/ROADMAP.md",
+      "claim_section": "Phase 3: Marketplace & Sandboxing",
+      "claim_text": "[x] Signed plugin repository with key pinning",
+      "expected": "The remote plugin registry's public key is pinned in server configuration; downloads are verified against this fixed key independent of CA trust.",
+      "observed": "RegistryConfig in remote_registry_client.h had verify_ssl = true (CA-based TLS cert verification) but no public-key pinning field.",
+      "severity": "low",
+      "status": "resolved",
+      "resolved_date": "2026-03-10",
+      "resolution": "RegistryConfig::pinned_public_key field (sha256//base64 format for CURLOPT_PINNEDPUBLICKEY) added to include/themis/base/remote_registry_client.h (line 93). CURLOPT_PINNEDPUBLICKEY is applied in both httpGet and httpGetBinary curl paths in src/base/remote_registry_client.cpp (lines 336-338, 428-430).",
+      "evidence": [
+        {
+          "path": "include/themis/base/remote_registry_client.h",
+          "detail": "RegistryConfig::pinned_public_key at line 93 (added 2026-03-10)"
+        },
+        {
+          "path": "src/base/remote_registry_client.cpp",
+          "detail": "CURLOPT_PINNEDPUBLICKEY applied at lines 336-338 (httpGet) and 428-430 (httpGetBinary)"
+        }
+      ],
+      "issue_title_suggestion": "feat(base): implement public-key pinning for remote plugin registry",
+      "label_suggestions": ["enhancement", "module:base", "security", "priority:low"],
+      "related_issue": null
+    },
+    {
+      "id": 4,
+      "title": "Runtime plugin capability negotiation (version ranges) — not enforced",
+      "claim_source": "src/base/ROADMAP.md",
+      "claim_section": "Phase 3: Marketplace & Sandboxing",
+      "claim_text": "[x] Runtime plugin capability negotiation (version ranges)",
+      "expected": "Plugins actively negotiate version compatibility at runtime.",
+      "observed": "PluginDependencyGraph stored minVersion/maxVersion per edge but did not enforce them at runtime. ModuleDependencyResolver was declared in module_loader.h but unimplemented.",
+      "severity": "low",
+      "status": "resolved",
+      "resolved_date": "2026-03-10",
+      "resolution": "ModuleDependencyResolver (registerModule, resolve, resolveFor, isVersionCompatible, topologicalSort) fully implemented in src/base/module_loader.cpp (lines 1247-1530). isVersionCompatible() enforces semver constraints; topologicalSort() reports version mismatches. Two bugs fixed: (1) resolveFor() now correctly reports unregistered transitive required dependencies; (2) isVersionCompatible() now uses per-component try-catch to correctly parse partially-malformed version strings (e.g. '1.2.abc' -> {1,2,0}). Regression tests added in tests/test_module_loader.cpp.",
+      "evidence": [
+        {
+          "path": "src/base/module_loader.cpp",
+          "detail": "ModuleDependencyResolver implementation at lines 1247-1530"
+        },
+        {
+          "path": "include/themis/base/module_loader.h",
+          "detail": "ModuleDependencyResolver class declaration at lines 762-865"
+        },
+        {
+          "path": "tests/test_module_loader.cpp",
+          "detail": "regression tests: ResolveForRejectsMissingTransitiveDep, IsVersionCompatible_PartialMalformed_MajMin, and more"
+        }
+      ],
+      "issue_title_suggestion": "feat(base): implement runtime version compatibility enforcement in PluginDependencyGraph (part of #1566)",
+      "label_suggestions": ["enhancement", "module:base", "priority:medium"],
+      "related_issue": "#1566"
+    }
+  ]
+}

@@ -1,0 +1,323 @@
+{
+  "apiVersion": 1,
+  "groups": [
+    {
+      "orgId": 1,
+      "name": "ThemisDB Ingestion Alerts",
+      "folder": "ThemisDB",
+      "interval": "1m",
+      "rules": [
+        {
+          "uid": "ingestion-error-spike",
+          "title": "Ingestion Error Spike",
+          "condition": "C",
+          "data": [
+            {
+              "refId": "A",
+              "relativeTimeRange": { "from": 300, "to": 0 },
+              "datasourceUid": "${DS_PROMETHEUS}",
+              "model": {
+                "expr": "sum(rate(themis_ingestion_errors_total[5m]))",
+                "legendFormat": "error rate",
+                "refId": "A"
+              }
+            },
+            {
+              "refId": "B",
+              "relativeTimeRange": { "from": 300, "to": 0 },
+              "datasourceUid": "__expr__",
+              "model": {
+                "type": "reduce",
+                "refId": "B",
+                "expression": "A",
+                "reducer": "mean"
+              }
+            },
+            {
+              "refId": "C",
+              "relativeTimeRange": { "from": 300, "to": 0 },
+              "datasourceUid": "__expr__",
+              "model": {
+                "type": "threshold",
+                "refId": "C",
+                "expression": "B",
+                "conditions": [
+                  {
+                    "evaluator": { "params": [0.5], "type": "gt" },
+                    "operator": { "type": "and" },
+                    "query": { "params": ["B"] },
+                    "reducer": { "type": "last", "params": [] },
+                    "type": "query"
+                  }
+                ]
+              }
+            }
+          ],
+          "dashboardUid": "themisdb-ingestion",
+          "panelId": 20,
+          "noDataState": "NoData",
+          "execErrState": "Error",
+          "for": "2m",
+          "annotations": {
+            "description": "Ingestion error rate has exceeded 0.5 errors/sec for 2 minutes across all sources.",
+            "runbook_url": "https://github.com/makr-code/ThemisDB/blob/main/docs/ingestion_roadmap.md",
+            "summary": "ThemisDB ingestion error spike detected"
+          },
+          "labels": {
+            "severity": "warning",
+            "component": "ingestion"
+          },
+          "isPaused": false
+        },
+        {
+          "uid": "ingestion-throughput-drop",
+          "title": "Ingestion Throughput Drop",
+          "condition": "C",
+          "data": [
+            {
+              "refId": "A",
+              "relativeTimeRange": { "from": 600, "to": 0 },
+              "datasourceUid": "${DS_PROMETHEUS}",
+              "model": {
+                "expr": "sum(themis_ingestion_throughput_docs_per_sec)",
+                "legendFormat": "throughput",
+                "refId": "A"
+              }
+            },
+            {
+              "refId": "B",
+              "relativeTimeRange": { "from": 600, "to": 0 },
+              "datasourceUid": "__expr__",
+              "model": {
+                "type": "reduce",
+                "refId": "B",
+                "expression": "A",
+                "reducer": "mean"
+              }
+            },
+            {
+              "refId": "C",
+              "relativeTimeRange": { "from": 600, "to": 0 },
+              "datasourceUid": "__expr__",
+              "model": {
+                "type": "threshold",
+                "refId": "C",
+                "expression": "B",
+                "conditions": [
+                  {
+                    "evaluator": { "params": [1.0], "type": "lt" },
+                    "operator": { "type": "and" },
+                    "query": { "params": ["B"] },
+                    "reducer": { "type": "last", "params": [] },
+                    "type": "query"
+                  }
+                ]
+              }
+            }
+          ],
+          "dashboardUid": "themisdb-ingestion",
+          "panelId": 10,
+          "noDataState": "NoData",
+          "execErrState": "Error",
+          "for": "5m",
+          "annotations": {
+            "description": "Total ingestion throughput has dropped below 1 doc/sec for 5 minutes. This may indicate a stalled or failed ingestion run.",
+            "runbook_url": "https://github.com/makr-code/ThemisDB/blob/main/docs/ingestion_roadmap.md",
+            "summary": "ThemisDB ingestion throughput drop"
+          },
+          "labels": {
+            "severity": "warning",
+            "component": "ingestion"
+          },
+          "isPaused": false
+        },
+        {
+          "uid": "ingestion-quota-breach",
+          "title": "Ingestion Quota Breach",
+          "condition": "C",
+          "data": [
+            {
+              "refId": "A",
+              "relativeTimeRange": { "from": 300, "to": 0 },
+              "datasourceUid": "${DS_PROMETHEUS}",
+              "model": {
+                "expr": "sum(increase(themis_ingestion_errors_by_code_total{error_code=\"1401\"}[5m]))",
+                "legendFormat": "quota violations",
+                "refId": "A"
+              }
+            },
+            {
+              "refId": "B",
+              "relativeTimeRange": { "from": 300, "to": 0 },
+              "datasourceUid": "__expr__",
+              "model": {
+                "type": "reduce",
+                "refId": "B",
+                "expression": "A",
+                "reducer": "sum"
+              }
+            },
+            {
+              "refId": "C",
+              "relativeTimeRange": { "from": 300, "to": 0 },
+              "datasourceUid": "__expr__",
+              "model": {
+                "type": "threshold",
+                "refId": "C",
+                "expression": "B",
+                "conditions": [
+                  {
+                    "evaluator": { "params": [1], "type": "gt" },
+                    "operator": { "type": "and" },
+                    "query": { "params": ["B"] },
+                    "reducer": { "type": "last", "params": [] },
+                    "type": "query"
+                  }
+                ]
+              }
+            }
+          ],
+          "dashboardUid": "themisdb-ingestion",
+          "panelId": 22,
+          "noDataState": "OK",
+          "execErrState": "Error",
+          "for": "1m",
+          "annotations": {
+            "description": "One or more QUOTA_EXCEEDED (error_code=1401) events were recorded in the last 5 minutes.",
+            "runbook_url": "https://github.com/makr-code/ThemisDB/blob/main/docs/ingestion_roadmap.md",
+            "summary": "ThemisDB ingestion byte-hour quota breached"
+          },
+          "labels": {
+            "severity": "critical",
+            "component": "ingestion"
+          },
+          "isPaused": false
+        },
+        {
+          "uid": "ingestion-quarantine-growing",
+          "title": "Ingestion Quarantine Growing",
+          "condition": "C",
+          "data": [
+            {
+              "refId": "A",
+              "relativeTimeRange": { "from": 1800, "to": 0 },
+              "datasourceUid": "${DS_PROMETHEUS}",
+              "model": {
+                "expr": "themis_ingestion_quarantine_size{source_id=\"__all__\"}",
+                "legendFormat": "quarantine",
+                "refId": "A"
+              }
+            },
+            {
+              "refId": "B",
+              "relativeTimeRange": { "from": 1800, "to": 0 },
+              "datasourceUid": "__expr__",
+              "model": {
+                "type": "reduce",
+                "refId": "B",
+                "expression": "A",
+                "reducer": "last"
+              }
+            },
+            {
+              "refId": "C",
+              "relativeTimeRange": { "from": 1800, "to": 0 },
+              "datasourceUid": "__expr__",
+              "model": {
+                "type": "threshold",
+                "refId": "C",
+                "expression": "B",
+                "conditions": [
+                  {
+                    "evaluator": { "params": [10], "type": "gt" },
+                    "operator": { "type": "and" },
+                    "query": { "params": ["B"] },
+                    "reducer": { "type": "last", "params": [] },
+                    "type": "query"
+                  }
+                ]
+              }
+            }
+          ],
+          "dashboardUid": "themisdb-ingestion",
+          "panelId": 30,
+          "noDataState": "OK",
+          "execErrState": "Error",
+          "for": "10m",
+          "annotations": {
+            "description": "The ingestion quarantine has grown above 10 items for 10 minutes. Review quarantined items via the Admin API.",
+            "runbook_url": "https://github.com/makr-code/ThemisDB/blob/main/docs/ingestion_roadmap.md",
+            "summary": "ThemisDB ingestion quarantine is growing"
+          },
+          "labels": {
+            "severity": "warning",
+            "component": "ingestion"
+          },
+          "isPaused": false
+        },
+        {
+          "uid": "ingestion-high-retry-rate",
+          "title": "Ingestion High Retry Rate",
+          "condition": "C",
+          "data": [
+            {
+              "refId": "A",
+              "relativeTimeRange": { "from": 600, "to": 0 },
+              "datasourceUid": "${DS_PROMETHEUS}",
+              "model": {
+                "expr": "sum(rate(themis_ingestion_retry_total[5m]))",
+                "legendFormat": "retry rate",
+                "refId": "A"
+              }
+            },
+            {
+              "refId": "B",
+              "relativeTimeRange": { "from": 600, "to": 0 },
+              "datasourceUid": "__expr__",
+              "model": {
+                "type": "reduce",
+                "refId": "B",
+                "expression": "A",
+                "reducer": "mean"
+              }
+            },
+            {
+              "refId": "C",
+              "relativeTimeRange": { "from": 600, "to": 0 },
+              "datasourceUid": "__expr__",
+              "model": {
+                "type": "threshold",
+                "refId": "C",
+                "expression": "B",
+                "conditions": [
+                  {
+                    "evaluator": { "params": [1.0], "type": "gt" },
+                    "operator": { "type": "and" },
+                    "query": { "params": ["B"] },
+                    "reducer": { "type": "last", "params": [] },
+                    "type": "query"
+                  }
+                ]
+              }
+            }
+          ],
+          "dashboardUid": "themisdb-ingestion",
+          "panelId": 21,
+          "noDataState": "NoData",
+          "execErrState": "Error",
+          "for": "3m",
+          "annotations": {
+            "description": "Ingestion retry rate has exceeded 1 retry/sec for 3 minutes. This may indicate persistent upstream failures.",
+            "runbook_url": "https://github.com/makr-code/ThemisDB/blob/main/docs/ingestion_roadmap.md",
+            "summary": "ThemisDB ingestion high retry rate"
+          },
+          "labels": {
+            "severity": "warning",
+            "component": "ingestion"
+          },
+          "isPaused": false
+        }
+      ]
+    }
+  ]
+}

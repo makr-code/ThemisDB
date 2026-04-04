@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            function_registry.h                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:09:55                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     518                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 1200426fc  2026-02-26  feat(query): implement UDF registration API (Issue #2433) ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include <nlohmann/json.hpp>
@@ -7,6 +30,13 @@
 #include <unordered_map>
 #include <functional>
 #include <stdexcept>
+
+// Forward declarations
+namespace themis {
+    class GraphIndexManager;
+    class GraphAnalytics;
+    class SecondaryIndexManager;
+}
 
 namespace themis {
 namespace query {
@@ -184,11 +214,25 @@ public:
     const std::string& userId() const { return user_id_; }
     void setUserId(const std::string& id) { user_id_ = id; }
 
+    // Graph infrastructure access (for graph functions)
+    void setGraphIndexManager(themis::GraphIndexManager* mgr) { graph_mgr_ = mgr; }
+    themis::GraphIndexManager* getGraphIndexManager() const { return graph_mgr_; }
+    
+    void setGraphAnalytics(themis::GraphAnalytics* analytics) { graph_analytics_ = analytics; }
+    themis::GraphAnalytics* getGraphAnalytics() const { return graph_analytics_; }
+
+    // Full-text / secondary index access (for FULLTEXT, PHRASE, FUZZY functions)
+    void setSecondaryIndexManager(themis::SecondaryIndexManager* mgr) { secondary_idx_mgr_ = mgr; }
+    themis::SecondaryIndexManager* getSecondaryIndexManager() const { return secondary_idx_mgr_; }
+
 private:
     nlohmann::json current_doc_;
     std::unordered_map<std::string, nlohmann::json> variables_;
     DocumentLoader doc_loader_;
     std::string user_id_;
+    themis::GraphIndexManager* graph_mgr_ = nullptr;
+    themis::GraphAnalytics* graph_analytics_ = nullptr;
+    themis::SecondaryIndexManager* secondary_idx_mgr_ = nullptr;
 };
 
 // ============================================================================
@@ -439,6 +483,11 @@ public:
     /// Check if a name is an alias
     bool isAlias(const std::string& name) const {
         return aliases_.find(name) != aliases_.end();
+    }
+
+    /// Unregister a function by name.  No-op if not found.
+    void unregisterFunction(const std::string& name) {
+        functions_.erase(name);
     }
 
 private:

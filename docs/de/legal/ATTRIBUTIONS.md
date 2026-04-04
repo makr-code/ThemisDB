@@ -1,7 +1,7 @@
 # ThemisDB - Feature Attribution & Third-Party Libraries
 
-**Version:** 1.2.0  
-**Last Updated:** December 2025
+**Version:** 2.0  
+**Last Updated:** 2. Februar 2026
 
 ---
 
@@ -87,6 +87,193 @@ Dieses Dokument zeigt transparent, welche Features von externen Bibliotheken ber
 - Zero-Copy Integration zwischen Vector DB und LLM (native LLM Engine)
 - Distributed Vector Search mit Sharding
 - Filter-basierte Vector Search (Filtered ANN)
+
+---
+
+### Utilities & Data Handling
+
+#### c-ares
+- **Lizenz:** MIT
+- **Repository:** https://c-ares.org/
+- **Verwendung in ThemisDB:**
+  - Asynchrone DNS-Auflösung
+  - Non-blocking DNS queries
+  - Integration mit Event Loop
+
+#### crc32c (Google)
+- **Lizenz:** BSD 3-Clause
+- **Repository:** https://github.com/google/crc32c
+- **Verwendung in ThemisDB:**
+  - Hardware-beschleunigte CRC32C-Prüfsummen
+  - Datenintegrität-Checks
+  - SSE4.2 und ARM64 CRC32-Instruktionen
+
+#### libzip
+- **Lizenz:** BSD 3-Clause
+- **Repository:** https://libzip.org/
+- **Verwendung in ThemisDB:**
+  - ZIP-Archiv lesen und schreiben
+  - Content Compression und Packaging
+  - Backup-Archive
+
+#### pugixml
+- **Lizenz:** MIT
+- **Repository:** https://pugixml.org/
+- **Verwendung in ThemisDB:**
+  - Leichtgewichtige XML-Verarbeitung
+  - Konfigurationsdateien
+  - Content Processing
+
+#### tl-expected
+- **Lizenz:** CC0 1.0 (Public Domain)
+- **Repository:** https://github.com/TartanLlama/expected
+- **Verwendung in ThemisDB:**
+  - C++11/14/17 std::expected Implementierung
+  - Type-safe Error Handling
+  - Funktionale Fehlerbehandlung ohne Exceptions
+
+---
+
+### Network Protocols
+
+#### nghttp2
+- **Lizenz:** MIT
+- **Repository:** https://nghttp2.org/
+- **Verwendung in ThemisDB:**
+  - HTTP/2 Protokoll-Unterstützung
+  - Server Push
+  - Multiplexing und Stream Prioritization
+
+**ThemisDB-Erweiterungen:**
+- Integration mit Boost.Beast HTTP Server
+- Custom HTTP/2 Frame Handlers
+- Connection Pooling
+
+#### nghttp3
+- **Lizenz:** MIT
+- **Repository:** https://github.com/ngtcp2/nghttp3
+- **Verwendung in ThemisDB:**
+  - HTTP/3 Protokoll-Implementierung
+  - QPACK Header Compression
+
+#### ngtcp2
+- **Lizenz:** MIT
+- **Repository:** https://github.com/ngtcp2/ngtcp2
+- **Verwendung in ThemisDB:**
+  - QUIC Protokoll für HTTP/3
+  - 0-RTT Connection Establishment
+  - Loss Detection und Congestion Control
+
+**ThemisDB-Erweiterungen:**
+- Optional HTTP/3 für Client-Server-Kommunikation
+- Fallback auf HTTP/2 und HTTP/1.1
+- Adaptive Protocol Selection
+
+---
+
+### Content Processing
+
+#### FFmpeg
+- **Lizenz:** LGPL 2.1+ (ThemisDB nutzt nur LGPL-Komponenten)
+- **Repository:** https://ffmpeg.org/
+- **Verwendung in ThemisDB:**
+  - Video- und Audio-Codec-Unterstützung
+  - Thumbnail-Generierung
+  - Metadata-Extraktion
+  - Format-Konvertierung
+
+**ThemisDB-Erweiterungen:**
+- Content-Plugin für Video-Processing
+- Automatische Thumbnail-Generierung
+- Metadata-Indexierung
+
+#### GDAL (Geospatial Data Abstraction Library)
+- **Lizenz:** MIT/X11
+- **Repository:** https://gdal.org/
+- **Verwendung in ThemisDB:**
+  - Shapefile (.shp) Support
+  - GeoTIFF Raster Support
+  - Coordinate System Transformations
+  - 200+ Geospatial Formats
+
+**ThemisDB-Erweiterungen:**
+- Integration mit Geo-Funktionen
+- Automatische Koordinaten-Extraktion
+- Spatial Index Integration
+
+---
+
+### IoT & Messaging
+
+#### Eclipse Paho MQTT C++
+- **Lizenz:** EPL 2.0 / EDL 1.0
+- **Repository:** https://www.eclipse.org/paho/
+- **Verwendung in ThemisDB:**
+  - MQTT-Protokoll für IoT-Geräte
+  - Publish/Subscribe Messaging
+  - QoS-Level 0, 1, 2
+
+**ThemisDB-Erweiterungen:**
+- MQTT-Broker Integration
+- Change Data Capture (CDC) über MQTT
+- IoT Sensor Data Ingestion
+
+---
+
+### Linear Algebra & GPU
+
+#### OpenBLAS
+- **Lizenz:** BSD 3-Clause
+- **Repository:** https://www.openblas.net/
+- **Verwendung in ThemisDB:**
+  - Optimierte BLAS-Operationen
+  - Matrix-Multiplikation
+  - SIMD-beschleunigte Vektoroperationen
+
+#### LAPACK
+- **Lizenz:** BSD-like
+- **Repository:** https://www.netlib.org/lapack/
+- **Verwendung in ThemisDB:**
+  - Lineare Algebra Routinen
+  - Matrix-Zerlegungen
+  - Eigenvalue-Berechnungen
+
+**ThemisDB Integration:**
+- Unterstützung für FAISS GPU-Indizes
+- Dimensionality Reduction (PCA, SVD)
+- Statistical Analysis
+
+---
+
+### Observability
+
+#### Prometheus C++ Client
+- **Lizenz:** MIT
+- **Repository:** https://github.com/jupp0r/prometheus-cpp
+- **Verwendung in ThemisDB:**
+  - Prometheus Metrics Collection
+  - Counters, Gauges, Histograms
+  - /metrics Endpoint
+
+**ThemisDB-Erweiterungen:**
+- 50+ Custom Metrics
+- Query Performance Tracking
+- LLM Inference Metrics
+- Vector Search Latency
+- Grafana Dashboard Integration
+
+#### Apache Parquet C++
+- **Lizenz:** Apache 2.0
+- **Repository:** https://arrow.apache.org/
+- **Verwendung in ThemisDB:**
+  - Columnar Storage Format
+  - Efficient Compression
+  - Schema Evolution
+
+**ThemisDB-Erweiterungen:**
+- Parquet Export für Analytics
+- Integration mit Arrow Data Format
+- OLAP Query Optimization
 
 ---
 

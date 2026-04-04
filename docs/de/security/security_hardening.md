@@ -1,7 +1,7 @@
 # Themis – Security Hardening Guide
 
-**Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
+**Stand:** 18. Januar 2026  
+**Version:** 1.4.0  
 **Kategorie:** Security
 
 
@@ -9,6 +9,7 @@
 
 - [📋 Überblick](#themis--security-hardening-guide)
 - [✅ Implementierter Security Stack](#-implementierter-security-stack-stand-2025-11-17)
+- [🆕 Security Enhancements v1.4.0](#-security-enhancements-v140)
 - [🛠️ Server-Härtung](#server-härtung)
 - [🌐 Netzwerkebene](#netzwerkebene)
 - [🖥️ Betriebssystem](#betriebssystem)
@@ -18,6 +19,323 @@
 
 
 Umfassender Praxisleitfaden zur Härtung von Themis-Server mit vollständiger Security-Implementation.
+
+## 🆕 Security Enhancements v1.4.0
+
+### NEW: VRAM Secure Clear (P0 - CRITICAL) ✅
+
+**GPU Memory Security für KI/ML Workloads**
+
+ThemisDB implementiert jetzt Secure Clear für GPU VRAM, um sensible Daten (Verschlüsselungskeys, Embeddings, Model Weights) vor Cold-Boot-Angriffen und Memory Leakage zu schützen.
+
+**Features:**
+- ✅ Multi-Pass Overwrite (3x default: 0x00, 0xFF, 0xAA)
+- ✅ CUDA & HIP Support
+- ✅ Integration in GPU Memory Manager
+- ✅ Automatisches Clearing bei cudaFree()
+- ✅ Audit Logging für VRAM-Operationen
+- ✅ Verifizierung optional (Compliance)
+
+**Konfiguration:**
+```yaml
+# config/gpu_security.yaml
+gpu_security:
+  vram_secure_clear:
+    enabled: true
+    num_passes: 3           # Anzahl Überschreibvorgänge
+    verify_clear: false     # true für Compliance-Audits
+    audit_log: true         # VRAM-Operationen loggen
+```
+
+**Verwendung:**
+```cpp
+#include "security/vram_secure_clear.h"
+
+// Automatisch bei GPU Memory Manager
+gpu_memory_mgr.deallocate(model_id, ptr);  // Secure clear automatisch
+
+// Manuell
+VRAMSecureClear::secureClearCUDA(d_ptr, size_bytes);
+```
+
+**Tests:**
+```bash
+./build/tests/test_vram_secure_clear
+```
+
+**Compliance:**
+- ✅ GDPR Art. 32 (Secure Deletion)
+- ✅ SOC 2 CC6.1 (Data Protection)
+- ✅ HIPAA § 164.310 (Device Security)
+
+---
+
+### NEW: Multi-Factor Authentication (P1 - HIGH) ✅
+
+**TOTP-basierte Zwei-Faktor-Authentifizierung**
+
+MFA schützt Admin-Accounts vor Credential-basierten Angriffen durch Time-based One-Time Passwords (TOTP) nach RFC 6238.
+
+**Features:**
+- ✅ TOTP mit 6-stelligen Codes (30s Zeitfenster)
+- ✅ QR-Code für Mobile Authenticator Apps
+- ✅ 8 Recovery Codes pro User
+- ✅ Granulare Enforcement (Admin mandatory, User optional)
+- ✅ Audit Logging für alle MFA-Events
+- ✅ Compatible mit Google Authenticator, Authy, etc.
+
+**Setup:**
+```bash
+# MFA für Admin aktivieren
+themisctl auth mfa enroll --user admin
+
+# QR-Code generieren
+themisctl auth mfa qr-code --user admin > qr.png
+
+# Recovery Codes anzeigen
+themisctl auth mfa recovery-codes --user admin
+```
+
+**Konfiguration:**
+```yaml
+# config/auth.yaml
+mfa:
+  enabled: true
+  totp:
+    time_step_seconds: 30
+    code_length: 6
+    time_window: 1          # ±1 Zeitfenster (±30s)
+    issuer: "ThemisDB"
+  recovery_codes:
+    count: 8
+    length: 8
+  enforcement:
+    admin_required: true    # MFA Pflicht für Admins
+    operator_required: true # MFA Pflicht für Operators
+    user_optional: true     # MFA optional für User
+```
+
+**API Verwendung:**
+```bash
+# Login mit MFA
+curl -X POST http://localhost:8080/api/v1/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{
+    "username": "admin",
+    "password": "***",
+    "mfa_code": "123456"
+  }'
+
+# Login mit Recovery Code
+curl -X POST http://localhost:8080/api/v1/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{
+    "username": "admin",
+    "password": "***",
+    "recovery_code": "ABC12345"
+  }'
+```
+
+**Audit Events:**
+```
+MFA_ENROLLED              - User enrolled in MFA
+MFA_ENABLED               - MFA activated for account
+MFA_DISABLED              - MFA deactivated
+MFA_TOTP_SUCCESS          - Successful TOTP validation
+MFA_TOTP_FAILED           - Failed TOTP attempt
+MFA_RECOVERY_CODE_USED    - Recovery code used
+MFA_RECOVERY_CODES_REGENERATED - New recovery codes generated
+```
+
+**Tests:**
+```bash
+./build/tests/test_mfa_authenticator
+```
+
+**Compliance:**
+- ✅ SOC 2 CC6.1 (Logical Access Controls)
+- ✅ NIST SP 800-63B Level 2
+- ✅ PCI DSS 8.3 (Multi-Factor Authentication)
+
+---
+
+### NEW: Enhanced Security Testing (P1 - HIGH) ✅
+
+**Automatisierte Security Scans mit OWASP ZAP**
+
+ThemisDB integriert OWASP ZAP in CI/CD Pipeline für kontinuierliche Sicherheitstests.
+
+**Scan-Modi:**
+1. **Baseline Scan** (PR/Push): Passive Scans für schnelles Feedback
+2. **Full Scan** (Weekly): Aktive Scans mit Spider
+3. **API Scan** (PR/Push): OpenAPI-basierte API-Tests
+
+**GitHub Actions Workflow:**
+`.github/workflows/owasp-zap.yml`
+
+**Konfiguration:**
+```tsv
+# .github/zap/rules.tsv
+40012	FAIL	Cross Site Scripting (Reflected)
+40018	FAIL	SQL Injection
+90020	FAIL	Remote OS Command Injection
+90023	FAIL	XML External Entity Attack
+90034	FAIL	JWT None Algorithm
+90035	FAIL	JWT Weak Secret
+```
+
+**Lokale Ausführung:**
+```bash
+# ZAP Baseline Scan
+docker run -v $(pwd):/zap/wrk/:rw \
+  -t owasp/zap2docker-stable \
+  zap-baseline.py -t http://localhost:8080 \
+  -c .github/zap/rules.tsv
+```
+
+**Security Test Suites:**
+```bash
+# JWT Security Tests
+./build/tests/security/test_jwt_security
+
+# Input Validation Tests
+./build/tests/security/test_input_validation_security
+
+# Alle Security Tests
+cmake --build build --target test_security
+```
+
+**Coverage:**
+- ✅ JWT Algorithm Confusion (None, HS256→RS256)
+- ✅ Token Forgery & Signature Bypass
+- ✅ XSS (Reflected, Persistent, DOM-based)
+- ✅ SQL/AQL Injection
+- ✅ Path Traversal
+- ✅ Command Injection
+- ✅ XXE (XML External Entity)
+- ✅ LDAP Injection
+- ✅ CRLF Injection
+
+---
+
+### Enhanced Audit Logging (85+ Event Types)
+
+**Neue Event-Typen:**
+```cpp
+// MFA Events (8)
+MFA_ENROLLED, MFA_ENABLED, MFA_DISABLED, 
+MFA_TOTP_SUCCESS, MFA_TOTP_FAILED,
+MFA_RECOVERY_CODE_USED, MFA_RECOVERY_CODES_REGENERATED
+
+// GPU/VRAM Security (4)
+VRAM_ALLOCATED, VRAM_DEALLOCATED, 
+VRAM_SECURE_CLEAR, GPU_MEMORY_EXHAUSTION
+
+// Binary Integrity (3)
+BINARY_SIGNATURE_VERIFIED, BINARY_SIGNATURE_FAILED,
+MANIFEST_UPDATED
+```
+
+**Verwendung:**
+```cpp
+#include "utils/audit_logger.h"
+
+// MFA Event loggen
+audit_logger->logSecurityEvent(
+    SecurityEventType::MFA_TOTP_SUCCESS,
+    "admin",
+    "login",
+    {{"ip", "192.168.1.1"}, {"timestamp", "2026-01-18T08:00:00Z"}}
+);
+
+// VRAM Event loggen
+audit_logger->logSecurityEvent(
+    SecurityEventType::VRAM_SECURE_CLEAR,
+    "system",
+    "gpu_memory",
+    {{"size_bytes", 1048576}, {"passes", 3}, {"gpu_id", 0}}
+);
+```
+
+---
+
+### NEW: Binary Integrity Verification (P2 - MEDIUM) ✅
+
+**RSA-4096 Manifest Signing für Supply Chain Security**
+
+ThemisDB implementiert jetzt Binary Integrity Verification mit RSA-4096 Signaturen, um die Authentizität und Integrität von Release-Binaries sicherzustellen.
+
+**Features:**
+- ✅ RSA-4096 digitale Signaturen
+- ✅ SHA-256 File Hashing
+- ✅ Manifest-Generierung aus Build-Artefakten
+- ✅ Startup-Verifikation (automatisch)
+- ✅ Update-Verifikation
+- ✅ Audit Logging
+
+**Verwendung:**
+```bash
+# Manifest generieren
+themisctl manifest generate \
+  --root /opt/themis/bin \
+  --version 1.4.0 \
+  --build-id $(git rev-parse HEAD) \
+  --include "*.exe" "*.so" "*.dll" \
+  --output manifest.json
+
+# Manifest signieren
+themisctl manifest sign \
+  --input manifest.json \
+  --key-id release_key \
+  --output signed_manifest.json
+
+# Verifikation
+themisctl manifest verify \
+  --manifest signed_manifest.json \
+  --binaries /opt/themis/bin
+```
+
+**Konfiguration:**
+```yaml
+# config/binary_verification.yaml
+binary_verification:
+  enabled: true
+  manifest_path: /etc/themis/signed_manifest.json
+  binaries_root: /opt/themis/bin
+  verify_on_startup: true
+  fail_on_invalid: true
+```
+
+**Programmatische Verwendung:**
+```cpp
+#include "security/manifest_signer.h"
+
+// Manifest generieren
+ManifestSigner signer(signing_service, config);
+BinaryManifest manifest = signer.generateManifest(
+    "/opt/themis/bin", "1.4.0", "git_sha"
+);
+
+// Signieren
+SignedManifest signed = signer.signManifest(manifest);
+signed.saveToFile("/etc/themis/manifest.json");
+
+// Startup-Verifikation
+StartupVerifier verifier(signing_service, verifier_config);
+bool valid = verifier.verify();  // Exit bei Fehler
+```
+
+**Tests:**
+```bash
+./build/tests/test_binary_integrity
+```
+
+**Compliance:**
+- ✅ NIST SP 800-218 (Secure Software Development)
+- ✅ SOC 2 CC7.1 (System Operations)
+- ✅ Supply Chain Security
+
+---
 
 ## ✅ Implementierter Security Stack (Stand: 2025-11-17)
 

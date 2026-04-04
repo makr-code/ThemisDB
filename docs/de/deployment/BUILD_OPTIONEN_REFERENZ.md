@@ -440,37 +440,81 @@ cmake -B build -DTHEMIS_ENABLE_CUDA=ON
 ### THEMIS_EDITION
 - **Typ:** STRING
 - **Standard:** COMMUNITY
-- **Werte:** `COMMUNITY`, `ENTERPRISE`, `HYPERSCALER`
-- **Beschreibung:** Compile-Time Edition Selection (v1.3.5+)
-- **Lizenz:** Enterprise/Hyperscaler benötigen gültige Lizenz
+- **Werte:** `MINIMAL`, `COMMUNITY`, `ENTERPRISE`, `HYPERSCALER`
+- **Beschreibung:** Compile-Time Edition Selection (v1.4.0+)
+- **Lizenz:** Enterprise (Release)/Hyperscaler (alle) benötigen gültige Lizenz
 
 ```bash
-# Community Edition (Standard, Open Source)
+# Minimal Edition (Embedded, 1 Node)
+cmake -B build -DTHEMIS_EDITION=MINIMAL
+
+# Community Edition (Standard, Open Source, 5 Nodes)
 cmake -B build -DTHEMIS_EDITION=COMMUNITY
 
-# Enterprise Edition (Commercial License erforderlich)
-cmake -B build -DTHEMIS_EDITION=ENTERPRISE
+# Enterprise Edition (License erforderlich für Release)
+cmake -B build -DTHEMIS_EDITION=ENTERPRISE \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DTHEMIS_LICENSE_FILE=/path/to/license.json
 
-# Hyperscaler Edition (OEM/Cloud Partnership erforderlich)
-cmake -B build -DTHEMIS_EDITION=HYPERSCALER
+# Hyperscaler Edition (License mandatory für alle Builds)
+cmake -B build -DTHEMIS_EDITION=HYPERSCALER \
+  -DTHEMIS_LICENSE_FILE=/path/to/license.json
 ```
 
-**Edition-Limits:**
+**Edition-Limits (v1.4.0):**
 
-Siehe [Deployment Strategy - Edition-Übersicht](deployment_strategy.md#edition-übersicht) für vollständige Tabelle.
+Siehe [Edition Limits Matrix](EDITION_LIMITS_MATRIX.md) für vollständige Tabelle.
 
 | Edition | GPU VRAM | Max Nodes | Lizenz |
 |---------|----------|-----------|--------|
-| COMMUNITY | 24 GB | 1 | MIT (Open Source) |
-| ENTERPRISE | 256 GB | 100 | Commercial Subscription |
-| HYPERSCALER | Unlimited | Unlimited | Custom OEM |
+| **MINIMAL** | 0 GB | 1 | Optional |
+| **COMMUNITY** | 24 GB | **5** ✅ | Optional (MIT Open Source) |
+| **ENTERPRISE** | 256 GB | **100** ✅ | Required (Release), Optional (Debug) |
+| **HYPERSCALER** | ∞ | ∞ | Mandatory (all builds) |
 
 **Build Scripts:**
 - `scripts/build-community-release.ps1` - Community Edition
 - `scripts/build-enterprise-release.ps1` - Enterprise Edition
 - `scripts/build-hyperscaler-release.ps1` - Hyperscaler Edition
 
-**Dokumentation:** [Edition Deployment Strategy](EDITION_DEPLOYMENT_STRATEGY.md)
+**Dokumentation:** 
+- [Edition Limits Matrix](EDITION_LIMITS_MATRIX.md) - **Single Source of Truth**
+- [License Requirements](LICENSE_REQUIREMENTS.md) - Lizenz-Enforcement Details
+
+### THEMIS_LICENSE_FILE (NEW v1.4.0)
+- **Typ:** PATH
+- **Standard:** `<empty>`
+- **Beschreibung:** Pfad zur license.json Datei
+- **Erforderlich für:**
+  - ENTERPRISE Release Builds ⚠️
+  - HYPERSCALER alle Builds ❌
+- **Optional für:**
+  - MINIMAL alle Builds ✅
+  - COMMUNITY alle Builds ✅
+  - ENTERPRISE Debug Builds ✅
+
+```bash
+# ENTERPRISE Release (License erforderlich)
+cmake -B build -S . \
+  -DTHEMIS_EDITION=ENTERPRISE \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DTHEMIS_LICENSE_FILE=/path/to/enterprise-license.json
+
+# ENTERPRISE Debug (License optional)
+cmake -B build -S . \
+  -DTHEMIS_EDITION=ENTERPRISE \
+  -DCMAKE_BUILD_TYPE=Debug
+# ✅ Success - keine Lizenz erforderlich
+
+# HYPERSCALER (License mandatory)
+cmake -B build -S . \
+  -DTHEMIS_EDITION=HYPERSCALER \
+  -DTHEMIS_LICENSE_FILE=/path/to/hyperscaler-license.json
+```
+
+**Siehe:** [License Requirements](LICENSE_REQUIREMENTS.md) für vollständige Details.
+
+**Kontakt:** service@themisdb.org
 
 ### THEMIS_ENTERPRISE
 - **Typ:** BOOL

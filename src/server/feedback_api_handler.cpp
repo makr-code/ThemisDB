@@ -1,7 +1,31 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            feedback_api_handler.cpp                           ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:19:45                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     407                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 22506a3f6  2026-03-20  fix: remove unused boost/url.hpp include from feedback_ap... ║
+    • a2a0e15fa  2026-03-11  Changes before error encountered         ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "server/feedback_api_handler.h"
 #include "utils/logger.h"
 #include <spdlog/spdlog.h>
-#include <boost/url.hpp>
+#include "utils/tracing.h"
 
 namespace themis {
 namespace server {
@@ -24,6 +48,7 @@ FeedbackAPIHandler::FeedbackAPIHandler(
 http::response<http::string_body> FeedbackAPIHandler::handleCreateFeedback(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleCreateFeedback");
     try {
         // Parse request body
         auto body_json = json::parse(req.body());
@@ -68,6 +93,7 @@ http::response<http::string_body> FeedbackAPIHandler::handleCreateFeedback(
 http::response<http::string_body> FeedbackAPIHandler::handleListFeedback(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleListFeedback");
     try {
         // Parse query parameters
         std::string target(req.target());
@@ -106,6 +132,7 @@ http::response<http::string_body> FeedbackAPIHandler::handleGetFeedback(
     const http::request<http::string_body>& req,
     const std::string& id
 ) {
+    auto span = Tracer::startSpan("handleGetFeedback");
     try {
         auto feedback = storage_service_->getFeedback(id);
         
@@ -133,6 +160,7 @@ http::response<http::string_body> FeedbackAPIHandler::handleUpdateFeedback(
     const http::request<http::string_body>& req,
     const std::string& id
 ) {
+    auto span = Tracer::startSpan("handleUpdateFeedback");
     try {
         // Parse request body
         auto body_json = json::parse(req.body());
@@ -175,6 +203,7 @@ http::response<http::string_body> FeedbackAPIHandler::handleDeleteFeedback(
     const http::request<http::string_body>& req,
     const std::string& id
 ) {
+    auto span = Tracer::startSpan("handleDeleteFeedback");
     try {
         bool success = storage_service_->deleteFeedback(id);
         
@@ -206,6 +235,7 @@ http::response<http::string_body> FeedbackAPIHandler::handleGetAdapterFeedback(
     const http::request<http::string_body>& req,
     const std::string& adapter_id
 ) {
+    auto span = Tracer::startSpan("handleGetAdapterFeedback");
     try {
         // Parse limit from query if provided
         std::string target(req.target());
@@ -247,6 +277,7 @@ http::response<http::string_body> FeedbackAPIHandler::handleGetAdapterFeedback(
 http::response<http::string_body> FeedbackAPIHandler::handleGetStatistics(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleGetStatistics");
     try {
         // Parse adapter_id from query if provided
         std::string target(req.target());
@@ -289,6 +320,7 @@ http::response<http::string_body> FeedbackAPIHandler::makeResponse(
     const std::string& body,
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("makeResponse");
     http::response<http::string_body> res{status, req.version()};
     res.set(http::field::server, "ThemisDB");
     res.set(http::field::content_type, "text/plain");

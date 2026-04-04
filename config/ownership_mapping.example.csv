@@ -1,0 +1,12 @@
+entity_pattern,owner_group,visible_to_groups,entity_type
+postgres_table:hr.*,HR-Admins,HR-Readers;HR-Analysts;Data-Admins,postgres_table
+postgres_table:finance.*,Finance-Admins,Finance-Team;Finance-Analysts;Data-Admins,postgres_table
+postgres_table:engineering.*,Engineering-Team,Engineering-Team;Data-Admins,postgres_table
+postgres_table:public.*,Data-Admins,All-Employees;Data-Analysts,postgres_table
+postgres_schema:hr,HR-Admins,HR-Readers;Data-Admins,postgres_schema
+postgres_schema:finance,Finance-Admins,Finance-Team;Data-Admins,postgres_schema
+postgres_schema:engineering,Engineering-Team,Engineering-Team;Data-Admins,postgres_schema
+postgres_schema:public,Data-Admins,All-Employees,postgres_schema
+postgres_table:hr.salaries,HR-Admins,HR-Payroll;Finance-Payroll;Data-Admins,postgres_table
+postgres_table:finance.invoices,Finance-Admins,Finance-AP;Auditors;Data-Admins,postgres_table
+postgres_view:analytics.*,Data-Analysts,All-Employees;Data-Admins,postgres_view

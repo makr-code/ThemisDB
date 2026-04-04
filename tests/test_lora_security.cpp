@@ -1,7 +1,42 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_lora_security.cpp                             ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:29:31                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     947                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 91937bec6  2026-03-15  fix: address code review — helper method, clearer test na... ║
+    • f34b95577  2026-03-15  feat: implement LoRACertificateStore and fail-closed cert... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include <gtest/gtest.h>
 #include "llm/lora_security_validator.h"
+#include "llm/lora_certificate_store.h"
 #include <fstream>
 #include <cstdio>
+#include <filesystem>
+#include <sstream>
+#include <iomanip>
+#include <openssl/rsa.h>
+#include <openssl/pem.h>
+#include <openssl/x509.h>
+#include <openssl/evp.h>
+#include <openssl/err.h>
+#include <openssl/sha.h>
+#include <nlohmann/json.hpp>
 
 using namespace themis::llm;
 
@@ -109,10 +144,17 @@ TEST_F(LoRASecurityTest, DetectWeightAnomalies_AllZeros) {
 // ===== New Security Features Tests =====
 
 TEST_F(LoRASecurityTest, SignatureFormatValidation_ValidFingerprint) {
-    // Test with valid SHA-256 fingerprint (64 hex chars)
+    // With certificate store integration, a trusted signer fingerprint must
+    // also have a certificate registered. Without a certificate, verification
+    // now fails closed (SIGNATURE_UNVERIFIABLE) rather than silently accepting.
     config_.require_signature = true;
     config_.trusted_signers.push_back("0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef");
+    config_.cert_store_path = "";
+    config_.system_cert_store_path = "";
     validator_->setConfig(config_);
+    // Reinitialise the cert store to match the new config (empty store)
+    validator_->setCertificateStore(
+        std::make_shared<LoRACertificateStore>("", ""));
     
     // Create signature file with valid format
     std::string sig_file = "/tmp/test_signature.sig";
@@ -121,11 +163,12 @@ TEST_F(LoRASecurityTest, SignatureFormatValidation_ValidFingerprint) {
     sig << "U29tZUJhc2U2NEVuY29kZWRTaWduYXR1cmVEYXRhSGVyZQ==";  // Valid base64
     sig.close();
     
-    // Verify signature (will validate format even though crypto verification is not implemented)
+    // Without a certificate in the store, verification must fail closed.
     auto result = validator_->verifySignature(test_file_, sig_file);
     
-    // Format should be validated (signature, fingerprint, base64)
-    EXPECT_TRUE(result.signer_identity == "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef");
+    EXPECT_FALSE(result.is_valid);
+    EXPECT_TRUE(result.error_message.find("SIGNATURE_UNVERIFIABLE") != std::string::npos)
+        << "Expected fail-closed error; got: " << result.error_message;
     
     std::remove(sig_file.c_str());
 }
@@ -504,7 +547,401 @@ TEST(EmbeddingAnomalyIntegration, PoisonedEmbeddingDetection) {
     EXPECT_GT(score, 0.5f) << "Failed to detect poisoned embedding";
 }
 
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
+// ===== LoRACertificateStore Unit Tests =====
+
+// Helper: generate a self-signed RSA-2048 certificate + private key.
+// Returns {cert_pem, privkey_pem}. Empty strings on failure.
+static std::pair<std::string, std::string> generateSelfSignedCert() {
+    // Generate RSA key pair
+    EVP_PKEY* pkey = nullptr;
+    EVP_PKEY_CTX* pctx = EVP_PKEY_CTX_new_id(EVP_PKEY_RSA, nullptr);
+    if (!pctx) return {};
+    if (EVP_PKEY_keygen_init(pctx) <= 0) { EVP_PKEY_CTX_free(pctx); return {}; }
+    if (EVP_PKEY_CTX_set_rsa_keygen_bits(pctx, 2048) <= 0) { EVP_PKEY_CTX_free(pctx); return {}; }
+    if (EVP_PKEY_keygen(pctx, &pkey) <= 0) { EVP_PKEY_CTX_free(pctx); return {}; }
+    EVP_PKEY_CTX_free(pctx);
+
+    // Create X.509 certificate
+    X509* cert = X509_new();
+    if (!cert) { EVP_PKEY_free(pkey); return {}; }
+
+    ASN1_INTEGER_set(X509_get_serialNumber(cert), 1);
+    X509_gmtime_adj(X509_get_notBefore(cert), 0);
+    X509_gmtime_adj(X509_get_notAfter(cert), 365 * 24 * 3600L);
+    X509_set_pubkey(cert, pkey);
+
+    X509_NAME* name = X509_get_subject_name(cert);
+    X509_NAME_add_entry_by_txt(name, "CN", MBSTRING_ASC,
+                               reinterpret_cast<const unsigned char*>("ThemisDB LoRA Test"),
+                               -1, -1, 0);
+    X509_set_issuer_name(cert, name);
+
+    if (X509_sign(cert, pkey, EVP_sha256()) == 0) {
+        X509_free(cert); EVP_PKEY_free(pkey); return {};
+    }
+
+    // Serialize cert to PEM
+    BIO* cert_bio = BIO_new(BIO_s_mem());
+    PEM_write_bio_X509(cert_bio, cert);
+    BUF_MEM* cert_mem = nullptr;
+    BIO_get_mem_ptr(cert_bio, &cert_mem);
+    std::string cert_pem(cert_mem->data, cert_mem->length);
+    BIO_free(cert_bio);
+
+    // Serialize private key to PEM
+    BIO* key_bio = BIO_new(BIO_s_mem());
+    PEM_write_bio_PrivateKey(key_bio, pkey, nullptr, nullptr, 0, nullptr, nullptr);
+    BUF_MEM* key_mem = nullptr;
+    BIO_get_mem_ptr(key_bio, &key_mem);
+    std::string key_pem(key_mem->data, key_mem->length);
+    BIO_free(key_bio);
+
+    X509_free(cert);
+    EVP_PKEY_free(pkey);
+
+    return {cert_pem, key_pem};
 }
+
+// Helper: compute SHA-256 fingerprint of a PEM cert (hex, lowercase).
+static std::string certFingerprint(const std::string& cert_pem) {
+    BIO* bio = BIO_new_mem_buf(cert_pem.data(), static_cast<int>(cert_pem.size()));
+    if (!bio) return {};
+    X509* cert = PEM_read_bio_X509(bio, nullptr, nullptr, nullptr);
+    BIO_free(bio);
+    if (!cert) return {};
+
+    unsigned char digest[SHA256_DIGEST_LENGTH];
+    unsigned int digest_len = SHA256_DIGEST_LENGTH;
+    X509_digest(cert, EVP_sha256(), digest, &digest_len);
+    X509_free(cert);
+
+    std::ostringstream oss;
+    oss << std::hex << std::setfill('0');
+    for (unsigned int i = 0; i < digest_len; ++i) {
+        oss << std::setw(2) << static_cast<unsigned int>(digest[i]);
+    }
+    return oss.str();
+}
+
+// Helper: sign data with a private key (RSA-SHA256), returns raw signature bytes.
+static std::vector<uint8_t> signData(const std::vector<uint8_t>& data,
+                                     const std::string& key_pem) {
+    BIO* bio = BIO_new_mem_buf(key_pem.data(), static_cast<int>(key_pem.size()));
+    if (!bio) return {};
+    EVP_PKEY* pkey = PEM_read_bio_PrivateKey(bio, nullptr, nullptr, nullptr);
+    BIO_free(bio);
+    if (!pkey) return {};
+
+    EVP_MD_CTX* md_ctx = EVP_MD_CTX_new();
+    if (!md_ctx) { EVP_PKEY_free(pkey); return {}; }
+
+    if (EVP_DigestSignInit(md_ctx, nullptr, EVP_sha256(), nullptr, pkey) <= 0) {
+        EVP_MD_CTX_free(md_ctx); EVP_PKEY_free(pkey); return {};
+    }
+    if (EVP_DigestSignUpdate(md_ctx, data.data(), data.size()) <= 0) {
+        EVP_MD_CTX_free(md_ctx); EVP_PKEY_free(pkey); return {};
+    }
+
+    size_t sig_len = 0;
+    EVP_DigestSignFinal(md_ctx, nullptr, &sig_len);
+    std::vector<uint8_t> sig(sig_len);
+    EVP_DigestSignFinal(md_ctx, sig.data(), &sig_len);
+    sig.resize(sig_len);
+
+    EVP_MD_CTX_free(md_ctx);
+    EVP_PKEY_free(pkey);
+    return sig;
+}
+
+// Helper: base64-encode binary data.
+static std::string base64Encode(const std::vector<uint8_t>& data) {
+    BIO* b64  = BIO_new(BIO_f_base64());
+    BIO* sink = BIO_new(BIO_s_mem());
+    b64 = BIO_push(b64, sink);
+    BIO_set_flags(b64, BIO_FLAGS_BASE64_NO_NL);
+    BIO_write(b64, data.data(), static_cast<int>(data.size()));
+    BIO_flush(b64);
+
+    BUF_MEM* mem = nullptr;
+    BIO_get_mem_ptr(sink, &mem);
+    std::string encoded(mem->data, mem->length);
+    BIO_free_all(b64);
+    return encoded;
+}
+
+// ---------------------------------------------------------------------------
+// LoRACertificateStore tests
+// ---------------------------------------------------------------------------
+
+class LoRACertificateStoreTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        // Use a non-existent path to disable filesystem/system lookups
+        store_ = std::make_unique<LoRACertificateStore>("", "");
+    }
+
+    std::unique_ptr<LoRACertificateStore> store_;
+};
+
+TEST_F(LoRACertificateStoreTest, LookupMissingCertReturnsNullopt) {
+    auto result = store_->lookupByFingerprint(
+        "0000000000000000000000000000000000000000000000000000000000000000");
+    EXPECT_FALSE(result.has_value());
+}
+
+TEST_F(LoRACertificateStoreTest, RegisterAndLookupCert) {
+    const std::string fp = "abcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890";
+    const std::string pem = "-----BEGIN CERTIFICATE-----\nfake\n-----END CERTIFICATE-----\n";
+
+    store_->registerCertificate(fp, pem);
+    auto result = store_->lookupByFingerprint(fp);
+    ASSERT_TRUE(result.has_value());
+    EXPECT_EQ(*result, pem);
+}
+
+TEST_F(LoRACertificateStoreTest, EvictRemovesCertFromCache) {
+    const std::string fp = "1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef";
+    const std::string pem = "-----BEGIN CERTIFICATE-----\nfake\n-----END CERTIFICATE-----\n";
+
+    store_->registerCertificate(fp, pem);
+    EXPECT_TRUE(store_->lookupByFingerprint(fp).has_value());
+
+    store_->evictCertificate(fp);
+    EXPECT_FALSE(store_->lookupByFingerprint(fp).has_value());
+}
+
+TEST_F(LoRACertificateStoreTest, EmptyFingerprintReturnsNullopt) {
+    auto result = store_->lookupByFingerprint("");
+    EXPECT_FALSE(result.has_value());
+}
+
+TEST_F(LoRACertificateStoreTest, FilesystemLookup) {
+    // Write a PEM file to /tmp and use that as the store path
+    const std::string fp = "cafebabe01234567cafebabe01234567cafebabe01234567cafebabe01234567";
+    const std::string pem = "-----BEGIN CERTIFICATE-----\ntest_cert_data\n-----END CERTIFICATE-----\n";
+
+    const std::string dir = "/tmp/themis_test_lora_certs/";
+    std::filesystem::create_directories(dir);
+    std::ofstream pem_file(dir + fp + ".pem");
+    pem_file << pem;
+    pem_file.close();
+
+    LoRACertificateStore fs_store(dir, "");
+    auto result = fs_store.lookupByFingerprint(fp);
+    ASSERT_TRUE(result.has_value());
+    EXPECT_EQ(*result, pem);
+
+    // Cleanup
+    std::filesystem::remove_all(dir);
+}
+
+// ---------------------------------------------------------------------------
+// Integration: LoRASecurityValidator + LoRACertificateStore
+// ---------------------------------------------------------------------------
+
+class LoRACertStoreIntegrationTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        config_.require_signature = true;
+        config_.cert_store_path = "";
+        config_.system_cert_store_path = "";
+
+        auto [cert, key] = generateSelfSignedCert();
+        cert_pem_ = cert;
+        key_pem_  = key;
+        fingerprint_ = certFingerprint(cert_pem_);
+
+        config_.trusted_signers = {fingerprint_};
+
+        validator_ = std::make_unique<LoRASecurityValidator>(config_);
+
+        // Create a test LoRA data file
+        lora_file_ = "/tmp/cert_store_test_lora.bin";
+        lora_data_ = std::vector<uint8_t>{'t', 'e', 's', 't', '_', 'd', 'a', 't', 'a'};
+        std::ofstream f(lora_file_, std::ios::binary);
+        f.write(reinterpret_cast<const char*>(lora_data_.data()), lora_data_.size());
+    }
+
+    void TearDown() override {
+        std::remove(lora_file_.c_str());
+        if (!sig_file_.empty()) std::remove(sig_file_.c_str());
+    }
+
+    void writeSigFile(const std::string& fp, const std::vector<uint8_t>& sig) {
+        sig_file_ = "/tmp/cert_store_test_lora.sig";
+        std::ofstream f(sig_file_);
+        f << fp << ":" << base64Encode(sig);
+    }
+
+    // Helper: create an isolated cert store with no filesystem/system lookup.
+    static std::shared_ptr<LoRACertificateStore> makeEmptyCertStore() {
+        return std::make_shared<LoRACertificateStore>("", "");
+    }
+
+    LoRASecurityConfig config_;
+    std::unique_ptr<LoRASecurityValidator> validator_;
+
+    std::string cert_pem_;
+    std::string key_pem_;
+    std::string fingerprint_;
+
+    std::string lora_file_;
+    std::string sig_file_;
+    std::vector<uint8_t> lora_data_;
+};
+
+// AC: missing cert → verification fails (fail closed)
+TEST_F(LoRACertStoreIntegrationTest, MissingCertFailsClosed) {
+    // Create a valid-format sig file but don't register any cert
+    auto sig = signData(lora_data_, key_pem_);
+    ASSERT_FALSE(sig.empty()) << "Key generation or signing failed";
+    writeSigFile(fingerprint_, sig);
+
+    auto result = validator_->verifySignature(lora_file_, sig_file_);
+
+    EXPECT_FALSE(result.is_valid);
+    EXPECT_TRUE(result.error_message.find("SIGNATURE_UNVERIFIABLE") != std::string::npos)
+        << "Error was: " << result.error_message;
+}
+
+// AC: valid cert + valid sig → passes
+TEST_F(LoRACertStoreIntegrationTest, ValidCertAndValidSigPasses) {
+    // Register the cert in the store
+    auto cert_store = makeEmptyCertStore();
+    cert_store->registerCertificate(fingerprint_, cert_pem_);
+    validator_->setCertificateStore(cert_store);
+
+    auto sig = signData(lora_data_, key_pem_);
+    ASSERT_FALSE(sig.empty()) << "Key generation or signing failed";
+    writeSigFile(fingerprint_, sig);
+
+    auto result = validator_->verifySignature(lora_file_, sig_file_);
+
+    EXPECT_TRUE(result.is_valid)
+        << "Verification failed unexpectedly: " << result.error_message;
+}
+
+// AC: valid cert + tampered sig → fails
+TEST_F(LoRACertStoreIntegrationTest, ValidCertTamperedSigFails) {
+    // Register the cert in the store
+    auto cert_store = makeEmptyCertStore();
+    cert_store->registerCertificate(fingerprint_, cert_pem_);
+    validator_->setCertificateStore(cert_store);
+
+    auto sig = signData(lora_data_, key_pem_);
+    ASSERT_FALSE(sig.empty()) << "Key generation or signing failed";
+
+    // Tamper: flip every bit in the signature
+    for (auto& b : sig) b = static_cast<uint8_t>(~b);
+
+    writeSigFile(fingerprint_, sig);
+
+    auto result = validator_->verifySignature(lora_file_, sig_file_);
+
+    EXPECT_FALSE(result.is_valid)
+        << "Expected tampered sig to fail but got is_valid=true";
+}
+
+// AC: verifyEmbeddedSignature — missing cert (no inline cert in metadata) → fail closed
+TEST_F(LoRACertStoreIntegrationTest, EmbeddedSig_MissingCertFailsClosed) {
+    // Build a JSON LoRA file with an embedded signature but NO embedded certificate
+    std::string lora_json_file = "/tmp/cert_store_test_embedded.json";
+    auto sig = signData(lora_data_, key_pem_);
+    ASSERT_FALSE(sig.empty());
+
+    nlohmann::json meta;
+    meta["base_model"] = "test-model";
+    meta["rank"] = 8;
+    meta["signer"] = fingerprint_;
+    meta["signature"] = base64Encode(sig);
+    // Intentionally no "certificate" field
+
+    std::ofstream f(lora_json_file);
+    f << meta.dump();
+    f.close();
+
+    // No cert registered → should fail closed
+    auto result = validator_->verifyEmbeddedSignature(lora_json_file);
+    EXPECT_FALSE(result.is_valid);
+    EXPECT_TRUE(result.error_message.find("SIGNATURE_UNVERIFIABLE") != std::string::npos)
+        << "Error was: " << result.error_message;
+
+    std::remove(lora_json_file.c_str());
+}
+
+// verifyEmbeddedSignature — cert from store is found → crypto failure is not "missing cert"
+// NOTE: verifyEmbeddedSignature signs ALL file bytes (including the embedded signature
+// field). It is therefore impossible to embed a self-consistent signature in the JSON
+// without a two-pass approach. This test verifies the store lookup works (cert IS found)
+// and that the resulting failure is a cryptographic one, not SIGNATURE_UNVERIFIABLE.
+TEST_F(LoRACertStoreIntegrationTest, EmbeddedSig_CertFromStore_CertFoundCryptoFailure) {
+    auto cert_store = makeEmptyCertStore();
+    cert_store->registerCertificate(fingerprint_, cert_pem_);
+    validator_->setCertificateStore(cert_store);
+
+    std::string lora_json_file = "/tmp/cert_store_test_embedded_valid.json";
+
+    // Write a JSON with a deliberately wrong signature (not over the file bytes).
+    // The cert will be found but the crypto check will fail — not "missing cert".
+    nlohmann::json meta;
+    meta["base_model"] = "test-model";
+    meta["rank"] = 8;
+    meta["signer"] = fingerprint_;
+    meta["signature"] = base64Encode(signData(lora_data_, key_pem_));
+    // ^ signed over lora_data_, but verifyEmbeddedSignature verifies over the full JSON file
+
+    std::ofstream f(lora_json_file);
+    f << meta.dump();
+    f.close();
+
+    auto result = validator_->verifyEmbeddedSignature(lora_json_file);
+
+    // The cert WAS found, so the error must NOT be SIGNATURE_UNVERIFIABLE.
+    EXPECT_FALSE(result.is_valid)
+        << "Expected crypto failure but verification unexpectedly succeeded";
+    EXPECT_TRUE(result.error_message.find("SIGNATURE_UNVERIFIABLE") == std::string::npos)
+        << "Should NOT be SIGNATURE_UNVERIFIABLE when cert exists; got: "
+        << result.error_message;
+
+    std::remove(lora_json_file.c_str());
+}
+
+// verifyEmbeddedSignature — cert from store found, inline cert overrides store lookup
+TEST_F(LoRACertStoreIntegrationTest, EmbeddedSig_InlineCertTakesPrecedence) {
+    // Don't register in store — inline cert in metadata should be used instead
+    auto cert_store = makeEmptyCertStore();
+    validator_->setCertificateStore(cert_store);
+
+    std::string lora_json_file = "/tmp/cert_store_test_inline_cert.json";
+
+    nlohmann::json meta;
+    meta["base_model"] = "test-model";
+    meta["rank"] = 8;
+    meta["signer"] = fingerprint_;
+    meta["certificate"] = cert_pem_;
+    meta["signature"] = base64Encode(signData(lora_data_, key_pem_));
+
+    std::ofstream f(lora_json_file);
+    f << meta.dump();
+    f.close();
+
+    auto result = validator_->verifyEmbeddedSignature(lora_json_file);
+
+    // The inline cert is present, so verification should NOT fail with SIGNATURE_UNVERIFIABLE.
+    if (!result.is_valid) {
+        EXPECT_TRUE(result.error_message.find("SIGNATURE_UNVERIFIABLE") == std::string::npos)
+            << "Should NOT be SIGNATURE_UNVERIFIABLE when inline cert is present; got: "
+            << result.error_message;
+    }
+
+    std::remove(lora_json_file.c_str());
+}
+
+// AC: getCertificateStore returns the injected store
+TEST_F(LoRACertStoreIntegrationTest, GetCertificateStoreReturnsInjected) {
+    auto cert_store = makeEmptyCertStore();
+    validator_->setCertificateStore(cert_store);
+    EXPECT_EQ(validator_->getCertificateStore(), cert_store);
+}
+
+

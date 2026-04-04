@@ -1,0 +1,285 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marketplace.themisdb.io/schemas/plugin-manifest-v2.json",
+  "title": "ThemisDB Plugin Marketplace Manifest",
+  "description": "JSON Schema v2 for ThemisDB plugin manifests distributed via the plugin marketplace.",
+  "type": "object",
+  "required": ["name", "version", "type", "description", "binary"],
+  "additionalProperties": false,
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Unique plugin identifier (lowercase, alphanumeric, underscores and hyphens only).",
+      "pattern": "^[a-z0-9][a-z0-9_-]*[a-z0-9]$|^[a-z0-9]$",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "version": {
+      "type": "string",
+      "description": "Plugin version following Semantic Versioning (semver.org).",
+      "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$"
+    },
+    "type": {
+      "type": "string",
+      "description": "Plugin type category.",
+      "enum": [
+        "compute_backend",
+        "blob_storage",
+        "importer",
+        "exporter",
+        "hsm_provider",
+        "embedding",
+        "llm_backend",
+        "custom"
+      ]
+    },
+    "description": {
+      "type": "string",
+      "description": "Human-readable description of the plugin.",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "author": {
+      "type": "string",
+      "description": "Author or publisher name.",
+      "maxLength": 256
+    },
+    "license": {
+      "type": "string",
+      "description": "SPDX license identifier (e.g. MIT, Apache-2.0, Proprietary).",
+      "maxLength": 64
+    },
+    "homepage": {
+      "type": "string",
+      "description": "Plugin homepage URL.",
+      "format": "uri",
+      "maxLength": 512
+    },
+    "repository": {
+      "type": "string",
+      "description": "Source code repository URL.",
+      "format": "uri",
+      "maxLength": 512
+    },
+    "documentation": {
+      "type": "string",
+      "description": "Documentation URL or relative path.",
+      "maxLength": 512
+    },
+    "tags": {
+      "type": "array",
+      "description": "Searchable tags for marketplace discovery.",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9][a-z0-9_-]*$",
+        "maxLength": 64
+      },
+      "maxItems": 16,
+      "uniqueItems": true
+    },
+    "category": {
+      "type": "string",
+      "description": "Marketplace category.",
+      "enum": [
+        "storage",
+        "compute",
+        "security",
+        "data-import",
+        "data-export",
+        "machine-learning",
+        "observability",
+        "replication",
+        "custom"
+      ]
+    },
+    "binary": {
+      "type": "object",
+      "description": "Platform-specific binary filenames (without path prefix).",
+      "minProperties": 1,
+      "additionalProperties": false,
+      "properties": {
+        "windows": {
+          "type": "string",
+          "description": "Windows DLL filename (e.g. my_plugin.dll).",
+          "pattern": "\\.dll$"
+        },
+        "linux": {
+          "type": "string",
+          "description": "Linux shared library filename (e.g. my_plugin.so).",
+          "pattern": "\\.so$"
+        },
+        "macos": {
+          "type": "string",
+          "description": "macOS dynamic library filename (e.g. my_plugin.dylib).",
+          "pattern": "\\.dylib$"
+        }
+      }
+    },
+    "dependencies": {
+      "description": "Plugin dependencies. Either an array of package names or an object mapping name to version constraint.",
+      "oneOf": [
+        {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": "List of required package names."
+        },
+        {
+          "type": "object",
+          "description": "Mapping of package name to minimum version constraint (e.g. '>=1.0.0').",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      ]
+    },
+    "capabilities": {
+      "type": "object",
+      "description": "Declared plugin capabilities. Additional properties are allowed for domain-specific capabilities.",
+      "properties": {
+        "streaming": {
+          "type": "boolean",
+          "description": "Supports streaming data processing."
+        },
+        "batching": {
+          "type": "boolean",
+          "description": "Supports batch operations."
+        },
+        "transactions": {
+          "type": "boolean",
+          "description": "Supports transactional operations."
+        },
+        "thread_safe": {
+          "type": "boolean",
+          "description": "Implementation is thread-safe."
+        },
+        "gpu_accelerated": {
+          "type": "boolean",
+          "description": "Uses GPU acceleration."
+        }
+      }
+    },
+    "config_schema": {
+      "type": "object",
+      "description": "JSON Schema fragment describing the plugin configuration object accepted by initialize()."
+    },
+    "auto_load": {
+      "type": "boolean",
+      "description": "Whether to load this plugin automatically on database startup.",
+      "default": false
+    },
+    "load_priority": {
+      "type": "integer",
+      "description": "Load order priority; lower numbers load first.",
+      "minimum": 0,
+      "maximum": 1000,
+      "default": 100
+    },
+    "expected_hash": {
+      "type": "string",
+      "description": "Expected SHA-256 hash of the platform binary (hex-encoded). When present, verified before loading.",
+      "pattern": "^[0-9a-fA-F]{64}$"
+    },
+    "min_themis_version": {
+      "type": "string",
+      "description": "Minimum ThemisDB version required to run this plugin.",
+      "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)$"
+    },
+    "max_themis_version": {
+      "type": "string",
+      "description": "Maximum ThemisDB version with which this plugin is tested.",
+      "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)$"
+    },
+    "marketplace_id": {
+      "type": "string",
+      "description": "Globally unique identifier assigned by the ThemisDB marketplace (UUID v4).",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+    },
+    "verified_publisher": {
+      "type": "boolean",
+      "description": "Whether the publisher has been verified by ThemisDB.",
+      "default": false
+    },
+    "signature": {
+      "type": "object",
+      "description": "Publisher signature metadata for marketplace integrity verification.",
+      "required": ["fingerprint", "algorithm", "signed_at"],
+      "additionalProperties": false,
+      "properties": {
+        "fingerprint": {
+          "type": "string",
+          "description": "Hex-encoded Ed25519 public key fingerprint of the signing key.",
+          "pattern": "^[0-9a-fA-F]+$",
+          "minLength": 16,
+          "maxLength": 128
+        },
+        "algorithm": {
+          "type": "string",
+          "description": "Signing algorithm identifier.",
+          "enum": ["ed25519", "ecdsa-p256", "rsa-pss-sha256"]
+        },
+        "signed_at": {
+          "type": "string",
+          "description": "ISO 8601 UTC timestamp when the manifest was signed.",
+          "format": "date-time"
+        }
+      }
+    },
+    "supported_formats": {
+      "type": "array",
+      "description": "File or data format identifiers supported by this plugin (importers/exporters).",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "presets": {
+      "type": "object",
+      "description": "Named configuration presets that users can select when activating the plugin.",
+      "additionalProperties": {
+        "type": "object",
+        "description": "A named configuration preset (keys must match config_schema properties)."
+      }
+    },
+    "examples": {
+      "type": "array",
+      "description": "Usage examples.",
+      "items": {
+        "type": "object",
+        "required": ["name"],
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Human-readable example title."
+          },
+          "description": {
+            "type": "string",
+            "description": "What the example demonstrates."
+          },
+          "code": {
+            "type": "string",
+            "description": "Path to example source file relative to the plugin package root."
+          }
+        }
+      }
+    },
+    "configuration": {
+      "type": "object",
+      "description": "Legacy flat configuration schema (key → property descriptor). Prefer config_schema for new plugins.",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "type": { "type": "string" },
+          "required": { "type": "boolean" },
+          "default": {},
+          "description": { "type": "string" },
+          "enum": { "type": "array" }
+        }
+      }
+    }
+  }
+}

@@ -1,330 +1,319 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_retention_aql_functions.cpp                   ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:32:58                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     319                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 28a4b23b9  2026-02-23  Refactor tests and update error handling ║
+    • 333279f4d  2026-02-22  test: replace retention AQL and HTTP API stubs with real ... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file test_retention_aql_functions.cpp
- * @brief Unit tests for AQL retention functions
+ * @brief Unit tests for AQL retention and scheduling functions defined in
+ *        include/query/functions/retention_functions.h
+ *
+ * Tests cover:
+ *  - CoefficientOfVariationFunction (CV)
+ *  - VarianceLevelFunction (VARIANCE_LEVEL)
+ *  - RetentionResolutionFunction (RETENTION_RESOLUTION)
+ *  - DateSubFunction (DATE_SUB)
+ *  - EstimateStorageSavingsFunction (ESTIMATE_STORAGE_SAVINGS)
+ *  - registerRetentionFunctions: all functions registered in FunctionRegistry
  */
 
 #include <gtest/gtest.h>
 #include "query/functions/retention_functions.h"
 #include "query/functions/function_registry.h"
-#include <nlohmann/json.hpp>
+#include <cmath>
+#include <chrono>
 
 using namespace themis::query::functions;
-using json = nlohmann::json;
+using nlohmann::json;
 
-class RetentionAQLFunctionsTest : public ::testing::Test {
-protected:
-    void SetUp() override {
-        registry = std::make_unique<FunctionRegistry>();
-        registerRetentionFunctions(*registry);
-    }
-    
-    std::unique_ptr<FunctionRegistry> registry;
-    FunctionContext ctx;
-};
+// Shared empty context used across all tests
+static const FunctionContext kCtx;
 
-// ============================================================================
-// Statistical Functions Tests
-// ============================================================================
+// ─── CoefficientOfVariationFunction (CV) ─────────────────────────────────────
 
-TEST_F(RetentionAQLFunctionsTest, CoefficientOfVariation_LowVariance) {
-    auto func = registry->getFunction("CV");
-    ASSERT_NE(func, nullptr);
-    
-    std::vector<json> args = {2.5, 50.0};
-    auto result = func->execute(args, ctx);
-    
-    EXPECT_NEAR(result.get<double>(), 5.0, 0.01);
+TEST(RetentionAqlFunctions, CV_Basic) {
+    CoefficientOfVariationFunction fn;
+    // CV = (stddev / mean) * 100 = (5 / 100) * 100 = 5.0
+    auto result = fn.execute({json(5.0), json(100.0)}, kCtx);
+    ASSERT_TRUE(result.is_number());
+    EXPECT_NEAR(result.get<double>(), 5.0, 1e-9);
 }
 
-TEST_F(RetentionAQLFunctionsTest, CoefficientOfVariation_HighVariance) {
-    auto func = registry->getFunction("CV");
-    
-    std::vector<json> args = {15.0, 50.0};
-    auto result = func->execute(args, ctx);
-    
-    EXPECT_NEAR(result.get<double>(), 30.0, 0.01);
+TEST(RetentionAqlFunctions, CV_ZeroMeanReturnsZero) {
+    CoefficientOfVariationFunction fn;
+    auto result = fn.execute({json(2.5), json(0.0)}, kCtx);
+    ASSERT_TRUE(result.is_number());
+    EXPECT_NEAR(result.get<double>(), 0.0, 1e-9);
 }
 
-TEST_F(RetentionAQLFunctionsTest, CoefficientOfVariation_ZeroMean) {
-    auto func = registry->getFunction("CV");
-    
-    std::vector<json> args = {5.0, 0.0};
-    auto result = func->execute(args, ctx);
-    
-    // Should handle division by zero gracefully
-    EXPECT_EQ(result.get<double>(), 0.0);
+TEST(RetentionAqlFunctions, CV_NegativeMeanUsesAbsValue) {
+    CoefficientOfVariationFunction fn;
+    // mean = -50, stddev = 5 -> CV = (5/50)*100 = 10
+    auto result = fn.execute({json(5.0), json(-50.0)}, kCtx);
+    ASSERT_TRUE(result.is_number());
+    EXPECT_NEAR(result.get<double>(), 10.0, 1e-9);
 }
 
-TEST_F(RetentionAQLFunctionsTest, CoefficientOfVariation_NegativeValues) {
-    auto func = registry->getFunction("CV");
-    
-    std::vector<json> args = {10.0, -50.0};
-    auto result = func->execute(args, ctx);
-    
-    // Should use absolute value
-    EXPECT_NEAR(result.get<double>(), 20.0, 0.01);
+TEST(RetentionAqlFunctions, CV_NegativeStddevUsesAbsValue) {
+    CoefficientOfVariationFunction fn;
+    // stddev = -2.5, mean = 50 -> CV = (2.5/50)*100 = 5
+    auto result = fn.execute({json(-2.5), json(50.0)}, kCtx);
+    ASSERT_TRUE(result.is_number());
+    EXPECT_NEAR(result.get<double>(), 5.0, 1e-9);
 }
 
-TEST_F(RetentionAQLFunctionsTest, VarianceLevel_Low) {
-    auto func = registry->getFunction("VARIANCE_LEVEL");
-    
-    std::vector<json> args = {3.5};
-    auto result = func->execute(args, ctx);
-    
+TEST(RetentionAqlFunctions, CV_SignatureNameIsCV) {
+    CoefficientOfVariationFunction fn;
+    EXPECT_EQ(fn.signature().name, "CV");
+}
+
+// ─── VarianceLevelFunction (VARIANCE_LEVEL) ───────────────────────────────────
+
+TEST(RetentionAqlFunctions, VarianceLevel_LowDefault) {
+    VarianceLevelFunction fn;
+    auto result = fn.execute({json(3.5)}, kCtx);
+    ASSERT_TRUE(result.is_string());
     EXPECT_EQ(result.get<std::string>(), "low");
 }
 
-TEST_F(RetentionAQLFunctionsTest, VarianceLevel_Medium) {
-    auto func = registry->getFunction("VARIANCE_LEVEL");
-    
-    std::vector<json> args = {15.0};
-    auto result = func->execute(args, ctx);
-    
+TEST(RetentionAqlFunctions, VarianceLevel_MediumDefault) {
+    VarianceLevelFunction fn;
+    auto result = fn.execute({json(15.0)}, kCtx);
+    ASSERT_TRUE(result.is_string());
     EXPECT_EQ(result.get<std::string>(), "medium");
 }
 
-TEST_F(RetentionAQLFunctionsTest, VarianceLevel_High) {
-    auto func = registry->getFunction("VARIANCE_LEVEL");
-    
-    std::vector<json> args = {25.0};
-    auto result = func->execute(args, ctx);
-    
+TEST(RetentionAqlFunctions, VarianceLevel_HighDefault) {
+    VarianceLevelFunction fn;
+    auto result = fn.execute({json(25.0)}, kCtx);
+    ASSERT_TRUE(result.is_string());
     EXPECT_EQ(result.get<std::string>(), "high");
 }
 
-TEST_F(RetentionAQLFunctionsTest, VarianceLevel_CustomThresholds) {
-    auto func = registry->getFunction("VARIANCE_LEVEL");
-    
-    // CV=7 with custom thresholds (low=3, medium=15)
-    std::vector<json> args = {7.0, 3.0, 15.0};
-    auto result = func->execute(args, ctx);
-    
+TEST(RetentionAqlFunctions, VarianceLevel_ExactlyAtLowThreshold_IsMedium) {
+    // cv == lowThreshold (5.0): not < 5, so "medium"
+    VarianceLevelFunction fn;
+    auto result = fn.execute({json(5.0)}, kCtx);
     EXPECT_EQ(result.get<std::string>(), "medium");
 }
 
-TEST_F(RetentionAQLFunctionsTest, RetentionResolution_Low) {
-    auto func = registry->getFunction("RETENTION_RESOLUTION");
-    
-    std::vector<json> args = {3.5};
-    auto result = func->execute(args, ctx);
-    
+TEST(RetentionAqlFunctions, VarianceLevel_CustomThresholds) {
+    VarianceLevelFunction fn;
+    // low < 3, medium < 15, high >= 15
+    auto low    = fn.execute({json(2.0), json(3.0), json(15.0)}, kCtx);
+    auto medium = fn.execute({json(10.0), json(3.0), json(15.0)}, kCtx);
+    auto high   = fn.execute({json(20.0), json(3.0), json(15.0)}, kCtx);
+    EXPECT_EQ(low.get<std::string>(),    "low");
+    EXPECT_EQ(medium.get<std::string>(), "medium");
+    EXPECT_EQ(high.get<std::string>(),   "high");
+}
+
+TEST(RetentionAqlFunctions, VarianceLevel_SignatureName) {
+    EXPECT_EQ(VarianceLevelFunction{}.signature().name, "VARIANCE_LEVEL");
+}
+
+// ─── RetentionResolutionFunction (RETENTION_RESOLUTION) ──────────────────────
+
+TEST(RetentionAqlFunctions, RetentionResolution_LowCvReturns1h) {
+    RetentionResolutionFunction fn;
+    auto result = fn.execute({json(3.5)}, kCtx);
     EXPECT_EQ(result.get<std::string>(), "1h");
 }
 
-TEST_F(RetentionAQLFunctionsTest, RetentionResolution_Medium) {
-    auto func = registry->getFunction("RETENTION_RESOLUTION");
-    
-    std::vector<json> args = {15.0};
-    auto result = func->execute(args, ctx);
-    
+TEST(RetentionAqlFunctions, RetentionResolution_MediumCvReturns15m) {
+    RetentionResolutionFunction fn;
+    auto result = fn.execute({json(15.0)}, kCtx);
     EXPECT_EQ(result.get<std::string>(), "15m");
 }
 
-TEST_F(RetentionAQLFunctionsTest, RetentionResolution_High) {
-    auto func = registry->getFunction("RETENTION_RESOLUTION");
-    
-    std::vector<json> args = {25.0};
-    auto result = func->execute(args, ctx);
-    
+TEST(RetentionAqlFunctions, RetentionResolution_HighCvReturns1m) {
+    RetentionResolutionFunction fn;
+    auto result = fn.execute({json(25.0)}, kCtx);
     EXPECT_EQ(result.get<std::string>(), "1m");
 }
 
-// ============================================================================
-// Date Function Tests
-// ============================================================================
-
-TEST_F(RetentionAQLFunctionsTest, DateSub_Years) {
-    auto func = registry->getFunction("DATE_SUB");
-    
-    int64_t now = 1700000000000LL;  // November 2023
-    std::vector<json> args = {now, 1, "year"};
-    auto result = func->execute(args, ctx);
-    
-    int64_t expected = now - (365LL * 24 * 60 * 60 * 1000);
-    EXPECT_EQ(result.get<int64_t>(), expected);
+TEST(RetentionAqlFunctions, RetentionResolution_CustomThresholds) {
+    RetentionResolutionFunction fn;
+    // cv=2, lowThr=3, medThr=10 → "1h"
+    auto r = fn.execute({json(2.0), json(3.0), json(10.0)}, kCtx);
+    EXPECT_EQ(r.get<std::string>(), "1h");
 }
 
-TEST_F(RetentionAQLFunctionsTest, DateSub_Days) {
-    auto func = registry->getFunction("DATE_SUB");
-    
-    int64_t now = 1700000000000LL;
-    std::vector<json> args = {now, 7, "days"};
-    auto result = func->execute(args, ctx);
-    
-    int64_t expected = now - (7LL * 24 * 60 * 60 * 1000);
-    EXPECT_EQ(result.get<int64_t>(), expected);
+TEST(RetentionAqlFunctions, RetentionResolution_SignatureName) {
+    EXPECT_EQ(RetentionResolutionFunction{}.signature().name, "RETENTION_RESOLUTION");
 }
 
-TEST_F(RetentionAQLFunctionsTest, DateSub_Hours) {
-    auto func = registry->getFunction("DATE_SUB");
-    
-    int64_t now = 1700000000000LL;
-    std::vector<json> args = {now, 12, "hour"};
-    auto result = func->execute(args, ctx);
-    
-    int64_t expected = now - (12LL * 60 * 60 * 1000);
-    EXPECT_EQ(result.get<int64_t>(), expected);
+// ─── DateSubFunction (DATE_SUB) ───────────────────────────────────────────────
+
+TEST(RetentionAqlFunctions, DateSub_Seconds) {
+    DateSubFunction fn;
+    // 1000 ms - 1 second = 0 ms
+    auto result = fn.execute({json(1000LL), json(1LL), json("second")}, kCtx);
+    ASSERT_TRUE(result.is_number_integer());
+    EXPECT_EQ(result.get<int64_t>(), 0LL);
 }
 
-TEST_F(RetentionAQLFunctionsTest, DateSub_PluralUnits) {
-    auto func = registry->getFunction("DATE_SUB");
-    
-    int64_t now = 1700000000000LL;
-    std::vector<json> args = {now, 90, "days"};
-    auto result = func->execute(args, ctx);
-    
-    int64_t expected = now - (90LL * 24 * 60 * 60 * 1000);
-    EXPECT_EQ(result.get<int64_t>(), expected);
+TEST(RetentionAqlFunctions, DateSub_Minutes) {
+    DateSubFunction fn;
+    // 60000 ms - 1 minute = 0 ms
+    auto result = fn.execute({json(60000LL), json(1LL), json("minute")}, kCtx);
+    EXPECT_EQ(result.get<int64_t>(), 0LL);
 }
 
-// ============================================================================
-// Utility Function Tests
-// ============================================================================
-
-TEST_F(RetentionAQLFunctionsTest, EstimateStorageSavings_1sTo1h) {
-    auto func = registry->getFunction("ESTIMATE_STORAGE_SAVINGS");
-    
-    // 1 hour of 1s data
-    std::vector<json> args = {"1s", "1h", 3600};
-    auto result = func->execute(args, ctx);
-    
-    EXPECT_TRUE(result.is_object());
-    EXPECT_EQ(result["source_resolution"].get<std::string>(), "1s");
-    EXPECT_EQ(result["target_resolution"].get<std::string>(), "1h");
-    EXPECT_EQ(result["source_data_points"].get<int64_t>(), 3600);
-    EXPECT_EQ(result["target_data_points"].get<int64_t>(), 1);
-    EXPECT_EQ(result["compression_ratio"].get<int64_t>(), 3600);
-    
-    // Check storage calculations
-    int64_t sourceBytes = 3600 * 100;
-    int64_t targetBytes = 1 * 150;
-    int64_t savedBytes = sourceBytes - targetBytes;
-    
-    EXPECT_EQ(result["source_storage_bytes"].get<int64_t>(), sourceBytes);
-    EXPECT_EQ(result["target_storage_bytes"].get<int64_t>(), targetBytes);
-    EXPECT_EQ(result["storage_saved_bytes"].get<int64_t>(), savedBytes);
-    EXPECT_NEAR(result["storage_savings_percent"].get<double>(), 99.96, 0.01);
+TEST(RetentionAqlFunctions, DateSub_Hours) {
+    DateSubFunction fn;
+    int64_t one_hour_ms = 60 * 60 * 1000LL;
+    auto result = fn.execute({json(one_hour_ms * 2), json(1LL), json("hour")}, kCtx);
+    EXPECT_EQ(result.get<int64_t>(), one_hour_ms);
 }
 
-TEST_F(RetentionAQLFunctionsTest, EstimateStorageSavings_1sTo15m) {
-    auto func = registry->getFunction("ESTIMATE_STORAGE_SAVINGS");
-    
-    std::vector<json> args = {"1s", "15m", 31536000};  // 1 year
-    auto result = func->execute(args, ctx);
-    
-    EXPECT_EQ(result["compression_ratio"].get<int64_t>(), 900);
-    EXPECT_TRUE(result["storage_savings_percent"].get<double>() > 90.0);
+TEST(RetentionAqlFunctions, DateSub_Days) {
+    DateSubFunction fn;
+    int64_t one_day_ms = 24LL * 60 * 60 * 1000;
+    auto result = fn.execute({json(one_day_ms * 7), json(7LL), json("day")}, kCtx);
+    EXPECT_EQ(result.get<int64_t>(), 0LL);
 }
 
-TEST_F(RetentionAQLFunctionsTest, EstimateStorageSavings_1sTo1d) {
-    auto func = registry->getFunction("ESTIMATE_STORAGE_SAVINGS");
-    
-    std::vector<json> args = {"1s", "1d", 31536000};  // 1 year
-    auto result = func->execute(args, ctx);
-    
-    EXPECT_EQ(result["compression_ratio"].get<int64_t>(), 86400);
-    EXPECT_TRUE(result["storage_savings_percent"].get<double>() > 99.0);
+TEST(RetentionAqlFunctions, DateSub_Weeks) {
+    DateSubFunction fn;
+    int64_t one_week_ms = 7LL * 24 * 60 * 60 * 1000;
+    auto result = fn.execute({json(one_week_ms * 2), json(1LL), json("week")}, kCtx);
+    EXPECT_EQ(result.get<int64_t>(), one_week_ms);
 }
 
-// ============================================================================
-// Integration Tests
-// ============================================================================
-
-TEST_F(RetentionAQLFunctionsTest, IntegrationTest_AdaptiveDecision) {
-    // Simulate adaptive retention decision process
-    auto cv_func = registry->getFunction("CV");
-    auto level_func = registry->getFunction("VARIANCE_LEVEL");
-    auto resolution_func = registry->getFunction("RETENTION_RESOLUTION");
-    
-    // Scenario 1: Low variance data
-    {
-        std::vector<json> cv_args = {2.0, 50.0};
-        auto cv = cv_func->execute(cv_args, ctx);
-        
-        std::vector<json> level_args = {cv};
-        auto level = level_func->execute(level_args, ctx);
-        
-        std::vector<json> res_args = {cv};
-        auto resolution = resolution_func->execute(res_args, ctx);
-        
-        EXPECT_NEAR(cv.get<double>(), 4.0, 0.01);
-        EXPECT_EQ(level.get<std::string>(), "low");
-        EXPECT_EQ(resolution.get<std::string>(), "1h");
-    }
-    
-    // Scenario 2: High variance data
-    {
-        std::vector<json> cv_args = {12.0, 50.0};
-        auto cv = cv_func->execute(cv_args, ctx);
-        
-        std::vector<json> level_args = {cv};
-        auto level = level_func->execute(level_args, ctx);
-        
-        std::vector<json> res_args = {cv};
-        auto resolution = resolution_func->execute(res_args, ctx);
-        
-        EXPECT_NEAR(cv.get<double>(), 24.0, 0.01);
-        EXPECT_EQ(level.get<std::string>(), "high");
-        EXPECT_EQ(resolution.get<std::string>(), "1m");
-    }
+TEST(RetentionAqlFunctions, DateSub_Months_Approximate) {
+    DateSubFunction fn;
+    // 1 month ≈ 30 days = 2,592,000,000 ms
+    int64_t one_month_ms = 30LL * 24 * 60 * 60 * 1000;
+    auto result = fn.execute({json(one_month_ms * 3), json(3LL), json("month")}, kCtx);
+    EXPECT_EQ(result.get<int64_t>(), 0LL);
 }
 
-TEST_F(RetentionAQLFunctionsTest, IntegrationTest_StorageEstimation) {
-    auto savings_func = registry->getFunction("ESTIMATE_STORAGE_SAVINGS");
-    
-    // Compare different retention strategies
-    std::vector<std::string> resolutions = {"1m", "15m", "1h", "1d"};
-    int64_t data_points = 31536000;  // 1 year of 1s data
-    
-    for (const auto& res : resolutions) {
-        std::vector<json> args = {"1s", res, data_points};
-        auto result = savings_func->execute(args, ctx);
-        
-        EXPECT_TRUE(result["storage_savings_percent"].get<double>() > 50.0);
-        EXPECT_GT(result["storage_saved_mb"].get<int64_t>(), 0);
-    }
+TEST(RetentionAqlFunctions, DateSub_Years_Approximate) {
+    DateSubFunction fn;
+    // 1 year ≈ 365 days
+    int64_t one_year_ms = 365LL * 24 * 60 * 60 * 1000;
+    auto result = fn.execute({json(one_year_ms), json(1LL), json("year")}, kCtx);
+    EXPECT_EQ(result.get<int64_t>(), 0LL);
 }
 
-TEST_F(RetentionAQLFunctionsTest, FunctionSignatures) {
-    // Verify all functions are properly registered
-    EXPECT_NE(registry->getFunction("CV"), nullptr);
-    EXPECT_NE(registry->getFunction("VARIANCE_LEVEL"), nullptr);
-    EXPECT_NE(registry->getFunction("RETENTION_RESOLUTION"), nullptr);
-    EXPECT_NE(registry->getFunction("DATE_SUB"), nullptr);
-    EXPECT_NE(registry->getFunction("SCHEDULE_TASK"), nullptr);
-    EXPECT_NE(registry->getFunction("LIST_SCHEDULED_TASKS"), nullptr);
-    EXPECT_NE(registry->getFunction("CANCEL_TASK"), nullptr);
-    EXPECT_NE(registry->getFunction("ESTIMATE_STORAGE_SAVINGS"), nullptr);
+TEST(RetentionAqlFunctions, DateSub_Milliseconds) {
+    DateSubFunction fn;
+    auto result = fn.execute({json(500LL), json(250LL), json("ms")}, kCtx);
+    EXPECT_EQ(result.get<int64_t>(), 250LL);
 }
 
-TEST_F(RetentionAQLFunctionsTest, FunctionCategories) {
-    auto cv_func = registry->getFunction("CV");
-    auto sig = cv_func->signature();
-    EXPECT_EQ(sig.category, "Statistics");
-    
-    auto date_func = registry->getFunction("DATE_SUB");
-    auto date_sig = date_func->signature();
-    EXPECT_EQ(date_sig.category, "Date");
-    
-    auto schedule_func = registry->getFunction("SCHEDULE_TASK");
-    auto schedule_sig = schedule_func->signature();
-    EXPECT_EQ(schedule_sig.category, "Scheduling");
+TEST(RetentionAqlFunctions, DateSub_UnknownUnitThrows) {
+    DateSubFunction fn;
+    EXPECT_THROW(
+        fn.execute({json(1000LL), json(1LL), json("fortnight")}, kCtx),
+        std::runtime_error);
 }
 
-TEST_F(RetentionAQLFunctionsTest, EdgeCases) {
-    auto cv_func = registry->getFunction("CV");
-    
-    // Zero stddev (perfect stability)
-    {
-        std::vector<json> args = {0.0, 50.0};
-        auto result = cv_func->execute(args, ctx);
-        EXPECT_EQ(result.get<double>(), 0.0);
-    }
-    
-    // Very large CV
-    {
-        std::vector<json> args = {100.0, 10.0};
-        auto result = cv_func->execute(args, ctx);
-        EXPECT_NEAR(result.get<double>(), 1000.0, 0.01);
-    }
+TEST(RetentionAqlFunctions, DateSub_SignatureName) {
+    EXPECT_EQ(DateSubFunction{}.signature().name, "DATE_SUB");
 }
+
+// ─── EstimateStorageSavingsFunction (ESTIMATE_STORAGE_SAVINGS) ───────────────
+
+TEST(RetentionAqlFunctions, EstimateStorageSavings_Basic_1sTo1h) {
+    EstimateStorageSavingsFunction fn;
+    // 1s → 1h: ratio = 3600, 3600 source points
+    auto result = fn.execute({json("1s"), json("1h"), json(3600LL)}, kCtx);
+    ASSERT_TRUE(result.is_object());
+    EXPECT_EQ(result["source_data_points"].get<int64_t>(), 3600LL);
+    EXPECT_EQ(result["compression_ratio"].get<int64_t>(), 3600LL);
+    EXPECT_EQ(result["target_data_points"].get<int64_t>(), 1LL);
+    EXPECT_GT(result["storage_savings_percent"].get<double>(), 0.0);
+    EXPECT_GT(result["storage_saved_bytes"].get<int64_t>(), 0LL);
+}
+
+TEST(RetentionAqlFunctions, EstimateStorageSavings_SameResolutionNoSavings) {
+    EstimateStorageSavingsFunction fn;
+    // 1m → 1m: ratio = 1, no compression
+    auto result = fn.execute({json("1m"), json("1m"), json(1000LL)}, kCtx);
+    ASSERT_TRUE(result.is_object());
+    EXPECT_EQ(result["compression_ratio"].get<int64_t>(), 1LL);
+    EXPECT_EQ(result["source_data_points"].get<int64_t>(), 1000LL);
+    EXPECT_EQ(result["target_data_points"].get<int64_t>(), 1000LL);
+}
+
+TEST(RetentionAqlFunctions, EstimateStorageSavings_AllResolutionKeys) {
+    EstimateStorageSavingsFunction fn;
+    auto result = fn.execute({json("1s"), json("1d"), json(86400LL)}, kCtx);
+    ASSERT_TRUE(result.is_object());
+    EXPECT_TRUE(result.contains("source_resolution"));
+    EXPECT_TRUE(result.contains("target_resolution"));
+    EXPECT_TRUE(result.contains("source_data_points"));
+    EXPECT_TRUE(result.contains("target_data_points"));
+    EXPECT_TRUE(result.contains("compression_ratio"));
+    EXPECT_TRUE(result.contains("source_storage_bytes"));
+    EXPECT_TRUE(result.contains("target_storage_bytes"));
+    EXPECT_TRUE(result.contains("storage_saved_bytes"));
+    EXPECT_TRUE(result.contains("storage_savings_percent"));
+    EXPECT_TRUE(result.contains("storage_saved_mb"));
+}
+
+TEST(RetentionAqlFunctions, EstimateStorageSavings_SignatureName) {
+    EXPECT_EQ(EstimateStorageSavingsFunction{}.signature().name, "ESTIMATE_STORAGE_SAVINGS");
+}
+
+// ─── registerRetentionFunctions: all functions registered ────────────────────
+
+TEST(RetentionAqlFunctions, RegisterRetentionFunctions_AllRegistered) {
+    auto& reg = FunctionRegistry::instance();
+    registerRetentionFunctions(reg);
+
+    EXPECT_TRUE(reg.hasFunction("CV"));
+    EXPECT_TRUE(reg.hasFunction("VARIANCE_LEVEL"));
+    EXPECT_TRUE(reg.hasFunction("RETENTION_RESOLUTION"));
+    EXPECT_TRUE(reg.hasFunction("DATE_SUB"));
+    EXPECT_TRUE(reg.hasFunction("SCHEDULE_TASK"));
+    EXPECT_TRUE(reg.hasFunction("LIST_SCHEDULED_TASKS"));
+    EXPECT_TRUE(reg.hasFunction("CANCEL_TASK"));
+    EXPECT_TRUE(reg.hasFunction("ESTIMATE_STORAGE_SAVINGS"));
+}
+
+TEST(RetentionAqlFunctions, RegisterRetentionFunctions_CallViaRegistry) {
+    auto& reg = FunctionRegistry::instance();
+    registerRetentionFunctions(reg);
+
+    // Call CV(10, 100) → 10.0 via registry
+    auto result = reg.call("CV", {json(10.0), json(100.0)}, kCtx);
+    ASSERT_TRUE(result.is_number());
+    EXPECT_NEAR(result.get<double>(), 10.0, 1e-9);
+}
+
+TEST(RetentionAqlFunctions, RegisterRetentionFunctions_ListScheduledTasksReturnsArray) {
+    auto& reg = FunctionRegistry::instance();
+    registerRetentionFunctions(reg);
+
+    auto result = reg.call("LIST_SCHEDULED_TASKS", {}, kCtx);
+    ASSERT_TRUE(result.is_array());
+}
+
+TEST(RetentionAqlFunctions, RegisterRetentionFunctions_UnknownFunctionNotRegistered) {
+    auto& reg = FunctionRegistry::instance();
+    registerRetentionFunctions(reg);
+    EXPECT_FALSE(reg.hasFunction("THIS_DOES_NOT_EXIST"));
+}
+

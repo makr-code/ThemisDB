@@ -1,0 +1,52 @@
+<!-- Status: current | validated: 2026-03-12 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
+
+# Changelog — RAG Module
+
+All notable changes to the RAG module are documented here.
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
+
+## [Unreleased]
+
+## [2.0.0] — 2026-03-24
+### Added
+- `ReplugRetriever` — REPLUG-style co-trained retrieval fusion (Shi et al., 2023, arXiv:2301.12652):
+  - `ILLMScorer` pluggable interface for model-agnostic perplexity scoring
+  - `HeuristicLLMScorer` — Jaccard-based PPL proxy (no LLM runtime required)
+  - `ReplugConfig` — λ interpolation weight, top_k, temperature, min_retrieval_score, LSR learning rate
+  - `ReplugFusionResult` / `ReplugScore` — per-document score breakdown
+  - `updateRetrieverWeights()` — REPLUG-LSR gradient step via KL-divergence
+  - `ReplugRetrieverFactory` — createBalanced/createLLMDominant/createRetrievalDominant/createLSR
+- `RLAIFTrainer` — Constitutional AI / RLAIF training pipeline (Bai et al., 2022; Lee et al., 2023):
+  - `IAIJudge` pluggable interface for AI preference labelling
+  - `HeuristicAIJudge` — heuristic critique/revision/judge (no LLM runtime required)
+  - `AIPrinciple` — configurable constitutional principles (harmlessness/helpfulness/honesty/fairness)
+  - `PreferencePair` — (prompt, chosen, rejected) training example
+  - `runTrainingStep()` — end-to-end CAI critique-revision + preference pair generation
+  - `createPreferencePair()` — direct judge-based preference labelling
+  - `processBatch()` — queue-based batch training
+  - `RLAIFConfig` — revision iterations, quality threshold, max dataset size
+  - `RLAIFTrainerFactory` — createDefault/createStrict/createFast/createWithJudge
+- 30 unit tests for `ReplugRetriever` (`tests/test_rag_replug_retriever.cpp`)
+- 30 unit tests for `RLAIFTrainer` (`tests/test_rag_rlaif_trainer.cpp`)
+- Focused test executables: `ReplugRetrieverFocusedTests`, `RLAIFTrainerFocusedTests`
+
+## [1.5.0] — 2026-03-12
+### Added
+- Multi-modal RAG pipeline with text, image, and audio retrieval
+- Hybrid dense+sparse retrieval (BM25 + vector)
+- Cross-encoder reranking for improved relevance scoring
+- Contextual compression to reduce token usage
+- Citation and source attribution in generated answers
+- RAG evaluation framework with RAGAS metrics
+- Streaming RAG responses via SSE
+
+### Changed
+- Improved chunking strategies (sentence-aware, recursive)
+- Enhanced metadata filtering during retrieval
+
+## [1.0.0] — 2024-06-01
+### Added
+- Initial RAG pipeline: document ingestion, chunking, embedding, retrieval
+- Integration with LLM module for answer generation
+- Vector store integration for semantic search

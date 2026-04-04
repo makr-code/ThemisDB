@@ -1,3 +1,25 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_graph_analytics.cpp                           ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:27:49                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     645                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include <gtest/gtest.h>
 #include "index/graph_analytics.h"
 #include "index/graph_index.h"
@@ -116,8 +138,8 @@ protected:
 TEST_F(GraphAnalyticsTest, DegreeCentrality_SimpleGraph) {
     buildSimpleGraph();
 
-    auto [st, results] = analytics_->degreeCentrality(nodes_);
-    ASSERT_TRUE(st.ok) << st.message;
+    auto [status, results] = analytics_->degreeCentrality(nodes_);
+    ASSERT_TRUE(status.ok);
     ASSERT_EQ(results.size(), 4);
 
     // Expected degrees:
@@ -146,8 +168,8 @@ TEST_F(GraphAnalyticsTest, DegreeCentrality_SimpleGraph) {
 TEST_F(GraphAnalyticsTest, DegreeCentrality_HubGraph) {
     buildHubGraph();
 
-    auto [st, results] = analytics_->degreeCentrality(nodes_);
-    ASSERT_TRUE(st.ok) << st.message;
+    auto [status, results] = analytics_->degreeCentrality(nodes_);
+    ASSERT_TRUE(status.ok);
     ASSERT_EQ(results.size(), 7);
 
     // Hub should have highest in-degree
@@ -169,9 +191,9 @@ TEST_F(GraphAnalyticsTest, DegreeCentrality_HubGraph) {
 }
 
 TEST_F(GraphAnalyticsTest, DegreeCentrality_EmptyNodeList) {
-    auto [st, results] = analytics_->degreeCentrality({});
-    EXPECT_FALSE(st.ok);
-    EXPECT_TRUE(st.message.find("Empty") != std::string::npos);
+    auto [status, results] = analytics_->degreeCentrality({});
+    EXPECT_FALSE(status.ok);
+    EXPECT_TRUE(status.message.find("Empty") != std::string::npos);
 }
 
 // ============================================================================
@@ -181,8 +203,8 @@ TEST_F(GraphAnalyticsTest, DegreeCentrality_EmptyNodeList) {
 TEST_F(GraphAnalyticsTest, PageRank_SimpleGraph) {
     buildSimpleGraph();
 
-    auto [st, ranks] = analytics_->pageRank(nodes_, 0.85, 100, 1e-6);
-    ASSERT_TRUE(st.ok) << st.message;
+    auto [status, ranks] = analytics_->pageRank(nodes_, 0.85, 100, 1e-6);
+    ASSERT_TRUE(status.ok);
     ASSERT_EQ(ranks.size(), 4);
 
     // Verify ranks sum to ~1.0
@@ -209,8 +231,8 @@ TEST_F(GraphAnalyticsTest, PageRank_SimpleGraph) {
 TEST_F(GraphAnalyticsTest, PageRank_HubGraph) {
     buildHubGraph();
 
-    auto [st, ranks] = analytics_->pageRank(nodes_, 0.85, 100, 1e-6);
-    ASSERT_TRUE(st.ok) << st.message;
+    auto [status, ranks] = analytics_->pageRank(nodes_, 0.85, 100, 1e-6);
+    ASSERT_TRUE(status.ok);
     ASSERT_EQ(ranks.size(), 7);
 
     // Verify ranks sum to ~1.0
@@ -236,11 +258,11 @@ TEST_F(GraphAnalyticsTest, PageRank_UniformInitialization) {
     buildSimpleGraph();
 
     // Test with different damping factors
-    auto [st1, ranks1] = analytics_->pageRank(nodes_, 0.5, 100, 1e-6);
-    auto [st2, ranks2] = analytics_->pageRank(nodes_, 0.99, 100, 1e-6);
+    auto [status1, ranks1] = analytics_->pageRank(nodes_, 0.5, 100, 1e-6);
+    auto [status2, ranks2] = analytics_->pageRank(nodes_, 0.99, 100, 1e-6);
 
-    ASSERT_TRUE(st1.ok);
-    ASSERT_TRUE(st2.ok);
+    ASSERT_TRUE(status1.ok);
+    ASSERT_TRUE(status2.ok);
 
     // Different damping should give different results
     bool different = false;
@@ -257,8 +279,8 @@ TEST_F(GraphAnalyticsTest, PageRank_Convergence) {
     buildSimpleGraph();
 
     // Test convergence with tight tolerance
-    auto [st, ranks] = analytics_->pageRank(nodes_, 0.85, 1000, 1e-9);
-    ASSERT_TRUE(st.ok);
+    auto [status, ranks] = analytics_->pageRank(nodes_, 0.85, 1000, 1e-9);
+    ASSERT_TRUE(status.ok);
 
     // Should converge within 1000 iterations
     double sum = 0.0;
@@ -271,27 +293,27 @@ TEST_F(GraphAnalyticsTest, PageRank_Convergence) {
 TEST_F(GraphAnalyticsTest, PageRank_InvalidDamping) {
     buildSimpleGraph();
 
-    auto [st1, ranks1] = analytics_->pageRank(nodes_, -0.1, 100, 1e-6);
-    EXPECT_FALSE(st1.ok);
-    EXPECT_TRUE(st1.message.find("Damping") != std::string::npos);
+    auto [status1_invalid, ranks_invalid1] = analytics_->pageRank(nodes_, -0.1, 100, 1e-6);
+    EXPECT_FALSE(status1_invalid.ok);
+    EXPECT_TRUE(status1_invalid.message.find("Damping") != std::string::npos);
 
-    auto [st2, ranks2] = analytics_->pageRank(nodes_, 1.5, 100, 1e-6);
-    EXPECT_FALSE(st2.ok);
-    EXPECT_TRUE(st2.message.find("Damping") != std::string::npos);
+    auto [status2_invalid, ranks_invalid2] = analytics_->pageRank(nodes_, 1.5, 100, 1e-6);
+    EXPECT_FALSE(status2_invalid.ok);
+    EXPECT_TRUE(status2_invalid.message.find("Damping") != std::string::npos);
 }
 
 TEST_F(GraphAnalyticsTest, PageRank_InvalidIterations) {
     buildSimpleGraph();
 
-    auto [st, ranks] = analytics_->pageRank(nodes_, 0.85, 0, 1e-6);
-    EXPECT_FALSE(st.ok);
-    EXPECT_TRUE(st.message.find("iterations") != std::string::npos);
+    auto [status_invalid_iters, ranks_invalid_iters] = analytics_->pageRank(nodes_, 0.85, 0, 1e-6);
+    EXPECT_FALSE(status_invalid_iters.ok);
+    EXPECT_TRUE(status_invalid_iters.message.find("iterations") != std::string::npos);
 }
 
 TEST_F(GraphAnalyticsTest, PageRank_EmptyNodeList) {
-    auto [st, ranks] = analytics_->pageRank({}, 0.85, 100, 1e-6);
-    EXPECT_FALSE(st.ok);
-    EXPECT_TRUE(st.message.find("Empty") != std::string::npos);
+    auto [status_empty, ranks_empty] = analytics_->pageRank({}, 0.85, 100, 1e-6);
+    EXPECT_FALSE(status_empty.ok);
+    EXPECT_TRUE(status_empty.message.find("Empty") != std::string::npos);
 }
 
 // ============================================================================
@@ -302,11 +324,11 @@ TEST_F(GraphAnalyticsTest, Integration_DegreeAndPageRank) {
     buildHubGraph();
 
     // Compute both degree and PageRank
-    auto [deg_st, degrees] = analytics_->degreeCentrality(nodes_);
-    auto [pr_st, ranks] = analytics_->pageRank(nodes_, 0.85, 100, 1e-6);
+    auto [degreeStatus, degrees] = analytics_->degreeCentrality(nodes_);
+    ASSERT_TRUE(degreeStatus.ok);
 
-    ASSERT_TRUE(deg_st.ok);
-    ASSERT_TRUE(pr_st.ok);
+    auto [pageStatus, ranks] = analytics_->pageRank(nodes_, 0.85, 100, 1e-6);
+    ASSERT_TRUE(pageStatus.ok);
 
     // Hub should have highest degree and highest PageRank
     int max_degree = 0;
@@ -341,8 +363,8 @@ TEST_F(GraphAnalyticsTest, Integration_DegreeAndPageRank) {
 TEST_F(GraphAnalyticsTest, BetweennessCentrality_SimpleGraph) {
     buildSimpleGraph();
 
-    auto [st, betweenness] = analytics_->betweennessCentrality(nodes_);
-    ASSERT_TRUE(st.ok) << st.message;
+    auto [status, betweenness] = analytics_->betweennessCentrality(nodes_);
+    ASSERT_TRUE(status.ok);
     ASSERT_EQ(betweenness.size(), 4);
 
     // In simple graph:
@@ -362,8 +384,8 @@ TEST_F(GraphAnalyticsTest, BetweennessCentrality_SimpleGraph) {
 TEST_F(GraphAnalyticsTest, BetweennessCentrality_HubGraph) {
     buildHubGraph();
 
-    auto [st, betweenness] = analytics_->betweennessCentrality(nodes_);
-    ASSERT_TRUE(st.ok) << st.message;
+    auto [status, betweenness] = analytics_->betweennessCentrality(nodes_);
+    ASSERT_TRUE(status.ok);
     ASSERT_EQ(betweenness.size(), 7);
 
     // Hub should have highest betweenness (all paths go through it)
@@ -381,9 +403,9 @@ TEST_F(GraphAnalyticsTest, BetweennessCentrality_HubGraph) {
 }
 
 TEST_F(GraphAnalyticsTest, BetweennessCentrality_EmptyNodeList) {
-    auto [st, betweenness] = analytics_->betweennessCentrality({});
-    EXPECT_FALSE(st.ok);
-    EXPECT_TRUE(st.message.find("Empty") != std::string::npos);
+    auto [status_empty_bc, betweenness_empty] = analytics_->betweennessCentrality({});
+    EXPECT_FALSE(status_empty_bc.ok);
+    EXPECT_TRUE(status_empty_bc.message.find("Empty") != std::string::npos);
 }
 
 // ============================================================================
@@ -393,8 +415,8 @@ TEST_F(GraphAnalyticsTest, BetweennessCentrality_EmptyNodeList) {
 TEST_F(GraphAnalyticsTest, ClosenessCentrality_SimpleGraph) {
     buildSimpleGraph();
 
-    auto [st, closeness] = analytics_->closenessCentrality(nodes_);
-    ASSERT_TRUE(st.ok) << st.message;
+    auto [status, closeness] = analytics_->closenessCentrality(nodes_);
+    ASSERT_TRUE(status.ok);
     ASSERT_EQ(closeness.size(), 4);
 
     // In directed graph, closeness depends on outgoing paths
@@ -410,8 +432,8 @@ TEST_F(GraphAnalyticsTest, ClosenessCentrality_SimpleGraph) {
 TEST_F(GraphAnalyticsTest, ClosenessCentrality_HubGraph) {
     buildHubGraph();
 
-    auto [st, closeness] = analytics_->closenessCentrality(nodes_);
-    ASSERT_TRUE(st.ok) << st.message;
+    auto [status, closeness] = analytics_->closenessCentrality(nodes_);
+    ASSERT_TRUE(status.ok);
     ASSERT_EQ(closeness.size(), 7);
 
     // Source nodes (A, B, C, D) should have high closeness (can reach Hub and beyond)
@@ -423,9 +445,9 @@ TEST_F(GraphAnalyticsTest, ClosenessCentrality_HubGraph) {
 }
 
 TEST_F(GraphAnalyticsTest, ClosenessCentrality_EmptyNodeList) {
-    auto [st, closeness] = analytics_->closenessCentrality({});
-    EXPECT_FALSE(st.ok);
-    EXPECT_TRUE(st.message.find("Empty") != std::string::npos);
+    auto [status_empty_close, closeness_empty] = analytics_->closenessCentrality({});
+    EXPECT_FALSE(status_empty_close.ok);
+    EXPECT_TRUE(status_empty_close.message.find("Empty") != std::string::npos);
 }
 
 // ============================================================================
@@ -436,15 +458,17 @@ TEST_F(GraphAnalyticsTest, Integration_AllCentralityMeasures) {
     buildHubGraph();
 
     // Compute all centrality measures
-    auto [deg_st, degrees] = analytics_->degreeCentrality(nodes_);
-    auto [pr_st, ranks] = analytics_->pageRank(nodes_, 0.85, 100, 1e-6);
-    auto [bc_st, betweenness] = analytics_->betweennessCentrality(nodes_);
-    auto [cc_st, closeness] = analytics_->closenessCentrality(nodes_);
+    auto [degreeStatus, degrees] = analytics_->degreeCentrality(nodes_);
+    ASSERT_TRUE(degreeStatus.ok);
 
-    ASSERT_TRUE(deg_st.ok);
-    ASSERT_TRUE(pr_st.ok);
-    ASSERT_TRUE(bc_st.ok);
-    ASSERT_TRUE(cc_st.ok);
+    auto [pageStatus, ranks] = analytics_->pageRank(nodes_, 0.85, 100, 1e-6);
+    ASSERT_TRUE(pageStatus.ok);
+
+    auto [betStatus, betweenness] = analytics_->betweennessCentrality(nodes_);
+    ASSERT_TRUE(betStatus.ok);
+
+    auto [closeStatus, closeness] = analytics_->closenessCentrality(nodes_);
+    ASSERT_TRUE(closeStatus.ok);
 
     // Hub should rank high in most measures
     EXPECT_EQ(degrees["Hub"].total_degree, 6);  // Highest degree
@@ -464,9 +488,9 @@ TEST_F(GraphAnalyticsTest, Integration_AllCentralityMeasures) {
 TEST_F(GraphAnalyticsTest, BetweennessCentrality_NotImplemented) {
     buildSimpleGraph();
 
-    auto [st, results] = analytics_->betweennessCentrality(nodes_);
+    auto [status, results] = analytics_->betweennessCentrality(nodes_);
+    ASSERT_TRUE(status.ok) << status.message;
     // This test used to expect "not yet implemented", but now it should work
-    EXPECT_TRUE(st.ok);
     EXPECT_EQ(results.size(), 4);
 }
 
@@ -501,8 +525,8 @@ TEST_F(GraphAnalyticsTest, LouvainCommunities_TwoClusters) {
     // Bridge (weak)
     graphMgr_->addEdge(createEdge("e13", "C", "D"));
     
-    auto [st, communities] = analytics_->louvainCommunities(nodes);
-    ASSERT_TRUE(st.ok);
+    auto [status, communities] = analytics_->louvainCommunities(nodes);
+    ASSERT_TRUE(status.ok) << status.message;
     EXPECT_EQ(communities.size(), 6);
     
     // Extract community IDs
@@ -530,15 +554,15 @@ TEST_F(GraphAnalyticsTest, LouvainCommunities_TwoClusters) {
 TEST_F(GraphAnalyticsTest, LouvainCommunities_SingleNode) {
     std::vector<std::string> nodes = {"A"};
     
-    auto [st, communities] = analytics_->louvainCommunities(nodes);
-    ASSERT_TRUE(st.ok);
+    auto [status, communities] = analytics_->louvainCommunities(nodes);
+    ASSERT_TRUE(status.ok) << status.message;
     EXPECT_EQ(communities.size(), 1);
     EXPECT_EQ(communities["A"], 0);
 }
 
 TEST_F(GraphAnalyticsTest, LouvainCommunities_EmptyList) {
-    auto [st, communities] = analytics_->louvainCommunities({});
-    EXPECT_TRUE(st.ok);
+    auto [status, communities] = analytics_->louvainCommunities({});
+    ASSERT_TRUE(status.ok) << status.message;
     EXPECT_TRUE(communities.empty());
 }
 
@@ -569,8 +593,8 @@ TEST_F(GraphAnalyticsTest, LabelPropagation_TwoClusters) {
     // Bridge
     graphMgr_->addEdge(createEdge("e13", "C", "D"));
     
-    auto [st, communities] = analytics_->labelPropagationCommunities(nodes);
-    ASSERT_TRUE(st.ok);
+    auto [status, communities] = analytics_->labelPropagationCommunities(nodes);
+    ASSERT_TRUE(status.ok) << status.message;
     EXPECT_EQ(communities.size(), 6);
     
     // Check cluster consistency
@@ -602,8 +626,8 @@ TEST_F(GraphAnalyticsTest, LabelPropagation_ChainGraph) {
     graphMgr_->addEdge(createEdge("e2", "B", "C"));
     graphMgr_->addEdge(createEdge("e3", "C", "D"));
     
-    auto [st, communities] = analytics_->labelPropagationCommunities(nodes, 50);
-    ASSERT_TRUE(st.ok);
+    auto [status, communities] = analytics_->labelPropagationCommunities(nodes, 50);
+    ASSERT_TRUE(status.ok) << status.message;
     EXPECT_EQ(communities.size(), 4);
     
     // All nodes should have community assignments
@@ -614,8 +638,8 @@ TEST_F(GraphAnalyticsTest, LabelPropagation_ChainGraph) {
 }
 
 TEST_F(GraphAnalyticsTest, LabelPropagation_EmptyList) {
-    auto [st, communities] = analytics_->labelPropagationCommunities({});
-    EXPECT_TRUE(st.ok);
+    auto [status, communities] = analytics_->labelPropagationCommunities({});
+    ASSERT_TRUE(status.ok) << status.message;
     EXPECT_TRUE(communities.empty());
 }
 

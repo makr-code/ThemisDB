@@ -1,19 +1,17 @@
-# ThemisDB LLM Client SDKs
+# ThemisDB LLM-Specific SDKs
 
-Complete client libraries for ThemisDB LLM operations in 4 languages: Python, JavaScript/TypeScript, Go, and Rust.
+This directory contains LLM-specific client SDKs for ThemisDB. For general database client SDKs, see the [`clients/`](../clients/) directory.
 
 ## Overview
 
-All SDKs provide:
-- ✅ Bearer Token (JWT) authentication
-- ✅ Inference, RAG, and embedding generation
-- ✅ Real-time token streaming
-- ✅ Model and LoRA management
-- ✅ Statistics and health checks
-- ✅ Comprehensive error handling
+The `sdks/` directory focuses on LLM-specific operations (inference, RAG, embeddings) while the [`clients/`](../clients/) directory contains comprehensive database client SDKs with full CRUD operations, AQL queries, transactions, and more.
 
-## Python SDK
+## LLM-Specific SDKs
 
+### Python LLM SDK
+
+**Status**: ✅ Available  
+**Location**: [python/](python/)  
 **Installation**: `pip install themis-llm`
 
 ```python
@@ -25,100 +23,56 @@ response = client.infer(prompt="What is ThemisDB?", model="mistral-7b")
 
 See [python/README.md](python/README.md) for complete documentation.
 
-## JavaScript/TypeScript SDK
+## General Database Client SDKs
 
-**Installation**: `npm install @themis/llm-client`
+For full-featured database clients with CRUD operations, AQL queries, transactions, and graph operations, see the **[`clients/`](../clients/) directory**:
 
-```typescript
-import { ThemisLLMClient } from '@themis/llm-client';
+- **[JavaScript/TypeScript](../clients/javascript/)** - ✅ Production Ready
+- **[Go](../clients/go/)** - ✅ Production Ready
+- **[Rust](../clients/rust/)** - ✅ Production Ready
+- **[Java](../clients/java/)** - ✅ Production Ready
+- **[Python](../clients/python/)** - ✅ Production Ready
+- **[C# (.NET)](../clients/csharp/)** - ✅ Production Ready
+- **[PHP](../clients/php/)** - ✅ Production Ready
+- **[Ruby](../clients/ruby/)** - ✅ Production Ready
+- **[Swift](../clients/swift/)** - ✅ Production Ready
 
-const client = new ThemisLLMClient({
-  baseUrl: 'http://localhost:8080',
-  bearerToken: 'your-jwt-token'
-});
-const response = await client.infer({ prompt: 'What is ThemisDB?' });
-```
+See the [clients/README.md](../clients/README.md) for complete documentation on all client SDKs.
 
-See [javascript/README.md](javascript/README.md) for complete documentation.
 
-## Go SDK
+## Features
 
-**Installation**: `go get github.com/themisdb/themis-llm-go`
-
-```go
-import themisllm "github.com/themisdb/themis-llm-go"
-
-client := themisllm.NewClient("http://localhost:8080",
-    themisllm.WithBearerToken("your-jwt-token"))
-resp, _ := client.Infer(ctx, &themisllm.InferRequest{
-    Prompt: "What is ThemisDB?",
-})
-```
-
-See [go/README.md](go/README.md) for complete documentation.
-
-## Rust SDK
-
-**Installation**: `cargo add themis-llm`
-
-```rust
-use themis_llm::ThemisLLMClient;
-
-let client = ThemisLLMClient::new(
-    "http://localhost:8080",
-    Some("your-jwt-token".to_string())
-)?;
-let response = client.infer(/* ... */).await?;
-```
-
-See [rust/README.md](rust/README.md) for complete documentation.
-
-## Common Features
-
-All SDKs implement the same core API:
-
-### Inference
+### LLM Operations (sdks/python/)
 - `infer()` - Standard text generation
+- `stream()` - Real-time token streaming
 - `rag()` - Retrieval-Augmented Generation
 - `embed()` - Embedding generation
-- `stream_infer()` - Real-time token streaming
+- Model and LoRA management
 
-### Model Management
-- `list_models()` - List available models
-- `load_model()` - Load model into memory
-- `unload_model()` - Unload model from memory
-- `get_model_info()` - Get model details
+### Full Database Operations (clients/)
+The general client SDKs in [`clients/`](../clients/) provide comprehensive database functionality:
+- CRUD operations for collections and documents
+- AQL (Advanced Query Language) query execution
+- Transaction support
+- Graph operations (traverse, shortest path, neighbors)
+- Vector operations
+- LLM operations (inference, RAG, embeddings)
+- Bearer Token (JWT) authentication
+- Connection pooling and timeout management
 
-### LoRA Management
-- `list_loras()` - List LoRA adapters
-- `load_lora()` - Load LoRA adapter
-- `unload_lora()` - Unload LoRA adapter
+## Contributing
 
-### System
-- `get_stats()` - Performance statistics
-- `get_cache_stats()` - Cache statistics
-- `clear_cache()` - Clear all caches
-- `health_check()` - Health status
+We welcome contributions! Please see:
+- [CONTRIBUTING.md](../CONTRIBUTING.md) - General contribution guidelines
+- [clients/README.md](../clients/README.md) - Full client SDK documentation
 
-## Performance
+## Support and Documentation
 
-| Protocol | Latency (p50) | Throughput |
-|----------|---------------|------------|
-| HTTP REST | 25ms | 95 req/s |
-| gRPC | 12ms | 180 req/s |
-
-All SDKs use HTTP REST by default. gRPC support can be enabled for 2x better performance.
-
-## Authentication
-
-All SDKs require a Bearer Token (JWT) for authentication:
-
-```bash
-# Get token
-curl -X POST http://localhost:8080/api/v1/auth/login \
-  -d '{"username": "user", "password": "pass"}' | jq -r '.token'
-```
+- **API Documentation**: [docs.themisdb.org](https://docs.themisdb.org)
+- **Client SDKs**: [clients/README.md](../clients/README.md)
+- **GitHub Issues**: [Report bugs or request features](https://github.com/makr-code/ThemisDB/issues)
+- **Discussions**: [Community support](https://github.com/makr-code/ThemisDB/discussions)
 
 ## License
 
-Apache 2.0
+Apache 2.0 - See [LICENSE](../LICENSE) for details.

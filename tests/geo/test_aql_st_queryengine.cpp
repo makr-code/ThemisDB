@@ -1,3 +1,25 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_aql_st_queryengine.cpp                        ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:22:32                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     272                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include <gtest/gtest.h>
 #include "query/aql_parser.h"
 #include "query/query_engine.h"
@@ -89,8 +111,9 @@ TEST_F(AQLSTQueryEngineTest, Filter_ST_Within_GeoJSON_Field)
     // RETURN
     auto ret = std::make_shared<ReturnNode>(fieldKey);
 
-    auto [st, results] = engine->executeJoin(fors, filters, {}, ret, nullptr, nullptr);
-    ASSERT_TRUE(st.ok) << st.message;
+    auto results_result = engine->executeJoin(fors, filters, {}, ret, nullptr, nullptr);
+    ASSERT_TRUE(results_result.has_value()) << results_result.error().message();
+    auto& results = *results_result;
 
     ASSERT_EQ(results.size(), 1u);
     ASSERT_TRUE(results[0].is_string());
@@ -126,8 +149,9 @@ TEST_F(AQLSTQueryEngineTest, Return_ST_AsText_Buffer_Result)
     auto cond = std::make_shared<BinaryOpExpr>(BinaryOperator::Eq, fieldName, litInside);
     auto filter = std::make_shared<FilterNode>(cond);
 
-    auto [st, results] = engine->executeJoin(fors, {filter}, {}, std::make_shared<ReturnNode>(callAsText), nullptr, nullptr);
-    ASSERT_TRUE(st.ok) << st.message;
+    auto results_result = engine->executeJoin(fors, {filter}, {}, std::make_shared<ReturnNode>(callAsText), nullptr, nullptr);
+    ASSERT_TRUE(results_result.has_value()) << results_result.error().message();
+    auto& results = *results_result;
     ASSERT_EQ(results.size(), 1u);
     ASSERT_TRUE(results[0].is_string());
     std::string wkt = results[0].get<std::string>();
@@ -165,8 +189,9 @@ TEST_F(AQLSTQueryEngineTest, Filter_ST_DWithin_GeoJSON_Field)
 
     std::vector<ForNode> fors; ForNode f; f.variable = "doc"; f.collection = "places"; fors.push_back(f);
     auto filter = std::make_shared<FilterNode>(cond);
-    auto [st, results] = engine->executeJoin(fors, {filter}, {}, std::make_shared<ReturnNode>(fieldKey), nullptr, nullptr);
-    ASSERT_TRUE(st.ok) << st.message;
+    auto results_result = engine->executeJoin(fors, {filter}, {}, std::make_shared<ReturnNode>(fieldKey), nullptr, nullptr);
+    ASSERT_TRUE(results_result.has_value()) << results_result.error().message();
+    auto& results = *results_result;
     ASSERT_EQ(results.size(), 1u);
     ASSERT_TRUE(results[0].is_string());
     EXPECT_EQ(results[0].get<std::string>(), "p1");
@@ -200,8 +225,9 @@ TEST_F(AQLSTQueryEngineTest, Filter_ST_ZBetween_3D_Point)
 
     std::vector<ForNode> fors; ForNode f; f.variable = "doc"; f.collection = "places"; fors.push_back(f);
     auto filter = std::make_shared<FilterNode>(cond);
-    auto [st, results] = engine->executeJoin(fors, {filter}, {}, std::make_shared<ReturnNode>(fieldKey), nullptr, nullptr);
-    ASSERT_TRUE(st.ok) << st.message;
+    auto results_result = engine->executeJoin(fors, {filter}, {}, std::make_shared<ReturnNode>(fieldKey), nullptr, nullptr);
+    ASSERT_TRUE(results_result.has_value()) << results_result.error().message();
+    auto& results = *results_result;
     ASSERT_EQ(results.size(), 1u);
     EXPECT_EQ(results[0].get<std::string>(), "p3");
 }
@@ -236,8 +262,9 @@ TEST_F(AQLSTQueryEngineTest, Return_ST_Union_Two_Points)
     auto filter = std::make_shared<FilterNode>(cond);
 
     std::vector<ForNode> fors; ForNode f; f.variable="doc"; f.collection="places"; fors.push_back(f);
-    auto [st, results] = engine->executeJoin(fors, {filter}, {}, std::make_shared<ReturnNode>(callUnion), nullptr, nullptr);
-    ASSERT_TRUE(st.ok) << st.message;
+    auto results_result = engine->executeJoin(fors, {filter}, {}, std::make_shared<ReturnNode>(callUnion), nullptr, nullptr);
+    ASSERT_TRUE(results_result.has_value()) << results_result.error().message();
+    auto& results = *results_result;
     ASSERT_EQ(results.size(), 1u);
     ASSERT_TRUE(results[0].is_object());
     EXPECT_EQ(results[0]["type"], "Polygon");

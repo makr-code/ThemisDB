@@ -1,3 +1,27 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            schema_manager.h                                   ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:08:49                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     360                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 86d72db21  2026-02-26  feat(metadata): implement adaptive TTL based on table mut... ║
+    • 2f8673a5e  2026-02-22  feat(metadata): real-time schema change notifications via... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // SPDX-License-Identifier: Apache-2.0
 // Copyright (c) 2026 ThemisDB Contributors
 
@@ -7,8 +31,10 @@
 #include <string_view>
 #include <vector>
 #include <map>
+#include <deque>
 #include <optional>
 #include <memory>
+#include <mutex>
 #include <shared_mutex>
 #include <chrono>
 #include <nlohmann/json.hpp>
@@ -18,8 +44,22 @@ namespace themis {
 // Forward declarations
 class RocksDBWrapper;
 class SecondaryIndexManager;
+class Changefeed;
 
 using json = nlohmann::json;
+
+/// Configuration for adaptive TTL based on table mutation rate.
+///
+/// Used with SchemaManager::enableAdaptiveTTL().
+/// When adaptive TTL is enabled, the effective cache TTL is computed as:
+///   effective_ttl = clamp(base_ttl / (1 + scale_factor * rate), min_ttl, max_ttl)
+/// where rate = mutations per second observed within the measurement window.
+struct AdaptiveTTLConfig {
+    std::chrono::seconds min_ttl{5};    ///< Minimum TTL used when mutation rate is very high
+    std::chrono::seconds max_ttl{300};  ///< Maximum TTL used when mutation rate is zero
+    std::chrono::seconds window{60};    ///< Sliding window for mutation rate measurement
+    double scale_factor{1.0};           ///< Sensitivity: higher → TTL shrinks faster with rate
+};
 
 /// SchemaManager - Database Self-Awareness and Schema Discovery
 ///
@@ -159,6 +199,34 @@ public:
     /// @param seconds Cache expiration time in seconds (default: 60)
     void setCacheTTL(std::chrono::seconds ttl);
 
+    /// Register a Changefeed for real-time schema change notifications.
+    /// When set, every schema mutation (create/update/delete) emits a
+    /// ChangeEvent with key "schema:{table_name}" into the given changefeed.
+    /// @param changefeed Non-owning pointer; may be nullptr to disable notifications.
+    void setChangefeed(Changefeed* changefeed);
+
+    /// Record a data mutation (insert / update / delete) for a table.
+    /// When adaptive TTL is enabled, high-frequency mutations cause the cache
+    /// to expire sooner so that stale statistics are refreshed more quickly.
+    /// This method is thread-safe and non-blocking.
+    /// @param table_name Name of the table that was mutated.
+    void recordMutation(std::string_view table_name);
+
+    /// Enable adaptive TTL mode.
+    /// The effective cache TTL is recomputed on every cache-validity check
+    /// based on the per-table mutation rate observed in a sliding window.
+    /// Calling this method resets any previously collected mutation history.
+    /// @param config Adaptive TTL parameters (uses defaults if omitted).
+    void enableAdaptiveTTL(AdaptiveTTLConfig config = {});
+
+    /// Disable adaptive TTL and revert to the fixed TTL set by setCacheTTL().
+    void disableAdaptiveTTL();
+
+    /// Return the currently effective cache TTL.
+    /// When adaptive TTL is disabled, equals the value set by setCacheTTL().
+    /// When adaptive TTL is enabled, returns the rate-adjusted value.
+    std::chrono::seconds getEffectiveTTL() const;
+
     // ========================================================================
     // JSON Export API
     // ========================================================================
@@ -174,6 +242,37 @@ public:
     /// Export database capabilities as JSON
     /// Lists enabled features based on build flags
     json getCapabilitiesJSON();
+
+    // ========================================================================
+    // Schema Management API (PUT/PATCH)
+    // ========================================================================
+
+    /// Store/update custom schema for a table
+    /// @param table_name Table/collection name
+    /// @param schema Custom schema definition (JSON)
+    /// @return true on success, false on validation failure
+    bool setTableSchema(std::string_view table_name, const TableSchema& schema);
+
+    /// Partial update of existing schema
+    /// @param table_name Table/collection name
+    /// @param updates JSON object with fields to update
+    /// @return true on success, false if table not found or validation failure
+    bool patchTableSchema(std::string_view table_name, const json& updates);
+
+    /// Delete custom schema for a table
+    /// @param table_name Table/collection name
+    /// @return true if deleted, false if not found
+    bool deleteTableSchema(std::string_view table_name);
+
+    /// Validate table schema structure
+    /// @param schema Schema to validate
+    /// @return Error message if invalid, empty string if valid
+    std::string validateSchema(const TableSchema& schema) const;
+
+    /// Parse TableSchema from JSON
+    /// @param j JSON object
+    /// @return TableSchema or throws on parse error
+    static TableSchema parseTableSchema(const json& j);
 
 private:
     // ========================================================================
@@ -213,12 +312,30 @@ private:
     /// Build cache from scratch
     void buildCache();
 
+    /// Emit a schema change event to the registered changefeed (if any).
+    /// @param table_name Table that changed
+    /// @param event_kind "schema_created", "schema_updated", or "schema_deleted"
+    void notifySchemaChange(std::string_view table_name, std::string_view event_kind);
+
+    /// Load custom schemas from RocksDB
+    void loadCustomSchemas();
+
+    /// Save custom schema to RocksDB
+    /// @param table_name Table name
+    /// @param schema Schema to save
+    void saveCustomSchema(std::string_view table_name, const TableSchema& schema);
+
+    /// Compute the adaptive TTL from current per-table mutation rates.
+    /// Caller must hold mutation_mutex_.
+    std::chrono::seconds computeAdaptiveTTL() const;
+
     // ========================================================================
     // Member Variables
     // ========================================================================
 
     RocksDBWrapper& db_;                                    // Database wrapper
     SecondaryIndexManager* index_mgr_;                      // Index manager (optional)
+    Changefeed* changefeed_ = nullptr;                      // Changefeed for schema notifications (optional)
 
     // Cache
     std::map<std::string, TableSchema> table_cache_;        // Table name -> schema
@@ -226,8 +343,18 @@ private:
     std::chrono::system_clock::time_point last_refresh_;    // Last cache refresh time
     std::chrono::seconds cache_ttl_{60};                    // Cache TTL (default: 60s)
 
+    // Custom schemas (persisted in RocksDB under "config:schema:{table_name}")
+    std::map<std::string, TableSchema> custom_schemas_;     // User-defined schemas
+
     // Thread safety
     mutable std::shared_mutex cache_mutex_;                 // Read-write lock for cache
+
+    // Adaptive TTL
+    bool adaptive_ttl_enabled_ = false;                     // Whether adaptive TTL is active
+    AdaptiveTTLConfig adaptive_ttl_config_;                 // Adaptive TTL parameters
+    // Per-table mutation timestamps within the sliding window
+    mutable std::map<std::string, std::deque<std::chrono::system_clock::time_point>> mutation_log_;
+    mutable std::mutex mutation_mutex_;                     // Protects mutation_log_
 };
 
 } // namespace themis

@@ -1,6 +1,8 @@
-# 🗂️ Multi-Shard RAID Benchmark - Navigation & Index
+# 🗂️ CHIMERA Suite - Benchmark Navigation & Index
 
-**Übersichtsdokument zur Benchmark-Suite**
+**Multi-Shard RAID Benchmarks - Part of CHIMERA Suite**
+
+> **CHIMERA Suite** - _Comprehensive Hybrid Inferencing & Multi-model Evaluation Resource Assessment_
 
 ---
 

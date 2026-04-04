@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            snapshot_transfer_handler.h                        ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:11:22                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     202                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 43ea0ace6  2026-03-26  fix: Fix 4+5 – XXH64 checksum, FinalizeSnapshot restore, ... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include <memory>
@@ -5,10 +28,15 @@
 #include <functional>
 #include <vector>
 #include <atomic>
-#include "proto/sharding/shard_rpc.pb.h"
+#include "shard_rpc.pb.h"
+
+// Forward-declare RocksDB to avoid pulling in heavy headers in consumers.
+namespace rocksdb { class DB; }
 
 namespace themis {
 namespace rpc {
+
+namespace shard_proto = themis::sharding::proto;
 
 // Configuration for snapshot transfer
 struct SnapshotConfig {
@@ -18,24 +46,24 @@ struct SnapshotConfig {
     std::string base_snapshot_id;  // For incremental snapshots
     
     // Compression settings
-    themis::sharding::CompressionType compression_type;
+    shard_proto::CompressionType compression_type;
     int compression_level;  // 1-9 for Zstd, ignored for others
     
     // Chunking settings
     uint32_t chunk_size_mb;  // 1-100 MB
-    themis::sharding::ChecksumType checksum_type;
+    shard_proto::ChecksumType checksum_type;
     
     // Snapshot isolation
-    themis::sharding::SnapshotIsolation isolation_level;
+    shard_proto::SnapshotIsolation isolation_level;
     bool is_immutable;  // True if source is frozen during transfer
     
     SnapshotConfig()
         : is_incremental(false)
-        , compression_type(themis::sharding::COMPRESSION_ZSTD)
+        , compression_type(shard_proto::COMPRESSION_ZSTD)
         , compression_level(6)
         , chunk_size_mb(10)
-        , checksum_type(themis::sharding::CHECKSUM_CRC32)
-        , isolation_level(themis::sharding::SNAPSHOT_MVCC)
+        , checksum_type(shard_proto::CHECKSUM_CRC32)
+        , isolation_level(shard_proto::SNAPSHOT_MVCC)
         , is_immutable(false) {}
 };
 
@@ -58,11 +86,12 @@ enum class SnapshotStatus {
     ERROR_CHECKSUM_MISMATCH,
     ERROR_ROCKSDB_ERROR,
     ERROR_INVALID_CONFIG,
-    ERROR_NETWORK_ERROR
+    ERROR_NETWORK_ERROR,
+    ERROR_SECURITY_PATH_TRAVERSAL  // Path traversal attempt detected
 };
 
 // Callback for chunk streaming
-using ChunkCallback = std::function<void(const themis::sharding::SnapshotChunk&)>;
+using ChunkCallback = std::function<void(const shard_proto::SnapshotChunk&)>;
 
 /**
  * Handler for RocksDB snapshot transfer operations.
@@ -122,10 +151,21 @@ public:
     /**
      * Receive and apply snapshot chunks.
      * 
-     * @param chunk Received snapshot chunk
-     * @return Status code
+     * SECURITY: This method validates file paths using canonical path resolution
+     * to prevent path traversal attacks (CWE-22). User-supplied file paths are
+     * verified to be within the snapshot directory before any file operations.
+     * 
+     * Path validation includes:
+     * - Canonical path resolution with fs::canonical()
+     * - Verification that resolved path is within snapshot directory
+     * - Handling of non-existent parent directories
+     * - Rejection of absolute paths and .. traversal attempts
+     * - Logging of security violations
+     * 
+     * @param chunk Received snapshot chunk with file path and data
+     * @return Status code (ERROR_SECURITY_PATH_TRAVERSAL on path traversal attempt)
      */
-    SnapshotStatus ReceiveChunk(const themis::sharding::SnapshotChunk& chunk);
+    SnapshotStatus ReceiveChunk(const shard_proto::SnapshotChunk& chunk);
     
     /**
      * Finalize snapshot after all chunks received.
@@ -145,6 +185,14 @@ public:
      * Cancel an in-progress snapshot transfer.
      */
     void Cancel();
+
+    /**
+     * Inject the RocksDB instance to use for snapshot creation and restore.
+     * Must be called before CreateSnapshot() or FinalizeSnapshot().
+     *
+     * @param db Pointer to the open RocksDB instance (not owned by this handler).
+     */
+    void SetDB(rocksdb::DB* db);
 
 private:
     class Impl;

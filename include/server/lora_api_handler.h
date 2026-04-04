@@ -1,3 +1,28 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            lora_api_handler.h                                 ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:11:12                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     235                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 490de27f0  2026-03-26  fix: implement all P0/P1 blockers - QueryEngine, RAG, eth... ║
+    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
+    • 2873683f7  2026-03-18  Changes before error encountered         ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include <boost/beast.hpp>
@@ -13,10 +38,10 @@ namespace themis {
 namespace llm {
 namespace lora {
 class LoRAOrchestrator;
-class LoRAAdapterManager;
 class LoRAStorageService;
 class LoRATrainingService;
 }
+class InferenceEngineEnhanced;
 }
 namespace auth {
 class JWTValidator;
@@ -48,9 +73,10 @@ using json = nlohmann::json;
  * - GET    /api/v1/llm/lora/adapters - List adapters with filters
  * 
  * Adapter Lifecycle:
- * - POST   /api/v1/llm/lora/adapters/{adapter_id}/load - Load adapter
+ * - POST   /api/v1/llm/lora/adapters/{adapter_id}/load - Hot-load adapter (returns 202 Accepted + job_id)
  * - POST   /api/v1/llm/lora/adapters/{adapter_id}/unload - Unload adapter
  * - GET    /api/v1/llm/lora/adapters/{adapter_id}/status - Get adapter status
+ * - GET    /api/v1/llm/lora/adapters/{adapter_id}/load-status - Get hot-load job status
  * 
  * Inference:
  * - POST   /api/v1/llm/lora/query - Query with LoRA adapter
@@ -58,7 +84,14 @@ using json = nlohmann::json;
  * Health & Monitoring:
  * - GET    /api/v1/llm/lora/stats - Get framework statistics
  * - GET    /api/v1/llm/lora/health - Health check
- * 
+ *
+ * Provenance, Snapshots, and Audit Log:
+ * - GET    /api/v1/llm/lora/adapters/{adapter_id}/provenance - Get cryptographic provenance record
+ * - POST   /api/v1/llm/lora/adapters/{adapter_id}/provenance - Attach provenance record
+ * - GET    /api/v1/llm/lora/adapters/{adapter_id}/audit      - Get Merkle-chained audit log
+ * - GET    /api/v1/llm/lora/adapters/{adapter_id}/snapshots  - List MVCC snapshots
+ * - POST   /api/v1/llm/lora/adapters/{adapter_id}/verify     - Verify Merkle audit chain integrity
+ *
  * All endpoints require Bearer Token (JWT) authentication via Authorization header.
  */
 class LoRAApiHandler {
@@ -79,6 +112,16 @@ public:
      * @param config JWT validator configuration
      */
     void configureJWT(const auth::JWTValidatorConfig& config);
+
+    /**
+     * @brief Attach an inference engine for LoRA query execution.
+     *
+     * When set, POST /api/v1/llm/lora/query routes inference requests
+     * through this engine.  Without an engine the endpoint returns 501.
+     *
+     * @param engine InferenceEngineEnhanced instance (may be null to detach).
+     */
+    void setInferenceEngine(std::shared_ptr<llm::InferenceEngineEnhanced> engine);
     
     /**
      * @brief Handle LoRA API request
@@ -131,6 +174,15 @@ private:
     
     http::response<http::string_body> handleAdapterStatus(
         const http::request<http::string_body>& req);
+
+    /// GET /api/v1/llm/lora/adapters/{id}/load-status
+    /// Returns the status of the latest hot-load job for the adapter.
+    http::response<http::string_body> handleHotLoadStatus(
+        const http::request<http::string_body>& req);
+    
+    // Cross-shard sync endpoint
+    http::response<http::string_body> handleReceiveAdapter(
+        const http::request<http::string_body>& req);
     
     // Inference endpoint
     http::response<http::string_body> handleLoRAQuery(
@@ -141,6 +193,22 @@ private:
         const http::request<http::string_body>& req);
     
     http::response<http::string_body> handleLoRAHealth(
+        const http::request<http::string_body>& req);
+
+    // Provenance, Snapshots, and Audit Log endpoints
+    http::response<http::string_body> handleGetProvenance(
+        const http::request<http::string_body>& req);
+
+    http::response<http::string_body> handleAttachProvenance(
+        const http::request<http::string_body>& req);
+
+    http::response<http::string_body> handleGetAuditLog(
+        const http::request<http::string_body>& req);
+
+    http::response<http::string_body> handleListSnapshots(
+        const http::request<http::string_body>& req);
+
+    http::response<http::string_body> handleVerifyAuditChain(
         const http::request<http::string_body>& req);
     
     // Helper methods
@@ -164,6 +232,7 @@ private:
     
     std::shared_ptr<llm::lora::LoRAOrchestrator> orchestrator_;
     std::unique_ptr<auth::JWTValidator> jwt_validator_;
+    std::shared_ptr<llm::InferenceEngineEnhanced> inference_engine_;
 };
 
 } // namespace themis::server

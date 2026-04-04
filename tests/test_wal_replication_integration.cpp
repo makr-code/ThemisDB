@@ -1,3 +1,25 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_wal_replication_integration.cpp               ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:35:28                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   91.0/100                                       ║
+    • Total Lines:     488                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include <gtest/gtest.h>
 #include <memory>
 #include <chrono>
@@ -78,7 +100,7 @@ protected:
         replica_set.shard_id = "shard_0";
         replica_set.primary_id = "primary-1";
         replica_set.replicas = {"replica-1", "replica-2"};
-        replica_set.redundancy = RedundancyMode::RAID1;
+        replica_set.redundancy = RedundancyMode::MIRROR;
         topology_->defineReplicaSet(replica_set);
         
         // Setup replication coordinator
@@ -129,20 +151,20 @@ TEST_F(WALReplicationIntegrationTest, MajorityQuorumEnforcement) {
     // In real scenario, shipper would contact replicas and collect acks
     
     // Wait for replication
-    WriteResult result = coordinator_->waitForReplication(primary_lsn, wc);
+    auto result = coordinator_->waitForReplication(primary_lsn, wc);
     
     // In this simple test without actual network, we expect timeout or success
     // depending on mock setup
-    EXPECT_TRUE(result.success || result.latency.count() > 0);
+    EXPECT_TRUE(result.success || result.replicas_acknowledged > 0);
 }
 
 /**
- * Test 2: Quorum size calculation for RAID1
+ * Test 2: Quorum size calculation for MIRROR
  * - Primary + 2 replicas = 3 nodes
  * - Quorum = (3 / 2) + 1 = 2
  * - MAJORITY requires 2 acks minimum
  */
-TEST_F(WALReplicationIntegrationTest, QuorumSizeRAID1) {
+TEST_F(WALReplicationIntegrationTest, QuorumSizeMirror) {
     auto replica_set = topology_->getReplicaSet("shard_0");
     ASSERT_TRUE(replica_set);
     
@@ -245,20 +267,20 @@ TEST_F(WALReplicationIntegrationTest, ReplicaLagConvergence) {
 }
 
 /**
- * Test 6: RAID10 topology validation
- * - RAID10 = striped + mirrored (n+1 replicas per stripe)
+ * Test 6: STRIPE_MIRROR topology validation
+ * - STRIPE_MIRROR (RAID10) = striped + mirrored (n+1 replicas per stripe)
  * - Example: shard_1 with 2 replicas
- * - Quorum = (1 + 2) / 2 + 1 = 2 (same as RAID1 for 2 replicas)
+ * - Quorum = (1 + 2) / 2 + 1 = 2 (same as MIRROR for 2 replicas)
  */
-TEST_F(WALReplicationIntegrationTest, RAID10TopologyValidation) {
-    // Note: replica_topology already has shard_1 defined as RAID10
+TEST_F(WALReplicationIntegrationTest, StripeMirrorTopologyValidation) {
+    // Note: replica_topology already has shard_1 defined as STRIPE_MIRROR
     auto replica_set = topology_->getReplicaSet("shard_1");
     
     if (replica_set) {
-        EXPECT_EQ(replica_set->redundancy, RedundancyMode::RAID10);
+        EXPECT_EQ(replica_set->redundancy, RedundancyMode::STRIPE_MIRROR);
         EXPECT_EQ(replica_set->replicas.size(), 2);
         
-        // Quorum for RAID10: same as RAID1
+        // Quorum for STRIPE_MIRROR: same as MIRROR
         size_t quorum = replica_set->quorum_size();
         EXPECT_EQ(quorum, 2);
     }
@@ -304,7 +326,7 @@ TEST_F(WALReplicationIntegrationTest, WriteConcernTimeout) {
     
     // With timeout and no actual replica responses (mock), coordinator should handle gracefully
     auto start = std::chrono::steady_clock::now();
-    WriteResult result = coordinator_->waitForReplication(lsn, wc);
+    auto result = coordinator_->waitForReplication(lsn, wc);
     auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::steady_clock::now() - start);
     

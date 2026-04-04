@@ -1,5 +1,30 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            mime_detector.cpp                                  ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:15:12                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     585                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 0e2644909  2026-03-11  fix(content): thread-safe OCR routing — add shouldTrigger... ║
+    • 208e9c6f4  2026-03-11  feat(content): add ContentPolicy::ocrEnabled() and wire O... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "content/mime_detector.h"
 #include "storage/security_signature_manager.h"
+#include "config/config_path_resolver.h"
 #include <openssl/sha.h>
 #include <yaml-cpp/yaml.h>
 #include <algorithm>
@@ -25,10 +50,13 @@ bool MimeDetector::reloadConfig(const std::string& config_path) {
 }
 
 std::string MimeDetector::getDefaultConfigPath() const {
-    // Try multiple locations
+    // Try multiple locations (new hierarchical structure first, then legacy)
     std::vector<std::string> candidates = {
+        "config/data_management/mime_types.yaml",
         "config/mime_types.yaml",
+        "../config/data_management/mime_types.yaml",
         "../config/mime_types.yaml",
+        "../../config/data_management/mime_types.yaml",
         "../../config/mime_types.yaml",
         "/etc/themis/mime_types.yaml"
     };
@@ -37,6 +65,12 @@ std::string MimeDetector::getDefaultConfigPath() const {
         if (fs::exists(candidate)) {
             return candidate;
         }
+    }
+    
+    // Try using ConfigPathResolver
+    auto resolved = themis::config::ConfigPathResolver::tryResolve("config/mime_types.yaml");
+    if (resolved) {
+        return *resolved;
     }
     
     return "config/mime_types.yaml";  // Default fallback
@@ -462,6 +496,7 @@ ValidationResult MimeDetector::validateUpload(const std::string& filename,
         
         result.allowed = true;
         result.reason = "Allowed by whitelist";
+        result.ocr_recommended = shouldTriggerOcr(result.mime_type);
         return result;
     }
     
@@ -496,6 +531,7 @@ ValidationResult MimeDetector::validateUpload(const std::string& filename,
                 
                 result.allowed = true;
                 result.reason = "Allowed by category '" + category + "'";
+                result.ocr_recommended = shouldTriggerOcr(result.mime_type);
                 return result;
             }
         }
@@ -514,6 +550,7 @@ ValidationResult MimeDetector::validateUpload(const std::string& filename,
         
         result.allowed = true;
         result.reason = "Allowed by default policy";
+        result.ocr_recommended = shouldTriggerOcr(result.mime_type);
         return result;
     } else {
         result.allowed = false;
@@ -521,6 +558,26 @@ ValidationResult MimeDetector::validateUpload(const std::string& filename,
         result.reason = "File type '" + result.mime_type + "' not in whitelist and default policy is deny";
         return result;
     }
+}
+
+bool MimeDetector::shouldTriggerOcr(std::string_view mime_type) const {
+    if (!policy_.ocrEnabled()) {
+        return false;
+    }
+    // OCR is supported for PNG, JPEG, and TIFF image formats
+    return mime_type == "image/png" || mime_type == "image/jpeg" || mime_type == "image/tiff";
+}
+
+bool MimeDetector::shouldTriggerOcr(std::string_view mime_type, bool ocr_enabled) const noexcept {
+    if (!ocr_enabled) {
+        return false;
+    }
+    // OCR is supported for PNG, JPEG, and TIFF image formats
+    return mime_type == "image/png" || mime_type == "image/jpeg" || mime_type == "image/tiff";
+}
+
+void MimeDetector::enableOcr(bool enable) {
+    policy_.ocr_enabled = enable;
 }
 
 } // namespace content

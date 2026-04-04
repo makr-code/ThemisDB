@@ -1,3 +1,25 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_changefeed_ordering.cpp                       ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:25:25                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     386                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #if 0  // Temporär deaktiviert: API-Drift (getDB, start_sequence nicht verfügbar)
 // Test: Changefeed Event Ordering Guarantees
 // Validates that changefeed maintains correct event ordering per key and globally
@@ -32,7 +54,7 @@ protected:
         ASSERT_TRUE(db_->open());
         
         // Create changefeed
-        changefeed_ = std::make_unique<Changefeed>(db_->getDB(), nullptr);
+        changefeed_ = std::make_unique<Changefeed>(db_->getRawDB(), nullptr);
     }
     
     void TearDown() override {

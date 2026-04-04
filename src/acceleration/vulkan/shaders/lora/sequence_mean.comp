@@ -1,0 +1,48 @@
+#version 450
+
+// Sequence Mean Reduction Compute Shader for LoRA Training
+// Computes mean over sequence dimension: [batch, seq_len, hidden_dim] -> [batch, hidden_dim]
+// ThemisDB Vulkan Compute Shader
+
+layout(local_size_x = 256) in;
+
+// Input: Embeddings [batch_size, seq_len, hidden_dim]
+layout(std430, binding = 0) readonly buffer InputEmbeddings {
+    float input_embeddings[];
+};
+
+// Output: Averaged embeddings [batch_size, hidden_dim]
+layout(std430, binding = 1) writeonly buffer OutputEmbeddings {
+    float output_embeddings[];
+};
+
+layout(push_constant) uniform PushConstants {
+    uint batch_size;
+    uint seq_len;
+    uint hidden_dim;
+    uint reserved;  // Padding for alignment
+} pc;
+
+void main() {
+    // Each thread handles one output element [batch_idx, hidden_idx]
+    uint idx = gl_GlobalInvocationID.x;
+    uint total_outputs = pc.batch_size * pc.hidden_dim;
+    
+    if (idx >= total_outputs) {
+        return;
+    }
+    
+    uint batch_idx = idx / pc.hidden_dim;
+    uint hidden_idx = idx % pc.hidden_dim;
+    
+    // Compute mean over sequence dimension
+    float sum = 0.0;
+    for (uint seq_idx = 0; seq_idx < pc.seq_len; seq_idx++) {
+        uint input_idx = batch_idx * pc.seq_len * pc.hidden_dim + 
+                        seq_idx * pc.hidden_dim + 
+                        hidden_idx;
+        sum += input_embeddings[input_idx];
+    }
+    
+    output_embeddings[idx] = sum / float(pc.seq_len);
+}

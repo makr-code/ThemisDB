@@ -1,14 +1,51 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            task_scheduler.cpp                                 ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:19:15                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   99.0/100                                       ║
+    • Total Lines:     2696                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 5e4a201cc  2026-03-21  docs(scheduler): update FUTURE_ENHANCEMENTS, CHANGELOG, R... ║
+    • c8aa40193  2026-03-15  feat(scheduler): propagate authenticated user context to ... ║
+    • 592b54382  2026-03-15  fix(scheduler,acceleration): remove stale TODOs, add VLLM... ║
+    • c97360e57  2026-03-15  fix(auth,scheduler): JWT scope enforcement, Kerberos role... ║
+    • 646fb7bd6  2026-03-10  feat(scheduler): build-system audit – register sources, a... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "scheduler/task_scheduler.h"
+#include "scheduler/event_trigger.h"
+#include "scheduler/task_audit_manager.h"
+#include "scheduler/task_audit_event.h"
+#include "scheduler/task_result_store.h"
 #include "query/query_engine.h"
 #include "query/aql_runner.h"
+#include "security/aql_injection_detector.h"
 #include "utils/logger.h"
 #include "utils/tracing.h"
+#include "utils/audit_logger.h"
+#include "utils/cron_parser.h"
+#include "cdc/changefeed.h"
+#include "storage/rocksdb_wrapper.h"
+#include "themis/base/module_sandbox.h"
 #include <sstream>
 #include <fstream>
 #include <iomanip>
 #include <algorithm>
 #include <deque>
 #include <cctype>
+#include <random>
 
 #ifndef _WIN32
 #include <sys/stat.h>
@@ -22,15 +59,268 @@
 // - Comprehensive audit logging
 // - Secure task definition storage (encryption at rest)
 // - Sandboxed execution environments
+//
+// ---------------------------------------------------------------------------
+// Note: User authentication context is propagated via thread-local
+// TaskScheduler::RequestContext.  HTTP handlers call
+//   TaskScheduler::setRequestContext({user_id, client_ip});
+// before invoking scheduler operations, and clearRequestContext() afterwards.
+// All audit events use currentUserId() / currentClientIp() accessors which
+// return the thread-local values or "system" / "" as safe fallbacks.
+// ---------------------------------------------------------------------------
 
 namespace themis {
 
-// ===== TaskScheduler Implementation =====
+// ---------------------------------------------------------------------------
+// Thread-local RequestContext  (replaces hardcoded "system" audit user)
+// ---------------------------------------------------------------------------
 
-TaskScheduler::TaskScheduler(QueryEngine* query_engine, const Config& config)
-    : query_engine_(query_engine), config_(config) {
+namespace {
+struct TLSRequestContext {
+    std::string user_id;
+    std::string client_ip;
+    bool set = false;
+};
+} // anonymous namespace
+
+static thread_local TLSRequestContext tls_request_ctx;
+
+void TaskScheduler::setRequestContext(const RequestContext& ctx) noexcept {
+    tls_request_ctx.user_id  = ctx.user_id;
+    tls_request_ctx.client_ip = ctx.client_ip;
+    tls_request_ctx.set      = true;
+}
+
+void TaskScheduler::clearRequestContext() noexcept {
+    tls_request_ctx.user_id.clear();
+    tls_request_ctx.client_ip.clear();
+    tls_request_ctx.set = false;
+}
+
+std::string TaskScheduler::currentUserId(const char* fallback) noexcept {
+    if (tls_request_ctx.set && !tls_request_ctx.user_id.empty()) {
+        return tls_request_ctx.user_id;
+    }
+    return fallback ? fallback : "system";
+}
+
+std::string TaskScheduler::currentClientIp() noexcept {
+    if (tls_request_ctx.set) {
+        return tls_request_ctx.client_ip;
+    }
+    return {};
+}
+
+// ---------------------------------------------------------------------------
+
+// Default values for audit context (when auth context not available)
+static constexpr const char* DEFAULT_AUDIT_USER = "system";
+static constexpr const char* DEFAULT_AUDIT_IP = "localhost";
+
+// Helper function to set audit context from thread-local RequestContext
+static void setDefaultAuditContext(scheduler::TaskAuditEvent& event) {
+    event.user_id    = TaskScheduler::currentUserId(DEFAULT_AUDIT_USER);
+    const auto ip    = TaskScheduler::currentClientIp();
+    event.ip_address = ip.empty() ? DEFAULT_AUDIT_IP : ip;
+}
+
+static void setDefaultAuditContext(scheduler::TaskSecurityEvent& event) {
+    event.user_id    = TaskScheduler::currentUserId(DEFAULT_AUDIT_USER);
+    const auto ip    = TaskScheduler::currentClientIp();
+    event.ip_address = ip.empty() ? DEFAULT_AUDIT_IP : ip;
+}
+
+// Helper function to convert trigger type to string
+static std::string getTriggerTypeString(ScheduledTask::TriggerType type) {
+    switch (type) {
+        case ScheduledTask::TriggerType::CRON: return "CRON";
+        case ScheduledTask::TriggerType::CDC_EVENT: return "CDC";
+        case ScheduledTask::TriggerType::INTERVAL: return "INTERVAL";
+        case ScheduledTask::TriggerType::MANUAL: return "MANUAL";
+        case ScheduledTask::TriggerType::WEBHOOK: return "WEBHOOK";
+        default: return "UNKNOWN";
+    }
+}
+
+// ===== Retry Policy Helpers =====
+
+namespace {
+
+/**
+ * @brief Compute the delay before the next retry attempt.
+ *
+ * @param policy  The task's RetryPolicy.
+ * @param attempt 0-based retry index (0 = first retry, after the initial failure).
+ * @return Delay in milliseconds, clamped to policy.max_delay.
+ */
+std::chrono::milliseconds computeRetryDelay(const ScheduledTask::RetryPolicy& policy,
+                                             size_t attempt) {
+    double base_ms = static_cast<double>(policy.initial_delay.count());
+    double delay_ms = base_ms;
+
+    switch (policy.strategy) {
+        case ScheduledTask::RetryStrategy::NONE:
+        case ScheduledTask::RetryStrategy::FIXED_DELAY:
+            delay_ms = base_ms;
+            break;
+
+        case ScheduledTask::RetryStrategy::EXPONENTIAL_BACKOFF:
+            // delay = initial * multiplier^attempt
+            for (size_t i = 0; i < attempt; ++i) {
+                delay_ms *= policy.backoff_multiplier;
+            }
+            break;
+
+        case ScheduledTask::RetryStrategy::LINEAR_BACKOFF:
+            // delay = initial * (attempt + 1)
+            delay_ms = base_ms * static_cast<double>(attempt + 1);
+            break;
+
+        case ScheduledTask::RetryStrategy::JITTER_BACKOFF: {
+            // Exponential base + uniform random jitter in [-jitter, +jitter]
+            for (size_t i = 0; i < attempt; ++i) {
+                delay_ms *= policy.backoff_multiplier;
+            }
+            // Thread-local RNG to avoid contention
+            thread_local std::mt19937 rng{std::random_device{}()};
+            double jitter_range = delay_ms * policy.jitter_factor;
+            std::uniform_real_distribution<double> dist(-jitter_range, jitter_range);
+            delay_ms += dist(rng);
+            if (delay_ms < 0.0) delay_ms = 0.0;
+            break;
+        }
+
+        case ScheduledTask::RetryStrategy::FIBONACCI_BACKOFF: {
+            // delay = initial * fib(attempt + 1)
+            // fib(1)=1, fib(2)=1, fib(3)=2, fib(4)=3, fib(5)=5, ...
+            // Loop invariant: after k iterations, a = fib(k), b = fib(k+1).
+            // Starting with a=1,b=1 (= fib(1),fib(2)) and running (attempt) iterations
+            // yields a = fib(attempt+1).
+            // Computed iteratively to avoid recursion overhead.
+            size_t a = 1, b = 1;
+            for (size_t i = 1; i <= attempt; ++i) {
+                size_t c = a + b;
+                a = b;
+                b = c;
+            }
+            delay_ms = base_ms * static_cast<double>(a);
+            break;
+        }
+    }
+
+    // Clamp to max_delay
+    double max_ms = static_cast<double>(policy.max_delay.count());
+    if (delay_ms > max_ms) delay_ms = max_ms;
+
+    return std::chrono::milliseconds(static_cast<int64_t>(delay_ms));
+}
+
+/**
+ * @brief Build an effective RetryPolicy from a ScheduledTask.
+ *
+ * If the task has an explicit retry_policy, use it.
+ * Otherwise fall back to a policy derived from the legacy max_retries field.
+ */
+ScheduledTask::RetryPolicy effectiveRetryPolicy(const ScheduledTask& task) {
+    if (task.retry_policy) {
+        return *task.retry_policy;
+    }
+    // Legacy fallback: exponential backoff with max_retries
+    ScheduledTask::RetryPolicy p;
+    p.strategy       = ScheduledTask::RetryStrategy::EXPONENTIAL_BACKOFF;
+    p.max_retries    = task.max_retries;
+    p.initial_delay  = std::chrono::milliseconds{1000};
+    p.max_delay      = std::chrono::milliseconds{30000};
+    p.backoff_multiplier = 2.0;
+    return p;
+}
+
+} // anonymous namespace
+
+// ── Error categorization helper ──────────────────────────────────────────────
+// Classify a failure message into one of the ScheduledTask::ErrorCategory values.
+// This function is intentionally conservative: when in doubt it returns TRANSIENT
+// so that the retry policy is not prematurely abandoned.
+static ScheduledTask::ErrorCategory categorizeError(const std::string& error_message) {
+    // Permanent errors: configuration / code problems that won't fix themselves
+    if (error_message.find("not found") != std::string::npos ||
+        error_message.find("unknown function") != std::string::npos ||
+        error_message.find("invalid argument") != std::string::npos ||
+        error_message.find("syntax error") != std::string::npos ||
+        error_message.find("parse error") != std::string::npos ||
+        error_message.find("no such") != std::string::npos) {
+        return ScheduledTask::ErrorCategory::PERMANENT;
+    }
+    // Timeout errors
+    if (error_message.find("timeout") != std::string::npos ||
+        error_message.find("timed out") != std::string::npos ||
+        error_message.find("deadline exceeded") != std::string::npos) {
+        return ScheduledTask::ErrorCategory::TIMEOUT;
+    }
+    // Security / authorisation errors
+    if (error_message.find("security") != std::string::npos ||
+        error_message.find("injection") != std::string::npos ||
+        error_message.find("forbidden") != std::string::npos ||
+        error_message.find("unauthorized") != std::string::npos ||
+        error_message.find("permission denied") != std::string::npos) {
+        return ScheduledTask::ErrorCategory::SECURITY;
+    }
+    // Resource / rate-limit errors
+    if (error_message.find("rate limit") != std::string::npos ||
+        error_message.find("resource limit") != std::string::npos ||
+        error_message.find("quota") != std::string::npos ||
+        error_message.find("out of memory") != std::string::npos ||
+        error_message.find("too many") != std::string::npos) {
+        return ScheduledTask::ErrorCategory::RESOURCE;
+    }
+    // Default: treat as transient (connection issues, temporary failures, etc.)
+    return ScheduledTask::ErrorCategory::TRANSIENT;
+}
+
+
+
+TaskScheduler::TaskScheduler(QueryEngine* query_engine, const Config& config, 
+                             Changefeed* changefeed, std::shared_ptr<utils::AuditLogger> audit_logger,
+                             RocksDBWrapper* result_storage)
+    : query_engine_(query_engine), changefeed_(changefeed), config_(config)
+    , dynamic_limit_(config.max_concurrent_tasks) {
     if (!query_engine_) {
         throw std::invalid_argument("TaskScheduler: query_engine cannot be null");
+    }
+    
+    // Initialize audit manager if audit logging is enabled
+    if (config_.enable_audit_logging) {
+        scheduler::TaskAuditConfig audit_config;
+        audit_config.enable_audit_logging = config_.enable_audit_logging;
+        audit_config.enable_anomaly_detection = config_.enable_anomaly_detection;
+        audit_config.enable_gdpr_mode = config_.enable_gdpr_mode;
+        
+        audit_manager_ = std::make_shared<scheduler::TaskAuditManager>(
+            audit_logger, audit_config);
+        
+        THEMIS_INFO("TaskScheduler audit logging enabled (anomaly_detection={}, gdpr_mode={})",
+                   config_.enable_anomaly_detection, config_.enable_gdpr_mode);
+    }
+    
+    // Initialize event trigger manager if changefeed is provided
+    if (changefeed_) {
+        event_trigger_manager_ = std::make_unique<EventTriggerManager>(changefeed_);
+        THEMIS_INFO("TaskScheduler initialized with CDC event support");
+    } else {
+        THEMIS_INFO("TaskScheduler initialized without CDC event support");
+    }
+
+    // Initialize result store if enabled and storage is provided
+    if (config_.enable_result_store) {
+        if (result_storage) {
+            result_store_ = std::make_unique<scheduler::TaskResultStore>(
+                *result_storage, config_.result_store_max_results_per_task);
+            THEMIS_INFO("TaskScheduler result store enabled (max_per_task={})",
+                        config_.result_store_max_results_per_task);
+        } else {
+            THEMIS_WARN("TaskScheduler: enable_result_store=true but no result_storage provided; "
+                        "result store is disabled");
+        }
     }
     
     if (config_.persist_tasks) {
@@ -45,18 +335,28 @@ TaskScheduler::~TaskScheduler() {
 // ===== Lifecycle =====
 
 void TaskScheduler::start() {
-    std::lock_guard<std::mutex> lock(tasks_mutex_);
-    
-    if (running_.load()) {
-        THEMIS_WARN("TaskScheduler already running");
-        return;
+    size_t task_count = 0;
+    {
+        std::lock_guard<std::mutex> lock(tasks_mutex_);
+        
+        if (running_.load()) {
+            THEMIS_WARN("TaskScheduler already running");
+            return;
+        }
+        
+        running_.store(true);
+        scheduler_thread_ = std::thread(&TaskScheduler::schedulerLoop, this);
+        task_count = tasks_.size();
+    }
+
+    // Restart any event triggers that were stopped (e.g. after a previous stop()).
+    // Called outside tasks_mutex_ to avoid lock inversion with the trigger callback.
+    if (event_trigger_manager_) {
+        event_trigger_manager_->startAll();
     }
     
-    running_.store(true);
-    scheduler_thread_ = std::thread(&TaskScheduler::schedulerLoop, this);
-    
     THEMIS_INFO("TaskScheduler started with {} tasks, check interval: {}s",
-                tasks_.size(), 
+                task_count, 
                 config_.check_interval.count() / 1000);
 }
 
@@ -80,11 +380,8 @@ void TaskScheduler::stop() {
     auto start = std::chrono::steady_clock::now();
     
     while (true) {
-        {
-            std::lock_guard<std::mutex> lock(running_mutex_);
-            if (running_task_threads_.empty()) {
-                break;
-            }
+        if (active_task_threads_.load() == 0) {
+            break;
         }
         
         if (std::chrono::steady_clock::now() - start > timeout) {
@@ -92,7 +389,7 @@ void TaskScheduler::stop() {
             break;
         }
         
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        std::this_thread::sleep_for(std::chrono::milliseconds(25));
     }
     
     // Join remaining threads
@@ -104,6 +401,11 @@ void TaskScheduler::stop() {
             }
         }
         running_task_threads_.clear();
+    }
+
+    // Stop event triggers to prevent CDC-triggered execution after stop()
+    if (event_trigger_manager_) {
+        event_trigger_manager_->stopAll();
     }
     
     if (config_.persist_tasks) {
@@ -127,6 +429,16 @@ std::string TaskScheduler::registerTask(const ScheduledTask& task) {
     // Validate resource limits (timeout, max_retries)
     validateResourceLimits(task);
     
+    // Validate trigger-specific configuration
+    if (task.trigger_type == ScheduledTask::TriggerType::CRON) {
+        validateCronExpression(task.cron_expression);
+    } else if (task.trigger_type == ScheduledTask::TriggerType::CDC_EVENT) {
+        validateCDCTrigger(task.cdc_trigger);
+        if (!changefeed_) {
+            throw std::invalid_argument("CDC event triggers require a Changefeed instance");
+        }
+    }
+    
     // Sanitize task parameters
     auto sanitized_task = sanitizeTask(task);
     
@@ -146,17 +458,50 @@ std::string TaskScheduler::registerTask(const ScheduledTask& task) {
     auto task_ptr = std::make_shared<ScheduledTask>(sanitized_task);
     task_ptr->id = id;
     
-    // Initialize next_run if not set
-    if (task_ptr->next_run == std::chrono::system_clock::time_point{}) {
-        task_ptr->next_run = std::chrono::system_clock::now() + task_ptr->interval;
+    // Initialize next_run based on trigger type
+    if (task_ptr->trigger_type == ScheduledTask::TriggerType::CRON) {
+        // Parse cron expression and calculate next run
+        updateCronExpression(id, task_ptr->cron_expression);
+        auto cron = getCronExpression(id);
+        if (cron) {
+            auto next = cron->getNextExecution(std::chrono::system_clock::now());
+            if (next) {
+                task_ptr->next_run = *next;
+            }
+        }
+    } else if (task_ptr->trigger_type == ScheduledTask::TriggerType::INTERVAL) {
+        // Traditional interval-based scheduling
+        if (task_ptr->next_run == std::chrono::system_clock::time_point{}) {
+            task_ptr->next_run = std::chrono::system_clock::now() + task_ptr->interval;
+        }
+    } else if (task_ptr->trigger_type == ScheduledTask::TriggerType::CDC_EVENT) {
+        // Setup CDC event trigger
+        setupEventTrigger(task_ptr);
     }
     
     tasks_[id] = task_ptr;
     
-    THEMIS_INFO("Registered task: {} (name={}, type={}, interval={}ms)",
-                id, sanitized_task.name, 
-                sanitized_task.type == ScheduledTask::TaskType::AQL_QUERY ? "AQL" : "FUNCTION",
-                sanitized_task.interval.count());
+    THEMIS_INFO("Registered task: {} (name={}, trigger_type={})",
+                id, sanitized_task.name,
+                static_cast<int>(sanitized_task.trigger_type));
+    
+    // Log audit event for task registration
+    if (audit_manager_) {
+        scheduler::TaskAuditEvent event;
+        event.uuid = scheduler::generateUUID();
+        event.timestamp = std::chrono::system_clock::now();
+        event.task_id = id;
+        event.task_name = sanitized_task.name;
+        event.task_description = sanitized_task.description;
+        event.event_type = scheduler::TaskEventType::TASK_REGISTERED;
+        event.trigger_type = getTriggerTypeString(sanitized_task.trigger_type);
+        event.success = true;
+        setDefaultAuditContext(event);
+        event.metadata["cron_expression"] = sanitized_task.cron_expression;
+        event.metadata["interval_ms"] = sanitized_task.interval.count();
+        
+        audit_manager_->logAuditEvent(event);
+    }
     
     if (config_.persist_tasks) {
         saveTasks();
@@ -170,7 +515,33 @@ void TaskScheduler::unregisterTask(const std::string& task_id) {
     
     auto it = tasks_.find(task_id);
     if (it != tasks_.end()) {
+        // Remove CDC event trigger if present
+        if (it->second->trigger_type == ScheduledTask::TriggerType::CDC_EVENT) {
+            removeEventTrigger(task_id);
+        }
+        
+        // Remove cron expression from cache
+        cron_expressions_.erase(task_id);
+        
         THEMIS_INFO("Unregistered task: {}", task_id);
+        
+        // Audit log task unregistration
+        if (config_.enable_audit_logging && audit_logger_) {
+            nlohmann::json details = {
+                {"task_name", it->second->name},
+                {"total_executions", it->second->total_executions},
+                {"successful_executions", it->second->successful_executions},
+                {"failed_executions", it->second->failed_executions}
+            };
+            
+            audit_logger_->logTaskSchedulerEvent(
+                utils::SecurityEventType::TASK_UNREGISTERED,
+                task_id,
+                TaskScheduler::currentUserId(DEFAULT_AUDIT_USER),
+                details
+            );
+        }
+        
         tasks_.erase(it);
         
         if (config_.persist_tasks) {
@@ -187,6 +558,20 @@ void TaskScheduler::enableTask(const std::string& task_id) {
         it->second->enabled = true;
         THEMIS_INFO("Enabled task: {}", task_id);
         
+        // Audit log task enable
+        if (config_.enable_audit_logging && audit_logger_) {
+            nlohmann::json details = {
+                {"task_name", it->second->name}
+            };
+            
+            audit_logger_->logTaskSchedulerEvent(
+                utils::SecurityEventType::TASK_ENABLED,
+                task_id,
+                TaskScheduler::currentUserId(DEFAULT_AUDIT_USER),
+                details
+            );
+        }
+        
         if (config_.persist_tasks) {
             saveTasks();
         }
@@ -200,6 +585,20 @@ void TaskScheduler::disableTask(const std::string& task_id) {
     if (it != tasks_.end()) {
         it->second->enabled = false;
         THEMIS_INFO("Disabled task: {}", task_id);
+        
+        // Audit log task disable
+        if (config_.enable_audit_logging && audit_logger_) {
+            nlohmann::json details = {
+                {"task_name", it->second->name}
+            };
+            
+            audit_logger_->logTaskSchedulerEvent(
+                utils::SecurityEventType::TASK_DISABLED,
+                task_id,
+                TaskScheduler::currentUserId(DEFAULT_AUDIT_USER),
+                details
+            );
+        }
         
         if (config_.persist_tasks) {
             saveTasks();
@@ -266,37 +665,510 @@ nlohmann::json TaskScheduler::executeTaskNow(const std::string& task_id) {
         task = it->second;
     }
     
-    // Execute synchronously
-    nlohmann::json result;
-    try {
-        if (task->type == ScheduledTask::TaskType::AQL_QUERY) {
-            result = executeAqlQuery(task->aql_query);
-        } else {
-            result = executeFunction(task->function_name, task->parameters);
-        }
+    // Audit log manual task execution trigger
+    if (config_.enable_audit_logging && audit_logger_) {
+        nlohmann::json details = {
+            {"task_name", task->name},
+            {"trigger_type", "MANUAL"}
+        };
         
+        audit_logger_->logTaskSchedulerEvent(
+            utils::SecurityEventType::TASK_MANUAL_TRIGGERED,
+            task_id,
+            TaskScheduler::currentUserId(DEFAULT_AUDIT_USER),
+            details
+        );
+    }
+    
+    auto start_time = std::chrono::steady_clock::now();
+
+    // Execute synchronously with retry logic (same as scheduled execution)
+    const ScheduledTask::RetryPolicy policy = effectiveRetryPolicy(*task);
+    const size_t max_attempts = (policy.strategy == ScheduledTask::RetryStrategy::NONE)
+                                    ? 1
+                                    : 1 + policy.max_retries;
+    std::string last_error;
+    bool succeeded = false;
+    nlohmann::json result;
+    size_t attempts_made = 0;
+
+    for (size_t attempt = 0; attempt < max_attempts; ++attempt) {
+        if (attempt > 0) {
+            auto delay = computeRetryDelay(policy, attempt - 1);
+            THEMIS_INFO("executeTaskNow: retrying task {} (attempt {}/{}) after {}ms "
+                        "[strategy={}]",
+                        task_id, attempt + 1, max_attempts, delay.count(),
+                        static_cast<int>(policy.strategy));
+            std::this_thread::sleep_for(delay);
+        }
+
+        ++attempts_made;
+        try {
+            if (task->type == ScheduledTask::TaskType::AQL_QUERY) {
+                result = executeAqlQuery(task->aql_query);
+            } else {
+                result = executeFunction(task->function_name, task->parameters);
+            }
+            succeeded = true;
+            break;
+        } catch (const std::exception& e) {
+            last_error = e.what();
+            // Check conditional should_retry if provided
+            if (policy.should_retry && !policy.should_retry(last_error)) {
+                THEMIS_INFO("executeTaskNow task {} retry skipped by should_retry: {}",
+                            task_id, last_error);
+                break;
+            }
+            if (attempt + 1 < max_attempts) {
+                THEMIS_WARN("executeTaskNow task {} attempt {}/{} failed: {} (will retry)",
+                            task_id, attempt + 1, max_attempts, e.what());
+            }
+        } catch (...) {
+            last_error = "unknown non-exception thrown";
+            THEMIS_ERROR("executeTaskNow task {} threw non-exception type", task_id);
+            break;  // Non-std exceptions are never retried
+        }
+    }
+
+    auto end_time = std::chrono::steady_clock::now();
+    double elapsed_ms = std::chrono::duration<double, std::milli>(end_time - start_time).count();
+
+    if (succeeded) {
         task->successful_executions++;
         task->last_success_time = std::chrono::system_clock::now();
-        
+        task->last_error_category = ScheduledTask::ErrorCategory::NONE;  // Reset on success
+
         if (task->on_success) {
             task->on_success(task_id, result);
         }
-    } catch (const std::exception& e) {
-        result = nlohmann::json{{"error", e.what()}};
+
+        // Resolve any active failure alert for this task
+        resolveTaskFailureAlert(task_id);
+    } else {
+        result = nlohmann::json{{"error", last_error}};
         task->failed_executions++;
-        task->last_error = e.what();
+        task->last_error = last_error;
+        task->last_error_category = categorizeError(last_error);
         task->last_failure_time = std::chrono::system_clock::now();
-        
+
         if (task->on_failure) {
-            task->on_failure(task_id, e.what());
+            task->on_failure(task_id, last_error);
         }
-        
-        span.recordError(e.what());
+
+        // Fire failure alert
+        fireTaskFailureAlert(*task, last_error);
+
+        span.recordError(last_error);
     }
-    
+
     task->total_executions++;
     total_executions_++;
+
+    // Check SLA breach (applies regardless of success/failure)
+    if (task->sla_deadline.has_value() &&
+        elapsed_ms > static_cast<double>(task->sla_deadline->count())) {
+        fireTaskSlaBreachAlert(*task, elapsed_ms);
+    }
+
+    // Persist execution result to ThemisDB (if result store is enabled)
+    if (result_store_) {
+        scheduler::TaskExecutionResult exec_result;
+        exec_result.task_id      = task->id;
+        exec_result.task_name    = task->name;
+        exec_result.timestamp_ms = getCurrentTimeMs();
+        exec_result.duration_ms  = elapsed_ms;
+        exec_result.success      = succeeded;
+        exec_result.output       = succeeded ? result : nlohmann::json{};
+        exec_result.error        = succeeded ? "" : last_error;
+        result_store_->store(exec_result);
+    }
     
+    return result;
+}
+
+// ===== DAG Execution =====
+
+std::vector<std::string> TaskScheduler::topologicalSort(
+    const std::vector<std::string>& task_ids,
+    const std::map<std::string, std::vector<std::string>>& adj) const
+{
+    // Kahn's algorithm: compute in-degrees, then process nodes with zero in-degree.
+    std::map<std::string, int> in_degree;
+    for (const auto& id : task_ids) {
+        in_degree[id] = 0;
+    }
+    for (const auto& [id, deps] : adj) {
+        for (const auto& dep : deps) {
+            in_degree[id]++;  // 'id' depends on 'dep', so it has higher in-degree
+        }
+    }
+
+    // Queue nodes with no dependencies
+    std::deque<std::string> ready;
+    for (const auto& [id, deg] : in_degree) {
+        if (deg == 0) {
+            ready.push_back(id);
+        }
+    }
+
+    // Build reverse adjacency: for each node, which nodes depend on it
+    std::map<std::string, std::vector<std::string>> dependents;
+    for (const auto& [id, deps] : adj) {
+        for (const auto& dep : deps) {
+            dependents[dep].push_back(id);
+        }
+    }
+
+    std::vector<std::string> order;
+    order.reserve(task_ids.size());
+
+    while (!ready.empty()) {
+        std::string cur = ready.front();
+        ready.pop_front();
+        order.push_back(cur);
+
+        auto it = dependents.find(cur);
+        if (it != dependents.end()) {
+            for (const auto& dependent : it->second) {
+                if (--in_degree[dependent] == 0) {
+                    ready.push_back(dependent);
+                }
+            }
+        }
+    }
+
+    if (order.size() != task_ids.size()) {
+        throw std::runtime_error(
+            "TaskScheduler::executeDAG: dependency graph contains a cycle");
+    }
+
+    return order;
+}
+
+TaskScheduler::DagExecutionResult TaskScheduler::executeDAG(
+    const std::vector<std::string>& task_ids)
+{
+    if (task_ids.empty()) {
+        return {};
+    }
+
+    // Build set of requested IDs for O(1) lookup
+    std::set<std::string> id_set(task_ids.begin(), task_ids.end());
+
+    // Resolve tasks and validate all IDs exist
+    std::map<std::string, std::shared_ptr<ScheduledTask>> task_map;
+    {
+        std::lock_guard<std::mutex> lock(tasks_mutex_);
+        for (const auto& id : task_ids) {
+            auto it = tasks_.find(id);
+            if (it == tasks_.end()) {
+                throw std::invalid_argument(
+                    "TaskScheduler::executeDAG: unknown task id '" + id + "'");
+            }
+            task_map[id] = it->second;
+        }
+    }
+
+    // Build adjacency: task -> list of its deps that are within the requested set.
+    // adj[task] = [dep1, dep2, ...] means task depends on dep1, dep2, ...
+    std::map<std::string, std::vector<std::string>> adj;
+    for (const auto& id : task_ids) {
+        adj[id] = {};
+        for (const auto& dep : task_map[id]->dependencies) {
+            if (id_set.count(dep)) {
+                adj[id].push_back(dep);
+            }
+        }
+    }
+
+    // Determine execution order via topological sort
+    std::vector<std::string> order = topologicalSort(task_ids, adj);
+
+    // Build reverse adjacency for propagating failures (dep -> [dependents])
+    std::map<std::string, std::vector<std::string>> dependents;
+    for (const auto& [id, deps] : adj) {
+        for (const auto& dep : deps) {
+            dependents[dep].push_back(id);
+        }
+    }
+
+    DagExecutionResult result;
+    std::set<std::string> failed_or_skipped;    // Tasks we should NOT execute (dep failure)
+    std::set<std::string> condition_skipped_set; // Tasks skipped by branch_condition
+
+    // Execute wave by wave: gather tasks whose dependencies are all done,
+    // run them in parallel, then repeat.
+    std::set<std::string> completed;  // succeeded tasks
+    std::set<std::string> processed;  // all tasks we have decided about
+
+    while (processed.size() < task_ids.size()) {
+        // Collect tasks that are ready (all deps completed successfully)
+        std::vector<std::string> wave;
+        for (const auto& id : order) {
+            if (processed.count(id)) {
+                continue;
+            }
+            // Check if it should be condition-skipped
+            if (condition_skipped_set.count(id)) {
+                result.condition_skipped.push_back(id);
+                processed.insert(id);
+                // Propagate condition-skip to dependents
+                auto dit = dependents.find(id);
+                if (dit != dependents.end()) {
+                    for (const auto& dep : dit->second) {
+                        condition_skipped_set.insert(dep);
+                    }
+                }
+                continue;
+            }
+            // Check if it should be skipped due to a failed dep
+            if (failed_or_skipped.count(id)) {
+                result.skipped.push_back(id);
+                processed.insert(id);
+                // Propagate skip to dependents
+                auto dit = dependents.find(id);
+                if (dit != dependents.end()) {
+                    for (const auto& dep : dit->second) {
+                        failed_or_skipped.insert(dep);
+                    }
+                }
+                continue;
+            }
+            // Check if all deps are in completed
+            bool deps_ready = true;
+            for (const auto& dep : adj[id]) {
+                if (!completed.count(dep)) {
+                    deps_ready = false;
+                    break;
+                }
+            }
+            if (deps_ready) {
+                // Evaluate branch_condition if set
+                auto& task = task_map[id];
+                if (task->branch_condition) {
+                    // Build dep_results map from succeeded dependency results
+                    std::map<std::string, nlohmann::json> dep_results;
+                    for (const auto& dep : adj[id]) {
+                        auto it = result.succeeded.find(dep);
+                        if (it != result.succeeded.end()) {
+                            dep_results[dep] = it->second;
+                        }
+                    }
+                    if (!task->branch_condition(dep_results)) {
+                        // Condition not met – condition-skip this task
+                        result.condition_skipped.push_back(id);
+                        processed.insert(id);
+                        condition_skipped_set.insert(id);
+                        // Propagate condition-skip to direct dependents
+                        auto dit = dependents.find(id);
+                        if (dit != dependents.end()) {
+                            for (const auto& dep : dit->second) {
+                                condition_skipped_set.insert(dep);
+                            }
+                        }
+                        continue;
+                    }
+                }
+                wave.push_back(id);
+            }
+        }
+
+        if (wave.empty()) {
+            // No progress possible – all remaining tasks must have already been
+            // processed as condition-skipped, failure-skipped, or have unresolvable
+            // deps (should not occur with a cycle-free graph).
+            for (const auto& id : order) {
+                if (!processed.count(id)) {
+                    result.skipped.push_back(id);
+                    processed.insert(id);
+                }
+            }
+            break;
+        }
+
+        // Execute wave tasks in parallel
+        struct WaveResult {
+            std::string id;
+            bool succeeded = false;
+            nlohmann::json result;
+            std::string error;
+            std::string error_type;
+        };
+        std::vector<WaveResult> wave_results(wave.size());
+        std::vector<std::thread> threads;
+        threads.reserve(wave.size());
+
+        for (size_t i = 0; i < wave.size(); ++i) {
+            wave_results[i].id = wave[i];
+            threads.emplace_back([this, &wave_results, i, &task_map]() {
+                const auto& id = wave_results[i].id;
+                auto task = task_map[id];
+                const int64_t exec_start_ms = getCurrentTimeMs();
+                const auto exec_start = std::chrono::steady_clock::now();
+
+                // Log TASK_STARTED audit event
+                if (audit_manager_) {
+                    scheduler::TaskAuditEvent start_event;
+                    start_event.uuid = scheduler::generateUUID();
+                    start_event.timestamp = std::chrono::system_clock::now();
+                    start_event.task_id = task->id;
+                    start_event.task_name = task->name;
+                    start_event.task_description = task->description;
+                    start_event.event_type = scheduler::TaskEventType::TASK_STARTED;
+                    start_event.trigger_type = getTriggerTypeString(task->trigger_type);
+                    setDefaultAuditContext(start_event);
+                    audit_manager_->logAuditEvent(start_event);
+                }
+
+                try {
+                    nlohmann::json r;
+                    if (task->type == ScheduledTask::TaskType::AQL_QUERY) {
+                        r = executeAqlQuery(task->aql_query);
+                    } else {
+                        r = executeFunction(task->function_name, task->parameters);
+                    }
+                    wave_results[i].succeeded = true;
+                    wave_results[i].result = std::move(r);
+                } catch (const std::exception& e) {
+                    task->last_error = e.what();
+                    task->last_error_category = categorizeError(e.what());
+                    wave_results[i].error = e.what();
+                    wave_results[i].error_type = "EXECUTION_ERROR";
+                } catch (...) {
+                    task->last_error = "unknown non-exception thrown";
+                    task->last_error_category = ScheduledTask::ErrorCategory::TRANSIENT;
+                    wave_results[i].error = "unknown non-exception thrown";
+                    wave_results[i].error_type = "UNKNOWN_ERROR";
+                }
+
+                // Compute duration once after execution (for stats, audit, SLA, result store).
+                const double dur_ms = std::chrono::duration<double, std::milli>(
+                    std::chrono::steady_clock::now() - exec_start).count();
+
+                if (wave_results[i].succeeded) {
+                    // Update task stats
+                    task->total_executions++;
+                    task->successful_executions++;
+                    task->last_run_ms = exec_start_ms;
+                    task->last_success_time = std::chrono::system_clock::now();
+                    task->last_error_category = ScheduledTask::ErrorCategory::NONE;
+                    task->avg_execution_time_ms =
+                        (task->avg_execution_time_ms * (task->total_executions - 1) + dur_ms)
+                        / task->total_executions;
+
+                    // Log TASK_COMPLETED audit event
+                    if (audit_manager_) {
+                        scheduler::TaskAuditEvent completion_event;
+                        completion_event.uuid = scheduler::generateUUID();
+                        completion_event.timestamp = std::chrono::system_clock::now();
+                        completion_event.duration_ms = dur_ms;
+                        completion_event.task_id = task->id;
+                        completion_event.task_name = task->name;
+                        completion_event.task_description = task->description;
+                        completion_event.event_type = scheduler::TaskEventType::TASK_COMPLETED;
+                        completion_event.trigger_type = getTriggerTypeString(task->trigger_type);
+                        setDefaultAuditContext(completion_event);
+                        completion_event.success = true;
+                        // cpu_time_ms is approximated by wall-clock time (same as executeTask)
+                        completion_event.resource_usage.execution_time_ms = dur_ms;
+                        completion_event.resource_usage.cpu_time_ms = dur_ms;
+                        if (wave_results[i].result.is_object()) {
+                            if (wave_results[i].result.contains("rows")) {
+                                completion_event.resource_usage.result_rows =
+                                    wave_results[i].result["rows"].get<uint64_t>();
+                            }
+                            if (wave_results[i].result.contains("affected")) {
+                                completion_event.resource_usage.affected_rows =
+                                    wave_results[i].result["affected"].get<uint64_t>();
+                            }
+                        }
+                        audit_manager_->logAuditEvent(completion_event);
+                    }
+
+                    if (task->on_success) {
+                        task->on_success(id, wave_results[i].result);
+                    }
+                    resolveTaskFailureAlert(id);
+                } else {
+                    // Update failure stats
+                    task->total_executions++;
+                    task->failed_executions++;
+                    task->last_failure_time = std::chrono::system_clock::now();
+
+                    // Log TASK_FAILED audit event
+                    if (audit_manager_) {
+                        scheduler::TaskAuditEvent failure_event;
+                        failure_event.uuid = scheduler::generateUUID();
+                        failure_event.timestamp = std::chrono::system_clock::now();
+                        failure_event.duration_ms = dur_ms;
+                        failure_event.task_id = task->id;
+                        failure_event.task_name = task->name;
+                        failure_event.task_description = task->description;
+                        failure_event.event_type = scheduler::TaskEventType::TASK_FAILED;
+                        failure_event.trigger_type = getTriggerTypeString(task->trigger_type);
+                        setDefaultAuditContext(failure_event);
+                        failure_event.success = false;
+                        failure_event.error_message = wave_results[i].error;
+                        failure_event.error_type = wave_results[i].error_type;
+                        // cpu_time_ms is approximated by wall-clock time (same as executeTask)
+                        failure_event.resource_usage.execution_time_ms = dur_ms;
+                        failure_event.resource_usage.cpu_time_ms = dur_ms;
+                        audit_manager_->logAuditEvent(failure_event);
+                    }
+
+                    if (task->on_failure) {
+                        task->on_failure(id, wave_results[i].error);
+                    }
+                    fireTaskFailureAlert(*task, wave_results[i].error);
+                }
+
+                // Check SLA breach (applies regardless of success/failure)
+                if (task->sla_deadline.has_value() &&
+                    dur_ms > static_cast<double>(task->sla_deadline->count())) {
+                    fireTaskSlaBreachAlert(*task, dur_ms);
+                }
+
+                if (result_store_) {
+                    scheduler::TaskExecutionResult exec_result;
+                    exec_result.task_id      = task->id;
+                    exec_result.task_name    = task->name;
+                    exec_result.timestamp_ms = exec_start_ms;
+                    exec_result.duration_ms  = dur_ms;
+                    exec_result.success      = wave_results[i].succeeded;
+                    exec_result.output       = wave_results[i].succeeded
+                                                   ? wave_results[i].result
+                                                   : nlohmann::json{};
+                    exec_result.error        = wave_results[i].error;
+                    result_store_->store(exec_result);
+                }
+            });
+        }
+        for (auto& t : threads) {
+            t.join();
+        }
+        total_executions_ += wave.size();
+
+        // Collect wave results
+        for (auto& wr : wave_results) {
+            processed.insert(wr.id);
+            if (wr.succeeded) {
+                completed.insert(wr.id);
+                result.succeeded[wr.id] = std::move(wr.result);
+            } else {
+                failed_executions_++;
+                result.failed[wr.id] = wr.error;
+                failed_or_skipped.insert(wr.id);
+                // Propagate failure to direct dependents
+                auto dit = dependents.find(wr.id);
+                if (dit != dependents.end()) {
+                    for (const auto& dep : dit->second) {
+                        failed_or_skipped.insert(dep);
+                    }
+                }
+            }
+        }
+    }
+
     return result;
 }
 
@@ -316,9 +1188,6 @@ void TaskScheduler::registerFunction(const std::string& name, TaskFunction func)
     //                  name, auth_context ? auth_context->user_id : "unknown");
     //     throw std::runtime_error("Unauthorized: Only system administrators can register functions");
     // }
-    
-    // TODO: Consider sandboxing function execution in future versions
-    // Functions should run with limited privileges and resource constraints
     
     std::lock_guard<std::mutex> lock(tasks_mutex_);
     functions_[name] = func;
@@ -362,7 +1231,146 @@ TaskScheduler::Stats TaskScheduler::getStats() const {
     return stats;
 }
 
+std::string TaskScheduler::exportMetrics() const {
+    std::ostringstream out;
+
+    // Helper lambda for Prometheus text format (gauge metric with HELP + TYPE)
+    auto write_gauge = [&](const std::string& name, const std::string& help,
+                           double value) {
+        out << "# HELP " << name << " " << help << "\n";
+        out << "# TYPE " << name << " gauge\n";
+        out << name << " " << value << "\n";
+    };
+
+    // Capture snapshot under the lock
+    size_t registered_tasks, active_tasks, running_tasks;
+    size_t total_exec, failed_exec;
+    std::vector<ScheduledTask> task_snapshot;
+
+    {
+        std::lock_guard<std::mutex> lock(tasks_mutex_);
+        registered_tasks = tasks_.size();
+        active_tasks = std::count_if(tasks_.begin(), tasks_.end(),
+                                     [](const auto& p) { return p.second->enabled; });
+        {
+            std::lock_guard<std::mutex> rlock(running_mutex_);
+            running_tasks = running_task_threads_.size();
+        }
+        total_exec   = total_executions_.load();
+        failed_exec  = failed_executions_.load();
+
+        task_snapshot.reserve(tasks_.size());
+        for (const auto& [id, task] : tasks_) {
+            task_snapshot.push_back(*task);
+        }
+    }
+
+    // ── Scheduler-level gauges ────────────────────────────────────────────
+    write_gauge("themis_scheduler_tasks_registered",
+                "Total number of registered scheduled tasks.",
+                static_cast<double>(registered_tasks));
+
+    write_gauge("themis_scheduler_tasks_active",
+                "Number of enabled (active) scheduled tasks.",
+                static_cast<double>(active_tasks));
+
+    write_gauge("themis_scheduler_tasks_running",
+                "Number of task instances currently executing.",
+                static_cast<double>(running_tasks));
+
+    // ── Scheduler-level counters ──────────────────────────────────────────
+    out << "# HELP themis_scheduler_executions_total"
+           " Total number of task execution attempts.\n";
+    out << "# TYPE themis_scheduler_executions_total counter\n";
+    out << "themis_scheduler_executions_total{status=\"success\"} "
+        << (total_exec - failed_exec) << "\n";
+    out << "themis_scheduler_executions_total{status=\"failure\"} "
+        << failed_exec << "\n";
+
+    // ── Per-task metrics ──────────────────────────────────────────────────
+    if (!task_snapshot.empty()) {
+        // Counters per task
+        out << "# HELP themis_scheduler_task_executions_total"
+               " Execution count per task.\n";
+        out << "# TYPE themis_scheduler_task_executions_total counter\n";
+        for (const auto& t : task_snapshot) {
+            // Sanitize label values (replace " and \ which are illegal in labels)
+            std::string safe_name = t.name;
+            for (char& c : safe_name) {
+                if (c == '"' || c == '\\' || c == '\n') c = '_';
+            }
+            std::string labels = "task_id=\"" + t.id + "\",task_name=\"" + safe_name + "\"";
+            out << "themis_scheduler_task_executions_total{"
+                << labels << ",status=\"success\"} "
+                << t.successful_executions << "\n";
+            out << "themis_scheduler_task_executions_total{"
+                << labels << ",status=\"failure\"} "
+                << t.failed_executions << "\n";
+        }
+
+        // Avg execution duration gauge per task
+        out << "# HELP themis_scheduler_task_execution_duration_ms"
+               " Moving-average execution duration per task in milliseconds.\n";
+        out << "# TYPE themis_scheduler_task_execution_duration_ms gauge\n";
+        for (const auto& t : task_snapshot) {
+            std::string safe_name = t.name;
+            for (char& c : safe_name) {
+                if (c == '"' || c == '\\' || c == '\n') c = '_';
+            }
+            out << "themis_scheduler_task_execution_duration_ms"
+                << "{task_id=\"" << t.id << "\",task_name=\"" << safe_name << "\"} "
+                << t.avg_execution_time_ms << "\n";
+        }
+
+        // Last-run timestamp (unix epoch seconds) per task
+        out << "# HELP themis_scheduler_task_last_run_timestamp_seconds"
+               " Unix timestamp of the last execution for each task.\n";
+        out << "# TYPE themis_scheduler_task_last_run_timestamp_seconds gauge\n";
+        for (const auto& t : task_snapshot) {
+            std::string safe_name = t.name;
+            for (char& c : safe_name) {
+                if (c == '"' || c == '\\' || c == '\n') c = '_';
+            }
+            double last_run_sec = 0.0;
+            if (t.last_run_ms > 0) {
+                last_run_sec = static_cast<double>(t.last_run_ms) / 1000.0;
+            }
+            out << "themis_scheduler_task_last_run_timestamp_seconds"
+                << "{task_id=\"" << t.id << "\",task_name=\"" << safe_name << "\"} "
+                << last_run_sec << "\n";
+        }
+
+        // Enabled flag (1 = enabled, 0 = disabled)
+        out << "# HELP themis_scheduler_task_enabled"
+               " Whether a task is currently enabled (1) or disabled (0).\n";
+        out << "# TYPE themis_scheduler_task_enabled gauge\n";
+        for (const auto& t : task_snapshot) {
+            std::string safe_name = t.name;
+            for (char& c : safe_name) {
+                if (c == '"' || c == '\\' || c == '\n') c = '_';
+            }
+            out << "themis_scheduler_task_enabled"
+                << "{task_id=\"" << t.id << "\",task_name=\"" << safe_name << "\"} "
+                << (t.enabled ? 1 : 0) << "\n";
+        }
+    }
+
+    // Dynamic scaling metrics (always emitted; values reflect config when scaling disabled)
+    out << "# HELP themis_scheduler_concurrency_limit"
+           " Current effective max-concurrent-tasks limit (dynamic or static).\n";
+    out << "# TYPE themis_scheduler_concurrency_limit gauge\n";
+    out << "themis_scheduler_concurrency_limit " << dynamic_limit_.load() << "\n";
+
+    out << "# HELP themis_scheduler_queue_depth"
+           " Number of tasks ready to run but waiting for a free worker slot on the last tick.\n";
+    out << "# TYPE themis_scheduler_queue_depth gauge\n";
+    out << "themis_scheduler_queue_depth " << queue_depth_.load() << "\n";
+
+    return out.str();
+}
+
 std::vector<ScheduledTask> TaskScheduler::listTasks() const {
+
     std::lock_guard<std::mutex> lock(tasks_mutex_);
     
     std::vector<ScheduledTask> result;
@@ -386,6 +1394,26 @@ std::shared_ptr<ScheduledTask> TaskScheduler::getTask(const std::string& task_id
     return nullptr;
 }
 
+std::vector<scheduler::TaskAuditEvent> TaskScheduler::getExecutionHistory(
+    const std::string& task_id,
+    size_t limit,
+    size_t offset) const {
+    
+    if (!audit_manager_) {
+        return {};
+    }
+    
+    scheduler::AuditQueryParams params;
+    if (!task_id.empty()) {
+        params.task_id = task_id;
+    }
+    params.limit = limit;
+    params.offset = offset;
+    params.sort_by = scheduler::AuditQueryParams::SortBy::TIMESTAMP_DESC;
+    
+    return audit_manager_->queryAuditEvents(params);
+}
+
 // ===== Scheduler Loop =====
 
 void TaskScheduler::schedulerLoop() {
@@ -396,10 +1424,16 @@ void TaskScheduler::schedulerLoop() {
         auto now = std::chrono::system_clock::now();
         
         std::vector<std::shared_ptr<ScheduledTask>> tasks_to_execute;
+        size_t pending_count = 0;  // tasks ready but over the concurrency limit
         
         {
             std::lock_guard<std::mutex> lock(tasks_mutex_);
             last_run_ = now;
+
+            // Use the dynamically adjusted limit (or the static config value).
+            const size_t effective_limit = config_.enable_dynamic_scaling
+                ? dynamic_limit_.load()
+                : config_.max_concurrent_tasks;
             
             for (auto& [id, task] : tasks_) {
                 if (!task->enabled || task->running) {
@@ -408,46 +1442,73 @@ void TaskScheduler::schedulerLoop() {
                 
                 if (shouldExecute(*task, now)) {
                     // Check concurrent task limit
-                    size_t running_count = 0;
-                    {
-                        std::lock_guard<std::mutex> running_lock(running_mutex_);
-                        running_count = running_task_threads_.size();
+                    size_t running_count = active_task_threads_.load();
+                    
+                    if (running_count >= effective_limit) {
+                        THEMIS_DEBUG("Max concurrent tasks reached ({}), delaying task {}",
+                                    effective_limit, id);
+                        ++pending_count;
+                        continue;
                     }
                     
-                    if (running_count >= config_.max_concurrent_tasks) {
-                        THEMIS_DEBUG("Max concurrent tasks reached ({}), delaying task {}",
-                                    config_.max_concurrent_tasks, id);
-                        continue;
+                    // Audit log cron trigger activation (for cron-based tasks)
+                    if (config_.enable_audit_logging && audit_logger_ && 
+                        task->trigger_type == ScheduledTask::TriggerType::CRON) {
+                        nlohmann::json details = {
+                            {"task_name", task->name},
+                            {"trigger_type", "CRON"},
+                            {"cron_expression", task->cron_expression}
+                        };
+                        
+                        audit_logger_->logTaskSchedulerEvent(
+                            utils::SecurityEventType::TASK_CRON_TRIGGERED,
+                            id,
+                            TaskScheduler::currentUserId(), // propagated from thread-local RequestContext
+                            details
+                        );
                     }
                     
                     tasks_to_execute.push_back(task);
                 }
             }
         }
-        
+
+        // Adjust concurrency limit based on pending queue depth (no-op when scaling disabled).
+        adjustConcurrencyLimit(pending_count);
+
+        // Sort pending tasks by priority (HIGH first) before dispatch.
+        std::sort(tasks_to_execute.begin(), tasks_to_execute.end(),
+            [](const std::shared_ptr<ScheduledTask>& a, const std::shared_ptr<ScheduledTask>& b) {
+                return static_cast<int>(a->priority) > static_cast<int>(b->priority);
+            });
+
         // Execute tasks outside the lock
         for (auto& task : tasks_to_execute) {
             task->running = true;
+            active_task_threads_.fetch_add(1);
             
             // Launch task in separate thread
             std::thread task_thread([this, task]() {
                 executeTask(task);
-                
-                // Remove from running threads
-                {
-                    std::lock_guard<std::mutex> lock(running_mutex_);
-                    running_task_threads_.erase(task->id);
-                }
+                active_task_threads_.fetch_sub(1);
             });
             
             // Store thread for cleanup
             {
                 std::lock_guard<std::mutex> lock(running_mutex_);
+                auto existing = running_task_threads_.find(task->id);
+                if (existing != running_task_threads_.end()) {
+                    if (existing->second.joinable()) {
+                        existing->second.join();
+                    }
+                    running_task_threads_.erase(existing);
+                }
                 running_task_threads_[task->id] = std::move(task_thread);
             }
         }
         
         span.setAttribute("tasks_executed", static_cast<int64_t>(tasks_to_execute.size()));
+        span.setAttribute("tasks_pending",  static_cast<int64_t>(pending_count));
         
         // Wait for next check interval or shutdown signal
         std::unique_lock<std::mutex> lock(tasks_mutex_);
@@ -463,26 +1524,91 @@ void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
     span.setAttribute("task_name", task->name);
     
     auto start = std::chrono::steady_clock::now();
+    const int64_t exec_timestamp_ms = getCurrentTimeMs();  // captured for result store
     
-    try {
-        nlohmann::json result;
+    // Create audit event for task start
+    scheduler::TaskAuditEvent start_event;
+    if (audit_manager_) {
+        start_event.uuid = scheduler::generateUUID();
+        start_event.timestamp = std::chrono::system_clock::now();
+        start_event.task_id = task->id;
+        start_event.task_name = task->name;
+        start_event.task_description = task->description;
+        start_event.event_type = scheduler::TaskEventType::TASK_STARTED;
+        start_event.trigger_type = getTriggerTypeString(task->trigger_type);
+        setDefaultAuditContext(start_event);
         
-        if (task->type == ScheduledTask::TaskType::AQL_QUERY) {
-            span.setAttribute("task_type", "aql");
-            result = executeAqlQuery(task->aql_query);
-        } else {
-            span.setAttribute("task_type", "function");
-            result = executeFunction(task->function_name, task->parameters);
+        audit_manager_->logAuditEvent(start_event);
+    }
+
+    // Retry loop with strategy-based backoff (RetryPolicy)
+    const ScheduledTask::RetryPolicy policy = effectiveRetryPolicy(*task);
+    const size_t max_attempts = (policy.strategy == ScheduledTask::RetryStrategy::NONE)
+                                    ? 1
+                                    : 1 + policy.max_retries;
+    std::string last_error;
+    bool succeeded = false;
+    nlohmann::json result;
+    size_t attempts_made = 0;
+
+    for (size_t attempt = 0; attempt < max_attempts; ++attempt) {
+        // Abort if scheduler is stopping
+        if (!running_.load()) {
+            break;
         }
-        
-        auto end = std::chrono::steady_clock::now();
-        double elapsed_ms = std::chrono::duration<double, std::milli>(end - start).count();
-        
+
+        // Compute and apply delay before each retry (not before the first attempt)
+        if (attempt > 0) {
+            auto delay = computeRetryDelay(policy, attempt - 1);
+
+            THEMIS_INFO("Retrying task {} (attempt {}/{}) after {}ms [strategy={}]",
+                        task->id, attempt + 1, max_attempts, delay.count(),
+                        static_cast<int>(policy.strategy));
+
+            std::this_thread::sleep_for(delay);
+            if (!running_.load()) break;
+        }
+
+        ++attempts_made;
+        try {
+            if (task->type == ScheduledTask::TaskType::AQL_QUERY) {
+                span.setAttribute("task_type", "aql");
+                result = executeAqlQuery(task->aql_query);
+            } else {
+                span.setAttribute("task_type", "function");
+                result = executeFunction(task->function_name, task->parameters);
+            }
+            succeeded = true;
+            break;  // Success – no more retries needed
+        } catch (const std::exception& e) {
+            last_error = e.what();
+            // Honor conditional should_retry if provided
+            if (policy.should_retry && !policy.should_retry(last_error)) {
+                THEMIS_INFO("Task {} retry skipped by should_retry policy: {}",
+                            task->id, last_error);
+                break;
+            }
+            if (attempt + 1 < max_attempts) {
+                THEMIS_WARN("Task {} attempt {}/{} failed: {} (will retry)",
+                            task->id, attempt + 1, max_attempts, e.what());
+            }
+        } catch (...) {
+            last_error = "unknown non-exception thrown";
+            THEMIS_ERROR("Task {} threw non-exception type; no retry", task->id);
+            break;  // Non-std exceptions are never retried
+        }
+    }
+    
+    auto end = std::chrono::steady_clock::now();
+    double elapsed_ms = std::chrono::duration<double, std::milli>(end - start).count();
+
+    if (succeeded) {
         // Update statistics
         task->last_run_ms = getCurrentTimeMs();
         task->total_executions++;
         task->successful_executions++;
         task->last_success_time = std::chrono::system_clock::now();
+        task->last_error_category = ScheduledTask::ErrorCategory::NONE;  // Reset on success
         
         // Update moving average of execution time
         task->avg_execution_time_ms = 
@@ -490,32 +1616,133 @@ void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
             / task->total_executions;
         
         updateNextRun(*task);
-        
         total_executions_++;
-        
         span.setAttribute("execution_time_ms", elapsed_ms);
         
         THEMIS_DEBUG("Executed task {} ({}): {:.2f}ms",
                      task->id, task->name, elapsed_ms);
         
+        // Log audit event for successful completion
+        if (audit_manager_) {
+            scheduler::TaskAuditEvent completion_event;
+            completion_event.uuid = scheduler::generateUUID();
+            completion_event.timestamp = std::chrono::system_clock::now();
+            completion_event.duration_ms = elapsed_ms;
+            completion_event.task_id = task->id;
+            completion_event.task_name = task->name;
+            completion_event.task_description = task->description;
+            completion_event.event_type = scheduler::TaskEventType::TASK_COMPLETED;
+            completion_event.trigger_type = start_event.trigger_type;
+            setDefaultAuditContext(completion_event);
+            completion_event.success = true;
+            
+            // Resource usage (basic metrics)
+            completion_event.resource_usage.execution_time_ms = elapsed_ms;
+            completion_event.resource_usage.cpu_time_ms = elapsed_ms; // Approximate
+            
+            // Extract result metrics if available
+            if (result.is_object()) {
+                if (result.contains("rows")) {
+                    completion_event.resource_usage.result_rows = result["rows"].get<uint64_t>();
+                }
+                if (result.contains("affected")) {
+                    completion_event.resource_usage.affected_rows = result["affected"].get<uint64_t>();
+                }
+            }
+            
+            audit_manager_->logAuditEvent(completion_event);
+        }
+        
         if (task->on_success) {
             task->on_success(task->id, result);
         }
-        
-    } catch (const std::exception& e) {
+
+        // Resolve any active failure alert for this task
+        resolveTaskFailureAlert(task->id);
+    } else {
+        // All attempts failed
+        task->total_executions++;  // Mirror executeTaskNow/executeDAG behaviour
         task->failed_executions++;
-        task->last_error = e.what();
+        task->last_error = last_error;
+        task->last_error_category = categorizeError(last_error);
         task->last_failure_time = std::chrono::system_clock::now();
         failed_executions_++;
         
         updateNextRun(*task);
         
-        span.recordError(e.what());
-        THEMIS_ERROR("Failed to execute task {}: {}", task->id, e.what());
+        span.recordError(last_error);
+        THEMIS_ERROR("Task {} failed after {} attempt(s): {}",
+                     task->id, max_attempts, last_error);
+        
+        // Log audit event for failure
+        if (audit_manager_) {
+            scheduler::TaskAuditEvent failure_event;
+            failure_event.uuid = scheduler::generateUUID();
+            failure_event.timestamp = std::chrono::system_clock::now();
+            failure_event.duration_ms = elapsed_ms;
+            failure_event.task_id = task->id;
+            failure_event.task_name = task->name;
+            failure_event.task_description = task->description;
+            failure_event.event_type = scheduler::TaskEventType::TASK_FAILED;
+            failure_event.trigger_type = start_event.trigger_type;
+            setDefaultAuditContext(failure_event);
+            failure_event.success = false;
+            failure_event.error_message = last_error;
+            failure_event.error_type = "EXECUTION_ERROR";
+            failure_event.metadata["attempts_made"] = attempts_made;
+            
+            // Resource usage
+            failure_event.resource_usage.execution_time_ms = elapsed_ms;
+            failure_event.resource_usage.cpu_time_ms = elapsed_ms;
+            
+            auto anomaly_metrics = audit_manager_->logAuditEvent(failure_event);
+            
+            // If anomaly detected in failures, log as security event
+            if (anomaly_metrics.is_anomalous && anomaly_metrics.failure_rate_score > 0.7) {
+                scheduler::TaskSecurityEvent security_event;
+                security_event.uuid = scheduler::generateUUID();
+                security_event.timestamp = std::chrono::system_clock::now();
+                security_event.task_id = task->id;
+                security_event.task_name = task->name;
+                security_event.event_type = scheduler::TaskSecurityEventType::EXCESSIVE_FAILURES;
+                security_event.severity = "HIGH";
+                setDefaultAuditContext(security_event);
+                security_event.violation_type = "excessive_failures";
+                security_event.description = "Task showing excessive failure rate: " + anomaly_metrics.description;
+                security_event.details["anomaly_score"] = anomaly_metrics.overall_score;
+                security_event.details["failure_rate_score"] = anomaly_metrics.failure_rate_score;
+                security_event.blocked = false;
+                security_event.action_taken = "logged_for_review";
+                
+                audit_manager_->logSecurityEvent(security_event);
+            }
+        }
         
         if (task->on_failure) {
-            task->on_failure(task->id, e.what());
+            task->on_failure(task->id, last_error);
         }
+
+        // Fire failure alert
+        fireTaskFailureAlert(*task, last_error);
+    }
+
+    // Check SLA breach (applies regardless of success/failure)
+    if (task->sla_deadline.has_value() &&
+        elapsed_ms > static_cast<double>(task->sla_deadline->count())) {
+        fireTaskSlaBreachAlert(*task, elapsed_ms);
+    }
+
+    // Persist execution result to ThemisDB (if result store is enabled)
+    if (result_store_) {
+        scheduler::TaskExecutionResult exec_result;
+        exec_result.task_id      = task->id;
+        exec_result.task_name    = task->name;
+        exec_result.timestamp_ms = exec_timestamp_ms;
+        exec_result.duration_ms  = elapsed_ms;
+        exec_result.success      = succeeded;
+        exec_result.output       = succeeded ? result : nlohmann::json{};
+        exec_result.error        = succeeded ? "" : last_error;
+        result_store_->store(exec_result);
     }
     
     task->running = false;
@@ -540,13 +1767,13 @@ nlohmann::json TaskScheduler::executeAqlQuery(const std::string& aql) {
     auto span = Tracer::startSpan("TaskScheduler.executeAqlQuery");
     span.setAttribute("aql", aql);
     
-    auto [status, result] = executeAql(aql, *query_engine_);
+    auto result = executeAql(aql, *query_engine_);
     
-    if (!status.ok()) {
-        throw std::runtime_error("AQL query failed: " + status.message());
+    if (!result) {
+        throw std::runtime_error("AQL query failed: " + result.error().message());
     }
     
-    return result;
+    return *result;
 }
 
 nlohmann::json TaskScheduler::executeFunction(const std::string& name, const nlohmann::json& params) {
@@ -556,6 +1783,19 @@ nlohmann::json TaskScheduler::executeFunction(const std::string& name, const nlo
     auto it = functions_.find(name);
     if (it == functions_.end()) {
         throw std::runtime_error("Function not found: " + name);
+    }
+
+    if (config_.sandbox_execution) {
+        modules::ModuleSandbox::Config sandbox_cfg;
+        modules::ModuleSandbox sandbox(sandbox_cfg);
+        if (!sandbox.launch(name)) {
+            THEMIS_WARN("Sandbox launch failed for function '{}': {}; executing without sandbox",
+                        name, sandbox.lastError());
+            return it->second(params);
+        }
+        auto result = it->second(params);
+        sandbox.shutdown();
+        return result;
     }
     
     return it->second(params);
@@ -569,11 +1809,37 @@ bool TaskScheduler::shouldExecute(const ScheduledTask& task,
         return false;  // Task already running
     }
     
-    return now >= task.next_run;
+    // Check based on trigger type
+    if (task.trigger_type == ScheduledTask::TriggerType::CRON) {
+        return shouldExecuteCron(task, now);
+    } else if (task.trigger_type == ScheduledTask::TriggerType::INTERVAL) {
+        return now >= task.next_run;
+    } else if (task.trigger_type == ScheduledTask::TriggerType::CDC_EVENT) {
+        // CDC events trigger tasks directly via callbacks
+        return false;
+    } else if (task.trigger_type == ScheduledTask::TriggerType::MANUAL) {
+        // Manual tasks are only executed via executeTaskNow()
+        return false;
+    }
+    
+    return false;
 }
 
 void TaskScheduler::updateNextRun(ScheduledTask& task) {
-    task.next_run = std::chrono::system_clock::now() + task.interval;
+    if (task.trigger_type == ScheduledTask::TriggerType::CRON) {
+        // Calculate next run from cron expression
+        auto it = cron_expressions_.find(task.id);
+        if (it != cron_expressions_.end()) {
+            auto next = it->second->getNextExecution(std::chrono::system_clock::now());
+            if (next) {
+                task.next_run = *next;
+            }
+        }
+    } else if (task.trigger_type == ScheduledTask::TriggerType::INTERVAL) {
+        // Traditional interval-based scheduling
+        task.next_run = std::chrono::system_clock::now() + task.interval;
+    }
+    // CDC_EVENT and MANUAL types don't have a next_run
 }
 
 // ===== Persistence =====
@@ -601,6 +1867,43 @@ void TaskScheduler::saveTasks() {
         task_json["interval_ms"] = task->interval.count();
         task_json["enabled"] = task->enabled;
         
+        // Save trigger configuration
+        task_json["trigger_type"] = static_cast<int>(task->trigger_type);
+        task_json["cron_expression"] = task->cron_expression;
+        task_json["priority"] = static_cast<int>(task->priority);
+        task_json["trigger_logic"] = static_cast<int>(task->trigger_logic);
+        
+        // Save CDC trigger config
+        nlohmann::json cdc_json;
+        cdc_json["key_prefix"] = task->cdc_trigger.key_prefix;
+        cdc_json["event_types"] = nlohmann::json::array();
+        for (int type : task->cdc_trigger.event_types) {
+            cdc_json["event_types"].push_back(type);
+        }
+        if (task->cdc_trigger.condition) {
+            cdc_json["condition"] = *task->cdc_trigger.condition;
+        }
+        cdc_json["debounce_ms"] = task->cdc_trigger.debounce_ms;
+        task_json["cdc_trigger"] = cdc_json;
+
+        // Save retry policy (serialize strategy + parameters; cannot persist should_retry lambda)
+        nlohmann::json retry_json;
+        if (task->retry_policy) {
+            const auto& rp = *task->retry_policy;
+            retry_json["strategy"]           = static_cast<int>(rp.strategy);
+            retry_json["max_retries"]        = rp.max_retries;
+            retry_json["initial_delay_ms"]   = rp.initial_delay.count();
+            retry_json["max_delay_ms"]       = rp.max_delay.count();
+            retry_json["backoff_multiplier"] = rp.backoff_multiplier;
+            retry_json["jitter_factor"]      = rp.jitter_factor;
+            task_json["retry_policy"] = retry_json;
+        } else {
+            task_json["max_retries"] = task->max_retries;
+        }
+
+        // Save dependency list
+        task_json["dependencies"] = task->dependencies;
+        
         tasks_json.push_back(task_json);
     }
     
@@ -622,6 +1925,24 @@ void TaskScheduler::saveTasks() {
         THEMIS_DEBUG("Saved {} tasks to disk with secure permissions", tasks_.size());
     } catch (const std::exception& e) {
         THEMIS_ERROR("Failed to save tasks: {}", e.what());
+    }
+
+    // Persist anomaly detector baseline so statistics survive a restart
+    if (audit_manager_) {
+        try {
+            std::string anomaly_path = config_.persistence_path + "/anomaly_stats.json";
+            std::ofstream af(anomaly_path);
+            if (af.good()) {
+                af << audit_manager_->exportAnomalyStatistics().dump(2);
+                af.close();
+                #ifndef _WIN32
+                chmod(anomaly_path.c_str(), S_IRUSR | S_IWUSR);
+                #endif
+                THEMIS_DEBUG("Saved anomaly detector statistics to disk");
+            }
+        } catch (const std::exception& e) {
+            THEMIS_ERROR("Failed to save anomaly statistics: {}", e.what());
+        }
     }
 }
 
@@ -652,12 +1973,75 @@ void TaskScheduler::loadTasks() {
             task.interval = std::chrono::milliseconds(task_json.value("interval_ms", 300000));
             task.enabled = task_json.value("enabled", true);
             
+            // Load trigger configuration (with defaults for backward compatibility)
+            task.trigger_type = static_cast<ScheduledTask::TriggerType>(
+                task_json.value("trigger_type", static_cast<int>(ScheduledTask::TriggerType::INTERVAL)));
+            task.cron_expression = task_json.value("cron_expression", "");
+            task.priority = static_cast<ScheduledTask::Priority>(
+                task_json.value("priority", static_cast<int>(ScheduledTask::Priority::NORMAL)));
+            task.trigger_logic = static_cast<ScheduledTask::TriggerLogic>(
+                task_json.value("trigger_logic", static_cast<int>(ScheduledTask::TriggerLogic::OR)));
+            
+            // Load CDC trigger config
+            if (task_json.contains("cdc_trigger")) {
+                auto cdc_json = task_json["cdc_trigger"];
+                task.cdc_trigger.key_prefix = cdc_json.value("key_prefix", "");
+                task.cdc_trigger.debounce_ms = cdc_json.value("debounce_ms", 0);
+                
+                if (cdc_json.contains("event_types")) {
+                    for (const auto& type : cdc_json["event_types"]) {
+                        task.cdc_trigger.event_types.insert(type.get<int>());
+                    }
+                }
+                
+                if (cdc_json.contains("condition")) {
+                    task.cdc_trigger.condition = cdc_json["condition"].get<std::string>();
+                }
+            }
+
+            // Restore retry policy (legacy max_retries if no retry_policy block)
+            if (task_json.contains("retry_policy")) {
+                const auto& rp_json = task_json["retry_policy"];
+                ScheduledTask::RetryPolicy rp;
+                rp.strategy = static_cast<ScheduledTask::RetryStrategy>(
+                    rp_json.value("strategy",
+                                  static_cast<int>(ScheduledTask::RetryStrategy::EXPONENTIAL_BACKOFF)));
+                rp.max_retries        = rp_json.value("max_retries", size_t{3});
+                rp.initial_delay      = std::chrono::milliseconds(rp_json.value("initial_delay_ms", int64_t{1000}));
+                rp.max_delay          = std::chrono::milliseconds(rp_json.value("max_delay_ms", int64_t{30000}));
+                rp.backoff_multiplier = rp_json.value("backoff_multiplier", 2.0);
+                rp.jitter_factor      = rp_json.value("jitter_factor", 0.1);
+                task.retry_policy = rp;
+            } else {
+                task.max_retries = task_json.value("max_retries", size_t{3});
+            }
+
+            // Restore dependency list (backward-compatible: absent = no deps)
+            if (task_json.contains("dependencies")) {
+                task.dependencies = task_json["dependencies"].get<std::vector<std::string>>();
+            }
+            
             registerTask(task);
         }
         
         THEMIS_INFO("Loaded {} tasks from disk", tasks_.size());
     } catch (const std::exception& e) {
         THEMIS_ERROR("Failed to load tasks: {}", e.what());
+    }
+
+    // Restore anomaly detector baseline statistics
+    if (audit_manager_) {
+        try {
+            std::ifstream af(config_.persistence_path + "/anomaly_stats.json");
+            if (af.good()) {
+                nlohmann::json anomaly_json;
+                af >> anomaly_json;
+                audit_manager_->importAnomalyStatistics(anomaly_json);
+                THEMIS_DEBUG("Restored anomaly detector statistics from disk");
+            }
+        } catch (const std::exception& e) {
+            THEMIS_WARN("Failed to restore anomaly statistics (non-fatal): {}", e.what());
+        }
     }
 }
 
@@ -697,30 +2081,38 @@ void TaskScheduler::validateAqlQuery(const std::string& aql) const {
         throw std::invalid_argument("AQL query cannot be empty");
     }
     
-    // Check for suspicious patterns that might indicate injection attempts
-    // Note: We focus on SQL-style injection patterns that would be unusual in AQL
-    std::vector<std::string> dangerous_patterns = {
-        ";--",           // SQL comment injection
-        "'; DROP",       // SQL injection attempt with quote
-        "; DROP",        // SQL DROP injection
-        "\\x00",         // Null byte injection
-        "../",           // Path traversal
-        "SYSTEM(",       // System command execution
-        "EXEC(",         // Command execution
-        "'; EXEC",       // Command injection with quote
-    };
+    // Use AST-based injection detection for robust security
+    security::AQLInjectionDetector detector;
+    auto validation_result = detector.validateAQLAST(aql);
     
-    std::string aql_upper = aql;
-    std::transform(aql_upper.begin(), aql_upper.end(), aql_upper.begin(), ::toupper);
-    
-    for (const auto& pattern : dangerous_patterns) {
-        std::string pattern_upper = pattern;
-        std::transform(pattern_upper.begin(), pattern_upper.end(), pattern_upper.begin(), ::toupper);
+    if (!validation_result.is_safe) {
+        THEMIS_ERROR("AQL injection detected: {}", validation_result.error_message);
         
-        if (aql_upper.find(pattern_upper) != std::string::npos) {
-            THEMIS_ERROR("Suspicious pattern detected in AQL query: {}", pattern);
-            throw std::invalid_argument("AQL query contains potentially dangerous pattern: " + pattern);
+        // Log detected patterns for security diagnostics
+        for (const auto& pattern : validation_result.detected_patterns) {
+            THEMIS_WARN("Injection pattern detected: {}", pattern);
         }
+        
+        // Log security event for AQL injection attempt
+        if (audit_manager_) {
+            scheduler::TaskSecurityEvent security_event;
+            security_event.uuid = scheduler::generateUUID();
+            security_event.timestamp = std::chrono::system_clock::now();
+            security_event.event_type = scheduler::TaskSecurityEventType::AQL_INJECTION_DETECTED;
+            security_event.severity = "CRITICAL";
+            security_event.user_id = DEFAULT_AUDIT_USER;
+            security_event.ip_address = DEFAULT_AUDIT_IP;
+            security_event.violation_type = "aql_injection";
+            security_event.description = "AQL injection detected: " + validation_result.error_message;
+            security_event.details["detected_patterns"] = validation_result.detected_patterns;
+            security_event.details["query_excerpt"] = aql.substr(0, std::min(size_t(100), aql.length()));
+            security_event.blocked = true;
+            security_event.action_taken = "query_rejected";
+            
+            audit_manager_->logSecurityEvent(security_event);
+        }
+        
+        throw std::invalid_argument("AQL query validation failed: " + validation_result.error_message);
     }
     
     // Check for reasonable length limit (prevent DoS)
@@ -738,6 +2130,28 @@ void TaskScheduler::validateResourceLimits(const ScheduledTask& task) const {
     
     if (task.timeout > MAX_TIMEOUT) {
         auto max_timeout_ms = std::chrono::duration_cast<std::chrono::milliseconds>(MAX_TIMEOUT).count();
+        
+        // Log security event for excessive timeout
+        if (audit_manager_) {
+            scheduler::TaskSecurityEvent security_event;
+            security_event.uuid = scheduler::generateUUID();
+            security_event.timestamp = std::chrono::system_clock::now();
+            security_event.task_id = task.id;
+            security_event.task_name = task.name;
+            security_event.event_type = scheduler::TaskSecurityEventType::RESOURCE_LIMIT_EXCEEDED;
+            security_event.severity = "MEDIUM";
+            security_event.user_id = DEFAULT_AUDIT_USER;
+            security_event.ip_address = DEFAULT_AUDIT_IP;
+            security_event.violation_type = "timeout_limit_exceeded";
+            security_event.description = "Task timeout exceeds maximum allowed";
+            security_event.details["requested_timeout_ms"] = task.timeout.count();
+            security_event.details["max_timeout_ms"] = max_timeout_ms;
+            security_event.blocked = true;
+            security_event.action_taken = "task_rejected";
+            
+            audit_manager_->logSecurityEvent(security_event);
+        }
+        
         throw std::invalid_argument("Task timeout exceeds maximum allowed: " + 
                                    std::to_string(max_timeout_ms) + " milliseconds");
     }
@@ -748,10 +2162,14 @@ void TaskScheduler::validateResourceLimits(const ScheduledTask& task) const {
                                    std::to_string(min_timeout_ms) + " milliseconds");
     }
     
-    // Validate max_retries
+    // Validate max_retries (legacy field and retry_policy.max_retries)
     const size_t MAX_RETRIES = 10;
     if (task.max_retries > MAX_RETRIES) {
         throw std::invalid_argument("Task max_retries exceeds maximum allowed: " + 
+                                   std::to_string(MAX_RETRIES));
+    }
+    if (task.retry_policy && task.retry_policy->max_retries > MAX_RETRIES) {
+        throw std::invalid_argument("Task retry_policy.max_retries exceeds maximum allowed: " +
                                    std::to_string(MAX_RETRIES));
     }
     
@@ -850,7 +2268,7 @@ void TaskScheduler::enforceQueryComplexityLimits(const std::string& aql) const {
     }
 }
 
-bool TaskScheduler::checkRateLimit(const std::string& task_id) const {
+bool TaskScheduler::checkRateLimit(const std::string& task_id) {
     // Simple rate limiting implementation
     // In production, use a more sophisticated rate limiter (e.g., token bucket, sliding window)
     
@@ -872,6 +2290,27 @@ bool TaskScheduler::checkRateLimit(const std::string& task_id) const {
     
     // Check if limit is exceeded
     if (times.size() >= max_executions) {
+        // Log security event for rate limit exceeded
+        if (audit_manager_) {
+            scheduler::TaskSecurityEvent security_event;
+            security_event.uuid = scheduler::generateUUID();
+            security_event.timestamp = std::chrono::system_clock::now();
+            security_event.task_id = task_id;
+            security_event.event_type = scheduler::TaskSecurityEventType::RATE_LIMIT_EXCEEDED;
+            security_event.severity = "MEDIUM";
+            security_event.user_id = DEFAULT_AUDIT_USER;
+            security_event.ip_address = DEFAULT_AUDIT_IP;
+            security_event.violation_type = "manual_execution_rate_limit";
+            security_event.description = "Task execution rate limit exceeded";
+            security_event.details["executions_in_window"] = times.size();
+            security_event.details["max_executions"] = max_executions;
+            security_event.details["window_minutes"] = 1;
+            security_event.blocked = true;
+            security_event.action_taken = "execution_denied";
+            
+            audit_manager_->logSecurityEvent(security_event);
+        }
+        
         return false;
     }
     
@@ -879,6 +2318,379 @@ bool TaskScheduler::checkRateLimit(const std::string& task_id) const {
     times.push_back(now);
     
     return true;
+}
+
+// ===== Cron Expression Management =====
+
+void TaskScheduler::validateCronExpression(const std::string& expression) const {
+    if (expression.empty()) {
+        throw std::invalid_argument("Cron expression cannot be empty");
+    }
+    
+    auto validation = CronExpression::validate(expression);
+    if (!validation.is_valid) {
+        throw std::invalid_argument("Invalid cron expression: " + validation.error_message);
+    }
+}
+
+std::shared_ptr<CronExpression> TaskScheduler::getCronExpression(const std::string& task_id) {
+    auto it = cron_expressions_.find(task_id);
+    if (it != cron_expressions_.end()) {
+        return it->second;
+    }
+    return nullptr;
+}
+
+void TaskScheduler::updateCronExpression(const std::string& task_id, const std::string& expression) {
+    auto parsed = CronExpression::parse(expression);
+    if (!parsed) {
+        throw std::invalid_argument("Failed to parse cron expression: " + expression);
+    }
+    cron_expressions_[task_id] = std::make_shared<CronExpression>(*parsed);
+}
+
+bool TaskScheduler::shouldExecuteCron(const ScheduledTask& task, 
+                                       const std::chrono::system_clock::time_point& now) const {
+    auto it = cron_expressions_.find(task.id);
+    if (it == cron_expressions_.end()) {
+        return false;
+    }
+    return it->second->matches(now);
+}
+
+// ===== CDC Trigger Management =====
+
+void TaskScheduler::validateCDCTrigger(const ScheduledTask::CDCTrigger& trigger) const {
+    if (trigger.key_prefix.empty()) {
+        throw std::invalid_argument("CDC trigger key_prefix cannot be empty");
+    }
+    
+    if (trigger.event_types.empty()) {
+        throw std::invalid_argument("CDC trigger must specify at least one event type");
+    }
+    
+    // Validate event types are in valid range (0-3)
+    for (int type : trigger.event_types) {
+        if (type < 0 || type > 3) {
+            throw std::invalid_argument("Invalid CDC event type: " + std::to_string(type));
+        }
+    }
+}
+
+void TaskScheduler::setupEventTrigger(std::shared_ptr<ScheduledTask> task) {
+    if (!event_trigger_manager_) {
+        THEMIS_ERROR("Cannot setup CDC trigger without EventTriggerManager");
+        return;
+    }
+    
+    // Convert task CDC config to EventTrigger config
+    CDCTriggerConfig config;
+    config.key_prefix = task->cdc_trigger.key_prefix;
+    
+    // Convert event types from int to ChangeEventType
+    for (int type_int : task->cdc_trigger.event_types) {
+        config.event_types.insert(static_cast<Changefeed::ChangeEventType>(type_int));
+    }
+    
+    config.condition = task->cdc_trigger.condition;
+    config.debounce_ms = task->cdc_trigger.debounce_ms;
+    
+    // Create callback that triggers task execution via onCDCEvent
+    auto callback = [this, task_id = task->id](const Changefeed::ChangeEvent& event) {
+        // Retrieve task inside the callback to avoid capturing by value
+        std::shared_ptr<ScheduledTask> task_ptr;
+        {
+            std::lock_guard<std::mutex> lock(tasks_mutex_);
+            auto it = tasks_.find(task_id);
+            if (it == tasks_.end()) {
+                THEMIS_DEBUG("Task {} no longer exists, skipping execution", task_id);
+                return;
+            }
+            task_ptr = it->second;
+        }
+        onCDCEvent(task_ptr, event);
+    };
+    
+    // Register trigger with manager
+    event_trigger_manager_->registerTrigger(task->id, config, std::move(callback));
+}
+
+void TaskScheduler::removeEventTrigger(const std::string& task_id) {
+    if (event_trigger_manager_) {
+        event_trigger_manager_->unregisterTrigger(task_id);
+    }
+}
+
+void TaskScheduler::onCDCEvent(std::shared_ptr<ScheduledTask> task,
+                               const Changefeed::ChangeEvent& event) {
+    THEMIS_DEBUG("CDC event triggered task: {} (key={}, type={})",
+                task->id, event.key, static_cast<int>(event.type));
+
+    // Audit log CDC trigger activation
+    if (config_.enable_audit_logging && audit_logger_) {
+        nlohmann::json details = {
+            {"task_name", task->name},
+            {"trigger_type", "CDC_EVENT"},
+            {"cdc_key", event.key},
+            {"cdc_event_type", static_cast<int>(event.type)},
+            {"cdc_key_prefix", task->cdc_trigger.key_prefix}
+        };
+
+        audit_logger_->logTaskSchedulerEvent(
+            utils::SecurityEventType::TASK_CDC_TRIGGERED,
+            task->id,
+            TaskScheduler::currentUserId(), // propagated from thread-local RequestContext
+            details
+        );
+    }
+
+    // Check if task is enabled
+    if (!task->enabled) {
+        THEMIS_DEBUG("Task {} is disabled, skipping execution", task->id);
+        return;
+    }
+
+    // Check if scheduler has been stopped
+    if (!running_.load()) {
+        THEMIS_DEBUG("Task {} CDC event ignored: scheduler is not running", task->id);
+        return;
+    }
+
+    // Check-and-set running state (guard against concurrent triggers)
+    if (!config_.allow_task_overlap) {
+        std::lock_guard<std::mutex> lock(tasks_mutex_);
+        if (task->running) {
+            THEMIS_DEBUG("Task {} is already running, skipping execution", task->id);
+            return;
+        }
+        task->running = true;
+    } else {
+        task->running = true;
+    }
+
+    // Execute task asynchronously
+    std::thread task_thread([this, task]() {
+        executeTask(task);
+
+        // Remove from running threads
+        {
+            std::lock_guard<std::mutex> lock(running_mutex_);
+            running_task_threads_.erase(task->id);
+        }
+    });
+
+    // Store thread for cleanup
+    {
+        std::lock_guard<std::mutex> lock(running_mutex_);
+        running_task_threads_[task->id] = std::move(task_thread);
+    }
+}
+
+// ===== Update shouldExecute and updateNextRun =====
+
+// ===== Result Store Public APIs =====
+
+std::vector<scheduler::TaskExecutionResult> TaskScheduler::getTaskResults(
+        const std::string& task_id, size_t limit) const {
+    if (!result_store_) {
+        return {};
+    }
+    return result_store_->getResults(task_id, limit);
+}
+
+std::optional<scheduler::TaskExecutionResult> TaskScheduler::getLatestTaskResult(
+        const std::string& task_id) const {
+    if (!result_store_) {
+        return std::nullopt;
+    }
+    return result_store_->getLatestResult(task_id);
+}
+
+// ===== Alertmanager Integration =====
+
+void TaskScheduler::setAlertmanager(std::shared_ptr<observability::Alertmanager> alertmanager) {
+    std::lock_guard<std::mutex> lock(alert_mutex_);
+    alertmanager_ = std::move(alertmanager);
+}
+
+std::shared_ptr<observability::Alertmanager> TaskScheduler::getAlertmanager() const {
+    std::lock_guard<std::mutex> lock(alert_mutex_);
+    return alertmanager_;
+}
+
+/*static*/ std::string TaskScheduler::makeTaskAlertId(const std::string& task_id,
+                                                       const std::string& alert_type) {
+    return "scheduler_task_" + alert_type + "_" + task_id;
+}
+
+void TaskScheduler::fireTaskFailureAlert(const ScheduledTask& task, const std::string& error) {
+    // Take a copy of the alertmanager pointer under the lock, then release the lock
+    // before calling sendAlert() to avoid holding the mutex during potentially blocking I/O.
+    std::shared_ptr<observability::Alertmanager> am;
+    {
+        std::lock_guard<std::mutex> lock(alert_mutex_);
+        am = alertmanager_;
+    }
+    if (!am) {
+        return;
+    }
+
+    const std::string alert_id = makeTaskAlertId(task.id, "failure");
+
+    observability::Alert alert;
+    alert.alert_id   = alert_id;
+    alert.alert_name = "TaskFailure";
+    alert.severity   = observability::AlertSeverity::ERROR;
+    alert.status     = observability::AlertStatus::FIRING;
+    alert.message    = "Task \"" + task.name + "\" (id=" + task.id + ") failed: " + error;
+
+    alert.labels["component"]  = "scheduler";
+    alert.labels["task_id"]    = task.id;
+    alert.labels["task_name"]  = task.name;
+    alert.labels["alertname"]  = "TaskFailure";
+    alert.labels["severity"]   = "error";
+
+    alert.annotations["error"]          = error;
+    alert.annotations["failed_executions"] =
+        std::to_string(task.failed_executions);
+    alert.annotations["total_executions"] =
+        std::to_string(task.total_executions);
+
+    // sendAlert() may involve network I/O; called outside the lock
+    auto result = am->sendAlert(alert);
+    if (result) {
+        std::lock_guard<std::mutex> lock(alert_mutex_);
+        active_failure_alert_ids_[task.id] = alert_id;
+        THEMIS_WARN("Task failure alert fired for task {} ({}): {}", task.id, task.name, error);
+    } else {
+        THEMIS_ERROR("Failed to send task failure alert for task {}: {}",
+                     task.id, result.error().message());
+    }
+}
+
+void TaskScheduler::fireTaskSlaBreachAlert(const ScheduledTask& task, double elapsed_ms) {
+    if (!task.sla_deadline.has_value()) {
+        return;  // Caller should have checked, but guard defensively
+    }
+
+    // Take a copy of the alertmanager pointer under the lock, then release the lock
+    // before calling sendAlert() to avoid holding the mutex during potentially blocking I/O.
+    std::shared_ptr<observability::Alertmanager> am;
+    {
+        std::lock_guard<std::mutex> lock(alert_mutex_);
+        am = alertmanager_;
+    }
+    if (!am) {
+        return;
+    }
+
+    const std::string alert_id = makeTaskAlertId(task.id, "sla_breach");
+    const double sla_ms = static_cast<double>(task.sla_deadline->count());
+
+    observability::Alert alert;
+    alert.alert_id   = alert_id;
+    alert.alert_name = "TaskSlaBreached";
+    alert.severity   = observability::AlertSeverity::WARNING;
+    alert.status     = observability::AlertStatus::FIRING;
+
+    std::ostringstream msg;
+    msg << "Task \"" << task.name << "\" (id=" << task.id << ") exceeded SLA deadline: "
+        << "elapsed=" << static_cast<int64_t>(elapsed_ms) << "ms, "
+        << "sla_deadline=" << static_cast<int64_t>(sla_ms) << "ms";
+    alert.message = msg.str();
+
+    alert.labels["component"]  = "scheduler";
+    alert.labels["task_id"]    = task.id;
+    alert.labels["task_name"]  = task.name;
+    alert.labels["alertname"]  = "TaskSlaBreached";
+    alert.labels["severity"]   = "warning";
+
+    alert.annotations["elapsed_ms"]      = std::to_string(static_cast<int64_t>(elapsed_ms));
+    alert.annotations["sla_deadline_ms"] = std::to_string(static_cast<int64_t>(sla_ms));
+
+    // sendAlert() may involve network I/O; called outside the lock
+    auto result = am->sendAlert(alert);
+    if (result) {
+        THEMIS_WARN("SLA breach alert fired for task {} ({}): elapsed={:.0f}ms, deadline={}ms",
+                    task.id, task.name, elapsed_ms, static_cast<int64_t>(sla_ms));
+    } else {
+        THEMIS_ERROR("Failed to send SLA breach alert for task {}: {}",
+                     task.id, result.error().message());
+    }
+}
+
+void TaskScheduler::resolveTaskFailureAlert(const std::string& task_id) {
+    // Take a copy of the alertmanager pointer and the alert ID under the lock,
+    // then release the lock before calling resolveAlert() (potential I/O).
+    std::shared_ptr<observability::Alertmanager> am;
+    std::string alert_id;
+    {
+        std::lock_guard<std::mutex> lock(alert_mutex_);
+        if (!alertmanager_) {
+            return;
+        }
+
+        auto it = active_failure_alert_ids_.find(task_id);
+        if (it == active_failure_alert_ids_.end()) {
+            return;  // No active failure alert for this task
+        }
+
+        am       = alertmanager_;
+        alert_id = it->second;
+        active_failure_alert_ids_.erase(it);
+    }
+
+    // resolveAlert() may involve network I/O; called outside the lock
+    auto result = am->resolveAlert(alert_id);
+    if (result) {
+        THEMIS_INFO("Task failure alert resolved for task {} (alert_id={})", task_id, alert_id);
+    } else {
+        THEMIS_WARN("Failed to resolve task failure alert for task {}: {}",
+                    task_id, result.error().message());
+    }
+}
+
+// ===== Dynamic scaling (Issue #2269) =====
+
+size_t TaskScheduler::getQueueDepth() const noexcept {
+    return queue_depth_.load();
+}
+
+size_t TaskScheduler::getDynamicConcurrencyLimit() const noexcept {
+    return dynamic_limit_.load();
+}
+
+void TaskScheduler::adjustConcurrencyLimit(size_t pending_count) noexcept {
+    if (!config_.enable_dynamic_scaling) return;
+
+    queue_depth_.store(pending_count);
+
+    const size_t floor_limit = std::max(config_.min_concurrent_tasks, size_t{1});
+    const size_t ceil_limit  = std::max(config_.max_concurrent_tasks_ceil, floor_limit);
+    size_t cur = dynamic_limit_.load();
+
+    if (pending_count >= config_.scale_up_queue_depth) {
+        // Scale up by 1 slot, capped at ceiling
+        idle_ticks_.store(0);
+        size_t next = std::min(cur + 1, ceil_limit);
+        if (next != cur) {
+            dynamic_limit_.store(next);
+            THEMIS_INFO("TaskScheduler: scaled up concurrency limit {} → {} (queue_depth={})",
+                        cur, next, pending_count);
+        }
+    } else if (pending_count == 0) {
+        size_t idle = idle_ticks_.fetch_add(1) + 1;
+        if (idle >= config_.scale_down_idle_ticks && cur > floor_limit) {
+            size_t next = cur - 1;
+            dynamic_limit_.store(next);
+            idle_ticks_.store(0);
+            THEMIS_INFO("TaskScheduler: scaled down concurrency limit {} → {} (idle_ticks={})",
+                        cur, next, idle);
+        }
+    } else {
+        // Pending > 0 but below scale_up_queue_depth – stay at current limit
+        idle_ticks_.store(0);
+    }
 }
 
 } // namespace themis

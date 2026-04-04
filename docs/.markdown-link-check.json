@@ -1,0 +1,23 @@
+{
+  "ignorePatterns": [
+    {
+      "pattern": "^https://github.com/.*/issues/[0-9]+$"
+    },
+    {
+      "pattern": "^https://github.com/.*/pull/[0-9]+$"
+    },
+    {
+      "pattern": "^https://www\\."
+    },
+    {
+      "pattern": "^http://localhost"
+    },
+    {
+      "pattern": "^http://127\\.0\\.0\\.1"
+    }
+  ],
+  "timeout": "5s",
+  "retryOn429": true,
+  "retryCount": 3,
+  "aliveStatusCodes": [200, 206, 301, 302, 307, 308, 400, 401, 403, 405, 429]
+}

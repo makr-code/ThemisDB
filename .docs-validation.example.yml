@@ -1,0 +1,151 @@
+# Documentation Validation Configuration
+#
+# This file contains configuration options for the documentation validation tools.
+# Copy this file to .docs-validation.yml in your project root to customize behavior.
+#
+# NOTE: Configuration file loading is not yet implemented in v1.0.
+# For now, use command-line arguments to customize behavior.
+# This file serves as a reference for planned configuration options.
+
+# Documentation Linter Configuration
+lint:
+  # Paths to lint (relative to project root)
+  # Use: python3 scripts/docs-lint.py docs compendium
+  paths:
+    - docs
+    - compendium
+  
+  # Patterns to exclude from linting
+  # Use: python3 scripts/docs-lint.py --exclude ARCHIVED archive
+  exclude:
+    - ARCHIVED
+    - archive
+    - node_modules
+    - .git
+    - site
+    - build
+    - __pycache__
+    - output
+  
+  # Fail build on warnings
+  # Use: python3 scripts/docs-lint.py --fail-on-warnings
+  fail_on_warnings: false
+  
+  # Checks to enable/disable (all currently enabled)
+  checks:
+    heading_hierarchy: true
+    markdown_syntax: true
+    file_naming: true
+    required_sections: true
+    trailing_whitespace: true
+
+# Link Checker Configuration
+links:
+  # Paths to check
+  # Use: python3 scripts/link-check.py docs compendium
+  paths:
+    - docs
+    - compendium
+  
+  # Patterns to exclude
+  # Use: python3 scripts/link-check.py --exclude ARCHIVED archive
+  exclude:
+    - ARCHIVED
+    - archive
+  
+  # Check external links (basic format validation only)
+  # Use: python3 scripts/link-check.py --internal-only (to skip external)
+  # NOTE: Full external link checking done via markdown-link-check action
+  check_external: true
+  
+  # External link checking configuration (for future implementation)
+  external_timeout: 5
+  retry_count: 3
+  
+  # Ignore patterns for external links
+  # Configured in: docs/.markdown-link-check.json
+  ignore_patterns:
+    - "^https://github.com/.*/issues/[0-9]+$"
+    - "^https://github.com/.*/pull/[0-9]+$"
+    - "^http://localhost"
+    - "^http://127\\.0\\.0\\.1"
+  
+  # Status codes to consider as "alive" (for future implementation)
+  alive_status_codes:
+    - 200
+    - 206
+    - 301
+    - 302
+    - 307
+    - 308
+    - 400
+    - 401
+    - 403
+    - 405
+    - 429
+
+# TOC Validator Configuration
+toc:
+  # MkDocs configuration files to validate
+  # Use: python3 scripts/toc-check.py --configs mkdocs.yml
+  configs:
+    - mkdocs.yml
+    - compendium/mkdocs-compendium.yml
+  
+  # Patterns to exclude from file scanning
+  # Use: python3 scripts/toc-check.py --exclude ARCHIVED archive
+  exclude:
+    - ARCHIVED
+    - archive
+    - node_modules
+  
+  # Files to always warn about if not in navigation
+  important_files:
+    - README.md
+    - index.md
+    - INDEX.md
+    - Home.md
+  
+  # Warn about duplicate navigation entries
+  check_duplicates: true
+
+# Reporting Configuration
+reporting:
+  # Output format (text or json)
+  # Use: python3 scripts/docs-lint.py --format json
+  format: text
+  
+  # Maximum errors to display in reports (0 = unlimited)
+  max_errors: 50
+  
+  # Maximum warnings to display in reports (0 = unlimited)
+  max_warnings: 50
+  
+  # Include file statistics in reports
+  include_stats: true
+  
+  # Colorize output (for terminal, implemented in validate-docs.sh)
+  colorize: true
+
+# GitHub Actions Integration
+ci:
+  # Enable/disable specific jobs
+  # Configure in: .github/workflows/documentation-validation.yml
+  jobs:
+    docs_lint: true
+    link_check: true
+    external_link_check: false  # Only on main/develop by default
+    toc_validation: true
+  
+  # Upload artifacts
+  upload_artifacts: true
+  
+  # Comment on pull requests with results (requires write permissions)
+  pr_comments: false
+  
+  # Block merge on validation failure
+  # Configure via GitHub branch protection rules
+  required_checks:
+    - "Documentation Linting"
+    - "Link Validation"
+    - "TOC Validation"

@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            bench_mmdb.cpp                                     ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:04:17                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     471                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include <benchmark/benchmark.h>
 #include "storage/base_entity.h"
 #include "storage/rocksdb_wrapper.h"
@@ -288,12 +311,13 @@ BENCHMARK_DEFINE_F(MMDBFixture, SemanticSearch)(benchmark::State& state) {
         
         // Get top-5
         std::partial_sort(similarities.begin(), 
-                         similarities.begin() + std::min(5, static_cast<int>(similarities.size())),
+                         similarities.begin() + std::min(size_t(5), similarities.size()),
                          similarities.end(),
                          [](const auto& a, const auto& b) { return a.first > b.first; });
         
         // Retrieve full product details for top results
-        for (int i = 0; i < std::min(5, static_cast<int>(similarities.size())); ++i) {
+        size_t top_results = std::min(size_t(5), similarities.size());
+        for (size_t i = 0; i < top_results; ++i) {
             auto product = getEntity(products_, "product_" + std::to_string(similarities[i].second));
             benchmark::DoNotOptimize(product);
         }
@@ -398,13 +422,14 @@ BENCHMARK_DEFINE_F(MMDBFixture, RAGWorkflow)(benchmark::State& state) {
         }
         
         std::partial_sort(similarities.begin(), 
-                         similarities.begin() + std::min(5, static_cast<int>(similarities.size())),
+                         similarities.begin() + std::min(size_t(5), similarities.size()),
                          similarities.end(),
                          [](const auto& a, const auto& b) { return a.first > b.first; });
         
         // Phase 2: Context building (retrieve documents)
         std::string context;
-        for (int i = 0; i < std::min(5, static_cast<int>(similarities.size())); ++i) {
+        size_t top_results = std::min(size_t(5), similarities.size());
+        for (size_t i = 0; i < top_results; ++i) {
             auto product = getEntity(products_, "product_" + std::to_string(similarities[i].second));
             auto doc = getEntity(product_docs_, "doc_" + std::to_string(similarities[i].second));
             

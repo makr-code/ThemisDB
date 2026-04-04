@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_diskann.cpp                                   ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:23:18                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     292                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • cebce18b1  2026-02-28  feat(index): fix DiskANN offset tracking, implement graph... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // Unit tests for DiskANN (Phase 3)
 // Based on "DiskANN: Fast Accurate Billion-point Nearest Neighbor Search" (NeurIPS'19)
 
@@ -24,7 +47,7 @@ protected:
 
 // ==================== LRUCache Tests ====================
 
-TEST(LRUCacheTest, BasicOperations) {
+TEST(DiskANNLRUCachePerformanceTest, BasicOperations) {
     LRUCache<int, std::string> cache(3);
     
     cache.put(1, "one");
@@ -41,7 +64,7 @@ TEST(LRUCacheTest, BasicOperations) {
     EXPECT_FALSE(cache.get(99, value));
 }
 
-TEST(LRUCacheTest, Eviction) {
+TEST(DiskANNLRUCachePerformanceTest, Eviction) {
     LRUCache<int, std::string> cache(2);
     
     cache.put(1, "one");
@@ -178,6 +201,45 @@ TEST_F(DiskANNTest, CacheStatistics) {
     EXPECT_GT(stats.cache_hits + stats.cache_misses, 0u);
 }
 
+TEST_F(DiskANNTest, GraphEdgesTracked) {
+    auto index_path = test_dir_ / "edges_index.bin";
+    DiskANNIndex index(2, index_path.string(), 10);
+
+    std::vector<std::pair<VectorID, std::vector<float>>> vectors = {
+        {1, {1.0f, 0.0f}},
+        {2, {0.0f, 1.0f}},
+        {3, {1.0f, 1.0f}},
+        {4, {0.5f, 0.5f}}
+    };
+
+    index.build(vectors);
+
+    auto stats = index.get_stats();
+    EXPECT_GT(stats.graph_edges, 0u);
+}
+
+TEST_F(DiskANNTest, SaveLoadMetadata) {
+    auto index_path = test_dir_ / "meta_index.bin";
+    DiskANNIndex index(2, index_path.string(), 10);
+
+    std::vector<std::pair<VectorID, std::vector<float>>> vectors = {
+        {1, {1.0f, 0.0f}},
+        {2, {0.0f, 1.0f}},
+        {3, {1.0f, 1.0f}}
+    };
+
+    index.build(vectors);
+    ASSERT_TRUE(index.save(index_path.string()));
+
+    // Load into a fresh index instance
+    DiskANNIndex index2(2, index_path.string(), 10);
+    ASSERT_TRUE(index2.load(index_path.string()));
+
+    auto stats = index2.get_stats();
+    EXPECT_EQ(stats.num_vectors, 3u);
+    EXPECT_GT(stats.graph_edges, 0u);
+}
+
 TEST_F(DiskANNTest, LargerDataset) {
     auto index_path = test_dir_ / "large_index.bin";
     DiskANNIndex index(4, index_path.string(), 100);
@@ -227,7 +289,4 @@ TEST_F(DiskANNTest, DimensionMismatch) {
     EXPECT_THROW(index.add(1, {1.0f, 0.0f, 0.0f}), std::invalid_argument);
 }
 
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
+

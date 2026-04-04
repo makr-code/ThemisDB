@@ -1,9 +1,34 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            buffer_api_handler.h                               ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:11:03                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     166                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include <boost/beast.hpp>
-#include <nlohmann/json.hpp>
 #include <memory>
+#include <nlohmann/json.hpp>
 #include <string>
+#include "timeseries/ts_auto_buffer.h"
+#include "index/vector_auto_buffer.h"
+#include "index/graph_auto_buffer.h"
 
 namespace themis {
 
@@ -11,15 +36,6 @@ namespace themis {
 class TSStore;
 class VectorIndexManager;
 class PropertyGraphManager;
-
-namespace timeseries {
-class TSAutoBuffer;
-}
-
-namespace index {
-class VectorAutoBuffer;
-class GraphAutoBuffer;
-}
 
 namespace server {
 
@@ -130,9 +146,9 @@ private:
     std::shared_ptr<PropertyGraphManager> graph_manager_;
     
     // AutoBuffer instances
-    std::unique_ptr<timeseries::TSAutoBuffer> ts_buffer_;
-    std::unique_ptr<index::VectorAutoBuffer> vector_buffer_;
-    std::unique_ptr<index::GraphAutoBuffer> graph_buffer_;
+    std::unique_ptr<TSAutoBuffer> ts_buffer_;
+    std::unique_ptr<VectorAutoBuffer> vector_buffer_;
+    std::unique_ptr<GraphAutoBuffer> graph_buffer_;
     
     // Helper methods
     http::response<http::string_body> makeResponse(

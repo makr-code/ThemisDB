@@ -1,5 +1,34 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            auth_middleware.h                                  ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:11:03                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     261                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 971a3c49d  2026-03-20  Build/test fixes and auth role mapping refactor ║
+    • 76eef4d70  2026-03-15  feat(auth): implement JWT scope extraction and role-to-sc... ║
+    • c97360e57  2026-03-15  fix(auth,scheduler): JWT scope enforcement, Kerberos role... ║
+    • b4f9cb129  2026-03-12  refactor(auth): improve normalization helper and comment ... ║
+    • c21f255d8  2026-03-12  fix(auth): address review feedback on JWT issuer/audience... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
+#include "auth/mtls_authenticator.h"
+
+#include <nlohmann/json.hpp>
 #include <string>
 #include <string_view>
 #include <vector>
@@ -16,6 +45,8 @@ namespace auth {
     class JWTValidator;
     class GSSAPIAuthenticator;
     struct KerberosConfig;
+    class ApiKeyAuthenticator;
+    struct ApiKeyCredential;
 }
 namespace security {
     class USBAdminAuthenticator;
@@ -27,22 +58,25 @@ class AuthMiddleware {
 public:
     struct AuthContext {
         std::string user_id;
+        std::string tenant_id;  // Tenant from JWT or token config
         std::vector<std::string> groups;
     };
     struct AuthResult {
         bool authorized = false;
         std::string user_id;
+        std::string tenant_id;  // Tenant from JWT claim or token config
         std::vector<std::string> groups;  // JWT groups claim for encryption contexts
         std::string reason; // for audit logs
-        static AuthResult OK(std::string_view uid, std::vector<std::string> grps = {}) { 
-            return {true, std::string(uid), std::move(grps), ""}; 
+        static AuthResult OK(std::string_view uid, std::string_view tid = "", std::vector<std::string> grps = {}) { 
+            return {true, std::string(uid), std::string(tid), std::move(grps), ""}; 
         }
-        static AuthResult Denied(std::string msg) { return {false, "", {}, std::move(msg)}; }
+        static AuthResult Denied(std::string msg) { return {false, "", "", {}, std::move(msg)}; }
     };
 
     struct TokenConfig {
         std::string token;
         std::string user_id;
+        std::string tenant_id;  // Optional: if not set, extracted from request headers
         std::unordered_set<std::string> scopes;
     };
 
@@ -53,9 +87,20 @@ public:
         std::string expected_audience;   // Expected "aud" claim
         std::chrono::seconds jwks_cache_ttl{3600}; // Default 1 hour
         std::chrono::seconds clock_skew{60};       // Default 60 seconds tolerance
+        bool require_issuer_validation = true;   // Require expected_issuer to be configured
+        bool require_audience_validation = true; // Require expected_audience to be configured
         
-        // Mapping of JWT claims to scopes
+        // Mapping of JWT claims to scopes and tenant
         std::string scope_claim = "roles";  // Which JWT claim contains scopes (e.g., "roles", "groups", "scopes")
+        std::string tenant_claim = "tenant_id";  // Which JWT claim contains tenant ID
+    };
+
+    /// API Key Configuration
+    struct ApiKeyConfig {
+        bool check_expiry{true};        ///< Reject keys whose expiry has passed
+        size_t max_key_id_length{128};  ///< Maximum allowed key_id length
+        size_t max_secret_length{512};  ///< Maximum allowed secret length
+        static ApiKeyConfig defaults() { return {}; }
     };
 
     /// Constructor (must be defined in .cpp due to unique_ptr<JWTValidator>)
@@ -70,7 +115,30 @@ public:
     /// Enable Kerberos/GSSAPI authentication
     /// @param config Kerberos configuration
     void enableKerberos(const auth::KerberosConfig& config);
-    
+
+    /// Enable certificate-based mutual TLS (mTLS) authentication
+    /// When enabled, PEM-encoded X.509 client certificates may be passed as
+    /// tokens and will be validated against the configured CA.
+    /// @param config mTLS configuration (CA certificate, subject mappings, etc.)
+    void enableMTLS(const auth::MTLSAuthenticator::Config& config);
+
+    /// Enable API key (static key + secret) authentication.
+    /// Tokens should be presented in the format "<key_id>.<secret>".
+    /// Use addApiKeyCredential() to register key credentials.
+    /// @param config API key authenticator configuration
+    void enableApiKeyAuth(const ApiKeyConfig& config = ApiKeyConfig::defaults());
+
+    /// Add an API key credential to the store.
+    /// Use auth::ApiKeyAuthenticator::createCredential() to construct the credential.
+    /// Thread-safe.
+    /// @param credential Credential with hashed secret (see ApiKeyAuthenticator::createCredential)
+    void addApiKeyCredential(const auth::ApiKeyCredential& credential);
+
+    /// Remove an API key credential by key_id.
+    /// Thread-safe. No-op if the key_id is not found.
+    /// @param key_id Key identifier to remove
+    void removeApiKeyCredential(const std::string& key_id);
+
     /// Enable USB-based admin authentication
     /// When enabled, configured admin scopes require a valid USB device to be present
     /// @param mount_path Path where encrypted USB is mounted
@@ -84,6 +152,19 @@ public:
     void addToken(const TokenConfig& config);
     void removeToken(std::string_view token);
     void clearTokens();
+
+    /// Configure a role-to-scope mapping used by JWT and Kerberos authorization.
+    ///
+    /// When a JWT or Kerberos token's direct scope claims do not include the
+    /// `required_scope`, the middleware falls back to checking whether any of the
+    /// token's roles maps to that scope through this table.
+    ///
+    /// Example: `setRoleScopeMapping({{"admin", {"cache:write", "cache:read"}},
+    ///                                 {"viewer", {"cache:read"}}})`
+    ///
+    /// Thread-safe; replaces any previously configured mapping.
+    void setRoleScopeMapping(
+        std::unordered_map<std::string, std::vector<std::string>> mapping);
 
     /// Check if token has required scope
     /// @param token Bearer token from Authorization header
@@ -116,6 +197,10 @@ public:
     /// Check if USB admin authentication is enabled and USB is present
     bool isUSBAdminReady() const;
 
+    // testing helper – injects a pre-built JWKS into the JWT validator so tests
+    // can verify scope enforcement without a live JWKS endpoint.
+    void setJWKSForTesting(const nlohmann::json& jwks);
+
 private:
     mutable std::mutex mutex_;
     std::unordered_map<std::string, TokenConfig> tokens_; // token -> config
@@ -130,19 +215,47 @@ private:
     std::unique_ptr<auth::GSSAPIAuthenticator> kerberos_auth_;
     bool kerberos_enabled_ = false;
     
+    // mTLS certificate authentication
+    std::unique_ptr<auth::MTLSAuthenticator> mtls_auth_;
+    bool mtls_enabled_ = false;
+
     // USB Admin Authentication
     std::unique_ptr<security::USBAdminAuthenticator> usb_admin_auth_;
     bool usb_admin_enabled_ = false;
     std::vector<std::string> usb_protected_scopes_;
-    
+
+    // API key authentication
+    std::unique_ptr<auth::ApiKeyAuthenticator> api_key_auth_;
+    bool api_key_enabled_ = false;
+
+    // Role-to-scope mapping: role name → list of scopes that role grants.
+    // Used as fallback in JWT and Kerberos authorization when direct scope
+    // claims don't contain the required_scope.
+    std::unordered_map<std::string, std::vector<std::string>> role_scope_map_;
+    bool role_scope_map_loaded_ = false;  // true once a load attempt has been made
+
     // Helper: check if scope is an admin scope requiring USB
     bool isAdminScope(std::string_view scope) const;
-    
+
+    /// Returns true if @p required_scope is granted by any role in @p roles via role_scope_map_.
+    bool roleGrantsScope(const std::vector<std::string>& roles,
+                         std::string_view required_scope) const;
+
     // Helper: try to authorize via JWT
     AuthResult authorizeViaJWT(std::string_view token, std::string_view required_scope) const;
     
     // Helper: try to authorize via Kerberos
     AuthResult authorizeViaKerberos(std::string_view token, std::string_view required_scope) const;
+
+    // Helper: try to authorize via mTLS client certificate
+    AuthResult authorizeViaMTLS(std::string_view cert_pem, std::string_view required_scope) const;
+
+    // Helper: try to authorize via API key (combined "key_id.secret" format)
+    AuthResult authorizeViaApiKey(std::string_view combined_token, std::string_view required_scope) const;
+
+    // Helper: load role-to-scope mapping from config/security/rbac_roles.yaml.
+    // Must be called with mutex_ held.
+    void loadRoleScopeMapping();
 };
 
 } // namespace themis

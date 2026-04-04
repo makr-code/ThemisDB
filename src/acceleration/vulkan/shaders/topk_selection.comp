@@ -1,0 +1,93 @@
+#version 450
+
+// Top-K selection shader for nearest neighbor search
+// ThemisDB Vulkan Compute Shader
+// Uses parallel reduction to find k-nearest neighbors
+
+layout(local_size_x = 256) in;
+
+layout(std430, binding = 0) readonly buffer Distances {
+    float distances[];
+};
+
+layout(std430, binding = 1) writeonly buffer TopKDistances {
+    float topKDistances[];
+};
+
+layout(std430, binding = 2) writeonly buffer TopKIndices {
+    uint topKIndices[];
+};
+
+layout(push_constant) uniform PushConstants {
+    uint numQueries;
+    uint numVectors;
+    uint k;
+} pc;
+
+// Shared memory for parallel reduction
+shared float sharedDistances[256];
+shared uint sharedIndices[256];
+
+void main() {
+    uint queryIdx = gl_WorkGroupID.x;
+    uint localThreadId = gl_LocalInvocationID.x;
+    
+    if (queryIdx >= pc.numQueries) {
+        return;
+    }
+    
+    uint distanceOffset = queryIdx * pc.numVectors;
+    
+    // Initialize with max float value
+    float minDist = 1e38;
+    uint minIdx = 0;
+    
+    // Find k-nearest neighbors using iterative selection
+    for (uint kIdx = 0; kIdx < pc.k; kIdx++) {
+        minDist = 1e38;
+        minIdx = 0;
+        
+        // Each thread finds minimum in its segment
+        for (uint i = localThreadId; i < pc.numVectors; i += 256) {
+            float dist = distances[distanceOffset + i];
+            
+            // Skip already selected indices
+            bool alreadySelected = false;
+            for (uint j = 0; j < kIdx; j++) {
+                if (topKIndices[queryIdx * pc.k + j] == i) {
+                    alreadySelected = true;
+                    break;
+                }
+            }
+            
+            if (!alreadySelected && dist < minDist) {
+                minDist = dist;
+                minIdx = i;
+            }
+        }
+        
+        sharedDistances[localThreadId] = minDist;
+        sharedIndices[localThreadId] = minIdx;
+        
+        barrier();
+        
+        // Parallel reduction to find global minimum
+        for (uint stride = 128; stride > 0; stride >>= 1) {
+            if (localThreadId < stride) {
+                if (sharedDistances[localThreadId + stride] < sharedDistances[localThreadId]) {
+                    sharedDistances[localThreadId] = sharedDistances[localThreadId + stride];
+                    sharedIndices[localThreadId] = sharedIndices[localThreadId + stride];
+                }
+            }
+            barrier();
+        }
+        
+        // Thread 0 writes the result
+        if (localThreadId == 0) {
+            topKDistances[queryIdx * pc.k + kIdx] = sharedDistances[0];
+            topKIndices[queryIdx * pc.k + kIdx] = sharedIndices[0];
+        }
+        
+        barrier();
+    }
+}

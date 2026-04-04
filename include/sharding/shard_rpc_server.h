@@ -1,3 +1,25 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            shard_rpc_server.h                                 ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:11:39                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     155                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include <string>
@@ -24,6 +46,20 @@ public:
         bool is_healthy = true;
         std::string version;
         uint64_t uptime_seconds = 0;
+    };
+    
+    /**
+     * @brief Configuration for the RPC server
+     */
+    struct Config {
+        std::string listen_address;     // Address to listen on (e.g., "0.0.0.0:50051")
+        
+        // mTLS Configuration (optional, required for production)
+        bool enable_mtls = false;       // Enable mutual TLS authentication
+        std::string tls_cert_path;      // Path to server certificate (PEM format)
+        std::string tls_key_path;       // Path to server private key (PEM format)
+        std::string tls_ca_cert_path;   // Path to CA certificate for client verification (PEM format)
+        bool tls_require_client_cert = true;  // Require client certificates (mutual TLS)
     };
     
     /**
@@ -74,6 +110,12 @@ public:
      * @param listen_address Address to listen on (e.g., "0.0.0.0:50051")
      */
     explicit ShardRPCServer(const std::string& listen_address);
+    
+    /**
+     * @brief Create a new ShardRPCServer with configuration
+     * @param config Server configuration including mTLS settings
+     */
+    explicit ShardRPCServer(const Config& config);
     
     ~ShardRPCServer();
     

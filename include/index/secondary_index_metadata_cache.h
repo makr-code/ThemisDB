@@ -1,3 +1,28 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            secondary_index_metadata_cache.h                   ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:08:04                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     150                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 2c5066b72  2026-02-25  Code audit: fix header annotations, add PARTIAL to IndexT... ║
+    • 4eeafc8f5  2026-02-25  Implement partial/filtered indexes on secondary index man... ║
+    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include <string>
@@ -25,10 +50,13 @@ public:
         std::vector<std::string> geo_indexes;           // Geo indexes
         std::vector<std::string> ttl_indexes;           // TTL indexes
         std::vector<std::string> fulltext_indexes;      // Fulltext indexes
+        std::vector<std::string> partial_indexes;       // Partial/filtered indexes (column names)
         
         // Unique constraint tracking
         std::unordered_map<std::string, bool> regular_unique;
         std::unordered_map<std::string, bool> sparse_unique;
+        std::unordered_map<std::string, std::string> partial_predicates; // column -> predicate
+        std::unordered_map<std::string, bool> partial_unique; // column -> unique flag
     };
 
     /// Singleton instance

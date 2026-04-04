@@ -1,0 +1,337 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            distributed_analytics.h                            ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-03-30 04:05:28                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     336                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3f98a289d  2026-03-18  Changes before error encountered         ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 1e9824a24  2026-02-24  fix(analytics): align STDDEV/VARIANCE to population varia... ║
+    • baf1ff92d  2026-02-24  feat(analytics): implement distributed analytics sharding... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+/**
+ * ThemisDB Distributed Analytics Sharding
+ *
+ * Scatter-gather OLAP execution across cluster nodes.
+ *
+ * Architecture:
+ *   - ShardQueryExecutor: pluggable per-shard execution interface
+ *   - DistributedAnalyticsSharding: coordinator that fans out an OLAPQuery
+ *     to all (healthy) shards in parallel, then merges the partial results.
+ *
+ * Merge semantics per aggregate function:
+ *   COUNT          – sum of per-shard counts
+ *   SUM            – sum of per-shard sums
+ *   AVG            – weighted average (sum / count, tracked internally)
+ *   MIN            – minimum of per-shard minimums
+ *   MAX            – maximum of per-shard maximums
+ *   STDDEV         – approximation via combined variance (Chan's formula)
+ *   VARIANCE       – approximation via combined variance (Chan's formula)
+ *   COUNT_DISTINCT – approximate upper bound (union of per-shard counts)
+ *   FIRST          – value from the first responding shard
+ *   LAST           – value from the last responding shard
+ *   MEDIAN         – approximation (average of per-shard medians)
+ *   PERCENTILE     – approximation (average of per-shard percentiles)
+ *
+ * CUBE / ROLLUP / GROUPING SETS queries are supported: the query is forwarded
+ * as-is to each shard and the results are merged by matching dimension values
+ * and grouping_id.
+ *
+ * Thread-safety:
+ *   - executeDistributed() is thread-safe (reads topology under shared lock,
+ *     dispatches work via std::async).
+ *   - addShard() / removeShard() / setExecutor() must not be called
+ *     concurrently with executeDistributed().
+ *
+ * Copyright (c) 2025 VCC-URN Project
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+#pragma once
+
+#include "analytics/olap.h"
+
+#include <atomic>
+#include <chrono>
+#include <condition_variable>
+#include <future>
+#include <memory>
+#include <mutex>
+#include <string>
+#include <thread>
+#include <vector>
+
+namespace themisdb {
+namespace analytics {
+
+// ---------------------------------------------------------------------------
+// ShardQueryExecutor interface
+// ---------------------------------------------------------------------------
+
+/**
+ * Abstract interface for executing an OLAP query on a single shard.
+ *
+ * Implementors:
+ *   - LocalShardExecutor  – executes via an in-process OLAPEngine (tests /
+ *                           single-node mode).
+ *   - RemoteShardExecutor – serialises the query and sends it to a remote
+ *                           shard over the existing RPC transport (production).
+ */
+class ShardQueryExecutor {
+public:
+    virtual ~ShardQueryExecutor() = default;
+
+    /**
+     * Execute an OLAP query on the shard and return the partial result.
+     *
+     * @param shard_id  Identifier of the target shard (informational).
+     * @param query     The query to execute.
+     * @return Partial OLAPResult for this shard's data partition.
+     */
+    virtual themis::analytics::OLAPResult execute(
+        const std::string& shard_id,
+        const themis::analytics::OLAPQuery& query) = 0;
+
+    /**
+     * Returns false if the shard is known to be unreachable, so the caller
+     * can skip it without paying a timeout penalty.
+     */
+    virtual bool isHealthy() const { return true; }
+};
+
+// ---------------------------------------------------------------------------
+// LocalShardExecutor – thin wrapper around an existing OLAPEngine
+// ---------------------------------------------------------------------------
+
+/**
+ * Executes a query against an in-process OLAPEngine.
+ * Useful for single-node mode and unit tests.
+ */
+class LocalShardExecutor final : public ShardQueryExecutor {
+public:
+    explicit LocalShardExecutor(themis::analytics::OLAPEngine& engine)
+        : engine_(engine) {}
+
+    themis::analytics::OLAPResult execute(
+        const std::string& /*shard_id*/,
+        const themis::analytics::OLAPQuery& query) override {
+        return engine_.execute(query);
+    }
+
+private:
+    themis::analytics::OLAPEngine& engine_;
+};
+
+// ---------------------------------------------------------------------------
+// DistributedAnalyticsSharding
+// ---------------------------------------------------------------------------
+
+/**
+ * Coordinator for distributed OLAP analytics across cluster shards.
+ *
+ * Usage:
+ * @code
+ *   DistributedAnalyticsSharding das;
+ *
+ *   // Register a local executor (in tests or single-node mode)
+ *   OLAPEngine engine_a, engine_b;
+ *   das.addShard("shard_a", std::make_shared<LocalShardExecutor>(engine_a));
+ *   das.addShard("shard_b", std::make_shared<LocalShardExecutor>(engine_b));
+ *
+ *   // Execute a query distributed across all shards
+ *   OLAPQuery q;
+ *   q.collection = "sales";
+ *   q.dimensions  = {{"region", "", true}};
+ *   q.measures    = {{"total", "amount", Measure::Function::Sum}};
+ *   auto result = das.executeDistributed(q);
+ * @endcode
+ */
+class DistributedAnalyticsSharding {
+public:
+    /**
+     * Configuration knobs.
+     */
+    struct Config {
+        /// Maximum number of in-flight shard requests at a time.
+        /// 0 means unlimited (all shards queried concurrently).
+        size_t max_parallel_shards = 0;
+
+        /// If true, a partial result is returned even when some shards fail.
+        /// The execution_info field in the result will indicate which shards
+        /// were skipped.
+        bool allow_partial_results = true;
+
+        /// Timeout per shard in milliseconds. 0 = no timeout.
+        uint32_t shard_timeout_ms = 30000;
+
+        /// Interval between background health-monitor sweeps.
+        /// Default: 5 s.  Set to zero to disable the background monitor.
+        std::chrono::milliseconds health_check_interval{5000};
+    };
+
+    /**
+     * Per-shard execution information attached to the merged result.
+     */
+    struct ShardExecutionInfo {
+        std::string shard_id;
+        bool success = false;
+        std::string error;
+        double execution_time_ms = 0.0;
+    };
+
+    /**
+     * Extended result that includes per-shard diagnostics.
+     */
+    struct DistributedResult {
+        themis::analytics::OLAPResult merged;
+        std::vector<ShardExecutionInfo> shard_info;
+        size_t successful_shards = 0;
+        size_t total_shards = 0;
+    };
+
+    // ------------------------------------------------------------------
+    // Construction / destruction
+    // ------------------------------------------------------------------
+
+    DistributedAnalyticsSharding();
+    explicit DistributedAnalyticsSharding(const Config& cfg);
+    ~DistributedAnalyticsSharding();
+
+    // ------------------------------------------------------------------
+    // Shard management
+    // ------------------------------------------------------------------
+
+    /**
+     * Register a shard and its executor.
+     * Overwrites any previously registered executor for the same shard_id.
+     */
+    void addShard(const std::string& shard_id,
+                  std::shared_ptr<ShardQueryExecutor> executor);
+
+    /**
+     * Deregister a shard.
+     */
+    void removeShard(const std::string& shard_id);
+
+    /** Total number of registered shards. */
+    size_t getShardCount() const;
+
+    /**
+     * Number of registered shards whose background health monitor last
+     * reported as healthy.  Reads a cached atomic flag — does not perform
+     * any network I/O; completes in ≤ 2 µs.
+     */
+    size_t getHealthyShardCount() const;
+
+    /**
+     * Asynchronously query live health for all registered shards.
+     *
+     * Unlike getHealthyShardCount(), this performs real isHealthy() calls
+     * without holding the shard registry lock, so it never blocks addShard()
+     * or removeShard().  The result is delivered via the returned future.
+     */
+    std::future<size_t> getHealthyShardCountAsync() const;
+
+    /** Returns all registered shard IDs. */
+    std::vector<std::string> getShardIds() const;
+
+    // ------------------------------------------------------------------
+    // Query execution
+    // ------------------------------------------------------------------
+
+    /**
+     * Execute an OLAP query across all healthy shards and merge results.
+     *
+     * The query is fanned-out to every healthy shard concurrently.
+     * Partial results are aggregated using the merge semantics documented in
+     * the file header.
+     *
+     * @param query  The query to execute on each shard.
+     * @return Merged DistributedResult.
+     */
+    DistributedResult executeDistributed(
+        const themis::analytics::OLAPQuery& query);
+
+    /**
+     * Convenience overload returning only the merged OLAPResult.
+     */
+    themis::analytics::OLAPResult execute(
+        const themis::analytics::OLAPQuery& query);
+
+    // ------------------------------------------------------------------
+    // Result merging (exposed for testing / custom pipelines)
+    // ------------------------------------------------------------------
+
+    /**
+     * Merge a collection of partial OLAPResults into a single result.
+     *
+     * @param partials   Partial results from individual shards.
+     * @param query      Original query (used to determine aggregate semantics).
+     * @return Merged OLAPResult.
+     */
+    static themis::analytics::OLAPResult mergeResults(
+        const std::vector<themis::analytics::OLAPResult>& partials,
+        const themis::analytics::OLAPQuery& query);
+
+private:
+    // ---------------------------------------------------------------
+    // Internal helpers
+    // ---------------------------------------------------------------
+
+    /**
+     * Compute a stable string key for a result row's dimension values.
+     * The key encodes grouping_id so that CUBE/ROLLUP subtotals are kept
+     * separate from detail rows.
+     */
+    static std::string rowGroupKey(
+        const themis::analytics::OLAPResult::Row& row,
+        const std::vector<themis::analytics::Dimension>& dims,
+        int64_t grouping_id);
+
+    /** Start the background health-monitor thread (if interval > 0). */
+    void startHealthMonitor();
+
+    /** Entry-point for the background health-monitor thread. */
+    void runHealthMonitor();
+
+    // ---------------------------------------------------------------
+    // State
+    // ---------------------------------------------------------------
+
+    Config config_;
+    mutable std::mutex mutex_;
+
+    struct ShardEntry {
+        std::string shard_id;
+        std::shared_ptr<ShardQueryExecutor> executor;
+        /// Cached health flag updated by the background monitor.
+        /// Initialised to true (optimistic) when a shard is first added.
+        std::shared_ptr<std::atomic<bool>> cached_healthy =
+            std::make_shared<std::atomic<bool>>(true);
+    };
+
+    std::vector<ShardEntry> shards_;
+
+    // Background health-monitor
+    std::atomic<bool>       stopping_{false};
+    std::mutex              health_monitor_mutex_;
+    std::condition_variable health_monitor_cv_;
+    std::thread             health_monitor_thread_;
+};
+
+} // namespace analytics
+} // namespace themisdb

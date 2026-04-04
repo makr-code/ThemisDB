@@ -1,6 +1,34 @@
-﻿#pragma once
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            jsonl_llm_exporter.h                               ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:07:13                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     309                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • a765a0369  2026-03-11  feat(exporters): add validate_template dry-run mode to ve... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • d1800e174  2026-02-28  feat(exporters): implement sensitive field redaction via ... ║
+    • 47062c4ec  2026-02-28  Implement Alpaca, ShareGPT, ChatML, and OpenAI instructio... ║
+    • 0da3ceaf6  2026-02-28  feat(exporters): add toxicity filtering to JSONL LLM expo... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+#pragma once
 
 #include "exporter_interface.h"
+#include "exporter_metrics.h"
+#include "format_template.h"
 #include "plugins/plugin_interface.h"
 #include <map>
 #include <memory>
@@ -52,6 +80,11 @@ struct JSONLLLMConfig {
         size_t max_text_length = 8192;
         bool skip_empty_outputs = true;
         bool skip_duplicates = true;
+
+        // Toxicity filtering: skip samples whose toxicity score exceeds this
+        // threshold. Score is in [0.0, 1.0]; 1.0 disables filtering (default).
+        bool enable_toxicity_filter = false;
+        double max_toxicity_score = 0.8;
     } quality;
     
     // Metadata enrichment
@@ -118,6 +151,34 @@ struct JSONLLLMConfig {
         bool track_length_distribution = true;
         bool track_diversity_score = true;  // Unique n-grams ratio
     } quality_metrics;
+    
+    // P1: PII Detection & Redaction
+    struct PIIConfig {
+        bool enable_detection = false;
+        bool enable_redaction = false;
+        bool detect_email = true;
+        bool detect_phone = true;
+        bool detect_ssn = true;
+        bool detect_credit_card = true;
+        
+        // Redaction strategy: mask, hash, remove, partial
+        std::string redaction_strategy = "mask";
+        
+        // Fields to check for PII
+        std::vector<std::string> check_fields;  // Empty = check all text fields
+        
+        // Fail export on PII detection (without redaction)
+        bool fail_on_pii = false;
+    } pii_config;
+
+    // Instruction-tuning format template.
+    // When set to anything other than NONE this overrides the `style` field
+    // and the entity is rendered through the selected named template.
+    FormatTemplateType format_template_type = FormatTemplateType::NONE;
+
+    // Field-name overrides for format templates.
+    // Mirrors FieldMapping but is forwarded to IFormatTemplate::render().
+    FormatTemplateFieldMapping template_field_mapping;
 };
 
 /// JSONL exporter for LLM fine-tuning (LoRA/QLoRA)
@@ -138,8 +199,22 @@ public:
     std::string getVersion() const override { return "1.0.0"; }
     
     /// Set custom configuration
-    void setConfig(const JSONLLLMConfig& config) { config_ = config; }
+    void setConfig(const JSONLLLMConfig& config) {
+        config_ = config;
+        format_template_ = makeFormatTemplate(config.format_template_type);
+    }
     
+    /// Validate that all entities in \p sample satisfy the configured format
+    /// template's required fields.  Returns immediately with a valid result
+    /// when no template is active (format_template_type == NONE).
+    ///
+    /// Intended for use as a CI/preflight dry-run before a full export.
+    /// The returned TemplateValidationResult::missing_fields list is sorted
+    /// and deduplicated so automated comparisons are deterministic.
+    TemplateValidationResult validateTemplate(
+        const std::vector<BaseEntity>& sample
+    ) const;
+
     /// Get current configuration
     const JSONLLLMConfig& getConfig() const { return config_; }
     
@@ -155,17 +230,35 @@ public:
     /// Get quality metrics report
     std::string getQualityMetricsReport() const;
     
+    /// Get exporter metrics (P0: basic metrics)
+    std::shared_ptr<ExporterMetrics> getMetrics() const { return metrics_; }
+    
+    /// Reset metrics
+    void resetMetrics() { if (metrics_) metrics_->reset(); }
+    
 private:
     JSONLLLMConfig config_;
-    
+    std::shared_ptr<ExporterMetrics> metrics_;
+    std::unique_ptr<IFormatTemplate> format_template_;  // non-null when format_template_type != NONE
+
     // Export helpers
-    std::string formatInstructionTuning(const BaseEntity& entity, double& weight);
-    std::string formatChatCompletion(const BaseEntity& entity, double& weight);
-    std::string formatTextCompletion(const BaseEntity& entity, double& weight);
-    
+    std::string formatInstructionTuning(const BaseEntity& entity, double& weight,
+                                        const ExportOptions& options);
+    std::string formatChatCompletion(const BaseEntity& entity, double& weight,
+                                     const ExportOptions& options);
+    std::string formatTextCompletion(const BaseEntity& entity, double& weight,
+                                     const ExportOptions& options);
+    std::string formatWithTemplate(const BaseEntity& entity, double& weight,
+                                   const ExportOptions& options);
+
     double calculateWeight(const BaseEntity& entity);
     bool passesQualityFilter(const BaseEntity& entity);
-    std::string extractMetadata(const BaseEntity& entity);
+    std::string extractMetadata(const BaseEntity& entity, const ExportOptions& options);
+
+    /// Returns true if field_name is allowed given include/exclude lists.
+    static bool isFieldAllowed(const std::string& field_name,
+                                const std::vector<std::string>& include_fields,
+                                const std::vector<std::string>& exclude_fields);
     
     // Schema validation helpers
     bool validateJsonSchema(const std::string& json_str, const std::string& schema, std::string* error) const;

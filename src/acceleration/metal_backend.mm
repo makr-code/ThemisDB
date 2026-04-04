@@ -38,7 +38,8 @@ kernel void computeL2Distance(
         sum += diff * diff;
     }
     
-    distances[queryIdx * numVectors + vectorIdx] = sqrt(sum);
+    // Return squared L2 distance (no sqrt for consistency and performance)
+    distances[queryIdx * numVectors + vectorIdx] = sum;
 }
 
 // Cosine Distance Kernel
@@ -113,18 +114,42 @@ public:
             // Get default Metal device
             device_ = MTLCreateSystemDefaultDevice();
             if (!device_) {
-                std::cerr << "Metal: No Metal-capable device found\n";
+                std::cerr << "Metal initialization failed:" << std::endl;
+                std::cerr << "  No Metal-capable device found" << std::endl;
+                std::cerr << "  Check: Running on macOS 10.11+ or iOS 8+?" << std::endl;
+                std::cerr << "  Check: GPU supports Metal API?" << std::endl;
                 return false;
             }
             
             [device_ retain];
             
-            NSLog(@"Metal: Using device: %@", [device_ name]);
+            // Get device info
+            NSString* deviceName = [device_ name];
+            bool isLowPower = [device_ isLowPower];
+            bool isHeadless = [device_ isHeadless];
+            
+            NSLog(@"Metal Backend: Device initialized");
+            NSLog(@"  Device: %@", deviceName);
+            NSLog(@"  Low Power: %@", isLowPower ? @"Yes" : @"No");
+            NSLog(@"  Headless: %@", isHeadless ? @"Yes" : @"No");
+            
+            // Check Metal feature set
+            #if TARGET_OS_OSX
+            if (@available(macOS 10.15, *)) {
+                NSLog(@"  Metal Feature Set: macOS GPU Family 2 (or newer)");
+            }
+            #elif TARGET_OS_IOS
+            if (@available(iOS 13.0, *)) {
+                NSLog(@"  Metal Feature Set: iOS GPU Family 5 (or newer)");
+            }
+            #endif
             
             // Create command queue
             commandQueue_ = [device_ newCommandQueue];
             if (!commandQueue_) {
-                std::cerr << "Metal: Failed to create command queue\n";
+                std::cerr << "Metal: Failed to create command queue" << std::endl;
+                std::cerr << "  Device may not support compute operations" << std::endl;
+                [device_ release];
                 return false;
             }
             
@@ -136,9 +161,13 @@ public:
             
             library_ = [device_ newLibraryWithSource:source options:nil error:&error];
             if (!library_) {
+                std::cerr << "Metal: Kernel compilation failed" << std::endl;
                 if (error) {
-                    NSLog(@"Metal: Kernel compilation failed: %@", error);
+                    NSLog(@"  Error: %@", error);
+                    NSLog(@"  Description: %@", [error localizedDescription]);
                 }
+                [commandQueue_ release];
+                [device_ release];
                 return false;
             }
             
@@ -149,29 +178,51 @@ public:
             id<MTLFunction> cosineFunction = [library_ newFunctionWithName:@"computeCosineDistance"];
             
             if (!l2Function || !cosineFunction) {
-                std::cerr << "Metal: Failed to find kernel functions\n";
+                std::cerr << "Metal: Failed to find kernel functions" << std::endl;
+                std::cerr << "  Check: Kernel names match shader code?" << std::endl;
+                [library_ release];
+                [commandQueue_ release];
+                [device_ release];
                 return false;
             }
             
             l2Pipeline_ = [device_ newComputePipelineStateWithFunction:l2Function error:&error];
-            cosinePipeline_ = [device_ newComputePipelineStateWithFunction:cosineFunction error:&error];
-            
-            [l2Function release];
-            [cosineFunction release];
-            
-            if (!l2Pipeline_ || !cosinePipeline_) {
+            if (!l2Pipeline_) {
+                std::cerr << "Metal: L2 pipeline creation failed" << std::endl;
                 if (error) {
-                    NSLog(@"Metal: Pipeline creation failed: %@", error);
+                    NSLog(@"  Error: %@", [error localizedDescription]);
                 }
+                [l2Function release];
+                [cosineFunction release];
+                [library_ release];
+                [commandQueue_ release];
+                [device_ release];
                 return false;
             }
             
+            cosinePipeline_ = [device_ newComputePipelineStateWithFunction:cosineFunction error:&error];
+            if (!cosinePipeline_) {
+                std::cerr << "Metal: Cosine pipeline creation failed" << std::endl;
+                if (error) {
+                    NSLog(@"  Error: %@", [error localizedDescription]);
+                }
+                [l2Pipeline_ release];
+                [l2Function release];
+                [cosineFunction release];
+                [library_ release];
+                [commandQueue_ release];
+                [device_ release];
+                return false;
+            }
+            
+            [l2Function release];
+            [cosineFunction release];
             [l2Pipeline_ retain];
             [cosinePipeline_ retain];
             
             initialized_ = true;
             std::cout << "Metal backend initialized successfully on " 
-                      << [[device_ name] UTF8String] << "\n";
+                      << [deviceName UTF8String] << std::endl;
             return true;
         }
     }

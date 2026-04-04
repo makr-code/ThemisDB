@@ -1,7 +1,7 @@
 # Themis – Sicherheits-Audit Checkliste
 
-**Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
+**Stand:** März 2026  
+**Version:** 1.1.0  
 **Kategorie:** Security
 
 
@@ -13,6 +13,7 @@
 - [🛡️ Malware-Schutz](#2a-malware-schutz-bsi-c5-ops-05-)
 - [🧰 Build/Compiler-Härtung](#3-buildcompiler-härtung)
 - [🔐 Authentifizierung & Autorisierung](#4-authentifizierung--autorisierung)
+- [🔐 Datenverschlüsselung](#4a-datenverschlüsselung-bsi-anforderung)
 - [🔒 Transport-Sicherheit](#5-transport-sicherheit)
 - [🧼 Input-Validierung](#6-input-validierung--serialisierung)
 - [⏱️ Ratenbegrenzung](#7-ratenbegrenzung--ressourcen-schutz)
@@ -53,6 +54,13 @@ Diese Checkliste unterstützt ein wiederholbares Sicherheits-Audit für Themis-S
 - Admin-APIs nur für authentisierte Nutzer (Token/Bearer, mTLS oder Reverse Proxy Auth)
 - Rollen/Rechte getrennt (View vs. Export vs. Löschfunktionen)
 - Sensitive Aktionen (PII-Delete, Key-Rotation) auditierbar
+- **Enterprise-Autorisierung (BSI-Anforderung):** Apache Ranger Integration produktionsreif (`src/server/ranger_adapter.cpp`) — Policies von zentraler Ranger-Instanz synchronisieren. Konfiguration: `docs/de/security/security_policies.md`
+- RBAC/ABAC intern via `RbacManager` + optional Apache Ranger als externe Policy-Source
+
+## 4a) Datenverschlüsselung (BSI-Anforderung)
+- **Column-Level Encryption (Data-at-Rest):** `FieldEncryption` (AES-256-GCM) und `EncryptedField<T>` produktionsreif (`src/security/field_encryption.cpp`). Konfiguration: `docs/de/security/security_column_encryption.md`
+- **Key Management:** `VaultKeyProvider` (HashiCorp Vault, `src/security/vault_key_provider.cpp`) und `HSMProvider PKCS#11` (`src/security/hsm_provider_pkcs11.cpp`) produktionsreif. MockKeyProvider **nur für Entwicklung/Tests**. Konfiguration: `docs/de/security/security_key_management.md`
+- Key Rotation: Schlüsselrotation ohne Downtime (Dual-Write, versionierte Keys)
 
 ## 5) Transport-Sicherheit
 - TLS erzwingen (Reverse Proxy wie Nginx/Traefik vor Themis-Server)

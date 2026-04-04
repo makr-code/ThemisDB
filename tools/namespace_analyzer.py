@@ -1,3 +1,26 @@
+"""
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            namespace_analyzer.py                              ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:36:30                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     821                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 65b6fc41e  2026-02-24  fix: resolve remaining Python (34) and PHP (23) error-han... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+"""
+
 #!/usr/bin/env python3
 """
 ThemisDB Namespace Analyzer
@@ -192,7 +215,7 @@ class NamespaceAnalyzer:
                 total_commits=len(commits)
             )
         except Exception as e:
-            self.log(f"Error getting git metadata: {e}")
+            print(f"Error getting git metadata: {e}")
             return None
     
     def read_file(self, file_path: Path) -> List[str]:
@@ -203,7 +226,7 @@ class NamespaceAnalyzer:
                 with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
                     self.file_cache[file_str] = f.readlines()
             except Exception as e:
-                self.log(f"Error reading {file_path}: {e}")
+                print(f"Error reading {file_path}: {e}")
                 self.file_cache[file_str] = []
         return self.file_cache[file_str]
     

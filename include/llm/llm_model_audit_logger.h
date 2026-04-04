@@ -1,8 +1,36 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            llm_model_audit_logger.h                           ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:08:24                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     373                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 28a4b23b9  2026-02-23  Refactor tests and update error handling ║
+    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include "utils/audit_logger.h"
 #include <string>
 #include <chrono>
+#include <memory>
+#include <ostream>
+#include <optional>
+#include <vector>
 #include <nlohmann/json.hpp>
 
 namespace themis {
@@ -59,7 +87,11 @@ enum class LLMModelAuditEventType {
     PERFORMANCE_DEGRADED,   // Performance below threshold
     OOM_ERROR,              // Out of memory error
     CACHE_HIT,              // Model cache hit
-    CACHE_MISS              // Model cache miss
+    CACHE_MISS,             // Model cache miss
+
+    // Safety / Policy Events (Q1)
+    PROMPT_BLOCKED,         // Prompt blocked by PromptPolicy (hard block rule)
+    PROMPT_REDACTED         // Prompt content redacted by PromptPolicy
 };
 
 /**
@@ -179,6 +211,8 @@ struct LLMModelInferenceAudit {
  */
 class LLMModelAuditLogger {
 public:
+    class Impl;
+
     explicit LLMModelAuditLogger(const utils::AuditLoggerConfig& config = utils::AuditLoggerConfig{});
     ~LLMModelAuditLogger();
     
@@ -240,6 +274,27 @@ public:
         const std::string& deployment_target,
         const json& config = json::object()
     );
+
+    /**
+     * @brief Log a PromptPolicy violation (PROMPT_BLOCKED or PROMPT_REDACTED).
+     *
+     * Called by the inference path after PromptPolicy::apply() returns a
+     * non-trivial result so that operators can audit safety events alongside
+     * model lifecycle events.
+     *
+     * @param model_id    Model ID that would have processed the prompt.
+     * @param request_id  Request ID for cross-referencing inference logs.
+     * @param rule_name   Policy rule that triggered (PolicyResult::rule_name).
+     * @param reason      Human-readable reason (PolicyResult::reason).
+     * @param was_blocked true → PROMPT_BLOCKED; false → PROMPT_REDACTED.
+     */
+    void logPolicyViolation(
+        const std::string& model_id,
+        const std::string& request_id,
+        const std::string& rule_name,
+        const std::string& reason,
+        bool was_blocked
+    );
     
     /**
      * @brief Query audit logs for specific model
@@ -273,8 +328,34 @@ public:
      */
     void flush();
 
+    /**
+     * @brief Export audit events as a JSON-lines (JSONL) stream.
+     *
+     * Writes one JSON object per line to @p out_stream.  Each line is a
+     * self-contained JSON object with the following top-level fields:
+     *
+     *   - timestamp_iso8601  (string, UTC)
+     *   - event_type         (string, e.g. "INFERENCE_COMPLETED")
+     *   - model_id           (string)
+     *   - details            (object, event-specific payload)
+     *
+     * The format is compatible with standard SIEM ingestors and data
+     * warehouse batch loaders (e.g., BigQuery, Snowflake, Splunk).
+     *
+     * @param out_stream  Output stream to write lines to.
+     * @param model_id    Optional filter; empty string = all models.
+     * @param start_time  Optional inclusive start of the query window.
+     * @param end_time    Optional exclusive end of the query window.
+     * @return Number of lines written.
+     */
+    size_t exportAnalytics(
+        std::ostream& out_stream,
+        const std::string& model_id = "",
+        std::optional<std::chrono::system_clock::time_point> start_time = std::nullopt,
+        std::optional<std::chrono::system_clock::time_point> end_time = std::nullopt
+    );
+
 private:
-    class Impl;
     std::unique_ptr<Impl> impl_;
 };
 

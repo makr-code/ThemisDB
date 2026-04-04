@@ -15,7 +15,8 @@ fuzz/
 │   ├── crypto/                # Crypto Test Vectors
 │   ├── protocol/              # Network Protocol Seeds
 │   ├── storage/               # Storage Engine Seeds
-│   └── auth/                  # Authentication Seeds
+│   ├── auth/                  # Authentication Seeds
+│   └── pii/                   # PII Redaction Seeds (email, SSN, IBAN, credit card, phone)
 ├── dictionaries/              # AFL++ Dictionaries
 ├── crashes/                   # Crash-Dateien (Output)
 ├── hangs/                     # Hang-Dateien (Output)
@@ -74,6 +75,7 @@ afl-fuzz -S sec2 -i fuzz/corpus/aql -o fuzz/output/aql -- ./harness @@
 | `network_protocol` | Hoch | Netzwerk-Protokoll Parser |
 | `storage_engine` | Mittel | Storage Engine I/O |
 | `auth_handler` | Kritisch | Authentication Handler |
+| `pii_redaction` | Kritisch | PII Redaction Pipeline – no PII leak, crash-free, idempotent |
 
 ## Konfiguration
 

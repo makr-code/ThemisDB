@@ -1,8 +1,41 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            export_api_handler.cpp                             ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:19:45                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     472                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • ef1605ac5  2026-03-11  fix(server): ExportApiHandler - 403 Forbidden for ERR_EXP... ║
+    • 1b86d845d  2026-03-11  feat(tracing): add OpenTelemetry spans to all major API h... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • dcf2eb787  2026-02-27  feat(exporters): audit fixes - AQL filter validation in A... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "server/export_api_handler.h"
+#include "exporters/aql_predicate_filter.h"
+#include "exporters/exporter_errors.h"
+#include "governance/policy_engine.h"
+#include "utils/audit_logger.h"
 #include "storage/rocksdb_wrapper.h"
+#include "storage/base_entity.h"
 #include "index/secondary_index.h"
 #include "utils/logger.h"
+#include "utils/tracing.h"
 #include <nlohmann/json.hpp>
+#include <algorithm>
+#include <cctype>
 #include <filesystem>
 #include <fstream>
 #include <sstream>
@@ -25,9 +58,11 @@ ExportApiHandler::~ExportApiHandler() = default;
 
 http::response<http::string_body> ExportApiHandler::handleExportJsonlLlm(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("POST /export/jsonl-llm");
     
     // Validate admin authentication
     if (!validateAdminToken(req)) {
+        span.setStatus(false, "Unauthorized");
         return errorResponse(http::status::unauthorized, "Unauthorized: Admin token required");
     }
 
@@ -37,16 +72,20 @@ http::response<http::string_body> ExportApiHandler::handleExportJsonlLlm(
 
         // Build AQL query from parameters
         std::string aql_query = buildAqlQuery(request_json);
+        span.setAttribute("export.aql_query", aql_query);
         
         THEMIS_INFO("JSONL LLM Export request: query={}", aql_query);
         
         // Load JSONL LLM exporter plugin
         auto& pm = plugins::PluginManager::instance();
-        auto* plugin = pm.loadPlugin("jsonl_llm_exporter");
-        if (!plugin) {
+        auto result = pm.loadPlugin("jsonl_llm_exporter");
+        if (!result.has_value()) {
+            span.setStatus(false, "Plugin not found");
             return errorResponse(http::status::internal_server_error,
-                "JSONL LLM exporter plugin not found");
+                fmt::format("JSONL LLM exporter plugin not found: {}", 
+                            result.error().message()));
         }
+        auto* plugin = *result;
 
         auto* exporter = static_cast<exporters::IExporter*>(plugin->getInstance());
         if (!exporter) {
@@ -62,10 +101,125 @@ http::response<http::string_body> ExportApiHandler::handleExportJsonlLlm(
         // Configure export options
         exporters::ExportOptions export_options;
         export_options.output_path = output_path;
+
+        // Wire PolicyEngine and AuditLogger for per-collection authorization (EXP-001).
+        // Populate collection_name and requesting_user so enforceExportPolicy() can
+        // build a complete ModelTrainingExportRequest.
+        if (request_json.contains("collection") && request_json["collection"].is_string()) {
+            export_options.collection_name = request_json["collection"].get<std::string>();
+        }
+        if (request_json.contains("requesting_user") && request_json["requesting_user"].is_string()) {
+            export_options.requesting_user = request_json["requesting_user"].get<std::string>();
+        }
+        export_options.policy_engine = policy_engine_;
+        export_options.audit_logger  = audit_logger_;
+
+        // Support AQL predicate filtering via the "filter" request parameter.
+        // Example: {"filter": "doc.category == \"active\" AND doc.score >= 0.5"}
+        if (request_json.contains("filter") && request_json["filter"].is_string()) {
+            const std::string filter_expr = request_json["filter"].get<std::string>();
+            // Validate the AQL predicate early to return a 400 instead of a 500.
+            // AqlPredicateFilter construction parses the expression; any syntax error throws.
+            try {
+                exporters::AqlPredicateFilter syntax_check(filter_expr);
+                (void)syntax_check;
+            } catch (const exporters::AqlPredicateFilterException& e) {
+                return errorResponse(http::status::bad_request,
+                    std::string("Invalid AQL filter expression: ") + e.what());
+            }
+            export_options.filter_expression = filter_expr;
+        }
         
-        // TODO: Query database using AQL query
-        // For now, return placeholder response indicating implementation is ready
-        std::vector<BaseEntity> entities;  // Would be populated from query
+        // Query database: scan all entities and apply filter conditions
+        // derived from the same parameters used to build the AQL query
+        std::vector<BaseEntity> entities;
+        {
+            // Build a set of field→value filters from the request parameters
+            // (mirrors the conditions built by buildAqlQuery)
+            std::vector<std::pair<std::string, std::string>> filters;
+            auto add_filter = [&](const char* field) {
+                if (request_json.contains(field) && request_json[field].is_string()) {
+                    filters.emplace_back(field, request_json[field].get<std::string>());
+                }
+            };
+            add_filter("theme");    // stored as "category"
+            add_filter("domain");
+            add_filter("subject");
+
+            // Numeric min_rating handled separately
+            std::optional<double> min_rating;
+            if (request_json.contains("min_rating") &&
+                request_json["min_rating"].is_number()) {
+                min_rating = request_json["min_rating"].get<double>();
+            }
+
+            // Optional date range
+            std::optional<std::string> from_date, to_date;
+            if (request_json.contains("from_date") &&
+                request_json["from_date"].is_string()) {
+                from_date = request_json["from_date"].get<std::string>();
+            }
+            if (request_json.contains("to_date") &&
+                request_json["to_date"].is_string()) {
+                to_date = request_json["to_date"].get<std::string>();
+            }
+
+            // Apply max_records cap to avoid unbounded exports
+            constexpr size_t MAX_EXPORT_RECORDS = 100000;
+            size_t record_count = 0;
+
+            storage_->scanAll([&](std::string_view key, std::string_view value) -> bool {
+                if (record_count >= MAX_EXPORT_RECORDS) { return false; }
+
+                // Deserialize entity
+                BaseEntity entity;
+                try {
+                    entity = BaseEntity::fromJson(key, value);
+                } catch (...) {
+                    return true; // skip malformed records
+                }
+
+                // Apply filters: check JSON fields
+                try {
+                    auto doc = nlohmann::json::parse(entity.toJson());
+
+                    // String equality filters
+                    for (const auto& [field, val] : filters) {
+                        // "theme" is stored as "category" in the entity
+                        const std::string& doc_field =
+                            (field == "theme") ? "category" : field;
+                        if (doc.contains(doc_field)) {
+                            if (doc[doc_field].is_string() &&
+                                doc[doc_field].get<std::string>() != val) {
+                                return true; // filtered out
+                            }
+                        }
+                    }
+
+                    // Numeric rating filter
+                    if (min_rating.has_value() && doc.contains("rating") &&
+                        doc["rating"].is_number()) {
+                        if (doc["rating"].get<double>() < *min_rating) {
+                            return true;
+                        }
+                    }
+
+                    // Date range filter (lexicographic comparison on ISO 8601)
+                    if ((from_date.has_value() || to_date.has_value()) &&
+                        doc.contains("created_at") && doc["created_at"].is_string()) {
+                        const std::string& dt = doc["created_at"].get<std::string>();
+                        if (from_date.has_value() && dt < *from_date) { return true; }
+                        if (to_date.has_value()   && dt > *to_date)   { return true; }
+                    }
+                } catch (...) {
+                    return true; // skip malformed records
+                }
+
+                entities.push_back(std::move(entity));
+                ++record_count;
+                return true; // continue scan
+            });
+        }
         
         // Perform export
         auto stats = exporter->exportEntities(entities, export_options);
@@ -84,10 +238,26 @@ http::response<http::string_body> ExportApiHandler::handleExportJsonlLlm(
         http::response<http::string_body> res{http::status::ok, req.version()};
         res.set(http::field::content_type, "application/x-ndjson");
         
-        // Add filename based on theme and date range
+        // Build a safe filename: strip all characters that could break the
+        // Content-Disposition header value or inject HTTP header fields.
+        // Allow only alphanumeric, hyphen, underscore, and period.
+        auto sanitize_filename_part = [](const std::string& raw) -> std::string {
+            std::string safe;
+            safe.reserve(raw.size());
+            std::copy_if(raw.begin(), raw.end(), std::back_inserter(safe),
+                [](unsigned char c) {
+                    return std::isalnum(c) || c == '-' || c == '_' || c == '.';
+                });
+            return safe;
+        };
+
         std::string filename = "export_" + export_id;
-        if (request_json.contains("theme")) {
-            filename += "_" + request_json["theme"].get<std::string>();
+        if (request_json.contains("theme") && request_json["theme"].is_string()) {
+            const std::string safe_theme =
+                sanitize_filename_part(request_json["theme"].get<std::string>());
+            if (!safe_theme.empty()) {
+                filename += "_" + safe_theme;
+            }
         }
         filename += ".jsonl";
         
@@ -104,6 +274,16 @@ http::response<http::string_body> ExportApiHandler::handleExportJsonlLlm(
     } catch (const json::exception& e) {
         return errorResponse(http::status::bad_request,
             std::string("JSON parsing error: ") + e.what());
+    } catch (const exporters::ExporterException& e) {
+        // Map ERR_EXPORT_POLICY_DENIED → 403 Forbidden (EXP-001).
+        // All other exporter exceptions surface as 500 so callers can
+        // distinguish authorization failures from infrastructure faults.
+        if (e.getErrorCode() == errors::ErrorCode::ERR_EXPORT_POLICY_DENIED) {
+            return errorResponse(http::status::forbidden,
+                std::string("Export forbidden: ") + e.what());
+        }
+        return errorResponse(http::status::internal_server_error,
+            std::string("Export error: ") + e.what());
     } catch (const std::exception& e) {
         return errorResponse(http::status::internal_server_error,
             std::string("Export error: ") + e.what());
@@ -112,9 +292,11 @@ http::response<http::string_body> ExportApiHandler::handleExportJsonlLlm(
 
 http::response<http::string_body> ExportApiHandler::handleExportStatus(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("GET /export/:id/status");
     
     // Validate admin authentication
     if (!validateAdminToken(req)) {
+        span.setStatus(false, "Unauthorized");
         return errorResponse(http::status::unauthorized, "Unauthorized: Admin token required");
     }
 
@@ -123,10 +305,12 @@ http::response<http::string_body> ExportApiHandler::handleExportStatus(
         std::string target(req.target().data(), req.target().size());
         auto last_slash = target.find_last_of('/');
         if (last_slash == std::string::npos) {
+            span.setStatus(false, "Invalid export ID");
             return errorResponse(http::status::bad_request, "Invalid export ID");
         }
         
         std::string export_id = target.substr(last_slash + 1);
+        span.setAttribute("export.id", export_id);
 
         // Find export job
         std::lock_guard<std::mutex> lock(export_jobs_mutex_);

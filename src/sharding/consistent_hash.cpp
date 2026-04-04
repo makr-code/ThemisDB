@@ -1,17 +1,45 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            consistent_hash.cpp                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:20:13                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     286                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • c8d2c5254  2026-03-24  fix(query): address code review: two-part ring walk, fall... ║
+    • bc061a79d  2026-03-24  feat(query): QueryFederation shard-key routing v1.9.0 ║
+    • 1d10fc7b3  2026-03-13  feat(build): add redis_cache and AQL components to build ... ║
+    • 7dbe96ab7  2026-03-13  refactor(sharding): improve hash functions and update dis... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "sharding/consistent_hash.h"
 #include <sstream>
 #include <algorithm>
 #include <cmath>
 #include <set>
 
-#ifdef __has_include
-  #if __has_include(<xxhash.h>)
-    #include <xxhash.h>
-    #define HAS_XXHASH
-  #endif
-#endif
-
 namespace themis::sharding {
+
+static uint64_t mix64(uint64_t x) {
+        x ^= x >> 33;
+        x *= 0xff51afd7ed558ccdULL;
+        x ^= x >> 33;
+        x *= 0xc4ceb9fe1a85ec53ULL;
+        x ^= x >> 33;
+        return x;
+}
 
 void ConsistentHashRing::addShard(const std::string& shard_id, size_t virtual_nodes) {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -29,12 +57,21 @@ void ConsistentHashRing::addShard(const std::string& shard_id, size_t virtual_no
     std::vector<uint64_t> tokens;
     tokens.reserve(virtual_nodes);
     
-    // Generate virtual nodes
+    // Generate virtual nodes.
+    // Collisions are possible with any finite hash width; if we overwrite an
+    // existing token in ring_, we silently lose virtual nodes and skew load.
+    // Resolve collisions with deterministic probing to preserve ring density.
     for (size_t i = 0; i < virtual_nodes; ++i) {
         std::ostringstream oss;
         oss << shard_id << "#" << i;
         uint64_t token = hash(oss.str());
-        
+
+        size_t probe = 0;
+        while (ring_.find(token) != ring_.end()) {
+            token = mix64(token + 0x9e3779b97f4a7c15ULL + probe);
+            ++probe;
+        }
+
         ring_[token] = shard_id;
         tokens.push_back(token);
     }
@@ -164,6 +201,54 @@ std::vector<std::string> ConsistentHashRing::getAllShards() const {
     return shards;
 }
 
+std::vector<std::string> ConsistentHashRing::getShardsInRange(
+    uint64_t hash_start, uint64_t hash_end
+) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    if (ring_.empty()) {
+        return {};
+    }
+
+    std::vector<std::string> result;
+    std::set<std::string> seen;
+
+    auto collect = [&](auto from, auto to_exclusive) {
+        // Walk from 'from' to just before 'to_exclusive', collecting shards.
+        for (auto it = from; it != to_exclusive; ++it) {
+            seen.insert(it->second);
+        }
+    };
+
+    if (hash_start > hash_end) {
+        // Wrap-around range: [hash_start, ring_max] ∪ [ring_min, hash_end]
+        // Part 1: hash_start → end of ring
+        auto it_start = ring_.lower_bound(hash_start);
+        if (it_start == ring_.end()) {
+            it_start = ring_.begin();
+        }
+        collect(it_start, ring_.end());
+
+        // Part 2: beginning of ring → hash_end (inclusive)
+        for (auto it = ring_.begin(); it != ring_.end() && it->first <= hash_end; ++it) {
+            seen.insert(it->second);
+        }
+    } else {
+        // Normal (non-wrapping) range: [hash_start, hash_end]
+        auto it = ring_.lower_bound(hash_start);
+        if (it == ring_.end()) {
+            it = ring_.begin(); // wrap-around: start is past the last token
+        }
+        while (it != ring_.end() && it->first <= hash_end) {
+            seen.insert(it->second);
+            ++it;
+        }
+    }
+
+    result.assign(seen.begin(), seen.end());
+    return result;
+}
+
 double ConsistentHashRing::getBalanceFactor() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -190,12 +275,14 @@ double ConsistentHashRing::getBalanceFactor() const {
 }
 
 uint64_t ConsistentHashRing::hash(const std::string& key) const {
-#ifdef HAS_XXHASH
-    return XXH64(key.data(), key.size(), 0);
-#else
-    std::hash<std::string> hasher;
-    return hasher(key);
-#endif
+    constexpr uint64_t kFNVOffsetBasis = 14695981039346656037ULL;
+    constexpr uint64_t kFNVPrime = 1099511628211ULL;
+    uint64_t h = kFNVOffsetBasis;
+    for (unsigned char c : key) {
+        h ^= static_cast<uint64_t>(c);
+        h *= kFNVPrime;
+    }
+    return mix64(h);
 }
 
 } // namespace themis::sharding

@@ -1,4 +1,30 @@
-﻿#pragma once
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            rocksdb_wrapper.h                                  ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:11:50                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     688                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 197320301  2026-03-28  Implement SequenceU64Increment merge operator for RocksDB... ║
+    • 8031d339d  2026-03-15  feat(storage): implement RocksDB iteration for SecuritySi... ║
+    • 78f419ea2  2026-03-13  feat(storage): implement BlobRedundancyEventListener for ... ║
+    • 6e0a18187  2026-03-13  fix(storage/nvme): address all review comments – thread s... ║
+    • 48cc2a0a2  2026-03-13  feat(storage): implement NVMe optimizations (io_uring, mu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+#pragma once
 
 #include <memory>
 #include <string>
@@ -10,6 +36,8 @@
 #include <mutex>
 #include <condition_variable>
 #include <string>
+#include "utils/expected.h"
+#include "storage/nvme_manager.h"
 
 // RocksDB forward declarations
 // Note: rocksdb/iterator.h is included for full Iterator definition needed by std::unique_ptr
@@ -20,14 +48,15 @@ namespace rocksdb {
     class Transaction;
     class WriteBatch;
     class WriteBatchWithIndex;
-    class Options;
-    class ReadOptions;
-    class WriteOptions;
-    class TransactionDBOptions;
-    class TransactionOptions;
+    struct Options;
+    struct ReadOptions;
+    struct WriteOptions;
+    struct TransactionDBOptions;
+    struct TransactionOptions;
     class Snapshot;
     class DB;
     class ColumnFamilyHandle;
+    class EventListener;
 }
 
 namespace themis {
@@ -37,12 +66,28 @@ class BaseEntity;
 /// High-level wrapper around RocksDB TransactionDB for MVCC support
 /// Manages LSM-Tree configuration, WAL, Transactions, and BlobDB
 /// 
-/// Thread-Safety:
-/// - Thread-safe for concurrent operations (reads, writes, transactions)
-/// - Column family operations protected by internal mutex
-/// - Iterator operations use reference counting to prevent use-after-free
-/// - Safe concurrent access to multiple methods
-/// - close() waits for active operations before shutdown
+/// @thread_safety
+/// - **Read-safe**: Multiple threads can call read operations (get, scan, etc) concurrently
+/// - **Write-safe**: Write operations (put, delete) are thread-safe (use internal locking)
+/// - **NOT move-safe**: Move constructor and assignment should NOT be called during concurrent access
+///   - Only safe during initialization/teardown when no other threads are accessing the object
+///   - Never move during active operation
+///   - Debug mode (THEMIS_DEBUG_THREADING) will detect and log concurrent move operations
+/// - **NOT copyable**: Copy operations are deleted
+/// - **Iterator-safe**: Iterator operations use reference counting to prevent use-after-free
+/// - **close() waits**: close() waits for active operations before shutdown
+/// 
+/// @code
+/// // ✅ OK: Move during initialization
+/// std::unique_ptr<RocksDBWrapper> db = std::make_unique<RocksDBWrapper>(config);
+/// 
+/// // ❌ WRONG: Move while other threads are accessing
+/// db = std::make_unique<RocksDBWrapper>(other_config);  // Race condition!
+/// @endcode
+/// 
+/// @warning Move constructor and assignment should only be called when no other
+///          threads are accessing the object. Typically done during initialization
+///          or teardown, not during active operation.
 class RocksDBWrapper {
 public:
     struct Config {
@@ -58,7 +103,11 @@ public:
         // Ideal für: Dokumentations-Datenbanken, Archiv-Daten, Backup-Verification
         bool read_only = false;
 
-        size_t memtable_size_mb = 256;
+        // Write-Amplification Optimization (v1.5.0+):
+        // Larger memtables reduce write-amplification by reducing flush frequency
+        // 512MB memtable → ~50% fewer L0 files → ~30-40% less write-amp
+        // Trade-off: Higher memory usage, longer recovery time
+        size_t memtable_size_mb = 512;
         size_t block_cache_size_mb = 1024;
         int block_cache_shard_bits = -1;  // -1 = auto, 4 = 16 shards, 6 = 64 shards (better for 8+ threads)
         bool cache_index_and_filter_blocks = true;
@@ -87,10 +136,14 @@ public:
         uint64_t target_file_size_base_mb = 64;
         uint64_t max_bytes_for_level_base_mb = 256;
 
-        // Write buffer tuning
-        int max_write_buffer_number = 3;
+        // Write buffer tuning (Write-Amplification Optimization v1.5.0+)
+        // More write buffers allow writes to continue while flushing
+        // 6 buffers = optimal for high-throughput OLTP (PERFORMANCE_TIPS.md)
+        int max_write_buffer_number = 6;
         int min_write_buffer_number_to_merge = 1;
-        size_t db_write_buffer_size_mb = 0;  // Total memtable memory limit across all CFs (0 = unlimited)
+        // Total write buffer across all CFs: 2GB default for write-heavy workloads
+        // Limits total memory used by all memtables (prevents OOM on many CFs)
+        size_t db_write_buffer_size_mb = 2048;  // 2GB total (was 0/unlimited)
         
         // Phase 2H: Level0 file control to prevent write stalls
         int level0_file_num_compaction_trigger = 4;  // Start L0->L1 compaction
@@ -106,11 +159,39 @@ public:
         bool use_direct_reads = false;
         bool use_direct_io_for_flush_and_compaction = false;
 
-        // v1.3.0 Phase 2: Async I/O with Prefetching
-        bool enable_async_io = false;                    // Enable async I/O for scans
-        size_t async_io_readahead_size_mb = 64;         // Prefetch buffer size (MB)
+        // v1.6.0 NVMe Optimizations
+        // Enable NVMe-specific I/O features via NVMeManager.  When enabled,
+        // RocksDBWrapper constructs an NVMeManager, calls initialize(), and
+        // applies its recommended Direct I/O flags and background-thread counts.
+        // All sub-features (io_uring, ZNS, multi-queue) are controlled via the
+        // nvme_enable_* and nvme_* fields below.
+        bool enable_nvme_optimizations = false;
+        // Block-device path forwarded to NVMeManager for capability detection
+        // (e.g. "/dev/nvme0n1").  Leave empty to skip sysfs probing.
+        std::string nvme_device_path;
+        // io_uring queue depth (entries per ring); ignored when enable_nvme_optimizations=false.
+        uint32_t nvme_io_uring_queue_depth = 128;
+        // Enable io_uring Linux async I/O (requires THEMIS_ENABLE_IO_URING and Linux ≥ 5.1).
+        bool nvme_enable_io_uring = false;
+        // Enable ZNS zone-namespace placement (requires a ZNS NVMe device).
+        bool nvme_enable_zns = false;
+
+        // v1.3.0 Phase 2: Async I/O with Prefetching (Enhanced v1.5.0)
+        // Async I/O improves scan performance by 2-5x through prefetching
+        // Enable for workloads with sequential scans, range queries
+        bool enable_async_io = true;                     // Enable async I/O by default
+        size_t async_io_readahead_size_mb = 128;        // Increased from 64MB for better throughput
         int async_io_multiget_batch_size = 100;         // MultiGet batch size
         int async_io_num_threads = 4;                   // Async I/O thread pool size
+        
+        // v1.4.1: CPU-level Prefetch Hints for Random Access Performance
+        // Software prefetch hints to improve cache hit rates for random access patterns
+        // Based on research: Chen, T-F., Baer, J-L. (1995) "Effective Hardware-Based Data Prefetching for 
+        // High-Performance Processors", IEEE Transactions on Computers, vol. 44, no. 5, pp. 609-623.
+        // DOI: 10.1109/12.381947
+        bool enable_cpu_prefetch = true;                // Enable CPU prefetch hints
+        size_t prefetch_distance = 2;                   // Items to prefetch ahead (1-8, default: 2)
+        size_t prefetch_min_batch_size = 4;             // Minimum batch size to enable prefetch
 
         // Compression (best-effort; depends on RocksDB build)
         // Values: "none", "lz4", "zstd", "snappy", "zlib", "bzip2", "lz4hc"
@@ -133,6 +214,33 @@ public:
         WritePolicy write_policy = WritePolicy::WriteUnprepared;  // v1.3.0: Use WriteUnprepared for safe Snapshot Isolation + skip_prepare compatibility
         bool two_write_queues = true;           // Enable dual write queues (prepare/commit) - reduces lock contention
         uint64_t wp_commit_cache_bits = 23;     // 2^23 ~= 8M commit cache entries
+        
+        // Data Integrity & Robustness (v1.4.1+)
+        // Based on research: Bairavasundaram et al. (2008), Bonwick et al. (2010)
+        // See docs/DATABASE_FILE_ROBUSTNESS.md for details
+        bool paranoid_checks = true;                // Verify all data on read (catches corruption early)
+        bool verify_checksums_on_read = true;       // Verify block checksums on every read
+        bool verify_checksums_in_compaction = true; // Background verification during compaction
+        bool force_sync_on_write = false;           // Force fsync on every write (30% overhead, max durability)
+        bool disable_mmap_reads = true;             // Prevent mmap from hiding I/O errors
+        bool disable_mmap_writes = true;            // Prevent mmap write errors
+        
+        // Checksum algorithm (v1.4.1+)
+        enum class ChecksumType {
+            CRC32,      // Standard, compatible
+            XXH3        // Fastest (3x faster than CRC32, recommended)
+        };
+        ChecksumType checksum_type = ChecksumType::XXH3;
+
+        // Optional built-in RocksDB MergeOperator presets.
+        // Use SequenceU64Increment for CDC Changefeed sequence persistence
+        // when components call DB::Merge on an uint64 LE counter key.
+        enum class MergeOperatorPreset {
+            None,
+            SequenceU64Increment
+        };
+        MergeOperatorPreset merge_operator_preset =
+            MergeOperatorPreset::None;
     };
     
     explicit RocksDBWrapper(const Config& config);
@@ -152,6 +260,10 @@ public:
     
     /// Check if database is open
     bool isOpen() const;
+
+    /// Register a RocksDB EventListener that will receive compaction/flush/deletion
+    /// events once the database is opened.  Must be called before open().
+    void addEventListener(std::shared_ptr<rocksdb::EventListener> listener);
 
     // ===== CRUD Operations =====
     
@@ -212,10 +324,10 @@ public:
         void del(std::string_view key);
         
         /// Get from batch only (very fast)
-        std::optional<std::vector<uint8_t>> getFromBatch(std::string_view key);
+        std::optional<std::vector<uint8_t>> getFromBatch(std::string_view key) const;
         
         /// Get from batch first, then DB if not found (Read-Your-Own-Writes)
-        std::optional<std::vector<uint8_t>> getFromBatchAndDB(std::string_view key);
+        std::optional<std::vector<uint8_t>> getFromBatchAndDB(std::string_view key) const;
         
         /// Commit the batch atomically
         bool commit();
@@ -233,13 +345,30 @@ public:
     
     // ===== MVCC Transaction Operations =====
     
-    /// Create a new MVCC transaction with snapshot isolation
+    /// Isolation level for transactions (matches themis::IsolationLevel)
+    enum class TransactionIsolationLevel {
+        ReadCommitted,  // Read latest committed data (no snapshot overhead)
+        Snapshot        // Snapshot isolation (repeatable reads, point-in-time consistency)
+    };
+    
+    /// Create a new MVCC transaction with configurable isolation level
     class TransactionWrapper {
     public:
-        explicit TransactionWrapper(RocksDBWrapper* db);
+        /// Transaction state enum for better lifecycle management
+        enum class State {
+            NotStarted,      // Never attempted to start (db_ was null)
+            CreationFailed,  // BeginTransaction() failed or operation failed
+            Active,          // Transaction is alive and can be used
+            Rolledback,      // Transaction rolled back
+            Committed        // Transaction committed
+        };
+        
+        explicit TransactionWrapper(RocksDBWrapper* db, TransactionIsolationLevel isolation = TransactionIsolationLevel::ReadCommitted);
         ~TransactionWrapper();
         
-        /// Get value with snapshot isolation
+        /// Get value with isolation-dependent behavior
+        /// ReadCommitted: reads latest committed data
+        /// Snapshot: reads from transaction snapshot
         std::optional<std::vector<uint8_t>> get(std::string_view key);
         
         /// Put key-value pair (visible only after commit)
@@ -257,21 +386,64 @@ public:
         /// Prepare the transaction (for WritePrepared policy)
         bool prepare();
         
+        // ── Savepoint API ────────────────────────────────────────────────────
+
+        /**
+         * @brief Record a savepoint at the current write position.
+         *
+         * Multiple savepoints may be set; they form a stack (LIFO).
+         * Corresponds to RocksDB Transaction::SetSavePoint().
+         */
+        void setSavePoint();
+
+        /**
+         * @brief Rollback all writes made after the most recent setSavePoint().
+         *
+         * Pops the most recent savepoint from the stack.  Returns true on
+         * success; returns false if there is no outstanding savepoint.
+         */
+        bool rollbackToSavePoint();
+
+        /**
+         * @brief Discard (commit) the most recent savepoint without rolling back.
+         *
+         * The writes since the savepoint become permanent within the transaction.
+         * Returns true on success; false if there is no outstanding savepoint.
+         */
+        bool popSavePoint();
+
+        // ── Accessors ────────────────────────────────────────────────────────
+
         /// Check if transaction is still active
-        bool isActive() const { return active_; }
+        bool isActive() const { return state_ == State::Active; }
         
         /// Get the snapshot (for debugging)
-        const rocksdb::Snapshot* getSnapshot() const;
-        
+        /// Returns error if transaction is inactive or not initialized
+        Result<const rocksdb::Snapshot*> getSnapshot() const;
+
+        /// Reason why the most recent commit() call returned false.
+        enum class CommitFailureType {
+            None,        ///< No failure (commit succeeded or not yet attempted)
+            Busy,        ///< RocksDB IsBusy() – write-write conflict / lock contention
+            TimedOut,    ///< RocksDB IsTimedOut() – lock wait timeout
+            TryAgain,    ///< RocksDB IsTryAgain() – transient, caller should retry
+            CommitError, ///< Other commit error
+        };
+
+        /// Return the failure classification of the last commit() call.
+        CommitFailureType getLastCommitFailureType() const { return last_commit_failure_type_; }
+
     private:
         RocksDBWrapper* db_;
         std::unique_ptr<rocksdb::Transaction> txn_;
-        bool active_ = true;
+        TransactionIsolationLevel isolation_;
+        State state_ = State::NotStarted;
         bool prepared_ = false;
+        CommitFailureType last_commit_failure_type_ = CommitFailureType::None;
         friend class RocksDBWrapper;
     };
     
-    std::unique_ptr<TransactionWrapper> beginTransaction();
+    std::unique_ptr<TransactionWrapper> beginTransaction(TransactionIsolationLevel isolation = TransactionIsolationLevel::ReadCommitted);
     
     // ===== Iteration / Scanning =====
     
@@ -331,8 +503,8 @@ public:
     /// - Iterator itself is NOT thread-safe (use from single thread)
     /// 
     /// @param read_options Optional read options
-    /// @return SafeIterator with automatic lifecycle management
-    SafeIterator newSafeIterator(const rocksdb::ReadOptions* read_options = nullptr);
+    /// @return Result<SafeIterator> with automatic lifecycle management
+    Result<SafeIterator> newSafeIterator(const rocksdb::ReadOptions* read_options = nullptr);
     
     /// Scan with prefix (for index scans)
     using ScanCallback = std::function<bool(std::string_view key, std::string_view value)>;
@@ -340,7 +512,12 @@ public:
     
     /// Scan range [start_key, end_key)
     void scanRange(std::string_view start_key, std::string_view end_key, ScanCallback callback);
-    
+
+    /// Iterate over a key range [start_key, end_key) using a rocksdb::Iterator.
+    /// The callback receives each (key, value) pair in order; returning false
+    /// from the callback stops iteration early.
+    void iterateRange(std::string_view start_key, std::string_view end_key, ScanCallback callback);
+
     /// Full scan (use sparingly!)
     void scanAll(ScanCallback callback);
     
@@ -363,10 +540,10 @@ public:
         const std::vector<std::string>& keys);
     
     /// Create async iterator with prefetching
-    std::unique_ptr<rocksdb::Iterator> newAsyncIterator();
+    Result<std::unique_ptr<rocksdb::Iterator>> newAsyncIterator();
     
     /// Create standard iterator (for comparison)
-    std::unique_ptr<rocksdb::Iterator> newIterator();
+    Result<std::unique_ptr<rocksdb::Iterator>> newIterator();
     
     /// Check if async I/O is enabled
     bool isAsyncIOEnabled() const { return config_.enable_async_io; }
@@ -390,6 +567,10 @@ public:
     
     /// Get current configuration
     const Config& getConfig() const { return config_; }
+
+    /// Get the latest RocksDB sequence number (monotonically increasing with every write).
+    /// Returns 0 if the database is not open.
+    uint64_t getLatestSequenceNumber() const;
 
     // ===== Backup & Recovery (Checkpoints) =====
     /// Create a RocksDB checkpoint (filesystem-level snapshot) at the given directory.
@@ -431,12 +612,17 @@ public:
     // ===== Column Family Management =====
     
     /// Create or open a column family
-    /// @return Column family handle (owned by DB, don't delete)
-    rocksdb::ColumnFamilyHandle* getOrCreateColumnFamily(const std::string& cf_name);
+    /// @return Result containing column family handle (owned by DB, don't delete) or error
+    /// @error ERR_INDEX_NOT_INITIALIZED if database is not open
+    /// @error ERR_INDEX_CREATION_FAILED if column family creation fails
+    Result<rocksdb::ColumnFamilyHandle*> getOrCreateColumnFamily(const std::string& cf_name);
     
     /// Get raw RocksDB pointer for advanced operations
     rocksdb::TransactionDB* getRawDB() { return db_.get(); }
     const rocksdb::TransactionDB* getRawDB() const { return db_.get(); }
+    // Backward-compatible alias used by older tests/adapters
+    rocksdb::TransactionDB* getDB() { return getRawDB(); }
+    const rocksdb::TransactionDB* getDB() const { return getRawDB(); }
 
 private:
     // RAII helper to track active operations and prevent close during operations
@@ -486,6 +672,14 @@ private:
     mutable std::mutex db_lifecycle_mutex_;
     // Active operations counter for safe close (race condition fix #3)
     mutable std::atomic<int> active_operations_{0};
+    // NVMe optimizations manager (null when enable_nvme_optimizations=false)
+    std::unique_ptr<storage::NVMeManager> nvme_manager_;
+    
+    #ifdef THEMIS_DEBUG_THREADING
+    // Track if object is being moved (debug only)
+    // Used to detect concurrent move operations during development
+    mutable std::atomic<bool> is_being_moved_{false};
+    #endif
     
     void configureOptions();
     bool commitBatch(rocksdb::WriteBatch* batch);

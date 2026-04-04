@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            multi_master_replication.h                         ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:10:30                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     538                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • a0483324b  2026-03-01  feat(crdt): add FLAG_EW and FLAG_DW CRDT types to replica... ║
+    • ec097b836  2026-02-25  fix(crdt): code audit - fix header metadata (Stubs:1→0), ... ║
+    • cbf19161d  2026-02-25  feat(replication): expand CRDT library with TWO_P_SET and... ║
+    • 1f19586bc  2026-02-22  Implement getTopologySnapshot for MultiMasterReplicationM... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * ThemisDB Multi-Master Replication
  * 
@@ -72,6 +98,12 @@ class VectorClock {
 public:
     VectorClock() = default;
     explicit VectorClock(const std::string& node_id);
+    
+    // Copy / move constructors (mutex is not copied – new instance gets its own mutex)
+    VectorClock(const VectorClock& other);
+    VectorClock(VectorClock&& other) noexcept;
+    VectorClock& operator=(const VectorClock& other);
+    VectorClock& operator=(VectorClock&& other) noexcept;
     
     // Increment this node's clock
     void increment(const std::string& node_id);
@@ -235,7 +267,11 @@ public:
         PN_COUNTER,         // Positive-Negative Counter
         G_SET,              // Grow-only Set
         OR_SET,             // Observed-Remove Set
-        LWW_MAP             // Last-Write-Wins Map
+        LWW_MAP,            // Last-Write-Wins Map
+        TWO_P_SET,          // Two-Phase Set (supports removal via tombstones)
+        RGA,                // Replicated Growable Array (ordered sequences)
+        FLAG_EW,            // Enable-Wins Flag (concurrent enable+disable → enabled)
+        FLAG_DW             // Disable-Wins Flag (concurrent enable+disable → disabled)
     };
     
     explicit CRDTMergeResolver(CRDTType type);
@@ -258,6 +294,10 @@ private:
     std::string mergeGSet(const std::vector<MMWriteEntry>& writes);
     std::string mergeORSet(const std::vector<MMWriteEntry>& writes);
     std::string mergeLWWMap(const std::vector<MMWriteEntry>& writes);
+    std::string mergeTwoPSet(const std::vector<MMWriteEntry>& writes);
+    std::string mergeRGA(const std::vector<MMWriteEntry>& writes);
+    std::string mergeFlagEW(const std::vector<MMWriteEntry>& writes);
+    std::string mergeFlagDW(const std::vector<MMWriteEntry>& writes);
 };
 
 /**
@@ -402,7 +442,39 @@ public:
         std::chrono::milliseconds avg_replication_latency;
     };
     Stats getStats() const;
-    
+
+    // Topology Snapshot for web UI visualization
+    struct TopologyNode {
+        std::string node_id;
+        std::string endpoint;
+        std::string datacenter;
+        std::string region;
+        std::string state;          // "ACTIVE", "SYNCING", "PARTITIONED", "RECOVERING", "OFFLINE"
+        uint64_t replication_lag_ms;
+        bool is_local;              // True for this node
+    };
+
+    struct TopologyEdge {
+        std::string from;
+        std::string to;
+        std::string type;           // "PEER"
+    };
+
+    struct TopologySnapshot {
+        std::string local_node_id;
+        std::vector<TopologyNode> nodes;
+        std::vector<TopologyEdge> edges;
+        uint64_t max_lag_ms;
+        std::string replication_mode; // "MULTI_MASTER"
+    };
+
+    /**
+     * Build a topology snapshot for visualization (web UI / REST API).
+     * Returns the local node and all known peers with their current state
+     * and estimated replication lag.
+     */
+    TopologySnapshot getTopologySnapshot() const;
+
     // Prometheus Metrics Export
     std::string exportPrometheusMetrics() const;
     

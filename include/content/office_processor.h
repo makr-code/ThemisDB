@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            office_processor.h                                 ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:06:51                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     273                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • a8e6e6790  2026-03-11  feat(content): add focused test targets and fix stale doc... ║
+    • be3d43d96  2026-03-11  feat: LibreOffice headless fallback for legacy .doc/.xls/... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 3b1aefed2  2026-02-26  Audit: add content_office_extracted_total metrics, wire i... ║
+    • e144d6842  2026-02-26  Fix PowerPointInfo::slide_count uninitialized field (offi... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file office_processor.h
  * @brief Office Document Processor for ThemisDB
@@ -25,6 +51,8 @@
 
 namespace themis {
 namespace content {
+
+class ContentMetrics;  // forward declaration
 
 /**
  * @brief Office Document Type
@@ -82,7 +110,7 @@ struct PowerPointInfo {
         std::vector<std::string> notes;
     };
     std::vector<Slide> slides;
-    int slide_count;
+    int slide_count = 0;
 };
 
 /**
@@ -128,6 +156,15 @@ public:
         bool include_hidden_text = false;
         int max_cell_count = 1000000;      // XLSX: limit cells to extract
         std::string password;              // For encrypted documents
+        ContentMetrics* metrics = nullptr; // Optional: report office_extracted / extract_error counters
+
+        // LibreOffice headless fallback (DOC/XLS/PPT legacy formats).
+        // Sandboxing relies on POSIX_SPAWN_RESETIDS (drops SUID/SGID bits) and
+        // POSIX_SPAWN_SETPGROUP (isolated process group for clean kill on timeout).
+        // For additional OS-level isolation run the ThemisDB process itself under
+        // a restricted system account with no write access to the data directory.
+        std::string libreoffice_path;          // Absolute path to soffice binary; default: /usr/bin/soffice
+        int libreoffice_timeout_seconds = 30;  // Hard timeout in seconds; subprocess is killed on expiry
     };
 
     OfficeProcessor();
@@ -199,6 +236,10 @@ private:
     ExtractionResult extractXLSX(const std::string& blob);
     ExtractionResult extractPPTX(const std::string& blob);
     ExtractionResult extractODF(const std::string& blob, OfficeDocumentType type);
+
+    // LibreOffice headless fallback for legacy OLE formats (DOC/XLS/PPT)
+    // Spawns soffice --headless via posix_spawn with a configurable timeout.
+    ExtractionResult extractLegacyViaLibreOffice(const std::string& blob, OfficeDocumentType doc_type);
 
     // OOXML helpers
     std::string readZipEntry(const std::string& zip_blob, const std::string& entry_path);

@@ -1,3 +1,28 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            content_processor.h                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:06:47                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     303                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 9d3ecaa0e  2026-02-28  Add ThemisDB Wiki Integration plugin with documentation i... ║
+    • 95da435db  2026-02-27  feat(content): add content deduplication via perceptual h... ║
+    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include <string>
@@ -23,6 +48,11 @@ struct ExtractionResult {
     json metadata;                 // Structured metadata (EXIF, ID3, CAD properties, etc.)
     std::vector<float> embedding;  // Optional: Pre-computed embedding
     std::string error_message;
+    
+    // Archive extraction fields
+    bool success = false;          // Alias for ok (for backwards compatibility)
+    std::vector<std::string> extracted_files;  // List of extracted file paths (for archives)
+    std::string temp_directory;    // Temporary extraction directory (for archives)
     
     // Type-specific extracted data
     struct GeoData {
@@ -118,6 +148,24 @@ public:
         return {ContentCategory::TEXT};
     }
 
+    /**
+     * @brief Compute a MinHash signature for near-duplicate text detection.
+     *
+     * Uses `num_hashes` independent hash functions over 3-word shingles
+     * (trigrams) of the input text.  The resulting signature can be used with
+     * band-LSH (16 bands × 8 rows) to find documents whose estimated Jaccard
+     * similarity exceeds 0.85.
+     *
+     * @param text       Input text (UTF-8).
+     * @param num_hashes Number of MinHash permutations (default: 128).
+     * @return Vector of `num_hashes` uint32_t values; all UINT32_MAX if text
+     *         is empty.
+     */
+    static std::vector<uint32_t> computeMinHash(
+        const std::string& text,
+        size_t num_hashes = 128
+    );
+
 private:
     std::string normalizeText(const std::string& text);
     int countTokens(const std::string& text); // Simple whitespace-based tokenizer
@@ -130,6 +178,7 @@ private:
  * Handles photos, diagrams, screenshots.
  * Extracts EXIF metadata, generates image embeddings (e.g., CLIP).
  */
+#ifndef THEMIS_CONTENT_PLUGIN_IMAGE_PROCESSOR_DEFINED
 class ImageProcessor : public IContentProcessor {
 public:
     ExtractionResult extract(const std::string& blob, const ContentType& content_type) override;
@@ -144,6 +193,7 @@ private:
     json extractEXIF(const std::string& blob);
     std::pair<int, int> getImageDimensions(const std::string& blob);
 };
+#endif
 
 /**
  * @brief Geo Content Processor

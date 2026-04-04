@@ -225,7 +225,7 @@ struct RPCServerStats {
 
 ### 3.1 gRPC Plugin
 
-**Datei:** `plugins/rpc/grpc/themis_rpc_grpc.cpp`
+**Datei:** `src/rpc_grpc/grpc_plugin.cpp`
 
 **Service Definition (Protobuf):**
 
@@ -365,7 +365,7 @@ message HealthCheckResponse {
 **Plugin Implementation:**
 
 ```cpp
-// plugins/rpc/grpc/grpc_plugin.cpp
+// src/rpc_grpc/grpc_plugin.cpp
 
 #include "plugins/rpc_plugin_interface.h"
 #include <grpcpp/grpcpp.h>

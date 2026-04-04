@@ -1,15 +1,54 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            boost_cpu_exact_backend.cpp                        ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:15:32                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     419                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • e8e316290  2026-02-25  fix(geo): add geodesicDistance delegation to GPU stub and... ║
+    • d7367e665  2026-02-24  feat(geo): implement ST_UNION and ST_DIFFERENCE geometry ... ║
+    • c2e120dd0  2026-02-24  feat(geo): Complete GeoJSON spec coverage for GeometryCol... ║
+    • 3485a6c39  2026-02-22  fix(geo): replace M_PI with portable constant in boost ba... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "geo/spatial_backend.h"
+
+#include <iostream>
+#include <stdexcept>
 
 #ifdef THEMIS_GEO_BOOST_BACKEND
 // Check if Boost Geometry headers are available
 #if __has_include(<boost/geometry/geometries/point_xy.hpp>)
 #include <boost/geometry/geometries/point_xy.hpp>
 #include <boost/geometry/geometries/polygon.hpp>
+#include <boost/geometry/geometries/multi_polygon.hpp>
 #include <boost/geometry/geometries/linestring.hpp>
 #include <boost/geometry/algorithms/intersects.hpp>
 #include <boost/geometry/algorithms/within.hpp>
+#include <boost/geometry/algorithms/buffer.hpp>
+#include <boost/geometry/strategies/agnostic/buffer_distance_symmetric.hpp>
+#include <boost/geometry/strategies/cartesian/buffer_point_circle.hpp>
+#include <boost/geometry/strategies/cartesian/buffer_join_round.hpp>
+#include <boost/geometry/strategies/cartesian/buffer_end_round.hpp>
+#include <boost/geometry/strategies/cartesian/buffer_side_straight.hpp>
+
 #include <boost/geometry/algorithms/touches.hpp>
 #include <boost/geometry/algorithms/equals.hpp>
+#include <boost/geometry/algorithms/union.hpp>
+#include <boost/geometry/algorithms/difference.hpp>
 #define BOOST_GEO_AVAILABLE 1
 #else
 // Boost Geometry headers not found - using fallback implementation
@@ -20,6 +59,7 @@
 #include "utils/geo/ewkb.h"
 #include "storage/rocksdb_wrapper.h"
 #include "utils/logger.h"
+#include <cmath>
 #include <vector>
 #include <string>
 #include <memory>
@@ -33,6 +73,8 @@ namespace bg = boost::geometry;
 using Point = bg::model::d2::point_xy<double>;
 using Polygon = bg::model::polygon<Point>;
 using LineString = bg::model::linestring<Point>;
+
+static const double kBoostPi = 3.14159265358979323846;
 
 /// Convert GeometryInfo to Boost.Geometry polygon
 static Polygon toBoostPolygon(const GeometryInfo& geom) {
@@ -79,16 +121,13 @@ public:
     SpatialBatchResults batchIntersects(const SpatialBatchInputs& in) override {
         SpatialBatchResults out;
         out.mask.assign(in.count, 0u);
-        
-        // Note: This is a stub implementation showing the structure.
-        // In a full implementation, the input would contain:
-        // - Query geometry (parsed)
-        // - Candidate PKs and their blobs
-        // - Database handle to load geometries
-        //
-        // For now, we return empty results as the integration with
-        // SpatialIndexManager::searchIntersects needs to be completed.
-        
+
+        // Process geometry pairs when they are provided.
+        std::size_t n = std::min({in.count, in.geoms_a.size(), in.geoms_b.size()});
+        for (std::size_t i = 0; i < n; ++i) {
+            out.mask[i] = exactIntersects(in.geoms_a[i], in.geoms_b[i]) ? 1u : 0u;
+        }
+
         return out;
     }
     
@@ -117,7 +156,35 @@ public:
                 Point pt2(geom2.coords[0].x, geom2.coords[0].y);
                 return bg::equals(pt1, pt2);
             }
-            
+
+            // MultiPolygon: intersects if any constituent polygon intersects
+            if (geom1.isMultiPolygon()) {
+                for (const auto& sub : geom1.geometries) {
+                    if (exactIntersects(sub, geom2)) return true;
+                }
+                return false;
+            }
+            if (geom2.isMultiPolygon()) {
+                for (const auto& sub : geom2.geometries) {
+                    if (exactIntersects(geom1, sub)) return true;
+                }
+                return false;
+            }
+
+            // GeometryCollection: intersects if any member intersects
+            if (geom1.isGeometryCollection()) {
+                for (const auto& sub : geom1.geometries) {
+                    if (exactIntersects(sub, geom2)) return true;
+                }
+                return false;
+            }
+            if (geom2.isGeometryCollection()) {
+                for (const auto& sub : geom2.geometries) {
+                    if (exactIntersects(geom1, sub)) return true;
+                }
+                return false;
+            }
+
             // Fallback: use MBR intersection for unsupported types
             auto mbr1 = geom1.computeMBR();
             auto mbr2 = geom2.computeMBR();
@@ -131,13 +198,195 @@ public:
             return mbr1.intersects(mbr2);
         }
     }
+
+    // ST_BUFFER: expand geometry by distance_m metres using Boost.Geometry buffer.
+    // Converts distance_m to degrees (latitude-uniform) and applies the buffer
+    // with round join and round end strategies for smooth output polygons.
+    GeometryInfo stBuffer(const GeometryInfo& geom, double distance_m,
+                          int arc_points) override {
+        if (arc_points < 3) arc_points = 3;
+        if (distance_m <= 0.0) {
+            THEMIS_WARN("Boost stBuffer: distance_m ({}) must be positive", distance_m);
+            return GeometryInfo{};
+        }
+        try {
+            // Convert metres to degrees using latitude-based approximation.
+            // For geodesic accuracy at small-to-medium scales (1 m – 100 km).
+            double center_lat = 0.0;
+            if (geom.isPoint() && !geom.coords.empty()) {
+                center_lat = geom.coords[0].y;
+            } else {
+                const auto mbr = geom.computeMBR();
+                center_lat = (mbr.miny + mbr.maxy) * 0.5;
+            }
+            const double lat_rad = center_lat * kBoostPi / 180.0;
+            const double d_lat = distance_m / 111320.0;
+            const double cos_lat = std::cos(lat_rad);
+            const double d_lon = distance_m / (111320.0 * (cos_lat > 1e-6 ? cos_lat : 1e-6));
+            // Use the average of d_lat and d_lon as a symmetric buffer distance
+            // for Boost.Geometry (which expects isotropic coordinates).
+            const double d_deg = (d_lat + d_lon) * 0.5;
+
+            using MultiPoly = bg::model::multi_polygon<Polygon>;
+
+            bg::strategy::buffer::distance_symmetric<double> dist_strategy(d_deg);
+            bg::strategy::buffer::join_round join_strategy(static_cast<std::size_t>(arc_points));
+            bg::strategy::buffer::end_round end_strategy(static_cast<std::size_t>(arc_points));
+            bg::strategy::buffer::point_circle point_strategy(static_cast<std::size_t>(arc_points));
+            bg::strategy::buffer::side_straight side_strategy;
+
+            if (geom.isPoint() && !geom.coords.empty()) {
+                Point pt(geom.coords[0].x, geom.coords[0].y);
+                MultiPoly buffered;
+                bg::buffer(pt, buffered, dist_strategy, side_strategy,
+                           join_strategy, end_strategy, point_strategy);
+                if (buffered.empty()) return GeometryInfo{};
+                // Convert the first polygon of the result back to GeometryInfo.
+                const auto& out_poly = buffered[0];
+                GeometryInfo result(GeometryType::Polygon);
+                std::vector<Coordinate> ring;
+                for (const auto& p : out_poly.outer()) {
+                    ring.push_back({bg::get<0>(p), bg::get<1>(p)});
+                }
+                result.rings.push_back(std::move(ring));
+                return result;
+            }
+            if (geom.isPolygon()) {
+                Polygon in_poly = toBoostPolygon(geom);
+                MultiPoly buffered;
+                bg::buffer(in_poly, buffered, dist_strategy, side_strategy,
+                           join_strategy, end_strategy, point_strategy);
+                if (buffered.empty()) return GeometryInfo{};
+                const auto& out_poly = buffered[0];
+                GeometryInfo result(GeometryType::Polygon);
+                std::vector<Coordinate> outer_ring;
+                for (const auto& p : out_poly.outer()) {
+                    outer_ring.push_back({bg::get<0>(p), bg::get<1>(p)});
+                }
+                result.rings.push_back(std::move(outer_ring));
+                for (const auto& inner : out_poly.inners()) {
+                    std::vector<Coordinate> hole;
+                    for (const auto& p : inner) {
+                        hole.push_back({bg::get<0>(p), bg::get<1>(p)});
+                    }
+                    result.rings.push_back(std::move(hole));
+                }
+                return result;
+            }
+            THEMIS_WARN("Boost stBuffer: unsupported geometry type {}",
+                        static_cast<int>(geom.type));
+        } catch (const std::exception& e) {
+            THEMIS_WARN("Boost stBuffer error: {}", e.what());
+        }
+        return GeometryInfo{};
+    }
+
+    // ST_UNION: geometric union of two geometries.
+    // For Polygon inputs uses boost::geometry::union_ which handles all
+    // convex/concave cases correctly.  Falls back to the CPU-exact backend
+    // for point and mixed type combinations.
+    GeometryInfo stUnion(const GeometryInfo& geom1,
+                         const GeometryInfo& geom2) override {
+        try {
+            if (geom1.isPolygon() && geom2.isPolygon()) {
+                using MultiPoly = bg::model::multi_polygon<Polygon>;
+                const Polygon poly1 = toBoostPolygon(geom1);
+                const Polygon poly2 = toBoostPolygon(geom2);
+                MultiPoly result;
+                bg::union_(poly1, poly2, result);
+                if (result.empty()) {
+                    GeometryInfo col(GeometryType::GeometryCollection);
+                    col.geometries.push_back(geom1);
+                    col.geometries.push_back(geom2);
+                    return col;
+                }
+                if (result.size() == 1) {
+                    // Single merged polygon.
+                    return boostPolyToGeomInfo(result[0]);
+                }
+                // Multiple disjoint polygons.
+                GeometryInfo col(GeometryType::GeometryCollection);
+                for (const auto& p : result) {
+                    col.geometries.push_back(boostPolyToGeomInfo(p));
+                }
+                return col;
+            }
+        } catch (const std::exception& e) {
+            THEMIS_WARN("Boost stUnion error: {}", e.what());
+        }
+        // Delegate non-polygon or error cases to the CPU-exact backend.
+        return getCpuExactBackend()->stUnion(geom1, geom2);
+    }
+
+    // ST_DIFFERENCE: geometric difference geom1 \ geom2.
+    // For Polygon inputs uses boost::geometry::difference.
+    GeometryInfo stDifference(const GeometryInfo& geom1,
+                              const GeometryInfo& geom2) override {
+        try {
+            if (geom1.isPolygon() && geom2.isPolygon()) {
+                using MultiPoly = bg::model::multi_polygon<Polygon>;
+                const Polygon poly1 = toBoostPolygon(geom1);
+                const Polygon poly2 = toBoostPolygon(geom2);
+                MultiPoly result;
+                bg::difference(poly1, poly2, result);
+                if (result.empty()) return GeometryInfo{};
+                if (result.size() == 1) {
+                    return boostPolyToGeomInfo(result[0]);
+                }
+                GeometryInfo col(GeometryType::GeometryCollection);
+                for (const auto& p : result) {
+                    col.geometries.push_back(boostPolyToGeomInfo(p));
+                }
+                return col;
+            }
+        } catch (const std::exception& e) {
+            THEMIS_WARN("Boost stDifference error: {}", e.what());
+        }
+        return getCpuExactBackend()->stDifference(geom1, geom2);
+    }
+
+    // geodesicDistance: delegate to the CPU exact backend (Vincenty WGS-84).
+    // Boost.Geometry spherical strategies are cartesian-space only; the
+    // authoritative Vincenty implementation lives in CpuExactBackend.
+    double geodesicDistance(double lat1, double lon1,
+                            double lat2, double lon2) const override {
+        return getCpuExactBackend()->geodesicDistance(lat1, lon1, lat2, lon2);
+    }
+
+private:
+    // Convert a Boost polygon back to GeometryInfo.
+    static GeometryInfo boostPolyToGeomInfo(const Polygon& poly) {
+        GeometryInfo result(GeometryType::Polygon);
+        std::vector<Coordinate> outer;
+        outer.reserve(poly.outer().size());
+        for (const auto& p : poly.outer()) {
+            outer.push_back({bg::get<0>(p), bg::get<1>(p)});
+        }
+        result.rings.push_back(std::move(outer));
+        for (const auto& inner : poly.inners()) {
+            std::vector<Coordinate> hole;
+            hole.reserve(inner.size());
+            for (const auto& p : inner) {
+                hole.push_back({bg::get<0>(p), bg::get<1>(p)});
+            }
+            result.rings.push_back(std::move(hole));
+        }
+        return result;
+    }
 };
 
 // Global registry for backends (simple static storage for MVP)
 static std::unique_ptr<ISpatialComputeBackend> g_boost_backend;
 
 static void register_boost_backend() {
-    g_boost_backend = std::make_unique<BoostCpuExactBackend>();
+    try {
+        g_boost_backend = std::make_unique<BoostCpuExactBackend>();
+    } catch (const std::exception& ex) {
+        // Log to stderr - avoid logger during static init
+        std::cerr << "WARNING: Boost geometry backend registration failed: " << ex.what() << std::endl;
+    } catch (...) {
+        std::cerr << "WARNING: Boost geometry backend registration failed with unknown exception" << std::endl;
+    }
 }
 
 // Auto-register on module load

@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            lossless_vector_compression.h                      ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:12:57                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     372                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 8bb5bbd4a  2026-02-28  feat(index): implement sparse encoding for index compression ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // EXPERIMENTAL: Lossless Vector Compression Utilities
 // 
 // WARNING: This is a scientific experiment and may be rolled back.
@@ -136,6 +159,19 @@ public:
             if (std::abs(v) < epsilon) ++zero_count;
         }
         return static_cast<float>(zero_count) / vec.size();
+    }
+
+    // Compute dot product between a sparse CSR vector and a dense vector.
+    // Iterates only over non-zero entries for O(nnz) complexity instead of O(d).
+    static float dot_product_sparse_dense(
+        const SparseVectorCSR& sparse,
+        const std::vector<float>& dense
+    ) {
+        float result = 0.0f;
+        for (size_t i = 0; i < sparse.values.size(); ++i) {
+            result += sparse.values[i] * dense[sparse.indices[i]];
+        }
+        return result;
     }
 };
 

@@ -32,9 +32,9 @@ services:
     container_name: themisdb-lora
     hostname: themisdb
     ports:
-      - "8529:8529"  # HTTP API
-      - "8765:8765"  # AQL endpoint
-      - "9090:9090"  # Metrics endpoint
+      - "8529:8529"  # HTTP API (main REST/AQL endpoint)
+      - "8765:8765"  # Alternative HTTP port / AQL endpoint
+      - "9090:9090"  # Health/Error Service (independent diagnostics port)
     volumes:
       - themisdb-data:/var/lib/themisdb/data
       - themisdb-logs:/var/lib/themisdb/logs
@@ -52,7 +52,8 @@ services:
     networks:
       - themis-network
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8529/health"]
+      # Use Health/Error service for health checks (independent from main server)
+      test: ["CMD", "curl", "-f", "http://localhost:9090/health"]
       interval: 30s
       timeout: 10s
       retries: 3

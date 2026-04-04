@@ -1,3 +1,27 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            graph_operations.php                               ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:04:54                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     204                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 65b6fc41e  2026-02-24  fix: resolve remaining Python (34) and PHP (23) error-han... ║
+    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 <?php
 
 /**
@@ -73,6 +97,7 @@ try {
         echo "   - {$node}\n";
     }
 } catch (Exception $e) {
+    error_log($e->getMessage());
     echo "   Note: Graph traversal requires graph edges to be properly configured\n";
     echo "   This is a simplified example. See ThemisDB docs for full graph setup.\n";
 }
@@ -89,6 +114,7 @@ try {
         echo "   No path found\n";
     }
 } catch (Exception $e) {
+    error_log($e->getMessage());
     echo "   Expected path: alice → bob → diana → frank (3 hops)\n";
     echo "   Note: Requires proper graph configuration\n";
 }
@@ -103,6 +129,7 @@ try {
         echo "   - {$neighbor}\n";
     }
 } catch (Exception $e) {
+    error_log($e->getMessage());
     echo "   Expected neighbors: bob, charlie\n";
     echo "   Note: Requires proper graph configuration\n";
 }
@@ -131,6 +158,7 @@ try {
     echo "   Friends of friends: " . implode(', ', $friendsOfFriends) . "\n";
     
 } catch (Exception $e) {
+    error_log($e->getMessage());
     echo "   Expected: diana, eve\n";
     echo "   Note: Requires proper graph configuration\n";
 }

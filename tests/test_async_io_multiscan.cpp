@@ -1,3 +1,25 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_async_io_multiscan.cpp                        ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:24:26                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     351                                            ║
+    • Open Issues:     TODOs: 1, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // v1.3.0 Phase 2: Async I/O MultiScan Tests
 // Tests for asynchronous I/O with prefetching for improved scan performance
 
@@ -124,7 +146,9 @@ TEST_F(AsyncIOMultiScanTest, AsyncIterator) {
     insertTestData(num_records);
 
     // Create async iterator
-    auto it = db_->newAsyncIterator();
+    auto it_result = db_->newAsyncIterator();
+    ASSERT_TRUE(it_result.has_value()) << "Failed to create iterator: " << it_result.error().message();
+    auto it = std::move(it_result.value());
     ASSERT_NE(it, nullptr);
 
     int count = 0;
@@ -322,9 +346,6 @@ TEST_F(AsyncIOMultiScanTest, SyncVsAsyncPerformance) {
     EXPECT_LT(duration_async.count(), 30000);  // Should complete in < 30 seconds
 }
 
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
+
 
 #endif // disabled async IO multiscan tests pending API update

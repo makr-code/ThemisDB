@@ -1,3 +1,27 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            gssapi_authenticator.h                             ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:05:53                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     212                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • c8f827534  2026-02-23  feat(auth): add audit logging for all authentication even... ║
+    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include <string>
@@ -16,7 +40,13 @@
 #endif
 
 namespace themis {
+namespace utils { class AuditLogger; }
 namespace auth {
+
+// Input validation limits for GSSAPI
+constexpr size_t MAX_GSSAPI_TOKEN_SIZE = 64 * 1024;  // 64KB max for GSSAPI tokens
+constexpr size_t MAX_KERBEROS_PRINCIPAL_LENGTH = 256; // 256 chars max for Kerberos principals
+constexpr int DEFAULT_GSSAPI_CONTEXT_TIMEOUT = 30;    // 30 second timeout for GSSAPI context
 
 /**
  * @brief Configuration for Kerberos/GSSAPI authentication
@@ -27,6 +57,7 @@ struct KerberosConfig {
     std::string keytab_file;            // Path to keytab file
     std::string krb5_config;            // Path to krb5.conf (optional)
     bool fallback_to_basic = true;      // Allow fallback to basic auth if Kerberos fails
+    int context_timeout_seconds{DEFAULT_GSSAPI_CONTEXT_TIMEOUT}; // GSSAPI context timeout
     
     // Principal to role mapping
     struct PrincipalMapping {
@@ -89,6 +120,12 @@ public:
     GSSAPIAuthenticator& operator=(GSSAPIAuthenticator&&) = delete;
     
     /**
+     * @brief Attach an AuditLogger to receive LOGIN_SUCCESS / LOGIN_FAILED events.
+     * Pass nullptr to detach.  The authenticator does NOT take ownership.
+     */
+    void setAuditLogger(utils::AuditLogger* logger) { audit_logger_ = logger; }
+    
+    /**
      * @brief Initialize GSSAPI with service principal
      * 
      * @param config Kerberos configuration
@@ -130,6 +167,7 @@ public:
 private:
     bool initialized_ = false;
     KerberosConfig config_;
+    utils::AuditLogger* audit_logger_ = nullptr;  ///< Non-owning, optional.
     
 #ifdef _WIN32
     // Windows SSPI handles

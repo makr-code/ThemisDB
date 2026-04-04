@@ -1,0 +1,27 @@
+issues_scanned=1645
+low_confidence_mismatches=6
+
+#2318|->v1.7.0|single known version target for module themis
+[themis] Resolve module dependencies
+source: roadmap module aggregate
+
+#2316|->v1.7.0|single known version target for module themis
+[themis] Zone.Identifier quarantine detection on Windows
+source: roadmap module aggregate
+
+#2313|->v1.7.0|single known version target for module themis
+[themis] Load module SHA-256 hash verification
+source: roadmap module aggregate
+
+#2310|->v1.7.0|single known version target for module themis
+[themis] Feature gate community editions
+source: roadmap module aggregate
+
+#2128|->v1.7.0|single known version target for module themis
+[themis] Move wire protocol server to src/server
+source: roadmap module aggregate
+
+#2121|->v1.7.0|single known version target for module themis
+[themis] Move wire protocol implementation to separate module
+source: roadmap module aggregate
+

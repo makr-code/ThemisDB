@@ -1,4 +1,27 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_pitr_manager.cpp                              ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:31:04                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     392                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include <gtest/gtest.h>
+#include <gmock/gmock.h>
 #include "storage/pitr_manager.h"
 #include "transaction/snapshot_manager.h"
 #include "cdc/changefeed.h"
@@ -19,25 +42,20 @@ protected:
 
         // Initialize RocksDB
         RocksDBWrapper::Config config;
-        config.path = test_dir_.string();
+        config.db_path = test_dir_.string();
         config.enable_statistics = false;
         
         db_wrapper_ = std::make_unique<RocksDBWrapper>(config);
-        ASSERT_TRUE(db_wrapper_->open().ok);
+        ASSERT_TRUE(db_wrapper_->open());
 
-        // Create "tags" column family
+        // Get raw DB for Changefeed (which still uses raw pointers)
         auto* raw_db = db_wrapper_->getRawDB();
-        rocksdb::ColumnFamilyHandle* cf_handle = nullptr;
-        rocksdb::ColumnFamilyOptions cf_opts;
-        auto s = raw_db->CreateColumnFamily(cf_opts, "tags", &cf_handle);
-        ASSERT_TRUE(s.ok()) << s.ToString();
-        tags_cf_ = cf_handle;
 
-        // Initialize Changefeed
+        // Initialize Changefeed (still uses raw DB pointer)
         changefeed_ = std::make_unique<Changefeed>(raw_db, nullptr);
 
-        // Initialize SnapshotManager
-        snapshot_mgr_ = std::make_unique<SnapshotManager>(raw_db, tags_cf_, changefeed_.get());
+        // Initialize SnapshotManager with RocksDBWrapper abstraction
+        snapshot_mgr_ = std::make_unique<transaction::SnapshotManager>(*db_wrapper_, *changefeed_);
 
         // Initialize PITRManager
         pitr_mgr_ = std::make_unique<PITRManager>(
@@ -52,11 +70,6 @@ protected:
         pitr_mgr_.reset();
         snapshot_mgr_.reset();
         changefeed_.reset();
-        
-        if (tags_cf_) {
-            delete tags_cf_;
-            tags_cf_ = nullptr;
-        }
         
         db_wrapper_.reset();
         std::filesystem::remove_all(test_dir_);
@@ -102,9 +115,8 @@ protected:
 
     std::filesystem::path test_dir_;
     std::unique_ptr<RocksDBWrapper> db_wrapper_;
-    rocksdb::ColumnFamilyHandle* tags_cf_ = nullptr;
     std::unique_ptr<Changefeed> changefeed_;
-    std::unique_ptr<SnapshotManager> snapshot_mgr_;
+    std::unique_ptr<transaction::SnapshotManager> snapshot_mgr_;
     std::unique_ptr<PITRManager> pitr_mgr_;
 };
 
@@ -130,17 +142,14 @@ TEST_F(PITRManagerTest, PreviewRestoreEmptyDatabase) {
     std::filesystem::create_directories(fresh_dir);
     
     RocksDBWrapper::Config config;
-    config.path = fresh_dir.string();
+    config.db_path = fresh_dir.string();
     config.enable_statistics = false;
     
     auto fresh_db = std::make_unique<RocksDBWrapper>(config);
-    ASSERT_TRUE(fresh_db->open().ok);
+    ASSERT_TRUE(fresh_db->open());
     
-    auto fresh_cf = changefeed_->recordEvent(Changefeed::ChangeEvent{});
     auto fresh_changefeed = std::make_unique<Changefeed>(fresh_db->getRawDB(), nullptr);
-    auto fresh_snapshot_mgr = std::make_unique<SnapshotManager>(
-        fresh_db->getRawDB(), tags_cf_, fresh_changefeed.get()
-    );
+    auto fresh_snapshot_mgr = std::make_unique<transaction::SnapshotManager>(*fresh_db, *fresh_changefeed);
     auto fresh_pitr = std::make_unique<PITRManager>(
         fresh_db.get(), fresh_changefeed.get(), fresh_snapshot_mgr.get()
     );
@@ -288,12 +297,12 @@ TEST_F(PITRManagerTest, AutoBackupCreation) {
     // Note: This test would need write permissions and proper setup
     // For now, we test the backup creation separately
     
-    auto backup_status = snapshot_mgr_->createTag(
+    auto backup_snapshot = snapshot_mgr_->createTag(
         options.backup_tag,
         "Auto-backup test",
         "pitr_manager"
     );
-    EXPECT_TRUE(backup_status.ok) << backup_status.message;
+    EXPECT_TRUE(backup_snapshot.has_value());
     
     // Verify backup was created
     auto snapshot = snapshot_mgr_->getTag(options.backup_tag);
@@ -380,7 +389,4 @@ TEST_F(PITRManagerTest, ProgressElapsedTimeCalculation) {
     EXPECT_EQ(final_elapsed, progress.end_time_ms - progress.start_time_ms);
 }
 
-int main(int argc, char **argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
+

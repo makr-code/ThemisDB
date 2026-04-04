@@ -1,14 +1,45 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            http3_session.cpp                                  ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:19:49                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     1040                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 7d190644e  2026-03-13  feat(server): HTTP/3 production readiness - congestion co... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 394fe997b  2026-03-01  Add HTTP/3 datagram support (RFC 9221 + RFC 9297, Issue #... ║
+    • c90319060  2026-02-28  feat(network): QUIC/HTTP3 transport layer integration ║
+    • 5375c249a  2026-02-23  refactor(api): eliminate duplicated tenant path rewriting... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #ifdef THEMIS_ENABLE_HTTP3
 
 #include "server/http3_session.h"
 #include "server/http_server.h"
+#include "server/tenant_manager.h"
 #include "utils/logger.h"
+#include <boost/beast/http.hpp>
 #include <ngtcp2/ngtcp2_crypto_openssl.h>
 #include <cstring>
 #include <random>
 
 namespace themis {
 namespace server {
+
+namespace beast = boost::beast;
+namespace http = beast::http;
 
 // ============================================================================
 // Helper Functions
@@ -40,14 +71,18 @@ Http3Handler::Http3Handler(
     const std::string& host,
     uint16_t port,
     HttpServer* server,
-    uint32_t max_idle_timeout_ms
+    SSL_CTX* ssl_ctx,
+    uint32_t max_idle_timeout_ms,
+    const Http3ProductionConfig& prod_cfg
 )
     : ioc_(ioc)
     , socket_(ioc, udp::endpoint(net::ip::make_address(host), port))
     , server_(server)
-    , ssl_ctx_(nullptr)
+    , ssl_ctx_(ssl_ctx)
     , max_idle_timeout_ms_(max_idle_timeout_ms)
     , cleanup_timer_(ioc)
+    , prod_cfg_(prod_cfg)
+    , fallback_manager_(prod_cfg)
 {
     THEMIS_INFO("HTTP/3 handler initialized on UDP {}:{}", host, port);
 }
@@ -139,19 +174,52 @@ void Http3Handler::onReceive(boost::system::error_code ec, std::size_t bytes_tra
     
     std::string session_key = remote_endpoint_.address().to_string() + ":" + 
                               std::to_string(remote_endpoint_.port());
+    std::string client_ip   = remote_endpoint_.address().to_string();
     
     auto it = sessions_.find(session_key);
     if (it != sessions_.end()) {
-        // Existing session
+        // Existing session – known IP:port
         it->second->handlePacket(recv_buffer_.data(), bytes_transferred, remote_endpoint_);
     } else {
-        // New session
+        // Try connection-ID-based lookup to handle connection migration:
+        // the client's IP or port may have changed but the QUIC CID is the same.
+        std::string cid_hex = extractConnectionId(recv_buffer_.data(), bytes_transferred);
+        if (!cid_hex.empty()) {
+            auto cid_it = cid_to_session_key_.find(cid_hex);
+            if (cid_it != cid_to_session_key_.end()) {
+                auto sess_it = sessions_.find(cid_it->second);
+                if (sess_it != sessions_.end()) {
+                    THEMIS_INFO("HTTP/3 connection migration detected: {} -> {}", cid_it->second, session_key);
+                    auto session = sess_it->second;
+                    // Notify session and re-index under the new address
+                    session->onPathMigration(remote_endpoint_);
+                    sessions_[session_key] = session;
+                    cid_to_session_key_[cid_hex] = session_key;
+                    sessions_.erase(sess_it);
+                    session->handlePacket(recv_buffer_.data(), bytes_transferred, remote_endpoint_);
+                    doAccept();
+                    return;
+                }
+            }
+        }
+
+        // Brand new QUIC connection
+        if (prod_cfg_.enable_http2_fallback &&
+            fallback_manager_.shouldFallbackToHttp2(client_ip)) {
+            THEMIS_INFO("HTTP/3 rejecting new QUIC from {} (HTTP/2 fallback active)", client_ip);
+            doAccept();
+            return;
+        }
+
         THEMIS_INFO("HTTP/3 new QUIC connection from {}", session_key);
         
         auto session = std::make_shared<Http3Session>(
-            socket_, remote_endpoint_, server_, ssl_ctx_, max_idle_timeout_ms_
+            socket_, remote_endpoint_, server_, ssl_ctx_, max_idle_timeout_ms_, prod_cfg_
         );
         sessions_[session_key] = session;
+        if (!cid_hex.empty()) {
+            cid_to_session_key_[cid_hex] = session_key;
+        }
         session->start();
         session->handlePacket(recv_buffer_.data(), bytes_transferred, remote_endpoint_);
     }
@@ -168,6 +236,18 @@ void Http3Handler::cleanupInactiveSessions() {
             ++it;
         }
     }
+
+    // Purge orphaned CID→key entries for sessions that no longer exist
+    for (auto it = cid_to_session_key_.begin(); it != cid_to_session_key_.end(); ) {
+        if (sessions_.find(it->second) == sessions_.end()) {
+            it = cid_to_session_key_.erase(it);
+        } else {
+            ++it;
+        }
+    }
+
+    // Sweep expired fallback entries
+    fallback_manager_.purgeExpired();
     
     // Reschedule cleanup
     cleanup_timer_.expires_after(std::chrono::seconds(30));
@@ -176,6 +256,51 @@ void Http3Handler::cleanupInactiveSessions() {
             cleanupInactiveSessions();
         }
     });
+}
+
+// static
+std::string Http3Handler::extractConnectionId(const uint8_t* data, size_t len) {
+    // Minimum QUIC packet is 1 byte (short header).
+    // Long header: bit 7 = 1, bits 6-0 contain version info.
+    // Short header: bit 7 = 0, followed by a 1-byte spin + DCID bytes.
+    //
+    // For a long-header Initial packet (type 0xC0-0xFF):
+    //   Byte 0: header form (bit7=1) + fixed (bit6=1) + type (bits4-5) + reserved + pkt num len
+    //   Bytes 1-4: Version (big-endian uint32)
+    //   Byte 5: DCID length
+    //   Bytes 6..6+dcid_len-1: DCID
+    if (len < 6) {
+        return {};
+    }
+
+    const uint8_t first = data[0];
+    const bool long_header = (first & 0x80) != 0;
+
+    if (long_header) {
+        // Long header format: version (4 bytes) then DCID length (1 byte) then DCID
+        uint8_t dcid_len = data[5];
+        if (dcid_len == 0 || dcid_len > 20) {
+            return {};
+        }
+        if (len < static_cast<size_t>(6 + dcid_len)) {
+            return {};
+        }
+        // Convert DCID bytes to hex string for use as map key
+        static const char kHex[] = "0123456789abcdef";
+        std::string hex;
+        hex.reserve(dcid_len * 2);
+        for (size_t i = 6; i < 6u + dcid_len; ++i) {
+            hex += kHex[(data[i] >> 4) & 0xf];
+            hex += kHex[data[i] & 0xf];
+        }
+        return hex;
+    }
+
+    // Short header: DCID is immediately after the first byte but the length
+    // is not encoded in the packet — it is a connection parameter negotiated
+    // during the handshake.  We cannot reliably parse it without per-connection
+    // state.  Return empty to signal "unknown".
+    return {};
 }
 
 // ============================================================================
@@ -187,7 +312,8 @@ Http3Session::Http3Session(
     const udp::endpoint& remote_endpoint,
     HttpServer* server,
     SSL_CTX* ssl_ctx,
-    uint32_t max_idle_timeout_ms
+    uint32_t max_idle_timeout_ms,
+    const Http3ProductionConfig& prod_cfg
 )
     : socket_(socket)
     , remote_endpoint_(remote_endpoint)
@@ -199,7 +325,10 @@ Http3Session::Http3Session(
     , idle_timer_(socket.get_executor())
     , max_idle_timeout_ms_(max_idle_timeout_ms)
     , handshake_complete_(false)
+    , prod_cfg_(prod_cfg)
 {
+    metrics_.handshake_start_us = std::chrono::duration_cast<std::chrono::microseconds>(
+        std::chrono::steady_clock::now().time_since_epoch()).count();
 }
 
 Http3Session::~Http3Session() {
@@ -223,19 +352,34 @@ void Http3Session::start() {
     }
     
     SSL_set_accept_state(ssl_);
-    SSL_set_quic_early_data_enabled(ssl_, 1);
+    // 0-RTT: enable early data on TLS session resumption
+    if (prod_cfg_.enable_0rtt) {
+        SSL_set_quic_early_data_enabled(ssl_, 1);
+    }
     
     // Setup ngtcp2 connection
     ngtcp2_settings settings;
     ngtcp2_settings_default(&settings);
     settings.initial_ts = getTimestamp();
     settings.max_idle_timeout = max_idle_timeout_ms_ * NGTCP2_MILLISECONDS;
-    settings.max_stream_data_bidi_local = 256 * 1024;
-    settings.max_stream_data_bidi_remote = 256 * 1024;
-    settings.max_stream_data_uni = 256 * 1024;
-    settings.max_data = 1024 * 1024;
-    settings.max_streams_bidi = 100;
-    settings.max_streams_uni = 3;
+
+    // Congestion control algorithm (production: BBR for mobile/lossy paths)
+    settings.cc_algo = static_cast<ngtcp2_cc_algo>(
+        static_cast<int>(prod_cfg_.cc_algorithm));
+
+    // Production flow-control tuning
+    settings.max_stream_data_bidi_local  = static_cast<uint64_t>(
+        prod_cfg_.initial_max_stream_data_bidi);
+    settings.max_stream_data_bidi_remote = static_cast<uint64_t>(
+        prod_cfg_.initial_max_stream_data_bidi);
+    settings.max_stream_data_uni         = static_cast<uint64_t>(
+        prod_cfg_.initial_max_stream_data_uni);
+    settings.max_data                    = static_cast<uint64_t>(
+        prod_cfg_.initial_max_data);
+    settings.max_streams_bidi            = static_cast<uint64_t>(
+        prod_cfg_.initial_max_streams_bidi);
+    settings.max_streams_uni             = static_cast<uint64_t>(
+        prod_cfg_.initial_max_streams_uni);
     
     // Generate connection IDs
     ngtcp2_cid scid, dcid;
@@ -262,6 +406,13 @@ void Http3Session::start() {
         auto* self = static_cast<Http3Session*>(user_data);
         return self->feedCryptoData(level, data, datalen);
     };
+    callbacks.recv_datagram = recvDatagramCallback;
+    
+    // Enable QUIC datagram support (RFC 9221): advertise max_datagram_frame_size
+    // so the peer knows we accept datagrams on this connection.
+    ngtcp2_transport_params params;
+    ngtcp2_transport_params_default(&params);
+    params.max_datagram_frame_size = datagram_dispatcher_.config().max_datagram_frame_size;
     
     // Create QUIC connection
     ngtcp2_path path;
@@ -269,7 +420,7 @@ void Http3Session::start() {
     
     int rv = ngtcp2_conn_server_new(&quic_conn_, &dcid, &scid, &path,
                                     NGTCP2_PROTO_VER_V1, &callbacks, &settings,
-                                    nullptr, this);
+                                    &params, this);
     if (rv != 0) {
         THEMIS_ERROR("HTTP/3: ngtcp2_conn_server_new failed: {}", ngtcp2_strerror(rv));
         return;
@@ -289,6 +440,7 @@ void Http3Session::start() {
     nghttp3_settings_default(&http3_settings);
     http3_settings.qpack_max_dtable_capacity = 4096;
     http3_settings.qpack_blocked_streams = 100;
+    http3_settings.h3_datagram = 1;  // RFC 9297: advertise H3_DATAGRAM support
     
     rv = nghttp3_conn_server_new(&http3_conn_, &http3_callbacks, &http3_settings,
                                  nullptr, this);
@@ -396,6 +548,104 @@ void Http3Session::doWrite() {
     }
 }
 
+void Http3Session::doRead() {
+    // Read pending HTTP/3 stream data from nghttp3 and write it to QUIC via
+    // ngtcp2_conn_writev_stream.  This is the HTTP/3 → QUIC stream write path,
+    // complementing doWrite() which handles non-stream QUIC control packets.
+    if (!http3_conn_ || !quic_conn_) {
+        return;
+    }
+
+    write_buffer_.resize(65536);
+    ngtcp2_path_storage ps;
+    ngtcp2_path_storage_zero(&ps);
+    ngtcp2_pkt_info pi;
+
+    for (;;) {
+        nghttp3_vec vec[16];
+        int64_t stream_id = -1;
+        int fin = 0;
+
+        nghttp3_ssize sveccnt = nghttp3_conn_writev_stream(
+            http3_conn_, &stream_id, &fin, vec,
+            static_cast<size_t>(sizeof(vec) / sizeof(vec[0]))
+        );
+
+        if (sveccnt < 0) {
+            THEMIS_WARN("HTTP/3: nghttp3_conn_writev_stream: {}",
+                        nghttp3_strerror(static_cast<int>(sveccnt)));
+            break;
+        }
+
+        if (sveccnt == 0 && stream_id == -1) {
+            break;  // No more stream data to send
+        }
+
+        const uint32_t wflags = fin ? NGTCP2_WRITE_STREAM_FLAG_FIN
+                                    : NGTCP2_WRITE_STREAM_FLAG_MORE;
+
+        ngtcp2_ssize datalen = 0;
+        ngtcp2_ssize nwrite = ngtcp2_conn_writev_stream(
+            quic_conn_, &ps.path, &pi,
+            write_buffer_.data(), write_buffer_.size(),
+            &datalen, wflags, stream_id,
+            reinterpret_cast<const ngtcp2_vec*>(vec),
+            static_cast<size_t>(sveccnt),
+            getTimestamp()
+        );
+
+        if (nwrite < 0) {
+            if (nwrite == NGTCP2_ERR_WRITE_MORE) {
+                if (stream_id >= 0 && datalen > 0) {
+                    nghttp3_conn_add_write_offset(http3_conn_, stream_id,
+                        static_cast<size_t>(datalen));
+                }
+                continue;
+            }
+            THEMIS_WARN("HTTP/3: ngtcp2_conn_writev_stream: {}",
+                        ngtcp2_strerror(static_cast<int>(nwrite)));
+            break;
+        }
+
+        if (stream_id >= 0 && datalen > 0) {
+            nghttp3_conn_add_write_offset(http3_conn_, stream_id,
+                static_cast<size_t>(datalen));
+        }
+
+        if (nwrite > 0) {
+            // Use a shared_ptr-owned buffer so the async send stays valid.
+            auto buf = std::make_shared<std::vector<uint8_t>>(
+                write_buffer_.data(), write_buffer_.data() + nwrite
+            );
+            socket_.async_send_to(
+                boost::asio::buffer(*buf),
+                remote_endpoint_,
+                [buf](boost::system::error_code ec, std::size_t) {
+                    if (ec) {
+                        THEMIS_WARN("HTTP/3: stream packet send error: {}",
+                                    ec.message());
+                    }
+                }
+            );
+        }
+
+        if (nwrite == 0) {
+            break;
+        }
+    }
+}
+
+void Http3Session::onRead(boost::system::error_code ec,
+                          std::size_t bytes_transferred) {
+    if (ec) {
+        if (ec != boost::asio::error::operation_aborted) {
+            THEMIS_WARN("HTTP/3: session read error: {}", ec.message());
+        }
+        return;
+    }
+    handlePacket(read_buffer_.data(), bytes_transferred, remote_endpoint_);
+}
+
 void Http3Session::onTimeout() {
     THEMIS_INFO("HTTP/3: Session timeout");
     if (quic_conn_) {
@@ -404,19 +654,111 @@ void Http3Session::onTimeout() {
     }
 }
 
+void Http3Session::onPathMigration(const udp::endpoint& new_remote) {
+    THEMIS_INFO("HTTP/3: path migration from {}:{} to {}:{}",
+                remote_endpoint_.address().to_string(), remote_endpoint_.port(),
+                new_remote.address().to_string(), new_remote.port());
+    remote_endpoint_ = new_remote;
+    metrics_.migration_count.fetch_add(1, std::memory_order_relaxed);
+}
+
 void Http3Session::processStream(int64_t stream_id) {
     auto it = streams_.find(stream_id);
     if (it == streams_.end() || !it->second.headers_complete) {
         return;
     }
-    
+
     auto& stream = it->second;
-    
+
     THEMIS_INFO("HTTP/3 Processing: {} {}", stream.method, stream.path);
-    
-    // Create simple response
-    std::string response_body = R"({"status":"ok","message":"HTTP/3 request received","protocol":"h3"})";
-    send Response(stream_id, 200, response_body, {{"content-type", "application/json"}});
+
+    // Performance metrics: record request start time
+    const auto req_start = std::chrono::steady_clock::now();
+
+    // Convert HTTP/3 request to Boost.Beast HTTP/1.1 request format
+    // This allows us to reuse all existing HttpServer handlers
+    http::request<http::string_body> req;
+
+    // Set method
+    if (stream.method == "GET") {
+        req.method(http::verb::get);
+    } else if (stream.method == "POST") {
+        req.method(http::verb::post);
+    } else if (stream.method == "PUT") {
+        req.method(http::verb::put);
+    } else if (stream.method == "DELETE") {
+        req.method(http::verb::delete_);
+    } else if (stream.method == "PATCH") {
+        req.method(http::verb::patch);
+    } else if (stream.method == "HEAD") {
+        req.method(http::verb::head);
+    } else if (stream.method == "OPTIONS") {
+        req.method(http::verb::options);
+    } else {
+        THEMIS_WARN("HTTP/3 unsupported method: {}", stream.method);
+        sendResponse(stream_id, 405, R"({"error":"Method not allowed"})",
+                     {{"content-type", "application/json"}});
+        return;
+    }
+
+    // Set target (path)
+    req.target(stream.path);
+
+    // Set HTTP version
+    req.version(11); // HTTP/1.1 for internal routing
+
+    // Copy headers (skip HTTP/3 pseudo-headers already parsed above)
+    for (const auto& [name, value] : stream.headers) {
+        req.set(name, value);
+    }
+
+    // Set authority as Host header if present
+    if (!stream.authority.empty()) {
+        req.set(http::field::host, stream.authority);
+    }
+
+    // Set body
+    req.body() = stream.body;
+    req.prepare_payload();
+
+    // Rewrite path for tenant-prefixed namespace routing.
+    // When the URL path contains the tenant prefix ("/tenants/{id}/..."),
+    // extract the tenant ID, set it as X-Tenant-ID header (if not already
+    // present), and strip the prefix so the request reaches normal API handlers.
+    {
+        const auto rw = themis::TenantManager::instance()
+                            .rewriteTenantPath(req.target());
+        if (rw.rewritten) {
+            if (req.find("X-Tenant-ID") == req.end()) {
+                req.set("X-Tenant-ID", rw.tenant_id);
+            }
+            req.target(rw.effective_path);
+        }
+    }
+
+    // Route the request using HttpServer's existing routing logic
+    auto response = server_->routeRequest(req);
+
+    // Record per-request latency and traffic metrics
+    if (prod_cfg_.enable_performance_metrics) {
+        const auto req_end   = std::chrono::steady_clock::now();
+        const auto latency   = std::chrono::duration_cast<std::chrono::microseconds>(
+            req_end - req_start).count();
+        metrics_.requests_total.fetch_add(1, std::memory_order_relaxed);
+        metrics_.request_latency_total_us.fetch_add(
+            static_cast<uint64_t>(latency), std::memory_order_relaxed);
+        metrics_.bytes_received.fetch_add(stream.body.size(), std::memory_order_relaxed);
+        metrics_.bytes_sent.fetch_add(response.body().size(), std::memory_order_relaxed);
+    }
+
+    // Convert response headers to HTTP/3 format
+    std::unordered_map<std::string, std::string> response_headers;
+    for (const auto& header : response) {
+        response_headers[std::string(header.name_string())] = std::string(header.value());
+    }
+
+    // Send HTTP/3 response
+    sendResponse(stream_id, response.result_int(), response.body(), response_headers);
 }
 
 void Http3Session::sendResponse(int64_t stream_id, int status,
@@ -472,7 +814,9 @@ void Http3Session::sendResponse(int64_t stream_id, int status,
         return;
     }
     
-    // Write data to QUIC streams
+    // Flush HTTP/3 stream data (nghttp3 → ngtcp2 → UDP)
+    doRead();
+    // Flush remaining QUIC control packets (ACKs, etc.)
     doWrite();
 }
 
@@ -493,7 +837,20 @@ int Http3Session::feedCryptoData(ngtcp2_encryption_level level, const uint8_t* d
 int Http3Session::handshakeCompletedCallback(ngtcp2_conn* /*conn*/, void* user_data) {
     auto* self = static_cast<Http3Session*>(user_data);
     self->handshake_complete_ = true;
-    THEMIS_INFO("HTTP/3 QUIC handshake completed");
+
+    // Record handshake completion time for performance benchmarking
+    self->metrics_.handshake_end_us = std::chrono::duration_cast<std::chrono::microseconds>(
+        std::chrono::steady_clock::now().time_since_epoch()).count();
+
+    // Check if 0-RTT early data was accepted by the TLS layer
+    if (self->ssl_ && SSL_get_early_data_status(self->ssl_) == SSL_EARLY_DATA_ACCEPTED) {
+        self->metrics_.zero_rtt_used = true;
+        THEMIS_INFO("HTTP/3 QUIC handshake completed (0-RTT accepted) in {}µs",
+                    self->metrics_.handshake_end_us - self->metrics_.handshake_start_us);
+    } else {
+        THEMIS_INFO("HTTP/3 QUIC handshake completed in {}µs",
+                    self->metrics_.handshake_end_us - self->metrics_.handshake_start_us);
+    }
     return 0;
 }
 
@@ -541,6 +898,86 @@ int Http3Session::extendMaxStreamsCallback(ngtcp2_conn* /*conn*/,
                                            uint64_t /*max_streams*/,
                                            void* /*user_data*/) {
     return 0;
+}
+
+int Http3Session::recvDatagramCallback(ngtcp2_conn* /*conn*/, uint32_t /*flags*/,
+                                       const uint8_t* data, size_t datalen,
+                                       void* user_data) {
+    auto* self = static_cast<Http3Session*>(user_data);
+    self->datagram_dispatcher_.dispatch(data, datalen);
+    return 0;
+}
+
+bool Http3Session::sendDatagram(uint64_t       context_id,
+                                const uint8_t* payload,
+                                size_t         paylen) {
+    if (!quic_conn_) {
+        THEMIS_WARN("[Http3Session] sendDatagram: QUIC connection not available");
+        return false;
+    }
+
+    // Check if the peer supports datagrams (max_datagram_frame_size > 0).
+    size_t max_dgram = ngtcp2_conn_get_max_datagram_size(quic_conn_);
+    if (max_dgram == 0) {
+        THEMIS_WARN("[Http3Session] sendDatagram: peer does not support datagrams");
+        return false;
+    }
+
+    std::vector<uint8_t> frame =
+        Http3DatagramDispatcher::encode(context_id, payload, paylen);
+    if (frame.empty()) {
+        THEMIS_WARN("[Http3Session] sendDatagram: encode failed for context_id={}",
+                    context_id);
+        return false;
+    }
+
+    if (frame.size() > max_dgram) {
+        THEMIS_WARN("[Http3Session] sendDatagram: frame size {} exceeds peer max {}",
+                    frame.size(), max_dgram);
+        return false;
+    }
+
+    // UDP packet buffer – must hold at least the QUIC packet overhead plus the
+    // datagram payload.  65536 bytes covers the maximum UDP payload size.
+    constexpr size_t kMaxDatagramPacketSize = 65536;
+    std::vector<uint8_t> pkt_buf(kMaxDatagramPacketSize);
+    ngtcp2_path_storage ps;
+    ngtcp2_path_storage_zero(&ps);
+    ngtcp2_pkt_info pi;
+
+    int accepted = 0;
+    ngtcp2_ssize nwrite = ngtcp2_conn_write_datagram(
+        quic_conn_, &ps.path, &pi,
+        pkt_buf.data(), pkt_buf.size(),
+        &accepted, 0 /* flags */,
+        0 /* dgram_id: unused; ngtcp2 uses this for ACK tracking, 0 means untracked */,
+        frame.data(), frame.size(),
+        getTimestamp());
+
+    if (nwrite < 0) {
+        THEMIS_WARN("[Http3Session] ngtcp2_conn_write_datagram failed: {}",
+                    ngtcp2_strerror(static_cast<int>(nwrite)));
+        return false;
+    }
+
+    if (nwrite == 0 || !accepted) {
+        THEMIS_WARN("[Http3Session] sendDatagram: datagram not accepted by QUIC layer");
+        return false;
+    }
+
+    auto buf = std::make_shared<std::vector<uint8_t>>(
+        pkt_buf.data(), pkt_buf.data() + nwrite);
+    socket_.async_send_to(
+        boost::asio::buffer(*buf),
+        remote_endpoint_,
+        [buf](boost::system::error_code ec, std::size_t) {
+            if (ec) {
+                THEMIS_WARN("[Http3Session] datagram send error: {}", ec.message());
+            }
+        });
+
+    datagram_dispatcher_.recordSent();
+    return true;
 }
 
 // nghttp3 Callbacks

@@ -1,3 +1,27 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            graph_analytics.h                                  ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:07:59                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     164                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 55c6be609  2026-02-25  feat(graph): integrate analytics module with graph query ... ║
+    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include "index/graph_index.h"
@@ -98,6 +122,29 @@ public:
     std::pair<Status, std::map<std::string, int>> labelPropagationCommunities(
         const std::vector<std::string>& node_pks,
         int max_iterations = 100
+    ) const;
+
+    /// K-Shortest Paths - Yen's Algorithm
+    /// Finds K shortest loopless paths from source to target.
+    /// Uses Dijkstra's algorithm iteratively with edge removal.
+    /// 
+    /// @param source: Source node primary key
+    /// @param target: Target node primary key
+    /// @param k: Number of shortest paths to find
+    /// @param weight_attr: Optional edge weight attribute (empty = unweighted)
+    /// @return Vector of paths, each path containing vertices, edges, and total length/weight
+    struct PathInfo {
+        std::vector<std::string> vertices;
+        std::vector<std::pair<std::string, std::string>> edges;  // pairs of (from, to)
+        double length;  // number of edges or total weight
+        int hop_count;  // number of edges
+    };
+    
+    std::pair<Status, std::vector<PathInfo>> kShortestPaths(
+        const std::string& source,
+        const std::string& target,
+        int k,
+        const std::string& weight_attr = ""
     ) const;
 
 private:

@@ -1,0 +1,19 @@
+# Requirements for Moral Philosophy Debates Example
+
+# HTTP Client
+requests>=2.28.0
+
+# YAML parsing for philosophy definitions
+pyyaml>=6.0
+
+# Date/time handling
+python-dateutil>=2.8.0
+
+# RSS Feed parsing
+feedparser>=6.0.10
+
+# Optional: For real news API integration
+# newsapi-python>=0.2.6
+
+# Optional: For enhanced LLM integration
+# llama-cpp-python>=0.2.0

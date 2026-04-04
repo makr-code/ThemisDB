@@ -1,174 +1,454 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            llamacpp_inference_engine.cpp                      ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:16:57                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   93.0/100                                       ║
+    • Total Lines:     455                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "llm/llamacpp_inference_engine.h"
-#include <stdexcept>
-#include <cmath>
+#include <spdlog/spdlog.h>
 #include <algorithm>
+#include <cctype>
+#include <cmath>
+#include <regex>
+#include <unordered_set>
 
 namespace themis {
 namespace llm {
 
-LlamaCppInferenceEngine::LlamaCppInferenceEngine(const Config& config)
-    : config_(config), model_loaded_(false) {
-    
-    // Initialize PagedKVCache
-    PagedKVCache::Config kv_config;
-    kv_config.block_size = config.block_size;
-    kv_config.num_blocks = config.num_blocks;
-    kv_config.enable_prefix_caching = config.enable_prefix_caching;
-    
-    // TODO: Pass actual PagedBlockManager instance
-    kv_cache_ = std::make_unique<PagedKVCache>(kv_config, nullptr);
-    
-    // Setup GPU offload if requested
-    if (config_.n_gpu_layers > 0) {
-        setupGPUOffload();
-    }
-    
-    stats_ = {};
+LLMOutputValidator::LLMOutputValidator(const Config& config)
+    : config_(config) {
+    spdlog::debug("LLMOutputValidator initialized (min_len: {}, max_len: {}, require_utf8: {})",
+                  config_.min_length, config_.max_length, config_.require_utf8);
 }
 
-LlamaCppInferenceEngine::~LlamaCppInferenceEngine() {
-    unloadModel();
+LLMOutputValidator::LLMOutputValidator()
+    : LLMOutputValidator(Config{})
+{
 }
 
-bool LlamaCppInferenceEngine::loadModel(const std::string& model_path, 
-                                         const std::string& model_name) {
-    // Create GGUF loader
-    gguf_loader_ = std::make_unique<GGUFLoader>();
+ValidationResult LLMOutputValidator::validate(const std::string& text) {
+    ValidationResult result;
     
-    // Parse GGUF file
-    if (!gguf_loader_->parseFile(model_path)) {
-        return false;
+    // Calculate basic metrics
+    result.metrics.char_count = static_cast<int>(text.length());
+    result.metrics.word_count = countWords(text);
+    result.metrics.sentence_count = countSentences(text);
+    result.metrics.avg_word_length = calculateAvgWordLength(text);
+    result.metrics.newline_count = std::count(text.begin(), text.end(), '\n');
+    
+    // Validation 1: Empty check
+    if (text.empty()) {
+        if (!config_.allow_empty) {
+            result.is_valid = false;
+            result.errors.push_back("Response is empty");
+        }
+        return result;
     }
     
-    current_model_name_ = model_name;
+    // Validation 2: Length checks
+    if (result.metrics.char_count < config_.min_length) {
+        result.is_valid = false;
+        result.errors.push_back("Response too short (min: " + 
+                               std::to_string(config_.min_length) + 
+                               " chars, got: " + 
+                               std::to_string(result.metrics.char_count) + ")");
+    }
     
-    // Memory-map all tensors
-    const auto& metadata = gguf_loader_->getMetadata();
-    for (const auto& tensor : metadata.tensors) {
-        void* ptr = gguf_loader_->mmapTensor(tensor.name);
-        if (ptr) {
-            tensor_ptrs_[tensor.name] = ptr;
+    if (result.metrics.char_count > config_.max_length) {
+        result.warnings.push_back("Response exceeds max length (" + 
+                                 std::to_string(config_.max_length) + " chars)");
+    }
+    
+    // Validation 3: UTF-8 validation
+    if (config_.require_utf8) {
+        result.metrics.is_utf8_valid = isValidUTF8(text);
+        if (!result.metrics.is_utf8_valid) {
+            result.is_valid = false;
+            result.errors.push_back("Invalid UTF-8 encoding detected");
         }
     }
     
-    model_loaded_ = true;
+    // Validation 4: Truncation detection
+    if (config_.check_truncation) {
+        result.metrics.is_truncated = detectTruncation(text);
+        if (result.metrics.is_truncated) {
+            result.warnings.push_back("Response may be truncated (incomplete sentence or sudden stop)");
+        }
+    }
+    
+    // Validation 5: Common error patterns
+    if (hasCommonErrors(text)) {
+        result.is_valid = false;
+        result.errors.push_back("Response contains error patterns or placeholder text");
+    }
+    
+    // Validation 6: Invalid control characters
+    if (hasInvalidControlChars(text)) {
+        result.warnings.push_back("Response contains unusual control characters");
+    }
+    
+    // Validation 7: Repeating patterns
+    if (hasRepeatingPatterns(text)) {
+        result.warnings.push_back("Response contains unusual repeating patterns");
+    }
+    
+    // Validation 8: Semantic coherence estimation
+    if (config_.check_coherence && result.metrics.word_count > 5) {
+        result.metrics.semantic_coherence = estimateCoherence(text);
+        if (result.metrics.semantic_coherence < config_.min_coherence) {
+            result.warnings.push_back("Low semantic coherence score: " + 
+                                     std::to_string(result.metrics.semantic_coherence));
+        }
+    }
+    
+    return result;
+}
+
+ValidationResult LLMOutputValidator::validateWithTokens(
+    const std::string& text,
+    int token_count,
+    int max_tokens
+) {
+    ValidationResult result = validate(text);
+    
+    result.metrics.token_count = token_count;
+    
+    // Check if hit token limit
+    if (token_count >= max_tokens) {
+        result.metrics.is_truncated = true;
+        result.warnings.push_back("Token limit reached (" + 
+                                 std::to_string(token_count) + "/" + 
+                                 std::to_string(max_tokens) + " tokens)");
+    }
+    
+    return result;
+}
+
+// ═══════════════════════════════════════════════════════════
+// UTF-8 Validation
+// ═══════════════════════════════════════════════════════════
+
+bool LLMOutputValidator::isValidUTF8(const std::string& text) {
+    const unsigned char* bytes = reinterpret_cast<const unsigned char*>(text.c_str());
+    size_t len = text.length();
+    size_t i = 0;
+    
+    while (i < len) {
+        unsigned char c = bytes[i];
+        
+        if (c <= 0x7F) {
+            // 1-byte character (ASCII)
+            i++;
+        } else if ((c & 0xE0) == 0xC0) {
+            // 2-byte character
+            if (i + 1 >= len) return false;
+            if ((bytes[i + 1] & 0xC0) != 0x80) return false;
+            i += 2;
+        } else if ((c & 0xF0) == 0xE0) {
+            // 3-byte character
+            if (i + 2 >= len) return false;
+            if ((bytes[i + 1] & 0xC0) != 0x80) return false;
+            if ((bytes[i + 2] & 0xC0) != 0x80) return false;
+            i += 3;
+        } else if ((c & 0xF8) == 0xF0) {
+            // 4-byte character
+            if (i + 3 >= len) return false;
+            if ((bytes[i + 1] & 0xC0) != 0x80) return false;
+            if ((bytes[i + 2] & 0xC0) != 0x80) return false;
+            if ((bytes[i + 3] & 0xC0) != 0x80) return false;
+            i += 4;
+        } else {
+            // Invalid UTF-8 start byte
+            return false;
+        }
+    }
+    
     return true;
 }
 
-bool LlamaCppInferenceEngine::loadModelFromThemisDB(const std::string& model_urn) {
-    // TODO: Implement loading from ThemisDB Blob Store
-    // For now, stub
+// ═══════════════════════════════════════════════════════════
+// Truncation Detection
+// ═══════════════════════════════════════════════════════════
+
+bool LLMOutputValidator::detectTruncation(const std::string& text) {
+    if (text.empty()) return false;
+    
+    // Check last characters
+    std::string last_chars = text.substr(std::max(0, static_cast<int>(text.length()) - 50));
+    
+    // Heuristics for truncation:
+    // 1. Ends mid-sentence (no period, question mark, exclamation)
+    char last_char = text.back();
+    bool ends_with_punctuation = (last_char == '.' || last_char == '!' || 
+                                  last_char == '?' || last_char == '\n');
+    
+    // 2. Ends with incomplete word (no space before last word)
+    bool ends_mid_word = false;
+    if (text.length() > 1) {
+        char second_last = text[text.length() - 2];
+        ends_mid_word = !std::isspace(second_last) && std::isalpha(last_char);
+    }
+    
+    // 3. Check for common truncation patterns
+    bool has_truncation_pattern = (
+        last_chars.find("...") != std::string::npos ||
+        last_chars.find("[truncated]") != std::string::npos ||
+        last_chars.find("(truncated)") != std::string::npos ||
+        last_chars.find("Response limit reached") != std::string::npos
+    );
+    
+    return !ends_with_punctuation || ends_mid_word || has_truncation_pattern;
+}
+
+// ═══════════════════════════════════════════════════════════
+// Semantic Coherence Estimation (Simple Heuristics)
+// ═══════════════════════════════════════════════════════════
+
+double LLMOutputValidator::estimateCoherence(const std::string& text) {
+    // Simple heuristic-based coherence estimation
+    // In production, consider using a trained model
+    
+    double score = 1.0;
+    
+    if (text.empty()) return 0.0;
+    
+    int word_count = countWords(text);
+    if (word_count == 0) return 0.0;
+    
+    // Heuristic 1: Average word length (too short or too long is suspicious)
+    double avg_word_len = calculateAvgWordLength(text);
+    if (avg_word_len < 2.0 || avg_word_len > 15.0) {
+        score *= 0.7;
+    }
+    
+    // Heuristic 2: Sentence structure (ratio of words to sentences)
+    int sentence_count = countSentences(text);
+    if (sentence_count > 0) {
+        double words_per_sentence = static_cast<double>(word_count) / sentence_count;
+        if (words_per_sentence < 2.0 || words_per_sentence > 50.0) {
+            score *= 0.8;
+        }
+    } else {
+        // No sentences at all - very suspicious
+        score *= 0.5;
+    }
+    
+    // Heuristic 3: Character diversity (low diversity suggests repetition)
+    // Note: This counts bytes, not UTF-8 characters, but is still useful for detecting
+    // repetition patterns in both ASCII and UTF-8 text
+    std::unordered_set<char> unique_chars(text.begin(), text.end());
+    double char_diversity = static_cast<double>(unique_chars.size()) / 
+                           std::max(static_cast<size_t>(1), text.length());
+    if (char_diversity < 0.05) {
+        score *= 0.6;
+    }
+    
+    // Heuristic 4: Word diversity (rough estimate)
+    // Count approximate unique words (case-insensitive)
+    // Limit to first 1000 words for performance on large texts
+    std::unordered_set<std::string> words;
+    std::istringstream iss(text);
+    std::string word;
+    int words_checked = 0;
+    const int MAX_WORDS_TO_CHECK = 1000;
+    
+    while (iss >> word && words_checked < MAX_WORDS_TO_CHECK) {
+        // Simple lowercase conversion (in-place for efficiency)
+        for (char& c : word) {
+            c = std::tolower(static_cast<unsigned char>(c));
+        }
+        words.insert(std::move(word));
+        words_checked++;
+    }
+    
+    if (word_count > 0) {
+        // Calculate diversity based on checked words
+        int effective_word_count = std::min(word_count, MAX_WORDS_TO_CHECK);
+        double word_diversity = static_cast<double>(words.size()) / effective_word_count;
+        if (word_diversity < 0.3) {
+            score *= 0.7;  // Low word diversity
+        }
+    }
+    
+    return std::max(0.0, std::min(1.0, score));
+}
+
+// ═══════════════════════════════════════════════════════════
+// Error Pattern Detection
+// ═══════════════════════════════════════════════════════════
+
+bool LLMOutputValidator::hasCommonErrors(const std::string& text) {
+    // Convert to lowercase for case-insensitive matching
+    std::string lower_text = text;
+    std::transform(lower_text.begin(), lower_text.end(), lower_text.begin(), ::tolower);
+    
+    // Common error patterns
+    static const std::vector<std::string> error_patterns = {
+        "error:",
+        "exception:",
+        "failed to",
+        "could not",
+        "unable to",
+        "stub_response",
+        "placeholder",
+        "todo:",
+        "fixme:",
+        "not implemented",
+        "[error]",
+        "[warning]",
+        "traceback",
+        "stack trace"
+    };
+    
+    for (const auto& pattern : error_patterns) {
+        if (lower_text.find(pattern) != std::string::npos) {
+            return true;
+        }
+    }
+    
     return false;
 }
 
-void LlamaCppInferenceEngine::unloadModel() {
-    if (gguf_loader_) {
-        // Unmap all tensors
-        for (auto& [name, ptr] : tensor_ptrs_) {
-            gguf_loader_->unmapTensor(ptr);
+// ═══════════════════════════════════════════════════════════
+// Repeating Pattern Detection
+// ═══════════════════════════════════════════════════════════
+
+bool LLMOutputValidator::hasRepeatingPatterns(const std::string& text) {
+    if (text.length() < 20) return false;
+    
+    // Check for exact repeated sequences of varying lengths
+    for (size_t pattern_len = 5; pattern_len <= std::min(text.length() / 4, size_t(50)); ++pattern_len) {
+        for (size_t i = 0; i + pattern_len * 2 <= text.length(); ++i) {
+            std::string pattern = text.substr(i, pattern_len);
+            std::string next = text.substr(i + pattern_len, pattern_len);
+            
+            if (pattern == next) {
+                // Found immediate repetition
+                // Check if it repeats more than twice
+                size_t count = 2;
+                size_t pos = i + pattern_len * 2;
+                while (pos + pattern_len <= text.length()) {
+                    if (text.substr(pos, pattern_len) == pattern) {
+                        count++;
+                        pos += pattern_len;
+                    } else {
+                        break;
+                    }
+                }
+                
+                if (count >= 3) {
+                    spdlog::debug("Detected repeating pattern (len={}, count={}): {}",
+                                 pattern_len, count, pattern.substr(0, 20));
+                    return true;
+                }
+            }
         }
-        tensor_ptrs_.clear();
     }
     
-    gguf_loader_.reset();
-    current_model_name_.clear();
-    model_loaded_ = false;
+    return false;
 }
 
-InferenceResponse LlamaCppInferenceEngine::infer(const InferenceRequest& request) {
-    if (!model_loaded_) {
-        throw std::runtime_error("No model loaded");
+// ═══════════════════════════════════════════════════════════
+// Invalid Control Characters
+// ═══════════════════════════════════════════════════════════
+
+bool LLMOutputValidator::hasInvalidControlChars(const std::string& text) {
+    for (unsigned char c : text) {
+        // Allow: tab (9), newline (10), carriage return (13), and printable chars (32-126)
+        // Allow: extended ASCII (128-255) for UTF-8
+        if (c < 32 && c != 9 && c != 10 && c != 13) {
+            return true;
+        }
+    }
+    return false;
+}
+
+// ═══════════════════════════════════════════════════════════
+// Metrics Calculation Helpers
+// ═══════════════════════════════════════════════════════════
+
+int LLMOutputValidator::countWords(const std::string& text) {
+    if (text.empty()) return 0;
+    
+    int count = 0;
+    bool in_word = false;
+    
+    for (char c : text) {
+        if (std::isspace(c)) {
+            if (in_word) {
+                count++;
+                in_word = false;
+            }
+        } else {
+            in_word = true;
+        }
     }
     
-    InferenceResponse response;
-    response.request_id = request.request_id;
-    response.model_id = request.model_id;
-    response.metadata["request_id"] = !request.request_id.empty() ? request.request_id : request.metadata.value("request_id", "");
+    // Count last word if text doesn't end with whitespace
+    if (in_word) count++;
     
-    // Real inference using GGUF loader and model tensors
-    // In a real implementation, this would:
-    // 1. Tokenize prompt using loaded model
-    // 2. Generate embeddings
-    // 3. Process through transformer layers with PagedAttention KV cache
-    // 4. Generate output tokens
-    // 5. Detokenize
-    
-    // For now, use simplified implementation with placeholder
-    // This will be replaced with actual llama.cpp inference when model loading is complete
-    response.text = "[Generated response from " + current_model_name_ + 
-                    " for: " + request.prompt + "]";
-    response.tokens_generated = 50;
-    response.inference_time_ms = 150.0f;
-    response.latency_ms = static_cast<int64_t>(response.inference_time_ms);
-    response.tokens_per_second = response.tokens_generated / (response.inference_time_ms / 1000.0f);
-    
-    // Update stats
-    stats_.total_tokens_processed += response.tokens_generated;
-    stats_.avg_latency_ms = (stats_.avg_latency_ms + response.inference_time_ms) / 2.0;
-    
-    return response;
+    return count;
 }
 
-std::string LlamaCppInferenceEngine::getModelInfo() const {
-    if (!model_loaded_) {
-        return "No model loaded";
+int LLMOutputValidator::countSentences(const std::string& text) {
+    int count = 0;
+    
+    for (char c : text) {
+        if (c == '.' || c == '!' || c == '?') {
+            count++;
+        }
     }
     
-    const auto& metadata = gguf_loader_->getMetadata();
-    return "Model: " + current_model_name_ + 
-           ", Architecture: " + metadata.architecture +
-           ", Version: " + metadata.version +
-           ", Tensors: " + std::to_string(metadata.tensors.size());
+    // If no sentence-ending punctuation but has words, count as 1 sentence
+    if (count == 0 && countWords(text) > 0) {
+        count = 1;
+    }
+    
+    return count;
 }
 
-LlamaCppInferenceEngine::Stats LlamaCppInferenceEngine::getStats() const {
-    return stats_;
-}
-
-std::vector<float> LlamaCppInferenceEngine::computeAttention(
-    const std::vector<float>& q,
-    const std::vector<float>& k,
-    const std::vector<float>& v,
-    int sequence_id) {
+double LLMOutputValidator::calculateAvgWordLength(const std::string& text) {
+    if (text.empty()) return 0.0;
     
-    // Simplified attention computation
-    // In real implementation:
-    // 1. Retrieve KV cache from PagedKVCache
-    // 2. Compute attention scores
-    // 3. Apply softmax
-    // 4. Compute weighted values
-    // 5. Store new KV in cache
+    int word_count = 0;
+    int total_chars = 0;
+    int current_word_len = 0;
     
-    std::vector<float> output(q.size());
-    // Stub: just return input
-    output = q;
+    for (char c : text) {
+        if (std::isspace(c)) {
+            if (current_word_len > 0) {
+                word_count++;
+                total_chars += current_word_len;
+                current_word_len = 0;
+            }
+        } else {
+            current_word_len++;
+        }
+    }
     
-    return output;
-}
-
-std::vector<float> LlamaCppInferenceEngine::computeFFN(
-    const std::vector<float>& input,
-    int layer_id) {
+    // Count last word
+    if (current_word_len > 0) {
+        word_count++;
+        total_chars += current_word_len;
+    }
     
-    // Simplified FFN computation
-    // In real implementation:
-    // 1. Gate projection (SwiGLU)
-    // 2. Up projection
-    // 3. Activation
-    // 4. Down projection
-    
-    std::vector<float> output = input;
-    return output;
-}
-
-void LlamaCppInferenceEngine::setupGPUOffload() {
-    // TODO: Setup GPU backend based on config_.gpu_backend
-    // - CUDA: cuBLAS, cuDNN
-    // - Metal: Metal Performance Shaders
-    // - Vulkan: Kompute
-    // - HIP: hipBLAS
-    
-    // For now, stub
+    return (word_count > 0) ? static_cast<double>(total_chars) / word_count : 0.0;
 }
 
 } // namespace llm

@@ -1,3 +1,25 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_query_engine.cpp                              ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:31:58                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     162                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // QueryEngine index-backed equality tests
 
 #include <gtest/gtest.h>
@@ -41,13 +63,15 @@ TEST(QueryEngineTest, AndQuery_UsesSecondaryIndexes) {
     ConjunctiveQuery q{"users", {{"age","30"},{"city","Berlin"}}};
 
     // Parallel execution
-    auto [stK, keys] = engine.executeAndKeys(q);
-    ASSERT_TRUE(stK.ok) << stK.message;
+    auto resultK = engine.executeAndKeys(q);
+    ASSERT_TRUE(resultK);
+    auto& keys = *resultK;
     ASSERT_EQ(keys.size(), 1u);
     EXPECT_EQ(keys[0], "u1");
 
-    auto [stE, ents] = engine.executeAndEntities(q);
-    ASSERT_TRUE(stE.ok);
+    auto resultE = engine.executeAndEntities(q);
+    ASSERT_TRUE(resultE);
+    auto& ents = *resultE;
     ASSERT_EQ(ents.size(), 1u);
     db.close();
 }
@@ -77,10 +101,10 @@ TEST(QueryEngineTest, OptimizedSequentialOrder) {
     // age=99 should be first due to low estimate
     EXPECT_EQ(plan.orderedPredicates[0].column, "age");
 
-    auto [stK, keys] = opt.executeOptimizedKeys(engine, q, plan);
-    ASSERT_TRUE(stK.ok);
-    ASSERT_EQ(keys.size(), 1u);
-    EXPECT_EQ(keys[0], "rare");
+    auto keys_result = opt.executeOptimizedKeys(engine, q, plan);
+    ASSERT_TRUE(keys_result.has_value()) << keys_result.error().message();
+    ASSERT_EQ(keys_result->size(), 1u);
+    EXPECT_EQ((*keys_result)[0], "rare");
     db.close();
 }
 
@@ -96,8 +120,8 @@ TEST(QueryEngineTest, NoIndexReturnsError) {
 
     QueryEngine engine(db, idx);
     ConjunctiveQuery q{"users", {{"age","30"}}};
-    auto [stK, keys] = engine.executeAndKeys(q);
-    EXPECT_FALSE(stK.ok);
+    auto resultK = engine.executeAndKeys(q);
+    EXPECT_FALSE(resultK);
     db.close();
 }
 
@@ -112,8 +136,9 @@ TEST(QueryEngineTest, NoMatchReturnsEmpty) {
 
     QueryEngine engine(db, idx);
     ConjunctiveQuery q{"users", {{"age","99"}}};
-    auto [stK, keys] = engine.executeAndKeys(q);
-    ASSERT_TRUE(stK.ok);
+    auto resultK = engine.executeAndKeys(q);
+    ASSERT_TRUE(resultK);
+    auto& keys = *resultK;
     EXPECT_TRUE(keys.empty());
     db.close();
 }
@@ -128,8 +153,9 @@ TEST(QueryEngineTest, NoIndexWithFallbackReturnsKeys) {
 
     QueryEngine engine(db, idx);
     ConjunctiveQuery q{"users", {{"age","30"}, {"city","Berlin"}}};
-    auto [stK, keys] = engine.executeAndKeysWithFallback(q, true);
-    ASSERT_TRUE(stK.ok);
+    auto result = engine.executeAndKeysWithFallback(q, true);
+    ASSERT_TRUE(result.has_value());
+    auto keys = *result;
     ASSERT_EQ(keys.size(), 1u);
     EXPECT_EQ(keys[0], "u1");
     db.close();

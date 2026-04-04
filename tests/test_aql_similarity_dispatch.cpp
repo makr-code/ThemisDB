@@ -1,3 +1,25 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_aql_similarity_dispatch.cpp                   ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:24:20                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     71                                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // Dispatch test for SIMILARITY syntax sugar
 
 #include <gtest/gtest.h>
@@ -41,9 +63,9 @@ TEST_F(AQLSimilarityDispatchTest, ExecuteSimilarityVectorGeoFallback) {
         LIMIT 1
         RETURN doc
     )";
-    auto [status, jsonRes] = executeAql(aql, *engine);
-    ASSERT_TRUE(status.ok) << status.message;
+    auto jsonRes = executeAql(aql, *engine);
+    ASSERT_TRUE(jsonRes.has_value()) << jsonRes.error().message();
     // Should execute successfully and return results
-    ASSERT_TRUE(jsonRes.contains("results"));
-    EXPECT_GE(jsonRes["results"].size(), 0);
+    ASSERT_TRUE(jsonRes->contains("results"));
+    EXPECT_GE((*jsonRes)["results"].size(), 0);
 }

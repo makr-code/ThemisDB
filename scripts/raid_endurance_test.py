@@ -1,3 +1,26 @@
+"""
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            raid_endurance_test.py                             ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:13:35                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     425                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 65b6fc41e  2026-02-24  fix: resolve remaining Python (34) and PHP (23) error-han... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+"""
+
 #!/usr/bin/env python3
 """
 ThemisDB RAID Cluster Endurance Test
@@ -103,7 +126,7 @@ class RAIDTester:
                 if response.status_code == 200:
                     healthy_shards.append(shard_url)
             except Exception as e:
-                self.log(f"  WARNING: Shard {shard_url} unhealthy: {e}")
+                print(f"  WARNING: Shard {shard_url} unhealthy: {e}")
                 
         all_healthy = len(healthy_shards) == len(config["shards"])
         return all_healthy, healthy_shards
@@ -141,7 +164,7 @@ class RAIDTester:
                     if attempts == max_attempts:
                         self.sync_stats[raid_mode]["checks"] += 1
                         self.sync_stats[raid_mode]["failures"] += 1
-                        self.log(f"  Sync error ({raid_mode}) on {shard_url}: {e}")
+                        print(f"  Sync error ({raid_mode}) on {shard_url}: {e}")
                     else:
                         time.sleep(0.5 * attempts)
 
@@ -169,7 +192,7 @@ class RAIDTester:
                             except ValueError:
                                 pass
             except Exception as e:
-                self.log(f"  Prom scrape failed {url}: {e}")
+                print(f"  Prom scrape failed {url}: {e}")
 
     def write_test(self, raid_mode: str, batch_size: int) -> int:
         """Führt Schreibtest auf RAID-Modus durch"""
@@ -210,7 +233,7 @@ class RAIDTester:
                     
             except Exception as e:
                 self.stats[raid_mode]["errors"] += 1
-                self.log(f"  Write error ({raid_mode}): {e}")
+                print(f"  Write error ({raid_mode}): {e}")
                 
         return success_count
         
@@ -249,7 +272,8 @@ class RAIDTester:
                     
             except Exception as e:
                 self.stats[raid_mode]["errors"] += 1
-                
+                print(f"  Read error ({raid_mode}): {e}")
+        
         return success_count
         
     def print_statistics(self):

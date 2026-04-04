@@ -1,8 +1,40 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            tracing.h                                          ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:13:01                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     447                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b792a6ae  2026-03-20  Refactor saga orchestrator, add compute types ║
+    • 971a3c49d  2026-03-20  Build/test fixes and auth role mapping refactor ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 95fb262d5  2026-02-27  feat(observability): add adaptive sampling rate for high-... ║
+    • 522e9ae57  2026-02-24  feat(core): implement OTel tracer adapter flush() via Tra... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include <string>
+#include <map>
 #include <memory>
 #include <optional>
+#include <chrono>
+#include <atomic>
+#include <unordered_map>
+#include <mutex>
+#include <functional>
 
 #ifdef THEMIS_ENABLE_TRACING
 #include <opentelemetry/trace/provider.h>
@@ -12,6 +44,143 @@ namespace otel = opentelemetry;
 #endif
 
 namespace themis {
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SamplingStrategy – controls which spans are recorded
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * @brief Strategy for sampling traces.
+ *
+ * Three built-in strategies are provided:
+ *  - ALWAYS_ON  (default)  – every span is recorded.
+ *  - ALWAYS_OFF            – no spans are recorded (useful for benchmarks).
+ *  - PROBABILITY           – each span is independently sampled with the
+ *                            configured probability in [0.0, 1.0].
+ *  - PARENT_BASED          – follow the sampling decision of the parent span;
+ *                            falls back to PROBABILITY for root spans.
+ *  - ADAPTIVE              – automatically scales the sample probability down
+ *                            when the span creation rate exceeds a configured
+ *                            maximum (spans/second), and restores full sampling
+ *                            when the rate drops back below the threshold.
+ */
+class SamplingStrategy {
+public:
+    enum class Type {
+        ALWAYS_ON,
+        ALWAYS_OFF,
+        PROBABILITY,
+        PARENT_BASED,
+        ADAPTIVE,
+    };
+
+    /// Configuration for the ADAPTIVE sampling strategy.
+    struct AdaptiveConfig {
+        double max_spans_per_second = 1000.0; ///< Target maximum span creation rate
+        double min_rate             = 0.01;   ///< Minimum sample probability (floor)
+        std::chrono::milliseconds window{1000}; ///< Rate-measurement window duration
+    };
+
+    /// Construct with the given strategy type.
+    explicit SamplingStrategy(Type type = Type::ALWAYS_ON, double probability = 1.0)
+        : type_(type), probability_(probability) {}
+
+    static SamplingStrategy alwaysOn()  { return SamplingStrategy(Type::ALWAYS_ON, 1.0);  }
+    static SamplingStrategy alwaysOff() { return SamplingStrategy(Type::ALWAYS_OFF, 0.0); }
+    static SamplingStrategy probability(double p) {
+        return SamplingStrategy(Type::PROBABILITY, p);
+    }
+    static SamplingStrategy parentBased(double root_probability = 1.0) {
+        return SamplingStrategy(Type::PARENT_BASED, root_probability);
+    }
+
+    /// Adaptive sampler: automatically adjusts the sample probability based on
+    /// the current span creation rate to keep throughput near @p config.max_spans_per_second.
+    /// Copies of this strategy share the same rate-measurement state.
+    static SamplingStrategy adaptive();
+    static SamplingStrategy adaptive(AdaptiveConfig config);
+
+    /// Returns true if a new span with the given parent-sampled flag should be recorded.
+    bool shouldSample(bool parent_sampled = true) const;
+
+    Type   type()        const { return type_; }
+    double probability() const { return probability_; }
+
+    /// Returns the current effective sample rate.
+    /// For ADAPTIVE strategies this reflects the most recently computed rate;
+    /// for all other strategies it equals probability().
+    double getEffectiveRate() const;
+
+private:
+    Type   type_;
+    double probability_;
+    AdaptiveConfig adaptive_config_;
+
+    /// Shared mutable state for ADAPTIVE mode (shared across copies).
+    struct AdaptiveState {
+        std::mutex mu;
+        int64_t    window_count{0};
+        std::chrono::steady_clock::time_point window_start{std::chrono::steady_clock::now()};
+        double     effective_rate{1.0};
+    };
+    std::shared_ptr<AdaptiveState> adaptive_state_;
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Baggage – key/value metadata propagated across service boundaries
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * @brief W3C Baggage – arbitrary key/value pairs propagated with every span.
+ *
+ * Baggage items are thread-local by default; call Baggage::set() /
+ * Baggage::get() to access the current thread's baggage store.
+ *
+ * The serialised form follows the W3C Baggage header specification:
+ *   key=value[,key=value]*
+ *
+ * Usage:
+ *   Baggage::set("tenant-id", "acme");
+ *   std::string tid = Baggage::get("tenant-id");
+ *   auto headers    = Baggage::inject();          // {"baggage": "tenant-id=acme"}
+ *   Baggage::extract(incomingHeaders);            // populate from inbound request
+ */
+class Baggage {
+public:
+    using BaggageMap = std::unordered_map<std::string, std::string>;
+
+    /// Set a single baggage item in the current thread's store.
+    static void set(const std::string& key, const std::string& value);
+
+    /// Get a single baggage item; returns empty string if not present.
+    static std::string get(const std::string& key);
+
+    /// Remove a baggage item from the current thread's store.
+    static void remove(const std::string& key);
+
+    /// Clear all baggage items for the current thread.
+    static void clear();
+
+    /// Return all baggage items for the current thread.
+    static BaggageMap getAll();
+
+    /// Serialize to a W3C Baggage header value string.
+    static std::string serialize();
+
+    /// Inject baggage into an outgoing header map.
+    static void inject(std::map<std::string, std::string>& headers);
+
+    /// Extract baggage from an incoming header map and merge into the
+    /// current thread's store.
+    static void extract(const std::map<std::string, std::string>& headers);
+
+private:
+    static thread_local BaggageMap thread_baggage_;
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Tracer
+// ─────────────────────────────────────────────────────────────────────────────
 
 /**
  * Tracer wrapper for OpenTelemetry distributed tracing
@@ -82,6 +251,11 @@ public:
          */
         bool isValid() const { return valid_; }
         
+        /**
+         * Get span duration in milliseconds (for metrics)
+         */
+        double durationMs() const;
+        
     private:
         friend class Tracer;
         
@@ -89,6 +263,7 @@ public:
         explicit Span(otel::nostd::shared_ptr<otel::trace::Span> span);
         otel::nostd::shared_ptr<otel::trace::Span> span_;
         otel::context::Context context_;
+        std::chrono::steady_clock::time_point start_time_;
 #endif
         bool valid_ = false;
         bool ended_ = false;
@@ -104,13 +279,95 @@ public:
      * Start a new span as a child of the given parent span
      */
     static Span startChildSpan(const std::string& name, const Span& parent);
+
+    /**
+     * Start a new root span using W3C TraceContext headers for context propagation.
+     *
+     * Extracts the `traceparent` (and optionally `tracestate`) header from the
+     * provided header map and creates a span that is a child of the upstream trace
+     * context.  This enables distributed tracing across service boundaries: callers
+     * (API gateways, service meshes, SDKs) can propagate their trace IDs into
+     * ThemisDB so that all internal spans appear in the same distributed trace.
+     *
+     * Format of `traceparent` (W3C Trace Context Level 1):
+     *   version-traceid-parentid-flags
+     *   e.g. "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01"
+     *
+     * When THEMIS_ENABLE_TRACING is not defined, this falls back to startSpan()
+     * and records the raw `traceparent` value as an attribute for log correlation.
+     *
+     * @param name       Span name
+     * @param headers    HTTP request headers (case-insensitive key lookup)
+     * @return Span      A new span, possibly linked to the upstream trace
+     */
+    static Span startSpanFromHeaders(
+        const std::string& name,
+        const std::map<std::string, std::string>& headers);
     
+    /**
+     * Get total number of spans created (for metrics)
+     */
+    static int64_t getTotalSpans();
+    
+    /**
+     * Get active span count (for metrics)
+     */
+    static int64_t getActiveSpans();
+
+    /**
+     * Configure the sampling strategy used for new root spans.
+     * This takes effect for all spans created after this call.
+     */
+    static void setSamplingStrategy(const SamplingStrategy& strategy);
+
+    /**
+     * Get the current sampling strategy.
+     */
+    static SamplingStrategy getSamplingStrategy();
+
+    /**
+     * Get the trace-ID of the most recently started span on this thread
+     * as a 32-character hex string, or an empty string when tracing is
+     * disabled / no span is active.
+     *
+     * Primarily intended for injecting the trace-ID into structured log
+     * messages to correlate logs with traces.
+     */
+    static std::string getCurrentTraceId();
+
+    /**
+     * Get the span-ID of the most recently started span on this thread
+     * as a 16-character hex string, or empty string when unavailable.
+     */
+    static std::string getCurrentSpanId();
+
+    /**
+     * Flush any buffered or in-flight spans to the exporter.
+     *
+     * Calls ForceFlush() on the underlying SDK TracerProvider so that all
+     * spans queued in the processor's internal buffer are exported before the
+     * call returns (subject to @p timeout).  When THEMIS_ENABLE_TRACING is
+     * not defined this is a no-op and always returns true.
+     *
+     * @param timeout  Maximum time to wait for the flush to complete.
+     *                 Defaults to 5 seconds.
+     * @return true if all pending spans were exported within the timeout,
+     *         false if the timeout expired or no provider is active.
+     */
+    static bool flush(std::chrono::microseconds timeout =
+                          std::chrono::duration_cast<std::chrono::microseconds>(
+                              std::chrono::seconds(5))) noexcept;
+
 private:
 #ifdef THEMIS_ENABLE_TRACING
     static otel::nostd::shared_ptr<otel::trace::Tracer> getTracer();
     static otel::nostd::shared_ptr<otel::trace::Tracer> tracer_;
 #endif
     static bool initialized_;
+    static std::atomic<int64_t> total_spans_;
+    static std::atomic<int64_t> active_spans_;
+    static SamplingStrategy sampling_strategy_;
+    static std::mutex sampling_mu_;
 };
 
 /**
@@ -125,7 +382,7 @@ private:
  */
 class ScopedSpan {
 public:
-    explicit ScopedSpan(const std::string& name) : span_(Tracer::startSpan(name)) {}
+    explicit ScopedSpan(const std::string& name) : span_(Tracer::startSpan(name)), name_(name) {}
     
     void setAttribute(const std::string& key, const std::string& value) {
         span_.setAttribute(key, value);
@@ -153,8 +410,40 @@ public:
     
     Tracer::Span& span() { return span_; }
     
+    ~ScopedSpan();
+    
 private:
     Tracer::Span span_;
+    std::string name_;
+};
+
+/**
+ * RAII helper for scoped spans with automatic metrics recording
+ * 
+ * Usage:
+ *   void myFunction() {
+ *       TracedSpan span("myFunction");
+ *       span.setAttribute("param", value);
+ *       // ... work ...
+ *   } // span ends and duration is automatically recorded to Prometheus
+ */
+class TracedSpan {
+public:
+    explicit TracedSpan(const std::string& name);
+    ~TracedSpan();
+    
+    void setAttribute(const std::string& key, const std::string& value);
+    void setAttribute(const std::string& key, int64_t value);
+    void setAttribute(const std::string& key, double value);
+    void setAttribute(const std::string& key, bool value);
+    void recordError(const std::string& errorMessage);
+    void setStatus(bool ok, const std::string& description = "");
+    Tracer::Span& span();
+    
+private:
+    Tracer::Span span_;
+    std::string name_;
+    std::chrono::steady_clock::time_point start_time_;
 };
 
 } // namespace themis

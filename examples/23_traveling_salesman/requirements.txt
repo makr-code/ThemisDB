@@ -1,0 +1,10 @@
+# Requirements for Traveling Salesman Problem Example
+
+# HTTP requests to ThemisDB
+requests>=2.28.0
+
+# Data visualization
+matplotlib>=3.5.0
+numpy>=1.21.0
+
+# Tkinter is part of Python standard library (no installation needed)

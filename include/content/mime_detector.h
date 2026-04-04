@@ -1,3 +1,28 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            mime_detector.h                                    ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:06:50                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     147                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 0e2644909  2026-03-11  fix(content): thread-safe OCR routing — add shouldTrigger... ║
+    • 208e9c6f4  2026-03-11  feat(content): add ContentPolicy::ocrEnabled() and wire O... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include <string>
@@ -62,6 +87,24 @@ public:
     /// Validate file upload against policy (whitelist/blacklist + size limits)
     /// Returns ValidationResult with allowed flag and detailed reason if denied
     ValidationResult validateUpload(const std::string& filename, uint64_t file_size) const;
+
+    /// Returns true if OCR should be triggered for the given MIME type.
+    /// OCR is triggered when policy.ocrEnabled() is true and the MIME type is
+    /// one of: image/png, image/jpeg, image/tiff.
+    bool shouldTriggerOcr(std::string_view mime_type) const;
+
+    /// Thread-safe, stateless overload: returns true if OCR should be triggered
+    /// for the given MIME type when the supplied policy flag is true.
+    /// Does NOT read or write the internal ContentPolicy — safe to call from
+    /// concurrent threads without external synchronization.
+    /// Use this overload when the ocr_enabled flag comes from a per-request config
+    /// rather than from a pre-configured detector instance.
+    bool shouldTriggerOcr(std::string_view mime_type, bool ocr_enabled) const noexcept;
+
+    /// Enable or disable automatic OCR for image content in this detector's policy.
+    /// Setting this to true causes shouldTriggerOcr() to return true for
+    /// image/png, image/jpeg, and image/tiff.  Default: false.
+    void enableOcr(bool enable = true);
 
 private:
     // Extension -> MIME type mapping

@@ -95,6 +95,20 @@ fuzzing:
         - undefined
       coverage_guided: true
 
+    - name: pii_redaction
+      description: "PII Redaction Pipeline Fuzzing – ensures no PII leaks through redactForLog/redactAttributes/redactLabels and that the pipeline is crash-free and idempotent on arbitrary input"
+      source: src/security/pii_redaction_policy.cpp
+      harness: fuzz/harnesses/pii_redaction_harness.cpp
+      input_corpus: fuzz/corpus/pii/
+      dictionary: fuzz/dictionaries/pii.dict
+      timeout: 1000
+      memory_limit: 256MB
+      priority: critical
+      sanitizers:
+        - address
+        - undefined
+      coverage_guided: true
+
   # Compiler Configuration
   compiler:
     cc: afl-clang-lto
@@ -146,6 +160,14 @@ fuzzing:
         - '{"key": "value"}'
         - '{"nested": {"array": [1, 2, 3]}}'
         - '[{"id": 1}, {"id": 2}]'
+      pii:
+        - "Contact alice@example.com for details."
+        - "SSN: 123-45-6789"
+        - "Card: 4242-4242-4242-4242"
+        - "IBAN DE89370400440532013000"
+        - "Phone +49-123-456789"
+        - "Query completed in 42 ms, 7 rows."
+        - "Invoice bob@corp.de card 4532-1488-0343-6467 SSN 987-65-4321"
     minimization:
       enabled: true
       tool: afl-cmin
@@ -327,6 +349,28 @@ dictionaries:
       - "access_token"
       - "expires_in"
       - "scope"
+
+  pii:
+    description: "PII pattern tokens for redaction fuzzing"
+    tokens:
+      - "@"
+      - ".com"
+      - ".de"
+      - "123-45-"
+      - "-6789"
+      - "4242-4242"
+      - "4532-1488"
+      - "DE89"
+      - "GB29"
+      - "+49-"
+      - "(555)"
+      - "192.168."
+      - "https://"
+      - "email"
+      - "phone"
+      - "ssn"
+      - "credit_card"
+      - "iban"
 
 ---
 # Environment Variables

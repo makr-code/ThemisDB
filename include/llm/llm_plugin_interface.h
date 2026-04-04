@@ -1,6 +1,32 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            llm_plugin_interface.h                             ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:08:24                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     453                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 0f9839ae4  2026-02-26  feat(llm): implement JSON schema binding support (Issue #... ║
+    • 53b07730b  2026-02-26  feat(llm): implement multi-modal input support (image + t... ║
+    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include "plugins/plugin_interface.h"
+#include "llm/json_schema_converter.h"
 #include <string>
 #include <vector>
 #include <memory>
@@ -56,6 +82,9 @@ struct LLMCapabilities {
     bool supports_model_sharding = false;  // Model parallelism
     bool supports_pipeline_parallel = false;
     bool supports_tensor_parallel = false;
+
+    // Multi-modal capabilities
+    bool supports_multimodal = false;      // Image + text input (vision-language models)
 };
 
 /**
@@ -108,6 +137,15 @@ struct InferenceRequest {
     std::string prompt;
     std::string model_id = "default";
     std::string request_id;      // Optional request identifier for tracing
+
+    // OpenTelemetry distributed tracing context (W3C Trace Context format).
+    // Populated by the caller when the request originates from a traced parent
+    // span.  If non-empty, the inference engine propagates these values into
+    // the response so downstream systems can correlate spans.
+    // Format: lowercase hex — trace_id is 32 hex chars (128-bit),
+    //                         span_id  is 16 hex chars (64-bit).
+    std::string trace_id;        ///< W3C traceparent trace-id (128-bit hex, 32 chars)
+    std::string span_id;         ///< W3C traceparent parent-id (64-bit hex, 16 chars)
     
     // Generation parameters
     int max_tokens = 512;
@@ -125,12 +163,29 @@ struct InferenceRequest {
     // Grammar-constrained generation (Phase 3.2)
     std::optional<std::string> grammar_type;      // Built-in grammar: "json", "xml", "csv", "react_agent"
     std::optional<std::string> grammar_ebnf;      // Custom EBNF grammar text
-    
+
+    // JSON schema binding for structured output (Issue #1922)
+    // When set, the output is constrained to produce valid JSON matching this schema.
+    // Converted to grammar_ebnf via JsonSchemaConverter::schemaToEbnf() before inference.
+    std::optional<json> json_schema;
+
+    // Tool / function calling (Issue #1922)
+    // When non-empty, the model is constrained to produce a tool call JSON:
+    //   {"name": "<tool>", "arguments": {<args>}}
+    // The tool call is parsed from response.text and stored in response.tool_calls.
+    std::vector<ToolDefinition> tools;
+
     // Streaming callback
     std::function<void(const std::string& token)> stream_callback;
     
     // Stop sequences
     std::vector<std::string> stop_sequences;
+
+    // Multi-modal image inputs (vision-language models).
+    // When non-empty the inference engine encodes each image and injects the
+    // resulting embeddings into the LLM context alongside the text prompt.
+    // Requires the loaded model to have vision support (LLMCapabilities::supports_multimodal).
+    std::vector<std::string> image_paths;   ///< Paths to image files (JPEG, PNG, …)
     
     // Metadata for tracking
     json metadata;
@@ -144,6 +199,13 @@ struct InferenceResponse {
     std::string text;              // Generated text
     std::string model_id;          // Model identifier used
     bool cache_hit = false;        // Whether response came from cache
+
+    // OpenTelemetry trace context propagated from the originating request.
+    // The inference engine copies trace_id/span_id from InferenceRequest so
+    // callers and observability pipelines can correlate the response to its
+    // parent trace without accessing the original request object.
+    std::string trace_id;        ///< W3C traceparent trace-id (echoed from request)
+    std::string span_id;         ///< W3C traceparent parent-id (echoed from request)
     
     // Statistics
     int tokens_generated = 0;
@@ -155,6 +217,11 @@ struct InferenceResponse {
     // Model information
     std::string model_used;
     std::optional<std::string> lora_used;
+
+    // Tool calls parsed from model output (Issue #1922).
+    // Populated when InferenceRequest::tools is non-empty and the model
+    // produces a valid tool call JSON object.
+    std::vector<ToolCall> tool_calls;
     
     // Quality metrics (if available)
     std::optional<float> perplexity;

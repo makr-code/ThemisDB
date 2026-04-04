@@ -1,9 +1,33 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            shard_load_detector.h                              ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:11:38                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     306                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 33f9fb777  2026-03-14  feat(sharding): implement adaptive shard rebalancer with ... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #ifndef THEMIS_SHARD_LOAD_DETECTOR_H
 #define THEMIS_SHARD_LOAD_DETECTOR_H
 
 #include <string>
 #include <map>
 #include <vector>
+#include <deque>
 #include <memory>
 #include <chrono>
 #include <mutex>
@@ -48,6 +72,27 @@ struct ShardLoadMetrics {
     
     // Timestamp
     std::chrono::system_clock::time_point last_update;
+};
+
+/**
+ * Load forecast result for a single shard
+ */
+struct LoadForecast {
+    std::string shard_id;
+
+    // Predicted load values (0–100 scale)
+    double predicted_cpu_percent = 0.0;
+    double predicted_storage_percent = 0.0;
+    double predicted_composite_load = 0.0;  // Weighted composite score
+
+    // Confidence interval (±)
+    double confidence_interval = 0.0;
+
+    // Forecast horizon used
+    std::chrono::minutes horizon{5};
+
+    // Whether the forecast is based on sufficient history (false = best-guess only)
+    bool has_sufficient_history = false;
 };
 
 /**
@@ -178,6 +223,27 @@ public:
      * @return JSON statistics (detections, triggers, etc.)
      */
     nlohmann::json getStatistics() const;
+
+    /**
+     * Forecast load for a shard N minutes ahead using linear-regression trend analysis.
+     *
+     * Requires at least config_.min_samples_per_shard history entries to produce a
+     * reliable forecast; with fewer samples it returns a best-effort projection and
+     * sets LoadForecast::has_sufficient_history = false.
+     *
+     * @param shard_id      Shard to forecast
+     * @param horizon       How far ahead to project (default 5 minutes)
+     * @return              Load forecast, or nullopt if the shard is unknown
+     */
+    std::optional<LoadForecast> forecastLoad(
+        const std::string& shard_id,
+        std::chrono::minutes horizon = std::chrono::minutes{5}
+    ) const;
+
+    /**
+     * Maximum number of historical samples retained per shard for forecasting.
+     */
+    static constexpr size_t kMaxHistorySamples = 60;
     
 private:
     std::shared_ptr<ShardTopology> topology_;
@@ -186,8 +252,11 @@ private:
     
     mutable std::mutex mutex_;
     
-    // Load metrics per shard
+    // Load metrics per shard (latest snapshot)
     std::map<std::string, ShardLoadMetrics> shard_loads_;
+
+    // Per-shard history for trend-based forecasting (ring-buffer semantics via deque)
+    std::map<std::string, std::deque<ShardLoadMetrics>> shard_load_history_;
     
     // Cooldown tracking
     std::chrono::system_clock::time_point last_rebalance_time_;
@@ -225,6 +294,10 @@ private:
     
     double calculateLoad(const ShardLoadMetrics& metrics) const;
     double calculateVariance(const std::vector<double>& values) const;
+
+    // Forecast helper: linear regression slope over a sequence of values
+    // Returns (slope_per_sample, intercept) where positive slope means increasing trend
+    static std::pair<double, double> linearRegression(const std::vector<double>& values);
 };
 
 } // namespace sharding

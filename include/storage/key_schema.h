@@ -1,4 +1,26 @@
-﻿#pragma once
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            key_schema.h                                       ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:11:48                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     114                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+#pragma once
 
 #include <cstdint>
 #include <string>
@@ -8,6 +30,26 @@ namespace themis {
 
 /// Key schema definitions for multi-model storage
 /// All data models (relational, document, graph, vector) map to key-value pairs
+/// 
+/// Key Format (v1.5.0+):
+/// - RELATIONAL:      rel:table_name:pk_value
+/// - DOCUMENT:        doc:collection_name:pk_value  
+/// - GRAPH_NODE:      node:pk_value
+/// - GRAPH_EDGE:      edge:pk_value
+/// - VECTOR:          vec:object_name:pk_value
+/// - SECONDARY_INDEX: idx:table:column:value:pk
+/// - GRAPH_OUTDEX:    graph:out:pk_start:pk_edge
+/// - GRAPH_INDEX:     graph:in:pk_target:pk_edge
+///
+/// IMPORTANT: All key components (table_name, collection_name, object_name, column,
+/// value, pk_value, pk_start, pk_edge, pk_target) MUST NOT contain the separator
+/// character ':' (see SEPARATOR below). Keys containing ':' in any component are
+/// not supported and will result in incorrect parsing. Applications must validate
+/// or sanitize input to ensure no ':' characters appear in key components.
+///
+/// Legacy Format (pre-1.5.0, deprecated):
+/// - table_name:pk_value or collection_name:pk_value (ambiguous, assumed DOCUMENT)
+///   The same restriction on ':' in components applies to legacy keys.
 class KeySchema {
 public:
     /// Key types for different data models

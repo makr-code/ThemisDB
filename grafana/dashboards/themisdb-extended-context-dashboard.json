@@ -1,0 +1,732 @@
+{
+  "dashboard": {
+    "title": "ThemisDB Extended Context & RoPE/YARN Monitoring",
+    "tags": ["themisdb", "llm", "extended-context", "rope", "yarn", "memory"],
+    "timezone": "browser",
+    "refresh": "10s",
+    "time": {
+      "from": "now-1h",
+      "to": "now"
+    },
+    "panels": [
+      {
+        "id": 1,
+        "title": "Context Length Distribution",
+        "type": "graph",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.50, sum(rate(llm_context_length_histogram_bucket[5m])) by (le, model_id))",
+            "legendFormat": "p50 {{model_id}}",
+            "refId": "A"
+          },
+          {
+            "expr": "histogram_quantile(0.95, sum(rate(llm_context_length_histogram_bucket[5m])) by (le, model_id))",
+            "legendFormat": "p95 {{model_id}}",
+            "refId": "B"
+          },
+          {
+            "expr": "histogram_quantile(0.99, sum(rate(llm_context_length_histogram_bucket[5m])) by (le, model_id))",
+            "legendFormat": "p99 {{model_id}}",
+            "refId": "C"
+          }
+        ],
+        "yaxes": [
+          {
+            "format": "short",
+            "label": "Tokens"
+          }
+        ],
+        "gridPos": {
+          "x": 0,
+          "y": 0,
+          "w": 12,
+          "h": 8
+        },
+        "alert": {
+          "conditions": [
+            {
+              "evaluator": {
+                "params": [90000],
+                "type": "gt"
+              },
+              "operator": {
+                "type": "and"
+              },
+              "query": {
+                "params": ["A", "5m", "now"]
+              },
+              "reducer": {
+                "type": "avg"
+              },
+              "type": "query"
+            }
+          ],
+          "name": "Context Length Too High Alert"
+        }
+      },
+      {
+        "id": 2,
+        "title": "Extended Context Enabled Status",
+        "type": "stat",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "llm_extended_context_enabled",
+            "refId": "A"
+          }
+        ],
+        "gridPos": {
+          "x": 12,
+          "y": 0,
+          "w": 4,
+          "h": 4
+        },
+        "options": {
+          "colorMode": "background",
+          "graphMode": "none",
+          "textMode": "value_and_name"
+        },
+        "mappings": [
+          {"value": 0, "text": "Disabled", "color": "red"},
+          {"value": 1, "text": "Enabled", "color": "green"}
+        ]
+      },
+      {
+        "id": 3,
+        "title": "Context Scaling Factor",
+        "type": "stat",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "llm_context_scaling_factor",
+            "refId": "A"
+          }
+        ],
+        "gridPos": {
+          "x": 16,
+          "y": 0,
+          "w": 4,
+          "h": 4
+        },
+        "options": {
+          "colorMode": "background",
+          "graphMode": "none",
+          "textMode": "value_and_name",
+          "unit": "x"
+        },
+        "thresholds": {
+          "steps": [
+            {"value": 0, "color": "red"},
+            {"value": 2, "color": "yellow"},
+            {"value": 4, "color": "green"},
+            {"value": 16, "color": "orange"}
+          ]
+        }
+      },
+      {
+        "id": 4,
+        "title": "RoPE Scaling Method",
+        "type": "stat",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "llm_rope_scaling_method",
+            "refId": "A"
+          }
+        ],
+        "gridPos": {
+          "x": 20,
+          "y": 0,
+          "w": 4,
+          "h": 4
+        },
+        "options": {
+          "colorMode": "background",
+          "graphMode": "none",
+          "textMode": "name"
+        }
+      },
+      {
+        "id": 5,
+        "title": "RAM Usage by Model",
+        "type": "graph",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "llm_ram_used_mb",
+            "legendFormat": "{{model_id}} Used",
+            "refId": "A"
+          },
+          {
+            "expr": "llm_ram_total_mb",
+            "legendFormat": "Total Available",
+            "refId": "B"
+          }
+        ],
+        "yaxes": [
+          {
+            "format": "mbytes",
+            "label": "RAM (MB)"
+          }
+        ],
+        "gridPos": {
+          "x": 0,
+          "y": 8,
+          "w": 12,
+          "h": 8
+        },
+        "alert": {
+          "conditions": [
+            {
+              "evaluator": {
+                "params": [85],
+                "type": "gt"
+              },
+              "operator": {
+                "type": "and"
+              },
+              "query": {
+                "params": ["A", "5m", "now"]
+              },
+              "reducer": {
+                "type": "avg"
+              },
+              "type": "query"
+            }
+          ],
+          "name": "High RAM Usage Alert"
+        }
+      },
+      {
+        "id": 6,
+        "title": "VRAM Usage by Model",
+        "type": "graph",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "llm_vram_used_mb",
+            "legendFormat": "{{model_id}} Used",
+            "refId": "A"
+          },
+          {
+            "expr": "llm_vram_total_mb",
+            "legendFormat": "Total Available",
+            "refId": "B"
+          }
+        ],
+        "yaxes": [
+          {
+            "format": "mbytes",
+            "label": "VRAM (MB)"
+          }
+        ],
+        "gridPos": {
+          "x": 12,
+          "y": 8,
+          "w": 12,
+          "h": 8
+        },
+        "alert": {
+          "conditions": [
+            {
+              "evaluator": {
+                "params": [85],
+                "type": "gt"
+              },
+              "operator": {
+                "type": "and"
+              },
+              "query": {
+                "params": ["A", "5m", "now"]
+              },
+              "reducer": {
+                "type": "avg"
+              },
+              "type": "query"
+            }
+          ],
+          "name": "High VRAM Usage Alert"
+        }
+      },
+      {
+        "id": 7,
+        "title": "Memory Usage Percentage",
+        "type": "graph",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "llm_ram_usage_percent",
+            "legendFormat": "RAM {{model_id}}",
+            "refId": "A"
+          },
+          {
+            "expr": "llm_vram_usage_percent",
+            "legendFormat": "VRAM {{model_id}}",
+            "refId": "B"
+          }
+        ],
+        "yaxes": [
+          {
+            "format": "percent",
+            "label": "Usage %",
+            "max": 100,
+            "min": 0
+          }
+        ],
+        "gridPos": {
+          "x": 0,
+          "y": 16,
+          "w": 12,
+          "h": 8
+        },
+        "thresholds": [
+          {"value": 85, "color": "red", "op": "gt"}
+        ]
+      },
+      {
+        "id": 8,
+        "title": "Memory Pressure",
+        "type": "gauge",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "llm_memory_pressure_percent",
+            "refId": "A"
+          }
+        ],
+        "gridPos": {
+          "x": 12,
+          "y": 16,
+          "w": 6,
+          "h": 8
+        },
+        "options": {
+          "showThresholdLabels": true,
+          "showThresholdMarkers": true
+        },
+        "thresholds": {
+          "steps": [
+            {"value": 0, "color": "green"},
+            {"value": 60, "color": "yellow"},
+            {"value": 80, "color": "orange"},
+            {"value": 90, "color": "red"}
+          ]
+        }
+      },
+      {
+        "id": 9,
+        "title": "OOM Events",
+        "type": "stat",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "sum(increase(llm_oom_events_total[1h]))",
+            "refId": "A"
+          }
+        ],
+        "gridPos": {
+          "x": 18,
+          "y": 16,
+          "w": 6,
+          "h": 4
+        },
+        "options": {
+          "colorMode": "background",
+          "graphMode": "area",
+          "textMode": "value_and_name"
+        },
+        "thresholds": {
+          "steps": [
+            {"value": 0, "color": "green"},
+            {"value": 1, "color": "red"}
+          ]
+        }
+      },
+      {
+        "id": 10,
+        "title": "Context Cache Size",
+        "type": "graph",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "llm_context_cache_size_mb",
+            "legendFormat": "{{model_id}}",
+            "refId": "A"
+          }
+        ],
+        "yaxes": [
+          {
+            "format": "mbytes",
+            "label": "KV Cache (MB)"
+          }
+        ],
+        "gridPos": {
+          "x": 0,
+          "y": 24,
+          "w": 12,
+          "h": 8
+        }
+      },
+      {
+        "id": 11,
+        "title": "Memory Estimation Accuracy",
+        "type": "graph",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "llm_memory_estimation_accuracy_percent",
+            "legendFormat": "{{model_id}}",
+            "refId": "A"
+          }
+        ],
+        "yaxes": [
+          {
+            "format": "percent",
+            "label": "Accuracy %"
+          }
+        ],
+        "gridPos": {
+          "x": 12,
+          "y": 24,
+          "w": 12,
+          "h": 8
+        }
+      },
+      {
+        "id": 12,
+        "title": "YaRN Parameters",
+        "type": "table",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "llm_yarn_ext_factor",
+            "legendFormat": "ext_factor",
+            "refId": "A",
+            "format": "table",
+            "instant": true
+          },
+          {
+            "expr": "llm_yarn_attn_factor",
+            "legendFormat": "attn_factor",
+            "refId": "B",
+            "format": "table",
+            "instant": true
+          },
+          {
+            "expr": "llm_yarn_beta_fast",
+            "legendFormat": "beta_fast",
+            "refId": "C",
+            "format": "table",
+            "instant": true
+          },
+          {
+            "expr": "llm_yarn_beta_slow",
+            "legendFormat": "beta_slow",
+            "refId": "D",
+            "format": "table",
+            "instant": true
+          }
+        ],
+        "gridPos": {
+          "x": 0,
+          "y": 32,
+          "w": 12,
+          "h": 8
+        },
+        "transformations": [
+          {
+            "id": "merge",
+            "options": {}
+          }
+        ]
+      },
+      {
+        "id": 13,
+        "title": "RoPE Scaling Errors",
+        "type": "graph",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "rate(llm_rope_scaling_errors_total[5m])",
+            "legendFormat": "{{model_id}} - {{error}}",
+            "refId": "A"
+          }
+        ],
+        "yaxes": [
+          {
+            "format": "ops",
+            "label": "Errors/sec"
+          }
+        ],
+        "gridPos": {
+          "x": 12,
+          "y": 32,
+          "w": 12,
+          "h": 8
+        },
+        "alert": {
+          "conditions": [
+            {
+              "evaluator": {
+                "params": [0],
+                "type": "gt"
+              },
+              "operator": {
+                "type": "and"
+              },
+              "query": {
+                "params": ["A", "5m", "now"]
+              },
+              "reducer": {
+                "type": "avg"
+              },
+              "type": "query"
+            }
+          ],
+          "name": "RoPE Scaling Errors Alert"
+        }
+      },
+      {
+        "id": 14,
+        "title": "LoRA Adapter Switches",
+        "type": "graph",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "rate(llm_lora_adapter_switches_total[5m])",
+            "legendFormat": "{{model_id}}: {{from}} → {{to}}",
+            "refId": "A"
+          }
+        ],
+        "yaxes": [
+          {
+            "format": "ops",
+            "label": "Switches/sec"
+          }
+        ],
+        "gridPos": {
+          "x": 0,
+          "y": 40,
+          "w": 12,
+          "h": 8
+        }
+      },
+      {
+        "id": 15,
+        "title": "LoRA Adapter Switch Duration",
+        "type": "graph",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.95, sum(rate(llm_lora_adapter_switch_duration_ms_bucket[5m])) by (le, model_id))",
+            "legendFormat": "p95 {{model_id}}",
+            "refId": "A"
+          }
+        ],
+        "yaxes": [
+          {
+            "format": "ms",
+            "label": "Duration (ms)"
+          }
+        ],
+        "gridPos": {
+          "x": 12,
+          "y": 40,
+          "w": 12,
+          "h": 8
+        }
+      },
+      {
+        "id": 16,
+        "title": "Context Lock Wait Time",
+        "type": "graph",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.95, sum(rate(llm_context_lock_wait_ms_bucket[5m])) by (le, model_id))",
+            "legendFormat": "p95 {{model_id}}",
+            "refId": "A"
+          },
+          {
+            "expr": "histogram_quantile(0.99, sum(rate(llm_context_lock_wait_ms_bucket[5m])) by (le, model_id))",
+            "legendFormat": "p99 {{model_id}}",
+            "refId": "B"
+          }
+        ],
+        "yaxes": [
+          {
+            "format": "ms",
+            "label": "Wait Time (ms)"
+          }
+        ],
+        "gridPos": {
+          "x": 0,
+          "y": 48,
+          "w": 12,
+          "h": 8
+        }
+      },
+      {
+        "id": 17,
+        "title": "Lock Contention Events",
+        "type": "graph",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "rate(llm_context_lock_contention_total[5m])",
+            "legendFormat": "{{model_id}}",
+            "refId": "A"
+          }
+        ],
+        "yaxes": [
+          {
+            "format": "ops",
+            "label": "Contention/sec"
+          }
+        ],
+        "gridPos": {
+          "x": 12,
+          "y": 48,
+          "w": 12,
+          "h": 8
+        },
+        "alert": {
+          "conditions": [
+            {
+              "evaluator": {
+                "params": [1],
+                "type": "gt"
+              },
+              "operator": {
+                "type": "and"
+              },
+              "query": {
+                "params": ["A", "5m", "now"]
+              },
+              "reducer": {
+                "type": "avg"
+              },
+              "type": "query"
+            }
+          ],
+          "name": "High Lock Contention Alert"
+        }
+      },
+      {
+        "id": 18,
+        "title": "LoRA Sequential Mode Status",
+        "type": "stat",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "llm_lora_sequential_mode",
+            "refId": "A"
+          }
+        ],
+        "gridPos": {
+          "x": 18,
+          "y": 20,
+          "w": 6,
+          "h": 4
+        },
+        "options": {
+          "colorMode": "background",
+          "graphMode": "none",
+          "textMode": "value_and_name"
+        },
+        "mappings": [
+          {"value": 0, "text": "Concurrent (Unsafe)", "color": "red"},
+          {"value": 1, "text": "Sequential (Safe)", "color": "green"}
+        ]
+      },
+      {
+        "id": 19,
+        "title": "Current Context Length",
+        "type": "stat",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "llm_context_length",
+            "refId": "A"
+          }
+        ],
+        "gridPos": {
+          "x": 12,
+          "y": 4,
+          "w": 4,
+          "h": 4
+        },
+        "options": {
+          "colorMode": "background",
+          "graphMode": "area",
+          "textMode": "value_and_name",
+          "unit": "tokens"
+        },
+        "thresholds": {
+          "steps": [
+            {"value": 0, "color": "green"},
+            {"value": 8192, "color": "yellow"},
+            {"value": 32768, "color": "orange"},
+            {"value": 90000, "color": "red"}
+          ]
+        }
+      },
+      {
+        "id": 20,
+        "title": "Concurrent LoRA Operations (Warning)",
+        "type": "stat",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "sum(increase(llm_lora_concurrent_operations_total[1h]))",
+            "refId": "A"
+          }
+        ],
+        "gridPos": {
+          "x": 16,
+          "y": 4,
+          "w": 4,
+          "h": 4
+        },
+        "options": {
+          "colorMode": "background",
+          "graphMode": "area",
+          "textMode": "value_and_name"
+        },
+        "thresholds": {
+          "steps": [
+            {"value": 0, "color": "green"},
+            {"value": 1, "color": "red"}
+          ]
+        }
+      }
+    ],
+    "templating": {
+      "list": [
+        {
+          "name": "model",
+          "type": "query",
+          "datasource": "Prometheus",
+          "query": "label_values(llm_context_length, model_id)",
+          "refresh": 1,
+          "multi": true,
+          "includeAll": true
+        }
+      ]
+    },
+    "annotations": {
+      "list": [
+        {
+          "datasource": "Prometheus",
+          "expr": "ALERTS{alertname=~\".*Context.*|.*Memory.*|.*RoPE.*|.*LoRA.*\"}",
+          "name": "Extended Context Alerts",
+          "step": "60s",
+          "tagKeys": "alertname,severity",
+          "titleFormat": "Alert",
+          "textFormat": "{{alertname}}: {{description}}"
+        }
+      ]
+    }
+  }
+}

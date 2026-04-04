@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            truetime.cpp                                       ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:20:23                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     434                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2bbac9e44  2026-03-14  feat: implement Percolator-style distributed transaction ... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // Copyright 2025 ThemisDB
 // Licensed under MIT License
 
@@ -97,6 +120,13 @@ void TrueTime::waitUntil(std::chrono::nanoseconds timestamp) {
             std::this_thread::yield();
         }
     }
+}
+
+TTInterval TrueTime::now_with_uncertainty() const {
+    // Identical to now(); provided as an explicit named method for the
+    // Percolator commit-wait pattern where callers need the [earliest, latest]
+    // interval to compute: wait until TT.now().earliest > commit_ts + epsilon.
+    return now();
 }
 
 std::chrono::nanoseconds TrueTime::getUncertainty() const {

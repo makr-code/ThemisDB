@@ -1,3 +1,25 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_aql_bm25.cpp                                  ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:24:10                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     201                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // Test: AQL BM25() function integration
 
 #include <gtest/gtest.h>
@@ -87,12 +109,13 @@ TEST_F(AQLBm25Test, BasicBM25FunctionParsing) {
     
     AQLParser parser;
     auto result = parser.parse(query);
-    ASSERT_TRUE(result.success) << "Parse error: " << result.error.message;
-    ASSERT_TRUE(result.query);
-    ASSERT_TRUE(result.query->return_node);
+    ASSERT_TRUE(result.has_value()) << "Parse error: " << (result ? "" : result.error().message());
+    auto query_ptr = *result;
+    ASSERT_TRUE(query_ptr);
+    ASSERT_TRUE(query_ptr->return_node);
     
     // Check that RETURN expression is a function call
-    auto returnExpr = result.query->return_node->expression;
+    auto returnExpr = query_ptr->return_node->expression;
     ASSERT_EQ(returnExpr->getType(), ASTNodeType::FunctionCall);
     
     auto funcCall = std::static_pointer_cast<FunctionCallExpr>(returnExpr);
@@ -106,8 +129,9 @@ TEST_F(AQLBm25Test, ExecuteAndKeysWithScores) {
     q.table = "articles";
     q.fulltextPredicate = PredicateFulltext{"content", "machine learning", 100};
     
-    auto [st, result] = engine_->executeAndKeysWithScores(q);
-    ASSERT_TRUE(st.ok) << "Execution error: " << st.message;
+    auto resultOrErr = engine_->executeAndKeysWithScores(q);
+    ASSERT_TRUE(resultOrErr) << "Execution error: " << resultOrErr.error().message();
+    auto result = std::move(resultOrErr.value());
     
     // Should match doc1 and doc2 (both mention "machine learning")
     ASSERT_GE(result.keys.size(), 2u);
@@ -131,8 +155,9 @@ TEST_F(AQLBm25Test, BM25ScoresDecreaseWithRelevance) {
     q.table = "articles";
     q.fulltextPredicate = PredicateFulltext{"content", "machine", 100};
     
-    auto [st, result] = engine_->executeAndKeysWithScores(q);
-    ASSERT_TRUE(st.ok);
+    auto resultOrErr = engine_->executeAndKeysWithScores(q);
+    ASSERT_TRUE(resultOrErr);
+    auto result = std::move(resultOrErr.value());
     ASSERT_GE(result.keys.size(), 2u);
     
     // Get scores for doc1 and doc2
@@ -165,8 +190,9 @@ TEST_F(AQLBm25Test, NoScoresForNonFulltextQuery) {
     q.table = "articles";
     q.predicates.push_back(PredicateEq{"title", "Machine learning basics"});
     
-    auto [st, result] = engine_->executeAndKeysWithScores(q);
-    ASSERT_TRUE(st.ok) << "Execution error: " << st.message;
+    auto resultOrErr = engine_->executeAndKeysWithScores(q);
+    ASSERT_TRUE(resultOrErr) << "Execution error: " << resultOrErr.error().message();
+    auto result = std::move(resultOrErr.value());
     
     // Should have empty score map
     ASSERT_TRUE(result.bm25_scores);

@@ -1,0 +1,150 @@
+{
+  "openapi_file": "C:\\VCC\\themis\\openapi\\openapi.yaml",
+  "source_root": "C:\\VCC\\themis\\src\\server",
+  "allowlist_file": "C:\\VCC\\themis\\scripts\\operations\\openapi_allowlist.txt",
+  "openapi_path_count": 219,
+  "source_route_count": 79,
+  "undocumented_route_count": 35,
+  "undocumented_routes": [
+    {
+      "method": "DELETE",
+      "path": "/v1/admin/cache/pii/{pii_uuid}"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/oauth2/authorize"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/oauth2/callback"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/grpc-web/status"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/import/jobs"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/import/{job_id}/status"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/llm/lora/adapters/{id}/audit"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/llm/lora/adapters/{id}/provenance"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/llm/lora/adapters/{id}/snapshots"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/metadata/lineage/{table}"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/metadata/lineage/{table}/{column}"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/mvcc/keys/{key}["
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/prompt_engineering/ab_tests"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/prompt_engineering/ab_tests/{id}"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/prompt_engineering/history/{id}"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/prompt_engineering/stats"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/prompt_engineering/versions/{id}"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/service-mesh/annotations"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/service-mesh/config"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/service-mesh/status"
+    },
+    {
+      "method": "GET",
+      "path": "/transaction/{id}/explain"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/admin/storage/stats"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/oauth2/logout"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/oauth2/refresh"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/oauth2/token"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/token/introspect"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/import/postgresql"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/import/s3"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/import/{job_id}/cancel"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/llm/lora/adapters/{id}/provenance"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/llm/lora/adapters/{id}/verify"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/prompt_engineering/feedback"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/prompt_engineering/optimize"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/prompt_engineering/rollback"
+    },
+    {
+      "method": "POST",
+      "path": "/grpc-web/<Service>/<Method>"
+    }
+  ]
+}

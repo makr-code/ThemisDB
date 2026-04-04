@@ -1,3 +1,25 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            collection_functions.h                             ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:09:54                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     2057                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include "query/functions/function_registry.h"
@@ -267,7 +289,8 @@ public:
  *   JSON('123')                       => 123
  *   JSON('"text"')                    => "text"
  */
-class JsonParseFunction : public IFunction {
+// NOTE: renamed to avoid clashing with JSON_PATH functions' JsonParseFunction
+class JsonValueParseFunction : public IFunction {
 public:
     FunctionSignature signature() const override {
         return {
@@ -368,8 +391,8 @@ public:
         std::string str = args[0].get<std::string>();
         
         try {
-            nlohmann::json::parse(str);
-            return true;
+            auto parsed = nlohmann::json::parse(str);
+            return parsed.type() != nlohmann::json::value_t::discarded;
         } catch (...) {
             return false;
         }
@@ -379,7 +402,8 @@ public:
 /**
  * @brief JSON_TYPE(value) - Get JSON type as string
  */
-class JsonTypeFunction : public IFunction {
+// NOTE: renamed to avoid clashing with JSON_PATH functions' JsonTypeFunction
+class JsonValueTypeFunction : public IFunction {
 public:
     FunctionSignature signature() const override {
         return {
@@ -1987,10 +2011,10 @@ inline void registerCollectionFunctions(FunctionRegistry& reg) {
     reg.registerFunction(std::make_unique<RepeatConstructorFunction>());
     
     // JSON functions
-    reg.registerFunction(std::make_unique<JsonParseFunction>());
+    reg.registerFunction(std::make_unique<JsonValueParseFunction>());
     reg.registerFunction(std::make_unique<ToJsonFunction>());
     reg.registerFunction(std::make_unique<JsonValidFunction>());
-    reg.registerFunction(std::make_unique<JsonTypeFunction>());
+    reg.registerFunction(std::make_unique<JsonValueTypeFunction>());
     
     // Holiday/Calendar functions
     reg.registerFunction(std::make_unique<LoadHolidaysFunction>());

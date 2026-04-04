@@ -1,3 +1,25 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            property_graph.cpp                                 ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:16:37                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   98.0/100                                       ║
+    • Total Lines:     1273                                           ║
+    • Open Issues:     TODOs: 1, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // Property Graph Manager Implementation
 
 #include "index/property_graph.h"
@@ -5,6 +27,10 @@
 #include "utils/logger.h"
 #include <sstream>
 #include <algorithm>
+#include <unordered_set>
+#include <unordered_map>
+#include <queue>
+#include <stack>
 
 namespace themis {
 
@@ -138,6 +164,82 @@ PropertyGraphManager::Status PropertyGraphManager::deleteNode(std::string_view p
     auto batch = db_.createWriteBatch();
     if (!batch) {
         return Status::Error("deleteNode: Could not create write batch");
+    }
+
+    // Collect all edges connected to this node (both outgoing and incoming)
+    // Use unordered_set to avoid duplicates and improve lookup performance
+    std::unordered_set<std::string> edgesToDelete;
+    
+    // Scan outgoing edges: graph:out:<graph_id>:<pk>:
+    {
+        std::ostringstream oss;
+        oss << "graph:out:" << graph_id << ":" << pk << ":";
+        std::string outPrefix = oss.str();
+        
+        db_.scanPrefix(outPrefix, [&edgesToDelete, &outPrefix](std::string_view key, std::string_view /*val*/) {
+            // Extract edgeId from key: graph:out:<graph_id>:<pk>:<edgeId>
+            std::string keyStr(key);
+            size_t lastColon = keyStr.rfind(':');
+            if (lastColon != std::string::npos && lastColon > outPrefix.size() - 1) {
+                std::string edgeId = keyStr.substr(lastColon + 1);
+                if (!edgeId.empty()) {
+                    edgesToDelete.insert(edgeId);
+                }
+            }
+            return true;  // Continue scanning
+        });
+    }
+    
+    // Scan incoming edges: graph:in:<graph_id>:<pk>:
+    {
+        std::ostringstream oss;
+        oss << "graph:in:" << graph_id << ":" << pk << ":";
+        std::string inPrefix = oss.str();
+        
+        db_.scanPrefix(inPrefix, [&edgesToDelete, &inPrefix](std::string_view key, std::string_view /*val*/) {
+            // Extract edgeId from key: graph:in:<graph_id>:<pk>:<edgeId>
+            std::string keyStr(key);
+            size_t lastColon = keyStr.rfind(':');
+            if (lastColon != std::string::npos && lastColon > inPrefix.size() - 1) {
+                std::string edgeId = keyStr.substr(lastColon + 1);
+                if (!edgeId.empty()) {
+                    edgesToDelete.insert(edgeId);
+                }
+            }
+            return true;  // Continue scanning
+        });
+    }
+    
+    // Delete all connected edges
+    for (const auto& edgeId : edgesToDelete) {
+        // Load edge to get _from, _to, _type
+        std::string edgeKey = makeEdgeKey_(graph_id, edgeId);
+        auto edgeBlob = db_.get(edgeKey);
+        if (!edgeBlob.has_value()) {
+            continue;  // Edge already deleted
+        }
+        
+        BaseEntity edge = BaseEntity::deserialize(edgeId, *edgeBlob);
+        auto fromOpt = edge.getFieldAsString("_from");
+        auto toOpt = edge.getFieldAsString("_to");
+        std::optional<std::string> typeOpt = extractType_(edge);
+        
+        // Delete edge entity
+        batch->del(edgeKey);
+        
+        // Delete graph adjacency indices
+        if (fromOpt && toOpt) {
+            std::string outdexKey = makeGraphOutdexKey_(graph_id, *fromOpt, edgeId);
+            std::string indegKey = makeGraphIndegKey_(graph_id, *toOpt, edgeId);
+            batch->del(outdexKey);
+            batch->del(indegKey);
+        }
+        
+        // Delete type index entry if type exists
+        if (typeOpt.has_value()) {
+            std::string typeKey = makeTypeIndexKey_(graph_id, *typeOpt, edgeId);
+            batch->del(typeKey);
+        }
     }
 
     // Delete node entity
@@ -738,6 +840,434 @@ PropertyGraphManager::Status PropertyGraphManager::addEdgesBatch(
     }
 
     return Status::OK();
+}
+
+// ===== Graph Traversal Algorithms =====
+
+std::pair<PropertyGraphManager::Status, std::vector<std::string>>
+PropertyGraphManager::traverseBFS(
+    std::string_view start_node_pk,
+    std::string_view graph_id,
+    int max_depth
+) const {
+    if (!db_.isOpen()) {
+        return {Status::Error("traverseBFS: Database not open"), {}};
+    }
+
+    // Check if start node exists
+    std::string nodeKey = makeNodeKey_(graph_id, start_node_pk);
+    if (!db_.get(nodeKey).has_value()) {
+        return {Status::Error("traverseBFS: Start node not found"), {}};
+    }
+
+    std::vector<std::string> result;
+    std::unordered_set<std::string> visited;
+    std::queue<std::pair<std::string, int>> queue;  // node_pk, depth
+    
+    queue.push({std::string(start_node_pk), 0});
+    visited.insert(std::string(start_node_pk));
+    
+    while (!queue.empty()) {
+        auto [current_node, depth] = queue.front();
+        queue.pop();
+        
+        result.push_back(current_node);
+        
+        // Stop if max depth reached
+        if (max_depth >= 0 && depth >= max_depth) {
+            continue;
+        }
+        
+        // Get outgoing edges
+        std::ostringstream outPrefix;
+        outPrefix << "graph:out:" << graph_id << ":" << current_node << ":";
+        
+        db_.scanPrefix(outPrefix.str(), [&](std::string_view /*key*/, std::string_view val) {
+            std::string neighbor(val);
+            if (visited.find(neighbor) == visited.end()) {
+                visited.insert(neighbor);
+                queue.push({neighbor, depth + 1});
+            }
+            return true;
+        });
+    }
+    
+    return {Status::OK(), result};
+}
+
+std::pair<PropertyGraphManager::Status, std::vector<std::string>>
+PropertyGraphManager::traverseDFS(
+    std::string_view start_node_pk,
+    std::string_view graph_id,
+    int max_depth
+) const {
+    if (!db_.isOpen()) {
+        return {Status::Error("traverseDFS: Database not open"), {}};
+    }
+
+    // Check if start node exists
+    std::string nodeKey = makeNodeKey_(graph_id, start_node_pk);
+    if (!db_.get(nodeKey).has_value()) {
+        return {Status::Error("traverseDFS: Start node not found"), {}};
+    }
+
+    std::vector<std::string> result;
+    std::unordered_set<std::string> visited;
+    std::stack<std::pair<std::string, int>> stack;  // node_pk, depth
+    
+    stack.push({std::string(start_node_pk), 0});
+    
+    while (!stack.empty()) {
+        auto [current_node, depth] = stack.top();
+        stack.pop();
+        
+        if (visited.find(current_node) != visited.end()) {
+            continue;
+        }
+        
+        visited.insert(current_node);
+        result.push_back(current_node);
+        
+        // Stop if max depth reached
+        if (max_depth >= 0 && depth >= max_depth) {
+            continue;
+        }
+        
+        // Get outgoing edges (push in reverse order for consistent DFS ordering)
+        std::vector<std::string> neighbors;
+        std::ostringstream outPrefix;
+        outPrefix << "graph:out:" << graph_id << ":" << current_node << ":";
+        
+        db_.scanPrefix(outPrefix.str(), [&](std::string_view /*key*/, std::string_view val) {
+            std::string neighbor(val);
+            if (visited.find(neighbor) == visited.end()) {
+                neighbors.push_back(neighbor);
+            }
+            return true;
+        });
+        
+        // Push neighbors in reverse order
+        for (auto it = neighbors.rbegin(); it != neighbors.rend(); ++it) {
+            stack.push({*it, depth + 1});
+        }
+    }
+    
+    return {Status::OK(), result};
+}
+
+std::pair<PropertyGraphManager::Status, std::vector<std::string>>
+PropertyGraphManager::findShortestPath(
+    std::string_view from_pk,
+    std::string_view to_pk,
+    std::string_view graph_id
+) const {
+    if (!db_.isOpen()) {
+        return {Status::Error("findShortestPath: Database not open"), {}};
+    }
+
+    // Check if both nodes exist
+    std::string fromKey = makeNodeKey_(graph_id, from_pk);
+    std::string toKey = makeNodeKey_(graph_id, to_pk);
+    
+    if (!db_.get(fromKey).has_value()) {
+        return {Status::Error("findShortestPath: Start node not found"), {}};
+    }
+    if (!db_.get(toKey).has_value()) {
+        return {Status::Error("findShortestPath: Target node not found"), {}};
+    }
+
+    // BFS with parent tracking
+    std::unordered_set<std::string> visited;
+    std::unordered_map<std::string, std::string> parent;
+    std::queue<std::string> queue;
+    
+    std::string from_str(from_pk);
+    std::string to_str(to_pk);
+    
+    queue.push(from_str);
+    visited.insert(from_str);
+    parent[from_str] = "";  // Root has no parent
+    
+    bool found = false;
+    
+    while (!queue.empty() && !found) {
+        std::string current = queue.front();
+        queue.pop();
+        
+        if (current == to_str) {
+            found = true;
+            break;
+        }
+        
+        // Get outgoing edges
+        std::ostringstream outPrefix;
+        outPrefix << "graph:out:" << graph_id << ":" << current << ":";
+        
+        db_.scanPrefix(outPrefix.str(), [&](std::string_view /*key*/, std::string_view val) {
+            std::string neighbor(val);
+            if (visited.find(neighbor) == visited.end()) {
+                visited.insert(neighbor);
+                parent[neighbor] = current;
+                queue.push(neighbor);
+                
+                if (neighbor == to_str) {
+                    found = true;
+                    return false;  // Stop scanning
+                }
+            }
+            return true;
+        });
+    }
+    
+    if (!found) {
+        return {Status::Error("findShortestPath: No path exists"), {}};
+    }
+    
+    // Reconstruct path
+    std::vector<std::string> path;
+    std::string current = to_str;
+    
+    while (!current.empty()) {
+        path.push_back(current);
+        current = parent[current];
+    }
+    
+    std::reverse(path.begin(), path.end());
+    return {Status::OK(), path};
+}
+
+std::pair<PropertyGraphManager::Status, BaseEntity>
+PropertyGraphManager::getNode(
+    std::string_view pk,
+    std::string_view graph_id
+) const {
+    if (!db_.isOpen()) {
+        return {Status::Error("getNode: Database not open"), BaseEntity("")};
+    }
+
+    std::string nodeKey = makeNodeKey_(graph_id, pk);
+    auto blob = db_.get(nodeKey);
+    
+    if (!blob.has_value()) {
+        return {Status::Error("getNode: Node not found"), BaseEntity("")};
+    }
+
+    BaseEntity node = BaseEntity::deserialize(std::string(pk), *blob);
+    return {Status::OK(), node};
+}
+
+std::pair<PropertyGraphManager::Status, BaseEntity>
+PropertyGraphManager::getEdge(
+    std::string_view edgeId,
+    std::string_view graph_id
+) const {
+    if (!db_.isOpen()) {
+        return {Status::Error("getEdge: Database not open"), BaseEntity("")};
+    }
+
+    std::string edgeKey = makeEdgeKey_(graph_id, edgeId);
+    auto blob = db_.get(edgeKey);
+    
+    if (!blob.has_value()) {
+        return {Status::Error("getEdge: Edge not found"), BaseEntity("")};
+    }
+
+    BaseEntity edge = BaseEntity::deserialize(std::string(edgeId), *blob);
+    return {Status::OK(), edge};
+}
+
+std::pair<PropertyGraphManager::Status, std::vector<PropertyGraphManager::EdgeInfo>>
+PropertyGraphManager::getOutgoingEdges(
+    std::string_view fromPk,
+    std::string_view graph_id
+) const {
+    if (!db_.isOpen()) {
+        return {Status::Error("getOutgoingEdges: Database not open"), {}};
+    }
+
+    std::vector<EdgeInfo> edges;
+    std::ostringstream outPrefix;
+    outPrefix << "graph:out:" << graph_id << ":" << fromPk << ":";
+    
+    db_.scanPrefix(outPrefix.str(), [this, &edges, &fromPk, &graph_id](std::string_view key, std::string_view val) {
+        // Extract edgeId from key: graph:out:<graph_id>:<from_pk>:<edgeId>
+        std::string keyStr(key);
+        size_t lastColon = keyStr.rfind(':');
+        if (lastColon == std::string::npos) return true;
+        
+        std::string edgeId = keyStr.substr(lastColon + 1);
+        std::string toPk(val);
+        
+        // Load edge to get type
+        std::string edgeKey = makeEdgeKey_(graph_id, edgeId);
+        auto blob = db_.get(edgeKey);
+        if (!blob.has_value()) return true;
+        
+        BaseEntity edge = BaseEntity::deserialize(edgeId, *blob);
+        std::optional<std::string> typeOpt = extractType_(edge);
+        
+        edges.push_back({
+            edgeId,
+            std::string(fromPk),
+            toPk,
+            typeOpt.value_or(""),
+            std::string(graph_id)
+        });
+        
+        return true;
+    });
+    
+    return {Status::OK(), edges};
+}
+
+std::pair<PropertyGraphManager::Status, std::vector<PropertyGraphManager::EdgeInfo>>
+PropertyGraphManager::getIncomingEdges(
+    std::string_view toPk,
+    std::string_view graph_id
+) const {
+    if (!db_.isOpen()) {
+        return {Status::Error("getIncomingEdges: Database not open"), {}};
+    }
+
+    std::vector<EdgeInfo> edges;
+    std::ostringstream inPrefix;
+    inPrefix << "graph:in:" << graph_id << ":" << toPk << ":";
+    
+    db_.scanPrefix(inPrefix.str(), [this, &edges, &toPk, &graph_id](std::string_view key, std::string_view val) {
+        // Extract edgeId from key: graph:in:<graph_id>:<to_pk>:<edgeId>
+        std::string keyStr(key);
+        size_t lastColon = keyStr.rfind(':');
+        if (lastColon == std::string::npos) return true;
+        
+        std::string edgeId = keyStr.substr(lastColon + 1);
+        std::string fromPk(val);
+        
+        // Load edge to get type
+        std::string edgeKey = makeEdgeKey_(graph_id, edgeId);
+        auto blob = db_.get(edgeKey);
+        if (!blob.has_value()) return true;
+        
+        BaseEntity edge = BaseEntity::deserialize(edgeId, *blob);
+        std::optional<std::string> typeOpt = extractType_(edge);
+        
+        edges.push_back({
+            edgeId,
+            fromPk,
+            std::string(toPk),
+            typeOpt.value_or(""),
+            std::string(graph_id)
+        });
+        
+        return true;
+    });
+    
+    return {Status::OK(), edges};
+}
+
+// ===== Graph Analytics =====
+
+std::pair<PropertyGraphManager::Status, std::map<std::string, double>>
+PropertyGraphManager::computePageRank(
+    std::string_view graph_id,
+    double damping_factor,
+    int max_iterations,
+    double tolerance
+) const {
+    if (!db_.isOpen()) {
+        return {Status::Error("computePageRank: Database not open"), {}};
+    }
+
+    // Collect all nodes in the graph
+    std::vector<std::string> nodes;
+    std::ostringstream nodePrefix;
+    nodePrefix << "node:" << graph_id << ":";
+    
+    db_.scanPrefix(nodePrefix.str(), [&nodes, &nodePrefix](std::string_view key, std::string_view /*val*/) {
+        std::string keyStr(key);
+        // Extract node PK from key: node:<graph_id>:<pk>
+        size_t prefixLen = nodePrefix.str().size();
+        if (keyStr.size() > prefixLen) {
+            std::string pk = keyStr.substr(prefixLen);
+            nodes.push_back(pk);
+        }
+        return true;
+    });
+    
+    if (nodes.empty()) {
+        return {Status::Error("computePageRank: No nodes in graph"), {}};
+    }
+    
+    size_t N = nodes.size();
+    
+    // Build adjacency information
+    // outgoing_count: number of outgoing edges from each node
+    // incoming_nodes: for each node, which nodes point to it
+    std::unordered_map<std::string, int> outgoing_count;
+    std::unordered_map<std::string, std::vector<std::string>> incoming_nodes;
+    
+    // Initialize
+    for (const auto& node : nodes) {
+        outgoing_count[node] = 0;
+        incoming_nodes[node] = {};
+    }
+    
+    // Count outgoing edges and build incoming edge lists
+    for (const auto& node : nodes) {
+        std::ostringstream outPrefix;
+        outPrefix << "graph:out:" << graph_id << ":" << node << ":";
+        
+        db_.scanPrefix(outPrefix.str(), [&](std::string_view /*key*/, std::string_view val) {
+            std::string to_node(val);
+            outgoing_count[node]++;
+            incoming_nodes[to_node].push_back(node);
+            return true;
+        });
+    }
+    
+    // Initialize PageRank scores (uniform distribution)
+    std::map<std::string, double> pagerank;
+    std::map<std::string, double> pagerank_new;
+    
+    double initial_score = 1.0 / N;
+    for (const auto& node : nodes) {
+        pagerank[node] = initial_score;
+        pagerank_new[node] = 0.0;
+    }
+    
+    // Iterate until convergence or max iterations
+    bool converged = false;
+    for (int iter = 0; iter < max_iterations && !converged; ++iter) {
+        // Compute new PageRank scores
+        for (const auto& node : nodes) {
+            double sum = 0.0;
+            
+            // Sum contributions from incoming nodes
+            for (const auto& in_node : incoming_nodes[node]) {
+                int out_count = outgoing_count[in_node];
+                if (out_count > 0) {
+                    sum += pagerank[in_node] / out_count;
+                }
+            }
+            
+            // PageRank formula: PR(node) = (1-d)/N + d * sum(PR(in_node) / out_degree(in_node))
+            pagerank_new[node] = (1.0 - damping_factor) / N + damping_factor * sum;
+        }
+        
+        // Check convergence
+        double diff = 0.0;
+        for (const auto& node : nodes) {
+            diff += std::abs(pagerank_new[node] - pagerank[node]);
+        }
+        
+        if (diff < tolerance) {
+            converged = true;
+        }
+        
+        // Update scores
+        pagerank = pagerank_new;
+    }
+    
+    return {Status::OK(), pagerank};
 }
 
 } // namespace themis

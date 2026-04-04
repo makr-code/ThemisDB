@@ -1,8 +1,31 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_saga_logger.cpp                               ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:33:11                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     197                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include <gtest/gtest.h>
 #include "utils/saga_logger.h"
 #include "utils/lek_manager.h"
 #include "security/pki_key_provider.h"
 #include "security/mock_key_provider.h"
+#include "themis/edition.h"
 #include "utils/pki_client.h"
 #include "storage/rocksdb_wrapper.h"
 #include <filesystem>
@@ -11,9 +34,19 @@ using namespace themis;
 using namespace themis::utils;
 using namespace themis::security;
 
+namespace {
+bool IsFieldEncryptionAvailable() {
+  return themis::edition::IsFeatureEnabled("field_encryption");
+}
+}
+
 class SAGALoggerTest : public ::testing::Test {
 protected:
     void SetUp() override {
+    if (!IsFieldEncryptionAvailable()) {
+      GTEST_SKIP() << "Field encryption unavailable in Community edition";
+    }
+
         // Clean test directories
         std::filesystem::remove_all("data/test_saga");
         std::filesystem::create_directories("data/test_saga");
@@ -42,6 +75,10 @@ protected:
 };
 
 TEST_F(SAGALoggerTest, LogAndFlush_CreatesSignedBatch) {
+  if (!IsFieldEncryptionAvailable()) {
+    GTEST_SKIP() << "Field encryption unavailable in Community edition";
+  }
+
     SAGALoggerConfig cfg;
     cfg.batch_size = 2;
     cfg.batch_interval = std::chrono::minutes(60);
@@ -84,6 +121,10 @@ TEST_F(SAGALoggerTest, LogAndFlush_CreatesSignedBatch) {
 }
 
 TEST_F(SAGALoggerTest, VerifyBatch_ValidSignature_ReturnsTrue) {
+  if (!IsFieldEncryptionAvailable()) {
+    GTEST_SKIP() << "Field encryption unavailable in Community edition";
+  }
+
     SAGALoggerConfig cfg;
     cfg.batch_size = 1;
     cfg.log_path = "data/test_saga/saga2.jsonl";
@@ -113,6 +154,10 @@ TEST_F(SAGALoggerTest, VerifyBatch_ValidSignature_ReturnsTrue) {
 }
 
 TEST_F(SAGALoggerTest, LoadBatch_DecryptsAndReturnsSteps) {
+  if (!IsFieldEncryptionAvailable()) {
+    GTEST_SKIP() << "Field encryption unavailable in Community edition";
+  }
+
     SAGALoggerConfig cfg;
     cfg.batch_size = 2;
     cfg.log_path = "data/test_saga/saga3.jsonl";

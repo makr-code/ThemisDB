@@ -23,6 +23,7 @@ proto/
 │   └── shard_rpc.proto       # Inter-shard RPC service definitions
 ├── client/                   # Client-facing RPC (future)
 │   └── themis_client.proto
+├── themisdb.proto            # ThemisDB API service (document CRUD, AQL, vector search)
 └── README.md                 # This file
 ```
 
@@ -106,6 +107,30 @@ Inter-shard communication protocol for ThemisDB cluster.
 - `GossipMessage` - Cluster gossip protocol
 
 **Usage:** See [RPC mTLS Inter-Shard Documentation](../docs/plugins/RPC_MTLS_INTER_SHARD.md)
+
+---
+
+### themisdb.proto
+
+Client-facing gRPC API service for ThemisDB.  Mirrors the REST API surface
+and covers document CRUD, AQL query execution (including server-side streaming),
+and vector search operations.
+
+**Services:**
+- `ThemisDBService` - Main client-facing API service
+
+**Key Methods:**
+- `CreateDocument / GetDocument / UpdateDocument / DeleteDocument` – document CRUD (mirrors `/entities` REST routes)
+- `BatchWrite / BatchRead` – bulk document operations
+- `ExecuteAQL` – AQL query, returns all rows in one response
+- `StreamAQL` – AQL query with server-side streaming of result rows
+- `VectorSearch` – k-NN vector similarity search (mirrors `/vector/search`)
+- `FilteredVectorSearch` – k-NN with attribute pre-filter
+- `HybridSearch` – dense + sparse hybrid search
+- `FullTextSearch` – BM25 full-text search
+- `HealthCheck` – liveness / readiness probe
+
+**Usage:** See [gRPC API Surface Future Enhancements](../src/api/FUTURE_ENHANCEMENTS.md)
 
 ---
 

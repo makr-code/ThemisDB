@@ -1,3 +1,28 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            video_processor.h                                  ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:06:53                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     124                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 374b05b6a  2026-02-28  Implement video frame extraction and scene detection (key... ║
+    • 42d597244  2026-02-26  fix(content): wire up extract_keyframes option and update... ║
+    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file video_processor.h
  * @brief Video Content Processor Plugin (FFmpeg-based)
@@ -14,6 +39,14 @@
 #include <chrono>
 #include <mutex>
 #include <atomic>
+
+// FFmpeg forward declarations to avoid header pollution
+#ifdef THEMIS_HAS_FFMPEG
+struct AVFormatContext;
+struct AVCodecContext;
+struct AVFrame;
+struct SwsContext;
+#endif
 
 namespace themis {
 namespace content {
@@ -61,6 +94,7 @@ private:
     int max_keyframes_ = 10;
     bool extract_subtitles_ = true;
     bool enable_scene_detection_ = false;
+    double scene_detection_threshold_ = 0.4;
     
     // Statistics
     mutable std::mutex stats_mutex_;
@@ -75,6 +109,15 @@ private:
     std::vector<uint8_t> generateThumbnail(const std::vector<uint8_t>& blob);
     std::string extractSubtitles(const std::vector<uint8_t>& blob);
     std::vector<int64_t> detectScenes(const std::vector<uint8_t>& blob);
+    std::vector<int64_t> extractKeyframes(const std::vector<uint8_t>& blob);
+    
+#ifdef THEMIS_HAS_FFMPEG
+    // FFmpeg-specific helper methods
+    MediaExtractionData extractMetadataFFmpeg(const std::vector<uint8_t>& blob);
+    std::vector<uint8_t> generateThumbnailFFmpeg(const std::vector<uint8_t>& blob);
+    std::vector<int64_t> extractKeyframesFFmpeg(const std::vector<uint8_t>& blob);
+    std::vector<int64_t> detectScenesFFmpeg(const std::vector<uint8_t>& blob);
+#endif
 };
 
 } // namespace content

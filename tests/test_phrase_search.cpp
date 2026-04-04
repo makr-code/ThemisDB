@@ -1,3 +1,25 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_phrase_search.cpp                             ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:31:02                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     111                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // Test: Phrase search via quoted queries in fulltext
 
 #include <gtest/gtest.h>
@@ -53,14 +75,14 @@ TEST_F(PhraseSearchTest, ExactPhraseFiltersCandidates) {
     // Unquoted: both tokens present in both docs -> two results
     {
         auto [status, results] = idx_->scanFulltext("docs", "text", "machine learning");
-        ASSERT_TRUE(status.ok);
+        ASSERT_TRUE(status.ok) << status.message;
         ASSERT_EQ(results.size(), 2u);
     }
 
     // Quoted phrase should match only d1
     {
         auto [status, results] = idx_->scanFulltext("docs", "text", "\"machine learning\"");
-        ASSERT_TRUE(status.ok);
+        ASSERT_TRUE(status.ok) << status.message;
         ASSERT_EQ(results.size(), 1u);
         EXPECT_EQ(results[0], "a");
     }
@@ -82,7 +104,7 @@ TEST_F(PhraseSearchTest, PhraseWithUmlautNormalization) {
     // Phrase without umlaut should match with normalization enabled
     {
         auto [status, results] = idx_->scanFulltext("docs", "text", "\"er lauft\"");
-        ASSERT_TRUE(status.ok);
+        ASSERT_TRUE(status.ok) << status.message;
         ASSERT_EQ(results.size(), 1u);
         EXPECT_EQ(results[0], "x");
     }

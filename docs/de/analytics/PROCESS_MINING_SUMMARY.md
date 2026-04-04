@@ -582,6 +582,7 @@ FOR case IN bauantraege
 - [Research & Roadmap](./PROCESS_MINING_RESEARCH_AND_ROADMAP.md)
 - [AQL Examples](./PROCESS_MINING_AQL_EXAMPLES.md)
 - [Process Mining Guide](./process_mining_guide.md)
+- [Future Enhancements](./bpmn_future_enhancements.md)
 
 ### Code
 - [ProcessPatternMatcher API](../../include/analytics/process_pattern_matcher.h)

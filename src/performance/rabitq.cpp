@@ -1,8 +1,33 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            rabitq.cpp                                         ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:18:01                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     383                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • c8788a8c7  2026-03-09  fix(performance): implement ProductQuantizer k-means trai... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "performance/rabitq.h"
 #include <algorithm>
 #include <cmath>
+#include <limits>
 #include <numeric>
 #include <queue>
+#include <random>
 #include <stdexcept>
 
 namespace themis {
@@ -211,14 +236,146 @@ std::vector<std::vector<float>> ProductQuantizer::split_vector(const std::vector
 }
 
 void ProductQuantizer::train(const std::vector<std::vector<float>>& training_data) {
-    // Simplified: would do k-means clustering per subvector
+    if (training_data.empty()) {
+        return;
+    }
+
+    // Standard PQ uses 256 centroids (8-bit codes) per subquantizer.
+    // Cap at the number of available training samples.
+    const size_t k = std::min(static_cast<size_t>(256), training_data.size());
+
     codebooks_.resize(num_subvectors_);
+
+    for (size_t sq = 0; sq < num_subvectors_; ++sq) {
+        const size_t start_dim = sq * subvector_dimension_;
+
+        // --- Extract subvectors for this subquantizer ---
+        std::vector<std::vector<float>> subvec_data;
+        subvec_data.reserve(training_data.size());
+        for (const auto& vec : training_data) {
+            subvec_data.emplace_back(vec.begin() + start_dim,
+                                     vec.begin() + start_dim + subvector_dimension_);
+        }
+
+        const size_t n = subvec_data.size();
+
+        // --- k-means++ initialisation ---
+        std::mt19937 rng(static_cast<uint32_t>(sq * 1337u + 42u));
+        std::uniform_int_distribution<size_t> uniform(0, n - 1);
+
+        std::vector<std::vector<float>> centroids;
+        centroids.reserve(k);
+        centroids.push_back(subvec_data[uniform(rng)]);
+
+        for (size_t ci = 1; ci < k; ++ci) {
+            // For each sample compute D^2 distance to the nearest existing centroid.
+            std::vector<float> d2(n);
+            for (size_t i = 0; i < n; ++i) {
+                float min_d2 = std::numeric_limits<float>::max();
+                for (const auto& c : centroids) {
+                    float d = 0.0f;
+                    for (size_t dim = 0; dim < subvector_dimension_; ++dim) {
+                        float diff = subvec_data[i][dim] - c[dim];
+                        d += diff * diff;
+                    }
+                    min_d2 = std::min(min_d2, d);
+                }
+                d2[i] = min_d2;
+            }
+            std::discrete_distribution<size_t> weighted(d2.begin(), d2.end());
+            centroids.push_back(subvec_data[weighted(rng)]);
+        }
+
+        // --- k-means Lloyd iterations (max 25) ---
+        std::vector<size_t> assignments(n, 0);
+        constexpr int MAX_ITER = 25;
+
+        for (int iter = 0; iter < MAX_ITER; ++iter) {
+            // Assignment step
+            for (size_t i = 0; i < n; ++i) {
+                float min_dist = std::numeric_limits<float>::max();
+                size_t best = 0;
+                for (size_t ci = 0; ci < k; ++ci) {
+                    float dist = 0.0f;
+                    for (size_t dim = 0; dim < subvector_dimension_; ++dim) {
+                        float diff = subvec_data[i][dim] - centroids[ci][dim];
+                        dist += diff * diff;
+                    }
+                    if (dist < min_dist) {
+                        min_dist = dist;
+                        best = ci;
+                    }
+                }
+                assignments[i] = best;
+            }
+
+            // Update step: compute new centroid means
+            std::vector<std::vector<float>> new_centroids(
+                k, std::vector<float>(subvector_dimension_, 0.0f));
+            std::vector<size_t> counts(k, 0);
+
+            for (size_t i = 0; i < n; ++i) {
+                size_t cluster = assignments[i];
+                ++counts[cluster];
+                for (size_t dim = 0; dim < subvector_dimension_; ++dim) {
+                    new_centroids[cluster][dim] += subvec_data[i][dim];
+                }
+            }
+
+            float max_shift = 0.0f;
+            for (size_t ci = 0; ci < k; ++ci) {
+                if (counts[ci] > 0) {
+                    float shift = 0.0f;
+                    for (size_t dim = 0; dim < subvector_dimension_; ++dim) {
+                        new_centroids[ci][dim] /= static_cast<float>(counts[ci]);
+                        float d = new_centroids[ci][dim] - centroids[ci][dim];
+                        shift += d * d;
+                    }
+                    max_shift = std::max(max_shift, shift);
+                } else {
+                    // Empty cluster: reinitialize to a random sample
+                    new_centroids[ci] = subvec_data[uniform(rng)];
+                }
+            }
+
+            centroids = std::move(new_centroids);
+
+            // Convergence: centroid shift < 1e-6 (sum of squared component deltas)
+            if (max_shift < 1e-6f) {
+                break;
+            }
+        }
+
+        codebooks_[sq] = std::move(centroids);
+    }
 }
 
 std::vector<uint8_t> ProductQuantizer::encode(const std::vector<float>& vec) const {
     auto subvectors = split_vector(vec);
     std::vector<uint8_t> codes(num_subvectors_);
-    // Would assign nearest centroid index per subvector
+
+    for (size_t sq = 0; sq < num_subvectors_; ++sq) {
+        const auto& subvec = subvectors[sq];
+        const auto& codebook = codebooks_[sq];
+
+        float min_dist = std::numeric_limits<float>::max();
+        uint8_t best = 0;
+
+        for (size_t ci = 0; ci < codebook.size(); ++ci) {
+            float dist = 0.0f;
+            for (size_t dim = 0; dim < subvector_dimension_; ++dim) {
+                float diff = subvec[dim] - codebook[ci][dim];
+                dist += diff * diff;
+            }
+            if (dist < min_dist) {
+                min_dist = dist;
+                best = static_cast<uint8_t>(ci);
+            }
+        }
+
+        codes[sq] = best;
+    }
+
     return codes;
 }
 

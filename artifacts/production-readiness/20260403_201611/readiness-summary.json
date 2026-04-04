@@ -1,0 +1,57 @@
+{
+  "generated_at": "2026-04-03T20:19:18.3799214+02:00",
+  "build_preset": "msvc-ninja-release",
+  "repeat_count": 20,
+  "output_dir": "C:\\VCC\\themis\\artifacts\\production-readiness\\20260403_201611",
+  "gates": [
+    {
+      "name": "openapi-completeness-local",
+      "passed": true,
+      "details": "All source route hints in src/server are documented in openapi/openapi.yaml",
+      "evidence": "C:\\VCC\\themis\\artifacts\\production-readiness\\20260403_201611\\openapi-completeness.json"
+    },
+    {
+      "name": "content-focused-local",
+      "passed": false,
+      "details": "Skipped by user",
+      "evidence": ""
+    },
+    {
+      "name": "content-processor-coverage-local",
+      "passed": true,
+      "details": "Processor coverage=92,31% (12/13); threshold=80,00%",
+      "evidence": "C:\\VCC\\themis\\artifacts\\production-readiness\\20260403_201611\\content_processor_coverage.json"
+    },
+    {
+      "name": "content-benchmark-local",
+      "passed": true,
+      "details": "bench_content_versioning count=18 (min=18); bench_text_extraction count=20 (min=20); bench_content_processor_paths count=12 (min=12); VersionCreation1MiB=13,971ms<= 50,000ms; Diff1MiB=15,613ms<= 50,000ms; Retrieval=0,368us<= 5,000us; PDF1MiB=2,626ms<= 500,000ms; DOCX1MiB=4,968ms<= 500,000ms; HTML1MiB=82,044ms<= 500,000ms; Plain1MiB=0,321ms<= 500,000ms; OfficePath1MiB=1,319ms<= 750,000ms; OcrPath1MiB=0,689ms<= 750,000ms; ArchivePath1MiB=0,000ms<= 750,000ms",
+      "evidence": "C:\\VCC\\themis\\artifacts\\production-readiness\\20260403_201611\\content_bench_processor_paths.json"
+    },
+    {
+      "name": "cluster-chaos-local",
+      "passed": false,
+      "details": "Skipped by user",
+      "evidence": ""
+    },
+    {
+      "name": "sla-99.99-local-proxy",
+      "passed": false,
+      "details": "Skipped by user",
+      "evidence": ""
+    },
+    {
+      "name": "pentest-report-local",
+      "passed": false,
+      "details": "Skipped by user",
+      "evidence": ""
+    },
+    {
+      "name": "beta-module-exit",
+      "passed": true,
+      "details": "6 beta modules accepted via -AllowBetaModules",
+      "evidence": "C:\\VCC\\themis\\artifacts\\production-readiness\\20260403_201611\\beta_modules.txt"
+    }
+  ],
+  "failed_gate_count": 4
+}

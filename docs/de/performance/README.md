@@ -1,17 +1,33 @@
 # Performance Documentation
 
-**Stand:** 22. Dezember 2025  
-**Version:** v1.3.0  
+<!-- status: current | validated: 2026-03-10 -->
+<!-- Links: Primary → ../../../../src/performance/README.md | Architektur → ../../../../src/performance/ARCHITECTURE.md | Roadmap → ../../../../src/performance/ROADMAP.md -->
+
+**Stand:** 9. März 2026  
+**Version:** v1.4.0  
 **Kategorie:** ⚡ Performance
 
 ---
 
 ## 📑 Inhaltsverzeichnis
 
+- [Primäre Dokumentation](#primäre-dokumentation)
 - [Übersicht](#übersicht)
 - [Benchmark-Ergebnisse](#benchmark-ergebnisse-v100)
 - [Hardware-Referenz](#hardware-referenz)
 - [Dokumentation](#dokumentation-in-diesem-ordner)
+
+## Primäre Dokumentation
+
+> Die maßgebliche Implementierungsdokumentation liegt in `src/performance/` und `include/performance/`.
+
+| Datei (Primary) | Inhalt |
+|-----------------|--------|
+| [`src/performance/README.md`](../../../../src/performance/README.md) | Modulübersicht, APIs, Build-Flags, Komponenten |
+| [`src/performance/ARCHITECTURE.md`](../../../../src/performance/ARCHITECTURE.md) | Architektur, Komponenten-Diagramm, Datenfluss |
+| [`src/performance/ROADMAP.md`](../../../../src/performance/ROADMAP.md) | Implementierungsphasen, verifizierte [x]-Items |
+| [`src/performance/FUTURE_ENHANCEMENTS.md`](../../../../src/performance/FUTURE_ENHANCEMENTS.md) | Geplante Erweiterungen + Forschungsquellen |
+| [`include/performance/README.md`](../../../../include/performance/README.md) | Public-Header-Übersicht |
 
 ## Übersicht
 
@@ -67,3 +83,10 @@ Performance-Benchmarks und Optimierungs-Strategien für ThemisDB.
 - [🔬 Research Documentation](../research/README.md) - Wissenschaftliche Erkenntnisse
 - [Enterprise Features](../enterprise/README.md) - Enterprise Scalability
 - [Storage Module](../storage/README.md) - Storage Performance
+
+## 🔍 Reality-Check Report
+
+| Datei | Beschreibung |
+|-------|--------------|
+| [missing-implementations.md](missing-implementations.md) | Fehlende Implementierungen — Reality-Check-Ergebnis (Issue #3525) |
+| [missing-implementations.json](missing-implementations.json) | Machine-readable Findings |

@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            geo_index_hooks.h                                  ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:05:33                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     112                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include "storage/rocksdb_wrapper.h"
@@ -51,6 +74,22 @@ public:
         const std::string& table,
         const std::string& pk,
         const std::vector<uint8_t>& blob
+    );
+
+    /// Atomic entity DELETE with spatial index update (Phase 2)
+    /// Uses WriteBatch to ensure entity delete and spatial index update are atomic
+    /// @param batch RocksDB WriteBatch for atomic operations
+    /// @param spatial_mgr Spatial index manager
+    /// @param table Table name
+    /// @param pk Primary key
+    /// @param old_blob Previous entity blob (for computing sidecar)
+    /// @return true if spatial entry was removed, false otherwise
+    static bool onEntityDeleteAtomic(
+        RocksDBWrapper::WriteBatchWrapper& batch,
+        index::SpatialIndexManager* spatial_mgr,
+        const std::string& table,
+        const std::string& pk,
+        const std::vector<uint8_t>& old_blob
     );
 
     /// Hook called before entity DELETE (non-atomic)

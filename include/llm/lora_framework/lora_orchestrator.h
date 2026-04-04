@@ -1,8 +1,31 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            lora_orchestrator.h                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:08:30                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     490                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
-#include "llm/lora_framework/lora_adapter_manager.h"
 #include "llm/lora_framework/lora_storage_service.h"
 #include "llm/lora_framework/lora_training_service.h"
+#include "llm/lora_framework/lora_provenance.h"
+#include "llm/lora_framework/adapter_consistency_checker.h"
 #include "llm/multi_lora_manager.h"
 #include <memory>
 #include <string>
@@ -106,7 +129,7 @@ public:
      */
     struct Config {
         // Adapter manager config
-        LoRAAdapterManager::Config adapter_config;
+        MultiLoRAManager::Config adapter_config;
         
         // Storage config
         LoRAStorageService::Config storage_config;
@@ -125,7 +148,8 @@ public:
         bool use_multi_lora_manager = true;  // Use advanced features when available
     };
     
-    explicit LoRAOrchestrator(const Config& config = Config{});
+    explicit LoRAOrchestrator(const Config& config);
+    explicit LoRAOrchestrator();
     ~LoRAOrchestrator();
     
     // Disable copy
@@ -383,7 +407,7 @@ public:
      * @brief Perform health check
      * @return true if healthy
      */
-    bool healthCheck();
+    bool healthCheck() const;
     
     /**
      * @brief Clear cache
@@ -405,6 +429,56 @@ public:
      * @param enable Enable advanced features
      */
     void enableAdvancedFeatures(bool enable);
+    
+    // ═══════════════════════════════════════════════════════════
+    // Component Access (for cross-shard sync)
+    // ═══════════════════════════════════════════════════════════
+    
+    /**
+     * @brief Get storage service instance
+     * @return Shared pointer to storage service
+     */
+    std::shared_ptr<LoRAStorageService> getStorageService() const;
+    
+    /**
+     * @brief Get consistency checker instance
+     * @return Shared pointer to consistency checker
+     */
+    std::shared_ptr<AdapterConsistencyChecker> getConsistencyChecker() const;
+
+    // ═══════════════════════════════════════════════════════════
+    // Provenance, Snapshots, and Audit Log
+    // ═══════════════════════════════════════════════════════════
+
+    /// Attach a cryptographic provenance record to an adapter.
+    /// Returns false if the adapter is not registered.
+    bool attachProvenance(const std::string& adapter_id,
+                          const LoRAProvenanceRecord& record);
+
+    /// Retrieve the provenance record for an adapter.
+    std::optional<LoRAProvenanceRecord> getProvenanceRecord(
+        const std::string& adapter_id) const;
+
+    /// Create an MVCC snapshot of the adapter's current state.
+    AdapterSnapshot createAdapterSnapshot(const std::string& adapter_id,
+                                          const std::string& version,
+                                          const std::string& weights_hash);
+
+    /// List all snapshots for an adapter (oldest first).
+    std::vector<AdapterSnapshot> listAdapterSnapshots(
+        const std::string& adapter_id) const;
+
+    /// Append an inference audit entry to the adapter's Merkle chain.
+    InferenceAuditEntry recordInferenceAudit(const std::string& adapter_id,
+                                              InferenceAuditEntry entry);
+
+    /// Retrieve the full Merkle-chained inference audit log.
+    std::vector<InferenceAuditEntry> getInferenceAuditLog(
+        const std::string& adapter_id) const;
+
+    /// Verify the Merkle audit chain integrity.
+    /// Returns true when the chain is intact; false when tampered or corrupt.
+    bool verifyAuditChain(const std::string& adapter_id) const;
 
 private:
     class Impl;

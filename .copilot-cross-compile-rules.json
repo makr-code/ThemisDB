@@ -1,0 +1,263 @@
+{
+  "name": "Cross-Compile Validation Rules for ThemisDB",
+  "version": "1.0.0",
+  "description": "Automated code review rules to ensure all code is cross-compile compatible",
+  "target_platforms": ["Windows (x86_64)", "Linux (x86_64, ARM64, ARMv7)", "macOS"],
+  "target_compilers": ["MSVC", "Clang", "GCC"],
+
+  "rules": {
+    "RULE_1_forbidden_headers": {
+      "name": "Forbidden Platform-Specific Headers",
+      "severity": "CRITICAL",
+      "trigger": "new_includes",
+      "forbidden": [
+        "windows.h",
+        "winbase.h",
+        "wininet.h",
+        "winsock.h",
+        "winsock2.h",
+        "unistd.h",
+        "sys/socket.h",
+        "sys/select.h",
+        "netinet/in.h",
+        "arpa/inet.h",
+        "pthread.h",
+        "semaphore.h",
+        "mqueue.h",
+        "fcntl.h",
+        "termios.h",
+        "CoreFoundation/CoreFoundation.h",
+        "Cocoa/Cocoa.h",
+        "Security/Security.h",
+        "X11/Xlib.h",
+        "X11/Xutil.h",
+        "GL/glx.h",
+        "dlfcn.h"
+      ],
+      "error_message": "Platform-spezifischer Header nicht erlaubt",
+      "suggestion_template": "Nutze stattdessen: [vcpkg-package]",
+      "reference": "CROSS_COMPILE_REQUIREMENTS.md#erlaubt"
+    },
+
+    "RULE_2_allowed_headers": {
+      "name": "Whitelist of Cross-Compile Safe Headers",
+      "severity": "INFO",
+      "trigger": "new_includes",
+      "allowed_prefixes": [
+        "c",
+        "std/",
+        "boost/",
+        "fmt/",
+        "spdlog/",
+        "sqlite3.h",
+        "rocksdb/",
+        "openssl/",
+        "grpcpp/",
+        "nlohmann/",
+        "protobuf",
+        "zstd.h",
+        "yaml-cpp/"
+      ]
+    },
+
+    "RULE_3_conditional_compilation": {
+      "name": "Platform Conditionals Must Have Fallback",
+      "severity": "CRITICAL",
+      "trigger": ["#ifdef _WIN32", "#ifdef __linux__", "#ifdef __APPLE__", "#ifdef _MSC_VER"],
+      "required": "complete_else_block",
+      "error_message": "Fehlender #else Block - wird andere Plattformen nicht kompilieren",
+      "valid_pattern": "#ifdef CONDITION\n  // code\n#else\n  // fallback\n#endif",
+      "invalid_pattern": "#ifdef CONDITION\n  // code\n#endif\n// No fallback!"
+    },
+
+    "RULE_4_hardcoded_paths": {
+      "name": "No Hardcoded Absolute Paths",
+      "severity": "CRITICAL",
+      "trigger": "string_literals",
+      "forbidden_patterns": [
+        "^C:\\\\",
+        "^/var/",
+        "^/opt/",
+        "^/usr/",
+        "^~",
+        "^%APPDATA%",
+        "^%PROGRAMFILES%",
+        "^/home/",
+        "^/root/",
+        "^\\.\\./\\.\\."
+      ],
+      "error_message": "Hartcodierte Pfade nicht cross-compile-fähig",
+      "suggestion": "Nutze std::filesystem::path und Umgebungsvariablen",
+      "example": "fs::path config_dir = fs::path(std::getenv(\"HOME\")) / \".themis\" / \"config\""
+    },
+
+    "RULE_5_forbidden_os_apis": {
+      "name": "Forbidden OS-Specific API Calls",
+      "severity": "CRITICAL",
+      "trigger": "function_calls",
+      "forbidden_windows": [
+        "GetFileSize",
+        "CreateFileA",
+        "CreateFileW",
+        "CreateThread",
+        "CreateProcess",
+        "SetEnvironmentVariable",
+        "GetEnvironmentVariable",
+        "RegOpenKeyEx",
+        "RegQueryValueEx",
+        "ShellExecute",
+        "CoInitialize",
+        "CoUninitialize",
+        "LoadLibrary",
+        "GetProcAddress",
+        "SetConsoleCP",
+        "GetConsoleMode"
+      ],
+      "forbidden_linux_unix": [
+        "fork",
+        "exec",
+        "mmap",
+        "munmap",
+        "dlopen",
+        "dlsym",
+        "pthread_create",
+        "pthread_join",
+        "pthread_mutex_init",
+        "sem_init",
+        "msgget",
+        "shmat",
+        "ioctl"
+      ],
+      "forbidden_macos": [
+        "FSEventStreamCreate",
+        "FSEventStreamStart",
+        "Gestalt",
+        "kCFCoreFoundationVersionNumber",
+        "SecKeychainItemCopyContent"
+      ],
+      "error_message": "OS-spezifische API nicht cross-compile-fähig",
+      "replacement_suggestions": {
+        "CreateThread": "std::thread",
+        "GetEnvironmentVariable": "std::getenv",
+        "mmap": "boost::interprocess",
+        "dlopen": "boost::dll",
+        "fork": "std::thread + subprocess library"
+      }
+    },
+
+    "RULE_6_compiler_pragmas": {
+      "name": "Compiler Pragmas Must Have Fallback",
+      "severity": "HIGH",
+      "trigger": ["#pragma warning", "#pragma GCC", "#pragma clang"],
+      "patterns": {
+        "msvc_only": {
+          "pattern": "#pragma warning\\(disable:",
+          "error": "MSVC-Only Pragma ohne GCC/Clang equivalent",
+          "fix_template": "#ifdef _MSC_VER\n    #pragma warning(disable: XXXX)\n#else\n    #pragma GCC diagnostic ignored \"-Wflag\"\n#endif"
+        },
+        "gcc_only": {
+          "pattern": "#pragma GCC diagnostic",
+          "error": "GCC-Only Pragma ohne MSVC equivalent",
+          "fix_template": "#ifdef _MSC_VER\n    #pragma warning(disable: XXXX)\n#else\n    #pragma GCC diagnostic ignored \"-Wflag\"\n#endif"
+        },
+        "clang_only": {
+          "pattern": "#pragma clang diagnostic",
+          "error": "Clang-Only Pragma ohne Fallback",
+          "fix_template": "#if defined(__clang__)\n    #pragma clang diagnostic ignored \"-Wflag\"\n#endif"
+        }
+      }
+    },
+
+    "RULE_7_memory_layout": {
+      "name": "No Architecture-Specific Memory Assumptions",
+      "severity": "HIGH",
+      "trigger": ["reinterpret_cast", "sizeof", "bitfield", "union"],
+      "forbidden_patterns": [
+        "reinterpret_cast<uintptr_t>.*&",
+        "sizeof\\(void\\*\\)\\s*==\\s*8",
+        "sizeof\\(int\\)\\s*[!=]=\\s*4",
+        "{\\s*:\\s*\\d+\\s*}"
+      ],
+      "error_message": "Pointer/Größen-Annahmen funktionieren nicht auf ARM",
+      "suggestion": "Nutze static_assert(sizeof(T) == N) für Validierung"
+    },
+
+    "RULE_8_external_dependencies": {
+      "name": "All External Libraries Must Be in vcpkg",
+      "severity": "CRITICAL",
+      "trigger": "target_link_libraries",
+      "required_file": "vcpkg.json",
+      "error_message": "Externe Library nicht in vcpkg.json registriert",
+      "suggestion": "Füge zu vcpkg.json hinzu oder nutze vcpkg-Paket"
+    },
+
+    "RULE_9_cmake_conditionals": {
+      "name": "CMake Must Handle All Platforms",
+      "severity": "HIGH",
+      "trigger": "if\\(WIN32\\)",
+      "required": "elseif_else_chain",
+      "valid_pattern": "if(WIN32)\n  ...\nelseif(APPLE)\n  ...\nelse()\n  ...\nendif()",
+      "error_message": "CMake Conditional behandelt nicht alle Plattformen"
+    }
+  },
+
+  "violations": {
+    "AUTOMATIC_REJECT": [
+      "RULE_1_forbidden_headers",
+      "RULE_3_conditional_compilation (missing else)",
+      "RULE_4_hardcoded_paths",
+      "RULE_5_forbidden_os_apis",
+      "RULE_8_external_dependencies"
+    ],
+    "AUTOMATIC_WARNING": [
+      "RULE_6_compiler_pragmas",
+      "RULE_7_memory_layout",
+      "RULE_9_cmake_conditionals"
+    ]
+  },
+
+  "approval_criteria": {
+    "all_rules_passed": true,
+    "no_critical_violations": true,
+    "warnings_acknowledged": "optional",
+    "checklist_completed": "if_user_provided"
+  },
+
+  "integration": {
+    "github_actions": {
+      "workflow_file": ".github/workflows/cross-compile-review.yml",
+      "triggers": ["pull_request"],
+      "script": "scripts/cross-compile-reviewer.py"
+    },
+    "pre_commit_hook": {
+      "path": ".git/hooks/pre-commit",
+      "description": "Validate changes before commit"
+    },
+    "vscode_copilot": {
+      "setting": "copilot.inlineChat.systemPrompt",
+      "file": ".copilot-cross-compile-prompt.md"
+    }
+  },
+
+  "statistics": {
+    "tracking": {
+      "total_prs_reviewed": 0,
+      "violations_by_rule": {},
+      "violations_by_file": {},
+      "approval_rate": "0%",
+      "most_common_violation": null
+    },
+    "reporting": {
+      "enabled": true,
+      "output_file": "cross-compile-violations.json",
+      "update_frequency": "per_pr"
+    }
+  },
+
+  "metadata": {
+    "created": "2026-01-15",
+    "last_updated": "2026-01-15",
+    "maintainer": "ThemisDB Team",
+    "documentation": "CROSS_COMPILE_REQUIREMENTS.md"
+  }
+}

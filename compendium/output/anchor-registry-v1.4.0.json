@@ -1,0 +1,2912 @@
+{
+  "version": "v1.4.0",
+  "generated": "2026-01-13T14:39:37.743438",
+  "total_anchors": 322,
+  "by_type": {
+    "chapter": 53,
+    "figure": 112,
+    "part": 11,
+    "reference": 48,
+    "table": 98
+  },
+  "elements": [
+    {
+      "id": "appendix_literatur",
+      "title": "Anhang A - Literatur",
+      "type": "chapter",
+      "source_file": "appendix_literatur",
+      "page": 0,
+      "parent": "part-11",
+      "timestamp": "2026-01-13T14:39:37.637963"
+    },
+    {
+      "id": "appendix_d_feature_status",
+      "title": "Anhang D - Feature Status",
+      "type": "chapter",
+      "source_file": "appendix_d_feature_status",
+      "page": 0,
+      "parent": "part-11",
+      "timestamp": "2026-01-13T14:39:37.655249"
+    },
+    {
+      "id": "appendix_e_incident_runbooks",
+      "title": "Anhang E - Incident Response Runbooks",
+      "type": "chapter",
+      "source_file": "appendix_e_incident_runbooks",
+      "page": 0,
+      "parent": "part-11",
+      "timestamp": "2026-01-13T14:39:37.667894"
+    },
+    {
+      "id": "appendix_f_aql_cheatsheet",
+      "title": "Anhang F - AQL Cheat Sheet",
+      "type": "chapter",
+      "source_file": "appendix_f_aql_cheatsheet",
+      "page": 0,
+      "parent": "part-11",
+      "timestamp": "2026-01-13T14:39:37.683453"
+    },
+    {
+      "id": "appendix_g_configuration",
+      "title": "Anhang G - Configuration Reference",
+      "type": "chapter",
+      "source_file": "appendix_g_configuration",
+      "page": 0,
+      "parent": "part-11",
+      "timestamp": "2026-01-13T14:39:37.694407"
+    },
+    {
+      "id": "appendix_h_glossary",
+      "title": "Anhang H - Glossary & Terminology",
+      "type": "chapter",
+      "source_file": "appendix_h_glossary",
+      "page": 0,
+      "parent": "part-11",
+      "timestamp": "2026-01-13T14:39:37.713365"
+    },
+    {
+      "id": "appendix_i_troubleshooting",
+      "title": "Anhang I - Troubleshooting Guide",
+      "type": "chapter",
+      "source_file": "appendix_i_troubleshooting",
+      "page": 0,
+      "parent": "part-11",
+      "timestamp": "2026-01-13T14:39:37.728055"
+    },
+    {
+      "id": "chapter_00_genesis",
+      "title": "Kapitel 0 - Genesis",
+      "type": "chapter",
+      "source_file": "chapter_00_genesis",
+      "page": 0,
+      "parent": "part-1",
+      "timestamp": "2026-01-13T14:39:36.787754"
+    },
+    {
+      "id": "chapter_01_introduction",
+      "title": "Kapitel 1 - Einführung",
+      "type": "chapter",
+      "source_file": "chapter_01_introduction",
+      "page": 0,
+      "parent": "part-1",
+      "timestamp": "2026-01-13T14:39:36.814007"
+    },
+    {
+      "id": "chapter_10_enterprise",
+      "title": "Kapitel 10 - Enterprise",
+      "type": "chapter",
+      "source_file": "chapter_10_enterprise",
+      "page": 0,
+      "parent": "part-3",
+      "timestamp": "2026-01-13T14:39:37.075712"
+    },
+    {
+      "id": "chapter_11_realtime",
+      "title": "Kapitel 11 - Realtime",
+      "type": "chapter",
+      "source_file": "chapter_11_realtime",
+      "page": 0,
+      "parent": "part-3",
+      "timestamp": "2026-01-13T14:39:37.097582"
+    },
+    {
+      "id": "chapter_12_computervision",
+      "title": "Kapitel 12 - Computer Vision",
+      "type": "chapter",
+      "source_file": "chapter_12_computervision",
+      "page": 0,
+      "parent": "part-3",
+      "timestamp": "2026-01-13T14:39:37.112022"
+    },
+    {
+      "id": "chapter_13_fulltext",
+      "title": "Kapitel 13 - Volltext-Suche",
+      "type": "chapter",
+      "source_file": "chapter_13_fulltext",
+      "page": 0,
+      "parent": "part-4",
+      "timestamp": "2026-01-13T14:39:37.130085"
+    },
+    {
+      "id": "chapter_14_geospatial",
+      "title": "Kapitel 14 - Geo-Spatial Features",
+      "type": "chapter",
+      "source_file": "chapter_14_geospatial",
+      "page": 0,
+      "parent": "part-4",
+      "timestamp": "2026-01-13T14:39:37.145969"
+    },
+    {
+      "id": "chapter_15_analytics",
+      "title": "Kapitel 15 - Analytics",
+      "type": "chapter",
+      "source_file": "chapter_15_analytics",
+      "page": 0,
+      "parent": "part-4",
+      "timestamp": "2026-01-13T14:39:37.163264"
+    },
+    {
+      "id": "chapter_16_sharding",
+      "title": "Kapitel 16 - Sharding",
+      "type": "chapter",
+      "source_file": "chapter_16_sharding",
+      "page": 0,
+      "parent": "part-4",
+      "timestamp": "2026-01-13T14:39:37.191056"
+    },
+    {
+      "id": "chapter_17_llm_integration",
+      "title": "Kapitel 17 - LLM Integration",
+      "type": "chapter",
+      "source_file": "chapter_17_llm_integration",
+      "page": 0,
+      "parent": "part-5",
+      "timestamp": "2026-01-13T14:39:37.240262"
+    },
+    {
+      "id": "chapter_18_ml",
+      "title": "Kapitel 18 - Machine Learning",
+      "type": "chapter",
+      "source_file": "chapter_18_ml",
+      "page": 0,
+      "parent": "part-5",
+      "timestamp": "2026-01-13T14:39:37.257377"
+    },
+    {
+      "id": "chapter_19_monitoring",
+      "title": "Kapitel 19 - Monitoring",
+      "type": "chapter",
+      "source_file": "chapter_19_monitoring",
+      "page": 0,
+      "parent": "part-6",
+      "timestamp": "2026-01-13T14:39:37.270958"
+    },
+    {
+      "id": "chapter_19_monitoring_observability",
+      "title": "Kapitel 19b - Observability",
+      "type": "chapter",
+      "source_file": "chapter_19_monitoring_observability",
+      "page": 0,
+      "parent": "part-6",
+      "timestamp": "2026-01-13T14:39:37.303928"
+    },
+    {
+      "id": "chapter_02_architecture",
+      "title": "Kapitel 2 - Architektur",
+      "type": "chapter",
+      "source_file": "chapter_02_architecture",
+      "page": 0,
+      "parent": "part-1",
+      "timestamp": "2026-01-13T14:39:36.862956"
+    },
+    {
+      "id": "chapter_20_backup",
+      "title": "Kapitel 20 - Backup",
+      "type": "chapter",
+      "source_file": "chapter_20_backup",
+      "page": 0,
+      "parent": "part-6",
+      "timestamp": "2026-01-13T14:39:37.317727"
+    },
+    {
+      "id": "chapter_21_performance",
+      "title": "Kapitel 21 - Performance",
+      "type": "chapter",
+      "source_file": "chapter_21_performance",
+      "page": 0,
+      "parent": "part-6",
+      "timestamp": "2026-01-13T14:39:37.344398"
+    },
+    {
+      "id": "chapter_22_clients",
+      "title": "Kapitel 22 - Clients",
+      "type": "chapter",
+      "source_file": "chapter_22_clients",
+      "page": 0,
+      "parent": "part-7",
+      "timestamp": "2026-01-13T14:39:37.357391"
+    },
+    {
+      "id": "chapter_23_testing_qa",
+      "title": "Kapitel 23 - Testing & QA",
+      "type": "chapter",
+      "source_file": "chapter_23_testing_qa",
+      "page": 0,
+      "parent": "part-7",
+      "timestamp": "2026-01-13T14:39:37.368275"
+    },
+    {
+      "id": "chapter_24_ai_ethics",
+      "title": "Kapitel 24 - AI Ethics",
+      "type": "chapter",
+      "source_file": "chapter_24_ai_ethics",
+      "page": 0,
+      "parent": "part-7",
+      "timestamp": "2026-01-13T14:39:37.404732"
+    },
+    {
+      "id": "chapter_25_devops_infrastructure",
+      "title": "Kapitel 25 - DevOps & Infrastructure",
+      "type": "chapter",
+      "source_file": "chapter_25_devops_infrastructure",
+      "page": 0,
+      "parent": "part-8",
+      "timestamp": "2026-01-13T14:39:37.413066"
+    },
+    {
+      "id": "chapter_26_migration_legacy",
+      "title": "Kapitel 26 - Migration & Legacy",
+      "type": "chapter",
+      "source_file": "chapter_26_migration_legacy",
+      "page": 0,
+      "parent": "part-8",
+      "timestamp": "2026-01-13T14:39:37.424781"
+    },
+    {
+      "id": "chapter_27_troubleshooting",
+      "title": "Kapitel 27 - Troubleshooting",
+      "type": "chapter",
+      "source_file": "chapter_27_troubleshooting",
+      "page": 0,
+      "parent": "part-8",
+      "timestamp": "2026-01-13T14:39:37.436130"
+    },
+    {
+      "id": "chapter_28_aql_reference",
+      "title": "Kapitel 28 - AQL Referenz",
+      "type": "chapter",
+      "source_file": "chapter_28_aql_reference",
+      "page": 0,
+      "parent": "part-9",
+      "timestamp": "2026-01-13T14:39:37.456557"
+    },
+    {
+      "id": "chapter_29_analytics_process_mining",
+      "title": "Kapitel 29 - Analytics & Process Mining",
+      "type": "chapter",
+      "source_file": "chapter_29_analytics_process_mining",
+      "page": 0,
+      "parent": "part-9",
+      "timestamp": "2026-01-13T14:39:37.475606"
+    },
+    {
+      "id": "chapter_03_multimodel",
+      "title": "Kapitel 3 - Multi-Model",
+      "type": "chapter",
+      "source_file": "chapter_03_multimodel",
+      "page": 0,
+      "parent": "part-1",
+      "timestamp": "2026-01-13T14:39:36.884856"
+    },
+    {
+      "id": "chapter_30_deployment_operations",
+      "title": "Kapitel 30 - Deployment & Operations",
+      "type": "chapter",
+      "source_file": "chapter_30_deployment_operations",
+      "page": 0,
+      "parent": "part-9",
+      "timestamp": "2026-01-13T14:39:37.491399"
+    },
+    {
+      "id": "chapter_31_api_protocols",
+      "title": "Kapitel 31 - API Protokolle",
+      "type": "chapter",
+      "source_file": "chapter_31_api_protocols",
+      "page": 0,
+      "parent": "part-9",
+      "timestamp": "2026-01-13T14:39:37.519010"
+    },
+    {
+      "id": "chapter_32_aql_oop_implementation",
+      "title": "Kapitel 32 - AQL OOP Implementierung",
+      "type": "chapter",
+      "source_file": "chapter_32_aql_oop_implementation",
+      "page": 0,
+      "parent": "part-9",
+      "timestamp": "2026-01-13T14:39:37.536945"
+    },
+    {
+      "id": "chapter_33_best_practices",
+      "title": "Kapitel 33 - Best Practices",
+      "type": "chapter",
+      "source_file": "chapter_33_best_practices",
+      "page": 0,
+      "parent": "part-9",
+      "timestamp": "2026-01-13T14:39:37.553909"
+    },
+    {
+      "id": "chapter_34_query_optimization",
+      "title": "Kapitel 34 - Query Optimierung",
+      "type": "chapter",
+      "source_file": "chapter_34_query_optimization",
+      "page": 0,
+      "parent": "part-10",
+      "timestamp": "2026-01-13T14:39:37.564714"
+    },
+    {
+      "id": "chapter_35_data_modeling_patterns",
+      "title": "Kapitel 35 - Data Modeling Patterns",
+      "type": "chapter",
+      "source_file": "chapter_35_data_modeling_patterns",
+      "page": 0,
+      "parent": "part-10",
+      "timestamp": "2026-01-13T14:39:37.572982"
+    },
+    {
+      "id": "chapter_36_security_hardening",
+      "title": "Kapitel 36 - Security Hardening",
+      "type": "chapter",
+      "source_file": "chapter_36_security_hardening",
+      "page": 0,
+      "parent": "part-10",
+      "timestamp": "2026-01-13T14:39:37.580746"
+    },
+    {
+      "id": "chapter_37_ecosystem_integration",
+      "title": "Kapitel 37 - Ecosystem Integration",
+      "type": "chapter",
+      "source_file": "chapter_37_ecosystem_integration",
+      "page": 0,
+      "parent": "part-10",
+      "timestamp": "2026-01-13T14:39:37.587980"
+    },
+    {
+      "id": "chapter_38_observability_sre",
+      "title": "Kapitel 38 - Observability & SRE",
+      "type": "chapter",
+      "source_file": "chapter_38_observability_sre",
+      "page": 0,
+      "parent": "part-10",
+      "timestamp": "2026-01-13T14:39:37.599132"
+    },
+    {
+      "id": "chapter_39_performance_tuning_cookbook",
+      "title": "Kapitel 39 - Performance Tuning Cookbook",
+      "type": "chapter",
+      "source_file": "chapter_39_performance_tuning_cookbook",
+      "page": 0,
+      "parent": "part-10",
+      "timestamp": "2026-01-13T14:39:37.607738"
+    },
+    {
+      "id": "chapter_04_installation",
+      "title": "Kapitel 4 - Installation",
+      "type": "chapter",
+      "source_file": "chapter_04_installation",
+      "page": 0,
+      "parent": "part-1",
+      "timestamp": "2026-01-13T14:39:36.901052"
+    },
+    {
+      "id": "chapter_40_data_governance_compliance",
+      "title": "Kapitel 40 - Data Governance & Compliance",
+      "type": "chapter",
+      "source_file": "chapter_40_data_governance_compliance",
+      "page": 0,
+      "parent": "part-10",
+      "timestamp": "2026-01-13T14:39:37.615272"
+    },
+    {
+      "id": "chapter_41_hands_on_labs",
+      "title": "Kapitel 41 - Hands-on Labs",
+      "type": "chapter",
+      "source_file": "chapter_41_hands_on_labs",
+      "page": 0,
+      "parent": "part-10",
+      "timestamp": "2026-01-13T14:39:37.623707"
+    },
+    {
+      "id": "chapter_05_relational",
+      "title": "Kapitel 5 - Relational",
+      "type": "chapter",
+      "source_file": "chapter_05_relational",
+      "page": 0,
+      "parent": "part-2",
+      "timestamp": "2026-01-13T14:39:36.927227"
+    },
+    {
+      "id": "chapter_06_graph",
+      "title": "Kapitel 6 - Graph",
+      "type": "chapter",
+      "source_file": "chapter_06_graph",
+      "page": 0,
+      "parent": "part-2",
+      "timestamp": "2026-01-13T14:39:36.957487"
+    },
+    {
+      "id": "chapter_07_document",
+      "title": "Kapitel 7 - Dokumente",
+      "type": "chapter",
+      "source_file": "chapter_07_document",
+      "page": 0,
+      "parent": "part-2",
+      "timestamp": "2026-01-13T14:39:36.976843"
+    },
+    {
+      "id": "chapter_08_vector",
+      "title": "Kapitel 8 - Vektoren",
+      "type": "chapter",
+      "source_file": "chapter_08_vector",
+      "page": 0,
+      "parent": "part-2",
+      "timestamp": "2026-01-13T14:39:37.001967"
+    },
+    {
+      "id": "chapter_08_storage_layer",
+      "title": "Kapitel 8b - Storage Layer",
+      "type": "chapter",
+      "source_file": "chapter_08_storage_layer",
+      "page": 0,
+      "parent": "part-2",
+      "timestamp": "2026-01-13T14:39:37.026647"
+    },
+    {
+      "id": "chapter_09_timeseries",
+      "title": "Kapitel 9 - Zeit-Reihen & IoT",
+      "type": "chapter",
+      "source_file": "chapter_09_timeseries",
+      "page": 0,
+      "parent": "part-3",
+      "timestamp": "2026-01-13T14:39:37.041804"
+    },
+    {
+      "id": "index",
+      "title": "Startseite",
+      "type": "chapter",
+      "source_file": "index",
+      "page": 0,
+      "parent": "part-0",
+      "timestamp": "2026-01-13T14:39:36.742429"
+    },
+    {
+      "id": "preface",
+      "title": "Vorwort",
+      "type": "chapter",
+      "source_file": "preface",
+      "page": 0,
+      "parent": "part-0",
+      "timestamp": "2026-01-13T14:39:36.752925"
+    },
+    {
+      "id": "diagram-100",
+      "title": "Abb. 100: Diagramm 1",
+      "type": "figure",
+      "source_file": "chapter_35_data_modeling_patterns",
+      "page": 0,
+      "parent": "section_chapter_35_data_modeling_patterns",
+      "timestamp": "2026-01-13T14:39:37.568730"
+    },
+    {
+      "id": "diagram-101",
+      "title": "Abb. 101: Diagramm 2",
+      "type": "figure",
+      "source_file": "chapter_35_data_modeling_patterns",
+      "page": 0,
+      "parent": "section_chapter_35_data_modeling_patterns",
+      "timestamp": "2026-01-13T14:39:37.569556"
+    },
+    {
+      "id": "diagram-102",
+      "title": "Abb. 102: Diagramm 1",
+      "type": "figure",
+      "source_file": "chapter_36_security_hardening",
+      "page": 0,
+      "parent": "section_chapter_36_security_hardening",
+      "timestamp": "2026-01-13T14:39:37.577018"
+    },
+    {
+      "id": "diagram-103",
+      "title": "Abb. 103: Diagramm 2",
+      "type": "figure",
+      "source_file": "chapter_36_security_hardening",
+      "page": 0,
+      "parent": "section_chapter_36_security_hardening",
+      "timestamp": "2026-01-13T14:39:37.577727"
+    },
+    {
+      "id": "diagram-104",
+      "title": "Abb. 104: Diagramm 1",
+      "type": "figure",
+      "source_file": "chapter_37_ecosystem_integration",
+      "page": 0,
+      "parent": "section_chapter_37_ecosystem_integration",
+      "timestamp": "2026-01-13T14:39:37.584592"
+    },
+    {
+      "id": "diagram-105",
+      "title": "Abb. 105: Diagramm 2",
+      "type": "figure",
+      "source_file": "chapter_37_ecosystem_integration",
+      "page": 0,
+      "parent": "section_chapter_37_ecosystem_integration",
+      "timestamp": "2026-01-13T14:39:37.584818"
+    },
+    {
+      "id": "diagram-106",
+      "title": "Abb. 106: Diagramm 1",
+      "type": "figure",
+      "source_file": "chapter_38_observability_sre",
+      "page": 0,
+      "parent": "section_chapter_38_observability_sre",
+      "timestamp": "2026-01-13T14:39:37.592623"
+    },
+    {
+      "id": "diagram-107",
+      "title": "Abb. 107: Diagramm 2",
+      "type": "figure",
+      "source_file": "chapter_38_observability_sre",
+      "page": 0,
+      "parent": "section_chapter_38_observability_sre",
+      "timestamp": "2026-01-13T14:39:37.592860"
+    },
+    {
+      "id": "diagram-108",
+      "title": "Abb. 108: Diagramm 1",
+      "type": "figure",
+      "source_file": "chapter_39_performance_tuning_cookbook",
+      "page": 0,
+      "parent": "section_chapter_39_performance_tuning_cookbook",
+      "timestamp": "2026-01-13T14:39:37.603123"
+    },
+    {
+      "id": "diagram-109",
+      "title": "Abb. 109: Diagramm 2",
+      "type": "figure",
+      "source_file": "chapter_39_performance_tuning_cookbook",
+      "page": 0,
+      "parent": "section_chapter_39_performance_tuning_cookbook",
+      "timestamp": "2026-01-13T14:39:37.603961"
+    },
+    {
+      "id": "diagram-10",
+      "title": "Abb. 10: Diagramm 5",
+      "type": "figure",
+      "source_file": "chapter_01_introduction",
+      "page": 0,
+      "parent": "section_chapter_01_introduction",
+      "timestamp": "2026-01-13T14:39:36.802658"
+    },
+    {
+      "id": "diagram-110",
+      "title": "Abb. 110: Diagramm 1",
+      "type": "figure",
+      "source_file": "chapter_40_data_governance_compliance",
+      "page": 0,
+      "parent": "section_chapter_40_data_governance_compliance",
+      "timestamp": "2026-01-13T14:39:37.611633"
+    },
+    {
+      "id": "diagram-111",
+      "title": "Abb. 111: Diagramm 2",
+      "type": "figure",
+      "source_file": "chapter_40_data_governance_compliance",
+      "page": 0,
+      "parent": "section_chapter_40_data_governance_compliance",
+      "timestamp": "2026-01-13T14:39:37.611991"
+    },
+    {
+      "id": "diagram-112",
+      "title": "Abb. 112: Diagramm 1",
+      "type": "figure",
+      "source_file": "chapter_41_hands_on_labs",
+      "page": 0,
+      "parent": "section_chapter_41_hands_on_labs",
+      "timestamp": "2026-01-13T14:39:37.619190"
+    },
+    {
+      "id": "diagram-11",
+      "title": "Abb. 11: Diagramm 1",
+      "type": "figure",
+      "source_file": "chapter_02_architecture",
+      "page": 0,
+      "parent": "section_chapter_02_architecture",
+      "timestamp": "2026-01-13T14:39:36.819883"
+    },
+    {
+      "id": "diagram-12",
+      "title": "Abb. 12: Diagramm 2",
+      "type": "figure",
+      "source_file": "chapter_02_architecture",
+      "page": 0,
+      "parent": "section_chapter_02_architecture",
+      "timestamp": "2026-01-13T14:39:36.820611"
+    },
+    {
+      "id": "diagram-13",
+      "title": "Abb. 13: Diagramm 3",
+      "type": "figure",
+      "source_file": "chapter_02_architecture",
+      "page": 0,
+      "parent": "section_chapter_02_architecture",
+      "timestamp": "2026-01-13T14:39:36.821917"
+    },
+    {
+      "id": "diagram-14",
+      "title": "Abb. 14: Diagramm 4",
+      "type": "figure",
+      "source_file": "chapter_02_architecture",
+      "page": 0,
+      "parent": "section_chapter_02_architecture",
+      "timestamp": "2026-01-13T14:39:36.849395"
+    },
+    {
+      "id": "diagram-15",
+      "title": "Abb. 15: Diagramm 5",
+      "type": "figure",
+      "source_file": "chapter_02_architecture",
+      "page": 0,
+      "parent": "section_chapter_02_architecture",
+      "timestamp": "2026-01-13T14:39:36.853430"
+    },
+    {
+      "id": "diagram-16",
+      "title": "Abb. 16: Diagramm 6",
+      "type": "figure",
+      "source_file": "chapter_02_architecture",
+      "page": 0,
+      "parent": "section_chapter_02_architecture",
+      "timestamp": "2026-01-13T14:39:36.854223"
+    },
+    {
+      "id": "diagram-17",
+      "title": "Abb. 17: Diagramm 7",
+      "type": "figure",
+      "source_file": "chapter_02_architecture",
+      "page": 0,
+      "parent": "section_chapter_02_architecture",
+      "timestamp": "2026-01-13T14:39:36.854737"
+    },
+    {
+      "id": "diagram-18",
+      "title": "Abb. 18: Diagramm 8",
+      "type": "figure",
+      "source_file": "chapter_02_architecture",
+      "page": 0,
+      "parent": "section_chapter_02_architecture",
+      "timestamp": "2026-01-13T14:39:36.858080"
+    },
+    {
+      "id": "diagram-19",
+      "title": "Abb. 19: Diagramm 1",
+      "type": "figure",
+      "source_file": "chapter_03_multimodel",
+      "page": 0,
+      "parent": "section_chapter_03_multimodel",
+      "timestamp": "2026-01-13T14:39:36.869550"
+    },
+    {
+      "id": "diagram-1",
+      "title": "Abb. 1: Diagramm 1",
+      "type": "figure",
+      "source_file": "chapter_00_genesis",
+      "page": 0,
+      "parent": "section_chapter_00_genesis",
+      "timestamp": "2026-01-13T14:39:36.759127"
+    },
+    {
+      "id": "diagram-20",
+      "title": "Abb. 20: Diagramm 2",
+      "type": "figure",
+      "source_file": "chapter_03_multimodel",
+      "page": 0,
+      "parent": "section_chapter_03_multimodel",
+      "timestamp": "2026-01-13T14:39:36.869868"
+    },
+    {
+      "id": "diagram-21",
+      "title": "Abb. 21: Diagramm 1",
+      "type": "figure",
+      "source_file": "chapter_04_installation",
+      "page": 0,
+      "parent": "section_chapter_04_installation",
+      "timestamp": "2026-01-13T14:39:36.890070"
+    },
+    {
+      "id": "diagram-22",
+      "title": "Abb. 22: Diagramm 1",
+      "type": "figure",
+      "source_file": "chapter_05_relational",
+      "page": 0,
+      "parent": "section_chapter_05_relational",
+      "timestamp": "2026-01-13T14:39:36.909503"
+    },
+    {
+      "id": "diagram-23",
+      "title": "Abb. 23: Diagramm 2",
+      "type": "figure",
+      "source_file": "chapter_05_relational",
+      "page": 0,
+      "parent": "section_chapter_05_relational",
+      "timestamp": "2026-01-13T14:39:36.909791"
+    },
+    {
+      "id": "diagram-24",
+      "title": "Abb. 24: Diagramm 1",
+      "type": "figure",
+      "source_file": "chapter_06_graph",
+      "page": 0,
+      "parent": "section_chapter_06_graph",
+      "timestamp": "2026-01-13T14:39:36.933463"
+    },
+    {
+      "id": "diagram-25",
+      "title": "Abb. 25: Diagramm 2",
+      "type": "figure",
+      "source_file": "chapter_06_graph",
+      "page": 0,
+      "parent": "section_chapter_06_graph",
+      "timestamp": "2026-01-13T14:39:36.935053"
+    },
+    {
+      "id": "diagram-26",
+      "title": "Abb. 26: Diagramm 3",
+      "type": "figure",
+      "source_file": "chapter_06_graph",
+      "page": 0,
+      "parent": "section_chapter_06_graph",
+      "timestamp": "2026-01-13T14:39:36.936056"
+    },
+    {
+      "id": "diagram-27",
+      "title": "Abb. 27: Diagramm 4",
+      "type": "figure",
+      "source_file": "chapter_06_graph",
+      "page": 0,
+      "parent": "section_chapter_06_graph",
+      "timestamp": "2026-01-13T14:39:36.936379"
+    },
+    {
+      "id": "diagram-28",
+      "title": "Abb. 28: Diagramm 1",
+      "type": "figure",
+      "source_file": "chapter_07_document",
+      "page": 0,
+      "parent": "section_chapter_07_document",
+      "timestamp": "2026-01-13T14:39:36.962527"
+    },
+    {
+      "id": "diagram-29",
+      "title": "Abb. 29: Diagramm 1",
+      "type": "figure",
+      "source_file": "chapter_08_vector",
+      "page": 0,
+      "parent": "section_chapter_08_vector",
+      "timestamp": "2026-01-13T14:39:36.981493"
+    },
+    {
+      "id": "diagram-2",
+      "title": "Abb. 2: Diagramm 2",
+      "type": "figure",
+      "source_file": "chapter_00_genesis",
+      "page": 0,
+      "parent": "section_chapter_00_genesis",
+      "timestamp": "2026-01-13T14:39:36.762258"
+    },
+    {
+      "id": "diagram-30",
+      "title": "Abb. 30: Diagramm 2",
+      "type": "figure",
+      "source_file": "chapter_08_vector",
+      "page": 0,
+      "parent": "section_chapter_08_vector",
+      "timestamp": "2026-01-13T14:39:36.983352"
+    },
+    {
+      "id": "diagram-31",
+      "title": "Abb. 31: Diagramm 3",
+      "type": "figure",
+      "source_file": "chapter_08_vector",
+      "page": 0,
+      "parent": "section_chapter_08_vector",
+      "timestamp": "2026-01-13T14:39:36.984073"
+    },
+    {
+      "id": "diagram-32",
+      "title": "Abb. 32: Diagramm 1",
+      "type": "figure",
+      "source_file": "chapter_08_storage_layer",
+      "page": 0,
+      "parent": "section_chapter_08_storage_layer",
+      "timestamp": "2026-01-13T14:39:37.007273"
+    },
+    {
+      "id": "diagram-33",
+      "title": "Abb. 33: Diagramm 1",
+      "type": "figure",
+      "source_file": "chapter_09_timeseries",
+      "page": 0,
+      "parent": "section_chapter_09_timeseries",
+      "timestamp": "2026-01-13T14:39:37.031810"
+    },
+    {
+      "id": "diagram-34",
+      "title": "Abb. 34: Diagramm 2",
+      "type": "figure",
+      "source_file": "chapter_09_timeseries",
+      "page": 0,
+      "parent": "section_chapter_09_timeseries",
+      "timestamp": "2026-01-13T14:39:37.032585"
+    },
+    {
+      "id": "diagram-35",
+      "title": "Abb. 35: Diagramm 3",
+      "type": "figure",
+      "source_file": "chapter_09_timeseries",
+      "page": 0,
+      "parent": "section_chapter_09_timeseries",
+      "timestamp": "2026-01-13T14:39:37.033686"
+    },
+    {
+      "id": "diagram-36",
+      "title": "Abb. 36: Diagramm 1",
+      "type": "figure",
+      "source_file": "chapter_10_enterprise",
+      "page": 0,
+      "parent": "section_chapter_10_enterprise",
+      "timestamp": "2026-01-13T14:39:37.046838"
+    },
+    {
+      "id": "diagram-37",
+      "title": "Abb. 37: Diagramm 2",
+      "type": "figure",
+      "source_file": "chapter_10_enterprise",
+      "page": 0,
+      "parent": "section_chapter_10_enterprise",
+      "timestamp": "2026-01-13T14:39:37.047831"
+    },
+    {
+      "id": "diagram-38",
+      "title": "Abb. 38: Diagramm 3",
+      "type": "figure",
+      "source_file": "chapter_10_enterprise",
+      "page": 0,
+      "parent": "section_chapter_10_enterprise",
+      "timestamp": "2026-01-13T14:39:37.063664"
+    },
+    {
+      "id": "diagram-39",
+      "title": "Abb. 39: Diagramm 4",
+      "type": "figure",
+      "source_file": "chapter_10_enterprise",
+      "page": 0,
+      "parent": "section_chapter_10_enterprise",
+      "timestamp": "2026-01-13T14:39:37.068051"
+    },
+    {
+      "id": "diagram-3",
+      "title": "Abb. 3: Diagramm 3",
+      "type": "figure",
+      "source_file": "chapter_00_genesis",
+      "page": 0,
+      "parent": "section_chapter_00_genesis",
+      "timestamp": "2026-01-13T14:39:36.768366"
+    },
+    {
+      "id": "diagram-40",
+      "title": "Abb. 40: Diagramm 1",
+      "type": "figure",
+      "source_file": "chapter_11_realtime",
+      "page": 0,
+      "parent": "section_chapter_11_realtime",
+      "timestamp": "2026-01-13T14:39:37.080567"
+    },
+    {
+      "id": "diagram-41",
+      "title": "Abb. 41: Diagramm 2",
+      "type": "figure",
+      "source_file": "chapter_11_realtime",
+      "page": 0,
+      "parent": "section_chapter_11_realtime",
+      "timestamp": "2026-01-13T14:39:37.082978"
+    },
+    {
+      "id": "diagram-42",
+      "title": "Abb. 42: Diagramm 1",
+      "type": "figure",
+      "source_file": "chapter_12_computervision",
+      "page": 0,
+      "parent": "section_chapter_12_computervision",
+      "timestamp": "2026-01-13T14:39:37.102701"
+    },
+    {
+      "id": "diagram-43",
+      "title": "Abb. 43: Diagramm 1",
+      "type": "figure",
+      "source_file": "chapter_13_fulltext",
+      "page": 0,
+      "parent": "section_chapter_13_fulltext",
+      "timestamp": "2026-01-13T14:39:37.117452"
+    },
+    {
+      "id": "diagram-44",
+      "title": "Abb. 44: Diagramm 1",
+      "type": "figure",
+      "source_file": "chapter_14_geospatial",
+      "page": 0,
+      "parent": "section_chapter_14_geospatial",
+      "timestamp": "2026-01-13T14:39:37.134693"
+    },
+    {
+      "id": "diagram-45",
+      "title": "Abb. 45: Diagramm 2",
+      "type": "figure",
+      "source_file": "chapter_14_geospatial",
+      "page": 0,
+      "parent": "section_chapter_14_geospatial",
+      "timestamp": "2026-01-13T14:39:37.135450"
+    },
+    {
+      "id": "diagram-46",
+      "title": "Abb. 46: Diagramm 1",
+      "type": "figure",
+      "source_file": "chapter_15_analytics",
+      "page": 0,
+      "parent": "section_chapter_15_analytics",
+      "timestamp": "2026-01-13T14:39:37.150336"
+    },
+    {
+      "id": "diagram-47",
+      "title": "Abb. 47: Diagramm 1",
+      "type": "figure",
+      "source_file": "chapter_16_sharding",
+      "page": 0,
+      "parent": "section_chapter_16_sharding",
+      "timestamp": "2026-01-13T14:39:37.168872"
+    },
+    {
+      "id": "diagram-48",
+      "title": "Abb. 48: Diagramm 2",
+      "type": "figure",
+      "source_file": "chapter_16_sharding",
+      "page": 0,
+      "parent": "section_chapter_16_sharding",
+      "timestamp": "2026-01-13T14:39:37.169858"
+    },
+    {
+      "id": "diagram-49",
+      "title": "Abb. 49: Diagramm 3",
+      "type": "figure",
+      "source_file": "chapter_16_sharding",
+      "page": 0,
+      "parent": "section_chapter_16_sharding",
+      "timestamp": "2026-01-13T14:39:37.179985"
+    },
+    {
+      "id": "diagram-4",
+      "title": "Abb. 4: Diagramm 4",
+      "type": "figure",
+      "source_file": "chapter_00_genesis",
+      "page": 0,
+      "parent": "section_chapter_00_genesis",
+      "timestamp": "2026-01-13T14:39:36.778173"
+    },
+    {
+      "id": "diagram-50",
+      "title": "Abb. 50: Diagramm 4",
+      "type": "figure",
+      "source_file": "chapter_16_sharding",
+      "page": 0,
+      "parent": "section_chapter_16_sharding",
+      "timestamp": "2026-01-13T14:39:37.182030"
+    },
+    {
+      "id": "diagram-51",
+      "title": "Abb. 51: Diagramm 5",
+      "type": "figure",
+      "source_file": "chapter_16_sharding",
+      "page": 0,
+      "parent": "section_chapter_16_sharding",
+      "timestamp": "2026-01-13T14:39:37.182395"
+    },
+    {
+      "id": "diagram-52",
+      "title": "Abb. 52: Diagramm 6",
+      "type": "figure",
+      "source_file": "chapter_16_sharding",
+      "page": 0,
+      "parent": "section_chapter_16_sharding",
+      "timestamp": "2026-01-13T14:39:37.185232"
+    },
+    {
+      "id": "diagram-53",
+      "title": "Abb. 53: Diagramm 1",
+      "type": "figure",
+      "source_file": "chapter_17_llm_integration",
+      "page": 0,
+      "parent": "section_chapter_17_llm_integration",
+      "timestamp": "2026-01-13T14:39:37.195843"
+    },
+    {
+      "id": "diagram-54",
+      "title": "Abb. 54: Diagramm 2",
+      "type": "figure",
+      "source_file": "chapter_17_llm_integration",
+      "page": 0,
+      "parent": "section_chapter_17_llm_integration",
+      "timestamp": "2026-01-13T14:39:37.197482"
+    },
+    {
+      "id": "diagram-55",
+      "title": "Abb. 55: Diagramm 3",
+      "type": "figure",
+      "source_file": "chapter_17_llm_integration",
+      "page": 0,
+      "parent": "section_chapter_17_llm_integration",
+      "timestamp": "2026-01-13T14:39:37.214577"
+    },
+    {
+      "id": "diagram-56",
+      "title": "Abb. 56: Diagramm 4",
+      "type": "figure",
+      "source_file": "chapter_17_llm_integration",
+      "page": 0,
+      "parent": "section_chapter_17_llm_integration",
+      "timestamp": "2026-01-13T14:39:37.216036"
+    },
+    {
+      "id": "diagram-57",
+      "title": "Abb. 57: Diagramm 5",
+      "type": "figure",
+      "source_file": "chapter_17_llm_integration",
+      "page": 0,
+      "parent": "section_chapter_17_llm_integration",
+      "timestamp": "2026-01-13T14:39:37.221241"
+    },
+    {
+      "id": "diagram-58",
+      "title": "Abb. 58: Diagramm 6",
+      "type": "figure",
+      "source_file": "chapter_17_llm_integration",
+      "page": 0,
+      "parent": "section_chapter_17_llm_integration",
+      "timestamp": "2026-01-13T14:39:37.223606"
+    },
+    {
+      "id": "diagram-59",
+      "title": "Abb. 59: Diagramm 7",
+      "type": "figure",
+      "source_file": "chapter_17_llm_integration",
+      "page": 0,
+      "parent": "section_chapter_17_llm_integration",
+      "timestamp": "2026-01-13T14:39:37.230583"
+    },
+    {
+      "id": "diagram-5",
+      "title": "Abb. 5: Diagramm 5",
+      "type": "figure",
+      "source_file": "chapter_00_genesis",
+      "page": 0,
+      "parent": "section_chapter_00_genesis",
+      "timestamp": "2026-01-13T14:39:36.780158"
+    },
+    {
+      "id": "diagram-60",
+      "title": "Abb. 60: Diagramm 1",
+      "type": "figure",
+      "source_file": "chapter_18_ml",
+      "page": 0,
+      "parent": "section_chapter_18_ml",
+      "timestamp": "2026-01-13T14:39:37.244972"
+    },
+    {
+      "id": "diagram-61",
+      "title": "Abb. 61: Diagramm 1",
+      "type": "figure",
+      "source_file": "chapter_19_monitoring_observability",
+      "page": 0,
+      "parent": "section_chapter_19_monitoring_observability",
+      "timestamp": "2026-01-13T14:39:37.276122"
+    },
+    {
+      "id": "diagram-62",
+      "title": "Abb. 62: Diagramm 2",
+      "type": "figure",
+      "source_file": "chapter_19_monitoring_observability",
+      "page": 0,
+      "parent": "section_chapter_19_monitoring_observability",
+      "timestamp": "2026-01-13T14:39:37.299292"
+    },
+    {
+      "id": "diagram-63",
+      "title": "Abb. 63: Diagramm 1",
+      "type": "figure",
+      "source_file": "chapter_20_backup",
+      "page": 0,
+      "parent": "section_chapter_20_backup",
+      "timestamp": "2026-01-13T14:39:37.309120"
+    },
+    {
+      "id": "diagram-64",
+      "title": "Abb. 64: Diagramm 2",
+      "type": "figure",
+      "source_file": "chapter_20_backup",
+      "page": 0,
+      "parent": "section_chapter_20_backup",
+      "timestamp": "2026-01-13T14:39:37.309542"
+    },
+    {
+      "id": "diagram-65",
+      "title": "Abb. 65: Diagramm 1",
+      "type": "figure",
+      "source_file": "chapter_21_performance",
+      "page": 0,
+      "parent": "section_chapter_21_performance",
+      "timestamp": "2026-01-13T14:39:37.321915"
+    },
+    {
+      "id": "diagram-66",
+      "title": "Abb. 66: Diagramm 2",
+      "type": "figure",
+      "source_file": "chapter_21_performance",
+      "page": 0,
+      "parent": "section_chapter_21_performance",
+      "timestamp": "2026-01-13T14:39:37.331793"
+    },
+    {
+      "id": "diagram-67",
+      "title": "Abb. 67: Diagramm 3",
+      "type": "figure",
+      "source_file": "chapter_21_performance",
+      "page": 0,
+      "parent": "section_chapter_21_performance",
+      "timestamp": "2026-01-13T14:39:37.332530"
+    },
+    {
+      "id": "diagram-68",
+      "title": "Abb. 68: Diagramm 4",
+      "type": "figure",
+      "source_file": "chapter_21_performance",
+      "page": 0,
+      "parent": "section_chapter_21_performance",
+      "timestamp": "2026-01-13T14:39:37.335052"
+    },
+    {
+      "id": "diagram-69",
+      "title": "Abb. 69: Diagramm 5",
+      "type": "figure",
+      "source_file": "chapter_21_performance",
+      "page": 0,
+      "parent": "section_chapter_21_performance",
+      "timestamp": "2026-01-13T14:39:37.338083"
+    },
+    {
+      "id": "diagram-6",
+      "title": "Abb. 6: Diagramm 1",
+      "type": "figure",
+      "source_file": "chapter_01_introduction",
+      "page": 0,
+      "parent": "section_chapter_01_introduction",
+      "timestamp": "2026-01-13T14:39:36.793341"
+    },
+    {
+      "id": "diagram-70",
+      "title": "Abb. 70: Diagramm 6",
+      "type": "figure",
+      "source_file": "chapter_21_performance",
+      "page": 0,
+      "parent": "section_chapter_21_performance",
+      "timestamp": "2026-01-13T14:39:37.338548"
+    },
+    {
+      "id": "diagram-71",
+      "title": "Abb. 71: Diagramm 1",
+      "type": "figure",
+      "source_file": "chapter_22_clients",
+      "page": 0,
+      "parent": "section_chapter_22_clients",
+      "timestamp": "2026-01-13T14:39:37.349130"
+    },
+    {
+      "id": "diagram-72",
+      "title": "Abb. 72: Diagramm 1",
+      "type": "figure",
+      "source_file": "chapter_23_testing_qa",
+      "page": 0,
+      "parent": "section_chapter_23_testing_qa",
+      "timestamp": "2026-01-13T14:39:37.361482"
+    },
+    {
+      "id": "diagram-73",
+      "title": "Abb. 73: Diagramm 2",
+      "type": "figure",
+      "source_file": "chapter_23_testing_qa",
+      "page": 0,
+      "parent": "section_chapter_23_testing_qa",
+      "timestamp": "2026-01-13T14:39:37.361857"
+    },
+    {
+      "id": "diagram-74",
+      "title": "Abb. 74: Diagramm 3",
+      "type": "figure",
+      "source_file": "chapter_23_testing_qa",
+      "page": 0,
+      "parent": "section_chapter_23_testing_qa",
+      "timestamp": "2026-01-13T14:39:37.362546"
+    },
+    {
+      "id": "diagram-75",
+      "title": "Abb. 75: Diagramm 1",
+      "type": "figure",
+      "source_file": "chapter_24_ai_ethics",
+      "page": 0,
+      "parent": "section_chapter_24_ai_ethics",
+      "timestamp": "2026-01-13T14:39:37.376256"
+    },
+    {
+      "id": "diagram-76",
+      "title": "Abb. 76: Diagramm 2",
+      "type": "figure",
+      "source_file": "chapter_24_ai_ethics",
+      "page": 0,
+      "parent": "section_chapter_24_ai_ethics",
+      "timestamp": "2026-01-13T14:39:37.389020"
+    },
+    {
+      "id": "diagram-77",
+      "title": "Abb. 77: Diagramm 3",
+      "type": "figure",
+      "source_file": "chapter_24_ai_ethics",
+      "page": 0,
+      "parent": "section_chapter_24_ai_ethics",
+      "timestamp": "2026-01-13T14:39:37.389444"
+    },
+    {
+      "id": "diagram-78",
+      "title": "Abb. 78: Diagramm 4",
+      "type": "figure",
+      "source_file": "chapter_24_ai_ethics",
+      "page": 0,
+      "parent": "section_chapter_24_ai_ethics",
+      "timestamp": "2026-01-13T14:39:37.390108"
+    },
+    {
+      "id": "diagram-79",
+      "title": "Abb. 79: Diagramm 5",
+      "type": "figure",
+      "source_file": "chapter_24_ai_ethics",
+      "page": 0,
+      "parent": "section_chapter_24_ai_ethics",
+      "timestamp": "2026-01-13T14:39:37.390794"
+    },
+    {
+      "id": "diagram-7",
+      "title": "Abb. 7: Diagramm 2",
+      "type": "figure",
+      "source_file": "chapter_01_introduction",
+      "page": 0,
+      "parent": "section_chapter_01_introduction",
+      "timestamp": "2026-01-13T14:39:36.796546"
+    },
+    {
+      "id": "diagram-80",
+      "title": "Abb. 80: Diagramm 6",
+      "type": "figure",
+      "source_file": "chapter_24_ai_ethics",
+      "page": 0,
+      "parent": "section_chapter_24_ai_ethics",
+      "timestamp": "2026-01-13T14:39:37.391818"
+    },
+    {
+      "id": "diagram-81",
+      "title": "Abb. 81: Diagramm 7",
+      "type": "figure",
+      "source_file": "chapter_24_ai_ethics",
+      "page": 0,
+      "parent": "section_chapter_24_ai_ethics",
+      "timestamp": "2026-01-13T14:39:37.392407"
+    },
+    {
+      "id": "diagram-82",
+      "title": "Abb. 82: Diagramm 8",
+      "type": "figure",
+      "source_file": "chapter_24_ai_ethics",
+      "page": 0,
+      "parent": "section_chapter_24_ai_ethics",
+      "timestamp": "2026-01-13T14:39:37.393599"
+    },
+    {
+      "id": "diagram-83",
+      "title": "Abb. 83: Diagramm 9",
+      "type": "figure",
+      "source_file": "chapter_24_ai_ethics",
+      "page": 0,
+      "parent": "section_chapter_24_ai_ethics",
+      "timestamp": "2026-01-13T14:39:37.394188"
+    },
+    {
+      "id": "diagram-84",
+      "title": "Abb. 84: Diagramm 1",
+      "type": "figure",
+      "source_file": "chapter_25_devops_infrastructure",
+      "page": 0,
+      "parent": "section_chapter_25_devops_infrastructure",
+      "timestamp": "2026-01-13T14:39:37.408765"
+    },
+    {
+      "id": "diagram-85",
+      "title": "Abb. 85: Diagramm 1",
+      "type": "figure",
+      "source_file": "chapter_26_migration_legacy",
+      "page": 0,
+      "parent": "section_chapter_26_migration_legacy",
+      "timestamp": "2026-01-13T14:39:37.416969"
+    },
+    {
+      "id": "diagram-86",
+      "title": "Abb. 86: Diagramm 2",
+      "type": "figure",
+      "source_file": "chapter_26_migration_legacy",
+      "page": 0,
+      "parent": "section_chapter_26_migration_legacy",
+      "timestamp": "2026-01-13T14:39:37.417193"
+    },
+    {
+      "id": "diagram-87",
+      "title": "Abb. 87: Diagramm 1",
+      "type": "figure",
+      "source_file": "chapter_27_troubleshooting",
+      "page": 0,
+      "parent": "section_chapter_27_troubleshooting",
+      "timestamp": "2026-01-13T14:39:37.428723"
+    },
+    {
+      "id": "diagram-88",
+      "title": "Abb. 88: Diagramm 2",
+      "type": "figure",
+      "source_file": "chapter_27_troubleshooting",
+      "page": 0,
+      "parent": "section_chapter_27_troubleshooting",
+      "timestamp": "2026-01-13T14:39:37.429217"
+    },
+    {
+      "id": "diagram-89",
+      "title": "Abb. 89: Diagramm 1",
+      "type": "figure",
+      "source_file": "chapter_28_aql_reference",
+      "page": 0,
+      "parent": "section_chapter_28_aql_reference",
+      "timestamp": "2026-01-13T14:39:37.440083"
+    },
+    {
+      "id": "diagram-8",
+      "title": "Abb. 8: Diagramm 3",
+      "type": "figure",
+      "source_file": "chapter_01_introduction",
+      "page": 0,
+      "parent": "section_chapter_01_introduction",
+      "timestamp": "2026-01-13T14:39:36.797470"
+    },
+    {
+      "id": "diagram-90",
+      "title": "Abb. 90: Diagramm 1",
+      "type": "figure",
+      "source_file": "chapter_29_analytics_process_mining",
+      "page": 0,
+      "parent": "section_chapter_29_analytics_process_mining",
+      "timestamp": "2026-01-13T14:39:37.461578"
+    },
+    {
+      "id": "diagram-91",
+      "title": "Abb. 91: Diagramm 2",
+      "type": "figure",
+      "source_file": "chapter_29_analytics_process_mining",
+      "page": 0,
+      "parent": "section_chapter_29_analytics_process_mining",
+      "timestamp": "2026-01-13T14:39:37.463062"
+    },
+    {
+      "id": "diagram-92",
+      "title": "Abb. 92: Diagramm 3",
+      "type": "figure",
+      "source_file": "chapter_29_analytics_process_mining",
+      "page": 0,
+      "parent": "section_chapter_29_analytics_process_mining",
+      "timestamp": "2026-01-13T14:39:37.465770"
+    },
+    {
+      "id": "diagram-93",
+      "title": "Abb. 93: Diagramm 4",
+      "type": "figure",
+      "source_file": "chapter_29_analytics_process_mining",
+      "page": 0,
+      "parent": "section_chapter_29_analytics_process_mining",
+      "timestamp": "2026-01-13T14:39:37.466790"
+    },
+    {
+      "id": "diagram-94",
+      "title": "Abb. 94: Diagramm 1",
+      "type": "figure",
+      "source_file": "chapter_30_deployment_operations",
+      "page": 0,
+      "parent": "section_chapter_30_deployment_operations",
+      "timestamp": "2026-01-13T14:39:37.483298"
+    },
+    {
+      "id": "diagram-95",
+      "title": "Abb. 95: Diagramm 1",
+      "type": "figure",
+      "source_file": "chapter_31_api_protocols",
+      "page": 0,
+      "parent": "section_chapter_31_api_protocols",
+      "timestamp": "2026-01-13T14:39:37.496194"
+    },
+    {
+      "id": "diagram-96",
+      "title": "Abb. 96: Diagramm 2",
+      "type": "figure",
+      "source_file": "chapter_31_api_protocols",
+      "page": 0,
+      "parent": "section_chapter_31_api_protocols",
+      "timestamp": "2026-01-13T14:39:37.498150"
+    },
+    {
+      "id": "diagram-97",
+      "title": "Abb. 97: Diagramm 1",
+      "type": "figure",
+      "source_file": "chapter_33_best_practices",
+      "page": 0,
+      "parent": "section_chapter_33_best_practices",
+      "timestamp": "2026-01-13T14:39:37.541429"
+    },
+    {
+      "id": "diagram-98",
+      "title": "Abb. 98: Diagramm 1",
+      "type": "figure",
+      "source_file": "chapter_34_query_optimization",
+      "page": 0,
+      "parent": "section_chapter_34_query_optimization",
+      "timestamp": "2026-01-13T14:39:37.558231"
+    },
+    {
+      "id": "diagram-99",
+      "title": "Abb. 99: Diagramm 2",
+      "type": "figure",
+      "source_file": "chapter_34_query_optimization",
+      "page": 0,
+      "parent": "section_chapter_34_query_optimization",
+      "timestamp": "2026-01-13T14:39:37.558971"
+    },
+    {
+      "id": "diagram-9",
+      "title": "Abb. 9: Diagramm 4",
+      "type": "figure",
+      "source_file": "chapter_01_introduction",
+      "page": 0,
+      "parent": "section_chapter_01_introduction",
+      "timestamp": "2026-01-13T14:39:36.801613"
+    },
+    {
+      "id": "anhänge",
+      "title": "Anhänge",
+      "type": "part",
+      "source_file": "",
+      "page": 0,
+      "parent": "root",
+      "timestamp": "2026-01-13T14:39:37.623745"
+    },
+    {
+      "id": "teil-i-grundlagen",
+      "title": "Teil I - Grundlagen",
+      "type": "part",
+      "source_file": "",
+      "page": 0,
+      "parent": "root",
+      "timestamp": "2026-01-13T14:39:36.752956"
+    },
+    {
+      "id": "teil-ii-datenmodelle",
+      "title": "Teil II - Datenmodelle",
+      "type": "part",
+      "source_file": "",
+      "page": 0,
+      "parent": "root",
+      "timestamp": "2026-01-13T14:39:36.901114"
+    },
+    {
+      "id": "teil-iii-spezialanwendungen",
+      "title": "Teil III - Spezialanwendungen",
+      "type": "part",
+      "source_file": "",
+      "page": 0,
+      "parent": "root",
+      "timestamp": "2026-01-13T14:39:37.026732"
+    },
+    {
+      "id": "teil-iv-erweiterte-features",
+      "title": "Teil IV - Erweiterte Features",
+      "type": "part",
+      "source_file": "",
+      "page": 0,
+      "parent": "root",
+      "timestamp": "2026-01-13T14:39:37.112111"
+    },
+    {
+      "id": "teil-ix-referenzen-api",
+      "title": "Teil IX - Referenzen & API",
+      "type": "part",
+      "source_file": "",
+      "page": 0,
+      "parent": "root",
+      "timestamp": "2026-01-13T14:39:37.436177"
+    },
+    {
+      "id": "teil-v-ai-ml-integration",
+      "title": "Teil V - AI & ML Integration",
+      "type": "part",
+      "source_file": "",
+      "page": 0,
+      "parent": "root",
+      "timestamp": "2026-01-13T14:39:37.191169"
+    },
+    {
+      "id": "teil-vi-skalierung-monitoring",
+      "title": "Teil VI - Skalierung & Monitoring",
+      "type": "part",
+      "source_file": "",
+      "page": 0,
+      "parent": "root",
+      "timestamp": "2026-01-13T14:39:37.257491"
+    },
+    {
+      "id": "teil-vii-clients-entwicklung",
+      "title": "Teil VII - Clients & Entwicklung",
+      "type": "part",
+      "source_file": "",
+      "page": 0,
+      "parent": "root",
+      "timestamp": "2026-01-13T14:39:37.344511"
+    },
+    {
+      "id": "teil-viii-devops-infrastructure",
+      "title": "Teil VIII - DevOps & Infrastructure",
+      "type": "part",
+      "source_file": "",
+      "page": 0,
+      "parent": "root",
+      "timestamp": "2026-01-13T14:39:37.404877"
+    },
+    {
+      "id": "teil-x-advanced-topics",
+      "title": "Teil X - Advanced Topics",
+      "type": "part",
+      "source_file": "",
+      "page": 0,
+      "parent": "root",
+      "timestamp": "2026-01-13T14:39:37.553992"
+    },
+    {
+      "id": "ref-10",
+      "title": "Literaturverweis [10]",
+      "type": "reference",
+      "source_file": "chapter_24_ai_ethics",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.401930"
+    },
+    {
+      "id": "ref-11",
+      "title": "Literaturverweis [11]",
+      "type": "reference",
+      "source_file": "chapter_24_ai_ethics",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.401936"
+    },
+    {
+      "id": "ref-12",
+      "title": "Literaturverweis [12]",
+      "type": "reference",
+      "source_file": "chapter_24_ai_ethics",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.401942"
+    },
+    {
+      "id": "ref-13",
+      "title": "Literaturverweis [13]",
+      "type": "reference",
+      "source_file": "chapter_24_ai_ethics",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.401948"
+    },
+    {
+      "id": "ref-14",
+      "title": "Literaturverweis [14]",
+      "type": "reference",
+      "source_file": "chapter_24_ai_ethics",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.401954"
+    },
+    {
+      "id": "ref-15",
+      "title": "Literaturverweis [15]",
+      "type": "reference",
+      "source_file": "chapter_24_ai_ethics",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.401960"
+    },
+    {
+      "id": "ref-16",
+      "title": "Literaturverweis [16]",
+      "type": "reference",
+      "source_file": "appendix_literatur",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.633855"
+    },
+    {
+      "id": "ref-17",
+      "title": "Literaturverweis [17]",
+      "type": "reference",
+      "source_file": "appendix_literatur",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.633868"
+    },
+    {
+      "id": "ref-18",
+      "title": "Literaturverweis [18]",
+      "type": "reference",
+      "source_file": "appendix_literatur",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.633875"
+    },
+    {
+      "id": "ref-19",
+      "title": "Literaturverweis [19]",
+      "type": "reference",
+      "source_file": "appendix_literatur",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.633882"
+    },
+    {
+      "id": "ref-1",
+      "title": "Literaturverweis [1]",
+      "type": "reference",
+      "source_file": "chapter_24_ai_ethics",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.401871"
+    },
+    {
+      "id": "ref-20",
+      "title": "Literaturverweis [20]",
+      "type": "reference",
+      "source_file": "appendix_literatur",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.633889"
+    },
+    {
+      "id": "ref-21",
+      "title": "Literaturverweis [21]",
+      "type": "reference",
+      "source_file": "appendix_literatur",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.633895"
+    },
+    {
+      "id": "ref-22",
+      "title": "Literaturverweis [22]",
+      "type": "reference",
+      "source_file": "appendix_literatur",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.633902"
+    },
+    {
+      "id": "ref-23",
+      "title": "Literaturverweis [23]",
+      "type": "reference",
+      "source_file": "appendix_literatur",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.633908"
+    },
+    {
+      "id": "ref-24",
+      "title": "Literaturverweis [24]",
+      "type": "reference",
+      "source_file": "appendix_literatur",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.633914"
+    },
+    {
+      "id": "ref-25",
+      "title": "Literaturverweis [25]",
+      "type": "reference",
+      "source_file": "appendix_literatur",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.633921"
+    },
+    {
+      "id": "ref-26",
+      "title": "Literaturverweis [26]",
+      "type": "reference",
+      "source_file": "appendix_literatur",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.633927"
+    },
+    {
+      "id": "ref-27",
+      "title": "Literaturverweis [27]",
+      "type": "reference",
+      "source_file": "appendix_literatur",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.633934"
+    },
+    {
+      "id": "ref-28",
+      "title": "Literaturverweis [28]",
+      "type": "reference",
+      "source_file": "appendix_literatur",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.633940"
+    },
+    {
+      "id": "ref-29",
+      "title": "Literaturverweis [29]",
+      "type": "reference",
+      "source_file": "appendix_literatur",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.633946"
+    },
+    {
+      "id": "ref-2",
+      "title": "Literaturverweis [2]",
+      "type": "reference",
+      "source_file": "chapter_24_ai_ethics",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.401881"
+    },
+    {
+      "id": "ref-30",
+      "title": "Literaturverweis [30]",
+      "type": "reference",
+      "source_file": "appendix_literatur",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.633953"
+    },
+    {
+      "id": "ref-31",
+      "title": "Literaturverweis [31]",
+      "type": "reference",
+      "source_file": "appendix_literatur",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.633959"
+    },
+    {
+      "id": "ref-32",
+      "title": "Literaturverweis [32]",
+      "type": "reference",
+      "source_file": "appendix_literatur",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.633965"
+    },
+    {
+      "id": "ref-33",
+      "title": "Literaturverweis [33]",
+      "type": "reference",
+      "source_file": "appendix_literatur",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.633972"
+    },
+    {
+      "id": "ref-34",
+      "title": "Literaturverweis [34]",
+      "type": "reference",
+      "source_file": "appendix_literatur",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.633978"
+    },
+    {
+      "id": "ref-35",
+      "title": "Literaturverweis [35]",
+      "type": "reference",
+      "source_file": "appendix_literatur",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.633984"
+    },
+    {
+      "id": "ref-36",
+      "title": "Literaturverweis [36]",
+      "type": "reference",
+      "source_file": "appendix_literatur",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.633991"
+    },
+    {
+      "id": "ref-37",
+      "title": "Literaturverweis [37]",
+      "type": "reference",
+      "source_file": "appendix_literatur",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.633997"
+    },
+    {
+      "id": "ref-38",
+      "title": "Literaturverweis [38]",
+      "type": "reference",
+      "source_file": "appendix_literatur",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.634003"
+    },
+    {
+      "id": "ref-39",
+      "title": "Literaturverweis [39]",
+      "type": "reference",
+      "source_file": "appendix_literatur",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.634010"
+    },
+    {
+      "id": "ref-3",
+      "title": "Literaturverweis [3]",
+      "type": "reference",
+      "source_file": "chapter_24_ai_ethics",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.401888"
+    },
+    {
+      "id": "ref-40",
+      "title": "Literaturverweis [40]",
+      "type": "reference",
+      "source_file": "appendix_literatur",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.634017"
+    },
+    {
+      "id": "ref-41",
+      "title": "Literaturverweis [41]",
+      "type": "reference",
+      "source_file": "appendix_literatur",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.634024"
+    },
+    {
+      "id": "ref-42",
+      "title": "Literaturverweis [42]",
+      "type": "reference",
+      "source_file": "appendix_literatur",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.634030"
+    },
+    {
+      "id": "ref-43",
+      "title": "Literaturverweis [43]",
+      "type": "reference",
+      "source_file": "appendix_literatur",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.634036"
+    },
+    {
+      "id": "ref-44",
+      "title": "Literaturverweis [44]",
+      "type": "reference",
+      "source_file": "appendix_literatur",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.634042"
+    },
+    {
+      "id": "ref-45",
+      "title": "Literaturverweis [45]",
+      "type": "reference",
+      "source_file": "appendix_literatur",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.634049"
+    },
+    {
+      "id": "ref-46",
+      "title": "Literaturverweis [46]",
+      "type": "reference",
+      "source_file": "appendix_literatur",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.634055"
+    },
+    {
+      "id": "ref-47",
+      "title": "Literaturverweis [47]",
+      "type": "reference",
+      "source_file": "appendix_literatur",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.634062"
+    },
+    {
+      "id": "ref-48",
+      "title": "Literaturverweis [48]",
+      "type": "reference",
+      "source_file": "appendix_literatur",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.634068"
+    },
+    {
+      "id": "ref-4",
+      "title": "Literaturverweis [4]",
+      "type": "reference",
+      "source_file": "chapter_24_ai_ethics",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.401894"
+    },
+    {
+      "id": "ref-5",
+      "title": "Literaturverweis [5]",
+      "type": "reference",
+      "source_file": "chapter_24_ai_ethics",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.401900"
+    },
+    {
+      "id": "ref-6",
+      "title": "Literaturverweis [6]",
+      "type": "reference",
+      "source_file": "chapter_24_ai_ethics",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.401905"
+    },
+    {
+      "id": "ref-7",
+      "title": "Literaturverweis [7]",
+      "type": "reference",
+      "source_file": "chapter_24_ai_ethics",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.401911"
+    },
+    {
+      "id": "ref-8",
+      "title": "Literaturverweis [8]",
+      "type": "reference",
+      "source_file": "chapter_24_ai_ethics",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.401918"
+    },
+    {
+      "id": "ref-9",
+      "title": "Literaturverweis [9]",
+      "type": "reference",
+      "source_file": "chapter_24_ai_ethics",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.401924"
+    },
+    {
+      "id": "table-chapter-00-genesis-1",
+      "title": "Tabelle 1",
+      "type": "table",
+      "source_file": "chapter_00_genesis",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:36.780024"
+    },
+    {
+      "id": "table-chapter-01-introduction-1",
+      "title": "Tabelle 1",
+      "type": "table",
+      "source_file": "chapter_01_introduction",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:36.813780"
+    },
+    {
+      "id": "table-chapter-02-architecture-1",
+      "title": "Tabelle 1",
+      "type": "table",
+      "source_file": "chapter_02_architecture",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:36.844430"
+    },
+    {
+      "id": "table-chapter-03-multimodel-1",
+      "title": "Tabelle 1",
+      "type": "table",
+      "source_file": "chapter_03_multimodel",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:36.881444"
+    },
+    {
+      "id": "table-chapter-04-installation-1",
+      "title": "Tabelle 1",
+      "type": "table",
+      "source_file": "chapter_04_installation",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:36.890030"
+    },
+    {
+      "id": "table-chapter-05-relational-1",
+      "title": "Tabelle 1",
+      "type": "table",
+      "source_file": "chapter_05_relational",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:36.909437"
+    },
+    {
+      "id": "table-chapter-06-graph-1",
+      "title": "Tabelle 1",
+      "type": "table",
+      "source_file": "chapter_06_graph",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:36.954567"
+    },
+    {
+      "id": "table-chapter-07-document-1",
+      "title": "Tabelle 1",
+      "type": "table",
+      "source_file": "chapter_07_document",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:36.974263"
+    },
+    {
+      "id": "table-chapter-08-vector-1",
+      "title": "Tabelle 1",
+      "type": "table",
+      "source_file": "chapter_08_vector",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:36.983311"
+    },
+    {
+      "id": "table-chapter-08-storage-layer-1",
+      "title": "Tabelle 1",
+      "type": "table",
+      "source_file": "chapter_08_storage_layer",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.023835"
+    },
+    {
+      "id": "table-chapter-09-timeseries-1",
+      "title": "Tabelle 1",
+      "type": "table",
+      "source_file": "chapter_09_timeseries",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.031771"
+    },
+    {
+      "id": "table-chapter-10-enterprise-1",
+      "title": "Tabelle 1",
+      "type": "table",
+      "source_file": "chapter_10_enterprise",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.059877"
+    },
+    {
+      "id": "table-chapter-12-computervision-1",
+      "title": "Tabelle 1",
+      "type": "table",
+      "source_file": "chapter_12_computervision",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.102661"
+    },
+    {
+      "id": "table-chapter-14-geospatial-1",
+      "title": "Tabelle 1",
+      "type": "table",
+      "source_file": "chapter_14_geospatial",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.142697"
+    },
+    {
+      "id": "table-chapter-15-analytics-1",
+      "title": "Tabelle 1",
+      "type": "table",
+      "source_file": "chapter_15_analytics",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.160370"
+    },
+    {
+      "id": "table-chapter-16-sharding-1",
+      "title": "Tabelle 1",
+      "type": "table",
+      "source_file": "chapter_16_sharding",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.179861"
+    },
+    {
+      "id": "table-chapter-17-llm-integration-1",
+      "title": "Tabelle 1",
+      "type": "table",
+      "source_file": "chapter_17_llm_integration",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.210351"
+    },
+    {
+      "id": "table-chapter-18-ml-1",
+      "title": "Tabelle 1",
+      "type": "table",
+      "source_file": "chapter_18_ml",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.253168"
+    },
+    {
+      "id": "table-chapter-21-performance-1",
+      "title": "Tabelle 1",
+      "type": "table",
+      "source_file": "chapter_21_performance",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.331673"
+    },
+    {
+      "id": "table-chapter-23-testing-qa-1",
+      "title": "Tabelle 1",
+      "type": "table",
+      "source_file": "chapter_23_testing_qa",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.365900"
+    },
+    {
+      "id": "table-chapter-24-ai-ethics-1",
+      "title": "Tabelle 1",
+      "type": "table",
+      "source_file": "chapter_24_ai_ethics",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.385434"
+    },
+    {
+      "id": "table-chapter-25-devops-infrastructure-1",
+      "title": "Tabelle 1",
+      "type": "table",
+      "source_file": "chapter_25_devops_infrastructure",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.413000"
+    },
+    {
+      "id": "table-chapter-27-troubleshooting-1",
+      "title": "Tabelle 1",
+      "type": "table",
+      "source_file": "chapter_27_troubleshooting",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.436055"
+    },
+    {
+      "id": "table-chapter-28-aql-reference-1",
+      "title": "Tabelle 1",
+      "type": "table",
+      "source_file": "chapter_28_aql_reference",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.453752"
+    },
+    {
+      "id": "table-chapter-29-analytics-process-mining-1",
+      "title": "Tabelle 1",
+      "type": "table",
+      "source_file": "chapter_29_analytics_process_mining",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.465715"
+    },
+    {
+      "id": "table-chapter-31-api-protocols-1",
+      "title": "Tabelle 1",
+      "type": "table",
+      "source_file": "chapter_31_api_protocols",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.498107"
+    },
+    {
+      "id": "table-chapter-32-aql-oop-implementation-1",
+      "title": "Tabelle 1",
+      "type": "table",
+      "source_file": "chapter_32_aql_oop_implementation",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.534680"
+    },
+    {
+      "id": "table-chapter-33-best-practices-1",
+      "title": "Tabelle 1",
+      "type": "table",
+      "source_file": "chapter_33_best_practices",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.551536"
+    },
+    {
+      "id": "table-appendix-d-feature-status-1",
+      "title": "Tabelle 1",
+      "type": "table",
+      "source_file": "appendix_d_feature_status",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.655051"
+    },
+    {
+      "id": "table-appendix-f-aql-cheatsheet-1",
+      "title": "Tabelle 1",
+      "type": "table",
+      "source_file": "appendix_f_aql_cheatsheet",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.679296"
+    },
+    {
+      "id": "table-appendix-h-glossary-1",
+      "title": "Tabelle 1",
+      "type": "table",
+      "source_file": "appendix_h_glossary",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.713245"
+    },
+    {
+      "id": "table-appendix-i-troubleshooting-1",
+      "title": "Tabelle 1",
+      "type": "table",
+      "source_file": "appendix_i_troubleshooting",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.727983"
+    },
+    {
+      "id": "table-chapter-00-genesis-2",
+      "title": "Tabelle 2",
+      "type": "table",
+      "source_file": "chapter_00_genesis",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:36.784852"
+    },
+    {
+      "id": "table-chapter-01-introduction-2",
+      "title": "Tabelle 2",
+      "type": "table",
+      "source_file": "chapter_01_introduction",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:36.813803"
+    },
+    {
+      "id": "table-chapter-02-architecture-2",
+      "title": "Tabelle 2",
+      "type": "table",
+      "source_file": "chapter_02_architecture",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:36.844477"
+    },
+    {
+      "id": "table-chapter-05-relational-2",
+      "title": "Tabelle 2",
+      "type": "table",
+      "source_file": "chapter_05_relational",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:36.924205"
+    },
+    {
+      "id": "table-chapter-08-vector-2",
+      "title": "Tabelle 2",
+      "type": "table",
+      "source_file": "chapter_08_vector",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:36.997588"
+    },
+    {
+      "id": "table-chapter-08-storage-layer-2",
+      "title": "Tabelle 2",
+      "type": "table",
+      "source_file": "chapter_08_storage_layer",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.023859"
+    },
+    {
+      "id": "table-chapter-09-timeseries-2",
+      "title": "Tabelle 2",
+      "type": "table",
+      "source_file": "chapter_09_timeseries",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.039504"
+    },
+    {
+      "id": "table-chapter-10-enterprise-2",
+      "title": "Tabelle 2",
+      "type": "table",
+      "source_file": "chapter_10_enterprise",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.059910"
+    },
+    {
+      "id": "table-chapter-15-analytics-2",
+      "title": "Tabelle 2",
+      "type": "table",
+      "source_file": "chapter_15_analytics",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.160419"
+    },
+    {
+      "id": "table-chapter-16-sharding-2",
+      "title": "Tabelle 2",
+      "type": "table",
+      "source_file": "chapter_16_sharding",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.179880"
+    },
+    {
+      "id": "table-chapter-17-llm-integration-2",
+      "title": "Tabelle 2",
+      "type": "table",
+      "source_file": "chapter_17_llm_integration",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.210378"
+    },
+    {
+      "id": "table-chapter-21-performance-2",
+      "title": "Tabelle 2",
+      "type": "table",
+      "source_file": "chapter_21_performance",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.331693"
+    },
+    {
+      "id": "table-chapter-24-ai-ethics-2",
+      "title": "Tabelle 2",
+      "type": "table",
+      "source_file": "chapter_24_ai_ethics",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.401825"
+    },
+    {
+      "id": "table-chapter-28-aql-reference-2",
+      "title": "Tabelle 2",
+      "type": "table",
+      "source_file": "chapter_28_aql_reference",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.453807"
+    },
+    {
+      "id": "table-chapter-29-analytics-process-mining-2",
+      "title": "Tabelle 2",
+      "type": "table",
+      "source_file": "chapter_29_analytics_process_mining",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.473281"
+    },
+    {
+      "id": "table-chapter-31-api-protocols-2",
+      "title": "Tabelle 2",
+      "type": "table",
+      "source_file": "chapter_31_api_protocols",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.515913"
+    },
+    {
+      "id": "table-chapter-32-aql-oop-implementation-2",
+      "title": "Tabelle 2",
+      "type": "table",
+      "source_file": "chapter_32_aql_oop_implementation",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.534707"
+    },
+    {
+      "id": "table-appendix-d-feature-status-2",
+      "title": "Tabelle 2",
+      "type": "table",
+      "source_file": "appendix_d_feature_status",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.655082"
+    },
+    {
+      "id": "table-appendix-f-aql-cheatsheet-2",
+      "title": "Tabelle 2",
+      "type": "table",
+      "source_file": "appendix_f_aql_cheatsheet",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.679318"
+    },
+    {
+      "id": "table-appendix-h-glossary-2",
+      "title": "Tabelle 2",
+      "type": "table",
+      "source_file": "appendix_h_glossary",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.713268"
+    },
+    {
+      "id": "table-chapter-01-introduction-3",
+      "title": "Tabelle 3",
+      "type": "table",
+      "source_file": "chapter_01_introduction",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:36.813818"
+    },
+    {
+      "id": "table-chapter-02-architecture-3",
+      "title": "Tabelle 3",
+      "type": "table",
+      "source_file": "chapter_02_architecture",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:36.844538"
+    },
+    {
+      "id": "table-chapter-08-vector-3",
+      "title": "Tabelle 3",
+      "type": "table",
+      "source_file": "chapter_08_vector",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:36.997631"
+    },
+    {
+      "id": "table-chapter-08-storage-layer-3",
+      "title": "Tabelle 3",
+      "type": "table",
+      "source_file": "chapter_08_storage_layer",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.023878"
+    },
+    {
+      "id": "table-chapter-10-enterprise-3",
+      "title": "Tabelle 3",
+      "type": "table",
+      "source_file": "chapter_10_enterprise",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.067959"
+    },
+    {
+      "id": "table-chapter-16-sharding-3",
+      "title": "Tabelle 3",
+      "type": "table",
+      "source_file": "chapter_16_sharding",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.179896"
+    },
+    {
+      "id": "table-chapter-17-llm-integration-3",
+      "title": "Tabelle 3",
+      "type": "table",
+      "source_file": "chapter_17_llm_integration",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.218983"
+    },
+    {
+      "id": "table-chapter-21-performance-3",
+      "title": "Tabelle 3",
+      "type": "table",
+      "source_file": "chapter_21_performance",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.335009"
+    },
+    {
+      "id": "table-chapter-24-ai-ethics-3",
+      "title": "Tabelle 3",
+      "type": "table",
+      "source_file": "chapter_24_ai_ethics",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.401847"
+    },
+    {
+      "id": "table-chapter-31-api-protocols-3",
+      "title": "Tabelle 3",
+      "type": "table",
+      "source_file": "chapter_31_api_protocols",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.515952"
+    },
+    {
+      "id": "table-chapter-32-aql-oop-implementation-3",
+      "title": "Tabelle 3",
+      "type": "table",
+      "source_file": "chapter_32_aql_oop_implementation",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.534725"
+    },
+    {
+      "id": "table-appendix-d-feature-status-3",
+      "title": "Tabelle 3",
+      "type": "table",
+      "source_file": "appendix_d_feature_status",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.655101"
+    },
+    {
+      "id": "table-appendix-f-aql-cheatsheet-3",
+      "title": "Tabelle 3",
+      "type": "table",
+      "source_file": "appendix_f_aql_cheatsheet",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.679335"
+    },
+    {
+      "id": "table-chapter-01-introduction-4",
+      "title": "Tabelle 4",
+      "type": "table",
+      "source_file": "chapter_01_introduction",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:36.813844"
+    },
+    {
+      "id": "table-chapter-02-architecture-4",
+      "title": "Tabelle 4",
+      "type": "table",
+      "source_file": "chapter_02_architecture",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:36.844576"
+    },
+    {
+      "id": "table-chapter-08-storage-layer-4",
+      "title": "Tabelle 4",
+      "type": "table",
+      "source_file": "chapter_08_storage_layer",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.023900"
+    },
+    {
+      "id": "table-chapter-10-enterprise-4",
+      "title": "Tabelle 4",
+      "type": "table",
+      "source_file": "chapter_10_enterprise",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.067998"
+    },
+    {
+      "id": "table-chapter-16-sharding-4",
+      "title": "Tabelle 4",
+      "type": "table",
+      "source_file": "chapter_16_sharding",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.185181"
+    },
+    {
+      "id": "table-chapter-17-llm-integration-4",
+      "title": "Tabelle 4",
+      "type": "table",
+      "source_file": "chapter_17_llm_integration",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.227931"
+    },
+    {
+      "id": "table-chapter-21-performance-4",
+      "title": "Tabelle 4",
+      "type": "table",
+      "source_file": "chapter_21_performance",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.338004"
+    },
+    {
+      "id": "table-chapter-31-api-protocols-4",
+      "title": "Tabelle 4",
+      "type": "table",
+      "source_file": "chapter_31_api_protocols",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.515969"
+    },
+    {
+      "id": "table-chapter-32-aql-oop-implementation-4",
+      "title": "Tabelle 4",
+      "type": "table",
+      "source_file": "chapter_32_aql_oop_implementation",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.534744"
+    },
+    {
+      "id": "table-appendix-d-feature-status-4",
+      "title": "Tabelle 4",
+      "type": "table",
+      "source_file": "appendix_d_feature_status",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.655116"
+    },
+    {
+      "id": "table-appendix-f-aql-cheatsheet-4",
+      "title": "Tabelle 4",
+      "type": "table",
+      "source_file": "appendix_f_aql_cheatsheet",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.679350"
+    },
+    {
+      "id": "table-chapter-02-architecture-5",
+      "title": "Tabelle 5",
+      "type": "table",
+      "source_file": "chapter_02_architecture",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:36.844603"
+    },
+    {
+      "id": "table-chapter-08-storage-layer-5",
+      "title": "Tabelle 5",
+      "type": "table",
+      "source_file": "chapter_08_storage_layer",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.023916"
+    },
+    {
+      "id": "table-chapter-10-enterprise-5",
+      "title": "Tabelle 5",
+      "type": "table",
+      "source_file": "chapter_10_enterprise",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.075472"
+    },
+    {
+      "id": "table-chapter-16-sharding-5",
+      "title": "Tabelle 5",
+      "type": "table",
+      "source_file": "chapter_16_sharding",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.190936"
+    },
+    {
+      "id": "table-chapter-17-llm-integration-5",
+      "title": "Tabelle 5",
+      "type": "table",
+      "source_file": "chapter_17_llm_integration",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.237752"
+    },
+    {
+      "id": "table-chapter-21-performance-5",
+      "title": "Tabelle 5",
+      "type": "table",
+      "source_file": "chapter_21_performance",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.344206"
+    },
+    {
+      "id": "table-chapter-31-api-protocols-5",
+      "title": "Tabelle 5",
+      "type": "table",
+      "source_file": "chapter_31_api_protocols",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.515982"
+    },
+    {
+      "id": "table-appendix-d-feature-status-5",
+      "title": "Tabelle 5",
+      "type": "table",
+      "source_file": "appendix_d_feature_status",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.655131"
+    },
+    {
+      "id": "table-chapter-02-architecture-6",
+      "title": "Tabelle 6",
+      "type": "table",
+      "source_file": "chapter_02_architecture",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:36.853372"
+    },
+    {
+      "id": "table-chapter-08-storage-layer-6",
+      "title": "Tabelle 6",
+      "type": "table",
+      "source_file": "chapter_08_storage_layer",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.023929"
+    },
+    {
+      "id": "table-chapter-10-enterprise-6",
+      "title": "Tabelle 6",
+      "type": "table",
+      "source_file": "chapter_10_enterprise",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.075504"
+    },
+    {
+      "id": "table-chapter-17-llm-integration-6",
+      "title": "Tabelle 6",
+      "type": "table",
+      "source_file": "chapter_17_llm_integration",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.237775"
+    },
+    {
+      "id": "table-chapter-31-api-protocols-6",
+      "title": "Tabelle 6",
+      "type": "table",
+      "source_file": "chapter_31_api_protocols",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.516004"
+    },
+    {
+      "id": "table-appendix-d-feature-status-6",
+      "title": "Tabelle 6",
+      "type": "table",
+      "source_file": "appendix_d_feature_status",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.655147"
+    },
+    {
+      "id": "table-chapter-02-architecture-7",
+      "title": "Tabelle 7",
+      "type": "table",
+      "source_file": "chapter_02_architecture",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:36.858017"
+    },
+    {
+      "id": "table-chapter-08-storage-layer-7",
+      "title": "Tabelle 7",
+      "type": "table",
+      "source_file": "chapter_08_storage_layer",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.023952"
+    },
+    {
+      "id": "table-chapter-31-api-protocols-7",
+      "title": "Tabelle 7",
+      "type": "table",
+      "source_file": "chapter_31_api_protocols",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.516024"
+    },
+    {
+      "id": "table-appendix-d-feature-status-7",
+      "title": "Tabelle 7",
+      "type": "table",
+      "source_file": "appendix_d_feature_status",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.655166"
+    },
+    {
+      "id": "table-chapter-02-architecture-8",
+      "title": "Tabelle 8",
+      "type": "table",
+      "source_file": "chapter_02_architecture",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:36.858038"
+    },
+    {
+      "id": "table-chapter-08-storage-layer-8",
+      "title": "Tabelle 8",
+      "type": "table",
+      "source_file": "chapter_08_storage_layer",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.023974"
+    },
+    {
+      "id": "table-chapter-31-api-protocols-8",
+      "title": "Tabelle 8",
+      "type": "table",
+      "source_file": "chapter_31_api_protocols",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.516036"
+    },
+    {
+      "id": "table-appendix-d-feature-status-8",
+      "title": "Tabelle 8",
+      "type": "table",
+      "source_file": "appendix_d_feature_status",
+      "page": 0,
+      "parent": "",
+      "timestamp": "2026-01-13T14:39:37.655186"
+    }
+  ]
+}

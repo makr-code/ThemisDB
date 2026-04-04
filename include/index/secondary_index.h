@@ -1,6 +1,33 @@
-﻿#pragma once
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            secondary_index.h                                  ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:08:04                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     514                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 6a59ae473  2026-03-15  fix(index-compression): audit fixes — CI composite action... ║
+    • 2cf21d36b  2026-03-14  feat(index): implement index compression (v1.7.0, Issue #... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • dfa2c6253  2026-02-25  Merge branch 'develop' into copilot/implement-gpu-profili... ║
+    • 2c5066b72  2026-02-25  Code audit: fix header annotations, add PARTIAL to IndexT... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+#pragma once
 
 #include "storage/rocksdb_wrapper.h"
+#include "index/index_compression.h"
 #include <string>
 #include <string_view>
 #include <vector>
@@ -8,11 +35,20 @@
 #include <functional>
 #include <utility>
 #include <unordered_set>
+#include <unordered_map>
 #include <atomic>
+#include <cstdint>
+#include <memory>
 
 namespace themis {
 
 class BaseEntity;
+class IExpressionEvaluator;
+
+// Forward declaration for spatial index integration
+namespace index {
+class SpatialIndexManager;
+}
 
 /// SecondaryIndexManager
 /// - Gleichheitsbasierte Sekundärindizes pro Tabelle/Spalte(n)
@@ -29,7 +65,35 @@ public:
         static Status Error(std::string msg) { return Status{false, std::move(msg)}; }
     };
 
+    /// Index compression configuration (v1.7.0).
+    struct Config {
+        bool enable_compression = false;
+        index::CompressionAlgorithm compression_algorithm = index::CompressionAlgorithm::NONE;
+        int  compression_level  = 3; ///< Algorithm-specific level (e.g. 1–22 for ZSTD)
+
+        // Fine-grained technique flags.  When enable_compression is true and
+        // these flags are not explicitly set to false, all techniques are active.
+        bool enable_prefix_compression = true;
+        bool enable_delta_encoding     = true;
+        bool enable_rle                = true;
+        bool enable_dict_encoding      = true;
+        bool enable_bloom_filter       = true;
+    };
+
     explicit SecondaryIndexManager(RocksDBWrapper& db);
+    explicit SecondaryIndexManager(RocksDBWrapper& db, const Config& config);
+    
+    // Phase 4: Set optional expression evaluator for advanced filtering
+    void setExpressionEvaluator(std::shared_ptr<IExpressionEvaluator> evaluator);
+    
+    // Get expression evaluator
+    std::shared_ptr<IExpressionEvaluator> getExpressionEvaluator() const;
+    
+    // Set optional spatial index manager for atomic geo index updates (Phase 2)
+    void setSpatialIndexManager(index::SpatialIndexManager* spatial_mgr);
+    
+    // Get spatial index manager
+    index::SpatialIndexManager* getSpatialIndexManager() const;
 
     // Index-Lifecycle
     Status createIndex(std::string_view table, std::string_view column, bool unique = false);
@@ -40,8 +104,22 @@ public:
     bool hasCompositeIndex(std::string_view table, const std::vector<std::string>& columns) const;
 
     // Backward-compatibility: Unified IndexType for simple "createIndex(..., IndexType)"
-    enum class IndexType { REGULAR, RANGE, SPARSE, GEO, TTL, FULLTEXT };
+    enum class IndexType { REGULAR, RANGE, SPARSE, GEO, TTL, FULLTEXT, PARTIAL };
     Status createIndex(std::string_view table, std::string_view column, IndexType type);
+
+    // Partial (filtered) index: only indexes rows satisfying the given predicate.
+    // Predicate syntax: "field = 'value'", "field > 123", "field IS NOT NULL", etc.
+    // Key schema: pidx:<table>:<column>:<encoded_value>:<PK>
+    Status createPartialIndex(std::string_view table, std::string_view column,
+                              std::string_view predicate, bool unique = false);
+    Status dropPartialIndex(std::string_view table, std::string_view column);
+    bool hasPartialIndex(std::string_view table, std::string_view column) const;
+    std::optional<std::string> getPartialIndexPredicate(std::string_view table,
+                                                        std::string_view column) const;
+    std::pair<Status, std::vector<std::string>> scanKeysEqualPartial(
+        std::string_view table,
+        std::string_view column,
+        std::string_view value) const;
 
     // Range-/Sort-Index (lexikografisch über String-Encoding)
     Status createRangeIndex(std::string_view table, std::string_view column);
@@ -103,6 +181,23 @@ public:
         std::string_view table,
         std::string_view column,
         std::string_view query,
+        size_t limit = 1000
+    ) const;
+
+    // Phrase search: exact phrase matching with position awareness
+    std::pair<Status, std::vector<FulltextResult>> scanFulltextPhrase(
+        std::string_view table,
+        std::string_view column,
+        std::string_view phrase,
+        size_t limit = 1000
+    ) const;
+
+    // Fuzzy search: Levenshtein distance-based similarity matching
+    std::pair<Status, std::vector<FulltextResult>> scanFulltextFuzzy(
+        std::string_view table,
+        std::string_view column,
+        std::string_view query,
+        int maxDistance = 2,  // Maximum Levenshtein distance
         size_t limit = 1000
     ) const;
 
@@ -227,7 +322,7 @@ public:
 
     // Index-Statistiken und Wartung
     struct IndexStats {
-        std::string type;              // "regular", "composite", "range", "sparse", "geo", "ttl", "fulltext"
+        std::string type;              // "regular", "composite", "range", "sparse", "geo", "ttl", "fulltext", "partial"
         std::string table;
         std::string column;            // oder col1+col2+... für Composite
         size_t entry_count = 0;        // Anzahl Index-Einträge
@@ -247,6 +342,15 @@ public:
     // Rebuild mit Fortschritts-Callback: progress(done,total) -> true=weiter, false=abbrechen
     void rebuildIndex(const std::string& table, const std::string& column,
                       std::function<bool(size_t,size_t)> progress);
+
+    // Online-Rebuild mit minimalem Lese-Impact:
+    // Baut den Index in einem Shadow-Prefix auf, während der Live-Index für Reads verfügbar
+    // bleibt. Am Ende wird in einem einzigen WriteBatch atomar auf den Live-Prefix umgeschaltet.
+    // throttle_us: Mikrosekunden Pause alle 100 Entities (0 = kein Throttling)
+    // progress: optionaler Callback progress(done,total) -> true=weiter, false=abbrechen
+    void rebuildIndexOnline(const std::string& table, const std::string& column,
+                            uint32_t throttle_us = 0,
+                            std::function<bool(size_t,size_t)> progress = nullptr);
     
     // Rebuild aller Indizes einer Tabelle
     void reindexTable(const std::string& table);
@@ -256,6 +360,7 @@ public:
         std::atomic<uint64_t> rebuild_count{0};           // Anzahl durchgeführter Rebuilds
         std::atomic<uint64_t> rebuild_duration_ms{0};     // Gesamtdauer aller Rebuilds in ms
         std::atomic<uint64_t> rebuild_entities_processed{0}; // Anzahl verarbeiteter Entities
+        std::atomic<uint64_t> online_rebuild_count{0};    // Anzahl durchgeführter Online-Rebuilds
     };
     
     // Query-Metriken (Prometheus): Zählwerte für Cursor/Range-Scans
@@ -269,10 +374,26 @@ public:
     QueryMetrics& getQueryMetrics() { return query_metrics_; }
     const QueryMetrics& getQueryMetrics() const { return query_metrics_; }
 
+    // Index compression (v1.7.0)
+    const Config& getCompressionConfig() const { return compression_config_; }
+    index::IndexCompressionCodec& getCompressionCodec() { return *compression_codec_; }
+    const index::IndexCompressionCodec& getCompressionCodec() const { return *compression_codec_; }
+    bool isCompressionEnabled() const { return compression_config_.enable_compression; }
+
 private:
     RocksDBWrapper& db_;
     RebuildMetrics rebuild_metrics_;
     mutable QueryMetrics query_metrics_;
+    
+    // Phase 4: Optional ExpressionEvaluator for advanced filtering
+    std::shared_ptr<IExpressionEvaluator> expression_evaluator_;
+    
+    // Phase 2: Optional SpatialIndexManager for atomic geo index updates
+    index::SpatialIndexManager* spatial_index_mgr_ = nullptr;
+
+    // Index compression (v1.7.0)
+    Config compression_config_;
+    std::unique_ptr<index::IndexCompressionCodec> compression_codec_;
 
     // Meta-Key für vorhandene Indizes: idxmeta:<table>:<column>
     // Composite: idxmeta:<table>:col1+col2+col3
@@ -328,10 +449,21 @@ private:
     static std::string makeFulltextDocLenKey(std::string_view table, std::string_view column, std::string_view pk); // ftdlen:table:column:PK
     static std::string makeFulltextDocLenPrefix(std::string_view table, std::string_view column); // ftdlen:table:column:
 
+    // Partial-Index-Metadaten: pidxmeta:<table>:<column> -> predicate[|unique]
+    static std::string makePartialIndexMetaKey(std::string_view table, std::string_view column);
+    // Partial-Index-Key-Builder: pidx:<table>:<column>:<encoded_value>:<PK>
+    static std::string makePartialIndexKey(std::string_view table, std::string_view column, std::string_view value, std::string_view pk);
+    static std::string makePartialIndexPrefix(std::string_view table, std::string_view column, std::string_view valuePrefix = {});
+
     // Prüft ob Index unique ist
     bool isUniqueIndex_(std::string_view table, std::string_view column) const;
     bool isUniqueCompositeIndex_(std::string_view table, const std::vector<std::string>& columns) const;
     bool isSparseIndexUnique_(std::string_view table, std::string_view column) const;
+    bool isPartialIndexUnique_(std::string_view table, std::string_view column) const;
+
+    // Evaluates a partial index predicate string against an entity.
+    // Returns true if the entity satisfies the predicate (should be indexed).
+    static bool evaluatePartialPredicate_(const BaseEntity& entity, const std::string& predicate);
 
     // Sichere Kodierung für Key-Komponenten (':' und '%' werden percent-encodiert)
     static std::string encodeKeyComponent(std::string_view raw);
@@ -362,6 +494,7 @@ private:
     std::unordered_set<std::string> loadGeoIndexedColumns_(std::string_view table) const;
     std::unordered_set<std::string> loadTTLIndexedColumns_(std::string_view table) const;
     std::unordered_set<std::string> loadFulltextIndexedColumns_(std::string_view table) const;
+    std::unordered_map<std::string, std::string> loadPartialIndexedColumns_(std::string_view table) const;
     
     // TTL-Helpers
     int64_t getTTLSeconds_(std::string_view table, std::string_view column) const;

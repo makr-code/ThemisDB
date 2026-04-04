@@ -1,0 +1,159 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_temporal_compressor.cpp                       ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-30 04:23:40                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     153                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 79f081505  2026-03-28  Add test statistics documentation and collection script ║
+    • 48fbf5b22  2026-03-21  Update search, temporal, and build artifacts ║
+    • ab6254146  2026-03-20  docs(temporal): document Phase 4 components and enrich tests ║
+    • f8f5de7b2  2026-03-20  feat(temporal): add Phase 4 tests, update CMake/CI/ROADMAP ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+/**
+ * Tests for TemporalCompressor
+ *
+ * Copyright (c) 2025 VCC-URN Project
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+#include <gtest/gtest.h>
+#include "temporal/temporal_compressor.h"
+#include "temporal/system_versioned_table.h"
+
+using namespace themisdb::temporal;
+
+class TemporalCompressorTest : public ::testing::Test {
+protected:
+    TemporalCompressor compressor;
+};
+
+// ── algorithmName ─────────────────────────────────────────────────────────────
+
+TEST_F(TemporalCompressorTest, AlgorithmName_Delta) {
+    EXPECT_EQ(TemporalCompressor::algorithmName(CompressionAlgorithm::DELTA), "DELTA");
+}
+
+TEST_F(TemporalCompressorTest, AlgorithmName_Zstd) {
+    EXPECT_EQ(TemporalCompressor::algorithmName(CompressionAlgorithm::ZSTD), "ZSTD");
+}
+
+TEST_F(TemporalCompressorTest, AlgorithmName_Gorilla) {
+    EXPECT_EQ(TemporalCompressor::algorithmName(CompressionAlgorithm::GORILLA), "GORILLA");
+}
+
+TEST_F(TemporalCompressorTest, AlgorithmName_Dictionary) {
+    EXPECT_EQ(TemporalCompressor::algorithmName(CompressionAlgorithm::DICTIONARY), "DICTIONARY");
+}
+
+// ── compressHistory on empty table ────────────────────────────────────────────
+
+TEST_F(TemporalCompressorTest, CompressHistory_EmptyTable_ReturnsZeroStats) {
+    auto table = SystemVersionedTable::createVersionedTable("empty_tbl", {});
+    CompressionConfig cfg;
+    cfg.compress_immediately = true;
+
+    auto stats = compressor.compressHistory(table, {0, kMaxTimestamp}, cfg);
+    EXPECT_EQ(stats.versions_processed, 0u);
+    EXPECT_EQ(stats.versions_compressed, 0u);
+}
+
+// ── decompress on plain (non-compressed) document ─────────────────────────────
+
+TEST_F(TemporalCompressorTest, Decompress_NonCompressedDoc_ReturnsSame) {
+    nlohmann::json doc = {{"name", "Alice"}, {"age", 30}};
+    auto result = TemporalCompressor::decompress(doc);
+    EXPECT_EQ(result, doc);
+}
+
+// ── compressHistory with DELTA algorithm ──────────────────────────────────────
+
+TEST_F(TemporalCompressorTest, CompressHistory_DeltaAlgo_ProcessesVersions) {
+    auto table = SystemVersionedTable::createVersionedTable("delta_tbl", {});
+    table.insert("key1", {{"name", "Alice"}, {"age", 30}});
+    table.upsert("key1", {{"name", "Alice"}, {"age", 31}});
+    table.upsert("key1", {{"name", "Alice"}, {"age", 32}});
+
+    CompressionConfig cfg;
+    cfg.algorithm = CompressionAlgorithm::DELTA;
+    cfg.compress_immediately = true;
+
+    auto stats = compressor.compressHistory(table, {0, kMaxTimestamp}, cfg);
+    EXPECT_GT(stats.versions_compressed, 0u);
+}
+
+// ── compressHistory with ZSTD algorithm ───────────────────────────────────────
+
+TEST_F(TemporalCompressorTest, CompressHistory_ZstdAlgo_ProcessesVersions) {
+    auto table = SystemVersionedTable::createVersionedTable("zstd_tbl", {});
+    table.insert("key1", {{"value", "hello world"}, {"count", 1}});
+    table.upsert("key1", {{"value", "hello world updated"}, {"count", 2}});
+    table.upsert("key1", {{"value", "hello world again"}, {"count", 3}});
+
+    CompressionConfig cfg;
+    cfg.algorithm = CompressionAlgorithm::ZSTD;
+    cfg.compress_immediately = true;
+
+    auto stats = compressor.compressHistory(table, {0, kMaxTimestamp}, cfg);
+    EXPECT_GT(stats.versions_compressed, 0u);
+}
+
+// ── compressHistory skips recent versions when delay applies ──────────────────
+
+TEST_F(TemporalCompressorTest, CompressHistory_SkipsRecentVersions) {
+    auto table = SystemVersionedTable::createVersionedTable("recent_tbl", {});
+    table.insert("key1", {{"name", "Bob"}, {"score", 100}});
+    // Second upsert makes the first version historical (non-current),
+    // so the delay check can fire on it.
+    table.upsert("key1", {{"name", "Bob"}, {"score", 101}});
+
+    CompressionConfig cfg;
+    cfg.algorithm = CompressionAlgorithm::DELTA;
+    cfg.compress_immediately = false;
+    cfg.delay_before_compression = std::chrono::seconds(24 * 3600); // 24h
+
+    auto stats = compressor.compressHistory(table, {0, kMaxTimestamp}, cfg);
+    EXPECT_GT(stats.versions_skipped, 0u);
+}
+
+// ── Additional edge-case tests ────────────────────────────────────────────────
+
+TEST_F(TemporalCompressorTest, CompressHistory_DictionaryAlgo_ProcessesVersions) {
+    auto table = SystemVersionedTable::createVersionedTable("dict_tbl", {});
+    table.insert("key1", {{"status", "active"},   {"region", "EU"}});
+    table.upsert("key1", {{"status", "inactive"}, {"region", "EU"}});
+    table.upsert("key1", {{"status", "active"},   {"region", "US"}});
+
+    CompressionConfig cfg;
+    cfg.algorithm = CompressionAlgorithm::DICTIONARY;
+    cfg.compress_immediately = true;
+
+    auto stats = compressor.compressHistory(table, {0, kMaxTimestamp}, cfg);
+    EXPECT_GT(stats.versions_compressed, 0u);
+}
+
+TEST_F(TemporalCompressorTest, CompressHistory_CompressImmediately_DoesNotSkip) {
+    auto table = SystemVersionedTable::createVersionedTable("imm_tbl", {});
+    table.insert("key1", {{"name", "Charlie"}, {"value", 42}});
+
+    CompressionConfig cfg;
+    cfg.algorithm = CompressionAlgorithm::DELTA;
+    cfg.compress_immediately = true;
+
+    auto stats = compressor.compressHistory(table, {0, kMaxTimestamp}, cfg);
+    EXPECT_EQ(stats.versions_skipped, 0u);
+}
+

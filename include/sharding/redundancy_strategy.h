@@ -1,3 +1,25 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            redundancy_strategy.h                              ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:11:37                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     738                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * ThemisDB RAID-like Redundancy Strategy
  * 
@@ -30,6 +52,14 @@
 #include <atomic>
 #include <future>
 
+#include "sharding/write_concern.h"
+
+namespace themisdb {
+namespace sharding {
+class RaftShardManager;
+}
+}
+
 namespace themis {
 namespace sharding {
 
@@ -61,18 +91,9 @@ enum class ReadPreference {
     NEAREST,        // Read from nearest replica (latency-based)
     ROUND_ROBIN,    // Load-balance across all replicas
     RANDOM,         // Random replica selection
-    SECONDARY_ONLY  // Only read from secondaries
-};
-
-/**
- * Write Concern
- * How many acknowledgements to wait for
- */
-enum class WriteConcern {
-    ONE,            // Acknowledge after one write
-    MAJORITY,       // Wait for majority of replicas
-    ALL,            // Wait for all replicas
-    QUORUM          // Wait for quorum (configurable)
+    SECONDARY_ONLY, // Only read from secondaries
+    FOLLOWER,       // Follower-reads (any follower, possibly stale)
+    LOCAL_REGION    // Prefer shards in the local region (geo-locality)
 };
 
 /**
@@ -122,22 +143,50 @@ struct ErasureCodingConfig {
 struct GeoReplicationConfig {
     std::string primary_datacenter;
     std::vector<std::string> replica_datacenters;
-    
+
+    // Region/zone placement: map from region name to list of allowed shard IDs
+    // Empty map means no placement constraint (any shard is acceptable)
+    std::map<std::string, std::vector<std::string>> region_shards;
+
+    // Per-region minimum quorum for writes (region -> required acks)
+    // E.g. {{"us-east", 2}, {"eu-west", 1}} means 2 acks in us-east AND 1 in eu-west
+    std::map<std::string, uint32_t> region_write_quorums;
+
+    // Per-region minimum quorum for reads (region -> required acks)
+    std::map<std::string, uint32_t> region_read_quorums;
+
+    // Local region for this node (used for LOCAL_REGION read preference)
+    std::string local_region;
+
     enum class ReplicationMode {
         SYNC,       // Synchronous (high latency, strong consistency)
         SEMI_SYNC,  // Wait for at least one remote DC
         ASYNC       // Asynchronous (low latency, eventual consistency)
     } replication_mode = ReplicationMode::ASYNC;
-    
+
     ConflictResolution conflict_resolution = ConflictResolution::LAST_WRITE_WINS;
     ReadPreference read_preference = ReadPreference::NEAREST;
-    
+
+    // Bounded-staleness: maximum acceptable replication lag for follower reads (ms)
+    // 0 = no bound (pure follower/async reads)
+    uint32_t max_staleness_ms = 0;
+
     // Maximum replication lag before alerts (milliseconds)
     uint32_t max_lag_ms = 10000;
-    
+
     // Local datacenter optimization
     bool prefer_local_reads = true;
     bool prefer_local_writes = false;  // Only for ASYNC mode
+
+    // Geo-failover: automatically exclude regions that have too many unhealthy shards
+    bool enable_geo_failover = false;
+
+    // Minimum fraction of healthy shards in a region before it is considered failed
+    // E.g. 0.5 means a region is failed-out if <50% of its shards are healthy
+    double region_failure_threshold = 0.5;
+
+    // Regions currently marked as failed-out (populated at runtime, not set by user)
+    mutable std::vector<std::string> failed_regions;
 };
 
 /**
@@ -177,6 +226,9 @@ struct RedundancyConfig {
     // Quorum settings
     uint32_t read_quorum = 1;   // For quorum reads
     uint32_t write_quorum = 2;  // For quorum writes
+    bool enable_quorum_enforcement = false;  // Enable quorum-based consistency (default: OFF for RC1)
+    bool enable_partition_detection = false;  // Enable network partition detection
+    bool enable_raft_consensus = false;       // Enable Raft consensus for writes
     
     // Stripe settings (for STRIPE, STRIPE_MIRROR)
     StripeConfig stripe;
@@ -346,6 +398,8 @@ public:
 
 /**
  * Reed-Solomon Erasure Coder
+ * Uses a systematic Vandermonde-based encoding matrix for full multi-chunk
+ * erasure recovery (up to parity_shards simultaneous failures).
  */
 class ReedSolomonCoder : public ErasureCoder {
 public:
@@ -363,12 +417,19 @@ public:
     ) override;
     
 private:
-    // Galois Field operations
+    // Galois Field GF(2^8) operations with irreducible polynomial x^8+x^4+x^3+x^2+1 (0x1d)
     uint8_t gf_mul(uint8_t a, uint8_t b);
+    uint8_t gf_inv(uint8_t a);
     uint8_t gf_div(uint8_t a, uint8_t b);
+    uint8_t gf_pow(uint8_t a, uint8_t exp);
     void gf_matrix_mul(const std::vector<std::vector<uint8_t>>& matrix,
                        const std::vector<uint8_t>& vec,
                        std::vector<uint8_t>& result);
+    // Build Vandermonde parity matrix (parity_shards x data_shards)
+    // V[p][j] = gf_pow(p+1, j)
+    std::vector<std::vector<uint8_t>> buildVandermondeMatrix(uint32_t rows, uint32_t cols);
+    // Gaussian elimination in GF(2^8) for matrix inversion
+    bool invertMatrix(std::vector<std::vector<uint8_t>>& matrix);
 };
 
 /**
@@ -489,10 +550,19 @@ public:
     // Export Prometheus metrics
     std::string exportPrometheusMetrics() const;
     
+    /**
+     * @brief Set Raft shard manager for consensus-based writes
+     * @param raft_manager Shared pointer to RaftShardManager
+     */
+    void setRaftShardManager(std::shared_ptr<themisdb::sharding::RaftShardManager> raft_manager);
+
 private:
     RedundancyConfig config_;
     std::unique_ptr<ErasureCoder> erasure_coder_;
     mutable std::shared_mutex mutex_;
+    
+    // Raft shard manager for consensus-based writes (optional)
+    std::shared_ptr<themisdb::sharding::RaftShardManager> raft_manager_;
     
     // Statistics
     std::atomic<uint64_t> stats_writes_{0};
@@ -500,6 +570,24 @@ private:
     std::atomic<uint64_t> stats_recoveries_{0};
     std::atomic<uint64_t> stats_bytes_written_{0};
     std::atomic<uint64_t> stats_bytes_read_{0};
+    
+    /**
+     * @brief Check if Raft consensus is enabled and write should go through leader
+     * @param shard_id Shard to check
+     * @return true if Raft is enabled and shard has leader
+     */
+    bool shouldUseRaftConsensus(const std::string& shard_id) const;
+    
+    /**
+     * @brief Propose write through Raft consensus (for leader enforcement)
+     * @param shard_id Target shard
+     * @param document_id Document ID
+     * @param data Data to write
+     * @return true if write was successfully proposed and committed
+     */
+    bool proposeRaftWrite(const std::string& shard_id,
+                         const std::string& document_id,
+                         const std::vector<uint8_t>& data);
     
     // Internal write methods for each mode
     WriteResult writeMirror(
@@ -549,6 +637,13 @@ private:
         ShardTopology& topology,
         ReadHandler handler
     );
+
+    ReadResult readGeoMirror(
+        const std::string& document_id,
+        ConsistentHashRing& ring,
+        ShardTopology& topology,
+        ReadHandler handler
+    );
     
     ReadResult readStripe(
         const std::string& document_id,
@@ -578,6 +673,17 @@ private:
         const std::vector<std::string>& available_shards,
         ShardTopology& topology
     );
+
+    // Select the best shard from candidates, preferring shards in local_region
+    // when config is GEO_MIRROR with LOCAL_REGION or FOLLOWER read preference.
+    std::string selectGeoReadShard(
+        const std::vector<std::string>& candidates,
+        ShardTopology& topology,
+        const std::string& local_region
+    );
+
+    // Evaluate geo-failover: mark regions as failed-out based on health thresholds
+    void evaluateGeoFailover(ShardTopology& topology) const;
     
     bool waitForWriteConcern(
         const std::vector<std::future<bool>>& futures,

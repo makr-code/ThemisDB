@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            websocket_session.h                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:11:28                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     313                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 3e1a33c4c  2026-03-01  feat(network/server): implement WebSocket binary frame su... ║
+    • 6d03c85c7  2026-02-24  feat(cdc): WebSocket transport for /v2/cdc/stream with at... ║
+    • 22ffc8614  2026-02-23  feat(api): implement WebSocket back-pressure, filter fiel... ║
+    • db120052b  2026-02-23  feat(api): Implement SSE/WebSocket streaming query result... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #ifdef THEMIS_ENABLE_WEBSOCKET
@@ -9,13 +35,13 @@
 #include <memory>
 #include <string>
 #include <queue>
+#include <set>
 #include <mutex>
 #include <functional>
+#include "cdc/changefeed.h"
+#include "cdc/cdc_ws_handler.h"
 
 namespace themis {
-
-// Forward declaration
-class Changefeed;
 
 namespace server {
 
@@ -61,6 +87,21 @@ public:
     void run(http::request<http::string_body> req);
     
     /**
+     * @brief Set the JWT token extracted from the HTTP upgrade Authorization header.
+     *
+     * Called before run() so that per-message auth checks can use the same token.
+     */
+    void setAuthToken(const std::string& token) { auth_token_ = token; }
+
+    /**
+     * @brief Set the request path for path-specific behaviour.
+     *
+     * Called before run() to inform the session which endpoint was requested,
+     * e.g. "/v2/changes" for the dedicated changefeed WebSocket endpoint.
+     */
+    void setRequestPath(const std::string& path) { request_path_ = path; }
+    
+    /**
      * @brief Send a text message to the client
      */
     void send(const std::string& message);
@@ -83,12 +124,20 @@ public:
     /**
      * @brief Get session ID
      */
-    std::string getSessionId() const { return session_id_; }
-    
+    const std::string& getSessionId() const { return session_id_; }
+
+    /// Maximum number of pending outbound frames per connection.
+    /// Exceeding this triggers a 1011 close to prevent unbounded memory growth.
+    static constexpr std::size_t kMaxQueueDepth = 1000;
+
     /**
      * @brief Subscribe to CDC changefeed
+     * @param from_sequence Starting sequence number
+     * @param key_prefix Optional key prefix filter
+     * @param event_types Optional set of event types to filter; empty = all types
      */
-    void subscribeToCDC(uint64_t from_sequence = 0, const std::string& key_prefix = "");
+    void subscribeToCDC(uint64_t from_sequence = 0, const std::string& key_prefix = "",
+                        const std::set<Changefeed::ChangeEventType>& event_types = {});
     
     /**
      * @brief Unsubscribe from CDC changefeed
@@ -97,8 +146,15 @@ public:
     
     /**
      * @brief Check if subscribed to CDC
+     *
+     * Returns true for legacy /v2/changes subscriptions and also for
+     * /v2/cdc/stream sessions that have at least one active named subscription.
      */
-    bool isSubscribedToCDC() const { return cdc_subscribed_; }
+    bool isSubscribedToCDC() const {
+        if (cdc_subscribed_) return true;
+        if (cdc_stream_handler_) return cdc_stream_handler_->hasSubscriptions();
+        return false;
+    }
     
     /**
      * @brief Update CDC last sent sequence
@@ -112,8 +168,19 @@ public:
         uint64_t from_sequence;
         std::string key_prefix;
         uint64_t last_sent_sequence;
+        std::set<Changefeed::ChangeEventType> event_types;
     };
     CDCSubscription getCDCSubscription() const;
+
+    /**
+     * @brief Return the CdcWebSocketHandler for /v2/cdc/stream sessions.
+     *
+     * Returns nullptr for legacy /v2/changes sessions and before run() is
+     * called.  WebSocketManager uses this to route polling to the new handler.
+     */
+    cdc::CdcWebSocketHandler* getCdcStreamHandler() {
+        return cdc_stream_handler_.get();
+    }
 
 private:
     void onAccept(beast::error_code ec);
@@ -121,6 +188,7 @@ private:
     void onRead(beast::error_code ec, std::size_t bytes_transferred);
     void onWrite(beast::error_code ec, std::size_t bytes_transferred);
     void processMessage(const std::string& message);
+    void processBinaryMessage(const std::vector<uint8_t>& data);
     void doClose();
     
     // WebSocket stream (plain or TLS)
@@ -130,20 +198,38 @@ private:
     HttpServer* server_;
     beast::flat_buffer buffer_;
     std::string session_id_;
+    std::string request_path_;   ///< Target path from the HTTP upgrade request
+    std::string auth_token_;     ///< JWT extracted from the HTTP upgrade Authorization header
     bool active_;
     bool is_tls_;
     
-    // Message queue for outgoing messages
-    std::queue<std::string> write_queue_;
+    // Back-pressure: the maximum queue depth is declared public as kMaxQueueDepth above.
+
+    // Message queue for outgoing messages.
+    // Each entry records the payload and whether it is a binary frame so that
+    // onWrite can restore the correct frame type when draining the queue.
+    struct WriteEntry {
+        std::string data;
+        bool        is_binary = false;
+    };
+    std::queue<WriteEntry> write_queue_;
     std::mutex write_mutex_;
     bool writing_;
+    // Set to true when the connection is closed due to back-pressure so that
+    // onWrite can emit a close frame after the current write drains.
+    bool close_due_to_backpressure_;
     
-    // CDC subscription state
+    // CDC subscription state (legacy /v2/changes protocol)
     bool cdc_subscribed_;
     uint64_t cdc_from_sequence_;
     uint64_t cdc_last_sent_sequence_;
     std::string cdc_key_prefix_;
+    std::set<Changefeed::ChangeEventType> cdc_event_types_;  ///< Filtered event types; empty = all
     mutable std::mutex cdc_mutex_;
+
+    // CDC subscription manager for /v2/cdc/stream (named subscriptions + acks).
+    // Null for legacy /v2/changes sessions; initialised in run() for the new endpoint.
+    std::unique_ptr<cdc::CdcWebSocketHandler> cdc_stream_handler_;
 };
 
 /**

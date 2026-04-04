@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "description": "License compliance policy for ThemisDB - defines acceptable and restricted licenses",
+  "version": "1.0.0",
+  "project": {
+    "name": "ThemisDB",
+    "license": "MIT with Government Clause",
+    "purpose": "Multi-model database with native LLM integration for public sector digital sovereignty"
+  },
+  "policy": {
+    "allowed": [
+      "MIT",
+      "MIT-0",
+      "Apache-2.0",
+      "BSD-2-Clause",
+      "BSD-3-Clause",
+      "ISC",
+      "Unlicense",
+      "0BSD",
+      "Python-2.0",
+      "Zlib",
+      "CC0-1.0",
+      "BSL-1.0",
+      "MPL-2.0"
+    ],
+    "restricted": {
+      "copyleft-strong": {
+        "licenses": [
+          "GPL-2.0",
+          "GPL-2.0-only",
+          "GPL-2.0-or-later",
+          "GPL-3.0",
+          "GPL-3.0-only",
+          "GPL-3.0-or-later",
+          "AGPL-3.0",
+          "AGPL-3.0-only",
+          "AGPL-3.0-or-later"
+        ],
+        "reason": "Strong copyleft - requires derivative works to be GPL licensed",
+        "action": "block",
+        "exceptions": []
+      },
+      "copyleft-weak": {
+        "licenses": [
+          "LGPL-2.1",
+          "LGPL-2.1-only",
+          "LGPL-2.1-or-later",
+          "LGPL-3.0",
+          "LGPL-3.0-only",
+          "LGPL-3.0-or-later",
+          "EPL-1.0",
+          "EPL-2.0",
+          "CDDL-1.0",
+          "CDDL-1.1"
+        ],
+        "reason": "Weak copyleft - requires modifications to be released under same license",
+        "action": "warn",
+        "exceptions": [
+          "RocksDB uses dual Apache-2.0/GPL-2.0 license - we use under Apache-2.0",
+          "Some system libraries may use LGPL - acceptable for dynamic linking"
+        ]
+      },
+      "proprietary": {
+        "licenses": [
+          "Proprietary",
+          "Commercial",
+          "UNLICENSED"
+        ],
+        "reason": "Proprietary or no clear open source license",
+        "action": "block",
+        "exceptions": []
+      }
+    },
+    "unknown": {
+      "action": "warn",
+      "reason": "License not recognized - manual review required"
+    }
+  },
+  "compliance": {
+    "require_attribution": true,
+    "sbom_generation": true,
+    "audit_frequency": "monthly",
+    "review_process": "All new dependencies must pass license compliance check before merge"
+  },
+  "exceptions": {
+    "description": "Manually approved exceptions to policy",
+    "list": []
+  },
+  "documentation": {
+    "policy_document": "docs/de/compliance/license-compliance.md",
+    "developer_guide": "CONTRIBUTING.md",
+    "audit_log": ".github/license-audit-log.md"
+  }
+}

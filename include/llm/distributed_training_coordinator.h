@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            distributed_training_coordinator.h                 ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:08:19                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     471                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include <memory>
@@ -8,18 +31,33 @@
 #include <optional>
 #include <chrono>
 #include <nlohmann/json.hpp>
+#include "llm/byzantine_detector.h"
+#include "sharding/shard_router.h"
+#include "sharding/shard_topology.h"
 
 // Forward declarations
 class ShardRouter;
 class ShardTopology;
-class TrainingConfig;
+// Minimal training configuration used for coordinator initialization
+struct TrainingConfig {
+    int epochs = 1;
+    int total_steps = 0;
+    float learning_rate = 0.0f;
+    int batch_size = 0;
+};
 class OptimizerState;
 class TrainingMetrics;
+
+// Byzantine types are defined in byzantine_detector.h
 
 namespace themis {
 namespace llm {
 
 using json = nlohmann::json;
+
+// Map local coordinator types to sharding infrastructure
+using ShardRouter = themis::sharding::ShardRouter;
+using ShardTopology = themis::sharding::ShardTopology;
 
 // ============================================================================
 // Gradient Synchronization Strategies
@@ -67,6 +105,13 @@ struct DistributedTrainingConfig {
     bool enable_checkpointing = true;
     int checkpoint_frequency = 100;             // Steps between checkpoints
     std::string checkpoint_path;
+    
+    // Byzantine fault detection
+    bool enable_byzantine_detection = false;
+    ByzantineDetectionMethod detection_method = ByzantineDetectionMethod::MEDIAN;
+    float detection_threshold = 3.0f;           // For median-based (MAD multiplier)
+    int max_byzantine_shards = 1;               // For Krum/Bulyan (f parameter)
+    ByzantineAction byzantine_action = ByzantineAction::EXCLUDE;
     
     json toJSON() const;
     static DistributedTrainingConfig fromJSON(const json& j);
@@ -119,6 +164,11 @@ struct GradientExchangeMessage {
     // Timing
     int64_t sent_timestamp_ms;
     int64_t received_timestamp_ms;
+    
+    // Loss metrics from this shard
+    std::optional<float> local_loss;
+    std::optional<float> local_accuracy;
+    int samples_in_batch = 0;
     
     json toJSON() const;
     static GradientExchangeMessage fromJSON(const json& j);
@@ -181,6 +231,13 @@ struct DistributedTrainingStats {
     // Speedup
     float effective_speedup = 1.0f;             // vs single shard
     float communication_overhead_pct = 0.0f;    // % time spent on network
+    
+    // Byzantine detection metrics
+    int byzantine_detections = 0;
+    int byzantine_shards_excluded = 0;
+    std::map<std::string, int> per_shard_detection_count;
+    float avg_anomaly_score = 0.0f;
+    std::vector<float> gradient_norm_history;
     
     json toJSON() const;
 };
@@ -272,6 +329,9 @@ public:
         float sync_time_ms;
         float total_time_ms;
         std::map<std::string, ShardTrainingState> shard_states;
+        std::optional<float> aggregated_loss;
+        std::optional<float> aggregated_accuracy;
+        std::map<std::string, float> per_shard_loss;  // For monitoring
     };
     StepResult executeStep();
     
@@ -291,6 +351,16 @@ public:
     // Aggregate collected gradients
     std::vector<GradientTensor> aggregateGradients(
         const std::map<std::string, std::vector<GradientTensor>>& shard_gradients
+    );
+    
+    // Aggregate loss values from all shards
+    std::optional<float> aggregateLoss(
+        const std::map<std::string, std::vector<GradientTensor>>& shard_gradients
+    );
+    
+    // Weighted average based on samples processed
+    float computeWeightedLoss(
+        const std::vector<std::pair<float, int>>& shard_losses_and_counts
     );
     
     // Broadcast aggregated gradients to all shards
@@ -344,7 +414,6 @@ private:
     
     // State
     std::string adapter_id_;
-    TrainingConfig training_config_;
     bool is_initialized_ = false;
     bool is_running_ = false;
     int current_step_ = 0;
@@ -356,6 +425,9 @@ private:
     // Gradient aggregator
     std::unique_ptr<GradientAggregator> aggregator_;
     
+    // Byzantine detector
+    std::unique_ptr<ByzantineDetector> byzantine_detector_;
+    
     // Statistics
     DistributedTrainingStats stats_;
     std::chrono::steady_clock::time_point start_time_;
@@ -365,10 +437,15 @@ private:
     
     // Helper methods
     void initializeAggregator();
+    void initializeByzantineDetector();
     bool validateShardParticipation();
     void updateStatistics(const StepResult& result);
     std::vector<GradientTensor> compressGradients(const std::vector<GradientTensor>& gradients);
     std::vector<GradientTensor> decompressGradients(const std::vector<GradientTensor>& gradients);
+    void clipAnomalousGradients(
+        std::map<std::string, std::vector<GradientTensor>>& shard_gradients,
+        const DetectionResult& detection_result
+    );
 };
 
 // ============================================================================

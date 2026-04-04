@@ -1,0 +1,5 @@
+{"id": 1, "name": "Alice", "email": "alice@example.com", "age": 30, "score": 9.5, "active": true, "bio": "Hello world", "created_at": "2024-01-01 00:00:00"}
+{"id": 2, "name": "Bob", "email": "bob@example.com", "age": 25, "score": 7.3, "active": false, "bio": "Second user", "created_at": "2024-01-02 00:00:00"}
+{"id": 3, "name": "Charlie", "email": null, "age": null, "score": null, "active": false, "bio": null, "created_at": "2024-01-03 00:00:00"}
+{"id": 4, "name": "Dave", "email": "dave@example.com", "age": 40, "score": 8.1, "active": true, "bio": "Has special chars: <>&", "created_at": "2024-01-04 00:00:00"}
+{"id": 5, "name": "Eve", "email": "eve@example.com", "age": 28, "score": 6.0, "active": true, "bio": "Last record", "created_at": "2024-01-05 00:00:00"}

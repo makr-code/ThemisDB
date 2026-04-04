@@ -1,3 +1,27 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            rpc_service_impl.h                                 ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:11:22                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     245                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 208883d43  2026-03-01  Implement handleBatchDelete, fix integration test stub, a... ║
+    • ad5171d33  2026-03-01  implement handleInsert and add transaction support to han... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include "plugins/rpc_plugin_interface.h"
@@ -6,6 +30,7 @@
 #include <memory>
 #include <functional>
 #include <unordered_map>
+#include <chrono>
 
 /**
  * @file rpc_service_impl.h
@@ -15,13 +40,12 @@
  * for ThemisDB operations (GET, PUT, DELETE, Query, etc.)
  */
 
-/**
- * @brief Forward declaration of ThemisDB
- * 
- * Full definition will be in themis/themis_db.h when integrated
- */
 namespace themis {
-class ThemisDB;
+class RocksDBWrapper;  // Forward declaration
+class AuthMiddleware;  // Forward declaration
+namespace index {
+class SpatialIndexManager;  // Forward declaration
+}
 }
 
 namespace themis {
@@ -31,16 +55,18 @@ namespace rpc {
 using json = nlohmann::json;
 
 /**
- * @brief Forward declaration of ThemisDB
- */
-class ThemisDB;
-
-/**
  * @brief RPC Method Handler for ThemisDB operations
+ * 
+ * Refactored to use RocksDBWrapper directly for database operations.
  */
 class ThemisRPCService {
 public:
-    explicit ThemisRPCService(ThemisDB* db) : db_(db) {}
+    explicit ThemisRPCService(
+        RocksDBWrapper* storage,
+        themis::index::SpatialIndexManager* spatial_index = nullptr,
+        std::shared_ptr<AuthMiddleware> auth = nullptr,
+        const std::chrono::steady_clock::time_point* start_time = nullptr
+    ) : storage_(storage), spatial_index_(spatial_index), auth_(auth), start_time_(start_time) {}
     
     /**
      * @brief Handle GET operation
@@ -48,9 +74,15 @@ public:
     json handleGet(const json& params);
     
     /**
-     * @brief Handle PUT operation
+     * @brief Handle PUT operation (upsert with optional transaction support)
      */
     json handlePut(const json& params);
+    
+    /**
+     * @brief Handle INSERT operation (strict insert - fails if entity already exists)
+     * Supports optional transaction_id for transactional inserts.
+     */
+    json handleInsert(const json& params);
     
     /**
      * @brief Handle DELETE operation
@@ -66,7 +98,12 @@ public:
      * @brief Handle batch PUT operation
      */
     json handleBatchPut(const json& params);
-    
+
+    /**
+     * @brief Handle batch DELETE operation
+     */
+    json handleBatchDelete(const json& params);
+
     /**
      * @brief Handle AQL query
      */
@@ -118,17 +155,79 @@ public:
     json handleAuthenticate(const json& params);
     
     /**
+     * @brief Handle search operation - search by collection and field filters
+     */
+    json handleSearch(const json& params);
+    
+    /**
+     * @brief Handle statistics retrieval - get real database statistics
+     */
+    json handleStats(const json& params);
+    
+    /**
+     * @brief Handle entity update - update entity with merge logic
+     */
+    json handleUpdateEntity(const json& params);
+    
+    /**
+     * @brief Handle batch update - batch update operations
+     */
+    json handleBatchUpdate(const json& params);
+    
+    /**
+     * @brief Handle paginated query - paginated query execution with cursor
+     */
+    json handlePaginatedQuery(const json& params);
+    
+    /**
+     * @brief Handle index operations retrieval - get index management info
+     */
+    json handleGetIndexOperations(const json& params);
+    
+    /**
+     * @brief Handle aggregation pipeline - execute aggregation pipeline
+     */
+    json handleAggregationPipeline(const json& params);
+    
+    /**
+     * @brief Handle list collections - list all collections in database
+     */
+    json handleListCollections(const json& params);
+    
+    /**
+     * @brief Handle create index - create index on collection
+     */
+    json handleCreateIndex(const json& params);
+    
+    /**
+     * @brief Handle drop index - drop index from collection
+     */
+    json handleDropIndex(const json& params);
+    
+    /**
+     * @brief Handle get collection metadata - retrieve collection metadata
+     */
+    json handleGetCollectionMetadata(const json& params);
+    
+    /**
      * @brief Dispatch method call
      */
     json dispatch(const std::string& method, const json& params, const themis::plugins::rpc::RPCRequestContext& context);
     
 private:
-    ThemisDB* db_;
+    RocksDBWrapper* storage_;
+    themis::index::SpatialIndexManager* spatial_index_;
+    std::shared_ptr<AuthMiddleware> auth_;
+    const std::chrono::steady_clock::time_point* start_time_;
     
     /**
-     * @brief Verify authentication token from context
+     * @brief Verify authentication token from context and check required scope
+     * @param context RPC request context containing metadata with auth token
+     * @param username Output parameter for authenticated username
+     * @param required_scope Required authorization scope (e.g., "rpc:read", "rpc:write", "rpc:admin")
+     * @return true if authentication and authorization succeed, false otherwise
      */
-    bool verifyAuth(const themis::plugins::rpc::RPCRequestContext& context, std::string& username);
+    bool verifyAuth(const themis::plugins::rpc::RPCRequestContext& context, std::string& username, const std::string& required_scope);
     
     /**
      * @brief Create error response

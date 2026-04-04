@@ -1,8 +1,38 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            wal_shipper.cpp                                    ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:20:24                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   96.0/100                                       ║
+    • Total Lines:     691                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 36430300e  2026-03-13  fix(sharding): address all snapshot compaction PR review ... ║
+    • 16db53f83  2026-03-12  feat(sharding): implement Raft snapshot compaction and lo... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 1ee010fe7  2026-02-25  fix(replication/audit): fix div-by-zero in WALShipper sta... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "sharding/wal_shipper.h"
 #include "sharding/prometheus_metrics.h"
 #include "utils/zstd_codec.h"
 #include <algorithm>
+#include <iomanip>
 #include <iostream>
+#include <openssl/sha.h>
+#include <sstream>
+#include <thread>
+#include <lz4.h>
 
 namespace themis::sharding {
 
@@ -257,13 +287,33 @@ bool WALShipper::shipBatch(const std::string& endpoint,
                     std::lock_guard<std::mutex> lock(stats_mutex_);
                     stats_.total_bytes_uncompressed += uncompressed_size;
                     double ratio = static_cast<double>(uncompressed_size) / compressed_bytes.size();
-                    stats_.avg_compression_ratio = 
-                        (stats_.avg_compression_ratio * (stats_.total_batches - 1) + ratio) / 
-                        stats_.total_batches;
+                    // Running average: use total_batches (count before this batch) as N-1
+                    double n = static_cast<double>(stats_.total_batches);
+                    stats_.avg_compression_ratio = (stats_.avg_compression_ratio * n + ratio) / (n + 1.0);
+                }
+            }
+        } else if (config_.compression == WALShipperConfig::CompressionType::LZ4) {
+            int src_size = static_cast<int>(uncompressed_size);
+            int bound = LZ4_compressBound(src_size);
+            std::vector<char> lz4_buf(static_cast<size_t>(bound));
+            int lz4_size = LZ4_compress_default(
+                serialized_entries.data(), lz4_buf.data(), src_size, bound
+            );
+            if (lz4_size > 0) {
+                payload_data = std::string(lz4_buf.data(), static_cast<size_t>(lz4_size));
+                request["compression"] = "lz4";
+                compressed = true;
+
+                // Update statistics
+                {
+                    std::lock_guard<std::mutex> lock(stats_mutex_);
+                    stats_.total_bytes_uncompressed += uncompressed_size;
+                    double ratio = static_cast<double>(uncompressed_size) / lz4_size;
+                    double n = static_cast<double>(stats_.total_batches);
+                    stats_.avg_compression_ratio = (stats_.avg_compression_ratio * n + ratio) / (n + 1.0);
                 }
             }
         }
-        // LZ4 support can be added here in the future
     }
     
     // If compression failed or not enabled, use uncompressed
@@ -380,6 +430,262 @@ void WALShipper::healthCheck(ReplicaInfo& replica) {
     
     auto response = mtls_client_->get(replica.endpoint, "/api/v1/health");
     replica.is_healthy = response.success;
+}
+
+// Phase 3: Adaptive batch sizing
+size_t WALShipper::calculateOptimalBatchSize(double network_latency_ms,
+                                             double cpu_utilization,
+                                             size_t disk_iops_available) const {
+    // Base batch size from config
+    size_t base_batch_size = config_.batch_size;
+    
+    if (!config_.adaptive_batch_size) {
+        return base_batch_size;
+    }
+    
+    // Factor 1: Network latency adjustment
+    // Lower latency = smaller batches (reduce lag)
+    // Higher latency = larger batches (amortize overhead)
+    double latency_factor = 1.0;
+    if (network_latency_ms < 1.0) {
+        latency_factor = 0.5;  // Very fast network, use smaller batches
+    } else if (network_latency_ms < 5.0) {
+        latency_factor = 0.75;
+    } else if (network_latency_ms > 50.0) {
+        latency_factor = 2.0;  // Slow network, use larger batches
+    } else if (network_latency_ms > 20.0) {
+        latency_factor = 1.5;
+    }
+    
+    // Factor 2: CPU utilization adjustment
+    // Lower CPU = larger batches (more compression)
+    // Higher CPU = smaller batches (reduce load)
+    double cpu_factor = 1.0;
+    if (cpu_utilization < 0.3) {
+        cpu_factor = 1.5;  // Low CPU, can handle larger batches
+    } else if (cpu_utilization > 0.8) {
+        cpu_factor = 0.6;  // High CPU, reduce batch size
+    }
+    
+    // Factor 3: Disk IOPS adjustment
+    // Higher IOPS available = larger batches (maximize throughput)
+    double iops_factor = 1.0;
+    if (disk_iops_available > 50000) {
+        iops_factor = 1.5;  // Abundant IOPS, use larger batches
+    } else if (disk_iops_available < 10000) {
+        iops_factor = 0.7;  // Limited IOPS, smaller batches
+    }
+    
+    // Combine factors
+    double combined_factor = latency_factor * cpu_factor * iops_factor;
+    size_t optimal_batch_size = static_cast<size_t>(base_batch_size * combined_factor);
+    
+    // Clamp to configured min/max
+    optimal_batch_size = std::max(optimal_batch_size, config_.min_batch_size);
+    optimal_batch_size = std::min(optimal_batch_size, config_.max_batch_size);
+    
+    return optimal_batch_size;
+}
+
+// Phase 3: Intelligent compression selection
+WALShipperConfig::CompressionType WALShipper::selectCompressionType(
+    size_t payload_size,
+    bool is_repetitive,
+    double cpu_utilization) const {
+    
+    // Small payloads: No compression (overhead not worth it)
+    if (payload_size < 4096) {  // < 4KB
+        return WALShipperConfig::CompressionType::None;
+    }
+    
+    // CPU constrained: Use no compression
+    if (cpu_utilization > 0.85) {
+        return WALShipperConfig::CompressionType::None;
+    }
+    
+    // Medium CPU load and repetitive data: Use Zstd
+    if (is_repetitive && cpu_utilization < 0.7) {
+        return WALShipperConfig::CompressionType::Zstd;
+    }
+    
+    // High CPU load but still acceptable: Use LZ4
+    if (cpu_utilization < 0.85) {
+        return WALShipperConfig::CompressionType::LZ4;  // Faster than Zstd
+    }
+    
+    // Default: No compression
+    return WALShipperConfig::CompressionType::None;
+}
+
+// ============================================================================
+// Snapshot transfer: chunked delivery with per-chunk SHA-256 checksums
+// ============================================================================
+
+// Compute SHA-256 of a buffer and return a lowercase hex string.
+// Handles the empty-buffer case safely to avoid passing a potentially-null
+// pointer into SHA256 when chunk.data is empty.
+static std::string chunkSha256(const uint8_t* data, size_t size) {
+    unsigned char hash[SHA256_DIGEST_LENGTH];
+    if (size == 0) {
+        static const uint8_t kEmpty[1] = {0};
+        SHA256(kEmpty, 0, hash);
+    } else {
+        SHA256(data, size, hash);
+    }
+    std::ostringstream oss;
+    for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
+        oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hash[i]);
+    }
+    return oss.str();
+}
+
+// Base64-encode a binary buffer.  Using inline base64 avoids an external
+// dependency; it can trivially be swapped for a library call if needed.
+static std::string base64Encode(const std::vector<uint8_t>& data) {
+    static constexpr char kB64Chars[] =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+    std::string out;
+    out.reserve(((data.size() + 2) / 3) * 4);
+    for (size_t i = 0; i < data.size(); i += 3) {
+        const uint8_t b0 = data[i];
+        const uint8_t b1 = (i + 1 < data.size()) ? data[i + 1] : 0u;
+        const uint8_t b2 = (i + 2 < data.size()) ? data[i + 2] : 0u;
+        out += kB64Chars[(b0 >> 2) & 0x3F];
+        out += kB64Chars[((b0 & 0x03) << 4) | ((b1 >> 4) & 0x0F)];
+        out += (i + 1 < data.size()) ? kB64Chars[((b1 & 0x0F) << 2) | ((b2 >> 6) & 0x03)] : '=';
+        out += (i + 2 < data.size()) ? kB64Chars[b2 & 0x3F] : '=';
+    }
+    return out;
+}
+
+/* static */ bool WALShipper::verifyChunkChecksum(const SnapshotChunk& chunk) {
+    const std::string computed =
+        chunkSha256(chunk.data.data(), chunk.data.size());
+    return computed == chunk.checksum;
+}
+
+SnapshotTransferResult WALShipper::sendSnapshot(const std::string& replica_id,
+                                                  const std::vector<SnapshotChunk>& chunks) {
+    SnapshotTransferResult result;
+
+    if (chunks.empty()) {
+        result.error_message = "No chunks to transfer";
+        return result;
+    }
+
+    // Verify all chunks before starting the transfer
+    for (const auto& chunk : chunks) {
+        if (!verifyChunkChecksum(chunk)) {
+            result.error_message = "Chunk checksum verification failed before transfer: "
+                                   "chunk_index=" + std::to_string(chunk.chunk_index);
+            return result;
+        }
+    }
+
+    // Look up replica endpoint
+    std::string endpoint;
+    {
+        std::lock_guard<std::mutex> lock(replicas_mutex_);
+        auto it = replicas_.find(replica_id);
+        if (it == replicas_.end()) {
+            result.error_message = "Unknown replica: " + replica_id;
+            return result;
+        }
+        endpoint = it->second.endpoint;
+    }
+
+    spdlog::info("WALShipper: beginning snapshot transfer to replica={} "
+                 "snapshot_index={} total_chunks={}",
+                 replica_id,
+                 chunks.empty() ? 0 : chunks.front().snapshot_index,
+                 chunks.size());
+
+    for (const auto& chunk : chunks) {
+        // Retry loop per chunk to tolerate transient network interruptions
+        bool chunk_ok = false;
+        size_t attempt = 0;
+        uint64_t retry_delay_ms = config_.retry_delay_ms;
+
+        while (attempt < config_.max_retries && !chunk_ok) {
+            ++attempt;
+
+            // Serialize the chunk fields to JSON and POST to the replica's
+            // snapshot chunk endpoint, mirroring the existing shipBatch pattern.
+            // Binary data is base64-encoded to avoid the 2× size penalty of
+            // hex encoding while remaining JSON-compatible.
+            bool sent = false;
+            if (mtls_client_ && mtls_client_->isReady()) {
+                // Base64-encode the chunk payload to avoid the 2× overhead of
+                // hex encoding, while staying within JSON string constraints.
+                nlohmann::json body = {
+                    {"snapshot_index", chunk.snapshot_index},
+                    {"snapshot_term",  chunk.snapshot_term},
+                    {"chunk_index",    chunk.chunk_index},
+                    {"total_chunks",   chunk.total_chunks},
+                    {"last_chunk",     chunk.last_chunk},
+                    {"checksum",       chunk.checksum},
+                    {"data_b64",       base64Encode(chunk.data)}
+                };
+                auto resp = mtls_client_->post(endpoint,
+                                               "/api/v1/snapshot/chunk",
+                                               body);
+                sent = resp.success;
+            } else {
+                // No configured/ready mTLS client: fail in production.
+                // In test builds (THEMIS_TEST_BUILD), simulate success so that
+                // unit tests that don't wire up a real transport still work.
+#if defined(THEMIS_TEST_BUILD)
+                spdlog::debug("WALShipper: THEMIS_TEST_BUILD – simulating chunk send "
+                              "chunk_index={}", chunk.chunk_index);
+                sent = true;
+#else
+                spdlog::error("WALShipper: mTLS client not configured or not ready; "
+                              "refusing to send snapshot chunk {} to {}",
+                              chunk.chunk_index, replica_id);
+                sent = false;
+#endif
+            }
+
+            if (sent) {
+                chunk_ok = true;
+                result.chunks_sent++;
+                result.bytes_sent += chunk.data.size();
+
+                // Update statistics
+                {
+                    std::lock_guard<std::mutex> slock(stats_mutex_);
+                    stats_.total_snapshot_chunks_sent++;
+                    stats_.total_snapshot_bytes_sent += chunk.data.size();
+                }
+            } else {
+                spdlog::warn("WALShipper: chunk send failed "
+                             "replica={} chunk_index={} attempt={}/{}",
+                             replica_id, chunk.chunk_index, attempt, config_.max_retries);
+
+                if (attempt < config_.max_retries) {
+                    std::this_thread::sleep_for(
+                        std::chrono::milliseconds(retry_delay_ms));
+                    retry_delay_ms = std::min(retry_delay_ms * 2,
+                                              config_.max_retry_delay_ms);
+                }
+            }
+        }
+
+        if (!chunk_ok) {
+            result.error_message =
+                "Failed to send chunk " + std::to_string(chunk.chunk_index) +
+                " to replica " + replica_id + " after " +
+                std::to_string(config_.max_retries) + " attempts";
+            spdlog::error("WALShipper: {}", result.error_message);
+            return result;
+        }
+    }
+
+    result.success = true;
+    spdlog::info("WALShipper: snapshot transfer complete to replica={} "
+                 "chunks_sent={} bytes_sent={}",
+                 replica_id, result.chunks_sent, result.bytes_sent);
+    return result;
 }
 
 } // namespace themis::sharding

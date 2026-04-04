@@ -1,7 +1,31 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            aggregate_scheduler.h                              ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:12:19                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     200                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 4dbd7efde  2026-03-13  feat(timeseries): incremental continuous aggregation with... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #ifndef THEMIS_AGGREGATE_SCHEDULER_H
 #define THEMIS_AGGREGATE_SCHEDULER_H
 
-#include "timeseries/continuous_agg.h"  // for AggConfig
+#include "timeseries/continuous_agg.h"  // for AggConfig, ContinuousAggWatermarkStore
+#include "timeseries/timeseries_metrics.h"
 #include <string>
 #include <vector>
 #include <map>
@@ -54,6 +78,10 @@ public:
         int64_t last_refresh_ms = 0;  // Timestamp of last refresh
         bool enabled = true;
         
+        // Incremental refresh: when true, refreshAggregate() uses the
+        // watermark-based scan path via ContinuousAggregateManager::refreshIncremental().
+        bool use_incremental_refresh = true;
+
         // Statistics
         size_t total_refreshes = 0;
         size_t failed_refreshes = 0;
@@ -112,10 +140,35 @@ public:
     Stats getStats() const;
     std::vector<ScheduledAggregate> listAggregates() const;
 
+    /**
+     * @brief Attach a TimeSeriesMetrics collector to receive per-aggregate
+     *        refresh latency and lag measurements.
+     *
+     * Must be called before start() to ensure all refreshes are recorded.
+     * Passing nullptr disables metric recording.
+     *
+     * @param metrics Shared pointer to the metrics collector (may be null)
+     */
+    void setMetrics(std::shared_ptr<TimeSeriesMetrics> metrics);
+
+    /**
+     * @brief Backfill a specific time range for a registered aggregate.
+     *
+     * Processes the range [start_ms, end_ms) without touching the watermark,
+     * so this can be used to recover from gaps in watermark history.
+     *
+     * @param agg_id   Aggregate ID as returned by registerAggregate()
+     * @param start_ms Range start (ms since epoch, inclusive)
+     * @param end_ms   Range end (ms since epoch, exclusive)
+     */
+    void backfill_range(const std::string& agg_id, int64_t start_ms, int64_t end_ms);
+
 private:
     TSStore* store_;
     Config config_;
     std::unique_ptr<ContinuousAggregateManager> agg_manager_;
+    std::unique_ptr<ContinuousAggWatermarkStore> wm_store_;
+    std::shared_ptr<TimeSeriesMetrics> metrics_;
     
     // Threading
     std::atomic<bool> running_{false};

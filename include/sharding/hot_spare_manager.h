@@ -1,3 +1,25 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            hot_spare_manager.h                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:11:34                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     369                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * ThemisDB Hot Spare Management System
  * 
@@ -19,6 +41,7 @@
 
 #include "sharding/redundancy_strategy.h"
 #include "sharding/shard_topology.h"
+#include "sharding/shard_repair_engine.h"
 #include <string>
 #include <vector>
 #include <map>
@@ -171,7 +194,7 @@ struct RebuildStatus {
 /**
  * Failover Event
  */
-struct FailoverEvent {
+struct HotSpareFailoverEvent {
     std::chrono::system_clock::time_point timestamp;
     std::string failed_shard_id;
     std::string spare_shard_id;
@@ -238,7 +261,7 @@ public:
     // Status
     RebuildStatus getRebuildStatus() const;
     std::optional<SpareShardInfo> getSpareInfo(const std::string& shard_id) const;
-    std::vector<FailoverEvent> getFailoverHistory(size_t max_count = 100) const;
+    std::vector<HotSpareFailoverEvent> getFailoverHistory(size_t max_count = 100) const;
     
     // Configuration
     const HotSpareConfig& getConfig() const { return config_; }
@@ -263,6 +286,13 @@ public:
     
     // Prometheus metrics
     std::string exportPrometheusMetrics() const;
+
+    /**
+     * Attach a ShardRepairEngine so that after a successful failover,
+     * the spare shard is automatically scheduled for full data rebuild
+     * via ShardRepairEngine::triggerRepair(spare_shard_id).
+     */
+    void setRepairEngine(std::shared_ptr<themis::sharding::ShardRepairEngine> engine);
     
 private:
     // Background threads
@@ -317,12 +347,15 @@ private:
     
     // Failover history
     mutable std::mutex history_mutex_;
-    std::vector<FailoverEvent> failover_history_;
+    std::vector<HotSpareFailoverEvent> failover_history_;
     static constexpr size_t MAX_HISTORY_SIZE = 1000;
     
     // Statistics
     mutable std::mutex stats_mutex_;
     Stats stats_;
+
+    // Optional repair engine: triggers rebuild via ShardRepairEngine after failover
+    std::shared_ptr<themis::sharding::ShardRepairEngine> repair_engine_;
 };
 
 } // namespace sharding

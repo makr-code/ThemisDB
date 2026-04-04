@@ -1,0 +1,10 @@
+{
+  "input": "artifacts/issues-prs-doc-reconcile-2026-03-11.json",
+  "offset": 0,
+  "limit": 1,
+  "confidence": "high",
+  "selected": 1,
+  "ok": 1,
+  "fail": 0,
+  "failures": []
+}

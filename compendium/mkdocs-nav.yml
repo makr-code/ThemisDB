@@ -1,6 +1,10 @@
 nav:
-  - Startseite: index.md
+  - Titelseite (generiert): __GENERATED_COVER__
   - Vorwort: preface.md
+  - Startseite: index.md
+  - Inhaltsverzeichnis (automatisch): __GENERATED_TOC__
+  - Abbildungsverzeichnis (automatisch): __GENERATED_FIGURES__
+  - Stichwortverzeichnis (automatisch): __GENERATED_KEYWORDS__
   
   - Teil I - Grundlagen:
     - Kapitel 0 - Genesis: chapter_00_genesis.md
@@ -53,7 +57,8 @@ nav:
     - Kapitel 29 - Analytics & Process Mining: chapter_29_analytics_process_mining.md
     - Kapitel 30 - Deployment & Operations: chapter_30_deployment_operations.md
     - Kapitel 31 - API Protokolle: chapter_31_api_protocols.md
-    - Kapitel 32 - AQL OOP Implementierung: chapter_32_aql_oop_implementation.md
+    - Kapitel 32a - API-Design & REST-Prinzipien: chapter_32_api_design_rest_principles.md
+    - Kapitel 32b - AQL OOP Implementierung: chapter_32_aql_oop_implementation.md
     - Kapitel 33 - Best Practices: chapter_33_best_practices.md
   
   - Teil X - Advanced Topics:

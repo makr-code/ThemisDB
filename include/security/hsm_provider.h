@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            hsm_provider.h                                     ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:10:50                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     328                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 3                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • e52586aae  2026-02-22  feat(security): implement HSM PKCS#11 direct DEK wrap/unw... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include <string>
@@ -192,6 +215,26 @@ public:
     std::optional<std::string> getCertificate(const std::string& key_label);
 
     /**
+     * Encrypt data using HSM-backed public key (RSA-PKCS#1 v1.5 or OAEP)
+     * Intended for DEK wrapping in the key management hierarchy.
+     * @param data: Plaintext to encrypt (max ~245 bytes for RSA-2048)
+     * @param key_label: Key label in HSM (optional, uses config default if empty)
+     * @return Encrypted bytes, empty on failure (check getLastError())
+     */
+    std::vector<uint8_t> encryptData(const std::vector<uint8_t>& data,
+                                     const std::string& key_label = "");
+
+    /**
+     * Decrypt data using HSM-backed private key (RSA-PKCS#1 v1.5 or OAEP)
+     * Intended for DEK unwrapping in the key management hierarchy.
+     * @param encrypted: Ciphertext produced by encryptData()
+     * @param key_label: Key label in HSM (optional, uses config default if empty)
+     * @return Decrypted plaintext bytes, empty on failure (check getLastError())
+     */
+    std::vector<uint8_t> decryptData(const std::vector<uint8_t>& encrypted,
+                                     const std::string& key_label = "");
+
+    /**
      * Check if HSM is initialized and ready
      */
     bool isReady() const;
@@ -218,6 +261,18 @@ public:
      */
     void resetStats();
 
+    /**
+     * Check if using stub provider (insecure development mode)
+     * @return true if stub provider is active, false if real HSM
+     */
+    bool isStubProvider() const;
+
+    /**
+     * Perform periodic security check and log warnings if stub is active
+     * Should be called periodically (e.g., every 5 minutes) from server
+     */
+    void periodicSecurityCheck();
+
 private:
     class Impl;
     std::unique_ptr<Impl> impl_;
@@ -226,10 +281,10 @@ private:
     std::string last_error_;
 
     // PKCS#11 helper discovery functions (only active when THEMIS_ENABLE_HSM_REAL)
-    void discoverKeys();
-    void discoverCertificate();
-    // Pool-Hilfen (nur real)
     struct SessionEntry; // forward
+    void discoverKeysSession(SessionEntry& s);
+    void discoverCertificateSession(SessionEntry& s);
+    // Pool-Hilfen (nur real)
     SessionEntry* acquireSession();
     void releaseSession(SessionEntry* s);
 };

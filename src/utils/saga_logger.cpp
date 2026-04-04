@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            saga_logger.cpp                                    ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:21:36                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     554                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 15a0bb670  2026-03-09  feat(utils): add BloomFilter, ConsistentHashRing, RateLim... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "utils/saga_logger.h"
 
 #include <filesystem>
@@ -388,6 +411,143 @@ std::vector<std::string> SAGALogger::listBatches() const {
     }
     
     return batch_ids;
+}
+
+// ===========================================================================
+// SAGALogCompactor
+// ===========================================================================
+
+SAGALogCompactor::SAGALogCompactor(const SAGALoggerConfig& cfg)
+    : cfg_(cfg)
+    , archive_path_(cfg.log_path + ".archive.jsonl")
+{}
+
+std::string SAGALogCompactor::archivePath() const {
+    return archive_path_;
+}
+
+size_t SAGALogCompactor::compact(const std::string& before_txn_id) {
+    // Read all lines from the WAL and separate into two buckets:
+    //   completed  — saga_id < before_txn_id AND status == "success"
+    //   retained   — everything else
+    //
+    // "Completed" lines are appended to the archive file; the remaining
+    // lines atomically replace the original WAL.
+
+    std::vector<std::string> retained_lines;
+    std::vector<std::string> archive_lines;
+    size_t archived_count = 0;
+
+    {
+        std::ifstream ifs(cfg_.log_path);
+        if (!ifs) return 0; // WAL does not exist yet
+
+        std::string line;
+        while (std::getline(ifs, line)) {
+            if (line.empty()) continue;
+
+            auto j = nlohmann::json::parse(line, nullptr, false);
+            if (j.is_discarded() || !j.is_object()) {
+                retained_lines.push_back(line);
+                continue;
+            }
+
+            // Decode plaintext (non-encrypted) WAL entries expected to have
+            // saga_id and status at the top level.
+            bool is_completed = false;
+            if (j.contains("saga_id") && j["saga_id"].is_string()
+                && j.contains("status") && j["status"].is_string())
+            {
+                const std::string& saga_id = j["saga_id"].get_ref<const std::string&>();
+                const std::string& status  = j["status"].get_ref<const std::string&>();
+                if (status == "success" && saga_id < before_txn_id) {
+                    is_completed = true;
+                }
+            }
+
+            if (is_completed) {
+                archive_lines.push_back(line);
+                ++archived_count;
+            } else {
+                retained_lines.push_back(line);
+            }
+        }
+    }
+
+    if (archived_count == 0) return 0;
+
+    // Write retained lines to a temp file, then atomically rename.
+    const std::string tmp_path = cfg_.log_path + ".compact.tmp";
+    {
+        std::ofstream ofs(tmp_path, std::ios::trunc | std::ios::binary);
+        for (const auto& l : retained_lines) ofs << l << '\n';
+    }
+    std::filesystem::rename(tmp_path, cfg_.log_path);
+
+    // Append archived lines to the archive file.
+    {
+        std::ofstream arc(archive_path_, std::ios::app | std::ios::binary);
+        for (const auto& l : archive_lines) arc << l << '\n';
+    }
+
+    return archived_count;
+}
+
+// ===========================================================================
+// SAGALogReplayer
+// ===========================================================================
+
+SAGALogReplayer::SAGALogReplayer(const SAGALoggerConfig& cfg)
+    : cfg_(cfg)
+{}
+
+size_t SAGALogReplayer::replay_incomplete(RecoveryHandler handler) {
+    // Scan the WAL for steps where action == "compensate" and
+    // status == "pending".  These represent compensation steps that were
+    // recorded but not yet confirmed as complete after a crash.
+
+    size_t replayed = 0;
+
+    std::ifstream ifs(cfg_.log_path);
+    if (!ifs) return 0;
+
+    std::string line;
+    while (std::getline(ifs, line)) {
+        if (line.empty()) continue;
+
+        auto j = nlohmann::json::parse(line, nullptr, false);
+        if (j.is_discarded() || !j.is_object()) continue;
+        if (!j.contains("action") || !j["action"].is_string()) continue;
+        if (!j.contains("status") || !j["status"].is_string()) continue;
+
+        const std::string& action = j["action"].get_ref<const std::string&>();
+        const std::string& status = j["status"].get_ref<const std::string&>();
+
+        if (action != "compensate" || status != "pending") continue;
+
+        // Reconstruct a SAGAStep from the JSON record.
+        SAGAStep step;
+        step.action = action;
+        step.status = status;
+        if (j.contains("saga_id")   && j["saga_id"].is_string())
+            step.saga_id   = j["saga_id"].get<std::string>();
+        if (j.contains("step_name") && j["step_name"].is_string())
+            step.step_name = j["step_name"].get<std::string>();
+        if (j.contains("entity_id") && j["entity_id"].is_string())
+            step.entity_id = j["entity_id"].get<std::string>();
+        if (j.contains("payload"))
+            step.payload   = j["payload"];
+        if (j.contains("timestamp") && j["timestamp"].is_number_integer()) {
+            step.timestamp = std::chrono::system_clock::time_point{
+                std::chrono::milliseconds{j["timestamp"].get<int64_t>()}
+            };
+        }
+
+        handler(step);
+        ++replayed;
+    }
+
+    return replayed;
 }
 
 } // namespace utils

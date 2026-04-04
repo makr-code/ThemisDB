@@ -1,246 +1,225 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            bench_spatial_index.cpp                            ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:04:28                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     225                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 0f15754c5  2026-02-26  fix(geo): address code review feedback on searchKNN and s... ║
+    • bf209ef92  2026-02-26  feat(geo): implement missing R-tree spatial index methods... ║
+    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
- * @file bench_spatial_index.cpp (simplified v1.3.0)
- * @brief Benchmarks for spatial operations and point-in-range queries
- * 
- * Note: Full R-Tree spatial indexing is for v1.4.0. This demonstrates
- * basic spatial search patterns with simple bounding box logic.
+ * @file bench_spatial_index.cpp
+ * @brief Benchmarks for spatial operations using the GeoRTree index.
+ *
+ * Compares the in-memory R-tree (GeoRTree) against a linear scan to
+ * demonstrate sub-linear query performance for intersects and contains.
  */
 
 #include <benchmark/benchmark.h>
+#include "geo/geo_rtree.h"
+#include "utils/geo/ewkb.h"
 #include <vector>
 #include <random>
 #include <cmath>
 #include <algorithm>
+#include <string>
 
-// ===== Spatial Data Structures =====
+using namespace themis::geo;
 
-struct Point2D {
-    double x, y;
-    std::string id;
-    
-    Point2D() : x(0), y(0) {}
-    Point2D(double x_, double y_, const std::string& id_ = "") 
-        : x(x_), y(y_), id(id_) {}
-};
+// ─── helpers ─────────────────────────────────────────────────────────────────
 
-struct BoundingBox {
-    double min_x, min_y, max_x, max_y;
-    
-    BoundingBox() : min_x(0), min_y(0), max_x(0), max_y(0) {}
-    BoundingBox(double min_x_, double min_y_, double max_x_, double max_y_)
-        : min_x(min_x_), min_y(min_y_), max_x(max_x_), max_y(max_y_) {}
-    
-    bool contains(const Point2D& p) const {
-        return p.x >= min_x && p.x <= max_x && p.y >= min_y && p.y <= max_y;
+static GeometryInfo makePoint(double x, double y) {
+    GeometryInfo g(GeometryType::Point);
+    g.coords.emplace_back(x, y);
+    return g;
+}
+
+static GeometryInfo makeBox(double minx, double miny, double maxx, double maxy) {
+    GeometryInfo g(GeometryType::Polygon);
+    g.rings.push_back({
+        {minx, miny}, {maxx, miny}, {maxx, maxy}, {minx, maxy}, {minx, miny}
+    });
+    return g;
+}
+
+// ─── R-tree: bulkLoad then intersects ────────────────────────────────────────
+
+static void BM_RTree_BulkLoad(benchmark::State& state) {
+    const int n = state.range(0);
+    std::mt19937 gen(42);
+    std::uniform_real_distribution<> lon_dis(-180.0, 180.0);
+    std::uniform_real_distribution<> lat_dis(-90.0, 90.0);
+
+    std::vector<std::pair<std::string, GeometryInfo>> entries;
+    entries.reserve(n);
+    for (int i = 0; i < n; ++i) {
+        entries.emplace_back("p" + std::to_string(i),
+                             makePoint(lon_dis(gen), lat_dis(gen)));
     }
-    
-    bool intersects(const BoundingBox& other) const {
-        return !(max_x < other.min_x || min_x > other.max_x ||
-                max_y < other.min_y || min_y > other.max_y);
-    }
-};
 
-// ===== Simple R-Tree-like Linear Search Benchmark =====
-
-static void BM_SpatialSearch_LinearScan(benchmark::State& state) {
-    std::vector<Point2D> points(state.range(0));
-    
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_real_distribution<> dis(0.0, 1000.0);
-    
-    for (auto& p : points) {
-        p.x = dis(gen);
-        p.y = dis(gen);
-        p.id = "point_" + std::to_string(&p - &points[0]);
+    for (auto _ : state) {
+        GeoRTree tree;
+        tree.bulkLoad(entries);
+        benchmark::DoNotOptimize(tree.size());
     }
-    
-    BoundingBox query_box(100.0, 100.0, 200.0, 200.0);
-    
+    state.SetComplexityN(n);
+    state.SetItemsProcessed(state.iterations() * n);
+}
+BENCHMARK(BM_RTree_BulkLoad)
+    ->RangeMultiplier(10)
+    ->Range(1000, 100000)
+    ->Complexity();
+
+// ─── R-tree: intersects query ─────────────────────────────────────────────────
+
+static void BM_RTree_Intersects(benchmark::State& state) {
+    const int n = state.range(0);
+    std::mt19937 gen(42);
+    std::uniform_real_distribution<> lon_dis(-180.0, 180.0);
+    std::uniform_real_distribution<> lat_dis(-90.0, 90.0);
+
+    std::vector<std::pair<std::string, GeometryInfo>> entries;
+    entries.reserve(n);
+    for (int i = 0; i < n; ++i) {
+        entries.emplace_back("p" + std::to_string(i),
+                             makePoint(lon_dis(gen), lat_dis(gen)));
+    }
+
+    GeoRTree tree;
+    tree.bulkLoad(entries);
+
+    // Small query bbox (~10° × 10°)
+    MBR query(-5.0, -5.0, 5.0, 5.0);
+
+    for (auto _ : state) {
+        auto result = tree.intersects(query);
+        benchmark::DoNotOptimize(result);
+    }
+    state.SetComplexityN(n);
+}
+BENCHMARK(BM_RTree_Intersects)
+    ->RangeMultiplier(10)
+    ->Range(1000, 100000)
+    ->Complexity();
+
+// ─── Linear scan: intersects (baseline for comparison) ───────────────────────
+
+static void BM_LinearScan_Intersects(benchmark::State& state) {
+    const int n = state.range(0);
+    std::mt19937 gen(42);
+    std::uniform_real_distribution<> lon_dis(-180.0, 180.0);
+    std::uniform_real_distribution<> lat_dis(-90.0, 90.0);
+
+    struct Entry { MBR mbr; };
+    std::vector<Entry> entries;
+    entries.reserve(n);
+    for (int i = 0; i < n; ++i) {
+        double x = lon_dis(gen);
+        double y = lat_dis(gen);
+        entries.push_back({MBR(x, y, x, y)});
+    }
+
+    MBR query(-5.0, -5.0, 5.0, 5.0);
+
     for (auto _ : state) {
         int count = 0;
-        for (const auto& p : points) {
-            if (query_box.contains(p)) {
-                count++;
-            }
+        for (const auto& e : entries) {
+            if (e.mbr.intersects(query)) ++count;
         }
         benchmark::DoNotOptimize(count);
     }
-    
-    state.SetComplexityN(state.range(0));
+    state.SetComplexityN(n);
 }
-BENCHMARK(BM_SpatialSearch_LinearScan)
-    ->RangeMultiplier(2)
-    ->Range(1024, 1024*100)
+BENCHMARK(BM_LinearScan_Intersects)
+    ->RangeMultiplier(10)
+    ->Range(1000, 100000)
     ->Complexity();
 
-// ===== Distance Calculation Benchmarks =====
+// ─── R-tree: contains (point-in-MBR) query ───────────────────────────────────
 
-static double euclideanDistance(const Point2D& p1, const Point2D& p2) {
-    double dx = p1.x - p2.x;
-    double dy = p1.y - p2.y;
-    return std::sqrt(dx * dx + dy * dy);
-}
+static void BM_RTree_Contains(benchmark::State& state) {
+    const int n = state.range(0);
+    std::mt19937 gen(42);
+    std::uniform_real_distribution<> lon_dis(-180.0, 180.0);
+    std::uniform_real_distribution<> lat_dis(-90.0, 90.0);
 
-static void BM_SpatialSearch_RadiusSearch(benchmark::State& state) {
-    std::vector<Point2D> points(state.range(0));
-    
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_real_distribution<> dis(0.0, 1000.0);
-    
-    for (auto& p : points) {
-        p.x = dis(gen);
-        p.y = dis(gen);
+    std::vector<std::pair<std::string, GeometryInfo>> entries;
+    entries.reserve(n);
+    for (int i = 0; i < n; ++i) {
+        double x = lon_dis(gen);
+        double y = lat_dis(gen);
+        entries.emplace_back("b" + std::to_string(i),
+                             makeBox(x - 1.0, y - 1.0, x + 1.0, y + 1.0));
     }
-    
-    Point2D query_point(500.0, 500.0);
-    double radius = 100.0;
-    
+
+    GeoRTree tree;
+    tree.bulkLoad(entries);
+
     for (auto _ : state) {
-        int count = 0;
-        for (const auto& p : points) {
-            if (euclideanDistance(query_point, p) <= radius) {
-                count++;
-            }
-        }
-        benchmark::DoNotOptimize(count);
+        auto result = tree.contains(0.0, 0.0);
+        benchmark::DoNotOptimize(result);
     }
-    
-    state.SetComplexityN(state.range(0));
+    state.SetComplexityN(n);
 }
-BENCHMARK(BM_SpatialSearch_RadiusSearch)
-    ->RangeMultiplier(2)
-    ->Range(1024, 1024*100)
+BENCHMARK(BM_RTree_Contains)
+    ->RangeMultiplier(10)
+    ->Range(1000, 100000)
     ->Complexity();
 
-// ===== Nearest Neighbor Search Benchmark =====
+// ─── R-tree: incremental inserts ─────────────────────────────────────────────
 
-static void BM_SpatialSearch_NearestNeighbor(benchmark::State& state) {
-    std::vector<Point2D> points(state.range(0));
-    
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_real_distribution<> dis(0.0, 1000.0);
-    
-    for (auto& p : points) {
-        p.x = dis(gen);
-        p.y = dis(gen);
+static void BM_RTree_IncrementalInsert(benchmark::State& state) {
+    const int n = state.range(0);
+    std::mt19937 gen(42);
+    std::uniform_real_distribution<> lon_dis(-180.0, 180.0);
+    std::uniform_real_distribution<> lat_dis(-90.0, 90.0);
+
+    std::vector<std::pair<std::string, GeometryInfo>> entries;
+    entries.reserve(n);
+    for (int i = 0; i < n; ++i) {
+        entries.emplace_back("p" + std::to_string(i),
+                             makePoint(lon_dis(gen), lat_dis(gen)));
     }
-    
-    Point2D query_point(500.0, 500.0);
-    
+
     for (auto _ : state) {
-        int k = 10;  // Find 10 nearest neighbors
-        std::vector<std::pair<double, int>> candidates;
-        
-        for (size_t i = 0; i < points.size(); ++i) {
-            double dist = euclideanDistance(query_point, points[i]);
-            candidates.emplace_back(dist, i);
+        GeoRTree tree;
+        for (const auto& [key, geom] : entries) {
+            tree.insert(key, geom);
         }
-        
-        // Partial sort for top k
-        std::partial_sort(candidates.begin(), 
-                         candidates.begin() + std::min(k, static_cast<int>(candidates.size())),
-                         candidates.end());
-        
-        benchmark::DoNotOptimize(candidates);
+        benchmark::DoNotOptimize(tree.size());
     }
-    
-    state.SetComplexityN(state.range(0));
+    state.SetComplexityN(n);
+    state.SetItemsProcessed(state.iterations() * n);
 }
-BENCHMARK(BM_SpatialSearch_NearestNeighbor)
-    ->RangeMultiplier(2)
-    ->Range(1024, 1024*100)
+BENCHMARK(BM_RTree_IncrementalInsert)
+    ->RangeMultiplier(10)
+    ->Range(1000, 10000)
     ->Complexity();
 
-// ===== Range-to-Range Intersection =====
-
-static void BM_SpatialSearch_BoxIntersection(benchmark::State& state) {
-    std::vector<BoundingBox> boxes(state.range(0));
-    
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_real_distribution<> dis(0.0, 1000.0);
-    std::uniform_real_distribution<> size_dis(10.0, 100.0);
-    
-    for (auto& box : boxes) {
-        double x = dis(gen);
-        double y = dis(gen);
-        double w = size_dis(gen);
-        double h = size_dis(gen);
-        box = BoundingBox(x, y, x + w, y + h);
-    }
-    
-    BoundingBox query_box(200.0, 200.0, 400.0, 400.0);
-    
-    for (auto _ : state) {
-        int count = 0;
-        for (const auto& box : boxes) {
-            if (query_box.intersects(box)) {
-                count++;
-            }
-        }
-        benchmark::DoNotOptimize(count);
-    }
-    
-    state.SetComplexityN(state.range(0));
-}
-BENCHMARK(BM_SpatialSearch_BoxIntersection)
-    ->RangeMultiplier(2)
-    ->Range(1024, 1024*100)
-    ->Complexity();
-
-// ===== Point Density Estimation =====
-
-static void BM_SpatialAnalysis_PointDensity(benchmark::State& state) {
-    std::vector<Point2D> points(state.range(0));
-    
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_real_distribution<> dis(0.0, 1000.0);
-    
-    for (auto& p : points) {
-        p.x = dis(gen);
-        p.y = dis(gen);
-    }
-    
-    std::vector<BoundingBox> grid_cells;
-    double cell_size = 50.0;
-    for (double x = 0; x < 1000; x += cell_size) {
-        for (double y = 0; y < 1000; y += cell_size) {
-            grid_cells.emplace_back(x, y, x + cell_size, y + cell_size);
-        }
-    }
-    
-    for (auto _ : state) {
-        std::vector<int> density_map(grid_cells.size(), 0);
-        
-        for (const auto& p : points) {
-            for (size_t i = 0; i < grid_cells.size(); ++i) {
-                if (grid_cells[i].contains(p)) {
-                    density_map[i]++;
-                    break;
-                }
-            }
-        }
-        
-        benchmark::DoNotOptimize(density_map);
-    }
-}
-BENCHMARK(BM_SpatialAnalysis_PointDensity)
-    ->Range(1024, 1024*10);
-
-// ===== Main =====
+// ─── Main ─────────────────────────────────────────────────────────────────────
 
 int main(int argc, char** argv) {
     ::benchmark::Initialize(&argc, argv);
     if (::benchmark::ReportUnrecognizedArguments(argc, argv)) {
         return 1;
     }
-    
     ::benchmark::RunSpecifiedBenchmarks();
     ::benchmark::Shutdown();
-    
     return 0;
 }

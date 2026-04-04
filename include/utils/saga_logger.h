@@ -1,9 +1,33 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            saga_logger.h                                      ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:13:00                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     202                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 15a0bb670  2026-03-09  feat(utils): add BloomFilter, ConsistentHashRing, RateLim... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include "security/encryption.h"
 #include "utils/pki_client.h"
 #include <nlohmann/json.hpp>
 #include <chrono>
+#include <functional>
 #include <memory>
 #include <mutex>
 #include <optional>
@@ -117,6 +141,61 @@ private:
     std::mutex mu_;
     std::vector<SAGAStep> buffer_;
     std::chrono::system_clock::time_point batch_start_time_;
+};
+
+// ---------------------------------------------------------------------------
+// SAGALogCompactor
+// ---------------------------------------------------------------------------
+
+/**
+ * @brief Compacts the SAGA WAL, archiving completed transactions.
+ *
+ * compact(before_txn_id) rewrites the WAL retaining only steps for
+ * in-flight or failed transactions; completed transactions are archived.
+ */
+class SAGALogCompactor {
+public:
+    explicit SAGALogCompactor(const SAGALoggerConfig& cfg);
+
+    /**
+     * @brief Compact WAL, removing steps for completed transactions up to before_txn_id.
+     * @param before_txn_id All completed sagas with id < before_txn_id are archived.
+     * @return Number of steps archived.
+     */
+    size_t compact(const std::string& before_txn_id);
+
+    /**
+     * @brief Get the path where archived steps are written.
+     */
+    std::string archivePath() const;
+
+private:
+    SAGALoggerConfig cfg_;
+    std::string archive_path_;
+};
+
+// ---------------------------------------------------------------------------
+// SAGALogReplayer
+// ---------------------------------------------------------------------------
+
+/**
+ * @brief Replays incomplete SAGA transactions for disaster recovery.
+ */
+class SAGALogReplayer {
+public:
+    explicit SAGALogReplayer(const SAGALoggerConfig& cfg);
+
+    using RecoveryHandler = std::function<void(const SAGAStep&)>;
+
+    /**
+     * @brief Scan WAL for transactions in COMPENSATING state and invoke handler.
+     * @param handler Called once per unconfirmed compensation step.
+     * @return Number of steps replayed.
+     */
+    size_t replay_incomplete(RecoveryHandler handler);
+
+private:
+    SAGALoggerConfig cfg_;
 };
 
 } // namespace utils

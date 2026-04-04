@@ -1,0 +1,18 @@
+# ============================================================================
+# Helper image to hold pre-built vcpkg artifacts from local Windows build
+# ============================================================================
+# Usage: 
+#   1. Build helper: docker build -f Dockerfile.prebuilt-local -t themis-prebuilt .
+#   2. Use in main build: docker buildx build --build-context prebuilt=docker-image://themis-prebuilt --build-arg ENABLE_VCPKG_CACHE=ON -t themisdb:latest .
+#
+# This creates a minimal image containing your vcpkg binary cache (x64-linux packages)
+
+FROM scratch
+
+# Copy pre-built binary cache from Windows vcpkg
+# These are the actual built libraries that vcpkg can reuse
+COPY vcpkg/packages /packages
+
+# Metadata
+LABEL description="Pre-built vcpkg binary cache for ThemisDB Docker builds"
+LABEL source="Local Windows vcpkg/packages (x64-linux)"

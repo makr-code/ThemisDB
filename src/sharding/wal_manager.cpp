@@ -1,3 +1,25 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            wal_manager.cpp                                    ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:20:24                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     481                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "sharding/wal_manager.h"
 #include <filesystem>
 #include <chrono>
@@ -204,6 +226,9 @@ std::optional<WALEntry> WALManager::read(const LSN& lsn) {
 std::vector<WALEntry> WALManager::readRange(const LSN& start_lsn, 
                                             const std::optional<LSN>& end_lsn) {
     std::lock_guard<std::mutex> lock(mutex_);
+
+    // Make in-memory buffered writes visible to readers.
+    flush();
     
     std::vector<WALEntry> result;
     
@@ -284,8 +309,10 @@ void WALManager::flush() {
     current_segment_->write(reinterpret_cast<const char*>(write_buffer_.data()), 
                            write_buffer_.size());
     
+    // Always flush the C++ stream buffer so same-process readers can observe
+    // recently appended entries. sync_on_write controls fsync-level durability.
+    current_segment_->flush();
     if (config_.sync_on_write) {
-        current_segment_->flush();
         // Note: fsync() would be called here for true durability
     }
     

@@ -1,0 +1,453 @@
+# Multi-GPU Setup Configuration
+# ThemisDB v1.4.0-alpha
+# Use case: High-performance training, multi-GPU inference
+
+# Server Configuration
+server:
+  host: 0.0.0.0
+  port: 8080
+  workers: 16
+  max_connections: 5000
+  
+  request_timeout: 600
+  keepalive_timeout: 120
+  
+  max_request_size: 500MB
+  max_response_size: 500MB
+
+# Multi-GPU Configuration
+gpu:
+  enabled: true
+  
+  # Multiple GPUs
+  devices:
+    - id: 0
+      name: "GPU-0-A100"
+      memory_limit: 0.9
+      compute_capability: 8.0
+      
+    - id: 1
+      name: "GPU-1-A100"
+      memory_limit: 0.9
+      compute_capability: 8.0
+      
+    - id: 2
+      name: "GPU-2-A100"
+      memory_limit: 0.9
+      compute_capability: 8.0
+      
+    - id: 3
+      name: "GPU-3-A100"
+      memory_limit: 0.9
+      compute_capability: 8.0
+  
+  # Multi-GPU strategy
+  multi_gpu:
+    enabled: true
+    strategy: data_parallel  # Options: data_parallel, model_parallel, pipeline_parallel
+    
+    # Data parallel settings
+    data_parallel:
+      gradient_sync: true
+      bucket_cap_mb: 25
+      
+    # Model parallel settings (if strategy: model_parallel)
+    model_parallel:
+      tensor_parallel_size: 4
+      pipeline_parallel_size: 1
+      tensor_split: [0.25, 0.25, 0.25, 0.25]  # Equal distribution
+  
+  # NCCL configuration for multi-GPU communication
+  nccl:
+    enabled: true
+    debug: false
+    
+    # Communication settings
+    p2p_enabled: true  # GPU-to-GPU direct transfers via NVLink
+    ib_enabled: false  # Set to true for InfiniBand
+    
+    # Network settings
+    socket_ifname: "eth0"
+    net_plugin: ""
+    
+    # Performance tuning
+    buffsize: 2097152
+    nthreads: 4
+    algo: "Ring"  # Options: Ring, Tree, CollNet
+    proto: "Simple"  # Options: Simple, LL, LL128
+    
+    # Timeouts
+    timeout: 1800  # 30 minutes
+  
+  # GPU settings
+  persistence_mode: true
+  compute_mode: exclusive_process
+  power_limit: 400  # Watts per GPU
+  
+  # Memory management
+  memory_pool:
+    enabled: true
+    initial_size_mb: 8192
+    max_split_size_mb: 1024
+  
+  vram:
+    secure_clear: true
+    unified_memory: false
+    oom_protection:
+      enabled: true
+      reserved_memory_mb: 2048
+
+# LLM Configuration
+llm:
+  enabled: true
+  backend: cuda
+  
+  # Large model for multi-GPU
+  model_path: /models/llama-2-70b-chat.gguf
+  model_type: llama
+  
+  # Increased context and batch for multi-GPU
+  context_length: 8192
+  batch_size: 2048
+  n_gpu_layers: -1  # Auto-distribute across all GPUs
+  
+  # Multi-GPU tensor split
+  tensor_split: [0.25, 0.25, 0.25, 0.25]
+  
+  # Performance
+  threads: 32
+  use_mmap: true
+  use_mlock: true  # Lock in RAM
+  
+  # Inference settings
+  inference:
+    temperature: 0.7
+    top_p: 0.9
+    top_k: 40
+    repeat_penalty: 1.1
+    
+    kv_cache:
+      enabled: true
+      max_tokens: 16384  # Larger cache for multi-GPU
+      block_size: 16
+
+# LoRA Configuration
+lora:
+  enabled: true
+  adapter_path: /adapters
+  max_adapters: 16  # More adapters with more GPUs
+  gpu_enabled: true
+  
+  # Multi-GPU LoRA
+  multi_gpu_lora:
+    enabled: true
+    replicate_adapters: true  # Replicate across GPUs
+    
+  preload_adapters: 
+    - finance-adapter-v1
+    - medical-adapter-v2
+  cache_adapters: true
+  
+  rank: 16
+  alpha: 32
+  dropout: 0.05
+
+# Training Configuration
+training:
+  enabled: true
+  
+  # Larger batch sizes for multi-GPU
+  batch_size: 128  # Effective batch size
+  micro_batch_size: 32  # Per-GPU batch size
+  gradient_accumulation_steps: 4  # 128 / 32 = 4
+  
+  # Precision
+  precision: bf16  # BF16 better for A100
+  mixed_precision:
+    enabled: true
+  
+  # Optimization
+  optimizer: adamw
+  learning_rate: 5e-4  # Higher LR for larger batch
+  weight_decay: 0.01
+  
+  lr_schedule:
+    type: cosine_with_warmup
+    warmup_steps: 2000
+    min_lr: 5e-5
+  
+  # Gradient management
+  gradient_clipping:
+    enabled: true
+    max_norm: 1.0
+  
+  gradient_checkpointing:
+    enabled: false  # Disabled with enough VRAM
+  
+  # Distributed training
+  distributed:
+    backend: nccl
+    find_unused_parameters: false
+    
+    # Zero Redundancy Optimizer (optional)
+    zero:
+      enabled: false
+      stage: 2  # Options: 1, 2, 3
+  
+  # Checkpoints
+  checkpoint:
+    enabled: true
+    save_interval: 1000
+    max_keep: 5
+    output_dir: /data/checkpoints
+    compression: true
+    async_save: true
+    
+    # Distributed checkpoint
+    distributed_checkpoint: true
+    shard_checkpoint: true
+    
+  validation:
+    enabled: true
+    interval: 500
+    split: 0.05
+
+# Inference Configuration
+inference:
+  enabled: true
+  
+  # High-throughput batching
+  batch_size: 64
+  continuous_batching:
+    enabled: true
+    max_batch_size: 128
+    max_wait_time_ms: 100
+  
+  # Precision
+  precision: fp16
+  
+  # Generation
+  max_tokens: 1024
+  stream: true
+  
+  # Multi-GPU inference
+  multi_gpu_inference:
+    enabled: true
+    load_balancing: round_robin  # Options: round_robin, least_loaded
+    
+  # KV cache optimization
+  kv_cache:
+    enabled: true
+    max_tokens: 65536
+    block_size: 16
+
+# Storage Configuration
+storage:
+  data_dir: /data/themisdb
+  
+  # High-performance RocksDB settings
+  rocksdb:
+    max_open_files: 5000
+    max_background_jobs: 16
+    write_buffer_size: 256MB
+    max_write_buffer_number: 6
+    
+    # Compression
+    compression: zstd
+    compression_level: 3
+    
+    # Cache
+    block_cache_size: 8GB
+    
+    # Write ahead log
+    wal_dir: /data/themisdb/wal
+    wal_sync: true
+    
+  # Encryption
+  encryption:
+    enabled: true
+    algorithm: AES-256-GCM
+    key_provider: vault
+
+# Network Configuration
+network:
+  http:
+    enabled: true
+    port: 8080
+    workers: 16
+  
+  binary:
+    enabled: true
+    port: 18765
+    workers: 16
+  
+  grpc:
+    enabled: true
+    port: 50051
+  
+  # TLS
+  tls:
+    enabled: true
+    min_version: "1.3"
+    cert_file: /etc/themisdb/certs/server.crt
+    key_file: /etc/themisdb/certs/server.key
+    ca_file: /etc/themisdb/certs/ca.crt
+    
+    # mTLS
+    client_auth: required
+    client_ca_file: /etc/themisdb/certs/client-ca.crt
+
+# Monitoring Configuration
+metrics:
+  enabled: true
+  port: 4318
+  path: /metrics
+  
+  gpu_metrics_interval: 1s
+  training_metrics_interval: 1s
+  inference_metrics_interval: 100ms
+  
+  # Multi-GPU metrics
+  per_gpu_metrics: true
+  nccl_metrics: true
+  
+  exporters:
+    - type: prometheus
+      endpoint: http://localhost:4318/metrics
+    
+    - type: opentelemetry
+      endpoint: http://otel-collector:4317
+
+# Logging Configuration
+logging:
+  level: info
+  format: json
+  output: /var/log/themisdb/app.log
+  
+  rotation:
+    max_size: 500MB
+    max_age: 30
+    max_backups: 10
+    compress: true
+  
+  # Structured logging
+  fields:
+    service: themisdb
+    environment: production
+    cluster: multi-gpu-cluster
+  
+  audit:
+    enabled: true
+    output: /var/log/themisdb/audit.log
+    events:
+      - authentication
+      - gpu_allocation
+      - model_load
+      - training_start
+
+# Security Configuration
+security:
+  authentication:
+    enabled: true
+    method: mtls
+    
+    # API keys as fallback
+    api_keys:
+      enabled: true
+      header: X-API-Key
+  
+  authorization:
+    enabled: true
+    rbac:
+      enabled: true
+  
+  # GPU access control
+  gpu:
+    access_control:
+      enabled: true
+      mode: strict
+      per_user_limit: 1  # Max 1 GPU per user
+      per_process_limit:
+        max_vram_mb: 10240  # 10GB max per process
+  
+  # Encryption
+  encryption:
+    enabled: true
+    
+  # Audit
+  audit:
+    enabled: true
+    comprehensive: true
+
+# Backup Configuration
+backup:
+  enabled: true
+  
+  schedule:
+    full_backup: "0 1 * * 0"  # Sunday 1 AM
+    incremental: "0 1 * * 1-6"  # Daily 1 AM
+    checkpoint: "0 */6 * * *"  # Every 6 hours
+  
+  retention:
+    full: 4
+    incremental: 14
+    checkpoint: 48
+  
+  destinations:
+    - type: local
+      path: /backup/themisdb
+      
+    - type: s3
+      bucket: themisdb-backups
+      region: us-west-2
+      encryption: true
+
+# Resource Limits
+limits:
+  max_memory_mb: 262144  # 256GB
+  max_disk_usage_gb: 2000  # 2TB
+  max_concurrent_requests: 1000
+  max_queue_size: 10000
+  
+  # Per-GPU limits
+  per_gpu_limits:
+    max_concurrent_jobs: 4
+    max_memory_allocation: 0.9
+
+# High Availability
+ha:
+  enabled: false
+  # HA configuration for production clusters
+
+# Performance Tuning
+performance:
+  # Dataloader optimization
+  dataloader:
+    num_workers: 32
+    prefetch_factor: 8
+    pin_memory: true
+    persistent_workers: true
+  
+  # I/O optimization
+  io:
+    async_io: true
+    read_ahead_kb: 1024
+    
+  # Compilation
+  compilation:
+    enabled: true
+    backend: inductor  # PyTorch 2.0 compilation
+
+# Development Settings
+development:
+  debug_mode: false
+  profiling: false
+  hot_reload: false
+
+# Example Usage:
+# 1. Ensure all 4 GPUs are detected: nvidia-smi
+# 2. Copy this file to /etc/themisdb/config.yaml
+# 3. Adjust GPU IDs and paths
+# 4. Set NCCL environment variables if needed
+# 5. Start service: sudo systemctl start themisdb
+# 6. Monitor multi-GPU usage: nvidia-smi dmon -s pucvmet

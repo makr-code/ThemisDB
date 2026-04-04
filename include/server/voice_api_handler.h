@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            voice_api_handler.h                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:11:27                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     271                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 49fd40219  2026-03-01  feat(voice): expose speaker verification REST API endpoints ║
+    • 75c7c24ea  2026-03-01  feat(voice): implement voice session playback and search ... ║
+    • e6c4d3fc4  2026-02-28  fix(voice): refactor query parsing, address review commen... ║
+    • 5b49c56fd  2026-02-28  fix(voice): code audit – thread-safety, cmake build, stat... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file voice_api_handler.h
  * @brief Voice Assistant API Handler
@@ -27,6 +53,9 @@ namespace themis {
 namespace voice {
 class VoiceAssistant;
 }
+namespace utils {
+class HTTPClientPool;
+}
 }
 
 namespace themis::server {
@@ -42,6 +71,8 @@ using json = nlohmann::json;
  * - POST /api/v1/voice/transcribe - Transcribe audio to text
  * - POST /api/v1/voice/synthesize - Synthesize text to speech
  * - POST /api/v1/voice/command - Process voice command
+ * - POST /api/v1/voice/command/stream - Process voice command with streaming STT (segments + TTS)
+ * - POST /api/v1/voice/wake-word/detect - Scan audio chunk for registered wake words
  * - POST /api/v1/voice/call/record - Record and transcribe phone call
  * - POST /api/v1/voice/meeting/protocol - Generate meeting protocol
  * - GET  /api/v1/voice/sessions/{id} - Get session information
@@ -51,6 +82,20 @@ using json = nlohmann::json;
  * - GET  /api/v1/voice/health - Health check
  * - GET  /api/v1/voice/voices - List available TTS voices
  * - GET  /api/v1/voice/languages - List supported languages
+ * - POST /api/v1/voice/macros - Create voice command macro
+ * - GET  /api/v1/voice/macros - List voice command macros
+ * - GET  /api/v1/voice/macros/{id} - Get a specific macro
+ * - PUT  /api/v1/voice/macros/{id} - Update a macro
+ * - DELETE /api/v1/voice/macros/{id} - Delete a macro
+ * - GET  /api/v1/voice/recordings - List stored recordings (playback index)
+ * - GET  /api/v1/voice/recordings/search?q=<query> - Full-text search in stored transcripts
+ * - GET  /api/v1/voice/recordings/{id} - Get a specific recording for playback
+ * - POST /api/v1/voice/auth/enroll - Enroll a speaker's voice profile
+ * - POST /api/v1/voice/auth/verify - 1:1 speaker verification against a profile
+ * - POST /api/v1/voice/auth/authenticate - Full biometric authentication (liveness + verification)
+ * - POST /api/v1/voice/auth/identify - 1:N speaker identification among candidate profiles
+ * - GET  /api/v1/voice/auth/profiles - List enrolled voice profiles
+ * - DELETE /api/v1/voice/auth/profiles/{id} - Delete a voice profile
  * - WS  /ws/voice/stream - WebSocket for real-time voice interaction
  * 
  * All endpoints require Bearer Token (JWT) authentication via Authorization header.
@@ -88,6 +133,12 @@ private:
     http::response<http::string_body> handleVoiceCommand(
         const http::request<http::string_body>& req);
     
+    http::response<http::string_body> handleStreamCommand(
+        const http::request<http::string_body>& req);
+    
+    http::response<http::string_body> handleWakeWordDetect(
+        const http::request<http::string_body>& req);
+    
     // Phone call endpoints
     http::response<http::string_body> handleRecordCall(
         const http::request<http::string_body>& req);
@@ -116,6 +167,56 @@ private:
     http::response<http::string_body> handleGetLanguages(
         const http::request<http::string_body>& req);
     
+    // Voice macro CRUD endpoints
+    http::response<http::string_body> handleCreateMacro(
+        const http::request<http::string_body>& req);
+    
+    http::response<http::string_body> handleListMacros(
+        const http::request<http::string_body>& req);
+    
+    http::response<http::string_body> handleGetMacro(
+        const http::request<http::string_body>& req,
+        const std::string& macro_id);
+    
+    http::response<http::string_body> handleUpdateMacro(
+        const http::request<http::string_body>& req,
+        const std::string& macro_id);
+    
+    http::response<http::string_body> handleDeleteMacro(
+        const http::request<http::string_body>& req,
+        const std::string& macro_id);
+
+    // Recording playback and transcript search endpoints
+    http::response<http::string_body> handleListRecordings(
+        const http::request<http::string_body>& req);
+
+    http::response<http::string_body> handleGetRecording(
+        const http::request<http::string_body>& req,
+        const std::string& record_id);
+
+    http::response<http::string_body> handleSearchTranscripts(
+        const http::request<http::string_body>& req);
+
+    // Voice biometric authentication endpoints
+    http::response<http::string_body> handleAuthEnroll(
+        const http::request<http::string_body>& req);
+
+    http::response<http::string_body> handleAuthVerify(
+        const http::request<http::string_body>& req);
+
+    http::response<http::string_body> handleAuthAuthenticate(
+        const http::request<http::string_body>& req);
+
+    http::response<http::string_body> handleAuthIdentify(
+        const http::request<http::string_body>& req);
+
+    http::response<http::string_body> handleAuthListProfiles(
+        const http::request<http::string_body>& req);
+
+    http::response<http::string_body> handleAuthDeleteProfile(
+        const http::request<http::string_body>& req,
+        const std::string& profile_id);
+
     // Statistics and health
     http::response<http::string_body> handleStats(
         const http::request<http::string_body>& req);
@@ -149,7 +250,22 @@ private:
     
     std::string encodeBase64(const std::vector<uint8_t>& data);
     
+    std::vector<uint8_t> downloadAudioFromUrl(const std::string& url);
+
+    /**
+     * @brief Parse the value of a single query parameter from a request target.
+     *
+     * @param target    Full request target (path + optional "?key=value&...").
+     * @param key       Parameter name to look up.
+     * @return Parameter value, or empty string if not found.
+     *
+     * @note Percent-encoded characters are not decoded; tag values should
+     *       use plain ASCII identifiers to avoid encoding issues.
+     */
+    static std::string parseQueryParam(const std::string& target, const std::string& key);
+
     std::shared_ptr<voice::VoiceAssistant> voice_assistant_;
+    std::shared_ptr<utils::HTTPClientPool> http_client_pool_;
 };
 
 } // namespace themis::server

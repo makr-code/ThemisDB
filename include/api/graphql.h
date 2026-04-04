@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            graphql.h                                          ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:05:33                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     576                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • e5cd79501  2026-03-10  Changes before error encountered         ║
+    • 607884671  2026-03-10  feat(api): GraphQL WebSocket subscription handler + Query... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 6e489011a  2026-02-28  feat(api/graphql): Implement multi-model schema - add exp... ║
+    • 89b024d9f  2026-02-23  feat(api/graphql): complete multi-model GraphQL schema wi... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include <string>
@@ -5,9 +31,9 @@
 #include <vector>
 #include <unordered_map>
 #include <variant>
-#include <optional>
 #include <memory>
 #include <functional>
+#include "utils/expected.h"
 
 namespace themis {
 namespace graphql {
@@ -193,6 +219,55 @@ struct ParseError {
 };
 
 /**
+ * @brief Query Limits Configuration
+ * 
+ * Configurable limits to prevent DoS attacks and resource exhaustion.
+ */
+struct QueryLimits {
+    size_t max_query_size_bytes = 100000;      // Maximum query size in bytes
+    size_t max_depth = 10;                      // Maximum nesting depth
+    size_t max_fields = 100;                    // Maximum total field count
+    size_t max_ast_nodes = 1000;                // Maximum AST nodes
+    size_t max_subscriptions = 10;              // Maximum concurrent subscriptions per connection
+
+    /// Allow GraphQL introspection fields (`__schema`, `__type`, `__typename`).
+    ///
+    /// Set to `false` in production deployments to prevent schema leakage:
+    ///   auto limits = QueryLimits::production();   // allow_introspection = false
+    ///
+    /// When `false`, `Parser::parse()` rejects any query that contains a
+    /// top-level or nested introspection field and returns a parse error so the
+    /// query is never executed.  This blocks schema reconnaissance by untrusted
+    /// clients while leaving query execution and mutation paths unaffected.
+    bool allow_introspection = true;
+
+    // Default safe limits (development / trusted context)
+    static QueryLimits defaults() {
+        return QueryLimits{};
+    }
+    
+    // More permissive limits for trusted contexts
+    static QueryLimits permissive() {
+        return QueryLimits{
+            .max_query_size_bytes = 1000000,
+            .max_depth = 20,
+            .max_fields = 500,
+            .max_ast_nodes = 5000,
+            .max_subscriptions = 50,
+            .allow_introspection = true
+        };
+    }
+
+    /// Hardened limits for production deployments.
+    /// Disables introspection to prevent schema leakage by untrusted clients.
+    static QueryLimits production() {
+        QueryLimits l;
+        l.allow_introspection = false;
+        return l;
+    }
+};
+
+/**
  * @brief GraphQL Parser
  * 
  * Parses GraphQL query strings into Document structures.
@@ -218,16 +293,40 @@ public:
         std::vector<ParseError> errors;
     };
     
+    /**
+     * Parse a GraphQL query string with default limits
+     * @param query The GraphQL query string to parse
+     * @return Result containing the parsed document or errors
+     */
     static Result parse(std::string_view query);
     
+    /**
+     * Parse a GraphQL query string with custom limits
+     * @param query The GraphQL query string to parse
+     * @param limits Query limits to enforce
+     * @return Result containing the parsed document or errors
+     */
+    static Result parse(std::string_view query, const QueryLimits& limits);
+    
 private:
-    Parser(std::string_view query);
+    Parser(std::string_view query, const QueryLimits& limits);
     
     Result parseDocument();
-    std::optional<Operation> parseOperation();
-    std::optional<Field> parseField();
-    std::optional<std::shared_ptr<Value>> parseValue();
-    std::optional<VariableDefinition> parseVariableDefinition();
+    themis::Result<Operation> parseOperation();
+    themis::Result<Field> parseField(size_t depth = 0);
+    themis::Result<std::shared_ptr<Value>> parseValue();
+    themis::Result<VariableDefinition> parseVariableDefinition();
+    
+    // Validation helpers
+    bool checkQuerySize();
+    bool checkDepthLimit(size_t depth);
+    bool checkFieldLimit();
+    bool checkASTNodeLimit();
+    /// Return true if @p field_name is a GraphQL introspection field
+    /// (`__schema`, `__type`, or `__typename`).
+    static bool isIntrospectionFieldName(std::string_view field_name) noexcept;
+    void incrementFieldCount() { field_count_++; }
+    void incrementASTNodeCount() { ast_node_count_++; }
     
     // Tokenization helpers
     void skipWhitespace();
@@ -235,17 +334,26 @@ private:
     bool match(char c);
     bool match(std::string_view s);
     bool peek(char c) const;
-    std::optional<std::string> parseName();
-    std::optional<std::string> parseString();
-    std::optional<int64_t> parseInt();
-    std::optional<double> parseFloat();
+    themis::Result<std::string> parseName();
+    themis::Result<std::string> parseString();
+    themis::Result<int64_t> parseInt();
+    themis::Result<double> parseFloat();
     
+    // Helper methods
+    std::string getLocationContext() const;
+    ParseError convertToParseError(const themis::Error& error);
+    
+    // Deprecated: Use Result<T> return types instead of error() method
     void error(std::string message);
     
     std::string_view source_;
+    QueryLimits limits_;
     size_t pos_ = 0;
     size_t line_ = 1;
     size_t column_ = 1;
+    size_t field_count_ = 0;
+    size_t ast_node_count_ = 0;
+    size_t max_depth_reached_ = 0;
     std::vector<ParseError> errors_;
 };
 
@@ -256,6 +364,7 @@ struct ExecutionContext {
     std::unordered_map<std::string, std::shared_ptr<Value>> variables;
     std::string tenant_id;
     std::string user_id;
+    bool mask_errors = true;  // Mask internal error details in production
     
     // Resolver function type
     using Resolver = std::function<std::shared_ptr<Value>(
@@ -268,6 +377,57 @@ struct ExecutionContext {
 };
 
 /**
+ * @brief Masked Error - Safe for client exposure
+ * 
+ * Masks internal implementation details while providing
+ * useful information for debugging in development.
+ */
+struct MaskedError {
+    std::string message;
+    std::string code;
+    std::vector<std::string> path;  // Path to the field that caused the error
+    
+    // Mask an internal error for client exposure
+    static MaskedError fromInternalError(
+        const std::string& internal_msg,
+        const std::string& error_code = "INTERNAL_ERROR",
+        bool mask = true
+    ) {
+        MaskedError masked;
+        masked.code = error_code;
+        
+        if (mask) {
+            // In production, don't expose internal details
+            if (error_code == "ERR_QUERY_INVALID_SYNTAX") {
+                masked.message = "Invalid query syntax";
+            } else if (error_code.find("LIMIT") != std::string::npos || 
+                      error_code.find("EXCEED") != std::string::npos) {
+                masked.message = "Query exceeds resource limits";
+            } else {
+                masked.message = "An internal error occurred";
+            }
+        } else {
+            // In development, expose full details
+            masked.message = internal_msg;
+        }
+        
+        return masked;
+    }
+    
+    std::string toString() const {
+        std::string result = "[" + code + "] " + message;
+        if (!path.empty()) {
+            result += " at path: ";
+            for (size_t i = 0; i < path.size(); ++i) {
+                if (i > 0) result += ".";
+                result += path[i];
+            }
+        }
+        return result;
+    }
+};
+
+/**
  * @brief GraphQL Executor
  * 
  * Executes parsed GraphQL documents against the ThemisDB data layer.
@@ -276,9 +436,16 @@ class Executor {
 public:
     struct Result {
         std::shared_ptr<Value> data;
-        std::vector<std::string> errors;
+        std::vector<MaskedError> errors;  // Use masked errors instead of strings
         
         bool hasErrors() const { return !errors.empty(); }
+        
+        // Helper to add an error with automatic masking
+        void addError(const std::string& message, 
+                     const std::string& code = "INTERNAL_ERROR",
+                     bool mask = true) {
+            errors.push_back(MaskedError::fromInternalError(message, code, mask));
+        }
     };
     
     Result execute(
@@ -367,10 +534,14 @@ public:
     const std::string& mutationType() const { return mutation_type_; }
     const std::string& subscriptionType() const { return subscription_type_; }
     
+    // Introspection policy
+    void setIntrospectionEnabled(bool enabled) { introspection_enabled_ = enabled; }
+    bool isIntrospectionEnabled() const { return introspection_enabled_; }
+    
     // Generate SDL (Schema Definition Language)
     std::string toSDL() const;
     
-    // Introspection support
+    // Introspection support (respects introspection policy)
     std::shared_ptr<Value> introspect(const Field& field) const;
     
 private:
@@ -378,6 +549,7 @@ private:
     std::string query_type_ = "Query";
     std::string mutation_type_ = "Mutation";
     std::string subscription_type_ = "Subscription";
+    bool introspection_enabled_ = true;  // Default: enabled for development
 };
 
 /**
@@ -390,12 +562,14 @@ public:
     static Schema build();
     
 private:
+    static void addGeoScalarTypes(Schema& schema);
     static void addDocumentTypes(Schema& schema);
     static void addGraphTypes(Schema& schema);
     static void addVectorTypes(Schema& schema);
     static void addTimeseriesTypes(Schema& schema);
     static void addQueryType(Schema& schema);
     static void addMutationType(Schema& schema);
+    static void addSubscriptionType(Schema& schema);
 };
 
 } // namespace graphql

@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            async_ingestion_worker.h                           ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:06:46                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     464                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
+    • 787af3dc1  2026-03-16  feat(content): implement YAML config loading and user_con... ║
+    • 6d9fa9a16  2026-03-12  Remove WordPress plugins/docs, update worker ║
+    • 517f27fd7  2026-03-11  feat(content): Add back-pressure metrics for ingestStream... ║
+    • fd07379dd  2026-03-11  feat(content): implement back-pressure in async_ingestion... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include <string>
@@ -8,6 +34,9 @@
 #include <atomic>
 #include <memory>
 #include <functional>
+#include <future>
+#include <map>
+#include <sstream>
 #include <nlohmann/json.hpp>
 
 namespace themis {
@@ -17,6 +46,8 @@ using json = nlohmann::json;
 
 // Forward declarations
 class ContentManager;
+class IngestionPlugin;
+struct IngestionSource;
 
 /**
  * @brief Ingestion job status
@@ -33,10 +64,15 @@ enum class IngestionJobStatus {
  * @brief Ingestion job type
  */
 enum class IngestionJobType {
-    SINGLE_FILE,   // Single file upload
-    ARCHIVE,       // Archive extraction and ingestion
-    BATCH_FILES,   // Multiple files (directory upload)
-    URL_FETCH      // Fetch from URL (future)
+    SINGLE_FILE,        // Single file upload
+    STREAM_FILE,        // Stream-based ingestion for large files
+    ARCHIVE,            // Archive extraction and ingestion
+    BATCH_FILES,        // Multiple files (directory upload)
+    URL_FETCH,          // Fetch from URL (future)
+    HUGGINGFACE,        // HuggingFace datasets
+    FILESYSTEM_BULK,    // Recursive filesystem scan
+    DATABASE_EXPORT,    // Database via JDBC/ODBC
+    REST_API            // Generic REST API
 };
 
 /**
@@ -48,6 +84,7 @@ struct IngestionJob {
     IngestionJobStatus status;
     std::string filename;
     std::string blob;  // Binary data
+    std::istream* stream = nullptr;  // Stream for STREAM_FILE jobs (not owned)
     json config;       // Job-specific configuration
     std::string user_context;
     
@@ -66,6 +103,9 @@ struct IngestionJob {
     
     // Callback (optional)
     std::function<void(const IngestionJob&)> on_complete;
+
+    // Promise for ingestStream() callers (optional)
+    std::shared_ptr<std::promise<std::string>> completion_promise;
 };
 
 /**
@@ -73,10 +113,13 @@ struct IngestionJob {
  */
 struct AsyncIngestionConfig {
     size_t worker_thread_count = 2;       // Number of parallel workers
-    size_t max_queue_size = 1000;         // Max jobs in queue
+    size_t max_queue_size = 1000;         // Absolute queue capacity (hard limit)
+    size_t max_queue_depth = 1000;        // Back-pressure threshold: callers block when exceeded
     bool enable_auto_cleanup = true;      // Auto-cleanup completed jobs
     int64_t job_retention_ms = 3600000;   // Keep completed jobs for 1 hour
     bool verbose_logging = false;
+    size_t batch_size = 64;              // Number of items processed per batch
+    int retry_attempts = 3;              // Max retries on transient failures
 };
 
 /**
@@ -137,7 +180,59 @@ public:
         const std::string& user_context = "",
         const json& config = json::object()
     );
-    
+
+    /**
+     * @brief Submit a stream for chunked ingestion (large-file support)
+     *
+     * Reads content from the stream in configurable chunks
+     * (see ContentManager::ingestStream for config keys).
+     * The stream must remain valid until the job completes when
+     * wait_for_completion = true; for async jobs the caller is
+     * responsible for the stream lifetime.
+     *
+     * Blocks the calling thread when the queue depth reaches
+     * config_.max_queue_depth until a worker dequeues a job.
+     *
+     * @param stream       Input stream positioned at the start of the content
+     * @param filename     Original filename (for MIME detection and metadata)
+     * @param mime_type    Optional MIME type override
+     * @param user_context User context for auth/encryption
+     * @param config       Optional job configuration (chunk_size_bytes, etc.)
+     * @return Job ID for tracking
+     */
+    std::string submitStream(
+        std::istream& stream,
+        const std::string& filename,
+        const std::string& mime_type = "",
+        const std::string& user_context = "",
+        const json& config = json::object()
+    );
+
+    /**
+     * @brief Submit a stream for async ingestion with back-pressure
+     *
+     * Blocks the calling thread when the queue depth reaches
+     * config_.max_queue_depth until a worker dequeues a job.
+     * Returns a future that resolves to the primary ContentId
+     * (std::string) once the ingestion job completes.
+     *
+     * The stream must remain valid until the returned future is ready.
+     *
+     * @param stream       Input stream positioned at the start of the content
+     * @param filename     Original filename (for MIME detection and metadata)
+     * @param mime_type    Optional MIME type override
+     * @param user_context User context for auth/encryption
+     * @param config       Optional job configuration (chunk_size_bytes, etc.)
+     * @return std::future<std::string> resolving to the primary ContentId
+     */
+    std::future<std::string> ingestStream(
+        std::istream& stream,
+        const std::string& filename,
+        const std::string& mime_type = "",
+        const std::string& user_context = "",
+        const json& config = json::object()
+    );
+
     /**
      * @brief Submit an archive for extraction and ingestion
      * 
@@ -218,6 +313,93 @@ public:
         const std::string& job_id,
         std::function<void(const IngestionJob&)> callback
     );
+    
+    /**
+     * @brief Register a custom handler for a specific job type
+     * 
+     * Allows external code to handle specific job types with custom logic.
+     * 
+     * @param job_type The type of job to register handler for
+     * @param handler Callback function to process jobs of this type
+     */
+    void registerJobHandler(
+        IngestionJobType job_type,
+        std::function<void(IngestionJob&)> handler
+    );
+    
+    // ========================================================================
+    // Plugin Management API (NEW)
+    // ========================================================================
+    
+    /**
+     * @brief Register an ingestion plugin
+     * 
+     * Plugins extend the worker with new data sources.
+     * 
+     * Example:
+     * ```cpp
+     * auto hf_plugin = std::make_shared<HuggingFacePlugin>(...);
+     * worker.registerPlugin(hf_plugin);
+     * ```
+     * 
+     * @param plugin Plugin to register
+     */
+    void registerPlugin(std::shared_ptr<IngestionPlugin> plugin);
+    
+    /**
+     * @brief Unregister a plugin
+     * 
+     * @param plugin_name Name of plugin to remove
+     */
+    void unregisterPlugin(const std::string& plugin_name);
+    
+    /**
+     * @brief List registered plugins
+     * 
+     * @return Vector of plugin names
+     */
+    std::vector<std::string> listPlugins() const;
+    
+    /**
+     * @brief Get plugin by name
+     * 
+     * @param name Plugin name
+     * @return Plugin pointer or nullptr if not found
+     */
+    std::shared_ptr<IngestionPlugin> getPlugin(const std::string& name) const;
+    
+    /**
+     * @brief Submit a multi-source job
+     * 
+     * Creates a job that will be processed by the registered plugin.
+     * 
+     * @param source Source configuration
+     * @param additional_config Optional additional configuration
+     * @param user_context Optional user context for audit attribution
+     * @return Job ID for tracking
+     */
+    std::string submitSourceJob(
+        const IngestionSource& source,
+        const json& additional_config = json::object(),
+        const std::string& user_context = ""
+    );
+    
+    /**
+     * @brief Load sources from configuration file
+     * 
+     * YAML format:
+     * ```yaml
+     * sources:
+     *   - source_id: hf_legal
+     *     plugin_name: huggingface
+     *     type: HUGGINGFACE
+     *     location: lexlms/ger_legal_data
+     *     priority: 5
+     * ```
+     * 
+     * @param config_path Path to YAML config file
+     */
+    void loadSourcesFromConfig(const std::string& config_path);
 
 private:
     std::shared_ptr<ContentManager> content_manager_;
@@ -231,16 +413,30 @@ private:
     // Job queue
     std::queue<IngestionJob> job_queue_;
     std::mutex queue_mutex_;
-    std::condition_variable queue_cv_;
+    std::condition_variable queue_cv_;        // Signals workers when jobs are available
+    std::condition_variable backpressure_cv_; // Signals callers when queue has space
     
     // Job tracking
     std::map<std::string, IngestionJob> job_history_;
     std::mutex history_mutex_;
     
+    // Custom job handlers (for plugins)
+    std::map<IngestionJobType, std::function<void(IngestionJob&)>> job_handlers_;
+    std::mutex handlers_mutex_;
+    
     // Statistics
     std::atomic<uint64_t> total_jobs_processed_;
     std::atomic<uint64_t> total_jobs_failed_;
     std::atomic<uint64_t> total_items_processed_;
+
+    // Back-pressure metrics
+    std::atomic<uint64_t> total_backpressure_events_;   ///< Number of times a caller was blocked by back-pressure
+    std::atomic<uint64_t> queue_depth_high_watermark_;  ///< Peak queue depth observed since start
+        std::atomic<size_t>   inflight_count_{0};           ///< Jobs currently being processed (dequeued but not completed)
+    
+    // Plugin registry (NEW)
+    std::map<std::string, std::shared_ptr<IngestionPlugin>> plugins_;
+    mutable std::mutex plugins_mutex_;
     
     // Worker thread function
     void workerLoop(int worker_id);
@@ -248,8 +444,10 @@ private:
     // Job processing
     void processJob(IngestionJob& job);
     void processSingleFile(IngestionJob& job);
+    void processStreamFile(IngestionJob& job);  // Stream-based large file ingestion
     void processArchive(IngestionJob& job);
     void processBatchFiles(IngestionJob& job);
+    void processPluginJob(IngestionJob& job);  // NEW: Plugin-based processing
     
     // Helpers
     std::string generateJobId();

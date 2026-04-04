@@ -38,6 +38,8 @@ service:
   type: ClusterIP
   port: 8080
   targetPort: 8080
+  # Metrics port for Prometheus
+  metricsPort: 4318
 
 ingress:
   enabled: false
@@ -83,11 +85,46 @@ readinessProbe:
   timeoutSeconds: 3
   failureThreshold: 3
 
+# Optional startup probe — useful when the instance loads large models at boot.
+# Uncomment and configure to prevent premature liveness failures during startup.
+# startupProbe:
+#   httpGet:
+#     path: /health
+#     port: health
+#   failureThreshold: 12
+#   periodSeconds: 10
+
 nodeSelector: {}
 
 tolerations: []
 
 affinity: {}
+
+# Autoscaling configuration
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 75
+  targetMemoryUtilizationPercentage: 80
+  # Custom metrics for advanced autoscaling
+  customMetrics: []
+  # Example custom metric:
+  # - name: themisdb_requests_per_second
+  #   targetAverageValue: "1000"
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 300
+      percentagePolicyValue: 50
+      podsPolicyValue: 1
+      periodSeconds: 60
+      selectPolicy: Min
+    scaleUp:
+      stabilizationWindowSeconds: 0
+      percentagePolicyValue: 100
+      podsPolicyValue: 2
+      periodSeconds: 30
+      selectPolicy: Max
 
 # ThemisDB specific configuration
 themisdb:
@@ -95,6 +132,36 @@ themisdb:
   logLevel: info
   # Enable metrics endpoint
   metricsEnabled: true
+
+  # Health endpoint port (should match THEMIS_HEALTH_PORT env var)
+  healthPort: 8081
+
+  # Environment variables injected into the container.
+  # For production deployments set at minimum:
+  #   THEMIS_PRODUCTION_MODE=1, THEMIS_ENVIRONMENT=production,
+  #   THEMIS_TOKEN_ADMIN (from a Secret), THEMIS_PKI_CERTIFICATE/KEY.
+  # See docs/production/SECURITY_POSTURE.md for the full list.
+  # Example:
+  # env:
+  #   - name: THEMIS_PRODUCTION_MODE
+  #     value: "1"
+  #   - name: THEMIS_TOKEN_ADMIN
+  #     valueFrom:
+  #       secretKeyRef:
+  #         name: themisdb-secrets
+  #         key: THEMIS_TOKEN_ADMIN
+  env: []
+
+  # Name of a Kubernetes Secret containing TLS cert/key for the API server.
+  # The secret must have keys: tls.crt and tls.key.
+  # When set, the secret is mounted at /etc/themisdb/tls (read-only).
+  tlsSecret: ""
+
+  # Name of a Kubernetes Secret containing the WAL gRPC mTLS cert/key/ca.
+  # The secret must have keys: tls.crt, tls.key, and ca.crt.
+  # When set, the secret is mounted at /etc/themisdb/wal-tls (read-only).
+  walTlsSecret: ""
+
   # Configuration file content (JSON)
   # Note: logLevel above is for documentation; the actual log level is set in the config below
   config: |
@@ -110,3 +177,41 @@ themisdb:
         "level": "info"
       }
     }
+
+# Service mesh integration (Istio/Envoy sidecar compatibility)
+serviceMesh:
+  # Set to true to inject the Istio sidecar into this deployment.
+  # Requires Istio to be installed in the cluster.
+  istioInject: false
+
+  # Comma-separated ports included in Istio inbound traffic interception.
+  # Maps to traffic.sidecar.istio.io/includeInboundPorts pod annotation.
+  # Typically the wire protocol port (8766) and the HTTP API port (8080).
+  includeInboundPorts: "8766,8080"
+
+  # Comma-separated ports excluded from Istio inbound interception.
+  # Maps to traffic.sidecar.istio.io/excludeInboundPorts pod annotation.
+  # The probe port (8082) and UDP fast-path (8769) must be excluded so that
+  # Kubernetes health checks and UDP traffic bypass Envoy interception.
+  excludeInboundPorts: "8082,8769"
+
+  # When true, ThemisDB-level TLS is disabled and mTLS is handled by Envoy.
+  # Set THEMIS_ENABLE_TLS=false via themisdb.env when enabling this option.
+  trustSidecarMTLS: false
+
+  # Graceful shutdown: wait this many milliseconds for the Envoy sidecar to
+  # drain in-flight connections before the process exits.
+  drainTimeoutMs: 5000
+
+# Metrics and monitoring configuration
+metrics:
+  # Enable Prometheus metrics endpoint
+  enabled: true
+  # ServiceMonitor for Prometheus Operator
+  serviceMonitor:
+    enabled: false
+    namespace: ""
+    labels: {}
+    interval: 30s
+    scrapeTimeout: 10s
+    relabelings: []

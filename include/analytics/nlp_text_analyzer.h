@@ -1,4 +1,30 @@
-﻿#pragma once
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            nlp_text_analyzer.h                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:05:31                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     442                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 83af59874  2026-02-26  audit: fix detectLanguage ambiguity, ROADMAP [x], correct... ║
+    • 3fd42b08d  2026-02-26  fix(analytics): code audit fixes - Spanish 'es'→'ser', Ge... ║
+    • c9e8e9704  2026-02-26  feat(analytics): implement full morphological lemmatizati... ║
+    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+#pragma once
 
 #include <string>
 #include <vector>
@@ -62,6 +88,7 @@ struct Keyword {
     double score;               ///< TF-IDF or relevance score
     size_t frequency;           ///< Occurrence count
     
+    Keyword() : text(""), score(0.0), frequency(0) {}
     Keyword(std::string t, double s, size_t f = 1)
         : text(std::move(t)), score(s), frequency(f) {}
         
@@ -102,6 +129,27 @@ struct ComplexityMetrics {
     ComplexityMetrics() : word_count(0), sentence_count(0), unique_words(0)
                        , avg_word_length(0.0), avg_sentence_length(0.0)
                        , lexical_diversity(0.0), complex_words(0) {}
+};
+
+/**
+ * @brief Legal modality detected in text
+ * 
+ * Represents modal verbs with legal/normative semantics, particularly
+ * for German administrative law (Verwaltungsrecht).
+ */
+struct LegalModality {
+    std::string verb;                   ///< Modal verb (e.g., "muss", "soll", "kann")
+    std::string category;               ///< Category: "obligation", "permission", "prohibition"
+    float strength;                     ///< Normative strength [0.0, 1.0]
+    std::string deontic_logic;          ///< Deontic logic notation (e.g., "O(φ)")
+    std::string interpretation;         ///< Legal interpretation
+    size_t position;                    ///< Position in text
+    std::vector<std::string> context_requirements;  ///< Required checks/considerations
+    
+    LegalModality() : strength(0.0f), position(0) {}
+    LegalModality(std::string v, std::string c, float s, std::string d, std::string i, size_t pos)
+        : verb(std::move(v)), category(std::move(c)), strength(s)
+        , deontic_logic(std::move(d)), interpretation(std::move(i)), position(pos) {}
 };
 
 /**
@@ -203,6 +251,24 @@ public:
      */
     ComplexityMetrics analyzeComplexity(std::string_view text) const;
 
+    /**
+     * @brief Extract legal modalities from text (e.g., German modal verbs)
+     * @param text Input text (legal/administrative document)
+     * @param language_code Language code (e.g., "de" for German)
+     * @param config_path Optional path to YAML config (default: german_modal_verbs.yaml)
+     * @return Vector of detected legal modalities with deontic semantics
+     * 
+     * Analyzes text for modal verbs with legal significance, particularly
+     * for German administrative law (Verwaltungsrecht):
+     * - "muss" (must) = Binding obligation (O(φ))
+     * - "soll" (shall) = Default rule (O_default(φ))
+     * - "kann" (may) = Discretionary permission (P(φ))
+     */
+    std::vector<LegalModality> extractLegalModalities(
+        std::string_view text,
+        const std::string& language_code = "de",
+        const std::string& config_path = "") const;
+
     // ========== AQL Query Optimization Support ==========
 
     /**
@@ -244,6 +310,22 @@ public:
      * @brief Stem a word to its base form
      */
     std::string stemWord(std::string_view word, Language lang = Language::ENGLISH) const;
+
+    /**
+     * @brief Lemmatize a word to its canonical dictionary form (full morphological lemmatization)
+     *
+     * Applies language-specific morphological rules and irregular-form lookup tables to
+     * return the base (dictionary) form of a word for the given language.  Unlike
+     * stemWord(), the result is always a valid word in the target language.
+     *
+     * Supported languages: ENGLISH, GERMAN, FRENCH, SPANISH, ITALIAN, DUTCH.
+     * Falls back to lowercased input for UNKNOWN.
+     *
+     * @param word   Input word (case-insensitive)
+     * @param lang   Target language (default: ENGLISH)
+     * @return       Canonical lemma of the word
+     */
+    std::string lemmatizeWord(std::string_view word, Language lang = Language::ENGLISH) const;
 
     /**
      * @brief Calculate similarity between two texts
@@ -289,6 +371,20 @@ private:
     };
     std::vector<EntityPattern> entity_patterns_;
 
+    // Legal modality patterns (for German administrative law)
+    struct LegalModalityPattern {
+        std::string pattern;
+        std::string category;
+        float strength;
+        std::string deontic_logic;
+        std::string interpretation;
+        std::vector<std::string> context_requirements;
+    };
+    mutable std::vector<LegalModalityPattern> legal_modality_patterns_;
+
+    // Morphological lemmatization: per-language irregular-form maps (inflected -> lemma)
+    std::unordered_map<Language, std::unordered_map<std::string, std::string>> irregular_lemmas_;
+
     // Statistics
     mutable size_t analysis_count_ = 0;
     mutable size_t token_count_ = 0;
@@ -316,6 +412,15 @@ private:
     bool containsJoin(std::string_view query) const;
     bool containsSubquery(std::string_view query) const;
     std::vector<std::string> extractTableNames(std::string_view query) const;
+    
+    // Morphological lemmatization helpers
+    void initializeLemmatizationData();
+    std::string applyMorphologicalRules(const std::string& lower,
+                                        Language lang) const;
+
+    // Legal modality helpers
+    bool loadLegalModalityConfig(const std::string& config_path) const;
+    std::string getDefaultLegalConfigPath(const std::string& language_code) const;
 };
 
 /**

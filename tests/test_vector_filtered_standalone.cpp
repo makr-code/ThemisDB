@@ -1,3 +1,25 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_vector_filtered_standalone.cpp                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:35:10                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     133                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include <gtest/gtest.h>
 #include "index/vector_index.h"
 #include "storage/rocksdb_wrapper.h"
@@ -60,13 +82,13 @@ TEST_F(VectorFilteredTest, SearchKnnFiltered_AttributeEquals) {
     std::vector<themis::VectorIndexManager::AttributeFilter> filters;
     filters.push_back({"category", "science", themis::VectorIndexManager::AttributeFilter::Op::EQUALS});
     
-    auto [st, results] = vector_mgr_->searchKnnFiltered(query, 2, filters);
-    ASSERT_TRUE(st.ok) << st.message;
+    auto [status, data] = vector_mgr_->searchKnnFiltered(query, 2, filters);
+    ASSERT_TRUE(status.ok) << status.message;
     
     // Should only return doc1 and doc3 (both science category)
-    EXPECT_EQ(results.size(), 2);
-    if (results.size() >= 1) EXPECT_EQ(results[0].pk, "doc1");
-    if (results.size() >= 2) EXPECT_EQ(results[1].pk, "doc3");
+    EXPECT_EQ(data.size(), 2);
+    if (data.size() >= 1) EXPECT_EQ(data[0].pk, "doc1");
+    if (data.size() >= 2) EXPECT_EQ(data[1].pk, "doc3");
 }
 
 TEST_F(VectorFilteredTest, SearchKnnFiltered_MultipleFilters) {
@@ -99,16 +121,13 @@ TEST_F(VectorFilteredTest, SearchKnnFiltered_MultipleFilters) {
     filters.push_back({"category", "science", themis::VectorIndexManager::AttributeFilter::Op::EQUALS});
     filters.push_back({"status", "active", themis::VectorIndexManager::AttributeFilter::Op::EQUALS});
     
-    auto [st, results] = vector_mgr_->searchKnnFiltered(query, 2, filters);
-    ASSERT_TRUE(st.ok) << st.message;
+    auto [status, data] = vector_mgr_->searchKnnFiltered(query, 2, filters);
+    ASSERT_TRUE(status.ok) << status.message;
     
     // Should return doc1 and doc3 (both science AND active)
-    EXPECT_EQ(results.size(), 2);
-    if (results.size() >= 1) EXPECT_EQ(results[0].pk, "doc1");
-    if (results.size() >= 2) EXPECT_EQ(results[1].pk, "doc3");
+    EXPECT_EQ(data.size(), 2);
+    if (data.size() >= 1) EXPECT_EQ(data[0].pk, "doc1");
+    if (data.size() >= 2) EXPECT_EQ(data[1].pk, "doc3");
 }
 
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
+

@@ -1,3 +1,25 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            timestamp_authority.h                              ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:10:56                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     294                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include <string>
@@ -93,6 +115,17 @@ struct TimestampToken {
     std::string policy_oid;          // TSA policy OID
     std::string hash_algorithm;      // Hash algorithm used
     std::vector<uint8_t> nonce;      // Nonce (if requested)
+    
+    // RFC 3161 Accuracy metadata (optional per RFC)
+    // Indicates the time deviation accuracy of the TSA's time source
+    bool has_accuracy = false;       // Whether accuracy info is present
+    uint32_t accuracy_seconds = 0;   // Accuracy in seconds
+    uint32_t accuracy_millis = 0;    // Accuracy in milliseconds (0-999)
+    uint32_t accuracy_micros = 0;    // Accuracy in microseconds (0-999)
+    
+    // RFC 3161 Ordering hint (optional per RFC)
+    // If true, TSA guarantees tokens are issued in chronological order
+    bool ordering = false;           // Ordering guarantee from TSA
     
     // Token data
     std::vector<uint8_t> token_der;  // DER-encoded timestamp token
@@ -193,6 +226,7 @@ private:
     std::unique_ptr<Impl> impl_;
     TSAConfig config_;
     std::string last_error_;
+    std::vector<uint8_t> cached_tsa_cert_;  // Most recently received TSA certificate
     
     // Helper: Create TSP request (RFC 3161)
     std::vector<uint8_t> createTSPRequest(const std::vector<uint8_t>& hash,

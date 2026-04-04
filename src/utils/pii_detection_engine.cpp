@@ -1,3 +1,27 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            pii_detection_engine.cpp                           ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:21:34                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     396                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 1914efd40  2026-02-22  audit(utils): fix broken test assertion and update qualit... ║
+    • b5853f10c  2026-02-22  Implement ML-based NER detection engine for PII detection... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "utils/pii_detection_engine.h"
 #include <openssl/sha.h>
 #include <sstream>
@@ -9,6 +33,9 @@ namespace utils {
 
 // Forward declaration of factory implemented in regex_detection_engine.cpp
 std::unique_ptr<IPIIDetectionEngine> createRegexEngine();
+
+// Forward declaration of factory implemented in ner_detection_engine.cpp
+std::unique_ptr<IPIIDetectionEngine> createNEREngine();
 
 // ============================================================================
 // PluginSignature Implementation
@@ -234,17 +261,18 @@ std::string PIITypeUtils::maskValue(PIIType type, const std::string& value,
 // PIIDetectionEngineFactory Implementation
 // ============================================================================
 
-std::unique_ptr<IPIIDetectionEngine> PIIDetectionEngineFactory::createSigned(
+Result<std::unique_ptr<IPIIDetectionEngine>> PIIDetectionEngineFactory::createSigned(
     const std::string& engine_type,
     const nlohmann::json& config,
-    const VCCPKIClient& pki_client,
-    std::string& error_msg) {
+    const VCCPKIClient& pki_client) {
     
     // Extract signature from config
     if (!config.contains("signature")) {
-        error_msg = "No signature block found in engine configuration";
+        std::string error_msg = "No signature block found in engine configuration";
         spdlog::error("PIIDetectionEngineFactory: {}", error_msg);
-        return nullptr;
+        return Err<std::unique_ptr<IPIIDetectionEngine>>(
+            errors::ErrorCode::ERR_UTIL_PII_ENGINE_CREATION_FAILED,
+            error_msg);
     }
     
     auto sig_node = config["signature"];
@@ -260,63 +288,72 @@ std::unique_ptr<IPIIDetectionEngine> PIIDetectionEngineFactory::createSigned(
         signature.signed_at = sig_node.value("signed_at", "");
         signature.signer = sig_node.value("signer", "");
     } catch (const std::exception& e) {
-        error_msg = std::string("Failed to parse signature metadata: ") + e.what();
+        std::string error_msg = std::string("Failed to parse signature metadata: ") + e.what();
         spdlog::error("PIIDetectionEngineFactory: {}", error_msg);
-        return nullptr;
+        return Err<std::unique_ptr<IPIIDetectionEngine>>(
+            errors::ErrorCode::ERR_UTIL_PII_ENGINE_CREATION_FAILED,
+            error_msg);
     }
     
     // Verify signature
     if (!signature.verify(pki_client, config)) {
-        error_msg = "PKI signature verification failed for engine '" + engine_type + "'";
+        std::string error_msg = "PKI signature verification failed for engine '" + engine_type + "'";
         spdlog::error("PIIDetectionEngineFactory: {}", error_msg);
-        return nullptr;
+        return Err<std::unique_ptr<IPIIDetectionEngine>>(
+            errors::ErrorCode::ERR_UTIL_PII_ENGINE_CREATION_FAILED,
+            error_msg);
     }
     
     spdlog::info("PIIDetectionEngineFactory: PKI signature verified for '{}' v{} (signed by: {})",
                  engine_type, signature.version, signature.signer);
     
     // Create engine (signature is valid)
-    auto engine = createUnsigned(engine_type);
-    if (!engine) {
-        error_msg = "Unknown engine type: " + engine_type;
-        return nullptr;
+    auto engine_result = createUnsigned(engine_type);
+    if (!engine_result) {
+        return engine_result;
     }
+    
+    auto engine = std::move(*engine_result);
     
     // Initialize engine with verified config
     if (!engine->initialize(config)) {
-        error_msg = "Engine initialization failed: " + engine->getLastError();
+        std::string error_msg = "Engine initialization failed: " + engine->getLastError();
         spdlog::error("PIIDetectionEngineFactory: {}", error_msg);
-        return nullptr;
+        return Err<std::unique_ptr<IPIIDetectionEngine>>(
+            errors::ErrorCode::ERR_UTIL_PII_ENGINE_CREATION_FAILED,
+            error_msg);
     }
     
     spdlog::info("PIIDetectionEngineFactory: Engine '{}' loaded successfully", engine_type);
-    return engine;
+    return Ok(std::move(engine));
 }
 
-std::unique_ptr<IPIIDetectionEngine> PIIDetectionEngineFactory::createUnsigned(
+Result<std::unique_ptr<IPIIDetectionEngine>> PIIDetectionEngineFactory::createUnsigned(
     const std::string& engine_type) {
     
     if (engine_type == "regex") {
-        return createRegexEngine();
+        return Ok(createRegexEngine());
+    }
+    
+    if (engine_type == "ner") {
+        return Ok(createNEREngine());
     }
     
     // Future engines:
-    // if (engine_type == "ner") return std::make_unique<NERDetectionEngine>();
-    // if (engine_type == "embedding") return std::make_unique<EmbeddingDetectionEngine>();
+    // if (engine_type == "embedding") return Ok(createEmbeddingEngine());
     
     spdlog::warn("PIIDetectionEngineFactory: Unknown engine type '{}'", engine_type);
-    return nullptr;
+    return Err<std::unique_ptr<IPIIDetectionEngine>>(
+        errors::ErrorCode::ERR_UTIL_PII_ENGINE_CREATION_FAILED,
+        "Unknown engine type: " + engine_type);
 }
 
 std::vector<std::string> PIIDetectionEngineFactory::getAvailableEngines() {
     std::vector<std::string> engines;
     engines.push_back("regex");  // Always available
+    engines.push_back("ner");    // Always available (rule-based gazetteer NER)
     
     // Conditionally compiled engines:
-    #ifdef THEMIS_ENABLE_NER
-    engines.push_back("ner");
-    #endif
-    
     #ifdef THEMIS_ENABLE_EMBEDDING
     engines.push_back("embedding");
     #endif

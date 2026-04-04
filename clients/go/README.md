@@ -12,6 +12,7 @@ Official Go client library for [ThemisDB](https://github.com/makr-code/ThemisDB)
 - ✅ **Multiple Isolation Levels** - READ_COMMITTED, SNAPSHOT
 - ✅ **CRUD Operations** - Get, Put, Delete with type-safe interfaces
 - ✅ **AQL Query Support** - Execute complex queries
+- ✅ **AQL Query Templates** - Fluent builder and pre-built templates for common AQL patterns 🆕
 - ✅ **Context Support** - Full context.Context integration for cancellation and timeouts
 - ✅ **Concurrent-Safe** - Thread-safe transaction and client operations
 - ✅ **Idiomatic Go** - Follows Go best practices and conventions
@@ -224,6 +225,76 @@ func queryUsers(client *themisdb.Client) error {
     return nil
 }
 ```
+
+### AQL Query Templates
+
+The client ships with a fluent `AQLQueryBuilder` and a set of ready-to-use template functions so you never have to write raw query strings by hand.
+
+#### Fluent Builder
+
+```go
+import themisdb "github.com/makr-code/ThemisDB/clients/go"
+
+// Build a query with the fluent API
+query := themisdb.NewAQLQuery().
+    For("u", "users").
+    Filter("u.age > 18").
+    Sort("u.name", themisdb.SortAsc).
+    Limit(0, 10).
+    Return("u").
+    Build()
+
+var users []map[string]interface{}
+client.Query(ctx, query, &users)
+```
+
+#### Pre-built Templates
+
+```go
+// Simple collection query
+q := themisdb.SimpleQueryTemplate("orders", "o", "o.status == 'open'", "o.created_at", themisdb.SortDesc, 50)
+
+// Join two collections
+q = themisdb.JoinQueryTemplate(
+    "users", "u",
+    "orders", "o",
+    "o.user_id == u._key",
+    "{ user: u.name, total: o.total }",
+)
+
+// Graph traversal
+q = themisdb.GraphTraversalTemplate("v", 1, 3, themisdb.TraversalOutbound, "'users/alice'", "friends", "v.name")
+
+// Aggregation with COLLECT / AGGREGATE
+q = themisdb.AggregationTemplate(
+    "orders", "o",
+    "o.status == 'completed'",
+    "city = o.city",
+    "revenue = SUM(o.amount)",
+    "revenue", themisdb.SortDesc,
+    "{ city, revenue }",
+)
+
+// Vector similarity search
+q = themisdb.VectorSearchTemplate("documents", "doc", "SIMILARITY(doc.embedding, @qv, 10)", "doc")
+
+// DML helpers
+ins := themisdb.InsertTemplate("{ name: @name, age: @age }", "users")
+upd := themisdb.UpdateTemplate("@key", "users", "{ status: @status }")
+del := themisdb.DeleteTemplate("{ _key: @key }", "users")
+ups := themisdb.UpsertTemplate("{ email: @email }", "{ email: @email, name: @name }", "{ name: @name }", "users")
+
+// Offset-based pagination
+q = themisdb.PaginatedQueryTemplate("products", "p", "p.active == true", "p.price", themisdb.SortAsc, 20, 10)
+
+// LLM statements
+llmQ  := themisdb.LLMInferTemplate("Explain ACID transactions", "llama-2-7b", "{ max_tokens: 200 }")
+ragQ  := themisdb.LLMRagTemplate("What are key features?", "docs", 5, "technical-docs")
+embQ  := themisdb.LLMEmbedTemplate("ThemisDB is a multi-model database", "all-minilm")
+```
+
+See the full API reference: [`aql_templates.go`](aql_templates.go)  
+See the detailed documentation: [AQL Query Templates Guide](../../docs/en/aql/aql_query_templates.md)
 
 ### Context and Timeouts
 
@@ -544,6 +615,160 @@ if err != nil {
 }
 ```
 
+## Wire Protocol
+
+ThemisDB provides a native binary Wire Protocol for high-performance communication. The Go client includes full support for the Wire Protocol with TLS/mTLS encryption.
+
+### Basic Wire Protocol Connection
+
+```go
+package main
+
+import (
+    "log"
+    themisdb "github.com/makr-code/ThemisDB/clients/go"
+)
+
+func main() {
+    // Create Wire Protocol client (development - no TLS)
+    client := themisdb.NewWireClient("localhost", 18765, "username", "password")
+    
+    if err := client.Connect(); err != nil {
+        log.Fatalf("Connection failed: %v", err)
+    }
+    defer client.Disconnect()
+    
+    // Put a document
+    err := client.Put("user:123", map[string]interface{}{
+        "name":  "Alice",
+        "email": "alice@example.com",
+    })
+    if err != nil {
+        log.Fatal(err)
+    }
+    
+    // Get a document
+    doc, err := client.Get("user:123")
+    if err != nil {
+        log.Fatal(err)
+    }
+    log.Printf("Retrieved: %+v", doc)
+}
+```
+
+### Wire Protocol with TLS (Production)
+
+```go
+// Create production TLS configuration
+tlsConfig := themisdb.NewProductionTLSConfig("/etc/themisdb/certs/ca.crt")
+tlsConfig.ServerName = "themisdb.example.com"
+
+// Create client with TLS
+client, err := themisdb.NewWireClientWithTLS(
+    "themisdb.example.com",
+    18765,
+    "username",
+    "password",
+    tlsConfig,
+)
+if err != nil {
+    log.Fatalf("Failed to create client: %v", err)
+}
+
+if err := client.Connect(); err != nil {
+    log.Fatalf("Connection failed: %v", err)
+}
+defer client.Disconnect()
+
+log.Println("Connected securely with TLS 1.3!")
+```
+
+### Mutual TLS (mTLS)
+
+```go
+// Create mTLS configuration
+tlsConfig := themisdb.NewProductionTLSConfig("/etc/themisdb/certs/ca.crt")
+tlsConfig.ClientCertPath = "/etc/themisdb/certs/client.crt"
+tlsConfig.ClientKeyPath = "/etc/themisdb/certs/client-key.pem"
+tlsConfig.ServerName = "themisdb.example.com"
+
+client, err := themisdb.NewWireClientWithTLS(
+    "themisdb.example.com",
+    18765,
+    "username",
+    "password",
+    tlsConfig,
+)
+```
+
+### Environment-Based Configuration
+
+```go
+// Configure from environment variables
+client, err := themisdb.NewWireClientFromEnv()
+if err != nil {
+    log.Fatalf("Failed to create client: %v", err)
+}
+```
+
+Set environment variables:
+```bash
+export THEMIS_WIRE_HOST=themisdb.example.com
+export THEMIS_WIRE_PORT=18765
+export THEMIS_WIRE_USERNAME=myuser
+export THEMIS_WIRE_PASSWORD=mypassword
+export THEMIS_WIRE_TLS_ENABLED=true
+export THEMIS_WIRE_TLS_CA_CERT=/etc/themisdb/certs/ca.crt
+export THEMIS_WIRE_TLS_CLIENT_CERT=/etc/themisdb/certs/client.crt
+export THEMIS_WIRE_TLS_CLIENT_KEY=/etc/themisdb/certs/client-key.pem
+export THEMIS_WIRE_PRODUCTION_MODE=true
+```
+
+### TLS Configuration Options
+
+```go
+import (
+    "crypto/tls"
+    "log"
+    themisdb "github.com/makr-code/ThemisDB/clients/go"
+)
+
+tlsConfig := &themisdb.TLSConfig{
+    Enabled:            true,                          // Enable TLS
+    CACertPath:         "/path/to/ca.crt",             // CA certificate
+    ClientCertPath:     "/path/to/client.crt",         // Client cert (mTLS)
+    ClientKeyPath:      "/path/to/client-key.pem",     // Client key (mTLS)
+    MinVersion:         tls.VersionTLS13,              // Minimum TLS version
+    InsecureSkipVerify: false,                         // Verify certificates
+    ServerName:         "themisdb.example.com",        // Server name for SNI
+    ProductionMode:     true,                          // Enforce production security
+}
+
+// Validate configuration
+if err := tlsConfig.Validate(); err != nil {
+    log.Fatalf("Invalid TLS config: %v", err)
+}
+```
+
+### Production Mode
+
+Enable `ProductionMode` to enforce strict security requirements:
+
+```go
+tlsConfig := themisdb.NewProductionTLSConfig("/etc/themisdb/certs/ca.crt")
+tlsConfig.ProductionMode = true
+
+// This enforces:
+// ✅ TLS must be enabled
+// ✅ TLS 1.3 is recommended (TLS 1.2 allowed with warning)
+// ❌ InsecureSkipVerify is forbidden
+// ✅ Certificate verification is mandatory
+```
+
+For more details, see:
+- [Wire Protocol Transport Security Guide](../../docs/en/guides/WIRE_PROTOCOL_TRANSPORT_SECURITY.md)
+- [TLS Setup Guide](../../docs/de/guides/guides_tls_setup.md)
+
 ## Testing
 
 Run unit tests:
@@ -565,6 +790,10 @@ go test -v -tags=integration
 3. **Use appropriate isolation levels** - SNAPSHOT for consistency, READ_COMMITTED for performance
 4. **Close transactions** - Always commit or rollback transactions
 5. **Check IsActive()** - Verify transaction state before operations
+6. **Use TLS in production** - Enable `ProductionMode` for Wire Protocol connections
+7. **Implement mTLS for service-to-service** - Use client certificates for zero-trust architecture
+8. **Monitor certificate expiration** - Set up alerts 30 days before certificate expiry
+9. **Rotate certificates regularly** - Automate with Let's Encrypt or HashiCorp Vault
 
 ## Examples
 

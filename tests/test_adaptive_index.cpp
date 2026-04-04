@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_adaptive_index.cpp                            ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:23:52                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     645                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • b3eabcc0a  2026-03-09  feat(index): implement parallel batch search, GPU utiliza... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 #include "index/adaptive_index.h"
@@ -516,4 +539,107 @@ TEST_F(AdaptiveIndexTest, Performance_GenerateSuggestions_Fast) {
     
     std::cout << "Generate suggestions took: " << duration.count() << "ms" << std::endl;
     EXPECT_LT(duration.count(), 500);  // Includes selectivity analysis
+}
+
+// ===== IndexSuggestionEngine::indexExists / registerIndex / unregisterIndex Tests =====
+
+TEST_F(AdaptiveIndexTest, SuggestionEngine_IndexExists_ReturnsFalseByDefault) {
+    auto* engine = manager_->getSuggestionEngine();
+
+    EXPECT_FALSE(engine->indexExists("users", "email"));
+    EXPECT_FALSE(engine->indexExists("products", "category"));
+}
+
+TEST_F(AdaptiveIndexTest, SuggestionEngine_RegisterIndex_ExcludesFromSuggestions) {
+    auto* tracker = manager_->getPatternTracker();
+    auto* engine  = manager_->getSuggestionEngine();
+
+    // Record patterns that would normally generate a suggestion
+    for (int i = 0; i < 200; i++) {
+        tracker->recordPattern("users", "email", "eq", 30);
+    }
+
+    // Before registration: suggestion should exist
+    auto before = manager_->getSuggestions("users", 0.0, 10);
+    auto it_before = std::find_if(before.begin(), before.end(),
+        [](const auto& s) { return s.field == "email"; });
+    EXPECT_NE(it_before, before.end()) << "email suggestion should exist before registration";
+
+    // Register the index
+    engine->registerIndex("users", "email");
+    EXPECT_TRUE(engine->indexExists("users", "email"));
+
+    // After registration: suggestion must be suppressed
+    auto after = manager_->getSuggestions("users", 0.0, 10);
+    auto it_after = std::find_if(after.begin(), after.end(),
+        [](const auto& s) { return s.field == "email"; });
+    EXPECT_EQ(it_after, after.end()) << "email suggestion should be suppressed after registration";
+}
+
+TEST_F(AdaptiveIndexTest, SuggestionEngine_UnregisterIndex_ReenablesSuggestions) {
+    auto* tracker = manager_->getPatternTracker();
+    auto* engine  = manager_->getSuggestionEngine();
+
+    for (int i = 0; i < 200; i++) {
+        tracker->recordPattern("users", "email", "eq", 30);
+    }
+
+    // Register then unregister
+    engine->registerIndex("users", "email");
+    EXPECT_TRUE(engine->indexExists("users", "email"));
+
+    engine->unregisterIndex("users", "email");
+    EXPECT_FALSE(engine->indexExists("users", "email"));
+
+    // After unregistration the suggestion should reappear
+    auto suggestions = manager_->getSuggestions("users", 0.0, 10);
+    auto it = std::find_if(suggestions.begin(), suggestions.end(),
+        [](const auto& s) { return s.field == "email"; });
+    EXPECT_NE(it, suggestions.end()) << "email suggestion should reappear after unregistration";
+}
+
+TEST_F(AdaptiveIndexTest, SuggestionEngine_RegisterIndex_IsolatedPerCollection) {
+    auto* tracker = manager_->getPatternTracker();
+    auto* engine  = manager_->getSuggestionEngine();
+
+    for (int i = 0; i < 100; i++) {
+        tracker->recordPattern("users",    "email", "eq", 20);
+        tracker->recordPattern("products", "email", "eq", 20);
+    }
+
+    // Register only for "users" collection
+    engine->registerIndex("users", "email");
+
+    auto user_suggestions    = manager_->getSuggestions("users",    0.0, 10);
+    auto product_suggestions = manager_->getSuggestions("products", 0.0, 10);
+
+    auto user_email_it = std::find_if(user_suggestions.begin(), user_suggestions.end(),
+        [](const auto& s) { return s.field == "email"; });
+    EXPECT_EQ(user_email_it, user_suggestions.end())
+        << "users.email suggestion should be suppressed";
+
+    auto product_email_it = std::find_if(product_suggestions.begin(), product_suggestions.end(),
+        [](const auto& s) { return s.field == "email"; });
+    EXPECT_NE(product_email_it, product_suggestions.end())
+        << "products.email suggestion should still appear";
+}
+
+TEST_F(AdaptiveIndexTest, SuggestionEngine_RegisterIndex_ThreadSafe) {
+    auto* engine = manager_->getSuggestionEngine();
+
+    std::vector<std::thread> threads;
+    for (int t = 0; t < 8; t++) {
+        threads.emplace_back([engine, t]() {
+            for (int i = 0; i < 50; i++) {
+                std::string field = "field" + std::to_string((t * 50 + i) % 10);
+                engine->registerIndex("users", field);
+                (void)engine->indexExists("users", field);
+                engine->unregisterIndex("users", field);
+            }
+        });
+    }
+    for (auto& th : threads) { th.join(); }
+
+    // No crash or data race: test passes if we reach here
+    SUCCEED();
 }

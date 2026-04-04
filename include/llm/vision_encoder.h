@@ -1,9 +1,33 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            vision_encoder.h                                   ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:08:39                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     271                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include <string>
 #include <vector>
 #include <memory>
 #include <stdexcept>
+#include "llm/vision_config.h"
+#include "llm/vision_resource_monitor.h"
 
 // Forward declarations for llama.cpp CLIP types
 struct clip_ctx;
@@ -28,21 +52,43 @@ namespace llm {
  * 
  * Usage:
  * @code
- * VisionEncoder encoder("/models/mmproj-model-f16.gguf");
+ * auto config = VisionConfig::loadFromFile("config/vision_config.yaml");
+ * VisionEncoder encoder("/models/mmproj-model-f16.gguf", config);
  * auto embeddings = encoder.encodeImage("/path/to/image.jpg");
  * @endcode
  * 
  * Based on llama.cpp CLIP integration:
  * https://github.com/ggerganov/llama.cpp/tree/master/examples/llava
+ * 
+ * Enhanced with:
+ * - Configuration-driven validation and limits
+ * - Resource monitoring and tracking
+ * - License compliance checking
+ * - Production-ready error handling
  */
 class VisionEncoder {
 public:
     /**
-     * @brief Construct a VisionEncoder
+     * @brief Construct a VisionEncoder with configuration
+     * 
+     * @param clip_model_path Path to CLIP model file (GGUF format)
+     * @param config Vision configuration (optional, uses defaults if null)
+     * @param resource_monitor Resource monitor (optional, for tracking)
+     * @param verbosity Logging verbosity (0=silent, 1=normal, 2=verbose)
+     * @throws std::runtime_error if model fails to load or validation fails
+     */
+    explicit VisionEncoder(const std::string& clip_model_path, 
+                          std::shared_ptr<VisionConfig> config = nullptr,
+                          std::shared_ptr<VisionResourceMonitor> resource_monitor = nullptr,
+                          int verbosity = 1);
+    
+    /**
+     * @brief Construct a VisionEncoder (legacy, for backward compatibility)
      * 
      * @param clip_model_path Path to CLIP model file (GGUF format)
      * @param verbosity Logging verbosity (0=silent, 1=normal, 2=verbose)
      * @throws std::runtime_error if model fails to load
+     * @deprecated Use constructor with VisionConfig instead
      */
     explicit VisionEncoder(const std::string& clip_model_path, int verbosity = 1);
     
@@ -118,6 +164,26 @@ public:
      */
     std::string getModelInfo() const;
     
+    /**
+     * @brief Get model license information
+     * 
+     * @return Model license (if available)
+     */
+    std::shared_ptr<ModelLicense> getModelLicense() const;
+    
+    /**
+     * @brief Validate image against security constraints
+     * 
+     * @param image_path Path to image file
+     * @return true if valid, false otherwise
+     */
+    bool validateImage(const std::string& image_path) const;
+    
+    /**
+     * @brief Set user context for resource tracking
+     */
+    void setUserContext(const std::string& user_id);
+    
 private:
     /**
      * @brief Load image from file path
@@ -144,10 +210,22 @@ private:
     void freeImage(clip_image_f32* img_f32);
     
 private:
+    // Model state
     clip_ctx* clip_ctx_;           ///< CLIP context (opaque pointer)
     std::string model_path_;       ///< Path to CLIP model file
+    std::string model_id_;         ///< Model identifier for tracking
     int verbosity_;                ///< Logging verbosity
     bool initialized_;             ///< Initialization status
+    
+    // Configuration and monitoring
+    std::shared_ptr<VisionConfig> config_;                    ///< Vision configuration
+    std::shared_ptr<VisionResourceMonitor> resource_monitor_; ///< Resource monitor
+    std::string current_user_id_;                             ///< Current user context
+    
+    // Validation helpers
+    bool validateImageSize(const std::string& image_path) const;
+    bool validateImageFormat(const std::string& image_path) const;
+    bool validateImageResolution(const std::string& image_path) const;
 };
 
 /**

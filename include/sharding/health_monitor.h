@@ -1,3 +1,25 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            health_monitor.h                                   ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:11:34                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     223                                            ║
+    • Open Issues:     TODOs: 1, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include <string>
@@ -11,6 +33,8 @@
 #include <functional>
 #include "sharding/multi_primary_coordinator.h"
 #include "sharding/replica_topology.h"
+#include "utils/http_client_pool.h"
+#include "utils/thread_pool_manager.h"
 
 namespace themis::sharding {
 
@@ -33,6 +57,7 @@ struct HealthCheckResult {
     std::chrono::steady_clock::time_point last_check;
     std::chrono::milliseconds response_time;
     uint32_t consecutive_failures = 0;
+    uint32_t consecutive_successes = 0;
     std::string error_message;
     
     bool isHealthy() const {
@@ -68,6 +93,7 @@ struct HealthMonitorConfig {
     std::chrono::milliseconds heartbeat_interval{1000};  // 1 second
     std::chrono::milliseconds health_check_timeout{500}; // 500ms per check
     uint32_t max_consecutive_failures = 3;  // Mark DOWN after 3 failures
+    uint32_t successes_for_recovery = 3;     // Consecutive successes needed for RECOVERING → HEALTHY
     
     bool auto_failover_enabled = true;
     bool auto_promote_standby = true;
@@ -93,6 +119,20 @@ public:
     HealthMonitor(const HealthMonitorConfig& config,
                   std::shared_ptr<MultiPrimaryCoordinator> primary_coordinator,
                   std::shared_ptr<ReplicaTopology> topology);
+    
+    // Constructor with custom HTTP client pool
+    HealthMonitor(const HealthMonitorConfig& config,
+                  std::shared_ptr<MultiPrimaryCoordinator> primary_coordinator,
+                  std::shared_ptr<ReplicaTopology> topology,
+                  std::shared_ptr<utils::HTTPClientPool> http_pool);
+    
+    // Constructor with custom HTTP client pool and ThreadPoolManager
+    HealthMonitor(const HealthMonitorConfig& config,
+                  std::shared_ptr<MultiPrimaryCoordinator> primary_coordinator,
+                  std::shared_ptr<ReplicaTopology> topology,
+                  std::shared_ptr<utils::HTTPClientPool> http_pool,
+                  std::shared_ptr<utils::ThreadPoolManager> thread_pool);
+    
     ~HealthMonitor();
     
     /**
@@ -156,14 +196,18 @@ private:
     bool shouldTriggerFailover(const std::string& node_id) const;
     std::optional<std::string> selectStandbyForPromotion() const;
     void recordFailoverEvent(const FailoverEvent& event);
+    bool performHealthCheck(const std::string& endpoint);
     
     HealthMonitorConfig config_;
     std::shared_ptr<MultiPrimaryCoordinator> primary_coordinator_;
     std::shared_ptr<ReplicaTopology> topology_;
+    std::shared_ptr<utils::HTTPClientPool> http_pool_;
+    std::shared_ptr<utils::ThreadPoolManager> thread_pool_;
     
     mutable std::mutex mutex_;
     std::atomic<bool> running_{false};
-    std::thread monitor_thread_;
+    // TODO(v2.0): Remove monitor_thread_ once all clients migrate to ThreadPoolManager
+    std::thread monitor_thread_;  // Kept for backward compatibility
     
     std::map<std::string, HealthCheckResult> health_statuses_;
     std::vector<FailoverEvent> failover_history_;

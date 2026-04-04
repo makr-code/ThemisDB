@@ -1,3 +1,25 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_temporal_aggregation.cpp                      ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:34:20                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     226                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include <gtest/gtest.h>
 #include "index/graph_index.h"
 #include "storage/rocksdb_wrapper.h"
@@ -111,8 +133,8 @@ protected:
 TEST_F(TemporalAggregationTest, GetTemporalStats_AllEdgesOverlap) {
     // Query range [1000, 4000] should include all 5 edges
     auto [status, stats] = graphIdx_->getTemporalStats(1000, 4000, false);
+    ASSERT_TRUE(status.ok);
     
-    ASSERT_TRUE(status.ok) << status.message;
     EXPECT_EQ(stats.edge_count, 5);  // All edges have some overlap
     EXPECT_EQ(stats.bounded_edge_count, 3);  // Only edge1, edge2, edge3 have both bounds
     EXPECT_GT(stats.avg_duration_ms, 0.0);
@@ -127,8 +149,8 @@ TEST_F(TemporalAggregationTest, GetTemporalStats_AllEdgesOverlap) {
 TEST_F(TemporalAggregationTest, GetTemporalStats_PartialOverlap) {
     // Query range [1800, 2800] should include edge1, edge2, edge3
     auto [status, stats] = graphIdx_->getTemporalStats(1800, 2800, false);
+    ASSERT_TRUE(status.ok);
     
-    ASSERT_TRUE(status.ok) << status.message;
     EXPECT_EQ(stats.edge_count, 4);  // edge1, edge2, edge3, edge4(unbounded)
     EXPECT_EQ(stats.bounded_edge_count, 3);
     EXPECT_EQ(stats.total_duration_ms, 4000.0);
@@ -140,8 +162,8 @@ TEST_F(TemporalAggregationTest, GetTemporalStats_FullyContainedOnly) {
     // Query range [1000, 2500] with full containment
     // Only edge1 (1000-2000) is fully contained
     auto [status, stats] = graphIdx_->getTemporalStats(1000, 2500, true);
+    ASSERT_TRUE(status.ok);
     
-    ASSERT_TRUE(status.ok) << status.message;
     EXPECT_EQ(stats.edge_count, 1);  // Only edge1
     EXPECT_EQ(stats.fully_contained_count, 1);
     EXPECT_EQ(stats.bounded_edge_count, 1);
@@ -154,8 +176,8 @@ TEST_F(TemporalAggregationTest, GetTemporalStats_FullyContainedOnly) {
 TEST_F(TemporalAggregationTest, GetTemporalStats_NoOverlap) {
     // Query range [5000, 6000] should find only unbounded edge4
     auto [status, stats] = graphIdx_->getTemporalStats(5000, 6000, false);
+    ASSERT_TRUE(status.ok);
     
-    ASSERT_TRUE(status.ok) << status.message;
     EXPECT_EQ(stats.edge_count, 2);  // edge4 (unbounded) and edge5 (starts at 3500)
     EXPECT_EQ(stats.bounded_edge_count, 0);  // No bounded edges
     EXPECT_EQ(stats.total_duration_ms, 0.0);
@@ -164,8 +186,8 @@ TEST_F(TemporalAggregationTest, GetTemporalStats_NoOverlap) {
 
 TEST_F(TemporalAggregationTest, GetTemporalStats_ToStringFormat) {
     auto [status, stats] = graphIdx_->getTemporalStats(1000, 4000, false);
+    ASSERT_TRUE(status.ok);
     
-    ASSERT_TRUE(status.ok) << status.message;
     std::string output = stats.toString();
     
     // Check that toString contains expected information
@@ -191,8 +213,8 @@ TEST_F(TemporalAggregationTest, GetTemporalStats_EmptyDatabase) {
     GraphIndexManager emptyGraph(emptyDb);
     
     auto [status, stats] = emptyGraph.getTemporalStats(1000, 2000, false);
+    ASSERT_TRUE(status.ok);
     
-    ASSERT_TRUE(status.ok) << status.message;
     EXPECT_EQ(stats.edge_count, 0);
     EXPECT_EQ(stats.bounded_edge_count, 0);
     EXPECT_EQ(stats.total_duration_ms, 0.0);

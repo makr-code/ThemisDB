@@ -1,3 +1,25 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            llm_plugin_manager.cpp                             ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:16:59                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   98.0/100                                       ║
+    • Total Lines:     467                                            ║
+    • Open Issues:     TODOs: 1, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "llm/llm_plugin_manager.h"
 #include "llm/llama_wrapper.h"
 #include "utils/error_registry.h"
@@ -254,12 +276,12 @@ std::vector<std::string> LLMPluginManager::listModels() const {
     return models;
 }
 
-bool LLMPluginManager::loadLoRA(const std::string& lora_id, const std::string& path, const std::string& base_model) {
+bool LLMPluginManager::loadLoRA(const std::string& lora_id, const std::string& path, 
+                                [[maybe_unused]] const std::string& base_model) {
     auto* plugin = getDefaultPlugin();
     if (!plugin) {
         throw std::runtime_error("No default LLM plugin available");
     }
-    (void)base_model;
     return plugin->loadLoRA(lora_id, path, 1.0f);
 }
 
@@ -301,8 +323,8 @@ std::vector<std::string> LLMPluginManager::generateStream(const InferenceRequest
     return tokens;
 }
 
-bool LLMPluginManager::ingestModel(const std::string& model_id, const std::string& data) {
-    (void)data;
+bool LLMPluginManager::ingestModel(const std::string& model_id, 
+                                   [[maybe_unused]] const std::string& data) {
     return loadModel(model_id, model_id);
 }
 

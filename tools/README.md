@@ -1,8 +1,18 @@
 # ThemisDB Admin Tools
 
+> 📚 **Complete Documentation:** See [Tools & Utilities Index](../docs/TOOLS_INDEX.md) for comprehensive documentation of all 30+ tools.
+
 ## Übersicht
 
 Die ThemisDB Admin Tools sind eine Suite von Windows-Desktop-Anwendungen und Python-Tools zur Verwaltung, Überwachung, Analyse und Compliance-Prüfung der ThemisDB-Datenbank.
+
+## Quick Links
+
+- **[📖 Tools Index](../docs/TOOLS_INDEX.md)** - Complete catalog of all tools with documentation links
+- **[🔧 Admin Tools](../docs/TOOLS_INDEX.md#-administration-tools)** - Desktop applications (.NET)
+- **[🔄 Operations Tools](../docs/TOOLS_INDEX.md#-operations--monitoring)** - Scripts for operations and monitoring
+- **[📦 Ingestion Tools](../docs/TOOLS_INDEX.md#-data-ingestion)** - Data import utilities
+- **[💻 Development Tools](../docs/TOOLS_INDEX.md#-development-utilities)** - Developer utilities
 
 ## Python-Tools
 
@@ -91,6 +101,98 @@ dotnet run -- --source /path/to/data --output results.json --verbose
 **Dokumentation:** Siehe [Themis.IngestionTool/README.md](Themis.IngestionTool/README.md)
 
 
+
+### LDAP Export Tool (`ldap_export.py`)
+
+Ein Python-Tool zum Exportieren von Active Directory/LDAP-Verzeichnisobjekten (Benutzer, Gruppen, OUs) ins JSONL-Format für die Ingestion in ThemisDB.
+
+**Features:**
+- LDAP-Verbindung mit Bind-Authentifizierung
+- Paginierte Suche für große Verzeichnisse
+- Exportiert Benutzer, Gruppen und Organisationseinheiten
+- Konfigurierbare Attribut-Zuordnung
+- JSONL-Ausgabe kompatibel mit tools/ingest.py
+- Graphstruktur: Knoten (ad_user, ad_group, ad_ou) und Kanten (MEMBER_OF, CHILD_OF, IN_OU)
+- Optional: File-Link-Style Keys für einfaches Aliasing
+
+**Verwendung:**
+```bash
+# Mit Konfigurationsdatei
+python3 tools/ldap_export.py --config ldap_export_config.yaml --output ad_export.jsonl
+
+# Direkte CLI-Optionen
+python3 tools/ldap_export.py \
+  --server ldap://dc.example.com \
+  --base-dn "DC=example,DC=com" \
+  --bind-dn "CN=ldap-reader,DC=example,DC=com" \
+  --bind-password "password" \
+  --output ad_export.jsonl
+
+# Test mit begrenzten Einträgen
+python3 tools/ldap_export.py --config ldap_export_config.yaml --max-entries 100
+```
+
+**Ausgaben:**
+- `ad_export.jsonl` - JSONL mit AD-Entitäten (Knoten und Kanten)
+- `ldap_export.log` - Logdatei mit allen Ereignissen
+
+**Voraussetzungen:**
+- Python 3.8+
+- `ldap3` - LDAP-Client (`pip install ldap3`)
+- `pyyaml` - YAML-Parser (`pip install pyyaml`)
+
+**Dokumentation:**
+- Konfiguration: [ldap_export_config.example.yaml](ldap_export_config.example.yaml)
+- Schema: [../docs/schemas/ldap_export_schema.md](../docs/schemas/ldap_export_schema.md)
+- Integration Guide: [../docs/guides/ad_ldap_integration_guide.md](../docs/guides/ad_ldap_integration_guide.md)
+
+### Ownership Linkage Tool (`link_ownership.py`)
+
+Ein Python-Tool zum Erstellen von Ownership- und Visibility-Beziehungen zwischen PostgreSQL-importierten Entitäten und Active Directory-Gruppen/Benutzern.
+
+**Features:**
+- Verknüpft PostgreSQL-Tabellen/Schemas mit AD-Gruppen über OWNED_BY-Kanten
+- Erstellt VISIBLE_TO-Kanten für Lesezugriffskontrolle
+- Unterstützt Mapping-Dateien (CSV/YAML) für explizite Ownership-Regeln
+- Unterstützt Namenskonventionen für automatisches Mapping
+- Generiert JSONL-Ausgabe kompatibel mit tools/ingest.py
+
+**Verwendung:**
+```bash
+# Mit Mapping-Datei (YAML)
+python3 tools/link_ownership.py \
+  --mapping ownership_mapping.yaml \
+  --output ownership_edges.jsonl
+
+# Mit Mapping-Datei (CSV)
+python3 tools/link_ownership.py \
+  --mapping ownership_mapping.csv \
+  --output ownership_edges.jsonl
+
+# Konventionsbasiert
+python3 tools/link_ownership.py \
+  --convention "postgres_table:hr_*" \
+  --output ownership_edges.jsonl
+
+# Mit existierender Entity-Liste
+python3 tools/link_ownership.py \
+  --mapping ownership_mapping.yaml \
+  --entities pg_export.jsonl \
+  --output ownership_edges.jsonl
+```
+
+**Ausgaben:**
+- `ownership_edges.jsonl` - JSONL mit OWNED_BY- und VISIBLE_TO-Kanten
+- `ownership_linkage.log` - Logdatei
+
+**Voraussetzungen:**
+- Python 3.8+
+- `pyyaml` - YAML-Parser (`pip install pyyaml`)
+
+**Dokumentation:**
+- Beispiel-Mappings: [../config/ownership_mapping.example.yaml](../config/ownership_mapping.example.yaml)
+- CSV-Beispiel: [../config/ownership_mapping.example.csv](../config/ownership_mapping.example.csv)
+- Integration Guide: [../docs/guides/ad_ldap_integration_guide.md](../docs/guides/ad_ldap_integration_guide.md)
 
 ### Namespace Analyzer (`namespace_analyzer.py`)
 

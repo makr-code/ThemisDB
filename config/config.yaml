@@ -315,6 +315,53 @@ server:
   websocket_max_message_size: 1048576  # 1 MB
   websocket_ping_interval_ms: 30000    # 30 seconds
   websocket_cdc_poll_interval_ms: 500  # 500 ms
+  
+  # ---------------------------------------------------------------------------
+  # Health/Error Service Configuration
+  # ---------------------------------------------------------------------------
+  # Separate lightweight service for health checks and error diagnostics
+  # Runs on independent port to ensure observability even when main server fails
+  
+  # Enable Health/Error service
+  health_error_service_enabled: true
+  
+  # Bind address for Health/Error service (localhost by default for security)
+  # Use "0.0.0.0" to expose on all interfaces
+  health_error_service_bind_address: "127.0.0.1"
+  
+  # Port for Health/Error service
+  # Default: 9090 (separate from main HTTP port)
+  # Override with environment variable: THEMIS_HEALTH_PORT
+  health_error_service_port: 9090
+
+# =============================================================================
+# PORT MAPPING REFERENCE
+# =============================================================================
+# ThemisDB uses the following ports by default:
+#
+# Main Services:
+#   - 8765: HTTP API (main REST/AQL endpoint)
+#   - 9090: Health/Error Service (diagnostics, separate from main server)
+#
+# Optional Services (when enabled):
+#   - 8080: Alternative HTTP port (configurable)
+#   - 50051: gRPC service (when THEMIS_ENABLE_GRPC=ON)
+#   - 9091: Prometheus metrics (when metrics enabled)
+#   - Custom: HTTP/3 QUIC port (configurable via http3_port)
+#
+# Environment Variables:
+#   - THEMIS_HTTP_PORT: Override main HTTP port (default: 8765)
+#   - THEMIS_HEALTH_PORT: Override health service port (default: 9090)
+#   - THEMIS_HEALTH_BIND_ADDRESS: Override health service bind address
+#
+# Docker Port Mapping:
+#   Container → Host
+#   - 8765:8765  Main HTTP API
+#   - 9090:9090  Health/Error Service
+#   - 50051:50051 gRPC (if enabled)
+#
+# Kubernetes Service Configuration:
+#   See: docs/deployment/kubernetes-ports.md
 
 # =============================================================================
 # VECTOR INDEX CONFIGURATION
@@ -446,7 +493,26 @@ features:
 sse:
   # Maximum events per second per connection (0 = unlimited)
   # Server-side rate limiting for SSE streams
+  # Recommended: 100-1000 for production to prevent overwhelming clients
   max_events_per_second: 0
+  
+  # Maximum buffered events per connection
+  # Events are buffered when client can't keep up with changefeed rate
+  # Recommended: 1000-10000 depending on memory availability
+  max_buffered_events: 1000
+  
+  # Heartbeat interval (milliseconds)
+  # Prevents connection timeout during idle periods
+  heartbeat_interval_ms: 15000
+  
+  # Event poll interval (milliseconds)
+  # How often to check changefeed for new events
+  event_poll_interval_ms: 500
+  
+  # Drop oldest events on buffer overflow
+  # true: Drop oldest events when buffer full (prevent memory issues)
+  # false: Drop newest events (preserve historical order)
+  drop_oldest_on_overflow: true
 
 # =============================================================================
 # API RATE LIMITING
@@ -454,6 +520,59 @@ sse:
 rate_limiting:
   # Audit API rate limit (requests per minute, 0 = unlimited)
   audit_rate_limit_per_minute: 100
+  
+  # Global rate limiter configuration (RateLimiter V1)
+  # For backwards compatibility - prefer V2 for new deployments
+  bucket_capacity: 100              # Maximum burst capacity (tokens)
+  refill_rate: 100                  # Tokens refilled per minute
+  window_seconds: 60                # Time window for rate limit
+  per_ip_enabled: true              # Enable per-IP rate limiting
+  per_user_enabled: true            # Enable per-user rate limiting (requires auth)
+  
+  # Rate Limiter V2 configuration (PerClientRateLimiter with priority lanes)
+  # Preferred for new deployments - supports priority lanes for VIP clients
+  v2:
+    enabled: false                  # Enable V2 rate limiter (recommended)
+    capacity_per_client: 100        # Tokens per client
+    refill_rate_per_client: 10      # Tokens per second per client
+    max_clients: 10000              # Maximum tracked clients
+    cleanup_interval_minutes: 5     # Idle client cleanup interval
+    
+    # Priority lane configuration
+    enable_priority_lanes: true     # Enable HIGH/NORMAL/LOW priority lanes
+    high_capacity: 2000             # VIP client burst capacity
+    high_refill_rate: 200           # VIP client sustained rate (tokens/s)
+    low_capacity: 500               # Low-priority burst capacity
+    low_refill_rate: 50             # Low-priority sustained rate (tokens/s)
+
+# =============================================================================
+# TENANT RESOURCE QUOTAS (Multi-tenancy)
+# =============================================================================
+tenants:
+  # Enable tenant-based resource quotas and isolation
+  # Set to true to enable quota enforcement in production
+  enforce_quotas: false
+  
+  # Tenant identification
+  tenant_header: "X-Tenant-ID"      # HTTP header for tenant ID
+  tenant_path_prefix: "/tenants/"   # Path prefix for tenant routing
+  
+  # Default tenant for single-tenant deployments
+  default_tenant_id: "default"
+  allow_default_tenant: true        # Allow requests without tenant ID
+  
+  # Global tenant limits
+  max_tenants: 1000                 # Maximum number of tenants
+  
+  # Default per-tenant resource quotas (can be overridden per tenant)
+  default_quotas:
+    max_storage_bytes: 0            # 0 = unlimited, otherwise bytes limit
+    max_documents: 0                # 0 = unlimited, otherwise document count
+    max_collections: 0              # 0 = unlimited, otherwise collection count
+    max_concurrent_queries: 100     # Maximum concurrent queries per tenant
+    max_connections: 50             # Maximum simultaneous connections per tenant
+    requests_per_second: 1000       # Rate limit per tenant (req/s)
+    burst_size: 100                 # Token bucket burst size per tenant
 
 # =============================================================================
 # LLM CONFIGURATION (Optional - requires llama.cpp integration)

@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_performance_feature_flags.cpp                 ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:30:58                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     205                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • f93dd332c  2026-02-23  audit(performance): add file banners and register PMem in... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // Test for performance feature flags system
 // Tests compile-time and runtime feature flag management
 
@@ -21,6 +44,7 @@ TEST(PerformanceFeatureFlagsTest, DefaultState) {
     EXPECT_NO_THROW(flags.cicada_cc_enabled());
     EXPECT_NO_THROW(flags.diskann_enabled());
     EXPECT_NO_THROW(flags.bw_tree_enabled());
+    EXPECT_NO_THROW(flags.pmem_enabled());
 }
 
 TEST(PerformanceFeatureFlagsTest, RuntimeToggle) {
@@ -88,6 +112,7 @@ TEST(PerformanceFeatureFlagsTest, GetAllFlags) {
     EXPECT_TRUE(all_flags.find("cicada_cc") != all_flags.end());
     EXPECT_TRUE(all_flags.find("diskann") != all_flags.end());
     EXPECT_TRUE(all_flags.find("bw_tree") != all_flags.end());
+    EXPECT_TRUE(all_flags.find("pmem") != all_flags.end());
     
     // Verify states
     EXPECT_TRUE(all_flags["mimalloc"]);
@@ -117,6 +142,7 @@ TEST(PerformanceFeatureFlagsTest, MacroAccess) {
         (void)THEMIS_PERF_CICADA_CC_ENABLED();
         (void)THEMIS_PERF_DISKANN_ENABLED();
         (void)THEMIS_PERF_BW_TREE_ENABLED();
+        (void)THEMIS_PERF_PMEM_ENABLED();
     });
 }
 
@@ -151,6 +177,10 @@ TEST(PerformanceFeatureFlagsTest, CompileTimeFlags) {
     
     #ifdef THEMIS_ENABLE_LIRS_CACHE
     EXPECT_TRUE(flags.lirs_cache_enabled());
+    #endif
+
+    #ifdef THEMIS_ENABLE_PMEM
+    EXPECT_TRUE(flags.pmem_enabled());
     #endif
 }
 

@@ -1,3 +1,27 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            llm_prefix_cache.h                                 ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:08:24                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     161                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • c3fa68410  2026-03-11  fix(llm): audit pass 2 - fix generated_text, prompt-key c... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include <string>
@@ -5,6 +29,7 @@
 #include <optional>
 #include <memory>
 #include <chrono>
+#include "utils/clock.h"
 
 namespace themis {
 namespace llm {
@@ -22,6 +47,10 @@ struct PrefixCacheEntry {
     // KV cache data (if precomputed)
     std::vector<float> precomputed_kv;
     bool has_precomputed_kv = false;
+
+    // The generated response text associated with this cached prompt.
+    // Empty for prewarm-only entries (no response has been generated yet).
+    std::string generated_text;
 };
 
 /**
@@ -65,6 +94,7 @@ public:
         size_t min_prefix_length = 20;       // Minimum prefix length to cache
         int ttl_seconds = 7200;              // 2 hours TTL
         bool enable_kv_caching = true;       // Precompute KV cache
+        std::shared_ptr<utils::Clock> clock = nullptr;  // Injectable clock (uses SystemClock if null)
     };
     
     explicit LLMPrefixCache(const std::string& cache_name, const Config& config);
@@ -72,15 +102,17 @@ public:
     
     /**
      * @brief Add a prefix to the cache
-     * @param prefix The text prefix to cache
+     * @param prefix The prompt text prefix to cache (used as lookup key)
      * @param tokens Tokenized version of the prefix
      * @param embedding Embedding vector for similarity search
-     * @param precomputed_kv Optional precomputed KV cache
+     * @param precomputed_kv Optional precomputed KV cache tensors
+     * @param generated_text Optional generated response text to return on cache hits
      */
     void put(const std::string& prefix,
              const std::vector<int>& tokens,
              const std::vector<float>& embedding,
-             const std::vector<float>& precomputed_kv = {});
+             const std::vector<float>& precomputed_kv = {},
+             const std::string& generated_text = {});
     
     /**
      * @brief Find a similar cached prefix

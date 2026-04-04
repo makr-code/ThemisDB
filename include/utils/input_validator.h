@@ -1,3 +1,25 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            input_validator.h                                  ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:12:57                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   95.0/100                                       ║
+    • Total Lines:     78                                             ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include <string>
@@ -11,12 +33,26 @@ class InputValidator {
 public:
     explicit InputValidator(std::string schema_dir);
 
-    // Basic JSON schema stub validation: checks required keys and basic types from a simple stub schema
-    // Returns std::nullopt if valid, otherwise an error message
+    // JSON schema validation against a JSON Schema Draft-7 file.
+    // Loads the schema from <schema_dir>/<schema_name>.json and validates `payload` against it.
+    // Supported keywords:
+    //   Top-level:   type ("object"), required, properties, additionalProperties
+    //   Per property: type (string/object/number/integer/boolean/array/null),
+    //                 enum, minLength, maxLength, pattern,
+    //                 minimum, maximum, exclusiveMinimum, exclusiveMaximum
+    // Returns std::nullopt if valid (or if no schema file is found), otherwise an error message.
     std::optional<std::string> validateJsonStub(
         const nlohmann::json& payload,
         const std::string& schema_name
     ) const;
+
+    // JSON schema validation against an in-memory JSON Schema Draft-7 object.
+    // Same keyword support as validateJsonStub.
+    // Returns std::nullopt if valid, otherwise an error message.
+    static std::optional<std::string> validateJson(
+        const nlohmann::json& payload,
+        const nlohmann::json& schema
+    );
 
     // Validate AQL request payload (expects keys like {"query": "...", "bindVars": {...}})
     // Performs minimal checks: required fields, max length, disallowed characters/patterns

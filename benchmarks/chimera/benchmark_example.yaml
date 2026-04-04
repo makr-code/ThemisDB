@@ -1,0 +1,547 @@
+# =============================================================================
+# CHIMERA Suite: Practical Benchmark Configuration Example
+# =============================================================================
+# This is a complete, ready-to-use example configuration for running
+# vendor-neutral database benchmarks.
+#
+# Usage:
+#   1. Copy this file to your benchmark directory
+#   2. Modify system configurations to match your test environment
+#   3. Select workloads to run
+#   4. Execute with: chimera-benchmark --config benchmark_example.yaml
+#
+# =============================================================================
+
+metadata:
+  benchmark_suite: "Multi-Model Database Comparative Study 2026"
+  version: "1.0.0"
+  date: "2026-01-19T12:00:00Z"
+  operator: "Database Performance Research Lab"
+  contact:
+    email: "benchmarks@dbresearch.org"
+    organization: "University Database Systems Group"
+  standards:
+    - "IEEE Std 2807-2022: Performance Benchmarking of DBMS"
+    - "ISO/IEC 14756:2015: Database Performance Measurement"
+    - "TPC-C Revision 5.11"
+    - "TPC-H Revision 3.0.0"
+
+# =============================================================================
+# SYSTEMS UNDER TEST
+# Define all systems to benchmark with vendor-neutral identifiers
+# =============================================================================
+systems:
+  # System 1: Multi-Model Database with Native AI Support
+  - system_id: "system_multimodel_a"
+    system_type: "multi_model_database"
+    model: "transactional_analytical_hybrid"
+    
+    architecture:
+      type: "native_multi_model"
+      storage_engine: "lsm_tree"
+      transaction_model: "mvcc"
+      consistency: "acid"
+    
+    data_models:
+      - "relational"
+      - "document"
+      - "graph"
+      - "vector"
+      - "key_value"
+    
+    adapter:
+      type: "NativeAdapter"
+      protocol: "binary_wire"
+      connection_pool_size: 20
+      timeout_seconds: 30
+      connection_string: "binary://localhost:18765"
+    
+    version:
+      major: 1
+      minor: 4
+      patch: 0
+      release_type: "production"
+
+  # System 2: Traditional Relational Database
+  - system_id: "system_relational_b"
+    system_type: "relational_database"
+    model: "traditional_rdbms"
+    
+    architecture:
+      type: "traditional_relational"
+      storage_engine: "btree"
+      transaction_model: "mvcc"
+      consistency: "acid"
+    
+    data_models:
+      - "relational"
+    
+    adapter:
+      type: "PostgreSQLAdapter"
+      protocol: "postgres_wire"
+      connection_pool_size: 20
+      timeout_seconds: 30
+      connection_string: "postgresql://localhost:5432/benchmark_db"
+    
+    version:
+      major: 15
+      minor: 3
+      patch: 0
+      release_type: "production"
+
+  # System 3: Document-Oriented Database
+  - system_id: "system_document_c"
+    system_type: "document_database"
+    model: "document_oriented"
+    
+    architecture:
+      type: "document_store"
+      storage_engine: "btree"
+      transaction_model: "optimistic_concurrency"
+      consistency: "eventual"
+    
+    data_models:
+      - "document"
+      - "key_value"
+    
+    adapter:
+      type: "MongoDBAdapter"
+      protocol: "mongodb_wire"
+      connection_pool_size: 20
+      timeout_seconds: 30
+      connection_string: "mongodb://localhost:27017"
+    
+    version:
+      major: 7
+      minor: 0
+      patch: 4
+      release_type: "production"
+
+# =============================================================================
+# HARDWARE CONFIGURATION
+# =============================================================================
+hardware:
+  processor:
+    architecture: "x86_64"
+    vendor: "Generic"
+    model: "8-Core High-Performance CPU"
+    cores:
+      physical: 8
+      logical: 16
+    frequency:
+      base_ghz: 3.6
+      turbo_ghz: 5.0
+    cache:
+      l1_kb: 64
+      l2_kb: 512
+      l3_mb: 16
+    features:
+      - "AVX2"
+      - "AVX512"
+      - "AES-NI"
+    tdp_watts: 125
+    
+  memory:
+    total_gb: 64
+    type: "DDR4"
+    speed_mhz: 3200
+    channels: 4
+    ecc_enabled: true
+    numa_nodes: 1
+    
+  storage:
+    primary:
+      type: "NVMe SSD"
+      capacity_gb: 1000
+      interface: "PCIe 4.0 x4"
+      form_factor: "M.2"
+      performance:
+        sequential_read_mbps: 7000
+        sequential_write_mbps: 5000
+        random_read_iops: 1000000
+        random_write_iops: 700000
+        queue_depth: 32
+      filesystem: "ext4"
+      mount_options: "noatime,nodiratime"
+      
+  network:
+    interface: "10GbE"
+    bandwidth_gbps: 10
+    mtu_bytes: 9000
+    latency_us: 10
+    topology: "single_node"
+    
+  system:
+    operating_system: "Linux"
+    distribution: "Ubuntu Linux"
+    kernel_version: "6.5.0"
+    page_size_kb: 4
+    huge_pages_enabled: true
+    cpu_governor: "performance"
+    power_profile: "maximum_performance"
+
+# =============================================================================
+# WORKLOADS
+# Select and configure workloads to execute
+# =============================================================================
+workloads:
+  # YCSB Workload A - Update Heavy
+  - workload_id: "ycsb_workload_a"
+    workload_family: "YCSB"
+    standard_reference: "Cooper et al., 'Benchmarking Cloud Serving Systems with YCSB', SoCC 2010, DOI: 10.1145/1807128.1807152"
+    description: "Update Heavy Workload (50% reads, 50% updates)"
+    enabled: true
+    
+    parameters:
+      record_count: 1000000
+      operation_count: 1000000
+      field_count: 10
+      field_length: 100
+      
+      operations:
+        read: 50
+        update: 50
+        insert: 0
+        scan: 0
+        
+      distribution: "zipfian"
+      zipfian_constant: 0.99
+      
+      thread_count: 16
+      target_throughput: 0  # unlimited
+      
+  # YCSB Workload B - Read Heavy
+  - workload_id: "ycsb_workload_b"
+    workload_family: "YCSB"
+    standard_reference: "Cooper et al., SoCC 2010"
+    description: "Read Heavy Workload (95% reads, 5% updates)"
+    enabled: true
+    
+    parameters:
+      record_count: 1000000
+      operation_count: 1000000
+      field_count: 10
+      field_length: 100
+      
+      operations:
+        read: 95
+        update: 5
+        insert: 0
+        scan: 0
+        
+      distribution: "zipfian"
+      zipfian_constant: 0.99
+      
+      thread_count: 16
+      target_throughput: 0
+      
+  # YCSB Workload C - Read Only
+  - workload_id: "ycsb_workload_c"
+    workload_family: "YCSB"
+    standard_reference: "Cooper et al., SoCC 2010"
+    description: "Read Only Workload (100% reads)"
+    enabled: true
+    
+    parameters:
+      record_count: 1000000
+      operation_count: 1000000
+      field_count: 10
+      field_length: 100
+      
+      operations:
+        read: 100
+        update: 0
+        insert: 0
+        scan: 0
+        
+      distribution: "zipfian"
+      zipfian_constant: 0.99
+      
+      thread_count: 16
+      target_throughput: 0
+  
+  # TPC-C Benchmark
+  - workload_id: "tpc_c_standard"
+    workload_family: "TPC-C"
+    standard_reference: "TPC Benchmark C Standard Specification, Revision 5.11, http://www.tpc.org/tpcc/"
+    description: "OLTP Benchmark - Order Entry Environment Simulation"
+    enabled: true
+    
+    parameters:
+      warehouses: 10
+      duration_seconds: 300
+      ramp_up_seconds: 60
+      thread_count: 16
+      think_time_ms: 0
+      
+      transaction_mix:
+        new_order: 45
+        payment: 43
+        order_status: 4
+        delivery: 4
+        stock_level: 4
+        
+      data_generation:
+        realistic_names: true
+        variable_length_strings: true
+        random_seed: 42
+        include_original_string: true
+        
+  # TPC-H Benchmark - Scale Factor 1
+  - workload_id: "tpc_h_sf1"
+    workload_family: "TPC-H"
+    standard_reference: "TPC Benchmark H Standard Specification, Revision 3.0.0, http://www.tpc.org/tpch/"
+    description: "Decision Support Benchmark - 1GB Dataset"
+    enabled: true
+    
+    parameters:
+      scale_factor: 1
+      query_streams: 1
+      refresh_streams: 1
+      random_seed: 42
+      
+      # Selected queries for quick evaluation
+      queries:
+        - 1   # Pricing Summary Report Query
+        - 3   # Shipping Priority Query
+        - 5   # Local Supplier Volume Query
+        - 6   # Forecasting Revenue Change Query
+        - 10  # Returned Item Reporting Query
+        - 14  # Promotion Effect Query
+        
+  # ANN-Benchmarks - SIFT1M Dataset
+  - workload_id: "ann_sift1m"
+    workload_family: "ANN-Benchmarks"
+    standard_reference: "Aumüller et al., 'ANN-Benchmarks: A Benchmarking Tool for Approximate Nearest Neighbor Algorithms', Information Systems 2020, DOI: 10.1016/j.is.2019.02.006"
+    description: "Vector Similarity Search - SIFT1M Dataset (128D)"
+    enabled: true
+    
+    parameters:
+      dataset: "SIFT1M"
+      dataset_size: 1000000
+      dimensions: 128
+      distance_metric: "euclidean"
+      
+      query_set_size: 10000
+      k_nearest: 10
+      recall_target: 0.95
+      
+      index_parameters:
+        index_type: "hnsw"
+        ef_construction: 200
+        m: 16
+        ef_search: 100
+
+# =============================================================================
+# STATISTICAL METHODOLOGY
+# =============================================================================
+methodology:
+  statistical_testing:
+    alpha: 0.05
+    confidence_level: 0.95
+    min_sample_size: 30
+    
+    tests:
+      - name: "Welch's t-test"
+        reference: "Welch, B. L. (1947). The generalization of 'Student's' problem when several different population variances are involved. Biometrika, 34(1-2), 28-35"
+        use_case: "Comparing means with unequal variances"
+        
+      - name: "Mann-Whitney U test"
+        reference: "Mann, H. B., & Whitney, D. R. (1947). On a test of whether one of two random variables is stochastically larger than the other. The Annals of Mathematical Statistics, 18(1), 50-60"
+        use_case: "Non-parametric comparison of distributions"
+        
+      - name: "Kolmogorov-Smirnov test"
+        reference: "Massey, F. J. (1951). The Kolmogorov-Smirnov Test for Goodness of Fit. Journal of the American Statistical Association, 46(253), 68-78"
+        use_case: "Distribution comparison and normality testing"
+    
+    effect_sizes:
+      - name: "Cohen's d"
+        reference: "Cohen, J. (1988). Statistical Power Analysis for the Behavioral Sciences. 2nd Edition, Lawrence Erlbaum Associates"
+        thresholds:
+          small: 0.2
+          medium: 0.5
+          large: 0.8
+          
+      - name: "Rank-biserial correlation"
+        reference: "Kerby, D. S. (2014). The Simple Difference Formula: An Approach to Teaching Nonparametric Correlation. Journal of Statistics Education, 22(3)"
+        use_case: "Effect size for Mann-Whitney U test"
+  
+  outlier_detection:
+    method: "IQR"
+    reference: "Tukey, J. W. (1977). Exploratory Data Analysis. Addison-Wesley"
+    threshold: 1.5
+    action: "remove_and_report"
+  
+  measurement:
+    warm_up_seconds: 60
+    measurement_duration_seconds: 300
+    cool_down_seconds: 30
+    num_runs: 5
+    inter_run_delay_seconds: 60
+    sampling_interval_ms: 100
+  
+  reporting:
+    metrics:
+      - "mean"
+      - "median"
+      - "std_dev"
+      - "min"
+      - "max"
+      - "p25"
+      - "p50"
+      - "p75"
+      - "p95"
+      - "p99"
+      - "p99.9"
+    
+    include:
+      - "confidence_intervals"
+      - "effect_sizes"
+      - "hypothesis_test_results"
+      - "outlier_summary"
+      - "raw_data"
+      - "system_metrics"
+    
+    formats:
+      - "html"
+      - "json"
+      - "csv"
+      - "latex"
+    
+    neutrality:
+      color_palette: "okabe_ito"
+      system_ordering: "alphabetical"
+      no_branding: true
+      citations_required: true
+      accessibility_compliant: true
+
+# =============================================================================
+# EXECUTION PARAMETERS
+# =============================================================================
+execution:
+  mode: "sequential"
+  
+  isolation:
+    cpu_pinning: true
+    numa_binding: true
+    cgroup_isolation: true
+    
+  monitoring:
+    system_metrics:
+      - "cpu_utilization"
+      - "memory_usage"
+      - "disk_io"
+      - "network_io"
+      - "cache_hit_ratio"
+      - "page_faults"
+      
+    collection_interval_seconds: 1
+    
+    tools:
+      - "perf"
+      - "iostat"
+      - "vmstat"
+      - "sar"
+  
+  validation:
+    verify_data_integrity: true
+    verify_transaction_semantics: true
+    verify_result_correctness: true
+    max_error_rate_percent: 0.1
+  
+  results:
+    output_directory: "./benchmark_results"
+    compress_results: true
+    retention_days: 90
+    
+  reproducibility:
+    record_environment: true
+    record_configuration: true
+    record_random_seeds: true
+    include_system_info: true
+    include_hardware_details: true
+    include_software_versions: true
+
+# =============================================================================
+# PERFORMANCE METRICS
+# =============================================================================
+metrics:
+  - metric_id: "throughput"
+    name: "Operations Throughput"
+    unit: "operations/second"
+    aggregation: "mean"
+    higher_is_better: true
+    
+  - metric_id: "qps"
+    name: "Queries Per Second"
+    unit: "queries/second"
+    aggregation: "mean"
+    higher_is_better: true
+    
+  - metric_id: "tps"
+    name: "Transactions Per Second"
+    unit: "transactions/second"
+    aggregation: "mean"
+    higher_is_better: true
+    
+  - metric_id: "latency_mean"
+    name: "Mean Latency"
+    unit: "milliseconds"
+    aggregation: "mean"
+    higher_is_better: false
+    
+  - metric_id: "latency_median"
+    name: "Median Latency"
+    unit: "milliseconds"
+    aggregation: "median"
+    higher_is_better: false
+    
+  - metric_id: "latency_p95"
+    name: "95th Percentile Latency"
+    unit: "milliseconds"
+    aggregation: "p95"
+    higher_is_better: false
+    
+  - metric_id: "latency_p99"
+    name: "99th Percentile Latency"
+    unit: "milliseconds"
+    aggregation: "p99"
+    higher_is_better: false
+    
+  - metric_id: "latency_p999"
+    name: "99.9th Percentile Latency"
+    unit: "milliseconds"
+    aggregation: "p99.9"
+    higher_is_better: false
+    
+  - metric_id: "cpu_utilization"
+    name: "CPU Utilization"
+    unit: "percent"
+    aggregation: "mean"
+    
+  - metric_id: "memory_usage"
+    name: "Memory Usage"
+    unit: "gigabytes"
+    aggregation: "max"
+    
+  - metric_id: "disk_read"
+    name: "Disk Read Throughput"
+    unit: "MB/s"
+    aggregation: "mean"
+    
+  - metric_id: "disk_write"
+    name: "Disk Write Throughput"
+    unit: "MB/s"
+    aggregation: "mean"
+    
+  - metric_id: "recall"
+    name: "Recall"
+    unit: "ratio"
+    aggregation: "mean"
+    higher_is_better: true
+    
+  - metric_id: "precision"
+    name: "Precision"
+    unit: "ratio"
+    aggregation: "mean"
+    higher_is_better: true

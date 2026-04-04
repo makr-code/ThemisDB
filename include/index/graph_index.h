@@ -1,4 +1,30 @@
-﻿#pragma once
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            graph_index.h                                      ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:07:59                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     334                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 87955cec9  2026-03-11  feat(graph): implement ScheduledGraphEdgeRefreshEngine mo... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • f22c734c5  2026-02-25  feat(graph): implement GPU-accelerated BFS/DFS for massiv... ║
+    • daf027b34  2026-02-25  feat(graph): implement subgraph isomorphism queries (patt... ║
+    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+#pragma once
 
 #include "storage/rocksdb_wrapper.h"
 #include "index/temporal_graph.h"
@@ -16,6 +42,7 @@
 namespace themis {
 
 class BaseEntity;
+class IExpressionEvaluator;
 
 namespace utils {
     class AuditLogger;
@@ -52,6 +79,12 @@ public:
     
     // Set user context for audit logging
     void setUserContext(std::string user_id);
+    
+    // Phase 4: Set optional expression evaluator for advanced filtering
+    void setExpressionEvaluator(std::shared_ptr<IExpressionEvaluator> evaluator);
+    
+    // Get expression evaluator
+    std::shared_ptr<IExpressionEvaluator> getExpressionEvaluator() const;
 
 
     // Topologie aus RocksDB laden (optional beim Start)
@@ -68,6 +101,9 @@ public:
     // MVCC Transaction Varianten
     Status addEdge(const BaseEntity& edge, RocksDBWrapper::TransactionWrapper& txn);
     Status deleteEdge(std::string_view edgeId, RocksDBWrapper::TransactionWrapper& txn);
+
+    /// Create a write batch for atomic multi-edge mutations (e.g. scheduled refresh).
+    std::unique_ptr<RocksDBWrapper::WriteBatchWrapper> createWriteBatch();
 
     // Nachbarschaftsabfragen (nutzt In-Memory falls verfügbar, sonst RocksDB)
     std::pair<Status, std::vector<std::string>> outNeighbors(std::string_view fromPk) const;
@@ -222,8 +258,37 @@ public:
     size_t getTopologyNodeCount() const;
     size_t getTopologyEdgeCount() const;
 
+    /// Return all vertex IDs present in the in-memory topology (sources and
+    /// targets of all edges added via addEdge). When the topology has not been
+    /// loaded, returns an empty vector. Thread-safe.
+    std::vector<std::string> getAllVertices() const;
+
+    // Edge attribute retrieval (for weighted graph algorithms)
+    // Returns edge weight from specified attribute (default: "_weight")
+    // Falls back to 1.0 if attribute doesn't exist or edge not found
+    double getEdgeWeight(std::string_view graphId, std::string_view edgeId, 
+                        std::string_view weightAttribute = "_weight") const;
+
+    // General string field accessor for edge entities.
+    // Tries key formats: "edge:<graphId>:<edgeId>" and "edge:<edgeId>".
+    // Returns nullopt if the edge or field does not exist.
+    std::optional<std::string> getEdgeField(std::string_view edgeId,
+                                            std::string_view fieldName) const;
+
+    // General string field accessor for vertex (node) entities.
+    // Uses key format: "node:<vertexId>" (KeySchema::makeGraphNodeKey).
+    // Returns nullopt if the vertex or field does not exist.
+    std::optional<std::string> getNodeField(std::string_view vertexId,
+                                            std::string_view fieldName) const;
+
     // Optional: provide FieldEncryption for encrypting sensitive edge fields
     void setFieldEncryption(std::shared_ptr<class FieldEncryption> fe) { field_encryption_ = fe; }
+
+    // Returns a deduplicated list of all vertex IDs present in the in-memory
+    // topology (union of source vertices in outEdges_ and target vertices in
+    // inEdges_).  Returns an empty vector when the topology has not been
+    // populated yet.
+    std::pair<Status, std::vector<std::string>> allVertices() const;
 
 private:
     RocksDBWrapper& db_;
@@ -257,6 +322,9 @@ private:
     // Phase 1: Optional AuditLogger for knowledge graph protection
     std::shared_ptr<utils::AuditLogger> audit_logger_;
     std::string user_context_ = "system";  // Default user context
+    
+    // Phase 4: Optional ExpressionEvaluator for advanced filtering
+    std::shared_ptr<IExpressionEvaluator> expression_evaluator_;
     
     // Helper: Log audit event if logger is set
     void logAuditEvent_(const std::string& event_type, const std::string& resource, 

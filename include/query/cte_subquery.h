@@ -1,3 +1,27 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            cte_subquery.h                                     ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:09:53                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     284                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 010ee709e  2026-03-15  docs(query): mark CTESubquery Phase 1 stub replacement co... ║
+    • 4730efec6  2026-03-14  feat(query): replace CTESubquery Phase 1 stub with correl... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include <string>
@@ -6,6 +30,7 @@
 #include <unordered_map>
 #include <nlohmann/json.hpp>
 #include "query/aql_parser.h"
+#include "utils/expected.h"
 
 namespace themis {
 class QueryEngine; // forward declaration in outer namespace
@@ -67,9 +92,9 @@ public:
      * @param cte Die CTE-Definition
      * @param queryEngine Query Engine für Sub-Query Execution
      * @param is_recursive true wenn CTE recursive ist
-     * @return true wenn erfolgreich
+     * @return Result indicating success or error
      */
-    bool evaluateCTE(
+    Result<void> evaluateCTE(
         const CTEDefinition& cte,
         ::themis::QueryEngine& queryEngine,
         bool is_recursive = false
@@ -79,9 +104,9 @@ public:
      * @brief Evaluiert eine recursive CTE mit fixpoint iteration
      * @param cte Die recursive CTE-Definition
      * @param queryEngine Query Engine für Execution
-     * @return true wenn erfolgreich
+     * @return Result indicating success or error
      */
-    bool evaluateRecursiveCTE(
+    Result<void> evaluateRecursiveCTE(
         const CTEDefinition& cte,
         ::themis::QueryEngine& queryEngine
     );
@@ -177,9 +202,9 @@ public:
      * @param subquery Subquery Definition
      * @param queryEngine Query Engine für Execution
      * @param outerRow Outer Row (für correlated subqueries)
-     * @return Subquery Result (scalar value, array, or boolean)
+     * @return Subquery Result (scalar value, array, or boolean) or error
      */
-    nlohmann::json evaluateSubquery(
+    Result<nlohmann::json> evaluateSubquery(
         const query::SubqueryExpr& subquery,
         ::themis::QueryEngine& queryEngine,
         const nlohmann::json& outerRow = nlohmann::json()
@@ -190,9 +215,9 @@ public:
      * @param query Subquery
      * @param queryEngine Query Engine
      * @param outerRow Outer Row
-     * @return Scalar value oder null
+     * @return Scalar value or error
      */
-    nlohmann::json evaluateScalarSubquery(
+    Result<nlohmann::json> evaluateScalarSubquery(
         const std::shared_ptr<query::Query>& query,
         ::themis::QueryEngine& queryEngine,
         const nlohmann::json& outerRow
@@ -204,9 +229,9 @@ public:
      * @param query Subquery
      * @param queryEngine Query Engine
      * @param outerRow Outer Row
-     * @return true wenn value in result set
+     * @return Result containing boolean (true wenn value in result set)
      */
-    bool evaluateInSubquery(
+    Result<bool> evaluateInSubquery(
         const nlohmann::json& value,
         const std::shared_ptr<query::Query>& query,
         ::themis::QueryEngine& queryEngine,
@@ -218,15 +243,32 @@ public:
      * @param query Subquery
      * @param queryEngine Query Engine
      * @param outerRow Outer Row
-     * @return true wenn Subquery mindestens ein Result liefert
+     * @return Result containing boolean (true wenn Subquery mindestens ein Result liefert)
      */
-    bool evaluateExistsSubquery(
+    Result<bool> evaluateExistsSubquery(
         const std::shared_ptr<query::Query>& query,
         ::themis::QueryEngine& queryEngine,
         const nlohmann::json& outerRow
     );
     
 private:
+    /**
+     * @brief Evaluates a correlated subquery, returning all matching rows as a JSON array.
+     *
+     * Used when the subquery AST references outer variables. Binds the outer row into
+     * the evaluation context so the subquery is executed once with those bindings.
+     *
+     * @param query     Subquery to execute
+     * @param queryEngine  Query engine
+     * @param outerRow  Outer row whose fields are injected as parent-context bindings
+     * @return JSON array of all result rows, or an error
+     */
+    Result<nlohmann::json> evaluateArraySubquery(
+        const std::shared_ptr<query::Query>& query,
+        ::themis::QueryEngine& queryEngine,
+        const nlohmann::json& outerRow
+    );
+
     /**
      * @brief Bindet Outer Variables in Subquery Context
      * @param query Subquery

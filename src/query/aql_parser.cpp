@@ -1,9 +1,37 @@
-﻿#include "query/aql_parser.h"
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            aql_parser.cpp                                     ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:18:26                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   99.0/100                                       ║
+    • Total Lines:     1325                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • edcfeb984  2026-03-11  feat: add scripts for auditing and reconciling GitHub iss... ║
+    • c613ea7a9  2026-03-04  Refactor error masking and enhance archive processor vali... ║
+    • f82bf2ae9  2026-03-04  Refactor tenant manager tests and add new test cases ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • b71ca305e  2026-02-23  fix(query): track paren depth in parseTransactionBlock to... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+#include "query/aql_parser.h"
+#include "utils/error_registry.h"
 #include <cctype>
 #include <optional>
 #include <sstream>
 #include <algorithm>
 #include <stdexcept>
+#include <fmt/format.h>
 
 namespace themis {
 namespace query {
@@ -32,6 +60,11 @@ enum class TokenType {
     AS,              // AS alias for CTE naming
     ALL,             // ALL quantifier for array subqueries
     SATISFIES,       // SATISFIES for array predicates
+
+    // Phase 4: Multi-statement transaction AQL
+    BEGIN,           // BEGIN – start of a transaction block
+    COMMIT,          // COMMIT – successfully end a transaction block
+    ROLLBACK,        // ROLLBACK – abort a transaction block
     
     // Operators
     EQ, NEQ, LT, LTE, GT, GTE,
@@ -240,6 +273,11 @@ private:
         if (lower == "as") return Token(TokenType::AS, value, line, col);
         if (lower == "all") return Token(TokenType::ALL, value, line, col);
         if (lower == "satisfies") return Token(TokenType::SATISFIES, value, line, col);
+
+        // Phase 4: Multi-statement transaction AQL
+        if (lower == "begin") return Token(TokenType::BEGIN, value, line, col);
+        if (lower == "commit") return Token(TokenType::COMMIT, value, line, col);
+        if (lower == "rollback") return Token(TokenType::ROLLBACK, value, line, col);
         
         return Token(TokenType::IDENTIFIER, value, line, col);
     }
@@ -303,24 +341,61 @@ public:
     explicit Parser(std::vector<Token> tokens)
         : tokens_(std::move(tokens)), pos_(0) {}
     
-    ParseResult parse() {
+    Result<std::shared_ptr<Query>> parse() {
         try {
             // Check for invalid tokens first
             for (const auto& token : tokens_) {
                 if (token.type == TokenType::INVALID) {
-                    return ParseResult::Failure(
-                        "Invalid token: " + token.value,
-                        token.line,
-                        token.column
+                    return Err<std::shared_ptr<Query>>(
+                        errors::ErrorCode::ERR_QUERY_INVALID_SYNTAX,
+                        fmt::format("Invalid token '{}' at line {}, column {}", 
+                                    token.value, token.line, token.column)
                     );
                 }
             }
             
             auto query = parseQuery(false); // false = not a subquery
-            return ParseResult::Success(query);
+            return Ok(query);
         } catch (const std::runtime_error& e) {
             const auto& tok = current();
-            return ParseResult::Failure(e.what(), tok.line, tok.column);
+            return Err<std::shared_ptr<Query>>(
+                errors::ErrorCode::ERR_QUERY_PARSE_FAILED,
+                fmt::format("Parse error at line {}, column {}: {}", 
+                            tok.line, tok.column, e.what())
+            );
+        }
+    }
+
+    Result<std::shared_ptr<Expression>> parseStandaloneExpression() {
+        try {
+            for (const auto& token : tokens_) {
+                if (token.type == TokenType::INVALID) {
+                    return Err<std::shared_ptr<Expression>>(
+                        errors::ErrorCode::ERR_QUERY_INVALID_SYNTAX,
+                        fmt::format("Invalid token '{}' at line {}, column {}",
+                                    token.value, token.line, token.column)
+                    );
+                }
+            }
+
+            auto expr = parseExpression();
+            if (!match(TokenType::END_OF_FILE)) {
+                const auto& tok = current();
+                return Err<std::shared_ptr<Expression>>(
+                    errors::ErrorCode::ERR_QUERY_INVALID_SYNTAX,
+                    fmt::format("Unexpected token '{}' at line {}, column {}",
+                                tok.value, tok.line, tok.column)
+                );
+            }
+
+            return Ok(expr);
+        } catch (const std::runtime_error& e) {
+            const auto& tok = current();
+            return Err<std::shared_ptr<Expression>>(
+                errors::ErrorCode::ERR_QUERY_PARSE_FAILED,
+                fmt::format("Parse error at line {}, column {}: {}",
+                            tok.line, tok.column, e.what())
+            );
         }
     }
     
@@ -403,27 +478,31 @@ private:
         if (match(TokenType::COLLECT)) {
             query->collect = parseCollectClause();
         }
+
+        auto parseShortestPathClause = [&]() {
+            if (query->traversal && match(TokenType::SHORTEST_PATH)) {
+                advance();
+                expect(TokenType::TO, "Expected TO after SHORTEST_PATH");
+                if (!match(TokenType::STRING) && !match(TokenType::IDENTIFIER)) {
+                    throw std::runtime_error("Expected target vertex after SHORTEST_PATH TO");
+                }
+                std::string target = current().value;
+                advance();
+                query->traversal->shortestPath = true;
+                query->traversal->shortestPathTarget = target;
+            }
+        };
+
+        // Optional shortest path clause before RETURN (canonical position)
+        parseShortestPathClause();
         
         // RETURN clause (optional)
         if (match(TokenType::RETURN)) {
             query->return_node = parseReturnClause();
         }
 
-        // Optional shortest path clause BEFORE RETURN (flex: allow position after filters and before/after SORT)
-        // Pattern: SHORTEST_PATH TO <string|identifier>
-        // We allow it if traversal node exists.
-        if (query->traversal && match(TokenType::SHORTEST_PATH)) {
-            advance();
-            expect(TokenType::TO, "Expected TO after SHORTEST_PATH");
-            // Accept STRING literal or IDENTIFIER
-            if (!match(TokenType::STRING) && !match(TokenType::IDENTIFIER)) {
-                throw std::runtime_error("Expected target vertex after SHORTEST_PATH TO");
-            }
-            std::string target = current().value;
-            advance();
-            query->traversal->shortestPath = true;
-            query->traversal->shortestPathTarget = target;
-        }
+        // Backward compatibility: also accept SHORTEST_PATH after RETURN
+        parseShortestPathClause();
         
         // End of query - only check for EOF if not in subquery context
         if (!isSubquery) {
@@ -1058,7 +1137,7 @@ private:
 // Parser Implementation
 // ============================================================================
 
-ParseResult AQLParser::parse(const std::string& query_string) {
+Result<std::shared_ptr<Query>> AQLParser::parse(const std::string& query_string) {
     try {
         // Tokenize
         Tokenizer tokenizer(query_string);
@@ -1069,12 +1148,178 @@ ParseResult AQLParser::parse(const std::string& query_string) {
         return parser.parse();
         
     } catch (const std::exception& e) {
-        return ParseResult::Failure(e.what(), 0, 0, query_string);
+        return Err<std::shared_ptr<Query>>(
+            errors::ErrorCode::ERR_QUERY_PARSE_FAILED,
+            fmt::format("Failed to parse query: {}", e.what())
+        );
     }
+}
+
+std::shared_ptr<Expression> AQLParser::parseExpression(const std::string& expr_str) {
+    Tokenizer tokenizer(expr_str);
+    auto tokens = tokenizer.tokenize();
+
+    Parser parser(std::move(tokens));
+    auto result = parser.parseStandaloneExpression();
+    if (!result) {
+        throw std::runtime_error(result.error().message());
+    }
+
+    return *result;
+}
+
+std::shared_ptr<Expression> AQLParser::parsePrimaryExpression(const std::string& expr_str) {
+    return parseExpression(expr_str);
+}
+
+BinaryOperator AQLParser::stringToOperator(const std::string& op_str) {
+    if (op_str == "==") return BinaryOperator::Eq;
+    if (op_str == "!=") return BinaryOperator::Neq;
+    if (op_str == "<") return BinaryOperator::Lt;
+    if (op_str == "<=") return BinaryOperator::Lte;
+    if (op_str == ">") return BinaryOperator::Gt;
+    if (op_str == ">=") return BinaryOperator::Gte;
+    if (op_str == "AND") return BinaryOperator::And;
+    if (op_str == "OR") return BinaryOperator::Or;
+    if (op_str == "XOR") return BinaryOperator::Xor;
+    if (op_str == "+") return BinaryOperator::Add;
+    if (op_str == "-") return BinaryOperator::Sub;
+    if (op_str == "*") return BinaryOperator::Mul;
+    if (op_str == "/") return BinaryOperator::Div;
+    if (op_str == "%") return BinaryOperator::Mod;
+    if (op_str == "IN") return BinaryOperator::In;
+    throw std::runtime_error("Unknown operator: " + op_str);
+}
+
+std::shared_ptr<Expression> AQLParser::parseMembership(std::shared_ptr<Expression> left) {
+    auto nullExpr = std::make_shared<LiteralExpr>(nullptr);
+    return std::make_shared<BinaryOpExpr>(BinaryOperator::In, std::move(left), std::move(nullExpr));
 }
 
 // JSON Serialization moved to src/query/aql_parser_json.cpp to reduce
 // compile-time pressure on this translation unit.
+
+// ============================================================================
+// Multi-Statement Transaction Block Parsing
+// ============================================================================
+
+Result<AqlTransactionBlock> AQLParser::parseTransactionBlock(const std::string& input) {
+    try {
+        // Tokenize the full input
+        Tokenizer tokenizer(input);
+        auto tokens = tokenizer.tokenize();
+
+        // Validate: must start with BEGIN
+        if (tokens.empty() || tokens[0].type != TokenType::BEGIN) {
+            return Err<AqlTransactionBlock>(
+                errors::ErrorCode::ERR_QUERY_INVALID_SYNTAX,
+                "Multi-statement transaction block must start with BEGIN"
+            );
+        }
+
+        AqlTransactionBlock block;
+
+        // Walk through the token stream slicing out individual statements.
+        // Each statement starts at FOR (or WITH) and ends just before the
+        // next FOR/WITH/COMMIT/ROLLBACK/END_OF_FILE.
+        size_t start = 1; // skip BEGIN token
+        const size_t n = tokens.size();
+
+        auto isStatementStart = [](TokenType t) {
+            return t == TokenType::FOR || t == TokenType::WITH;
+        };
+        auto isTerminator = [](TokenType t) {
+            return t == TokenType::COMMIT || t == TokenType::ROLLBACK || t == TokenType::END_OF_FILE;
+        };
+
+        while (start < n && !isTerminator(tokens[start].type)) {
+            if (!isStatementStart(tokens[start].type)) {
+                return Err<AqlTransactionBlock>(
+                    errors::ErrorCode::ERR_QUERY_INVALID_SYNTAX,
+                    fmt::format(
+                        "Expected FOR or WITH at line {}, column {} inside transaction block",
+                        tokens[start].line, tokens[start].column)
+                );
+            }
+
+            const bool startsWithClause = (tokens[start].type == TokenType::WITH);
+            bool consumedTopLevelForAfterWith = false;
+
+            // Find the end of this statement, tracking nesting depth so that
+            // FOR/WITH tokens inside parentheses (e.g. CTE subqueries in WITH
+            // clauses) are not mistakenly treated as new statement boundaries.
+            size_t end = start + 1;
+            int depth = 0; // tracks LPAREN/RPAREN nesting
+            while (end < n) {
+                const auto& tok = tokens[end];
+                if (tok.type == TokenType::LPAREN) {
+                    ++depth;
+                } else if (tok.type == TokenType::RPAREN) {
+                    // Clamp to 0: an extra ')' at top level means the
+                    // statement is malformed, which the sub-parser will
+                    // report when we hand it the slice below.
+                    if (depth > 0) --depth;
+                }
+                // WITH-statements must include their first top-level FOR
+                if (depth == 0 && startsWithClause && tok.type == TokenType::FOR && !consumedTopLevelForAfterWith) {
+                    consumedTopLevelForAfterWith = true;
+                    ++end;
+                    continue;
+                }
+
+                // Only recognise statement/block boundaries at the top level
+                if (depth == 0 && (isStatementStart(tok.type) || isTerminator(tok.type))) {
+                    break;
+                }
+                ++end;
+            }
+
+            // Build a sub-token list for this statement (include an EOF sentinel)
+            std::vector<Token> sub(tokens.begin() + start, tokens.begin() + end);
+            sub.emplace_back(TokenType::END_OF_FILE, "", 0, 0);
+
+            Parser subParser(std::move(sub));
+            auto stmtResult = subParser.parse();
+            if (!stmtResult) {
+                return Err<AqlTransactionBlock>(
+                    stmtResult.error().code(),
+                    fmt::format("Error in statement {} of transaction block: {}",
+                                block.statements.size() + 1,
+                                stmtResult.error().message())
+                );
+            }
+            block.statements.push_back(std::move(*stmtResult));
+            start = end;
+        }
+
+        if (start >= n || !isTerminator(tokens[start].type)) {
+            return Err<AqlTransactionBlock>(
+                errors::ErrorCode::ERR_QUERY_INVALID_SYNTAX,
+                "Transaction block is missing COMMIT or ROLLBACK"
+            );
+        }
+
+        // Determine terminator
+        if (tokens[start].type == TokenType::COMMIT) {
+            block.action = AqlTransactionAction::Commit;
+        } else if (tokens[start].type == TokenType::ROLLBACK) {
+            block.action = AqlTransactionAction::Rollback;
+        } else {
+            return Err<AqlTransactionBlock>(
+                errors::ErrorCode::ERR_QUERY_INVALID_SYNTAX,
+                "Transaction block is missing COMMIT or ROLLBACK"
+            );
+        }
+
+        return Ok(std::move(block));
+
+    } catch (const std::exception& e) {
+        return Err<AqlTransactionBlock>(
+            errors::ErrorCode::ERR_QUERY_PARSE_FAILED,
+            fmt::format("Failed to parse transaction block: {}", e.what())
+        );
+    }
+}
 
 }  // namespace query
 }  // namespace themis

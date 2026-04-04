@@ -1,6 +1,6 @@
 # Third-Party Licenses
 
-ThemisDB v1.3.0 uses the following third-party libraries and components. This document provides the complete list of dependencies and their respective licenses.
+ThemisDB v1.4.0 uses the following third-party libraries and components. This document provides the complete list of dependencies and their respective licenses.
 
 ---
 
@@ -108,11 +108,41 @@ ThemisDB v1.3.0 uses the following third-party libraries and components. This do
 - **Website:** https://fmt.dev/
 - **Usage:** Modern formatting library
 
+### 18. c-ares
+- **License:** MIT License
+- **Copyright:** Massachusetts Institute of Technology
+- **Website:** https://c-ares.org/
+- **Usage:** Asynchronous DNS resolution library
+
+### 19. crc32c
+- **License:** BSD 3-Clause License
+- **Copyright:** Google Inc.
+- **Website:** https://github.com/google/crc32c
+- **Usage:** CRC32C checksums with hardware acceleration
+
+### 20. libzip
+- **License:** BSD 3-Clause License
+- **Copyright:** Dieter Baron and Thomas Klausner
+- **Website:** https://libzip.org/
+- **Usage:** Library for reading and writing ZIP archives
+
+### 21. pugixml
+- **License:** MIT License
+- **Copyright:** Arseny Kapoulkine
+- **Website:** https://pugixml.org/
+- **Usage:** Light-weight XML processing library
+
+### 22. tl-expected
+- **License:** CC0 1.0 Universal (Public Domain)
+- **Copyright:** Sy Brand
+- **Website:** https://github.com/TartanLlama/expected
+- **Usage:** C++11/14/17 std::expected implementation for error handling
+
 ---
 
 ## LLM Dependencies (v1.3.0)
 
-### 18. llama.cpp
+### 23. llama.cpp
 - **License:** MIT License
 - **Copyright:** Georgi Gerganov and contributors
 - **Website:** https://github.com/ggerganov/llama.cpp
@@ -122,13 +152,13 @@ ThemisDB v1.3.0 uses the following third-party libraries and components. This do
 
 ## RPC Dependencies (v1.3.0)
 
-### 19. gRPC
+### 24. gRPC
 - **License:** Apache License 2.0
 - **Copyright:** The gRPC Authors
 - **Website:** https://grpc.io/
 - **Usage:** High-performance RPC framework
 
-### 20. Protocol Buffers (Protobuf)
+### 25. Protocol Buffers (Protobuf)
 - **License:** BSD 3-Clause License
 - **Copyright:** Google Inc.
 - **Website:** https://protobuf.dev/
@@ -136,20 +166,97 @@ ThemisDB v1.3.0 uses the following third-party libraries and components. This do
 
 ---
 
+## Network Protocol Dependencies (v1.3.0+)
+
+### 26. nghttp2
+- **License:** MIT License
+- **Copyright:** Tatsuhiro Tsujikawa
+- **Website:** https://nghttp2.org/
+- **Usage:** HTTP/2 protocol implementation
+
+### 27. nghttp3
+- **License:** MIT License
+- **Copyright:** nghttp3 contributors
+- **Website:** https://github.com/ngtcp2/nghttp3
+- **Usage:** HTTP/3 protocol implementation
+
+### 28. ngtcp2
+- **License:** MIT License
+- **Copyright:** ngtcp2 contributors
+- **Website:** https://github.com/ngtcp2/ngtcp2
+- **Usage:** QUIC protocol implementation for HTTP/3
+
+---
+
 ## GPU Dependencies (Optional)
 
-### 21. FAISS
+### 29. FAISS
 - **License:** MIT License
 - **Copyright:** Facebook AI Research
 - **Website:** https://github.com/facebookresearch/faiss
 - **Usage:** GPU-accelerated vector similarity search
 
-### 22. NVIDIA CUDA Toolkit
+### 30. OpenBLAS
+- **License:** BSD 3-Clause License
+- **Copyright:** OpenBLAS contributors
+- **Website:** https://www.openblas.net/
+- **Usage:** Optimized BLAS library for linear algebra operations
+
+### 31. LAPACK
+- **License:** BSD-like License
+- **Copyright:** University of Tennessee and contributors
+- **Website:** https://www.netlib.org/lapack/
+- **Usage:** Linear Algebra PACKage for numerical computations
+
+### 32. NVIDIA CUDA Toolkit
 - **License:** NVIDIA CUDA EULA (Proprietary)
 - **Copyright:** NVIDIA Corporation
 - **Website:** https://developer.nvidia.com/cuda-toolkit
 - **Usage:** GPU computing platform (not redistributed, user-installed)
 - **Note:** ThemisDB does not redistribute CUDA; users must install it separately
+
+---
+
+## Content Processing Dependencies (Optional)
+
+### 33. FFmpeg
+- **License:** LGPL 2.1+ / GPL 2.0+ (depending on configuration)
+- **Copyright:** FFmpeg developers
+- **Website:** https://ffmpeg.org/
+- **Usage:** Multimedia framework for video and audio processing
+- **Note:** ThemisDB uses LGPL-licensed components only
+
+### 34. GDAL (Geospatial Data Abstraction Library)
+- **License:** MIT/X11 License
+- **Copyright:** OSGeo and GDAL contributors
+- **Website:** https://gdal.org/
+- **Usage:** Geospatial data formats (Shapefile, GeoTIFF) support
+
+---
+
+## IoT Dependencies (Optional)
+
+### 35. Eclipse Paho MQTT C++
+- **License:** EPL 2.0 / EDL 1.0
+- **Copyright:** Eclipse Foundation
+- **Website:** https://www.eclipse.org/paho/
+- **Usage:** MQTT protocol support for IoT deployments
+
+---
+
+## Observability Dependencies (Optional)
+
+### 36. Prometheus C++ Client
+- **License:** MIT License
+- **Copyright:** Prometheus C++ contributors
+- **Website:** https://github.com/jupp0r/prometheus-cpp
+- **Usage:** Prometheus metrics collection and export
+
+### 37. Apache Parquet C++
+- **License:** Apache License 2.0
+- **Copyright:** The Apache Software Foundation
+- **Website:** https://arrow.apache.org/
+- **Usage:** Columnar storage format for analytics
 
 ---
 
@@ -224,14 +331,19 @@ Full text available at: https://www.boost.org/LICENSE_1_0.txt
 
 | License Type | Count | Libraries |
 |--------------|-------|-----------|
-| **MIT** | 7 | spdlog, nlohmann-json, yaml-cpp, mimalloc, fmt, llama.cpp, FAISS |
-| **Apache 2.0** | 11 | RocksDB, OpenSSL, simdjson, TBB, Arrow, HNSWlib, OpenTelemetry, Benchmark, gRPC |
-| **BSD 3-Clause** | 3 | Google Test, Protobuf, zstd (library) |
+| **MIT** | 15 | spdlog, nlohmann-json, yaml-cpp, mimalloc, fmt, llama.cpp, FAISS, c-ares, pugixml, nghttp2, nghttp3, ngtcp2, prometheus-cpp |
+| **Apache 2.0** | 12 | RocksDB, OpenSSL, simdjson, TBB, Arrow, HNSWlib, OpenTelemetry, Benchmark, gRPC, Parquet |
+| **BSD 3-Clause** | 6 | Google Test, Protobuf, zstd (library), crc32c, libzip, OpenBLAS |
 | **Boost License** | 1 | Boost (Asio, Beast) |
 | **curl License** | 1 | cURL |
+| **LGPL/GPL** | 1 | FFmpeg (LGPL components only) |
+| **EPL/EDL** | 1 | Eclipse Paho MQTT |
+| **CC0** | 1 | tl-expected |
+| **BSD-like** | 1 | LAPACK |
+| **MIT/X11** | 1 | GDAL |
 | **Proprietary** | 1 | CUDA Toolkit (optional, user-installed) |
 
-**Total:** 22 dependencies + 2 optional
+**Total:** 37 dependencies (core: 22, optional: 15)
 
 ---
 
@@ -259,5 +371,5 @@ All third-party licenses are compatible with ThemisDB's MIT License with Governm
 ---
 
 **ThemisDB License:** MIT License with Government Clause  
-**Document Version:** 1.0  
-**Last Updated:** 17. Dezember 2025
+**Document Version:** 2.0  
+**Last Updated:** 2. Februar 2026

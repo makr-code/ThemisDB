@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            urn_resolver.h                                     ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:11:41                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     163                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • bc061a79d  2026-03-24  feat(query): QueryFederation shard-key routing v1.9.0 ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include "sharding/urn.h"
@@ -67,6 +90,36 @@ public:
      * @return Shard ID string, or empty if ring is empty
      */
     std::string getShardId(const URN& urn) const;
+
+    /**
+     * Get the single shard responsible for an arbitrary partition key.
+     *
+     * The key is hashed with the same FNV-1a + mix64 function used by the
+     * ring, then looked up with a clockwise walk.
+     *
+     * @param collection  Collection name (for logging / future topology hints)
+     * @param key         Partition key value (e.g. document _key)
+     * @return Shard ID, or empty string if the ring is empty
+     */
+    std::string getShardForKey(const std::string& collection, const std::string& key) const;
+
+    /**
+     * Get all shards that could own keys in the range [min_key, max_key].
+     *
+     * Hashes both endpoints and collects every shard whose virtual-node
+     * token falls within that hash range (clockwise walk).  For wrap-around
+     * ranges every shard is returned.
+     *
+     * @param collection  Collection name
+     * @param min_key     Inclusive lower bound of the key range
+     * @param max_key     Inclusive upper bound of the key range
+     * @return Deduplicated list of shard IDs; never empty if the ring is not empty
+     */
+    std::vector<std::string> getShardsForKeyRange(
+        const std::string& collection,
+        const std::string& min_key,
+        const std::string& max_key
+    ) const;
     
     /**
      * Get all Shards in cluster

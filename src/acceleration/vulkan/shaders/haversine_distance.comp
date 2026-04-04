@@ -1,0 +1,53 @@
+#version 450
+
+// Haversine geodesic distance between coordinate pairs
+// ThemisDB Vulkan Compute Shader
+//
+// Computes per-pair distances in kilometres using the Haversine formula.
+// Vulkan compute equivalent of cuda/geo_kernels.cu haversineDistanceKernel.
+//
+// Bindings:
+//   0: float lats1[]  — first latitudes  [count]
+//   1: float lons1[]  — first longitudes [count]
+//   2: float lats2[]  — second latitudes  [count]
+//   3: float lons2[]  — second longitudes [count]
+//   4: float dists[]  — output distances in km [count]
+//
+// Push constants:
+//   count — number of point pairs
+//
+// Thread layout: 1-D, local_size_x = 256; dispatch ceil(count/256) groups.
+
+layout(local_size_x = 256) in;
+
+layout(std430, binding = 0) readonly  buffer Latitudes1  { float lats1[];  };
+layout(std430, binding = 1) readonly  buffer Longitudes1 { float lons1[];  };
+layout(std430, binding = 2) readonly  buffer Latitudes2  { float lats2[];  };
+layout(std430, binding = 3) readonly  buffer Longitudes2 { float lons2[];  };
+layout(std430, binding = 4) writeonly buffer Distances   { float dists[];  };
+
+layout(push_constant) uniform PushConstants {
+    uint count;
+} pc;
+
+const float PI              = 3.14159265358979323846;
+const float EARTH_RADIUS_KM = 6371.0;
+
+void main() {
+    uint i = gl_GlobalInvocationID.x;
+    if (i >= pc.count) return;
+
+    // Degrees → radians
+    float lat1 = lats1[i] * PI / 180.0;
+    float lon1 = lons1[i] * PI / 180.0;
+    float lat2 = lats2[i] * PI / 180.0;
+    float lon2 = lons2[i] * PI / 180.0;
+
+    float dlat = lat2 - lat1;
+    float dlon = lon2 - lon1;
+
+    float a = sin(dlat * 0.5) * sin(dlat * 0.5)
+            + cos(lat1) * cos(lat2) * sin(dlon * 0.5) * sin(dlon * 0.5);
+
+    dists[i] = EARTH_RADIUS_KM * 2.0 * atan(sqrt(a), sqrt(1.0 - a));
+}

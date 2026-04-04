@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            lora_security_validator.h                          ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:08:32                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     406                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • f34b95577  2026-03-15  feat: implement LoRACertificateStore and fail-closed cert... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include <string>
@@ -6,12 +29,17 @@
 #include <regex>
 #include <unordered_set>
 #include <chrono>
+#include <memory>
 #include <nlohmann/json.hpp>
+#include "llm/lora_certificate_store.h"
 
 using json = nlohmann::json;
 
 namespace themis {
 namespace llm {
+
+// Forward declaration to avoid a circular include with llm_model_audit_logger.h
+class LLMModelAuditLogger;
 
 /**
  * @file lora_security_validator.h
@@ -54,6 +82,12 @@ struct LoRASecurityConfig {
     bool require_signature = true;
     std::vector<std::string> trusted_signers;  // X.509 cert fingerprints
     bool enforce_cert_validity = true;
+
+    // Certificate store paths
+    // Local store: PEM files named <fingerprint>.pem
+    std::string cert_store_path = "config/security/lora_certs/";
+    // System store fallback (empty disables system-store lookup)
+    std::string system_cert_store_path = "/etc/ssl/certs";
     
     // Integrity checks
     bool verify_checksum = true;
@@ -189,9 +223,38 @@ public:
      * @param config New configuration
      */
     void setConfig(const LoRASecurityConfig& config);
-    
+
+    /**
+     * @brief Attach an audit logger so that signature verification
+     *        failures and successes are persisted via LLMModelAuditLogger.
+     *
+     * Optional: when not set, security events are only written to spdlog.
+     * The logger is owned externally; the validator keeps a shared_ptr.
+     *
+     * @param logger Shared audit-logger instance (may be nullptr to detach)
+     */
+    void setAuditLogger(const std::shared_ptr<LLMModelAuditLogger>& logger);
+
+    /**
+     * @brief Replace the certificate store used for fingerprint lookups.
+     *
+     * By default the validator constructs its own LoRACertificateStore from
+     * the paths in LoRASecurityConfig.  Call this to inject a custom or
+     * pre-populated store (e.g., in tests).
+     *
+     * @param store Shared ownership of the certificate store.
+     */
+    void setCertificateStore(std::shared_ptr<LoRACertificateStore> store);
+
+    /**
+     * @brief Return the active certificate store.
+     */
+    std::shared_ptr<LoRACertificateStore> getCertificateStore() const;
+
 private:
     LoRASecurityConfig config_;
+    std::shared_ptr<LLMModelAuditLogger> audit_logger_;
+    std::shared_ptr<LoRACertificateStore> cert_store_;
     
     // Helper methods
     bool loadLoRAFile(const std::string& path, std::vector<uint8_t>& data);

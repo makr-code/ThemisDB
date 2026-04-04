@@ -1,5 +1,10 @@
 # ThemisDB Examples
 
+> **📚 New to ThemisDB?** Check out our comprehensive guides:
+> - **[Examples Quickstart Guide](../docs/EXAMPLES_QUICKSTART.md)** - Get started in 10 minutes
+> - **[Examples Index](../docs/EXAMPLES_INDEX.md)** - Complete catalog of all examples
+> - **[Learning Paths](../docs/EXAMPLES_INDEX.md#-learning-paths)** - Guided learning for your role
+
 Diese Sammlung enthält umfassende Beispiele für ThemisDB mit Python und Tkinter-Visualisierungen, die die Fähigkeiten der Datenbank an realen Aufgabenstellungen demonstrieren.
 
 ## 📚 Übersicht
@@ -41,6 +46,7 @@ Wir bieten **21 vollständig dokumentierte Beispiele** in drei Schwierigkeitsstu
 | 19 | **Recommendation Engine** | ML-basierte Empfehlungen | 90-120 min | ✅ Ready |
 | 20 | **Smart Home Dashboard** | IoT Automation mit CEP | 90-120 min | ✅ Ready |
 | 21 | **Coding Platform** | ThemisDB als Coding-Plattform mit VSCode Integration & Web Scraping | 90-120 min | ✅ Ready |
+| 23 | **Traveling Salesman Problem** | Routenoptimierung mit Graph-Algorithmen | 40-50 min | ✅ Ready |
 
 ## 🚀 Schnellstart
 

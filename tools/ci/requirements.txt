@@ -1,0 +1,9 @@
+# Requirements for CI/CD Analysis Tools
+
+# Core dependencies
+PyYAML>=6.0.1
+
+# Optional: For future enhancements
+# requests>=2.31.0  # For GitHub API integration
+# jinja2>=3.1.2     # For templating
+# click>=8.1.7      # For CLI enhancements

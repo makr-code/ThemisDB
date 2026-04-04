@@ -1,3 +1,25 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            lora_feedback_storage.h                            ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:08:29                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     193                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include "lora_feedback.h"
@@ -13,6 +35,9 @@ namespace themis {
 namespace llm {
 namespace lora {
 
+// Reuse the global GraphIndexManager type to avoid duplicate class names
+using GraphIndexManager = ::themis::GraphIndexManager;
+
 /**
  * @brief Feedback storage service with graph integration
  * 
@@ -22,6 +47,7 @@ namespace lora {
  * - Plugin-based validation and processing
  * - Uses existing help_feedback collection
  */
+
 class FeedbackStorageService {
 public:
     /**
@@ -29,7 +55,7 @@ public:
      */
     struct Config {
         std::shared_ptr<RocksDBWrapper> db;              // RocksDB instance
-        std::shared_ptr<GraphIndex> graph_index;         // Graph index for relationships
+        std::shared_ptr<GraphIndexManager> graph_index;  // Graph index for relationships
         std::string collection_name = "help_feedback";   // Collection name
         bool enable_graph_links = true;                  // Enable graph relationships
     };

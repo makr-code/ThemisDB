@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            feedback_plugin.h                                  ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:08:27                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     198                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include "lora_feedback.h"
@@ -121,8 +144,10 @@ public:
         std::chrono::hours max_wait_time{24};
     };
     
-    explicit TrainingTriggerPlugin(const Config& config = Config{})
+    explicit TrainingTriggerPlugin(const Config& config)
         : config_(config) {}
+    
+    TrainingTriggerPlugin() : TrainingTriggerPlugin(Config{}) {}
     
     bool onTrainingTrigger(const std::vector<Feedback>& batch) const override;
     std::string getName() const override { return "TrainingTriggerPlugin"; }
@@ -155,8 +180,10 @@ public:
         bool disable_cache_training = false;         // If true, don't train on cached at all
     };
     
-    explicit CacheAwareWeightingPlugin(const Config& config = Config{})
+    explicit CacheAwareWeightingPlugin(const Config& config)
         : config_(config) {}
+    
+    CacheAwareWeightingPlugin() : CacheAwareWeightingPlugin(Config{}) {}
     
     void process(Feedback& feedback) override;
     std::string getName() const override { return "CacheAwareWeightingPlugin"; }

@@ -1,3 +1,25 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            hot_spare_manager.cpp                              ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:20:17                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     914                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * ThemisDB Hot Spare Management Implementation
  * 
@@ -206,7 +228,7 @@ bool HotSpareManager::activateSpare(
     if (!spare_id_opt) {
         spdlog::error("No available spares for failover");
         
-        FailoverEvent event;
+        HotSpareFailoverEvent event;
         event.timestamp = std::chrono::system_clock::now();
         event.failed_shard_id = failed_shard_id;
         event.success = false;
@@ -273,7 +295,7 @@ bool HotSpareManager::activateSpare(
         end_time - start_time);
     
     // Record failover event
-    FailoverEvent event;
+    HotSpareFailoverEvent event;
     event.timestamp = std::chrono::system_clock::now();
     event.failed_shard_id = failed_shard_id;
     event.spare_shard_id = spare_id;
@@ -331,6 +353,15 @@ bool HotSpareManager::activateSpare(
         
         spdlog::info("Queued rebuild for spare {}, {} documents to rebuild", 
                      spare_id, documents.size());
+    }
+
+    // Notify ShardRepairEngine (if attached) so it can perform erasure-aware
+    // consistency checks and recovery for data that could not be directly
+    // copied from replicas (e.g. parity-only data in RAID-5/6 configurations).
+    if (repair_engine_) {
+        repair_engine_->triggerRepair(spare_id);
+        spdlog::info("ShardRepairEngine repair triggered for newly activated spare {}",
+                     spare_id);
     }
     
     return true;
@@ -441,13 +472,13 @@ std::optional<SpareShardInfo> HotSpareManager::getSpareInfo(
     return std::nullopt;
 }
 
-std::vector<FailoverEvent> HotSpareManager::getFailoverHistory(
+std::vector<HotSpareFailoverEvent> HotSpareManager::getFailoverHistory(
     size_t max_count) const {
     std::lock_guard<std::mutex> lock(history_mutex_);
     
     size_t count = std::min(max_count, failover_history_.size());
     
-    std::vector<FailoverEvent> history;
+    std::vector<HotSpareFailoverEvent> history;
     if (count > 0) {
         auto start_it = failover_history_.end() - count;
         history.insert(history.end(), start_it, failover_history_.end());
@@ -463,6 +494,11 @@ void HotSpareManager::updateConfig(const HotSpareConfig& config) {
     
     config_ = config;
     spdlog::info("HotSpareManager configuration updated");
+}
+
+void HotSpareManager::setRepairEngine(
+    std::shared_ptr<themis::sharding::ShardRepairEngine> engine) {
+    repair_engine_ = std::move(engine);
 }
 
 HotSpareManager::Stats HotSpareManager::getStats() const {

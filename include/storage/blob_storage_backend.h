@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            blob_storage_backend.h                             ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:11:43                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     165                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 492304352  2026-03-09  feat(storage): add GCS blob backend, tiered storage, and ... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include <string>
@@ -5,6 +28,7 @@
 #include <optional>
 #include <memory>
 #include <cstdint>
+#include "utils/expected.h"
 
 namespace themis {
 namespace storage {
@@ -57,10 +81,9 @@ public:
      * @brief Store a blob
      * @param blob_id Unique blob identifier
      * @param data Blob data
-     * @return BlobRef Reference to stored blob
-     * @throws std::runtime_error on failure
+     * @return Result<BlobRef> Reference to stored blob or error
      */
-    virtual BlobRef put(
+    virtual Result<BlobRef> put(
         const std::string& blob_id,
         const std::vector<uint8_t>& data
     ) = 0;
@@ -68,18 +91,18 @@ public:
     /**
      * @brief Retrieve a blob
      * @param ref Blob reference
-     * @return Blob data or nullopt if not found
+     * @return Result<vector<uint8_t>> Blob data or error if not found
      */
-    virtual std::optional<std::vector<uint8_t>> get(
+    virtual Result<std::vector<uint8_t>> get(
         const BlobRef& ref
     ) = 0;
     
     /**
      * @brief Delete a blob
      * @param ref Blob reference
-     * @return true if deleted, false if not found
+     * @return Result<bool> Success or error
      */
-    virtual bool remove(const BlobRef& ref) = 0;
+    virtual Result<void> remove(const BlobRef& ref) = 0;
     
     /**
      * @brief Check if blob exists
@@ -124,6 +147,12 @@ struct BlobStorageConfig {
     std::string azure_connection_string;
     std::string azure_container;
     
+    // GCS backend
+    bool enable_gcs = false;
+    std::string gcs_bucket;
+    std::string gcs_prefix;
+    // Credentials: uses GOOGLE_APPLICATION_CREDENTIALS env var (ADC); fail-closed if absent
+
     // WebDAV backend (for ActiveDirectory/SharePoint)
     bool enable_webdav = false;
     std::string webdav_base_url;

@@ -1,3 +1,28 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            http3_session.h                                    ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:11:11                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     302                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 7d190644e  2026-03-13  feat(server): HTTP/3 production readiness - congestion co... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 394fe997b  2026-03-01  Add HTTP/3 datagram support (RFC 9221 + RFC 9297, Issue #... ║
+    • c90319060  2026-02-28  feat(network): QUIC/HTTP3 transport layer integration ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #ifdef THEMIS_ENABLE_HTTP3
@@ -11,6 +36,8 @@
 #include <string>
 #include <functional>
 #include <unordered_map>
+#include "server/http3_datagram.h"
+#include "server/http3_production_config.h"
 
 namespace themis {
 namespace server {
@@ -34,7 +61,8 @@ public:
         const udp::endpoint& remote_endpoint,
         HttpServer* server,
         SSL_CTX* ssl_ctx,
-        uint32_t max_idle_timeout_ms
+        uint32_t max_idle_timeout_ms,
+        const Http3ProductionConfig& prod_cfg = Http3ProductionConfig{}
     );
     
     ~Http3Session();
@@ -61,6 +89,44 @@ public:
      */
     bool isActive() const;
 
+    /**
+     * @brief Notify the session that the client has migrated to a new path.
+     *
+     * Called by Http3Handler when a packet from an already-tracked connection
+     * ID arrives from a different address.  Increments migration_count and
+     * updates the remote endpoint so subsequent sends reach the new address.
+     */
+    void onPathMigration(const udp::endpoint& new_remote);
+
+    /**
+     * @brief Return a snapshot of the per-connection performance metrics.
+     */
+    Http3ConnectionMetrics::Snapshot getMetricsSnapshot() const {
+        return metrics_.snapshot();
+    }
+
+    /**
+     * @brief Send an HTTP/3 datagram on the given context (Quarter Stream ID).
+     *
+     * Encodes the datagram frame (Quarter Stream ID varint + payload) and
+     * writes it via ngtcp2_conn_write_datagram().  Returns true on success.
+     * Requires the QUIC peer to have negotiated datagram support
+     * (max_datagram_frame_size > 0).
+     *
+     * @param context_id  Quarter Stream ID (stream_id / 4).
+     * @param payload     Application payload bytes.
+     * @param paylen      Length of @p payload.
+     */
+    bool sendDatagram(uint64_t context_id,
+                      const uint8_t* payload,
+                      size_t paylen);
+
+    /**
+     * @brief Access the datagram dispatcher for registering/unregistering
+     *        context handlers.
+     */
+    Http3DatagramDispatcher& datagramDispatcher() { return datagram_dispatcher_; }
+
 private:
     // QUIC connection management
     void doRead();
@@ -83,6 +149,9 @@ private:
     static int extendMaxStreamsCallback(ngtcp2_conn* conn,
                                         uint64_t max_streams,
                                         void* user_data);
+    static int recvDatagramCallback(ngtcp2_conn* conn, uint32_t flags,
+                                    const uint8_t* data, size_t datalen,
+                                    void* user_data);
     
     // nghttp3 callbacks
     static int http3RecvDataCallback(nghttp3_conn* conn, int64_t stream_id,
@@ -136,6 +205,12 @@ private:
     net::steady_timer idle_timer_;
     uint32_t max_idle_timeout_ms_;
     bool handshake_complete_;
+
+    Http3DatagramDispatcher datagram_dispatcher_;
+
+    // Production-readiness additions
+    Http3ProductionConfig prod_cfg_;
+    Http3ConnectionMetrics metrics_;
 };
 
 /**
@@ -150,9 +225,11 @@ public:
         const std::string& host,
         uint16_t port,
         HttpServer* server,
-        uint32_t max_idle_timeout_ms = 30000
+        SSL_CTX* ssl_ctx,
+        uint32_t max_idle_timeout_ms = 30000,
+        const Http3ProductionConfig& prod_cfg = Http3ProductionConfig{}
     );
-    
+
     ~Http3Handler();
 
     /**
@@ -171,10 +248,32 @@ public:
     static SSL_CTX* createSslContext(const std::string& cert_path,
                                      const std::string& key_path);
 
+    /**
+     * @brief Access the fallback manager to check / record QUIC health.
+     */
+    Http3FallbackManager& fallbackManager() { return fallback_manager_; }
+    const Http3FallbackManager& fallbackManager() const { return fallback_manager_; }
+
 private:
     void doAccept();
     void onReceive(boost::system::error_code ec, std::size_t bytes_transferred);
     void cleanupInactiveSessions();
+
+    /**
+     * @brief Extract the QUIC destination-connection-ID from a raw UDP payload.
+     *
+     * Parses the first bytes of a QUIC long-header packet to retrieve the
+     * Destination Connection ID (DCID) that ngtcp2 assigned during the
+     * Initial handshake.  The DCID is returned as a lowercase hex string so
+     * it can be used as a map key in @c cid_to_session_key_.
+     *
+     * @param data  Pointer to the UDP datagram payload.
+     * @param len   Length of the datagram in bytes.
+     * @return      Hex-encoded DCID string, or an empty string when parsing
+     *              fails (packet too short, short-header format, or DCID
+     *              length out of range).
+     */
+    static std::string extractConnectionId(const uint8_t* data, size_t len);
     
     net::io_context& ioc_;
     udp::socket socket_;
@@ -183,10 +282,18 @@ private:
     SSL_CTX* ssl_ctx_;
     
     std::array<uint8_t, 65536> recv_buffer_;
+
+    // Primary session map: remote IP:port → session
     std::unordered_map<std::string, std::shared_ptr<Http3Session>> sessions_;
+
+    // Secondary index: hex connection-id string → session key (IP:port)
+    // Enables routing after connection migration.
+    std::unordered_map<std::string, std::string> cid_to_session_key_;
     
     uint32_t max_idle_timeout_ms_;
     net::steady_timer cleanup_timer_;
+    Http3ProductionConfig prod_cfg_;
+    Http3FallbackManager fallback_manager_;
 };
 
 } // namespace server

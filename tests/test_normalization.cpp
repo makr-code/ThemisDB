@@ -1,3 +1,25 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_normalization.cpp                             ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:30:22                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     110                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // Test: German umlaut/ß normalization for fulltext indexes
 
 #include <gtest/gtest.h>
@@ -53,15 +75,15 @@ TEST_F(NormalizationTest, GermanUmlautsEnabled) {
     // Query without umlaut should still match
     {
         auto [status, results] = idx_->scanFulltext("docs", "text", "lauft");
-        ASSERT_TRUE(status.ok);
+        ASSERT_TRUE(status.ok) << status.message;
         ASSERT_EQ(results.size(), 1u);
         EXPECT_EQ(results[0], "d1");
     }
 
     // Original umlaut query should also match (normalized during query)
     {
-        auto [status, results] = idx_->scanFulltext("docs", "text", "läuft");
-        ASSERT_TRUE(status.ok);
+        auto [status, results] = idx_->scanFulltext("docs", "text", "l\u00e4uft");
+        ASSERT_TRUE(status.ok) << status.message;
         ASSERT_EQ(results.size(), 1u);
         EXPECT_EQ(results[0], "d1");
     }
@@ -83,6 +105,6 @@ TEST_F(NormalizationTest, GermanUmlautsDisabled) {
 
     // Without normalization, querying "lauft" should not match
     auto [status, results] = idx_->scanFulltext("docs", "text", "lauft");
-    ASSERT_TRUE(status.ok);
+    ASSERT_TRUE(status.ok) << status.message;
     EXPECT_EQ(results.size(), 0u);
 }

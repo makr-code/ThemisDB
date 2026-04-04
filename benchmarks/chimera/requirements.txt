@@ -1,0 +1,19 @@
+# CHIMERA Suite Requirements
+# Install with: pip install -r requirements.txt
+
+# Core scientific computing
+numpy>=1.21.0
+scipy>=1.7.0
+
+# Configuration file parsing
+pyyaml>=6.0
+
+# Visualization (optional but recommended)
+matplotlib>=3.4.0
+
+# PDF generation (optional)
+# weasyprint>=52.0
+
+# Testing (development)
+pytest>=7.0.0
+pytest-cov>=3.0.0

@@ -1,6 +1,30 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            hot_reload_api_handler.cpp                         ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:19:47                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     284                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • a2a0e15fa  2026-03-11  Changes before error encountered         ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "server/hot_reload_api_handler.h"
 #include "utils/logger.h"
 #include <nlohmann/json.hpp>
+#include "utils/tracing.h"
 
 #define LOG_ERROR(...) SPDLOG_ERROR(__VA_ARGS__)
 #define LOG_INFO(...) SPDLOG_INFO(__VA_ARGS__)
@@ -21,6 +45,7 @@ HotReloadApiHandler::HotReloadApiHandler(
 http::response<http::string_body> HotReloadApiHandler::handleRequest(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleRequest");
     std::string target = std::string(req.target());
     auto method = req.method();
     
@@ -52,6 +77,7 @@ http::response<http::string_body> HotReloadApiHandler::handleGetManifest(
     const http::request<http::string_body>& req,
     const std::string& version
 ) {
+    auto span = Tracer::startSpan("handleGetManifest");
     try {
         auto manifest = manifest_db_->getManifest(version);
         if (!manifest) {
@@ -78,6 +104,7 @@ http::response<http::string_body> HotReloadApiHandler::handleDownload(
     const http::request<http::string_body>& req,
     const std::string& version
 ) {
+    auto span = Tracer::startSpan("handleDownload");
     try {
         LOG_INFO("Download request for version: {}", version);
         
@@ -110,6 +137,7 @@ http::response<http::string_body> HotReloadApiHandler::handleApply(
     const http::request<http::string_body>& req,
     const std::string& version
 ) {
+    auto span = Tracer::startSpan("handleApply");
     try {
         LOG_INFO("Apply hot-reload request for version: {}", version);
         
@@ -156,6 +184,7 @@ http::response<http::string_body> HotReloadApiHandler::handleRollback(
     const http::request<http::string_body>& req,
     const std::string& rollback_id
 ) {
+    auto span = Tracer::startSpan("handleRollback");
     try {
         LOG_INFO("Rollback request for ID: {}", rollback_id);
         
@@ -184,6 +213,7 @@ http::response<http::string_body> HotReloadApiHandler::handleRollback(
 http::response<http::string_body> HotReloadApiHandler::handleListRollbacks(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleListRollbacks");
     try {
         auto rollback_points = reload_engine_->listRollbackPoints();
         
@@ -215,6 +245,7 @@ http::response<http::string_body> HotReloadApiHandler::createJsonResponse(
     const json& body,
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("createJsonResponse");
     http::response<http::string_body> res{status, req.version()};
     res.set(http::field::content_type, "application/json");
     res.set(http::field::server, "ThemisDB");

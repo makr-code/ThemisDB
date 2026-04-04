@@ -1,3 +1,25 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            snapshot_api_handler.h                             ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:11:26                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     122                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #ifndef THEMIS_SNAPSHOT_API_HANDLER_H
 #define THEMIS_SNAPSHOT_API_HANDLER_H
 
@@ -42,10 +64,7 @@ public:
      * @param server HTTP server instance
      */
     void registerRoutes(httplib::Server& server);
-
-private:
-    transaction::SnapshotManager& snapshot_manager_;
-
+    
     /**
      * @brief Handle POST /api/v1/snapshots/tags
      * 
@@ -82,6 +101,9 @@ private:
      * @brief Handle GET /api/v1/snapshots/stats
      */
     void handleGetStats(const httplib::Request& req, httplib::Response& res);
+
+private:
+    transaction::SnapshotManager& snapshot_manager_;
 
     /**
      * @brief Create error response

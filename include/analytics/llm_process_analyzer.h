@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            llm_process_analyzer.h                             ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:05:29                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     270                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 7811d1486  2026-03-27  feat: Enhance backward compatibility and legacy support a... ║
+    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
+    • ea0d39f68  2026-03-18  Changes before error encountered         ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 80742c94d  2026-02-27  feat(analytics): sanitize LLM API keys and CSV export data ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include <string>
@@ -7,6 +33,21 @@
 #include <nlohmann/json.hpp>
 
 namespace themis {
+
+/**
+ * @brief Sanitize (mask) an LLM API key for safe logging and display.
+ *
+ * Replaces the middle portion of the key with asterisks so that the raw
+ * credential never appears in log output or error messages.  At most 4
+ * characters at the start and 4 at the end are shown; keys shorter than
+ * 9 characters are fully masked.
+ *
+ * Example: "sk-abcdefghij1234567890xyz" → "sk-a***...***0xyz"
+ *
+ * @param api_key  The raw API key string (may be empty).
+ * @return         A masked representation safe for logging.
+ */
+std::string sanitizeApiKey(const std::string& api_key);
 
 /**
  * @brief LLM Integration Layer for Process Mining
@@ -22,6 +63,7 @@ namespace themis {
 
 enum class TaskType {
     ANALYZE_PROCESS,      // General process analysis & conformance
+    PROCESS_CONFORMANCE = ANALYZE_PROCESS, // Backward-compatible alias
     PREDICT_NEXT,         // Next activity prediction
     VERIFY_5R_RULE,       // Healthcare 5R Rule verification
     DETECT_FRAUD,         // Financial anomaly/fraud detection
@@ -51,6 +93,7 @@ struct LLMConfig {
     // Performance
     bool enable_caching = true;
     int cache_ttl_seconds = 3600;
+    int max_cache_entries = 1000;  // Maximum LRU cache entries (0 = use default 1000)
     
     // Limits
     int max_tokens = 2000;
@@ -68,11 +111,16 @@ struct LLMRequest {
     
     // Task-specific parameters
     std::map<std::string, std::string> parameters;
+
+    // Backward-compatible field used by older tests.
+    nlohmann::json process_data;
 };
 
 struct LLMResponse {
     bool success = false;
     std::string error_message;
+    // Backward-compatible summary text used by older tests.
+    std::string summary;
     
     // Core metrics
     double conformance_score = 0.0;  // 0.0 - 1.0

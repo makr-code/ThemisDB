@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_vulkan_backend.cpp                            ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:35:20                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     422                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 0533f75fa  2026-02-23  feat(acceleration): implement Vulkan fallback for non-NVI... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // Test: Vulkan Backend Specific Tests
 // Validates Vulkan compute backend functionality and edge cases
 
@@ -9,6 +32,7 @@
 #include <vector>
 #include <random>
 #include <cmath>
+#include <algorithm>
 
 using namespace themis::acceleration;
 
@@ -260,8 +284,8 @@ TEST_F(VulkanBackendTest, OrthogonalVectorsMaximumDistance) {
     );
     
     ASSERT_EQ(distances.size(), 1);
-    // L2 distance between orthogonal unit vectors should be sqrt(2)
-    EXPECT_NEAR(distances[0], std::sqrt(2.0f), 0.01f);
+    // Squared L2 distance between orthogonal unit vectors: (1-0)^2 + (0-1)^2 = 2
+    EXPECT_NEAR(distances[0], 2.0f, 0.01f);
 }
 
 // ===== Memory Management Tests =====
@@ -328,10 +352,70 @@ TEST_F(VulkanBackendTest, ConsistentResults) {
     }
 }
 
+// ===== Non-NVIDIA Fallback Tests =====
+
+// Verify that getCapabilities() populates vendorName after initialization.
+// This validates the vendor detection path used for non-NVIDIA hardware.
+TEST_F(VulkanBackendTest, CapabilitiesReportVendorName) {
+    auto caps = backend_->getCapabilities();
+    EXPECT_FALSE(caps.vendorName.empty())
+        << "vendorName must be populated after initialization";
+    // Device name must also be non-empty
+    EXPECT_FALSE(caps.deviceName.empty())
+        << "deviceName must be populated after initialization";
+}
+
+// When the backend has been successfully initialized, the reported vendor
+// must be one of the recognized strings (not the raw "Unknown" fallback
+// on any real GPU) or "Unknown" for virtual/software devices.
+TEST_F(VulkanBackendTest, CapabilitiesVendorNameIsKnown) {
+    auto caps = backend_->getCapabilities();
+    static const std::vector<std::string> kKnownVendors = {
+        "NVIDIA", "AMD", "Intel", "ARM", "Qualcomm", "ImgTec", "Unknown"
+    };
+    bool found = false;
+    for (const auto& v : kKnownVendors) {
+        if (caps.vendorName == v) { found = true; break; }
+    }
+    EXPECT_TRUE(found) << "Unexpected vendorName: " << caps.vendorName;
+}
+
+// Confirm that the backend fallback chain includes VULKAN after CUDA/HIP,
+// meaning non-NVIDIA users will transparently receive Vulkan acceleration.
+TEST(VulkanFallbackOrder, VulkanInFallbackChain) {
+    const auto& order = BackendRegistry::getFallbackOrder();
+    auto cudaIt   = std::find(order.begin(), order.end(), BackendType::CUDA);
+    auto vulkanIt = std::find(order.begin(), order.end(), BackendType::VULKAN);
+    auto cpuIt    = std::find(order.begin(), order.end(), BackendType::CPU);
+
+    ASSERT_NE(vulkanIt, order.end()) << "VULKAN must be present in the fallback chain";
+    ASSERT_NE(cpuIt, order.end())    << "CPU must be present in the fallback chain";
+    // Vulkan must come before CPU (fallback to CPU only when no GPU available)
+    EXPECT_LT(vulkanIt, cpuIt)
+        << "VULKAN must appear before CPU in the fallback chain";
+    // Vulkan must come after CUDA (CUDA is preferred for NVIDIA users)
+    if (cudaIt != order.end()) {
+        EXPECT_LT(cudaIt, vulkanIt)
+            << "CUDA must appear before VULKAN (NVIDIA users get CUDA first)";
+    }
+}
+
 #else
 
 TEST(VulkanBackendTest, VulkanNotCompiled) {
     GTEST_SKIP() << "Vulkan backend not compiled";
+}
+
+// Even without Vulkan SDK, the fallback chain must include VULKAN entry.
+TEST(VulkanFallbackOrder, VulkanInFallbackChain) {
+    const auto& order = BackendRegistry::getFallbackOrder();
+    auto vulkanIt = std::find(order.begin(), order.end(), BackendType::VULKAN);
+    auto cpuIt    = std::find(order.begin(), order.end(), BackendType::CPU);
+
+    ASSERT_NE(vulkanIt, order.end()) << "VULKAN must be present in the fallback chain";
+    ASSERT_NE(cpuIt, order.end())    << "CPU must be present in the fallback chain";
+    EXPECT_LT(vulkanIt, cpuIt)
+        << "VULKAN must appear before CPU in the fallback chain";
 }
 
 #endif // THEMIS_ENABLE_VULKAN

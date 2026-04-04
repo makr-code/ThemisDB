@@ -1,3 +1,27 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_process_graph.cpp                             ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:31:38                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     1144                                           ║
+    • Open Issues:     TODOs: 1, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • b308eb214  2026-03-15  fix: persist visited_nodes/visit_timestamps in COMPLETED ... ║
+    • c4ae3846c  2026-03-15  feat(network): implement ProcessGraphVisitLog and getVisi... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include <gtest/gtest.h>
 #include "index/edge_types.h"
 #include "index/process_graph.h"
@@ -344,10 +368,10 @@ TEST_F(ProcessGraphTest, ValidateProcess_ValidProcess) {
     pgm_->addProcessEdge("valid-process", flow1);
     pgm_->addProcessEdge("valid-process", flow2);
     
-    auto [st, result] = pgm_->validateProcess("valid-process");
-    ASSERT_TRUE(st.ok) << st.message;
-    EXPECT_TRUE(result.is_valid) << "Errors: " << (result.errors.empty() ? "none" : result.errors[0]);
-    EXPECT_TRUE(result.errors.empty());
+    auto [validateStatus, validateResult] = pgm_->validateProcess("valid-process");
+    ASSERT_TRUE(validateStatus.ok) << validateStatus.message;
+    EXPECT_TRUE(validateResult.is_valid) << "Errors: " << (validateResult.errors.empty() ? "none" : validateResult.errors[0]);
+    EXPECT_TRUE(validateResult.errors.empty());
 }
 
 TEST_F(ProcessGraphTest, ValidateProcess_MissingStart) {
@@ -363,14 +387,14 @@ TEST_F(ProcessGraphTest, ValidateProcess_MissingStart) {
     themis::ProcessEdgeInfo flow{.edge_id = "f1", .from_node = "task", .to_node = "end"};
     pgm_->addProcessEdge("no-start", flow);
     
-    auto [st, result] = pgm_->validateProcess("no-start");
-    ASSERT_TRUE(st.ok);
-    EXPECT_FALSE(result.is_valid);
-    EXPECT_FALSE(result.errors.empty());
+    auto [validateStatus, validateResult] = pgm_->validateProcess("no-start");
+    ASSERT_TRUE(validateStatus.ok) << validateStatus.message;
+    EXPECT_FALSE(validateResult.is_valid);
+    EXPECT_FALSE(validateResult.errors.empty());
     
     // Check that the error mentions missing start
     bool hasStartError = false;
-    for (const auto& err : result.errors) {
+    for (const auto& err : validateResult.errors) {
         if (err.find("start") != std::string::npos) {
             hasStartError = true;
             break;
@@ -398,13 +422,13 @@ TEST_F(ProcessGraphTest, StartAndGetProcessInstance) {
     
     // Start the process
     nlohmann::json initialVars = {{"orderId", "ORD-123"}, {"amount", 100.0}};
-    auto [st, instanceId] = pgm_->startProcess("exec-test", initialVars);
-    ASSERT_TRUE(st.ok) << st.message;
+    auto [startStatus, instanceId] = pgm_->startProcess("exec-test", initialVars);
+    ASSERT_TRUE(startStatus.ok) << startStatus.message;
     EXPECT_FALSE(instanceId.empty());
     
     // Get the process instance
-    auto [st2, instance] = pgm_->getProcessInstance(instanceId);
-    ASSERT_TRUE(st2.ok) << st2.message;
+    auto [instanceStatus, instance] = pgm_->getProcessInstance(instanceId);
+    ASSERT_TRUE(instanceStatus.ok) << instanceStatus.message;
     EXPECT_EQ(instance.instance_id, instanceId);
     EXPECT_EQ(instance.process_definition_id, "exec-test");
     EXPECT_EQ(instance.state, themis::ProcessInstance::State::RUNNING);
@@ -433,11 +457,11 @@ TEST_F(ProcessGraphTest, AdvanceToken) {
     pgm_->addProcessEdge("advance-test", flow2);
     
     // Start and get instance
-    auto [st, instanceId] = pgm_->startProcess("advance-test");
-    ASSERT_TRUE(st.ok);
-    
-    auto [st2, instance] = pgm_->getProcessInstance(instanceId);
-    ASSERT_TRUE(st2.ok);
+    auto [startStatus, instanceId] = pgm_->startProcess("advance-test");
+    ASSERT_TRUE(startStatus.ok) << startStatus.message;
+
+    auto [instanceStatus, instance] = pgm_->getProcessInstance(instanceId);
+    ASSERT_TRUE(instanceStatus.ok) << instanceStatus.message;
     ASSERT_FALSE(instance.tokens.empty());
     
     std::string tokenId = instance.tokens[0].token_id;
@@ -447,8 +471,8 @@ TEST_F(ProcessGraphTest, AdvanceToken) {
     ASSERT_TRUE(st3.ok) << st3.message;
     
     // Verify token moved
-    auto [st4, instance2] = pgm_->getProcessInstance(instanceId);
-    ASSERT_TRUE(st4.ok);
+    auto [instanceStatus2, instance2] = pgm_->getProcessInstance(instanceId);
+    ASSERT_TRUE(instanceStatus2.ok) << instanceStatus2.message;
     ASSERT_FALSE(instance2.tokens.empty());
     EXPECT_EQ(instance2.tokens[0].current_node, "task");
 }
@@ -459,21 +483,23 @@ TEST_F(ProcessGraphTest, SuspendResumeProcess) {
     themis::ProcessNodeInfo start{.node_id = "start", .name = "Start", .node_type = themis::BPMNNodeType::START_EVENT};
     pgm_->addProcessNode("suspend-test", start);
     
-    auto [st, instanceId] = pgm_->startProcess("suspend-test");
-    ASSERT_TRUE(st.ok);
+    auto [startStatus, instanceId] = pgm_->startProcess("suspend-test");
+    ASSERT_TRUE(startStatus.ok) << startStatus.message;
     
     // Suspend
     auto st2 = pgm_->suspendProcess(instanceId);
     ASSERT_TRUE(st2.ok);
-    
-    auto [st3, instance] = pgm_->getProcessInstance(instanceId);
+
+    auto [instanceStatus, instance] = pgm_->getProcessInstance(instanceId);
+    ASSERT_TRUE(instanceStatus.ok) << instanceStatus.message;
     EXPECT_EQ(instance.state, themis::ProcessInstance::State::SUSPENDED);
     
     // Resume
     auto st4 = pgm_->resumeProcess(instanceId);
     ASSERT_TRUE(st4.ok);
-    
-    auto [st5, instance2] = pgm_->getProcessInstance(instanceId);
+
+    auto [instanceStatus2, instance2] = pgm_->getProcessInstance(instanceId);
+    ASSERT_TRUE(instanceStatus2.ok) << instanceStatus2.message;
     EXPECT_EQ(instance2.state, themis::ProcessInstance::State::RUNNING);
 }
 
@@ -483,13 +509,14 @@ TEST_F(ProcessGraphTest, TerminateProcess) {
     themis::ProcessNodeInfo start{.node_id = "start", .name = "Start", .node_type = themis::BPMNNodeType::START_EVENT};
     pgm_->addProcessNode("terminate-test", start);
     
-    auto [st, instanceId] = pgm_->startProcess("terminate-test");
-    ASSERT_TRUE(st.ok);
-    
+    auto [startStatus, instanceId] = pgm_->startProcess("terminate-test");
+    ASSERT_TRUE(startStatus.ok) << startStatus.message;
+
     auto st2 = pgm_->terminateProcess(instanceId, "Testing termination");
     ASSERT_TRUE(st2.ok);
-    
-    auto [st3, instance] = pgm_->getProcessInstance(instanceId);
+
+    auto [instanceStatus, instance] = pgm_->getProcessInstance(instanceId);
+    ASSERT_TRUE(instanceStatus.ok) << instanceStatus.message;
     EXPECT_EQ(instance.state, themis::ProcessInstance::State::TERMINATED);
 }
 
@@ -567,11 +594,11 @@ TEST_F(ProcessGraphTest, ConditionEvaluation) {
     
     // Test with high amount (should go to task_high)
     nlohmann::json vars1 = {{"amount", 2000}};
-    auto [st1, instanceId1] = pgm_->startProcess("cond-test", vars1);
-    ASSERT_TRUE(st1.ok);
-    
-    auto [st2, instance1] = pgm_->getProcessInstance(instanceId1);
-    ASSERT_TRUE(st2.ok);
+    auto [startStatus1, instanceId1] = pgm_->startProcess("cond-test", vars1);
+    ASSERT_TRUE(startStatus1.ok) << startStatus1.message;
+
+    auto [instanceStatus1, instance1] = pgm_->getProcessInstance(instanceId1);
+    ASSERT_TRUE(instanceStatus1.ok) << instanceStatus1.message;
     ASSERT_FALSE(instance1.tokens.empty());
     
     // Advance to gateway
@@ -579,30 +606,31 @@ TEST_F(ProcessGraphTest, ConditionEvaluation) {
     ASSERT_TRUE(st3.ok);
     
     // Advance through gateway (should choose high value path)
-    auto [st4, instance2] = pgm_->getProcessInstance(instanceId1);
-    ASSERT_TRUE(st4.ok);
+    auto [instanceStatus2, instance2] = pgm_->getProcessInstance(instanceId1);
+    ASSERT_TRUE(instanceStatus2.ok) << instanceStatus2.message;
     auto st5 = pgm_->advanceToken(instanceId1, instance2.tokens[0].token_id);
     ASSERT_TRUE(st5.ok);
     
-    auto [st6, instance3] = pgm_->getProcessInstance(instanceId1);
-    ASSERT_TRUE(st6.ok);
+    auto [instanceStatus3, instance3] = pgm_->getProcessInstance(instanceId1);
+    ASSERT_TRUE(instanceStatus3.ok) << instanceStatus3.message;
     EXPECT_EQ(instance3.tokens[0].current_node, "task_high");
     
     // Test with low amount (should go to task_low)
     nlohmann::json vars2 = {{"amount", 500}};
-    auto [st7, instanceId2] = pgm_->startProcess("cond-test", vars2);
-    ASSERT_TRUE(st7.ok);
-    
-    auto [st8, instance4] = pgm_->getProcessInstance(instanceId2);
-    ASSERT_TRUE(st8.ok);
+    auto [startStatus2, instanceId2] = pgm_->startProcess("cond-test", vars2);
+    ASSERT_TRUE(startStatus2.ok) << startStatus2.message;
+
+    auto [instanceStatus4, instance4] = pgm_->getProcessInstance(instanceId2);
+    ASSERT_TRUE(instanceStatus4.ok) << instanceStatus4.message;
     
     // Advance to gateway and through it
     pgm_->advanceToken(instanceId2, instance4.tokens[0].token_id);
-    auto [st9, instance5] = pgm_->getProcessInstance(instanceId2);
+    auto [instanceStatus5, instance5] = pgm_->getProcessInstance(instanceId2);
+    ASSERT_TRUE(instanceStatus5.ok) << instanceStatus5.message;
     pgm_->advanceToken(instanceId2, instance5.tokens[0].token_id);
-    
-    auto [st10, instance6] = pgm_->getProcessInstance(instanceId2);
-    ASSERT_TRUE(st10.ok);
+
+    auto [instanceStatus6, instance6] = pgm_->getProcessInstance(instanceId2);
+    ASSERT_TRUE(instanceStatus6.ok) << instanceStatus6.message;
     EXPECT_EQ(instance6.tokens[0].current_node, "task_low");
 }
 
@@ -649,20 +677,22 @@ TEST_F(ProcessGraphTest, EventHandling) {
     pgm_->addProcessEdge("event-test", flow4);
     
     // Start process
-    auto [st1, instanceId] = pgm_->startProcess("event-test");
-    ASSERT_TRUE(st1.ok);
-    
-    auto [st2, instance] = pgm_->getProcessInstance(instanceId);
-    ASSERT_TRUE(st2.ok);
+    auto [startStatus, instanceId] = pgm_->startProcess("event-test");
+    ASSERT_TRUE(startStatus.ok) << startStatus.message;
+
+    auto [instanceStatus, instance] = pgm_->getProcessInstance(instanceId);
+    ASSERT_TRUE(instanceStatus.ok) << instanceStatus.message;
     
     // Advance to task1
     pgm_->advanceToken(instanceId, instance.tokens[0].token_id);
     
     // Advance to event (token should be at event now)
-    auto [st3, instance2] = pgm_->getProcessInstance(instanceId);
+    auto [instanceStatus2, instance2] = pgm_->getProcessInstance(instanceId);
+    ASSERT_TRUE(instanceStatus2.ok) << instanceStatus2.message;
     pgm_->advanceToken(instanceId, instance2.tokens[0].token_id);
-    
-    auto [st4, instance3] = pgm_->getProcessInstance(instanceId);
+
+    auto [instanceStatus3, instance3] = pgm_->getProcessInstance(instanceId);
+    ASSERT_TRUE(instanceStatus3.ok) << instanceStatus3.message;
     EXPECT_EQ(instance3.tokens[0].current_node, "event1");
     
     // Set token to WAITING state to simulate waiting for event
@@ -680,7 +710,8 @@ TEST_F(ProcessGraphTest, EventHandling) {
     ASSERT_TRUE(st5.ok) << st5.message;
     
     // Verify token is now READY
-    auto [st6, instance4] = pgm_->getProcessInstance(instanceId);
+    auto [instanceStatus4, instance4] = pgm_->getProcessInstance(instanceId);
+    ASSERT_TRUE(instanceStatus4.ok) << instanceStatus4.message;
     EXPECT_EQ(instance4.tokens[0].state, themis::ProcessToken::State::READY);
     EXPECT_TRUE(instance4.tokens[0].variables.contains("approved"));
     EXPECT_EQ(instance4.tokens[0].variables["approved"], true);
@@ -710,17 +741,18 @@ TEST_F(ProcessGraphTest, TaskAssignmentQueries) {
     pgm_->addProcessEdge("assign-test", flow3);
     
     // Start process
-    auto [st1, instanceId] = pgm_->startProcess("assign-test");
-    ASSERT_TRUE(st1.ok);
-    
-    auto [st2, instance] = pgm_->getProcessInstance(instanceId);
-    ASSERT_TRUE(st2.ok);
+    auto [startStatus, instanceId] = pgm_->startProcess("assign-test");
+    ASSERT_TRUE(startStatus.ok) << startStatus.message;
+
+    auto [instanceStatus, instance] = pgm_->getProcessInstance(instanceId);
+    ASSERT_TRUE(instanceStatus.ok) << instanceStatus.message;
     
     // Advance to task1
     pgm_->advanceToken(instanceId, instance.tokens[0].token_id);
     
     // Add assignment metadata to token at task1
-    auto [st3, instance2] = pgm_->getProcessInstance(instanceId);
+    auto [instanceStatus2, instance2] = pgm_->getProcessInstance(instanceId);
+    ASSERT_TRUE(instanceStatus2.ok) << instanceStatus2.message;
     std::string tokenKey = "process:token:" + instanceId + ":" + instance2.tokens[0].token_id;
     auto tokenBlob = db_->get(tokenKey);
     if (tokenBlob) {
@@ -731,8 +763,8 @@ TEST_F(ProcessGraphTest, TaskAssignmentQueries) {
     }
     
     // Query tasks by assignee
-    auto [st4, tasks] = pgm_->findActiveTasks("john");
-    ASSERT_TRUE(st4.ok) << st4.message;
+    auto [tasksStatus, tasks] = pgm_->findActiveTasks("john");
+    ASSERT_TRUE(tasksStatus.ok) << tasksStatus.message;
     EXPECT_FALSE(tasks.empty());
     
     if (!tasks.empty()) {
@@ -740,8 +772,8 @@ TEST_F(ProcessGraphTest, TaskAssignmentQueries) {
     }
     
     // Query by role
-    auto [st5, tasks2] = pgm_->findActiveTasks("manager");
-    ASSERT_TRUE(st5.ok);
+    auto [tasksStatus2, tasks2] = pgm_->findActiveTasks("manager");
+    ASSERT_TRUE(tasksStatus2.ok) << tasksStatus2.message;
     EXPECT_FALSE(tasks2.empty());
 }
 
@@ -764,22 +796,24 @@ TEST_F(ProcessGraphTest, NodeHistory) {
     pgm_->addProcessEdge("history-test", flow2);
     
     // Start multiple instances
-    auto [st1, instanceId1] = pgm_->startProcess("history-test");
-    auto [st2, instanceId2] = pgm_->startProcess("history-test");
-    
-    ASSERT_TRUE(st1.ok);
-    ASSERT_TRUE(st2.ok);
+    auto [startStatus1, instanceId1] = pgm_->startProcess("history-test");
+    auto [startStatus2, instanceId2] = pgm_->startProcess("history-test");
+
+    ASSERT_TRUE(startStatus1.ok) << startStatus1.message;
+    ASSERT_TRUE(startStatus2.ok) << startStatus2.message;
     
     // Advance both to task
-    auto [st3, instance1] = pgm_->getProcessInstance(instanceId1);
+    auto [instanceStatus1, instance1] = pgm_->getProcessInstance(instanceId1);
+    ASSERT_TRUE(instanceStatus1.ok) << instanceStatus1.message;
     pgm_->advanceToken(instanceId1, instance1.tokens[0].token_id);
-    
-    auto [st4, instance2] = pgm_->getProcessInstance(instanceId2);
+
+    auto [instanceStatus2b, instance2] = pgm_->getProcessInstance(instanceId2);
+    ASSERT_TRUE(instanceStatus2b.ok) << instanceStatus2b.message;
     pgm_->advanceToken(instanceId2, instance2.tokens[0].token_id);
     
     // Query history for task node
-    auto [st5, history] = pgm_->getNodeHistory("history-test", "task", std::nullopt);
-    ASSERT_TRUE(st5.ok) << st5.message;
+    auto [historyStatus, history] = pgm_->getNodeHistory("history-test", "task", std::nullopt);
+    ASSERT_TRUE(historyStatus.ok) << historyStatus.message;
     EXPECT_GE(history.size(), 2u); // At least 2 tokens should have visited this node
 }
 
@@ -802,16 +836,18 @@ TEST_F(ProcessGraphTest, ProcessMetrics) {
     pgm_->addProcessEdge("metrics-test", flow2);
     
     // Start an instance and complete it
-    auto [st1, instanceId] = pgm_->startProcess("metrics-test");
-    ASSERT_TRUE(st1.ok);
-    
-    auto [st2, instance] = pgm_->getProcessInstance(instanceId);
+    auto [startStatus, instanceId] = pgm_->startProcess("metrics-test");
+    ASSERT_TRUE(startStatus.ok) << startStatus.message;
+
+    auto [instanceStatus, instance] = pgm_->getProcessInstance(instanceId);
+    ASSERT_TRUE(instanceStatus.ok) << instanceStatus.message;
     
     // Advance and complete task
     pgm_->advanceToken(instanceId, instance.tokens[0].token_id);
     
     // Add completed_at timestamp to simulate completion
-    auto [st3, instance2] = pgm_->getProcessInstance(instanceId);
+    auto [instanceStatus2, instance2] = pgm_->getProcessInstance(instanceId);
+    ASSERT_TRUE(instanceStatus2.ok) << instanceStatus2.message;
     std::string tokenKey = "process:token:" + instanceId + ":" + instance2.tokens[0].token_id;
     auto tokenBlob = db_->get(tokenKey);
     if (tokenBlob) {
@@ -825,8 +861,8 @@ TEST_F(ProcessGraphTest, ProcessMetrics) {
     }
     
     // Get metrics
-    auto [st4, metrics] = pgm_->getProcessMetrics("metrics-test");
-    ASSERT_TRUE(st4.ok) << st4.message;
+    auto [metricsStatus, metrics] = pgm_->getProcessMetrics("metrics-test");
+    ASSERT_TRUE(metricsStatus.ok) << metricsStatus.message;
     EXPECT_FALSE(metrics.empty());
     
     // Verify metrics structure
@@ -859,8 +895,8 @@ TEST_F(ProcessGraphTest, CriticalPath) {
     pgm_->addProcessEdge("critical-test", flow3);
     
     // Find critical path (may be empty if no executions yet)
-    auto [st, path] = pgm_->findCriticalPath("critical-test");
-    ASSERT_TRUE(st.ok) << st.message;
+    auto [criticalStatus, criticalPath] = pgm_->findCriticalPath("critical-test");
+    ASSERT_TRUE(criticalStatus.ok) << criticalStatus.message;
     // Path can be empty if no metrics available, which is ok
 }
 
@@ -888,8 +924,8 @@ TEST_F(ProcessGraphTest, HyperedgeStatus) {
     pgm_->addHyperedge("hyperedge-test", hyperedge);
     
     // Get hyperedge status
-    auto [st, retrievedHe] = pgm_->getHyperedgeStatus("he1");
-    ASSERT_TRUE(st.ok) << st.message;
+    auto [hyperedgeStatus, retrievedHe] = pgm_->getHyperedgeStatus("he1");
+    ASSERT_TRUE(hyperedgeStatus.ok) << hyperedgeStatus.message;
     EXPECT_EQ(retrievedHe.hyperedge_id, "he1");
     EXPECT_EQ(retrievedHe.source_nodes.size(), 2u);
 }
@@ -918,7 +954,191 @@ TEST_F(ProcessGraphTest, HyperedgeReadiness) {
     pgm_->addHyperedge("ready-test", hyperedge);
     
     // Check readiness (should not be ready as no sources activated)
-    auto [st, ready] = pgm_->isHyperedgeReady("he2");
-    ASSERT_TRUE(st.ok) << st.message;
+    auto [readyStatus, ready] = pgm_->isHyperedgeReady("he2");
+    ASSERT_TRUE(readyStatus.ok) << readyStatus.message;
     EXPECT_FALSE(ready); // Not ready yet as no sources activated
+}
+
+// ============================================================================
+// ProcessGraphVisitLog / Visit Timestamp Tests
+// ============================================================================
+
+TEST_F(ProcessGraphTest, VisitTimestampPopulatedOnStartProcess) {
+    pgm_->registerProcess("ts-start-test", "Visit Timestamp Start Test");
+
+    themis::ProcessNodeInfo start{.node_id = "start", .name = "Start",
+                                  .node_type = themis::BPMNNodeType::START_EVENT};
+    pgm_->addProcessNode("ts-start-test", start);
+
+    auto beforeStart = std::chrono::system_clock::now();
+    auto [startStatus, instanceId] = pgm_->startProcess("ts-start-test");
+    auto afterStart = std::chrono::system_clock::now();
+    ASSERT_TRUE(startStatus.ok) << startStatus.message;
+
+    // The start node visit timestamp should be recorded and retrievable
+    auto ts = pgm_->getVisitTimestamp(instanceId, "start");
+    ASSERT_TRUE(ts.has_value()) << "Expected visit timestamp for 'start' node";
+    EXPECT_GE(ts.value(), beforeStart);
+    EXPECT_LE(ts.value(), afterStart);
+}
+
+TEST_F(ProcessGraphTest, VisitTimestampsPopulatedAndOrderedAcrossMultiHopTraversal) {
+    pgm_->registerProcess("ts-multihop-test", "Visit Timestamp Multi-Hop Test");
+
+    themis::ProcessNodeInfo start{.node_id = "start", .name = "Start",
+                                  .node_type = themis::BPMNNodeType::START_EVENT};
+    themis::ProcessNodeInfo task1{.node_id = "task1", .name = "Task 1",
+                                  .node_type = themis::BPMNNodeType::TASK};
+    themis::ProcessNodeInfo task2{.node_id = "task2", .name = "Task 2",
+                                  .node_type = themis::BPMNNodeType::TASK};
+    themis::ProcessNodeInfo end{.node_id = "end", .name = "End",
+                                .node_type = themis::BPMNNodeType::END_EVENT};
+
+    pgm_->addProcessNode("ts-multihop-test", start);
+    pgm_->addProcessNode("ts-multihop-test", task1);
+    pgm_->addProcessNode("ts-multihop-test", task2);
+    pgm_->addProcessNode("ts-multihop-test", end);
+
+    themis::ProcessEdgeInfo f1{.edge_id = "f1", .from_node = "start", .to_node = "task1"};
+    themis::ProcessEdgeInfo f2{.edge_id = "f2", .from_node = "task1", .to_node = "task2"};
+    themis::ProcessEdgeInfo f3{.edge_id = "f3", .from_node = "task2", .to_node = "end"};
+    pgm_->addProcessEdge("ts-multihop-test", f1);
+    pgm_->addProcessEdge("ts-multihop-test", f2);
+    pgm_->addProcessEdge("ts-multihop-test", f3);
+
+    auto [startStatus, instanceId] = pgm_->startProcess("ts-multihop-test");
+    ASSERT_TRUE(startStatus.ok) << startStatus.message;
+
+    // Get initial token id
+    auto [inst0Status, inst0] = pgm_->getProcessInstance(instanceId);
+    ASSERT_TRUE(inst0Status.ok);
+    ASSERT_FALSE(inst0.tokens.empty());
+    std::string tokenId = inst0.tokens[0].token_id;
+
+    // start node should have a timestamp already
+    auto tsStart = pgm_->getVisitTimestamp(instanceId, "start");
+    ASSERT_TRUE(tsStart.has_value()) << "Expected timestamp for 'start'";
+
+    // Advance: start -> task1
+    auto adv1 = pgm_->advanceToken(instanceId, tokenId);
+    ASSERT_TRUE(adv1.ok) << adv1.message;
+
+    auto tsTask1 = pgm_->getVisitTimestamp(instanceId, "task1");
+    ASSERT_TRUE(tsTask1.has_value()) << "Expected timestamp for 'task1'";
+    EXPECT_GE(tsTask1.value(), tsStart.value())
+        << "task1 timestamp must be >= start timestamp";
+
+    // Advance: task1 -> task2
+    auto adv2 = pgm_->advanceToken(instanceId, tokenId);
+    ASSERT_TRUE(adv2.ok) << adv2.message;
+
+    auto tsTask2 = pgm_->getVisitTimestamp(instanceId, "task2");
+    ASSERT_TRUE(tsTask2.has_value()) << "Expected timestamp for 'task2'";
+    EXPECT_GE(tsTask2.value(), tsTask1.value())
+        << "task2 timestamp must be >= task1 timestamp";
+
+    // Advance: task2 -> end (completes token)
+    auto adv3 = pgm_->advanceToken(instanceId, tokenId);
+    ASSERT_TRUE(adv3.ok) << adv3.message;
+
+    // Verify visited_nodes also round-trips correctly through DB
+    auto [instFinalStatus, instFinal] = pgm_->getProcessInstance(instanceId);
+    ASSERT_TRUE(instFinalStatus.ok);
+    ASSERT_FALSE(instFinal.tokens.empty());
+
+    const auto& finalToken = instFinal.tokens[0];
+    // visited_nodes should contain all traversed nodes
+    const auto& vn = finalToken.visited_nodes;
+    EXPECT_NE(std::find(vn.begin(), vn.end(), "start"), vn.end());
+    EXPECT_NE(std::find(vn.begin(), vn.end(), "task1"), vn.end());
+    EXPECT_NE(std::find(vn.begin(), vn.end(), "task2"), vn.end());
+
+    // visit_timestamps should be present for all visited nodes
+    EXPECT_TRUE(finalToken.visit_timestamps.count("start") > 0);
+    EXPECT_TRUE(finalToken.visit_timestamps.count("task1") > 0);
+    EXPECT_TRUE(finalToken.visit_timestamps.count("task2") > 0);
+}
+
+TEST_F(ProcessGraphTest, GetVisitTimestampReturnsNulloptForUnvisitedNode) {
+    pgm_->registerProcess("ts-missing-test", "Visit Timestamp Missing Test");
+
+    themis::ProcessNodeInfo start{.node_id = "start", .name = "Start",
+                                  .node_type = themis::BPMNNodeType::START_EVENT};
+    pgm_->addProcessNode("ts-missing-test", start);
+
+    auto [startStatus, instanceId] = pgm_->startProcess("ts-missing-test");
+    ASSERT_TRUE(startStatus.ok);
+
+    // "unvisited_node" was never traversed — should return nullopt
+    auto ts = pgm_->getVisitTimestamp(instanceId, "unvisited_node");
+    EXPECT_FALSE(ts.has_value())
+        << "Expected nullopt for a node that was never visited";
+}
+
+TEST_F(ProcessGraphTest, VisitTimestampsPersistedAfterTokenCompletion) {
+    // Regression test: the COMPLETED write path must also persist visited_nodes
+    // and visit_timestamps so history is not lost when a token reaches its
+    // terminal node (no outgoing edges).
+    pgm_->registerProcess("ts-complete-test", "Visit Timestamp Completion Test");
+
+    themis::ProcessNodeInfo start{.node_id = "start", .name = "Start",
+                                  .node_type = themis::BPMNNodeType::START_EVENT};
+    themis::ProcessNodeInfo task{.node_id = "task", .name = "Task",
+                                 .node_type = themis::BPMNNodeType::TASK};
+    themis::ProcessNodeInfo end{.node_id = "end", .name = "End",
+                                .node_type = themis::BPMNNodeType::END_EVENT};
+
+    pgm_->addProcessNode("ts-complete-test", start);
+    pgm_->addProcessNode("ts-complete-test", task);
+    pgm_->addProcessNode("ts-complete-test", end);
+
+    themis::ProcessEdgeInfo f1{.edge_id = "f1", .from_node = "start", .to_node = "task"};
+    themis::ProcessEdgeInfo f2{.edge_id = "f2", .from_node = "task",  .to_node = "end"};
+    pgm_->addProcessEdge("ts-complete-test", f1);
+    pgm_->addProcessEdge("ts-complete-test", f2);
+
+    auto [startStatus, instanceId] = pgm_->startProcess("ts-complete-test");
+    ASSERT_TRUE(startStatus.ok) << startStatus.message;
+
+    auto [inst0Status, inst0] = pgm_->getProcessInstance(instanceId);
+    ASSERT_TRUE(inst0Status.ok);
+    ASSERT_FALSE(inst0.tokens.empty());
+    std::string tokenId = inst0.tokens[0].token_id;
+
+    // start → task
+    ASSERT_TRUE(pgm_->advanceToken(instanceId, tokenId).ok);
+    // task → end
+    ASSERT_TRUE(pgm_->advanceToken(instanceId, tokenId).ok);
+    // end → (no outgoing) — token reaches COMPLETED state
+    ASSERT_TRUE(pgm_->advanceToken(instanceId, tokenId).ok);
+
+    // Reload from DB and verify that the full traversal history is intact
+    auto [finalStatus, finalInstance] = pgm_->getProcessInstance(instanceId);
+    ASSERT_TRUE(finalStatus.ok);
+    ASSERT_FALSE(finalInstance.tokens.empty());
+
+    const auto& tok = finalInstance.tokens[0];
+    EXPECT_EQ(tok.state, themis::ProcessToken::State::COMPLETED);
+
+    // All nodes must be in visited_nodes
+    const auto& vn = tok.visited_nodes;
+    EXPECT_NE(std::find(vn.begin(), vn.end(), "start"), vn.end())
+        << "visited_nodes missing 'start' after completion";
+    EXPECT_NE(std::find(vn.begin(), vn.end(), "task"), vn.end())
+        << "visited_nodes missing 'task' after completion";
+    EXPECT_NE(std::find(vn.begin(), vn.end(), "end"), vn.end())
+        << "visited_nodes missing 'end' after completion";
+
+    // All nodes must have timestamps in visit_timestamps
+    EXPECT_TRUE(tok.visit_timestamps.count("start") > 0)
+        << "visit_timestamps missing 'start' after completion";
+    EXPECT_TRUE(tok.visit_timestamps.count("task") > 0)
+        << "visit_timestamps missing 'task' after completion";
+    EXPECT_TRUE(tok.visit_timestamps.count("end") > 0)
+        << "visit_timestamps missing 'end' after completion";
+
+    // getVisitTimestamp must still return values after completion
+    EXPECT_TRUE(pgm_->getVisitTimestamp(instanceId, "start").has_value());
+    EXPECT_TRUE(pgm_->getVisitTimestamp(instanceId, "task").has_value());
+    EXPECT_TRUE(pgm_->getVisitTimestamp(instanceId, "end").has_value());
 }

@@ -377,6 +377,36 @@ FOR reading IN sensor_data
 - Timestamp + Location evolution
 - Geo-fencing for time-series data
 
+**Temporal-Spatial Query API (C++):**
+
+The `TemporalSpatialQuery` class (see `include/geo/temporal_spatial_query.h`) bridges the
+`SystemVersionedTable` temporal versioning layer with geospatial queries.  Every entity row
+stores a GeoJSON geometry string in its `data["location"]` field (or a custom field name).
+
+```cpp
+#include "geo/temporal_spatial_query.h"
+#include "temporal/system_versioned_table.h"
+using namespace themis::geo;
+using namespace themisdb::temporal;
+
+SystemVersionedTable vehicles{"vehicles", "node_a"};
+// ... insert/update rows with { "location": "{\"type\":\"Point\",\"coordinates\":[lon,lat]}" }
+
+// Q1: Where was bus1 at time T?
+auto geom = TemporalSpatialQuery::locationAtTime(vehicles, "bus1", t);
+
+// Q2: All vehicles alive at time T (returns vector of (key, geometry) pairs)
+auto all = TemporalSpatialQuery::allLocationsAtTime(vehicles, t);
+
+// Q3: Vehicles inside Germany bounding box at time T
+MBR germany{5.8, 47.2, 15.1, 55.1};
+auto in_germany = TemporalSpatialQuery::entitiesInBBoxAtTime(vehicles, germany, t);
+
+// Q4: Vehicles within 5 km of Berlin Mitte at time T, sorted by distance
+auto nearby = TemporalSpatialQuery::entitiesWithinDistanceAtTimeSorted(
+    vehicles, 13.4050, 52.5200, 5000.0, t);
+```
+
 ---
 
 ## 6. Implementation Status
@@ -478,6 +508,70 @@ FOR reading IN sensor_data
 - [ ] Cost estimation
 - [ ] Metrics (spatial.index_hits, etc.)
 - [ ] Tests: End-to-end spatial queries
+
+### ✅ Phase 0.5: Temporal-Spatial Queries (COMPLETED)
+
+**Files:**
+- `include/geo/temporal_spatial_query.h`
+- `src/geo/temporal_spatial_query.cpp`
+- `tests/geo/test_temporal_spatial_query.cpp` (unit tests)
+
+**Features:**
+- ✅ `TemporalSpatialQuery::locationAtTime(table, key, as_of)` — entity geometry at point-in-time T
+- ✅ `TemporalSpatialQuery::allLocationsAtTime(table, as_of)` — all alive entity geometries at T
+- ✅ `TemporalSpatialQuery::entitiesInBBoxAtTime(table, bbox, as_of)` — bounding-box filter at T
+- ✅ `TemporalSpatialQuery::entitiesWithinDistanceAtTime(table, lon, lat, dist_m, as_of)` — radius filter at T (Haversine)
+- ✅ `TemporalSpatialQuery::entitiesWithinDistanceAtTimeSorted(...)` — radius filter sorted by distance
+- ✅ `TemporalSpatialQuery::extractGeometry(doc, field)` — parse GeoJSON from document field
+
+### ✅ Phase 0.6: Spatial JOIN with Configurable Distance Threshold (COMPLETED)
+
+**Files:**
+- `include/geo/spatial_join.h`
+- `src/geo/spatial_join.cpp`
+- `tests/geo/test_geo_spatial_join.cpp` (17 unit tests)
+
+**Features:**
+- ✅ `spatialJoin(outer, inner, threshold_m, config)` — finds all pairs (A, B) where geodesic distance ≤ threshold_m
+- ✅ `haversineDistanceM(lon1, lat1, lon2, lat2)` — WGS84 great-circle distance helper
+- ✅ R-tree index (`GeoRTree`) built on the inner collection for sub-linear candidate lookup
+- ✅ Exact Haversine verification after MBR pre-filter (no false negatives)
+- ✅ Configurable `max_pairs` limit (default 1 000 000) with structured warning log
+- ✅ Non-Point geometries use centroid for distance computation
+
+**API:**
+```cpp
+#include "geo/spatial_join.h"
+
+std::vector<std::pair<std::string, GeometryInfo>> outer = ...;
+std::vector<std::pair<std::string, GeometryInfo>> inner = ...;
+
+// Find all pairs within 1 km
+auto pairs = themis::geo::spatialJoin(outer, inner, 1000.0);
+
+// With custom limit
+themis::geo::SpatialJoinConfig cfg;
+cfg.max_pairs = 10'000;
+auto limited = themis::geo::spatialJoin(outer, inner, 500.0, cfg);
+
+for (const auto& p : pairs) {
+    // p.key_a, p.key_b: keys from outer/inner
+    // p.distance_m: exact Haversine distance in metres
+}
+```
+
+**Tests (17 total):**
+- ✅ Empty outer / empty inner → empty result
+- ✅ Zero / negative threshold → empty result (with THEMIS_WARN log)
+- ✅ Identical points within threshold
+- ✅ Points too far apart for threshold
+- ✅ Mixed close + distant candidates (only close ones returned)
+- ✅ Multiple outer points with separate inner partners
+- ✅ Returned `distance_m` accuracy verified (1° lat ≈ 111 320 m)
+- ✅ `max_pairs` enforcement
+- ✅ All results satisfy `distance_m ≤ threshold_m` invariant
+- ✅ Self-join (same collection as both outer and inner)
+- ✅ Non-Point geometry (Polygon) — centroid used for distance
 
 ---
 
@@ -610,5 +704,12 @@ POST /api/import/geotiff
 - ✅ **Efficient:** R-Tree + Morton codes für schnelle Queries
 - ✅ **Symbiotic:** Jedes Modell profitiert von Geo, Geo profitiert von jedem Modell
 
-**Status:** Phase 0.1 abgeschlossen (EWKB Storage + Sidecar)  
-**Next:** Phase 0.2 (R-Tree Spatial Index)
+**Status:** Phases 0.1, 0.2, 0.5, 0.6 abgeschlossen; Phases 0.3 + 0.4 ausstehend  
+**Next:** Phase 0.3 (AQL ST_* Parser Integration) + Phase 0.4 (Query Engine Integration)
+
+---
+
+## See Also
+
+- [Geospatial Module Overview](README.md) - Current implementation
+- [Future Enhancements for Geospatial Implementation](../../geospatial_future_enhancements.md) - Planned improvements and roadmap

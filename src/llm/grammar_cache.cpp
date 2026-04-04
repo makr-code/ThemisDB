@@ -1,8 +1,34 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            grammar_cache.cpp                                  ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:16:56                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   94.0/100                                       ║
+    • Total Lines:     111                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "llm/grammar_cache.h"
 #include <spdlog/spdlog.h>
 
 namespace themis {
 namespace llm {
+
+GrammarCache::GrammarCache()
+    : GrammarCache(Config{}) {
+}
 
 GrammarCache::GrammarCache(const Config& config)
     : config_(config) {

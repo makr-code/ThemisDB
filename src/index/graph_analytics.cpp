@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            graph_analytics.cpp                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:16:34                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     821                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 55c6be609  2026-02-25  feat(graph): integrate analytics module with graph query ... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "index/graph_analytics.h"
 #include "utils/logger.h"
 #include <cmath>
@@ -532,6 +555,267 @@ GraphAnalytics::labelPropagationCommunities(
     }
 
     return {Status::OK(), std::move(labels)};
+}
+
+// ============================================================================
+// K-Shortest Paths - Yen's Algorithm
+// ============================================================================
+
+std::pair<GraphAnalytics::Status, std::vector<GraphAnalytics::PathInfo>> 
+GraphAnalytics::kShortestPaths(
+    const std::string& source,
+    const std::string& target,
+    int k,
+    const std::string& weight_attr
+) const {
+    if (k <= 0) {
+        return {Status::Error("k must be positive"), {}};
+    }
+    
+    std::vector<PathInfo> A;  // Result: K shortest paths found so far
+    
+    // Helper: Path comparator for uniqueness checking
+    auto pathKey = [](const PathInfo& p) -> std::string {
+        std::string key;
+        for (const auto& v : p.vertices) {
+            key += v + "|";
+        }
+        return key;
+    };
+    
+    // Helper: Comparator for priority queue (min-heap by length)
+    auto pathComparator = [](const PathInfo& a, const PathInfo& b) {
+        return a.length > b.length;  // min-heap
+    };
+    
+    std::priority_queue<PathInfo, std::vector<PathInfo>, decltype(pathComparator)> B(pathComparator);
+    std::set<std::string> candidate_keys;  // Track candidate paths to avoid duplicates
+    
+    // Helper: Compute shortest path using Dijkstra with optional edge exclusions
+    auto dijkstra = [&](const std::string& src, const std::string& dst, 
+                       const std::set<std::pair<std::string, std::string>>& excluded_edges) 
+        -> std::pair<bool, PathInfo> {
+        
+        // Priority queue: (distance, current_node, path_vertices, path_edges)
+        struct DijkstraState {
+            double dist;
+            std::string node;
+            std::vector<std::string> path_vertices;
+            std::vector<std::pair<std::string, std::string>> path_edges;
+            
+            bool operator>(const DijkstraState& other) const {
+                return dist > other.dist;
+            }
+        };
+        
+        std::priority_queue<DijkstraState, std::vector<DijkstraState>, std::greater<DijkstraState>> pq;
+        std::unordered_map<std::string, double> best_dist;
+        
+        pq.push({0.0, src, {src}, {}});
+        best_dist[src] = 0.0;
+        
+        while (!pq.empty()) {
+            auto state = pq.top();
+            pq.pop();
+            
+            // Found target
+            if (state.node == dst) {
+                PathInfo path;
+                path.vertices = state.path_vertices;
+                path.edges = state.path_edges;
+                path.length = state.dist;
+                path.hop_count = static_cast<int>(path.edges.size());
+                return {true, path};
+            }
+            
+            // Skip if we've found a better path to this node
+            if (best_dist.count(state.node) && state.dist > best_dist[state.node]) {
+                continue;
+            }
+            
+            // Explore neighbors
+            auto [st_out, neighbors] = graphMgr_.outNeighbors(state.node);
+            if (!st_out.ok) continue;
+            
+            for (const auto& neighbor : neighbors) {
+                // Skip excluded edges
+                auto edge_pair = std::make_pair(state.node, neighbor);
+                if (excluded_edges.count(edge_pair)) {
+                    continue;
+                }
+                
+                // Calculate edge weight using the weight attribute
+                // Get edge ID from adjacency info to retrieve weight
+                auto [st_adj, adj_list] = graphMgr_.outAdjacency(state.node);
+                double edge_weight = 1.0;  // Default
+                
+                if (st_adj.ok) {
+                    for (const auto& adj : adj_list) {
+                        if (adj.targetPk == neighbor) {
+                            if (!weight_attr.empty()) {
+                                edge_weight = graphMgr_.getEdgeWeight(adj.graphId, adj.edgeId, weight_attr);
+                            } else {
+                                // Default _weight attribute
+                                edge_weight = graphMgr_.getEdgeWeight(adj.graphId, adj.edgeId);
+                            }
+                            break;
+                        }
+                    }
+                }
+                
+                double new_dist = state.dist + edge_weight;
+                
+                // Update if we found a better path
+                if (!best_dist.count(neighbor) || new_dist < best_dist[neighbor]) {
+                    best_dist[neighbor] = new_dist;
+                    
+                    auto new_path_vertices = state.path_vertices;
+                    new_path_vertices.push_back(neighbor);
+                    
+                    auto new_path_edges = state.path_edges;
+                    new_path_edges.push_back(edge_pair);
+                    
+                    pq.push({new_dist, neighbor, new_path_vertices, new_path_edges});
+                }
+            }
+        }
+        
+        return {false, PathInfo{}};  // No path found
+    };
+    
+    // Step 1: Find first shortest path
+    auto [found, first_path] = dijkstra(source, target, {});
+    if (!found) {
+        return {Status::OK(), {}};  // No path exists
+    }
+    
+    A.push_back(first_path);
+    
+    // Step 2: Find k-1 additional shortest paths
+    for (int k_idx = 1; k_idx < k; ++k_idx) {
+        if (A.empty()) break;
+        
+        const PathInfo& prev_path = A[k_idx - 1];
+        
+        // For each node in the previous shortest path (except the last)
+        for (size_t spur_idx = 0; spur_idx < prev_path.vertices.size() - 1; ++spur_idx) {
+            const std::string& spur_node = prev_path.vertices[spur_idx];
+            
+            // Root path: from source to spur node
+            std::vector<std::string> root_vertices(
+                prev_path.vertices.begin(), 
+                prev_path.vertices.begin() + spur_idx + 1
+            );
+            std::vector<std::pair<std::string, std::string>> root_edges(
+                prev_path.edges.begin(),
+                prev_path.edges.begin() + spur_idx
+            );
+            
+            // Build exclusion set
+            std::set<std::pair<std::string, std::string>> excluded_edges;
+            
+            // Remove edges that are part of previous paths with the same root
+            for (const auto& path : A) {
+                if (path.vertices.size() > spur_idx + 1) {
+                    bool same_root = true;
+                    for (size_t i = 0; i <= spur_idx && i < path.vertices.size(); ++i) {
+                        if (path.vertices[i] != root_vertices[i]) {
+                            same_root = false;
+                            break;
+                        }
+                    }
+                    
+                    if (same_root && spur_idx < path.edges.size()) {
+                        excluded_edges.insert(path.edges[spur_idx]);
+                    }
+                }
+            }
+            
+            // Find spur path from spur node to target
+            auto [found_spur, spur_path] = dijkstra(spur_node, target, excluded_edges);
+            
+            if (found_spur && spur_path.vertices.size() > 1) {
+                // Combine root path + spur path
+                PathInfo total_path;
+                total_path.vertices = root_vertices;
+                total_path.edges = root_edges;
+                
+                // Add spur path (skip first vertex as it's the spur node)
+                for (size_t i = 1; i < spur_path.vertices.size(); ++i) {
+                    total_path.vertices.push_back(spur_path.vertices[i]);
+                }
+                for (const auto& edge : spur_path.edges) {
+                    total_path.edges.push_back(edge);
+                }
+                
+                // Calculate total length
+                // For weighted graphs, we need to sum the actual edge weights
+                double root_length = 0.0;
+                
+                if (!weight_attr.empty()) {
+                    // Calculate weighted root path length
+                    for (const auto& edge : root_edges) {
+                        auto [st_adj, adj_list] = graphMgr_.outAdjacency(edge.first);
+                        if (st_adj.ok) {
+                            for (const auto& adj : adj_list) {
+                                if (adj.targetPk == edge.second) {
+                                    root_length += graphMgr_.getEdgeWeight(adj.graphId, adj.edgeId, weight_attr);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    // For unweighted graphs, count edges (or use default _weight)
+                    for (const auto& edge : root_edges) {
+                        auto [st_adj, adj_list] = graphMgr_.outAdjacency(edge.first);
+                        if (st_adj.ok) {
+                            for (const auto& adj : adj_list) {
+                                if (adj.targetPk == edge.second) {
+                                    root_length += graphMgr_.getEdgeWeight(adj.graphId, adj.edgeId);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                total_path.length = root_length + spur_path.length;
+                total_path.hop_count = static_cast<int>(total_path.edges.size());
+                
+                // Check if this path is unique (not in A or candidate queue)
+                std::string path_key = pathKey(total_path);
+                bool is_unique = true;
+                
+                for (const auto& existing : A) {
+                    if (pathKey(existing) == path_key) {
+                        is_unique = false;
+                        break;
+                    }
+                }
+                
+                // Add to candidate queue only if unique
+                if (is_unique && candidate_keys.find(path_key) == candidate_keys.end()) {
+                    B.push(total_path);
+                    candidate_keys.insert(path_key);
+                }
+            }
+        }
+        
+        // No more candidate paths
+        if (B.empty()) {
+            break;
+        }
+        
+        // Get best candidate and add to result
+        PathInfo best_candidate = B.top();
+        B.pop();
+        candidate_keys.erase(pathKey(best_candidate));  // Remove from candidate tracking
+        
+        A.push_back(best_candidate);
+    }
+    
+    return {Status::OK(), std::move(A)};
 }
 
 } // namespace themis

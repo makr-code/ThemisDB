@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            mcp_server.cpp                                     ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:19:52                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
+    • Quality Score:   71.0/100                                       ║
+    • Total Lines:     2368                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 3                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • e2cf1a07c  2026-02-22  feat: MCP ↔ AIOrchestrator bidirectional integration (MCP... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ⚠️  Needs Work                                              ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #ifdef THEMIS_ENABLE_MCP
 
 #include "server/mcp_server.h"
@@ -5,11 +28,18 @@
 #include "storage/rocksdb_wrapper.h"
 #include "metadata/schema_manager.h"
 #include "index/secondary_index.h"
+#include "query/query_engine.h"
+#include "query/aql_runner.h"
+#include "index/graph_index.h"
 #include "llm/embedded_llm.h"
-#include "llm/prompt_manager.h"
+#include "prompt_engineering/prompt_manager.h"
 #include "utils/error_registry.h"
 #include "utils/string_utils.h"
+#include "config/config_path_resolver.h"
 #include "version.h"
+#ifdef THEMIS_ENABLE_LLM
+#include "llm/ai_orchestrator.h"
+#endif
 #include <spdlog/spdlog.h>
 #include <iostream>
 #include <thread>
@@ -31,6 +61,10 @@ namespace server {
 // ============================================================================
 // McpServer Implementation
 // ============================================================================
+
+McpServer::McpServer(asio::io_context& io_context)
+    : McpServer(io_context, Config{}) {
+}
 
 McpServer::McpServer(asio::io_context& io_context, const Config& config)
     : io_context_(io_context), config_(config) {
@@ -118,11 +152,22 @@ void McpServer::attachDatabase(std::shared_ptr<RocksDBWrapper> db) {
         // Create SchemaManager with database and index manager
         schema_mgr_ = std::make_unique<SchemaManager>(*db, index_mgr_.get());
         
+        // Create GraphIndexManager for graph queries
+        auto graph_mgr = std::make_shared<GraphIndexManager>(*db);
+        
+        // Create QueryEngine for AQL execution
+        // Note: VectorIndexManager and SpatialIndexManager are optional
+        query_engine_ = std::make_unique<QueryEngine>(*db, *index_mgr_, *graph_mgr);
+        
         // Initialize PromptManager and load system prompts
         prompt_mgr_ = std::make_unique<PromptManager>();
         
         // Try to load prompts from YAML file
-        std::string prompt_file = "config/llm_system_prompts.yaml";
+        std::string prompt_file = themis::config::ConfigPathResolver::mapLegacyToNew("config/llm_system_prompts.yaml");
+        // Fall back to legacy path if new one doesn't exist
+        if (!std::filesystem::exists(prompt_file)) {
+            prompt_file = "config/llm_system_prompts.yaml";
+        }
         size_t loaded = prompt_mgr_->loadFromYAML(prompt_file);
         if (loaded > 0) {
             spdlog::info("MCP Server loaded {} system prompts from {}", loaded, prompt_file);
@@ -130,11 +175,59 @@ void McpServer::attachDatabase(std::shared_ptr<RocksDBWrapper> db) {
             spdlog::warn("MCP Server could not load system prompts from {}", prompt_file);
         }
         
-        spdlog::info("MCP Server attached to RocksDB database with SchemaManager and PromptManager initialized");
+        spdlog::info("MCP Server attached to RocksDB database with SchemaManager, QueryEngine, and PromptManager initialized");
     } else {
         spdlog::info("MCP Server attached to RocksDB database (not open yet)");
     }
 }
+
+// ============================================================================
+// AI Orchestrator Integration
+// ============================================================================
+
+#ifdef THEMIS_ENABLE_LLM
+void McpServer::attachOrchestrator(std::shared_ptr<themis::llm::AIOrchestrator> orchestrator) {
+    orchestrator_ = std::move(orchestrator);
+    if (!orchestrator_) {
+        spdlog::warn("MCP Server: attachOrchestrator called with null orchestrator");
+        return;
+    }
+
+    // Register llm_orchestrate: run a named pipeline mode via the orchestrator
+    registerTool("llm_orchestrate",
+        "Execute a named LLM pipeline mode (ask, edit, rag, agentic, ethics, …) "
+        "using the ThemisDB AI Orchestrator. Supports YAML-configured retrieval, "
+        "tool use, budgets and observability.",
+        {
+            {"type", "object"},
+            {"properties", {
+                {"query",   {{"type", "string"}, {"description", "The user query or instruction"}}},
+                {"mode",    {{"type", "string"}, {"description",
+                              "Mode id (ask, edit, rag, agentic, ethics, multi_agent, …). "
+                              "Omit to use the pack's default mode."}}},
+                {"request_id", {{"type", "string"}, {"description", "Optional request id for tracing"}}},
+                {"max_tokens", {{"type", "integer"}, {"description", "Override max tokens for this request"}}},
+                {"temperature", {{"type", "number"}, {"description", "Override temperature for this request"}}}
+            }},
+            {"required", {"query"}}
+        },
+        [this](const json& args) { return toolLLMOrchestrate(args); });
+
+    // Register llm_list_modes: enumerate available orchestration modes
+    registerTool("llm_list_modes",
+        "List all LLM orchestration modes available in the loaded ModePack, "
+        "including their descriptions, retrieval settings, tool permissions and budgets.",
+        {
+            {"type", "object"},
+            {"properties", {}}
+        },
+        [this](const json& args) { return toolLLMListModes(args); });
+
+    const auto& pack = orchestrator_->modePack();
+    spdlog::info("MCP Server: AIOrchestrator attached (pack='{}' v{}, {} mode(s), default='{}')",
+                 pack.name, pack.version, pack.modes.size(), pack.default_mode);
+}
+#endif
 
 // ============================================================================
 // Tool Registration
@@ -368,12 +461,12 @@ json McpServer::handlePromptsGet(const json& params) {
 
 void McpServer::registerDefaultTools() {
     // Query tool
-    registerTool("query", "Execute Cypher or SQL query on ThemisDB",
+    registerTool("query", "Execute AQL, Cypher, or SQL query on ThemisDB",
         {
             {"type", "object"},
             {"properties", {
                 {"query", {{"type", "string"}, {"description", "Query string"}}},
-                {"language", {{"type", "string"}, {"enum", {"cypher", "sql"}}, {"default", "cypher"}}}
+                {"language", {{"type", "string"}, {"enum", {"aql", "cypher", "sql", "auto"}}, {"default", "aql"}, {"description", "Query language (aql=full support, others pending)"}}}
             }},
             {"required", {"query"}}
         },
@@ -424,12 +517,35 @@ void McpServer::registerDefaultTools() {
         {
             {"type", "object"},
             {"properties", {
-                {"label", {{"type", "string"}}},
-                {"property", {{"type", "string"}}}
+                {"table", {{"type", "string"}, {"description", "Table/collection name"}}},
+                {"column", {{"type", "string"}, {"description", "Column/property name"}}},
+                {"type", {{"type", "string"}, {"enum", {"regular", "range", "sparse", "geo", "fulltext", "ttl"}}, {"default", "regular"}, {"description", "Index type"}}},
+                {"unique", {{"type", "boolean"}, {"default", false}, {"description", "Unique constraint (for regular/sparse indexes)"}}},
+                {"ttl_seconds", {{"type", "integer"}, {"description", "TTL in seconds (for ttl index type)"}}},
+                {"fulltext_config", {{"type", "object"}, {"description", "Fulltext configuration (for fulltext index type)"}}}
             }},
-            {"required", {"label", "property"}}
+            {"required", {"table", "column"}}
         },
         [this](const json& args) { return toolCreateIndex(args); });
+
+    registerTool("drop_index", "Drop a database index",
+        {
+            {"type", "object"},
+            {"properties", {
+                {"table", {{"type", "string"}, {"description", "Table/collection name"}}},
+                {"column", {{"type", "string"}, {"description", "Column/property name"}}},
+                {"type", {{"type", "string"}, {"enum", {"regular", "range", "sparse", "geo", "fulltext", "ttl"}}, {"default", "regular"}, {"description", "Index type"}}}
+            }},
+            {"required", {"table", "column"}}
+        },
+        [this](const json& args) { return toolDropIndex(args); });
+
+    registerTool("list_indexes", "List all database indexes",
+        {
+            {"type", "object"},
+            {"properties", {}}
+        },
+        [this](const json& args) { return toolListIndexes(args); });
 
     // ========================================================================
     // LLM Tools (NEW)
@@ -540,39 +656,98 @@ void McpServer::registerDefaultTools() {
 
 json McpServer::toolQuery(const json& args) {
     std::string query = args["query"];
-    std::string language = args.value("language", "cypher");
+    std::string language = args.value("language", "aql");
     
     spdlog::info("MCP Tool 'query' called: {} ({})", query, language);
     
-    // For minimal integration, we'll support simple key prefix scans
-    // Full Cypher/SQL support would require query engine integration (future work)
-    if (!db_) {
+    if (!db_ || !db_->isOpen()) {
         return {
             {"status", "error"},
-            {"message", "Database not attached"},
+            {"message", "Database not attached or not open"},
             {"query", query},
             {"language", language}
         };
     }
 
     try {
-        // Simple implementation: if query starts with "MATCH" or "SELECT", 
-        // return stub message indicating query engine integration needed
-        // For now, only support simple GET operations
+        // Detect query language if set to "auto"
+        if (language == "auto") {
+            // Simple heuristic: if query contains "FOR", "FILTER", "RETURN" -> AQL
+            // if query contains "SELECT", "FROM" -> SQL
+            // if query contains "MATCH", "WHERE" -> Cypher
+            std::string upper_query = query;
+            std::transform(upper_query.begin(), upper_query.end(), upper_query.begin(), ::toupper);
+            
+            if (upper_query.find("FOR ") != std::string::npos && 
+                upper_query.find("RETURN") != std::string::npos) {
+                language = "aql";
+            } else if (upper_query.find("SELECT") != std::string::npos) {
+                language = "sql";
+            } else if (upper_query.find("MATCH") != std::string::npos) {
+                language = "cypher";
+            } else {
+                language = "aql"; // default
+            }
+        }
         
-        return {
-            {"status", "success"},
-            {"message", "Query executed (limited support - key/value operations only in minimal integration)"},
-            {"query", query},
-            {"language", language},
-            {"results", json::array()},
-            {"note", "Full Cypher/SQL query support requires query engine integration"}
-        };
+        // Execute AQL queries using the query engine
+        if (language == "aql") {
+            if (!query_engine_) {
+                return {
+                    {"status", "error"},
+                    {"message", "Query engine not initialized"},
+                    {"query", query},
+                    {"language", language}
+                };
+            }
+            
+            // Execute AQL query
+            auto result = executeAql(query, *query_engine_);
+            
+            if (!result) {
+                return {
+                    {"status", "error"},
+                    {"message", fmt::format("AQL execution failed: {}", result.error().message())},
+                    {"query", query},
+                    {"language", language}
+                };
+            }
+            
+            // Return successful result
+            return {
+                {"status", "success"},
+                {"message", "AQL query executed successfully"},
+                {"query", query},
+                {"language", language},
+                {"results", *result}
+            };
+        }
+        // SQL and Cypher not yet implemented
+        else if (language == "sql" || language == "cypher") {
+            return {
+                {"status", "error"},
+                {"message", fmt::format("{} query language not yet implemented", language)},
+                {"query", query},
+                {"language", language},
+                {"note", "Use 'aql' language for full query support"}
+            };
+        }
+        // Unknown language
+        else {
+            return {
+                {"status", "error"},
+                {"message", fmt::format("Unsupported query language: {}", language)},
+                {"query", query},
+                {"language", language},
+                {"supported_languages", json::array({"aql", "sql", "cypher"})}
+            };
+        }
     } catch (const std::exception& e) {
         return {
             {"status", "error"},
-            {"message", std::string("Query execution failed: ") + e.what()},
-            {"query", query}
+            {"message", fmt::format("Query execution failed: {}", e.what())},
+            {"query", query},
+            {"language", language}
         };
     }
 }
@@ -709,19 +884,237 @@ json McpServer::toolDeleteEntity(const json& args) {
 json McpServer::toolCreateIndex(const json& args) {
     spdlog::info("MCP Tool 'create_index' called");
     
-    if (!db_) {
+    if (!db_ || !db_->isOpen()) {
         return {
             {"status", "error"},
-            {"message", "Database not attached"}
+            {"message", "Database not attached or not open"}
         };
     }
+    
+    if (!index_mgr_) {
+        return {
+            {"status", "error"},
+            {"message", "Index manager not initialized"}
+        };
+    }
+    
+    // Extract parameters
+    std::string table = args.value("table", "");
+    std::string column = args.value("column", "");
+    std::string index_type = args.value("type", "regular");
+    bool unique = args.value("unique", false);
+    
+    if (table.empty()) {
+        return {
+            {"status", "error"},
+            {"message", "Missing required parameter: table"}
+        };
+    }
+    
+    if (column.empty()) {
+        return {
+            {"status", "error"},
+            {"message", "Missing required parameter: column"}
+        };
+    }
+    
+    try {
+        SecondaryIndexManager::Status status;
+        
+        // Convert index_type string to enum and create appropriate index
+        if (index_type == "regular" || index_type == "secondary") {
+            status = index_mgr_->createIndex(table, column, unique);
+        } else if (index_type == "range") {
+            status = index_mgr_->createRangeIndex(table, column);
+        } else if (index_type == "sparse") {
+            status = index_mgr_->createSparseIndex(table, column, unique);
+        } else if (index_type == "geo" || index_type == "geospatial") {
+            status = index_mgr_->createGeoIndex(table, column);
+        } else if (index_type == "fulltext") {
+            // Get optional fulltext configuration from args
+            SecondaryIndexManager::FulltextConfig config;
+            if (args.contains("fulltext_config")) {
+                auto ft_config = args["fulltext_config"];
+                config.stemming_enabled = ft_config.value("stemming", false);
+                config.language = ft_config.value("language", "none");
+                config.stopwords_enabled = ft_config.value("stopwords", false);
+                config.normalize_umlauts = ft_config.value("normalize_umlauts", false);
+            }
+            status = index_mgr_->createFulltextIndex(table, column, config);
+        } else if (index_type == "ttl") {
+            int64_t ttl_seconds = args.value("ttl_seconds", 86400); // default 1 day
+            status = index_mgr_->createTTLIndex(table, column, ttl_seconds);
+        } else {
+            return {
+                {"status", "error"},
+                {"message", fmt::format("Unsupported index type: {}. Supported types: regular, range, sparse, geo, fulltext, ttl", index_type)}
+            };
+        }
+        
+        if (status.ok) {
+            return {
+                {"status", "success"},
+                {"message", fmt::format("Index created successfully on {}.{}", table, column)},
+                {"table", table},
+                {"column", column},
+                {"index_type", index_type},
+                {"unique", unique}
+            };
+        } else {
+            return {
+                {"status", "error"},
+                {"message", status.message},
+                {"table", table},
+                {"column", column},
+                {"index_type", index_type}
+            };
+        }
+    } catch (const std::exception& e) {
+        return {
+            {"status", "error"},
+            {"message", fmt::format("Index creation failed: {}", e.what())},
+            {"table", table},
+            {"column", column},
+            {"index_type", index_type}
+        };
+    }
+}
 
-    return {
-        {"status", "success"},
-        {"message", "Index creation requires full query engine integration"},
-        {"integration_level", "minimal"},
-        {"note", "Index management available in production integration"}
-    };
+json McpServer::toolDropIndex(const json& args) {
+    spdlog::info("MCP Tool 'drop_index' called");
+    
+    if (!db_ || !db_->isOpen()) {
+        return {
+            {"status", "error"},
+            {"message", "Database not attached or not open"}
+        };
+    }
+    
+    if (!index_mgr_) {
+        return {
+            {"status", "error"},
+            {"message", "Index manager not initialized"}
+        };
+    }
+    
+    // Extract parameters
+    std::string table = args.value("table", "");
+    std::string column = args.value("column", "");
+    std::string index_type = args.value("type", "regular");
+    
+    if (table.empty() || column.empty()) {
+        return {
+            {"status", "error"},
+            {"message", "Missing required parameters: table and column"}
+        };
+    }
+    
+    try {
+        SecondaryIndexManager::Status status;
+        
+        // Drop the appropriate index type
+        if (index_type == "regular" || index_type == "secondary") {
+            status = index_mgr_->dropIndex(table, column);
+        } else if (index_type == "range") {
+            status = index_mgr_->dropRangeIndex(table, column);
+        } else if (index_type == "sparse") {
+            status = index_mgr_->dropSparseIndex(table, column);
+        } else if (index_type == "geo" || index_type == "geospatial") {
+            status = index_mgr_->dropGeoIndex(table, column);
+        } else if (index_type == "fulltext") {
+            status = index_mgr_->dropFulltextIndex(table, column);
+        } else if (index_type == "ttl") {
+            status = index_mgr_->dropTTLIndex(table, column);
+        } else {
+            return {
+                {"status", "error"},
+                {"message", fmt::format("Unsupported index type: {}", index_type)}
+            };
+        }
+        
+        if (status.ok) {
+            return {
+                {"status", "success"},
+                {"message", fmt::format("Index dropped successfully from {}.{}", table, column)},
+                {"table", table},
+                {"column", column},
+                {"index_type", index_type}
+            };
+        } else {
+            return {
+                {"status", "error"},
+                {"message", status.message},
+                {"table", table},
+                {"column", column}
+            };
+        }
+    } catch (const std::exception& e) {
+        return {
+            {"status", "error"},
+            {"message", fmt::format("Index drop failed: {}", e.what())},
+            {"table", table},
+            {"column", column}
+        };
+    }
+}
+
+json McpServer::toolListIndexes(const json& args) {
+    spdlog::info("MCP Tool 'list_indexes' called");
+    
+    if (!db_ || !db_->isOpen()) {
+        return {
+            {"status", "error"},
+            {"message", "Database not attached or not open"},
+            {"indexes", json::array()}
+        };
+    }
+    
+    if (!index_mgr_) {
+        return {
+            {"status", "error"},
+            {"message", "Index manager not initialized"},
+            {"indexes", json::array()}
+        };
+    }
+    
+    try {
+        // Get all tables from schema manager
+        json indexes = json::array();
+        
+        if (schema_mgr_) {
+            auto tables = schema_mgr_->getAllTables();
+            
+            for (const auto& table : tables) {
+                // Get index stats for each table
+                auto stats = index_mgr_->getAllIndexStats(table.name);
+                
+                for (const auto& stat : stats) {
+                    json index_info = {
+                        {"table", stat.table},
+                        {"column", stat.column},
+                        {"type", stat.type},
+                        {"unique", stat.unique},
+                        {"estimated_size_bytes", stat.estimated_size_bytes},
+                        {"entry_count", stat.entry_count},
+                        {"additional_info", stat.additional_info}
+                    };
+                    indexes.push_back(index_info);
+                }
+            }
+        }
+        
+        return {
+            {"status", "success"},
+            {"indexes", indexes},
+            {"total_count", indexes.size()}
+        };
+    } catch (const std::exception& e) {
+        return {
+            {"status", "error"},
+            {"message", fmt::format("Failed to list indexes: {}", e.what())},
+            {"indexes", json::array()}
+        };
+    }
 }
 
 json McpServer::toolGetSchema(const json& args) {
@@ -934,6 +1327,86 @@ json McpServer::toolDatabaseQueryWithLLM(const json& args) {
         };
     }
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// AI Orchestrator Tool Handlers
+// ─────────────────────────────────────────────────────────────────────────────
+
+json McpServer::toolLLMOrchestrate(const json& args) {
+    spdlog::info("MCP Tool 'llm_orchestrate' called");
+
+    if (!orchestrator_) {
+        return {{"status", "error"}, {"message", "AIOrchestrator not attached. Call attachOrchestrator() first."}};
+    }
+
+    try {
+        themis::llm::OrchestratorContext ctx;
+        ctx.query      = args.at("query").get<std::string>();
+        ctx.mode_id    = args.value("mode", "");
+        ctx.request_id = args.value("request_id", "");
+
+        if (args.contains("max_tokens")) {
+            ctx.max_tokens = args["max_tokens"].get<int>();
+        }
+        if (args.contains("temperature")) {
+            ctx.temperature = args["temperature"].get<float>();
+        }
+
+        const auto result = orchestrator_->run(ctx);
+
+        json out;
+        out["status"]          = result.success ? "success" : "error";
+        out["text"]            = result.text;
+        out["mode_id"]         = result.metadata.mode_id;
+        out["model_id"]        = result.metadata.model_id;
+        out["tokens_prompt"]   = result.metadata.tokens_prompt;
+        out["tokens_generated"]= result.metadata.tokens_generated;
+        out["retrieved_docs"]  = result.metadata.retrieved_docs;
+        out["latency_ms"]      = result.metadata.latency.total_ms;
+        if (!result.metadata.tool_calls_made.empty()) {
+            out["tool_calls_made"] = result.metadata.tool_calls_made;
+        }
+        if (!result.success) {
+            out["error"] = result.error;
+        }
+        return out;
+
+    } catch (const std::exception& e) {
+        return {{"status", "error"}, {"message", std::string("llm_orchestrate failed: ") + e.what()}};
+    }
+}
+
+json McpServer::toolLLMListModes(const json& /*args*/) {
+    spdlog::info("MCP Tool 'llm_list_modes' called");
+
+    if (!orchestrator_) {
+        return {{"status", "error"}, {"message", "AIOrchestrator not attached."}};
+    }
+
+    const auto& pack = orchestrator_->modePack();
+
+    json modes_arr = json::array();
+    for (const auto& m : pack.modes) {
+        json entry;
+        entry["id"]          = m.id;
+        entry["description"] = m.description;
+        entry["model"]       = m.model_id;
+        entry["retrieval_enabled"] = m.retrieval.enabled;
+        entry["tools_allowed"]     = m.tools_allowed;
+        entry["max_tokens"]        = m.budgets.max_tokens;
+        entry["temperature"]       = m.budgets.temperature;
+        modes_arr.push_back(std::move(entry));
+    }
+
+    return {
+        {"status",       "success"},
+        {"pack_name",    pack.name},
+        {"pack_version", pack.version},
+        {"default_mode", pack.default_mode},
+        {"modes",        std::move(modes_arr)}
+    };
+}
+
 #endif // THEMIS_ENABLE_LLM
 
 // ============================================================================
@@ -1027,7 +1500,7 @@ json McpServer::toolIntrospectDatabase(const json& args) {
     }
     
     // Build context from SchemaManager
-    auto context = PromptManager::buildContextFromSchema(
+    auto context = themis::prompt_engineering::PromptManager::buildContextFromSchema(
         schema_mgr_.get(),
         themis::version::getEditionString(),
         themis::version::getVersionString()

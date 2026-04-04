@@ -1,3 +1,25 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            shard_topology.cpp                                 ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:20:22                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     447                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "sharding/shard_topology.h"
 #include "sharding/mtls_client.h"
 #include <nlohmann/json.hpp>
@@ -5,6 +27,7 @@
 #include <iostream>
 #include <sstream>
 #include <cstring>
+#include <unordered_set>
 
 namespace themis::sharding {
 
@@ -342,6 +365,83 @@ void ShardTopology::saveToMetadataStore() {
                       << ": " << e.what() << std::endl;
         }
     }
+}
+
+void ShardTopology::updateRaftStatus(const std::string& shard_id,
+                                    const std::string& role,
+                                    uint64_t term,
+                                    uint64_t commit_index,
+                                    const std::string& leader_id,
+                                    bool has_quorum) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    auto it = shards_.find(shard_id);
+    if (it != shards_.end()) {
+        it->second.raft_role = role;
+        it->second.raft_term = term;
+        it->second.raft_commit_index = commit_index;
+        it->second.raft_leader_id = leader_id;
+        it->second.raft_has_quorum = has_quorum;
+    }
+}
+
+std::vector<std::string> ShardTopology::getRaftLeaders() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    std::vector<std::string> leaders;
+    for (const auto& [id, info] : shards_) {
+        if (info.isRaftLeader()) {
+            leaders.push_back(id);
+        }
+    }
+    
+    return leaders;
+}
+
+std::vector<ShardInfo> ShardTopology::getShardsInRegion(const std::string& region) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    std::vector<ShardInfo> result;
+    for (const auto& [id, info] : shards_) {
+        if (info.region == region) {
+            result.push_back(info);
+        }
+    }
+    return result;
+}
+
+std::vector<ShardInfo> ShardTopology::getHealthyShardsInRegion(const std::string& region) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    std::vector<ShardInfo> result;
+    for (const auto& [id, info] : shards_) {
+        if (info.region == region && info.is_healthy) {
+            result.push_back(info);
+        }
+    }
+    return result;
+}
+
+std::vector<std::string> ShardTopology::getRegions() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    std::unordered_set<std::string> seen;
+    for (const auto& [id, info] : shards_) {
+        if (!info.region.empty()) {
+            seen.insert(info.region);
+        }
+    }
+    std::vector<std::string> regions(seen.begin(), seen.end());
+    std::sort(regions.begin(), regions.end());
+    return regions;
+}
+
+bool ShardTopology::regionHasQuorum(const std::string& region, uint32_t required) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    uint32_t healthy = 0;
+    for (const auto& [id, info] : shards_) {
+        if (info.region == region && info.is_healthy) {
+            ++healthy;
+        }
+    }
+    return healthy >= required;
 }
 
 } // namespace themis::sharding

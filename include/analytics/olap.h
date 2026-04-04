@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            olap.h                                             ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:05:31                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     473                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
+    • d5fae2ab2  2026-03-18  Changes before error encountered         ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 92f1b4a1f  2026-02-24  audit(analytics): fix stub annotations, add MaterializedV... ║
+    • 9f1c0c437  2026-02-24  feat(analytics): GPU-accelerated OLAP aggregations via OL... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include <string>
@@ -190,6 +216,7 @@ struct OLAPResult {
  * - CUBE and ROLLUP operators
  * - Window functions
  * - Columnar query optimization
+ * - GPU-accelerated aggregations via CUDA/ROCm (when enabled)
  * 
  * Usage:
  * @code
@@ -204,10 +231,42 @@ struct OLAPResult {
  *   
  *   auto result = engine.execute(query);
  * @endcode
+ * 
+ * GPU-accelerated usage:
+ * @code
+ *   OLAPEngine::Config config;
+ *   config.enable_gpu = true;
+ *   config.gpu_device_id = 0;
+ *   config.gpu_memory_limit = 8ULL * 1024 * 1024 * 1024;  // 8 GB
+ *   OLAPEngine engine(config);
+ *   auto result = engine.execute(query);  // Offloads to GPU for large datasets
+ * @endcode
  */
 class OLAPEngine {
 public:
+    /**
+     * @brief GPU acceleration configuration for the OLAP engine.
+     */
+    struct Config {
+        /// Enable GPU-accelerated aggregations (SUM, AVG, COUNT, MIN, MAX).
+        bool enable_gpu = false;
+        /// GPU device index (0-based) to use when enable_gpu is true.
+        int gpu_device_id = 0;
+        /// Maximum GPU memory budget in bytes.
+        size_t gpu_memory_limit = 4ULL * 1024 * 1024 * 1024;  // 4 GB
+        /// Minimum row count per group before using the GPU path.
+        size_t gpu_threshold_rows = 10'000;
+        /// Maximum number of OLAP query results to keep in the LRU result cache.
+        /// Set to 0 to disable caching entirely.
+        size_t result_cache_max_entries = 1'000;
+        /// Time-to-live for cached OLAP results in milliseconds.
+        /// Entries older than this are evicted on next access.
+        /// Set to 0 for no TTL-based expiry (cache entries live until evicted by LRU).
+        int64_t result_cache_ttl_ms = 60'000;  // 60 seconds
+    };
+
     OLAPEngine();
+    explicit OLAPEngine(const Config& config);
     ~OLAPEngine();
     
     // Main query execution

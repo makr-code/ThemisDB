@@ -528,7 +528,7 @@ create_audited_snapshot(
 - [Diff API Documentation](./features_diff.md)
 - [MVCC Architecture](../architecture/architecture_mvcc.md)
 - [Changefeed Documentation](../cdc/changefeed.md)
-- [Point-in-Time Recovery](./features_pitr.md) (Phase 3 - Coming Soon)
+- [Point-in-Time Recovery](./features_pitr.md)
 - [Git-like Features Research](../../docs/research/GIT_LIKE_FEATURES_FOR_MVCC.md)
 
 ---

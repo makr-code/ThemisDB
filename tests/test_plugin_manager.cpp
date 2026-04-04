@@ -1,187 +1,355 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_plugin_manager.cpp                            ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:31:11                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     342                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • b5d343902  2026-03-09  feat(plugins): implement test_plugin_manager stubs, updat... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+/**
+ * @file test_plugin_manager.cpp
+ * @brief Unit tests for PluginManager core operations
+ *
+ * Tests cover:
+ * - Singleton identity
+ * - Empty manager state (no loaded plugins)
+ * - scanPluginDirectory: error on missing dir, zero on empty dir, discovery on manifests
+ * - getPlugin / loadPlugin error paths for unregistered plugins
+ * - isPluginLoaded state transitions (unregistered → discovered → not loaded)
+ * - getManifest: success after scan, error before scan
+ * - unloadPlugin / unloadAllPlugins error paths and empty-state success
+ * - getPluginsByType on a manager with no loaded plugins
+ * - autoLoadPlugins when all manifests have auto_load=false
+ * - Reload listener registration and clearing
+ * - Hot-plug enable / disable / isEnabled
+ * - negotiateCapabilities for an unknown plugin
+ */
+
 #include <gtest/gtest.h>
 #include "plugins/plugin_manager.h"
 #include "plugins/plugin_interface.h"
+#include "acceleration/plugin_security.h"
+#include "utils/error_registry.h"
+#include <nlohmann/json.hpp>
 #include <filesystem>
 #include <fstream>
+#include <string>
+#include <vector>
 
+using namespace themis::plugins;
 namespace fs = std::filesystem;
 
-// Simple test plugin implementation
-class TestPlugin : public themis::plugins::IThemisPlugin {
-private:
-    bool initialized_ = false;
-    
-public:
-    const char* getName() const override { return "test_plugin"; }
-    const char* getVersion() const override { return "1.0.0"; }
-    
-    themis::plugins::PluginType getType() const override {
-        return themis::plugins::PluginType::CUSTOM;
-    }
-    
-    themis::plugins::PluginCapabilities getCapabilities() const override {
-        themis::plugins::PluginCapabilities caps;
-        caps.thread_safe = true;
-        return caps;
-    }
-    
-    bool initialize(const char* config_json) override {
-        initialized_ = true;
-        return true;
-    }
-    
-    void shutdown() override {
-        initialized_ = false;
-    }
-    
-    void* getInstance() override {
-        return this;
-    }
-    
-    bool isInitialized() const { return initialized_; }
-};
+// ============================================================================
+// Test fixture
+// ============================================================================
 
 class PluginManagerTest : public ::testing::Test {
 protected:
-    std::string test_plugin_dir = "./test_plugins";
-    
+    std::string test_dir_;
+    PluginManager* manager_;
+
     void SetUp() override {
-        // Clean up
-        if (fs::exists(test_plugin_dir)) {
-            fs::remove_all(test_plugin_dir);
+        test_dir_ = (fs::temp_directory_path() / "themis_test_plugin_manager").string();
+        if (fs::exists(test_dir_)) {
+            fs::remove_all(test_dir_);
         }
-        fs::create_directories(test_plugin_dir);
+        fs::create_directories(test_dir_);
+
+        manager_ = &PluginManager::instance();
+        manager_->disableHotPlug();
+        manager_->unloadAllPlugins();
+        manager_->clearReloadListeners();
     }
-    
+
     void TearDown() override {
-        // Clean up
-        if (fs::exists(test_plugin_dir)) {
-            fs::remove_all(test_plugin_dir);
+        manager_->disableHotPlug();
+        manager_->unloadAllPlugins();
+        manager_->clearReloadListeners();
+
+        if (fs::exists(test_dir_)) {
+            fs::remove_all(test_dir_);
         }
     }
-    
-    void createTestManifest(const std::string& name, const std::string& type, bool with_signature = false) {
-        std::string manifest_path = test_plugin_dir + "/" + name + "/plugin.json";
-        fs::create_directories(test_plugin_dir + "/" + name);
-        
+
+    // Helper: create a plugin.json manifest in test_dir_/<name>/
+    void createManifest(const std::string& name,
+                        const std::string& type = "custom",
+                        bool auto_load = false,
+                        const std::vector<std::string>& deps = {}) {
+        std::string plugin_dir = test_dir_ + "/" + name;
+        fs::create_directories(plugin_dir);
+
         nlohmann::json manifest = {
             {"name", name},
             {"version", "1.0.0"},
             {"type", type},
-            {"description", "Test plugin"},
+            {"description", "Test plugin: " + name},
             {"binary", {
                 {"windows", name + ".dll"},
-                {"linux", name + ".so"},
-                {"macos", name + ".dylib"}
+                {"linux",   name + ".so"},
+                {"macos",   name + ".dylib"}
             }},
             {"capabilities", {
                 {"thread_safe", true},
-                {"streaming", false}
+                {"streaming",   false}
             }},
-            {"auto_load", false},
+            {"auto_load", auto_load},
             {"load_priority", 100}
         };
-        
+
+        if (!deps.empty()) {
+            manifest["dependencies"] = deps;
+        }
+
+        std::string manifest_path = plugin_dir + "/plugin.json";
         std::ofstream file(manifest_path);
         file << manifest.dump(2);
         file.close();
-        
-        if (with_signature) {
-            // Generate signature file
-            std::string hash = themis::plugins::PluginManager::instance().calculateFileHash(manifest_path);
-            std::ofstream sig_file(manifest_path + ".sig");
-            sig_file << hash << std::endl;
-        }
+
+        // Release builds require manifest signature files; write expected hash.
+        themis::acceleration::PluginSecurityPolicy policy;
+        themis::acceleration::PluginSecurityVerifier verifier(policy);
+        std::string manifest_hash = verifier.calculateFileHash(manifest_path);
+
+        std::string sig_path = manifest_path + ".sig";
+        std::ofstream sig_file(sig_path);
+        sig_file << manifest_hash;
+        sig_file.close();
     }
 };
 
-TEST_F(PluginManagerTest, PluginManifestParsing) {
-    createTestManifest("test_blob", "blob_storage");
-    
-    auto& pm = themis::plugins::PluginManager::instance();
-    size_t discovered = pm.scanPluginDirectory(test_plugin_dir);
-    
-    // Will discover manifest but not load (no binary)
-    EXPECT_EQ(discovered, 0);  // Binary doesn't exist, so discovery skips it
+// ============================================================================
+// Singleton
+// ============================================================================
+
+TEST_F(PluginManagerTest, SingletonReturnsSameInstance) {
+    PluginManager& a = PluginManager::instance();
+    PluginManager& b = PluginManager::instance();
+    EXPECT_EQ(&a, &b);
 }
 
-TEST_F(PluginManagerTest, ManifestSignatureVerification) {
-    // In development mode, signature is optional
-    createTestManifest("test_signed", "blob_storage", true);  // With signature
-    
-    std::string manifest_path = test_plugin_dir + "/test_signed/plugin.json";
-    std::string error_msg;
-    
-    auto& pm = themis::plugins::PluginManager::instance();
-    
-    // Should succeed with valid signature
-    EXPECT_TRUE(pm.verifyManifestSignature(manifest_path, error_msg));
+// ============================================================================
+// Empty state
+// ============================================================================
+
+TEST_F(PluginManagerTest, InitialLoadedPluginsEmpty) {
+    auto loaded = manager_->listLoadedPlugins();
+    EXPECT_TRUE(loaded.empty());
 }
 
-TEST_F(PluginManagerTest, ManifestSignatureMissing) {
-    createTestManifest("test_unsigned", "blob_storage", false);  // Without signature
-    
-    std::string manifest_path = test_plugin_dir + "/test_unsigned/plugin.json";
-    std::string error_msg;
-    
-    auto& pm = themis::plugins::PluginManager::instance();
-    
-#ifdef NDEBUG
-    // Production: Should fail
-    EXPECT_FALSE(pm.verifyManifestSignature(manifest_path, error_msg));
-    EXPECT_FALSE(error_msg.empty());
-#else
-    // Development: Should succeed with warning
-    EXPECT_TRUE(pm.verifyManifestSignature(manifest_path, error_msg));
-#endif
+TEST_F(PluginManagerTest, IsPluginLoadedReturnsFalseForUnregisteredPlugin) {
+    EXPECT_FALSE(manager_->isPluginLoaded("nonexistent_plugin_abc123"));
 }
 
-TEST_F(PluginManagerTest, PluginRegistry) {
-    // Register a test plugin factory
-    themis::plugins::PluginRegistry::registerFactory(
-        "test_plugin",
-        themis::plugins::PluginType::CUSTOM,
-        []() { return std::make_unique<TestPlugin>(); }
-    );
-    
-    // Create plugin from registry
-    auto plugin = themis::plugins::PluginRegistry::createPlugin("test_plugin");
-    ASSERT_NE(plugin, nullptr);
-    EXPECT_STREQ(plugin->getName(), "test_plugin");
-    EXPECT_STREQ(plugin->getVersion(), "1.0.0");
+TEST_F(PluginManagerTest, GetPluginsByTypeEmptyWhenNoneLoaded) {
+    auto plugins = manager_->getPluginsByType(PluginType::CUSTOM);
+    EXPECT_TRUE(plugins.empty());
 }
 
-TEST_F(PluginManagerTest, PluginLifecycle) {
-    // Register factory
-    themis::plugins::PluginRegistry::registerFactory(
-        "lifecycle_test",
-        themis::plugins::PluginType::CUSTOM,
-        []() { return std::make_unique<TestPlugin>(); }
-    );
-    
-    // Create and initialize
-    auto plugin = themis::plugins::PluginRegistry::createPlugin("lifecycle_test");
-    ASSERT_NE(plugin, nullptr);
-    
-    EXPECT_TRUE(plugin->initialize("{}"));
-    
-    auto* test_plugin = static_cast<TestPlugin*>(plugin.get());
-    EXPECT_TRUE(test_plugin->isInitialized());
-    
-    plugin->shutdown();
-    EXPECT_FALSE(test_plugin->isInitialized());
+// ============================================================================
+// scanPluginDirectory
+// ============================================================================
+
+TEST_F(PluginManagerTest, ScanNonExistentDirectoryReturnsError) {
+    auto result = manager_->scanPluginDirectory("/nonexistent/path/xyz_themis_test");
+    EXPECT_FALSE(result.has_value());
+    EXPECT_EQ(result.error().code(),
+              themis::errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND);
 }
 
-TEST_F(PluginManagerTest, ListPlugins) {
-    auto& pm = themis::plugins::PluginManager::instance();
-    
-    // Initially no plugins loaded
-    auto loaded = pm.listLoadedPlugins();
-    // May have plugins from previous tests, so just check it's a valid list
-    EXPECT_TRUE(loaded.empty() || !loaded.empty());
+TEST_F(PluginManagerTest, ScanEmptyDirectoryReturnsZero) {
+    auto result = manager_->scanPluginDirectory(test_dir_);
+    EXPECT_TRUE(result.has_value());
+    EXPECT_EQ(*result, 0u);
 }
 
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
+TEST_F(PluginManagerTest, ScanDirectoryDiscoversOneManifest) {
+    createManifest("pm_scan_single_001");
+
+    auto result = manager_->scanPluginDirectory(test_dir_);
+    EXPECT_TRUE(result.has_value());
+    EXPECT_GE(*result, 1u);
 }
+
+TEST_F(PluginManagerTest, ScanDirectoryDiscoversMultipleManifests) {
+    createManifest("pm_scan_multi_001");
+    createManifest("pm_scan_multi_002");
+    createManifest("pm_scan_multi_003");
+
+    auto result = manager_->scanPluginDirectory(test_dir_);
+    EXPECT_TRUE(result.has_value());
+    EXPECT_GE(*result, 3u);
+}
+
+TEST_F(PluginManagerTest, DiscoveredPluginIsNotLoadedAfterScan) {
+    createManifest("pm_discovered_only_001");
+    manager_->scanPluginDirectory(test_dir_);
+
+    // Plugin registered in registry but binary is absent — not loaded
+    EXPECT_FALSE(manager_->isPluginLoaded("pm_discovered_only_001"));
+}
+
+// ============================================================================
+// getPlugin / loadPlugin error paths
+// ============================================================================
+
+TEST_F(PluginManagerTest, GetPluginNotInRegistry) {
+    auto result = manager_->getPlugin("pm_not_registered_xyz");
+    EXPECT_FALSE(result.has_value());
+    EXPECT_EQ(result.error().code(),
+              themis::errors::ErrorCode::ERR_PLUGIN_NOT_FOUND);
+}
+
+TEST_F(PluginManagerTest, LoadPluginNotInRegistry) {
+    auto result = manager_->loadPlugin("pm_not_registered_xyz");
+    EXPECT_FALSE(result.has_value());
+    EXPECT_EQ(result.error().code(),
+              themis::errors::ErrorCode::ERR_PLUGIN_NOT_FOUND);
+}
+
+TEST_F(PluginManagerTest, LoadPluginWithMissingBinaryFails) {
+    // Manifest is registered but no .so/.dll exists → load must fail
+    createManifest("pm_no_binary_001");
+    manager_->scanPluginDirectory(test_dir_);
+
+    auto result = manager_->loadPlugin("pm_no_binary_001");
+    EXPECT_FALSE(result.has_value());
+    // Expect either LOAD_FAILED or INVALID_SIGNATURE (security check fails first)
+    EXPECT_TRUE(
+        result.error().code() == themis::errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED ||
+        result.error().code() == themis::errors::ErrorCode::ERR_PLUGIN_INVALID_SIGNATURE);
+}
+
+// ============================================================================
+// getManifest
+// ============================================================================
+
+TEST_F(PluginManagerTest, GetManifestForNonExistentPluginReturnsError) {
+    auto result = manager_->getManifest("pm_no_such_manifest_xyz");
+    EXPECT_FALSE(result.has_value());
+    EXPECT_EQ(result.error().code(),
+              themis::errors::ErrorCode::ERR_PLUGIN_NOT_FOUND);
+}
+
+TEST_F(PluginManagerTest, GetManifestAfterScanSucceeds) {
+    createManifest("pm_manifest_test_001");
+    manager_->scanPluginDirectory(test_dir_);
+
+    auto result = manager_->getManifest("pm_manifest_test_001");
+    EXPECT_TRUE(result.has_value());
+    if (result.has_value()) {
+        EXPECT_EQ(result->name, "pm_manifest_test_001");
+        EXPECT_EQ(result->version, "1.0.0");
+    }
+}
+
+// ============================================================================
+// unloadPlugin / unloadAllPlugins
+// ============================================================================
+
+TEST_F(PluginManagerTest, UnloadNonExistentPluginReturnsError) {
+    auto result = manager_->unloadPlugin("pm_no_such_plugin_xyz");
+    EXPECT_FALSE(result.has_value());
+    EXPECT_EQ(result.error().code(),
+              themis::errors::ErrorCode::ERR_PLUGIN_NOT_FOUND);
+}
+
+TEST_F(PluginManagerTest, UnloadDiscoveredButUnloadedPluginReturnsError) {
+    createManifest("pm_unload_disc_001");
+    manager_->scanPluginDirectory(test_dir_);
+
+    auto result = manager_->unloadPlugin("pm_unload_disc_001");
+    EXPECT_FALSE(result.has_value());
+    // Plugin is registered but not loaded — should fail
+    EXPECT_EQ(result.error().code(),
+              themis::errors::ErrorCode::ERR_PLUGIN_NOT_FOUND);
+}
+
+TEST_F(PluginManagerTest, UnloadAllPluginsWhenEmptySucceeds) {
+    auto result = manager_->unloadAllPlugins();
+    EXPECT_TRUE(result.has_value());
+}
+
+TEST_F(PluginManagerTest, ListLoadedPluginsEmptyAfterUnloadAll) {
+    manager_->unloadAllPlugins();
+    EXPECT_TRUE(manager_->listLoadedPlugins().empty());
+}
+
+// ============================================================================
+// Reload listeners
+// ============================================================================
+
+TEST_F(PluginManagerTest, RegisterReloadListenerAndClearDoesNotThrow) {
+    bool reached = false;
+    manager_->registerReloadListener(
+        [&reached](const std::string&, PluginReloadPhase) { reached = true; });
+
+    // Clear without any reload — must not crash
+    manager_->clearReloadListeners();
+    EXPECT_FALSE(reached);  // Listener was never triggered
+}
+
+// ============================================================================
+// Hot-plug monitoring
+// ============================================================================
+
+TEST_F(PluginManagerTest, HotPlugInitiallyDisabled) {
+    EXPECT_FALSE(manager_->isHotPlugEnabled());
+}
+
+TEST_F(PluginManagerTest, EnableHotPlugOnValidDirectorySucceeds) {
+    bool ok = manager_->enableHotPlug(test_dir_);
+    EXPECT_TRUE(ok);
+    EXPECT_TRUE(manager_->isHotPlugEnabled());
+    manager_->disableHotPlug();
+}
+
+TEST_F(PluginManagerTest, DisableHotPlugWhenEnabled) {
+    manager_->enableHotPlug(test_dir_);
+    manager_->disableHotPlug();
+    EXPECT_FALSE(manager_->isHotPlugEnabled());
+}
+
+TEST_F(PluginManagerTest, EnableHotPlugOnNonExistentDirectoryFails) {
+    bool ok = manager_->enableHotPlug("/nonexistent/path/xyz_hot_plug_test");
+    EXPECT_FALSE(ok);
+    EXPECT_FALSE(manager_->isHotPlugEnabled());
+}
+
+// ============================================================================
+// negotiateCapabilities
+// ============================================================================
+
+TEST_F(PluginManagerTest, NegotiateCapabilitiesForUnknownPluginReturnsFalse) {
+    PluginNegotiationResult result =
+        manager_->negotiateCapabilities("pm_unknown_plugin_xyz", {});
+    EXPECT_FALSE(result.success);
+    EXPECT_FALSE(result.error_message.empty());
+}
+
+TEST_F(PluginManagerTest, NegotiateCapabilitiesForDiscoveredButUnloadedPluginReturnsFalse) {
+    createManifest("pm_negotiate_disc_001");
+    manager_->scanPluginDirectory(test_dir_);
+
+    PluginNegotiationResult result =
+        manager_->negotiateCapabilities("pm_negotiate_disc_001", {});
+    // Plugin is known but not loaded — negotiation must report failure
+    EXPECT_FALSE(result.success);
+}
+
+

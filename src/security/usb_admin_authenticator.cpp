@@ -1,14 +1,40 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            usb_admin_authenticator.cpp                        ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:19:34                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     732                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 864799dac  2026-03-24  feat(security): USB Volume Hardening against FAT manipula... ║
+    • c9429f8d3  2026-03-09  feat(security): HMAC challenge-response, Windows MachineG... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "security/usb_admin_authenticator.h"
+#include "security/usb_volume_hardening.h"
 #include "utils/logger.h"
 #include <nlohmann/json.hpp>
 #include <fstream>
 #include <sstream>
 #include <iomanip>
-#include <random>
 #include <openssl/sha.h>
 #include <openssl/rsa.h>
 #include <openssl/pem.h>
 #include <openssl/err.h>
+#include <openssl/hmac.h>
+#include <openssl/rand.h>
 
 #if defined(__linux__)
 #include <sys/stat.h>
@@ -235,6 +261,52 @@ bool USBAdminAuthenticator::refreshUSBStatus() {
         return false;
     }
     
+    // ── USB Volume Hardening checks ───────────────────────────────────────────
+    // These checks run after the license is loaded and signature is validated.
+    // They defend against FAT-level manipulation, cloned USB sticks, and live
+    // writes to the stick during authentication.
+
+    // 1. Read-only mount enforcement
+    if (config_.require_readonly_mount) {
+        if (!USBVolumeHardening::isMountedReadOnly(config_.mount_path)) {
+            THEMIS_WARN("USBAdminAuthenticator: USB filesystem is not mounted read-only — rejecting");
+            metrics_.usb_denied_not_readonly++;
+            auditLog("USB_DENIED_NOT_READONLY",
+                     "USB filesystem is not mounted read-only at " + config_.mount_path,
+                     "");
+            current_license_.reset();
+            return false;
+        }
+    }
+
+    // 2. Volume integrity hash (FAT-manipulation detection)
+    if (!config_.expected_volume_hash.empty()) {
+        if (!USBVolumeHardening::verifyVolumeHash(
+                config_.mount_path, config_.license_file, config_.expected_volume_hash)) {
+            THEMIS_WARN("USBAdminAuthenticator: volume hash mismatch — FAT manipulation suspected");
+            metrics_.usb_denied_volume_hash_mismatch++;
+            auditLog("USB_DENIED_VOLUME_HASH_MISMATCH",
+                     "License file hash does not match pinned value — FAT manipulation suspected",
+                     "");
+            current_license_.reset();
+            return false;
+        }
+    }
+
+    // 3. USB device serial binding (anti-cloning)
+    if (!config_.expected_usb_serial.empty()) {
+        if (!USBVolumeHardening::verifyUSBSerial(
+                config_.mount_path, config_.expected_usb_serial)) {
+            THEMIS_WARN("USBAdminAuthenticator: USB serial mismatch — possible cloned device");
+            metrics_.usb_denied_serial_mismatch++;
+            auditLog("USB_DENIED_SERIAL_MISMATCH",
+                     "USB device serial does not match provisioned value — cloned device suspected",
+                     "");
+            current_license_.reset();
+            return false;
+        }
+    }
+
     // All checks passed
     current_license_ = license;
     metrics_.usb_mount_detected++;
@@ -491,11 +563,30 @@ std::string USBAdminAuthenticator::getSystemHardwareID() const {
         }
     }
 #elif defined(_WIN32)
-    // On Windows, use MachineGuid from registry
-    // TODO: Implement Windows registry reading for MachineGuid
-    // For now, return a placeholder
-    THEMIS_WARN("USBAdminAuthenticator: Windows hardware ID detection not fully implemented");
-    return "WINDOWS-PLACEHOLDER-HW-ID";
+    // Read MachineGuid from the Windows registry — stable across reboots, unique per machine.
+    // Key: HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Cryptography\MachineGuid
+    HKEY hKey = nullptr;
+    LONG rc = RegOpenKeyExA(
+        HKEY_LOCAL_MACHINE,
+        "SOFTWARE\\Microsoft\\Cryptography",
+        0,
+        KEY_READ | KEY_WOW64_64KEY,
+        &hKey
+    );
+    if (rc == ERROR_SUCCESS) {
+        char guid_buf[64] = {};
+        DWORD buf_size = static_cast<DWORD>(sizeof(guid_buf));
+        DWORD value_type = REG_SZ;
+        rc = RegQueryValueExA(hKey, "MachineGuid", nullptr, &value_type,
+                              reinterpret_cast<LPBYTE>(guid_buf), &buf_size);
+        RegCloseKey(hKey);
+        if (rc == ERROR_SUCCESS && buf_size > 0) {
+            return std::string(guid_buf);
+        }
+        THEMIS_WARN("USBAdminAuthenticator: RegQueryValueEx(MachineGuid) failed (rc={})", rc);
+    } else {
+        THEMIS_WARN("USBAdminAuthenticator: failed to open Cryptography registry key (rc={})", rc);
+    }
 #endif
     
     // Ultimate fallback: CRITICAL - This defeats hardware binding!
@@ -510,53 +601,111 @@ std::string USBAdminAuthenticator::getSystemHardwareID() const {
 }
 
 std::string USBAdminAuthenticator::createChallenge() const {
-    // Create a random challenge for replay protection
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_int_distribution<> dis(0, 255);
-    
+    // Generate 32 cryptographically random bytes using OpenSSL CSPRNG.
     std::vector<uint8_t> challenge_bytes(32);
-    for (auto& byte : challenge_bytes) {
-        byte = static_cast<uint8_t>(dis(gen));
+    if (RAND_bytes(challenge_bytes.data(), 32) != 1) {
+        // RAND_bytes failure is a hard error: never fall back to a weaker RNG.
+        // A predictable challenge defeats the replay-protection guarantee.
+        THEMIS_ERROR("USBAdminAuthenticator: RAND_bytes failed — cannot generate a secure challenge: {}",
+                     ERR_error_string(ERR_get_error(), nullptr));
+        throw std::runtime_error(
+            "USBAdminAuthenticator: cryptographically secure RNG unavailable");
     }
-    
+
     // Convert to hex string
     std::ostringstream oss;
     for (auto byte : challenge_bytes) {
         oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(byte);
     }
-    
-    return oss.str();
+    std::string challenge = oss.str();
+
+    // Register challenge with issue timestamp for TTL and one-time-use enforcement.
+    // Lazily purge expired entries while holding the mutex.
+    std::lock_guard<std::mutex> lock(mutex_);
+    auto now = std::chrono::system_clock::now();
+    // Evict expired challenges to cap memory growth
+    for (auto it = issued_challenges_.begin(); it != issued_challenges_.end(); ) {
+        if ((now - it->second) >= config_.challenge_ttl) {
+            it = issued_challenges_.erase(it);
+        } else {
+            ++it;
+        }
+    }
+    issued_challenges_[challenge] = now;
+    return challenge;
 }
 
-bool USBAdminAuthenticator::validateChallengeResponse(const std::string& challenge, const std::string& response) const {
-    // SECURITY WARNING: This is a simplified placeholder implementation
-    // Production systems MUST implement proper cryptographic challenge-response
-    
-    (void)challenge;
-    (void)response;
-    
-    // TODO: CRITICAL SECURITY - Implement proper challenge-response validation
-    // This prevents replay attacks where an attacker captures and reuses authentication data
-    //
-    // Real implementation must:
-    // 1. Store generated challenges with timestamps in challenge_file on USB
-    // 2. Validate response is correct cryptographic signature of challenge
-    // 3. Ensure challenge is recent (within challenge_ttl window)
-    // 4. Mark challenge as used (one-time use only)
-    // 5. Clean up expired challenges periodically
-    //
-    // Example flow:
-    // - Server generates random challenge, writes to USB challenge_file
-    // - Client reads challenge, signs with USB private key, returns signature
-    // - Server validates signature against USB certificate
-    // - Server marks challenge as used
-    
-    THEMIS_WARN("USBAdminAuthenticator: challenge-response validation is PLACEHOLDER ONLY - NO REPLAY PROTECTION!");
-    
-    // Placeholder: Always accept
-    // REMOVE THIS IN PRODUCTION - This eliminates replay attack protection!
-    return true;
+bool USBAdminAuthenticator::validateChallengeResponse(const std::string& challenge,
+                                                       const std::string& response) const {
+    // ── 1. Verify the challenge was actually issued by this instance ──────────
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    auto it = issued_challenges_.find(challenge);
+    if (it == issued_challenges_.end()) {
+        THEMIS_WARN("USBAdminAuthenticator: challenge-response rejected — unknown challenge");
+        return false;
+    }
+
+    // ── 2. Enforce TTL (replay protection: old challenges are invalid) ─────────
+    auto now = std::chrono::system_clock::now();
+    if ((now - it->second) >= config_.challenge_ttl) {
+        issued_challenges_.erase(it);
+        THEMIS_WARN("USBAdminAuthenticator: challenge-response rejected — challenge expired");
+        return false;
+    }
+
+    // ── 3. One-time-use: erase challenge BEFORE computing HMAC ────────────────
+    //    This prevents a race where two concurrent calls with the same challenge
+    //    both see it as valid before either deletes it.
+    issued_challenges_.erase(it);
+
+    // ── 4. Require a valid license to use as the HMAC key ─────────────────────
+    if (!current_license_.has_value() || current_license_->license_key.empty()) {
+        THEMIS_WARN("USBAdminAuthenticator: challenge-response rejected — no current license");
+        return false;
+    }
+    const std::string& license_key = current_license_->license_key;
+
+    // ── 5. Compute expected response: HMAC-SHA256(key=license_key, msg=challenge) ──
+    //    The client must compute the same HMAC using the license key stored on the
+    //    USB device; only the physical USB holder can produce a matching response.
+    unsigned char hmac_out[EVP_MAX_MD_SIZE];
+    unsigned int  hmac_len = 0;
+
+    unsigned char* result = HMAC(
+        EVP_sha256(),
+        license_key.data(), static_cast<int>(license_key.size()),
+        reinterpret_cast<const unsigned char*>(challenge.data()), challenge.size(),
+        hmac_out, &hmac_len
+    );
+
+    if (!result || hmac_len == 0) {
+        THEMIS_ERROR("USBAdminAuthenticator: HMAC computation failed: {}", ERR_error_string(ERR_get_error(), nullptr));
+        return false;
+    }
+
+    // Encode expected response as lowercase hex
+    std::ostringstream expected_oss;
+    for (unsigned int i = 0; i < hmac_len; ++i) {
+        expected_oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hmac_out[i]);
+    }
+    const std::string expected_response = expected_oss.str();
+
+    // ── 6. Constant-time comparison to prevent timing attacks ─────────────────
+    if (response.size() != expected_response.size()) {
+        THEMIS_WARN("USBAdminAuthenticator: challenge-response rejected — response length mismatch");
+        return false;
+    }
+
+    // CRYPTO_memcmp returns 0 iff both buffers are identical (OpenSSL constant-time compare)
+    bool valid = (CRYPTO_memcmp(response.data(), expected_response.data(), response.size()) == 0);
+
+    if (!valid) {
+        THEMIS_WARN("USBAdminAuthenticator: challenge-response rejected — HMAC mismatch");
+    } else {
+        THEMIS_DEBUG("USBAdminAuthenticator: challenge-response validated successfully");
+    }
+    return valid;
 }
 
 void USBAdminAuthenticator::auditLog(const std::string& event, const std::string& details, const std::string& user_id) const {

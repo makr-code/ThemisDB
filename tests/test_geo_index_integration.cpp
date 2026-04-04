@@ -1,3 +1,25 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_geo_index_integration.cpp                     ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:27:13                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     308                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include <gtest/gtest.h>
 #include "index/spatial_index.h"
 #include "api/geo_index_hooks.h"
@@ -76,9 +98,12 @@ TEST_F(GeoIndexIntegrationTest, InsertPolygonTriggersIndexUpdate) {
 
 // Previously disabled on MSVC; passing with isolated RocksDB env
 TEST_F(GeoIndexIntegrationTest, SearchIntersectsWithExactCheck) {
-    // Set up exact backend if available
+    // Prefer the GPU backend (always available via CPU fallback); fall back to Boost.
+    auto* gpu_backend = geo::getGpuSpatialBackend();
     auto* boost_backend = geo::getBoostCpuBackend();
-    if (boost_backend && boost_backend->isAvailable()) {
+    if (gpu_backend && gpu_backend->isAvailable()) {
+        spatial_mgr_->setExactBackend(gpu_backend);
+    } else if (boost_backend && boost_backend->isAvailable()) {
         spatial_mgr_->setExactBackend(boost_backend);
     }
     
@@ -239,4 +264,45 @@ TEST_F(GeoIndexIntegrationTest, HandlesNullSpatialManager) {
     EXPECT_NO_THROW({
         GeoIndexHooks::onEntityPut(*db_, nullptr, "test_points", "test", blob);
     });
+}
+
+// Test: GPU spatial backend is always available (CPU fallback) and
+//       produces correct results when wired into SpatialIndexManager.
+TEST_F(GeoIndexIntegrationTest, GpuBackendIsAvailableAndFunctional) {
+    auto* gpu_backend = geo::getGpuSpatialBackend();
+    ASSERT_NE(gpu_backend, nullptr);
+    EXPECT_STREQ(gpu_backend->name(), "gpu_spatial");
+    // isAvailable() must not crash regardless of hardware presence.
+    EXPECT_TRUE(gpu_backend->isAvailable());
+
+    // Wire it into the spatial index manager and confirm the exact-check path works.
+    spatial_mgr_->setExactBackend(gpu_backend);
+
+    // Insert a polygon into the index
+    json poly;
+    poly["id"] = "gpu_test_poly";
+    poly["geometry"] = {
+        {"type", "Polygon"},
+        {"coordinates", json::array({
+            json::array({
+                json::array({0.0, 0.0}),
+                json::array({1.0, 0.0}),
+                json::array({1.0, 1.0}),
+                json::array({0.0, 1.0}),
+                json::array({0.0, 0.0})
+            })
+        })}
+    };
+    std::string blob_str = poly.dump();
+    std::vector<uint8_t> blob(blob_str.begin(), blob_str.end());
+    GeoIndexHooks::onEntityPut(*db_, spatial_mgr_.get(), "test_points", "gpu_test_poly", blob);
+
+    // Query with MBR that covers the polygon — should find it
+    MBR query(0.0, 0.0, 1.0, 1.0);
+    auto results = spatial_mgr_->searchIntersects("test_points", query);
+    bool found = false;
+    for (const auto& r : results) {
+        if (r.primary_key == "gpu_test_poly") { found = true; break; }
+    }
+    EXPECT_TRUE(found) << "GPU-backed exact-check should return the inserted polygon";
 }

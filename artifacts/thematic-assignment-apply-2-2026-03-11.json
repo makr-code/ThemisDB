@@ -1,0 +1,1064 @@
+{
+  "issues_closed_without_milestone": 152,
+  "module_versions": {
+    "analytics": "v1.7.0",
+    "aql": "v1.7.0",
+    "base": "v1.8.0",
+    "geo": "v2.2.0",
+    "importers": "v1.5.0",
+    "ingestion": "v1.6.0",
+    "llm": "v1.16.0",
+    "metadata": "v1.6.0",
+    "network": "v1.9.0",
+    "plugins": "v0.9.0",
+    "replication": "v1.7.0",
+    "scheduler": "v1.5.0",
+    "search": "v2.3.0",
+    "security": "v1.5.0",
+    "server": "v1.6.0",
+    "storage": "v1.6.0",
+    "themis": "v1.7.0",
+    "training": "v1.7.0",
+    "transaction": "v1.5.0",
+    "utils": "v1.5.0",
+    "voice": "v1.1.0",
+    "gpu": "v1.6.0",
+    "content": "v1.6.0",
+    "performance": "v1.5.0",
+    "observability": "v1.5.0",
+    "config": "v1.6.0",
+    "acceleration": "v1.0.2",
+    "documentation": "v1.5.0",
+    "rag": "v1.5.0",
+    "updates": "v1.5.0",
+    "query": "v1.5.0",
+    "graph": "v1.6.0",
+    "chimera": "v1.6.0",
+    "prompt_engineering": "v1.5.0",
+    "index": "v1.6.0",
+    "governance": "v1.6.0",
+    "exporters": "v1.6.0"
+  },
+  "suggestions_total": 127,
+  "apply": true,
+  "applied": 127,
+  "failed": [],
+  "suggestions": [
+    {
+      "issue": 2631,
+      "title": "[Docs-Audit] src/analytics: Source vs Dokumentation Abgleich",
+      "module": "documentation",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.5.0"
+    },
+    {
+      "issue": 2630,
+      "title": "[Docs-Audit] src/api: Source vs Dokumentation Abgleich",
+      "module": "documentation",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.5.0"
+    },
+    {
+      "issue": 2629,
+      "title": "[Docs-Audit] src/aql: Source vs Dokumentation Abgleich",
+      "module": "documentation",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.5.0"
+    },
+    {
+      "issue": 2624,
+      "title": "[Docs-Audit] src/cdc: Source vs Dokumentation Abgleich",
+      "module": "documentation",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.5.0"
+    },
+    {
+      "issue": 2623,
+      "title": "Source-Code vs Dokumentation Abgleich: Automatisierte Bestandsaufnahme f\u00c3\u00bcr alle src/-Module",
+      "module": "documentation",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.5.0"
+    },
+    {
+      "issue": 2510,
+      "title": "[Research] Core scientific foundations for GPU/FPGA/Vector Acceleration in ThemisDB",
+      "module": "gpu",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 2489,
+      "title": "[updates] [!] Canary rollout mode for partial node update",
+      "module": "updates",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.5.0"
+    },
+    {
+      "issue": 2486,
+      "title": "[updates] Update bundle signing with HSM-secured keys",
+      "module": "updates",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.5.0"
+    },
+    {
+      "issue": 2484,
+      "title": "[updates] Blue/green deployment support",
+      "module": "updates",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.5.0"
+    },
+    {
+      "issue": 2482,
+      "title": "[updates] [!] Implement Slack/PagerDuty notifications on update success/failure",
+      "module": "updates",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.5.0"
+    },
+    {
+      "issue": 2438,
+      "title": "[rag] Track Hallucination Rate Dashboard",
+      "module": "rag",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.5.0"
+    },
+    {
+      "issue": 2432,
+      "title": "[query] Parallelize full-table queries for large collections",
+      "module": "query",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.5.0"
+    },
+    {
+      "issue": 2429,
+      "title": "[prompt_engineering] [!] [ ] Implement multi-modal prompt support with image descriptions",
+      "module": "prompt_engineering",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.5.0"
+    },
+    {
+      "issue": 2428,
+      "title": "[prompt_engineering] Detect and prevent prompt injection attacks",
+      "module": "prompt_engineering",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.5.0"
+    },
+    {
+      "issue": 2420,
+      "title": "[performance] Monitor memory pressure, automatically evict cache when necessary",
+      "module": "performance",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.5.0"
+    },
+    {
+      "issue": 2418,
+      "title": "[observability] [!] Implement pprof/async-profiler compatible CI for continuous profiling",
+      "module": "observability",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.5.0"
+    },
+    {
+      "issue": 2407,
+      "title": "[index] [!] Migrate cold/warm tier index",
+      "module": "index",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 2386,
+      "title": "[graph] Calibrate cost model from real execution feedback",
+      "module": "graph",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 2380,
+      "title": "[gpu] [!] MIG partitioning for NVIDIA A/H series",
+      "module": "gpu",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 2337,
+      "title": "[updates] Implement Kubernetes rolling update coordination",
+      "module": "updates",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.5.0"
+    },
+    {
+      "issue": 2335,
+      "title": "[updates] Rollback on post-update health check failure",
+      "module": "updates",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.5.0"
+    },
+    {
+      "issue": 2243,
+      "title": "[rag] Multi-modal RAG for image and text retrieval",
+      "module": "rag",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.5.0"
+    },
+    {
+      "issue": 2237,
+      "title": "[rag] [!] Map answer sentences to source chunks",
+      "module": "rag",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.5.0"
+    },
+    {
+      "issue": 2230,
+      "title": "[query] Register UDFs via new API endpoint",
+      "module": "query",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.5.0"
+    },
+    {
+      "issue": 2221,
+      "title": "[performance] Detect Numa Topology, Pin Threads Automatically",
+      "module": "performance",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.5.0"
+    },
+    {
+      "issue": 2217,
+      "title": "[performance] Improve DPDK / io_uring zero-copy I/O path for network performance",
+      "module": "performance",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.5.0"
+    },
+    {
+      "issue": 2216,
+      "title": "[performance] Detect cross-module performance regressions in CI",
+      "module": "performance",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.5.0"
+    },
+    {
+      "issue": 2215,
+      "title": "[performance] Integrate PMU for cache miss analysis",
+      "module": "performance",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.5.0"
+    },
+    {
+      "issue": 2212,
+      "title": "[performance] Monitor memory pressure, automate cache eviction",
+      "module": "performance",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.5.0"
+    },
+    {
+      "issue": 2210,
+      "title": "[observability] [!] Implement pprof/async-profiler compatible CI for continuous profiling",
+      "module": "observability",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.5.0"
+    },
+    {
+      "issue": 2191,
+      "title": "[gpu] GPU memory defragmentation routine",
+      "module": "gpu",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 2190,
+      "title": "[gpu] [!] GPU-accelerated ANN via cuVS/RAFT",
+      "module": "gpu",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 2189,
+      "title": "[gpu] MIG partitioning support for NVIDIA A/H series",
+      "module": "gpu",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 2187,
+      "title": "[gpu] Coordinate multi-node GPU clusters",
+      "module": "gpu",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 2170,
+      "title": "[graph] Calibrate cost model with real execution data",
+      "module": "graph",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 2169,
+      "title": "[gpu] Coordinate multi-node GPU clusters",
+      "module": "gpu",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 2167,
+      "title": "[chimera] [!] Weaviate native vector database integration",
+      "module": "chimera",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 2151,
+      "title": "[prompt_engineering] Detect prompt injection attacks in model outputs",
+      "module": "prompt_engineering",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.5.0"
+    },
+    {
+      "issue": 2148,
+      "title": "[observability] SLO/SLA compliance reporting with burn-rate alerts",
+      "module": "observability",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.5.0"
+    },
+    {
+      "issue": 2143,
+      "title": "[index] [!] Migrate cold/warm tier index",
+      "module": "index",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 2140,
+      "title": "[gpu] Coordinate multi-node GPU clusters",
+      "module": "gpu",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 2125,
+      "title": "[updates] [!] In-place schema migration for additive changes",
+      "module": "updates",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.5.0"
+    },
+    {
+      "issue": 2086,
+      "title": "[graph] Calibrate cost model with real execution data",
+      "module": "graph",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 2068,
+      "title": "[updates] [!] In-place schema migration for additive changes",
+      "module": "updates",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.5.0"
+    },
+    {
+      "issue": 2060,
+      "title": "[rag] [!] Map answer sentences to source chunks",
+      "module": "rag",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.5.0"
+    },
+    {
+      "issue": 2059,
+      "title": "[query] Per-query resource limits",
+      "module": "query",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.5.0"
+    },
+    {
+      "issue": 2056,
+      "title": "[performance] [!] Integrate per-query cost model into query optimizer",
+      "module": "performance",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.5.0"
+    },
+    {
+      "issue": 2048,
+      "title": "[graph] Calibrate cost model with real execution data",
+      "module": "graph",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 2044,
+      "title": "[chimera] [!] Weaviate native vector database integration",
+      "module": "chimera",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 2029,
+      "title": "[query] Per-query resource limits",
+      "module": "query",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.5.0"
+    },
+    {
+      "issue": 2000,
+      "title": "[rag] Map answers to source chunks in citations",
+      "module": "rag",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.5.0"
+    },
+    {
+      "issue": 1996,
+      "title": "[performance] Adaptive batch size tuning for LLM inference",
+      "module": "performance",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.5.0"
+    },
+    {
+      "issue": 1995,
+      "title": "[observability] Exemplars on Prometheus histograms with link traces to metrics",
+      "module": "observability",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.5.0"
+    },
+    {
+      "issue": 1985,
+      "title": "[chimera] Benchmark result normalization and scoring framework",
+      "module": "chimera",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 1967,
+      "title": "[query] Per-query resource limits",
+      "module": "query",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.5.0"
+    },
+    {
+      "issue": 1966,
+      "title": "[prompt_engineering] Detect prompt injection attacks in model responses",
+      "module": "prompt_engineering",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.5.0"
+    },
+    {
+      "issue": 1964,
+      "title": "[performance] AVX-512 SIMD path for vector distance computations",
+      "module": "performance",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.5.0"
+    },
+    {
+      "issue": 1955,
+      "title": "[gpu] Coordinate multi-node GPU clusters",
+      "module": "gpu",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 1888,
+      "title": "[index] Full-text inverted index integration",
+      "module": "index",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 1881,
+      "title": "[index] Migrate cold/warm tier index",
+      "module": "index",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 1879,
+      "title": "[index] Distributed vector index across shards",
+      "module": "index",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 1878,
+      "title": "[index] GPU-accelerated index build for large-scale vector datasets",
+      "module": "index",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 1877,
+      "title": "[index] Implement ML-based B-tree replacement",
+      "module": "index",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 1871,
+      "title": "[index] Learned index structures for ML-based B-tree replacements",
+      "module": "index",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 1868,
+      "title": "[index] Rebuild online index with minimal read impact",
+      "module": "index",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 1829,
+      "title": "[graph] GPU-accelerated BFS/DFS for massive graphs",
+      "module": "graph",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 1828,
+      "title": "[graph] Temporal graph query optimization for time-ranged traversals",
+      "module": "graph",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 1827,
+      "title": "[graph] Plan cache eviction with size and TTL controls",
+      "module": "graph",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 1825,
+      "title": "[graph] Incremental graph query execution on live updates",
+      "module": "graph",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 1820,
+      "title": "[graph] GPU-accelerated BFS/DFS for massive graphs",
+      "module": "graph",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 1814,
+      "title": "[graph] Incremental graph query execution on live updates",
+      "module": "graph",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 1808,
+      "title": "[graph] Parallelize multi-source BFS/DFS on large graphs",
+      "module": "graph",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 1803,
+      "title": "[gpu] Implement MIG partitioning for NVIDIA A/H series",
+      "module": "gpu",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 1802,
+      "title": "[gpu] Implement NVLink topology-aware scheduling for multi-GPU jobs",
+      "module": "gpu",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 1796,
+      "title": "[gpu] WASM-based GPU kernel sandbox for untrusted third-party kernels",
+      "module": "gpu",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 1790,
+      "title": "[gpu] Per-GPU thermal and power telemetry in metrics registry",
+      "module": "gpu",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 1786,
+      "title": "[gpu] ROcm/HIP full feature parity for memory manager and kernel validator",
+      "module": "gpu",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 1785,
+      "title": "[gpu] Coordinate multi-node GPU clusters",
+      "module": "gpu",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 1784,
+      "title": "[gpu] Fragment GPU Memory",
+      "module": "gpu",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 1782,
+      "title": "[governance] Detect policy conflicts in overlapping access control rules",
+      "module": "governance",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 1777,
+      "title": "[governance] Integrate OPA for policy evaluation alternatives",
+      "module": "governance",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 1776,
+      "title": "[governance] Implement automated data masking for sensitive fields",
+      "module": "governance",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 1774,
+      "title": "[governance] Implement policy hot-reload on config file change",
+      "module": "governance",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 1773,
+      "title": "[governance] Automated data masking for sensitive fields in query results",
+      "module": "governance",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 1770,
+      "title": "[governance] PCI-DSS data isolation rules",
+      "module": "governance",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 1767,
+      "title": "[governance] Compliance report generation for PDF and JSON summaries",
+      "module": "governance",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 1764,
+      "title": "[governance] Enforce CCPA/CPRA data subject rights",
+      "module": "governance",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 1760,
+      "title": "[governance] Resolve policy conflicts in real-time reports",
+      "module": "governance",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 1727,
+      "title": "[exporters] Implement Alpaca, ShareGPT, ChatML instruction-tuning formats as export transforms",
+      "module": "exporters",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 1725,
+      "title": "[exporters] Implement Parquet export with configurable Arrow schema",
+      "module": "exporters",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 1721,
+      "title": "[exporters] Implement Alpaca and ShareGPT instruction-tuning formats",
+      "module": "exporters",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 1720,
+      "title": "[exporters] Deduplicate and filter toxic training data",
+      "module": "exporters",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 1718,
+      "title": "[exporters] Configurable output compression with zstd and gzip",
+      "module": "exporters",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 1714,
+      "title": "[exporters] Arrow IPC export for zero-copy pipelines",
+      "module": "exporters",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 1713,
+      "title": "[exporters] Parquet export with configurable schema",
+      "module": "exporters",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 1701,
+      "title": "[content] Harden pipeline orchestration with per-stage error recovery and retry logic",
+      "module": "content",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 1698,
+      "title": "[content] Improve unit test coverage threshold",
+      "module": "content",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 1693,
+      "title": "[content] Integrate PDFium for PDF text extraction with layout preservation",
+      "module": "content",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 1692,
+      "title": "[content] Content versioning and delta storage",
+      "module": "content",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 1689,
+      "title": "[content] Implement Tesseract OCR for embedded text",
+      "module": "content",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 1687,
+      "title": "[content] Audio transcription integration for Whisper and speech-to-text",
+      "module": "content",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 1686,
+      "title": "[content] Configurable processing pipeline plugin",
+      "module": "content",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 1679,
+      "title": "[content] Extract audio metadata",
+      "module": "content",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 1676,
+      "title": "[config] Complete METADATA_TABLE entries",
+      "module": "config",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 1675,
+      "title": "[config] Improve cache hit rate performance benchmarking",
+      "module": "config",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 1674,
+      "title": "[config] Improve unit test coverage threshold",
+      "module": "config",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 1673,
+      "title": "[config] Add multi-environment config overlay support for dev, staging and prod paths",
+      "module": "config",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 1663,
+      "title": "[config] Metrics export to Prometheus endpoint",
+      "module": "config",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 1662,
+      "title": "[config] Configurable LRU cache size and TTL via env var",
+      "module": "config",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 1660,
+      "title": "[config] Scan legacy config paths in deployed environments",
+      "module": "config",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 1651,
+      "title": "[chimera] Improve unit test coverage threshold",
+      "module": "chimera",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 1649,
+      "title": "[chimera] Benchmark result aggregation and reporting dashboard",
+      "module": "chimera",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 1648,
+      "title": "[chimera] Adapter capability matrix",
+      "module": "chimera",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 1646,
+      "title": "[chimera] Qdrant native vector database adapter",
+      "module": "chimera",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 1638,
+      "title": "[chimera] Neo4j native graph database adapter",
+      "module": "chimera",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 1630,
+      "title": "[chimera] Implement MongoDB vendor adapter",
+      "module": "chimera",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 1434,
+      "title": "[index] Automated index advisor with workload replay",
+      "module": "index",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 1397,
+      "title": "[acceleration] Final production-readiness review and API stability sign-off",
+      "module": "acceleration",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.0.2"
+    },
+    {
+      "issue": 1395,
+      "title": "[acceleration] Publish backend capability matrix and config guide",
+      "module": "acceleration",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.0.2"
+    },
+    {
+      "issue": 1394,
+      "title": "[acceleration] Run security hardening pass for plugin/driver interaction surfaces",
+      "module": "acceleration",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.0.2"
+    },
+    {
+      "issue": 1393,
+      "title": "[acceleration] Establish performance gates for key workloads and batch sizes",
+      "module": "acceleration",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.0.2"
+    },
+    {
+      "issue": 1391,
+      "title": "[acceleration] Implement regression tests for invalid input and runtime fallbacks",
+      "module": "acceleration",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.0.2"
+    },
+    {
+      "issue": 1390,
+      "title": "[acceleration] Add GPU/CPU parity integration tests for ANN and geospatial queries",
+      "module": "acceleration",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.0.2"
+    },
+    {
+      "issue": 1386,
+      "title": "[acceleration] Reject unsafe batches with strict input validation",
+      "module": "acceleration",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.0.2"
+    },
+    {
+      "issue": 1384,
+      "title": "[acceleration] Implement Vulkan compute equivalents",
+      "module": "acceleration",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.0.2"
+    },
+    {
+      "issue": 1380,
+      "title": "[acceleration] Define backend capability contract",
+      "module": "acceleration",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.0.2"
+    },
+    {
+      "issue": 1379,
+      "title": "[acceleration] OpenCL backend for broad hardware compatibility",
+      "module": "acceleration",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.0.2"
+    }
+  ]
+}

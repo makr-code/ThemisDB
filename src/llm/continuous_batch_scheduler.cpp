@@ -1,9 +1,38 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            continuous_batch_scheduler.cpp                     ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:16:54                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   91.0/100                                       ║
+    • Total Lines:     569                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 57f73b9da  2026-03-13  feat(batch-scheduler): enhance canAddToBatch method to in... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "llm/continuous_batch_scheduler.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
 
 namespace themis {
 namespace llm {
+
+// Rough estimate of characters per token.  This is model-dependent (e.g. ~3.5
+// for English prose in Llama-style tokenizers, 4 is a safe conservative
+// upper bound for ASCII text).  A future improvement is to expose this in
+// SchedulerConfig so operators can tune it per model.
+static constexpr size_t CHARS_PER_TOKEN_ESTIMATE = 4;
 
 ContinuousBatchScheduler::ContinuousBatchScheduler(
     const SchedulerConfig& config,
@@ -39,6 +68,40 @@ std::string ContinuousBatchScheduler::submitRequest(
 ) {
     std::lock_guard<std::mutex> lock(mutex_);
     
+    // Enforce maximum queue depth (backpressure).  Measure combined depth of
+    // waiting queue + active requests so that the limit covers all in-flight
+    // work, not just the waiting queue alone.
+    if (config_.max_queue_depth > 0) {
+        size_t current_depth = waiting_queue_.size() + active_requests_.size();
+        if (current_depth >= config_.max_queue_depth) {
+            stats_.rejected_requests++;
+            if (metrics_collector_) {
+                metrics_collector_->recordBackpressureDrop();
+            }
+            spdlog::warn("ContinuousBatchScheduler: queue full ({}/{}) — request rejected (backpressure)",
+                         current_depth, config_.max_queue_depth);
+            return {};  // Empty string signals rejection to caller
+        }
+    }
+
+    // Per-user / per-model token quota check.  Estimated prompt tokens are
+    // charged here (conservative pre-charge); actual tokens should also be
+    // consumed via quota_manager_->consume() after the response is ready.
+    if (quota_manager_) {
+        const std::string& user_id  = request.request_id;  // best available key at ingestion
+        const std::string& model_id = request.model_id;
+        const size_t estimated = request.prompt.length() / CHARS_PER_TOKEN_ESTIMATE + request.max_tokens;
+        auto qr = quota_manager_->check(user_id, model_id, estimated);
+        if (!qr.allowed) {
+            stats_.rejected_requests++;
+            spdlog::warn("ContinuousBatchScheduler: quota exceeded — {}",
+                         qr.reason);
+            return {};
+        }
+        // Pre-charge the estimated tokens; callers should adjust via consume()
+        quota_manager_->consume(user_id, model_id, estimated);
+    }
+    
     auto scheduled = std::make_shared<ScheduledRequest>();
     scheduled->request_id = generateRequestId();
     scheduled->inference_request = request;
@@ -46,10 +109,10 @@ std::string ContinuousBatchScheduler::submitRequest(
     scheduled->state = RequestState::WAITING;
     scheduled->submitted_at = std::chrono::system_clock::now();
     scheduled->callback = callback;
-    scheduled->sequence_id = next_sequence_id_++;
+    scheduled->sequence_id = next_sequence_id_.fetch_add(1, std::memory_order_relaxed);
     
     // Estimate prompt tokens (simplified)
-    scheduled->total_prompt_tokens = request.prompt.length() / 4;  // Rough estimate
+    scheduled->total_prompt_tokens = request.prompt.length() / CHARS_PER_TOKEN_ESTIMATE;
     
     // Add to queue and lookup
     waiting_queue_.push(scheduled);
@@ -155,11 +218,12 @@ ContinuousBatchScheduler::scheduleNextBatch() {
     
     std::vector<ScheduledRequest*> batch;
     size_t total_tokens = 0;
+    size_t reserved_blocks_in_batch = 0;
     
     // First, continue active decode requests
     for (auto& req : active_requests_) {
         if (req->state == RequestState::DECODE) {
-            if (canAddToBatch(req.get(), total_tokens)) {
+            if (canAddToBatch(req.get(), total_tokens, reserved_blocks_in_batch)) {
                 batch.push_back(req.get());
                 total_tokens++;  // Each decode request adds 1 token
             }
@@ -182,9 +246,10 @@ ContinuousBatchScheduler::scheduleNextBatch() {
             ? std::min(req->total_prompt_tokens, config_.prefill_chunk_size)
             : req->total_prompt_tokens;
         
-        if (canAddToBatch(req.get(), total_tokens + prefill_tokens)) {
+        if (canAddToBatch(req.get(), total_tokens + prefill_tokens, reserved_blocks_in_batch)) {
             batch.push_back(req.get());
             total_tokens += prefill_tokens;
+            reserved_blocks_in_batch += req->allocated_blocks.size();
             active_requests_.push_back(req);
         } else {
             // Put back in queue
@@ -197,6 +262,14 @@ ContinuousBatchScheduler::scheduleNextBatch() {
     stats_.current_batch_size = batch.size();
     stats_.max_batch_size_seen = std::max(stats_.max_batch_size_seen, batch.size());
     stats_.active_requests = active_requests_.size();
+    stats_.current_queue_depth = waiting_queue_.size() + active_requests_.size();
+    
+    // Emit queue-length metric so Prometheus/Grafana can visualise scheduler
+    // pressure in real time.  Called under the scheduler lock so the value is
+    // consistent with stats_.current_queue_depth.
+    if (metrics_collector_) {
+        metrics_collector_->recordQueueLength(stats_.current_queue_depth);
+    }
     
     auto end_time = std::chrono::steady_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -248,7 +321,10 @@ void ContinuousBatchScheduler::processBatchResults(
             // Remove from active
             active_requests_.erase(
                 std::remove_if(active_requests_.begin(), active_requests_.end(),
-                              [req](const auto& r) { return r.get() == req; }),
+                              [req](const auto& r) { 
+                                  // Null-safety: Check shared_ptr is valid before comparing
+                                  return r && r.get() == req; 
+                              }),
                 active_requests_.end()
             );
             
@@ -342,7 +418,8 @@ ContinuousBatchScheduler::Stats ContinuousBatchScheduler::getStats() const {
 
 bool ContinuousBatchScheduler::canAddToBatch(
     const ScheduledRequest* request,
-    size_t current_batch_tokens
+    size_t current_batch_tokens,
+    size_t reserved_blocks
 ) const {
     // Check batch size limit
     // Note: batch already includes current requests
@@ -358,12 +435,19 @@ bool ContinuousBatchScheduler::canAddToBatch(
     
     // Check KV cache availability
     if (kv_cache_) {
-        // Calculate blocks needed for this request
-        size_t total_tokens = request->total_prompt_tokens + request->inference_request.max_tokens;
-        size_t blocks_needed = (total_tokens + config_.block_size_tokens - 1) / config_.block_size_tokens;
+        // Decode requests already have KV allocations and need no additional blocks.
+        if (request->state == RequestState::DECODE) {
+            return true;
+        }
+
+        size_t blocks_needed = request->allocated_blocks.size();
+        if (blocks_needed == 0) {
+            size_t total_tokens = request->total_prompt_tokens + request->inference_request.max_tokens;
+            blocks_needed = (total_tokens + config_.block_size_tokens - 1) / config_.block_size_tokens;
+        }
         
         auto stats = kv_cache_->getStats();
-        if (stats.blocks_free < blocks_needed) {
+        if (stats.blocks_free < reserved_blocks + blocks_needed) {
             return false;
         }
     }
@@ -373,6 +457,12 @@ bool ContinuousBatchScheduler::canAddToBatch(
 
 void ContinuousBatchScheduler::allocateKVCacheBlocks(ScheduledRequest* request) {
     if (!kv_cache_) {
+        return;
+    }
+
+    // Avoid duplicate placeholder/allocation growth for queued requests that
+    // are considered in multiple scheduling cycles.
+    if (!request->allocated_blocks.empty()) {
         return;
     }
     
@@ -472,7 +562,7 @@ void ContinuousBatchScheduler::updateStats() {
 }
 
 std::string ContinuousBatchScheduler::generateRequestId() {
-    return "req_" + std::to_string(next_request_id_++);
+    return "req_" + std::to_string(next_request_id_.fetch_add(1, std::memory_order_relaxed));
 }
 
 } // namespace llm

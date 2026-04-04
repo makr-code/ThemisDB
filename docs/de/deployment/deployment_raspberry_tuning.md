@@ -1,8 +1,20 @@
 # Raspberry Pi Performance Tuning Guide
 
-**Stand:** 26. Dezember 2025  
-**Version:** v1.3.1  
+**Stand:** 7. Februar 2026  
+**Version:** v1.5.0  
 **Kategorie:** 🚀 Deployment
+
+---
+
+> **💡 Hinweis:** Für eine umfassende Anleitung zur Nutzung von ThemisDB mit llama.cpp auf Raspberry Pi und anderen SoC-Geräten, siehe:
+> **[ThemisDB mit llama.cpp auf SoC-Geräten (Raspberry Pi & Co.)](THEMIS_LLAMA_CPP_SOC_GUIDE.md)** ⭐
+> 
+> Diese erweiterte Anleitung enthält:
+> - llama.cpp Integration und Konfiguration
+> - LLM-Modellauswahl für verschiedene Hardware
+> - AI-Beschleuniger-Chips (Coral TPU, Hailo, etc.)
+> - Performance-Benchmarks und Optimierung
+> - Beispiel-Konfigurationen für RAG, IoT, Multimodal
 
 ---
 

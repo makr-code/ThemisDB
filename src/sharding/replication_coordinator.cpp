@@ -1,3 +1,27 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            replication_coordinator.cpp                        ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:20:21                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     196                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 1f19586bc  2026-02-22  Implement getTopologySnapshot for MultiMasterReplicationM... ║
+    • da1a879d5  2026-02-22  feat(replication): add topology visualizer web UI (Issue ... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "sharding/replication_coordinator.h"
 #include "utils/logger.h"
 #include <algorithm>
@@ -16,11 +40,11 @@ ReplicationCoordinator::~ReplicationCoordinator() {
     pending_cv_.notify_all();
 }
 
-WriteResult ReplicationCoordinator::waitForReplication(
+ReplicationCoordinator::ReplicationResult ReplicationCoordinator::waitForReplication(
     const LSN& entry_lsn,
     const WriteConcernConfig& concern
 ) {
-    WriteResult result;
+    ReplicationResult result;
     result.success = false;
 
     if (!enabled_ || !shipper_) {
@@ -79,11 +103,11 @@ WriteResult ReplicationCoordinator::waitForReplication(
                      toString(concern.level), lsn_key,
                      result.replicas_acknowledged, required, result.latency.count());
     } else {
-        result.error = "Write concern timeout: only " +
+        result.error_message = "Write concern timeout: only " +
                       std::to_string(result.replicas_acknowledged) + "/" +
                       std::to_string(required) + " replicas acknowledged within " +
                       std::to_string(concern.timeout.count()) + "ms";
-        THEMIS_WARN("{}", result.error);
+        THEMIS_WARN("{}", result.error_message);
     }
 
     // Cleanup this entry
@@ -131,6 +155,20 @@ void ReplicationCoordinator::setEnabled(bool enabled) {
 
 bool ReplicationCoordinator::isEnabled() const {
     return enabled_.load(std::memory_order_acquire);
+}
+
+std::vector<ReplicaInfo> ReplicationCoordinator::getReplicaInfo() const {
+    if (shipper_) {
+        return shipper_->getReplicaInfo();
+    }
+    return {};
+}
+
+WALShipperStats ReplicationCoordinator::getShipperStats() const {
+    if (shipper_) {
+        return shipper_->getStatistics();
+    }
+    return {};
 }
 
 bool ReplicationCoordinator::hasMetConcern(const PendingWrite& write, size_t total_replicas) const {

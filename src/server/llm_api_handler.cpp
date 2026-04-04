@@ -1,17 +1,49 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            llm_api_handler.cpp                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:19:51                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   98.0/100                                       ║
+    • Total Lines:     1703                                           ║
+    • Open Issues:     TODOs: 1, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • be24ea91f  2026-03-13  fix(llm): wire PolicyEngine::checkInferencePermission() i... ║
+    • a2a0e15fa  2026-03-11  Changes before error encountered         ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 5d9b398ef  2026-02-28  feat(aql): implement streaming AQL explanation HTTP endpoint ║
+    • 8f8969876  2026-02-27  feat(llm): OpenAI-compatible /v1/chat/completions passthr... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "server/llm_api_handler.h"
 #include "server/lora_api_handler.h"
 #include "auth/jwt_validator.h"
+#include "governance/policy_engine.h"
 #include "llm/llm_plugin_manager.h"
 #include "llm/llm_plugin_interface.h"
 #include "llm/async_inference_engine.h"
 #include "llm/embedded_llm.h"
 #include "llm/docs_assistant.h"
 #include "llm/feedback_store.h"
+#include "llm/openai_compat_adapter.h"
+#include "aql/llm_aql_handler.h"
+#include "aql/llm_error_codes.h"
 #include "storage/rocksdb_wrapper.h"
 #include <nlohmann/json.hpp>
 #include <sstream>
 #include <regex>
 #include <iostream>
+#include <chrono>
+#include "utils/tracing.h"
 
 namespace themis::server {
 
@@ -58,8 +90,17 @@ void LLMApiHandler::setLoRAHandler(std::shared_ptr<LoRAApiHandler> lora_handler)
     lora_handler_ = std::move(lora_handler);
 }
 
+void LLMApiHandler::setFeedbackStore(std::shared_ptr<llm::FeedbackStore> feedback_store) {
+    feedback_store_ = std::move(feedback_store);
+}
+
+void LLMApiHandler::setPolicyEngine(governance::PolicyEngine* policy_engine) {
+    policy_engine_ = policy_engine;
+}
+
 http::response<http::string_body> LLMApiHandler::handleRequest(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleRequest");
     
     // Delegate to LoRAApiHandler for LoRA-specific paths
     std::string_view target = req.target();
@@ -68,8 +109,18 @@ http::response<http::string_body> LLMApiHandler::handleRequest(
         (target.starts_with("/api/v1/llm/models") && req.method() != http::verb::get))) {
         return lora_handler_->handleRequest(req);
     }
-    
-    // Validate Bearer Token (JWT) authentication
+
+    // OpenAI-compatible endpoints use API key auth via PolicyEngine, not JWT.
+    // Route them BEFORE the JWT gate so that OpenAI SDK clients (which send a
+    // plain API key, not a signed JWT) are not rejected by validateBearerToken().
+    auto method = req.method();
+    if (target == "/v1/chat/completions" && method == http::verb::post) {
+        return handleOpenAIChatCompletions(req);
+    } else if (target == "/v1/models" && method == http::verb::get) {
+        return handleOpenAIListModels(req);
+    }
+
+    // Validate Bearer Token (JWT) authentication for all other LLM API endpoints
     if (!validateBearerToken(req)) {
         return createErrorResponse(
             http::status::unauthorized,
@@ -77,8 +128,6 @@ http::response<http::string_body> LLMApiHandler::handleRequest(
             "Valid Bearer Token required. Include 'Authorization: Bearer <token>' header."
         );
     }
-    
-    auto method = req.method();
     
     // Route to appropriate handler based on path and method
     if (target == "/api/v1/llm/inference" && method == http::verb::post) {
@@ -127,6 +176,8 @@ http::response<http::string_body> LLMApiHandler::handleRequest(
         return handleFeedbackStats(req);
     } else if (target.starts_with("/api/v1/llm/feedback/") && method == http::verb::get) {
         return handleGetFeedback(req);
+    } else if (target == "/api/v1/llm/aql/explain/stream" && method == http::verb::post) {
+        return handleStreamExplainAql(req);
     }
     
     return createErrorResponse(
@@ -138,6 +189,7 @@ http::response<http::string_body> LLMApiHandler::handleRequest(
 
 http::response<http::string_body> LLMApiHandler::handleInference(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleInference");
     
     auto body = parseRequestBody(req);
     if (!body) {
@@ -202,6 +254,7 @@ http::response<http::string_body> LLMApiHandler::handleInference(
 
 http::response<http::string_body> LLMApiHandler::handleRAG(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleRAG");
     
     auto body = parseRequestBody(req);
     if (!body) {
@@ -275,6 +328,7 @@ http::response<http::string_body> LLMApiHandler::handleRAG(
 
 http::response<http::string_body> LLMApiHandler::handleEmbed(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleEmbed");
     
     auto body = parseRequestBody(req);
     if (!body) {
@@ -331,14 +385,169 @@ http::response<http::string_body> LLMApiHandler::handleEmbed(
     }
 }
 
+static constexpr int kMaxTokensLimit = 4096;
+
 http::response<http::string_body> LLMApiHandler::handleStreamInference(
     const http::request<http::string_body>& req) {
-    (void)req;
-    return createErrorResponse(http::status::not_implemented, "Streaming not supported in this build");
+    auto span = Tracer::startSpan("handleStreamInference");
+
+    // Parse query parameters from URL: prompt, request_id, max_tokens
+    std::string prompt;
+    std::string request_id;
+    int max_tokens = 512;
+
+    std::string target = std::string(req.target());
+    auto qpos = target.find('?');
+    if (qpos != std::string::npos) {
+        std::string qs = target.substr(qpos + 1);
+        auto extract = [&](const std::string& key) -> std::string {
+            std::string prefix = key + "=";
+            auto pos = qs.find(prefix);
+            if (pos == std::string::npos) return {};
+            auto end = qs.find('&', pos);
+            std::string raw = qs.substr(pos + prefix.size(),
+                end == std::string::npos ? std::string::npos : end - pos - prefix.size());
+            // Basic URL-decode
+            std::string decoded;
+            decoded.reserve(raw.size());
+            for (size_t i = 0; i < raw.size(); ) {
+                if (raw[i] == '+') { decoded += ' '; ++i; }
+                else if (raw[i] == '%' && i + 2 < raw.size()) {
+                    auto is_hex = [](char c) {
+                        return (c >= '0' && c <= '9') || (c >= 'A' && c <= 'F') || (c >= 'a' && c <= 'f');
+                    };
+                    if (is_hex(raw[i+1]) && is_hex(raw[i+2])) {
+                        char hex[3] = {raw[i+1], raw[i+2], '\0'};
+                        decoded += static_cast<char>(std::strtol(hex, nullptr, 16));
+                        i += 3;
+                    } else {
+                        decoded += raw[i++]; // keep invalid % sequence as-is
+                    }
+                } else {
+                    decoded += raw[i++];
+                }
+            }
+            return decoded;
+        };
+        prompt = extract("prompt");
+        request_id = extract("request_id");
+        std::string max_tokens_str = extract("max_tokens");
+        if (!max_tokens_str.empty()) {
+            try {
+                int n = std::stoi(max_tokens_str);
+                if (n > 0 && n <= kMaxTokensLimit) max_tokens = n;
+            } catch (...) {}
+        }
+    }
+
+    if (prompt.empty()) {
+        return createErrorResponse(http::status::bad_request,
+            "Missing 'prompt' query parameter");
+    }
+
+    // Collect SSE events from LLM streaming
+    std::string sse_body;
+    sse_body += "retry: 3000\n\n";
+
+    try {
+        auto& llm = llm::EmbeddedLLMManager::instance().get();
+        llm.generateStreamingSSE(
+            prompt,
+            [&sse_body](const std::string& sse_event) {
+                sse_body += sse_event;
+            },
+            request_id,
+            max_tokens
+        );
+        // Emit terminal done event
+        sse_body += "event: done\ndata: {\"done\":true}\n\n";
+    } catch (const std::exception& e) {
+        json err_event = {{"error", true}, {"message", std::string(e.what())}};
+        sse_body += "event: error\ndata: " + err_event.dump() + "\n\n";
+    }
+
+    http::response<http::string_body> res{http::status::ok, req.version()};
+    res.set(http::field::content_type, "text/event-stream");
+    res.set(http::field::cache_control, "no-cache, no-transform");
+    res.set(http::field::connection, "keep-alive");
+    res.set(http::field::access_control_allow_origin, "*");
+    res.set(http::field::server, "ThemisDB-LLM/1.3.0");
+    res.keep_alive(true);
+    res.body() = std::move(sse_body);
+    res.prepare_payload();
+    return res;
+}
+
+http::response<http::string_body> LLMApiHandler::handleStreamExplainAql(
+    const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleStreamExplainAql");
+
+    auto body = parseRequestBody(req);
+    if (!body) {
+        return createErrorResponse(http::status::bad_request, "Invalid JSON body");
+    }
+
+    std::string aql_query;
+    std::string schema_context;
+    std::string request_id;
+
+    try {
+        if (body->contains("query")) {
+            aql_query = body->at("query").get<std::string>();
+        } else {
+            return createErrorResponse(http::status::bad_request, "Missing 'query' field");
+        }
+        if (body->contains("schema_context")) {
+            schema_context = body->at("schema_context").get<std::string>();
+        }
+        if (body->contains("request_id")) {
+            request_id = body->at("request_id").get<std::string>();
+        }
+    } catch (const std::exception& e) {
+        return createErrorResponse(http::status::bad_request,
+            "Invalid request parameters", e.what());
+    }
+
+    // Collect SSE events from AQL explanation streaming
+    std::string sse_body;
+    sse_body += "retry: 3000\n\n";
+
+    try {
+        aql::LLMAQLHandler aql_handler;
+        aql_handler.streamExplainAQLAsSSE(
+            aql_query,
+            [&sse_body](const std::string& sse_event) {
+                sse_body += sse_event;
+            },
+            request_id,
+            schema_context
+        );
+        // Emit terminal done event
+        sse_body += "event: done\ndata: {\"done\":true}\n\n";
+    } catch (const aql::LLMException& e) {
+        json err_event = {{"error", true}, {"message", std::string(e.what())},
+                          {"code", static_cast<int>(e.getErrorCode())}};
+        sse_body += "event: error\ndata: " + err_event.dump() + "\n\n";
+    } catch (const std::exception& e) {
+        json err_event = {{"error", true}, {"message", std::string(e.what())}};
+        sse_body += "event: error\ndata: " + err_event.dump() + "\n\n";
+    }
+
+    http::response<http::string_body> res{http::status::ok, req.version()};
+    res.set(http::field::content_type, "text/event-stream");
+    res.set(http::field::cache_control, "no-cache, no-transform");
+    res.set(http::field::connection, "keep-alive");
+    res.set(http::field::access_control_allow_origin, "*");
+    res.set(http::field::server, "ThemisDB-LLM/1.3.0");
+    res.keep_alive(true);
+    res.body() = std::move(sse_body);
+    res.prepare_payload();
+    return res;
 }
 
 http::response<http::string_body> LLMApiHandler::handleListModels(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleListModels");
     
     // Get model list from LLMPluginManager
     try {
@@ -367,6 +576,7 @@ http::response<http::string_body> LLMApiHandler::handleListModels(
 
 http::response<http::string_body> LLMApiHandler::handleLoadModel(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleLoadModel");
     
     auto body = parseRequestBody(req);
     if (!body) {
@@ -413,6 +623,7 @@ http::response<http::string_body> LLMApiHandler::handleLoadModel(
 
 http::response<http::string_body> LLMApiHandler::handleUnloadModel(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleUnloadModel");
     
     auto body = parseRequestBody(req);
     if (!body) {
@@ -454,6 +665,7 @@ http::response<http::string_body> LLMApiHandler::handleUnloadModel(
 
 http::response<http::string_body> LLMApiHandler::handleModelInfo(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleModelInfo");
     
     // Extract model_id from path
     std::string_view target = req.target();
@@ -493,6 +705,7 @@ http::response<http::string_body> LLMApiHandler::handleModelInfo(
 
 http::response<http::string_body> LLMApiHandler::handleIngestModel(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleIngestModel");
     
     // Implement model ingestion with chunked upload to RocksDB Blob Store
     // Parse multipart/form-data for model file and metadata
@@ -539,6 +752,7 @@ http::response<http::string_body> LLMApiHandler::handleIngestModel(
 
 http::response<http::string_body> LLMApiHandler::handleListLoRAs(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleListLoRAs");
     
     // Get LoRA list from LLMPluginManager
     try {
@@ -573,6 +787,7 @@ http::response<http::string_body> LLMApiHandler::handleListLoRAs(
 
 http::response<http::string_body> LLMApiHandler::handleLoadLoRA(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleLoadLoRA");
     
     auto body = parseRequestBody(req);
     if (!body) {
@@ -625,6 +840,7 @@ http::response<http::string_body> LLMApiHandler::handleLoadLoRA(
 
 http::response<http::string_body> LLMApiHandler::handleUnloadLoRA(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleUnloadLoRA");
     
     auto body = parseRequestBody(req);
     if (!body) {
@@ -666,6 +882,7 @@ http::response<http::string_body> LLMApiHandler::handleUnloadLoRA(
 
 http::response<http::string_body> LLMApiHandler::handleStats(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleStats");
     
     // Get statistics from AsyncInferenceEngine and LLMPluginManager
     try {
@@ -693,6 +910,7 @@ http::response<http::string_body> LLMApiHandler::handleStats(
 
 http::response<http::string_body> LLMApiHandler::handleCacheStats(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleCacheStats");
     
     // Get cache statistics from LLMResponseCache and LLMPrefixCache
     try {
@@ -730,6 +948,7 @@ http::response<http::string_body> LLMApiHandler::handleCacheStats(
 
 http::response<http::string_body> LLMApiHandler::handleClearCache(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleClearCache");
     
     // Clear LLMResponseCache and LLMPrefixCache
     try {
@@ -753,6 +972,7 @@ http::response<http::string_body> LLMApiHandler::handleClearCache(
 
 http::response<http::string_body> LLMApiHandler::handleHealth(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleHealth");
     
     // Check health of LLMPluginManager and AsyncInferenceEngine
     try {
@@ -827,6 +1047,7 @@ http::response<http::string_body> LLMApiHandler::createErrorResponse(
 http::response<http::string_body> LLMApiHandler::createJsonResponse(
     const json& data,
     http::status status) {
+    auto span = Tracer::startSpan("createJsonResponse");
     
     http::response<http::string_body> res{status, 11};
     res.set(http::field::content_type, "application/json");
@@ -855,6 +1076,7 @@ std::optional<json> LLMApiHandler::parseRequestBody(
 
 http::response<http::string_body> LLMApiHandler::handleDocsQuery(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleDocsQuery");
     
     auto body = parseRequestBody(req);
     if (!body) {
@@ -927,6 +1149,7 @@ http::response<http::string_body> LLMApiHandler::handleDocsQuery(
 
 http::response<http::string_body> LLMApiHandler::handleDocsConfig(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleDocsConfig");
     
     auto body = parseRequestBody(req);
     if (!body) {
@@ -985,6 +1208,7 @@ http::response<http::string_body> LLMApiHandler::handleDocsConfig(
 
 http::response<http::string_body> LLMApiHandler::handleDocsTroubleshoot(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleDocsTroubleshoot");
     
     auto body = parseRequestBody(req);
     if (!body) {
@@ -1047,6 +1271,7 @@ http::response<http::string_body> LLMApiHandler::handleDocsTroubleshoot(
 
 http::response<http::string_body> LLMApiHandler::handleCreateFeedback(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleCreateFeedback");
     
     auto body = parseRequestBody(req);
     if (!body) {
@@ -1109,28 +1334,21 @@ http::response<http::string_body> LLMApiHandler::handleCreateFeedback(
             feedback.adapter_version = json_value_to<std::string>(body->at("adapter_version"));
         }
         
-        // TODO: Integrate with actual FeedbackStore
-        // This requires passing a RocksDB instance to LLMApiHandler
-        // For now, return a placeholder response
-        // 
-        // Example integration:
-        // if (feedback_store_) {
-        //     auto stored = feedback_store_->createFeedback(feedback);
-        //     json response_data = stored.toJson();
-        //     response_data["message"] = "Feedback recorded successfully";
-        //     return createJsonResponse(response_data, http::status::created);
-        // }
+        // Integrate with FeedbackStore
+        if (!feedback_store_) {
+            return createErrorResponse(
+                http::status::service_unavailable, 
+                "FeedbackStore not available",
+                "FeedbackStore has not been configured for this handler"
+            );
+        }
         
-        // Placeholder response
-        json response_data = {
-            {"id", "feedback-" + std::to_string(std::chrono::system_clock::now().time_since_epoch().count())},
-            {"type", type_str},
-            {"question", feedback.question},
-            {"answer", feedback.answer},
-            {"validation_status", "pending"},
-            {"created_at", std::chrono::system_clock::now().time_since_epoch().count()},
-            {"message", "Feedback recorded successfully (placeholder - FeedbackStore integration pending)"}
-        };
+        // Store feedback using FeedbackStore
+        auto stored = feedback_store_->createFeedback(feedback);
+        
+        // Convert to JSON response
+        json response_data = stored.toJson();
+        response_data["message"] = "Feedback recorded successfully";
         
         return createJsonResponse(response_data, http::status::created);
         
@@ -1141,6 +1359,7 @@ http::response<http::string_body> LLMApiHandler::handleCreateFeedback(
 
 http::response<http::string_body> LLMApiHandler::handleGetFeedback(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleGetFeedback");
     
     // Extract feedback ID from path
     std::string_view target = req.target();
@@ -1150,28 +1369,47 @@ http::response<http::string_body> LLMApiHandler::handleGetFeedback(
         return createErrorResponse(http::status::bad_request, "Invalid feedback endpoint");
     }
     
-    std::string feedback_id{target.substr(prefix.length())};
+    // Extract ID, stopping at query parameters if present
+    std::string_view id_part = target.substr(prefix.length());
+    size_t query_pos = id_part.find('?');
+    if (query_pos != std::string_view::npos) {
+        id_part = id_part.substr(0, query_pos);
+    }
+    
+    std::string feedback_id{id_part};
     
     if (feedback_id.empty()) {
         return createErrorResponse(http::status::bad_request, "Missing feedback ID");
     }
     
-    // Placeholder response
-    json response_data = {
-        {"id", feedback_id},
-        {"type", "positive"},
-        {"question", "Example question"},
-        {"answer", "Example answer"},
-        {"validation_status", "approved"},
-        {"created_at", std::chrono::system_clock::now().time_since_epoch().count()},
-        {"message", "This is a placeholder response - feedback store not yet initialized"}
-    };
+    // Check if FeedbackStore is available
+    if (!feedback_store_) {
+        return createErrorResponse(
+            http::status::service_unavailable, 
+            "FeedbackStore not available",
+            "FeedbackStore has not been configured for this handler"
+        );
+    }
     
+    // Get feedback from store
+    auto feedback = feedback_store_->getFeedback(feedback_id);
+    
+    if (!feedback) {
+        return createErrorResponse(
+            http::status::not_found, 
+            "Feedback not found",
+            "No feedback with ID: " + feedback_id
+        );
+    }
+    
+    // Convert to JSON and return
+    json response_data = feedback->toJson();
     return createJsonResponse(response_data);
 }
 
 http::response<http::string_body> LLMApiHandler::handleListFeedback(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleListFeedback");
     
     // Parse query parameters
     std::string_view target = req.target();
@@ -1213,26 +1451,54 @@ http::response<http::string_body> LLMApiHandler::handleListFeedback(
         }
     }
     
-    // Placeholder response
-    json feedback_array = json::array();
+    // Check if FeedbackStore is available
+    if (!feedback_store_) {
+        return createErrorResponse(
+            http::status::service_unavailable, 
+            "FeedbackStore not available",
+            "FeedbackStore has not been configured for this handler"
+        );
+    }
     
-    // Add a few example entries
-    for (size_t i = 0; i < std::min(limit, size_t(3)); i++) {
-        feedback_array.push_back({
-            {"id", "feedback-" + std::to_string(i)},
-            {"type", i % 2 == 0 ? "positive" : "negative"},
-            {"question", "Example question " + std::to_string(i)},
-            {"answer", "Example answer " + std::to_string(i)},
-            {"validation_status", "approved"},
-            {"created_at", std::chrono::system_clock::now().time_since_epoch().count() - i * 1000}
-        });
+    // Build list options
+    llm::FeedbackStore::ListOptions options;
+    options.limit = limit;
+    
+    // Apply type filter
+    if (!type_filter.empty()) {
+        if (type_filter == "positive") {
+            options.filter_type = llm::FeedbackType::POSITIVE;
+        } else if (type_filter == "negative") {
+            options.filter_type = llm::FeedbackType::NEGATIVE;
+        }
+    }
+    
+    // Apply status filter
+    if (!status_filter.empty()) {
+        if (status_filter == "pending") {
+            options.filter_status = llm::ValidationStatus::PENDING;
+        } else if (status_filter == "approved") {
+            options.filter_status = llm::ValidationStatus::APPROVED;
+        } else if (status_filter == "rejected") {
+            options.filter_status = llm::ValidationStatus::REJECTED;
+        } else if (status_filter == "flagged") {
+            options.filter_status = llm::ValidationStatus::FLAGGED;
+        }
+    }
+    
+    // Get feedback list from store
+    auto feedback_list = feedback_store_->listFeedback(options);
+    
+    // Convert to JSON array
+    json feedback_array = json::array();
+    for (const auto& feedback : feedback_list) {
+        feedback_array.push_back(feedback.toJson());
     }
     
     json response_data = {
         {"feedback", feedback_array},
         {"count", feedback_array.size()},
-        {"limit", limit},
-        {"message", "This is a placeholder response - feedback store not yet initialized"}
+        {"limit", limit}
     };
     
     return createJsonResponse(response_data);
@@ -1240,22 +1506,198 @@ http::response<http::string_body> LLMApiHandler::handleListFeedback(
 
 http::response<http::string_body> LLMApiHandler::handleFeedbackStats(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleFeedbackStats");
     
-    // Placeholder statistics
+    // Check if FeedbackStore is available
+    if (!feedback_store_) {
+        return createErrorResponse(
+            http::status::service_unavailable, 
+            "FeedbackStore not available",
+            "FeedbackStore has not been configured for this handler"
+        );
+    }
+    
+    // Get stats from store
+    auto stats = feedback_store_->getStats();
+    
+    // Convert to JSON
     json response_data = {
-        {"total_feedback", 0},
-        {"positive_count", 0},
-        {"negative_count", 0},
-        {"pending_validation", 0},
-        {"approved_count", 0},
-        {"rejected_count", 0},
-        {"unused_for_training", 0},
-        {"used_for_training", 0},
-        {"positive_ratio", 0.0},
-        {"message", "This is a placeholder response - feedback store not yet initialized"}
+        {"total_feedback", stats.total_feedback},
+        {"positive_count", stats.positive_count},
+        {"negative_count", stats.negative_count},
+        {"pending_validation", stats.pending_validation},
+        {"approved_count", stats.approved_count},
+        {"rejected_count", stats.rejected_count},
+        {"unused_for_training", stats.unused_for_training},
+        {"used_for_training", stats.used_for_training},
+        {"positive_ratio", stats.positive_ratio}
     };
     
     return createJsonResponse(response_data);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// OpenAI-compatible endpoints
+// ─────────────────────────────────────────────────────────────────────────────
+
+http::response<http::string_body> LLMApiHandler::handleOpenAIChatCompletions(
+    const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleOpenAIChatCompletions");
+
+    auto body = parseRequestBody(req);
+    if (!body) {
+        auto err = llm::OpenAICompatAdapter::buildError(
+            "Invalid JSON body", "invalid_request_error");
+        return createJsonResponse(err, http::status::bad_request);
+    }
+
+    // ── API key / governance check ──────────────────────────────────────────
+    // When a PolicyEngine is configured, validate the caller's identity and
+    // data-classification policy before any inference work is started.
+    // Returns HTTP 401 for missing/malformed tokens, HTTP 403 for denied policy.
+    if (policy_engine_) {
+        // Collect headers from the Boost.Beast request into the flat map
+        // expected by PolicyEngine::checkInferencePermission().
+        std::unordered_map<std::string, std::string> header_map;
+        for (const auto& field : req) {
+            header_map[std::string(field.name_string())] =
+                std::string(field.value());
+        }
+        auto perm = policy_engine_->checkInferencePermission(header_map);
+        if (!perm.allowed) {
+            auto err = llm::OpenAICompatAdapter::buildError(
+                perm.denial_reason, "invalid_request_error",
+                perm.http_status == 401 ? "invalid_api_key" : "policy_denied");
+            return createJsonResponse(
+                err,
+                perm.http_status == 401 ? http::status::unauthorized
+                                        : http::status::forbidden);
+        }
+    }
+
+    // Determine whether the client wants streaming output
+    bool streaming = false;
+    if (body->contains("stream") && (*body)["stream"].is_boolean()) {
+        streaming = (*body)["stream"].get<bool>();
+    }
+
+    // Parse the OpenAI request into an InferenceRequest
+    auto parse_result = llm::OpenAICompatAdapter::parseRequest(*body);
+    if (std::holds_alternative<std::string>(parse_result)) {
+        const std::string& msg = std::get<std::string>(parse_result);
+        auto err = llm::OpenAICompatAdapter::buildError(msg, "invalid_request_error");
+        return createJsonResponse(err, http::status::bad_request);
+    }
+    auto& llm_request = std::get<llm::InferenceRequest>(parse_result);
+
+    // Capture the model name for the response (may be empty → engine picks default)
+    const std::string model_id = llm_request.model_id;
+
+    // Pre-generate the completion ID and created timestamp so they are
+    // consistent across all chunks / the single response object
+    const std::string completion_id =
+        llm::OpenAICompatAdapter::generateCompletionId();
+
+    if (streaming) {
+        // ── Streaming path ────────────────────────────────────────────────
+        // Collect SSE chunks into a single response body.
+        // In a production server with a real async HTTP layer this would
+        // write chunks incrementally; here we buffer them for compatibility
+        // with the synchronous response model used by LLMApiHandler.
+        std::string sse_body;
+
+        // Capture created timestamp once so all chunks share it
+        int64_t created = static_cast<int64_t>(
+            std::chrono::duration_cast<std::chrono::seconds>(
+                std::chrono::system_clock::now().time_since_epoch()).count());
+
+        llm_request.stream_callback = [&](const std::string& token) {
+            sse_body += llm::OpenAICompatAdapter::buildStreamChunk(
+                token, completion_id, model_id, created);
+        };
+
+        try {
+            auto& plugin_mgr = llm::LLMPluginManager::instance();
+            plugin_mgr.generate(llm_request);
+        } catch (const std::exception& e) {
+            auto err = llm::OpenAICompatAdapter::buildError(
+                std::string{"Inference failed: "} + e.what(),
+                "server_error");
+            return createJsonResponse(err, http::status::internal_server_error);
+        }
+
+        sse_body += llm::OpenAICompatAdapter::buildStreamFinalChunk(
+            completion_id, model_id, created);
+        sse_body += llm::OpenAICompatAdapter::buildStreamDone();
+
+        http::response<http::string_body> res{http::status::ok, req.version()};
+        res.set(http::field::content_type, "text/event-stream");
+        res.set(http::field::cache_control, "no-cache");
+        res.set(http::field::connection, "keep-alive");
+        res.set(http::field::server, "ThemisDB-LLM/1.7.0");
+        res.body() = std::move(sse_body);
+        res.prepare_payload();
+        return res;
+
+    } else {
+        // ── Non-streaming path ────────────────────────────────────────────
+        llm::InferenceResponse llm_response;
+        try {
+            auto& plugin_mgr = llm::LLMPluginManager::instance();
+            llm_response = plugin_mgr.generate(llm_request);
+        } catch (const std::exception& e) {
+            auto err = llm::OpenAICompatAdapter::buildError(
+                std::string{"Inference failed: "} + e.what(),
+                "server_error");
+            return createJsonResponse(err, http::status::internal_server_error);
+        }
+
+        json response_json = llm::OpenAICompatAdapter::buildResponse(
+            llm_response, model_id, completion_id);
+
+        http::response<http::string_body> res{http::status::ok, req.version()};
+        res.set(http::field::content_type, "application/json");
+        res.set(http::field::server, "ThemisDB-LLM/1.7.0");
+        res.body() = response_json.dump();
+        res.prepare_payload();
+        return res;
+    }
+}
+
+http::response<http::string_body> LLMApiHandler::handleOpenAIListModels(
+    const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleOpenAIListModels");
+
+    // Return a basic OpenAI-compatible model list using registered plugins
+    json models_arr = json::array();
+
+    try {
+        auto& plugin_mgr = llm::LLMPluginManager::instance();
+        auto model_ids = plugin_mgr.listModels();
+
+        for (const auto& mid : model_ids) {
+            models_arr.push_back(json{
+                {"id",       mid},
+                {"object",   "model"},
+                {"created",  0},
+                {"owned_by", "themisdb"}
+            });
+        }
+    } catch (const std::exception&) {
+        // If listing fails, return an empty list rather than an error
+    }
+
+    json response_json{
+        {"object", "list"},
+        {"data",   std::move(models_arr)}
+    };
+
+    http::response<http::string_body> res{http::status::ok, req.version()};
+    res.set(http::field::content_type, "application/json");
+    res.set(http::field::server, "ThemisDB-LLM/1.7.0");
+    res.body() = response_json.dump();
+    res.prepare_payload();
+    return res;
 }
 
 } // namespace themis::server

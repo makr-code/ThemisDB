@@ -1,0 +1,31 @@
+# Voice Assistant Framework Sources
+# Speech-to-Text, Text-to-Speech, and LLM-based voice interaction
+
+if(THEMIS_ENABLE_VOICE_ASSISTANT)
+    list(APPEND THEMIS_CORE_SOURCES
+        # Content processors required by the voice pipeline
+        ../src/content/stt_processor.cpp
+        ../src/content/tts_processor.cpp
+        # Voice Assistant Core
+        ../src/voice/voice_assistant.cpp
+        ../src/voice/voice_assistant_llm.cpp
+        ../src/voice/wake_word_detector.cpp
+        ../src/voice/audio_preprocessing.cpp
+        ../src/voice/voice_intent_detector.cpp
+        ../src/voice/voice_session_manager.cpp
+        ../src/voice/voice_security.cpp
+        ../src/voice/voice_error_handler.cpp
+        ../src/voice/voice_tts_customizer.cpp
+        ../src/voice/voice_meeting_support.cpp
+        ../src/voice/voice_audio_storage.cpp
+        ../src/voice/voice_accessibility.cpp
+        ../src/voice/voice_model_cache.cpp
+        ../src/voice/voice_batch_processor.cpp
+        ../src/voice/voice_authenticator.cpp
+        ../src/voice/voice_macro_manager.cpp
+        ../src/voice/voice_browser_streaming.cpp
+        ../src/voice/voice_telephony.cpp
+        # Emotion and sentiment detection from voice tone (acoustic features) (Issue: #2355)
+        ../src/voice/emotion_analyzer.cpp
+    )
+endif()

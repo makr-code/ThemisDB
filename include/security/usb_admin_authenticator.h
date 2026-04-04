@@ -1,3 +1,27 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            usb_admin_authenticator.h                          ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:10:58                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     216                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 864799dac  2026-03-24  feat(security): USB Volume Hardening against FAT manipula... ║
+    • c9429f8d3  2026-03-09  feat(security): HMAC challenge-response, Windows MachineG... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include <string>
@@ -6,6 +30,9 @@
 #include <chrono>
 #include <vector>
 #include <mutex>
+#include <unordered_map>
+
+#include "security/usb_volume_hardening.h"
 
 namespace themis {
 namespace security {
@@ -48,6 +75,24 @@ struct USBAdminConfig {
         "admin:topology",
         "admin:rebalance"
     };
+
+    // ── USB Volume Hardening (defence against FAT manipulation) ───────────────
+
+    /// When true, refreshUSBStatus() rejects the USB unless the filesystem is
+    /// mounted read-only.  A read-only mount prevents any process running on the
+    /// host from writing to the stick while it is in use.
+    bool require_readonly_mount = false;
+
+    /// If non-empty, refreshUSBStatus() rejects the USB unless the SHA-256 hash
+    /// of the license file matches this value (lowercase hex, 64 chars).
+    /// Provision this value from a secure, server-side configuration store.
+    /// Any FAT-level modification of the license file will be detected.
+    std::string expected_volume_hash;
+
+    /// If non-empty, refreshUSBStatus() rejects the USB unless the device serial
+    /// number matches this value.  This prevents a `dd` clone of the stick from
+    /// being accepted on the same or a different host.
+    std::string expected_usb_serial;
 };
 
 /// USB Admin Authenticator
@@ -94,11 +139,46 @@ public:
         uint64_t admin_ops_denied_lockout = 0;
         uint64_t usb_mount_checks = 0;
         uint64_t usb_mount_detected = 0;
+        uint64_t usb_denied_not_readonly = 0;      ///< Rejected: filesystem not mounted read-only
+        uint64_t usb_denied_volume_hash_mismatch = 0; ///< Rejected: FAT-level file tampering detected
+        uint64_t usb_denied_serial_mismatch = 0;   ///< Rejected: cloned USB device detected
         std::chrono::system_clock::time_point last_valid_check;
     };
     
     Metrics getMetrics() const;
-    
+
+    /**
+     * @brief Generate a one-time cryptographic challenge for replay-protected auth.
+     *
+     * The challenge is a CSPRNG-generated 32-byte value encoded as a 64-character
+     * lowercase hex string.  The challenge is registered internally with a
+     * timestamp; `validateChallengeResponse()` enforces the TTL and one-time-use
+     * invariant.
+     *
+     * @return 64-character lowercase hex challenge string.
+     */
+    std::string createChallenge() const;
+
+    /**
+     * @brief Validate a challenge-response round-trip.
+     *
+     * The expected response is HMAC-SHA256(key=license_key, message=challenge),
+     * hex-encoded.  Only the holder of the USB license (and therefore its
+     * `license_key`) can produce a matching response.
+     *
+     * Security properties:
+     *   - **Replay prevention**: each challenge is one-time-use.
+     *   - **TTL enforcement**: challenges expire after `challenge_ttl` seconds.
+     *   - **Constant-time comparison**: prevents timing side-channels.
+     *
+     * @param challenge  Challenge string previously returned by `createChallenge()`.
+     * @param response   Hex-encoded HMAC-SHA256 response.
+     * @return true if response is valid; false if unknown challenge, expired,
+     *         no license present, or HMAC mismatch.
+     */
+    bool validateChallengeResponse(const std::string& challenge,
+                                    const std::string& response) const;
+
 private:
     class Impl;
     std::unique_ptr<Impl> impl_;
@@ -111,6 +191,11 @@ private:
     std::chrono::system_clock::time_point lockout_until_;
     std::optional<USBAdminLicense> current_license_;
     std::chrono::system_clock::time_point last_usb_check_;
+
+    // Challenge tracking: maps challenge hex string → issued timestamp.
+    // Challenges are one-time-use; used ones are erased after validation.
+    // Expired entries (older than challenge_ttl) are purged lazily.
+    mutable std::unordered_map<std::string, std::chrono::system_clock::time_point> issued_challenges_;
     
     /// Internal: Check if USB device is mounted at expected path
     bool checkUSBMounted() const;
@@ -123,12 +208,6 @@ private:
     
     /// Internal: Get hardware ID for this system
     std::string getSystemHardwareID() const;
-    
-    /// Internal: Create challenge for replay protection
-    std::string createChallenge() const;
-    
-    /// Internal: Validate challenge response
-    bool validateChallengeResponse(const std::string& challenge, const std::string& response) const;
     
     /// Internal: Audit log entry
     void auditLog(const std::string& event, const std::string& details, const std::string& user_id) const;

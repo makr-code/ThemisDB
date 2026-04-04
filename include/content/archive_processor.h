@@ -1,6 +1,33 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            archive_processor.h                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:06:46                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     287                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • edcfeb984  2026-03-11  feat: add scripts for auditing and reconciling GitHub iss... ║
+    • 1bacdae51  2026-03-11  fix(content/security): add zip-bomb protection in archive... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • e21224bb7  2026-02-28  feat(content): implement file upload security checks ║
+    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include "content/content_processor.h"
+#include "content/content_security.h"
 #include <string>
 #include <vector>
 #include <optional>
@@ -98,7 +125,7 @@ struct ArchiveProcessorConfig {
     uint64_t max_total_size = 1024ULL * 1024 * 1024 * 10;  // 10 GB max total extracted size
     uint64_t max_file_size = 1024ULL * 1024 * 1024;        // 1 GB max single file size
     uint64_t max_compression_ratio = 100;                  // Max 100:1 compression ratio (zip bomb protection)
-    size_t max_file_count = 10000;                         // Max 10,000 files in archive
+    size_t max_file_count = 1000;                          // Max 1,000 files in archive
     size_t max_path_depth = 20;                            // Max 20 levels of directory nesting
     size_t max_path_length = 4096;                         // Max 4096 characters in path
     
@@ -232,8 +259,20 @@ public:
      */
     void setConfig(ArchiveProcessorConfig config) { config_ = std::move(config); }
 
+    /**
+     * @brief Configure the security manager used for zip-bomb checks
+     * 
+     * By default a ContentSecurityManager with zip-bomb checks enabled (ratio 100×,
+     * max 1,000 files) is used automatically. Call this to supply a pre-configured
+     * manager, e.g. to adjust thresholds or share metrics with another component.
+     */
+    void setSecurityConfig(const ContentSecurityConfig& security_config) {
+        security_manager_.setConfig(security_config);
+    }
+
 private:
     ArchiveProcessorConfig config_;
+    ContentSecurityManager security_manager_;
     
     // Format-specific extraction methods
     ArchiveExtractionResult extractZip(const std::string& blob, const std::string& password);

@@ -1,9 +1,33 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            lora_feedback_storage.cpp                          ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:17:05                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   94.0/100                                       ║
+    • Total Lines:     480                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "llm/lora_framework/lora_feedback_storage.h"
 #include "storage/base_entity.h"
 #include "utils/logger.h"
 #include <spdlog/spdlog.h>
-#include <uuid/uuid.h>
 #include <algorithm>
+#include <random>
+#include <sstream>
+#include <iomanip>
 
 namespace themis {
 namespace llm {
@@ -18,6 +42,13 @@ FeedbackStorageService::FeedbackStorageService(const Config& config)
 {
     if (!config_.db) {
         throw std::runtime_error("FeedbackStorageService: RocksDB instance is required");
+    }
+    // Ensure the database is opened for CRUD operations in tests (monolithic, internal storage)
+    if (!config_.db->isOpen()) {
+        bool ok = config_.db->open();
+        if (!ok) {
+            throw std::runtime_error("FeedbackStorageService: failed to open RocksDB database");
+        }
     }
     
     spdlog::info("FeedbackStorageService initialized with collection: {}", 
@@ -59,9 +90,9 @@ std::optional<Feedback> FeedbackStorageService::createFeedback(Feedback feedback
         std::string key = makeFeedbackKey(feedback.id);
         std::string value = feedback.toJSON().dump();
         
-        auto status = config_.db->put(key, value);
-        if (!status.ok()) {
-            spdlog::error("Failed to store feedback: {}", status.ToString());
+        bool success = config_.db->put(key, value);
+        if (!success) {
+            spdlog::error("Failed to store feedback {}", feedback.id);
             return std::nullopt;
         }
         
@@ -86,8 +117,8 @@ std::optional<Feedback> FeedbackStorageService::getFeedback(const std::string& i
         std::string key = makeFeedbackKey(id);
         std::string value;
         
-        auto status = config_.db->get(key, value);
-        if (!status.ok()) {
+        bool success = config_.db->get(key, value);
+        if (!success) {
             return std::nullopt;
         }
         
@@ -105,56 +136,47 @@ std::vector<Feedback> FeedbackStorageService::listFeedback(const FeedbackFilter&
     
     try {
         std::lock_guard<std::mutex> lock(mutex_);
-        
-        std::string prefix = config_.collection_name + ":";
-        std::vector<std::string> keys;
-        config_.db->scanKeys(prefix, keys);
-        
-        size_t count = 0;
+        // Prefix scan over collection namespace: "<collection_name>:<id>"
+        const std::string prefix = config_.collection_name + ":";
         size_t skipped = 0;
         
-        for (const auto& key : keys) {
-            // Skip if we've hit the offset
-            if (skipped < filter.offset) {
-                skipped++;
-                continue;
-            }
-            
-            // Stop if we've reached the limit
-            if (count >= filter.limit) {
-                break;
-            }
-            
-            std::string value;
-            auto status = config_.db->get(key, value);
-            if (!status.ok()) continue;
-            
+        config_.db->scanPrefix(prefix, [&](std::string_view key, std::string_view value) {
             try {
-                auto j = json::parse(value);
+                // Parse JSON value into Feedback
+                json j = json::parse(value);
                 Feedback fb = Feedback::fromJSON(j);
                 
                 // Apply filters
-                if (filter.adapter_id && fb.adapter_id != *filter.adapter_id) continue;
-                if (filter.user_id && fb.user_id != *filter.user_id) continue;
-                if (filter.min_rating && fb.rating < *filter.min_rating) continue;
-                if (filter.flagged_for_training && fb.flagged_for_training != *filter.flagged_for_training) continue;
-                if (filter.training_category && fb.training_category != *filter.training_category) continue;
-                if (filter.since && fb.timestamp < *filter.since) continue;
+                if (filter.adapter_id && fb.adapter_id != *filter.adapter_id) return true; // continue
+                if (filter.user_id && fb.user_id != *filter.user_id) return true; // continue
+                if (filter.min_rating && fb.rating < *filter.min_rating) return true; // continue
+                if (filter.flagged_for_training && fb.flagged_for_training != *filter.flagged_for_training) return true; // continue
+                if (filter.training_category && fb.training_category != *filter.training_category) return true; // continue
+                if (filter.since && fb.timestamp < *filter.since) return true; // continue
                 
-                results.push_back(fb);
-                count++;
+                // Pagination: offset then limit
+                if (skipped < filter.offset) {
+                    ++skipped;
+                    return true; // continue
+                }
                 
+                results.push_back(std::move(fb));
+                if (results.size() >= filter.limit) {
+                    return false; // stop scanning
+                }
             } catch (const std::exception& e) {
-                spdlog::warn("Failed to parse feedback: {}", e.what());
-                continue;
+                spdlog::warn("Failed to parse feedback entry for key {}: {}", std::string(key), e.what());
+                // Continue scanning despite parse errors
             }
-        }
+            return true; // continue
+        });
+        
+        return results;
         
     } catch (const std::exception& e) {
         spdlog::error("Exception listing feedback: {}", e.what());
+        return results;
     }
-    
-    return results;
 }
 
 bool FeedbackStorageService::updateFeedback(const std::string& id, const Feedback& feedback) {
@@ -164,8 +186,8 @@ bool FeedbackStorageService::updateFeedback(const std::string& id, const Feedbac
         // Check if feedback exists
         std::string key = makeFeedbackKey(id);
         std::string old_value;
-        auto status = config_.db->get(key, old_value);
-        if (!status.ok()) {
+        bool exists = config_.db->get(key, old_value);
+        if (!exists) {
             return false;
         }
         
@@ -174,10 +196,10 @@ bool FeedbackStorageService::updateFeedback(const std::string& id, const Feedbac
         updated_feedback.id = id; // Preserve ID
         
         std::string value = updated_feedback.toJSON().dump();
-        status = config_.db->put(key, value);
+        bool success = config_.db->put(key, value);
         
-        if (!status.ok()) {
-            spdlog::error("Failed to update feedback {}: {}", id, status.ToString());
+        if (!success) {
+            spdlog::error("Failed to update feedback {}", id);
             return false;
         }
         
@@ -198,9 +220,9 @@ bool FeedbackStorageService::deleteFeedback(const std::string& id) {
         auto feedback = getFeedback(id);
         
         std::string key = makeFeedbackKey(id);
-        auto status = config_.db->del(key);
+        bool success = config_.db->del(key);
         
-        if (!status.ok()) {
+        if (!success) {
             return false;
         }
         
@@ -356,11 +378,26 @@ float FeedbackStorageService::calculateEffectiveBatchSize(const std::string& ada
 // ═══════════════════════════════════════════════════════════
 
 std::string FeedbackStorageService::generateFeedbackId() const {
-    uuid_t uuid;
-    uuid_generate(uuid);
-    char uuid_str[37];
-    uuid_unparse_lower(uuid, uuid_str);
-    return std::string(uuid_str);
+    // Windows-compatible UUID generation (RFC 4122 v4)
+    std::random_device rd;
+    std::mt19937_64 gen(rd());
+    std::uniform_int_distribution<uint64_t> dis;
+    
+    uint64_t part1 = dis(gen);
+    uint64_t part2 = dis(gen);
+    
+    // Set version (4) and variant bits
+    part1 = (part1 & 0xFFFFFFFFFFFF0FFFULL) | 0x0000000000004000ULL;
+    part2 = (part2 & 0x3FFFFFFFFFFFFFFFULL) | 0x8000000000000000ULL;
+    
+    std::ostringstream oss;
+    oss << std::hex << std::setfill('0')
+        << std::setw(8) << ((part1 >> 32) & 0xFFFFFFFF) << '-'
+        << std::setw(4) << ((part1 >> 16) & 0xFFFF) << '-'
+        << std::setw(4) << (part1 & 0xFFFF) << '-'
+        << std::setw(4) << ((part2 >> 48) & 0xFFFF) << '-'
+        << std::setw(12) << (part2 & 0xFFFFFFFFFFFFULL);
+    return oss.str();
 }
 
 std::string FeedbackStorageService::makeFeedbackKey(const std::string& id) const {

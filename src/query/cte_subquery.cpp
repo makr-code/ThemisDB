@@ -1,18 +1,45 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            cte_subquery.cpp                                   ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:18:27                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     834                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 010ee709e  2026-03-15  docs(query): mark CTESubquery Phase 1 stub replacement co... ║
+    • 4730efec6  2026-03-14  feat(query): replace CTESubquery Phase 1 stub with correl... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "query/cte_subquery.h"
 #include "query/query_engine.h"
 #include "query/aql_translator.h"
+#include "query/subquery_optimizer.h"
 #include "utils/logger.h"
+#include "utils/error_registry.h"
 #include "storage/base_entity.h"
-
-#ifdef _MSC_VER
-#pragma warning(disable: 4100)  // unreferenced formal parameter
-#endif
+#include <fmt/format.h>
 
 #include <algorithm>
 #include <stdexcept>
+#include <unordered_set>
+#include <fmt/format.h>
 
 namespace themis {
 namespace query {
+
+using errors::ErrorCode;
 
 // CTEDefinition JSON is provided in aql_parser.h
 
@@ -20,7 +47,7 @@ namespace query {
 // CTEEvaluator Implementation
 // ============================================================================
 
-bool CTEEvaluator::evaluateCTE(
+Result<void> CTEEvaluator::evaluateCTE(
     const CTEDefinition& cte,
     ::themis::QueryEngine& queryEngine,
     bool is_recursive
@@ -31,7 +58,10 @@ bool CTEEvaluator::evaluateCTE(
     
     if (!cte.subquery) {
         THEMIS_ERROR("CTE '{}' has null subquery", cte.name);
-        return false;
+        return ErrVoid(
+            ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+            fmt::format("CTE '{}' has null subquery", cte.name)
+        );
     }
     
     try {
@@ -50,9 +80,12 @@ bool CTEEvaluator::evaluateCTE(
         // Execute CTE via QueryEngine
         auto status = queryEngine.executeCTEs({spec}, context);
         
-        if (!status.ok) {
-            THEMIS_ERROR("CTE '{}' execution failed: {}", cte.name, status.message);
-            return false;
+        if (!status) {
+            THEMIS_ERROR("CTE '{}' execution failed: {}", cte.name, status.error().message());
+            return ErrVoid(
+                ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+                fmt::format("CTE '{}' execution failed: {}", cte.name, status.error().message())
+            );
         }
         
         // Extract results from context
@@ -61,25 +94,34 @@ bool CTEEvaluator::evaluateCTE(
             cteResults_[cte.name] = std::move(it->second);
             THEMIS_DEBUG("CTE '{}' evaluated successfully: {} rows", 
                         cte.name, cteResults_[cte.name].size());
-            return true;
+            return OkVoid();
         } else {
             THEMIS_ERROR("CTE '{}' results not found in context after execution", cte.name);
-            return false;
+            return ErrVoid(
+                ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+                fmt::format("CTE '{}' results not found in context after execution", cte.name)
+            );
         }
         
     } catch (const std::exception& e) {
         THEMIS_ERROR("CTE '{}' evaluation exception: {}", cte.name, e.what());
-        return false;
+        return ErrVoid(
+            ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+            fmt::format("CTE '{}' evaluation exception: {}", cte.name, e.what())
+        );
     }
 }
 
-bool CTEEvaluator::evaluateRecursiveCTE(
+Result<void> CTEEvaluator::evaluateRecursiveCTE(
     const CTEDefinition& cte,
     ::themis::QueryEngine& queryEngine
 ) {
     if (!cte.subquery) {
         THEMIS_ERROR("Recursive CTE '{}' has null subquery", cte.name);
-        return false;
+        return ErrVoid(
+            ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+            fmt::format("Recursive CTE '{}' has null subquery", cte.name)
+        );
     }
     
     try {
@@ -116,17 +158,24 @@ bool CTEEvaluator::evaluateRecursiveCTE(
             // Execute CTE query
             auto status = queryEngine.executeCTEs({spec}, context);
             
-            if (!status.ok) {
+            if (!status) {
                 THEMIS_ERROR("Recursive CTE '{}' iteration {} failed: {}", 
-                            cte.name, iteration, status.message);
-                return false;
+                            cte.name, iteration, status.error().message());
+                return ErrVoid(
+                    ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+                    fmt::format("Recursive CTE '{}' iteration {} failed: {}", 
+                               cte.name, iteration, status.error().message())
+                );
             }
             
             // Extract results from context
             auto it = context.cte_results.find(cte.name);
             if (it == context.cte_results.end()) {
                 THEMIS_ERROR("Recursive CTE '{}' results not found in context", cte.name);
-                return false;
+                return ErrVoid(
+                    ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+                    fmt::format("Recursive CTE '{}' results not found in context", cte.name)
+                );
             }
             
             // Get new results
@@ -146,9 +195,11 @@ bool CTEEvaluator::evaluateRecursiveCTE(
                 if (detectCycle(newResults, history)) {
                     THEMIS_WARN("Recursive CTE '{}' cycle detected at iteration {}", 
                                cte.name, iteration);
-                    converged = true;
-                    workingSet = newResults;
-                    break;
+                    return ErrVoid(
+                        ErrorCode::ERR_QUERY_CTE_CYCLE_DETECTED,
+                        fmt::format("Recursive CTE '{}' cycle detected at iteration {}", 
+                                   cte.name, iteration)
+                    );
                 }
                 history.push_back(newResults);
             }
@@ -157,7 +208,11 @@ bool CTEEvaluator::evaluateRecursiveCTE(
             if (newResults.size() > recursiveConfig_.max_result_size) {
                 THEMIS_ERROR("Recursive CTE '{}' exceeded max result size ({} > {})",
                             cte.name, newResults.size(), recursiveConfig_.max_result_size);
-                return false;
+                return ErrVoid(
+                    ErrorCode::ERR_QUERY_RESOURCE_EXHAUSTED,
+                    fmt::format("Recursive CTE '{}' exceeded max result size ({} > {})",
+                               cte.name, newResults.size(), recursiveConfig_.max_result_size)
+                );
             }
             
             // Update working set with UNION semantics (combine with previous)
@@ -172,7 +227,11 @@ bool CTEEvaluator::evaluateRecursiveCTE(
         if (!converged) {
             THEMIS_ERROR("Recursive CTE '{}' exceeded max iterations ({})",
                         cte.name, recursiveConfig_.max_iterations);
-            return false;
+            return ErrVoid(
+                ErrorCode::ERR_QUERY_TIMEOUT,
+                fmt::format("Recursive CTE '{}' exceeded max iterations ({})",
+                           cte.name, recursiveConfig_.max_iterations)
+            );
         }
         
         // Store final results
@@ -180,11 +239,14 @@ bool CTEEvaluator::evaluateRecursiveCTE(
         THEMIS_INFO("Recursive CTE '{}' completed: {} total rows",
                    cte.name, cteResults_[cte.name].size());
         
-        return true;
+        return OkVoid();
         
     } catch (const std::exception& e) {
         THEMIS_ERROR("Recursive CTE '{}' evaluation exception: {}", cte.name, e.what());
-        return false;
+        return ErrVoid(
+            ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+            fmt::format("Recursive CTE '{}' evaluation exception: {}", cte.name, e.what())
+        );
     }
 }
 
@@ -262,37 +324,135 @@ namespace {
         j["_key"] = entity.getPrimaryKey();
         return j;
     }
+
+    // Helper: Recursively check if an expression references any of the given variable names.
+    // This is used to detect correlated subqueries that reference outer-scope variables.
+    bool expressionReferencesVariables(
+        const std::shared_ptr<query::Expression>& expr,
+        const std::unordered_set<std::string>& vars
+    ) {
+        if (!expr) return false;
+        switch (expr->getType()) {
+            case query::ASTNodeType::Variable: {
+                auto v = std::static_pointer_cast<query::VariableExpr>(expr);
+                return vars.count(v->name) > 0;
+            }
+            case query::ASTNodeType::FieldAccess: {
+                auto f = std::static_pointer_cast<query::FieldAccessExpr>(expr);
+                return expressionReferencesVariables(f->object, vars);
+            }
+            case query::ASTNodeType::BinaryOp: {
+                auto b = std::static_pointer_cast<query::BinaryOpExpr>(expr);
+                return expressionReferencesVariables(b->left, vars) || expressionReferencesVariables(b->right, vars);
+            }
+            case query::ASTNodeType::UnaryOp: {
+                auto u = std::static_pointer_cast<query::UnaryOpExpr>(expr);
+                return expressionReferencesVariables(u->operand, vars);
+            }
+            case query::ASTNodeType::FunctionCall: {
+                auto fn = std::static_pointer_cast<query::FunctionCallExpr>(expr);
+                for (const auto& arg : fn->arguments) {
+                    if (expressionReferencesVariables(arg, vars)) return true;
+                }
+                return false;
+            }
+            case query::ASTNodeType::ArrayLiteral: {
+                auto arr = std::static_pointer_cast<query::ArrayLiteralExpr>(expr);
+                for (const auto& elem : arr->elements) {
+                    if (expressionReferencesVariables(elem, vars)) return true;
+                }
+                return false;
+            }
+            case query::ASTNodeType::ObjectConstruct: {
+                auto obj = std::static_pointer_cast<query::ObjectConstructExpr>(expr);
+                for (const auto& [key, val] : obj->fields) {
+                    if (expressionReferencesVariables(val, vars)) return true;
+                }
+                return false;
+            }
+            default:
+                return false;
+        }
+    }
+
+    // Helper: Detect whether a subquery AST references any of the outer variable names.
+    // Inspects filter conditions and the RETURN expression.
+    bool isCorrelatedSubquery(
+        const std::shared_ptr<query::Query>& subquery,
+        const std::unordered_set<std::string>& outerVarNames
+    ) {
+        if (!subquery || outerVarNames.empty()) return false;
+
+        for (const auto& filter : subquery->filters) {
+            if (filter && expressionReferencesVariables(filter->condition, outerVarNames)) {
+                return true;
+            }
+        }
+        if (subquery->return_node && expressionReferencesVariables(subquery->return_node->expression, outerVarNames)) {
+            return true;
+        }
+        for (const auto& let : subquery->let_nodes) {
+            if (expressionReferencesVariables(let.expression, outerVarNames)) return true;
+        }
+        return false;
+    }
 }
 
 // ============================================================================
 // SubqueryEvaluator Implementation
 // ============================================================================
 
-nlohmann::json SubqueryEvaluator::evaluateSubquery(
+Result<nlohmann::json> SubqueryEvaluator::evaluateSubquery(
     const query::SubqueryExpr& subquery,
     ::themis::QueryEngine& queryEngine,
     const nlohmann::json& outerRow
 ) {
-    // Phase 1 stub: treat as scalar subquery; real behavior handled elsewhere
+    if (!subquery.subquery) {
+        return Err<nlohmann::json>(
+            errors::ErrorCode::ERR_QUERY_SUBQUERY_FAILED,
+            "Subquery expression has null subquery"
+        );
+    }
+
+    // Detect correlated subquery: outer row is non-empty and the subquery AST
+    // references at least one outer variable by name.
+    if (!outerRow.empty() && outerRow.is_object()) {
+        std::unordered_set<std::string> outerVarNames;
+        for (const auto& item : outerRow.items()) {
+            outerVarNames.insert(item.key());
+        }
+
+        if (isCorrelatedSubquery(subquery.subquery, outerVarNames)) {
+            THEMIS_DEBUG("Correlated subquery detected: evaluating with {} outer variable(s)",
+                         outerVarNames.size());
+            return evaluateArraySubquery(subquery.subquery, queryEngine, outerRow);
+        }
+    }
+
+    // Non-correlated: treat as scalar subquery (original behaviour).
     return evaluateScalarSubquery(subquery.subquery, queryEngine, outerRow);
 }
 
-nlohmann::json SubqueryEvaluator::evaluateScalarSubquery(
+Result<nlohmann::json> SubqueryEvaluator::evaluateScalarSubquery(
     const std::shared_ptr<query::Query>& query,
     ::themis::QueryEngine& queryEngine,
     const nlohmann::json& outerRow
 ) {
     if (!query) {
-        THEMIS_ERROR("Scalar subquery is null");
-        return nullptr;
+        return Err<nlohmann::json>(
+            errors::ErrorCode::ERR_QUERY_SUBQUERY_FAILED,
+            "Scalar subquery is null"
+        );
     }
     
     try {
         // Translate subquery to executable form
         auto translation = AQLTranslator::translate(query);
         if (!translation.success) {
-            THEMIS_ERROR("Scalar subquery translation failed: {}", translation.error_message);
-            return nullptr;
+            return Err<nlohmann::json>(
+                errors::ErrorCode::ERR_QUERY_SUBQUERY_FAILED,
+                fmt::format("Scalar subquery translation failed: {}", translation.error_message)
+            );
         }
         
         // Create evaluation context
@@ -310,7 +470,7 @@ nlohmann::json SubqueryEvaluator::evaluateScalarSubquery(
         
         if (translation.join.has_value()) {
             auto& join = translation.join.value();
-            auto [status, joinResults] = queryEngine.executeJoin(
+            auto result = queryEngine.executeJoin(
                 join.for_nodes,
                 join.filters,
                 join.let_nodes,
@@ -320,19 +480,24 @@ nlohmann::json SubqueryEvaluator::evaluateScalarSubquery(
                 &context  // Pass context for parent bindings
             );
             
-            if (!status.ok) {
-                THEMIS_ERROR("Scalar subquery JOIN execution failed: {}", status.message);
-                return nullptr;
+            if (!result.has_value()) {
+                return Err<nlohmann::json>(
+                    errors::ErrorCode::ERR_QUERY_SUBQUERY_FAILED,
+                    fmt::format("Scalar subquery JOIN execution failed: {}", result.error().message())
+                );
             }
-            results = std::move(joinResults);
+            results = std::move(*result);
             
         } else if (translation.success) {
             // Conjunctive query
-            auto [status, entities] = queryEngine.executeAndEntitiesWithFallback(translation.query);
-            if (!status.ok) {
-                THEMIS_ERROR("Scalar subquery execution failed: {}", status.message);
-                return nullptr;
+            auto result = queryEngine.executeAndEntitiesWithFallback(translation.query);
+            if (!result) {
+                return Err<nlohmann::json>(
+                    result.error().code(),
+                    fmt::format("Scalar subquery execution failed: {}", result.error().message())
+                );
             }
+            auto entities = std::move(*result);
             
             // Convert entities to JSON
             for (const auto& entity : entities) {
@@ -340,30 +505,113 @@ nlohmann::json SubqueryEvaluator::evaluateScalarSubquery(
             }
         }
         
-        // Return null if no results
+        // Return null JSON if no results (valid case for some queries)
         if (results.empty()) {
-            return nullptr;
+            return Ok(nlohmann::json(nullptr));
         }
         
         // Validate single-row constraint for scalar subquery
         if (results.size() > 1) {
-            std::string err = "Scalar subquery returned " + std::to_string(results.size()) + 
-                            " rows (expected 1)";
-            THEMIS_ERROR("{}", err);
-            // Consistent error handling: return nullptr instead of throwing
-            return nullptr;
+            return Err<nlohmann::json>(
+                errors::ErrorCode::ERR_QUERY_SUBQUERY_FAILED,
+                fmt::format("Scalar subquery returned {} rows (expected 1)", results.size())
+            );
         }
         
         // Return the first (and only) result
-        return results[0];
+        return Ok(results[0]);
         
     } catch (const std::exception& e) {
-        THEMIS_ERROR("Scalar subquery evaluation exception: {}", e.what());
-        return nullptr;
+        return Err<nlohmann::json>(
+            errors::ErrorCode::ERR_QUERY_SUBQUERY_FAILED,
+            fmt::format("Scalar subquery evaluation exception: {}", e.what())
+        );
     }
 }
 
-bool SubqueryEvaluator::evaluateInSubquery(
+Result<nlohmann::json> SubqueryEvaluator::evaluateArraySubquery(
+    const std::shared_ptr<query::Query>& query,
+    ::themis::QueryEngine& queryEngine,
+    const nlohmann::json& outerRow
+) {
+    if (!query) {
+        return Err<nlohmann::json>(
+            errors::ErrorCode::ERR_QUERY_SUBQUERY_FAILED,
+            "Correlated subquery is null"
+        );
+    }
+
+    try {
+        // Translate subquery
+        auto translation = AQLTranslator::translate(query);
+        if (!translation.success) {
+            return Err<nlohmann::json>(
+                errors::ErrorCode::ERR_QUERY_SUBQUERY_FAILED,
+                fmt::format("Correlated subquery translation failed: {}", translation.error_message)
+            );
+        }
+
+        // Bind outer-row variables into the parent evaluation context so the
+        // subquery engine can resolve references to outer fields.
+        ::themis::QueryEngine::EvaluationContext context;
+        ::themis::QueryEngine::EvaluationContext parentContext;
+        if (!outerRow.empty()) {
+            parentContext = createParentContext(outerRow);
+            context.parent = &parentContext;
+        }
+
+        // Execute subquery and collect all result rows.
+        std::vector<nlohmann::json> results;
+
+        if (translation.join.has_value()) {
+            auto& join = translation.join.value();
+            auto result = queryEngine.executeJoin(
+                join.for_nodes,
+                join.filters,
+                join.let_nodes,
+                join.return_node,
+                join.sort,
+                join.limit,
+                &context
+            );
+            if (!result.has_value()) {
+                return Err<nlohmann::json>(
+                    errors::ErrorCode::ERR_QUERY_SUBQUERY_FAILED,
+                    fmt::format("Correlated subquery JOIN execution failed: {}", result.error().message())
+                );
+            }
+            results = std::move(*result);
+
+        } else if (translation.success) {
+            auto result = queryEngine.executeAndEntitiesWithFallback(translation.query);
+            if (!result) {
+                return Err<nlohmann::json>(
+                    result.error().code(),
+                    fmt::format("Correlated subquery execution failed: {}", result.error().message())
+                );
+            }
+            for (const auto& entity : *result) {
+                results.push_back(entityToJSON(entity));
+            }
+        }
+
+        // Return all rows as a JSON array (correlated subqueries are array-valued).
+        nlohmann::json arr = nlohmann::json::array();
+        for (auto& row : results) {
+            arr.push_back(std::move(row));
+        }
+        THEMIS_DEBUG("Correlated subquery returned {} row(s)", arr.size());
+        return Ok(std::move(arr));
+
+    } catch (const std::exception& e) {
+        return Err<nlohmann::json>(
+            errors::ErrorCode::ERR_QUERY_SUBQUERY_FAILED,
+            fmt::format("Correlated subquery evaluation exception: {}", e.what())
+        );
+    }
+}
+
+Result<bool> SubqueryEvaluator::evaluateInSubquery(
     const nlohmann::json& value,
     const std::shared_ptr<query::Query>& query,
     ::themis::QueryEngine& queryEngine,
@@ -371,7 +619,10 @@ bool SubqueryEvaluator::evaluateInSubquery(
 ) {
     if (!query) {
         THEMIS_ERROR("IN subquery is null");
-        return false;
+        return Err<bool>(
+            ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+            "IN subquery is null"
+        );
     }
     
     try {
@@ -379,7 +630,10 @@ bool SubqueryEvaluator::evaluateInSubquery(
         auto translation = AQLTranslator::translate(query);
         if (!translation.success) {
             THEMIS_ERROR("IN subquery translation failed: {}", translation.error_message);
-            return false;
+            return Err<bool>(
+                ErrorCode::ERR_QUERY_PARSE_FAILED,
+                fmt::format("IN subquery translation failed: {}", translation.error_message)
+            );
         }
         
         // Create evaluation context
@@ -397,7 +651,7 @@ bool SubqueryEvaluator::evaluateInSubquery(
         
         if (translation.join.has_value()) {
             auto& join = translation.join.value();
-            auto [status, joinResults] = queryEngine.executeJoin(
+            auto result = queryEngine.executeJoin(
                 join.for_nodes,
                 join.filters,
                 join.let_nodes,
@@ -407,18 +661,25 @@ bool SubqueryEvaluator::evaluateInSubquery(
                 &context
             );
             
-            if (!status.ok) {
-                THEMIS_ERROR("IN subquery JOIN execution failed: {}", status.message);
-                return false;
+            if (!result) {
+                THEMIS_ERROR("IN subquery JOIN execution failed: {}", result.error().message());
+                return Err<bool>(
+                    ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+                    fmt::format("IN subquery JOIN execution failed: {}", result.error().message())
+                );
             }
-            results = std::move(joinResults);
+            results = std::move(*result);
             
         } else if (translation.success) {
-            auto [status, entities] = queryEngine.executeAndEntitiesWithFallback(translation.query);
-            if (!status.ok) {
-                THEMIS_ERROR("IN subquery execution failed: {}", status.message);
-                return false;
+            auto result = queryEngine.executeAndEntitiesWithFallback(translation.query);
+            if (!result) {
+                THEMIS_ERROR("IN subquery execution failed: {}", result.error().message());
+                return Err<bool>(
+                    result.error().code(),
+                    fmt::format("IN subquery execution failed: {}", result.error().message())
+                );
             }
+            auto entities = std::move(*result);
             
             for (const auto& entity : entities) {
                 results.push_back(entityToJSON(entity));
@@ -428,26 +689,32 @@ bool SubqueryEvaluator::evaluateInSubquery(
         // Check if value exists in result set
         for (const auto& result : results) {
             if (result == value) {
-                return true;
+                return Ok(true);
             }
         }
         
-        return false;
+        return Ok(false);
         
     } catch (const std::exception& e) {
         THEMIS_ERROR("IN subquery evaluation exception: {}", e.what());
-        return false;
+        return Err<bool>(
+            ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+            fmt::format("IN subquery evaluation exception: {}", e.what())
+        );
     }
 }
 
-bool SubqueryEvaluator::evaluateExistsSubquery(
+Result<bool> SubqueryEvaluator::evaluateExistsSubquery(
     const std::shared_ptr<query::Query>& query,
     ::themis::QueryEngine& queryEngine,
     const nlohmann::json& outerRow
 ) {
     if (!query) {
         THEMIS_ERROR("EXISTS subquery is null");
-        return false;
+        return Err<bool>(
+            ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+            "EXISTS subquery is null"
+        );
     }
     
     try {
@@ -469,7 +736,10 @@ bool SubqueryEvaluator::evaluateExistsSubquery(
         auto translation = AQLTranslator::translate(optimizedQuery);
         if (!translation.success) {
             THEMIS_ERROR("EXISTS subquery translation failed: {}", translation.error_message);
-            return false;
+            return Err<bool>(
+                ErrorCode::ERR_QUERY_PARSE_FAILED,
+                fmt::format("EXISTS subquery translation failed: {}", translation.error_message)
+            );
         }
         
         // Create evaluation context
@@ -486,7 +756,7 @@ bool SubqueryEvaluator::evaluateExistsSubquery(
         
         if (translation.join.has_value()) {
             auto& join = translation.join.value();
-            auto [status, joinResults] = queryEngine.executeJoin(
+            auto result = queryEngine.executeJoin(
                 join.for_nodes,
                 join.filters,
                 join.let_nodes,
@@ -496,28 +766,38 @@ bool SubqueryEvaluator::evaluateExistsSubquery(
                 &context
             );
             
-            if (!status.ok) {
-                THEMIS_ERROR("EXISTS subquery JOIN execution failed: {}", status.message);
-                return false;
+            if (!result) {
+                THEMIS_ERROR("EXISTS subquery JOIN execution failed: {}", result.error().message());
+                return Err<bool>(
+                    ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+                    fmt::format("EXISTS subquery JOIN execution failed: {}", result.error().message())
+                );
             }
             
-            return !joinResults.empty();
+            return Ok(!result->empty());
             
         } else if (translation.success) {
-            auto [status, entities] = queryEngine.executeAndEntitiesWithFallback(translation.query);
-            if (!status.ok) {
-                THEMIS_ERROR("EXISTS subquery execution failed: {}", status.message);
-                return false;
+            auto result = queryEngine.executeAndEntitiesWithFallback(translation.query);
+            if (!result) {
+                THEMIS_ERROR("EXISTS subquery execution failed: {}", result.error().message());
+                return Err<bool>(
+                    result.error().code(),
+                    fmt::format("EXISTS subquery execution failed: {}", result.error().message())
+                );
             }
+            auto entities = std::move(*result);
             
-            return !entities.empty();
+            return Ok(!entities.empty());
         }
         
-        return false;
+        return Ok(false);
         
     } catch (const std::exception& e) {
         THEMIS_ERROR("EXISTS subquery evaluation exception: {}", e.what());
-        return false;
+        return Err<bool>(
+            ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+            fmt::format("EXISTS subquery evaluation exception: {}", e.what())
+        );
     }
 }
 

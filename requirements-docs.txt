@@ -1,11 +1,28 @@
-# MkDocs Documentation Dependencies
+# Documentation build dependencies for ThemisDB
+# Install with: pip install -r requirements-docs.txt
+#
+# Used by:
+#   - scripts/build-docs.sh
+#   - scripts/build-docs.ps1
+#   - .github/workflows/docs-pipeline.yml
+
+# MkDocs core
 mkdocs>=1.5.0
-mkdocs-material>=9.4.0
 
-# Print-friendly single-page HTML (can be printed to PDF from browser)
-mkdocs-print-site-plugin>=2.3.6
+# Material theme
+mkdocs-material>=9.5.0
 
-# Structured PDF export with bookmarks/TOC
+# PDF export plugin (requires ENABLE_PDF_EXPORT=1 to activate)
 mkdocs-with-pdf>=0.9.3
 
+# Print-site plugin (for print/PDF view within the site)
+mkdocs-print-site-plugin>=2.3.6
 
+# Exclude plugin (used in mkdocs-nopdf.yml)
+mkdocs-exclude>=1.0.2
+
+# YAML validation (used by docs-lint.py, toc-check.py)
+pyyaml>=6.0
+
+# HTTP requests (used by link-check.py for external links)
+requests>=2.31.0

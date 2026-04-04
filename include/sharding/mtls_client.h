@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            mtls_client.h                                      ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:11:34                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     245                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • afc6b2738  2026-03-26  fix: Resolve BSI/RAG production blockers – JWT, mTLS, CRL... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include <string>
@@ -22,6 +45,10 @@ namespace beast {
 }
 
 namespace themis::sharding {
+
+// Forward declarations for connection pool
+class MTLSConnectionPoolManager;
+class EndpointConnectionPool;
 
 /**
  * mTLS Client for Secure Shard-to-Shard Communication
@@ -60,10 +87,17 @@ public:
         uint32_t max_retries = 3;             // Maximum retry attempts
         uint32_t retry_delay_ms = 1000;       // Initial retry delay (exponential backoff)
         
-        // Connection pooling
+        // Connection pooling (legacy - kept for backward compatibility)
         bool enable_pooling = true;     // Enable connection pooling
-        uint32_t max_connections = 10;  // Max connections per endpoint
-        uint32_t idle_timeout_ms = 60000; // Idle connection timeout
+        uint32_t max_connections = 10;  // Max connections per endpoint (legacy)
+        uint32_t idle_timeout_ms = 60000; // Idle connection timeout (legacy)
+        
+        // Dynamic connection pool configuration (new)
+        bool use_connection_pool = true;        // Use new dynamic connection pool
+        size_t pool_min_connections = 2;        // Minimum connections per endpoint
+        size_t pool_max_connections = 50;       // Maximum connections per endpoint
+        uint32_t pool_connection_ttl_s = 300;   // Connection TTL in seconds
+        uint32_t pool_idle_timeout_s = 60;      // Idle timeout in seconds
     };
     
     /**
@@ -107,6 +141,19 @@ public:
     Response post(const std::string& endpoint, 
                   const std::string& path,
                   const nlohmann::json& body);
+
+    /**
+     * Perform HTTP POST request with mTLS and custom Authorization header
+     * @param endpoint Server endpoint
+     * @param path Request path
+     * @param body Request body (JSON)
+     * @param authorization_header Value for the Authorization header (e.g. "Bearer <token>")
+     * @return Response with JSON body, or error
+     */
+    Response post(const std::string& endpoint,
+                  const std::string& path,
+                  const nlohmann::json& body,
+                  const std::string& authorization_header);
     
     /**
      * Perform HTTP PUT request with mTLS
@@ -145,6 +192,12 @@ public:
     void reset();
     
     /**
+     * Get connection pool statistics (JSON format for monitoring)
+     * @return JSON object with pool statistics
+     */
+    nlohmann::json getPoolStatistics() const;
+    
+    /**
      * Parse endpoint into host and port
      * Supports both IPv4 and IPv6 addresses
      * 
@@ -167,13 +220,17 @@ private:
     struct Impl;
     std::unique_ptr<Impl> impl_;
     
+    // Connection pool manager (new)
+    std::shared_ptr<MTLSConnectionPoolManager> pool_manager_;
+    
     /**
      * Perform HTTP request with retry logic
      */
     Response request(const std::string& method,
                     const std::string& endpoint,
                     const std::string& path,
-                    const std::optional<nlohmann::json>& body = std::nullopt);
+                    const std::optional<nlohmann::json>& body = std::nullopt,
+                    const std::string& authorization_header = {});
     
     /**
      * Initialize SSL context with certificates

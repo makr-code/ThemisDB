@@ -1,10 +1,36 @@
-﻿#pragma once
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            aql_parser.h                                       ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:09:52                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     778                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • da5848ffb  2026-03-10  fix: apply all 7 code review recommendations + LSN.toStri... ║
+    • a3ec4aa9e  2026-03-10  refactor: update tenant metrics handling and improve modu... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 190845ecd  2026-02-23  feat(query): implement multi-statement transaction AQL (B... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+#pragma once
 
 #include <memory>
 #include <string>
 #include <vector>
 #include <variant>
 #include <nlohmann/json.hpp>
+#include "utils/expected.h"
 
 namespace themis {
 namespace query {
@@ -563,30 +589,38 @@ struct ParseError {
     }
 };
 
+// Note: ParseResult struct removed - now using Result<std::shared_ptr<Query>> directly
+
 // ============================================================================
-// Parser Result
+// Multi-Statement Transaction AQL
 // ============================================================================
 
-struct ParseResult {
-    bool success = false;
-    std::shared_ptr<Query> query;
-    ParseError error;
-    
-    static ParseResult Success(std::shared_ptr<Query> q) {
-        ParseResult result;
-        result.success = true;
-        result.query = std::move(q);
-        return result;
-    }
-    
-    static ParseResult Failure(std::string msg, size_t line = 0, size_t col = 0, std::string ctx = "") {
-        ParseResult result;
-        result.success = false;
-        result.error.message = std::move(msg);
-        result.error.line = line;
-        result.error.column = col;
-        result.error.context = std::move(ctx);
-        return result;
+/// Terminal action for a multi-statement transaction block.
+enum class AqlTransactionAction {
+    Commit,   ///< COMMIT – execute all statements atomically
+    Rollback  ///< ROLLBACK – discard all statements
+};
+
+/// A parsed multi-statement AQL transaction block.
+/// Syntax:
+///   BEGIN
+///     <AQL statement 1>
+///     <AQL statement 2> ...
+///   COMMIT | ROLLBACK
+struct AqlTransactionBlock {
+    std::vector<std::shared_ptr<Query>> statements; ///< Individual AQL queries in order
+    AqlTransactionAction action = AqlTransactionAction::Commit;
+
+    nlohmann::json toJSON() const {
+        nlohmann::json j;
+        j["type"] = "transaction_block";
+        j["action"] = (action == AqlTransactionAction::Commit) ? "COMMIT" : "ROLLBACK";
+        nlohmann::json stmts = nlohmann::json::array();
+        for (const auto& stmt : statements) {
+            stmts.push_back(stmt ? stmt->toJSON() : nlohmann::json());
+        }
+        j["statements"] = stmts;
+        return j;
     }
 };
 
@@ -602,21 +636,47 @@ public:
      * Parse an AQL query string into an AST.
      * 
      * @param query_string The AQL query to parse
-     * @return ParseResult containing either the AST or an error
+     * @return Result<std::shared_ptr<Query>> containing either the AST or an error
      * 
      * Example:
      *   auto result = parser.parse("FOR doc IN users FILTER doc.age > 18 RETURN doc");
-     *   if (result.success) {
-     *       // Use result.query
+     *   if (result) {
+     *       // Use *result
      *   } else {
-     *       // Handle result.error
+     *       // Handle result.error()
      *   }
      */
-    ParseResult parse(const std::string& query_string);
-    
+    Result<std::shared_ptr<Query>> parse(const std::string& query_string);
+
+    /**
+     * Parse a multi-statement transaction block.
+     *
+     * Expects input of the form:
+     *   BEGIN
+     *     <AQL statement 1>
+     *     <AQL statement 2>
+     *     ...
+     *   COMMIT | ROLLBACK
+     *
+     * Each statement must be a valid AQL query (starting with FOR or WITH).
+     *
+     * @param input  The full multi-statement AQL transaction string.
+     * @return       Result<AqlTransactionBlock> or an error.
+     */
+    Result<AqlTransactionBlock> parseTransactionBlock(const std::string& input);
+
+    /**
+     * @brief Parse a standalone AQL expression string into an Expression tree.
+     *
+     * Used by QueryEngine evaluators to evaluate filter conditions independently
+     * of a full FOR…RETURN query.  Kept public because external callers such as
+     * QueryEngine::evalAqlExpression() and QueryExpressionEvaluator::canEvaluate()
+     * construct a local AQLParser and call this method directly.
+     */
+    std::shared_ptr<Expression> parseExpression(const std::string& expr_str);
+
 private:
     // Helper methods (implemented in aql_parser.cpp)
-    std::shared_ptr<Expression> parseExpression(const std::string& expr_str);
     std::shared_ptr<Expression> parsePrimaryExpression(const std::string& expr_str);
     BinaryOperator stringToOperator(const std::string& op_str);
     // New: parse membership expression left IN right

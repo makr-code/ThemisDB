@@ -1,10 +1,33 @@
-﻿#pragma once
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            saga.h                                             ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:12:34                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     181                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+#pragma once
 
 #include <functional>
 #include <vector>
 #include <string>
 #include <memory>
 #include <chrono>
+#include <thread>
 #include <algorithm>
 #include "storage/rocksdb_wrapper.h"
 
@@ -52,9 +75,26 @@ public:
     
     /// Execute all compensating actions in reverse order
     void compensate();
-    
+
+    /// Execute all compensating actions with retry.
+    /// @param max_retries  Per-step retry attempts on exception (0 = no retry).
+    /// @param backoff_ms   Initial backoff in milliseconds; doubled on each retry.
+    void compensateWithRetry(int max_retries = 3,
+                             std::chrono::milliseconds backoff_ms = std::chrono::milliseconds(50));
+
     /// Clear all steps (called after successful commit)
     void clear();
+    
+    /**
+     * @brief Discard all steps with index >= @p n, without compensating them.
+     *
+     * Used by the named-savepoint layer to remove SAGA entries that correspond
+     * to writes already undone by a RocksDB savepoint rollback.  Must only be
+     * called while the transaction is still active (i.e. before compensate()).
+     *
+     * @param n  Target size; if >= stepCount() this is a no-op.
+     */
+    void trimToSize(size_t n);
     
     /// Get number of recorded steps
     size_t stepCount() const { return steps_.size(); }
@@ -70,10 +110,26 @@ public:
     
     /// Get duration since first step
     int64_t getDurationMs() const;
-    
+
+    /// SAGA execution metrics.
+    struct Metrics {
+        uint64_t total_steps{0};
+        uint64_t compensated_steps{0};
+        uint64_t failed_compensations{0};  ///< Steps that threw during compensation
+        uint64_t retried_compensations{0}; ///< Steps that succeeded only after retry
+        int64_t  duration_ms{0};
+    };
+
+    /// Return accumulated execution metrics.
+    Metrics getMetrics() const;
+
 private:
     std::vector<Step> steps_;
     bool compensated_ = false;
+
+    // Cumulative metrics
+    uint64_t metrics_failed_{0};
+    uint64_t metrics_retried_{0};
 };
 
 /// SAGA-aware Transaction Operations

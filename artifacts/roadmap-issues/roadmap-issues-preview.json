@@ -1,0 +1,34 @@
+[
+  {
+    "row_number": "1",
+    "module": "auth",
+    "title": "Thread-Safety: Add `std::mutex` to `JWTValidator` JWKS Cache",
+    "target": "v1.1.0",
+    "priority": "critical",
+    "priority_heading": "\ud83d\udd34 Critical Priority",
+    "labels": [
+      "area:auth",
+      "priority:critical",
+      "type:security",
+      "status:open",
+      "security",
+      "thread-safety",
+      "correctness"
+    ],
+    "detail_link": "src/auth/FUTURE_ENHANCEMENTS.md#1-thread-safety-add-mutex-to-jwtvalidator-jwks-cache",
+    "detail_heading": "1. Thread-Safety: Add Mutex to `JWTValidator` JWKS Cache",
+    "issue_number": 3825,
+    "source_key": "roadmap:1:auth:v1.1.0:1-thread-safety-add-mutex-to-jwtvalidator-jwks-cache",
+    "acceptance_criteria": [
+      "- [ ] Add `mutable std::shared_mutex jwks_cache_mutex_` to `jwt_validator.h` alongside `jwks_cache_` (`jwt_validator.h:192`)",
+      "- [ ] Wrap all reads of `jwks_cache_` in `fetchJWKS()` with `std::shared_lock` and all writes with `std::unique_lock` (`jwt_validator.cpp:98-174`)",
+      "- [ ] Implement \"double-checked locking\" pattern: acquire shared lock first, check staleness, upgrade to unique lock only if refresh is needed, then re-check to avoid thundering-herd on cache expiry",
+      "- [ ] Add unit test: spawn 32 threads each calling `validate()` concurrently with cache TTL of 0 \u2014 verify no crash under Thread Sanitizer (TSAN)",
+      "- [ ] Zero-overhead on warm-cache path (shared_lock is reader-writer; concurrent readers proceed in parallel)",
+      "- [ ] At most one actual HTTP fetch per cache expiry under concurrent load"
+    ],
+    "body_file": "artifacts/roadmap-issues/bodies/0001-auth-1-thread-safety-add-mutex-to-jwtvalidator-jwks-cache.md",
+    "detail_section_missing": false,
+    "status": "already-linked"
+  }
+]

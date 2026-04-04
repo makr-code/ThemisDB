@@ -1,0 +1,10 @@
+{
+  "openapi_file": "C:\\VCC\\themis\\openapi\\openapi.yaml",
+  "source_root": "C:\\VCC\\themis\\src\\server",
+  "allowlist_file": "C:\\VCC\\themis\\scripts\\operations\\openapi_allowlist.txt",
+  "openapi_path_count": 251,
+  "openapi_canonical_path_count": 251,
+  "source_route_count": 77,
+  "undocumented_route_count": 0,
+  "undocumented_routes": []
+}

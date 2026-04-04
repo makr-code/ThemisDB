@@ -1,0 +1,36 @@
+# CDC Change Log Retention Configuration
+# Controls automatic retention cleanup and key-based compaction for the CDC change log.
+#
+# All settings can be updated at runtime via:
+#   PUT /changefeed/retention
+# Current status can be queried via:
+#   GET /changefeed/retention
+
+retention:
+  # Enable automatic background retention cleanup
+  enabled: false
+
+  # Maximum age of change events before deletion
+  max_age_hours: 168        # 7 days (default)
+
+  # Maximum number of change events to retain
+  max_event_count: 1000000  # 1 million events (default)
+
+  # Maximum total log size in bytes before size-based purge triggers
+  # 107374182400 = 100 * 1024 * 1024 * 1024 = 100 GB
+  max_size_bytes: 107374182400  # 100 GB (default)
+
+  # Interval between background cleanup runs (minutes)
+  cleanup_interval_minutes: 60  # 1 hour (default)
+
+  # Run key-based compaction (remove superseded entries per document key)
+  # after each cleanup cycle.  Reduces log size without changing semantics.
+  compact_on_cleanup: false
+
+# Performance tuning for background compaction
+compaction:
+  # Maximum I/O bandwidth for compaction operations (MB/s, 0 = unlimited)
+  max_bandwidth_mbps: 50
+
+  # Minimum number of events before key compaction is worthwhile
+  min_events_for_compaction: 10000

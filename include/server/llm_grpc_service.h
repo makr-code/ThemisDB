@@ -1,6 +1,30 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            llm_grpc_service.h                                 ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:11:12                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     166                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 9d74059fc  2026-03-26  Changes before error encountered         ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include "llm/llm_plugin_manager.h"
+#include "auth/jwt_validator.h"
 #include "proto/llm_service.grpc.pb.h"
 #include <grpcpp/grpcpp.h>
 #include <memory>
@@ -112,11 +136,24 @@ public:
 
 private:
     std::shared_ptr<llm::LLMPluginManager> plugin_manager_;
+    std::shared_ptr<auth::JWTValidator> jwt_validator_;
 
     // Helper methods
     bool validateBearerToken(grpc::ServerContext* context);
     std::string extractBearerToken(grpc::ServerContext* context);
-    
+
+public:
+    /**
+     * @brief Inject a JWT validator for Bearer token authentication.
+     *
+     * When set, validateBearerToken() calls parseAndValidate() and rejects
+     * tokens that are expired, have an invalid signature, or fail issuer /
+     * audience checks.  If not set the method falls back to a structural
+     * check only (well-formed JWT + non-expired exp claim).
+     */
+    void setJwtValidator(std::shared_ptr<auth::JWTValidator> validator);
+
+private:
     // Conversion helpers between protobuf and internal types
     void convertToInternalRequest(
         const llm::InferenceRequest& pb_req,

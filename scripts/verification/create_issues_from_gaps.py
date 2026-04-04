@@ -1,3 +1,26 @@
+"""
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            create_issues_from_gaps.py                         ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:13:42                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     365                                            ║
+    • Open Issues:     TODOs: 5, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 00f73b2e1  2026-02-25  fix: standardize priority labels in all issue creator scr... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+"""
+
 #!/usr/bin/env python3
 """
 Create GitHub Issues from Verified Gaps
@@ -133,14 +156,14 @@ class IssueGenerator:
         body.append("## 🏷️ Suggested Labels\n")
         
         label_map = {
-            'security': ['security', 'high-priority'],
-            'performance': ['performance', 'optimization'],
-            'llm-ai': ['llm', 'ai', 'enhancement'],
-            'analytics': ['analytics', 'feature'],
-            'enterprise': ['enterprise', 'feature'],
-            'testing': ['testing', 'quality'],
-            'documentation': ['documentation'],
-            'general': ['enhancement']
+            'security': ['security', 'high-priority', 'priority:high'],
+            'performance': ['performance', 'optimization', 'priority:medium'],
+            'llm-ai': ['llm', 'ai', 'enhancement', 'priority:medium'],
+            'analytics': ['analytics', 'feature', 'priority:medium'],
+            'enterprise': ['enterprise', 'feature', 'priority:medium'],
+            'testing': ['testing', 'quality', 'priority:medium'],
+            'documentation': ['documentation', 'priority:low'],
+            'general': ['enhancement', 'priority:medium']
         }
         
         labels = label_map.get(category, ['enhancement'])
@@ -191,14 +214,14 @@ class IssueGenerator:
         status = gap.get('status', 'unknown')
         
         label_map = {
-            'security': ['security', 'verified-gap'],
-            'performance': ['performance', 'optimization', 'verified-gap'],
-            'llm-ai': ['llm', 'ai', 'enhancement', 'verified-gap'],
-            'analytics': ['analytics', 'feature', 'verified-gap'],
-            'enterprise': ['enterprise', 'feature', 'verified-gap'],
-            'testing': ['testing', 'quality', 'verified-gap'],
-            'documentation': ['documentation', 'verified-gap'],
-            'general': ['enhancement', 'verified-gap']
+            'security': ['security', 'verified-gap', 'priority:high'],
+            'performance': ['performance', 'optimization', 'verified-gap', 'priority:medium'],
+            'llm-ai': ['llm', 'ai', 'enhancement', 'verified-gap', 'priority:medium'],
+            'analytics': ['analytics', 'feature', 'verified-gap', 'priority:medium'],
+            'enterprise': ['enterprise', 'feature', 'verified-gap', 'priority:medium'],
+            'testing': ['testing', 'quality', 'verified-gap', 'priority:medium'],
+            'documentation': ['documentation', 'verified-gap', 'priority:low'],
+            'general': ['enhancement', 'verified-gap', 'priority:medium']
         }
         
         labels = label_map.get(category, ['enhancement', 'verified-gap'])

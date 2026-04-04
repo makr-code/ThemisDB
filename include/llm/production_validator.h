@@ -1,9 +1,35 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            production_validator.h                             ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:08:36                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     327                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • ac1c6ff53  2026-03-26  fix: thread pool priority queue + latency, lora memory/ba... ║
+    • 172e0dd5e  2026-03-26  fix: address code review - safe filesystem copy, RFC 4180... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include "llm/llm_plugin_interface.h"
 #include "llm/continuous_batch_scheduler.h"
 #include "llm/gpu_memory_manager.h"
 #include "llm/kernel_fusion.h"
+#include "llm/inference_engine_enhanced.h"
+#include <memory>
 #include <vector>
 #include <deque>
 #include <string>
@@ -172,13 +198,24 @@ public:
     };
     
     LiveStats getLiveStats() const;
+
+    /**
+     * @brief Set the inference engine used by benchmark and stress test.
+     *
+     * When set, benchmarkInference() and runStressTest() route requests
+     * through this engine.  Without an engine the benchmark logs a warning
+     * and reports skipped requests.
+     */
+    void setInferenceEngine(std::shared_ptr<InferenceEngineEnhanced> engine);
     
 private:
     ValidationConfig config_;
-    
+    std::shared_ptr<InferenceEngineEnhanced> inference_engine_;
+
     // Test state
     bool stress_test_running_ = false;
     std::chrono::system_clock::time_point stress_test_start_;
+    size_t memory_baseline_mb_ = 0;   ///< Set on first checkMemoryLeaks() call or reset()
     
     // Statistics
     std::deque<double> latency_samples_;  // Use deque for efficient removal of old samples

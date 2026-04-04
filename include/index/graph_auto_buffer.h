@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            graph_auto_buffer.h                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:07:59                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     318                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * ThemisDB Property Graph Auto-Batching Buffer
  * 
@@ -77,6 +100,42 @@ struct GraphAutoBufferStats {
     size_t current_buffer_memory{0};
     
     std::chrono::steady_clock::time_point last_flush_time;
+
+    // Custom copy to support returning by value (atomics are not copyable)
+    GraphAutoBufferStats() = default;
+    GraphAutoBufferStats(const GraphAutoBufferStats& other) {
+        nodes_buffered.store(other.nodes_buffered.load());
+        edges_buffered.store(other.edges_buffered.load());
+        nodes_flushed.store(other.nodes_flushed.load());
+        edges_flushed.store(other.edges_flushed.load());
+        flush_count.store(other.flush_count.load());
+        auto_flush_count.store(other.auto_flush_count.load());
+        manual_flush_count.store(other.manual_flush_count.load());
+        size_triggered_flush.store(other.size_triggered_flush.load());
+        time_triggered_flush.store(other.time_triggered_flush.load());
+        buffer_overflow_count.store(other.buffer_overflow_count.load());
+        current_buffer_size = other.current_buffer_size;
+        current_buffer_memory = other.current_buffer_memory;
+        last_flush_time = other.last_flush_time;
+    }
+    GraphAutoBufferStats& operator=(const GraphAutoBufferStats& other) {
+        if (this != &other) {
+            nodes_buffered.store(other.nodes_buffered.load());
+            edges_buffered.store(other.edges_buffered.load());
+            nodes_flushed.store(other.nodes_flushed.load());
+            edges_flushed.store(other.edges_flushed.load());
+            flush_count.store(other.flush_count.load());
+            auto_flush_count.store(other.auto_flush_count.load());
+            manual_flush_count.store(other.manual_flush_count.load());
+            size_triggered_flush.store(other.size_triggered_flush.load());
+            time_triggered_flush.store(other.time_triggered_flush.load());
+            buffer_overflow_count.store(other.buffer_overflow_count.load());
+            current_buffer_size = other.current_buffer_size;
+            current_buffer_memory = other.current_buffer_memory;
+            last_flush_time = other.last_flush_time;
+        }
+        return *this;
+    }
 };
 
 /**

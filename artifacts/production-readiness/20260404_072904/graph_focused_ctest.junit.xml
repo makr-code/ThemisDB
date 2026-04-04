@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="(empty)"
+	tests="2"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname=""
+	time="6"
+	timestamp="2026-04-04T07:32:21"
+	>
+	<testcase name="GPUGraphTraversalTests" classname="GPUGraphTraversalTests" time="4.08529" status="run">
+		<properties>
+			<property name="cmake_labels" value="bfs;cpu-fallback;dfs;gpu;graph;unit"/>
+		</properties>
+		<system-out>Running main() from C:\VCC\themis\vcpkg\buildtrees\gtest\src\v1.17.0-0c449efaff.clean\googletest\src\gtest_main.cc
+[==========] Running 34 tests from 2 test suites.
+[----------] Global test environment set-up.
+[----------] 28 tests from GPUGraphTraversalTest
+[ RUN      ] GPUGraphTraversalTest.Load_SucceedsOnNonEmptyGraph
+[       OK ] GPUGraphTraversalTest.Load_SucceedsOnNonEmptyGraph (109 ms)
+[ RUN      ] GPUGraphTraversalTest.Load_PopulatesVertexAndEdgeCounts
+[       OK ] GPUGraphTraversalTest.Load_PopulatesVertexAndEdgeCounts (116 ms)
+[ RUN      ] GPUGraphTraversalTest.Load_ReloadUpdatesState
+[       OK ] GPUGraphTraversalTest.Load_ReloadUpdatesState (112 ms)
+[ RUN      ] GPUGraphTraversalTest.Stats_ReflectsLoadedGraph
+[       OK ] GPUGraphTraversalTest.Stats_ReflectsLoadedGraph (117 ms)
+[ RUN      ] GPUGraphTraversalTest.BFS_BeforeLoad_ReturnsError
+[       OK ] GPUGraphTraversalTest.BFS_BeforeLoad_ReturnsError (190 ms)
+[ RUN      ] GPUGraphTraversalTest.BFS_UnknownVertex_ReturnsError
+[       OK ] GPUGraphT...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="GraphQueryExplainFocusedTests" classname="GraphQueryExplainFocusedTests" time="2.74597" status="run">
+		<properties>
+			<property name="cmake_labels" value="explain;focused;graph;optimizer;plan;query;unit"/>
+		</properties>
+		<system-out>Running main() from C:\VCC\themis\vcpkg\buildtrees\gtest\src\v1.17.0-0c449efaff.clean\googletest\src\gtest_main.cc
+[==========] Running 21 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 21 tests from GraphQueryExplainTest
+[ RUN      ] GraphQueryExplainTest.ExplainPlan_ShortestPath_ContainsAlgorithmAndPattern
+[       OK ] GraphQueryExplainTest.ExplainPlan_ShortestPath_ContainsAlgorithmAndPattern (103 ms)
+[ RUN      ] GraphQueryExplainTest.ExplainPlan_ContainsCostAndTimeFields
+[       OK ] GraphQueryExplainTest.ExplainPlan_ContainsCostAndTimeFields (107 ms)
+[ RUN      ] GraphQueryExplainTest.ExplainPlan_KHop_ContainsKHopPattern
+[       OK ] GraphQueryExplainTest.ExplainPlan_KHop_ContainsKHopPattern (118 ms)
+[ RUN      ] GraphQueryExplainTest.ExplainPlan_Reachability_ContainsReachabilityPattern
+[       OK ] GraphQueryExplainTest.ExplainPlan_Reachability_ContainsReachabilityPattern (118 ms)
+[ RUN      ] GraphQueryExplainTest.ExplainPlan_PatternMatch_ContainsPatternMatchPattern
+...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+</testsuite>

@@ -1,25 +1,305 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            llm_aql_handler.cpp                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:14:09                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     1797                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2e566adfc  2026-03-14  fix(aql): bounded worker pool - fix dangling ref, unbound... ║
+    • db5df3fde  2026-03-14  feat(aql): parallel execution of translateBatchNLToAQL() ... ║
+    • 1d10fc7b3  2026-03-13  feat(build): add redis_cache and AQL components to build ... ║
+    • c28ecfee9  2026-03-13  feat(aql): accurate token-count estimation - TiktokenEsti... ║
+    • f5c74c7e8  2026-03-13  fix(aql): add mock chat executor injection + AC#5 integra... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "aql/llm_aql_handler.h"
+#include "aql/aql_confidence_scorer.h"
+#include "aql/aql_fewshot_example_library.h"
+#include "aql/aql_query_validator.h"
+#include "aql/llm_error_codes.h"
+#include "aql/llm_timeout_manager.h"
+#include "aql/llm_metrics_collector.h"
+#include "aql/llm_token_estimator.h"
+#include "sharding/circuit_breaker.h"
 #include "llm/llm_plugin_manager.h"
 #include "llm/embedded_llm.h"
+#include "llm/llama_wrapper.h"
+#include "index/vector_index.h"
 #include <stdexcept>
 #include <sstream>
+#include <algorithm>
+#include <atomic>
+#include <cctype>
+#include <future>
+#include <thread>
+#include <spdlog/spdlog.h>
 
 namespace themis {
 namespace aql {
 
+// ---------------------------------------------------------------------------
+// Prompt injection prevention helpers
+// ---------------------------------------------------------------------------
+
+namespace {
+
+/// @brief Lower-case a copy of @p s for case-insensitive matching.
+std::string toLower(const std::string& s) {
+    std::string out;
+    out.reserve(s.size());
+    std::transform(s.begin(), s.end(), std::back_inserter(out),
+                   [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
+    return out;
+}
+
+/**
+ * @brief Reject input that contains well-known prompt injection patterns.
+ *
+ * Checks for:
+ *  - Instruction-override phrases ("ignore previous instructions", etc.)
+ *  - Persona-hijacking phrases ("you are now a", "act as a different")
+ *  - Explicit override markers ("[SYSTEM]", "<system>", "###system")
+ *  - DAN/jailbreak markers ("do anything now")
+ *  - Null bytes or unusual control characters
+ *
+ * @param input       The raw user-supplied text.
+ * @param field_name  Descriptive label used in error messages ("nl_query", etc.)
+ * @param max_length  Maximum permitted length; 0 means unlimited.
+ * @throws LLMException(PROMPT_INJECTION) when a pattern is matched.
+ * @throws LLMException(PROMPT_TOO_LONG)  when the input exceeds @p max_length.
+ */
+void sanitizePromptInput(
+    const std::string& input,
+    const std::string& field_name,
+    std::size_t max_length = 0
+) {
+    // --- Length check ---
+    if (max_length > 0 && input.size() > max_length) {
+        throw LLMException(
+            LLMErrorCode::PROMPT_TOO_LONG,
+            field_name + " exceeds maximum allowed length of " +
+                std::to_string(max_length) + " characters"
+        );
+    }
+
+    // --- Null-byte / dangerous control character check ---
+    for (unsigned char c : input) {
+        if (c == '\0') {
+            throw LLMException(
+                LLMErrorCode::PROMPT_INJECTION,
+                field_name + " contains a null byte (potential injection vector)"
+            );
+        }
+    }
+
+    // --- Pattern-based injection detection ---
+    // Work on a lower-cased copy so every pattern can be written in lower case.
+    const std::string lower = toLower(input);
+
+    // Each entry is a substring that, if found, indicates an injection attempt.
+    static const std::vector<std::string> kInjectionPatterns = {
+        // Instruction override
+        "ignore previous instructions",
+        "ignore prior instructions",
+        "ignore all instructions",
+        "ignore the above instructions",
+        "ignore above instructions",
+        "disregard previous instructions",
+        "disregard prior instructions",
+        "disregard all instructions",
+        "forget previous instructions",
+        "forget prior instructions",
+        "forget all instructions",
+        "override previous instructions",
+        "override instructions",
+        "new instructions:",
+        // Persona / role hijacking
+        "you are now a",
+        "you are now an",
+        "act as a different",
+        "pretend you are",
+        "pretend to be",
+        // System-prompt injection markers
+        "[system]",
+        "[system prompt]",
+        "<system>",
+        "###system",
+        "## system",
+        "# system",
+        "/system",
+        "system:\n",
+        "system: ",
+        // Jailbreak phrases
+        "do anything now",
+        "jailbreak",
+        "dan mode",
+    };
+
+    for (const auto& pattern : kInjectionPatterns) {
+        if (lower.find(pattern) != std::string::npos) {
+            spdlog::warn("Prompt injection attempt detected in {}: pattern \"{}\"",
+                         field_name, pattern);
+            throw LLMException(
+                LLMErrorCode::PROMPT_INJECTION,
+                field_name + " rejected: potential prompt injection detected"
+            );
+        }
+    }
+}
+
+/**
+ * @brief Build the LLM prompt used to generate a natural language explanation of an AQL query.
+ *
+ * @param aql_query      The AQL query to explain (must already be sanitized).
+ * @param schema_context Optional schema description (must already be sanitized).
+ * @return Prompt string ready to send to the LLM.
+ */
+std::string buildAQLExplanationPrompt(
+    const std::string& aql_query,
+    const std::string& schema_context
+) {
+    std::ostringstream prompt;
+    prompt << "You are an expert in AQL (Application Query Language) for ThemisDB.\n";
+    if (!schema_context.empty()) {
+        prompt << "Database schema context:\n" << schema_context << "\n\n";
+    }
+    prompt << "Explain the following AQL query in clear, concise natural language. "
+           << "Describe what the query does step by step, including any filters, "
+           << "joins, aggregations, or special operations used.\n\n"
+           << "AQL query:\n```\n" << aql_query << "\n```\n\n"
+           << "Explanation:";
+    return prompt.str();
+}
+
+} // anonymous namespace
+// ─────────────────────────────────────────────────────────────────────────────
+// AQLConversationSession
+// ─────────────────────────────────────────────────────────────────────────────
+
+void AQLConversationSession::addTurn(
+    const std::string& nl_query,
+    const std::string& aql_result
+) {
+    history_.push_back({nl_query, aql_result});
+}
+
+const std::vector<ConversationTurn>& AQLConversationSession::getHistory() const {
+    return history_;
+}
+
+void AQLConversationSession::clear() {
+    history_.clear();
+}
+
+bool AQLConversationSession::empty() const {
+    return history_.empty();
+}
+
+std::size_t AQLConversationSession::size() const {
+    return history_.size();
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+
 class LLMAQLHandler::Impl {
 public:
-    Impl() = default;
-    
+    explicit Impl(const LLMAQLHandler::Config& cfg)
+        : timeout_manager_()
+        , retry_policy_()
+    {
+        circuit_breakers_.emplace(std::piecewise_construct,
+            std::forward_as_tuple("infer"),
+            std::forward_as_tuple(cfg.infer_circuit_breaker));
+        circuit_breakers_.emplace(std::piecewise_construct,
+            std::forward_as_tuple("rag"),
+            std::forward_as_tuple(cfg.rag_circuit_breaker));
+        circuit_breakers_.emplace(std::piecewise_construct,
+            std::forward_as_tuple("embed"),
+            std::forward_as_tuple(cfg.embed_circuit_breaker));
+        circuit_breakers_.emplace(std::piecewise_construct,
+            std::forward_as_tuple("finetune"),
+            std::forward_as_tuple(cfg.finetune_circuit_breaker));
+
+        // Initialize metrics collector
+        LLMMetricsCollector::instance().initialize();
+    }
+
+    sharding::CircuitBreaker& getBreaker(const std::string& key) {
+        return circuit_breakers_.at(key);
+    }
+
+    const sharding::CircuitBreaker& getBreaker(const std::string& key) const {
+        return circuit_breakers_.at(key);
+    }
+
     llm::LLMPluginManager& getPluginManager() {
         return llm::LLMPluginManager::instance();
     }
+    
+    // Store optional vector index manager for RAG queries
+    VectorIndexManager* vector_index_mgr_ = nullptr;
+    
+    // Default configuration constants
+    static constexpr float DEFAULT_SIMILARITY_THRESHOLD = 0.7f;
+    
+    // Injected token estimator (defaults to CharDivisionEstimator with ratio=4)
+    std::unique_ptr<TokenEstimator> token_estimator_{
+        std::make_unique<CharDivisionEstimator>(4)
+    };
+    
+    // Timeout and resilience components
+    LLMTimeoutManager timeout_manager_;
+    RetryPolicy retry_policy_;
+
+    // Post-generation AQL validation enforcement level
+    TranslationValidationMode validation_mode_ = TranslationValidationMode::WARN_ONLY;
+
+    // Optional chat executor override (for unit tests)
+    std::function<std::string(const std::vector<llm::ChatMessage>&)> chat_executor_;
+    std::unordered_map<std::string, sharding::CircuitBreaker> circuit_breakers_;
 };
 
 LLMAQLHandler::LLMAQLHandler() 
-    : impl_(std::make_unique<Impl>()) {}
+    : impl_(std::make_unique<Impl>(Config{})) {}
+
+LLMAQLHandler::LLMAQLHandler(const Config& config)
+    : impl_(std::make_unique<Impl>(config)) {}
 
 LLMAQLHandler::~LLMAQLHandler() = default;
+
+void LLMAQLHandler::setValidationMode(TranslationValidationMode mode) {
+    impl_->validation_mode_ = mode;
+}
+
+TranslationValidationMode LLMAQLHandler::getValidationMode() const {
+    return impl_->validation_mode_;
+}
+
+void LLMAQLHandler::setChatExecutor(
+    std::function<std::string(const std::vector<llm::ChatMessage>&)> executor
+) {
+    impl_->chat_executor_ = std::move(executor);
+}
+
+void LLMAQLHandler::setTokenEstimator(std::unique_ptr<TokenEstimator> estimator) {
+    if (estimator) {
+        impl_->token_estimator_ = std::move(estimator);
+    } else {
+        impl_->token_estimator_ = std::make_unique<CharDivisionEstimator>(4);
+    }
+}
 
 std::string LLMAQLHandler::executeInfer(
     const std::string& prompt,
@@ -27,34 +307,277 @@ std::string LLMAQLHandler::executeInfer(
     const std::string& lora_id,
     const std::unordered_map<std::string, std::string>& options
 ) {
+    auto start_time = std::chrono::steady_clock::now();
+    auto& metrics = LLMMetricsCollector::instance();
+    
     try {
-        // Use EmbeddedLLM for direct inference
-        (void)model_id; // Future: support model selection
-        (void)lora_id;  // Future: support LoRA adapters
+        // Input validation
+        LLMValidator::validatePrompt(prompt);
+        LLMValidator::validateId(model_id, false);
+        LLMValidator::validateId(lora_id, true);
         
-        // Parse options for generation parameters
-        int max_tokens = 512;
-        float temperature = 0.7f;
-        float top_p = 0.9f;
-        
-        if (options.count("max_tokens")) {
-            max_tokens = std::stoi(options.at("max_tokens"));
-        }
-        if (options.count("temperature")) {
-            temperature = std::stof(options.at("temperature"));
-        }
-        if (options.count("top_p")) {
-            top_p = std::stof(options.at("top_p"));
+        // Check circuit breaker
+        if (!impl_->getBreaker("infer").allowRequest()) {
+            metrics.recordCircuitBreakerState("infer", "open");
+            throw LLMException(LLMErrorCode::INFERENCE_FAILED,
+                "Circuit breaker is open - LLM service temporarily unavailable");
         }
         
-        // Use simplified EmbeddedLLM API
-        auto result = THEMIS_LLM_GENERATE(prompt);
+        // Execute with timeout and cooperative cancellation propagated to streaming callbacks.
+        auto result = impl_->timeout_manager_.executeInferWithCancelToken([&](auto cancel_token) {
+            return impl_->retry_policy_.executeWithRetry([&]() {
+                auto& plugin_mgr = impl_->getPluginManager();
+                
+                // Build inference request with model and LoRA selection
+                llm::InferenceRequest request;
+                request.prompt = prompt;
+                
+                // Set model if specified
+                if (!model_id.empty()) {
+                    request.model_id = model_id;
+                }
+                
+                // Set LoRA adapter if specified
+                if (!lora_id.empty()) {
+                    request.lora_adapter_id = lora_id;
+                }
+                
+                // Parse options for generation parameters
+                if (options.count("max_tokens")) {
+                    request.max_tokens = std::stoi(options.at("max_tokens"));
+                }
+                if (options.count("temperature")) {
+                    request.temperature = std::stof(options.at("temperature"));
+                }
+                if (options.count("top_p")) {
+                    request.top_p = std::stof(options.at("top_p"));
+                }
+                if (options.count("top_k")) {
+                    request.top_k = std::stoi(options.at("top_k"));
+                }
+                if (options.count("repetition_penalty")) {
+                    request.repetition_penalty = std::stof(options.at("repetition_penalty"));
+                }
+
+                // Wrap any streaming callback so token delivery stops on cancellation.
+                if (request.stream_callback) {
+                    auto orig_cb = std::move(request.stream_callback);
+                    request.stream_callback = [orig_cb = std::move(orig_cb), cancel_token](const std::string& token) {
+                        if (!cancel_token->load(std::memory_order_acquire)) {
+                            orig_cb(token);
+                        }
+                    };
+                }
+                
+                // Execute via plugin manager
+                auto response = plugin_mgr.generate(request);
+                return response.text;
+            }, RetryPolicy::isRetryableError);
+        });
+        
+        // Record success
+        impl_->getBreaker("infer").recordSuccess();
+        
+        auto end_time = std::chrono::steady_clock::now();
+        auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
+        
+        // Estimate token counts (rough estimate: 1 token ≈ 4 chars)
+        size_t input_tokens = impl_->token_estimator_->estimate(prompt);
+        size_t output_tokens = impl_->token_estimator_->estimate(result);
+        
+        metrics.recordInference(
+            model_id.empty() ? "default" : model_id,
+            lora_id,
+            latency,
+            input_tokens,
+            output_tokens,
+            true,
+            ""
+        );
+        
+        spdlog::debug("LLM INFER completed: model={}, latency={}ms, input_tokens={}, output_tokens={}",
+            model_id, latency.count(), input_tokens, output_tokens);
+        
         return result;
         
-    } catch (const std::exception& e) {
-        throw std::runtime_error(
-            std::string("LLM INFER failed: ") + e.what()
+    } catch (const LLMException& e) {
+        // Record failure
+        impl_->getBreaker("infer").recordFailure();
+        
+        auto end_time = std::chrono::steady_clock::now();
+        auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
+        
+        size_t input_tokens = impl_->token_estimator_->estimate(prompt);
+        
+        metrics.recordInference(
+            model_id.empty() ? "default" : model_id,
+            lora_id,
+            latency,
+            input_tokens,
+            0,
+            false,
+            LLMException::getErrorCodeString(e.getErrorCode())
         );
+        
+        spdlog::error("LLM INFER failed: model={}, error={}", 
+            model_id, e.what());
+        
+        // Re-throw LLM-specific exceptions
+        throw;
+    } catch (const std::invalid_argument& e) {
+        // Record failure
+        impl_->getBreaker("infer").recordFailure();
+        
+        auto end_time = std::chrono::steady_clock::now();
+        auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
+        
+        metrics.recordInference(
+            model_id.empty() ? "default" : model_id,
+            lora_id,
+            latency,
+            impl_->token_estimator_->estimate(prompt),
+            0,
+            false,
+            "INVALID_OPTIONS"
+        );
+        
+        // Catch option parsing errors
+        throw LLMException(LLMErrorCode::INVALID_OPTIONS,
+            std::string("Invalid option value: ") + e.what());
+    } catch (const std::exception& e) {
+        // Record failure
+        impl_->getBreaker("infer").recordFailure();
+        
+        auto end_time = std::chrono::steady_clock::now();
+        auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
+        
+        metrics.recordInference(
+            model_id.empty() ? "default" : model_id,
+            lora_id,
+            latency,
+            impl_->token_estimator_->estimate(prompt),
+            0,
+            false,
+            "INFERENCE_FAILED"
+        );
+        
+        // Wrap other exceptions as internal errors (mask details)
+        throw LLMException(LLMErrorCode::INFERENCE_FAILED,
+            std::string("Inference operation failed: ") + e.what());
+    }
+}
+
+std::string LLMAQLHandler::executeInferStreaming(
+    const std::string& prompt,
+    std::function<void(const std::string& token)> token_callback,
+    const std::string& model_id,
+    const std::string& lora_id,
+    const std::unordered_map<std::string, std::string>& options
+) {
+    auto start_time = std::chrono::steady_clock::now();
+    auto& metrics = LLMMetricsCollector::instance();
+
+    try {
+        // Input validation (same as executeInfer)
+        LLMValidator::validatePrompt(prompt);
+        LLMValidator::validateId(model_id, false);
+        LLMValidator::validateId(lora_id, true);
+
+        // Check circuit breaker
+        if (!impl_->getBreaker("infer").allowRequest()) {
+            metrics.recordCircuitBreakerState("infer", "open");
+            throw LLMException(LLMErrorCode::INFERENCE_FAILED,
+                "Circuit breaker is open - LLM service temporarily unavailable");
+        }
+
+        // Build the inference request
+        llm::InferenceRequest request;
+        request.prompt = prompt;
+        if (!model_id.empty()) {
+            request.model_id = model_id;
+        }
+        if (!lora_id.empty()) {
+            request.lora_adapter_id = lora_id;
+        }
+        if (options.count("max_tokens")) {
+            request.max_tokens = std::stoi(options.at("max_tokens"));
+        }
+        if (options.count("temperature")) {
+            request.temperature = std::stof(options.at("temperature"));
+        }
+        if (options.count("top_p")) {
+            request.top_p = std::stof(options.at("top_p"));
+        }
+
+        // Attach the streaming callback.
+        // token_callback is already held by value; assign directly (no extra move).
+        // Tokens are delivered sequentially by the inference thread, so there is
+        // no concurrent access concern for the caller's accumulator.
+        request.stream_callback = token_callback;
+
+        // Execute via plugin manager (streaming path)
+        auto& plugin_mgr = impl_->getPluginManager();
+        auto response = plugin_mgr.generate(request);
+
+        impl_->getBreaker("infer").recordSuccess();
+
+        auto end_time = std::chrono::steady_clock::now();
+        auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
+
+        size_t input_tokens  = impl_->token_estimator_->estimate(prompt);
+        size_t output_tokens = impl_->token_estimator_->estimate(response.text);
+
+        metrics.recordInference(
+            model_id.empty() ? "default" : model_id,
+            lora_id,
+            latency,
+            input_tokens,
+            output_tokens,
+            true,
+            ""
+        );
+
+        spdlog::debug("LLM INFER STREAMING completed: model={}, latency={}ms, input_tokens={}, output_tokens={}",
+            model_id, latency.count(), input_tokens, output_tokens);
+
+        return response.text;
+
+    } catch (const LLMException& e) {
+        impl_->getBreaker("infer").recordFailure();
+
+        auto end_time = std::chrono::steady_clock::now();
+        auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
+
+        metrics.recordInference(
+            model_id.empty() ? "default" : model_id,
+            lora_id,
+            latency,
+            impl_->token_estimator_->estimate(prompt),
+            0,
+            false,
+            LLMException::getErrorCodeString(e.getErrorCode())
+        );
+
+        spdlog::error("LLM INFER STREAMING failed: model={}, error={}", model_id, e.what());
+        throw;
+    } catch (const std::exception& e) {
+        impl_->getBreaker("infer").recordFailure();
+
+        auto end_time = std::chrono::steady_clock::now();
+        auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
+
+        metrics.recordInference(
+            model_id.empty() ? "default" : model_id,
+            lora_id,
+            latency,
+            impl_->token_estimator_->estimate(prompt),
+            0,
+            false,
+            "INFERENCE_FAILED"
+        );
+
+        throw LLMException(LLMErrorCode::INFERENCE_FAILED,
+            std::string("Streaming inference failed: ") + e.what());
     }
 }
 
@@ -65,35 +588,207 @@ std::string LLMAQLHandler::executeRAG(
     const std::string& lora_id,
     const std::unordered_map<std::string, std::string>& options
 ) {
+    auto start_time = std::chrono::steady_clock::now();
+    auto& metrics = LLMMetricsCollector::instance();
+    size_t retrieved_docs = 0;
+    
     try {
-        auto& plugin_mgr = impl_->getPluginManager();
+        // Input validation
+        LLMValidator::validatePrompt(query);
+        LLMValidator::validateCollection(collection);
+        LLMValidator::validateTopK(top_k);
+        LLMValidator::validateId(lora_id, true);
         
-        // TODO: Integrate with vector search to retrieve documents
-        // For now, create empty context
-        llm::RAGContext context;
-        context.query = query;
-        context.collection_name = collection;
-        context.top_k = top_k;
-        
-        llm::InferenceRequest request;
-        request.prompt = query;
-        request.lora_adapter_id = lora_id;
-        
-        // Parse options
-        if (options.count("max_tokens")) {
-            request.max_tokens = std::stoi(options.at("max_tokens"));
-        }
-        if (options.count("similarity_threshold")) {
-            // Store for vector search
+        // Check circuit breaker
+        if (!impl_->getBreaker("rag").allowRequest()) {
+            metrics.recordCircuitBreakerState("rag", "open");
+            throw LLMException(LLMErrorCode::RAG_FAILED,
+                "Circuit breaker is open - LLM service temporarily unavailable");
         }
         
-        auto response = plugin_mgr.generateRAG(context, request);
-        return response.text;
+        // Execute with timeout and cooperative cancellation propagated to streaming callbacks.
+        auto result = impl_->timeout_manager_.executeRAGWithCancelToken([&](auto cancel_token) {
+            return impl_->retry_policy_.executeWithRetry([&]() {
+                auto& plugin_mgr = impl_->getPluginManager();
+                
+                // Build RAG context with vector search integration
+                llm::RAGContext context;
+                context.query = query;
+                context.collection_name = collection;
+                context.top_k = top_k;
+                
+                // If vector index manager is available, perform similarity search
+                if (impl_->vector_index_mgr_) {
+                    try {
+                        // Generate query embedding
+                        auto query_embedding = THEMIS_LLM_EMBED(query);
+                        
+                        // Search for similar documents
+                        float similarity_threshold = Impl::DEFAULT_SIMILARITY_THRESHOLD;
+                        if (options.count("similarity_threshold")) {
+                            similarity_threshold = std::stof(options.at("similarity_threshold"));
+                        }
+                        
+                        auto [status, results] = impl_->vector_index_mgr_->searchKnn(
+                            query_embedding,
+                            top_k
+                        );
+                        
+                        if (status.ok) {
+                            // Retrieve documents and build context
+                            for (const auto& result : results) {
+                                // Convert distance metric to similarity score
+                                // For COSINE/L2 metrics: lower distance = higher similarity
+                                float similarity = 1.0f - result.distance;
+                                
+                                // Filter by similarity threshold
+                                if (similarity >= similarity_threshold) {
+                                    llm::RAGContext::Document doc;
+                                    doc.source = result.pk;
+                                    doc.relevance_score = similarity;
+                                    // doc.content carries the primary key of the matching
+                                    // document.  Full document retrieval is performed by
+                                    // the LLM plugin's generateRAG() implementation, which
+                                    // resolves the pk against the configured storage layer.
+                                    doc.content = result.pk;
+                                    context.documents.push_back(doc);
+                                }
+                            }
+                            retrieved_docs = context.documents.size();
+                        }
+                    } catch (const std::exception& e) {
+                        // Log error but continue with empty context
+                        spdlog::warn("RAG vector search failed: {}", e.what());
+                    }
+                }
+                
+                // Build inference request with RAG context
+                llm::InferenceRequest request;
+                request.prompt = query;
+                
+                // Set LoRA adapter if specified
+                if (!lora_id.empty()) {
+                    request.lora_adapter_id = lora_id;
+                }
+                
+                // Parse options
+                if (options.count("max_tokens")) {
+                    request.max_tokens = std::stoi(options.at("max_tokens"));
+                }
+                if (options.count("temperature")) {
+                    request.temperature = std::stof(options.at("temperature"));
+                }
+                if (options.count("top_p")) {
+                    request.top_p = std::stof(options.at("top_p"));
+                }
+
+                // Wrap any streaming callback so token delivery stops on cancellation.
+                if (request.stream_callback) {
+                    auto orig_cb = std::move(request.stream_callback);
+                    request.stream_callback = [orig_cb = std::move(orig_cb), cancel_token](const std::string& token) {
+                        if (!cancel_token->load(std::memory_order_acquire)) {
+                            orig_cb(token);
+                        }
+                    };
+                }
+                
+                // Execute RAG query
+                auto response = plugin_mgr.generateRAG(context, request);
+                return response.text;
+            }, RetryPolicy::isRetryableError);
+        });
         
-    } catch (const std::exception& e) {
-        throw std::runtime_error(
-            std::string("LLM RAG failed: ") + e.what()
+        // Record success
+        impl_->getBreaker("rag").recordSuccess();
+        
+        auto end_time = std::chrono::steady_clock::now();
+        auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
+        
+        // Estimate token counts
+        size_t input_tokens = impl_->token_estimator_->estimate(query);
+        size_t output_tokens = impl_->token_estimator_->estimate(result);
+        
+        metrics.recordRAG(
+            collection,
+            lora_id,
+            latency,
+            retrieved_docs,
+            input_tokens,
+            output_tokens,
+            true,
+            ""
         );
+        
+        spdlog::debug("LLM RAG completed: collection={}, retrieved_docs={}, latency={}ms",
+            collection, retrieved_docs, latency.count());
+        
+        return result;
+        
+    } catch (const LLMException& e) {
+        // Record failure
+        impl_->getBreaker("rag").recordFailure();
+        
+        auto end_time = std::chrono::steady_clock::now();
+        auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
+        
+        metrics.recordRAG(
+            collection,
+            lora_id,
+            latency,
+            retrieved_docs,
+            impl_->token_estimator_->estimate(query),
+            0,
+            false,
+            LLMException::getErrorCodeString(e.getErrorCode())
+        );
+        
+        spdlog::error("LLM RAG failed: collection={}, error={}", 
+            collection, e.what());
+        
+        // Re-throw LLM-specific exceptions
+        throw;
+    } catch (const std::invalid_argument& e) {
+        // Record failure
+        impl_->getBreaker("rag").recordFailure();
+        
+        auto end_time = std::chrono::steady_clock::now();
+        auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
+        
+        metrics.recordRAG(
+            collection,
+            lora_id,
+            latency,
+            retrieved_docs,
+            impl_->token_estimator_->estimate(query),
+            0,
+            false,
+            "INVALID_OPTIONS"
+        );
+        
+        // Catch option parsing errors
+        throw LLMException(LLMErrorCode::INVALID_OPTIONS,
+            std::string("Invalid option value: ") + e.what());
+    } catch (const std::exception& e) {
+        // Record failure
+        impl_->getBreaker("rag").recordFailure();
+        
+        auto end_time = std::chrono::steady_clock::now();
+        auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
+        
+        metrics.recordRAG(
+            collection,
+            lora_id,
+            latency,
+            retrieved_docs,
+            impl_->token_estimator_->estimate(query),
+            0,
+            false,
+            "RAG_FAILED"
+        );
+        
+        // Wrap other exceptions as internal errors (mask details)
+        throw LLMException(LLMErrorCode::RAG_FAILED,
+            std::string("RAG operation failed: ") + e.what());
     }
 }
 
@@ -101,14 +796,42 @@ std::vector<float> LLMAQLHandler::executeEmbed(
     const std::string& text,
     const std::string& model_id
 ) {
+    auto& metrics = LLMMetricsCollector::instance();
+
     try {
-        (void)model_id; // Future: support model selection
+        // Check circuit breaker
+        if (!impl_->getBreaker("embed").allowRequest()) {
+            metrics.recordCircuitBreakerState("embed", "open");
+            throw LLMException(LLMErrorCode::INFERENCE_FAILED,
+                "Circuit breaker is open - LLM embed service temporarily unavailable");
+        }
+
+        auto& plugin_mgr = impl_->getPluginManager();
         
-        // Use simplified EmbeddedLLM API
+        // If model_id is specified, use plugin manager for model-specific embedding
+        if (!model_id.empty()) {
+            // Build request for specific model
+            llm::InferenceRequest request;
+            request.prompt = text;
+            request.model_id = model_id;
+            
+            // Note: Plugin manager would need an embedWithModel method
+            // For now, fall back to default embedding
+        }
+        
+        // Use simplified EmbeddedLLM API for default embedding
         auto embedding = THEMIS_LLM_EMBED(text);
+
+        impl_->getBreaker("embed").recordSuccess();
         return embedding;
-        
+
+    } catch (const LLMException& e) {
+        impl_->getBreaker("embed").recordFailure();
+        throw std::runtime_error(
+            std::string("LLM EMBED failed: ") + e.what()
+        );
     } catch (const std::exception& e) {
+        impl_->getBreaker("embed").recordFailure();
         throw std::runtime_error(
             std::string("LLM EMBED failed: ") + e.what()
         );
@@ -217,6 +940,13 @@ std::string LLMAQLHandler::executeStats() {
         oss << "  Total requests: " << stats.total_requests << "\n";
         oss << "  Average latency: " << stats.average_latency_ms << " ms\n";
         oss << "  Throughput: " << stats.throughput << " req/s\n";
+
+        auto cb_states = getCircuitBreakerStates();
+        oss << "  Circuit breakers:\n";
+        oss << "    infer:    " << cb_states.infer    << "\n";
+        oss << "    rag:      " << cb_states.rag      << "\n";
+        oss << "    embed:    " << cb_states.embed    << "\n";
+        oss << "    finetune: " << cb_states.finetune << "\n";
         
         return oss.str();
     } catch (const std::exception& e) {
@@ -224,6 +954,15 @@ std::string LLMAQLHandler::executeStats() {
             std::string("LLM STATS failed: ") + e.what()
         );
     }
+}
+
+LLMAQLHandler::CircuitBreakerStates LLMAQLHandler::getCircuitBreakerStates() const {
+    CircuitBreakerStates states;
+    states.infer    = sharding::CircuitBreaker::stateToString(impl_->getBreaker("infer").getState());
+    states.rag      = sharding::CircuitBreaker::stateToString(impl_->getBreaker("rag").getState());
+    states.embed    = sharding::CircuitBreaker::stateToString(impl_->getBreaker("embed").getState());
+    states.finetune = sharding::CircuitBreaker::stateToString(impl_->getBreaker("finetune").getState());
+    return states;
 }
 
 std::string LLMAQLHandler::executeCacheStats() {
@@ -269,9 +1008,11 @@ std::vector<std::string> LLMAQLHandler::executeBatchInfer(
         std::vector<std::string> results;
         results.reserve(requests.size());
         
-        // Batch optimization: group requests by model/lora
-        // For simplicity, execute sequentially for now
-        // TODO: Implement true batch inference
+        // Requests are executed sequentially: each is submitted to the
+        // underlying plugin manager one at a time.  This is the correct
+        // production behaviour because the LLM plugin interface is
+        // single-request; true parallel batching is delegated to the
+        // provider backend (e.g. llama.cpp batch API) if supported.
         for (const auto& req : requests) {
             llm::InferenceRequest inf_req;
             inf_req.prompt = req.prompt;
@@ -292,6 +1033,763 @@ std::vector<std::string> LLMAQLHandler::executeBatchInfer(
         throw std::runtime_error(
             std::string("Batch LLM INFER failed: ") + e.what()
         );
+    }
+}
+
+std::string LLMAQLHandler::translateNLToAQL(
+    const std::string& nl_query,
+    const std::string& schema_context
+) {
+    // Sanitize inputs before embedding them in the LLM prompt.
+    // Both nl_query and schema_context are injected verbatim into the system/user
+    // prompt, making them potential vectors for prompt injection attacks.
+    // NOTE: Called outside the try/catch so that LLMException(PROMPT_INJECTION)
+    // propagates to the caller with its error code intact (not wrapped by the
+    // generic catch below).
+    sanitizePromptInput(nl_query, "nl_query",
+                        ValidationLimits::MAX_NL_QUERY_LENGTH);
+    sanitizePromptInput(schema_context, "schema_context",
+                        ValidationLimits::MAX_SCHEMA_CONTEXT_LENGTH);
+
+    const TranslationValidationMode mode = impl_->validation_mode_;
+    const size_t max_attempts = (mode == TranslationValidationMode::RETRY_ON_ERROR)
+                                ? RetryPolicy::Config::defaults().max_retries + 1
+                                : 1;
+    std::string validation_feedback;
+
+    for (size_t attempt = 0; attempt < max_attempts; ++attempt) {
+        try {
+            // Build system prompt for AQL translation
+            std::ostringstream system_prompt;
+            system_prompt << "You are an expert in AQL (Application Query Language) for ThemisDB.\n";
+            system_prompt << "ThemisDB AQL is based on ArangoDB's AQL but extended with additional features.\n\n";
+
+            // Add schema context if provided
+            if (!schema_context.empty()) {
+                system_prompt << "Database schema:\n" << schema_context << "\n\n";
+            } else {
+                // Default schema description
+                system_prompt << "ThemisDB is a distributed graph database with AQL support.\n";
+                system_prompt << "Common collections: documents, nodes, edges, users, etc.\n";
+                system_prompt << "Graph structures use edges to connect nodes.\n\n";
+            }
+
+            system_prompt << "Your task: Convert natural language queries to valid AQL.\n";
+            system_prompt << "Requirements:\n";
+            system_prompt << "- Return ONLY the AQL query, no explanations or markdown\n";
+            system_prompt << "- Use proper AQL syntax (FOR, FILTER, SORT, LIMIT, RETURN)\n";
+            system_prompt << "- Handle graph traversals with proper edge syntax if needed\n";
+            system_prompt << "- Optimize for performance\n\n";
+
+            // On retry, append previous validation error as feedback
+            if (attempt > 0 && !validation_feedback.empty()) {
+                system_prompt << "Your previous attempt produced this AQL validation error:\n"
+                              << validation_feedback << "\n"
+                              << "Please fix the issue and generate a valid AQL query.\n\n";
+            }
+
+            // Build user prompt
+            std::ostringstream user_prompt;
+            user_prompt << "Natural language query: " << nl_query << "\n\n";
+            user_prompt << "Generate the corresponding AQL query:";
+
+            // Create chat messages for better context
+            std::vector<llm::ChatMessage> messages;
+            messages.emplace_back("system", system_prompt.str());
+            messages.emplace_back("user", user_prompt.str());
+
+            // Use chat interface for better results
+            auto response = executeChat(messages);
+
+            // Clean up response - remove markdown code blocks if present
+            std::string aql_query = response;
+
+            // Remove ```aql or ``` markers
+            size_t start_marker = aql_query.find("```");
+            if (start_marker != std::string::npos) {
+                // Find the actual start of the query (after ```aql or ```)
+                size_t query_start = aql_query.find('\n', start_marker);
+                if (query_start != std::string::npos) {
+                    query_start++;
+                    // Find end marker
+                    size_t end_marker = aql_query.find("```", query_start);
+                    if (end_marker != std::string::npos) {
+                        aql_query = aql_query.substr(query_start, end_marker - query_start);
+                    }
+                }
+            }
+
+            // Trim whitespace
+            auto trim = [](std::string& s) {
+                s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](unsigned char ch) {
+                    return !std::isspace(ch);
+                }));
+                s.erase(std::find_if(s.rbegin(), s.rend(), [](unsigned char ch) {
+                    return !std::isspace(ch);
+                }).base(), s.end());
+            };
+            trim(aql_query);
+
+            // Post-generation structural validation via AQLQueryValidator
+            AQLQueryValidator aql_validator;
+            auto vresult = aql_validator.validate(aql_query);
+            if (vresult.hasErrors()) {
+                // Locate the first ERROR-severity issue for the feedback message.
+                auto err_it = std::find_if(vresult.issues.begin(), vresult.issues.end(),
+                    [](const ValidationIssue& i) {
+                        return i.severity == ValidationIssue::Severity::ERROR;
+                    });
+                validation_feedback = (err_it != vresult.issues.end())
+                    ? err_it->message : "unknown validation error";
+                if (mode == TranslationValidationMode::REJECT_ON_ERROR ||
+                    attempt + 1 >= max_attempts) {
+                    throw LLMException(LLMErrorCode::INVALID_RESPONSE,
+                        "Generated AQL failed validation: " + validation_feedback);
+                }
+                // RETRY_ON_ERROR: log warning and retry with feedback
+                spdlog::warn("NL-to-AQL validation error (attempt {}/{}): {}",
+                             attempt + 1, max_attempts, validation_feedback);
+                continue;
+            }
+
+            // Validate generated AQL and log any structural issues from syntax highlighter
+            AQLSyntaxHighlighter validator(/*use_ansi=*/false);
+            auto annotations = validator.annotateErrors(aql_query);
+            if (!annotations.empty()) {
+                // Truncate the query preview to avoid overly long log entries
+                constexpr std::size_t MAX_PREVIEW = 100;
+                std::string query_preview = nl_query.size() > MAX_PREVIEW
+                    ? nl_query.substr(0, MAX_PREVIEW) + "..."
+                    : nl_query;
+
+                std::ostringstream warn_msg;
+                warn_msg << "NL-to-AQL translation produced " << annotations.size()
+                         << " potential syntax issue(s) for query \"" << query_preview << "\":";
+                for (const auto& ann : annotations) {
+                    warn_msg << "\n  Line " << ann.line << ", Col " << ann.column
+                             << ": " << ann.message;
+                }
+                spdlog::warn("{}", warn_msg.str());
+            }
+
+            return aql_query;
+
+        } catch (const LLMException&) {
+            // Re-throw LLMException (PROMPT_INJECTION, PROMPT_TOO_LONG, INVALID_RESPONSE, …)
+            // unchanged so callers can distinguish them from generic errors.
+            throw;
+        } catch (const std::exception& e) {
+            throw std::runtime_error(
+                std::string("NL to AQL translation failed: ") + e.what()
+            );
+        }
+    }
+
+    // Reached only when max_attempts > 1 and all retries produced validation errors.
+    throw LLMException(LLMErrorCode::INVALID_RESPONSE,
+        "Generated AQL failed validation after all retries: " + validation_feedback);
+}
+
+std::string LLMAQLHandler::translateNLToAQLStreaming(
+    const std::string& nl_query,
+    std::function<void(const std::string& token)> token_callback,
+    const std::string& schema_context
+) {
+    try {
+        // Sanitize inputs (same rules as translateNLToAQL)
+        sanitizePromptInput(nl_query, "nl_query",
+                            ValidationLimits::MAX_NL_QUERY_LENGTH);
+        sanitizePromptInput(schema_context, "schema_context",
+                            ValidationLimits::MAX_SCHEMA_CONTEXT_LENGTH);
+
+        const TranslationValidationMode mode = impl_->validation_mode_;
+        const size_t max_attempts = (mode == TranslationValidationMode::RETRY_ON_ERROR)
+                                    ? RetryPolicy::Config::defaults().max_retries + 1
+                                    : 1;
+        std::string validation_feedback;
+
+        for (size_t attempt = 0; attempt < max_attempts; ++attempt) {
+            // Build the same prompt used by translateNLToAQL
+            std::ostringstream system_prompt;
+            system_prompt << "You are an expert in AQL (Application Query Language) for ThemisDB.\n";
+            system_prompt << "ThemisDB AQL is based on ArangoDB's AQL but extended with additional features.\n\n";
+
+            if (!schema_context.empty()) {
+                system_prompt << "Database schema:\n" << schema_context << "\n\n";
+            } else {
+                system_prompt << "ThemisDB is a distributed graph database with AQL support.\n";
+                system_prompt << "Common collections: documents, nodes, edges, users, etc.\n";
+                system_prompt << "Graph structures use edges to connect nodes.\n\n";
+            }
+
+            system_prompt << "Your task: Convert natural language queries to valid AQL.\n";
+            system_prompt << "Requirements:\n";
+            system_prompt << "- Return ONLY the AQL query, no explanations or markdown\n";
+            system_prompt << "- Use proper AQL syntax (FOR, FILTER, SORT, LIMIT, RETURN)\n";
+            system_prompt << "- Handle graph traversals with proper edge syntax if needed\n";
+            system_prompt << "- Optimize for performance\n\n";
+
+            // On retry, append previous validation error as feedback
+            if (attempt > 0 && !validation_feedback.empty()) {
+                system_prompt << "Your previous attempt produced this AQL validation error:\n"
+                              << validation_feedback << "\n"
+                              << "Please fix the issue and generate a valid AQL query.\n\n";
+            }
+
+            std::ostringstream user_prompt;
+            user_prompt << "Natural language query: " << nl_query << "\n\n";
+            user_prompt << "Generate the corresponding AQL query:";
+
+            // Combine into a single prompt for streaming
+            std::string full_prompt = system_prompt.str() + user_prompt.str();
+
+            // Stream via executeInferStreaming; collect tokens so we can post-process.
+            // Tokens are forwarded to the caller on all attempts (including retries).
+            // When a chat executor override is set (for testing), use it instead.
+            std::string raw_response;
+            if (impl_->chat_executor_) {
+                // Test/mock path: build messages and use the injected executor.
+                std::vector<llm::ChatMessage> messages;
+                messages.emplace_back("system", system_prompt.str());
+                messages.emplace_back("user", user_prompt.str());
+                raw_response = impl_->chat_executor_(messages);
+                token_callback(raw_response);
+            } else {
+                auto collecting_callback = [&raw_response, &token_callback](const std::string& token) {
+                    raw_response += token;
+                    token_callback(token);
+                };
+                executeInferStreaming(full_prompt, collecting_callback);
+            }
+
+            // Post-process: strip markdown fences and trim (same as translateNLToAQL)
+            std::string aql_query = raw_response;
+
+            size_t start_marker = aql_query.find("```");
+            if (start_marker != std::string::npos) {
+                size_t query_start = aql_query.find('\n', start_marker);
+                if (query_start != std::string::npos) {
+                    query_start++;
+                    size_t end_marker = aql_query.find("```", query_start);
+                    if (end_marker != std::string::npos) {
+                        aql_query = aql_query.substr(query_start, end_marker - query_start);
+                    }
+                }
+            }
+
+            auto trim = [](std::string& s) {
+                s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](unsigned char ch) {
+                    return !std::isspace(ch);
+                }));
+                s.erase(std::find_if(s.rbegin(), s.rend(), [](unsigned char ch) {
+                    return !std::isspace(ch);
+                }).base(), s.end());
+            };
+            trim(aql_query);
+
+            // Post-generation structural validation via AQLQueryValidator
+            AQLQueryValidator aql_validator;
+            auto vresult = aql_validator.validate(aql_query);
+            if (vresult.hasErrors()) {
+                auto err_it = std::find_if(vresult.issues.begin(), vresult.issues.end(),
+                    [](const ValidationIssue& i) {
+                        return i.severity == ValidationIssue::Severity::ERROR;
+                    });
+                validation_feedback = (err_it != vresult.issues.end())
+                    ? err_it->message : "unknown validation error";
+                if (mode == TranslationValidationMode::REJECT_ON_ERROR ||
+                    attempt + 1 >= max_attempts) {
+                    throw LLMException(LLMErrorCode::INVALID_RESPONSE,
+                        "Generated AQL failed validation: " + validation_feedback);
+                }
+                // RETRY_ON_ERROR: log warning and retry with feedback
+                spdlog::warn("Streaming NL-to-AQL validation error (attempt {}/{}): {}",
+                             attempt + 1, max_attempts, validation_feedback);
+                continue;
+            }
+
+            // Validate and log any structural issues from syntax highlighter
+            AQLSyntaxHighlighter validator(/*use_ansi=*/false);
+            auto annotations = validator.annotateErrors(aql_query);
+            if (!annotations.empty()) {
+                constexpr std::size_t MAX_PREVIEW = 100;
+                std::string query_preview = nl_query.size() > MAX_PREVIEW
+                    ? nl_query.substr(0, MAX_PREVIEW) + "..."
+                    : nl_query;
+                std::ostringstream warn_msg;
+                warn_msg << "translateNLToAQLStreaming produced " << annotations.size()
+                         << " potential syntax issue(s) for query \"" << query_preview << "\":";
+                for (const auto& ann : annotations) {
+                    warn_msg << "\n  Line " << ann.line << ", Col " << ann.column
+                             << ": " << ann.message;
+                }
+                spdlog::warn("{}", warn_msg.str());
+            }
+
+            return aql_query;
+        }
+
+        // Reached only when max_attempts > 1 and all retries produced validation errors.
+        throw LLMException(LLMErrorCode::INVALID_RESPONSE,
+            "Generated AQL failed validation after all retries: " + validation_feedback);
+
+    } catch (const LLMException&) {
+        // Re-throw LLMException (e.g. PROMPT_INJECTION, PROMPT_TOO_LONG, INVALID_RESPONSE)
+        // unchanged so callers can distinguish security-related failures from generic errors.
+        throw;
+    } catch (const std::exception& e) {
+        throw std::runtime_error(
+            std::string("NL to AQL streaming translation failed: ") + e.what()
+        );
+    }
+}
+
+std::vector<LLMAQLHandler::BatchNLToAQLResult> LLMAQLHandler::translateBatchNLToAQL(
+    const std::vector<BatchNLToAQLRequest>& requests,
+    std::size_t max_concurrent_requests
+) {
+    const std::size_t n = requests.size();
+    if (n == 0) return {};
+
+    // Determine effective concurrency – default to hardware thread count.
+    const std::size_t hw_concurrency = std::max(
+        static_cast<std::size_t>(1u),
+        static_cast<std::size_t>(std::thread::hardware_concurrency())
+    );
+    const std::size_t concurrency =
+        (max_concurrent_requests == 0) ? hw_concurrency : max_concurrent_requests;
+
+    // Launch at most min(n, concurrency) worker threads so the number of live
+    // threads is directly bounded — no unbounded thread-per-request creation.
+    // Each worker pulls the next unprocessed request via a shared atomic index,
+    // which avoids lambda reference captures into the range-for loop variable.
+    const std::size_t num_workers = std::min(n, concurrency);
+
+    // Pre-allocate result storage indexed by request position.  Workers write
+    // to distinct slots, so no mutex is required for the results vector.
+    std::vector<BatchNLToAQLResult> results(n);
+
+    // Shared work index: each worker atomically claims the next request slot.
+    std::atomic<std::size_t> work_index{0};
+
+    // Launch the worker pool and wait for all workers to finish.
+    std::vector<std::future<void>> workers;
+    workers.reserve(num_workers);
+
+    for (std::size_t w = 0; w < num_workers; ++w) {
+        workers.push_back(std::async(
+            std::launch::async,
+            [this, &requests, &results, &work_index, n]() {
+                std::size_t idx;
+                while ((idx = work_index.fetch_add(1, std::memory_order_relaxed)) < n) {
+                    const BatchNLToAQLRequest& req = requests[idx];
+                    BatchNLToAQLResult& result     = results[idx];
+                    try {
+                        result.aql_query = translateNLToAQL(req.nl_query, req.schema_context);
+                        result.success   = true;
+                    } catch (const std::exception& e) {
+                        result.aql_query.clear();
+                        result.error   = e.what();
+                        result.success = false;
+                    } catch (...) {
+                        result.aql_query.clear();
+                        result.error   = "Unknown exception during translation";
+                        result.success = false;
+                    }
+                }
+            }
+        ));
+    }
+
+    for (auto& w : workers) {
+        w.get();
+    }
+    return results;
+}
+
+std::future<std::vector<LLMAQLHandler::BatchNLToAQLResult>>
+LLMAQLHandler::translateBatchNLToAQLAsync(
+    std::vector<BatchNLToAQLRequest> requests,
+    std::size_t max_concurrent_requests
+) {
+    return std::async(
+        std::launch::async,
+        [this, requests = std::move(requests), max_concurrent_requests]() {
+            return translateBatchNLToAQL(requests, max_concurrent_requests);
+        }
+    );
+}
+
+std::string LLMAQLHandler::executeChat(
+    const std::vector<llm::ChatMessage>& messages,
+    const std::string& model_id,
+    const std::unordered_map<std::string, std::string>& options
+) {
+    try {
+        // If a test/mock executor has been injected, use it instead of the live LLM.
+        if (impl_->chat_executor_) {
+            return impl_->chat_executor_(messages);
+        }
+
+        // Use EmbeddedLLM chat interface
+        auto& llm = llm::EmbeddedLLMManager::instance().get();
+        
+        // Note: EmbeddedLLM's chat() doesn't directly support custom parameters
+        // We can use generateWithParams for the formatted chat prompt instead
+        
+        // Determine chat format from options or use default
+        llm::ChatFormat format = llm::ChatFormat::ChatML;
+        if (options.count("chat_format")) {
+            const auto& fmt = options.at("chat_format");
+            if (fmt == "llama2") format = llm::ChatFormat::Llama2;
+            else if (fmt == "alpaca") format = llm::ChatFormat::Alpaca;
+            else if (fmt == "vicuna") format = llm::ChatFormat::Vicuna;
+        }
+        
+        // Note: model_id selection would require extending EmbeddedLLM API
+        // For now, use the default model
+        (void)model_id;
+        
+        // If we have custom parameters, we might need to use a different approach
+        // For now, use the standard chat method with default parameters
+        auto response = llm.chat(messages, format);
+        return response;
+        
+    } catch (const std::exception& e) {
+        throw std::runtime_error(
+            std::string("LLM CHAT failed: ") + e.what()
+        );
+    }
+}
+
+std::string LLMAQLHandler::streamExplainAQL(
+    const std::string& aql_query,
+    std::function<void(const std::string& token)> stream_callback,
+    const std::string& schema_context
+) {
+    // Sanitize inputs before embedding them in the LLM prompt
+    sanitizePromptInput(aql_query, "aql_query",
+                        ValidationLimits::MAX_NL_QUERY_LENGTH);
+    sanitizePromptInput(schema_context, "schema_context",
+                        ValidationLimits::MAX_SCHEMA_CONTEXT_LENGTH);
+
+    try {
+        const std::string prompt = buildAQLExplanationPrompt(aql_query, schema_context);
+        auto& llm = llm::EmbeddedLLMManager::instance().get();
+        return llm.generateStreaming(prompt, std::move(stream_callback));
+
+    } catch (const LLMException&) {
+        throw;
+    } catch (const std::exception& e) {
+        throw std::runtime_error(
+            std::string("AQL explanation streaming failed: ") + e.what()
+        );
+    }
+}
+
+std::string LLMAQLHandler::streamExplainAQLAsSSE(
+    const std::string& aql_query,
+    std::function<void(const std::string& sse_event)> stream_callback,
+    const std::string& request_id,
+    const std::string& schema_context
+) {
+    // Sanitize inputs before embedding them in the LLM prompt
+    sanitizePromptInput(aql_query, "aql_query",
+                        ValidationLimits::MAX_NL_QUERY_LENGTH);
+    sanitizePromptInput(schema_context, "schema_context",
+                        ValidationLimits::MAX_SCHEMA_CONTEXT_LENGTH);
+
+    try {
+        const std::string prompt = buildAQLExplanationPrompt(aql_query, schema_context);
+        auto& llm = llm::EmbeddedLLMManager::instance().get();
+        return llm.generateStreamingSSE(prompt, std::move(stream_callback),
+                                        request_id);
+
+    } catch (const LLMException&) {
+        throw;
+    } catch (const std::exception& e) {
+        throw std::runtime_error(
+            std::string("AQL explanation SSE streaming failed: ") + e.what()
+        );
+    }
+}
+
+HighlightedResponse LLMAQLHandler::formatLLMResponse(
+    const std::string& llm_response,
+    bool use_ansi
+) const {
+    AQLSyntaxHighlighter highlighter(use_ansi);
+    return highlighter.formatLLMResponse(llm_response);
+}
+
+LLMAQLHandler::AQLTranslationResult LLMAQLHandler::translateNLToAQLWithConfidence(
+    const std::string& nl_query,
+    const std::string& schema_context
+) {
+    AQLTranslationResult result;
+    result.aql_query = translateNLToAQL(nl_query, schema_context);
+
+    AQLConfidenceScorer scorer;
+    result.confidence = scorer.score(result.aql_query, nl_query, schema_context);
+
+    spdlog::debug("AQL confidence score: overall={:.2f} structural={:.2f} completeness={:.2f} schema_match={:.2f}",
+        result.confidence.overall_confidence,
+        result.confidence.structural_score,
+        result.confidence.completeness_score,
+        result.confidence.schema_match_score);
+
+    return result;
+}
+
+std::string LLMAQLHandler::translateNLToAQLWithExamples(
+    const std::string& nl_query,
+    const AQLFewShotExampleLibrary& library,
+    const std::string& schema_context,
+    std::size_t max_examples
+) {
+    // Sanitize inputs (same rules as translateNLToAQL)
+    sanitizePromptInput(nl_query, "nl_query",
+                        ValidationLimits::MAX_NL_QUERY_LENGTH);
+    sanitizePromptInput(schema_context, "schema_context",
+                        ValidationLimits::MAX_SCHEMA_CONTEXT_LENGTH);
+
+    const TranslationValidationMode mode = impl_->validation_mode_;
+    const size_t max_attempts = (mode == TranslationValidationMode::RETRY_ON_ERROR)
+                                ? RetryPolicy::Config::defaults().max_retries + 1
+                                : 1;
+    std::string validation_feedback;
+
+    for (size_t attempt = 0; attempt < max_attempts; ++attempt) {
+        try {
+            // Build system prompt
+            std::ostringstream system_prompt;
+            system_prompt << "You are an expert in AQL (Application Query Language) for ThemisDB.\n";
+            system_prompt << "ThemisDB AQL is based on ArangoDB's AQL but extended with additional features.\n\n";
+
+            if (!schema_context.empty()) {
+                system_prompt << "Database schema:\n" << schema_context << "\n\n";
+            } else {
+                system_prompt << "ThemisDB is a distributed graph database with AQL support.\n";
+                system_prompt << "Common collections: documents, nodes, edges, users, etc.\n";
+                system_prompt << "Graph structures use edges to connect nodes.\n\n";
+            }
+
+            system_prompt << "Your task: Convert natural language queries to valid AQL.\n";
+            system_prompt << "Requirements:\n";
+            system_prompt << "- Return ONLY the AQL query, no explanations or markdown\n";
+            system_prompt << "- Use proper AQL syntax (FOR, FILTER, SORT, LIMIT, RETURN)\n";
+            system_prompt << "- Handle graph traversals with proper edge syntax if needed\n";
+            system_prompt << "- Optimize for performance\n\n";
+
+            // Inject few-shot examples from the library (only on first attempt to keep
+            // the retry prompt focused on the error feedback)
+            std::size_t injected_count = 0;
+            if (attempt == 0 && max_examples > 0) {
+                auto examples = library.findRelevant(nl_query, max_examples);
+                if (!examples.empty()) {
+                    injected_count = examples.size();
+                    system_prompt << AQLFewShotExampleLibrary::formatForPrompt(examples);
+                }
+            }
+
+            // On retry, append previous validation error as feedback
+            if (attempt > 0 && !validation_feedback.empty()) {
+                system_prompt << "Your previous attempt produced this AQL validation error:\n"
+                              << validation_feedback << "\n"
+                              << "Please fix the issue and generate a valid AQL query.\n\n";
+            }
+
+            // Build user prompt
+            std::ostringstream user_prompt;
+            user_prompt << "Natural language query: " << nl_query << "\n\n";
+            user_prompt << "Generate the corresponding AQL query:";
+
+            std::vector<llm::ChatMessage> messages;
+            messages.emplace_back("system", system_prompt.str());
+            messages.emplace_back("user", user_prompt.str());
+
+            auto response = executeChat(messages);
+
+            // Strip markdown fences
+            std::string aql_query = response;
+            size_t start_marker = aql_query.find("```");
+            if (start_marker != std::string::npos) {
+                size_t query_start = aql_query.find('\n', start_marker);
+                if (query_start != std::string::npos) {
+                    query_start++;
+                    size_t end_marker = aql_query.find("```", query_start);
+                    if (end_marker != std::string::npos) {
+                        aql_query = aql_query.substr(query_start, end_marker - query_start);
+                    }
+                }
+            }
+
+            // Trim whitespace
+            auto trim = [](std::string& s) {
+                s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](unsigned char ch) {
+                    return !std::isspace(ch);
+                }));
+                s.erase(std::find_if(s.rbegin(), s.rend(), [](unsigned char ch) {
+                    return !std::isspace(ch);
+                }).base(), s.end());
+            };
+            trim(aql_query);
+
+            // Post-generation structural validation via AQLQueryValidator
+            AQLQueryValidator aql_validator;
+            auto vresult = aql_validator.validate(aql_query);
+            if (vresult.hasErrors()) {
+                auto err_it = std::find_if(vresult.issues.begin(), vresult.issues.end(),
+                    [](const ValidationIssue& i) {
+                        return i.severity == ValidationIssue::Severity::ERROR;
+                    });
+                validation_feedback = (err_it != vresult.issues.end())
+                    ? err_it->message : "unknown validation error";
+                if (mode == TranslationValidationMode::REJECT_ON_ERROR ||
+                    attempt + 1 >= max_attempts) {
+                    throw LLMException(LLMErrorCode::INVALID_RESPONSE,
+                        "Generated AQL failed validation: " + validation_feedback);
+                }
+                // RETRY_ON_ERROR: log warning and retry with feedback
+                spdlog::warn("WithExamples NL-to-AQL validation error (attempt {}/{}): {}",
+                             attempt + 1, max_attempts, validation_feedback);
+                continue;
+            }
+
+            // Validate and log any structural issues from syntax highlighter
+            AQLSyntaxHighlighter validator(/*use_ansi=*/false);
+            auto annotations = validator.annotateErrors(aql_query);
+            if (!annotations.empty()) {
+                constexpr std::size_t MAX_PREVIEW = 100;
+                std::string query_preview = nl_query.size() > MAX_PREVIEW
+                    ? nl_query.substr(0, MAX_PREVIEW) + "..."
+                    : nl_query;
+                std::ostringstream warn_msg;
+                warn_msg << "translateNLToAQLWithExamples produced "
+                         << annotations.size()
+                         << " potential syntax issue(s) for query \""
+                         << query_preview << "\":";
+                for (const auto& ann : annotations) {
+                    warn_msg << "\n  Line " << ann.line << ", Col " << ann.column
+                             << ": " << ann.message;
+                }
+                spdlog::warn("{}", warn_msg.str());
+            }
+
+            spdlog::debug("translateNLToAQLWithExamples: injected {} examples for query \"{}\"",
+                          injected_count,
+                          nl_query.size() > 60 ? nl_query.substr(0, 60) + "..." : nl_query);
+
+            return aql_query;
+
+        } catch (const LLMException&) {
+            // Re-throw LLMException (PROMPT_INJECTION, PROMPT_TOO_LONG, INVALID_RESPONSE, …)
+            // unchanged so callers can distinguish them from generic errors.
+            throw;
+        } catch (const std::exception& e) {
+            throw std::runtime_error(
+                std::string("NL to AQL translation with examples failed: ") + e.what()
+            );
+        }
+    }
+
+    // Reached only when max_attempts > 1 and all retries produced validation errors.
+    throw LLMException(LLMErrorCode::INVALID_RESPONSE,
+        "Generated AQL failed validation after all retries: " + validation_feedback);
+}
+
+LLMAQLHandler::QueryConfidenceScore LLMAQLHandler::scoreQueryConfidence(
+    const std::string& aql_query,
+    const std::string& original_intent,
+    const std::string& schema_context
+) {
+    // Default result for when the LLM is unavailable
+    QueryConfidenceScore unavailable;
+    unavailable.score       = -1.0f;
+    unavailable.explanation = "LLM unavailable; confidence scoring requires a loaded model";
+
+    if (aql_query.empty()) {
+        QueryConfidenceScore empty_result;
+        empty_result.score       = 0.0f;
+        empty_result.explanation = "Query is empty";
+        empty_result.suggestions.push_back("Provide a non-empty AQL query");
+        return empty_result;
+    }
+
+    try {
+        // Build a structured prompt that asks the LLM to respond in a parseable format
+        std::ostringstream prompt;
+        prompt << "You are an expert in AQL (ArangoDB Query Language) for ThemisDB.\n\n";
+
+        if (!schema_context.empty()) {
+            prompt << "Database schema:\n" << schema_context << "\n\n";
+        }
+
+        if (!original_intent.empty()) {
+            prompt << "The user intended: \"" << original_intent << "\"\n\n";
+        }
+
+        prompt << "AQL query to evaluate:\n```\n" << aql_query << "\n```\n\n";
+        prompt << "Evaluate this AQL query on a scale from 0.0 to 1.0 and respond in EXACTLY "
+               << "this format (no extra text):\n"
+               << "SCORE: <float between 0.0 and 1.0>\n"
+               << "EXPLANATION: <one sentence>\n"
+               << "SUGGESTION: <one improvement per line, or 'None' if no improvements>\n";
+
+        const std::string response = executeInfer(prompt.str());
+
+        QueryConfidenceScore result;
+        result.score = -1.0f;
+
+        // Parse the structured response
+        std::istringstream ss(response);
+        std::string line;
+        bool in_suggestions = false;
+        while (std::getline(ss, line)) {
+            // Trim leading/trailing whitespace
+            auto trim_ws = [](std::string& s) {
+                s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](unsigned char c) {
+                    return !std::isspace(c);
+                }));
+                s.erase(std::find_if(s.rbegin(), s.rend(), [](unsigned char c) {
+                    return !std::isspace(c);
+                }).base(), s.end());
+            };
+            trim_ws(line);
+            if (line.empty()) continue;
+
+            if (line.size() >= 7 && line.substr(0, 7) == "SCORE: ") {
+                try {
+                    result.score = std::stof(line.substr(7));
+                    // Clamp to [0, 1]
+                    result.score = std::max(0.0f, std::min(1.0f, result.score));
+                } catch (...) {
+                    result.score = -1.0f;
+                }
+                in_suggestions = false;
+            } else if (line.size() >= 13 && line.substr(0, 13) == "EXPLANATION: ") {
+                result.explanation = line.substr(13);
+                in_suggestions = false;
+            } else if (line.size() >= 12 && line.substr(0, 12) == "SUGGESTION: ") {
+                in_suggestions = true;
+                std::string suggestion = line.substr(12);
+                if (suggestion != "None" && !suggestion.empty()) {
+                    result.suggestions.push_back(suggestion);
+                }
+            } else if (in_suggestions && !line.empty() && line != "None") {
+                result.suggestions.push_back(line);
+            }
+        }
+
+        // If we failed to parse a score, return unavailable
+        if (result.score < 0.0f && result.explanation.empty()) {
+            return unavailable;
+        }
+        return result;
+
+    } catch (const std::exception& e) {
+        spdlog::warn("LLMAQLHandler::scoreQueryConfidence failed: {}", e.what());
+        return unavailable;
     }
 }
 

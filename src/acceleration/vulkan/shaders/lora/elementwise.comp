@@ -1,0 +1,77 @@
+#version 450
+
+// Element-wise operations for LoRA Training
+// Supports: add, subtract, multiply, divide, transpose
+// ThemisDB Vulkan Compute Shader for LoRA
+
+layout(local_size_x = 256) in;
+
+layout(std430, binding = 0) readonly buffer InputA {
+    float A[];
+};
+
+layout(std430, binding = 1) readonly buffer InputB {
+    float B[];
+};
+
+layout(std430, binding = 2) writeonly buffer Output {
+    float C[];
+};
+
+layout(push_constant) uniform PushConstants {
+    uint size;        // Total number of elements
+    uint op;          // Operation type: 0=add, 1=sub, 2=mul, 3=div, 4=scalar_mul
+    uint rows;        // For transpose operation
+    uint cols;        // For transpose operation
+    uint scalar;      // Scalar value (as uint, reinterpreted as float)
+} pc;
+
+void main() {
+    uint idx = gl_GlobalInvocationID.x;
+    
+    if (idx >= pc.size) {
+        return;
+    }
+    
+    float result = 0.0;
+    
+    // Select operation
+    if (pc.op == 0) {
+        // Add: C = A + B
+        result = A[idx] + B[idx];
+    } else if (pc.op == 1) {
+        // Subtract: C = A - B
+        result = A[idx] - B[idx];
+    } else if (pc.op == 2) {
+        // Multiply: C = A * B (element-wise)
+        result = A[idx] * B[idx];
+    } else if (pc.op == 3) {
+        // Divide: C = A / B (element-wise)
+        result = A[idx] / B[idx];
+    } else if (pc.op == 4) {
+        // Scalar multiply: C = A * scalar
+        float scalar_val = uintBitsToFloat(pc.scalar);
+        result = A[idx] * scalar_val;
+    } else if (pc.op == 5) {
+        // Transpose: C[j * rows + i] = A[i * cols + j]
+        // idx represents the output index
+        uint out_row = idx / pc.rows;
+        uint out_col = idx % pc.rows;
+        uint in_idx = out_col * pc.cols + out_row;
+        
+        if (in_idx < pc.size) {
+            result = A[in_idx];
+        }
+    } else if (pc.op == 6) {
+        // ReLU activation: C = max(0, A)
+        result = max(0.0, A[idx]);
+    } else if (pc.op == 7) {
+        // Square: C = A * A
+        result = A[idx] * A[idx];
+    } else if (pc.op == 8) {
+        // Sqrt: C = sqrt(A)
+        result = sqrt(A[idx]);
+    }
+    
+    C[idx] = result;
+}

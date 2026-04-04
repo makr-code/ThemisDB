@@ -1,12 +1,76 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            backend_registry.cpp                               ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:13:43                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     509                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • e627c556b  2026-03-15  feat(acceleration): BackendRegistry thread-safety, VLLMRe... ║
+    • 6afb15844  2026-03-15  feat(acceleration): replace std::cout with structured log... ║
+    • 4b2fdfa0e  2026-03-11  fix(acceleration): Wire OpenGLVectorBackend into BackendR... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • f2fa0c5eb  2026-02-23  fix(acceleration): address code-audit gaps — deviceInfo()... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "acceleration/compute_backend.h"
 #include "acceleration/plugin_loader.h"
 #include "acceleration/cpu_backend.h"
+#include "acceleration/multi_gpu_backend.h"
+#include "acceleration/device_manager.h"
+#include "utils/logger.h"
+#ifdef THEMIS_ENABLE_VULKAN
+#include "acceleration/graphics_backends.h"
+#endif
+#if defined(THEMIS_ENABLE_OPENGL) && !defined(THEMIS_ENABLE_VULKAN)
+// graphics_backends.h declares both VulkanVectorBackend and OpenGLVectorBackend.
+// Include it here when Vulkan is disabled so OpenGLVectorBackend is reachable.
+#include "acceleration/graphics_backends.h"
+#endif
+#ifdef THEMIS_ENABLE_HIP
+#include "acceleration/hip_backend.h"
+#endif
+#ifdef THEMIS_ENABLE_CUDA
+#include "acceleration/cuda_backend.h"
+#endif
+#ifdef THEMIS_ENABLE_OPENCL
+#include "acceleration/opencl_backend.h"
+#endif
 #include <algorithm>
 #include <mutex>
-#include <iostream>
+#include <shared_mutex>
 
 namespace themis {
 namespace acceleration {
+
+// The canonical fallback chain: highest priority first, CPU always last.
+// All getBestXBackend() methods traverse this list in order.
+static const std::vector<BackendType> kFallbackOrder = {
+    BackendType::MULTI_GPU,
+    BackendType::CUDA,
+    BackendType::HIP,
+    BackendType::ZLUDA,
+    BackendType::VULKAN,
+    BackendType::DIRECTX,
+    BackendType::ROCM,
+    BackendType::ONEAPI,
+    BackendType::METAL,
+    BackendType::OPENCL,
+    BackendType::OPENGL,
+    BackendType::WEBGPU,
+    BackendType::CPU,
+};
 
 // Singleton instance
 BackendRegistry::BackendRegistry() : pluginLoader_(std::make_unique<PluginLoader>()) {
@@ -14,6 +78,48 @@ BackendRegistry::BackendRegistry() : pluginLoader_(std::make_unique<PluginLoader
     registerBackend(std::make_unique<CPUVectorBackend>());
     registerBackend(std::make_unique<CPUGraphBackend>());
     registerBackend(std::make_unique<CPUGeoBackend>());
+    registerBackend(std::make_unique<CPUMatrixBackend>());
+
+    // Register CUDA matrix backend for Tensor Core FP16/BF16 acceleration.
+    // registerBackend() checks isAvailable() at runtime; silently skipped
+    // when no CUDA-capable GPU is detected.
+#ifdef THEMIS_ENABLE_CUDA
+    registerBackend(std::make_unique<CUDAMatrixBackend>());
+#endif
+
+    // Register Vulkan backend when compiled with Vulkan support.
+    // registerBackend() checks isAvailable() at runtime, so if no Vulkan
+    // ICD is present the backend is silently skipped and CPU remains the
+    // fallback. This is the primary fallback path for non-NVIDIA hardware
+    // (AMD, Intel, ARM, Qualcomm) that has no CUDA but supports Vulkan 1.x.
+#ifdef THEMIS_ENABLE_VULKAN
+    registerBackend(std::make_unique<VulkanVectorBackend>());
+#endif
+
+    // Register HIP vector and geo backends for AMD GPUs.
+    // registerBackend() checks isAvailable() at runtime; both are silently
+    // skipped when no ROCm-capable GPU is present.
+#ifdef THEMIS_ENABLE_HIP
+    registerBackend(std::make_unique<HIPVectorBackend>());
+    registerBackend(std::make_unique<HIPGeoBackend>());
+#endif
+
+    // Register OpenCL backend for broad hardware compatibility.
+    // Supports any OpenCL 1.2+ capable device: NVIDIA, AMD, Intel, ARM, Qualcomm.
+    // registerBackend() checks isAvailable() at runtime; silently skipped when
+    // no OpenCL ICD is present.
+#ifdef THEMIS_ENABLE_OPENCL
+    registerBackend(std::make_unique<OpenCLVectorBackend>());
+#endif
+
+    // Register OpenGL Compute Shader backend for platform-wide GPU acceleration.
+    // Uses EGL headless context (no display required); falls back to CPU kernels
+    // when EGL/GL 4.3+ is unavailable so initialize() always succeeds.
+    // registerBackend() checks isAvailable() at runtime; on systems without a
+    // compatible EGL driver the backend still initialises in CPU-fallback mode.
+#ifdef THEMIS_ENABLE_OPENGL
+    registerBackend(std::make_unique<OpenGLVectorBackend>());
+#endif
 }
 
 BackendRegistry::~BackendRegistry() {
@@ -27,14 +133,14 @@ BackendRegistry& BackendRegistry::instance() {
 
 void BackendRegistry::registerBackend(std::unique_ptr<IComputeBackend> backend) {
     if (backend && backend->isAvailable()) {
-        std::cout << "Registered backend: " << backend->name() 
-                  << " (Type: " << static_cast<int>(backend->type()) << ")" << std::endl;
+        std::unique_lock<std::shared_mutex> lock(registryMutex_);
+        THEMIS_INFO("Registered backend: {} (type={})", backend->name(), static_cast<int>(backend->type()));
         backends_.push_back(std::move(backend));
     }
 }
 
 size_t BackendRegistry::loadPlugins(const std::string& pluginDirectory) {
-    std::cout << "Loading acceleration plugins from: " << pluginDirectory << std::endl;
+    THEMIS_INFO("Loading acceleration plugins from: {}", pluginDirectory);
     
     size_t count = pluginLoader_->loadPluginsFromDirectory(pluginDirectory);
     
@@ -58,7 +164,7 @@ size_t BackendRegistry::loadPlugins(const std::string& pluginDirectory) {
 }
 
 bool BackendRegistry::loadPlugin(const std::string& pluginPath) {
-    std::cout << "Loading acceleration plugin: " << pluginPath << std::endl;
+    THEMIS_INFO("Loading acceleration plugin: {}", pluginPath);
     
     if (!pluginLoader_->loadPlugin(pluginPath)) {
         return false;
@@ -68,6 +174,12 @@ bool BackendRegistry::loadPlugin(const std::string& pluginPath) {
     auto plugins = pluginLoader_->getLoadedPlugins();
     if (!plugins.empty()) {
         auto* plugin = plugins.back();
+        
+        // Null-safety: Validate plugin pointer before use
+        if (!plugin) {
+            THEMIS_ERROR("Plugin pointer is null after loading");
+            return false;
+        }
         
         // Register backends
         if (auto vectorBackend = plugin->createVectorBackend()) {
@@ -89,6 +201,7 @@ bool BackendRegistry::loadPlugin(const std::string& pluginPath) {
 }
 
 IComputeBackend* BackendRegistry::getBackend(BackendType type) const {
+    std::shared_lock<std::shared_mutex> lock(registryMutex_);
     for (const auto& backend : backends_) {
         if (backend->type() == type) {
             return backend.get();
@@ -97,35 +210,60 @@ IComputeBackend* BackendRegistry::getBackend(BackendType type) const {
     return nullptr;
 }
 
+// static
+const std::vector<BackendType>& BackendRegistry::getFallbackOrder() noexcept {
+    return kFallbackOrder;
+}
+
+// Internal helper: traverse kFallbackOrder and return the first backend that
+// satisfies reqs and can be downcast to T*. T must be IComputeBackend or a
+// subtype (IVectorBackend, IGraphBackend, IGeoBackend).
+//
+// NOTE: callers must hold at least a shared lock on BackendRegistry::registryMutex_
+// before calling this function.  The lock is NOT acquired here to allow both
+// shared (read-only) and exclusive (write) callers to reuse the same helper.
+template <typename T>
+static T* selectTyped(const std::vector<std::unique_ptr<IComputeBackend>>& backends,
+                      const BackendRegistry::CapabilityRequirements& reqs) {
+    for (auto type : kFallbackOrder) {
+        for (const auto& backend : backends) {
+            if (backend->type() == type && BackendRegistry::satisfies(backend->getCapabilities(), reqs)) {
+                T* typed = dynamic_cast<T*>(backend.get());
+                if (typed) return typed;
+            }
+        }
+    }
+    return nullptr;
+}
+
+IComputeBackend* BackendRegistry::selectBackendFor(const CapabilityRequirements& reqs) const {
+    std::shared_lock<std::shared_mutex> lock(registryMutex_);
+    return selectTyped<IComputeBackend>(backends_, reqs);
+}
+
+IVectorBackend* BackendRegistry::selectVectorBackendFor(const CapabilityRequirements& reqs) const {
+    std::shared_lock<std::shared_mutex> lock(registryMutex_);
+    return selectTyped<IVectorBackend>(backends_, reqs);
+}
+
+IGraphBackend* BackendRegistry::selectGraphBackendFor(const CapabilityRequirements& reqs) const {
+    std::shared_lock<std::shared_mutex> lock(registryMutex_);
+    return selectTyped<IGraphBackend>(backends_, reqs);
+}
+
+IGeoBackend* BackendRegistry::selectGeoBackendFor(const CapabilityRequirements& reqs) const {
+    std::shared_lock<std::shared_mutex> lock(registryMutex_);
+    return selectTyped<IGeoBackend>(backends_, reqs);
+}
+
+IMatrixBackend* BackendRegistry::selectMatrixBackendFor(const CapabilityRequirements& reqs) const {
+    std::shared_lock<std::shared_mutex> lock(registryMutex_);
+    return selectTyped<IMatrixBackend>(backends_, reqs);
+}
+
 IVectorBackend* BackendRegistry::getBestVectorBackend() const {
-    // Priority order: CUDA > HIP > ZLUDA > Vulkan > DirectX > ROCm > OneAPI > Metal > OpenCL > OpenGL > WebGPU > CPU
-    // CUDA: Best performance on NVIDIA
-    // HIP: Native AMD solution
-    // ZLUDA: CUDA compatibility on AMD
-    // Vulkan: Modern cross-platform
-    // DirectX: Windows-native
-    // ROCm: AMD compute platform
-    // OneAPI: Intel cross-platform
-    // Metal: Apple hardware
-    // OpenCL: Generic cross-platform
-    // OpenGL: Legacy support
-    // WebGPU: Browser-based (experimental)
-    static const BackendType priority[] = {
-        BackendType::CUDA,
-        BackendType::HIP,
-        BackendType::ZLUDA,
-        BackendType::VULKAN,
-        BackendType::DIRECTX,
-        BackendType::ROCM,
-        BackendType::ONEAPI,
-        BackendType::METAL,
-        BackendType::OPENCL,
-        BackendType::OPENGL,
-        BackendType::WEBGPU,
-        BackendType::CPU
-    };
-    
-    for (auto type : priority) {
+    std::shared_lock<std::shared_mutex> lock(registryMutex_);
+    for (auto type : kFallbackOrder) {
         for (const auto& backend : backends_) {
             if (backend->type() == type && backend->getCapabilities().supportsVectorOps) {
                 auto* vectorBackend = dynamic_cast<IVectorBackend*>(backend.get());
@@ -135,28 +273,12 @@ IVectorBackend* BackendRegistry::getBestVectorBackend() const {
             }
         }
     }
-    
     return nullptr;
 }
 
 IGraphBackend* BackendRegistry::getBestGraphBackend() const {
-    // Priority order: CUDA > HIP > ZLUDA > Vulkan > DirectX > ROCm > OneAPI > Metal > OpenCL > OpenGL > WebGPU > CPU
-    static const BackendType priority[] = {
-        BackendType::CUDA,
-        BackendType::HIP,
-        BackendType::ZLUDA,
-        BackendType::VULKAN,
-        BackendType::DIRECTX,
-        BackendType::ROCM,
-        BackendType::ONEAPI,
-        BackendType::METAL,
-        BackendType::OPENCL,
-        BackendType::OPENGL,
-        BackendType::WEBGPU,
-        BackendType::CPU
-    };
-    
-    for (auto type : priority) {
+    std::shared_lock<std::shared_mutex> lock(registryMutex_);
+    for (auto type : kFallbackOrder) {
         for (const auto& backend : backends_) {
             if (backend->type() == type && backend->getCapabilities().supportsGraphOps) {
                 auto* graphBackend = dynamic_cast<IGraphBackend*>(backend.get());
@@ -166,28 +288,12 @@ IGraphBackend* BackendRegistry::getBestGraphBackend() const {
             }
         }
     }
-    
     return nullptr;
 }
 
 IGeoBackend* BackendRegistry::getBestGeoBackend() const {
-    // Priority order: CUDA > HIP > ZLUDA > Vulkan > DirectX > ROCm > OneAPI > Metal > OpenCL > OpenGL > WebGPU > CPU
-    static const BackendType priority[] = {
-        BackendType::CUDA,
-        BackendType::HIP,
-        BackendType::ZLUDA,
-        BackendType::VULKAN,
-        BackendType::DIRECTX,
-        BackendType::ROCM,
-        BackendType::ONEAPI,
-        BackendType::METAL,
-        BackendType::OPENCL,
-        BackendType::OPENGL,
-        BackendType::WEBGPU,
-        BackendType::CPU
-    };
-    
-    for (auto type : priority) {
+    std::shared_lock<std::shared_mutex> lock(registryMutex_);
+    for (auto type : kFallbackOrder) {
         for (const auto& backend : backends_) {
             if (backend->type() == type && backend->getCapabilities().supportsGeoOps) {
                 auto* geoBackend = dynamic_cast<IGeoBackend*>(backend.get());
@@ -197,12 +303,34 @@ IGeoBackend* BackendRegistry::getBestGeoBackend() const {
             }
         }
     }
-    
+    return nullptr;
+}
+
+IMatrixBackend* BackendRegistry::getBestMatrixBackend() const {
+    std::shared_lock<std::shared_mutex> lock(registryMutex_);
+    for (auto type : kFallbackOrder) {
+        for (const auto& backend : backends_) {
+            if (backend->type() == type && backend->getCapabilities().supportsMatrixOps) {
+                auto* matrixBackend = dynamic_cast<IMatrixBackend*>(backend.get());
+                if (matrixBackend) {
+                    return matrixBackend;
+                }
+            }
+        }
+    }
     return nullptr;
 }
 
 void BackendRegistry::autoDetect() {
-    std::cout << "Auto-detecting acceleration backends..." << std::endl;
+    THEMIS_INFO("Auto-detecting acceleration backends...");
+
+    // Register multi-GPU sharding backend when multiple GPUs are visible.
+    // This is done before plugin loading so it appears at the head of the
+    // fallback chain and getBestVectorBackend() returns it first.
+    // registerBackend() acquires the exclusive lock internally — no outer lock here.
+    if (MultiGPUVectorBackend::detectGPUCount() >= 2) {
+        registerBackend(std::make_unique<MultiGPUVectorBackend>());
+    }
     
     // Try to load plugins from standard locations
     std::vector<std::string> pluginPaths = {
@@ -219,19 +347,22 @@ void BackendRegistry::autoDetect() {
         loadPlugins(path);
     }
     
-    std::cout << "Total backends available: " << backends_.size() << std::endl;
+    // Acquire shared lock only for the read-only logging pass.
+    std::shared_lock<std::shared_mutex> lock(registryMutex_);
+    THEMIS_INFO("Total backends available: {}", backends_.size());
     
     // Print available backends
     for (const auto& backend : backends_) {
         auto caps = backend->getCapabilities();
-        std::cout << "  - " << backend->name() 
-                  << " (Vector:" << (caps.supportsVectorOps ? "Yes" : "No")
-                  << " Graph:" << (caps.supportsGraphOps ? "Yes" : "No")
-                  << " Geo:" << (caps.supportsGeoOps ? "Yes" : "No") << ")" << std::endl;
+        THEMIS_DEBUG("  - {} (Vector:{} Graph:{} Geo:{})", backend->name(),
+                     (caps.supportsVectorOps ? "Yes" : "No"),
+                     (caps.supportsGraphOps  ? "Yes" : "No"),
+                     (caps.supportsGeoOps    ? "Yes" : "No"));
     }
 }
 
 std::vector<BackendType> BackendRegistry::getAvailableBackends() const {
+    std::shared_lock<std::shared_mutex> lock(registryMutex_);
     std::vector<BackendType> types;
     types.reserve(backends_.size());
     
@@ -243,16 +374,135 @@ std::vector<BackendType> BackendRegistry::getAvailableBackends() const {
 }
 
 void BackendRegistry::shutdownAll() {
-    std::cout << "Shutting down all acceleration backends..." << std::endl;
+    THEMIS_INFO("Shutting down all acceleration backends...");
+
+    // Acquire exclusive lock for the full shutdown + clear sequence.
+    std::unique_lock<std::shared_mutex> lock(registryMutex_);
     
     for (auto& backend : backends_) {
         backend->shutdown();
     }
     backends_.clear();
+
+    // Clear cached startup selections; the backends they pointed to are gone.
+    selectedVectorBackend_ = nullptr;
+    selectedGraphBackend_  = nullptr;
+    selectedGeoBackend_    = nullptr;
+    runtimeInitialized_.store(false, std::memory_order_release);
+    cachedDeviceInfo_.clear();
     
     if (pluginLoader_) {
+        // Unlock before calling into pluginLoader_ to prevent potential
+        // deadlock if a plugin destructor calls back into the registry.
+        lock.unlock();
         pluginLoader_->unloadAllPlugins();
     }
+}
+
+// ---------------------------------------------------------------------------
+// Default capability requirements
+// ---------------------------------------------------------------------------
+
+// static
+BackendRegistry::CapabilityRequirements BackendRegistry::defaultVectorRequirements() noexcept {
+    CapabilityRequirements reqs;
+    reqs.needsVectorOps      = true;
+    reqs.requiredPrecisions  = PrecisionMode::FP32;
+    reqs.requiredMetrics     = metricBit(DistanceMetric::L2)
+                             | metricBit(DistanceMetric::COSINE)
+                             | metricBit(DistanceMetric::INNER_PRODUCT);
+    return reqs;
+}
+
+// static
+BackendRegistry::CapabilityRequirements BackendRegistry::defaultGraphRequirements() noexcept {
+    CapabilityRequirements reqs;
+    reqs.needsGraphOps = true;
+    return reqs;
+}
+
+// static
+BackendRegistry::CapabilityRequirements BackendRegistry::defaultGeoRequirements() noexcept {
+    CapabilityRequirements reqs;
+    reqs.needsGeoOps         = true;
+    reqs.requiredPrecisions  = PrecisionMode::FP32;
+    return reqs;
+}
+
+// ---------------------------------------------------------------------------
+// Runtime startup initialization
+// ---------------------------------------------------------------------------
+
+void BackendRegistry::initializeRuntime(
+    const CapabilityRequirements& vectorReqs,
+    const CapabilityRequirements& graphReqs,
+    const CapabilityRequirements& geoReqs)
+{
+    THEMIS_INFO("Initializing acceleration runtime with capability-driven backend selection...");
+
+    // Hardware probing and plugin loading are done without the registry lock
+    // because autoDetect()/loadPlugins() call registerBackend() which acquires
+    // the exclusive lock themselves.
+    //
+    // Step 1: Probe hardware (lock-free — DeviceManager has its own concurrency).
+    std::vector<DeviceCapabilityInfo> deviceSnapshot = DeviceManager::instance().refresh();
+    DeviceManager::instance().logDeviceInfo();
+
+    // Step 2: Discover and load all available backends (registerBackend locks internally).
+    autoDetect();
+
+    // Step 3: Capability-driven selection + write results under exclusive lock.
+    {
+        std::unique_lock<std::shared_mutex> lock(registryMutex_);
+        cachedDeviceInfo_ = std::move(deviceSnapshot);
+        // selectTyped() requires the lock to be held (shared is sufficient; we
+        // hold exclusive here so it is already satisfied).
+        selectedVectorBackend_ = selectTyped<IVectorBackend>(backends_, vectorReqs);
+        selectedGraphBackend_  = selectTyped<IGraphBackend>(backends_, graphReqs);
+        selectedGeoBackend_    = selectTyped<IGeoBackend>(backends_, geoReqs);
+        runtimeInitialized_.store(true, std::memory_order_release);
+    }
+
+    // Log the selected backends so operators can confirm the startup choice.
+    // Acquire a shared lock for the read-only log pass.
+    std::shared_lock<std::shared_mutex> rlock(registryMutex_);
+    auto logSelection = [](const char* category, const IComputeBackend* b) {
+        if (b) {
+            THEMIS_INFO("[acceleration] Selected {} backend: {} (type={})",
+                        category, b->name(), static_cast<int>(b->type()));
+        } else {
+            THEMIS_WARN("[acceleration] No suitable {} backend found — operation category unavailable.",
+                        category);
+        }
+    };
+
+    logSelection("vector", selectedVectorBackend_);
+    logSelection("graph",  selectedGraphBackend_);
+    logSelection("geo",    selectedGeoBackend_);
+}
+
+IVectorBackend* BackendRegistry::getSelectedVectorBackend() const noexcept {
+    std::shared_lock<std::shared_mutex> lock(registryMutex_);
+    return selectedVectorBackend_;
+}
+
+IGraphBackend* BackendRegistry::getSelectedGraphBackend() const noexcept {
+    std::shared_lock<std::shared_mutex> lock(registryMutex_);
+    return selectedGraphBackend_;
+}
+
+IGeoBackend* BackendRegistry::getSelectedGeoBackend() const noexcept {
+    std::shared_lock<std::shared_mutex> lock(registryMutex_);
+    return selectedGeoBackend_;
+}
+
+bool BackendRegistry::isRuntimeInitialized() const noexcept {
+    return runtimeInitialized_.load(std::memory_order_acquire);
+}
+
+std::vector<DeviceCapabilityInfo> BackendRegistry::deviceInfo() const noexcept {
+    std::shared_lock<std::shared_mutex> lock(registryMutex_);
+    return cachedDeviceInfo_;
 }
 
 } // namespace acceleration

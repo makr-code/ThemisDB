@@ -130,6 +130,29 @@ ThemisDB implements **defense-in-depth** security across all layers:
 - 🔗 **Perfect Forward Secrecy** (PFS)
 - 📜 **Certificate pinning** for HSM/TSA
 
+**🛡️ Security Hardening (v1.4.2+):**
+
+> [!WARNING]
+> **NEW: HSM Stub Provider Gating**
+> - ⚠️ Requires explicit opt-in via `THEMIS_ALLOW_HSM_STUB=1`
+> - ❌ Fails in production mode (`THEMIS_PRODUCTION_MODE=1`)
+> - 🔍 Auto-detects production environments (`ENVIRONMENT=production`)
+> - 📋 See: [HSM Production Setup](docs/security/HSM_PRODUCTION_SETUP.md)
+
+> [!NOTE]
+> **VaultSigningProvider Limitation**
+> - ✅ Signing operations only (Transit Engine)
+> - ❌ Key management operations throw clear errors
+> - 📖 Migration path: Use `VaultKeyProvider` for full key management
+> - 📋 See: [Vault Signing Provider](docs/security/VAULT_SIGNING_PROVIDER.md)
+
+> [!TIP]
+> **PKCS#11 Integration Strategy**
+> - 📁 Development: `pkcs11_minimal.h` (built-in, limited)
+> - 🏭 Production: Vendor PKCS#11 headers (required)
+> - ✅ Compile-time validation for header compatibility
+> - 📋 See: [PKCS#11 Integration](docs/security/PKCS11_INTEGRATION.md)
+
 </details>
 
 <details>
@@ -139,6 +162,7 @@ ThemisDB implements **defense-in-depth** security across all layers:
 - 💉 **AQL injection** prevention
 - 🚫 **Path traversal** protection
 - 📦 **Request body size limits** (10MB default)
+- 🔍 **BPMN/EPK/YAML parser hardening** (`src/process/`) — regex-based BPMN parser rejects malformed XML; EPK and VCC-VPB parsers validate schema before import
 
 </details>
 
@@ -160,6 +184,7 @@ ThemisDB implements **defense-in-depth** security across all layers:
 - 🔐 **Encrypt-then-Sign** audit logs
 - 🔗 **Hash chain** for tamper detection
 - 🔔 **SIEM integration** (Syslog RFC 5424, Splunk HEC)
+- 🗂️ **Maintenance operations** (`src/maintenance/`) — all schedule CRUD and job lifecycle events logged via `AuditLogger`; RBAC roles `maintenance:read`, `maintenance:write`, `maintenance:admin`
 
 **Compliance Ready:**
 - ✅ GDPR/DSGVO
@@ -174,33 +199,47 @@ ThemisDB implements **defense-in-depth** security across all layers:
 ## 🔒 Security Hardening
 
 > [!IMPORTANT]
-> For production deployments, follow our [Security Hardening Guide](docs/security/security_hardening.md).
+> For production deployments, start with the **[Security Posture Guide](docs/production/SECURITY_POSTURE.md)** — it explicitly lists every insecure default, why it is unsafe, and the exact environment variable to change it.
+> Then follow the **[Production Runbook](docs/production/RUNBOOKS/CORE_MODULE_RUNBOOK.md)** for the full reference of required and optional environment variables, startup sequence, and failure-mode mitigations.
 
 ### Hardening Checklist
 
 | Step | Action | Priority |
 |:----:|--------|:--------:|
-| 1️⃣ | Enable TLS with strong cipher suites | 🔴 Critical |
-| 2️⃣ | Configure RBAC with least-privilege principle | 🔴 Critical |
-| 3️⃣ | Enable audit logging with encryption | 🟡 High |
-| 4️⃣ | Use external key management (Vault/HSM) | 🟡 High |
-| 5️⃣ | Configure rate limiting appropriately | 🟢 Medium |
-| 6️⃣ | Set up monitoring and alerting | 🟢 Medium |
-| 7️⃣ | Regular security updates and patching | 🔴 Critical |
+| 1️⃣ | Set `THEMIS_PRODUCTION_MODE=1` and `THEMIS_ENVIRONMENT=production` | 🔴 Critical |
+| 2️⃣ | Set `THEMIS_TOKEN_ADMIN` to a strong random secret (≥32 bytes) | 🔴 Critical |
+| 3️⃣ | Enable TLS with strong cipher suites | 🔴 Critical |
+| 4️⃣ | Configure RBAC with least-privilege principle | 🔴 Critical |
+| 5️⃣ | Use external key management: Vault or hardware HSM | 🟡 High |
+| 6️⃣ | Enable audit logging with encryption and SIEM sink | 🟡 High |
+| 7️⃣ | Enable WAL gRPC mTLS (`THEMIS_WAL_GRPC_ENABLE_MTLS=1`) | 🟡 High |
+| 8️⃣ | Configure rate limiting appropriately | 🟢 Medium |
+| 9️⃣ | Set up monitoring and alerting | 🟢 Medium |
+| 🔟 | Regular security updates and patching | 🔴 Critical |
 
 ---
 
 ## 📚 Security Documentation
 
+<details open>
+<summary><b>⭐ Production Security (Start Here)</b></summary>
+
+- 🛡️ **[Security Posture Guide](docs/production/SECURITY_POSTURE.md)** — dev vs. production defaults, hardening checklist, threat model, integrator checklist
+- 📋 **[Production Runbook](docs/production/RUNBOOKS/CORE_MODULE_RUNBOOK.md)** — required env vars, startup sequence, failure modes, mitigations
+- 🖥️ [systemd deployment files](deploy/systemd/) — hardened service unit, production drop-in, env template
+- ☸️ [Kubernetes production Helm values](docs/production/examples/k8s_production_values.yaml) — TLS, secrets, probes, autoscaling
+
+</details>
+
 <details>
 <summary><b>Core Security Guides</b></summary>
 
-- 📖 [Security Overview](docs/security/security_overview.md)
 - 🔐 [TLS Setup Guide](docs/guides/guides_tls_setup.md)
-- 👥 [RBAC Configuration](docs/security/security_implementation.md)
-- 🔒 [Encryption Strategy](docs/security/security_encryption_strategy.md)
-- 🔑 [Key Management](docs/security/security_key_management.md)
-- 🏦 [HSM Integration](docs/security/security_hsm.md)
+- 👥 [RBAC Configuration](docs/security/api_authentication_authorization.md)
+- 🔒 [Encryption Strategy](docs/security/encryption_strategy.md)
+- 🔑 [Key Management](docs/security/ENCRYPTION_KEY_MANAGEMENT_POLICY.md)
+- 🏦 [HSM Integration](docs/security/HSM_PRODUCTION_SETUP.md)
+- ✅ [Production Hardening Checklist](docs/security/PRODUCTION_HARDENING_CHECKLIST.md)
 
 </details>
 
@@ -279,28 +318,51 @@ For significant vulnerabilities, we will coordinate **CVE assignment with MITRE*
 | **cppcheck** | Additional C++ security checks | ✅ CI/CD |
 | **Trivy** | Container image vulnerability scanning | ✅ CI/CD |
 | **OWASP ZAP** | Dynamic application security testing | 🚧 Planned |
+| **Comprehensive Audit** | Systematic security & compliance audit | ✅ Available |
 
 ### Run Scans Locally
 
 <details>
-<summary><b>Windows (PowerShell)</b></summary>
+<summary><b>Comprehensive Security Audit (Recommended)</b></summary>
 
-```powershell
-.\security-scan.ps1
+Run a systematic security audit covering SAST, dependency scanning, secret detection, and more:
+
+```bash
+# Full audit (requires tools: cppcheck, clang-tidy, trivy, gitleaks, semgrep)
+./scripts/comprehensive-code-audit.sh
+
+# Quick audit (skip time-consuming checks)
+AUDIT_QUICK=1 ./scripts/comprehensive-code-audit.sh
+
+# Audit with specific categories
+./scripts/comprehensive-code-audit.sh --skip-dependencies --skip-dynamic
+
+# View all options
+./scripts/comprehensive-code-audit.sh --help
 ```
+
+**Audit Report:** Results are saved in `audit-results-<timestamp>/comprehensive-audit-report.md`
+
+**Compliance Coverage:** BSI C5, ISO 27001, DSGVO, NIS2, OWASP ASVS, NIST CSF
 
 </details>
 
 <details>
-<summary><b>Linux/WSL</b></summary>
+<summary><b>Individual Security Tools</b></summary>
 
 ```bash
-# If the script exists
-./security-scan.ps1
-
-# Or use tools directly:
+# Secret detection
 gitleaks detect --source . --verbose
+
+# Static analysis
 cppcheck --enable=warning,style --inconclusive ./src ./include
+clang-tidy src/**/*.cpp -- -std=c++20
+
+# Dependency scanning
+trivy fs --scanners vuln,secret,misconfig .
+
+# Semgrep patterns
+semgrep --config=auto src/ include/
 ```
 
 </details>
@@ -324,6 +386,7 @@ cppcheck --enable=warning,style --inconclusive ./src ./include
 
 | Date | Event |
 |------|-------|
+| **2026-03** | 📝 Added `src/process/` (BPMN parser hardening) and `src/maintenance/` (RBAC audit trail) security notes |
 | **2026-01** | 🔒 Major security improvements in v1.3.4 (RocksDB, Docker, Updates) |
 | **2025-12** | 🔐 Update Checker security features & Manifest signing design |
 | **2025-11** | 📝 Initial security policy publication |
@@ -368,6 +431,6 @@ cppcheck --enable=warning,style --inconclusive ./src ./include
 
 **🔐 Security is a top priority at ThemisDB**
 
-[🚨 Report a Vulnerability](https://github.com/makr-code/ThemisDB/security/advisories/new) · [📖 Security Docs](docs/security/) · [🛡️ Hardening Guide](docs/security/security_hardening.md)
+[🚨 Report a Vulnerability](https://github.com/makr-code/ThemisDB/security/advisories/new) · [📖 Security Docs](docs/security/) · [🛡️ Security Posture Guide](docs/production/SECURITY_POSTURE.md)
 
 </div>

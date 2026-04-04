@@ -1,4 +1,26 @@
-﻿#pragma once
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            serialization.h                                    ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:13:00                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     144                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+#pragma once
 
 #include <cstdint>
 #include <vector>
@@ -7,8 +29,24 @@
 namespace themis {
 namespace utils {
 
-/// Serialization utilities for Base Entity blobs
-/// Uses a compact binary format similar to VelocyPack or MessagePack
+/**
+ * Serialization utilities for Base Entity blobs
+ * 
+ * Uses a compact binary format similar to VelocyPack or MessagePack
+ * 
+ * @sources
+ * - Inspired by: VelocyPack (ArangoDB)
+ *   Repository: https://github.com/arangodb/velocypack
+ *   License: Apache 2.0
+ * - Inspired by: MessagePack
+ *   Website: https://msgpack.org/
+ *   License: Apache 2.0
+ * - ThemisDB Implementation: Custom binary format optimized for:
+ *   - Compact representation
+ *   - Fast encoding/decoding
+ *   - Native float vector support for embeddings
+ *   - Zero-copy operations where possible
+ */
 class Serialization {
 public:
     /// Type tags for serialized values

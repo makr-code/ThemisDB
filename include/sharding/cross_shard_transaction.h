@@ -1,0 +1,634 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            cross_shard_transaction.h                          ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:11:31                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     634                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 715714948  2026-03-15  feat(sharding): fix coordinator ID + implement SAGA compe... ║
+    • 57edae2d8  2026-03-14  fix: address all PR review comments on Percolator coordin... ║
+    • 2bbac9e44  2026-03-14  feat: implement Percolator-style distributed transaction ... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 8cf91c826  2026-03-01  feat: implement Calvin protocol for deterministic distrib... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+// Copyright 2025 ThemisDB
+// Licensed under MIT License
+
+#ifndef THEMISDB_SHARDING_CROSS_SHARD_TRANSACTION_H
+#define THEMISDB_SHARDING_CROSS_SHARD_TRANSACTION_H
+
+#include "sharding/consensus_module.h"
+#include "sharding/distributed_transaction.h"
+#include "sharding/truetime.h"
+#include "sharding/wal_manager.h"  // For LSN type
+#include <string>
+#include <vector>
+#include <map>
+#include <set>
+#include <memory>
+#include <functional>
+#include <nlohmann/json.hpp>
+
+namespace sharding {
+enum class TransactionProtocol;
+enum class TransactionWALEntryType;
+struct TransactionWALEntry;
+struct TransactionWALConfig;
+class TransactionWAL;
+class TransactionSnapshotManager;
+}
+
+namespace themisdb {
+namespace sharding {
+
+// Forward declarations for Phase 2.3.3 integration
+using LSN = themis::sharding::LSN;
+
+using TransactionWAL = ::sharding::TransactionWAL;
+using TransactionWALConfig = ::sharding::TransactionWALConfig;
+using TransactionWALEntryType = ::sharding::TransactionWALEntryType;
+using TransactionWALEntry = ::sharding::TransactionWALEntry;
+using TransactionSnapshotManager = ::sharding::TransactionSnapshotManager;
+
+/**
+ * @brief Transaction protocol type
+ */
+enum class TransactionProtocol {
+    TWO_PHASE_COMMIT,      // 2PC - blocking but strongly consistent
+    THREE_PHASE_COMMIT,    // 3PC - non-blocking variant
+    SAGA,                  // SAGA - compensating transactions for long-running txns
+    PERCOLATOR,            // Percolator - optimistic concurrency for distributed writes
+    CALVIN                 // Calvin - deterministic distributed transactions via pre-ordering
+};
+
+/**
+ * @brief Transaction isolation level
+ */
+enum class IsolationLevel {
+    READ_UNCOMMITTED,      // Dirty reads allowed
+    READ_COMMITTED,        // Read only committed data
+    REPEATABLE_READ,       // Consistent reads within transaction
+    SNAPSHOT_ISOLATION,    // MVCC snapshot isolation
+    SERIALIZABLE          // Fully serializable
+};
+
+/**
+ * @brief Transaction state
+ */
+enum class TransactionState {
+    ACTIVE,                // Transaction is active
+    PREPARING,             // Preparing to commit (2PC phase 1)
+    PREPARED,              // All participants ready to commit
+    COMMITTING,            // Committing changes
+    COMMITTED,             // Transaction committed successfully
+    ABORTING,              // Aborting transaction
+    ABORTED,               // Transaction aborted
+    UNKNOWN                // State unknown (coordinator failure)
+};
+
+/**
+ * @brief Shard participant in a transaction
+ */
+struct ShardParticipant {
+    std::string shard_id;                    // Shard identifier
+    std::string endpoint;                    // Shard endpoint
+    std::vector<std::string> operations;     // Operations on this shard
+    bool prepared = false;                   // Prepared for commit
+    bool committed = false;                  // Committed
+    bool aborted = false;                    // Aborted
+    std::string error_message;               // Error message if failed
+};
+
+/**
+ * @brief Cross-shard transaction metadata
+ */
+struct CrossShardTransaction {
+    std::string transaction_id;              // Global transaction ID
+    TransactionProtocol protocol;            // Transaction protocol
+    IsolationLevel isolation_level;          // Isolation level
+    TransactionState state;                  // Current state
+    std::chrono::system_clock::time_point start_time;
+    std::chrono::system_clock::time_point end_time;
+    std::map<std::string, ShardParticipant> participants;  // Shard ID -> participant
+    nlohmann::json metadata;                 // Additional metadata
+    
+    // MVCC timestamps for snapshot isolation
+    int64_t snapshot_timestamp = 0;          // Read timestamp (start of transaction)
+    int64_t commit_timestamp = 0;            // Commit timestamp (end of transaction)
+    
+    // Compensation data (for SAGA)
+    std::map<std::string, nlohmann::json> compensations;
+    
+    nlohmann::json toJson() const {
+        nlohmann::json j = {
+            {"transaction_id", transaction_id},
+            {"protocol", static_cast<int>(protocol)},
+            {"isolation_level", static_cast<int>(isolation_level)},
+            {"state", static_cast<int>(state)},
+            {"start_time", std::chrono::duration_cast<std::chrono::milliseconds>(
+                start_time.time_since_epoch()).count()},
+            {"metadata", metadata}
+        };
+        
+        if (state == TransactionState::COMMITTED || state == TransactionState::ABORTED) {
+            j["end_time"] = std::chrono::duration_cast<std::chrono::milliseconds>(
+                end_time.time_since_epoch()).count();
+        }
+        
+        nlohmann::json participants_json = nlohmann::json::array();
+        for (const auto& [shard_id, participant] : participants) {
+            participants_json.push_back({
+                {"shard_id", participant.shard_id},
+                {"prepared", participant.prepared},
+                {"committed", participant.committed},
+                {"aborted", participant.aborted}
+            });
+        }
+        j["participants"] = participants_json;
+        
+        return j;
+    }
+};
+
+/**
+ * @brief Configuration for cross-shard transactions
+ */
+struct CrossShardTransactionConfig {
+    TransactionProtocol default_protocol = TransactionProtocol::TWO_PHASE_COMMIT;
+    IsolationLevel default_isolation = IsolationLevel::SNAPSHOT_ISOLATION;
+    
+    // 2PC/3PC settings
+    std::chrono::milliseconds prepare_timeout{5000};
+    std::chrono::milliseconds commit_timeout{5000};
+    std::chrono::milliseconds abort_timeout{5000};
+    
+    // SAGA settings
+    bool saga_enable_compensation = true;
+    std::chrono::milliseconds saga_step_timeout{10000};
+    
+    // Percolator settings
+    std::chrono::milliseconds percolator_lock_timeout{1000};
+    uint32_t percolator_max_retries = 3;
+    
+    // Calvin settings
+    std::chrono::milliseconds calvin_epoch_duration{10};   // Epoch batch window (default 10ms)
+    bool calvin_enable_deterministic_lock_order = true;    // Sort locks by key for deadlock-free acquisition
+    
+    // Deadlock detection
+    bool enable_deadlock_detection = true;
+    std::chrono::milliseconds deadlock_detection_interval{1000};
+    
+    // Transaction timeout
+    std::chrono::milliseconds transaction_timeout{30000};
+    
+    // Transaction log path (defaults to /var/lib/themisdb/transaction_log.jsonl)
+    std::string transaction_log_path = "/var/lib/themisdb/transaction_log.jsonl";
+    
+    // Persistence settings (Phase 2.3.3 - Transaction Durability)
+    bool enable_persistence = false;                // Enable WAL-based persistence
+    std::string data_dir;                           // Base directory for WAL and snapshots
+    uint64_t snapshot_interval = 1000;              // Create snapshot every N operations
+    size_t max_snapshots = 10;                      // Maximum snapshots to retain
+
+    // Coordinator identity — set to DistributedCoordinator::getLocalShardId()
+    // before constructing CrossShardTransactionCoordinator so that audit records
+    // and snapshots carry the real node ID instead of a placeholder.
+    std::string coordinator_id;                     // Actual coordinator node identifier
+};
+
+/**
+ * @brief Enhanced Cross-Shard Transaction Coordinator
+ * 
+ * Provides pluggable transaction protocols for distributed transactions
+ * across multiple shards. Supports:
+ * - 2PC/3PC for strong consistency
+ * - SAGA for long-running transactions with compensation
+ * - Percolator for optimistic concurrency
+ * - Distributed deadlock detection
+ * - Snapshot isolation across shards
+ */
+class CrossShardTransactionCoordinator {
+public:
+    explicit CrossShardTransactionCoordinator(
+        const CrossShardTransactionConfig& config,
+        std::shared_ptr<ConsensusModule> consensus,
+        std::shared_ptr<themis::sharding::TrueTime> truetime = nullptr
+    );
+    
+    ~CrossShardTransactionCoordinator();
+    
+    /**
+     * @brief Initialize the coordinator
+     */
+    bool initialize();
+    
+    /**
+     * @brief Start the coordinator
+     */
+    bool start();
+    
+    /**
+     * @brief Stop the coordinator
+     */
+    void stop();
+    
+    /**
+     * @brief Begin a new cross-shard transaction
+     * @param transaction_id Unique transaction identifier
+     * @param protocol Transaction protocol to use
+     * @param isolation_level Isolation level
+     * @return true if transaction started successfully
+     */
+    bool beginTransaction(
+        const std::string& transaction_id,
+        TransactionProtocol protocol = TransactionProtocol::TWO_PHASE_COMMIT,
+        IsolationLevel isolation_level = IsolationLevel::SNAPSHOT_ISOLATION
+    );
+    
+    /**
+     * @brief Add a shard participant to the transaction
+     * @param transaction_id Transaction ID
+     * @param shard_id Shard to add
+     * @param endpoint Shard endpoint
+     * @param operations Operations to perform on this shard
+     * @return true if added successfully
+     */
+    bool addParticipant(
+        const std::string& transaction_id,
+        const std::string& shard_id,
+        const std::string& endpoint,
+        const std::vector<std::string>& operations
+    );
+    
+    /**
+     * @brief Prepare transaction (2PC/3PC phase 1)
+     * @param transaction_id Transaction ID
+     * @return true if all participants prepared successfully
+     */
+    bool prepare(const std::string& transaction_id);
+    
+    /**
+     * @brief Commit transaction
+     * @param transaction_id Transaction ID
+     * @return true if committed successfully
+     */
+    bool commit(const std::string& transaction_id);
+    
+    /**
+     * @brief Abort transaction
+     * @param transaction_id Transaction ID
+     * @return true if aborted successfully
+     */
+    bool abort(const std::string& transaction_id);
+    
+    /**
+     * @brief Execute a SAGA transaction
+     * @param transaction_id Transaction ID
+     * @param steps SAGA steps to execute
+     * @param compensations Compensation actions for each step
+     * @return true if SAGA completed successfully
+     */
+    bool executeSaga(
+        const std::string& transaction_id,
+        const std::vector<nlohmann::json>& steps,
+        const std::vector<nlohmann::json>& compensations
+    );
+    
+    /**
+     * @brief Get transaction state
+     * @param transaction_id Transaction ID
+     * @return Transaction state or nullopt if not found
+     */
+    std::optional<TransactionState> getTransactionState(
+        const std::string& transaction_id
+    ) const;
+    
+    /**
+     * @brief Get transaction details
+     * @param transaction_id Transaction ID
+     * @return Transaction details or nullopt if not found
+     */
+    std::optional<CrossShardTransaction> getTransaction(
+        const std::string& transaction_id
+    ) const;
+    
+    /**
+     * @brief Check if transaction is deadlocked
+     * @param transaction_id Transaction ID
+     * @return true if deadlocked
+     */
+    bool isDeadlocked(const std::string& transaction_id) const;
+    
+    /**
+     * @brief Get active transactions
+     */
+    std::vector<CrossShardTransaction> getActiveTransactions() const;
+    
+    /**
+     * @brief Get transaction statistics
+     */
+    nlohmann::json getStatistics() const;
+    
+    /**
+     * @brief Register callback for transaction state changes
+     */
+    void onTransactionStateChange(
+        std::function<void(const std::string&, TransactionState, TransactionState)> callback
+    );
+    
+private:
+    /**
+     * @brief Execute 2PC protocol
+     */
+    bool execute2PC(CrossShardTransaction& txn);
+    
+    /**
+     * @brief Execute 3PC protocol
+     */
+    bool execute3PC(CrossShardTransaction& txn);
+    
+    /**
+     * @brief Execute Percolator protocol
+     */
+    bool executePercolator(CrossShardTransaction& txn);
+    
+    /**
+     * @brief Execute Calvin deterministic protocol
+     * 
+     * Implements the Calvin deterministic database protocol:
+     * - Phase 1 (Sequencing): Assign a deterministic global sequence number
+     * - Phase 2 (Lock Acquisition): Pre-acquire all locks in a canonical order
+     * - Phase 3 (Execution): Execute and commit in the pre-determined order
+     * 
+     * Unlike 2PC, Calvin does not require a voting round; all participants
+     * execute the same pre-ordered transaction log, guaranteeing determinism.
+     */
+    bool executeCalvin(CrossShardTransaction& txn);
+    
+    /**
+     * @brief Send prepare request to shard
+     */
+    bool sendPrepare(const std::string& shard_id, const std::string& transaction_id);
+    
+    /**
+     * @brief Send commit request to shard
+     */
+    bool sendCommit(const std::string& shard_id, const std::string& transaction_id);
+    
+    /**
+     * @brief Send abort request to shard
+     */
+    bool sendAbort(const std::string& shard_id, const std::string& transaction_id);
+    
+    /**
+     * @brief Deadlock detection thread
+     */
+    void deadlockDetectionThread();
+    
+    /**
+     * @brief Build wait-for graph for deadlock detection
+     */
+    std::map<std::string, std::vector<std::string>> buildWaitForGraph() const;
+    
+    /**
+     * @brief Detect cycles in wait-for graph
+     */
+    bool detectCycle(
+        const std::map<std::string, std::vector<std::string>>& graph,
+        const std::string& start_node,
+        std::set<std::string>& visited,
+        std::set<std::string>& rec_stack
+    ) const;
+    
+    /**
+     * @brief Execute compensations for SAGA transaction
+     */
+    void executeCompensations(
+        const std::string& transaction_id,
+        const std::vector<nlohmann::json>& executed_steps,
+        const std::vector<nlohmann::json>& compensations
+    );
+    
+    /**
+     * @brief Generate MVCC commit timestamp ensuring external consistency
+     * @param txn Transaction to generate timestamp for
+     * @return Commit timestamp that is definitely after snapshot timestamp
+     */
+    int64_t generateCommitTimestamp(const CrossShardTransaction& txn);
+    
+    /**
+     * @brief Persist transaction state to durable storage
+     */
+    bool persistTransactionState(
+        const std::string& transaction_id,
+        TransactionState state
+    );
+    
+    /**
+     * @brief Load pending transactions from durable storage
+     */
+    std::vector<CrossShardTransaction> loadPendingTransactions();
+    
+    /**
+     * @brief Recover coordinator state after failure
+     */
+    bool recoverFromFailure();
+    
+    /**
+     * @brief Recover from WAL and snapshot (Phase 2.3.3)
+     */
+    bool recoverFromWAL();
+    
+    /**
+     * @brief Create periodic snapshot of active transactions (Phase 2.3.3)
+     */
+    void createPeriodicSnapshot();
+    
+    CrossShardTransactionConfig config_;
+    std::shared_ptr<ConsensusModule> consensus_;
+    std::shared_ptr<themis::sharding::TrueTime> truetime_;
+    
+    // Transaction log file
+    std::string transaction_log_path_;
+    
+    // Phase 2.3.3: WAL and Snapshot infrastructure
+    std::unique_ptr<TransactionWAL> transaction_wal_;
+    std::unique_ptr<TransactionSnapshotManager> snapshot_manager_;
+    std::atomic<uint64_t> operations_since_snapshot_{0};
+    LSN last_applied_lsn_{0, 0};
+    
+    // State
+    mutable std::mutex transactions_mutex_;
+    std::map<std::string, CrossShardTransaction> transactions_;
+    
+    // Callbacks
+    mutable std::mutex callbacks_mutex_;
+    std::function<void(const std::string&, TransactionState, TransactionState)> 
+        on_state_change_callback_;
+    
+    // Background thread
+    std::atomic<bool> running_;
+    std::thread deadlock_detection_thread_;
+    
+    // Statistics
+    std::atomic<uint64_t> total_transactions_;
+    std::atomic<uint64_t> committed_transactions_;
+    std::atomic<uint64_t> aborted_transactions_;
+    std::atomic<uint64_t> deadlocked_transactions_;
+};
+
+// ============================================================================
+// PercolatorCoordinator
+// ============================================================================
+
+/**
+ * @brief Standalone Percolator-style MVCC transaction coordinator.
+ *
+ * Implements the Google Percolator two-phase optimistic protocol for
+ * cross-shard transactions that favour snapshot-isolated, read-heavy
+ * workloads.  Key properties:
+ *
+ *  1. Primary-lock model: one row/shard acts as the transaction's "primary";
+ *     secondary rows reference the primary lock.
+ *  2. TrueTime commit-wait: commit timestamp is drawn from
+ *     TrueTime::now_with_uncertainty().latest; the coordinator then waits
+ *     until TT.now().earliest > commit_ts + max_uncertainty before sending
+ *     the final COMMIT to participants.
+ *  3. Coordinator-state durability: every phase transition is logged to the
+ *     supplied TransactionWAL so that a replacement coordinator can resume
+ *     in-flight transactions after a crash.
+ *  4. Stale-lock cleanup: cleanStaleLocks() may be called by OrphanDetector
+ *     to abort Percolator transactions that left locks behind after a
+ *     coordinator failure.
+ *
+ * The class uses callbacks for the low-level shard operations so it can be
+ * used both standalone (e.g. in tests) and wired into
+ * CrossShardTransactionCoordinator::executePercolator().
+ *
+ * Usage example:
+ * @code
+ *   PercolatorCoordinator::Config cfg;
+ *   cfg.lock_timeout   = std::chrono::milliseconds(500);
+ *   cfg.max_retries    = 3;
+ *
+ *   PercolatorCoordinator perc(cfg, truetime_ptr, std::move(wal_ptr));
+ *   bool ok = perc.execute(txn, prepare_fn, commit_fn, abort_fn);
+ * @endcode
+ */
+class PercolatorCoordinator {
+public:
+    /**
+     * @brief Runtime configuration.
+     */
+    struct Config {
+        /// Per-lock acquisition timeout (milliseconds).
+        std::chrono::milliseconds lock_timeout{1000};
+
+        /// Maximum number of lock-acquisition retries per shard.
+        uint32_t max_retries = 3;
+
+        /// How long a lock can be held before it is considered stale.
+        std::chrono::seconds stale_lock_threshold{30};
+    };
+
+    /// Callback type: send a PREPARE (lock) to one shard.
+    using SendPrepareFn = std::function<bool(const std::string& shard_id,
+                                             const std::string& txn_id)>;
+    /// Callback type: send a COMMIT to one shard.
+    using SendCommitFn  = std::function<bool(const std::string& shard_id,
+                                             const std::string& txn_id)>;
+    /// Callback type: send an ABORT to one shard.
+    using SendAbortFn   = std::function<bool(const std::string& shard_id,
+                                             const std::string& txn_id)>;
+
+    /**
+     * @brief Construct a PercolatorCoordinator.
+     *
+     * @param config     Runtime parameters.
+     * @param truetime   TrueTime clock used for commit-timestamp generation
+     *                   and commit-wait (may be nullptr; falls back to wall clock).
+     * @param wal        Optional non-owning pointer to a WAL for coordinator-state
+     *                   durability.  The WAL must outlive this object.
+     */
+    explicit PercolatorCoordinator(
+        const Config& config,
+        std::shared_ptr<themis::sharding::TrueTime> truetime = nullptr,
+        TransactionWAL* wal = nullptr
+    );
+
+    ~PercolatorCoordinator() = default;
+
+    // Non-copyable, movable.
+    PercolatorCoordinator(const PercolatorCoordinator&) = delete;
+    PercolatorCoordinator& operator=(const PercolatorCoordinator&) = delete;
+
+    /**
+     * @brief Execute the Percolator protocol for @p txn.
+     *
+     * Drives the full Percolator commit sequence:
+     *  Phase 1 – PreWrite: lock secondaries first, then lock primary.
+     *  Phase 2 – Assign TrueTime commit timestamp, perform commit-wait.
+     *  Phase 3 – Commit primary, then commit secondaries (lock release).
+     *
+     * The shard-level operations are performed via the supplied callbacks
+     * so this class is independent of the RPC transport layer and can be
+     * used without a live CrossShardTransactionCoordinator.
+     *
+     * @param txn         Transaction to commit (state is mutated in-place).
+     * @param prepare_fn  Callback: lock (prepare) one shard.
+     * @param commit_fn   Callback: commit one shard.
+     * @param abort_fn    Callback: abort / unlock one shard.
+     * @return            true if the transaction committed successfully.
+     */
+    bool execute(
+        CrossShardTransaction& txn,
+        SendPrepareFn prepare_fn,
+        SendCommitFn  commit_fn,
+        SendAbortFn   abort_fn
+    );
+
+    /**
+     * @brief Reclaim stale Percolator locks left by a failed coordinator.
+     *
+     * Iterates over @p stale_txn_ids and issues abort RPCs for every shard
+     * whose Percolator lock has exceeded the stale-lock threshold.  Intended
+     * to be called from OrphanDetector on its cleanup interval.
+     *
+     * @param stale_txn_ids  Transaction IDs whose locks should be cleaned up.
+     * @param coordinator    Host coordinator used for getTransaction() / abort().
+     * @return               Number of locks successfully released.
+     */
+    size_t cleanStaleLocks(
+        const std::vector<std::string>& stale_txn_ids,
+        CrossShardTransactionCoordinator& coordinator
+    );
+
+private:
+    Config config_;
+    std::shared_ptr<themis::sharding::TrueTime> truetime_;
+    TransactionWAL* wal_;  ///< Non-owning pointer; lifetime managed by caller.
+
+    /// Compute a commit timestamp using TrueTime if available, else wall clock.
+    int64_t computeCommitTimestamp() const;
+
+    /// Perform the TrueTime commit-wait: spin until now().earliest > deadline.
+    void commitWait(int64_t commit_ts_ns) const;
+};
+
+} // namespace sharding
+} // namespace themisdb
+
+#endif // THEMISDB_SHARDING_CROSS_SHARD_TRANSACTION_H

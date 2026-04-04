@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            llama_wrapper.h                                    ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:08:22                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   98.0/100                                       ║
+    • Total Lines:     649                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include "llm/llm_plugin_interface.h"
@@ -10,12 +33,26 @@
 #include "llm/llm_response_cache.h"
 #include "llm/grammar.h"
 #include "llm/grammar_cache.h"
+#include "llm/llamacpp_inference_engine.h"  // provides LLMOutputValidator
 #ifdef THEMIS_ENABLE_VISION
 #include "llm/vision_encoder.h"
 #endif
 #include <mutex>
 #include <unordered_map>
 #include <memory>
+
+// Forward declarations for ThemisDB storage classes
+namespace themis {
+namespace llm {
+    class LLMModelStorage;
+}
+namespace storage {
+    class BlobStorageManager;
+}
+namespace security {
+    class FieldEncryption;
+}
+}
 
 // Forward declarations for llama.cpp types
 struct llama_model;
@@ -78,26 +115,33 @@ enum class ChatFormat {
     Alpaca       // Alpaca format: ### Instruction:\ncontent\n### Response:
 };
 
-} // namespace llm
-} // namespace themis
+/**
+ * @brief LlamaWrapper state machine states
+ * 
+ * Explicit state tracking prevents silent stub responses and enables
+ * proper error handling in production RAG pipelines.
+ */
+enum class WrapperState {
+    UNINITIALIZED,   // Constructor called, not yet loading
+    LOADING,         // Async model load in progress
+    READY,           // Model loaded, context created, ready for inference
+    ERROR_STATE,     // Unrecoverable error (e.g., model load failed) - renamed from ERROR to avoid Windows macro conflict
+    UNAVAILABLE      // Temporary unavailability (e.g., OOM, evicted)
+};
 
 /**
- * @file llama_wrapper.h
- * @brief Reference implementation of LLM plugin using llama.cpp backend
- * 
- * This plugin demonstrates:
- * - Loading GGUF models (quantized llama.cpp format)
- * - LoRA adapter management
- * - GPU acceleration (CUDA/Metal/Vulkan)
- * - Zero-copy integration with ThemisDB vector storage
- * - Ollama-style lazy model loading
- * - vLLM-style multi-LoRA management
- * 
- * Based on AI_ECOSYSTEM_SHARDING_ARCHITECTURE.md v1.3.0 design.
+ * @brief State transition record for debugging and observability
  */
-
-namespace themis {
-namespace llm {
+struct StateTransition {
+    WrapperState from_state;
+    WrapperState to_state;
+    std::string reason;      // Why transition happened
+    std::chrono::system_clock::time_point timestamp;
+    
+    StateTransition(WrapperState from, WrapperState to, const std::string& r)
+        : from_state(from), to_state(to), reason(r),
+          timestamp(std::chrono::system_clock::now()) {}
+};
 
 /**
  * @brief llama.cpp plugin implementation
@@ -194,6 +238,20 @@ public:
         std::string clip_model_path;          // Path to CLIP vision encoder model
         int vision_threads = 4;               // Threads for image encoding
         bool preload_vision = true;           // Keep vision encoder in memory
+        
+        // Output Validation (Production Readiness)
+        bool enable_output_validation = true;  // Enable output validation
+        int min_output_length = 1;             // Minimum response length (chars)
+        int max_output_length = 100000;        // Maximum response length
+        bool require_utf8 = true;              // Enforce UTF-8 encoding
+        double min_coherence = 0.3;            // Minimum coherence score (0-1)
+        
+        // Timeouts / Backpressure (Q1 production-readiness)
+        // Maximum wall-clock time (milliseconds) allowed for a single inference
+        // request from submission to last token.  0 means unlimited (default).
+        // Requests that exceed this limit are cancelled and the caller receives
+        // an error response.
+        uint32_t request_timeout_ms = 0;
     };
     
     explicit LlamaWrapper(const Config& config);
@@ -221,6 +279,51 @@ public:
         const std::string& model_path,
         const json& config = {}
     ) override;
+    
+    /**
+     * @brief Load model from ThemisDB storage
+     * 
+     * Loads a model that was previously stored in ThemisDB's blob storage.
+     * This enables native model storage in the database without requiring
+     * filesystem access.
+     * 
+     * Process:
+     * 1. Retrieve model metadata from LLMModelStorage
+     * 2. Download model blob from BlobStorageManager
+     * 3. Handle decryption if encryption is enabled
+     * 4. Write to temporary file (with cleanup)
+     * 5. Load model using standard loadModel() flow
+     * 
+     * @param model_id Unique model identifier stored in ThemisDB
+     * @param storage LLMModelStorage instance for metadata retrieval
+     * @param blob_manager BlobStorageManager for blob download
+     * @param encryption Optional encryption service for decryption
+     * @param config Optional loading configuration
+     * @return true if model loaded successfully, false otherwise
+     * 
+     * @throws std::runtime_error if model not found in storage
+     * @throws std::runtime_error if blob retrieval fails
+     * @throws std::runtime_error if decryption fails (when encryption enabled)
+     */
+    bool loadModelFromThemisDB(
+        const std::string& model_id,
+        std::shared_ptr<LLMModelStorage> storage,
+        std::shared_ptr<storage::BlobStorageManager> blob_manager,
+        std::shared_ptr<security::FieldEncryption> encryption = nullptr,
+        const json& config = {}
+    );
+    
+    /**
+     * @brief Clean up old temporary model files
+     * 
+     * Removes cached model files from /tmp/themisdb_models/ that are older
+     * than the specified number of days. This helps prevent disk space issues
+     * from accumulated cached models.
+     * 
+     * @param days_old Remove files older than this many days (default: 7)
+     * @return Number of files removed
+     */
+    static size_t cleanupTempModels(int days_old = 7);
     
     void unloadModel() override;
     
@@ -271,6 +374,32 @@ public:
     json getMemoryStats() const override;
     
     json getPerformanceStats() const override;
+    
+    // ═══════════════════════════════════════════════════════════
+    // State Management (Production Readiness)
+    // ═══════════════════════════════════════════════════════════
+    
+    /**
+     * @brief Get current wrapper state
+     * @return Current state of the wrapper
+     */
+    WrapperState state() const;
+    
+    /**
+     * @brief Get state as human-readable string
+     */
+    std::string stateString() const;
+    
+    /**
+     * @brief Get state transition history for debugging
+     * @return Vector of state transitions
+     */
+    std::vector<StateTransition> stateHistory() const;
+    
+    /**
+     * @brief Clear state history (for memory management)
+     */
+    void clearStateHistory();
     
     // ═══════════════════════════════════════════════════════════
     // Distributed Features
@@ -367,6 +496,10 @@ private:
     // vLLM-style multi-LoRA manager
     std::unique_ptr<MultiLoRAManager> lora_manager_;
     
+    // Active LoRA adapter tracking (for auto-rebinding after context switches)
+    std::string active_lora_adapter_;  // Currently applied adapter ID
+    void* last_context_ptr_ = nullptr;  // Last context where adapter was applied
+    
     // KV-Cache Reuse (Prefix Caching)
     std::unique_ptr<LLMPrefixCache> prefix_cache_;
     
@@ -404,6 +537,14 @@ private:
     };
     Stats stats_;
     
+    // State machine (Production Readiness)
+    WrapperState current_state_ = WrapperState::UNINITIALIZED;
+    std::vector<StateTransition> state_history_;
+    static constexpr size_t MAX_STATE_HISTORY = 100;  // Limit memory usage
+    
+    // Output validation (Production Readiness)
+    std::unique_ptr<LLMOutputValidator> output_validator_;
+    
     // Metrics collection (optional)
     monitoring::LLMMetricsCollector* metrics_collector_ = nullptr;
     
@@ -421,6 +562,10 @@ private:
     void updateStatistics(const InferenceResponse& response);
     
     std::string extractModelId(const std::string& model_path);
+    
+    // State machine helpers (Production Readiness)
+    void transitionToState(WrapperState new_state, const std::string& reason);
+    static std::string stateToString(WrapperState state);
     
     // Grammar-related helpers (Phase 3.2)
     void initializeBuiltinGrammars();

@@ -1,0 +1,34 @@
+# ThemisDB Python Dependencies
+# ============================
+# 
+# This file lists Python packages required for various ThemisDB build and
+# development tasks.
+#
+# Install all dependencies:
+#   pip install -r requirements.txt
+#
+# Or install specific groups:
+#   pip install datasets huggingface-hub  # For legal training data ingestion
+
+# ============================================================================
+# Documentation Database Generation
+# ============================================================================
+# Required by: scripts/generate_docs_database.py
+
+pyyaml>=6.0
+
+# ============================================================================
+# Legal Training Data Ingestion (HuggingFace)
+# ============================================================================
+# Required by: scripts/ingest_legal_training_data.py
+# These dependencies are needed to download and process the legal-bert-de
+# dataset from HuggingFace Hub.
+
+datasets>=2.14.0
+huggingface-hub>=0.17.0
+
+# ============================================================================
+# Optional: Progress bars and enhanced output
+# ============================================================================
+
+tqdm>=4.65.0

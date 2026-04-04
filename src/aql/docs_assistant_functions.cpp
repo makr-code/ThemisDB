@@ -1,9 +1,35 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            docs_assistant_functions.cpp                       ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:14:08                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     559                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • a7b41e3e7  2026-03-22  feat(docs): refactor DocsAssistantFunctions to use unique... ║
+    • 3da4977c8  2026-03-14  fix(aql): address classify-bridge PR review comments ║
+    • f62f9c89c  2026-03-14  feat(aql): wire detectIntentWithNativeNLP() to IClassifyF... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file docs_assistant_functions.cpp
  * @brief Implementation of AQL documentation assistant functions with LoRA support
  */
 
 #include "aql/docs_assistant_functions.h"
+#include "aql/classify_bridge.h"
 #include "llm/docs_assistant.h"
 #include "llm/embedded_llm.h"
 #include "llm/applications/themis_help_lora.h"
@@ -89,22 +115,34 @@ private:
 };
 
 DocsAssistantFunctions::DocsAssistantFunctions()
-    : impl_(std::make_unique<Impl>()) {}
+    = default;
 
 DocsAssistantFunctions::~DocsAssistantFunctions() = default;
 
+DocsAssistantFunctions::Impl& DocsAssistantFunctions::ensureImpl() {
+    if (!impl_) {
+        impl_ = std::make_unique<Impl>();
+    }
+    return *impl_;
+}
+
+DocsAssistantFunctions::Impl* DocsAssistantFunctions::tryGetImpl() const {
+    return impl_.get();
+}
+
 std::string DocsAssistantFunctions::help(const std::string& query, const std::string& user_id) {
     try {
-        auto* assistant = impl_->getAssistant();
+        auto& impl = ensureImpl();
+        auto* assistant = impl.getAssistant();
         
         // Try to use LoRA adapter if available
         bool using_lora = false;
         std::string answer;
         auto start_time = std::chrono::high_resolution_clock::now();
         
-        if (impl_->isLoRAAvailable()) {
+        if (impl.isLoRAAvailable()) {
             try {
-                auto* lora = impl_->getLoRA();
+                auto* lora = impl.getLoRA();
                 if (lora) {
                     spdlog::debug("Using ThemisHelpLoRA for query: {}", query);
                     answer = lora->query(query, user_id);
@@ -173,26 +211,38 @@ std::string DocsAssistantFunctions::help(const std::string& query, const std::st
 
 std::string DocsAssistantFunctions::detectIntentWithNativeNLP(const std::string& query) {
     try {
-        // Try to use ThemisDB native NLP CLASSIFY function
-        // This would require access to the function registry and execution context
-        // For now, return unknown to skip to next method
-        // TODO: Integrate with native CLASSIFY function when execution context available
-        
-        // The native CLASSIFY function signature is:
-        // CLASSIFY(text, categories) -> {category, confidence, scores}
-        // We would call it with:
-        // CLASSIFY(query, ["configuration", "troubleshooting", "search", "general"])
-        
-        // Since we don't have direct access to the function execution context here,
-        // we return unknown to fall through to LLM method
-        // In a future enhancement, this could be integrated at the AQL parser level
-        
-        return "unknown";
-        
+        if (!classifier_) {
+            // No classifier injected – fall through to LLM path.
+            return "unknown";
+        }
+
+        static const std::vector<std::string> categories = {
+            "configuration", "troubleshooting", "search", "general"
+        };
+
+        ClassifyResult result = classifier_->classify(query, categories);
+
+        if (result.category.empty() || result.confidence <= 0.0) {
+            return "unknown";
+        }
+
+        // Guard against classifiers that return labels outside the expected set.
+        const bool valid = std::find(categories.begin(), categories.end(),
+                                     result.category) != categories.end();
+        if (!valid) {
+            return "unknown";
+        }
+
+        return result.category;
+
     } catch (const std::exception&) {
         // Native NLP not available or failed
         return "unknown";
     }
+}
+
+void DocsAssistantFunctions::setClassifier(IClassifyFn* classifier) {
+    classifier_ = classifier;
 }
 
 std::string DocsAssistantFunctions::detectIntentWithLLM(const std::string& query) {
@@ -331,7 +381,7 @@ std::string DocsAssistantFunctions::formatSearchResults(const std::vector<llm::D
 
 std::string DocsAssistantFunctions::docsQuery(const std::string& query) {
     try {
-        auto* assistant = impl_->getAssistant();
+        auto* assistant = ensureImpl().getAssistant();
         auto result = assistant->query(query);
         return result.generated_answer;
     } catch (const std::exception& e) {
@@ -343,7 +393,7 @@ std::string DocsAssistantFunctions::docsQuery(const std::string& query) {
 
 json DocsAssistantFunctions::docsSearch(const std::string& query, int limit) {
     try {
-        auto* assistant = impl_->getAssistant();
+        auto* assistant = ensureImpl().getAssistant();
         auto docs = assistant->searchDocs(query, limit);
         
         // Convert to JSON array
@@ -380,7 +430,7 @@ json DocsAssistantFunctions::docsSearch(const std::string& query, int limit) {
 
 std::string DocsAssistantFunctions::docsConfigHelp(const std::string& topic) {
     try {
-        auto* assistant = impl_->getAssistant();
+        auto* assistant = ensureImpl().getAssistant();
         auto result = assistant->getConfigHelp(topic);
         return result.generated_answer;
     } catch (const std::exception& e) {
@@ -392,7 +442,7 @@ std::string DocsAssistantFunctions::docsConfigHelp(const std::string& topic) {
 
 std::string DocsAssistantFunctions::docsTroubleshoot(const std::string& error_description) {
     try {
-        auto* assistant = impl_->getAssistant();
+        auto* assistant = ensureImpl().getAssistant();
         auto result = assistant->getTroubleshootingHelp(error_description);
         return result.generated_answer;
     } catch (const std::exception& e) {
@@ -404,7 +454,7 @@ std::string DocsAssistantFunctions::docsTroubleshoot(const std::string& error_de
 
 json DocsAssistantFunctions::docsStats() {
     try {
-        auto* assistant = impl_->getAssistant();
+        auto* assistant = ensureImpl().getAssistant();
         return assistant->getStats();
     } catch (const std::exception& e) {
         throw std::runtime_error(
@@ -414,16 +464,18 @@ json DocsAssistantFunctions::docsStats() {
 }
 
 bool DocsAssistantFunctions::isReady() const {
-    return impl_->isReady();
+    const auto* impl = tryGetImpl();
+    return impl ? impl->isReady() : false;
 }
 
 void DocsAssistantFunctions::clearCache() {
     try {
-        auto* assistant = impl_->getAssistant();
+        auto& impl = ensureImpl();
+        auto* assistant = impl.getAssistant();
         assistant->clearCache();
         
         // Also log unload event if LoRA is active
-        if (impl_->isLoRAAvailable()) {
+        if (impl.isLoRAAvailable()) {
             spdlog::info("Cache cleared, LoRA adapter remains loaded");
         }
     } catch (const std::exception& e) {
@@ -434,16 +486,22 @@ void DocsAssistantFunctions::clearCache() {
 }
 
 bool DocsAssistantFunctions::isLoRAActive() const {
-    return impl_->isLoRAAvailable();
+    auto* impl = tryGetImpl();
+    return impl ? impl->isLoRAAvailable() : false;
 }
 
 json DocsAssistantFunctions::getPerformanceMetrics() const {
     json metrics;
+    auto* impl = tryGetImpl();
+    if (!impl) {
+        metrics["lora_active"] = false;
+        return metrics;
+    }
     
     // Add base assistant metrics
-    if (impl_->isReady()) {
+    if (impl->isReady()) {
         try {
-            auto* assistant = impl_->getAssistant();
+            auto* assistant = impl->getAssistant();
             metrics["base_assistant"] = assistant->getStats();
         } catch (...) {
             metrics["base_assistant"] = nullptr;
@@ -451,9 +509,9 @@ json DocsAssistantFunctions::getPerformanceMetrics() const {
     }
     
     // Add LoRA metrics if available
-    if (impl_->isLoRAAvailable()) {
+    if (impl->isLoRAAvailable()) {
         try {
-            auto* lora = impl_->getLoRA();
+            auto* lora = impl->getLoRA();
             if (lora) {
                 auto lora_metrics = lora->getMetrics();
                 metrics["lora"] = {
@@ -481,7 +539,7 @@ json DocsAssistantFunctions::getPerformanceMetrics() const {
         }
     }
     
-    metrics["lora_active"] = impl_->isLoRAAvailable();
+    metrics["lora_active"] = impl->isLoRAAvailable();
     
     return metrics;
 }

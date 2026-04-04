@@ -1,0 +1,74 @@
+# ThemisDB Operator – RBAC
+# ServiceAccount, ClusterRole and ClusterRoleBinding for the operator.
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: themisdb-operator
+  namespace: themisdb-system
+  labels:
+    app.kubernetes.io/name: themisdb-operator
+    app.kubernetes.io/managed-by: themisdb-operator
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: themisdb-operator
+  labels:
+    app.kubernetes.io/name: themisdb-operator
+    app.kubernetes.io/managed-by: themisdb-operator
+rules:
+  # ThemisDB custom resources
+  - apiGroups: ["vcc.io"]
+    resources: ["themisdbs"]
+    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+  - apiGroups: ["vcc.io"]
+    resources: ["themisdbs/status"]
+    verbs: ["get", "update", "patch"]
+  - apiGroups: ["vcc.io"]
+    resources: ["themisdbs/finalizers"]
+    verbs: ["update"]
+  # StatefulSets – operator owns the StatefulSet for each cluster
+  - apiGroups: ["apps"]
+    resources: ["statefulsets"]
+    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+  # Services – headless service for pod DNS
+  - apiGroups: [""]
+    resources: ["services"]
+    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+  # Pods – operator reads pod status to derive topology health
+  - apiGroups: [""]
+    resources: ["pods"]
+    verbs: ["get", "list", "watch"]
+  # ConfigMaps – replication configuration injected into pods
+  - apiGroups: [""]
+    resources: ["configmaps"]
+    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+  # PodDisruptionBudgets – maintain quorum during maintenance
+  - apiGroups: ["policy"]
+    resources: ["poddisruptionbudgets"]
+    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+  # Events – publish topology change events
+  - apiGroups: [""]
+    resources: ["events"]
+    verbs: ["create", "patch"]
+  # Leader election (controller-runtime uses Leases)
+  - apiGroups: ["coordination.k8s.io"]
+    resources: ["leases"]
+    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: themisdb-operator
+  labels:
+    app.kubernetes.io/name: themisdb-operator
+    app.kubernetes.io/managed-by: themisdb-operator
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: themisdb-operator
+subjects:
+  - kind: ServiceAccount
+    name: themisdb-operator
+    namespace: themisdb-system

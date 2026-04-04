@@ -1,3 +1,28 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            bench_transaction_throughput.cpp                   ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:04:31                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     696                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • e7f8e6a5e  2026-02-28  feat(transaction): add OCC performance benchmarks and fix... ║
+    • 26afecf7a  2026-02-26  feat(transaction): add savepoint performance benchmarks t... ║
+    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // Benchmark: Transaction Throughput
 // Measures ACID transaction performance for different workload patterns
 
@@ -303,6 +328,300 @@ BENCHMARK_REGISTER_F(TransactionBenchmarkFixture, AbortTransaction)
     ->Unit(benchmark::kMicrosecond);
 
 // ============================================================================
+// Benchmark: Savepoint Create and Rollback
+// ============================================================================
+
+BENCHMARK_DEFINE_F(TransactionBenchmarkFixture, SavepointCreateAndRollback)(benchmark::State& state) {
+    const int writes_before = state.range(0);
+    const int writes_after  = state.range(1);
+    size_t counter = 0;
+
+    for (auto _ : state) {
+        auto txn_id = tx_manager_->beginTransaction();
+        auto txn    = tx_manager_->getTransaction(txn_id);
+
+        // Writes committed to the transaction before the savepoint
+        for (int i = 0; i < writes_before; ++i) {
+            BaseEntity entity("sp_before_" + std::to_string(counter++));
+            entity.setField("value", static_cast<int64_t>(counter));
+            txn->putEntity("bench", entity);
+        }
+
+        // Create a named savepoint
+        txn->createSavepoint("bench_sp");
+
+        // Writes that will be rolled back
+        for (int i = 0; i < writes_after; ++i) {
+            BaseEntity entity("sp_after_" + std::to_string(counter++));
+            entity.setField("value", static_cast<int64_t>(counter));
+            txn->putEntity("bench", entity);
+        }
+
+        // Partial rollback to the savepoint (discards the writes_after entities)
+        txn->rollbackToSavepoint("bench_sp");
+
+        auto commit_status = tx_manager_->commitTransaction(txn_id);
+        if (!commit_status.ok) {
+            state.SkipWithError("Transaction commit failed");
+        }
+    }
+
+    // Count both kept and rolled-back writes to reflect total work performed
+    // (including savepoint overhead and rollback cost).
+    state.SetItemsProcessed(state.iterations() * (writes_before + writes_after));
+    state.counters["tps"] = benchmark::Counter(
+        state.iterations(), benchmark::Counter::kIsRate);
+}
+
+BENCHMARK_REGISTER_F(TransactionBenchmarkFixture, SavepointCreateAndRollback)
+    ->Args({0, 5})    // 0 writes before, 5 rolled back
+    ->Args({5, 5})    // 5 writes kept,   5 rolled back
+    ->Args({5, 20})   // 5 writes kept,  20 rolled back
+    ->Unit(benchmark::kMicrosecond);
+
+// ============================================================================
+// Benchmark: Nested Savepoints with Rollback
+// ============================================================================
+
+BENCHMARK_DEFINE_F(TransactionBenchmarkFixture, SavepointNested)(benchmark::State& state) {
+    const int depth = state.range(0); // number of nested savepoints
+    size_t counter  = 0;
+
+    for (auto _ : state) {
+        auto txn_id = tx_manager_->beginTransaction();
+        auto txn    = tx_manager_->getTransaction(txn_id);
+
+        // Create `depth` nested savepoints, each with one write
+        for (int d = 0; d < depth; ++d) {
+            BaseEntity entity("sp_nest_" + std::to_string(counter++));
+            entity.setField("depth", static_cast<int64_t>(d));
+            txn->putEntity("bench", entity);
+            txn->createSavepoint("sp_" + std::to_string(d));
+        }
+
+        // Write after the last savepoint (will be rolled back)
+        BaseEntity last("sp_last_" + std::to_string(counter++));
+        last.setField("depth", static_cast<int64_t>(depth));
+        txn->putEntity("bench", last);
+
+        // Rollback to the first savepoint: discards writes made after "sp_0" was
+        // created (depth-1 writes + the final write).  The write at d=0 is kept
+        // because it was committed to the transaction before "sp_0" was set.
+        txn->rollbackToSavepoint("sp_0");
+
+        auto commit_status = tx_manager_->commitTransaction(txn_id);
+        if (!commit_status.ok) {
+            state.SkipWithError("Transaction commit failed");
+        }
+    }
+
+    state.SetItemsProcessed(state.iterations() * (depth + 1));
+    state.counters["tps"] = benchmark::Counter(
+        state.iterations(), benchmark::Counter::kIsRate);
+    state.counters["savepoint_depth"] = depth;
+}
+
+BENCHMARK_REGISTER_F(TransactionBenchmarkFixture, SavepointNested)
+    ->Arg(2)
+    ->Arg(5)
+    ->Arg(10)
+    ->Unit(benchmark::kMicrosecond);
+
+// ============================================================================
+// Benchmark: Savepoint Release (no rollback)
+// ============================================================================
+
+BENCHMARK_DEFINE_F(TransactionBenchmarkFixture, SavepointRelease)(benchmark::State& state) {
+    const int num_savepoints = state.range(0);
+    size_t counter = 0;
+
+    for (auto _ : state) {
+        auto txn_id = tx_manager_->beginTransaction();
+        auto txn    = tx_manager_->getTransaction(txn_id);
+
+        // Create several savepoints and release them without rolling back
+        for (int i = 0; i < num_savepoints; ++i) {
+            BaseEntity entity("sp_rel_" + std::to_string(counter++));
+            entity.setField("value", static_cast<int64_t>(i));
+            txn->putEntity("bench", entity);
+            txn->createSavepoint("sp_" + std::to_string(i));
+        }
+
+        // Release the first savepoint (also releases all newer ones)
+        txn->releaseSavepoint("sp_0");
+
+        auto commit_status = tx_manager_->commitTransaction(txn_id);
+        if (!commit_status.ok) {
+            state.SkipWithError("Transaction commit failed");
+        }
+    }
+
+    state.SetItemsProcessed(state.iterations() * num_savepoints);
+    state.counters["tps"] = benchmark::Counter(
+        state.iterations(), benchmark::Counter::kIsRate);
+}
+
+BENCHMARK_REGISTER_F(TransactionBenchmarkFixture, SavepointRelease)
+    ->Arg(1)
+    ->Arg(5)
+    ->Arg(10)
+    ->Unit(benchmark::kMicrosecond);
+
+// ============================================================================
+// Benchmark: Optimistic Concurrency Control (OCC) – new entity creation
+// ============================================================================
+
+BENCHMARK_DEFINE_F(TransactionBenchmarkFixture, OccOptimisticPut)(benchmark::State& state) {
+    size_t counter = 0;
+
+    for (auto _ : state) {
+        auto txn_id = tx_manager_->beginTransaction();
+        auto txn    = tx_manager_->getTransaction(txn_id);
+
+        // Create a new entity with expected_version=0 (OCC insert)
+        std::string pk = "occ_new_" + std::to_string(counter++);
+        BaseEntity entity(pk);
+        entity.setField("value", static_cast<int64_t>(counter));
+
+        auto st = txn->optimisticPut("occ_bench", entity, 0);
+        if (!st.ok) {
+            state.SkipWithError("optimisticPut failed");
+            break;
+        }
+
+        auto commit_status = tx_manager_->commitTransaction(txn_id);
+        if (!commit_status.ok) {
+            state.SkipWithError("Transaction commit failed");
+        }
+    }
+
+    state.SetItemsProcessed(state.iterations());
+    state.counters["tps"] = benchmark::Counter(
+        state.iterations(), benchmark::Counter::kIsRate);
+}
+
+BENCHMARK_REGISTER_F(TransactionBenchmarkFixture, OccOptimisticPut)
+    ->Threads(1)
+    ->Threads(2)
+    ->Threads(4)
+    ->Unit(benchmark::kMicrosecond);
+
+// ============================================================================
+// Benchmark: OCC Read-Modify-Write pattern (getEntityVersion + optimisticPut)
+// ============================================================================
+
+BENCHMARK_DEFINE_F(TransactionBenchmarkFixture, OccReadVersionAndUpdate)(benchmark::State& state) {
+    // Pre-insert a set of entities that the benchmark will update
+    const int num_entities = 100;
+    for (int i = 0; i < num_entities; ++i) {
+        auto setup_id = tx_manager_->beginTransaction();
+        auto setup_txn = tx_manager_->getTransaction(setup_id);
+        BaseEntity e("occ_rmw_" + std::to_string(i));
+        e.setField("counter", static_cast<int64_t>(0));
+        auto setup_st = setup_txn->optimisticPut("occ_rmw", e, 0);
+        if (!setup_st.ok) {
+            state.SkipWithError("OccReadVersionAndUpdate setup: optimisticPut failed");
+            return;
+        }
+        auto commit_st = tx_manager_->commitTransaction(setup_id);
+        if (!commit_st.ok) {
+            state.SkipWithError("OccReadVersionAndUpdate setup: commit failed");
+            return;
+        }
+    }
+
+    // Fixed seed for reproducible benchmark results across threads
+    std::mt19937 rng(42u + static_cast<unsigned>(state.thread_index()));
+    std::uniform_int_distribution<int> key_dist(0, num_entities - 1);
+    uint64_t conflicts = 0;
+
+    for (auto _ : state) {
+        std::string pk = "occ_rmw_" + std::to_string(key_dist(rng));
+
+        auto txn_id = tx_manager_->beginTransaction();
+        auto txn    = tx_manager_->getTransaction(txn_id);
+
+        // OCC read-modify-write: read version, then write with version check
+        auto ver = txn->getEntityVersion("occ_rmw", pk);
+        if (!ver.has_value() || *ver == 0) {
+            tx_manager_->rollbackTransaction(txn_id);
+            continue;
+        }
+
+        BaseEntity updated(pk);
+        updated.setField("counter", static_cast<int64_t>(*ver));
+
+        auto st = txn->optimisticPut("occ_rmw", updated, *ver);
+        if (!st.ok) {
+            // OCC conflict: another writer changed the version
+            ++conflicts;
+            tx_manager_->rollbackTransaction(txn_id);
+            continue;
+        }
+
+        auto commit_status = tx_manager_->commitTransaction(txn_id);
+        if (!commit_status.ok) {
+            ++conflicts;
+        }
+    }
+
+    state.SetItemsProcessed(state.iterations());
+    state.counters["tps"]       = benchmark::Counter(state.iterations(), benchmark::Counter::kIsRate);
+    state.counters["conflicts"] = benchmark::Counter(static_cast<double>(conflicts));
+}
+
+BENCHMARK_REGISTER_F(TransactionBenchmarkFixture, OccReadVersionAndUpdate)
+    ->Threads(1)
+    ->Threads(2)
+    ->Threads(4)
+    ->Unit(benchmark::kMicrosecond);
+
+// ============================================================================
+// Benchmark: OCC erase (optimisticErase)
+// ============================================================================
+
+BENCHMARK_DEFINE_F(TransactionBenchmarkFixture, OccOptimisticErase)(benchmark::State& state) {
+    size_t counter = 0;
+
+    for (auto _ : state) {
+        state.PauseTiming();
+        // Create entity to be erased
+        std::string pk = "occ_erase_" + std::to_string(counter++);
+        {
+            auto ins_id = tx_manager_->beginTransaction();
+            auto ins_txn = tx_manager_->getTransaction(ins_id);
+            BaseEntity e(pk);
+            e.setField("v", static_cast<int64_t>(1));
+            ins_txn->optimisticPut("occ_erase", e, 0);
+            tx_manager_->commitTransaction(ins_id);
+        }
+        state.ResumeTiming();
+
+        auto txn_id = tx_manager_->beginTransaction();
+        auto txn    = tx_manager_->getTransaction(txn_id);
+
+        auto st = txn->optimisticErase("occ_erase", pk, 1);
+        if (!st.ok) {
+            state.SkipWithError("optimisticErase failed");
+            break;
+        }
+
+        auto commit_status = tx_manager_->commitTransaction(txn_id);
+        if (!commit_status.ok) {
+            state.SkipWithError("Transaction commit failed");
+        }
+    }
+
+    state.SetItemsProcessed(state.iterations());
+    state.counters["tps"] = benchmark::Counter(
+        state.iterations(), benchmark::Counter::kIsRate);
+}
+
+BENCHMARK_REGISTER_F(TransactionBenchmarkFixture, OccOptimisticErase)
+    ->Threads(1)
+    ->Unit(benchmark::kMicrosecond);
+
+// ============================================================================
 // Benchmark: Concurrent Transaction Contention
 // ============================================================================
 
@@ -374,4 +693,4 @@ BENCHMARK(BM_TransactionContention)
     ->Threads(16)
     ->Unit(benchmark::kMicrosecond);
 
-// BENCHMARK_MAIN entfernt – Nutzung von benchmark_main Library durch CMake.
+BENCHMARK_MAIN();

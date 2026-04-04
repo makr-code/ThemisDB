@@ -1,0 +1,2 @@
+# This directory is managed by tools/primary_docs_indexer.py
+# The generated primary_index.json file is written here by CI and locally.

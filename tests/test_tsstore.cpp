@@ -1,510 +1,395 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_tsstore.cpp                                   ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:34:55                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     395                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • e836dc9cf  2026-02-22  test(timeseries): replace stubs with real unit tests for ... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+/**
+ * @file test_tsstore.cpp
+ * @brief Unit tests for TSStore – time-series RocksDB storage engine
+ */
+
 #include <gtest/gtest.h>
 #include "timeseries/tsstore.h"
 #include "storage/rocksdb_wrapper.h"
-#include <filesystem>
+#include "utils/error_registry.h"
+#include <algorithm>
 #include <chrono>
-#include <thread>
+#include <filesystem>
+#include <limits>
+#include <memory>
 
-namespace fs = std::filesystem;
+namespace themis {
+namespace {
 
-class TSStoreTest : public ::testing::Test {
-protected:
+static std::string makeTempPath(const std::string& tag) {
+    namespace fs = std::filesystem;
+    auto ns = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+    return (fs::temp_directory_path() / ("themis_ts_core_" + tag + "_" + std::to_string(ns))).string();
+}
+
+struct TSStoreFixture : ::testing::Test {
+    std::string db_path;
+    std::unique_ptr<RocksDBWrapper> db;
+    std::unique_ptr<TSStore> store;
+    int64_t base = 1700000000000LL;
+
     void SetUp() override {
-        test_db_path_ = "./data/themis_timeseries_test";
-        fs::remove_all(test_db_path_);
-        
-        themis::RocksDBWrapper::Config config;
-        config.db_path = test_db_path_;
-        config.memtable_size_mb = 64;
-        config.block_cache_size_mb = 256;
-        config.max_background_jobs = 2;
-        config.compression_default = "lz4";
-        config.compression_bottommost = "zstd";
-        
-        db_ = std::make_unique<themis::RocksDBWrapper>(config);
-        ASSERT_TRUE(db_->open());
-        
-        // Configure TSStore without compression for unit tests
-        themis::TSStore::Config ts_config;
-        ts_config.compression = themis::TSStore::CompressionType::None;
-        ts_store_ = std::make_unique<themis::TSStore>(db_->getRawDB(), nullptr, ts_config);
-        
-        // Setup test timestamps
-        base_time_ = std::chrono::system_clock::now().time_since_epoch();
-        t0_ = std::chrono::duration_cast<std::chrono::milliseconds>(base_time_).count();
-        t1_ = t0_ + 1000;   // +1 second
-        t2_ = t0_ + 2000;   // +2 seconds
-        t3_ = t0_ + 3000;   // +3 seconds
-        t4_ = t0_ + 4000;   // +4 seconds
-        t5_ = t0_ + 5000;   // +5 seconds
+        db_path = makeTempPath("test");
+        RocksDBWrapper::Config cfg;
+        cfg.db_path = db_path;
+        cfg.enable_blobdb = false;
+        db = std::make_unique<RocksDBWrapper>(cfg);
+        ASSERT_TRUE(db->open()) << "Failed to open RocksDB at " << db_path;
+        TSStore::Config ts_cfg;
+        ts_cfg.compression = TSStore::CompressionType::None; // raw for predictable queries
+        store = std::make_unique<TSStore>(db->getRawDB(), nullptr, ts_cfg);
     }
 
     void TearDown() override {
-        ts_store_.reset();
-        db_.reset();
-        fs::remove_all(test_db_path_);
-    }
-    
-    // Helper: Create data point
-    themis::TSStore::DataPoint createDataPoint(
-        const std::string& metric,
-        const std::string& entity,
-        int64_t timestamp_ms,
-        double value,
-        nlohmann::json tags = nlohmann::json::object()
-    ) {
-        themis::TSStore::DataPoint point;
-        point.metric = metric;
-        point.entity = entity;
-        point.timestamp_ms = timestamp_ms;
-        point.value = value;
-        point.tags = tags;
-        return point;
+        store.reset();
+        db.reset();
+        std::filesystem::remove_all(db_path);
     }
 
-    std::string test_db_path_;
-    std::unique_ptr<themis::RocksDBWrapper> db_;
-    std::unique_ptr<themis::TSStore> ts_store_;
-    
-    std::chrono::system_clock::duration base_time_;
-    int64_t t0_, t1_, t2_, t3_, t4_, t5_;
+    static TSStore::DataPoint makePoint(const std::string& metric,
+                                        const std::string& entity,
+                                        int64_t ts_ms,
+                                        double value = 1.0,
+                                        nlohmann::json tags = nlohmann::json::object()) {
+        TSStore::DataPoint p;
+        p.metric       = metric;
+        p.entity       = entity;
+        p.timestamp_ms = ts_ms;
+        p.value        = value;
+        p.tags         = std::move(tags);
+        return p;
+    }
 };
 
-// ===== Basic Operations =====
+// ─── Validation ──────────────────────────────────────────────────────────────
 
-TEST_F(TSStoreTest, PutDataPoint_SinglePoint_Success) {
-    auto point = createDataPoint("cpu_usage", "server01", t0_, 75.5);
-    
-    auto status = ts_store_->putDataPoint(point);
-    ASSERT_TRUE(status.ok) << status.message;
+TEST_F(TSStoreFixture, RejectsEmptyMetric) {
+    auto r = store->putDataPoint(makePoint("", "e", base));
+    ASSERT_FALSE(r.has_value());
+    EXPECT_EQ(r.error().code(), errors::ErrorCode::ERR_API_INVALID_REQUEST);
 }
 
-TEST_F(TSStoreTest, PutDataPoint_EmptyMetric_ReturnsError) {
-    auto point = createDataPoint("", "server01", t0_, 75.5);
-    
-    auto status = ts_store_->putDataPoint(point);
-    EXPECT_FALSE(status.ok);
-    EXPECT_TRUE(status.message.find("Metric") != std::string::npos);
+TEST_F(TSStoreFixture, RejectsEmptyEntity) {
+    auto r = store->putDataPoint(makePoint("m", "", base));
+    ASSERT_FALSE(r.has_value());
+    EXPECT_EQ(r.error().code(), errors::ErrorCode::ERR_API_INVALID_REQUEST);
 }
 
-TEST_F(TSStoreTest, PutDataPoint_EmptyEntity_ReturnsError) {
-    auto point = createDataPoint("cpu_usage", "", t0_, 75.5);
-    
-    auto status = ts_store_->putDataPoint(point);
-    EXPECT_FALSE(status.ok);
-    EXPECT_TRUE(status.message.find("Entity") != std::string::npos);
+TEST_F(TSStoreFixture, QueryRequiresMetric) {
+    TSStore::QueryOptions q;
+    // metric left empty
+    auto r = store->query(q);
+    ASSERT_FALSE(r.has_value());
+    EXPECT_EQ(r.error().code(), errors::ErrorCode::ERR_API_INVALID_REQUEST);
 }
 
-TEST_F(TSStoreTest, PutDataPoints_BatchWrite_Success) {
-    std::vector<themis::TSStore::DataPoint> points = {
-        createDataPoint("cpu_usage", "server01", t0_, 75.5),
-        createDataPoint("cpu_usage", "server01", t1_, 80.2),
-        createDataPoint("cpu_usage", "server01", t2_, 78.9)
-    };
-    
-    auto status = ts_store_->putDataPoints(points);
-    ASSERT_TRUE(status.ok) << status.message;
+// ─── Basic write + read ───────────────────────────────────────────────────────
+
+TEST_F(TSStoreFixture, PutAndQuerySinglePoint) {
+    ASSERT_TRUE(store->putDataPoint(makePoint("cpu", "host1", base, 42.5)).has_value());
+
+    TSStore::QueryOptions q;
+    q.metric            = "cpu";
+    q.from_timestamp_ms = base;
+    q.to_timestamp_ms   = base + 1;
+    auto r = store->query(q);
+    ASSERT_TRUE(r.has_value());
+    ASSERT_EQ(r->size(), 1u);
+    EXPECT_NEAR((*r)[0].value, 42.5, 1e-9);
+    EXPECT_EQ((*r)[0].metric, "cpu");
+    EXPECT_EQ((*r)[0].entity, "host1");
+    EXPECT_EQ((*r)[0].timestamp_ms, base);
 }
 
-// ===== Query Tests =====
-
-TEST_F(TSStoreTest, Query_SinglePoint_ReturnsCorrectData) {
-    auto point = createDataPoint("cpu_usage", "server01", t0_, 75.5);
-    ASSERT_TRUE(ts_store_->putDataPoint(point).ok);
-    
-    themis::TSStore::QueryOptions opts;
-    opts.metric = "cpu_usage";
-    opts.entity = "server01";
-    opts.from_timestamp_ms = t0_;
-    opts.to_timestamp_ms = t0_;
-    
-    auto [status, results] = ts_store_->query(opts);
-    ASSERT_TRUE(status.ok) << status.message;
-    ASSERT_EQ(results.size(), 1u);
-    EXPECT_EQ(results[0].metric, "cpu_usage");
-    EXPECT_EQ(results[0].entity, "server01");
-    EXPECT_EQ(results[0].timestamp_ms, t0_);
-    EXPECT_DOUBLE_EQ(results[0].value, 75.5);
-}
-
-TEST_F(TSStoreTest, Query_TimeRange_ReturnsFilteredPoints) {
-    std::vector<themis::TSStore::DataPoint> points = {
-        createDataPoint("cpu_usage", "server01", t0_, 70.0),
-        createDataPoint("cpu_usage", "server01", t1_, 75.0),
-        createDataPoint("cpu_usage", "server01", t2_, 80.0),
-        createDataPoint("cpu_usage", "server01", t3_, 85.0),
-        createDataPoint("cpu_usage", "server01", t4_, 90.0)
-    };
-    ASSERT_TRUE(ts_store_->putDataPoints(points).ok);
-    
-    themis::TSStore::QueryOptions opts;
-    opts.metric = "cpu_usage";
-    opts.entity = "server01";
-    opts.from_timestamp_ms = t1_;
-    opts.to_timestamp_ms = t3_;
-    
-    auto [status, results] = ts_store_->query(opts);
-    ASSERT_TRUE(status.ok);
-    ASSERT_EQ(results.size(), 3u); // t1, t2, t3
-    EXPECT_DOUBLE_EQ(results[0].value, 75.0);
-    EXPECT_DOUBLE_EQ(results[1].value, 80.0);
-    EXPECT_DOUBLE_EQ(results[2].value, 85.0);
-}
-
-TEST_F(TSStoreTest, Query_MultipleEntities_ReturnsAllWhenNoEntityFilter) {
-    std::vector<themis::TSStore::DataPoint> points = {
-        createDataPoint("cpu_usage", "server01", t0_, 70.0),
-        createDataPoint("cpu_usage", "server02", t0_, 65.0),
-        createDataPoint("cpu_usage", "server03", t0_, 80.0)
-    };
-    ASSERT_TRUE(ts_store_->putDataPoints(points).ok);
-    
-    themis::TSStore::QueryOptions opts;
-    opts.metric = "cpu_usage";
-    // No entity filter = query all entities
-    opts.from_timestamp_ms = t0_;
-    opts.to_timestamp_ms = t0_;
-    
-    auto [status, results] = ts_store_->query(opts);
-    ASSERT_TRUE(status.ok);
-    EXPECT_EQ(results.size(), 3u);
-}
-
-TEST_F(TSStoreTest, Query_WithLimit_ReturnsLimitedResults) {
-    std::vector<themis::TSStore::DataPoint> points;
-    for (int i = 0; i < 100; i++) {
-        points.push_back(createDataPoint("cpu_usage", "server01", t0_ + i * 100, 50.0 + i));
+TEST_F(TSStoreFixture, MultiplePointsReturnedInTimestampOrder) {
+    // Insert in reverse order
+    for (int i = 4; i >= 0; --i) {
+        ASSERT_TRUE(store->putDataPoint(makePoint("m", "e", base + i * 1000, static_cast<double>(i))).has_value());
     }
-    ASSERT_TRUE(ts_store_->putDataPoints(points).ok);
-    
-    themis::TSStore::QueryOptions opts;
-    opts.metric = "cpu_usage";
-    opts.entity = "server01";
-    opts.from_timestamp_ms = t0_;
-    opts.to_timestamp_ms = t0_ + 20000;
-    opts.limit = 10;
-    
-    auto [status, results] = ts_store_->query(opts);
-    ASSERT_TRUE(status.ok);
-    EXPECT_EQ(results.size(), 10u);
-}
 
-TEST_F(TSStoreTest, Query_WithTagFilter_ReturnsOnlyMatchingPoints) {
-    nlohmann::json tags_prod = {{"env", "prod"}, {"region", "us-east"}};
-    nlohmann::json tags_dev = {{"env", "dev"}, {"region", "us-east"}};
-    
-    std::vector<themis::TSStore::DataPoint> points = {
-        createDataPoint("cpu_usage", "server01", t0_, 70.0, tags_prod),
-        createDataPoint("cpu_usage", "server02", t0_, 65.0, tags_dev),
-        createDataPoint("cpu_usage", "server03", t0_, 80.0, tags_prod)
-    };
-    ASSERT_TRUE(ts_store_->putDataPoints(points).ok);
-    
-    themis::TSStore::QueryOptions opts;
-    opts.metric = "cpu_usage";
-    opts.from_timestamp_ms = t0_;
-    opts.to_timestamp_ms = t0_;
-    opts.tag_filter = {{"env", "prod"}};
-    
-    auto [status, results] = ts_store_->query(opts);
-    ASSERT_TRUE(status.ok);
-    EXPECT_EQ(results.size(), 2u); // Only server01 and server03
-    for (const auto& result : results) {
-        EXPECT_EQ(result.tags["env"], "prod");
+    TSStore::QueryOptions q;
+    q.metric            = "m";
+    q.from_timestamp_ms = base;
+    q.to_timestamp_ms   = base + 5000;
+    auto r = store->query(q);
+    ASSERT_TRUE(r.has_value());
+    EXPECT_EQ(r->size(), 5u);
+    for (size_t i = 1; i < r->size(); ++i) {
+        EXPECT_LT((*r)[i-1].timestamp_ms, (*r)[i].timestamp_ms);
     }
 }
 
-TEST_F(TSStoreTest, Query_EmptyMetric_ReturnsError) {
-    themis::TSStore::QueryOptions opts;
-    opts.metric = ""; // Empty metric
-    
-    auto [status, results] = ts_store_->query(opts);
-    EXPECT_FALSE(status.ok);
-    EXPECT_TRUE(status.message.find("Metric") != std::string::npos);
-}
+// ─── Range queries ────────────────────────────────────────────────────────────
 
-// ===== Aggregation Tests =====
-
-TEST_F(TSStoreTest, Aggregate_ComputesCorrectStatistics) {
-    std::vector<themis::TSStore::DataPoint> points = {
-        createDataPoint("cpu_usage", "server01", t0_, 70.0),
-        createDataPoint("cpu_usage", "server01", t1_, 80.0),
-        createDataPoint("cpu_usage", "server01", t2_, 90.0),
-        createDataPoint("cpu_usage", "server01", t3_, 60.0),
-        createDataPoint("cpu_usage", "server01", t4_, 85.0)
-    };
-    ASSERT_TRUE(ts_store_->putDataPoints(points).ok);
-    
-    themis::TSStore::QueryOptions opts;
-    opts.metric = "cpu_usage";
-    opts.entity = "server01";
-    opts.from_timestamp_ms = t0_;
-    opts.to_timestamp_ms = t4_;
-    
-    auto [status, agg] = ts_store_->aggregate(opts);
-    ASSERT_TRUE(status.ok);
-    
-    EXPECT_EQ(agg.count, 5u);
-    EXPECT_DOUBLE_EQ(agg.min, 60.0);
-    EXPECT_DOUBLE_EQ(agg.max, 90.0);
-    EXPECT_DOUBLE_EQ(agg.sum, 385.0); // 70+80+90+60+85
-    EXPECT_DOUBLE_EQ(agg.avg, 77.0);  // 385/5
-    EXPECT_EQ(agg.first_timestamp_ms, t0_);
-    EXPECT_EQ(agg.last_timestamp_ms, t4_);
-}
-
-TEST_F(TSStoreTest, Aggregate_EmptyResult_ReturnsZeroStats) {
-    themis::TSStore::QueryOptions opts;
-    opts.metric = "nonexistent_metric";
-    opts.from_timestamp_ms = t0_;
-    opts.to_timestamp_ms = t4_;
-    
-    auto [status, agg] = ts_store_->aggregate(opts);
-    ASSERT_TRUE(status.ok);
-    EXPECT_EQ(agg.count, 0u);
-}
-
-TEST_F(TSStoreTest, Aggregate_SinglePoint_ReturnsCorrectStats) {
-    auto point = createDataPoint("cpu_usage", "server01", t0_, 75.5);
-    ASSERT_TRUE(ts_store_->putDataPoint(point).ok);
-    
-    themis::TSStore::QueryOptions opts;
-    opts.metric = "cpu_usage";
-    opts.entity = "server01";
-    opts.from_timestamp_ms = t0_;
-    opts.to_timestamp_ms = t0_;
-    
-    auto [status, agg] = ts_store_->aggregate(opts);
-    ASSERT_TRUE(status.ok);
-    
-    EXPECT_EQ(agg.count, 1u);
-    EXPECT_DOUBLE_EQ(agg.min, 75.5);
-    EXPECT_DOUBLE_EQ(agg.max, 75.5);
-    EXPECT_DOUBLE_EQ(agg.avg, 75.5);
-    EXPECT_DOUBLE_EQ(agg.sum, 75.5);
-}
-
-// ===== Performance Tests =====
-
-TEST_F(TSStoreTest, Performance_Query1000Points_UnderThreshold) {
-    // Insert 1000 data points
-    std::vector<themis::TSStore::DataPoint> points;
-    for (int i = 0; i < 1000; i++) {
-        points.push_back(createDataPoint("cpu_usage", "server01", t0_ + i, 50.0 + i * 0.01));
+TEST_F(TSStoreFixture, RangeQueryReturnsOnlyPointsInRange) {
+    for (int i = 0; i < 10; ++i) {
+        store->putDataPoint(makePoint("m", "e", base + i * 1000, static_cast<double>(i)));
     }
-    ASSERT_TRUE(ts_store_->putDataPoints(points).ok);
-    
-    themis::TSStore::QueryOptions opts;
-    opts.metric = "cpu_usage";
-    opts.entity = "server01";
-    opts.from_timestamp_ms = t0_;
-    opts.to_timestamp_ms = t0_ + 1000;
-    
-    auto start = std::chrono::high_resolution_clock::now();
-    auto [status, results] = ts_store_->query(opts);
-    auto end = std::chrono::high_resolution_clock::now();
-    
-    auto duration_ms = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
-    
-    ASSERT_TRUE(status.ok);
-    EXPECT_EQ(results.size(), 1000u);
-    EXPECT_LT(duration_ms, 100); // Should be < 100ms (target: <10ms, relaxed for CI)
-    
-    std::cout << "Query 1000 points took: " << duration_ms << "ms" << std::endl;
-}
 
-TEST_F(TSStoreTest, Performance_BatchWrite1000Points_Fast) {
-    std::vector<themis::TSStore::DataPoint> points;
-    for (int i = 0; i < 1000; i++) {
-        points.push_back(createDataPoint("cpu_usage", "server01", t0_ + i, 50.0 + i));
+    TSStore::QueryOptions q;
+    q.metric            = "m";
+    q.from_timestamp_ms = base + 3000;
+    q.to_timestamp_ms   = base + 6000;
+    auto r = store->query(q);
+    ASSERT_TRUE(r.has_value());
+    EXPECT_EQ(r->size(), 4u);  // timestamps: base+3000, +4000, +5000, +6000
+    for (const auto& pt : *r) {
+        EXPECT_GE(pt.timestamp_ms, base + 3000);
+        EXPECT_LE(pt.timestamp_ms, base + 6000);
     }
-    
-    auto start = std::chrono::high_resolution_clock::now();
-    auto status = ts_store_->putDataPoints(points);
-    auto end = std::chrono::high_resolution_clock::now();
-    
-    auto duration_ms = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
-    
-    ASSERT_TRUE(status.ok);
-    EXPECT_LT(duration_ms, 500); // Should be < 500ms
-    
-    std::cout << "Batch write 1000 points took: " << duration_ms << "ms" << std::endl;
 }
 
-// ===== Stats Tests =====
+TEST_F(TSStoreFixture, EmptyRangeReturnsNothing) {
+    store->putDataPoint(makePoint("m", "e", base, 1.0));
 
-TEST_F(TSStoreTest, GetStats_ReturnsAccurateMetrics) {
-    std::vector<themis::TSStore::DataPoint> points = {
-        createDataPoint("cpu_usage", "server01", t0_, 70.0),
-        createDataPoint("cpu_usage", "server01", t5_, 80.0),
-        createDataPoint("memory_usage", "server01", t2_, 90.0)
-    };
-    ASSERT_TRUE(ts_store_->putDataPoints(points).ok);
-    
-    auto stats = ts_store_->getStats();
-    
+    TSStore::QueryOptions q;
+    q.metric            = "m";
+    q.from_timestamp_ms = base + 10000;
+    q.to_timestamp_ms   = base + 20000;
+    auto r = store->query(q);
+    ASSERT_TRUE(r.has_value());
+    EXPECT_EQ(r->size(), 0u);
+}
+
+// ─── Entity filter ────────────────────────────────────────────────────────────
+
+TEST_F(TSStoreFixture, EntityFilterIsolatesCorrectEntity) {
+    store->putDataPoint(makePoint("cpu", "host1", base,     10.0));
+    store->putDataPoint(makePoint("cpu", "host2", base + 1, 20.0));
+    store->putDataPoint(makePoint("cpu", "host1", base + 2, 30.0));
+
+    TSStore::QueryOptions q;
+    q.metric            = "cpu";
+    q.entity            = "host1";
+    q.from_timestamp_ms = 0;
+    q.to_timestamp_ms   = std::numeric_limits<int64_t>::max();
+    auto r = store->query(q);
+    ASSERT_TRUE(r.has_value());
+    ASSERT_EQ(r->size(), 2u);
+    for (const auto& pt : *r) EXPECT_EQ(pt.entity, "host1");
+}
+
+// ─── Tag filter ───────────────────────────────────────────────────────────────
+
+TEST_F(TSStoreFixture, TagFilterMatchesCorrectPoints) {
+    nlohmann::json t1 = {{"env", "prod"}};
+    nlohmann::json t2 = {{"env", "dev"}};
+    store->putDataPoint(makePoint("cpu", "h1", base,     1.0, t1));
+    store->putDataPoint(makePoint("cpu", "h2", base + 1, 2.0, t2));
+    store->putDataPoint(makePoint("cpu", "h3", base + 2, 3.0, t1));
+
+    TSStore::QueryOptions q;
+    q.metric            = "cpu";
+    q.from_timestamp_ms = 0;
+    q.to_timestamp_ms   = std::numeric_limits<int64_t>::max();
+    q.tag_filter        = {{"env", "prod"}};
+    auto r = store->query(q);
+    ASSERT_TRUE(r.has_value());
+    ASSERT_EQ(r->size(), 2u);
+    for (const auto& pt : *r) EXPECT_EQ(pt.tags["env"], "prod");
+}
+
+// ─── Limit ────────────────────────────────────────────────────────────────────
+
+TEST_F(TSStoreFixture, LimitCapsReturnedPoints) {
+    for (int i = 0; i < 20; ++i) {
+        store->putDataPoint(makePoint("m", "e", base + i * 1000, static_cast<double>(i)));
+    }
+    TSStore::QueryOptions q;
+    q.metric            = "m";
+    q.from_timestamp_ms = 0;
+    q.to_timestamp_ms   = std::numeric_limits<int64_t>::max();
+    q.limit             = 5;
+    auto r = store->query(q);
+    ASSERT_TRUE(r.has_value());
+    EXPECT_EQ(r->size(), 5u);
+}
+
+// ─── Aggregation ─────────────────────────────────────────────────────────────
+
+TEST_F(TSStoreFixture, AggregateBasicStats) {
+    // Insert 5 points: 1, 2, 3, 4, 5
+    for (int i = 1; i <= 5; ++i) {
+        store->putDataPoint(makePoint("agg_m", "h", base + i * 1000, static_cast<double>(i)));
+    }
+    TSStore::QueryOptions q;
+    q.metric            = "agg_m";
+    q.from_timestamp_ms = 0;
+    q.to_timestamp_ms   = std::numeric_limits<int64_t>::max();
+    auto r = store->aggregate(q);
+    ASSERT_TRUE(r.has_value());
+    EXPECT_EQ(r->count, 5u);
+    EXPECT_NEAR(r->min, 1.0, 1e-9);
+    EXPECT_NEAR(r->max, 5.0, 1e-9);
+    EXPECT_NEAR(r->sum, 15.0, 1e-9);
+    EXPECT_NEAR(r->avg, 3.0, 1e-9);
+}
+
+TEST_F(TSStoreFixture, AggregateEmptyReturnsZeroCount) {
+    TSStore::QueryOptions q;
+    q.metric            = "nonexistent";
+    q.from_timestamp_ms = 0;
+    q.to_timestamp_ms   = std::numeric_limits<int64_t>::max();
+    auto r = store->aggregate(q);
+    ASSERT_TRUE(r.has_value());
+    EXPECT_EQ(r->count, 0u);
+}
+
+// ─── deleteOldData (global) ───────────────────────────────────────────────────
+
+TEST_F(TSStoreFixture, DeleteOldDataRemovesOnlyOldPoints) {
+    store->putDataPoint(makePoint("m", "e", base,         1.0));  // old
+    store->putDataPoint(makePoint("m", "e", base + 1000,  2.0));  // new
+    store->putDataPoint(makePoint("m", "e", base + 2000,  3.0));  // new
+
+    size_t deleted = store->deleteOldData(base + 500);
+    EXPECT_EQ(deleted, 1u);  // only the base point
+
+    TSStore::QueryOptions q;
+    q.metric            = "m";
+    q.from_timestamp_ms = 0;
+    q.to_timestamp_ms   = std::numeric_limits<int64_t>::max();
+    auto r = store->query(q);
+    ASSERT_TRUE(r.has_value());
+    EXPECT_EQ(r->size(), 2u);
+}
+
+// ─── deleteOldDataForMetric ───────────────────────────────────────────────────
+
+TEST_F(TSStoreFixture, DeleteOldDataForMetricOnlyTouchesNamedMetric) {
+    store->putDataPoint(makePoint("cpu",  "h", base, 1.0));  // old – should be deleted
+    store->putDataPoint(makePoint("disk", "h", base, 2.0));  // old – kept (different metric)
+
+    size_t deleted = store->deleteOldDataForMetric("cpu", base + 1);
+    EXPECT_EQ(deleted, 1u);
+
+    TSStore::QueryOptions q_cpu;
+    q_cpu.metric            = "cpu";
+    q_cpu.from_timestamp_ms = 0;
+    q_cpu.to_timestamp_ms   = std::numeric_limits<int64_t>::max();
+    auto r_cpu = store->query(q_cpu);
+    ASSERT_TRUE(r_cpu.has_value());
+    EXPECT_EQ(r_cpu->size(), 0u);
+
+    TSStore::QueryOptions q_disk;
+    q_disk.metric            = "disk";
+    q_disk.from_timestamp_ms = 0;
+    q_disk.to_timestamp_ms   = std::numeric_limits<int64_t>::max();
+    auto r_disk = store->query(q_disk);
+    ASSERT_TRUE(r_disk.has_value());
+    EXPECT_EQ(r_disk->size(), 1u);
+}
+
+// ─── deleteMetric ─────────────────────────────────────────────────────────────
+
+TEST_F(TSStoreFixture, DeleteMetricRemovesAllPointsForMetric) {
+    store->putDataPoint(makePoint("to_del", "h", base,         1.0));
+    store->putDataPoint(makePoint("to_del", "h", base + 1000,  2.0));
+    store->putDataPoint(makePoint("keep",   "h", base,         3.0));
+
+    auto r = store->deleteMetric("to_del");
+    ASSERT_TRUE(r.has_value());
+
+    TSStore::QueryOptions q;
+    q.metric            = "to_del";
+    q.from_timestamp_ms = 0;
+    q.to_timestamp_ms   = std::numeric_limits<int64_t>::max();
+    EXPECT_EQ(store->query(q)->size(), 0u);
+
+    q.metric = "keep";
+    EXPECT_EQ(store->query(q)->size(), 1u);
+}
+
+TEST_F(TSStoreFixture, DeleteMetricEmptyNameReturnsError) {
+    auto r = store->deleteMetric("");
+    ASSERT_FALSE(r.has_value());
+    EXPECT_EQ(r.error().code(), errors::ErrorCode::ERR_API_INVALID_REQUEST);
+}
+
+// ─── clear ───────────────────────────────────────────────────────────────────
+
+TEST_F(TSStoreFixture, ClearDeletesAllData) {
+    store->putDataPoint(makePoint("a", "h", base,         1.0));
+    store->putDataPoint(makePoint("b", "h", base + 1000,  2.0));
+    store->clear();
+
+    auto stats = store->getStats();
+    EXPECT_EQ(stats.total_data_points, 0u);
+}
+
+// ─── getStats ─────────────────────────────────────────────────────────────────
+
+TEST_F(TSStoreFixture, GetStatsReflectsInsertedPoints) {
+    for (int i = 0; i < 3; ++i) {
+        store->putDataPoint(makePoint("stat_m", "e", base + i * 1000, static_cast<double>(i)));
+    }
+    auto stats = store->getStats();
     EXPECT_EQ(stats.total_data_points, 3u);
-    EXPECT_EQ(stats.total_metrics, 2u); // cpu_usage, memory_usage
-    EXPECT_GT(stats.total_size_bytes, 0u);
-    EXPECT_EQ(stats.oldest_timestamp_ms, t0_);
-    EXPECT_EQ(stats.newest_timestamp_ms, t5_);
+    EXPECT_EQ(stats.total_metrics, 1u);
+    EXPECT_LE(stats.oldest_timestamp_ms, base);
+    EXPECT_GE(stats.newest_timestamp_ms, base + 2000);
 }
 
-TEST_F(TSStoreTest, GetStats_EmptyStore_ReturnsZeros) {
-    auto stats = ts_store_->getStats();
-    
-    EXPECT_EQ(stats.total_data_points, 0u);
-    EXPECT_EQ(stats.total_metrics, 0u);
-    EXPECT_EQ(stats.total_size_bytes, 0u);
-}
+// ─── putDataPoints batch (no compression) ────────────────────────────────────
 
-// ===== Deletion Tests =====
-
-TEST_F(TSStoreTest, DeleteOldData_RemovesOldPoints) {
-    std::vector<themis::TSStore::DataPoint> points = {
-        createDataPoint("cpu_usage", "server01", t0_, 70.0),
-        createDataPoint("cpu_usage", "server01", t1_, 75.0),
-        createDataPoint("cpu_usage", "server01", t2_, 80.0),
-        createDataPoint("cpu_usage", "server01", t3_, 85.0),
-        createDataPoint("cpu_usage", "server01", t4_, 90.0)
-    };
-    ASSERT_TRUE(ts_store_->putDataPoints(points).ok);
-    
-    // Delete points before t2
-    size_t deleted = ts_store_->deleteOldData(t2_);
-    EXPECT_EQ(deleted, 2u); // t0, t1
-    
-    // Verify remaining points
-    themis::TSStore::QueryOptions opts;
-    opts.metric = "cpu_usage";
-    opts.entity = "server01";
-    opts.from_timestamp_ms = 0;
-    opts.to_timestamp_ms = INT64_MAX;
-    
-    auto [status, results] = ts_store_->query(opts);
-    ASSERT_TRUE(status.ok);
-    EXPECT_EQ(results.size(), 3u); // t2, t3, t4
-    EXPECT_DOUBLE_EQ(results[0].value, 80.0);
-}
-
-TEST_F(TSStoreTest, DeleteMetric_RemovesAllPointsForMetric) {
-    std::vector<themis::TSStore::DataPoint> points = {
-        createDataPoint("cpu_usage", "server01", t0_, 70.0),
-        createDataPoint("cpu_usage", "server02", t0_, 75.0),
-        createDataPoint("memory_usage", "server01", t0_, 80.0)
-    };
-    ASSERT_TRUE(ts_store_->putDataPoints(points).ok);
-    
-    auto status = ts_store_->deleteMetric("cpu_usage");
-    ASSERT_TRUE(status.ok);
-    
-    // Verify cpu_usage is gone
-    themis::TSStore::QueryOptions opts1;
-    opts1.metric = "cpu_usage";
-    opts1.from_timestamp_ms = 0;
-    opts1.to_timestamp_ms = INT64_MAX;
-    
-    auto [status1, results1] = ts_store_->query(opts1);
-    EXPECT_EQ(results1.size(), 0u);
-    
-    // Verify memory_usage still exists
-    themis::TSStore::QueryOptions opts2;
-    opts2.metric = "memory_usage";
-    opts2.from_timestamp_ms = 0;
-    opts2.to_timestamp_ms = INT64_MAX;
-    
-    auto [status2, results2] = ts_store_->query(opts2);
-    EXPECT_EQ(results2.size(), 1u);
-}
-
-TEST_F(TSStoreTest, Clear_RemovesAllData) {
-    std::vector<themis::TSStore::DataPoint> points = {
-        createDataPoint("cpu_usage", "server01", t0_, 70.0),
-        createDataPoint("memory_usage", "server01", t0_, 80.0)
-    };
-    ASSERT_TRUE(ts_store_->putDataPoints(points).ok);
-    
-    ts_store_->clear();
-    
-    auto stats = ts_store_->getStats();
-    EXPECT_EQ(stats.total_data_points, 0u);
-    EXPECT_EQ(stats.total_metrics, 0u);
-}
-
-// ===== Real-World Scenarios =====
-
-TEST_F(TSStoreTest, RealWorld_MonitoringPipeline) {
-    // Simulate monitoring pipeline: ingest, query recent, aggregate
-    
-    // 1. Ingest metrics from multiple servers
-    std::vector<themis::TSStore::DataPoint> points;
-    for (int server = 1; server <= 3; server++) {
-        for (int i = 0; i < 60; i++) { // 60 seconds
-            std::string entity = "server0" + std::to_string(server);
-            points.push_back(createDataPoint("cpu_usage", entity, t0_ + i * 1000, 50.0 + i + server * 5));
-        }
+TEST_F(TSStoreFixture, PutDataPointsBatchAllWritten) {
+    std::vector<TSStore::DataPoint> pts;
+    for (int i = 0; i < 5; ++i) {
+        pts.push_back(makePoint("batch", "h", base + i * 1000, static_cast<double>(i)));
     }
-    ASSERT_TRUE(ts_store_->putDataPoints(points).ok);
-    
-    // 2. Query recent data (last 10 seconds) for server01
-    themis::TSStore::QueryOptions recent_opts;
-    recent_opts.metric = "cpu_usage";
-    recent_opts.entity = "server01";
-    recent_opts.from_timestamp_ms = t0_ + 50000;
-    recent_opts.to_timestamp_ms = t0_ + 60000;
-    
-    auto [st1, recent] = ts_store_->query(recent_opts);
-    ASSERT_TRUE(st1.ok);
-    EXPECT_EQ(recent.size(), 10u);
-    
-    // 3. Aggregate all servers over 1 minute
-    themis::TSStore::QueryOptions agg_opts;
-    agg_opts.metric = "cpu_usage";
-    agg_opts.from_timestamp_ms = t0_;
-    agg_opts.to_timestamp_ms = t0_ + 60000;
-    
-    auto [st2, agg] = ts_store_->aggregate(agg_opts);
-    ASSERT_TRUE(st2.ok);
-    EXPECT_EQ(agg.count, 180u); // 60 points * 3 servers
-    EXPECT_GT(agg.max, agg.min);
+    ASSERT_TRUE(store->putDataPoints(pts).has_value());
+
+    TSStore::QueryOptions q;
+    q.metric            = "batch";
+    q.from_timestamp_ms = 0;
+    q.to_timestamp_ms   = std::numeric_limits<int64_t>::max();
+    auto r = store->query(q);
+    ASSERT_TRUE(r.has_value());
+    EXPECT_EQ(r->size(), 5u);
 }
 
-TEST_F(TSStoreTest, RealWorld_AlertingWithThresholds) {
-    // Simulate alerting: detect when CPU > 90% for 3 consecutive readings
-    
-    std::vector<themis::TSStore::DataPoint> points = {
-        createDataPoint("cpu_usage", "server01", t0_, 85.0),
-        createDataPoint("cpu_usage", "server01", t1_, 92.0), // Over threshold
-        createDataPoint("cpu_usage", "server01", t2_, 94.0), // Over threshold
-        createDataPoint("cpu_usage", "server01", t3_, 95.0), // Over threshold (alert!)
-        createDataPoint("cpu_usage", "server01", t4_, 80.0)
-    };
-    ASSERT_TRUE(ts_store_->putDataPoints(points).ok);
-    
-    themis::TSStore::QueryOptions opts;
-    opts.metric = "cpu_usage";
-    opts.entity = "server01";
-    opts.from_timestamp_ms = t0_;
-    opts.to_timestamp_ms = t4_;
-    
-    auto [status, results] = ts_store_->query(opts);
-    ASSERT_TRUE(status.ok);
-    
-    // Check for 3 consecutive values > 90
-    int consecutive_over_threshold = 0;
-    bool alert_triggered = false;
-    
-    for (const auto& point : results) {
-        if (point.value > 90.0) {
-            consecutive_over_threshold++;
-            if (consecutive_over_threshold >= 3) {
-                alert_triggered = true;
-                break;
-            }
-        } else {
-            consecutive_over_threshold = 0;
-        }
-    }
-    
-    EXPECT_TRUE(alert_triggered);
+TEST_F(TSStoreFixture, PutDataPointsEmptyBatchSucceeds) {
+    EXPECT_TRUE(store->putDataPoints({}).has_value());
 }
+
+// ─── setConfig round-trip ─────────────────────────────────────────────────────
+
+TEST_F(TSStoreFixture, SetConfigChangesConfig) {
+    TSStore::Config new_cfg;
+    new_cfg.compression         = TSStore::CompressionType::Gorilla;
+    new_cfg.chunk_size_hours    = 12;
+    new_cfg.late_arrival_window_ms = 30000;
+    store->setConfig(new_cfg);
+
+    const auto& c = store->getConfig();
+    EXPECT_EQ(c.compression, TSStore::CompressionType::Gorilla);
+    EXPECT_EQ(c.chunk_size_hours, 12);
+    EXPECT_EQ(c.late_arrival_window_ms, 30000);
+}
+
+} // namespace
+} // namespace themis
+

@@ -1,7 +1,37 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            llama_wrapper.cpp                                  ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:16:57                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🔴 ALPHA                                        ║
+    • Quality Score:   38.0/100                                       ║
+    • Total Lines:     2804                                           ║
+    • Open Issues:     TODOs: 1, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 4d754f104  2026-02-26  refactor(llm): address code review feedback on JSON schem... ║
+    • 0f9839ae4  2026-02-26  feat(llm): implement JSON schema binding support (Issue #... ║
+    • 53b07730b  2026-02-26  feat(llm): implement multi-modal input support (image + t... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: 🚧 Early Development                                         ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "llm/llama_wrapper.h"
 #include "llm/llm_prefix_cache.h"
 #include "llm/llm_response_cache.h"
 #include "llm/paged_block_manager.h"
+#include "llm/llamacpp_inference_engine.h"
+#include "llm/llm_model_storage.h"
+#include "llm/json_schema_converter.h"
+#include "storage/blob_storage_manager.h"
+#include "security/encryption.h"
 #include "utils/error_registry.h"
 #include <spdlog/spdlog.h>
 #include <chrono>
@@ -11,12 +41,23 @@
 #include <filesystem>
 #include <llama.h>
 
+// Forward declarations for llama.cpp LoRA API (from llama_lora_adapter.cpp)
+extern "C" {
+    void* llama_lora_adapter_init(struct llama_model* model, const char* path_lora);
+    int llama_lora_adapter_set_with_scale(struct llama_context* ctx, void* adapter, float scale);
+    void llama_lora_adapter_free(void* adapter);
+    bool themis_llama_lora_available();
+}
+
+// Forward declarations for llama.cpp grammar API (from llama_grammar_adapter.cpp)
+extern "C" {
+    void llama_grammar_sample(const struct llama_grammar* grammar, const struct llama_context* ctx, struct llama_token_data_array* candidates);
+    void llama_grammar_accept(struct llama_grammar* grammar, const struct llama_context* ctx, int token);
+    bool themis_llama_grammar_available();
+}
+
 namespace themis {
 namespace llm {
-
-// Constants for stub response estimation
-constexpr size_t CHARS_PER_TOKEN_ESTIMATE = 4;
-constexpr int MAX_STUB_TOKENS = 64;
 
 // ═══════════════════════════════════════════════════════════
 // Configuration Validation
@@ -109,6 +150,15 @@ void LlamaWrapper::validateConfig(const Config& config) {
         spdlog::info("RoPE scaling validated: {:.1f}x context extension ({} → {} tokens)",
                     scaling_factor, rope_cfg.original_context, rope_cfg.max_context);
     }
+    
+    // Validate timeout
+    if (config.request_timeout_ms > 0) {
+        if (config.request_timeout_ms < 1000) {
+            spdlog::warn("request_timeout_ms ({}) is less than 1 000 ms; very short timeouts may cause spurious failures",
+                         config.request_timeout_ms);
+        }
+        spdlog::info("Request timeout: {} ms", config.request_timeout_ms);
+    }
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -172,6 +222,64 @@ LlamaWrapper::LlamaWrapper(const Config& config)
     }
 #endif
     
+    // Initialize output validator (Production Readiness)
+    if (config_.enable_output_validation) {
+        LLMOutputValidator::Config validator_config;
+        validator_config.min_length = config_.min_output_length;
+        validator_config.max_length = config_.max_output_length;
+        validator_config.require_utf8 = config_.require_utf8;
+        validator_config.min_coherence = config_.min_coherence;
+        validator_config.check_truncation = true;
+        validator_config.check_coherence = true;
+        
+        output_validator_ = std::make_unique<LLMOutputValidator>(validator_config);
+        spdlog::info("Output validation enabled (min_len: {}, require_utf8: {}, min_coherence: {})",
+                     validator_config.min_length, validator_config.require_utf8, validator_config.min_coherence);
+    }
+    
+    // ─── llama.cpp runtime version compatibility check ───────────────────────
+    // Compare the commit hash baked in at build time (THEMIS_LLAMA_CPP_EXPECTED_COMMIT,
+    // set by cmake/Dependencies.cmake from LLAMA_CPP_GIT_TAG) against the commit
+    // reported by the linked llama.cpp shared/static library at runtime.
+    //
+    // A mismatch means the linked library was built from a different commit than
+    // the one this code was compiled against.  This can happen when:
+    //  - A system-level llama.cpp package (e.g. from a distro or conda) overrides
+    //    the FetchContent build.
+    //  - A developer manually replaces the library file without rebuilding.
+    //
+    // We do NOT abort on mismatch because the API may still be compatible —
+    // instead we emit a loud WARNING so it is visible in logs and CI output.
+#if defined(THEMIS_ENABLE_LLM) && defined(THEMIS_LLAMA_CPP_EXPECTED_COMMIT)
+    {
+        // Newer llama.cpp APIs do not expose llama_build_commit().
+        // Use system info string as a best-effort runtime fingerprint.
+        const char* runtime_info = llama_print_system_info();
+        const std::string expected_commit = THEMIS_LLAMA_CPP_EXPECTED_COMMIT;
+        const std::string runtime_info_str = runtime_info ? runtime_info : "";
+
+        if (runtime_info_str.empty()) {
+            spdlog::warn("LlamaWrapper: llama_print_system_info() returned empty string — "
+                         "cannot verify runtime version. Expected commit: {}. "
+                         "Ensure the linked llama.cpp is built from the correct commit.",
+                         expected_commit);
+        } else if (runtime_info_str.find(expected_commit) == std::string::npos) {
+            spdlog::warn(
+                "LlamaWrapper: llama.cpp version could not be matched exactly — "
+                "expected commit '{}' was not found in runtime system info '{}'. "
+                "Grammar constraints, LoRA adapters, and token-sampler APIs may behave "
+                "unexpectedly. Update LLAMA_CPP_GIT_TAG in cmake/Dependencies.cmake or "
+                "ensure the correct library is linked. "
+                "See docs/llm/LORA_ADAPTER_MIGRATION.md for upgrade guidance.",
+                expected_commit, runtime_info_str);
+        } else {
+            spdlog::info("  llama.cpp version: {} (matches expected {})",
+                         runtime_info_str, expected_commit);
+        }
+    }
+#endif
+    // ─────────────────────────────────────────────────────────────────────────
+
     spdlog::info("LlamaWrapper initialized:");
     spdlog::info("  GPU layers: {}, Context: {}", 
                  config_.n_gpu_layers, config_.n_ctx);
@@ -181,6 +289,7 @@ LlamaWrapper::LlamaWrapper(const Config& config)
     spdlog::info("  Response cache: {}", config_.enable_response_cache ? "enabled" : "disabled");
     spdlog::info("  Grammar constraints: {}", config_.grammar_config.enabled ? "enabled" : "disabled");
     spdlog::info("  Vision support: {}", vision_enabled_ ? "enabled" : "disabled");
+    spdlog::info("  Output validation: {}", output_validator_ ? "enabled" : "disabled");
 }
 
 LlamaWrapper::~LlamaWrapper() {
@@ -200,6 +309,9 @@ bool LlamaWrapper::loadModel(
     const json& config
 ) {
     std::lock_guard<std::mutex> lock(mutex_);
+    
+    // Transition to LOADING state
+    transitionToState(WrapperState::LOADING, "loadModel() called for: " + model_path);
     
     spdlog::info("Loading model (lazy): {}", model_path);
     
@@ -292,6 +404,9 @@ bool LlamaWrapper::loadModel(
     if (!model) {
         errors::logError(errors::ErrorCode::ERR_LLM_MODEL_LOAD_FAILED, model_path);
         
+        // Transition to ERROR state
+        transitionToState(WrapperState::ERROR_STATE, "Model load failed: " + model_path);
+        
         if (metrics_collector_) {
             metrics_collector_->recordError("model_load_failed", "model_loader");
         }
@@ -320,7 +435,145 @@ bool LlamaWrapper::loadModel(
         metrics_collector_->recordModelSwitchLatency(load_time_ms);
     }
     
+    // Transition to READY state
+    transitionToState(WrapperState::READY, "Model loaded successfully: " + current_model_id_);
+    
     return true;
+}
+
+bool LlamaWrapper::loadModelFromThemisDB(
+    const std::string& model_id,
+    std::shared_ptr<LLMModelStorage> storage,
+    std::shared_ptr<storage::BlobStorageManager> blob_manager,
+    std::shared_ptr<security::FieldEncryption> encryption,
+    const json& config
+) {
+    spdlog::info("Loading model from ThemisDB: {}", model_id);
+    
+    // Validate parameters
+    if (!storage) {
+        spdlog::error("LLMModelStorage is null");
+        return false;
+    }
+    
+    if (!blob_manager) {
+        spdlog::error("BlobStorageManager is null");
+        return false;
+    }
+    
+    try {
+        // Step 1: Load model metadata from ThemisDB
+        spdlog::info("Step 1: Retrieving model metadata from ThemisDB...");
+        auto metadata_opt = storage->loadModel(model_id);
+        if (!metadata_opt) {
+            spdlog::error("Model not found in ThemisDB: {}", model_id);
+            errors::logError(errors::ErrorCode::ERR_LLM_MODEL_NOT_FOUND, model_id);
+            return false;
+        }
+        
+        const auto& metadata = *metadata_opt;
+        spdlog::info("✓ Model metadata retrieved: {} ({})", 
+                     metadata.model_name, metadata.architecture);
+        spdlog::info("  Format: {}, Quantization: {}, Size: {} bytes", 
+                     metadata.format, metadata.quantization, metadata.size_bytes);
+        
+        // Step 2: Check if model data is stored inline or in blob storage
+        spdlog::info("Step 2: Retrieving model data...");
+        std::vector<uint8_t> model_data;
+        
+        // Try to get blob reference from metadata
+        // The loadModelBlob() method in LLMModelStorage handles blob retrieval
+        auto blob_data_opt = storage->loadModelBlob(model_id);
+        
+        if (!blob_data_opt) {
+            spdlog::error("Failed to retrieve model blob data for: {}", model_id);
+            errors::logError(errors::ErrorCode::ERR_LLM_MODEL_LOAD_FAILED, model_id);
+            return false;
+        }
+        
+        model_data = *blob_data_opt;
+        spdlog::info("✓ Model blob retrieved: {} bytes", model_data.size());
+        
+        // Step 3: Decryption is already handled by loadModelBlob()
+        // The data returned from loadModelBlob() is already decrypted if encryption was enabled
+        spdlog::info("Step 3: Model data ready (decryption handled by storage layer)");
+        
+        // Step 4: Write model data to temporary file
+        spdlog::info("Step 4: Writing model to temporary file...");
+        
+        // Create temporary directory for model cache
+        std::filesystem::path temp_dir = std::filesystem::temp_directory_path() / "themisdb_models";
+        std::filesystem::create_directories(temp_dir);
+        
+        // Determine file extension from format
+        std::string extension = ".gguf";  // Default
+        if (metadata.format == "safetensors") {
+            extension = ".safetensors";
+        } else if (metadata.format == "pytorch") {
+            extension = ".pt";
+        }
+        
+        // Create temp file path
+        std::filesystem::path temp_model_path = temp_dir / (model_id + extension);
+        
+        // Write model data to file
+        std::ofstream out_file(temp_model_path, std::ios::binary);
+        if (!out_file) {
+            spdlog::error("Failed to create temporary model file: {}", temp_model_path.string());
+            return false;
+        }
+        
+        out_file.write(reinterpret_cast<const char*>(model_data.data()), model_data.size());
+        out_file.close();
+        
+        if (!std::filesystem::exists(temp_model_path)) {
+            spdlog::error("Temporary model file was not created: {}", temp_model_path.string());
+            return false;
+        }
+        
+        // Verify file size
+        auto file_size = std::filesystem::file_size(temp_model_path);
+        if (file_size != model_data.size()) {
+            spdlog::error("File size mismatch: expected {}, got {}", 
+                         model_data.size(), file_size);
+            std::filesystem::remove(temp_model_path);
+            return false;
+        }
+        
+        spdlog::info("✓ Model written to temporary file: {}", temp_model_path.string());
+        spdlog::info("  File size: {} bytes", file_size);
+        
+        // Step 5: Load model using standard loadModel() method
+        spdlog::info("Step 5: Loading model into llama.cpp...");
+        
+        bool load_success = loadModel(temp_model_path.string(), config);
+        
+        if (!load_success) {
+            spdlog::error("Failed to load model from temporary file");
+            // Clean up temp file on failure
+            std::filesystem::remove(temp_model_path);
+            return false;
+        }
+        
+        spdlog::info("✓ Model loaded successfully from ThemisDB: {}", model_id);
+        
+        // Note: Temp file is kept in cache directory for potential reuse
+        // Cleanup policy: Files older than 7 days should be purged by a maintenance task
+        // Manual cleanup can be done via: rm -rf /tmp/themisdb_models/*
+        
+        // Update usage statistics in ThemisDB
+        // Note: updateUsageStats requires tokens_generated parameter
+        // We'll call it with 0 tokens since this is just a load operation
+        storage->updateUsageStats(model_id, 0);
+        
+        return true;
+        
+    } catch (const std::exception& e) {
+        spdlog::error("Exception loading model from ThemisDB: {}", e.what());
+        errors::logError(errors::ErrorCode::ERR_LLM_MODEL_LOAD_FAILED, 
+                        model_id + ": " + e.what());
+        return false;
+    }
 }
 
 void LlamaWrapper::unloadModel() {
@@ -331,6 +584,9 @@ void LlamaWrapper::unloadModel() {
     }
     
     spdlog::info("Unloading model: {}", current_model_id_);
+    
+    // Transition to UNAVAILABLE state
+    transitionToState(WrapperState::UNAVAILABLE, "Model unload requested");
     
     // Unload draft model first
     unloadDraftModel();
@@ -345,7 +601,51 @@ void LlamaWrapper::unloadModel() {
     current_model_id_.clear();
     current_model_path_.clear();
     
+    // Transition to UNINITIALIZED state
+    transitionToState(WrapperState::UNINITIALIZED, "Model unloaded");
+    
     spdlog::info("Model unloaded");
+}
+
+size_t LlamaWrapper::cleanupTempModels(int days_old) {
+    std::filesystem::path temp_dir = std::filesystem::temp_directory_path() / "themisdb_models";
+    
+    if (!std::filesystem::exists(temp_dir)) {
+        spdlog::debug("Temp models directory does not exist: {}", temp_dir.string());
+        return 0;
+    }
+    
+    size_t removed_count = 0;
+    auto now = std::filesystem::file_time_type::clock::now();
+    auto cutoff_time = now - std::chrono::hours(24 * days_old);
+    
+    try {
+        for (const auto& entry : std::filesystem::directory_iterator(temp_dir)) {
+            if (entry.is_regular_file()) {
+                auto file_time = std::filesystem::last_write_time(entry);
+                
+                if (file_time < cutoff_time) {
+                    try {
+                        std::filesystem::remove(entry.path());
+                        removed_count++;
+                        spdlog::debug("Removed old temp model file: {}", entry.path().filename().string());
+                    } catch (const std::exception& e) {
+                        spdlog::warn("Failed to remove temp file {}: {}", 
+                                    entry.path().filename().string(), e.what());
+                    }
+                }
+            }
+        }
+        
+        if (removed_count > 0) {
+            spdlog::info("Cleaned up {} old temporary model file(s) (older than {} days)", 
+                        removed_count, days_old);
+        }
+    } catch (const std::exception& e) {
+        spdlog::error("Failed to cleanup temp models: {}", e.what());
+    }
+    
+    return removed_count;
 }
 
 std::optional<ModelInfo> LlamaWrapper::getModelInfo() const {
@@ -403,6 +703,20 @@ std::vector<LoRAInfo> LlamaWrapper::listLoRAs() const {
 InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
     std::lock_guard<std::mutex> lock(mutex_);
     
+    // Check state before attempting inference
+    if (current_state_ != WrapperState::READY) {
+        std::string error_msg = "LlamaWrapper not ready for inference. Current state: " + 
+                               stateToString(current_state_);
+        spdlog::error("{}", error_msg);
+        
+        if (metrics_collector_) {
+            metrics_collector_->recordInferenceFailure(current_model_id_.empty() ? "unknown" : current_model_id_, 
+                                                     "wrapper_not_ready");
+        }
+        
+        throw std::runtime_error(error_msg);
+    }
+    
     if (current_model_id_.empty()) {
         throw std::runtime_error("No model loaded");
     }
@@ -423,6 +737,36 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
     // Fall back to regular generation
     // Unlock for regular generation (it will lock internally as needed)
     mutex_.unlock();
+#ifdef THEMIS_ENABLE_VISION
+    // Route to vision pipeline when image inputs are provided.
+    // Safety: generateVision() calls generate() internally with image_paths empty,
+    // so there is no infinite recursion.  The mutex is already unlocked here,
+    // allowing the nested generate() call to acquire it normally.
+    if (!request.image_paths.empty() && vision_enabled_) {
+        VisionRequest vision_req;
+        vision_req.text_prompt = request.prompt;
+        vision_req.image_paths = request.image_paths;
+        vision_req.max_tokens  = request.max_tokens;
+        vision_req.temperature = request.temperature;
+        vision_req.top_p       = request.top_p;
+        vision_req.top_k       = request.top_k;
+        VisionResponse vision_resp = generateVision(vision_req);
+        mutex_.lock();
+        if (!vision_resp.success) {
+            throw std::runtime_error(
+                vision_resp.error_message.empty()
+                    ? "Vision inference failed"
+                    : vision_resp.error_message);
+        }
+        InferenceResponse resp;
+        resp.request_id       = request.request_id;
+        resp.model_id         = current_model_id_;
+        resp.text             = vision_resp.text;
+        resp.tokens_generated = vision_resp.tokens_generated;
+        resp.inference_time_ms = static_cast<float>(vision_resp.inference_time_ms);
+        return resp;
+    }
+#endif
     auto response = generateRegular(request);
     mutex_.lock();
     return response;
@@ -471,55 +815,81 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
     auto* lmodel = reinterpret_cast<llama_model*>(cached->model_handle);
     auto* lctx = reinterpret_cast<llama_context*>(cached->context_handle);
     
-    // For testing with stub models, allow nullptr handles
-    // In production with real llama.cpp, these would be non-null
+    // Model and context must be loaded before inference
     if (!lmodel || !lctx) {
-        spdlog::error("⚠️  LlamaWrapper: Model/context handle is null!");
-        spdlog::error("    - This indicates model was not loaded properly");
-        spdlog::error("    - Returning stub response for backward compatibility");
-        spdlog::error("    - In production, this should throw an exception");
-        spdlog::warn("LlamaWrapper: Model/context handle is null, using stub response");
-        // Fallback to stub for compatibility
-        std::string output = "[Generated response placeholder for: " + request.prompt + "]";
-        InferenceResponse response;
-        response.request_id = request.request_id;
-        response.text = output;
-        response.model_used = current_model_id_;
-        if (request.lora_adapter_id) {
-            response.lora_used = *request.lora_adapter_id;
-        }
-        response.tokens_prompt = static_cast<int>(std::max<size_t>(1, request.prompt.size() / CHARS_PER_TOKEN_ESTIMATE));
-        response.tokens_generated = std::max(1, std::min(request.max_tokens, MAX_STUB_TOKENS));
-        auto end_time = std::chrono::high_resolution_clock::now();
-        response.inference_time_ms = std::chrono::duration<float, std::milli>(end_time - start_time).count();
-        response.latency_ms = static_cast<int64_t>(response.inference_time_ms);
-        response.tokens_per_second = (response.inference_time_ms > 0) 
-            ? response.tokens_generated / (response.inference_time_ms / 1000.0f)
-            : 0.0f;
-        updateStatistics(response);
-        
-        // Record metrics for stub response
-        if (metrics_collector_) {
-            metrics_collector_->recordInferenceSuccess(current_model_id_, response.inference_time_ms);
-            metrics_collector_->recordTokensGenerated(current_model_id_, response.tokens_generated);
-            metrics_collector_->recordEndToEndLatency(current_model_id_, response.inference_time_ms);
-        }
-        
-        // Cache the response
-        if (response_cache_) {
-            response_cache_->put(request.prompt, response);
-        }
-        
-        return response;
+        throw std::runtime_error(
+            "LlamaWrapper: Model/context not initialized. "
+            "Call loadModel() with a valid model file before attempting inference. "
+            "Model ID: " + current_model_id_
+        );
     }
 
     // Real llama.cpp inference implementation
+    // Declare adapter tracking outside try to access in catch
+    bool adapter_applied = false;
+    
     try {
-        // 1. Tokenize prompt
+        // 1. Apply LoRA adapter if specified (Auto-Binding with Context Switch Detection)
+        std::string prev_adapter;
+        bool context_changed = (last_context_ptr_ != lctx);
+        
+        if (request.lora_adapter_id && !request.lora_adapter_id->empty()) {
+            const std::string& adapter_id = *request.lora_adapter_id;
+            spdlog::info("Auto-binding LoRA adapter: {}", adapter_id);
+            
+            // Check if adapter needs to be rebound after context switch
+            if (context_changed && !active_lora_adapter_.empty()) {
+                spdlog::info("Context changed, rebinding adapter {} to new context", adapter_id);
+                // Context changed - previous adapter binding is invalid
+                active_lora_adapter_.clear();
+            }
+            
+            // Check if we need to switch adapters
+            if (active_lora_adapter_ != adapter_id || context_changed) {
+                // Load adapter if not already loaded (lazy loading)
+                if (!lora_manager_->isLoRALoaded(adapter_id)) {
+                    spdlog::info("LoRA adapter {} not loaded, attempting lazy load from storage", adapter_id);
+                    // Adapter will be loaded by LoRAManager from storage
+                }
+                
+                // Ensure LoRA is initialized with the model handle
+                // This calls llama_lora_adapter_init() if not already done
+                if (lora_manager_->isLoRALoaded(adapter_id)) {
+                    if (!lora_manager_->initializeLoRAWithModel(adapter_id, lmodel)) {
+                        spdlog::warn("Failed to initialize LoRA adapter {}, proceeding with base model", adapter_id);
+                    } else {
+                        // Apply adapter to context
+                        if (lora_manager_->applyLoRA(adapter_id, lctx)) {
+                            adapter_applied = true;
+                            active_lora_adapter_ = adapter_id;
+                            last_context_ptr_ = lctx;
+                            spdlog::debug("LoRA adapter {} applied to context", adapter_id);
+                        } else {
+                            spdlog::warn("Failed to apply LoRA adapter {}, proceeding with base model", adapter_id);
+                        }
+                    }
+                } else {
+                    spdlog::warn("LoRA adapter {} not found in manager, proceeding with base model", adapter_id);
+                }
+            } else {
+                // Adapter already applied to this context
+                spdlog::debug("LoRA adapter {} already active on this context", adapter_id);
+                adapter_applied = true;  // Mark as applied for cleanup logic
+            }
+        } else if (!active_lora_adapter_.empty() && !context_changed) {
+            // No adapter requested but one is active - remove it
+            spdlog::info("Removing active adapter {} as none requested", active_lora_adapter_);
+            lora_manager_->removeLoRA(active_lora_adapter_, lctx);
+            active_lora_adapter_.clear();
+        }
+        
+        // 2. Tokenize prompt
         std::vector<llama_token> prompt_tokens = tokenizeInternal(lmodel, request.prompt, true);
         
         InferenceResponse response;
         response.request_id = request.request_id;
+        response.trace_id   = request.trace_id;
+        response.span_id    = request.span_id;
         response.model_used = current_model_id_;
         response.tokens_prompt = static_cast<int>(prompt_tokens.size());
         
@@ -527,7 +897,7 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
             response.lora_used = *request.lora_adapter_id;
         }
         
-        // 2. Prepare batch for prompt evaluation
+        // 3. Prepare batch for prompt evaluation
         llama_batch batch = llama_batch_get_one(prompt_tokens.data(), prompt_tokens.size());
         
         // 3. Evaluate prompt (populate KV cache)
@@ -556,6 +926,10 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
         auto first_token_start = std::chrono::high_resolution_clock::now();
         bool first_token_generated = false;
         
+        // Phase 2: Collect token probabilities for knowledge gap detection
+        std::vector<float> token_probabilities;
+        token_probabilities.reserve(max_tokens);
+        
         for (int i = 0; i < max_tokens; ++i) {
             // Get logits for last token
             float* logits = llama_get_logits_ith(lctx, -1);
@@ -570,6 +944,10 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
             if (next_token == eos_token) {
                 break;
             }
+            
+            // Phase 2: Calculate and store token probability for knowledge gap detection
+            float token_prob = getProbability(logits, next_token, n_vocab);
+            token_probabilities.push_back(token_prob);
             
             generated_tokens.push_back(next_token);
             
@@ -611,6 +989,9 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
         response.text = detokenizeInternal(lctx, generated_tokens);
         response.tokens_generated = static_cast<int>(generated_tokens.size());
         
+        // Phase 2: Store token probabilities in response for knowledge gap detection
+        response.logprobs = token_probabilities;
+        
         // 6. Calculate timing metrics
         auto end_time = std::chrono::high_resolution_clock::now();
         response.inference_time_ms = std::chrono::duration<float, std::milli>(end_time - start_time).count();
@@ -635,15 +1016,88 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
             }
         }
         
+        // 7. Validate output (Production Readiness)
+        if (output_validator_) {
+            auto validation = output_validator_->validateWithTokens(
+                response.text,
+                response.tokens_generated,
+                max_tokens
+            );
+            
+            // Log validation results
+            if (!validation.is_valid) {
+                for (const auto& error : validation.errors) {
+                    spdlog::error("LLM output validation error: {}", error);
+                }
+                
+                if (metrics_collector_) {
+                    metrics_collector_->recordError("output_validation_failed", "llama_wrapper");
+                }
+                
+                // Add validation errors to response metadata
+                // We don't throw here - instead we let the caller decide how to handle
+                // invalid output. This enables graceful degradation in production.
+                response.metadata["validation_errors"] = validation.errors;
+                response.metadata["validation_valid"] = false;
+            }
+            
+            // Log warnings
+            for (const auto& warning : validation.warnings) {
+                spdlog::warn("LLM output validation warning: {}", warning);
+            }
+            
+            // Add validation metrics to response
+            response.metadata["validation_metrics"] = {
+                {"token_count", validation.metrics.token_count},
+                {"word_count", validation.metrics.word_count},
+                {"is_truncated", validation.metrics.is_truncated},
+                {"is_utf8_valid", validation.metrics.is_utf8_valid},
+                {"coherence_score", validation.metrics.semantic_coherence}
+            };
+            
+            if (!validation.warnings.empty()) {
+                response.metadata["validation_warnings"] = validation.warnings;
+            }
+        }
+        
         // Cache the successful response
         if (response_cache_) {
             response_cache_->put(request.prompt, response);
+        }
+
+        // Tool call parsing: if tools were specified, parse the model output
+        // as a tool call and populate response.tool_calls (Issue #1922).
+        if (!request.tools.empty()) {
+            auto tool_call = JsonSchemaConverter::parseToolCall(response.text);
+            if (tool_call.has_value()) {
+                response.tool_calls.push_back(std::move(tool_call.value()));
+            } else {
+                spdlog::debug("Tool calling: model output could not be parsed as a tool call "
+                              "(expected one of {} tool(s), output snippet: '{}')",
+                              request.tools.size(),
+                              response.text.substr(0, std::min<std::size_t>(80, response.text.size())));
+            }
+        }
+        
+        // Cleanup: Deactivate adapter if it was applied (optional - enables adapter hot-swapping)
+        // Note: We keep adapter applied for subsequent requests with same adapter for performance
+        // Only deactivate if explicitly switching to different adapter
+        if (adapter_applied && request.lora_adapter_id) {
+            // For now, keep adapter applied for better performance in consecutive requests
+            // Adapter will be automatically switched/removed when a different one is requested
+            spdlog::debug("LoRA adapter {} remains active for next request", *request.lora_adapter_id);
         }
         
         return response;
         
     } catch (const std::exception& e) {
         spdlog::error("Inference error: {}", e.what());
+        
+        // Cleanup: Remove adapter if applied (error path)
+        if (adapter_applied && request.lora_adapter_id) {
+            lora_manager_->removeLoRA(*request.lora_adapter_id, lctx);
+            spdlog::debug("LoRA adapter {} removed after error", *request.lora_adapter_id);
+        }
         
         // Record error
         if (metrics_collector_) {
@@ -708,10 +1162,12 @@ std::vector<float> LlamaWrapper::embed(const std::string& text) {
     auto* lmodel = reinterpret_cast<llama_model*>(cached->model_handle);
     auto* lctx = reinterpret_cast<llama_context*>(cached->context_handle);
     
-    // Fallback to dummy embedding if handles are null
+    // Model and context must be loaded before computing embeddings
     if (!lmodel || !lctx) {
-        spdlog::warn("LlamaWrapper: Model/context handle is null for embeddings, returning dummy vector");
-        return std::vector<float>(768, 0.0f);
+        throw std::runtime_error(
+            "LlamaWrapper: Model/context not initialized for embeddings. "
+            "Call loadModel() with a valid model file before computing embeddings."
+        );
     }
     
     try {
@@ -771,7 +1227,9 @@ LLMCapabilities LlamaWrapper::getCapabilities() const {
     caps.supports_chat = true;
     caps.supports_completion = true;
     
-    caps.supports_lora = true;
+    // Check actual LoRA API availability at runtime
+    caps.supports_lora = themis_llama_lora_available();
+    
     caps.supports_quantization = true;
     caps.supports_streaming = true;
     caps.supports_batching = true;
@@ -782,6 +1240,10 @@ LLMCapabilities LlamaWrapper::getCapabilities() const {
     caps.supports_vulkan = true;
     
     caps.supports_zero_copy = config_.unified_memory;
+
+#ifdef THEMIS_ENABLE_VISION
+    caps.supports_multimodal = vision_enabled_;
+#endif
     
     return caps;
 }
@@ -1153,13 +1615,12 @@ llama_token LlamaWrapper::sampleTokenInternal(
     
     // Apply grammar constraint FIRST (Phase 3.2)
     // This filters candidates to only those valid according to grammar
-    if (grammar != nullptr) {
-        // TODO: llama_grammar_sample not yet available in stable llama.cpp
-        // For now, skip grammar filtering and use all candidates
-        // llama_grammar_sample(grammar, ctx, &candidates_p);
-        
-        // After grammar filtering, candidates_p.size may be reduced
-        spdlog::debug("Grammar constraints requested but not yet implemented");
+    if (grammar != nullptr && themis_llama_grammar_available()) {
+        llama_grammar_sample(grammar, ctx, &candidates_p);
+        spdlog::debug("Grammar filtering applied, {} candidates remaining", 
+                     candidates_p.size);
+    } else if (grammar != nullptr && !themis_llama_grammar_available()) {
+        spdlog::warn("Grammar sampling requested but llama.cpp grammar API not available");
     }
     
     // Apply temperature sampling
@@ -1211,9 +1672,11 @@ llama_token LlamaWrapper::sampleTokenInternal(
     llama_token sampled_token = candidates_p.data[0].id;
     
     // Update grammar state with sampled token (Phase 3.2)
-    if (grammar != nullptr) {
-        // TODO: llama_grammar_accept not yet available in stable llama.cpp
-        // llama_grammar_accept(grammar, ctx, sampled_token);
+    if (grammar != nullptr && themis_llama_grammar_available()) {
+        llama_grammar_accept(grammar, ctx, sampled_token);
+        spdlog::debug("Grammar state updated with token {}", sampled_token);
+    } else if (grammar != nullptr && !themis_llama_grammar_available()) {
+        spdlog::warn("Grammar accept requested but llama.cpp grammar API not available");
     }
     
     return sampled_token;
@@ -1480,12 +1943,37 @@ InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& requ
         return generateRegular(request);
     }
     
+    // Declare adapter tracking outside try to access in catch
+    bool adapter_applied = false;
+    
     try {
+        // Apply LoRA adapter if specified (Auto-Binding)
+        
+        if (request.lora_adapter_id && !request.lora_adapter_id->empty()) {
+            const std::string& adapter_id = *request.lora_adapter_id;
+            spdlog::info("Auto-binding LoRA adapter for speculative decoding: {}", adapter_id);
+            
+            // Load adapter if not already loaded (lazy loading)
+            if (!lora_manager_->isLoRALoaded(adapter_id)) {
+                spdlog::info("LoRA adapter {} not loaded, attempting lazy load from storage", adapter_id);
+            }
+            
+            // Apply adapter to target context (not draft model)
+            if (lora_manager_->applyLoRA(adapter_id, target_context)) {
+                adapter_applied = true;
+                spdlog::debug("LoRA adapter {} applied to target context", adapter_id);
+            } else {
+                spdlog::warn("Failed to apply LoRA adapter {}, proceeding with base model", adapter_id);
+            }
+        }
+        
         // 1. Tokenize prompt (same for both models)
         std::vector<llama_token> prompt_tokens = tokenizeInternal(target_model, request.prompt, true);
         
         InferenceResponse response;
         response.request_id = request.request_id;
+        response.trace_id   = request.trace_id;
+        response.span_id    = request.span_id;
         response.model_used = current_model_id_ + " (speculative)";
         response.tokens_prompt = static_cast<int>(prompt_tokens.size());
         
@@ -1511,6 +1999,10 @@ InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& requ
         int max_tokens = request.max_tokens > 0 ? request.max_tokens : 512;
         float temperature = request.temperature > 0.0f ? request.temperature : 0.7f;
         float top_p = request.top_p > 0.0f ? request.top_p : 0.9f;
+        
+        // Phase 2: Collect token probabilities for knowledge gap detection
+        std::vector<float> token_probabilities;
+        token_probabilities.reserve(max_tokens);
         
         size_t total_speculations = 0;
         size_t total_accepted = 0;
@@ -1557,6 +2049,9 @@ InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& requ
                 
                 // Get probability of draft token from target model
                 float target_prob = getProbability(target_logits, draft_tokens[i], n_vocab);
+                
+                // Phase 2: Store token probability for knowledge gap detection
+                token_probabilities.push_back(target_prob);
                 
                 if (target_prob >= config_.acceptance_threshold) {
                     generated_tokens.push_back(draft_tokens[i]);
@@ -1624,6 +2119,9 @@ InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& requ
         response.text = detokenizeInternal(target_context, generated_tokens);
         response.tokens_generated = static_cast<int>(generated_tokens.size());
         
+        // Phase 2: Store token probabilities in response for knowledge gap detection
+        response.logprobs = token_probabilities;
+        
         auto end_time = std::chrono::high_resolution_clock::now();
         response.inference_time_ms = std::chrono::duration<float, std::milli>(end_time - start_time).count();
         response.latency_ms = static_cast<int64_t>(response.inference_time_ms);
@@ -1639,10 +2137,23 @@ InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& requ
         response.metadata["draft_model"] = draft_model_id_;
         
         updateStatistics(response);
+        
+        // Cleanup: Keep adapter applied for performance in consecutive requests
+        if (adapter_applied && request.lora_adapter_id) {
+            spdlog::debug("LoRA adapter {} remains active for next request", *request.lora_adapter_id);
+        }
+        
         return response;
         
     } catch (const std::exception& e) {
         spdlog::error("Speculative decoding error: {}", e.what());
+        
+        // Cleanup on error: Remove adapter if applied
+        if (adapter_applied && request.lora_adapter_id) {
+            lora_manager_->removeLoRA(*request.lora_adapter_id, target_context);
+            spdlog::debug("LoRA adapter {} removed after error", *request.lora_adapter_id);
+        }
+        
         spdlog::info("Falling back to regular generation");
         return generateRegular(request);
     }
@@ -1661,35 +2172,46 @@ InferenceResponse LlamaWrapper::generateRegular(const InferenceRequest& request)
     auto* lmodel = reinterpret_cast<llama_model*>(cached->model_handle);
     auto* lctx = reinterpret_cast<llama_context*>(cached->context_handle);
     
-    // For testing with stub models, allow nullptr handles
+    // Model and context must be loaded before inference
     if (!lmodel || !lctx) {
-        spdlog::warn("LlamaWrapper: Model/context handle is null, using stub response");
-        std::string output = "[Generated response placeholder for: " + request.prompt + "]";
-        InferenceResponse response;
-        response.request_id = request.request_id;
-        response.text = output;
-        response.model_used = current_model_id_;
-        if (request.lora_adapter_id) {
-            response.lora_used = *request.lora_adapter_id;
-        }
-        response.tokens_prompt = static_cast<int>(std::max<size_t>(1, request.prompt.size() / CHARS_PER_TOKEN_ESTIMATE));
-        response.tokens_generated = std::max(1, std::min(request.max_tokens, MAX_STUB_TOKENS));
-        auto end_time = std::chrono::high_resolution_clock::now();
-        response.inference_time_ms = std::chrono::duration<float, std::milli>(end_time - start_time).count();
-        response.latency_ms = static_cast<int64_t>(response.inference_time_ms);
-        response.tokens_per_second = (response.inference_time_ms > 0) 
-            ? response.tokens_generated / (response.inference_time_ms / 1000.0f)
-            : 0.0f;
-        updateStatistics(response);
-        return response;
+        throw std::runtime_error(
+            "LlamaWrapper: Model/context not initialized. "
+            "Call loadModel() with a valid model file before attempting inference. "
+            "Model ID: " + current_model_id_
+        );
     }
 
     // Real llama.cpp inference implementation
+    // Declare adapter tracking outside try to access in catch
+    bool adapter_applied = false;
+    
     try {
+        // Apply LoRA adapter if specified (Auto-Binding)
+        
+        if (request.lora_adapter_id && !request.lora_adapter_id->empty()) {
+            const std::string& adapter_id = *request.lora_adapter_id;
+            spdlog::info("Auto-binding LoRA adapter: {}", adapter_id);
+            
+            // Load adapter if not already loaded (lazy loading)
+            if (!lora_manager_->isLoRALoaded(adapter_id)) {
+                spdlog::info("LoRA adapter {} not loaded, attempting lazy load from storage", adapter_id);
+            }
+            
+            // Apply adapter to context
+            if (lora_manager_->applyLoRA(adapter_id, lctx)) {
+                adapter_applied = true;
+                spdlog::debug("LoRA adapter {} applied to context", adapter_id);
+            } else {
+                spdlog::warn("Failed to apply LoRA adapter {}, proceeding with base model", adapter_id);
+            }
+        }
+        
         std::vector<llama_token> prompt_tokens = tokenizeInternal(lmodel, request.prompt, true);
         
         InferenceResponse response;
         response.request_id = request.request_id;
+        response.trace_id   = request.trace_id;
+        response.span_id    = request.span_id;
         response.model_used = current_model_id_;
         response.tokens_prompt = static_cast<int>(prompt_tokens.size());
         
@@ -1712,6 +2234,10 @@ InferenceResponse LlamaWrapper::generateRegular(const InferenceRequest& request)
         int32_t n_vocab = llama_vocab_n_tokens(vocab);
         llama_token eos_token = llama_vocab_eos(vocab);
         
+        // Phase 2: Collect token probabilities for knowledge gap detection
+        std::vector<float> token_probabilities;
+        token_probabilities.reserve(max_tokens);
+        
         for (int i = 0; i < max_tokens; ++i) {
             float* logits = llama_get_logits_ith(lctx, -1);
             llama_token next_token = sampleTokenInternal(
@@ -1721,6 +2247,10 @@ InferenceResponse LlamaWrapper::generateRegular(const InferenceRequest& request)
             if (next_token == eos_token) {
                 break;
             }
+            
+            // Phase 2: Calculate and store token probability for knowledge gap detection
+            float token_prob = getProbability(logits, next_token, n_vocab);
+            token_probabilities.push_back(token_prob);
             
             generated_tokens.push_back(next_token);
             
@@ -1743,6 +2273,9 @@ InferenceResponse LlamaWrapper::generateRegular(const InferenceRequest& request)
         response.text = detokenizeInternal(lctx, generated_tokens);
         response.tokens_generated = static_cast<int>(generated_tokens.size());
         
+        // Phase 2: Store token probabilities in response for knowledge gap detection
+        response.logprobs = token_probabilities;
+        
         auto end_time = std::chrono::high_resolution_clock::now();
         response.inference_time_ms = std::chrono::duration<float, std::milli>(end_time - start_time).count();
         response.latency_ms = static_cast<int64_t>(response.inference_time_ms);
@@ -1752,10 +2285,23 @@ InferenceResponse LlamaWrapper::generateRegular(const InferenceRequest& request)
             : 0.0f;
         
         updateStatistics(response);
+        
+        // Cleanup: Keep adapter applied for performance in consecutive requests
+        if (adapter_applied && request.lora_adapter_id) {
+            spdlog::debug("LoRA adapter {} remains active for next request", *request.lora_adapter_id);
+        }
+        
         return response;
         
     } catch (const std::exception& e) {
         spdlog::error("Inference error: {}", e.what());
+        
+        // Cleanup on error: Remove adapter if applied
+        if (adapter_applied && request.lora_adapter_id) {
+            lora_manager_->removeLoRA(*request.lora_adapter_id, lctx);
+            spdlog::debug("LoRA adapter {} removed after error", *request.lora_adapter_id);
+        }
+        
         throw;
     }
 }
@@ -1922,8 +2468,13 @@ std::string LlamaWrapper::loadGrammarFile(const std::string& grammar_path) {
 }
 
 std::shared_ptr<Grammar> LlamaWrapper::getOrCreateGrammar(const InferenceRequest& request) {
-    // Check if grammar is requested
-    if (!request.grammar_type.has_value() && !request.grammar_ebnf.has_value()) {
+    // Check if any grammar source is requested
+    const bool has_explicit_grammar =
+        request.grammar_type.has_value() || request.grammar_ebnf.has_value();
+    const bool has_schema_binding =
+        request.json_schema.has_value() || !request.tools.empty();
+
+    if (!has_explicit_grammar && !has_schema_binding) {
         return nullptr;
     }
     
@@ -1957,6 +2508,36 @@ std::shared_ptr<Grammar> LlamaWrapper::getOrCreateGrammar(const InferenceRequest
             spdlog::error("Unknown built-in grammar: {}", grammar_name);
             return nullptr;
         }
+    }
+    // JSON schema binding: convert schema to EBNF (Issue #1922)
+    else if (request.json_schema.has_value()) {
+        ebnf_text = JsonSchemaConverter::schemaToEbnf(request.json_schema.value());
+        if (ebnf_text.empty()) {
+            spdlog::warn("getOrCreateGrammar: json_schema conversion produced empty EBNF, "
+                         "falling back to built-in json grammar");
+            auto it = builtin_grammars_.find("json");
+            if (it != builtin_grammars_.end()) {
+                ebnf_text = it->second;
+                grammar_key = "json";
+            } else {
+                return nullptr;
+            }
+        } else {
+            size_t hash = std::hash<std::string>{}(ebnf_text);
+            size_t len = ebnf_text.length();
+            grammar_key = "schema_" + std::to_string(hash) + "_" + std::to_string(len);
+        }
+    }
+    // Tool calling: generate tool call grammar (Issue #1922)
+    else if (!request.tools.empty()) {
+        ebnf_text = JsonSchemaConverter::toolsToEbnf(request.tools);
+        if (ebnf_text.empty()) {
+            spdlog::warn("getOrCreateGrammar: toolsToEbnf produced empty EBNF");
+            return nullptr;
+        }
+        size_t hash = std::hash<std::string>{}(ebnf_text);
+        size_t len = ebnf_text.length();
+        grammar_key = "tools_" + std::to_string(hash) + "_" + std::to_string(len);
     }
     
     if (ebnf_text.empty()) {
@@ -2159,6 +2740,65 @@ VisionResponse LlamaWrapper::generateVision(const VisionRequest& vision_request)
 }
 #endif // THEMIS_ENABLE_VISION
 
+// ═══════════════════════════════════════════════════════════
+// State Management Implementation (Production Readiness)
+// ═══════════════════════════════════════════════════════════
+
+WrapperState LlamaWrapper::state() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return current_state_;
+}
+
+std::string LlamaWrapper::stateString() const {
+    return stateToString(state());
+}
+
+std::vector<StateTransition> LlamaWrapper::stateHistory() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return state_history_;
+}
+
+void LlamaWrapper::clearStateHistory() {
+    std::lock_guard<std::mutex> lock(mutex_);
+    state_history_.clear();
+}
+
+void LlamaWrapper::transitionToState(WrapperState new_state, const std::string& reason) {
+    // Caller must hold mutex_
+    
+    if (current_state_ == new_state) {
+        return;  // No transition needed
+    }
+    
+    // Record transition
+    StateTransition transition(current_state_, new_state, reason);
+    state_history_.push_back(transition);
+    
+    // Limit history size to prevent unbounded memory growth
+    if (state_history_.size() > MAX_STATE_HISTORY) {
+        state_history_.erase(state_history_.begin());
+    }
+    
+    spdlog::info("LlamaWrapper state transition: {} -> {} (reason: {})",
+                 stateToString(current_state_),
+                 stateToString(new_state),
+                 reason);
+    
+    current_state_ = new_state;
+}
+
+std::string LlamaWrapper::stateToString(WrapperState state) {
+    switch (state) {
+        case WrapperState::UNINITIALIZED: return "UNINITIALIZED";
+        case WrapperState::LOADING:       return "LOADING";
+        case WrapperState::READY:         return "READY";
+        case WrapperState::ERROR_STATE:   return "ERROR";
+        case WrapperState::UNAVAILABLE:   return "UNAVAILABLE";
+        default:                          return "UNKNOWN";
+    }
+}
+
 } // namespace llm
 } // namespace themis
+
 

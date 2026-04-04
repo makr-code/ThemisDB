@@ -1,3 +1,25 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            pitr_manager.h                                     ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:11:50                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     328                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include <string>
@@ -8,16 +30,12 @@
 #include <memory>
 #include <nlohmann/json.hpp>
 
-// Forward declarations
-namespace rocksdb {
-    class TransactionDB;
-    class ColumnFamilyHandle;
-}
+#include "cdc/changefeed.h"
+#include "transaction/snapshot_manager.h"
 
 namespace themis {
 
-class Changefeed;
-class SnapshotManager;
+namespace transaction { class SnapshotManager; }
 class RocksDBWrapper;
 
 /**
@@ -139,7 +157,7 @@ public:
      */
     explicit PITRManager(RocksDBWrapper* db,
                         Changefeed* changefeed,
-                        SnapshotManager* snapshot_mgr);
+                        transaction::SnapshotManager* snapshot_mgr);
 
     ~PITRManager() = default;
 
@@ -167,7 +185,10 @@ public:
      * - BACKUP_FAILED: Auto-backup creation failed
      * - REPLAY_FAILED: Event replay failed
      */
-    Status restoreToSequence(uint64_t target_sequence, const RestoreOptions& options = {});
+    Status restoreToSequence(uint64_t target_sequence, const RestoreOptions& options);
+    
+    /// Restore to sequence with default options
+    Status restoreToSequence(uint64_t target_sequence);
 
     /**
      * @brief Restore database to a named snapshot tag
@@ -180,7 +201,10 @@ public:
      * - TAG_NOT_FOUND: Tag does not exist
      * - (plus all errors from restoreToSequence)
      */
-    Status restoreToTag(const std::string& tag_name, const RestoreOptions& options = {});
+    Status restoreToTag(const std::string& tag_name, const RestoreOptions& options);
+    
+    /// Restore to tag with default options
+    Status restoreToTag(const std::string& tag_name);
 
     /**
      * @brief Restore database to a specific timestamp
@@ -195,7 +219,10 @@ public:
      * - NO_EVENTS_AT_TIME: No events found at or before timestamp
      * - (plus all errors from restoreToSequence)
      */
-    Status restoreToTimestamp(int64_t timestamp_ms, const RestoreOptions& options = {});
+    Status restoreToTimestamp(int64_t timestamp_ms, const RestoreOptions& options);
+    
+    /// Restore to timestamp with default options
+    Status restoreToTimestamp(int64_t timestamp_ms);
 
     /**
      * @brief Preview restore operation (dry-run)
@@ -209,7 +236,10 @@ public:
      * - Checking affected tables/keys
      * - Validating restore feasibility
      */
-    RestorePreview previewRestore(uint64_t target_sequence, const RestoreOptions& options = {}) const;
+    RestorePreview previewRestore(uint64_t target_sequence, const RestoreOptions& options) const;
+    
+    /// Preview restore with default options
+    RestorePreview previewRestore(uint64_t target_sequence) const;
 
     /**
      * @brief Get current restore progress
@@ -225,10 +255,30 @@ public:
      */
     bool isRestoreInProgress() const;
 
+    /**
+     * @brief Get sequence number for a named tag
+     * 
+     * @param tag_name Tag identifier
+     * @return Sequence number if tag exists, nullopt otherwise
+     * 
+     * Useful for API clients that want to convert tags to sequences.
+     */
+    std::optional<uint64_t> getSequenceForTag(const std::string& tag_name) const;
+
+    /**
+     * @brief Get sequence number for a timestamp
+     * 
+     * @param timestamp_ms Unix timestamp in milliseconds
+     * @return Latest sequence number <= timestamp, nullopt if no events found
+     * 
+     * Useful for API clients that want to convert timestamps to sequences.
+     */
+    std::optional<uint64_t> getSequenceForTimestamp(int64_t timestamp_ms) const;
+
 private:
     RocksDBWrapper* db_;
     Changefeed* changefeed_;
-    SnapshotManager* snapshot_mgr_;
+    transaction::SnapshotManager* snapshot_mgr_;
     
     // Progress tracking (mutable for thread-safe updates)
     mutable RestoreProgress progress_;

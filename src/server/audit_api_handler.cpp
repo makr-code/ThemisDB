@@ -1,32 +1,35 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            audit_api_handler.cpp                              ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:19:40                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     286                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • a2a0e15fa  2026-03-11  Changes before error encountered         ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "server/audit_api_handler.h"
 #include <fstream>
 #include <sstream>
 #include <algorithm>
 #include <cctype>
-
-#ifdef _MSC_VER
-#pragma warning(disable: 4505)  // unreferenced local function
-#pragma warning(disable: 4101)  // unreferenced local variable
-#endif
+#include "utils/tracing.h"
 
 namespace themis {
 namespace server {
-
-// Helper: Parse ISO 8601 datetime string to milliseconds since epoch
-static int64_t parseIso8601ToMs(const std::string& iso_str) {
-    if (iso_str.empty()) return 0;
-    
-    // Simple parser for "YYYY-MM-DDTHH:MM:SS" format
-    // For production, use std::chrono or date library
-    std::tm tm = {};
-    std::istringstream ss(iso_str);
-    ss >> std::get_time(&tm, "%Y-%m-%dT%H:%M:%S");
-    
-    if (ss.fail()) return 0;
-    
-    auto tp = std::chrono::system_clock::from_time_t(std::mktime(&tm));
-    return std::chrono::duration_cast<std::chrono::milliseconds>(tp.time_since_epoch()).count();
-}
 
 // Helper: Case-insensitive string contains
 static bool containsCaseInsensitive(const std::string& haystack, const std::string& needle) {
@@ -190,8 +193,7 @@ std::vector<AuditLogEntry> AuditApiHandler::readAuditLogs(const AuditQueryFilter
             
             entries.push_back(entry);
             
-        } catch (const std::exception& e) {
-            (void)e;
+        } catch (const std::exception&) {
             // Skip malformed lines
             continue;
         }
@@ -217,6 +219,7 @@ nlohmann::json AuditApiHandler::queryAuditLogs(const AuditQueryFilter& filter) {
     result["entries"] = nlohmann::json::array();
     
     if (start_idx < total_count) {
+    auto span = Tracer::startSpan("queryAuditLogs");
         for (int i = start_idx; i < end_idx; i++) {
             result["entries"].push_back(all_entries[i].toJson());
         }
@@ -240,6 +243,7 @@ std::string AuditApiHandler::exportAuditLogsCsv(const AuditQueryFilter& filter) 
     
     // Rows
     for (const auto& entry : entries) {
+    auto span = Tracer::startSpan("exportAuditLogsCsv");
         // Helper to escape CSV fields
         auto escape = [](const std::string& s) {
             if (s.find(',') != std::string::npos || s.find('"') != std::string::npos || s.find('\n') != std::string::npos) {

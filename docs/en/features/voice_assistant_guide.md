@@ -433,6 +433,12 @@ Get voice assistant statistics.
     "cache_hits": 1200,
     "avg_latency_ms": 150
   },
+  "wake_word": {
+    "total_chunks_processed": 8400,
+    "total_detections": 12,
+    "registered_wake_words": 3,
+    "buffer_samples": 24000
+  },
   "active_sessions": 5
 }
 ```
@@ -599,6 +605,164 @@ llm:
   temperature: 0.7
   top_p: 0.9
 ```
+
+### Wake-Word Configuration
+
+Enable hands-free activation so users can trigger the voice pipeline without pressing a button:
+
+```yaml
+voice_commands:
+  wake_word_enabled: true
+  wake_word: "hey themis"                # Primary wake word (kept for backward compat)
+  wake_word_sensitivity: 0.5             # 0.0 = permissive, 1.0 = strict
+  wake_word_buffer_length_ms: 1500       # Rolling audio buffer size (ms)
+  wake_word_cooldown_ms: 1000            # Minimum ms between detections
+  wake_word_vad_min_energy: 0.005        # RMS energy gate (silence suppressor)
+  wake_word_sample_rate: 16000           # Expected PCM sample rate (Hz)
+  wake_words:
+    - id: "hey-themis"
+      phrase: "hey themis"
+    - id: "themis"
+      phrase: "themis"
+    - id: "database"
+      phrase: "database"
+```
+
+**C++ API:**
+
+```cpp
+#include "voice/voice_assistant.h"
+
+themis::voice::VoiceAssistant::Config cfg;
+cfg.enable_wake_word = true;
+cfg.wake_word_config.sensitivity       = 0.5f;
+cfg.wake_word_config.cooldown_ms       = 1000;
+cfg.wake_word_config.vad_min_energy    = 0.005f;
+cfg.wake_word_config.continuous_listen = true;
+// Override default wake words if needed
+cfg.wake_words = {
+    {"hey-themis", "hey themis"},
+    {"themis",     "themis"}
+};
+
+themis::voice::VoiceAssistant va(cfg);
+
+// Register a callback (optional – called synchronously on detection)
+va.setWakeWordCallback([](const themis::voice::WakeWordDetectionResult& r) {
+    // r.wake_word_id   – which word fired
+    // r.confidence     – score in [0, 1]
+    // r.detection_timestamp_ms – wall-clock ms
+});
+
+// Stream microphone chunks into the detector
+while (capturing) {
+    auto chunk = mic.readChunk();           // 16-bit LE PCM
+    auto result = va.detectWakeWord(chunk);
+    if (result.detected) {
+        // Wake word confirmed – start the voice pipeline
+        va.streamProcessVoiceCommand(recordUtterance(), session_id);
+    }
+}
+```
+
+**How detection works:**
+
+The detector runs a two-stage pipeline on every audio chunk:
+
+1. **VAD gate** – RMS energy is compared against `vad_min_energy`.  Chunks below the
+   threshold are discarded immediately (near-zero CPU cost during silence).
+2. **Keyword scoring** – Each registered phrase is scored using three audio features:
+   phrase-length density, a spectral-centroid proxy (speech vs. broadband noise), and the
+   crest factor (consonant-rich transients).  The best score must exceed `sensitivity` to
+   confirm a detection.  No external model file is required.
+
+**Statistics returned by `/api/v1/voice/stats`:**
+
+```json
+{
+  "wake_word": {
+    "total_chunks_processed": 8400,
+    "total_detections": 12,
+    "registered_wake_words": 3,
+    "buffer_samples": 24000
+  }
+}
+```
+
+---
+
+### Voice Biometric Authentication
+
+Enable speaker verification so the voice pipeline only processes commands from enrolled users.
+
+**C++ API:**
+
+```cpp
+#include "voice/voice_assistant.h"
+
+themis::voice::VoiceAssistant::Config cfg;
+cfg.enable_voice_auth = true;
+cfg.voice_auth_config.verification_threshold   = 0.72f; // min cosine similarity
+cfg.voice_auth_config.liveness_threshold       = 0.55f; // anti-replay gate
+cfg.voice_auth_config.identification_threshold = 0.68f; // 1:N search threshold
+
+themis::voice::VoiceAssistant va(cfg);
+// (va.initialize() as usual)
+
+// Enroll a speaker – supply ≥ 3 raw PCM samples (16-bit LE, 16 kHz, ≥ 3 seconds each)
+themis::voice::VoiceProfileID profile_id;
+themis::voice::EnrollmentConfig ecfg;
+ecfg.min_samples       = 3;
+ecfg.quality_threshold = 0.60f;
+ecfg.require_liveness  = true; // reject replayed/synthetic audio at enrollment
+
+bool enrolled = va.enrollSpeaker("alice", samples, profile_id, ecfg);
+
+// Explicit authentication check
+auto auth_result = va.authenticateSpeaker("alice", probe_audio);
+if (auth_result.authenticated) {
+    // auth_result.confidence_score  – cosine similarity [0, 1]
+    // auth_result.timestamp_ms      – wall-clock time of check
+} else {
+    // auth_result.decision_reason:
+    //   "empty_audio" | "liveness_failed: …" |
+    //   "profile_not_found" | "verification_failed: score_below_threshold"
+}
+
+// When enable_voice_auth = true AND session.user_id is set, processVoiceCommand
+// and streamProcessVoiceCommand automatically gate on authentication before STT.
+// Failed auth returns a spoken rejection: "Voice authentication failed. Please try again."
+```
+
+**YAML configuration:**
+
+```yaml
+voice_commands:
+  voice_auth_enabled: true
+  voice_auth_verification_threshold: 0.72   # [0, 1] – min cosine similarity for 1:1 match
+  voice_auth_liveness_threshold:     0.55   # [0, 1] – anti-replay/anti-synthesis gate
+```
+
+**Statistics returned by `/api/v1/voice/stats`:**
+
+```json
+{
+  "voice_auth": {
+    "enrolled_profiles":          1,
+    "total_enrollments":          1,
+    "total_verifications":        8,
+    "total_identifications":      2,
+    "successful_authentications": 6
+  }
+}
+```
+
+> **Note:** Liveness detection is heuristic-based (crest factor, spectral flatness, ZCR
+> variability) and does not require an external model file.  A neural anti-spoofing model
+> is recommended for production deployments requiring high security.  The feature extractor
+> is model-free (32-dimensional sub-band + spectral features); a neural i-vector/x-vector
+> backend can be plugged in via `VoiceBiometricAuthenticator::extractFeatures()` without
+> any API changes.
 
 ---
 

@@ -1,3 +1,27 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            ewkb.h                                             ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:12:56                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     196                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • c2e120dd0  2026-02-24  feat(geo): Complete GeoJSON spec coverage for GeometryCol... ║
+    • c88fedecb  2026-02-22  feat(geo): Full GeoJSON RFC 7946 parsing for all geometry... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include <cstdint>
@@ -113,6 +137,8 @@ struct GeometryInfo {
     bool isPoint() const { return type == GeometryType::Point || type == GeometryType::PointZ; }
     bool isLineString() const { return type == GeometryType::LineString || type == GeometryType::LineStringZ; }
     bool isPolygon() const { return type == GeometryType::Polygon || type == GeometryType::PolygonZ; }
+    bool isMultiPolygon() const { return type == GeometryType::MultiPolygon || type == GeometryType::MultiPolygonZ; }
+    bool isGeometryCollection() const { return type == GeometryType::GeometryCollection || type == GeometryType::GeometryCollectionZ; }
     bool hasZ() const { return has_z; }
     
     // Compute MBR from coordinates
@@ -154,6 +180,10 @@ private:
     static GeometryInfo parsePoint(const uint8_t*& ptr, bool has_z, bool is_little_endian);
     static GeometryInfo parseLineString(const uint8_t*& ptr, bool has_z, bool is_little_endian);
     static GeometryInfo parsePolygon(const uint8_t*& ptr, bool has_z, bool is_little_endian);
+    // Recursive helper: parse one EWKB geometry starting at ptr (reads its own byte-order marker)
+    static GeometryInfo parseGeometryFromPtr(const uint8_t*& ptr);
+    // Recursive helper: serialize one geometry into buf
+    static void serializeGeometryInto(std::vector<uint8_t>& buf, const GeometryInfo& geom, bool is_little_endian);
     
     // Binary read helpers
     static double readDouble(const uint8_t*& ptr, bool is_little_endian);

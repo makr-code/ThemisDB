@@ -1,3 +1,25 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            blob_transfer_handler.h                            ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:11:21                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     184                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include <memory>
@@ -5,7 +27,7 @@
 #include <functional>
 #include <map>
 #include <atomic>
-#include "proto/sharding/shard_rpc.pb.h"
+#include "shard_rpc.pb.h"
 
 namespace themis {
 namespace rpc {
@@ -18,12 +40,12 @@ struct BlobConfig {
     std::string dest_path;
     
     // Compression settings
-    themis::sharding::CompressionType compression_type;
+    themis::sharding::proto::CompressionType compression_type;
     int compression_level;
     
     // Chunking settings
     uint32_t chunk_size_mb;  // 1-100 MB
-    themis::sharding::ChecksumType checksum_type;
+    themis::sharding::proto::ChecksumType checksum_type;
     
     // Metadata
     std::map<std::string, std::string> metadata;
@@ -33,10 +55,10 @@ struct BlobConfig {
     std::string checkpoint_id;
     
     BlobConfig()
-        : compression_type(themis::sharding::COMPRESSION_ZSTD)
+        : compression_type(themis::sharding::proto::COMPRESSION_ZSTD)
         , compression_level(6)
         , chunk_size_mb(10)
-        , checksum_type(themis::sharding::CHECKSUM_CRC32)
+        , checksum_type(themis::sharding::proto::CHECKSUM_CRC32)
         , enable_resume(true) {}
 };
 
@@ -65,7 +87,7 @@ enum class BlobStatus {
 };
 
 // Callback for chunk streaming
-using BlobChunkCallback = std::function<void(const themis::sharding::BlobChunk&)>;
+using BlobChunkCallback = std::function<void(const themis::sharding::proto::BlobChunk&)>;
 
 /**
  * Handler for large binary blob transfers (LoRA adapters, models, etc.).
@@ -117,7 +139,7 @@ public:
      * @param chunk Received blob chunk
      * @return Status code
      */
-    BlobStatus ReceiveChunk(const themis::sharding::BlobChunk& chunk);
+    BlobStatus ReceiveChunk(const themis::sharding::proto::BlobChunk& chunk);
     
     /**
      * Finalize blob after all chunks received.

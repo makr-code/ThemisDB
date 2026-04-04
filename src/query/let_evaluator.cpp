@@ -1,3 +1,27 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            let_evaluator.cpp                                  ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:18:30                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     1487                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • f82bf2ae9  2026-03-04  Refactor tenant manager tests and add new test cases ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • a4a3e5f6a  2026-02-25  fix(geo): ST_AsGeoJSON now handles MultiPolygon and Geome... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #define _USE_MATH_DEFINES
 #include "query/let_evaluator.h"
 #include "query/functions/function_registry.h"
@@ -14,7 +38,17 @@
 namespace {
     struct FunctionRegistryInitializer {
         FunctionRegistryInitializer() {
-            themis::query::functions::registerBuiltinFunctions();
+            try {
+                themis::query::functions::registerBuiltinFunctions();
+            } catch (const std::exception& ex) {
+                // Avoid throwing from static constructor - log to stderr instead
+                std::cerr << "CRITICAL ERROR: Function registry initialization failed: " 
+                          << ex.what() << std::endl;
+                std::cerr << "The application may not function correctly." << std::endl;
+            } catch (...) {
+                std::cerr << "CRITICAL ERROR: Function registry initialization failed with unknown exception" 
+                          << std::endl;
+            }
         }
     };
     static FunctionRegistryInitializer g_function_registry_init;
@@ -66,6 +100,24 @@ nlohmann::json LetEvaluator::evaluateExpression(
 
     // Backward-compat: path-based field access (supports array indices)
     if (auto pathFA = dynamic_cast<query::PathFieldAccessExpr*>(expr.get())) {
+        if (pathFA->path.empty()) {
+            return nlohmann::json(nullptr);
+        }
+
+        const std::string& root = pathFA->path.front();
+        if (root == "doc") {
+            std::vector<std::string> trimmed(pathFA->path.begin() + 1, pathFA->path.end());
+            return getNestedValue(currentDoc, trimmed);
+        }
+
+        if (auto bound = resolveVariable(root); bound.has_value()) {
+            if (pathFA->path.size() == 1) {
+                return *bound;
+            }
+            std::vector<std::string> tail(pathFA->path.begin() + 1, pathFA->path.end());
+            return getNestedValue(*bound, tail);
+        }
+
         return getNestedValue(currentDoc, pathFA->path);
     }
 
@@ -394,6 +446,11 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
             for (const auto& [varName, varValue] : bindings_) {
                 ctx.setVariable(varName, varValue);
             }
+
+            // Wire secondary index manager if available (enables FULLTEXT/PHRASE/FUZZY)
+            if (secondary_idx_mgr_) {
+                ctx.setSecondaryIndexManager(secondary_idx_mgr_);
+            }
             
             // Call the function through registry
             return registry.call(funcName, evaluatedArgs, ctx);
@@ -433,8 +490,8 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
         }
         auto geom = evaluateExpression(args[0], currentDoc);
         
-        // If already GeoJSON object, convert to string
-        if (geom.is_object() && geom.contains("type") && geom.contains("coordinates")) {
+        // If already a GeoJSON object (all types: coordinates-based or geometries-based)
+        if (geom.is_object() && geom.contains("type")) {
             return geom.dump();
         }
         
@@ -445,56 +502,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
             
             try {
                 auto geomInfo = geo::EWKBParser::parse(ewkb);
-                nlohmann::json geojson;
-                
-                // Map GeometryType to GeoJSON type string
-                switch (geomInfo.type) {
-                    case geo::GeometryType::Point:
-                    case geo::GeometryType::PointZ:
-                        geojson["type"] = "Point";
-                        if (!geomInfo.coords.empty()) {
-                            const auto& c = geomInfo.coords[0];
-                            geojson["coordinates"] = {c.x, c.y};
-                            if (geomInfo.type == geo::GeometryType::PointZ) {
-                                geojson["coordinates"].push_back(c.z.value_or(0.0));
-                            }
-                        }
-                        break;
-                    case geo::GeometryType::LineString:
-                    case geo::GeometryType::LineStringZ:
-                        geojson["type"] = "LineString";
-                        geojson["coordinates"] = nlohmann::json::array();
-                        for (const auto& c : geomInfo.coords) {
-                            if (geomInfo.type == geo::GeometryType::LineStringZ) {
-                                geojson["coordinates"].push_back({c.x, c.y, c.z.value_or(0.0)});
-                            } else {
-                                geojson["coordinates"].push_back({c.x, c.y});
-                            }
-                        }
-                        break;
-                    case geo::GeometryType::Polygon:
-                    case geo::GeometryType::PolygonZ:
-                        geojson["type"] = "Polygon";
-                        geojson["coordinates"] = nlohmann::json::array();
-                        // Note: Polygon rings not fully parsed in current EWKB parser
-                        // This is a simplified version
-                        {
-                            nlohmann::json ring = nlohmann::json::array();
-                            for (const auto& c : geomInfo.coords) {
-                                if (geomInfo.type == geo::GeometryType::PolygonZ) {
-                                    ring.push_back({c.x, c.y, c.z.value_or(0.0)});
-                                } else {
-                                    ring.push_back({c.x, c.y});
-                                }
-                            }
-                            geojson["coordinates"].push_back(ring);
-                        }
-                        break;
-                    default:
-                        throw std::runtime_error("ST_AsGeoJSON: Unsupported geometry type");
-                }
-                
-                return geojson.dump();
+                return geo::EWKBParser::toGeoJSON(geomInfo);
             } catch (const std::exception& e) {
                 throw std::runtime_error("ST_AsGeoJSON: Failed to parse EWKB: " + std::string(e.what()));
             }

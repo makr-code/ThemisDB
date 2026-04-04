@@ -1,10 +1,44 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            ethical_guidelines_manager.h                       ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:08:20                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     363                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <map>
 #include <memory>
 #include <mutex>
+
+// Forward declare PhilosophyProfile from ethics AI plugin
+namespace themis {
+namespace plugins {
+namespace ethics {
+    struct PhilosophyProfile;
+    struct Status;
+}
+}
+}
 
 namespace themis {
 namespace llm {
@@ -240,6 +274,54 @@ public:
     Statistics getStatistics() const;
     void resetStatistics();
     
+    // ═══════════════════════════════════════════════════════════
+    // Plugin Integration API
+    // ═══════════════════════════════════════════════════════════
+    
+    /**
+     * @brief Register a philosophy profile from external source (e.g., plugin)
+     * @param school_id Unique identifier for the philosophy
+     * @param profile Philosophy profile structure
+     * @return Status indicating success/failure
+     * 
+     * This method allows plugins to extend the base ethical guidelines system
+     * by registering additional philosophy profiles. The manager will validate
+     * the profile and make it available for ethical context detection.
+     * 
+     * Thread-safe.
+     */
+    bool registerPhilosophy(
+        const std::string& school_id,
+        const themis::plugins::ethics::PhilosophyProfile& profile
+    );
+    
+    /**
+     * @brief Merge multiple philosophy profiles from plugin
+     * @param profiles Map of school_id -> PhilosophyProfile
+     * @return Number of profiles successfully registered
+     * 
+     * Convenience method for bulk registration of philosophy profiles.
+     * Typically called by plugins during initialization to register all
+     * their philosophy profiles at once.
+     * 
+     * Thread-safe.
+     */
+    size_t mergePhilosophies(
+        const std::map<std::string, themis::plugins::ethics::PhilosophyProfile>& profiles
+    );
+    
+    /**
+     * @brief Get all registered philosophy schools
+     * @return Vector of school IDs (base + plugin-registered)
+     * 
+     * Returns the complete list of philosophy schools available to the
+     * ethical guidelines system, including both base philosophies loaded
+     * from YAML and those registered by plugins.
+     * 
+     * Thread-safe.
+     */
+    std::vector<std::string> getRegisteredPhilosophies() const;
+    
 private:
     // Configuration
     Config config_;
@@ -258,6 +340,9 @@ private:
     
     // Domain-specific guidelines
     std::unordered_map<std::string, DomainGuideline> domain_guidelines_;
+    
+    // Plugin-registered philosophy profiles
+    std::map<std::string, themis::plugins::ethics::PhilosophyProfile> philosophy_profiles_;
     
     // Statistics
     mutable Statistics statistics_;

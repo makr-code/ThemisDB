@@ -1,146 +1,227 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_raft_configuration.cpp                        ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:32:10                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     227                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 7381dd63e  2026-02-25  feat(replication): implement joint consensus for Raft v2 ... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+#include <gtest/gtest.h>
 #include "sharding/raft_configuration.h"
-#include <cassert>
-#include <iostream>
 
-using namespace themis::sharding;
+using themis::sharding::RaftConfiguration;
+using themis::sharding::ConfigurationEntry;
 
-void test_initial_configuration() {
-    std::set<std::string> members = {"A", "B", "C"};
-    RaftConfiguration config(members);
-    
-    assert(config.getMembers() == members);
-    assert(!config.isJointConsensus());
-    assert(config.isMember("A"));
-    assert(config.isMember("B"));
-    assert(config.isMember("C"));
-    assert(!config.isMember("D"));
-    
-    std::cout << "✓ test_initial_configuration passed\n";
+// ---------------------------------------------------------------------------
+// Construction
+// ---------------------------------------------------------------------------
+
+TEST(RaftConfiguration, DefaultConstructorNotInJointConsensus) {
+    RaftConfiguration cfg;
+    EXPECT_FALSE(cfg.isJointConsensus());
+    EXPECT_FALSE(cfg.isInTransition());
+    EXPECT_TRUE(cfg.getMembers().empty());
 }
 
-void test_add_node() {
-    std::set<std::string> members = {"A", "B", "C"};
-    RaftConfiguration config(members);
-    
-    config.addNode("D");
-    
-    assert(config.isJointConsensus());
-    assert(config.isMember("D"));
-    
-    auto all_members = config.getMembers();
-    assert(all_members.size() == 4);
-    
-    std::cout << "✓ test_add_node passed\n";
+TEST(RaftConfiguration, ConstructWithMembers) {
+    RaftConfiguration cfg({"node1", "node2", "node3"});
+    EXPECT_FALSE(cfg.isJointConsensus());
+    EXPECT_EQ(cfg.getMembers().size(), 3u);
+    EXPECT_TRUE(cfg.isMember("node1"));
+    EXPECT_TRUE(cfg.isMember("node2"));
+    EXPECT_TRUE(cfg.isMember("node3"));
+    EXPECT_FALSE(cfg.isMember("node4"));
 }
 
-void test_remove_node() {
-    std::set<std::string> members = {"A", "B", "C", "D"};
-    RaftConfiguration config(members);
-    
-    config.removeNode("D");
-    
-    assert(config.isJointConsensus());
-    
-    auto new_members = config.getNewMembers();
-    assert(new_members.size() == 3);
-    assert(new_members.count("D") == 0);
-    
-    std::cout << "✓ test_remove_node passed\n";
+// ---------------------------------------------------------------------------
+// addNode – joint consensus phase
+// ---------------------------------------------------------------------------
+
+TEST(RaftConfiguration, AddNodeEntersJointConsensus) {
+    RaftConfiguration cfg({"node1", "node2", "node3"});
+    cfg.addNode("node4");
+
+    EXPECT_TRUE(cfg.isJointConsensus());
+    EXPECT_TRUE(cfg.isInTransition());
 }
 
-void test_joint_consensus_quorum() {
-    std::set<std::string> members = {"A", "B", "C"};
-    RaftConfiguration config(members);
-    
-    // Add two nodes: {A,B,C} → {A,B,C,D,E}
-    config.addNode("D");
-    ConfigurationEntry entry{{}, {"A", "B", "C", "D", "E"}, true};
-    entry.old_members = {"A", "B", "C"};
-    config.applyConfiguration(entry);
-    
-    // Need 2/3 from old AND 3/5 from new
-    assert(!config.hasQuorum({"A", "B"}));  // 2/3 old ✓, 2/5 new ✗
-    assert(config.hasQuorum({"A", "B", "C"}));  // 3/3 old ✓, 3/5 new ✓
-    assert(config.hasQuorum({"A", "B", "C", "D"}));  // 3/3 old ✓, 4/5 new ✓
-    
-    std::cout << "✓ test_joint_consensus_quorum passed\n";
+TEST(RaftConfiguration, AddNodeNewMemberVisible) {
+    RaftConfiguration cfg({"node1", "node2", "node3"});
+    cfg.addNode("node4");
+
+    // isMember must return true for both old and new members
+    EXPECT_TRUE(cfg.isMember("node1"));
+    EXPECT_TRUE(cfg.isMember("node4"));
+
+    // getNewMembers includes the added node
+    auto new_members = cfg.getNewMembers();
+    EXPECT_GT(new_members.count("node4"), 0u);
+
+    // getOldMembers does NOT include the added node
+    auto old_members = cfg.getOldMembers();
+    EXPECT_EQ(old_members.count("node4"), 0u);
+    EXPECT_EQ(old_members.count("node1"), 1u);
 }
 
-void test_quorum_calculation() {
-    // 3 nodes → quorum = 2
-    RaftConfiguration config3({"A", "B", "C"});
-    assert(config3.getQuorumSize() == 2);
-    assert(config3.hasQuorum({"A", "B"}));
-    assert(!config3.hasQuorum({"A"}));
-    
-    // 5 nodes → quorum = 3
-    RaftConfiguration config5({"A", "B", "C", "D", "E"});
-    assert(config5.getQuorumSize() == 3);
-    assert(config5.hasQuorum({"A", "B", "C"}));
-    assert(!config5.hasQuorum({"A", "B"}));
-    
-    std::cout << "✓ test_quorum_calculation passed\n";
+TEST(RaftConfiguration, AddNodeGetMembersReturnsUnion) {
+    RaftConfiguration cfg({"node1", "node2"});
+    cfg.addNode("node3");
+
+    auto all = cfg.getMembers();
+    EXPECT_EQ(all.size(), 3u);
+    EXPECT_GT(all.count("node1"), 0u);
+    EXPECT_GT(all.count("node2"), 0u);
+    EXPECT_GT(all.count("node3"), 0u);
 }
 
-void test_apply_configuration() {
-    RaftConfiguration config;
-    
-    ConfigurationEntry entry{{}, {"A", "B", "C"}, false};
-    config.applyConfiguration(entry);
-    
-    assert(config.getMembers().size() == 3);
-    assert(!config.isJointConsensus());
-    
-    std::cout << "✓ test_apply_configuration passed\n";
+// ---------------------------------------------------------------------------
+// removeNode – joint consensus phase
+// ---------------------------------------------------------------------------
+
+TEST(RaftConfiguration, RemoveNodeEntersJointConsensus) {
+    RaftConfiguration cfg({"node1", "node2", "node3"});
+    cfg.removeNode("node3");
+
+    EXPECT_TRUE(cfg.isJointConsensus());
 }
 
-void test_concurrent_changes_blocked() {
-    std::set<std::string> members = {"A", "B", "C"};
-    RaftConfiguration config(members);
-    
-    config.addNode("D");
-    
-    try {
-        config.addNode("E");
-        assert(false);  // Should have thrown
-    } catch (const std::runtime_error&) {
-        // Expected
-    }
-    
-    std::cout << "✓ test_concurrent_changes_blocked passed\n";
+TEST(RaftConfiguration, RemoveNodeStillMemberDuringTransition) {
+    RaftConfiguration cfg({"node1", "node2", "node3"});
+    cfg.removeNode("node3");
+
+    // During joint consensus the removed node is still a member (in old config)
+    EXPECT_TRUE(cfg.isMember("node3"));
+
+    // But it is absent from the new configuration
+    auto new_members = cfg.getNewMembers();
+    EXPECT_EQ(new_members.count("node3"), 0u);
 }
 
-void test_two_phase_transition() {
-    std::set<std::string> members = {"A", "B", "C"};
-    RaftConfiguration config(members);
-    
-    // Phase 1: C_old,new
-    ConfigurationEntry joint{{"A", "B", "C"}, {"A", "B", "C", "D"}, true};
-    config.applyConfiguration(joint);
-    
-    assert(config.isJointConsensus());
-    assert(config.isMember("D"));
-    
-    // Phase 2: C_new
-    ConfigurationEntry new_config{{}, {"A", "B", "C", "D"}, false};
-    config.applyConfiguration(new_config);
-    
-    assert(!config.isJointConsensus());
-    assert(config.getMembers().size() == 4);
-    
-    std::cout << "✓ test_two_phase_transition passed\n";
+// ---------------------------------------------------------------------------
+// Concurrent-change guard
+// ---------------------------------------------------------------------------
+
+TEST(RaftConfiguration, SecondAddNodeWhileInTransitionThrows) {
+    RaftConfiguration cfg({"node1", "node2", "node3"});
+    cfg.addNode("node4");
+    EXPECT_THROW(cfg.addNode("node5"), std::runtime_error);
 }
 
-int main() {
-    test_initial_configuration();
-    test_add_node();
-    test_remove_node();
-    test_joint_consensus_quorum();
-    test_quorum_calculation();
-    test_apply_configuration();
-    test_concurrent_changes_blocked();
-    test_two_phase_transition();
-    
-    std::cout << "\n✅ All Raft configuration tests passed!\n";
-    return 0;
+TEST(RaftConfiguration, RemoveNodeWhileInTransitionThrows) {
+    RaftConfiguration cfg({"node1", "node2", "node3"});
+    cfg.addNode("node4");
+    EXPECT_THROW(cfg.removeNode("node1"), std::runtime_error);
 }
+
+// ---------------------------------------------------------------------------
+// applyConfiguration – finalise joint consensus
+// ---------------------------------------------------------------------------
+
+TEST(RaftConfiguration, ApplyConfigurationFinalisesToCNew) {
+    RaftConfiguration cfg({"node1", "node2", "node3"});
+    cfg.addNode("node4");
+
+    ConfigurationEntry c_new;
+    c_new.old_members       = {};
+    c_new.new_members       = {"node1", "node2", "node3", "node4"};
+    c_new.is_joint_consensus = false;
+    cfg.applyConfiguration(c_new);
+
+    EXPECT_FALSE(cfg.isJointConsensus());
+    EXPECT_TRUE(cfg.isMember("node4"));
+    EXPECT_EQ(cfg.getMembers().size(), 4u);
+}
+
+TEST(RaftConfiguration, ApplyConfigurationCanSetJointConsensus) {
+    RaftConfiguration cfg({"node1", "node2", "node3"});
+
+    ConfigurationEntry joint;
+    joint.old_members        = {"node1", "node2", "node3"};
+    joint.new_members        = {"node1", "node2", "node3", "node4"};
+    joint.is_joint_consensus = true;
+    cfg.applyConfiguration(joint);
+
+    EXPECT_TRUE(cfg.isJointConsensus());
+    EXPECT_TRUE(cfg.isMember("node4"));
+}
+
+// ---------------------------------------------------------------------------
+// hasQuorum – simple configuration
+// ---------------------------------------------------------------------------
+
+TEST(RaftConfiguration, HasQuorumSimpleMajority) {
+    RaftConfiguration cfg({"node1", "node2", "node3"});  // quorum = 2
+
+    EXPECT_TRUE(cfg.hasQuorum({"node1", "node2"}));
+    EXPECT_TRUE(cfg.hasQuorum({"node1", "node2", "node3"}));
+    EXPECT_FALSE(cfg.hasQuorum({"node1"}));
+    EXPECT_FALSE(cfg.hasQuorum({}));
+}
+
+TEST(RaftConfiguration, HasQuorumSingleNode) {
+    RaftConfiguration cfg({"node1"});  // quorum = 1
+    EXPECT_TRUE(cfg.hasQuorum({"node1"}));
+    EXPECT_FALSE(cfg.hasQuorum({}));
+}
+
+// ---------------------------------------------------------------------------
+// hasQuorum – joint consensus requires majority in BOTH configs
+// ---------------------------------------------------------------------------
+
+TEST(RaftConfiguration, HasQuorumJointConsensusRequiresBothMajorities) {
+    // C_old = {n1, n2, n3}, quorum_old = 2
+    // C_new = {n1, n2, n3, n4}, quorum_new = 3
+    RaftConfiguration cfg({"node1", "node2", "node3"});
+    cfg.addNode("node4");
+
+    // Only old quorum met (n1, n2) – fails because new quorum (3) not met
+    EXPECT_FALSE(cfg.hasQuorum({"node1", "node2"}));
+
+    // Both quorums met (n1, n2, n3)
+    EXPECT_TRUE(cfg.hasQuorum({"node1", "node2", "node3"}));
+
+    // All four – still true
+    EXPECT_TRUE(cfg.hasQuorum({"node1", "node2", "node3", "node4"}));
+}
+
+// ---------------------------------------------------------------------------
+// getQuorumSize
+// ---------------------------------------------------------------------------
+
+TEST(RaftConfiguration, QuorumSizeThreeNodes) {
+    RaftConfiguration cfg({"node1", "node2", "node3"});
+    EXPECT_EQ(cfg.getQuorumSize(), 2u);  // (3/2)+1 = 2
+}
+
+TEST(RaftConfiguration, QuorumSizeFiveNodes) {
+    RaftConfiguration cfg({"n1", "n2", "n3", "n4", "n5"});
+    EXPECT_EQ(cfg.getQuorumSize(), 3u);  // (5/2)+1 = 3
+}
+
+TEST(RaftConfiguration, QuorumSizeJointConsensusIsMax) {
+    // C_old = 3 nodes (quorum=2), C_new = 5 nodes (quorum=3) → max = 3
+    RaftConfiguration cfg({"node1", "node2", "node3"});
+    cfg.addNode("node4");
+    cfg.applyConfiguration({
+        {"node1", "node2", "node3"},
+        {"node1", "node2", "node3", "node4", "node5"},
+        true
+    });
+    EXPECT_EQ(cfg.getQuorumSize(), 3u);  // max(2, 3) = 3
+}
+

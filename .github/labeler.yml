@@ -1,0 +1,26 @@
+# Labeler configuration for actions/labeler@v5
+# Labels are applied automatically based on changed file paths in a PR.
+
+"area:acceleration":
+  - changed-files:
+      - any-glob-to-any-file: "src/cuda/**"
+
+"area:vector":
+  - changed-files:
+      - any-glob-to-any-file: "src/vector/**"
+
+"area:graph":
+  - changed-files:
+      - any-glob-to-any-file: "src/graph/**"
+
+"area:storage":
+  - changed-files:
+      - any-glob-to-any-file: "src/storage/**"
+
+"type:documentation":
+  - changed-files:
+      - any-glob-to-any-file: "docs/**"
+
+"type:test":
+  - changed-files:
+      - any-glob-to-any-file: "tests/**"
