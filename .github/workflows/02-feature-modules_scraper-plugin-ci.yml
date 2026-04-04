@@ -59,6 +59,7 @@ jobs:
             libyaml-cpp-dev
             libpugixml-dev
             libcurl4-openssl-dev
+            librocksdb-dev
             nlohmann-json3-dev
 
       - name: Configure and build
