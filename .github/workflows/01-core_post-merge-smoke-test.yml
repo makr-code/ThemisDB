@@ -63,6 +63,9 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Initialize llama.cpp submodule
+        run: git submodule update --init --depth=1 llama.cpp
+
       - name: Set up C++ build environment
         uses: ./.github/actions/setup-cpp-build
         with:

@@ -278,13 +278,13 @@ RUN set -eux; \
     ninja -C build -j$(nproc) themis_server && \
     \
     # Verify binary
-    if [ ! -f build/themis_server ]; then \
+    if [ ! -f build/bin/themis_server ]; then \
         echo "ERROR: themis_server binary not found"; \
         exit 1; \
     fi; \
     \
     echo "✓ ThemisDB built successfully"; \
-    ls -lh build/themis_server
+    ls -lh build/bin/themis_server
 
 # ============================================================================
 # Stage 5: runtime - Production image (minimal)
@@ -326,7 +326,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     rm -rf /var/lib/apt/lists/*
 
 # Copy themis_server binary
-COPY --from=build /src/build/themis_server /opt/themis/bin/themis_server
+COPY --from=build /src/build/bin/themis_server /opt/themis/bin/themis_server
 
 # Copy llama.cpp libraries (if LLM enabled)
 COPY --from=llama /opt/llama.cpp/build/lib*.so* /usr/local/lib/

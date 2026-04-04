@@ -348,7 +348,8 @@ private:
             }
 
             resp->set_success(true);
-            resp->set_result(*result);
+            auto* row = resp->add_rows();
+            row->set_data(*result);
             return grpc::Status::OK;
         }
 
