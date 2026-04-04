@@ -32,6 +32,7 @@
 #else
   #include <optional>
   #include <stdexcept>
+  #include <type_traits>
   #include <utility>
   #include <variant>
   #define HAS_TL_EXPECTED 0
@@ -53,6 +54,9 @@ private:
 template<typename T, typename E>
 class expected {
 public:
+    template<typename U = T, typename = std::enable_if_t<std::is_default_constructible_v<U>>>
+    expected() : data_(T{}) {}
+
     expected(const T& v) : data_(v) {}
     expected(T&& v) : data_(std::move(v)) {}
     expected(unexpected<E> u) : data_(std::move(u.value())) {}
