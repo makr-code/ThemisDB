@@ -54,12 +54,44 @@ private:
 template<typename T, typename E>
 class expected {
 public:
+    template<typename, typename>
+    friend class expected;
+
     template<typename U = T, typename = std::enable_if_t<std::is_default_constructible_v<U>>>
     expected() : data_(T{}) {}
 
     expected(const T& v) : data_(v) {}
     expected(T&& v) : data_(std::move(v)) {}
     expected(unexpected<E> u) : data_(std::move(u.value())) {}
+
+    template<
+        typename U,
+        typename = std::enable_if_t<
+            std::is_convertible_v<U, T> && !std::is_same_v<U, T>
+        >
+    >
+    expected(const expected<U, E>& other) {
+        if (other.has_value()) {
+            data_ = T(other.value());
+        } else {
+            data_ = other.error();
+        }
+    }
+
+    template<
+        typename U,
+        typename = std::enable_if_t<
+            std::is_convertible_v<U, T> && !std::is_same_v<U, T>
+        >
+    >
+    expected& operator=(const expected<U, E>& other) {
+        if (other.has_value()) {
+            data_ = T(other.value());
+        } else {
+            data_ = other.error();
+        }
+        return *this;
+    }
 
     bool has_value() const { return std::holds_alternative<T>(data_); }
     explicit operator bool() const { return has_value(); }
