@@ -226,6 +226,13 @@ if(prometheus-cpp_FOUND)
 else()
     message(STATUS "Prometheus C++ client not found - metrics collection disabled")
     message(STATUS "Install with: vcpkg install prometheus-cpp (optional)")
+    # Provide optional fallback targets so optional test/link declarations do not
+    # fail configure when prometheus-cpp is not installed on CI runners.
+    foreach(_prom_tgt core pull push util)
+        if(NOT TARGET prometheus-cpp::${_prom_tgt})
+            add_library(prometheus-cpp::${_prom_tgt} INTERFACE IMPORTED GLOBAL)
+        endif()
+    endforeach()
 endif()
 
 # ============================================================================
