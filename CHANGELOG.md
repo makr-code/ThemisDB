@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [1.8.0-rc1] - 2026-04-04
+## [1.8.1-rc1] - 2026-04-04
 
 ### Added
 - **README: Comprehensive Technology & Feature Badges** 🏷️

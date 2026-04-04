@@ -15,7 +15,7 @@
 ThemisDB is a high-performance multi-model database with native AI/LLM integration. This top-level roadmap aggregates the status and planned work across all 46 source modules. The project follows a phased approach: stabilise core infrastructure first, then harden distributed and AI layers, and finally deliver operational excellence at hyperscale.
 
 **Overall Timeline:** Q1 2026 – Q4 2027  
-**Current Release:** v1.8.0-rc1
+**Current Release:** v1.8.1-rc1
 
 ---
 
