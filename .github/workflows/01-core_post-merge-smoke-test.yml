@@ -81,6 +81,7 @@ jobs:
           build-type: ${{ env.BUILD_TYPE }}
           build-tests: 'ON'
           edition: 'COMMUNITY'
+          ci-mode: 'true'
 
       - name: Build smoke-test targets
         run: |

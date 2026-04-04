@@ -97,4 +97,4 @@ jobs:
           echo "| **Branch** | \`${{ github.ref_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
           echo "| **Commit** | \`${{ github.sha }}\` |" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
-      echo "Groups: A-UrlPolicy(6), B-Config(5), C-GovCatalog(5), D-SearchEngine(5), E-ApiClient(4), F-LLMEvaluator(4), G-MetadataWriter(4), H-Plugin(7), I-Provenance(6), J-KnowledgeSources(5), K-Pipeline(5), L-Immutability(4) = 60 tests" >> "$GITHUB_STEP_SUMMARY"
+          echo "Groups: A-UrlPolicy(6), B-Config(5), C-GovCatalog(5), D-SearchEngine(5), E-ApiClient(4), F-LLMEvaluator(4), G-MetadataWriter(4), H-Plugin(7), I-Provenance(6), J-KnowledgeSources(5), K-Pipeline(5), L-Immutability(4) = 60 tests" >> "$GITHUB_STEP_SUMMARY"

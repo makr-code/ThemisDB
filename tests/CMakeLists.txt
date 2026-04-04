@@ -7577,6 +7577,7 @@ foreach(_pg_test
         test_postgres_importer_datatypes.cpp
         test_postgres_importer_fk.cpp
         test_postgres_importer_integration.cpp
+        test_postgres_import_integration_v2.cpp
         test_postgres_importer_live.cpp
         test_postgres_importer_robustness.cpp
         test_postgres_importer_security_audit.cpp
