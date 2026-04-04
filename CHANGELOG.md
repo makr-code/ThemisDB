@@ -58,6 +58,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Removed broken `--config=/etc/themis/config.yml` from `CMD` (file does not exist
     in a fresh container); server now starts cleanly without a config file.
 
+## [1.8.0-rc1] - 2026-04-04
+
 ### Added
 - **README: Comprehensive Technology & Feature Badges** 🏷️
   - Added 11 badge categories to the README header showcasing ThemisDB capabilities:

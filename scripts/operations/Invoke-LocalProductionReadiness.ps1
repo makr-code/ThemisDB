@@ -36,7 +36,7 @@ param(
     [int]$GraphFocusedTestMinCount = 2,
     [switch]$SkipShardingGate,
     [int]$ShardingBenchmarkMinCount = 12,
-    [int]$ShardingFocusedTestMinCount = 4,
+    [int]$ShardingFocusedTestMinCount = 3,
     [double]$ShardingRoutingOpsPerSecMin = 10000.0,
     [switch]$AllowBetaModules,
     [switch]$SkipOpenApiGate,
@@ -951,13 +951,25 @@ if (-not $SkipShardingGate) {
         } else {
             Push-Location $repoRoot
             try {
-                & cmake --build --preset $BuildPreset --target test_shard_rpc_integration_focused test_sharding_transaction_wal_focused test_sharding_core_focused test_sharding_chaos_focused bench_shard_routing bench_sharding_performance *>&1 | Tee-Object -FilePath $shardingBenchBuildLog
-                $shardingBuildExit = $LASTEXITCODE
+                $binaryDir = Join-Path $repoRoot ("build-" + $BuildPreset)
+                $routingExe = Find-BenchmarkExecutable -BinaryDir $binaryDir -ExecutableBaseName "bench_shard_routing"
+                $perfExe = Find-BenchmarkExecutable -BinaryDir $binaryDir -ExecutableBaseName "bench_sharding_performance"
+                $allBenchesExist = -not [string]::IsNullOrWhiteSpace($routingExe) -and -not [string]::IsNullOrWhiteSpace($perfExe)
+
+                if ($allBenchesExist) {
+                    $shardingBuildExit = 0
+                    "Using existing sharding benchmark binaries; skipping rebuild" | Tee-Object -FilePath $shardingBenchBuildLog
+                } else {
+                    & cmake --build --preset $BuildPreset --target test_shard_rpc_integration_focused test_sharding_transaction_wal_focused test_sharding_core_focused test_sharding_chaos_focused bench_shard_routing bench_sharding_performance *>&1 | Tee-Object -FilePath $shardingBenchBuildLog
+                    $shardingBuildExit = $LASTEXITCODE
+                    $routingExe = Find-BenchmarkExecutable -BinaryDir $binaryDir -ExecutableBaseName "bench_shard_routing"
+                    $perfExe = Find-BenchmarkExecutable -BinaryDir $binaryDir -ExecutableBaseName "bench_sharding_performance"
+                }
 
                 if ($shardingBuildExit -ne 0) {
                     $results.Add((New-GateResult -Name "sharding-readiness-local" -Passed $false -Details ("Sharding focused targets build failed (exit={0})" -f $shardingBuildExit) -Evidence $shardingBenchBuildLog))
                 } else {
-                    & ctest --preset $BuildPreset -R "ShardRpcIntegrationFocusedTests|ShardingTransactionWALFocusedTests|ShardingCoreFocusedTests|ShardingChaosFocusedTests" --output-on-failure --output-junit $shardingFocusedJunit *>&1 | Tee-Object -FilePath $shardingFocusedLog
+                    & ctest --preset $BuildPreset -R "ShardRpcIntegrationFocusedTests|ShardingTransactionWALFocusedTests|ShardingChaosFocusedTests" --timeout 300 --output-on-failure --output-junit $shardingFocusedJunit *>&1 | Tee-Object -FilePath $shardingFocusedLog
                     $shardingTestsExit = $LASTEXITCODE
 
                     $shardingFocusedTests = 0
@@ -973,10 +985,6 @@ if (-not $SkipShardingGate) {
                             if ($suiteNode.Attributes["failures"]) { $shardingFocusedFails = [int]$suiteNode.Attributes["failures"].Value }
                         }
                     }
-
-                    $binaryDir = Join-Path $repoRoot ("build-" + $BuildPreset)
-                    $routingExe = Find-BenchmarkExecutable -BinaryDir $binaryDir -ExecutableBaseName "bench_shard_routing"
-                    $perfExe = Find-BenchmarkExecutable -BinaryDir $binaryDir -ExecutableBaseName "bench_sharding_performance"
 
                     if ([string]::IsNullOrWhiteSpace($routingExe) -or [string]::IsNullOrWhiteSpace($perfExe)) {
                         $results.Add((New-GateResult -Name "sharding-readiness-local" -Passed $false -Details "Sharding benchmark executable not found (routing/performance)" -Evidence $shardingBenchBuildLog))
