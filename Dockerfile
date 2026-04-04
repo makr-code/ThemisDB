@@ -361,7 +361,8 @@ USER themis
 # Expose default port
 EXPOSE 8765
 
-# Health check
+# Health check — polls the /health HTTP endpoint exposed by the server
+# (GET /health returns 200 when the server is ready to accept queries)
 HEALTHCHECK --interval=30s --timeout=5s --start-period=30s --retries=5 \
     CMD curl -f http://localhost:8765/health || exit 1
 
