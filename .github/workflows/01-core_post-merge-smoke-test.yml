@@ -75,6 +75,7 @@ jobs:
             libssl-dev libcurl4-openssl-dev libboost-all-dev
             librocksdb-dev libfmt-dev libtbb-dev libspdlog-dev
             nlohmann-json3-dev libyaml-cpp-dev
+            libsimdjson-dev libtl-expected-dev
 
       - name: Configure CMake (COMMUNITY edition)
         uses: ./.github/actions/configure-themis

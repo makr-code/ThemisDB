@@ -380,7 +380,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     rm -rf /var/lib/apt/lists/*
 
 # Copy binary and libraries
-COPY --from=build /src/build/themis_server /opt/themis/bin/themis_server
+COPY --from=build /src/build/bin/themis_server /opt/themis/bin/themis_server
 COPY --from=build /src/build/compile_commands.json /opt/themis/
 COPY --from=llama /opt/llama.cpp/build/lib*.so* /usr/local/lib/
 RUN --mount=type=bind,from=deps,source=/build/vcpkg_installed,target=/deps_vcpkg,readonly \

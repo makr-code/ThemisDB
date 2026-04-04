@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.8.1-rc1] - 2026-04-04
 
+> **Release Notes:** [`docs/de/releases/RELEASE_NOTES_v1.8.1-rc1.md`](docs/de/releases/RELEASE_NOTES_v1.8.1-rc1.md)
+
 ### Added
 - **README: Comprehensive Technology & Feature Badges** 🏷️
   - Added 11 badge categories to the README header showcasing ThemisDB capabilities:
