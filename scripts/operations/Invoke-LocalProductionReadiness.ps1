@@ -34,6 +34,10 @@ param(
     [switch]$SkipGraphGate,
     [int]$GraphBenchmarkMinCount = 10,
     [int]$GraphFocusedTestMinCount = 2,
+    [switch]$SkipShardingGate,
+    [int]$ShardingBenchmarkMinCount = 12,
+    [int]$ShardingFocusedTestMinCount = 4,
+    [double]$ShardingRoutingOpsPerSecMin = 10000.0,
     [switch]$AllowBetaModules,
     [switch]$SkipOpenApiGate,
     [switch]$NoFailOnGate
@@ -897,6 +901,163 @@ if (-not $SkipGraphGate) {
     }
 } else {
     $results.Add((New-GateResult -Name "graph-readiness-local" -Passed $false -Details "Skipped by user" -Evidence ""))
+}
+
+# Gate: sharding-readiness-local
+if (-not $SkipShardingGate) {
+    $shardingBenchBuildLog = Join-Path $outputDir "sharding_bench_build.log"
+    $shardingBenchRunLog = Join-Path $outputDir "sharding_bench_run.log"
+    $shardingRoutingJson = Join-Path $outputDir "sharding_bench_routing.json"
+    $shardingPerfJson = Join-Path $outputDir "sharding_bench_performance.json"
+    $shardingFocusedLog = Join-Path $outputDir "sharding_focused_ctest.log"
+    $shardingFocusedJunit = Join-Path $outputDir "sharding_focused_ctest.junit.xml"
+    $shardingApiReport = Join-Path $outputDir "sharding_api_check.json"
+
+    $requiredShardingFiles = @(
+        (Join-Path $repoRoot "src/sharding/shard_rpc_server.cpp"),
+        (Join-Path $repoRoot "src/sharding/shard_rpc_client.cpp"),
+        (Join-Path $repoRoot "src/sharding/shard_durability.cpp"),
+        (Join-Path $repoRoot "include/sharding/shard_rpc_server.h"),
+        (Join-Path $repoRoot "include/sharding/shard_rpc_client.h"),
+        (Join-Path $repoRoot "tests/test_shard_rpc_mtls_config.cpp"),
+        (Join-Path $repoRoot "tests/test_shard_rpc_integration.cpp"),
+        (Join-Path $repoRoot "tests/test_shard_durability.cpp"),
+        (Join-Path $repoRoot "tests/test_sharding_chaos.cpp"),
+        (Join-Path $repoRoot "benchmarks/bench_shard_routing.cpp"),
+        (Join-Path $repoRoot "benchmarks/bench_sharding_performance.cpp")
+    )
+
+    $missingShardingFiles = @($requiredShardingFiles | Where-Object { -not (Test-Path -LiteralPath $_) })
+    if ($missingShardingFiles.Count -gt 0) {
+        $results.Add((New-GateResult -Name "sharding-readiness-local" -Passed $false -Details ("Missing sharding evidence files: {0}" -f ($missingShardingFiles -join "; ")) -Evidence ""))
+    } else {
+        $rpcClientHeader = Get-Content -Raw (Join-Path $repoRoot "include/sharding/shard_rpc_client.h")
+        $rpcServerHeader = Get-Content -Raw (Join-Path $repoRoot "include/sharding/shard_rpc_server.h")
+        $shardDurability = Get-Content -Raw (Join-Path $repoRoot "src/sharding/shard_durability.cpp")
+
+        $hasClientMtls = ($rpcClientHeader -match 'enable_mtls' -and $rpcClientHeader -match 'tls_cert_path' -and $rpcClientHeader -match 'tls_key_path')
+        $hasServerMtls = ($rpcServerHeader -match 'enable_mtls' -and $rpcServerHeader -match 'tls_cert_path' -and $rpcServerHeader -match 'tls_require_client_cert')
+        $hasRecoveryPath = ($shardDurability -match 'performRecovery' -or $shardDurability -match 'recovery')
+
+        @{
+            checked_at = (Get-Date -Format "o")
+            client_mtls_fields_present = $hasClientMtls
+            server_mtls_fields_present = $hasServerMtls
+            durability_recovery_present = $hasRecoveryPath
+        } | ConvertTo-Json | Set-Content -Path $shardingApiReport -Encoding UTF8
+
+        if (-not $hasClientMtls -or -not $hasServerMtls -or -not $hasRecoveryPath) {
+            $results.Add((New-GateResult -Name "sharding-readiness-local" -Passed $false -Details "Sharding API checks failed (mTLS or recovery path missing)" -Evidence $shardingApiReport))
+        } else {
+            Push-Location $repoRoot
+            try {
+                & cmake --build --preset $BuildPreset --target test_shard_rpc_integration_focused test_sharding_transaction_wal_focused test_sharding_core_focused test_sharding_chaos_focused bench_shard_routing bench_sharding_performance *>&1 | Tee-Object -FilePath $shardingBenchBuildLog
+                $shardingBuildExit = $LASTEXITCODE
+
+                if ($shardingBuildExit -ne 0) {
+                    $results.Add((New-GateResult -Name "sharding-readiness-local" -Passed $false -Details ("Sharding focused targets build failed (exit={0})" -f $shardingBuildExit) -Evidence $shardingBenchBuildLog))
+                } else {
+                    & ctest --preset $BuildPreset -R "ShardRpcIntegrationFocusedTests|ShardingTransactionWALFocusedTests|ShardingCoreFocusedTests|ShardingChaosFocusedTests" --output-on-failure --output-junit $shardingFocusedJunit *>&1 | Tee-Object -FilePath $shardingFocusedLog
+                    $shardingTestsExit = $LASTEXITCODE
+
+                    $shardingFocusedTests = 0
+                    $shardingFocusedFails = 0
+                    if (Test-Path $shardingFocusedJunit) {
+                        [xml]$sx = Get-Content -Raw $shardingFocusedJunit
+                        $suiteNode = $sx.SelectSingleNode("/testsuites")
+                        if (-not $suiteNode) {
+                            $suiteNode = $sx.SelectSingleNode("/testsuite")
+                        }
+                        if ($suiteNode) {
+                            if ($suiteNode.Attributes["tests"]) { $shardingFocusedTests = [int]$suiteNode.Attributes["tests"].Value }
+                            if ($suiteNode.Attributes["failures"]) { $shardingFocusedFails = [int]$suiteNode.Attributes["failures"].Value }
+                        }
+                    }
+
+                    $binaryDir = Join-Path $repoRoot ("build-" + $BuildPreset)
+                    $routingExe = Find-BenchmarkExecutable -BinaryDir $binaryDir -ExecutableBaseName "bench_shard_routing"
+                    $perfExe = Find-BenchmarkExecutable -BinaryDir $binaryDir -ExecutableBaseName "bench_sharding_performance"
+
+                    if ([string]::IsNullOrWhiteSpace($routingExe) -or [string]::IsNullOrWhiteSpace($perfExe)) {
+                        $results.Add((New-GateResult -Name "sharding-readiness-local" -Passed $false -Details "Sharding benchmark executable not found (routing/performance)" -Evidence $shardingBenchBuildLog))
+                    } else {
+                        $oldPath = $env:PATH
+                        try {
+                            $dllCandidates = @(
+                                (Join-Path $binaryDir "bin"),
+                                (Join-Path $binaryDir "cmake")
+                            ) | Where-Object { Test-Path $_ }
+                            if (@($dllCandidates).Count -gt 0) {
+                                $env:PATH = ((@($dllCandidates) -join ";") + ";" + $env:PATH)
+                            }
+
+                            & $routingExe "--benchmark_min_time=0.01s" "--benchmark_repetitions=1" "--benchmark_format=json" "--benchmark_out=$shardingRoutingJson" *>&1 | Tee-Object -FilePath $shardingBenchRunLog
+                            $routingExit = $LASTEXITCODE
+
+                            & $perfExe "--benchmark_min_time=0.01s" "--benchmark_repetitions=1" "--benchmark_format=json" "--benchmark_out=$shardingPerfJson" *>&1 | Tee-Object -FilePath $shardingBenchRunLog -Append
+                            $perfExit = $LASTEXITCODE
+                        }
+                        finally {
+                            $env:PATH = $oldPath
+                        }
+
+                        if (($routingExit -eq 0) -and ($perfExit -eq 0) -and (Test-Path $shardingRoutingJson) -and (Test-Path $shardingPerfJson)) {
+                            try {
+                                $routingDoc = Get-Content -Raw $shardingRoutingJson | ConvertFrom-Json
+                                $perfDoc = Get-Content -Raw $shardingPerfJson | ConvertFrom-Json
+
+                                $routingBenchCount = @($routingDoc.benchmarks).Count
+                                $perfBenchCount = @($perfDoc.benchmarks).Count
+                                $totalBenchCount = $routingBenchCount + $perfBenchCount
+
+                                $hasSingleShardLookup = ($routingDoc.benchmarks | Where-Object { $_.name -like "*SingleShardLookup*" } | Select-Object -First 1) -ne $null
+                                $hasBatchRouting = ($routingDoc.benchmarks | Where-Object { $_.name -like "*BatchRouting*" } | Select-Object -First 1) -ne $null
+                                $hasScatterGather = ($perfDoc.benchmarks | Where-Object { $_.name -like "*ScatterGatherLatency*" } | Select-Object -First 1) -ne $null
+
+                                $opsCandidates = New-Object System.Collections.Generic.List[double]
+                                foreach ($b in @($routingDoc.benchmarks) + @($perfDoc.benchmarks)) {
+                                    if ($null -ne $b.ops_per_sec) { $opsCandidates.Add([double]$b.ops_per_sec) }
+                                    if ($null -ne $b.requests_per_sec) { $opsCandidates.Add([double]$b.requests_per_sec) }
+                                    if ($null -ne $b.lookups_per_sec) { $opsCandidates.Add([double]$b.lookups_per_sec) }
+                                }
+
+                                $maxOpsPerSec = if ($opsCandidates.Count -gt 0) { ($opsCandidates | Measure-Object -Maximum).Maximum } else { 0.0 }
+
+                                $shardingPassed = (
+                                    $shardingTestsExit -eq 0 -and
+                                    $shardingFocusedFails -eq 0 -and
+                                    $shardingFocusedTests -ge $ShardingFocusedTestMinCount -and
+                                    $totalBenchCount -ge $ShardingBenchmarkMinCount -and
+                                    $hasSingleShardLookup -and
+                                    $hasBatchRouting -and
+                                    $hasScatterGather -and
+                                    $maxOpsPerSec -ge $ShardingRoutingOpsPerSecMin
+                                )
+
+                                $shardingDetails = (
+                                    "Focused tests={0} failed={1}; benchmark_count={2} (min={3}); " +
+                                    "SingleShardLookup={4}; BatchRouting={5}; ScatterGatherLatency={6}; " +
+                                    "max_ops_per_sec={7:N2} (min={8:N2})"
+                                ) -f $shardingFocusedTests, $shardingFocusedFails, $totalBenchCount, $ShardingBenchmarkMinCount, $hasSingleShardLookup, $hasBatchRouting, $hasScatterGather, [double]$maxOpsPerSec, $ShardingRoutingOpsPerSecMin
+
+                                $results.Add((New-GateResult -Name "sharding-readiness-local" -Passed $shardingPassed -Details $shardingDetails -Evidence $shardingPerfJson))
+                            }
+                            catch {
+                                $results.Add((New-GateResult -Name "sharding-readiness-local" -Passed $false -Details ("Failed to parse sharding benchmark JSON: {0}" -f $_.Exception.Message) -Evidence $shardingBenchRunLog))
+                            }
+                        } else {
+                            $results.Add((New-GateResult -Name "sharding-readiness-local" -Passed $false -Details ("Sharding benchmark run failed (routing={0}, performance={1})" -f $routingExit, $perfExit) -Evidence $shardingBenchRunLog))
+                        }
+                    }
+                }
+            }
+            finally {
+                Pop-Location
+            }
+        }
+    }
+} else {
+    $results.Add((New-GateResult -Name "sharding-readiness-local" -Passed $false -Details "Skipped by user" -Evidence ""))
 }
 
 # Gate 6 + 7: Cluster fault-injection and SLA proxy via repeated phase4 suite

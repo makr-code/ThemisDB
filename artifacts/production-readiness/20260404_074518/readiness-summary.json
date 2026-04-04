@@ -1,0 +1,87 @@
+{
+  "generated_at": "2026-04-04T07:45:19.4584245+02:00",
+  "build_preset": "msvc-ninja-release",
+  "repeat_count": 20,
+  "output_dir": "C:\\VCC\\themis\\artifacts\\production-readiness\\20260404_074518",
+  "gates": [
+    {
+      "name": "openapi-completeness-local",
+      "passed": false,
+      "details": "Skipped by user",
+      "evidence": ""
+    },
+    {
+      "name": "content-focused-local",
+      "passed": false,
+      "details": "Skipped by user",
+      "evidence": ""
+    },
+    {
+      "name": "content-processor-coverage-local",
+      "passed": false,
+      "details": "Skipped by user",
+      "evidence": ""
+    },
+    {
+      "name": "content-benchmark-local",
+      "passed": false,
+      "details": "Skipped by user",
+      "evidence": ""
+    },
+    {
+      "name": "geo-readiness-local",
+      "passed": false,
+      "details": "Skipped by user",
+      "evidence": ""
+    },
+    {
+      "name": "process-readiness-local",
+      "passed": false,
+      "details": "Skipped by user",
+      "evidence": ""
+    },
+    {
+      "name": "gpu-readiness-local",
+      "passed": false,
+      "details": "Skipped by user",
+      "evidence": ""
+    },
+    {
+      "name": "graph-readiness-local",
+      "passed": false,
+      "details": "Skipped by user",
+      "evidence": ""
+    },
+    {
+      "name": "sharding-readiness-local",
+      "passed": false,
+      "details": "Sharding focused targets build failed (exit=1)",
+      "evidence": "C:\\VCC\\themis\\artifacts\\production-readiness\\20260404_074518\\sharding_bench_build.log"
+    },
+    {
+      "name": "cluster-chaos-local",
+      "passed": false,
+      "details": "Skipped by user",
+      "evidence": ""
+    },
+    {
+      "name": "sla-99.99-local-proxy",
+      "passed": false,
+      "details": "Skipped by user",
+      "evidence": ""
+    },
+    {
+      "name": "pentest-report-local",
+      "passed": false,
+      "details": "Skipped by user",
+      "evidence": ""
+    },
+    {
+      "name": "beta-module-exit",
+      "passed": true,
+      "details": "6 beta modules accepted via -AllowBetaModules",
+      "evidence": "C:\\VCC\\themis\\artifacts\\production-readiness\\20260404_074518\\beta_modules.txt"
+    }
+  ],
+  "failed_gate_count": 12
+}

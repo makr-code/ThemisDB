@@ -3297,6 +3297,100 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_gpu_hardware_capability.cpp")
 endif()
 
 # ============================================================================
+# Sharding benchmarks
+# Validates sharding beta-exit evidence:
+#   - cross-shard routing throughput
+#   - scatter/gather and cross-shard join latency
+#   - operational scalability across shard counts
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_shard_routing.cpp")
+    message(STATUS "Adding Shard routing benchmarks")
+
+    add_executable(bench_shard_routing
+        bench_shard_routing.cpp
+    )
+
+    target_link_libraries(bench_shard_routing PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_shard_routing PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(MSVC)
+            target_compile_options(bench_shard_routing PRIVATE
+                /O2
+                /DNDEBUG
+            )
+        else()
+            if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+                set(BENCHMARK_ARCH_FLAGS "-march=native")
+            endif()
+            target_compile_options(bench_shard_routing PRIVATE
+                -O3
+                ${BENCHMARK_ARCH_FLAGS}
+                -DNDEBUG
+            )
+        endif()
+    endif()
+
+    install(TARGETS bench_shard_routing
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  ShardRouting: single-shard lookup, consistent-hash, batch routing, distribution quality")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_sharding_performance.cpp")
+    message(STATUS "Adding Sharding performance benchmarks")
+
+    add_executable(bench_sharding_performance
+        bench_sharding_performance.cpp
+    )
+
+    target_link_libraries(bench_sharding_performance PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_sharding_performance PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(MSVC)
+            target_compile_options(bench_sharding_performance PRIVATE
+                /O2
+                /DNDEBUG
+            )
+        else()
+            if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+                set(BENCHMARK_ARCH_FLAGS "-march=native")
+            endif()
+            target_compile_options(bench_sharding_performance PRIVATE
+                -O3
+                ${BENCHMARK_ARCH_FLAGS}
+                -DNDEBUG
+            )
+        endif()
+    endif()
+
+    install(TARGETS bench_sharding_performance
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  ShardingPerformance: scatter-gather latency, cross-shard joins, migration and gossip overhead")
+endif()
+
+# ============================================================================
 # AdaptiveQueryCompiler benchmarks (v1.8.0, Issue #86)
 # Validates:
 #   - Cold path (interpreted) vs. hot path (compiled) throughput
