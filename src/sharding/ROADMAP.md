@@ -108,7 +108,7 @@ Implementing sharding requires careful planning and execution. Following this ro
 - `[?]` Cross-shard RPC (`sharding/rpc/`) stubs not yet fully wired — inter-shard calls fall back to in-process routing in current builds.
 - `[?]` Paxos acceptor state is in-memory only; a process restart loses pending votes (tracked for Phase 3 fix).
 - `[?]` Adaptive rebalancer not yet implemented; rebalancing is currently manual-only.
-- `[?]` Chaos test suite not yet committed to CI — shard partition failures detected only in manual test runs.
+- `[?]` Focused chaos tests are in CI, but full cluster-level chaos/failover scenarios are not yet part of the default production-readiness gate.
 
 | # | Description | Status |
 |---|-------------|--------|

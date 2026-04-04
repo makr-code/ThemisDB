@@ -24,7 +24,7 @@ Provides shared utility functions and cross-cutting infrastructure components us
 
 ## Current Delivery Status
 
-**Maturity:** 🟡 Beta — All core utilities operational; streaming PII pipeline and tamper-evident audit chain in progress.
+**Maturity:** 🟢 Production-Ready — Core utility stack (audit, PII detection/pseudonymization, tracing, compression, crypto helpers, pagination, text tooling) is operational.
 
 ## Components
 

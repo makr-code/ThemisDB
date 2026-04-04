@@ -22,7 +22,7 @@ Provides GPU compute integration for ThemisDB, implementing VRAM management with
 
 ## Current Delivery Status
 
-**Maturity:** 🟡 Beta — VRAM management, circuit breaker, parallel query acceleration, and ROCm/HIP backend parity operational; multi-node coordination in progress.
+**Maturity:** 🟡 Beta — VRAM management, circuit breaker, parallel query acceleration, and ROCm/HIP backend parity are operational; multi-node coordination remains a planned hardening item.
 
 ## Components
 

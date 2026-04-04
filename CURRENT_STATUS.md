@@ -100,13 +100,13 @@ Status: **Production-ready for Phase 4 scope** ✅
 ### Code Metrics
 
 **Implementation (all phases through Phase 3):**
-- Files: 800+ source files across 46 modules
+- Files: 800+ source files across 50 modules
 - Production code: 500K+ lines of code
 - Tests: 4,000+ test cases across all modules
 - Tests passing: 100% on CI
 
 **Documentation:**
-- Module documentation: 153 files across 46 modules
+- Module documentation: 150+ files across 50 modules
 - Total documentation: 300+ files including `docs/` guides
 - Coverage: Complete for all production-ready modules
 
@@ -329,18 +329,18 @@ Status: **Production-ready for Phase 4 scope** ✅
 
 ### Key Documents
 
-1. `roadmap.md` - Complete aggregated roadmap (all 46 modules, v1.8.0 current)
+1. `roadmap.md` - Complete aggregated roadmap (all 50 modules, v1.8.0 current)
 2. `CHANGELOG.md` - Root-level changelog
 3. `DEVELOPMENT_STATUS.md` - Development phase history
 4. `CURRENT_STATUS.md` - This document
 5. `docs/de/releases/` - Release notes per version (v1.5.0, v1.7.0, v1.8.0)
-6. `src/<module>/CHANGELOG.md` - Per-module version history (46 modules)
+6. `src/<module>/CHANGELOG.md` - Per-module version history (50 modules)
 7. `src/<module>/ROADMAP.md` - Per-module future work
 
 ### Documentation Stats
 
 - Root documentation files: 20+
-- Module documentation: 153 files (46 modules × README + ROADMAP + CHANGELOG)
+- Module documentation: 150+ files (50 modules × README + ROADMAP + CHANGELOG, plus module-specific extras)
 - Total docs/ directory: 300+ files
 - Language coverage: EN, DE, FR, ES, JA
 

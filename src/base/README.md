@@ -24,7 +24,7 @@ Provides foundational module loading infrastructure for ThemisDB plugins and ext
 
 ## Current Delivery Status
 
-**Maturity:** 🟢 Production-Ready — Core module loading, signature verification, WASM isolation, hot-reload, OS-level sandboxing, remote registry client, plugin dependency graph, A/B testing, and per-plugin audit trail are complete. Ordered dependency loading with version conflict resolution is in progress (Issue: #1566).
+**Maturity:** 🟢 Production-Ready — Core module loading, signature verification, WASM isolation, hot-reload, OS-level sandboxing, remote registry client, plugin dependency graph, A/B testing, and per-plugin audit trail are complete. Ordered dependency loading with version conflict resolution remains a planned enhancement (Issue: #1566).
 
 ## Components
 

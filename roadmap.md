@@ -3,8 +3,8 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 **Version:** 2.0  
-**Last Updated:** 2026-03-24  
-**Scope:** Aggregated roadmap across all 46 modules in `src/`
+**Last Updated:** 2026-04-04  
+**Scope:** Aggregated roadmap across all 50 modules in `src/`
 
 > For module-specific details see each module's `src/<module>/ROADMAP.md`.
 
@@ -12,7 +12,7 @@
 
 ## Overview
 
-ThemisDB is a high-performance multi-model database with native AI/LLM integration. This top-level roadmap aggregates the status and planned work across all 46 source modules. The project follows a phased approach: stabilise core infrastructure first, then harden distributed and AI layers, and finally deliver operational excellence at hyperscale.
+ThemisDB is a high-performance multi-model database with native AI/LLM integration. This top-level roadmap aggregates the status and planned work across all 50 source modules. The project follows a phased approach: stabilise core infrastructure first, then harden distributed and AI layers, and finally deliver operational excellence at hyperscale.
 
 **Overall Timeline:** Q1 2026 – Q4 2027  
 **Current Release:** v1.8.1-rc1
@@ -23,22 +23,23 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 
 | Module | Status | Individual Roadmap |
 |--------|--------|--------------------|
-| **acceleration** | 🚧 Pre-production hardening | [src/acceleration/ROADMAP.md](src/acceleration/ROADMAP.md) |
+| **acceleration** | ✅ Production-ready hardening complete; CUDA/Vulkan/HIP/OpenGL surfaces implemented (graph traversal CUDA path remains listed as limitation) | [src/acceleration/ROADMAP.md](src/acceleration/ROADMAP.md) |
 | **analytics** | ✅ Production-ready | [src/analytics/ROADMAP.md](src/analytics/ROADMAP.md) |
-| **api** | ✅ Production-ready — REST/gRPC/WebSocket/OpenAPI 3.x complete; GraphQL v1.x limitations version-gated | [src/api/ROADMAP.md](src/api/ROADMAP.md) |
+| **api** | ✅ Production-ready — REST/gRPC/WebSocket/GraphQL, versioned routing, and OpenAPI completeness operational | [src/api/ROADMAP.md](src/api/ROADMAP.md) |
 | **aql** | ✅ Production-ready | [src/aql/ROADMAP.md](src/aql/ROADMAP.md) |
 | **auth** | ✅ Production-ready | [src/auth/ROADMAP.md](src/auth/ROADMAP.md) |
 | **base** | ✅ Production-ready | [src/base/ROADMAP.md](src/base/ROADMAP.md) |
 | **cache** | ✅ Production-ready | [src/cache/ROADMAP.md](src/cache/ROADMAP.md) |
 | **cdc** | ✅ Production-ready | [src/cdc/ROADMAP.md](src/cdc/ROADMAP.md) |
-| **chimera** | 🔴 Alpha — ThemisDB adapter functional; vendor adapters planned | [src/chimera/ROADMAP.md](src/chimera/ROADMAP.md) |
+| **chimera** | 🟡 Beta — Vendor adapters complete in simulation mode; production driver integration pending | [src/chimera/ROADMAP.md](src/chimera/ROADMAP.md) |
 | **config** | ✅ Production-ready | [src/config/ROADMAP.md](src/config/ROADMAP.md) |
 | **content** | ✅ Production-ready — 13 format processors with >80% coverage; benchmark thresholds met; security hardening (zip-bomb, path, upload) verified | [src/content/ROADMAP.md](src/content/ROADMAP.md) |
 | **core** | ✅ Production-ready — ConcernsContext DI, pluggable adapters, tracing/metrics/cache/secrets/feature-flags operational | [src/core/ROADMAP.md](src/core/ROADMAP.md) |
+| **ethics_ai** | 🔴 Alpha (v0.0.1) — Core plugin skeleton operational; production LLM-backed argument generation planned | [src/ethics_ai/ROADMAP.md](src/ethics_ai/ROADMAP.md) |
 | **exporters** | ✅ Production-ready | [src/exporters/ROADMAP.md](src/exporters/ROADMAP.md) |
 | **geo** | ✅ Production-ready — CPU spatial queries stable; GPU dispatch with documented CPU fallback; WGS-84 boundaries explicitly documented | [src/geo/ROADMAP.md](src/geo/ROADMAP.md) |
 | **governance** | ✅ Production-ready — Policy engine incl. GDPR/HIPAA/CCPA/PCI/SOC2, OPA integration, model governance operational | [src/governance/ROADMAP.md](src/governance/ROADMAP.md) |
-| **gpu** | ✅ Production-ready — Device management, P2P transfer, NVLink topology-aware scheduling complete; hardware capability benchmarks verified | [src/gpu/ROADMAP.md](src/gpu/ROADMAP.md) |
+| **gpu** | 🟡 Beta — Device management, ROCm/HIP parity, query acceleration, P2P transfer, and topology-aware scheduling implemented; module roadmap remains in beta hardening | [src/gpu/ROADMAP.md](src/gpu/ROADMAP.md) |
 | **graph** | ✅ Production-ready — Cost-based optimiser, constrained path finding, distributed execution, EXPLAIN endpoint operational; GPU traversal kernels pending for full CUDA path | [src/graph/ROADMAP.md](src/graph/ROADMAP.md) |
 | **importers** | ✅ Production-ready (v2.1) — Multi-source import pipeline incl. FK-preserving PostgreSQL importer and v1.x production-ready adapters | [src/importers/ROADMAP.md](src/importers/ROADMAP.md) |
 | **index** | ✅ Production-ready | [src/index/ROADMAP.md](src/index/ROADMAP.md) |
@@ -48,18 +49,20 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 | **metadata** | ✅ Production-ready | [src/metadata/ROADMAP.md](src/metadata/ROADMAP.md) |
 | **network** | ✅ Production-ready | [src/network/ROADMAP.md](src/network/ROADMAP.md) |
 | **observability** | ✅ Production-ready | [src/observability/ROADMAP.md](src/observability/ROADMAP.md) |
+| **onnx_clip** | 🔴 Alpha (v0.0.1) — `ONNXClipPlugin` API production-quality; native batched inference planned | [src/onnx_clip/ROADMAP.md](src/onnx_clip/ROADMAP.md) |
 | **performance** | ✅ Production-ready | [src/performance/ROADMAP.md](src/performance/ROADMAP.md) |
 | **plugins** | ✅ Production-ready | [src/plugins/ROADMAP.md](src/plugins/ROADMAP.md) |
-| **process** | ✅ Production-ready — BPMN/EPK/VCC-VPB import, Graph-RAG, ProcessLinker, HNSW + full-text retrieval operational; LLM embedding auto-generation documented as external dependency | [src/process/ROADMAP.md](src/process/ROADMAP.md) |
+| **process** | 🟡 Beta — Core BPMN/EPK/VCC-VPB import + ProcessLinker + Graph-RAG operational; semantic/embedding stack still hardening (last active process-readiness gate pass: 2026-04-03) | [src/process/ROADMAP.md](src/process/ROADMAP.md) |
 | **prompt_engineering** | ✅ Production-ready (v1.x) | [src/prompt_engineering/ROADMAP.md](src/prompt_engineering/ROADMAP.md) |
 | **query** | ✅ Production-ready | [src/query/ROADMAP.md](src/query/ROADMAP.md) |
 | **rag** | ✅ Production-ready | [src/rag/ROADMAP.md](src/rag/ROADMAP.md) |
 | **replication** | ✅ Production-ready | [src/replication/ROADMAP.md](src/replication/ROADMAP.md) |
+| **rpc_grpc** | 🔴 Alpha (v0.0.1) — Functional gRPC plugin/server incl. mTLS; test/health hardening still in progress | [src/rpc_grpc/ROADMAP.md](src/rpc_grpc/ROADMAP.md) |
 | **scheduler** | ✅ Production-ready (v1.5.0) | [src/scheduler/ROADMAP.md](src/scheduler/ROADMAP.md) |
 | **search** | ✅ Production-ready (v1.2.0+) | [src/search/ROADMAP.md](src/search/ROADMAP.md) |
 | **security** | ✅ Production-ready | [src/security/ROADMAP.md](src/security/ROADMAP.md) |
 | **server** | ✅ Production-ready | [src/server/ROADMAP.md](src/server/ROADMAP.md) |
-| **sharding** | ✅ Production-ready — mTLS RPC integration, WAL/consensus recovery, consistent-hash routing (>10K ops/s), chaos-engineering suite all verified | [src/sharding/ROADMAP.md](src/sharding/ROADMAP.md) |
+| **sharding** | 🚧 In active hardening — core consensus/repair paths production-ready; focused WAL/Chaos/RPC tests and durability+mTLS API checks pass, while failover orchestration and adaptive rebalancing remain in progress | [src/sharding/ROADMAP.md](src/sharding/ROADMAP.md) |
 | **storage** | ✅ Production-ready (v1.8.0) — RocksDB-based persistent storage incl. MVCC/WAL/backup-PITR/NVMe/erasure coding/2PC | [src/storage/ROADMAP.md](src/storage/ROADMAP.md) |
 | **temporal** | ✅ Production-ready (v1.2.0 C++ engine) — System-versioned + bi-temporal queries, time-travel, temporal joins, index acceleration | [src/temporal/ROADMAP.md](src/temporal/ROADMAP.md) |
 | **themis** | ✅ Production-ready — All core components migrated to `src/themis/`; Wire Protocol V2 delivered; integration tests added (v1.8.0) | [src/themis/ROADMAP.md](src/themis/ROADMAP.md) |
@@ -67,6 +70,7 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 | **training** | ✅ Production-ready (v1.x) | [src/training/ROADMAP.md](src/training/ROADMAP.md) |
 | **transaction** | ✅ Production-ready | [src/transaction/ROADMAP.md](src/transaction/ROADMAP.md) |
 | **updates** | ✅ Production-ready | [src/updates/ROADMAP.md](src/updates/ROADMAP.md) |
+| **user_storage_encrypted** | ✅ Production-ready (v0.1.0) — stdin key delivery, Argon2id KDF, key rotation persistence implemented and tested | [src/user_storage_encrypted/ROADMAP.md](src/user_storage_encrypted/ROADMAP.md) |
 | **utils** | ✅ Production-ready | [src/utils/ROADMAP.md](src/utils/ROADMAP.md) |
 | **voice** | ✅ Production-ready | [src/voice/ROADMAP.md](src/voice/ROADMAP.md) |
 
@@ -186,8 +190,8 @@ cross-backend consistency, error handling, and resource management.
 - [I] Runtime device detection and capability negotiation (Issue: #1374) (Target: Q2 2026)
 
 #### 1.2 API — OpenAPI & gRPC Surface
-- [I] OpenAPI 3.x spec completeness for all endpoints (Issue: #1491) (Target: Q2 2026)
-- [I] Versioned endpoint routing `/v1/`, `/v2/` with deprecation headers (Issue: #1506) (Target: Q3 2026)
+- [x] OpenAPI 3.x spec completeness for all endpoints (Issue: #1491) (Target: Q2 2026)
+- [x] Versioned endpoint routing `/v1/`, `/v2/` with deprecation headers (Issue: #1506) (Target: Q3 2026)
 - [x] SDK generation from OpenAPI spec (Python, JavaScript, Go) (Issue: #1507) (Target: Q3 2026)
 
 #### 1.3 CDC — WebSocket & Streaming Transport
@@ -200,9 +204,9 @@ cross-backend consistency, error handling, and resource management.
 - [x] Weaviate adapter (Target: Q4 2026)
 
 #### 1.5 Content — Binary Format Support
-- [I] PDF text extraction (Target: Q2 2026)
-- [I] OCR integration for image-embedded text (Target: Q3 2026)
-- [I] Audio transcription pipeline (Target: Q3 2026)
+- [x] PDF text extraction (Target: Q2 2026)
+- [x] OCR integration for image-embedded text (Target: Q3 2026)
+- [x] Audio transcription pipeline (Target: Q3 2026)
 
 #### 1.6 Core — Production DI Hardening
 - [I] Full OpenTelemetry adapter coverage (Target: Q2 2026)
@@ -216,7 +220,7 @@ cross-backend consistency, error handling, and resource management.
 #### 1.8 Ingestion — Distributed & Cloud Sources
 - [x] Kafka consumer source connector (Issue: #1892) (Target: Q3 2026)
 - [I] S3/GCS/Azure Blob object-storage source (Issue: #1893) (Target: Q3 2026)
-- [!] OAuth 2.0 token refresh within connectors (Issue: #2408) (Target: Q3 2026)
+- [x] OAuth 2.0 token refresh within connectors (Issue: #2408) (Target: Q3 2026)
 
 #### 1.9 Sharding — Observability & Repair
 - [x] Advanced metrics and distributed tracing (`sharding/operational_metrics.cpp`, `observability/distributed_flame_graph.cpp`, `observability/ebpf_tracer.cpp`)
@@ -295,7 +299,7 @@ Focus: Hyperscale distributed operations, multi-region support, and advanced con
 Focus: Enterprise-grade monitoring, alerting, and automated operations.
 
 #### 4.1 Observability — Extended Tracing
-- [I] End-to-end distributed trace correlation across all 46 modules (Target: Q4 2026)
+- [I] End-to-end distributed trace correlation across all 50 modules (Target: Q4 2026)
 - [I] Anomaly-driven alerting with root cause analysis hints (Target: Q4 2026)
 - [I] Continuous profiling integration (eBPF / perf) (Target: Q4 2026)
 
@@ -385,7 +389,7 @@ Focus: Developer experience, official SDKs, and community ecosystem.
 
 #### 6.2 Documentation
 - [I] Interactive API reference (Swagger UI / Redoc) (Target: Q2 2027)
-- [I] Module-level architecture decision records (ADRs) for all 46 modules (Target: Q3 2027)
+- [I] Module-level architecture decision records (ADRs) for all 50 modules (Target: Q3 2027)
 - [I] End-to-end tutorial series (20+ guides) (Target: Q3 2027)
 
 #### 6.3 Plugin Ecosystem
@@ -403,7 +407,7 @@ Focus: Developer experience, official SDKs, and community ecosystem.
 
 ## Production Readiness Checklist
 
-### Per-Module Requirements (applied to all 46 modules)
+### Per-Module Requirements (applied to all 50 modules)
 - [x] Module has `README.md`, `ARCHITECTURE.md`, `ROADMAP.md`, `FUTURE_ENHANCEMENTS.md`
 - [x] Current Status section with maturity indicator (Alpha / Beta / Production-ready)
 - [x] Unit test coverage target defined
@@ -414,7 +418,7 @@ Focus: Developer experience, official SDKs, and community ecosystem.
 - [x] Prometheus metrics exported where applicable
 
 ### System-Wide Requirements
-- [x] All 46 modules integrated into the CMake build system
+- [x] All 50 modules integrated into the CMake build system
 - [x] Edition matrix (MINIMAL / COMMUNITY / ENTERPRISE / HYPERSCALER) enforced at build time
 - [x] Docker image builds for all supported editions
 - [x] CI pipeline covers core module matrix
@@ -431,14 +435,14 @@ Focus: Developer experience, official SDKs, and community ecosystem.
 | # | Module(s) | Description | Status |
 |---|-----------|-------------|--------|
 | 1 | acceleration | L2 distance consistency across CUDA/HIP/Vulkan/CPU backends | ✅ Fixed |
-| 2 | acceleration | Vulkan compute shaders (distance kernels) not yet implemented | 🚧 In progress |
-| 3 | chimera | Only ThemisDB self-benchmark adapter; third-party adapters pending | 📋 Planned |
-| 4 | content | PDF extraction and OCR require optional third-party libraries | 📋 Planned |
-| 5 | ingestion | libcurl stubs not yet replaced with real perform calls in `api_connector.cpp` | 🚧 In progress |
-| 6 | ingestion | OAuth 2.0 token refresh within connectors unclear (Issue: #2408) | ❓ Unclear |
-| 7 | sharding | Advanced distributed observability metrics incomplete | 🚧 In progress |
-| 8 | storage | Production hardening (backup integration tests) in progress | 🚧 In progress |
-| 9 | themis | Core module code still in `src/utils/` and `src/base/`; migration to `src/themis/` planned for v1.7.0 | 📋 Planned |
+| 2 | acceleration | Vulkan compute shaders (distance kernels) implemented; remaining limitation is end-to-end CUDA graph traversal path | ✅ Fixed |
+| 3 | chimera | Vendor adapters implemented in simulation mode; production driver integration pending | 🚧 In progress |
+| 4 | content | PDF/OCR pipelines are implemented; runtime support depends on optional third-party libraries in deployment images | ⚠️ Known limitation |
+| 5 | ingestion | Legacy note resolved: `api_connector.cpp` uses real `curl_easy_perform` HTTP paths | ✅ Fixed |
+| 6 | ingestion | OAuth 2.0 token refresh in connectors implemented (`api_connector.cpp`, `huggingface_connector.cpp`) | ✅ Fixed |
+| 7 | sharding | Advanced distributed observability metrics complete; focused WAL/Chaos/RPC tests pass and durability+mTLS API checks are green, but automatic failover/rebalancing remain open and benchmark JSON parsing is still brittle due to mixed runtime log lines | 🚧 In progress |
+| 8 | storage | Production hardening items completed (latency benchmarks + backup/PITR integration tests) | ✅ Fixed |
+| 9 | themis | Migration completed: module initialisation code now under `src/themis/` | ✅ Fixed |
 | 10 | config | Legacy config migration tooling not yet implemented | 📋 Planned |
 | 11 | training | Multi-GPU distributed training coordination not implemented | 📋 Planned |
 | 12 | prompt_engineering | Token counting / context-window budget enforcement not implemented | 📋 Planned |
@@ -455,6 +459,19 @@ Focus: Developer experience, official SDKs, and community ecosystem.
 | v1.7.0 | themis | Module initialisation code migrated from `src/utils/` and `src/base/` to `src/themis/` |
 | v2.0.0 | acceleration | GPU kernel API will stabilise; pre-v2 interfaces should be treated as unstable |
 | v2.0.0 | api | `/v1/` versioned endpoints become the stable surface; unversioned endpoints deprecated |
+
+---
+
+## Sync Delta (2026-04-04)
+
+This section captures documentation-only synchronisation updates from source and local readiness evidence.
+
+- API: OpenAPI 3.x completeness moved from open to done in top-level and module roadmap.
+- Content: PDF extraction, OCR, and audio-transcription roadmap items moved to done; optional runtime dependencies remain documented as limitation.
+- Sharding: top-level status refined with latest focused test/API-check evidence; known benchmark JSON parsing fragility documented.
+- Process: kept in Beta; wording aligned with process-readiness evidence and remaining embedding/index hardening scope.
+- GPU: top-level module status corrected to Beta to match module roadmap hardening state.
+- Source overview matrix (`src/README.md`): corrected aggregate counts to 43 Production / 4 Beta / 3 Alpha.
 
 ---
 

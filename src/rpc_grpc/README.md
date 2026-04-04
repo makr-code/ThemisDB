@@ -4,7 +4,7 @@
 # ThemisDB gRPC RPC Plugin
 
 **Version:** 0.0.1  
-**Status:** 🟢 Production-Ready  
+**Status:** 🔴 Alpha (v0.0.1)  
 **Last Updated:** 2026-03-22  
 **Module Path:** `src/rpc_grpc/`  
 **Namespace:** `themis::plugins::rpc::grpc_plugin`  

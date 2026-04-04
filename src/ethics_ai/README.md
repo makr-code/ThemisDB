@@ -4,7 +4,7 @@
 # ThemisDB Ethics AI Module
 
 **Version:** 0.0.1  
-**Status:** 🟢 Production-Ready  
+**Status:** 🔴 Alpha (v0.0.1)  
 **Last Updated:** 2026-03-22  
 **Module Path:** `src/ethics_ai/`  
 **Namespace:** `themis::plugins::ethics`

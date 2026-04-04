@@ -3,7 +3,7 @@
 <!-- Status: current | validated: 2026-03-22 -->
 
 ## Current Status
-Core HTTP API server implemented with RESTful endpoints, AQL query execution, authentication, and TLS support. GraphQL WebSocket handler (`graphql-transport-ws` protocol) added with subscription management and `QueryLimits::max_subscriptions` enforcement. Versioned API routing (`/v1/`, `/v2/`), gRPC surface with all RPC stubs wired (`ThemisDBGrpcServiceFactory`), OTLP tracing, geo-index hooks, and rate limiting are all production-ready. Phase 4 complete. Outstanding: OpenAPI 3.x completeness.
+Core HTTP API server implemented with RESTful endpoints, AQL query execution, authentication, and TLS support. GraphQL WebSocket handler (`graphql-transport-ws` protocol) added with subscription management and `QueryLimits::max_subscriptions` enforcement. Versioned API routing (`/v1/`, `/v2/`), gRPC surface with all RPC stubs wired (`ThemisDBGrpcServiceFactory`), OTLP tracing, geo-index hooks, rate limiting, and OpenAPI 3.x completeness are production-ready. Phase 4 complete.
 
 ## Completed ✅
 - [x] HTTP server integration (Crow/Beast)
@@ -35,7 +35,7 @@ Core HTTP API server implemented with RESTful endpoints, AQL query execution, au
 - [x] `GrpcApiServer::stop()` 30-second `Shutdown()` deadline — v1.9.0
 
 ## In Progress 🚧
-- [I] OpenAPI 3.x specification completeness (Target: Q2 2026) (Issue: #1491)
+- [I] API key management endpoint (Issue: #1502)
 
 ## Planned Features 📋
 
@@ -55,7 +55,7 @@ Core HTTP API server implemented with RESTful endpoints, AQL query execution, au
 ### Phase 2: GraphQL, WebSocket, and API Hardening (Status: Completed)
 - [x] Implement GraphQL schema and resolver for multi-model queries (`api/graphql.cpp` + `server/graphql_api_handler.cpp`) (Issue: #1515)
 - [x] Implement WebSocket upgrade handler for real-time change subscriptions (`api/ws_handler.cpp`) (Issue: #1516)
-- [I] Complete OpenAPI 3.x spec for all existing endpoints (Issue: #1517)
+- [x] Complete OpenAPI 3.x spec for all existing endpoints (Issue: #1517)
 - [x] Add rate limiting middleware with configurable per-client token bucket (Issue: #1518)
 - [x] Add request correlation IDs propagated through all log lines — `TracingMiddleware` in `tracing_middleware.cpp` (Issue: #1519)
 - [x] Implement GraphQL over WebSocket subscription handler (`api/graphql_ws_handler.cpp`) with `graphql-transport-ws` protocol and `QueryLimits::max_subscriptions` enforcement
@@ -72,7 +72,7 @@ Core HTTP API server implemented with RESTful endpoints, AQL query execution, au
 - [x] Wire gRPC RPC stubs: `ExecuteAQL`, `StreamAQL`, `VectorSearch`, `FilteredVectorSearch`, `HybridSearch`, `FullTextSearch` via `ThemisDBGrpcServiceFactory` injection — v1.9.0
 - [x] Fix `GrpcApiServer::start()` holding `mutex_` across `BuildAndStart()` blocking socket bind — v1.9.0
 - [x] Fix `GrpcApiServer::stop()` indefinite block — 30-second `Shutdown()` deadline added — v1.9.0
-- [I] Complete OpenAPI 3.x specification for all existing endpoints (Issue: #1491)
+- [x] Complete OpenAPI 3.x specification for all existing endpoints (Issue: #1491)
 
 ## Production Readiness Checklist
 - [P] Unit tests coverage > 80% (Issue: #1509)
@@ -83,10 +83,7 @@ Core HTTP API server implemented with RESTful endpoints, AQL query execution, au
 - [I] API stability guaranteed (Issue: #1514)
 
 ## Known Issues & Limitations
-- OpenAPI specification may be incomplete for newer endpoints
-- gRPC RPC handlers (`ExecuteAQL`, `StreamAQL`, `VectorSearch`, `FilteredVectorSearch`, `HybridSearch`, `FullTextSearch`) currently return `UNIMPLEMENTED`; engine injection via `ThemisDBGrpcServiceFactory` is pending
-- `GrpcApiServer::start()` holds `mutex_` across `builder.BuildAndStart()` — can block `stop()`/`isRunning()` callers during a slow port bind
-- `GrpcApiServer::stop()` calls `server_->Shutdown()` without a deadline — can block indefinitely if in-flight RPCs do not terminate
+- OpenAPI completeness is tracked via readiness gate (`openapi-completeness.json`), but newly added endpoints still require CI guardrails to avoid future drift
 - GraphQL `Parser` explicitly rejects fragments, directives, and inline fragments in v1.x with version-gated error messages (`graphql.cpp`); support planned for v2.0
 - `WsChangeHandler::validate()` does not URL-decode query-string parameters (`from_sequence`, `key_prefix`), so percent-encoded values are silently misinterpreted
 

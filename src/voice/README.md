@@ -21,7 +21,7 @@ Implements a voice query interface for ThemisDB, enabling speech-to-text transcr
 
 ## Current Delivery Status
 
-**Maturity:** 🔴 Alpha — Voice query infrastructure scaffolding; Whisper integration and NL-to-AQL pipeline experimental.
+**Maturity:** 🟢 Production-Ready — Voice assistant orchestration, Whisper STT, LLM integration, session handling, and voice processing pipelines are operational.
 
 ## Architecture Overview
 

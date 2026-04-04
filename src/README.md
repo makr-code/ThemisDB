@@ -44,13 +44,13 @@ For detailed architecture documentation, see:
 
 ## Overall System Status
 
-ThemisDB has **44 Production-grade modules**, **1 Release-Candidate module**, and **1 Beta module** across its source tree. The entire core data path and all AI/LLM layers are production-ready.
+ThemisDB has **43 Production-grade modules**, **4 Beta modules**, and **3 Alpha modules** across its source tree. Core data paths are production-ready while selected emerging modules are still hardening.
 
 | Tier              | Count | Modules                                                                      |
 |-------------------|-------|------------------------------------------------------------------------------|
-| Production        | 44    | 44 of 46 modules — all except `security` and `sharding`                     |
-| Release-Candidate | 1     | `security`                                                                   |
-| Beta              | 1     | `sharding`                                                                   |
+| Production        | 43    | 43 of 50 modules                                                             |
+| Beta              | 4     | `chimera`, `gpu`, `process`, `sharding`                                      |
+| Alpha             | 3     | `ethics_ai`, `onnx_clip`, `rpc_grpc`                                         |
 
 ---
 
@@ -66,14 +66,15 @@ ThemisDB has **44 Production-grade modules**, **1 Release-Candidate module**, an
 | base                | 🟢 Production        | Foundational abstractions                            |
 | cache               | 🟢 Production        | Semantic and query result caching                    |
 | cdc                 | 🟢 Production        | Change Data Capture and changefeeds                  |
-| chimera             | 🟢 Production        | Hybrid multi-model layer                             |
+| chimera             | 🟡 Beta              | Hybrid multi-model benchmark adapters (simulation complete, production driver wiring pending) |
 | config              | 🟢 Production        | Configuration management                             |
 | content             | 🟢 Production        | Content ingestion and processing pipelines           |
 | core                | 🟢 Production        | Core database runtime                                |
 | exporters           | 🟢 Production        | Data export (JSONL, LLM formats)                     |
+| ethics_ai           | 🔴 Alpha             | Ethical reasoning plugin skeleton and discourse engine |
 | geo                 | 🟢 Production        | Geospatial query processing and indexing             |
 | governance          | 🟢 Production        | Policy engine and compliance governance              |
-| gpu                 | 🟢 Production        | GPU compute integration                              |
+| gpu                 | 🟡 Beta              | GPU compute integration and backend hardening        |
 | graph               | 🟢 Production        | Property graph queries and traversal                 |
 | importers           | 🟢 Production        | Data import (PostgreSQL, etc.)                       |
 | index               | 🟢 Production        | HNSW, R-tree, adaptive indexing                      |
@@ -83,6 +84,7 @@ ThemisDB has **44 Production-grade modules**, **1 Release-Candidate module**, an
 | metadata            | 🟢 Production        | Metadata management and catalog                      |
 | network             | 🟢 Production        | Network layer and peer communication                 |
 | observability       | 🟢 Production        | Metrics, tracing, and logging infrastructure         |
+| onnx_clip           | 🔴 Alpha             | ONNX CLIP image-analysis backend plugin              |
 | performance         | 🟢 Production        | Benchmarking and performance optimization            |
 | plugins             | 🟢 Production        | Plugin system infrastructure                         |
 | process             | 🟡 Beta              | BPMN/EPK/VCC-VPB process modeling, Graph-RAG         |
@@ -90,9 +92,10 @@ ThemisDB has **44 Production-grade modules**, **1 Release-Candidate module**, an
 | query               | 🟢 Production        | AQL optimizer, cost-based planner, execution engine  |
 | rag                 | 🟢 Production        | Retrieval-Augmented Generation pipeline              |
 | replication         | 🟢 Production        | Raft-based replication                               |
+| rpc_grpc            | 🔴 Alpha             | Pluggable gRPC RPC server module (mTLS-capable)      |
 | scheduler           | 🟢 Production        | Task and job scheduling                              |
 | search              | 🟢 Production        | Full-text and hybrid search                          |
-| security            | 🟡 Release-Candidate | Encryption, key management, PKI integration          |
+| security            | 🟢 Production        | Encryption, key management, PKI integration          |
 | server              | 🟢 Production        | Main server components and API handlers              |
 | sharding            | 🟡 Beta              | Horizontal scaling and sharding                      |
 | storage             | 🟢 Production        | RocksDB wrapper, MVCC, backup/recovery               |
@@ -102,6 +105,7 @@ ThemisDB has **44 Production-grade modules**, **1 Release-Candidate module**, an
 | training            | 🟢 Production        | ML model training integration                        |
 | transaction         | 🟢 Production        | SAGA pattern and distributed transactions            |
 | updates             | 🟢 Production        | Schema and data update management                    |
+| user_storage_encrypted | 🟢 Production     | Encrypted user storage backend (gocryptfs + key rotation) |
 | utils               | 🟢 Production        | Shared utility functions and helpers                 |
 | voice               | 🟢 Production        | Voice query interface                                |
 
@@ -114,7 +118,6 @@ ThemisDB has **44 Production-grade modules**, **1 Release-Candidate module**, an
 | Level                  | Meaning                                                                                   |
 |------------------------|-------------------------------------------------------------------------------------------|
 | 🟢 Production          | Feature-complete, thoroughly tested, used in production deployments. API is stable.       |
-| 🟡 Release-Candidate   | Near production-ready. All major features complete; minor hardening or edge-case work remaining. |
 | 🟡 Beta                | Core functionality works and is tested. May have rough edges; API may change in minors.   |
 | 🔴 Alpha               | Under active development. Functionality may be incomplete. Not recommended for production.|
 

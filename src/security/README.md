@@ -21,7 +21,7 @@ Provides encryption, key management, and PKI integration for ThemisDB, implement
 
 ## Current Delivery Status
 
-**Maturity:** 🟡 Beta — AES-256-GCM encryption and TLS operational; HSM integration and automated key rotation in progress.
+**Maturity:** 🟢 Production-Ready — Defense-in-depth security stack (TLS/mTLS, encryption, RBAC/ABAC, HSM integration, audit/compliance) is operational.
 
 ## Architecture Overview
 

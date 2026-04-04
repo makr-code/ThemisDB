@@ -64,7 +64,7 @@ ThemisDB is a **multi-model database** (scientific research) that combines relat
 
 ## 📚 Module Documentation
 
-ThemisDB has **comprehensive documentation for all 46 modules** (153 files total) with production-ready standards:
+ThemisDB has **comprehensive documentation for all 50 modules** with production-ready standards:
 
 <details>
 <summary><b>🏗️ Foundation Layer</b> (7 modules)</summary>

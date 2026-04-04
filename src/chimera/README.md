@@ -844,7 +844,7 @@ target_link_libraries(themisdb_chimera
 
 ## Status
 
-**Current Status:** Alpha — All adapter implementations complete in simulation mode (no live server required)
+**Current Status:** Beta — All adapter implementations complete in simulation mode (no live server required)
 
 ✅ **Complete:**
 - Factory pattern implementation with auto-registration (static init)
@@ -898,7 +898,7 @@ See [CONTRIBUTING.md](../../CONTRIBUTING.md) for guidelines.
 
 *Last Updated: March 2026*  
 *Module Version: v1.1.0 (All Adapters Implemented)*  
-*Status: Alpha — Simulation Mode; Production Driver Integration Pending*
+*Status: Beta — Simulation Mode; Production Driver Integration Pending*
 
 ## Scientific References
 

@@ -3,8 +3,8 @@
 
 # ThemisDB User Encrypted Storage Plugin
 
-**Version:** 0.0.1  
-**Status:** 🟡 Release-Candidate (`gocryptfs_backend.cpp` needs hardening)  
+**Version:** 0.1.0  
+**Status:** 🟢 Production-Ready (v0.1.0; stale mount reconciliation remains as hardening item)  
 **Last Updated:** 2026-03-22  
 **Module Path:** `src/user_storage_encrypted/`  
 **Namespace:** `themis::plugins::user_storage`
