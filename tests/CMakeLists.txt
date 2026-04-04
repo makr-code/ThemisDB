@@ -9930,9 +9930,13 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_config_file_watcher.cpp")
         ${THEMIS_YAML_TARGET}
         OpenSSL::SSL
         OpenSSL::Crypto
-        prometheus-cpp::core
-        prometheus-cpp::pull
     )
+    if(TARGET prometheus-cpp::core)
+        target_link_libraries(test_config_file_watcher_focused PRIVATE prometheus-cpp::core)
+    endif()
+    if(TARGET prometheus-cpp::pull)
+        target_link_libraries(test_config_file_watcher_focused PRIVATE prometheus-cpp::pull)
+    endif()
 
     target_compile_definitions(test_config_file_watcher_focused PRIVATE
         THEMIS_TEST_BUILD=1
