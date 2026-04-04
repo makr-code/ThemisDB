@@ -207,8 +207,10 @@ public:
         
         // KV-Cache Reuse (Prefix Caching)
         LLMPrefixCache::Config prefix_cache_config;
-        // Response cache (optional)
-        bool enable_response_cache = true;
+        // Response cache (optional) — disabled by default to avoid
+        // unconditional RocksDB initialisation during startup.
+        // Enable explicitly when a persistent response cache is desired.
+        bool enable_response_cache = false;
         LLMResponseCache::Config response_cache_config;
         
         // Grammar-Constrained Generation (Phase 3.2)

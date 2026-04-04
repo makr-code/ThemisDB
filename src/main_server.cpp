@@ -327,16 +327,17 @@ int main(int argc, char* argv[]) {
     auto print_usage = [](const char* prog) {
         std::cout << "Usage: " << prog << " [options]\n"
                   << "Options:\n"
-                  << "  --db PATH         Database path (default: ./data/themis_server)\n"
-                  << "  --host HOST       Server host (default: 0.0.0.0)\n"
-                  << "  --port PORT       Server port (default: 8765)\n"
-                  << "  --threads N       Number of worker threads (default: auto)\n"
-                  << "  --config FILE     Load server/storage config from JSON or YAML file\n"
-                  << "  --allow-stub-hsm  Allow insecure stub HSM provider (development only)\n"
-                  << "  --version, -v     Show version information and exit\n"
-                  << "  --build-info      Show build configuration details and exit\n"
-                  << "  --license-info    Show embedded license information and exit\n"
-                  << "  --help, -h        Show this help message\n";
+                  << "  --db PATH            Database path (default: ./data/themis_server)\n"
+                  << "  --data-dir PATH      Alias for --db (Docker-friendly)\n"
+                  << "  --host HOST          Server host (default: 0.0.0.0)\n"
+                  << "  --port PORT          Server port (default: 8765)\n"
+                  << "  --threads N          Number of worker threads (default: auto)\n"
+                  << "  --config FILE        Load server/storage config from JSON or YAML file\n"
+                  << "  --allow-stub-hsm     Allow insecure stub HSM provider (development only)\n"
+                  << "  --version, -v        Show version information and exit\n"
+                  << "  --build-info         Show build configuration details and exit\n"
+                  << "  --license-info       Show embedded license information and exit\n"
+                  << "  --help, -h           Show this help message\n";
     };
 
     bool show_build_info = false;
@@ -562,8 +563,16 @@ int main(int argc, char* argv[]) {
         std::optional<std::string> config_path;
         for (int i = 1; i < argc; ++i) {
             std::string arg = argv[i];
+            constexpr std::string_view kDataDirPrefix = "--data-dir=";
+            constexpr std::string_view kConfigPrefix  = "--config=";
             if (arg == "--db" && i + 1 < argc) {
                 db_path = argv[++i];
+            } else if (arg == "--data-dir" && i + 1 < argc) {
+                // --data-dir is an alias for --db (Docker-friendly name)
+                db_path = argv[++i];
+            } else if (arg.rfind(kDataDirPrefix, 0) == 0) {
+                // Support --data-dir=/path format (equals-separated)
+                db_path = arg.substr(kDataDirPrefix.size());
             } else if (arg == "--host" && i + 1 < argc) {
                 host = argv[++i];
             } else if (arg == "--port" && i + 1 < argc) {
@@ -572,18 +581,22 @@ int main(int argc, char* argv[]) {
                 num_threads = std::stoul(argv[++i]);
             } else if (arg == "--config" && i + 1 < argc) {
                 config_path = argv[++i];
+            } else if (arg.rfind(kConfigPrefix, 0) == 0) {
+                // Support --config=/path format (equals-separated)
+                config_path = arg.substr(kConfigPrefix.size());
             } else if (arg == "--help" || arg == "-h") {
                 std::cout << "Usage: " << argv[0] << " [options]\n"
                           << "Options:\n"
-                          << "  --db PATH       Database path (default: ./data/themis_server)\n"
-                          << "  --host HOST     Server host (default: 0.0.0.0)\n"
-                          << "  --port PORT     Server port (default: 8765)\n"
-                          << "  --threads N     Number of worker threads (default: auto)\n"
-                          << "  --config FILE   Load server/storage config from JSON or YAML file\n"
-                          << "  --version, -v   Show version information and exit\n"
-                          << "  --build-info    Show build configuration details and exit\n"
-                          << "  --license-info  Show embedded license information and exit\n"
-                          << "  --help, -h      Show this help message\n";
+                          << "  --db PATH            Database path (default: ./data/themis_server)\n"
+                          << "  --data-dir PATH      Alias for --db (Docker-friendly)\n"
+                          << "  --host HOST          Server host (default: 0.0.0.0)\n"
+                          << "  --port PORT          Server port (default: 8765)\n"
+                          << "  --threads N          Number of worker threads (default: auto)\n"
+                          << "  --config FILE        Load server/storage config from JSON or YAML file\n"
+                          << "  --version, -v        Show version information and exit\n"
+                          << "  --build-info         Show build configuration details and exit\n"
+                          << "  --license-info       Show embedded license information and exit\n"
+                          << "  --help, -h           Show this help message\n";
                 return 0;
             }
         }

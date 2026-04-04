@@ -316,7 +316,14 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
         libssl3t64 \
         zlib1g \
         libstdc++6 \
+        # OpenMP runtime required by RocksDB parallel compression and LLM libs
         libgomp1 \
+        # NUMA support for multi-socket performance (required by some RocksDB builds)
+        libnuma1 \
+        # liblzma for XZ compression support
+        liblz4-1 \
+        libzstd1 \
+        libsnappy1v5 \
         curl \
         gocryptfs \
         fuse \
@@ -339,22 +346,30 @@ RUN --mount=type=bind,from=deps,source=/build/vcpkg_installed,target=/deps_vcpkg
 # Update library cache
 RUN ldconfig
 
-# Create data directory and non-root user
-RUN mkdir -p /data && \
+# Create required directories:
+#   /data           – persistent database files (mount a volume here)
+#   /data/llm_cache – LLM response cache RocksDB (writable at runtime)
+#   /data/rocksdb   – main RocksDB storage
+#   /etc/themis     – optional config file location
+# Non-root user "themis" owns all runtime paths.
+RUN mkdir -p /data/rocksdb /data/llm_cache /etc/themis && \
     useradd -r -u 1000 -d /opt/themis -s /bin/false themis && \
-    chown -R themis:themis /opt/themis /data
+    chown -R themis:themis /opt/themis /data /etc/themis
 
 USER themis
 
 # Expose default port
-EXPOSE 8080
+EXPOSE 8765
 
-# Health check
-HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
-    CMD curl -f http://localhost:8080/health || exit 1
+# Health check — polls the /health HTTP endpoint exposed by the server
+# (GET /health returns 200 when the server is ready to accept queries)
+HEALTHCHECK --interval=30s --timeout=5s --start-period=30s --retries=5 \
+    CMD curl -f http://localhost:8765/health || exit 1
 
 ENTRYPOINT ["/opt/themis/bin/themis_server"]
-CMD ["--config=/etc/themis/config.yml", "--data-dir=/data"]
+# Default: use /data as working dir so relative paths resolve correctly.
+# The --config flag is optional; server starts without a config file.
+CMD ["--data-dir=/data"]
 
 # ============================================================================
 # Stage 6: debug - Development/debugging image
@@ -373,7 +388,8 @@ WORKDIR /opt/themis
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked \
     apt-get update && apt-get install -y --no-install-recommends \
-        ca-certificates libssl3t64 zlib1g libstdc++6 curl \
+        ca-certificates libssl3t64 zlib1g libstdc++6 libgomp1 \
+        libnuma1 liblz4-1 libzstd1 libsnappy1v5 curl \
         gdb valgrind strace ltrace lsof htop vim less \
         netcat-openbsd telnet iproute2 dnsutils && \
     apt-get clean && \
@@ -391,10 +407,10 @@ RUN --mount=type=bind,from=deps,source=/build/vcpkg_installed,target=/deps_vcpkg
 COPY --from=build /src /src
 
 RUN ldconfig && \
-    mkdir -p /data && \
-    chown -R root:root /opt/themis /data
+    mkdir -p /data/rocksdb /data/llm_cache /etc/themis && \
+    chown -R root:root /opt/themis /data /etc/themis
 
-EXPOSE 8080
+EXPOSE 8765
 
 ENTRYPOINT ["/opt/themis/bin/themis_server"]
-CMD ["--config=/etc/themis/config.yml", "--data-dir=/data"]
+CMD ["--data-dir=/data"]

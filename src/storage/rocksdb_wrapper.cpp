@@ -385,7 +385,7 @@ void RocksDBWrapper::configureOptions() {
         std::vector<rocksdb::DbPath> paths;
         paths.reserve(config_.db_paths.size());
         for (const auto& p : config_.db_paths) {
-            paths.emplace_back(p.path, static_cast<int64_t>(p.target_size_bytes));
+            paths.emplace_back(p.path, static_cast<uint64_t>(p.target_size_bytes));
         }
         options_->db_paths = std::move(paths);
     }

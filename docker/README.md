@@ -1,5 +1,10 @@
 # ThemisDB LoRA Framework - Docker Compose Setup
 
+> **⚠️ Hotfix notice (2026-04-04):** Tags `latest` and `1.8.1-rc1` crash at startup
+> with `Exit 139` (SIGSEGV in `rocksdb::ImmutableDBOptions::Dump`). Use the image
+> built from the current `main` branch (post-hotfix) until a new release tag is cut.
+> See [CHANGELOG.md](../CHANGELOG.md) for the full list of fixes applied.
+
 Complete Docker Compose environment for developing and testing the ThemisDB LoRA framework.
 
 ## 🚀 Quick Start (< 5 minutes)
