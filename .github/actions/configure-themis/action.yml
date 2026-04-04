@@ -61,7 +61,7 @@ inputs:
   source-dir:
     description: 'CMake source directory (cmake -S argument)'
     required: false
-    default: '.'
+    default: 'cmake'
 
 runs:
   using: 'composite'
