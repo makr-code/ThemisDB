@@ -119,6 +119,7 @@ docker manifest inspect themisdb/themisdb:latest
 ## Related Files
 
 - `DOCKER_BUILD_STRATEGY_QUICKREF.md`
+- `DOCKERHUB_README.md`
 - `Dockerfile.unified`
 - `Dockerfile.themisdb`
 - `.github/workflows/04-release_dockerhub-publish-on-release.yml`
