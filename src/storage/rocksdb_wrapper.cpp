@@ -43,6 +43,7 @@
 #include <rocksdb/advanced_options.h>
 #include <rocksdb/statistics.h>
 #include <rocksdb/utilities/checkpoint.h>
+#include <rocksdb/version.h>
 #include <filesystem>
 // THEMIS_HAS_ROCKSDB_BACKUP: set to 1 when backup_engine.h is available.
 // Ubuntu 22.04 librocksdb-dev 6.11.4-3 does NOT ship this header; newer
@@ -52,6 +53,25 @@
 #  define THEMIS_HAS_ROCKSDB_BACKUP 1
 #else
 #  define THEMIS_HAS_ROCKSDB_BACKUP 0
+#endif
+
+// Feature guards for older distro RocksDB packages.
+#if defined(ROCKSDB_MAJOR) && ((ROCKSDB_MAJOR > 6) || (ROCKSDB_MAJOR == 6 && ROCKSDB_MINOR >= 27))
+#  define THEMIS_HAS_ROCKSDB_XXH3 1
+#else
+#  define THEMIS_HAS_ROCKSDB_XXH3 0
+#endif
+
+#if defined(ROCKSDB_MAJOR) && ((ROCKSDB_MAJOR > 6) || (ROCKSDB_MAJOR == 6 && ROCKSDB_MINOR >= 22))
+#  define THEMIS_HAS_ROCKSDB_BLOBDB 1
+#else
+#  define THEMIS_HAS_ROCKSDB_BLOBDB 0
+#endif
+
+#if defined(ROCKSDB_MAJOR) && ((ROCKSDB_MAJOR > 8) || (ROCKSDB_MAJOR == 8 && ROCKSDB_MINOR >= 4))
+#  define THEMIS_HAS_ROCKSDB_ASYNC_IO 1
+#else
+#  define THEMIS_HAS_ROCKSDB_ASYNC_IO 0
 #endif
 #include <algorithm>  // For std::max, std::min
 #include <cstring>
@@ -274,7 +294,7 @@ void RocksDBWrapper::configureOptions() {
     // v1.4.1: Configure checksum algorithm for data integrity
     // XXH3 is 3x faster than CRC32 with similar collision resistance
     // Based on research: Bonwick et al. (2010) "End-to-end Data Integrity"
-    if (config_.checksum_type == Config::ChecksumType::XXH3) {
+    if (config_.checksum_type == Config::ChecksumType::XXH3 && THEMIS_HAS_ROCKSDB_XXH3) {
         table_options.checksum = rocksdb::kXXH3;  // Fastest, recommended
     } else {
         table_options.checksum = rocksdb::kCRC32c;  // Standard, compatible
@@ -468,7 +488,7 @@ void RocksDBWrapper::configureOptions() {
     
     // v1.3.0 Phase 2: Configure BlobDB for large values (>1KB)
     // Allow explicit disable even when memtables are large to avoid overhead for tiny values
-    if (config_.enable_blobdb) {
+    if (config_.enable_blobdb && THEMIS_HAS_ROCKSDB_BLOBDB) {
         options_->enable_blob_files = true;
         options_->min_blob_size = 1024;  // 1KB threshold - values larger than this go to blob files
         options_->blob_compression_type = options_->compression;  // Use same compression as main DB
@@ -1972,7 +1992,7 @@ std::vector<std::pair<std::string, std::vector<uint8_t>>> RocksDBWrapper::scanWi
     
     // Configure read options with async I/O if enabled
     rocksdb::ReadOptions read_opts;
-    if (config_.enable_async_io) {
+    if (config_.enable_async_io && THEMIS_HAS_ROCKSDB_ASYNC_IO) {
         read_opts.async_io = true;
         read_opts.readahead_size = config_.async_io_readahead_size_mb * 1024 * 1024;
     }
@@ -1997,7 +2017,7 @@ std::vector<std::pair<std::string, std::vector<uint8_t>>> RocksDBWrapper::scanWi
         std::string key = it->key().ToString();
         
         // Check prefix match
-        if (!prefix.empty() && !key.starts_with(prefix)) {
+        if (!prefix.empty() && key.compare(0, prefix.size(), prefix) != 0) {
             break;
         }
         
@@ -2034,7 +2054,7 @@ std::vector<std::pair<std::string, std::vector<uint8_t>>> RocksDBWrapper::rangeQ
     
     // Configure read options with async I/O if enabled
     rocksdb::ReadOptions read_opts;
-    if (config_.enable_async_io) {
+    if (config_.enable_async_io && THEMIS_HAS_ROCKSDB_ASYNC_IO) {
         read_opts.async_io = true;
         read_opts.readahead_size = config_.async_io_readahead_size_mb * 1024 * 1024;
     }
@@ -2090,7 +2110,7 @@ std::vector<std::pair<std::string, std::vector<uint8_t>>> RocksDBWrapper::revers
     
     // Configure read options with async I/O if enabled
     rocksdb::ReadOptions read_opts;
-    if (config_.enable_async_io) {
+    if (config_.enable_async_io && THEMIS_HAS_ROCKSDB_ASYNC_IO) {
         read_opts.async_io = true;
         read_opts.readahead_size = config_.async_io_readahead_size_mb * 1024 * 1024;
     }
@@ -2149,7 +2169,7 @@ std::vector<std::optional<std::vector<uint8_t>>> RocksDBWrapper::multiGetWithAsy
     
     // Configure read options with async I/O if enabled
     rocksdb::ReadOptions read_opts;
-    if (config_.enable_async_io) {
+    if (config_.enable_async_io && THEMIS_HAS_ROCKSDB_ASYNC_IO) {
         read_opts.async_io = true;
         read_opts.readahead_size = config_.async_io_readahead_size_mb * 1024 * 1024;
     }
@@ -2201,7 +2221,7 @@ Result<std::unique_ptr<rocksdb::Iterator>> RocksDBWrapper::newAsyncIterator() {
     
     // Configure read options with async I/O if enabled
     rocksdb::ReadOptions read_opts;
-    if (config_.enable_async_io) {
+    if (config_.enable_async_io && THEMIS_HAS_ROCKSDB_ASYNC_IO) {
         read_opts.async_io = true;
         read_opts.readahead_size = config_.async_io_readahead_size_mb * 1024 * 1024;
     }
