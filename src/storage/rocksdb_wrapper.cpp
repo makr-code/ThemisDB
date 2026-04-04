@@ -294,8 +294,12 @@ void RocksDBWrapper::configureOptions() {
     // v1.4.1: Configure checksum algorithm for data integrity
     // XXH3 is 3x faster than CRC32 with similar collision resistance
     // Based on research: Bonwick et al. (2010) "End-to-end Data Integrity"
-    if (config_.checksum_type == Config::ChecksumType::XXH3 && THEMIS_HAS_ROCKSDB_XXH3) {
+    if (config_.checksum_type == Config::ChecksumType::XXH3) {
+#if THEMIS_HAS_ROCKSDB_XXH3
         table_options.checksum = rocksdb::kXXH3;  // Fastest, recommended
+#else
+        table_options.checksum = rocksdb::kCRC32c;  // Fallback for older RocksDB
+#endif
     } else {
         table_options.checksum = rocksdb::kCRC32c;  // Standard, compatible
     }
@@ -488,12 +492,16 @@ void RocksDBWrapper::configureOptions() {
     
     // v1.3.0 Phase 2: Configure BlobDB for large values (>1KB)
     // Allow explicit disable even when memtables are large to avoid overhead for tiny values
-    if (config_.enable_blobdb && THEMIS_HAS_ROCKSDB_BLOBDB) {
+    if (config_.enable_blobdb) {
+#if THEMIS_HAS_ROCKSDB_BLOBDB
         options_->enable_blob_files = true;
         options_->min_blob_size = 1024;  // 1KB threshold - values larger than this go to blob files
         options_->blob_compression_type = options_->compression;  // Use same compression as main DB
         options_->enable_blob_garbage_collection = true;  // Clean up obsolete blob files
         options_->blob_garbage_collection_age_cutoff = 0.25;  // GC blobs in files where >25% is garbage
+#else
+        THEMIS_WARN("BlobDB requested but not supported by this RocksDB version; continuing without BlobDB");
+#endif
     }
     
     // v1.4.1: Data Integrity & Robustness Configuration
@@ -1992,8 +2000,10 @@ std::vector<std::pair<std::string, std::vector<uint8_t>>> RocksDBWrapper::scanWi
     
     // Configure read options with async I/O if enabled
     rocksdb::ReadOptions read_opts;
-    if (config_.enable_async_io && THEMIS_HAS_ROCKSDB_ASYNC_IO) {
+    if (config_.enable_async_io) {
+#if THEMIS_HAS_ROCKSDB_ASYNC_IO
         read_opts.async_io = true;
+#endif
         read_opts.readahead_size = config_.async_io_readahead_size_mb * 1024 * 1024;
     }
     
@@ -2054,8 +2064,10 @@ std::vector<std::pair<std::string, std::vector<uint8_t>>> RocksDBWrapper::rangeQ
     
     // Configure read options with async I/O if enabled
     rocksdb::ReadOptions read_opts;
-    if (config_.enable_async_io && THEMIS_HAS_ROCKSDB_ASYNC_IO) {
+    if (config_.enable_async_io) {
+#if THEMIS_HAS_ROCKSDB_ASYNC_IO
         read_opts.async_io = true;
+#endif
         read_opts.readahead_size = config_.async_io_readahead_size_mb * 1024 * 1024;
     }
     
@@ -2110,8 +2122,10 @@ std::vector<std::pair<std::string, std::vector<uint8_t>>> RocksDBWrapper::revers
     
     // Configure read options with async I/O if enabled
     rocksdb::ReadOptions read_opts;
-    if (config_.enable_async_io && THEMIS_HAS_ROCKSDB_ASYNC_IO) {
+    if (config_.enable_async_io) {
+#if THEMIS_HAS_ROCKSDB_ASYNC_IO
         read_opts.async_io = true;
+#endif
         read_opts.readahead_size = config_.async_io_readahead_size_mb * 1024 * 1024;
     }
     
@@ -2169,8 +2183,10 @@ std::vector<std::optional<std::vector<uint8_t>>> RocksDBWrapper::multiGetWithAsy
     
     // Configure read options with async I/O if enabled
     rocksdb::ReadOptions read_opts;
-    if (config_.enable_async_io && THEMIS_HAS_ROCKSDB_ASYNC_IO) {
+    if (config_.enable_async_io) {
+#if THEMIS_HAS_ROCKSDB_ASYNC_IO
         read_opts.async_io = true;
+#endif
         read_opts.readahead_size = config_.async_io_readahead_size_mb * 1024 * 1024;
     }
     
@@ -2221,8 +2237,10 @@ Result<std::unique_ptr<rocksdb::Iterator>> RocksDBWrapper::newAsyncIterator() {
     
     // Configure read options with async I/O if enabled
     rocksdb::ReadOptions read_opts;
-    if (config_.enable_async_io && THEMIS_HAS_ROCKSDB_ASYNC_IO) {
+    if (config_.enable_async_io) {
+#if THEMIS_HAS_ROCKSDB_ASYNC_IO
         read_opts.async_io = true;
+#endif
         read_opts.readahead_size = config_.async_io_readahead_size_mb * 1024 * 1024;
     }
     
