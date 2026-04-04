@@ -243,4 +243,6 @@ Alle Config-Dateien wurden in 16 logische Kategorien unterteilt:
 - **Migration Guide Config:** [config/MIGRATION_GUIDE.md](../../../config/MIGRATION_GUIDE.md)
 - **HSM Setup:** [docs/security/HSM_PRODUCTION_SETUP.md](../../security/HSM_PRODUCTION_SETUP.md)
 - **Multi-GPU API:** [docs/MULTI_GPU_VECTOR_INDEXING.md](../../MULTI_GPU_VECTOR_INDEXING.md)
-- **Docker Hub:** `docker pull themisdb/themisdb:v1.8.1-rc1`
+- **Docker Guide:** [docker/README.md](../../../docker/README.md)
+- **Docker Hub (Release Tag):** `docker pull themisdb/themisdb:1.8.1-rc1`
+- **Docker Hub (Latest):** `docker pull themisdb/themisdb:latest`
