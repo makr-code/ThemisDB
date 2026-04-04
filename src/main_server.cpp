@@ -563,14 +563,16 @@ int main(int argc, char* argv[]) {
         std::optional<std::string> config_path;
         for (int i = 1; i < argc; ++i) {
             std::string arg = argv[i];
+            constexpr std::string_view kDataDirPrefix = "--data-dir=";
+            constexpr std::string_view kConfigPrefix  = "--config=";
             if (arg == "--db" && i + 1 < argc) {
                 db_path = argv[++i];
             } else if (arg == "--data-dir" && i + 1 < argc) {
                 // --data-dir is an alias for --db (Docker-friendly name)
                 db_path = argv[++i];
-            } else if (arg.rfind("--data-dir=", 0) == 0) {
+            } else if (arg.rfind(kDataDirPrefix, 0) == 0) {
                 // Support --data-dir=/path format (equals-separated)
-                db_path = arg.substr(std::string("--data-dir=").size());
+                db_path = arg.substr(kDataDirPrefix.size());
             } else if (arg == "--host" && i + 1 < argc) {
                 host = argv[++i];
             } else if (arg == "--port" && i + 1 < argc) {
@@ -579,9 +581,9 @@ int main(int argc, char* argv[]) {
                 num_threads = std::stoul(argv[++i]);
             } else if (arg == "--config" && i + 1 < argc) {
                 config_path = argv[++i];
-            } else if (arg.rfind("--config=", 0) == 0) {
+            } else if (arg.rfind(kConfigPrefix, 0) == 0) {
                 // Support --config=/path format (equals-separated)
-                config_path = arg.substr(std::string("--config=").size());
+                config_path = arg.substr(kConfigPrefix.size());
             } else if (arg == "--help" || arg == "-h") {
                 std::cout << "Usage: " << argv[0] << " [options]\n"
                           << "Options:\n"

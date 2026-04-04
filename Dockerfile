@@ -409,7 +409,7 @@ RUN ldconfig && \
     mkdir -p /data/rocksdb /data/llm_cache /etc/themis && \
     chown -R root:root /opt/themis /data /etc/themis
 
-EXPOSE 8080
+EXPOSE 8765
 
 ENTRYPOINT ["/opt/themis/bin/themis_server"]
-CMD ["--config=/etc/themis/config.yml", "--data-dir=/data"]
+CMD ["--data-dir=/data"]
