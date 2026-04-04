@@ -584,9 +584,15 @@ TEST_F(LibreOfficeSecurityTest, RelativePathInConfigIsRejected) {
     auto result = proc.extract(makeDocOLEBlob(), ct);
 
     EXPECT_FALSE(result.ok);
+#ifdef _WIN32
+    EXPECT_NE(result.error_message.find("not supported on Windows"), std::string::npos)
+        << "Expected Windows unsupported fallback message, got: "
+        << result.error_message;
+#else
     EXPECT_NE(result.error_message.find("absolute"), std::string::npos)
         << "Expected 'absolute path' error for relative soffice path, got: "
         << result.error_message;
+#endif
 }
 
 // A dot-slash prefix is still a relative path and must be rejected.
@@ -598,9 +604,15 @@ TEST_F(LibreOfficeSecurityTest, DotSlashPathInConfigIsRejected) {
     auto result = proc.extract(makeDocOLEBlob(), ct);
 
     EXPECT_FALSE(result.ok);
+#ifdef _WIN32
+    EXPECT_NE(result.error_message.find("not supported on Windows"), std::string::npos)
+        << "Expected Windows unsupported fallback message, got: "
+        << result.error_message;
+#else
     EXPECT_NE(result.error_message.find("absolute"), std::string::npos)
         << "Expected 'absolute path' error for dot-slash soffice path, got: "
         << result.error_message;
+#endif
 }
 
 // A path traversal prefix (../) is also relative and must be rejected.
@@ -612,9 +624,15 @@ TEST_F(LibreOfficeSecurityTest, PathTraversalInConfigIsRejected) {
     auto result = proc.extract(makeDocOLEBlob(), ct);
 
     EXPECT_FALSE(result.ok);
+#ifdef _WIN32
+    EXPECT_NE(result.error_message.find("not supported on Windows"), std::string::npos)
+        << "Expected Windows unsupported fallback message, got: "
+        << result.error_message;
+#else
     EXPECT_NE(result.error_message.find("absolute"), std::string::npos)
         << "Expected 'absolute path' error for path-traversal soffice path, got: "
         << result.error_message;
+#endif
 }
 
 // Shell metacharacters in the configured path must not be interpreted — the

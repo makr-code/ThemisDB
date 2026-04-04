@@ -1,0 +1,51 @@
+{
+  "generated_at": "2026-04-03T19:42:21.5312123+02:00",
+  "build_preset": "msvc-ninja-release",
+  "repeat_count": 20,
+  "output_dir": "C:\\VCC\\themis\\artifacts\\production-readiness\\20260403_193907",
+  "gates": [
+    {
+      "name": "openapi-completeness-local",
+      "passed": true,
+      "details": "All source route hints in src/server are documented in openapi/openapi.yaml",
+      "evidence": "C:\\VCC\\themis\\artifacts\\production-readiness\\20260403_193907\\openapi-completeness.json"
+    },
+    {
+      "name": "content-focused-local",
+      "passed": true,
+      "details": "Focused content tests; tests=4; failed=0",
+      "evidence": "C:\\VCC\\themis\\artifacts\\production-readiness\\20260403_193907\\content_focused_ctest.log"
+    },
+    {
+      "name": "content-benchmark-local",
+      "passed": false,
+      "details": "Benchmark executable not found: C:\\VCC\\themis\\build-msvc-ninja-release\\bin\\bench_content_versioning.exe",
+      "evidence": "C:\\VCC\\themis\\artifacts\\production-readiness\\20260403_193907\\content_bench_build.log"
+    },
+    {
+      "name": "cluster-chaos-local",
+      "passed": false,
+      "details": "Skipped by user",
+      "evidence": ""
+    },
+    {
+      "name": "sla-99.99-local-proxy",
+      "passed": false,
+      "details": "Skipped by user",
+      "evidence": ""
+    },
+    {
+      "name": "pentest-report-local",
+      "passed": false,
+      "details": "Skipped by user",
+      "evidence": ""
+    },
+    {
+      "name": "beta-module-exit",
+      "passed": true,
+      "details": "6 beta modules accepted via -AllowBetaModules",
+      "evidence": "C:\\VCC\\themis\\artifacts\\production-readiness\\20260403_193907\\beta_modules.txt"
+    }
+  ],
+  "failed_gate_count": 4
+}

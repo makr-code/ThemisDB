@@ -59,7 +59,7 @@ embedding pipeline, plugin extensibility, and version management headers are com
 
 ### Phase 6: Documentation & Acceptance
 - [x] Architecture and audit docs present
-- [ ] `mock_clip_processor.h` excluded from production install targets
+- [x] `mock_clip_processor.h` excluded from production install targets
 - [ ] Doxygen fully annotated on all 34 headers
 
 ---
@@ -70,5 +70,5 @@ embedding pipeline, plugin extensibility, and version management headers are com
 - [x] Safety pipeline headers always-present
 - [x] Plugin extensibility headers present
 - [x] Embedding pipeline stable
-- [ ] `mock_clip_processor.h` excluded from production install
+- [x] `mock_clip_processor.h` excluded from production install
 - [ ] `IPIIRedactor` header published

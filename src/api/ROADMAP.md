@@ -87,7 +87,7 @@ Core HTTP API server implemented with RESTful endpoints, AQL query execution, au
 - gRPC RPC handlers (`ExecuteAQL`, `StreamAQL`, `VectorSearch`, `FilteredVectorSearch`, `HybridSearch`, `FullTextSearch`) currently return `UNIMPLEMENTED`; engine injection via `ThemisDBGrpcServiceFactory` is pending
 - `GrpcApiServer::start()` holds `mutex_` across `builder.BuildAndStart()` — can block `stop()`/`isRunning()` callers during a slow port bind
 - `GrpcApiServer::stop()` calls `server_->Shutdown()` without a deadline — can block indefinitely if in-flight RPCs do not terminate
-- GraphQL `Parser` does not yet support fragments, directives, or inline fragments (documented in `graphql.h`)
+- GraphQL `Parser` explicitly rejects fragments, directives, and inline fragments in v1.x with version-gated error messages (`graphql.cpp`); support planned for v2.0
 - `WsChangeHandler::validate()` does not URL-decode query-string parameters (`from_sequence`, `key_prefix`), so percent-encoded values are silently misinterpreted
 
 ## Breaking Changes

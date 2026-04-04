@@ -7526,6 +7526,342 @@ paths:
         '401': { $ref: '#/components/responses/Unauthorized' }
         '404': { $ref: '#/components/responses/NotFound' }
 
+  /api/v1/auth/oauth2/authorize:
+    get:
+      summary: OAuth2 authorization endpoint
+      operationId: oauth2Authorize
+      tags: [auth]
+      responses:
+        '200': { description: Authorization page or redirect response }
+
+  /api/v1/auth/oauth2/callback:
+    get:
+      summary: OAuth2 callback endpoint
+      operationId: oauth2Callback
+      tags: [auth]
+      responses:
+        '200': { description: OAuth2 callback processed }
+
+  /api/v1/auth/oauth2/token:
+    post:
+      summary: OAuth2 token endpoint
+      operationId: oauth2Token
+      tags: [auth]
+      responses:
+        '200': { description: Access token response }
+
+  /api/v1/auth/oauth2/refresh:
+    post:
+      summary: OAuth2 refresh endpoint
+      operationId: oauth2Refresh
+      tags: [auth]
+      responses:
+        '200': { description: Refreshed token response }
+
+  /api/v1/auth/oauth2/logout:
+    post:
+      summary: OAuth2 logout endpoint
+      operationId: oauth2Logout
+      tags: [auth]
+      responses:
+        '200': { description: Logout successful }
+
+  /api/v1/auth/token/introspect:
+    post:
+      summary: Token introspection endpoint
+      operationId: tokenIntrospect
+      tags: [auth]
+      responses:
+        '200': { description: Token introspection result }
+
+  /api/v1/grpc-web/status:
+    get:
+      summary: gRPC-Web proxy status
+      operationId: grpcWebStatus
+      tags: [grpc-web]
+      responses:
+        '200': { description: Proxy status }
+
+  /api/v1/import/jobs:
+    get:
+      summary: List import jobs
+      operationId: listImportJobs
+      tags: [import]
+      responses:
+        '200': { description: Import job list }
+
+  /api/v1/import/{job_id}/status:
+    get:
+      summary: Get import job status
+      operationId: getImportJobStatus
+      tags: [import]
+      parameters:
+        - in: path
+          name: job_id
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: Import job status }
+
+  /api/v1/import/{job_id}/cancel:
+    post:
+      summary: Cancel import job
+      operationId: cancelImportJob
+      tags: [import]
+      parameters:
+        - in: path
+          name: job_id
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: Import job cancellation result }
+
+  /api/v1/import/postgresql:
+    post:
+      summary: Trigger PostgreSQL import
+      operationId: importPostgresql
+      tags: [import]
+      responses:
+        '200': { description: PostgreSQL import started }
+
+  /api/v1/import/s3:
+    post:
+      summary: Trigger S3 import
+      operationId: importS3
+      tags: [import]
+      responses:
+        '200': { description: S3 import started }
+
+  /api/v1/llm/lora/adapters/{id}/audit:
+    get:
+      summary: Get LoRA adapter audit entries
+      operationId: getLoraAdapterAudit
+      tags: [llm]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: Adapter audit data }
+
+  /api/v1/llm/lora/adapters/{id}/provenance:
+    get:
+      summary: Get LoRA adapter provenance
+      operationId: getLoraAdapterProvenance
+      tags: [llm]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: Adapter provenance metadata }
+    post:
+      summary: Attach LoRA adapter provenance
+      operationId: postLoraAdapterProvenance
+      tags: [llm]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: Provenance updated }
+
+  /api/v1/llm/lora/adapters/{id}/snapshots:
+    get:
+      summary: List LoRA adapter snapshots
+      operationId: listLoraAdapterSnapshots
+      tags: [llm]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: Adapter snapshot list }
+
+  /api/v1/llm/lora/adapters/{id}/verify:
+    post:
+      summary: Verify LoRA adapter
+      operationId: verifyLoraAdapter
+      tags: [llm]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: Verification result }
+
+  /api/v1/metadata/lineage/{table}:
+    get:
+      summary: Get table lineage
+      operationId: getTableLineage
+      tags: [metadata]
+      parameters:
+        - in: path
+          name: table
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: Table lineage information }
+
+  /api/v1/metadata/lineage/{table}/{column}:
+    get:
+      summary: Get column lineage
+      operationId: getColumnLineage
+      tags: [metadata]
+      parameters:
+        - in: path
+          name: table
+          required: true
+          schema: { type: string }
+        - in: path
+          name: column
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: Column lineage information }
+
+  /api/v1/prompt_engineering/stats:
+    get:
+      summary: Prompt engineering stats
+      operationId: getPromptEngineeringStats
+      tags: [prompt-engineering]
+      responses:
+        '200': { description: Prompt engineering stats }
+
+  /api/v1/prompt_engineering/history/{id}:
+    get:
+      summary: Prompt engineering history by id
+      operationId: getPromptEngineeringHistory
+      tags: [prompt-engineering]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: Prompt history record }
+
+  /api/v1/prompt_engineering/versions/{id}:
+    get:
+      summary: Prompt engineering versions by id
+      operationId: getPromptEngineeringVersions
+      tags: [prompt-engineering]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: Prompt version list }
+
+  /api/v1/prompt_engineering/ab_tests:
+    get:
+      summary: List A/B tests
+      operationId: listPromptEngineeringAbTests
+      tags: [prompt-engineering]
+      responses:
+        '200': { description: A/B test list }
+
+  /api/v1/prompt_engineering/ab_tests/{id}:
+    get:
+      summary: Get A/B test by id
+      operationId: getPromptEngineeringAbTest
+      tags: [prompt-engineering]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: A/B test details }
+
+  /api/v1/prompt_engineering/feedback:
+    post:
+      summary: Submit prompt-engineering feedback
+      operationId: postPromptEngineeringFeedback
+      tags: [prompt-engineering]
+      responses:
+        '200': { description: Feedback accepted }
+
+  /api/v1/prompt_engineering/optimize:
+    post:
+      summary: Trigger prompt optimization
+      operationId: postPromptEngineeringOptimize
+      tags: [prompt-engineering]
+      responses:
+        '200': { description: Optimization started }
+
+  /api/v1/prompt_engineering/rollback:
+    post:
+      summary: Roll back prompt version
+      operationId: postPromptEngineeringRollback
+      tags: [prompt-engineering]
+      responses:
+        '200': { description: Rollback applied }
+
+  /api/v1/service-mesh/status:
+    get:
+      summary: Service mesh status
+      operationId: getServiceMeshStatus
+      tags: [service-mesh]
+      responses:
+        '200': { description: Service mesh status }
+
+  /api/v1/service-mesh/config:
+    get:
+      summary: Service mesh config
+      operationId: getServiceMeshConfig
+      tags: [service-mesh]
+      responses:
+        '200': { description: Service mesh config }
+
+  /api/v1/service-mesh/annotations:
+    get:
+      summary: Service mesh annotations
+      operationId: getServiceMeshAnnotations
+      tags: [service-mesh]
+      responses:
+        '200': { description: Service mesh annotations }
+
+  /v1/admin/cache/pii/{pii_uuid}:
+    delete:
+      summary: Delete cache PII entry by UUID
+      operationId: deleteCachePii
+      tags: [cache-admin]
+      parameters:
+        - in: path
+          name: pii_uuid
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: Cache PII deletion result }
+
+  /v1/admin/storage/stats:
+    get:
+      summary: Storage admin stats
+      operationId: getAdminStorageStats
+      tags: [storage-admin]
+      responses:
+        '200': { description: Storage stats }
+
+  /transaction/{id}/explain:
+    get:
+      summary: Explain transaction details
+      operationId: explainTransaction
+      tags: [transaction]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: Transaction explanation }
+
 components:
   securitySchemes:
     bearerAuth:

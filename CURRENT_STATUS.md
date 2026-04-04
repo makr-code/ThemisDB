@@ -2,9 +2,9 @@
 
 ## Executive Summary
 
-**Date:** March 24, 2026  
-**Overall Progress:** 75% complete  
-**Current Phase:** Phase 4 (Fencing, Failover & Chaos Engineering — in progress)
+**Date:** April 3, 2026  
+**Overall Progress:** 85% complete  
+**Current Phase:** Phase 5 (Production Readiness & Operations — in progress)
 
 ## Roadmap Overview
 
@@ -84,16 +84,16 @@ Status: **Production-ready** ✅
 
 ### Current Phase 🚀
 
-**Phase 4: Fencing, Failover & Chaos Engineering** (in progress)
-- Duration: 8-10 weeks (ongoing, Q2 2026)
+**Phase 4: Fencing, Failover & Chaos Engineering** (completed)
+- Duration: 8-10 weeks (completed, Q2 2026)
 - Sub-phases:
   - **Phase 4.1:** Epoch-based fencing + lease management — ✅ complete (v1.9.0)
-  - **Phase 4.2:** Automatic failover orchestration — in progress
-  - **Phase 4.3:** Chaos testing framework — planned
-  - **Phase 4.4:** Disaster recovery procedures — planned
-  - **Phase 4.5:** Testing & validation — planned
+  - **Phase 4.2:** Automatic failover orchestration — ✅ complete
+  - **Phase 4.3:** Chaos testing framework — ✅ complete
+  - **Phase 4.4:** Disaster recovery procedures — ✅ complete
+  - **Phase 4.5:** Testing & validation — ✅ complete (phase4 suite stress-tested)
 
-Status: **In active development** 🚀
+Status: **Production-ready for Phase 4 scope** ✅
 
 ## Statistics
 
@@ -241,22 +241,22 @@ Status: **In active development** 🚀
 └─────────────────────────────────────┘
 ```
 
-### Next Layer (Phase 4 — In Progress)
+### Next Layer (Phase 4 — Completed)
 
 ```
 ┌─────────────────────────────────────┐
-│  Fencing & Lease Management         │ ← Phase 4.1 (in progress)
+│  Fencing & Lease Management         │ ← Phase 4.1 (complete)
 │  - Epoch-based fencing              │
 │  - Lease acquisition/renewal        │
 │  - STONITH integration              │
 └─────────────────────────────────────┘
          ↓
 ┌─────────────────────────────────────┐
-│  Automatic Failover                 │ ← Phase 4.2 (planned)
+│  Automatic Failover                 │ ← Phase 4.2 (complete)
 └─────────────────────────────────────┘
          ↓
 ┌─────────────────────────────────────┐
-│  Chaos Engineering Framework        │ ← Phase 4.3 (planned)
+│  Chaos Engineering Framework        │ ← Phase 4.3 (complete)
 └─────────────────────────────────────┘
 ```
 
@@ -293,9 +293,10 @@ Status: **In active development** 🚀
 ## Next Steps
 
 ### Immediate (This Sprint)
-1. Complete Phase 4.1: epoch-based fencing + lease management
-2. Design automatic failover orchestration flow
-3. Define chaos testing scenarios (network partitions, node failures)
+1. Consolidate Phase-4 artifacts in release notes and ops docs
+2. Start Phase-5 operational tooling (admin CLI, repair dashboard)
+3. Extend CI with recurring resilience stress jobs
+4. Execute beta-module graduation board: `scripts/operations/BETA_MODULE_GRADUATION_TODO.md`
 
 ### Short-term (Next 4 Weeks)
 - Complete Phase 4: Fencing, Failover & Chaos Engineering
@@ -320,7 +321,7 @@ Status: **In active development** 🚀
 - **Mar 12, 2026:** Phase 3.1 (gRPC/wire protocol) complete ✅ (v1.5.0)
 - **Mar 22, 2026:** Phase 3 fully complete ✅ (v1.8.0)
 - **Mar 24, 2026:** Phase 4 begins 🚀
-- **Q2 2026:** Phase 4 complete (estimated)
+- **Apr 3, 2026:** Phase 4 complete ✅
 - **Q3 2026:** Phase 5 complete (estimated)
 - **Q4 2026:** Full roadmap target
 
@@ -357,15 +358,15 @@ Status: **In active development** 🚀
 - ✅ **Circuit Breakers & Retries:** Network fault tolerance
 - ✅ **JWT Scope Enforcement:** OAuth2-compatible
 
-### In Development 🚧
+### Recently Completed ✅
 
 - ✅ **Epoch Fencing:** EpochFencingManager + LeaseManager + NullStonithProvider + 28 tests (v1.9.0)
-- 🚧 **Automatic Failover:** Orchestration logic — Phase 4.2
+- ✅ **Automatic Failover:** AutoFailoverManager orchestration + focused tests
+- ✅ **Chaos Engineering Framework:** fault injection + network/scheduler chaos tests
+- ✅ **Disaster Recovery Procedures:** DisasterRecoveryManager orchestration + focused tests
 
 ### Planned ⏳
 
-- ⏳ **Chaos Engineering Framework** — Phase 4.3
-- ⏳ **Disaster Recovery Procedures** — Phase 4.4
 - ⏳ **Operational Tooling & Admin UI** — Phase 5
 
 ## Timeline
@@ -376,20 +377,20 @@ Status: **In active development** 🚀
 - **Feb 20, 2026:** Phase 3.1 begins
 - **March 13, 2026:** Phase 3.1 complete (estimated)
 - **May 8, 2026:** Phase 3 complete (estimated)
-- **July 2026:** Phase 4 complete (estimated)
+- **April 2026:** Phase 4 complete ✅
 - **Q1 2027:** Complete roadmap (target)
 
 ## Conclusion
 
 **Status:** On track ✅  
-**Progress:** 75% complete  
+**Progress:** 85% complete  
 **Quality:** Production-grade ⭐⭐⭐⭐⭐  
-**Next:** Phase 4.2 automatic failover orchestration  
+**Next:** Phase 5 operational tooling & admin UI  
 **Confidence:** High
 
-ThemisDB has successfully implemented production-grade observability, durability, and full RPC/network resilience infrastructure. The system now guarantees zero data loss, provides fast recovery (<3s), supports all major network protocols (gRPC, HTTP/1–3, WebSocket, PostgreSQL Wire, MQTT), and has comprehensive security (mTLS, HSM, CRL/OCSP). Phase 4 will add the fencing and failover capabilities required for fully autonomous multi-node operation.
+ThemisDB has successfully implemented production-grade observability, durability, and full RPC/network resilience infrastructure. The system now guarantees zero data loss, provides fast recovery (<3s), supports all major network protocols (gRPC, HTTP/1–3, WebSocket, PostgreSQL Wire, MQTT), and has comprehensive security (mTLS, HSM, CRL/OCSP). Phase 4 delivered fencing, failover, chaos, and disaster-recovery orchestration for resilient multi-node operation.
 
 ---
 
-**Last Updated:** March 24, 2026  
-**Next Milestone:** Phase 4.2 automatic failover (Q2 2026)
+**Last Updated:** April 3, 2026  
+**Next Milestone:** Phase 5 operational tooling (Q2/Q3 2026)

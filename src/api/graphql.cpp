@@ -183,6 +183,14 @@ themis::Result<Operation> Parser::parseOperation() {
     }
     
     skipWhitespace();
+
+    // Explicit version-gated unsupported feature handling.
+    if (match("fragment")) {
+        return themis::Err<Operation>(
+            ErrorCode::ERR_QUERY_INVALID_SYNTAX,
+            "GraphQL fragment definitions are unsupported in v1.x API parser; planned for v2.0"
+        );
+    }
     
     // Check for operation type keyword
     if (match("query")) {
@@ -273,6 +281,14 @@ themis::Result<Field> Parser::parseField(size_t depth) {
     }
     
     skipWhitespace();
+
+    // Explicitly reject fragment spread / inline fragments for v1.x.
+    if (match("...")) {
+        return themis::Err<Field>(
+            ErrorCode::ERR_QUERY_INVALID_SYNTAX,
+            "GraphQL fragment spread / inline fragments are unsupported in v1.x API parser; planned for v2.0"
+        );
+    }
     
     // Field name or alias
     auto nameOrAliasResult = parseName();
@@ -335,6 +351,13 @@ themis::Result<Field> Parser::parseField(size_t depth) {
     skipWhitespace();
     
     // Nested selection set
+    if (peek('@')) {
+        return themis::Err<Field>(
+            ErrorCode::ERR_QUERY_INVALID_SYNTAX,
+            "GraphQL directives are unsupported in v1.x API parser; planned for v2.0"
+        );
+    }
+
     if (match('{')) {
         while (!peek('}') && pos_ < source_.size()) {
             skipWhitespace();

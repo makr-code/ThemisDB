@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="(empty)"
+	tests="8"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname=""
+	time="6"
+	timestamp="2026-04-03T19:04:04"
+	>
+	<testcase name="GovernanceReviewSchedulerFocusedTests" classname="GovernanceReviewSchedulerFocusedTests" time="0.0532047" status="run">
+		<properties>
+			<property name="cmake_labels" value="governance;phase4;policy-review;review-scheduler;unit"/>
+		</properties>
+		<system-out>Running main() from C:\VCC\themis\vcpkg\buildtrees\gtest\src\v1.17.0-0c449efaff.clean\googletest\src\gtest_main.cc
+[==========] Running 13 tests from 3 test suites.
+[----------] Global test environment set-up.
+[----------] 1 test from ReviewRequestTest
+[ RUN      ] ReviewRequestTest.ToJson_FromJson_RoundTrip
+[       OK ] ReviewRequestTest.ToJson_FromJson_RoundTrip (0 ms)
+[----------] 1 test from ReviewRequestTest (0 ms total)
+
+[----------] 1 test from ReviewScheduleTest
+[ RUN      ] ReviewScheduleTest.ToJson_FromJson_RoundTrip
+[       OK ] ReviewScheduleTest.ToJson_FromJson_RoundTrip (0 ms)
+[----------] 1 test from ReviewScheduleTest (0 ms total)
+
+[----------] 11 tests from ReviewSchedulerTest
+[ RUN      ] ReviewSchedulerTest.Construction_Succeeds
+[       OK ] ReviewSchedulerTest.Construction_Succeeds (0 ms)
+[ RUN      ] ReviewSchedulerTest.ConfigureReviewSchedule_DoesNotThrow
+[       OK ] ReviewSchedulerTest.ConfigureReviewSchedule_DoesNotThrow (0 ms)
+[ RUN      ] ReviewSchedulerTest.CreateReviewRequest_Retu...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="ModelGovernanceFocusedTests" classname="ModelGovernanceFocusedTests" time="0.0408686" status="run">
+		<properties>
+			<property name="cmake_labels" value="bias-audit;governance;model-governance;phase4;training-lineage;unit"/>
+		</properties>
+		<system-out>Running main() from C:\VCC\themis\vcpkg\buildtrees\gtest\src\v1.17.0-0c449efaff.clean\googletest\src\gtest_main.cc
+[==========] Running 31 tests from 7 test suites.
+[----------] Global test environment set-up.
+[----------] 1 test from ModelTrainingExportRequestTest
+[ RUN      ] ModelTrainingExportRequestTest.ToJsonContainsAllFields
+[       OK ] ModelTrainingExportRequestTest.ToJsonContainsAllFields (0 ms)
+[----------] 1 test from ModelTrainingExportRequestTest (0 ms total)
+
+[----------] 2 tests from ModelGovernanceDecisionTest
+[ RUN      ] ModelGovernanceDecisionTest.ToJsonPermitted
+[       OK ] ModelGovernanceDecisionTest.ToJsonPermitted (0 ms)
+[ RUN      ] ModelGovernanceDecisionTest.ToJsonDenied
+[       OK ] ModelGovernanceDecisionTest.ToJsonDenied (0 ms)
+[----------] 2 tests from ModelGovernanceDecisionTest (0 ms total)
+
+[----------] 11 tests from ModelGovernancePolicyTest
+[ RUN      ] ModelGovernancePolicyTest.PermitsUnclassifiedRequest
+[       OK ] ModelGovernancePolicyTest.PermitsUnclassifiedRequest (0...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="EpochFencingFocusedTests" classname="EpochFencingFocusedTests" time="0.660297" status="run">
+		<properties>
+			<property name="cmake_labels" value="epoch;fencing;focused;lease;phase4;sharding;stonith;unit"/>
+		</properties>
+		<system-out>Running main() from C:\VCC\themis\vcpkg\buildtrees\gtest\src\v1.17.0-0c449efaff.clean\googletest\src\gtest_main.cc
+[==========] Running 41 tests from 6 test suites.
+[----------] Global test environment set-up.
+[----------] 4 tests from EpochFencingConfigTest
+[ RUN      ] EpochFencingConfigTest.ValidConfigPasses
+[       OK ] EpochFencingConfigTest.ValidConfigPasses (0 ms)
+[ RUN      ] EpochFencingConfigTest.EmptyShardIdFails
+[2026-04-03 19:04:04.555] [error] [EpochFencingConfig] shard_id must not be empty
+[       OK ] EpochFencingConfigTest.EmptyShardIdFails (0 ms)
+[ RUN      ] EpochFencingConfigTest.EmptyNodeIdFails
+[2026-04-03 19:04:04.555] [error] [EpochFencingConfig] node_id must not be empty
+[       OK ] EpochFencingConfigTest.EmptyNodeIdFails (0 ms)
+[ RUN      ] EpochFencingConfigTest.ZeroTimeoutFails
+[2026-04-03 19:04:04.555] [error] [EpochFencingConfig] stonith_timeout_ms must be &gt; 0
+[       OK ] EpochFencingConfigTest.ZeroTimeoutFails (0 ms)
+[----------] 4 tests from EpochFencingConfigTest (0 ms total...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="AutoFailoverManagerFocusedTests" classname="AutoFailoverManagerFocusedTests" time="0.156457" status="run">
+		<properties>
+			<property name="cmake_labels" value="failover;focused;ha;orchestration;phase4;unit"/>
+		</properties>
+		<system-out>Running main() from C:\VCC\themis\vcpkg\buildtrees\gtest\src\v1.17.0-0c449efaff.clean\googletest\src\gtest_main.cc
+[==========] Running 3 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 3 tests from AutoFailoverManagerFocusedTest
+[ RUN      ] AutoFailoverManagerFocusedTest.StartStopLifecycle
+[2026-04-03 19:04:05.253] [info] AutoFailoverManager started successfully
+[2026-04-03 19:04:05.295] [info] AutoFailoverManager stopped
+[       OK ] AutoFailoverManagerFocusedTest.StartStopLifecycle (42 ms)
+[ RUN      ] AutoFailoverManagerFocusedTest.RejectsFailoverWhenStopped
+[2026-04-03 19:04:05.296] [error] Cannot trigger failover: manager not running
+[       OK ] AutoFailoverManagerFocusedTest.RejectsFailoverWhenStopped (0 ms)
+[ RUN      ] AutoFailoverManagerFocusedTest.AcceptsManualFailoverWhenRunning
+[2026-04-03 19:04:05.296] [info] AutoFailoverManager started successfully
+[2026-04-03 19:04:05.296] [info] Manual failover queued for node: node-a
+[2026-04-03 19:04:05.297] [info] Verif...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="ChaosFrameworkFocusedTests" classname="ChaosFrameworkFocusedTests" time="0.134477" status="run">
+		<properties>
+			<property name="cmake_labels" value="chaos;fault-injection;focused;ha;phase4;resilience;unit"/>
+		</properties>
+		<system-out>Running main() from C:\VCC\themis\vcpkg\buildtrees\gtest\src\v1.17.0-0c449efaff.clean\googletest\src\gtest_main.cc
+[==========] Running 27 tests from 2 test suites.
+[----------] Global test environment set-up.
+[----------] 19 tests from FaultInjectorTest
+[ RUN      ] FaultInjectorTest.DefaultIdIsDefault
+[       OK ] FaultInjectorTest.DefaultIdIsDefault (0 ms)
+[ RUN      ] FaultInjectorTest.CustomIdIsPreserved
+[       OK ] FaultInjectorTest.CustomIdIsPreserved (0 ms)
+[ RUN      ] FaultInjectorTest.StartsWithZeroFaults
+[       OK ] FaultInjectorTest.StartsWithZeroFaults (0 ms)
+[ RUN      ] FaultInjectorTest.InjectNodeFailureIsActive
+[       OK ] FaultInjectorTest.InjectNodeFailureIsActive (0 ms)
+[ RUN      ] FaultInjectorTest.InjectedFaultCountIsOne
+[       OK ] FaultInjectorTest.InjectedFaultCountIsOne (0 ms)
+[ RUN      ] FaultInjectorTest.TwoDifferentNodesAreBothActive
+[       OK ] FaultInjectorTest.TwoDifferentNodesAreBothActive (0 ms)
+[ RUN      ] FaultInjectorTest.SameNodeTwoDifferentTypesAreBothActive
+[  ...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="ChaosNetworkFocusedTests" classname="ChaosNetworkFocusedTests" time="0.11964" status="run">
+		<properties>
+			<property name="cmake_labels" value="chaos;focused;http;network;phase4;resilience;unit"/>
+		</properties>
+		<system-out>Running main() from C:\VCC\themis\vcpkg\buildtrees\gtest\src\v1.17.0-0c449efaff.clean\googletest\src\gtest_main.cc
+[==========] Running 32 tests from 7 test suites.
+[----------] Global test environment set-up.
+[----------] 5 tests from ChaosNetworkConfig
+[ RUN      ] ChaosNetworkConfig.ZeroMaxConnectionsMeansUnlimited
+[       OK ] ChaosNetworkConfig.ZeroMaxConnectionsMeansUnlimited (0 ms)
+[ RUN      ] ChaosNetworkConfig.MaxConnectionsCanBeSet
+[       OK ] ChaosNetworkConfig.MaxConnectionsCanBeSet (0 ms)
+[ RUN      ] ChaosNetworkConfig.MaxConnectionsLimitOf1
+[       OK ] ChaosNetworkConfig.MaxConnectionsLimitOf1 (0 ms)
+[ RUN      ] ChaosNetworkConfig.ZeroBodySizeAllowsAnyBody
+[       OK ] ChaosNetworkConfig.ZeroBodySizeAllowsAnyBody (0 ms)
+[ RUN      ] ChaosNetworkConfig.ZeroHeaderSizeDisablesCheck
+[       OK ] ChaosNetworkConfig.ZeroHeaderSizeDisablesCheck (0 ms)
+[----------] 5 tests from ChaosNetworkConfig (0 ms total)
+
+[----------] 4 tests from ChaosOversizedBody
+[ RUN      ] ChaosOversizedBody.ExceedsDefau...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="ChaosSchedulerFocusedTests" classname="ChaosSchedulerFocusedTests" time="5.53342" status="run">
+		<properties>
+			<property name="cmake_labels" value="chaos;focused;phase4;resilience;scheduler;stress;unit"/>
+		</properties>
+		<system-out>Running main() from C:\VCC\themis\vcpkg\buildtrees\gtest\src\v1.17.0-0c449efaff.clean\googletest\src\gtest_main.cc
+[==========] Running 12 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 12 tests from ChaosSchedulerTest
+[ RUN      ] ChaosSchedulerTest.RapidRegisterUnregisterDoesNotCorruptState
+[       OK ] ChaosSchedulerTest.RapidRegisterUnregisterDoesNotCorruptState (82 ms)
+[ RUN      ] ChaosSchedulerTest.TaskThrowingNonStdExceptionHandledGracefully
+[       OK ] ChaosSchedulerTest.TaskThrowingNonStdExceptionHandledGracefully (79 ms)
+[ RUN      ] ChaosSchedulerTest.ConcurrentManualExecutionsSameTask
+[       OK ] ChaosSchedulerTest.ConcurrentManualExecutionsSameTask (117 ms)
+[ RUN      ] ChaosSchedulerTest.StopWhileTasksRunningDoesNotDeadlock
+[       OK ] ChaosSchedulerTest.StopWhileTasksRunningDoesNotDeadlock (1652 ms)
+[ RUN      ] ChaosSchedulerTest.AllTasksFailSimultaneously
+[       OK ] ChaosSchedulerTest.AllTasksFailSimultaneously (92 ms)
+[ RUN      ] ChaosSchedulerTest....
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="DisasterRecoveryManagerFocusedTests" classname="DisasterRecoveryManagerFocusedTests" time="0.0489338" status="run">
+		<properties>
+			<property name="cmake_labels" value="disaster-recovery;dr;failover;focused;phase4;resilience;unit"/>
+		</properties>
+		<system-out>Running main() from C:\VCC\themis\vcpkg\buildtrees\gtest\src\v1.17.0-0c449efaff.clean\googletest\src\gtest_main.cc
+[==========] Running 8 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 8 tests from DisasterRecoveryManagerTest
+[ RUN      ] DisasterRecoveryManagerTest.ValidatePlanRejectsMissingPlanId
+[       OK ] DisasterRecoveryManagerTest.ValidatePlanRejectsMissingPlanId (0 ms)
+[ RUN      ] DisasterRecoveryManagerTest.DryRunSucceedsWithoutExternalManagers
+[2026-04-03 19:04:11.209] [info] Disaster recovery plan 'dr-plan-1' completed
+[       OK ] DisasterRecoveryManagerTest.DryRunSucceedsWithoutExternalManagers (0 ms)
+[ RUN      ] DisasterRecoveryManagerTest.NonDryRunFailsWithoutSnapshotId
+[       OK ] DisasterRecoveryManagerTest.NonDryRunFailsWithoutSnapshotId (0 ms)
+[ RUN      ] DisasterRecoveryManagerTest.NonDryRunFailsWhenFencingRequiredButMissing
+[2026-04-03 19:04:11.209] [error] Disaster recovery plan 'dr-plan-1' failed: epoch fencing manager required
+[       OK ] Disas...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+</testsuite>

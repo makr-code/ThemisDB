@@ -2,7 +2,7 @@
 
 ## Development Status
 
-As of **2026-03-24 (UTC)**, the current version of ThemisDB is **v1.8.0**.
+As of **2026-04-03 (UTC)**, the current released version of ThemisDB is **v1.8.0**.
 
 ### Completed Phases
 
@@ -61,17 +61,23 @@ As of **2026-03-24 (UTC)**, the current version of ThemisDB is **v1.8.0**.
 ### Active Work Items (v1.9.0 — Unreleased)
 
 **Selected highlights across modules:**
+- **Phase 4 completion:** Epoch fencing (4.1), automatic failover orchestration (4.2), chaos framework (4.3), and disaster recovery orchestration (4.4) are implemented and phase4-focused tests are green.
 - **Cache (v1.9.0):** Lock-free L1 read path (`std::shared_mutex`), atomic `L1Entry` fields, lazy expiry via CAS.
 - **Prompt Engineering:** Typed DSL for structured prompt authoring, token budget manager, context-window enforcement.
 - **Search:** Additional HybridSearch and multi-modal search hardening.
 - **Server (MQTT, v1.9.0):** `MqttClientService` + `MqttCDCTransport`, Boost.Asio async I/O, RPCServiceRegistry integration.
 - **Prompt Library IO (v2.0.0):** `PromptLibraryBundle` with FNV-1a checksum, JSON+YAML export, A/B experiment framework.
 
+**Current focus after Phase 4:**
+- Phase 5 operational tooling (admin CLI, repair dashboard, ops runbooks).
+- System-wide validation gates: cluster-level fault-injection in CI, 99.99% SLA validation under load+faults, and penetration-test reporting.
+
 For individual module work items, refer to each module's `src/<module>/CHANGELOG.md` `[Unreleased]` section.
 
 ### Realistic Timelines
 
 - **v1.9.0 release:** Q2 2026 (target)
+- **Phase 5 operational tooling baseline:** Q2/Q3 2026 (target)
 - **v2.0 feature goals:** GPU-accelerated vector search production deployment, hyperscale operations, advanced AI hardening — see [roadmap.md](roadmap.md)
 
 For further updates, refer to the official repository, [roadmap.md](roadmap.md), and individual module changelogs in `src/`.

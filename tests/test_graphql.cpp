@@ -73,6 +73,49 @@ TEST(GraphQLParser, ParseFieldWithArguments) {
     EXPECT_FALSE(op.selections[0].arguments.empty());
 }
 
+TEST(GraphQLParser, RejectsFragmentDefinitionWithVersionGatedMessage) {
+    const std::string query = R"(
+        fragment userFields on User { id name }
+        query GetUser { user { ...userFields } }
+    )";
+
+    auto result = Parser::parse(query);
+    EXPECT_FALSE(result.success);
+    ASSERT_FALSE(result.errors.empty());
+    EXPECT_NE(result.errors[0].message.find("unsupported"), std::string::npos);
+    EXPECT_NE(result.errors[0].message.find("v1.x"), std::string::npos);
+}
+
+TEST(GraphQLParser, RejectsFieldDirectivesWithVersionGatedMessage) {
+    const std::string query = R"(
+        query {
+            user @include(if: true) { id }
+        }
+    )";
+
+    auto result = Parser::parse(query);
+    EXPECT_FALSE(result.success);
+    ASSERT_FALSE(result.errors.empty());
+    EXPECT_NE(result.errors[0].message.find("directives"), std::string::npos);
+    EXPECT_NE(result.errors[0].message.find("v1.x"), std::string::npos);
+}
+
+TEST(GraphQLParser, RejectsInlineFragmentsWithVersionGatedMessage) {
+    const std::string query = R"(
+        query {
+            user {
+                ... on User { id }
+            }
+        }
+    )";
+
+    auto result = Parser::parse(query);
+    EXPECT_FALSE(result.success);
+    ASSERT_FALSE(result.errors.empty());
+    EXPECT_NE(result.errors[0].message.find("inline fragments"), std::string::npos);
+    EXPECT_NE(result.errors[0].message.find("v1.x"), std::string::npos);
+}
+
 // ============================================================================
 // Value Type Tests
 // ============================================================================

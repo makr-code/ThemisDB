@@ -34,13 +34,13 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 | **chimera** | 🔴 Alpha — ThemisDB adapter functional; vendor adapters planned | [src/chimera/ROADMAP.md](src/chimera/ROADMAP.md) |
 | **config** | ✅ Production-ready | [src/config/ROADMAP.md](src/config/ROADMAP.md) |
 | **content** | 🟡 Beta — MIME/text extraction complete, OCR/audio planned | [src/content/ROADMAP.md](src/content/ROADMAP.md) |
-| **core** | 🟡 Beta — DI framework and adapters functional | [src/core/ROADMAP.md](src/core/ROADMAP.md) |
+| **core** | ✅ Production-ready — ConcernsContext DI, pluggable adapters, tracing/metrics/cache/secrets/feature-flags operational | [src/core/ROADMAP.md](src/core/ROADMAP.md) |
 | **exporters** | ✅ Production-ready | [src/exporters/ROADMAP.md](src/exporters/ROADMAP.md) |
 | **geo** | 🟡 Beta — CPU queries tested; GPU backend with CPU fallback | [src/geo/ROADMAP.md](src/geo/ROADMAP.md) |
-| **governance** | 🟡 Beta — GDPR/HIPAA rules functional; OPA planned | [src/governance/ROADMAP.md](src/governance/ROADMAP.md) |
+| **governance** | ✅ Production-ready — Policy engine incl. GDPR/HIPAA/CCPA/PCI/SOC2, OPA integration, model governance operational | [src/governance/ROADMAP.md](src/governance/ROADMAP.md) |
 | **gpu** | 🟡 Beta — Device management complete; multi-node coordination in progress | [src/gpu/ROADMAP.md](src/gpu/ROADMAP.md) |
-| **graph** | 🟡 Beta — Cost-based optimiser, constrained path finding, parallel traversal, distributed shards, GPU fallback functional; EXPLAIN AQL output planned | [src/graph/ROADMAP.md](src/graph/ROADMAP.md) |
-| **importers** | 🟡 Beta — PostgreSQL import functional; additional sources planned | [src/importers/ROADMAP.md](src/importers/ROADMAP.md) |
+| **graph** | ✅ Production-ready — Cost-based optimiser, constrained path finding, distributed execution, EXPLAIN endpoint operational; GPU traversal kernels pending for full CUDA path | [src/graph/ROADMAP.md](src/graph/ROADMAP.md) |
+| **importers** | ✅ Production-ready (v2.1) — Multi-source import pipeline incl. FK-preserving PostgreSQL importer and v1.x production-ready adapters | [src/importers/ROADMAP.md](src/importers/ROADMAP.md) |
 | **index** | ✅ Production-ready | [src/index/ROADMAP.md](src/index/ROADMAP.md) |
 | **ingestion** | ✅ Production-ready | [src/ingestion/ROADMAP.md](src/ingestion/ROADMAP.md) |
 | **llm** | ✅ Production-ready (v1.16.0) | [src/llm/ROADMAP.md](src/llm/ROADMAP.md) |
@@ -60,8 +60,8 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 | **security** | ✅ Production-ready | [src/security/ROADMAP.md](src/security/ROADMAP.md) |
 | **server** | ✅ Production-ready | [src/server/ROADMAP.md](src/server/ROADMAP.md) |
 | **sharding** | 🟡 Beta — Consensus and repair engine complete; advanced observability in progress | [src/sharding/ROADMAP.md](src/sharding/ROADMAP.md) |
-| **storage** | 🟡 Beta — RocksDB MVCC complete; production hardening in progress | [src/storage/ROADMAP.md](src/storage/ROADMAP.md) |
-| **temporal** | 🟡 Beta — Core conflict resolution complete; production hardening in progress | [src/temporal/ROADMAP.md](src/temporal/ROADMAP.md) |
+| **storage** | ✅ Production-ready (v1.8.0) — RocksDB-based persistent storage incl. MVCC/WAL/backup-PITR/NVMe/erasure coding/2PC | [src/storage/ROADMAP.md](src/storage/ROADMAP.md) |
+| **temporal** | ✅ Production-ready (v1.2.0 C++ engine) — System-versioned + bi-temporal queries, time-travel, temporal joins, index acceleration | [src/temporal/ROADMAP.md](src/temporal/ROADMAP.md) |
 | **themis** | ✅ Production-ready — All core components migrated to `src/themis/`; Wire Protocol V2 delivered; integration tests added (v1.8.0) | [src/themis/ROADMAP.md](src/themis/ROADMAP.md) |
 | **timeseries** | ✅ Production-ready | [src/timeseries/ROADMAP.md](src/timeseries/ROADMAP.md) |
 | **training** | ✅ Production-ready (v1.x) | [src/training/ROADMAP.md](src/training/ROADMAP.md) |

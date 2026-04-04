@@ -1,9 +1,9 @@
-<!-- Status: current | validated: 2026-03-22 -->
+<!-- Status: current | validated: 2026-04-03 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — Content Module Public Headers
 
-**Last Audit:** 2026-03-22  
+**Last Audit:** 2026-04-03  
 **Auditor:** Copilot  
 **Status:** ✅ Pass
 
@@ -70,7 +70,5 @@
 - Safety headers (`content_security.h`, `content_policy.h`, `abuse_detector.h`) are present
   and run in the chain before persistence.
 - Plugin extensibility headers present and compile-flag guarded.
-
-### Open
-- `mock_clip_processor.h` is a test mock header in the public include path; verify it is
-  excluded from production install targets.
+- `mock_clip_processor.h` is excluded from production install targets via CMake install
+  pattern exclusion (`cmake/CMakeLists.txt`).

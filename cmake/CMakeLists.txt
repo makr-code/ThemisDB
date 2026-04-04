@@ -5904,8 +5904,9 @@ install(TARGETS themis_server themis_core
     ARCHIVE DESTINATION lib
 )
 
-install(DIRECTORY /include/
+install(DIRECTORY ${THEMIS_ROOT_DIR}/include/
     DESTINATION include
+    PATTERN "mock_clip_processor.h" EXCLUDE
 )
 
 # Performance Optimization Benchmarks

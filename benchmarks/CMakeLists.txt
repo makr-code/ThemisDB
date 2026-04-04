@@ -3062,6 +3062,240 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_content_versioning.cpp")
     message(STATUS "  ContentVersioning: content lifecycle throughput (create/update/fork/merge), version history scan, GC overhead")
 endif()
 
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_text_extraction.cpp")
+    message(STATUS "Adding Content Text Extraction benchmarks (Issue #1699)")
+
+    add_executable(bench_text_extraction
+        bench_text_extraction.cpp
+    )
+
+    target_link_libraries(bench_text_extraction PRIVATE
+        ${BENCHMARK_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_text_extraction PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(MSVC)
+            target_compile_options(bench_text_extraction PRIVATE
+                /O2
+                /DNDEBUG
+            )
+        else()
+            if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+                set(BENCHMARK_ARCH_FLAGS "-march=native")
+            endif()
+            target_compile_options(bench_text_extraction PRIVATE
+                -O3
+                ${BENCHMARK_ARCH_FLAGS}
+                -DNDEBUG
+            )
+        endif()
+    endif()
+
+    install(TARGETS bench_text_extraction
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  ContentTextExtraction: PDF/DOCX/HTML/plaintext extraction throughput and concurrent worker scaling")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_content_processor_paths.cpp")
+    message(STATUS "Adding Content Processor Path benchmarks (Issue #1699)")
+
+    add_executable(bench_content_processor_paths
+        bench_content_processor_paths.cpp
+    )
+
+    target_link_libraries(bench_content_processor_paths PRIVATE
+        ${BENCHMARK_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_content_processor_paths PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(MSVC)
+            target_compile_options(bench_content_processor_paths PRIVATE
+                /O2
+                /DNDEBUG
+            )
+        else()
+            if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+                set(BENCHMARK_ARCH_FLAGS "-march=native")
+            endif()
+            target_compile_options(bench_content_processor_paths PRIVATE
+                -O3
+                ${BENCHMARK_ARCH_FLAGS}
+                -DNDEBUG
+            )
+        endif()
+    endif()
+
+    install(TARGETS bench_content_processor_paths
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  ContentProcessorPaths: Office/OCR/Archive path throughput and scaling")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_geo_cpu_gpu.cpp")
+    message(STATUS "Adding Geo CPU/GPU parity benchmarks")
+
+    add_executable(bench_geo_cpu_gpu
+        bench_geo_cpu_gpu.cpp
+    )
+
+    target_link_libraries(bench_geo_cpu_gpu PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    if(TARGET themis_geo)
+        target_link_libraries(bench_geo_cpu_gpu PRIVATE themis_geo)
+    endif()
+
+    target_compile_definitions(bench_geo_cpu_gpu PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(MSVC)
+            target_compile_options(bench_geo_cpu_gpu PRIVATE
+                /O2
+                /DNDEBUG
+            )
+        else()
+            if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+                set(BENCHMARK_ARCH_FLAGS "-march=native")
+            endif()
+            target_compile_options(bench_geo_cpu_gpu PRIVATE
+                -O3
+                ${BENCHMARK_ARCH_FLAGS}
+                -DNDEBUG
+            )
+        endif()
+    endif()
+
+    install(TARGETS bench_geo_cpu_gpu
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  GeoParity: CPU/GPU throughput and fallback parity for intersects, distance, ST_BUFFER")
+endif()
+
+# ============================================================================
+# Process retrieval benchmarks
+# Validates PROC-OPEN-01/02/03:
+#   - Deterministic embedding generation on import (auto-embed hook)
+#   - State-change re-embedding (ProcessInstance transitions)
+#   - BM25 full-text search over process descriptions
+#   - HNSW-style cosine top-k retrieval (findSimilar baseline)
+# Self-contained — no Themis runtime headers required.
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_process_retrieval.cpp")
+    message(STATUS "Adding Process retrieval benchmarks (embedding + HNSW + full-text)")
+
+    add_executable(bench_process_retrieval
+        bench_process_retrieval.cpp
+    )
+
+    target_link_libraries(bench_process_retrieval PRIVATE
+        ${BENCHMARK_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_process_retrieval PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(MSVC)
+            target_compile_options(bench_process_retrieval PRIVATE
+                /O2
+                /DNDEBUG
+            )
+        else()
+            if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+                set(BENCHMARK_ARCH_FLAGS "-march=native")
+            endif()
+            target_compile_options(bench_process_retrieval PRIVATE
+                -O3
+                ${BENCHMARK_ARCH_FLAGS}
+                -DNDEBUG
+            )
+        endif()
+    endif()
+
+    install(TARGETS bench_process_retrieval
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  ProcessRetrieval: embedding generation, HNSW top-k, BM25 full-text, state-change re-embed")
+endif()
+
+# ============================================================================
+# GPU Hardware Capability benchmarks
+# Beta-exit evidence for:
+#   Issue #1800 — GPU P2P transfer manager (GPUP2PTransferManager, CPU path)
+#   Issue #1802 — NVLink topology-aware scheduling (TOPOLOGY_AWARE strategy)
+#   Issue #1805 — GPU module test coverage > 80 %
+# Self-contained — no CUDA/HIP hardware required; CPU simulation paths used.
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_gpu_hardware_capability.cpp")
+    message(STATUS "Adding GPU hardware capability benchmarks (P2P, NVLink, load-balancer)")
+
+    add_executable(bench_gpu_hardware_capability
+        bench_gpu_hardware_capability.cpp
+    )
+
+    target_link_libraries(bench_gpu_hardware_capability PRIVATE
+        ${BENCHMARK_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_gpu_hardware_capability PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(MSVC)
+            target_compile_options(bench_gpu_hardware_capability PRIVATE
+                /O2
+                /DNDEBUG
+            )
+        else()
+            if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+                set(BENCHMARK_ARCH_FLAGS "-march=native")
+            endif()
+            target_compile_options(bench_gpu_hardware_capability PRIVATE
+                -O3
+                ${BENCHMARK_ARCH_FLAGS}
+                -DNDEBUG
+            )
+        endif()
+    endif()
+
+    install(TARGETS bench_gpu_hardware_capability
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  GPUCapability: device probe, P2P CPU-fallback, NVLink topology, TOPOLOGY_AWARE scheduling")
+endif()
+
 # ============================================================================
 # AdaptiveQueryCompiler benchmarks (v1.8.0, Issue #86)
 # Validates:
