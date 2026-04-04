@@ -1426,7 +1426,7 @@ public:
             return args[1];
         }
         
-        return args.size() > 2 ? args[2] : nullptr;
+        return args.size() > 2 ? args[2] : nlohmann::json(nullptr);
     }
 };
 
