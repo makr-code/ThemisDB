@@ -43,8 +43,16 @@
 #include <rocksdb/advanced_options.h>
 #include <rocksdb/statistics.h>
 #include <rocksdb/utilities/checkpoint.h>
-#include <rocksdb/utilities/backup_engine.h> // v1.1.0: Incremental Backup
 #include <filesystem>
+// THEMIS_HAS_ROCKSDB_BACKUP: set to 1 when backup_engine.h is available.
+// Ubuntu 22.04 librocksdb-dev 6.11.4-3 does NOT ship this header; newer
+// distro packages and the vcpkg/Docker build do.  Guard accordingly.
+#if __has_include(<rocksdb/utilities/backup_engine.h>)
+#  include <rocksdb/utilities/backup_engine.h>
+#  define THEMIS_HAS_ROCKSDB_BACKUP 1
+#else
+#  define THEMIS_HAS_ROCKSDB_BACKUP 0
+#endif
 #include <algorithm>  // For std::max, std::min
 #include <cstring>
 #include <nlohmann/json.hpp>
@@ -1748,6 +1756,12 @@ Result<rocksdb::ColumnFamilyHandle*> RocksDBWrapper::getOrCreateColumnFamily(con
 // ===== v1.1.0: Advanced RocksDB Features =====
 
 bool RocksDBWrapper::createIncrementalBackup(const std::string& backup_dir, bool flush_before_backup) {
+#if !THEMIS_HAS_ROCKSDB_BACKUP
+    (void)backup_dir;
+    (void)flush_before_backup;
+    THEMIS_WARN("Incremental backup not supported: rocksdb backup_engine.h not available at build time");
+    return false;
+#else
     if (!db_) {
         THEMIS_ERROR("createIncrementalBackup failed: database not open");
         return false;
@@ -1792,9 +1806,15 @@ bool RocksDBWrapper::createIncrementalBackup(const std::string& backup_dir, bool
         THEMIS_ERROR("createIncrementalBackup exception: {}", e.what());
         return false;
     }
+#endif
 }
 
 bool RocksDBWrapper::restoreFromBackup(const std::string& backup_dir) {
+#if !THEMIS_HAS_ROCKSDB_BACKUP
+    (void)backup_dir;
+    THEMIS_WARN("Backup restore not supported: rocksdb backup_engine.h not available at build time");
+    return false;
+#else
     try {
         rocksdb::BackupEngineOptions backup_opts(backup_dir);
         rocksdb::BackupEngine* backup_engine_ptr = nullptr;
@@ -1837,9 +1857,14 @@ bool RocksDBWrapper::restoreFromBackup(const std::string& backup_dir) {
         THEMIS_ERROR("restoreFromBackup exception: {}", e.what());
         return false;
     }
+#endif
 }
 
 uint32_t RocksDBWrapper::getBackupCount(const std::string& backup_dir) const {
+#if !THEMIS_HAS_ROCKSDB_BACKUP
+    (void)backup_dir;
+    return 0;
+#else
     try {
         rocksdb::BackupEngineOptions backup_opts(backup_dir);
         rocksdb::BackupEngine* backup_engine_ptr = nullptr;
@@ -1862,6 +1887,7 @@ uint32_t RocksDBWrapper::getBackupCount(const std::string& backup_dir) const {
     } catch (...) {
         return 0;
     }
+#endif
 }
 
 std::string RocksDBWrapper::exportStatisticsJSON() const {

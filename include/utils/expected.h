@@ -22,14 +22,113 @@
 
 #pragma once
 
-// Try to include tl/expected.hpp if available, otherwise use std::optional fallback
+// Try to include tl/expected.hpp if available.
+// If unavailable, provide a minimal local fallback that supports the subset
+// used by this codebase (construction from value/unexpected, bool checks,
+// value()/error(), operator*()).
 #if __has_include(<tl/expected.hpp>)
   #include <tl/expected.hpp>
   #define HAS_TL_EXPECTED 1
 #else
-  // Fallback: use std::optional + std::bad_optional_access style approach
   #include <optional>
+  #include <stdexcept>
+  #include <utility>
+  #include <variant>
   #define HAS_TL_EXPECTED 0
+
+namespace tl {
+
+template<typename E>
+class unexpected {
+public:
+    explicit unexpected(E e) : error_(std::move(e)) {}
+
+    E& value() { return error_; }
+    const E& value() const { return error_; }
+
+private:
+    E error_;
+};
+
+template<typename T, typename E>
+class expected {
+public:
+    expected(const T& v) : data_(v) {}
+    expected(T&& v) : data_(std::move(v)) {}
+    expected(unexpected<E> u) : data_(std::move(u.value())) {}
+
+    bool has_value() const { return std::holds_alternative<T>(data_); }
+    explicit operator bool() const { return has_value(); }
+
+    T& value() {
+        if (!has_value()) {
+            throw std::logic_error("bad expected access");
+        }
+        return std::get<T>(data_);
+    }
+
+    const T& value() const {
+        if (!has_value()) {
+            throw std::logic_error("bad expected access");
+        }
+        return std::get<T>(data_);
+    }
+
+    E& error() {
+        if (has_value()) {
+            throw std::logic_error("no expected error");
+        }
+        return std::get<E>(data_);
+    }
+
+    const E& error() const {
+        if (has_value()) {
+            throw std::logic_error("no expected error");
+        }
+        return std::get<E>(data_);
+    }
+
+    T& operator*() { return value(); }
+    const T& operator*() const { return value(); }
+
+private:
+    std::variant<T, E> data_;
+};
+
+template<typename E>
+class expected<void, E> {
+public:
+    expected() = default;
+    expected(unexpected<E> u) : error_(std::move(u.value())) {}
+
+    bool has_value() const { return !error_.has_value(); }
+    explicit operator bool() const { return has_value(); }
+
+    void value() const {
+        if (!has_value()) {
+            throw std::logic_error("bad expected access");
+        }
+    }
+
+    E& error() {
+        if (has_value()) {
+            throw std::logic_error("no expected error");
+        }
+        return *error_;
+    }
+
+    const E& error() const {
+        if (has_value()) {
+            throw std::logic_error("no expected error");
+        }
+        return *error_;
+    }
+
+private:
+    std::optional<E> error_;
+};
+
+} // namespace tl
 #endif
 
 #include "utils/error_registry.h"
