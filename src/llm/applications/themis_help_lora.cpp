@@ -89,7 +89,9 @@ public:
         llama_config.n_threads = 4;
         llama_config.use_mmap = true;
         llama_config.use_kv_cache_reuse = true;
-        llama_config.enable_response_cache = true;
+        // Response cache requires an explicit persistent data directory;
+        // leave disabled here so the caller can opt in via the Config.
+        llama_config.enable_response_cache = false;
         
         llama_wrapper = std::make_unique<LlamaWrapper>(llama_config);
 

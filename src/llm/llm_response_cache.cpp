@@ -45,30 +45,48 @@ LLMResponseCache::LLMResponseCache(const std::string& cache_name, const Config& 
     // Initialize RocksDB if not provided via pointer exchange
     RocksDBWrapper* db = config_.db_ptr;
     if (!db) {
-        try {
-            RocksDBWrapper::Config db_config;
-            db_config.db_path = config_.cache_dir;
-            db_config.create_if_missing = true;
-            owned_db_ = std::make_unique<RocksDBWrapper>(db_config);
-            db = owned_db_.get();
-            if (!db->open()) {
-                THEMIS_ERROR("LLMResponseCache '{}': failed to open RocksDB at '{}'", cache_name_, config_.cache_dir);
+        // Skip RocksDB creation when no cache directory is configured.
+        // The cache will operate in pure in-memory mode instead of crashing.
+        if (config_.cache_dir.empty()) {
+            THEMIS_WARN("LLMResponseCache '{}': cache_dir is empty, running in in-memory mode only",
+                        cache_name_);
+        } else {
+            try {
+                RocksDBWrapper::Config db_config;
+                db_config.db_path = config_.cache_dir;
+                db_config.create_if_missing = true;
+                // Use conservative memory settings for an embedded cache database
+                // to avoid excessive resource consumption during startup.
+                db_config.block_cache_size_mb = 64;
+                db_config.memtable_size_mb = 32;
+                db_config.db_write_buffer_size_mb = 64;
+                owned_db_ = std::make_unique<RocksDBWrapper>(db_config);
+                db = owned_db_.get();
+                if (!db->open()) {
+                    THEMIS_WARN("LLMResponseCache '{}': failed to open RocksDB at '{}', "
+                                "running in in-memory mode only",
+                                cache_name_, config_.cache_dir);
+                    owned_db_.reset();
+                    db = nullptr;
+                } else {
+                    THEMIS_INFO("LLMResponseCache '{}': Created own RocksDB at '{}'", cache_name_, config_.cache_dir);
+                }
+            } catch (const std::exception& e) {
+                THEMIS_WARN("LLMResponseCache '{}': RocksDB init failed ({}), "
+                            "running in in-memory mode only",
+                            cache_name_, e.what());
                 owned_db_.reset();
                 db = nullptr;
-            } else {
-                THEMIS_INFO("LLMResponseCache '{}': Created own RocksDB at '{}'", cache_name_, config_.cache_dir);
             }
-        } catch (const std::exception& e) {
-            THEMIS_ERROR("Failed to create RocksDB for LLMResponseCache '{}': {}", 
-                        cache_name_, e.what());
-            return;
         }
     } else {
         THEMIS_INFO("LLMResponseCache '{}': Using external RocksDB via pointer exchange", 
                    cache_name_);
         if (!db->isOpen()) {
             if (!db->open()) {
-                THEMIS_ERROR("LLMResponseCache '{}': external RocksDB failed to open", cache_name_);
+                THEMIS_WARN("LLMResponseCache '{}': external RocksDB failed to open, "
+                            "running in in-memory mode only",
+                            cache_name_);
                 db = nullptr;
             }
         }

@@ -7,6 +7,57 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed — Hotfix: Docker image SIGSEGV on startup (`Exit 139`)
+
+> **Priority: P0** – Release-blocker for container users.
+> Affected tags: `themisdb/themisdb:latest`, `themisdb/themisdb:1.8.1-rc1`
+
+- **`LlamaWrapper::Config::enable_response_cache` changed default `true` → `false`**
+  The LLM response cache was enabled by default, causing `LlamaWrapper` to open a
+  RocksDB database unconditionally at construction time — even during function-registry
+  initialisation before `main()`. This triggered a SIGSEGV in
+  `rocksdb::ImmutableDBOptions::Dump` (frame `std::_Rb_tree<rocksdb::Temperature,…>`).
+  The cache is now opt-in; set `enable_response_cache = true` and configure
+  `response_cache_config.cache_dir` explicitly when a persistent cache is desired.
+
+- **`LLMResponseCache::Config::cache_dir` default changed `"./llm_cache"` → `""`**
+  An empty `cache_dir` activates pure in-memory mode, avoiding any RocksDB
+  initialisation unless a concrete writable path is provided.
+
+- **`LLMResponseCache` constructor: non-fatal RocksDB failures**
+  A failed `RocksDB::Open()` (exception or API error) no longer aborts initialisation;
+  the cache degrades gracefully to in-memory-only mode and emits a `WARN` log instead
+  of a fatal `ERROR`.
+
+- **`LLMResponseCache` RocksDB config: conservative memory defaults for embedded use**
+  When the cache opens its own RocksDB, it now uses 64 MB block cache, 32 MB
+  memtable, and 64 MB write buffer (down from 1 GB / 512 MB / 2 GB) to prevent
+  OOM failures in resource-constrained containers.
+
+- **`themis_help_lora.cpp`: removed unconditional `enable_response_cache = true`**
+  `ThemisHelpLoRA` no longer forces the response cache on; it inherits the safe
+  default (`false`) and lets callers opt in.
+
+- **`RocksDBWrapper::configureOptions()`: fixed `int64_t` → `uint64_t` cast for `db_paths`**
+  `rocksdb::DbPath` constructor expects `uint64_t` for `target_size`; the previous
+  `static_cast<int64_t>` was a sign-unsafe conversion that could corrupt the options
+  struct on large path sizes.
+
+- **`main_server.cpp`: added `--data-dir` / `--config=VALUE` CLI argument support**
+  The Dockerfile `CMD` uses `--data-dir=/data` and `--config=/etc/…` (equals-separated)
+  which were silently ignored. Both forms are now parsed correctly, making the
+  container start with the intended data directory.
+
+- **`Dockerfile` runtime stage — library and directory hardening:**
+  - Added `libnuma1`, `liblz4-1`, `libzstd1`, `libsnappy1v5` to runtime deps
+    (required by RocksDB compression codecs; absence caused silent fallback or crash).
+  - Pre-creates `/data/rocksdb`, `/data/llm_cache`, `/etc/themis` with correct
+    ownership so the server never fails on a missing writable directory at first start.
+  - Updated `HEALTHCHECK` start-period to 30 s and retries to 5 to tolerate slow
+    cold-start on constrained hardware.
+  - Removed broken `--config=/etc/themis/config.yml` from `CMD` (file does not exist
+    in a fresh container); server now starts cleanly without a config file.
+
 ### Added
 - **README: Comprehensive Technology & Feature Badges** 🏷️
   - Added 11 badge categories to the README header showcasing ThemisDB capabilities:

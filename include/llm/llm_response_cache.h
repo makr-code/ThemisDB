@@ -86,7 +86,9 @@ public:
         float similarity_threshold = 0.90f;  // 90% similarity required for match
         uint32_t ttl_seconds = 3600;         // 1 hour TTL
         size_t max_entries = 10000;          // Max cached responses
-        std::string cache_dir = "./llm_cache"; // Cache storage directory
+        // Cache storage directory.  Empty string = in-memory mode (no RocksDB).
+        // Set explicitly to a writable path to enable persistent caching.
+        std::string cache_dir;
         size_t embedding_dim = 384;          // Embedding dimension (default: 384 for small models)
         bool use_vector_index = true;        // Use HNSW for fast lookup
         RocksDBWrapper* db_ptr = nullptr;    // Optional: External RocksDB instance (pointer exchange)
