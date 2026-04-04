@@ -94,6 +94,8 @@ public:
 
     T& operator*() { return value(); }
     const T& operator*() const { return value(); }
+    T* operator->() { return &value(); }
+    const T* operator->() const { return &value(); }
 
 private:
     std::variant<T, E> data_;
