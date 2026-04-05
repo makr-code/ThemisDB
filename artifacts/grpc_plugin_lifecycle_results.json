@@ -1,0 +1,223 @@
+{
+  "tests": 19,
+  "failures": 0,
+  "disabled": 0,
+  "errors": 0,
+  "timestamp": "2026-04-05T14:01:34Z",
+  "time": "1.043s",
+  "name": "AllTests",
+  "testsuites": [
+    {
+      "name": "GRPCPluginTest",
+      "tests": 8,
+      "failures": 0,
+      "disabled": 0,
+      "errors": 0,
+      "timestamp": "2026-04-05T14:01:34Z",
+      "time": "0.011s",
+      "testsuite": [
+        {
+          "name": "Name",
+          "file": "C:\\VCC\\themis\\tests\\test_grpc_plugin_lifecycle.cpp",
+          "line": 29,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-04-05T14:01:34Z",
+          "time": "0s",
+          "classname": "GRPCPluginTest"
+        },
+        {
+          "name": "Version",
+          "file": "C:\\VCC\\themis\\tests\\test_grpc_plugin_lifecycle.cpp",
+          "line": 34,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-04-05T14:01:34Z",
+          "time": "0s",
+          "classname": "GRPCPluginTest"
+        },
+        {
+          "name": "Capabilities",
+          "file": "C:\\VCC\\themis\\tests\\test_grpc_plugin_lifecycle.cpp",
+          "line": 40,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-04-05T14:01:34Z",
+          "time": "0s",
+          "classname": "GRPCPluginTest"
+        },
+        {
+          "name": "InitializeAndShutdown",
+          "file": "C:\\VCC\\themis\\tests\\test_grpc_plugin_lifecycle.cpp",
+          "line": 49,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-04-05T14:01:34Z",
+          "time": "0s",
+          "classname": "GRPCPluginTest"
+        },
+        {
+          "name": "CreateServerReturnsNonNull",
+          "file": "C:\\VCC\\themis\\tests\\test_grpc_plugin_lifecycle.cpp",
+          "line": 58,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-04-05T14:01:34Z",
+          "time": "0s",
+          "classname": "GRPCPluginTest"
+        },
+        {
+          "name": "Protocol",
+          "file": "C:\\VCC\\themis\\tests\\test_grpc_plugin_lifecycle.cpp",
+          "line": 64,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-04-05T14:01:34Z",
+          "time": "0s",
+          "classname": "GRPCPluginTest"
+        },
+        {
+          "name": "DefaultPort",
+          "file": "C:\\VCC\\themis\\tests\\test_grpc_plugin_lifecycle.cpp",
+          "line": 69,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-04-05T14:01:34Z",
+          "time": "0s",
+          "classname": "GRPCPluginTest"
+        },
+        {
+          "name": "CreatedServerCanStartAndStop",
+          "file": "C:\\VCC\\themis\\tests\\test_grpc_plugin_lifecycle.cpp",
+          "line": 225,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-04-05T14:01:34Z",
+          "time": "0.008s",
+          "classname": "GRPCPluginTest"
+        }
+      ]
+    },
+    {
+      "name": "GRPCServerTest",
+      "tests": 11,
+      "failures": 0,
+      "disabled": 0,
+      "errors": 0,
+      "timestamp": "2026-04-05T14:01:34Z",
+      "time": "1.031s",
+      "testsuite": [
+        {
+          "name": "ProtocolIsGRPC",
+          "file": "C:\\VCC\\themis\\tests\\test_grpc_plugin_lifecycle.cpp",
+          "line": 78,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-04-05T14:01:34Z",
+          "time": "0s",
+          "classname": "GRPCServerTest"
+        },
+        {
+          "name": "NotRunningBeforeStart",
+          "file": "C:\\VCC\\themis\\tests\\test_grpc_plugin_lifecycle.cpp",
+          "line": 83,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-04-05T14:01:34Z",
+          "time": "0s",
+          "classname": "GRPCServerTest"
+        },
+        {
+          "name": "InitializeSetsAddress",
+          "file": "C:\\VCC\\themis\\tests\\test_grpc_plugin_lifecycle.cpp",
+          "line": 88,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-04-05T14:01:34Z",
+          "time": "0s",
+          "classname": "GRPCServerTest"
+        },
+        {
+          "name": "InitializeEmptyHostDefaultsZero",
+          "file": "C:\\VCC\\themis\\tests\\test_grpc_plugin_lifecycle.cpp",
+          "line": 99,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-04-05T14:01:34Z",
+          "time": "0s",
+          "classname": "GRPCServerTest"
+        },
+        {
+          "name": "RegisterNullServiceIsNoOp",
+          "file": "C:\\VCC\\themis\\tests\\test_grpc_plugin_lifecycle.cpp",
+          "line": 107,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-04-05T14:01:34Z",
+          "time": "0s",
+          "classname": "GRPCServerTest"
+        },
+        {
+          "name": "StatsZeroBeforeStart",
+          "file": "C:\\VCC\\themis\\tests\\test_grpc_plugin_lifecycle.cpp",
+          "line": 113,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-04-05T14:01:34Z",
+          "time": "0s",
+          "classname": "GRPCServerTest"
+        },
+        {
+          "name": "ResetStatsWorks",
+          "file": "C:\\VCC\\themis\\tests\\test_grpc_plugin_lifecycle.cpp",
+          "line": 128,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-04-05T14:01:34Z",
+          "time": "0s",
+          "classname": "GRPCServerTest"
+        },
+        {
+          "name": "StartInsecureAndStop",
+          "file": "C:\\VCC\\themis\\tests\\test_grpc_plugin_lifecycle.cpp",
+          "line": 140,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-04-05T14:01:34Z",
+          "time": "0.004s",
+          "classname": "GRPCServerTest"
+        },
+        {
+          "name": "StartAlreadyRunningReturnsFalse",
+          "file": "C:\\VCC\\themis\\tests\\test_grpc_plugin_lifecycle.cpp",
+          "line": 156,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-04-05T14:01:34Z",
+          "time": "0.004s",
+          "classname": "GRPCServerTest"
+        },
+        {
+          "name": "UptimeAdvancesWhileRunning",
+          "file": "C:\\VCC\\themis\\tests\\test_grpc_plugin_lifecycle.cpp",
+          "line": 171,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-04-05T14:01:34Z",
+          "time": "1.018s",
+          "classname": "GRPCServerTest"
+        },
+        {
+          "name": "TLSWithBadCertPathThrowsOnStart",
+          "file": "C:\\VCC\\themis\\tests\\test_grpc_plugin_lifecycle.cpp",
+          "line": 198,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-04-05T14:01:35Z",
+          "time": "0s",
+          "classname": "GRPCServerTest"
+        }
+      ]
+    }
+  ]
+}

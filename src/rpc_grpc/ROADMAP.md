@@ -39,10 +39,10 @@ Tests and advanced features (health service, interceptors, streaming helpers) ar
 
 ### v0.1.0 — Tests and Uptime Tracking (Target: Q3 2026)
 
-- [ ] Unit tests: `initialize`, `start` (insecure), `stop`, `registerService` (Target: Q3 2026)
+- [x] Unit tests: `initialize`, `start` (insecure), `stop`, `registerService` — `tests/test_grpc_plugin_lifecycle.cpp`
 - [ ] Integration tests: mTLS round-trip with real gRPC service (Target: Q3 2026)
-- [ ] `RPCServerStats::uptime_seconds` incremental tracking with `std::chrono` (Target: Q3 2026)
-- [ ] Fail-closed TLS test: verify throw on bad cert path (Target: Q3 2026)
+- [x] `RPCServerStats::uptime_seconds` incremental tracking with `std::chrono` — `start_time_` stored on `start()`, elapsed computed in `getStats()`
+- [x] Fail-closed TLS test: verify throw/false on bad cert path — `TLSWithBadCertPathThrowsOnStart`
 
 ### v0.2.0 — Health and Observability (Target: Q4 2026)
 
@@ -77,9 +77,9 @@ Tests and advanced features (health service, interceptors, streaming helpers) ar
 - [x] Null service guard in `registerService()`
 - [x] Cert file load failure → fail-closed throw
 
-### Phase 4: Tests [ ]
-- [ ] Unit tests (Target: Q3 2026)
-- [ ] Integration tests (Target: Q3 2026)
+### Phase 4: Tests [~]
+- [x] Unit tests: lifecycle (insecure start/stop, fail-closed TLS, uptime, registerService null-guard) — `tests/test_grpc_plugin_lifecycle.cpp` (v0.1.0)
+- [ ] Integration tests: mTLS round-trip (Target: Q3 2026)
 
 ### Phase 5: Performance / Hardening [ ]
 - [ ] Health service (Target: Q4 2026)
@@ -98,8 +98,8 @@ Tests and advanced features (health service, interceptors, streaming helpers) ar
 | TLS / mTLS | ✅ | Fail-closed; mTLS requires and verifies client cert |
 | Service registration | ✅ | Any `grpc::Service*` accepted before start |
 | Thread safety | ✅ | Atomic running state; mutex-protected stats |
-| Unit/integration tests | ❌ | Planned Q3 2026 |
-| Uptime tracking | ⚠️ | Initialised to 0; incremental tracking planned Q3 2026 |
+| Unit/integration tests | ⚠️ | Lifecycle unit tests added v0.1.0; mTLS integration tests planned Q3 2026 |
+| Uptime tracking | ✅ | `start_time_` stored on `start()`; elapsed computed live in `getStats()` |
 | Health service | ❌ | Planned Q4 2026 |
 | Prometheus metrics | ❌ | Planned Q4 2026 |
 
@@ -107,6 +107,6 @@ Tests and advanced features (health service, interceptors, streaming helpers) ar
 
 ## Known Issues & Limitations
 
-- `RPCServerStats::uptime_seconds` is set to 0 at start and never incremented.
+- ~~`RPCServerStats::uptime_seconds` is set to 0 at start and never incremented.~~ Fixed in v0.1.0: `start_time_` stored on `start()`; elapsed computed live in `getStats()`.
 - No gRPC health-check service is auto-registered; load balancers requiring it need manual registration.
 - Single-port binding only; separate admin port requires a second `GRPCServer` instance.

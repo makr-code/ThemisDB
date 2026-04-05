@@ -14280,7 +14280,52 @@ if(THEMIS_ENABLE_GRPC)
         message(STATUS "Network focused test not found: ${CMAKE_CURRENT_SOURCE_DIR}/test_grpc_transport.cpp")
     endif()
 endif()
-# Prompt Engineering Module ÔÇô Standalone Focused Test Targets
+
+# ---------------------------------------------------------------------------
+# gRPC Plugin Lifecycle Focused Tests (src/rpc_grpc/grpc_plugin.cpp)
+# Tests: GRPCPlugin metadata, GRPCServer init, start/stop insecure,
+#        fail-closed TLS, uptime_seconds tracking
+# ---------------------------------------------------------------------------
+if(THEMIS_ENABLE_GRPC AND TARGET gRPC::grpc++)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_grpc_plugin_lifecycle.cpp")
+        message(STATUS "Adding gRPC Plugin focused test: test_grpc_plugin_lifecycle_focused")
+
+        add_executable(test_grpc_plugin_lifecycle_focused
+            test_grpc_plugin_lifecycle.cpp
+            ${THEMIS_ROOT_DIR}/src/rpc_grpc/grpc_plugin.cpp
+        )
+
+        target_include_directories(test_grpc_plugin_lifecycle_focused PRIVATE
+            ${THEMIS_ROOT_DIR}/include
+            ${THEMIS_ROOT_DIR}/src
+        )
+
+        target_link_libraries(test_grpc_plugin_lifecycle_focused PRIVATE
+            ${TEST_LIBS}
+            gRPC::grpc++
+            Threads::Threads
+        )
+
+        target_compile_definitions(test_grpc_plugin_lifecycle_focused PRIVATE
+            THEMIS_TEST_BUILD=1
+            THEMIS_ENABLE_GRPC=1
+        )
+
+        add_test(NAME GRPCPluginLifecycleFocusedTests
+                 COMMAND test_grpc_plugin_lifecycle_focused)
+
+        set_tests_properties(GRPCPluginLifecycleFocusedTests PROPERTIES
+            LABELS "rpc;grpc;plugin;lifecycle;tls;focused;unit"
+            TIMEOUT 60
+        )
+
+        message(STATUS "  GRPCPlugin: name/version/caps, init, start/stop insecure, fail-closed TLS, uptime_seconds")
+    else()
+        message(STATUS "gRPC Plugin focused test not found: ${CMAKE_CURRENT_SOURCE_DIR}/test_grpc_plugin_lifecycle.cpp")
+    endif()
+endif()
+
+# Prompt Engineering Module — Standalone Focused Test Targets
 # Each target is an independent executable so individual components can be
 # validated in isolation without linking the entire themis_tests binary.
 # All targets compile against themis_core only; no live database is required.

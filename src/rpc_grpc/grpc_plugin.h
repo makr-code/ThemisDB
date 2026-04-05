@@ -29,6 +29,7 @@
 #include <memory>
 #include <string>
 #include <atomic>
+#include <chrono>
 #include <mutex>
 
 /**
@@ -76,9 +77,13 @@ private:
     mutable std::mutex stats_mutex_;
     RPCServerStats stats_;
     std::string server_address_;
+    std::chrono::steady_clock::time_point start_time_;
     
     // Service implementations registered with this server
     std::vector<grpc::Service*> services_;
+    // Idle completion queue – created when no services are registered so that
+    // BuildAndStart() can succeed (drained on stop)
+    std::unique_ptr<grpc::ServerCompletionQueue> idle_cq_;
     
     /**
      * @brief Load file contents (for certificates)

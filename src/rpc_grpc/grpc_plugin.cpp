@@ -79,6 +79,12 @@ bool GRPCServer::start() {
         for (auto* service : services_) {
             builder.RegisterService(service);
         }
+            // gRPC requires at least one completion queue or a registered sync service.
+            // When no services are registered (e.g., in tests or idle mode), add a CQ
+            // so BuildAndStart() can succeed.
+            if (services_.empty()) {
+                idle_cq_ = builder.AddCompletionQueue();
+            }
         
         // Set max message sizes
         builder.SetMaxReceiveMessageSize(100 * 1024 * 1024); // 100 MB
@@ -89,6 +95,7 @@ bool GRPCServer::start() {
         
         if (server_) {
             running_ = true;
+            start_time_ = std::chrono::steady_clock::now();
             std::cout << "gRPC server listening on " << server_address_ << std::endl;
             
             // Update stats
@@ -112,6 +119,14 @@ void GRPCServer::stop() {
     if (server_ && running_) {
         std::cout << "Shutting down gRPC server..." << std::endl;
         server_->Shutdown();
+            if (idle_cq_) {
+                idle_cq_->Shutdown();
+                // Drain pending events
+                void* tag = nullptr;
+                bool ok = false;
+                while (idle_cq_->Next(&tag, &ok)) {}
+                idle_cq_.reset();
+            }
         running_ = false;
         std::cout << "gRPC server stopped" << std::endl;
     }
@@ -123,7 +138,13 @@ bool GRPCServer::isRunning() const {
 
 RPCServerStats GRPCServer::getStats() const {
     std::lock_guard<std::mutex> lock(stats_mutex_);
-    return stats_;
+    RPCServerStats result = stats_;
+    if (running_) {
+        auto elapsed = std::chrono::steady_clock::now() - start_time_;
+        result.uptime_seconds = static_cast<uint64_t>(
+            std::chrono::duration_cast<std::chrono::seconds>(elapsed).count());
+    }
+    return result;
 }
 
 void GRPCServer::registerService(void* service_impl) {
