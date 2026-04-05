@@ -1,5 +1,9 @@
 # Metadata Interfaces CI
 
+> [!WARNING]
+> Historische Workflow-Dokumentation (Legacy): Diese Seite beschreibt eine fruehere CI-Generation.
+> Der verbindliche aktuelle Stand ist der 8-Workflow-Kern in `.github/WORKFLOW_REGISTRY.md`.
+
 🔄 **CI/CD**
 
 > **Workflow-Datei:** `.github/workflows/metadata-interfaces-ci.yml`
@@ -23,7 +27,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Metadata Inte
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/ci-scope-classifier.yml`
+**Verwendet:** `Historisch (fruehere CI-Generation). Aktueller Stand: .github/WORKFLOW_REGISTRY.md`
 
 ### `metadata-interfaces`
 **Anzeigename:** Metadata Interfaces – ${{ matrix.os }} / ${{ matrix.compiler }}
@@ -49,3 +53,4 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Metadata Inte
 
 - [Workflow-Datei](../.github/workflows/metadata-interfaces-ci.yml)
 - [Alle Workflows](README.md)
+

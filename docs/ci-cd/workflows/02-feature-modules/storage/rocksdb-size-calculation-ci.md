@@ -1,5 +1,9 @@
 # RocksDBWrapper Size Calculation CI
 
+> [!WARNING]
+> Historische Workflow-Dokumentation (Legacy): Diese Seite beschreibt eine fruehere CI-Generation.
+> Der verbindliche aktuelle Stand ist der 8-Workflow-Kern in `.github/WORKFLOW_REGISTRY.md`.
+
 🔄 **CI/CD**
 
 > **Workflow-Datei:** `.github/workflows/02-feature-modules_storage_rocksdb-size-calculation-ci.yml`
@@ -23,7 +27,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **RocksDBWrappe
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/01-core_ci-scope-classifier.yml`
+**Verwendet:** `Historisch (fruehere CI-Generation). Aktueller Stand: .github/WORKFLOW_REGISTRY.md`
 
 ### `rocksdb-size-calculation-unit-tests`
 **Anzeigename:** RocksDB Size Calculation tests (${{ matrix.os }} / ${{ matrix.compiler }})
@@ -46,3 +50,4 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **RocksDBWrappe
 
 - [Workflow-Datei](../../../.github/workflows/02-feature-modules_storage_rocksdb-size-calculation-ci.yml)
 - [Alle Workflows](../README.md)
+

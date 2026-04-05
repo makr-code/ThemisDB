@@ -15,6 +15,7 @@ ARG ENABLE_GPU=ON
 ARG FORCE_CPU_ONLY=OFF
 ARG BUILD_TESTS=OFF
 ARG BUILD_BENCHMARKS=OFF
+ARG THEMIS_ENABLE_ENCRYPTED_STORAGE=OFF
 ARG TARGETARCH=amd64
 
 # ============================================================================
@@ -44,7 +45,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked \
     rm -f /etc/apt/apt.conf.d/docker-clean && \
     echo 'Binary::apt::APT::Keep-Downloaded-Packages "true";' > /etc/apt/apt.conf.d/keep-cache && \
-    apt-get update && apt-get install -y --no-install-recommends \
+    apt-get update && apt-get -y upgrade && apt-get install -y --no-install-recommends \
         # Build tools
         build-essential cmake ninja-build git curl ca-certificates pkg-config \
         # vcpkg dependencies
@@ -54,7 +55,8 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
         aria2 \
         # System libraries
         libssl-dev zlib1g-dev libkrb5-dev && \
-    apt-get clean
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 # Clone and bootstrap vcpkg, capture current HEAD as baseline
 RUN git clone https://github.com/microsoft/vcpkg.git ${VCPKG_ROOT} && \
@@ -292,6 +294,7 @@ RUN set -eux; \
 FROM ubuntu:24.04 AS runtime
 
 ARG THEMIS_EDITION
+ARG THEMIS_ENABLE_ENCRYPTED_STORAGE=OFF
 
 # Metadata labels (OCI standard)
 LABEL org.opencontainers.image.title="ThemisDB" \
@@ -303,46 +306,90 @@ LABEL org.opencontainers.image.title="ThemisDB" \
 
 ENV DEBIAN_FRONTEND=noninteractive \
     THEMIS_EDITION=${THEMIS_EDITION} \
-    LD_LIBRARY_PATH=/usr/local/lib:/opt/themis/lib
+    LD_LIBRARY_PATH=/opt/themis/bin \
+    THEMIS_CONFIG_DIR=/etc/themis/config \
+    THEMIS_DATA_DIR=/var/lib/themis/data \
+    THEMIS_LOG_DIR=/var/log/themis
 
 WORKDIR /opt/themis
 
-# Install minimal runtime dependencies + gocryptfs for user storage encryption
+# Install minimal runtime dependencies
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked \
     rm -f /etc/apt/apt.conf.d/docker-clean && \
-    apt-get update && apt-get install -y --no-install-recommends \
+    set -eux; \
+    apt-get update; \
+    apt-get -y upgrade; \
+    apt-get install -y --no-install-recommends \
         ca-certificates \
         libssl3t64 \
         zlib1g \
         libstdc++6 \
         libgomp1 \
         curl \
-        gocryptfs \
-        fuse \
-        libsodium23 && \
-    echo "user_allow_other" >> /etc/fuse.conf && \
-    apt-get clean && \
+        libsodium23; \
+    if [ "${THEMIS_ENABLE_ENCRYPTED_STORAGE}" = "ON" ]; then \
+        apt-get install -y --no-install-recommends gocryptfs fuse; \
+        echo "user_allow_other" >> /etc/fuse.conf; \
+    fi; \
+    apt-get purge -y --auto-remove tar || true; \
+    apt-get clean; \
     rm -rf /var/lib/apt/lists/*
 
 # Copy themis_server binary
 COPY --from=build /src/build/bin/themis_server /opt/themis/bin/themis_server
 
-# Copy llama.cpp libraries (if LLM enabled)
-COPY --from=llama /opt/llama.cpp/build/lib*.so* /usr/local/lib/
+# Copy llama.cpp libraries from llama stage to bin/ with symlink handling
+COPY --from=llama /opt/llama.cpp/build/bin/ /opt/themis/bin/
 
-# Copy vcpkg runtime libraries (shared libs) if present
+# Create symlinks for version-specific llama libraries
+RUN set +e; \
+    cd /opt/themis/bin && \
+    \
+    # Create symlinks for libllama (e.g., libllama.so.0 -> libllama.so.0.0.7974)
+    for lib in libllama*.so.*; do \
+        [ -e "$lib" ] && ln -sf "$lib" "${lib%.so*}.so.0" 2>/dev/null || true; \
+    done; \
+    \
+    # Create symlinks for libggml
+    for lib in libggml*.so.*; do \
+        [ -e "$lib" ] && ln -sf "$lib" "${lib%.so*}.so.0" 2>/dev/null || true; \
+    done; \
+    \
+    # Create symlinks for libmtmd
+    for lib in libmtmd*.so.*; do \
+        [ -e "$lib" ] && ln -sf "$lib" "${lib%.so*}.so.0" 2>/dev/null || true; \
+    done; \
+    \
+    echo "✓ Installed llama.cpp libraries in /opt/themis/bin:"; \
+    ls -lh lib*.so* 2>&1 | head -10 || echo "⚠ No libs found"; \
+    set -e
+
+# Copy vcpkg runtime libraries (shared libs) to bin/ for simplicity
 RUN --mount=type=bind,from=deps,source=/build/vcpkg_installed,target=/deps_vcpkg,readonly \
-    mkdir -p /opt/themis/lib && \
-    cp -a /deps_vcpkg/*/lib/*.so* /opt/themis/lib/ 2>/dev/null || true
+    (find /deps_vcpkg -name "*.so*" -path "*/lib/*" 2>/dev/null | head -50 | xargs -I {} cp -af {} /opt/themis/bin/ 2>/dev/null || true) && \
+    echo "✓ vcpkg libraries copied to /opt/themis/bin"
 
-# Update library cache
-RUN ldconfig
+# Copy configuration files into canonical Linux config path
+COPY config/config.yaml /etc/themis/config/config.yaml
+COPY config/pii_patterns.yaml /etc/themis/config/pii_patterns.yaml
+COPY config/ai_ml/lora_training_config.yaml /etc/themis/config/ai_ml/lora_training_config.yaml
 
-# Create data directory and non-root user
-RUN mkdir -p /data && \
-    useradd -r -u 1000 -d /opt/themis -s /bin/false themis && \
-    chown -R themis:themis /opt/themis /data
+# Create canonical Linux runtime directories and compatibility links
+RUN mkdir -p /var/log/themis && \
+    mkdir -p /var/lib/themis/data && \
+    mkdir -p /opt/themis && \
+    ln -sfn /etc/themis/config /opt/themis/config && \
+    ln -sfn /var/log/themis /opt/themis/logs && \
+    chmod 755 /var/log/themis /var/lib/themis /var/lib/themis/data && \
+    if ! id -u themis >/dev/null 2>&1; then \
+        if getent passwd 1000 >/dev/null 2>&1; then \
+            useradd -r -d /opt/themis -s /bin/false themis; \
+        else \
+            useradd -r -u 1000 -d /opt/themis -s /bin/false themis; \
+        fi; \
+    fi && \
+    chown -R themis:themis /opt/themis /etc/themis /var/lib/themis /var/log/themis
 
 USER themis
 
@@ -354,7 +401,7 @@ HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
     CMD curl -f http://localhost:8080/health || exit 1
 
 ENTRYPOINT ["/opt/themis/bin/themis_server"]
-CMD ["--config=/etc/themis/config.yml", "--data-dir=/data"]
+CMD ["--config=/etc/themis/config/config.yaml", "--data-dir=/var/lib/themis/data"]
 
 # ============================================================================
 # Stage 6: debug - Development/debugging image
@@ -372,7 +419,7 @@ WORKDIR /opt/themis
 # Install debug tools
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked \
-    apt-get update && apt-get install -y --no-install-recommends \
+    apt-get update && apt-get -y upgrade && apt-get install -y --no-install-recommends \
         ca-certificates libssl3t64 zlib1g libstdc++6 curl \
         gdb valgrind strace ltrace lsof htop vim less \
         netcat-openbsd telnet iproute2 dnsutils && \

@@ -19,7 +19,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
 # ============================================================================
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked \
-    apt-get update && apt-get install -y --no-install-recommends \
+    apt-get update && apt-get -y upgrade && apt-get install -y --no-install-recommends \
         # Runtime dependencies
         ca-certificates \
         libssl3t64 \
@@ -165,7 +165,7 @@ WORKDIR /opt/themis
 # Runtime dependencies only
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked \
-    apt-get update && apt-get install -y --no-install-recommends \
+    apt-get update && apt-get -y upgrade && apt-get install -y --no-install-recommends \
         ca-certificates \
         libssl3t64 \
         zlib1g \
@@ -176,6 +176,15 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 # Copy built artifacts from builder stage
 COPY --from=0 /build/build-community/bin/themis_server /opt/themis/
 COPY --from=0 /build/build-community/lib /opt/themis/lib/
+
+# Create and use dedicated non-root runtime user
+RUN set -eux && \
+    if ! id -u themis >/dev/null 2>&1; then \
+        useradd -r -u 10001 -d /opt/themis -s /usr/sbin/nologin themis; \
+    fi && \
+    chown -R themis:themis /opt/themis
+
+USER themis
 
 # ============================================================================
 # Health check

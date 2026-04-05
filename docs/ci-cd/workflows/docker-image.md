@@ -1,5 +1,9 @@
 # Docker Image CI
 
+> [!WARNING]
+> Historische Workflow-Dokumentation (Legacy): Diese Seite beschreibt eine fruehere CI-Generation.
+> Der verbindliche aktuelle Stand ist der 8-Workflow-Kern in `.github/WORKFLOW_REGISTRY.md`.
+
 🔄 **CI/CD**
 
 > **Workflow-Datei:** `.github/workflows/docker-image.yml`
@@ -28,3 +32,4 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Docker Image*
 
 - [Workflow-Datei](../.github/workflows/docker-image.yml)
 - [Alle Workflows](README.md)
+

@@ -1,5 +1,9 @@
 # [Manual] Add Documentation Metadata
 
+> [!WARNING]
+> Historische Workflow-Dokumentation (Legacy): Diese Seite beschreibt eine fruehere CI-Generation.
+> Der verbindliche aktuelle Stand ist der 8-Workflow-Kern in `.github/WORKFLOW_REGISTRY.md`.
+
 🖱️ **Manuell**
 
 > **Workflow-Datei:** `.github/workflows/08-maintenance_add-doc-metadata.yml`
@@ -44,3 +48,4 @@ Manuell ausgelöster Workflow für: **Add Documentation Metadata**.
 
 - [Workflow-Datei](../../.github/workflows/08-maintenance_add-doc-metadata.yml)
 - [Alle Workflows](../README.md)
+

@@ -1,5 +1,9 @@
 # Edition · COMMUNITY · CI
 
+> [!WARNING]
+> Historische Workflow-Dokumentation (Legacy): Diese Seite beschreibt eine fruehere CI-Generation.
+> Der verbindliche aktuelle Stand ist der 8-Workflow-Kern in `.github/WORKFLOW_REGISTRY.md`.
+
 🔄 **CI/CD**
 
 > **Workflow-Datei:** `.github/workflows/03-editions_edition-community-ci.yml`
@@ -32,3 +36,4 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Edition · CO
 
 - [Workflow-Datei](../../.github/workflows/03-editions_edition-community-ci.yml)
 - [Alle Workflows](../README.md)
+

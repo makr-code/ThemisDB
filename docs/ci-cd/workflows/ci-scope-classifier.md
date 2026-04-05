@@ -1,5 +1,9 @@
 # CI Scope Classifier
 
+> [!WARNING]
+> Historische Workflow-Dokumentation (Legacy): Diese Seite beschreibt eine fruehere CI-Generation.
+> Der verbindliche aktuelle Stand ist der 8-Workflow-Kern in `.github/WORKFLOW_REGISTRY.md`.
+
 ♻️ **Reusable Workflow**
 
 > **Workflow-Datei:** `.github/workflows/ci-scope-classifier.yml`
@@ -31,5 +35,6 @@ Wiederverwendbarer Hilfs-Workflow: **CI Scope Classifier**.
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../.github/workflows/ci-scope-classifier.yml)
+- Workflow-Datei: historisch, siehe `.github/WORKFLOW_REGISTRY.md`
 - [Alle Workflows](README.md)
+

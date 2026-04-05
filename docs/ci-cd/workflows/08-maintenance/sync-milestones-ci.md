@@ -1,5 +1,9 @@
 # Sync-Milestones CI
 
+> [!WARNING]
+> Historische Workflow-Dokumentation (Legacy): Diese Seite beschreibt eine fruehere CI-Generation.
+> Der verbindliche aktuelle Stand ist der 8-Workflow-Kern in `.github/WORKFLOW_REGISTRY.md`.
+
 🔄 **CI/CD**
 
 > **Workflow-Datei:** `.github/workflows/08-maintenance_sync-milestones-ci.yml`
@@ -55,3 +59,4 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Sync-Mileston
 
 - [Workflow-Datei](../../.github/workflows/08-maintenance_sync-milestones-ci.yml)
 - [Alle Workflows](../README.md)
+

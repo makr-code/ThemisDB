@@ -166,6 +166,8 @@ docker/tmp/
 .docker-build-*/
 .dockerignore.optimized
 .dockerignore.prebuilt
+.buildx-cache/
+.buildx-cache-new/
 
 # Local clone of optional LLM engine (excluded from VCS)
 # Kept locally for optional builds; never committed

@@ -1,0 +1,434 @@
+#0 building with "themis-multi" instance using docker-container driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile:
+#1 transferring dockerfile: 17.06kB 0.0s done
+#1 DONE 0.5s
+
+#2 resolve image config for docker-image://docker.io/docker/dockerfile:1.6
+#2 DONE 0.9s
+
+#3 docker-image://docker.io/docker/dockerfile:1.6@sha256:ac85f380a63b13dfcefa89046420e1781752bab202122f8f50032edf31be0021
+#3 resolve docker.io/docker/dockerfile:1.6@sha256:ac85f380a63b13dfcefa89046420e1781752bab202122f8f50032edf31be0021
+#3 resolve docker.io/docker/dockerfile:1.6@sha256:ac85f380a63b13dfcefa89046420e1781752bab202122f8f50032edf31be0021 0.5s done
+#3 DONE 0.6s
+
+#3 docker-image://docker.io/docker/dockerfile:1.6@sha256:ac85f380a63b13dfcefa89046420e1781752bab202122f8f50032edf31be0021
+#3 CACHED
+
+#4 [internal] load metadata for docker.io/library/ubuntu:24.04
+#4 ...
+
+#5 [auth] library/ubuntu:pull token for registry-1.docker.io
+#5 DONE 0.0s
+
+#4 [internal] load metadata for docker.io/library/ubuntu:24.04
+#4 DONE 0.5s
+
+#6 [internal] load .dockerignore
+#6 transferring context: 1.63kB done
+#6 DONE 0.0s
+
+#7 importing cache manifest from local:549025323431745230
+#7 inferred cache manifest type: application/vnd.oci.image.manifest.v1+json done
+#7 DONE 0.0s
+
+#8 [base 1/3] FROM docker.io/library/ubuntu:24.04@sha256:186072bba1b2f436cbb91ef2567abca677337cfc786c86e107d25b7072feef0c
+#8 resolve docker.io/library/ubuntu:24.04@sha256:186072bba1b2f436cbb91ef2567abca677337cfc786c86e107d25b7072feef0c 0.1s done
+#8 CACHED
+
+#9 [runtime 2/7] RUN --mount=type=cache,target=/var/cache/apt,sharing=locked     --mount=type=cache,target=/var/lib/apt,sharing=locked     rm -f /etc/apt/apt.conf.d/docker-clean &&     apt-get update && apt-get install -y --no-install-recommends         ca-certificates         libssl3t64         zlib1g         libstdc++6         libgomp1         curl         gocryptfs         fuse         libsodium23 &&     echo "user_allow_other" >> /etc/fuse.conf &&     apt-get clean &&     rm -rf /var/lib/apt/lists/*
+#9 0.276 Get:1 http://security.ubuntu.com/ubuntu noble-security InRelease [126 kB]
+#9 0.296 Get:2 http://archive.ubuntu.com/ubuntu noble InRelease [256 kB]
+#9 0.526 Get:3 http://security.ubuntu.com/ubuntu noble-security/multiverse amd64 Packages [34.8 kB]
+#9 0.564 Get:4 http://archive.ubuntu.com/ubuntu noble-updates InRelease [126 kB]
+#9 0.601 Get:5 http://security.ubuntu.com/ubuntu noble-security/main amd64 Packages [1985 kB]
+#9 0.651 Get:6 http://archive.ubuntu.com/ubuntu noble-backports InRelease [126 kB]
+#9 0.789 Get:7 http://archive.ubuntu.com/ubuntu noble/universe amd64 Packages [19.3 MB]
+#9 1.670 Get:8 http://security.ubuntu.com/ubuntu noble-security/universe amd64 Packages [1504 kB]
+#9 2.467 Get:9 http://security.ubuntu.com/ubuntu noble-security/restricted amd64 Packages [3499 kB]
+#9 ...
+
+#10 [internal] load build context
+#10 transferring context: 370.12kB 5.7s done
+#10 DONE 5.7s
+
+#11 [llama 1/3] WORKDIR /opt
+#11 CACHED
+
+#12 [llama 2/3] COPY llama.cpp ./llama.cpp
+#12 CACHED
+
+#13 [base 2/3] RUN --mount=type=cache,target=/var/cache/apt,sharing=locked     --mount=type=cache,target=/var/lib/apt,sharing=locked     rm -f /etc/apt/apt.conf.d/docker-clean &&     echo 'Binary::apt::APT::Keep-Downloaded-Packages "true";' > /etc/apt/apt.conf.d/keep-cache &&     apt-get update && apt-get install -y --no-install-recommends         build-essential cmake ninja-build git curl ca-certificates pkg-config         zip unzip tar wget flex bison python3 perl nasm         autoconf automake libtool         aria2         libssl-dev zlib1g-dev libkrb5-dev &&     apt-get clean
+#13 CACHED
+
+#14 [base 3/3] RUN git clone https://github.com/microsoft/vcpkg.git /opt/vcpkg &&     cd /opt/vcpkg &&     VCPKG_BASELINE=$(git rev-parse HEAD) &&     echo "${VCPKG_BASELINE}" > /tmp/vcpkg_baseline.txt &&     ./bootstrap-vcpkg.sh -disableMetrics &&     echo "Ô£ô vcpkg baseline: ${VCPKG_BASELINE}"
+#14 CACHED
+
+#15 [llama 3/3] RUN if [ "ON" = "ON" ]; then         echo "Building llama.cpp for LLM support...";         cd /opt/llama.cpp &&                 if [ -f src/llama-chat.cpp ]; then             sed -i 's/#define LU8(x) u8##x/#define LU8(x) (const char*)(x)/' src/llama-chat.cpp &&             sed -i 's/const char8_t \* haystack/const char* haystack/' src/llama-chat.cpp;         fi &&                 rm -rf build &&         mkdir -p build &&         cd build &&         cmake .. -G Ninja             -DCMAKE_BUILD_TYPE=Release             -DLLAMA_BUILD_TESTS=OFF             -DLLAMA_BUILD_EXAMPLES=OFF             -DLLAMA_BUILD_SERVER=OFF             -DLLAMA_BUILD_SHARED_LIB=ON             -DLLAMA_NATIVE=OFF             -DLLAMA_AVX2=ON &&         ninja -j4 &&         echo "Ô£ô llama.cpp built successfully";     else         echo "LLM disabled - skipping llama.cpp build";         mkdir -p /opt/llama.cpp/build/lib;     fi
+#15 CACHED
+
+#16 [deps 2/6] COPY docker/vcpkg-*.json ./
+#16 CACHED
+
+#17 [deps 5/6] COPY ports ./ports
+#17 CACHED
+
+#18 [deps 4/6] COPY vcpkg-configuration.json ./
+#18 CACHED
+
+#19 [deps 3/6] RUN set -eux;     EDITION=$(echo "COMMUNITY" | tr '[:upper:]' '[:lower:]');     if [ -f "vcpkg-${EDITION}.json" ]; then         cp "vcpkg-${EDITION}.json" vcpkg.json;         echo "Ô£ô Edition: COMMUNITY";     else         echo "ERROR: vcpkg-${EDITION}.json not found"; exit 1;     fi;         case "amd64" in         amd64) TRIPLET="x64-linux" ;;         arm64) TRIPLET="arm64-linux" ;;         arm)   TRIPLET="arm-linux" ;;         *)     echo "ERROR: Unsupported arch amd64"; exit 1 ;;     esac;     echo "${TRIPLET}" > /tmp/triplet.txt;     echo "Ô£ô Architecture: ${TRIPLET} (amd64)"
+#19 CACHED
+
+#20 [deps 1/6] WORKDIR /build
+#20 CACHED
+
+#21 [deps 6/6] RUN --mount=type=bind,from=prebuilt,target=/vcpkg-prebuilt,readonly     --mount=type=cache,target=/opt/vcpkg/downloads,sharing=locked     --mount=type=cache,target=/opt/vcpkg/packages,sharing=locked     --mount=type=cache,target=/opt/vcpkg/buildtrees,sharing=locked     set -eux;     TRIPLET=$(cat /tmp/triplet.txt);     mkdir -p /build/vcpkg_installed/${TRIPLET};         if [ -d /vcpkg-host-downloads ] && [ "$(ls -A /vcpkg-host-downloads 2>/dev/null)" ]; then         echo "­ƒôª Copying host downloads cache to BuildKit cache...";         cp -n /vcpkg-host-downloads/*.tar.gz /opt/vcpkg/downloads/ 2>/dev/null || true;         cp -n /vcpkg-host-downloads/*.zip /opt/vcpkg/downloads/ 2>/dev/null || true;         cp -n /vcpkg-host-downloads/*.7z /opt/vcpkg/downloads/ 2>/dev/null || true;         CACHED=$(ls /opt/vcpkg/downloads/*.tar.gz /opt/vcpkg/downloads/*.zip 2>/dev/null | wc -l);         echo "Ô£ô $CACHED cached downloads available";     else         echo "ÔÜá No host downloads cache, will download from internet";     fi;         export VCPKG_BINARY_SOURCES="clear;files,/opt/vcpkg/archives,readwrite";     export VCPKG_BUILD_TYPE=release;     export VCPKG_MAX_CONCURRENCY=8;         echo "­ƒôª Installing packages for ${TRIPLET}...";     /opt/vcpkg/vcpkg install         --triplet="${TRIPLET}"         --x-manifest-root=/build         --x-install-root=/build/vcpkg_installed         --allow-unsupported         --clean-after-build || {         echo "ERROR: vcpkg install failed";         exit 1;     };         ln -sf /build/vcpkg_installed/${TRIPLET}/include /build/include;     ln -sf /build/vcpkg_installed/${TRIPLET}/lib /build/lib;     ln -sf /build/vcpkg_installed/${TRIPLET}/debug/lib /build/debug;         if [ -d "/build/vcpkg_installed/${TRIPLET}/include" ]; then         ln -sf "/build/vcpkg_installed/${TRIPLET}/include" "/build/include";         echo "Ô£ô Created symlink: /build/include -> /build/vcpkg_installed/${TRIPLET}/include";     fi;         echo "Ô£ô Dependencies complete: ${TRIPLET}";     ls -lh /build/vcpkg_installed/${TRIPLET}/lib/ 2>/dev/null | head -20 || true
+#21 CACHED
+
+#22 [build  9/13] COPY --from=deps /build/vcpkg-configuration.json ./vcpkg-configuration.json
+#22 CACHED
+
+#23 [build  6/13] COPY proto ./proto
+#23 CACHED
+
+#24 [build  5/13] COPY src ./src
+#24 CACHED
+
+#25 [build  2/13] COPY CMakeLists.txt VERSION ./
+#25 CACHED
+
+#26 [build  8/13] COPY --from=deps /build/vcpkg.json ./vcpkg.json
+#26 CACHED
+
+#27 [build  1/13] WORKDIR /src
+#27 CACHED
+
+#28 [build  4/13] COPY include ./include
+#28 CACHED
+
+#29 [build 12/13] COPY --from=llama /opt/llama.cpp /opt/llama.cpp
+#29 CACHED
+
+#30 [build 10/13] COPY --from=deps /build/vcpkg_installed /build/vcpkg_installed
+#30 CACHED
+
+#31 [build 11/13] COPY --from=deps /tmp/triplet.txt /tmp/triplet.txt
+#31 CACHED
+
+#32 [build  3/13] COPY cmake ./cmake
+#32 CACHED
+
+#33 [build  7/13] COPY internal ./internal
+#33 CACHED
+
+#34 [build 13/13] RUN set -eux;     TRIPLET=$(cat /tmp/triplet.txt);     EDITION_UPPER=$(echo "COMMUNITY" | tr '[:lower:]' '[:upper:]');         echo "==========================================";     echo "Building ThemisDB ${EDITION_UPPER}";     echo "==========================================";     echo "Edition:        ${EDITION_UPPER}";     echo "LLM:            ON";     echo "GPU:            ON";     echo "CPU-only:       OFF";     echo "Tests:          OFF";     echo "Benchmarks:     OFF";     echo "Target Arch:    amd64";     echo "vcpkg Triplet:  ${TRIPLET}";     echo "==========================================";         cmake -S . -B build -G Ninja         -DCMAKE_BUILD_TYPE=Release         -DCMAKE_TOOLCHAIN_FILE=/opt/vcpkg/scripts/buildsystems/vcpkg.cmake         -DVCPKG_TARGET_TRIPLET=${TRIPLET}         -DVCPKG_INSTALLED_DIR=/build/vcpkg_installed         -DVCPKG_MANIFEST_MODE=OFF         -DTHEMIS_EDITION=${EDITION_UPPER}         -DTHEMIS_ENABLE_LLM=ON         -DTHEMIS_ENABLE_GPU=ON         -DTHEMIS_ENABLE_VULKAN=$([ "OFF" = "ON" ] && echo "OFF" || echo "ON")         -DTHEMIS_ENABLE_CUDA=OFF         -DTHEMIS_BUILD_TESTS=OFF         -DTHEMIS_BUILD_BENCHMARKS=OFF         -DTHEMIS_ENABLE_TRACING=OFF         -DTHEMIS_STRICT_BUILD=OFF         -DCMAKE_EXPORT_COMPILE_COMMANDS=ON &&         echo "Building themis_server..." &&     ninja -C build -j$(nproc) themis_server &&         if [ ! -f build/bin/themis_server ]; then         echo "ERROR: themis_server binary not found";         exit 1;     fi;         echo "Ô£ô ThemisDB built successfully";     ls -lh build/bin/themis_server
+#34 CACHED
+
+#9 [runtime 2/7] RUN --mount=type=cache,target=/var/cache/apt,sharing=locked     --mount=type=cache,target=/var/lib/apt,sharing=locked     rm -f /etc/apt/apt.conf.d/docker-clean &&     apt-get update && apt-get install -y --no-install-recommends         ca-certificates         libssl3t64         zlib1g         libstdc++6         libgomp1         curl         gocryptfs         fuse         libsodium23 &&     echo "user_allow_other" >> /etc/fuse.conf &&     apt-get clean &&     rm -rf /var/lib/apt/lists/*
+#9 8.726 Get:10 http://archive.ubuntu.com/ubuntu noble/restricted amd64 Packages [117 kB]
+#9 8.756 Get:11 http://archive.ubuntu.com/ubuntu noble/main amd64 Packages [1808 kB]
+#9 9.300 Get:12 http://archive.ubuntu.com/ubuntu noble/multiverse amd64 Packages [331 kB]
+#9 9.398 Get:13 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 Packages [2369 kB]
+#9 10.11 Get:14 http://archive.ubuntu.com/ubuntu noble-updates/restricted amd64 Packages [3669 kB]
+#9 11.48 Get:15 http://archive.ubuntu.com/ubuntu noble-updates/multiverse amd64 Packages [38.1 kB]
+#9 11.49 Get:16 http://archive.ubuntu.com/ubuntu noble-updates/universe amd64 Packages [2152 kB]
+#9 12.14 Get:17 http://archive.ubuntu.com/ubuntu noble-backports/universe amd64 Packages [36.1 kB]
+#9 12.15 Get:18 http://archive.ubuntu.com/ubuntu noble-backports/multiverse amd64 Packages [695 B]
+#9 12.15 Get:19 http://archive.ubuntu.com/ubuntu noble-backports/main amd64 Packages [49.5 kB]
+#9 12.32 Fetched 37.5 MB in 12s (3104 kB/s)
+#9 12.32 Reading package lists...
+#9 13.20 Reading package lists...
+#9 13.21 Building dependency tree...
+#9 13.38 Reading state information...
+#9 13.58 libssl3t64 is already the newest version (3.0.13-0ubuntu3.7).
+#9 13.58 zlib1g is already the newest version (1:1.3.dfsg-3.1ubuntu2.1).
+#9 13.58 libstdc++6 is already the newest version (14.2.0-4ubuntu2~24.04.1).
+#9 13.58 The following additional packages will be installed:
+#9 13.58   adduser libbrotli1 libcurl4t64 libfuse2t64 libgssapi-krb5-2 libk5crypto3
+#9 13.58   libkeyutils1 libkrb5-3 libkrb5support0 libldap2 libnghttp2-14 libpsl5t64
+#9 13.58   librtmp1 libsasl2-2 libsasl2-modules-db libssh-4 openssl
+#9 13.59 Suggested packages:
+#9 13.59   liblocale-gettext-perl perl cron quota ecryptfs-utils fido2-tools krb5-doc
+#9 13.59   krb5-user
+#9 13.59 Recommended packages:
+#9 13.59   fuse3 krb5-locales libldap-common publicsuffix libsasl2-modules
+#9 13.77 The following NEW packages will be installed:
+#9 13.77   adduser ca-certificates curl fuse gocryptfs libbrotli1 libcurl4t64
+#9 13.77   libfuse2t64 libgomp1 libgssapi-krb5-2 libk5crypto3 libkeyutils1 libkrb5-3
+#9 13.77   libkrb5support0 libldap2 libnghttp2-14 libpsl5t64 librtmp1 libsasl2-2
+#9 13.77   libsasl2-modules-db libsodium23 libssh-4 openssl
+#9 13.89 0 upgraded, 23 newly installed, 0 to remove and 10 not upgraded.
+#9 13.89 Need to get 5970 kB of archives.
+#9 13.89 After this operation, 19.0 MB of additional disk space will be used.
+#9 13.89 Get:1 http://archive.ubuntu.com/ubuntu noble/main amd64 adduser all 3.137ubuntu1 [101 kB]
+#9 14.08 Get:2 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 openssl amd64 3.0.13-0ubuntu3.7 [1003 kB]
+#9 14.49 Get:3 http://archive.ubuntu.com/ubuntu noble/main amd64 ca-certificates all 20240203 [159 kB]
+#9 14.51 Get:4 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libkrb5support0 amd64 1.20.1-6ubuntu2.6 [34.4 kB]
+#9 14.51 Get:5 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libk5crypto3 amd64 1.20.1-6ubuntu2.6 [82.0 kB]
+#9 14.51 Get:6 http://archive.ubuntu.com/ubuntu noble/main amd64 libkeyutils1 amd64 1.6.3-3build1 [9490 B]
+#9 14.51 Get:7 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libkrb5-3 amd64 1.20.1-6ubuntu2.6 [348 kB]
+#9 14.58 Get:8 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libgssapi-krb5-2 amd64 1.20.1-6ubuntu2.6 [143 kB]
+#9 14.62 Get:9 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libnghttp2-14 amd64 1.59.0-1ubuntu0.2 [74.3 kB]
+#9 14.76 Get:10 http://archive.ubuntu.com/ubuntu noble/main amd64 libpsl5t64 amd64 0.21.2-1.1build1 [57.1 kB]
+#9 14.77 Get:11 http://archive.ubuntu.com/ubuntu noble/main amd64 libbrotli1 amd64 1.1.0-2build2 [331 kB]
+#9 14.84 Get:12 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libsasl2-modules-db amd64 2.1.28+dfsg1-5ubuntu3.1 [20.4 kB]
+#9 14.84 Get:13 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libsasl2-2 amd64 2.1.28+dfsg1-5ubuntu3.1 [53.2 kB]
+#9 14.84 Get:14 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libldap2 amd64 2.6.10+dfsg-0ubuntu0.24.04.1 [198 kB]
+#9 14.85 Get:15 http://archive.ubuntu.com/ubuntu noble/main amd64 librtmp1 amd64 2.4+20151223.gitfa8646d.1-2build7 [56.3 kB]
+#9 14.86 Get:16 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libssh-4 amd64 0.10.6-2ubuntu0.4 [190 kB]
+#9 14.92 Get:17 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libcurl4t64 amd64 8.5.0-2ubuntu10.8 [342 kB]
+#9 15.02 Get:18 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 curl amd64 8.5.0-2ubuntu10.8 [227 kB]
+#9 15.09 Get:19 http://archive.ubuntu.com/ubuntu noble/universe amd64 libfuse2t64 amd64 2.9.9-8.1build1 [89.9 kB]
+#9 15.12 Get:20 http://archive.ubuntu.com/ubuntu noble/universe amd64 fuse amd64 2.9.9-8.1build1 [27.6 kB]
+#9 15.13 Get:21 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libgomp1 amd64 14.2.0-4ubuntu2~24.04.1 [148 kB]
+#9 15.17 Get:22 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libsodium23 amd64 1.0.18-1ubuntu0.24.04.1 [161 kB]
+#9 15.22 Get:23 http://archive.ubuntu.com/ubuntu noble-updates/universe amd64 gocryptfs amd64 2.4.0-1ubuntu0.24.04.3 [2116 kB]
+#9 15.98 debconf: delaying package configuration, since apt-utils is not installed
+#9 16.01 Fetched 5970 kB in 2s (2870 kB/s)
+#9 16.06 Selecting previously unselected package adduser.
+#9 16.06 (Reading database ... 
+(Reading database ... 5%
+(Reading database ... 10%
+(Reading database ... 15%
+(Reading database ... 20%
+(Reading database ... 25%
+(Reading database ... 30%
+(Reading database ... 35%
+(Reading database ... 40%
+(Reading database ... 45%
+(Reading database ... 50%
+(Reading database ... 55%
+(Reading database ... 60%
+(Reading database ... 65%
+(Reading database ... 70%
+(Reading database ... 75%
+(Reading database ... 80%
+(Reading database ... 85%
+(Reading database ... 90%
+(Reading database ... 95%
+(Reading database ... 100%
+(Reading database ... 4381 files and directories currently installed.)
+#9 16.07 Preparing to unpack .../adduser_3.137ubuntu1_all.deb ...
+#9 16.08 Unpacking adduser (3.137ubuntu1) ...
+#9 16.16 Setting up adduser (3.137ubuntu1) ...
+#9 16.33 Selecting previously unselected package openssl.
+#9 16.33 (Reading database ... 
+(Reading database ... 5%
+(Reading database ... 10%
+(Reading database ... 15%
+(Reading database ... 20%
+(Reading database ... 25%
+(Reading database ... 30%
+(Reading database ... 35%
+(Reading database ... 40%
+(Reading database ... 45%
+(Reading database ... 50%
+(Reading database ... 55%
+(Reading database ... 60%
+(Reading database ... 65%
+(Reading database ... 70%
+(Reading database ... 75%
+(Reading database ... 80%
+(Reading database ... 85%
+(Reading database ... 90%
+(Reading database ... 95%
+(Reading database ... 100%
+(Reading database ... 4429 files and directories currently installed.)
+#9 16.33 Preparing to unpack .../00-openssl_3.0.13-0ubuntu3.7_amd64.deb ...
+#9 16.34 Unpacking openssl (3.0.13-0ubuntu3.7) ...
+#9 16.46 Selecting previously unselected package ca-certificates.
+#9 16.46 Preparing to unpack .../01-ca-certificates_20240203_all.deb ...
+#9 16.48 Unpacking ca-certificates (20240203) ...
+#9 16.61 Selecting previously unselected package libkrb5support0:amd64.
+#9 16.61 Preparing to unpack .../02-libkrb5support0_1.20.1-6ubuntu2.6_amd64.deb ...
+#9 16.68 Unpacking libkrb5support0:amd64 (1.20.1-6ubuntu2.6) ...
+#9 16.78 Selecting previously unselected package libk5crypto3:amd64.
+#9 16.78 Preparing to unpack .../03-libk5crypto3_1.20.1-6ubuntu2.6_amd64.deb ...
+#9 16.79 Unpacking libk5crypto3:amd64 (1.20.1-6ubuntu2.6) ...
+#9 16.88 Selecting previously unselected package libkeyutils1:amd64.
+#9 16.88 Preparing to unpack .../04-libkeyutils1_1.6.3-3build1_amd64.deb ...
+#9 16.90 Unpacking libkeyutils1:amd64 (1.6.3-3build1) ...
+#9 16.99 Selecting previously unselected package libkrb5-3:amd64.
+#9 16.99 Preparing to unpack .../05-libkrb5-3_1.20.1-6ubuntu2.6_amd64.deb ...
+#9 17.00 Unpacking libkrb5-3:amd64 (1.20.1-6ubuntu2.6) ...
+#9 17.15 Selecting previously unselected package libgssapi-krb5-2:amd64.
+#9 17.15 Preparing to unpack .../06-libgssapi-krb5-2_1.20.1-6ubuntu2.6_amd64.deb ...
+#9 17.16 Unpacking libgssapi-krb5-2:amd64 (1.20.1-6ubuntu2.6) ...
+#9 17.26 Selecting previously unselected package libnghttp2-14:amd64.
+#9 17.26 Preparing to unpack .../07-libnghttp2-14_1.59.0-1ubuntu0.2_amd64.deb ...
+#9 17.28 Unpacking libnghttp2-14:amd64 (1.59.0-1ubuntu0.2) ...
+#9 17.37 Selecting previously unselected package libpsl5t64:amd64.
+#9 17.37 Preparing to unpack .../08-libpsl5t64_0.21.2-1.1build1_amd64.deb ...
+#9 17.38 Unpacking libpsl5t64:amd64 (0.21.2-1.1build1) ...
+#9 17.50 Selecting previously unselected package libbrotli1:amd64.
+#9 17.50 Preparing to unpack .../09-libbrotli1_1.1.0-2build2_amd64.deb ...
+#9 17.52 Unpacking libbrotli1:amd64 (1.1.0-2build2) ...
+#9 17.59 Selecting previously unselected package libsasl2-modules-db:amd64.
+#9 17.59 Preparing to unpack .../10-libsasl2-modules-db_2.1.28+dfsg1-5ubuntu3.1_amd64.deb ...
+#9 17.61 Unpacking libsasl2-modules-db:amd64 (2.1.28+dfsg1-5ubuntu3.1) ...
+#9 17.69 Selecting previously unselected package libsasl2-2:amd64.
+#9 17.69 Preparing to unpack .../11-libsasl2-2_2.1.28+dfsg1-5ubuntu3.1_amd64.deb ...
+#9 17.70 Unpacking libsasl2-2:amd64 (2.1.28+dfsg1-5ubuntu3.1) ...
+#9 17.80 Selecting previously unselected package libldap2:amd64.
+#9 17.80 Preparing to unpack .../12-libldap2_2.6.10+dfsg-0ubuntu0.24.04.1_amd64.deb ...
+#9 17.82 Unpacking libldap2:amd64 (2.6.10+dfsg-0ubuntu0.24.04.1) ...
+#9 17.95 Selecting previously unselected package librtmp1:amd64.
+#9 17.95 Preparing to unpack .../13-librtmp1_2.4+20151223.gitfa8646d.1-2build7_amd64.deb ...
+#9 17.97 Unpacking librtmp1:amd64 (2.4+20151223.gitfa8646d.1-2build7) ...
+#9 18.06 Selecting previously unselected package libssh-4:amd64.
+#9 18.06 Preparing to unpack .../14-libssh-4_0.10.6-2ubuntu0.4_amd64.deb ...
+#9 18.07 Unpacking libssh-4:amd64 (0.10.6-2ubuntu0.4) ...
+#9 18.17 Selecting previously unselected package libcurl4t64:amd64.
+#9 18.17 Preparing to unpack .../15-libcurl4t64_8.5.0-2ubuntu10.8_amd64.deb ...
+#9 18.18 Unpacking libcurl4t64:amd64 (8.5.0-2ubuntu10.8) ...
+#9 18.25 Selecting previously unselected package curl.
+#9 18.26 Preparing to unpack .../16-curl_8.5.0-2ubuntu10.8_amd64.deb ...
+#9 18.27 Unpacking curl (8.5.0-2ubuntu10.8) ...
+#9 18.42 Selecting previously unselected package libfuse2t64:amd64.
+#9 18.42 Preparing to unpack .../17-libfuse2t64_2.9.9-8.1build1_amd64.deb ...
+#9 18.43 Unpacking libfuse2t64:amd64 (2.9.9-8.1build1) ...
+#9 18.53 Selecting previously unselected package fuse.
+#9 18.53 Preparing to unpack .../18-fuse_2.9.9-8.1build1_amd64.deb ...
+#9 18.54 Unpacking fuse (2.9.9-8.1build1) ...
+#9 18.64 Selecting previously unselected package libgomp1:amd64.
+#9 18.64 Preparing to unpack .../19-libgomp1_14.2.0-4ubuntu2~24.04.1_amd64.deb ...
+#9 18.66 Unpacking libgomp1:amd64 (14.2.0-4ubuntu2~24.04.1) ...
+#9 18.78 Selecting previously unselected package libsodium23:amd64.
+#9 18.79 Preparing to unpack .../20-libsodium23_1.0.18-1ubuntu0.24.04.1_amd64.deb ...
+#9 18.80 Unpacking libsodium23:amd64 (1.0.18-1ubuntu0.24.04.1) ...
+#9 18.82 Selecting previously unselected package gocryptfs.
+#9 18.82 Preparing to unpack .../21-gocryptfs_2.4.0-1ubuntu0.24.04.3_amd64.deb ...
+#9 18.83 Unpacking gocryptfs (2.4.0-1ubuntu0.24.04.3) ...
+#9 18.94 Setting up libkeyutils1:amd64 (1.6.3-3build1) ...
+#9 18.98 Setting up libsodium23:amd64 (1.0.18-1ubuntu0.24.04.1) ...
+#9 19.02 Setting up libbrotli1:amd64 (1.1.0-2build2) ...
+#9 19.06 Setting up libpsl5t64:amd64 (0.21.2-1.1build1) ...
+#9 19.11 Setting up libnghttp2-14:amd64 (1.59.0-1ubuntu0.2) ...
+#9 19.18 Setting up libgomp1:amd64 (14.2.0-4ubuntu2~24.04.1) ...
+#9 19.23 Setting up libkrb5support0:amd64 (1.20.1-6ubuntu2.6) ...
+#9 19.27 Setting up libsasl2-modules-db:amd64 (2.1.28+dfsg1-5ubuntu3.1) ...
+#9 19.30 Setting up gocryptfs (2.4.0-1ubuntu0.24.04.3) ...
+#9 19.35 Setting up librtmp1:amd64 (2.4+20151223.gitfa8646d.1-2build7) ...
+#9 19.39 Setting up libk5crypto3:amd64 (1.20.1-6ubuntu2.6) ...
+#9 19.42 Setting up libsasl2-2:amd64 (2.1.28+dfsg1-5ubuntu3.1) ...
+#9 19.46 Setting up libkrb5-3:amd64 (1.20.1-6ubuntu2.6) ...
+#9 19.50 Setting up openssl (3.0.13-0ubuntu3.7) ...
+#9 19.60 Setting up libfuse2t64:amd64 (2.9.9-8.1build1) ...
+#9 19.63 Setting up libldap2:amd64 (2.6.10+dfsg-0ubuntu0.24.04.1) ...
+#9 19.67 Setting up fuse (2.9.9-8.1build1) ...
+#9 19.73 Setting up ca-certificates (20240203) ...
+#9 20.15 Updating certificates in /etc/ssl/certs...
+#9 20.63 146 added, 0 removed; done.
+#9 20.70 Setting up libgssapi-krb5-2:amd64 (1.20.1-6ubuntu2.6) ...
+#9 20.74 Setting up libssh-4:amd64 (0.10.6-2ubuntu0.4) ...
+#9 20.82 Setting up libcurl4t64:amd64 (8.5.0-2ubuntu10.8) ...
+#9 20.86 Setting up curl (8.5.0-2ubuntu10.8) ...
+#9 20.89 Processing triggers for libc-bin (2.39-0ubuntu8.7) ...
+#9 20.94 Processing triggers for ca-certificates (20240203) ...
+#9 20.96 Updating certificates in /etc/ssl/certs...
+#9 21.32 0 added, 0 removed; done.
+#9 21.32 Running hooks in /etc/ca-certificates/update.d...
+#9 21.32 done.
+#9 DONE 21.7s
+
+#35 [runtime 3/7] COPY --from=build /src/build/bin/themis_server /opt/themis/bin/themis_server
+#35 DONE 0.4s
+
+#36 [runtime 4/7] COPY --from=llama /opt/llama.cpp/build/bin/ /opt/themis/bin/
+#36 DONE 0.6s
+
+#37 [runtime 5/7] RUN set +e;     cd /opt/themis/bin &&         for lib in libllama*.so.*; do         [ -e "$lib" ] && ln -sf "$lib" "${lib%.so*}.so.0" 2>/dev/null || true;     done;         for lib in libggml*.so.*; do         [ -e "$lib" ] && ln -sf "$lib" "${lib%.so*}.so.0" 2>/dev/null || true;     done;         for lib in libmtmd*.so.*; do         [ -e "$lib" ] && ln -sf "$lib" "${lib%.so*}.so.0" 2>/dev/null || true;     done;         echo "Ô£ô Installed llama.cpp libraries in /opt/themis/bin:";     ls -lh lib*.so* 2>&1 | head -10 || echo "ÔÜá No libs found";     set -e
+#37 0.135 Ô£ô Installed llama.cpp libraries in /opt/themis/bin:
+#37 0.136 lrwxrwxrwx 1 root root   17 Apr  4 08:21 libggml-base.so -> libggml-base.so.0
+#37 0.136 lrwxrwxrwx 1 root root   21 Apr  4 14:49 libggml-base.so.0 -> libggml-base.so.0.9.5
+#37 0.136 -rwxr-xr-x 1 root root 733K Apr  4 08:21 libggml-base.so.0.9.5
+#37 0.136 lrwxrwxrwx 1 root root   16 Apr  4 08:21 libggml-cpu.so -> libggml-cpu.so.0
+#37 0.136 lrwxrwxrwx 1 root root   20 Apr  4 14:49 libggml-cpu.so.0 -> libggml-cpu.so.0.9.5
+#37 0.136 -rwxr-xr-x 1 root root 997K Apr  4 08:21 libggml-cpu.so.0.9.5
+#37 0.136 lrwxrwxrwx 1 root root   12 Apr  4 08:21 libggml.so -> libggml.so.0
+#37 0.136 lrwxrwxrwx 1 root root   16 Apr  4 14:49 libggml.so.0 -> libggml.so.0.9.5
+#37 0.136 -rwxr-xr-x 1 root root  60K Apr  4 08:21 libggml.so.0.9.5
+#37 0.136 lrwxrwxrwx 1 root root   13 Apr  4 08:22 libllama.so -> libllama.so.0
+#37 DONE 0.2s
+
+#38 [runtime 6/7] RUN --mount=type=bind,from=deps,source=/build/vcpkg_installed,target=/deps_vcpkg,readonly     (find /deps_vcpkg -name "*.so*" -path "*/lib/*" 2>/dev/null | head -50 | xargs -I {} cp -af {} /opt/themis/bin/ 2>/dev/null || true) &&     echo "Ô£ô vcpkg libraries copied to /opt/themis/bin"
+#38 0.163 Ô£ô vcpkg libraries copied to /opt/themis/bin
+#38 DONE 0.2s
+
+#39 [runtime 7/7] RUN mkdir -p /data &&     if ! id -u themis >/dev/null 2>&1; then         if getent passwd 1000 >/dev/null 2>&1; then             useradd -r -d /opt/themis -s /bin/false themis;         else             useradd -r -u 1000 -d /opt/themis -s /bin/false themis;         fi;     fi &&     chown -R themis:themis /opt/themis /data
+#39 DONE 1.3s
+
+#40 exporting to docker image format
+#40 exporting layers
+#40 exporting layers 5.0s done
+#40 exporting manifest sha256:146418c51509bf6dcb96702dc7a05d2409d17c10aa1686f649d6b3cc6c6724df 0.0s done
+#40 exporting config sha256:46b244e62bdafb5630f93b4cebfd5c0b8a63e0be732285b38046b0ae7938c969 0.0s done
+#40 sending tarball
+#40 ...
+
+#41 importing to docker
+#41 loading layer 3d2994d97cb8 98.30kB / 7.83MB
+#41 loading layer 4b40e49a2abe 262.14kB / 23.11MB
+#41 loading layer 607d3a1d3f66 196.61kB / 17.79MB
+#41 loading layer d1604d797e09 263B / 263B
+#41 loading layer 5f70bf18a086 32B / 32B
+#41 loading layer 9c809e2499b0 425.98kB / 40.90MB
+#41 loading layer d1604d797e09 263B / 263B 1.0s done
+#41 loading layer 3d2994d97cb8 7.83MB / 7.83MB 2.2s done
+#41 loading layer 4b40e49a2abe 23.11MB / 23.11MB 1.8s done
+#41 loading layer 607d3a1d3f66 17.79MB / 17.79MB 1.4s done
+#41 loading layer 5f70bf18a086 32B / 32B 0.9s done
+#41 loading layer 9c809e2499b0 40.90MB / 40.90MB 0.8s done
+#41 DONE 2.2s
+
+#40 exporting to docker image format
+#40 sending tarball 7.8s done
+#40 DONE 12.8s
+
+#42 exporting cache to client directory
+#42 preparing build cache for export
+#42 preparing build cache for export 0.5s done
+#42 sending cache export
+#42 writing layer sha256:3608d873d531b1a5aa17a7f0db2cb697d86511701a9019071e42487fddd87255 done
+#42 writing layer sha256:1ce292e516502a9984e80e0d9089652b268bb51a900b8848a387c0db0bc945f9 done
+#42 writing layer sha256:08ebe755cf0669ad7f45bd2c7ed7d5d26f49df7ebea751628020b0dba98a6216 0.1s done
+#42 writing layer sha256:32af53fd1f7bcac9cc1b75bcf2a4e7818cdd37fab61d26c9e42ada51921bc0cd done
+#42 writing layer sha256:4c06464f1feac6e787403bced2165dfbc83be7e4a8eeeeafdc785102c35de92e done
+#42 writing layer sha256:4f4fb700ef54461cfa02571ae0db9a0dc1e0cdb5577484a6d75e68dc38e8acc1 0.1s done
+#42 writing layer sha256:3de0c06ec0411ebf47a78f1b448a0a3b67c593cf6cc6e2443ff33e91e394e54f done
+#42 writing layer sha256:4f7c6831930537d0fc55d831a136f9a18f453bef20e943321f15a3dc9545496e done
+#42 writing layer sha256:52ce7f1db6e607cbe9fbe5c3bf78e72b49a927bd8caa5847de9f05b39c0e4737 done
+#42 writing layer sha256:5467a2c7531b107e6378b37cc54b848c38c485bfe31e9f4e8d27b1863bdf990a done
+#42 writing layer sha256:56c5b910f153423f6efe2f7b009d175f23e860927ab8eb53674a520e83a1adb1 done
+#42 writing layer sha256:684f267dfe65d44405e1b356ce62fdf1ac987a92a33be2c43271fd160ffa98e7 done
+#42 writing layer sha256:7b161cf1abe2f01fe21ae529931628ba8748730d7c95224207ae770a7b0ec26c done
+#42 writing layer sha256:80a77951d77bb23beb131214598ec20025b70bb86d6e06437ab56690e0cb8061 done
+#42 writing layer sha256:817807f3c64e0b90b66edc7d90297f121cad2a7c2a3ee05a731557762f91e6c7 done
+#42 writing layer sha256:833f00eac13117712dc48b656cae93ca97784016a628e1afa515ee825c157fbb done
+#42 writing layer sha256:8f243f6725ccae45273a9740c2d401ab239232ff132ddab3a49e6be01c4a8c6f
+#42 writing layer sha256:a4c8fbbb2e79b84aa8cdc142570d71fb92ec046cc23c53abffcccd2fb5bc44c3
+#42 writing layer sha256:a5076d71a0825ee18639de848f2adf85f0b5b1a9d4d06168c98faff9794f588c done
+#42 writing layer sha256:ae0b44275139ce6bee15b8d2cbfb527656dd4ab24d244f1b88ea133ebbb0be54 done
+#42 writing layer sha256:af8c2062f8b5cd89fd742245837c0060d627580aba6896ce01834e08e6f0795a done
+#42 writing layer sha256:b27eb5c8962d7f3ba9eb5d2ed4fb4806cd8a1ec9a1c7c5ec0aad37b0bcbd488d
+#42 writing layer sha256:d3f7cbde197d688c85967b98428733bfc06e05a5efd1b0622f8f869af2ff4e82
+#42 writing layer sha256:d3f7cbde197d688c85967b98428733bfc06e05a5efd1b0622f8f869af2ff4e82 done
+#42 writing layer sha256:dd3f698a4d31e50a953e4e15ba8923101871b75c27a670efc9f89c7f4f8b2b8e done
+#42 writing layer sha256:eab5f9c892c4204bb755f9b5e179e4d7876e47a7b8d71390965bde67c357f25c 0.0s done
+#42 writing layer sha256:eb9c24c2d770d4d470bcb017e52ca2c6c1ac8cbc1529cede9c8830dce8c1710a
+#42 writing layer sha256:a4c8fbbb2e79b84aa8cdc142570d71fb92ec046cc23c53abffcccd2fb5bc44c3 0.4s done
+#42 writing layer sha256:f42702883cbae244ee74c18db9ea051424bf827ec1597c3676be56f0a7b47869 0.0s done
+#42 writing layer sha256:fe5cde3f231a5db19c353eb823cfd205cfb3642c0097110dce4bfdd86fdfb864 0.0s done
+#42 writing layer sha256:b27eb5c8962d7f3ba9eb5d2ed4fb4806cd8a1ec9a1c7c5ec0aad37b0bcbd488d 0.8s done
+#42 writing layer sha256:8f243f6725ccae45273a9740c2d401ab239232ff132ddab3a49e6be01c4a8c6f 1.0s done
+#42 writing layer sha256:eb9c24c2d770d4d470bcb017e52ca2c6c1ac8cbc1529cede9c8830dce8c1710a 1.1s done
+#42 writing config sha256:9a357c729c494b251b053d4322adf8c1123ad8b252b17f01bc9d704fbf1a8552 0.1s done
+#42 writing cache image manifest sha256:9794515ea5f1940b7fad3db367adf35cfe2cc1df9d77ef3ddf3a28631a2282e5
+#42 sending cache export 1.4s done
+#42 writing cache image manifest sha256:9794515ea5f1940b7fad3db367adf35cfe2cc1df9d77ef3ddf3a28631a2282e5 0.0s done
+#42 DONE 1.9s
+ERROR: (*service).Write failed: rpc error: code = Unavailable desc = ref layer-sha256:4f4fb700ef54461cfa02571ae0db9a0dc1e0cdb5577484a6d75e68dc38e8acc1 locked for 0s (since 2026-04-04 16:49:46.9835847 +0200 CEST m=+42.234258201): unavailable
+ERROR: (*service).Write failed: rpc error: code = Unavailable desc = ref layer-sha256:4f4fb700ef54461cfa02571ae0db9a0dc1e0cdb5577484a6d75e68dc38e8acc1 locked for 45.7296ms (since 2026-04-04 16:49:46.9835847 +0200 CEST m=+42.234258201): unavailable
+
+View build details: docker-desktop://dashboard/build/themis-multi/themis-multi0/tqsuus1nfvz6fxir3pne9j4ba

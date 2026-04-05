@@ -174,7 +174,7 @@ WalGrpcService::WalGrpcService(std::shared_ptr<sharding::WALApplier> wal_applier
     impl_ = std::make_unique<Impl>(wal_applier_);
 #else
     (void)wal_applier_;
-    THEMIS_WARN("Shard gRPC stubs not found; WalGrpcService is a no-op");
+    THEMIS_INFO("Shard gRPC stubs not found; WalGrpcService is a no-op");
 #endif
 }
 

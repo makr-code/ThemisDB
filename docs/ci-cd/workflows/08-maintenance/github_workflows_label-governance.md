@@ -1,5 +1,9 @@
 # [Manual] Label Governance - Setup & Audit
 
+> [!WARNING]
+> Historische Workflow-Dokumentation (Legacy): Diese Seite beschreibt eine fruehere CI-Generation.
+> Der verbindliche aktuelle Stand ist der 8-Workflow-Kern in `.github/WORKFLOW_REGISTRY.md`.
+
 🖱️ **Manuell**
 
 > **Workflow-Datei:** `.github/workflows/08-maintenance_github_workflows_label-governance.yml`
@@ -48,3 +52,4 @@ Manuell ausgelöster Workflow für: **Label Governance - Setup & Audit**.
 
 - [Workflow-Datei](../../.github/workflows/08-maintenance_github_workflows_label-governance.yml)
 - [Alle Workflows](../README.md)
+

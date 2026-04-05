@@ -1,5 +1,9 @@
 # Chimera Benchmark CI
 
+> [!WARNING]
+> Historische Workflow-Dokumentation (Legacy): Diese Seite beschreibt eine fruehere CI-Generation.
+> Der verbindliche aktuelle Stand ist der 8-Workflow-Kern in `.github/WORKFLOW_REGISTRY.md`.
+
 🔄 **CI/CD**
 
 > **Workflow-Datei:** `.github/workflows/02-feature-modules_chimera_chimera-benchmark-ci.yml`
@@ -23,7 +27,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Chimera Bench
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/01-core_ci-scope-classifier.yml`
+**Verwendet:** `Historisch (fruehere CI-Generation). Aktueller Stand: .github/WORKFLOW_REGISTRY.md`
 
 ### `chimera-benchmarks`
 **Anzeigename:** Chimera Benchmarks (${{ matrix.os }})
@@ -75,3 +79,4 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Chimera Bench
 
 - [Workflow-Datei](../../../.github/workflows/02-feature-modules_chimera_chimera-benchmark-ci.yml)
 - [Alle Workflows](../README.md)
+

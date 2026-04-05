@@ -1,5 +1,9 @@
 # Online Schema Migration CI
 
+> [!WARNING]
+> Historische Workflow-Dokumentation (Legacy): Diese Seite beschreibt eine fruehere CI-Generation.
+> Der verbindliche aktuelle Stand ist der 8-Workflow-Kern in `.github/WORKFLOW_REGISTRY.md`.
+
 🔄 **CI/CD**
 
 > **Workflow-Datei:** `.github/workflows/02-feature-modules_storage_online-schema-migration-ci.yml`
@@ -23,7 +27,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Online Schema
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/01-core_ci-scope-classifier.yml`
+**Verwendet:** `Historisch (fruehere CI-Generation). Aktueller Stand: .github/WORKFLOW_REGISTRY.md`
 
 ### `online-schema-migration-unit-tests`
 **Anzeigename:** Online schema migration tests (${{ matrix.os }} / ${{ matrix.compiler }})
@@ -47,3 +51,4 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Online Schema
 
 - [Workflow-Datei](../../../.github/workflows/02-feature-modules_storage_online-schema-migration-ci.yml)
 - [Alle Workflows](../README.md)
+

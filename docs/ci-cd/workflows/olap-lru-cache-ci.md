@@ -1,5 +1,9 @@
 # OLAP LRU Cache CI
 
+> [!WARNING]
+> Historische Workflow-Dokumentation (Legacy): Diese Seite beschreibt eine fruehere CI-Generation.
+> Der verbindliche aktuelle Stand ist der 8-Workflow-Kern in `.github/WORKFLOW_REGISTRY.md`.
+
 🔄 **CI/CD**
 
 > **Workflow-Datei:** `.github/workflows/olap-lru-cache-ci.yml`
@@ -23,7 +27,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **OLAP LRU Cach
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/ci-scope-classifier.yml`
+**Verwendet:** `Historisch (fruehere CI-Generation). Aktueller Stand: .github/WORKFLOW_REGISTRY.md`
 
 ### `olap-lru-cache-tests`
 **Anzeigename:** OLAP LRU cache tests (${{ matrix.os }} / ${{ matrix.compiler }})
@@ -47,3 +51,4 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **OLAP LRU Cach
 
 - [Workflow-Datei](../.github/workflows/olap-lru-cache-ci.yml)
 - [Alle Workflows](README.md)
+

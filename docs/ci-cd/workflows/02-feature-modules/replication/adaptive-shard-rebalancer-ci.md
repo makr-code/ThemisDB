@@ -1,5 +1,9 @@
 # Adaptive Shard Rebalancer CI
 
+> [!WARNING]
+> Historische Workflow-Dokumentation (Legacy): Diese Seite beschreibt eine fruehere CI-Generation.
+> Der verbindliche aktuelle Stand ist der 8-Workflow-Kern in `.github/WORKFLOW_REGISTRY.md`.
+
 🔄 **CI/CD**
 
 > **Workflow-Datei:** `.github/workflows/02-feature-modules_replication_adaptive-shard-rebalancer-ci.yml`
@@ -22,7 +26,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Adaptive Shar
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/01-core_ci-scope-classifier.yml`
+**Verwendet:** `Historisch (fruehere CI-Generation). Aktueller Stand: .github/WORKFLOW_REGISTRY.md`
 
 ### `adaptive-shard-rebalancer-tests`
 **Anzeigename:** Adaptive Shard Rebalancer (${{ matrix.os }} / ${{ matrix.compiler }})
@@ -45,3 +49,4 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Adaptive Shar
 
 - [Workflow-Datei](../../../.github/workflows/02-feature-modules_replication_adaptive-shard-rebalancer-ci.yml)
 - [Alle Workflows](../README.md)
+

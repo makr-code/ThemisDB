@@ -1,5 +1,9 @@
 # PR Path Gate · hyperscaler
 
+> [!WARNING]
+> Historische Workflow-Dokumentation (Legacy): Diese Seite beschreibt eine fruehere CI-Generation.
+> Der verbindliche aktuelle Stand ist der 8-Workflow-Kern in `.github/WORKFLOW_REGISTRY.md`.
+
 🔄 **CI/CD**
 
 > **Workflow-Datei:** `.github/workflows/09-pr-gates_pr-path-gate-hyperscaler.yml`
@@ -42,3 +46,4 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **PR Path Gate 
 
 - [Workflow-Datei](../../.github/workflows/09-pr-gates_pr-path-gate-hyperscaler.yml)
 - [Alle Workflows](../README.md)
+

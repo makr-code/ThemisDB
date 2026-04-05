@@ -1,5 +1,9 @@
 # Vulkan Compute Shader Pipeline CI
 
+> [!WARNING]
+> Historische Workflow-Dokumentation (Legacy): Diese Seite beschreibt eine fruehere CI-Generation.
+> Der verbindliche aktuelle Stand ist der 8-Workflow-Kern in `.github/WORKFLOW_REGISTRY.md`.
+
 🔄 **CI/CD**
 
 > **Workflow-Datei:** `.github/workflows/06-infrastructure_gpu_vulkan-compute-shader-pipeline-ci.yml`
@@ -23,7 +27,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Vulkan Comput
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/01-core_ci-scope-classifier.yml`
+**Verwendet:** `Historisch (fruehere CI-Generation). Aktueller Stand: .github/WORKFLOW_REGISTRY.md`
 
 ### `vulkan-compute-shader-pipeline-tests`
 **Anzeigename:** Vulkan Compute Shader Pipeline (${{ matrix.os }} / ${{ matrix.compiler }})
@@ -62,3 +66,4 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Vulkan Comput
 
 - [Workflow-Datei](../../../.github/workflows/06-infrastructure_gpu_vulkan-compute-shader-pipeline-ci.yml)
 - [Alle Workflows](../README.md)
+

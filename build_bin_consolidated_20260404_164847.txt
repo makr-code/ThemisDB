@@ -1,0 +1,31 @@
+#0 building with "themis-multi" instance using docker-container driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 17.01kB 0.0s done
+#1 DONE 0.0s
+
+#2 [auth] docker/dockerfile:pull token for registry-1.docker.io
+#2 DONE 0.0s
+
+#3 resolve image config for docker-image://docker.io/docker/dockerfile:1.6
+#3 DONE 0.8s
+
+#4 docker-image://docker.io/docker/dockerfile:1.6@sha256:ac85f380a63b13dfcefa89046420e1781752bab202122f8f50032edf31be0021
+#4 resolve docker.io/docker/dockerfile:1.6@sha256:ac85f380a63b13dfcefa89046420e1781752bab202122f8f50032edf31be0021 0.1s done
+#4 CACHED
+Dockerfile:297
+--------------------
+ 296 |     # Metadata labels (OCI standard)
+ 297 | >>> LABEL org.opencontainers.image.title="ThemisDB" \
+ 298 | >>>       org.opencontainers.image.description="ThemisDB ${THEMIS_EDITION} Edition - Multi-model database with LLM integration" \
+ 299 | >>>       org.opencontainers.image.vendor="ThemisDB Project" \
+ 300 | >>>       org.opencontainers.image.version="1.4.0" \
+ 301 | >>>       org.opencontainers.image.source="https://github.com/yourusername/themis" \
+ 302 | >>> ENV DEBIAN_FRONTEND=noninteractive \
+ 303 | >>>     THEMIS_EDITION=${THEMIS_EDITION} \
+ 304 | >>>     LD_LIBRARY_PATH=/opt/themis/bin
+ 305 |     
+--------------------
+ERROR: failed to build: failed to solve: Syntax error - can't find = in "ENV". Must be of the form: name=value
+
+View build details: docker-desktop://dashboard/build/themis-multi/themis-multi0/5d2smqkx1mpskjpwm9avu6lyv

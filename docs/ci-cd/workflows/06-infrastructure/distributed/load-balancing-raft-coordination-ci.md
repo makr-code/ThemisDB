@@ -1,5 +1,9 @@
 # Load Balancing with Raft Coordination CI
 
+> [!WARNING]
+> Historische Workflow-Dokumentation (Legacy): Diese Seite beschreibt eine fruehere CI-Generation.
+> Der verbindliche aktuelle Stand ist der 8-Workflow-Kern in `.github/WORKFLOW_REGISTRY.md`.
+
 🔄 **CI/CD**
 
 > **Workflow-Datei:** `.github/workflows/06-infrastructure_distributed_load-balancing-raft-coordination-ci.yml`
@@ -23,7 +27,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Load Balancin
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/01-core_ci-scope-classifier.yml`
+**Verwendet:** `Historisch (fruehere CI-Generation). Aktueller Stand: .github/WORKFLOW_REGISTRY.md`
 
 ### `raft-load-balancer-unit-tests`
 **Anzeigename:** Raft Load Balancer tests (${{ matrix.os }} / ${{ matrix.compiler }})
@@ -46,3 +50,4 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Load Balancin
 
 - [Workflow-Datei](../../../.github/workflows/06-infrastructure_distributed_load-balancing-raft-coordination-ci.yml)
 - [Alle Workflows](../README.md)
+

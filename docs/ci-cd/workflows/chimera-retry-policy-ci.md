@@ -1,5 +1,9 @@
 # Chimera Retry Policy CI
 
+> [!WARNING]
+> Historische Workflow-Dokumentation (Legacy): Diese Seite beschreibt eine fruehere CI-Generation.
+> Der verbindliche aktuelle Stand ist der 8-Workflow-Kern in `.github/WORKFLOW_REGISTRY.md`.
+
 🔄 **CI/CD**
 
 > **Workflow-Datei:** `.github/workflows/chimera-retry-policy-ci.yml`
@@ -23,7 +27,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Chimera Retry
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/ci-scope-classifier.yml`
+**Verwendet:** `Historisch (fruehere CI-Generation). Aktueller Stand: .github/WORKFLOW_REGISTRY.md`
 
 ### `chimera-retry-policy-tests`
 **Anzeigename:** Chimera Retry Policy (${{ matrix.os }} / ${{ matrix.compiler }})
@@ -47,3 +51,4 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Chimera Retry
 
 - [Workflow-Datei](../.github/workflows/chimera-retry-policy-ci.yml)
 - [Alle Workflows](README.md)
+

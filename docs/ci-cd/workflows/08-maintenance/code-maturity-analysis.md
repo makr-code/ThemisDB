@@ -1,5 +1,9 @@
 # Code Maturity Analysis & Auto-Versioning
 
+> [!WARNING]
+> Historische Workflow-Dokumentation (Legacy): Diese Seite beschreibt eine fruehere CI-Generation.
+> Der verbindliche aktuelle Stand ist der 8-Workflow-Kern in `.github/WORKFLOW_REGISTRY.md`.
+
 ⏰ **Geplant**
 
 > **Workflow-Datei:** `.github/workflows/08-maintenance_code-maturity-analysis.yml`
@@ -39,3 +43,4 @@ Zeitgesteuert ausgeführter Workflow: **Code Maturity Analysis & Auto-Versioning
 
 - [Workflow-Datei](../../.github/workflows/08-maintenance_code-maturity-analysis.yml)
 - [Alle Workflows](../README.md)
+

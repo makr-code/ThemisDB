@@ -1,5 +1,9 @@
 # Ingestion LLM Adapter CI
 
+> [!WARNING]
+> Historische Workflow-Dokumentation (Legacy): Diese Seite beschreibt eine fruehere CI-Generation.
+> Der verbindliche aktuelle Stand ist der 8-Workflow-Kern in `.github/WORKFLOW_REGISTRY.md`.
+
 🔄 **CI/CD**
 
 > **Workflow-Datei:** `.github/workflows/ingestion-llm-adapter-ci.yml`
@@ -23,7 +27,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Ingestion LLM
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/ci-scope-classifier.yml`
+**Verwendet:** `Historisch (fruehere CI-Generation). Aktueller Stand: .github/WORKFLOW_REGISTRY.md`
 
 ### `ingestion-llm-adapter-tests`
 **Anzeigename:** IngestionLlmAdapter (${{ matrix.os }} / ${{ matrix.compiler }})
@@ -46,3 +50,4 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Ingestion LLM
 
 - [Workflow-Datei](../.github/workflows/ingestion-llm-adapter-ci.yml)
 - [Alle Workflows](README.md)
+

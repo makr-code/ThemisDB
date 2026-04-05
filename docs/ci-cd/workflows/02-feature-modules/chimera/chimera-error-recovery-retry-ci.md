@@ -1,5 +1,9 @@
 # Chimera Error Recovery & Retry CI
 
+> [!WARNING]
+> Historische Workflow-Dokumentation (Legacy): Diese Seite beschreibt eine fruehere CI-Generation.
+> Der verbindliche aktuelle Stand ist der 8-Workflow-Kern in `.github/WORKFLOW_REGISTRY.md`.
+
 🔄 **CI/CD**
 
 > **Workflow-Datei:** `.github/workflows/02-feature-modules_chimera_chimera-error-recovery-retry-ci.yml`
@@ -23,7 +27,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Chimera Error
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/01-core_ci-scope-classifier.yml`
+**Verwendet:** `Historisch (fruehere CI-Generation). Aktueller Stand: .github/WORKFLOW_REGISTRY.md`
 
 ### `chimera-retry-tests`
 **Anzeigename:** Chimera Retry Policy (${{ matrix.os }} / ${{ matrix.compiler }})
@@ -45,3 +49,4 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Chimera Error
 
 - [Workflow-Datei](../../../.github/workflows/02-feature-modules_chimera_chimera-error-recovery-retry-ci.yml)
 - [Alle Workflows](../README.md)
+

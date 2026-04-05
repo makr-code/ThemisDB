@@ -1,5 +1,9 @@
 # PR Path Gate · enterprise
 
+> [!WARNING]
+> Historische Workflow-Dokumentation (Legacy): Diese Seite beschreibt eine fruehere CI-Generation.
+> Der verbindliche aktuelle Stand ist der 8-Workflow-Kern in `.github/WORKFLOW_REGISTRY.md`.
+
 🔄 **CI/CD**
 
 > **Workflow-Datei:** `.github/workflows/09-pr-gates_pr-path-gate-enterprise.yml`
@@ -40,3 +44,4 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **PR Path Gate 
 
 - [Workflow-Datei](../../.github/workflows/09-pr-gates_pr-path-gate-enterprise.yml)
 - [Alle Workflows](../README.md)
+

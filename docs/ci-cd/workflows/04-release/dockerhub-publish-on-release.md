@@ -1,5 +1,9 @@
 # Publish Docker image to Docker Hub (on GitHub Release)
 
+> [!WARNING]
+> Historische Workflow-Dokumentation (Legacy): Diese Seite beschreibt eine fruehere CI-Generation.
+> Der verbindliche aktuelle Stand ist der 8-Workflow-Kern in `.github/WORKFLOW_REGISTRY.md`.
+
 🔄 **CI/CD**
 
 > **Workflow-Datei:** `.github/workflows/04-release_dockerhub-publish-on-release.yml`
@@ -50,3 +54,4 @@ debug   = includes gdb/valgrind/strace/source; tag gets -debug suffix; no :lates
 
 - [Workflow-Datei](../../.github/workflows/04-release_dockerhub-publish-on-release.yml)
 - [Alle Workflows](../README.md)
+

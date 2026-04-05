@@ -1,5 +1,9 @@
 # Research Documentation Validation
 
+> [!WARNING]
+> Historische Workflow-Dokumentation (Legacy): Diese Seite beschreibt eine fruehere CI-Generation.
+> Der verbindliche aktuelle Stand ist der 8-Workflow-Kern in `.github/WORKFLOW_REGISTRY.md`.
+
 ⏰ **Geplant**
 
 > **Workflow-Datei:** `.github/workflows/05-quality_validation_research-validation.yml`
@@ -23,7 +27,7 @@ Zeitgesteuert ausgeführter Workflow: **Research Documentation Validation**.
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/01-core_ci-scope-classifier.yml`
+**Verwendet:** `Historisch (fruehere CI-Generation). Aktueller Stand: .github/WORKFLOW_REGISTRY.md`
 
 ### `check-research-links`
 **Anzeigename:** Validate Research Links
@@ -75,3 +79,4 @@ Zeitgesteuert ausgeführter Workflow: **Research Documentation Validation**.
 
 - [Workflow-Datei](../../../.github/workflows/05-quality_validation_research-validation.yml)
 - [Alle Workflows](../README.md)
+

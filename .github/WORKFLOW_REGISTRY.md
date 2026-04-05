@@ -1,39 +1,47 @@
-# Workflow Reorganization Plan
+# ThemisDB Workflow Registry (Lean Core)
 
-## Introduction
-This document outlines the comprehensive plan for reorganizing all current workflows in the ThemisDB repository. The purpose of this reorganization is to enhance clarity, accessibility, and maintainability. Each workflow will be categorized accordingly, and migration instructions will be provided to assist developers in adapting to the new structure.
+## Zielbild
+Dieses Repository nutzt bewusst ein schlankes, release-orientiertes CI/CD-Set.
+Alle nicht zwingenden Modul-/Spezial-Workflows wurden entfernt, um Wartung,
+Signalqualität und Release-Stabilitaet zu verbessern.
 
-## Current Workflows Overview
-Below is a table mapping all existing workflows to their new organized locations with detailed descriptions:
+## Leitprinzipien
+- Keep it lean: nur Workflows mit direktem Beitrag zu Branch-Gates, Editions-Build und Release.
+- Modularisierung: wiederverwendbare Workflows statt duplizierter Build-Logik.
+- Klare Verantwortlichkeit je Lane: `develop`, `main`, `enterprise`, `hyperscaler`.
+- Keine Schatten-CI: neue Workflows nur mit begruendeter Notwendigkeit und Registry-Update.
 
-| Workflow Name          | Current Location                           | New Location               | Category        | Description                                              | Migration Instructions                      |
-|------------------------|-------------------------------------------|----------------------------|------------------|----------------------------------------------------------|--------------------------------------------|
-| build.yml              | .github/workflows/build.yml               | .github/workflows/build/   | Build & Test      | This workflow runs tests and builds the application.     | Move to new directory and update refs.   |
-| deploy.yml             | .github/workflows/deploy.yml              | .github/workflows/deploy/  | Deployment        | Automates the deployment process to production.           | Move to new directory and update refs.   |
-| lint.yml               | .github/workflows/lint.yml                | .github/workflows/lint/    | Code Quality      | Runs linters to check code quality.                      | Move to new directory and update refs.   |
-| docs.yml               | .github/workflows/docs.yml                | .github/workflows/docs/    | Documentation      | Generates and deploys documentation.                      | Move to new directory and update refs.   |
-| security.yml           | .github/workflows/security.yml            | .github/workflows/security/ | Security          | Scans the repository for vulnerabilities.                | Move to new directory and update refs.   |
+## Aktiver Workflow-Kern
 
-## Categorization Details
-- **Build & Test**: Workflows related to the building and testing phases of the application lifecycle.
-- **Deployment**: Workflows engaged in deploying the application to various environments.
-- **Code Quality**: Workflows focusing on maintaining code quality and style.
-- **Documentation**: Workflows dedicated to the generation and management of project documentation.
-- **Security**: Workflows that handle security checks and audits.
+### Core
+- `.github/workflows/01-core_ci.yml`
 
-## Migration Instructions
-### General Steps
-1. **Backup Current Workflows**: Ensure current workflows are backed up before making any changes.
-2. **Relocate Workflows**: Move each workflow to its new categorized directory as outlined in the table above.
-3. **Update Workflow References**: Update any references in other workflows or documentation to point to the new locations.
-4. **Test Workflows**: After migrating, run all workflows to ensure they function correctly in their new locations.
-5. **Monitor**: Keep an eye on the execution of workflows for any unexpected issues.
+### Editions (modular)
+- `.github/workflows/03-editions_ci.yml`
 
-## Conclusion
-This reorganization aims to streamline our workflow processes, making them easier to manage and navigate. Continued documentation and adherence to these changes will be crucial for maintaining workflow efficiency in the future.
+### Release
+- `.github/workflows/04-release_bootstrap-release-branches.yml`
+- `.github/workflows/04-release_build-binaries.yml`
+- `.github/workflows/04-release_publish-community.yml`
+- `.github/workflows/04-release_publish-private.yml`
 
----
+### PR Gates
+- `.github/workflows/09-pr-gates_quick-checks.yml`
+- `.github/workflows/09-pr-gates_path-policy.yml`
 
-**Date Created**: 2026-03-16 09:48:58 UTC
+## Governance fuer neue Workflows
+Neue Workflow-Dateien sind nur erlaubt, wenn mindestens einer der Punkte zutrifft:
+- Erforderlich fuer ein neues Release-Artefakt oder verpflichtendes Compliance-Gate.
+- Nicht sinnvoll als Job in bestehendem Core-/Edition-/Gate-Workflow integrierbar.
+- Enthalten klare Owner, Trigger-Grenzen (`paths`, `branches`) und Wartungsplan.
 
-**Created by**: makr-code
+## Validierung
+Lokaler Standard-Check:
+
+```powershell
+pwsh -NoProfile -File ./scripts/test-github-actions-local.ps1 -Mode all
+```
+
+## Stand
+- Gesamtzahl Workflows: 8
+- Strategie: Lean + modular + release-zentriert

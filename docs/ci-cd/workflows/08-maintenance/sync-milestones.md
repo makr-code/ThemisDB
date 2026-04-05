@@ -1,5 +1,9 @@
 # [Manual] Sync Milestones from Roadmap
 
+> [!WARNING]
+> Historische Workflow-Dokumentation (Legacy): Diese Seite beschreibt eine fruehere CI-Generation.
+> Der verbindliche aktuelle Stand ist der 8-Workflow-Kern in `.github/WORKFLOW_REGISTRY.md`.
+
 🖱️ **Manuell**
 
 > **Workflow-Datei:** `.github/workflows/08-maintenance_sync-milestones.yml`
@@ -45,3 +49,4 @@ Manuell ausgelöster Workflow für: **Sync Milestones from Roadmap**.
 
 - [Workflow-Datei](../../.github/workflows/08-maintenance_sync-milestones.yml)
 - [Alle Workflows](../README.md)
+

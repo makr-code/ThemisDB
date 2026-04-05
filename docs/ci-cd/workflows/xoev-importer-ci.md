@@ -1,5 +1,9 @@
 # XÖV Importer CI
 
+> [!WARNING]
+> Historische Workflow-Dokumentation (Legacy): Diese Seite beschreibt eine fruehere CI-Generation.
+> Der verbindliche aktuelle Stand ist der 8-Workflow-Kern in `.github/WORKFLOW_REGISTRY.md`.
+
 🔄 **CI/CD**
 
 > **Workflow-Datei:** `.github/workflows/xoev-importer-ci.yml`
@@ -23,7 +27,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **XÖV Importer
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/ci-scope-classifier.yml`
+**Verwendet:** `Historisch (fruehere CI-Generation). Aktueller Stand: .github/WORKFLOW_REGISTRY.md`
 
 ### `xoev-importer`
 **Anzeigename:** XÖV Importer – ${{ matrix.os }} / ${{ matrix.compiler }}
@@ -47,3 +51,4 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **XÖV Importer
 
 - [Workflow-Datei](../.github/workflows/xoev-importer-ci.yml)
 - [Alle Workflows](README.md)
+

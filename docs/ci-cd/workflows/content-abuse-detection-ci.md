@@ -1,5 +1,9 @@
 # Content Abuse Detection CI
 
+> [!WARNING]
+> Historische Workflow-Dokumentation (Legacy): Diese Seite beschreibt eine fruehere CI-Generation.
+> Der verbindliche aktuelle Stand ist der 8-Workflow-Kern in `.github/WORKFLOW_REGISTRY.md`.
+
 🔄 **CI/CD**
 
 > **Workflow-Datei:** `.github/workflows/content-abuse-detection-ci.yml`
@@ -23,7 +27,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Content Abuse
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/ci-scope-classifier.yml`
+**Verwendet:** `Historisch (fruehere CI-Generation). Aktueller Stand: .github/WORKFLOW_REGISTRY.md`
 
 ### `content-abuse-detection-tests`
 **Anzeigename:** Content Abuse Detection (${{ matrix.os }} / ${{ matrix.compiler }})
@@ -46,3 +50,4 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Content Abuse
 
 - [Workflow-Datei](../.github/workflows/content-abuse-detection-ci.yml)
 - [Alle Workflows](README.md)
+

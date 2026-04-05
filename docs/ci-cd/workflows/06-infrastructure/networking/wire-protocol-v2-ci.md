@@ -1,5 +1,9 @@
 # Wire Protocol V2 CI
 
+> [!WARNING]
+> Historische Workflow-Dokumentation (Legacy): Diese Seite beschreibt eine fruehere CI-Generation.
+> Der verbindliche aktuelle Stand ist der 8-Workflow-Kern in `.github/WORKFLOW_REGISTRY.md`.
+
 🔄 **CI/CD**
 
 > **Workflow-Datei:** `.github/workflows/06-infrastructure_networking_wire-protocol-v2-ci.yml`
@@ -23,7 +27,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Wire Protocol
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/01-core_ci-scope-classifier.yml`
+**Verwendet:** `Historisch (fruehere CI-Generation). Aktueller Stand: .github/WORKFLOW_REGISTRY.md`
 
 ### `wire-protocol-v2-tests`
 **Anzeigename:** Wire Protocol V2 (${{ matrix.os }} / ${{ matrix.compiler }})
@@ -70,3 +74,4 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Wire Protocol
 
 - [Workflow-Datei](../../../.github/workflows/06-infrastructure_networking_wire-protocol-v2-ci.yml)
 - [Alle Workflows](../README.md)
+

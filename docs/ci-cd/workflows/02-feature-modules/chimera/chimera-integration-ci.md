@@ -1,5 +1,9 @@
 # Chimera Integration CI
 
+> [!WARNING]
+> Historische Workflow-Dokumentation (Legacy): Diese Seite beschreibt eine fruehere CI-Generation.
+> Der verbindliche aktuelle Stand ist der 8-Workflow-Kern in `.github/WORKFLOW_REGISTRY.md`.
+
 🔄 **CI/CD**
 
 > **Workflow-Datei:** `.github/workflows/02-feature-modules_chimera_chimera-integration-ci.yml`
@@ -68,3 +72,4 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Chimera Integ
 
 - [Workflow-Datei](../../../.github/workflows/02-feature-modules_chimera_chimera-integration-ci.yml)
 - [Alle Workflows](../README.md)
+

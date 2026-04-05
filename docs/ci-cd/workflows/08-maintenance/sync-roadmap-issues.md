@@ -1,5 +1,9 @@
 # [Manual] Sync Roadmap Issues
 
+> [!WARNING]
+> Historische Workflow-Dokumentation (Legacy): Diese Seite beschreibt eine fruehere CI-Generation.
+> Der verbindliche aktuelle Stand ist der 8-Workflow-Kern in `.github/WORKFLOW_REGISTRY.md`.
+
 🖱️ **Manuell**
 
 > **Workflow-Datei:** `.github/workflows/08-maintenance_sync-roadmap-issues.yml`
@@ -47,3 +51,4 @@ Manuell ausgelöster Workflow für: **Sync Roadmap Issues**.
 
 - [Workflow-Datei](../../.github/workflows/08-maintenance_sync-roadmap-issues.yml)
 - [Alle Workflows](../README.md)
+
