@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/05-quality_security_pii-redaction-check.yml`
+> **Workflow-Datei (historisch):** .github/workflows/05-quality_security_pii-redaction-check.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -80,4 +81,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **PII Redaction
 
 - [Workflow-Datei](../../../.github/workflows/05-quality_security_pii-redaction-check.yml)
 - [Alle Workflows](../README.md)
+
 

@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/05-quality_validation_validate-roadmap.yml`
+> **Workflow-Datei (historisch):** .github/workflows/05-quality_validation_validate-roadmap.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -50,4 +51,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Validate Road
 
 - [Workflow-Datei](../../../.github/workflows/05-quality_validation_validate-roadmap.yml)
 - [Alle Workflows](../README.md)
+
 

@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/03-editions_edition-enterprise-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/03-editions_edition-enterprise-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -36,4 +37,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Edition · EN
 
 - [Workflow-Datei](../../.github/workflows/03-editions_edition-enterprise-ci.yml)
 - [Alle Workflows](../README.md)
+
 

@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/hardware-accelerated-query-execution-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/hardware-accelerated-query-execution-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -49,4 +50,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Hardware-Acce
 
 - [Workflow-Datei](../.github/workflows/hardware-accelerated-query-execution-ci.yml)
 - [Alle Workflows](README.md)
+
 

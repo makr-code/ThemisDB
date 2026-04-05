@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/join-exporter-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/join-exporter-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -51,4 +52,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Join Exporter
 
 - [Workflow-Datei](../.github/workflows/join-exporter-ci.yml)
 - [Alle Workflows](README.md)
+
 

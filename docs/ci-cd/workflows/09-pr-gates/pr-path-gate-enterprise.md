@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/09-pr-gates_pr-path-gate-enterprise.yml`
+> **Workflow-Datei (historisch):** .github/workflows/09-pr-gates_pr-path-gate-enterprise.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -44,4 +45,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **PR Path Gate 
 
 - [Workflow-Datei](../../.github/workflows/09-pr-gates_pr-path-gate-enterprise.yml)
 - [Alle Workflows](../README.md)
+
 

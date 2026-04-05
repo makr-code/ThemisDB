@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/cdc-changefeed-sequence-counter-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/cdc-changefeed-sequence-counter-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -50,4 +51,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **CDC Changefee
 
 - [Workflow-Datei](../.github/workflows/cdc-changefeed-sequence-counter-ci.yml)
 - [Alle Workflows](README.md)
+
 

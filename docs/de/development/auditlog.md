@@ -416,8 +416,8 @@ ThemisDB ist eine produktionsreife Multi-Model-Datenbank mit **67% Gesamtimpleme
 **Status:** ✅ Production-Ready
 
 **Repositories:**
-- GitHub Container Registry (GHCR): `ghcr.io/makr-code/themis`
-- Docker Hub: `themisdb/themis`
+- GitHub Container Registry (GHCR): `ghcr.io/makr-code/themisdb`
+- Docker Hub: `themisdb/themisdb`
 
 **Multi-Arch Support:**
 - ✅ x64-linux

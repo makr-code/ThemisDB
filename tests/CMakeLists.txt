@@ -14325,6 +14325,60 @@ if(THEMIS_ENABLE_GRPC AND TARGET gRPC::grpc++)
     endif()
 endif()
 
+# ---------------------------------------------------------------------------
+# Ethics AI Pipeline Focused Integration Test
+# Tests end-to-end flow: loader -> discourse -> RAG -> evaluator -> store
+# Built as standalone target so it works even when THEMIS_PLUGIN_ETHICS_AI=OFF.
+# ---------------------------------------------------------------------------
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ethics_ai_pipeline.cpp")
+    message(STATUS "Adding Ethics AI focused test: test_ethics_ai_pipeline_focused")
+
+    add_executable(test_ethics_ai_pipeline_focused
+        test_ethics_ai_pipeline.cpp
+        ${THEMIS_ROOT_DIR}/src/ethics_ai/ethics_ai_types.cpp
+        ${THEMIS_ROOT_DIR}/src/ethics_ai/philosophy_loader.cpp
+        ${THEMIS_ROOT_DIR}/src/ethics_ai/argument_store.cpp
+        ${THEMIS_ROOT_DIR}/src/ethics_ai/rag_context_engine.cpp
+        ${THEMIS_ROOT_DIR}/src/ethics_ai/discourse_engine.cpp
+        ${THEMIS_ROOT_DIR}/src/ethics_ai/ethics_evaluator.cpp
+    )
+
+    target_include_directories(test_ethics_ai_pipeline_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src/ethics_ai
+    )
+
+    target_link_libraries(test_ethics_ai_pipeline_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    if(TARGET yaml-cpp::yaml-cpp)
+        target_link_libraries(test_ethics_ai_pipeline_focused PRIVATE yaml-cpp::yaml-cpp)
+        target_compile_definitions(test_ethics_ai_pipeline_focused PRIVATE HAVE_YAML_CPP)
+    elseif(TARGET yaml-cpp)
+        target_link_libraries(test_ethics_ai_pipeline_focused PRIVATE yaml-cpp)
+        target_compile_definitions(test_ethics_ai_pipeline_focused PRIVATE HAVE_YAML_CPP)
+    endif()
+
+    target_compile_definitions(test_ethics_ai_pipeline_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME EthicsAiPipelineFocusedTests
+             COMMAND test_ethics_ai_pipeline_focused)
+
+    set_tests_properties(EthicsAiPipelineFocusedTests PROPERTIES
+        LABELS "ethics;ai;pipeline;rag;integration;focused"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  Ethics AI: full pipeline (loader/store/discourse/rag/evaluator) + edge-case validation")
+else()
+    message(STATUS "Ethics AI focused test not found: ${CMAKE_CURRENT_SOURCE_DIR}/test_ethics_ai_pipeline.cpp")
+endif()
+
 # Prompt Engineering Module — Standalone Focused Test Targets
 # Each target is an independent executable so individual components can be
 # validated in isolation without linking the entire themis_tests binary.

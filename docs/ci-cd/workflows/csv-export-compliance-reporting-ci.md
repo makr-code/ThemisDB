@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/csv-export-compliance-reporting-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/csv-export-compliance-reporting-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -50,4 +51,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **CSV Export fo
 
 - [Workflow-Datei](../.github/workflows/csv-export-compliance-reporting-ci.yml)
 - [Alle Workflows](README.md)
+
 

@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/backend-registry-thread-safety-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/backend-registry-thread-safety-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -49,4 +50,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **BackendRegist
 
 - [Workflow-Datei](../.github/workflows/backend-registry-thread-safety-ci.yml)
 - [Alle Workflows](README.md)
+
 

@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/04-release_canary-deployments-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/04-release_canary-deployments-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -51,4 +52,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Canary Deploy
 
 - [Workflow-Datei](../../.github/workflows/04-release_canary-deployments-ci.yml)
 - [Alle Workflows](../README.md)
+
 

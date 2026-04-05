@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/06-infrastructure_gpu_opencl-erasure-coder-parity-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/06-infrastructure_gpu_opencl-erasure-coder-parity-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -62,4 +63,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **OpenCL Erasur
 
 - [Workflow-Datei](../../../.github/workflows/06-infrastructure_gpu_opencl-erasure-coder-parity-ci.yml)
 - [Alle Workflows](../README.md)
+
 

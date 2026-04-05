@@ -207,9 +207,9 @@ syft themis_server -o spdx > SBOM_v1.0.1.spdx.json
 **Empfehlung**: Official Docker Image pushen
 
 ```bash
-docker pull themisdb/themis:1.0.1
-docker pull themisdb/themis:latest
-docker pull themisdb/themis:1.0.1-slim
+docker pull themisdb/themisdb:1.0.1
+docker pull themisdb/themisdb:latest
+docker pull themisdb/themisdb:1.0.1-slim
 ```
 
 **Gründe:**
@@ -295,8 +295,8 @@ docker pull themisdb/themis:1.0.1-slim
 ### Mittelfristig (Woche 2-3) - MITTELPRIO
 3. **Docker-Images zu Docker Hub pushen**
    ```bash
-   docker tag themis:1.0.1 themisdb/themis:1.0.1
-   docker push themisdb/themis:1.0.1
+   docker tag themis:1.0.1 themisdb/themisdb:1.0.1
+   docker push themisdb/themisdb:1.0.1
    ```
 
 4. **GitHub Releases** mit Checksummen/SBOM

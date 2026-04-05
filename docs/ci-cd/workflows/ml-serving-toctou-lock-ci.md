@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/ml-serving-toctou-lock-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/ml-serving-toctou-lock-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -51,4 +52,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **ML Serving TO
 
 - [Workflow-Datei](../.github/workflows/ml-serving-toctou-lock-ci.yml)
 - [Alle Workflows](README.md)
+
 

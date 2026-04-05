@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/governance-module-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/governance-module-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -81,4 +82,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Governance Mo
 
 - [Workflow-Datei](../.github/workflows/governance-module-ci.yml)
 - [Alle Workflows](README.md)
+
 

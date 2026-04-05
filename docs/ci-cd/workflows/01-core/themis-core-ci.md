@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/01-core_themis-core-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/01-core_themis-core-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -130,4 +131,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Themis Core F
 
 - [Workflow-Datei](../../.github/workflows/01-core_themis-core-ci.yml)
 - [Alle Workflows](../README.md)
+
 

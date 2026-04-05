@@ -505,7 +505,7 @@ version: '3.8'
 
 services:
   themisdb:
-    image: themisdb/themis:latest
+    image: themisdb/themisdb:latest
     ports:
       - "8765:8765"
     volumes:

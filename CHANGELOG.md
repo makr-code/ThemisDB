@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Security
+
+- **Docker Image Security Hardening** 🔒
+  - `THEMIS_ENABLE_ENCRYPTED_STORAGE` Build-ARG hinzugefügt (default: `OFF`):
+    `gocryptfs` und `fuse` werden nur noch installiert, wenn der ARG explizit auf `ON` gesetzt wird.
+    Dadurch entfällt Go-stdlib 1.22.2 aus dem Standard-Runtime-Image.
+  - `tar` wird nach Paketinstallation aus dem Runtime-Image entfernt (`apt-get purge -y --auto-remove tar`).
+  - CVE-Scan (Docker Scout) vor und nach den Änderungen: 39 CVEs (inkl. 3 CRITICAL, 11 HIGH)
+    → 3 CVEs verbleibend (alle LOW/MEDIUM, kein upstream-Fix verfügbar).
+  - Community-Image auf DockerHub veröffentlicht: `themisdb/themisdb:latest` und `themisdb/themisdb:1.8.1-rc1`.
+  - Verbleibende CVEs: CVE-2024-2236 (libgcrypt20, LOW), CVE-2024-56433 (shadow, LOW),
+    CVE-2025-45582 (tar, MEDIUM) — alle ohne upstream-Fix; Waiver dokumentiert in
+    `docs/audit-reports/cve-waivers.md`.
+
 ## [1.8.1-rc1] - 2026-04-04
 
 > **Release Notes:** [`docs/de/releases/RELEASE_NOTES_v1.8.1-rc1.md`](docs/de/releases/RELEASE_NOTES_v1.8.1-rc1.md)

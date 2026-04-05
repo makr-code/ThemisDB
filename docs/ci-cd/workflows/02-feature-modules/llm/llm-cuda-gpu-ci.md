@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/02-feature-modules_llm_llm-cuda-gpu-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/02-feature-modules_llm_llm-cuda-gpu-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -67,4 +68,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **LLM CUDA GPU*
 
 - [Workflow-Datei](../../../.github/workflows/02-feature-modules_llm_llm-cuda-gpu-ci.yml)
 - [Alle Workflows](../README.md)
+
 

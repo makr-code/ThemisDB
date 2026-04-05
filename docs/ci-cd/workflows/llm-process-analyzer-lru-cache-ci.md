@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/llm-process-analyzer-lru-cache-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/llm-process-analyzer-lru-cache-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -51,4 +52,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **LLMProcessAna
 
 - [Workflow-Datei](../.github/workflows/llm-process-analyzer-lru-cache-ci.yml)
 - [Alle Workflows](README.md)
+
 

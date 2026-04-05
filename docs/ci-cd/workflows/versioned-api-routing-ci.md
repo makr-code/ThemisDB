@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/versioned-api-routing-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/versioned-api-routing-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -50,4 +51,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Versioned API
 
 - [Workflow-Datei](../.github/workflows/versioned-api-routing-ci.yml)
 - [Alle Workflows](README.md)
+
 

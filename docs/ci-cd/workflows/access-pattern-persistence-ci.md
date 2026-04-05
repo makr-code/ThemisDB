@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/access-pattern-persistence-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/access-pattern-persistence-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -50,4 +51,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **IndexRecommen
 
 - [Workflow-Datei](../.github/workflows/access-pattern-persistence-ci.yml)
 - [Alle Workflows](README.md)
+
 

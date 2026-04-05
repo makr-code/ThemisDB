@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/06-infrastructure_observability_ml-anomaly-detector-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/06-infrastructure_observability_ml-anomaly-detector-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -51,4 +52,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **ML Anomaly De
 
 - [Workflow-Datei](../../../.github/workflows/06-infrastructure_observability_ml-anomaly-detector-ci.yml)
 - [Alle Workflows](../README.md)
+
 

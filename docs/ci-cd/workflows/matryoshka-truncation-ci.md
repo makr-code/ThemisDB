@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/matryoshka-truncation-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/matryoshka-truncation-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -51,4 +52,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Matryoshka Tr
 
 - [Workflow-Datei](../.github/workflows/matryoshka-truncation-ci.yml)
 - [Alle Workflows](README.md)
+
 

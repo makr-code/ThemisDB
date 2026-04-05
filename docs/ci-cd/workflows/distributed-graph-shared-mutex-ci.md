@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/distributed-graph-shared-mutex-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/distributed-graph-shared-mutex-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -50,4 +51,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **DistributedGr
 
 - [Workflow-Datei](../.github/workflows/distributed-graph-shared-mutex-ci.yml)
 - [Alle Workflows](README.md)
+
 

@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/06-infrastructure_gpu_gpu-memory-oversubscription-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/06-infrastructure_gpu_gpu-memory-oversubscription-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -69,4 +70,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **GPU Memory Ov
 
 - [Workflow-Datei](../../../.github/workflows/06-infrastructure_gpu_gpu-memory-oversubscription-ci.yml)
 - [Alle Workflows](../README.md)
+
 

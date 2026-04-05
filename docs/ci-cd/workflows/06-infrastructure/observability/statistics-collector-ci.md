@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/06-infrastructure_observability_statistics-collector-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/06-infrastructure_observability_statistics-collector-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -53,4 +54,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Statistics Co
 
 - [Workflow-Datei](../../../.github/workflows/06-infrastructure_observability_statistics-collector-ci.yml)
 - [Alle Workflows](../README.md)
+
 

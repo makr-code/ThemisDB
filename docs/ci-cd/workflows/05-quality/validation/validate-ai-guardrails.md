@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/05-quality_validation_validate-ai-guardrails.yml`
+> **Workflow-Datei (historisch):** .github/workflows/05-quality_validation_validate-ai-guardrails.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -79,4 +80,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Validate AI-G
 
 - [Workflow-Datei](../../../.github/workflows/05-quality_validation_validate-ai-guardrails.yml)
 - [Alle Workflows](../README.md)
+
 

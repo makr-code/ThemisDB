@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/06-infrastructure_networking_wire-protocol-v2-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/06-infrastructure_networking_wire-protocol-v2-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -74,4 +75,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Wire Protocol
 
 - [Workflow-Datei](../../../.github/workflows/06-infrastructure_networking_wire-protocol-v2-ci.yml)
 - [Alle Workflows](../README.md)
+
 

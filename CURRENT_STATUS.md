@@ -364,6 +364,7 @@ Status: **Production-ready for Phase 4 scope** ✅
 - ✅ **Automatic Failover:** AutoFailoverManager orchestration + focused tests
 - ✅ **Chaos Engineering Framework:** fault injection + network/scheduler chaos tests
 - ✅ **Disaster Recovery Procedures:** DisasterRecoveryManager orchestration + focused tests
+- ✅ **Docker Image Security Hardening:** CVE-Scan via Docker Scout; 39 → 3 verbleibende CVEs (alle ohne upstream-Fix); `THEMIS_ENABLE_ENCRYPTED_STORAGE=OFF` als Standard; Community-Image auf `themisdb/themisdb:latest` + `v1.8.1-rc1` veröffentlicht (April 2026)
 
 ### Planned ⏳
 
@@ -388,9 +389,9 @@ Status: **Production-ready for Phase 4 scope** ✅
 **Next:** Phase 5 operational tooling & admin UI  
 **Confidence:** High
 
-ThemisDB has successfully implemented production-grade observability, durability, and full RPC/network resilience infrastructure. The system now guarantees zero data loss, provides fast recovery (<3s), supports all major network protocols (gRPC, HTTP/1–3, WebSocket, PostgreSQL Wire, MQTT), and has comprehensive security (mTLS, HSM, CRL/OCSP). Phase 4 delivered fencing, failover, chaos, and disaster-recovery orchestration for resilient multi-node operation.
+ThemisDB has successfully implemented production-grade observability, durability, and full RPC/network resilience infrastructure. The system now guarantees zero data loss, provides fast recovery (<3s), supports all major network protocols (gRPC, HTTP/1–3, WebSocket, PostgreSQL Wire, MQTT), and has comprehensive security (mTLS, HSM, CRL/OCSP). Phase 4 delivered fencing, failover, chaos, and disaster-recovery orchestration for resilient multi-node operation. Docker images are published to `themisdb/themisdb` on Docker Hub with a hardened security baseline (0 CRITICAL/HIGH CVEs).
 
 ---
 
-**Last Updated:** April 3, 2026  
+**Last Updated:** April 5, 2026  
 **Next Milestone:** Phase 5 operational tooling (Q2/Q3 2026)

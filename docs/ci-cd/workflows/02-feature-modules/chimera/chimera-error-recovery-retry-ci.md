@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/02-feature-modules_chimera_chimera-error-recovery-retry-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/02-feature-modules_chimera_chimera-error-recovery-retry-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -49,4 +50,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Chimera Error
 
 - [Workflow-Datei](../../../.github/workflows/02-feature-modules_chimera_chimera-error-recovery-retry-ci.yml)
 - [Alle Workflows](../README.md)
+
 

@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/06-infrastructure_observability_request-tracing-correlation-ids-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/06-infrastructure_observability_request-tracing-correlation-ids-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -52,4 +53,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Request Traci
 
 - [Workflow-Datei](../../../.github/workflows/06-infrastructure_observability_request-tracing-correlation-ids-ci.yml)
 - [Alle Workflows](../README.md)
+
 

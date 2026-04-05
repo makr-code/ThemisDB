@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/07-data-pipelines_wal-archival-object-storage-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/07-data-pipelines_wal-archival-object-storage-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -51,4 +52,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **WAL Archival 
 
 - [Workflow-Datei](../../.github/workflows/07-data-pipelines_wal-archival-object-storage-ci.yml)
 - [Alle Workflows](../README.md)
+
 

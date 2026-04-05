@@ -6,7 +6,8 @@
 
 🖱️ **Manuell**
 
-> **Workflow-Datei:** `.github/workflows/08-maintenance_add-doc-metadata.yml`
+> **Workflow-Datei (historisch):** .github/workflows/08-maintenance_add-doc-metadata.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -48,4 +49,5 @@ Manuell ausgelöster Workflow für: **Add Documentation Metadata**.
 
 - [Workflow-Datei](../../.github/workflows/08-maintenance_add-doc-metadata.yml)
 - [Alle Workflows](../README.md)
+
 

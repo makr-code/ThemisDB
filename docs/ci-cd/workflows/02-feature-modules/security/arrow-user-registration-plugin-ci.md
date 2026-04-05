@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/02-feature-modules_security_arrow-user-registration-plugin-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/02-feature-modules_security_arrow-user-registration-plugin-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -52,4 +53,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Arrow User Re
 
 - [Workflow-Datei](../../../.github/workflows/02-feature-modules_security_arrow-user-registration-plugin-ci.yml)
 - [Alle Workflows](../README.md)
+
 

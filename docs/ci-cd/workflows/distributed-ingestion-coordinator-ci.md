@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/distributed-ingestion-coordinator-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/distributed-ingestion-coordinator-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -50,4 +51,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Distributed I
 
 - [Workflow-Datei](../.github/workflows/distributed-ingestion-coordinator-ci.yml)
 - [Alle Workflows](README.md)
+
 

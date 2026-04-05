@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/07-data-pipelines_cdc-websocket-streaming-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/07-data-pipelines_cdc-websocket-streaming-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -51,4 +52,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **CDC WebSocket
 
 - [Workflow-Datei](../../.github/workflows/07-data-pipelines_cdc-websocket-streaming-ci.yml)
 - [Alle Workflows](../README.md)
+
 

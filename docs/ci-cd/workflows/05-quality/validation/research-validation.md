@@ -6,7 +6,8 @@
 
 ⏰ **Geplant**
 
-> **Workflow-Datei:** `.github/workflows/05-quality_validation_research-validation.yml`
+> **Workflow-Datei (historisch):** .github/workflows/05-quality_validation_research-validation.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -79,4 +80,5 @@ Zeitgesteuert ausgeführter Workflow: **Research Documentation Validation**.
 
 - [Workflow-Datei](../../../.github/workflows/05-quality_validation_research-validation.yml)
 - [Alle Workflows](../README.md)
+
 

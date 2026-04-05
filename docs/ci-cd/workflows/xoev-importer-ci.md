@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/xoev-importer-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/xoev-importer-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -51,4 +52,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **XÖV Importer
 
 - [Workflow-Datei](../.github/workflows/xoev-importer-ci.yml)
 - [Alle Workflows](README.md)
+
 

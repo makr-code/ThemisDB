@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/schema-version-manager-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/schema-version-manager-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -56,4 +57,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Schema Versio
 
 - [Workflow-Datei](../.github/workflows/schema-version-manager-ci.yml)
 - [Alle Workflows](README.md)
+
 

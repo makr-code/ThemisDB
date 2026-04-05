@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/transaction-audit-trail-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/transaction-audit-trail-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -51,4 +52,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Transaction A
 
 - [Workflow-Datei](../.github/workflows/transaction-audit-trail-ci.yml)
 - [Alle Workflows](README.md)
+
 

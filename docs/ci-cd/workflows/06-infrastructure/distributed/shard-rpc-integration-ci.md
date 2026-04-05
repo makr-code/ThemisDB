@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/06-infrastructure_distributed_shard-rpc-integration-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/06-infrastructure_distributed_shard-rpc-integration-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -50,4 +51,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Shard RPC Int
 
 - [Workflow-Datei](../../../.github/workflows/06-infrastructure_distributed_shard-rpc-integration-ci.yml)
 - [Alle Workflows](../README.md)
+
 

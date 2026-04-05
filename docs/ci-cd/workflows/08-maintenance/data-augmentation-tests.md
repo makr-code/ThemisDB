@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/08-maintenance_data-augmentation-tests.yml`
+> **Workflow-Datei (historisch):** .github/workflows/08-maintenance_data-augmentation-tests.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -51,4 +52,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Data Augmenta
 
 - [Workflow-Datei](../../.github/workflows/08-maintenance_data-augmentation-tests.yml)
 - [Alle Workflows](../README.md)
+
 

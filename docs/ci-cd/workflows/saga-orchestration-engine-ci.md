@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/saga-orchestration-engine-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/saga-orchestration-engine-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -50,4 +51,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **SAGA Orchestr
 
 - [Workflow-Datei](../.github/workflows/saga-orchestration-engine-ci.yml)
 - [Alle Workflows](README.md)
+
 

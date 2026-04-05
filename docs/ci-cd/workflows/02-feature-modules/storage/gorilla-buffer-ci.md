@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/02-feature-modules_storage_gorilla-buffer-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/02-feature-modules_storage_gorilla-buffer-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -50,4 +51,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Gorilla Buffe
 
 - [Workflow-Datei](../../../.github/workflows/02-feature-modules_storage_gorilla-buffer-ci.yml)
 - [Alle Workflows](../README.md)
+
 

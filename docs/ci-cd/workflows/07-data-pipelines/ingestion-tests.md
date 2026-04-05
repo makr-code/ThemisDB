@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/07-data-pipelines_ingestion-tests.yml`
+> **Workflow-Datei (historisch):** .github/workflows/07-data-pipelines_ingestion-tests.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -51,4 +52,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Ingestion Mod
 
 - [Workflow-Datei](../../.github/workflows/07-data-pipelines_ingestion-tests.yml)
 - [Alle Workflows](../README.md)
+
 

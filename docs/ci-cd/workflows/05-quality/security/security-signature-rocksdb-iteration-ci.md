@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/05-quality_security_security-signature-rocksdb-iteration-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/05-quality_security_security-signature-rocksdb-iteration-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -50,4 +51,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Security Sign
 
 - [Workflow-Datei](../../../.github/workflows/05-quality_security_security-signature-rocksdb-iteration-ci.yml)
 - [Alle Workflows](../README.md)
+
 

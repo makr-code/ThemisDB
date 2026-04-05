@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/05-quality_security_security-hardening-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/05-quality_security_security-hardening-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -117,4 +118,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Security Hard
 
 - [Workflow-Datei](../../../.github/workflows/05-quality_security_security-hardening-ci.yml)
 - [Alle Workflows](../README.md)
+
 

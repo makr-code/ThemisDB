@@ -12,6 +12,8 @@
 ARG THEMIS_EDITION=COMMUNITY
 ARG ENABLE_LLM=ON
 ARG ENABLE_GPU=ON
+ARG INCLUDE_DOCS_DB=ON
+ARG INCLUDE_MINI_LLM=ON
 ARG FORCE_CPU_ONLY=OFF
 ARG BUILD_TESTS=OFF
 ARG BUILD_BENCHMARKS=OFF
@@ -208,6 +210,25 @@ RUN if [ "$ENABLE_LLM" = "ON" ]; then \
     fi
 
 # ============================================================================
+# Stage 3b: mini-llm - Prepare a small GGUF model for release/runtime bundles
+# ============================================================================
+FROM base AS mini-llm
+
+ARG ENABLE_LLM
+ARG INCLUDE_MINI_LLM
+
+WORKDIR /opt/themis-mini-llm
+
+COPY scripts/prepare_release_mini_llm.py ./scripts/prepare_release_mini_llm.py
+
+RUN mkdir -p /opt/themis-mini-llm/models && \
+    if [ "$ENABLE_LLM" = "ON" ] && [ "$INCLUDE_MINI_LLM" = "ON" ]; then \
+        python3 ./scripts/prepare_release_mini_llm.py --output-dir /opt/themis-mini-llm/models; \
+    else \
+        echo "Mini LLM disabled - leaving models directory empty"; \
+    fi
+
+# ============================================================================
 # Stage 4: build - Compile ThemisDB
 # ============================================================================
 FROM deps AS build
@@ -215,6 +236,7 @@ FROM deps AS build
 ARG THEMIS_EDITION
 ARG ENABLE_LLM
 ARG ENABLE_GPU
+ARG INCLUDE_DOCS_DB
 ARG FORCE_CPU_ONLY
 ARG BUILD_TESTS
 ARG BUILD_BENCHMARKS
@@ -229,6 +251,11 @@ COPY include ./include
 COPY src ./src
 COPY proto ./proto
 COPY internal ./internal
+COPY docs ./docs
+COPY compendium ./compendium
+COPY examples ./examples
+COPY scripts ./scripts
+COPY tools ./tools
 
 # Copy vcpkg manifests from deps stage
 COPY --from=deps /build/vcpkg.json ./vcpkg.json
@@ -274,10 +301,15 @@ RUN set -eux; \
         -DTHEMIS_ENABLE_TRACING=OFF \
         -DTHEMIS_STRICT_BUILD=OFF \
         -DCMAKE_EXPORT_COMPILE_COMMANDS=ON && \
+    mkdir -p build/data && \
     \
-    # Build themis_server
+    # Build themis_server and optional release data assets
     echo "Building themis_server..." && \
-    ninja -C build -j$(nproc) themis_server && \
+    if [ "$INCLUDE_DOCS_DB" = "ON" ]; then \
+        ninja -C build -j$(nproc) themis_server docs_database; \
+    else \
+        ninja -C build -j$(nproc) themis_server; \
+    fi && \
     \
     # Verify binary
     if [ ! -f build/bin/themis_server ]; then \
@@ -309,7 +341,8 @@ ENV DEBIAN_FRONTEND=noninteractive \
     LD_LIBRARY_PATH=/opt/themis/bin \
     THEMIS_CONFIG_DIR=/etc/themis/config \
     THEMIS_DATA_DIR=/var/lib/themis/data \
-    THEMIS_LOG_DIR=/var/log/themis
+    THEMIS_LOG_DIR=/var/log/themis \
+    THEMIS_MODEL_DIR=/opt/themis/models
 
 WORKDIR /opt/themis
 
@@ -338,6 +371,12 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 
 # Copy themis_server binary
 COPY --from=build /src/build/bin/themis_server /opt/themis/bin/themis_server
+
+# Copy prebuilt documentation assets when available
+COPY --from=build /src/build/data/ /opt/themis/data/
+
+# Copy bundled mini model when available
+COPY --from=mini-llm /opt/themis-mini-llm/models/ /opt/themis/models/
 
 # Copy llama.cpp libraries from llama stage to bin/ with symlink handling
 COPY --from=llama /opt/llama.cpp/build/bin/ /opt/themis/bin/
@@ -379,6 +418,8 @@ COPY config/ai_ml/lora_training_config.yaml /etc/themis/config/ai_ml/lora_traini
 RUN mkdir -p /var/log/themis && \
     mkdir -p /var/lib/themis/data && \
     mkdir -p /opt/themis && \
+    mkdir -p /opt/themis/models && \
+    mkdir -p /opt/themis/data && \
     ln -sfn /etc/themis/config /opt/themis/config && \
     ln -sfn /var/log/themis /opt/themis/logs && \
     chmod 755 /var/log/themis /var/lib/themis /var/lib/themis/data && \

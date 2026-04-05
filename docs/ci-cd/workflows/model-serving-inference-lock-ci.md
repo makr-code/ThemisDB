@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/model-serving-inference-lock-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/model-serving-inference-lock-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -50,4 +51,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **ModelServingE
 
 - [Workflow-Datei](../.github/workflows/model-serving-inference-lock-ci.yml)
 - [Alle Workflows](README.md)
+
 

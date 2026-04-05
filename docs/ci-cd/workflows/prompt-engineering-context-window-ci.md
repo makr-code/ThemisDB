@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/prompt-engineering-context-window-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/prompt-engineering-context-window-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -51,4 +52,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Prompt Engine
 
 - [Workflow-Datei](../.github/workflows/prompt-engineering-context-window-ci.yml)
 - [Alle Workflows](README.md)
+
 

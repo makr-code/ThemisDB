@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/02-feature-modules_storage_cache-warmup-parallel-bulk-load-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/02-feature-modules_storage_cache-warmup-parallel-bulk-load-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -49,4 +50,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Cache Warmup 
 
 - [Workflow-Datei](../../../.github/workflows/02-feature-modules_storage_cache-warmup-parallel-bulk-load-ci.yml)
 - [Alle Workflows](../README.md)
+
 

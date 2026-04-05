@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/incremental-view-micro-batch-lock-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/incremental-view-micro-batch-lock-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -51,4 +52,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **IncrementalVi
 
 - [Workflow-Datei](../.github/workflows/incremental-view-micro-batch-lock-ci.yml)
 - [Alle Workflows](README.md)
+
 

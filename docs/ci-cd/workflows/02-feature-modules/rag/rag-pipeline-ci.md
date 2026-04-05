@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/02-feature-modules_rag_rag-pipeline-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/02-feature-modules_rag_rag-pipeline-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -57,4 +58,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **RAG Pipeline*
 
 - [Workflow-Datei](../../../.github/workflows/02-feature-modules_rag_rag-pipeline-ci.yml)
 - [Alle Workflows](../README.md)
+
 

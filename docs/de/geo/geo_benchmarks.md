@@ -375,14 +375,14 @@ FOR polygon IN complex_polygons
 # Benchmark Setup Script
 
 # 1. ThemisDB installieren
-docker pull themisdb/themis:1.4.0
+docker pull themisdb/themisdb:1.4.0
 
 # 2. Container starten
 docker run -d \
   --name themis-bench \
   -p 8765:8765 \
   -e THEMIS_GEO_BACKEND=gpu \
-  themisdb/themis:1.4.0
+  themisdb/themisdb:1.4.0
 
 # 3. Testdaten laden
 wget https://download.geofabrik.de/europe/germany/berlin-latest.osm.pbf

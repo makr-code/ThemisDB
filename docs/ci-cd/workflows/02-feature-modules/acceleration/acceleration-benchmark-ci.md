@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/02-feature-modules_acceleration_acceleration-benchmark-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/02-feature-modules_acceleration_acceleration-benchmark-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -81,4 +82,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Acceleration 
 
 - [Workflow-Datei](../../../.github/workflows/02-feature-modules_acceleration_acceleration-benchmark-ci.yml)
 - [Alle Workflows](../README.md)
+
 

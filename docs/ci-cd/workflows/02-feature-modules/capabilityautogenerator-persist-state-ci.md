@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/02-feature-modules_capabilityautogenerator-persist-state-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/02-feature-modules_capabilityautogenerator-persist-state-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -50,4 +51,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **CapabilityAut
 
 - [Workflow-Datei](../../.github/workflows/02-feature-modules_capabilityautogenerator-persist-state-ci.yml)
 - [Alle Workflows](../README.md)
+
 

@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/02-feature-modules_resilience_async-retry-remote-registry-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/02-feature-modules_resilience_async-retry-remote-registry-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -48,4 +49,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Async Retry R
 
 - [Workflow-Datei](../../../.github/workflows/02-feature-modules_resilience_async-retry-remote-registry-ci.yml)
 - [Alle Workflows](../README.md)
+
 

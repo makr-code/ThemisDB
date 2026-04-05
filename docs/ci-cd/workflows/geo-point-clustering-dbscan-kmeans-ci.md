@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/geo-point-clustering-dbscan-kmeans-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/geo-point-clustering-dbscan-kmeans-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -50,4 +51,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Geo Point Clu
 
 - [Workflow-Datei](../.github/workflows/geo-point-clustering-dbscan-kmeans-ci.yml)
 - [Alle Workflows](README.md)
+
 

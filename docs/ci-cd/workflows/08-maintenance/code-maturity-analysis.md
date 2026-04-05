@@ -6,7 +6,8 @@
 
 ⏰ **Geplant**
 
-> **Workflow-Datei:** `.github/workflows/08-maintenance_code-maturity-analysis.yml`
+> **Workflow-Datei (historisch):** .github/workflows/08-maintenance_code-maturity-analysis.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -43,4 +44,5 @@ Zeitgesteuert ausgeführter Workflow: **Code Maturity Analysis & Auto-Versioning
 
 - [Workflow-Datei](../../.github/workflows/08-maintenance_code-maturity-analysis.yml)
 - [Alle Workflows](../README.md)
+
 

@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/02-feature-modules_adaptive-query_geo-spatial-join-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/02-feature-modules_adaptive-query_geo-spatial-join-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -50,4 +51,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Geo Spatial J
 
 - [Workflow-Datei](../../../.github/workflows/02-feature-modules_adaptive-query_geo-spatial-join-ci.yml)
 - [Alle Workflows](../README.md)
+
 

@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/02-feature-modules_transactions_percolator-distributed-transaction-coordinator-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/02-feature-modules_transactions_percolator-distributed-transaction-coordinator-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -50,4 +51,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Percolator Di
 
 - [Workflow-Datei](../../../.github/workflows/02-feature-modules_transactions_percolator-distributed-transaction-coordinator-ci.yml)
 - [Alle Workflows](../README.md)
+
 

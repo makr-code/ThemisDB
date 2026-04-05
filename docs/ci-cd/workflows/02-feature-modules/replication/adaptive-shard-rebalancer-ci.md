@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/02-feature-modules_replication_adaptive-shard-rebalancer-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/02-feature-modules_replication_adaptive-shard-rebalancer-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -49,4 +50,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Adaptive Shar
 
 - [Workflow-Datei](../../../.github/workflows/02-feature-modules_replication_adaptive-shard-rebalancer-ci.yml)
 - [Alle Workflows](../README.md)
+
 

@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/02-feature-modules_parquet-exporter-tests.yml`
+> **Workflow-Datei (historisch):** .github/workflows/02-feature-modules_parquet-exporter-tests.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -52,4 +53,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Parquet Expor
 
 - [Workflow-Datei](../../.github/workflows/02-feature-modules_parquet-exporter-tests.yml)
 - [Alle Workflows](../README.md)
+
 

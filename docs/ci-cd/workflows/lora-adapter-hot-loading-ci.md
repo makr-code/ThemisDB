@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/lora-adapter-hot-loading-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/lora-adapter-hot-loading-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -51,4 +52,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **LoRA Adapter 
 
 - [Workflow-Datei](../.github/workflows/lora-adapter-hot-loading-ci.yml)
 - [Alle Workflows](README.md)
+
 

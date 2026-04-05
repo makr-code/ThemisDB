@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/08-maintenance_acceleration-roadmap-audit.yml`
+> **Workflow-Datei (historisch):** .github/workflows/08-maintenance_acceleration-roadmap-audit.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -44,4 +45,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Acceleration 
 
 - [Workflow-Datei](../../.github/workflows/08-maintenance_acceleration-roadmap-audit.yml)
 - [Alle Workflows](../README.md)
+
 

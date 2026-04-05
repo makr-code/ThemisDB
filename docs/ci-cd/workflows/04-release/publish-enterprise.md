@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/04-release_publish-enterprise.yml`
+> **Workflow-Datei (historisch):** .github/workflows/04-release_publish-enterprise.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -68,4 +69,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Publish · En
 
 - [Workflow-Datei](../../.github/workflows/04-release_publish-enterprise.yml)
 - [Alle Workflows](../README.md)
+
 

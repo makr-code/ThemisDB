@@ -6,7 +6,8 @@
 
 ♻️ **Reusable Workflow**
 
-> **Workflow-Datei:** `.github/workflows/ci-scope-classifier.yml`
+> **Workflow-Datei (historisch):** .github/workflows/ci-scope-classifier.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -37,4 +38,5 @@ Wiederverwendbarer Hilfs-Workflow: **CI Scope Classifier**.
 
 - Workflow-Datei: historisch, siehe `.github/WORKFLOW_REGISTRY.md`
 - [Alle Workflows](README.md)
+
 

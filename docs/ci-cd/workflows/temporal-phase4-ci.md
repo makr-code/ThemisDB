@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/temporal-phase4-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/temporal-phase4-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -52,4 +53,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Temporal Phas
 
 - [Workflow-Datei](../.github/workflows/temporal-phase4-ci.yml)
 - [Alle Workflows](README.md)
+
 

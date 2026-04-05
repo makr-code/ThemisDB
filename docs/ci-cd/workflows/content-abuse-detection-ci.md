@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/content-abuse-detection-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/content-abuse-detection-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -50,4 +51,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Content Abuse
 
 - [Workflow-Datei](../.github/workflows/content-abuse-detection-ci.yml)
 - [Alle Workflows](README.md)
+
 

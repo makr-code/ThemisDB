@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/07-data-pipelines_importer-tests.yml`
+> **Workflow-Datei (historisch):** .github/workflows/07-data-pipelines_importer-tests.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -126,4 +127,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Importer Modu
 
 - [Workflow-Datei](../../.github/workflows/07-data-pipelines_importer-tests.yml)
 - [Alle Workflows](../README.md)
+
 

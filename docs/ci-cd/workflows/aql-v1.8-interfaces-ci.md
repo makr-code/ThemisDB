@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/aql-v1.8-interfaces-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/aql-v1.8-interfaces-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -49,4 +50,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **AQL v1.8.0 In
 
 - [Workflow-Datei](../.github/workflows/aql-v1.8-interfaces-ci.yml)
 - [Alle Workflows](README.md)
+
 

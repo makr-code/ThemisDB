@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/async-ingestion-worker-yaml-config-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/async-ingestion-worker-yaml-config-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -50,4 +51,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **AsyncIngestio
 
 - [Workflow-Datei](../.github/workflows/async-ingestion-worker-yaml-config-ci.yml)
 - [Alle Workflows](README.md)
+
 

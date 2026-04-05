@@ -6,7 +6,8 @@
 
 🖱️ **Manuell**
 
-> **Workflow-Datei:** `.github/workflows/08-maintenance_sync-roadmap-issues.yml`
+> **Workflow-Datei (historisch):** .github/workflows/08-maintenance_sync-roadmap-issues.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -51,4 +52,5 @@ Manuell ausgelöster Workflow für: **Sync Roadmap Issues**.
 
 - [Workflow-Datei](../../.github/workflows/08-maintenance_sync-roadmap-issues.yml)
 - [Alle Workflows](../README.md)
+
 

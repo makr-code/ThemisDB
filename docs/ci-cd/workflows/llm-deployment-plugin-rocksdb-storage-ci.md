@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/llm-deployment-plugin-rocksdb-storage-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/llm-deployment-plugin-rocksdb-storage-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -49,4 +50,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **LLM Deploymen
 
 - [Workflow-Datei](../.github/workflows/llm-deployment-plugin-rocksdb-storage-ci.yml)
 - [Alle Workflows](README.md)
+
 

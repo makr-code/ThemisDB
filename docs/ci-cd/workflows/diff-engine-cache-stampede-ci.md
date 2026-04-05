@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/diff-engine-cache-stampede-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/diff-engine-cache-stampede-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -53,4 +54,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **DiffEngine Ca
 
 - [Workflow-Datei](../.github/workflows/diff-engine-cache-stampede-ci.yml)
 - [Alle Workflows](README.md)
+
 

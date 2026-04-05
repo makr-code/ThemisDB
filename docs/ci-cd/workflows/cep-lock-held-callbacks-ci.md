@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/cep-lock-held-callbacks-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/cep-lock-held-callbacks-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -51,4 +52,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **CEP Lock-Held
 
 - [Workflow-Datei](../.github/workflows/cep-lock-held-callbacks-ci.yml)
 - [Alle Workflows](README.md)
+
 

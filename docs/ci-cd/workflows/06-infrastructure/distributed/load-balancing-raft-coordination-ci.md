@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/06-infrastructure_distributed_load-balancing-raft-coordination-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/06-infrastructure_distributed_load-balancing-raft-coordination-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -50,4 +51,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Load Balancin
 
 - [Workflow-Datei](../../../.github/workflows/06-infrastructure_distributed_load-balancing-raft-coordination-ci.yml)
 - [Alle Workflows](../README.md)
+
 

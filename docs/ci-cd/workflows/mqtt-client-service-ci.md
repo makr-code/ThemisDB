@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/mqtt-client-service-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/mqtt-client-service-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -50,4 +51,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **MQTT Client S
 
 - [Workflow-Datei](../.github/workflows/mqtt-client-service-ci.yml)
 - [Alle Workflows](README.md)
+
 

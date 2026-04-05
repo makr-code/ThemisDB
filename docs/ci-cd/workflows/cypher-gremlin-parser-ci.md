@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/cypher-gremlin-parser-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/cypher-gremlin-parser-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -65,4 +66,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Cypher/Gremli
 
 - [Workflow-Datei](../.github/workflows/cypher-gremlin-parser-ci.yml)
 - [Alle Workflows](README.md)
+
 

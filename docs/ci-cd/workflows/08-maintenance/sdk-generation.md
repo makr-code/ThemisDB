@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/08-maintenance_sdk-generation.yml`
+> **Workflow-Datei (historisch):** .github/workflows/08-maintenance_sdk-generation.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -102,4 +103,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **OpenAPI SDK G
 
 - [Workflow-Datei](../../.github/workflows/08-maintenance_sdk-generation.yml)
 - [Alle Workflows](../README.md)
+
 

@@ -6,7 +6,8 @@
 
 🖱️ **Manuell**
 
-> **Workflow-Datei:** `.github/workflows/04-release_create-release-archive.yml`
+> **Workflow-Datei (historisch):** .github/workflows/04-release_create-release-archive.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -48,4 +49,5 @@ Manuell ausgelöster Workflow für: **Create Release Archive**.
 
 - [Workflow-Datei](../../.github/workflows/04-release_create-release-archive.yml)
 - [Alle Workflows](../README.md)
+
 

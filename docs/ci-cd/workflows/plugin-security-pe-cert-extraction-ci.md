@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/plugin-security-pe-cert-extraction-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/plugin-security-pe-cert-extraction-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -50,4 +51,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Plugin Securi
 
 - [Workflow-Datei](../.github/workflows/plugin-security-pe-cert-extraction-ci.yml)
 - [Alle Workflows](README.md)
+
 

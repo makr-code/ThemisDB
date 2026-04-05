@@ -7,7 +7,10 @@ param(
     [string]$BuildDir = "build-msvc\Release",
     [string]$OutputDir = "release",
     [switch]$IncludeBenchmarks = $false,
-    [switch]$CreateChecksums = $true
+    [switch]$CreateChecksums = $true,
+    [switch]$PrepareMiniLlm = $false,
+    [string]$PythonExecutable = "python",
+    [string]$MiniLlmSourceFile = ""
 )
 
 $ErrorActionPreference = "Stop"
@@ -51,8 +54,10 @@ $releaseBin = Join-Path $releaseRoot "bin"
 $releaseDocs = Join-Path $releaseRoot "docs"
 $releaseConfig = Join-Path $releaseRoot "config"
 $releaseLicense = Join-Path $releaseRoot "licenses"
+$releaseData = Join-Path $releaseRoot "data"
+$releaseModels = Join-Path $releaseRoot "models"
 
-@($releaseRoot, $releaseBin, $releaseDocs, $releaseConfig, $releaseLicense) | ForEach-Object {
+@($releaseRoot, $releaseBin, $releaseDocs, $releaseConfig, $releaseLicense, $releaseData, $releaseModels) | ForEach-Object {
     if (Test-Path $_) {
         Remove-Item -Path $_ -Recurse -Force
     }
@@ -157,6 +162,69 @@ foreach ($config in $configFiles) {
 }
 
 Write-Success "Configuration files copied"
+
+# Step 5b: Copy docs database and optional mini LLM bundle
+Write-Step "Copying documentation database and LLM assets..."
+
+$docsDbCandidates = @(
+    (Join-Path (Split-Path $BuildDir -Parent) "data\docs.db"),
+    "data\docs.db"
+)
+
+$docsJsonCandidates = @(
+    (Join-Path (Split-Path $BuildDir -Parent) "data\docs_database.json"),
+    "data\docs_database.json"
+)
+
+foreach ($candidate in $docsDbCandidates | Select-Object -Unique) {
+    if (Test-Path $candidate) {
+        Copy-WithLogging -Source $candidate -Destination (Join-Path $releaseData "docs.db") -Description "docs.db"
+        break
+    }
+}
+
+foreach ($candidate in $docsJsonCandidates | Select-Object -Unique) {
+    if (Test-Path $candidate) {
+        Copy-WithLogging -Source $candidate -Destination (Join-Path $releaseData "docs_database.json") -Description "docs_database.json"
+        break
+    }
+}
+
+if ($PrepareMiniLlm) {
+    $miniLlmScript = Join-Path (Get-Location) "scripts\prepare_release_mini_llm.py"
+    if (Test-Path $miniLlmScript) {
+        $helperArgs = @($miniLlmScript, "--output-dir", $releaseModels)
+        if ($MiniLlmSourceFile) {
+            $helperArgs += @("--source-file", $MiniLlmSourceFile)
+        }
+
+        try {
+            & $PythonExecutable @helperArgs
+            if ($LASTEXITCODE -eq 0) {
+                Write-Success "Mini LLM bundle prepared"
+            } else {
+                Write-Host "  - Mini LLM bundle preparation failed" -ForegroundColor Yellow
+            }
+        } catch {
+            Write-Host "  - Mini LLM bundle preparation failed: $_" -ForegroundColor Yellow
+        }
+    } else {
+        Write-Host "  - Mini LLM helper script not found" -ForegroundColor Yellow
+    }
+} else {
+    $modelCandidates = @(
+        "models\default.gguf",
+        "models\mini-llm.manifest.json"
+    )
+
+    foreach ($candidate in $modelCandidates) {
+        if (Test-Path $candidate) {
+            Copy-WithLogging -Source $candidate -Destination (Join-Path $releaseModels (Split-Path $candidate -Leaf)) -Description (Split-Path $candidate -Leaf)
+        }
+    }
+}
+
+Write-Success "Documentation database and LLM assets handled"
 
 # Step 6: Create startup scripts
 Write-Step "Creating startup scripts..."
@@ -284,6 +352,8 @@ themis-v$Version-$Platform/
 │   ├── themis_server.exe  # Main server
 │   ├── themis_cli.exe     # Command-line client
 │   └── themis_demo.exe    # Demo application
+├── data/                   # Prebuilt docs database assets
+├── models/                 # Optional llama.cpp GGUF model bundle
 ├── config/                 # Configuration files
 ├── docs/                   # Documentation
 ├── licenses/               # License information

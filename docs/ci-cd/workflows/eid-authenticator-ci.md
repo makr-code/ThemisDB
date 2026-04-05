@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/eid-authenticator-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/eid-authenticator-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -51,4 +52,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **eID Authentic
 
 - [Workflow-Datei](../.github/workflows/eid-authenticator-ci.yml)
 - [Alle Workflows](README.md)
+
 

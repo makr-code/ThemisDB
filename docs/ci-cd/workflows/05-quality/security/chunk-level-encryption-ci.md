@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/05-quality_security_chunk-level-encryption-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/05-quality_security_chunk-level-encryption-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -50,4 +51,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Chunk-Level E
 
 - [Workflow-Datei](../../../.github/workflows/05-quality_security_chunk-level-encryption-ci.yml)
 - [Alle Workflows](../README.md)
+
 

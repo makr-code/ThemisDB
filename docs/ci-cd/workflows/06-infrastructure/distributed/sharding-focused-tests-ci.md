@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/06-infrastructure_distributed_sharding-focused-tests-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/06-infrastructure_distributed_sharding-focused-tests-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -56,4 +57,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Sharding Focu
 
 - [Workflow-Datei](../../../.github/workflows/06-infrastructure_distributed_sharding-focused-tests-ci.yml)
 - [Alle Workflows](../README.md)
+
 

@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/ozg-service-registry-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/ozg-service-registry-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -51,4 +52,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **OZG Service R
 
 - [Workflow-Datei](../.github/workflows/ozg-service-registry-ci.yml)
 - [Alle Workflows](README.md)
+
 

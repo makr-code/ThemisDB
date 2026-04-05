@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/plugin-manager-lifecycle-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/plugin-manager-lifecycle-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -65,4 +66,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Plugin Manage
 
 - [Workflow-Datei](../.github/workflows/plugin-manager-lifecycle-ci.yml)
 - [Alle Workflows](README.md)
+
 

@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/simd-vectorization-avx512-arm-neon-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/simd-vectorization-avx512-arm-neon-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -51,4 +52,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **SIMD Vectoriz
 
 - [Workflow-Datei](../.github/workflows/simd-vectorization-avx512-arm-neon-ci.yml)
 - [Alle Workflows](README.md)
+
 

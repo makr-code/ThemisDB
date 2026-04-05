@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/05-quality_validation_validate-config-mapping.yml`
+> **Workflow-Datei (historisch):** .github/workflows/05-quality_validation_validate-config-mapping.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -48,4 +49,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Validate Conf
 
 - [Workflow-Datei](../../../.github/workflows/05-quality_validation_validate-config-mapping.yml)
 - [Alle Workflows](../README.md)
+
 

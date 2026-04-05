@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/olap-lru-cache-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/olap-lru-cache-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -51,4 +52,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **OLAP LRU Cach
 
 - [Workflow-Datei](../.github/workflows/olap-lru-cache-ci.yml)
 - [Alle Workflows](README.md)
+
 

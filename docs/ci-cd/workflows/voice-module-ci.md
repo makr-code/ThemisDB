@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/voice-module-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/voice-module-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -105,4 +106,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Voice Module*
 
 - [Workflow-Datei](../.github/workflows/voice-module-ci.yml)
 - [Alle Workflows](README.md)
+
 

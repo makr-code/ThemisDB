@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/distributed-analytics-healthy-shard-count-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/distributed-analytics-healthy-shard-count-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -51,4 +52,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **DistributedAn
 
 - [Workflow-Datei](../.github/workflows/distributed-analytics-healthy-shard-count-ci.yml)
 - [Alle Workflows](README.md)
+
 

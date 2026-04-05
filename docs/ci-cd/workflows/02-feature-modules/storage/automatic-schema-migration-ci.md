@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/02-feature-modules_storage_automatic-schema-migration-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/02-feature-modules_storage_automatic-schema-migration-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -51,4 +52,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Automatic Sch
 
 - [Workflow-Datei](../../../.github/workflows/02-feature-modules_storage_automatic-schema-migration-ci.yml)
 - [Alle Workflows](../README.md)
+
 

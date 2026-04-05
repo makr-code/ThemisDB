@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/06-infrastructure_gpu_gpu-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/06-infrastructure_gpu_gpu-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -96,4 +97,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **GPU Module Ga
 
 - [Workflow-Datei](../../../.github/workflows/06-infrastructure_gpu_gpu-ci.yml)
 - [Alle Workflows](../README.md)
+
 

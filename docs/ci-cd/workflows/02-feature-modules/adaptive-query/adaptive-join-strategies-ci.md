@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/02-feature-modules_adaptive-query_adaptive-join-strategies-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/02-feature-modules_adaptive-query_adaptive-join-strategies-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -51,4 +52,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Adaptive Join
 
 - [Workflow-Datei](../../../.github/workflows/02-feature-modules_adaptive-query_adaptive-join-strategies-ci.yml)
 - [Alle Workflows](../README.md)
+
 

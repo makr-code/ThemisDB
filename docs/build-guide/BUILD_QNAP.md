@@ -34,14 +34,13 @@
 ```bash
 # Von GitHub (falls veröffentlicht)
 ssh admin@qnap-ip
-docker login ghcr.io -u USERNAME
-docker pull ghcr.io/makr-code/themis-server:qnap-latest
+docker pull themisdb/themisdb:qnap
 docker run -d \
   --name themis \
   -p 18765:18765 \
   -p 8080:8080 \
   -v /share/themisdb:/var/lib/themisdb \
-  ghcr.io/makr-code/themis-server:qnap-latest
+  themisdb/themisdb:qnap
 ```
 
 #### Option B: Auf QNAP selbst bauen

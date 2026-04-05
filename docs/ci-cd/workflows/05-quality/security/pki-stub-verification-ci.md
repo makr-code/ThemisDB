@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/05-quality_security_pki-stub-verification-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/05-quality_security_pki-stub-verification-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -49,4 +50,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **PKI Stub Veri
 
 - [Workflow-Datei](../../../.github/workflows/05-quality_security_pki-stub-verification-ci.yml)
 - [Alle Workflows](../README.md)
+
 

@@ -50,14 +50,14 @@ ThemisDB est une base de données multi-modèle pour applications modernes avec 
 
 ```bash
 # 1. Télécharger l'image Docker
-docker pull themisdb/themis:1.2.0
+docker pull themisdb/themisdb:latest
 
 # 2. Démarrer ThemisDB
 docker run -d \
   -p 9042:9042 \
   -v /data/themis:/data \
   --name themisdb \
-  themisdb/themis:1.2.0
+    themisdb/themisdb:latest
 
 # 3. Se connecter avec le client Python
 pip install themisdb-client

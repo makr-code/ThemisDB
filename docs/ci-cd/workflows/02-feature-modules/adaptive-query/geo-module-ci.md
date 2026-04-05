@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/02-feature-modules_adaptive-query_geo-module-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/02-feature-modules_adaptive-query_geo-module-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -65,4 +66,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Geo Module**.
 
 - [Workflow-Datei](../../../.github/workflows/02-feature-modules_adaptive-query_geo-module-ci.yml)
 - [Alle Workflows](../README.md)
+
 

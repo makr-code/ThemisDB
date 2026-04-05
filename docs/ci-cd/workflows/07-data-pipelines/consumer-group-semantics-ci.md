@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/07-data-pipelines_consumer-group-semantics-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/07-data-pipelines_consumer-group-semantics-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -51,4 +52,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **CDC Consumer 
 
 - [Workflow-Datei](../../.github/workflows/07-data-pipelines_consumer-group-semantics-ci.yml)
 - [Alle Workflows](../README.md)
+
 

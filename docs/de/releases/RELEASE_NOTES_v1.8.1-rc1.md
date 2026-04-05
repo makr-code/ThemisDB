@@ -19,7 +19,9 @@ Anti-Entropy-Engine für Shard-Reparatur sowie Git-ähnliche Datenbankfeatures (
 Point-in-Time Recovery, Named Snapshots). Zusätzlich wird die HSM-Sicherheitswarnung (FIND-002)
 eingeführt und die Konfig-Hierarchie in 16 logische Kategorien reorganisiert.
 
-**Produktionsstatus:** 44 von 50 Modulen ✅ Production-ready; 3 Beta 🟡; 3 Alpha/in Härtung 🔴/🚧.
+**Produktionsstatus (Stand 2026-04-04):** 44 von 50 Modulen ✅ Production-ready; 3 Beta 🟡; 3 Alpha/in Härtung 🔴/🚧.
+
+> **Post-Publication Update (2026-04-05):** Docker-Image-Security-Patch auf `themisdb/themisdb:latest` und `themisdb/themisdb:1.8.1-rc1` veröffentlicht — CVEs: 39 → 3 (keine CRITICAL/HIGH mehr). Modulstatus nach Beta-Graduation: gpu, process, sharding jetzt ✅ Production-ready (47/50). Siehe [Sicherheitshinweis](#sicherheits-patch-2026-04-05) unten.
 
 ---
 
@@ -229,10 +231,29 @@ Alle Config-Dateien wurden in 16 logische Kategorien unterteilt:
 
 | Status | Anzahl | Beispiele |
 |--------|--------|-----------|
-| ✅ Production-ready | 44 | storage, graph, auth, llm, temporal, search, geo, rag, ... |
-| 🟡 Beta | 3 | gpu, chimera, process |
+| ✅ Production-ready | 47 | storage, graph, auth, llm, temporal, search, geo, rag, gpu, process, sharding, ... |
+| 🟡 Beta | 1 | chimera |
 | 🔴 Alpha | 2 | ethics_ai, onnx_clip |
-| 🚧 Aktiv gehärtet | 1 | sharding |
+
+> **Hinweis:** gpu, process und sharding haben am 2026-04-03/04 alle Beta-Graduation-Gates bestanden
+> und wurden auf ✅ Production-ready hochgestuft (Nachweis: `scripts/operations/BETA_MODULE_GRADUATION_TODO.md`).
+
+---
+
+## 🔒 Sicherheits-Patch (2026-04-05) {#sicherheits-patch-2026-04-05}
+
+Nach Veröffentlichung des RC1-Images wurde ein Docker-Image-Security-Patch eingespielt:
+
+| Maßnahme | Details |
+|----------|---------|
+| `THEMIS_ENABLE_ENCRYPTED_STORAGE=OFF` als Default | `gocryptfs` + Go-stdlib-Dep entfernt aus Standard-Runtime-Image |
+| `apt-get purge tar` | `tar`-Binary aus Image entfernt |
+| CVEs vor Patch | 39 (3 CRITICAL, 11 HIGH, 21 MEDIUM, 4 LOW) |
+| CVEs nach Patch | 3 (alle LOW/MEDIUM, kein upstream-Fix) |
+| Verbleibende CVEs | CVE-2024-2236 (libgcrypt20/LOW), CVE-2024-56433 (shadow/LOW), CVE-2025-45582 (tar-Metadaten/MEDIUM) |
+| Waiver-Dokument | [`docs/audit-reports/cve-waivers.md`](../../audit-reports/cve-waivers.md) |
+
+Betroffene Tags: `themisdb/themisdb:latest`, `themisdb/themisdb:1.8.1-rc1` (beide neu gepusht).
 
 ---
 

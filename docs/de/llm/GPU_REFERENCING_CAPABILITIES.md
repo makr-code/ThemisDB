@@ -554,7 +554,7 @@ version: '3.8'
 
 services:
   themisdb:
-    image: themisdb/themis:gpu-cuda
+    image: themisdb/themisdb:gpu-cuda
     runtime: nvidia
     environment:
       - CUDA_VISIBLE_DEVICES=0

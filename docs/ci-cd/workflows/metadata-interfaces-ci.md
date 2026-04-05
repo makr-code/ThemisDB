@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/metadata-interfaces-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/metadata-interfaces-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -53,4 +54,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Metadata Inte
 
 - [Workflow-Datei](../.github/workflows/metadata-interfaces-ci.yml)
 - [Alle Workflows](README.md)
+
 

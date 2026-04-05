@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/cdc-interfaces-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/cdc-interfaces-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -54,4 +55,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **CDC Interface
 
 - [Workflow-Datei](../.github/workflows/cdc-interfaces-ci.yml)
 - [Alle Workflows](README.md)
+
 

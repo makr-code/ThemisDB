@@ -6,7 +6,8 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/docker-image.yml`
+> **Workflow-Datei (historisch):** .github/workflows/docker-image.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -32,4 +33,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Docker Image*
 
 - [Workflow-Datei](../.github/workflows/docker-image.yml)
 - [Alle Workflows](README.md)
+
 
