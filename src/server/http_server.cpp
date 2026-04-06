@@ -81,6 +81,7 @@
 
 // Sprint A features - include BEFORE http_server.h to have complete types
 #include "llm/llm_interaction_store.h"
+#include "llm/llm_plugin_manager.h"
 #include "prompt_engineering/prompt_manager.h"
 #include "cdc/changefeed.h"
 #include "cdc/consumer_group.h"
@@ -3373,6 +3374,144 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
         }
     }
+
+#if THEMIS_ENABLE_LLM
+    // Early routing for core LLM API endpoints used by connector-mode tests.
+    {
+        std::string path_only = target;
+        auto qpos = path_only.find('?');
+        if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
+
+        if (path_only.rfind("/api/v1/llm/", 0) == 0) {
+            try {
+                auto& plugin_mgr = themis::llm::LLMPluginManager::instance();
+
+                if (path_only == "/api/v1/llm/ready" && method == http::verb::get) {
+                    const auto health = plugin_mgr.getHealthStatus();
+                    json body = {
+                        {"ready", health.is_healthy},
+                        {"healthy", health.is_healthy},
+                        {"plugin_manager_status", health.plugin_manager_status},
+                        {"models_loaded", health.models_loaded},
+                        {"loras_loaded", health.loras_loaded}
+                    };
+                    http::response<http::string_body> response = makeResponse(
+                        health.is_healthy ? http::status::ok : http::status::service_unavailable,
+                        body.dump(),
+                        req);
+                    applyGovernanceHeaders(req, response);
+                    auto end = std::chrono::steady_clock::now();
+                    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+                    recordLatency(duration);
+                    span.setStatus(true);
+                    return response;
+                }
+
+                if (path_only == "/api/v1/llm/models/load" && method == http::verb::post) {
+                    json payload;
+                    try {
+                        payload = json::parse(req.body());
+                    } catch (const json::exception& e) {
+                        auto response = makeErrorResponse(http::status::bad_request,
+                            std::string("invalid JSON: ") + e.what(), req);
+                        applyGovernanceHeaders(req, response);
+                        return response;
+                    }
+
+                    const std::string model_id = payload.value("model_id", std::string{"default"});
+                    const std::string model_path = payload.value("path", std::string{});
+                    if (model_path.empty()) {
+                        auto response = makeErrorResponse(http::status::bad_request,
+                            "path is required", req);
+                        applyGovernanceHeaders(req, response);
+                        return response;
+                    }
+
+                    bool load_ok = false;
+                    try {
+                        load_ok = plugin_mgr.loadModel(model_id, model_path);
+                    } catch (const std::exception& e) {
+                        const std::string msg = e.what();
+                        if (msg.find("No default LLM plugin available") != std::string::npos) {
+                            if (themis::llm::createLlamaWrapper("llamacpp", model_path, json::object())) {
+                                load_ok = plugin_mgr.loadModel(model_id, model_path);
+                            }
+                        } else {
+                            throw;
+                        }
+                    }
+
+                    if (!load_ok) {
+                        auto response = makeErrorResponse(http::status::internal_server_error,
+                            "Plugin returned false while loading model", req);
+                        applyGovernanceHeaders(req, response);
+                        return response;
+                    }
+
+                    json body = {
+                        {"status", "loaded"},
+                        {"model_id", model_id},
+                        {"path", model_path}
+                    };
+                    http::response<http::string_body> response = makeResponse(http::status::ok, body.dump(), req);
+                    applyGovernanceHeaders(req, response);
+                    auto end = std::chrono::steady_clock::now();
+                    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+                    recordLatency(duration);
+                    span.setStatus(true);
+                    return response;
+                }
+
+                if (path_only == "/api/v1/llm/inference" && method == http::verb::post) {
+                    json payload;
+                    try {
+                        payload = json::parse(req.body());
+                    } catch (const json::exception& e) {
+                        auto response = makeErrorResponse(http::status::bad_request,
+                            std::string("invalid JSON: ") + e.what(), req);
+                        applyGovernanceHeaders(req, response);
+                        return response;
+                    }
+
+                    const std::string prompt = payload.value("prompt", std::string{});
+                    if (prompt.empty()) {
+                        auto response = makeErrorResponse(http::status::bad_request,
+                            "prompt is required", req);
+                        applyGovernanceHeaders(req, response);
+                        return response;
+                    }
+
+                    themis::llm::InferenceRequest llm_request;
+                    llm_request.prompt = prompt;
+                    llm_request.model_id = payload.value("model", std::string{"default"});
+                    llm_request.max_tokens = payload.value("max_tokens", 256);
+                    llm_request.temperature = static_cast<float>(payload.value("temperature", 0.7));
+
+                    auto llm_response = plugin_mgr.generate(llm_request);
+                    json body = {
+                        {"text", llm_response.text},
+                        {"model", llm_response.model_id.empty() ? llm_request.model_id : llm_response.model_id},
+                        {"tokens_generated", llm_response.tokens_generated},
+                        {"inference_time_ms", llm_response.inference_time_ms}
+                    };
+
+                    http::response<http::string_body> response = makeResponse(http::status::ok, body.dump(), req);
+                    applyGovernanceHeaders(req, response);
+                    auto end = std::chrono::steady_clock::now();
+                    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+                    recordLatency(duration);
+                    span.setStatus(true);
+                    return response;
+                }
+            } catch (const std::exception& e) {
+                auto response = makeErrorResponse(http::status::internal_server_error,
+                    std::string("LLM endpoint failure: ") + e.what(), req);
+                applyGovernanceHeaders(req, response);
+                return response;
+            }
+        }
+    }
+#endif
 
     // Request body validation (JSON Schema per endpoint)
     // Validate all methods that may carry a body (POST, PUT, PATCH, DELETE).

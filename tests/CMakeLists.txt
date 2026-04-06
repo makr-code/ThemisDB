@@ -19817,4 +19817,51 @@ else()
     message(STATUS "Scraper Plugin tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_scraper_plugin.cpp")
 endif()
 
+# ============================================================================
+# Connector Mode API – ConnectorModeApiTests
+# Integration tests that start a live themis_server and verify the
+# full HTTP connector-mode API (model load, inference, RAG, LoRA, PII).
+# Requires: config/config_with_llm.yaml, models/tinyllama-1.1b-q4_0.gguf
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_connector_mode_api.cpp")
+    message(STATUS "Adding ConnectorMode API integration tests")
+
+    add_executable(test_connector_mode_api
+        test_connector_mode_api.cpp
+    )
+
+    target_include_directories(test_connector_mode_api PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_connector_mode_api PRIVATE
+        ${TEST_LIBS}
+        GTest::gtest
+        GTest::gtest_main
+        nlohmann_json::nlohmann_json
+        httplib::httplib
+        Threads::Threads
+    )
+
+    target_compile_features(test_connector_mode_api PRIVATE cxx_std_17)
+
+    target_compile_definitions(test_connector_mode_api PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ConnectorModeApiTests
+        COMMAND test_connector_mode_api)
+
+    set_tests_properties(ConnectorModeApiTests PROPERTIES
+        LABELS "llm;api;integration;connector-mode;inference;rag;lora;pii;v1.8.0"
+        TIMEOUT 300
+    )
+
+    message(STATUS "  ConnectorModeApi: model-load, inference, RAG, LoRA list, PII, health")
+else()
+    message(STATUS "ConnectorMode API tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_connector_mode_api.cpp")
+endif()
+
 message(STATUS "Tests configured successfully")

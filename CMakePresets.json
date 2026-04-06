@@ -50,6 +50,7 @@
         "CMAKE_MAKE_PROGRAM": "ninja.exe",
         "CMAKE_VS_RUNTIME_LIBRARY": "MultiThreadedDLL",
         "THEMIS_ENABLE_GPU": "OFF",
+        "THEMIS_ENABLE_HTTP_SERVER": "ON",
         "THEMIS_ENABLE_LLM": "ON",
         "THEMIS_BUILD_MODULAR": "ON",
         "THEMIS_CORE_SHARED": "ON"
@@ -64,6 +65,7 @@
         "CMAKE_CXX_COMPILER": "g++",
         "VCPKG_TARGET_TRIPLET": "x64-linux",
         "THEMIS_ENABLE_GPU": "OFF",
+        "THEMIS_ENABLE_HTTP_SERVER": "ON",
         "THEMIS_ENABLE_LLM": "ON"
       }
     },

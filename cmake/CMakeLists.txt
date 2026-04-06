@@ -4073,6 +4073,10 @@ add_executable(themis_server
     ../src/main_server.cpp
 )
 
+if(THEMIS_ENABLE_HTTP_SERVER)
+    target_compile_definitions(themis_server PRIVATE THEMIS_ENABLE_HTTP_SERVER=1)
+endif()
+
 target_link_libraries(themis_server
     PRIVATE
         themis_core
