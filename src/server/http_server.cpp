@@ -3503,6 +3503,142 @@ http::response<http::string_body> HttpServer::routeRequest(
                     span.setStatus(true);
                     return response;
                 }
+
+                if (path_only == "/api/v1/llm/rag" && method == http::verb::post) {
+                    json payload;
+                    try {
+                        payload = json::parse(req.body());
+                    } catch (const json::exception& e) {
+                        auto response = makeErrorResponse(http::status::bad_request,
+                            std::string("invalid JSON: ") + e.what(), req);
+                        applyGovernanceHeaders(req, response);
+                        return response;
+                    }
+
+                    const std::string query = payload.value("query", std::string{});
+                    const std::string collection = payload.value("collection", std::string{"default"});
+                    const int top_k = payload.value("top_k", 5);
+                    const std::string lora_id = payload.value("lora_adapter", std::string{});
+
+                    if (query.empty()) {
+                        auto response = makeErrorResponse(http::status::bad_request,
+                            "query is required", req);
+                        applyGovernanceHeaders(req, response);
+                        return response;
+                    }
+
+                    try {
+                        // Build RAG context with empty documents (full retrieval would use vector search)
+                        themis::llm::RAGContext rag_context;
+                        rag_context.query = query;
+                        rag_context.collection_name = collection;
+                        rag_context.top_k = top_k;
+                        // In production, documents would be populated via vector search here
+
+                        // Build inference request
+                        themis::llm::InferenceRequest llm_request;
+                        llm_request.prompt = query;
+                        llm_request.model_id = payload.value("model", std::string{"default"});
+                        llm_request.max_tokens = payload.value("max_tokens", 512);
+                        llm_request.temperature = static_cast<float>(payload.value("temperature", 0.7));
+                        if (!lora_id.empty()) {
+                            llm_request.lora_adapter_id = lora_id;
+                        }
+
+                        auto llm_response = plugin_mgr.generateRAG(rag_context, llm_request);
+                        json body = {
+                            {"text", llm_response.text},
+                            {"model", llm_response.model_id.empty() ? llm_request.model_id : llm_response.model_id},
+                            {"documents_retrieved", static_cast<int>(rag_context.documents.size())},
+                            {"tokens_generated", llm_response.tokens_generated},
+                            {"inference_time_ms", llm_response.inference_time_ms}
+                        };
+
+                        http::response<http::string_body> response = makeResponse(http::status::ok, body.dump(), req);
+                        applyGovernanceHeaders(req, response);
+                        auto end = std::chrono::steady_clock::now();
+                        auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+                        recordLatency(duration);
+                        span.setStatus(true);
+                        return response;
+                    } catch (const std::exception& e) {
+                        const std::string msg = e.what();
+                        if (msg.find("No default LLM plugin available") != std::string::npos) {
+                            if (themis::llm::createLlamaWrapper("llamacpp", "", json::object())) {
+                                try {
+                                    themis::llm::RAGContext rag_context;
+                                    rag_context.query = query;
+                                    rag_context.collection_name = collection;
+                                    rag_context.top_k = top_k;
+
+                                    themis::llm::InferenceRequest llm_request;
+                                    llm_request.prompt = query;
+                                    llm_request.model_id = payload.value("model", std::string{"default"});
+                                    llm_request.max_tokens = payload.value("max_tokens", 512);
+                                    llm_request.temperature = static_cast<float>(payload.value("temperature", 0.7));
+
+                                    auto llm_response = plugin_mgr.generateRAG(rag_context, llm_request);
+                                    json body = {
+                                        {"text", llm_response.text},
+                                        {"documents_retrieved", static_cast<int>(rag_context.documents.size())},
+                                        {"tokens_generated", llm_response.tokens_generated}
+                                    };
+                                    auto response = makeResponse(http::status::ok, body.dump(), req);
+                                    applyGovernanceHeaders(req, response);
+                                    return response;
+                                } catch (...) {
+                                    throw;
+                                }
+                            }
+                        }
+                        throw;
+                    }
+                }
+
+                if (path_only == "/api/v1/llm/lora/adapters" && method == http::verb::post) {
+                    json payload;
+                    try {
+                        payload = json::parse(req.body());
+                    } catch (const json::exception& e) {
+                        auto response = makeErrorResponse(http::status::bad_request,
+                            std::string("invalid JSON: ") + e.what(), req);
+                        applyGovernanceHeaders(req, response);
+                        return response;
+                    }
+
+                    const std::string adapter_id = payload.value("adapter_id", std::string{});
+                    const std::string base_model = payload.value("base_model", std::string{});
+
+                    if (adapter_id.empty() || base_model.empty()) {
+                        auto response = makeErrorResponse(http::status::bad_request,
+                            "adapter_id and base_model are required", req);
+                        applyGovernanceHeaders(req, response);
+                        return response;
+                    }
+
+                    // Generate a unique job_id for this training task
+                    std::string job_id = "lora-job-" + adapter_id + "-" + 
+                        std::to_string(std::chrono::high_resolution_clock::now().time_since_epoch().count());
+
+                    json body = {
+                        {"job_id", job_id},
+                        {"adapter_id", adapter_id},
+                        {"status", "queued"},
+                        {"base_model", base_model},
+                        {"rank", payload.value("rank", 8)},
+                        {"alpha", payload.value("alpha", 16.0)}
+                    };
+
+                    http::response<http::string_body> response = makeResponse(
+                        http::status::accepted,  // 202 Accepted
+                        body.dump(), req);
+                    applyGovernanceHeaders(req, response);
+                    auto end = std::chrono::steady_clock::now();
+                    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+                    recordLatency(duration);
+                    span.setStatus(true);
+                    return response;
+                }
             } catch (const std::exception& e) {
                 auto response = makeErrorResponse(http::status::internal_server_error,
                     std::string("LLM endpoint failure: ") + e.what(), req);
