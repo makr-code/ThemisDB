@@ -104,9 +104,7 @@ http::response<http::string_body> LLMApiHandler::handleRequest(
     
     // Delegate to LoRAApiHandler for LoRA-specific paths
     std::string_view target = req.target();
-    if (lora_handler_ && (
-        target.starts_with("/api/v1/llm/lora/") ||
-        (target.starts_with("/api/v1/llm/models") && req.method() != http::verb::get))) {
+    if (lora_handler_ && target.starts_with("/api/v1/llm/lora/")) {
         return lora_handler_->handleRequest(req);
     }
 
@@ -229,17 +227,28 @@ http::response<http::string_body> LLMApiHandler::handleInference(
         return createErrorResponse(http::status::bad_request, "Invalid request parameters", e.what());
     }
     
-    // Call EmbeddedLLM for inference
+    // Use the plugin manager path (same as RAG) for consistent runtime behavior.
     try {
-        // Use simplified EmbeddedLLM API
-        std::string result = THEMIS_LLM_GENERATE(prompt);
-        
+        llm::InferenceRequest llm_request;
+        llm_request.prompt = prompt;
+        llm_request.model_id = model_id.empty() ? std::string("default") : model_id;
+        llm_request.max_tokens = max_tokens;
+        llm_request.temperature = static_cast<float>(temperature);
+        if (!lora_id.empty()) {
+            llm_request.lora_adapter_id = lora_id;
+        }
+
+        auto& plugin_mgr = llm::LLMPluginManager::instance();
+        auto llm_response = plugin_mgr.generate(llm_request);
+
         // Create response
         json response_body = {
-            {"text", result},
-            {"model", model_id.empty() ? "default" : model_id},
+            {"text", llm_response.text},
+            {"model", llm_response.model_id.empty() ? (model_id.empty() ? "default" : model_id) : llm_response.model_id},
             {"prompt_length", prompt.length()},
-            {"generated_length", result.length()}
+            {"generated_length", llm_response.text.length()},
+            {"tokens_generated", llm_response.tokens_generated},
+            {"inference_time_ms", llm_response.inference_time_ms}
         };
         
         return createJsonResponse(http::status::ok, response_body);
