@@ -10,6 +10,8 @@
 - ✅ **RPC Plugins** (gRPC)
 - ✅ **Exporters** (JSONL LLM Exporter)
 - ✅ **Importers** (PostgreSQL Importer)
+- ✅ **Scraper Plugin v1.1.0** (Agentic gap-detection web scraping; 56-source knowledge catalog)
+- 🔧 **User Storage Encrypted Plugin v0.2.0** (4-tier gocryptfs AES-256-GCM encrypted storage)
 
 ### Implemented in Source (Requires Build Configuration)
 - 🔧 **Hardware Acceleration Backends** (CUDA, Vulkan, DirectX, HIP, Metal, OpenCL)
@@ -99,7 +101,14 @@ plugins/
 │   ├── roadmap.md
 │   ├── future_enhancements.md
 │   └── grpc/                           (gRPC plugin)
-└── user_storage_encrypted/             🔧 WIP / compatibility shim to src/user_storage_encrypted
+├── scraper/                            ✅ Production v1.1.0 — agentic gap-detection web scraping
+│   ├── CHANGELOG.md
+│   ├── README.md
+│   ├── roadmap.md
+│   ├── future_enhancements.md
+│   └── config/                         (knowledge_sources.yaml, scraper_urls.yaml, gov_sources.yaml)
+└── user_storage_encrypted/             🔧 Implemented v0.2.0 — 4-tier gocryptfs encrypted storage
+    ├── CHANGELOG.md
     ├── README.md
     ├── roadmap.md
     └── future_enhancements.md
@@ -587,7 +596,8 @@ For developers interested in creating hardware acceleration plugins, see the exa
   - [Image Analysis Plugins](image_analysis/README.md)
   - [Importer Plugins](importers/README.md)
   - [RPC Plugins](rpc/README.md)
-  - [User Storage Encrypted Plugin](user_storage_encrypted/README.md)
+  - [Scraper Plugin v1.1.0](scraper/README.md)
+  - [User Storage Encrypted Plugin v0.2.0](user_storage_encrypted/README.md)
   - [RPC Plugin Architecture](../docs/de/plugins/RPC_PLUGIN_ARCHITECTURE.md)
   
 - **Future Plans**:
