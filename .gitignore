@@ -166,6 +166,15 @@ docker/tmp/
 .docker-build-*/
 .dockerignore.optimized
 .dockerignore.prebuilt
+.buildx-cache/
+.buildx-cache-new/
+.buildx-cache-tmp/
+
+# Environment files (may contain secrets)
+.env
+.env.*
+!.env.example
+!.env.sample
 
 # Local clone of optional LLM engine (excluded from VCS)
 # Kept locally for optional builds; never committed
@@ -186,10 +195,25 @@ testsserver_start.log
 build_log.txt
 build_final.txt
 build_output.log
+build_attempt_*.txt
+build_pii_fix.tmp.txt
+build_no_sccache.txt
+build_parallel*.txt
+build_graph_*.txt
+build_fourth_attempt.log*
+build_release_*.txt
 docker-build.log
 docker_build.log
 docker_build_*.log
 tidy_full.log
+cfbuf_stderr.txt
+ctest_*.txt
+test_failfast_latest.txt
+test_failures_detail.txt
+test_results_*.txt
+test_results_*.xml
+test_run_*.txt
+current_test_run.txt
 
 # Local data directories (development/testing only)
 /data/
