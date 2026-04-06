@@ -2,7 +2,7 @@
 
 **Version:** 1.9.0
 **Status:** ✅ Production-Ready
-**Last Updated:** 2026-03-24
+**Last Updated:** 2026-04-06
 **Module Path:** `src/query/`
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->

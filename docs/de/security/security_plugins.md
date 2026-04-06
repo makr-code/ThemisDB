@@ -2,7 +2,7 @@
 
 **Version:** v1.3.0  
 **Status:** Production  
-**Last Updated:** 20. November 2025  
+**Last Updated:** April 2026  
 **Sicherheitsstufe:** KRITISCH  
 **Kategorie:** 🔒 Security
 

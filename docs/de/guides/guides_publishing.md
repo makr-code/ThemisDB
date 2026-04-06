@@ -26,7 +26,7 @@ Guide to building and publishing documentation.
 
 Diese Seite beschreibt den Build der Dokumentation, die Veröffentlichung auf GitHub Pages und einen optionalen PDF-Export für Offline-Nutzung.
 
-**Stand:** 22. Dezember 2025  
+**Stand:** 6. April 2026  
 **Version:** 1.3.0  
 **Kategorie:** 🔨 Build/Deployment
 

@@ -80,5 +80,5 @@ DuckDB is an embeddable in-process analytical database engine built for OLAP wor
 - [Kleppmann (2017) — Designing Data-Intensive Applications](https://dataintensive.net/)
 
 ---
-**Last Updated:** 2026-03-23  
+**Last Updated:** 2026-04-06  
 **Next Review:** 2026-09-30

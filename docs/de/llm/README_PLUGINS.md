@@ -372,5 +372,5 @@ llama.cpp: MIT License
 ---
 
 **Version:** 1.3.0  
-**Last Updated:** Dezember 2025  
+**Last Updated:** April 2026  
 **Status:** Production Ready (Reference Implementation)

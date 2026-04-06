@@ -1,7 +1,7 @@
 # PostgreSQL Importer – Operator Runbook
 
 **Version:** 1.0  
-**Last Updated:** 2026-02-20  
+**Last Updated:** 2026-04-06  
 **Scope:** Day-2 operations for the `postgres_importer` module
 
 ---

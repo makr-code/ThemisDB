@@ -1159,6 +1159,6 @@ target_compile_features(themisdb_chimera_interface INTERFACE
 
 ---
 
-*Last Updated: February 2026*  
+*Last Updated: April 2026*  
 *Interface Version: v1.0.0*  
 *Status: Stable - Backward Compatibility Guaranteed*

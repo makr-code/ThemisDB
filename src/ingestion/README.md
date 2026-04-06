@@ -1,6 +1,6 @@
 # Ingestion Module
 
-<!-- Status: current | validated: 2026-03-11 | Primary: src/ingestion/ | Secondary: docs/de/ingestion/ -->
+<!-- Status: current | validated: 2026-04-06 | Primary: src/ingestion/ | Secondary: docs/de/ingestion/ -->
 <!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · ../../docs/de/ingestion/README.md -->
 
 ## Module Purpose

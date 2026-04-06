@@ -1,7 +1,7 @@
 # Themis Column-Level Encryption - Production Deployment Guide
 
 **Version:** v1.3.0  
-**Last Updated:** 30. Oktober 2025  
+**Last Updated:** April 2026  
 **Target Audience:** DevOps Engineers, Security Engineers, Database Administrators  
 **Kategorie:** 🔒 Security
 

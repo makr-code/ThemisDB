@@ -269,6 +269,6 @@ docker cp themis-llm-raid-tests:/test_results/ ./backup_results/$(date +%s)
 
 ---
 
-**Last Updated:** 2024-01-04  
+**Last Updated:** 2026-04-06  
 **Status:** ✅ Ready for Production  
 **Next Command:** `make -f Makefile.raid-tests build`

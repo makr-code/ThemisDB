@@ -2,7 +2,7 @@
 
 > **Note:** This English quick reference points to the canonical German documents under `../de/` where no English version exists yet.
 
-**Last Updated:** December 20, 2025
+**Last Updated:** April 2026
 
 ## 🚀 Key Links
 

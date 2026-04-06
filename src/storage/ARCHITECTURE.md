@@ -1,10 +1,10 @@
-<!-- Status: current | validated: 2026-03-10 -->
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · docs/de/storage/README.md -->
 
 # Storage Module — Architecture Guide
 
 **Version:** 1.1  
-**Last Updated:** 2026-03-10  
+**Last Updated:** 2026-04-06  
 **Module Path:** `src/storage/`
 
 ---

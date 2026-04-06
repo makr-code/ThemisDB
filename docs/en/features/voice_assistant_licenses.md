@@ -279,7 +279,7 @@ For on-premise enterprise deployment:
 
 This document provides information about the licenses of third-party libraries used in the ThemisDB Voice Assistant feature. It is provided for informational purposes only and does not constitute legal advice. For specific legal questions, please consult with a qualified attorney.
 
-**Last Updated:** December 2025  
+**Last Updated:** April 2026  
 **Review:** Recommended annually or when updating library versions
 
 ---

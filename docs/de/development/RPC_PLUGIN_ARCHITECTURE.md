@@ -784,6 +784,6 @@ server->start();
 ---
 
 **Document Version:** 1.0  
-**Last Updated:** 2025-12-17  
+**Last Updated:** 2026-04-06  
 **Author:** ThemisDB Development Team  
 **Status:** Planning/Specification

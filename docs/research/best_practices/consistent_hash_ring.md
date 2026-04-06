@@ -66,4 +66,4 @@ ThemisDB's distributed gateway (`src/server/distributed_gateway.cpp`) uses consi
 - [Exponential Backoff Retry](exponential_backoff_retry.md)
 
 ---
-**Last Updated:** 2026-03-24
+**Last Updated:** 2026-04-06

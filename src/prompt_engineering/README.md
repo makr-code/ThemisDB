@@ -1,5 +1,5 @@
 # Prompt Engineering Module
-<!-- Status: current | validated: 2026-03-09 -->
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: src/prompt_engineering/README.md · src/prompt_engineering/ARCHITECTURE.md · src/prompt_engineering/ROADMAP.md · src/prompt_engineering/FUTURE_ENHANCEMENTS.md · docs/de/prompt_engineering/README.md -->
 
 ## Module Purpose

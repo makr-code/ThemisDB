@@ -6,7 +6,7 @@ MultiVectorSearch provides advanced similarity search capabilities for complex r
 
 **Status**: Production-Ready (7/7 APIs functional)  
 **Version**: 1.5.0  
-**Last Updated**: February 2026
+**Last Updated**:  April 2026
 
 ## Implementation Status
 

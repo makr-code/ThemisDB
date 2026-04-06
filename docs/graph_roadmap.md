@@ -1,7 +1,7 @@
 # Graph Module – Production Readiness Roadmap
 
 **Version:** 1.0  
-**Last Updated:** February 2026  
+**Last Updated:** April 2026  
 **Scope:** Graph module hardening, observability, parallel/distributed execution, and production readiness
 
 ---

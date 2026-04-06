@@ -4,7 +4,7 @@
 > This is a translation of the ThemisDB documentation. The **authoritative and most up-to-date documentation is maintained in German** (`docs/de/`).  
 > Translations may lag behind the German version. For the latest information, please refer to the [German documentation](../de/README.md).
 
-**Last Updated:** April 6, 2026  
+**Last Updated:** April 2026  
 **Version:** 1.8.0-rc1  
 **Type:** Documentation Index  
 **Language:** English (Translation)
@@ -494,5 +494,5 @@ Documentation is automatically deployed to GitHub Pages on merge to main.
 ---
 
 **Version:** 1.8.0-rc1  
-**Last Updated:** April 6, 2026  
+**Last Updated:** April 2026  
 **License:** See [LICENSE](../LICENSE)

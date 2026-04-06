@@ -1,6 +1,6 @@
 # Search Module
 
-<!-- Status: current | validated: 2026-03-10 | commit: a14cdb2 -->
+<!-- Status: current | validated: 2026-04-06 | commit: a14cdb2 -->
 <!-- Primary: src/search/ | Secondary: docs/de/src/search/ -->
 
 Full-text and semantic search capabilities for ThemisDB.

@@ -1,6 +1,6 @@
 # API Module Roadmap
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-03-22 -->
+<!-- Status: current | validated: 2026-04-06 -->
 
 ## Current Status
 Core HTTP API server implemented with RESTful endpoints, AQL query execution, authentication, and TLS support. GraphQL WebSocket handler (`graphql-transport-ws` protocol) added with subscription management and `QueryLimits::max_subscriptions` enforcement. Versioned API routing (`/v1/`, `/v2/`), gRPC surface with all RPC stubs wired (`ThemisDBGrpcServiceFactory`), OTLP tracing, geo-index hooks, and rate limiting are all production-ready. Phase 4 complete. Outstanding: OpenAPI 3.x completeness.
@@ -79,7 +79,7 @@ Core HTTP API server implemented with RESTful endpoints, AQL query execution, au
 - [P] Integration tests (Issue: #1510)
 - [P] Performance benchmarks (Issue: #1511)
 - [x] Security audit (Issue: #1512)
-- [x] Documentation complete (validated: 2026-03-22)
+- [x] Documentation complete (validated: 2026-04-06)
 - [I] API stability guaranteed (Issue: #1514)
 
 ## Known Issues & Limitations

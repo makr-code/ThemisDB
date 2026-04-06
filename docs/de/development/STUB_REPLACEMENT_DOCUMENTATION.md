@@ -764,5 +764,5 @@ src/replication/replication_manager.cpp
 ---
 
 **Document Version:** 1.0  
-**Last Updated:** 2025-12-13  
+**Last Updated:** 2026-04-06  
 **Maintained By:** Development Team

@@ -1,6 +1,6 @@
 # Native LLM Integration: Technisches Konzept & Best Practices
 
-**Stand:** Dezember 2025  
+**Stand:** 6. April 2026  
 **Version:** 1.0.0  
 **Kategorie:** Architecture / LLM Integration  
 **Roadmap:** v1.5.0 / v2.0.0 (2026)  

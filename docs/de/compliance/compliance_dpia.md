@@ -1,6 +1,6 @@
 # Datenschutz-Folgenabschätzung (DPIA) - ThemisDB
 
-**Stand:** 3. Februar 2026  
+**Stand:** 6. April 2026  
 **Version:** v1.4.1  
 **Kategorie:** 🔒 Compliance  
 **Klassifizierung:** Vertraulich  

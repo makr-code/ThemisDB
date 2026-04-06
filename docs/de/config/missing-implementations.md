@@ -1,5 +1,5 @@
 # Config-Modul — Fehlende Implementierungen
-<!-- status: current | validated: 2026-03-11 | primary: src/config/ -->
+<!-- status: current | validated: 2026-04-06 | primary: src/config/ -->
 
 Dieser Report dokumentiert Punkte, bei denen der Reality-Check (Doku ↔ Sourcecode) Abweichungen
 ergeben hat. Er wird beim nächsten Validierungslauf aktualisiert.

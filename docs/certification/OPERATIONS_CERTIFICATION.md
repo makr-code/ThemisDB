@@ -1271,6 +1271,6 @@ Design and implement a production-ready ThemisDB deployment with full operationa
 
 ---
 
-*Last Updated: January 2025*  
+*Last Updated: April 2026*  
 *Version: 1.0*  
 *© 2025 ThemisDB. All rights reserved.*

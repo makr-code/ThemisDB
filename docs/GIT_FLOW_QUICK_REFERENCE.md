@@ -230,6 +230,6 @@ gh workflow run main-ci.yml
 
 ---
 
-**Last Updated**: 2025-12-31  
+**Last Updated**: 2026-04-06  
 **Version**: 1.0  
 **Maintained by**: ThemisDB Core Team

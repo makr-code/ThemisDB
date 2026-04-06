@@ -1,7 +1,7 @@
 # Strategiepapier: ThemisDB für Industrie 4.0 und IoT
 
 **Version:** 1.0.0  
-**Stand:** Dezember 2025  
+**Stand:** 6. April 2026  
 **Kategorie:** Strategie & Business Development
 
 ---

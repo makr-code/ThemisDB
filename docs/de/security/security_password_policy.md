@@ -1,7 +1,7 @@
 # ThemisDB - Passwortrichtlinie
 
 **Version:** v1.3.0  
-**Stand:** Dezember 2025  
+**Stand:** 6. April 2026  
 **Klassifizierung:** Intern  
 **BSI C5 Referenz:** IDM-06  
 **Kategorie:** 🔒 Security

@@ -583,5 +583,5 @@ curl http://localhost:8080/api/v1/branches
 
 ---
 
-**Last Updated:** February 6, 2026  
+**Last Updated:** April 2026  
 **Documentation Version:** 1.0

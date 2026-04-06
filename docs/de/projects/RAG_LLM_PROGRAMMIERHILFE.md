@@ -2,7 +2,7 @@
 
 **Projektname:** RESPO (RAG-Enhanced Software Programming Optimizer)  
 **Version:** 1.0  
-**Stand:** November 2025  
+**Stand:** 6. April 2026  
 **Typ:** Recherche & Umsetzungsplan  
 **Projektpfad:** `projects/respo/`
 

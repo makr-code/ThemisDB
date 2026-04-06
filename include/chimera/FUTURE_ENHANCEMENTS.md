@@ -1113,6 +1113,6 @@ struct Result { ... };
 
 ---
 
-*Last Updated: February 2026*  
+*Last Updated: April 2026*  
 *Interface Version: v1.0.0*  
 *Next Review: v1.1.0 Release*

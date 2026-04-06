@@ -1,6 +1,6 @@
 # Gewährleistungs- und Wartungsvertrag - ThemisDB Hyperscaler Edition
 
-**Stand:** Januar 2026  
+**Stand:** April 2026  
 **Version:** 1.0  
 **Kategorie:** 🌐 Hyperscaler Support & Maintenance
 

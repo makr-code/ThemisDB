@@ -157,5 +157,5 @@ For questions about accessing confidential documents or enterprise licensing:
 
 ---
 
-**Last Updated:** December 21, 2025  
+**Last Updated:** April 2026  
 **Maintained By:** ThemisDB Project Leadership

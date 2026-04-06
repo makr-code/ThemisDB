@@ -1,8 +1,8 @@
 # Metadata Module — Architecture Guide
-<!-- status: current | validated: 2026-03-10 | commit: 4c1a2dfc1 -->
+<!-- status: current | validated: 2026-04-06 | commit: 4c1a2dfc1 -->
 
 **Version:** 1.0  
-**Last Updated:** 2026-03-10  
+**Last Updated:** 2026-04-06  
 **Module Path:** `src/metadata/`
 
 ---

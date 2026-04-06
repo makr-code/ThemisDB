@@ -496,6 +496,6 @@ For questions, issues, or feature requests related to RoPE in ThemisDB:
 
 ---
 
-**Last Updated**: 2026-01-27  
+**Last Updated**: 2026-04-06  
 **Version**: 1.5.0+  
 **Status**: Production Ready

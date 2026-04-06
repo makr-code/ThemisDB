@@ -1,7 +1,7 @@
 # ThemisDB RAID Sharding & URN-Auflösung
 
 **Version:** 1.0  
-**Stand:** März 2026  
+**Stand:** 6. April 2026  
 **Status:** ✅ Produktionsdokumentation  
 **Kategorie:** 🏗️ Architektur | 🔗 Sharding | 🛡️ RAID-Redundanz
 

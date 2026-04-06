@@ -643,6 +643,6 @@ Bei Fragen zur Branching Strategy:
 
 ---
 
-**Stand**: 2025-12-30  
+**Stand**: 2026-04-06  
 **Version**: 1.0  
 **Maintainer**: ThemisDB Core Team

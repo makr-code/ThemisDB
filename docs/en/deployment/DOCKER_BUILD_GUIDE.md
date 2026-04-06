@@ -185,7 +185,7 @@ docker stop themis-test && docker rm themis-test
 
 ---
 
-**Stand:** 3. Januar 2026  
+**Stand:** 3. April 2026  
 **Dockerfile:** `Dockerfile.themis-server` (konsolidiert)  
 **Editionen:** Alle über Build-Args  
 **Metriken:** In allen Editionen aktiviert ✅

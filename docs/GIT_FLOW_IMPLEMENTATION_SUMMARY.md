@@ -429,6 +429,6 @@ The Git Flow CI/CD pipeline for ThemisDB is now complete and ready for productio
 
 ---
 
-**Last Updated**: 2025-12-31  
+**Last Updated**: 2026-04-06  
 **Version**: 1.0  
 **Maintained by**: ThemisDB Core Team

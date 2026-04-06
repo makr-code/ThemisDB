@@ -1,6 +1,6 @@
 # Edition Limits & Features Matrix
 
-**Stand:** 23. Januar 2026  
+**Stand:** 23. April 2026  
 **Version:** v1.4.0  
 **Kategorie:** 🏢 Editions  
 **Status:** Single Source of Truth
@@ -773,6 +773,6 @@ cmake -B build -S . \
 
 ---
 
-**Letzte Aktualisierung:** 23. Januar 2026  
+**Letzte Aktualisierung:** 23. April 2026  
 **Version:** v1.4.0  
 **Status:** Single Source of Truth ✅

@@ -1,6 +1,6 @@
 # License Requirements & Enforcement
 
-**Stand:** 23. Januar 2026  
+**Stand:** 23. April 2026  
 **Version:** v1.4.0  
 **Kategorie:** 🔐 Licensing  
 **Status:** Production-Ready
@@ -844,6 +844,6 @@ WARNING: License expires in 7 days! URGENT renewal required!
 
 ---
 
-**Letzte Aktualisierung:** 23. Januar 2026  
+**Letzte Aktualisierung:** 23. April 2026  
 **Version:** v1.4.0  
 **Kontakt:** service@themisdb.org | service@themisdb.org

@@ -1,7 +1,7 @@
 # ThemisDB Transaction Management Best Practices
 
 **Version:** 1.4.0  
-**Last Updated:** 2026-01-18  
+**Last Updated:** 2026-04-06  
 **Target Audience:** Application Developers, Database Administrators, Software Architects
 
 ---

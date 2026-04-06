@@ -1,6 +1,6 @@
 # GPU-Beschleunigtes Referencing in ThemisDB - RAG & LLM Integration
 
-**Stand:** Dezember 2025  
+**Stand:** 6. April 2026  
 **Version:** 1.0.0  
 **Kategorie:** LLM Infrastructure / GPU Acceleration  
 **Sprache:** Deutsch

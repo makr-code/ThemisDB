@@ -1,7 +1,7 @@
 # SIEM Integration Guide for ThemisDB
 
 **Version:** 1.4.0  
-**Last Updated:** 2026-01-27  
+**Last Updated:** 2026-04-06  
 **Target Audience:** Security Operations Center (SOC) Engineers, SIEM Administrators, Security Architects, Compliance Officers
 
 ---

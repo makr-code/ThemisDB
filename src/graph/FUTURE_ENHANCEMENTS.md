@@ -1,4 +1,4 @@
-<!-- Status: current | validated: 2026-03-12 -->
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 # Graph Module - Future Enhancements
@@ -1104,7 +1104,7 @@ Track user-requested features:
 
 ---
 
-*Last Updated: March 2026*  
+*Last Updated: April 2026*  
 *Next Review: Q3 2026*
 
 ## Test Strategy

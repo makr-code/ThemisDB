@@ -1,6 +1,6 @@
 # ThemisDB - Gaps, Stubs und Simulationen: Zusammenfassung
 
-**Stand:** 4. Februar 2026  
+**Stand:** 6. April 2026  
 **Letzte Aktualisierung:** GAP-004 Security & Governance implementiert  
 **Vollständiger Bericht:** [`CODE_REVIEW_2025-12.md`](CODE_REVIEW_2025-12.md)
 

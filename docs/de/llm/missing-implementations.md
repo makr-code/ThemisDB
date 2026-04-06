@@ -1,6 +1,6 @@
 # LLM-Modul — Fehlende / Unvollständige Implementierungen
 
-<!-- Status: current | validated: 2026-03-09 -->
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Primärdokumentation: ../../../src/llm/ -->
 
 Dieser Report dokumentiert Funktionen und Komponenten, die in `src/llm/ROADMAP.md`, `src/llm/ARCHITECTURE.md` oder anderen Primary-Docs als implementiert beschrieben werden oder als geplant gelten, jedoch bei der Reality-Check-Prüfung als **nicht vollständig umgesetzt** oder **als Stub** befunden wurden.
@@ -11,7 +11,7 @@ Prüfstand: 2026-03-09 | Branch: `develop`
 
 # LLM-Modul — Fehlende / Unvollständige Implementierungen
 
-<!-- Status: current | validated: 2026-03-11 -->
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Primärdokumentation: ../../../src/llm/ -->
 
 Dieser Report dokumentiert Funktionen und Komponenten, die in `src/llm/ROADMAP.md`, `src/llm/ARCHITECTURE.md` oder anderen Primary-Docs als implementiert beschrieben werden oder als geplant gelten, jedoch bei der Reality-Check-Prüfung als **nicht vollständig umgesetzt** oder **als Stub** befunden wurden.

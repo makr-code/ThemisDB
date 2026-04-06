@@ -1,6 +1,6 @@
 # Scheduler-Modul – Fehlende / Unvollständige Implementierungen
 
-<!-- Status: current | validated: 2026-03-11 -->
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Primärdokumentation: ../../../src/scheduler/ -->
 
 Dieser Report dokumentiert Punkte, die in der Primärdokumentation des Scheduler-Moduls als

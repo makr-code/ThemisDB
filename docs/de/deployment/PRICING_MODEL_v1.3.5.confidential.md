@@ -1,6 +1,6 @@
 # ThemisDB v1.3.5 — Einfaches Abo- und Preismodell
 
-**Stand:** 22. Dezember 2025  
+**Stand:** 6. April 2026  
 **Version:** v1.3.0  
 **Kategorie:** 🚀 Deployment
 

@@ -1,11 +1,11 @@
-<!-- Status: current | validated: 2026-03-22 -->
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 # ThemisDB Ethics AI Module
 
 **Version:** 0.0.1  
 **Status:** 🟢 Production-Ready  
-**Last Updated:** 2026-03-22  
+**Last Updated:** 2026-04-06  
 **Module Path:** `src/ethics_ai/`  
 **Namespace:** `themis::plugins::ethics`
 

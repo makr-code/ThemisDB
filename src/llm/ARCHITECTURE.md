@@ -1,10 +1,10 @@
 # LLM Module — Architecture Guide
 
-<!-- Status: current | validated: 2026-03-21 | Primary: src/llm/ | Secondary: docs/de/llm/ -->
+<!-- Status: current | validated: 2026-04-06 | Primary: src/llm/ | Secondary: docs/de/llm/ -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · ../../docs/de/llm/README.md -->
 
 **Version:** 1.2  
-**Last Updated:** 2026-03-21  
+**Last Updated:** 2026-04-06  
 **Module Path:** `src/llm/`
 
 ---

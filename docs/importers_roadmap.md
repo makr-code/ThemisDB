@@ -1,7 +1,7 @@
 # Importers Module: Production-Readiness Assessment & Roadmap
 
 **Version:** 2.1
-**Last Updated:** 2026-03-21
+**Last Updated:** 2026-04-06
 **Scope:** Importers module hardening, observability, and feature coverage
 
 ---

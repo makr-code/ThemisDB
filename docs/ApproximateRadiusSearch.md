@@ -6,7 +6,7 @@ ApproximateRadiusSearch provides HNSW-based vector similarity search for finding
 
 **Status**: Production-Ready Beta (5/5 APIs functional)  
 **Version**: 1.5.0-beta  
-**Last Updated**: February 2026
+**Last Updated**:  April 2026
 
 ## Implementation Status
 

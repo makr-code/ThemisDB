@@ -83,5 +83,5 @@ Directly referenced in `src/process/FUTURE_ENHANCEMENTS.md` (P2: PPR-basiertes G
 - [`src/process/FUTURE_ENHANCEMENTS.md`](../../../src/process/FUTURE_ENHANCEMENTS.md) (P2)
 
 ---
-**Last Updated:** 2026-03-23  
+**Last Updated:** 2026-04-06  
 **Next Review:** 2026-09-30

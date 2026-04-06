@@ -454,4 +454,4 @@ auto results = index.search(query, 10);
 ---
 
 **Status**: CPU-only in v1.5.0+, GPU planned for v2.x  
-**Last Updated**: February 2026
+**Last Updated**:  April 2026

@@ -717,6 +717,6 @@ A: Inherit from `ISamplingStrategy`, implement `sample()` method, register in `S
 
 ---
 
-**Last Updated**: January 16, 2026  
+**Last Updated**: April 2026  
 **Status**: Ready for Phase 1 implementation  
 **Questions**: Create issue or contact team lead

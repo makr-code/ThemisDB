@@ -1,9 +1,9 @@
 # Acceleration Module — Architecture Guide
-<!-- Status: current | validated: 2026-03-09 -->
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · docs/de/acceleration/README.md -->
 
 **Version:** 1.0  
-**Last Updated:** 2026-03-09  
+**Last Updated:** 2026-04-06  
 **Status:** current  
 **Module Path:** `src/acceleration/`
 

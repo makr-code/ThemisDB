@@ -1,8 +1,8 @@
 # Plugins Modul
-<!-- Status: current | validated: 2026-03-09 -->
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Primärdokumentation: ../../../src/plugins/ -->
 
-**Stand:** 9. März 2026  
+**Stand:** 6. April 2026  
 **Version:** 1.1  
 **Kategorie:** 🔌 Plugin-System  
 **Validated:** 2026-03-09 (Reality-Check gegen Sourcecode; siehe [missing-implementations.md](missing-implementations.md))

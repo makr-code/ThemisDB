@@ -646,5 +646,5 @@ For additional support:
 ---
 
 **Version:** 1.5.0  
-**Last Updated:** 2024-02-07  
+**Last Updated:** 2026-04-06  
 **Maintainer:** ThemisDB Team

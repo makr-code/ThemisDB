@@ -1,10 +1,10 @@
 # Network-Modul — Übersicht
 
-<!-- Status: current | validated: 2026-03-09 -->
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Primärdokumentation: ../../../src/network/ -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · missing-implementations.md -->
 
-**Stand:** 9. März 2026  
+**Stand:** 6. April 2026  
 **Version:** 1.1  
 **Kategorie:** Netzwerk / Transportunfrastruktur  
 **Validated:** 2026-03-09 (Reality-Check gegen Sourcecode; siehe [missing-implementations.md](missing-implementations.md))

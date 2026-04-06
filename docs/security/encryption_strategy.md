@@ -1,7 +1,7 @@
 # Encryption Strategy
 
 **Document Version**: 1.1  
-**Last Updated**: 2026-02-17  
+**Last Updated**: 2026-04-06  
 **Status**: Active  
 **Owner**: Security Team
 

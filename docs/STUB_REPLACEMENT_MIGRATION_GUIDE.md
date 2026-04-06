@@ -403,5 +403,5 @@ For questions or issues:
 ---
 
 **Document Version**: 1.0  
-**Last Updated**: February 7, 2026  
+**Last Updated**: April 2026  
 **Author**: ThemisDB Development Team

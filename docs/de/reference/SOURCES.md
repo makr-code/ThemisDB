@@ -1,7 +1,7 @@
 # ThemisDB - Source Code References
 
 **Version:** 1.4.0  
-**Last Updated:** January 2026  
+**Last Updated:** April 2026  
 **Purpose:** Detailed mapping of code files to their origins and inspirations
 
 ---

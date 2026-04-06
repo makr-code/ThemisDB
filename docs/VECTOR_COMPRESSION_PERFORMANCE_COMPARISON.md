@@ -1,7 +1,7 @@
 # Vector Compression Quantization Performance Comparison
 
 **Issue:** #914  
-**Implementation Date:** January 2026  
+**Implementation Date:** April 2026  
 **Status:** ✅ Complete
 
 ## Executive Summary
@@ -339,7 +339,7 @@ Combined with existing PQ and RaBitQ, ThemisDB now offers industry-leading flexi
 ---
 
 **Document Version:** 1.0  
-**Last Updated:** January 2026  
+**Last Updated:** April 2026  
 **Authors:** ThemisDB Team  
 **Related Issues:** #914  
 **Related Files:**

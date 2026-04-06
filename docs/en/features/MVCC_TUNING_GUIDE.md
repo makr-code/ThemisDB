@@ -1,7 +1,7 @@
 # ThemisDB MVCC Configuration & Tuning Guide
 
 **Version:** 1.4.0  
-**Last Updated:** 2026-01-18  
+**Last Updated:** 2026-04-06  
 **Target Audience:** Database Administrators, Performance Engineers, Application Developers
 
 > **Scope:** This guide covers the **TransactionManager / RocksDB TransactionDB** layer – the high-level ACID transaction API that handles isolation levels, write-write conflict detection, and cross-index atomic commits.

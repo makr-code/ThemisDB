@@ -1020,5 +1020,5 @@ Bei Problemen oder Fragen:
 
 **Version:** v1.4.0-stable  
 **Status:** Production-Ready  
-**Last Updated:** Januar 2026  
+**Last Updated:** April 2026  
 **License:** MIT

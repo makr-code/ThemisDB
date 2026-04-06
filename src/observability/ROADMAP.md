@@ -1,6 +1,6 @@
 # Observability Module Roadmap
 
-<!-- Status: current | validated: 2026-03-11 -->
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · docs/de/observability/README.md -->
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 

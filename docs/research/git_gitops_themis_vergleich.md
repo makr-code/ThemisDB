@@ -1,6 +1,6 @@
 # Git, GitHub, GitOps im Vergleich zur Versionskontrolle von ThemisDB
 
-**Stand:** 14. Januar 2026  
+**Stand:** 6. April 2026  
 **Version:** v1.4.0  
 **Kategorie:** 🧩 Architecture
 

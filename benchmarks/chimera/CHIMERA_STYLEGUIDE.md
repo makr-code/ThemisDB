@@ -1,7 +1,7 @@
 # CHIMERA Suite Style Guide
 
 **Version:** 1.0.0  
-**Last Updated:** January 2026  
+**Last Updated:** April 2026  
 **Status:** Official Branding Guidelines
 
 ---

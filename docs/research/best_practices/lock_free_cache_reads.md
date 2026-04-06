@@ -63,4 +63,4 @@ In ThemisDB, the adaptive query cache (`src/cache/adaptive_query_cache.cpp`) app
 - [OpenTelemetry Tracing](opentelemetry_tracing.md)
 
 ---
-**Last Updated:** 2026-03-24
+**Last Updated:** 2026-04-06

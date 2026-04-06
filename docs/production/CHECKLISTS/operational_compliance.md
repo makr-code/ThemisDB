@@ -1,7 +1,7 @@
 # Operational Compliance Checklist
 
 **Version:** 1.0  
-**Last Updated:** January 2026  
+**Last Updated:** April 2026  
 **Review Frequency:** Monthly  
 **Document Owner:** Operations Team
 

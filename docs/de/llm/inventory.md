@@ -1,6 +1,6 @@
 # LLM-Modul – Primäres Inventar
 
-<!-- Status: current | validated: 2026-03-09 -->
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Primärdokumentation: ../../../src/llm/ | ../../../include/llm/ -->
 
 **Datum:** März 2026  

@@ -612,5 +612,5 @@ ThemisDB has **solid baseline security**:
 ---
 
 **Author:** ThemisDB Security Team  
-**Last Updated:** January 7, 2026  
+**Last Updated:** April 2026  
 **Review Status:** Draft - Implementation pending

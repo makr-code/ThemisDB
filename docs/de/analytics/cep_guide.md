@@ -2,7 +2,7 @@
 
 **Version:** v1.7.0
 **Status:** 🟢 Production-Ready
-**Last Updated:** 2026-03-09
+**Last Updated:** 2026-04-06
 
 ---
 
@@ -220,6 +220,6 @@ Prometheus-Metriken werden automatisch unter `themisdb_cep_*` exponiert.
 
 ---
 
-**Last Updated:** 2026-03-09
+**Last Updated:** 2026-04-06
 **Version:** v1.7.0
 **Status:** 🟢 Production-Ready

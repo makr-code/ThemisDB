@@ -1,5 +1,5 @@
 # Plugins Module
-<!-- Status: current | validated: 2026-03-09 -->
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: src/plugins/README.md · src/plugins/ARCHITECTURE.md · src/plugins/ROADMAP.md · src/plugins/FUTURE_ENHANCEMENTS.md · include/plugins/FUTURE_ENHANCEMENTS.md · docs/de/plugins/README.md -->
 
 Plugin system infrastructure for ThemisDB.

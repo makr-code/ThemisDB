@@ -1,7 +1,7 @@
 # RAID-Themis Betriebsmodi & Konfigurationsbeispiele v1.4
 
 **Version:** 1.4 (RAID-Angepasst)  
-**Stand:** 30. Dezember 2025  
+**Stand:** 6. April 2026  
 **Status:** ✅ Produktionsreife Konfigurations-Templates  
 **Kategorie:** 🛡️ RAID-Redundanz | 🔧 Konfiguration | 📋 Best Practices
 

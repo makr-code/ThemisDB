@@ -1,6 +1,6 @@
 # Updates Module
 
-<!-- Status: current | validated: 2026-03-20 | Primary: ../../../src/updates/ | ../../../include/updates/ -->
+<!-- Status: current | validated: 2026-04-06 | Primary: ../../../src/updates/ | ../../../include/updates/ -->
 <!-- Links: ../../../src/updates/README.md · ../../../src/updates/ROADMAP.md · PRIMARY_SOURCES.md -->
 
 **Date:** 20 March 2026  

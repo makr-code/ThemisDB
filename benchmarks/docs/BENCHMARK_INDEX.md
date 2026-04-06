@@ -325,6 +325,6 @@ ThemisDB Comprehensive Benchmark Suite
 
 ---
 
-**Last Updated**: 2025-12-18  
+**Last Updated**: 2026-04-06  
 **Maintainer**: ThemisDB Performance Team  
 **Status**: ✅ Production Ready

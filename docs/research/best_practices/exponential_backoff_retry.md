@@ -64,4 +64,4 @@ ThemisDB's Chimera subsystem (`src/chimera/`) implements this pattern via a comp
 - [Consistent Hash Ring](consistent_hash_ring.md)
 
 ---
-**Last Updated:** 2026-03-24
+**Last Updated:** 2026-04-06

@@ -1,10 +1,10 @@
-<!-- Status: current | validated: 2026-03-22 -->
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: README.md · ROADMAP.md · AUDIT.md · SECURITY.md -->
 
 # Content Module — Public Header Architecture
 
 **Version:** 1.7.0  
-**Last Updated:** 2026-03-22  
+**Last Updated:** 2026-04-06  
 **Module Path:** `include/content/`  
 **Implementation:** `../../src/content/`
 

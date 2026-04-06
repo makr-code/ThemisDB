@@ -634,6 +634,6 @@ Have ideas for AQL interface improvements?
 - `TokenStream` cancellation must be safe to invoke concurrently from any thread
 - Fine-tuning interface must not allow training data to overwrite system prompt or safety guardrails
 
-*Last Updated: February 2026*  
+*Last Updated: April 2026*  
 *Module Version: v1.5.x*  
 *Next Review: v1.6.0 Release*

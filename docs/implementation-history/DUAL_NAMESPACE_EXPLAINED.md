@@ -334,5 +334,5 @@ The dual namespace approach in ThemisDB is:
 ---
 
 **Document Status:** ✅ Approved and Active  
-**Last Updated:** 2026-01-20  
+**Last Updated:** 2026-04-06  
 **Maintainer:** ThemisDB Core Team

@@ -1,7 +1,7 @@
 # Load Balancer Integration Guide
 
 **Version:** 1.0  
-**Last Updated:** January 2026  
+**Last Updated:** April 2026  
 **Target Audience:** Platform Engineers, DevOps
 
 ---
@@ -696,4 +696,4 @@ nginx.ingress.kubernetes.io/proxy-read-timeout: "120"
 ---
 
 **Document Version:** 1.0  
-**Last Updated:** 2026-01-24
+**Last Updated:** 2026-04-06

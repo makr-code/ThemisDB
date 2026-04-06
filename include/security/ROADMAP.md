@@ -1,4 +1,4 @@
-<!-- Status: current | validated: 2026-03-22 -->
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 # Roadmap — Security Module (Public Headers)

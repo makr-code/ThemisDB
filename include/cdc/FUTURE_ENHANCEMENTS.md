@@ -1,5 +1,5 @@
 # CDC Module - Future Header Enhancements
-<!-- Status: current | validated: 2026-03-22 -->
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: ../../src/cdc/README.md · ../../src/cdc/ARCHITECTURE.md · ../../src/cdc/FUTURE_ENHANCEMENTS.md · docs/de/cdc/ -->
 
 ## Scope

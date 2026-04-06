@@ -30,7 +30,7 @@ Operational guide for DevOps engineers and database administrators covering depl
 **Target Audience:** DevOps engineers, SREs, database administrators
 
 **Version:** 1.3.0  
-**Last Updated:** December 2025
+**Last Updated:** April 2026
 
 ---
 

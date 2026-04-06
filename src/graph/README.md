@@ -978,7 +978,7 @@ target_include_directories(themisdb_graph
 - [Graph Advanced Features](ADVANCED_FEATURES_README.md) - PathConstraints detailed documentation
 - [ARCHITECTURE.md](../../ARCHITECTURE.md) - Overall ThemisDB architecture
 
-*Last Updated: March 2026*  
+*Last Updated: April 2026*  
 *Module Version: v1.8.0*  
 *Next Review: v1.9.0 Release*
 

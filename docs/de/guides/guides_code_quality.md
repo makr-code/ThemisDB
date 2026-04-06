@@ -26,7 +26,7 @@ Comprehensive code quality and testing infrastructure.
 
 ThemisDB uses a comprehensive code quality pipeline to ensure high standards across the codebase.
 
-**Stand:** 22. Dezember 2025  
+**Stand:** 6. April 2026  
 **Version:** 1.3.0  
 **Kategorie:** 🛠️ Developer/Technical
 
@@ -641,5 +641,5 @@ Benefits:
 
 ---
 
-**Last Updated:** February 2026  
+**Last Updated:** April 2026  
 **PR:** [#XXX](link-to-pr) - Systematic unused variable removal

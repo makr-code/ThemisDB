@@ -1,7 +1,7 @@
 # PII Redaction Policy for Logs, Traces, and Metrics
 
 **Version:** 1.5.0  
-**Last Updated:** 2026-02-19  
+**Last Updated:** 2026-04-06  
 **Target Audience:** Security Engineers, Backend Engineers, Compliance Officers
 
 ---

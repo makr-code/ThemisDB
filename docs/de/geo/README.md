@@ -1,6 +1,6 @@
 # Geospatial Module
 
-**Stand:** 9. März 2026  
+**Stand:** 6. April 2026  
 **Version:** 2.1.0  
 **Kategorie:** Geo
 

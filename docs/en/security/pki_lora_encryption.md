@@ -267,5 +267,5 @@ The PKIKeyProvider caches derived keys, so performance impact is minimal after i
 
 ---
 
-**Last Updated**: January 16, 2026
+**Last Updated**: April 2026
 **Version**: 1.0

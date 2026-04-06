@@ -1,4 +1,4 @@
-<!-- status: current | validated: 2026-03-10 -->
+<!-- status: current | validated: 2026-04-06 -->
 <!-- Links: Secondary → docs/de/performance/README.md | Root → ../../README.md -->
 
 # ThemisDB Performance Module
@@ -1017,7 +1017,7 @@ A: Enable cycle metrics, compare before/after profiles, use Linux perf or VTune 
 ---
 
 **Version**: 1.0.0  
-**Last Updated**: 2025-02-10  
+**Last Updated**: 2026-04-06  
 **Maintainers**: ThemisDB Performance Team  
 **Related Modules**: query, storage, index, server
 

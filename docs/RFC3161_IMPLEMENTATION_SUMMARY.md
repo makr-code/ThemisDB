@@ -417,5 +417,5 @@ The RFC 3161 Timestamp Authority implementation in ThemisDB is **production-read
 ---
 
 **Document Version:** 1.0  
-**Last Updated:** February 3, 2026  
+**Last Updated:** April 2026  
 **Status:** ✅ FINAL

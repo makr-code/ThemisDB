@@ -2,7 +2,7 @@
 
 # ThemisDB Documentation Home (Language Selector)
 
-**Version:** 1.8.0-rc1 | **Last Updated:** April 6, 2026
+**Version:** 1.8.0-rc1 | **Last Updated:** April 2026
 
 </div>
 

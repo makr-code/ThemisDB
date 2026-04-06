@@ -1,7 +1,7 @@
 # Observability & Monitoring Overview
 
 **Version:** 1.5.0-dev  
-**Last Updated:** February 9, 2026  
+**Last Updated:** April 2026  
 **Status:** Production Ready
 
 ---
@@ -544,4 +544,4 @@ For questions or issues related to observability:
 
 **Version:** 1.5.0-dev  
 **License:** See [LICENSE](../../LICENSE)  
-**Last Updated:** February 9, 2026
+**Last Updated:** April 2026

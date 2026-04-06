@@ -1,7 +1,7 @@
 # Disaster Recovery Plan (DRP)
 
 **Version:** 1.0  
-**Last Updated:** January 2026  
+**Last Updated:** April 2026  
 **Document Owner:** Operations Team  
 **Review Cycle:** Quarterly
 

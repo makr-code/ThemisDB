@@ -1,6 +1,6 @@
 # ThemisDB "80% Coverage" Edition Strategy
 
-**Stand:** 22. Dezember 2025  
+**Stand:** 6. April 2026  
 **Version:** v1.3.0  
 **Kategorie:** 🚀 Deployment  
 **Goal:** Satisfy 80% of deployment use cases with Community Edition

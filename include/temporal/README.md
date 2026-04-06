@@ -496,6 +496,6 @@ Existing conflict-resolution code is fully compatible; new features are opt-in.
 
 ---
 
-*Last Updated: February 2026*  
+*Last Updated: April 2026*  
 *API Version: v1.1.0*  
 *ABI Version: 1.1*

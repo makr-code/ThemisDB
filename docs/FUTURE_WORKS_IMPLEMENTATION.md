@@ -544,5 +544,5 @@ Complete examples available:
 ---
 
 **Status**: Production-ready  
-**Last Updated**: 2026-02-19  
+**Last Updated**: 2026-04-06  
 **Version**: 1.0

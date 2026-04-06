@@ -2,7 +2,7 @@
 
 **Version:** 1.7.0
 **Status:** 🟢 Production-Ready
-**Last Updated:** 2026-03-09
+**Last Updated:** 2026-04-06
 
 ---
 
@@ -136,5 +136,5 @@ include/analytics/       ← Öffentliche Header
 
 ---
 
-**Last Updated:** 2026-03-09
+**Last Updated:** 2026-04-06
 **Version:** v1.7.0

@@ -1,4 +1,4 @@
-<!-- Status: current | validated: 2026-03-12 -->
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 # Performance Module - Future Enhancements
@@ -41,7 +41,7 @@
 ## Planned Features
 
 ### Phase 4: PMU Counters — Non-Linux Stub Coverage
-<!-- Status: implemented | validated: 2026-03-21 -->
+<!-- Status: implemented | validated: 2026-04-06 -->
 **Priority:** Low
 **Status:** ✅ Implemented (v1.9.0)
 **Target Version:** v1.9.0
@@ -56,7 +56,7 @@
 ---
 
 ### Hardware-Accelerated Query Execution
-<!-- Status: implemented | validated: 2026-03-16 -->
+<!-- Status: implemented | validated: 2026-04-06 -->
 **Priority:** High  
 **Status:** ✅ Implemented (v1.8.0, Issue #85)  
 **Target Version:** v1.8.0  
@@ -137,7 +137,7 @@ if (accel.can_accelerate(join_operator)) {
 ---
 
 ### Adaptive Query Compilation
-<!-- Status: implemented | validated: 2026-03-15 -->
+<!-- Status: implemented | validated: 2026-04-06 -->
 **Priority:** High  
 **Status:** ✅ Implemented (v1.8.0, Issue #86)  
 **Target Version:** v1.8.0  
@@ -798,7 +798,7 @@ See `CONTRIBUTING.md` for guidelines.
 ---
 
 **Version**: 1.0.0  
-**Last Updated**: 2025-02-10  
+**Last Updated**: 2026-04-06  
 **Status**: Living document - updated quarterly
 
 ---

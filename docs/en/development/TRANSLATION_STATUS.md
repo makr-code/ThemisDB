@@ -1,6 +1,6 @@
 # Documentation Translation Status
 
-**Last Updated**: December 23, 2025  
+**Last Updated**: April 2026  
 **Version**: 1.3.0
 
 ## Overall Progress

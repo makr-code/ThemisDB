@@ -26,7 +26,7 @@ Guide to integrating and testing HashiCorp Vault with ThemisDB.
 
 This document explains how to run the Vault developer helper and the repository's Vault integration tests locally.
 
-**Stand:** 22. Dezember 2025  
+**Stand:** 6. April 2026  
 **Version:** 1.3.0  
 **Kategorie:** ⚙️ Operations/Admin
 

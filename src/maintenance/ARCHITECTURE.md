@@ -1,10 +1,10 @@
-<!-- Status: current | validated: 2026-03-12 -->
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: README.md · ROADMAP.md -->
 
 # Maintenance Module — Architecture Guide
 
 **Version:** 1.0  
-**Last Updated:** 2026-03-12  
+**Last Updated:** 2026-04-06  
 **Module Path:** `src/maintenance/`
 
 ---

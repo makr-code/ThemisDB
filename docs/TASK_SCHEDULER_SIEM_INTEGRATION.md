@@ -1,7 +1,7 @@
 # Task Scheduler SIEM Integration Guide
 
 **Version:** 1.5.0  
-**Last Updated:** 2026-02-10  
+**Last Updated:** 2026-04-06  
 **Target Audience:** Security Engineers, DevOps, System Administrators
 
 ---

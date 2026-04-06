@@ -1835,7 +1835,7 @@ grep -rn "TODO\|FIXME" src/
 ---
 
 **Document Version:** 1.0  
-**Last Updated:** January 2026  
+**Last Updated:** April 2026  
 **Maintained By:** ThemisDB Security & Compliance Team  
 **Next Review:** April 2026
 

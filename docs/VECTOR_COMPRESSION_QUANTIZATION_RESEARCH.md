@@ -2,7 +2,7 @@
 
 **Issue:** #914  
 **Status:** ✅ Implemented  
-**Date:** January 2026  
+**Date:** April 2026  
 **Authors:** ThemisDB Team
 
 ## Executive Summary
@@ -982,6 +982,6 @@ This research evaluated three advanced vector quantization techniques for Themis
 ---
 
 **Document Version:** 1.0  
-**Last Updated:** January 2026  
+**Last Updated:** April 2026  
 **Related Issues:** #914  
 **Related PRs:** [This PR]

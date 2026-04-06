@@ -803,5 +803,5 @@ For issues and questions:
 
 ---
 
-**Last Updated:** January 2026  
+**Last Updated:** April 2026  
 **Version:** 1.0.0

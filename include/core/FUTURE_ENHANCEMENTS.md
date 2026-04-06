@@ -697,6 +697,6 @@ Have ideas for interface improvements? We'd love to hear from you:
 - `ContextPropagation::propagate()` creates child contexts; writes inside async tasks cannot corrupt the parent context
 - Health check interface must not expose internal error details to unauthenticated liveness / readiness probe consumers
 
-*Last Updated: February 2026*  
+*Last Updated: April 2026*  
 *Module Version: v1.5.x*  
 *Next Review: v1.6.0 Release*

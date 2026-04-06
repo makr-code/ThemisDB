@@ -638,5 +638,5 @@ du -sh /mnt/nvme*/themisdb/
 ---
 
 **Version:** v1.3.5  
-**Last Updated:** January 5, 2026  
+**Last Updated:** April 2026  
 **Maintainer:** ThemisDB Team

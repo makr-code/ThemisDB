@@ -1,6 +1,6 @@
 # Themis – Security Hardening Guide
 
-**Stand:** 18. Januar 2026  
+**Stand:** 18. April 2026  
 **Version:** 1.4.0  
 **Kategorie:** Security
 

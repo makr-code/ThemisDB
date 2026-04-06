@@ -354,5 +354,5 @@ For a complete list of all documentation files, see:
 
 ---
 
-**Last Updated:** 2026-01-24  
+**Last Updated:** 2026-04-06  
 **Maintained by:** ThemisDB Documentation Team

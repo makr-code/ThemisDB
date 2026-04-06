@@ -2,7 +2,7 @@
 
 Complete guide for testing the ThemisDB LLM module (`src/llm`).
 
-**Last Updated:** February 2026 | **Version:** 2.0
+**Last Updated:** April 2026 | **Version:** 2.0
 
 ---
 

@@ -1,6 +1,6 @@
 # ThemisDB Documentation - Language Structure
 
-**Last Updated:** December 22, 2025  
+**Last Updated:** April 2026  
 **Version:** 1.3.0
 
 ---

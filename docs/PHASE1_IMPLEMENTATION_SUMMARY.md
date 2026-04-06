@@ -371,5 +371,5 @@ Phase 1 of the Production-Hardening Roadmap has been successfully implemented, p
 ---
 
 **Document Version:** 1.0  
-**Last Updated:** February 18, 2026  
+**Last Updated:** April 2026  
 **Author:** ThemisDB Development Team

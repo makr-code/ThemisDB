@@ -1,6 +1,6 @@
 # Config Module Roadmap
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- validated: 2026-03-09 | status: current | source: src/config/ -->
+<!-- validated: 2026-04-06 | status: current | source: src/config/ -->
 
 ## Current Status
 Production-ready for legacy-to-new config path resolution with LRU caching, path validation, deprecation metadata, thread-safe metrics, deprecation warning aggregation, and Prometheus metrics export via the `/metrics` endpoint. Runtime hot-reload and YAML/JSON parsing are out of scope for this module.

@@ -492,5 +492,5 @@ std::cout << optimizer.explainPlan(plan.value()) << std::endl;
 - [Index Module](../index/README.md) - Graph infrastructure (GraphIndexManager, GraphAnalytics)
 - [Query Module](../query/README.md) - AQL integration
 
-*Last Updated: February 2026*  
+*Last Updated: April 2026*  
 *Module Version: v1.5.0*
