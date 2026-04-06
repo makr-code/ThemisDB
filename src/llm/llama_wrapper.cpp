@@ -701,7 +701,7 @@ std::vector<LoRAInfo> LlamaWrapper::listLoRAs() const {
 // ═══════════════════════════════════════════════════════════
 
 InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::mutex> lock(mutex_);
     
     // Check state before attempting inference
     if (current_state_ != WrapperState::READY) {
@@ -727,49 +727,53 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
     // Check if speculative decoding is available and enabled
     if (config_.use_speculative_decoding && draft_model_ && draft_context_) {
         spdlog::debug("Using speculative decoding");
-        // Unlock for speculative generation (it will lock internally as needed)
-        mutex_.unlock();
+        lock.unlock();
         auto response = generateSpeculative(request);
-        mutex_.lock();
         return response;
     }
     
-    // Fall back to regular generation
-    // Unlock for regular generation (it will lock internally as needed)
-    mutex_.unlock();
+    // Fall back to regular generation; unlock while executing (llama.cpp is not reentrant under this mutex)
+    lock.unlock();
 #ifdef THEMIS_ENABLE_VISION
     // Route to vision pipeline when image inputs are provided.
     // Safety: generateVision() calls generate() internally with image_paths empty,
     // so there is no infinite recursion.  The mutex is already unlocked here,
     // allowing the nested generate() call to acquire it normally.
     if (!request.image_paths.empty() && vision_enabled_) {
-        VisionRequest vision_req;
-        vision_req.text_prompt = request.prompt;
-        vision_req.image_paths = request.image_paths;
-        vision_req.max_tokens  = request.max_tokens;
-        vision_req.temperature = request.temperature;
-        vision_req.top_p       = request.top_p;
-        vision_req.top_k       = request.top_k;
-        VisionResponse vision_resp = generateVision(vision_req);
-        mutex_.lock();
-        if (!vision_resp.success) {
-            throw std::runtime_error(
-                vision_resp.error_message.empty()
-                    ? "Vision inference failed"
-                    : vision_resp.error_message);
+        try {
+            VisionRequest vision_req;
+            vision_req.text_prompt = request.prompt;
+            vision_req.image_paths = request.image_paths;
+            vision_req.max_tokens  = request.max_tokens;
+            vision_req.temperature = request.temperature;
+            vision_req.top_p       = request.top_p;
+            vision_req.top_k       = request.top_k;
+            VisionResponse vision_resp = generateVision(vision_req);
+            if (!vision_resp.success) {
+                throw std::runtime_error(
+                    vision_resp.error_message.empty()
+                        ? "Vision inference failed"
+                        : vision_resp.error_message);
+            }
+            InferenceResponse resp;
+            resp.request_id       = request.request_id;
+            resp.model_id         = current_model_id_;
+            resp.text             = vision_resp.text;
+            resp.tokens_generated = vision_resp.tokens_generated;
+            resp.inference_time_ms = static_cast<float>(vision_resp.inference_time_ms);
+            return resp;
+        } catch (const std::exception& e) {
+            spdlog::error("Vision inference error: {}", e.what());
+            throw;
         }
-        InferenceResponse resp;
-        resp.request_id       = request.request_id;
-        resp.model_id         = current_model_id_;
-        resp.text             = vision_resp.text;
-        resp.tokens_generated = vision_resp.tokens_generated;
-        resp.inference_time_ms = static_cast<float>(vision_resp.inference_time_ms);
-        return resp;
     }
 #endif
-    auto response = generateRegular(request);
-    mutex_.lock();
-    return response;
+    try {
+        return generateRegular(request);
+    } catch (const std::exception& e) {
+        spdlog::error("Regular inference error: {}", e.what());
+        throw;
+    }
     // Check response cache first (if enabled)
     if (response_cache_) {
         auto cached_response = response_cache_->get(request.prompt);
@@ -2219,6 +2223,17 @@ InferenceResponse LlamaWrapper::generateRegular(const InferenceRequest& request)
             response.lora_used = *request.lora_adapter_id;
         }
         
+        // Clear the KV cache before each inference to prevent context overflow
+        // when called multiple times (e.g., consecutive RAG queries).
+        // Validate lctx is still valid before attempting to access it
+        if (!lctx) {
+            throw std::runtime_error("Context handle became null before inference");
+        }
+        llama_memory_t mem = llama_get_memory(lctx);
+        if (mem) {
+            llama_memory_seq_rm(mem, 0, -1, -1);
+        }
+
         llama_batch batch = llama_batch_get_one(prompt_tokens.data(), prompt_tokens.size());
         
         if (llama_decode(lctx, batch) != 0) {

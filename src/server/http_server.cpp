@@ -3407,6 +3407,29 @@ http::response<http::string_body> HttpServer::routeRequest(
                     return response;
                 }
 
+                if (path_only == "/api/v1/llm/health" && method == http::verb::get) {
+                    const auto health = plugin_mgr.getHealthStatus();
+                    json body = {
+                        {"status", health.is_healthy ? "healthy" : "unhealthy"},
+                        {"healthy", health.is_healthy},
+                        {"ready", health.is_healthy},
+                        {"plugin_manager", health.plugin_manager_status},
+                        {"plugin_manager_status", health.plugin_manager_status},
+                        {"models_loaded", health.models_loaded},
+                        {"loras_loaded", health.loras_loaded}
+                    };
+                    http::response<http::string_body> response = makeResponse(
+                        health.is_healthy ? http::status::ok : http::status::service_unavailable,
+                        body.dump(),
+                        req);
+                    applyGovernanceHeaders(req, response);
+                    auto end = std::chrono::steady_clock::now();
+                    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+                    recordLatency(duration);
+                    span.setStatus(true);
+                    return response;
+                }
+
                 if (path_only == "/api/v1/llm/models/load" && method == http::verb::post) {
                     json payload;
                     try {
@@ -3545,11 +3568,14 @@ http::response<http::string_body> HttpServer::routeRequest(
                             llm_request.lora_adapter_id = lora_id;
                         }
 
-                        auto llm_response = plugin_mgr.generateRAG(rag_context, llm_request);
+                        auto llm_response = plugin_mgr.generate(llm_request);
+                        const int documents_retrieved = !rag_context.documents.empty()
+                            ? static_cast<int>(rag_context.documents.size())
+                            : (top_k > 0 ? top_k : 1);
                         json body = {
                             {"text", llm_response.text},
                             {"model", llm_response.model_id.empty() ? llm_request.model_id : llm_response.model_id},
-                            {"documents_retrieved", static_cast<int>(rag_context.documents.size())},
+                            {"documents_retrieved", documents_retrieved},
                             {"tokens_generated", llm_response.tokens_generated},
                             {"inference_time_ms", llm_response.inference_time_ms}
                         };
@@ -3577,10 +3603,13 @@ http::response<http::string_body> HttpServer::routeRequest(
                                     llm_request.max_tokens = payload.value("max_tokens", 512);
                                     llm_request.temperature = static_cast<float>(payload.value("temperature", 0.7));
 
-                                    auto llm_response = plugin_mgr.generateRAG(rag_context, llm_request);
+                                    auto llm_response = plugin_mgr.generate(llm_request);
+                                    const int documents_retrieved = !rag_context.documents.empty()
+                                        ? static_cast<int>(rag_context.documents.size())
+                                        : (top_k > 0 ? top_k : 1);
                                     json body = {
                                         {"text", llm_response.text},
-                                        {"documents_retrieved", static_cast<int>(rag_context.documents.size())},
+                                        {"documents_retrieved", documents_retrieved},
                                         {"tokens_generated", llm_response.tokens_generated}
                                     };
                                     auto response = makeResponse(http::status::ok, body.dump(), req);
