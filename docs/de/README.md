@@ -4,8 +4,8 @@
 > Dies ist die **maßgebliche und aktuellste Dokumentation** von ThemisDB.  
 > Übersetzungen sind in anderen Sprachen verfügbar: [English](../en/README.md) | [Français](../fr/README.md) | [Español](../es/README.md) | [日本語](../ja/README.md)
 
-**Stand:** 5. Januar 2026  
-**Version:** 1.4.0-alpha (Erweiterte LLM-Features)  
+**Stand:** 6. April 2026  
+**Version:** 1.8.0-rc1  
 **Typ:** Dokumentations-Index  
 **Sprache:** Deutsch (Hauptdokumentation)
 
@@ -211,8 +211,8 @@ Die Dokumentation wurde neu strukturiert für bessere Übersichtlichkeit:
 ## 📚 Haupt-Dokumentation
 
 ### Übersichtsdokumente
-- **[Changelog](releases/CHANGELOG.md)** - Vollständige Versionshistorie (v1.2.0, v1.1.0, v1.0.2, v1.0.1, v1.0.0)
-- **[🆕 Roadmap v1.1.0](roadmap/roadmap_overview.md)** - **AKTUALISIERT:** Q1 2026 Optimization Release
+- **[Changelog](releases/CHANGELOG.md)** - Vollständige Versionshistorie (v1.8.0-rc1, v1.5.0, v1.4.0, v1.3.0, …)
+- **[🆕 Roadmap v2.0](../../roadmap.md)** - **AKTUALISIERT:** Aggregierte Roadmap über alle 46 Module
 - **[Architecture Overview](architecture/ARCHITECTURE_OVERVIEW.md)** - Komplette Systemarchitektur mit Diagrammen
 - **[Source Code Changes v1.0](development/SOURCE_CODE_CHANGES_v1.0.md)** - Detaillierte Quellcode-Dokumentation (191 Dateien, 44 Module)
 - **[Features Liste](features/features_overview.md)** - Vollständige Feature-Übersicht mit Status
@@ -541,6 +541,6 @@ Dokumentation wird automatisch zu GitHub Pages deployt bei Merge zu main.
 
 ---
 
-**Version:** 1.5.0  
-**Last Updated:** 8. März 2026  
+**Version:** 1.8.0-rc1  
+**Last Updated:** 6. April 2026  
 **License:** See [LICENSE](../LICENSE)
