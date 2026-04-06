@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llm_bench.cpp                                      ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:04:43                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-06 04:04:12                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,10 +14,10 @@
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • be24ea91f  2026-03-13  fix(llm): wire PolicyEngine::checkInferencePermission() i... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 5626526f4  2026-02-28  feat(llm): add tokens/sec and latency p99 performance ben... ║
-    • f75117981  2026-02-28  feat(llm): speculative decoding for latency reduction - a... ║
+    • be24ea91fe  2026-03-13  fix(llm): wire PolicyEngine::checkInferencePermission() i... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 5626526f49  2026-02-28  feat(llm): add tokens/sec and latency p99 performance ben... ║
+    • f751179815  2026-02-28  feat(llm): speculative decoding for latency reduction - a... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

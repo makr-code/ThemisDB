@@ -3,18 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            themis_help_lora.cpp                               ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:16:52                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:17:18                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   94.0/100                                       ║
-    • Total Lines:     658                                            ║
+    • Total Lines:     660                                            ║
     • Open Issues:     TODOs: 2, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • eb00b82270  2026-04-04  hotfix: prevent SIGSEGV in RocksDB/LLM init on Docker sta... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

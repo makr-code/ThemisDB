@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            opa_adapter.cpp                                    ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:19:55                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-06 04:20:29                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,9 +14,9 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 0766c4a21  2026-02-24  fix(auth/opa): code audit - remove redundant static, thre... ║
-    • 977edef79  2026-02-24  feat(auth): add OPA adapter for fine-grained ABAC policy ... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 0766c4a216  2026-02-24  fix(auth/opa): code audit - remove redundant static, thre... ║
+    • 977edef79a  2026-02-24  feat(auth): add OPA adapter for fine-grained ABAC policy ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

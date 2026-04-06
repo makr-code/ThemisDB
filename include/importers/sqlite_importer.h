@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            sqlite_importer.h                                  ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:07:54                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-06 04:07:35                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,9 +14,9 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • aeea5e199  2026-02-26  Add SQLite importer: header, implementation, tests, fixtu... ║
-    • ac1dacf6a  2026-02-22  Add MySQL/MariaDB importer: header, implementation, tests... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • aeea5e1993  2026-02-26  Add SQLite importer: header, implementation, tests, fixtu... ║
+    • ac1dacf6a6  2026-02-22  Add MySQL/MariaDB importer: header, implementation, tests... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

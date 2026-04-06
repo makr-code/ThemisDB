@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_themisctl.cpp                                 ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:34:27                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-04-06 04:35:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,8 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 97d8d09e7  2026-03-15  feat(tools/themisctl): config command, REPL mode, shell c... ║
-    • 938d29e24  2026-03-15  feat(tools): Add themisctl — unified ThemisDB management ... ║
+    • 97d8d09e74  2026-03-15  feat(tools/themisctl): config command, REPL mode, shell c... ║
+    • 938d29e246  2026-03-15  feat(tools): Add themisctl — unified ThemisDB management ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

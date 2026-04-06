@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            schema_manager.h                                   ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:08:49                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:08:33                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,9 +14,9 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 86d72db21  2026-02-26  feat(metadata): implement adaptive TTL based on table mut... ║
-    • 2f8673a5e  2026-02-22  feat(metadata): real-time schema change notifications via... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 86d72db21d  2026-02-26  feat(metadata): implement adaptive TTL based on table mut... ║
+    • 2f8673a5e8  2026-02-22  feat(metadata): real-time schema change notifications via... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

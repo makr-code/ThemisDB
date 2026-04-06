@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            changefeed.h                                       ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:06:16                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:05:51                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     476                                            ║
+    • Total Lines:     484                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-    • 5083e3481  2026-03-18  Changes before error encountered         ║
-    • 63b0ba358  2026-03-16  feat(cdc): implement Changefeed sequence counter via Rock... ║
-    • a9f387ce0  2026-03-11  feat(cdc): runtime-configurable change log retention poli... ║
-    • 2317d0155  2026-03-10  Changes before error encountered         ║
+    • 25f9a09910  2026-04-02  Refactor tests and improve assertions   ║
+    • d331f64d17  2026-04-01  feat: add support for merge operator detection in Changef... ║
+    • 0e5e834e68  2026-03-31  chore: clean up empty code change sections in the changes... ║
+    • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
+    • 5083e3481d  2026-03-18  Changes before error encountered        ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_ws_handler.cpp                                ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:35:43                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-06 04:37:04                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 899b3070e  2026-03-14  fix(api/ws): clarify url_decode comment, document semanti... ║
-    • 721f1507e  2026-03-14  fix(api/ws): URL-decode query string parameters in WsChan... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • b543ca34a  2026-02-24  fix(api/ws): audit – scope doc consistency, /v2/cdc/strea... ║
-    • 6127ae88a  2026-02-23  feat(api): implement WebSocket change subscription handle... ║
+    • 899b3070e4  2026-03-14  fix(api/ws): clarify url_decode comment, document semanti... ║
+    • 721f1507ea  2026-03-14  fix(api/ws): URL-decode query string parameters in WsChan... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • b543ca34aa  2026-02-24  fix(api/ws): audit – scope doc consistency, /v2/cdc/strea... ║
+    • 6127ae88ad  2026-02-23  feat(api): implement WebSocket change subscription handle... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

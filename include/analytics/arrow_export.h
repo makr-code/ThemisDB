@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            arrow_export.h                                     ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:05:20                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:04:51                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,10 +14,10 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • b44a3e988  2026-02-25  audit(analytics): fix stale docs and metadata after zero-... ║
-    • 6fb48cf3e  2026-02-25  feat(analytics): implement zero-copy Arrow data transfer ... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • b44a3e9888  2026-02-25  audit(analytics): fix stale docs and metadata after zero-... ║
+    • 6fb48cf3ec  2026-02-25  feat(analytics): implement zero-copy Arrow data transfer ... ║
+    • a629043ab2  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

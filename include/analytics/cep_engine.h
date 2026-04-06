@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cep_engine.h                                       ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:05:22                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:04:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-    • 5706ac4f3  2026-03-18  fix(analytics): streaming_window — configurable expiry in... ║
-    • 41d5cc48b  2026-03-17  fix(analytics): address all code review findings from aut... ║
-    • c826f73cd  2026-03-17  feat(analytics): implement memory pool allocator for hot ... ║
-    • 245a5fba1  2026-03-16  fix(analytics): release window lock before invoking user ... ║
+    • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
+    • 5706ac4f36  2026-03-18  fix(analytics): streaming_window — configurable expiry in... ║
+    • 41d5cc48b8  2026-03-17  fix(analytics): address all code review findings from aut... ║
+    • c826f73cd8  2026-03-17  feat(analytics): implement memory pool allocator for hot ... ║
+    • 245a5fba1f  2026-03-16  fix(analytics): release window lock before invoking user ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

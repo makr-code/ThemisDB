@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            secondary_index_metadata_cache.h                   ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:08:04                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:07:45                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,10 +14,10 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 2c5066b72  2026-02-25  Code audit: fix header annotations, add PARTIAL to IndexT... ║
-    • 4eeafc8f5  2026-02-25  Implement partial/filtered indexes on secondary index man... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 2c5066b728  2026-02-25  Code audit: fix header annotations, add PARTIAL to IndexT... ║
+    • 4eeafc8f5b  2026-02-25  Implement partial/filtered indexes on secondary index man... ║
+    • a629043ab2  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

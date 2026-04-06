@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_content_embedding_pipeline.cpp                ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:25:47                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-06 04:26:39                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,10 +14,10 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 67549ed6f  2026-03-15  fix(content): wire ContentPolicy::embedding_model gate in... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • ee034a657  2026-02-24  fix(content): audit — wire ContentMetrics, add ContentPol... ║
-    • efa41f432  2026-02-24  feat(content): implement embedding generation pipeline (I... ║
+    • 67549ed6f9  2026-03-15  fix(content): wire ContentPolicy::embedding_model gate in... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • ee034a6578  2026-02-24  fix(content): audit — wire ContentMetrics, add ContentPol... ║
+    • efa41f4324  2026-02-24  feat(content): implement embedding generation pipeline (I... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

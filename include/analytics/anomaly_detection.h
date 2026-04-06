@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            anomaly_detection.h                                ║
-  Version:         0.0.21                                             ║
-  Last Modified:   2026-03-30 04:05:20                                ║
+  Version:         0.0.22                                             ║
+  Last Modified:   2026-04-06 04:04:51                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     379                                            ║
+    • Total Lines:     381                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-    • 44eac4601  2026-03-18  fix(analytics): split mu_ into window_mu_+detector_mu_; t... ║
-    • f30c7008c  2026-03-18  fix(analytics): add destructor + future-race fix to Strea... ║
-    • 0334298e8  2026-03-17  fix(analytics): StreamingAnomalyDetector::process() - red... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
+    • 44eac4601d  2026-03-18  fix(analytics): split mu_ into window_mu_+detector_mu_; t... ║
+    • f30c7008c1  2026-03-18  fix(analytics): add destructor + future-race fix to Strea... ║
+    • 0334298e8b  2026-03-17  fix(analytics): StreamingAnomalyDetector::process() - red... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

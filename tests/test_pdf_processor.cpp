@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_pdf_processor.cpp                             ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:30:55                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-06 04:32:02                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,9 +14,9 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 33a86557e  2026-02-23  Fix triple PDF loading regression + add content_pdf_extra... ║
-    • be51d5459  2026-02-22  Add PDF text extraction with layout preservation using po... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 33a86557ed  2026-02-23  Fix triple PDF loading regression + add content_pdf_extra... ║
+    • be51d5459d  2026-02-22  Add PDF text extraction with layout preservation using po... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

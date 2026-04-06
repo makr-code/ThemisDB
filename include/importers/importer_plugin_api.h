@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            importer_plugin_api.h                              ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:07:41                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-06 04:07:22                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • fef91d179  2026-03-15  fix(importers): audit fixes — remove duplicate legacy doc... ║
-    • 2019b146f  2026-03-15  feat(importers): Importer Plugin API v1.9.0 — stable C AB... ║
-    • edcfeb984  2026-03-11  feat: add scripts for auditing and reconciling GitHub iss... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • c9a74cf8c  2026-02-28  fix(importers): code audit — cleanup includes, fix docstr... ║
+    • fef91d1796  2026-03-15  fix(importers): audit fixes — remove duplicate legacy doc... ║
+    • 2019b146f9  2026-03-15  feat(importers): Importer Plugin API v1.9.0 — stable C AB... ║
+    • edcfeb9848  2026-03-11  feat: add scripts for auditing and reconciling GitHub iss... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • c9a74cf8c0  2026-02-28  fix(importers): code audit — cleanup includes, fix docstr... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

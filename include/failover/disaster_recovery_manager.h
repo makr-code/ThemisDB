@@ -1,3 +1,25 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            disaster_recovery_manager.h                        ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-04-06 04:06:53                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     154                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 5bee4e8e41  2026-04-03  Implement Disaster Recovery Manager and associated tests ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #ifndef THEMIS_FAILOVER_DISASTER_RECOVERY_MANAGER_H
 #define THEMIS_FAILOVER_DISASTER_RECOVERY_MANAGER_H
 

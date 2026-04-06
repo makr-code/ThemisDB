@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            graph_query_optimizer.cpp                          ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:16:05                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:16:28                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 5bfa861df  2026-03-23  Add runtime DLL copying functionality and error handling ║
-    • 39ac8c3ef  2026-03-20  Split default-arg constructors into overloads ║
-    • 43a91f179  2026-03-13  feat(metrics): add metrics collector for credential-stuff... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 0fccc8956  2026-02-26  fix(code-audit): add estimated_cost_ms to executeSubgraph... ║
+    • 5bfa861df6  2026-03-23  Add runtime DLL copying functionality and error handling ║
+    • 39ac8c3efe  2026-03-20  Split default-arg constructors into overloads ║
+    • 43a91f1793  2026-03-13  feat(metrics): add metrics collector for credential-stuff... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 0fccc89566  2026-02-26  fix(code-audit): add estimated_cost_ms to executeSubgraph... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            policy_manager_versioned.cpp                       ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:15:48                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:16:11                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,10 +14,10 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 620ed8630  2026-02-28  Fix rollbackToVersion stub: restore rule from version sna... ║
-    • a625e405d  2026-02-22  Address code review: replace magic numbers with chrono ca... ║
-    • 3030c4e0a  2026-02-22  Implement policy conflict detection and resolution report... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 620ed86305  2026-02-28  Fix rollbackToVersion stub: restore rule from version sna... ║
+    • a625e405da  2026-02-22  Address code review: replace magic numbers with chrono ca... ║
+    • 3030c4e0a2  2026-02-22  Implement policy conflict detection and resolution report... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

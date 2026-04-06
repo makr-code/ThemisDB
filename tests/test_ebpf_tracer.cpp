@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_ebpf_tracer.cpp                               ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:26:48                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-06 04:27:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,9 +14,9 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 7da0156c2  2026-03-01  fix(observability/ebpf_tracer): audit fixes — data race, ... ║
-    • 5ffb98107  2026-02-28  feat(observability): implement eBPF-based low-overhead ke... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 7da0156c2a  2026-03-01  fix(observability/ebpf_tracer): audit fixes — data race, ... ║
+    • 5ffb981070  2026-02-28  feat(observability): implement eBPF-based low-overhead ke... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

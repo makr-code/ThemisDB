@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            scraper_api_client.cpp                             ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-04-06 04:13:20                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     318                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • f7a8bbb8ce  2026-04-02  fix(scraper): fix URL hex encoding, replace system()/pope... ║
+    • c2cc8e90ab  2026-04-02  feat(plugins/scraper): add agentic scraper plugin with go... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "scraper_api_client.h"
 #include <stdexcept>
 #include <sstream>

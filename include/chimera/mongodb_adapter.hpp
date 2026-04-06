@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            mongodb_adapter.hpp                                ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-03-30 04:06:32                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-06 04:06:08                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 29a0ee06c  2026-03-12  feat(chimera): wire THEMIS_ENABLE_* driver blocks, add Co... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 74d8f7c17  2026-02-28  fix(chimera): resolve MongoDB adapter quality metrics - r... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-    • 5554ae8cd  2026-02-22  Code audit and bugfix: fix document_matches id field, mas... ║
+    • 29a0ee06c5  2026-03-12  feat(chimera): wire THEMIS_ENABLE_* driver blocks, add Co... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 74d8f7c17f  2026-02-28  fix(chimera): resolve MongoDB adapter quality metrics - r... ║
+    • a629043ab2  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+    • 5554ae8cdc  2026-02-22  Code audit and bugfix: fix document_matches id field, mas... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_hnsw_recall_integration.cpp                   ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:22:54                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-06 04:23:35                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,8 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 7c5d0fc7d  2026-02-28  feat(index): add HNSW recall@10 and spatial correctness i... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 7c5d0fc7db  2026-02-28  feat(index): add HNSW recall@10 and spatial correctness i... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

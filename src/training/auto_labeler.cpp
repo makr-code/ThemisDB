@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            auto_labeler.cpp                                   ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:20:58                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:21:35                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     684                                            ║
+    • Total Lines:     690                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • f38c013cd  2026-03-29  Enhance various components with improvements and fixes ║
-    • c6daefeb7  2026-03-15  fix: add mean confidence per modality to THEMIS_INFO log;... ║
-    • f9bd87798  2026-03-15  feat: ProvenanceTracker live AQL connection, KGE fail-fas... ║
-    • 8f0ee70ec  2026-03-11  fix(training): close all acceptance criteria gaps from AQ... ║
-    • eeae3f101  2026-03-11  fix(training): audit follow-up — total_processed_ in labe... ║
+    • a9c8e3f831  2026-03-30  Fix schema migration ODR in modular tests and align query... ║
+    • f38c013cdc  2026-03-29  Enhance various components with improvements and fixes ║
+    • c6daefeb71  2026-03-15  fix: add mean confidence per modality to THEMIS_INFO log;... ║
+    • f9bd877988  2026-03-15  feat: ProvenanceTracker live AQL connection, KGE fail-fas... ║
+    • 8f0ee70ece  2026-03-11  fix(training): close all acceptance criteria gaps from AQ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

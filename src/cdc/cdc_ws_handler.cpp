@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cdc_ws_handler.cpp                                 ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:14:39                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-06 04:14:56                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • c410b12cc  2026-03-15  fix(cdc): address code review feedback - clarify ack_key ... ║
-    • f9a6d3a60  2026-03-15  feat(cdc): integrate ConsumerGroupManager into CdcWebSock... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 13aae88f8  2026-02-24  fix(cdc): audit fixes — cdc_ws_overflow_total metric, cdc... ║
-    • 6d03c85c7  2026-02-24  feat(cdc): WebSocket transport for /v2/cdc/stream with at... ║
+    • c410b12cc7  2026-03-15  fix(cdc): address code review feedback - clarify ack_key ... ║
+    • f9a6d3a601  2026-03-15  feat(cdc): integrate ConsumerGroupManager into CdcWebSock... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 13aae88f89  2026-02-24  fix(cdc): audit fixes — cdc_ws_overflow_total metric, cdc... ║
+    • 6d03c85c7f  2026-02-24  feat(cdc): WebSocket transport for /v2/cdc/stream with at... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

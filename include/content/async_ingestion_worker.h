@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            async_ingestion_worker.h                           ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:06:46                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:06:22                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-    • 787af3dc1  2026-03-16  feat(content): implement YAML config loading and user_con... ║
-    • 6d9fa9a16  2026-03-12  Remove WordPress plugins/docs, update worker ║
-    • 517f27fd7  2026-03-11  feat(content): Add back-pressure metrics for ingestStream... ║
-    • fd07379dd  2026-03-11  feat(content): implement back-pressure in async_ingestion... ║
+    • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
+    • 787af3dc11  2026-03-16  feat(content): implement YAML config loading and user_con... ║
+    • 6d9fa9a163  2026-03-12  Remove WordPress plugins/docs, update worker ║
+    • 517f27fd73  2026-03-11  feat(content): Add back-pressure metrics for ingestStream... ║
+    • fd07379dde  2026-03-11  feat(content): implement back-pressure in async_ingestion... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

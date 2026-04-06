@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            data_lineage.h                                     ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:07:22                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-06 04:07:01                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,10 +14,10 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • c9b77cb47  2026-02-25  feat(governance): implement AI/ML model governance with t... ║
-    • 2baf9f860  2026-02-25  fix(governance): code audit fixes for data_lineage.h ║
-    • 5a3c43579  2026-02-25  feat(governance): implement data lineage tracking for gov... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • c9b77cb477  2026-02-25  feat(governance): implement AI/ML model governance with t... ║
+    • 2baf9f8604  2026-02-25  fix(governance): code audit fixes for data_lineage.h ║
+    • 5a3c435795  2026-02-25  feat(governance): implement data lineage tracking for gov... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

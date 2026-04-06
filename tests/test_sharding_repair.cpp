@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_sharding_repair.cpp                           ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:33:48                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:35:04                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,10 +14,10 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 35b0161a0  2026-03-13  fix(sharding): wire IOPS throttle and GPU flag into Shard... ║
-    • f205c3d0d  2026-03-13  fix(sharding): address code review feedback - capture sca... ║
-    • 096960f50  2026-03-13  feat(sharding): implement Reed-Solomon repair engine para... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 35b0161a0f  2026-03-13  fix(sharding): wire IOPS throttle and GPU flag into Shard... ║
+    • f205c3d0d1  2026-03-13  fix(sharding): address code review feedback - capture sca... ║
+    • 096960f501  2026-03-13  feat(sharding): implement Reed-Solomon repair engine para... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

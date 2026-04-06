@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            feature_flags.cpp                                  ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:17:55                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:18:24                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 1973a06f2  2026-02-28  feat(performance): Adaptive batch size tuning for LLM inf... ║
-    • 54593e02c  2026-02-27  feat(performance): AVX-512 SIMD path for vector distance ... ║
-    • da9b09bcc  2026-02-25  chore: code-audit fixes - update header metadata, remove ... ║
-    • 78e4e67bb  2026-02-25  feat(performance): per-query cost model integration with ... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 1973a06f27  2026-02-28  feat(performance): Adaptive batch size tuning for LLM inf... ║
+    • 54593e02cb  2026-02-27  feat(performance): AVX-512 SIMD path for vector distance ... ║
+    • da9b09bccc  2026-02-25  chore: code-audit fixes - update header metadata, remove ... ║
+    • 78e4e67bbc  2026-02-25  feat(performance): per-query cost model integration with ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

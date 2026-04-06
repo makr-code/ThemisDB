@@ -3,21 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            global_transaction_manager.h                       ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:12:34                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-06 04:12:33                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     382                                            ║
+    • Total Lines:     383                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 39ac8c3ef  2026-03-20  Split default-arg constructors into overloads ║
-    • 0f5ac9ce5  2026-03-10  feat(transaction): register 4 missing focused test target... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • d928a3fdd  2026-03-01  feat(transaction): Add GlobalTransactionManager for multi... ║
+    • 39ac8c3efe  2026-03-20  Split default-arg constructors into overloads ║
+    • 0f5ac9ce56  2026-03-10  feat(transaction): register 4 missing focused test target... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • d928a3fddc  2026-03-01  feat(transaction): Add GlobalTransactionManager for multi... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            logical_replication.cpp                            ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:19:06                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-04-06 04:19:38                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 67965456c  2026-03-22  Add constructors with default config for various classes ... ║
-    • 16aed6bb0  2026-03-15  refactor: enhance modular build configuration and improve... ║
-    • bb58b60db  2026-03-14  Respect parallel_decoding config and document fallback be... ║
-    • ac49d216f  2026-03-14  adjust row filter warning and temp dir uniqueness ║
-    • d2968d487  2026-03-14  tighten logical replication diagnostics and randomness ║
+    • 67965456c8  2026-03-22  Add constructors with default config for various classes ... ║
+    • 16aed6bb00  2026-03-15  refactor: enhance modular build configuration and improve... ║
+    • bb58b60db0  2026-03-14  Respect parallel_decoding config and document fallback be... ║
+    • ac49d216f6  2026-03-14  adjust row filter warning and temp dir uniqueness ║
+    • d2968d4872  2026-03-14  tighten logical replication diagnostics and randomness ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

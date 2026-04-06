@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            knowledge_graph_enricher.cpp                       ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:20:58                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:21:35                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 2                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • f9bd87798  2026-03-15  feat: ProvenanceTracker live AQL connection, KGE fail-fas... ║
-    • 26e49f8ba  2026-03-11  fix: wire include_guidance in enrichSample; expose findRe... ║
-    • b060c0cbc  2026-03-11  fix(training): guard findSimilarDocuments against max_res... ║
-    • c5396a31a  2026-03-11  feat(training): wire findSimilarDocuments to VectorIndexM... ║
-    • ce712594b  2026-03-09  feat(training): Phase 3 enhancements - checkpoint manager... ║
+    • f9bd877988  2026-03-15  feat: ProvenanceTracker live AQL connection, KGE fail-fas... ║
+    • 26e49f8ba7  2026-03-11  fix: wire include_guidance in enrichSample; expose findRe... ║
+    • b060c0cbce  2026-03-11  fix(training): guard findSimilarDocuments against max_res... ║
+    • c5396a31a2  2026-03-11  feat(training): wire findSimilarDocuments to VectorIndexM... ║
+    • ce712594b0  2026-03-09  feat(training): Phase 3 enhancements - checkpoint manager... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

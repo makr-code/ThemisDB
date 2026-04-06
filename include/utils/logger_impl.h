@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            logger_impl.h                                      ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:12:57                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:12:57                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,8 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • e683223e3  2026-02-23  feat(core): add Logger::getLevel() and fix level-aware me... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • e683223e33  2026-02-23  feat(core): add Logger::getLevel() and fix level-aware me... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

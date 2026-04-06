@@ -3,21 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            lora_api_handler.h                                 ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:11:12                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:11:06                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     235                                            ║
+    • Total Lines:     238                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 490de27f0  2026-03-26  fix: implement all P0/P1 blockers - QueryEngine, RAG, eth... ║
-    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-    • 2873683f7  2026-03-18  Changes before error encountered         ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 490de27f06  2026-03-26  fix: implement all P0/P1 blockers - QueryEngine, RAG, eth... ║
+    • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
+    • 2873683f74  2026-03-18  Changes before error encountered        ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

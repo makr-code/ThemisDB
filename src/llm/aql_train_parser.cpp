@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            aql_train_parser.cpp                               ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:16:53                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-06 04:17:19                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • f82bf2ae9  2026-03-04  Refactor tenant manager tests and add new test cases ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 5e637e76d  2026-02-24  AQL: rename distributed training struct  ║
-    • 9d6907d17  2026-02-23  fix: remove duplicate include and replace magic number in... ║
-    • 43fff097c  2026-02-23  feat(aql): fine-tuned local LoRA adapter for ThemisDB-spe... ║
+    • f82bf2ae9f  2026-03-04  Refactor tenant manager tests and add new test cases ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 5e637e76de  2026-02-24  AQL: rename distributed training struct ║
+    • 9d6907d17c  2026-02-23  fix: remove duplicate include and replace magic number in... ║
+    • 43fff097c8  2026-02-23  feat(aql): fine-tuned local LoRA adapter for ThemisDB-spe... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

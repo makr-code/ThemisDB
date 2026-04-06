@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            parquet_exporter.cpp                               ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:15:31                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-06 04:15:51                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 3db37eb45  2026-03-10  feat(exporters): implement EXP-001 PolicyEngine auth, EXP... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • d2bec4ef7  2026-02-27  feat(exporters): implement AQL predicate filtering for ex... ║
-    • 89cdebdf9  2026-02-23  audit(exporters): fulfill all audit items for Parquet export ║
-    • c7c509d73  2026-02-22  feat(exporters): add Parquet export for training datasets ║
+    • 3db37eb452  2026-03-10  feat(exporters): implement EXP-001 PolicyEngine auth, EXP... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • d2bec4ef79  2026-02-27  feat(exporters): implement AQL predicate filtering for ex... ║
+    • 89cdebdf94  2026-02-23  audit(exporters): fulfill all audit items for Parquet export ║
+    • c7c509d739  2026-02-22  feat(exporters): add Parquet export for training datasets ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

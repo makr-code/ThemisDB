@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            streaming_window.cpp                               ║
-  Version:         0.0.21                                             ║
-  Last Modified:   2026-03-30 04:13:57                                ║
+  Version:         0.0.22                                             ║
+  Last Modified:   2026-04-06 04:14:13                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 17, Stubs: 0                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 248ee0806  2026-03-19  Changes before error encountered         ║
-    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-    • 5706ac4f3  2026-03-18  fix(analytics): streaming_window — configurable expiry in... ║
-    • f82bf2ae9  2026-03-04  Refactor tenant manager tests and add new test cases ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 248ee0806f  2026-03-19  Changes before error encountered        ║
+    • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
+    • 5706ac4f36  2026-03-18  fix(analytics): streaming_window — configurable expiry in... ║
+    • f82bf2ae9f  2026-03-04  Refactor tenant manager tests and add new test cases ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ⚠️  Needs Work                                              ║
 ╚═════════════════════════════════════════════════════════════════════╝

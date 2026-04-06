@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            async_job_api_handler.cpp                          ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:19:40                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-06 04:20:14                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-    • bc826baaf  2026-03-17  fix(server): address review comments - namespace, deadloc... ║
-    • ec399a541  2026-03-16  Changes before error encountered         ║
-    • 4b3823144  2026-03-16  Changes before error encountered         ║
-    • a56ed533e  2026-03-11  fix(tracing): remove spans from helper/utility methods (o... ║
+    • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
+    • bc826baaf1  2026-03-17  fix(server): address review comments - namespace, deadloc... ║
+    • ec399a5418  2026-03-16  Changes before error encountered        ║
+    • 4b38231449  2026-03-16  Changes before error encountered        ║
+    • a56ed533eb  2026-03-11  fix(tracing): remove spans from helper/utility methods (o... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

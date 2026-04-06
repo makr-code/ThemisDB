@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            inmemory_secrets.h                                 ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-30 04:06:57                                ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-04-06 04:06:34                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,7 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 090f93ef2  2026-03-22  feat(core): implement InMemorySecrets and EnvSecretsProvi... ║
+    • 090f93ef21  2026-03-22  feat(core): implement InMemorySecrets and EnvSecretsProvi... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

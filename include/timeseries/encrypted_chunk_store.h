@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            encrypted_chunk_store.h                            ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:12:21                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-04-06 04:12:19                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,9 +14,9 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • c7373858e  2026-03-14  fix(timeseries): address all PR review comments on chunk-... ║
-    • e6b1e7c6d  2026-03-14  refactor(timeseries): address code review feedback on chu... ║
-    • a0ac59009  2026-03-14  feat(timeseries): implement chunk-level AES-256-GCM encry... ║
+    • c7373858e3  2026-03-14  fix(timeseries): address all PR review comments on chunk-... ║
+    • e6b1e7c6d7  2026-03-14  refactor(timeseries): address code review feedback on chu... ║
+    • a0ac59009f  2026-03-14  feat(timeseries): implement chunk-level AES-256-GCM encry... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

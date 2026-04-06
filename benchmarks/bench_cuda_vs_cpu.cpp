@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_cuda_vs_cpu.cpp                              ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:04:04                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-06 04:03:28                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,9 +14,9 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • afd15512d  2026-02-23  test(acceleration): add unit tests for CPU dispatch funct... ║
-    • 83905a972  2026-02-23  feat(acceleration): add CUDA vs CPU benchmark harness (Is... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • afd15512dd  2026-02-23  test(acceleration): add unit tests for CPU dispatch funct... ║
+    • 83905a9726  2026-02-23  feat(acceleration): add CUDA vs CPU benchmark harness (Is... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,20 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            gorilla_simd.cpp                                   ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:20:54                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-04-06 04:21:30                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     385                                            ║
+    • Total Lines:     386                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 022228c57  2026-03-20  Changes before error encountered         ║
-    • b2d0e5638  2026-03-13  fix(gorilla_simd): remove dead code, fix logic bug, drop ... ║
-    • f151b2a1b  2026-03-13  feat(timeseries): vectorised Gorilla chunk decoder with S... ║
+    • 022228c572  2026-03-20  Changes before error encountered        ║
+    • b2d0e5638e  2026-03-13  fix(gorilla_simd): remove dead code, fix logic bug, drop ... ║
+    • f151b2a1bc  2026-03-13  feat(timeseries): vectorised Gorilla chunk decoder with S... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

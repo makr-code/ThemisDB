@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            orphan_detector.cpp                                ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:20:18                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:20:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,10 +14,10 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • eed24c44d  2026-03-15  feat: Wire OrphanDetector to DistributedCoordinator trans... ║
-    • 7a60ba06c  2026-03-14  refactor: address code review feedback - extract helper, ... ║
-    • 2bbac9e44  2026-03-14  feat: implement Percolator-style distributed transaction ... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • eed24c44d2  2026-03-15  feat: Wire OrphanDetector to DistributedCoordinator trans... ║
+    • 7a60ba06cb  2026-03-14  refactor: address code review feedback - extract helper, ... ║
+    • 2bbac9e442  2026-03-14  feat: implement Percolator-style distributed transaction ... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

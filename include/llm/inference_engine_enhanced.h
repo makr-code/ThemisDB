@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            inference_engine_enhanced.h                        ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:08:21                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:08:03                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-    • d1f0cf3ca  2026-03-19  fix(llm): address all PR review issues - sentinel deliver... ║
-    • cdc974975  2026-03-18  Changes before error encountered         ║
-    • c3fa68410  2026-03-11  fix(llm): audit pass 2 - fix generated_text, prompt-key c... ║
-    • 5f9187ff6  2026-03-11  feat(llm): implement KV-cache prewarming with embedding-b... ║
+    • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
+    • d1f0cf3ca5  2026-03-19  fix(llm): address all PR review issues - sentinel deliver... ║
+    • cdc9749757  2026-03-18  Changes before error encountered        ║
+    • c3fa684101  2026-03-11  fix(llm): audit pass 2 - fix generated_text, prompt-key c... ║
+    • 5f9187ff60  2026-03-11  feat(llm): implement KV-cache prewarming with embedding-b... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            lora_api_handler.cpp                               ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:19:51                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:20:25                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1468                                           ║
+    • Total Lines:     1471                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 13e4bb297  2026-03-26  Enhance GraphQL Performance Tests and Saga Operation Comp... ║
-    • afc6b2738  2026-03-26  fix: Resolve BSI/RAG production blockers – JWT, mTLS, CRL... ║
-    • ac1c6ff53  2026-03-26  fix: thread pool priority queue + latency, lora memory/ba... ║
-    • 490de27f0  2026-03-26  fix: implement all P0/P1 blockers - QueryEngine, RAG, eth... ║
-    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
+    • 13e4bb2974  2026-03-26  Enhance GraphQL Performance Tests and Saga Operation Comp... ║
+    • afc6b2738b  2026-03-26  fix: Resolve BSI/RAG production blockers – JWT, mTLS, CRL... ║
+    • ac1c6ff53e  2026-03-26  fix: thread pool priority queue + latency, lora memory/ba... ║
+    • 490de27f06  2026-03-26  fix: implement all P0/P1 blockers - QueryEngine, RAG, eth... ║
+    • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_batch_nl_to_aql_translation.cpp               ║
-  Version:         0.0.28                                             ║
-  Last Modified:   2026-03-30 04:24:39                                ║
+  Version:         0.0.29                                             ║
+  Last Modified:   2026-04-06 04:25:27                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,10 +14,10 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 16aed6bb0  2026-03-15  refactor: enhance modular build configuration and improve... ║
-    • 2e566adfc  2026-03-14  fix(aql): bounded worker pool - fix dangling ref, unbound... ║
-    • db5df3fde  2026-03-14  feat(aql): parallel execution of translateBatchNLToAQL() ... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 16aed6bb00  2026-03-15  refactor: enhance modular build configuration and improve... ║
+    • 2e566adfce  2026-03-14  fix(aql): bounded worker pool - fix dangling ref, unbound... ║
+    • db5df3fde9  2026-03-14  feat(aql): parallel execution of translateBatchNLToAQL() ... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

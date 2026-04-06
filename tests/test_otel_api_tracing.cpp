@@ -3,20 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_otel_api_tracing.cpp                          ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:30:43                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-04-06 04:31:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1519                                           ║
+    • Total Lines:     1529                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • c7d27e03f  2026-03-11  feat(tracing): instrument all 64 API handlers + 120 new s... ║
-    • 3b9d18c74  2026-03-11  fix(tracing): update line count metadata in test_otel_api... ║
-    • 1b86d845d  2026-03-11  feat(tracing): add OpenTelemetry spans to all major API h... ║
+    • 5bee4e8e41  2026-04-03  Implement Disaster Recovery Manager and associated tests ║
+    • c7d27e03f2  2026-03-11  feat(tracing): instrument all 64 API handlers + 120 new s... ║
+    • 3b9d18c740  2026-03-11  fix(tracing): update line count metadata in test_otel_api... ║
+    • 1b86d845d2  2026-03-11  feat(tracing): add OpenTelemetry spans to all major API h... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

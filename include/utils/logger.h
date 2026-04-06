@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            logger.h                                           ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:12:57                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:12:57                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • a3ec4aa9e  2026-03-10  refactor: update tenant metrics handling and improve modu... ║
-    • 15a0bb670  2026-03-09  feat(utils): add BloomFilter, ConsistentHashRing, RateLim... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 5cc90811f  2026-02-23  fix(core): trace ID injection into JSON structured logs; ... ║
-    • e683223e3  2026-02-23  feat(core): add Logger::getLevel() and fix level-aware me... ║
+    • a3ec4aa9e9  2026-03-10  refactor: update tenant metrics handling and improve modu... ║
+    • 15a0bb6700  2026-03-09  feat(utils): add BloomFilter, ConsistentHashRing, RateLim... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 5cc90811fc  2026-02-23  fix(core): trace ID injection into JSON structured logs; ... ║
+    • e683223e33  2026-02-23  feat(core): add Logger::getLevel() and fix level-aware me... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

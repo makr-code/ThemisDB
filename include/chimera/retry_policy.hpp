@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            retry_policy.hpp                                   ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:06:43                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-04-06 04:06:18                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,8 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 353ab7838  2026-03-12  fix(chimera): address all review comments on retry policy ║
-    • 350ef6ad7  2026-03-12  feat(chimera): implement Error Recovery and Retry Logic (... ║
+    • 353ab78386  2026-03-12  fix(chimera): address all review comments on retry policy ║
+    • 350ef6ad71  2026-03-12  feat(chimera): implement Error Recovery and Retry Logic (... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

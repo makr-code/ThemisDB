@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ts_auto_buffer.h                                   ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:12:22                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:12:20                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • d9e68edf7  2026-03-15  fix: address code review - INVALID_INPUT status, test acc... ║
-    • 822b0afce  2026-03-15  feat(timeseries): implement TSStore single-point insert b... ║
-    • a188b47e9  2026-03-09  fix(timeseries): audit fixes - getStats regression, backp... ║
-    • 9bdb7e29c  2026-03-09  fix(timeseries): address code review - improve FlushContr... ║
-    • fe42ba76e  2026-03-09  feat(timeseries): add FlushController adaptive flush, Dow... ║
+    • d9e68edf71  2026-03-15  fix: address code review - INVALID_INPUT status, test acc... ║
+    • 822b0afce6  2026-03-15  feat(timeseries): implement TSStore single-point insert b... ║
+    • a188b47e9a  2026-03-09  fix(timeseries): audit fixes - getStats regression, backp... ║
+    • 9bdb7e29c1  2026-03-09  fix(timeseries): address code review - improve FlushContr... ║
+    • fe42ba76e2  2026-03-09  feat(timeseries): add FlushController adaptive flush, Dow... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

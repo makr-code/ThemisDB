@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_ingestion_plugin_api.cpp                      ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:28:43                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-06 04:29:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,9 +14,9 @@
     • Open Issues:     TODOs: 0, Stubs: 22                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 03b2f7429  2026-03-09  fix(plugins): resolve FUTURE_ENHANCEMENTS inconsistencies... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 90813ef53  2026-02-28  feat(ingestion): Plugin API for third-party source connec... ║
+    • 03b2f7429b  2026-03-09  fix(plugins): resolve FUTURE_ENHANCEMENTS inconsistencies... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 90813ef53e  2026-02-28  feat(ingestion): Plugin API for third-party source connec... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: 📝 Draft / Stub                                              ║
 ╚═════════════════════════════════════════════════════════════════════╝

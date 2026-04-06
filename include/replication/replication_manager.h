@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            replication_manager.h                              ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:10:34                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:10:25                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 42e48dbc3  2026-03-15  fix(replication): audit geo-replication – fix SESSION exp... ║
-    • 7cd7172d7  2026-03-14  feat(replication): add GeoReplicationManager with consist... ║
-    • 4a853813e  2026-03-13  fix(replication): audit fixes — honor bidirectional_sync/... ║
-    • 23a0696d1  2026-03-13  feat(replication): implement BidirectionalReplicationMana... ║
-    • 8db855354  2026-03-13  fix(replication): wire IArchivalBackend, fix empty-key by... ║
+    • 42e48dbc3c  2026-03-15  fix(replication): audit geo-replication – fix SESSION exp... ║
+    • 7cd7172d73  2026-03-14  feat(replication): add GeoReplicationManager with consist... ║
+    • 4a853813e8  2026-03-13  fix(replication): audit fixes — honor bidirectional_sync/... ║
+    • 23a0696d15  2026-03-13  feat(replication): implement BidirectionalReplicationMana... ║
+    • 8db8553546  2026-03-13  fix(replication): wire IArchivalBackend, fix empty-key by... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

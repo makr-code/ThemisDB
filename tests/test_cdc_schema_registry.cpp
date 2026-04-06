@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cdc_schema_registry.cpp                       ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:25:21                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-06 04:26:12                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,10 +14,10 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • a64247126  2026-03-08  Refactor code structure for improved readability and main... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • f8098a60c  2026-02-25  fix(cdc): remove unused includes; add TRANSACTION_COMMIT/... ║
-    • 87c62f731  2026-02-25  feat(cdc): schema-aware CDC with Avro/Protobuf schema reg... ║
+    • a64247126f  2026-03-08  Refactor code structure for improved readability and main... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • f8098a60cb  2026-02-25  fix(cdc): remove unused includes; add TRANSACTION_COMMIT/... ║
+    • 87c62f7315  2026-02-25  feat(cdc): schema-aware CDC with Avro/Protobuf schema reg... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_gpu_olap_accelerator.cpp                      ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:27:37                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-06 04:28:35                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,8 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 9f1c0c437  2026-02-24  feat(analytics): GPU-accelerated OLAP aggregations via OL... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 9f1c0c4378  2026-02-24  feat(analytics): GPU-accelerated OLAP aggregations via OL... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

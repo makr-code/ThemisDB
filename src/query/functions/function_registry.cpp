@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            function_registry.cpp                              ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:18:28                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:18:58                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,9 +14,9 @@
     • Open Issues:     TODOs: 1, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 3da4977c8  2026-03-14  fix(aql): address classify-bridge PR review comments ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 5239b2166  2026-02-24  Code audit: register betweenness centrality at startup an... ║
+    • 3da4977c8c  2026-03-14  fix(aql): address classify-bridge PR review comments ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 5239b2166d  2026-02-24  Code audit: register betweenness centrality at startup an... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

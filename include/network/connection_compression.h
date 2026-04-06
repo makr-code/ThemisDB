@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            connection_compression.h                           ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:08:51                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-06 04:08:35                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,10 +14,10 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 0ee0d5725  2026-03-14  fix(network): address PR review comments on wire protocol... ║
-    • 543f66e65  2026-03-14  feat(network): implement wire protocol performance optimi... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • c3655c7e6  2026-02-25  feat(network): implement LZ4 and Zstd connection-level co... ║
+    • 0ee0d57254  2026-03-14  fix(network): address PR review comments on wire protocol... ║
+    • 543f66e654  2026-03-14  feat(network): implement wire protocol performance optimi... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • c3655c7e64  2026-02-25  feat(network): implement LZ4 and Zstd connection-level co... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

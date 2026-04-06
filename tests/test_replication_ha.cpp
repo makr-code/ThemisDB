@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_replication_ha.cpp                            ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:32:52                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:34:04                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🔴 ALPHA                                        ║
     • Quality Score:   31.0/100                                       ║
-    • Total Lines:     5467                                           ║
+    • Total Lines:     5584                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 387fde93e  2026-03-13  feat(replication): implement MultiTierReplicationManager ... ║
-    • 4a853813e  2026-03-13  fix(replication): audit fixes — honor bidirectional_sync/... ║
-    • 23a0696d1  2026-03-13  feat(replication): implement BidirectionalReplicationMana... ║
-    • 8db855354  2026-03-13  fix(replication): wire IArchivalBackend, fix empty-key by... ║
-    • 006c6a07b  2026-03-13  fix(tests): clarify LCG constant comment in AlreadyCompre... ║
+    • 5bee4e8e41  2026-04-03  Implement Disaster Recovery Manager and associated tests ║
+    • 25f9a09910  2026-04-02  Refactor tests and improve assertions   ║
+    • 64a9ae4eb6  2026-03-31  feat: enhance cache warmup logic and improve replication ... ║
+    • 387fde93e0  2026-03-13  feat(replication): implement MultiTierReplicationManager ... ║
+    • 4a853813e8  2026-03-13  fix(replication): audit fixes — honor bidirectional_sync/... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: 🚧 Early Development                                         ║
 ╚═════════════════════════════════════════════════════════════════════╝

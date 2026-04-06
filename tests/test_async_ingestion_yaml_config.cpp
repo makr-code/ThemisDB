@@ -3,19 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_async_ingestion_yaml_config.cpp               ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-30 04:24:26                                ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-04-06 04:25:13                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     430                                            ║
+    • Total Lines:     455                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-    • 787af3dc1  2026-03-16  feat(content): implement YAML config loading and user_con... ║
+    • d331f64d17  2026-04-01  feat: add support for merge operator detection in Changef... ║
+    • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
+    • 787af3dc11  2026-03-16  feat(content): implement YAML config loading and user_con... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_export_encryption.cpp                         ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:22:24                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-06 04:23:04                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 1, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 43a91f179  2026-03-13  feat(metrics): add metrics collector for credential-stuff... ║
-    • ac6890aa5  2026-03-11  fix(exporters): EXPORT_DENIED severity MEDIUM, authorizat... ║
-    • 2dba94765  2026-03-11  feat(exporters): PolicyEngine export authorization with a... ║
-    • f82bf2ae9  2026-03-04  Refactor tenant manager tests and add new test cases ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 43a91f1793  2026-03-13  feat(metrics): add metrics collector for credential-stuff... ║
+    • ac6890aa58  2026-03-11  fix(exporters): EXPORT_DENIED severity MEDIUM, authorizat... ║
+    • 2dba947651  2026-03-11  feat(exporters): PolicyEngine export authorization with a... ║
+    • f82bf2ae9f  2026-03-04  Refactor tenant manager tests and add new test cases ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_opengl_backend.cpp                            ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:30:37                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-04-06 04:31:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,8 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 4b2fdfa0e  2026-03-11  fix(acceleration): Wire OpenGLVectorBackend into BackendR... ║
-    • f6207665d  2026-03-11  feat(acceleration): Implement full OpenGL 4.3+ Compute Sh... ║
+    • 4b2fdfa0e1  2026-03-11  fix(acceleration): Wire OpenGLVectorBackend into BackendR... ║
+    • f6207665d0  2026-03-11  feat(acceleration): Implement full OpenGL 4.3+ Compute Sh... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

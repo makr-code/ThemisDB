@@ -3,21 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            main_server.cpp                                    ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:17:17                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:17:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  ⚫ DRAFT                                        ║
     • Quality Score:   11.0/100                                       ║
-    • Total Lines:     2289                                           ║
+    • Total Lines:     2302                                           ║
     • Open Issues:     TODOs: 0, Stubs: 17                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • c9b143394  2026-03-15  feat(server): inject live ShardingManager into HttpServer... ║
-    • 985dc57d9  2026-03-14  fix: harden config metrics exporter compatibility ║
-    • 535cee36d  2026-03-13  feat: export config metrics via Prometheus registry ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 5c0bdc6d43  2026-04-04  hotfix: address code-review feedback (port consistency, c... ║
+    • eb00b82270  2026-04-04  hotfix: prevent SIGSEGV in RocksDB/LLM init on Docker sta... ║
+    • c9b1433946  2026-03-15  feat(server): inject live ShardingManager into HttpServer... ║
+    • 985dc57d92  2026-03-14  fix: harden config metrics exporter compatibility ║
+    • 535cee36dc  2026-03-13  feat: export config metrics via Prometheus registry ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: 📝 Draft / Stub                                              ║
 ╚═════════════════════════════════════════════════════════════════════╝

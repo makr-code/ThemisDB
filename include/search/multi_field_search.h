@@ -3,21 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            multi_field_search.h                               ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:10:43                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-06 04:10:34                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     175                                            ║
+    • Total Lines:     176                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 48fbf5b22  2026-03-21  Update search, temporal, and build artifacts ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 5aa6ea132  2026-02-28  fix(search): promote normalizeScores to public static, ad... ║
-    • bf06f5417  2026-02-28  feat(search): implement MultiFieldBoostedSearch for title... ║
+    • 48fbf5b222  2026-03-21  Update search, temporal, and build artifacts ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 5aa6ea1324  2026-02-28  fix(search): promote normalizeScores to public static, ad... ║
+    • bf06f54176  2026-02-28  feat(search): implement MultiFieldBoostedSearch for title... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

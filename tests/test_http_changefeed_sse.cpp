@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_http_changefeed_sse.cpp                       ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:28:16                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:29:16                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,9 +14,9 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 5a6955588  2026-03-11  chore(cdc): audit fixes - documentation, THEMIS_ENABLE_SS... ║
-    • b56122b39  2026-03-11  feat(cdc): extend at-least-once delivery guarantee to SSE... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 5a69555883  2026-03-11  chore(cdc): audit fixes - documentation, THEMIS_ENABLE_SS... ║
+    • b56122b397  2026-03-11  feat(cdc): extend at-least-once delivery guarantee to SSE... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            jwt_validator.cpp                                  ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:14:11                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:14:28                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 435595de1  2026-03-22  Changes before error encountered         ║
-    • 971a3c49d  2026-03-20  Build/test fixes and auth role mapping refactor ║
-    • 76eef4d70  2026-03-15  feat(auth): implement JWT scope extraction and role-to-sc... ║
-    • c97360e57  2026-03-15  fix(auth,scheduler): JWT scope enforcement, Kerberos role... ║
-    • 3071a3bb7  2026-03-12  fix(auth): address JWT JTI reviewer feedback ║
+    • 435595de1f  2026-03-22  Changes before error encountered        ║
+    • 971a3c49d5  2026-03-20  Build/test fixes and auth role mapping refactor ║
+    • 76eef4d701  2026-03-15  feat(auth): implement JWT scope extraction and role-to-sc... ║
+    • c97360e579  2026-03-15  fix(auth,scheduler): JWT scope enforcement, Kerberos role... ║
+    • 3071a3bb79  2026-03-12  fix(auth): address JWT JTI reviewer feedback ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

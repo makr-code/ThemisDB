@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            plugin_manager.h                                   ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:09:29                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:09:16                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 18598257e  2026-03-01  feat(plugins): add OciRegistryClient and loadPluginFromOc... ║
-    • 3d4510f1a  2026-02-28  fix(plugins): mark runtime plugin capability negotiation ... ║
-    • 88c2ff1ef  2026-02-28  feat(plugins): integrate PluginHealthMonitor into PluginM... ║
-    • d7e3e58b0  2026-02-28  feat(plugins): implement PluginManager::negotiateCapabili... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 18598257eb  2026-03-01  feat(plugins): add OciRegistryClient and loadPluginFromOc... ║
+    • 3d4510f1ac  2026-02-28  fix(plugins): mark runtime plugin capability negotiation ... ║
+    • 88c2ff1ef7  2026-02-28  feat(plugins): integrate PluginHealthMonitor into PluginM... ║
+    • d7e3e58b0d  2026-02-28  feat(plugins): implement PluginManager::negotiateCapabili... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

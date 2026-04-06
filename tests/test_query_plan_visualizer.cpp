@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_query_plan_visualizer.cpp                     ║
-  Version:         0.0.14                                             ║
-  Last Modified:   2026-03-30 04:32:05                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-06 04:33:15                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • fd89293cc  2026-02-21  fix(query): address code-review feedback – rename helper,... ║
-    • 96eb8b81b  2026-02-21  fix(query): code audit – 5 issues fixed in query_plan_vis... ║
-    • 55c3d58bd  2026-02-21  fix(query): escape DOT label special characters in toDOT ... ║
-    • 1b8d26881  2026-02-21  feat(query): implement query plan visualization API (EXPL... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • fd89293ccc  2026-02-21  fix(query): address code-review feedback – rename helper,... ║
+    • 96eb8b81b9  2026-02-21  fix(query): code audit – 5 issues fixed in query_plan_vis... ║
+    • 55c3d58bde  2026-02-21  fix(query): escape DOT label special characters in toDOT ... ║
+    • 1b8d268818  2026-02-21  feat(query): implement query plan visualization API (EXPL... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

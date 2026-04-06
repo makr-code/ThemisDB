@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_spatial_join.cpp                             ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:04:29                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-04-06 04:03:56                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,7 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 441ccba68  2026-03-13  feat(geo/bench): AC5 – add spatial join performance bench... ║
+    • 441ccba689  2026-03-13  feat(geo/bench): AC5 – add spatial join performance bench... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

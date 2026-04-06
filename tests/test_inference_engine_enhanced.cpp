@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_inference_engine_enhanced.cpp                 ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:28:31                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:29:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 2                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-    • d1f0cf3ca  2026-03-19  fix(llm): address all PR review issues - sentinel deliver... ║
-    • 3ea7ab4a4  2026-03-19  feat(llm): implement tool call parsing, submitStreaming, ... ║
-    • c3fa68410  2026-03-11  fix(llm): audit pass 2 - fix generated_text, prompt-key c... ║
-    • 5f9187ff6  2026-03-11  feat(llm): implement KV-cache prewarming with embedding-b... ║
+    • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
+    • d1f0cf3ca5  2026-03-19  fix(llm): address all PR review issues - sentinel deliver... ║
+    • 3ea7ab4a41  2026-03-19  feat(llm): implement tool call parsing, submitStreaming, ... ║
+    • c3fa684101  2026-03-11  fix(llm): audit pass 2 - fix generated_text, prompt-key c... ║
+    • 5f9187ff60  2026-03-11  feat(llm): implement KV-cache prewarming with embedding-b... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            knowledge_graph_retriever.h                        ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:10:20                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-06 04:10:10                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,9 +14,9 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 33a346e4e  2026-02-25  Refactor code structure and remove redundant code blocks ... ║
-    • c5ef77899  2026-02-24  feat(rag): implement knowledge graph-augmented retrieval ... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 33a346e4e2  2026-02-25  Refactor code structure and remove redundant code blocks ... ║
+    • c5ef778993  2026-02-24  feat(rag): implement knowledge graph-augmented retrieval ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

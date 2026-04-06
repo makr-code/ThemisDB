@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bi_temporal.cpp                                    ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:20:38                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:21:13                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,10 +14,10 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 6e698b5db  2026-03-12  fix(temporal): address PR review feedback on BiTemporalTable ║
-    • bf380a1af  2026-03-12  feat(temporal): add gap detection, uniqueness constraints... ║
-    • 6e8942ed4  2026-03-09  feat(temporal): implement bitemporal joins and SEQUENCED/... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 6e698b5dbb  2026-03-12  fix(temporal): address PR review feedback on BiTemporalTable ║
+    • bf380a1af8  2026-03-12  feat(temporal): add gap detection, uniqueness constraints... ║
+    • 6e8942ed4f  2026-03-09  feat(temporal): implement bitemporal joins and SEQUENCED/... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

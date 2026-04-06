@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_rag_uncovered.cpp                             ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-03-30 04:32:40                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-04-06 04:33:51                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,8 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • edcfeb984  2026-03-11  feat: add scripts for auditing and reconciling GitHub iss... ║
-    • f24988a56  2026-03-03  test: Wave 3 - add tests for query cache manager, transac... ║
+    • edcfeb9848  2026-03-11  feat: add scripts for auditing and reconciling GitHub iss... ║
+    • f24988a562  2026-03-03  test: Wave 3 - add tests for query cache manager, transac... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

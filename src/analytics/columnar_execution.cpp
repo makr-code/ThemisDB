@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            columnar_execution.cpp                             ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:13:51                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-06 04:14:06                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1163                                           ║
+    • Total Lines:     1165                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 971a3c49d  2026-03-20  Build/test fixes and auth role mapping refactor ║
-    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-    • d16f38e0d  2026-03-18  fix(analytics): address all 5 code review issues — null t... ║
-    • 89af7a908  2026-03-17  perf(analytics): cache AVX-512 CPUID check in static cons... ║
-    • e51706737  2026-03-17  feat(analytics): add AVX-512 and ARM NEON SIMD vectorizat... ║
+    • 971a3c49d5  2026-03-20  Build/test fixes and auth role mapping refactor ║
+    • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
+    • d16f38e0d1  2026-03-18  fix(analytics): address all 5 code review issues — null t... ║
+    • 89af7a908e  2026-03-17  perf(analytics): cache AVX-512 CPUID check in static cons... ║
+    • e517067372  2026-03-17  feat(analytics): add AVX-512 and ARM NEON SIMD vectorizat... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

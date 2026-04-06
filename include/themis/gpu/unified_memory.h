@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            unified_memory.h                                   ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:12:16                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-06 04:12:14                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,9 +14,9 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 0262b492b  2026-02-26  fix(gpu): resolve 3 bugs and 1 doc issue found in code audit ║
-    • c9cd31c32  2026-02-26  feat(gpu): implement unified memory support (CPU+GPU shar... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 0262b492b0  2026-02-26  fix(gpu): resolve 3 bugs and 1 doc issue found in code audit ║
+    • c9cd31c32a  2026-02-26  feat(gpu): implement unified memory support (CPU+GPU shar... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

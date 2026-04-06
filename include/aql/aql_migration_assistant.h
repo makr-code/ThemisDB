@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            aql_migration_assistant.h                          ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:05:44                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-06 04:05:17                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,10 +14,10 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 7e4fb1199  2026-02-23  fix(aql): fix multi-occurrence rewrites, false-early-exit... ║
-    • 98506050d  2026-02-23  fix(aql): correct WITHIN documentation to match ST_DISTAN... ║
-    • f0c71dd49  2026-02-23  feat(aql): implement AQL query migration assistant (Arang... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 7e4fb11991  2026-02-23  fix(aql): fix multi-occurrence rewrites, false-early-exit... ║
+    • 98506050d1  2026-02-23  fix(aql): correct WITHIN documentation to match ST_DISTAN... ║
+    • f0c71dd497  2026-02-23  feat(aql): implement AQL query migration assistant (Arang... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

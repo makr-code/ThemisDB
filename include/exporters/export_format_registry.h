@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            export_format_registry.h                           ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:07:09                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-04-06 04:06:46                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,8 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 3d3659d8f  2026-03-11  feat(exporters): register format templates in ExportForma... ║
-    • 3db37eb45  2026-03-10  feat(exporters): implement EXP-001 PolicyEngine auth, EXP... ║
+    • 3d3659d8fe  2026-03-11  feat(exporters): register format templates in ExportForma... ║
+    • 3db37eb452  2026-03-10  feat(exporters): implement EXP-001 PolicyEngine auth, EXP... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

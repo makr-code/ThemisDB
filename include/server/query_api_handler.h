@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            query_api_handler.h                                ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:11:17                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:11:11                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,10 +14,10 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 64ea7ae22  2026-02-27  Update metadata annotations: resolve Stubs:1 in query_api... ║
-    • db120052b  2026-02-23  feat(api): Implement SSE/WebSocket streaming query result... ║
-    • 617224a49  2026-02-23  feat(security): implement dynamic data masking for PII fi... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 64ea7ae225  2026-02-27  Update metadata annotations: resolve Stubs:1 in query_api... ║
+    • db120052be  2026-02-23  feat(api): Implement SSE/WebSocket streaming query result... ║
+    • 617224a490  2026-02-23  feat(security): implement dynamic data masking for PII fi... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

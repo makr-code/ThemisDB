@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_index_manager_di.cpp                          ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:28:30                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:29:30                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,10 +14,10 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 49aa9b058  2026-03-02  Add modules, extraction retries, and test fixes ║
-    • bb886db93  2026-02-28  feat(index): implement SecondaryIndexAdapter for partial/... ║
-    • 28a4b23b9  2026-02-23  Refactor tests and update error handling ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 49aa9b0586  2026-03-02  Add modules, extraction retries, and test fixes ║
+    • bb886db939  2026-02-28  feat(index): implement SecondaryIndexAdapter for partial/... ║
+    • 28a4b23b94  2026-02-23  Refactor tests and update error handling ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            jsonl_llm_exporter.cpp                             ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:15:30                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:15:50                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 44514d5a1  2026-03-15  feat(exporters): replace zlib with ZSTD as sole StreamWri... ║
-    • 2dba94765  2026-03-11  feat(exporters): PolicyEngine export authorization with a... ║
-    • a765a0369  2026-03-11  feat(exporters): add validate_template dry-run mode to ve... ║
-    • 3db37eb45  2026-03-10  feat(exporters): implement EXP-001 PolicyEngine auth, EXP... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 44514d5a18  2026-03-15  feat(exporters): replace zlib with ZSTD as sole StreamWri... ║
+    • 2dba947651  2026-03-11  feat(exporters): PolicyEngine export authorization with a... ║
+    • a765a03691  2026-03-11  feat(exporters): add validate_template dry-run mode to ve... ║
+    • 3db37eb452  2026-03-10  feat(exporters): implement EXP-001 PolicyEngine auth, EXP... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

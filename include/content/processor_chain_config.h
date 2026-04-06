@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            processor_chain_config.h                           ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:06:52                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-06 04:06:28                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,10 +14,10 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • d96f6838d  2026-02-28  feat(content): add chunking stage gate and VIDEO category... ║
-    • 6508e0611  2026-02-28  feat(content): Harden pipeline orchestration with per-sta... ║
-    • 43013e4ee  2026-02-27  Add configurable processing pipeline (processor chain) fo... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • d96f6838de  2026-02-28  feat(content): add chunking stage gate and VIDEO category... ║
+    • 6508e06112  2026-02-28  feat(content): Harden pipeline orchestration with per-sta... ║
+    • 43013e4ee0  2026-02-27  Add configurable processing pipeline (processor chain) fo... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_er_diagram_exporter.cpp                       ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:26:59                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-06 04:27:55                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,8 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • c9e3bb26f  2026-02-28  feat(metadata): add ERDiagramExporter for cross-collectio... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • c9e3bb26f5  2026-02-28  feat(metadata): add ERDiagramExporter for cross-collectio... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

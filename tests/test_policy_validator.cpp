@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_policy_validator.cpp                          ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:31:21                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-06 04:32:30                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,10 +14,10 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 641f86b5d  2026-02-28  fix(governance): detect overlapping access control rule c... ║
-    • 5a94aff9a  2026-02-25  fix: complete audit - fix detectOverlappingPermissions di... ║
-    • 6ebd71125  2026-02-25  fix: complete overlapping access control policy conflict ... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 641f86b5d9  2026-02-28  fix(governance): detect overlapping access control rule c... ║
+    • 5a94aff9a5  2026-02-25  fix: complete audit - fix detectOverlappingPermissions di... ║
+    • 6ebd711257  2026-02-25  fix: complete overlapping access control policy conflict ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

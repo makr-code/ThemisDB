@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_query_cancellation.cpp                        ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:23:28                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-04-06 04:24:12                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,9 +14,9 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 6d9fa9a16  2026-03-12  Remove WordPress plugins/docs, update worker ║
-    • edcfeb984  2026-03-11  feat: add scripts for auditing and reconciling GitHub iss... ║
-    • ab3b22a88  2026-03-09  feat(query): implement query cancellation via request ID ... ║
+    • 6d9fa9a163  2026-03-12  Remove WordPress plugins/docs, update worker ║
+    • edcfeb9848  2026-03-11  feat: add scripts for auditing and reconciling GitHub iss... ║
+    • ab3b22a88e  2026-03-09  feat(query): implement query cancellation via request ID ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

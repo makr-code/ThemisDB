@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            export_api_handler.cpp                             ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:19:45                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:20:19                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,10 +14,10 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • ef1605ac5  2026-03-11  fix(server): ExportApiHandler - 403 Forbidden for ERR_EXP... ║
-    • 1b86d845d  2026-03-11  feat(tracing): add OpenTelemetry spans to all major API h... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • dcf2eb787  2026-02-27  feat(exporters): audit fixes - AQL filter validation in A... ║
+    • ef1605ac5f  2026-03-11  fix(server): ExportApiHandler - 403 Forbidden for ERR_EXP... ║
+    • 1b86d845d2  2026-03-11  feat(tracing): add OpenTelemetry spans to all major API h... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • dcf2eb7877  2026-02-27  feat(exporters): audit fixes - AQL filter validation in A... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            external_scheduler_adapter.h                       ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:10:37                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-06 04:10:29                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,8 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 9ed4897df  2026-02-23  feat(scheduler): integrate Kubernetes CronJob and Airflow... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 9ed4897df0  2026-02-23  feat(scheduler): integrate Kubernetes CronJob and Airflow... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            classify_bridge.cpp                                ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:14:08                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-04-06 04:14:25                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,8 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 3da4977c8  2026-03-14  fix(aql): address classify-bridge PR review comments ║
-    • f62f9c89c  2026-03-14  feat(aql): wire detectIntentWithNativeNLP() to IClassifyF... ║
+    • 3da4977c8c  2026-03-14  fix(aql): address classify-bridge PR review comments ║
+    • f62f9c89c4  2026-03-14  feat(aql): wire detectIntentWithNativeNLP() to IClassifyF... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

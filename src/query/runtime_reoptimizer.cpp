@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            runtime_reoptimizer.cpp                            ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:18:39                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-06 04:19:09                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,9 +14,9 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • e3c5254ad  2026-03-01  fix(query): use historical average rows as fallback estim... ║
-    • 4f86bf5cd  2026-03-01  feat(query): implement RuntimeReoptimizer for adaptive qu... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • e3c5254ad0  2026-03-01  fix(query): use historical average rows as fallback estim... ║
+    • 4f86bf5cd0  2026-03-01  feat(query): implement RuntimeReoptimizer for adaptive qu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

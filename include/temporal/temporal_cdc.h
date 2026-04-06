@@ -3,19 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            temporal_cdc.h                                     ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-30 04:11:57                                ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-04-06 04:11:54                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     256                                            ║
+    • Total Lines:     260                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 48fbf5b22  2026-03-21  Update search, temporal, and build artifacts ║
-    • c5ff147e9  2026-03-20  Changes before error encountered         ║
+    • 48fbf5b222  2026-03-21  Update search, temporal, and build artifacts ║
+    • c5ff147e9f  2026-03-20  Changes before error encountered        ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

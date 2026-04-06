@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            config_path_resolver.h                             ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:15:04                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:15:23                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 1e2b358f1  2026-03-15  feat(config): SIGHUP hot-reload inotify/kqueue/ReadDirect... ║
-    • c74d69b89  2026-03-13  Changes before error encountered         ║
-    • 967f3dafa  2026-03-13  chore: polish config metrics exporter    ║
-    • 535cee36d  2026-03-13  feat: export config metrics via Prometheus registry ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 1e2b358f1d  2026-03-15  feat(config): SIGHUP hot-reload inotify/kqueue/ReadDirect... ║
+    • c74d69b89e  2026-03-13  Changes before error encountered        ║
+    • 967f3dafaa  2026-03-13  chore: polish config metrics exporter   ║
+    • 535cee36dc  2026-03-13  feat: export config metrics via Prometheus registry ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

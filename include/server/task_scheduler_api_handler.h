@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            task_scheduler_api_handler.h                       ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:11:26                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:11:21                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • c34a95e5f  2026-03-01  feat(scheduler): expose ExternalSchedulerAdapter via Task... ║
-    • cf5596a8c  2026-03-01  feat(scheduler): expose executeDAG via TaskSchedulerApiHa... ║
-    • 46cbedd51  2026-03-01  Fix total count to return all matching records for proper... ║
-    • b36d290e6  2026-03-01  feat(scheduler): add getTaskResults/getLatestTaskResult A... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • c34a95e5f4  2026-03-01  feat(scheduler): expose ExternalSchedulerAdapter via Task... ║
+    • cf5596a8c4  2026-03-01  feat(scheduler): expose executeDAG via TaskSchedulerApiHa... ║
+    • 46cbedd513  2026-03-01  Fix total count to return all matching records for proper... ║
+    • b36d290e68  2026-03-01  feat(scheduler): add getTaskResults/getLatestTaskResult A... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            nvme_manager.cpp                                   ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:20:33                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-04-06 04:21:08                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,8 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 6e0a18187  2026-03-13  fix(storage/nvme): address all review comments – thread s... ║
-    • 48cc2a0a2  2026-03-13  feat(storage): implement NVMe optimizations (io_uring, mu... ║
+    • 6e0a18187e  2026-03-13  fix(storage/nvme): address all review comments – thread s... ║
+    • 48cc2a0a2d  2026-03-13  feat(storage): implement NVMe optimizations (io_uring, mu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

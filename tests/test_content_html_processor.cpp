@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_content_html_processor.cpp                    ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:25:48                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-06 04:26:41                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,9 +14,9 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 8bd1fe74d  2026-02-26  Audit fixes: preserve_heading_markers, xhtml+xml registry... ║
-    • 5a022e694  2026-02-26  Implement HTML content extraction with boilerplate removal ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 8bd1fe74db  2026-02-26  Audit fixes: preserve_heading_markers, xhtml+xml registry... ║
+    • 5a022e6947  2026-02-26  Implement HTML content extraction with boilerplate removal ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

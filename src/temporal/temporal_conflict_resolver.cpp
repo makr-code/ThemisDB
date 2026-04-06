@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            temporal_conflict_resolver.cpp                     ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:20:42                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:21:18                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,10 +14,10 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 43a91f179  2026-03-13  feat(metrics): add metrics collector for credential-stuff... ║
-    • e1fff5135  2026-03-12  fix(temporal): address PR review findings on TemporalConf... ║
-    • 1b0158e11  2026-03-12  feat: implement TemporalConflictDetector for temporal con... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 43a91f1793  2026-03-13  feat(metrics): add metrics collector for credential-stuff... ║
+    • e1fff5135a  2026-03-12  fix(temporal): address PR review findings on TemporalConf... ║
+    • 1b0158e116  2026-03-12  feat: implement TemporalConflictDetector for temporal con... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

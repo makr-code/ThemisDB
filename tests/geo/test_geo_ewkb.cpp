@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_geo_ewkb.cpp                                  ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:22:36                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:23:16                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • b6336585c  2026-02-26  feat(geo): add GeoJSON depth-limit security tests (audit ... ║
-    • fd8d65d52  2026-02-26  feat(geo): fix GeometryCollection Z-detection in GeoJSON ... ║
-    • c2e120dd0  2026-02-24  feat(geo): Complete GeoJSON spec coverage for GeometryCol... ║
-    • 01e160a70  2026-02-22  feat(geo): Add WGS84 validation, CHANGELOG, ROADMAP updat... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • b6336585c6  2026-02-26  feat(geo): add GeoJSON depth-limit security tests (audit ... ║
+    • fd8d65d522  2026-02-26  feat(geo): fix GeometryCollection Z-detection in GeoJSON ... ║
+    • c2e120dd0e  2026-02-24  feat(geo): Complete GeoJSON spec coverage for GeometryCol... ║
+    • 01e160a707  2026-02-22  feat(geo): Add WGS84 validation, CHANGELOG, ROADMAP updat... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

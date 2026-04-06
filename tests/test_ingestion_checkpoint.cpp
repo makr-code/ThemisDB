@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_ingestion_checkpoint.cpp                      ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:28:33                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:29:34                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,10 +14,10 @@
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 0c1dd5a9b  2026-02-22  Replace libcurl stub with real curl_easy_perform in api_c... ║
-    • 68ffb0a67  2026-02-22  audit: mark cursor pagination done in ROADMAP, add e2e ma... ║
-    • 8798208c4  2026-02-22  feat(ingestion): implement cursor-based pagination with o... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 0c1dd5a9b5  2026-02-22  Replace libcurl stub with real curl_easy_perform in api_c... ║
+    • 68ffb0a67d  2026-02-22  audit: mark cursor pagination done in ROADMAP, add e2e ma... ║
+    • 8798208c46  2026-02-22  feat(ingestion): implement cursor-based pagination with o... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

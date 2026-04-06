@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            device_manager.h                                   ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:05:14                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-06 04:04:45                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,9 +14,9 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • f2fa0c5eb  2026-02-23  fix(acceleration): address code-audit gaps — deviceInfo()... ║
-    • bcf21826f  2026-02-23  feat(acceleration): implement runtime device capability d... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • f2fa0c5eb7  2026-02-23  fix(acceleration): address code-audit gaps — deviceInfo()... ║
+    • bcf21826fe  2026-02-23  feat(acceleration): implement runtime device capability d... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            tenant_manager.cpp                                 ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:20:08                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:20:42                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • f82bf2ae9  2026-03-04  Refactor tenant manager tests and add new test cases ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 1a678b1ff  2026-03-01  refactor(server): optimize normaliseDomain port check and... ║
-    • 20db61010  2026-03-01  feat(server): add per-tenant custom domain routing ║
-    • aa48b6bd3  2026-03-01  feat(server): add per-tenant custom domain routing via Ho... ║
+    • f82bf2ae9f  2026-03-04  Refactor tenant manager tests and add new test cases ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 1a678b1ff1  2026-03-01  refactor(server): optimize normaliseDomain port check and... ║
+    • 20db61010a  2026-03-01  feat(server): add per-tenant custom domain routing ║
+    • aa48b6bd38  2026-03-01  feat(server): add per-tenant custom domain routing via Ho... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

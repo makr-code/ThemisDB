@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ldap_dn_harness.cpp                                ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:05:11                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-04-06 04:04:42                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,8 @@
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 0f9b874f4  2026-03-12  fix(auth): address all reviewer comments on LDAP injectio... ║
-    • 83e36bcbd  2026-03-12  security(auth): LDAP DN and filter injection prevention (... ║
+    • 0f9b874f42  2026-03-12  fix(auth): address all reviewer comments on LDAP injectio... ║
+    • 83e36bcbd7  2026-03-12  security(auth): LDAP DN and filter injection prevention (... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

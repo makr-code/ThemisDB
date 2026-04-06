@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_acceleration.cpp                              ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:23:42                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-06 04:24:26                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • edcfeb984  2026-03-11  feat: add scripts for auditing and reconciling GitHub iss... ║
-    • 7e608ea7c  2026-03-11  feat(acceleration): implement CUDAGraphBackend BFS and sh... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 9724334d6  2026-02-23  feat(acceleration): add deterministic tie-breaking and pa... ║
-    • e86b6edc7  2026-02-23  feat(acceleration): add BatchValidator and strict input v... ║
+    • edcfeb9848  2026-03-11  feat: add scripts for auditing and reconciling GitHub iss... ║
+    • 7e608ea7c6  2026-03-11  feat(acceleration): implement CUDAGraphBackend BFS and sh... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 9724334d66  2026-02-23  feat(acceleration): add deterministic tie-breaking and pa... ║
+    • e86b6edc79  2026-02-23  feat(acceleration): add BatchValidator and strict input v... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

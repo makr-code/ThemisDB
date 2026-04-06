@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            wire_protocol_server.cpp                           ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:20:50                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-06 04:21:26                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • e7af44ad0  2026-03-11  fix(network): audit pass 2 — add CURSOR_NEXT (0x23), CURS... ║
-    • c47502afd  2026-03-11  feat(network): implement all WireProtocol V1 opcode handl... ║
-    • e6f59e401  2026-03-11  fix(security): sanitize user input in error messages + sy... ║
-    • 74c1c156e  2026-03-11  fix(network): implement complete wire protocol V1 opcode ... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • e7af44ad0c  2026-03-11  fix(network): audit pass 2 — add CURSOR_NEXT (0x23), CURS... ║
+    • c47502afd2  2026-03-11  feat(network): implement all WireProtocol V1 opcode handl... ║
+    • e6f59e401f  2026-03-11  fix(security): sanitize user input in error messages + sy... ║
+    • 74c1c156e0  2026-03-11  fix(network): implement complete wire protocol V1 opcode ... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

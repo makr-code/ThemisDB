@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            postgres_importer.h                                ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:07:49                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:07:30                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 9d8c5ce37  2026-03-15  Refactor service mesh API handler to use fully qualified ... ║
-    • 8452353dc  2026-03-12  Add unit tests for sync-issues-from-roadmap.py ║
-    • b8ff944e1  2026-03-11  feat(importers): PostgreSQL importer v2.0 - Foreign Key P... ║
-    • 8cf8f1d12  2026-03-11  feat(importers): v2.1 - additional constraint types, rela... ║
-    • e4aae2a7f  2026-03-11  feat(importers): PostgreSQL Importer v2.0 - FK preservati... ║
+    • 9d8c5ce371  2026-03-15  Refactor service mesh API handler to use fully qualified ... ║
+    • 8452353dc5  2026-03-12  Add unit tests for sync-issues-from-roadmap.py ║
+    • b8ff944e1b  2026-03-11  feat(importers): PostgreSQL importer v2.0 - Foreign Key P... ║
+    • 8cf8f1d120  2026-03-11  feat(importers): v2.1 - additional constraint types, rela... ║
+    • e4aae2a7f2  2026-03-11  feat(importers): PostgreSQL Importer v2.0 - FK preservati... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

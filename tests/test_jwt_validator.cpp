@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_jwt_validator.cpp                             ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:28:55                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:29:57                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     605                                            ║
+    • Total Lines:     569                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • fc7a85ac8  2026-03-12  fix(auth): address PR review - curl_multi_info_read, void... ║
-    • 7f9247181  2026-03-12  fix(auth): address code review - fix member declaration o... ║
-    • 57fef95c4  2026-03-12  feat(auth): async/non-blocking LDAP and HTTP authenticati... ║
-    • 3fea6d6b5  2026-03-12  refactor: clean up includes and remove unused transaction... ║
-    • 1470edf9b  2026-03-12  feat(auth): mandatory JWT issuer and audience validation ... ║
+    • 25f9a09910  2026-04-02  Refactor tests and improve assertions   ║
+    • fc7a85ac82  2026-03-12  fix(auth): address PR review - curl_multi_info_read, void... ║
+    • 7f92471811  2026-03-12  fix(auth): address code review - fix member declaration o... ║
+    • 57fef95c4a  2026-03-12  feat(auth): async/non-blocking LDAP and HTTP authenticati... ║
+    • 3fea6d6b51  2026-03-12  refactor: clean up includes and remove unused transaction... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

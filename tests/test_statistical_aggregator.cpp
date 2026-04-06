@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_statistical_aggregator.cpp                    ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-03-30 04:34:05                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-04-06 04:35:22                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,7 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • ffdbec768  2026-03-03  test: add unit tests for statistical_aggregator, task_res... ║
+    • ffdbec7682  2026-03-03  test: add unit tests for statistical_aggregator, task_res... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

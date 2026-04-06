@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            lora_checkpoint_manager.h                          ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:12:27                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-04-06 04:12:26                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,8 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • e6379c318  2026-03-09  fix(training): audit gaps – provenance wiring, calibratio... ║
-    • ce712594b  2026-03-09  feat(training): Phase 3 enhancements - checkpoint manager... ║
+    • e6379c3181  2026-03-09  fix(training): audit gaps – provenance wiring, calibratio... ║
+    • ce712594b0  2026-03-09  feat(training): Phase 3 enhancements - checkpoint manager... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

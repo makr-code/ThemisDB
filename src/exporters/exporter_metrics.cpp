@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            exporter_metrics.cpp                               ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:15:25                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:15:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-    • 17ac0cd31  2026-03-16  feat(exporters): HuggingFace Hub Client HTTP 429 back-off... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 7d170c769  2026-03-01  feat(build): update CMake configuration for benchmarks an... ║
-    • 6cbe0e954  2026-02-28  Implement AES-256-GCM export encryption (Phase 3 security... ║
+    • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
+    • 17ac0cd311  2026-03-16  feat(exporters): HuggingFace Hub Client HTTP 429 back-off... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 7d170c7692  2026-03-01  feat(build): update CMake configuration for benchmarks an... ║
+    • 6cbe0e9543  2026-02-28  Implement AES-256-GCM export encryption (Phase 3 security... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

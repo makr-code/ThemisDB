@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            policy_engine.h                                    ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:07:25                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:07:04                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • f219a2915  2026-03-13  feat(llm): add PolicyEngine::checkInferencePermission() f... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 99dc8e3f4  2026-02-27  feat(governance): integrate OPA as alternative policy eva... ║
-    • ffc2b43f8  2026-02-26  feat(governance): automated data masking for sensitive fi... ║
-    • eaca5e19d  2026-02-25  fix(governance): code audit – add PolicyEngine::checkExpo... ║
+    • f219a2915d  2026-03-13  feat(llm): add PolicyEngine::checkInferencePermission() f... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 99dc8e3f41  2026-02-27  feat(governance): integrate OPA as alternative policy eva... ║
+    • ffc2b43f84  2026-02-26  feat(governance): automated data masking for sensitive fi... ║
+    • eaca5e19d9  2026-02-25  fix(governance): code audit – add PolicyEngine::checkExpo... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

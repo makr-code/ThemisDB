@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            aggregate_scheduler.cpp                            ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:20:50                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:21:26                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,9 +14,9 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 16b61f181  2026-03-13  fix(timeseries): audit fixes – catch-up dedup, prometheus... ║
-    • 4dbd7efde  2026-03-13  feat(timeseries): incremental continuous aggregation with... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 16b61f181a  2026-03-13  fix(timeseries): audit fixes – catch-up dedup, prometheus... ║
+    • 4dbd7efdea  2026-03-13  feat(timeseries): incremental continuous aggregation with... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            faithfulness_evaluator.cpp                         ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:18:53                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:19:24                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,8 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • b03e3fd7c  2026-02-27  RAG audit: fix misleading NLI comment, wire LLM into Fait... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • b03e3fd7cf  2026-02-27  RAG audit: fix misleading NLI comment, wire LLM into Fait... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

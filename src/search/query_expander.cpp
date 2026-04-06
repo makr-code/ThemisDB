@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            query_expander.cpp                                 ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-03-30 04:19:23                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-04-06 04:19:55                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,10 +14,10 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 3a0def802  2026-03-01  feat(search): improve spelling correction with frequency-... ║
-    • 266c782dd  2026-02-23  audit: fix all gaps from issue review - metadata, docs, v... ║
-    • ca8c06fdd  2026-02-23  feat(search): add ranked spelling correction suggestions ... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 3a0def8028  2026-03-01  feat(search): improve spelling correction with frequency-... ║
+    • 266c782dde  2026-02-23  audit: fix all gaps from issue review - metadata, docs, v... ║
+    • ca8c06fddb  2026-02-23  feat(search): add ranked spelling correction suggestions ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

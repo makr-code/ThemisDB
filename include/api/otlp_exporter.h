@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            otlp_exporter.h                                    ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:05:38                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-04-06 04:05:10                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,8 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • db1d1e8c2  2026-03-14  feat(api/otlp): add exponential-backoff retry in OtlpExpo... ║
-    • e24bce921  2026-03-10  feat(api): add OTLP/HTTP span exporter + wire into Tracin... ║
+    • db1d1e8c22  2026-03-14  feat(api/otlp): add exponential-backoff retry in OtlpExpo... ║
+    • e24bce921d  2026-03-10  feat(api): add OTLP/HTTP span exporter + wire into Tracin... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

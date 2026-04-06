@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cuda_backend.h                                     ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:05:14                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:04:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • e2fff830f  2026-03-11  feat(acceleration): wire HNSW graph traversal into CUDAVe... ║
-    • 7e608ea7c  2026-03-11  feat(acceleration): implement CUDAGraphBackend BFS and sh... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • bb7355ba7  2026-02-23  fix(acceleration): add missing CUDAMatrixBackend declarat... ║
-    • 780089324  2026-02-23  feat(acceleration): implement CUDA graph capture for recu... ║
+    • e2fff830f0  2026-03-11  feat(acceleration): wire HNSW graph traversal into CUDAVe... ║
+    • 7e608ea7c6  2026-03-11  feat(acceleration): implement CUDAGraphBackend BFS and sh... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • bb7355ba76  2026-02-23  fix(acceleration): add missing CUDAMatrixBackend declarat... ║
+    • 780089324f  2026-02-23  feat(acceleration): implement CUDA graph capture for recu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

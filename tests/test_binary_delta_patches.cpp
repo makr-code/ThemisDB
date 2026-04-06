@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_binary_delta_patches.cpp                      ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:24:42                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-04-06 04:25:30                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,9 +14,9 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • d3fef7242  2026-03-13  audit: add missing target_hash mismatch test and fix stal... ║
-    • 28aff8de0  2026-03-13  fix(ci): add explicit permissions blocks to binary-delta-... ║
-    • 2912a32e6  2026-03-13  feat(updates): Binary Delta Patches v1.6.0 - dedicated te... ║
+    • d3fef72423  2026-03-13  audit: add missing target_hash mismatch test and fix stal... ║
+    • 28aff8de09  2026-03-13  fix(ci): add explicit permissions blocks to binary-delta-... ║
+    • 2912a32e6c  2026-03-13  feat(updates): Binary Delta Patches v1.6.0 - dedicated te... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

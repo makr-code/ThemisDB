@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            secondary_index.h                                  ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:08:04                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:07:45                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 6a59ae473  2026-03-15  fix(index-compression): audit fixes — CI composite action... ║
-    • 2cf21d36b  2026-03-14  feat(index): implement index compression (v1.7.0, Issue #... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • dfa2c6253  2026-02-25  Merge branch 'develop' into copilot/implement-gpu-profili... ║
-    • 2c5066b72  2026-02-25  Code audit: fix header annotations, add PARTIAL to IndexT... ║
+    • 6a59ae4739  2026-03-15  fix(index-compression): audit fixes — CI composite action... ║
+    • 2cf21d36ba  2026-03-14  feat(index): implement index compression (v1.7.0, Issue #... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • dfa2c62531  2026-02-25  Merge branch 'develop' into copilot/implement-gpu-profili... ║
+    • 2c5066b728  2026-02-25  Code audit: fix header annotations, add PARTIAL to IndexT... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

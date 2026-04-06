@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_retention_manager.cpp                         ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:23:38                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:24:22                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 1b4259583  2026-03-12  Add safety comment for countdown predicate, clarify test ... ║
-    • eff45c52d  2026-03-12  Address PR review: fix resolveArchiveTag, retry exception... ║
-    • 1b897ee39  2026-03-12  Address code review: extract helpers, fix VERSION_COUNT_B... ║
-    • 958756864  2026-03-12  Implement Automated Retention Policies: STORAGE_BASED typ... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 1b4259583e  2026-03-12  Add safety comment for countdown predicate, clarify test ... ║
+    • eff45c52df  2026-03-12  Address PR review: fix resolveArchiveTag, retry exception... ║
+    • 1b897ee390  2026-03-12  Address code review: extract helpers, fix VERSION_COUNT_B... ║
+    • 9587568640  2026-03-12  Implement Automated Retention Policies: STORAGE_BASED typ... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

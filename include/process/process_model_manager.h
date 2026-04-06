@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            process_model_manager.h                            ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:09:37                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-04-06 04:09:24                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,9 +14,9 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 3fea6d6b5  2026-03-12  refactor: clean up includes and remove unused transaction... ║
-    • f56652abf  2026-03-12  audit(process): focused tests, ProcessNotation enum fix, ... ║
-    • 7f7a27240  2026-03-12  feat(process): add ProcessLinker, ProcessGraphRag, and mo... ║
+    • 3fea6d6b51  2026-03-12  refactor: clean up includes and remove unused transaction... ║
+    • f56652abf2  2026-03-12  audit(process): focused tests, ProcessNotation enum fix, ... ║
+    • 7f7a272409  2026-03-12  feat(process): add ProcessLinker, ProcessGraphRag, and mo... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_governance_policy_simulation.cpp              ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:27:24                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-06 04:28:21                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,8 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • e0600b5e5  2026-02-25  feat(governance): add PolicyEngine::simulateDecision() dr... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • e0600b5e59  2026-02-25  feat(governance): add PolicyEngine::simulateDecision() dr... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

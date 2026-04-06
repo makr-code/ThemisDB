@@ -3,20 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_training_pipeline_e2e.cpp                     ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:34:39                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:35:57                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     644                                            ║
+    • Total Lines:     645                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 346baf409  2026-03-20  Add HyperparamSearch tests and update training module docs ║
-    • e6379c318  2026-03-09  fix(training): audit gaps – provenance wiring, calibratio... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 346baf409c  2026-03-20  Add HyperparamSearch tests and update training module docs ║
+    • e6379c3181  2026-03-09  fix(training): audit gaps – provenance wiring, calibratio... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

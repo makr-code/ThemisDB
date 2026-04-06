@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cuda_ann_search.cpp                           ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:26:20                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-06 04:27:14                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,9 +14,9 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • e2fff830f  2026-03-11  feat(acceleration): wire HNSW graph traversal into CUDAVe... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 2b8b5c83a  2026-02-23  feat(acceleration): Implement CUDA-accelerated ANN search... ║
+    • e2fff830f0  2026-03-11  feat(acceleration): wire HNSW graph traversal into CUDAVe... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 2b8b5c83ae  2026-02-23  feat(acceleration): Implement CUDA-accelerated ANN search... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

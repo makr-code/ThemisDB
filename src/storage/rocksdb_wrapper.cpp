@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            rocksdb_wrapper.cpp                                ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:20:34                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:21:10                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 197320301  2026-03-28  Implement SequenceU64Increment merge operator for RocksDB... ║
-    • 971a3c49d  2026-03-20  Build/test fixes and auth role mapping refactor ║
-    • 9f9d86ceb  2026-03-15  feat(storage): implement proper size calculation in Rocks... ║
-    • 8031d339d  2026-03-15  feat(storage): implement RocksDB iteration for SecuritySi... ║
-    • cc717dd8c  2026-03-14  fix(storage): address PR review comments for BlobRedundan... ║
+    • eb00b82270  2026-04-04  hotfix: prevent SIGSEGV in RocksDB/LLM init on Docker sta... ║
+    • 197320301a  2026-03-28  Implement SequenceU64Increment merge operator for RocksDB... ║
+    • 971a3c49d5  2026-03-20  Build/test fixes and auth role mapping refactor ║
+    • 9f9d86ceb0  2026-03-15  feat(storage): implement proper size calculation in Rocks... ║
+    • 8031d339d2  2026-03-15  feat(storage): implement RocksDB iteration for SecuritySi... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

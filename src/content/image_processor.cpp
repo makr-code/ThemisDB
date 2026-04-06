@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            image_processor.cpp                                ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:15:10                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:15:29                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,10 +14,10 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 718c75097  2026-02-28  feat(content): Integrate Tesseract OCR processor (content... ║
-    • 8af0ff1a8  2026-02-27  refactor(content): address code review feedback on dedupl... ║
-    • 95da435db  2026-02-27  feat(content): add content deduplication via perceptual h... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 718c750976  2026-02-28  feat(content): Integrate Tesseract OCR processor (content... ║
+    • 8af0ff1a80  2026-02-27  refactor(content): address code review feedback on dedupl... ║
+    • 95da435db9  2026-02-27  feat(content): add content deduplication via perceptual h... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

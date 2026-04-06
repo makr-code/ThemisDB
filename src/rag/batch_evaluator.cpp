@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            batch_evaluator.cpp                                ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:18:44                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-04-06 04:19:15                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,8 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • edcfeb984  2026-03-11  feat: add scripts for auditing and reconciling GitHub iss... ║
-    • 6efaebce2  2026-03-09  feat(rag): implement BatchEvaluator, CalibrationManager, ... ║
+    • edcfeb9848  2026-03-11  feat: add scripts for auditing and reconciling GitHub iss... ║
+    • 6efaebce20  2026-03-09  feat(rag): implement BatchEvaluator, CalibrationManager, ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

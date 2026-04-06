@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            graphql_cache.h                                    ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:05:33                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:05:05                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,10 +14,10 @@
     • Open Issues:     TODOs: 1, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-    • d1b7d6452  2026-02-22  Code audit bugfixes: eliminate hash collision, add defaul... ║
-    • 54d480371  2026-02-22  Improve GraphQL API layer performance: O(1) LRU, parse ca... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • a629043ab2  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+    • d1b7d6452c  2026-02-22  Code audit bugfixes: eliminate hash collision, add defaul... ║
+    • 54d4803715  2026-02-22  Improve GraphQL API layer performance: O(1) LRU, parse ca... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

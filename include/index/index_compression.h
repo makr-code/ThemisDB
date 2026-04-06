@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            index_compression.h                                ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:08:01                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-04-06 04:07:42                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,9 +14,9 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 6a59ae473  2026-03-15  fix(index-compression): audit fixes — CI composite action... ║
-    • 8fc0b5894  2026-03-14  refactor(index): address code review - fix DeltaEncoder d... ║
-    • 2cf21d36b  2026-03-14  feat(index): implement index compression (v1.7.0, Issue #... ║
+    • 6a59ae4739  2026-03-15  fix(index-compression): audit fixes — CI composite action... ║
+    • 8fc0b58946  2026-03-14  refactor(index): address code review - fix DeltaEncoder d... ║
+    • 2cf21d36ba  2026-03-14  feat(index): implement index compression (v1.7.0, Issue #... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

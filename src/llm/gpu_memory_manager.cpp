@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            gpu_memory_manager.cpp                             ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:16:55                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:17:21                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • f38c013cd  2026-03-29  Enhance various components with improvements and fixes ║
-    • 26e49f8ba  2026-03-11  fix: wire include_guidance in enrichSample; expose findRe... ║
-    • bdd5a732d  2026-03-11  Address code review: deduplicate VRAM auto-detection, fix... ║
-    • 8ff806630  2026-03-11  Fix 3 bugs in gpu_memory_manager: getTotalVRAM semantics,... ║
-    • f82bf2ae9  2026-03-04  Refactor tenant manager tests and add new test cases ║
+    • f38c013cdc  2026-03-29  Enhance various components with improvements and fixes ║
+    • 26e49f8ba7  2026-03-11  fix: wire include_guidance in enrichSample; expose findRe... ║
+    • bdd5a732d8  2026-03-11  Address code review: deduplicate VRAM auto-detection, fix... ║
+    • 8ff806630f  2026-03-11  Fix 3 bugs in gpu_memory_manager: getTotalVRAM semantics,... ║
+    • f82bf2ae9f  2026-03-04  Refactor tenant manager tests and add new test cases ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: 🔧 In Progress                                               ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,20 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            aql_injection_detector.h                           ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:10:47                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:10:39                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     259                                            ║
+    • Total Lines:     260                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 4e39463a8  2026-03-21  feat(security): implement AQL read-only context validatio... ║
-    • eb75d79f5  2026-03-12  feat(security): implement AQL AST-level injection validat... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 4e39463a86  2026-03-21  feat(security): implement AQL read-only context validatio... ║
+    • eb75d79f53  2026-03-12  feat(security): implement AQL AST-level injection validat... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

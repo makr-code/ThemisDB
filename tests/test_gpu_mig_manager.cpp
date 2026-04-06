@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_gpu_mig_manager.cpp                           ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:27:36                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-06 04:28:34                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,9 +14,9 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 99ae2c989  2026-02-28  feat(gpu): populate MIG fields in device_discovery and fi... ║
-    • 3d5f51a2f  2026-02-27  feat(gpu): MIG partitioning support for NVIDIA A/H series ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 99ae2c9897  2026-02-28  feat(gpu): populate MIG fields in device_discovery and fi... ║
+    • 3d5f51a2fd  2026-02-27  feat(gpu): MIG partitioning support for NVIDIA A/H series ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

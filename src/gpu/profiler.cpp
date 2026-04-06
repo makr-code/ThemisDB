@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            profiler.cpp                                       ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:15:58                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-06 04:16:21                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,9 +14,9 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 4966e1aa6  2026-02-25  fix(gpu): correct stale metadata banners and update ROADM... ║
-    • c110763ce  2026-02-25  feat(gpu): implement GPU profiling integration (NVIDIA Ns... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 4966e1aa6f  2026-02-25  fix(gpu): correct stale metadata banners and update ROADM... ║
+    • c110763ce7  2026-02-25  feat(gpu): implement GPU profiling integration (NVIDIA Ns... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

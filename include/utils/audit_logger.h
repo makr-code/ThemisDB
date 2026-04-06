@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            audit_logger.h                                     ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:12:54                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:12:54                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 33f9fb777  2026-03-14  feat(sharding): implement adaptive shard rebalancer with ... ║
-    • 2dba94765  2026-03-11  feat(exporters): PolicyEngine export authorization with a... ║
-    • eea8f803b  2026-03-09  feat(utils): implement HashChainAuditWriter/AuditLogVerif... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • f7107b065  2026-03-01  Protect audit log against loss: fsync, rotation, secondar... ║
+    • 33f9fb7774  2026-03-14  feat(sharding): implement adaptive shard rebalancer with ... ║
+    • 2dba947651  2026-03-11  feat(exporters): PolicyEngine export authorization with a... ║
+    • eea8f803ba  2026-03-09  feat(utils): implement HashChainAuditWriter/AuditLogVerif... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • f7107b0654  2026-03-01  Protect audit log against loss: fsync, rotation, secondar... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

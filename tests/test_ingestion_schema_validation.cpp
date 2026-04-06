@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_ingestion_schema_validation.cpp               ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:28:45                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-06 04:29:47                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,9 +14,9 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • eda6e27de  2026-02-28  fix(ingestion): reject_invalid=false mode, schema_violati... ║
-    • 53f0cfc43  2026-02-28  feat(ingestion): per-source schema validation before writ... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • eda6e27def  2026-02-28  fix(ingestion): reject_invalid=false mode, schema_violati... ║
+    • 53f0cfc43b  2026-02-28  feat(ingestion): per-source schema validation before writ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

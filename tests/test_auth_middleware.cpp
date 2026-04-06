@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_auth_middleware.cpp                           ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:24:30                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:25:17                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1169                                           ║
+    • Total Lines:     1170                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 971a3c49d  2026-03-20  Build/test fixes and auth role mapping refactor ║
-    • 55c042995  2026-03-15  refactor(auth): improve naming clarity in JWT scope test ... ║
-    • 76eef4d70  2026-03-15  feat(auth): implement JWT scope extraction and role-to-sc... ║
-    • c97360e57  2026-03-15  fix(auth,scheduler): JWT scope enforcement, Kerberos role... ║
-    • c613ea7a9  2026-03-04  Refactor error masking and enhance archive processor vali... ║
+    • 971a3c49d5  2026-03-20  Build/test fixes and auth role mapping refactor ║
+    • 55c0429959  2026-03-15  refactor(auth): improve naming clarity in JWT scope test ... ║
+    • 76eef4d701  2026-03-15  feat(auth): implement JWT scope extraction and role-to-sc... ║
+    • c97360e579  2026-03-15  fix(auth,scheduler): JWT scope enforcement, Kerberos role... ║
+    • c613ea7a9e  2026-03-04  Refactor error masking and enhance archive processor vali... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

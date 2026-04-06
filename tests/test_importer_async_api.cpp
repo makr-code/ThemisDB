@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_importer_async_api.cpp                        ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:28:25                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:29:26                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,8 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 47845c7e2  2026-02-27  audit: add S3 HTTP route, fix stub annotations, add API t... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 47845c7e2c  2026-02-27  audit: add S3 HTTP route, fix stub annotations, add API t... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

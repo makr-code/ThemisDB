@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_ann_index.cpp                                 ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:22:51                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-06 04:23:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • f38c013cd  2026-03-29  Enhance various components with improvements and fixes ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 5432ec11f  2026-02-28  fix(diskann): persist dimension in metadata; fix adapter ... ║
-    • cebce18b1  2026-02-28  feat(index): fix DiskANN offset tracking, implement graph... ║
-    • 0c973a286  2026-02-26  Refactor and enhance ThemisDB components ║
+    • f38c013cdc  2026-03-29  Enhance various components with improvements and fixes ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 5432ec11fb  2026-02-28  fix(diskann): persist dimension in metadata; fix adapter ... ║
+    • cebce18b12  2026-02-28  feat(index): fix DiskANN offset tracking, implement graph... ║
+    • 0c973a2860  2026-02-26  Refactor and enhance ThemisDB components ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

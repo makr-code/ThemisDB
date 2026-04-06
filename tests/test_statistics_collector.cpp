@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_statistics_collector.cpp                      ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:34:06                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:35:22                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 3720b1002  2026-03-13  audit(metadata): add IMetricsHook unit tests; update CI d... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 063856d3f  2026-02-26  Code audit: inline constexpr, strengthen skewed-histogram... ║
-    • ee4130746  2026-02-26  Implement column-level statistics histograms for query pl... ║
-    • 3b0978c95  2026-02-25  fix(metadata): include index stats in toJSON() output; up... ║
+    • 3720b1002d  2026-03-13  audit(metadata): add IMetricsHook unit tests; update CI d... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 063856d3fc  2026-02-26  Code audit: inline constexpr, strengthen skewed-histogram... ║
+    • ee41307461  2026-02-26  Implement column-level statistics histograms for query pl... ║
+    • 3b0978c959  2026-02-25  fix(metadata): include index stats in toJSON() output; up... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,21 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            scheduled_edge_refresh.h                           ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:07:30                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-04-06 04:07:10                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     612                                            ║
+    • Total Lines:     614                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 89945cb4d  2026-03-22  feat(graph): ANN-accelerated candidate discovery + CEP ca... ║
-    • 1795733ac  2026-03-21  Changes before error encountered         ║
-    • bbaa6edd8  2026-03-11  feat(graph): close issue gaps for ScheduledGraphEdgeRefre... ║
-    • 87955cec9  2026-03-11  feat(graph): implement ScheduledGraphEdgeRefreshEngine mo... ║
+    • 89945cb4d4  2026-03-22  feat(graph): ANN-accelerated candidate discovery + CEP ca... ║
+    • 1795733ac6  2026-03-21  Changes before error encountered        ║
+    • bbaa6edd8e  2026-03-11  feat(graph): close issue gaps for ScheduledGraphEdgeRefre... ║
+    • 87955cec99  2026-03-11  feat(graph): implement ScheduledGraphEdgeRefreshEngine mo... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

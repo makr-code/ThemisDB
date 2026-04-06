@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_token_blacklist_persistence.cpp               ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:34:34                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-04-06 04:35:51                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,9 +14,9 @@
     • Open Issues:     TODOs: 0, Stubs: 5                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 37a487927  2026-03-12  Korrigiere Fehlerbehandlung in get-Methode und aktualisie... ║
-    • 3a23233d6  2026-03-12  fix(auth): address PR review comments on token blacklist ... ║
-    • e93c27150  2026-03-12  feat(auth): implement ITokenBlacklist interface, Bloom fi... ║
+    • 37a487927b  2026-03-12  Korrigiere Fehlerbehandlung in get-Methode und aktualisie... ║
+    • 3a23233d60  2026-03-12  fix(auth): address PR review comments on token blacklist ... ║
+    • e93c27150c  2026-03-12  feat(auth): implement ITokenBlacklist interface, Bloom fi... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

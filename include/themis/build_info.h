@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            build_info.h                                       ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:12:04                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:12:01                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,9 +14,9 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • fd83348aa  2026-03-12  fix(themis): address PR review comments - path triggers, ... ║
-    • 4da3502dd  2026-03-12  feat(themis): add THEMIS_BASE_API export macros to public... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • fd83348aae  2026-03-12  fix(themis): address PR review comments - path triggers, ... ║
+    • 4da3502dd0  2026-03-12  feat(themis): add THEMIS_BASE_API export macros to public... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            replication_manager.cpp                            ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:19:10                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:19:42                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   89.0/100                                       ║
-    • Total Lines:     6212                                           ║
+    • Total Lines:     6230                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 42e48dbc3  2026-03-15  fix(replication): audit geo-replication – fix SESSION exp... ║
-    • 7cd7172d7  2026-03-14  feat(replication): add GeoReplicationManager with consist... ║
-    • 4a853813e  2026-03-13  fix(replication): audit fixes — honor bidirectional_sync/... ║
-    • 23a0696d1  2026-03-13  feat(replication): implement BidirectionalReplicationMana... ║
-    • 8db855354  2026-03-13  fix(replication): wire IArchivalBackend, fix empty-key by... ║
+    • 64a9ae4eb6  2026-03-31  feat: enhance cache warmup logic and improve replication ... ║
+    • 42e48dbc3c  2026-03-15  fix(replication): audit geo-replication – fix SESSION exp... ║
+    • 7cd7172d73  2026-03-14  feat(replication): add GeoReplicationManager with consist... ║
+    • 4a853813e8  2026-03-13  fix(replication): audit fixes — honor bidirectional_sync/... ║
+    • 23a0696d15  2026-03-13  feat(replication): implement BidirectionalReplicationMana... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

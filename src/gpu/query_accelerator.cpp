@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            query_accelerator.cpp                              ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:15:58                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:16:21                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • e010f4ac7  2026-03-12  fix(gpu): address review feedback on query_accelerator GP... ║
-    • a896955d8  2026-03-12  feat(gpu): replace CPU fallback stubs with real CUDA/HIP ... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • eeb29b53c  2026-02-28  feat(gpu): wire THEMIS_ENABLE_CUDA/CUVS guards in annSear... ║
-    • 9cc43d8f2  2026-02-26  feat(gpu): implement GPU-accelerated ANN vector similarit... ║
+    • e010f4ac73  2026-03-12  fix(gpu): address review feedback on query_accelerator GP... ║
+    • a896955d87  2026-03-12  feat(gpu): replace CPU fallback stubs with real CUDA/HIP ... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • eeb29b53c5  2026-02-28  feat(gpu): wire THEMIS_ENABLE_CUDA/CUVS guards in annSear... ║
+    • 9cc43d8f28  2026-02-26  feat(gpu): implement GPU-accelerated ANN vector similarit... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

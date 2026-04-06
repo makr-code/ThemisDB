@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            transaction_manager.h                              ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:12:40                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:12:39                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • d5eddfb16  2026-03-20  feat(transaction): add Read-Only Transaction Optimization... ║
-    • b6f602bb2  2026-03-16  fix(transaction/ssi): fix detectConflicts range intersect... ║
-    • 97ce99ded  2026-03-15  feat(transaction): Serializable Snapshot Isolation (SSI) ... ║
-    • 7be96cdad  2026-03-14  fix(transaction): address PR review feedback on DeadlockP... ║
-    • 531f9a095  2026-03-13  feat(transaction): implement Adaptive Deadlock Prevention... ║
+    • d5eddfb167  2026-03-20  feat(transaction): add Read-Only Transaction Optimization... ║
+    • b6f602bb2d  2026-03-16  fix(transaction/ssi): fix detectConflicts range intersect... ║
+    • 97ce99dedd  2026-03-15  feat(transaction): Serializable Snapshot Isolation (SSI) ... ║
+    • 7be96cdad3  2026-03-14  fix(transaction): address PR review feedback on DeadlockP... ║
+    • 531f9a0959  2026-03-13  feat(transaction): implement Adaptive Deadlock Prevention... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

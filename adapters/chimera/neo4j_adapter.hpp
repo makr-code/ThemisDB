@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            neo4j_adapter.hpp                                  ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:03:50                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-04-06 04:03:13                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 7f2a310e6  2026-03-10  fix(chimera): add missing neo4j_adapter.hpp to adapters/c... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 31a9305f6  2026-02-28  feat(chimera): Add Pinecone managed vector search adapter ║
-    • 7bc4ff6d4  2026-02-27  audit(chimera): fix Qdrant adapter post-implementation gaps ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+    • 7f2a310e64  2026-03-10  fix(chimera): add missing neo4j_adapter.hpp to adapters/c... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 31a9305f66  2026-02-28  feat(chimera): Add Pinecone managed vector search adapter ║
+    • 7bc4ff6d4d  2026-02-27  audit(chimera): fix Qdrant adapter post-implementation gaps ║
+    • a629043ab2  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

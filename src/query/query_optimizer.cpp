@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            query_optimizer.cpp                                ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:18:36                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:19:07                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,10 +14,10 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 61ffe3bfd  2026-03-13  audit: address all gaps from issue #87 code review ║
-    • 3d37c77d3  2026-03-13  feat(query): wire StatisticsCollector and MetricsCollecto... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 78e4e67bb  2026-02-25  feat(performance): per-query cost model integration with ... ║
+    • 61ffe3bfd7  2026-03-13  audit: address all gaps from issue #87 code review ║
+    • 3d37c77d33  2026-03-13  feat(query): wire StatisticsCollector and MetricsCollecto... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 78e4e67bbc  2026-02-25  feat(performance): per-query cost model integration with ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

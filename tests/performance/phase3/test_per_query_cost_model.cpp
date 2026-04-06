@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_per_query_cost_model.cpp                      ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:23:20                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-06 04:24:03                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • f82bf2ae9  2026-03-04  Refactor tenant manager tests and add new test cases ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 0c973a286  2026-02-26  Refactor and enhance ThemisDB components ║
-    • 0a4c84047  2026-02-25  fix(performance): code audit fixes for per-query cost model ║
-    • 78e4e67bb  2026-02-25  feat(performance): per-query cost model integration with ... ║
+    • f82bf2ae9f  2026-03-04  Refactor tenant manager tests and add new test cases ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 0c973a2860  2026-02-26  Refactor and enhance ThemisDB components ║
+    • 0a4c840479  2026-02-25  fix(performance): code audit fixes for per-query cost model ║
+    • 78e4e67bbc  2026-02-25  feat(performance): per-query cost model integration with ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

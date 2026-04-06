@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            content_metrics.cpp                                ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:15:08                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:15:26                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 718c75097  2026-02-28  feat(content): Integrate Tesseract OCR processor (content... ║
-    • 95da435db  2026-02-27  feat(content): add content deduplication via perceptual h... ║
-    • 3b1aefed2  2026-02-26  Audit: add content_office_extracted_total metrics, wire i... ║
-    • efa41f432  2026-02-24  feat(content): implement embedding generation pipeline (I... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 718c750976  2026-02-28  feat(content): Integrate Tesseract OCR processor (content... ║
+    • 95da435db9  2026-02-27  feat(content): add content deduplication via perceptual h... ║
+    • 3b1aefed27  2026-02-26  Audit: add content_office_extracted_total metrics, wire i... ║
+    • efa41f4324  2026-02-24  feat(content): implement embedding generation pipeline (I... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

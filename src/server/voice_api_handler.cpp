@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            voice_api_handler.cpp                              ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:20:10                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:20:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • a2a0e15fa  2026-03-11  Changes before error encountered         ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 49fd40219  2026-03-01  feat(voice): expose speaker verification REST API endpoints ║
-    • 75c7c24ea  2026-03-01  feat(voice): implement voice session playback and search ... ║
-    • e6c4d3fc4  2026-02-28  fix(voice): refactor query parsing, address review commen... ║
+    • a2a0e15fab  2026-03-11  Changes before error encountered        ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 49fd402198  2026-03-01  feat(voice): expose speaker verification REST API endpoints ║
+    • 75c7c24ea3  2026-03-01  feat(voice): implement voice session playback and search ... ║
+    • e6c4d3fc42  2026-02-28  fix(voice): refactor query parsing, address review commen... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

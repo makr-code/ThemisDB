@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            audio_processor.cpp                                ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:15:07                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:15:26                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • fed06bb4b  2026-02-28  fix(content/audio): propagate STT transcription metadata ... ║
-    • d947853fb  2026-02-28  feat(content): Wire STTProcessor into AudioProcessor for ... ║
-    • b64a2da5f  2026-02-23  Fix integer overflow in chunk/block size arithmetic and O... ║
-    • 24177a8bc  2026-02-22  Implement real audio metadata extraction with format-spec... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • fed06bb4b5  2026-02-28  fix(content/audio): propagate STT transcription metadata ... ║
+    • d947853fba  2026-02-28  feat(content): Wire STTProcessor into AudioProcessor for ... ║
+    • b64a2da5f2  2026-02-23  Fix integer overflow in chunk/block size arithmetic and O... ║
+    • 24177a8bc3  2026-02-22  Implement real audio metadata extraction with format-spec... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

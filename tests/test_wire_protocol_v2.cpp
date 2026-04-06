@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_wire_protocol_v2.cpp                          ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:35:38                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:36:59                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • ad81287a1  2026-03-15  fix(wire-protocol-v2): RFC 7540 §6.3/§5.3.1 PRIORITY comp... ║
-    • bb451d1e6  2026-03-15  fix(themis): complete Wire Protocol V2 priority/dependenc... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 33cc1ed9f  2026-02-28  fix: pass decompressed payload to data_handler in V2 DATA... ║
-    • 40be9015b  2026-02-25  fix(network): code audit — fix aggregate stats, add COMPR... ║
+    • ad81287a16  2026-03-15  fix(wire-protocol-v2): RFC 7540 §6.3/§5.3.1 PRIORITY comp... ║
+    • bb451d1e6c  2026-03-15  fix(themis): complete Wire Protocol V2 priority/dependenc... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 33cc1ed9fe  2026-02-28  fix: pass decompressed payload to data_handler in V2 DATA... ║
+    • 40be9015b6  2026-02-25  fix(network): code audit — fix aggregate stats, add COMPR... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

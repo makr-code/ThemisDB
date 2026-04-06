@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            oracle_importer.cpp                                ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:16:22                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-06 04:16:47                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 49aa9b058  2026-03-02  Add modules, extraction retries, and test fixes ║
-    • 9870104df  2026-02-28  feat(importers): Add Oracle Database importer (header, im... ║
-    • 0315f4af6  2026-02-27  refactor(importers): simplify streaming callback pattern ... ║
-    • 7ad9a8ead  2026-02-27  feat(importers): add streaming row callbacks to MySQL and... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 49aa9b0586  2026-03-02  Add modules, extraction retries, and test fixes ║
+    • 9870104dff  2026-02-28  feat(importers): Add Oracle Database importer (header, im... ║
+    • 0315f4af63  2026-02-27  refactor(importers): simplify streaming callback pattern ... ║
+    • 7ad9a8ead1  2026-02-27  feat(importers): add streaming row callbacks to MySQL and... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

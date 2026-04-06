@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_remote_registry_client.cpp                    ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:32:49                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-06 04:34:02                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • c0a50c2ca  2026-03-19  Refactor build flags, IO, benchmarks & tests ║
-    • 2c1b27b6f  2026-03-15  feat(base): async retry RemoteRegistryClient + LLM RetryP... ║
-    • e56570ab4  2026-03-15  feat(base): add async methods to RemoteRegistryClient; fi... ║
-    • 4e273a130  2026-03-14  feat(base): implement async retry API for RemoteRegistryC... ║
-    • 8b7f5ae1f  2026-03-14  Enforce shared ownership for async calls ║
+    • c0a50c2caf  2026-03-19  Refactor build flags, IO, benchmarks & tests ║
+    • 2c1b27b6f2  2026-03-15  feat(base): async retry RemoteRegistryClient + LLM RetryP... ║
+    • e56570ab4b  2026-03-15  feat(base): add async methods to RemoteRegistryClient; fi... ║
+    • 4e273a1302  2026-03-14  feat(base): implement async retry API for RemoteRegistryC... ║
+    • 8b7f5ae1f8  2026-03-14  Enforce shared ownership for async calls ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

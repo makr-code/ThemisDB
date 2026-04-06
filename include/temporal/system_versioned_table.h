@@ -3,21 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            system_versioned_table.h                           ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:11:56                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:11:52                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     303                                            ║
+    • Total Lines:     304                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • c5ff147e9  2026-03-20  Changes before error encountered         ║
-    • f5de57fcf  2026-03-12  fix(temporal): address review comments on SystemVersioned... ║
-    • ea2a53ea6  2026-03-12  feat(temporal): Full System-Versioned Table Support (v1.1.0) ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • c5ff147e9f  2026-03-20  Changes before error encountered        ║
+    • f5de57fcfe  2026-03-12  fix(temporal): address review comments on SystemVersioned... ║
+    • ea2a53ea6d  2026-03-12  feat(temporal): Full System-Versioned Table Support (v1.1.0) ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

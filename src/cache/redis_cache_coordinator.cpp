@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            redis_cache_coordinator.cpp                        ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:14:36                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-06 04:14:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 2                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 39ac8c3ef  2026-03-20  Split default-arg constructors into overloads ║
-    • 5b1c0eb4a  2026-03-14  fix(cache): address PR review comments on RedisCacheCoord... ║
-    • 84e885494  2026-03-14  feat(cache): implement RedisCacheCoordinator async pub/su... ║
-    • 5c7846b53  2026-03-10  fix(cache): add missing #include <climits> to redis_cache... ║
-    • 022a28c27  2026-03-10  Changes before error encountered         ║
+    • 39ac8c3efe  2026-03-20  Split default-arg constructors into overloads ║
+    • 5b1c0eb4ad  2026-03-14  fix(cache): address PR review comments on RedisCacheCoord... ║
+    • 84e885494b  2026-03-14  feat(cache): implement RedisCacheCoordinator async pub/su... ║
+    • 5c7846b533  2026-03-10  fix(cache): add missing #include <climits> to redis_cache... ║
+    • 022a28c27e  2026-03-10  Changes before error encountered        ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

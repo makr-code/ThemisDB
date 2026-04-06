@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            themisdb_adapter.hpp                               ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:06:43                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:06:18                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 0701ac8f4  2026-03-12  feat(chimera): implement async/promise-based API (IAsyncD... ║
-    • 3fea6d6b5  2026-03-12  refactor: clean up includes and remove unused transaction... ║
-    • c4c01c242  2026-03-12  fix(chimera): address code review feedback on ThemisDB ad... ║
-    • 042f896b6  2026-03-12  refactor(chimera): address PR review feedback on transact... ║
-    • cadbebb7b  2026-03-12  feat(chimera): Production ThemisDB Adapter Integration - ... ║
+    • 0701ac8f4d  2026-03-12  feat(chimera): implement async/promise-based API (IAsyncD... ║
+    • 3fea6d6b51  2026-03-12  refactor: clean up includes and remove unused transaction... ║
+    • c4c01c2428  2026-03-12  fix(chimera): address code review feedback on ThemisDB ad... ║
+    • 042f896b63  2026-03-12  refactor(chimera): address PR review feedback on transact... ║
+    • cadbebb7b8  2026-03-12  feat(chimera): Production ThemisDB Adapter Integration - ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

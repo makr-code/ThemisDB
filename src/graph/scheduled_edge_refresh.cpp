@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            scheduled_edge_refresh.cpp                         ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:16:06                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-04-06 04:16:30                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     971                                            ║
+    • Total Lines:     972                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 79f081505  2026-03-28  Add test statistics documentation and collection script ║
-    • 89945cb4d  2026-03-22  feat(graph): ANN-accelerated candidate discovery + CEP ca... ║
-    • 1795733ac  2026-03-21  Changes before error encountered         ║
-    • 43a91f179  2026-03-13  feat(metrics): add metrics collector for credential-stuff... ║
-    • 8452353dc  2026-03-12  Add unit tests for sync-issues-from-roadmap.py ║
+    • 79f0815052  2026-03-28  Add test statistics documentation and collection script ║
+    • 89945cb4d4  2026-03-22  feat(graph): ANN-accelerated candidate discovery + CEP ca... ║
+    • 1795733ac6  2026-03-21  Changes before error encountered        ║
+    • 43a91f1793  2026-03-13  feat(metrics): add metrics collector for credential-stuff... ║
+    • 8452353dc5  2026-03-12  Add unit tests for sync-issues-from-roadmap.py ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

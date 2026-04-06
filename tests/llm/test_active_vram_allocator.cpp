@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_active_vram_allocator.cpp                     ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:23:06                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-04-06 04:23:48                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 2                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • bdd5a732d  2026-03-11  Address code review: deduplicate VRAM auto-detection, fix... ║
-    • 8ff806630  2026-03-11  Fix 3 bugs in gpu_memory_manager: getTotalVRAM semantics,... ║
-    • 4aee399a8  2026-03-11  fix(llm): code audit - fix 3 bugs in ActiveVRAMAllocator ... ║
-    • dde33760f  2026-03-11  fix(llm): address code review - use cudaMemcpy for device... ║
-    • 6e1dfd68a  2026-03-11  feat(llm): implement ActiveVRAMAllocator for GPU memory m... ║
+    • bdd5a732d8  2026-03-11  Address code review: deduplicate VRAM auto-detection, fix... ║
+    • 8ff806630f  2026-03-11  Fix 3 bugs in gpu_memory_manager: getTotalVRAM semantics,... ║
+    • 4aee399a88  2026-03-11  fix(llm): code audit - fix 3 bugs in ActiveVRAMAllocator ... ║
+    • dde33760fc  2026-03-11  fix(llm): address code review - use cudaMemcpy for device... ║
+    • 6e1dfd68ab  2026-03-11  feat(llm): implement ActiveVRAMAllocator for GPU memory m... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

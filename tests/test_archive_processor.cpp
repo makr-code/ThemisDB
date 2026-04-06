@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_archive_processor.cpp                         ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:24:22                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:25:09                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2737ade5b  2026-03-11  fix(content/security): audit corrections - test rename, z... ║
-    • 1bacdae51  2026-03-11  fix(content/security): add zip-bomb protection in archive... ║
-    • c613ea7a9  2026-03-04  Refactor error masking and enhance archive processor vali... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 49aa9b058  2026-03-02  Add modules, extraction retries, and test fixes ║
+    • 2737ade5bb  2026-03-11  fix(content/security): audit corrections - test rename, z... ║
+    • 1bacdae51e  2026-03-11  fix(content/security): add zip-bomb protection in archive... ║
+    • c613ea7a9e  2026-03-04  Refactor error masking and enhance archive processor vali... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 49aa9b0586  2026-03-02  Add modules, extraction retries, and test fixes ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

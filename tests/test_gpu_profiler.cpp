@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_gpu_profiler.cpp                              ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:27:40                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-06 04:28:38                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,8 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • c110763ce  2026-02-25  feat(gpu): implement GPU profiling integration (NVIDIA Ns... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • c110763ce7  2026-02-25  feat(gpu): implement GPU profiling integration (NVIDIA Ns... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

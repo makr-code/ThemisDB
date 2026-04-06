@@ -3,19 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_alerting_engine.cpp                           ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:23:59                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-04-06 04:24:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   97.0/100                                       ║
-    • Total Lines:     613                                            ║
+    • Total Lines:     615                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 4b2211d98  2026-03-11  fix(observability): code audit fixes — error().message(),... ║
-    • d33d5cf06  2026-03-11  feat(observability): rule-based alerting engine with conf... ║
+    • 25f9a09910  2026-04-02  Refactor tests and improve assertions   ║
+    • 4b2211d98f  2026-03-11  fix(observability): code audit fixes — error().message(),... ║
+    • d33d5cf063  2026-03-11  feat(observability): rule-based alerting engine with conf... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

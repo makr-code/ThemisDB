@@ -3,20 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            signature_verifier.cpp                             ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:17:14                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:17:41                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   84.0/100                                       ║
-    • Total Lines:     761                                            ║
+    • Total Lines:     763                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 13e4bb297  2026-03-26  Enhance GraphQL Performance Tests and Saga Operation Comp... ║
-    • afc6b2738  2026-03-26  fix: Resolve BSI/RAG production blockers – JWT, mTLS, CRL... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 13e4bb2974  2026-03-26  Enhance GraphQL Performance Tests and Saga Operation Comp... ║
+    • afc6b2738b  2026-03-26  fix: Resolve BSI/RAG production blockers – JWT, mTLS, CRL... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

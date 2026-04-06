@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            outbox.cpp                                         ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:14:44                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-06 04:15:02                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,9 +14,9 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 7d73e2cd2  2026-02-25  audit(cdc): fix stale ROADMAP Known Issues, document outb... ║
-    • 822f29a02  2026-02-25  feat(cdc): implement outbox pattern for transactional cha... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 7d73e2cd29  2026-02-25  audit(cdc): fix stale ROADMAP Known Issues, document outb... ║
+    • 822f29a029  2026-02-25  feat(cdc): implement outbox pattern for transactional cha... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

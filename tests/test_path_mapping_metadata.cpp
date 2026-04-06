@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_path_mapping_metadata.cpp                     ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:30:52                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:31:59                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,8 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 45d150cff  2026-02-28  feat(config): complete METADATA_TABLE entries for all 60+... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 45d150cff4  2026-02-28  feat(config): complete METADATA_TABLE entries for all 60+... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

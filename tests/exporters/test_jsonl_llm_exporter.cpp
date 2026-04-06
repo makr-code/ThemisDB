@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_jsonl_llm_exporter.cpp                        ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:22:30                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:23:10                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 74e74b484  2026-03-15  audit: fix test guards, add ZSTD magic-number test, updat... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • d1800e174  2026-02-28  feat(exporters): implement sensitive field redaction via ... ║
-    • 9720b39ae  2026-02-28  Fix progress callbacks in jsonl_llm_exporter: populate du... ║
-    • 0da3ceaf6  2026-02-28  feat(exporters): add toxicity filtering to JSONL LLM expo... ║
+    • 74e74b4841  2026-03-15  audit: fix test guards, add ZSTD magic-number test, updat... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • d1800e174f  2026-02-28  feat(exporters): implement sensitive field redaction via ... ║
+    • 9720b39ae1  2026-02-28  Fix progress callbacks in jsonl_llm_exporter: populate du... ║
+    • 0da3ceaf6a  2026-02-28  feat(exporters): add toxicity filtering to JSONL LLM expo... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

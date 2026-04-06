@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cdc_admin.cpp                                 ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:24:59                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:25:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • b3d8aa4a5  2026-03-15  refactor: streamline performance statistics retrieval and... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 0c0081835  2026-02-24  cdc: fix test_cdc_admin.cpp DB type mismatch (DB -> Trans... ║
-    • 840def5a2  2026-02-24  cdc: add compactLog tests to test_cdc_admin, fix addTestE... ║
-    • d9b57fdf7  2026-02-22  Bugfix: fix data race in applyRetentionPolicy, startReten... ║
+    • b3d8aa4a55  2026-03-15  refactor: streamline performance statistics retrieval and... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 0c0081835d  2026-02-24  cdc: fix test_cdc_admin.cpp DB type mismatch (DB -> Trans... ║
+    • 840def5a20  2026-02-24  cdc: add compactLog tests to test_cdc_admin, fix addTestE... ║
+    • d9b57fdf70  2026-02-22  Bugfix: fix data race in applyRetentionPolicy, startReten... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,20 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            wire_protocol_batch.h                              ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:08:59                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-04-06 04:08:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     278                                            ║
+    • Total Lines:     280                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • c0a50c2ca  2026-03-19  Refactor build flags, IO, benchmarks & tests ║
-    • 354c97d28  2026-03-16  feat: Add new erasure coding backend and related components ║
-    • 543f66e65  2026-03-14  feat(network): implement wire protocol performance optimi... ║
+    • c0a50c2caf  2026-03-19  Refactor build flags, IO, benchmarks & tests ║
+    • 354c97d283  2026-03-16  feat: Add new erasure coding backend and related components ║
+    • 543f66e654  2026-03-14  feat(network): implement wire protocol performance optimi... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

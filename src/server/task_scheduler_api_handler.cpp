@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            task_scheduler_api_handler.cpp                     ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:20:08                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-06 04:20:42                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 8452353dc  2026-03-12  Add unit tests for sync-issues-from-roadmap.py ║
-    • a2a0e15fa  2026-03-11  Changes before error encountered         ║
-    • f82bf2ae9  2026-03-04  Refactor tenant manager tests and add new test cases ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • c34a95e5f  2026-03-01  feat(scheduler): expose ExternalSchedulerAdapter via Task... ║
+    • 8452353dc5  2026-03-12  Add unit tests for sync-issues-from-roadmap.py ║
+    • a2a0e15fab  2026-03-11  Changes before error encountered        ║
+    • f82bf2ae9f  2026-03-04  Refactor tenant manager tests and add new test cases ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • c34a95e5f4  2026-03-01  feat(scheduler): expose ExternalSchedulerAdapter via Task... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

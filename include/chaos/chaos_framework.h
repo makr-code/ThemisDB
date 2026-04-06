@@ -1,3 +1,25 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            chaos_framework.h                                  ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-04-06 04:06:03                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   91.0/100                                       ║
+    • Total Lines:     163                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 5bee4e8e41  2026-04-03  Implement Disaster Recovery Manager and associated tests ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #ifndef THEMIS_CHAOS_FRAMEWORK_H
 #define THEMIS_CHAOS_FRAMEWORK_H
 

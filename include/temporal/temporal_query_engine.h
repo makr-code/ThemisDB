@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            temporal_query_engine.h                            ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:11:58                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:11:55                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     533                                            ║
+    • Total Lines:     534                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 96f1f1fd7  2026-03-24  Changes before error encountered         ║
-    • fe76ac476  2026-03-12  fix(temporal): address PR review comments on QueryCache a... ║
-    • bce530ee4  2026-03-12  feat(temporal): implement Time-Travel Query Engine (v1.2.0) ║
-    • 6e8942ed4  2026-03-09  feat(temporal): implement bitemporal joins and SEQUENCED/... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 96f1f1fd7c  2026-03-24  Changes before error encountered        ║
+    • fe76ac4765  2026-03-12  fix(temporal): address PR review comments on QueryCache a... ║
+    • bce530ee49  2026-03-12  feat(temporal): implement Time-Travel Query Engine (v1.2.0) ║
+    • 6e8942ed4f  2026-03-09  feat(temporal): implement bitemporal joins and SEQUENCED/... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

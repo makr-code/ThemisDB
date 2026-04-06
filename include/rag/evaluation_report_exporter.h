@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            evaluation_report_exporter.h                       ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:10:17                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-06 04:10:06                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,8 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 12eeced48  2026-03-01  feat(rag): per-query evaluation report export (JSON/HTML)... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 12eeced483  2026-03-01  feat(rag): per-query evaluation report export (JSON/HTML)... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

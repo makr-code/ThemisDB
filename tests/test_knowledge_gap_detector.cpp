@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_knowledge_gap_detector.cpp                    ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:28:59                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:30:01                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,9 +14,9 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 72b3b0427  2026-03-09  Enable FLARE-Loop with TPT-Gating by default, add factory... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 28a4b23b9  2026-02-23  Refactor tests and update error handling ║
+    • 72b3b04277  2026-03-09  Enable FLARE-Loop with TPT-Gating by default, add factory... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 28a4b23b94  2026-02-23  Refactor tests and update error handling ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            mongodb_adapter.cpp                                ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-03-30 04:14:48                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-06 04:15:07                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 566ec9091  2026-03-12  Changes before error encountered         ║
-    • 29a0ee06c  2026-03-12  feat(chimera): wire THEMIS_ENABLE_* driver blocks, add Co... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 74d8f7c17  2026-02-28  fix(chimera): resolve MongoDB adapter quality metrics - r... ║
-    • e3c17b310  2026-02-26  Implement MongoDB Atlas Vector Search integration: add se... ║
+    • 566ec90912  2026-03-12  Changes before error encountered        ║
+    • 29a0ee06c5  2026-03-12  feat(chimera): wire THEMIS_ENABLE_* driver blocks, add Co... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 74d8f7c17f  2026-02-28  fix(chimera): resolve MongoDB adapter quality metrics - r... ║
+    • e3c17b310f  2026-02-26  Implement MongoDB Atlas Vector Search integration: add se... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ⚠️  Needs Work                                              ║
 ╚═════════════════════════════════════════════════════════════════════╝

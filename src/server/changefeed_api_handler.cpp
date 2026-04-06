@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            changefeed_api_handler.cpp                         ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:19:42                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:20:16                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 1, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 5a6955588  2026-03-11  chore(cdc): audit fixes - documentation, THEMIS_ENABLE_SS... ║
-    • b56122b39  2026-03-11  feat(cdc): extend at-least-once delivery guarantee to SSE... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 1c8568075  2026-02-24  Implement GDPR-aware PII field scrubbing HTTP endpoint fo... ║
-    • e812e3a43  2026-02-24  feat(cache): implement adaptive TTL tuning based on slidi... ║
+    • 5a69555883  2026-03-11  chore(cdc): audit fixes - documentation, THEMIS_ENABLE_SS... ║
+    • b56122b397  2026-03-11  feat(cdc): extend at-least-once delivery guarantee to SSE... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 1c85680750  2026-02-24  Implement GDPR-aware PII field scrubbing HTTP endpoint fo... ║
+    • e812e3a437  2026-02-24  feat(cache): implement adaptive TTL tuning based on slidi... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

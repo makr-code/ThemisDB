@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_di_logging.cpp                               ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:04:05                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-06 04:03:29                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,9 +14,9 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 38adaf10d  2026-02-23  fix(benchmarks): audit fixes — CachePut, InMemoryCacheImp... ║
-    • 86fed1d69  2026-02-23  feat(benchmarks): add DI overhead and logging throughput ... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 38adaf10d8  2026-02-23  fix(benchmarks): audit fixes — CachePut, InMemoryCacheImp... ║
+    • 86fed1d697  2026-02-23  feat(benchmarks): add DI overhead and logging throughput ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

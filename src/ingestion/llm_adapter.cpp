@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llm_adapter.cpp                                    ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:16:46                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-04-06 04:17:12                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,9 +14,9 @@
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 7a7881349  2026-03-15  fix(ingestion): address code review - type-safe confidenc... ║
-    • c4c4c27fa  2026-03-15  feat(ingestion): LLMIngestionAdapter Phase 2 - wire llama... ║
-    • 2bb85b14f  2026-03-11  feat(ingestion): add llm_adapter.h/cpp + fix README gaps ... ║
+    • 7a78813496  2026-03-15  fix(ingestion): address code review - type-safe confidenc... ║
+    • c4c4c27fa5  2026-03-15  feat(ingestion): LLMIngestionAdapter Phase 2 - wire llama... ║
+    • 2bb85b14f2  2026-03-11  feat(ingestion): add llm_adapter.h/cpp + fix README gaps ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

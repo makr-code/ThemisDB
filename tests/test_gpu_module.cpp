@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_gpu_module.cpp                                ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:27:36                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:28:34                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,8 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 5961062fe  2026-03-01  Integrate MIGManager into GPUModule facade and GPUAdminAPI ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 5961062fed  2026-03-01  Integrate MIGManager into GPUModule facade and GPUAdminAPI ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

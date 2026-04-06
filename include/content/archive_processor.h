@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            archive_processor.h                                ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:06:46                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:06:22                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • edcfeb984  2026-03-11  feat: add scripts for auditing and reconciling GitHub iss... ║
-    • 1bacdae51  2026-03-11  fix(content/security): add zip-bomb protection in archive... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • e21224bb7  2026-02-28  feat(content): implement file upload security checks ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+    • edcfeb9848  2026-03-11  feat: add scripts for auditing and reconciling GitHub iss... ║
+    • 1bacdae51e  2026-03-11  fix(content/security): add zip-bomb protection in archive... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • e21224bb7e  2026-02-28  feat(content): implement file upload security checks ║
+    • a629043ab2  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

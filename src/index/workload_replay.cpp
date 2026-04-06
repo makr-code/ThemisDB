@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            workload_replay.cpp                                ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-03-30 04:16:40                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-06 04:17:05                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,10 +14,10 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 1808900b2  2026-02-22  feat: implement auto-bootstrap for third-party dependenci... ║
-    • 487a35be5  2026-02-22  chore(index): remove unused include and mark workload-rep... ║
-    • c31e4cee3  2026-02-22  feat(index): add workload capture and replay for index ad... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 1808900b28  2026-02-22  feat: implement auto-bootstrap for third-party dependenci... ║
+    • 487a35be5e  2026-02-22  chore(index): remove unused include and mark workload-rep... ║
+    • c31e4cee3d  2026-02-22  feat(index): add workload capture and replay for index ad... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

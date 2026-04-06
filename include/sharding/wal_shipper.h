@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            wal_shipper.h                                      ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:11:41                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:11:37                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,9 +14,9 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 16db53f83  2026-03-12  feat(sharding): implement Raft snapshot compaction and lo... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 1ee010fe7  2026-02-25  fix(replication/audit): fix div-by-zero in WALShipper sta... ║
+    • 16db53f833  2026-03-12  feat(sharding): implement Raft snapshot compaction and lo... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 1ee010fe7f  2026-02-25  fix(replication/audit): fix div-by-zero in WALShipper sta... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

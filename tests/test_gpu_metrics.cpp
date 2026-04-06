@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_gpu_metrics.cpp                               ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:27:35                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:28:33                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • dfa2c6253  2026-02-25  Merge branch 'develop' into copilot/implement-gpu-profili... ║
-    • 67871bb3f  2026-02-25  audit: fix stale headers, blank lines, add FUTURE_ENHANCE... ║
-    • 594a03555  2026-02-25  feat(gpu/metrics): add per-GPU thermal and power telemetry ║
-    • 879ec2fe2  2026-02-22  Implement GPU metrics Nsight Compute-compatible export ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • dfa2c62531  2026-02-25  Merge branch 'develop' into copilot/implement-gpu-profili... ║
+    • 67871bb3fd  2026-02-25  audit: fix stale headers, blank lines, add FUTURE_ENHANCE... ║
+    • 594a03555e  2026-02-25  feat(gpu/metrics): add per-GPU thermal and power telemetry ║
+    • 879ec2fe25  2026-02-22  Implement GPU metrics Nsight Compute-compatible export ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

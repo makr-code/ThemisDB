@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_geo_spatial_join.cpp                          ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:22:39                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-06 04:23:20                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • a183c645f  2026-03-13  fix: address code review - extract collectGeometries help... ║
-    • 3a43c52c9  2026-03-13  feat(geo): add SpatialJoinIterator lazy iterator and AQL ... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • ff7b556bb  2026-02-26  test(geo): add NonPointGeometry_UsesCentroid test for spa... ║
-    • a6b9a1ca8  2026-02-24  feat(geo): implement spatial JOIN for nearby point pairs ║
+    • a183c645fa  2026-03-13  fix: address code review - extract collectGeometries help... ║
+    • 3a43c52c92  2026-03-13  feat(geo): add SpatialJoinIterator lazy iterator and AQL ... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • ff7b556bb3  2026-02-26  test(geo): add NonPointGeometry_UsesCentroid test for spa... ║
+    • a6b9a1ca88  2026-02-24  feat(geo): implement spatial JOIN for nearby point pairs ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_transaction_retry.cpp                         ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:34:46                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:36:04                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,9 +14,9 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • ea0a10a28  2026-03-14  Fix retry attempt counting               ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • c44891bf3  2026-02-26  Fix TransactionRetryManager: add thread include, fix Retr... ║
+    • ea0a10a287  2026-03-14  Fix retry attempt counting              ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • c44891bf35  2026-02-26  Fix TransactionRetryManager: add thread include, fix Retr... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

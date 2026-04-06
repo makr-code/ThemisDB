@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_canary_rollout.cpp                            ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-03-30 04:24:54                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-06 04:25:43                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 39                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • f96a06748  2026-03-14  Audit fixes: populate error_count/success_count in metric... ║
-    • 57c7d0bd9  2026-03-14  Implement CanaryDeployment with latency/memory/CPU/disk m... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 1121f3d4a  2026-02-22  Audit fixes: double-apply guard, toCanaryConfig bridge, h... ║
-    • ca631bad0  2026-02-22  Implement canary rollout mode: CanaryRollout class, confi... ║
+    • f96a06748c  2026-03-14  Audit fixes: populate error_count/success_count in metric... ║
+    • 57c7d0bd94  2026-03-14  Implement CanaryDeployment with latency/memory/CPU/disk m... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 1121f3d4a3  2026-02-22  Audit fixes: double-apply guard, toCanaryConfig bridge, h... ║
+    • ca631bad03  2026-02-22  Implement canary rollout mode: CanaryRollout class, confi... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: 📝 Draft / Stub                                              ║
 ╚═════════════════════════════════════════════════════════════════════╝

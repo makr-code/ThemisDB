@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            huggingface_connector.h                            ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:08:10                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:07:51                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 25f69a572  2026-03-09  feat(ingestion): replace simulated HttpClient in HuggingF... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • eda6e27de  2026-02-28  fix(ingestion): reject_invalid=false mode, schema_violati... ║
-    • b40bbc161  2026-02-26  feat(ingestion): OAuth 2.0 token refresh handling in Gene... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+    • 25f69a572f  2026-03-09  feat(ingestion): replace simulated HttpClient in HuggingF... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • eda6e27def  2026-02-28  fix(ingestion): reject_invalid=false mode, schema_violati... ║
+    • b40bbc1612  2026-02-26  feat(ingestion): OAuth 2.0 token refresh handling in Gene... ║
+    • a629043ab2  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

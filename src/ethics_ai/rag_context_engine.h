@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            rag_context_engine.h                               ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:15:20                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-04-06 04:15:40                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,9 +14,9 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 9ab72c508  2026-03-12  refactor: flatten plugin hierarchy to src/<name>/ and inc... ║
-    • acdb250db  2026-03-12  feat: migrate plugins to src/include with CMake switches ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 9ab72c5089  2026-03-12  refactor: flatten plugin hierarchy to src/<name>/ and inc... ║
+    • acdb250dbf  2026-03-12  feat: migrate plugins to src/include with CMake switches ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

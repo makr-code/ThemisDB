@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_hsm_bundle_signing.cpp                        ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:28:09                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-06 04:29:09                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,8 @@
     • Open Issues:     TODOs: 0, Stubs: 3                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • dc6fef6f3  2026-03-01  feat(security/updates): implement HSM-backed SigningServi... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • dc6fef6f3a  2026-03-01  feat(security/updates): implement HSM-backed SigningServi... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

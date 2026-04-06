@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            semantic_validator.cpp                             ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:16:49                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-04-06 04:17:14                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,8 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 8452353dc  2026-03-12  Add unit tests for sync-issues-from-roadmap.py ║
-    • a7cd4fa78  2026-03-11  feat(ingestion): LLM-driven semantic extraction pipeline ... ║
+    • 8452353dc5  2026-03-12  Add unit tests for sync-issues-from-roadmap.py ║
+    • a7cd4fa788  2026-03-11  feat(ingestion): LLM-driven semantic extraction pipeline ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

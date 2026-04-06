@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            analytics_export.cpp                               ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:13:48                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:14:03                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 1e59da979  2026-03-19  Fix remaining gaps: spdlog::warn in olap.cpp/analytics_ex... ║
-    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-    • d5fae2ab2  2026-03-18  Changes before error encountered         ║
-    • 4bd69efbb  2026-03-16  Complete ExporterFactory stub replacement: CI workflow + ... ║
-    • 8d9f38886  2026-03-16  Changes before error encountered         ║
+    • 1e59da9797  2026-03-19  Fix remaining gaps: spdlog::warn in olap.cpp/analytics_ex... ║
+    • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
+    • d5fae2ab24  2026-03-18  Changes before error encountered        ║
+    • 4bd69efbb8  2026-03-16  Complete ExporterFactory stub replacement: CI workflow + ... ║
+    • 8d9f388865  2026-03-16  Changes before error encountered        ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cdc_debezium_format.cpp                       ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:25:09                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-06 04:25:59                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,9 +14,9 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 18d7dc804  2026-02-25  audit: fix Debezium roadmap markers, add FUTURE_ENHANCEME... ║
-    • df0b82e9b  2026-02-24  feat(cdc): Debezium-compatible change event envelope form... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 18d7dc8045  2026-02-25  audit: fix Debezium roadmap markers, add FUTURE_ENHANCEME... ║
+    • df0b82e9b9  2026-02-24  feat(cdc): Debezium-compatible change event envelope form... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

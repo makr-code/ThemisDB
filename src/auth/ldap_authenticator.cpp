@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ldap_authenticator.cpp                             ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:14:13                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-06 04:14:29                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 2                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 8964e83dc  2026-03-12  Add updater class integration and GitHub Actions for plug... ║
-    • 57fef95c4  2026-03-12  feat(auth): async/non-blocking LDAP and HTTP authenticati... ║
-    • 3fea6d6b5  2026-03-12  refactor: clean up includes and remove unused transaction... ║
-    • fc9c9664a  2026-03-12  feat(auth): implement LDAP connection pooling (v1.2.0) ║
-    • 0f9b874f4  2026-03-12  fix(auth): address all reviewer comments on LDAP injectio... ║
+    • 8964e83dc5  2026-03-12  Add updater class integration and GitHub Actions for plug... ║
+    • 57fef95c4a  2026-03-12  feat(auth): async/non-blocking LDAP and HTTP authenticati... ║
+    • 3fea6d6b51  2026-03-12  refactor: clean up includes and remove unused transaction... ║
+    • fc9c9664ad  2026-03-12  feat(auth): implement LDAP connection pooling (v1.2.0) ║
+    • 0f9b874f42  2026-03-12  fix(auth): address all reviewer comments on LDAP injectio... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

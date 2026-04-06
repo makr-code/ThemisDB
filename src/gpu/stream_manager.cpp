@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            stream_manager.cpp                                 ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:15:59                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:16:22                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 6206d7fc1  2026-02-27  fix(gpu): remove duplicate cuda_runtime.h include and cle... ║
-    • 739078d2b  2026-02-27  fix(gpu): fix compilation errors in GPUStreamManager and ... ║
-    • dfa2c6253  2026-02-25  Merge branch 'develop' into copilot/implement-gpu-profili... ║
-    • d09f11d78  2026-02-25  fix(gpu): code-audit fixes for cluster topology and strea... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 6206d7fc12  2026-02-27  fix(gpu): remove duplicate cuda_runtime.h include and cle... ║
+    • 739078d2b1  2026-02-27  fix(gpu): fix compilation errors in GPUStreamManager and ... ║
+    • dfa2c62531  2026-02-25  Merge branch 'develop' into copilot/implement-gpu-profili... ║
+    • d09f11d786  2026-02-25  fix(gpu): code-audit fixes for cluster topology and strea... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

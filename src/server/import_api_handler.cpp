@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            import_api_handler.cpp                             ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:19:49                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:20:24                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 9bccf09a7  2026-03-16  Changes before error encountered         ║
-    • 8452353dc  2026-03-12  Add unit tests for sync-issues-from-roadmap.py ║
-    • a2a0e15fa  2026-03-11  Changes before error encountered         ║
-    • e4aae2a7f  2026-03-11  feat(importers): PostgreSQL Importer v2.0 - FK preservati... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 9bccf09a7c  2026-03-16  Changes before error encountered        ║
+    • 8452353dc5  2026-03-12  Add unit tests for sync-issues-from-roadmap.py ║
+    • a2a0e15fab  2026-03-11  Changes before error encountered        ║
+    • e4aae2a7f2  2026-03-11  feat(importers): PostgreSQL Importer v2.0 - FK preservati... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

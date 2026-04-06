@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            plugin_loader.cpp                                  ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:13:47                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:14:02                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,10 +14,10 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • ce91302f7  2026-02-24  feat: erweitere die ModularBuild-Konfiguration und implem... ║
-    • 3f47ce19e  2026-02-23  feat(acceleration): security hardening pass for plugin/dr... ║
-    • 40c623acf  2026-02-23  Implement security audit for backend plugin loading and r... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • ce91302f75  2026-02-24  feat: erweitere die ModularBuild-Konfiguration und implem... ║
+    • 3f47ce19e8  2026-02-23  feat(acceleration): security hardening pass for plugin/dr... ║
+    • 40c623acf8  2026-02-23  Implement security audit for backend plugin loading and r... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

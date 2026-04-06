@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            oidc_provider.cpp                                  ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:14:19                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-06 04:14:35                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • fc7a85ac8  2026-03-12  fix(auth): address PR review - curl_multi_info_read, void... ║
-    • 57fef95c4  2026-03-12  feat(auth): async/non-blocking LDAP and HTTP authenticati... ║
-    • 1470edf9b  2026-03-12  feat(auth): mandatory JWT issuer and audience validation ... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • b15aac1a6  2026-02-23  fix(auth): audit fixes – createDeviceFlow lazy-discover, ... ║
+    • fc7a85ac82  2026-03-12  fix(auth): address PR review - curl_multi_info_read, void... ║
+    • 57fef95c4a  2026-03-12  feat(auth): async/non-blocking LDAP and HTTP authenticati... ║
+    • 1470edf9b1  2026-03-12  feat(auth): mandatory JWT issuer and audience validation ... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • b15aac1a6b  2026-02-23  fix(auth): audit fixes – createDeviceFlow lazy-discover, ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

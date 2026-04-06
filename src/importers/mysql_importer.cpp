@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            mysql_importer.cpp                                 ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-03-30 04:16:21                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-06 04:16:46                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 971a3c49d  2026-03-20  Build/test fixes and auth role mapping refactor ║
-    • a522f154e  2026-03-16  feat(importers): wire & verify MySQL/MariaDB importer reg... ║
-    • 9bccf09a7  2026-03-16  Changes before error encountered         ║
-    • 786e4a8df  2026-03-15  feat(importers): incremental import, MySQL benchmark, Mon... ║
-    • e8972c533  2026-03-15  feat(importers): add MySQL-specific Prometheus metrics an... ║
+    • 971a3c49d5  2026-03-20  Build/test fixes and auth role mapping refactor ║
+    • a522f154ee  2026-03-16  feat(importers): wire & verify MySQL/MariaDB importer reg... ║
+    • 9bccf09a7c  2026-03-16  Changes before error encountered        ║
+    • 786e4a8dfe  2026-03-15  feat(importers): incremental import, MySQL benchmark, Mon... ║
+    • e8972c533b  2026-03-15  feat(importers): add MySQL-specific Prometheus metrics an... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,18 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            utils_adapters.cpp                                 ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-30 04:21:39                                ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-04-06 04:22:17                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     433                                            ║
+    • Total Lines:     436                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 071d9ee89  2026-03-20  feat(utils): implement abstract interfaces for the utils ... ║
+    • 071d9ee897  2026-03-20  feat(utils): implement abstract interfaces for the utils ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

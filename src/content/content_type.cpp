@@ -3,19 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            content_type.cpp                                   ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:15:08                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:15:27                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     656                                            ║
+    • Total Lines:     678                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 8bd1fe74d  2026-02-26  Audit fixes: preserve_heading_markers, xhtml+xml registry... ║
+    • d331f64d17  2026-04-01  feat: add support for merge operator detection in Changef... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 8bd1fe74db  2026-02-26  Audit fixes: preserve_heading_markers, xhtml+xml registry... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

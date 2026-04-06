@@ -3,20 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_mqtt_client_service.cpp                       ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-30 04:30:02                                ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-04-06 04:31:07                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     557                                            ║
+    • Total Lines:     568                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 21fb5b70f  2026-03-27  Add CMake source coverage audit workflow and baseline script ║
-    • d0d07d689  2026-03-23  fix(server/mqtt): remove bytes_sent double-count, remove ... ║
-    • c9f5c0d13  2026-03-23  feat(server): add MqttClientService — bidirectional MQTT ... ║
+    • 21fb5b70f6  2026-03-27  Add CMake source coverage audit workflow and baseline script ║
+    • d0d07d689c  2026-03-23  fix(server/mqtt): remove bytes_sent double-count, remove ... ║
+    • c9f5c0d13f  2026-03-23  feat(server): add MqttClientService — bidirectional MQTT ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

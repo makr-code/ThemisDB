@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            gpu_backend_stub.cpp                               ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:15:37                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:15:59                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 67965456c  2026-03-22  Add constructors with default config for various classes ... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • d4d1128ca  2026-02-28  fix(geo): integrate GeoDeviceDetector into gpu_backend_st... ║
-    • 0f84568fb  2026-02-27  feat(geo): circuit-breaker immediately fails when no CUDA... ║
-    • 7a427cad5  2026-02-27  feat(geo): fix stale header metadata and add CPU fallback... ║
+    • 67965456c8  2026-03-22  Add constructors with default config for various classes ... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • d4d1128ca8  2026-02-28  fix(geo): integrate GeoDeviceDetector into gpu_backend_st... ║
+    • 0f84568fb1  2026-02-27  feat(geo): circuit-breaker immediately fails when no CUDA... ║
+    • 7a427cad5d  2026-02-27  feat(geo): fix stale header metadata and add CPU fallback... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

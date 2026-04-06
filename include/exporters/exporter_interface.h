@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            exporter_interface.h                               ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:07:09                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:06:46                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2dba94765  2026-03-11  feat(exporters): PolicyEngine export authorization with a... ║
-    • 3db37eb45  2026-03-10  feat(exporters): implement EXP-001 PolicyEngine auth, EXP... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 6cbe0e954  2026-02-28  Implement AES-256-GCM export encryption (Phase 3 security... ║
-    • 5515f88c1  2026-02-28  feat(exporters): implement AES-256-GCM export encryption ... ║
+    • 2dba947651  2026-03-11  feat(exporters): PolicyEngine export authorization with a... ║
+    • 3db37eb452  2026-03-10  feat(exporters): implement EXP-001 PolicyEngine auth, EXP... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 6cbe0e9543  2026-02-28  Implement AES-256-GCM export encryption (Phase 3 security... ║
+    • 5515f88c16  2026-02-28  feat(exporters): implement AES-256-GCM export encryption ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

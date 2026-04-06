@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            aql_injection_detector.cpp                         ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:19:25                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:19:57                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     683                                            ║
+    • Total Lines:     684                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • f38c013cd  2026-03-29  Enhance various components with improvements and fixes ║
-    • 4e39463a8  2026-03-21  feat(security): implement AQL read-only context validatio... ║
-    • 43a91f179  2026-03-13  feat(metrics): add metrics collector for credential-stuff... ║
-    • 7cbf9c7b9  2026-03-12  fix(security): apply reviewer feedback on AQL AST-level v... ║
-    • eb75d79f5  2026-03-12  feat(security): implement AQL AST-level injection validat... ║
+    • f38c013cdc  2026-03-29  Enhance various components with improvements and fixes ║
+    • 4e39463a86  2026-03-21  feat(security): implement AQL read-only context validatio... ║
+    • 43a91f1793  2026-03-13  feat(metrics): add metrics collector for credential-stuff... ║
+    • 7cbf9c7b9b  2026-03-12  fix(security): apply reviewer feedback on AQL AST-level v... ║
+    • eb75d79f53  2026-03-12  feat(security): implement AQL AST-level injection validat... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

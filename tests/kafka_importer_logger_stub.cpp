@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            kafka_importer_logger_stub.cpp                     ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:23:04                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-04-06 04:23:47                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,7 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 3                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2421634e7  2026-03-13  fix(kafka): rewrite tests to use production KafkaImporter... ║
+    • 2421634e7d  2026-03-13  fix(kafka): rewrite tests to use production KafkaImporter... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

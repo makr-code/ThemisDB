@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_content_deduplication.cpp                     ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:25:46                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-06 04:26:38                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     878                                            ║
+    • Total Lines:     879                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-    • 4468db516  2026-03-19  fix(content): dedup default-off, strengthen policy-absent... ║
-    • 55d1f8241  2026-03-19  fix(content): wire enable_deduplication config gate, add ... ║
-    • 05af90207  2026-03-18  feat(content): add perceptual hashing dedup perf tests an... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
+    • 4468db516b  2026-03-19  fix(content): dedup default-off, strengthen policy-absent... ║
+    • 55d1f82412  2026-03-19  fix(content): wire enable_deduplication config gate, add ... ║
+    • 05af902070  2026-03-18  feat(content): add perceptual hashing dedup perf tests an... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

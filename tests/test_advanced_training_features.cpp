@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_advanced_training_features.cpp                ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:23:56                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-04-06 04:24:41                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,8 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • ac7727506  2026-03-11  fix(training): wire QLoRALayer for INT8/NF4 quantization;... ║
-    • 495594752  2026-03-11  feat(training): add quantization, multi-GPU, metrics trac... ║
+    • ac7727506d  2026-03-11  fix(training): wire QLoRALayer for INT8/NF4 quantization;... ║
+    • 495594752a  2026-03-11  feat(training): add quantization, multi-GPU, metrics trac... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

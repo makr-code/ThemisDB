@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            capability_auto_generator.h                        ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:12:55                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:12:55                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,9 +14,9 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 283ba68aa  2026-03-15  fix(utils): code audit fixes for Issue #217 — persistStat... ║
-    • 6e6268857  2026-03-15  feat(utils): implement CapabilityAutoGenerator state pers... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 283ba68aa2  2026-03-15  fix(utils): code audit fixes for Issue #217 — persistStat... ║
+    • 6e62688576  2026-03-15  feat(utils): implement CapabilityAutoGenerator state pers... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            geo_rtree.h                                        ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-03-30 04:07:16                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-06 04:06:55                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,8 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 90f7ef343  2026-02-22  feat(geo): Add in-memory R-tree spatial index (GeoRTree) ... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 90f7ef343d  2026-02-22  feat(geo): Add in-memory R-tree spatial index (GeoRTree) ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,21 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            training_pipeline.cpp                              ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:21:04                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:21:40                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   91.0/100                                       ║
-    • Total Lines:     748                                            ║
+    • Total Lines:     749                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 1082cc00f  2026-03-20  Changes before error encountered         ║
-    • e6379c318  2026-03-09  fix(training): audit gaps – provenance wiring, calibratio... ║
-    • ce712594b  2026-03-09  feat(training): Phase 3 enhancements - checkpoint manager... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 1082cc00f9  2026-03-20  Changes before error encountered        ║
+    • e6379c3181  2026-03-09  fix(training): audit gaps – provenance wiring, calibratio... ║
+    • ce712594b0  2026-03-09  feat(training): Phase 3 enhancements - checkpoint manager... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            module_loader.cpp                                  ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:14:27                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:14:45                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • e2d71ace5  2026-03-12  fix: address review feedback — thread-safe tests, insert_... ║
-    • db4d733c2  2026-03-12  fix: remove explicit mutex unlock before unregisterModule... ║
-    • c2e0a8ff7  2026-03-12  feat: O(1) module lookup — replace loadedModules_ vector ... ║
-    • 6675793bc  2026-03-11  fix(base): fix data race in watchdog stats access, clean ... ║
-    • 00e3b5daf  2026-03-11  fix(base): address code review feedback - clarify locking... ║
+    • e2d71ace58  2026-03-12  fix: address review feedback — thread-safe tests, insert_... ║
+    • db4d733c21  2026-03-12  fix: remove explicit mutex unlock before unregisterModule... ║
+    • c2e0a8ff71  2026-03-12  feat: O(1) module lookup — replace loadedModules_ vector ... ║
+    • 6675793bcf  2026-03-11  fix(base): fix data race in watchdog stats access, clean ... ║
+    • 00e3b5dafd  2026-03-11  fix(base): address code review feedback - clarify locking... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

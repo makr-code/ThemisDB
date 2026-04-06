@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            query_engine.cpp                                   ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:18:36                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:19:06                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 1, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 490de27f0  2026-03-26  fix: implement all P0/P1 blockers - QueryEngine, RAG, eth... ║
-    • 3ac1c4143  2026-03-09  fix: clear all remaining stubs/TODOs across modules; upda... ║
-    • f82bf2ae9  2026-03-04  Refactor tenant manager tests and add new test cases ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 1d23633fa  2026-02-26  audit(geo): add GEO_BUFFER alias and geodesic handler in ... ║
+    • a9c8e3f831  2026-03-30  Fix schema migration ODR in modular tests and align query... ║
+    • 490de27f06  2026-03-26  fix: implement all P0/P1 blockers - QueryEngine, RAG, eth... ║
+    • 3ac1c41432  2026-03-09  fix: clear all remaining stubs/TODOs across modules; upda... ║
+    • f82bf2ae9f  2026-03-04  Refactor tenant manager tests and add new test cases ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

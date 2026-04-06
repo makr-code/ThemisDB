@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            importer_interface.h                               ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:07:39                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:07:19                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 971a3c49d  2026-03-20  Build/test fixes and auth role mapping refactor ║
-    • 8452353dc  2026-03-12  Add unit tests for sync-issues-from-roadmap.py ║
-    • 3bbe81142  2026-03-11  feat(importers): MDM audit fixes – PostgreSQLImporterWith... ║
-    • b8ff944e1  2026-03-11  feat(importers): PostgreSQL importer v2.0 - Foreign Key P... ║
-    • e4aae2a7f  2026-03-11  feat(importers): PostgreSQL Importer v2.0 - FK preservati... ║
+    • 971a3c49d5  2026-03-20  Build/test fixes and auth role mapping refactor ║
+    • 8452353dc5  2026-03-12  Add unit tests for sync-issues-from-roadmap.py ║
+    • 3bbe81142d  2026-03-11  feat(importers): MDM audit fixes – PostgreSQLImporterWith... ║
+    • b8ff944e1b  2026-03-11  feat(importers): PostgreSQL importer v2.0 - Foreign Key P... ║
+    • e4aae2a7f2  2026-03-11  feat(importers): PostgreSQL Importer v2.0 - FK preservati... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

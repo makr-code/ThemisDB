@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            database_adapter.hpp                               ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:06:29                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:06:04                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 04a46f63a  2026-03-12  fix(chimera): address PR review comments on multi-databas... ║
-    • 3bd2167e6  2026-03-12  feat(chimera): implement multi-database adapter registrat... ║
-    • 16eb8c2a4  2026-03-12  fix(chimera): address async API review comments (RAII cle... ║
-    • a3a9d7e09  2026-03-12  feat(chimera): implement AdapterConfig validation (v1.2.0) ║
-    • 0701ac8f4  2026-03-12  feat(chimera): implement async/promise-based API (IAsyncD... ║
+    • 04a46f63a9  2026-03-12  fix(chimera): address PR review comments on multi-databas... ║
+    • 3bd2167e65  2026-03-12  feat(chimera): implement multi-database adapter registrat... ║
+    • 16eb8c2a4c  2026-03-12  fix(chimera): address async API review comments (RAII cle... ║
+    • a3a9d7e09c  2026-03-12  feat(chimera): implement AdapterConfig validation (v1.2.0) ║
+    • 0701ac8f4d  2026-03-12  feat(chimera): implement async/promise-based API (IAsyncD... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

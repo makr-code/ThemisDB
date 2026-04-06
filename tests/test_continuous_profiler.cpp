@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_continuous_profiler.cpp                       ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-03-30 04:25:59                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-06 04:26:52                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,10 +14,10 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 28a4b23b9  2026-02-23  Refactor tests and update error handling ║
-    • 654a7b5ae  2026-02-22  fix(observability): fix two thread-safety bugs and Wreord... ║
-    • c9fc2c24e  2026-02-22  feat(observability): implement pprof/async-profiler compa... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 28a4b23b94  2026-02-23  Refactor tests and update error handling ║
+    • 654a7b5ae3  2026-02-22  fix(observability): fix two thread-safety bugs and Wreord... ║
+    • c9fc2c24ea  2026-02-22  feat(observability): implement pprof/async-profiler compa... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

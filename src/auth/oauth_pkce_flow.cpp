@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            oauth_pkce_flow.cpp                                ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:14:18                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-06 04:14:34                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • fc7a85ac8  2026-03-12  fix(auth): address PR review - curl_multi_info_read, void... ║
-    • 57fef95c4  2026-03-12  feat(auth): async/non-blocking LDAP and HTTP authenticati... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 82b94dd7c  2026-02-24  fix(auth): code-audit fixes for OAuth PKCE — EVP SHA-256,... ║
-    • 49afad4b8  2026-02-23  feat(auth): implement OAuth 2.0 PKCE flow for public clie... ║
+    • fc7a85ac82  2026-03-12  fix(auth): address PR review - curl_multi_info_read, void... ║
+    • 57fef95c4a  2026-03-12  feat(auth): async/non-blocking LDAP and HTTP authenticati... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 82b94dd7cf  2026-02-24  fix(auth): code-audit fixes for OAuth PKCE — EVP SHA-256,... ║
+    • 49afad4b81  2026-02-23  feat(auth): implement OAuth 2.0 PKCE flow for public clie... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

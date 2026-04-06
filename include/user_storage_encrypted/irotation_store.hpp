@@ -3,18 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            irotation_store.hpp                                ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-30 04:12:53                                ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-04-06 04:12:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     107                                            ║
+    • Total Lines:     129                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 8e5567bf5  2026-03-24  feat(user_storage_encrypted): v0.1.0 stdin key delivery, ... ║
+    • 8e5567bf5e  2026-03-24  feat(user_storage_encrypted): v0.1.0 stdin key delivery, ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

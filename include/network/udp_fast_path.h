@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            udp_fast_path.h                                    ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:08:57                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-06 04:08:42                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,10 +14,10 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 9d3ecaa0e  2026-02-28  Add ThemisDB Wiki Integration plugin with documentation i... ║
-    • d05b24f28  2026-02-28  fix(network): code audit — 6 correctness/security fixes i... ║
-    • 2f509d25d  2026-02-27  feat(network): implement UDP fast-path for read-only quer... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 9d3ecaa0e4  2026-02-28  Add ThemisDB Wiki Integration plugin with documentation i... ║
+    • d05b24f281  2026-02-28  fix(network): code audit — 6 correctness/security fixes i... ║
+    • 2f509d25d8  2026-02-27  feat(network): implement UDP fast-path for read-only quer... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

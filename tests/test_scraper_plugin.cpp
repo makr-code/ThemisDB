@@ -1,3 +1,28 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_scraper_plugin.cpp                            ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-04-06 04:34:42                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     983                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 5bee4e8e41  2026-04-03  Implement Disaster Recovery Manager and associated tests ║
+    • 527ce5dd6e  2026-04-02  fix(scraper): update test count comments (60 tests, 12 gr... ║
+    • 09aaa40562  2026-04-02  feat(scraper): add provenance flags, knowledge_sources.ya... ║
+    • c2cc8e90ab  2026-04-02  feat(plugins/scraper): add agentic scraper plugin with go... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file test_scraper_plugin.cpp
  * @brief Unit tests for the Scraper Plugin (agentic gap-detection scraper)

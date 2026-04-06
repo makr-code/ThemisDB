@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            temporal_query_engine.cpp                          ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:20:42                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:21:18                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 96f1f1fd7  2026-03-24  Changes before error encountered         ║
-    • 43a91f179  2026-03-13  feat(metrics): add metrics collector for credential-stuff... ║
-    • fe76ac476  2026-03-12  fix(temporal): address PR review comments on QueryCache a... ║
-    • bce530ee4  2026-03-12  feat(temporal): implement Time-Travel Query Engine (v1.2.0) ║
-    • 6e8942ed4  2026-03-09  feat(temporal): implement bitemporal joins and SEQUENCED/... ║
+    • 96f1f1fd7c  2026-03-24  Changes before error encountered        ║
+    • 43a91f1793  2026-03-13  feat(metrics): add metrics collector for credential-stuff... ║
+    • fe76ac4765  2026-03-12  fix(temporal): address PR review comments on QueryCache a... ║
+    • bce530ee49  2026-03-12  feat(temporal): implement Time-Travel Query Engine (v1.2.0) ║
+    • 6e8942ed4f  2026-03-09  feat(temporal): implement bitemporal joins and SEQUENCED/... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

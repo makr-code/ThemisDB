@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            deadlock_predictor.cpp                             ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:21:05                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-04-06 04:21:41                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,10 +14,10 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 7fc70aef2  2026-03-14  fix(transaction): correct eviction logic in recordDeadlock() ║
-    • 7be96cdad  2026-03-14  fix(transaction): address PR review feedback on DeadlockP... ║
-    • 0e13468f3  2026-03-13  refactor(transaction): address code review feedback ║
-    • 531f9a095  2026-03-13  feat(transaction): implement Adaptive Deadlock Prevention... ║
+    • 7fc70aef23  2026-03-14  fix(transaction): correct eviction logic in recordDeadlock() ║
+    • 7be96cdad3  2026-03-14  fix(transaction): address PR review feedback on DeadlockP... ║
+    • 0e13468f35  2026-03-13  refactor(transaction): address code review feedback ║
+    • 531f9a0959  2026-03-13  feat(transaction): implement Adaptive Deadlock Prevention... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

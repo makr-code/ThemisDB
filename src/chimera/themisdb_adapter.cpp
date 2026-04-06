@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            themisdb_adapter.cpp                               ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:14:56                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:15:14                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 6b598edc4  2026-03-12  Add ThemisDB Graph Navigation plugin with automatic updater ║
-    • 3760a281c  2026-03-12  fix(chimera): move semantics for ScopedTokenRemover, id-r... ║
-    • 16eb8c2a4  2026-03-12  fix(chimera): address async API review comments (RAII cle... ║
-    • 0701ac8f4  2026-03-12  feat(chimera): implement async/promise-based API (IAsyncD... ║
-    • 3fea6d6b5  2026-03-12  refactor: clean up includes and remove unused transaction... ║
+    • 6b598edc46  2026-03-12  Add ThemisDB Graph Navigation plugin with automatic updater ║
+    • 3760a281cf  2026-03-12  fix(chimera): move semantics for ScopedTokenRemover, id-r... ║
+    • 16eb8c2a4c  2026-03-12  fix(chimera): address async API review comments (RAII cle... ║
+    • 0701ac8f4d  2026-03-12  feat(chimera): implement async/promise-based API (IAsyncD... ║
+    • 3fea6d6b51  2026-03-12  refactor: clean up includes and remove unused transaction... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

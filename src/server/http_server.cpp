@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            http_server.cpp                                    ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:19:49                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:20:23                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 1, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 490de27f0  2026-03-26  fix: implement all P0/P1 blockers - QueryEngine, RAG, eth... ║
-    • 80ae5c5d3  2026-03-15  fix(storage/audit): remove dead dsm.setRocksDBSize() call... ║
-    • 9f9d86ceb  2026-03-15  feat(storage): implement proper size calculation in Rocks... ║
-    • c9b143394  2026-03-15  feat(server): inject live ShardingManager into HttpServer... ║
-    • 2fed5b1c6  2026-03-15  fix(cdc): wire ConsumerGroupManager into WebSocket server... ║
+    • 490de27f06  2026-03-26  fix: implement all P0/P1 blockers - QueryEngine, RAG, eth... ║
+    • 80ae5c5d3e  2026-03-15  fix(storage/audit): remove dead dsm.setRocksDBSize() call... ║
+    • 9f9d86ceb0  2026-03-15  feat(storage): implement proper size calculation in Rocks... ║
+    • c9b1433946  2026-03-15  feat(server): inject live ShardingManager into HttpServer... ║
+    • 2fed5b1c69  2026-03-15  fix(cdc): wire ConsumerGroupManager into WebSocket server... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

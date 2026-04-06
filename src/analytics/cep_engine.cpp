@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cep_engine.cpp                                     ║
-  Version:         0.0.21                                             ║
-  Last Modified:   2026-03-30 04:13:50                                ║
+  Version:         0.0.22                                             ║
+  Last Modified:   2026-04-06 04:14:05                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 248ee0806  2026-03-19  Changes before error encountered         ║
-    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-    • 5706ac4f3  2026-03-18  fix(analytics): streaming_window — configurable expiry in... ║
-    • 5a0ad3972  2026-03-17  fix(analytics): address code-review polish — rename effec... ║
-    • 41d5cc48b  2026-03-17  fix(analytics): address all code review findings from aut... ║
+    • 248ee0806f  2026-03-19  Changes before error encountered        ║
+    • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
+    • 5706ac4f36  2026-03-18  fix(analytics): streaming_window — configurable expiry in... ║
+    • 5a0ad39722  2026-03-17  fix(analytics): address code-review polish — rename effec... ║
+    • 41d5cc48b8  2026-03-17  fix(analytics): address all code review findings from aut... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

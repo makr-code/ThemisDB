@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            async_inference_engine.h                           ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:08:18                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:08:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-    • d1f0cf3ca  2026-03-19  fix(llm): address all PR review issues - sentinel deliver... ║
-    • cdc974975  2026-03-18  Changes before error encountered         ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • d0fa9e609  2026-02-28  feat(llm): implement prompt injection mitigation and secu... ║
+    • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
+    • d1f0cf3ca5  2026-03-19  fix(llm): address all PR review issues - sentinel deliver... ║
+    • cdc9749757  2026-03-18  Changes before error encountered        ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • d0fa9e6093  2026-02-28  feat(llm): implement prompt injection mitigation and secu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            config_file_watcher.cpp                            ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:15:01                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-04-06 04:15:20                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,8 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • d53734b2f  2026-03-15  fix(config): mark roadmap issue checkboxes done; fix star... ║
-    • 1e2b358f1  2026-03-15  feat(config): SIGHUP hot-reload inotify/kqueue/ReadDirect... ║
+    • d53734b2fa  2026-03-15  fix(config): mark roadmap issue checkboxes done; fix star... ║
+    • 1e2b358f1d  2026-03-15  feat(config): SIGHUP hot-reload inotify/kqueue/ReadDirect... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

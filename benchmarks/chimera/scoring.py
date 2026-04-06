@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            scoring.py                                         ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:04:40                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-06 04:04:08                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 701b8592a  2026-02-28  Add scoring framework docs and update header quality metrics ║
-    • b081c5508  2026-02-28  feat(chimera): integrate StatisticalAnalyzer with Benchma... ║
-    • fc2f092b6  2026-02-26  audit: remove unused imports, dead code, raise coverage t... ║
-    • f2104380d  2026-02-26  feat(chimera): add benchmark result normalization and sco... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 701b8592a3  2026-02-28  Add scoring framework docs and update header quality metrics ║
+    • b081c5508d  2026-02-28  feat(chimera): integrate StatisticalAnalyzer with Benchma... ║
+    • fc2f092b63  2026-02-26  audit: remove unused imports, dead code, raise coverage t... ║
+    • f2104380d2  2026-02-26  feat(chimera): add benchmark result normalization and sco... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

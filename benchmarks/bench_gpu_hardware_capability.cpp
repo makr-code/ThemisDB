@@ -1,4 +1,26 @@
 /*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            bench_gpu_hardware_capability.cpp                  ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-04-06 04:03:36                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
+    • Quality Score:   65.0/100                                       ║
+    • Total Lines:     579                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • dac91fef60  2026-04-04  Add local production readiness checklist and OpenAPI comp... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ⚠️  Needs Work                                              ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+/*
  * ThemisDB — GPU Hardware Capability Benchmark
  *
  * File:    bench_gpu_hardware_capability.cpp

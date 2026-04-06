@@ -3,19 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            erasure_coder_factory.cpp                          ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-30 04:20:29                                ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-04-06 04:21:04                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     537                                            ║
+    • Total Lines:     560                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 79f081505  2026-03-28  Add test statistics documentation and collection script ║
-    • 354c97d28  2026-03-16  feat: Add new erasure coding backend and related components ║
+    • 79f0815052  2026-03-28  Add test statistics documentation and collection script ║
+    • 354c97d283  2026-03-16  feat: Add new erasure coding backend and related components ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

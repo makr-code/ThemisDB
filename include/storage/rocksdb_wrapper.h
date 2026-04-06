@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            rocksdb_wrapper.h                                  ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:11:50                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:11:46                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 197320301  2026-03-28  Implement SequenceU64Increment merge operator for RocksDB... ║
-    • 8031d339d  2026-03-15  feat(storage): implement RocksDB iteration for SecuritySi... ║
-    • 78f419ea2  2026-03-13  feat(storage): implement BlobRedundancyEventListener for ... ║
-    • 6e0a18187  2026-03-13  fix(storage/nvme): address all review comments – thread s... ║
-    • 48cc2a0a2  2026-03-13  feat(storage): implement NVMe optimizations (io_uring, mu... ║
+    • 197320301a  2026-03-28  Implement SequenceU64Increment merge operator for RocksDB... ║
+    • 8031d339d2  2026-03-15  feat(storage): implement RocksDB iteration for SecuritySi... ║
+    • 78f419ea26  2026-03-13  feat(storage): implement BlobRedundancyEventListener for ... ║
+    • 6e0a18187e  2026-03-13  fix(storage/nvme): address all review comments – thread s... ║
+    • 48cc2a0a2d  2026-03-13  feat(storage): implement NVMe optimizations (io_uring, mu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

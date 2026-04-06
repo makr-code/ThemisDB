@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_gpu_vector_index.cpp                          ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:27:46                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:28:45                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • bdf8bb008  2026-02-28  audit: fix VRAM accounting bug, add numVectors sanity cap... ║
-    • de87a9ce1  2026-02-28  feat(index): implement GPU-accelerated buildIndex, saveIn... ║
-    • b4714f29a  2026-02-26  fix(index): populate vramUsageBytes from per-index budget... ║
-    • 2813641e1  2026-02-26  feat(index): implement configurable GPU memory budget per... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • bdf8bb008b  2026-02-28  audit: fix VRAM accounting bug, add numVectors sanity cap... ║
+    • de87a9ce11  2026-02-28  feat(index): implement GPU-accelerated buildIndex, saveIn... ║
+    • b4714f29a0  2026-02-26  fix(index): populate vramUsageBytes from per-index budget... ║
+    • 2813641e1f  2026-02-26  feat(index): implement configurable GPU memory budget per... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

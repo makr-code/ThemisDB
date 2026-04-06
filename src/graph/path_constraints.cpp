@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            path_constraints.cpp                               ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:16:06                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:16:29                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 23f569828  2026-02-28  fix(graph): fix query injection in path constraints (secu... ║
-    • dcf7b458f  2026-02-27  feat(cmake): add transaction_retry_manager and other sour... ║
-    • cf39e23c3  2026-02-25  fix(graph): clear stale Stubs:1 metadata and outdated doc... ║
-    • 59dbbc2b3  2026-02-22  Code audit: add ParallelTraversal benchmarks, fix stale c... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 23f569828d  2026-02-28  fix(graph): fix query injection in path constraints (secu... ║
+    • dcf7b458fc  2026-02-27  feat(cmake): add transaction_retry_manager and other sour... ║
+    • cf39e23c31  2026-02-25  fix(graph): clear stale Stubs:1 metadata and outdated doc... ║
+    • 59dbbc2b33  2026-02-22  Code audit: add ParallelTraversal benchmarks, fix stale c... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

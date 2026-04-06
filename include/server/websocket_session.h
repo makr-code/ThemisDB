@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            websocket_session.h                                ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:11:28                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:11:23                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 3e1a33c4c  2026-03-01  feat(network/server): implement WebSocket binary frame su... ║
-    • 6d03c85c7  2026-02-24  feat(cdc): WebSocket transport for /v2/cdc/stream with at... ║
-    • 22ffc8614  2026-02-23  feat(api): implement WebSocket back-pressure, filter fiel... ║
-    • db120052b  2026-02-23  feat(api): Implement SSE/WebSocket streaming query result... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 3e1a33c4cc  2026-03-01  feat(network/server): implement WebSocket binary frame su... ║
+    • 6d03c85c7f  2026-02-24  feat(cdc): WebSocket transport for /v2/cdc/stream with at... ║
+    • 22ffc8614b  2026-02-23  feat(api): implement WebSocket back-pressure, filter fiel... ║
+    • db120052be  2026-02-23  feat(api): Implement SSE/WebSocket streaming query result... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

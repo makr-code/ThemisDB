@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            compaction_manager.cpp                             ║
-  Version:         0.0.35                                             ║
-  Last Modified:   2026-03-30 04:20:27                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-04-06 04:21:02                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,9 +14,9 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 0fe58628b  2026-03-14  fix: address code review feedback for AdaptiveCompactionS... ║
-    • 229b86439  2026-03-14  feat(storage): implement AdaptiveCompactionScheduler (v1.... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 0fe58628b4  2026-03-14  fix: address code review feedback for AdaptiveCompactionS... ║
+    • 229b864396  2026-03-14  feat(storage): implement AdaptiveCompactionScheduler (v1.... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

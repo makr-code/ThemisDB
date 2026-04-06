@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            flatfile_importer.cpp                              ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:16:15                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-06 04:16:39                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • de551b3f1  2026-02-28  feat(importers): Add Parquet support to flat-file importe... ║
-    • 8638d7889  2026-02-28  fix(importers): code audit fixes for schema validator PR ║
-    • 001179174  2026-02-27  feat(importers): schema auto-detection and validation on ... ║
-    • bcf86b908  2026-02-27  Add CSV/TSV/JSONL flat-file importer with unit tests and ... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • de551b3f14  2026-02-28  feat(importers): Add Parquet support to flat-file importe... ║
+    • 8638d7889d  2026-02-28  fix(importers): code audit fixes for schema validator PR ║
+    • 0011791747  2026-02-27  feat(importers): schema auto-detection and validation on ... ║
+    • bcf86b9084  2026-02-27  Add CSV/TSV/JSONL flat-file importer with unit tests and ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

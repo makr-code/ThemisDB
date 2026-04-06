@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            prompt_injection_detector.cpp                      ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:18:59                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-04-06 04:19:30                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,10 +14,10 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • da5848ffb  2026-03-10  fix: apply all 7 code review recommendations + LSN.toStri... ║
-    • a3ec4aa9e  2026-03-10  refactor: update tenant metrics handling and improve modu... ║
-    • 50a648a06  2026-03-09  fix(rag): fix critical bugs found in code audit of Issue ... ║
-    • 2d6b717c7  2026-03-09  feat(rag): distributed RAG evaluation, benchmark harness,... ║
+    • da5848ffb4  2026-03-10  fix: apply all 7 code review recommendations + LSN.toStri... ║
+    • a3ec4aa9e9  2026-03-10  refactor: update tenant metrics handling and improve modu... ║
+    • 50a648a065  2026-03-09  fix(rag): fix critical bugs found in code audit of Issue ... ║
+    • 2d6b717c75  2026-03-09  feat(rag): distributed RAG evaluation, benchmark harness,... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            multi_level_storage.cpp                            ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:21:29                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-04-06 04:22:07                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   97.0/100                                       ║
-    • Total Lines:     1033                                           ║
+    • Total Lines:     1035                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 172e0dd5e  2026-03-26  fix: address code review - safe filesystem copy, RFC 4180... ║
-    • 490de27f0  2026-03-26  fix: implement all P0/P1 blockers - QueryEngine, RAG, eth... ║
-    • 8131a0844  2026-03-25  feat(user_storage_encrypted): v0.2.0 reconcileStaleMounts... ║
-    • 126a4e217  2026-03-24  Changes before error encountered         ║
-    • 9ab72c508  2026-03-12  refactor: flatten plugin hierarchy to src/<name>/ and inc... ║
+    • 172e0dd5e1  2026-03-26  fix: address code review - safe filesystem copy, RFC 4180... ║
+    • 490de27f06  2026-03-26  fix: implement all P0/P1 blockers - QueryEngine, RAG, eth... ║
+    • 8131a0844f  2026-03-25  feat(user_storage_encrypted): v0.2.0 reconcileStaleMounts... ║
+    • 126a4e2171  2026-03-24  Changes before error encountered        ║
+    • 9ab72c5089  2026-03-12  refactor: flatten plugin hierarchy to src/<name>/ and inc... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

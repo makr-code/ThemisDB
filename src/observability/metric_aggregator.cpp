@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            metric_aggregator.cpp                              ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:17:42                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-04-06 04:18:10                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,9 +14,9 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 368dd1e32  2026-03-13  fix(observability): populate AggregatedMetric.labels in a... ║
-    • 4cc689623  2026-03-13  feat(observability): implement Metric Aggregation Pipelin... ║
-    • 913128b50  2026-03-11  feat(observability): add MetricAggregator for Prometheus ... ║
+    • 368dd1e324  2026-03-13  fix(observability): populate AggregatedMetric.labels in a... ║
+    • 4cc689623c  2026-03-13  feat(observability): implement Metric Aggregation Pipelin... ║
+    • 913128b505  2026-03-11  feat(observability): add MetricAggregator for Prometheus ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

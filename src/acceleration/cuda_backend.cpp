@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cuda_backend.cpp                                   ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:13:43                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:13:59                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-    • 04753d4ac  2026-03-18  feat(acceleration): remove silent k>kMaxK clamping, incre... ║
-    • e627c556b  2026-03-15  feat(acceleration): BackendRegistry thread-safety, VLLMRe... ║
-    • d64a17619  2026-03-11  fix(acceleration): update cuda_backend.cpp file header me... ║
-    • e2fff830f  2026-03-11  feat(acceleration): wire HNSW graph traversal into CUDAVe... ║
+    • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
+    • 04753d4acd  2026-03-18  feat(acceleration): remove silent k>kMaxK clamping, incre... ║
+    • e627c556bd  2026-03-15  feat(acceleration): BackendRegistry thread-safety, VLLMRe... ║
+    • d64a176194  2026-03-11  fix(acceleration): update cuda_backend.cpp file header me... ║
+    • e2fff830f0  2026-03-11  feat(acceleration): wire HNSW graph traversal into CUDAVe... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

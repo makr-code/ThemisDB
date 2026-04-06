@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_geo_clustering.cpp                            ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:22:35                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-06 04:23:15                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     490                                            ║
+    • Total Lines:     492                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-    • c58d4f20b  2026-03-17  fix(geo): address review feedback on perf tests and CI wo... ║
-    • 929c0490d  2026-03-16  test(geo): add 2 performance tests to reach required coun... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 104da2fb8  2026-02-25  fix(geo/audit): add explicit <limits>, remove unused test... ║
+    • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
+    • c58d4f20b1  2026-03-17  fix(geo): address review feedback on perf tests and CI wo... ║
+    • 929c0490d2  2026-03-16  test(geo): add 2 performance tests to reach required coun... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 104da2fb8d  2026-02-25  fix(geo/audit): add explicit <limits>, remove unused test... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

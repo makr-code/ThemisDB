@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cdc_admin.h                                        ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:06:14                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:05:48                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • a9f387ce0  2026-03-11  feat(cdc): runtime-configurable change log retention poli... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • de9fb43e7  2026-03-01  Implement CDC event filtering by operation type ║
-    • 06f59a69f  2026-02-24  fix(cdc): restore missing deleteOldEvents signature; fix ... ║
-    • 7a2028071  2026-02-24  feat(cdc): implement GDPR-aware change log redaction for ... ║
+    • a9f387ce07  2026-03-11  feat(cdc): runtime-configurable change log retention poli... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • de9fb43e7e  2026-03-01  Implement CDC event filtering by operation type ║
+    • 06f59a69f9  2026-02-24  fix(cdc): restore missing deleteOldEvents signature; fix ... ║
+    • 7a2028071f  2026-02-24  feat(cdc): implement GDPR-aware change log redaction for ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

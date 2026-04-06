@@ -3,20 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            continuous_agg.cpp                                 ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:20:50                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-06 04:21:27                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     413                                            ║
+    • Total Lines:     434                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • e155b627e  2026-03-24  feat(temporal,timeseries): SQL:2011 temporal query dispat... ║
-    • 4dbd7efde  2026-03-13  feat(timeseries): incremental continuous aggregation with... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • d331f64d17  2026-04-01  feat: add support for merge operator detection in Changef... ║
+    • e155b627eb  2026-03-24  feat(temporal,timeseries): SQL:2011 temporal query dispat... ║
+    • 4dbd7efdea  2026-03-13  feat(timeseries): incremental continuous aggregation with... ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

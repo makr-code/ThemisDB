@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llm_token_estimator.h                              ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:05:48                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-04-06 04:05:21                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,9 +14,9 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • c28ecfee9  2026-03-13  feat(aql): accurate token-count estimation - TiktokenEsti... ║
-    • d630135fe  2026-03-13  fix(aql): address PR review comments on bounded conversat... ║
-    • d231050f3  2026-03-13  feat(aql): bounded conversation history with context-wind... ║
+    • c28ecfee98  2026-03-13  feat(aql): accurate token-count estimation - TiktokenEsti... ║
+    • d630135feb  2026-03-13  fix(aql): address PR review comments on bounded conversat... ║
+    • d231050f3c  2026-03-13  feat(aql): bounded conversation history with context-wind... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

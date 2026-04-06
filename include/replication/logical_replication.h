@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            logical_replication.h                              ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:10:30                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-04-06 04:10:21                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 67965456c  2026-03-22  Add constructors with default config for various classes ... ║
-    • 16aed6bb0  2026-03-15  refactor: enhance modular build configuration and improve... ║
-    • d2968d487  2026-03-14  tighten logical replication diagnostics and randomness ║
-    • 5ec6ad7cd  2026-03-14  add diagnostics and validation for logical replication slots ║
-    • 902333c15  2026-03-14  harden logical replication persistence and filters ║
+    • 67965456c8  2026-03-22  Add constructors with default config for various classes ... ║
+    • 16aed6bb00  2026-03-15  refactor: enhance modular build configuration and improve... ║
+    • d2968d4872  2026-03-14  tighten logical replication diagnostics and randomness ║
+    • 5ec6ad7cd3  2026-03-14  add diagnostics and validation for logical replication slots ║
+    • 902333c151  2026-03-14  harden logical replication persistence and filters ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

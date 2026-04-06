@@ -1,4 +1,26 @@
 /*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            bench_content_processor_paths.cpp                  ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-04-06 04:03:27                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   97.0/100                                       ║
+    • Total Lines:     165                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • dac91fef60  2026-04-04  Add local production readiness checklist and OpenAPI comp... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+/*
  * Benchmark: Content processor path workloads
  *
  * Provides dedicated benchmark coverage for Office, OCR and Archive

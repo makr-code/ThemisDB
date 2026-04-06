@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            maintenance_task.h                                 ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:08:43                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-04-06 04:08:26                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,8 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • a63629a5c  2026-03-12  feat: Force-Run Endpoint Window Override (v1.1.0) ║
-    • 0eb79f3e4  2026-03-11  feat: add DatabaseMaintenanceOrchestrator with full sched... ║
+    • a63629a5c5  2026-03-12  feat: Force-Run Endpoint Window Override (v1.1.0) ║
+    • 0eb79f3e41  2026-03-11  feat: add DatabaseMaintenanceOrchestrator with full sched... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
