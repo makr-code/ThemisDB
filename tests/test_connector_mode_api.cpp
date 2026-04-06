@@ -264,6 +264,61 @@ protected:
         return true;
     }
 
+    void ensureConfiguredModelLoaded() {
+        if (config().llm_model_id.empty() || config().llm_model_path.empty()) {
+            return;
+        }
+
+        auto health_res = get("/api/v1/llm/health", true);
+        if (health_res && health_res->status == 200) {
+            try {
+                const auto body = json::parse(health_res->body);
+                if (body.value("status", std::string{}) == "healthy" &&
+                    body.value("models_loaded", 0) > 0) {
+                    return;
+                }
+            } catch (...) {
+                // Fall through to explicit model load.
+            }
+        }
+
+        auto load_res = postJson(
+            "/api/v1/llm/models/load",
+            json{{"model_id", config().llm_model_id}, {"path", config().llm_model_path}},
+            true);
+        requireResponse(load_res, "/api/v1/llm/models/load");
+
+        if (load_res->status == 401 || load_res->status == 403) {
+            GTEST_SKIP() << "/api/v1/llm/models/load requires authentication; set THEMIS_CONNECTOR_TEST_BEARER_TOKEN";
+        }
+        if (load_res->status == 404 || load_res->status == 501 || load_res->status == 503) {
+            GTEST_SKIP() << "/api/v1/llm/models/load not available in this build/runtime";
+        }
+
+        ASSERT_EQ(load_res->status, 200) << load_res->body;
+
+        const auto deadline =
+            std::chrono::steady_clock::now() + std::chrono::seconds(config().llm_wait_timeout_sec);
+        while (std::chrono::steady_clock::now() < deadline) {
+            auto ready_res = get("/api/v1/llm/health", true);
+            if (ready_res && ready_res->status == 200) {
+                try {
+                    const auto body = json::parse(ready_res->body);
+                    if (body.value("status", std::string{}) == "healthy" &&
+                        body.value("models_loaded", 0) > 0) {
+                        return;
+                    }
+                } catch (...) {
+                    // Keep polling until the runtime settles.
+                }
+            }
+
+            std::this_thread::sleep_for(std::chrono::milliseconds(250));
+        }
+
+        FAIL() << "LLM model did not become ready after explicit load request";
+    }
+
     httplib::Client& activeClient() {
         if (client_) {
             return *client_;
@@ -459,6 +514,8 @@ TEST_F(ConnectorApiLiveTest, StatsRequestCountDoesNotGoBackwards) {
 }
 
 TEST_F(ConnectorApiLiveTest, IngestWorkspaceDocsAndRunRag) {
+    ensureConfiguredModelLoaded();
+
     const std::filesystem::path docs_dir = config().docs_dir;
     const std::string ndjson = buildDocsNdjsonFromDirectory(
         docs_dir,
@@ -615,6 +672,8 @@ TEST_F(ConnectorApiLiveTest, TriggerLoRaTrainingJob) {
 // healthy, then runs three distinct RAG queries that must each return non-empty
 // generated text and at least one retrieved document.
 TEST_F(ConnectorApiLiveTest, LlmReadyAfterDownloadAndRagSummarizesDocuments) {
+    ensureConfiguredModelLoaded();
+
     // Step 1: wait for /api/v1/llm/health to report status=="healthy" and
     //         models_loaded > 0.  The timeout is intentionally generous because
     //         the first run triggers a background model download.

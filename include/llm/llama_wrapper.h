@@ -531,6 +531,8 @@ private:
     // Current active model
     std::string current_model_id_;
     std::string current_model_path_;
+    std::string configured_model_id_;
+    std::string configured_model_path_;
     
     // Statistics
     struct Stats {

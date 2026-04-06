@@ -320,6 +320,8 @@ bool LlamaWrapper::loadModel(
     // Extract model ID from path
     current_model_id_ = extractModelId(model_path);
     current_model_path_ = model_path;
+    configured_model_id_ = current_model_id_;
+    configured_model_path_ = current_model_path_;
     
     // Use lazy model loader (Ollama-style)
     // Model loads on-demand during first inference
@@ -703,18 +705,48 @@ std::vector<LoRAInfo> LlamaWrapper::listLoRAs() const {
 InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
     std::unique_lock<std::mutex> lock(mutex_);
     
+    if (current_model_id_.empty() && !configured_model_id_.empty()) {
+        current_model_id_ = configured_model_id_;
+    }
+    if (current_model_path_.empty() && !configured_model_path_.empty()) {
+        current_model_path_ = configured_model_path_;
+    }
+
     // Check state before attempting inference
     if (current_state_ != WrapperState::READY) {
-        std::string error_msg = "LlamaWrapper not ready for inference. Current state: " + 
-                               stateToString(current_state_);
-        spdlog::error("{}", error_msg);
-        
-        if (metrics_collector_) {
-            metrics_collector_->recordInferenceFailure(current_model_id_.empty() ? "unknown" : current_model_id_, 
-                                                     "wrapper_not_ready");
+        if (!current_model_path_.empty()) {
+            const std::string reload_model_path = current_model_path_;
+            const std::string reload_model_id = current_model_id_.empty()
+                ? configured_model_id_
+                : current_model_id_;
+
+            spdlog::info(
+                "LlamaWrapper state {} before inference; attempting lazy reload of model {} from {}",
+                stateToString(current_state_),
+                reload_model_id.empty() ? std::string{"<unknown>"} : reload_model_id,
+                reload_model_path);
+
+            lock.unlock();
+            const bool reload_ok = loadModel(reload_model_path);
+            lock.lock();
+
+            if (!reload_ok) {
+                spdlog::error("Lazy reload failed for model {}", reload_model_path);
+            }
         }
-        
-        throw std::runtime_error(error_msg);
+
+        if (current_state_ != WrapperState::READY) {
+            std::string error_msg = "LlamaWrapper not ready for inference. Current state: " + 
+                                   stateToString(current_state_);
+            spdlog::error("{}", error_msg);
+            
+            if (metrics_collector_) {
+                metrics_collector_->recordInferenceFailure(current_model_id_.empty() ? "unknown" : current_model_id_, 
+                                                         "wrapper_not_ready");
+            }
+            
+            throw std::runtime_error(error_msg);
+        }
     }
     
     if (current_model_id_.empty()) {
@@ -1117,12 +1149,6 @@ InferenceResponse LlamaWrapper::generateRAG(
     const RAGContext& rag_context,
     const InferenceRequest& request
 ) {
-    std::lock_guard<std::mutex> lock(mutex_);
-    
-    if (current_model_id_.empty()) {
-        throw std::runtime_error("No model loaded");
-    }
-    
     spdlog::debug("Generating RAG response with {} documents",
                   rag_context.documents.size());
     
@@ -1132,12 +1158,9 @@ InferenceResponse LlamaWrapper::generateRAG(
     // Create modified request with formatted prompt
     InferenceRequest rag_request = request;
     rag_request.prompt = formatted_prompt;
-    
-    // Unlock for actual generation (generate will lock again)
-    mutex_.unlock();
+
     auto response = generate(rag_request);
-    mutex_.lock();
-    
+
     // Add RAG metadata to response
     response.metadata["rag_enabled"] = true;
     response.metadata["num_documents"] = rag_context.documents.size();
