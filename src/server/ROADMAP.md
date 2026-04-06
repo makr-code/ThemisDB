@@ -3,7 +3,7 @@
 # Server Module Roadmap
 
 ## Current Status
-v1.7.0 – Production-ready API surface built on Boost.Beast/Asio. HTTP/1.1, HTTP/2, HTTP/3, WebSocket, MQTT, PostgreSQL wire protocol, gRPC, and MCP server are implemented with 40+ specialized REST endpoints. gRPC-Web TypeScript client auto-generation (`scripts/gen_grpc_web_ts.py`) added in v1.7.0.
+v1.7.0 – Production-ready API surface built on Boost.Beast/Asio. HTTP/1.1, HTTP/2, HTTP/3, WebSocket, MQTT, PostgreSQL wire protocol, gRPC, and MCP server are implemented with 40+ specialized REST endpoints. gRPC-Web TypeScript client auto-generation (`scripts/gen_grpc_web_ts.py`) added in v1.7.0. April 2026 update: core connector-mode LLM endpoints in `HTTPServer` are wired and validated (`/api/v1/llm/ready`, `/api/v1/llm/models/load`, `/api/v1/llm/inference`, `/api/v1/llm/rag`, `/api/v1/llm/lora/adapters`).
 
 ## Completed ✅
 - [x] HTTPServer – multi-protocol async I/O server (HTTP/1.1, HTTP/2, HTTP/3)
@@ -37,6 +37,11 @@ v1.7.0 – Production-ready API surface built on Boost.Beast/Asio. HTTP/1.1, HTT
 - [x] Edge caching integration (CDN cache-control header management) (`server/cdn_cache_middleware.cpp`) (Issue: #2305)
 - [x] Service mesh sidecar proxy mode (Envoy xDS compatibility) (`network/service_mesh.cpp`, `server/service_mesh_api_handler.cpp`) (Issue: #2306)
 - [x] gRPC-Web TypeScript client auto-generation (`scripts/gen_grpc_web_ts.py`) (v1.7.0) ✅
+- [x] Connector-mode LLM HTTP routing in `HTTPServer` for `/api/v1/llm/ready`, `/api/v1/llm/models/load`, `/api/v1/llm/inference`, `/api/v1/llm/rag`, and `/api/v1/llm/lora/adapters` (April 2026)
+  - Files: `src/server/http_server.cpp`, `cmake/CMakeLists.txt`, `CMakePresets.json`
+  - Behavior: direct endpoint handling in `routeRequest` with JSON validation, error mapping, governance headers, and latency/tracing accounting
+  - Reliability: automatic fallback for missing default LLM plugin via llama wrapper registration during model-load flow
+  - Tests: `tests/test_connector_mode_api.cpp` (17 live API tests; latest validation: 15 passed, 2 skipped due runtime/model readiness conditions)
 
 ## In Progress 🚧
 *(none currently in progress – all Phase 1–6 items completed)*
@@ -148,7 +153,7 @@ v1.7.0 – Production-ready API surface built on Boost.Beast/Asio. HTTP/1.1, HTT
 
 ## Production Readiness Checklist
 - [x] Unit tests coverage > 80% — 208+ tests across 9 server test files (service_mesh_api_handler: 24, grpc_web_proxy_handler: 21, serverless_function_api_handler: 37, http_server_network: 28, service_mesh: 33, api_grpc_server: 13, http2_server_push: 10, themis_wire_protocol_server: 33, http2_protocol: 9); RateLimiterV2 Redis fallback covered in `tests/test_rate_limiter_v2.cpp`; all Phase 1–5 components covered
-- [x] Integration tests (all 40+ endpoints, TLS, auth, rate limiting) — unified suite added in `tests/test_server_integration_complete.cpp` (111 tests, 6 sub-suites): live server auth enforcement (401 without/with invalid Bearer, non-401 with valid token), `RateLimitingMiddleware` token-bucket exhaustion + whitelist + endpoint overrides + stats + concurrency, legacy `RateLimiter` blacklist + anomaly-detection + per-user limits, `HttpServer::Config` completeness (HTTP/2, HTTP/3, WebSocket, feature flags, timeouts, connection limits), live server rate-limit enforcement via `X-Forwarded-For` (429 after bucket exhausted, whitelist bypass, `Retry-After` header), and 25+ additional endpoint-breadth tests; existing per-feature suites (`test_api_integration.cpp`, `test_http_audit.cpp`, `test_http_timeseries.cpp`, `test_http_vector.cpp`, `test_http_changefeed*.cpp`, `bench_api_endpoints.cpp`, `stress_test_wire_vs_http.sh`) complement the coverage
+- [x] Integration tests (all 40+ endpoints, TLS, auth, rate limiting) — unified suite added in `tests/test_server_integration_complete.cpp` (111 tests, 6 sub-suites): live server auth enforcement (401 without/with invalid Bearer, non-401 with valid token), `RateLimitingMiddleware` token-bucket exhaustion + whitelist + endpoint overrides + stats + concurrency, legacy `RateLimiter` blacklist + anomaly-detection + per-user limits, `HttpServer::Config` completeness (HTTP/2, HTTP/3, WebSocket, feature flags, timeouts, connection limits), live server rate-limit enforcement via `X-Forwarded-For` (429 after bucket exhausted, whitelist bypass, `Retry-After` header), and 25+ additional endpoint-breadth tests; existing per-feature suites (`test_api_integration.cpp`, `test_http_audit.cpp`, `test_http_timeseries.cpp`, `test_http_vector.cpp`, `test_http_changefeed*.cpp`, `bench_api_endpoints.cpp`, `stress_test_wire_vs_http.sh`) complement the coverage; connector live API coverage extended by `tests/test_connector_mode_api.cpp` (17 tests, incl. model load/inference/rag/lora)
 - [x] Performance benchmarks (req/sec, p99 latency, concurrent connections) — `benchmarks/bench_api_endpoints.cpp` (634 lines, 14 micro-benchmarks: GraphQL parse/execute, JSON serialisation, correlation-ID overhead, REST roundtrip latency); `benchmarks/stress_test_wire_vs_http.sh` measures peak throughput under 1–500 concurrent clients; documented targets: 50K–200K req/sec, p50 < 5 ms, p99 < 50 ms
 - [x] Security audit (header injection, CORS misconfiguration, DoS vectors) — CORS fully implemented: `cors_allowed_origins_` / `cors_allow_all_` / `cors_allow_credentials_` / `cors_allowed_methods_` in `http_server.h`; `cors_allow_origin` in `grpc_web_proxy_handler.h`; header injection mitigated via `sanitize_filename_part` in `export_api_handler.cpp`; DoS protection via `RateLimiter` (http_server.h:936, initialised in http_server.cpp:1280) and configurable `max_request_size_mb` body limit
 - [x] Distributed tracing complete — all 64 API handler files instrumented with `Tracer::startSpan()` (March 2026); 162 tracing tests in `tests/test_otel_api_tracing.cpp`
