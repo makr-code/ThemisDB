@@ -33,7 +33,7 @@ v1.1.0 – Provenance flags on all record types; comprehensive 56-source `knowle
 - [x] `ScraperLLMEvaluator` with LLM path (THEMIS_ENABLE_LLM) + heuristic fallback
 - [x] `InMemoryScraperMetadataWriter` – relational + graph + vector records
 - [x] `ScraperRecordBuilder` – doc-id (FNV-1a), ISO-8601 timestamps, edge building
-- [x] 40 unit tests (`ScraperPluginFocusedTests`, Groups A–H)
+- [x] Initial 40 unit tests (`ScraperPluginFocusedTests`, Groups A–H; extended to 60 total by Phase 5)
 
 ### Phase 5 – Provenance & Knowledge Catalog (v1.1.0) ✅
 - [x] Provenance fields on all record types: `is_scraper_ingested`, `ingestion_source_type`, `ingestion_plugin_version` stamped unconditionally by `ScraperRecordBuilder`
@@ -92,6 +92,7 @@ v1.1.0 – Provenance flags on all record types; comprehensive 56-source `knowle
 - [x] LLM evaluator + heuristic fallback
 - [x] Metadata writer (relational, graph, vector)
 - [x] Agentic loop
+- [x] 40 unit tests covering Groups A–H (v1.0.0; extended by Phase 5)
 
 ### Phase 5: Provenance & Knowledge Catalog (v1.1.0) (Status: Completed ✅)
 - [x] Provenance fields on all record types (`is_scraper_ingested`, `ingestion_source_type`, `ingestion_plugin_version`)
