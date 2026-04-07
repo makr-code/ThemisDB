@@ -18,6 +18,32 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Versioned API endpoint routing deprecation-header polish — Issue #1497
 - API key management endpoint — Issue #1502
 
+## [1.9.1] — 2026-04-07
+### Fixed
+- **Security (AQL identifier injection)**: `HybridSearch` and `FullTextSearch` now validate the `collection` field
+  against `^[a-zA-Z_][a-zA-Z0-9_]*$` via the new `themis::api::isValidAqlIdentifier()` helper
+  (`include/api/aql_utils.h`) before embedding it as a bare AQL identifier in `FOR doc IN <name>`.
+  Previously `aqlEscape()` escaped single-quotes and backslashes but did **not** protect against
+  injection through the identifier itself (e.g. `"col RETURN SLEEP(10) //"`).
+- **`BatchWrite` partial-failure reporting**: `BatchWriteResponse::success` is now `false` when at
+  least one upsert or delete fails. The response still reports `upserted_count` / `deleted_count`
+  for the operations that succeeded; a new `error.code=207` / `error.message` details the fraction
+  that completed.
+- **Document version counter**: `CreateDocument` persists the initial version (`1`) to a
+  `__ver/<collection>/<key>` meta-key in RocksDB. `UpdateDocument` reads and increments that counter
+  atomically and returns the new value via `CreateDocumentResponse::version` /
+  `UpdateDocumentResponse::version`. Previously both RPCs always returned `version=1` regardless
+  of prior writes.
+- **`HybridSearch` sparse hits missing from response**: the AQL full-text result is now parsed
+  (nlohmann/json) and each matching document is added to `HybridSearchResponse::hits` with
+  `score = 1 − alpha`.  Previously the AQL was executed but the result was discarded.
+
+### Added
+- `include/api/aql_utils.h`: header-only helpers `themis::api::aqlEscapeLiteral()` and
+  `themis::api::isValidAqlIdentifier()`, usable by both production code and unit tests.
+- 9 new tests in `test_themisdb_grpc_service.cpp` covering identifier validation, literal escaping,
+  and edge cases for the injection fix.
+
 ## [1.9.0] — 2026-03-25
 ### Fixed
 - `GrpcApiServer::start()` no longer holds `mutex_` across the blocking `BuildAndStart()` socket-bind call; lock is released before the network operation and re-acquired afterwards, preventing deadlock when `stop()` or any accessor is called concurrently (Phase 4)

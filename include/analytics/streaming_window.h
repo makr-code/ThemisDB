@@ -57,6 +57,7 @@
 #include <string>
 #include <thread>
 #include <unordered_map>
+#include <unordered_set>
 #include <utility>
 #include <variant>
 #include <vector>
@@ -306,6 +307,7 @@ private:
         std::chrono::system_clock::time_point start;
         std::chrono::system_clock::time_point end;
         std::vector<StreamRecord> records;
+        std::string partition_key;
     };
 
     // One window per time-slot
@@ -323,12 +325,20 @@ private:
     std::atomic<uint64_t> late_records_{0};
     std::atomic<uint64_t> results_emitted_{0};
 
+    // Idle-timeout background thread (TODO #1)
+    std::thread idle_thread_;
+    std::atomic<bool> idle_running_{false};
+    std::condition_variable idle_cv_;
+    std::mutex idle_mutex_;
+    std::atomic<int64_t> last_event_us_{0};
+
     int64_t slotIndex(const std::chrono::system_clock::time_point& tp) const;
     std::chrono::system_clock::time_point slotStart(int64_t idx) const;
     WindowResult computeResult(const InternalWindow& win, bool late) const;
     // Returns results to emit; caller fires the callback outside the mutex.
     std::vector<WindowResult> closeExpiredWindows(int64_t watermark_us);
     void updateWatermark(const std::chrono::system_clock::time_point& event_time);
+    void idleTimeoutLoop();
 };
 
 std::unique_ptr<TumblingWindow> createTumblingWindow(const TumblingWindowConfig& config);
@@ -382,6 +392,7 @@ private:
         std::chrono::system_clock::time_point end;
         std::vector<StreamRecord> records;
         bool closed = false;
+        std::string partition_key;
     };
 
     std::deque<InternalWindow> windows_;
@@ -395,11 +406,23 @@ private:
     std::atomic<uint64_t> late_records_{0};
     std::atomic<uint64_t> results_emitted_{0};
 
+    // O(1) duplicate-detection index keyed on window start (TODO #5)
+    std::unordered_set<int64_t> window_start_set_;
+
+    // Idle-timeout background thread (TODO #1)
+    std::thread idle_thread_;
+    std::atomic<bool> idle_running_{false};
+    std::condition_variable idle_cv_;
+    std::mutex idle_mutex_;
+    std::atomic<int64_t> last_event_us_{0};
+
     WindowResult computeResult(const InternalWindow& win, bool late) const;
-    void ensureWindowsExist(const std::chrono::system_clock::time_point& event_time);
+    void ensureWindowsExist(const std::chrono::system_clock::time_point& event_time,
+                            const std::string& partition_key);
     // Returns results to emit; caller fires the callback outside the mutex.
     std::vector<WindowResult> closeExpiredWindows(int64_t watermark_us);
     void updateWatermark(const std::chrono::system_clock::time_point& event_time);
+    void idleTimeoutLoop();
     static std::string generateId();
 };
 
@@ -451,6 +474,7 @@ private:
         std::chrono::system_clock::time_point start;
         std::chrono::system_clock::time_point last_event;
         std::vector<StreamRecord> records;
+        bool has_late_records = false;
     };
 
     std::unordered_map<std::string, Session> sessions_;  // keyed by partition_key
@@ -472,7 +496,7 @@ private:
     std::atomic<uint64_t> late_records_{0};
     std::atomic<uint64_t> results_emitted_{0};
 
-    WindowResult computeResult(const Session& s) const;
+    WindowResult computeResult(const Session& s, bool late = false) const;
     void expiryLoop();
     static std::string generateId();
 };
@@ -537,6 +561,9 @@ private:
     std::atomic<uint64_t> late_records_{0};
     std::atomic<uint64_t> results_emitted_{0};
 
+    // O(1) duplicate-detection index keyed on window start (TODO #5)
+    std::unordered_set<int64_t> window_start_set_;
+
     WindowResult computeResult(const InternalWindow& win, bool late) const;
     void ensureWindowsExist(const std::chrono::system_clock::time_point& event_time);
     // Returns results to emit; caller fires the callback outside the mutex.
@@ -580,6 +607,7 @@ public:
         std::chrono::milliseconds hop{10000};
         std::chrono::milliseconds gap{30000};
         WatermarkConfig watermark;
+        std::chrono::milliseconds session_expiry_interval_ms{200};
     };
 
     // ---- Static factory methods (fluent interface) ----
@@ -590,7 +618,8 @@ public:
                                             std::chrono::milliseconds slide,
                                             WatermarkConfig wm = {});
     static StreamingWindowPipeline session(std::chrono::milliseconds gap,
-                                            WatermarkConfig wm = {});
+                                            WatermarkConfig wm = {},
+                                            std::chrono::milliseconds expiry_interval_ms = std::chrono::milliseconds{200});
     static StreamingWindowPipeline hopping(std::chrono::milliseconds size,
                                             std::chrono::milliseconds hop,
                                             WatermarkConfig wm = {});

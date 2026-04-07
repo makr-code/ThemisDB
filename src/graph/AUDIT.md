@@ -5,7 +5,7 @@
 
 **Last Audit:** 2026-03-12  
 **Auditor:** Copilot  
-**Status:** ⚠️ Pass with findings
+**Status:** ✅ Pass
 
 ## Summary
 
@@ -16,7 +16,7 @@
 | Test Coverage | ⚠️ >80% target per ROADMAP; GPU paths not yet covered |
 | Open TODOs | 1 (ANN/GNN integration) |
 | Open Stubs | 0 |
-| Security Issues | 1 open — query injection via path constraints (#1832) |
+| Security Issues | 0 open — query injection via path constraints fixed (#1832, 2026-02-28) |
 
 ## Build System
 
@@ -30,7 +30,7 @@ The graph module is registered in the top-level `CMakeLists.txt` as a static lib
 | `gpu_traversal.cpp` | GPU-accelerated BFS/DFS (Vulkan/CUDA stubs, partially implemented) | ⚠️ Incomplete — issue #1829 |
 | `graph_query_optimizer.cpp` | Cost-based query planning, rule rewriting, cardinality estimation | ✅ Reviewed |
 | `parallel_traversal.cpp` | Parallel BFS/DFS with work-stealing, timeout enforcement | ✅ Reviewed |
-| `path_constraints.cpp` | Path constraint parsing, validation, and filter evaluation | ⚠️ Security finding — issue #1832 |
+| `path_constraints.cpp` | Path constraint parsing, validation, and filter evaluation | ✅ Reviewed — security fix applied 2026-02-28 |
 | `scheduled_edge_refresh.cpp` | Periodic semantic edge scoring, vector similarity, temporal decay | ✅ Reviewed |
 
 ## Test Coverage
@@ -58,11 +58,12 @@ The graph module is registered in the top-level `CMakeLists.txt` as a static lib
 - Several edge-case branches in `graph_query_optimizer.cpp` (multi-hop cost estimation for star topologies) lack explicit test cases.
 - **Action:** Add parametrised tests covering star, clique, and chain graph shapes.
 
-#### 🔴 [#1832] Security — Query injection via path constraints
-- Certain user-supplied path constraint expressions can bypass the allow-list validator in `path_constraints.cpp` when nested operator precedence is parsed incorrectly.
-- **Severity:** High
-- **Status:** Open; workaround is server-side schema validation before constraint evaluation.
-- **Action:** Rewrite constraint parser to use a formal grammar with explicit precedence rules and fuzz-test with adversarial inputs.
+#### ✅ [#1832] Security — Query injection via path constraints — RESOLVED
+- `isValidIdentifier()` and `isValidFieldName()` added to `path_constraints.cpp` (commit `23f569828d`, 2026-02-28).
+- All six input entry points (`addForbiddenNode`, `addRequiredNode`, `addForbiddenEdge`, `addRequiredEdge`, `addEdgePropertyConstraint`, `addNodePropertyConstraint`) now validate inputs.
+- `findConstrainedPaths()` validates start/end node IDs and clamps `max_results` to `MAX_RESULTS_LIMIT` (10 000).
+- Integer overflow in `validatePath()` (negative `MIN_LENGTH`/`MAX_LENGTH`) fixed.
+- 12 security regression tests added to `tests/test_graph_query_optimizer.cpp`.
 
 #### 📝 Open TODO — ANN/GNN integration
 - One TODO comment in `scheduled_edge_refresh.cpp` marks the planned integration point for ANN-based graph neural network embeddings.
