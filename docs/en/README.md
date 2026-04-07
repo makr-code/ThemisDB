@@ -4,8 +4,8 @@
 > This is a translation of the ThemisDB documentation. The **authoritative and most up-to-date documentation is maintained in German** (`docs/de/`).  
 > Translations may lag behind the German version. For the latest information, please refer to the [German documentation](../de/README.md).
 
-**Last Updated:** January 5, 2026  
-**Version:** 1.4.0-alpha (Advanced LLM Features)  
+**Last Updated:** April 2026  
+**Version:** 1.8.0-rc1  
 **Type:** Documentation Index  
 **Language:** English (Translation)
 
@@ -203,8 +203,8 @@ The documentation has been restructured for better clarity:
 ## 📚 Main Documentation
 
 ### Overview Documents
-- **[Changelog](../CHANGELOG.md)** - Complete version history (v1.2.0, v1.1.0, v1.0.2, v1.0.1, v1.0.0)
-- **[🆕 Roadmap v1.1.0](roadmap/roadmap_overview.md)** - **UPDATED:** Q1 2026 Optimization Release
+- **[Changelog](../CHANGELOG.md)** - Complete version history (v1.8.0-rc1, v1.5.0, v1.4.0, v1.3.0, …)
+- **[🆕 Roadmap v2.0](../../roadmap.md)** - **UPDATED:** Aggregated roadmap across all 46 modules
 - **[Architecture Overview](architecture/ARCHITECTURE_OVERVIEW.md)** - Complete system architecture with diagrams
 - **[Source Code Changes v1.0](development/SOURCE_CODE_CHANGES_v1.0.md)** - Detailed source code documentation (191 files, 26 modules)
 - **[Features List](features/features_overview.md)** - Complete feature overview with status
@@ -493,6 +493,6 @@ Documentation is automatically deployed to GitHub Pages on merge to main.
 
 ---
 
-**Version:** 1.3.0  
-**Last Updated:** December 20, 2025  
+**Version:** 1.8.0-rc1  
+**Last Updated:** April 2026  
 **License:** See [LICENSE](../LICENSE)

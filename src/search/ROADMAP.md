@@ -2,7 +2,7 @@
 
 # Search Module Roadmap
 
-<!-- validated: 2026-03-10 | Status: current -->
+<!-- validated: 2026-04-06 | Status: current -->
 <!-- Primary: src/search/ | Secondary: docs/de/src/search/ -->
 
 ## Current Status

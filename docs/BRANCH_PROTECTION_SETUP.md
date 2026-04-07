@@ -363,6 +363,6 @@ After configuring branch protection, verify the settings:
 
 ---
 
-**Last Updated**: 2025-12-30  
+**Last Updated**: 2026-04-06  
 **Version**: 1.0  
 **Maintainer**: ThemisDB DevOps Team

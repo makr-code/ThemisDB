@@ -67,4 +67,4 @@ Herlihy & Shavit's "The Art of Multiprocessor Programming" Chapter 8 provides th
 - [Boost.Asio Async I/O](boost_asio_async_io.md)
 
 ---
-**Last Updated:** 2026-03-24
+**Last Updated:** 2026-04-06

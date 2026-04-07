@@ -1,6 +1,6 @@
 # Plugins Modul — Fehlende / Unvollständige Implementierungen
 
-<!-- Status: updated | validated: 2026-03-09 | updated: 2026-03-10 -->
+<!-- Status: updated | validated: 2026-04-06 | updated: 2026-03-10 -->
 <!-- Primärdokumentation: ../../../src/plugins/ -->
 
 Dieser Report dokumentiert Funktionen, die in `src/plugins/ROADMAP.md`,

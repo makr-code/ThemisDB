@@ -1,7 +1,7 @@
 # ThemisDB RocksDB Configuration & Optimization Guide
 
 **Version:** 1.4.0  
-**Last Updated:** 2026-01-18  
+**Last Updated:** 2026-04-06  
 **Target Audience:** Database Administrators, Performance Engineers, Storage Engineers
 
 ---

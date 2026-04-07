@@ -1,6 +1,6 @@
 # Ingestion Module - Future Header Enhancements
 
-<!-- Status: current | validated: 2026-03-09 | Primary: include/ingestion/ | Secondary: docs/de/ingestion/ -->
+<!-- Status: current | validated: 2026-04-06 | Primary: include/ingestion/ | Secondary: docs/de/ingestion/ -->
 <!-- Links: ../../src/ingestion/FUTURE_ENHANCEMENTS.md · ../../src/ingestion/README.md · ../../src/ingestion/ROADMAP.md -->
 
 ## Scope

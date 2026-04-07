@@ -362,7 +362,7 @@ ThemisDB ist eine produktionsreife Multi-Model-Datenbank mit **67% Gesamtimpleme
 
 ## 2. Code-Metriken
 
-**Stand:** 20. November 2025
+**Stand:** 6. April 2026
 
 ### Source Code:
 - **Gesamt:** 63.506 Zeilen C++ Code

@@ -1,10 +1,10 @@
 # Observability Module — Architecture Guide
 
-<!-- Status: current | validated: 2026-03-09 -->
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · docs/de/observability/README.md -->
 
 **Version:** 1.1
-**Last Updated:** 2026-03-09
+**Last Updated:** 2026-04-06
 **Module Path:** `src/observability/`
 
 ---

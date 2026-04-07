@@ -1,6 +1,6 @@
 # Server Module
 
-**Stand:** 10. März 2026  
+**Stand:** 6. April 2026  
 **Version:** v1.7.0  
 **Status:** `current`  
 **Validiert:** 2026-03-10 (Commit `a04b89b`)  

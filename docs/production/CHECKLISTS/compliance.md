@@ -1,7 +1,7 @@
 # Compliance Checklists
 
 **Version:** 1.0  
-**Last Updated:** January 2026  
+**Last Updated:** April 2026  
 **Target Audience:** Compliance Officers, Security Teams, Auditors
 
 ## Table of Contents
@@ -599,7 +599,7 @@ themisdb-cli compliance report \
 ---
 
 **Document Version:** 1.0  
-**Last Updated:** January 2026  
+**Last Updated:** April 2026  
 **Next Review:** April 2026  
 **Owner:** Compliance Team
 

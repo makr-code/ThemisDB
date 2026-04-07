@@ -628,6 +628,6 @@ For questions, issues, or suggestions:
 
 **CHIMERA v1.0.0** - *Honest metrics for everyone*
 
-**Last Updated:** January 19, 2026  
+**Last Updated:** April 2026  
 **Maintainer:** CHIMERA Development Team  
 **Status:** Ready for Community Review

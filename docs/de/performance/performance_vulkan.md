@@ -1,6 +1,6 @@
 # Vulkan Compute Backend
 
-**Stand:** 22. Dezember 2025  
+**Stand:** 6. April 2026  
 **Version:** v1.3.0  
 **Kategorie:** ⚡ Performance
 
@@ -253,6 +253,6 @@ Same security model as CUDA:
 3. Integrate with backend registry
 4. Performance benchmarking vs CUDA
 
-**Last Updated:** 20. November 2025  
+**Last Updated:** April 2026  
 **Version:** 0.5 (Shaders Only)  
 **Target:** Q1 2026 (Full Implementation)

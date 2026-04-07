@@ -2,7 +2,7 @@
 
 **Analysis Date:** 2026-01-12  
 **Repository:** ThemisDB  
-**Version:** 1.4.0-alpha  
+**Version:** 1.8.0-rc1  
 **Analyst:** GitHub Copilot
 
 ---
@@ -392,7 +392,7 @@ Testing random links from `docs/00_DOCUMENTATION_INDEX.md`:
 
 ### 8.1 Version Information
 
-**Current Version:** 1.4.0-alpha (from VERSION file)
+**Current Version:** 1.8.0-rc1 (from VERSION file)
 
 **Release Notes Coverage:**
 

@@ -1,7 +1,7 @@
 # ThemisDB Core Module — Production Runbook
 
 **Version:** 1.4.0  
-**Last Updated:** February 2026  
+**Last Updated:** April 2026  
 **Target Audience:** SREs, DevOps Engineers, Platform Engineers
 
 ---
@@ -240,7 +240,7 @@ readinessProbe:
 ---
 
 **Document Version:** 1.0  
-**Last Updated:** February 2026  
+**Last Updated:** April 2026  
 **Next Review:** May 2026  
 **Related Documents:**
 - [SECURITY_POSTURE.md](../SECURITY_POSTURE.md) — security defaults and hardening guide

@@ -80,5 +80,5 @@ HNSW (Hierarchical Navigable Small World) is a graph-based algorithm for approxi
 - [ann-benchmarks.com](https://ann-benchmarks.com)
 
 ---
-**Last Updated:** 2026-03-23  
+**Last Updated:** 2026-04-06  
 **Next Review:** 2026-09-30

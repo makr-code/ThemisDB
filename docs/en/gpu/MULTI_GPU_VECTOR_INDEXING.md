@@ -418,6 +418,6 @@ For questions or issues:
 
 ---
 
-**Last Updated**: February 2026  
+**Last Updated**:  April 2026
 **Version**: v2.4  
 **Status**: Production-Ready

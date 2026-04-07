@@ -510,7 +510,7 @@ capabilities needed for production deployments.
 - `[x]` `AnalyticsMemoryPool` integration in OLAP and columnar execution (section 15)
 - `[x]` `computePercentile` pass-by-value elimination (section 11)
 - `[x]` Zero-copy Arrow IPC export (section 17)
-- `[ ]` Forecasting batch prediction and streaming update API (section 16)
+- `[x]` Forecasting batch prediction and streaming update API (section 16)
 
 ### Phase 6 — Documentation and Sign-off (2027 Q2)
 - `[ ]` Update `README.md` performance numbers after Phase 5 benchmarks

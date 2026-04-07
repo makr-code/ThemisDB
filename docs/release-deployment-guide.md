@@ -341,5 +341,5 @@ For issues or questions:
 
 ---
 
-**Last Updated**: January 12, 2026
+**Last Updated**: April 2026
 **Next Release**: v1.5.0 (scheduled for Q2 2026)

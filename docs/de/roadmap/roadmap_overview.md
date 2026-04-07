@@ -1,7 +1,7 @@
 # ThemisDB - Entwicklungs-Roadmap
 
 **Version:** 6.0  
-**Stand:** 20. Dezember 2025  
+**Stand:** 6. April 2026  
 **Typ:** Konsolidierte Gesamt-Roadmap
 
 > **📌 Status Update Dezember 2025 - v1.3.0 RELEASED:**

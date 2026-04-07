@@ -1,7 +1,7 @@
 # CHIMERA Suite: Neutrality Guarantees & Principles
 
 **Version:** 1.0.0  
-**Last Updated:** January 20, 2026  
+**Last Updated:** April 2026  
 **Status:** ✅ ACTIVE
 
 ---

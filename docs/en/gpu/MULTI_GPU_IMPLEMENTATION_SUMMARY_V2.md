@@ -340,6 +340,6 @@ The v2.x multi-GPU vector indexing roadmap has been successfully implemented wit
 ---
 
 **Document Version**: 1.0  
-**Last Updated**: 2026-02-07  
+**Last Updated**: 2026-04-06  
 **Author**: ThemisDB Development Team  
 **Reviewers**: Code Review Passed ✅

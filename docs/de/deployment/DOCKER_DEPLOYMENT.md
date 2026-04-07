@@ -1,6 +1,6 @@
 # ThemisDB Docker Deployment Guide
 
-**Stand:** 26. Dezember 2025  
+**Stand:** 6. April 2026  
 **Version:** v1.3.1  
 **Kategorie:** 🚀 Deployment  
 **Status:** Production-Ready

@@ -1,6 +1,6 @@
 # Hybrid Search – Implementierung (✅ Produktionsreif)
 
-**Stand:** März 2026  
+**Stand:** 6. April 2026  
 **Version:** 2.3.0  
 **Kategorie:** Search  
 **Status:** ✅ Produktionsreif (seit v1.2.0; vollständig implementiert)

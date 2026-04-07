@@ -1,7 +1,7 @@
 # HSM Production Setup Guide
 
 **Version:** 1.4.2  
-**Last Updated:** February 2026  
+**Last Updated:** April 2026  
 **Classification:** Public  
 **Related:** FIND-002, Security Controls Audit
 

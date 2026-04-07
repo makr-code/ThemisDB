@@ -1,6 +1,6 @@
 # Base-Modul – Überblick
 
-**Stand:** März 2026  
+**Stand:** 6. April 2026  
 **Version:** v1.1.0  
 **Kategorie:** 🔌 Plugin-Infrastruktur  
 **Status:** 🟢 Production-Ready

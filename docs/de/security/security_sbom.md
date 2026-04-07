@@ -1,7 +1,7 @@
 # SBOM (Software Bill of Materials) - ThemisDB
 
 **Version:** v1.3.0  
-**Stand:** November 2025  
+**Stand:** 6. April 2026  
 **Format:** SPDX 2.3 & CycloneDX 1.5  
 **Kategorie:** 🔒 Security
 

@@ -1,5 +1,5 @@
 # ThemisDB Code Audit: Mockups, Stubs & Simulationen
-**Stand:** 1. Dezember 2025 (AKTUALISIERT)  
+**Stand:** 6. April 2026 (AKTUALISIERT)  
 **Zweck:** Identifikation aller Demo-/Mock-Implementierungen und offenen TODOs
 
 ---

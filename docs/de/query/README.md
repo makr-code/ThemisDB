@@ -1,9 +1,9 @@
 # Query Module
 
-**Stand:** 9. März 2026
-**Version:** 1.5.0
+**Stand:** 6. April 2026
+**Version:** 1.9.0
 **Kategorie:** Query
-**Validated:** 2026-03-09 (ab3b22a)
+**Validated:** 2026-04-06
 **Status:** current
 
 ---
@@ -43,6 +43,7 @@ Dokument-, Graph-, Vektor-, Geo- und Zeitreihen-Modelle sowie SQL- und SPARQL-Ko
 | ParallelScan | `parallel_scan.h` | *(header-only)* | Paralleler Collection-Scan |
 | CrossClusterFederator | `cross_cluster_federation.h` | `cross_cluster_federation.cpp` | Verteilte Query-Federation über Cluster-Endpoints |
 | QueryFederation | `query_federation.h` | `query_federation.cpp` | Interne Shard-Level-Federation |
+| ShardingManager | `sharding_manager.h` | `sharding_manager_edition.cpp` | Consistent-Hash-Ring für Shard-Key-Routing (GetShardForKey, GetShardsForKeyRange) |
 | QueryCache | `query_cache.h` | `query_cache.cpp` | Exakter Query-Result-Cache |
 | QueryCacheManager | `query_cache_manager.h` | `query_cache_manager.cpp` | Cache-Verwaltung und -Metriken |
 | SemanticCache | `semantic_cache.h` | `semantic_cache.cpp` | Embedding-basierter Ähnlichkeits-Cache |
@@ -176,4 +177,20 @@ Result<std::string>    explainAqlDot(const std::string& aql, QueryEngine& engine
 - [Hybrid Overview](query_hybrid_overview.md) — Übersicht Hybrid-Queries
 - [Query Benchmarks](query_hybrid_benchmarks.md) — Performance-Messungen
 - [Missing Implementations](missing-implementations.md) — Bekannte Lücken und geplante Arbeiten
+
+---
+
+## Shard-Key-Routing (v1.9.0)
+
+`QueryFederation` nutzt jetzt den `ShardingManager` für präzises Shard-Key-Routing:
+
+- **Prädikat-Extraktion**: `._key==` / `._key>=` / `._key<=` Prädikate werden aus der AQL-Where-Klausel extrahiert
+- **Routing-Strategien**: `PARTITION_PRUNING` (direktes Shard-Key-Routing) vs. `SCATTER_GATHER` (Broadcast bei fehlendem Schlüssel)
+- **Warnung bei >10 Shards**: `SCATTER_GATHER`-Abfragen über mehr als 10 Shards erzeugen eine Warnung
+
+**Konstruktoren:**
+```cpp
+QueryFederation(ShardRouter, ShardingManager&, Config)  // Shard-Key-Routing
+QueryFederation(ShardRouter, Config)                     // Einfaches Routing
+```
 

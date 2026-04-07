@@ -1,6 +1,6 @@
 # Signed Plugin Repository with Key Pinning
 
-**Stand:** 26. Februar 2026  
+**Stand:** 6. April 2026  
 **Version:** 1.0.0  
 **Kategorie:** Plugins / Security  
 **Implementierung:** `include/plugins/signed_plugin_repository.h`, `src/plugins/signed_plugin_repository.cpp`

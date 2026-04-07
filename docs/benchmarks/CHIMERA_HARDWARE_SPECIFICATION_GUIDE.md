@@ -2,7 +2,7 @@
 
 **Version:** 1.0.0  
 **Standards Compliance:** IEEE Std 2807-2022  
-**Last Updated:** January 19, 2026
+**Last Updated:** April 2026
 
 ---
 
@@ -845,6 +845,6 @@ iperf3 -c server_ip
 ---
 
 **Document Version:** 1.0.0  
-**Last Updated:** January 19, 2026  
+**Last Updated:** April 2026  
 **License:** MIT  
 **Maintainer:** CHIMERA Development Team

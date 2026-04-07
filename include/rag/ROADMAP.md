@@ -1,4 +1,4 @@
-<!-- Status: current | validated: 2026-03-24 -->
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # RAG Module Roadmap

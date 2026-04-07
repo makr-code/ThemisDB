@@ -1,7 +1,7 @@
 # SDK Enhancement Implementation Summary
 
-**Date:** January 2026  
-**Version:** 1.4.0-alpha  
+**Date:** 2026-04-06  
+**Version:** 1.8.0-rc1  
 **Status:** ✅ Complete
 
 ## Overview
@@ -322,7 +322,7 @@ This enhancement brings ThemisDB client SDKs to production-grade quality with:
 ✅ **100% backwards compatible** - no breaking changes  
 ✅ **Well documented** - comprehensive usage examples and configuration guides  
 ✅ **Syntax validated** - all code compiles successfully  
-✅ **Ready for release** - v1.4.0-alpha
+✅ **Ready for release** - v1.8.0-rc1
 
 All major client SDKs now have feature parity with industry-standard resilience patterns, making ThemisDB suitable for production use in demanding environments.
 
@@ -331,6 +331,6 @@ All major client SDKs now have feature parity with industry-standard resilience 
 **Next Steps:**
 1. Create comprehensive integration tests
 2. Update SDK-specific README files
-3. Release v1.4.0-alpha
+3. Release v1.8.0-rc1
 4. Gather user feedback
 5. Plan binary protocol expansion

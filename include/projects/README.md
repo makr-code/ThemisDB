@@ -301,6 +301,6 @@ Project operations are **thread-safe** with the following guarantees:
 
 ---
 
-**Last Updated**: 2024-02-10  
+**Last Updated**: 2026-04-06  
 **Status**: Draft - Awaiting actual header file discovery  
 **Maintainer**: ThemisDB Team

@@ -325,5 +325,5 @@ hnsw_search_latency_ms{index="name",p="50"}    # P50/P95/P99 latencies
 ---
 
 **Maintainer:** ThemisDB Development Team  
-**Last Updated:** January 22, 2026  
+**Last Updated:** April 2026  
 **Version:** 1.5.0

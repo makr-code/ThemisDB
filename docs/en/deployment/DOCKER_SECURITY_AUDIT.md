@@ -222,5 +222,5 @@ The remaining items are either accepted risks (localhost HTTP health checks) or 
 - [NIST Application Container Security Guide](https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-190.pdf)
 
 ---
-**Last Updated:** 2026-01-08  
+**Last Updated:** 2026-04-06  
 **Next Review:** Recommended within 6 months or upon significant changes to Docker configurations

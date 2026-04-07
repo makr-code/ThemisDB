@@ -1,7 +1,7 @@
 # LLM & AI Integration Documentation
 
 **Status:** January 5, 2026  
-**Version:** 1.4.0-alpha (Advanced LLM Features)  
+**Version:** 1.8.0-rc1 (Advanced LLM Features)  
 **Category:** LLM & Distributed AI
 
 ---

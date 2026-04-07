@@ -1,6 +1,6 @@
 ## ThemisDB Dokumentation
 
-**Version:** 1.4.0-alpha | **Stand:** Januar 2026
+**Version:** 1.8.0-rc1 | **Stand:** April 2026
 
 ---
 
@@ -10,19 +10,16 @@
 - [Dokumentations-Index](DOCUMENTATION_INDEX.md)
 - [Quick Reference](DOCS_QUICKREF.md)
 
-### 🚀 v1.4.0-alpha Release
-- [Release Notes](../RELEASE_NOTES_V1.4.0_ALPHA.md)
-- [Changelog](../CHANGELOG.md#v140-alpha)
-- [Kompendium Update](../compendium/V1.4.0_ALPHA_UPDATE_NOTES.md)
-- [Dokumentation Abschluss](../DOCUMENTATION_COMPLETION_SUMMARY.md)
+### 🚀 v1.8.0-rc1 Release
+- [Release Notes](de/releases/RELEASE_NOTES_v1.8.0.md)
+- [Changelog](../CHANGELOG.md)
 
-### 📝 Neue Features (v1.4.0-alpha)
-- [Grammatik-gesteuerte Generierung](en/llm/GRAMMAR_CONSTRAINED_GENERATION.md)
-- [RoPE Scaling](en/llm/ROPE_SCALING_IMPLEMENTATION.md)
-- [Vision Support](en/llm/VISION_SUPPORT_QUICK_START.md)
-- [Flash Attention](en/llm/FLASH_ATTENTION_IMPLEMENTATION.md)
-- [Speculative Decoding](en/llm/SPECULATIVE_DECODING_IMPLEMENTATION.md)
-- [Continuous Batching](en/llm/CONTINUOUS_BATCHING_IMPLEMENTATION.md)
+### 📝 Recent Features
+- [Geo: GeoJSON RFC 7946 + R-tree index](en/geo/README.md)
+- [Scraper Plugin v1.1.0](../plugins/scraper/README.md)
+- [Analytics: Forecasting Batch/Streaming (v1.9.0)](../src/analytics/CHANGELOG.md)
+- [Auth: German eID Authenticator (v1.9.0)](../src/auth/CHANGELOG.md)
+- [Query: ShardKey Routing (v1.9.0)](../src/query/CHANGELOG.md)
 
 ---
 

@@ -174,7 +174,7 @@ Located in [examples/](examples/):
 **Audience**: Operations Teams, SREs, DevOps Engineers  
 **Review Cycle**: Quarterly  
 **Version**: 1.0  
-**Last Updated**: 2026-01-24
+**Last Updated**: 2026-04-06
 
 ---
 

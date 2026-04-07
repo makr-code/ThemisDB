@@ -1346,7 +1346,7 @@ For additional support, contact the ThemisDB support team or refer to the online
 
 **Document Control:**
 - **Version:** 1.0
-- **Last Updated:** January 2026
+- **Last Updated:** April 2026
 - **Next Review:** April 2026
 - **Owner:** ThemisDB Operations Team
 ### A. Snapshot Naming Conventions
@@ -1405,7 +1405,7 @@ Maintain an emergency contact list:
 ---
 
 **Document Version**: 1.0  
-**Last Updated**: February 6, 2026  
+**Last Updated**: April 2026  
 **Maintained By**: ThemisDB Operations Team  
 **Review Cycle**: Quarterly
 

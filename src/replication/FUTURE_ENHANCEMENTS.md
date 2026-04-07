@@ -1,4 +1,4 @@
-<!-- Status: current | validated: 2026-03-12 -->
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 # Replication Module - Future Enhancements
@@ -820,7 +820,7 @@ themisdb-repl-doctor analyze-lag --duration 24h
 themisdb-repl-doctor validate-wal --segment 12345
 ```
 
-*Last Updated: February 2026*  
+*Last Updated: April 2026*  
 *Next Review: v1.6.0 Planning*
 
 ---

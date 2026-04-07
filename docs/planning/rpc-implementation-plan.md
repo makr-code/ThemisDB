@@ -407,5 +407,5 @@ The bulk of the implementation should be written and understood by human contrib
 ---
 
 **Document Owner:** ThemisDB Core Team  
-**Last Updated:** 2026-01-12  
+**Last Updated:** 2026-04-06  
 **Next Review:** After Phase 1 completion

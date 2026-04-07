@@ -1,7 +1,7 @@
 # ThemisDB LoRA Adapter Management Guide
 
 **Version:** 1.3.3+  
-**Last Updated:** 2026-01-04
+**Last Updated:** 2026-04-06
 
 ## Introduction
 

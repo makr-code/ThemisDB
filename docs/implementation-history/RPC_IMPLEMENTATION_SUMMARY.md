@@ -4,7 +4,7 @@
 This document summarizes the database operations implemented in the ThemisDB RPC service located at `src/server/rpc/rpc_service_impl.cpp`.
 
 **Status:** ✅ Complete and Refactored  
-**Last Updated:** January 21, 2026
+**Last Updated:** April 2026
 
 ## Refactoring Update (2026-01-21)
 

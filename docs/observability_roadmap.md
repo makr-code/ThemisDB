@@ -2,7 +2,7 @@
 
 **Module:** `src/observability`  
 **Status:** Q1 Complete ✅ | Q2–Q4 Planned  
-**Last Updated:** February 2026
+**Last Updated:** April 2026
 
 This document maps the planned observability improvements for ThemisDB across four
 quarters, tracking the gap-analysis from

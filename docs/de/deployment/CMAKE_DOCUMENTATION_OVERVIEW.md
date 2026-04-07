@@ -1,6 +1,6 @@
 # 📚 CMake find_package FAISS & gRPC - Dokumentations-Übersicht
 
-**Stand**: 2025-12-26  
+**Stand**: 2026-04-06  
 **Version**: ThemisDB v1.3.5  
 **Status**: 🟢 Complete & Ready
 

@@ -1,7 +1,7 @@
 # ThemisDB Vector Indexing Architecture
 
 **Status**: Production-ready with FAISS integration ✅  
-**Last Updated**: 2026-02-05
+**Last Updated**: 2026-04-06
 
 ---
 
@@ -537,6 +537,6 @@ Mixed       | 15-25ms       | 95%       | 15 GB   | 2,000
 ---
 
 **Document Version**: 1.1  
-**Last Updated**: 2026-02-07  
+**Last Updated**: 2026-04-06  
 **Status**: Production-ready ✅  
 **Maintainer**: ThemisDB Core Team

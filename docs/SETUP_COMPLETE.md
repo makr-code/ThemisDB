@@ -325,7 +325,7 @@ docker build -f Dockerfile.themis-metrics-enabled -t themisdb/themisdb:metrics-e
 ---
 
 **Status:** 🟢 Bereit für Setup  
-**Last Updated:** 3. Januar 2026  
+**Last Updated:** April 2026  
 **Edition Support:** Community bis Hyperscaler  
 **Prometheus Endpoint:** Port 8080 (/metrics)  
 **Grafana Dashboard:** Themis RAID Benchmark

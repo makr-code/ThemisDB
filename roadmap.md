@@ -3,7 +3,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 **Version:** 2.0  
-**Last Updated:** 2026-03-24  
+**Last Updated:** 2026-04-06  
 **Scope:** Aggregated roadmap across all 46 modules in `src/`
 
 > For module-specific details see each module's `src/<module>/ROADMAP.md`.

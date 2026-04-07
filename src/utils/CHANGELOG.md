@@ -1,4 +1,4 @@
-<!-- Status: current | validated: 2026-03-12 -->
+<!-- Status: current | validated: 2026-04-06 -->
 # Changelog — Utils Module
 Based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 

@@ -427,5 +427,5 @@ Security issues are reported but don't block merges (continue-on-error: true) to
 
 ---
 
-**Last Updated**: 2025-12-31  
+**Last Updated**: 2026-04-06  
 **Maintained by**: ThemisDB Core Team

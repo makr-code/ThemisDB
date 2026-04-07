@@ -1,6 +1,6 @@
 # MVCC Design für THEMIS
 
-**Stand:** 3. März 2026  
+**Stand:** 6. April 2026  
 **Version:** v0.0.33  
 **Kategorie:** 🧩 Architecture
 

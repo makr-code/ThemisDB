@@ -459,6 +459,6 @@ After successful verification:
 
 ---
 
-**Last Updated:** December 15, 2025  
+**Last Updated:** April 2026  
 **Status:** Ready for Verification  
 **Maintainer:** ThemisDB Security Team

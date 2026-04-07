@@ -1,7 +1,7 @@
 # ThemisDB Source Code Directory Guide
 
-**Version:** 1.4.0-alpha  
-**Last Updated:** 2026-01-12  
+**Version:** 1.8.0-rc1  
+**Last Updated:** 2026-04-06  
 **Status:** Complete
 
 ---

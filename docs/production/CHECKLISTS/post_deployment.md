@@ -1,7 +1,7 @@
 # Post-Deployment Checklist
 
-**Version:** 1.4.0-alpha  
-**Last Updated:** January 2026  
+**Version:** 1.8.0-rc1  
+**Last Updated:** April 2026  
 **Purpose:** Verify successful production deployment of ThemisDB GPU system
 
 ---
@@ -494,4 +494,4 @@ Document any observations, concerns, or recommendations:
 ---
 
 **Checklist Version:** 1.0  
-**Last Updated:** January 2026
+**Last Updated:** April 2026

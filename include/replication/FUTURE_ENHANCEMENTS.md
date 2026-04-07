@@ -772,5 +772,5 @@ auto config = ReplicationConfig::builder()
 - [Replication Implementation](../../src/replication/README.md)
 - [Future Implementation Enhancements](../../src/replication/FUTURE_ENHANCEMENTS.md)
 
-*Last Updated: February 2026*  
+*Last Updated: April 2026*  
 *Next Review: v1.6.0 Planning*

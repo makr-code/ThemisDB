@@ -1,4 +1,4 @@
-<!-- Status: current | validated: 2026-03-12 -->
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Changelog — Geo Module
@@ -10,6 +10,27 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Spherical geometry support (WGS-84 ellipsoid) — Issue #1744
 - GPU-accelerated DBSCAN / k-means clustering — Target: v2.3.0
 - CUDA kernels for ST_BUFFER, ST_UNION, ST_DIFFERENCE on GPU — Target: v2.2.0
+
+## [2.3.0] — 2026-04-04
+### Added
+- **Full GeoJSON RFC 7946 parsing**: `EWKBParser::parseGeoJSON()` now handles all seven RFC 7946
+  geometry types: `Point`, `MultiPoint`, `LineString`, `MultiLineString`, `Polygon`,
+  `MultiPolygon`, and `GeometryCollection` (including 3D variants with Z coordinates).
+- **GeoJSON serialization**: `EWKBParser::toGeoJSON()` serializes all seven geometry types.
+- **EWKB extension**: `parse()` and `serialize()` now support all geometry types (types 4–7).
+- **GeometryCollection recursion**: Parsed recursively up to depth 8 to prevent stack overflow
+  on adversarial input.
+- **computeMBR() / computeCentroid()**: Now recurse into nested sub-geometries.
+- **WGS84 coordinate range validation**: Longitude in [-180, 180] and latitude in [-90, 90];
+  invalid coordinates throw `std::runtime_error`. Compile with `-DTHEMIS_GEO_COMPAT_LAX` to
+  skip during a migration window.
+- **In-memory R-tree spatial index** (`include/geo/geo_rtree.h`, `src/geo/geo_rtree.cpp`):
+  - `GeoRTree` class for `GeometryInfo` objects enabling sub-linear `intersects` and `contains` queries.
+  - When compiled with `THEMIS_GEO_BOOST_BACKEND` and Boost.Geometry headers present, uses
+    `boost::geometry::index::rtree` with `rstar<16>` splitting strategy.
+  - Without Boost, automatically falls back to an O(n) linear MBR scan — semantically identical,
+    no dependency required.
+  - `bulkLoad(entries)` uses STR (Sort-Tile-Recursive) packing via the Boost bulk-insert constructor.
 
 ## [2.2.0] — 2026-03-21
 ### Added

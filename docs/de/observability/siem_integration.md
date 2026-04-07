@@ -1,7 +1,7 @@
 # SIEM-Integration für ThemisDB
 
 **Version:** 1.4.0  
-**Stand:** 27. Januar 2026  
+**Stand:** 27. April 2026  
 **Zielgruppe:** Security Operations Center (SOC) Engineers, SIEM-Administratoren, Sicherheitsarchitekten, Compliance-Beauftragte
 
 ---
@@ -439,5 +439,5 @@ timestamp,event_type,user,resource,operation,data_classification,compliance_fram
 ---
 
 **Dokumentversion**: 1.0  
-**Letzte Überprüfung**: 27. Januar 2026  
+**Letzte Überprüfung**: 27. April 2026  
 **Eigentümer**: Security Team

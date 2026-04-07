@@ -1,6 +1,6 @@
 # Wissenschaftliche Erkenntnisse zur Performance-Optimierung von ThemisDB
 
-**Stand:** 23. Dezember 2025  
+**Stand:** 6. April 2026  
 **Version:** 1.0  
 **Status:** 🔬 Research-basierte Empfehlungen
 

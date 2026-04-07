@@ -1,6 +1,6 @@
 # Ingestion-Modul — Fehlende / Unvollständige Implementierungen
 
-<!-- Status: current | validated: 2026-03-11 | updated: 2026-03-11 -->
+<!-- Status: current | validated: 2026-04-06 | updated: 2026-03-11 -->
 <!-- Primärdokumentation: ../../../src/ingestion/ -->
 
 Dieser Report dokumentiert Funktionen, die in `src/ingestion/ROADMAP.md`, `src/ingestion/README.md` oder anderen Primary-Docs als implementiert beschrieben werden oder als geplant gelten, jedoch bei der Reality-Check-Prüfung als **nicht vollständig umgesetzt** oder **als Stub** befunden wurden.

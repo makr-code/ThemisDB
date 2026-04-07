@@ -116,4 +116,4 @@ A backend may inherit from multiple interfaces. `ArangoDBAdapter` inherits `IRel
 - [ADR-004: Native Multi-Model Data Model](adr_004_multi_model_data_model.md)
 
 ---
-**Last Updated:** 2026-03-24
+**Last Updated:** 2026-04-06

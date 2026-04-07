@@ -789,6 +789,6 @@ You've completed the ThemisDB Quickstart Guide! You now know:
 
 ---
 
-**Last Updated:** 2026-01-12  
+**Last Updated:** 2026-04-06  
 **Version:** 1.0  
 **Feedback:** [Open an issue](https://github.com/makr-code/ThemisDB/issues/new) with your suggestions

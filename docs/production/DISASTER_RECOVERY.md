@@ -1,7 +1,7 @@
 # Disaster Recovery Plan
 
 **Version:** 1.0  
-**Last Updated:** January 2026  
+**Last Updated:** April 2026  
 **Target Audience:** Operations Teams, SREs, Management
 
 ## Table of Contents
@@ -738,7 +738,7 @@ contacts:
 ---
 
 **Document Version:** 1.0  
-**Last Updated:** January 2026  
+**Last Updated:** April 2026  
 **Next Review:** April 2026  
 **Owner:** DR Coordinator
 

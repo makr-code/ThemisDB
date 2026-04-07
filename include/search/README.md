@@ -1,6 +1,6 @@
 # Search Module - Public API
 
-<!-- Status: current | validated: 2026-03-10 | commit: a14cdb2 -->
+<!-- Status: current | validated: 2026-04-06 | commit: a14cdb2 -->
 <!-- Primary: src/search/ | Secondary: docs/de/src/search/ -->
 
 Public interface definitions for ThemisDB search functionality.
@@ -779,5 +779,5 @@ HybridSearch search(fulltext_idx, vector_idx, config);
 
 ---
 
-*Last Updated: March 2026*
+*Last Updated: April 2026*
 *API Version: v2.3.0*

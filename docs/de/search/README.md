@@ -306,7 +306,7 @@ Jeder Guide enthält:
 ---
 
 **Status:** ✅ All documentation complete and production-ready  
-**Last Updated:** Januar 2026  
+**Last Updated:** April 2026  
 **Version:** 1.4.0
 class VectorIndexManager {
     enum class Metric { L2, COSINE, DOT };

@@ -1,4 +1,4 @@
-<!-- Status: current | validated: 2026-03-12 -->
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 # Core Module - Future Enhancements
@@ -558,7 +558,7 @@ Have ideas for core module improvements? Open an issue or discussion:
 
 ---
 
-*Last Updated: February 2026*  
+*Last Updated: April 2026*  
 *Module Version: v1.5.x*  
 *Next Review: v1.6.0 Release*
 

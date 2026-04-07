@@ -200,5 +200,5 @@ cmake --build --preset linux-ninja-release
 
 ---
 
-**Last Updated**: 2026-02-19  
+**Last Updated**: 2026-04-06  
 **Status**: Documentation complete, ready for use

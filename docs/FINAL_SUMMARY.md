@@ -325,7 +325,7 @@ docker build -f Dockerfile.themis-metrics-enabled `
 
 ---
 
-**Stand:** 3. Januar 2026  
+**Stand:** 6. April 2026  
 **Status:** 🟢 Ready for Docker Build  
 **Dokumentation:** ✅ Vollständig  
 **Edition:** Community bis Hyperscaler

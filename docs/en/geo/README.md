@@ -3,7 +3,7 @@
 **Category:** Feature Module  
 **Version:** v2.2.0  
 **Status:** 🟡 Beta — CPU and GPU-accelerated backends operational  
-**Last Updated:** 2026-03-21
+**Last Updated:** 2026-04-06
 
 ---
 

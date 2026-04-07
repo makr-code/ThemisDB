@@ -841,6 +841,6 @@ For questions or contributions, please refer to the main CHIMERA documentation o
 ---
 
 **Document Version**: 1.0.0  
-**Last Updated**: 2025-01-20  
+**Last Updated**: 2026-04-06  
 **Authors**: CHIMERA Development Team  
 **License**: MIT

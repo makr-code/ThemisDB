@@ -361,6 +361,6 @@ Found a gap? Help improve the docs!
 
 ---
 
-**Last Updated:** 2026-01-31  
+**Last Updated:** 2026-04-06  
 **Version:** 1.0  
 **Maintained by:** ThemisDB Documentation Team

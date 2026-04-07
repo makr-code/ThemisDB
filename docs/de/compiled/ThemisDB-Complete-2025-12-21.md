@@ -1535,7 +1535,7 @@ ThemisDB ist unter den Bedingungen der [LICENSE](https://github.com/makr-code/Th
 # ThemisDB Documentation
 
 **Version:** 1.3.0  
-**Last Updated:** December 20, 2025
+**Last Updated:** April 2026
 
 Welcome to the ThemisDB documentation! This guide will help you find the information you need.
 
@@ -1754,7 +1754,7 @@ Welcome to the ThemisDB documentation! This guide will help you find the informa
 ---
 
 **Documentation Version:** 1.2.0  
-**Last Updated:** December 15, 2025  
+**Last Updated:** April 2026  
 **Next Review:** March 15, 2026
 
 
@@ -3816,7 +3816,7 @@ Datenvolumen reduzieren bevor gruppiert wird.
 # ThemisDB - Vollständige Features Liste
 
 **Version:** 1.0.0  
-**Stand:** Dezember 2025  
+**Stand:** 6. April 2026  
 **Status-Legende:** ✅ Production-Ready | 🔧 Beta | 📋 Geplant
 
 ---
@@ -4920,7 +4920,7 @@ docker compose up --build
 
 ---
 
-**Stand:** Dezember 2025  
+**Stand:** 6. April 2026  
 **Version:** 1.0.0  
 **Letzte Aktualisierung:** 5. Dezember 2025
 
@@ -4932,7 +4932,7 @@ docker compose up --build
 # ThemisDB Docker Deployment Guide
 
 **Version:** 1.3.0  
-**Last Updated:** 17. Dezember 2025  
+**Last Updated:** April 2026  
 **Status:** Production-Ready
 
 ## Quick Start

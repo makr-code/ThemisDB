@@ -511,6 +511,6 @@ While the current implementation doesn't use numeric error codes, here's a categ
 
 ---
 
-**Last Updated**: January 2026  
+**Last Updated**: April 2026  
 **Version**: 1.0  
 **Maintained By**: ThemisDB Documentation Team

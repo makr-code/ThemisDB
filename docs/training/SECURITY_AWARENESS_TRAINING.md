@@ -480,6 +480,6 @@ This Security Awareness Training program addresses **FIND-027 (Limited Security 
 ---
 
 **Document Owner:** ThemisDB Security & Training Team  
-**Last Updated:** February 3, 2026  
+**Last Updated:** April 2026  
 **Next Review:** May 1, 2026  
 **Version:** 1.0 - Initial awareness program for FIND-027

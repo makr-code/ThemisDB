@@ -398,7 +398,7 @@ These documents are optimized for printing:
 
 ---
 
-**Last Updated**: 2025-12-30  
+**Last Updated**: 2026-04-06  
 **Maintainer**: ThemisDB Documentation Team  
 **Questions?** [Open a discussion](https://github.com/makr-code/ThemisDB/discussions)
 

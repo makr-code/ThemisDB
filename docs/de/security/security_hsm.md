@@ -719,6 +719,6 @@ HSM integration supports:
 
 ---
 
-**Last Updated:** November 17, 2025  
+**Last Updated:** April 2026  
 **Version:** 1.0  
 **Author:** ThemisDB Development Team

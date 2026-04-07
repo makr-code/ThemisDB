@@ -1,6 +1,6 @@
 # ThemisDB - Umfassende Audit-TODO-Liste
 
-**Stand:** 22. Dezember 2025  
+**Stand:** 6. April 2026  
 **Version:** v1.3.0  
 **Kategorie:** 🔒 Compliance  
 **Basierend auf:** FULL_AUDIT_CHECKLIST.md, FEATURES.md, VCC-URN Best-Practices

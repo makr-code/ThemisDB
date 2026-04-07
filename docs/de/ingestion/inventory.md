@@ -1,6 +1,6 @@
 # Ingestion-Modul – Primäres Inventar
 
-<!-- Status: current | validated: 2026-03-10 -->
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Primärdokumentation: ../../../src/ingestion/ | ../../../include/ingestion/ -->
 
 **Datum:** März 2026  

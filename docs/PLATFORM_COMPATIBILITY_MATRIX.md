@@ -2,7 +2,7 @@
 
 This document tracks the compilation status of ThemisDB source files across different compilers and platforms.
 
-**Last Updated**: 2026-01-25
+**Last Updated**: 2026-04-06
 
 ## Legend
 

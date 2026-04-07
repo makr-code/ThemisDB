@@ -229,4 +229,4 @@ docs/fr/
 
 ---
 
-**Last Updated:** February 10, 2026
+**Last Updated:** April 2026

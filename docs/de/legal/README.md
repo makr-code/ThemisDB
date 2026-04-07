@@ -1,6 +1,6 @@
 # ThemisDB Vertragsvorlagen - Übersicht
 
-**Stand:** Januar 2026  
+**Stand:** April 2026  
 **Version:** 1.0  
 **Kategorie:** 📋 Legal Documentation
 

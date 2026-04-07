@@ -1,6 +1,6 @@
 # Themis – Sicherheits-Audit Checkliste
 
-**Stand:** März 2026  
+**Stand:** 6. April 2026  
 **Version:** 1.1.0  
 **Kategorie:** Security
 

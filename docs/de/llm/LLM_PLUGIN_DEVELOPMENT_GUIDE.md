@@ -573,6 +573,6 @@ For questions or issues:
 
 ---
 
-**Last Updated:** December 2025  
+**Last Updated:** April 2026  
 **ThemisDB Version:** v1.3.0  
 **Status:** Active Development

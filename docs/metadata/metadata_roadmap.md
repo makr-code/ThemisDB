@@ -2,7 +2,7 @@
 
 **Module:** `src/metadata`  
 **Maintained by:** ThemisDB Contributors  
-**Last Updated:** February 2026  
+**Last Updated:** April 2026  
 **Current Version:** v1.6.0
 
 ---

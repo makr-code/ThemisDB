@@ -1089,7 +1089,7 @@ endif()
 - [Deployment Guide](../../docs/deployment/replication.md) - Replication setup and best practices
 - [Operations Guide](../../docs/operations/failover.md) - Failover procedures and recovery
 
-*Last Updated: February 2026*  
+*Last Updated: April 2026*  
 *Module Version: v1.5.0*  
 *Next Review: v1.6.0 Release*
 

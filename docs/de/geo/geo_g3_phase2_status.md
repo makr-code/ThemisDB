@@ -1,6 +1,6 @@
 # G3 & Phase 2 Implementation Status
 
-**Stand:** 8. Februar 2026 (Updated)  
+**Stand:** 6. April 2026 (Updated)  
 **Version:** 1.1.0  
 **Kategorie:** Geo
 

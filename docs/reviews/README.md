@@ -64,5 +64,5 @@ To create a new review:
 ---
 
 **Maintained by:** ThemisDB Core Team  
-**Last Updated:** 2026-02-05  
+**Last Updated:** 2026-04-06  
 **Reviews Completed:** 2/4 (Q1 2026: Base Entities ✅, Vector Indexing ✅)

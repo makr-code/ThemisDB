@@ -1,7 +1,7 @@
 # ThemisDB Strategiepapier: Moderne Datenhaltung im Gesundheitswesen
 
 **Version:** 1.0.0  
-**Stand:** Dezember 2025  
+**Stand:** 6. April 2026  
 **Typ:** Strategiepapier und Positionierung  
 **Zielgruppe:** Entscheider im Gesundheitswesen, IT-Leiter, Compliance-Verantwortliche  
 **Umfang:** Umfassende Analyse mit ROI-Berechnung, Wettbewerbsvergleich, Implementierungsfahrplan  

@@ -1,6 +1,6 @@
 # ThemisDB Core Modularization Plan (Post v1.3.0)
 
-**Stand:** 22. Dezember 2025  
+**Stand:** 6. April 2026  
 **Version:** v1.3.0  
 **Kategorie:** 🧩 Architecture  
 **Status:** Planned for implementation after v1.3.0 release  

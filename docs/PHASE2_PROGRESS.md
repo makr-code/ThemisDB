@@ -2,7 +2,7 @@
 
 **Status:** 🔄 **IN PROGRESS** (Phase 2.1 COMPLETE, Phase 2.2 next)  
 **Started:** February 19, 2026  
-**Last Updated:** February 19, 2026  
+**Last Updated:** April 2026  
 **Branch:** `copilot/add-production-hardening-roadmap`
 
 ---
@@ -494,6 +494,6 @@ Phase 2.1 foundation is solidly in place. The WAL and snapshot infrastructure pr
 ---
 
 **Document Version:** 1.0  
-**Last Updated:** February 19, 2026  
+**Last Updated:** April 2026  
 **Author:** ThemisDB Development Team  
 **Status:** Phase 2.1 in progress, ~30% complete

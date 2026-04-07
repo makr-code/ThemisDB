@@ -64,4 +64,4 @@ In ThemisDB, the PIMPL idiom is applied in `src/server/mqtt_client_service.cpp` 
 - [Shared Mutex Read-Write Locks](shared_mutex_read_write_locks.md)
 
 ---
-**Last Updated:** 2026-03-24
+**Last Updated:** 2026-04-06

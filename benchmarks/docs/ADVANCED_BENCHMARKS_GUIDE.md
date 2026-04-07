@@ -408,4 +408,4 @@ grep "^>" regressions.txt && echo "ALERT: Performance Regression"
 **Execution Time**: ~5-10 minutes (all 20 benchmarks)  
 **Output Location**: C:\tmp\advanced_bench_results.json  
 **Maintainer**: ThemisDB Performance Team  
-**Last Updated**: 2025-12-18
+**Last Updated**: 2026-04-06

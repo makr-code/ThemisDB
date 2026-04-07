@@ -1,4 +1,4 @@
-<!-- Status: current | validated: 2026-03-12 -->
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 # Server Module - Future Enhancements
@@ -1063,7 +1063,7 @@ Have ideas for server module improvements? Open an issue or discussion:
 
 ---
 
-*Last Updated: March 2026*  
+*Last Updated: April 2026*  
 *Module Version: v1.7.0*  
 *Next Review: v1.8.0 Release*
 

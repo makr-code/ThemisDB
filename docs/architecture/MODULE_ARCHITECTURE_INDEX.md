@@ -1,7 +1,7 @@
 # ThemisDB Module Architecture Index
 
 **Version:** 1.0  
-**Last Updated:** 2026-02-24  
+**Last Updated:** 2026-04-06  
 **Status:** Complete
 
 ---

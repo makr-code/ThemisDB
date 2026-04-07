@@ -894,7 +894,7 @@ docker stats themis-raid1-primary themis-raid1-secondary
 ---
 
 **Document Version:** 1.0  
-**Last Updated:** 2026-01-04  
+**Last Updated:** 2026-04-06  
 **Author:** ThemisDB Team  
 **Status:** Complete
 

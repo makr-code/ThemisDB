@@ -1,10 +1,10 @@
-<!-- Status: current | validated: 2026-03-22 -->
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 # ONNX CLIP Plugin — Architecture Guide
 
 **Version:** 0.0.1  
-**Last Updated:** 2026-03-22  
+**Last Updated:** 2026-04-06  
 **Module Path:** `src/onnx_clip/`
 
 ---

@@ -1,4 +1,4 @@
-<!-- Status: current | validated: 2026-03-20 -->
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: ../src/updates/README.md · ../src/updates/ROADMAP.md · ../src/updates/FUTURE_ENHANCEMENTS.md -->
 
 # Updates Module Headers - Future Enhancements
@@ -942,7 +942,7 @@ public:
 
 ---
 
-*Last Updated: February 2026*  
+*Last Updated: April 2026*  
 *Module Version: v1.5.x*  
 *Next Review: v1.6.0 Release*
 

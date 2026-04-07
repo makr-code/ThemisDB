@@ -1,4 +1,4 @@
-<!-- Status: current | validated: 2026-03-21 -->
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: src/plugins/README.md · src/plugins/ROADMAP.md · src/plugins/ARCHITECTURE.md · src/plugins/FUTURE_ENHANCEMENTS.md · include/plugins/FUTURE_ENHANCEMENTS.md -->
 
 # ThemisDB Plugins Module Headers

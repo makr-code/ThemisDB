@@ -26,7 +26,7 @@ Quick reference guide to all ThemisDB documentation.
 
 Quick reference guide for all ThemisDB documentation resources.
 
-**Stand:** 22. Dezember 2025  
+**Stand:** 6. April 2026  
 **Version:** 1.3.0  
 **Status:** ✅
 
@@ -44,7 +44,7 @@ Quick reference guide for all ThemisDB documentation resources.
 
 ## 🚀 Developer Links
 
-**Stand:** 30. November 2025
+**Stand:** 6. April 2026
 
 ## 🚀 Wichtigste Links
 

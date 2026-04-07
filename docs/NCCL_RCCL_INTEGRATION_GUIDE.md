@@ -2,7 +2,7 @@
 
 **Version**: v2.5+  
 **Status**: API Scaffolding Complete, GPU Execution Ready for Testing  
-**Last Updated**: 2026-02-07
+**Last Updated**: 2026-04-06
 
 ---
 
@@ -432,4 +432,4 @@ dmesg | grep -i rccl
 
 **Version**: 2.5+  
 **Maintainer**: ThemisDB GPU Team  
-**Last Updated**: 2026-02-07
+**Last Updated**: 2026-04-06

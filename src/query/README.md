@@ -909,7 +909,7 @@ target_link_libraries(themisdb_query
 - [IMPLEMENTATION_SUMMARY_AQL_FUNCTIONS.md](../../IMPLEMENTATION_SUMMARY_AQL_FUNCTIONS.md) - AQL function implementation details
 - [IMPLEMENTATION_SUMMARY_OPTIMIZER.md](../../IMPLEMENTATION_SUMMARY_OPTIMIZER.md) - Query optimizer internals
 
-*Last Updated: March 2026*  
+*Last Updated: April 2026*  
 *Module Version: v1.5.0*  
 *Next Review: v1.6.0 Release*
 

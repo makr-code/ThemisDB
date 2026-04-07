@@ -184,6 +184,6 @@ config.max_iterations = 25;
 
 ---
 
-**Last Updated**: 2026-02-06
+**Last Updated**: 2026-04-06
 **Version**: ThemisDB v1.4.2
 **Status**: SDC Optimization ✅ Complete | GPU Support 📋 Architecture Ready

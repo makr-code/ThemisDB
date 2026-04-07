@@ -1,5 +1,5 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- validated: 2026-03-20 | Branch: develop | Reality-check: see docs/de/storage/missing-implementations.md -->
+<!-- validated: 2026-04-06 | Branch: develop | Reality-check: see docs/de/storage/missing-implementations.md -->
 
 # Storage Module Roadmap
 

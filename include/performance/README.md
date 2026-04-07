@@ -1,6 +1,6 @@
 # Performance Optimization Headers
 
-<!-- status: current | validated: 2026-03-10 -->
+<!-- status: current | validated: 2026-04-06 -->
 <!-- Links: Primary → src/performance/README.md | Secondary → docs/de/performance/README.md -->
 
 ## Overview
@@ -142,5 +142,5 @@ cmake -DTHEMIS_ENABLE_CYCLE_METRICS=ON \
 
 ---
 
-**Last Updated**: 2026-03-09  
+**Last Updated**: 2026-04-06  
 **Version**: 1.1

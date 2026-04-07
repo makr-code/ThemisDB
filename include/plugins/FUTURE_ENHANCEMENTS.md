@@ -1,5 +1,5 @@
 # Plugins Module - Future Header Enhancements
-<!-- Status: current | validated: 2026-03-09 -->
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: src/plugins/FUTURE_ENHANCEMENTS.md · src/plugins/README.md · src/plugins/ROADMAP.md · docs/de/plugins/README.md -->
 
 ## Scope

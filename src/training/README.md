@@ -1,8 +1,8 @@
 # Training Module
 
-**Status:** Alpha  
-**Version:** 1.0  
-**Last Validated:** 2026-03-11 (b2342851)  
+**Status:** 🟢 Production-Ready  
+**Version:** 1.6.0  
+**Last Validated:** 2026-04-06  
 **Module Path:** `src/training/` / `include/training/`
 
 ---

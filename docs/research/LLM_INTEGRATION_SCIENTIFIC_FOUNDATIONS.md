@@ -611,5 +611,5 @@ The **NIST AI RMF** (NIST AI 100-1, 2023) defines four functions for AI risk man
 
 ---
 
-*Last Updated: March 2026*  
+*Last Updated: April 2026*  
 *Next Review: September 2026*

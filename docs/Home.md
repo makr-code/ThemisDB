@@ -2,7 +2,7 @@
 
 # ThemisDB Documentation Home (Language Selector)
 
-**Version:** 1.4.0-alpha | **Last Updated:** January 5, 2026
+**Version:** 1.8.0-rc1 | **Last Updated:** April 2026
 
 </div>
 
@@ -16,18 +16,16 @@ This page is now language-neutral. Please choose your language:
 
 ---
 
-## 🚀 NEW in v1.4.0-alpha
+## 🚀 Current: v1.8.0-rc1
 
 **Documentation:**
-- [Release Notes v1.4.0-alpha](../RELEASE_NOTES_V1.4.0_ALPHA.md)
-- [Changelog](../CHANGELOG.md#v140-alpha)
-- [Compendium Update Notes](../compendium/V1.4.0_ALPHA_UPDATE_NOTES.md)
+- [Changelog](../CHANGELOG.md)
+- [Roadmap](../roadmap.md)
+- [Release Notes v1.8.0](de/releases/RELEASE_NOTES_v1.8.0.md)
 
-**Features:**
-- Grammar-Constrained Generation, RoPE Scaling, Vision Support
-- Flash Attention, Speculative Decoding, Continuous Batching
-- Hot Spare Management, Enhanced Metrics, WAL Replication
-- Multi-GPU LoRA, PostgreSQL Protocol Enhancements
+**Highlights:**
+- Geo: GeoJSON RFC 7946 + R-tree, Auth: German eID, Analytics: Forecasting Batch/Streaming
+- Query: ShardKey Routing, Scraper Plugin v1.1.0, German E-Gov OZG/XÖV/XDOMEA/eID
 
 ---
 ThemisDB is a production-ready multi-model database that combines **relational, graph, vector, and document** models in a single system with full ACID transaction support. Built on RocksDB with advanced security and compliance features.

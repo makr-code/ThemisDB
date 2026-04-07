@@ -378,6 +378,6 @@ See [CONTRIBUTING.md](../CONTRIBUTING.md) for detailed guidelines.
 ---
 
 **Documentation Hub Version:** 1.0  
-**Last Updated:** 2026-01-04  
+**Last Updated:** 2026-04-06  
 **Maintained by:** ThemisDB Team
 

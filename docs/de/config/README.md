@@ -1,8 +1,8 @@
 # Config-Modul
-<!-- status: current | validated: 2026-03-09 | primary: src/config/ -->
+<!-- status: current | validated: 2026-04-06 | primary: src/config/ -->
 
 **Modul:** `src/config/`  
-**Stand:** 9. März 2026  
+**Stand:** 6. April 2026  
 **Version:** 0.0.34  
 **Status:** ✅ Production-Ready
 

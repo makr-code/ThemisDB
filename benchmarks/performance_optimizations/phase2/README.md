@@ -200,5 +200,5 @@ echo 1 | sudo tee /sys/devices/system/cpu/intel_pstate/no_turbo
 
 ---
 
-**Last Updated:** December 24, 2025  
+**Last Updated:** April 2026  
 **Status:** ✅ Complete

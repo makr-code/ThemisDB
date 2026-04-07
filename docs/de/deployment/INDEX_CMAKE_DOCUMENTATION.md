@@ -214,6 +214,6 @@ Falls Probleme mit dieser Dokumentation:
 ---
 
 **Dokumentation für**: ThemisDB v1.3.5  
-**Stand**: 2025-12-26  
+**Stand**: 2026-04-06  
 **Status**: 🟢 Complete & Ready  
 **Bewährte Lösung**: Alle Methoden getestet

@@ -1,7 +1,7 @@
 # ThemisDB Security Documentation
 
-**Stand:** 7. Januar 2026  
-**Version:** v1.4.0-alpha
+**Stand:** 6. April 2026  
+**Version:** v1.8.0-rc1
 
 ---
 

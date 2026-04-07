@@ -764,6 +764,6 @@ auto similar_patterns = vectorIndex.search(pattern_embedding, k=10);
 
 **Review Status:** ✅ Complete  
 **Document Version:** 1.0  
-**Last Updated:** 2026-02-05  
+**Last Updated:** 2026-04-06  
 **Lines:** 900+  
 **Maintainer:** ThemisDB Core Team

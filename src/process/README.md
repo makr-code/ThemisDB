@@ -2,7 +2,7 @@
 
 **Version:** 1.0.0  
 **Status:** 🟡 Beta — Core functionality implemented, LLM integration and advanced conformance checking planned  
-**Last Updated:** 2026-03-12  
+**Last Updated:** 2026-04-06  
 **Module Path:** `src/process/`
 
 ---

@@ -12,8 +12,8 @@ This root file is language-neutral. Bitte wähle eine Sprachversion:
 > [!NOTE]
 > Die deutschsprachigen Dokumente sind die authoritative Source. Übersetzungen können zeitlich nachhängen.
 ### Übersichtsdokumente
-- **[Changelog](../CHANGELOG.md)** - Vollständige Versionshistorie (v1.2.0, v1.1.0, v1.0.2, v1.0.1, v1.0.0)
-- **[🆕 Roadmap v1.1.0](roadmap/roadmap_overview.md)** - **AKTUALISIERT:** Q1 2026 Optimization Release
+- **[Changelog](../CHANGELOG.md)** - Vollständige Versionshistorie (v1.8.0-rc1, v1.9.0, v1.6.0, v1.5.0, v1.4.0, …)
+- **[Roadmap v2.0](../roadmap.md)** - Aggregierte Roadmap über alle 46 Module
 - **[Architecture Overview](architecture/ARCHITECTURE_OVERVIEW.md)** - Komplette Systemarchitektur mit Diagrammen
 - **[🆕 Source Directory Guide](architecture/SOURCE_DIRECTORY_GUIDE.md)** - **NEU:** Comprehensive guide to all 35 src/ directories (100% coverage)
 - **[Source Code Changes v1.0](development/SOURCE_CODE_CHANGES_v1.0.md)** - Detaillierte Quellcode-Dokumentation (191 Dateien, 26 Module)
@@ -317,6 +317,6 @@ Dokumentation wird automatisch zu GitHub Pages deployt bei Merge zu main.
 
 ---
 
-**Version:** 1.3.0  
-**Last Updated:** 20. Dezember 2025  
+**Version:** 1.8.0-rc1  
+**Last Updated:** 6. April 2026  
 **License:** See [LICENSE](../LICENSE)

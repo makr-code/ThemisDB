@@ -1,6 +1,6 @@
 # Observability Module Headers
 
-<!-- Status: current | validated: 2026-03-09 -->
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: README.md · ../src/observability/README.md · ../src/observability/ARCHITECTURE.md -->
 
 Public interfaces and declarations for ThemisDB observability system.

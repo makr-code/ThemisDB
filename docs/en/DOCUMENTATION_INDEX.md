@@ -4,7 +4,7 @@
 > The authoritative documentation is in German. This is a community translation.  
 > See [German docs](../de/DOCUMENTATION_INDEX.md) for the most current version.
 
-**Last Updated:** December 20, 2025  
+**Last Updated:** April 2026  
 **Version:** 1.3.0 (LLM Integration Release)  
 **Language:** English
 

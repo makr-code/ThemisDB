@@ -382,7 +382,7 @@ Documentation is available in multiple languages:
 | Operations | 30+ | 85% | 15% |
 
 **Total Documentation:** 1000+ files  
-**Last Updated:** 2026-01-31  
+**Last Updated:** 2026-04-06  
 **Documentation Version:** 1.4.x
 
 ---

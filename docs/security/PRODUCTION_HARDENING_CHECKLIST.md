@@ -1,7 +1,7 @@
 # ThemisDB Production Security Hardening Checklist
 
 **Version:** 1.4.0  
-**Last Updated:** January 2026  
+**Last Updated:** April 2026  
 **Status:** Production Ready  
 **Security Score:** 92/100
 

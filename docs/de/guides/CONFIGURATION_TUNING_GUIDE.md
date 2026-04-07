@@ -1,7 +1,7 @@
 # ThemisDB Konfigurations- und Tuning-Guide
 
 **Version:** 1.3.0  
-**Stand:** 25. Dezember 2025  
+**Stand:** 6. April 2026  
 **Zielgruppe:** Database Administrators, DevOps Engineers, System Architects
 
 ---

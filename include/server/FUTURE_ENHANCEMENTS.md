@@ -884,7 +884,7 @@ Have ideas for server header improvements? Open an issue or discussion:
 
 ---
 
-*Last Updated: March 2026*  
+*Last Updated: April 2026*  
 *Module Version: v1.7.0*  
 *Next Review: v1.7.0 Release*
 

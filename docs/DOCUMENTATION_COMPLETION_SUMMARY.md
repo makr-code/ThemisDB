@@ -269,4 +269,4 @@ For questions or feedback on this documentation:
 **Prepared by:** GitHub Copilot Agent  
 **Reviewed by:** Code Review (Passed), Security Scan (Passed)  
 **Date:** January 5, 2026  
-**Version:** 1.4.0-alpha
+**Version:** 1.8.0-rc1

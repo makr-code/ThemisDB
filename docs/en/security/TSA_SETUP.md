@@ -699,6 +699,6 @@ ThemisDB Timestamp Authority implementation is licensed under the same license a
 
 ---
 
-**Last Updated:** 2026-02-03  
+**Last Updated:** 2026-04-06  
 **Version:** 1.5.0  
 **Status:** ✅ Production Ready

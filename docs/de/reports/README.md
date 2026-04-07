@@ -1,6 +1,6 @@
 # Reports & Strategische Analysen
 
-**Stand:** 7. Januar 2026  
+**Stand:** 6. April 2026  
 **Version:** 1.1.0  
 **Kategorie:** Reports
 

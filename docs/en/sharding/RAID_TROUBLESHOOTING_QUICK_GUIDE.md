@@ -451,7 +451,7 @@ tar -czf themis-debug-$(date +%Y%m%d-%H%M%S).tar.gz \
 
 ---
 
-**Last Updated:** 2026-01-04  
+**Last Updated:** 2026-04-06  
 **Version:** 1.0  
 **Status:** Active
 

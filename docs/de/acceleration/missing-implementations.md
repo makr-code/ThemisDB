@@ -1,6 +1,6 @@
 # Acceleration Module — Fehlende / Unvollständige Implementierungen
 
-<!-- Status: current | validated: 2026-03-09 -->
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Primärdokumentation: ../../../src/acceleration/ -->
 
 Dieser Report dokumentiert Funktionen, die in `src/acceleration/ROADMAP.md` oder anderen

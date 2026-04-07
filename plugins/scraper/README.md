@@ -135,7 +135,7 @@ const ScraperRunStats stats = plugin.scrape();
 
 ## Tests
 
-40 unit tests in `tests/test_scraper_plugin.cpp`:
+60 unit tests in `tests/test_scraper_plugin.cpp` (`ScraperPluginFocusedTests`):
 
 - **Group A** (6) – UrlPolicy
 - **Group B** (5) – ScraperConfig YAML loading
@@ -145,3 +145,7 @@ const ScraperRunStats stats = plugin.scrape();
 - **Group F** (4) – LLM Evaluator (LLM path, heuristic fallback, threshold)
 - **Group G** (4) – MetadataWriter (relational, graph, vector)
 - **Group H** (7) – ScraperPlugin integration (init, search, API, JS, blacklist)
+- **Group I** (6) – Provenance flags on relational, graph, vector records and `ScrapedDocument` *(v1.1.0)*
+- **Group J** (5) – Knowledge source catalog completeness (Bundestag, EU, 16 Länder, license coverage, unique IDs) *(v1.1.0)*
+- **Group K** (5) – End-to-end provenance propagation through `scrape()` *(v1.1.0)*
+- **Group L** (4) – Provenance immutability (default values, cross-record consistency, custom version propagation) *(v1.1.0)*

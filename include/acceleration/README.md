@@ -1,7 +1,7 @@
 # Acceleration Module — Public Headers
 
 **Version:** 1.0  
-**Last Updated:** 2026-03-09  
+**Last Updated:** 2026-04-06  
 **Module Path:** `include/acceleration/`
 
 ---

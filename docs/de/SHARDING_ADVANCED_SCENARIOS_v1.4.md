@@ -2,7 +2,7 @@
 
 **Version:** 1.0  
 **Status:** Planning Document  
-**Last Updated:** 30. Dezember 2025  
+**Last Updated:** April 2026  
 **Target Audience:** Architecture, Engineering Leadership
 
 ---
@@ -644,6 +644,6 @@ ANTI-PATTERNS:
 
 ---
 
-**Version:** 1.0 | **Status:** Planning Document | **Last Updated:** 30. Dezember 2025
+**Version:** 1.0 | **Status:** Planning Document | **Last Updated:** April 2026
 
 For architectural discussions, contact: architecture@themis-io.com

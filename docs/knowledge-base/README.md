@@ -401,7 +401,7 @@ Found an error or have a suggestion? We welcome contributions!
 
 ## 📖 Document Information
 
-**Last Updated:** 2024-01-24  
+**Last Updated:** 2026-04-06  
 **Knowledge Base Version:** 1.0  
 **ThemisDB Version:** 1.4.0  
 **Maintainers:** ThemisDB Core Team

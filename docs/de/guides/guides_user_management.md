@@ -31,7 +31,7 @@ Comprehensive user management guide using external authentication systems.
 - **Active Directory / LDAP** (über JWT-Integration)
 - **OpenID Connect (OIDC)** Provider
 
-**Stand:** 22. Dezember 2025  
+**Stand:** 6. April 2026  
 **Version:** 1.3.0  
 **Kategorie:** ⚙️ Operations/Admin
 

@@ -1435,6 +1435,6 @@ Conduct a comprehensive security audit of a ThemisDB deployment and create a rem
 
 ---
 
-*Last Updated: January 2025*  
+*Last Updated: April 2026*  
 *Version: 1.0*  
 *© 2025 ThemisDB. All rights reserved.*

@@ -1,4 +1,4 @@
-<!-- Status: current | validated: 2026-03-12 -->
+<!-- Status: current | validated: 2026-04-06 -->
 # Security — Voice Module
 > Report vulnerabilities via [SECURITY.md](../../../SECURITY.md).
 
