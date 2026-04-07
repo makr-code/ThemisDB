@@ -1,5 +1,5 @@
 {
-  "library_version": "2.0.0",
+  "library_version": "3.0.0",
   "schema_version": "2.0",
   "generated": "2026-07-14",
   "models": [
@@ -15,10 +15,14 @@
       "license": "mit",
       "commercial_use": true,
       "sources": {
-        "huggingface": "THUDM/glm-5",
-        "api": "https://open.bigmodel.cn/api/paas/v4/chat/completions",
-        "ollama": "glm5:latest",
-        "local": "models/glm-5-q4.gguf"
+        "model_card": "https://huggingface.co/THUDM/glm-z1-9b-0414",
+        "gguf_repo": "bartowski/GLM-Z1-9B-0414-GGUF",
+        "gguf_q4_k_m": "https://huggingface.co/bartowski/GLM-Z1-9B-0414-GGUF/resolve/main/GLM-Z1-9B-0414-Q4_K_M.gguf",
+        "gguf_q8_0": "https://huggingface.co/bartowski/GLM-Z1-9B-0414-GGUF/resolve/main/GLM-Z1-9B-0414-Q8_0.gguf",
+        "download_cmd": "huggingface-cli download bartowski/GLM-Z1-9B-0414-GGUF --include='*Q4_K_M*' --local-dir models/",
+        "ollama": "glm4:latest",
+        "local": "models/GLM-Z1-9B-0414-Q4_K_M.gguf",
+        "gguf_note": "GLM-5 commercial weights not public; GLM-Z1-9B-0414 is the latest open THUDM checkpoint (9B, MIT)"
       },
       "parameters": {
         "context_length": 202752,
@@ -47,8 +51,7 @@
       ],
       "deployment": {
         "multi_gpu": true,
-        "vllm_compatible": true,
-        "api_fallback": true
+        "vllm_compatible": true
       },
       "use_cases": [
         "complex instruction following",
@@ -75,10 +78,14 @@
       "license": "mit",
       "commercial_use": true,
       "sources": {
-        "huggingface": "THUDM/glm-4-9b-chat",
-        "api": "https://open.bigmodel.cn/api/paas/v4/chat/completions",
-        "ollama": "glm4:latest",
-        "local": "models/glm-4.7-q4.gguf"
+        "model_card": "https://huggingface.co/THUDM/glm-4-9b-chat",
+        "gguf_repo": "THUDM/GLM-4-9B-Chat-GGUF",
+        "gguf_q4_k_m": "https://huggingface.co/THUDM/GLM-4-9B-Chat-GGUF/resolve/main/glm-4-9b-chat-q4_k_m.gguf",
+        "gguf_q8_0": "https://huggingface.co/THUDM/GLM-4-9B-Chat-GGUF/resolve/main/glm-4-9b-chat-q8_0.gguf",
+        "download_cmd": "huggingface-cli download THUDM/GLM-4-9B-Chat-GGUF --include='*q4_k_m*' --local-dir models/",
+        "ollama": "glm4:9b",
+        "local": "models/glm-4-9b-chat-q4_k_m.gguf",
+        "gguf_note": "GLM-4.7 is commercial API; GLM-4-9B-Chat is the publicly available local equivalent (9B)"
       },
       "parameters": {
         "context_length": 202752,
@@ -123,10 +130,14 @@
       "license": "mit",
       "commercial_use": true,
       "sources": {
-        "huggingface": "THUDM/glm-4-9b-chat",
-        "api": "https://open.bigmodel.cn/api/paas/v4/chat/completions",
-        "ollama": "glm4:6",
-        "local": "models/glm-4.6-q4.gguf"
+        "model_card": "https://huggingface.co/THUDM/glm-4-9b-chat",
+        "gguf_repo": "THUDM/GLM-4-9B-Chat-GGUF",
+        "gguf_q4_k_m": "https://huggingface.co/THUDM/GLM-4-9B-Chat-GGUF/resolve/main/glm-4-9b-chat-q4_k_m.gguf",
+        "gguf_q8_0": "https://huggingface.co/THUDM/GLM-4-9B-Chat-GGUF/resolve/main/glm-4-9b-chat-q8_0.gguf",
+        "download_cmd": "huggingface-cli download THUDM/GLM-4-9B-Chat-GGUF --include='*q4_k_m*' --local-dir models/",
+        "ollama": "glm4:9b",
+        "local": "models/glm-4-9b-chat-q4_k_m.gguf",
+        "gguf_note": "GLM-4.6 is commercial API; GLM-4-9B-Chat is the publicly available local equivalent (9B)"
       },
       "parameters": {
         "context_length": 204800,
@@ -165,10 +176,14 @@
       "license": "mit",
       "commercial_use": true,
       "sources": {
-        "huggingface": "THUDM/glm-4-9b-chat",
-        "api": "https://open.bigmodel.cn/api/paas/v4/chat/completions",
+        "model_card": "https://huggingface.co/THUDM/glm-4-9b-chat",
+        "gguf_repo": "THUDM/GLM-4-9B-Chat-GGUF",
+        "gguf_q4_k_m": "https://huggingface.co/THUDM/GLM-4-9B-Chat-GGUF/resolve/main/glm-4-9b-chat-q4_k_m.gguf",
+        "gguf_q8_0": "https://huggingface.co/THUDM/GLM-4-9B-Chat-GGUF/resolve/main/glm-4-9b-chat-q8_0.gguf",
+        "download_cmd": "huggingface-cli download THUDM/GLM-4-9B-Chat-GGUF --include='*q4_k_m*' --local-dir models/",
         "ollama": "glm4:9b",
-        "local": "models/glm-4.5-q4.gguf"
+        "local": "models/glm-4-9b-chat-q4_k_m.gguf",
+        "gguf_note": "GLM-4.5 is commercial API; GLM-4-9B-Chat is the publicly available local equivalent (9B)"
       },
       "parameters": {
         "context_length": 131072,
@@ -208,10 +223,14 @@
       "license": "mit",
       "commercial_use": true,
       "sources": {
-        "huggingface": "THUDM/glm-4-9b-chat",
-        "api": "https://open.bigmodel.cn/api/paas/v4/chat/completions",
-        "ollama": "glm4:flash",
-        "local": "models/glm-4.7-flash-q4.gguf"
+        "model_card": "https://huggingface.co/THUDM/glm-4-9b-chat",
+        "gguf_repo": "THUDM/GLM-4-9B-Chat-GGUF",
+        "gguf_q4_k_m": "https://huggingface.co/THUDM/GLM-4-9B-Chat-GGUF/resolve/main/glm-4-9b-chat-q4_k_m.gguf",
+        "gguf_q8_0": "https://huggingface.co/THUDM/GLM-4-9B-Chat-GGUF/resolve/main/glm-4-9b-chat-q8_0.gguf",
+        "download_cmd": "huggingface-cli download THUDM/GLM-4-9B-Chat-GGUF --include='*q4_k_m*' --local-dir models/",
+        "ollama": "glm4:9b",
+        "local": "models/glm-4-9b-chat-q4_k_m.gguf",
+        "gguf_note": "GLM-4.7-Flash is API-only; GLM-4-9B-Chat is the open local checkpoint"
       },
       "parameters": {
         "context_length": 202752,
@@ -249,9 +268,14 @@
       "license": "apache2",
       "commercial_use": true,
       "sources": {
-        "huggingface": "google/gemma-4-31b-it",
+        "model_card": "https://huggingface.co/google/gemma-4-31b-it",
+        "gguf_repo": "bartowski/gemma-4-31b-it-GGUF",
+        "gguf_q5_k_m": "https://huggingface.co/bartowski/gemma-4-31b-it-GGUF/resolve/main/gemma-4-31b-it-Q5_K_M.gguf",
+        "gguf_q8_0": "https://huggingface.co/bartowski/gemma-4-31b-it-GGUF/resolve/main/gemma-4-31b-it-Q8_0.gguf",
+        "download_cmd": "huggingface-cli download bartowski/gemma-4-31b-it-GGUF --include='*Q4_K_M*' --local-dir models/",
         "ollama": "gemma4:31b",
-        "local": "models/gemma-4-31b-it-q4.gguf"
+        "local": "models/gemma-4-31b-it-Q4_K_M.gguf",
+        "gguf_note": "31B Q4_K_M ~19 GB (single file). Also lmstudio-community/gemma-4-31b-it-GGUF. Apache 2.0."
       },
       "parameters": {
         "context_length": 262144,
@@ -314,9 +338,14 @@
       "license": "apache2",
       "commercial_use": true,
       "sources": {
-        "huggingface": "google/gemma-4-26b-a4b-it",
+        "model_card": "https://huggingface.co/google/gemma-4-26b-a4b-it",
+        "gguf_repo": "bartowski/gemma-4-26b-a4b-it-GGUF",
+        "gguf_q4_k_m": "https://huggingface.co/bartowski/gemma-4-26b-a4b-it-GGUF/resolve/main/gemma-4-26b-a4b-it-Q4_K_M.gguf",
+        "gguf_q8_0": "https://huggingface.co/bartowski/gemma-4-26b-a4b-it-GGUF/resolve/main/gemma-4-26b-a4b-it-Q8_0.gguf",
+        "download_cmd": "huggingface-cli download bartowski/gemma-4-26b-a4b-it-GGUF --include='*Q4_K_M*' --local-dir models/",
         "ollama": "gemma4:26b-moe",
-        "local": "models/gemma-4-26b-a4b-it-q4.gguf"
+        "local": "models/gemma-4-26b-a4b-it-Q4_K_M.gguf",
+        "gguf_note": "MoE 26B/4B-active; Q4_K_M ~15 GB. Apache 2.0."
       },
       "parameters": {
         "context_length": 262144,
@@ -369,8 +398,12 @@
       "license": "apache2",
       "commercial_use": true,
       "sources": {
-        "huggingface": "Qwen/Qwen3.5-397B-A17B-Instruct",
-        "local": "models/qwen3.5-397b-a17b-q2.gguf"
+        "model_card": "https://huggingface.co/Qwen/Qwen3.5-397B-A17B-Instruct",
+        "gguf_repo": "bartowski/Qwen3.5-397B-A17B-Instruct-GGUF",
+        "download_cmd": "huggingface-cli download bartowski/Qwen3.5-397B-A17B-Instruct-GGUF --include='*Q2_K*' --local-dir models/",
+        "ollama": "qwen3.5:397b-a17b",
+        "local": "models/Qwen3.5-397B-A17B-Instruct-Q2_K-00001-of-XXXXX.gguf",
+        "gguf_note": "397B MoE at Q2_K ~200 GB; requires 4-8x GPU. 17B active params per token."
       },
       "parameters": {
         "context_length": 262144,
@@ -395,8 +428,7 @@
       "deployment": {
         "multi_gpu": true,
         "min_gpus": 4,
-        "vllm_compatible": true,
-        "api_fallback": true
+        "vllm_compatible": true
       },
       "notes": "Apache 2.0 flagship MoE. ELO 1449, rank #4. 262K context. 17B active."
     },
@@ -414,9 +446,14 @@
       "license": "apache2",
       "commercial_use": true,
       "sources": {
-        "huggingface": "Qwen/Qwen3.5-27B-Instruct",
-        "ollama": "qwen3.5:27b-instruct-q4_K_M",
-        "local": "models/qwen3.5-27b-instruct-q4.gguf"
+        "model_card": "https://huggingface.co/Qwen/Qwen3.5-27B-Instruct",
+        "gguf_repo": "Qwen/Qwen3.5-27B-Instruct-GGUF",
+        "gguf_q4_k_m": "https://huggingface.co/Qwen/Qwen3.5-27B-Instruct-GGUF/resolve/main/Qwen3.5-27B-Instruct-Q4_K_M.gguf",
+        "gguf_q8_0": "https://huggingface.co/Qwen/Qwen3.5-27B-Instruct-GGUF/resolve/main/Qwen3.5-27B-Instruct-Q8_0.gguf",
+        "download_cmd": "huggingface-cli download Qwen/Qwen3.5-27B-Instruct-GGUF --include='*Q4_K_M*' --local-dir models/",
+        "ollama": "qwen3.5:27b",
+        "local": "models/Qwen3.5-27B-Instruct-Q4_K_M.gguf",
+        "gguf_note": "Official Qwen GGUF. Q4_K_M ~16 GB; fits on a single 24 GB GPU."
       },
       "parameters": {
         "context_length": 262144,
@@ -462,9 +499,14 @@
       "license": "apache2",
       "commercial_use": true,
       "sources": {
-        "huggingface": "Qwen/Qwen3-32B-Instruct",
-        "ollama": "qwen3:32b-instruct-q4_K_M",
-        "local": "models/qwen3-32b-instruct-q4.gguf"
+        "model_card": "https://huggingface.co/Qwen/Qwen3-32B",
+        "gguf_repo": "Qwen/Qwen3-32B-GGUF",
+        "gguf_q4_k_m": "https://huggingface.co/Qwen/Qwen3-32B-GGUF/resolve/main/Qwen3-32B-Q4_K_M.gguf",
+        "gguf_q8_0": "https://huggingface.co/Qwen/Qwen3-32B-GGUF/resolve/main/Qwen3-32B-Q8_0.gguf",
+        "download_cmd": "huggingface-cli download Qwen/Qwen3-32B-GGUF --include='*Q4_K_M*' --local-dir models/",
+        "ollama": "qwen3:32b",
+        "local": "models/Qwen3-32B-Q4_K_M.gguf",
+        "gguf_note": "Official Qwen GGUF. Q4_K_M ~20 GB. Hybrid thinking/non-thinking (enable_thinking flag)."
       },
       "parameters": {
         "context_length": 40960,
@@ -510,9 +552,14 @@
       "license": "apache2",
       "commercial_use": true,
       "sources": {
-        "huggingface": "Qwen/QwQ-32B-Preview",
+        "model_card": "https://huggingface.co/Qwen/QwQ-32B",
+        "gguf_repo": "Qwen/QwQ-32B-GGUF",
+        "gguf_q4_k_m": "https://huggingface.co/Qwen/QwQ-32B-GGUF/resolve/main/QwQ-32B-Q4_K_M.gguf",
+        "gguf_q8_0": "https://huggingface.co/Qwen/QwQ-32B-GGUF/resolve/main/QwQ-32B-Q8_0.gguf",
+        "download_cmd": "huggingface-cli download Qwen/QwQ-32B-GGUF --include='*Q4_K_M*' --local-dir models/",
         "ollama": "qwq:32b",
-        "local": "models/qwq-32b-q4.gguf"
+        "local": "models/QwQ-32B-Q4_K_M.gguf",
+        "gguf_note": "Official Qwen GGUF. Chain-of-thought reasoning. Q4_K_M ~20 GB."
       },
       "parameters": {
         "context_length": 131072,
@@ -558,9 +605,13 @@
       "license": "qwen",
       "commercial_use": true,
       "sources": {
-        "huggingface": "Qwen/Qwen2.5-72B-Instruct",
+        "model_card": "https://huggingface.co/Qwen/Qwen2.5-72B-Instruct",
+        "gguf_repo": "bartowski/Qwen2.5-72B-Instruct-GGUF",
+        "gguf_q4_k_m": "https://huggingface.co/bartowski/Qwen2.5-72B-Instruct-GGUF/resolve/main/Qwen2.5-72B-Instruct-Q4_K_M-00001-of-00004.gguf",
+        "download_cmd": "huggingface-cli download bartowski/Qwen2.5-72B-Instruct-GGUF --include='*Q4_K_M*' --local-dir models/",
         "ollama": "qwen2.5:72b-instruct-q4_K_M",
-        "local": "models/qwen2.5-72b-instruct-q4.gguf"
+        "local": "models/Qwen2.5-72B-Instruct-Q4_K_M-00001-of-00004.gguf",
+        "gguf_note": "72B Q4_K_M ~43 GB, 4 split files; use download_cmd. Requires 2x 24 GB or 1x 80 GB GPU."
       },
       "parameters": {
         "context_length": 131072,
@@ -607,9 +658,14 @@
       "license": "qwen",
       "commercial_use": true,
       "sources": {
-        "huggingface": "Qwen/Qwen2.5-7B-Instruct",
+        "model_card": "https://huggingface.co/Qwen/Qwen2.5-7B-Instruct",
+        "gguf_repo": "Qwen/Qwen2.5-7B-Instruct-GGUF",
+        "gguf_q4_k_m": "https://huggingface.co/Qwen/Qwen2.5-7B-Instruct-GGUF/resolve/main/qwen2.5-7b-instruct-q4_k_m.gguf",
+        "gguf_q8_0": "https://huggingface.co/Qwen/Qwen2.5-7B-Instruct-GGUF/resolve/main/qwen2.5-7b-instruct-q8_0.gguf",
+        "download_cmd": "huggingface-cli download Qwen/Qwen2.5-7B-Instruct-GGUF --include='*q4_k_m*' --local-dir models/",
         "ollama": "qwen2.5:7b-instruct-q4_K_M",
-        "local": "models/qwen2.5-7b-instruct-q4.gguf"
+        "local": "models/qwen2.5-7b-instruct-q4_k_m.gguf",
+        "gguf_note": "Official Qwen GGUF. Single file ~4.7 GB. Default ThemisDB single-GPU recommendation."
       },
       "parameters": {
         "context_length": 131072,
@@ -662,8 +718,12 @@
       "license": "mit",
       "commercial_use": true,
       "sources": {
-        "huggingface": "deepseek-ai/DeepSeek-V3",
-        "local": "models/deepseek-v3.2-q2.gguf"
+        "model_card": "https://huggingface.co/deepseek-ai/DeepSeek-V3",
+        "gguf_repo": "bartowski/DeepSeek-V3-GGUF",
+        "download_cmd": "huggingface-cli download bartowski/DeepSeek-V3-GGUF --include='*IQ2_XS*' --local-dir models/",
+        "ollama": "deepseek-v3:671b",
+        "local": "models/DeepSeek-V3-IQ2_XS-00001-of-00009.gguf",
+        "gguf_note": "671B MoE (37B active). IQ2_XS ~180 GB in 9 split files. Requires 4-8x 40 GB+ GPU. Use distilled variants for single-node."
       },
       "parameters": {
         "context_length": 163840,
@@ -689,8 +749,7 @@
       "deployment": {
         "multi_gpu": true,
         "min_gpus": 8,
-        "vllm_compatible": true,
-        "api_fallback": true
+        "vllm_compatible": true
       },
       "notes": "DeepSeek V3.2. ELO 1424. MIT. Use via API or multi-GPU vLLM cluster."
     },
@@ -708,8 +767,12 @@
       "license": "mit",
       "commercial_use": true,
       "sources": {
-        "huggingface": "deepseek-ai/DeepSeek-R1-0528",
-        "local": "models/deepseek-r1-0528-q2.gguf"
+        "model_card": "https://huggingface.co/deepseek-ai/DeepSeek-R1-0528",
+        "gguf_repo": "bartowski/DeepSeek-R1-0528-GGUF",
+        "download_cmd": "huggingface-cli download bartowski/DeepSeek-R1-0528-GGUF --include='*IQ2_XS*' --local-dir models/",
+        "ollama": "deepseek-r1:671b-0528",
+        "local": "models/DeepSeek-R1-0528-IQ2_XS-00001-of-00009.gguf",
+        "gguf_note": "671B reasoning MoE. Same hardware req as V3.2. Prefer R1-Distill-Qwen-32B for single-GPU."
       },
       "parameters": {
         "context_length": 163840,
@@ -733,8 +796,7 @@
       "deployment": {
         "multi_gpu": true,
         "min_gpus": 8,
-        "vllm_compatible": true,
-        "api_fallback": true
+        "vllm_compatible": true
       },
       "notes": "DeepSeek R1-0528 (improved). ELO 1422. MIT. Updated May 2026."
     },
@@ -752,8 +814,12 @@
       "license": "mit",
       "commercial_use": true,
       "sources": {
-        "huggingface": "deepseek-ai/DeepSeek-R1",
-        "local": "models/deepseek-r1-q2.gguf"
+        "model_card": "https://huggingface.co/deepseek-ai/DeepSeek-R1",
+        "gguf_repo": "bartowski/DeepSeek-R1-GGUF",
+        "download_cmd": "huggingface-cli download bartowski/DeepSeek-R1-GGUF --include='*IQ2_XS*' --local-dir models/",
+        "ollama": "deepseek-r1:671b",
+        "local": "models/DeepSeek-R1-IQ2_XS-00001-of-00009.gguf",
+        "gguf_note": "671B — prefer R1-0528 (May 2026 update). Distilled variants recommended for single-GPU."
       },
       "parameters": {
         "context_length": 65536,
@@ -772,8 +838,7 @@
       "deployment": {
         "multi_gpu": true,
         "min_gpus": 8,
-        "vllm_compatible": true,
-        "api_fallback": true
+        "vllm_compatible": true
       },
       "notes": "DeepSeek R1 original. ELO 1398. MIT. Prefer R1-0528 for latest results."
     },
@@ -790,9 +855,14 @@
       "license": "mit",
       "commercial_use": true,
       "sources": {
-        "huggingface": "deepseek-ai/DeepSeek-R1-Distill-Llama-70B",
+        "model_card": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-70B",
+        "gguf_repo": "bartowski/DeepSeek-R1-Distill-Llama-70B-GGUF",
+        "gguf_q4_k_m": "https://huggingface.co/bartowski/DeepSeek-R1-Distill-Llama-70B-GGUF/resolve/main/DeepSeek-R1-Distill-Llama-70B-Q4_K_M-00001-of-00002.gguf",
+        "gguf_q5_k_m": "https://huggingface.co/bartowski/DeepSeek-R1-Distill-Llama-70B-GGUF/resolve/main/DeepSeek-R1-Distill-Llama-70B-Q5_K_M-00001-of-00002.gguf",
+        "download_cmd": "huggingface-cli download bartowski/DeepSeek-R1-Distill-Llama-70B-GGUF --include='*Q4_K_M*' --local-dir models/",
         "ollama": "deepseek-r1:70b",
-        "local": "models/deepseek-r1-distill-llama-70b-q4.gguf"
+        "local": "models/DeepSeek-R1-Distill-Llama-70B-Q4_K_M-00001-of-00002.gguf",
+        "gguf_note": "Q4_K_M ~40 GB in 2 split files. Best locally-runnable R1 reasoning. Requires 2x 24 GB or 1x 80 GB GPU."
       },
       "parameters": {
         "context_length": 32768,
@@ -847,9 +917,14 @@
       "license": "mit",
       "commercial_use": true,
       "sources": {
-        "huggingface": "deepseek-ai/DeepSeek-R1-Distill-Qwen-32B",
+        "model_card": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B",
+        "gguf_repo": "bartowski/DeepSeek-R1-Distill-Qwen-32B-GGUF",
+        "gguf_q4_k_m": "https://huggingface.co/bartowski/DeepSeek-R1-Distill-Qwen-32B-GGUF/resolve/main/DeepSeek-R1-Distill-Qwen-32B-Q4_K_M.gguf",
+        "gguf_q8_0": "https://huggingface.co/bartowski/DeepSeek-R1-Distill-Qwen-32B-GGUF/resolve/main/DeepSeek-R1-Distill-Qwen-32B-Q8_0.gguf",
+        "download_cmd": "huggingface-cli download bartowski/DeepSeek-R1-Distill-Qwen-32B-GGUF --include='*Q4_K_M*' --local-dir models/",
         "ollama": "deepseek-r1:32b",
-        "local": "models/deepseek-r1-distill-qwen-32b-q4.gguf"
+        "local": "models/DeepSeek-R1-Distill-Qwen-32B-Q4_K_M.gguf",
+        "gguf_note": "Q4_K_M single file ~19 GB. Best single-GPU (24 GB) reasoning model."
       },
       "parameters": {
         "context_length": 32768,
@@ -897,9 +972,14 @@
       "license": "mit",
       "commercial_use": true,
       "sources": {
-        "huggingface": "deepseek-ai/DeepSeek-R1-Distill-Qwen-14B",
+        "model_card": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-14B",
+        "gguf_repo": "bartowski/DeepSeek-R1-Distill-Qwen-14B-GGUF",
+        "gguf_q4_k_m": "https://huggingface.co/bartowski/DeepSeek-R1-Distill-Qwen-14B-GGUF/resolve/main/DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf",
+        "gguf_q8_0": "https://huggingface.co/bartowski/DeepSeek-R1-Distill-Qwen-14B-GGUF/resolve/main/DeepSeek-R1-Distill-Qwen-14B-Q8_0.gguf",
+        "download_cmd": "huggingface-cli download bartowski/DeepSeek-R1-Distill-Qwen-14B-GGUF --include='*Q4_K_M*' --local-dir models/",
         "ollama": "deepseek-r1:14b",
-        "local": "models/deepseek-r1-distill-qwen-14b-q4.gguf"
+        "local": "models/DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf",
+        "gguf_note": "Q4_K_M single file ~8.4 GB. Best 16 GB VRAM reasoning choice."
       },
       "parameters": {
         "context_length": 32768,
@@ -938,9 +1018,14 @@
       "license": "mit",
       "commercial_use": true,
       "sources": {
-        "huggingface": "deepseek-ai/DeepSeek-R1-Distill-Qwen-7B",
+        "model_card": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-7B",
+        "gguf_repo": "bartowski/DeepSeek-R1-Distill-Qwen-7B-GGUF",
+        "gguf_q4_k_m": "https://huggingface.co/bartowski/DeepSeek-R1-Distill-Qwen-7B-GGUF/resolve/main/DeepSeek-R1-Distill-Qwen-7B-Q4_K_M.gguf",
+        "gguf_q8_0": "https://huggingface.co/bartowski/DeepSeek-R1-Distill-Qwen-7B-GGUF/resolve/main/DeepSeek-R1-Distill-Qwen-7B-Q8_0.gguf",
+        "download_cmd": "huggingface-cli download bartowski/DeepSeek-R1-Distill-Qwen-7B-GGUF --include='*Q4_K_M*' --local-dir models/",
         "ollama": "deepseek-r1:7b",
-        "local": "models/deepseek-r1-distill-qwen-7b-q4.gguf"
+        "local": "models/DeepSeek-R1-Distill-Qwen-7B-Q4_K_M.gguf",
+        "gguf_note": "Q4_K_M single file ~4.4 GB. Runs on 8 GB VRAM or CPU."
       },
       "parameters": {
         "context_length": 32768,
@@ -981,10 +1066,14 @@
       "license": "apache2",
       "commercial_use": true,
       "sources": {
-        "huggingface": "mistralai/Mistral-Large-Instruct-2411",
-        "api": "https://api.mistral.ai/v1/chat/completions",
-        "ollama": "mistral-large:latest",
-        "local": "models/mistral-large-3-q3.gguf"
+        "model_card": "https://huggingface.co/mistralai/Mistral-Large-Instruct-2411",
+        "gguf_repo": "bartowski/Mistral-Large-Instruct-2411-GGUF",
+        "gguf_q4_k_m": "https://huggingface.co/bartowski/Mistral-Large-Instruct-2411-GGUF/resolve/main/Mistral-Large-Instruct-2411-Q4_K_M-00001-of-00006.gguf",
+        "gguf_q5_k_m": "https://huggingface.co/bartowski/Mistral-Large-Instruct-2411-GGUF/resolve/main/Mistral-Large-Instruct-2411-Q5_K_M-00001-of-00006.gguf",
+        "download_cmd": "huggingface-cli download bartowski/Mistral-Large-Instruct-2411-GGUF --include='*Q3_K_M*' --local-dir models/",
+        "ollama": "mistral-large:2411",
+        "local": "models/Mistral-Large-Instruct-2411-Q3_K_M-00001-of-00006.gguf",
+        "gguf_note": "123B at Q3_K_M ~53 GB in 6 split files. Apache 2.0. Requires 3x 24 GB or 2x 40 GB GPU."
       },
       "parameters": {
         "context_length": 131072,
@@ -1012,8 +1101,7 @@
       "deployment": {
         "multi_gpu": true,
         "min_gpus": 4,
-        "vllm_compatible": true,
-        "api_fallback": true
+        "vllm_compatible": true
       },
       "recommended_for_themisdb": [
         "eu_legal_documents",
@@ -1035,9 +1123,14 @@
       "license": "apache2",
       "commercial_use": true,
       "sources": {
-        "huggingface": "mistralai/Mistral-Small-Instruct-2506",
+        "model_card": "https://huggingface.co/mistralai/Mistral-Small-Instruct-2506",
+        "gguf_repo": "bartowski/Mistral-Small-Instruct-2506-GGUF",
+        "gguf_q4_k_m": "https://huggingface.co/bartowski/Mistral-Small-Instruct-2506-GGUF/resolve/main/Mistral-Small-Instruct-2506-Q4_K_M.gguf",
+        "gguf_q8_0": "https://huggingface.co/bartowski/Mistral-Small-Instruct-2506-GGUF/resolve/main/Mistral-Small-Instruct-2506-Q8_0.gguf",
+        "download_cmd": "huggingface-cli download bartowski/Mistral-Small-Instruct-2506-GGUF --include='*Q4_K_M*' --local-dir models/",
         "ollama": "mistral-small:2506",
-        "local": "models/mistral-small-2506-q4.gguf"
+        "local": "models/Mistral-Small-Instruct-2506-Q4_K_M.gguf",
+        "gguf_note": "24B Q4_K_M ~14 GB; fits on a single 16 GB+ GPU. Apache 2.0. Best EU/German production model."
       },
       "parameters": {
         "context_length": 32768,
@@ -1085,9 +1178,14 @@
       "license": "apache2",
       "commercial_use": true,
       "sources": {
-        "huggingface": "mistralai/Mistral-Nemo-Instruct-2407",
+        "model_card": "https://huggingface.co/mistralai/Mistral-Nemo-Instruct-2407",
+        "gguf_repo": "bartowski/Mistral-Nemo-Instruct-2407-GGUF",
+        "gguf_q4_k_m": "https://huggingface.co/bartowski/Mistral-Nemo-Instruct-2407-GGUF/resolve/main/Mistral-Nemo-Instruct-2407-Q4_K_M.gguf",
+        "gguf_q8_0": "https://huggingface.co/bartowski/Mistral-Nemo-Instruct-2407-GGUF/resolve/main/Mistral-Nemo-Instruct-2407-Q8_0.gguf",
+        "download_cmd": "huggingface-cli download bartowski/Mistral-Nemo-Instruct-2407-GGUF --include='*Q4_K_M*' --local-dir models/",
         "ollama": "mistral-nemo:12b-instruct-2407-q4_K_M",
-        "local": "models/mistral-nemo-12b-instruct-q4.gguf"
+        "local": "models/Mistral-Nemo-Instruct-2407-Q4_K_M.gguf",
+        "gguf_note": "12B Q4_K_M ~7.5 GB. Apache 2.0. 128K ctx, Tekken tokenizer (131K vocab), strong multilingual."
       },
       "parameters": {
         "context_length": 131072,
@@ -1137,9 +1235,14 @@
       "license": "apache2",
       "commercial_use": true,
       "sources": {
-        "huggingface": "mistralai/Mixtral-8X7B-Instruct-v0.1",
+        "model_card": "https://huggingface.co/mistralai/Mixtral-8x7B-Instruct-v0.1",
+        "gguf_repo": "TheBloke/Mixtral-8x7B-Instruct-v0.1-GGUF",
+        "gguf_q4_k_m": "https://huggingface.co/TheBloke/Mixtral-8x7B-Instruct-v0.1-GGUF/resolve/main/mixtral-8x7b-instruct-v0.1.Q4_K_M.gguf",
+        "gguf_q5_k_m": "https://huggingface.co/TheBloke/Mixtral-8x7B-Instruct-v0.1-GGUF/resolve/main/mixtral-8x7b-instruct-v0.1.Q5_K_M.gguf",
+        "download_cmd": "huggingface-cli download TheBloke/Mixtral-8x7B-Instruct-v0.1-GGUF --include='*Q4_K_M*' --local-dir models/",
         "ollama": "mixtral:8x7b-instruct-v0.1-q4_K_M",
-        "local": "models/mixtral-8x7b-instruct-q4.gguf"
+        "local": "models/mixtral-8x7b-instruct-v0.1.Q4_K_M.gguf",
+        "gguf_note": "47B (8x7B MoE) Q4_K_M ~25 GB single file. Apache 2.0. Legacy — prefer Mistral-Small-2506."
       },
       "parameters": {
         "context_length": 32768,
@@ -1177,9 +1280,14 @@
       "license": "apache2",
       "commercial_use": true,
       "sources": {
-        "huggingface": "mistralai/Mistral-7B-Instruct-v0.3",
+        "model_card": "https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.3",
+        "gguf_repo": "bartowski/Mistral-7B-Instruct-v0.3-GGUF",
+        "gguf_q4_k_m": "https://huggingface.co/bartowski/Mistral-7B-Instruct-v0.3-GGUF/resolve/main/Mistral-7B-Instruct-v0.3-Q4_K_M.gguf",
+        "gguf_q8_0": "https://huggingface.co/bartowski/Mistral-7B-Instruct-v0.3-GGUF/resolve/main/Mistral-7B-Instruct-v0.3-Q8_0.gguf",
+        "download_cmd": "huggingface-cli download bartowski/Mistral-7B-Instruct-v0.3-GGUF --include='*Q4_K_M*' --local-dir models/",
         "ollama": "mistral:7b-instruct-v0.3-q4_K_M",
-        "local": "models/mistral-7b-instruct-v0.3-q4.gguf"
+        "local": "models/Mistral-7B-Instruct-v0.3-Q4_K_M.gguf",
+        "gguf_note": "7B Q4_K_M ~4.1 GB. Apache 2.0. Function-calling, EU multilingual."
       },
       "parameters": {
         "context_length": 32768,
@@ -1233,9 +1341,13 @@
       "license": "llama4",
       "commercial_use": true,
       "sources": {
-        "huggingface": "meta-llama/Llama-4-Maverick-17B-128E-Instruct",
+        "model_card": "https://huggingface.co/meta-llama/Llama-4-Maverick-17B-128E-Instruct",
+        "gguf_repo": "bartowski/Llama-4-Maverick-17B-128E-Instruct-GGUF",
+        "gguf_q4_k_m": "https://huggingface.co/bartowski/Llama-4-Maverick-17B-128E-Instruct-GGUF/resolve/main/Llama-4-Maverick-17B-128E-Instruct-Q3_K_M-00001-of-00009.gguf",
+        "download_cmd": "huggingface-cli download bartowski/Llama-4-Maverick-17B-128E-Instruct-GGUF --include='*Q3_K_M*' --local-dir models/",
         "ollama": "llama4:maverick-17b",
-        "local": "models/llama-4-maverick-17b-128e-q3.gguf"
+        "local": "models/Llama-4-Maverick-17B-128E-Instruct-Q3_K_M-00001-of-00009.gguf",
+        "gguf_note": "MoE 400B total/17B active/128 experts. Q3_K_M ~195 GB in 9 split files. Needs 8x GPU. Native multimodal."
       },
       "parameters": {
         "context_length": 131072,
@@ -1277,9 +1389,13 @@
       "license": "llama4",
       "commercial_use": true,
       "sources": {
-        "huggingface": "meta-llama/Llama-4-Scout-17B-16E-Instruct",
+        "model_card": "https://huggingface.co/meta-llama/Llama-4-Scout-17B-16E-Instruct",
+        "gguf_repo": "bartowski/Llama-4-Scout-17B-16E-Instruct-GGUF",
+        "gguf_q4_k_m": "https://huggingface.co/bartowski/Llama-4-Scout-17B-16E-Instruct-GGUF/resolve/main/Llama-4-Scout-17B-16E-Instruct-Q4_K_M-00001-of-00004.gguf",
+        "download_cmd": "huggingface-cli download bartowski/Llama-4-Scout-17B-16E-Instruct-GGUF --include='*Q4_K_M*' --local-dir models/",
         "ollama": "llama4:scout-17b",
-        "local": "models/llama-4-scout-17b-16e-q4.gguf"
+        "local": "models/Llama-4-Scout-17B-16E-Instruct-Q4_K_M-00001-of-00004.gguf",
+        "gguf_note": "MoE 109B total/17B active/16 experts. Q4_K_M ~62 GB in 4 split files. Needs 2-3x 40 GB GPU. Only 8.2K context."
       },
       "parameters": {
         "context_length": 8192,
@@ -1321,9 +1437,14 @@
       "license": "llama33",
       "commercial_use": true,
       "sources": {
-        "huggingface": "meta-llama/Llama-3.3-70B-Instruct",
+        "model_card": "https://huggingface.co/meta-llama/Llama-3.3-70B-Instruct",
+        "gguf_repo": "bartowski/Llama-3.3-70B-Instruct-GGUF",
+        "gguf_q4_k_m": "https://huggingface.co/bartowski/Llama-3.3-70B-Instruct-GGUF/resolve/main/Llama-3.3-70B-Instruct-Q4_K_M-00001-of-00002.gguf",
+        "gguf_q5_k_m": "https://huggingface.co/bartowski/Llama-3.3-70B-Instruct-GGUF/resolve/main/Llama-3.3-70B-Instruct-Q5_K_M-00001-of-00002.gguf",
+        "download_cmd": "huggingface-cli download bartowski/Llama-3.3-70B-Instruct-GGUF --include='*Q4_K_M*' --local-dir models/",
         "ollama": "llama3.3:70b-instruct-q4_K_M",
-        "local": "models/llama-3.3-70b-instruct-q4.gguf"
+        "local": "models/Llama-3.3-70B-Instruct-Q4_K_M-00001-of-00002.gguf",
+        "gguf_note": "Q4_K_M ~40 GB in 2 split files. Requires 2x 24 GB or 1x 80 GB GPU."
       },
       "parameters": {
         "context_length": 131072,
@@ -1377,9 +1498,14 @@
       "license": "llama31",
       "commercial_use": true,
       "sources": {
-        "huggingface": "meta-llama/Meta-Llama-3.1-8B-Instruct",
+        "model_card": "https://huggingface.co/meta-llama/Meta-Llama-3.1-8B-Instruct",
+        "gguf_repo": "bartowski/Meta-Llama-3.1-8B-Instruct-GGUF",
+        "gguf_q4_k_m": "https://huggingface.co/bartowski/Meta-Llama-3.1-8B-Instruct-GGUF/resolve/main/Meta-Llama-3.1-8B-Instruct-Q4_K_M.gguf",
+        "gguf_q8_0": "https://huggingface.co/bartowski/Meta-Llama-3.1-8B-Instruct-GGUF/resolve/main/Meta-Llama-3.1-8B-Instruct-Q8_0.gguf",
+        "download_cmd": "huggingface-cli download bartowski/Meta-Llama-3.1-8B-Instruct-GGUF --include='*Q4_K_M*' --local-dir models/",
         "ollama": "llama3.1:8b-instruct-q4_K_M",
-        "local": "models/llama-3.1-8b-instruct-q4.gguf"
+        "local": "models/Meta-Llama-3.1-8B-Instruct-Q4_K_M.gguf",
+        "gguf_note": "Q4_K_M single file ~4.9 GB. Huge LoRA ecosystem. Runs on 8 GB VRAM."
       },
       "parameters": {
         "context_length": 16384,
@@ -1425,9 +1551,14 @@
       "license": "llama33",
       "commercial_use": true,
       "sources": {
-        "huggingface": "meta-llama/Llama-3.2-3B-Instruct",
+        "model_card": "https://huggingface.co/meta-llama/Llama-3.2-3B-Instruct",
+        "gguf_repo": "bartowski/Llama-3.2-3B-Instruct-GGUF",
+        "gguf_q4_k_m": "https://huggingface.co/bartowski/Llama-3.2-3B-Instruct-GGUF/resolve/main/Llama-3.2-3B-Instruct-Q4_K_M.gguf",
+        "gguf_q8_0": "https://huggingface.co/bartowski/Llama-3.2-3B-Instruct-GGUF/resolve/main/Llama-3.2-3B-Instruct-Q8_0.gguf",
+        "download_cmd": "huggingface-cli download bartowski/Llama-3.2-3B-Instruct-GGUF --include='*Q4_K_M*' --local-dir models/",
         "ollama": "llama3.2:3b-instruct-q4_K_M",
-        "local": "models/llama-3.2-3b-instruct-q4.gguf"
+        "local": "models/Llama-3.2-3B-Instruct-Q4_K_M.gguf",
+        "gguf_note": "Q4_K_M single file ~1.9 GB. Runs fully on CPU / RPi 5."
       },
       "parameters": {
         "context_length": 81920,
@@ -1464,9 +1595,14 @@
       "license": "gemma",
       "commercial_use": true,
       "sources": {
-        "huggingface": "google/gemma-3-27b-it",
+        "model_card": "https://huggingface.co/google/gemma-3-27b-it",
+        "gguf_repo": "bartowski/gemma-3-27b-it-GGUF",
+        "gguf_q4_k_m": "https://huggingface.co/bartowski/gemma-3-27b-it-GGUF/resolve/main/gemma-3-27b-it-Q4_K_M.gguf",
+        "gguf_q8_0": "https://huggingface.co/bartowski/gemma-3-27b-it-GGUF/resolve/main/gemma-3-27b-it-Q8_0.gguf",
+        "download_cmd": "huggingface-cli download bartowski/gemma-3-27b-it-GGUF --include='*Q4_K_M*' --local-dir models/",
         "ollama": "gemma3:27b",
-        "local": "models/gemma-3-27b-it-q4.gguf"
+        "local": "models/gemma-3-27b-it-Q4_K_M.gguf",
+        "gguf_note": "Q4_K_M ~17 GB. Google Gemma license (commercial OK). 128K context."
       },
       "parameters": {
         "context_length": 131072,
@@ -1507,9 +1643,14 @@
       "license": "gemma",
       "commercial_use": true,
       "sources": {
-        "huggingface": "google/gemma-3-12b-it",
+        "model_card": "https://huggingface.co/google/gemma-3-12b-it",
+        "gguf_repo": "bartowski/gemma-3-12b-it-GGUF",
+        "gguf_q4_k_m": "https://huggingface.co/bartowski/gemma-3-12b-it-GGUF/resolve/main/gemma-3-12b-it-Q4_K_M.gguf",
+        "gguf_q8_0": "https://huggingface.co/bartowski/gemma-3-12b-it-GGUF/resolve/main/gemma-3-12b-it-Q8_0.gguf",
+        "download_cmd": "huggingface-cli download bartowski/gemma-3-12b-it-GGUF --include='*Q4_K_M*' --local-dir models/",
         "ollama": "gemma3:12b",
-        "local": "models/gemma-3-12b-it-q4.gguf"
+        "local": "models/gemma-3-12b-it-Q4_K_M.gguf",
+        "gguf_note": "Q4_K_M ~7.3 GB. Fits on 8 GB VRAM."
       },
       "parameters": {
         "context_length": 131072,
@@ -1550,9 +1691,14 @@
       "license": "gemma",
       "commercial_use": true,
       "sources": {
-        "huggingface": "google/gemma-3-4b-it",
+        "model_card": "https://huggingface.co/google/gemma-3-4b-it",
+        "gguf_repo": "bartowski/gemma-3-4b-it-GGUF",
+        "gguf_q4_k_m": "https://huggingface.co/bartowski/gemma-3-4b-it-GGUF/resolve/main/gemma-3-4b-it-Q4_K_M.gguf",
+        "gguf_q8_0": "https://huggingface.co/bartowski/gemma-3-4b-it-GGUF/resolve/main/gemma-3-4b-it-Q8_0.gguf",
+        "download_cmd": "huggingface-cli download bartowski/gemma-3-4b-it-GGUF --include='*Q4_K_M*' --local-dir models/",
         "ollama": "gemma3:4b",
-        "local": "models/gemma-3-4b-it-q4.gguf"
+        "local": "models/gemma-3-4b-it-Q4_K_M.gguf",
+        "gguf_note": "Q4_K_M ~2.5 GB. 128K context. Edge compatible."
       },
       "parameters": {
         "context_length": 131072,
@@ -1598,9 +1744,14 @@
       "license": "gemma",
       "commercial_use": true,
       "sources": {
-        "huggingface": "google/gemma-3n-e4b-it",
+        "model_card": "https://huggingface.co/google/gemma-3n-e4b-it",
+        "gguf_repo": "bartowski/gemma-3n-e4b-it-GGUF",
+        "gguf_q4_k_m": "https://huggingface.co/bartowski/gemma-3n-e4b-it-GGUF/resolve/main/gemma-3n-e4b-it-Q4_K_M.gguf",
+        "gguf_q8_0": "https://huggingface.co/bartowski/gemma-3n-e4b-it-GGUF/resolve/main/gemma-3n-e4b-it-Q8_0.gguf",
+        "download_cmd": "huggingface-cli download bartowski/gemma-3n-e4b-it-GGUF --include='*Q4_K_M*' --local-dir models/",
         "ollama": "gemma3n:e4b",
-        "local": "models/gemma-3n-e4b-it-q4.gguf"
+        "local": "models/gemma-3n-e4b-it-Q4_K_M.gguf",
+        "gguf_note": "Q4_K_M ~2.2 GB. On-device/edge optimized. Runs on mobile-class hardware."
       },
       "parameters": {
         "context_length": 32768,
@@ -1642,9 +1793,14 @@
       "license": "mit",
       "commercial_use": true,
       "sources": {
-        "huggingface": "microsoft/phi-4",
+        "model_card": "https://huggingface.co/microsoft/phi-4",
+        "gguf_repo": "bartowski/phi-4-GGUF",
+        "gguf_q4_k_m": "https://huggingface.co/bartowski/phi-4-GGUF/resolve/main/phi-4-Q4_K_M.gguf",
+        "gguf_q8_0": "https://huggingface.co/bartowski/phi-4-GGUF/resolve/main/phi-4-Q8_0.gguf",
+        "download_cmd": "huggingface-cli download bartowski/phi-4-GGUF --include='*Q4_K_M*' --local-dir models/",
         "ollama": "phi4:14b",
-        "local": "models/phi-4-q4.gguf"
+        "local": "models/phi-4-Q4_K_M.gguf",
+        "gguf_note": "Q4_K_M ~8.5 GB. MIT. Also microsoft/phi-4-gguf (official)."
       },
       "parameters": {
         "context_length": 16384,
@@ -1686,9 +1842,13 @@
       "license": "mit",
       "commercial_use": true,
       "sources": {
-        "huggingface": "microsoft/Phi-3.5-MoE-instruct",
+        "model_card": "https://huggingface.co/microsoft/Phi-3.5-MoE-instruct",
+        "gguf_repo": "bartowski/Phi-3.5-MoE-instruct-GGUF",
+        "gguf_q4_k_m": "https://huggingface.co/bartowski/Phi-3.5-MoE-instruct-GGUF/resolve/main/Phi-3.5-MoE-instruct-Q4_K_M.gguf",
+        "download_cmd": "huggingface-cli download bartowski/Phi-3.5-MoE-instruct-GGUF --include='*Q4_K_M*' --local-dir models/",
         "ollama": "phi3.5-moe:42b-instruct",
-        "local": "models/phi-3.5-moe-instruct-q4.gguf"
+        "local": "models/Phi-3.5-MoE-instruct-Q4_K_M.gguf",
+        "gguf_note": "MoE 42B total/7B active. Q4_K_M ~25 GB. MIT. 128K context."
       },
       "parameters": {
         "context_length": 131072,
@@ -1733,9 +1893,14 @@
       "license": "mit",
       "commercial_use": true,
       "sources": {
-        "huggingface": "microsoft/Phi-3-mini-4k-instruct-gguf",
+        "model_card": "https://huggingface.co/microsoft/Phi-3-mini-4k-instruct",
+        "gguf_repo": "microsoft/Phi-3-mini-4k-instruct-gguf",
+        "gguf_q4_k_m": "https://huggingface.co/microsoft/Phi-3-mini-4k-instruct-gguf/resolve/main/Phi-3-mini-4k-instruct-q4.gguf",
+        "gguf_q8_0": "https://huggingface.co/bartowski/Phi-3-mini-4k-instruct-GGUF/resolve/main/Phi-3-mini-4k-instruct-Q8_0.gguf",
+        "download_cmd": "huggingface-cli download microsoft/Phi-3-mini-4k-instruct-gguf --include='*q4*' --local-dir models/",
         "ollama": "phi3:mini-4k",
-        "local": "models/default/phi-3-mini-4k-instruct-q4.gguf"
+        "local": "models/Phi-3-mini-4k-instruct-q4.gguf",
+        "gguf_note": "Q4 ~2.2 GB. Official Microsoft GGUF. MIT. Default edge/RPi 5 deployment."
       },
       "parameters": {
         "context_length": 4096,
@@ -1785,9 +1950,14 @@
       "license": "apache2",
       "commercial_use": true,
       "sources": {
-        "huggingface": "HuggingFaceTB/SmolLM2-1.7B-Instruct",
+        "model_card": "https://huggingface.co/HuggingFaceTB/SmolLM2-1.7B-Instruct",
+        "gguf_repo": "HuggingFaceTB/SmolLM2-1.7B-Instruct-GGUF",
+        "gguf_q4_k_m": "https://huggingface.co/HuggingFaceTB/SmolLM2-1.7B-Instruct-GGUF/resolve/main/SmolLM2-1.7B-Instruct-Q4_K_M.gguf",
+        "gguf_q8_0": "https://huggingface.co/HuggingFaceTB/SmolLM2-1.7B-Instruct-GGUF/resolve/main/SmolLM2-1.7B-Instruct-Q8_0.gguf",
+        "download_cmd": "huggingface-cli download HuggingFaceTB/SmolLM2-1.7B-Instruct-GGUF --include='*Q4_K_M*' --local-dir models/",
         "ollama": "smollm2:1.7b-instruct",
-        "local": "models/smollm2-1.7b-instruct-q4.gguf"
+        "local": "models/SmolLM2-1.7B-Instruct-Q4_K_M.gguf",
+        "gguf_note": "Q4_K_M ~1.1 GB. Sub-2B on-device. Apache 2.0."
       },
       "parameters": {
         "context_length": 8192,
@@ -1825,9 +1995,14 @@
       "license": "apache2",
       "commercial_use": true,
       "sources": {
-        "huggingface": "Qwen/Qwen2.5-Coder-32B-Instruct",
+        "model_card": "https://huggingface.co/Qwen/Qwen2.5-Coder-32B-Instruct",
+        "gguf_repo": "bartowski/Qwen2.5-Coder-32B-Instruct-GGUF",
+        "gguf_q4_k_m": "https://huggingface.co/bartowski/Qwen2.5-Coder-32B-Instruct-GGUF/resolve/main/Qwen2.5-Coder-32B-Instruct-Q4_K_M-00001-of-00002.gguf",
+        "gguf_q8_0": "https://huggingface.co/bartowski/Qwen2.5-Coder-32B-Instruct-GGUF/resolve/main/Qwen2.5-Coder-32B-Instruct-Q8_0-00001-of-00003.gguf",
+        "download_cmd": "huggingface-cli download bartowski/Qwen2.5-Coder-32B-Instruct-GGUF --include='*Q4_K_M*' --local-dir models/",
         "ollama": "qwen2.5-coder:32b-instruct-q4_K_M",
-        "local": "models/qwen2.5-coder-32b-instruct-q4.gguf"
+        "local": "models/Qwen2.5-Coder-32B-Instruct-Q4_K_M-00001-of-00002.gguf",
+        "gguf_note": "Q4_K_M ~20 GB in 2 split files. Apache 2.0. For ThemisDB AQL generation."
       },
       "parameters": {
         "context_length": 131072,
@@ -1880,9 +2055,14 @@
       "license": "apache2",
       "commercial_use": true,
       "sources": {
-        "huggingface": "Qwen/Qwen2.5-Coder-7B-Instruct",
+        "model_card": "https://huggingface.co/Qwen/Qwen2.5-Coder-7B-Instruct",
+        "gguf_repo": "Qwen/Qwen2.5-Coder-7B-Instruct-GGUF",
+        "gguf_q4_k_m": "https://huggingface.co/Qwen/Qwen2.5-Coder-7B-Instruct-GGUF/resolve/main/qwen2.5-coder-7b-instruct-q4_k_m.gguf",
+        "gguf_q8_0": "https://huggingface.co/Qwen/Qwen2.5-Coder-7B-Instruct-GGUF/resolve/main/qwen2.5-coder-7b-instruct-q8_0.gguf",
+        "download_cmd": "huggingface-cli download Qwen/Qwen2.5-Coder-7B-Instruct-GGUF --include='*q4_k_m*' --local-dir models/",
         "ollama": "qwen2.5-coder:7b-instruct-q4_K_M",
-        "local": "models/qwen2.5-coder-7b-instruct-q4.gguf"
+        "local": "models/qwen2.5-coder-7b-instruct-q4_k_m.gguf",
+        "gguf_note": "Official Qwen GGUF. Single file ~4.4 GB. Apache 2.0. Single GPU AQL assistant."
       },
       "parameters": {
         "context_length": 131072,
@@ -1928,9 +2108,14 @@
       "license": "bigcode_openrail_m",
       "commercial_use": true,
       "sources": {
-        "huggingface": "bigcode/starcoder2-15b-instruct-v0.1",
+        "model_card": "https://huggingface.co/bigcode/starcoder2-15b-instruct-v0.1",
+        "gguf_repo": "bartowski/starcoder2-15b-instruct-v0.1-GGUF",
+        "gguf_q4_k_m": "https://huggingface.co/bartowski/starcoder2-15b-instruct-v0.1-GGUF/resolve/main/starcoder2-15b-instruct-v0.1-Q4_K_M.gguf",
+        "gguf_q8_0": "https://huggingface.co/bartowski/starcoder2-15b-instruct-v0.1-GGUF/resolve/main/starcoder2-15b-instruct-v0.1-Q8_0.gguf",
+        "download_cmd": "huggingface-cli download bartowski/starcoder2-15b-instruct-v0.1-GGUF --include='*Q4_K_M*' --local-dir models/",
         "ollama": "starcoder2:15b",
-        "local": "models/starcoder2-15b-instruct-q4.gguf"
+        "local": "models/starcoder2-15b-instruct-v0.1-Q4_K_M.gguf",
+        "gguf_note": "Q4_K_M ~9 GB. FIM (fill-in-middle) support. BigCode Open RAIL-M license."
       },
       "parameters": {
         "context_length": 16384,
@@ -1964,9 +2149,14 @@
         ]
       },
       "sources": {
-        "huggingface": "LeoLM/leo-mistral-hessianai-7b-chat",
+        "model_card": "https://huggingface.co/LeoLM/leo-mistral-hessianai-7b-chat",
+        "gguf_repo": "TheBloke/leo-mistral-hessianai-7B-chat-GGUF",
+        "gguf_q4_k_m": "https://huggingface.co/TheBloke/leo-mistral-hessianai-7B-chat-GGUF/resolve/main/leo-mistral-hessianai-7b-chat.Q4_K_M.gguf",
+        "gguf_q8_0": "https://huggingface.co/TheBloke/leo-mistral-hessianai-7B-chat-GGUF/resolve/main/leo-mistral-hessianai-7b-chat.Q8_0.gguf",
+        "download_cmd": "huggingface-cli download TheBloke/leo-mistral-hessianai-7B-chat-GGUF --include='*Q4_K_M*' --local-dir models/",
         "ollama": "leo-mistral:7b-hessianai",
-        "local": "models/leo-mistral-7b-hessianai-q4.gguf"
+        "local": "models/leo-mistral-hessianai-7b-chat.Q4_K_M.gguf",
+        "gguf_note": "Q4_K_M ~4.1 GB. Best German open model for legal/e-gov. Apache 2.0."
       },
       "parameters": {
         "context_length": 32768,
@@ -2021,9 +2211,13 @@
         ]
       },
       "sources": {
-        "huggingface": "LeoLM/leo-hessianai-13b-chat",
-        "ollama": "leo-hessianai:13b",
-        "local": "models/leo-hessianai-13b-q4.gguf"
+        "model_card": "https://huggingface.co/LeoLM/leo-hessianai-13b-chat",
+        "gguf_repo": "TheBloke/leo-hessianai-13B-chat-GGUF",
+        "gguf_q4_k_m": "https://huggingface.co/TheBloke/leo-hessianai-13B-chat-GGUF/resolve/main/leo-hessianai-13b-chat.Q4_K_M.gguf",
+        "gguf_q8_0": "https://huggingface.co/TheBloke/leo-hessianai-13B-chat-GGUF/resolve/main/leo-hessianai-13b-chat.Q8_0.gguf",
+        "download_cmd": "huggingface-cli download TheBloke/leo-hessianai-13B-chat-GGUF --include='*Q4_K_M*' --local-dir models/",
+        "local": "models/leo-hessianai-13b-chat.Q4_K_M.gguf",
+        "gguf_note": "Q4_K_M ~7.4 GB. Apache 2.0. Better German quality than 7B."
       },
       "parameters": {
         "context_length": 4096,
@@ -2063,9 +2257,14 @@
         ]
       },
       "sources": {
-        "huggingface": "jphme/em_german_mistral_v01",
+        "model_card": "https://huggingface.co/jphme/em_german_mistral_v01",
+        "gguf_repo": "TheBloke/em_german_mistral_v01-GGUF",
+        "gguf_q4_k_m": "https://huggingface.co/TheBloke/em_german_mistral_v01-GGUF/resolve/main/em_german_mistral_v01.Q4_K_M.gguf",
+        "gguf_q8_0": "https://huggingface.co/TheBloke/em_german_mistral_v01-GGUF/resolve/main/em_german_mistral_v01.Q8_0.gguf",
+        "download_cmd": "huggingface-cli download TheBloke/em_german_mistral_v01-GGUF --include='*Q4_K_M*' --local-dir models/",
         "ollama": "em-german:7b-mistral",
-        "local": "models/em-german-mistral-7b-q4.gguf"
+        "local": "models/em_german_mistral_v01.Q4_K_M.gguf",
+        "gguf_note": "Q4_K_M ~4.1 GB. Apache 2.0. Community German model."
       },
       "parameters": {
         "context_length": 32768,
@@ -2099,9 +2298,14 @@
         ]
       },
       "sources": {
-        "huggingface": "VAGOsolutions/SauerkrautLM-Mistral-7B-Instruct",
+        "model_card": "https://huggingface.co/VAGOsolutions/SauerkrautLM-Mistral-7B-Instruct",
+        "gguf_repo": "TheBloke/SauerkrautLM-Mistral-7B-Instruct-GGUF",
+        "gguf_q4_k_m": "https://huggingface.co/TheBloke/SauerkrautLM-Mistral-7B-Instruct-GGUF/resolve/main/SauerkrautLM-Mistral-7B-Instruct.Q4_K_M.gguf",
+        "gguf_q8_0": "https://huggingface.co/TheBloke/SauerkrautLM-Mistral-7B-Instruct-GGUF/resolve/main/SauerkrautLM-Mistral-7B-Instruct.Q8_0.gguf",
+        "download_cmd": "huggingface-cli download TheBloke/SauerkrautLM-Mistral-7B-Instruct-GGUF --include='*Q4_K_M*' --local-dir models/",
         "ollama": "sauerkrautlm:7b-mistral-instruct",
-        "local": "models/sauerkrautlm-mistral-7b-instruct-q4.gguf"
+        "local": "models/SauerkrautLM-Mistral-7B-Instruct.Q4_K_M.gguf",
+        "gguf_note": "Q4_K_M ~4.1 GB. Apache 2.0. VAGOsolutions German model."
       },
       "parameters": {
         "context_length": 32768,
@@ -2135,8 +2339,13 @@
         ]
       },
       "sources": {
-        "huggingface": "DiscoResearch/DiscoLM_German_7b_v1",
-        "local": "models/discolm-german-7b-q4.gguf"
+        "model_card": "https://huggingface.co/DiscoResearch/DiscoLM_German_7b_v1",
+        "gguf_repo": "TheBloke/DiscoLM_German_7b_v1-GGUF",
+        "gguf_q4_k_m": "https://huggingface.co/TheBloke/DiscoLM_German_7b_v1-GGUF/resolve/main/DiscoLM_German_7b_v1.Q4_K_M.gguf",
+        "gguf_q8_0": "https://huggingface.co/TheBloke/DiscoLM_German_7b_v1-GGUF/resolve/main/DiscoLM_German_7b_v1.Q8_0.gguf",
+        "download_cmd": "huggingface-cli download TheBloke/DiscoLM_German_7b_v1-GGUF --include='*Q4_K_M*' --local-dir models/",
+        "local": "models/DiscoLM_German_7b_v1.Q4_K_M.gguf",
+        "gguf_note": "Q4_K_M ~4.1 GB. Apache 2.0. DFKI German research model."
       },
       "parameters": {
         "context_length": 32768,
@@ -2167,7 +2376,10 @@
         "num_languages": 100
       },
       "sources": {
-        "huggingface": "BAAI/bge-m3",
+        "model_card": "https://huggingface.co/BAAI/bge-m3",
+        "onnx_repo": "BAAI/bge-m3",
+        "onnx_url": "https://huggingface.co/BAAI/bge-m3/resolve/main/onnx/model.onnx",
+        "download_cmd": "huggingface-cli download BAAI/bge-m3 --include='onnx/model.onnx' --local-dir models/",
         "local": "models/bge-m3.onnx"
       },
       "parameters": {
@@ -2203,7 +2415,10 @@
       "license": "apache2",
       "commercial_use": true,
       "sources": {
-        "huggingface": "nomic-ai/nomic-embed-text-v1.5",
+        "model_card": "https://huggingface.co/nomic-ai/nomic-embed-text-v1.5",
+        "onnx_repo": "nomic-ai/nomic-embed-text-v1.5",
+        "onnx_url": "https://huggingface.co/nomic-ai/nomic-embed-text-v1.5/resolve/main/onnx/model.onnx",
+        "download_cmd": "huggingface-cli download nomic-ai/nomic-embed-text-v1.5 --include='onnx/*' --local-dir models/",
         "ollama": "nomic-embed-text:v1.5",
         "local": "models/nomic-embed-text-v1.5.onnx"
       },
@@ -2232,7 +2447,10 @@
       "license": "apache2",
       "commercial_use": true,
       "sources": {
-        "huggingface": "mixedbread-ai/mxbai-embed-large-v1",
+        "model_card": "https://huggingface.co/mixedbread-ai/mxbai-embed-large-v1",
+        "onnx_repo": "mixedbread-ai/mxbai-embed-large-v1",
+        "onnx_url": "https://huggingface.co/mixedbread-ai/mxbai-embed-large-v1/resolve/main/onnx/model.onnx",
+        "download_cmd": "huggingface-cli download mixedbread-ai/mxbai-embed-large-v1 --include='onnx/*' --local-dir models/",
         "local": "models/mxbai-embed-large-v1.onnx"
       },
       "parameters": {
@@ -2263,7 +2481,10 @@
         "num_languages": 112
       },
       "sources": {
-        "huggingface": "intfloat/multilingual-e5-large-instruct",
+        "model_card": "https://huggingface.co/intfloat/multilingual-e5-large-instruct",
+        "onnx_repo": "intfloat/multilingual-e5-large-instruct",
+        "onnx_url": "https://huggingface.co/intfloat/multilingual-e5-large-instruct/resolve/main/onnx/model.onnx",
+        "download_cmd": "huggingface-cli download intfloat/multilingual-e5-large-instruct --include='onnx/*' --local-dir models/",
         "local": "models/multilingual-e5-large-instruct.onnx"
       },
       "parameters": {
@@ -2298,7 +2519,10 @@
         "primary": "de"
       },
       "sources": {
-        "huggingface": "BAAI/bge-large-en-v1.5",
+        "model_card": "https://huggingface.co/BAAI/bge-large-en-v1.5",
+        "onnx_repo": "BAAI/bge-large-en-v1.5",
+        "onnx_url": "https://huggingface.co/BAAI/bge-large-en-v1.5/resolve/main/onnx/model.onnx",
+        "download_cmd": "huggingface-cli download BAAI/bge-large-en-v1.5 --include='onnx/*' --local-dir models/",
         "local": "models/bge-large-de-v1.5.onnx"
       },
       "parameters": {
@@ -2334,9 +2558,13 @@
         "image"
       ],
       "sources": {
-        "huggingface": "google/gemma-4-31b-it",
+        "model_card": "https://huggingface.co/google/gemma-4-31b-it",
+        "gguf_repo": "bartowski/gemma-4-31b-it-GGUF",
+        "gguf_q4_k_m": "https://huggingface.co/bartowski/gemma-4-31b-it-GGUF/resolve/main/gemma-4-31b-it-Q4_K_M.gguf",
+        "download_cmd": "huggingface-cli download bartowski/gemma-4-31b-it-GGUF --include='*Q4_K_M*' --local-dir models/",
         "ollama": "gemma4:31b",
-        "local": "models/gemma-4-31b-it-q4.gguf"
+        "local": "models/gemma-4-31b-it-Q4_K_M.gguf",
+        "gguf_note": "Same GGUF as gemma-4-31b-it. llama.cpp supports vision via mmproj file. Apache 2.0."
       },
       "parameters": {
         "context_length": 262144,
@@ -2374,10 +2602,14 @@
         "image"
       ],
       "sources": {
-        "huggingface": "THUDM/glm-4v-9b",
-        "api": "https://open.bigmodel.cn/api/paas/v4/chat/completions",
+        "model_card": "https://huggingface.co/THUDM/glm-4v-9b",
+        "gguf_repo": "bartowski/glm-4v-9b-GGUF",
+        "gguf_q4_k_m": "https://huggingface.co/bartowski/glm-4v-9b-GGUF/resolve/main/glm-4v-9b-Q4_K_M.gguf",
+        "gguf_q8_0": "https://huggingface.co/bartowski/glm-4v-9b-GGUF/resolve/main/glm-4v-9b-Q8_0.gguf",
+        "download_cmd": "huggingface-cli download bartowski/glm-4v-9b-GGUF --include='*Q4_K_M*' --local-dir models/",
         "ollama": "glm4v:latest",
-        "local": "models/glm-4.6v-q4.gguf"
+        "local": "models/glm-4v-9b-Q4_K_M.gguf",
+        "gguf_note": "GLM-4V 9B vision model. MIT. Q4_K_M ~5.5 GB."
       },
       "parameters": {
         "context_length": 131072,
@@ -2409,9 +2641,14 @@
         "image"
       ],
       "sources": {
-        "huggingface": "lmms-lab/llama3-llava-next-8b",
+        "model_card": "https://huggingface.co/lmms-lab/llama3-llava-next-8b",
+        "gguf_repo": "bartowski/llama3-llava-next-8b-GGUF",
+        "gguf_q4_k_m": "https://huggingface.co/bartowski/llama3-llava-next-8b-GGUF/resolve/main/llama3-llava-next-8b-Q4_K_M.gguf",
+        "gguf_q8_0": "https://huggingface.co/bartowski/llama3-llava-next-8b-GGUF/resolve/main/llama3-llava-next-8b-Q8_0.gguf",
+        "download_cmd": "huggingface-cli download bartowski/llama3-llava-next-8b-GGUF --include='*Q4_K_M*' --local-dir models/",
         "ollama": "llava-llama3:8b",
-        "local": "models/llava-llama3-8b-q4.gguf"
+        "local": "models/llama3-llava-next-8b-Q4_K_M.gguf",
+        "gguf_note": "Q4_K_M ~5 GB. Llama 3 Community license. Single-GPU vision model."
       },
       "parameters": {
         "context_length": 8192,
@@ -2444,8 +2681,13 @@
       "commercial_use": true,
       "fully_open": true,
       "sources": {
-        "huggingface": "allenai/OLMo-3.1-32B-Instruct",
-        "local": "models/olmo-3.1-32b-instruct-q4.gguf"
+        "model_card": "https://huggingface.co/allenai/OLMo-3.1-32B-Instruct",
+        "gguf_repo": "bartowski/OLMo-3.1-32B-Instruct-GGUF",
+        "gguf_q4_k_m": "https://huggingface.co/bartowski/OLMo-3.1-32B-Instruct-GGUF/resolve/main/OLMo-3.1-32B-Instruct-Q4_K_M.gguf",
+        "gguf_q8_0": "https://huggingface.co/bartowski/OLMo-3.1-32B-Instruct-GGUF/resolve/main/OLMo-3.1-32B-Instruct-Q8_0.gguf",
+        "download_cmd": "huggingface-cli download bartowski/OLMo-3.1-32B-Instruct-GGUF --include='*Q4_K_M*' --local-dir models/",
+        "local": "models/OLMo-3.1-32B-Instruct-Q4_K_M.gguf",
+        "gguf_note": "Q4_K_M ~20 GB. Weights + data + code fully open. Apache 2.0. Required for EU AI Act auditability."
       },
       "parameters": {
         "context_length": 65536,
@@ -2480,8 +2722,13 @@
       "commercial_use": true,
       "fully_open": true,
       "sources": {
-        "huggingface": "allenai/OLMo-2-13B-Instruct",
-        "local": "models/olmo-2-13b-instruct-q4.gguf"
+        "model_card": "https://huggingface.co/allenai/OLMo-2-13B-Instruct",
+        "gguf_repo": "bartowski/OLMo-2-13B-Instruct-GGUF",
+        "gguf_q4_k_m": "https://huggingface.co/bartowski/OLMo-2-13B-Instruct-GGUF/resolve/main/OLMo-2-13B-Instruct-Q4_K_M.gguf",
+        "gguf_q8_0": "https://huggingface.co/bartowski/OLMo-2-13B-Instruct-GGUF/resolve/main/OLMo-2-13B-Instruct-Q8_0.gguf",
+        "download_cmd": "huggingface-cli download bartowski/OLMo-2-13B-Instruct-GGUF --include='*Q4_K_M*' --local-dir models/",
+        "local": "models/OLMo-2-13B-Instruct-Q4_K_M.gguf",
+        "gguf_note": "Q4_K_M ~7.9 GB. Fully open. Apache 2.0. Use OLMo-3.1-32B if possible."
       },
       "parameters": {
         "context_length": 4096,
