@@ -12,7 +12,7 @@ This root file is language-neutral. Bitte wähle eine Sprachversion:
 > [!NOTE]
 > Die deutschsprachigen Dokumente sind die authoritative Source. Übersetzungen können zeitlich nachhängen.
 ### Übersichtsdokumente
-- **[Changelog](../CHANGELOG.md)** - Vollständige Versionshistorie (v1.8.0-rc1, v1.5.0, v1.4.0, …)
+- **[Changelog](../CHANGELOG.md)** - Vollständige Versionshistorie (v1.8.0-rc1, v1.9.0, v1.6.0, v1.5.0, v1.4.0, …)
 - **[Roadmap v2.0](../roadmap.md)** - Aggregierte Roadmap über alle 46 Module
 - **[Architecture Overview](architecture/ARCHITECTURE_OVERVIEW.md)** - Komplette Systemarchitektur mit Diagrammen
 - **[🆕 Source Directory Guide](architecture/SOURCE_DIRECTORY_GUIDE.md)** - **NEU:** Comprehensive guide to all 35 src/ directories (100% coverage)
