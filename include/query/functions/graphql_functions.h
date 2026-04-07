@@ -158,9 +158,8 @@ public:
             graphql::GraphQLComplexityEstimator::estimate(parse_result.document);
         if (complexity > graphql::kGraphQLMaxComplexity) {
             throw std::runtime_error(
-                "GRAPHQL: query complexity " + std::to_string(complexity) +
-                " exceeds maximum budget " +
-                std::to_string(graphql::kGraphQLMaxComplexity));
+                graphql::makeComplexityErrorMessage(
+                    complexity, graphql::kGraphQLMaxComplexity));
         }
 
         // ── 3. Build execution context ────────────────────────────────────

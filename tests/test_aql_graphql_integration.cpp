@@ -244,7 +244,7 @@ TEST(GraphQLAqlFunctionTests, VersionQueryReturnsData) {
     EXPECT_FALSE(result.contains("_graphql_errors"));
     // apiVersion and schemaVersion are served by static resolvers
     // injected inside GRAPHQL() – they do not need an AQL engine.
-    EXPECT_TRUE(result.contains("apiVersion") || result.is_object());
+    EXPECT_TRUE(result.contains("apiVersion") || result.contains("schemaVersion"));
 }
 
 TEST(GraphQLAqlFunctionTests, VariablesArgumentAccepted) {
@@ -276,7 +276,7 @@ TEST(GraphQLAqlFunctionTests, ComplexityOverBudgetThrows) {
 // GraphQLAqlSchemaTests  (schema fields added by this feature)
 // ============================================================================
 
-TEST(GraphQLAqlSchemaTests, QueryTypeHasAqlMutationInMutationType) {
+TEST(GraphQLAqlSchemaTests, MutationTypeHasAqlMutationField) {
     auto schema = ThemisSchemaBuilder::build();
     const TypeDefinition* mut = schema.getType("Mutation");
     ASSERT_NE(mut, nullptr);

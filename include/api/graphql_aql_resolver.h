@@ -48,6 +48,23 @@ namespace themis {
 namespace graphql {
 
 // ============================================================================
+// Shared error helpers
+// ============================================================================
+
+/**
+ * @brief Build the standardised "complexity exceeded" error message.
+ *
+ * Used by GraphQLComplexityEstimator::limitsFor(), GraphQLFunction::execute(),
+ * and GraphQLApiHandler::handlePost() so all three surfaces report an
+ * identical, grep-able message.
+ */
+inline std::string makeComplexityErrorMessage(uint32_t actual, uint32_t budget) {
+    return "GraphQL query complexity " + std::to_string(actual) +
+           " exceeds maximum allowed budget " + std::to_string(budget) +
+           ". Reduce field count or nesting depth.";
+}
+
+// ============================================================================
 // Complexity budget
 // ============================================================================
 
@@ -93,10 +110,7 @@ public:
     static query::QueryResourceLimits limitsFor(uint32_t complexity) {
         if (complexity > kGraphQLMaxComplexity) {
             throw std::runtime_error(
-                "GraphQL query complexity " + std::to_string(complexity) +
-                " exceeds maximum allowed budget " +
-                std::to_string(kGraphQLMaxComplexity) +
-                ". Reduce field count or nesting depth.");
+                makeComplexityErrorMessage(complexity, kGraphQLMaxComplexity));
         }
         query::QueryResourceLimits limits;
         if (complexity <= 100) {
@@ -122,7 +136,8 @@ private:
         for (const auto& f : fields) {
             // Base cost: 1 per field, depth-weighted
             score += depth;
-            // Arguments add 0.5 each (rounded to 1 every two args)
+            // Arguments add 0.5 each – ceiling-divide by 2 so an odd count
+            // rounds up: 1 arg → 1, 2 args → 1, 3 args → 2, etc.
             score += static_cast<uint32_t>(f.arguments.size() + 1) / 2;
             // AQL fields are significantly more expensive
             if (f.name == "aql" || f.name == "aqlMutation") {

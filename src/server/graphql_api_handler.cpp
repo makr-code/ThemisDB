@@ -146,11 +146,8 @@ http::response<http::string_body> GraphQLApiHandler::handlePost(
         span.setAttribute("graphql.complexity", static_cast<int64_t>(complexity));
 
         if (complexity > graphql::kGraphQLMaxComplexity) {
-            const std::string msg =
-                "GraphQL query complexity " + std::to_string(complexity) +
-                " exceeds the maximum allowed budget of " +
-                std::to_string(graphql::kGraphQLMaxComplexity) +
-                ". Reduce field count or nesting depth.";
+            const std::string msg = graphql::makeComplexityErrorMessage(
+                complexity, graphql::kGraphQLMaxComplexity);
             span.setStatus(false, msg);
             json err_body = {
                 {"errors", json::array({{{"message", msg},
