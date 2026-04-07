@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   82.0/100                                       ║
     • Total Lines:     715                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 4                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0 (conditional #else guards, not missing impl) ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 6a26e097b8  2026-03-25  fix(api): address code review – AQL injection escaping, t... ║
