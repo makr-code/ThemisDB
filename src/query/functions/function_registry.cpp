@@ -66,6 +66,7 @@
 #include "query/functions/file_functions.h"
 #include "query/functions/collection_functions.h"
 #include "query/functions/security_functions.h"
+#include "query/functions/graphql_functions.h"
 #ifdef THEMIS_ENABLE_LLM
 #include "query/functions/lora_functions.h"
 #include "aql/classify_bridge.h"
@@ -113,6 +114,12 @@ void registerBuiltinFunctions() {
         // Security functions (validation, sanitization, masking)
         // Includes: IS_EMAIL, IS_URL, IS_UUID, SANITIZE, HAS_INJECTION, MASK, etc.
         registerSecurityFunctions();
+
+        // GraphQL integration function
+        // Includes: GRAPHQL(query, variables?) – execute embedded GraphQL documents
+        // Cost: CostComplexity::EXTERNAL (base_cost=100) – treated as expensive I/O
+        // by the optimizer; complexity guard rejects queries > kGraphQLMaxComplexity.
+        registerGraphQLFunctions(registry);
         
 #ifdef THEMIS_ENABLE_LLM
         // LoRA functions (LLM adapter management and operations)

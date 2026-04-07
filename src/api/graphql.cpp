@@ -1363,10 +1363,33 @@ void ThemisSchemaBuilder::addQueryType(Schema& schema) {
     // aql(query: String!, variables: JSON): JSON
     FieldDefinition aqlQuery;
     aqlQuery.name = "aql";
+    aqlQuery.description = "Execute a read-only AQL query (FOR/RETURN). "
+                           "Resource limits are derived from the GraphQL "
+                           "query complexity score so that expensive nested "
+                           "queries receive proportionally tighter budgets.";
     aqlQuery.type = {"JSON", false, false, nullptr};
-    aqlQuery.arguments["query"] = {"String", true, false, nullptr};
-    aqlQuery.arguments["variables"] = {"JSON", false, false, nullptr};
+    aqlQuery.arguments["query"]     = {"String", true,  false, nullptr};
+    aqlQuery.arguments["variables"] = {"JSON",   false, false, nullptr};
     queryType.fields.push_back(aqlQuery);
+
+    // apiVersion: String!  – current ThemisDB API version
+    FieldDefinition apiVersionField;
+    apiVersionField.name        = "apiVersion";
+    apiVersionField.description = "Current ThemisDB API version (e.g. \"1.8.0-rc1\"). "
+                                  "Clients can check this field to implement "
+                                  "forward-compatible logic without a separate "
+                                  "HTTP version endpoint.";
+    apiVersionField.type = {"String", true, false, nullptr};
+    queryType.fields.push_back(apiVersionField);
+
+    // schemaVersion: String!  – GraphQL schema version
+    FieldDefinition schemaVersionField;
+    schemaVersionField.name        = "schemaVersion";
+    schemaVersionField.description = "GraphQL schema version, incremented whenever "
+                                     "new types or fields are added. Independent of "
+                                     "the API version.";
+    schemaVersionField.type = {"String", true, false, nullptr};
+    queryType.fields.push_back(schemaVersionField);
     
     // vectorSearch(collection: String!, vector: [Float!]!, k: Int): [VectorSearchResult!]!
     FieldDefinition vectorQuery;
@@ -1471,6 +1494,22 @@ void ThemisSchemaBuilder::addMutationType(Schema& schema) {
     insertTsPoint.arguments["value"] = {"Float", true, false, nullptr};
     insertTsPoint.arguments["tags"] = {"JSON", false, false, nullptr};
     mutationType.fields.push_back(insertTsPoint);
+
+    // aqlMutation(query: String!, variables: JSON): JSON
+    // Executes AQL DML (INSERT / UPDATE / REPLACE / REMOVE / UPSERT).
+    // Resource limits are derived from the GraphQL query complexity score
+    // using the same cost model bridge as the `aql` query field.
+    FieldDefinition aqlMut;
+    aqlMut.name = "aqlMutation";
+    aqlMut.description =
+        "Execute an AQL DML statement (INSERT, UPDATE, REPLACE, REMOVE, UPSERT). "
+        "Complexity-derived resource limits apply: deeply nested or high-field-count "
+        "GraphQL documents receive tighter AQL execution budgets. "
+        "Returns the AQL result set as JSON.";
+    aqlMut.type = {"JSON", false, false, nullptr};
+    aqlMut.arguments["query"]     = {"String", true,  false, nullptr};
+    aqlMut.arguments["variables"] = {"JSON",   false, false, nullptr};
+    mutationType.fields.push_back(aqlMut);
 
     schema.addType(mutationType);
 }

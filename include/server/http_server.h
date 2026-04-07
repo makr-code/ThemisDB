@@ -949,6 +949,7 @@ private:
 
     // GraphQL API Handler
     std::unique_ptr<themis::server::GraphQLApiHandler> graphql_api_handler_;
+    std::unique_ptr<QueryEngine> graphql_query_engine_; ///< AQL engine for GraphQL resolvers
 
     // gRPC-Web proxy – translates browser gRPC-Web requests to native gRPC
     std::unique_ptr<themis::server::GrpcWebProxyHandler> grpc_web_proxy_;
