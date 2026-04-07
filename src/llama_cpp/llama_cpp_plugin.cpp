@@ -1,6 +1,8 @@
 #include "llama_cpp/llama_cpp_plugin.h"
+#include "rag/rag_context_assembler.h"
 #include <algorithm>
 #include <chrono>
+#include <sstream>
 
 namespace themis {
 namespace llamacpp {
@@ -10,10 +12,21 @@ LlamaCppPlugin::~LlamaCppPlugin() { unloadModel(); }
 
 // ── loadModel / unloadModel ───────────────────────────────────────────────────
 
-bool LlamaCppPlugin::loadModel(const std::string& model_path, const json& /*config*/) {
+bool LlamaCppPlugin::loadModel(const std::string& model_path, const json& config) {
     std::lock_guard<std::mutex> lock(mutex_);
     model_path_   = model_path;
     model_id_     = model_path.empty() ? "stub" : model_path;
+
+    // Read context window size from config (keys: "context_length" or "n_ctx").
+    // Fall back to 4 096 when neither key is present or the value is 0.
+    size_t ctx = 0u;
+    if (config.contains("context_length") && config["context_length"].is_number()) {
+        ctx = config["context_length"].get<size_t>();
+    } else if (config.contains("n_ctx") && config["n_ctx"].is_number()) {
+        ctx = config["n_ctx"].get<size_t>();
+    }
+    context_length_ = (ctx > 0u) ? ctx : llm::kDefaultContextWindowTokens;
+
     model_loaded_ = true;
     return true;
 }
@@ -32,8 +45,9 @@ std::optional<llm::ModelInfo> LlamaCppPlugin::getModelInfo() const {
     std::lock_guard<std::mutex> lock(mutex_);
     if (!model_loaded_) return std::nullopt;
     llm::ModelInfo info;
-    info.model_id   = model_id_;
-    info.model_path = model_path_;
+    info.model_id      = model_id_;
+    info.model_path    = model_path_;
+    info.context_length = context_length_;
     return info;
 }
 

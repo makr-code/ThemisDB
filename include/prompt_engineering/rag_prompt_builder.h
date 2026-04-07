@@ -61,6 +61,8 @@ struct RetrievedChunk {
  */
 struct RAGPromptConfig {
     /// Maximum total character length for the assembled context section.
+    /// For token-precise control prefer RAGContextAssembler, which derives
+    /// this value automatically from the model's context window.
     size_t max_context_length = 4000;
 
     /// Header prepended to the context section.
@@ -82,6 +84,11 @@ struct RAGPromptConfig {
     /// Placeholder token inside base templates that will be replaced with
     /// the assembled context block.
     std::string template_placeholder = "{context}";
+
+    /// Minimum tokens reserved for the model's answer when this config is
+    /// used in conjunction with RAGContextAssembler.  The assembler converts
+    /// the token budget to characters for max_context_length.
+    size_t reserved_response_tokens = 512;
 };
 
 /**

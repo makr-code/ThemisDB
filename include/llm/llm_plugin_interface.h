@@ -232,6 +232,11 @@ struct InferenceResponse {
 
 /**
  * @brief RAG (Retrieval-Augmented Generation) context
+ *
+ * max_context_tokens should be set to ModelInfo::context_length of the loaded
+ * model.  The RAGContextAssembler uses this value together with
+ * response_budget_tokens to compute the exact token budget available for the
+ * retrieved chunks.  Setting it to 0 triggers the 4 096-token fallback.
  */
 struct RAGContext {
     std::string query;             // User query
@@ -248,8 +253,13 @@ struct RAGContext {
     std::vector<Document> documents;
     
     // Context assembly parameters
-    int max_context_tokens = 4096;
+    // NOTE: set from ModelInfo::context_length — do NOT hardcode.
+    int max_context_tokens = 0;    // 0 → falls back to kDefaultContextWindowTokens
     std::string context_template;  // How to format context
+
+    // Response-budget reservation (tokens kept for the model answer).
+    // The actual reservation is max(response_budget_tokens, 20 % of the window).
+    int response_budget_tokens = 512;
 };
 
 /**

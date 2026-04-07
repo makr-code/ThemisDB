@@ -64,6 +64,7 @@ private:
     bool        model_loaded_ = false;
     std::string model_path_;
     std::string model_id_;
+    size_t      context_length_ = 4096; ///< Model context window (tokens); set by loadModel()
     mutable std::mutex mutex_;
 
     uint64_t inference_count_   = 0;
