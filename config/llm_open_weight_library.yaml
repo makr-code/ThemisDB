@@ -16,6 +16,9 @@
 #   mistral_r  = Mistral Research License (non-commercial)
 #   qwen       = Qwen Community (Apache 2.0 for <100B params)
 #   cc_by_nc   = CC BY-NC 4.0       (non-commercial only ❌)
+#   mod_mit    = Modified MIT         (commercial use ✅ with attribution)
+#   llama4     = Meta Llama 4 Community (commercial use ✅ if <700M MAU)
+#   nv_open    = NVIDIA Open Model License (commercial use ✅ with conditions)
 #
 # Quantization guide:
 #   Q4_K_M  – recommended default, best size/quality trade-off
@@ -26,9 +29,9 @@
 #   AWQ     – Activation-aware Weight Quantization (vLLM)
 #   GPTQ    – Post-Training Quantization (vLLM/Transformers)
 
-library_version: "1.0.0"
+library_version: "2.0.0"
 schema_version: "2.0"
-generated: "2026-04-07"
+generated: "2026-07-14"
 
 # =============================================================================
 # SECTION 1: INSTRUCTION & CHAT MODELS
@@ -37,107 +40,253 @@ generated: "2026-04-07"
 
 models:
 
-  # ---------------------------------------------------------------------------
-  # TIER 1: Large Frontier Open-Weight (≥70B) — GPU Server / Multi-GPU
-  # Arena ELO: 1300+
-  # ---------------------------------------------------------------------------
+  # ===========================================================================
+  # TIER S — Arena ELO >= 1440  |  Best open-weight models (July 2026)
+  # Source: arena.ai/leaderboard  (arena_rank_overall = position among ALL models)
+  # ===========================================================================
 
-  - name: deepseek-r1-distill-llama-70b
-    vendor: DeepSeek
-    arena_rank: 1         # Top open-weight reasoning model (early 2026)
-    arena_elo: ~1380
-    version: "1.0"
-    type: reasoning
+  # ---------------------------------------------------------------------------
+  # GLM series  (Z.ai / Zhipu AI)  —  MIT  —  #1 / #5 / #9 open-weight
+  # ---------------------------------------------------------------------------
+  - name: glm-5
+    vendor: "Z.ai (Zhipu AI)"
+    arena_rank_overall: 21
+    arena_rank_open: 1
+    arena_elo: 1456
+    version: "5.0"
+    type: instruction
     format: gguf
-    size: 70B
-    quantization: Q4_K_M
     license: mit
     commercial_use: true
     sources:
-      huggingface: deepseek-ai/DeepSeek-R1-Distill-Llama-70B
-      ollama: deepseek-r1:70b
-      local: models/deepseek-r1-distill-llama-70b-q4.gguf
+      huggingface: THUDM/glm-5
+      api: https://open.bigmodel.cn/api/paas/v4/chat/completions
+      ollama: glm5:latest
+      local: models/glm-5-q4.gguf
     parameters:
-      context_length: 32768
+      context_length: 202752
       max_tokens: 8192
-      temperature: 0.6
+      temperature: 0.7
       top_p: 0.95
-      top_k: 40
-      repeat_penalty: 1.0
     gpu:
       layers_offload: 80
-      vram_required_mb: 38000
-      cuda_compute_capability: "8.0"
+      vram_required_mb: 40000
       tensor_parallel_recommended: 2
     lazy_loading:
       enabled: false
       priority: critical
       pin_to_memory: true
     architecture:
-      model_type: llama
-      num_layers: 80
-      hidden_size: 8192
-      num_attention_heads: 64
-      num_key_value_heads: 8
-      intermediate_size: 28672
+      model_type: glm
     lora_target_modules:
-      - q_proj
-      - k_proj
-      - v_proj
-      - o_proj
-      - gate_proj
-      - up_proj
-      - down_proj
+      - query_key_value
+      - dense
+      - dense_h_to_4h
+      - dense_4h_to_h
     deployment:
       multi_gpu: true
-      min_gpus: 2
       vllm_compatible: true
+      api_fallback: true
     use_cases:
-      - complex reasoning
-      - multi-step problem solving
-      - legal analysis
-      - scientific research
-      - AQL query optimization
+      - complex instruction following
+      - multilingual (Chinese / English / German)
+      - long-context document analysis
+      - code generation
+      - reasoning
+    recommended_for_themisdb:
+      - general_purpose_flagship
+      - multilingual_support
     notes: >
-      R1-Distill: Chain-of-thought reasoning distilled from DeepSeek-R1-671B.
-      Best open-weight reasoning model for complex legal/scientific analysis.
-      Requires 2× A100/H100 80GB or equivalent.
+      #1 ranked open-weight model on Chatbot Arena (ELO 1456, July 2026).
+      MIT license. 202.8K context. Developed by Zhipu AI (Z.ai), China.
+      Weights: THUDM/glm-5 on HuggingFace (check availability).
+      Z.ai API immediately available. Strong multilingual including German.
+      Excellent function calling and long-context reasoning.
 
-  - name: llama-3.3-70b-instruct
-    vendor: Meta
-    arena_rank: 2
-    arena_elo: ~1370
-    version: "3.3"
+  - name: glm-4.7
+    vendor: "Z.ai (Zhipu AI)"
+    arena_rank_overall: 38
+    arena_rank_open: 5
+    arena_elo: 1443
+    version: "4.7"
     type: instruction
     format: gguf
-    size: 70B
-    quantization: Q4_K_M
-    license: llama33
+    license: mit
     commercial_use: true
     sources:
-      huggingface: meta-llama/Llama-3.3-70B-Instruct
-      ollama: llama3.3:70b-instruct-q4_K_M
-      local: models/llama-3.3-70b-instruct-q4.gguf
+      huggingface: THUDM/glm-4-9b-chat
+      api: https://open.bigmodel.cn/api/paas/v4/chat/completions
+      ollama: glm4:latest
+      local: models/glm-4.7-q4.gguf
+    parameters:
+      context_length: 202752
+      max_tokens: 8192
+      temperature: 0.7
+    gpu:
+      layers_offload: 42
+      vram_required_mb: 8000
+    lazy_loading:
+      enabled: true
+      priority: high
+      ttl_seconds: 3600
+    architecture:
+      model_type: glm
+    lora_target_modules:
+      - query_key_value
+      - dense
+      - dense_h_to_4h
+      - dense_4h_to_h
+    use_cases:
+      - instruction following
+      - multilingual
+      - function calling
+      - long-context analysis
+    notes: "GLM-4.7. ELO 1443, rank #5 open-weight. MIT. 202.8K context."
+
+  - name: glm-4.6
+    vendor: "Z.ai (Zhipu AI)"
+    arena_rank_overall: 52
+    arena_rank_open: 9
+    arena_elo: 1426
+    version: "4.6"
+    type: instruction
+    format: gguf
+    license: mit
+    commercial_use: true
+    sources:
+      huggingface: THUDM/glm-4-9b-chat
+      api: https://open.bigmodel.cn/api/paas/v4/chat/completions
+      ollama: glm4:6
+      local: models/glm-4.6-q4.gguf
+    parameters:
+      context_length: 204800
+      max_tokens: 8192
+      temperature: 0.7
+    gpu:
+      layers_offload: 42
+      vram_required_mb: 7000
+    lazy_loading:
+      enabled: true
+      priority: high
+      ttl_seconds: 1800
+    architecture:
+      model_type: glm
+    lora_target_modules:
+      - query_key_value
+      - dense
+      - dense_h_to_4h
+      - dense_4h_to_h
+    notes: "GLM-4.6. ELO 1426, rank #9 open-weight. MIT."
+
+  - name: glm-4.5
+    vendor: "Z.ai (Zhipu AI)"
+    arena_rank_overall: 76
+    arena_rank_open: 25
+    arena_elo: 1411
+    version: "4.5"
+    type: instruction
+    format: gguf
+    license: mit
+    commercial_use: true
+    sources:
+      huggingface: THUDM/glm-4-9b-chat
+      api: https://open.bigmodel.cn/api/paas/v4/chat/completions
+      ollama: glm4:9b
+      local: models/glm-4.5-q4.gguf
     parameters:
       context_length: 131072
-      max_tokens: 8192
-      temperature: 0.6
-      top_p: 0.9
-      top_k: 50
+      max_tokens: 4096
+      temperature: 0.7
     gpu:
-      layers_offload: 80
-      vram_required_mb: 38000
-      tensor_parallel_recommended: 2
+      layers_offload: 42
+      vram_required_mb: 6000
     lazy_loading:
-      enabled: false
-      priority: critical
+      enabled: true
+      priority: high
+      ttl_seconds: 1800
       pin_to_memory: true
     architecture:
-      model_type: llama
-      num_layers: 80
-      hidden_size: 8192
-      num_attention_heads: 64
-      num_key_value_heads: 8
+      model_type: glm
+    lora_target_modules:
+      - query_key_value
+      - dense
+      - dense_h_to_4h
+      - dense_4h_to_h
+    notes: "GLM-4.5. ELO 1411, rank #25 open-weight. MIT. Efficient mid-size."
+
+  - name: glm-4.7-flash
+    vendor: "Z.ai (Zhipu AI)"
+    arena_rank_overall: 126
+    arena_rank_open: 47
+    arena_elo: 1369
+    version: "4.7-flash"
+    type: instruction
+    format: gguf
+    license: mit
+    commercial_use: true
+    sources:
+      huggingface: THUDM/glm-4-9b-chat
+      api: https://open.bigmodel.cn/api/paas/v4/chat/completions
+      ollama: glm4:flash
+      local: models/glm-4.7-flash-q4.gguf
+    parameters:
+      context_length: 202752
+      max_tokens: 4096
+      temperature: 0.7
+    gpu:
+      layers_offload: 32
+      vram_required_mb: 5000
+    lazy_loading:
+      enabled: true
+      priority: medium
+      ttl_seconds: 1800
+    use_cases:
+      - fast inference
+      - high-throughput applications
+      - real-time ThemisDB queries
+    notes: >
+      GLM-4.7-Flash. ELO 1369, rank #47. MIT.
+      API cost only $0.06/$0.40/M tokens. Ideal for high-volume queries.
+
+  # ---------------------------------------------------------------------------
+  # Gemma 4  (Google DeepMind)  —  Apache 2.0  —  #3 / #6 open-weight
+  # ---------------------------------------------------------------------------
+  - name: gemma-4-31b-it
+    vendor: Google DeepMind
+    arena_rank_overall: 27
+    arena_rank_open: 3
+    arena_elo: 1452
+    arena_status: preliminary
+    version: "4.0"
+    type: instruction
+    format: gguf
+    size: 31B
+    quantization: Q4_K_M
+    license: apache2
+    commercial_use: true
+    sources:
+      huggingface: google/gemma-4-31b-it
+      ollama: gemma4:31b
+      local: models/gemma-4-31b-it-q4.gguf
+    parameters:
+      context_length: 262144
+      max_tokens: 8192
+      temperature: 0.7
+      top_p: 0.95
+    gpu:
+      layers_offload: 62
+      vram_required_mb: 18000
+      cuda_compute_capability: "8.0"
+    lazy_loading:
+      enabled: true
+      priority: high
+      ttl_seconds: 3600
+      pin_to_memory: true
+    architecture:
+      model_type: gemma4
+      num_layers: 62
+      hidden_size: 5120
+      attention: sliding_window_global_mix
     lora_target_modules:
       - q_proj
       - k_proj
@@ -146,24 +295,241 @@ models:
       - gate_proj
       - up_proj
       - down_proj
+    use_cases:
+      - instruction following
+      - long-context document analysis (262K tokens!)
+      - multilingual
+      - code generation
+      - legal document analysis
+    recommended_for_themisdb:
+      - long_context_analysis
+      - german_document_processing
+      - eu_legal_workflows
+    notes: >
+      Gemma 4 31B-IT: ELO 1452, rank #3 open-weight (July 2026). Apache 2.0.
+      262K context window. Dense architecture with interleaved global attention.
+      Fits on a single A100 80GB or 2x RTX 3090/4090.
+      Best single-GPU Apache 2.0 model for long-document ThemisDB workflows.
+
+  - name: gemma-4-26b-a4b-it
+    vendor: Google DeepMind
+    arena_rank_overall: 40
+    arena_rank_open: 6
+    arena_elo: 1441
+    arena_status: preliminary
+    version: "4.0"
+    type: instruction
+    format: gguf
+    size: 26B
+    quantization: Q4_K_M
+    license: apache2
+    commercial_use: true
+    sources:
+      huggingface: google/gemma-4-26b-a4b-it
+      ollama: gemma4:26b-moe
+      local: models/gemma-4-26b-a4b-it-q4.gguf
+    parameters:
+      context_length: 262144
+      max_tokens: 8192
+      temperature: 0.7
+    gpu:
+      layers_offload: 62
+      vram_required_mb: 16000
+    lazy_loading:
+      enabled: true
+      priority: high
+      ttl_seconds: 3600
+    architecture:
+      model_type: gemma4_moe
+      architecture: moe
+      total_params: 26B
+      active_params: 4B
+      attention: sliding_window_global_mix
+    lora_target_modules:
+      - q_proj
+      - k_proj
+      - v_proj
+      - o_proj
+      - gate_proj
+      - up_proj
+      - down_proj
+    use_cases:
+      - fast inference (4B active params)
+      - cost-efficient long-context
+      - multilingual
+    notes: >
+      Gemma 4 MoE 26B total / 4B active: ELO 1441, rank #6 open-weight.
+      Apache 2.0. 262K context. Fast inference like 4B but quality of 26B.
+
+  # ---------------------------------------------------------------------------
+  # Qwen3.5 / Qwen3 series  (Alibaba)  —  Apache 2.0
+  # ---------------------------------------------------------------------------
+  - name: qwen3.5-397b-a17b
+    vendor: Alibaba/Qwen
+    arena_rank_overall: 30
+    arena_rank_open: 4
+    arena_elo: 1449
+    version: "3.5"
+    type: instruction
+    format: gguf
+    size: 397B
+    quantization: Q2_K
+    license: apache2
+    commercial_use: true
+    sources:
+      huggingface: Qwen/Qwen3.5-397B-A17B-Instruct
+      local: models/qwen3.5-397b-a17b-q2.gguf
+    parameters:
+      context_length: 262144
+      max_tokens: 8192
+      temperature: 0.7
+    gpu:
+      layers_offload: 94
+      vram_required_mb: 200000
+      tensor_parallel_recommended: 8
+    lazy_loading:
+      enabled: false
+      priority: critical
+    architecture:
+      model_type: qwen3_moe
+      architecture: moe
+      total_params: 397B
+      active_params: 17B
     deployment:
       multi_gpu: true
-      min_gpus: 2
+      min_gpus: 4
       vllm_compatible: true
-    use_cases:
-      - general instruction following
-      - document analysis
-      - summarization
-      - question answering
-      - multilingual (including German)
-    notes: >
-      Meta's latest flagship 70B. Strong multilingual capability including German.
-      128k context makes it ideal for long-document legal analysis.
+      api_fallback: true
+    notes: "Apache 2.0 flagship MoE. ELO 1449, rank #4. 262K context. 17B active."
+
+  - name: qwen3.5-27b
+    vendor: Alibaba/Qwen
+    arena_rank_overall: 84
+    arena_rank_open: 27
+    arena_elo: 1404
+    version: "3.5"
+    type: instruction
+    format: gguf
+    size: 27B
+    quantization: Q4_K_M
+    license: apache2
+    commercial_use: true
+    sources:
+      huggingface: Qwen/Qwen3.5-27B-Instruct
+      ollama: qwen3.5:27b-instruct-q4_K_M
+      local: models/qwen3.5-27b-instruct-q4.gguf
+    parameters:
+      context_length: 262144
+      max_tokens: 8192
+      temperature: 0.7
+    gpu:
+      layers_offload: 62
+      vram_required_mb: 16000
+    lazy_loading:
+      enabled: true
+      priority: high
+      ttl_seconds: 3600
+    architecture:
+      model_type: qwen3
+      num_layers: 62
+      hidden_size: 4096
+    lora_target_modules:
+      - q_proj
+      - k_proj
+      - v_proj
+      - o_proj
+      - gate_proj
+      - up_proj
+      - down_proj
+    notes: "Qwen3.5 27B. ELO 1404. Apache 2.0. 262K context."
+
+  - name: qwen3-32b
+    vendor: Alibaba/Qwen
+    arena_rank_overall: 148
+    arena_rank_open: 58
+    arena_elo: 1347
+    version: "3.0"
+    type: instruction
+    format: gguf
+    size: 32B
+    quantization: Q4_K_M
+    license: apache2
+    commercial_use: true
+    sources:
+      huggingface: Qwen/Qwen3-32B-Instruct
+      ollama: qwen3:32b-instruct-q4_K_M
+      local: models/qwen3-32b-instruct-q4.gguf
+    parameters:
+      context_length: 40960
+      max_tokens: 8192
+      temperature: 0.7
+    gpu:
+      layers_offload: 64
+      vram_required_mb: 19000
+    lazy_loading:
+      enabled: true
+      priority: high
+      ttl_seconds: 3600
+    architecture:
+      model_type: qwen3
+      num_layers: 64
+      hidden_size: 5120
+    lora_target_modules:
+      - q_proj
+      - k_proj
+      - v_proj
+      - o_proj
+      - gate_proj
+      - up_proj
+      - down_proj
+    notes: "Qwen3 32B. ELO 1347. Apache 2.0. Hybrid thinking/non-thinking."
+
+  - name: qwq-32b
+    vendor: Alibaba/Qwen
+    arena_rank_overall: 163
+    arena_rank_open: 64
+    arena_elo: 1336
+    version: "1.0"
+    type: reasoning
+    format: gguf
+    size: 32B
+    quantization: Q4_K_M
+    license: apache2
+    commercial_use: true
+    sources:
+      huggingface: Qwen/QwQ-32B-Preview
+      ollama: qwq:32b
+      local: models/qwq-32b-q4.gguf
+    parameters:
+      context_length: 131072
+      max_tokens: 16384
+      temperature: 0.6
+    gpu:
+      layers_offload: 64
+      vram_required_mb: 19000
+    lazy_loading:
+      enabled: true
+      priority: high
+      ttl_seconds: 3600
+    architecture:
+      model_type: qwen3
+      num_layers: 64
+      hidden_size: 5120
+    lora_target_modules:
+      - q_proj
+      - k_proj
+      - v_proj
+      - o_proj
+      - gate_proj
+      - up_proj
+      - down_proj
+    notes: "QwQ-32B. ELO 1336. Apache 2.0. Chain-of-thought reasoning."
 
   - name: qwen2.5-72b-instruct
     vendor: Alibaba/Qwen
-    arena_rank: 3
-    arena_elo: ~1365
+    arena_rank_overall: 209
+    arena_rank_open: 88
+    arena_elo: 1302
     version: "2.5"
     type: instruction
     format: gguf
@@ -179,17 +545,13 @@ models:
       context_length: 131072
       max_tokens: 8192
       temperature: 0.7
-      top_p: 0.8
-      top_k: 20
-      repeat_penalty: 1.05
     gpu:
       layers_offload: 80
       vram_required_mb: 40000
       tensor_parallel_recommended: 2
     lazy_loading:
       enabled: false
-      priority: critical
-      pin_to_memory: true
+      priority: high
     architecture:
       model_type: qwen2
       num_layers: 80
@@ -204,428 +566,12 @@ models:
       - gate_proj
       - up_proj
       - down_proj
-    use_cases:
-      - instruction following
-      - multilingual (29 languages)
-      - long-context document analysis
-      - structured data extraction
-      - German language tasks
-    notes: >
-      Top Apache 2.0 licensed 70B-class model. Excellent multilingual support
-      including strong German. 128k context window. Best open-weight option
-      with fully permissive license for enterprise use.
-
-  - name: deepseek-v3
-    vendor: DeepSeek
-    arena_rank: 4
-    arena_elo: ~1360
-    version: "3.0"
-    type: instruction
-    format: gguf          # use vLLM for production deployment
-    size: 671B            # MoE: ~37B active params per forward pass
-    quantization: Q2_K   # extreme quantization required for local use
-    license: mit
-    commercial_use: true
-    sources:
-      huggingface: deepseek-ai/DeepSeek-V3
-      local: models/deepseek-v3-q2.gguf
-    parameters:
-      context_length: 131072
-      max_tokens: 8192
-      temperature: 0.6
-      top_p: 0.95
-    gpu:
-      layers_offload: 61
-      vram_required_mb: 320000   # 4× A100 80GB minimum
-      tensor_parallel_recommended: 8
-    lazy_loading:
-      enabled: false
-      priority: critical
-      pin_to_memory: true
-    architecture:
-      model_type: deepseek_v3
-      architecture: moe
-      total_params: 671B
-      active_params: 37B
-      num_experts: 256
-      top_k_experts: 8
-    deployment:
-      multi_gpu: true
-      min_gpus: 8
-      vllm_compatible: true
-      recommended_backend: vllm
-    use_cases:
-      - complex instruction following
-      - long-document analysis
-      - advanced reasoning
-      - multilingual
-    notes: >
-      Frontier MoE model. For ThemisDB use, deploy via vLLM on multi-GPU cluster
-      or use quantized GGUF with llama.cpp. Active params ~37B makes inference
-      fast despite 671B total parameters.
-
-  - name: mixtral-8x22b-instruct
-    vendor: Mistral AI
-    arena_rank: 8
-    arena_elo: ~1330
-    version: "v0.1"
-    type: instruction
-    format: gguf
-    size: 141B            # MoE: ~39B active
-    quantization: Q3_K_M
-    license: apache2
-    commercial_use: true
-    sources:
-      huggingface: mistralai/Mixtral-8x22B-Instruct-v0.1
-      ollama: mixtral:8x22b
-      local: models/mixtral-8x22b-instruct-q3.gguf
-    parameters:
-      context_length: 65536
-      max_tokens: 4096
-      temperature: 0.7
-      top_p: 0.95
-    gpu:
-      layers_offload: 56
-      vram_required_mb: 65000
-      tensor_parallel_recommended: 4
-    lazy_loading:
-      enabled: false
-      priority: high
-      pin_to_memory: true
-    architecture:
-      model_type: mixtral
-      architecture: moe
-      total_params: 141B
-      active_params: 39B
-      num_experts: 8
-      top_k_experts: 2
-    deployment:
-      multi_gpu: true
-      min_gpus: 4
-      vllm_compatible: true
-    use_cases:
-      - multilingual (European languages)
-      - instruction following
-      - code generation
-      - legal document analysis
-    notes: >
-      Mistral's large MoE model. Strong European multilingual support.
-      Apache 2.0 license. Good for multi-language EU legal workflows.
-
-  # ---------------------------------------------------------------------------
-  # TIER 2: Mid-Size Open-Weight (14B–40B) — Single/Dual GPU
-  # Arena ELO: 1280–1350, VRAM: 8–25 GB
-  # ---------------------------------------------------------------------------
-
-  - name: deepseek-r1-distill-qwen-32b
-    vendor: DeepSeek
-    arena_rank: 5
-    arena_elo: ~1355
-    version: "1.0"
-    type: reasoning
-    format: gguf
-    size: 32B
-    quantization: Q4_K_M
-    license: mit
-    commercial_use: true
-    sources:
-      huggingface: deepseek-ai/DeepSeek-R1-Distill-Qwen-32B
-      ollama: deepseek-r1:32b
-      local: models/deepseek-r1-distill-qwen-32b-q4.gguf
-    parameters:
-      context_length: 32768
-      max_tokens: 8192
-      temperature: 0.6
-      top_p: 0.95
-    gpu:
-      layers_offload: 64
-      vram_required_mb: 18000
-      cuda_compute_capability: "7.5"
-    lazy_loading:
-      enabled: true
-      priority: high
-      ttl_seconds: 3600
-      pin_to_memory: true
-    architecture:
-      model_type: qwen2
-      num_layers: 64
-      hidden_size: 5120
-    lora_target_modules:
-      - q_proj
-      - k_proj
-      - v_proj
-      - o_proj
-      - gate_proj
-      - up_proj
-      - down_proj
-    use_cases:
-      - reasoning-intensive tasks
-      - legal analysis
-      - database query planning
-      - multi-step AQL generation
-    recommended_for_themisdb:
-      - aql_query_generation
-      - legal_document_analysis
-    notes: >
-      Best single-GPU reasoning model as of early 2026. Fits on A6000/3090 (24GB).
-      Chain-of-thought distilled from R1-671B. Recommended for ThemisDB
-      query planning and complex legal analysis.
-
-  - name: qwen2.5-32b-instruct
-    vendor: Alibaba/Qwen
-    arena_rank: 6
-    arena_elo: ~1345
-    version: "2.5"
-    type: instruction
-    format: gguf
-    size: 32B
-    quantization: Q4_K_M
-    license: qwen
-    commercial_use: true
-    sources:
-      huggingface: Qwen/Qwen2.5-32B-Instruct
-      ollama: qwen2.5:32b-instruct-q4_K_M
-      local: models/qwen2.5-32b-instruct-q4.gguf
-    parameters:
-      context_length: 131072
-      max_tokens: 8192
-      temperature: 0.7
-      top_p: 0.8
-    gpu:
-      layers_offload: 64
-      vram_required_mb: 19000
-    lazy_loading:
-      enabled: true
-      priority: high
-      ttl_seconds: 3600
-    architecture:
-      model_type: qwen2
-      num_layers: 64
-      hidden_size: 5120
-    lora_target_modules:
-      - q_proj
-      - k_proj
-      - v_proj
-      - o_proj
-      - gate_proj
-      - up_proj
-      - down_proj
-    use_cases:
-      - multilingual instruction following
-      - structured extraction
-      - document analysis
-    notes: >
-      Strong multilingual 32B. 128k context. Apache 2.0 license.
-
-  - name: gemma-3-27b-instruct
-    vendor: Google DeepMind
-    arena_rank: 7
-    arena_elo: ~1340
-    version: "3.0"
-    type: instruction
-    format: gguf
-    size: 27B
-    quantization: Q4_K_M
-    license: gemma
-    commercial_use: true
-    sources:
-      huggingface: google/gemma-3-27b-it
-      ollama: gemma3:27b
-      local: models/gemma-3-27b-instruct-q4.gguf
-    parameters:
-      context_length: 131072
-      max_tokens: 8192
-      temperature: 0.7
-      top_p: 0.95
-    gpu:
-      layers_offload: 62
-      vram_required_mb: 16000
-    lazy_loading:
-      enabled: true
-      priority: high
-      ttl_seconds: 3600
-    architecture:
-      model_type: gemma3
-      num_layers: 62
-      hidden_size: 4608
-      num_attention_heads: 32
-      num_key_value_heads: 16
-    lora_target_modules:
-      - q_proj
-      - k_proj
-      - v_proj
-      - o_proj
-      - gate_proj
-      - up_proj
-      - down_proj
-    use_cases:
-      - instruction following
-      - multilingual
-      - multimodal (vision variant)
-    notes: >
-      Google's latest open model. Strong instruction following and multilingual.
-      Gemma 3 27B-IT: best quality per VRAM among 20-30B class.
-
-  - name: phi-4
-    vendor: Microsoft
-    arena_rank: 9
-    arena_elo: ~1325
-    version: "4.0"
-    type: instruction
-    format: gguf
-    size: 14B
-    quantization: Q4_K_M
-    license: mit
-    commercial_use: true
-    sources:
-      huggingface: microsoft/phi-4
-      ollama: phi4:14b
-      local: models/phi-4-q4.gguf
-    parameters:
-      context_length: 16384
-      max_tokens: 4096
-      temperature: 0.7
-      top_p: 0.95
-    gpu:
-      layers_offload: 40
-      vram_required_mb: 8500
-    lazy_loading:
-      enabled: true
-      priority: high
-      ttl_seconds: 1800
-      pin_to_memory: true
-    architecture:
-      model_type: phi3
-      num_layers: 40
-      hidden_size: 5120
-      num_attention_heads: 40
-      num_key_value_heads: 10
-    lora_target_modules:
-      - qkv_proj
-      - o_proj
-      - gate_up_proj
-      - down_proj
-    use_cases:
-      - reasoning
-      - STEM tasks
-      - code generation
-      - structured output
-    notes: >
-      Microsoft's strongest small model. 14B with performance near 70B class
-      models on many benchmarks. MIT license. Ideal for ThemisDB edge/single-GPU.
-
-  - name: deepseek-r1-distill-qwen-14b
-    vendor: DeepSeek
-    arena_rank: 10
-    arena_elo: ~1320
-    version: "1.0"
-    type: reasoning
-    format: gguf
-    size: 14B
-    quantization: Q4_K_M
-    license: mit
-    commercial_use: true
-    sources:
-      huggingface: deepseek-ai/DeepSeek-R1-Distill-Qwen-14B
-      ollama: deepseek-r1:14b
-      local: models/deepseek-r1-distill-qwen-14b-q4.gguf
-    parameters:
-      context_length: 32768
-      max_tokens: 8192
-      temperature: 0.6
-      top_p: 0.95
-    gpu:
-      layers_offload: 40
-      vram_required_mb: 8500
-    lazy_loading:
-      enabled: true
-      priority: high
-      ttl_seconds: 1800
-    architecture:
-      model_type: qwen2
-      num_layers: 40
-      hidden_size: 5120
-    lora_target_modules:
-      - q_proj
-      - k_proj
-      - v_proj
-      - o_proj
-      - gate_proj
-      - up_proj
-      - down_proj
-    use_cases:
-      - reasoning
-      - multi-step analysis
-      - legal document parsing
-    notes: >
-      14B reasoning model distilled from R1. Good balance of quality/speed.
-
-  - name: mistral-nemo-12b-instruct
-    vendor: Mistral AI / NVIDIA
-    arena_rank: 11
-    arena_elo: ~1315
-    version: "2407"
-    type: instruction
-    format: gguf
-    size: 12B
-    quantization: Q4_K_M
-    license: apache2
-    commercial_use: true
-    sources:
-      huggingface: mistralai/Mistral-Nemo-Instruct-2407
-      ollama: mistral-nemo:12b-instruct-2407-q4_K_M
-      local: models/mistral-nemo-12b-instruct-q4.gguf
-    parameters:
-      context_length: 131072
-      max_tokens: 4096
-      temperature: 0.7
-      top_p: 0.95
-    gpu:
-      layers_offload: 40
-      vram_required_mb: 7500
-    lazy_loading:
-      enabled: true
-      priority: high
-      ttl_seconds: 1800
-      pin_to_memory: true
-    architecture:
-      model_type: mistral
-      num_layers: 40
-      hidden_size: 5120
-      num_attention_heads: 32
-      num_key_value_heads: 8
-      vocabulary_size: 131072   # tekken tokenizer
-    lora_target_modules:
-      - q_proj
-      - k_proj
-      - v_proj
-      - o_proj
-      - gate_proj
-      - up_proj
-      - down_proj
-    use_cases:
-      - multilingual (European languages excellent)
-      - instruction following
-      - function calling
-      - long-context tasks
-    recommended_for_themisdb:
-      - german_language_tasks
-      - eu_legal_documents
-      - multilingual_support
-    notes: >
-      12B model with 128k context and 128k vocabulary (Tekken tokenizer).
-      Exceptional multilingual support including German/French/Spanish.
-      Apache 2.0. Recommended for ThemisDB EU/German workflows.
-
-  # ---------------------------------------------------------------------------
-  # TIER 3: Efficient Open-Weight (7B–9B) — Single Consumer GPU
-  # Arena ELO: 1250–1310, VRAM: 4–6 GB
-  # ---------------------------------------------------------------------------
+    notes: "Qwen2.5 72B. ELO 1302. Apache 2.0. 128K context."
 
   - name: qwen2.5-7b-instruct
     vendor: Alibaba/Qwen
-    arena_rank: 12
-    arena_elo: ~1305
+    arena_rank_overall: null
+    arena_elo: ~1260
     version: "2.5"
     type: instruction
     format: gguf
@@ -641,7 +587,6 @@ models:
       context_length: 131072
       max_tokens: 4096
       temperature: 0.7
-      top_p: 0.8
     gpu:
       layers_offload: 28
       vram_required_mb: 4500
@@ -664,51 +609,239 @@ models:
       - gate_proj
       - up_proj
       - down_proj
-    use_cases:
-      - fast instruction following
-      - multilingual
-      - structured extraction
-      - ThemisDB query assistance
     recommended_for_themisdb:
       - default_general_purpose
       - aql_helper
-    notes: >
-      Best 7B model as of 2026. 128k context. Apache 2.0. Default recommendation
-      for ThemisDB single-GPU deployments with limited VRAM.
+    notes: "Qwen2.5 7B. Apache 2.0. 128K. Default ThemisDB single-GPU recommendation."
 
-  - name: llama-3.1-8b-instruct
-    vendor: Meta
-    arena_rank: 13
-    arena_elo: ~1295
-    version: "3.1"
+  # ---------------------------------------------------------------------------
+  # DeepSeek series  (DeepSeek)  —  MIT
+  # ---------------------------------------------------------------------------
+  - name: deepseek-v3.2
+    vendor: DeepSeek
+    arena_rank_overall: 55
+    arena_rank_open: 11
+    arena_elo: 1424
+    version: "3.2"
     type: instruction
     format: gguf
-    size: 8B
-    quantization: Q4_K_M
-    license: llama31
+    size: 671B
+    quantization: Q2_K
+    license: mit
     commercial_use: true
     sources:
-      huggingface: meta-llama/Meta-Llama-3.1-8B-Instruct
-      ollama: llama3.1:8b-instruct-q4_K_M
-      local: models/llama-3.1-8b-instruct-q4.gguf
+      huggingface: deepseek-ai/DeepSeek-V3
+      local: models/deepseek-v3.2-q2.gguf
     parameters:
-      context_length: 131072
-      max_tokens: 4096
+      context_length: 163840
+      max_tokens: 8192
       temperature: 0.6
-      top_p: 0.9
     gpu:
-      layers_offload: 32
-      vram_required_mb: 5000
+      layers_offload: 61
+      vram_required_mb: 320000
+      tensor_parallel_recommended: 8
+    lazy_loading:
+      enabled: false
+      priority: critical
+    architecture:
+      model_type: deepseek_v3_moe
+      architecture: moe
+      total_params: 671B
+      active_params: 37B
+      num_experts: 256
+    deployment:
+      multi_gpu: true
+      min_gpus: 8
+      vllm_compatible: true
+      api_fallback: true
+    notes: "DeepSeek V3.2. ELO 1424. MIT. Use via API or multi-GPU vLLM cluster."
+
+  - name: deepseek-r1-0528
+    vendor: DeepSeek
+    arena_rank_overall: 60
+    arena_rank_open: 15
+    arena_elo: 1422
+    version: "R1-0528"
+    type: reasoning
+    format: gguf
+    size: 671B
+    quantization: Q2_K
+    license: mit
+    commercial_use: true
+    sources:
+      huggingface: deepseek-ai/DeepSeek-R1-0528
+      local: models/deepseek-r1-0528-q2.gguf
+    parameters:
+      context_length: 163840
+      max_tokens: 32768
+      temperature: 0.6
+    gpu:
+      layers_offload: 61
+      vram_required_mb: 320000
+      tensor_parallel_recommended: 8
+    lazy_loading:
+      enabled: false
+      priority: critical
+    architecture:
+      model_type: deepseek_r1_moe
+      architecture: moe
+      active_params: 37B
+    deployment:
+      multi_gpu: true
+      min_gpus: 8
+      vllm_compatible: true
+      api_fallback: true
+    notes: "DeepSeek R1-0528 (improved). ELO 1422. MIT. Updated May 2026."
+
+  - name: deepseek-r1
+    vendor: DeepSeek
+    arena_rank_overall: 95
+    arena_rank_open: 33
+    arena_elo: 1398
+    version: "R1"
+    type: reasoning
+    format: gguf
+    size: 671B
+    quantization: Q2_K
+    license: mit
+    commercial_use: true
+    sources:
+      huggingface: deepseek-ai/DeepSeek-R1
+      local: models/deepseek-r1-q2.gguf
+    parameters:
+      context_length: 65536
+      max_tokens: 32768
+      temperature: 0.6
+    gpu:
+      layers_offload: 61
+      vram_required_mb: 320000
+      tensor_parallel_recommended: 8
+    lazy_loading:
+      enabled: false
+      priority: critical
+    deployment:
+      multi_gpu: true
+      min_gpus: 8
+      vllm_compatible: true
+      api_fallback: true
+    notes: "DeepSeek R1 original. ELO 1398. MIT. Prefer R1-0528 for latest results."
+
+  - name: deepseek-r1-distill-llama-70b
+    vendor: DeepSeek
+    arena_rank_overall: null
+    arena_elo: ~1360
+    version: "1.0"
+    type: reasoning
+    format: gguf
+    size: 70B
+    quantization: Q4_K_M
+    license: mit
+    commercial_use: true
+    sources:
+      huggingface: deepseek-ai/DeepSeek-R1-Distill-Llama-70B
+      ollama: deepseek-r1:70b
+      local: models/deepseek-r1-distill-llama-70b-q4.gguf
+    parameters:
+      context_length: 32768
+      max_tokens: 8192
+      temperature: 0.6
+    gpu:
+      layers_offload: 80
+      vram_required_mb: 38000
+      tensor_parallel_recommended: 2
+    lazy_loading:
+      enabled: false
+      priority: critical
+      pin_to_memory: true
+    architecture:
+      model_type: llama
+      num_layers: 80
+      hidden_size: 8192
+    lora_target_modules:
+      - q_proj
+      - k_proj
+      - v_proj
+      - o_proj
+      - gate_proj
+      - up_proj
+      - down_proj
+    deployment:
+      multi_gpu: true
+      min_gpus: 2
+      vllm_compatible: true
+    recommended_for_themisdb:
+      - aql_query_generation
+      - legal_document_analysis
+    notes: "R1 reasoning distilled into Llama 70B. MIT. Best locally-runnable reasoning model."
+
+  - name: deepseek-r1-distill-qwen-32b
+    vendor: DeepSeek
+    arena_rank_overall: null
+    arena_elo: ~1345
+    version: "1.0"
+    type: reasoning
+    format: gguf
+    size: 32B
+    quantization: Q4_K_M
+    license: mit
+    commercial_use: true
+    sources:
+      huggingface: deepseek-ai/DeepSeek-R1-Distill-Qwen-32B
+      ollama: deepseek-r1:32b
+      local: models/deepseek-r1-distill-qwen-32b-q4.gguf
+    parameters:
+      context_length: 32768
+      max_tokens: 8192
+      temperature: 0.6
+    gpu:
+      layers_offload: 64
+      vram_required_mb: 18000
+    lazy_loading:
+      enabled: true
+      priority: high
+      ttl_seconds: 3600
+    architecture:
+      model_type: qwen2
+      num_layers: 64
+      hidden_size: 5120
+    lora_target_modules:
+      - q_proj
+      - k_proj
+      - v_proj
+      - o_proj
+      - gate_proj
+      - up_proj
+      - down_proj
+    recommended_for_themisdb:
+      - aql_query_generation
+      - legal_document_analysis
+    notes: "R1 reasoning in 32B Qwen backbone. MIT. Best single-GPU reasoning model."
+
+  - name: deepseek-r1-distill-qwen-14b
+    vendor: DeepSeek
+    arena_rank_overall: null
+    arena_elo: ~1310
+    type: reasoning
+    format: gguf
+    size: 14B
+    quantization: Q4_K_M
+    license: mit
+    commercial_use: true
+    sources:
+      huggingface: deepseek-ai/DeepSeek-R1-Distill-Qwen-14B
+      ollama: deepseek-r1:14b
+      local: models/deepseek-r1-distill-qwen-14b-q4.gguf
+    parameters:
+      context_length: 32768
+      max_tokens: 8192
+      temperature: 0.6
+    gpu:
+      layers_offload: 40
+      vram_required_mb: 8500
     lazy_loading:
       enabled: true
       priority: high
       ttl_seconds: 1800
-    architecture:
-      model_type: llama
-      num_layers: 32
-      hidden_size: 4096
-      num_attention_heads: 32
-      num_key_value_heads: 8
     lora_target_modules:
       - q_proj
       - k_proj
@@ -717,48 +850,167 @@ models:
       - gate_proj
       - up_proj
       - down_proj
-    use_cases:
-      - general instruction following
-      - function calling
-      - JSON structured output
-      - ThemisDB REST API integration
-    notes: >
-      Meta's 8B with 128k context. Strong function-calling support.
-      Most widely used open model — excellent community support & LoRA adapters.
+    notes: "R1 reasoning distilled to 14B. MIT."
 
-  - name: gemma-3-9b-instruct
-    vendor: Google DeepMind
-    arena_rank: 14
-    arena_elo: ~1285
+  - name: deepseek-r1-distill-qwen-7b
+    vendor: DeepSeek
+    arena_rank_overall: null
+    arena_elo: ~1270
+    type: reasoning
+    format: gguf
+    size: 7B
+    quantization: Q4_K_M
+    license: mit
+    commercial_use: true
+    sources:
+      huggingface: deepseek-ai/DeepSeek-R1-Distill-Qwen-7B
+      ollama: deepseek-r1:7b
+      local: models/deepseek-r1-distill-qwen-7b-q4.gguf
+    parameters:
+      context_length: 32768
+      max_tokens: 8192
+      temperature: 0.6
+    gpu:
+      layers_offload: 28
+      vram_required_mb: 4500
+    lazy_loading:
+      enabled: true
+      priority: high
+      ttl_seconds: 1800
+    lora_target_modules:
+      - q_proj
+      - k_proj
+      - v_proj
+      - o_proj
+      - gate_proj
+      - up_proj
+      - down_proj
+    notes: "R1 reasoning 7B. MIT."
+
+  # ---------------------------------------------------------------------------
+  # Mistral series  (Mistral AI)  —  Apache 2.0
+  # ---------------------------------------------------------------------------
+  - name: mistral-large-3
+    vendor: Mistral AI
+    arena_rank_overall: 71
+    arena_rank_open: 24
+    arena_elo: 1416
     version: "3.0"
     type: instruction
     format: gguf
-    size: 9B
-    quantization: Q4_K_M
-    license: gemma
+    size: 123B
+    quantization: Q3_K_M
+    license: apache2
     commercial_use: true
     sources:
-      huggingface: google/gemma-3-9b-it
-      ollama: gemma3:9b
-      local: models/gemma-3-9b-instruct-q4.gguf
+      huggingface: mistralai/Mistral-Large-Instruct-2411
+      api: https://api.mistral.ai/v1/chat/completions
+      ollama: mistral-large:latest
+      local: models/mistral-large-3-q3.gguf
+    parameters:
+      context_length: 131072
+      max_tokens: 8192
+      temperature: 0.7
+    gpu:
+      layers_offload: 88
+      vram_required_mb: 65000
+      tensor_parallel_recommended: 4
+    lazy_loading:
+      enabled: false
+      priority: high
+    lora_target_modules:
+      - q_proj
+      - k_proj
+      - v_proj
+      - o_proj
+      - gate_proj
+      - up_proj
+      - down_proj
+    deployment:
+      multi_gpu: true
+      min_gpus: 4
+      vllm_compatible: true
+      api_fallback: true
+    recommended_for_themisdb:
+      - eu_legal_documents
+      - german_language_tasks
+    notes: >
+      Mistral Large 3. ELO 1416, rank #24. Apache 2.0 (upgraded from MRL).
+      128K context. French/German/Spanish excellence.
+
+  - name: mistral-small-2506
+    vendor: Mistral AI
+    arena_rank_overall: 136
+    arena_rank_open: 52
+    arena_elo: 1357
+    version: "2506"
+    type: instruction
+    format: gguf
+    size: 24B
+    quantization: Q4_K_M
+    license: apache2
+    commercial_use: true
+    sources:
+      huggingface: mistralai/Mistral-Small-Instruct-2506
+      ollama: mistral-small:2506
+      local: models/mistral-small-2506-q4.gguf
+    parameters:
+      context_length: 32768
+      max_tokens: 8192
+      temperature: 0.7
+    gpu:
+      layers_offload: 56
+      vram_required_mb: 14000
+    lazy_loading:
+      enabled: true
+      priority: high
+      ttl_seconds: 3600
+    lora_target_modules:
+      - q_proj
+      - k_proj
+      - v_proj
+      - o_proj
+      - gate_proj
+      - up_proj
+      - down_proj
+    loras:
+      - german-legal-v1
+      - eu-legal-v1
+    recommended_for_themisdb:
+      - default_eu_production
+      - german_egov
+    notes: "Mistral Small 2506. ELO 1357. Apache 2.0. 24B. EU/German production."
+
+  - name: mistral-nemo-12b-instruct
+    vendor: "Mistral AI / NVIDIA"
+    arena_rank_overall: null
+    arena_elo: ~1315
+    version: "2407"
+    type: instruction
+    format: gguf
+    size: 12B
+    quantization: Q4_K_M
+    license: apache2
+    commercial_use: true
+    sources:
+      huggingface: mistralai/Mistral-Nemo-Instruct-2407
+      ollama: mistral-nemo:12b-instruct-2407-q4_K_M
+      local: models/mistral-nemo-12b-instruct-q4.gguf
     parameters:
       context_length: 131072
       max_tokens: 4096
       temperature: 0.7
-      top_p: 0.95
     gpu:
-      layers_offload: 42
-      vram_required_mb: 5500
+      layers_offload: 40
+      vram_required_mb: 7500
     lazy_loading:
       enabled: true
-      priority: medium
+      priority: high
       ttl_seconds: 1800
+      pin_to_memory: true
     architecture:
-      model_type: gemma3
-      num_layers: 42
-      hidden_size: 3584
-      num_attention_heads: 16
-      num_key_value_heads: 8
+      model_type: mistral
+      vocabulary_size: 131072
     lora_target_modules:
       - q_proj
       - k_proj
@@ -767,16 +1019,50 @@ models:
       - gate_proj
       - up_proj
       - down_proj
-    use_cases:
-      - instruction following
-      - multilingual
-      - document understanding
-    notes: Gemma 3 9B-IT. Strong multilingual. 128k context.
+    recommended_for_themisdb:
+      - german_language_tasks
+      - eu_legal_documents
+    notes: "Mistral Nemo 12B. 128K ctx. Tekken tokenizer. Apache 2.0."
+
+  - name: mixtral-8x7b-instruct
+    vendor: Mistral AI
+    arena_rank_overall: 270
+    arena_rank_open: 127
+    arena_elo: 1196
+    version: "v0.1"
+    type: instruction
+    format: gguf
+    size: 47B
+    quantization: Q4_K_M
+    license: apache2
+    commercial_use: true
+    sources:
+      huggingface: mistralai/Mixtral-8X7B-Instruct-v0.1
+      ollama: mixtral:8x7b-instruct-v0.1-q4_K_M
+      local: models/mixtral-8x7b-instruct-q4.gguf
+    parameters:
+      context_length: 32768
+      max_tokens: 4096
+      temperature: 0.7
+    gpu:
+      layers_offload: 32
+      vram_required_mb: 26000
+      tensor_parallel_recommended: 2
+    lazy_loading:
+      enabled: true
+      priority: medium
+      ttl_seconds: 3600
+    architecture:
+      model_type: mixtral
+      architecture: moe
+      active_params: 13B
+      num_experts: 8
+    notes: "Mixtral 8x7B. ELO 1196. Apache 2.0. Legacy — prefer newer models."
 
   - name: mistral-7b-instruct-v0.3
     vendor: Mistral AI
-    arena_rank: 15
-    arena_elo: ~1270
+    arena_rank_overall: null
+    arena_elo: ~1200
     version: "v0.3"
     type: instruction
     format: gguf
@@ -792,7 +1078,6 @@ models:
       context_length: 32768
       max_tokens: 4096
       temperature: 0.7
-      top_p: 0.95
     gpu:
       layers_offload: 32
       vram_required_mb: 4200
@@ -803,10 +1088,6 @@ models:
       pin_to_memory: true
     architecture:
       model_type: mistral
-      num_layers: 32
-      hidden_size: 4096
-      num_attention_heads: 32
-      num_key_value_heads: 8
       sliding_window: 4096
     lora_target_modules:
       - q_proj
@@ -819,29 +1100,450 @@ models:
     loras:
       - german-legal-v1
       - eu-legal-v1
-    use_cases:
-      - instruction following
-      - European multilingual
-      - function calling
-      - legal document analysis
     recommended_for_themisdb:
-      - default_production
       - german_legal
       - eu_compliance
-    notes: >
-      Production-proven 7B. Strong European language support, function calling,
-      32k context. Apache 2.0 license. Recommended ThemisDB default for
-      EU/German deployments.
+    notes: "Mistral 7B v0.3. Apache 2.0. Function calling. EU multilingual."
 
   # ---------------------------------------------------------------------------
-  # TIER 4: Small / Edge Models (1B–4B) — CPU, Edge, RPi 5
-  # Arena ELO: 1150–1250
+  # Meta Llama series
   # ---------------------------------------------------------------------------
+  - name: llama-4-maverick-17b-128e-instruct
+    vendor: Meta
+    arena_rank_overall: 174
+    arena_rank_open: 70
+    arena_elo: 1327
+    version: "4.0"
+    type: instruction
+    format: gguf
+    size: 400B
+    quantization: Q3_K_M
+    license: llama4
+    commercial_use: true
+    sources:
+      huggingface: meta-llama/Llama-4-Maverick-17B-128E-Instruct
+      ollama: llama4:maverick-17b
+      local: models/llama-4-maverick-17b-128e-q3.gguf
+    parameters:
+      context_length: 131072
+      max_tokens: 8192
+      temperature: 0.6
+    gpu:
+      layers_offload: 40
+      vram_required_mb: 80000
+      tensor_parallel_recommended: 4
+    lazy_loading:
+      enabled: false
+      priority: high
+    architecture:
+      model_type: llama4_moe
+      architecture: moe
+      active_params: 17B
+      num_experts: 128
+    deployment:
+      multi_gpu: true
+      vllm_compatible: true
+    notes: "Llama 4 Maverick. ELO 1327. MoE 17B active/128E. Native multimodal."
+
+  - name: llama-4-scout-17b-16e-instruct
+    vendor: Meta
+    arena_rank_overall: 181
+    arena_rank_open: 73
+    arena_elo: 1322
+    version: "4.0"
+    type: instruction
+    format: gguf
+    size: 109B
+    quantization: Q4_K_M
+    license: llama4
+    commercial_use: true
+    sources:
+      huggingface: meta-llama/Llama-4-Scout-17B-16E-Instruct
+      ollama: llama4:scout-17b
+      local: models/llama-4-scout-17b-16e-q4.gguf
+    parameters:
+      context_length: 8192
+      max_tokens: 4096
+      temperature: 0.6
+    gpu:
+      layers_offload: 40
+      vram_required_mb: 60000
+      tensor_parallel_recommended: 2
+    lazy_loading:
+      enabled: false
+      priority: high
+    architecture:
+      model_type: llama4_moe
+      architecture: moe
+      active_params: 17B
+      num_experts: 16
+    deployment:
+      multi_gpu: true
+      vllm_compatible: true
+    notes: "Llama 4 Scout. ELO 1322. NOTE: only 8.2K context window."
+
+  - name: llama-3.3-70b-instruct
+    vendor: Meta
+    arena_rank_overall: 187
+    arena_rank_open: 75
+    arena_elo: 1318
+    version: "3.3"
+    type: instruction
+    format: gguf
+    size: 70B
+    quantization: Q4_K_M
+    license: llama33
+    commercial_use: true
+    sources:
+      huggingface: meta-llama/Llama-3.3-70B-Instruct
+      ollama: llama3.3:70b-instruct-q4_K_M
+      local: models/llama-3.3-70b-instruct-q4.gguf
+    parameters:
+      context_length: 131072
+      max_tokens: 8192
+      temperature: 0.6
+    gpu:
+      layers_offload: 80
+      vram_required_mb: 38000
+      tensor_parallel_recommended: 2
+    lazy_loading:
+      enabled: false
+      priority: high
+      pin_to_memory: true
+    architecture:
+      model_type: llama
+      num_layers: 80
+      hidden_size: 8192
+      num_attention_heads: 64
+      num_key_value_heads: 8
+    lora_target_modules:
+      - q_proj
+      - k_proj
+      - v_proj
+      - o_proj
+      - gate_proj
+      - up_proj
+      - down_proj
+    deployment:
+      multi_gpu: true
+      min_gpus: 2
+      vllm_compatible: true
+    notes: "Llama 3.3 70B. ELO 1318. 128K context."
+
+  - name: llama-3.1-8b-instruct
+    vendor: Meta
+    arena_rank_overall: 264
+    arena_rank_open: 122
+    arena_elo: 1211
+    version: "3.1"
+    type: instruction
+    format: gguf
+    size: 8B
+    quantization: Q4_K_M
+    license: llama31
+    commercial_use: true
+    sources:
+      huggingface: meta-llama/Meta-Llama-3.1-8B-Instruct
+      ollama: llama3.1:8b-instruct-q4_K_M
+      local: models/llama-3.1-8b-instruct-q4.gguf
+    parameters:
+      context_length: 16384
+      max_tokens: 4096
+      temperature: 0.6
+    gpu:
+      layers_offload: 32
+      vram_required_mb: 5000
+    lazy_loading:
+      enabled: true
+      priority: high
+      ttl_seconds: 1800
+    architecture:
+      model_type: llama
+      num_layers: 32
+      hidden_size: 4096
+    lora_target_modules:
+      - q_proj
+      - k_proj
+      - v_proj
+      - o_proj
+      - gate_proj
+      - up_proj
+      - down_proj
+    notes: "Llama 3.1 8B. ELO 1211. Huge LoRA ecosystem."
+
+  - name: llama-3.2-3b-instruct
+    vendor: Meta
+    arena_rank_overall: 290
+    arena_rank_open: 147
+    arena_elo: 1166
+    version: "3.2"
+    type: instruction
+    format: gguf
+    size: 3B
+    quantization: Q4_K_M
+    license: llama33
+    commercial_use: true
+    sources:
+      huggingface: meta-llama/Llama-3.2-3B-Instruct
+      ollama: llama3.2:3b-instruct-q4_K_M
+      local: models/llama-3.2-3b-instruct-q4.gguf
+    parameters:
+      context_length: 81920
+      max_tokens: 2048
+      temperature: 0.6
+    gpu:
+      layers_offload: 28
+      vram_required_mb: 2000
+    cpu_fallback: true
+    lazy_loading:
+      enabled: true
+      priority: medium
+      ttl_seconds: 1800
+    deployment:
+      edge_compatible: true
+      cpu_inference: true
+    notes: "Llama 3.2 3B. ELO 1166. Edge/community edition."
+
+  # ---------------------------------------------------------------------------
+  # Gemma 3 series  (Google)  —  Gemma License
+  # ---------------------------------------------------------------------------
+  - name: gemma-3-27b-it
+    vendor: Google DeepMind
+    arena_rank_overall: 128
+    arena_rank_open: 48
+    arena_elo: 1365
+    version: "3.0"
+    type: instruction
+    format: gguf
+    size: 27B
+    quantization: Q4_K_M
+    license: gemma
+    commercial_use: true
+    sources:
+      huggingface: google/gemma-3-27b-it
+      ollama: gemma3:27b
+      local: models/gemma-3-27b-it-q4.gguf
+    parameters:
+      context_length: 131072
+      max_tokens: 8192
+      temperature: 0.7
+    gpu:
+      layers_offload: 62
+      vram_required_mb: 16000
+    lazy_loading:
+      enabled: true
+      priority: high
+      ttl_seconds: 3600
+    lora_target_modules:
+      - q_proj
+      - k_proj
+      - v_proj
+      - o_proj
+      - gate_proj
+      - up_proj
+      - down_proj
+    notes: "Gemma 3 27B-IT. ELO 1365. 128K context."
+
+  - name: gemma-3-12b-it
+    vendor: Google DeepMind
+    arena_rank_overall: 158
+    arena_rank_open: 63
+    arena_elo: 1341
+    version: "3.0"
+    type: instruction
+    format: gguf
+    size: 12B
+    quantization: Q4_K_M
+    license: gemma
+    commercial_use: true
+    sources:
+      huggingface: google/gemma-3-12b-it
+      ollama: gemma3:12b
+      local: models/gemma-3-12b-it-q4.gguf
+    parameters:
+      context_length: 131072
+      max_tokens: 4096
+      temperature: 0.7
+    gpu:
+      layers_offload: 46
+      vram_required_mb: 7500
+    lazy_loading:
+      enabled: true
+      priority: high
+      ttl_seconds: 1800
+    lora_target_modules:
+      - q_proj
+      - k_proj
+      - v_proj
+      - o_proj
+      - gate_proj
+      - up_proj
+      - down_proj
+    notes: "Gemma 3 12B-IT. ELO 1341."
+
+  - name: gemma-3-4b-it
+    vendor: Google DeepMind
+    arena_rank_overall: 208
+    arena_rank_open: 87
+    arena_elo: 1303
+    version: "3.0"
+    type: instruction
+    format: gguf
+    size: 4B
+    quantization: Q4_K_M
+    license: gemma
+    commercial_use: true
+    sources:
+      huggingface: google/gemma-3-4b-it
+      ollama: gemma3:4b
+      local: models/gemma-3-4b-it-q4.gguf
+    parameters:
+      context_length: 131072
+      max_tokens: 2048
+      temperature: 0.7
+    gpu:
+      layers_offload: 34
+      vram_required_mb: 2500
+    cpu_fallback: true
+    lazy_loading:
+      enabled: true
+      priority: medium
+      ttl_seconds: 1800
+    lora_target_modules:
+      - q_proj
+      - k_proj
+      - v_proj
+      - o_proj
+      - gate_proj
+      - up_proj
+      - down_proj
+    deployment:
+      edge_compatible: true
+      cpu_inference: true
+    notes: "Gemma 3 4B-IT. ELO 1303. 128K context. Edge compatible."
+
+  - name: gemma-3n-e4b-it
+    vendor: Google DeepMind
+    arena_rank_overall: 189
+    arena_rank_open: 77
+    arena_elo: 1318
+    version: "3n"
+    type: instruction
+    format: gguf
+    size: 4B
+    quantization: Q4_K_M
+    license: gemma
+    commercial_use: true
+    sources:
+      huggingface: google/gemma-3n-e4b-it
+      ollama: gemma3n:e4b
+      local: models/gemma-3n-e4b-it-q4.gguf
+    parameters:
+      context_length: 32768
+      max_tokens: 2048
+      temperature: 0.7
+    gpu:
+      layers_offload: 32
+      vram_required_mb: 2200
+    cpu_fallback: true
+    lazy_loading:
+      enabled: true
+      priority: medium
+      ttl_seconds: 1800
+    architecture:
+      model_type: gemma3n
+      variant: nano
+    deployment:
+      edge_compatible: true
+      cpu_inference: true
+      mobile_compatible: true
+    notes: "Gemma 3 Nano E4B. ELO 1318. On-device optimized."
+
+  # ---------------------------------------------------------------------------
+  # Phi series  (Microsoft)  —  MIT
+  # ---------------------------------------------------------------------------
+  - name: phi-4
+    vendor: Microsoft
+    arena_rank_overall: 241
+    arena_rank_open: 108
+    arena_elo: 1256
+    version: "4.0"
+    type: instruction
+    format: gguf
+    size: 14B
+    quantization: Q4_K_M
+    license: mit
+    commercial_use: true
+    sources:
+      huggingface: microsoft/phi-4
+      ollama: phi4:14b
+      local: models/phi-4-q4.gguf
+    parameters:
+      context_length: 16384
+      max_tokens: 4096
+      temperature: 0.7
+    gpu:
+      layers_offload: 40
+      vram_required_mb: 8500
+    lazy_loading:
+      enabled: true
+      priority: high
+      ttl_seconds: 1800
+    architecture:
+      model_type: phi3
+      num_layers: 40
+      hidden_size: 5120
+    lora_target_modules:
+      - qkv_proj
+      - o_proj
+      - gate_up_proj
+      - down_proj
+    notes: "Phi-4. ELO 1256. MIT. Strong STEM/reasoning per parameter."
+
+  - name: phi-3.5-moe-instruct
+    vendor: Microsoft
+    arena_rank_overall: null
+    arena_elo: ~1230
+    version: "3.5"
+    type: instruction
+    format: gguf
+    size: 42B
+    quantization: Q4_K_M
+    license: mit
+    commercial_use: true
+    sources:
+      huggingface: microsoft/Phi-3.5-MoE-instruct
+      ollama: phi3.5-moe:42b-instruct
+      local: models/phi-3.5-moe-instruct-q4.gguf
+    parameters:
+      context_length: 131072
+      max_tokens: 4096
+      temperature: 0.7
+    gpu:
+      layers_offload: 32
+      vram_required_mb: 25000
+    lazy_loading:
+      enabled: true
+      priority: medium
+      ttl_seconds: 3600
+    architecture:
+      model_type: phi3_moe
+      architecture: moe
+      total_params: 42B
+      active_params: 7B
+      num_experts: 16
+    lora_target_modules:
+      - qkv_proj
+      - o_proj
+      - gate_up_proj
+      - down_proj
+    notes: "Phi-3.5 MoE 42B/7B-active. MIT. 128K context."
 
   - name: phi-3-mini-4k-instruct
     vendor: Microsoft
-    arena_rank: 18
-    arena_elo: ~1240
+    arena_rank_overall: 311
+    arena_rank_open: 167
+    arena_elo: 1127
     version: "1.0"
     type: instruction
     format: gguf
@@ -857,7 +1559,6 @@ models:
       context_length: 4096
       max_tokens: 2048
       temperature: 0.7
-      top_p: 0.95
     gpu:
       layers_offload: 32
       vram_required_mb: 2200
@@ -871,8 +1572,6 @@ models:
       model_type: phi3
       num_layers: 32
       hidden_size: 3072
-      num_attention_heads: 32
-      num_key_value_heads: 8
     lora_target_modules:
       - qkv_proj
       - o_proj
@@ -882,110 +1581,13 @@ models:
       edge_compatible: true
       cpu_inference: true
       rpi5_compatible: true
-    use_cases:
-      - edge inference
-      - offline deployments
-      - embedded ThemisDB
-    notes: MIT license. Runs on CPU or RPi 5. Default for edge deployments.
-
-  - name: gemma-3-4b-instruct
-    vendor: Google DeepMind
-    arena_rank: 19
-    arena_elo: ~1230
-    version: "3.0"
-    type: instruction
-    format: gguf
-    size: 4B
-    quantization: Q4_K_M
-    license: gemma
-    commercial_use: true
-    sources:
-      huggingface: google/gemma-3-4b-it
-      ollama: gemma3:4b
-      local: models/gemma-3-4b-instruct-q4.gguf
-    parameters:
-      context_length: 131072
-      max_tokens: 2048
-      temperature: 0.7
-      top_p: 0.95
-    gpu:
-      layers_offload: 34
-      vram_required_mb: 2500
-    cpu_fallback: true
-    lazy_loading:
-      enabled: true
-      priority: medium
-      ttl_seconds: 1800
-    architecture:
-      model_type: gemma3
-      num_layers: 34
-      hidden_size: 2560
-    lora_target_modules:
-      - q_proj
-      - k_proj
-      - v_proj
-      - o_proj
-      - gate_proj
-      - up_proj
-      - down_proj
-    deployment:
-      edge_compatible: true
-      cpu_inference: true
-    notes: >
-      4B with 128k context. Gemma 3 4B-IT — surprisingly strong for size.
-      Good for resource-constrained ThemisDB instances.
-
-  - name: llama-3.2-3b-instruct
-    vendor: Meta
-    arena_rank: 20
-    arena_elo: ~1210
-    version: "3.2"
-    type: instruction
-    format: gguf
-    size: 3B
-    quantization: Q4_K_M
-    license: llama33
-    commercial_use: true
-    sources:
-      huggingface: meta-llama/Llama-3.2-3B-Instruct
-      ollama: llama3.2:3b-instruct-q4_K_M
-      local: models/llama-3.2-3b-instruct-q4.gguf
-    parameters:
-      context_length: 131072
-      max_tokens: 2048
-      temperature: 0.6
-      top_p: 0.9
-    gpu:
-      layers_offload: 28
-      vram_required_mb: 2000
-    cpu_fallback: true
-    lazy_loading:
-      enabled: true
-      priority: medium
-      ttl_seconds: 1800
-    architecture:
-      model_type: llama
-      num_layers: 28
-      hidden_size: 3072
-    lora_target_modules:
-      - q_proj
-      - k_proj
-      - v_proj
-      - o_proj
-      - gate_proj
-      - up_proj
-      - down_proj
-    deployment:
-      edge_compatible: true
-      cpu_inference: true
-    notes: >
-      Meta's 3B edge model. 128k context. Function calling support.
-      Good for ThemisDB community/lite editions.
+    notes: "Phi-3 Mini. ELO 1127. MIT. Default edge/RPi 5 deployment."
 
   - name: smollm2-1.7b-instruct
     vendor: HuggingFace
-    arena_rank: 25
-    arena_elo: ~1150
+    arena_rank_overall: 318
+    arena_rank_open: 174
+    arena_elo: 1113
     version: "2.0"
     type: instruction
     format: gguf
@@ -1001,7 +1603,6 @@ models:
       context_length: 8192
       max_tokens: 2048
       temperature: 0.7
-      top_p: 0.95
     gpu:
       layers_offload: 24
       vram_required_mb: 1200
@@ -1010,76 +1611,22 @@ models:
       enabled: true
       priority: low
       ttl_seconds: 1800
-    architecture:
-      model_type: llama
-      num_layers: 24
-      hidden_size: 2048
     deployment:
       edge_compatible: true
       cpu_inference: true
       rpi5_compatible: true
-      microcontroller_quantized: true
-    notes: >
-      HuggingFace's sub-2B flagship. Apache 2.0. Ideal for on-device ThemisDB.
-      Also available as 360M variant for truly constrained environments.
+    notes: "SmolLM2 1.7B. ELO 1113. Apache 2.0. Sub-2B on-device."
 
-# =============================================================================
-# SECTION 2: REASONING MODELS (Chain-of-Thought / o1-style)
-# =============================================================================
-
-  - name: deepseek-r1-distill-qwen-7b
-    vendor: DeepSeek
-    arena_rank: 16
-    arena_elo: ~1280
-    version: "1.0"
-    type: reasoning
-    format: gguf
-    size: 7B
-    quantization: Q4_K_M
-    license: mit
-    commercial_use: true
-    sources:
-      huggingface: deepseek-ai/DeepSeek-R1-Distill-Qwen-7B
-      ollama: deepseek-r1:7b
-      local: models/deepseek-r1-distill-qwen-7b-q4.gguf
-    parameters:
-      context_length: 32768
-      max_tokens: 8192
-      temperature: 0.6
-      top_p: 0.95
-    gpu:
-      layers_offload: 28
-      vram_required_mb: 4500
-    lazy_loading:
-      enabled: true
-      priority: high
-      ttl_seconds: 1800
-    architecture:
-      model_type: qwen2
-      num_layers: 28
-      hidden_size: 3584
-    lora_target_modules:
-      - q_proj
-      - k_proj
-      - v_proj
-      - o_proj
-      - gate_proj
-      - up_proj
-      - down_proj
-    use_cases:
-      - reasoning
-      - multi-step problem solving
-      - mathematical reasoning
-    notes: >
-      7B reasoning model with extended thinking. MIT license.
-      Good for ThemisDB query optimization on single GPU.
-
-# =============================================================================
-# SECTION 3: CODE-SPECIALIZED MODELS
-# =============================================================================
+  # ===========================================================================
+  # CODE-SPECIALIZED MODELS
+  # ===========================================================================
 
   - name: qwen2.5-coder-32b-instruct
     vendor: Alibaba/Qwen
+    arena_rank_overall: 232
+    arena_rank_open: 102
+    arena_elo: 1270
+    version: "2.5"
     type: code
     format: gguf
     size: 32B
@@ -1094,7 +1641,6 @@ models:
       context_length: 131072
       max_tokens: 8192
       temperature: 0.2
-      top_p: 0.95
     gpu:
       layers_offload: 64
       vram_required_mb: 19000
@@ -1102,10 +1648,6 @@ models:
       enabled: true
       priority: medium
       ttl_seconds: 3600
-    architecture:
-      model_type: qwen2
-      num_layers: 64
-      hidden_size: 5120
     lora_target_modules:
       - q_proj
       - k_proj
@@ -1115,26 +1657,11 @@ models:
       - up_proj
       - down_proj
     specialization:
-      languages:
-        - python
-        - cpp
-        - rust
-        - java
-        - typescript
-        - sql
-        - aql         # ThemisDB AQL
-        - bash
-    use_cases:
-      - AQL query generation
-      - code completion
-      - code review
-      - database schema generation
+      languages: [python, cpp, rust, java, typescript, sql, aql, bash]
     recommended_for_themisdb:
       - aql_generation
       - schema_design
-    notes: >
-      Top-ranked open code model. 128k context. Apache 2.0.
-      Best choice for ThemisDB AQL query generation and schema assistance.
+    notes: "Top open code model. ELO 1270. Apache 2.0. For ThemisDB AQL generation."
 
   - name: qwen2.5-coder-7b-instruct
     vendor: Alibaba/Qwen
@@ -1152,7 +1679,6 @@ models:
       context_length: 131072
       max_tokens: 4096
       temperature: 0.2
-      top_p: 0.95
     gpu:
       layers_offload: 28
       vram_required_mb: 4500
@@ -1160,10 +1686,6 @@ models:
       enabled: true
       priority: medium
       ttl_seconds: 3600
-    architecture:
-      model_type: qwen2
-      num_layers: 28
-      hidden_size: 3584
     lora_target_modules:
       - q_proj
       - k_proj
@@ -1173,24 +1695,16 @@ models:
       - up_proj
       - down_proj
     specialization:
-      languages:
-        - python
-        - cpp
-        - typescript
-        - sql
-        - aql
-    use_cases:
-      - AQL query generation
-      - code completion
-    notes: Efficient 7B code model. Apache 2.0. Single GPU.
+      languages: [python, cpp, typescript, sql, aql]
+    notes: "Qwen2.5-Coder 7B. Apache 2.0. Single GPU AQL assistant."
 
   - name: starcoder2-15b-instruct
-    vendor: BigCode / HuggingFace
+    vendor: "BigCode / HuggingFace"
     type: code
     format: gguf
     size: 15B
     quantization: Q4_K_M
-    license: bigcode_openrail_m  # Open RAIL-M — commercial use allowed with conditions
+    license: bigcode_openrail_m
     commercial_use: true
     sources:
       huggingface: bigcode/starcoder2-15b-instruct-v0.1
@@ -1200,7 +1714,6 @@ models:
       context_length: 16384
       max_tokens: 4096
       temperature: 0.2
-      top_p: 0.95
     gpu:
       layers_offload: 40
       vram_required_mb: 9000
@@ -1208,15 +1721,11 @@ models:
       enabled: true
       priority: low
       ttl_seconds: 7200
-    use_cases:
-      - code completion
-      - fill-in-the-middle (FIM)
-      - code review
+    notes: "StarCoder2 15B. FIM support. Open RAIL-M license."
 
-# =============================================================================
-# SECTION 4: GERMAN & EU LANGUAGE MODELS
-# Special focus for ThemisDB German e-government use cases
-# =============================================================================
+  # ===========================================================================
+  # GERMAN & EU LANGUAGE MODELS
+  # ===========================================================================
 
   - name: leollm-mistral-7b
     vendor: Hessian.AI
@@ -1228,8 +1737,7 @@ models:
     commercial_use: true
     languages:
       primary: de
-      secondary:
-        - en
+      secondary: [en]
     sources:
       huggingface: LeoLM/leo-mistral-hessianai-7b-chat
       ollama: leo-mistral:7b-hessianai
@@ -1238,7 +1746,6 @@ models:
       context_length: 32768
       max_tokens: 4096
       temperature: 0.7
-      top_p: 0.95
     gpu:
       layers_offload: 32
       vram_required_mb: 4200
@@ -1247,10 +1754,6 @@ models:
       priority: high
       ttl_seconds: 1800
       pin_to_memory: true
-    architecture:
-      model_type: mistral
-      num_layers: 32
-      hidden_size: 4096
     lora_target_modules:
       - q_proj
       - k_proj
@@ -1263,20 +1766,12 @@ models:
       - german-legal-v1
       - german-egov-v1
       - bdsg-compliance-v1
-    use_cases:
-      - German legal documents
-      - German e-government (OZG, XDOMEA)
-      - BDSG compliance analysis
-      - German administrative procedures
     recommended_for_themisdb:
       - german_egov
       - german_legal
       - baugenehmigung_workflow
       - bimschv_workflow
-    notes: >
-      Hessian.AI's German-specialized Mistral 7B. Trained on large German
-      corpus. Best open-source German model for legal/administrative tasks.
-      Apache 2.0 license. Recommended for ThemisDB German e-gov workflows.
+    notes: "Hessian.AI German Mistral. Best German open model for legal/e-gov. Apache 2.0."
 
   - name: leollm-llama2-13b
     vendor: Hessian.AI
@@ -1288,8 +1783,7 @@ models:
     commercial_use: true
     languages:
       primary: de
-      secondary:
-        - en
+      secondary: [en]
     sources:
       huggingface: LeoLM/leo-hessianai-13b-chat
       ollama: leo-hessianai:13b
@@ -1298,7 +1792,6 @@ models:
       context_length: 4096
       max_tokens: 2048
       temperature: 0.7
-      top_p: 0.95
     gpu:
       layers_offload: 40
       vram_required_mb: 7500
@@ -1306,22 +1799,12 @@ models:
       enabled: true
       priority: medium
       ttl_seconds: 3600
-    architecture:
-      model_type: llama
-      num_layers: 40
-      hidden_size: 5120
     lora_target_modules:
       - q_proj
       - k_proj
       - v_proj
       - o_proj
-    use_cases:
-      - German legal analysis
-      - German e-government
-      - BDSG compliance
-    notes: >
-      Hessian.AI's larger German model. Better German quality than 7B variant
-      but requires more VRAM. Apache 2.0.
+    notes: "Hessian.AI LeoLM 13B. Apache 2.0. Better German quality than 7B."
 
   - name: em-german-mistral-7b
     vendor: Community (EMGerman)
@@ -1333,8 +1816,7 @@ models:
     commercial_use: true
     languages:
       primary: de
-      secondary:
-        - en
+      secondary: [en]
     sources:
       huggingface: jphme/em_german_mistral_v01
       ollama: em-german:7b-mistral
@@ -1343,7 +1825,6 @@ models:
       context_length: 32768
       max_tokens: 4096
       temperature: 0.7
-      top_p: 0.95
     gpu:
       layers_offload: 32
       vram_required_mb: 4200
@@ -1351,13 +1832,7 @@ models:
       enabled: true
       priority: medium
       ttl_seconds: 3600
-    use_cases:
-      - German instruction following
-      - German document Q&A
-      - German summarization
-    notes: >
-      Community-trained German Mistral fine-tune. Good performance on German
-      text tasks. Apache 2.0.
+    notes: "EM-German Mistral. Apache 2.0."
 
   - name: sauerkrautlm-mistral-7b-instruct
     vendor: VAGOsolutions
@@ -1369,8 +1844,7 @@ models:
     commercial_use: true
     languages:
       primary: de
-      secondary:
-        - en
+      secondary: [en]
     sources:
       huggingface: VAGOsolutions/SauerkrautLM-Mistral-7B-Instruct
       ollama: sauerkrautlm:7b-mistral-instruct
@@ -1379,7 +1853,6 @@ models:
       context_length: 32768
       max_tokens: 4096
       temperature: 0.7
-      top_p: 0.95
     gpu:
       layers_offload: 32
       vram_required_mb: 4200
@@ -1387,14 +1860,10 @@ models:
       enabled: true
       priority: medium
       ttl_seconds: 3600
-    use_cases:
-      - German instruction following
-      - German business documents
-      - German customer service
-    notes: Apache 2.0. German Mistral fine-tune by VAGOsolutions.
+    notes: "SauerkrautLM Mistral 7B. Apache 2.0."
 
   - name: discolm-german-7b
-    vendor: DFKI (German Research Center for AI)
+    vendor: "DFKI (German Research Center for AI)"
     type: instruction
     format: gguf
     size: 7B
@@ -1403,8 +1872,7 @@ models:
     commercial_use: true
     languages:
       primary: de
-      secondary:
-        - en
+      secondary: [en]
     sources:
       huggingface: DiscoResearch/DiscoLM_German_7b_v1
       local: models/discolm-german-7b-q4.gguf
@@ -1412,7 +1880,6 @@ models:
       context_length: 32768
       max_tokens: 4096
       temperature: 0.7
-      top_p: 0.95
     gpu:
       layers_offload: 32
       vram_required_mb: 4200
@@ -1420,61 +1887,14 @@ models:
       enabled: true
       priority: medium
       ttl_seconds: 3600
-    use_cases:
-      - German text generation
-      - German QA
-      - German summarization
-    notes: >
-      DFKI German model. Research institute backing for reliable German NLP.
-      Apache 2.0.
+    notes: "DFKI DiscoLM German 7B. Apache 2.0."
 
-  - name: qwen2.5-7b-instruct-german
-    vendor: Alibaba/Qwen (multilingual)
-    type: instruction
-    format: gguf
-    size: 7B
-    quantization: Q4_K_M
-    license: qwen
-    commercial_use: true
-    languages:
-      primary: multilingual
-      notable_european:
-        - de
-        - fr
-        - es
-        - it
-        - nl
-        - pl
-        - cs
-        - pt
-    sources:
-      huggingface: Qwen/Qwen2.5-7B-Instruct
-      ollama: qwen2.5:7b-instruct-q4_K_M
-      local: models/qwen2.5-7b-instruct-q4.gguf
-    parameters:
-      context_length: 131072
-      max_tokens: 4096
-      temperature: 0.7
-      top_p: 0.8
-    gpu:
-      layers_offload: 28
-      vram_required_mb: 4500
-    lazy_loading:
-      enabled: true
-      priority: high
-      ttl_seconds: 1800
-    notes: >
-      Qwen2.5 7B has strong multilingual including German. Use as alternative
-      to LeoLM when a single model needs to serve multiple EU languages.
-      See qwen2.5-7b-instruct entry for full spec.
-
-# =============================================================================
-# SECTION 5: EMBEDDING MODELS
-# For vector search in ThemisDB (HNSW, multi-vector)
-# =============================================================================
+  # ===========================================================================
+  # EMBEDDING MODELS
+  # ===========================================================================
 
   - name: bge-m3
-    vendor: BAAI (Beijing Academy of AI)
+    vendor: BAAI
     type: embedding
     format: onnx
     size: 570M
@@ -1483,22 +1903,16 @@ models:
     languages:
       multilingual: true
       num_languages: 100
-      notable:
-        - de
-        - en
-        - fr
-        - es
-        - zh
     sources:
       huggingface: BAAI/bge-m3
       local: models/bge-m3.onnx
     parameters:
       embedding_dim: 1024
-      max_sequence_length: 8192    # 8k context — best-in-class for embedding
+      max_sequence_length: 8192
       normalize_embeddings: true
       dense: true
-      sparse: true                 # also supports sparse (BM25-like) retrieval
-      multi_vector: true           # ColBERT-style multi-vector
+      sparse: true
+      multi_vector: true
     gpu:
       vram_required_mb: 2200
     lazy_loading:
@@ -1510,10 +1924,7 @@ models:
       - semantic_search
       - hybrid_search
       - german_legal_retrieval
-    notes: >
-      Best open embedding model. Supports dense + sparse + multi-vector retrieval.
-      100+ languages including German. 8k context. MIT license.
-      Recommended primary embedding model for ThemisDB.
+    notes: "Best open embedding. Dense+sparse+multi-vector. 8K ctx. 100+ langs. MIT."
 
   - name: nomic-embed-text-v1.5
     vendor: Nomic AI
@@ -1522,9 +1933,6 @@ models:
     size: 137M
     license: apache2
     commercial_use: true
-    languages:
-      multilingual: false
-      primary: en
     sources:
       huggingface: nomic-ai/nomic-embed-text-v1.5
       ollama: nomic-embed-text:v1.5
@@ -1533,20 +1941,14 @@ models:
       embedding_dim: 768
       max_sequence_length: 8192
       normalize_embeddings: true
-      matryoshka: true             # supports variable-dimension embeddings
+      matryoshka: true
     gpu:
       vram_required_mb: 500
     lazy_loading:
       enabled: true
       priority: high
       pin_to_memory: true
-    use_cases:
-      - English text search
-      - document retrieval
-      - semantic similarity
-    notes: >
-      Strong English embedding with 8k context and Matryoshka representation
-      (choose dim 64–768 at query time). Apache 2.0. Very efficient.
+    notes: "Nomic Embed 1.5. 8K ctx. Matryoshka 64-768 dim. Apache 2.0."
 
   - name: mxbai-embed-large-v1
     vendor: mixedbread.ai
@@ -1555,9 +1957,6 @@ models:
     size: 335M
     license: apache2
     commercial_use: true
-    languages:
-      multilingual: false
-      primary: en
     sources:
       huggingface: mixedbread-ai/mxbai-embed-large-v1
       local: models/mxbai-embed-large-v1.onnx
@@ -1571,12 +1970,7 @@ models:
       enabled: true
       priority: medium
       pin_to_memory: true
-    use_cases:
-      - English text retrieval
-      - RAG pipelines
-    notes: >
-      State-of-the-art on MTEB English retrieval. Apache 2.0.
-      Complements bge-m3 for English-only high-performance retrieval.
+    notes: "SOTA English MTEB retrieval. Apache 2.0."
 
   - name: multilingual-e5-large-instruct
     vendor: Microsoft
@@ -1588,14 +1982,6 @@ models:
     languages:
       multilingual: true
       num_languages: 112
-      notable:
-        - de
-        - en
-        - fr
-        - es
-        - it
-        - nl
-        - pl
     sources:
       huggingface: intfloat/multilingual-e5-large-instruct
       local: models/multilingual-e5-large-instruct.onnx
@@ -1613,12 +1999,10 @@ models:
       - multilingual_vector_search
       - eu_document_retrieval
       - german_legal_search
-    notes: >
-      112-language multilingual embedding. Strong German/EU language support.
-      MIT license. Recommended for ThemisDB multilingual document search.
+    notes: "112 languages. Strong German/EU. MIT."
 
   - name: bge-large-de-v1.5
-    vendor: BAAI (German fine-tune)
+    vendor: BAAI
     type: embedding
     format: onnx
     size: 335M
@@ -1639,38 +2023,33 @@ models:
       enabled: true
       priority: high
       pin_to_memory: true
-    use_cases:
-      - German semantic search
-      - German legal retrieval
-    notes: >
-      German-optimized BGE embedding. For ThemisDB German legal/e-gov
-      document retrieval workflows.
+    notes: "German-optimized BGE embedding. MIT."
 
-# =============================================================================
-# SECTION 6: MULTIMODAL MODELS (Vision + Text)
-# For document scans, image understanding, vision-enhanced queries
-# =============================================================================
+  # ===========================================================================
+  # MULTIMODAL MODELS (Vision + Text)
+  # ===========================================================================
 
-  - name: gemma-3-27b-vision
+  - name: gemma-4-31b-vision
     vendor: Google DeepMind
+    arena_rank_overall: 27
+    arena_rank_open: 3
+    arena_elo: 1452
+    arena_status: preliminary
     type: multimodal
     format: gguf
-    size: 27B
+    size: 31B
     quantization: Q4_K_M
-    license: gemma
+    license: apache2
     commercial_use: true
-    modalities:
-      - text
-      - image
+    modalities: [text, image]
     sources:
-      huggingface: google/gemma-3-27b-it
-      ollama: gemma3:27b
-      local: models/gemma-3-27b-vision-q4.gguf
+      huggingface: google/gemma-4-31b-it
+      ollama: gemma4:31b
+      local: models/gemma-4-31b-it-q4.gguf
     parameters:
-      context_length: 131072
+      context_length: 262144
       max_tokens: 8192
       temperature: 0.2
-      image_resolution: 896x896
     gpu:
       layers_offload: 62
       vram_required_mb: 18000
@@ -1678,29 +2057,51 @@ models:
       enabled: true
       priority: medium
       ttl_seconds: 3600
-    use_cases:
-      - document scan analysis
-      - form extraction (Baugenehmigung, etc.)
-      - table understanding
-      - chart/diagram Q&A
     recommended_for_themisdb:
       - document_ocr_analysis
       - form_field_extraction
     notes: >
-      Gemma 3 natively supports image input. 128k context with vision.
-      Recommended for ThemisDB document scan workflows (e-gov forms).
+      Gemma 4 native vision. 262K context + images. Apache 2.0.
+      Best open vision model for ThemisDB document scan workflows.
+
+  - name: glm-4.6v
+    vendor: "Z.ai (Zhipu AI)"
+    arena_rank_overall: 117
+    arena_rank_open: 42
+    arena_elo: 1378
+    version: "4.6v"
+    type: multimodal
+    format: gguf
+    license: mit
+    commercial_use: true
+    modalities: [text, image]
+    sources:
+      huggingface: THUDM/glm-4v-9b
+      api: https://open.bigmodel.cn/api/paas/v4/chat/completions
+      ollama: glm4v:latest
+      local: models/glm-4.6v-q4.gguf
+    parameters:
+      context_length: 131072
+      max_tokens: 4096
+      temperature: 0.7
+    gpu:
+      layers_offload: 42
+      vram_required_mb: 12000
+    lazy_loading:
+      enabled: true
+      priority: low
+      ttl_seconds: 7200
+    notes: "GLM-4.6V. ELO 1378. MIT. Vision variant of GLM-4.6."
 
   - name: llava-llama-3-8b
-    vendor: LLaVA-NeXT / Haotian Liu
+    vendor: "LLaVA-NeXT / Haotian Liu"
     type: multimodal
     format: gguf
     size: 8B
     quantization: Q4_K_M
     license: llama3
     commercial_use: true
-    modalities:
-      - text
-      - image
+    modalities: [text, image]
     sources:
       huggingface: lmms-lab/llama3-llava-next-8b
       ollama: llava-llama3:8b
@@ -1716,26 +2117,57 @@ models:
       enabled: true
       priority: low
       ttl_seconds: 7200
-    use_cases:
-      - image Q&A
-      - document understanding
-      - OCR post-processing
-    notes: LLaVA on Llama 3 8B backbone. Single-GPU vision model.
+    notes: "LLaVA on Llama 3 8B. Single-GPU vision model."
 
-# =============================================================================
-# SECTION 7: FULLY OPEN / RESEARCH MODELS
-# Open weights + open training data + open code — maximum transparency
-# =============================================================================
+  # ===========================================================================
+  # FULLY OPEN / RESEARCH MODELS  (OLMo — weights + data + code)
+  # ===========================================================================
+
+  - name: olmo-3.1-32b-instruct
+    vendor: "Allen Institute for AI (Ai2)"
+    arena_rank_overall: 170
+    arena_rank_open: 67
+    arena_elo: 1331
+    version: "3.1"
+    type: instruction
+    format: gguf
+    size: 32B
+    quantization: Q4_K_M
+    license: apache2
+    commercial_use: true
+    fully_open: true
+    sources:
+      huggingface: allenai/OLMo-3.1-32B-Instruct
+      local: models/olmo-3.1-32b-instruct-q4.gguf
+    parameters:
+      context_length: 65536
+      max_tokens: 4096
+      temperature: 0.7
+    gpu:
+      layers_offload: 64
+      vram_required_mb: 19000
+    lazy_loading:
+      enabled: true
+      priority: medium
+      ttl_seconds: 3600
+    recommended_for_themisdb:
+      - auditable_decisions
+    notes: >
+      OLMo 3.1 32B. ELO 1331. Weights + data + code all open.
+      Apache 2.0. Required for EU AI Act / GDPR full auditability.
 
   - name: olmo-2-13b
-    vendor: Allen Institute for AI (Ai2)
+    vendor: "Allen Institute for AI (Ai2)"
+    arena_rank_overall: null
+    arena_elo: ~1251
+    version: "2.0"
     type: instruction
     format: gguf
     size: 13B
     quantization: Q4_K_M
     license: apache2
     commercial_use: true
-    fully_open: true              # weights + data + training code all public
+    fully_open: true
     sources:
       huggingface: allenai/OLMo-2-13B-Instruct
       local: models/olmo-2-13b-instruct-q4.gguf
@@ -1743,7 +2175,6 @@ models:
       context_length: 4096
       max_tokens: 2048
       temperature: 0.7
-      top_p: 0.95
     gpu:
       layers_offload: 40
       vram_required_mb: 8000
@@ -1751,146 +2182,8 @@ models:
       enabled: true
       priority: low
       ttl_seconds: 7200
-    use_cases:
-      - fully auditable AI decisions (GDPR AI Act compliance)
-      - research
-      - interpretability studies
-    notes: >
-      OLMo 2: weights + data + training code + intermediate checkpoints all
-      open. Required for full AI Act / GDPR auditability.
-      Apache 2.0. Recommended when full transparency is mandatory.
+    notes: "OLMo 2 13B. Fully open. Apache 2.0. Use OLMo 3.1 32B if possible."
 
-  - name: bloom-7b1
-    vendor: BigScience
-    type: instruction
-    format: gguf
-    size: 7.1B
-    quantization: Q4_K_M
-    license: bigscience_bloom_rail_1.0  # non-commercial restricted
-    commercial_use: false
-    languages:
-      multilingual: true
-      num_languages: 46
-    sources:
-      huggingface: bigscience/bloom-7b1
-      local: models/bloom-7b1-q4.gguf
-    parameters:
-      context_length: 2048
-      max_tokens: 1024
-    gpu:
-      layers_offload: 30
-      vram_required_mb: 4200
-    lazy_loading:
-      enabled: true
-      priority: low
-      ttl_seconds: 7200
-    use_cases:
-      - multilingual research (46 languages)
-      - academic use
-    notes: >
-      ⚠️ Non-commercial license. 46 languages including French, Spanish.
-      For research/academic ThemisDB deployments only.
-
-# =============================================================================
-# SECTION 8: MoE (Mixture of Experts) MODELS
-# Fast inference with large model capacity
-# =============================================================================
-
-  - name: mixtral-8x7b-instruct
-    vendor: Mistral AI
-    type: instruction
-    format: gguf
-    size: 47B           # MoE: ~13B active params
-    quantization: Q4_K_M
-    license: apache2
-    commercial_use: true
-    sources:
-      huggingface: mistralai/Mixtral-8X7B-Instruct-v0.1
-      ollama: mixtral:8x7b-instruct-v0.1-q4_K_M
-      local: models/mixtral-8x7b-instruct-q4.gguf
-    parameters:
-      context_length: 32768
-      max_tokens: 4096
-      temperature: 0.7
-      top_p: 0.95
-    gpu:
-      layers_offload: 32
-      vram_required_mb: 26000
-      tensor_parallel_recommended: 2
-    lazy_loading:
-      enabled: true
-      priority: medium
-      ttl_seconds: 3600
-    architecture:
-      model_type: mixtral
-      architecture: moe
-      total_params: 47B
-      active_params: 13B
-      num_experts: 8
-      top_k_experts: 2
-    lora_target_modules:
-      - q_proj
-      - k_proj
-      - v_proj
-      - o_proj
-      - w1
-      - w2
-      - w3
-    use_cases:
-      - multilingual instruction
-      - code generation
-      - reasoning
-    notes: >
-      Mistral MoE 8×7B. ~13B active params → inference speed similar to 13B.
-      Strong multilingual. Apache 2.0.
-
-  - name: phi-3.5-moe-instruct
-    vendor: Microsoft
-    type: instruction
-    format: gguf
-    size: 42B           # MoE: ~7B active params
-    quantization: Q4_K_M
-    license: mit
-    commercial_use: true
-    sources:
-      huggingface: microsoft/Phi-3.5-MoE-instruct
-      ollama: phi3.5-moe:42b-instruct
-      local: models/phi-3.5-moe-instruct-q4.gguf
-    parameters:
-      context_length: 131072
-      max_tokens: 4096
-      temperature: 0.7
-      top_p: 0.95
-    gpu:
-      layers_offload: 32
-      vram_required_mb: 25000
-    lazy_loading:
-      enabled: true
-      priority: medium
-      ttl_seconds: 3600
-    architecture:
-      model_type: phi3_moe
-      architecture: moe
-      total_params: 42B
-      active_params: 7B
-      num_experts: 16
-      top_k_experts: 2
-    lora_target_modules:
-      - qkv_proj
-      - o_proj
-      - gate_up_proj
-      - down_proj
-    use_cases:
-      - multilingual instruction
-      - code generation
-      - long-context tasks
-    notes: >
-      Microsoft MoE with ~7B active params but 42B total. 128k context.
-      MIT license. Fast inference with high capacity.
-
-# =============================================================================
-# LoRA Adapters for ThemisDB
-# =============================================================================
 
 loras:
   - name: german-legal-v1
