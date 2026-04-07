@@ -362,7 +362,8 @@ TEST(MultiTenantInjectionSecurity, ValidTenantAndIndex_NotRejected) {
     // Sanity: legitimate inputs must pass validation (even if the index is not found).
     auto mgr = makeTestIndexManager();
     auto result = mgr->getVectorIndex("corp-eu.prod", "embeddings_v2");
-    // ERR_INDEX_NOT_FOUND is acceptable – the key was rejected at the *validation* step.
+    // ERR_INDEX_NOT_FOUND is acceptable – the key was NOT rejected at the
+    // validation step; it simply does not exist in the registry yet.
     ASSERT_FALSE(result.has_value());
     EXPECT_NE(result.error().code(), errors::ErrorCode::ERR_API_INVALID_REQUEST);
 }
