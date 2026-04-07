@@ -292,7 +292,8 @@ struct QueryLimits {
  * - Query, Mutation, Subscription operations
  * - Field selections with aliases
  * - Arguments (all value types)
- * - Variables and variable definitions
+ * - Variables and variable definitions (with default values)
+ * - Variable substitution at execution time via ExecutionContext::variables
  * - Nested selections
  * - Comments (# to end of line)
  * 

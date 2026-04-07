@@ -815,11 +815,73 @@ std::shared_ptr<Value> Executor::executeSelections(
     return Value::object(std::move(result));
 }
 
+std::shared_ptr<Value> Executor::resolveValue(
+    const std::shared_ptr<Value>& value,
+    const ExecutionContext& context
+) {
+    if (!value || !value->isVariableRef()) {
+        return value;
+    }
+    const auto& varName = value->asVariableRef();
+    auto it = context.variables.find(varName);
+    if (it != context.variables.end()) {
+        return it->second;
+    }
+    return Value::null();
+}
+
 std::shared_ptr<Value> Executor::executeField(
     const Field& field,
     const std::shared_ptr<Value>& parent,
     const ExecutionContext& context
 ) {
+    // Resolve any variable-reference arguments before invoking the resolver so
+    // that resolvers always receive concrete values, never VariableRef nodes.
+    if (!field.arguments.empty()) {
+        bool hasVarRefs = false;
+        for (const auto& arg : field.arguments) {
+            if (arg.second && arg.second->isVariableRef()) {
+                hasVarRefs = true;
+                break;
+            }
+        }
+        if (hasVarRefs) {
+            // Build a patched field with all VariableRef args substituted.
+            Field resolvedField = field;
+            for (auto& arg : resolvedField.arguments) {
+                if (arg.second && arg.second->isVariableRef()) {
+                    arg.second = resolveValue(arg.second, context);
+                }
+            }
+            // Look up resolver for this field
+            auto it = context.resolvers.find(resolvedField.name);
+            if (it != context.resolvers.end()) {
+                return it->second(resolvedField, parent, context);
+            }
+            // Default: fall through to parent-object lookup with resolved field
+            if (parent && parent->isObject()) {
+                const auto& obj = parent->asObject();
+                auto fieldIt = obj.find(resolvedField.name);
+                if (fieldIt != obj.end()) {
+                    auto value = fieldIt->second;
+                    if (!resolvedField.selections.empty()) {
+                        if (value->isObject()) {
+                            return executeSelections(resolvedField.selections, value, context);
+                        } else if (value->isList()) {
+                            ValueList resultList;
+                            for (const auto& item : value->asList()) {
+                                resultList.push_back(executeSelections(resolvedField.selections, item, context));
+                            }
+                            return Value::list(std::move(resultList));
+                        }
+                    }
+                    return value;
+                }
+            }
+            return Value::null();
+        }
+    }
+
     // Look up resolver for this field
     auto it = context.resolvers.find(field.name);
     if (it != context.resolvers.end()) {

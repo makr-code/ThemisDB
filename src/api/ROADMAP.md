@@ -3,7 +3,7 @@
 <!-- Status: current | validated: 2026-04-06 -->
 
 ## Current Status
-Core HTTP API server implemented with RESTful endpoints, AQL query execution, authentication, and TLS support. GraphQL WebSocket handler (`graphql-transport-ws` protocol) added with subscription management and `QueryLimits::max_subscriptions` enforcement. Versioned API routing (`/v1/`, `/v2/`), gRPC surface with all RPC stubs wired (`ThemisDBGrpcServiceFactory`), OTLP tracing, geo-index hooks, and rate limiting are all production-ready. Phase 4 complete. Outstanding: OpenAPI 3.x completeness.
+Core HTTP API server implemented with RESTful endpoints, AQL query execution, authentication, and TLS support. GraphQL WebSocket handler (`graphql-transport-ws` protocol) added with subscription management and `QueryLimits::max_subscriptions` enforcement. Versioned API routing (`/v1/`, `/v2/`), gRPC surface with all RPC stubs wired (`ThemisDBGrpcServiceFactory`), OTLP tracing, geo-index hooks, and rate limiting are all production-ready. GraphQL variable substitution fully implemented: `$variable` references in field arguments are resolved at execution time against `ExecutionContext::variables`; operation default values are merged automatically. Phase 5 complete.
 
 ## Completed ✅
 - [x] HTTP server integration (Crow/Beast)
@@ -33,6 +33,7 @@ Core HTTP API server implemented with RESTful endpoints, AQL query execution, au
 - [x] gRPC RPC stubs wired: `ExecuteAQL`, `StreamAQL`, `VectorSearch`, `FilteredVectorSearch`, `HybridSearch`, `FullTextSearch` via `ThemisDBGrpcServiceFactory` — v1.9.0
 - [x] `GrpcApiServer::start()` mutex released before `BuildAndStart()` socket bind — v1.9.0
 - [x] `GrpcApiServer::stop()` 30-second `Shutdown()` deadline — v1.9.0
+- [x] GraphQL variable substitution: `$variable` in field arguments now resolved at execution time via `Executor::resolveValue()`; `Value::VariableRef` type added; operation default values merged in `executeOperation()` — v2.0.0
 
 ## In Progress 🚧
 - [I] OpenAPI 3.x specification completeness (Target: Q2 2026) (Issue: #1491)
@@ -74,6 +75,14 @@ Core HTTP API server implemented with RESTful endpoints, AQL query execution, au
 - [x] Fix `GrpcApiServer::stop()` indefinite block — 30-second `Shutdown()` deadline added — v1.9.0
 - [I] Complete OpenAPI 3.x specification for all existing endpoints (Issue: #1491)
 
+### Phase 5: GraphQL Variable Substitution (Status: Completed ✅)
+- [x] Add `Value::Type::VariableRef` enum value, `Value::variableRef()` factory, `isVariableRef()` / `asVariableRef()` accessors — `include/api/graphql.h` — v2.0.0
+- [x] Fix `parseValue()`: `$name` stores `Value::variableRef("name")` instead of `Value::string("$name")` — `src/api/graphql.cpp` — v2.0.0
+- [x] `Executor::executeOperation()` merges operation default values into `ExecutionContext::variables` (runtime values take precedence) — v2.0.0
+- [x] `Executor::resolveValue()` private helper: resolves `VariableRef` → bound value or `null` — v2.0.0
+- [x] `Executor::executeField()` resolves all `VariableRef` arguments before invoking resolver — v2.0.0
+- [x] 5 new execution tests (string/int substitution, default value, runtime override, unbound → null) — `tests/test_graphql_variables.cpp`
+
 ## Production Readiness Checklist
 - [P] Unit tests coverage > 80% (Issue: #1509)
 - [P] Integration tests (Issue: #1510)
@@ -84,9 +93,6 @@ Core HTTP API server implemented with RESTful endpoints, AQL query execution, au
 
 ## Known Issues & Limitations
 - OpenAPI specification may be incomplete for newer endpoints
-- gRPC RPC handlers (`ExecuteAQL`, `StreamAQL`, `VectorSearch`, `FilteredVectorSearch`, `HybridSearch`, `FullTextSearch`) currently return `UNIMPLEMENTED`; engine injection via `ThemisDBGrpcServiceFactory` is pending
-- `GrpcApiServer::start()` holds `mutex_` across `builder.BuildAndStart()` — can block `stop()`/`isRunning()` callers during a slow port bind
-- `GrpcApiServer::stop()` calls `server_->Shutdown()` without a deadline — can block indefinitely if in-flight RPCs do not terminate
 - GraphQL `Parser` explicitly rejects fragments, directives, and inline fragments in v1.x with version-gated error messages (`graphql.cpp`); support planned for v2.0
 - `WsChangeHandler::validate()` does not URL-decode query-string parameters (`from_sequence`, `key_prefix`), so percent-encoded values are silently misinterpreted
 

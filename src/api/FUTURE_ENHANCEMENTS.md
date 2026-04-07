@@ -13,8 +13,9 @@ This document covers implementation-specific future enhancements for the API mod
 - `[x]` The GraphQL parser in `graphql.cpp` uses `QueryLimits::defaults()` for depth/complexity guards; any new field resolver must enforce those limits to prevent query amplification. (**Enforced** — `QueryLimits` passed to `Parser::parse()` in all call sites; `QueryLimits::production()` disables introspection.)
 - `[x]` TLS is mandatory for all production transports; new WebSocket and gRPC transports must share the same TLS context as the existing HTTP listener. (**Enforced** — `GrpcApiServer` uses `grpc::SslServerCredentials` from the same PEM paths; WebSocket upgrades go through the Beast TLS acceptor.)
 - `[x]` Auth middleware (`src/auth/`) is a hard dependency; no new transport may bypass JWT/JWKS validation enforced by `jwt_validator.cpp`. (**Enforced** — `WsChangeHandler::validate()` and gRPC interceptor both call `AuthMiddleware::authorize` before any data is exchanged.)
-- `[ ]` `GrpcApiServer::start()` must not hold `mutex_` across blocking operations (port bind, TLS handshake). The current implementation calls `builder.BuildAndStart()` inside a `std::lock_guard<std::mutex>` in `grpc_server.cpp:start()`, causing the lock to be held during a potentially long network bind, which blocks `stop()` and `isRunning()` callers for the entire duration. (Target: v2.1.0)
-- `[ ]` `GrpcApiServer::stop()` must specify a shutdown deadline. The current call `server_->Shutdown()` with no argument blocks indefinitely if in-flight RPCs do not terminate. (Target: v2.1.0)
+- `[x]` `GrpcApiServer::start()` must not hold `mutex_` across blocking operations. (**Fixed v1.9.0** — mutex released before `BuildAndStart()`; lock re-acquired afterwards.)
+- `[x]` `GrpcApiServer::stop()` must specify a shutdown deadline. (**Fixed v1.9.0** — 30-second hard deadline passed to `server_->Shutdown()`.)
+- `[x]` GraphQL `$variable` references in field arguments must be resolved at execution time. (**Fixed v2.0.0** — `Value::VariableRef` type + `Executor::resolveValue()` + default-value merge in `executeOperation()`; see `include/api/graphql.h`, `src/api/graphql.cpp`.)
 
 ## Required Interfaces
 
