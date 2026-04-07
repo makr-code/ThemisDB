@@ -1,0 +1,142 @@
+#include "whisper/audio_chunk_reader.h"
+#include <fstream>
+#include <cstring>
+#include <stdexcept>
+#include <algorithm>
+
+namespace themis {
+namespace whisper {
+
+// ── helpers ─────────────────────────────────────────────────────────────────
+
+static std::string toLower(std::string s) {
+    std::transform(s.begin(), s.end(), s.begin(),
+                   [](unsigned char c){ return static_cast<char>(std::tolower(c)); });
+    return s;
+}
+
+static uint16_t readU16LE(const uint8_t* p) {
+    return static_cast<uint16_t>(p[0]) | (static_cast<uint16_t>(p[1]) << 8);
+}
+
+static uint32_t readU32LE(const uint8_t* p) {
+    return static_cast<uint32_t>(p[0])
+         | (static_cast<uint32_t>(p[1]) << 8)
+         | (static_cast<uint32_t>(p[2]) << 16)
+         | (static_cast<uint32_t>(p[3]) << 24);
+}
+
+// ── WavAudioChunkReader::canRead ─────────────────────────────────────────────
+
+bool WavAudioChunkReader::canRead(const std::string& path) const {
+    const std::string lower = toLower(path);
+    return lower.size() >= 4 &&
+           lower.substr(lower.size() - 4) == ".wav";
+}
+
+// ── WavAudioChunkReader::readFile ────────────────────────────────────────────
+
+std::vector<float> WavAudioChunkReader::readFile(const std::string& path,
+                                                  float& out_sample_rate) {
+    // Read whole file into memory
+    std::ifstream f(path, std::ios::binary | std::ios::ate);
+    if (!f.is_open()) {
+        throw std::runtime_error("WavAudioChunkReader: cannot open '" + path + "'");
+    }
+    const std::streamsize size = f.tellg();
+    if (size < 44) {
+        throw std::runtime_error("WavAudioChunkReader: file too small to be a WAV: '" + path + "'");
+    }
+    f.seekg(0, std::ios::beg);
+    std::vector<uint8_t> data(static_cast<size_t>(size));
+    f.read(reinterpret_cast<char*>(data.data()), size);
+    f.close();
+
+    return parseWav(data, out_sample_rate);
+}
+
+// ── WavAudioChunkReader::parseWav ────────────────────────────────────────────
+
+std::vector<float> WavAudioChunkReader::parseWav(const std::vector<uint8_t>& data,
+                                                  float& out_sample_rate) {
+    // Validate RIFF header
+    if (data.size() < 44 ||
+        data[0] != 'R' || data[1] != 'I' || data[2] != 'F' || data[3] != 'F' ||
+        data[8] != 'W' || data[9] != 'A' || data[10] != 'V' || data[11] != 'E') {
+        throw std::runtime_error("WavAudioChunkReader: not a valid RIFF/WAV file");
+    }
+
+    // Locate the "fmt " chunk
+    size_t pos = 12;
+    uint16_t audio_format  = 0;
+    uint16_t num_channels  = 0;
+    uint32_t sample_rate   = 0;
+    uint16_t bits_per_sample = 0;
+
+    bool found_fmt = false;
+    while (pos + 8 <= data.size()) {
+        const uint32_t chunk_size = readU32LE(&data[pos + 4]);
+        if (data[pos] == 'f' && data[pos+1] == 'm' && data[pos+2] == 't' && data[pos+3] == ' ') {
+            if (pos + 8 + 16 > data.size()) break;
+            audio_format   = readU16LE(&data[pos + 8]);
+            num_channels   = readU16LE(&data[pos + 10]);
+            sample_rate    = readU32LE(&data[pos + 12]);
+            bits_per_sample= readU16LE(&data[pos + 22]);
+            found_fmt = true;
+        }
+        if (data[pos] == 'd' && data[pos+1] == 'a' && data[pos+2] == 't' && data[pos+3] == 'a') {
+            if (!found_fmt) throw std::runtime_error("WavAudioChunkReader: 'data' chunk before 'fmt '");
+
+            const size_t data_start = pos + 8;
+            const size_t data_bytes = std::min(static_cast<size_t>(chunk_size),
+                                               data.size() - data_start);
+
+            out_sample_rate = static_cast<float>(sample_rate);
+
+            // audio_format: 1=PCM, 3=IEEE_FLOAT
+            if (audio_format == 3 && bits_per_sample == 32) {
+                // IEEE 32-bit float – convert multi-channel to mono
+                const size_t total_frames = data_bytes / (4u * num_channels);
+                std::vector<float> out;
+                out.reserve(total_frames);
+                for (size_t i = 0; i < total_frames; ++i) {
+                    float sum = 0.0f;
+                    for (uint16_t ch = 0; ch < num_channels; ++ch) {
+                        float s;
+                        std::memcpy(&s, &data[data_start + (i * num_channels + ch) * 4], 4);
+                        sum += s;
+                    }
+                    out.push_back(sum / static_cast<float>(num_channels));
+                }
+                return out;
+            } else if (audio_format == 1 && bits_per_sample == 16) {
+                // 16-bit PCM – convert to float32 mono
+                const size_t total_frames = data_bytes / (2u * num_channels);
+                std::vector<float> out;
+                out.reserve(total_frames);
+                for (size_t i = 0; i < total_frames; ++i) {
+                    float sum = 0.0f;
+                    for (uint16_t ch = 0; ch < num_channels; ++ch) {
+                        int16_t sample;
+                        std::memcpy(&sample, &data[data_start + (i * num_channels + ch) * 2], 2);
+                        sum += static_cast<float>(sample) / 32768.0f;
+                    }
+                    out.push_back(sum / static_cast<float>(num_channels));
+                }
+                return out;
+            } else {
+                throw std::runtime_error(
+                    "WavAudioChunkReader: unsupported format (audio_format=" +
+                    std::to_string(audio_format) + ", bits=" +
+                    std::to_string(bits_per_sample) + ")");
+            }
+        }
+        pos += 8 + chunk_size;
+        if (chunk_size & 1) ++pos;  // RIFF alignment padding
+    }
+
+    throw std::runtime_error("WavAudioChunkReader: 'data' chunk not found");
+}
+
+} // namespace whisper
+} // namespace themis

@@ -1,0 +1,137 @@
+#include "whisper/whisper_plugin.h"
+#include <chrono>
+#include <stdexcept>
+
+namespace themis {
+namespace whisper {
+
+// ── constructors ─────────────────────────────────────────────────────────────
+
+WhisperPlugin::WhisperPlugin() {
+#ifdef THEMIS_ENABLE_WHISPER
+    transcriber_ = std::make_unique<WhisperCppTranscriber>();
+#else
+    transcriber_ = std::make_unique<WhisperStubTranscriber>();
+#endif
+    reader_ = std::make_unique<WavAudioChunkReader>();
+}
+
+WhisperPlugin::WhisperPlugin(std::unique_ptr<IWhisperTranscriber> transcriber,
+                             std::unique_ptr<IAudioChunkReader>   reader)
+    : transcriber_(std::move(transcriber))
+    , reader_(std::move(reader)) {}
+
+// ── initialize ───────────────────────────────────────────────────────────────
+
+bool WhisperPlugin::initialize(const std::string& model_path,
+                               const nlohmann::json& config) {
+    model_path_ = model_path;
+    WhisperConfig cfg = WhisperConfig::fromJson(config);
+    cfg.model_path = model_path;
+
+    initialized_ = transcriber_->initialize(cfg);
+    return initialized_;
+}
+
+// ── transcribe ───────────────────────────────────────────────────────────────
+
+audio::TranscriptionResult WhisperPlugin::transcribe(const std::vector<float>& pcm,
+                                                      float sample_rate) {
+    if (!initialized_) {
+        ++error_count_;
+        audio::TranscriptionResult err;
+        err.success = false;
+        err.error_message = "WhisperPlugin not initialized";
+        err.plugin_version = getPluginVersion();
+        err.ingestion_source_type = "WHISPER";
+        return err;
+    }
+    try {
+        auto result = transcriber_->transcribe(pcm, sample_rate);
+        // Mandatory provenance override – always from this plugin
+        result.ingestion_source_type = "WHISPER";
+        result.plugin_version        = getPluginVersion();
+        result.model_id              = getModelId();
+        if (result.generation_timestamp == 0) {
+            result.generation_timestamp = std::chrono::duration_cast<std::chrono::milliseconds>(
+                std::chrono::system_clock::now().time_since_epoch()).count();
+        }
+        ++transcription_count_;
+        return result;
+    } catch (const std::exception& ex) {
+        ++error_count_;
+        audio::TranscriptionResult err;
+        err.success               = false;
+        err.error_message         = ex.what();
+        err.ingestion_source_type = "WHISPER";
+        err.plugin_version        = getPluginVersion();
+        return err;
+    }
+}
+
+// ── transcribeFile ───────────────────────────────────────────────────────────
+
+audio::TranscriptionResult WhisperPlugin::transcribeFile(const std::string& path) {
+    if (!initialized_) {
+        ++error_count_;
+        audio::TranscriptionResult err;
+        err.success               = false;
+        err.error_message         = "WhisperPlugin not initialized";
+        err.ingestion_source_type = "WHISPER";
+        err.plugin_version        = getPluginVersion();
+        return err;
+    }
+    try {
+        float sample_rate = 16000.0f;
+        auto pcm = reader_->readFile(path, sample_rate);
+        return transcribe(pcm, sample_rate);
+    } catch (const std::exception& ex) {
+        ++error_count_;
+        audio::TranscriptionResult err;
+        err.success               = false;
+        err.error_message         = std::string("transcribeFile: ") + ex.what();
+        err.ingestion_source_type = "WHISPER";
+        err.plugin_version        = getPluginVersion();
+        return err;
+    }
+}
+
+// ── detectLanguage ───────────────────────────────────────────────────────────
+
+audio::LanguageDetectionResult WhisperPlugin::detectLanguage(
+        const std::vector<float>& pcm, float sample_rate) {
+    if (!initialized_) return {};
+    return transcriber_->detectLanguage(pcm, sample_rate);
+}
+
+// ── getModelId / getStatistics ───────────────────────────────────────────────
+
+std::string WhisperPlugin::getModelId() const {
+    return transcriber_ ? transcriber_->getModelId() : model_path_;
+}
+
+nlohmann::json WhisperPlugin::getStatistics() const {
+    return {
+        {"plugin",             "whisper"},
+        {"plugin_version",     getPluginVersion()},
+        {"model_id",           getModelId()},
+        {"initialized",        initialized_},
+        {"transcription_count", transcription_count_},
+        {"error_count",        error_count_}
+    };
+}
+
+} // namespace whisper
+} // namespace themis
+
+// ── dynamic-loading entry points ─────────────────────────────────────────────
+
+extern "C" THEMIS_PLUGIN_EXPORT
+themis::audio::IAudioBackend* themis_audio_create() {
+    return new themis::whisper::WhisperPlugin();
+}
+
+extern "C" THEMIS_PLUGIN_EXPORT
+void themis_audio_destroy(themis::audio::IAudioBackend* p) {
+    delete p;
+}
