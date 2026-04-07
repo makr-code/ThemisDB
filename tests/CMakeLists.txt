@@ -19865,3 +19865,83 @@ else()
 endif()
 
 message(STATUS "Tests configured successfully")
+
+# ── Whisper Plugin Tests ──────────────────────────────────────────────────────
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../src/whisper/tests/test_whisper_plugin.cpp")
+    add_executable(test_whisper_plugin
+        "${CMAKE_CURRENT_SOURCE_DIR}/../src/whisper/tests/test_whisper_plugin.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../src/whisper/whisper_config.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../src/whisper/audio_chunk_reader.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../src/whisper/whisper_transcriber.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../src/whisper/whisper_plugin.cpp"
+    )
+    target_include_directories(test_whisper_plugin PRIVATE
+        "${CMAKE_CURRENT_SOURCE_DIR}/../include"
+    )
+    target_link_libraries(test_whisper_plugin PRIVATE
+        GTest::gtest
+        GTest::gtest_main
+        nlohmann_json::nlohmann_json
+    )
+    target_compile_features(test_whisper_plugin PRIVATE cxx_std_17)
+    add_test(NAME WhisperPluginFocusedTests COMMAND test_whisper_plugin)
+    set_tests_properties(WhisperPluginFocusedTests PROPERTIES
+        LABELS "plugins;whisper;audio;v2.0.0"
+        TIMEOUT 60
+    )
+    message(STATUS "  WhisperPlugin: 30 tests (A-J)")
+else()
+    message(STATUS "  WhisperPlugin tests not found – skipped")
+endif()
+
+# ── Stable Diffusion Plugin Tests ─────────────────────────────────────────────
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../src/stable_diffusion/tests/test_sd_plugin.cpp")
+    add_executable(test_sd_plugin
+        "${CMAKE_CURRENT_SOURCE_DIR}/../src/stable_diffusion/tests/test_sd_plugin.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../src/stable_diffusion/sd_config.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../src/stable_diffusion/sd_prompt_sanitizer.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../src/stable_diffusion/sd_plugin.cpp"
+    )
+    target_include_directories(test_sd_plugin PRIVATE
+        "${CMAKE_CURRENT_SOURCE_DIR}/../include"
+    )
+    target_link_libraries(test_sd_plugin PRIVATE
+        GTest::gtest
+        GTest::gtest_main
+        nlohmann_json::nlohmann_json
+    )
+    target_compile_features(test_sd_plugin PRIVATE cxx_std_17)
+    add_test(NAME SDPluginFocusedTests COMMAND test_sd_plugin)
+    set_tests_properties(SDPluginFocusedTests PROPERTIES
+        LABELS "plugins;stable_diffusion;image_generation;v2.0.0"
+        TIMEOUT 60
+    )
+    message(STATUS "  SDPlugin: 30 tests (A-J)")
+else()
+    message(STATUS "  SDPlugin tests not found – skipped")
+endif()
+
+# ── llama_cpp Plugin Tests ────────────────────────────────────────────────────
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../src/llama_cpp/tests/test_llama_cpp_plugin.cpp")
+    add_executable(test_llama_cpp_plugin
+        "${CMAKE_CURRENT_SOURCE_DIR}/../src/llama_cpp/tests/test_llama_cpp_plugin.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../src/llama_cpp/llama_cpp_plugin.cpp"
+    )
+    target_include_directories(test_llama_cpp_plugin PRIVATE
+        "${CMAKE_CURRENT_SOURCE_DIR}/../include"
+    )
+    target_link_libraries(test_llama_cpp_plugin PRIVATE
+        GTest::gtest
+        GTest::gtest_main
+        nlohmann_json::nlohmann_json
+    )
+    target_compile_features(test_llama_cpp_plugin PRIVATE cxx_std_17)
+    add_test(NAME LlamaCppPluginFocusedTests COMMAND test_llama_cpp_plugin)
+    set_tests_properties(LlamaCppPluginFocusedTests PROPERTIES
+        LABELS "plugins;llama_cpp;llm;v2.0.0"
+        TIMEOUT 60
+    )
+    message(STATUS "  LlamaCppPlugin: 30 tests (A-J)")
+else()
+    message(STATUS "  LlamaCppPlugin tests not found – skipped")
+endif()

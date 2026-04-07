@@ -48,6 +48,27 @@ if(THEMIS_PLUGIN_SCRAPER AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/scraper/CMakeLi
     add_subdirectory(scraper)
 endif()
 
+# Whisper Plugin – audio transcription (whisper.cpp)
+option(THEMIS_PLUGIN_WHISPER "Build the Whisper audio transcription plugin" ON)
+if(THEMIS_PLUGIN_WHISPER AND EXISTS "${THEMIS_ROOT_DIR}/src/whisper/CMakeLists.txt")
+    message(STATUS "  - Whisper Plugin (audio transcription)")
+    add_subdirectory("${THEMIS_ROOT_DIR}/src/whisper" "${CMAKE_CURRENT_BINARY_DIR}/whisper")
+endif()
+
+# Stable Diffusion Plugin – image generation (stable-diffusion.cpp)
+option(THEMIS_PLUGIN_STABLE_DIFFUSION "Build the Stable Diffusion image generation plugin" ON)
+if(THEMIS_PLUGIN_STABLE_DIFFUSION AND EXISTS "${THEMIS_ROOT_DIR}/src/stable_diffusion/CMakeLists.txt")
+    message(STATUS "  - Stable Diffusion Plugin (image generation)")
+    add_subdirectory("${THEMIS_ROOT_DIR}/src/stable_diffusion" "${CMAKE_CURRENT_BINARY_DIR}/stable_diffusion")
+endif()
+
+# llama_cpp Plugin – LLM backend plugin for dynamic loading
+option(THEMIS_PLUGIN_LLAMA_CPP "Build the llama_cpp LLM backend plugin" ON)
+if(THEMIS_PLUGIN_LLAMA_CPP AND EXISTS "${THEMIS_ROOT_DIR}/src/llama_cpp/CMakeLists.txt")
+    message(STATUS "  - llama_cpp Plugin (LLM backend)")
+    add_subdirectory("${THEMIS_ROOT_DIR}/src/llama_cpp" "${CMAKE_CURRENT_BINARY_DIR}/llama_cpp")
+endif()
+
 # GPU Impact Analysis Plugin (enterprise/non-open source)
 option(THEMIS_BUILD_GPU_IMPACT_PLUGIN "Build GPU Impact Analysis Plugin" ON)
 if(THEMIS_BUILD_GPU_IMPACT_PLUGIN)
