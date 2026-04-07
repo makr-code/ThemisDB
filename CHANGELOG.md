@@ -67,6 +67,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Tool: `tools/module_docs_builder.py` v1.0.0
   <!-- changelog-updater: module-docs-sync-2026-04-07 -->
 
+### Tests
+
+- **Connector-Mode Live-Tests: LLM/RAG-Stabilisierung**
+  - `tests/test_connector_mode_api.cpp` verbessert für langsamere Startphasen und variable LLM-Laufzeit.
+  - Health-Check in `SetUp()` wartet nun per Polling bis zu 20 Sekunden statt einmalig sofort zu skippen.
+  - Neue LLM-spezifische Timeout-Konfiguration: `THEMIS_CONNECTOR_TEST_LLM_TIMEOUT_MS` (Default: 30000 ms).
+  - LLM-lastige Endpunkte (`/api/v1/llm/models/load`, `/api/v1/llm/inference`, `/api/v1/llm/rag`, `/v2/documents`) nutzen verlängerte Request-Timeouts.
+  - Multi-Query-RAG-Test wurde gegen sporadisch leere Erstantworten gehärtet (kurzer Retry + robuste Gesamtschwelle).
+
 ## [1.8.0-rc1] - 2026-04-04
 
 ### Added
