@@ -75,7 +75,9 @@ namespace plugins {
  * - BLOB_STORAGE -> New blob storage backends
  * - IMPORTER -> New data importers
  * - HSM_PROVIDER -> security::HSMProvider (PKCS#11)
- * - LLM_BACKEND -> llm::ILLMPlugin (v1.5.0+)
+ * - LLM_BACKEND      -> llm::ILLMPlugin (v1.5.0+)
+ * - AUDIO_PROCESSING -> whisper::WhisperPlugin (v2.0.0+)
+ * - IMAGE_GENERATION -> stable_diffusion::SDPlugin (v2.0.0+)
  */
 enum class PluginType {
     COMPUTE_BACKEND,   // Vector/Graph/Geo acceleration (existing)
@@ -85,6 +87,8 @@ enum class PluginType {
     HSM_PROVIDER,      // Hardware Security Modules (PKCS#11)
     EMBEDDING,         // Embedding providers (Sentence-BERT, OpenAI)
     LLM_BACKEND,       // LLM backends (llama.cpp, vLLM, etc.) - v1.5.0+
+    AUDIO_PROCESSING,  // Audio transcription/processing (whisper.cpp, etc.) - v2.0.0
+    IMAGE_GENERATION,  // Image generation (stable-diffusion.cpp, etc.) - v2.0.0
     CUSTOM             // Custom plugins
 };
 
