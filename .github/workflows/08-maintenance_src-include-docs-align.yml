@@ -73,6 +73,11 @@ jobs:
           python-version: '3.11'
 
       # ── 3. Run alignment script (text report → step summary) ──────────────
+      #
+      # When --fail-on-gaps is requested the script exits 1 on gaps, which
+      # propagates as a genuine step failure (no continue-on-error here).
+      # Subsequent steps use `if: always()` so the JSON report and artifact
+      # upload still run even when this step fails.
       - name: Run src/include ↔ docs/de alignment check
         id: align
         run: |
@@ -85,9 +90,6 @@ jobs:
             --format text \
             --output /tmp/align-report.txt \
             $FAIL_FLAG
-
-          echo "exit_code=$?" >> "$GITHUB_OUTPUT"
-        continue-on-error: true   # capture exit code; fail after artifact upload
 
       # ── 4. JSON report ────────────────────────────────────────────────────
       - name: Generate JSON alignment report
@@ -111,14 +113,7 @@ jobs:
           retention-days: 30
           if-no-files-found: ignore
 
-      # ── 6. Fail if --fail-on-gaps was requested and gaps were found ───────
-      - name: Check for documentation gaps
-        if: inputs.fail_on_gaps == true && steps.align.outcome == 'failure'
-        run: |
-          echo "::error::Undocumented modules detected. See the alignment report artifact for details."
-          exit 1
-
-      # ── 7. Step summary ───────────────────────────────────────────────────
+      # ── 6. Step summary ───────────────────────────────────────────────────
       - name: Write job summary
         if: always()
         run: |
@@ -128,12 +123,18 @@ jobs:
           echo "|-----------|-------|" >> "$GITHUB_STEP_SUMMARY"
           echo "| **Script** | \`scripts/src-include-docs-align.py\` |" >> "$GITHUB_STEP_SUMMARY"
           echo "| **Docs dir** | \`docs/de/\` |" >> "$GITHUB_STEP_SUMMARY"
-          echo "| **Total modules** | ${{ steps.align.outputs.total_modules }} |" >> "$GITHUB_STEP_SUMMARY"
-          echo "| **Documented** | ${{ steps.align.outputs.documented_modules }} |" >> "$GITHUB_STEP_SUMMARY"
-          echo "| **Undocumented** | ${{ steps.align.outputs.undocumented_modules }} |" >> "$GITHUB_STEP_SUMMARY"
-          echo "| **Coverage** | ${{ steps.align.outputs.coverage_pct }}% |" >> "$GITHUB_STEP_SUMMARY"
           echo "| **Event** | \`${{ github.event_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
           echo "| **Branch** | \`${{ github.ref_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          if [ -f /tmp/align-report.json ]; then
+            TOTAL=$(python3 -c "import json,sys; d=json.load(open('/tmp/align-report.json')); print(d['summary']['total_modules'])" 2>/dev/null || echo "n/a")
+            DOCUMENTED=$(python3 -c "import json,sys; d=json.load(open('/tmp/align-report.json')); print(d['summary']['documented'])" 2>/dev/null || echo "n/a")
+            UNDOC=$(python3 -c "import json,sys; d=json.load(open('/tmp/align-report.json')); print(d['summary']['undocumented'])" 2>/dev/null || echo "n/a")
+            PCT=$(python3 -c "import json,sys; d=json.load(open('/tmp/align-report.json')); print(d['summary']['coverage_pct'])" 2>/dev/null || echo "n/a")
+            echo "| **Total modules** | ${TOTAL} |" >> "$GITHUB_STEP_SUMMARY"
+            echo "| **Documented** | ${DOCUMENTED} |" >> "$GITHUB_STEP_SUMMARY"
+            echo "| **Undocumented** | ${UNDOC} |" >> "$GITHUB_STEP_SUMMARY"
+            echo "| **Coverage** | ${PCT}% |" >> "$GITHUB_STEP_SUMMARY"
+          fi
           echo "" >> "$GITHUB_STEP_SUMMARY"
 
           if [ -f /tmp/align-report.txt ]; then
