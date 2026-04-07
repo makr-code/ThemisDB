@@ -18,6 +18,20 @@ FINDING-T-001, T-002 und T-003 sind vollständig abgeschlossen.
 
 ## Befunde
 
+### FINDING-T-005: AdaLoRAAdapter + LoRAAdapterMerger — ✅ Implementiert (v1.6.0)
+
+| Feld | Wert |
+|------|------|
+| **Schweregrad** | Mittel |
+| **Status** | ✅ Vollständig abgeschlossen (v1.6.0) |
+| **Claim-Quelle** | `src/training/ROADMAP.md` Phase 5 |
+| **Feature** | `AdaLoRAAdapter` — Wichtigkeitsbasiertes Rank-Pruning (`updateImportance`, `reallocateRanks`, `forward`). 39 Tests. |
+| **Feature** | `LoRAAdapterMerger` — Zusammenführung (`mergeLinear`, `mergeTIES`, `*All`) mit Power-Iteration-SVD. 27 Tests. |
+| **Feature** | `IncrementalTrainingConfig::lora_plus_lambda` — LoRA+ Dual-AdamOptimizer (B-Matrix lr×λ, A-Matrix lr). |
+| **Tests** | `tests/test_ada_lora_adapter.cpp` (AdaLoRAFocusedTests, 39), `tests/test_lora_adapter_merger.cpp` (LoRAMergerFocusedTests, 27) |
+
+---
+
 ### FINDING-T-001: AQL-Executor-Anbindung fehlt in `LegalAutoLabeler`
 
 | Feld | Wert |
