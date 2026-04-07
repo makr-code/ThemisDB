@@ -115,20 +115,32 @@ TEST(LlamaCppPluginFocusedTests, E1_GenerateRAGReturnsSuccess) {
     LlamaCppPlugin p;
     p.loadModel("", {});
     InferenceRequest req; req.prompt = "query";
-    EXPECT_TRUE(p.generateRAG(req, {"doc1", "doc2"}).success);
+    RAGContext ctx;
+    ctx.query = req.prompt;
+    RAGContext::Document d1; d1.content = "doc1"; d1.relevance_score = 2.0f;
+    RAGContext::Document d2; d2.content = "doc2"; d2.relevance_score = 1.0f;
+    ctx.documents = {d1, d2};
+    EXPECT_TRUE(p.generateRAG(ctx, req).success);
 }
 
 TEST(LlamaCppPluginFocusedTests, E2_GenerateRAGNoContextSameAsGenerate) {
     LlamaCppPlugin p;
     p.loadModel("", {});
     InferenceRequest req; req.prompt = "q";
-    EXPECT_EQ(p.generateRAG(req, {}).text, p.generate(req).text);
+    RAGContext ctx;
+    ctx.query = req.prompt;
+    // No documents — should produce the same output as generate()
+    EXPECT_EQ(p.generateRAG(ctx, req).text, p.generate(req).text);
 }
 
 TEST(LlamaCppPluginFocusedTests, E3_GenerateRAGUninitReturnsError) {
     LlamaCppPlugin p;
     InferenceRequest req; req.prompt = "q";
-    EXPECT_FALSE(p.generateRAG(req, {"ctx"}).success);
+    RAGContext ctx;
+    ctx.query = req.prompt;
+    RAGContext::Document d; d.content = "ctx"; d.relevance_score = 1.0f;
+    ctx.documents = {d};
+    EXPECT_FALSE(p.generateRAG(ctx, req).success);
 }
 
 // ── Group F – embed ───────────────────────────────────────────────────────────

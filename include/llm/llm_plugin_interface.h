@@ -86,6 +86,14 @@ struct LLMCapabilities {
 
     // Multi-modal capabilities
     bool supports_multimodal = false;      // Image + text input (vision-language models)
+
+    // Embedding / RAG / function-call support
+    bool supports_embeddings = false;      // Text embedding (dense vector output)
+    bool supports_rag = false;             // Retrieval-Augmented Generation
+    bool supports_function_call = false;   // Structured function / tool calling
+
+    // Plugin metadata
+    std::string plugin_version;            // Semantic version of this plugin
 };
 
 /**
@@ -229,6 +237,10 @@ struct InferenceResponse {
     std::vector<float> logprobs;   // Log probabilities per token
     
     json metadata;
+
+    // Status
+    bool success = false;          // true when inference completed without error
+    std::string error_message;     // Non-empty on failure
 };
 
 /**

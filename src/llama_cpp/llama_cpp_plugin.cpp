@@ -46,7 +46,7 @@ std::optional<llm::ModelInfo> LlamaCppPlugin::getModelInfo() const {
     if (!model_loaded_) return std::nullopt;
     llm::ModelInfo info;
     info.model_id      = model_id_;
-    info.model_path    = model_path_;
+    info.path          = model_path_;
     info.context_length = context_length_;
     return info;
 }
@@ -85,7 +85,7 @@ std::vector<llm::LoRAInfo> LlamaCppPlugin::listLoRAs() const {
     for (const auto& e : loras_) {
         llm::LoRAInfo info;
         info.lora_id   = e.id;
-        info.lora_path = e.path;
+        info.path      = e.path;
         info.scale     = e.scale;
         result.push_back(std::move(info));
     }
@@ -110,25 +110,32 @@ llm::InferenceResponse LlamaCppPlugin::generate(const llm::InferenceRequest& req
 }
 
 llm::InferenceResponse LlamaCppPlugin::generateRAG(
-        const llm::InferenceRequest& request,
-        const std::vector<std::string>& context_docs) {
-    // Build RetrievedChunk objects from the raw string documents.
+        const llm::RAGContext& rag_context,
+        const llm::InferenceRequest& request) {
+    // Build RetrievedChunk objects from the RAGContext documents.
     std::vector<themis::rag::RetrievedChunk> chunks;
-    chunks.reserve(context_docs.size());
-    for (size_t i = 0; i < context_docs.size(); ++i) {
+    chunks.reserve(rag_context.documents.size());
+    for (const auto& doc : rag_context.documents) {
         themis::rag::RetrievedChunk chunk;
-        chunk.content         = context_docs[i];
-        chunk.relevance_score = static_cast<float>(context_docs.size() - i);
+        chunk.content         = doc.content;
+        chunk.source          = doc.source;
+        chunk.relevance_score = doc.relevance_score;
         chunks.push_back(std::move(chunk));
     }
 
     // Configure the assembler from the loaded model's context window.
+    // Honour an explicit override from the caller (rag_context.max_context_tokens).
     themis::rag::RAGContextAssemblerConfig cfg;
-    cfg.model_context_tokens = context_length_;
+    cfg.model_context_tokens =
+        (rag_context.max_context_tokens > 0)
+            ? static_cast<size_t>(rag_context.max_context_tokens)
+            : context_length_;
     cfg.min_response_tokens  =
-        (request.max_tokens > 0)
-            ? static_cast<size_t>(request.max_tokens)
-            : llm::kDefaultMinResponseTokens;
+        (rag_context.response_budget_tokens > 0)
+            ? static_cast<size_t>(rag_context.response_budget_tokens)
+            : ((request.max_tokens > 0)
+                   ? static_cast<size_t>(request.max_tokens)
+                   : llm::kDefaultMinResponseTokens);
 
     themis::rag::RAGContextAssembler assembler(cfg);
     const themis::rag::AssembledContext ctx =
@@ -198,8 +205,8 @@ std::vector<uint8_t> LlamaCppPlugin::exportLoRA(const std::string& /*lora_id*/) 
     return {};
 }
 
-bool LlamaCppPlugin::importLoRA(const std::string& /*lora_data_base64*/,
-                                 const std::string& /*lora_id*/) {
+bool LlamaCppPlugin::importLoRA(const std::string& /*lora_id*/,
+                                 const std::vector<uint8_t>& /*data*/) {
     return false;
 }
 
