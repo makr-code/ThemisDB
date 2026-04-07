@@ -1130,8 +1130,18 @@ HttpServer::HttpServer(
         THEMIS_WARN("Failed to initialize SchemaManager/Schema API: {}", e.what());
     }
 
-    // Initialize GraphQL API Handler
-    graphql_api_handler_ = std::make_unique<server::GraphQLApiHandler>();
+    // Initialize GraphQL API Handler with a dedicated AQL query engine
+    // so that aql() / aqlMutation() resolver fields execute real queries.
+    // The engine must be created before the handler and declared after it
+    // in the class so that it is destroyed first (reverse member-order).
+    if (storage_ && secondary_index_) {
+        graphql_query_engine_ = std::make_unique<QueryEngine>(
+            *storage_, *secondary_index_);
+        graphql_api_handler_ = std::make_unique<server::GraphQLApiHandler>(
+            graphql_query_engine_.get());
+    } else {
+        graphql_api_handler_ = std::make_unique<server::GraphQLApiHandler>();
+    }
     THEMIS_INFO("GraphQL API handler initialized (endpoints: POST /graphql, GET /graphql/schema)");
 
     // Initialize gRPC-Web proxy handler

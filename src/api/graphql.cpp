@@ -504,8 +504,8 @@ themis::Result<std::shared_ptr<Value>> Parser::parseValue() {
             return themis::Err<std::shared_ptr<Value>>(ErrorCode::ERR_QUERY_INVALID_SYNTAX, 
                 getLocationContext() + ": Expected variable name after '$'");
         }
-        // Return as special string value (will be resolved at execution)
-        return themis::Ok(Value::string("$" + *nameResult));
+        // Store as VariableRef (resolved against context.variables at execution time)
+        return themis::Ok(Value::variableRef(*nameResult));
     }
     
     // Enum value (bare name)
@@ -786,7 +786,18 @@ std::shared_ptr<Value> Executor::executeOperation(
     const Operation& operation,
     const ExecutionContext& context
 ) {
-    return executeSelections(operation.selections, nullptr, context);
+    // Build a context with variable defaults merged in for this operation.
+    // Runtime values in context.variables take precedence; only variables that
+    // were not supplied at runtime fall back to the operation default value.
+    ExecutionContext resolvedCtx = context;
+    for (const auto& varDef : operation.variables) {
+        if (resolvedCtx.variables.find(varDef.name) == resolvedCtx.variables.end()) {
+            if (varDef.default_value) {
+                resolvedCtx.variables[varDef.name] = varDef.default_value;
+            }
+        }
+    }
+    return executeSelections(operation.selections, nullptr, resolvedCtx);
 }
 
 std::shared_ptr<Value> Executor::executeSelections(
@@ -804,11 +815,73 @@ std::shared_ptr<Value> Executor::executeSelections(
     return Value::object(std::move(result));
 }
 
+std::shared_ptr<Value> Executor::resolveValue(
+    const std::shared_ptr<Value>& value,
+    const ExecutionContext& context
+) {
+    if (!value || !value->isVariableRef()) {
+        return value;
+    }
+    const auto& varName = value->asVariableRef();
+    auto it = context.variables.find(varName);
+    if (it != context.variables.end()) {
+        return it->second;
+    }
+    return Value::null();
+}
+
 std::shared_ptr<Value> Executor::executeField(
     const Field& field,
     const std::shared_ptr<Value>& parent,
     const ExecutionContext& context
 ) {
+    // Resolve any variable-reference arguments before invoking the resolver so
+    // that resolvers always receive concrete values, never VariableRef nodes.
+    if (!field.arguments.empty()) {
+        bool hasVarRefs = false;
+        for (const auto& arg : field.arguments) {
+            if (arg.second && arg.second->isVariableRef()) {
+                hasVarRefs = true;
+                break;
+            }
+        }
+        if (hasVarRefs) {
+            // Build a patched field with all VariableRef args substituted.
+            Field resolvedField = field;
+            for (auto& arg : resolvedField.arguments) {
+                if (arg.second && arg.second->isVariableRef()) {
+                    arg.second = resolveValue(arg.second, context);
+                }
+            }
+            // Look up resolver for this field
+            auto it = context.resolvers.find(resolvedField.name);
+            if (it != context.resolvers.end()) {
+                return it->second(resolvedField, parent, context);
+            }
+            // Default: fall through to parent-object lookup with resolved field
+            if (parent && parent->isObject()) {
+                const auto& obj = parent->asObject();
+                auto fieldIt = obj.find(resolvedField.name);
+                if (fieldIt != obj.end()) {
+                    auto value = fieldIt->second;
+                    if (!resolvedField.selections.empty()) {
+                        if (value->isObject()) {
+                            return executeSelections(resolvedField.selections, value, context);
+                        } else if (value->isList()) {
+                            ValueList resultList;
+                            for (const auto& item : value->asList()) {
+                                resultList.push_back(executeSelections(resolvedField.selections, item, context));
+                            }
+                            return Value::list(std::move(resultList));
+                        }
+                    }
+                    return value;
+                }
+            }
+            return Value::null();
+        }
+    }
+
     // Look up resolver for this field
     auto it = context.resolvers.find(field.name);
     if (it != context.resolvers.end()) {
@@ -1363,10 +1436,33 @@ void ThemisSchemaBuilder::addQueryType(Schema& schema) {
     // aql(query: String!, variables: JSON): JSON
     FieldDefinition aqlQuery;
     aqlQuery.name = "aql";
+    aqlQuery.description = "Execute a read-only AQL query (FOR/RETURN). "
+                           "Resource limits are derived from the GraphQL "
+                           "query complexity score so that expensive nested "
+                           "queries receive proportionally tighter budgets.";
     aqlQuery.type = {"JSON", false, false, nullptr};
-    aqlQuery.arguments["query"] = {"String", true, false, nullptr};
-    aqlQuery.arguments["variables"] = {"JSON", false, false, nullptr};
+    aqlQuery.arguments["query"]     = {"String", true,  false, nullptr};
+    aqlQuery.arguments["variables"] = {"JSON",   false, false, nullptr};
     queryType.fields.push_back(aqlQuery);
+
+    // apiVersion: String!  – current ThemisDB API version
+    FieldDefinition apiVersionField;
+    apiVersionField.name        = "apiVersion";
+    apiVersionField.description = "Current ThemisDB API version (e.g. \"1.8.0-rc1\"). "
+                                  "Clients can check this field to implement "
+                                  "forward-compatible logic without a separate "
+                                  "HTTP version endpoint.";
+    apiVersionField.type = {"String", true, false, nullptr};
+    queryType.fields.push_back(apiVersionField);
+
+    // schemaVersion: String!  – GraphQL schema version
+    FieldDefinition schemaVersionField;
+    schemaVersionField.name        = "schemaVersion";
+    schemaVersionField.description = "GraphQL schema version, incremented whenever "
+                                     "new types or fields are added. Independent of "
+                                     "the API version.";
+    schemaVersionField.type = {"String", true, false, nullptr};
+    queryType.fields.push_back(schemaVersionField);
     
     // vectorSearch(collection: String!, vector: [Float!]!, k: Int): [VectorSearchResult!]!
     FieldDefinition vectorQuery;
@@ -1471,6 +1567,22 @@ void ThemisSchemaBuilder::addMutationType(Schema& schema) {
     insertTsPoint.arguments["value"] = {"Float", true, false, nullptr};
     insertTsPoint.arguments["tags"] = {"JSON", false, false, nullptr};
     mutationType.fields.push_back(insertTsPoint);
+
+    // aqlMutation(query: String!, variables: JSON): JSON
+    // Executes AQL DML (INSERT / UPDATE / REPLACE / REMOVE / UPSERT).
+    // Resource limits are derived from the GraphQL query complexity score
+    // using the same cost model bridge as the `aql` query field.
+    FieldDefinition aqlMut;
+    aqlMut.name = "aqlMutation";
+    aqlMut.description =
+        "Execute an AQL DML statement (INSERT, UPDATE, REPLACE, REMOVE, UPSERT). "
+        "Complexity-derived resource limits apply: deeply nested or high-field-count "
+        "GraphQL documents receive tighter AQL execution budgets. "
+        "Returns the AQL result set as JSON.";
+    aqlMut.type = {"JSON", false, false, nullptr};
+    aqlMut.arguments["query"]     = {"String", true,  false, nullptr};
+    aqlMut.arguments["variables"] = {"JSON",   false, false, nullptr};
+    mutationType.fields.push_back(aqlMut);
 
     schema.addType(mutationType);
 }

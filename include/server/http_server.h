@@ -948,6 +948,11 @@ private:
     std::unique_ptr<SchemaManager> schema_manager_;
 
     // GraphQL API Handler
+    // IMPORTANT: graphql_query_engine_ must be declared BEFORE graphql_api_handler_
+    // so that it is destroyed AFTER the handler (C++ destroys in reverse declaration
+    // order).  The handler holds a raw pointer to the engine; if the engine were
+    // destroyed first the handler's destructor could dereference freed memory.
+    std::unique_ptr<QueryEngine> graphql_query_engine_; ///< AQL engine for GraphQL resolvers
     std::unique_ptr<themis::server::GraphQLApiHandler> graphql_api_handler_;
 
     // gRPC-Web proxy – translates browser gRPC-Web requests to native gRPC

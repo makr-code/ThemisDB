@@ -3196,6 +3196,48 @@ else()
     message(STATUS "Index Maintenance tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_index_maintenance.cpp")
 endif()
 
+# ============================================================================
+# AQL ↔ GraphQL Integration Tests
+# Tests both integration layers:
+#   Layer 1 – AQL in GraphQL (GraphQLAqlResolverFactory, cost model bridge,
+#              aqlMutation/apiVersion/schemaVersion schema fields)
+#   Layer 2 – GraphQL in AQL (GRAPHQL() AQL function, EXTERNAL cost class)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_aql_graphql_integration.cpp")
+    message(STATUS "Adding AQL-GraphQL integration tests")
+
+    add_executable(test_aql_graphql_integration
+        test_aql_graphql_integration.cpp
+    )
+
+    target_link_libraries(test_aql_graphql_integration PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_aql_graphql_integration PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME AqlGraphQLIntegrationTests
+        COMMAND test_aql_graphql_integration)
+
+    set_tests_properties(AqlGraphQLIntegrationTests PROPERTIES
+        LABELS "query;graphql;aql;integration;cost-model;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  AQL-GraphQL: complexity scoring, resolver wiring, GRAPHQL() function, schema fields")
+else()
+    message(STATUS "AQL-GraphQL integration tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_aql_graphql_integration.cpp")
+endif()
+
+# ============================================================================
 # GraphQL Parser Tests
 # ============================================================================
 

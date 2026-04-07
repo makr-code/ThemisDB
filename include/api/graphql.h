@@ -57,7 +57,8 @@ struct Value {
         String,
         Enum,
         List,
-        Object
+        Object,
+        VariableRef  // Variable reference ($name) — resolved at execution time
     };
     
     Type type = Type::Null;
@@ -125,6 +126,15 @@ struct Value {
         return val;
     }
     
+    /// Create a variable-reference value.  @p name must be the bare variable
+    /// name WITHOUT the leading '$' (e.g. "id", not "$id").
+    static std::shared_ptr<Value> variableRef(std::string name) {
+        auto val = std::make_shared<Value>();
+        val->type = Type::VariableRef;
+        val->data = std::move(name);
+        return val;
+    }
+    
     // Type checkers
     bool isNull() const { return type == Type::Null; }
     bool isBool() const { return type == Type::Boolean; }
@@ -134,6 +144,10 @@ struct Value {
     bool isEnum() const { return type == Type::Enum; }
     bool isList() const { return type == Type::List; }
     bool isObject() const { return type == Type::Object; }
+    /// Returns true when the value is a variable reference ($name).
+    /// The variable will be resolved against ExecutionContext::variables at
+    /// execution time.
+    bool isVariableRef() const { return type == Type::VariableRef; }
     
     // Value getters
     bool asBool() const { return std::get<bool>(data); }
@@ -142,6 +156,8 @@ struct Value {
     const std::string& asString() const { return std::get<std::string>(data); }
     const ValueList& asList() const { return std::get<ValueList>(data); }
     const ValueMap& asObject() const { return std::get<ValueMap>(data); }
+    /// Returns the bare variable name (without '$') for a VariableRef value.
+    const std::string& asVariableRef() const { return std::get<std::string>(data); }
 };
 
 /**
@@ -276,7 +292,8 @@ struct QueryLimits {
  * - Query, Mutation, Subscription operations
  * - Field selections with aliases
  * - Arguments (all value types)
- * - Variables and variable definitions
+ * - Variables and variable definitions (with default values)
+ * - Variable substitution at execution time via ExecutionContext::variables
  * - Nested selections
  * - Comments (# to end of line)
  * 
@@ -469,6 +486,14 @@ private:
     std::shared_ptr<Value> executeField(
         const Field& field,
         const std::shared_ptr<Value>& parent,
+        const ExecutionContext& context
+    );
+
+    /// Resolve a single argument value: if it is a VariableRef, look it up in
+    /// @p context.variables and return the bound value (or null when unbound).
+    /// All other value types are returned unchanged.
+    static std::shared_ptr<Value> resolveValue(
+        const std::shared_ptr<Value>& value,
         const ExecutionContext& context
     );
 };

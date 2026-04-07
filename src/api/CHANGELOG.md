@@ -7,6 +7,14 @@ All notable changes to the API module are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
+### Fixed
+- GraphQL variable substitution bug: `$variable` references in field arguments were stored as plain
+  strings (`"$id"`) and never resolved at execution time. Variable references are now represented as
+  `Value::VariableRef` nodes (new `Value::Type::VariableRef` enum value, `Value::variableRef()`,
+  `isVariableRef()`, `asVariableRef()`) and are resolved by `Executor::resolveValue()` before any
+  resolver function is invoked. Operation default values are merged into `ExecutionContext::variables`
+  in `Executor::executeOperation()` and overridden by runtime values. Unbound variables resolve to
+  `Value::null()`. (`include/api/graphql.h`, `src/api/graphql.cpp`, `tests/test_graphql_variables.cpp`)
 - Versioned API endpoint routing deprecation-header polish — Issue #1497
 - API key management endpoint — Issue #1502
 
