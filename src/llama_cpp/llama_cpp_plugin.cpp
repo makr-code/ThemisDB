@@ -112,10 +112,44 @@ llm::InferenceResponse LlamaCppPlugin::generate(const llm::InferenceRequest& req
 llm::InferenceResponse LlamaCppPlugin::generateRAG(
         const llm::InferenceRequest& request,
         const std::vector<std::string>& context_docs) {
-    llm::InferenceRequest augmented = request;
-    for (const auto& doc : context_docs) {
-        augmented.prompt = doc + "\n" + augmented.prompt;
+    // Build RetrievedChunk objects from the raw string documents.
+    std::vector<themis::rag::RetrievedChunk> chunks;
+    chunks.reserve(context_docs.size());
+    for (size_t i = 0; i < context_docs.size(); ++i) {
+        themis::rag::RetrievedChunk chunk;
+        chunk.content         = context_docs[i];
+        chunk.relevance_score = static_cast<float>(context_docs.size() - i);
+        chunks.push_back(std::move(chunk));
     }
+
+    // Configure the assembler from the loaded model's context window.
+    themis::rag::RAGContextAssemblerConfig cfg;
+    cfg.model_context_tokens = context_length_;
+    cfg.min_response_tokens  =
+        (request.max_tokens > 0)
+            ? static_cast<size_t>(request.max_tokens)
+            : llm::kDefaultMinResponseTokens;
+
+    themis::rag::RAGContextAssembler assembler(cfg);
+    const themis::rag::AssembledContext ctx =
+        assembler.assemble(chunks, /*system_prompt=*/"", request.prompt);
+
+    // Build the augmented prompt from the assembled (budget-respecting) context.
+    std::ostringstream augmented_prompt;
+    for (const auto& c : ctx.chunks_used) {
+        augmented_prompt << c.content << "\n";
+    }
+    augmented_prompt << request.prompt;
+
+    llm::InferenceRequest augmented = request;
+    augmented.prompt    = augmented_prompt.str();
+    // Clamp max_tokens to the remaining response budget.
+    augmented.max_tokens = themis::rag::RAGContextAssembler::computeMaxTokens(
+        llm::ContextWindowBudget::compute(
+            context_length_, /*system=*/"", request.prompt,
+            cfg.min_response_tokens),
+        request.max_tokens);
+
     return generate(augmented);
 }
 

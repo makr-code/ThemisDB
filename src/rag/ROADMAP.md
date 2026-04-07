@@ -100,6 +100,15 @@ v2.0.0 – Production-ready Retrieval-Augmented Generation system. 27 implementa
 - [x] `ReplugRetriever` — REPLUG-style LLM-scored retrieval fusion (`rag/replug_retriever.h/.cpp`) (Target: Q1 2026) — Inputs: query + RetrievedDocument list; Outputs: ReplugFusionResult with fused scores; λ interpolation, softmax temperature, min_retrieval_score filter, REPLUG-LSR weight update via KL gradient; ILLMScorer plugin; HeuristicLLMScorer (Jaccard); 30 unit tests
 - [x] `RLAIFTrainer` — Constitutional AI + RLAIF preference dataset generation (`rag/rlaif_trainer.h/.cpp`) (Target: Q1 2026) — Inputs: query + draft response; Outputs: PreferencePair (prompt, chosen, rejected); critique-revision loop; IAIJudge plugin; HeuristicAIJudge; AIPrinciple registry; processBatch(); RLAIFConfig; 30 unit tests
 
+### Phase 7: Context-Window Management & Token Budget (Status: Completed ✅)
+- [x] `ContextWindowBudget` — central token-budget model (`include/llm/context_window_budget.h`) (Target: Q2 2026) — Inputs: model_ctx, system_prompt, query, min_response; Outputs: available_context_tokens, reserved_response_tokens; heuristic estimator ceil(chars/3.5); 20% floor on response reservation; fallback 4096; 30 unit tests
+- [x] `RAGContextAssembler` — budget-aware chunk selection (`include/rag/rag_context_assembler.h`, `src/rag/rag_context_assembler.cpp`) (Target: Q2 2026) — Greedy Fill with Response Guard; truncation with configurable marker; computeMaxTokens(); 30 unit tests
+- [x] `MultiStepRAGOrchestrator` — Map-Reduce and Iterative strategies (`include/rag/multi_step_rag.h`, `src/rag/multi_step_rag.cpp`) (Target: Q2 2026) — Map: batch partitioning bounded by context budget; Reduce: partial-answer synthesis; Iterative: gap-detection loop, max_iterations guard, deduplication; factory helpers; 15 unit tests
+- [x] `LlamaCppPlugin::loadModel()` reads `n_ctx`/`context_length` from config JSON → `ModelInfo::context_length`; fallback 4096 (Target: Q2 2026)
+- [x] `LlamaCppPlugin::generateRAG()` replaced naive doc concat with `RAGContextAssembler`; `max_tokens` capped via `computeMaxTokens()` (Target: Q2 2026)
+- [x] `RAGContext::max_context_tokens` set to 0 (dynamic fallback); `response_budget_tokens` field added (Target: Q2 2026)
+- [x] `RAGPromptConfig::reserved_response_tokens` field added (default: 512) (Target: Q2 2026)
+
 ## Production Readiness Checklist
 - [x] Unit tests coverage > 80% (streaming_retriever: 28 test cases; reranker: 30+ test cases; document_splitter: 37 test cases)
 - [x] Unit tests coverage > 80% (streaming_retriever: 28 tests; reranker: 30+ tests; hybrid_retriever: 31 tests)
@@ -111,6 +120,9 @@ v2.0.0 – Production-ready Retrieval-Augmented Generation system. 27 implementa
 - [x] Unit tests for PromptInjectionDetector and Sanitizer (test_rag_prompt_injection.cpp: benign pass-through, instruction override, system-prompt leak, delimiter escape, role injection, markup injection, Unicode bidi, sanitizer truncation/replacement)
 - [x] Unit tests for ReplugRetriever (test_rag_replug_retriever.cpp: ILLMScorer, HeuristicLLMScorer, fuse(), top_k truncation, min_retrieval_score filtering, weight updates, factory helpers; 30 tests)
 - [x] Unit tests for RLAIFTrainer (test_rag_rlaif_trainer.cpp: IAIJudge, HeuristicAIJudge, runTrainingStep(), createPreferencePair(), processBatch(), principle management, dataset access, stats; 30 tests)
+- [x] Unit tests for ContextWindowBudget (test_context_window_budget.cpp: estimateTokens, tokensToChars, compute, reserved_response_tokens enforcement, available_context_tokens arithmetic, helpers; 30 tests)
+- [x] Unit tests for RagContextAssembler (test_rag_context_assembler.cpp: empty edge cases, single chunk fit/truncation, greedy fill, response-guard, truncation marker, computeMaxTokens; 30 tests)
+- [x] Unit tests for MultiStepRAGOrchestrator (test_multi_step_rag.cpp: map-reduce single-pass, multi-batch, iterative cap, factory helpers; 15 tests)
 - [x] Performance benchmarks (benchmarks/bench_rag_evaluation.cpp: recall@K harness, FAST/BALANCED/THOROUGH latency, distributed evaluator, injection scan throughput, end-to-end pipeline)
 - [x] Integration tests (full pipeline: retrieve → generate → evaluate) — `test_rag_pipeline_integration.cpp` (heuristic/FAST mode, no live LLM required)
 - [x] Performance benchmarks (recall@10, latency per mode)

@@ -127,7 +127,7 @@ static constexpr size_t kDefaultMinResponseTokens = 512u;
  *       model_info.context_length,
  *       system_prompt,
  *       user_query,
- *       512 /*min_response*/);
+ *       512u); // min_response_tokens
  *
  *   // Budget for context chunks (in characters):
  *   size_t char_budget = budget.availableContextChars();

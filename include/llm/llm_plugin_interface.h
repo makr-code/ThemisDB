@@ -27,6 +27,7 @@
 
 #include "plugins/plugin_interface.h"
 #include "llm/json_schema_converter.h"
+#include "llm/context_window_budget.h"
 #include <string>
 #include <vector>
 #include <memory>
