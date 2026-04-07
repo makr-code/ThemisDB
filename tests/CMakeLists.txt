@@ -19987,3 +19987,117 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../src/llama_cpp/tests/test_llama_cpp_plu
 else()
     message(STATUS "  LlamaCppPlugin tests not found – skipped")
 endif()
+
+# ---------------------------------------------------------------------------
+# ContextWindowBudgetFocusedTests (30 tests) – v1.0.0
+# ---------------------------------------------------------------------------
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_context_window_budget.cpp")
+    message(STATUS "Adding ContextWindowBudget focused tests (LLM token-budget, v1.0.0)")
+
+    add_executable(test_context_window_budget_focused
+        test_context_window_budget.cpp
+    )
+
+    target_include_directories(test_context_window_budget_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_context_window_budget_focused PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_features(test_context_window_budget_focused PRIVATE cxx_std_17)
+
+    target_compile_definitions(test_context_window_budget_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ContextWindowBudgetFocusedTests COMMAND test_context_window_budget_focused)
+
+    set_tests_properties(ContextWindowBudgetFocusedTests PROPERTIES
+        LABELS "llm;rag;token_budget;context_window;v1.0.0;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  ContextWindowBudget: 30 tests (A-F) – estimateTokens, compute, response-guard")
+else()
+    message(STATUS "ContextWindowBudget focused tests not found – skipped")
+endif()
+
+# ---------------------------------------------------------------------------
+# RagContextAssemblerFocusedTests (30 tests) – v1.0.0
+# ---------------------------------------------------------------------------
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_rag_context_assembler.cpp")
+    message(STATUS "Adding RagContextAssembler focused tests (RAG budget-aware assembly, v1.0.0)")
+
+    add_executable(test_rag_context_assembler_focused
+        test_rag_context_assembler.cpp
+        ${CMAKE_SOURCE_DIR}/src/rag/rag_context_assembler.cpp
+    )
+
+    target_include_directories(test_rag_context_assembler_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_rag_context_assembler_focused PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_features(test_rag_context_assembler_focused PRIVATE cxx_std_17)
+
+    target_compile_definitions(test_rag_context_assembler_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME RagContextAssemblerFocusedTests COMMAND test_rag_context_assembler_focused)
+
+    set_tests_properties(RagContextAssemblerFocusedTests PROPERTIES
+        LABELS "rag;context_assembler;token_budget;greedy_fill;response_guard;v1.0.0;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  RagContextAssembler: 30 tests (A-F) – greedy fill, truncation, response-guard, computeMaxTokens")
+else()
+    message(STATUS "RagContextAssembler focused tests not found – skipped")
+endif()
+
+# ---------------------------------------------------------------------------
+# MultiStepRAGFocusedTests (15 tests) – v1.0.0
+# ---------------------------------------------------------------------------
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_multi_step_rag.cpp")
+    message(STATUS "Adding MultiStepRAG focused tests (Map-Reduce + Iterative RAG, v1.0.0)")
+
+    add_executable(test_multi_step_rag_focused
+        test_multi_step_rag.cpp
+        ${CMAKE_SOURCE_DIR}/src/rag/multi_step_rag.cpp
+        ${CMAKE_SOURCE_DIR}/src/rag/rag_context_assembler.cpp
+    )
+
+    target_include_directories(test_multi_step_rag_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_multi_step_rag_focused PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_features(test_multi_step_rag_focused PRIVATE cxx_std_17)
+
+    target_compile_definitions(test_multi_step_rag_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME MultiStepRAGFocusedTests COMMAND test_multi_step_rag_focused)
+
+    set_tests_properties(MultiStepRAGFocusedTests PROPERTIES
+        LABELS "rag;multi_step;map_reduce;iterative;context_overflow;v1.0.0;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  MultiStepRAG: 15 tests (A-C) – map-reduce flow, iterative, factory helpers")
+else()
+    message(STATUS "MultiStepRAG focused tests not found – skipped")
+endif()

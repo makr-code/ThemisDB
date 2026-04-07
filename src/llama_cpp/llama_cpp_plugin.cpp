@@ -1,6 +1,8 @@
 #include "llama_cpp/llama_cpp_plugin.h"
+#include "rag/rag_context_assembler.h"
 #include <algorithm>
 #include <chrono>
+#include <sstream>
 
 namespace themis {
 namespace llamacpp {
@@ -10,10 +12,21 @@ LlamaCppPlugin::~LlamaCppPlugin() { unloadModel(); }
 
 // ── loadModel / unloadModel ───────────────────────────────────────────────────
 
-bool LlamaCppPlugin::loadModel(const std::string& model_path, const json& /*config*/) {
+bool LlamaCppPlugin::loadModel(const std::string& model_path, const json& config) {
     std::lock_guard<std::mutex> lock(mutex_);
     model_path_   = model_path;
     model_id_     = model_path.empty() ? "stub" : model_path;
+
+    // Read context window size from config (keys: "context_length" or "n_ctx").
+    // Fall back to 4 096 when neither key is present or the value is 0.
+    size_t ctx = 0u;
+    if (config.contains("context_length") && config["context_length"].is_number()) {
+        ctx = config["context_length"].get<size_t>();
+    } else if (config.contains("n_ctx") && config["n_ctx"].is_number()) {
+        ctx = config["n_ctx"].get<size_t>();
+    }
+    context_length_ = (ctx > 0u) ? ctx : llm::kDefaultContextWindowTokens;
+
     model_loaded_ = true;
     return true;
 }
@@ -32,8 +45,9 @@ std::optional<llm::ModelInfo> LlamaCppPlugin::getModelInfo() const {
     std::lock_guard<std::mutex> lock(mutex_);
     if (!model_loaded_) return std::nullopt;
     llm::ModelInfo info;
-    info.model_id   = model_id_;
-    info.model_path = model_path_;
+    info.model_id      = model_id_;
+    info.path          = model_path_;
+    info.context_length = context_length_;
     return info;
 }
 
@@ -71,7 +85,7 @@ std::vector<llm::LoRAInfo> LlamaCppPlugin::listLoRAs() const {
     for (const auto& e : loras_) {
         llm::LoRAInfo info;
         info.lora_id   = e.id;
-        info.lora_path = e.path;
+        info.path      = e.path;
         info.scale     = e.scale;
         result.push_back(std::move(info));
     }
@@ -96,12 +110,53 @@ llm::InferenceResponse LlamaCppPlugin::generate(const llm::InferenceRequest& req
 }
 
 llm::InferenceResponse LlamaCppPlugin::generateRAG(
-        const llm::InferenceRequest& request,
-        const std::vector<std::string>& context_docs) {
-    llm::InferenceRequest augmented = request;
-    for (const auto& doc : context_docs) {
-        augmented.prompt = doc + "\n" + augmented.prompt;
+        const llm::RAGContext& rag_context,
+        const llm::InferenceRequest& request) {
+    // Build RetrievedChunk objects from the RAGContext documents.
+    std::vector<themis::rag::RetrievedChunk> chunks;
+    chunks.reserve(rag_context.documents.size());
+    for (const auto& doc : rag_context.documents) {
+        themis::rag::RetrievedChunk chunk;
+        chunk.content         = doc.content;
+        chunk.source          = doc.source;
+        chunk.relevance_score = doc.relevance_score;
+        chunks.push_back(std::move(chunk));
     }
+
+    // Configure the assembler from the loaded model's context window.
+    // Honour an explicit override from the caller (rag_context.max_context_tokens).
+    themis::rag::RAGContextAssemblerConfig cfg;
+    cfg.model_context_tokens =
+        (rag_context.max_context_tokens > 0)
+            ? static_cast<size_t>(rag_context.max_context_tokens)
+            : context_length_;
+    cfg.min_response_tokens  =
+        (rag_context.response_budget_tokens > 0)
+            ? static_cast<size_t>(rag_context.response_budget_tokens)
+            : ((request.max_tokens > 0)
+                   ? static_cast<size_t>(request.max_tokens)
+                   : llm::kDefaultMinResponseTokens);
+
+    themis::rag::RAGContextAssembler assembler(cfg);
+    const themis::rag::AssembledContext ctx =
+        assembler.assemble(chunks, /*system_prompt=*/"", request.prompt);
+
+    // Build the augmented prompt from the assembled (budget-respecting) context.
+    std::ostringstream augmented_prompt;
+    for (const auto& c : ctx.chunks_used) {
+        augmented_prompt << c.content << "\n";
+    }
+    augmented_prompt << request.prompt;
+
+    llm::InferenceRequest augmented = request;
+    augmented.prompt    = augmented_prompt.str();
+    // Clamp max_tokens to the remaining response budget.
+    augmented.max_tokens = themis::rag::RAGContextAssembler::computeMaxTokens(
+        llm::ContextWindowBudget::compute(
+            context_length_, /*system=*/"", request.prompt,
+            cfg.min_response_tokens),
+        request.max_tokens);
+
     return generate(augmented);
 }
 
@@ -150,8 +205,8 @@ std::vector<uint8_t> LlamaCppPlugin::exportLoRA(const std::string& /*lora_id*/) 
     return {};
 }
 
-bool LlamaCppPlugin::importLoRA(const std::string& /*lora_data_base64*/,
-                                 const std::string& /*lora_id*/) {
+bool LlamaCppPlugin::importLoRA(const std::string& /*lora_id*/,
+                                 const std::vector<uint8_t>& /*data*/) {
     return false;
 }
 

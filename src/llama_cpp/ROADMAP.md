@@ -63,6 +63,10 @@ capabilities fully functional. Real inference requires linking the existing `Lla
 - [x] Stub mode for CI without model file
 - [x] Thread-safe LoRA registry
 - [x] Capabilities correctly reported
+- [x] `context_length` read from config JSON (`n_ctx`/`context_length` keys, fallback 4096)
+- [x] `ModelInfo::context_length` populated from config on `loadModel()`
+- [x] `generateRAG()` uses `RAGContextAssembler` — no naive document concatenation
+- [x] `InferenceRequest::max_tokens` capped by `RAGContextAssembler::computeMaxTokens()`
 - [ ] Real llama.cpp inference validated end-to-end
 - [ ] Real embeddings validated
 - [ ] `exportLoRA` / `importLoRA` implemented

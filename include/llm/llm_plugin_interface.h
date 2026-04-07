@@ -27,6 +27,7 @@
 
 #include "plugins/plugin_interface.h"
 #include "llm/json_schema_converter.h"
+#include "llm/context_window_budget.h"
 #include <string>
 #include <vector>
 #include <memory>
@@ -85,6 +86,14 @@ struct LLMCapabilities {
 
     // Multi-modal capabilities
     bool supports_multimodal = false;      // Image + text input (vision-language models)
+
+    // Embedding / RAG / function-call support
+    bool supports_embeddings = false;      // Text embedding (dense vector output)
+    bool supports_rag = false;             // Retrieval-Augmented Generation
+    bool supports_function_call = false;   // Structured function / tool calling
+
+    // Plugin metadata
+    std::string plugin_version;            // Semantic version of this plugin
 };
 
 /**
@@ -228,10 +237,19 @@ struct InferenceResponse {
     std::vector<float> logprobs;   // Log probabilities per token
     
     json metadata;
+
+    // Status
+    bool success = false;          // true when inference completed without error
+    std::string error_message;     // Non-empty on failure
 };
 
 /**
  * @brief RAG (Retrieval-Augmented Generation) context
+ *
+ * max_context_tokens should be set to ModelInfo::context_length of the loaded
+ * model.  The RAGContextAssembler uses this value together with
+ * response_budget_tokens to compute the exact token budget available for the
+ * retrieved chunks.  Setting it to 0 triggers the 4 096-token fallback.
  */
 struct RAGContext {
     std::string query;             // User query
@@ -248,8 +266,13 @@ struct RAGContext {
     std::vector<Document> documents;
     
     // Context assembly parameters
-    int max_context_tokens = 4096;
+    // NOTE: set from ModelInfo::context_length — do NOT hardcode.
+    int max_context_tokens = 0;    // 0 → falls back to kDefaultContextWindowTokens
     std::string context_template;  // How to format context
+
+    // Response-budget reservation (tokens kept for the model answer).
+    // The actual reservation is max(response_budget_tokens, 20 % of the window).
+    int response_budget_tokens = 512;
 };
 
 /**

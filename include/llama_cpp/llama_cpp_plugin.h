@@ -45,8 +45,8 @@ public:
     std::vector<llm::LoRAInfo> listLoRAs() const override;
 
     llm::InferenceResponse generate(const llm::InferenceRequest& request) override;
-    llm::InferenceResponse generateRAG(const llm::InferenceRequest& request,
-                                        const std::vector<std::string>& context_docs) override;
+    llm::InferenceResponse generateRAG(const llm::RAGContext& rag_context,
+                                        const llm::InferenceRequest& request) override;
     std::vector<float> embed(const std::string& text) override;
 
     llm::LLMCapabilities getCapabilities() const override;
@@ -54,8 +54,8 @@ public:
     json getPerformanceStats() const override;
 
     std::vector<uint8_t> exportLoRA(const std::string& lora_id) override;
-    bool importLoRA(const std::string& lora_data_base64,
-                    const std::string& lora_id) override;
+    bool importLoRA(const std::string& lora_id,
+                    const std::vector<uint8_t>& data) override;
 
     std::string getPluginVersion() const { return "2.0.0"; }
     std::string getModelId() const;
@@ -64,6 +64,7 @@ private:
     bool        model_loaded_ = false;
     std::string model_path_;
     std::string model_id_;
+    size_t      context_length_ = 4096; ///< Model context window (tokens); set by loadModel()
     mutable std::mutex mutex_;
 
     uint64_t inference_count_   = 0;
