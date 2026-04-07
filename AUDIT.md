@@ -56,7 +56,7 @@ This document is the **root-level security and compliance audit record** for The
 | **gpu** | 2026-01 | ✅ | None | [src/gpu/AUDIT.md](src/gpu/AUDIT.md) |
 | **graph** | 2026-03 | ✅ | `DistributedGraphManager` read-path upgraded to `std::shared_mutex` (PR #4299) | [src/graph/AUDIT.md](src/graph/AUDIT.md) |
 | **importers** | 2026-03 | ✅ | MySQL/MariaDB importer added (PR #4288) | [src/importers/AUDIT.md](src/importers/AUDIT.md) |
-| **index** | 2026-01 | ✅ | None | [src/index/AUDIT.md](src/index/AUDIT.md) |
+| **index** | 2026-04 | 🟡 | Separator injection in tenant key fixed (#1872, 2026-04-07); GPU memory safety audit still open (#1885) | [src/index/AUDIT.md](src/index/AUDIT.md) |
 | **ingestion** | 2026-03 | 🟡 | OAuth 2.0 token refresh in connectors unclear (Issue #2408); YAML config loading + `user_context` propagation added (PR #4296) | [src/ingestion/AUDIT.md](src/ingestion/AUDIT.md) |
 | **llm** | 2026-01 | ✅ | None | [src/llm/AUDIT.md](src/llm/AUDIT.md) |
 | **maintenance** | 2026-03-12 | ✅ | RBAC roles enforced; all mutations audit-logged | [src/maintenance/AUDIT.md](src/maintenance/AUDIT.md) |

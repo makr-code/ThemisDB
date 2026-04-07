@@ -219,7 +219,32 @@ private:
 
 } // anonymous namespace
 
-IndexManager::IndexManager(
+namespace {
+
+/// Validates a string that will be used as a component in the tenant-scoped
+/// key `"tenant:<tenant_id>:<index_name>"`.
+///
+/// The separator between components is `:`.  Allowing `:` inside either
+/// component would let a caller with tenant id "a:b" construct the same storage
+/// key as a caller with tenant id "a" and index name "b:x", enabling cross-
+/// tenant data access (audit finding #1872).
+///
+/// Rules enforced:
+///   - Must not be empty.
+///   - Must not contain the separator character `:`.
+///   - Must not contain null bytes (early-termination bypass in C-string APIs).
+///   - Must not exceed 512 bytes (prevents key-length amplification attacks).
+///
+/// @return true when the component is safe to embed in a tenant key.
+static bool isValidTenantComponent(std::string_view s) noexcept {
+    if (s.empty() || s.size() > 512) return false;
+    for (char c : s) {
+        if (c == ':' || c == '\0') return false;
+    }
+    return true;
+}
+
+} // namespace (validation helpers)
     IExpressionEvaluatorPtr evaluator,
     IStorageEnginePtr storage
 ) : evaluator_(evaluator)
@@ -627,9 +652,15 @@ Result<ISecondaryIndex*> IndexManager::createSecondaryIndex(
     std::string_view field_name,
     const std::string& config) {
 
-    if (tenant_id.empty()) {
+    if (!isValidTenantComponent(tenant_id)) {
         return Err<ISecondaryIndex*>(errors::ErrorCode::ERR_API_INVALID_REQUEST,
-                                     "tenant_id must not be empty");
+                                     "tenant_id must not be empty, exceed 512 bytes, "
+                                     "or contain ':' / null bytes");
+    }
+    if (!isValidTenantComponent(name)) {
+        return Err<ISecondaryIndex*>(errors::ErrorCode::ERR_API_INVALID_REQUEST,
+                                     "index name must not be empty, exceed 512 bytes, "
+                                     "or contain ':' / null bytes");
     }
     return createSecondaryIndex(makeTenantIndexName(tenant_id, name),
                                 field_name, config);
@@ -641,9 +672,15 @@ Result<IVectorIndex*> IndexManager::createVectorIndex(
     uint32_t dimension,
     const std::string& config) {
 
-    if (tenant_id.empty()) {
+    if (!isValidTenantComponent(tenant_id)) {
         return Err<IVectorIndex*>(errors::ErrorCode::ERR_API_INVALID_REQUEST,
-                                   "tenant_id must not be empty");
+                                   "tenant_id must not be empty, exceed 512 bytes, "
+                                   "or contain ':' / null bytes");
+    }
+    if (!isValidTenantComponent(name)) {
+        return Err<IVectorIndex*>(errors::ErrorCode::ERR_API_INVALID_REQUEST,
+                                   "index name must not be empty, exceed 512 bytes, "
+                                   "or contain ':' / null bytes");
     }
     return createVectorIndex(makeTenantIndexName(tenant_id, name),
                              dimension, config);
@@ -654,9 +691,15 @@ Result<IGraphIndex*> IndexManager::createGraphIndex(
     std::string_view name,
     const std::string& config) {
 
-    if (tenant_id.empty()) {
+    if (!isValidTenantComponent(tenant_id)) {
         return Err<IGraphIndex*>(errors::ErrorCode::ERR_API_INVALID_REQUEST,
-                                  "tenant_id must not be empty");
+                                  "tenant_id must not be empty, exceed 512 bytes, "
+                                  "or contain ':' / null bytes");
+    }
+    if (!isValidTenantComponent(name)) {
+        return Err<IGraphIndex*>(errors::ErrorCode::ERR_API_INVALID_REQUEST,
+                                  "index name must not be empty, exceed 512 bytes, "
+                                  "or contain ':' / null bytes");
     }
     return createGraphIndex(makeTenantIndexName(tenant_id, name), config);
 }
@@ -667,9 +710,15 @@ Result<ISecondaryIndex*> IndexManager::getSecondaryIndex(
     std::string_view tenant_id,
     std::string_view name) const {
 
-    if (tenant_id.empty()) {
+    if (!isValidTenantComponent(tenant_id)) {
         return Err<ISecondaryIndex*>(errors::ErrorCode::ERR_API_INVALID_REQUEST,
-                                     "tenant_id must not be empty");
+                                     "tenant_id must not be empty, exceed 512 bytes, "
+                                     "or contain ':' / null bytes");
+    }
+    if (!isValidTenantComponent(name)) {
+        return Err<ISecondaryIndex*>(errors::ErrorCode::ERR_API_INVALID_REQUEST,
+                                     "index name must not be empty, exceed 512 bytes, "
+                                     "or contain ':' / null bytes");
     }
     return getSecondaryIndex(makeTenantIndexName(tenant_id, name));
 }
@@ -678,9 +727,15 @@ Result<IVectorIndex*> IndexManager::getVectorIndex(
     std::string_view tenant_id,
     std::string_view name) const {
 
-    if (tenant_id.empty()) {
+    if (!isValidTenantComponent(tenant_id)) {
         return Err<IVectorIndex*>(errors::ErrorCode::ERR_API_INVALID_REQUEST,
-                                   "tenant_id must not be empty");
+                                   "tenant_id must not be empty, exceed 512 bytes, "
+                                   "or contain ':' / null bytes");
+    }
+    if (!isValidTenantComponent(name)) {
+        return Err<IVectorIndex*>(errors::ErrorCode::ERR_API_INVALID_REQUEST,
+                                   "index name must not be empty, exceed 512 bytes, "
+                                   "or contain ':' / null bytes");
     }
     return getVectorIndex(makeTenantIndexName(tenant_id, name));
 }
@@ -689,9 +744,15 @@ Result<IGraphIndex*> IndexManager::getGraphIndex(
     std::string_view tenant_id,
     std::string_view name) const {
 
-    if (tenant_id.empty()) {
+    if (!isValidTenantComponent(tenant_id)) {
         return Err<IGraphIndex*>(errors::ErrorCode::ERR_API_INVALID_REQUEST,
-                                  "tenant_id must not be empty");
+                                  "tenant_id must not be empty, exceed 512 bytes, "
+                                  "or contain ':' / null bytes");
+    }
+    if (!isValidTenantComponent(name)) {
+        return Err<IGraphIndex*>(errors::ErrorCode::ERR_API_INVALID_REQUEST,
+                                  "index name must not be empty, exceed 512 bytes, "
+                                  "or contain ':' / null bytes");
     }
     return getGraphIndex(makeTenantIndexName(tenant_id, name));
 }
@@ -700,17 +761,24 @@ Result<IGraphIndex*> IndexManager::getGraphIndex(
 
 Result<void> IndexManager::dropIndex(std::string_view tenant_id,
                                       std::string_view name) {
-    if (tenant_id.empty()) {
+    if (!isValidTenantComponent(tenant_id)) {
         return ErrVoid(errors::ErrorCode::ERR_API_INVALID_REQUEST,
-                       "tenant_id must not be empty");
+                       "tenant_id must not be empty, exceed 512 bytes, "
+                       "or contain ':' / null bytes");
+    }
+    if (!isValidTenantComponent(name)) {
+        return ErrVoid(errors::ErrorCode::ERR_API_INVALID_REQUEST,
+                       "index name must not be empty, exceed 512 bytes, "
+                       "or contain ':' / null bytes");
     }
     return dropIndex(makeTenantIndexName(tenant_id, name));
 }
 
 Result<void> IndexManager::dropTenantIndexes(std::string_view tenant_id) {
-    if (tenant_id.empty()) {
+    if (!isValidTenantComponent(tenant_id)) {
         return ErrVoid(errors::ErrorCode::ERR_API_INVALID_REQUEST,
-                       "tenant_id must not be empty");
+                       "tenant_id must not be empty, exceed 512 bytes, "
+                       "or contain ':' / null bytes");
     }
 
     const std::string prefix = fmt::format("tenant:{}:", tenant_id);
@@ -759,9 +827,15 @@ std::vector<std::string> IndexManager::listIndexes(
 
 Result<IndexType> IndexManager::getIndexType(std::string_view tenant_id,
                                               std::string_view name) const {
-    if (tenant_id.empty()) {
+    if (!isValidTenantComponent(tenant_id)) {
         return Err<IndexType>(errors::ErrorCode::ERR_API_INVALID_REQUEST,
-                              "tenant_id must not be empty");
+                              "tenant_id must not be empty, exceed 512 bytes, "
+                              "or contain ':' / null bytes");
+    }
+    if (!isValidTenantComponent(name)) {
+        return Err<IndexType>(errors::ErrorCode::ERR_API_INVALID_REQUEST,
+                              "index name must not be empty, exceed 512 bytes, "
+                              "or contain ':' / null bytes");
     }
     return getIndexType(makeTenantIndexName(tenant_id, name));
 }
