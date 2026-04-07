@@ -248,7 +248,11 @@ private:
                 std::string ver_str;
                 if (db_->get(versionKey(storage_key), ver_str)) {
                     try { new_version = std::stoull(ver_str) + 1; }
-                    catch (...) { new_version = 1; }
+                    catch (...) {
+                        THEMIS_WARN("UpdateDocument: malformed version counter '{}' for key '{}'; "
+                                    "resetting to 1", ver_str, storage_key);
+                        new_version = 1;
+                    }
                 }
                 db_->put(versionKey(storage_key), std::to_string(new_version));
             }
@@ -615,8 +619,11 @@ private:
                                 h->set_score(sparse_weight);
                             }
                         }
-                    } catch (const nlohmann::json::parse_error&) {
-                        // Non-JSON result from engine – emit as single hit
+                    } catch (const nlohmann::json::parse_error& e) {
+                        // AQL engine returned non-JSON (or malformed JSON) – emit
+                        // as single hit and log so that engine issues are diagnosable.
+                        THEMIS_WARN("ThemisDBGrpcService: HybridSearch – AQL result is not "
+                                    "valid JSON ({}); emitting as single hit", e.what());
                         auto* h = resp->add_hits();
                         h->set_collection(req->collection());
                         h->set_score(sparse_weight);
@@ -697,8 +704,11 @@ private:
                         }
                     }
                 }
-            } catch (const nlohmann::json::parse_error&) {
-                // Non-JSON result: pass through as-is (degraded mode)
+            } catch (const nlohmann::json::parse_error& e) {
+                // AQL engine returned non-JSON (or malformed JSON) – pass through
+                // in degraded mode and log so that engine issues are diagnosable.
+                THEMIS_WARN("ThemisDBGrpcService: FullTextSearch – AQL result is not "
+                            "valid JSON ({}); degraded mode, no hits emitted", e.what());
             }
 #endif
             return grpc::Status::OK;
