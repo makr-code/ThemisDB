@@ -1,0 +1,28 @@
+#pragma once
+
+#include <string>
+#include <nlohmann/json.hpp>
+
+namespace themis {
+namespace whisper {
+
+using json = nlohmann::json;
+
+/**
+ * @brief Runtime configuration for the Whisper transcription plugin.
+ */
+struct WhisperConfig {
+    std::string model_path;
+    std::string language = "auto";   // "auto" = detect, or BCP-47 code
+    int  n_threads = 4;
+    bool translate = false;          // translate to English if true
+    int  beam_size = 5;
+    bool print_progress = false;
+    float quality_threshold = 0.0f;  // minimum confidence to accept (0 = accept all)
+
+    static WhisperConfig fromJson(const json& j);
+    json toJson() const;
+};
+
+} // namespace whisper
+} // namespace themis

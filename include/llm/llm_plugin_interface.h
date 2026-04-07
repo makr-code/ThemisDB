@@ -451,3 +451,14 @@ private:
 
 } // namespace llm
 } // namespace themis
+
+/**
+ * @brief Export macro for dynamic loading of LLM plugins.
+ *
+ * Add this macro once in the .cpp file of your LLM plugin implementation.
+ */
+#define THEMIS_LLM_PLUGIN()                                                        \
+    extern "C" THEMIS_PLUGIN_EXPORT                                                \
+        themis::llm::ILLMPlugin* themis_llm_create();                             \
+    extern "C" THEMIS_PLUGIN_EXPORT                                                \
+        void themis_llm_destroy(themis::llm::ILLMPlugin* p)
