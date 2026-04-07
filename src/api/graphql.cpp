@@ -504,8 +504,8 @@ themis::Result<std::shared_ptr<Value>> Parser::parseValue() {
             return themis::Err<std::shared_ptr<Value>>(ErrorCode::ERR_QUERY_INVALID_SYNTAX, 
                 getLocationContext() + ": Expected variable name after '$'");
         }
-        // Return as special string value (will be resolved at execution)
-        return themis::Ok(Value::string("$" + *nameResult));
+        // Store as VariableRef (resolved against context.variables at execution time)
+        return themis::Ok(Value::variableRef(*nameResult));
     }
     
     // Enum value (bare name)
@@ -786,7 +786,18 @@ std::shared_ptr<Value> Executor::executeOperation(
     const Operation& operation,
     const ExecutionContext& context
 ) {
-    return executeSelections(operation.selections, nullptr, context);
+    // Build a context with variable defaults merged in for this operation.
+    // Runtime values in context.variables take precedence; only variables that
+    // were not supplied at runtime fall back to the operation default value.
+    ExecutionContext resolvedCtx = context;
+    for (const auto& varDef : operation.variables) {
+        if (resolvedCtx.variables.find(varDef.name) == resolvedCtx.variables.end()) {
+            if (varDef.default_value) {
+                resolvedCtx.variables[varDef.name] = varDef.default_value;
+            }
+        }
+    }
+    return executeSelections(operation.selections, nullptr, resolvedCtx);
 }
 
 std::shared_ptr<Value> Executor::executeSelections(
