@@ -58,6 +58,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Removed broken `--config=/etc/themis/config.yml` from `CMD` (file does not exist
     in a fresh container); server now starts cleanly without a config file.
 
+### Documentation
+
+- **Module-Docs Sync 📚 — 2026-04-07**
+  - 52 Module indexiert; 691 Primary-Markdown-Dateien in `src/` und `include/`
+  - 17 Module ohne Sekundärdokumentation erkannt; Issues erzeugt
+  - Sekundärdokumentation aktualisiert in `docs/de/` und `docs/en/`
+  - Tool: `tools/module_docs_builder.py` v1.0.0
+  <!-- changelog-updater: module-docs-sync-2026-04-07 -->
+
 ## [1.8.0-rc1] - 2026-04-04
 
 ### Added
