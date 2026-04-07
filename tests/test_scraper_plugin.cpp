@@ -45,14 +45,14 @@
 
 #include <gtest/gtest.h>
 
-#include "scraper_config.h"
-#include "scraper_search_engine.h"
-#include "gov_source_catalog.h"
-#include "scraper_js_renderer.h"
-#include "scraper_api_client.h"
-#include "scraper_llm_evaluator.h"
-#include "scraper_metadata_writer.h"
-#include "scraper_plugin.h"
+#include "../plugins/scraper/include/scraper_config.h"
+#include "../plugins/scraper/include/scraper_search_engine.h"
+#include "../plugins/scraper/include/gov_source_catalog.h"
+#include "../plugins/scraper/include/scraper_js_renderer.h"
+#include "../plugins/scraper/include/scraper_api_client.h"
+#include "../plugins/scraper/include/scraper_llm_evaluator.h"
+#include "../plugins/scraper/include/scraper_metadata_writer.h"
+#include "../plugins/scraper/include/scraper_plugin.h"
 
 using namespace themis::scraper;
 

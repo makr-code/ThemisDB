@@ -303,7 +303,8 @@ LABEL org.opencontainers.image.title="ThemisDB" \
 
 ENV DEBIAN_FRONTEND=noninteractive \
     THEMIS_EDITION=${THEMIS_EDITION} \
-    LD_LIBRARY_PATH=/usr/local/lib:/opt/themis/lib
+    LD_LIBRARY_PATH=/usr/local/lib:/opt/themis/lib \
+    THEMIS_MODEL_DIR=/opt/themis/models
 
 WORKDIR /opt/themis
 
@@ -334,6 +335,10 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 
 # Copy themis_server binary
 COPY --from=build /src/build/themis_server /opt/themis/bin/themis_server
+
+# Bundle exactly one default GGUF model for startup initialization.
+# Other models remain runtime/on-demand.
+COPY models/tinyllama-1.1b-q4_0.gguf /opt/themis/models/default.gguf
 
 # Copy llama.cpp libraries (if LLM enabled)
 COPY --from=llama /opt/llama.cpp/build/lib*.so* /usr/local/lib/
@@ -380,7 +385,8 @@ ARG THEMIS_EDITION
 
 ENV DEBIAN_FRONTEND=noninteractive \
     THEMIS_EDITION=${THEMIS_EDITION} \
-    LD_LIBRARY_PATH=/usr/local/lib:/opt/themis/lib
+    LD_LIBRARY_PATH=/usr/local/lib:/opt/themis/lib \
+    THEMIS_MODEL_DIR=/opt/themis/models
 
 WORKDIR /opt/themis
 
@@ -399,6 +405,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 COPY --from=build /src/build/themis_server /opt/themis/bin/themis_server
 COPY --from=build /src/build/compile_commands.json /opt/themis/
 COPY --from=llama /opt/llama.cpp/build/lib*.so* /usr/local/lib/
+COPY models/tinyllama-1.1b-q4_0.gguf /opt/themis/models/default.gguf
 RUN --mount=type=bind,from=deps,source=/build/vcpkg_installed,target=/deps_vcpkg,readonly \
     mkdir -p /opt/themis/lib && \
     cp -a /deps_vcpkg/*/lib/*.so* /opt/themis/lib/ 2>/dev/null || true

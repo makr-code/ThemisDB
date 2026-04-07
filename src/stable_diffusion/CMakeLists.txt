@@ -30,7 +30,17 @@ target_compile_features(stable_diffusion_plugin PUBLIC cxx_std_17)
 # ── Optional: stable-diffusion.cpp ──────────────────────────────────────────
 option(THEMIS_ENABLE_STABLE_DIFFUSION "Enable stable-diffusion.cpp for real generation" OFF)
 if(THEMIS_ENABLE_STABLE_DIFFUSION)
-    find_library(SD_LIB NAMES stable-diffusion)
+    set(STABLE_DIFFUSION_ROOT "${THEMIS_ROOT_DIR}/stable-diffusion.cpp" CACHE PATH "Path to local stable-diffusion.cpp checkout")
+    find_library(SD_LIB
+        NAMES stable-diffusion stable_diffusion
+        PATHS
+            ${STABLE_DIFFUSION_ROOT}/build
+            ${STABLE_DIFFUSION_ROOT}/build/src
+            ${STABLE_DIFFUSION_ROOT}/build/lib
+            ${THEMIS_ROOT_DIR}/external/stable-diffusion.cpp/build
+            /usr/local/lib
+            /usr/lib
+    )
     if(SD_LIB)
         target_link_libraries(stable_diffusion_plugin PUBLIC ${SD_LIB})
         target_compile_definitions(stable_diffusion_plugin PUBLIC THEMIS_ENABLE_STABLE_DIFFUSION=1)

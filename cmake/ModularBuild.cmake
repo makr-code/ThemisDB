@@ -33,12 +33,18 @@ if(THEMIS_BUILD_MODULAR)
 endif()
 
 # Helper function to create a modular library target
-# Usage: themis_add_module(module_name SOURCES file1.cpp file2.cpp ... DEPENDENCIES dep1 dep2 ...)
+# Usage: themis_add_module(module_name SOURCES file1.cpp file2.cpp ... DEPENDENCIES dep1 dep2 ... [DISABLE_AUTO_EXPORT] [STATIC_MODULE])
 function(themis_add_module MODULE_NAME)
-    cmake_parse_arguments(ARG "" "" "SOURCES;DEPENDENCIES" ${ARGN})
-    
-    # Create the library (SHARED for modular build)
-    add_library(themis_${MODULE_NAME} SHARED ${ARG_SOURCES})
+    cmake_parse_arguments(ARG "DISABLE_AUTO_EXPORT;STATIC_MODULE" "" "SOURCES;DEPENDENCIES" ${ARGN})
+
+    if(ARG_STATIC_MODULE)
+        set(_themis_module_type STATIC)
+    else()
+        set(_themis_module_type SHARED)
+    endif()
+
+    # Create the library (SHARED by default for modular build)
+    add_library(themis_${MODULE_NAME} ${_themis_module_type} ${ARG_SOURCES})
     
     # Set export macro
     string(TOUPPER ${MODULE_NAME} MODULE_NAME_UPPER)
@@ -78,13 +84,22 @@ function(themis_add_module MODULE_NAME)
         target_compile_definitions(themis_${MODULE_NAME} PRIVATE THEMIS_ENABLE_JEMALLOC)
     endif()
     
-    # Windows: Export all symbols for DLL and disable /GL so __create_def can read symbols
-    if(MSVC)
-        set_target_properties(themis_${MODULE_NAME} PROPERTIES
-            WINDOWS_EXPORT_ALL_SYMBOLS ON
-            INTERPROCEDURAL_OPTIMIZATION FALSE
-            VS_GLOBAL_WholeProgramOptimization "false"
-        )
+    # Windows: Export all symbols for DLL and disable /GL so __create_def can read symbols.
+    # Large modules can disable this to avoid oversized import libraries.
+    if(MSVC AND NOT ARG_STATIC_MODULE)
+        if(ARG_DISABLE_AUTO_EXPORT)
+            set_target_properties(themis_${MODULE_NAME} PROPERTIES
+                WINDOWS_EXPORT_ALL_SYMBOLS OFF
+                INTERPROCEDURAL_OPTIMIZATION FALSE
+                VS_GLOBAL_WholeProgramOptimization "false"
+            )
+        else()
+            set_target_properties(themis_${MODULE_NAME} PROPERTIES
+                WINDOWS_EXPORT_ALL_SYMBOLS ON
+                INTERPROCEDURAL_OPTIMIZATION FALSE
+                VS_GLOBAL_WholeProgramOptimization "false"
+            )
+        endif()
         target_compile_options(themis_${MODULE_NAME} PRIVATE
             $<$<CONFIG:Release>:/GL->
             $<$<CONFIG:RelWithDebInfo>:/GL->
@@ -497,6 +512,7 @@ set(THEMIS_QUERY_SOURCES
     ../src/query/statistical_aggregator.cpp
     ../src/query/semantic_cache.cpp
     ../src/query/functions/function_registry.cpp
+    ../src/api/graphql.cpp
     ../src/query/functions/ethics_functions.cpp
     ../src/query/functions/fulltext_functions.cpp
     ../src/query/functions/lora_functions.cpp
@@ -1761,6 +1777,7 @@ function(themis_build_modular)
     themis_add_module(query
         SOURCES ${THEMIS_QUERY_SOURCES}
         DEPENDENCIES ${_themis_query_deps}
+        STATIC_MODULE
     )
     
     set(_themis_network_deps

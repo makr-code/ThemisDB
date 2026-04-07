@@ -10721,6 +10721,446 @@ std::optional<http::response<http::string_body>> HttpServer::checkRateLimit(
 }
 
 // ============================================================================
+// Dynamic Endpoint Discovery
+// ============================================================================
+std::vector<HttpServer::RegisteredEndpoint> HttpServer::getRegisteredEndpoints() const {
+    std::vector<RegisteredEndpoint> endpoints;
+
+    // ========== CORE ENDPOINTS (Always Available) ==========
+    // Health & Status
+    endpoints.push_back({"GET",  "/health",                    "Health check"});
+    endpoints.push_back({"GET",  "/health/live",              "Liveness probe"});
+    endpoints.push_back({"GET",  "/health/ready",             "Readiness probe"});
+    endpoints.push_back({"GET",  "/version",                  "Server version"});
+    endpoints.push_back({"GET",  "/stats",                    "Runtime statistics"});
+    endpoints.push_back({"GET",  "/metrics",                  "Prometheus metrics"});
+    endpoints.push_back({"GET",  "/metrics/html",             "Metrics HTML dashboard"});
+    endpoints.push_back({"GET",  "/api/openapi.json",         "OpenAPI 3.1 specification"});
+    endpoints.push_back({"GET",  "/api/capabilities",         "Server capabilities"});
+
+    // Observability (Q1)
+    endpoints.push_back({"GET",  "/api/v1/observability/alerts",            "Operator alerts"});
+    endpoints.push_back({"POST", "/api/v1/observability/alerts/{id}/silence", "Silence alert"});
+    endpoints.push_back({"GET",  "/api/v1/observability/health",            "Observability health"});
+    endpoints.push_back({"GET",  "/api/v1/license/status",                  "License status"});
+
+    // Entity API (CRUD)
+    endpoints.push_back({"GET",  "/entities/{key}",           "Retrieve entity"});
+    endpoints.push_back({"POST", "/entities",                 "Create entity"});
+    endpoints.push_back({"PUT",  "/entities/{key}",           "Upsert entity"});
+    endpoints.push_back({"DELETE", "/entities/{key}",         "Delete entity"});
+    endpoints.push_back({"POST", "/entities/batch",           "Batch create entities"});
+    endpoints.push_back({"POST", "/v2/documents",             "Bulk insert via NDJSON"});
+
+    // Query API
+    endpoints.push_back({"POST", "/query",                    "Structured query"});
+    endpoints.push_back({"POST", "/query/aql",                "AQL query"});
+    endpoints.push_back({"POST", "/api/aql",                  "AQL query (compat)"});
+    endpoints.push_back({"GET",  "/v2/query/stream",          "SSE streaming AQL results"});
+
+    // Index Management
+    endpoints.push_back({"POST", "/index/create",             "Create index"});
+    endpoints.push_back({"POST", "/index/drop",               "Drop index"});
+    endpoints.push_back({"GET",  "/index/stats",              "Index statistics"});
+    endpoints.push_back({"POST", "/index/rebuild",            "Rebuild index"});
+    endpoints.push_back({"POST", "/index/reindex",            "Reindex collection"});
+
+    // Spatial Index Management (G5)
+    endpoints.push_back({"POST", "/spatial/index/create",     "Create spatial index"});
+    endpoints.push_back({"POST", "/spatial/index/rebuild",    "Rebuild spatial index"});
+    endpoints.push_back({"GET",  "/spatial/index/stats",      "Spatial index statistics"});
+    endpoints.push_back({"GET",  "/spatial/metrics",          "Spatial metrics"});
+
+    // Graph API
+    endpoints.push_back({"POST", "/graph/traverse",           "Graph traverse"});
+    endpoints.push_back({"POST", "/graph/edge",               "Create graph edge"});
+    endpoints.push_back({"DELETE", "/graph/edge/{id}",        "Delete graph edge"});
+    endpoints.push_back({"GET",  "/api/v1/graph/metrics",     "Graph metrics"});
+    endpoints.push_back({"GET",  "/api/v1/graph/metrics/prometheus", "Graph metrics (Prometheus)"});
+    endpoints.push_back({"POST", "/graph/query/incremental",  "Register incremental query"});
+    endpoints.push_back({"DELETE", "/graph/query/incremental/{id}", "Unregister incremental query"});
+    endpoints.push_back({"POST", "/graph/changes",            "Get graph changes"});
+    endpoints.push_back({"POST", "/api/v1/graph/cost-model/calibrate", "Calibrate cost model"});
+    endpoints.push_back({"GET",  "/api/v1/graph/cost-model",  "Export cost model"});
+    endpoints.push_back({"POST", "/api/v1/graph/cost-model",  "Import cost model"});
+    endpoints.push_back({"POST", "/api/v1/graph/query/explain", "Explain query plan"});
+
+    // Vector API
+    endpoints.push_back({"POST", "/vector/search",            "Vector search"});
+    endpoints.push_back({"POST", "/vector/batch_insert",      "Batch insert vectors"});
+    endpoints.push_back({"DELETE", "/vector/by-filter",       "Delete vectors by filter"});
+    endpoints.push_back({"POST", "/vector/index/save",        "Save vector index"});
+    endpoints.push_back({"POST", "/vector/index/load",        "Load vector index"});
+    endpoints.push_back({"GET",  "/vector/index/config",      "Get vector index config"});
+    endpoints.push_back({"PUT",  "/vector/index/config",      "Update vector index config"});
+    endpoints.push_back({"GET",  "/vector/index/stats",       "Vector index statistics"});
+    endpoints.push_back({"POST", "/vector/index/incremental-reindex", "Incremental vector reindex"});
+
+    // RoPE API (Relative Position Encoding)
+    endpoints.push_back({"POST", "/api/v1/vector-index/{name}/rope/config",      "RoPE configuration"});
+    endpoints.push_back({"GET",  "/api/v1/vector-index/{name}/rope/config",      "Get RoPE config"});
+    endpoints.push_back({"DELETE", "/api/v1/vector-index/{name}/rope/config",    "Delete RoPE config"});
+    endpoints.push_back({"POST", "/api/v1/vector-index/{name}/rope/add",         "Add RoPE entries"});
+    endpoints.push_back({"POST", "/api/v1/vector-index/{name}/rope/add-relational", "Add relational RoPE"});
+    endpoints.push_back({"POST", "/api/v1/vector-index/{name}/rope/search",      "RoPE search"});
+    endpoints.push_back({"POST", "/api/v1/vector-index/{name}/rope/batch-add",   "Batch add RoPE entries"});
+    endpoints.push_back({"GET",  "/api/v1/vector-index/{name}/rope/stats",       "RoPE statistics"});
+
+    // Search API
+    endpoints.push_back({"POST", "/search/hybrid",            "Hybrid search (beta)"});
+    endpoints.push_back({"POST", "/search/fusion",            "Fusion search (beta)"});
+    endpoints.push_back({"POST", "/search/fulltext",          "Fulltext search"});
+
+    // Content Management
+    endpoints.push_back({"POST", "/content/import",           "Import content"});
+    endpoints.push_back({"GET",  "/content/{id}",             "Get content"});
+    endpoints.push_back({"GET",  "/content/{id}/blob",        "Get content blob"});
+    endpoints.push_back({"GET",  "/content/{id}/chunks",      "Get content chunks"});
+    endpoints.push_back({"GET",  "/config/content-filters",   "Get content filter schema"});
+    endpoints.push_back({"PUT",  "/config/content-filters",   "Update content filter schema"});
+    endpoints.push_back({"GET",  "/config/edge-weights",      "Get edge weight config"});
+    endpoints.push_back({"PUT",  "/config/edge-weights",      "Update edge weight config"});
+
+    // Encryption
+    endpoints.push_back({"GET",  "/config/encryption-schema", "Get encryption schema"});
+    endpoints.push_back({"PUT",  "/config/encryption-schema", "Update encryption schema"});
+
+    // Transaction API
+    endpoints.push_back({"POST", "/transaction",              "Begin transaction"});
+    endpoints.push_back({"POST", "/transaction/begin",        "Begin transaction (explicit)"});
+    endpoints.push_back({"POST", "/transaction/commit",       "Commit transaction"});
+    endpoints.push_back({"POST", "/transaction/rollback",     "Rollback transaction"});
+    endpoints.push_back({"GET",  "/transaction/stats",        "Transaction statistics"});
+    endpoints.push_back({"GET",  "/transaction/version",      "Transaction version"});
+    endpoints.push_back({"GET",  "/transaction/{id}/explain", "Explain transaction"});
+
+    // Distributed Transaction (2PC)
+    endpoints.push_back({"POST", "/dtxn/begin",               "Begin distributed transaction"});
+    endpoints.push_back({"POST", "/dtxn/operation",           "Execute distributed operation"});
+    endpoints.push_back({"POST", "/dtxn/commit",              "Commit distributed transaction"});
+    endpoints.push_back({"POST", "/dtxn/abort",               "Abort distributed transaction"});
+    endpoints.push_back({"POST", "/dtxn/readonly",            "Read-only distributed query"});
+    endpoints.push_back({"GET",  "/dtxn/status/{id}",         "Distributed transaction status"});
+    endpoints.push_back({"GET",  "/dtxn/stats",               "Distributed transaction statistics"});
+
+    // WAL API (Replication)
+    endpoints.push_back({"POST", "/api/v1/wal/apply",         "Apply WAL entries"});
+
+    // Admin API
+    endpoints.push_back({"POST", "/admin/backup",             "Backup database"});
+    endpoints.push_back({"POST", "/admin/restore",            "Restore database"});
+    endpoints.push_back({"POST", "/v1/admin/shards",          "Add shard node"});
+    endpoints.push_back({"GET",  "/v1/admin/shards",          "List shard nodes"});
+    endpoints.push_back({"GET",  "/v1/admin/storage/stats",   "Storage statistics"});
+
+    // Config & Utilities
+    endpoints.push_back({"GET",  "/config",                   "Get configuration"});
+    endpoints.push_back({"POST", "/config",                   "Set configuration"});
+
+    // ========== FEATURE-CONDITIONAL ENDPOINTS ==========
+
+    // Semantic Cache (Sprint A)
+    if (config_.feature_semantic_cache) {
+        endpoints.push_back({"POST", "/cache/query",          "Semantic cache lookup (beta)"});
+        endpoints.push_back({"POST", "/cache/put",            "Semantic cache store (beta)"});
+        endpoints.push_back({"GET",  "/cache/stats",          "Cache statistics (beta)"});
+        endpoints.push_back({"GET",  "/v1/admin/cache/health", "Cache health (admin)"});
+        endpoints.push_back({"GET",  "/v1/admin/cache/stats",  "Cache stats (admin)"});
+        endpoints.push_back({"DELETE", "/v1/admin/cache/key/{key}", "Evict cache key (admin)"});
+        endpoints.push_back({"DELETE", "/v1/admin/cache/tenant/{id}", "Evict tenant cache (admin)"});
+        endpoints.push_back({"POST", "/v1/admin/cache/circuit-breaker/reset", "Reset circuit breaker (admin)"});
+        endpoints.push_back({"GET",  "/v1/admin/cache/circuit-breaker", "Circuit breaker status (admin)"});
+        endpoints.push_back({"POST", "/v1/admin/cache/warmup",  "Warmup cache (admin)"});
+        endpoints.push_back({"POST", "/v1/admin/cache/snapshot", "Snapshot cache (admin)"});
+        endpoints.push_back({"GET",  "/v1/admin/cache/tenants", "List tenants (admin)"});
+        endpoints.push_back({"GET",  "/v1/admin/cache/tenant/{id}/stats", "Tenant stats (admin)"});
+        endpoints.push_back({"PATCH", "/v1/admin/cache/tenant/{id}/quota", "Update tenant quota (admin)"});
+        endpoints.push_back({"DELETE", "/v1/admin/cache/pii/{uuid}", "Evict PII from cache (admin)"});
+    }
+
+    // LLM Interaction Store (Sprint A)
+    if (config_.feature_llm_store) {
+        endpoints.push_back({"POST", "/llm/interaction",        "Store LLM interaction"});
+        endpoints.push_back({"GET",  "/llm/interaction",        "List LLM interactions"});
+        endpoints.push_back({"GET",  "/llm/interaction/{id}",   "Get LLM interaction"});
+        endpoints.push_back({"PATCH", "/llm/interaction/{id}",  "Update LLM metadata"});
+        endpoints.push_back({"POST", "/query/enhanced",         "Enhanced query with LLM"});
+    }
+
+    // Prompt Template Management
+    endpoints.push_back({"POST", "/prompt_template",          "Create prompt template"});
+    endpoints.push_back({"GET",  "/prompt_template",          "List prompt templates"});
+    endpoints.push_back({"GET",  "/prompt_template/{id}",     "Get prompt template"});
+    endpoints.push_back({"PUT",  "/prompt_template/{id}",     "Update prompt template"});
+
+    // Changefeed / CDC (Sprint A)
+    if (config_.feature_cdc) {
+        endpoints.push_back({"GET",  "/changefeed",            "Get changefeed events"});
+        endpoints.push_back({"GET",  "/changefeed/stream",     "Stream CDC events (SSE)"});
+        endpoints.push_back({"POST", "/changefeed/stream/ack", "Acknowledge CDC events"});
+        endpoints.push_back({"GET",  "/changefeed/stats",      "CDC statistics"});
+        endpoints.push_back({"POST", "/changefeed/retention",  "Configure CDC retention"});
+        endpoints.push_back({"GET",  "/changefeed/retention",  "Get CDC retention config"});
+        endpoints.push_back({"PUT",  "/changefeed/retention",  "Update CDC retention config"});
+        endpoints.push_back({"POST", "/changefeed/compact",    "Compact changefeed"});
+        endpoints.push_back({"POST", "/changefeed/redact",     "GDPR redact changefeed"});
+
+        // Snapshots (Named Snapshots - MVCC Phase 3)
+        endpoints.push_back({"POST", "/api/v1/snapshots/tags",  "Create named snapshot"});
+        endpoints.push_back({"GET",  "/api/v1/snapshots/tags",  "List named snapshots"});
+        endpoints.push_back({"GET",  "/api/v1/snapshots/tags/{name}", "Get named snapshot"});
+        endpoints.push_back({"DELETE", "/api/v1/snapshots/tags/{name}", "Delete named snapshot"});
+        endpoints.push_back({"GET",  "/api/v1/snapshots/stats", "Snapshot statistics"});
+
+        // Diff API (Phase 2 MVCC)
+        endpoints.push_back({"GET",  "/api/v1/diff",            "Get record diff"});
+        endpoints.push_back({"GET",  "/api/v1/diff/cache/stats", "Diff cache stats"});
+        endpoints.push_back({"DELETE", "/api/v1/diff/cache",    "Clear diff cache"});
+
+        // PITR API (Point-in-Time Recovery - Phase 3 MVCC)
+        endpoints.push_back({"POST", "/api/v1/restore/pitr",   "Restore from PITR"});
+        endpoints.push_back({"POST", "/api/v1/restore/preview", "Preview PITR restore"});
+        endpoints.push_back({"GET",  "/api/v1/restore/progress", "PITR restore progress"});
+
+        // Branch API (Phase 4 MVCC)
+        endpoints.push_back({"POST", "/api/v1/branches",        "Create branch"});
+        endpoints.push_back({"GET",  "/api/v1/branches",        "List branches"});
+        endpoints.push_back({"GET",  "/api/v1/branches/active", "Get active branch"});
+        endpoints.push_back({"GET",  "/api/v1/branches/stats",  "Branch statistics"});
+        endpoints.push_back({"GET",  "/api/v1/branches/{name}", "Get branch"});
+        endpoints.push_back({"POST", "/api/v1/branches/{name}/switch", "Switch branch"});
+        endpoints.push_back({"DELETE", "/api/v1/branches/{name}", "Delete branch"});
+        endpoints.push_back({"POST", "/api/v1/branches/merge",  "Merge branches"});
+
+        // Merge API (Phase 5 MVCC - 3-Way Merge)
+        endpoints.push_back({"POST", "/api/v1/merge",           "Merge snapshots"});
+        endpoints.push_back({"POST", "/api/v1/merge/preview",   "Preview merge"});
+        endpoints.push_back({"POST", "/api/v1/merge/by-tag",    "Merge by tag"});
+        endpoints.push_back({"GET",  "/api/v1/merge/can-fast-forward", "Check fast-forward merge"});
+
+        // MVCC API
+        endpoints.push_back({"GET",  "/api/v1/mvcc/keys/{key}", "Get key versions"});
+        endpoints.push_back({"POST", "/api/v1/mvcc/keys/{key}", "Put versioned key"});
+        endpoints.push_back({"GET",  "/api/v1/mvcc/keys/{key}/versions", "Get version history"});
+        endpoints.push_back({"DELETE", "/api/v1/mvcc/keys/{key}/versions", "Delete versions"});
+        endpoints.push_back({"GET",  "/api/v1/mvcc/clock",      "Get HLC timestamp"});
+        endpoints.push_back({"GET",  "/api/v1/mvcc/stats",      "MVCC statistics"});
+    }
+
+    // Time-Series Store (Sprint B)
+    if (config_.feature_timeseries) {
+        endpoints.push_back({"POST", "/ts/put",                "Store time-series data"});
+        endpoints.push_back({"POST", "/ts/query",              "Query time-series (beta)"});
+        endpoints.push_back({"POST", "/ts/aggregate",          "Aggregate time-series (beta)"});
+        endpoints.push_back({"GET",  "/ts/config",             "Get time-series config"});
+        endpoints.push_back({"PUT",  "/ts/config",             "Update time-series config"});
+        endpoints.push_back({"GET",  "/ts/aggregates",         "List aggregates"});
+        endpoints.push_back({"GET",  "/ts/retention",          "Get retention policy"});
+        endpoints.push_back({"GET",  "/ts/metrics",            "Time-series metrics"});
+        endpoints.push_back({"POST", "/api/v1/prom/write",     "Prometheus remote write"});
+    }
+
+    // PII Manager
+    if (config_.feature_pii_manager) {
+        endpoints.push_back({"GET",  "/pii",                   "List PII bindings"});
+        endpoints.push_back({"POST", "/pii",                   "Create PII binding"});
+        endpoints.push_back({"GET",  "/pii/{uuid}",            "Get PII by UUID"});
+        endpoints.push_back({"DELETE", "/pii/{uuid}",          "Delete PII binding"});
+        endpoints.push_back({"GET",  "/pii/reveal/{uuid}",     "Reveal PII value"});
+        endpoints.push_back({"GET",  "/pii/export.csv",        "Export PII (CSV)"});
+    }
+
+    // Update Checker
+    if (config_.feature_update_checker) {
+        endpoints.push_back({"GET",  "/api/updates",           "Get update status"});
+        endpoints.push_back({"POST", "/api/updates/check",     "Check for updates"});
+        endpoints.push_back({"GET",  "/api/updates/config",    "Get update config"});
+        endpoints.push_back({"PUT",  "/api/updates/config",    "Update update config"});
+    }
+
+    // ========== OPTIONAL/CONDITIONAL ENDPOINTS ==========
+
+    // SAML Support (if configured)
+    if (saml_provider_ != nullptr) {
+        endpoints.push_back({"GET",  "/api/v1/auth/saml/login",    "SAML login initiator"});
+        endpoints.push_back({"POST", "/api/v1/auth/saml/acs",      "SAML assertion consumer"});
+        endpoints.push_back({"POST", "/api/v1/auth/saml/slo",      "SAML logout"});
+        endpoints.push_back({"GET",  "/api/v1/auth/saml/metadata", "SAML metadata"});
+    }
+
+    // PKI API
+    endpoints.push_back({"POST", "/api/pki/{key_id}/sign",     "Sign with PKI key"});
+    endpoints.push_back({"POST", "/api/pki/{key_id}/verify",   "Verify PKI signature"});
+    endpoints.push_back({"POST", "/api/pki/hsm/sign",          "HSM sign"});
+    endpoints.push_back({"GET",  "/api/pki/hsm/keys",          "List HSM keys"});
+    endpoints.push_back({"POST", "/api/pki/timestamp",         "Create TSA timestamp"});
+    endpoints.push_back({"POST", "/api/pki/timestamp/verify",  "Verify TSA timestamp"});
+    endpoints.push_back({"POST", "/api/pki/eidas/sign",        "eIDAS sign"});
+    endpoints.push_back({"POST", "/api/pki/eidas/verify",      "eIDAS verify"});
+    endpoints.push_back({"GET",  "/api/pki/certificates",      "List certificates"});
+    endpoints.push_back({"GET",  "/api/pki/certificates/{id}", "Get certificate"});
+    endpoints.push_back({"GET",  "/api/pki/status",            "PKI status"});
+
+    // Keys Management
+    endpoints.push_back({"GET",  "/keys",                      "List keys"});
+    endpoints.push_back({"POST", "/keys/rotate",               "Rotate keys"});
+
+    // Classification & Reports
+    endpoints.push_back({"GET",  "/classification/rules",      "Classification rules"});
+    endpoints.push_back({"POST", "/classification/test",       "Test classification"});
+    endpoints.push_back({"GET",  "/reports/compliance",        "Compliance report"});
+
+    // Policies (Ranger integration)
+    endpoints.push_back({"POST", "/policies/import/ranger",    "Import Ranger policies"});
+    endpoints.push_back({"GET",  "/policies/export/ranger",    "Export Ranger policies"});
+
+    // Audit API
+    endpoints.push_back({"GET",  "/api/audit",                 "Query audit logs"});
+    endpoints.push_back({"GET",  "/api/audit/export/csv",      "Export audit logs (CSV)"});
+
+    // Export API (EXP-001)
+    endpoints.push_back({"POST", "/api/v1/export/jsonl_llm",   "Export to JSONL for LLM"});
+    endpoints.push_back({"GET",  "/api/v1/export/{id}/status", "Export job status"});
+
+    // API Key Management
+    endpoints.push_back({"POST", "/api/keys",                  "Create API key"});
+    endpoints.push_back({"GET",  "/api/keys",                  "List API keys"});
+    endpoints.push_back({"GET",  "/api/keys/{id}",             "Get API key"});
+    endpoints.push_back({"PUT",  "/api/keys/{id}",             "Update API key"});
+    endpoints.push_back({"DELETE", "/api/keys/{id}",           "Delete API key"});
+
+    // Session Management
+    endpoints.push_back({"POST", "/auth/sessions",             "Create session"});
+    endpoints.push_back({"GET",  "/auth/sessions",             "List sessions"});
+    endpoints.push_back({"DELETE", "/auth/sessions/{id}",      "Delete session"});
+    endpoints.push_back({"DELETE", "/auth/sessions",           "Revoke all other sessions"});
+
+    // UDF (User-Defined Functions)
+    endpoints.push_back({"POST", "/api/v1/query/udfs",         "Register UDF"});
+    endpoints.push_back({"GET",  "/api/v1/query/udfs",         "List UDFs"});
+    endpoints.push_back({"GET",  "/api/v1/query/udfs/{name}",  "Get UDF"});
+    endpoints.push_back({"DELETE", "/api/v1/query/udfs/{name}", "Delete UDF"});
+
+    // GraphQL
+    endpoints.push_back({"POST", "/graphql",                   "GraphQL query"});
+    endpoints.push_back({"POST", "/api/v1/graphql",            "GraphQL query (v1)"});
+    endpoints.push_back({"GET",  "/graphql/schema",            "GraphQL schema"});
+    endpoints.push_back({"GET",  "/api/v1/graphql/schema",     "GraphQL schema (v1)"});
+
+    // gRPC-Web Proxy
+    endpoints.push_back({"POST", "/grpc-web/{service}/{method}", "gRPC-Web call"});
+    endpoints.push_back({"OPTIONS", "/grpc-web/{service}/{method}", "gRPC-Web CORS"});
+    endpoints.push_back({"GET",  "/api/v1/grpc-web/status",    "gRPC-Web status"});
+
+    // Serverless Functions
+    endpoints.push_back({"POST", "/api/v1/functions",          "Deploy function"});
+    endpoints.push_back({"GET",  "/api/v1/functions",          "List functions"});
+    endpoints.push_back({"GET",  "/api/v1/functions/{id}",     "Get function"});
+    endpoints.push_back({"PUT",  "/api/v1/functions/{id}",     "Update function"});
+    endpoints.push_back({"DELETE", "/api/v1/functions/{id}",   "Delete function"});
+    endpoints.push_back({"POST", "/api/v1/functions/{id}/invoke", "Invoke function"});
+    endpoints.push_back({"GET",  "/api/v1/functions/{id}/versions", "List function versions"});
+
+    // Async Jobs
+    endpoints.push_back({"POST", "/v2/jobs",                   "Submit async job"});
+    endpoints.push_back({"GET",  "/v2/jobs",                   "List async jobs"});
+    endpoints.push_back({"GET",  "/v2/jobs/{id}",              "Get job status"});
+    endpoints.push_back({"DELETE", "/v2/jobs/{id}",            "Cancel job"});
+
+    // Task Scheduler
+    endpoints.push_back({"POST", "/api/tasks",                 "Create scheduled task"});
+    endpoints.push_back({"GET",  "/api/tasks",                 "List scheduled tasks"});
+    endpoints.push_back({"GET",  "/api/tasks/stats",           "Task scheduler stats"});
+    endpoints.push_back({"GET",  "/api/tasks/{id}",            "Get task"});
+    endpoints.push_back({"PUT",  "/api/tasks/{id}",            "Update task"});
+    endpoints.push_back({"DELETE", "/api/tasks/{id}",          "Delete task"});
+    endpoints.push_back({"POST", "/api/tasks/{id}/enable",     "Enable task"});
+    endpoints.push_back({"POST", "/api/tasks/{id}/disable",    "Disable task"});
+    endpoints.push_back({"POST", "/api/tasks/{id}/execute",    "Execute task now"});
+    endpoints.push_back({"GET",  "/api/tasks/{id}/history",    "Task execution history"});
+    endpoints.push_back({"GET",  "/ui/tasks",                  "Tasks web UI"});
+
+    // Database Maintenance
+    endpoints.push_back({"POST", "/api/v1/maintenance/schedules", "Create maintenance schedule"});
+    endpoints.push_back({"GET",  "/api/v1/maintenance/schedules", "List maintenance schedules"});
+    endpoints.push_back({"GET",  "/api/v1/maintenance/schedules/{id}", "Get maintenance schedule"});
+    endpoints.push_back({"PUT",  "/api/v1/maintenance/schedules/{id}", "Update maintenance schedule"});
+    endpoints.push_back({"PATCH", "/api/v1/maintenance/schedules/{id}", "Patch maintenance schedule"});
+    endpoints.push_back({"DELETE", "/api/v1/maintenance/schedules/{id}", "Delete maintenance schedule"});
+    endpoints.push_back({"POST", "/api/v1/maintenance/schedules/{id}/run", "Run maintenance now"});
+    endpoints.push_back({"GET",  "/api/v1/maintenance/jobs",   "List maintenance jobs"});
+    endpoints.push_back({"GET",  "/api/v1/maintenance/jobs/{id}", "Get maintenance job"});
+    endpoints.push_back({"POST", "/api/v1/maintenance/jobs/{id}/cancel", "Cancel maintenance job"});
+    endpoints.push_back({"GET",  "/api/v1/maintenance/status", "Maintenance status"});
+    endpoints.push_back({"GET",  "/api/v1/maintenance/health", "Maintenance health"});
+    endpoints.push_back({"GET",  "/api/v1/maintenance/task-handlers", "Available task handlers"});
+
+    // Schema API
+    endpoints.push_back({"GET",  "/api/v1/schema",             "Get full schema"});
+    endpoints.push_back({"GET",  "/api/v1/schema/tables",      "List tables"});
+    endpoints.push_back({"GET",  "/api/v1/schema/tables/{name}", "Get table schema"});
+    endpoints.push_back({"PUT",  "/api/v1/schema/{table}",     "Update table schema"});
+    endpoints.push_back({"PATCH", "/api/v1/schema/{table}",    "Patch table schema"});
+    endpoints.push_back({"GET",  "/api/v1/schema/versions/{table}", "Get schema versions"});
+    endpoints.push_back({"POST", "/api/v1/schema/versions/{table}", "Create schema version"});
+    endpoints.push_back({"GET",  "/api/v1/schema/diff/{table}", "Compare schema versions"});
+    endpoints.push_back({"GET",  "/api/v1/information_schema", "INFORMATION_SCHEMA"});
+    endpoints.push_back({"GET",  "/api/v1/metadata/stats/{table}", "Table statistics"});
+    endpoints.push_back({"POST", "/api/v1/metadata/stats/{table}", "Update statistics"});
+    endpoints.push_back({"GET",  "/api/v1/metadata/constraints/{table}", "Table constraints"});
+    endpoints.push_back({"GET",  "/api/v1/metadata/index_recommendations", "Index recommendations"});
+    endpoints.push_back({"GET",  "/api/v1/metadata/audit",     "Metadata audit log"});
+    endpoints.push_back({"GET",  "/api/v1/metadata/lineage/{table}", "Column lineage"});
+    endpoints.push_back({"POST", "/api/v1/metadata/lineage",   "Track column lineage"});
+    endpoints.push_back({"PUT",  "/api/v1/metadata/schema_import", "Import schema"});
+    endpoints.push_back({"POST", "/api/v1/metadata/constraints/validate/{table}", "Validate constraints"});
+
+    // Error API
+    endpoints.push_back({"GET",  "/api/v1/errors",             "List error codes"});
+    endpoints.push_back({"GET",  "/api/v1/errors/{code}",      "Get error documentation"});
+    endpoints.push_back({"GET",  "/api/v1/errors/categories",  "Error categories"});
+    endpoints.push_back({"GET",  "/api/v1/errors/search",      "Search errors"});
+
+    // BPMN Process Management
+    endpoints.push_back({"POST", "/api/v1/bpmn/process/start", "Start BPMN process"});
+    endpoints.push_back({"POST", "/api/v1/bpmn/task/{id}/complete", "Complete BPMN task"});
+    endpoints.push_back({"GET",  "/api/v1/bpmn/instance/{id}", "Get BPMN instance"});
+
+    // Geo Topology
+    endpoints.push_back({"GET",  "/api/v1/geo/topology",       "Geo topology"});
+    endpoints.push_back({"GET",  "/api/v1/geo/regions",        "List regions"});
+    endpoints.push_back({"GET",  "/api/v1/geo/health",         "Geo health"});
+    endpoints.push_back({"POST", "/api/v1/geo/topology/shard", "Add shard to topology"});
+    endpoints.push_back({"DELETE", "/api/v1/geo/topology/shard/{id}", "Remove shard from topology"});
+    endpoints.push_back({"GET",  "/api/v1/geo/config/{collection}", "Get geo config"});
+    endpoints.push_back({"PUT",  "/api/v1/geo/config/{collection}", "Update geo config"});
+
+    // Replication Topology
+    endpoints.push_back({"GET",  "/api/v1/replication/topology", "Replication topology"});
+    endpoints.push_back({"GET",  "/api/v1/replication/health",   "Replication health"});
+    endpoints.push_back({"GET",  "/ui/replication/topology",     "Replication topology UI"});
+
+    // Feedback API
+    endpoints.push_back({"POST", "/api/feedback",              "Submit feedback"});
+    endpoints.push_back({"GET",  "/api/feedback",              "List feedback"});
+    endpoints.push_back({"GET",  "/api/feedback/{id}",         "Get feedback"});
+    endpoints.push_back({"PUT",  "/api/feedback/{id}",         "Update feedback"});
+    endpoints.push_back({"DELETE", "/api/feedback/{id}",       "Delete feedback"});
+    endpoints.push_back({"GET",  "/api/feedback/adapter/{adapter_id}", "Get feedback adapter"});
+    endpoints.push_back({"GET",  "/api/feedback/stats",        "Feedback statistics"});
+
+    // Sort by path for consistent, reproducible output
+    std::sort(endpoints.begin(), endpoints.end(),
+        [](const RegisteredEndpoint& a, const RegisteredEndpoint& b) {
+            if (a.path != b.path) return a.path < b.path;
+            // Secondary sort by method for same path
+            return a.method < b.method;
+        });
+
+    return endpoints;
+}
+
+// ============================================================================
 // Error API handlers
 http::response<http::string_body> HttpServer::handleErrorApiList(
     const http::request<http::string_body>& req

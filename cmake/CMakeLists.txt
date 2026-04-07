@@ -947,8 +947,18 @@ endif()
 
 # Compiler warnings and optimizations
 if(MSVC)
-    add_compile_options(/W4 /utf-8 /wd4701 /bigobj /FS)
-    # /FS: Allow parallel PDB writes to avoid C1041 errors
+    # Replace /Zi (shared PDB) with /Z7 (embedded debug info in .obj) to eliminate
+    # PDB write contention (C1041) in parallel Ninja builds.
+    foreach(_lang C CXX)
+        foreach(_cfg DEBUG RELWITHDEBINFO)
+            string(REPLACE "/Zi" "/Z7"
+                CMAKE_${_lang}_FLAGS_${_cfg} "${CMAKE_${_lang}_FLAGS_${_cfg}}")
+            set(CMAKE_${_lang}_FLAGS_${_cfg} "${CMAKE_${_lang}_FLAGS_${_cfg}}"
+                CACHE STRING "" FORCE)
+        endforeach()
+    endforeach()
+    add_compile_options(/W4 /utf-8 /wd4701 /bigobj)
+    # /FS removed: /Z7 renders it unnecessary (no shared PDB file at compile time)
     # Suppress unreachable code warnings from external headers (e.g., nlohmann/json)
     add_compile_options(/wd4702)
     # Suppress AddressSanitizer warnings treated as errors (C5072)
@@ -1597,6 +1607,7 @@ set(THEMIS_CORE_SOURCES
     ../src/query/plan_cache.cpp
     ../src/query/query_compiler.cpp
     ../src/query/functions/function_registry.cpp
+    ../src/api/graphql.cpp
     ../src/query/functions/ethics_functions.cpp
     ../src/query/functions/fulltext_functions.cpp
     ../src/query/functions/lora_functions.cpp

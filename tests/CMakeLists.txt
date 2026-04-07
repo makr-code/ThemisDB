@@ -59,6 +59,10 @@ list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_lora_adapter_merger\\.cpp$")
 # themisctl test includes tools/themisctl.cpp directly (THEMISCTL_TEST_BUILD guard);
 # must be compiled as a focused target only, not merged into the unified themis_tests binary.
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_themisctl\\.cpp$")
+# test_scraper_plugin.cpp is compiled in the dedicated
+# test_scraper_plugin_focused target with its plugin implementation sources.
+# Keep it out of the aggregated themis_tests target to avoid unresolved externals.
+list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_scraper_plugin\\.cpp$")
 
 # Skip feature-dependent tests when the corresponding modules are disabled
 set(TEST_EXCLUDE_PATTERNS "")
@@ -19926,6 +19930,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../src/whisper/tests/test_whisper_plugin.
         nlohmann_json::nlohmann_json
     )
     target_compile_features(test_whisper_plugin PRIVATE cxx_std_17)
+    target_compile_definitions(test_whisper_plugin PRIVATE THEMIS_PLUGIN_EXPORTS)
     add_test(NAME WhisperPluginFocusedTests COMMAND test_whisper_plugin)
     set_tests_properties(WhisperPluginFocusedTests PROPERTIES
         LABELS "plugins;whisper;audio;v2.0.0"
@@ -19953,6 +19958,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../src/stable_diffusion/tests/test_sd_plu
         nlohmann_json::nlohmann_json
     )
     target_compile_features(test_sd_plugin PRIVATE cxx_std_17)
+    target_compile_definitions(test_sd_plugin PRIVATE THEMIS_PLUGIN_EXPORTS)
     add_test(NAME SDPluginFocusedTests COMMAND test_sd_plugin)
     set_tests_properties(SDPluginFocusedTests PROPERTIES
         LABELS "plugins;stable_diffusion;image_generation;v2.0.0"
@@ -19978,6 +19984,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../src/llama_cpp/tests/test_llama_cpp_plu
         nlohmann_json::nlohmann_json
     )
     target_compile_features(test_llama_cpp_plugin PRIVATE cxx_std_17)
+    target_compile_definitions(test_llama_cpp_plugin PRIVATE THEMIS_PLUGIN_EXPORTS)
     add_test(NAME LlamaCppPluginFocusedTests COMMAND test_llama_cpp_plugin)
     set_tests_properties(LlamaCppPluginFocusedTests PROPERTIES
         LABELS "plugins;llama_cpp;llm;v2.0.0"

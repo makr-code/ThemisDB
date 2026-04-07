@@ -441,6 +441,32 @@ public:
         return sharding_manager_;
     }
 
+    /**
+     * @brief Registered endpoint information (dynamically assembled from config)
+     */
+    struct RegisteredEndpoint {
+        std::string method;    // GET, POST, PUT, DELETE, PATCH, etc.
+        std::string path;      // e.g. "/query", "/entities/:id"
+        std::string description;
+    };
+
+    /**
+     * @brief Get list of all registered API endpoints (dynamic)
+     *
+     * Returns dynamically constructed endpoint list based on:
+     *  - Always-available core endpoints (/health, /query, /entities, etc.)
+     *  - Config-enabled feature endpoints (LLM, CDC, TimeSeries, etc.)
+     *  - SAML endpoints (if enableSaml() was called)
+     *
+     * Useful for:
+     *  - Startup logs (no more hardcoding endpoint lists)
+     *  - API documentation generation
+     *  - Health checks / capability discovery
+     *
+     * @return vector of RegisteredEndpoint structs, sorted by path
+     */
+    std::vector<RegisteredEndpoint> getRegisteredEndpoints() const;
+
 private:
     // Session class for handling individual connections
     class Session : public std::enable_shared_from_this<Session> {

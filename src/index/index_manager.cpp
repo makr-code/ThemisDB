@@ -245,6 +245,8 @@ static bool isValidTenantComponent(std::string_view s) noexcept {
 }
 
 } // namespace (validation helpers)
+
+IndexManager::IndexManager(
     IExpressionEvaluatorPtr evaluator,
     IStorageEnginePtr storage
 ) : evaluator_(evaluator)

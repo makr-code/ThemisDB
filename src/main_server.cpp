@@ -2130,34 +2130,52 @@ int main(int argc, char* argv[]) {
         THEMIS_INFO("  Press Ctrl+C to stop gracefully");
         THEMIS_INFO("=================================================");
         THEMIS_INFO("");
-        THEMIS_INFO("Available endpoints:");
-        THEMIS_INFO("  GET  /health              - Health check");
-        THEMIS_INFO("  GET  /entities/:key       - Retrieve entity");
-        THEMIS_INFO("  POST /entities            - Create entity");
-        THEMIS_INFO("  PUT  /entities/:key       - Update entity");
-        THEMIS_INFO("  DELETE /entities/:key     - Delete entity");
-        THEMIS_INFO("  POST /query               - Execute query");
-        THEMIS_INFO("  POST /graph/traverse      - Graph traversal");
-        THEMIS_INFO("  POST /vector/search       - Vector search");
-        THEMIS_INFO("  POST /transaction         - Execute transaction");
-        THEMIS_INFO("  PUT  /contentfs/:pk       - Store binary content (ContentFS)");
-        THEMIS_INFO("  GET  /contentfs/:pk       - Retrieve content (Range supported)");
-        THEMIS_INFO("  HEAD /contentfs/:pk       - Content metadata (size, ETag)");
-        THEMIS_INFO("  DELETE /contentfs/:pk     - Delete content");
-#ifdef THEMIS_ENABLE_HTTP_SERVER
-        if (server_config.feature_semantic_cache) {
-            THEMIS_INFO("  POST /cache/query         - Semantic cache lookup (beta)");
-            THEMIS_INFO("  POST /cache/put           - Semantic cache put (beta)");
-            THEMIS_INFO("  GET  /cache/stats         - Semantic cache stats (beta)");
+        
+        // Dynamic endpoint discovery from HttpServer (feature-aware, always in sync)
+        try {
+            auto endpoints = g_server->getRegisteredEndpoints();
+            THEMIS_INFO("Available endpoints ({} total):", endpoints.size());
+            
+            // Group endpoints by category for improved readability
+            std::string current_category;
+            for (const auto& ep : endpoints) {
+                // Extract category from path (e.g., "/cache/*" → "Cache", "/api/v1/schema" → "Schema")
+                std::string category = "Core";
+                if (ep.path.find("/cache/") != std::string::npos) category = "Cache (Feature)";
+                else if (ep.path.find("/llm/") != std::string::npos) category = "LLM (Feature)";
+                else if (ep.path.find("/changefeed") != std::string::npos) category = "CDC (Feature)";
+                else if (ep.path.find("/ts/") != std::string::npos) category = "TimeSeries (Feature)";
+                else if (ep.path.find("/pii/") != std::string::npos) category = "PII (Feature)";
+                else if (ep.path.find("/api/v1/") != std::string::npos) category = "API v1";
+                else if (ep.path.find("/vector/") != std::string::npos) category = "Vector";
+                else if (ep.path.find("/graph/") != std::string::npos) category = "Graph";
+                else if (ep.path.find("/search/") != std::string::npos) category = "Search";
+                else if (ep.path.find("/auth/") != std::string::npos) category = "Auth";
+                else if (ep.path.find("/admin/") != std::string::npos) category = "Admin";
+                else if (ep.path.find("/graphql") != std::string::npos) category = "GraphQL";
+                
+                // Print category header on first entry of new category
+                if (category != current_category && !current_category.empty()) {
+                    THEMIS_INFO(""); // Blank line between categories
+                }
+                if (category != current_category) {
+                    current_category = category;
+                    THEMIS_INFO("  [{}]", category);
+                }
+                
+                // Format: "  METHOD  /path/pattern             - Human description"
+                THEMIS_INFO("    {:<6} {:<40} - {}", ep.method, ep.path, ep.description);
+            }
+            THEMIS_INFO("");
+        } catch (const std::exception& e) {
+            THEMIS_WARN("Failed to retrieve endpoint list: {}", e.what());
+            // Fallback to minimal list if getRegisteredEndpoints() fails
+            THEMIS_INFO("Available endpoints:");
+            THEMIS_INFO("  GET  /health       - Health check");
+            THEMIS_INFO("  POST /query        - Execute query");
+            THEMIS_INFO("  POST /entities     - Create entity");
+            THEMIS_INFO("  (See /api/openapi.json for complete API specification)");
         }
-#endif
-#ifdef THEMIS_ENABLE_HTTP_SERVER
-        if (server_config.feature_llm_store) {
-            THEMIS_INFO("  POST /llm/interaction     - Create LLM interaction (beta)");
-            THEMIS_INFO("  GET  /llm/interaction     - List LLM interactions (beta)");
-            THEMIS_INFO("  GET  /llm/interaction/:id - Get LLM interaction (beta)");
-        }
-#endif
 #ifdef THEMIS_ENABLE_HTTP_SERVER
         if (server_config.feature_cdc) {
             THEMIS_INFO("  GET  /changefeed          - CDC feed (beta)");

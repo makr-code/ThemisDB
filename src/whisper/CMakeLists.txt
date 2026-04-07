@@ -32,6 +32,7 @@ target_compile_features(whisper_plugin PUBLIC cxx_std_17)
 # ── Optional: whisper.cpp ────────────────────────────────────────────────────
 option(THEMIS_ENABLE_WHISPER "Enable whisper.cpp for real transcription" OFF)
 if(THEMIS_ENABLE_WHISPER)
+    set(WHISPER_ROOT "${THEMIS_ROOT_DIR}/whisper.cpp" CACHE PATH "Path to local whisper.cpp checkout")
     find_library(WHISPER_LIB NAMES whisper)
     if(WHISPER_LIB)
         target_link_libraries(whisper_plugin PUBLIC ${WHISPER_LIB})
