@@ -1,8 +1,8 @@
 # Analytics Module - Future Enhancements
 
-**Version:** 1.7.0
-**Status:** 📋 Planned
-**Last Updated:** 2026-04-06
+**Version:** 1.9.0
+**Status:** 📋 Active
+**Last Updated:** 2026-04-08
 **Module Path:** `include/analytics/`
 
 ---
@@ -15,6 +15,28 @@
 - Federated analytics query dispatch API with per-tenant data isolation enforced at the interface boundary
 - Time-series forecasting extension APIs: SARIMA, Prophet-style, and LSTM surrogate headers
 - Statistical analysis and AutoML public header interfaces for feature engineering and model export
+
+## Public API Additions Since v1.7.0
+
+The following interfaces were added in `include/analytics/` headers as part of v1.8.0 and v1.9.0:
+
+| Header | Addition | Version |
+|--------|----------|---------|
+| `forecasting.h` | `TimeSeriesForecaster::predictBatch(batch, steps)` — batch forecasting across N series | v1.9.0 |
+| `forecasting.h` | `TimeSeriesForecaster::update(double)` — O(1) incremental ETS/ARIMA/LR state absorption | v1.9.0 |
+| `olap.h` | `OLAPEngine::Config::result_cache_max_entries` (default 1 000) — LRU result cache cap | v1.9.0 |
+| `olap.h` | `OLAPEngine::Config::result_cache_ttl_ms` (default 60 000 ms) — TTL-based cache expiry | v1.9.0 |
+| `anomaly_detection.h` | `StreamingAnomalyDetector::Config::retrain_on_window` — async retrain flag | v1.8.0 |
+| `model_serving.h` | `ModelServingConfig::track_latency` — opt-out for per-call latency tracking | v1.9.0 |
+| `streaming_window.h` | `WindowConfig::session_expiry_check_interval_ms` (default 200 ms) | v1.8.0 |
+| `streaming_window.h` | `WindowConfig::global_window_emit_interval_ms` (default 500 ms) | v1.8.0 |
+| `llm_process_analyzer.h` | `LLMConfig::max_cache_entries` (default 1 000) — O(1) LRU eviction cap | v1.8.0 |
+| `detail/lru_cache.h` | `LRUCache<K,V>` — doubly-linked-list + hash-map O(1) LRU utility | v1.8.0 |
+| `detail/stats.h` | `computePercentile(const std::vector<double>&, double)` + `std::span` overload | v1.8.0 |
+| `detail/memory_pool.h` | `AnalyticsMemoryPool` — arena allocator (initial 64 MB, `allocate`/`reset`) | v1.8.0 |
+| `detail/ring_buffer.h` | `RingBuffer<T>` — lock-free SPSC/MPSC ring buffer for CEP event queue | v1.8.0 |
+| `arrow_flight.h` | `ArrowFlightServer` / `ArrowFlightClient` — in-process + optional gRPC transport | v1.8.0 |
+| `distributed_analytics.h` | `DistributedAnalyticsSharding::getHealthyShardCountAsync()` → `std::future<size_t>` | v1.8.0 |
 
 ## Design Constraints
 
