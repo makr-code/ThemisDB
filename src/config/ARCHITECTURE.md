@@ -38,14 +38,16 @@ metadata, path-traversal prevention, and a typed exception hierarchy.
 
 | File | Role |
 |---|---|
-| `config_path_resolver.h` / `config_path_resolver.cpp` | Main path resolution logic (60+ mappings, LRU cache, metrics, multi-env overlay) |
-| `config_schema_validator.h` / `config_schema_validator.cpp` | JSON Schema (Draft 7 subset) validation of YAML/JSON config files |
-| `config_audit_log.h` / `config_audit_log.cpp` | Bounded in-memory audit trail for config path accesses |
-| `config_metrics_exporter.h` / `config_metrics_exporter.cpp` | Prometheus text-format exporter; wired into `/metrics` endpoint |
-| `lru_cache.h` | Generic LRU cache with per-entry TTL eviction |
-| `path_mapping_metadata.h` | Deprecation date, removal date, migration guide URL per mapped path |
-| `config_errors.h` | Typed exception hierarchy: `ConfigNotFoundException`, `MappingNotFoundException`, `InvalidPathException`, `ConfigPermissionException` |
-| `config_migration_scanner_impl.h` | Testable inline implementation for the `config_migration_scanner` CLI tool |
+| `config_path_resolver.h` / `config_path_resolver.cpp` | Public header in `include/config/`; impl in `src/config/`. Main path resolution logic (60+ mappings, LRU cache, metrics, multi-env overlay) |
+| `config_schema_validator.h` / `config_schema_validator.cpp` | Public header in `include/config/`; impl in `src/config/`. JSON Schema (Draft 7 subset) validation of YAML/JSON config files |
+| `config_audit_log.h` / `config_audit_log.cpp` | Public header in `include/config/`; impl in `src/config/`. Bounded in-memory audit trail for config path accesses |
+| `config_metrics_exporter.h` / `config_metrics_exporter.cpp` | Public header in `include/config/`; impl in `src/config/`. Prometheus text-format exporter; wired into `/metrics` endpoint |
+| `config_encrypted_store.h` / `config_encrypted_store.cpp` | Public header in `include/config/`; impl in `src/config/`. AES-256-GCM encrypted key-value store with key rotation |
+| `config_file_watcher.h` / `config_file_watcher.cpp` | Public header in `include/config/`; impl in `src/config/`. inotify/kqueue/ReadDirectoryChangesW filesystem watcher |
+| `lru_cache.h` | Public header in `include/config/`. Generic LRU cache with per-entry TTL eviction |
+| `path_mapping_metadata.h` | Public header in `include/config/`. Deprecation date, removal date, migration guide URL per mapped path |
+| `config_errors.h` | Public header in `include/config/`. Typed exception hierarchy: `ConfigNotFoundException`, `MappingNotFoundException`, `InvalidPathException`, `ConfigPermissionException` |
+| `config_migration_scanner_impl.h` | Public header in `include/config/`. Testable inline implementation for the `config_migration_scanner` CLI tool |
 
 ### 3.2 Component Diagram
 

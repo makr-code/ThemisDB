@@ -10221,6 +10221,52 @@ else()
     message(STATUS "ConfigEncryptedStore focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_config_encrypted_store.cpp")
 endif()
 
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_path_mapping_metadata.cpp")
+    message(STATUS "Adding PathMappingMetadata focused tests")
+
+    add_executable(test_path_mapping_metadata_focused
+        test_path_mapping_metadata.cpp
+        ${CONFIG_MODULE_SOURCES}
+        ${THEMIS_ROOT_DIR}/src/config/config_file_watcher.cpp
+    )
+
+    target_include_directories(test_path_mapping_metadata_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_path_mapping_metadata_focused PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+        ${THEMIS_YAML_TARGET}
+        OpenSSL::SSL
+        OpenSSL::Crypto
+    )
+    if(TARGET prometheus-cpp::core)
+        target_link_libraries(test_path_mapping_metadata_focused PRIVATE prometheus-cpp::core)
+    endif()
+    if(TARGET prometheus-cpp::pull)
+        target_link_libraries(test_path_mapping_metadata_focused PRIVATE prometheus-cpp::pull)
+    endif()
+
+    target_compile_definitions(test_path_mapping_metadata_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME PathMappingMetadataFocusedTests COMMAND test_path_mapping_metadata_focused)
+
+    set_tests_properties(PathMappingMetadataFocusedTests PROPERTIES
+        LABELS "config;path;metadata;deprecation;unit;focused"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  PathMappingMetadata: deprecation dates, removal dates, migration guide URLs")
+else()
+    message(STATUS "PathMappingMetadata focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_path_mapping_metadata.cpp")
+endif()
+
 # ============================================================================
 # Auth Module Tests
 # ============================================================================
