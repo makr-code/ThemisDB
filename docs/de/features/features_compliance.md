@@ -257,7 +257,7 @@ themis_audit_events_total 3456
 
 ```bash
 # Retention-Statistik
-grep "Retention.*Completed" themis_server.log | tail -1
+grep "Retention.*Completed" logs/themis_server.log | tail -1
 
 # PII-Detections pro Tag
 grep "PII_DETECTED" data/logs/audit.jsonl | \

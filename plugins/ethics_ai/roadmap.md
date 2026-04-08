@@ -23,9 +23,10 @@ Entry-point: `plugins/ethics_ai/CMakeLists.txt` (compatibility shim) · implemen
 [6] A. K. A. de Medeiros, W. M. P. van der Aalst, and A. J. M. M. Weijters, “Extending the Alpha-Algorithm to Mine Short Loops,” BETA Working Papers, vol. 113, 2004.
 
 - [~] Unit tests for all six components (coverage target ≥ 80 %)
-- [~] Prometheus metrics wiring into ThemisDB `/metrics` endpoint
-- [~] YAML philosophy profiles CI validation
-- [~] Removal of remaining stubs identified in `STUB_REMOVAL_PLAN.md`
+- [~] Unit tests for all six components (coverage target ≥ 80 %) — discourse_engine test added
+- [ ] Prometheus metrics wiring into ThemisDB `/metrics` endpoint
+- [ ] YAML philosophy profiles CI validation
+- [ ] Removal of remaining stubs identified in `STUB_REMOVAL_PLAN.md`
 
 ## Planned Features
 
@@ -71,8 +72,14 @@ Entry-point: `plugins/ethics_ai/CMakeLists.txt` (compatibility shim) · implemen
 ## Implementation Phases
 
 ### Phase 1 – Test Coverage ≥ 80 %
-- [ ] Write unit tests for `src/ethics_ai/ethics_ai_plugin.cpp`, `src/ethics_ai/philosophy_loader.cpp`, `src/ethics_ai/argument_store.cpp`
-- [ ] Write unit tests for `src/ethics_ai/discourse_engine.cpp`, `src/ethics_ai/ethics_evaluator.cpp`, `src/ethics_ai/rag_context_engine.cpp`
+- [x] `test_ethics_ai_types.cpp` — type conversion tests (exists, excluded from main runner)
+- [x] `test_ethics_evaluator.cpp` — evaluator tests (exists, excluded from main runner)
+- [~] `test_discourse_engine.cpp` — `initializeDebate`, `makeDecision`, standalone mode (added 2026-04-08; registered as `test_discourse_engine_focused`)
+- [~] `test_philosophy_loader.cpp` — YAML load/parse tests (exists; registered as `test_philosophy_loader_focused`)
+- [~] `PhilosophyLoader::addProfile()` added for test injection
+- [ ] `test_argument_store.cpp` — standalone + RocksDB-backed store tests
+- [ ] `test_rag_context_engine.cpp` — RAGContextEngine tests
+- [ ] `test_ethics_ai_plugin.cpp` — plugin lifecycle and initialize/shutdown tests
 - [ ] Wire Prometheus metrics; verify `/metrics` endpoint in CI
 - [ ] YAML philosophy profile schema validation in CI; remove stubs from `STUB_REMOVAL_PLAN.md`
 

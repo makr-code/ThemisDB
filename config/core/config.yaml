@@ -627,7 +627,7 @@ logging:
   level: "INFO"
   
   # Log file path
-  file: "./themis_server.log"
+  file: "./logs/themis_server.log"
   
   # Maximum log file size (MB) before rotation
   max_size_mb: 100

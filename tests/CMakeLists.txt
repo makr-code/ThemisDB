@@ -350,6 +350,7 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_metrics\\.cpp$"
     ".*test_onnx_model_loader\\.cpp$"
     ".*test_content_policy_manual\\.cpp$"
+    ".*test_onnx_clip_plugin\\.cpp$"
     ".*test_llm_deployment_plugin\\.cpp$"
     ".*test_ethics_ai_types\\.cpp$"
     ".*test_ethics_evaluator\\.cpp$"
@@ -357,7 +358,12 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_approximate_radius_search_integration\\.cpp$"
     ".*test_philosophy_loader\\.cpp$"
     ".*test_metadata_wal_recovery\\.cpp$"
+    ".*test_discourse_engine\\.cpp$"
+    ".*test_grpc_plugin\\.cpp$"
     ".*test_paxos_wal_recovery\\.cpp$"
+        ".*test_argument_store_standalone\\.cpp$"
+        ".*test_rag_context_engine\\.cpp$"
+        ".*test_ethics_ai_plugin\\.cpp$"
     ".*test_quality_control_pipeline\\.cpp$"
     ".*test_slo_monitor\\.cpp$"
     ".*test_jsonl_llm_exporter\\.cpp$"
@@ -16658,6 +16664,192 @@ else()
 endif()
 
 # ============================================================================
+# gRPC Plugin Tests (src/rpc_grpc)
+# ============================================================================
+
+if(THEMIS_ENABLE_GRPC AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_grpc_plugin.cpp")
+    message(STATUS "Adding gRPC Plugin tests")
+
+    add_executable(test_grpc_plugin
+        test_grpc_plugin.cpp
+    )
+
+    target_include_directories(test_grpc_plugin PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+        ${CMAKE_SOURCE_DIR}/src/rpc_grpc
+    )
+
+    target_link_libraries(test_grpc_plugin PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        gRPC::grpc++
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_grpc_plugin PRIVATE
+        THEMIS_TEST_BUILD=1
+        THEMIS_ENABLE_GRPC
+    )
+
+    target_sources(test_grpc_plugin PRIVATE
+        ${CMAKE_SOURCE_DIR}/src/rpc_grpc/grpc_plugin.cpp
+    )
+
+    add_test(NAME GrpcPluginTests COMMAND test_grpc_plugin)
+
+    set_tests_properties(GrpcPluginTests PROPERTIES
+        LABELS "rpc;grpc;plugin;lifecycle;tls;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  gRPC Plugin: lifecycle, capabilities, fail-closed TLS, start/stop")
+elseif(NOT THEMIS_ENABLE_GRPC)
+    message(STATUS "gRPC Plugin tests skipped (gRPC disabled)")
+else()
+    message(STATUS "gRPC Plugin tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_grpc_plugin.cpp")
+endif()
+
+# ============================================================================
+# Ethics AI Discourse Engine Tests (src/ethics_ai)
+# ============================================================================
+
+if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_discourse_engine.cpp")
+    message(STATUS "Adding Ethics AI Discourse Engine tests")
+
+    add_executable(test_discourse_engine_focused
+        test_discourse_engine.cpp
+    )
+
+    target_include_directories(test_discourse_engine_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai
+    )
+
+    target_link_libraries(test_discourse_engine_focused PRIVATE
+        ${TEST_LIBS}
+        ethics_ai_plugin
+        themis_core
+        Threads::Threads
+    )
+
+    find_package(yaml-cpp CONFIG QUIET)
+    if(yaml-cpp_FOUND)
+        target_link_libraries(test_discourse_engine_focused PRIVATE yaml-cpp)
+        target_compile_definitions(test_discourse_engine_focused PRIVATE HAVE_YAML_CPP)
+    endif()
+
+    target_compile_definitions(test_discourse_engine_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME DiscourseEngineFocusedTests COMMAND test_discourse_engine_focused)
+
+    set_tests_properties(DiscourseEngineFocusedTests PROPERTIES
+        LABELS "ethics;discourse-engine;philosophy;standalone;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  DiscourseEngine: initializeDebate, makeDecision, RAG, standalone mode")
+elseif(NOT THEMIS_PLUGIN_ETHICS_AI)
+    message(STATUS "Discourse Engine tests skipped (THEMIS_PLUGIN_ETHICS_AI disabled)")
+else()
+    message(STATUS "Discourse Engine tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_discourse_engine.cpp")
+endif()
+
+# ============================================================================
+# Philosophy Loader Tests (src/ethics_ai) — standalone target
+# ============================================================================
+
+if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_philosophy_loader.cpp")
+    message(STATUS "Adding Ethics AI Philosophy Loader tests")
+
+    add_executable(test_philosophy_loader_focused
+        test_philosophy_loader.cpp
+    )
+
+    target_include_directories(test_philosophy_loader_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai
+    )
+
+    target_link_libraries(test_philosophy_loader_focused PRIVATE
+        ${TEST_LIBS}
+        ethics_ai_plugin
+        Threads::Threads
+    )
+
+    find_package(yaml-cpp CONFIG QUIET)
+    if(yaml-cpp_FOUND)
+        target_link_libraries(test_philosophy_loader_focused PRIVATE yaml-cpp)
+        target_compile_definitions(test_philosophy_loader_focused PRIVATE HAVE_YAML_CPP)
+    endif()
+
+    target_compile_definitions(test_philosophy_loader_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME PhilosophyLoaderFocusedTests COMMAND test_philosophy_loader_focused)
+
+    set_tests_properties(PhilosophyLoaderFocusedTests PROPERTIES
+        LABELS "ethics;philosophy-loader;yaml;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  PhilosophyLoader: loadFromDirectory, loadFromFile, YAML parsing, error handling")
+elseif(NOT THEMIS_PLUGIN_ETHICS_AI)
+    message(STATUS "Philosophy Loader tests skipped (THEMIS_PLUGIN_ETHICS_AI disabled)")
+else()
+    message(STATUS "Philosophy Loader tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_philosophy_loader.cpp")
+endif()
+
+# ============================================================================
+# ONNX CLIP Plugin Tests (src/onnx_clip)
+# ============================================================================
+
+if(THEMIS_PLUGIN_IMAGE_ANALYSIS_ONNX AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_onnx_clip_plugin.cpp")
+    message(STATUS "Adding ONNX CLIP Plugin focused tests")
+
+    add_executable(test_onnx_clip_plugin
+        test_onnx_clip_plugin.cpp
+        ${CMAKE_SOURCE_DIR}/src/onnx_clip/onnx_clip_plugin.cpp
+    )
+
+    target_include_directories(test_onnx_clip_plugin PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+        ${CMAKE_SOURCE_DIR}/src/onnx_clip
+    )
+
+    target_link_libraries(test_onnx_clip_plugin PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_onnx_clip_plugin PRIVATE
+        THEMIS_TEST_BUILD=1
+        THEMIS_IMAGE_PLUGIN_DISABLE_EXPORT=1
+    )
+
+    add_test(NAME OnnxClipPluginTests COMMAND test_onnx_clip_plugin)
+
+    set_tests_properties(OnnxClipPluginTests PROPERTIES
+        LABELS "image-analysis;onnx;clip;batch;plugin;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  ONNXClipPlugin: initialize, embedding, batch embedding, health, statistics")
+elseif(NOT THEMIS_PLUGIN_IMAGE_ANALYSIS_ONNX)
+    message(STATUS "ONNX CLIP Plugin tests skipped (THEMIS_PLUGIN_IMAGE_ANALYSIS_ONNX disabled)")
+else()
+    message(STATUS "ONNX CLIP Plugin tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_onnx_clip_plugin.cpp")
+endif()
+
+# ============================================================================
 # Storage Module Focused Tests
 # ============================================================================
 
@@ -20107,4 +20299,131 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_multi_step_rag.cpp")
     message(STATUS "  MultiStepRAG: 15 tests (A-C) – map-reduce flow, iterative, factory helpers")
 else()
     message(STATUS "MultiStepRAG focused tests not found – skipped")
+endif()
+
+# ============================================================================
+# Ethics AI – ArgumentStore Standalone Tests
+# ============================================================================
+
+if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_argument_store_standalone.cpp")
+    message(STATUS "Adding Ethics AI ArgumentStore Standalone tests")
+
+    add_executable(test_argument_store_standalone
+        test_argument_store_standalone.cpp
+    )
+
+    target_include_directories(test_argument_store_standalone PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai
+    )
+
+    target_link_libraries(test_argument_store_standalone PRIVATE
+        ${TEST_LIBS}
+        ethics_ai_plugin
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_argument_store_standalone PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ArgumentStoreStandaloneTests COMMAND test_argument_store_standalone)
+
+    set_tests_properties(ArgumentStoreStandaloneTests PROPERTIES
+        LABELS "ethics;argument-store;standalone;in-memory;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  ArgumentStore: initialize, store/get argument, philosophy filter, decision, profile, thread-safety")
+elseif(NOT THEMIS_PLUGIN_ETHICS_AI)
+    message(STATUS "ArgumentStore standalone tests skipped (THEMIS_PLUGIN_ETHICS_AI disabled)")
+endif()
+
+# ============================================================================
+# Ethics AI – RAGContextEngine Tests
+# ============================================================================
+
+if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_rag_context_engine.cpp")
+    message(STATUS "Adding Ethics AI RAGContextEngine tests")
+
+    add_executable(test_rag_context_engine_focused
+        test_rag_context_engine.cpp
+    )
+
+    target_include_directories(test_rag_context_engine_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai
+    )
+
+    target_link_libraries(test_rag_context_engine_focused PRIVATE
+        ${TEST_LIBS}
+        ethics_ai_plugin
+        themis_core
+        Threads::Threads
+    )
+
+    find_package(yaml-cpp CONFIG QUIET)
+    if(yaml-cpp_FOUND)
+        target_link_libraries(test_rag_context_engine_focused PRIVATE yaml-cpp)
+        target_compile_definitions(test_rag_context_engine_focused PRIVATE HAVE_YAML_CPP)
+    endif()
+
+    target_compile_definitions(test_rag_context_engine_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME RAGContextEngineTests COMMAND test_rag_context_engine_focused)
+
+    set_tests_properties(RAGContextEngineTests PROPERTIES
+        LABELS "ethics;rag;context-engine;patterns;aql;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  RAGContextEngine: buildContext, findSimilarDilemmas, getBestPractices, vectorSemanticSearch, traverseArgumentChain")
+elseif(NOT THEMIS_PLUGIN_ETHICS_AI)
+    message(STATUS "RAGContextEngine tests skipped (THEMIS_PLUGIN_ETHICS_AI disabled)")
+endif()
+
+# ============================================================================
+# Ethics AI – Plugin Lifecycle Tests
+# ============================================================================
+
+if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ethics_ai_plugin.cpp")
+    message(STATUS "Adding Ethics AI Plugin lifecycle tests")
+
+    add_executable(test_ethics_ai_plugin_focused
+        test_ethics_ai_plugin.cpp
+    )
+
+    target_include_directories(test_ethics_ai_plugin_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai
+    )
+
+    target_link_libraries(test_ethics_ai_plugin_focused PRIVATE
+        ${TEST_LIBS}
+        ethics_ai_plugin
+        themis_core
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_ethics_ai_plugin_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME EthicsAIPluginTests COMMAND test_ethics_ai_plugin_focused)
+
+    set_tests_properties(EthicsAIPluginTests PROPERTIES
+        LABELS "ethics;plugin;lifecycle;metrics;config;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  EthicsAIPlugin: getName, initialize, shutdown, re-init, guards, metrics, config, getStatistics")
+elseif(NOT THEMIS_PLUGIN_ETHICS_AI)
+    message(STATUS "EthicsAI Plugin lifecycle tests skipped (THEMIS_PLUGIN_ETHICS_AI disabled)")
 endif()

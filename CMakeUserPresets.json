@@ -11,7 +11,8 @@
       "cacheVariables": {
         "THEMIS_BUILD_TESTS": "ON",
         "THEMIS_ENABLE_LLM": "ON",
-        "THEMIS_ENABLE_GPU": "OFF"
+        "THEMIS_ENABLE_GPU": "OFF",
+        "THEMIS_PLUGIN_ETHICS_AI": "ON"
       }
     },
     {

@@ -1,2 +1,0 @@
-[1/1] Syncing runtime DLLs to cmake/tests
--- [CopyRuntimeDlls] Skip missing source directory: C:/VCC/themis/build-msvc-ninja-release/vcpkg_installed/x64-windows/bin

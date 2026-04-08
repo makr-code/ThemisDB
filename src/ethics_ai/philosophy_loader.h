@@ -83,6 +83,13 @@ public:
      */
     void clear();
     
+
+    /**
+     * @brief Register a profile directly (used for testing / plugin registration)
+     * @param profile The profile to register
+     */
+    void addProfile(const PhilosophyProfile& profile);
+
     /**
      * @brief Get count of loaded profiles
      * @return Number of profiles

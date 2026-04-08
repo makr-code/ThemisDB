@@ -174,6 +174,10 @@ void PhilosophyLoader::clear() {
     profiles_.clear();
 }
 
+void PhilosophyLoader::addProfile(const PhilosophyProfile& profile) {
+    profiles_[profile.school_id] = profile;
+}
+
 std::map<std::string, PhilosophyProfile> PhilosophyLoader::getAllProfiles() const {
     return profiles_;
 }

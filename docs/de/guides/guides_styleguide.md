@@ -313,7 +313,7 @@ std::cout << "Index created\n";  // NEIN! Nutze Logger
 
 ```cpp
 // main_server.cpp
-Logger::init("themis_server.log", Logger::Level::INFO);
+Logger::init("logs/themis_server.log", Logger::Level::INFO);
 
 // Runtime-Änderung
 Logger::setLevel(Logger::Level::DEBUG);

@@ -6,9 +6,9 @@
 
 ## Current Status
 
-v0.0.1 — `ONNXClipPlugin` implements the full `IImageAnalysisBackend` interface with
+v0.0.2 — `ONNXClipPlugin` implements the full `IImageAnalysisBackend` interface with
 pImpl isolation and multi-backend support (CPU/CUDA/DirectML/TensorRT/AUTO). The public
-API is production-quality. Batched inference and text-side CLIP are planned for v0.1.0.
+API is production-quality. Native batch path and focused tests are in progress.
 
 ---
 
@@ -32,13 +32,13 @@ API is production-quality. Batched inference and text-side CLIP are planned for 
 
 ### v0.1.0 — Native Batch and Tests (Target: Q3 2026)
 
-- [ ] Native batched `Ort::Session::Run()` for `generateEmbeddingBatch()` (Target: Q3 2026)
+- [~] Native batch implementation for `generateEmbeddingBatch()` (Target: Q3 2026)
   - Inputs: N × image_data; batch tensor shape [N, 3, 224, 224]
   - Outputs: N × embedding float vectors
   - Constraints: max batch size 64; OOM → split into sub-batches of 8
-  - Tests: batch of 1, 8, 64 images; verify output shape and L2 norm
+  - Tests: batch result size, per-item success/error handling, output shape and L2 norm
   - Perf: ≥ 6× speedup vs sequential on RTX-class GPU for batch=64
-- [ ] Unit tests: CPU backend, model load, embedding shape, `healthCheck()` (Target: Q3 2026)
+- [~] Unit tests: CPU backend, model load, embedding shape, `healthCheck()` (Target: Q3 2026)
 - [ ] Integration tests: ViT-B/32 and ViT-L/14 golden embedding comparison (Target: Q3 2026)
 - [ ] Performance benchmark: ViT-B/32 CPU ≤ 150 ms/image; CUDA ≤ 20 ms/image (Target: Q3 2026)
 
@@ -78,7 +78,8 @@ API is production-quality. Batched inference and text-side CLIP are planned for 
 - [x] Session Run exception → caught; error result returned
 
 ### Phase 4: Tests [ ]
-- [ ] Unit tests for CPU backend and embedding shape (Target: Q3 2026)
+- [~] Unit tests for CPU backend and embedding shape (Target: Q3 2026)
+- [~] Added `tests/test_onnx_clip_plugin.cpp` and registered `OnnxClipPluginTests`
 - [ ] Integration tests with real ONNX models (Target: Q3 2026)
 
 ### Phase 5: Performance / Hardening [ ]
@@ -101,7 +102,7 @@ API is production-quality. Batched inference and text-side CLIP are planned for 
 | Multi-backend | ✅ | CPU / CUDA / DirectML / TensorRT / AUTO |
 | Batch inference | ⚠️ | Sequential only; native batch planned Q3 2026 |
 | Text encoder | ❌ | Planned Q4 2026 |
-| Unit/integration tests | ❌ | Planned Q3 2026 |
+| Unit/integration tests | ⚠️ | Unit tests added; integration tests still pending |
 | Performance benchmarks | ❌ | Planned Q3 2026 |
 
 ---

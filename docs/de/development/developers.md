@@ -126,7 +126,7 @@ Wichtige Einstiegspunkte:
 
 ## Debugging & Troubleshooting
 
-- Logs: `themis_server.log`, `vccdb_server.log` im Repo‑Root
+- Logs: `logs/themis_server.log`, `logs/vccdb_server.log`
 - RocksDB Pfade in `config/config.json` prüfen (relative Pfade unter Windows empfohlen)
 - Bei `/stats` und `/metrics` prüfen, ob RocksDB‑Werte plausibel sind
 - Graph/AQL: Bei großen Traversals `max_frontier_size` und `max_results` im AQL‑Request setzen

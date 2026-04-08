@@ -129,9 +129,8 @@ public:
             evaluator_ = std::make_shared<EthicsEvaluator>();
             
             // Initialize argument store
-            std::map<std::string, std::string> store_config;
-            auto status = argument_store_->initialize(store_config);
-            if (!status.isOK()) {
+                auto status = argument_store_->initialize(nullptr);
+                if (!status.isOK()) {
                 return false;
             }
             

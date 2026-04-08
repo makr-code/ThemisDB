@@ -118,7 +118,7 @@ scoop install cmake llvm cppcheck gitleaks
 1. **clang-tidy**: Static analysis with modern C++ checks
    - Runs on Ubuntu latest
    - Uses `.clang-tidy` configuration
-   - Generates `clang-tidy-report.txt`
+  - Generates `logs/clang-tidy-report.txt`
    - Uploads artifact for review
 
 2. **cppcheck**: C++ linting

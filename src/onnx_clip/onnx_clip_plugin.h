@@ -95,5 +95,8 @@ private:
 } // namespace plugins
 } // namespace themis
 
-// Export plugin entry points
+// Export plugin entry points (disabled for unit-test binaries that compile
+// plugin sources directly).
+#ifndef THEMIS_IMAGE_PLUGIN_DISABLE_EXPORT
 THEMIS_IMAGE_PLUGIN(themis::plugins::image::ONNXClipPlugin)
+#endif

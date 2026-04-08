@@ -32,6 +32,8 @@ Tests and advanced features (health service, interceptors, streaming helpers) ar
 ## In Progress [~]
 
 - [~] Unit tests for server lifecycle (insecure, TLS, mTLS modes)
+- [~] Unit tests for GRPCPlugin (getName, getVersion, getType, getCapabilities, initialize, createServer, getProtocol, getDefaultPort)
+- [~] tests/test_grpc_plugin.cpp registered as standalone target (THEMIS_ENABLE_GRPC guard)
 
 ---
 
@@ -39,10 +41,10 @@ Tests and advanced features (health service, interceptors, streaming helpers) ar
 
 ### v0.1.0 — Tests and Uptime Tracking (Target: Q3 2026)
 
-- [ ] Unit tests: `initialize`, `start` (insecure), `stop`, `registerService` (Target: Q3 2026)
+- [~] Unit tests: `initialize`, `start` (insecure), `stop`, `registerService` (Target: Q3 2026)
+- [~] Fail-closed TLS test: start() returns false on bad cert path (Target: Q3 2026)
 - [ ] Integration tests: mTLS round-trip with real gRPC service (Target: Q3 2026)
 - [ ] `RPCServerStats::uptime_seconds` incremental tracking with `std::chrono` (Target: Q3 2026)
-- [ ] Fail-closed TLS test: verify throw on bad cert path (Target: Q3 2026)
 
 ### v0.2.0 — Health and Observability (Target: Q4 2026)
 
@@ -78,6 +80,10 @@ Tests and advanced features (health service, interceptors, streaming helpers) ar
 - [x] Cert file load failure → fail-closed throw
 
 ### Phase 4: Tests [ ]
+- [~] `tests/test_grpc_plugin.cpp` — GRPCPlugin + GRPCServer unit tests
+- [~] Fail-closed TLS: start() returns false (no insecure fallback)
+- [~] Registered in `tests/CMakeLists.txt` as `test_grpc_plugin` (THEMIS_ENABLE_GRPC guard)
+- [ ] Integration test: mTLS round-trip with echo service
 - [ ] Unit tests (Target: Q3 2026)
 - [ ] Integration tests (Target: Q3 2026)
 
