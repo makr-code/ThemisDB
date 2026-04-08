@@ -34,6 +34,9 @@
 #include "core/concerns/i_circuit_breaker.h"
 #include "core/concerns/i_feature_flags.h"
 #include "core/concerns/i_audit_log.h"
+#include "core/concerns/i_health_probe.h"
+#include "core/concerns/i_config_hot_reloader.h"
+#include "core/concerns/i_distributed_lock.h"
 // lifecycle.h (ProbeResult, HealthStatus) is already transitively included
 // via each of the four interface headers above; no direct include needed.
 #include <memory>
@@ -146,6 +149,18 @@ public:
         /// Which audit log adapter to use: "noop" (default) or "inmemory".
         /// In production deployments replace with a persistent adapter.
         std::string auditAdapter = "noop";
+
+        // Health probe registry config
+        /// Which health probe registry adapter to use: "default" or "noop".
+        std::string healthProbeAdapter = "default";
+
+        // Config hot-reloader config
+        /// Which config hot-reloader adapter to use: "inmemory" (default) or "noop".
+        std::string configHotReloaderAdapter = "inmemory";
+
+        // Distributed lock config
+        /// Which distributed lock adapter to use: "inmemory" (default) or "noop".
+        std::string distributedLockAdapter = "inmemory";
     };
 
     /**
@@ -226,6 +241,9 @@ public:
     ICircuitBreaker& circuitBreaker() { return *circuit_breaker_; }
     IFeatureFlags& featureFlags() { return *featureFlags_; }
     IAuditLog& auditLog() { return *auditLog_; }
+    HealthProbeRegistry& healthProbes() { return *healthProbes_; }
+    IConfigHotReloader& configHotReloader() { return *configHotReloader_; }
+    IDistributedLock& distributedLock() { return *distributedLock_; }
 
     const ILogger& logger() const { return *logger_; }
     const ITracer& tracer() const { return *tracer_; }
@@ -235,6 +253,9 @@ public:
     const ICircuitBreaker& circuitBreaker() const { return *circuit_breaker_; }
     const IFeatureFlags& featureFlags() const { return *featureFlags_; }
     const IAuditLog& auditLog() const { return *auditLog_; }
+    const HealthProbeRegistry& healthProbes() const { return *healthProbes_; }
+    const IConfigHotReloader& configHotReloader() const { return *configHotReloader_; }
+    const IDistributedLock& distributedLock() const { return *distributedLock_; }
 
     // Convenience methods for common operations
     void logInfo(const std::string& message) { logger_->info(message); }
@@ -329,6 +350,8 @@ public:
         circuit_breaker_->flush();
         featureFlags_->flush();
         auditLog_->flush();
+        configHotReloader_->flush();
+        distributedLock_->flush();
     }
 
     /**
@@ -351,6 +374,8 @@ public:
         metrics_->flush();
         featureFlags_->flush();
         auditLog_->flush();
+        configHotReloader_->flush();
+        distributedLock_->flush();
 
         secrets_->shutdown();
         tracer_->shutdown();
@@ -359,6 +384,8 @@ public:
         circuit_breaker_->shutdown();
         featureFlags_->shutdown();
         auditLog_->shutdown();
+        configHotReloader_->shutdown();
+        distributedLock_->shutdown();
         logger_->shutdown();
     }
 
@@ -386,7 +413,10 @@ public:
             secrets_->isHealthy(),
             circuit_breaker_->isHealthy(),
             featureFlags_->isHealthy(),
-            auditLog_->isHealthy()
+            auditLog_->isHealthy(),
+            healthProbes_->selfProbe(),
+            configHotReloader_->isHealthy(),
+            distributedLock_->isHealthy()
         };
     }
 
@@ -418,7 +448,10 @@ private:
         std::unique_ptr<ICircuitBreaker> circuit_breaker,
         std::unique_ptr<ISecrets> secrets,
         std::unique_ptr<IFeatureFlags> featureFlags,
-        std::unique_ptr<IAuditLog> auditLog
+        std::unique_ptr<IAuditLog> auditLog,
+        std::unique_ptr<HealthProbeRegistry> healthProbes = nullptr,
+        std::unique_ptr<IConfigHotReloader> configHotReloader = nullptr,
+        std::unique_ptr<IDistributedLock> distributedLock = nullptr
     ) : logger_(std::move(logger)),
         tracer_(std::move(tracer)),
         metrics_(std::move(metrics)),
@@ -426,7 +459,10 @@ private:
         secrets_(std::move(secrets)),
         circuit_breaker_(std::move(circuit_breaker)),
         featureFlags_(std::move(featureFlags)),
-        auditLog_(std::move(auditLog)) {}
+        auditLog_(std::move(auditLog)),
+        healthProbes_(healthProbes ? std::move(healthProbes) : std::make_unique<HealthProbeRegistry>()),
+        configHotReloader_(configHotReloader ? std::move(configHotReloader) : std::make_unique<InMemoryConfigHotReloader>()),
+        distributedLock_(distributedLock ? std::move(distributedLock) : std::make_unique<InMemoryDistributedLock>()) {}
 
     std::unique_ptr<ILogger> logger_;
     std::unique_ptr<ITracer> tracer_;
@@ -436,6 +472,9 @@ private:
     std::unique_ptr<ICircuitBreaker> circuit_breaker_;
     std::unique_ptr<IFeatureFlags> featureFlags_;
     std::unique_ptr<IAuditLog> auditLog_;
+    std::unique_ptr<HealthProbeRegistry> healthProbes_;
+    std::unique_ptr<IConfigHotReloader> configHotReloader_;
+    std::unique_ptr<IDistributedLock> distributedLock_;
 };
 
 } // namespace concerns

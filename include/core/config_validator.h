@@ -203,35 +203,44 @@ public:
      * Validates that the adapter type strings in ConcernsContext::Config refer
      * to known, supported adapters.
      *
-     * @param logger_adapter           Value of Config::loggerAdapter
-     * @param tracer_adapter           Value of Config::tracerAdapter (empty = auto)
-     * @param metrics_adapter          Value of Config::metricsAdapter (empty = auto)
-     * @param cache_adapter            Value of Config::cacheAdapter
-     * @param circuit_breaker_adapter  Value of Config::circuitBreakerAdapter
-     * @param feature_flags_adapter    Value of Config::featureFlagsAdapter
-     * @param audit_adapter            Value of Config::auditAdapter
-     * @param secrets_adapter          Value of Config::secretsAdapter
+     * @param logger_adapter              Value of Config::loggerAdapter
+     * @param tracer_adapter              Value of Config::tracerAdapter (empty = auto)
+     * @param metrics_adapter             Value of Config::metricsAdapter (empty = auto)
+     * @param cache_adapter               Value of Config::cacheAdapter
+     * @param circuit_breaker_adapter     Value of Config::circuitBreakerAdapter
+     * @param feature_flags_adapter       Value of Config::featureFlagsAdapter
+     * @param audit_adapter               Value of Config::auditAdapter
+     * @param secrets_adapter             Value of Config::secretsAdapter
+     * @param health_probe_adapter        Value of Config::healthProbeAdapter
+     * @param config_hot_reloader_adapter Value of Config::configHotReloaderAdapter
+     * @param distributed_lock_adapter    Value of Config::distributedLockAdapter
      */
     static ValidationResult validateAdapterConfig(
         const std::string& logger_adapter,
         const std::string& tracer_adapter,
         const std::string& metrics_adapter,
         const std::string& cache_adapter,
-        const std::string& circuit_breaker_adapter = "default",
-        const std::string& feature_flags_adapter   = "inmemory",
-        const std::string& audit_adapter            = "noop",
-        const std::string& secrets_adapter          = "noop")
+        const std::string& circuit_breaker_adapter     = "default",
+        const std::string& feature_flags_adapter       = "inmemory",
+        const std::string& audit_adapter               = "noop",
+        const std::string& secrets_adapter             = "noop",
+        const std::string& health_probe_adapter        = "default",
+        const std::string& config_hot_reloader_adapter = "inmemory",
+        const std::string& distributed_lock_adapter    = "inmemory")
     {
         ValidationResult result;
 
-        const std::vector<std::string> valid_logger_adapters          = {"spdlog", "noop"};
-        const std::vector<std::string> valid_tracer_adapters          = {"otel", "jaeger", "zipkin", "noop", ""};
-        const std::vector<std::string> valid_metrics_adapters         = {"prometheus", "noop", ""};
-        const std::vector<std::string> valid_cache_adapters           = {"inmemory", "noop", "redis"};
-        const std::vector<std::string> valid_circuit_breaker_adapters = {"default", "noop"};
-        const std::vector<std::string> valid_feature_flags_adapters   = {"inmemory", "noop"};
-        const std::vector<std::string> valid_audit_adapters           = {"inmemory", "noop"};
-        const std::vector<std::string> valid_secrets_adapters         = {"noop", "inmemory", "env"};
+        const std::vector<std::string> valid_logger_adapters              = {"spdlog", "noop"};
+        const std::vector<std::string> valid_tracer_adapters              = {"otel", "jaeger", "zipkin", "noop", ""};
+        const std::vector<std::string> valid_metrics_adapters             = {"prometheus", "noop", ""};
+        const std::vector<std::string> valid_cache_adapters               = {"inmemory", "noop", "redis"};
+        const std::vector<std::string> valid_circuit_breaker_adapters     = {"default", "noop"};
+        const std::vector<std::string> valid_feature_flags_adapters       = {"inmemory", "noop"};
+        const std::vector<std::string> valid_audit_adapters               = {"inmemory", "noop"};
+        const std::vector<std::string> valid_secrets_adapters             = {"noop", "inmemory", "env"};
+        const std::vector<std::string> valid_health_probe_adapters        = {"default", "noop"};
+        const std::vector<std::string> valid_config_hot_reloader_adapters = {"inmemory", "noop"};
+        const std::vector<std::string> valid_distributed_lock_adapters    = {"inmemory", "noop"};
 
         auto check = [&](const std::string& value,
                          const std::vector<std::string>& valid_values,
@@ -248,14 +257,17 @@ public:
                             "'. Supported values: " + allowed);
         };
 
-        check(logger_adapter,          valid_logger_adapters,          "loggerAdapter");
-        check(tracer_adapter,          valid_tracer_adapters,          "tracerAdapter");
-        check(metrics_adapter,         valid_metrics_adapters,         "metricsAdapter");
-        check(cache_adapter,           valid_cache_adapters,           "cacheAdapter");
-        check(circuit_breaker_adapter, valid_circuit_breaker_adapters, "circuitBreakerAdapter");
-        check(feature_flags_adapter,   valid_feature_flags_adapters,   "featureFlagsAdapter");
-        check(audit_adapter,           valid_audit_adapters,           "auditAdapter");
-        check(secrets_adapter,         valid_secrets_adapters,         "secretsAdapter");
+        check(logger_adapter,              valid_logger_adapters,              "loggerAdapter");
+        check(tracer_adapter,              valid_tracer_adapters,              "tracerAdapter");
+        check(metrics_adapter,             valid_metrics_adapters,             "metricsAdapter");
+        check(cache_adapter,               valid_cache_adapters,               "cacheAdapter");
+        check(circuit_breaker_adapter,     valid_circuit_breaker_adapters,     "circuitBreakerAdapter");
+        check(feature_flags_adapter,       valid_feature_flags_adapters,       "featureFlagsAdapter");
+        check(audit_adapter,               valid_audit_adapters,               "auditAdapter");
+        check(secrets_adapter,             valid_secrets_adapters,             "secretsAdapter");
+        check(health_probe_adapter,        valid_health_probe_adapters,        "healthProbeAdapter");
+        check(config_hot_reloader_adapter, valid_config_hot_reloader_adapters, "configHotReloaderAdapter");
+        check(distributed_lock_adapter,    valid_distributed_lock_adapters,    "distributedLockAdapter");
 
         return result;
     }
