@@ -2046,7 +2046,7 @@ TEST(HealthProbeRegistryTest, ThreadSafetyUnderConcurrentAccess) {
         });
     }
     for (auto& t : threads) t.join();
-    EXPECT_LE(kThreads, static_cast<int>(registry.probeCount()) + kThreads);
+    EXPECT_EQ(kThreads, static_cast<int>(registry.probeCount()));
 }
 
 // ===== ConcernsContext healthProbes accessor =====

@@ -214,7 +214,7 @@ private:
 
     std::reference_wrapper<IDistributedLock> provider_;
     std::string name_;
-    bool released_ = true;
+    bool released_ = false;
 };
 
 // ---------------------------------------------------------------------------
