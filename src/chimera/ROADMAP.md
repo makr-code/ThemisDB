@@ -50,6 +50,10 @@ graph operations across 9 adapters. Build system fully registered; focused test 
 - [ ] Automated benchmark CI pipeline with regression tracking (Issue: #1643)
 - [I] Cassandra adapter (wide-column) (Issue: #1641)
 - [ ] Adapter-level connection pooling
+- [x] Streaming result-set interface: `IResultStream`, `IStreamingAdapter`, `StreamConfig` (v1.9.0)
+- [x] Prepared statement interface: `IPreparedStatement`, `IPreparedStatementAdapter` (v1.9.0)
+- [x] Connection pool adapter interface: `IConnectionPoolAdapter`, `ConnectionPoolStats` (v1.9.0)
+- [x] New capabilities: `STREAMING_RESULTS`, `PREPARED_STATEMENTS`, `CONNECTION_POOLING`
 
 ## Implementation Phases
 

@@ -58,6 +58,8 @@
 #ifndef CHIMERA_DATABASE_ADAPTER_HPP
 #define CHIMERA_DATABASE_ADAPTER_HPP
 
+#include "chimera/connection_pool.hpp"
+
 #include <atomic>
 #include <cstdint>
 #include <future>
@@ -409,7 +411,10 @@ enum class Capability {
     MATERIALIZED_VIEWS,        ///< Materialized view support
     REPLICATION,               ///< Data replication
     SHARDING,                  ///< Horizontal sharding/partitioning
-    ASYNC_OPERATIONS           ///< Non-blocking async/future-based operations
+    ASYNC_OPERATIONS,          ///< Non-blocking async/future-based operations
+    STREAMING_RESULTS,         ///< Pull-based cursor streaming of large result sets
+    PREPARED_STATEMENTS,       ///< Server-side prepared statement / plan caching
+    CONNECTION_POOLING         ///< Adapter-level connection pool management
 };
 
 /**
@@ -1127,6 +1132,347 @@ public:
      *         NOT_FOUND if no such operation is active.
      */
     virtual Result<bool> cancel_async(const std::string& operation_id) = 0;
+};
+
+// ============================================================================
+// Streaming Result Interfaces (v1.9.0)
+// ============================================================================
+
+/**
+ * @struct StreamConfig
+ * @brief Configuration for result streaming operations
+ *
+ * @details Controls batching, buffering, and timeout behaviour for
+ *          streaming result sets returned by IStreamingAdapter.
+ */
+struct StreamConfig {
+    /// Rows fetched per IResultStream::next_batch() call when the caller
+    /// does not provide an explicit batch_size parameter.
+    size_t default_batch_size = 1000;
+
+    /// Maximum bytes buffered in the stream before back-pressure is applied.
+    size_t max_buffer_bytes = 10 * 1024 * 1024; // 10 MiB
+
+    /// Maximum time to wait for the next batch from the server/back-end.
+    std::chrono::milliseconds fetch_timeout{30'000};
+
+    /// When true, the stream pre-fetches the next batch while the caller
+    /// consumes the current one, reducing per-batch latency.
+    bool prefetch_enabled = true;
+};
+
+/**
+ * @class IResultStream
+ * @brief Pull-based cursor for streaming large result sets
+ *
+ * @details
+ * Allows callers to consume a query result incrementally without loading
+ * the entire result into memory.  The cursor pattern is pull-based:
+ * callers drive iteration via has_more() / next_batch() rather than
+ * receiving pushed events.
+ *
+ * The stream MUST be closed (via close()) after use, even if the result
+ * set has been fully consumed, to release server-side resources.
+ * Destroying the object without calling close() is well-defined: the
+ * destructor must close the stream implicitly.
+ *
+ * All methods are thread-compatible but NOT thread-safe; callers must
+ * not call methods concurrently on the same IResultStream instance.
+ */
+class IResultStream {
+public:
+    virtual ~IResultStream() = default;
+
+    /**
+     * @brief Check whether more rows are available.
+     * @return true if at least one more row can be fetched; false when
+     *         the cursor is exhausted or has been closed.
+     */
+    virtual bool has_more() const = 0;
+
+    /**
+     * @brief Fetch the next batch of rows.
+     *
+     * @param batch_size Maximum rows to return in this call.  When zero,
+     *                   the StreamConfig::default_batch_size is used.
+     * @return Batch of rows (may be smaller than batch_size at end of
+     *         stream), or an error if the back-end raised a failure.
+     */
+    virtual Result<std::vector<RelationalRow>> next_batch(
+        size_t batch_size = 0
+    ) = 0;
+
+    /**
+     * @brief Return the number of rows fetched so far (across all batches).
+     */
+    virtual size_t position() const = 0;
+
+    /**
+     * @brief Total result size when known by the back-end; nullopt otherwise.
+     */
+    virtual std::optional<size_t> total_size() const = 0;
+
+    /**
+     * @brief Explicitly close the stream and release server-side resources.
+     * @return Success, or an error if the close handshake with the back-end
+     *         failed (the stream is still considered closed after the call).
+     */
+    virtual Result<bool> close() = 0;
+};
+
+/**
+ * @class IStreamingAdapter
+ * @brief Adapter mixin for streaming large result sets
+ *
+ * @details
+ * Implement this interface (in addition to IDatabaseAdapter) to advertise
+ * streaming support.  Benchmark consumers detect availability at runtime:
+ *
+ * @code
+ * if (adapter->has_capability(Capability::STREAMING_RESULTS)) {
+ *     auto* sa = dynamic_cast<IStreamingAdapter*>(adapter.get());
+ *     auto stream = sa->execute_query_stream("FOR r IN large_table RETURN r");
+ *     while (stream->has_more()) { auto batch = stream->next_batch(500); … }
+ * }
+ * @endcode
+ */
+class IStreamingAdapter {
+public:
+    virtual ~IStreamingAdapter() = default;
+
+    /**
+     * @brief Execute a query and return an IResultStream cursor.
+     *
+     * @param query  Query string (SQL or equivalent).
+     * @param params Optional bound parameters.
+     * @return Owning pointer to an IResultStream, or an error.
+     */
+    virtual Result<std::unique_ptr<IResultStream>> execute_query_stream(
+        const std::string& query,
+        const std::vector<Scalar>& params = {}
+    ) = 0;
+
+    /**
+     * @brief Set the streaming configuration for this adapter.
+     *
+     * @param config StreamConfig to apply to subsequent streaming calls.
+     * @return Success, or NOT_IMPLEMENTED if the adapter does not support
+     *         runtime reconfiguration.
+     */
+    virtual Result<bool> set_stream_config(const StreamConfig& config) = 0;
+};
+
+// ============================================================================
+// Prepared Statement Interfaces (v1.9.0)
+// ============================================================================
+
+/**
+ * @class IPreparedStatement
+ * @brief A server-side prepared (plan-cached) statement handle
+ *
+ * @details
+ * Represents a query that has been parsed and optimised by the back-end
+ * once, and can be executed repeatedly with different parameter bindings
+ * without incurring parse/optimise overhead on every call.
+ *
+ * Parameters are bound by name (via `bind(name, value)`) or by zero-based
+ * position (via `bind(pos, value)`).  All parameter values are typed
+ * Scalar values — never concatenated strings — which prevents SQL injection
+ * by design.
+ *
+ * Call reset() to clear all bindings before re-executing with a new
+ * parameter set.
+ */
+class IPreparedStatement {
+public:
+    virtual ~IPreparedStatement() = default;
+
+    /**
+     * @brief Return the opaque server-side statement identifier.
+     */
+    virtual std::string get_id() const = 0;
+
+    /**
+     * @brief Return the original query text that was prepared.
+     */
+    virtual std::string get_query() const = 0;
+
+    /**
+     * @brief Bind a named parameter.
+     * @param name  Parameter name (without leading '@' or '$' sigil).
+     * @param value Typed parameter value (never concatenated as a string).
+     * @return Success, or INVALID_ARGUMENT if the name is unknown.
+     */
+    virtual Result<bool> bind(const std::string& name, const Scalar& value) = 0;
+
+    /**
+     * @brief Bind a positional parameter.
+     * @param position Zero-based parameter index.
+     * @param value    Typed parameter value.
+     * @return Success, or INVALID_ARGUMENT if the position is out of range.
+     */
+    virtual Result<bool> bind(size_t position, const Scalar& value) = 0;
+
+    /**
+     * @brief Bind multiple named parameters at once.
+     * @param params Map of parameter name → value.
+     * @return Success, or the first INVALID_ARGUMENT encountered.
+     */
+    virtual Result<bool> bind_all(
+        const std::map<std::string, Scalar>& params
+    ) = 0;
+
+    /**
+     * @brief Execute with the current parameter bindings.
+     * @return Query result table, or an error.
+     */
+    virtual Result<RelationalTable> execute() = 0;
+
+    /**
+     * @brief Execute asynchronously with the current bindings.
+     * @return Future that resolves to the query result table or an error.
+     */
+    virtual std::future<Result<RelationalTable>> execute_async() = 0;
+
+    /**
+     * @brief Clear all parameter bindings so the statement can be reused.
+     * @return Success, or an error if the back-end does not support reset.
+     */
+    virtual Result<bool> reset() = 0;
+
+    /**
+     * @brief Return execution statistics accumulated across all execute()
+     *        calls on this statement handle.
+     */
+    virtual Result<QueryStatistics> get_statistics() const = 0;
+};
+
+/**
+ * @class IPreparedStatementAdapter
+ * @brief Adapter mixin for prepared statement support
+ *
+ * @details
+ * Implement this interface (in addition to IDatabaseAdapter) to advertise
+ * prepared statement support.  Benchmark consumers detect availability:
+ *
+ * @code
+ * if (adapter->has_capability(Capability::PREPARED_STATEMENTS)) {
+ *     auto* psa = dynamic_cast<IPreparedStatementAdapter*>(adapter.get());
+ *     auto stmt = psa->prepare("FOR u IN users FILTER u.age > @age RETURN u");
+ *     stmt->bind("age", int64_t{30});
+ *     auto result = stmt->execute();
+ * }
+ * @endcode
+ */
+class IPreparedStatementAdapter {
+public:
+    virtual ~IPreparedStatementAdapter() = default;
+
+    /**
+     * @brief Parse and optimise a query, returning a reusable handle.
+     * @param query Query text to prepare.
+     * @return Owning pointer to an IPreparedStatement handle, or an error.
+     */
+    virtual Result<std::unique_ptr<IPreparedStatement>> prepare(
+        const std::string& query
+    ) = 0;
+
+    /**
+     * @brief Discard a prepared statement by its server-side ID.
+     * @param statement_id Value returned by IPreparedStatement::get_id().
+     * @return Success, or NOT_FOUND if the ID is unknown.
+     */
+    virtual Result<bool> unprepare(const std::string& statement_id) = 0;
+
+    /**
+     * @brief List all currently prepared statement IDs.
+     * @return Vector of statement IDs, or an error.
+     */
+    virtual Result<std::vector<std::string>> list_prepared() = 0;
+};
+
+// ============================================================================
+// Connection Pool Adapter Interface (v1.9.0)
+// ============================================================================
+
+/**
+ * @struct ConnectionPoolStats
+ * @brief Runtime statistics snapshot for an adapter-managed connection pool
+ *
+ * @details Mirrors the low-level PoolStats from connection_pool.hpp but is
+ *          expressed in terms that are visible at the IDatabaseAdapter API
+ *          boundary so callers do not need to include connection_pool.hpp.
+ */
+struct ConnectionPoolStats {
+    size_t total_connections  = 0; ///< Active + idle connections
+    size_t active_connections = 0; ///< Connections currently in use
+    size_t idle_connections   = 0; ///< Connections available for reuse
+    size_t total_created      = 0; ///< Cumulative connections created
+    size_t total_borrowed     = 0; ///< Cumulative successful acquire() calls
+    size_t total_returned     = 0; ///< Cumulative release() calls
+    size_t failed_borrows     = 0; ///< Acquire attempts that timed out
+    std::chrono::milliseconds avg_wait_time{0}; ///< Rolling avg acquire latency
+};
+
+/**
+ * @class IConnectionPoolAdapter
+ * @brief Adapter mixin for managing an internal connection pool
+ *
+ * @details
+ * Implement this interface to expose pool lifecycle and statistics through
+ * the IDatabaseAdapter API boundary.  Benchmark harnesses can use this to:
+ *   - Pre-warm the pool before a benchmark run (`initialize_pool`)
+ *   - Monitor pool saturation during runs (`get_pool_stats`)
+ *   - Drain idle connections between benchmark phases
+ *
+ * @code
+ * if (adapter->has_capability(Capability::CONNECTION_POOLING)) {
+ *     auto* cpa = dynamic_cast<IConnectionPoolAdapter*>(adapter.get());
+ *     ConnectionPoolConfig cfg; cfg.max_connections = 20;
+ *     cpa->initialize_pool(cfg);
+ * }
+ * @endcode
+ */
+class IConnectionPoolAdapter {
+public:
+    virtual ~IConnectionPoolAdapter() = default;
+
+    /**
+     * @brief (Re-)initialise the connection pool with the given config.
+     * @param config Pool size, timeout, and health-check parameters.
+     * @return Success, or an error if the pool could not be created.
+     */
+    virtual Result<bool> initialize_pool(
+        const ConnectionPoolConfig& config
+    ) = 0;
+
+    /**
+     * @brief Return a statistics snapshot for the current pool state.
+     * @return Pool statistics, or NOT_IMPLEMENTED if no pool is active.
+     */
+    virtual Result<ConnectionPoolStats> get_pool_stats() const = 0;
+
+    /**
+     * @brief Adjust the pool min/max bounds without full reinitialisation.
+     * @param new_min New minimum idle connections (0 = no minimum).
+     * @param new_max New maximum total connections.
+     * @return Success, or an error if the resize could not be applied.
+     */
+    virtual Result<bool> resize_pool(size_t new_min, size_t new_max) = 0;
+
+    /**
+     * @brief Return the number of idle connections that were closed.
+     *
+     * @details Useful between benchmark phases to ensure the pool starts
+     *          each phase from a clean slate.
+     */
+    virtual Result<size_t> close_idle_connections() = 0;
+
+    /**
+     * @brief Validate all idle connections and replace unhealthy ones.
+     * @return Number of connections replaced, or an error.
+     */
+    virtual Result<size_t> health_check_connections() = 0;
 };
 
 /**

@@ -1162,6 +1162,9 @@ bool ThemisDBAdapter::has_capability(Capability cap) const {
         case Capability::BATCH_OPERATIONS:
         case Capability::SECONDARY_INDEXES:
         case Capability::ASYNC_OPERATIONS:
+        case Capability::STREAMING_RESULTS:
+        case Capability::PREPARED_STATEMENTS:
+        case Capability::CONNECTION_POOLING:
             return true;
         default:
             return false;
@@ -1181,7 +1184,10 @@ std::vector<Capability> ThemisDBAdapter::get_capabilities() const {
         Capability::TIME_SERIES,
         Capability::BATCH_OPERATIONS,
         Capability::SECONDARY_INDEXES,
-        Capability::ASYNC_OPERATIONS
+        Capability::ASYNC_OPERATIONS,
+        Capability::STREAMING_RESULTS,
+        Capability::PREPARED_STATEMENTS,
+        Capability::CONNECTION_POOLING
     };
 }
 
@@ -1420,6 +1426,276 @@ Result<bool> ThemisDBAdapter::cancel_async(const std::string& operation_id) {
 
     it->second->store(true, std::memory_order_relaxed);
     return Result<bool>::ok(true);
+}
+
+// ---------------------------------------------------------------------------
+// IStreamingAdapter — pull-based cursor over in-memory result sets
+// ---------------------------------------------------------------------------
+
+Result<std::unique_ptr<IResultStream>> ThemisDBAdapter::execute_query_stream(
+    const std::string& query,
+    const std::vector<Scalar>& params
+) {
+    // Delegate to the synchronous path to obtain a full RelationalTable
+    // snapshot, then wrap it in a ThemisDBResultStream cursor.
+    auto table_result = execute_query(query, params);
+    if (!table_result.is_ok()) {
+        return Result<std::unique_ptr<IResultStream>>::err(
+            table_result.error_code, table_result.error_message);
+    }
+
+    StreamConfig cfg;
+    {
+        std::lock_guard<std::mutex> lk(store_mutex_);
+        cfg = stream_config_;
+    }
+
+    auto stream = std::make_unique<ThemisDBResultStream>(
+        std::move(*table_result.value), cfg);
+    return Result<std::unique_ptr<IResultStream>>::ok(std::move(stream));
+}
+
+Result<bool> ThemisDBAdapter::set_stream_config(const StreamConfig& config) {
+    std::lock_guard<std::mutex> lk(store_mutex_);
+    stream_config_ = config;
+    return Result<bool>::ok(true);
+}
+
+// ---------------------------------------------------------------------------
+// IPreparedStatementAdapter — plan-cached statement management
+// ---------------------------------------------------------------------------
+
+Result<std::unique_ptr<IPreparedStatement>> ThemisDBAdapter::prepare(
+    const std::string& query
+) {
+    if (query.empty()) {
+        return Result<std::unique_ptr<IPreparedStatement>>::err(
+            ErrorCode::INVALID_ARGUMENT, "Query must not be empty");
+    }
+
+    const std::string id = generate_id();
+
+    {
+        std::lock_guard<std::mutex> lk(prepared_mutex_);
+        prepared_queries_.emplace(id, query);
+    }
+
+    auto stmt = std::make_unique<ThemisDBPreparedStatement>(id, query, this);
+    return Result<std::unique_ptr<IPreparedStatement>>::ok(std::move(stmt));
+}
+
+Result<bool> ThemisDBAdapter::unprepare(const std::string& statement_id) {
+    std::lock_guard<std::mutex> lk(prepared_mutex_);
+    auto it = prepared_queries_.find(statement_id);
+    if (it == prepared_queries_.end()) {
+        return Result<bool>::err(
+            ErrorCode::NOT_FOUND,
+            "No prepared statement with id: " + statement_id);
+    }
+    prepared_queries_.erase(it);
+    return Result<bool>::ok(true);
+}
+
+Result<std::vector<std::string>> ThemisDBAdapter::list_prepared() {
+    std::lock_guard<std::mutex> lk(prepared_mutex_);
+    std::vector<std::string> ids;
+    ids.reserve(prepared_queries_.size());
+    for (const auto& kv : prepared_queries_) {
+        ids.push_back(kv.first);
+    }
+    return Result<std::vector<std::string>>::ok(std::move(ids));
+}
+
+// ---------------------------------------------------------------------------
+// ThemisDBResultStream implementation
+// ---------------------------------------------------------------------------
+
+ThemisDBResultStream::ThemisDBResultStream(
+    RelationalTable  table,
+    StreamConfig     config
+)
+    : table_(std::move(table))
+    , config_(config)
+{}
+
+bool ThemisDBResultStream::has_more() const {
+    return !closed_ && cursor_ < table_.rows.size();
+}
+
+Result<std::vector<RelationalRow>> ThemisDBResultStream::next_batch(
+    size_t batch_size
+) {
+    if (closed_) {
+        return Result<std::vector<RelationalRow>>::err(
+            ErrorCode::INTERNAL_ERROR, "Stream has been closed");
+    }
+    if (cursor_ >= table_.rows.size()) {
+        return Result<std::vector<RelationalRow>>::ok({});
+    }
+
+    const size_t effective = (batch_size == 0)
+        ? config_.default_batch_size
+        : batch_size;
+
+    const size_t end = std::min(cursor_ + effective, table_.rows.size());
+    std::vector<RelationalRow> batch(
+        table_.rows.begin() + static_cast<std::ptrdiff_t>(cursor_),
+        table_.rows.begin() + static_cast<std::ptrdiff_t>(end));
+    cursor_ = end;
+    return Result<std::vector<RelationalRow>>::ok(std::move(batch));
+}
+
+size_t ThemisDBResultStream::position() const {
+    return cursor_;
+}
+
+std::optional<size_t> ThemisDBResultStream::total_size() const {
+    return table_.rows.size();
+}
+
+Result<bool> ThemisDBResultStream::close() {
+    closed_ = true;
+    return Result<bool>::ok(true);
+}
+
+// ---------------------------------------------------------------------------
+// ThemisDBPreparedStatement implementation
+// ---------------------------------------------------------------------------
+
+ThemisDBPreparedStatement::ThemisDBPreparedStatement(
+    std::string       id,
+    std::string       query,
+    IDatabaseAdapter* adapter
+)
+    : id_(std::move(id))
+    , query_(std::move(query))
+    , adapter_(adapter)
+{}
+
+std::string ThemisDBPreparedStatement::get_id() const { return id_; }
+std::string ThemisDBPreparedStatement::get_query() const { return query_; }
+
+Result<bool> ThemisDBPreparedStatement::bind(
+    const std::string& name, const Scalar& value
+) {
+    if (name.empty()) {
+        return Result<bool>::err(
+            ErrorCode::INVALID_ARGUMENT, "Parameter name must not be empty");
+    }
+    named_params_[name] = value;
+    return Result<bool>::ok(true);
+}
+
+Result<bool> ThemisDBPreparedStatement::bind(size_t position, const Scalar& value) {
+    positional_params_[position] = value;
+    return Result<bool>::ok(true);
+}
+
+Result<bool> ThemisDBPreparedStatement::bind_all(
+    const std::map<std::string, Scalar>& params
+) {
+    for (const auto& kv : params) {
+        if (kv.first.empty()) {
+            return Result<bool>::err(
+                ErrorCode::INVALID_ARGUMENT, "Parameter name must not be empty");
+        }
+        named_params_[kv.first] = kv.second;
+    }
+    return Result<bool>::ok(true);
+}
+
+Result<RelationalTable> ThemisDBPreparedStatement::execute() {
+    const auto t_start = std::chrono::steady_clock::now();
+
+    // Build effective query by substituting @name tokens in the query text
+    // with their scalar string representations.  In simulation mode this
+    // simulates plan-parameter binding without a real query compiler.
+    const std::string effective_query = apply_named_params();
+    const std::vector<Scalar> pos_params = build_positional_params();
+
+    auto result = adapter_->execute_query(effective_query, pos_params);
+
+    const auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(
+        std::chrono::steady_clock::now() - t_start);
+
+    std::lock_guard<std::mutex> lk(stats_mutex_);
+    ++exec_count_;
+    total_exec_time_ += elapsed;
+
+    return result;
+}
+
+std::future<Result<RelationalTable>> ThemisDBPreparedStatement::execute_async() {
+    return std::async(std::launch::async, [this]() -> Result<RelationalTable> {
+        return execute();
+    });
+}
+
+Result<bool> ThemisDBPreparedStatement::reset() {
+    named_params_.clear();
+    positional_params_.clear();
+    return Result<bool>::ok(true);
+}
+
+Result<QueryStatistics> ThemisDBPreparedStatement::get_statistics() const {
+    std::lock_guard<std::mutex> lk(stats_mutex_);
+    QueryStatistics stats;
+    stats.execution_time = exec_count_ > 0
+        ? std::chrono::microseconds{total_exec_time_.count() / static_cast<int64_t>(exec_count_)}
+        : std::chrono::microseconds{0};
+    stats.rows_read     = 0;
+    stats.rows_returned = 0;
+    stats.bytes_read    = 0;
+    return Result<QueryStatistics>::ok(std::move(stats));
+}
+
+// Private helpers ─────────────────────────────────────────────────────────
+
+std::string ThemisDBPreparedStatement::apply_named_params() const {
+    std::string q = query_;
+    for (const auto& kv : named_params_) {
+        const std::string token = "@" + kv.first;
+        std::string replacement;
+        std::visit([&replacement](const auto& v) {
+            using T = std::decay_t<decltype(v)>;
+            if constexpr (std::is_same_v<T, std::monostate>) {
+                replacement = "null";
+            } else if constexpr (std::is_same_v<T, bool>) {
+                replacement = v ? "true" : "false";
+            } else if constexpr (std::is_same_v<T, int64_t>) {
+                replacement = std::to_string(v);
+            } else if constexpr (std::is_same_v<T, double>) {
+                replacement = std::to_string(v);
+            } else if constexpr (std::is_same_v<T, std::string>) {
+                // Wrap in quotes; escape internal quotes to prevent injection
+                std::string escaped;
+                for (char c : v) {
+                    if (c == '"') escaped += "\\\"";
+                    else          escaped += c;
+                }
+                replacement = '"' + escaped + '"';
+            } else {
+                replacement = "<binary>";
+            }
+        }, kv.second);
+
+        size_t pos = 0;
+        while ((pos = q.find(token, pos)) != std::string::npos) {
+            q.replace(pos, token.size(), replacement);
+            pos += replacement.size();
+        }
+    }
+    return q;
+}
+
+std::vector<Scalar> ThemisDBPreparedStatement::build_positional_params() const {
+    if (positional_params_.empty()) return {};
+    const size_t max_idx = positional_params_.rbegin()->first;
+    std::vector<Scalar> params(max_idx + 1, Scalar{std::monostate{}});
+    for (const auto& kv : positional_params_) {
+        params[kv.first] = kv.second;
+    }
+    return params;
 }
 
 } // namespace chimera

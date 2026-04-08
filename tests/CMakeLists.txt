@@ -12701,6 +12701,22 @@ add_chimera_focused_test(
     "Async/Promise-Based API: execute_query_async, batch_insert_async, search_vectors_async, cancel_async, concurrent fan-out"
 )
 
+add_chimera_focused_test(
+    test_chimera_streaming
+    chimera/test_chimera_streaming.cpp
+    ChimeraStreamingTests
+    "chimera;adapter;streaming;cursor;unit"
+    "Streaming Result Sets: IResultStream, IStreamingAdapter, has_more/next_batch/close lifecycle, StreamConfig, capability detection"
+)
+
+add_chimera_focused_test(
+    test_chimera_prepared_statements
+    chimera/test_chimera_prepared_statements.cpp
+    ChimeraPreparedStatementTests
+    "chimera;adapter;prepared-statements;bind;unit"
+    "Prepared Statements: IPreparedStatement, bind/execute/reset, list_prepared, unprepare, injection safety, capability detection"
+)
+
 # ============================================================================
 # Exporters Focused Test Targets
 # Each target compiles the full exporter source set and links themis_core

@@ -288,7 +288,10 @@ std::vector<Capability> AdapterCapabilityMatrix::all_capabilities() {
         Capability::MATERIALIZED_VIEWS,
         Capability::REPLICATION,
         Capability::SHARDING,
-        Capability::ASYNC_OPERATIONS
+        Capability::ASYNC_OPERATIONS,
+        Capability::STREAMING_RESULTS,
+        Capability::PREPARED_STATEMENTS,
+        Capability::CONNECTION_POOLING
     };
 }
 
@@ -310,6 +313,9 @@ std::string AdapterCapabilityMatrix::capability_to_string(Capability cap) {
         case Capability::REPLICATION:          return "REPLICATION";
         case Capability::SHARDING:             return "SHARDING";
         case Capability::ASYNC_OPERATIONS:     return "ASYNC_OPERATIONS";
+        case Capability::STREAMING_RESULTS:    return "STREAMING_RESULTS";
+        case Capability::PREPARED_STATEMENTS:  return "PREPARED_STATEMENTS";
+        case Capability::CONNECTION_POOLING:   return "CONNECTION_POOLING";
         default:                               return "UNKNOWN";
     }
 }

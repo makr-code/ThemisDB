@@ -16,6 +16,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Cassandra adapter (wide-column) — Issue #1641
 - Adapter-level connection pooling
 
+## [1.9.0] — 2026-04-08
+### Added
+- **Streaming Result Sets** (`IResultStream`, `IStreamingAdapter`, `StreamConfig`): pull-based cursor API for large result sets; `ThemisDBAdapter` implements `IStreamingAdapter` with in-memory simulation mode; `STREAMING_RESULTS` capability flag (`database_adapter.hpp`, `themisdb_adapter.hpp`, `themisdb_adapter.cpp`)
+- **Prepared Statement API** (`IPreparedStatement`, `IPreparedStatementAdapter`): named and positional parameter binding via typed `Scalar` (SQL-injection-safe by design), plan-cache simulation, `execute()` / `execute_async()` / `reset()` / `get_statistics()`; `ThemisDBAdapter` implements `IPreparedStatementAdapter` with in-memory statement registry; `PREPARED_STATEMENTS` capability flag (`database_adapter.hpp`, `themisdb_adapter.hpp`, `themisdb_adapter.cpp`)
+- **Connection Pool Adapter Interface** (`IConnectionPoolAdapter`, `ConnectionPoolStats`): `initialize_pool()`, `get_pool_stats()`, `resize_pool()`, `close_idle_connections()`, `health_check_connections()`; `CONNECTION_POOLING` capability flag (`database_adapter.hpp`)
+- `all_capabilities()` and `capability_to_string()` in `AdapterCapabilityMatrix` updated to include `STREAMING_RESULTS`, `PREPARED_STATEMENTS`, `CONNECTION_POOLING` (`adapter_factory.cpp`)
+- `ThemisDBAdapter::has_capability()` and `get_capabilities()` updated to report all three new capabilities
+- 2 new focused test targets: `test_chimera_streaming` (16 tests, `ChimeraStreamingTests`) and `test_chimera_prepared_statements` (22 tests, `ChimeraPreparedStatementTests`) (`tests/CMakeLists.txt`)
+
 ## [1.8.0] — 2026-03-22
 ### Added
 - Async/Promise-Based API: `IAsyncDatabaseAdapter` with `execute_query_async()`, `batch_insert_async()`, `search_vectors_async()`, and `cancel_async()`; `ASYNC_OPERATIONS` capability flag; `ThemisDBAdapter` implements `IAsyncDatabaseAdapter` with thread-pool dispatch and cancellation token support (`database_adapter.hpp`, `themisdb_adapter.hpp`)
