@@ -1640,9 +1640,15 @@ Result<bool> ThemisDBPreparedStatement::reset() {
 Result<QueryStatistics> ThemisDBPreparedStatement::get_statistics() const {
     std::lock_guard<std::mutex> lk(stats_mutex_);
     QueryStatistics stats;
-    stats.execution_time = exec_count_ > 0
-        ? std::chrono::microseconds{total_exec_time_.count() / static_cast<int64_t>(exec_count_)}
-        : std::chrono::microseconds{0};
+    if (exec_count_ > 0) {
+        // Round to nearest microsecond to avoid systematic truncation bias.
+        const int64_t count    = total_exec_time_.count();
+        const int64_t n        = static_cast<int64_t>(exec_count_);
+        const int64_t avg_us   = (count + n / 2) / n;
+        stats.execution_time   = std::chrono::microseconds{avg_us};
+    } else {
+        stats.execution_time   = std::chrono::microseconds{0};
+    }
     stats.rows_read     = 0;
     stats.rows_returned = 0;
     stats.bytes_read    = 0;
@@ -1667,13 +1673,17 @@ std::string ThemisDBPreparedStatement::apply_named_params() const {
             } else if constexpr (std::is_same_v<T, double>) {
                 replacement = std::to_string(v);
             } else if constexpr (std::is_same_v<T, std::string>) {
-                // Wrap in quotes; escape internal quotes to prevent injection
+                // Use SQL standard single-quoted string literals.
+                // Escape backslashes first, then single quotes, so that the
+                // resulting literal cannot be terminated early by injected SQL.
                 std::string escaped;
+                escaped.reserve(v.size() + 2);
                 for (char c : v) {
-                    if (c == '"') escaped += "\\\"";
-                    else          escaped += c;
+                    if (c == '\\') escaped += "\\\\";
+                    else if (c == '\'') escaped += "\\'";
+                    else escaped += c;
                 }
-                replacement = '"' + escaped + '"';
+                replacement = '\'' + escaped + '\'';
             } else {
                 replacement = "<binary>";
             }

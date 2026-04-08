@@ -58,8 +58,6 @@
 #ifndef CHIMERA_DATABASE_ADAPTER_HPP
 #define CHIMERA_DATABASE_ADAPTER_HPP
 
-#include "chimera/connection_pool.hpp"
-
 #include <atomic>
 #include <cstdint>
 #include <future>
@@ -1394,6 +1392,15 @@ public:
 // ============================================================================
 // Connection Pool Adapter Interface (v1.9.0)
 // ============================================================================
+
+/**
+ * @brief Forward declaration of the connection pool configuration.
+ *
+ * @details The full definition is provided in `chimera/connection_pool.hpp`.
+ * Consumers of IConnectionPoolAdapter that need to construct a
+ * ConnectionPoolConfig must include that header in their translation unit.
+ */
+struct ConnectionPoolConfig;
 
 /**
  * @struct ConnectionPoolStats
