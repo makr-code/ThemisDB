@@ -202,6 +202,13 @@ bool BackendRegistry::loadPlugin(const std::string& pluginPath) {
 
 IComputeBackend* BackendRegistry::getBackend(BackendType type) const {
     std::shared_lock<std::shared_mutex> lock(registryMutex_);
+    // Use the O(1) index when it has been built by initializeRuntime().
+    if (!backendTypeIndex_.empty()) {
+        auto it = backendTypeIndex_.find(static_cast<int>(type));
+        if (it != backendTypeIndex_.end()) return it->second;
+        return nullptr;
+    }
+    // Fallback linear scan before initializeRuntime() is called.
     for (const auto& backend : backends_) {
         if (backend->type() == type) {
             return backend.get();
@@ -219,15 +226,35 @@ const std::vector<BackendType>& BackendRegistry::getFallbackOrder() noexcept {
 // satisfies reqs and can be downcast to T*. T must be IComputeBackend or a
 // subtype (IVectorBackend, IGraphBackend, IGeoBackend).
 //
+// When backendTypeIndex_ has been built (after initializeRuntime()) each
+// priority-level lookup is a single O(1) map lookup rather than a linear scan
+// over all backends_.  The map stores the *first* registered backend of each
+// type; for the common case of one backend per type this is equivalent to the
+// original nested-loop and avoids repeated dynamic_cast calls in the hot path.
+//
 // NOTE: callers must hold at least a shared lock on BackendRegistry::registryMutex_
 // before calling this function.  The lock is NOT acquired here to allow both
 // shared (read-only) and exclusive (write) callers to reuse the same helper.
 template <typename T>
 static T* selectTyped(const std::vector<std::unique_ptr<IComputeBackend>>& backends,
-                      const BackendRegistry::CapabilityRequirements& reqs) {
-    for (auto type : kFallbackOrder) {
+                      const BackendRegistry::CapabilityRequirements& reqs,
+                      const std::unordered_map<int, IComputeBackend*>& index) {
+    if (!index.empty()) {
+        // O(|kFallbackOrder|) path: one map lookup per priority level.
+        for (auto btype : kFallbackOrder) {
+            auto it = index.find(static_cast<int>(btype));
+            if (it == index.end()) continue;
+            IComputeBackend* raw = it->second;
+            if (!BackendRegistry::satisfies(raw->getCapabilities(), reqs)) continue;
+            T* typed = dynamic_cast<T*>(raw);
+            if (typed) return typed;
+        }
+        return nullptr;
+    }
+    // O(|kFallbackOrder| × |backends|) fallback before initializeRuntime().
+    for (auto btype : kFallbackOrder) {
         for (const auto& backend : backends) {
-            if (backend->type() == type && BackendRegistry::satisfies(backend->getCapabilities(), reqs)) {
+            if (backend->type() == btype && BackendRegistry::satisfies(backend->getCapabilities(), reqs)) {
                 T* typed = dynamic_cast<T*>(backend.get());
                 if (typed) return typed;
             }
@@ -238,27 +265,27 @@ static T* selectTyped(const std::vector<std::unique_ptr<IComputeBackend>>& backe
 
 IComputeBackend* BackendRegistry::selectBackendFor(const CapabilityRequirements& reqs) const {
     std::shared_lock<std::shared_mutex> lock(registryMutex_);
-    return selectTyped<IComputeBackend>(backends_, reqs);
+    return selectTyped<IComputeBackend>(backends_, reqs, backendTypeIndex_);
 }
 
 IVectorBackend* BackendRegistry::selectVectorBackendFor(const CapabilityRequirements& reqs) const {
     std::shared_lock<std::shared_mutex> lock(registryMutex_);
-    return selectTyped<IVectorBackend>(backends_, reqs);
+    return selectTyped<IVectorBackend>(backends_, reqs, backendTypeIndex_);
 }
 
 IGraphBackend* BackendRegistry::selectGraphBackendFor(const CapabilityRequirements& reqs) const {
     std::shared_lock<std::shared_mutex> lock(registryMutex_);
-    return selectTyped<IGraphBackend>(backends_, reqs);
+    return selectTyped<IGraphBackend>(backends_, reqs, backendTypeIndex_);
 }
 
 IGeoBackend* BackendRegistry::selectGeoBackendFor(const CapabilityRequirements& reqs) const {
     std::shared_lock<std::shared_mutex> lock(registryMutex_);
-    return selectTyped<IGeoBackend>(backends_, reqs);
+    return selectTyped<IGeoBackend>(backends_, reqs, backendTypeIndex_);
 }
 
 IMatrixBackend* BackendRegistry::selectMatrixBackendFor(const CapabilityRequirements& reqs) const {
     std::shared_lock<std::shared_mutex> lock(registryMutex_);
-    return selectTyped<IMatrixBackend>(backends_, reqs);
+    return selectTyped<IMatrixBackend>(backends_, reqs, backendTypeIndex_);
 }
 
 IVectorBackend* BackendRegistry::getBestVectorBackend() const {
@@ -390,6 +417,7 @@ void BackendRegistry::shutdownAll() {
     selectedGeoBackend_    = nullptr;
     runtimeInitialized_.store(false, std::memory_order_release);
     cachedDeviceInfo_.clear();
+    backendTypeIndex_.clear();
     
     if (pluginLoader_) {
         // Unlock before calling into pluginLoader_ to prevent potential
@@ -455,11 +483,21 @@ void BackendRegistry::initializeRuntime(
     {
         std::unique_lock<std::shared_mutex> lock(registryMutex_);
         cachedDeviceInfo_ = std::move(deviceSnapshot);
+
+        // Build the O(1) BackendType → IComputeBackend* lookup index.
+        // For each type we keep only the *first* registered backend (highest priority
+        // within the type, as backends_ is appended to in registration order).
+        backendTypeIndex_.clear();
+        backendTypeIndex_.reserve(backends_.size());
+        for (const auto& b : backends_) {
+            backendTypeIndex_.emplace(static_cast<int>(b->type()), b.get());
+        }
+
         // selectTyped() requires the lock to be held (shared is sufficient; we
         // hold exclusive here so it is already satisfied).
-        selectedVectorBackend_ = selectTyped<IVectorBackend>(backends_, vectorReqs);
-        selectedGraphBackend_  = selectTyped<IGraphBackend>(backends_, graphReqs);
-        selectedGeoBackend_    = selectTyped<IGeoBackend>(backends_, geoReqs);
+        selectedVectorBackend_ = selectTyped<IVectorBackend>(backends_, vectorReqs, backendTypeIndex_);
+        selectedGraphBackend_  = selectTyped<IGraphBackend>(backends_, graphReqs, backendTypeIndex_);
+        selectedGeoBackend_    = selectTyped<IGeoBackend>(backends_, geoReqs, backendTypeIndex_);
         runtimeInitialized_.store(true, std::memory_order_release);
     }
 

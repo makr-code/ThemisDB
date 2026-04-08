@@ -64,7 +64,9 @@ void launchHnswSearchKernel(const float* d_vectors, uint32_t dim,
                              uint32_t k, uint32_t ef, uint8_t metric,
                              uint32_t entry_node,
                              int64_t* d_result_ids, float* d_result_scores,
-                             cudaStream_t stream, bool* h_overflow);
+                             cudaStream_t stream, bool* h_overflow,
+                             uint8_t* d_visited_pool   = nullptr,
+                             size_t   visited_pool_bytes = 0);
 // Maximum k for a single GPU kernel pass (mirrors kMaxK in cuda_hnsw_kernels.cu)
 static constexpr uint32_t kHnswKernelMaxK = 1024u;
 } // namespace themis::cuda
@@ -237,6 +239,13 @@ struct CudaHnswTraversalEngine::Impl {
     float*   d_result_scores  = nullptr;
     size_t   result_buf_size  = 0;    // Allocated query capacity
 
+    // Persistent visited-bitset pool.
+    // Sized at construction time to maxBatchSize × ceil(numNodes / 8) bytes.
+    // Eliminates per-kernel cudaMalloc/cudaFree (avoids ~2-5 µs stream stall).
+    uint8_t* d_visited_pool       = nullptr;
+    size_t   visited_pool_bytes   = 0;   // Current allocated capacity
+    size_t   maxBatchSize_        = 512; // Tunable via setMaxBatchSize()
+
     cudaStream_t stream = nullptr;
 
     void freeDevice() {
@@ -245,7 +254,22 @@ struct CudaHnswTraversalEngine::Impl {
         if (d_neighbours)    { cudaFree(d_neighbours);    d_neighbours    = nullptr; }
         if (d_result_ids)    { cudaFree(d_result_ids);    d_result_ids    = nullptr; }
         if (d_result_scores) { cudaFree(d_result_scores); d_result_scores = nullptr; }
+        if (d_visited_pool)  { cudaFree(d_visited_pool);  d_visited_pool  = nullptr; visited_pool_bytes = 0; }
         if (stream)          { cudaStreamDestroy(stream); stream          = nullptr; }
+    }
+
+    /// Allocate / re-allocate the visited-bitset pool to cover
+    /// maxBatchSize_ queries over numNodes nodes.  No-op when the current
+    /// pool is already large enough.  Returns false if cudaMalloc fails.
+    bool ensureVisitedPool(size_t numNodes) {
+        const size_t bytes_per_query = (numNodes + 7u) / 8u;
+        const size_t required = maxBatchSize_ * bytes_per_query;
+        if (visited_pool_bytes >= required) return true;  // already sufficient
+        if (d_visited_pool) { cudaFree(d_visited_pool); d_visited_pool = nullptr; visited_pool_bytes = 0; }
+        const cudaError_t err = cudaMalloc(&d_visited_pool, required);
+        if (err != cudaSuccess || d_visited_pool == nullptr) return false;
+        visited_pool_bytes = required;
+        return true;
     }
 #endif
 
@@ -287,6 +311,30 @@ CudaHnswTraversalEngine::~CudaHnswTraversalEngine() = default;
 
 CudaHnswTraversalEngine::CudaHnswTraversalEngine(CudaHnswTraversalEngine&&) noexcept = default;
 CudaHnswTraversalEngine& CudaHnswTraversalEngine::operator=(CudaHnswTraversalEngine&&) noexcept = default;
+
+void CudaHnswTraversalEngine::setMaxBatchSize(size_t n) noexcept {
+    if (!impl_) return;
+#ifdef THEMIS_ENABLE_CUDA
+    if (n > impl_->maxBatchSize_ || impl_->visited_pool_bytes == 0) {
+        impl_->maxBatchSize_ = n;
+        // Re-allocate if the index is already built and we know the node count.
+        if (impl_->index_built && impl_->d_offsets) {
+            // Number of nodes = last offset value in the CSR offsets array.
+            // We don't store it separately, so derive it from the impl
+            // (bottom layer node count is num_vectors for the flat layout).
+            const size_t num_nodes = impl_->num_vectors;
+            if (!impl_->ensureVisitedPool(num_nodes)) {
+                THEMIS_WARN("CudaHnswTraversalEngine::setMaxBatchSize: "
+                            "cudaMalloc({} bytes) failed — pool unavailable; "
+                            "falling back to per-invocation allocation",
+                            n * ((num_nodes + 7u) / 8u));
+            }
+        }
+    }
+#else
+    (void)n;
+#endif
+}
 
 // ─────────────────────────────────────────────────────────────────────────────
 // buildIndex
@@ -336,6 +384,15 @@ bool CudaHnswTraversalEngine::buildIndex(const std::vector<HnswLayerGraph>& laye
     }
     cudaMemcpy(impl_->d_offsets,    bottom.offsets.data(),    off_bytes, cudaMemcpyHostToDevice);
     cudaMemcpy(impl_->d_neighbours, bottom.neighbours.data(), nb_bytes,  cudaMemcpyHostToDevice);
+
+    // Pre-allocate the persistent visited-bitset pool to cover the default
+    // (or previously configured) maxBatchSize_.  Failure here is non-fatal:
+    // launchHnswSearchKernel falls back to per-invocation allocation silently.
+    if (!impl_->ensureVisitedPool(num_vectors)) {
+        THEMIS_WARN("CudaHnswTraversalEngine::buildIndex: "
+                    "visited pool pre-allocation failed — "
+                    "per-invocation fallback will be used");
+    }
 #endif
 
     impl_->index_built = true;
@@ -414,6 +471,9 @@ CudaHnswTraversalEngine::batchSearch(const float* queries, size_t num_queries,
                 impl_->result_buf_size = num_queries * k;
             }
 
+            // Grow visited pool if this batch is larger than the pre-allocated size
+            impl_->ensureVisitedPool(num_nodes);
+
             float* d_queries = nullptr;
             cudaMalloc(&d_queries, num_queries * config_.dim * sizeof(float));
             cudaMemcpy(d_queries, queries,
@@ -430,14 +490,16 @@ CudaHnswTraversalEngine::batchSearch(const float* queries, size_t num_queries,
                 /*entry_node=*/0u,
                 impl_->d_result_ids, impl_->d_result_scores,
                 impl_->stream,
-                &overflow);
+                &overflow,
+                impl_->d_visited_pool,
+                impl_->visited_pool_bytes);
 
             cudaStreamSynchronize(impl_->stream);
             cudaFree(d_queries);
 
             if (overflow) {
-                // Kernel declined to run (k > kMaxK) — this should not happen
-                // for k ≤ kHnswKernelMaxK; fall through to CPU below.
+                // Pool allocation failed and per-invocation fallback also failed
+                // (degraded mode) — fall through to CPU.
             } else {
                 std::vector<int64_t> h_ids(num_queries * k);
                 std::vector<float>   h_scores(num_queries * k);
@@ -506,7 +568,9 @@ CudaHnswTraversalEngine::batchSearch(const float* queries, size_t num_queries,
                         entry_node,
                         d_pass_ids, d_pass_scores,
                         impl_->stream,
-                        &overflow);
+                        &overflow,
+                        impl_->d_visited_pool,
+                        impl_->visited_pool_bytes);
 
                     cudaStreamSynchronize(impl_->stream);
                     if (overflow) continue;  // Should not happen since pass_k ≤ kMaxK
