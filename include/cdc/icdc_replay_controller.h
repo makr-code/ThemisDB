@@ -320,6 +320,9 @@ private:
         const ReplayOptions& opts) const
     {
         Changefeed::ListOptions lo;
+        // Both ICDCReplayController and Changefeed::ListOptions use the same
+        // exclusive-lower-bound semantics: from_sequence returns events with
+        // sequence > from_sequence (0 = all events from the beginning).
         lo.from_sequence = opts.from_sequence;
         lo.to_sequence   = opts.to_sequence;
         if (opts.max_events_per_session > 0) {

@@ -120,7 +120,9 @@ private:
     {
         std::vector<Changefeed::ChangeEvent> out;
         for (const auto& ev : events_) {
+            // from_sequence is an exclusive lower bound: keep events with seq > from_sequence
             if (opts.from_sequence > 0 && ev.sequence <= opts.from_sequence) continue;
+            // to_sequence is an inclusive upper bound: keep events with seq <= to_sequence
             if (opts.to_sequence   > 0 && ev.sequence > opts.to_sequence)   continue;
             if (opts.from_timestamp_ms > 0 &&
                 ev.timestamp_ms < opts.from_timestamp_ms)                   continue;
@@ -202,10 +204,12 @@ TEST(InMemoryReplayControllerTest, BatchSizeIsRespected) {
 }
 
 // ── AC-R4  from_sequence cursor filters older events ─────────────────────────
+// from_sequence uses an exclusive lower bound: only events with
+// sequence > from_sequence are returned (same semantics as Changefeed::ListOptions).
 
 TEST(InMemoryReplayControllerTest, FromSequenceFiltersOlderEvents) {
     VectorReplayController ctrl(makeEventRange(1, 5));
-    auto session = ctrl.replayFromSequence(3); // exclusive: seq > 3
+    auto session = ctrl.replayFromSequence(3); // exclusive: returns seq > 3 (i.e., 4, 5)
     auto batch   = session->nextBatch();
     ASSERT_EQ(batch.size(), 2u);
     EXPECT_EQ(batch[0].sequence, 4u);

@@ -95,7 +95,7 @@ struct BatchConfig {
     std::size_t max_batch_size = 0;
 
     /// Maximum number of committed batches retained in the commit history
-    /// (for AlreadyCommitted detection).  0 = keep last 1000.
+    /// (for AlreadyCommitted detection).  0 = use InMemoryBatchCommitCoordinator::kDefaultHistorySize.
     std::size_t commit_history_size = 1000;
 };
 
@@ -150,10 +150,16 @@ public:
     /**
      * @brief Commit all staged events in the current batch.
      *
-     * After a successful commit, the coordinator transitions to Idle and
+     * After a successful commit, the coordinator transitions to Committed and
      * is ready for the next beginBatch() call.  The committed events are
      * accessible via committedEvents(batch_id) until they age out of the
      * commit history.
+     *
+     * Calling commitBatch() when no batch is open returns NoBatchOpen.
+     * If the most recent batch has already been committed (status ==
+     * Committed), returns AlreadyCommitted — allowing safe duplicate-call
+     * detection for the same batch lifecycle without a batch_id parameter.
+     * If the most recent batch was rolled back, returns RolledBack.
      *
      * @return CommitResult indicating success or the failure reason.
      */
