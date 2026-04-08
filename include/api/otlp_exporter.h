@@ -26,6 +26,7 @@
 #include <string>
 #include <string_view>
 #include <vector>
+#include <deque>
 #include <unordered_map>
 #include <thread>
 #include <mutex>
@@ -179,7 +180,7 @@ private:
 
     OtlpExporterConfig      config_;
 
-    std::vector<SpanData>   queue_;
+    std::deque<SpanData>    queue_;
     mutable std::mutex      queue_mutex_;
     std::condition_variable queue_cv_;
 
@@ -187,6 +188,10 @@ private:
     std::atomic<bool>       stop_{false};
     std::atomic<uint64_t>   exported_count_{0};
     std::atomic<uint64_t>   dropped_count_{0};
+
+    // Persistent libcurl handle — created in start(), reused across flushBatch()
+    // calls on the background thread, destroyed in stop().
+    void* curl_handle_{nullptr}; // typed as void* to avoid pulling in curl.h here
 };
 
 } // namespace api

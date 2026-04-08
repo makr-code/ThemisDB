@@ -83,6 +83,29 @@ Core HTTP API server implemented with RESTful endpoints, AQL query execution, au
 - [x] `Executor::executeField()` resolves all `VariableRef` arguments before invoking resolver — v2.0.0
 - [x] 5 new execution tests (string/int substitution, default value, runtime override, unbound → null) — `tests/test_graphql_variables.cpp`
 
+### Phase 6: API Hardening & Performance (Status: Completed ✅)
+- [x] `AuditLogger::log()` non-blocking handler dispatch — v2.1.0
+- [x] `RateLimiter` stale bucket TTL eviction + clock pre-computation before lock — v2.1.0
+- [x] `OperationRateLimiter` outer `std::mutex` → `std::shared_mutex` — v2.1.0
+- [x] `ResponseCache::invalidatePattern()` selective collection-tagged eviction — v2.1.0
+- [x] `OtlpExporter` `std::deque` queue + persistent `CURL*` handle — v2.1.0
+- [x] `GrpcBridgeImpl` concrete implementation — v2.1.0
+- [x] `QueryAllowList` production-build warning — v2.1.0
+- [x] gRPC `BatchWrite` / `BatchRead` bounds checks + atomic batch commit — v2.1.0
+- [x] 25 new tests in `tests/test_api_module_enhancements.cpp` — v2.1.0
+- [x] `AuditLogger::log()` non-blocking handler dispatch: handlers snapshot copied under lock, invoked outside critical section — v2.1.0
+- [x] `RateLimiter` stale bucket TTL eviction (`2 × window` horizon, fully-recharged buckets removed inline in `allow()`) — v2.1.0
+- [x] `RateLimiter` clock computed before mutex acquisition (`now` passed into `Bucket::refill()`) — v2.1.0
+- [x] `OperationRateLimiter` outer mutex replaced with `std::shared_mutex` (`allow()`/`remaining()` use shared lock; `setLimit()`/`clear()` use exclusive lock) — v2.1.0
+- [x] `ResponseCache::invalidatePattern()` selective eviction by collection tag; `tagCollections()` API added — v2.1.0
+- [x] `OtlpExporter` queue migrated from `std::vector` to `std::deque` (O(1) `pop_front`) — v2.1.0
+- [x] `OtlpExporter` persistent `CURL*` handle created in `start()`, reused across `flushBatch()` calls, destroyed in `stop()` — v2.1.0
+- [x] `GrpcBridgeImpl` concrete implementation (`src/api/grpc_bridge.cpp`): `registerService()`, `dispatch()`, `registeredServices()`, `std::shared_mutex`-guarded service map; `makeGrpcBridge()` factory — v2.1.0
+- [x] `QueryAllowList::instance()` emits `THEMIS_WARN` in `NDEBUG`/production builds when allow-list is disabled — v2.1.0
+- [x] gRPC `BatchWrite` bounds check: `RESOURCE_EXHAUSTED` on > 10,000 items — v2.1.0
+- [x] gRPC `BatchRead` bounds check: `RESOURCE_EXHAUSTED` on > 10,000 keys — v2.1.0
+- [x] gRPC `BatchWrite` made atomic using `RocksDBWrapper::WriteBatchWrapper` — v2.1.0
+
 ## Production Readiness Checklist
 - [P] Unit tests coverage > 80% (Issue: #1509)
 - [P] Integration tests (Issue: #1510)
@@ -94,7 +117,7 @@ Core HTTP API server implemented with RESTful endpoints, AQL query execution, au
 ## Known Issues & Limitations
 - OpenAPI specification may be incomplete for newer endpoints
 - GraphQL `Parser` explicitly rejects fragments, directives, and inline fragments in v1.x with version-gated error messages (`graphql.cpp`); support planned for v2.0
-- `WsChangeHandler::validate()` does not URL-decode query-string parameters (`from_sequence`, `key_prefix`), so percent-encoded values are silently misinterpreted
+- `WsChangeHandler::validate()` URL-decodes query-string parameters (`from_sequence`, `key_prefix`) using `url_decode()` helper; introduced in v1.8.0
 
 ## Breaking Changes
 - GraphQL schema will be introduced as a new endpoint (non-breaking to REST)

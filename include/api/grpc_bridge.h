@@ -186,5 +186,17 @@ public:
     virtual std::vector<ServiceDescriptor> registeredServices() const = 0;
 };
 
+// ---------------------------------------------------------------------------
+// Factory function — creates the default concrete bridge implementation
+// ---------------------------------------------------------------------------
+
+/**
+ * @brief Create a `GrpcBridgeImpl` instance.
+ *
+ * The returned bridge is initially empty (no services registered).
+ * Call `registerService()` for each service before calling `dispatch()`.
+ */
+std::unique_ptr<IGRPCBridge> makeGrpcBridge();
+
 } // namespace api
 } // namespace themis

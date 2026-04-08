@@ -105,6 +105,17 @@ void OtlpExporter::start()
     if (!config_.enabled) return;
     if (flush_thread_.joinable()) return; // already running
 
+    // Create the persistent libcurl handle once for the lifetime of the flush thread.
+    CURL* curl = curl_easy_init();
+    if (!curl) {
+        THEMIS_ERROR("OtlpExporter: curl_easy_init() failed at start — exporter disabled");
+        return;
+    }
+    // Enable keep-alive so that connections are reused across flush batches.
+    curl_easy_setopt(curl, CURLOPT_TCP_KEEPALIVE, 1L);
+    curl_easy_setopt(curl, CURLOPT_FORBID_REUSE,  0L);
+    curl_handle_ = static_cast<void*>(curl);
+
     stop_.store(false, std::memory_order_relaxed);
     flush_thread_ = std::thread(&OtlpExporter::flushLoop, this);
     THEMIS_INFO("OtlpExporter: started (endpoint={})", config_.endpoint);
@@ -120,6 +131,13 @@ void OtlpExporter::stop()
     }
     queue_cv_.notify_all();
     flush_thread_.join();
+
+    // Destroy the persistent curl handle after the flush thread exits.
+    if (curl_handle_) {
+        curl_easy_cleanup(static_cast<CURL*>(curl_handle_));
+        curl_handle_ = nullptr;
+    }
+
     THEMIS_INFO("OtlpExporter: stopped (exported={}, dropped={})",
                 exported_count_.load(), dropped_count_.load());
 }
@@ -135,8 +153,8 @@ void OtlpExporter::enqueue(SpanData span)
     {
         std::lock_guard<std::mutex> lk(queue_mutex_);
         if (queue_.size() >= config_.max_queue_size) {
-            // Drop the oldest span to make room
-            queue_.erase(queue_.begin());
+            // Drop the oldest span (front of deque) to make room — O(1).
+            queue_.pop_front();
             dropped_count_.fetch_add(1, std::memory_order_relaxed);
             THEMIS_WARN("OtlpExporter: queue full ({}) — oldest span dropped",
                         config_.max_queue_size);
@@ -180,10 +198,9 @@ void OtlpExporter::flushLoop()
 
             const size_t take = std::min(queue_.size(), config_.batch_size);
             if (take > 0) {
-                const auto take_offset = static_cast<std::ptrdiff_t>(take);
                 batch.assign(std::make_move_iterator(queue_.begin()),
-                             std::make_move_iterator(queue_.begin() + take_offset));
-                queue_.erase(queue_.begin(), queue_.begin() + take_offset);
+                             std::make_move_iterator(queue_.begin() + static_cast<std::ptrdiff_t>(take)));
+                queue_.erase(queue_.begin(), queue_.begin() + static_cast<std::ptrdiff_t>(take));
             }
         }
 
@@ -240,6 +257,22 @@ void OtlpExporter::flushBatch(std::vector<SpanData>& batch)
 {
     const std::string payload = buildOtlpJson(config_, batch);
 
+    // Use the persistent handle created in start(); fall back to a per-call
+    // handle if start() was never invoked (e.g. in tests that call flushBatch
+    // directly without calling start()).
+    CURL* curl = curl_handle_ ? static_cast<CURL*>(curl_handle_) : nullptr;
+    bool  owns_handle = false;
+    if (!curl) {
+        curl = curl_easy_init();
+        owns_handle = true;
+    }
+    if (!curl) {
+        THEMIS_ERROR("OtlpExporter: curl handle unavailable — {} spans lost", batch.size());
+        dropped_count_.fetch_add(static_cast<uint64_t>(batch.size()),
+                                 std::memory_order_relaxed);
+        return;
+    }
+
     const int max_attempts = 1 + std::max(0, config_.max_export_retries);
     int delay_ms = std::max(1, config_.retry_initial_delay_ms);
 
@@ -251,13 +284,8 @@ void OtlpExporter::flushBatch(std::vector<SpanData>& batch)
             delay_ms *= 2;
         }
 
-        CURL* curl = curl_easy_init();
-        if (!curl) {
-            THEMIS_ERROR("OtlpExporter: curl_easy_init() failed — {} spans lost", batch.size());
-            dropped_count_.fetch_add(static_cast<uint64_t>(batch.size()),
-                                     std::memory_order_relaxed);
-            return;
-        }
+        // Reset all options on reuse to avoid stale state from prior batches.
+        curl_easy_reset(curl);
 
         struct curl_slist* headers = nullptr;
         headers = curl_slist_append(headers, "Content-Type: application/json");
@@ -282,6 +310,8 @@ void OtlpExporter::flushBatch(std::vector<SpanData>& batch)
         curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION,  1L);
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION,   curlWriteCallback);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA,       &response_body);
+        curl_easy_setopt(curl, CURLOPT_TCP_KEEPALIVE,   1L);
+        curl_easy_setopt(curl, CURLOPT_FORBID_REUSE,    0L);
 
         // TLS settings
         if (!config_.tls_ca_cert.empty())
@@ -297,12 +327,12 @@ void OtlpExporter::flushBatch(std::vector<SpanData>& batch)
         curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
 
         curl_slist_free_all(headers);
-        curl_easy_cleanup(curl);
 
         if (res == CURLE_OK && http_code >= 200 && http_code < 300) {
             exported_count_.fetch_add(static_cast<uint64_t>(batch.size()),
                                       std::memory_order_relaxed);
             THEMIS_DEBUG("OtlpExporter: exported {} spans (HTTP {})", batch.size(), http_code);
+            if (owns_handle) curl_easy_cleanup(curl);
             return;
         }
 
@@ -324,6 +354,7 @@ void OtlpExporter::flushBatch(std::vector<SpanData>& batch)
         }
     }
 
+    if (owns_handle) curl_easy_cleanup(curl);
     dropped_count_.fetch_add(static_cast<uint64_t>(batch.size()),
                              std::memory_order_relaxed);
 }

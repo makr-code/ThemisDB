@@ -30,6 +30,7 @@
 #include <functional>
 #include <sstream>
 #include <iomanip>
+#include <unordered_map>
 
 namespace themis {
 namespace graphql {
@@ -136,24 +137,36 @@ public:
     
     /**
      * @brief Log an audit entry
+     *
+     * Handlers are invoked *outside* the internal mutex to avoid blocking
+     * API threads that emit concurrent audit entries while a handler
+     * performs I/O (file write, network push, etc.).
      */
     void log(const AuditLogEntry& entry) {
-        std::lock_guard<std::mutex> lock(mutex_);
-        
-        // Call all registered handlers
-        for (const auto& handler : handlers_) {
+        // ── 1. Update the in-memory buffer and copy the handler list ─────────
+        std::vector<LogHandler> handlers_snapshot;
+        {
+            std::lock_guard<std::mutex> lock(mutex_);
+
+            // Keep in memory buffer (circular buffer)
+            if (buffer_.size() >= buffer_capacity_) {
+                buffer_.erase(buffer_.begin());
+            }
+            buffer_.push_back(entry);
+
+            stats_.total_entries++;
+            if (!entry.success) {
+                stats_.failure_entries++;
+            }
+
+            // Snapshot the handler list while holding the lock (O(n) pointer
+            // copies) so that we can invoke handlers without the lock held.
+            handlers_snapshot = handlers_;
+        }
+
+        // ── 2. Invoke handlers outside the lock ───────────────────────────────
+        for (const auto& handler : handlers_snapshot) {
             handler(entry);
-        }
-        
-        // Keep in memory buffer (circular buffer)
-        if (buffer_.size() >= buffer_capacity_) {
-            buffer_.erase(buffer_.begin());
-        }
-        buffer_.push_back(entry);
-        
-        stats_.total_entries++;
-        if (!entry.success) {
-            stats_.failure_entries++;
         }
     }
     

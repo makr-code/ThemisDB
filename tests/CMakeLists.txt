@@ -3460,6 +3460,35 @@ else()
     message(STATUS "API interface tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_api_interfaces.cpp")
 endif()
 
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_api_module_enhancements.cpp")
+    message(STATUS "Adding API module enhancements tests")
+
+    add_executable(test_api_module_enhancements
+        test_api_module_enhancements.cpp
+    )
+
+    target_link_libraries(test_api_module_enhancements PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_api_module_enhancements PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ApiModuleEnhancementsTests COMMAND test_api_module_enhancements)
+
+    set_tests_properties(ApiModuleEnhancementsTests PROPERTIES
+        LABELS "api;rate-limiter;audit;cache;grpc-bridge;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  API Module Enhancements: rate-limiter eviction, deque queue, audit non-blocking, response cache selective invalidation, grpc bridge")
+else()
+    message(STATUS "API module enhancements tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_api_module_enhancements.cpp")
+endif()
+
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graphql_error_masking.cpp")
     message(STATUS "Adding GraphQL error masking tests")
 

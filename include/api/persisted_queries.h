@@ -30,6 +30,9 @@
 #include <functional>
 #include <memory>
 
+// For THEMIS_WARN production warning
+#include "utils/logger.h"
+
 namespace themis {
 namespace graphql {
 
@@ -231,10 +234,26 @@ public:
     
     /**
      * @brief Singleton instance
+     *
+     * In production builds (`NDEBUG` defined) a one-time warning is emitted
+     * when the allow-list is not enabled, alerting operators that ad-hoc
+     * query execution is allowed.
      */
     static QueryAllowList& instance() {
-        static QueryAllowList instance;
-        return instance;
+        static QueryAllowList inst;
+#ifdef NDEBUG
+        static bool warned = false;
+        if (!warned) {
+            warned = true;
+            if (!inst.isEnabled()) {
+                THEMIS_WARN("QueryAllowList: allow-list enforcement is DISABLED in a "
+                            "production build — arbitrary GraphQL query execution is "
+                            "permitted.  Call QueryAllowList::instance().setEnabled(true) "
+                            "to restrict execution to pre-registered queries.");
+            }
+        }
+#endif
+        return inst;
     }
     
 private:

@@ -28,6 +28,7 @@
 #include <string>
 #include <list>
 #include <unordered_map>
+#include <unordered_set>
 #include <chrono>
 #include <mutex>
 #include <memory>
@@ -262,6 +263,10 @@ public:
         std::string data;           // Serialized response data
         std::string etag;           // ETag for conditional requests
         std::chrono::steady_clock::time_point last_modified;
+        // Collections whose data this response depends on.  Used by
+        // invalidatePattern() to evict only affected cache entries rather
+        // than clearing the entire cache.
+        std::unordered_set<std::string> collections;
     };
     
     static ResponseCache& instance() {
@@ -277,19 +282,66 @@ public:
     }
     
     /**
-     * @brief Cache a response
+     * @brief Cache a response, tagged with the collections it reads.
+     * @param query    Cache key (query string).
+     * @param response Response to cache; populate `collections` before calling.
      */
     void put(const std::string& query, const CachedResponse& response) {
         cache_.put(query, response);
     }
     
     /**
-     * @brief Invalidate responses for a specific collection/type
+     * @brief Invalidate cached responses that depend on `pattern` (collection name).
+     *
+     * Only entries whose `collections` set contains `pattern` are evicted.
+     * Entries that read from unrelated collections are preserved.
      */
     void invalidatePattern(const std::string& pattern) {
-        // TODO: Implement pattern-based invalidation
-        // For now, just clear the entire cache
-        cache_.clear();
+        std::vector<std::string> keys_to_invalidate;
+        {
+            // We need access to the internal cache map to inspect tags.  Use the
+            // public size() and get() API to find candidates, then invalidate.
+            // Because Cache<T> does not expose iteration, we maintain a separate
+            // index from collection name → set of cache keys that reference it.
+            std::lock_guard<std::mutex> lk(index_mutex_);
+            auto it = collection_index_.find(pattern);
+            if (it != collection_index_.end()) {
+                keys_to_invalidate.assign(it->second.begin(), it->second.end());
+                collection_index_.erase(it);
+                // Remove these keys from other collection index entries too.
+                for (const auto& key : keys_to_invalidate) {
+                    auto kit = key_to_collections_.find(key);
+                    if (kit != key_to_collections_.end()) {
+                        for (const auto& col : kit->second) {
+                            if (col != pattern) {
+                                auto& col_keys = collection_index_[col];
+                                col_keys.erase(key);
+                                if (col_keys.empty()) collection_index_.erase(col);
+                            }
+                        }
+                        key_to_collections_.erase(kit);
+                    }
+                }
+            }
+        }
+        for (const auto& key : keys_to_invalidate) {
+            cache_.invalidate(key);
+        }
+    }
+    
+    /**
+     * @brief Register collection tags for a cached query key.
+     *
+     * Call this after `put()` whenever the set of collections is known so that
+     * `invalidatePattern()` can perform targeted eviction.
+     */
+    void tagCollections(const std::string& query,
+                        const std::unordered_set<std::string>& collections) {
+        std::lock_guard<std::mutex> lk(index_mutex_);
+        key_to_collections_[query] = collections;
+        for (const auto& col : collections) {
+            collection_index_[col].insert(query);
+        }
     }
     
     /**
@@ -310,6 +362,13 @@ private:
     ResponseCache() : cache_(500, std::chrono::seconds(60)) {}  // 1 minute TTL for responses
     
     Cache<CachedResponse> cache_;
+
+    // Auxiliary index for targeted invalidation by collection name.
+    // Guarded by its own mutex so that the index can be updated independently
+    // from the LRU cache's internal lock.
+    mutable std::mutex index_mutex_;
+    std::unordered_map<std::string, std::unordered_set<std::string>> collection_index_;  // collection → {query keys}
+    std::unordered_map<std::string, std::unordered_set<std::string>> key_to_collections_; // query key → {collections}
 };
 
 } // namespace graphql

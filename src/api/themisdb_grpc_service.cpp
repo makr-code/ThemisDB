@@ -297,39 +297,55 @@ private:
             const BatchWriteRequest*   req,
             BatchWriteResponse*        resp
         ) override {
+            // Bounds check: reject unreasonably large batches to prevent OOM.
+            static constexpr int kMaxBatchItems = 10000;
+            const int total_items = req->upserts_size() + req->deletes_size();
+            if (total_items > kMaxBatchItems) {
+                auto* err = resp->mutable_error();
+                err->set_code(429);
+                err->set_message("batch size " + std::to_string(total_items) +
+                                 " exceeds maximum of " + std::to_string(kMaxBatchItems));
+                resp->set_success(false);
+                return grpc::Status(grpc::StatusCode::RESOURCE_EXHAUSTED,
+                                    "batch exceeds maximum item count");
+            }
+
+            if (!db_) {
+                auto* err = resp->mutable_error();
+                err->set_code(503);
+                err->set_message("storage not available");
+                resp->set_success(false);
+                return grpc::Status::OK;
+            }
+
+            // Perform all writes atomically using a RocksDB WriteBatch so that
+            // a mid-loop server crash leaves the store in a consistent state.
+            auto batch = db_->createWriteBatch();
             int upserted = 0;
             int deleted  = 0;
-            bool all_ok  = true;
 
             for (const auto& doc : req->upserts()) {
                 const std::string key  = doc.collection() + "/" + doc.key();
                 const std::string body(doc.body().begin(), doc.body().end());
-                if (db_ && db_->put(key, body)) {
-                    ++upserted;
-                } else {
-                    all_ok = false;
-                }
+                const std::vector<uint8_t> body_bytes(body.begin(), body.end());
+                batch->put(key, body_bytes);
+                ++upserted;
             }
 
             for (const auto& del_key : req->deletes()) {
-                if (db_ && db_->del(del_key)) {
-                    ++deleted;
-                } else {
-                    all_ok = false;
-                }
+                batch->del(del_key);
+                ++deleted;
             }
 
-            resp->set_success(all_ok);
-            resp->set_upserted_count(upserted);
-            resp->set_deleted_count(deleted);
-            if (!all_ok) {
-                const int expected = req->upserts_size() + req->deletes_size();
-                const int done     = upserted + deleted;
+            const bool committed = batch->commit();
+
+            resp->set_success(committed);
+            resp->set_upserted_count(committed ? upserted : 0);
+            resp->set_deleted_count(committed  ? deleted  : 0);
+            if (!committed) {
                 auto* err = resp->mutable_error();
-                err->set_code(207);
-                err->set_message("partial failure: " + std::to_string(done) +
-                                 "/" + std::to_string(expected) +
-                                 " operations succeeded");
+                err->set_code(500);
+                err->set_message("atomic batch commit failed; no writes applied");
             }
             return grpc::Status::OK;
         }
@@ -339,6 +355,15 @@ private:
             const BatchReadRequest*   req,
             BatchReadResponse*        resp
         ) override {
+            // Bounds check: reject unreasonably large read batches.
+            static constexpr int kMaxReadItems = 10000;
+            if (req->keys_size() > kMaxReadItems) {
+                resp->set_success(false);
+                return grpc::Status(grpc::StatusCode::RESOURCE_EXHAUSTED,
+                                    "read batch exceeds maximum key count of " +
+                                    std::to_string(kMaxReadItems));
+            }
+
             for (const auto& key : req->keys()) {
                 const std::string storage_key = req->collection() + "/" + key;
                 std::string body;
