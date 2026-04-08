@@ -58,8 +58,9 @@ public:
     mutable std::mutex mu;
 
     void evict(const std::string& key,
-               const std::string& tenant_id,
-               DistributedEvictionReason reason) override {
+               const std::string& tenant_id = "",
+               DistributedEvictionReason reason =
+                   DistributedEvictionReason::CAPACITY_PRESSURE) override {
         std::lock_guard<std::mutex> lock(mu);
         evict_calls.push_back({key, tenant_id, reason});
     }
@@ -75,7 +76,7 @@ public:
         evict_tenant_calls.push_back(tenant_id);
     }
 
-    void flush(const std::string& tenant_id) override {
+    void flush(const std::string& tenant_id = "") override {
         std::lock_guard<std::mutex> lock(mu);
         flush_calls.push_back(tenant_id);
     }
@@ -221,7 +222,7 @@ public:
 
     void recordAccess(const std::string& key,
                       int64_t            timestamp_ms,
-                      bool               is_hit) noexcept override {
+                      bool               is_hit = true) noexcept override {
         std::lock_guard<std::mutex> lock(mu);
         auto& h = history_[key];
         h.push_back({timestamp_ms, is_hit});
@@ -278,7 +279,12 @@ public:
         std::lock_guard<std::mutex> lock(mu);
         auto it = history_.find(key);
         if (it == history_.end()) return {};
-        return it->second;
+        // Return records in chronological order (oldest first), matching the interface contract.
+        auto h = it->second;
+        std::sort(h.begin(), h.end(), [](const AccessRecord& a, const AccessRecord& b) {
+            return a.timestamp_ms < b.timestamp_ms;
+        });
+        return h;
     }
 
     void evict(const std::string& key) override {
@@ -467,7 +473,7 @@ TEST_F(CachePartitionTest, AssignTenant_CreatesPartitionWithDefaultCapacity) {
     EXPECT_GT(partition.getCapacity("shard2"), 0u);
 }
 
-TEST_F(CachePartitionTest, UnassignTenant_TenantReverts_ToDefault) {
+TEST_F(CachePartitionTest, UnassignTenant_TenantRevertsToDefault) {
     partition.assignTenant("tenantC", "shard3");
     partition.unassignTenant("tenantC");
     EXPECT_EQ(partition.getPartitionId("tenantC"), "default");
@@ -696,10 +702,11 @@ TEST_F(AdaptiveTTLPolicyTest, GetHistory_ReturnsSortedChronologically) {
     p.recordAccess("k", 1000LL);
     p.recordAccess("k", 2000LL);
     auto h = p.getHistory("k");
-    // Records are stored in insertion order; verify the last-inserted order.
+    // getHistory() must return records in chronological order (oldest first).
     ASSERT_EQ(h.size(), 3u);
-    // All timestamps are valid (no guarantee of chronological order for mock).
-    for (auto& r : h) EXPECT_GE(r.timestamp_ms, 1000LL);
+    EXPECT_EQ(h[0].timestamp_ms, 1000LL);
+    EXPECT_EQ(h[1].timestamp_ms, 2000LL);
+    EXPECT_EQ(h[2].timestamp_ms, 3000LL);
 }
 
 TEST_F(AdaptiveTTLPolicyTest, AdaptiveTTLSuggestion_DefaultValues) {
