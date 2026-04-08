@@ -11460,6 +11460,439 @@ else()
     message(STATUS "Zero-Trust Policy Enforcer focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_zero_trust_policy_enforcer.cpp")
 endif()
 
+# Federated Identity Manager Tests (RFC 8693 Token Exchange)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_federated_identity_manager.cpp")
+    message(STATUS "Adding Federated Identity Manager tests (RFC 8693 Token Exchange)")
+
+    add_executable(test_federated_identity_manager
+        test_federated_identity_manager.cpp
+    )
+
+    target_link_libraries(test_federated_identity_manager PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        nlohmann_json::nlohmann_json
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_federated_identity_manager PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME FederatedIdentityManagerTests COMMAND test_federated_identity_manager)
+
+    set_tests_properties(FederatedIdentityManagerTests PROPERTIES
+        LABELS "auth;federated-identity;token-exchange;rfc8693;oidc;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  Federated Identity Manager: multi-realm federation, token exchange RFC 8693, claim mapping")
+else()
+    message(STATUS "Federated Identity Manager tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_federated_identity_manager.cpp")
+endif()
+
+# Token Blacklist Comprehensive Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_token_blacklist_comprehensive.cpp")
+    message(STATUS "Adding Token Blacklist comprehensive tests")
+
+    add_executable(test_token_blacklist_comprehensive
+        test_token_blacklist_comprehensive.cpp
+    )
+
+    target_link_libraries(test_token_blacklist_comprehensive PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_token_blacklist_comprehensive PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TokenBlacklistComprehensiveTests COMMAND test_token_blacklist_comprehensive)
+
+    set_tests_properties(TokenBlacklistComprehensiveTests PROPERTIES
+        LABELS "auth;jwt;blacklist;revocation;thread-safety;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  Token Blacklist: revoke/isRevoked/unrevoke, pruning, Bloom filter, concurrent access, size cap")
+else()
+    message(STATUS "Token Blacklist Comprehensive tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_token_blacklist_comprehensive.cpp")
+endif()
+
+# Token Blacklist Persistence Tests (ITokenBlacklist interface, RocksDB, Redis stubs)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_token_blacklist_persistence.cpp")
+    message(STATUS "Adding Token Blacklist Persistence tests")
+
+    add_executable(test_token_blacklist_persistence
+        test_token_blacklist_persistence.cpp
+    )
+
+    target_link_libraries(test_token_blacklist_persistence PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        RocksDB::rocksdb
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    if(THEMIS_ENABLE_REDIS AND hiredis_FOUND)
+        if(TARGET hiredis::hiredis)
+            target_link_libraries(test_token_blacklist_persistence PRIVATE hiredis::hiredis)
+        elseif(TARGET hiredis)
+            target_link_libraries(test_token_blacklist_persistence PRIVATE hiredis)
+        endif()
+        target_compile_definitions(test_token_blacklist_persistence PRIVATE THEMIS_ENABLE_REDIS=1)
+    endif()
+
+    target_compile_definitions(test_token_blacklist_persistence PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TokenBlacklistPersistenceTests COMMAND test_token_blacklist_persistence)
+
+    set_tests_properties(TokenBlacklistPersistenceTests PROPERTIES
+        LABELS "auth;jwt;blacklist;persistence;rocksdb;redis;integration"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  Token Blacklist Persistence: ITokenBlacklist interface, Bloom filter, RocksDB persistence, Redis stub")
+else()
+    message(STATUS "Token Blacklist Persistence tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_token_blacklist_persistence.cpp")
+endif()
+
+# Password Policy Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_password_policy.cpp")
+    message(STATUS "Adding Password Policy tests")
+
+    add_executable(test_password_policy
+        test_password_policy.cpp
+    )
+
+    target_link_libraries(test_password_policy PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_password_policy PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME PasswordPolicyTests COMMAND test_password_policy)
+
+    set_tests_properties(PasswordPolicyTests PROPERTIES
+        LABELS "auth;password;policy;validation;security;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  Password Policy: length, complexity, entropy, dictionary, history, violations")
+else()
+    message(STATUS "Password Policy tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_password_policy.cpp")
+endif()
+
+# Kerberos Security Validator Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_kerberos_security.cpp")
+    message(STATUS "Adding Kerberos Security Validator tests")
+
+    add_executable(test_kerberos_security
+        test_kerberos_security.cpp
+    )
+
+    target_link_libraries(test_kerberos_security PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    if(TARGET KRB5::krb5)
+        target_link_libraries(test_kerberos_security PRIVATE KRB5::krb5)
+    endif()
+    if(TARGET KRB5::gssapi)
+        target_link_libraries(test_kerberos_security PRIVATE KRB5::gssapi)
+    endif()
+
+    target_compile_definitions(test_kerberos_security PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME KerberosSecurityTests COMMAND test_kerberos_security)
+
+    set_tests_properties(KerberosSecurityTests PROPERTIES
+        LABELS "auth;kerberos;gssapi;channel-bindings;asn1;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  Kerberos Security: channel bindings, ASN.1 validation, token structure, service target")
+else()
+    message(STATUS "Kerberos Security Validator tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_kerberos_security.cpp")
+endif()
+
+# Server Rate Limiter Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_rate_limiter.cpp")
+    message(STATUS "Adding Server Rate Limiter tests")
+
+    add_executable(test_rate_limiter
+        test_rate_limiter.cpp
+    )
+
+    target_link_libraries(test_rate_limiter PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_rate_limiter PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ServerRateLimiterTests COMMAND test_rate_limiter)
+
+    set_tests_properties(ServerRateLimiterTests PROPERTIES
+        LABELS "server;rate-limiter;sliding-window;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  Server Rate Limiter: sliding window, per-IP, per-user, concurrent access")
+else()
+    message(STATUS "Server Rate Limiter tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_rate_limiter.cpp")
+endif()
+
+# Rate Limiting Comprehensive Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_rate_limiting_comprehensive.cpp")
+    message(STATUS "Adding Rate Limiting Comprehensive tests")
+
+    add_executable(test_rate_limiting_comprehensive
+        test_rate_limiting_comprehensive.cpp
+    )
+
+    target_link_libraries(test_rate_limiting_comprehensive PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_rate_limiting_comprehensive PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME RateLimitingComprehensiveTests COMMAND test_rate_limiting_comprehensive)
+
+    set_tests_properties(RateLimitingComprehensiveTests PROPERTIES
+        LABELS "server;rate-limiter;comprehensive;concurrent;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  Rate Limiting Comprehensive: token bucket, leaky bucket, adaptive throttling, concurrent stress")
+else()
+    message(STATUS "Rate Limiting Comprehensive tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_rate_limiting_comprehensive.cpp")
+endif()
+
+# Rate Limiting Middleware Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_rate_limiting_middleware.cpp")
+    message(STATUS "Adding Rate Limiting Middleware tests")
+
+    add_executable(test_rate_limiting_middleware
+        test_rate_limiting_middleware.cpp
+    )
+
+    target_link_libraries(test_rate_limiting_middleware PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_rate_limiting_middleware PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME RateLimitingMiddlewareTests COMMAND test_rate_limiting_middleware)
+
+    set_tests_properties(RateLimitingMiddlewareTests PROPERTIES
+        LABELS "server;rate-limiter;middleware;http;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  Rate Limiting Middleware: HTTP request gating, header injection, bypass prevention")
+else()
+    message(STATUS "Rate Limiting Middleware tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_rate_limiting_middleware.cpp")
+endif()
+
+# API Auth Config Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_api_auth_config.cpp")
+    message(STATUS "Adding API Auth Config tests")
+
+    add_executable(test_api_auth_config
+        test_api_auth_config.cpp
+    )
+
+    target_link_libraries(test_api_auth_config PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_api_auth_config PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ApiAuthConfigTests COMMAND test_api_auth_config)
+
+    set_tests_properties(ApiAuthConfigTests PROPERTIES
+        LABELS "server;auth;config;jwt;api-key;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  API Auth Config: JWT config, API-key config, auth method selection, validation")
+else()
+    message(STATUS "API Auth Config tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_api_auth_config.cpp")
+endif()
+
+# API Key Management Handler Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_api_key_mgmt_handler.cpp")
+    message(STATUS "Adding API Key Management Handler tests")
+
+    add_executable(test_api_key_mgmt_handler
+        test_api_key_mgmt_handler.cpp
+    )
+
+    target_link_libraries(test_api_key_mgmt_handler PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        nlohmann_json::nlohmann_json
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_api_key_mgmt_handler PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ApiKeyMgmtHandlerTests COMMAND test_api_key_mgmt_handler)
+
+    set_tests_properties(ApiKeyMgmtHandlerTests PROPERTIES
+        LABELS "server;auth;api-key;management;rest;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  API Key Management Handler: create, list, revoke, rotate API keys via REST handler")
+else()
+    message(STATUS "API Key Management Handler tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_api_key_mgmt_handler.cpp")
+endif()
+
+# mTLS Client Tests (sharding layer)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_mtls_client.cpp")
+    message(STATUS "Adding mTLS Client tests")
+
+    add_executable(test_mtls_client
+        test_mtls_client.cpp
+    )
+
+    target_link_libraries(test_mtls_client PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_mtls_client PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME MTLSClientTests COMMAND test_mtls_client)
+
+    set_tests_properties(MTLSClientTests PROPERTIES
+        LABELS "sharding;mtls;tls;client;security;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  mTLS Client: config structure, response structure, TLS version, certificate paths")
+else()
+    message(STATUS "mTLS Client tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_mtls_client.cpp")
+endif()
+
+# mTLS Connection Pool Tests (sharding layer)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_mtls_connection_pool.cpp")
+    message(STATUS "Adding mTLS Connection Pool tests")
+
+    add_executable(test_mtls_connection_pool
+        test_mtls_connection_pool.cpp
+    )
+
+    target_link_libraries(test_mtls_connection_pool PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_mtls_connection_pool PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME MTLSConnectionPoolTests COMMAND test_mtls_connection_pool)
+
+    set_tests_properties(MTLSConnectionPoolTests PROPERTIES
+        LABELS "sharding;mtls;connection-pool;tls;security;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  mTLS Connection Pool: pool construction, statistics, acquire/release, health checks")
+else()
+    message(STATUS "mTLS Connection Pool tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_mtls_connection_pool.cpp")
+endif()
+
+# PKI / eIDAS Placeholder Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_pki_eidas.cpp")
+    message(STATUS "Adding PKI/eIDAS placeholder tests")
+
+    add_executable(test_pki_eidas
+        test_pki_eidas.cpp
+    )
+
+    target_link_libraries(test_pki_eidas PRIVATE
+        ${TEST_LIBS}
+    )
+
+    target_compile_definitions(test_pki_eidas PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME PKIeIDASTests COMMAND test_pki_eidas)
+
+    set_tests_properties(PKIeIDASTests PROPERTIES
+        LABELS "auth;pki;eidas;signing;placeholder"
+        TIMEOUT 30
+    )
+
+    message(STATUS "  PKI/eIDAS: placeholder — SigningService tests to be added when service is implemented")
+else()
+    message(STATUS "PKI/eIDAS tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_pki_eidas.cpp")
+endif()
+
 # ============================================================================
 # Core Module ÔÇô ConcernsContext Focused Tests (Issue #1419)
 # Standalone target so the DI/observability layer can be validated in isolation
