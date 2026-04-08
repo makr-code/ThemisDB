@@ -14,7 +14,7 @@ Plugin lifecycle management (`module_loader.cpp`, `hot_reload_manager.cpp`), sec
 - `[x]` `loadedModules_` must support O(1) lookup by name; current `std::vector` + `std::find_if` is O(n) on every `get`/`unload` call. — replaced with `std::unordered_map` + `std::shared_mutex` (v1.8.0)
 - `[ ]` Plugin load time (signature verify + dlopen + init hook) must be ≤ 200 ms per plugin on a warm filesystem.
 - `[ ]` Hot-reload must achieve zero-downtime: existing in-flight queries using the old plugin version complete before teardown.
-- `[ ]` Sandbox memory hard cap per plugin: 256 MB by default; configurable up to 2 GB via cgroup v2 `memory.max`, not just `RLIMIT_AS`.
+- `[x]` Sandbox memory hard cap per plugin: 256 MB by default; configurable up to 2 GB via cgroup v2 `memory.max`, not just `RLIMIT_AS`. — `ModuleSandbox::Config::max_memory_mb = 256` default; `setupCgroupV2()` writes `memory.max`; falls back to `RLIMIT_AS` with warning when cgroup v2 unavailable (v1.8.0)
 - `[ ]` Signature verification must use Ed25519 (RFC 8032); RSA-2048 not accepted for new plugins.
 - `[ ]` Plugin allowlist path checked on every load; symlink traversal outside the designated plugin directory is rejected.
 - `[ ]` Rollback of a failed hot-reload must complete within 500 ms and restore the previous plugin version atomically.
@@ -69,7 +69,7 @@ Plugin lifecycle management (`module_loader.cpp`, `hot_reload_manager.cpp`), sec
 - `[x]` Implement `setupCgroupV2()` in `module_sandbox.cpp`: write `memory.max` and `cpu.max` to `/sys/fs/cgroup/themis/<sandbox_id>/` using the pre-allocated `cgroup_path`.
 - `[x]` Implement `teardownCgroupV2()` to remove the cgroup directory on `stop()` — replace the "would also remove the cgroup" placeholder comment.
 - `[x]` Detect cgroup v2 availability at startup; fall back to `RLIMIT_*` with a `spdlog::warn` when unavailable (container environments without cgroup delegation).
-- `[ ]` Add integration test that launches a sandbox plugin allocating > limit bytes and verifies it is killed within 500 ms. (Issue: #1574)
+- `[x]` Add integration test that launches a sandbox plugin allocating > limit bytes and verifies it is killed within 500 ms. (Issue: #1574) — `CgroupV2MemoryLimitEnforcement` fork-based test in `tests/test_module_sandbox.cpp`: forks a child process that enrolls itself in an 8 MiB cgroup then tries to `mmap` 32 MiB; parent asserts child is SIGKILL'd within 500 ms
 
 **Performance Targets:**
 - Sandbox creation (cgroup v2 setup): ≤ 50 ms per plugin.
@@ -148,7 +148,7 @@ In `wasm_plugin_sandbox.cpp` (lines 192–203), parsing of the imports section s
 **Implementation Notes:**
 - `[x]` Replace `std::mutex mutex_` with `std::shared_mutex` in `HotReloadManager`; upgrade `getVersion`, `getCurrentVersion`, `isLoaded`, `getModuleNames` to `std::shared_lock`.
 - `[x]` Keep `reloadModule` and `rollback` on `std::unique_lock`.
-- `[ ]` Add TSAN-enabled test with 16 reader threads + 1 reload thread running concurrently. (Issue: #1574)
+- `[x]` Add TSAN-enabled test with 16 reader threads + 1 reload thread running concurrently. (Issue: #1574) — `ConcurrentReadersWithReloadThread` in `tests/test_hot_reload_manager.cpp`: 16 `std::thread` readers call `getModuleNames()` / `isLoaded()` / `getCurrentVersion()` under `std::shared_lock` while 1 writer calls `reloadModule()` under `std::unique_lock`; TSAN detects races when compiled with `-DTHEMIS_ENABLE_TSAN=ON`
 
 ---
 
