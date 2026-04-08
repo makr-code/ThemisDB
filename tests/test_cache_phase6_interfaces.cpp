@@ -227,9 +227,9 @@ public:
         auto& h = history_[key];
         h.push_back({timestamp_ms, is_hit});
         // Keep only the last access_window_size records.
-        if (h.size() > config_.access_window_size) {
-            h.erase(h.begin(), h.begin() +
-                    static_cast<ptrdiff_t>(h.size() - config_.access_window_size));
+        if (h.size() > static_cast<size_t>(config_.access_window_size)) {
+            const size_t to_remove = h.size() - static_cast<size_t>(config_.access_window_size);
+            h.erase(h.begin(), h.begin() + static_cast<ptrdiff_t>(to_remove));
         }
     }
 
@@ -247,10 +247,12 @@ public:
         }
         const auto& h = it->second;
         // Compute ewma of inter-access intervals.
+        // h.size() >= 2 is guaranteed by the early-return guard above.
         double ewma_ms = 0.0;
         double weight = 1.0;
         double total_weight = 0.0;
-        for (size_t i = h.size() - 1; i > 0; --i) {
+        for (ptrdiff_t idx = static_cast<ptrdiff_t>(h.size()) - 1; idx > 0; --idx) {
+            const size_t i = static_cast<size_t>(idx);
             double interval = static_cast<double>(h[i].timestamp_ms - h[i-1].timestamp_ms);
             if (interval < 0.0) interval = 0.0;
             ewma_ms    += interval * weight;
