@@ -5857,15 +5857,17 @@ else()
     option(THEMIS_BUILD_ENTERPRISE_PLUGINS "Build enterprise plugins" ON)
 endif()
 
-if(THEMIS_BUILD_ENTERPRISE_PLUGINS)
-    # -------------------------------------------------------------------------
-    # Ethics AI Plugin (v1.4.0+) – src/ethics_ai/
-    # Flag: THEMIS_PLUGIN_ETHICS_AI
-    # -------------------------------------------------------------------------
-    if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${THEMIS_ROOT_DIR}/src/ethics_ai/CMakeLists.txt")
+# Ethics AI Plugin: always available when THEMIS_PLUGIN_ETHICS_AI is set,
+# regardless of THEMIS_BUILD_ENTERPRISE_PLUGINS (dev-override supported).
+if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${THEMIS_ROOT_DIR}/src/ethics_ai/CMakeLists.txt")
+    if(NOT TARGET ethics_ai_plugin)
         add_subdirectory(${THEMIS_ROOT_DIR}/src/ethics_ai
                          ${CMAKE_CURRENT_BINARY_DIR}/src/ethics_ai)
     endif()
+endif()
+
+if(THEMIS_BUILD_ENTERPRISE_PLUGINS)
+    # Ethics AI Plugin is now registered above independently of this block.
 
     # -------------------------------------------------------------------------
     # gRPC RPC Plugin (v1.3.0+) – src/rpc_grpc/

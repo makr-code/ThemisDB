@@ -25,6 +25,8 @@
 #include "ethics_evaluator.h"
 #include <algorithm>
 #include <numeric>
+#include <set>
+#include <variant>
 
 namespace themis {
 namespace plugins {

@@ -27,6 +27,7 @@
 #include "storage/rocksdb_wrapper.h"
 #include "query/query_engine.h"
 #include <algorithm>
+#include <set>
 
 namespace themis {
 namespace plugins {
@@ -283,12 +284,12 @@ Status ArgumentStore::storePhilosophyProfile(const PhilosophyProfile& profile) {
         return Status::Error("ArgumentStore not initialized");
     }
     
-    if (profile.school.empty()) {
+    if (profile.school_id.empty()) {
         return Status::Error("Profile school cannot be empty");
     }
     
     if (standalone_mode_) {
-        profiles_[profile.school] = profile;
+        profiles_[profile.school_id] = profile;
         return Status::OK();
     }
     
@@ -296,7 +297,7 @@ Status ArgumentStore::storePhilosophyProfile(const PhilosophyProfile& profile) {
     BaseEntity entity = EthicsBaseEntityAdapter::toBaseEntity(profile);
     
     // Store in RocksDB
-    std::string key = EthicsBaseEntityAdapter::makeProfileKey(profile.school);
+    std::string key = EthicsBaseEntityAdapter::makeProfileKey(profile.school_id);
     auto blob = entity.serialize();
     storage_->put(key, blob);
     

@@ -110,10 +110,12 @@ endif()
 # Minimal/Community editions disable enterprise-only plugins automatically.
 # ---------------------------------------------------------------------------
 if(THEMIS_EDITION MATCHES "^(MINIMAL|COMMUNITY)$")
-    if(THEMIS_PLUGIN_ETHICS_AI)
+    if(THEMIS_PLUGIN_ETHICS_AI AND NOT THEMIS_DEV_ETHICS_AI_OVERRIDE)
         message(STATUS "    [Edition override] Ethics AI plugin requires ENTERPRISE or higher")
         set(THEMIS_PLUGIN_ETHICS_AI OFF CACHE BOOL "Ethics AI plugin disabled by edition" FORCE)
         remove_definitions(-DTHEMIS_PLUGIN_ETHICS_AI_ENABLED)
+    elseif(THEMIS_PLUGIN_ETHICS_AI AND THEMIS_DEV_ETHICS_AI_OVERRIDE)
+        message(STATUS "    [Dev override] Ethics AI enabled in ${THEMIS_EDITION} edition (THEMIS_DEV_ETHICS_AI_OVERRIDE=ON)")
     endif()
     if(THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED)
         message(STATUS "    [Edition override] User Storage Encrypted plugin requires ENTERPRISE or higher")

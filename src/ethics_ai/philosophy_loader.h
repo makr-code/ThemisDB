@@ -28,6 +28,7 @@
 #include <map>
 #include <string>
 #include <memory>
+#include <variant>
 
 namespace themis {
 namespace plugins {

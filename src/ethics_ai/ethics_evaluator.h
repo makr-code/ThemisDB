@@ -26,6 +26,7 @@
 
 #include "plugins/ethics_ai/ethics_ai_types.h"
 #include <memory>
+#include <variant>
 
 namespace themis {
 namespace plugins {

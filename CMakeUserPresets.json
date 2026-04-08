@@ -12,7 +12,9 @@
         "THEMIS_BUILD_TESTS": "ON",
         "THEMIS_ENABLE_LLM": "ON",
         "THEMIS_ENABLE_GPU": "OFF",
-        "THEMIS_PLUGIN_ETHICS_AI": "ON"
+        "THEMIS_PLUGIN_ETHICS_AI": "ON",
+        "THEMIS_DEV_ETHICS_AI_OVERRIDE": "ON",
+        "THEMIS_BUILD_ENTERPRISE_PLUGINS": "OFF"
       }
     },
     {
