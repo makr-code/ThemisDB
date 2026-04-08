@@ -30,6 +30,8 @@
 #include "aql/aql_confidence_scorer.h"
 #include "aql/aql_fewshot_example_library.h"
 #include "aql/llm_token_estimator.h"
+#include "aql/llm_error_codes.h"
+#include "aql/llm_timeout_manager.h"
 #include "llm/llm_plugin_interface.h"
 #include "llm/llama_wrapper.h"
 #include "sharding/circuit_breaker.h"
@@ -582,6 +584,48 @@ public:
     TranslationValidationMode getValidationMode() const;
 
     // =========================================================================
+    // Runtime-overridable validation limits
+    // =========================================================================
+
+    /**
+     * @brief Override all input-length and query-count validation limits at runtime.
+     *
+     * The supplied @p config replaces the handler's internal copy of the
+     * limits. All subsequent calls to translateNLToAQL(), translateNLToAQLStreaming(),
+     * translateNLToAQLWithExamples(), and the sanitizePromptInput() helper will
+     * use the new values. Passing a default-constructed @c ValidationLimitsConfig
+     * restores the original @c ValidationLimits constexpr values.
+     *
+     * Typical use (embedded deployment with tight memory):
+     * @code
+     * ValidationLimitsConfig cfg;
+     * cfg.max_nl_query_length = 512;
+     * cfg.max_schema_context_length = 4096;
+     * handler.setValidationLimits(cfg);
+     * @endcode
+     *
+     * @param config  New validation limits. All fields carry defaults identical
+     *                to the original compile-time constants for backward compatibility.
+     */
+    void setValidationLimits(const ValidationLimitsConfig& config);
+
+    /**
+     * @brief Return the currently active validation limits.
+     */
+    ValidationLimitsConfig getValidationLimits() const;
+
+    /**
+     * @brief Override LLM timeout settings at runtime.
+     *
+     * Replaces the handler's internal @c LLMTimeoutManager configuration.
+     * Individual timeout values (infer, rag, embed, model-load) are all
+     * adjustable without recompilation.
+     *
+     * @param config  New timeout configuration.
+     */
+    void setTimeoutConfig(const LLMTimeoutManager::TimeoutConfig& config);
+
+    // =========================================================================
     // Test / dependency injection
     // =========================================================================
 
@@ -622,6 +666,54 @@ public:
 private:
     class Impl;
     std::unique_ptr<Impl> impl_;
+
+    // =========================================================================
+    // Private prompt-building and post-processing helpers
+    // =========================================================================
+
+    /**
+     * @brief Build the NL-to-AQL system prompt shared by all three translation methods.
+     *
+     * Centralises prompt construction to eliminate copy-paste duplication across
+     * translateNLToAQL(), translateNLToAQLStreaming(), and
+     * translateNLToAQLWithExamples().  The returned string is ready to be used as
+     * the "system" chat message.
+     *
+     * @param schema_context  Optional database schema description (may be empty).
+     * @param examples        Optional few-shot examples to inject (may be empty).
+     * @param validation_feedback  When non-empty, appended as error feedback for
+     *        retry attempts.
+     * @return Fully assembled system prompt string.
+     */
+    std::string buildNLToAQLSystemPrompt(
+        const std::string& schema_context,
+        const std::vector<AQLFewShotExample>& examples = {},
+        const std::string& validation_feedback = ""
+    ) const;
+
+    /**
+     * @brief Strip a surrounding markdown code fence from @p raw.
+     *
+     * Handles both plain @c ``` and language-tagged @c ```aql fences.
+     * Returns the untouched input when no fence is detected.
+     *
+     * @param raw  Raw LLM response, potentially wrapped in a markdown fence.
+     * @return Query string with fences stripped and leading/trailing whitespace removed.
+     */
+    static std::string stripMarkdownFences(std::string raw);
+
+    /**
+     * @brief Log syntax-highlighter annotations as a single @c spdlog::warn call.
+     *
+     * @param annotations   Annotations from AQLSyntaxHighlighter::annotateErrors().
+     * @param query_preview Short description or prefix of the query (for log context).
+     * @param function_name Calling function name (for log context).
+     */
+    static void logAnnotations(
+        const std::vector<AQLSyntaxHighlighter::Annotation>& annotations,
+        const std::string& query_preview,
+        const std::string& function_name
+    );
 };
 
 } // namespace aql
