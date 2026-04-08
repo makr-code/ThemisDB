@@ -487,10 +487,13 @@ void BackendRegistry::initializeRuntime(
         // Build the O(1) BackendType → IComputeBackend* lookup index.
         // For each type we keep only the *first* registered backend (highest priority
         // within the type, as backends_ is appended to in registration order).
+        // try_emplace() is used deliberately: if a key already exists (multiple
+        // backends registered under the same type) the existing entry is preserved
+        // and the new one is silently ignored, matching the "first wins" policy.
         backendTypeIndex_.clear();
         backendTypeIndex_.reserve(backends_.size());
         for (const auto& b : backends_) {
-            backendTypeIndex_.emplace(static_cast<int>(b->type()), b.get());
+            backendTypeIndex_.try_emplace(static_cast<int>(b->type()), b.get());
         }
 
         // selectTyped() requires the lock to be held (shared is sufficient; we

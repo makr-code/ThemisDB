@@ -252,7 +252,7 @@ void* FaissGPUVectorBackend::createIndex(IndexType type, int dimension) {
 
         default:
             setError(ErrorContextHelpers::createValidationError(
-                "FaissGPU", AccelerationErrorCode::InvalidInputShape,
+                "FaissGPU", AccelerationErrorCode::InvalidConfiguration,
                 "Unknown or unsupported FAISS index type requested"));
             return nullptr;
     }

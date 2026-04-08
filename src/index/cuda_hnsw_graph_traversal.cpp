@@ -315,6 +315,11 @@ CudaHnswTraversalEngine& CudaHnswTraversalEngine::operator=(CudaHnswTraversalEng
 void CudaHnswTraversalEngine::setMaxBatchSize(size_t n) noexcept {
     if (!impl_) return;
 #ifdef THEMIS_ENABLE_CUDA
+    // `|| impl_->visited_pool_bytes == 0` ensures the pool is allocated on the
+    // first call even when n ≤ maxBatchSize_ (the default 512), i.e. before
+    // buildIndex() has had a chance to pre-allocate it for us.
+    // The pool is never shrunk: if n < maxBatchSize_ and the pool is already
+    // allocated, the early return at the start of ensureVisitedPool() is a no-op.
     if (n > impl_->maxBatchSize_ || impl_->visited_pool_bytes == 0) {
         impl_->maxBatchSize_ = n;
         // Re-allocate if the index is already built and we know the node count.

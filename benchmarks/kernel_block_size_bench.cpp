@@ -117,14 +117,10 @@ static double achievedOccupancyPct(KernelFn kernel, int blockSize, size_t shared
     cudaOccupancyMaxActiveBlocksPerMultiprocessor(
         &maxActive, kernel, blockSize, sharedMemBytes);
 
-    int maxBlocks = 0;
-    {
-        cudaFuncAttributes attr{};
-        if (cudaFuncGetAttributes(&attr, kernel) == cudaSuccess) {
-            // Theoretical max blocks per SM based on register usage
-            (void)attr; // used implicitly by CUDA occupancy calculation above
-        }
-    }
+    // Suppress unused variable from attributes query (kept for documentation
+    // purposes to show the calling convention).
+    cudaFuncAttributes attr{};
+    (void)cudaFuncGetAttributes(&attr, kernel);
 
     // cudaOccupancyMaxActiveBlocksPerMultiprocessor gives active blocks per SM.
     // Theoretical maximum depends on device; query cudaDeviceProp.
