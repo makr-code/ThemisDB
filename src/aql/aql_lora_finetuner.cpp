@@ -589,7 +589,7 @@ AQLLoRAFinetuner::Config AQLLoRAFinetuner::Config::fromOptions(
         float val = std::stof(it->second);
         if (val < 0.0f || val >= 1.0f) {
             throw std::invalid_argument(
-                "LoRA 'dropout' must be in [0, 1), got " + it->second);
+                "LoRA 'dropout' must be in [0.0, 1.0), got " + it->second);
         }
         cfg.hyperparameters.dropout = val;
     }

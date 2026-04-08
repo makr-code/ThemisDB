@@ -698,6 +698,9 @@ private:
      * Returns the untouched input when no fence is detected.
      *
      * @param raw  Raw LLM response, potentially wrapped in a markdown fence.
+     *             Passed by value to enable the caller to move-in the source
+     *             string (e.g. `stripMarkdownFences(std::move(response))`),
+     *             avoiding a copy when the fence is absent.
      * @return Query string with fences stripped and leading/trailing whitespace removed.
      */
     static std::string stripMarkdownFences(std::string raw);
