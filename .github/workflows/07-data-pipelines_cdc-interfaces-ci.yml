@@ -7,6 +7,10 @@ name: CDC Interfaces CI
 #   - ICDCFanIn / InMemoryFanIn / IFanInMergePolicy / FanInEvent
 #   - ICDCEventSchema / InMemoryCDCEventSchema / ISchemaEvolutionCallback
 #   - IDeliveryGuaranteeConfig / InMemoryDeliveryGuaranteeConfig / InMemoryIdempotentListener
+# And v2.0.0 deliverables:
+#   - ICDCReplayController / InMemoryReplayController / IReplaySession
+#   - ICDCFilterPipeline / InMemoryFilterPipeline / IEventFilter
+#   - ICDCBatchCommitCoordinator / InMemoryBatchCommitCoordinator
 on:
   pull_request:
     types: [opened, synchronize, reopened]
@@ -16,11 +20,17 @@ on:
       - 'include/cdc/icdc_fan_in.h'
       - 'include/cdc/icdc_event_schema.h'
       - 'include/cdc/idelivery_guarantee_config.h'
+      - 'include/cdc/icdc_replay_controller.h'
+      - 'include/cdc/icdc_filter_pipeline.h'
+      - 'include/cdc/icdc_batch_commit_coordinator.h'
       - 'tests/test_cdc_pause_control.cpp'
       - 'tests/test_cdc_backpressure_signal.cpp'
       - 'tests/test_cdc_fan_in.cpp'
       - 'tests/test_cdc_event_schema.cpp'
       - 'tests/test_cdc_delivery_guarantee_config.cpp'
+      - 'tests/test_cdc_replay_controller.cpp'
+      - 'tests/test_cdc_filter_pipeline.cpp'
+      - 'tests/test_cdc_batch_commit_coordinator.cpp'
       - 'tests/CMakeLists.txt'
       - '.github/workflows/07-data-pipelines_cdc-interfaces-ci.yml'
   workflow_dispatch:
@@ -91,6 +101,58 @@ jobs:
   #   AC-I3  markProcessed is idempotent
   #   AC-I4  FIFO eviction when max_window_size is reached
   #   AC-I5  Concurrent markProcessed / isDuplicate are thread-safe
+  #
+  # ICDCReplayController / InMemoryReplayController (v2.0.0)
+  #   AC-R1  beginReplay() returns a non-null IReplaySession
+  #   AC-R2  Empty changefeed → session is immediately done
+  #   AC-R3  nextBatch() respects batch_size
+  #   AC-R4  from_sequence cursor filters older events
+  #   AC-R5  to_sequence cap stops at the upper bound
+  #   AC-R6  from_timestamp_ms / to_timestamp_ms filter events by wall-clock
+  #   AC-R7  key_prefix filter restricts to matching keys
+  #   AC-R8  event_types filter restricts to matching operation types
+  #   AC-R9  max_events_per_session limits total event count
+  #   AC-R10 cancel() causes done() == true and nextBatch() returns {}
+  #   AC-R11 deliveredCount() increments correctly across batches
+  #   AC-R12 totalSessionsCreated() increments per beginReplay() call
+  #   AC-R13 replayFromTimestamp() convenience overload works
+  #   AC-R14 replayFromSequence() convenience overload works
+  #   AC-R15 Draining all events transitions state to Done
+  #
+  # ICDCFilterPipeline / InMemoryFilterPipeline (v2.0.0)
+  #   AC-FP1  Empty pipeline passes all events
+  #   AC-FP2  addFilter() returns false for duplicate name
+  #   AC-FP3  removeFilter() returns false for unknown name
+  #   AC-FP4  hasFilter() correctly reports presence
+  #   AC-FP5  size() and empty() reflect pipeline state
+  #   AC-FP6  PredicateFilter passes / drops correctly
+  #   AC-FP7  KeyPrefixFilter passes matching prefix; drops others
+  #   AC-FP8  EventTypeFilter passes matching types; drops others
+  #   AC-FP9  Multiple stages: first Drop short-circuits remaining stages
+  #   AC-FP10 applyBatch() returns only passing events (order preserved)
+  #   AC-FP11 filterNames() returns stage names in insertion order
+  #   AC-FP12 totalPassed / totalDropped / resetCounters
+  #   AC-FP13 Removing a stage affects subsequent apply() calls
+  #   AC-FP14 Thread-safety: concurrent addFilter / apply
+  #   AC-FP15 ICDCFilterPipeline polymorphic usage
+  #
+  # ICDCBatchCommitCoordinator / InMemoryBatchCommitCoordinator (v2.0.0)
+  #   AC-BC1  beginBatch() returns a non-zero BatchId
+  #   AC-BC2  beginBatch() while a batch is open returns 0
+  #   AC-BC3  addEvent() returns NoBatchOpen when no batch is open
+  #   AC-BC4  addEvent() returns Added for events within limit
+  #   AC-BC5  addEvent() returns BatchFull when max_batch_size is reached
+  #   AC-BC6  commitBatch() commits all staged events
+  #   AC-BC7  committedEvents() returns events in commit order
+  #   AC-BC8  isCommitted() reflects committed batch IDs
+  #   AC-BC9  commitBatch() returns NoBatchOpen when no batch is open
+  #   AC-BC10 rollbackBatch() clears staged events; status → RolledBack
+  #   AC-BC11 rollbackBatch() returns NoBatchOpen when no batch is open
+  #   AC-BC12 After commit, beginBatch() succeeds again (idle → open)
+  #   AC-BC13 After rollback, beginBatch() succeeds again
+  #   AC-BC14 info() reflects current state accurately
+  #   AC-BC15 Commit history FIFO eviction when limit is reached
+  #   AC-BC16 Thread-safety: concurrent addEvent calls
   # ---------------------------------------------------------------------------
   cdc-interfaces-tests:
     needs: ci-scope-classifier
@@ -184,13 +246,43 @@ jobs:
                 --timeout 60 \
                 2>&1 | tee cdc_delivery_guarantee_config_results.txt
 
+      # ── Replay Controller (v2.0.0) ───────────────────────────────────────────
+      - name: Run CDCReplayControllerFocusedTests
+        run: |
+          set -o pipefail
+          cd build
+          ctest -R CDCReplayControllerFocusedTests \
+                --output-on-failure \
+                --timeout 60 \
+                2>&1 | tee cdc_replay_controller_results.txt
+
+      # ── Filter Pipeline (v2.0.0) ─────────────────────────────────────────────
+      - name: Run CDCFilterPipelineFocusedTests
+        run: |
+          set -o pipefail
+          cd build
+          ctest -R CDCFilterPipelineFocusedTests \
+                --output-on-failure \
+                --timeout 60 \
+                2>&1 | tee cdc_filter_pipeline_results.txt
+
+      # ── Batch Commit Coordinator (v2.0.0) ────────────────────────────────────
+      - name: Run CDCBatchCommitCoordinatorFocusedTests
+        run: |
+          set -o pipefail
+          cd build
+          ctest -R CDCBatchCommitCoordinatorFocusedTests \
+                --output-on-failure \
+                --timeout 60 \
+                2>&1 | tee cdc_batch_commit_coordinator_results.txt
+
       # ── Broader validation via unified binary ────────────────────────────────
       - name: Run CDC interface suites via unified binary
         run: |
           set -o pipefail
           cd build
           ./tests/themis_tests \
-            --gtest_filter="InMemoryPauseControl*:InMemoryBackpressureSignal*:FanIn*:InMemoryCDCEventSchema*:DeliveryGuaranteeConfig*:InMemoryIdempotentListener*" \
+            --gtest_filter="InMemoryPauseControl*:InMemoryBackpressureSignal*:FanIn*:InMemoryCDCEventSchema*:DeliveryGuaranteeConfig*:InMemoryIdempotentListener*:InMemoryReplayController*:InMemoryFilterPipeline*:InMemoryBatchCommitCoordinator*" \
             --gtest_output="xml:cdc_interfaces_gtest.xml" \
             2>&1 | tee cdc_interfaces_gtest_output.txt
 
@@ -205,6 +297,9 @@ jobs:
             build/cdc_fan_in_results.txt
             build/cdc_event_schema_results.txt
             build/cdc_delivery_guarantee_config_results.txt
+            build/cdc_replay_controller_results.txt
+            build/cdc_filter_pipeline_results.txt
+            build/cdc_batch_commit_coordinator_results.txt
             build/cdc_interfaces_gtest.xml
             build/cdc_interfaces_gtest_output.txt
           retention-days: 30
