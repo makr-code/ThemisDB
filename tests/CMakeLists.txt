@@ -20532,3 +20532,39 @@ if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ethics_a
 elseif(NOT THEMIS_PLUGIN_ETHICS_AI)
     message(STATUS "EthicsAI Plugin lifecycle tests skipped (THEMIS_PLUGIN_ETHICS_AI disabled)")
 endif()
+
+# ──────────────────────────────────────────────────────────────────────────────
+# PERF-D6: ConcurrentWriteController focused tests
+# ──────────────────────────────────────────────────────────────────────────────
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_concurrent_write_controller.cpp")
+    message(STATUS "Adding ConcurrentWriteController focused tests (PERF-D6)")
+
+    add_executable(test_concurrent_write_controller_focused
+        test_concurrent_write_controller.cpp
+        ${CMAKE_SOURCE_DIR}/src/storage/concurrent_write_controller.cpp
+    )
+
+    target_include_directories(test_concurrent_write_controller_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_concurrent_write_controller_focused PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_concurrent_write_controller_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ConcurrentWriteControllerFocusedTests
+             COMMAND test_concurrent_write_controller_focused)
+
+    set_tests_properties(ConcurrentWriteControllerFocusedTests PROPERTIES
+        LABELS "storage;concurrency;write-controller;fifo;perf-d6;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  ConcurrentWriteController: FIFO semaphore, RAII guard, stats (EWMA/P99/max), timeout, shutdown, CV regression guard")
+endif()

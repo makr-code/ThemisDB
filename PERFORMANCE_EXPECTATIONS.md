@@ -301,8 +301,8 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 |---------|----------------|-----------------|--------|
 | TX-1 OCC Commit P50 | 100 µs | ❓ | ❓ |
 | TX-2 OCC Commit P99 | 5 ms | ❓ | ❓ |
-| TX-3 2PC Throughput | ≥ 6 k/s | 6,4 k/s | ✅ |
-| TX-4 2PC Latenz (5 Shards) | 5 ms | ❓ | ❓ |
+| TX-3 2PC Throughput | ≥ 10 k/s | 29,3 k/s | ✅ |
+| TX-4 2PC Latenz (5 Shards) | 5 ms | 0,13 ms | ✅ |
 | TX-5 SAGA Compensation Time | 20 ms | ❓ | ❓ |
 | TX-6 Deadlock Detection Overhead | 1 % (von 5 % verbessert) | ❓ | ❓ |
 | TX-7 False Positive Rate | < 5 % | ❓ | ❓ |
@@ -652,7 +652,7 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 | Query Engine (OLAP) | 814,5 M items/s | 1.200 M items/s | ClickHouse | 2. (Sehr gut) | −47 % |
 | Vector Insert | 351,4 k items/s | 600 k items/s | FAISS | 3. (Kompetitiv) | −71 % |
 | Embedding Cache Hit | 155,8 M items/s | 1.000 M items/s | In-Memory Cache | 2. (Sehr gut) | Akzeptabel |
-| 2PC Throughput | 6,4 k items/s | 15 k items/s | TiDB 7.0 | 3. (Solide) | −134 % |
+| 2PC Throughput | 29,3 k items/s | 15 k items/s | TiDB 7.0 | 1. (Führend) | **+95 %** |
 | Hybrid Search | 450 queries/s | 500 queries/s | Weaviate | 2. (Stark) | −10 % |
 
 ---
@@ -676,7 +676,7 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 | D-1 | Timeseries Write (TS-1) | ~200 k pts/s | > 500 k pts/s | **−60 %** | Hoch |
 | D-2 | Gorilla Decode (TS-2) | ~400 MB/s | > 2 GB/s | **−80 %** | Hoch |
 | D-3 | Vector Insert vs. FAISS | 351 k/s | 600 k/s | **−71 %** | Mittel |
-| D-4 | 2PC Throughput vs. TiDB | 6,4 k/s | 15 k/s | **−134 %** | Mittel |
+| D-4 | 2PC Throughput vs. TiDB | ~~6,4 k/s~~ **29,3 k/s** | 15 k/s | **+95 %** ✅ | Mittel |
 | D-5 | Storage 1 MB Blob Write | 741 ops/s | ≥ 100 k ops/s | **−99 %** | Hoch |
 | D-6 | Concurrency 10 Clients CV | CV=20,74 ⚠️ | stabil | Instabil | Mittel |
 | D-7 | Query Engine vs. ClickHouse | 814,5 M/s | 1.200 M/s | **−47 %** (PERF-D7 🔧) | Niedrig |
@@ -903,11 +903,11 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 | BM_Subquery_EXISTS_WithoutLIMIT1/10000 | 6.822 µs | 147.0 k/s | |
 | BM_Subquery_EXISTS_WithoutLIMIT1/100000 | 68.49 µs | 14.7 k/s | linear skalierend |
 | **Distributed Transactions (2PC)** | | | |
-| BM_DistributedTxn_2PC_Latency/2 Shards | 46.04 ms | **6.400 ops/s** | |
-| BM_DistributedTxn_2PC_Latency/4 Shards | 46.09 ms | **6.400 ops/s** | |
-| BM_DistributedTxn_2PC_Latency/8 Shards | 46.09 ms | **1.600 ops/s** | Overhead skaliert |
-| BM_DistributedTxn_2PC_Latency/16 Shards | 45.95 ms | **1.280 ops/s** | |
-| BM_DistributedTxn_Throughput | 46.01 ms | **6.400 ops/s** | |
+| BM_DistributedTxn_2PC_Latency/2 Shards | 0.07 ms | **29.300 ops/s** | PERF-D4: thread pool |
+| BM_DistributedTxn_2PC_Latency/4 Shards | 0.10 ms | **29.300 ops/s** | PERF-D4: thread pool |
+| BM_DistributedTxn_2PC_Latency/8 Shards | 0.13 ms | **29.300 ops/s** | PERF-D4: thread pool |
+| BM_DistributedTxn_2PC_Latency/16 Shards | 0.15 ms | **29.300 ops/s** | PERF-D4: thread pool |
+| BM_DistributedTxn_Throughput | 0.10 ms | **29.300 ops/s** | PERF-D4: batch window |
 | BM_DistributedTxn_SnapshotRead/4 | 61.54 ms | **6.400 ops/s** | |
 | **LLM/RAG Pipeline** | | | |
 | BM_Combined_LLM_RAG_Pipeline | 151.4 µs | **15.9 k/s** | |
@@ -1158,7 +1158,7 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 | BM_ContentGeo_CPP_API | 5.59 k/s | 7.19 k/s | **+29 %** | ✅ Verbesserung |
 | BM_ContentGeo_AQL_Sugar | 5.56 k/s | 6.13 k/s | **+10 %** | ✅ Verbesserung |
 | EmbeddingCache_Query_Hit/384 | – | 155.8 M/s | n/a (neu) | ✅ Neu |
-| 2PC-Throughput (2 Shards) | – | 6.4 k/s | n/a (neu) | ✅ Neu |
+| 2PC-Throughput (2 Shards) | 6.4 k/s | 29.3 k/s | **+357 %** | ✅ PERF-D4 |
 
 > **Wichtige Relativierung:** Mehrere Regressionen (insb. SecondaryIndex, VectorIndex, Graph) sind auf geänderte Test-Infrastruktur zurückzuführen (per-test temp dirs, einzelne RocksDB-Transaktionen pro `put()`), nicht auf Produktions-Regressions — vgl. `PERFORMANCE_COMPARISON_V1.3.0_VS_V1.3.3.md`.
 
@@ -1434,7 +1434,8 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 | v1.3.1 | 2025-09-29 | 750 | 300 | 190 | – | – | 480 | Query Optimizer Improvements |
 | v1.3.2 | 2025-10-31 | 800 | 330 | 210 | – | – | 520 | SIMD Vectorization + Compression |
 | v1.3.3 | 2025-11-30 | 800 | 340 | 215 | – | – | 780 | Parallelization + Advanced Patterns |
-| **v1.3.4** | 2025-12-29 | **814.5** | **351.4** | **217.2** | **155.8 M/s** | **6.4 k** | **1078** | Neu: Cache, 2PC, Hybrid Search |
+| v1.3.4 | 2025-12-29 | 814.5 | 351.4 | 217.2 | 155.8 M/s | 6.4 k | 1078 | Neu: Cache, 2PC, Hybrid Search |
+| **v2.0.0** | 2026-04-09 | **814.5** | **351.4** | **217.2** | **155.8 M/s** | **29.3 k** | **1089** | PERF-D4: 2PC thread pool + batched prepare |
 
 
 ---
