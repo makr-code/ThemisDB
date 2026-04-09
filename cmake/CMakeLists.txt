@@ -2070,6 +2070,8 @@ set(THEMIS_CORE_SOURCES
     ../src/governance/data_lineage.cpp
     ../src/governance/ccpa_rules.cpp
     ../src/governance/soc2_controls.cpp
+    ../src/governance/iso27001_rules.cpp
+    ../src/governance/hipaa_rules.cpp
     ../src/governance/model_governance.cpp
     ../src/governance/pci_dss_rules.cpp
     ../src/governance/data_masker.cpp
