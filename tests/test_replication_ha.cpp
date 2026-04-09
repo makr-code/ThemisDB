@@ -5650,10 +5650,8 @@ TEST(VectorClockPerfTest, IncrementAndCompareSingleOpUnder5us) {
     int64_t median_ns = durations_ns[kIterations / 2];
     int64_t p99_ns    = durations_ns[static_cast<size_t>(kIterations * 0.99)];
 
-    EXPECT_LT(median_ns, 5000)
-        << "VectorClock increment+compare median must be < 5 us; "
-           "median = " + std::to_string(median_ns) + " ns, "
-           "p99 = "    + std::to_string(p99_ns)    + " ns";
+    EXPECT_LT(median_ns, 5000) << "VectorClock increment+compare median must be < 5 us;"
+        " median=" << median_ns << " ns p99=" << p99_ns << " ns";
 }
 
 /**
@@ -5701,10 +5699,8 @@ TEST(HLCPerfTest, NowCallUnder5us) {
     int64_t median_ns = durations_ns[kIterations / 2];
     int64_t p99_ns    = durations_ns[static_cast<size_t>(kIterations * 0.99)];
 
-    EXPECT_LT(median_ns, 5000)
-        << "HLC::now() median must be < 5 us; "
-           "median = " + std::to_string(median_ns) + " ns, "
-           "p99 = "    + std::to_string(p99_ns)    + " ns";
+    EXPECT_LT(median_ns, 5000) << "HLC::now() median must be < 5 us;"
+        " median=" << median_ns << " ns p99=" << p99_ns << " ns";
 }
 
 /**
@@ -5747,11 +5743,9 @@ TEST(WALAppendThroughputPerfTest, Over50kEntriesPerSecond) {
     double elapsed_s = std::chrono::duration<double>(t1 - t0).count();
     double entries_per_s = static_cast<double>(kEntries) / elapsed_s;
 
-    EXPECT_GT(entries_per_s, 50000.0)
-        << "WAL append throughput must exceed 50,000 entries/s; measured "
-           + std::to_string(static_cast<int64_t>(entries_per_s))
-           + " entries/s (" + std::to_string(kEntries) + " entries in "
-           + std::to_string(static_cast<int64_t>(elapsed_s * 1000.0)) + " ms)";
+    EXPECT_GT(entries_per_s, 50000.0) << "WAL append throughput must exceed 50,000 entries/s;"
+        " measured " << static_cast<int64_t>(entries_per_s) << " entries/s"
+        " (" << kEntries << " entries in " << elapsed_s * 1000.0 << " ms)";
 }
 
 /**
@@ -5813,9 +5807,8 @@ TEST(CompressedStreamThroughputPerfTest, ZstdBatchUnder50ms) {
     auto elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(t1 - t0).count();
     double per_round_ms = static_cast<double>(elapsed_ms) / kRounds;
 
-    EXPECT_LT(per_round_ms, 50.0)
-        << "Zstd compress of 1,000 x ~512-byte entries must complete in < 50 ms; measured "
-           + std::to_string(per_round_ms) + " ms/round";
+    EXPECT_LT(per_round_ms, 50.0) << "Zstd compress of 1,000 x ~512-byte entries must"
+        " complete in < 50 ms; measured " << per_round_ms << " ms/round";
 
     auto stats = stream.getStats();
     EXPECT_GT(stats.bytes_uncompressed, 0u) << "Stats must report processed bytes";
