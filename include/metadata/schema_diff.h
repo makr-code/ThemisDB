@@ -10,7 +10,7 @@
   Quality Metrics:                                                   ║
     • Maturity Level:  🟢 PRODUCTION-READY                            ║
     • Quality Score:   100.0/100                                     ║
-    • Total Lines:     230                                           ║
+    • Total Lines:     391                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                  ║
@@ -47,6 +47,7 @@
 #include <algorithm>
 #include <map>
 #include <optional>
+#include <set>
 #include <string>
 #include <vector>
 #include <nlohmann/json.hpp>
@@ -384,11 +385,6 @@ public:
 
         return result;
     }
-
-private:
-    // Uses std::set (from <map> transitively includes the required headers
-    // but we forward-declare it here for clarity).
-    using StringSet = std::set<std::string>;
 };
 
 } // namespace metadata
