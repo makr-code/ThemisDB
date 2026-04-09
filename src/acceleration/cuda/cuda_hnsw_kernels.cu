@@ -369,7 +369,10 @@ void launchHnswSearchKernel(
     int64_t*       d_result_ids,
     float*         d_result_scores,
     cudaStream_t   stream,
-    bool*          h_overflow)
+    bool*          h_overflow,
+    uint8_t*       d_visited_pool,   // optional pre-allocated pool (may be nullptr)
+    size_t         visited_pool_bytes // capacity of d_visited_pool in bytes
+)
 {
     if (num_queries == 0 || num_nodes == 0 || k == 0) return;
 
@@ -394,17 +397,32 @@ void launchHnswSearchKernel(
                                       static_cast<size_t>(k) *
                                       (sizeof(float) + sizeof(int32_t));
 
-    // Allocate per-query 1-bit-per-node visited bitset.
-    // Memory: num_queries × ceil(num_nodes / 8) bytes
-    //   e.g. 512 queries × 10M nodes → 512 × 1.25 MB ≈ 640 MB  (vs 5 GB before)
+    // ── Visited bitset allocation ─────────────────────────────────────────────
+    // Prefer a pre-allocated pool (zero allocation overhead) over per-invocation
+    // cudaMalloc/cudaFree (which stalls the stream and adds ~2-5 µs overhead).
+    // Memory: num_queries × ceil(num_nodes / 8) bytes  (1-bit-per-node bitset)
+    //   e.g. 512 queries × 10M nodes → 512 × 1.25 MB ≈ 640 MB
     const size_t visited_bytes_per_query = ((size_t)num_nodes + 7u) / 8u;
     const size_t visited_bytes = (size_t)num_queries * visited_bytes_per_query;
+
     uint8_t* d_visited = nullptr;
-    cudaError_t merr = cudaMalloc(&d_visited, visited_bytes);
-    if (merr != cudaSuccess || d_visited == nullptr) {
-        // Cannot proceed without visited storage — leave output zeroed
-        return;
+    bool     pool_owned = false;   // true when we allocated d_visited ourselves
+
+    if (d_visited_pool != nullptr && visited_pool_bytes >= visited_bytes) {
+        // Use the caller-supplied persistent pool — no allocation required.
+        d_visited = d_visited_pool;
+    } else {
+        // Fall back to per-invocation allocation (pool absent or too small).
+        cudaError_t merr = cudaMalloc(&d_visited, visited_bytes);
+        if (merr != cudaSuccess || d_visited == nullptr) {
+            // Cannot proceed without visited storage; signal degraded state via
+            // h_overflow so the caller can surface BackendHealthStatus::makeDegraded().
+            if (h_overflow) *h_overflow = true;
+            return;
+        }
+        pool_owned = true;
     }
+
     // Zero-initialise visited bitset (mandatory for correctness)
     cudaMemsetAsync(d_visited, 0, visited_bytes, stream);
 
@@ -419,9 +437,11 @@ void launchHnswSearchKernel(
         d_result_ids, d_result_scores,
         d_visited);
 
-    // Synchronise before freeing the workspace
-    cudaStreamSynchronize(stream);
-    cudaFree(d_visited);
+    if (pool_owned) {
+        // Synchronise before freeing the workspace (pool-based callers own sync)
+        cudaStreamSynchronize(stream);
+        cudaFree(d_visited);
+    }
 }
 
 } // namespace cuda

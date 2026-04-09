@@ -73,7 +73,9 @@ public:
         FLAT_L2,        // Exact search, L2 distance
         FLAT_IP,        // Exact search, Inner Product
         IVF_FLAT,       // Inverted file with flat quantizer (fast approx)
-        IVF_PQ          // Inverted file with product quantizer (memory efficient)
+        IVF_PQ,         // Inverted file with product quantizer (memory efficient)
+        IVF_SQ8,        // Inverted file with 8-bit scalar quantizer (better recall than PQ)
+        HNSW_FLAT       // HNSW graph index with flat GPU distance oracle (hybrid CPU/GPU)
     };
     
     struct Config {
@@ -85,6 +87,8 @@ public:
         int nbits = 8;             // Bits per sub-quantizer (PQ)
         size_t maxMemoryMB = 8192; // Max GPU memory in MB
         int deviceId = 0;          // CUDA device ID
+        int hnswM = 32;            // HNSW number of neighbours per node
+        int hnswEfSearch = 64;     // HNSW ef parameter during search
     };
     
     FaissGPUVectorBackend();
