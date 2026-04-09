@@ -33,6 +33,7 @@
 #include <atomic>
 #include <algorithm>
 #include <shared_mutex>
+#include <unordered_map>
 #include "acceleration/error_context.h"
 #include "acceleration/kernel_invocation.h"
 #include "acceleration/compute_future.h"
@@ -703,6 +704,11 @@ private:
 
     std::vector<std::unique_ptr<IComputeBackend>> backends_;
     std::unique_ptr<PluginLoader> pluginLoader_;
+
+    // O(1) lookup index: BackendType → first registered backend of that type.
+    // Built at the end of initializeRuntime(); invalidated on shutdownAll().
+    // Populated with raw pointers into backends_ — never outlives the owning unique_ptrs.
+    std::unordered_map<int, IComputeBackend*> backendTypeIndex_;
 
     // Backends selected at the last initializeRuntime() call (nullptr until
     // initializeRuntime() has been called).

@@ -44,6 +44,7 @@ implemented on top of the production-ready v1.x multi-source import pipeline.
 - [x] Blockchain Integrity Verifier – SHA-256 Merkle tree + offline blockchain anchor (`importers/blockchain_integrity.cpp`)
 - [x] Federated Learning Coordinator – FedAvg aggregation + Gaussian differential privacy (`importers/federated_learning.cpp`)
 - [x] GraphQL Federation Support – Apollo Federation v2 SDL generation (`importers/graphql_federation.cpp`)
+- [x] Microsoft SQL Server importer – T-SQL dump parser with `UNIQUEIDENTIFIER`/`BIT`/`MONEY` type mapping, `GO` batch separator, `N'unicode'` literals, multi-row INSERT (`importers/mssql_importer.cpp`) (Issue: #1845)
 
 ## In Progress 🚧
 *(none currently in progress)*
@@ -59,7 +60,7 @@ implemented on top of the production-ready v1.x multi-source import pipeline.
 ### Long-term (6-12 months)
 - [x] Kafka consumer importer for real-time streaming ingestion (`importers/kafka_importer.cpp`) (Issue: #1843)
 - [x] Oracle Database importer (`importers/oracle_importer.cpp`) (Issue: #1844)
-- [I] Microsoft SQL Server importer (Issue: #1845)
+- [x] Microsoft SQL Server importer (`importers/mssql_importer.cpp`) (Issue: #1845)
 - [x] GUI-based import wizard (web UI) (`importers/gui_import_wizard.cpp`) (Issue: #1847)
 
 ## Implementation Phases

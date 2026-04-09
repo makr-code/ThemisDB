@@ -147,10 +147,8 @@ BENCHMARK_DEFINE_F(TimeseriesBenchmarkFixture, BatchIngestion)(benchmark::State&
             batch.push_back(point);
         }
         
-        // Write batch
-        for (const auto& point : batch) {
-            ts_store_->put(metric, entity, point);
-        }
+        // Write batch atomically via putBatch (single WriteBatch commit)
+        ts_store_->putBatch(metric, entity, batch);
     }
     
     state.SetItemsProcessed(state.iterations() * batch_size);

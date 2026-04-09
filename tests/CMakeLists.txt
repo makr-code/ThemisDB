@@ -7112,6 +7112,56 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_scheduled_edge_refresh.cpp")
 endif()
 
 # ============================================================================
+# Graph Future Interfaces focused tests
+# (Issue: [MODULE] graph — GraphEmbedding, GraphQueryRewriter, MultiLayerGraph)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_graph_future_interfaces.cpp")
+    message(STATUS "Adding focused Graph Future Interfaces tests (embedding, rewriter, multi-layer)")
+
+    add_executable(test_graph_future_interfaces_focused
+        graph/test_graph_future_interfaces.cpp
+        ${CMAKE_SOURCE_DIR}/src/graph/graph_embedding.cpp
+        ${CMAKE_SOURCE_DIR}/src/graph/graph_query_rewriter.cpp
+        ${CMAKE_SOURCE_DIR}/src/graph/multi_layer_graph.cpp
+        ${CMAKE_SOURCE_DIR}/src/graph/graph_query_optimizer.cpp
+        ${CMAKE_SOURCE_DIR}/src/graph/path_constraints.cpp
+        ${CMAKE_SOURCE_DIR}/src/graph/parallel_traversal.cpp
+        ${CMAKE_SOURCE_DIR}/src/graph/distributed_graph.cpp
+    )
+
+    target_include_directories(test_graph_future_interfaces_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_graph_future_interfaces_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        fmt::fmt
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_graph_future_interfaces_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+        THEMIS_GRAPH_EXPORTS
+    )
+
+    add_test(NAME GraphFutureInterfacesFocusedTests
+             COMMAND test_graph_future_interfaces_focused)
+
+    set_tests_properties(GraphFutureInterfacesFocusedTests PROPERTIES
+        LABELS "graph;embedding;rewriter;multi_layer;gnn;node2vec;deepwalk;link_prediction;focused;unit"
+        TIMEOUT 180
+    )
+
+    message(STATUS "  GraphFutureInterfaces: GraphEmbedding (Node2Vec/DeepWalk/config/similarity), GraphQueryRewriter (rules/stats/explainRewrite), MultiLayerGraph (layers/paths/pageRank)")
+endif()
+
+# ============================================================================
 # Importer Plugin API Tests (standalone ÔÇô avoids createPlugin/destroyPlugin
 # symbol collision with postgres_importer.cpp in themis_core)
 # ============================================================================
@@ -7576,6 +7626,43 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_oracle_importer.cpp")
     message(STATUS "  OracleImporter: OCI config, type mapping (NUMBER/DATE/CLOB/BLOB), schema filtering, incremental import")
 else()
     message(STATUS "OracleImporter focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_oracle_importer.cpp")
+endif()
+
+# ============================================================================
+# SQL Server (MSSQL) Importer Focused Tests (standalone binary)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_mssql_importer.cpp")
+    message(STATUS "Adding MSSQLImporter focused tests (standalone binary)")
+
+    add_executable(test_mssql_importer_focused
+        test_mssql_importer.cpp
+    )
+
+    target_include_directories(test_mssql_importer_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_mssql_importer_focused PRIVATE
+        ${TEST_LIBS}
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_mssql_importer_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME MSSQLImporterFocusedTests COMMAND test_mssql_importer_focused)
+
+    set_tests_properties(MSSQLImporterFocusedTests PROPERTIES
+        LABELS "importers;mssql;sqlserver;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  MSSQLImporter: T-SQL type mapping, bracket identifiers, INSERT parsing, GO batch handling, unicode N-strings, validateSource, filtering")
+else()
+    message(STATUS "MSSQLImporter focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_mssql_importer.cpp")
 endif()
 
 # ============================================================================
@@ -12158,6 +12245,15 @@ endif()
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_adaptive_flush_controller.cpp")
     message(STATUS "Adding AdaptiveFlushController integration tests")
+# ---------------------------------------------------------------------------
+# AdaptiveFlushController Focused Tests (PERF-D1-C, Issue #4437)
+# AC: ≥500k pts/s throughput, P99 latency <100µs, no data loss,
+#     buffer utilization stats, Prometheus/JSON metrics export,
+#     regression: dedup, memory cap, fallback, concurrency.
+# Performance tests gated by THEMIS_RUN_PERF_TESTS=1 compile-time define.
+# ---------------------------------------------------------------------------
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_adaptive_flush_controller.cpp")
+    message(STATUS "Adding AdaptiveFlushController regression & performance focused tests")
 
     add_executable(test_adaptive_flush_controller_focused
         test_adaptive_flush_controller.cpp
@@ -12186,6 +12282,15 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_adaptive_flush_controller.cpp")
     )
 
     message(STATUS "  AdaptiveFlushController: TSStore write path routing, buffered/direct modes, stats, metrics")
+    add_test(NAME AdaptiveFlushControllerFocusedTests
+             COMMAND test_adaptive_flush_controller_focused)
+
+    set_tests_properties(AdaptiveFlushControllerFocusedTests PROPERTIES
+        LABELS "timeseries;adaptive-flush;backpressure;regression;performance;integration;focused"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  AdaptiveFlushController: unit/watermark/backpressure/perf/regression/integration tests")
 endif()
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_prometheus_remote_write.cpp")
