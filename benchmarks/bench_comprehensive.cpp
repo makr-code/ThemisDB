@@ -504,10 +504,10 @@ BENCHMARK_F(BinaryOperationsBench, StoreLargeBlobs_1MB)(benchmark::State& state)
     std::vector<uint8_t> blob(1048576); // 1MB
     std::fill(blob.begin(), blob.end(), 42);
 
-    int counter = 0;
+    int doc_id = 0;
     for (auto _ : state) {
         // Use a unique key per iteration so RocksDB actually flushes distinct values.
-        db_->putBlob("documents:doc_" + std::to_string(counter++), blob);
+        db_->putBlob("documents:doc_" + std::to_string(doc_id++), blob);
     }
     state.SetItemsProcessed(state.iterations());
     state.SetBytesProcessed(static_cast<int64_t>(state.iterations()) * 1048576);

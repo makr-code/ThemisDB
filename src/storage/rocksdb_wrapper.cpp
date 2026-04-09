@@ -838,9 +838,10 @@ bool RocksDBWrapper::del(std::string_view key) {
 //   chunk N  : "__tmbs_c__:<key>:<6-digit-zero-padded-N>"
 //
 // Manifest layout (20 bytes, little-endian):
-//   [0..3]   uint32_t  num_chunks
-//   [4..11]  uint64_t  chunk_size  (bytes; may be smaller for the last chunk)
-//   [12..19] uint64_t  total_size  (bytes; original blob size)
+//   [0..3]   uint32_t  num_chunks   – total number of chunks
+//   [4..11]  uint64_t  chunk_size   – configured chunk size in bytes
+//                                     (the last chunk may contain fewer bytes)
+//   [12..19] uint64_t  total_size   – original uncompressed blob size in bytes
 // ============================================================================
 
 namespace {
@@ -856,6 +857,7 @@ inline std::string blobManifestKey(std::string_view key) {
 
 // Returns the internal chunk key for chunk index `idx` of a logical blob key.
 inline std::string blobChunkKey(std::string_view key, uint32_t idx) {
+    // 7 bytes: 6 digits + null terminator.  Extra byte keeps size a power of 2.
     char buf[8];
     snprintf(buf, sizeof(buf), "%06u", idx);
     std::string ck;

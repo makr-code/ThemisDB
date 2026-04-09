@@ -43,6 +43,7 @@
 #include <gtest/gtest.h>
 #include "storage/rocksdb_wrapper.h"
 #include <filesystem>
+#include <fstream>
 #include <vector>
 #include <string>
 #include <thread>
@@ -339,4 +340,76 @@ TEST_F(BlobStreamingTest, NonAlignedBlobSizeRoundTrip) {
     ASSERT_TRUE(result.has_value());
     ASSERT_EQ(result->size(), unaligned);
     EXPECT_EQ(*result, data);
+}
+
+// 17. Memory bound: 10 parallel 1 MB putBlob calls complete without exceeding
+//     512 MB of heap growth.
+//
+//     We measure the resident memory before and after the 10 concurrent writes.
+//     The delta is expected to stay well below 512 MB because:
+//       - Each 1 MB blob ×10 ≈ 10 MB raw data
+//       - 8 chunks ×10 blobs ≈ 80 MB encoded (no copy; same bytes referenced)
+//       - RocksDB memtable budget is shared (db_write_buffer_size_mb caps usage)
+//     The 512 MB limit is generous to account for RocksDB internal overhead.
+TEST_F(BlobStreamingTest, MemoryBoundedParallelWrites) {
+    const size_t one_mb      = 1024 * 1024;
+    const int    num_parallel = 10;
+
+    // Pre-allocate all blobs before measuring memory to avoid counting them.
+    std::vector<std::vector<uint8_t>> blobs;
+    blobs.reserve(num_parallel);
+    for (int i = 0; i < num_parallel; ++i) {
+        blobs.push_back(makeBlob(one_mb, static_cast<uint8_t>(i + 0xA0)));
+    }
+
+    // Snapshot memory before writes.  Use /proc/self/status VmRSS on Linux;
+    // fall back to 0 (skip the upper-bound assertion) on other platforms.
+    auto read_rss_kb = []() -> size_t {
+#ifdef __linux__
+        std::ifstream status("/proc/self/status");
+        std::string line;
+        while (std::getline(status, line)) {
+            if (line.rfind("VmRSS:", 0) == 0) {
+                size_t kb = 0;
+                sscanf(line.c_str(), "VmRSS: %zu", &kb);
+                return kb;
+            }
+        }
+#endif
+        return 0;
+    };
+
+    const size_t rss_before_kb = read_rss_kb();
+
+    // Fire 10 concurrent putBlob calls.
+    std::vector<std::future<bool>> futures;
+    futures.reserve(num_parallel);
+    for (int i = 0; i < num_parallel; ++i) {
+        futures.push_back(std::async(std::launch::async, [this, &blobs, i]() {
+            return db_->putBlob("mem_par_" + std::to_string(i), blobs[i]);
+        }));
+    }
+    for (auto& f : futures) {
+        EXPECT_TRUE(f.get());
+    }
+
+    const size_t rss_after_kb  = read_rss_kb();
+
+    // Only assert when we can measure RSS reliably (Linux, /proc available).
+    if (rss_before_kb > 0 && rss_after_kb > 0) {
+        const size_t delta_mb =
+            (rss_after_kb > rss_before_kb)
+                ? (rss_after_kb - rss_before_kb) / 1024
+                : 0;
+        EXPECT_LT(delta_mb, 512u)
+            << "RSS grew by " << delta_mb
+            << " MB during 10 parallel 1 MB putBlob calls (limit: 512 MB)";
+    }
+
+    // Verify all blobs are readable after parallel writes.
+    for (int i = 0; i < num_parallel; ++i) {
+        auto result = db_->getBlob("mem_par_" + std::to_string(i));
+        ASSERT_TRUE(result.has_value()) << "Missing blob " << i;
+        EXPECT_EQ(*result, blobs[i]);
+    }
 }
