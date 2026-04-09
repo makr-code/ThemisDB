@@ -151,15 +151,21 @@ TEST(AdaptiveFlushControllerConstruct, NullTSStoreThrows) {
         std::invalid_argument);
 }
 
-TEST(AdaptiveFlushControllerConstruct, ZeroCapacityThrows) {
-    // We need a dummy store but we can't easily create one without RocksDB.
-    // Instead validate the config path via default-constructed (RocksDB available).
-    // This test verifies the constructor check only when capacity == 0.
-}
-
 // ─────────────────────────────────────────────────────────────────────────────
 // 3. Lifecycle
 // ─────────────────────────────────────────────────────────────────────────────
+
+TEST_F(AFCFixture, ZeroCapacityThrows) {
+    AdaptiveFlushControllerConfig cfg;
+    cfg.buffer_capacity = 0;
+    EXPECT_THROW(AdaptiveFlushController(tsstore.get(), cfg), std::invalid_argument);
+}
+
+TEST_F(AFCFixture, InvalidWatermarkRatioThrows) {
+    AdaptiveFlushControllerConfig cfg;
+    cfg.watermark_ratio = 0.0; // invalid: must be in (0, 1]
+    EXPECT_THROW(AdaptiveFlushController(tsstore.get(), cfg), std::invalid_argument);
+}
 
 TEST_F(AFCFixture, NotRunningBeforeStart) {
     AdaptiveFlushController afc(tsstore.get(), quietConfig());
