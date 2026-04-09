@@ -258,7 +258,10 @@ static std::pair<std::vector<uint8_t>, std::vector<uint8_t>>
 buildInt32Page(const ColumnSegment& seg) {
     const auto& raw = seg.rawData();
     size_t n = seg.metadata().row_count;
-    // rawData() stores values as packed native-endian bytes
+    // rawData() stores values as packed native-endian bytes.
+    // Parquet PLAIN encoding for INT32 requires little-endian.
+    // ThemisDB targets x86/x86-64 which is natively little-endian;
+    // on big-endian hosts byte-swapping would be required here.
     std::vector<uint8_t> values(raw.data(),
                                 raw.data() + n * sizeof(int32_t));
     std::vector<uint8_t> hdr;
@@ -309,14 +312,16 @@ buildDoublePage(const ColumnSegment& seg) {
 
 static std::pair<std::vector<uint8_t>, std::vector<uint8_t>>
 buildBoolPage(const ColumnSegment& seg) {
-    // BOOLEAN: 1 byte per value in rawData (0 = false, non-zero = true)
+    // BOOLEAN: 1 byte per value in rawData (0 = false, non-zero = true).
+    // ColumnSegment stores element_size=1 for BOOL, so raw.size() == n.
     // Parquet PLAIN boolean packs 8 booleans into 1 byte (LSB first).
     const auto& raw = seg.rawData();
     size_t n = seg.metadata().row_count;
+    // rawData() invariant: raw.size() == n * element_size (1 for BOOL).
     size_t packed_bytes = (n + 7) / 8;
     std::vector<uint8_t> values(packed_bytes, 0);
-    for (size_t i = 0; i < n && i < raw.size(); ++i) {
-        if (raw[i]) {
+    for (size_t i = 0; i < n; ++i) {
+        if (i < raw.size() && raw[i]) {
             values[i / 8] |= static_cast<uint8_t>(1u << (i % 8));
         }
     }

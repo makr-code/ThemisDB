@@ -44,6 +44,7 @@
 #  ifndef THEMIS_SIMD_FILTER_AVX2
 #    define THEMIS_SIMD_FILTER_AVX2 1
 #  endif
+#  include <intrin.h>  // _BitScanForward
 #endif
 
 namespace themis {
@@ -65,7 +66,10 @@ SIMDLevel detectSIMDLevel() noexcept {
 #elif defined(THEMIS_SIMD_FILTER_AVX2)
     SIMDLevel level = SIMDLevel::AVX2;
 #elif defined(THEMIS_SIMD_FILTER_NEON)
-    level = SIMDLevel::SSE4; // ARM NEON ≈ SSE4 capability for our purposes
+    // NEON provides SIMD capability. No NEON-specific filter kernels are
+    // implemented yet; the scalar fallback is used. Marking as SSE4 so future
+    // NEON kernels can be gated on SIMDLevel::SSE4.
+    SIMDLevel level = SIMDLevel::SSE4;
 #else
     SIMDLevel level = SIMDLevel::SCALAR;
 #endif
@@ -96,11 +100,25 @@ SIMDLevel detectSIMDLevel() noexcept {
 }
 
 // ============================================================================
-// Internal scalar kernels
+// Portable bit-scan helper (replaces __builtin_ctz for MSVC)
 // ============================================================================
 
 namespace {
 
+// Returns the index of the lowest set bit in x.  x must be non-zero.
+inline int themis_ctz(unsigned int x) noexcept {
+#if defined(_MSC_VER)
+    unsigned long idx = 0;
+    _BitScanForward(&idx, x);
+    return static_cast<int>(idx);
+#else
+    return __builtin_ctz(x);
+#endif
+}
+
+// ============================================================================
+// Internal scalar kernels
+// ============================================================================
 template<typename T>
 inline bool scalar_cmp(T a, FilterOp op, T b) noexcept {
     switch (op) {
@@ -173,7 +191,7 @@ size_t avx2_filter_i32(const int32_t* data, size_t n, FilterOp op, int32_t thr,
             reinterpret_cast<const __m256i*>(data + i));
         int bits = avx2_cmp_i32(va, vt, op);
         while (bits) {
-            int lane = __builtin_ctz(static_cast<unsigned>(bits));
+            int lane = themis_ctz(static_cast<unsigned>(bits));
             out.push_back(static_cast<uint32_t>(i + lane));
             bits &= bits - 1;
         }
@@ -224,7 +242,7 @@ size_t avx2_filter_i64(const int64_t* data, size_t n, FilterOp op, int64_t thr,
             reinterpret_cast<const __m256i*>(data + i));
         int bits = avx2_cmp_i64(va, vt, op);
         while (bits) {
-            int lane = __builtin_ctz(static_cast<unsigned>(bits));
+            int lane = themis_ctz(static_cast<unsigned>(bits));
             out.push_back(static_cast<uint32_t>(i + lane));
             bits &= bits - 1;
         }
@@ -258,7 +276,7 @@ size_t avx2_filter_f32(const float* data, size_t n, FilterOp op, float thr,
         }
         int bits = _mm256_movemask_ps(cmp);
         while (bits) {
-            int lane = __builtin_ctz(static_cast<unsigned>(bits));
+            int lane = themis_ctz(static_cast<unsigned>(bits));
             out.push_back(static_cast<uint32_t>(i + lane));
             bits &= bits - 1;
         }
@@ -292,7 +310,7 @@ size_t avx2_filter_f64(const double* data, size_t n, FilterOp op, double thr,
         }
         int bits = _mm256_movemask_pd(cmp);
         while (bits) {
-            int lane = __builtin_ctz(static_cast<unsigned>(bits));
+            int lane = themis_ctz(static_cast<unsigned>(bits));
             out.push_back(static_cast<uint32_t>(i + lane));
             bits &= bits - 1;
         }

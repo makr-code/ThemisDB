@@ -253,13 +253,12 @@ TEST_F(StorageParquetExporterFocusedTests, PE9_ColumnCountMismatch) {
 }
 
 // ============================================================================
-// PE-10: zero-row segment is tolerated (empty table)
+// PE-10: single-row segment is handled correctly
 // ============================================================================
 
-TEST_F(StorageParquetExporterFocusedTests, PE10_ZeroRowSegment) {
-    std::vector<int32_t> vals = {};
-    // Cannot create a zero-row segment via ColumnSegment::create (needs data)
-    // We use a single row instead and verify it works
+TEST_F(StorageParquetExporterFocusedTests, PE10_SingleRowSegment) {
+    // Cannot create a zero-row segment via ColumnSegment::create (requires data).
+    // Verify that a single-row segment produces a valid Parquet file.
     std::vector<int32_t> one = {42};
     auto seg = makeInt32Seg(one);
 
@@ -269,6 +268,8 @@ TEST_F(StorageParquetExporterFocusedTests, PE10_ZeroRowSegment) {
     auto result = exporter.exportToBuffer({{seg}}, cfg);
     ASSERT_TRUE(result.has_value());
     EXPECT_TRUE(startWithPAR1(*result));
+    const auto& s = exporter.lastStats();
+    EXPECT_EQ(1u, s.rows_written);
 }
 
 // ============================================================================
