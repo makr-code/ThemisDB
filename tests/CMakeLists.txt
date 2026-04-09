@@ -1480,6 +1480,33 @@ set_tests_properties(RuntimeLicenseGateTests PROPERTIES
     TIMEOUT 60
 )
 
+# GateResult / LicenseDenialReason / LicenseInfo focused tests (v1.7.1)
+# Covers: GateResult defaults, GateResult::message() for all LicenseDenialReason values,
+#         GateResult operator bool(), RuntimeLicenseGate::checkFeature() for all denial
+#         paths (community features, unknown features, TIER_TOO_LOW, LICENSE_EXPIRED,
+#         SIGNATURE_MISMATCH), LicenseInfo::remaining_grace_days() boundary cases
+#         (not-yet-expired, today, 1 day ago, beyond grace, empty date, custom period)
+#         (from test_gate_result.cpp, include/themis/ROADMAP.md v1.7.1)
+add_test(NAME GateResultFocusedTests
+    COMMAND themis_tests --gtest_filter=GateResult.*:GateResultCheckFeature*:LicenseInfo.*)
+set_tests_properties(GateResultFocusedTests PROPERTIES
+    LABELS "license;gate;result;denial-reason;themis;unit"
+    TIMEOUT 60
+)
+
+# LicenseClient focused tests (subset of AllTests)
+# Covers: LicenseActivationResult defaults, LicenseClientConfig defaults,
+#         getMachineFingerprint() format/stability/hex/length,
+#         offline activation with/without embedded license, offline-not-allowed,
+#         validate() caching, refresh(), getCachedLicense() before/after activation
+#         (from test_license_client.cpp)
+add_test(NAME LicenseClientFocusedTests
+    COMMAND themis_tests --gtest_filter=LicenseActivationResult.*:LicenseClientConfig.*:LicenseClient.*)
+set_tests_properties(LicenseClientFocusedTests PROPERTIES
+    LABELS "license;client;activation;fingerprint;themis;unit"
+    TIMEOUT 60
+)
+
 # Module hash verifier tests (subset of AllTests)
 # Covers: SHA-256 computation (empty/known/large files, non-existent),
 #         verifyHash helper (match/mismatch/missing), manifest round-trip,

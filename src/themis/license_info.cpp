@@ -773,5 +773,58 @@ std::string LicenseClient::getMachineFingerprint() {
     return Impl::getMachineFingerprint();
 }
 
+// ============================================================================
+// LicenseInfo (v1.7.1)
+// ============================================================================
+
+LicenseInfo::LicenseInfo(const LicenseData& data, int grace_period_days)
+    : data_(data), grace_period_days_(grace_period_days) {}
+
+int LicenseInfo::remaining_grace_days() const {
+    if (data_.expiry_date.empty()) {
+        return 0;
+    }
+
+    // Parse ISO-8601 "YYYY-MM-DD"
+    int year = 0, month = 0, day = 0;
+    if (std::sscanf(data_.expiry_date.c_str(), "%d-%d-%d", &year, &month, &day) != 3) {
+        return 0;
+    }
+
+    // Build expiry time_t (midnight UTC on the given date)
+    struct tm expiry_tm{};
+    expiry_tm.tm_year  = year - 1900;
+    expiry_tm.tm_mon   = month - 1;
+    expiry_tm.tm_mday  = day;
+    expiry_tm.tm_hour  = 0;
+    expiry_tm.tm_min   = 0;
+    expiry_tm.tm_sec   = 0;
+    expiry_tm.tm_isdst = 0;
+
+#ifdef _WIN32
+    time_t expiry_time = _mkgmtime(&expiry_tm);
+#else
+    time_t expiry_time = timegm(&expiry_tm);
+#endif
+    if (expiry_time == static_cast<time_t>(-1)) {
+        return 0;
+    }
+
+    auto now        = std::chrono::system_clock::now();
+    auto expiry_tp  = std::chrono::system_clock::from_time_t(expiry_time);
+
+    if (now <= expiry_tp) {
+        // License has not yet expired — the full grace window is available.
+        return grace_period_days_;
+    }
+
+    auto elapsed_since_expiry = now - expiry_tp;
+    auto days_since_expiry    = static_cast<int>(
+        std::chrono::duration_cast<std::chrono::hours>(elapsed_since_expiry).count() / 24);
+
+    int remaining = grace_period_days_ - days_since_expiry;
+    return remaining > 0 ? remaining : 0;
+}
+
 } // namespace license
 } // namespace themis
