@@ -15184,6 +15184,78 @@ else()
     message(STATUS "RootCauseAnalyzer focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_root_cause_analyzer.cpp")
 endif()
 
+# TenantMetricsNamespace focused tests (v1.8.0)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_tenant_metrics_namespace.cpp")
+    message(STATUS "Adding Observability: TenantMetricsNamespace focused tests (v1.8.0)")
+
+    add_executable(test_tenant_metrics_namespace_focused
+        test_tenant_metrics_namespace.cpp
+        ${THEMIS_ROOT_DIR}/src/observability/tenant_metrics_namespace.cpp
+    )
+
+    target_include_directories(test_tenant_metrics_namespace_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_tenant_metrics_namespace_focused PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_tenant_metrics_namespace_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TenantMetricsNamespaceFocusedTests COMMAND test_tenant_metrics_namespace_focused)
+
+    set_tests_properties(TenantMetricsNamespaceFocusedTests PROPERTIES
+        LABELS "observability;metrics;tenant;cardinality;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  TenantMetricsNamespace: registerTenant, deregisterTenant, increment, setGauge, observeHistogram, cardinality, export, stats, thread-safety")
+else()
+    message(STATUS "TenantMetricsNamespace focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_tenant_metrics_namespace.cpp")
+endif()
+
+# LogSearchEngine focused tests (v1.8.0)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_log_search_engine.cpp")
+    message(STATUS "Adding Observability: LogSearchEngine focused tests (v1.8.0)")
+
+    add_executable(test_log_search_engine_focused
+        test_log_search_engine.cpp
+        ${THEMIS_ROOT_DIR}/src/observability/log_search_engine.cpp
+        ${THEMIS_ROOT_DIR}/src/observability/log_aggregator.cpp
+    )
+
+    target_include_directories(test_log_search_engine_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_log_search_engine_focused PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_log_search_engine_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME LogSearchEngineFocusedTests COMMAND test_log_search_engine_focused)
+
+    set_tests_properties(LogSearchEngineFocusedTests PROPERTIES
+        LABELS "observability;log-search;structured-logging;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  LogSearchEngine: level filter, time range, message contains, field filters (EQUALS/NOT_EQUALS/CONTAINS/STARTS_WITH), pagination, sort, count, distinctFieldValues")
+else()
+    message(STATUS "LogSearchEngine focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_log_search_engine.cpp")
+endif()
+
 # ============================================================================
 # Training Module Focused Tests
 # Standalone targets that link only the training sources they exercise,

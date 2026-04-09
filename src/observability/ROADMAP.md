@@ -57,7 +57,10 @@ v1.x – Enterprise-grade observability stack. Prometheus metrics, query profili
   - Implementation: `INotificationChannel` (abstract), `LogNotificationChannel`, `WebhookNotificationChannel`, `SlackNotificationChannel`, `AlertingEngine` (extends `Alertmanager`, owns `AlertRuleManager`, pluggable channel dispatch)
   - Default rules: CPU (>80%), memory (>90%), query P99 latency (>1000ms), error rate (>5%), disk free (<10%), queue depth (>100), cache miss (>50%), write amplification (>20×)
   - Tests: `tests/test_alerting_engine.cpp`
-- [?] Per-tenant metric namespacing
+- [x] Per-tenant metric namespacing (v1.8.0)
+  - Files: `observability/tenant_metrics_namespace.h`, `observability/tenant_metrics_namespace.cpp`
+  - Implementation: `TenantMetricsNamespace` — per-tenant counters/gauges/histograms with independent cardinality budgets; `strict_tenant_registration` mode; Prometheus export prefixes `themis_<tenant_id>_` and auto-injects `tenant_id` label; thread-safe via `shared_mutex`
+  - Tests: `tests/test_tenant_metrics_namespace.cpp` (TenantMetricsNamespaceFocusedTests)
 - [x] Prometheus advanced features — rate calculation, histogram aggregation, cardinality management
   - Files: `observability/metric_aggregator.h`, `observability/metric_aggregator.cpp`
   - Implementation: `MetricAggregator` (rate calculation, histogram aggregation SUM/AVG/MAX/MIN/P50/P95/P99, rule-based aggregation with drop_labels/group_by_labels, per-metric cardinality limits)
@@ -70,7 +73,10 @@ v1.x – Enterprise-grade observability stack. Prometheus metrics, query profili
   - Files: `observability/metrics_stream_server.h`, `observability/metrics_stream_server.cpp`
   - Implementation: `MetricsStreamServer` with `StreamSubscription` (client_id, metric_names, MetricFilter[], update_interval), `MetricUpdate` (name, value, labels, timestamp), `SendFn` callback-based delivery decoupled from transport; `pushMetrics()` fans out to matching subscribers with AND-semantics label filtering, per-subscription rate limiting, and `formatWebSocketMessage()` / `formatSseMessage()` serialisers
   - Tests: `tests/test_metrics_stream_server.cpp` (MetricsStreamServerFocusedTests) — 30+ tests covering lifecycle, subscription management, name/label filtering, throttling, serialisation, and concurrent push
-- [?] Structured log search API (query logs like data)
+- [x] Structured log search API — query logs like data (v1.8.0)
+  - Files: `observability/log_search_engine.h`, `observability/log_search_engine.cpp`
+  - Implementation: `LogSearchEngine` (stateless) — `LogSearchQuery` with level/time-range/message-contains/field-filter predicates (AND semantics), `FieldMatchOp` (EQUALS/NOT_EQUALS/CONTAINS/STARTS_WITH), pagination (limit/offset), sort order; `count()`, `distinctFieldValues()`
+  - Tests: `tests/test_log_search_engine.cpp` (LogSearchEngineFocusedTests)
 - [?] Real-time query cost estimator dashboard
 
 ### Long-term (6-12 months)
