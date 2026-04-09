@@ -155,6 +155,25 @@ v1.8.0 – Production-grade persistent storage layer built on RocksDB with MVCC,
   - Full put/get/remove/scan/compact API with thread safety
   - Write-amplification and read-hit-ratio metrics in Stats
 
+### Phase 6b: PERF-D6 – Concurrent Write Controller (Status: Completed ✅ — v2.0.0)
+- [x] `ConcurrentWriteController` – bounded FIFO write-concurrency semaphore (Target: v2.0.0) (Issue: PERF-D6)
+  — implemented in `include/storage/concurrent_write_controller.h`, `src/storage/concurrent_write_controller.cpp`
+- [x] `ConcurrentWriteControllerConfig` – `max_concurrent_writes` (0 = hw_concurrency/2), `max_queue_depth` (0 = unlimited), `acquire_timeout` (0 = blocking)
+- [x] `WriteGuard` – RAII slot holder; move-only; destructor wakes the next FIFO waiter
+- [x] `acquire()` – blocking acquire; FIFO wakeup via `std::promise`/`std::future` chain; raises `std::runtime_error` on queue-full, timeout, or shutdown
+- [x] `tryAcquire()` – non-blocking; returns `std::nullopt` if at capacity
+- [x] `shutdown()` – unblocks all waiters atomically (no deadlock on destruction)
+- [x] EWMA statistics: `avg_wait_us` updated on every acquire (α ≈ 0.1, integer-scaled)
+- [x] P99 latency: sliding window of last 128 wait times; sorted on read via `getStats()`
+- [x] Lifetime max and total acquired / rejected counters (lock-free atomics)
+- [x] Throughput: ≥ 50k acquires/s (measured: ~616k ops/s, 8 threads) ✅
+- [x] CV regression guard: 10-thread stress test (AC-D6-21) verifies CV < 20 % — eliminates the thundering-herd variance that caused D-6
+- [x] Tests: 25 tests in `tests/test_concurrent_write_controller.cpp` (`ConcurrentWriteControllerFocusedTests`)
+  - AC-D6-1–20: unit tests (config, guard lifecycle, FIFO, stats, timeout, shutdown)
+  - AC-D6-21: 10-thread stress CV < 20 % regression guard
+  - AC-D6-22–24: move semantics, idempotent release, unlimited queue
+  - AC-D6-25: throughput SLO (gated by `THEMIS_RUN_PERF_TESTS=1`)
+
 ### Phase 5.5: Build System Audit & Stub Fixes (Status: Completed ✅ — March 2026)
 - [x] All `src/storage/*.cpp` files verified registered in cmake build system (main `CMakeLists.txt` + `StorageEnhancements.cmake` + `BlobStorage.cmake`)
 - [x] 21+ focused standalone test targets added in `tests/CMakeLists.txt`: StorageEngineDI, StorageEngineProd, StorageAuditLogger, StorageFuzz, StorageLatencyBench, BlobStorage, BlobTransferCheckpoint, CompressionStrategy, TieredStorage, WalStorage, WalManager, WalArchiving, WalBackupManager, WalChaos, WalManifestCorruption, WalReplication, WalReplicationIntegration, WalGrpcApply, MvccStore, MvccHistory, MvccWalIntegration, NVMeFocusedTests, ErasureCodingFocusedTests, RocksDBSizeCalculationFocusedTests, BlobRedundancyEventListenerFocusedTests
