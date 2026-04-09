@@ -16719,6 +16719,12 @@ if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_discours
 
     add_executable(test_discourse_engine_focused
         test_discourse_engine.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/discourse_engine.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/rag_context_engine.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/argument_store.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/philosophy_loader.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/ethics_evaluator.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/ethics_ai_types.cpp
     )
 
     target_include_directories(test_discourse_engine_focused PRIVATE
@@ -16729,7 +16735,6 @@ if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_discours
 
     target_link_libraries(test_discourse_engine_focused PRIVATE
         ${TEST_LIBS}
-        ethics_ai_plugin
         themis_core
         Threads::Threads
     )
@@ -16767,6 +16772,8 @@ if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_philosop
 
     add_executable(test_philosophy_loader_focused
         test_philosophy_loader.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/philosophy_loader.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/ethics_ai_types.cpp
     )
 
     target_include_directories(test_philosophy_loader_focused PRIVATE
@@ -16777,7 +16784,7 @@ if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_philosop
 
     target_link_libraries(test_philosophy_loader_focused PRIVATE
         ${TEST_LIBS}
-        ethics_ai_plugin
+        themis_core
         Threads::Threads
     )
 
@@ -16803,6 +16810,69 @@ elseif(NOT THEMIS_PLUGIN_ETHICS_AI)
     message(STATUS "Philosophy Loader tests skipped (THEMIS_PLUGIN_ETHICS_AI disabled)")
 else()
     message(STATUS "Philosophy Loader tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_philosophy_loader.cpp")
+endif()
+
+# ============================================================================
+# Ethics AI Integration Tests — full pipeline end-to-end (standalone mode)
+# ============================================================================
+# Tests three integration scenarios:
+#   1. FullPipelineIntegrationTest: initializeDebate → makeDecision → evaluateDecision
+#   2. ArgumentStoreRAGIntegrationTest: 21 seeded args across 3 schools + chain round-trip
+#   3. RAGContextBuildTest: buildContext / findSimilarDilemmas / getBestPractices / vector search
+# ============================================================================
+
+if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ethics_ai_integration.cpp")
+    message(STATUS "Adding Ethics AI Integration tests")
+
+    add_executable(test_ethics_ai_integration
+        test_ethics_ai_integration.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/argument_store.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/ethics_ai_types.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/ethics_evaluator.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/discourse_engine.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/philosophy_loader.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/rag_context_engine.cpp
+    )
+
+    target_include_directories(test_ethics_ai_integration PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai
+    )
+
+    target_link_libraries(test_ethics_ai_integration PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    find_package(yaml-cpp CONFIG QUIET)
+    if(yaml-cpp_FOUND)
+        target_link_libraries(test_ethics_ai_integration PRIVATE yaml-cpp)
+        target_compile_definitions(test_ethics_ai_integration PRIVATE HAVE_YAML_CPP)
+    endif()
+
+    target_compile_definitions(test_ethics_ai_integration PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    set_target_properties(test_ethics_ai_integration PROPERTIES
+        CXX_STANDARD 20
+        CXX_STANDARD_REQUIRED ON
+    )
+
+    add_test(NAME EthicsAIIntegrationTests COMMAND test_ethics_ai_integration)
+
+    set_tests_properties(EthicsAIIntegrationTests PROPERTIES
+        LABELS "ethics;integration;full-pipeline;rag;argument-store"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  EthicsAI Integration: full pipeline, ArgumentStore+RAG, RAGContextBuild")
+elseif(NOT THEMIS_PLUGIN_ETHICS_AI)
+    message(STATUS "Ethics AI Integration tests skipped (THEMIS_PLUGIN_ETHICS_AI disabled)")
+else()
+    message(STATUS "Ethics AI Integration tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_ethics_ai_integration.cpp")
 endif()
 
 # ============================================================================
@@ -20310,6 +20380,12 @@ if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_argument
 
     add_executable(test_argument_store_standalone
         test_argument_store_standalone.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/argument_store.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/ethics_ai_types.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/ethics_evaluator.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/discourse_engine.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/philosophy_loader.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/rag_context_engine.cpp
     )
 
     target_include_directories(test_argument_store_standalone PRIVATE
@@ -20320,7 +20396,6 @@ if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_argument
 
     target_link_libraries(test_argument_store_standalone PRIVATE
         ${TEST_LIBS}
-        ethics_ai_plugin
         themis_core
         Threads::Threads
     )
@@ -20350,6 +20425,12 @@ if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_rag_cont
 
     add_executable(test_rag_context_engine_focused
         test_rag_context_engine.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/argument_store.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/rag_context_engine.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/ethics_ai_types.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/ethics_evaluator.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/discourse_engine.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/philosophy_loader.cpp
     )
 
     target_include_directories(test_rag_context_engine_focused PRIVATE
@@ -20360,7 +20441,6 @@ if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_rag_cont
 
     target_link_libraries(test_rag_context_engine_focused PRIVATE
         ${TEST_LIBS}
-        ethics_ai_plugin
         themis_core
         Threads::Threads
     )
@@ -20414,6 +20494,12 @@ if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ethics_a
 
     target_compile_definitions(test_ethics_ai_plugin_focused PRIVATE
         THEMIS_TEST_BUILD=1
+    )
+
+    add_custom_command(TARGET test_ethics_ai_plugin_focused POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            $<TARGET_FILE:ethics_ai_plugin>
+            $<TARGET_FILE_DIR:test_ethics_ai_plugin_focused>
     )
 
     add_test(NAME EthicsAIPluginTests COMMAND test_ethics_ai_plugin_focused)

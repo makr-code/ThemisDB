@@ -210,7 +210,7 @@ Accessible afterwards via `ModuleSandbox::wasmSandbox()`.
 
 - Hot-reload (`hot_reload_manager.cpp`) is production-ready; the `HotReloadManager` provides atomic module swapping with rollback on failure.
 - WASM runtime injection into `ModuleSandbox` is implemented (v1.8.0, Issue #1572): set `Config::enable_wasm_isolation = true` and register at least one `IWasmRuntime` backend via `WasmRuntimeInjector`. The `WasmRuntimeAdapter` bridges the injector's `IWasmRuntime` to the `WasmRuntime` contract expected by `WasmPluginSandbox`.  A concrete Wasmtime or WasmEdge backend still needs to be registered for production execution.
-- Plugin dependency management and version conflict resolution are planned (Issue: #1566).
+- Plugin dependency management and version conflict resolution are implemented in the base loader path; additional higher-level capability negotiation continues in the plugins module.
 
 ---
 

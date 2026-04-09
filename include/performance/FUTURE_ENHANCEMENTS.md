@@ -26,7 +26,7 @@
 | Interface | Consumer | Notes |
 |-----------|----------|-------|
 | `CycleTimer` | `include/performance/cycle_metrics.h` | RDTSC-based, `noexcept`, header-only |
-| `PerfCounters` | `include/performance/perf_counters.h` | Requires `THEMIS_ENABLE_PMU`; wraps `perf_event_open` |
+| `PerfCounters` | planned PMU header | Requires `THEMIS_ENABLE_PMU`; wraps `perf_event_open` |
 | `LockFreeHistogram<T>` | Query profiling, cache stats | `record()` ≤ 20 ns; lock-free via atomics |
 | `AutoTuneHook` | `AdaptiveCache`, `LockFreeQueue` | Callback invoked on policy evaluation |
 | `GPUMetrics` | `gpu_allocator.h`, query GPU path | Conditionally compiled; wraps CUDA or HIP counters |

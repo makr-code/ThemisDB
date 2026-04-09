@@ -7,9 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.8.1-rc2] - 2026-04-08
+
 ### Fixed — Hotfix: Docker image SIGSEGV on startup (`Exit 139`)
 
 > **Priority: P0** – Release-blocker for container users.
+> Released in: `themisdb/themisdb:1.8.1-rc2`
 > Affected tags: `themisdb/themisdb:latest`, `themisdb/themisdb:1.8.1-rc1`
 
 - **`LlamaWrapper::Config::enable_response_cache` changed default `true` → `false`**

@@ -149,10 +149,10 @@ std::variant<std::vector<std::string>, Status> RAGContextEngine::getBestPractice
                 if (results.size() >= limit) break;
                 double strength_score = 0.5;
                 switch (arg.strength) {
-                    case ArgumentStrength::COMPELLING: strength_score = 1.0;  break;
-                    case ArgumentStrength::HIGH:       strength_score = 0.85; break;
-                    case ArgumentStrength::MODERATE:   strength_score = 0.65; break;
-                    case ArgumentStrength::WEAK:       strength_score = 0.35; break;
+                    case ArgumentStrength::DECISIVE: strength_score = 1.0;  break;
+                    case ArgumentStrength::STRONG:   strength_score = 0.85; break;
+                    case ArgumentStrength::MODERATE: strength_score = 0.65; break;
+                    case ArgumentStrength::WEAK:     strength_score = 0.35; break;
                     default: break;
                 }
                 if (strength_score >= min_satisfaction) {

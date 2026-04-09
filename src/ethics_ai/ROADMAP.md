@@ -32,7 +32,12 @@ v0.1.0.
 
 ## In Progress [~]
 
-- [~] Unit tests for discourse engine, evaluator, RAG patterns (partial coverage)
+- [x] Focused unit test suites implemented and passing:
+  `test_argument_store_standalone` (18), `test_rag_context_engine_focused` (13),
+  `test_ethics_ai_plugin_focused` (28), `test_discourse_engine_focused` (11),
+  `test_philosophy_loader_focused` (7 passed, 1 skipped env-dependent)
+- [x] Integration test suite implemented and passing:
+  `test_ethics_ai_integration` (21) — FullPipeline, ArgumentStoreRAG, RAGContextBuild
 
 ---
 
@@ -88,10 +93,36 @@ v0.1.0.
 - [x] Standalone mode activation when `RocksDBWrapper` is null
 
 ### Phase 4: Tests [~]
-- [~] Unit tests for `PhilosophyLoader` (directory, file, invalid YAML)
-- [~] Unit tests for `ArgumentStore` standalone mode
-- [~] Unit tests for `EthicalDiscourseEngine` decision flow
-- [ ] Integration tests combining full pipeline + RAG + evaluate (Target: Q3 2026)
+- [x] Unit tests for `PhilosophyLoader` (directory, file, invalid YAML)
+- [x] Unit tests for `ArgumentStore` standalone mode
+- [x] Unit tests for `EthicalDiscourseEngine` decision flow
+- [x] Unit tests for `RAGContextEngine` focused query patterns
+- [x] Unit tests for `EthicsAIPlugin` lifecycle and metrics API
+- [x] Integration test: full decision pipeline end-to-end (Target: Q3 2026)
+  - Scope: `EthicsAIPlugin::initialize()` → `initializeDebate()` → `makeDecision()` → `EthicsEvaluator::evaluate()`
+  - Subsystems: `ethics_ai_plugin.cpp`, `discourse_engine.cpp`, `argument_store.cpp`, `ethics_evaluator.cpp`
+  - Inputs: 2 YAML philosophy profiles on disk, a `MoralDilemma` struct with 3 options
+  - Outputs: `EthicalDecision` with `chosen_option`, `confidence ∈ [0,1]`, `consensus_level ∈ [0,1]`, non-empty `supporting_arguments`
+  - Constraints: pipeline completes in ≤ 500 ms; no external LLM call required
+  - Errors: missing YAML → plugin returns `Status::Error`; empty dilemma options → `Status::Error`
+  - Tests: `tests/test_ethics_ai_integration.cpp` — GTest, direct-source compilation pattern
+  - File: `tests/test_ethics_ai_integration.cpp` (new), added to `tests/CMakeLists.txt`
+- [ ] Integration test: ArgumentStore with real RocksDB (Target: Q3 2026)
+  - Scope: `ArgumentStore` in RocksDB mode – store, load, scanPrefix, storeChain, getChain
+  - Subsystems: `argument_store.cpp`, `storage/rocksdb_wrapper.h`, `ethics_base_entity_adapter.h`
+  - Inputs: 10+ `EthicalArgument` entities written to a temp RocksDB directory (`std::filesystem::temp_directory_path()`)
+  - Outputs: round-trip identity (serialize → store → load → deserialize equals original); chain map reconstructed correctly
+  - Constraints: temp directory cleaned up via `RAII`; test repeatable without leftover state
+  - Errors: RocksDB open failure → `Status::Error`; corrupt blob → `Status::Error` (not crash)
+  - Tests: fixture using `SetUpTestSuite`/`TearDownTestSuite` for temp dir management; assert no data loss across shutdown/reopen cycle
+- [x] Integration test: RAGContextEngine with live ArgumentStore data (Target: Q3 2026)
+  - Scope: `RAGContextEngine` query methods reading from a pre-populated `ArgumentStore`
+  - Subsystems: `rag_context_engine.cpp`, `argument_store.cpp`, AQL constants in `ethics_aql_queries.h`
+  - Inputs: 20 seeded `EthicalArgument` records spanning 3 philosophy schools and 2 argument types
+  - Outputs: `getArgumentsByPhilosophy()` returns correct subset; `traverseArgumentChain()` BFS produces correct ordering; `getSupportingArguments()` returns only `SUPPORT` relation type
+  - Constraints: in-memory mode (no RocksDB required for this test); all assertions deterministic
+  - Errors: unknown school → empty result (not crash); cycle in chain graph → terminates within `max_depth` hops
+  - Tests: single `TEST_F` fixture that seeds store in `SetUp`; 8+ test cases covering each query-pattern method
 
 ### Phase 5: Performance / Hardening [ ]
 - [ ] Embedding generation integration (Target: Q3 2026)
@@ -116,7 +147,7 @@ v0.1.0.
 | Argument content | ⚠️ | Template strings only; LLM generation planned Q3 2026 |
 | Confidence scoring | ⚠️ | Static placeholder values; real scoring planned Q3 2026 |
 | Embedding search | ⚠️ | Stubs only; real model integration planned Q3 2026 |
-| Unit test coverage | ⚠️ | Partial; integration tests missing |
+| Unit test coverage | ✅ | 5 focused unit suites + 1 integration suite; 99 tests total, 1 env-skipped |
 | Performance benchmarks | ❌ | Not yet measured |
 | Prometheus metrics | ❌ | Planned Q4 2026 |
 

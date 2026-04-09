@@ -176,16 +176,17 @@ std::variant<std::vector<EthicalArgument>, Status> ArgumentStore::getArgumentsBy
     std::string prefix = "entity:ethics_arguments:";
     
     // Scan RocksDB with prefix
-    storage_->scan(prefix, [&](const std::string& key, const std::vector<uint8_t>& value) {
+    storage_->scanPrefix(prefix, [&](std::string_view key, std::string_view value) -> bool {
         if (results.size() >= limit) {
             return false; // Stop iteration
         }
         
         // Extract PK from key
-        std::string pk = key.substr(prefix.length());
+        std::string pk = std::string(key).substr(prefix.length());
         
         // Deserialize BaseEntity
-        BaseEntity entity = BaseEntity::deserialize(pk, value);
+        std::vector<uint8_t> blob(value.begin(), value.end());
+        BaseEntity entity = BaseEntity::deserialize(pk, blob);
         
         // Check philosophy school filter
         auto school = entity.getFieldAsString("philosophy_school");
@@ -351,8 +352,39 @@ void ArgumentStore::shutdown() {
     arguments_.clear();
     decisions_.clear();
     profiles_.clear();
+    chains_.clear();
     
     initialized_ = false;
+}
+
+Status ArgumentStore::storeChain(const ArgumentChain& chain) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    if (!initialized_) {
+        return Status::Error("ArgumentStore not initialized");
+    }
+    
+    if (chain.id.empty()) {
+        return Status::Error("Chain ID cannot be empty");
+    }
+    
+    chains_[chain.id] = chain;
+    return Status::OK();
+}
+
+std::variant<ArgumentChain, Status> ArgumentStore::getChain(const std::string& chain_id) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    if (!initialized_) {
+        return Status::Error("ArgumentStore not initialized");
+    }
+    
+    auto it = chains_.find(chain_id);
+    if (it == chains_.end()) {
+        return Status::Error("Chain not found: " + chain_id);
+    }
+    
+    return it->second;
 }
 
 } // namespace ethics

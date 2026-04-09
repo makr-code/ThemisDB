@@ -23,7 +23,7 @@ The Document module exposes public headers for encrypted entity storage and the 
 | Header | Classes / Structs | Purpose |
 |--------|-------------------|---------|
 | `encrypted_entities.h` | `SecureDocument` | Encrypted document wrapper with AES-256-GCM field-level encryption |
-| `document_manager_deprecated.h` | `User`, `Customer` | Deprecated document manager; use `src/document/document_manager.h` instead |
+| `document_manager_deprecated.h` | `User`, `Customer` | Deprecated compatibility layer; use `include/projects/DocumentManager/document_manager.h` instead |
 
 ## References
 

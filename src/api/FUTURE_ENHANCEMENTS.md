@@ -26,7 +26,7 @@ This document covers implementation-specific future enhancements for the API mod
 | `auth::JWTValidator` | All HTTP/WS/gRPC handlers | Must propagate tenant ID into request context |
 | `cdc::Changefeed` | Planned WebSocket change-stream endpoint | Requires `Changefeed::subscribe()` returning an async event iterator |
 | `aql::LLMAQLHandler` | AQL execution endpoint | Streaming result set needed for `/v2/query/stream` |
-| `IGRPCBridge` (`include/api/grpc_bridge.h`) | gRPC bridge consumers | Pure-virtual interface with no registered concrete implementation yet; callers must inject one via factory |
+| `IGRPCBridge` (`include/api/grpc_bridge.h`) | gRPC bridge consumers | Interface remains extension point; runtime wiring is factory-driven via `ThemisDBGrpcServiceFactory` |
 
 ## Planned Features
 
@@ -112,25 +112,22 @@ Current REST routes use unversioned paths (e.g., `/documents/{id}`). Introduce a
 **Priority:** High
 **Target Version:** v2.0.0
 
-`themisdb_grpc_service.cpp` reports "Open Issues: Stubs: 4" in its header. All five non-CRUD RPC methods return `grpc::StatusCode::UNIMPLEMENTED`. The gRPC surface cannot be used for its primary value (AQL execution, vector search) until these stubs are replaced with real engine delegation via `ThemisDBGrpcServiceFactory`.
+`themisdb_grpc_service.cpp` is now factory-wired for core operations and query execution. Remaining enhancement scope is focused on advanced search parity and hardening of batch semantics.
 
 **Implementation Notes:**
 - `[x]` Create `src/api/grpc_server.cpp`; gRPC C++ server using `grpc::ServerBuilder` (synchronous dispatch model, consistent with the rest of the codebase).
 - `[x]` Reuse existing service-layer infrastructure via `GrpcApiServer::registerService()`; no business logic duplication — service implementations are registered externally.
 - `[x]` TLS: `grpc::SslServerCredentials` using the same PEM cert/key pair as the Beast HTTP listener; fail-closed on cert load failure.
 - `[x]` Expose gRPC reflection service in debug builds only to prevent schema leakage in production.
-- `[ ]` **`ExecuteAQL` stub** (`themisdb_grpc_service.cpp:~line 302`): returns `UNIMPLEMENTED` with message "AQL execution requires an AQLEngine; wire one in via ThemisDBGrpcServiceFactory". Implement `ThemisDBGrpcServiceFactory` that accepts an `AQLEngine*` and injects it into `ServiceImpl` so `ExecuteAQL` can delegate to `engine_->execute(req->query(), ...)`.
-- `[ ]` **`StreamAQL` stub** (`themisdb_grpc_service.cpp:~line 337`): the comment block already shows the exact streaming loop implementation needed (inject `AQLEngine`, call `executeStreaming`, write rows via `writer->Write(row)`). The code exists as a comment — uncomment and wire after `ThemisDBGrpcServiceFactory` provides the engine. Implement server-side streaming RPC `StreamAQL(AQLQueryRequest) returns (stream AQLRow)`.
-- `[ ]` **`VectorSearch` stub** (`themisdb_grpc_service.cpp:~line 354`): returns `UNIMPLEMENTED`. Add a `VectorIndex*` injection point to `ServiceImpl` (parallel to the `AQLEngine*` injection) and delegate to `vector_index_->search(req->collection(), req->vector(), req->k())`.
-- `[ ]` **`FilteredVectorSearch` stub** (`themisdb_grpc_service.cpp:~line 367`): returns `UNIMPLEMENTED`, message "filtered vector search not yet wired". Wire alongside `VectorSearch` in the same injection pass.
-- `[ ]` **`HybridSearch` stub** (`themisdb_grpc_service.cpp:~line 380`): returns `UNIMPLEMENTED`. Implement after `VectorSearch` and full-text index injection are complete.
-- `[ ]` **`FullTextSearch` stub** (`themisdb_grpc_service.cpp:~line 393`): returns `UNIMPLEMENTED`, message "full-text search not yet wired". Add `FullTextIndex*` injection point alongside `VectorIndex*`.
+- `[x]` **`ExecuteAQL` factory wiring**: `ThemisDBGrpcServiceFactory` now injects `AQLEngine*` and delegates execution through service implementations.
+- `[x]` **`StreamAQL` server-streaming path**: streaming AQL execution is wired when the query engine is present; service keeps `UNIMPLEMENTED` fail-fast semantics when the dependency is absent.
+- `[ ]` **Advanced search RPC parity**: `VectorSearch`, `FilteredVectorSearch`, `HybridSearch`, and `FullTextSearch` still require complete backend feature wiring across all deployment profiles; current behavior is dependency/feature-gated and may return `UNIMPLEMENTED` where optional engines are missing.
 - `[ ]` **Hard-coded document version** in `CreateDocument` and `UpdateDocument` (`themisdb_grpc_service.cpp`): both handlers unconditionally set `resp->set_version(1)`, regardless of whether the document already existed. Add a real version counter sourced from the storage layer (e.g., a RocksDB sequence number or a dedicated version key) so optimistic-concurrency clients can detect conflicting updates.
 - `[ ]` **`BatchWrite` silent partial failures** (`themisdb_grpc_service.cpp`): the loop over `req->upserts()` increments `upserted` only when `db_->put(key, body)` returns true, but the final response always sets `resp->set_success(true)`. If some puts fail (e.g., storage full), the caller receives a success response with a `upserted_count` less than the number of requested writes, with no error code. Change to: if `upserted_count != req->upserts_size()`, set `success = false` and include error details.
 - `[ ]` **`BatchWrite`/`BatchRead` lack input bounds checks**: no validation of the number of documents in `req->upserts()` or keys in `req->keys()`. A single request can contain arbitrarily many items, leading to unbounded memory allocation. Add a hard upper limit (e.g., 10,000 items) with a `RESOURCE_EXHAUSTED` gRPC status code on violation.
-- `[ ]` **`GrpcApiServer::start()` holds `mutex_` across `BuildAndStart()`** (`grpc_server.cpp:start()`): `builder.BuildAndStart()` performs a blocking socket bind and TLS handshake inside a `std::lock_guard<std::mutex> lock(mutex_)`. If the port is unavailable or TLS cert loading is slow, `isRunning()` and `stop()` are both blocked for the entire duration. Extract the `ServerBuilder` setup before acquiring the lock; acquire the lock only to store `server_` and set `running_ = true`.
-- `[ ]` **`GrpcApiServer::stop()` holds `mutex_` during `server_->Shutdown()`** (`grpc_server.cpp:stop()`): `Shutdown()` without a deadline can block indefinitely waiting for in-flight RPCs. Use `server_->Shutdown(std::chrono::system_clock::now() + std::chrono::seconds(30))` and release the mutex before calling `Shutdown()` to avoid deadlocking callers of `isRunning()` during shutdown.
-- `[ ]` **`GrpcServerConfig::max_message_size_bytes` hard-coded** (`grpc_server.h`): default value of `100 * 1024 * 1024` (100 MB) is set in the struct definition rather than loaded from `config/networking/`. Expose as a config key (e.g., `grpc.max_message_size_mb`) loaded at `GrpcApiServer::initialize()` time so operators can tune it without recompiling.
+- `[x]` **`GrpcApiServer::start()` mutex scope hardening**: blocking startup work is performed outside the critical section; lock is used only for state commit.
+- `[x]` **`GrpcApiServer::stop()` bounded shutdown**: shutdown deadline is set and lock hold duration minimized to avoid state-query contention.
+- `[ ]` **`GrpcServerConfig::max_message_size_bytes` configurability**: default remains compile-time; expose a runtime config key (e.g., `grpc.max_message_size_mb`) for operator tuning.
 
 **Performance Targets:**
 - gRPC unary `GetDocument` < 1 ms added latency vs equivalent REST call (same process).
@@ -146,7 +143,7 @@ All inbound requests must carry or receive a `X-Correlation-ID` header that prop
 
 **Implementation Notes:**
 - `[x]` Add `TracingMiddleware` in `src/api/tracing_middleware.cpp`; generate UUID v4 if `X-Correlation-ID` absent; inject into thread-local `RequestContext`. (**Implemented** — `TracingMiddleware::processRequest()` uses `boost::uuids::random_generator` per thread.)
-- `[x]` Forward `RequestContext::correlationId` to `utils/logger.h` log macros via a structured field (`correlation_id`). (**Implemented** — `utils::Logger::setTraceContext(corr_id)` called in `processRequest()`.)
+- `[x]` Forward `RequestContext::correlationId` to `include/utils/logger.h` log macros via a structured field (`correlation_id`). (**Implemented** — `utils::Logger::setTraceContext(corr_id)` called in `processRequest()`.)
 - `[x]` Echo back `X-Correlation-ID` in all responses including errors and SSE streams (implemented in `HttpServer::applyGovernanceHeaders()`).
 - `[x]` Export span data to OpenTelemetry collector via OTLP HTTP exporter (configurable endpoint in `config/networking/`). Implemented in `include/api/otlp_exporter.h` + `src/api/otlp_exporter.cpp` (async queue + libcurl POST, OTLP JSON format); `TracingMiddleware` extended with `finishSpan()` and optional `OtlpExporter*`; configuration in `config/networking/otlp.yaml`.
 - `[x]` Decision: retain proprietary `X-Correlation-ID` as the primary correlation header; the OTLP exporter uses the correlation-ID value as the OTLP `traceId`. A future W3C `traceparent` bridge can be added when SDK interoperability is required.
@@ -240,8 +237,8 @@ All inbound requests must carry or receive a `X-Correlation-ID` header that prop
 `include/api/grpc_bridge.h` defines a pure-virtual `IGRPCBridge` interface and supporting plain-data structs (`ServiceDescriptor`, `GRPCRequest`, `GRPCMetadata`) for registering and routing gRPC services. No concrete implementation is registered anywhere in the codebase.
 
 **Implementation Notes:**
-- `[ ]` **`IGRPCBridge` has no concrete implementation** (`grpc_bridge.h`): the interface exposes `registerService()`, `route()`, `getMetadata()`, and `listServices()` pure-virtual methods. Implement `GrpcBridgeImpl` in `src/api/grpc_bridge.cpp` that holds a `std::unordered_map<std::string, ServiceDescriptor>` guarded by `std::shared_mutex` and delegates routing to `GrpcApiServer::registerService()`.
-- `[ ]` **`IGRPCBridge` has no integration tests**: add `tests/api/grpc_bridge_test.cpp` exercising service registration, duplicate-name rejection, and metadata lookup.
+- `[ ]` **`IGRPCBridge` has no concrete implementation** (`grpc_bridge.h`): the interface exposes `registerService()`, `route()`, `getMetadata()`, and `listServices()` pure-virtual methods. Implement `GrpcBridgeImpl` in a dedicated API bridge implementation file (planned) that holds a `std::unordered_map<std::string, ServiceDescriptor>` guarded by `std::shared_mutex` and delegates routing to `GrpcApiServer::registerService()`.
+- `[ ]` **`IGRPCBridge` has no integration tests**: add a dedicated gRPC bridge test target exercising service registration, duplicate-name rejection, and metadata lookup.
 
 ---
 
@@ -250,19 +247,19 @@ All inbound requests must carry or receive a `X-Correlation-ID` header that prop
 | Test Type | Coverage Target | Notes |
 |-----------|----------------|-------|
 | Unit | >80% new code | Test `graphql::Parser` new resolvers with `QueryLimits` boundary cases; mock `Changefeed` for subscription tests |
-| Integration | All `/v1/` routes ≥ 95% | `tests/api/rest_integration_test.cpp`; add WebSocket client tests for `/v2/changes` |
+| Integration | All `/v1/` routes ≥ 95% | `tests/test_api_integration.cpp`; add WebSocket client tests for `/v2/changes` |
 | Performance | Regression ≤ 5% on existing endpoints | Benchmark with `wrk` at 500 concurrent connections; alert on p99 regression |
-| gRPC stub coverage | All 6 stub RPCs have integration tests | `tests/api/grpc_service_test.cpp`; use `grpc::testing::MockServerWriter` for `StreamAQL` |
+| gRPC stub coverage | Advanced search and stream RPCs have integration tests | `tests/test_themisdb_grpc_service.cpp`; use `grpc::testing::MockServerWriter` for `StreamAQL` |
 
 ## Performance Targets
 
 | Metric | Current | Target | Method |
 |--------|---------|--------|--------|
-| GraphQL parse+execute (10-field query) | ~5 ms (estimate) | < 2 ms p99 | `tests/api/graphql_bench.cpp` |
+| GraphQL parse+execute (10-field query) | ~5 ms (estimate) | < 2 ms p99 | `tests/test_graphql_variables.cpp` + dedicated benchmark task |
 | WebSocket concurrent connections | 0 (not implemented) | ≥ 10,000 | Load test with `k6` |
-| Bulk insert 10K docs via `/v2/documents` | N/A | < 500 ms | `tests/api/bulk_bench.cpp` |
-| Correlation ID middleware overhead | N/A | < 10 µs/req | microbenchmark in `benchmarks/api_bench.cpp` |
-| OTLP span flush (64 spans, persistent conn) | N/A | < 5 ms | `benchmarks/otlp_bench.cpp` |
+| Bulk insert 10K docs via `/v2/documents` | N/A | < 500 ms | `benchmarks/bench_api_endpoints.cpp` |
+| Correlation ID middleware overhead | N/A | < 10 µs/req | microbenchmark in `benchmarks/bench_api_endpoints.cpp` |
+| OTLP span flush (64 spans, persistent conn) | N/A | < 5 ms | planned OTLP microbenchmark target |
 | `RateLimiter::allow()` throughput | ~200K calls/sec (est.) | ≥ 1M calls/sec | microbenchmark after shared_mutex migration |
 
 ## Security / Reliability

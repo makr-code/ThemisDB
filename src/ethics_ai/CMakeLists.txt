@@ -37,12 +37,14 @@ else()
     message(WARNING "  - yaml-cpp not found: YAML loading will be limited")
 endif()
 
+target_link_libraries(ethics_ai_plugin PRIVATE themis_core)
+
 set_target_properties(ethics_ai_plugin PROPERTIES
     PREFIX ""
     OUTPUT_NAME "ethics_ai_plugin"
     VERSION 1.0.0
     SOVERSION 1
-    CXX_STANDARD 17
+    CXX_STANDARD 20
     CXX_STANDARD_REQUIRED ON
     POSITION_INDEPENDENT_CODE ON
 )

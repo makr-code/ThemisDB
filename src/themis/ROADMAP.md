@@ -18,7 +18,7 @@ v1.8.0 – Wire Protocol V2 delivered (Phase 5): `V2Server` + `V2Session` with H
 - [x] Module dependency resolution and load-order management (Issue: #2474)
 - [x] `edition_manager.cpp` – Community / Enterprise / Cloud edition feature gating with dynamic override API (Issue: #2469)
 - [x] `build_info.cpp` – migrated to `src/themis/` (zero stubs; replaces `src/utils/build_info.cpp` in both monolithic and modular builds)
-- [x] `license_info.cpp` – migrated to `src/themis/` (zero stubs; replaces `src/utils/license_info.cpp` in both monolithic and modular builds)
+- [x] `license_info.cpp` – migrated to `src/themis/` (zero stubs; replaces former utils-location implementation in both monolithic and modular builds)
 - [x] `module_hash_verifier.cpp` – SHA-256 manifest verification registered in cmake/CMakeLists.txt and cmake/ModularBuild.cmake (Issue: #2471)
 - [x] `module_signature_verifier.cpp` – Authenticode/GPG signature verification registered in cmake/CMakeLists.txt and cmake/ModularBuild.cmake (Issue: #2473)
 - [x] `module_dependency_resolver.cpp` – focused CTest target added (ModuleDependencyResolverFocusedTests) covering topological sort, version compat, cycle detection (Issue: #2474)
@@ -26,7 +26,7 @@ v1.8.0 – Wire Protocol V2 delivered (Phase 5): `V2Server` + `V2Session` with H
 - [x] Wire Protocol V2: `V2Server` + `V2Session` with HTTP/2-style multiplexing, server push, flow control, priority/dependency management (RFC 7540 §6.3/§5.3.1 compliant: stream_id=0 → GOAWAY, self-dependency → RST_STREAM), LZ4/Zstd compression; public header `include/themis/network/wire_protocol_v2.hpp`; 52 focused tests (WireProtocolV2FocusedTests); CI: `.github/workflows/wire-protocol-v2-ci.yml` (v1.8.0)
 
 ## In Progress 🚧
-- [x] `license_info.cpp` – migrated to `src/themis/` (zero stubs; replaces `src/utils/license_info.cpp` in both monolithic and modular builds) (Target: Q2 2026, v1.7.0)
+- [x] `license_info.cpp` – migrated to `src/themis/` (zero stubs; replaces former utils-location implementation in both monolithic and modular builds) (Target: Q2 2026, v1.7.0)
 - [x] `module_loader.cpp` – migrated to `src/themis/` with platform-specific split (module_loader_win32.cpp, module_loader_linux.cpp, module_security.cpp) (Issue: #module-loader-implementation)
 
 ## Planned Features 📋
@@ -50,7 +50,7 @@ All migration work is complete (v1.7.0): `license_info.cpp` and `module_loader.c
 
 ### Phase 2: Core Implementation Files (Status: Implemented ✅)
 - [x] `build_info.cpp` – build metadata collection and formatting (`src/themis/build_info.cpp`; migrated from `src/utils/`)
-- [x] `license_info.cpp` – embedded license validation and Ed25519 signature verification (`src/utils/license_info.cpp`)
+- [x] `license_info.cpp` – embedded license validation and Ed25519 signature verification (`src/themis/license_info.cpp`)
 - [x] `module_loader.cpp` – secure shared-library loading with hash/signature checks (`src/themis/module_loader.cpp`, `src/themis/module_loader_win32.cpp`, `src/themis/module_loader_linux.cpp`, `src/themis/module_security.cpp`)
 
 ### Phase 3: Wire Protocol & Edition Manager (Status: Completed ✅)

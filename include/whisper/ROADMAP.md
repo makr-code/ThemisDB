@@ -1,0 +1,33 @@
+# include whisper roadmap
+
+<!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
+
+## Current Status
+- [x] Header API for whisper plugin and helpers is available (Target: Q2 2026)
+
+## In Progress
+- [ ] Add richer contract notes for multilingual/translation defaults (Target: Q3 2026)
+
+## Implementation Phases
+### Phase 1: Design / API Contract
+- [x] Define plugin/transcriber/config/audio-reader interfaces (Target: Q2 2026)
+### Phase 2: Core Implementation
+- [x] Source implementation exists in `src/whisper` (Target: Q2 2026)
+### Phase 3: Error Handling & Edge Cases
+- [x] Stub fallback path for non-whisper builds is represented in API (Target: Q2 2026)
+### Phase 4: Tests
+- [ ] Add include-contract tests for file reader and config parsing edge cases (Target: Q3 2026)
+### Phase 5: Performance/Hardening
+- [ ] Define API limits for file size and sample-rate ranges (Target: Q3 2026)
+### Phase 6: Documentation & Acceptance
+- [x] Baseline include module docs created (Target: Q2 2026)
+
+## Production Readiness Checklist
+- [x] Public headers map to implementation
+- [ ] Additional API compatibility tests
+
+## Known Issues & Limitations
+- Real transcription quality depends on linked whisper runtime and model assets.
+
+## Breaking Changes
+- None currently planned.

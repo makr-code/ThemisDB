@@ -57,7 +57,7 @@ The API module is the primary network entry point for ThemisDB. Security concern
 ## Known Limitations
 
 - OpenAPI specification may be incomplete for newer endpoints added after v1.6.0 (Issue #1491 in progress).
-- API versioning (`/v1/`, `/v2/` prefix routing with deprecation headers) is not yet implemented (Issue #1497).
+- API versioning routing (`/v1/`, `/v2/` prefixes with unversioned redirect) is implemented; deprecation-header governance policy remains in progress (Issue #1497).
 - gRPC reflection is controlled by configuration; operators must explicitly disable it for production deployments.
 
 ## Dependency Security

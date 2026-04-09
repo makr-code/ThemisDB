@@ -127,7 +127,21 @@ public:
      * @return Profile or error
      */
     std::variant<PhilosophyProfile, Status> getPhilosophyProfile(const std::string& school);
-    
+
+    /**
+     * @brief Store an argument chain
+     * @param chain The argument chain to store
+     * @return Status indicating success/failure
+     */
+    Status storeChain(const ArgumentChain& chain);
+
+    /**
+     * @brief Retrieve an argument chain by ID
+     * @param chain_id Chain identifier
+     * @return Chain or error
+     */
+    std::variant<ArgumentChain, Status> getChain(const std::string& chain_id);
+
     /**
      * @brief Shutdown the store
      */
@@ -146,6 +160,7 @@ private:
     std::map<std::string, EthicalArgument> arguments_;
     std::map<std::string, EthicalDecision> decisions_;
     std::map<std::string, PhilosophyProfile> profiles_;
+    std::map<std::string, ArgumentChain> chains_; ///< In-memory chain cache
 };
 
 } // namespace ethics
