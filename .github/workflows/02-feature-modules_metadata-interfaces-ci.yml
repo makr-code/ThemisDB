@@ -1,13 +1,18 @@
 name: Metadata Interfaces CI
 
 # Triggered on every push / PR that touches the metadata interface headers or
-# their associated test files.  Covers v1.6.0 deliverables:
+# their associated test files.  Covers v1.6.0 and v1.7.0 deliverables:
 #   - IMetadataSecurityProvider / NoOpMetadataSecurityProvider /
 #     InMemoryRbacMetadataSecurityProvider
 #   - IMetadataChangeListener / RecordingMetadataChangeListener /
 #     MetadataChangeEvent
 #   - IMetadataExportPolicy / AlwaysExportPolicy / NeverExportPolicy /
 #     FilteredExportPolicy
+#   - IMetadataEncryptionProvider / NoOpMetadataEncryptionProvider /
+#     FieldSetMetadataEncryptionProvider  (v1.7.0)
+#   - SchemaDiffEngine / SchemaDiff / ColumnDiff / IndexDiff  (v1.7.0)
+#   - MetadataSnapshot / IMetadataSnapshotStore /
+#     InMemoryMetadataSnapshotStore  (v1.7.0)
 on:
   pull_request:
     types: [opened, synchronize, reopened]
@@ -15,9 +20,15 @@ on:
       - 'include/metadata/imetadata_security_provider.h'
       - 'include/metadata/imetadata_change_listener.h'
       - 'include/metadata/imetadata_export_policy.h'
+      - 'include/metadata/imetadata_encryption_provider.h'
+      - 'include/metadata/schema_diff.h'
+      - 'include/metadata/metadata_snapshot.h'
       - 'tests/test_metadata_security_provider.cpp'
       - 'tests/test_metadata_change_listener.cpp'
       - 'tests/test_metadata_export_policy.cpp'
+      - 'tests/test_metadata_encryption_provider.cpp'
+      - 'tests/test_schema_diff.cpp'
+      - 'tests/test_metadata_snapshot.cpp'
       - 'tests/CMakeLists.txt'
       - '.github/workflows/02-feature-modules_metadata-interfaces-ci.yml'
   workflow_dispatch:
@@ -131,6 +142,9 @@ jobs:
             test_metadata_security_provider_focused \
             test_metadata_change_listener_focused \
             test_metadata_export_policy_focused \
+            test_metadata_encryption_provider_focused \
+            test_schema_diff_focused \
+            test_metadata_snapshot_focused \
             -- -j$(nproc)
 
       - name: Run via ctest
@@ -138,7 +152,7 @@ jobs:
         run: |
           ctest --output-on-failure \
             --label-regex "metadata" \
-            -R "MetadataSecurityProviderFocusedTests|MetadataChangeListenerFocusedTests|MetadataExportPolicyFocusedTests" \
+            -R "MetadataSecurityProviderFocusedTests|MetadataChangeListenerFocusedTests|MetadataExportPolicyFocusedTests|MetadataEncryptionProviderFocusedTests|SchemaDiffFocusedTests|MetadataSnapshotFocusedTests" \
             2>&1 | tee metadata_interfaces_ctest.txt
 
       - name: Run MetadataSecurityProvider tests directly
@@ -162,6 +176,27 @@ jobs:
             --gtest_output=xml:export_policy_gtest.xml \
             2>&1 | tee export_policy_gtest_output.txt
 
+      - name: Run MetadataEncryptionProvider tests directly
+        working-directory: build_metadata_interfaces
+        run: |
+          ./test_metadata_encryption_provider_focused \
+            --gtest_output=xml:encryption_provider_gtest.xml \
+            2>&1 | tee encryption_provider_gtest_output.txt
+
+      - name: Run SchemaDiff tests directly
+        working-directory: build_metadata_interfaces
+        run: |
+          ./test_schema_diff_focused \
+            --gtest_output=xml:schema_diff_gtest.xml \
+            2>&1 | tee schema_diff_gtest_output.txt
+
+      - name: Run MetadataSnapshot tests directly
+        working-directory: build_metadata_interfaces
+        run: |
+          ./test_metadata_snapshot_focused \
+            --gtest_output=xml:metadata_snapshot_gtest.xml \
+            2>&1 | tee metadata_snapshot_gtest_output.txt
+
       - name: Upload test artifacts
         if: always()
         uses: actions/upload-artifact@v4
@@ -176,6 +211,12 @@ jobs:
             build_metadata_interfaces/change_listener_gtest_output.txt
             build_metadata_interfaces/export_policy_gtest.xml
             build_metadata_interfaces/export_policy_gtest_output.txt
+            build_metadata_interfaces/encryption_provider_gtest.xml
+            build_metadata_interfaces/encryption_provider_gtest_output.txt
+            build_metadata_interfaces/schema_diff_gtest.xml
+            build_metadata_interfaces/schema_diff_gtest_output.txt
+            build_metadata_interfaces/metadata_snapshot_gtest.xml
+            build_metadata_interfaces/metadata_snapshot_gtest_output.txt
 
       - name: Write job summary
         if: always()
@@ -185,8 +226,11 @@ jobs:
           echo "### Test Suites" >> $GITHUB_STEP_SUMMARY
           echo "| Suite | Tests |" >> $GITHUB_STEP_SUMMARY
           echo "|-------|-------|" >> $GITHUB_STEP_SUMMARY
-          echo "| MetadataSecurityProvider | 17 (AC-SEC-1..11) |" >> $GITHUB_STEP_SUMMARY
-          echo "| MetadataChangeListener   | 14 (AC-CL-1..10)  |" >> $GITHUB_STEP_SUMMARY
-          echo "| MetadataExportPolicy     | 18 (AC-EP-1..11)  |" >> $GITHUB_STEP_SUMMARY
+          echo "| MetadataSecurityProvider    | 17 (AC-SEC-1..11)  |" >> $GITHUB_STEP_SUMMARY
+          echo "| MetadataChangeListener      | 14 (AC-CL-1..10)   |" >> $GITHUB_STEP_SUMMARY
+          echo "| MetadataExportPolicy        | 18 (AC-EP-1..11)   |" >> $GITHUB_STEP_SUMMARY
+          echo "| MetadataEncryptionProvider  | 14 (AC-ENC-1..13)  |" >> $GITHUB_STEP_SUMMARY
+          echo "| SchemaDiff                  | 17 (AC-DIFF-1..15) |" >> $GITHUB_STEP_SUMMARY
+          echo "| MetadataSnapshot            | 15 (AC-SNAP-1..14) |" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "**Total: 49 acceptance-criteria tests**" >> $GITHUB_STEP_SUMMARY
+          echo "**Total: 95 acceptance-criteria tests**" >> $GITHUB_STEP_SUMMARY
