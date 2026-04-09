@@ -378,6 +378,9 @@ set(THEMIS_STORAGE_SOURCES
     # perf_event_open is unavailable (containers, non-Linux).  The actual PMU
     # paths are gated by the THEMIS_ENABLE_PMU_COUNTERS compile definition.
     ../src/performance/phase4/pmu_counters.cpp
+    ../src/performance/numa_memory_manager.cpp
+    ../src/performance/advanced_cache_manager.cpp
+    ../src/performance/workload_adaptive_optimizer.cpp
     
     # Storage enhancements
     ../src/cache/semantic_cache.cpp
