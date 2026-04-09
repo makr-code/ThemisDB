@@ -953,6 +953,8 @@ set(THEMIS_LLM_SOURCES
     ../src/prompt_engineering/tree_of_thoughts.cpp
     ../src/prompt_engineering/protegi_optimizer.cpp
     ../src/prompt_engineering/dspy_module.cpp
+    ../src/prompt_engineering/prompt_template_validator.cpp
+    ../src/prompt_engineering/prompt_template_compiler.cpp
     ../src/llm/block_table.cpp
     ../src/llm/paged_block_manager.cpp
     ../src/llm/paged_kv_cache.cpp
