@@ -108,8 +108,6 @@ v2.0.0 – Production-ready Retrieval-Augmented Generation system. 27 implementa
 - [x] `LlamaCppPlugin::generateRAG()` replaced naive doc concat with `RAGContextAssembler`; `max_tokens` capped via `computeMaxTokens()` (Target: Q2 2026)
 - [x] `RAGContext::max_context_tokens` set to 0 (dynamic fallback); `response_budget_tokens` field added (Target: Q2 2026)
 - [x] `RAGPromptConfig::reserved_response_tokens` field added (default: 512) (Target: Q2 2026)
-
-### Phase 8: Advanced Retrieval & Reasoning (Status: Completed ✅)
 - [x] `MultiHopReasoner` — multi-hop reasoning with query decomposition (`include/rag/multi_hop_reasoner.h`, `src/rag/multi_hop_reasoner.cpp`) (Target: Q2 2026) — heuristic + LLM-based decomposition; per-hop retrieval + inference with context injection; answer composition; factory helpers (single-hop, balanced, deep-reasoning); 15 unit tests
 - [x] `AdaptiveRetrieval` — adaptive retrieval depth based on query complexity (`include/rag/adaptive_retrieval.h`, `src/rag/adaptive_retrieval.cpp`) (Target: Q2 2026) — QueryComplexity tiers (SIMPLE/MODERATE/COMPLEX/VERY_COMPLEX); connective/question-word heuristic; IComplexityScorer plugin; top_k + similarity_threshold scaling; factory helpers (lightweight, balanced, high-recall); 15 unit tests
 

@@ -290,6 +290,9 @@ struct AdaptiveRetrievalFactory {
 
     /**
      * @brief Balanced default: top_k in [5, 15]; moderate thresholds.
+     *
+     * base_top_k=5, max_top_k=15, base_similarity_threshold=0.75,
+     * min_similarity_threshold=0.40, complexity_scaling=1.5.
      */
     static std::unique_ptr<AdaptiveRetrieval> createBalanced();
 
