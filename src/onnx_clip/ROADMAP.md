@@ -1,4 +1,4 @@
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-04-09 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
@@ -38,7 +38,7 @@ API is production-quality. Native batch path and focused tests are in progress.
   - Constraints: max batch size 64; OOM → split into sub-batches of 8
   - Tests: batch result size, per-item success/error handling, output shape and L2 norm
   - Perf: ≥ 6× speedup vs sequential on RTX-class GPU for batch=64
-- [~] Unit tests: CPU backend, model load, embedding shape, `healthCheck()` (Target: Q3 2026)
+- [x] Unit tests: CPU backend, model load, embedding shape, `healthCheck()` (Target: Q3 2026) — `tests/test_onnx_clip_plugin.cpp` (9 tests, `OnnxClipPluginTests`); registered in `tests/CMakeLists.txt` under `THEMIS_PLUGIN_IMAGE_ANALYSIS_ONNX` guard (2026-04-08)
 - [ ] Integration tests: ViT-B/32 and ViT-L/14 golden embedding comparison (Target: Q3 2026)
 - [ ] Performance benchmark: ViT-B/32 CPU ≤ 150 ms/image; CUDA ≤ 20 ms/image (Target: Q3 2026)
 
@@ -77,9 +77,9 @@ API is production-quality. Native batch path and focused tests are in progress.
 - [x] CUDA unavailable → falls back to CPU in AUTO mode
 - [x] Session Run exception → caught; error result returned
 
-### Phase 4: Tests [ ]
-- [~] Unit tests for CPU backend and embedding shape (Target: Q3 2026)
-- [~] Added `tests/test_onnx_clip_plugin.cpp` and registered `OnnxClipPluginTests`
+### Phase 4: Tests [~]
+- [x] Unit tests for CPU backend and embedding shape (Target: Q3 2026)
+- [x] Added `tests/test_onnx_clip_plugin.cpp` and registered `OnnxClipPluginTests` (9 tests, 2026-04-08)
 - [ ] Integration tests with real ONNX models (Target: Q3 2026)
 
 ### Phase 5: Performance / Hardening [ ]

@@ -1,4 +1,4 @@
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-04-09 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Changelog — gRPC RPC Plugin
@@ -10,10 +10,25 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), newest first.
 
 ## [Unreleased]
 
-- Unit and integration tests for server lifecycle and TLS modes
+- Integration tests: mTLS round-trip with real gRPC echo service
 - `RPCServerStats::uptime_seconds` incremental tracking
 - gRPC health-check service auto-registration
 - Server-side interceptors for metrics and tracing
+
+---
+
+## [0.0.2] — 2026-04-08
+
+### Added
+
+- **Unit tests** (`tests/test_grpc_plugin.cpp`, 30 tests, `GrpcPluginTests`):
+  Covers full `GRPCPlugin` and `GRPCServer` lifecycle: `initialize`, `start`
+  (insecure mode), `stop`, `registerService` (null guard), `getStats`,
+  `resetStats`, and all `IThemisPlugin` contract methods (`getName`,
+  `getVersion`, `getType`, `getCapabilities`, `getDefaultPort`, `getProtocol`).
+  Fail-closed TLS test verifies `start()` returns `false` when cert path is
+  invalid. Registered in `tests/CMakeLists.txt` as standalone target
+  `test_grpc_plugin` under `THEMIS_ENABLE_GRPC` compile guard.
 
 ---
 

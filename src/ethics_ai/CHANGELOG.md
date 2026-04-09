@@ -1,4 +1,4 @@
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-04-09 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Changelog — Ethics AI Module
@@ -15,6 +15,50 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), newest first.
 - Dynamic confidence and consensus scoring
 - Full integration tests for the decision pipeline
 - Performance benchmarks for RAG context assembly
+
+---
+
+## [0.0.2] — 2026-04-08
+
+### Added
+
+- **Unit tests for all six core components** (11 + 18 + 28 + 13 = 70 tests):
+  - `tests/test_discourse_engine.cpp` (11 tests, `DiscourseEngineFocusedTests`):
+    `initializeDebate` and `makeDecision` flows in standalone mode, including
+    unknown-school error path, unique debate IDs, argument storage, and multi-school
+    consensus check.
+  - `tests/test_argument_store_standalone.cpp` (18 tests, `ArgumentStoreStandaloneTests`):
+    Full CRUD coverage for `EthicalArgument`, `EthicalDecision`, `DebateSession`, and
+    `PhilosophyProfile` in in-memory standalone mode (no RocksDB required).
+  - `tests/test_ethics_ai_plugin.cpp` (28 tests, `EthicsAiPluginTests`):
+    Plugin lifecycle (`initialize` / `shutdown`), config handling (JSON and default
+    paths), metrics retrieval, and all `IThemisPlugin` contract methods.
+  - `tests/test_rag_context_engine.cpp` (13 tests, `RAGContextEngineTests`):
+    `buildContext`, `findSimilarDilemmas`, `getBestPractices`, `vectorSemanticSearch`,
+    and `traverseArgumentChain` with both null and in-memory `QueryEngine`.
+  - All four targets registered in `tests/CMakeLists.txt` under
+    `THEMIS_PLUGIN_ETHICS_AI` guard.
+
+- **`PhilosophyLoader::addProfile(const PhilosophyProfile&)`**
+  (`philosophy_loader.h`): programmatic profile injection for unit testing without
+  touching the filesystem; profiles added via this method are treated identically to
+  YAML-loaded profiles.
+
+### Fixed
+
+- **`ArgumentStore::storePhilosophyProfile`**: profile lookup and key derivation now
+  use `profile.school_id` (was incorrectly using `profile.school`), aligning with the
+  `EthicsBaseEntityAdapter::makeProfileKey` contract.
+
+### Changed
+
+- `ethics_evaluator.h`, `philosophy_loader.h`: added `#include <variant>` to satisfy
+  headers that include these files without pulling in the variant header transitively.
+- `argument_store.cpp`: added `#include <set>` required by the updated duplicate-check
+  logic.
+- `cmake/CMakeLists.txt`, `cmake/features/PluginFeatures.cmake`: ethics-AI plugin
+  build now correctly propagates include paths and compile definitions to all four new
+  focused test targets.
 
 ---
 

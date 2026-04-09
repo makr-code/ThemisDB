@@ -1,4 +1,4 @@
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-04-09 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
@@ -6,11 +6,11 @@
 
 ## Current Status
 
-v0.0.1 — Core plugin skeleton operational. `EthicalDiscourseEngine` orchestrates
-debates across any number of philosophy schools; `ArgumentStore` persists entities
-via BaseEntity; `RAGContextEngine` provides 7 AQL retrieval patterns. Argument text
-generation and scoring are placeholder-quality; real LLM integration is planned for
-v0.1.0.
+v0.0.2 — Core plugin skeleton operational. Unit tests for all six components are
+now in place (70 tests across four focused test targets). `PhilosophyLoader::addProfile()`
+added for programmatic test injection. `ArgumentStore` school_id key fix applied.
+Argument text generation and scoring remain placeholder-quality; real LLM integration
+is planned for v0.1.0.
 
 ---
 
@@ -24,6 +24,11 @@ v0.1.0.
 - [x] `EthicsAiPlugin` — IThemisPlugin wiring and lifecycle
 - [x] Shared domain types (`EthicalArgument`, `EthicalDecision`, `PhilosophyProfile`, etc.)
 - [x] AQL query constants for all 7 retrieval patterns
+- [x] `PhilosophyLoader::addProfile()` — programmatic profile injection for unit tests (`philosophy_loader.h`)
+- [x] Unit tests for all six components — 70 tests across four focused targets:
+  `DiscourseEngineFocusedTests` (11), `ArgumentStoreStandaloneTests` (18),
+  `EthicsAiPluginTests` (28), `RAGContextEngineTests` (13); all registered in
+  `tests/CMakeLists.txt` under `THEMIS_PLUGIN_ETHICS_AI` guard (2026-04-08)
 - [x] BaseEntity adapter for ethics types
 - [x] `std::variant<T, Status>` error handling throughout all public APIs
 - [x] Standalone in-memory mode for `ArgumentStore` (testing without RocksDB)
@@ -32,7 +37,7 @@ v0.1.0.
 
 ## In Progress [~]
 
-- [~] Unit tests for discourse engine, evaluator, RAG patterns (partial coverage)
+*(none — all previously in-progress items are now complete)*
 
 ---
 
@@ -87,10 +92,12 @@ v0.1.0.
 - [x] AQL/RocksDB failure propagation
 - [x] Standalone mode activation when `RocksDBWrapper` is null
 
-### Phase 4: Tests [~]
-- [~] Unit tests for `PhilosophyLoader` (directory, file, invalid YAML)
-- [~] Unit tests for `ArgumentStore` standalone mode
-- [~] Unit tests for `EthicalDiscourseEngine` decision flow
+### Phase 4: Tests [x]
+- [x] Unit tests for `PhilosophyLoader` (directory, file, invalid YAML)
+- [x] Unit tests for `ArgumentStore` standalone mode — `test_argument_store_standalone.cpp` (18 tests)
+- [x] Unit tests for `EthicalDiscourseEngine` decision flow — `test_discourse_engine.cpp` (11 tests)
+- [x] Unit tests for `EthicsAiPlugin` lifecycle and config — `test_ethics_ai_plugin.cpp` (28 tests)
+- [x] Unit tests for `RAGContextEngine` — `test_rag_context_engine.cpp` (13 tests)
 - [ ] Integration tests combining full pipeline + RAG + evaluate (Target: Q3 2026)
 
 ### Phase 5: Performance / Hardening [ ]
@@ -116,7 +123,7 @@ v0.1.0.
 | Argument content | ⚠️ | Template strings only; LLM generation planned Q3 2026 |
 | Confidence scoring | ⚠️ | Static placeholder values; real scoring planned Q3 2026 |
 | Embedding search | ⚠️ | Stubs only; real model integration planned Q3 2026 |
-| Unit test coverage | ⚠️ | Partial; integration tests missing |
+| Unit test coverage | ✅ | 70 tests across four focused targets (v0.0.2) |
 | Performance benchmarks | ❌ | Not yet measured |
 | Prometheus metrics | ❌ | Planned Q4 2026 |
 
