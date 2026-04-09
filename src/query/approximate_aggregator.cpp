@@ -302,13 +302,9 @@ nlohmann::json SamplingAggregator::estimate() const {
 
 double SamplingAggregator::errorRate() const {
     if (total_seen_ == 0) return 0.0;
-    const double fraction =
-        static_cast<double>(reservoir_.size()) /
-        static_cast<double>(total_seen_);
-    // Central limit theorem: relative error ≈ 1/sqrt(sample_size).
+    // Central limit theorem: relative error ≈ 1/sqrt(effective_sample_size).
     return 1.0 / std::sqrt(static_cast<double>(
         std::min(reservoir_.size(), total_seen_)));
-    (void)fraction;
 }
 
 void SamplingAggregator::reset() {

@@ -117,8 +117,6 @@ public:
     int precision() const { return precision_; }
 
 private:
-    static constexpr uint64_t fnv1a(const std::string& s);
-
     int precision_;
     int num_registers_;
     std::vector<uint8_t> registers_;
