@@ -411,10 +411,9 @@ TEST_F(VecKnnInsertFocusedTests, DistanceCacheThreadSafety) {
 // 21. insertBatch – vectorField override
 // ============================================================================
 TEST_F(VecKnnInsertFocusedTests, InsertBatchVectorFieldOverride) {
-    // Reinit vim with "vec" field name
-    auto st = vim_->init("test_vec2", kDim);
-    (void)st; // may fail if already initialised; that's fine
-
+    // vim_ is already initialised in SetUp() with "embedding" as the field.
+    // Use 5 entities with the default "embedding" field and pass the field
+    // name explicitly as a vectorField override.
     std::vector<BaseEntity> entities;
     for (int i = 0; i < 5; ++i) {
         entities.emplace_back("fld_" + std::to_string(i), BaseEntity::FieldMap{
@@ -425,6 +424,7 @@ TEST_F(VecKnnInsertFocusedTests, InsertBatchVectorFieldOverride) {
     VecKnnInsertPipeline p;
     auto res = p.insertBatch(*vim_, entities, "embedding");
     EXPECT_TRUE(res.ok) << res.message;
+    EXPECT_EQ(res.inserted, 5u);
 }
 
 // ============================================================================

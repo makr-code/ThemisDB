@@ -21,6 +21,7 @@
 #include <string>
 #include <string_view>
 #include <vector>
+#include <deque>
 #include <unordered_map>
 #include <functional>
 #include <memory>
@@ -103,7 +104,7 @@ private:
     std::size_t               max_entries_;
     mutable std::mutex        mtx_;
     std::unordered_map<std::string, float> map_;
-    std::vector<std::string>  order_; // insertion order for eviction
+    std::deque<std::string>   order_; // insertion order for eviction (O(1) pop_front)
     mutable std::atomic<std::size_t> hits_{0};
     mutable std::atomic<std::size_t> misses_{0};
 };

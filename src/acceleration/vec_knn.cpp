@@ -293,10 +293,10 @@ void DistanceCache::put(const std::string& pk_a, const std::string& pk_b, float 
         map_[key] = value; // update existing – no size growth
         return;
     }
-    // Evict oldest entry if at capacity
+    // Evict oldest entry if at capacity (O(1) with std::deque)
     if (map_.size() >= max_entries_ && !order_.empty()) {
         map_.erase(order_.front());
-        order_.erase(order_.begin()); // O(n) but order_ is bounded by max_entries_
+        order_.pop_front(); // O(1) for std::deque
     }
     map_[key] = value;
     order_.push_back(key);
