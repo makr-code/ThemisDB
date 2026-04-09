@@ -493,6 +493,10 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     # target below (PluginCapabilityNegotiationTests) to allow running the
     # capability-negotiation tests in isolation.
     ".*test_plugin_capability_negotiation\\.cpp$"
+    # test_plugin_capability_escalation is built as a dedicated standalone
+    # target below (PluginCapabilityEscalationTests) to allow running the
+    # escalation-blocking tests in isolation.
+    ".*test_plugin_capability_escalation\\.cpp$"
     # Runtime Device Capability Negotiation focused tests ÔÇö built as dedicated
     # standalone targets below so they can run in isolation without pulling in
     # the full themis_tests link graph.
@@ -7961,6 +7965,45 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_capability_negotiation.cpp")
     message(STATUS "  PluginCapabilityNegotiation: PluginVersionRange, PluginCapabilityNegotiator, PluginManager::negotiateCapabilities")
 else()
     message(STATUS "Plugin Capability Negotiation tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_capability_negotiation.cpp")
+endif()
+
+# ============================================================================
+# Plugin Capability Escalation Tests (runtime escalation blocking)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_capability_escalation.cpp")
+    message(STATUS "Adding Plugin Capability Escalation tests (runtime escalation blocking)")
+
+    add_executable(test_plugin_capability_escalation
+        test_plugin_capability_escalation.cpp
+    )
+
+    target_include_directories(test_plugin_capability_escalation PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_plugin_capability_escalation PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+        ${CMAKE_DL_LIBS}
+    )
+
+    target_compile_definitions(test_plugin_capability_escalation PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME PluginCapabilityEscalationTests COMMAND test_plugin_capability_escalation)
+
+    set_tests_properties(PluginCapabilityEscalationTests PROPERTIES
+        LABELS "plugins;capability;escalation;security;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  PluginCapabilityEscalation: checkCapabilityEscalation, isPluginRestricted, ERR_PLUGIN_CAPABILITY_ESCALATION")
+else()
+    message(STATUS "Plugin Capability Escalation tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_capability_escalation.cpp")
 endif()
 
 # ============================================================================
