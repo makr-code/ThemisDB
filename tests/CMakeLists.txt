@@ -18158,6 +18158,46 @@ else()
 endif()
 
 # ============================================================================
+# VecKnnInsertPipeline – PERF-D3 parallel batch insert + SIMD distance tests
+# Covers: simd_l2_sq, simd_batch_l2_sq, DistanceCache, VecKnnInsertPipeline
+# Issue: PERF-D3 – Vector Insert: Parallel Insertion, SIMD Distance 600k/s
+# ============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/acceleration/test_vec_knn_insert.cpp")
+    message(STATUS "Adding VecKnnInsert focused tests (acceleration, PERF-D3, v1.0.0)")
+
+    add_executable(test_vec_knn_insert_focused
+        acceleration/test_vec_knn_insert.cpp
+    )
+
+    target_include_directories(test_vec_knn_insert_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_vec_knn_insert_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_vec_knn_insert_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME VecKnnInsertFocusedTests
+        COMMAND test_vec_knn_insert_focused)
+
+    set_tests_properties(VecKnnInsertFocusedTests PROPERTIES
+        LABELS "acceleration;vec-knn;perf-d3;simd;parallel-insert;v1.0.0;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  VecKnnInsert: simd_l2_sq, simd_batch_l2_sq, DistanceCache, VecKnnInsertPipeline (25 tests)")
+else()
+    message(STATUS "VecKnnInsert focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/acceleration/test_vec_knn_insert.cpp")
+endif()
+
+# ============================================================================
 # VLLMResourceManager ÔÇô CPU/RAM Monitoring Stats Tests
 # Covers: getStats() OS-specific CPU utilisation + RAM monitoring,
 #         canUseGPU() NVML timeout safety, uninitialised guard.
