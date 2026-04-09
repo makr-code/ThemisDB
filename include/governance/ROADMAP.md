@@ -24,7 +24,7 @@ v1.9.0 — Production-ready. 23 public headers covering policy management, CCPA/
 
 - [x] ISO 27001 rule set header (v1.9.0)
 - [x] HIPAA compliance rules (v1.9.0)
-- [ ] Policy diff and rollback interface (Target: v1.9.0)
+- [x] Policy diff and rollback interface (v1.9.0) — implemented via `policy_version_history.h` (`VersionDiff`, `compareVersions`, `compareRules`) and `policy_manager.h` (`rollbackToVersion`, `rollbackToPreviousVersion`)
 
 ## Production Readiness Checklist
 
