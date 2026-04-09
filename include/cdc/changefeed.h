@@ -438,31 +438,34 @@ private:
     uint64_t loadInitialSequence() const;
 
     // Scan all stored changefeed events and return the maximum sequence number.
-    // Used as a crash-recovery fallback when loadInitialSequence() cannot read
-    // SEQUENCE_KEY directly.
+    // O(log N): uses SeekForPrev to the last changefeed key without reading values.
     uint64_t scanMaxSequence() const;
     
     // Helper to wait for new events (for long-poll)
     bool waitForEvents(uint64_t from_sequence, uint32_t timeout_ms) const;
-    
+
     // In-process atomic sequence counter.  Incremented lock-free by nextSequence().
-    // Crash-safe persistence is handled inside recordEvent() which combines the
-    // Merge(SEQUENCE_KEY, +1) with the event Put into a single WriteBatch, giving
-    // one WAL append per event rather than two.
+    // Crash-safe persistence is handled by a periodic background checkpoint thread
+    // (writeSequenceCheckpoint) rather than per-event — eliminating the Merge from
+    // the WAL-critical hot path.  recordEvent() now issues only a single WAL write
+    // (the event Put).  On crash, loadInitialSequence() recovers the true max from
+    // max(SEQUENCE_KEY_checkpoint, scanMaxSequence()).
     std::atomic<uint64_t> sequence_counter_{0};
 
-    // Monotonic high-water mark of the last sequence value known to be durably
-    // written to RocksDB.  Used by the fallback (non-Merge) path to avoid
-    // overwriting a higher value in SEQUENCE_KEY with a lower one from a
-    // concurrent Put.
-    std::atomic<uint64_t> persisted_sequence_{0};
-    // True when the DB/CF was opened with a SequenceIncrementOperator registered.
-    // Set to false permanently after the first WriteBatch(Merge+Put) failure so
-    // that subsequent calls use the Put-only fallback without triggering RocksDB
-    // background error state.
-    std::atomic<bool> sequence_merge_supported_{true};
-    mutable std::mutex sequence_persist_mutex_;  ///< Guards SEQUENCE_KEY Put in fallback path
-    
+    // Periodic background checkpoint: writes SEQUENCE_KEY = sequence_counter_ every
+    // kSequenceCheckpointIntervalMs to bound crash-recovery scan time.
+    static constexpr uint32_t kSequenceCheckpointIntervalMs = 100;
+    std::atomic<bool>   sequence_dirty_{false};
+    std::atomic<bool>   sequence_checkpoint_running_{false};
+    std::thread         sequence_checkpoint_thread_;
+    std::condition_variable sequence_checkpoint_cv_;
+    mutable std::mutex  sequence_checkpoint_mutex_;
+
+    void startSequenceCheckpoint();
+    void stopSequenceCheckpoint();  ///< Flushes a final checkpoint before joining.
+    void sequenceCheckpointLoop();
+    void writeSequenceCheckpoint(uint64_t value);
+
     // Retention cleanup thread
     std::atomic<bool> retention_thread_running_{false};
     std::thread retention_thread_;

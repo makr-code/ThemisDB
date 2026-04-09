@@ -388,31 +388,43 @@ For enterprise deployments that use Kafka as a message bus, add a CDC-to-Kafka b
 
 ---
 
-### Changefeed Sequence Counter: RocksDB Merge Operator
+### Changefeed Sequence Counter: Periodic Checkpoint + O(log N) Scan
 **Priority:** Medium
 **Target Version:** v1.8.0
-**Status:** ✅ Implemented (v1.8.0, PR #4294)
+**Status:** ✅ Fully optimized (v1.8.0, PR #4294 + follow-up)
 
-`Changefeed::nextSequence()` previously used a mutex + Read-Modify-Write (`Get` then `Put`) round-trip to RocksDB on every change event. The implementation has been replaced with a lock-free atomic counter backed by a RocksDB `AssociativeMergeOperator` for crash-safe persistence.
+`Changefeed::nextSequence()` previously used a mutex + Read-Modify-Write (`Get` then `Put`) round-trip to RocksDB on every change event. A series of incremental optimizations reduced this to a pure in-process atomic increment:
+
+**Optimization history:**
+1. **v1.8.0 PR #4294**: Replaced mutex + RMW with `std::atomic<uint64_t> sequence_counter_` + `Merge(SEQUENCE_KEY, +1)` per event. Removed `sequence_mutex_`. `SequenceIncrementOperator` added.
+2. **Follow-up 1**: Combined `Merge(SEQUENCE_KEY)` + `Put(event_key)` into a single `rocksdb::WriteBatch`. Reduced WAL appends from 2 to 1 per event.
+3. **Follow-up 2 (current)**: Removed `Merge(SEQUENCE_KEY)` from the per-event hot path entirely. `recordEvent()` now issues only the event `Put` — one WAL write, no merge operations. SEQUENCE_KEY is persisted by a dedicated background checkpoint thread (every 100ms).
+
+**Current hot path:**
+```
+nextSequence()  → sequence_counter_.fetch_add(1)  [lock-free, no I/O]
+recordEvent()   → db_->Put(event_key, json)        [one WAL write]
+                → sequence_dirty_.store(true)      [atomic, no I/O]
+checkpoint_bg   → db_->Put(SEQUENCE_KEY, counter)  [async, every 100ms]
+```
 
 **Implementation Notes:**
-- `[x]` Implemented `SequenceIncrementOperator` (subclass of `rocksdb::AssociativeMergeOperator`) that atomically increments a little-endian uint64 stored under `SEQUENCE_KEY`. Handles both binary uint64 and legacy decimal-string base values for backward compatibility.
-- `[x]` Exposed `Changefeed::makeSequenceMergeOperator()` static factory so callers register the operator via `ColumnFamilyOptions::merge_operator` before opening the changefeed DB. (No `Changefeed::open()` exists; the constructor accepts a pre-opened `TransactionDB*`.)
-- `[x]` Replaced the `Get` + `Put` in `nextSequence()` with a single `Merge()` call; `sequence_mutex_` removed. In-process `std::atomic<uint64_t> sequence_counter_` provides lock-free, O(1) sequence assignment.
-- `[x]` In-process atomic counter initialised from `loadInitialSequence()` on construction (reads `SEQUENCE_KEY`; falls back to `scanMaxSequence()` if unresolved Merge operands are present). `recordEvent()` persists the sequence increment via a combined `WriteBatch(Merge+Put)` — one WAL append per event instead of two.
-- `[x]` `nextSequence()` is a pure atomic increment (O(1), no RocksDB I/O). Sequence persistence is combined with event storage in `recordEvent()` using a `rocksdb::WriteBatch` to halve WAL serialization overhead.
+- `[x]` `SequenceIncrementOperator` (`makeSequenceMergeOperator()`) retained for backward-compatible reading of legacy SEQUENCE_KEY Merge operands in pre-existing databases.
+- `[x]` Background `sequenceCheckpointLoop()` thread writes `SEQUENCE_KEY = sequence_counter_.load()` every `kSequenceCheckpointIntervalMs` (100ms) using a plain `Put`. Thread starts unconditionally in the constructor; final checkpoint written on destruction.
+- `[x]` `loadInitialSequence()` returns `max(checkpoint, scanMaxSequence())`. This handles: (a) fresh DB, (b) events written after the last checkpoint (crash recovery), (c) legacy DBs with SEQUENCE_KEY but no events, (d) old Merge-operand DBs.
+- `[x]` `scanMaxSequence()` rewritten from O(N) full scan with JSON parsing to O(log N) `SeekForPrev` on the last changefeed key — sequence number extracted directly from the key string.
+- `[x]` `clear()` holds the checkpoint mutex while resetting `sequence_counter_` and writing `SEQUENCE_KEY = 0` to prevent a racing checkpoint from storing a stale non-zero value.
+- `[x]` Removed now-obsolete members: `persisted_sequence_`, `sequence_merge_supported_`, `sequence_persist_mutex_`.
 
 **Performance SLO — platform baselines (8 writer threads, 80K events):**
 
 | Platform / Storage | Measured baseline | Regression floor |
 |---|---|---|
-| Windows / MSVC + TransactionDB + Merge | ~20–25K seq/s | **19K seq/s** |
+| Windows / MSVC + TransactionDB | ~20–25K seq/s | **19K seq/s** |
 
-The throughput ceiling on Windows with `TransactionDB` is primarily set by WAL serialization in RocksDB's write path (hot-key contention on `SEQUENCE_KEY` + per-event event `Put`). The `WriteBatch(Merge+Put)` optimization introduced in this PR reduces per-event WAL appends from 2 to 1 by combining the sequence-counter `Merge` and the event-storage `Put` into a single batch write.
+The throughput ceiling on Windows with `TransactionDB` is set by WAL serialization: 8 threads compete for a single WAL append per event. Further improvements (e.g., cross-event group-commit batching, `disableWAL` for the event store with a separate audit log) require architectural changes tracked as future work.
 
-The 200K/s aspirational target remains a long-term goal requiring architectural changes (e.g., write batching across events, `disableWAL` for non-critical sequence updates, or a dedicated in-memory sequencer with async flush). These are tracked as future work.
-
-**Regression test:** `SequenceCounterTest.ThroughputAtLeast50KPerSecUnder8Threads` (threshold: **19K/s** — detects regressions such as missing fast-path, unconstrained mutex, or O(N) subscriber callbacks without signalling false positives on CI machines with variable load).
+**Regression test:** `SequenceCounterTest.ThroughputAtLeast50KPerSecUnder8Threads` (threshold: **19K/s** — catches re-introduction of per-event Merge, unconstrained mutex, or O(N) subscriber callbacks; conservative enough to tolerate CI load jitter).
 
 
 

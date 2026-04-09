@@ -30,7 +30,6 @@
 #include <rocksdb/utilities/transaction_db.h>
 #include <rocksdb/utilities/transaction.h>
 #include <rocksdb/merge_operator.h>
-#include <rocksdb/write_batch.h>
 #include <thread>
 #include <chrono>
 #include <cstring>
@@ -173,70 +172,73 @@ std::shared_ptr<rocksdb::MergeOperator> Changefeed::makeSequenceMergeOperator() 
 }
 
 uint64_t Changefeed::loadInitialSequence() const {
+    // Read the periodic SEQUENCE_KEY checkpoint (may be slightly stale because
+    // the background thread persists every kSequenceCheckpointIntervalMs ms).
+    uint64_t checkpoint = 0;
     std::string seq_value;
-    rocksdb::ReadOptions read_opts;
     rocksdb::Status s;
 
     if (cf_) {
-        s = db_->Get(read_opts, cf_, SEQUENCE_KEY, &seq_value);
+        s = db_->Get(rocksdb::ReadOptions{}, cf_, SEQUENCE_KEY, &seq_value);
     } else {
-        s = db_->Get(read_opts, SEQUENCE_KEY, &seq_value);
+        s = db_->Get(rocksdb::ReadOptions{}, SEQUENCE_KEY, &seq_value);
     }
 
     if (s.ok() && !seq_value.empty()) {
-        // Binary little-endian uint64 format (new)
         if (seq_value.size() == sizeof(uint64_t)) {
-            uint64_t val;
-            memcpy(&val, seq_value.data(), sizeof(val));
-            return val;
+            memcpy(&checkpoint, seq_value.data(), sizeof(checkpoint));
+        } else {
+            // Legacy decimal-string format written by older code.
+            try { checkpoint = std::stoull(seq_value); } catch (...) {}
         }
-        // Legacy decimal-string format (backward compatibility)
-        try {
-            return std::stoull(seq_value);
-        } catch (...) {}
+    } else if (!s.ok() && !s.IsNotFound()) {
+        // Get failed — likely unresolved Merge operands in an old DB opened
+        // without a registered merge operator.  The event scan below recovers.
+        THEMIS_WARN("Changefeed: Get(SEQUENCE_KEY) failed ({}); using event scan",
+                    s.ToString());
     }
 
-    if (s.IsNotFound()) {
-        return 0;
-    }
-
-    // Get failed (possibly due to unresolved Merge operands when the merge
-    // operator was not registered at DB open time).  Fall back to scanning
-    // stored events for the highest sequence number.
-    THEMIS_WARN("Changefeed: Get(SEQUENCE_KEY) failed ({}); scanning events for max sequence",
-                s.ToString());
-    return scanMaxSequence();
+    // O(log N) scan: returns the highest sequence number found in stored events.
+    // Taking max(checkpoint, scan) handles all cases:
+    //   • Normal: checkpoint == scan, returns N.
+    //   • Periodic-stale: scan > checkpoint (events since last checkpoint), returns scan.
+    //   • Legacy DB (SEQUENCE_KEY only, no events): checkpoint > 0, scan == 0, returns checkpoint.
+    //   • Fresh DB: both 0, returns 0.
+    //   • Crash (Merge without operator): Get fails, checkpoint==0, scan returns max.
+    const uint64_t scanned = scanMaxSequence();
+    return std::max(checkpoint, scanned);
 }
 
 uint64_t Changefeed::scanMaxSequence() const {
-    uint64_t max_seq = 0;
-
-    rocksdb::ReadOptions read_opts;
     std::unique_ptr<rocksdb::Iterator> it;
     if (cf_) {
-        it.reset(db_->NewIterator(read_opts, cf_));
+        it.reset(db_->NewIterator(rocksdb::ReadOptions{}, cf_));
     } else {
-        it.reset(db_->NewIterator(read_opts));
+        it.reset(db_->NewIterator(rocksdb::ReadOptions{}));
     }
 
-    it->Seek(KEY_PREFIX);
-    for (; it->Valid(); it->Next()) {
-        const std::string k = it->key().ToString();
-        if (k.compare(0, strlen(KEY_PREFIX), KEY_PREFIX) != 0) {
-            break;
-        }
-        try {
-            const nlohmann::json j = nlohmann::json::parse(it->value().ToString());
-            const uint64_t seq = j.value("sequence", uint64_t(0));
-            if (seq > max_seq) {
-                max_seq = seq;
-            }
-        } catch (...) {
-            // Skip unparseable entries
-        }
+    // Use SeekForPrev to land on the last changefeed event key in O(log N).
+    // Event keys are zero-padded 20-digit sequences ("changefeed:00000000000000000001"),
+    // so seeking to "changefeed:99999999999999999999" lands on the last stored event.
+    static const std::string kScanUpperBound =
+        std::string(KEY_PREFIX) + std::string(20, '9');
+    it->SeekForPrev(kScanUpperBound);
+
+    if (!it->Valid()) return 0;
+
+    const rocksdb::Slice k = it->key();
+    // Verify this key belongs to the changefeed keyspace.
+    const size_t pfx_len = strlen(KEY_PREFIX);
+    if (static_cast<size_t>(k.size()) <= pfx_len ||
+        memcmp(k.data(), KEY_PREFIX, pfx_len) != 0) {
+        return 0;
     }
 
-    return max_seq;
+    // Extract the sequence number directly from the key (no JSON parse needed).
+    const char* seq_start = k.data() + pfx_len;
+    char* end = nullptr;
+    uint64_t max_seq = std::strtoull(seq_start, &end, 10);
+    return (end != seq_start) ? max_seq : 0;
 }
 
 Changefeed::Changefeed(rocksdb::TransactionDB* db, 
@@ -251,31 +253,11 @@ Changefeed::Changefeed(rocksdb::TransactionDB* db,
     // that sequence numbers are monotonically increasing across restarts.
     const uint64_t initial_sequence = loadInitialSequence();
     sequence_counter_.store(initial_sequence, std::memory_order_relaxed);
-    persisted_sequence_.store(initial_sequence, std::memory_order_relaxed);
 
-    // Keep Merge enabled by default and rely on the first Merge() status in
-    // nextSequence() to self-disable when the DB/CF was opened without a merge
-    // operator. TransactionDB option introspection can be unreliable across
-    // wrappers and may falsely report no merge operator.
-    // Detect merge operator support at construction time by querying the DB's
-    // ColumnFamilyOptions.  This MUST happen before the first nextSequence()
-    // call: calling db_->Merge() on a CF without a merge_operator triggers
-    // RocksDB's background error handler (stop=1) which permanently blocks
-    // all subsequent writes — even plain Put() calls.
-    {
-        bool merge_available = false;
-        try {
-            rocksdb::Options opts = cf_
-                ? db_->GetOptions(cf_)
-                : db_->GetOptions();
-            merge_available = (opts.merge_operator != nullptr);
-        } catch (...) {
-            // If introspection fails, default to disabled (safe — prevents error state).
-            merge_available = false;
-        }
-        sequence_merge_supported_.store(merge_available, std::memory_order_relaxed);
-    }
-    
+    // Start the periodic background checkpoint thread that persists
+    // SEQUENCE_KEY every kSequenceCheckpointIntervalMs milliseconds.
+    startSequenceCheckpoint();
+
     // Start retention cleanup if enabled
     if (retention_policy_.enabled) {
         startRetentionCleanup();
@@ -283,6 +265,7 @@ Changefeed::Changefeed(rocksdb::TransactionDB* db,
 }
 
 Changefeed::~Changefeed() {
+    stopSequenceCheckpoint();
     stopRetentionCleanup();
 }
 
@@ -294,11 +277,10 @@ std::string Changefeed::makeKey(uint64_t sequence) const {
 }
 
 uint64_t Changefeed::nextSequence() {
-    // Lock-free, O(1) atomic increment.  No RocksDB I/O per call in the hot path
-    // (counter is initialised once from RocksDB in loadInitialSequence()).
-    // Crash-safe sequence persistence is deferred to recordEvent() where it is
-    // combined with the event Put into a single WriteBatch (one WAL append
-    // instead of two), halving WAL serialization contention under concurrent writers.
+    // Lock-free, O(1) atomic increment.  No RocksDB I/O per call.
+    // The counter is initialised once from RocksDB in loadInitialSequence().
+    // Crash-safe persistence is handled by the background checkpoint thread in
+    // sequenceCheckpointLoop() — completely decoupled from the write hot path.
     return sequence_counter_.fetch_add(1, std::memory_order_relaxed) + 1;
 }
 
@@ -315,80 +297,13 @@ Changefeed::ChangeEvent Changefeed::recordEvent(ChangeEvent event) {
     // Serialize to JSON
     std::string value = event.toJson().dump();
     std::string key = makeKey(event.sequence);
-    
+
+    // Single WAL write: only the event Put.
+    // SEQUENCE_KEY persistence is handled by the periodic background checkpoint
+    // thread (every kSequenceCheckpointIntervalMs ms), completely removing the
+    // Merge(SEQUENCE_KEY) from the WAL-critical hot path.
     rocksdb::WriteOptions write_opts;
     rocksdb::Status s;
-
-    if (sequence_merge_supported_.load(std::memory_order_acquire)) {
-        // Combine sequence high-watermark persistence (Merge on SEQUENCE_KEY) and
-        // event storage (Put on event key) into a single WriteBatch.  This halves
-        // the number of WAL serialization points per event (2 → 1), cutting WAL
-        // mutex contention roughly in half under concurrent writers.
-        const uint64_t delta = 1;
-        const rocksdb::Slice delta_slice(reinterpret_cast<const char*>(&delta),
-                                         sizeof(delta));
-        rocksdb::WriteBatch batch;
-        if (cf_) {
-            batch.Merge(cf_, SEQUENCE_KEY, delta_slice);
-            batch.Put(cf_, key, value);
-        } else {
-            batch.Merge(SEQUENCE_KEY, delta_slice);
-            batch.Put(key, value);
-        }
-        s = db_->Write(write_opts, &batch);
-
-        if (s.ok()) {
-            // Maintain monotonic high-water mark for the fallback path.
-            uint64_t persisted = persisted_sequence_.load(std::memory_order_relaxed);
-            while (persisted < event.sequence &&
-                   !persisted_sequence_.compare_exchange_weak(
-                       persisted, event.sequence, std::memory_order_relaxed)) {
-            }
-            THEMIS_DEBUG("Recorded change event {} (type={}, key={})",
-                         event.sequence, static_cast<int>(event.type), event.key);
-            notifySubscribers(event);
-            return event;
-        }
-
-        // The WriteBatch failed.  This typically means the DB/CF was opened
-        // without a merge_operator; permanently disable the Merge path to prevent
-        // RocksDB background error state from blocking all subsequent writes.
-        sequence_merge_supported_.store(false, std::memory_order_release);
-        THEMIS_ERROR("Changefeed: WriteBatch(Merge+Put) failed ({}); "
-                     "disabling Merge path and retrying with Put-only fallback",
-                     s.ToString());
-        // Fall through to the Put-only fallback below.
-    }
-
-    // Fallback path: merge_operator not available.
-    // Persist the sequence high-watermark via a plain Put to SEQUENCE_KEY
-    // (guarded by a mutex to prevent a lower-sequence thread from overwriting a
-    // higher value already written by a concurrent thread), and store the event
-    // with a separate Put.
-    {
-        uint64_t persisted = persisted_sequence_.load(std::memory_order_acquire);
-        if (event.sequence > persisted) {
-            std::lock_guard<std::mutex> lk(sequence_persist_mutex_);
-            persisted = persisted_sequence_.load(std::memory_order_relaxed);
-            if (event.sequence > persisted) {
-                std::string seq_bytes(sizeof(uint64_t), '\0');
-                std::memcpy(seq_bytes.data(), &event.sequence, sizeof(uint64_t));
-                rocksdb::Status ps;
-                if (cf_) {
-                    ps = db_->Put(write_opts, cf_, SEQUENCE_KEY, seq_bytes);
-                } else {
-                    ps = db_->Put(write_opts, SEQUENCE_KEY, seq_bytes);
-                }
-                if (ps.ok()) {
-                    persisted_sequence_.store(event.sequence, std::memory_order_release);
-                } else {
-                    THEMIS_ERROR("Changefeed: fallback Put(SEQUENCE_KEY) failed: {}",
-                                 ps.ToString());
-                }
-            }
-        }
-    }
-
     if (cf_) {
         s = db_->Put(write_opts, cf_, key, value);
     } else {
@@ -399,7 +314,10 @@ Changefeed::ChangeEvent Changefeed::recordEvent(ChangeEvent event) {
         THEMIS_ERROR("Failed to record change event {}: {}", event.sequence, s.ToString());
         throw error::eventRecordFailed(s.ToString());
     }
-    
+
+    // Mark the counter dirty so the background checkpoint thread will persist it.
+    sequence_dirty_.store(true, std::memory_order_release);
+
     THEMIS_DEBUG("Recorded change event {} (type={}, key={})", 
                  event.sequence, static_cast<int>(event.type), event.key);
     
@@ -587,17 +505,13 @@ void Changefeed::clear() {
         }
     }
     
-    // Reset the in-process counter and the persisted RocksDB base value.
-    // Using Put() overwrites any prior Merge operands so that subsequent
-    // Merge(+1) calls start from zero again.
-    sequence_counter_.store(0, std::memory_order_relaxed);
-    persisted_sequence_.store(0, std::memory_order_relaxed);
-    const uint64_t zero = 0;
-    const std::string zero_bytes(reinterpret_cast<const char*>(&zero), sizeof(zero));
-    if (cf_) {
-        db_->Put(write_opts, cf_, SEQUENCE_KEY, zero_bytes);
-    } else {
-        db_->Put(write_opts, SEQUENCE_KEY, zero_bytes);
+    // Hold the checkpoint mutex while resetting the counter and writing SEQUENCE_KEY=0
+    // to prevent a concurrent checkpoint write from storing the old (non-zero) counter.
+    {
+        std::lock_guard<std::mutex> ck_lk(sequence_checkpoint_mutex_);
+        sequence_counter_.store(0, std::memory_order_relaxed);
+        sequence_dirty_.store(false, std::memory_order_release);
+        writeSequenceCheckpoint(0);
     }
     
     THEMIS_INFO("Cleared {} change events", count);
@@ -1052,6 +966,64 @@ Changefeed::RetentionPolicy Changefeed::getRetentionPolicy() const {
     std::lock_guard<std::mutex> lock(retention_mutex_);
     return retention_policy_;
 }
+
+// ---------------------------------------------------------------------------
+// Periodic sequence checkpoint
+// ---------------------------------------------------------------------------
+
+void Changefeed::writeSequenceCheckpoint(uint64_t value) {
+    std::string bytes(sizeof(uint64_t), '\0');
+    std::memcpy(bytes.data(), &value, sizeof(uint64_t));
+    rocksdb::WriteOptions wo;
+    rocksdb::Status s;
+    if (cf_) {
+        s = db_->Put(wo, cf_, SEQUENCE_KEY, bytes);
+    } else {
+        s = db_->Put(wo, SEQUENCE_KEY, bytes);
+    }
+    if (!s.ok()) {
+        THEMIS_WARN("Changefeed: sequence checkpoint write failed: {}", s.ToString());
+    }
+}
+
+void Changefeed::startSequenceCheckpoint() {
+    if (sequence_checkpoint_running_.exchange(true)) {
+        return;
+    }
+    sequence_checkpoint_thread_ = std::thread(&Changefeed::sequenceCheckpointLoop, this);
+}
+
+void Changefeed::stopSequenceCheckpoint() {
+    if (!sequence_checkpoint_running_.exchange(false)) {
+        return;
+    }
+    sequence_checkpoint_cv_.notify_all();
+    if (sequence_checkpoint_thread_.joinable()) {
+        sequence_checkpoint_thread_.join();
+    }
+}
+
+void Changefeed::sequenceCheckpointLoop() {
+    while (sequence_checkpoint_running_.load(std::memory_order_acquire)) {
+        std::unique_lock<std::mutex> lk(sequence_checkpoint_mutex_);
+        sequence_checkpoint_cv_.wait_for(
+            lk,
+            std::chrono::milliseconds(kSequenceCheckpointIntervalMs),
+            [this]() { return !sequence_checkpoint_running_.load(std::memory_order_relaxed); });
+
+        // Write a checkpoint if the counter has advanced since the last write.
+        if (sequence_dirty_.exchange(false, std::memory_order_acq_rel)) {
+            writeSequenceCheckpoint(sequence_counter_.load(std::memory_order_relaxed));
+        }
+    }
+
+    // Final checkpoint on shutdown to minimize crash-recovery scan on next start.
+    writeSequenceCheckpoint(sequence_counter_.load(std::memory_order_relaxed));
+}
+
+// ---------------------------------------------------------------------------
+// Retention cleanup
+// ---------------------------------------------------------------------------
 
 void Changefeed::startRetentionCleanup() {
     if (retention_thread_running_.exchange(true)) {
