@@ -602,12 +602,12 @@ TEST_F(GPUClusterCoordinatorTopologyTest,
     GPUClusterTopology nvtopo;
     nvtopo.num_gpus = 3;
     nvtopo.bandwidth_matrix.assign(3, std::vector<float>(3, 0.0f));
-    auto addLink = [&](int s, int d, float bw) {
+    auto addLink = [&](int src, int dst, float bandwidth_gbps) {
         TopologyLink l;
         l.type             = InterconnectType::NVLINK;
-        l.bandwidth_gbps   = bw;
-        l.src_device_index = s;
-        l.dst_device_index = d;
+        l.bandwidth_gbps   = bandwidth_gbps;
+        l.src_device_index = src;
+        l.dst_device_index = dst;
         nvtopo.addLink(l);
     };
     // device 0 ↔ device 1: 300 GB/s each direction
