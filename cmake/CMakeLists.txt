@@ -2083,6 +2083,9 @@ set(THEMIS_CORE_SOURCES
     ../src/geo/spatial_join.cpp
     ../src/geo/raster.cpp
     ../src/geo/temporal_spatial_query.cpp
+    ../src/geo/geojson_geometry.cpp
+    ../src/geo/spatial_join_filter.cpp
+    ../src/geo/temporal_spatial_query_builder.cpp
     ../src/geo/tile_server.cpp
     ../src/geo/device_detector.cpp
     ../src/geo/gpu_backend_production.cpp

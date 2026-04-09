@@ -12575,6 +12575,14 @@ add_geo_focused_test(
     "GpuKernelDispatcher: kernel dispatch table, CPU fallback path, dispatch correctness"
 )
 
+add_geo_focused_test(
+    test_geo_future_interfaces_focused
+    geo/test_geo_future_interfaces.cpp
+    GeoFutureInterfacesFocusedTests
+    "geo;interfaces;geojson;rtree-cursor;spatial-join-filter;raster;temporal-builder;focused;unit"
+    "GeoFutureInterfaces: IGeoIndex, IGeoJSONGeometry, ISpatialJoinFilter, IRTreeCursor, IRasterQueryInterface, ITemporalSpatialQueryBuilder"
+)
+
 if(THEMIS_GEO_CUDA)
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/geo/test_cuda_geo_kernels.cpp")
         message(STATUS "Adding CUDA Geo Kernels focused tests (THEMIS_GEO_CUDA=ON)")
