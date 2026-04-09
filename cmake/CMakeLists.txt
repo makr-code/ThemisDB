@@ -1447,6 +1447,8 @@ set(THEMIS_CORE_SOURCES
     ../src/storage/disk_space_monitor.cpp
     ../src/storage/nlp_metadata_extractor.cpp
     ../src/storage/columnar_format.cpp
+    ../src/storage/simd_filter.cpp
+    ../src/storage/storage_parquet_exporter.cpp
     ../src/storage/batch_write_optimizer.cpp
     ../src/storage/wal_storage.cpp
     ../src/storage/transaction_retry_manager.cpp

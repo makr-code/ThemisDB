@@ -269,6 +269,8 @@ set(THEMIS_STORAGE_SOURCES
     ../src/storage/key_schema.cpp
     ../src/storage/backup_manager.cpp
     ../src/storage/columnar_format.cpp
+    ../src/storage/simd_filter.cpp
+    ../src/storage/storage_parquet_exporter.cpp
     ../src/storage/batch_write_optimizer.cpp
     # ../src/storage/pitr_manager.cpp  # Temporarily disabled - needs transaction module
     ../src/storage/blob_redundancy_manager.cpp

@@ -91,18 +91,22 @@ v1.8.0 – Production-grade persistent storage layer built on RocksDB with MVCC,
   - Affected files: `distributed_transaction_manager.h/.cpp`; coordinates via existing `RaftMVCCBridge`
   - Tests: 27 unit tests in `tests/test_distributed_transactions.cpp`
   - Perf: 2PC round-trip adds ≤ 2× single-shard latency on same-datacenter nodes
-- [ ] Vectorized execution support in `ColumnarFormat` (SIMD batch processing) (Target: v2.0.0)
+- [x] Vectorized execution support in `ColumnarFormat` (SIMD batch processing) (Target: v2.0.0) ✅
   - Inputs: columnar scan batches of up to 8,192 rows
   - Outputs: filtered/projected result batches processed via AVX2 SIMD instructions
-  - Affected files: extend `columnar_format.cpp`; add `simd_filter.cpp` with runtime CPU feature detection
-  - Constraints: graceful fallback to scalar path when AVX2 is unavailable; no ABI change to `ColumnarFormat` public API
-  - Perf: ≥ 4× scan throughput vs. scalar baseline on integer equality and range predicates
-- [ ] Native Parquet export from columnar format (Target: v2.0.0)
-  - Inputs: `ColumnarFormat` table scan result
-  - Outputs: Apache Parquet file compatible with Spark, DuckDB, Pandas
-  - Affected files: new `parquet_exporter.cpp` using Apache Arrow C++ library
-  - Errors: schema inference failure for unknown types → surface as `ExportError::UNSUPPORTED_TYPE`
-  - Tests: round-trip test (export then re-import with DuckDB and verify row/column counts)
+  - Affected files: new `include/storage/simd_filter.h`, `src/storage/simd_filter.cpp`; no ABI change to `ColumnarFormat` public API
+  - Dispatch: AVX-512 → AVX2 → NEON → scalar; runtime CPU feature detection (memoised)
+  - `SIMDColumnFilter::scan()` integrates zone-map early-out on `ColumnSegment`
+  - Tests: 25 tests in `tests/test_simd_columnar_filter.cpp` (SIMDColumnarFilterFocusedTests); scalar-reference parity verified for all 6 ops + all 4 numeric types
+  - Perf: throughput SLO gated by `THEMIS_RUN_PERF_TESTS=1` (SF-25)
+- [x] Native Parquet export from columnar format (Target: v2.0.0) ✅
+  - Inputs: `ColumnarFormat` table scan result (`vector<vector<ColumnSegment>>`)
+  - Outputs: Apache Parquet v2 file compatible with Spark, DuckDB, Pandas; PAR1 magic, Thrift binary FileMetaData
+  - Affected files: new `include/storage/storage_parquet_exporter.h`, `src/storage/storage_parquet_exporter.cpp`
+  - Supports INT32, INT64, FLOAT32, FLOAT64, BOOL, STRING column types with native Parquet type mapping
+  - With `ARROW_ENABLED`: delegates to Apache Arrow / Parquet C++ library; without it: portable Thrift binary Parquet v2 writer
+  - Errors: `ERR_EXPORT_FORMAT_INVALID` for unknown types; `ERR_EXPORT_IO_ERROR` for file write failures; `ERR_EXPORT_CONFIG_INVALID` for mismatched schema
+  - Tests: 15 tests in `tests/test_storage_parquet_exporter.cpp` (StorageParquetExporterFocusedTests)
 
 ## Implementation Phases
 

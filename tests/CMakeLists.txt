@@ -20640,3 +20640,91 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_concurrent_write_controller.cpp")
 
     message(STATUS "  ConcurrentWriteController: FIFO semaphore, RAII guard, stats (EWMA/P99/max), timeout, shutdown, CV regression guard")
 endif()
+
+# ──────────────────────────────────────────────────────────────────────────────
+# ROADMAP v2.0.0: SIMDColumnFilter focused tests
+# Vectorized execution in ColumnarFormat (AVX2/scalar fallback)
+# ──────────────────────────────────────────────────────────────────────────────
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_simd_columnar_filter.cpp")
+    message(STATUS "Adding SIMDColumnFilter focused tests (ROADMAP v2.0.0)")
+
+    add_executable(test_simd_columnar_filter_focused
+        test_simd_columnar_filter.cpp
+        ${CMAKE_SOURCE_DIR}/src/storage/simd_filter.cpp
+        ${CMAKE_SOURCE_DIR}/src/storage/columnar_format.cpp
+    )
+
+    target_include_directories(test_simd_columnar_filter_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_simd_columnar_filter_focused PRIVATE
+        ${TEST_LIBS}
+        lz4
+        snappy
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_simd_columnar_filter_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    if(THEMIS_RUN_PERF_TESTS)
+        target_compile_definitions(test_simd_columnar_filter_focused PRIVATE
+            THEMIS_RUN_PERF_TESTS=1
+        )
+    endif()
+
+    add_test(NAME SIMDColumnarFilterFocusedTests
+             COMMAND test_simd_columnar_filter_focused)
+
+    set_tests_properties(SIMDColumnarFilterFocusedTests PROPERTIES
+        LABELS "storage;simd;columnar;avx2;vectorized;v2.0.0;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  SIMDColumnFilter: detectSIMDLevel, simd_filter_int32/int64/float/double, SIMDColumnFilter::scan/scanBatch/stats (25 tests)")
+endif()
+
+# ──────────────────────────────────────────────────────────────────────────────
+# ROADMAP v2.0.0: StorageParquetExporter focused tests
+# Native Parquet export from ColumnarFormat
+# ──────────────────────────────────────────────────────────────────────────────
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_storage_parquet_exporter.cpp")
+    message(STATUS "Adding StorageParquetExporter focused tests (ROADMAP v2.0.0)")
+
+    add_executable(test_storage_parquet_exporter_focused
+        test_storage_parquet_exporter.cpp
+        ${CMAKE_SOURCE_DIR}/src/storage/storage_parquet_exporter.cpp
+        ${CMAKE_SOURCE_DIR}/src/storage/columnar_format.cpp
+    )
+
+    target_include_directories(test_storage_parquet_exporter_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_storage_parquet_exporter_focused PRIVATE
+        ${TEST_LIBS}
+        lz4
+        snappy
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_storage_parquet_exporter_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME StorageParquetExporterFocusedTests
+             COMMAND test_storage_parquet_exporter_focused)
+
+    set_tests_properties(StorageParquetExporterFocusedTests PROPERTIES
+        LABELS "storage;parquet;export;columnar;v2.0.0;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  StorageParquetExporter: PAR1 magic, INT32/INT64/FLOAT32/FLOAT64/BOOL, multi-column, stats, file export, error paths (15 tests)")
+endif()
