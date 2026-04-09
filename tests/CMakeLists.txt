@@ -16989,7 +16989,26 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_nvme_manager.cpp")
     message(STATUS "  NVMe: capability detection, io_uring lifecycle, ZNS no-ops, Direct I/O flags, RocksDB integration")
 endif()
 
-# ErasureCodingBackend ÔÇô focused tests for Reed-Solomon blob erasure coding (Issue #207 / v1.7.0)
+# Streaming Blob Write Path – focused tests (PERF-D5 / v2.0.0)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_blob_streaming.cpp")
+    message(STATUS "Adding Storage: BlobStreamingFocusedTests (PERF-D5)")
+    add_executable(test_blob_streaming_focused test_blob_streaming.cpp)
+    target_include_directories(test_blob_streaming_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_blob_streaming_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        spdlog::spdlog
+        Threads::Threads
+    )
+    target_compile_definitions(test_blob_streaming_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME BlobStreamingFocusedTests COMMAND test_blob_streaming_focused)
+    set_tests_properties(BlobStreamingFocusedTests PROPERTIES
+        LABELS "storage;blob;streaming;chunked;parallel;nvme;perf-d5;focused;unit"
+        TIMEOUT 120
+    )
+    message(STATUS "  BlobStreaming: putBlob/getBlob/delBlob, chunked parallel writes, round-trip integrity, parallel safety")
+endif()
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_erasure_coding_backend.cpp" AND NOT TARGET test_erasure_coding_backend_focused)
     message(STATUS "Adding Storage: ErasureCodingBackend focused tests (Issue #207)")
 
