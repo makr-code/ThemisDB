@@ -225,6 +225,10 @@ void GPUClusterTopology::addLink(const TopologyLink& link) {
                                 [static_cast<size_t>(di)] = link.bandwidth_gbps;
             }
         }
+        // An intra-node NVLink link implies NVLink is present on this node.
+        if (link.type == InterconnectType::NVLINK) {
+            has_nvlink = true;
+        }
     }
     links.push_back(link);
 }
