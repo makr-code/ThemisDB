@@ -12875,6 +12875,14 @@ add_exporter_focused_test(
     "exporters;join;hash-join;pii;focused;unit"
     "JoinExporter: cross-collection hash-join, output-field aliasing, PII redaction, memory budget, throughput"
 )
+
+add_exporter_focused_test(
+    test_pii_detector_focused
+    exporters/test_pii_detector.cpp
+    PiiDetectorFocusedTests
+    "exporters;pii;redaction;mask;hash;security;focused;unit"
+    "PIIDetector: email/phone/SSN/credit-card/IP detection, MASK/REMOVE/HASH/PARTIAL redaction, per-type strategy override, PIIMetrics"
+)
 # ============================================================================
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cache_interfaces.cpp")
