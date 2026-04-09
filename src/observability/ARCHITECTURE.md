@@ -193,7 +193,7 @@ QueryProfiler::endQuery(query_id)
 
 - OpenTelemetry tracing integration is in progress; full span export is partial.
 - Distributed tracing across shards requires trace context propagation, which is
-  implemented in `src/core/context_propagation.cpp` but not all code paths use it yet.
+  implemented in `src/core/concerns/context_propagation.cpp` but not all code paths use it yet.
 - Log aggregation to external Loki requires the Grafana agent (not included).
 
 ---

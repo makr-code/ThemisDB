@@ -597,6 +597,7 @@ set(THEMIS_QUERY_SOURCES
     ../src/importers/schema_validator.cpp
     ../src/importers/kafka_importer.cpp
     ../src/importers/oracle_importer.cpp
+    ../src/importers/mssql_importer.cpp
     ../src/importers/gui_import_wizard.cpp
     $<$<BOOL:${THEMIS_ENABLE_S3}>:../src/importers/s3_importer.cpp>
     ../src/importers/schema_inference.cpp
@@ -1248,6 +1249,7 @@ set(THEMIS_TIMESERIES_SOURCES
     ../src/timeseries/aggregates.cpp
     ../src/timeseries/downsampling.cpp
     ../src/timeseries/ts_auto_buffer_adaptive.cpp
+    ../src/timeseries/adaptive_flush_controller.cpp
     ../src/timeseries/encrypted_chunk_store.cpp
     ../src/timeseries/ts_encrypted_key_rotation.cpp
 )

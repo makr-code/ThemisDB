@@ -7112,6 +7112,56 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_scheduled_edge_refresh.cpp")
 endif()
 
 # ============================================================================
+# Graph Future Interfaces focused tests
+# (Issue: [MODULE] graph — GraphEmbedding, GraphQueryRewriter, MultiLayerGraph)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_graph_future_interfaces.cpp")
+    message(STATUS "Adding focused Graph Future Interfaces tests (embedding, rewriter, multi-layer)")
+
+    add_executable(test_graph_future_interfaces_focused
+        graph/test_graph_future_interfaces.cpp
+        ${CMAKE_SOURCE_DIR}/src/graph/graph_embedding.cpp
+        ${CMAKE_SOURCE_DIR}/src/graph/graph_query_rewriter.cpp
+        ${CMAKE_SOURCE_DIR}/src/graph/multi_layer_graph.cpp
+        ${CMAKE_SOURCE_DIR}/src/graph/graph_query_optimizer.cpp
+        ${CMAKE_SOURCE_DIR}/src/graph/path_constraints.cpp
+        ${CMAKE_SOURCE_DIR}/src/graph/parallel_traversal.cpp
+        ${CMAKE_SOURCE_DIR}/src/graph/distributed_graph.cpp
+    )
+
+    target_include_directories(test_graph_future_interfaces_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_graph_future_interfaces_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        fmt::fmt
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_graph_future_interfaces_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+        THEMIS_GRAPH_EXPORTS
+    )
+
+    add_test(NAME GraphFutureInterfacesFocusedTests
+             COMMAND test_graph_future_interfaces_focused)
+
+    set_tests_properties(GraphFutureInterfacesFocusedTests PROPERTIES
+        LABELS "graph;embedding;rewriter;multi_layer;gnn;node2vec;deepwalk;link_prediction;focused;unit"
+        TIMEOUT 180
+    )
+
+    message(STATUS "  GraphFutureInterfaces: GraphEmbedding (Node2Vec/DeepWalk/config/similarity), GraphQueryRewriter (rules/stats/explainRewrite), MultiLayerGraph (layers/paths/pageRank)")
+endif()
+
+# ============================================================================
 # Importer Plugin API Tests (standalone ÔÇô avoids createPlugin/destroyPlugin
 # symbol collision with postgres_importer.cpp in themis_core)
 # ============================================================================
@@ -7576,6 +7626,43 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_oracle_importer.cpp")
     message(STATUS "  OracleImporter: OCI config, type mapping (NUMBER/DATE/CLOB/BLOB), schema filtering, incremental import")
 else()
     message(STATUS "OracleImporter focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_oracle_importer.cpp")
+endif()
+
+# ============================================================================
+# SQL Server (MSSQL) Importer Focused Tests (standalone binary)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_mssql_importer.cpp")
+    message(STATUS "Adding MSSQLImporter focused tests (standalone binary)")
+
+    add_executable(test_mssql_importer_focused
+        test_mssql_importer.cpp
+    )
+
+    target_include_directories(test_mssql_importer_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_mssql_importer_focused PRIVATE
+        ${TEST_LIBS}
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_mssql_importer_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME MSSQLImporterFocusedTests COMMAND test_mssql_importer_focused)
+
+    set_tests_properties(MSSQLImporterFocusedTests PROPERTIES
+        LABELS "importers;mssql;sqlserver;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  MSSQLImporter: T-SQL type mapping, bracket identifiers, INSERT parsing, GO batch handling, unicode N-strings, validateSource, filtering")
+else()
+    message(STATUS "MSSQLImporter focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_mssql_importer.cpp")
 endif()
 
 # ============================================================================
@@ -12156,6 +12243,56 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ts_adaptive_flush.cpp")
     message(STATUS "  TSAdaptiveFlush: FlushController EWMA, backpressure, TSAutoBufferConfig, metrics integration")
 endif()
 
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_adaptive_flush_controller.cpp")
+    message(STATUS "Adding AdaptiveFlushController integration tests")
+# ---------------------------------------------------------------------------
+# AdaptiveFlushController Focused Tests (PERF-D1-C, Issue #4437)
+# AC: ≥500k pts/s throughput, P99 latency <100µs, no data loss,
+#     buffer utilization stats, Prometheus/JSON metrics export,
+#     regression: dedup, memory cap, fallback, concurrency.
+# Performance tests gated by THEMIS_RUN_PERF_TESTS=1 compile-time define.
+# ---------------------------------------------------------------------------
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_adaptive_flush_controller.cpp")
+    message(STATUS "Adding AdaptiveFlushController regression & performance focused tests")
+
+    add_executable(test_adaptive_flush_controller_focused
+        test_adaptive_flush_controller.cpp
+    )
+
+    target_include_directories(test_adaptive_flush_controller_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_adaptive_flush_controller_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_adaptive_flush_controller_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME AdaptiveFlushControllerFocusedTests COMMAND test_adaptive_flush_controller_focused)
+
+    set_tests_properties(AdaptiveFlushControllerFocusedTests PROPERTIES
+        LABELS "timeseries;adaptive-flush-controller;tsstore;integration;focused"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  AdaptiveFlushController: TSStore write path routing, buffered/direct modes, stats, metrics")
+    add_test(NAME AdaptiveFlushControllerFocusedTests
+             COMMAND test_adaptive_flush_controller_focused)
+
+    set_tests_properties(AdaptiveFlushControllerFocusedTests PROPERTIES
+        LABELS "timeseries;adaptive-flush;backpressure;regression;performance;integration;focused"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  AdaptiveFlushController: unit/watermark/backpressure/perf/regression/integration tests")
+endif()
+
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_prometheus_remote_write.cpp")
     message(STATUS "Adding Prometheus Remote Write focused tests")
 
@@ -12436,6 +12573,14 @@ add_geo_focused_test(
     GpuKernelDispatcherFocusedTests
     "geo;gpu-kernel;dispatcher;focused;unit"
     "GpuKernelDispatcher: kernel dispatch table, CPU fallback path, dispatch correctness"
+)
+
+add_geo_focused_test(
+    test_geo_future_interfaces_focused
+    geo/test_geo_future_interfaces.cpp
+    GeoFutureInterfacesFocusedTests
+    "geo;interfaces;geojson;rtree-cursor;spatial-join-filter;raster;temporal-builder;focused;unit"
+    "GeoFutureInterfaces: IGeoIndex, IGeoJSONGeometry, ISpatialJoinFilter, IRTreeCursor, IRasterQueryInterface, ITemporalSpatialQueryBuilder"
 )
 
 if(THEMIS_GEO_CUDA)
@@ -12874,6 +13019,14 @@ add_exporter_focused_test(
     JoinExporterFocusedTests
     "exporters;join;hash-join;pii;focused;unit"
     "JoinExporter: cross-collection hash-join, output-field aliasing, PII redaction, memory budget, throughput"
+)
+
+add_exporter_focused_test(
+    test_pii_detector_focused
+    exporters/test_pii_detector.cpp
+    PiiDetectorFocusedTests
+    "exporters;pii;redaction;mask;hash;security;focused;unit"
+    "PIIDetector: email/phone/SSN/credit-card/IP detection, MASK/REMOVE/HASH/PARTIAL redaction, per-type strategy override, PIIMetrics"
 )
 # ============================================================================
 
@@ -16719,6 +16872,12 @@ if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_discours
 
     add_executable(test_discourse_engine_focused
         test_discourse_engine.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/discourse_engine.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/rag_context_engine.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/argument_store.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/philosophy_loader.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/ethics_evaluator.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/ethics_ai_types.cpp
     )
 
     target_include_directories(test_discourse_engine_focused PRIVATE
@@ -16729,7 +16888,6 @@ if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_discours
 
     target_link_libraries(test_discourse_engine_focused PRIVATE
         ${TEST_LIBS}
-        ethics_ai_plugin
         themis_core
         Threads::Threads
     )
@@ -16767,6 +16925,8 @@ if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_philosop
 
     add_executable(test_philosophy_loader_focused
         test_philosophy_loader.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/philosophy_loader.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/ethics_ai_types.cpp
     )
 
     target_include_directories(test_philosophy_loader_focused PRIVATE
@@ -16777,7 +16937,7 @@ if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_philosop
 
     target_link_libraries(test_philosophy_loader_focused PRIVATE
         ${TEST_LIBS}
-        ethics_ai_plugin
+        themis_core
         Threads::Threads
     )
 
@@ -16803,6 +16963,69 @@ elseif(NOT THEMIS_PLUGIN_ETHICS_AI)
     message(STATUS "Philosophy Loader tests skipped (THEMIS_PLUGIN_ETHICS_AI disabled)")
 else()
     message(STATUS "Philosophy Loader tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_philosophy_loader.cpp")
+endif()
+
+# ============================================================================
+# Ethics AI Integration Tests — full pipeline end-to-end (standalone mode)
+# ============================================================================
+# Tests three integration scenarios:
+#   1. FullPipelineIntegrationTest: initializeDebate → makeDecision → evaluateDecision
+#   2. ArgumentStoreRAGIntegrationTest: 21 seeded args across 3 schools + chain round-trip
+#   3. RAGContextBuildTest: buildContext / findSimilarDilemmas / getBestPractices / vector search
+# ============================================================================
+
+if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ethics_ai_integration.cpp")
+    message(STATUS "Adding Ethics AI Integration tests")
+
+    add_executable(test_ethics_ai_integration
+        test_ethics_ai_integration.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/argument_store.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/ethics_ai_types.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/ethics_evaluator.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/discourse_engine.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/philosophy_loader.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/rag_context_engine.cpp
+    )
+
+    target_include_directories(test_ethics_ai_integration PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai
+    )
+
+    target_link_libraries(test_ethics_ai_integration PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    find_package(yaml-cpp CONFIG QUIET)
+    if(yaml-cpp_FOUND)
+        target_link_libraries(test_ethics_ai_integration PRIVATE yaml-cpp)
+        target_compile_definitions(test_ethics_ai_integration PRIVATE HAVE_YAML_CPP)
+    endif()
+
+    target_compile_definitions(test_ethics_ai_integration PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    set_target_properties(test_ethics_ai_integration PROPERTIES
+        CXX_STANDARD 20
+        CXX_STANDARD_REQUIRED ON
+    )
+
+    add_test(NAME EthicsAIIntegrationTests COMMAND test_ethics_ai_integration)
+
+    set_tests_properties(EthicsAIIntegrationTests PROPERTIES
+        LABELS "ethics;integration;full-pipeline;rag;argument-store"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  EthicsAI Integration: full pipeline, ArgumentStore+RAG, RAGContextBuild")
+elseif(NOT THEMIS_PLUGIN_ETHICS_AI)
+    message(STATUS "Ethics AI Integration tests skipped (THEMIS_PLUGIN_ETHICS_AI disabled)")
+else()
+    message(STATUS "Ethics AI Integration tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_ethics_ai_integration.cpp")
 endif()
 
 # ============================================================================
@@ -20310,6 +20533,12 @@ if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_argument
 
     add_executable(test_argument_store_standalone
         test_argument_store_standalone.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/argument_store.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/ethics_ai_types.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/ethics_evaluator.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/discourse_engine.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/philosophy_loader.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/rag_context_engine.cpp
     )
 
     target_include_directories(test_argument_store_standalone PRIVATE
@@ -20320,7 +20549,6 @@ if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_argument
 
     target_link_libraries(test_argument_store_standalone PRIVATE
         ${TEST_LIBS}
-        ethics_ai_plugin
         themis_core
         Threads::Threads
     )
@@ -20350,6 +20578,12 @@ if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_rag_cont
 
     add_executable(test_rag_context_engine_focused
         test_rag_context_engine.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/argument_store.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/rag_context_engine.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/ethics_ai_types.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/ethics_evaluator.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/discourse_engine.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/philosophy_loader.cpp
     )
 
     target_include_directories(test_rag_context_engine_focused PRIVATE
@@ -20360,7 +20594,6 @@ if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_rag_cont
 
     target_link_libraries(test_rag_context_engine_focused PRIVATE
         ${TEST_LIBS}
-        ethics_ai_plugin
         themis_core
         Threads::Threads
     )
@@ -20414,6 +20647,12 @@ if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ethics_a
 
     target_compile_definitions(test_ethics_ai_plugin_focused PRIVATE
         THEMIS_TEST_BUILD=1
+    )
+
+    add_custom_command(TARGET test_ethics_ai_plugin_focused POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            $<TARGET_FILE:ethics_ai_plugin>
+            $<TARGET_FILE_DIR:test_ethics_ai_plugin_focused>
     )
 
     add_test(NAME EthicsAIPluginTests COMMAND test_ethics_ai_plugin_focused)

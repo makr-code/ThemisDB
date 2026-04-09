@@ -241,6 +241,58 @@ __device__ void bitonicSortStep(
 
 extern "C" {
 
+// ============================================================================
+// Occupancy-tuned block dimension helper.
+//
+// Queries cudaOccupancyMaxPotentialBlockSize to determine the block dimensions
+// that maximise SM occupancy for a 2-D (queries × vectors) launch.  The
+// result is clamped to ensure total threads per block ≤ 1024 (hardware limit)
+// and each dimension is rounded down to the nearest power of 2.
+//
+// Falls back to dim3(16, 16) = 256 threads when the runtime query fails
+// (e.g., inside a non-CUDA test environment).
+// ============================================================================
+
+template <typename KernelFn>
+static dim3 occupancyBlockDim2D(KernelFn kernel)
+{
+    int minGridSize = 0, blockSizeFlat = 0;
+    const cudaError_t err = cudaOccupancyMaxPotentialBlockSize(
+        &minGridSize, &blockSizeFlat, kernel, 0, 0);
+
+    if (err != cudaSuccess || blockSizeFlat <= 0) {
+        return dim3(16, 16);  // safe default
+    }
+
+    // Split the flat block size into a square 2-D block.
+    // Pick the largest power-of-2 tile such that tile² ≤ blockSizeFlat.
+    unsigned int tile = 1u;
+    while ((tile * 2u) * (tile * 2u) <= static_cast<unsigned>(blockSizeFlat))
+        tile *= 2u;
+    if (tile > 32u) tile = 32u;  // 32 × 32 = 1024 — hardware maximum
+    return dim3(tile, tile);
+}
+
+// ============================================================================
+// AMD GCN / RDNA wavefront-aware block size helper.
+//
+// On AMD hardware the warp equivalent (wavefront) is 64 threads rather than
+// 32.  Using a block size that is not a multiple of 64 results in half-occupancy
+// waste.  At runtime, hipGetDeviceProperties() exposes warpSize; here we use
+// the CUDA-side equivalent cudaDeviceGetAttribute() to detect the warp size and
+// default to 64-thread blocks when appropriate.
+// ============================================================================
+
+static int deviceWarpSize()
+{
+    int warpSize = 32;  // default for NVIDIA
+    int deviceId = 0;
+    if (cudaGetDevice(&deviceId) == cudaSuccess) {
+        cudaDeviceGetAttribute(&warpSize, cudaDevAttrWarpSize, deviceId);
+    }
+    return warpSize;
+}
+
 /**
  * Launch L2 distance computation kernel
  */
@@ -253,7 +305,13 @@ void launchL2DistanceKernel(
     int dim,
     cudaStream_t stream
 ) {
-    dim3 blockDim(16, 16);
+    // Use occupancy-tuned block dimensions; fall back to (16, 16) on failure.
+    // For AMD GCN targets where warpSize=64, prefer 64-thread blocks to avoid
+    // half-occupancy (64-thread wavefront, 32-thread block = 50% utilisation).
+    dim3 blockDim = occupancyBlockDim2D(computeL2DistanceKernel);
+    if (deviceWarpSize() == 64 && blockDim.x * blockDim.y < 64u) {
+        blockDim = dim3(8, 8);  // 64 threads, fits AMD GCN wavefront
+    }
     dim3 gridDim(
         (numVectors + blockDim.x - 1) / blockDim.x,
         (numQueries + blockDim.y - 1) / blockDim.y
@@ -301,7 +359,10 @@ void launchInnerProductKernel(
     int dim,
     cudaStream_t stream
 ) {
-    dim3 blockDim(16, 16);
+    dim3 blockDim = occupancyBlockDim2D(computeInnerProductKernel);
+    if (deviceWarpSize() == 64 && blockDim.x * blockDim.y < 64u) {
+        blockDim = dim3(8, 8);
+    }
     dim3 gridDim(
         (numVectors + blockDim.x - 1) / blockDim.x,
         (numQueries + blockDim.y - 1) / blockDim.y
@@ -350,7 +411,10 @@ void launchInnerProductDistanceKernel(
     int dim,
     cudaStream_t stream
 ) {
-    dim3 blockDim(16, 16);
+    dim3 blockDim = occupancyBlockDim2D(computeInnerProductKernel);
+    if (deviceWarpSize() == 64 && blockDim.x * blockDim.y < 64u) {
+        blockDim = dim3(8, 8);
+    }
     dim3 gridDim(
         (numVectors + blockDim.x - 1) / blockDim.x,
         (numQueries + blockDim.y - 1) / blockDim.y

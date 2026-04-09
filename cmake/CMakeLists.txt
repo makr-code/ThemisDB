@@ -1894,6 +1894,7 @@ set(THEMIS_CORE_SOURCES
     ../src/timeseries/aggregates.cpp
     ../src/timeseries/downsampling.cpp
     ../src/timeseries/ts_auto_buffer_adaptive.cpp
+    ../src/timeseries/adaptive_flush_controller.cpp
     ../src/timeseries/encrypted_chunk_store.cpp
     ../src/timeseries/ts_encrypted_key_rotation.cpp
     
@@ -2082,6 +2083,9 @@ set(THEMIS_CORE_SOURCES
     ../src/geo/spatial_join.cpp
     ../src/geo/raster.cpp
     ../src/geo/temporal_spatial_query.cpp
+    ../src/geo/geojson_geometry.cpp
+    ../src/geo/spatial_join_filter.cpp
+    ../src/geo/temporal_spatial_query_builder.cpp
     ../src/geo/tile_server.cpp
     ../src/geo/device_detector.cpp
     ../src/geo/gpu_backend_production.cpp
@@ -2309,6 +2313,7 @@ set(THEMIS_CORE_SOURCES
     ../src/importers/conflict_resolver.cpp
     ../src/importers/kafka_importer.cpp
     ../src/importers/oracle_importer.cpp
+    ../src/importers/mssql_importer.cpp
     ../src/importers/gui_import_wizard.cpp
     $<$<BOOL:${THEMIS_ENABLE_S3}>:../src/importers/s3_importer.cpp>
     ../src/importers/schema_inference.cpp

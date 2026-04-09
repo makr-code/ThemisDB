@@ -683,8 +683,24 @@ std::vector<std::vector<std::pair<uint32_t, float>>> HIPVectorBackend::batchKnnS
                 break;
         }
         
-        // Launch top-k selection kernel
+        // Launch top-k selection kernel with occupancy-tuned block size.
+        // For AMD GCN/RDNA (warpSize = 64), hipOccupancyMaxPotentialBlockSize
+        // will naturally return a multiple of 64, avoiding half-occupancy.
         int threadsPerBlock = 256;
+        {
+            int minGridSz = 0, blockSz = 0;
+            if (hipOccupancyMaxPotentialBlockSize(&minGridSz, &blockSz,
+                                                   topKSelectionKernel, 0, 0) == hipSuccess
+                && blockSz > 0) {
+                threadsPerBlock = blockSz;
+                // Clamp to power-of-2 in [64, 1024]
+                if (threadsPerBlock > 1024) threadsPerBlock = 1024;
+                if (threadsPerBlock <   64) threadsPerBlock = 64;
+                int p = 1;
+                while (p * 2 <= threadsPerBlock) p *= 2;
+                threadsPerBlock = p;
+            }
+        }
         int numBlocks = (numQueries + threadsPerBlock - 1) / threadsPerBlock;
         
         hipLaunchKernelGGL(topKSelectionKernel, dim3(numBlocks), dim3(threadsPerBlock), 0, impl_->stream.get(),

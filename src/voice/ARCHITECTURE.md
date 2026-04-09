@@ -193,9 +193,9 @@ audio_file = "meeting_2026-02-24.wav"
 
 ## 11. Known Limitations & Future Work
 
-- Voice module is Alpha; Whisper integration is experimental.
-- TTS output requires an external TTS service (not included).
-- Wake word detection is a stub; integration with a dedicated wake word engine is planned.
+- Voice module core is production-ready (v1.1.0); advanced hardening work remains for anti-spoofing and model-quality tuning.
+- TTS quality and latency depend on configured runtime model and deployment hardware.
+- Wake-word detection is implemented with heuristic scoring; optional neural wake-word backends remain future enhancements.
 - Real-time streaming transcription latency depends on Whisper model size and hardware.
 
 ---

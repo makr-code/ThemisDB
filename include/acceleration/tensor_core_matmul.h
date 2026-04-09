@@ -152,6 +152,33 @@ int launchCPUMatmulKernel(
 );
 
 // =============================================================================
+// Quantization helpers (host-side, no CUDA required)
+// =============================================================================
+
+/// Quantize FP32 values to INT8 using a per-tensor linear scale factor.
+///
+/// dst[i] = clamp(round(src[i] / scale), -128, 127)
+///
+/// @param src    Source FP32 array (host pointer), length n.
+/// @param dst    Destination INT8 array (host pointer), length n.
+/// @param n      Number of elements.
+/// @param scale  Per-tensor scale factor (src range / 127).  Must be > 0.
+void quantize(const float* src, int8_t* dst, size_t n, float scale);
+
+/// Dequantize INT32 accumulator values to FP32 using a per-tensor scale factor.
+///
+/// dst[i] = static_cast<float>(src[i]) * scale
+///
+/// Used after an INT8 GEMM where the accumulator is INT32 and the caller needs
+/// FP32 output.
+///
+/// @param src    Source INT32 array (host pointer), length n.
+/// @param dst    Destination FP32 array (host pointer), length n.
+/// @param n      Number of elements.
+/// @param scale  Per-tensor scale factor applied to the INT32 accumulator.
+void dequantize(const int32_t* src, float* dst, size_t n, float scale);
+
+// =============================================================================
 // Unified dispatch adapter (backend-agnostic entry point)
 // =============================================================================
 

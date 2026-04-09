@@ -245,7 +245,23 @@ __global__ void graphBFRelaxKernel(
 
 using namespace themis::acceleration::cuda;
 
-static constexpr int kBFSBlockDim = 256;
+// Occupancy-tuned block size for 1-D BFS kernels.
+// Queried once per launcher call to avoid caching stale values when devices change.
+// Falls back to 256 if cudaOccupancyMaxPotentialBlockSize fails.
+template <typename KernelFn>
+static int bfsBlockDim(KernelFn kernel) {
+    int minGridSize = 0, blockSize = 0;
+    const cudaError_t err = cudaOccupancyMaxPotentialBlockSize(
+        &minGridSize, &blockSize, kernel, 0, 0);
+    if (err != cudaSuccess || blockSize <= 0) return 256;
+    // Clamp to powers-of-2 in [64, 1024] for predictable behaviour on NVIDIA and AMD.
+    if (blockSize >  1024) blockSize = 1024;
+    if (blockSize <    64) blockSize = 64;
+    // Round down to nearest power-of-2
+    int p = 1;
+    while (p * 2 <= blockSize) p *= 2;
+    return p;
+}
 
 extern "C" void launchGraphBFSInitKernel(
     const uint32_t* d_startVertices,
@@ -257,9 +273,10 @@ extern "C" void launchGraphBFSInitKernel(
     int             numStarts,
     cudaStream_t    stream
 ) {
+    const int kBlockDim = bfsBlockDim(graphBFSInitKernel);
     const int total  = numStarts * numVertices;
-    const int blocks = (total + kBFSBlockDim - 1) / kBFSBlockDim;
-    graphBFSInitKernel<<<blocks, kBFSBlockDim, 0, stream>>>(
+    const int blocks = (total + kBlockDim - 1) / kBlockDim;
+    graphBFSInitKernel<<<blocks, kBlockDim, 0, stream>>>(
         d_startVertices, d_frontier_a, d_frontier_b,
         d_visited, d_depths, numVertices, numStarts);
 }
@@ -275,9 +292,10 @@ extern "C" void launchGraphBFSExpandKernel(
     uint32_t        currentDepth,
     cudaStream_t    stream
 ) {
+    const int kBlockDim = bfsBlockDim(graphBFSExpandKernel);
     const int total  = numStarts * numVertices;
-    const int blocks = (total + kBFSBlockDim - 1) / kBFSBlockDim;
-    graphBFSExpandKernel<<<blocks, kBFSBlockDim, 0, stream>>>(
+    const int blocks = (total + kBlockDim - 1) / kBlockDim;
+    graphBFSExpandKernel<<<blocks, kBlockDim, 0, stream>>>(
         d_adjacency, d_frontier_in, d_frontier_out,
         d_visited, d_depths, numVertices, numStarts, currentDepth);
 }
@@ -290,8 +308,9 @@ extern "C" void launchGraphBFSGatherKernel(
     int*            d_result_sizes,
     cudaStream_t    stream
 ) {
-    const int blocks = (numStarts + kBFSBlockDim - 1) / kBFSBlockDim;
-    graphBFSGatherKernel<<<blocks, kBFSBlockDim, 0, stream>>>(
+    const int kBlockDim = bfsBlockDim(graphBFSGatherKernel);
+    const int blocks = (numStarts + kBlockDim - 1) / kBlockDim;
+    graphBFSGatherKernel<<<blocks, kBlockDim, 0, stream>>>(
         d_visited, numVertices, numStarts, d_result_vertices, d_result_sizes);
 }
 
@@ -303,9 +322,10 @@ extern "C" void launchGraphBFInitDistancesKernel(
     int             numPairs,
     cudaStream_t    stream
 ) {
+    const int kBlockDim = bfsBlockDim(graphBFInitDistancesKernel);
     const int total  = numPairs * numVertices;
-    const int blocks = (total + kBFSBlockDim - 1) / kBFSBlockDim;
-    graphBFInitDistancesKernel<<<blocks, kBFSBlockDim, 0, stream>>>(
+    const int blocks = (total + kBlockDim - 1) / kBlockDim;
+    graphBFInitDistancesKernel<<<blocks, kBlockDim, 0, stream>>>(
         d_startVertices, d_distances, d_predecessors, numVertices, numPairs);
 }
 
@@ -318,9 +338,10 @@ extern "C" void launchGraphBFRelaxKernel(
     int             numPairs,
     cudaStream_t    stream
 ) {
+    const int kBlockDim = bfsBlockDim(graphBFRelaxKernel);
     const int total  = numPairs * numVertices;
-    const int blocks = (total + kBFSBlockDim - 1) / kBFSBlockDim;
-    graphBFRelaxKernel<<<blocks, kBFSBlockDim, 0, stream>>>(
+    const int blocks = (total + kBlockDim - 1) / kBlockDim;
+    graphBFRelaxKernel<<<blocks, kBlockDim, 0, stream>>>(
         d_adjacency, d_weights, d_distances, d_predecessors,
         numVertices, numPairs);
 }

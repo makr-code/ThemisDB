@@ -148,6 +148,33 @@ int dispatchMatmul(const MatrixKernelParams& params, void* opaque_stream)
 #endif
 }
 
+// =============================================================================
+// Quantization helpers
+// =============================================================================
+
+void quantize(const float* src, int8_t* dst, size_t n, float scale)
+{
+    if (!src || !dst || n == 0 || scale <= 0.0f) return;
+    for (size_t i = 0; i < n; ++i) {
+        float v = src[i] / scale;
+        // Round half-away-from-zero then clamp to [-128, 127]
+        if (v > 127.0f)       { dst[i] = 127; }
+        else if (v < -128.0f) { dst[i] = -128; }
+        else {
+            dst[i] = static_cast<int8_t>(
+                static_cast<int>(v >= 0.0f ? v + 0.5f : v - 0.5f));
+        }
+    }
+}
+
+void dequantize(const int32_t* src, float* dst, size_t n, float scale)
+{
+    if (!src || !dst || n == 0) return;
+    for (size_t i = 0; i < n; ++i) {
+        dst[i] = static_cast<float>(src[i]) * scale;
+    }
+}
+
 } // namespace tensor_core
 } // namespace acceleration
 } // namespace themis

@@ -10,7 +10,7 @@ Provides foundational module loading infrastructure for ThemisDB plugins and ext
 
 **In scope:** Cross-platform shared library loading, digital signature and hash verification, trust level classification (TRUSTED/VERIFIED/UNTRUSTED), revocation checking, dev mode for unsigned modules, plugin lifecycle (init/execute/shutdown), hot-reload, OS-level sandboxing, WASM-based isolation, remote registry client, plugin dependency graph, A/B testing via module swapping, per-plugin audit trail.
 
-**Out of scope:** Plugin business logic, ordered dependency loading with version conflict resolution (in progress).
+**Out of scope:** Plugin business logic and module-specific runtime behavior outside the shared loading/sandboxing infrastructure.
 
 ## Relevant Interfaces
 

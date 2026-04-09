@@ -7,9 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.8.1-rc2] - 2026-04-08
+
 ### Fixed — Hotfix: Docker image SIGSEGV on startup (`Exit 139`)
 
 > **Priority: P0** – Release-blocker for container users.
+> Released in: `themisdb/themisdb:1.8.1-rc2`
 > Affected tags: `themisdb/themisdb:latest`, `themisdb/themisdb:1.8.1-rc1`
 
 - **`LlamaWrapper::Config::enable_response_cache` changed default `true` → `false`**
@@ -59,6 +62,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     in a fresh container); server now starts cleanly without a config file.
 
 ### Documentation
+
+- **Module-Docs Sync 📚 — 2026-04-09**
+  - 55 Module indexiert; 712 Primary-Markdown-Dateien in `src/` und `include/`
+  - 5 Module ohne Sekundärdokumentation erkannt; Issues erzeugt
+  - Sekundärdokumentation aktualisiert in `docs/de/` und `docs/en/`
+  - Tool: `tools/module_docs_builder.py` v1.0.0
+  <!-- changelog-updater: module-docs-sync-2026-04-09 -->
 
 - **Module-Docs Sync 📚 — 2026-04-08**
   - 55 Module indexiert; 712 Primary-Markdown-Dateien in `src/` und `include/`

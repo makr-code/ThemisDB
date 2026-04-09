@@ -5,7 +5,7 @@
   <!-- Row 1: Build & Release -->
   [![CI](https://github.com/makr-code/ThemisDB/actions/workflows/01-core_themis-core-ci.yml/badge.svg?branch=develop)](docs/en/badges/ci-status.md)
   [![Security CI](https://github.com/makr-code/ThemisDB/actions/workflows/05-quality_security_security-hardening-ci.yml/badge.svg?branch=develop)](docs/en/badges/security-ci.md)
-  [![Version](https://img.shields.io/badge/version-1.8.0-blue)](docs/en/badges/version.md)
+    [![Version](https://img.shields.io/badge/version-1.8.1--rc2-blue)](docs/en/badges/version.md)
   [![License](https://img.shields.io/badge/license-MIT-green)](docs/en/badges/license.md)
   [![Docker Pulls](https://img.shields.io/docker/pulls/themisdb/themisdb)](docs/en/badges/docker.md)
 

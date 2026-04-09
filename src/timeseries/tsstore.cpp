@@ -28,6 +28,7 @@
 #include "timeseries/timeseries_metrics.h"
 #include "timeseries/encrypted_chunk_store.h"
 #include "timeseries/ts_auto_buffer.h"
+#include "timeseries/adaptive_flush_controller.h"
 #include "utils/logger.h"
 #include "utils/tracing.h"
 #include "timeseries/gorilla.h"
@@ -208,15 +209,24 @@ Result<void> TSStore::putDataPoint(const DataPoint& point) {
         }
     }
     
-    // STORAGE METHOD: Singular RocksDB Entity (or buffered Gorilla when auto_buffer_ is set)
-    // When a TSAutoBuffer is attached and Gorilla compression is enabled, single-point
-    // inserts are routed through the buffer so they can be Gorilla-encoded in batches
-    // (gorilla_batch_size, default 128).  This resolves the IoT write pattern problem
-    // where individual inserts would otherwise bypass compression entirely.
-    // Falls back to direct RocksDB write when:
-    //   • no auto_buffer_ is configured, or
-    //   • auto_buffer_->push() returns BUFFER_FULL (non-blocking backpressure signal), or
-    //   • compression is not Gorilla.
+    // STORAGE METHOD: Adaptive buffer (priority) → legacy TSAutoBuffer → direct RocksDB write
+    //
+    // 1. If an AdaptiveFlushController is attached, route through it (blocking
+    //    backpressure with EWMA-driven batch sizing).
+    // 2. If only a TSAutoBuffer is attached and Gorilla compression is enabled,
+    //    use the non-blocking push() path for IoT / streaming workloads.
+    // 3. Otherwise fall through to a direct RocksDB Put.
+    if (adaptive_flush_ != nullptr) {
+        auto result = adaptive_flush_->add(point);
+        if (result.has_value()) {
+            THEMIS_DEBUG("Buffered single-point via AdaptiveFlushController: metric={}, entity={}, ts={}",
+                         point.metric, point.entity, point.timestamp_ms);
+            return OkVoid();
+        }
+        // Propagate errors (e.g. controller stopped during backpressure wait).
+        return result;
+    }
+
     if (config_.compression == CompressionType::Gorilla && auto_buffer_ != nullptr) {
         auto status = auto_buffer_->push(point);
         if (status == TSAutoBuffer::PushStatus::OK) {
@@ -266,7 +276,21 @@ Result<void> TSStore::putDataPoints(const std::vector<DataPoint>& points) {
     if (points.empty()) {
         return OkVoid();
     }
-    
+
+    // STORAGE METHOD: AdaptiveFlushController (priority) → Gorilla batch → direct WriteBatch
+    //
+    // When an AdaptiveFlushController is attached, all batch writes are routed
+    // through it.  This enables adaptive backpressure and EWMA batch sizing for
+    // batch callers as well as single-point callers.
+    if (adaptive_flush_ != nullptr) {
+        auto result = adaptive_flush_->addBatch(points);
+        if (result.has_value()) {
+            THEMIS_DEBUG("Buffered batch of {} points via AdaptiveFlushController", points.size());
+            return OkVoid();
+        }
+        return result;
+    }
+
     // STORAGE METHOD: Batch with Gorilla Compression (if enabled)
     // If Gorilla compression is enabled, points are:
     // 1. Grouped by metric:entity
@@ -865,6 +889,21 @@ TSStore::OutOfOrderStats TSStore::getOutOfOrderStats() const {
     OutOfOrderStats stats;
     stats.out_of_order_accepted = ooo_accepted_.load(std::memory_order_relaxed);
     stats.late_arrival_rejected = ooo_rejected_.load(std::memory_order_relaxed);
+    return stats;
+}
+
+TSStore::AdaptiveFlushStats TSStore::getAdaptiveFlushStats() const {
+    AdaptiveFlushStats stats;
+    if (adaptive_flush_) {
+        auto raw = adaptive_flush_->getStats();
+        stats.points_buffered             = raw.points_buffered;
+        stats.points_flushed              = raw.points_flushed;
+        stats.flush_count                 = raw.flush_count;
+        stats.backpressure_events         = raw.backpressure_events;
+        stats.current_buffer_size         = raw.current_buffer_size;
+        stats.current_ewma_latency_ms     = raw.current_ewma_latency_ms;
+        stats.current_adaptive_batch_size = raw.current_adaptive_batch_size;
+    }
     return stats;
 }
 

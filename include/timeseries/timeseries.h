@@ -106,6 +106,22 @@ public:
     bool put(std::string_view metric, 
              std::string_view entity,
              const DataPoint& point);
+
+    /**
+     * @brief Put a batch of data points in a single atomic WriteBatch write.
+     *
+     * Significantly faster than calling put() per point: all keys are formatted
+     * and inserted into a single rocksdb::WriteBatch, then committed with one
+     * db_->Write() call instead of N separate Put() calls.
+     *
+     * @param metric  Metric name (shared by all points in the batch)
+     * @param entity  Entity ID (shared by all points in the batch)
+     * @param points  Data points to persist
+     * @return true if all points were committed successfully
+     */
+    bool putBatch(std::string_view metric,
+                  std::string_view entity,
+                  const std::vector<DataPoint>& points);
     
     /**
      * @brief Query data points in time range

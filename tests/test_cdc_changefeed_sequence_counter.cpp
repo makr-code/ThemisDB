@@ -272,7 +272,10 @@ TEST_F(SequenceCounterTest, NoDuplicateSequencesUnder8Threads) {
 }
 
 // ===========================================================================
-// 5. Throughput: ≥ 200K sequences/s under 8 writer threads
+// 5. Throughput: regression floor under 8 writer threads
+//    Architecture: nextSequence() = pure atomic fetch_add (no RocksDB I/O).
+//    recordEvent() issues a single event Put to WAL. SEQUENCE_KEY is persisted
+//    asynchronously by a background checkpoint thread (every 100ms).
 // ===========================================================================
 
 TEST_F(SequenceCounterTest, ThroughputAtLeast50KPerSecUnder8Threads) {
@@ -296,15 +299,18 @@ TEST_F(SequenceCounterTest, ThroughputAtLeast50KPerSecUnder8Threads) {
     const double throughput = (static_cast<double>(kThreads * kPerThread) /
                                static_cast<double>(elapsed_us)) * 1e6;
 
-    // TransactionDB with Merge-operator: realistic baseline on Win is often ~20-22K seq/s
-    // with observable jitter under parallel CI load.
-    // Target 19K to keep regression sensitivity while avoiding flaky false negatives:
-    //   - Unconstrained mutex on every recordEvent() (would drop to <15K)
-    //   - O(N) subscriber callbacks blocking writes (would drop to <10K)
-    //   - Missing fast-path optimization (would drop 10-30% depending on subscriber count)
+    // Platform SLO (Windows / MSVC / TransactionDB):
+    //   Measured baseline: ~20–25K seq/s.
+    //   Regression floor:  19K/s — chosen to catch real regressions while
+    //   tolerating CI load jitter. Regressions that this catches:
+    //     - Re-introducing Merge into the per-event hot path (would drop ~15-18K/s)
+    //     - Unconstrained mutex on every recordEvent() (would drop to <15K/s)
+    //     - O(N) subscriber callbacks blocking the write path (would drop to <10K/s)
+    //     - Missing notifySubscribers fast-path (would drop 10-30%)
     EXPECT_GE(throughput, 19000.0)
         << "Sequence throughput " << static_cast<int>(throughput)
-        << " seq/s is below the 19K/s target (baseline ~20-22K on Win/TransactionDB+Merge)";
+        << " seq/s is below the 19K/s regression floor "
+           "(Win/TransactionDB baseline: ~20-25K seq/s)";
 }
 
 // ===========================================================================
