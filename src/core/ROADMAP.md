@@ -40,6 +40,9 @@
 ### Long-term (6-12 months)
 - [x] Secrets interface for credential injection into components (Issue: #1417)
 - [x] Audit event interface for compliance logging (Issue: #1418)
+- [x] `IHealthProbe` interface for liveness/readiness checking — `HealthProbeRegistry`, `FunctionalHealthProbe` (Target: Q3 2026)
+- [x] `IConfigHotReloader` for runtime config hot-reload — `InMemoryConfigHotReloader`, `IConfigChangeListener` (Target: Q3 2026)
+- [x] `IDistributedLock` interface for cross-node coordination — `InMemoryDistributedLock`, `DistributedLockGuard` (Target: Q4 2026)
 
 ## Implementation Phases
 
@@ -59,7 +62,7 @@
 - [x] Prometheus metrics adapter (`include/core/concerns/prometheus_metrics_adapter.h`, Target: Q2 2026) (Issue: #1709)
 - [x] Context propagation across async boundaries (Target: Q3 2026)
 
-### Phase 3: Advanced Concerns & Runtime Flexibility (Status: In Progress 🚧)
+### Phase 3: Advanced Concerns & Runtime Flexibility (Status: Completed ✅)
 - [x] Structured log correlation (trace ID + span ID injection into log records)
 - [x] Health check interface in ConcernsContext
 - [x] Structured log correlation (trace ID injection into log records)
@@ -70,6 +73,9 @@
 - [x] Dynamic log level adjustment at runtime (Issue: #1412)
 - [x] Audit event interface for compliance logging (Issue: #1418)
 - [x] Zero-Copy Logging — `ZeroCopyLogger` with `string_view` hot-path API, pre-allocated thread-local buffer, and `std::atomic<bool>` `json_mode_` for safe concurrent mode changes (Issue: #65)
+- [x] `IHealthProbe` + `HealthProbeRegistry` — named liveness/readiness probe registry wired into `ConcernsContext::healthProbes()`
+- [x] `IConfigHotReloader` + `InMemoryConfigHotReloader` — runtime config hot-reload with async `IConfigChangeListener` callbacks
+- [x] `IDistributedLock` + `InMemoryDistributedLock` + `DistributedLockGuard` — cross-node coordination lock with RAII guard
 
 ## Production Readiness Checklist
 - [x] Unit tests coverage > 80% (Issue: #1419) — test_concerns_context.cpp (146 tests), test_fuzz_core.cpp; standalone targets ConcernsContextFocusedTests + FuzzCoreFocusedTests added

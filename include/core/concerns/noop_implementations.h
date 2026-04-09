@@ -34,6 +34,9 @@
 #include "core/concerns/i_circuit_breaker.h"
 #include "core/concerns/i_feature_flags.h"
 #include "core/concerns/i_audit_log.h"
+#include "core/concerns/i_health_probe.h"
+#include "core/concerns/i_config_hot_reloader.h"
+#include "core/concerns/i_distributed_lock.h"
 
 namespace themis {
 namespace core {
@@ -212,6 +215,56 @@ class NoOpAuditLog : public IAuditLog {
 public:
     void record(const AuditEvent& /*event*/) noexcept override {}
 
+    void flush() noexcept override {}
+    void shutdown() noexcept override {}
+    ProbeResult isHealthy() const override { return ProbeResult::healthy(); }
+};
+
+/**
+ * @brief No-op health probe registry — always healthy, no registered probes.
+ *
+ * Use in unit tests or builds where named health probes are not needed.
+ */
+class NoOpHealthProbeRegistry : public HealthProbeRegistry {
+public:
+    // Inherits all methods; checkAll() returns empty, isHealthy() returns true.
+};
+
+/**
+ * @brief No-op configuration hot-reloader — no-op for all operations.
+ *
+ * Keys are never persisted; listeners are never notified.
+ * Use in unit tests or builds where config hot-reload is not needed.
+ */
+class NoOpConfigHotReloader : public IConfigHotReloader {
+public:
+    void addListener(std::shared_ptr<IConfigChangeListener> /*l*/) override {}
+    void removeListener(const std::shared_ptr<IConfigChangeListener>& /*l*/) override {}
+    std::optional<std::string> get(std::string_view /*key*/) const override { return std::nullopt; }
+    void set(std::string_view /*key*/, std::string_view /*value*/) override {}
+    void remove(std::string_view /*key*/) override {}
+    std::unordered_map<std::string, std::string> snapshot() const override { return {}; }
+    void reload() override {}
+    void flush() noexcept override {}
+    void shutdown() noexcept override {}
+    ProbeResult isHealthy() const override { return ProbeResult::healthy(); }
+};
+
+/**
+ * @brief No-op distributed lock — always grants the lock immediately.
+ *
+ * Use in unit tests or single-node builds where cross-node coordination is
+ * not needed.  Every @c tryAcquire() returns true; @c release() is a no-op.
+ */
+class NoOpDistributedLock : public IDistributedLock {
+public:
+    bool tryAcquire(std::string_view /*name*/,
+                    std::chrono::milliseconds /*ttl*/ = std::chrono::milliseconds{0}) override { return true; }
+    bool tryAcquireFor(std::string_view /*name*/,
+                       std::chrono::milliseconds /*timeout*/,
+                       std::chrono::milliseconds /*ttl*/ = std::chrono::milliseconds{0}) override { return true; }
+    void release(std::string_view /*name*/) override {}
+    bool isLocked(std::string_view /*name*/) const override { return false; }
     void flush() noexcept override {}
     void shutdown() noexcept override {}
     ProbeResult isHealthy() const override { return ProbeResult::healthy(); }

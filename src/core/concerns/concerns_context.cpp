@@ -73,7 +73,9 @@ std::shared_ptr<ConcernsContext> ConcernsContext::create(const Config& config) {
         config.loggerAdapter, config.tracerAdapter,
         config.metricsAdapter, config.cacheAdapter,
         config.circuitBreakerAdapter, config.featureFlagsAdapter,
-        config.auditAdapter, config.secretsAdapter);
+        config.auditAdapter, config.secretsAdapter,
+        config.healthProbeAdapter, config.configHotReloaderAdapter,
+        config.distributedLockAdapter);
     if (!adapter_validation.valid) {
         throw std::runtime_error("Invalid adapter configuration:\n" + adapter_validation.formatErrors());
     }
@@ -210,6 +212,33 @@ std::shared_ptr<ConcernsContext> ConcernsContext::create(const Config& config) {
         secrets = std::make_unique<NoOpSecrets>();
     }
 
+    // Initialize health probe registry
+    std::unique_ptr<HealthProbeRegistry> healthProbes;
+    if (config.healthProbeAdapter == "noop") {
+        healthProbes = std::make_unique<HealthProbeRegistry>(); // noop behaviour: empty registry
+    } else {
+        // "default" — standard in-process registry
+        healthProbes = std::make_unique<HealthProbeRegistry>();
+    }
+
+    // Initialize config hot-reloader
+    std::unique_ptr<IConfigHotReloader> configHotReloader;
+    if (config.configHotReloaderAdapter == "noop") {
+        configHotReloader = std::make_unique<NoOpConfigHotReloader>();
+    } else {
+        // "inmemory" — only reachable after validation passes
+        configHotReloader = std::make_unique<InMemoryConfigHotReloader>();
+    }
+
+    // Initialize distributed lock
+    std::unique_ptr<IDistributedLock> distributedLock;
+    if (config.distributedLockAdapter == "noop") {
+        distributedLock = std::make_unique<NoOpDistributedLock>();
+    } else {
+        // "inmemory" — only reachable after validation passes
+        distributedLock = std::make_unique<InMemoryDistributedLock>();
+    }
+
     return std::shared_ptr<ConcernsContext>(new ConcernsContext(
         std::move(logger),
         std::move(tracer),
@@ -218,7 +247,10 @@ std::shared_ptr<ConcernsContext> ConcernsContext::create(const Config& config) {
         std::move(circuit_breaker),
         std::move(secrets),
         std::move(featureFlags),
-        std::move(auditLog)
+        std::move(auditLog),
+        std::move(healthProbes),
+        std::move(configHotReloader),
+        std::move(distributedLock)
     ));
 }
 
