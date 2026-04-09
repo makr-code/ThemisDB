@@ -1,4 +1,4 @@
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-04-08 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Changelog — Base Module
@@ -7,10 +7,17 @@ All notable changes to the Base module are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
-- Unit test coverage > 80% (Issue #1573, Target Q2 2026)
-- Integration tests for hot-reload and sandbox scenarios (Issue #1574, Target Q2 2026)
-- Performance benchmarks for module load and hot-reload cycles (Issue #1575, Target Q2 2026)
 - Concrete WasmRuntime integration (Wasmtime or WasmEdge) — infrastructure ready, backend registration required (Target Q3 2026)
+
+## [1.9.0] — 2026-04-08
+### Added
+- **Unit test coverage > 80% confirmed** (Issue #1573): 361+ tests across 13 test files — `test_module_loader.cpp` (162), `test_wasm_plugin_sandbox.cpp` (56), `test_base_interfaces.cpp` (44), `test_hot_reload_manager.cpp` (40), `test_module_sandbox.cpp` (33), `test_base_entity.cpp` (26), `test_ab_test_manager.cpp`, `test_ab_testing_framework.cpp`, `test_remote_registry_client.cpp`, `test_plugin_dependency_graph.cpp`, `test_plugin_dependency_resolver.cpp`, `test_module_hash_verifier.cpp`, `test_module_signature_verifier.cpp`, `test_module_dependency_resolver.cpp`; focused targets: `BaseEntityFocusedTests`, `BaseInterfacesFocusedTests`, `ModuleLoaderFocusedTests`, `PluginWatchdogFocusedTests`, `RemoteRegistryClientUnifiedTests`, `PluginDependencyGraphFocusedTests`, `PluginDependencyResolverFocusedTests`
+- **Integration tests for hot-reload and sandbox scenarios** (Issue #1574): `tests/integration/hot_reload_manager_integration_test.cpp` (11 tests covering full reload lifecycle with ModuleLoader + callback system); `CgroupV2MemoryLimitEnforcement` fork-based OOM enforcement test (8 MiB cgroup limit → 32 MiB mmap → SIGKILL within 500 ms); `ConcurrentReadersWithReloadThread` TSAN-compatible stress test (16 reader threads + 1 reload writer, TSAN-detectable under `-DTHEMIS_ENABLE_TSAN=ON`) — all in `tests/test_module_sandbox.cpp` and `tests/test_hot_reload_manager.cpp`
+- **Performance benchmarks for module load and hot-reload cycles** (Issue #1575): `benchmarks/bench_hot_reload_manager.cpp` (`RegisterUnregister`, `RegisteredModulesList`, `ReloadAttemptThroughput`, `CallbackDispatch`, `ConcurrentReloadContention`); `benchmarks/bench_plugin_hot_plug.cpp`; `benchmarks/bench_plugin_system.cpp` — all registered in `benchmarks/CMakeLists.txt`
+
+### Changed
+- ROADMAP.md: marked Issues #1573, #1574, #1575 as `[x]` complete in Planned Features and Production Readiness Checklist
+- FUTURE_ENHANCEMENTS.md: marked sandbox cgroup v2 memory constraint as `[x]`; marked integration test and TSAN test items as `[x]`
 
 ## [1.8.0] — 2026-03-22
 ### Added
