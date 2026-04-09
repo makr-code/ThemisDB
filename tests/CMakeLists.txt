@@ -20640,3 +20640,48 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_concurrent_write_controller.cpp")
 
     message(STATUS "  ConcurrentWriteController: FIFO semaphore, RAII guard, stats (EWMA/P99/max), timeout, shutdown, CV regression guard")
 endif()
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Query Module: Future Interfaces focused tests (v2.0.0)
+#   QueryRewritePipeline, QueryProfiler, ApproximateAggregator
+# ──────────────────────────────────────────────────────────────────────────────
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_query_future_interfaces.cpp")
+    message(STATUS "Adding Query: future-interfaces focused tests (v2.0.0)")
+
+    add_executable(test_query_future_interfaces_focused
+        test_query_future_interfaces.cpp
+        ${CMAKE_SOURCE_DIR}/src/query/query_rewrite_rule.cpp
+        ${CMAKE_SOURCE_DIR}/src/query/query_profiler.cpp
+        ${CMAKE_SOURCE_DIR}/src/query/approximate_aggregator.cpp
+    )
+
+    target_include_directories(test_query_future_interfaces_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_query_future_interfaces_focused PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_query_future_interfaces_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME QueryFutureInterfacesFocusedTests
+             COMMAND test_query_future_interfaces_focused)
+
+    set_tests_properties(QueryFutureInterfacesFocusedTests PROPERTIES
+        LABELS "query;rewrite;profiler;approximate;hll;tdigest;sampling;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  QueryRewritePipeline: 5 rules (PredicatePushdown, ProjectionPushdown, OrToIn, ConstantFolding, CSE)")
+    message(STATUS "  QueryProfiler / NullQueryProfiler: operator timing, peak memory, cache-hit flag")
+    message(STATUS "  ApproximateCountDistinct (HyperLogLog): precision, merge, reset, large cardinality")
+    message(STATUS "  ApproximatePercentile (t-Digest): median, p95, merge, reset")
+    message(STATUS "  SamplingAggregator: COUNT/AVG/SUM, reservoir cap, non-numeric skip, reset")
+else()
+    message(STATUS "Query future-interfaces tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_query_future_interfaces.cpp")
+endif()
