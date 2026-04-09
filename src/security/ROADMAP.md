@@ -39,7 +39,7 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
   - Audit log tamper-evident append latency (single entry and batch-100)
 - [x] Focused standalone test targets for all `tests/security/` test files
   - `SecurityNegativeIntegrationFocusedTests` (JWT/RBAC/Vault negative tests)
-  - `InputValidationSecurityFocusedTests` (input validation security placeholder)
+  - `InputValidationSecurityFocusedTests` (14 security validation tests: AQL injection, path traversal, XSS, command injection, XXE, LDAP, email, URL, buffer-overflow, integer-overflow, format-string, unicode normalization, CRLF)
 
 ## In Progress 🚧
 - [~] FIPS 140-2 / 140-3 validated cryptography mode (Target: Q3 2026) (Issue: #2297)
@@ -136,7 +136,7 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
   - Audit log tamper-evident append; target p99 ≤ 2 ms
 - [x] Focused standalone test targets for all `tests/security/` test files
   - `SecurityNegativeIntegrationFocusedTests` — JWT/RBAC/Vault negative integration tests
-  - `InputValidationSecurityFocusedTests` — input validation security placeholder
+  - `InputValidationSecurityFocusedTests` — 14 input validation security tests (AQL injection, path traversal, XSS, command injection, NoSQL/XXE/LDAP/email/URL injection, buffer overflow, integer overflow, format-string, Unicode normalization, CRLF); backed by `utils::InputValidator` security API (`include/utils/input_validator.h`)
 - [~] FIPS 140-2 / 140-3 validated cryptography mode (`src/security/fips_crypto_mode.cpp`) (Issue: #2297)
   - `FipsCryptoMode` singleton + `FipsPolicyViolation` exception fully implemented
   - Approved-algorithm set: all NIST SP 800-175B rev.1 ciphers, hashes, MACs, KDFs, DRBGs
@@ -151,6 +151,7 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
   - FipsCryptoMode: 20 tests (`tests/security/test_fips_crypto_mode.cpp`)
   - USBVolumeHardening: 22 tests (`tests/test_usb_volume_hardening.cpp`)
   - QueryMaskingPolicy, RLSManager, ZeroTrustPolicyEnforcer, AuthRateLimiter, HsmProvider: covered
+  - InputValidationSecurity: 14 tests (`tests/security/test_input_validation_security.cpp`) — AQL, path, XSS, command, NoSQL, XXE, LDAP, email, URL, buffer-overflow, int-range, format-string, unicode, CRLF
   - Standalone focused test targets for all security sub-directory tests:
     `SecurityEvidenceCollectorFocusedTests`, `FipsCryptoModeFocusedTests`,
     `AccessControlManagerFocusedTests`, `RowLevelSecurityFocusedTests`,
