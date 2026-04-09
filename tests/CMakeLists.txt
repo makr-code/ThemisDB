@@ -12262,6 +12262,51 @@ else()
     message(STATUS "TSStore Out-of-Order focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_tsstore_out_of_order.cpp")
 endif()
 
+# ---------------------------------------------------------------------------
+# Timeseries Future Interfaces focused tests
+# (AdaptiveCompressionSelector, AnomalyDetector, GapFiller)
+# ---------------------------------------------------------------------------
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ts_future_interfaces.cpp")
+    message(STATUS "Adding Timeseries Future Interfaces focused tests")
+
+    add_executable(test_ts_future_interfaces_focused
+        test_ts_future_interfaces.cpp
+        ${THEMIS_ROOT_DIR}/src/timeseries/compression_selector.cpp
+        ${THEMIS_ROOT_DIR}/src/timeseries/anomaly_detection.cpp
+        ${THEMIS_ROOT_DIR}/src/timeseries/gap_fill.cpp
+        ${THEMIS_ROOT_DIR}/src/timeseries/tsstore.cpp
+        ${THEMIS_ROOT_DIR}/src/timeseries/timeseries_metrics.cpp
+        ${THEMIS_ROOT_DIR}/src/timeseries/gorilla.cpp
+    )
+
+    target_include_directories(test_ts_future_interfaces_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_ts_future_interfaces_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_ts_future_interfaces_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TsFutureInterfacesFocusedTests
+             COMMAND test_ts_future_interfaces_focused)
+
+    set_tests_properties(TsFutureInterfacesFocusedTests PROPERTIES
+        LABELS "timeseries;compression-selector;anomaly-detection;gap-fill;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  TsFutureInterfaces: AdaptiveCompressionSelector, AnomalyDetector (ZScore/IQR), GapFiller (ForwardFill/LinearInterp/BackwardFill/NullFill)")
+else()
+    message(STATUS "Timeseries Future Interfaces focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_ts_future_interfaces.cpp")
+endif()
+
 # ============================================================================
 # Geo Module ÔÇô Focused Standalone Test Targets
 # Each geo test is a standalone executable so it can be run independently

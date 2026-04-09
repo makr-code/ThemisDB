@@ -1897,6 +1897,9 @@ set(THEMIS_CORE_SOURCES
     ../src/timeseries/adaptive_flush_controller.cpp
     ../src/timeseries/encrypted_chunk_store.cpp
     ../src/timeseries/ts_encrypted_key_rotation.cpp
+    ../src/timeseries/compression_selector.cpp
+    ../src/timeseries/anomaly_detection.cpp
+    ../src/timeseries/gap_fill.cpp
     
     ../src/utils/serialization.cpp
     ../src/utils/logger.cpp

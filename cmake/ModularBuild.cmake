@@ -1252,6 +1252,9 @@ set(THEMIS_TIMESERIES_SOURCES
     ../src/timeseries/ts_auto_buffer_adaptive.cpp
     ../src/timeseries/encrypted_chunk_store.cpp
     ../src/timeseries/ts_encrypted_key_rotation.cpp
+    ../src/timeseries/compression_selector.cpp
+    ../src/timeseries/anomaly_detection.cpp
+    ../src/timeseries/gap_fill.cpp
 )
 
 set(THEMIS_INGESTION_SOURCES
