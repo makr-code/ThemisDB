@@ -1993,6 +1993,9 @@ set(THEMIS_CORE_SOURCES
     ../src/search/search_highlighter.cpp
     ../src/search/negative_keyword_filter.cpp
     ../src/search/distributed_hybrid_search.cpp
+    ../src/search/conversational_search.cpp
+    ../src/search/federated_search.cpp
+    ../src/search/search_result_stream.cpp
     ../src/security/pki_key_provider.cpp
     ../src/security/cms_signing.cpp
     ../src/security/rbac.cpp
@@ -4314,6 +4317,23 @@ if(THEMIS_BUILD_TESTS)
         EXTRA_ARGS --gtest_color=yes
         CONFIGURATIONS Release Debug
     )
+
+    if(EXISTS "${THEMIS_ROOT_DIR}/tests/test_search_future_interfaces.cpp")
+        add_executable(test_search_future_interfaces
+            ${THEMIS_ROOT_DIR}/tests/test_search_future_interfaces.cpp
+        )
+        target_link_libraries(test_search_future_interfaces
+            PRIVATE themis_core GTest::gtest GTest::gtest_main
+        )
+        gtest_discover_tests(test_search_future_interfaces
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_search_future_interfaces>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
+            PROPERTIES LABELS "search;conversational;federated;streaming;phase5;v2.4.0;unit"
+        )
+        message(STATUS "  SearchFutureInterfaces: ConversationalSearch, FederatedSearch, SearchResultStream (v2.4.0)")
+    endif()
 
     add_executable(test_bitemporal_join
         ${THEMIS_ROOT_DIR}/tests/test_bitemporal_join.cpp

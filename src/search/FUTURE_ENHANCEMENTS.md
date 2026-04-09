@@ -300,6 +300,53 @@ The following high-priority features were delivered in v1.5.0:
 
 ---
 
+## Delivered in v2.4.0
+
+### ConversationalSearch (`include/search/conversational_search.h`)
+- Multi-turn conversational search with context-aware query reformulation (Phase 5)
+- `search(query)` — reformulates the query using `context_window` most recent turns, dispatches
+  to the underlying `HybridSearch`, and appends the turn to the session history
+- `reformulate(query)` — public static-equivalent helper; builds context-enriched query string
+  by prepending up to `context_window` prior queries separated by `Config::context_separator`
+- `Turn` struct: `query`, `reformulated_query`, `results` — full turn record
+- `getHistory()` — inspect full deque of turns (oldest first)
+- `clearHistory()` — remove all history (GDPR-compatible session reset)
+- `Config::context_window` — number of prior turns to include in context (0 = stateless)
+- `Config::max_history` — maximum retained turns; oldest are evicted (min 1)
+- `Config::context_separator` — separator between historical query terms (default `" "`)
+- Exception safety: `search()` never throws; null `HybridSearch` returns empty results
+- Tests: `tests/test_search_future_interfaces.cpp` (17 tests — ConversationalSearch*)
+
+---
+
+### FederatedSearch (`include/search/federated_search.h`)
+- Federated search across multiple isolated per-tenant `HybridSearch` indexes (Phase 5)
+- `registerTenant(id, hs)` — register a named tenant index (non-owning pointer)
+- `removeTenant(id)` / `setTenantWeight(id, w)` — dynamic tenant management
+- `search(query, vector_query, tenant_stats)` — queries all non-skipped tenants, merges via
+  weighted Reciprocal Rank Fusion (RRF), returns top-k globally ranked results
+- `mergeTenantResults(map)` — public RRF merge helper; directly unit-testable without network
+- `Result` struct: `document_id`, `tenant_id`, `score`, `bm25_score`, `vector_score`
+- `TenantStats` struct: per-tenant diagnostics (`results_count`, `skipped`)
+- Tenant weights clamped to [0, 1]; weight=0 excludes tenant from results
+- `Config::skip_null_tenants` — silently skip null-pointer tenants (default true)
+- Exception safety: `search()` never throws; per-tenant errors are caught and logged
+- Tests: `tests/test_search_future_interfaces.cpp` (17 tests — FederatedSearch*)
+
+---
+
+### SearchResultStream (`include/search/search_result_stream.h`)
+- Cursor-based streaming pagination over large `HybridSearch` result sets (Phase 5)
+- `open(query)` — fetches up to `Config::total_k` results, resets cursor to 0
+- `nextPage()` — returns up to `Config::page_size` results and advances cursor
+- `hasMore()` / `reset()` / `close()` — cursor and stream lifecycle management
+- `forEachResult(callback)` — streaming iteration; return `false` from callback for early stop
+- `totalResults()` / `cursorPosition()` — inspection accessors
+- Temporarily adjusts the underlying `HybridSearch` config k to `total_k` during `open()`
+  and restores it afterwards; transparent to the caller
+- Exception safety: `open()` and `nextPage()` never throw; callback exceptions are caught
+- Tests: `tests/test_search_future_interfaces.cpp` (17 tests — SearchResultStream*)
+
 ### Query Expansion and Rewriting
 **Priority:** High  
 **Status:** ✅ Delivered in v1.5.0 — see `include/search/query_expander.h`
