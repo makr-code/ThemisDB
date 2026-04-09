@@ -60,6 +60,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Documentation
 
+- **Module-Docs Sync 📚 — 2026-04-09**
+  - 55 Module indexiert; 712 Primary-Markdown-Dateien in `src/` und `include/`
+  - 5 Module ohne Sekundärdokumentation erkannt; Issues erzeugt
+  - Sekundärdokumentation aktualisiert in `docs/de/` und `docs/en/`
+  - Tool: `tools/module_docs_builder.py` v1.0.0
+  <!-- changelog-updater: module-docs-sync-2026-04-09 -->
+
 - **Module-Docs Sync 📚 — 2026-04-08**
   - 55 Module indexiert; 712 Primary-Markdown-Dateien in `src/` und `include/`
   - 5 Module ohne Sekundärdokumentation erkannt; Issues erzeugt
