@@ -3495,6 +3495,35 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_pii_stream_scanner.cpp")
 endif()
 
 # ============================================================================
+# Timeseries Adaptive Flush benchmarks (PERF-D1)
+# Validates acceptance criteria:
+#   - Sustained ≥500k pts/s single- and multi-threaded TSAutoBuffer::add()
+#   - P99 write latency <100µs per add() call
+#   - FlushController adaptive batch-size convergence
+#   - Buffer statistics and overdue-flush metrics exposure
+# ============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_timeseries_adaptive_flush.cpp")
+    message(STATUS "Adding Timeseries Adaptive Flush benchmarks (PERF-D1)")
+
+    add_executable(bench_timeseries_adaptive_flush
+        bench_timeseries_adaptive_flush.cpp
+    )
+
+    target_include_directories(bench_timeseries_adaptive_flush PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(bench_timeseries_adaptive_flush PRIVATE
+        themis_core
+        ${BENCHMARK_LIBS}
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_timeseries_adaptive_flush PRIVATE
 # bench_query_lazy_eval (PERF-D7, v1.0.0)
 # Validates acceptance criteria for Issue [PERF-D7]:
 #   - Query engine lazy evaluation / predicate pushdown via columnar SIMD
@@ -3527,6 +3556,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_query_lazy_eval.cpp")
         if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
             set(BENCHMARK_ARCH_FLAGS "-march=native")
         endif()
+        target_compile_options(bench_timeseries_adaptive_flush PRIVATE
         target_compile_options(bench_query_lazy_eval PRIVATE
             -O3
             ${BENCHMARK_ARCH_FLAGS}
@@ -3534,10 +3564,12 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_query_lazy_eval.cpp")
         )
     endif()
 
+    install(TARGETS bench_timeseries_adaptive_flush
     install(TARGETS bench_query_lazy_eval
         RUNTIME DESTINATION bin/benchmarks
         COMPONENT benchmarks
     )
 
+    message(STATUS "  AdaptiveFlush: ≥500k pts/s single/multi-threaded, P99 <100µs, FlushController convergence, buffer stats")
     message(STATUS "  bench_query_lazy_eval: filter/project/multi-pred/aggregate/full-pipeline throughput, batch-size sweep, selectivity sweep, SIMD vs scalar")
 endif()
