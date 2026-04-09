@@ -112,59 +112,6 @@ std::vector<uint8_t> BitWriter::finish() {
     return buf_;
 }
 
-// ------- BitReader -------
-BitReader::BitReader(const std::vector<uint8_t>& data)
-    : buf_(data) {
-    if (!buf_.empty()) { cur_ = buf_[0]; idx_ = 0; bitpos_ = 0; }
-}
-
-bool BitReader::readBit() {
-    if (idx_ >= buf_.size()) return false;
-    bool bit = ((cur_ >> bitpos_) & 1U) != 0;
-    bitpos_++;
-    if (bitpos_ == 8) {
-        idx_++;
-        if (idx_ < buf_.size()) cur_ = buf_[idx_];
-        bitpos_ = 0;
-    }
-    return bit;
-}
-
-uint64_t BitReader::readBits(int bits) {
-    uint64_t v = 0;
-    for (int i = 0; i < bits; ++i) {
-        if (readBit()) v |= (1ULL << i);
-    }
-    return v;
-}
-
-uint64_t BitReader::readVarUInt() {
-    // LEB128 unsigned; caller ensures byte alignment when required
-    uint64_t result = 0;
-    int shift = 0;
-    while (true) {
-        if (idx_ >= buf_.size()) return result;
-        uint64_t byte = readBits(8);
-        result |= static_cast<uint64_t>(byte & 0x7F) << shift;
-        if ((byte & 0x80) == 0) break;
-        shift += 7;
-    }
-    return result;
-}
-
-int64_t BitReader::readZigZag64() {
-    uint64_t zz = readVarUInt();
-    int64_t v = static_cast<int64_t>(zz >> 1);
-    if (zz & 1ULL) v = ~v;
-    return v;
-}
-
-bool BitReader::eof() const { return idx_ >= buf_.size(); }
-
-void BitReader::alignToByte() {
-    while (bitpos_ != 0) { (void)readBit(); }
-}
-
 // ------- GorillaEncoder -------
 void GorillaEncoder::add(int64_t timestamp_ms, double value) {
     if (first_) {
