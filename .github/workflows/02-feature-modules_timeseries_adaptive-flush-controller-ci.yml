@@ -1,0 +1,127 @@
+name: AdaptiveFlushController TSStore Integration CI
+
+# Validates AdaptiveFlushController integration into TSStore's write path
+# (PERF-D1-B, Issue #4432).
+# Covers: buffered/direct write routing, stats API, backpressure, metrics.
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'include/timeseries/adaptive_flush_controller.h'
+      - 'src/timeseries/adaptive_flush_controller.cpp'
+      - 'include/timeseries/tsstore.h'
+      - 'src/timeseries/tsstore.cpp'
+      - 'include/timeseries/ts_auto_buffer.h'
+      - 'src/timeseries/ts_auto_buffer.cpp'
+      - 'tests/test_adaptive_flush_controller.cpp'
+      - 'tests/CMakeLists.txt'
+      - '.github/workflows/02-feature-modules_timeseries_adaptive-flush-controller-ci.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci-scope-classifier:
+    permissions:
+      contents: read
+    uses: ./.github/workflows/01-core_ci-scope-classifier.yml
+
+  # ---------------------------------------------------------------------------
+  # Build and run the AdaptiveFlushController focused test suite.
+  # Acceptance criteria covered:
+  #   AC-AFC-1  All writes via adaptive buffer if controller is attached
+  #   AC-AFC-2  putDataPoint() routes via adaptive_flush_->add() when controller set
+  #   AC-AFC-3  putDataPoints() routes via adaptive_flush_->addBatch() when controller set
+  #   AC-AFC-4  Legacy fallback to direct write when no controller set
+  #   AC-AFC-5  Legacy auto_buffer_ fallback still works when no controller set
+  #   AC-AFC-6  AdaptiveFlushController takes priority over auto_buffer_
+  #   AC-AFC-7  Stats queryable via TSStore::getAdaptiveFlushStats()
+  #   AC-AFC-8  getAdaptiveFlushStats() returns zeros when no controller set
+  #   AC-AFC-9  isBackpressured() returns false on empty buffer
+  #   AC-AFC-10 start/stop lifecycle works correctly
+  #   AC-AFC-11 stop() flushes remaining points
+  #   AC-AFC-12 Metrics integration wired through config
+  #   AC-AFC-13 addBatch() returns error on first invalid point
+  #   AC-AFC-14 No API break for existing usage
+  # ---------------------------------------------------------------------------
+  adaptive-flush-controller-tests:
+    needs: ci-scope-classifier
+    if: needs.ci-scope-classifier.outputs.has_code_changes == 'true'
+    name: AdaptiveFlushController (${{ matrix.os }} / ${{ matrix.compiler }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
+
+    permissions:
+      contents: read
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-22.04
+            compiler: gcc-12
+            cc: gcc-12
+            cxx: g++-12
+          - os: ubuntu-24.04
+            compiler: gcc-14
+            cc: gcc-14
+            cxx: g++-14
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up C++ build environment
+        uses: ./.github/actions/setup-cpp-build
+        with:
+          cc:             ${{ matrix.cc }}
+          cxx:            ${{ matrix.cxx }}
+          extra-packages: >-
+            libssl-dev
+            libboost-all-dev
+            librocksdb-dev
+            libfmt-dev
+            libtbb-dev
+            libspdlog-dev
+            nlohmann-json3-dev
+
+      - name: Configure and build
+        uses: ./.github/actions/configure-themis
+        with:
+          cc:  ${{ matrix.cc }}
+          cxx: ${{ matrix.cxx }}
+
+      # ── Focused test target ────────────────────────────────────────────────
+      - name: Run AdaptiveFlushControllerFocusedTests via ctest
+        run: |
+          set -o pipefail
+          cd build
+          ctest -R AdaptiveFlushControllerFocusedTests \
+                --output-on-failure \
+                --timeout 120 \
+                2>&1 | tee adaptive_flush_controller_ctest.txt
+
+      # ── Full test filter via focused binary ───────────────────────────────
+      - name: Run AFCFixture tests via focused binary
+        run: |
+          set -o pipefail
+          cd build
+          ./tests/test_adaptive_flush_controller_focused \
+            --gtest_filter="AFCFixture*" \
+            --gtest_output="xml:adaptive_flush_controller_gtest.xml" \
+            2>&1 | tee adaptive_flush_controller_gtest_output.txt
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: adaptive-flush-controller-results-${{ matrix.os }}-${{ matrix.compiler }}
+          path: |
+            build/adaptive_flush_controller_ctest.txt
+            build/adaptive_flush_controller_gtest.xml
+            build/adaptive_flush_controller_gtest_output.txt
+          retention-days: 30
