@@ -1,6 +1,6 @@
 # LLM Module Headers
 
-<!-- Status: current | validated: 2026-04-06 | Primary: include/llm/ | Secondary: docs/de/llm/ -->
+<!-- Status: current | validated: 2026-04-09 | Primary: include/llm/ | Secondary: docs/de/llm/ -->
 <!-- Links: ../../src/llm/README.md · FUTURE_ENHANCEMENTS.md · ../../docs/de/llm/README.md -->
 
 This directory contains header files (.h, .hpp) for the llm module.
