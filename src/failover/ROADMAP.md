@@ -18,7 +18,7 @@
 ### Phase 3: Error Handling & Edge Cases
 - [x] Handle missing managers and dry-run behavior (Target: Q2 2026)
 ### Phase 4: Tests
-- [ ] Add chaos + failover end-to-end scenario matrix (Target: Q3 2026)
+- [x] Add focused unit test suite for AutoFailoverManager — 39 tests covering lifecycle, state machine, manual failover, queue pressure, config management, statistics, event callbacks, failure tracking, last-result, and edge cases (Target: Q2 2026)
 ### Phase 5: Performance/Hardening
 - [ ] Introduce queue-pressure and retry telemetry thresholds (Target: Q3 2026)
 ### Phase 6: Documentation & Acceptance
