@@ -659,7 +659,7 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 | D-4 | 2PC Throughput vs. TiDB | 6,4 k/s | 15 k/s | **−134 %** | Mittel |
 | D-5 | Storage 1 MB Blob Write | 741 ops/s | ≥ 100 k ops/s | **−99 %** | Hoch |
 | D-6 | Concurrency 10 Clients CV | CV=20,74 ⚠️ | stabil | Instabil | Mittel |
-| D-7 | Query Engine vs. ClickHouse | 814,5 M/s | 1.200 M/s | **−47 %** | Niedrig |
+| D-7 | Query Engine vs. ClickHouse | 814,5 M/s | 1.200 M/s | **−47 %** (PERF-D7 🔧) | Niedrig |
 
 ---
 
@@ -1239,7 +1239,7 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 | P-5 | **1 MB Blob Write-Throughput** — Async WAL + Background Flush | Storage | ≥100 k ops/s (von 741 ops/s) | Q2 2026 |
 | P-6 | **Concurrent Concurrency-Stabilisierung** — CV-Reduktion bei 10-Client-Lasttest | Storage | CV <5 % (von 20.74 %) | Q2 2026 |
 | P-7 | **2PC Throughput-Steigerung** — Pipelined 2PC (Phase 1+2 überlappend) | Transaction | 15 k/s (TiDB-Parität) | Q3 2026 |
-| P-8 | **Query Engine vs. ClickHouse** — Columnar SIMD Aggregation, Vectorized Scan | Query | 1.2 G items/s | Q4 2026 |
+| P-8 | **Query Engine vs. ClickHouse** — Columnar SIMD Aggregation, Vectorized Scan (`bench_query_lazy_eval`) | Query | 1.2 G items/s | Q4 2026 |
 | P-9 | **TLS 1.3 Session Resumption** — TLS-Session-Ticket-Cache | Network | <1 ms P99 | Q2 2026 |
 | P-10 | **QUIC 0-RTT** — QUIC-Transport für LAN-Kommunikation | Network | <2 ms P99 | Q3 2026 |
 
