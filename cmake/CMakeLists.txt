@@ -1894,6 +1894,7 @@ set(THEMIS_CORE_SOURCES
     ../src/timeseries/aggregates.cpp
     ../src/timeseries/downsampling.cpp
     ../src/timeseries/ts_auto_buffer_adaptive.cpp
+    ../src/timeseries/adaptive_flush_controller.cpp
     ../src/timeseries/encrypted_chunk_store.cpp
     ../src/timeseries/ts_encrypted_key_rotation.cpp
     
@@ -4429,6 +4430,19 @@ if(THEMIS_BUILD_TESTS)
     gtest_discover_tests(test_ts_auto_buffer_adaptive
         DISCOVERY_MODE PRE_TEST
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_ts_auto_buffer_adaptive>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+    )
+
+    add_executable(test_adaptive_flush_controller
+        ${THEMIS_ROOT_DIR}/tests/test_adaptive_flush_controller.cpp
+    )
+    target_link_libraries(test_adaptive_flush_controller
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(test_adaptive_flush_controller
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_adaptive_flush_controller>
         EXTRA_ARGS --gtest_color=yes
         CONFIGURATIONS Release Debug
     )

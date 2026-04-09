@@ -12156,6 +12156,38 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ts_adaptive_flush.cpp")
     message(STATUS "  TSAdaptiveFlush: FlushController EWMA, backpressure, TSAutoBufferConfig, metrics integration")
 endif()
 
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_adaptive_flush_controller.cpp")
+    message(STATUS "Adding AdaptiveFlushController focused tests")
+
+    add_executable(test_adaptive_flush_controller_focused
+        test_adaptive_flush_controller.cpp
+    )
+
+    target_include_directories(test_adaptive_flush_controller_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_adaptive_flush_controller_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_adaptive_flush_controller_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME AdaptiveFlushControllerFocusedTests COMMAND test_adaptive_flush_controller_focused)
+
+    set_tests_properties(AdaptiveFlushControllerFocusedTests PROPERTIES
+        LABELS "timeseries;adaptive-flush;backpressure;watermark;timeout;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  AdaptiveFlushController: buffer, async flush, watermark/timeout triggers, backpressure, overdue alerting")
+endif()
+
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_prometheus_remote_write.cpp")
     message(STATUS "Adding Prometheus Remote Write focused tests")
 
