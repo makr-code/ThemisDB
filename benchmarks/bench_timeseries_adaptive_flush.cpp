@@ -216,8 +216,10 @@ BENCHMARK_DEFINE_F(AdaptiveFlushFixture, P99Latency)(benchmark::State& state) {
     std::mt19937                          rng(99);
     std::uniform_real_distribution<double> val_dist(0.0, 1000.0);
 
+    // Pre-allocate for up to 4M samples to avoid reallocations during measurement.
+    static constexpr size_t kMaxLatencySamples = 4 * 1024 * 1024;
     std::vector<double> latencies_us;
-    latencies_us.reserve(1 << 20); // pre-alloc 1M slots
+    latencies_us.reserve(kMaxLatencySamples);
 
     int64_t ts = 1700000000000LL;
 
@@ -372,9 +374,9 @@ BENCHMARK_DEFINE_F(AdaptiveFlushFixture, StatsExposure)(benchmark::State& state)
     TimeSeriesMetrics tsmetrics;
 
     // Wire metrics into buffer config
-    TSAutoBufferConfig cfg      = buffer_->getConfig();
-    cfg.metrics                 = &tsmetrics;
-    buffer_->setConfig(cfg);
+    TSAutoBufferConfig updated_cfg = buffer_->getConfig();
+    updated_cfg.metrics            = &tsmetrics;
+    buffer_->setConfig(updated_cfg);
 
     std::mt19937                          rng(11);
     std::uniform_real_distribution<double> val_dist(0.0, 100.0);
