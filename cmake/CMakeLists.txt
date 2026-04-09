@@ -1744,6 +1744,7 @@ set(THEMIS_CORE_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_HTTP3}>:../src/server/http3_production_config.cpp>
     $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:../src/server/websocket_session.cpp>
     $<$<BOOL:${THEMIS_ENABLE_MQTT}>:../src/server/mqtt_session.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_MQTT}>:../src/server/mqtt_client_service.cpp>
     $<$<BOOL:${THEMIS_ENABLE_POSTGRES_WIRE}>:../src/server/postgres_session.cpp>
     $<$<BOOL:${THEMIS_ENABLE_MCP}>:../src/server/mcp_server.cpp>
     $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/server/grpc_web_proxy_handler.cpp>
@@ -3537,6 +3538,19 @@ endif()
 if(THEMIS_ENABLE_MQTT)
     target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_MQTT)
     message(STATUS "MQTT protocol support enabled")
+
+    # MQTT TLS — requires Boost.Asio SSL (OpenSSL) and THEMIS_ENABLE_MQTT=ON
+    if(NOT DEFINED THEMIS_ENABLE_MQTT_TLS)
+        option(THEMIS_ENABLE_MQTT_TLS "Enable TLS for MQTT client (requires OpenSSL)" OFF)
+    endif()
+    if(THEMIS_ENABLE_MQTT_TLS)
+        if(NOT OpenSSL_FOUND)
+            message(FATAL_ERROR "THEMIS_ENABLE_MQTT_TLS requires OpenSSL but it was not found.")
+        endif()
+        target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_MQTT_TLS)
+        target_link_libraries(themis_core PUBLIC OpenSSL::SSL OpenSSL::Crypto)
+        message(STATUS "MQTT TLS support enabled (Boost.Asio ssl::stream + OpenSSL)")
+    endif()
 endif()
 
 # PostgreSQL Wire Protocol Support

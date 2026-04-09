@@ -1812,6 +1812,16 @@ function(themis_build_modular)
         SOURCES ${THEMIS_NETWORK_SOURCES}
         DEPENDENCIES ${_themis_network_deps}
     )
+    if(THEMIS_ENABLE_MQTT)
+        target_compile_definitions(themis_network PUBLIC THEMIS_ENABLE_MQTT)
+        if(THEMIS_ENABLE_MQTT_TLS)
+            if(NOT OpenSSL_FOUND)
+                message(FATAL_ERROR "THEMIS_ENABLE_MQTT_TLS requires OpenSSL but it was not found.")
+            endif()
+            target_compile_definitions(themis_network PUBLIC THEMIS_ENABLE_MQTT_TLS)
+            target_link_libraries(themis_network PUBLIC OpenSSL::SSL OpenSSL::Crypto)
+        endif()
+    endif()
     if(MSVC)
         set_source_files_properties(
             ${CMAKE_SOURCE_DIR}/src/server/monitoring_api_handler.cpp
