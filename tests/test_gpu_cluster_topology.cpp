@@ -517,8 +517,250 @@ TEST_F(GPUClusterCoordinatorTopologyTest, UpdateTopology_DoesNotCrash) {
 }
 
 // ---------------------------------------------------------------------------
-// ClusterConfig helpers
+// NVLink topology-aware scheduling — Issue #1802
 // ---------------------------------------------------------------------------
+
+// Verify that addLink() for an intra-node NVLink link auto-sets has_nvlink.
+TEST(GPUClusterTopologyTest, AddLink_NVLink_SetsHasNVLinkFlag) {
+    GPUClusterTopology topo;
+    topo.num_gpus = 2;
+    topo.bandwidth_matrix.assign(2, std::vector<float>(2, 0.0f));
+
+    EXPECT_FALSE(topo.has_nvlink);
+
+    TopologyLink lnk;
+    lnk.type             = InterconnectType::NVLINK;
+    lnk.bandwidth_gbps   = 300.0f;
+    lnk.src_device_index = 0;
+    lnk.dst_device_index = 1;
+    topo.addLink(lnk);
+
+    EXPECT_TRUE(topo.has_nvlink);
+    EXPECT_FLOAT_EQ(topo.bandwidthBetween(0, 1), 300.0f);
+}
+
+// PCIe P2P links must NOT set has_nvlink.
+TEST(GPUClusterTopologyTest, AddLink_PCIeP2P_DoesNotSetHasNVLink) {
+    GPUClusterTopology topo;
+    topo.num_gpus = 2;
+    topo.bandwidth_matrix.assign(2, std::vector<float>(2, 0.0f));
+
+    TopologyLink lnk;
+    lnk.type             = InterconnectType::PCIE_P2P;
+    lnk.bandwidth_gbps   = 16.0f;
+    lnk.src_device_index = 0;
+    lnk.dst_device_index = 1;
+    topo.addLink(lnk);
+
+    EXPECT_FALSE(topo.has_nvlink);
+}
+
+// setTopology() replaces the coordinator's topology so NVLink scheduling works.
+TEST_F(GPUClusterCoordinatorTopologyTest, SetTopology_InjectsNVLinkTopology) {
+    GPUClusterCoordinator coord;
+    ClusterConfig cfg;
+    cfg.enable_nvlink = true;
+    coord.initialize(cfg, devices_);
+
+    // Build a custom topology with NVLink between device 0 and 1.
+    GPUClusterTopology nvtopo;
+    nvtopo.num_gpus = 2;
+    nvtopo.bandwidth_matrix.assign(2, std::vector<float>(2, 0.0f));
+    TopologyLink lnk;
+    lnk.type             = InterconnectType::NVLINK;
+    lnk.bandwidth_gbps   = 600.0f;
+    lnk.src_device_index = 0;
+    lnk.dst_device_index = 1;
+    nvtopo.addLink(lnk);
+    // Symmetric reverse link.
+    lnk.src_device_index = 1;
+    lnk.dst_device_index = 0;
+    nvtopo.addLink(lnk);
+
+    ASSERT_TRUE(nvtopo.has_nvlink);
+
+    coord.setTopology(nvtopo);
+
+    EXPECT_TRUE(coord.topology().has_nvlink);
+    EXPECT_FLOAT_EQ(coord.topology().bandwidthBetween(0, 1), 600.0f);
+}
+
+// selectDevice() with NVLink topology picks the best-connected device.
+TEST_F(GPUClusterCoordinatorTopologyTest,
+       SelectDevice_NVLinkTopology_PicksBestConnectedDevice) {
+    // Two healthy devices. Device 0 has two NVLink connections (to 1 and 2),
+    // devices 1 and 2 each have one. selectDevice() should pick device 0.
+    DeviceInfo d0 = makeCudaDevice(0, "A100-0");
+    DeviceInfo d1 = makeCudaDevice(1, "A100-1");
+    DeviceInfo d2 = makeCudaDevice(2, "A100-2");
+
+    GPUClusterCoordinator coord;
+    ClusterConfig cfg;
+    cfg.enable_nvlink = true;
+    coord.initialize(cfg, {d0, d1, d2});
+
+    GPUClusterTopology nvtopo;
+    nvtopo.num_gpus = 3;
+    nvtopo.bandwidth_matrix.assign(3, std::vector<float>(3, 0.0f));
+    auto addLink = [&](int src, int dst, float bandwidth_gbps) {
+        TopologyLink l;
+        l.type             = InterconnectType::NVLINK;
+        l.bandwidth_gbps   = bandwidth_gbps;
+        l.src_device_index = src;
+        l.dst_device_index = dst;
+        nvtopo.addLink(l);
+    };
+    // device 0 ↔ device 1: 300 GB/s each direction
+    addLink(0, 1, 300.0f);
+    addLink(1, 0, 300.0f);
+    // device 0 ↔ device 2: 300 GB/s each direction
+    addLink(0, 2, 300.0f);
+    addLink(2, 0, 300.0f);
+
+    coord.setTopology(nvtopo);
+
+    auto p = coord.selectDevice();
+    EXPECT_EQ(p.device_index, 0);
+    EXPECT_EQ(p.route, InterconnectType::NVLINK);
+}
+
+// selectDevice() falls back to first-healthy when no NVLink topology.
+TEST_F(GPUClusterCoordinatorTopologyTest,
+       SelectDevice_NoNVLink_FallsBackToFirstHealthy) {
+    GPUClusterCoordinator coord;
+    ClusterConfig cfg;
+    cfg.enable_nvlink = true;
+    coord.initialize(cfg, devices_);  // detect() won't find NVLink on CI
+
+    auto p = coord.selectDevice();
+    // Without NVLink the fallback picks the first healthy device (index 0).
+    EXPECT_GE(p.device_index, 0);
+}
+
+// selectDevice() respects VRAM requirements in the NVLink path.
+TEST_F(GPUClusterCoordinatorTopologyTest,
+       SelectDevice_NVLinkTopology_VRAMFilter_SkipsInsufficientDevices) {
+    // device 0: 4 GB free — does NOT meet 8 GB requirement
+    // device 1: 16 GB free — meets requirement
+    DeviceInfo d0 = makeCudaDevice(0, "A100-0", 7, 0, 4ULL  * 1024 * 1024 * 1024);
+    DeviceInfo d1 = makeCudaDevice(1, "A100-1", 7, 0, 16ULL * 1024 * 1024 * 1024);
+
+    GPUClusterCoordinator coord;
+    ClusterConfig cfg;
+    cfg.enable_nvlink = true;
+    coord.initialize(cfg, {d0, d1});
+
+    GPUClusterTopology nvtopo;
+    nvtopo.num_gpus = 2;
+    nvtopo.bandwidth_matrix.assign(2, std::vector<float>(2, 0.0f));
+    TopologyLink lnk;
+    lnk.type             = InterconnectType::NVLINK;
+    lnk.bandwidth_gbps   = 300.0f;
+    lnk.src_device_index = 0;
+    lnk.dst_device_index = 1;
+    nvtopo.addLink(lnk);
+    lnk.src_device_index = 1;
+    lnk.dst_device_index = 0;
+    nvtopo.addLink(lnk);
+    coord.setTopology(nvtopo);
+
+    const uint64_t required = 8ULL * 1024 * 1024 * 1024;
+    auto p = coord.selectDevice(required);
+    EXPECT_EQ(p.device_index, 1);
+}
+
+// selectDevice() with all devices unhealthy returns CPU fallback.
+TEST_F(GPUClusterCoordinatorTopologyTest,
+       SelectDevice_AllUnhealthy_ReturnsCPUFallback) {
+    DeviceInfo d0 = makeCudaDevice(0, "A100-0");
+    d0.is_healthy = false;
+    DeviceInfo d1 = makeCudaDevice(1, "A100-1");
+    d1.is_healthy = false;
+
+    GPUClusterCoordinator coord;
+    ClusterConfig cfg;
+    cfg.enable_nvlink = true;
+    coord.initialize(cfg, {d0, d1});
+
+    GPUClusterTopology nvtopo;
+    nvtopo.num_gpus = 2;
+    nvtopo.bandwidth_matrix.assign(2, std::vector<float>(2, 0.0f));
+    TopologyLink lnk;
+    lnk.type             = InterconnectType::NVLINK;
+    lnk.bandwidth_gbps   = 300.0f;
+    lnk.src_device_index = 0;
+    lnk.dst_device_index = 1;
+    nvtopo.addLink(lnk);
+    coord.setTopology(nvtopo);
+
+    auto p = coord.selectDevice();
+    EXPECT_EQ(p.device_index, -1);
+    EXPECT_EQ(p.route, InterconnectType::CPU);
+}
+
+// selectDevice() with NVLink disabled falls back to first-healthy path.
+TEST_F(GPUClusterCoordinatorTopologyTest,
+       SelectDevice_NVLinkDisabled_IgnoresNVLinkTopology) {
+    GPUClusterCoordinator coord;
+    ClusterConfig cfg;
+    cfg.enable_nvlink = false;  // explicitly disable NVLink scheduling
+    coord.initialize(cfg, devices_);
+
+    GPUClusterTopology nvtopo;
+    nvtopo.num_gpus = 2;
+    nvtopo.bandwidth_matrix.assign(2, std::vector<float>(2, 0.0f));
+    TopologyLink lnk;
+    lnk.type             = InterconnectType::NVLINK;
+    lnk.bandwidth_gbps   = 300.0f;
+    lnk.src_device_index = 0;
+    lnk.dst_device_index = 1;
+    nvtopo.addLink(lnk);
+    coord.setTopology(nvtopo);
+
+    auto p = coord.selectDevice();
+    // Route must not be NVLINK since NVLink scheduling is disabled.
+    EXPECT_NE(p.route, InterconnectType::NVLINK);
+}
+
+// selectNodeForTransfer() without IB returns CPU-fallback route.
+TEST_F(GPUClusterCoordinatorTopologyTest,
+       SelectNodeForTransfer_NoIB_ReturnsCpuRoute) {
+    GPUClusterCoordinator coord;
+    ClusterConfig cfg;
+    cfg.enabled    = true;
+    cfg.node_id    = "node0";
+    cfg.world_size = 1;
+    // No ib_device configured → no InfiniBand.
+    coord.initialize(cfg, devices_);
+
+    auto p = coord.selectNodeForTransfer("node0");
+    EXPECT_NE(p.route, InterconnectType::INFINIBAND);
+}
+
+// selectNodeForTransfer() with multiple IB peers picks highest-bandwidth one.
+TEST_F(GPUClusterCoordinatorTopologyTest,
+       SelectNodeForTransfer_MultipleIBPeers_PicksHighestBandwidth) {
+    GPUClusterCoordinator coord;
+    ClusterConfig cfg;
+    cfg.enabled           = true;
+    cfg.node_id           = "n0";
+    cfg.world_size        = 3;
+    cfg.ib_device         = "mlx5_0";
+    cfg.enable_infiniband = true;
+    coord.initialize(cfg, devices_);
+
+    ClusterNode peer1;  peer1.node_id = "n1";
+    ClusterNode peer2;  peer2.node_id = "n2";
+    coord.registerNode(peer1, 25.0f);   // 25 GB/s
+    coord.registerNode(peer2, 50.0f);   // 50 GB/s — higher bandwidth
+
+    auto p = coord.selectNodeForTransfer("n0");
+    EXPECT_EQ(p.node_id, "n2");
+    EXPECT_EQ(p.route, InterconnectType::INFINIBAND);
+    EXPECT_FLOAT_EQ(p.bandwidth_gbps, 50.0f);
+}
+
+
 
 TEST(ClusterConfigTest, DefaultIsSingleNode) {
     ClusterConfig cfg;

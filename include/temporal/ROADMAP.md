@@ -68,9 +68,9 @@
 - [ ] Specify WAL segment format for persistent CDC log
 
 ### Phase 2 — Core Implementation
-- [ ] Implement `MergeResolver` in `src/temporal/conflict_resolver.cpp`
+- [ ] Implement `MergeResolver` in planned temporal conflict-resolver implementation
 - [ ] Implement `SEQUENCED DISTINCT` path in `TemporalQueryEngine`
-- [ ] Implement `LZ4Strategy` in `src/temporal/compressor.cpp`
+- [ ] Implement `LZ4Strategy` in planned temporal compressor implementation
 - [ ] Implement `erase()` with tree rebalancing in `IntervalTreeIndex`
 
 ### Phase 3 — Error Handling & Edge Cases

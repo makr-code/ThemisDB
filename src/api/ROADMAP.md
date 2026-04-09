@@ -25,12 +25,12 @@ Core HTTP API server implemented with RESTful endpoints, AQL query execution, au
 - [x] SDK generation from OpenAPI spec (Python, JavaScript, Go) (Issue: #1501)
 - [x] Multi-tenant namespace routing (Issue: #1503)
 - [x] Async job API for long-running queries (Issue: #1504)
-- [x] GraphQL over WebSocket subscription transport (`graphql-transport-ws` protocol) — `api/graphql_ws_handler.cpp`
+- [x] GraphQL over WebSocket subscription transport (`graphql-transport-ws` protocol) — `src/api/graphql_ws_handler.cpp`
 - [x] `QueryLimits::max_subscriptions` per-connection cap to prevent fan-out DoS
 - [x] Versioned API routing (`/v1/`/`/v2/` prefixes, 301 redirect for unversioned paths) — `include/server/route_version_router.h` (Issue: #1497)
 - [x] GraphQL WebSocket CDC callback use-after-free protection (`alive_` atomic flag) — v1.8.0
 - [x] GraphQL subscription variable type-validation in `handleSubscribe()` step 2 — v1.8.0
-- [x] gRPC RPC stubs wired: `ExecuteAQL`, `StreamAQL`, `VectorSearch`, `FilteredVectorSearch`, `HybridSearch`, `FullTextSearch` via `ThemisDBGrpcServiceFactory` — v1.9.0
+- [x] gRPC factory wiring completed for core RPCs (`ExecuteAQL`, `StreamAQL`) and search paths are dependency/feature-gated via `ThemisDBGrpcServiceFactory` — v1.9.0
 - [x] `GrpcApiServer::start()` mutex released before `BuildAndStart()` socket bind — v1.9.0
 - [x] `GrpcApiServer::stop()` 30-second `Shutdown()` deadline — v1.9.0
 - [x] GraphQL variable substitution: `$variable` in field arguments now resolved at execution time via `Executor::resolveValue()`; `Value::VariableRef` type added; operation default values merged in `executeOperation()` — v2.0.0
@@ -49,20 +49,20 @@ Core HTTP API server implemented with RESTful endpoints, AQL query execution, au
 - [x] Integrated Crow/Beast HTTP server with request routing
 - [x] Implemented RESTful CRUD endpoints for documents, graphs, and collections
 - [x] Implemented AQL query execution endpoint (handled in `src/server/http_server.cpp`)
-- [x] Implemented authentication and authorization middleware (`api/auth_middleware.cpp`)
+- [x] Implemented authentication and authorization middleware (`src/server/auth_middleware.cpp`)
 - [x] Added TLS/SSL support with certificate configuration
 - [x] Built request/response handling pipeline with error serialization
 
 ### Phase 2: GraphQL, WebSocket, and API Hardening (Status: Completed)
-- [x] Implement GraphQL schema and resolver for multi-model queries (`api/graphql.cpp` + `server/graphql_api_handler.cpp`) (Issue: #1515)
-- [x] Implement WebSocket upgrade handler for real-time change subscriptions (`api/ws_handler.cpp`) (Issue: #1516)
+- [x] Implement GraphQL schema and resolver for multi-model queries (`src/api/graphql.cpp` + `src/server/graphql_api_handler.cpp`) (Issue: #1515)
+- [x] Implement WebSocket upgrade handler for real-time change subscriptions (`src/api/ws_handler.cpp`) (Issue: #1516)
 - [I] Complete OpenAPI 3.x spec for all existing endpoints (Issue: #1517)
 - [x] Add rate limiting middleware with configurable per-client token bucket (Issue: #1518)
 - [x] Add request correlation IDs propagated through all log lines — `TracingMiddleware` in `tracing_middleware.cpp` (Issue: #1519)
-- [x] Implement GraphQL over WebSocket subscription handler (`api/graphql_ws_handler.cpp`) with `graphql-transport-ws` protocol and `QueryLimits::max_subscriptions` enforcement
+- [x] Implement GraphQL over WebSocket subscription handler (`src/api/graphql_ws_handler.cpp`) with `graphql-transport-ws` protocol and `QueryLimits::max_subscriptions` enforcement
 
 ### Phase 3: gRPC, Versioning, and SDK Generation (Status: In Progress 🚧)
-- [x] Implement gRPC surface with proto definitions mirroring REST API (`api/grpc_server.cpp`, `proto/themisdb.proto`) (Issue: #1505)
+- [x] Implement gRPC surface with proto definitions mirroring REST API (`src/api/grpc_server.cpp`, `proto/themisdb.proto`) (Issue: #1505)
 - [x] Add versioned endpoint routing (`/v1/`, `/v2/` prefixes) with deprecation headers via `RouteVersionRouter` (`include/server/route_version_router.h`) (Issue: #1506)
 - [x] Generate client SDKs from OpenAPI spec for Python, JavaScript, and Go (Issue: #1507)
 - [x] Implement async job API for long-running AQL queries with polling endpoint (Issue: #1508)
@@ -70,7 +70,7 @@ Core HTTP API server implemented with RESTful endpoints, AQL query execution, au
 ### Phase 4: API Hardening and gRPC Stub Wiring (Status: Completed ✅)
 - [x] GraphQL WebSocket CDC callback use-after-free prevention (`alive_` atomic flag, `reset()` ordered release) — v1.8.0
 - [x] GraphQL subscription variable type-validation (required/non-null, list shape, scalar type matching) — v1.8.0
-- [x] Wire gRPC RPC stubs: `ExecuteAQL`, `StreamAQL`, `VectorSearch`, `FilteredVectorSearch`, `HybridSearch`, `FullTextSearch` via `ThemisDBGrpcServiceFactory` injection — v1.9.0
+- [x] Wire gRPC core RPCs (`ExecuteAQL`, `StreamAQL`) via `ThemisDBGrpcServiceFactory`; advanced search RPCs remain feature-gated where optional engines are unavailable — v1.9.0
 - [x] Fix `GrpcApiServer::start()` holding `mutex_` across `BuildAndStart()` blocking socket bind — v1.9.0
 - [x] Fix `GrpcApiServer::stop()` indefinite block — 30-second `Shutdown()` deadline added — v1.9.0
 - [I] Complete OpenAPI 3.x specification for all existing endpoints (Issue: #1491)

@@ -35,6 +35,9 @@
 #include "core/concerns/i_async_logger.h"
 #include "core/concerns/i_async_cache.h"
 #include "core/concerns/i_audit_log.h"
+#include "core/concerns/i_health_probe.h"
+#include "core/concerns/i_config_hot_reloader.h"
+#include "core/concerns/i_distributed_lock.h"
 #include "core/config_validator.h"
 #include <gtest/gtest.h>
 #include <latch>
@@ -1929,4 +1932,623 @@ TEST(InMemoryAuditLogTest, ThreadSafetyUnderConcurrentRecord) {
     }
     for (auto& th : threads) th.join();
     EXPECT_EQ(static_cast<size_t>(kThreads * kPerThread), log.size());
+}
+
+// ============================================================================
+// ===== IHealthProbe / HealthProbeRegistry Tests =====
+// ============================================================================
+
+TEST(HealthProbeRegistryTest, EmptyRegistryIsHealthy) {
+    HealthProbeRegistry registry;
+    EXPECT_TRUE(registry.isHealthy());
+    EXPECT_EQ(0u, registry.probeCount());
+    EXPECT_TRUE(registry.checkAll().empty());
+}
+
+TEST(HealthProbeRegistryTest, RegisteredHealthyProbeReportsHealthy) {
+    HealthProbeRegistry registry;
+    registry.registerProbe(FunctionalHealthProbe::make("db",
+        []{ return ProbeResult::healthy("pong"); }));
+
+    EXPECT_EQ(1u, registry.probeCount());
+    EXPECT_TRUE(registry.isHealthy());
+
+    auto results = registry.checkAll();
+    ASSERT_EQ(1u, results.size());
+    EXPECT_EQ("db", results[0].first);
+    EXPECT_TRUE(results[0].second.ok);
+    EXPECT_EQ("pong", results[0].second.message);
+}
+
+TEST(HealthProbeRegistryTest, RegisteredUnhealthyProbeMakesRegistryUnhealthy) {
+    HealthProbeRegistry registry;
+    registry.registerProbe(FunctionalHealthProbe::make("redis",
+        []{ return ProbeResult::unhealthy("connection refused"); }));
+
+    EXPECT_FALSE(registry.isHealthy());
+    auto results = registry.checkAll();
+    ASSERT_EQ(1u, results.size());
+    EXPECT_FALSE(results[0].second.ok);
+}
+
+TEST(HealthProbeRegistryTest, MultipleProbesAggregated) {
+    HealthProbeRegistry registry;
+    registry.registerProbe(FunctionalHealthProbe::make("db",
+        []{ return ProbeResult::healthy(); }));
+    registry.registerProbe(FunctionalHealthProbe::make("cache",
+        []{ return ProbeResult::healthy(); }));
+
+    EXPECT_EQ(2u, registry.probeCount());
+    EXPECT_TRUE(registry.isHealthy());
+}
+
+TEST(HealthProbeRegistryTest, OneUnhealthyProbeMakesWholeFail) {
+    HealthProbeRegistry registry;
+    registry.registerProbe(FunctionalHealthProbe::make("db",
+        []{ return ProbeResult::healthy(); }));
+    registry.registerProbe(FunctionalHealthProbe::make("upstream",
+        []{ return ProbeResult::unhealthy("timeout"); }));
+
+    EXPECT_FALSE(registry.isHealthy());
+}
+
+TEST(HealthProbeRegistryTest, UnregisterRemovesProbe) {
+    HealthProbeRegistry registry;
+    registry.registerProbe(FunctionalHealthProbe::make("tmp",
+        []{ return ProbeResult::healthy(); }));
+    EXPECT_EQ(1u, registry.probeCount());
+
+    registry.unregisterProbe("tmp");
+    EXPECT_EQ(0u, registry.probeCount());
+    EXPECT_TRUE(registry.isHealthy());
+}
+
+TEST(HealthProbeRegistryTest, RegisteringProbeWithSameNameReplaces) {
+    HealthProbeRegistry registry;
+    registry.registerProbe(FunctionalHealthProbe::make("svc",
+        []{ return ProbeResult::unhealthy("down"); }));
+    registry.registerProbe(FunctionalHealthProbe::make("svc",
+        []{ return ProbeResult::healthy(); }));
+
+    EXPECT_EQ(1u, registry.probeCount());
+    EXPECT_TRUE(registry.isHealthy());
+}
+
+TEST(HealthProbeRegistryTest, SelfProbeReflectsAggregateHealth) {
+    HealthProbeRegistry registry;
+    auto probe = registry.selfProbe();
+    EXPECT_TRUE(probe.ok);
+
+    registry.registerProbe(FunctionalHealthProbe::make("bad",
+        []{ return ProbeResult::unhealthy("fail"); }));
+    probe = registry.selfProbe();
+    EXPECT_FALSE(probe.ok);
+}
+
+TEST(HealthProbeRegistryTest, NullProbeIsIgnored) {
+    HealthProbeRegistry registry;
+    registry.registerProbe(nullptr);
+    EXPECT_EQ(0u, registry.probeCount());
+}
+
+TEST(HealthProbeRegistryTest, ThreadSafetyUnderConcurrentAccess) {
+    HealthProbeRegistry registry;
+    constexpr int kThreads = 8;
+    std::vector<std::thread> threads;
+    threads.reserve(kThreads);
+    std::atomic<int> healthy_count{0};
+    for (int i = 0; i < kThreads; ++i) {
+        threads.emplace_back([&registry, &healthy_count, i]() {
+            const std::string name = "probe-" + std::to_string(i);
+            registry.registerProbe(FunctionalHealthProbe::make(name,
+                []{ return ProbeResult::healthy(); }));
+            if (registry.isHealthy()) ++healthy_count;
+        });
+    }
+    for (auto& t : threads) t.join();
+    EXPECT_EQ(kThreads, static_cast<int>(registry.probeCount()));
+}
+
+// ===== ConcernsContext healthProbes accessor =====
+
+TEST_F(ConcernsContextTest, HealthProbesAccessorAvailable) {
+    auto& reg = context->healthProbes();
+    EXPECT_EQ(0u, reg.probeCount());
+    reg.registerProbe(FunctionalHealthProbe::make("test",
+        []{ return ProbeResult::healthy(); }));
+    EXPECT_EQ(1u, reg.probeCount());
+}
+
+TEST_F(ConcernsContextTest, HealthCheckIncludesHealthProbeRegistryResult) {
+    context->healthProbes().registerProbe(FunctionalHealthProbe::make("db",
+        []{ return ProbeResult::healthy(); }));
+    auto status = context->healthCheck();
+    EXPECT_TRUE(status.healthProbes.ok);
+}
+
+TEST_F(ConcernsContextTest, HealthCheckReflectsUnhealthyProbe) {
+    context->healthProbes().registerProbe(FunctionalHealthProbe::make("broken",
+        []{ return ProbeResult::unhealthy("fail"); }));
+    auto status = context->healthCheck();
+    EXPECT_FALSE(status.healthProbes.ok);
+    EXPECT_FALSE(status.isHealthy());
+}
+
+// ===== ConfigValidator healthProbeAdapter / configHotReloaderAdapter / distributedLockAdapter =====
+
+TEST(ConfigValidatorHealthProbeTest, ValidHealthProbeAdaptersPass) {
+    for (const auto& adapter : std::vector<std::string>{"default", "noop"}) {
+        auto result = themis::core::ConfigValidator::validateAdapterConfig(
+            "noop", "", "", "noop", "noop", "noop", "noop", "noop",
+            adapter);
+        EXPECT_TRUE(result.valid) << "Expected valid for healthProbeAdapter=" << adapter;
+    }
+}
+
+TEST(ConfigValidatorHealthProbeTest, InvalidHealthProbeAdapterFails) {
+    auto result = themis::core::ConfigValidator::validateAdapterConfig(
+        "noop", "", "", "noop", "noop", "noop", "noop", "noop", "custom");
+    EXPECT_FALSE(result.valid);
+    ASSERT_FALSE(result.errors.empty());
+    EXPECT_NE(std::string::npos, result.errors[0].find("healthProbeAdapter"));
+}
+
+TEST(ConfigValidatorConfigHotReloaderTest, ValidConfigHotReloaderAdaptersPass) {
+    for (const auto& adapter : std::vector<std::string>{"inmemory", "noop"}) {
+        auto result = themis::core::ConfigValidator::validateAdapterConfig(
+            "noop", "", "", "noop", "noop", "noop", "noop", "noop",
+            "default", adapter);
+        EXPECT_TRUE(result.valid) << "Expected valid for configHotReloaderAdapter=" << adapter;
+    }
+}
+
+TEST(ConfigValidatorConfigHotReloaderTest, InvalidConfigHotReloaderAdapterFails) {
+    auto result = themis::core::ConfigValidator::validateAdapterConfig(
+        "noop", "", "", "noop", "noop", "noop", "noop", "noop",
+        "default", "etcd");
+    EXPECT_FALSE(result.valid);
+    ASSERT_FALSE(result.errors.empty());
+    EXPECT_NE(std::string::npos, result.errors[0].find("configHotReloaderAdapter"));
+}
+
+TEST(ConfigValidatorDistributedLockTest, ValidDistributedLockAdaptersPass) {
+    for (const auto& adapter : std::vector<std::string>{"inmemory", "noop"}) {
+        auto result = themis::core::ConfigValidator::validateAdapterConfig(
+            "noop", "", "", "noop", "noop", "noop", "noop", "noop",
+            "default", "inmemory", adapter);
+        EXPECT_TRUE(result.valid) << "Expected valid for distributedLockAdapter=" << adapter;
+    }
+}
+
+TEST(ConfigValidatorDistributedLockTest, InvalidDistributedLockAdapterFails) {
+    auto result = themis::core::ConfigValidator::validateAdapterConfig(
+        "noop", "", "", "noop", "noop", "noop", "noop", "noop",
+        "default", "inmemory", "redis");
+    EXPECT_FALSE(result.valid);
+    ASSERT_FALSE(result.errors.empty());
+    EXPECT_NE(std::string::npos, result.errors[0].find("distributedLockAdapter"));
+}
+
+// ============================================================================
+// ===== IConfigHotReloader / InMemoryConfigHotReloader Tests =====
+// ============================================================================
+
+TEST(InMemoryConfigHotReloaderTest, GetReturnsNulloptForMissingKey) {
+    InMemoryConfigHotReloader reloader;
+    EXPECT_FALSE(reloader.get("missing").has_value());
+}
+
+TEST(InMemoryConfigHotReloaderTest, SetAndGet) {
+    InMemoryConfigHotReloader reloader;
+    reloader.set("log_level", "debug");
+    auto val = reloader.get("log_level");
+    ASSERT_TRUE(val.has_value());
+    EXPECT_EQ("debug", *val);
+}
+
+TEST(InMemoryConfigHotReloaderTest, GetOrDefaultReturnsFallback) {
+    InMemoryConfigHotReloader reloader;
+    EXPECT_EQ("info", reloader.getOrDefault("log_level", "info"));
+}
+
+TEST(InMemoryConfigHotReloaderTest, GetOrDefaultReturnsStoredValue) {
+    InMemoryConfigHotReloader reloader;
+    reloader.set("log_level", "debug");
+    EXPECT_EQ("debug", reloader.getOrDefault("log_level", "info"));
+}
+
+TEST(InMemoryConfigHotReloaderTest, RemoveDeletesKey) {
+    InMemoryConfigHotReloader reloader;
+    reloader.set("key", "value");
+    reloader.remove("key");
+    EXPECT_FALSE(reloader.get("key").has_value());
+}
+
+TEST(InMemoryConfigHotReloaderTest, SnapshotReflectsCurrentState) {
+    InMemoryConfigHotReloader reloader;
+    reloader.set("a", "1");
+    reloader.set("b", "2");
+    auto snap = reloader.snapshot();
+    EXPECT_EQ(2u, snap.size());
+    EXPECT_EQ("1", snap.at("a"));
+    EXPECT_EQ("2", snap.at("b"));
+}
+
+TEST(InMemoryConfigHotReloaderTest, ListenerReceivesNotificationOnSet) {
+    InMemoryConfigHotReloader reloader;
+
+    std::string notified_key, notified_old, notified_new;
+    struct CaptureListener : IConfigChangeListener {
+        std::string& k; std::string& o; std::string& n;
+        CaptureListener(std::string& k, std::string& o, std::string& n) : k(k), o(o), n(n) {}
+        void onConfigChanged(std::string_view key,
+                             std::string_view old_value,
+                             std::string_view new_value) override {
+            k = std::string(key);
+            o = std::string(old_value);
+            n = std::string(new_value);
+        }
+    };
+    auto listener = std::make_shared<CaptureListener>(notified_key, notified_old, notified_new);
+
+    reloader.addListener(listener);
+    reloader.set("timeout", "30");
+
+    EXPECT_EQ("timeout", notified_key);
+    EXPECT_EQ("", notified_old);
+    EXPECT_EQ("30", notified_new);
+}
+
+TEST(InMemoryConfigHotReloaderTest, ListenerReceivesOldValueOnUpdate) {
+    InMemoryConfigHotReloader reloader;
+    reloader.set("timeout", "30");
+
+    std::string old_val;
+    struct OldCapture : IConfigChangeListener {
+        std::string& old_val;
+        explicit OldCapture(std::string& v) : old_val(v) {}
+        void onConfigChanged(std::string_view, std::string_view old_value, std::string_view) override {
+            old_val = std::string(old_value);
+        }
+    };
+    auto listener = std::make_shared<OldCapture>(old_val);
+    reloader.addListener(listener);
+    reloader.set("timeout", "60");
+
+    EXPECT_EQ("30", old_val);
+}
+
+TEST(InMemoryConfigHotReloaderTest, ListenerReceivesNotificationOnRemove) {
+    InMemoryConfigHotReloader reloader;
+    reloader.set("key", "val");
+
+    std::string notified_new = "sentinel";
+    struct RemoveCapture : IConfigChangeListener {
+        std::string& notified_new;
+        explicit RemoveCapture(std::string& v) : notified_new(v) {}
+        void onConfigChanged(std::string_view, std::string_view, std::string_view new_value) override {
+            notified_new = std::string(new_value);
+        }
+    };
+    auto listener = std::make_shared<RemoveCapture>(notified_new);
+    reloader.addListener(listener);
+    reloader.remove("key");
+
+    EXPECT_EQ("", notified_new);
+}
+
+TEST(InMemoryConfigHotReloaderTest, RemoveListenerStopsNotifications) {
+    InMemoryConfigHotReloader reloader;
+    int call_count = 0;
+    struct Counter : IConfigChangeListener {
+        int& count;
+        explicit Counter(int& c) : count(c) {}
+        void onConfigChanged(std::string_view, std::string_view, std::string_view) override { ++count; }
+    };
+    auto listener = std::make_shared<Counter>(call_count);
+    reloader.addListener(listener);
+    reloader.set("k", "1");
+    EXPECT_EQ(1, call_count);
+
+    reloader.removeListener(listener);
+    reloader.set("k", "2");
+    EXPECT_EQ(1, call_count); // no further notification
+}
+
+TEST(InMemoryConfigHotReloaderTest, IsHealthyAlwaysTrue) {
+    InMemoryConfigHotReloader reloader;
+    EXPECT_TRUE(reloader.isHealthy().ok);
+}
+
+TEST(InMemoryConfigHotReloaderTest, ConstructWithInitialValues) {
+    InMemoryConfigHotReloader reloader({{"level", "warn"}, {"max_conn", "100"}});
+    ASSERT_TRUE(reloader.get("level").has_value());
+    EXPECT_EQ("warn", *reloader.get("level"));
+    EXPECT_EQ("100", *reloader.get("max_conn"));
+}
+
+TEST(InMemoryConfigHotReloaderTest, ThreadSafetyUnderConcurrentSetAndGet) {
+    InMemoryConfigHotReloader reloader;
+    constexpr int kThreads = 8;
+    constexpr int kIter = 100;
+    std::vector<std::thread> threads;
+    threads.reserve(kThreads);
+    for (int t = 0; t < kThreads; ++t) {
+        threads.emplace_back([&reloader, t]() {
+            for (int i = 0; i < kIter; ++i) {
+                reloader.set("key-" + std::to_string(t), std::to_string(i));
+                reloader.get("key-" + std::to_string(t));
+            }
+        });
+    }
+    for (auto& th : threads) th.join();
+    auto snap = reloader.snapshot();
+    EXPECT_EQ(static_cast<size_t>(kThreads), snap.size());
+}
+
+// ===== NoOpConfigHotReloader =====
+
+TEST(NoOpConfigHotReloaderTest, GetAlwaysReturnsNullopt) {
+    NoOpConfigHotReloader reloader;
+    EXPECT_FALSE(reloader.get("any").has_value());
+}
+
+TEST(NoOpConfigHotReloaderTest, SetIsNoOp) {
+    NoOpConfigHotReloader reloader;
+    reloader.set("key", "value");
+    EXPECT_FALSE(reloader.get("key").has_value());
+}
+
+TEST(NoOpConfigHotReloaderTest, SnapshotIsEmpty) {
+    NoOpConfigHotReloader reloader;
+    EXPECT_TRUE(reloader.snapshot().empty());
+}
+
+// ===== ConcernsContext configHotReloader accessor =====
+
+TEST_F(ConcernsContextTest, ConfigHotReloaderAccessorAvailable) {
+    auto& reloader = context->configHotReloader();
+    reloader.set("log_level", "debug");
+    auto val = reloader.get("log_level");
+    ASSERT_TRUE(val.has_value());
+    EXPECT_EQ("debug", *val);
+}
+
+TEST_F(ConcernsContextTest, ConfigHotReloaderIsHealthy) {
+    EXPECT_TRUE(context->healthCheck().configHotReloader.ok);
+}
+
+// ============================================================================
+// ===== IDistributedLock / InMemoryDistributedLock Tests =====
+// ============================================================================
+
+TEST(InMemoryDistributedLockTest, UnacquiredLockIsNotLocked) {
+    InMemoryDistributedLock lock;
+    EXPECT_FALSE(lock.isLocked("resource"));
+}
+
+TEST(InMemoryDistributedLockTest, TryAcquireSucceedsWhenFree) {
+    InMemoryDistributedLock lock;
+    EXPECT_TRUE(lock.tryAcquire("resource"));
+    EXPECT_TRUE(lock.isLocked("resource"));
+}
+
+TEST(InMemoryDistributedLockTest, TryAcquireFailsWhenHeld) {
+    InMemoryDistributedLock lock;
+    ASSERT_TRUE(lock.tryAcquire("resource"));
+    EXPECT_FALSE(lock.tryAcquire("resource"));
+}
+
+TEST(InMemoryDistributedLockTest, ReleaseUnlocksResource) {
+    InMemoryDistributedLock lock;
+    ASSERT_TRUE(lock.tryAcquire("resource"));
+    lock.release("resource");
+    EXPECT_FALSE(lock.isLocked("resource"));
+    EXPECT_TRUE(lock.tryAcquire("resource")); // acquirable again
+}
+
+TEST(InMemoryDistributedLockTest, TtlExpiredLockIsAcquirable) {
+    InMemoryDistributedLock lock;
+    ASSERT_TRUE(lock.tryAcquire("resource", std::chrono::milliseconds{1}));
+    std::this_thread::sleep_for(std::chrono::milliseconds{10});
+    EXPECT_TRUE(lock.tryAcquire("resource", std::chrono::milliseconds{0}));
+}
+
+TEST(InMemoryDistributedLockTest, TtlExpiredLockIsNotReportedAsLocked) {
+    InMemoryDistributedLock lock;
+    ASSERT_TRUE(lock.tryAcquire("resource", std::chrono::milliseconds{1}));
+    std::this_thread::sleep_for(std::chrono::milliseconds{10});
+    EXPECT_FALSE(lock.isLocked("resource"));
+}
+
+TEST(InMemoryDistributedLockTest, TryAcquireForSucceedsWithinTimeout) {
+    InMemoryDistributedLock lock;
+    EXPECT_TRUE(lock.tryAcquireFor("resource", std::chrono::milliseconds{100}));
+    EXPECT_TRUE(lock.isLocked("resource"));
+}
+
+TEST(InMemoryDistributedLockTest, TryAcquireForFailsWhenLockHeld) {
+    InMemoryDistributedLock lock;
+    ASSERT_TRUE(lock.tryAcquire("resource"));
+    // No TTL — lock won't expire; tryAcquireFor should time out quickly.
+    EXPECT_FALSE(lock.tryAcquireFor("resource", std::chrono::milliseconds{20}));
+}
+
+TEST(InMemoryDistributedLockTest, DifferentNamesDontConflict) {
+    InMemoryDistributedLock lock;
+    EXPECT_TRUE(lock.tryAcquire("a"));
+    EXPECT_TRUE(lock.tryAcquire("b"));
+    EXPECT_TRUE(lock.isLocked("a"));
+    EXPECT_TRUE(lock.isLocked("b"));
+}
+
+TEST(InMemoryDistributedLockTest, FlushReleasesAllLocks) {
+    InMemoryDistributedLock lock;
+    lock.tryAcquire("a");
+    lock.tryAcquire("b");
+    lock.flush();
+    EXPECT_FALSE(lock.isLocked("a"));
+    EXPECT_FALSE(lock.isLocked("b"));
+}
+
+TEST(InMemoryDistributedLockTest, IsHealthyAlwaysTrue) {
+    InMemoryDistributedLock lock;
+    EXPECT_TRUE(lock.isHealthy().ok);
+}
+
+// ===== DistributedLockGuard RAII tests =====
+
+TEST(DistributedLockGuardTest, GuardAcquiresAndReleasesLock) {
+    InMemoryDistributedLock provider;
+    {
+        auto guard = DistributedLockGuard::tryAcquire(provider, "res");
+        ASSERT_TRUE(guard.has_value());
+        EXPECT_TRUE(provider.isLocked("res"));
+        EXPECT_EQ("res", guard->lockName());
+    }
+    EXPECT_FALSE(provider.isLocked("res"));
+}
+
+TEST(DistributedLockGuardTest, GuardReturnsNulloptWhenLockHeld) {
+    InMemoryDistributedLock provider;
+    auto first = DistributedLockGuard::tryAcquire(provider, "res");
+    ASSERT_TRUE(first.has_value());
+
+    auto second = DistributedLockGuard::tryAcquire(provider, "res");
+    EXPECT_FALSE(second.has_value());
+}
+
+TEST(DistributedLockGuardTest, ExplicitReleaseBeforeScopeEnd) {
+    InMemoryDistributedLock provider;
+    auto guard = DistributedLockGuard::tryAcquire(provider, "res");
+    ASSERT_TRUE(guard.has_value());
+
+    guard->release();
+    EXPECT_FALSE(provider.isLocked("res"));
+    // Destructor should be a no-op now.
+}
+
+TEST(DistributedLockGuardTest, TryAcquireForGuardTimesOut) {
+    InMemoryDistributedLock provider;
+    auto first = DistributedLockGuard::tryAcquire(provider, "res");
+    ASSERT_TRUE(first.has_value());
+
+    auto second = DistributedLockGuard::tryAcquireFor(provider, "res",
+                                                      std::chrono::milliseconds{20});
+    EXPECT_FALSE(second.has_value());
+}
+
+// ===== NoOpDistributedLock =====
+
+TEST(NoOpDistributedLockTest, TryAcquireAlwaysSucceeds) {
+    NoOpDistributedLock lock;
+    EXPECT_TRUE(lock.tryAcquire("any"));
+    EXPECT_TRUE(lock.tryAcquire("any")); // can "acquire" again
+}
+
+TEST(NoOpDistributedLockTest, IsLockedAlwaysReturnsFalse) {
+    NoOpDistributedLock lock;
+    lock.tryAcquire("any");
+    EXPECT_FALSE(lock.isLocked("any"));
+}
+
+TEST(NoOpDistributedLockTest, TryAcquireForAlwaysSucceeds) {
+    NoOpDistributedLock lock;
+    EXPECT_TRUE(lock.tryAcquireFor("any", std::chrono::milliseconds{10}));
+}
+
+// ===== ConcernsContext distributedLock accessor =====
+
+TEST_F(ConcernsContextTest, DistributedLockAccessorAvailable) {
+    auto& lock = context->distributedLock();
+    EXPECT_TRUE(lock.tryAcquire("resource"));
+    EXPECT_TRUE(lock.isLocked("resource"));
+    lock.release("resource");
+    EXPECT_FALSE(lock.isLocked("resource"));
+}
+
+TEST_F(ConcernsContextTest, DistributedLockIsHealthy) {
+    EXPECT_TRUE(context->healthCheck().distributedLock.ok);
+}
+
+// ===== Config-driven adapter selection for new concerns =====
+
+TEST_F(ConcernsContextTest, ConfigDrivenNoopConfigHotReloaderSelection) {
+    ConcernsContext::Config cfg;
+    cfg.configHotReloaderAdapter = "noop";
+    cfg.tracingEnabled = false;
+    cfg.metricsEnabled = false;
+
+    std::shared_ptr<ConcernsContext> ctx;
+    ASSERT_NO_THROW(ctx = ConcernsContext::create(cfg));
+    ASSERT_NE(nullptr, ctx);
+    // NoOp reloader: set has no effect
+    ctx->configHotReloader().set("k", "v");
+    EXPECT_FALSE(ctx->configHotReloader().get("k").has_value());
+}
+
+TEST_F(ConcernsContextTest, ConfigDrivenInMemoryConfigHotReloaderSelection) {
+    ConcernsContext::Config cfg;
+    cfg.configHotReloaderAdapter = "inmemory";
+    cfg.tracingEnabled = false;
+    cfg.metricsEnabled = false;
+
+    std::shared_ptr<ConcernsContext> ctx;
+    ASSERT_NO_THROW(ctx = ConcernsContext::create(cfg));
+    ASSERT_NE(nullptr, ctx);
+    ctx->configHotReloader().set("k", "v");
+    ASSERT_TRUE(ctx->configHotReloader().get("k").has_value());
+    EXPECT_EQ("v", *ctx->configHotReloader().get("k"));
+}
+
+TEST_F(ConcernsContextTest, ConfigDrivenNoopDistributedLockSelection) {
+    ConcernsContext::Config cfg;
+    cfg.distributedLockAdapter = "noop";
+    cfg.tracingEnabled = false;
+    cfg.metricsEnabled = false;
+
+    std::shared_ptr<ConcernsContext> ctx;
+    ASSERT_NO_THROW(ctx = ConcernsContext::create(cfg));
+    ASSERT_NE(nullptr, ctx);
+    EXPECT_TRUE(ctx->distributedLock().tryAcquire("r"));
+}
+
+TEST_F(ConcernsContextTest, ConfigDrivenInMemoryDistributedLockSelection) {
+    ConcernsContext::Config cfg;
+    cfg.distributedLockAdapter = "inmemory";
+    cfg.tracingEnabled = false;
+    cfg.metricsEnabled = false;
+
+    std::shared_ptr<ConcernsContext> ctx;
+    ASSERT_NO_THROW(ctx = ConcernsContext::create(cfg));
+    ASSERT_NE(nullptr, ctx);
+    EXPECT_TRUE(ctx->distributedLock().tryAcquire("r"));
+    EXPECT_TRUE(ctx->distributedLock().isLocked("r"));
+    ctx->distributedLock().release("r");
+}
+
+TEST_F(ConcernsContextTest, ConfigAdapterUnknownConfigHotReloaderAdapterIsInvalid) {
+    auto result = themis::core::ConfigValidator::validateAdapterConfig(
+        "spdlog", "", "", "inmemory", "default", "inmemory", "noop", "noop",
+        "default", "file");
+    EXPECT_FALSE(result.valid);
+    ASSERT_EQ(1u, result.errors.size());
+    EXPECT_NE(std::string::npos, result.errors[0].find("configHotReloaderAdapter"));
+}
+
+TEST_F(ConcernsContextTest, ConfigAdapterUnknownDistributedLockAdapterIsInvalid) {
+    auto result = themis::core::ConfigValidator::validateAdapterConfig(
+        "spdlog", "", "", "inmemory", "default", "inmemory", "noop", "noop",
+        "default", "inmemory", "etcd");
+    EXPECT_FALSE(result.valid);
+    ASSERT_EQ(1u, result.errors.size());
+    EXPECT_NE(std::string::npos, result.errors[0].find("distributedLockAdapter"));
+}
+
+TEST_F(ConcernsContextTest, FullHealthCheckIncludesAllThreeNewConcerns) {
+    auto status = context->healthCheck();
+    EXPECT_TRUE(status.healthProbes.ok);
+    EXPECT_TRUE(status.configHotReloader.ok);
+    EXPECT_TRUE(status.distributedLock.ok);
+    EXPECT_TRUE(status.isHealthy());
 }

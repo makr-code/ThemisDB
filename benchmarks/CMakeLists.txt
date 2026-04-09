@@ -3493,3 +3493,42 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_pii_stream_scanner.cpp")
 
     message(STATUS "  PIIStreamScanner: 100MB scan-only and scan+pseudonymise throughput at 4KB/64KB/1MB chunks")
 endif()
+
+# ============================================================================
+# kernel_block_size_bench — sweeps block sizes 64/128/256/512/1024 for every
+# CUDA kernel and reports achieved occupancy and throughput.
+# Requires THEMIS_ENABLE_CUDA=ON to exercise GPU paths.
+# ============================================================================
+
+add_executable(kernel_block_size_bench
+    kernel_block_size_bench.cpp
+)
+
+target_include_directories(kernel_block_size_bench PRIVATE
+    ${CMAKE_SOURCE_DIR}/include
+)
+
+target_compile_definitions(kernel_block_size_bench PRIVATE
+    THEMIS_BENCHMARK_BUILD=1
+)
+
+if(THEMIS_ENABLE_CUDA)
+    target_compile_definitions(kernel_block_size_bench PRIVATE
+        THEMIS_ENABLE_CUDA=1
+    )
+    target_link_libraries(kernel_block_size_bench PRIVATE
+        themis_acceleration_cuda
+        CUDA::cudart
+    )
+else()
+    target_link_libraries(kernel_block_size_bench PRIVATE
+        Threads::Threads
+    )
+endif()
+
+install(TARGETS kernel_block_size_bench
+    RUNTIME DESTINATION bin/benchmarks
+    COMPONENT benchmarks
+)
+
+message(STATUS "  kernel_block_size_bench: CUDA/HIP block-size occupancy sweep benchmark")

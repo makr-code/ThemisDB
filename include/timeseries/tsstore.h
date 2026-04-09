@@ -50,6 +50,7 @@ namespace themis {
 class TimeSeriesMetrics;
 class EncryptedChunkStore;
 class TSAutoBuffer;
+class AdaptiveFlushController;
 
 /**
  * @brief Time-Series Storage MVP (Sprint B)
@@ -151,6 +152,22 @@ public:
     struct OutOfOrderStats {
         uint64_t out_of_order_accepted = 0;  // Points written out-of-order but within window
         uint64_t late_arrival_rejected = 0;  // Points rejected as older than late-arrival window
+    };
+
+    /**
+     * @brief Buffer and flush statistics from the AdaptiveFlushController.
+     *
+     * Returned by getAdaptiveFlushStats() when an AdaptiveFlushController
+     * is attached.  All fields are zero when no controller is set.
+     */
+    struct AdaptiveFlushStats {
+        uint64_t points_buffered  = 0;  ///< Total points ever buffered
+        uint64_t points_flushed   = 0;  ///< Total points written to storage
+        uint64_t flush_count      = 0;  ///< Total flush operations
+        uint64_t backpressure_events = 0; ///< Times producers were blocked
+        size_t   current_buffer_size = 0; ///< Points currently in buffer
+        double   current_ewma_latency_ms = 0.0; ///< Latest EWMA write latency
+        size_t   current_adaptive_batch_size = 0; ///< Current adaptive batch size
     };
     
     /**
@@ -317,6 +334,40 @@ public:
      */
     TSAutoBuffer* getAutoBuffer() const { return auto_buffer_; }
 
+    /**
+     * @brief Attach an AdaptiveFlushController to the write path.
+     *
+     * When set, both putDataPoint() and putDataPoints() route writes through
+     * the controller's adaptive buffer.  The controller provides:
+     * - Backpressure when the buffer exceeds the high-watermark
+     * - EWMA-driven dynamic batch sizing
+     * - Unified stats via getAdaptiveFlushStats()
+     *
+     * The adaptive controller takes priority over the legacy TSAutoBuffer
+     * (setAutoBuffer).  Pass nullptr to fall back to the legacy path.
+     *
+     * @param ctrl  Pointer to an AdaptiveFlushController (not owned; must
+     *              outlive this TSStore).  Pass nullptr to disable.
+     */
+    void setAdaptiveFlushController(AdaptiveFlushController* ctrl) {
+        adaptive_flush_ = ctrl;
+    }
+
+    /**
+     * @brief Return the currently attached AdaptiveFlushController, or nullptr.
+     */
+    AdaptiveFlushController* getAdaptiveFlushController() const {
+        return adaptive_flush_;
+    }
+
+    /**
+     * @brief Return a snapshot of buffer/flush statistics from the
+     *        AdaptiveFlushController.
+     *
+     * All fields are zero when no controller is attached.
+     */
+    AdaptiveFlushStats getAdaptiveFlushStats() const;
+
     // ==================== System Metadata ====================
 
     /**
@@ -356,6 +407,7 @@ private:
     std::shared_ptr<TimeSeriesMetrics> metrics_; // Optional metrics collector
     std::shared_ptr<EncryptedChunkStore> enc_chunk_store_; // Optional AES-256-GCM wrapper
     TSAutoBuffer* auto_buffer_ = nullptr; // Optional auto-buffer for single-point Gorilla inserts (not owned)
+    AdaptiveFlushController* adaptive_flush_ = nullptr; // Optional adaptive flush controller (not owned; takes priority over auto_buffer_)
 
     // Out-of-order write statistics
     mutable std::atomic<uint64_t> ooo_accepted_{0};

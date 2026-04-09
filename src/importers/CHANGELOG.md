@@ -1,4 +1,4 @@
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-04-09 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Changelog — Importers Module
@@ -8,13 +8,33 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
-- Microsoft SQL Server importer (Issue: #1845)
 - FedProx aggregation algorithm in `federated_learning.cpp`
 - Ethereum smart contract production anchor for `blockchain_integrity.cpp`
 - Quantum-safe cryptography (NIST PQC CRYSTALS-Kyber) for audit trail signatures
 - Zero-Knowledge Proofs for privacy-preserving data validation
 - Kafka consumer group rebalance-aware import
 - Performance benchmarks: schema inference vs. manual mapping
+
+## [2.3.0] — 2026-04-09
+### Added
+- **Microsoft SQL Server importer** (`src/importers/mssql_importer.cpp`, `include/importers/mssql_importer.h`):
+  - `MSSQLImporter` — full `IImporter` implementation for T-SQL dump files produced by SSMS, sqlcmd, or BCP
+  - `MSSQLImporterPlugin` — `IThemisPlugin` wrapper for plugin registry integration
+  - `MSSQLImporterSchemePlugin` — URI-scheme plugin for `sqlserver://` and `mssql://` source URIs
+  - DDL parsing: `CREATE TABLE` with square-bracket `[schema].[table]`, double-quoted, and plain identifiers
+  - DML parsing: single-row and multi-row `INSERT INTO … VALUES` with `GO` batch separator handling
+  - T-SQL feature support: `N'unicode string'` literals, `SET IDENTITY_INSERT ON/OFF`, block comment stripping
+  - Type mapping for 40+ T-SQL built-in column types including `NVARCHAR`, `UNIQUEIDENTIFIER` (→ `uuid`), `BIT` (→ `boolean`), `MONEY`/`SMALLMONEY` (→ `double`), `DATETIME2`, `DATETIMEOFFSET`, `GEOGRAPHY`/`GEOMETRY` (→ `string`), `IMAGE`/`ROWVERSION` (→ `binary`)
+  - Typed entity JSON: `integer`/`double`/`boolean` columns stored with native JSON types; `null` for SQL NULL
+  - Incremental / delta import with FNV-1a row-hash file (same protocol as MySQL importer)
+  - Async import via `importDataAsync()` (detached thread + shared future)
+  - Observability: Prometheus-compatible metrics callbacks, OpenTelemetry span callbacks
+  - ACL enforcement: `permission_check` callback on `importData()`
+  - Dry-run mode: schema is parsed but no data is persisted
+  - Streaming row callback: callers can abort import mid-stream
+  - Registered in `cmake/CMakeLists.txt` and `cmake/ModularBuild.cmake`
+  - 35 unit tests in `tests/test_mssql_importer.cpp` (`MSSQLImporterFocusedTests` CTest target)
+  - Closes Issue: #1845
 
 ## [2.2.0] — 2026-03-24
 ### Added

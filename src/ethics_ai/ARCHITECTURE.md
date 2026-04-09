@@ -214,4 +214,4 @@ AQL Collections (logical view over RocksDB):
 
 - `src/ethics_ai/README.md` — module overview
 - `ARCHITECTURE.md` (root) — full system architecture
-- `src/ethics_ai/ethics_ai_types.h` — canonical type definitions
+- `include/plugins/ethics_ai/ethics_ai_types.h` — canonical type definitions

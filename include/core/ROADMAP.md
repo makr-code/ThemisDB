@@ -45,9 +45,9 @@ are complete.
 
 ## Planned Features
 
-- [ ] `IHealthProbe` interface for liveness/readiness checking (Target: Q3 2026)
-- [ ] `IConfigHotReloader` for runtime config hot-reload (Target: Q3 2026)
-- [ ] `IDistributedLock` interface for cross-node coordination (Target: Q4 2026)
+- [x] `IHealthProbe` interface for liveness/readiness checking (Target: Q3 2026)
+- [x] `IConfigHotReloader` for runtime config hot-reload (Target: Q3 2026)
+- [x] `IDistributedLock` interface for cross-node coordination (Target: Q4 2026)
 
 ---
 
@@ -69,8 +69,9 @@ are complete.
 - [x] `ZeroCopyLogger`, `LockfreeMetrics`, `MetricLabels`
 
 ### Phase 6: Future Concerns
-- [ ] `IHealthProbe` (Q3 2026)
-- [ ] `IConfigHotReloader` (Q3 2026)
+- [x] `IHealthProbe` + `HealthProbeRegistry` + `FunctionalHealthProbe` (Q3 2026)
+- [x] `IConfigHotReloader` + `InMemoryConfigHotReloader` + `IConfigChangeListener` (Q3 2026)
+- [x] `IDistributedLock` + `InMemoryDistributedLock` + `DistributedLockGuard` (Q4 2026)
 
 ---
 
@@ -81,5 +82,6 @@ are complete.
 - [x] `ProductionMode` gate available
 - [x] Secrets hot-rotation via `watchSecret()` available
 - [x] Lock-free metrics for hot path
-- [ ] `IHealthProbe` interface published
-- [ ] `IConfigHotReloader` interface published
+- [x] `IHealthProbe` interface published
+- [x] `IConfigHotReloader` interface published
+- [x] `IDistributedLock` interface published

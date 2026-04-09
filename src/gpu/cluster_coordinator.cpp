@@ -139,6 +139,11 @@ void GPUClusterCoordinator::updateTopology() {
     topology_ = std::move(fresh);
 }
 
+void GPUClusterCoordinator::setTopology(GPUClusterTopology topology) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    topology_ = std::move(topology);
+}
+
 // ---------------------------------------------------------------------------
 // Placement
 // ---------------------------------------------------------------------------

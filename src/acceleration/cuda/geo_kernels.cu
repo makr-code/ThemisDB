@@ -148,7 +148,13 @@ int launchGeoDistanceKernel(
 ) {
     if (count <= 0) return 0;
 
-    constexpr int kBlockSize = 256;
+    // Query occupancy-tuned block size for the haversine kernel.
+    int minGridSize = 0, optBlockSize = 0;
+    const cudaError_t occErr = cudaOccupancyMaxPotentialBlockSize(
+        &minGridSize, &optBlockSize, haversineDistanceKernel, 0, 0);
+    const int kBlockSize = (occErr == cudaSuccess && optBlockSize > 0)
+                           ? optBlockSize : 256;
+
     const dim3 blockDim(kBlockSize);
     const dim3 gridDim((count + kBlockSize - 1) / kBlockSize);
 
@@ -178,7 +184,13 @@ int launchGeoContainmentKernel(
 ) {
     if (numPoints <= 0) return 0;
 
-    constexpr int kBlockSize = 256;
+    // Query occupancy-tuned block size for the point-in-polygon kernel.
+    int minGridSize = 0, optBlockSize = 0;
+    const cudaError_t occErr = cudaOccupancyMaxPotentialBlockSize(
+        &minGridSize, &optBlockSize, pointInPolygonKernel, 0, 0);
+    const int kBlockSize = (occErr == cudaSuccess && optBlockSize > 0)
+                           ? optBlockSize : 256;
+
     const dim3 blockDim(kBlockSize);
     const dim3 gridDim((numPoints + kBlockSize - 1) / kBlockSize);
 

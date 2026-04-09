@@ -416,7 +416,31 @@ private:
             }
 
             resp->set_success(true);
-            resp->set_result(*result);
+#if THEMIS_HAS_JSON
+            try {
+                const auto json = nlohmann::json::parse(*result);
+                if (json.is_array()) {
+                    for (const auto& element : json) {
+                        auto* row = resp->add_rows();
+                        row->set_data(element.dump());
+                        row->set_has_more(false);
+                    }
+                } else {
+                    auto* row = resp->add_rows();
+                    row->set_data(*result);
+                    row->set_has_more(false);
+                }
+            } catch (...) {
+                // Fall back to raw payload when response is not valid JSON.
+                auto* row = resp->add_rows();
+                row->set_data(*result);
+                row->set_has_more(false);
+            }
+#else
+            auto* row = resp->add_rows();
+            row->set_data(*result);
+            row->set_has_more(false);
+#endif
             return grpc::Status::OK;
         }
 

@@ -262,6 +262,19 @@ public:
     /** @brief Return a read-only reference to the current topology snapshot. */
     const GPUClusterTopology& topology() const noexcept { return topology_; }
 
+    /**
+     * @brief Replace the current topology snapshot (e.g. for testing or when
+     *        an external topology provider supplies a fully-built topology).
+     *
+     * This overrides the topology built by `initialize()`.  Callers who need
+     * NVLink-aware scheduling without GPU hardware (e.g. in unit tests) can
+     * inject a topology with `has_nvlink = true` and a populated
+     * `bandwidth_matrix` here.
+     *
+     * Thread safety: acquires the internal mutex.
+     */
+    void setTopology(GPUClusterTopology topology);
+
     /** @brief Return the active cluster configuration. */
     const ClusterConfig& clusterConfig() const noexcept { return config_; }
 

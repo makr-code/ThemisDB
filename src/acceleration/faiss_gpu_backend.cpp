@@ -24,17 +24,21 @@
 
 #ifdef THEMIS_ENABLE_CUDA
 #include <faiss/IndexFlat.h>
+#include <faiss/IndexHNSW.h>
 #include <faiss/IndexIVFFlat.h>
 #include <faiss/IndexIVFPQ.h>
+#include <faiss/VectorTransform.h>
 #include <faiss/gpu/GpuIndexFlat.h>
 #include <faiss/gpu/GpuIndexIVFFlat.h>
 #include <faiss/gpu/GpuIndexIVFPQ.h>
+#include <faiss/gpu/GpuIndexIVFScalarQuantizer.h>
 #include <faiss/gpu/StandardGpuResources.h>
 #include <faiss/gpu/GpuCloner.h>
 #include <faiss/index_io.h>
 #include <cuda_runtime.h>
 #endif
 
+#include "acceleration/error_context.h"
 #include <iostream>
 #include <stdexcept>
 #include <cstring>
@@ -63,13 +67,18 @@ BackendCapabilities FaissGPUVectorBackend::getCapabilities() const {
     caps.supportsGeoOps = false;
     caps.supportsBatchProcessing = true;
     caps.supportsAsync = true;
-    
+    caps.supportedPrecisions = PrecisionMode::FP32;
+    caps.supportedMetrics = metricBit(DistanceMetric::L2)
+                          | metricBit(DistanceMetric::INNER_PRODUCT);
+
     if (isAvailable()) {
         cudaDeviceProp prop;
         if (cudaGetDeviceProperties(&prop, config_.deviceId) == cudaSuccess) {
             caps.deviceName = std::string(prop.name);
             caps.maxMemoryBytes = prop.totalGlobalMem;
             caps.computeUnits = prop.multiProcessorCount;
+            // Advertise FP16 quantisation for IVF_SQ8 on any CUDA device
+            caps.supportedPrecisions = PrecisionMode::FP32 | PrecisionMode::FP16;
         }
     } else {
         caps.deviceName = "Faiss GPU (Not Available)";
@@ -207,9 +216,45 @@ void* FaissGPUVectorBackend::createIndex(IndexType type, int dimension) {
             idx->nprobe = config_.nprobe;
             return static_cast<void*>(idx);
         }
-        
+
+        case IndexType::IVF_SQ8: {
+            // IVF with 8-bit scalar quantizer: better recall than PQ at similar memory.
+            auto* quantizer = new faiss::gpu::GpuIndexFlatL2(
+                gpuResources_.get(),
+                dimension,
+                flatConfig
+            );
+
+            faiss::gpu::GpuIndexIVFScalarQuantizerConfig ivfsqConfig;
+            ivfsqConfig.device = config_.deviceId;
+
+            auto* idx = new faiss::gpu::GpuIndexIVFScalarQuantizer(
+                gpuResources_.get(),
+                dimension,
+                config_.nlist,
+                faiss::ScalarQuantizer::QT_8bit,
+                faiss::METRIC_L2,
+                quantizer,
+                true,  // encode_residual
+                ivfsqConfig
+            );
+            idx->nprobe = config_.nprobe;
+            return static_cast<void*>(idx);
+        }
+
+        case IndexType::HNSW_FLAT: {
+            // CPU-side HNSW index with GPU flat distance oracle for inner-product step.
+            // Uses faiss::IndexHNSWFlat backed by a GPU flat index for distance computation.
+            auto* idx = new faiss::IndexHNSWFlat(dimension, config_.hnswM);
+            idx->hnsw.efSearch = config_.hnswEfSearch;
+            return static_cast<void*>(idx);
+        }
+
         default:
-            throw std::runtime_error("Unknown index type");
+            setError(ErrorContextHelpers::createValidationError(
+                "FaissGPU", AccelerationErrorCode::InvalidConfiguration,
+                "Unknown or unsupported FAISS index type requested"));
+            return nullptr;
     }
 }
 
@@ -228,6 +273,12 @@ void FaissGPUVectorBackend::destroyIndex() {
             break;
         case IndexType::IVF_PQ:
             delete static_cast<faiss::gpu::GpuIndexIVFPQ*>(index_);
+            break;
+        case IndexType::IVF_SQ8:
+            delete static_cast<faiss::gpu::GpuIndexIVFScalarQuantizer*>(index_);
+            break;
+        case IndexType::HNSW_FLAT:
+            delete static_cast<faiss::IndexHNSWFlat*>(index_);
             break;
     }
     
@@ -248,6 +299,10 @@ bool FaissGPUVectorBackend::trainIndex(const float* vectors, size_t numVectors) 
             case IndexType::FLAT_IP:
                 // Flat indices don't need training
                 return true;
+
+            case IndexType::HNSW_FLAT:
+                // HNSW indices don't need training either
+                return true;
                 
             case IndexType::IVF_FLAT:
                 idx = static_cast<faiss::gpu::GpuIndexIVFFlat*>(index_);
@@ -255,6 +310,10 @@ bool FaissGPUVectorBackend::trainIndex(const float* vectors, size_t numVectors) 
                 
             case IndexType::IVF_PQ:
                 idx = static_cast<faiss::gpu::GpuIndexIVFPQ*>(index_);
+                break;
+
+            case IndexType::IVF_SQ8:
+                idx = static_cast<faiss::gpu::GpuIndexIVFScalarQuantizer*>(index_);
                 break;
         }
         
@@ -293,6 +352,12 @@ bool FaissGPUVectorBackend::addVectors(const float* vectors, size_t numVectors) 
                 break;
             case IndexType::IVF_PQ:
                 idx = static_cast<faiss::gpu::GpuIndexIVFPQ*>(index_);
+                break;
+            case IndexType::IVF_SQ8:
+                idx = static_cast<faiss::gpu::GpuIndexIVFScalarQuantizer*>(index_);
+                break;
+            case IndexType::HNSW_FLAT:
+                idx = static_cast<faiss::IndexHNSWFlat*>(index_);
                 break;
         }
         
@@ -337,6 +402,12 @@ std::vector<std::vector<std::pair<uint32_t, float>>> FaissGPUVectorBackend::sear
                 break;
             case IndexType::IVF_PQ:
                 idx = static_cast<faiss::gpu::GpuIndexIVFPQ*>(index_);
+                break;
+            case IndexType::IVF_SQ8:
+                idx = static_cast<faiss::gpu::GpuIndexIVFScalarQuantizer*>(index_);
+                break;
+            case IndexType::HNSW_FLAT:
+                idx = static_cast<faiss::IndexHNSWFlat*>(index_);
                 break;
         }
         
@@ -615,6 +686,12 @@ FaissGPUVectorBackend::IndexStats FaissGPUVectorBackend::getIndexStats() const {
             case IndexType::IVF_PQ:
                 idx = static_cast<faiss::gpu::GpuIndexIVFPQ*>(index_);
                 break;
+            case IndexType::IVF_SQ8:
+                idx = static_cast<faiss::gpu::GpuIndexIVFScalarQuantizer*>(index_);
+                break;
+            case IndexType::HNSW_FLAT:
+                idx = static_cast<faiss::IndexHNSWFlat*>(index_);
+                break;
         }
         
         if (idx) {
@@ -649,6 +726,12 @@ void FaissGPUVectorBackend::resetIndex() {
                     break;
                 case IndexType::IVF_PQ:
                     idx = static_cast<faiss::gpu::GpuIndexIVFPQ*>(index_);
+                    break;
+                case IndexType::IVF_SQ8:
+                    idx = static_cast<faiss::gpu::GpuIndexIVFScalarQuantizer*>(index_);
+                    break;
+                case IndexType::HNSW_FLAT:
+                    idx = static_cast<faiss::IndexHNSWFlat*>(index_);
                     break;
             }
             

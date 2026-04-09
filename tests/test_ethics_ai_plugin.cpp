@@ -70,7 +70,7 @@ TEST_F(EthicsAIPluginTest, GetVersionIsNonEmpty) {
 }
 
 TEST_F(EthicsAIPluginTest, GetTypeIsCustom) {
-    EXPECT_EQ(PluginType::CUSTOM, p.base()->getType());
+    EXPECT_EQ(themis::plugins::PluginType::CUSTOM, p.base()->getType());
 }
 
 TEST_F(EthicsAIPluginTest, GetCapabilitiesBatchingEnabled) {

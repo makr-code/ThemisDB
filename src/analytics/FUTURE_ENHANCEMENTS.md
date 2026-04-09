@@ -499,8 +499,8 @@ capabilities needed for production deployments.
 - `[x]` `IncrementalView::applyChanges()` micro-batch lock release (section 6)
 
 ### Phase 4 — Tests (2027 Q1)
-- `[ ]` Concurrency stress test for `StreamingAnomalyDetector` (8 threads, 100 kHz, P99 ≤ 1 ms)
-- `[ ]` OLAP cache eviction test: assert bounded memory growth under 10 000 unique queries
+- `[x]` Concurrency stress test for `StreamingAnomalyDetector` (8 threads, 100 kHz, P99 ≤ 1 ms) — `StreamingConcurrencyStress.EightProducersP99Latency` in `tests/analytics/test_anomaly_detection.cpp`; gated on `THEMIS_RUN_PERF_TESTS=1`
+- `[x]` OLAP cache eviction test: assert bounded memory growth under 10 000 unique queries — `OLAPLRUCache.BoundedMemoryGrowthUnder10000UniqueQueries` in `tests/analytics/test_olap_lru_cache.cpp`
 - `[x]` `CEPEngine::stop()` latency test: returns within 100 ms regardless of `metrics_interval`
 - `[x]` `IVM` reader-latency test: P99 ≤ 10 ms during 10 000-row batch apply
 - `[x]` `KNNRegressorModel` regression accuracy test on `y = 2x`
@@ -513,9 +513,9 @@ capabilities needed for production deployments.
 - `[x]` Forecasting batch prediction and streaming update API (section 16)
 
 ### Phase 6 — Documentation and Sign-off (2027 Q2)
-- `[ ]` Update `README.md` performance numbers after Phase 5 benchmarks
+- `[x]` Update `README.md` performance numbers after Phase 5 benchmarks — updated for AVX-512, ARM NEON, pool allocator, and forecasting batch/streaming paths
 - `[x]` Document all resolved TODOs in `streaming_window.cpp` header (TODO #6 resolved)
-- `[ ]` Update `include/analytics/FUTURE_ENHANCEMENTS.md` to reflect new public API additions
+- `[x]` Update `include/analytics/FUTURE_ENHANCEMENTS.md` to reflect new public API additions — v1.9.0 additions documented (batch forecasting, streaming update, Arrow zero-copy, LRU OLAP cache)
 - `[ ]` Add Windows CI job and set stub-count CI gate to 0 for non-Windows builds (section 12)
 
 ---
@@ -525,7 +525,7 @@ capabilities needed for production deployments.
 - `[x]` `ExporterFactory` returns correct type for every `ExportFormat` value
 - `[x]` All `std::lock_guard` scopes verified to hold ≤ 1 ms under worst-case production load
 - `[x]` `CEPEngine::stop()` completes within 100 ms in all code paths
-- `[ ]` `ModelServingEngine` inference throughput ≥ 10 000 predictions/s on 8 cores
+- `[x]` `ModelServingEngine` inference throughput ≥ 10 000 predictions/s on 8 cores — `ModelServingEngine.ConcurrentPredictThroughputBenchmark` in `tests/analytics/test_model_serving.cpp`; gated on `THEMIS_RUN_PERF_TESTS=1`
 - `[x]` `IncrementalView` reader P99 ≤ 10 ms under 10 000-row batch writes
 - `[x]` Windows `OLAPEngine` stubs emit spdlog::error; `ProcessMining` Windows stub now logs via spdlog::error
 - `[x]` `KNNRegressorModel::predictOneReg()` stub replaced with real implementation (via `KNNModel`)

@@ -438,25 +438,34 @@ private:
     uint64_t loadInitialSequence() const;
 
     // Scan all stored changefeed events and return the maximum sequence number.
-    // Used as a crash-recovery fallback when loadInitialSequence() cannot read
-    // SEQUENCE_KEY directly.
+    // O(log N): uses SeekForPrev to the last changefeed key without reading values.
     uint64_t scanMaxSequence() const;
     
     // Helper to wait for new events (for long-poll)
     bool waitForEvents(uint64_t from_sequence, uint32_t timeout_ms) const;
-    
-    // In-process atomic sequence counter.  Updated by fetch_add on every
-    // nextSequence() call; persisted to RocksDB via Merge() for crash recovery.
-    // Eliminates the need for sequence_mutex_ and a Get+Put round-trip per event.
+
+    // In-process atomic sequence counter.  Incremented lock-free by nextSequence().
+    // Crash-safe persistence is handled by a periodic background checkpoint thread
+    // (writeSequenceCheckpoint) rather than per-event — eliminating the Merge from
+    // the WAL-critical hot path.  recordEvent() now issues only a single WAL write
+    // (the event Put).  On crash, loadInitialSequence() recovers the true max from
+    // max(SEQUENCE_KEY_checkpoint, scanMaxSequence()).
     std::atomic<uint64_t> sequence_counter_{0};
 
-    // Tracks the highest sequence known to be durably persisted. When RocksDB
-    // Merge() is unavailable because no merge_operator was configured, we fall
-    // back to a monotonic Put() path guarded by this mutex.
-    std::atomic<uint64_t> persisted_sequence_{0};
-    std::atomic<bool> sequence_merge_supported_{true};
-    mutable std::mutex sequence_persist_mutex_;
-    
+    // Periodic background checkpoint: writes SEQUENCE_KEY = sequence_counter_ every
+    // kSequenceCheckpointIntervalMs to bound crash-recovery scan time.
+    static constexpr uint32_t kSequenceCheckpointIntervalMs = 100;
+    std::atomic<bool>   sequence_dirty_{false};
+    std::atomic<bool>   sequence_checkpoint_running_{false};
+    std::thread         sequence_checkpoint_thread_;
+    std::condition_variable sequence_checkpoint_cv_;
+    mutable std::mutex  sequence_checkpoint_mutex_;
+
+    void startSequenceCheckpoint();
+    void stopSequenceCheckpoint();  ///< Flushes a final checkpoint before joining.
+    void sequenceCheckpointLoop();
+    void writeSequenceCheckpoint(uint64_t value);
+
     // Retention cleanup thread
     std::atomic<bool> retention_thread_running_{false};
     std::thread retention_thread_;

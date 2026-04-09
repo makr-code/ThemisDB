@@ -206,8 +206,8 @@ This means any GPU plugin with a revoked code-signing certificate will pass secu
 - `[x]` Switched from `uint8_t` per-node to 1-bit-per-node bitset: allocation is now `ceil(num_nodes / 8)` bytes per query (10M nodes → 1.25 MB per query, 512 queries → 640 MB — 8× reduction).
 - `[x]` Kernel updated to use bitset read (`visited[nb >> 3] & (1u << (nb & 7u))`) and write (`visited[nb >> 3] |= (1u << (nb & 7u))`) operations.
 - `[x]` Initialisation loop reduced from `num_nodes` to `ceil(num_nodes/8)` iterations.
-- `[ ]` Replace per-invocation `cudaMalloc` / `cudaFree` with a persistent pre-allocated pool (eliminates per-launch allocation overhead; ≥ 15% speedup for repeated fixed-batch queries).
-- `[ ]` Chunked batch processing for graphs where even the bitset exceeds budget.
+- `[x]` Replace per-invocation `cudaMalloc` / `cudaFree` with a persistent pre-allocated pool (eliminates per-launch allocation overhead; ≥ 15% speedup for repeated fixed-batch queries).
+- `[x]` Chunked batch processing for graphs where even the bitset exceeds budget.
 
 **Performance Targets:**
 - Pool allocation must not exceed `BackendCapabilities::maxMemoryBytes` at construction time.
@@ -230,11 +230,11 @@ Multiple CUDA and HIP kernel launchers use hard-coded block dimensions that are 
 A fixed block size of 256 is a reasonable default for NVIDIA sm_86 and AMD RDNA2, but may underperform on GPUs with 64-thread wavefronts (AMD GCN2) or on sm_90 (Hopper) where 128-thread blocks better utilize the warp scheduler.
 
 **Implementation Notes:**
-- `[ ]` Replace hard-coded `threadsPerBlock = 256` in `cuda/vector_kernels.cu:359` and `hip_backend.cpp:602` with a runtime call to `cudaOccupancyMaxPotentialBlockSize()` / `hipOccupancyMaxPotentialBlockSize()` at `initialize()` time; store the result in the backend's `Impl` struct and pass it to all kernel launches.
-- `[ ]` For `constexpr` block sizes in `.cu`/`.hip` files (`ann_kernels.cu`, `geo_kernels.cu`, `graph_kernels.cu`), expose a launch wrapper that accepts `threadsPerBlock` as a parameter and is called from the backend with the occupancy-tuned value rather than hard-coding the constant at the launch site.
-- `[ ]` For AMD GCN targets (wavefront = 64): default to 64 threads when `hipGetDeviceProperties().warpSize == 64` to avoid half-occupancy.
+- `[x]` Replace hard-coded `threadsPerBlock = 256` in `cuda/vector_kernels.cu:359` and `hip_backend.cpp:602` with a runtime call to `cudaOccupancyMaxPotentialBlockSize()` / `hipOccupancyMaxPotentialBlockSize()` at `initialize()` time; store the result in the backend's `Impl` struct and pass it to all kernel launches.
+- `[x]` For `constexpr` block sizes in `.cu`/`.hip` files (`ann_kernels.cu`, `geo_kernels.cu`, `graph_kernels.cu`), expose a launch wrapper that accepts `threadsPerBlock` as a parameter and is called from the backend with the occupancy-tuned value rather than hard-coding the constant at the launch site.
+- `[x]` For AMD GCN targets (wavefront = 64): default to 64 threads when `hipGetDeviceProperties().warpSize == 64` to avoid half-occupancy.
 - `[x]` Vulkan `l2_distance.comp` hard-codes `layout(local_size_x = 16, local_size_y = 16)`: expose this as a specialization constant (`layout(constant_id = 0) const uint LOCAL_SIZE_X = 16`) so the `VulkanVectorBackend` can inject the optimal value for the target device via `VkSpecializationInfo` at pipeline creation time. Also `batch_search.comp` `local_size_x = 256` is now a specialization constant.
-- `[ ]` Add a micro-benchmark (`benchmarks/kernel_block_size_bench.cpp`) that sweeps block sizes 64/128/256/512 for each kernel and reports achieved occupancy.
+- `[x]` Add a micro-benchmark (`benchmarks/kernel_block_size_bench.cpp`) that sweeps block sizes 64/128/256/512 for each kernel and reports achieved occupancy.
 
 **Performance Targets:**
 - ≥ 5% throughput improvement on AMD RDNA2 (wavefront=32) vs. 256-thread baseline.
@@ -281,9 +281,9 @@ A fixed block size of 256 is a reasonable default for NVIDIA sm_86 and AMD RDNA2
 The `selectTyped<T>()` helper in `backend_registry.cpp:223–233` iterates the entire `kFallbackOrder` vector (13 entries) and for each entry scans all registered backends in `backends_`. In the current implementation with ~15 backends this is negligible, but it is called for every query that needs backend selection (`selectVectorBackendFor`, `selectGraphBackendFor`, `selectGeoBackendFor`, `selectMatrixBackendFor`, `getBestVectorBackend`, etc.). More importantly, the nested loop requires O(|kFallbackOrder| × |backends_|) `dynamic_cast` calls per selection.
 
 **Implementation Notes:**
-- `[ ]` At the end of `initializeRuntime()`, build a `std::unordered_map<BackendType, IComputeBackend*>` index from `backends_`; replace the nested loop in `selectTyped<T>()` with a single map lookup per priority level.
-- `[ ]` Pre-compute and cache `getBestVectorBackend()` / `getBestGraphBackend()` / `getBestGeoBackend()` results into `selectedVectorBackend_` etc. as is already partially done; ensure `getBackend(type)` also uses the map.
-- `[ ]` Avoid `dynamic_cast` in the hot path: store typed pointers (`IVectorBackend*`, `IGraphBackend*`, `IGeoBackend*`) alongside the `IComputeBackend*` in a `RegisteredBackend` struct at `registerBackend()` time (one `dynamic_cast` per registration, not per query).
+- `[x]` At the end of `initializeRuntime()`, build a `std::unordered_map<BackendType, IComputeBackend*>` index from `backends_`; replace the nested loop in `selectTyped<T>()` with a single map lookup per priority level.
+- `[x]` Pre-compute and cache `getBestVectorBackend()` / `getBestGraphBackend()` / `getBestGeoBackend()` results into `selectedVectorBackend_` etc. as is already partially done; ensure `getBackend(type)` also uses the map.
+- `[x]` Avoid `dynamic_cast` in the hot path: store typed pointers (`IVectorBackend*`, `IGraphBackend*`, `IGeoBackend*`) alongside the `IComputeBackend*` in a `RegisteredBackend` struct at `registerBackend()` time (one `dynamic_cast` per registration, not per query).
 
 ---
 
@@ -297,7 +297,7 @@ The `selectTyped<T>()` helper in `backend_registry.cpp:223–233` iterates the e
 - `[x]` Added `INT8` case in `dispatchMatmul()` (`tensor_core_matmul.cpp`) that dispatches to `launchINT8MatmulKernel()`.
 - `[x]` Implemented `launchINT8MatmulKernel()` in `cuda/tensor_core_matmul.cu` using `cublasGemmEx` with `CUDA_R_8I` inputs, `CUDA_R_32I` accumulator, and `CUBLAS_GEMM_DEFAULT_TENSOR_OP`; includes runtime SM 7.5+ guard (returns 1 on older hardware).
 - `[x]` Updated `CUDAMatrixBackend::getCapabilities()` to advertise `PrecisionMode::INT8` only when `sm >= 75` (Turing+).
-- `[ ]` `quantize()` / `dequantize()` FP32↔INT8 helpers not yet added (callers currently responsible for quantization).
+- `[x]` `quantize()` / `dequantize()` FP32↔INT8 helpers not yet added (callers currently responsible for quantization).
 
 **Performance Targets:**
 - INT8 matmul throughput ≥ 2× FP16 throughput on RTX 3090 (sm_86) for 4096×4096 matrices.
@@ -311,11 +311,11 @@ The `selectTyped<T>()` helper in `backend_registry.cpp:223–233` iterates the e
 `faiss_gpu_backend.cpp` implements only `IVF_FLAT` (line 164) and `IVF_PQ` (line 187) index types. The FAISS library provides `GpuIndexIVFScalarQuantizer` (IVF_SQ8) for memory-efficient 8-bit quantized search with better recall than PQ at equivalent memory, and the CPU-only `IndexHNSWFlat` which can be combined with a GPU flat index for hybrid search. These omissions mean callers that need higher recall or lower-latency search at medium scale have no GPU-accelerated option.
 
 **Implementation Notes:**
-- `[ ]` Add `IndexType::IVF_SQ8` case in `FAISSGPUBackend::buildIndex()`: create a `faiss::gpu::GpuIndexIVFScalarQuantizer` with `faiss::ScalarQuantizer::QT_8bit`; register the destructor in the cleanup `switch` at line 226.
-- `[ ]` Add `IndexType::FLAT` case: create a `faiss::gpu::GpuIndexFlatL2` or `GpuIndexFlatIP` depending on the distance metric; this is the baseline for exact search and already required for the IVF quantizer — expose it as a first-class index type.
-- `[ ]` Add a `IndexType::HNSW_FLAT` case using CPU-side `faiss::IndexHNSWFlat` backed by a `faiss::gpu::StandardGpuResources` distance oracle for the inner-product step (FAISS `IndexHNSW` supports custom `DistanceComputer` that delegates to GPU flat index).
-- `[ ]` Update `FAISSGPUBackend::getCapabilities()` to advertise the additional index types in the capabilities struct.
-- `[ ]` Add a `default:` branch in the index creation switch (line 164) that returns `false` and sets `lastError_` to `AccelerationErrorCode::InvalidInputShape` — currently the switch falls through silently for unknown types.
+- `[x]` Add `IndexType::IVF_SQ8` case in `FAISSGPUBackend::buildIndex()`: create a `faiss::gpu::GpuIndexIVFScalarQuantizer` with `faiss::ScalarQuantizer::QT_8bit`; register the destructor in the cleanup `switch` at line 226.
+- `[x]` Add `IndexType::FLAT` case: create a `faiss::gpu::GpuIndexFlatL2` or `GpuIndexFlatIP` depending on the distance metric; this is the baseline for exact search and already required for the IVF quantizer — expose it as a first-class index type.
+- `[x]` Add a `IndexType::HNSW_FLAT` case using CPU-side `faiss::IndexHNSWFlat` backed by a `faiss::gpu::StandardGpuResources` distance oracle for the inner-product step (FAISS `IndexHNSW` supports custom `DistanceComputer` that delegates to GPU flat index).
+- `[x]` Update `FAISSGPUBackend::getCapabilities()` to advertise the additional index types in the capabilities struct.
+- `[x]` Add a `default:` branch in the index creation switch (line 164) that returns `false` and sets `lastError_` to `AccelerationErrorCode::InvalidInputShape` — currently the switch falls through silently for unknown types.
 
 ---
 

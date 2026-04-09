@@ -1,10 +1,10 @@
 # Base Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- validated: 2026-04-06 | status: current | evidence: source-code audit commit 0091524 -->
+<!-- validated: 2026-04-08 | status: current | evidence: source-code audit -->
 
 ## Current Status
-Production-ready for module loading, signature verification, and plugin lifecycle management across Windows, Linux, and macOS.
+Production-ready for module loading, signature verification, plugin lifecycle management, hot-reload, OS-level sandboxing, WASM fuel metering, remote registry, plugin dependency graph, and A/B testing across Windows, Linux, and macOS. All Q2 2026 planned features (unit tests, integration tests, performance benchmarks) are complete.
 
 ## Completed ✅
 - [x] Secure DLL/shared library loading (Windows DLL, Linux SO, macOS DYLIB) — Evidence: `src/base/module_loader.cpp` `dlopen`/`LoadLibrary` paths
@@ -35,9 +35,9 @@ Production-ready for module loading, signature verification, and plugin lifecycl
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [ ] Unit test coverage > 80% (Target: Q2 2026) (Issue: #1573)
-- [ ] Integration tests for hot-reload and sandbox scenarios (Target: Q2 2026) (Issue: #1574)
-- [ ] Performance benchmarks for module load and hot-reload cycles (Target: Q2 2026) (Issue: #1575)
+- [x] Unit test coverage > 80% (Issue: #1573) — 361+ tests across `test_module_loader.cpp` (162), `test_wasm_plugin_sandbox.cpp` (56), `test_base_interfaces.cpp` (44), `test_hot_reload_manager.cpp` (40), `test_module_sandbox.cpp` (33), `test_base_entity.cpp` (26), plus `test_ab_test_manager.cpp`, `test_remote_registry_client.cpp`, `test_plugin_dependency_graph.cpp`, `test_plugin_dependency_resolver.cpp`, `test_module_hash_verifier.cpp`, `test_module_signature_verifier.cpp`, `test_module_dependency_resolver.cpp`
+- [x] Integration tests for hot-reload and sandbox scenarios (Issue: #1574) — `tests/integration/hot_reload_manager_integration_test.cpp` (11 tests, `HotReloadManagerIntegrationTest`); `CgroupV2MemoryLimitEnforcement` fork-based OOM test in `tests/test_module_sandbox.cpp`; `ConcurrentReadersWithReloadThread` TSAN-compatible stress test (16 readers + 1 reload thread) in `tests/test_hot_reload_manager.cpp`
+- [x] Performance benchmarks for module load and hot-reload cycles (Issue: #1575) — `benchmarks/bench_hot_reload_manager.cpp` (RegisterUnregister, RegisteredModulesList, ReloadAttemptThroughput, CallbackDispatch, ConcurrentReloadContention), `benchmarks/bench_plugin_hot_plug.cpp`, `benchmarks/bench_plugin_system.cpp`
 - [x] Automatic plugin restart after health-check failure (Issue: #2373) — implemented via `ModuleLoader` watchdog: `startWatchdog()`, `stopWatchdog()`, `configureWatchdog(WatchdogConfig)`, `getWatchdogStats()`, `getAllWatchdogStats()`, `resetWatchdogStats()`
 
 ### Long-term (6-12 months)
@@ -78,17 +78,15 @@ Production-ready for module loading, signature verification, and plugin lifecycl
 - [x] WASM instruction fuel metering — `WasmPluginSandbox::Config::max_instructions` (total budget, 0 = unlimited) and `fuel_check_interval` (units deducted per `callExport()`) added; `fuel_remaining_` counter initialized at load and decremented per call; fuel-exhausted calls return structured error without invoking runtime; `remainingFuel()` exposes current budget; 8 unit tests in `tests/test_wasm_plugin_sandbox.cpp` (v1.8.0)
 
 ## Production Readiness Checklist
-- [x] Unit tests coverage > 80% (Issue: #1573) — `test_base_entity.cpp` (383 LOC), `test_base_interfaces.cpp` (678 LOC); focused standalone targets: `BaseEntityFocusedTests`, `BaseInterfacesFocusedTests`
-- [I] Integration tests (Issue: #1574)
-- [I] Performance benchmarks (Issue: #1575)
+- [x] Unit tests coverage > 80% (Issue: #1573) — 361+ tests across 13 test files covering all subsystems; focused standalone targets: `BaseEntityFocusedTests`, `BaseInterfacesFocusedTests`, `ModuleLoaderFocusedTests`, `PluginWatchdogFocusedTests`, `RemoteRegistryClientUnifiedTests`, `PluginDependencyGraphFocusedTests`, `PluginDependencyResolverFocusedTests`
+- [x] Integration tests (Issue: #1574) — `hot_reload_manager_integration_test.cpp` (11 tests), cgroup v2 OOM enforcement test, TSAN-compatible concurrent readers + reload stress test
+- [x] Performance benchmarks (Issue: #1575) — `bench_hot_reload_manager.cpp`, `bench_plugin_hot_plug.cpp`, `bench_plugin_system.cpp` registered in `benchmarks/CMakeLists.txt`
 - [x] Security audit (signature verification, revocation checking)
-- [x] Documentation complete — validated 2026-03-09
+- [x] Documentation complete — validated 2026-04-08
 - [x] API stability guaranteed for module loading interface
 
 ## Known Issues & Limitations
 - WASM plugin isolation (`WasmPluginSandbox`) requires injection of a concrete WASM runtime (Wasmtime, WasmEdge, etc.) for full execution support (Issue: #1572)
-- Automatic plugin restart after health-check failure is implemented via `ModuleLoader` watchdog thread (Issue: #2373)
-- Unit test coverage, integration tests, and performance benchmarks are still open (Issues: #1573, #1574, #1575)
 
 ## Breaking Changes
 - WASM plugin interface will be a new API surface (additive, non-breaking to existing plugin interface)

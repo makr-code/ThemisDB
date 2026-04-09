@@ -58,19 +58,39 @@ BinaryMimeType detectBinaryMimeType(const std::string& raw) {
         return BinaryMimeType::PDF;
     }
 
-    // ZIP magic: PK\x03\x04 – used by DOCX (Office Open XML)
+    // RTF: magic bytes "{\rtf"
+    if (raw[0] == '{' && raw[1] == '\\' && raw[2] == 'r' && raw[3] == 't' &&
+        raw.size() >= 5 && raw[4] == 'f') {
+        return BinaryMimeType::RTF;
+    }
+
+    // ZIP magic: PK\x03\x04 – used by DOCX, XLSX, ODT (Office Open XML / ODF)
     if (raw[0] == 'P' && raw[1] == 'K' &&
         static_cast<unsigned char>(raw[2]) == 0x03 &&
         static_cast<unsigned char>(raw[3]) == 0x04) {
-        // Distinguish DOCX from other ZIP-based formats by looking for the
-        // OOXML content-type marker in the first 512 bytes.
+        // Inspect the first 512 bytes for format-specific markers.
         const std::string probe = raw.substr(0, std::min(raw.size(), size_t(512)));
+
+        // ODF / ODT: mimetype entry begins with "application/vnd.oasis.opendocument"
+        if (probe.find("application/vnd.oasis.opendocument") != std::string::npos) {
+            return BinaryMimeType::ODT;
+        }
+
+        // XLSX: Excel OOXML markers (xl/ directory or spreadsheet content-types)
+        if (probe.find("xl/") != std::string::npos ||
+            probe.find("xl\\") != std::string::npos ||
+            probe.find("application/vnd.openxmlformats-officedocument.spreadsheetml") != std::string::npos) {
+            return BinaryMimeType::XLSX;
+        }
+
+        // DOCX: Word OOXML markers
         if (probe.find("word/") != std::string::npos ||
             probe.find("[Content_Types]") != std::string::npos ||
             probe.find("application/vnd.openxmlformats") != std::string::npos) {
             return BinaryMimeType::DOCX;
         }
-        // Generic ZIP but could still be DOCX – trust the extension in that case
+
+        // Generic ZIP but no recognised sub-format – trust the extension
         return BinaryMimeType::UNKNOWN;
     }
 
@@ -313,6 +333,48 @@ static std::string extractDocxWithConverter(const std::string& file_path,
     return runExternalConverter(cmd);
 }
 
+/// Extract text from an XLSX file using an external converter.
+/// @param file_path   Absolute path to the XLSX file.
+/// @param converter   Name or path of the converter binary (e.g. "pandoc").
+///                    If empty, returns an empty string immediately.
+/// @return Extracted plain text, or empty string on failure/unavailability.
+static std::string extractXlsxWithConverter(const std::string& file_path,
+                                            const std::string& converter) {
+    if (converter.empty()) return "";
+    if (!isConverterSafe(converter)) return "";
+    // pandoc syntax: pandoc -f xlsx -t plain <input>
+    std::string cmd = converter + " -f xlsx -t plain " + shellEscapePath(file_path) + stderrRedirect();
+    return runExternalConverter(cmd);
+}
+
+/// Extract text from an ODT file using an external converter.
+/// @param file_path   Absolute path to the ODT file.
+/// @param converter   Name or path of the converter binary (e.g. "pandoc").
+///                    If empty, returns an empty string immediately.
+/// @return Extracted plain text, or empty string on failure/unavailability.
+static std::string extractOdtWithConverter(const std::string& file_path,
+                                           const std::string& converter) {
+    if (converter.empty()) return "";
+    if (!isConverterSafe(converter)) return "";
+    // pandoc syntax: pandoc -f odt -t plain <input>
+    std::string cmd = converter + " -f odt -t plain " + shellEscapePath(file_path) + stderrRedirect();
+    return runExternalConverter(cmd);
+}
+
+/// Extract text from an RTF file using an external converter.
+/// @param file_path   Absolute path to the RTF file.
+/// @param converter   Name or path of the converter binary (e.g. "unrtf").
+///                    If empty, returns an empty string immediately.
+/// @return Extracted plain text, or empty string on failure/unavailability.
+static std::string extractRtfWithConverter(const std::string& file_path,
+                                           const std::string& converter) {
+    if (converter.empty()) return "";
+    if (!isConverterSafe(converter)) return "";
+    // unrtf syntax: unrtf --text <input>
+    std::string cmd = converter + " --text " + shellEscapePath(file_path) + stderrRedirect();
+    return runExternalConverter(cmd);
+}
+
 } // anonymous namespace
 
 // Pimpl implementation
@@ -346,9 +408,12 @@ public:
             // Parse format string
             if (it->second == "pdf") format_ = FileFormat::PDF;
             else if (it->second == "docx") format_ = FileFormat::DOCX;
-            else if (it->second == "txt") format_ = FileFormat::TXT;
+            else if (it->second == "xlsx") format_ = FileFormat::XLSX;
+            else if (it->second == "odt")  format_ = FileFormat::ODT;
+            else if (it->second == "rtf")  format_ = FileFormat::RTF;
+            else if (it->second == "txt")  format_ = FileFormat::TXT;
             else if (it->second == "html") format_ = FileFormat::HTML;
-            else if (it->second == "xml") format_ = FileFormat::XML;
+            else if (it->second == "xml")  format_ = FileFormat::XML;
             else if (it->second == "json") format_ = FileFormat::JSON;
             else format_ = FileFormat::AUTO;
         }
@@ -377,6 +442,21 @@ public:
         it = config.options.find("docx_converter");
         if (it != config.options.end()) {
             binary_converter_.docx_converter = it->second;
+        }
+
+        it = config.options.find("xlsx_converter");
+        if (it != config.options.end()) {
+            binary_converter_.xlsx_converter = it->second;
+        }
+
+        it = config.options.find("odt_converter");
+        if (it != config.options.end()) {
+            binary_converter_.odt_converter = it->second;
+        }
+
+        it = config.options.find("rtf_converter");
+        if (it != config.options.end()) {
+            binary_converter_.rtf_converter = it->second;
         }
 
         it = config.options.find("detect_by_magic");
@@ -591,9 +671,12 @@ private:
             mime = detectBinaryMimeType(raw);
         }
 
-        // Determine whether this is a PDF or DOCX (by magic OR extension)
+        // Determine whether this is a PDF, DOCX, XLSX, ODT, or RTF (by magic OR extension)
         bool is_pdf  = (mime == BinaryMimeType::PDF)  || (ext == ".pdf");
         bool is_docx = (mime == BinaryMimeType::DOCX) || (ext == ".docx");
+        bool is_xlsx = (mime == BinaryMimeType::XLSX) || (ext == ".xlsx");
+        bool is_odt  = (mime == BinaryMimeType::ODT)  || (ext == ".odt");
+        bool is_rtf  = (mime == BinaryMimeType::RTF)  || (ext == ".rtf");
 
         if (is_pdf) {
             // Use external converter to extract plain text.
@@ -604,6 +687,15 @@ private:
         } else if (is_docx) {
             content = extractDocxWithConverter(file_path.string(),
                                                binary_converter_.docx_converter);
+        } else if (is_xlsx) {
+            content = extractXlsxWithConverter(file_path.string(),
+                                               binary_converter_.xlsx_converter);
+        } else if (is_odt) {
+            content = extractOdtWithConverter(file_path.string(),
+                                              binary_converter_.odt_converter);
+        } else if (is_rtf) {
+            content = extractRtfWithConverter(file_path.string(),
+                                              binary_converter_.rtf_converter);
         } else if (ext == ".txt" || ext == ".md" || ext == ".csv") {
             // Plain text / markdown / CSV – use raw bytes
             content = std::move(raw);

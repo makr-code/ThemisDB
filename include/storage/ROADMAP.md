@@ -101,8 +101,8 @@ migration.
 - [ ] Peer review of `streaming_ingest_manager.h` with data pipeline team
 
 ### Phase 2 — Core Implementation
-- [ ] `src/storage/vector_index_backend.cpp` skeleton + unit tests
-- [ ] `src/storage/encrypted_blob_backend.cpp` AES-GCM core
+- [ ] Vector index backend implementation file (planned) + unit tests
+- [ ] Encrypted blob backend implementation file (planned) with AES-GCM core
 
 ### Phase 3 — Error Handling & Edge Cases
 - [ ] Vector index: out-of-memory and dimension-mismatch errors

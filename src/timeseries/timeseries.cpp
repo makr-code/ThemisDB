@@ -24,8 +24,9 @@
 #include "utils/logger.h"
 #include <rocksdb/utilities/transaction_db.h>
 #include <rocksdb/utilities/transaction.h>
-#include <sstream>
-#include <iomanip>
+#include <rocksdb/write_batch.h>
+#include <cinttypes>
+#include <cstdio>
 #include <algorithm>
 
 namespace themis {
@@ -70,18 +71,34 @@ std::string TimeSeriesStore::makeKey(std::string_view metric,
                                      std::string_view entity,
                                      int64_t timestamp_ms) const {
     // Format: ts:{metric}:{entity}:{timestamp_ms}
-    // Pad timestamp with zeros for lexicographic ordering
-    std::ostringstream oss;
-    oss << KEY_PREFIX << metric << ":" << entity << ":" 
-        << std::setw(20) << std::setfill('0') << timestamp_ms;
-    return oss.str();
+    // Pad timestamp with zeros for lexicographic ordering.
+    // Use snprintf on a stack buffer to avoid ostringstream overhead
+    // (no locale lookup, no dynamic allocation for the formatting itself).
+    // PRId64 ensures correct formatting on all platforms (LP64 and LLP64/Windows).
+    char ts_buf[21]; // 20 digits + NUL
+    std::snprintf(ts_buf, sizeof(ts_buf), "%020" PRId64, timestamp_ms);
+
+    std::string key;
+    key.reserve(3 + metric.size() + 1 + entity.size() + 1 + 20);
+    key += KEY_PREFIX;
+    key.append(metric);
+    key += ':';
+    key.append(entity);
+    key += ':';
+    key += ts_buf;
+    return key;
 }
 
 std::string TimeSeriesStore::makePrefix(std::string_view metric,
                                        std::string_view entity) const {
-    std::ostringstream oss;
-    oss << KEY_PREFIX << metric << ":" << entity << ":";
-    return oss.str();
+    std::string prefix;
+    prefix.reserve(3 + metric.size() + 1 + entity.size() + 1);
+    prefix += KEY_PREFIX;
+    prefix.append(metric);
+    prefix += ':';
+    prefix.append(entity);
+    prefix += ':';
+    return prefix;
 }
 
 bool TimeSeriesStore::put(std::string_view metric, 
@@ -104,6 +121,41 @@ bool TimeSeriesStore::put(std::string_view metric,
         return false;
     }
     
+    return true;
+}
+
+bool TimeSeriesStore::putBatch(std::string_view metric,
+                               std::string_view entity,
+                               const std::vector<DataPoint>& points) {
+    if (!db_) {
+        THEMIS_ERROR("TimeSeriesStore::putBatch - DB not initialized");
+        return false;
+    }
+    if (points.empty()) return true;
+
+    rocksdb::WriteBatch batch;
+    // Reserve estimate: ~32 bytes key + ~32 bytes JSON value per point.
+    static constexpr size_t kApproxBytesPerEntry = 64;
+    batch.Reserve(points.size() * kApproxBytesPerEntry);
+
+    for (const auto& point : points) {
+        std::string key = makeKey(metric, entity, point.timestamp_ms);
+        std::string value_str = point.toJson().dump();
+        rocksdb::Status s = cf_
+            ? batch.Put(cf_, key, value_str)
+            : batch.Put(key, value_str);
+        if (!s.ok()) {
+            THEMIS_ERROR("TimeSeriesStore::putBatch - WriteBatch::Put failed: {}", s.ToString());
+            return false;
+        }
+    }
+
+    rocksdb::WriteOptions write_opts;
+    rocksdb::Status s = db_->Write(write_opts, &batch);
+    if (!s.ok()) {
+        THEMIS_ERROR("TimeSeriesStore::putBatch - Write failed: {}", s.ToString());
+        return false;
+    }
     return true;
 }
 

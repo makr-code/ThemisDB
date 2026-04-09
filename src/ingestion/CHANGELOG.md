@@ -9,8 +9,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 
 - Phase 2 LLM pipeline: LoRA fine-tuning integration, SpaCy NLP pipeline, agentic verification loop
-- Extended binary MIME detection (XLSX, ODT, RTF)
 - Distributed checkpoint store (etcd-backed)
+
+## [1.6.0] — 2026-04-09
+### Added
+- Extended binary MIME detection: XLSX, ODT, and RTF formats now detected via magic-byte inspection in `detectBinaryMimeType()` (`BinaryMimeType::XLSX`, `BinaryMimeType::ODT`, `BinaryMimeType::RTF`)
+- `BinaryConverter::xlsx_converter` (default `pandoc`), `odt_converter` (default `pandoc`), `rtf_converter` (default `unrtf`) fields for configuring external converters per format
+- `extractXlsxWithConverter()`, `extractOdtWithConverter()`, `extractRtfWithConverter()` converter helpers in `filesystem_ingester.cpp`
+- `FileFormat::XLSX`, `FileFormat::ODT`, `FileFormat::RTF` enum values for explicit format override
+- `SourceConfig::options["xlsx_converter"]`, `["odt_converter"]`, `["rtf_converter"]` keys parsed in `FileSystemIngester::initialize()`
+- 7 new unit tests in `test_ingestion_features.cpp` (`BinaryMimeDetectionTest`): XLSX by magic, XLSX by content-type, ODT, RTF, RTF short-buffer, XLSX not confused with DOCX, updated `BinaryConverterTest::DefaultValues`
 
 ## [1.5.1] — 2026-03-21
 ### Added

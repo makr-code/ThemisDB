@@ -6,6 +6,39 @@
 All notable changes to the GPU module are documented here.  
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.9.0] — 2026-04-09
+### Fixed
+- `GPUClusterTopology::addLink()` now sets `has_nvlink = true` when an
+  intra-node NVLink link is added, enabling NVLink-aware scheduling without
+  requiring NVIDIA hardware to call `detect()` first (Issue #1802).
+
+### Added
+- `GPUClusterCoordinator::setTopology(GPUClusterTopology)` — replaces the
+  coordinator's topology snapshot at runtime.  Useful when an external
+  topology provider (e.g. NCCL, NVML) supplies a pre-built topology, and
+  for unit tests that need to inject an NVLink topology without GPU hardware.
+- 10 new NVLink topology-aware scheduling tests in
+  `tests/test_gpu_cluster_topology.cpp`:
+  - `AddLink_NVLink_SetsHasNVLinkFlag` — verifies the `addLink()` fix
+  - `AddLink_PCIeP2P_DoesNotSetHasNVLink` — verifies PCIe links don't
+    erroneously set `has_nvlink`
+  - `SetTopology_InjectsNVLinkTopology` — verifies `setTopology()` replaces
+    topology and bandwidth matrix
+  - `SelectDevice_NVLinkTopology_PicksBestConnectedDevice` — verifies
+    NVLink-aware device selection chooses the device with highest total NVLink
+    bandwidth
+  - `SelectDevice_NoNVLink_FallsBackToFirstHealthy` — verifies CPU-path
+    fallback behaviour when no NVLink topology is present
+  - `SelectDevice_NVLinkTopology_VRAMFilter_SkipsInsufficientDevices` —
+    verifies VRAM-requirement filter is respected in the NVLink path
+  - `SelectDevice_AllUnhealthy_ReturnsCPUFallback` — verifies CPU fallback
+    when all devices are unhealthy
+  - `SelectDevice_NVLinkDisabled_IgnoresNVLinkTopology` — verifies
+    `enable_nvlink = false` bypasses the NVLink selection path
+  - `SelectNodeForTransfer_NoIB_ReturnsCpuRoute` — verifies non-IB fallback
+  - `SelectNodeForTransfer_MultipleIBPeers_PicksHighestBandwidth` — verifies
+    InfiniBand peer selection by highest bandwidth
+
 ## [1.8.0] — 2026-03-21
 ### Added
 - Public header documentation: `include/themis/gpu/README.md` — comprehensive
