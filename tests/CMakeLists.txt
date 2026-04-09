@@ -7579,6 +7579,43 @@ else()
 endif()
 
 # ============================================================================
+# SQL Server (MSSQL) Importer Focused Tests (standalone binary)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_mssql_importer.cpp")
+    message(STATUS "Adding MSSQLImporter focused tests (standalone binary)")
+
+    add_executable(test_mssql_importer_focused
+        test_mssql_importer.cpp
+    )
+
+    target_include_directories(test_mssql_importer_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_mssql_importer_focused PRIVATE
+        ${TEST_LIBS}
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_mssql_importer_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME MSSQLImporterFocusedTests COMMAND test_mssql_importer_focused)
+
+    set_tests_properties(MSSQLImporterFocusedTests PROPERTIES
+        LABELS "importers;mssql;sqlserver;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  MSSQLImporter: T-SQL type mapping, bracket identifiers, INSERT parsing, GO batch handling, unicode N-strings, validateSource, filtering")
+else()
+    message(STATUS "MSSQLImporter focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_mssql_importer.cpp")
+endif()
+
+# ============================================================================
 # S3 Importer Focused Tests (standalone binary)
 # ============================================================================
 
