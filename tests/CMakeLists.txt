@@ -9,6 +9,9 @@ endif()
 
 message(STATUS "Configuring ThemisDB test suite")
 
+include("${CMAKE_SOURCE_DIR}/cmake/SuiteGating.cmake")
+themis_log_suite_context("Tests")
+
 # Global output directory for all test binaries → bin/ folder
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
 
@@ -503,8 +506,21 @@ foreach(pattern IN LISTS TEST_EXCLUDE_PATTERNS)
     list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX "${pattern}")
 endforeach()
 
+# Apply a final generic gate derived from suite names + edition/feature flags.
+# This catches newly added tests that are not yet covered by explicit regex rules.
+set(_auto_filtered_test_sources "")
+foreach(_test_source ${ALL_TEST_SOURCES})
+    get_filename_component(_test_name "${_test_source}" NAME_WE)
+    themis_is_suite_enabled(_suite_enabled "${_test_name}")
+    if(_suite_enabled)
+        list(APPEND _auto_filtered_test_sources "${_test_source}")
+    endif()
+endforeach()
+set(ALL_TEST_SOURCES ${_auto_filtered_test_sources})
+
 list(LENGTH ALL_TEST_SOURCES TEST_SOURCE_COUNT)
 message(STATUS "Building ${TEST_SOURCE_COUNT} test files after feature gating")
+themis_report_test_selection("${CMAKE_CURRENT_SOURCE_DIR}" "${ALL_TEST_SOURCES}")
 
 add_executable(themis_tests ${ALL_TEST_SOURCES})
 
@@ -12171,6 +12187,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_adaptive_flush_controller.cpp")
     target_link_libraries(test_adaptive_flush_controller_focused PRIVATE
         ${TEST_LIBS}
         themis_core
+        themis_timeseries
         Threads::Threads
     )
 
@@ -16970,7 +16987,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_wom_tree.cpp")
     message(STATUS "Adding Storage: WomTree focused tests")
     add_executable(test_wom_tree_focused test_wom_tree.cpp)
     target_include_directories(test_wom_tree_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
-    target_link_libraries(test_wom_tree_focused PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
+    target_link_libraries(test_wom_tree_focused PRIVATE ${TEST_LIBS} themis_core themis_storage spdlog::spdlog Threads::Threads)
     target_compile_definitions(test_wom_tree_focused PRIVATE THEMIS_TEST_BUILD=1)
     add_test(NAME WomTreeFocusedTests COMMAND test_wom_tree_focused)
     set_tests_properties(WomTreeFocusedTests PROPERTIES LABELS "storage;wom;write-optimized;focused;unit" TIMEOUT 60)
@@ -20640,3 +20657,44 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_concurrent_write_controller.cpp")
 
     message(STATUS "  ConcurrentWriteController: FIFO semaphore, RAII guard, stats (EWMA/P99/max), timeout, shutdown, CV regression guard")
 endif()
+
+# Aggregate targets for currently eligible test suites.
+# - themis_tests_all_eligible_focus: all focused test executables that pass
+#   edition/feature gating in the current configuration.
+# - themis_tests_all_eligible: includes all eligible focused tests plus the
+#   unified themis_tests executable when present.
+set(_eligible_focused_test_targets "")
+set(_eligible_test_targets "")
+get_property(_test_dir_targets DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}" PROPERTY BUILDSYSTEM_TARGETS)
+foreach(_candidate_target ${_test_dir_targets})
+    if(_candidate_target STREQUAL "themis_tests")
+        list(APPEND _eligible_test_targets ${_candidate_target})
+        continue()
+    endif()
+
+    if(_candidate_target MATCHES "_focused$")
+        themis_is_suite_enabled(_candidate_enabled "${_candidate_target}")
+        if(_candidate_enabled)
+            list(APPEND _eligible_focused_test_targets ${_candidate_target})
+            list(APPEND _eligible_test_targets ${_candidate_target})
+        endif()
+    endif()
+endforeach()
+
+list(REMOVE_DUPLICATES _eligible_focused_test_targets)
+list(REMOVE_DUPLICATES _eligible_test_targets)
+
+add_custom_target(themis_tests_all_eligible_focus)
+if(_eligible_focused_test_targets)
+    add_dependencies(themis_tests_all_eligible_focus ${_eligible_focused_test_targets})
+endif()
+
+add_custom_target(themis_tests_all_eligible)
+if(_eligible_test_targets)
+    add_dependencies(themis_tests_all_eligible ${_eligible_test_targets})
+endif()
+
+list(LENGTH _eligible_focused_test_targets _eligible_focused_test_count)
+list(LENGTH _eligible_test_targets _eligible_test_count)
+message(STATUS "Aggregate test target 'themis_tests_all_eligible_focus' includes ${_eligible_focused_test_count} currently eligible focused test executables")
+message(STATUS "Aggregate test target 'themis_tests_all_eligible' includes ${_eligible_test_count} currently eligible test executables")

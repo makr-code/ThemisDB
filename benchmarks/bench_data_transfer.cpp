@@ -56,7 +56,7 @@ constexpr int WARMUP_ITERS = 3;
 static bool cuda_available() {
     auto backends = GPUMemoryManager::detect_backends();
     for (const auto& backend : backends) {
-        if (backend.type == acceleration::BackendType::CUDA && backend.available) {
+        if (backend.type == themis::acceleration::BackendType::CUDA && backend.available) {
             return true;
         }
     }

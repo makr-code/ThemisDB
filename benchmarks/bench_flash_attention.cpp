@@ -38,6 +38,20 @@
 #include <vector>
 #include <random>
 
+#ifndef THEMIS_ENABLE_GPU
+
+static void BM_FlashAttention_GPUDisabled(benchmark::State& state) {
+    for (auto _ : state) {
+        state.SkipWithError("Flash-attention benchmarks are disabled in this build");
+        break;
+    }
+}
+
+BENCHMARK(BM_FlashAttention_GPUDisabled);
+BENCHMARK_MAIN();
+
+#else
+
 using namespace themis::llm::attention;
 
 namespace {
@@ -287,3 +301,5 @@ static void BM_ConfigCreation(benchmark::State& state) {
 BENCHMARK(BM_ConfigCreation)->Unit(benchmark::kNanosecond);
 
 BENCHMARK_MAIN();
+
+#endif  // THEMIS_ENABLE_GPU

@@ -61,6 +61,9 @@ endif()
 
 message(STATUS "Google Benchmark found - building benchmarks")
 
+include("${CMAKE_SOURCE_DIR}/cmake/SuiteGating.cmake")
+themis_log_suite_context("Benchmarks")
+
 # Include directories
 include_directories(
     ${CMAKE_SOURCE_DIR}/include
@@ -533,11 +536,15 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_mixed_precision_perf.cpp" AND (THEM
 endif()
 
 # 4. Data Transfer Benchmarks
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_data_transfer.cpp" AND (THEMIS_ENABLE_CUDA OR THEMIS_ENABLE_HIP))
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_data_transfer.cpp" AND THEMIS_ENABLE_LLM)
     message(STATUS "Adding Data Transfer benchmarks")
     
     add_executable(bench_data_transfer
         bench_data_transfer.cpp
+        ${CMAKE_SOURCE_DIR}/src/llm/lora_framework/gpu_memory.cpp
+        ${CMAKE_SOURCE_DIR}/src/llm/lora_framework/gpu_tensor.cpp
+        ${CMAKE_SOURCE_DIR}/src/llm/lora_framework/gpu_data_loader.cpp
+        ${CMAKE_SOURCE_DIR}/src/llm/lora_framework/vram_allocator.cpp
     )
     
     target_link_libraries(bench_data_transfer PRIVATE
@@ -580,6 +587,7 @@ if(THEMIS_ENABLE_LLM AND THEMIS_ENABLE_GPU AND EXISTS "${CMAKE_CURRENT_SOURCE_DI
     
     target_link_libraries(bench_backend_comparison PRIVATE
         themis_core
+        themis_llm
 
         ${BENCHMARK_LIBS}
         OpenSSL::SSL
@@ -1906,6 +1914,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_config_path_resolver.cpp")
 
     add_executable(bench_config_path_resolver
         bench_config_path_resolver.cpp
+        ../src/config/config_path_resolver.cpp
     )
 
     target_link_libraries(bench_config_path_resolver PRIVATE
@@ -3464,6 +3473,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_pii_stream_scanner.cpp")
 
     target_link_libraries(bench_pii_stream_scanner PRIVATE
         ${BENCHMARK_LIBS}
+        themis_core
         OpenSSL::SSL
         OpenSSL::Crypto
         spdlog::spdlog
@@ -3524,6 +3534,29 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_timeseries_adaptive_flush.cpp")
     )
 
     target_compile_definitions(bench_timeseries_adaptive_flush PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(bench_timeseries_adaptive_flush PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_timeseries_adaptive_flush
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  AdaptiveFlush: >=500k pts/s single/multi-threaded, P99 <100us, FlushController convergence, buffer stats")
+endif()
+
+# ============================================================================
 # bench_query_lazy_eval (PERF-D7, v1.0.0)
 # Validates acceptance criteria for Issue [PERF-D7]:
 #   - Query engine lazy evaluation / predicate pushdown via columnar SIMD
@@ -3556,7 +3589,6 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_query_lazy_eval.cpp")
         if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
             set(BENCHMARK_ARCH_FLAGS "-march=native")
         endif()
-        target_compile_options(bench_timeseries_adaptive_flush PRIVATE
         target_compile_options(bench_query_lazy_eval PRIVATE
             -O3
             ${BENCHMARK_ARCH_FLAGS}
@@ -3564,12 +3596,121 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_query_lazy_eval.cpp")
         )
     endif()
 
-    install(TARGETS bench_timeseries_adaptive_flush
     install(TARGETS bench_query_lazy_eval
         RUNTIME DESTINATION bin/benchmarks
         COMPONENT benchmarks
     )
 
-    message(STATUS "  AdaptiveFlush: ≥500k pts/s single/multi-threaded, P99 <100µs, FlushController convergence, buffer stats")
     message(STATUS "  bench_query_lazy_eval: filter/project/multi-pred/aggregate/full-pipeline throughput, batch-size sweep, selectivity sweep, SIMD vs scalar")
 endif()
+
+# ============================================================================
+# Auto-registration for eligible benchmark sources not yet manually wired
+#
+# Goal: keep benchmark coverage aligned with current edition/feature switches
+# without requiring immediate per-file hand wiring.
+#
+# Notes:
+# - Targets are EXCLUDE_FROM_ALL, so regular default builds stay stable.
+# - Targets are still discoverable and can be built explicitly.
+# ============================================================================
+
+option(THEMIS_AUTO_REGISTER_ELIGIBLE_BENCHMARKS
+    "Auto-register missing benchmark targets that are eligible in current edition/feature configuration"
+    ON)
+
+if(THEMIS_AUTO_REGISTER_ELIGIBLE_BENCHMARKS)
+    file(GLOB _all_benchmark_sources
+        "${CMAKE_CURRENT_SOURCE_DIR}/bench*.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/benchmark_*.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/llm_bench.cpp")
+
+    set(_auto_registered_bench_targets "")
+    foreach(_bench_source ${_all_benchmark_sources})
+        get_filename_component(_bench_target "${_bench_source}" NAME_WE)
+
+        if(TARGET ${_bench_target})
+            continue()
+        endif()
+
+        themis_is_suite_enabled(_suite_enabled "${_bench_target}")
+        if(NOT _suite_enabled)
+            continue()
+        endif()
+
+        add_executable(${_bench_target} EXCLUDE_FROM_ALL
+            ${_bench_source}
+        )
+
+        target_link_libraries(${_bench_target} PRIVATE
+            ${BENCHMARK_LIBS}
+            themis_core
+            Threads::Threads
+        )
+
+        target_compile_definitions(${_bench_target} PRIVATE
+            THEMIS_BENCHMARK_BUILD=1
+        )
+
+        if(CMAKE_BUILD_TYPE STREQUAL "Release")
+            if(MSVC)
+                target_compile_options(${_bench_target} PRIVATE
+                    /O2
+                    /DNDEBUG
+                )
+            else()
+                if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+                    set(BENCHMARK_ARCH_FLAGS "-march=native")
+                endif()
+                target_compile_options(${_bench_target} PRIVATE
+                    -O3
+                    ${BENCHMARK_ARCH_FLAGS}
+                    -DNDEBUG
+                )
+            endif()
+        endif()
+
+        install(TARGETS ${_bench_target}
+            RUNTIME DESTINATION bin/benchmarks
+            COMPONENT benchmarks
+        )
+
+        themis_suite_group_for_name(_suite_group "${_bench_target}")
+        set_property(TARGET ${_bench_target} PROPERTY FOLDER "benchmarks/auto/${_suite_group}")
+
+        list(APPEND _auto_registered_bench_targets ${_bench_target})
+    endforeach()
+
+    list(LENGTH _auto_registered_bench_targets _auto_registered_count)
+    message(STATUS "Auto-registered eligible benchmark targets: ${_auto_registered_count}")
+endif()
+
+# Some auto-registered benchmarks reference sharding protobuf message types
+# directly and require explicit linkage to the generated shard proto target.
+if(TARGET bench_gossip_config AND TARGET themis_shard_proto)
+    target_link_libraries(bench_gossip_config PRIVATE themis_shard_proto)
+endif()
+
+# Aggregate build target for all benchmark executables that are currently
+# eligible under edition/feature gating.
+set(_eligible_benchmark_targets "")
+get_property(_benchmark_dir_targets DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}" PROPERTY BUILDSYSTEM_TARGETS)
+foreach(_candidate_target ${_benchmark_dir_targets})
+    if(_candidate_target MATCHES "^bench_" OR _candidate_target MATCHES "^benchmark_" OR _candidate_target STREQUAL "llm_bench")
+        themis_is_suite_enabled(_candidate_enabled "${_candidate_target}")
+        if(_candidate_enabled)
+            list(APPEND _eligible_benchmark_targets ${_candidate_target})
+        endif()
+    endif()
+endforeach()
+list(REMOVE_DUPLICATES _eligible_benchmark_targets)
+
+add_custom_target(themis_benchmarks_all_eligible)
+if(_eligible_benchmark_targets)
+    add_dependencies(themis_benchmarks_all_eligible ${_eligible_benchmark_targets})
+endif()
+
+list(LENGTH _eligible_benchmark_targets _eligible_benchmark_count)
+message(STATUS "Aggregate benchmark target 'themis_benchmarks_all_eligible' includes ${_eligible_benchmark_count} currently eligible benchmark executables")
+
+themis_report_benchmark_coverage("${CMAKE_CURRENT_SOURCE_DIR}" "${CMAKE_CURRENT_LIST_FILE}")

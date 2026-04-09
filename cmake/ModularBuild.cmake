@@ -265,6 +265,7 @@ set(THEMIS_BASE_SOURCES
 set(THEMIS_STORAGE_SOURCES
     # Core storage engine
     ../src/storage/rocksdb_wrapper.cpp
+    ../src/storage/wom_tree.cpp
     ../src/storage/base_entity.cpp
     ../src/storage/key_schema.cpp
     ../src/storage/backup_manager.cpp
@@ -1236,6 +1237,7 @@ set(THEMIS_TIMESERIES_SOURCES
     # Time-series storage
     ../src/timeseries/timeseries.cpp
     ../src/timeseries/tsstore.cpp
+    ../src/timeseries/adaptive_flush_controller.cpp
     ../src/timeseries/gorilla.cpp
     ../src/timeseries/gorilla_simd.cpp
     ../src/timeseries/retention.cpp

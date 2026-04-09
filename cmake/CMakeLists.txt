@@ -1464,6 +1464,7 @@ set(THEMIS_CORE_SOURCES
     ../src/storage/blob_backend_azure.cpp
     ../src/storage/blob_backend_webdav.cpp
     ../src/storage/blob_backend_gcs.cpp
+    ../src/storage/concurrent_write_controller.cpp
     # nvme_manager.cpp is registered via cmake/StorageEnhancements.cmake
 
     ../src/metadata/schema_manager.cpp
@@ -2657,6 +2658,8 @@ if(THEMIS_ENABLE_LLM)
     ../src/rag/onnx_model_loader.cpp
     ../src/rag/prompt_templates.cpp
     ../src/rag/response_parser.cpp
+    ../src/rag/multi_step_rag.cpp
+    ../src/rag/rag_context_assembler.cpp
     )
 endif()  # Close if(THEMIS_ENABLE_LLM)
 
@@ -2673,6 +2676,13 @@ if(NOT THEMIS_ENABLE_LLM)
     ../src/rag/citation_highlighter.cpp
     )
 endif()
+
+# Failover and chaos engineering sources
+list(APPEND THEMIS_CORE_SOURCES
+    ../src/failover/auto_failover_manager.cpp
+    ../src/failover/disaster_recovery_manager.cpp
+    ../src/chaos/chaos_framework.cpp
+)
 
 _themis_normalize_sources(THEMIS_CORE_SOURCES)
 
