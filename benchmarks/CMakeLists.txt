@@ -3493,3 +3493,55 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_pii_stream_scanner.cpp")
 
     message(STATUS "  PIIStreamScanner: 100MB scan-only and scan+pseudonymise throughput at 4KB/64KB/1MB chunks")
 endif()
+
+# ============================================================================
+# Timeseries Adaptive Flush benchmarks (PERF-D1)
+# Validates acceptance criteria:
+#   - Sustained ≥500k pts/s single- and multi-threaded TSAutoBuffer::add()
+#   - P99 write latency <100µs per add() call
+#   - FlushController adaptive batch-size convergence
+#   - Buffer statistics and overdue-flush metrics exposure
+# ============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_timeseries_adaptive_flush.cpp")
+    message(STATUS "Adding Timeseries Adaptive Flush benchmarks (PERF-D1)")
+
+    add_executable(bench_timeseries_adaptive_flush
+        bench_timeseries_adaptive_flush.cpp
+    )
+
+    target_include_directories(bench_timeseries_adaptive_flush PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(bench_timeseries_adaptive_flush PRIVATE
+        themis_core
+        ${BENCHMARK_LIBS}
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_timeseries_adaptive_flush PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(bench_timeseries_adaptive_flush PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_timeseries_adaptive_flush
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  AdaptiveFlush: ≥500k pts/s single/multi-threaded, P99 <100µs, FlushController convergence, buffer stats")
+endif()
