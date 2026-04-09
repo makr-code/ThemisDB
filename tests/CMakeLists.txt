@@ -7112,6 +7112,56 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_scheduled_edge_refresh.cpp")
 endif()
 
 # ============================================================================
+# Graph Future Interfaces focused tests
+# (Issue: [MODULE] graph — GraphEmbedding, GraphQueryRewriter, MultiLayerGraph)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_graph_future_interfaces.cpp")
+    message(STATUS "Adding focused Graph Future Interfaces tests (embedding, rewriter, multi-layer)")
+
+    add_executable(test_graph_future_interfaces_focused
+        graph/test_graph_future_interfaces.cpp
+        ${CMAKE_SOURCE_DIR}/src/graph/graph_embedding.cpp
+        ${CMAKE_SOURCE_DIR}/src/graph/graph_query_rewriter.cpp
+        ${CMAKE_SOURCE_DIR}/src/graph/multi_layer_graph.cpp
+        ${CMAKE_SOURCE_DIR}/src/graph/graph_query_optimizer.cpp
+        ${CMAKE_SOURCE_DIR}/src/graph/path_constraints.cpp
+        ${CMAKE_SOURCE_DIR}/src/graph/parallel_traversal.cpp
+        ${CMAKE_SOURCE_DIR}/src/graph/distributed_graph.cpp
+    )
+
+    target_include_directories(test_graph_future_interfaces_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_graph_future_interfaces_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        fmt::fmt
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_graph_future_interfaces_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+        THEMIS_GRAPH_EXPORTS
+    )
+
+    add_test(NAME GraphFutureInterfacesFocusedTests
+             COMMAND test_graph_future_interfaces_focused)
+
+    set_tests_properties(GraphFutureInterfacesFocusedTests PROPERTIES
+        LABELS "graph;embedding;rewriter;multi_layer;gnn;node2vec;deepwalk;link_prediction;focused;unit"
+        TIMEOUT 180
+    )
+
+    message(STATUS "  GraphFutureInterfaces: GraphEmbedding (Node2Vec/DeepWalk/config/similarity), GraphQueryRewriter (rules/stats/explainRewrite), MultiLayerGraph (layers/paths/pageRank)")
+endif()
+
+# ============================================================================
 # Importer Plugin API Tests (standalone ÔÇô avoids createPlugin/destroyPlugin
 # symbol collision with postgres_importer.cpp in themis_core)
 # ============================================================================
