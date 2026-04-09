@@ -98,6 +98,13 @@ Production-ready multi-model query engine supporting relational, document, graph
 
 ### Long-term (Q3–Q4 2026)
 
+- [~] **PERF-D7: Query Engine Lazy Eval / SIMD Column Compression** (Target: Q4 2026)
+  - `benchmarks/bench_query_lazy_eval.cpp` added: Filter-only, Filter+Project, MultiPredicate, FilterAggregate, FullPipeline, BatchSizes, SelectivitySweep, SIMD-vs-Scalar
+  - Uses `VectorizedExecutionEngine` → `analytics::ColumnarExecutionEngine` columnar late-materialization path
+  - Registered in `benchmarks/CMakeLists.txt`
+  - `PERFORMANCE_EXPECTATIONS.md` D-7 and P-8 updated
+  - Remaining work: CUDA/AVX-512 explicit intrinsics for scan kernels (Target: Q4 2026)
+
 - [ ] Machine learning–based query optimizer (Target: Q3 2026)
   - Affected: `src/query/query_optimizer.cpp`, `include/query/query_optimizer.h`
   - Approach: learned cost model (neural net predicts operator costs); training data from `runtime_reoptimizer.cpp` feedback loop

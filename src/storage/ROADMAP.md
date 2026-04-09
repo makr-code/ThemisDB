@@ -181,6 +181,19 @@ v1.8.0 – Production-grade persistent storage layer built on RocksDB with MVCC,
 - [x] `SecuritySignatureManager::listAllSignatures()` iterates full RocksDB key-range via `iterateRange` — was stub (CI: security-signature-rocksdb-iteration-ci.yml)
 - [x] `BlobRedundancyManager::createRocksDBListener()` returns working `RocksDBBlobListener` — was returning error stub (CI: blob-redundancy-event-listener-ci.yml)
 
+### Phase 7: Streaming Blob Write Path (Status: Completed ✅ — v2.0.0, PERF-D5)
+- [x] `RocksDBWrapper::putBlob()` — streaming write path for large blobs (Issue PERF-D5)
+  - Blobs ≥ `blob_streaming_threshold_bytes` (default 64 KB) are split into `blob_chunk_size_bytes` (default 128 KB) chunks
+  - Parallel chunk encoding via `std::async` thread pool (`blob_streaming_threads`, default 4)
+  - All chunks + manifest committed atomically via single `WriteBatch::Write()` — bypasses per-write transaction overhead
+  - Internal key scheme: manifest `__tmbs_m__:<key>`, chunks `__tmbs_c__:<key>:<6-digit-index>`
+  - Backward compatible: blobs below threshold fall back to regular `put()`
+- [x] `RocksDBWrapper::getBlob()` — transparent reassembly from manifest + chunk keys via `MultiGet`
+- [x] `RocksDBWrapper::delBlob()` — atomic manifest + chunk deletion via `WriteBatch`
+- [x] New Config fields: `enable_blob_streaming`, `blob_streaming_threshold_bytes`, `blob_chunk_size_bytes`, `blob_streaming_threads`
+- [x] `tests/test_blob_streaming.cpp` — 16 focused tests (BlobStreamingFocusedTests): round-trip, boundary, parallel, integrity, delete, overwrite, fallback, custom chunk size, single thread, zero-length, non-aligned
+- [x] `benchmarks/bench_comprehensive.cpp` `StoreLargeBlobs_1MB` updated to use `putBlob()` with 8-thread encoding
+
 ## Production Readiness Checklist
 - [x] Unit test coverage for core storage paths
 - [x] Integration tests with real RocksDB instance
@@ -192,6 +205,7 @@ v1.8.0 – Production-grade persistent storage layer built on RocksDB with MVCC,
 - [x] Erasure coding (Reed-Solomon) for space-efficient blob redundancy
 - [x] Distributed 2PC transactions for cross-shard atomicity
 - [x] Write-Optimized Merge Tree for write-heavy workloads
+- [x] Streaming blob write path (`putBlob` / `getBlob` / `delBlob`) for high-throughput 1 MB+ blob storage (PERF-D5, v2.0.0)
 - [ ] Chaos/fault-injection tests for blob backend failover (Target: v2.0.0)
 
 ## Known Issues & Limitations

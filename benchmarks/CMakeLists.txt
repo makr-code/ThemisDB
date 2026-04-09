@@ -3493,3 +3493,51 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_pii_stream_scanner.cpp")
 
     message(STATUS "  PIIStreamScanner: 100MB scan-only and scan+pseudonymise throughput at 4KB/64KB/1MB chunks")
 endif()
+
+# ============================================================================
+# bench_query_lazy_eval (PERF-D7, v1.0.0)
+# Validates acceptance criteria for Issue [PERF-D7]:
+#   - Query engine lazy evaluation / predicate pushdown via columnar SIMD
+#   - Filter-only throughput ≥ 200 M items/s (Release build, x86-64)
+#   - Filter+Project late-materialization throughput ≥ 150 M items/s
+#   - Multi-predicate AND filter throughput ≥ 100 M items/s
+#   - Filter+Aggregate (SUM) throughput ≥ 80 M items/s
+#   - Full pipeline (Filter → Project → Sort) ≥ 50 M items/s
+# ============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_query_lazy_eval.cpp")
+    message(STATUS "Adding Query Engine Lazy Evaluation benchmarks (PERF-D7, v1.0.0)")
+
+    add_executable(bench_query_lazy_eval
+        bench_query_lazy_eval.cpp
+    )
+
+    target_link_libraries(bench_query_lazy_eval PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_query_lazy_eval PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(bench_query_lazy_eval PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_query_lazy_eval
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  bench_query_lazy_eval: filter/project/multi-pred/aggregate/full-pipeline throughput, batch-size sweep, selectivity sweep, SIMD vs scalar")
+endif()
