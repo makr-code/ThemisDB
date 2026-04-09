@@ -43,17 +43,25 @@ namespace ingestion {
 enum class BinaryMimeType {
     UNKNOWN,  ///< Not a known binary type (may be text)
     PDF,      ///< Portable Document Format (magic: %PDF)
-    DOCX      ///< Office Open XML / DOCX (magic: PK\x03\x04 ZIP with OOXML marker)
+    DOCX,     ///< Office Open XML / DOCX (magic: PK\x03\x04 ZIP with word/ OOXML marker)
+    XLSX,     ///< Office Open XML Spreadsheet (magic: PK\x03\x04 ZIP with xl/ OOXML marker)
+    ODT,      ///< ODF Text Document (magic: PK\x03\x04 ZIP with ODF mimetype entry)
+    RTF       ///< Rich Text Format (magic: {\rtf)
 };
 
 /**
  * @brief Detect the binary MIME type of a buffer via magic-byte inspection
  *
- * Reads the first 8 bytes of the provided raw buffer and identifies
+ * Reads the first bytes of the provided raw buffer and identifies
  * known binary formats:
  * - PDF:  starts with `%PDF`
  * - DOCX: starts with the ZIP magic `PK\x03\x04` and contains the OOXML
- *         content-type marker in the first 512 bytes
+ *         word/ content-type marker in the first 512 bytes
+ * - XLSX: starts with the ZIP magic `PK\x03\x04` and contains the OOXML
+ *         xl/ spreadsheet marker in the first 512 bytes
+ * - ODT:  starts with the ZIP magic `PK\x03\x04` and contains the ODF
+ *         `application/vnd.oasis.opendocument` mimetype in the first 512 bytes
+ * - RTF:  starts with `{\rtf`
  *
  * @param raw   First bytes of the file (minimum 4 bytes required; fewer
  *              bytes always return `BinaryMimeType::UNKNOWN`)
@@ -95,13 +103,16 @@ bool isPathTraversalSafe(const std::string& path);
  * @brief Configuration for external binary-format converters
  *
  * When set on `FileSystemIngester`, the ingester calls the specified
- * command-line tools to extract plain text from PDF and DOCX files.
- * An empty converter path disables conversion for that format (the
+ * command-line tools to extract plain text from PDF, DOCX, XLSX, ODT, and RTF
+ * files.  An empty converter path disables conversion for that format (the
  * file is silently skipped without raising an error).
  *
  * Converter invocations:
  * - PDF:  `<pdf_converter> "<file>" -`   (pdftotext writes to stdout)
  * - DOCX: `<docx_converter> -f docx -t plain "<file>"` (pandoc)
+ * - XLSX: `<xlsx_converter> -f xlsx -t plain "<file>"` (pandoc; pandoc ≥ 3.0)
+ * - ODT:  `<odt_converter> -f odt -t plain "<file>"` (pandoc)
+ * - RTF:  `<rtf_converter> --text "<file>"` (unrtf)
  *
  * When a converter is not found on PATH or exits with a non-zero status,
  * the file is silently skipped (no error added to `IngestionStats`).
@@ -112,6 +123,9 @@ bool isPathTraversalSafe(const std::string& path);
 struct BinaryConverter {
     std::string pdf_converter  = "pdftotext";  ///< Converter for PDF (e.g. "pdftotext", "/usr/bin/pdftotext", or "")
     std::string docx_converter = "pandoc";     ///< Converter for DOCX (e.g. "pandoc", "/usr/bin/pandoc", or "")
+    std::string xlsx_converter = "pandoc";     ///< Converter for XLSX (e.g. "pandoc", or "" to disable)
+    std::string odt_converter  = "pandoc";     ///< Converter for ODT  (e.g. "pandoc", or "" to disable)
+    std::string rtf_converter  = "unrtf";      ///< Converter for RTF  (e.g. "unrtf", "/usr/bin/unrtf", or "")
     bool detect_by_magic = true;               ///< Detect type by magic bytes in addition to file extension
 
     BinaryConverter() = default;
@@ -123,7 +137,10 @@ struct BinaryConverter {
 enum class FileFormat {
     AUTO,       ///< Auto-detect format
     PDF,        ///< Portable Document Format
-    DOCX,       ///< Microsoft Word
+    DOCX,       ///< Microsoft Word (Office Open XML)
+    XLSX,       ///< Microsoft Excel (Office Open XML Spreadsheet)
+    ODT,        ///< ODF Text Document
+    RTF,        ///< Rich Text Format
     TXT,        ///< Plain text
     HTML,       ///< HTML document
     XML,        ///< XML document

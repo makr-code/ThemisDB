@@ -511,6 +511,58 @@ TEST(BinaryMimeDetectionTest, UnknownForGenericZip) {
     EXPECT_EQ(detectBinaryMimeType(zip), BinaryMimeType::UNKNOWN);
 }
 
+TEST(BinaryMimeDetectionTest, DetectXlsxByMagic) {
+    // XLSX: ZIP magic + xl/ OOXML spreadsheet marker
+    std::string xlsx;
+    xlsx += "PK";
+    xlsx += '\x03';
+    xlsx += '\x04';
+    xlsx += "xl/workbook.xml[Content_Types]";
+    EXPECT_EQ(detectBinaryMimeType(xlsx), BinaryMimeType::XLSX);
+}
+
+TEST(BinaryMimeDetectionTest, DetectXlsxByContentType) {
+    // XLSX: ZIP magic + full OOXML spreadsheet content-type
+    std::string xlsx;
+    xlsx += "PK";
+    xlsx += '\x03';
+    xlsx += '\x04';
+    xlsx += "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+    EXPECT_EQ(detectBinaryMimeType(xlsx), BinaryMimeType::XLSX);
+}
+
+TEST(BinaryMimeDetectionTest, DetectOdtByMagic) {
+    // ODT: ZIP magic + ODF mimetype entry
+    std::string odt;
+    odt += "PK";
+    odt += '\x03';
+    odt += '\x04';
+    odt += "mimetypeapplication/vnd.oasis.opendocument.text";
+    EXPECT_EQ(detectBinaryMimeType(odt), BinaryMimeType::ODT);
+}
+
+TEST(BinaryMimeDetectionTest, DetectRtfByMagic) {
+    // RTF: starts with {\rtf
+    std::string rtf = "{\\rtf1\\ansi\\deff0 Hello World}";
+    EXPECT_EQ(detectBinaryMimeType(rtf), BinaryMimeType::RTF);
+}
+
+TEST(BinaryMimeDetectionTest, RtfShortBufferReturnsUnknown) {
+    // Buffer shorter than 5 bytes cannot be RTF
+    std::string buf = "{\\rt";
+    EXPECT_EQ(detectBinaryMimeType(buf), BinaryMimeType::UNKNOWN);
+}
+
+TEST(BinaryMimeDetectionTest, XlsxNotConfusedWithDocx) {
+    // DOCX contains word/ but not xl/; must not be detected as XLSX
+    std::string docx;
+    docx += "PK";
+    docx += '\x03';
+    docx += '\x04';
+    docx += "word/document.xml[Content_Types]";
+    EXPECT_EQ(detectBinaryMimeType(docx), BinaryMimeType::DOCX);
+}
+
 // ============================================================================
 // BinaryConverter struct and FileSystemIngester API
 // ============================================================================
@@ -519,6 +571,9 @@ TEST(BinaryConverterTest, DefaultValues) {
     BinaryConverter bc;
     EXPECT_EQ(bc.pdf_converter, "pdftotext");
     EXPECT_EQ(bc.docx_converter, "pandoc");
+    EXPECT_EQ(bc.xlsx_converter, "pandoc");
+    EXPECT_EQ(bc.odt_converter,  "pandoc");
+    EXPECT_EQ(bc.rtf_converter,  "unrtf");
     EXPECT_TRUE(bc.detect_by_magic);
 }
 
@@ -531,6 +586,9 @@ TEST(BinaryConverterTest, SetBinaryConverterViaApi) {
     cfg.location  = std::filesystem::temp_directory_path().string();
     cfg.options["pdf_converter"]  = "/custom/pdftotext";
     cfg.options["docx_converter"] = "/custom/pandoc";
+    cfg.options["xlsx_converter"] = "/custom/pandoc";
+    cfg.options["odt_converter"]  = "/custom/pandoc";
+    cfg.options["rtf_converter"]  = "/custom/unrtf";
     cfg.options["detect_by_magic"] = "false";
     EXPECT_TRUE(ingester.initialize(cfg));
     // Just verify no crash and correct initialization
