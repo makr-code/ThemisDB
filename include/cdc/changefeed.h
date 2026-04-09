@@ -445,17 +445,23 @@ private:
     // Helper to wait for new events (for long-poll)
     bool waitForEvents(uint64_t from_sequence, uint32_t timeout_ms) const;
     
-    // In-process atomic sequence counter.  Updated by fetch_add on every
-    // nextSequence() call; persisted to RocksDB via Merge() for crash recovery.
-    // Eliminates the need for sequence_mutex_ and a Get+Put round-trip per event.
+    // In-process atomic sequence counter.  Incremented lock-free by nextSequence().
+    // Crash-safe persistence is handled inside recordEvent() which combines the
+    // Merge(SEQUENCE_KEY, +1) with the event Put into a single WriteBatch, giving
+    // one WAL append per event rather than two.
     std::atomic<uint64_t> sequence_counter_{0};
 
-    // Tracks the highest sequence known to be durably persisted. When RocksDB
-    // Merge() is unavailable because no merge_operator was configured, we fall
-    // back to a monotonic Put() path guarded by this mutex.
+    // Monotonic high-water mark of the last sequence value known to be durably
+    // written to RocksDB.  Used by the fallback (non-Merge) path to avoid
+    // overwriting a higher value in SEQUENCE_KEY with a lower one from a
+    // concurrent Put.
     std::atomic<uint64_t> persisted_sequence_{0};
+    // True when the DB/CF was opened with a SequenceIncrementOperator registered.
+    // Set to false permanently after the first WriteBatch(Merge+Put) failure so
+    // that subsequent calls use the Put-only fallback without triggering RocksDB
+    // background error state.
     std::atomic<bool> sequence_merge_supported_{true};
-    mutable std::mutex sequence_persist_mutex_;
+    mutable std::mutex sequence_persist_mutex_;  ///< Guards SEQUENCE_KEY Put in fallback path
     
     // Retention cleanup thread
     std::atomic<bool> retention_thread_running_{false};

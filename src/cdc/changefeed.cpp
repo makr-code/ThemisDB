@@ -30,6 +30,7 @@
 #include <rocksdb/utilities/transaction_db.h>
 #include <rocksdb/utilities/transaction.h>
 #include <rocksdb/merge_operator.h>
+#include <rocksdb/write_batch.h>
 #include <thread>
 #include <chrono>
 #include <cstring>
@@ -293,76 +294,16 @@ std::string Changefeed::makeKey(uint64_t sequence) const {
 }
 
 uint64_t Changefeed::nextSequence() {
-    // Atomically increment the in-process counter — lock-free, O(1).
-    // No mutex needed; std::atomic<uint64_t> guarantees uniqueness across threads.
-    const uint64_t seq = sequence_counter_.fetch_add(1, std::memory_order_relaxed) + 1;
-
-    // Persist the increment to RocksDB via the SequenceIncrementOperator for
-    // crash recovery.  Merge() is non-blocking from the caller perspective
-    // (the operand is buffered in the LSM write-path and applied lazily).
-    rocksdb::WriteOptions write_opts;
-
-    if (sequence_merge_supported_.load(std::memory_order_acquire)) {
-        const uint64_t delta = 1;
-        const rocksdb::Slice delta_slice(reinterpret_cast<const char*>(&delta),
-                                         sizeof(delta));
-
-        rocksdb::Status s;
-        if (cf_) {
-            s = db_->Merge(write_opts, cf_, SEQUENCE_KEY, delta_slice);
-        } else {
-            s = db_->Merge(write_opts, SEQUENCE_KEY, delta_slice);
-        }
-
-        if (s.ok()) {
-            uint64_t persisted = persisted_sequence_.load(std::memory_order_relaxed);
-            while (persisted < seq &&
-                   !persisted_sequence_.compare_exchange_weak(
-                       persisted, seq, std::memory_order_relaxed)) {
-            }
-            return seq;
-        }
-
-        // Disable Merge path after first failure to avoid repeated write-path
-        // errors on DBs/CFs opened without a merge operator.
-        sequence_merge_supported_.store(false, std::memory_order_release);
-        THEMIS_ERROR("Changefeed: failed to persist sequence via Merge: {}",
-                     s.ToString());
-    }
-
-    uint64_t persisted = persisted_sequence_.load(std::memory_order_acquire);
-    if (seq <= persisted) {
-        return seq;
-    }
-
-    std::lock_guard<std::mutex> lock(sequence_persist_mutex_);
-    persisted = persisted_sequence_.load(std::memory_order_relaxed);
-    if (seq <= persisted) {
-        return seq;
-    }
-
-    std::string seq_value(sizeof(uint64_t), '\0');
-    std::memcpy(seq_value.data(), &seq, sizeof(uint64_t));
-
-    rocksdb::Status persist_status;
-    if (cf_) {
-        persist_status = db_->Put(write_opts, cf_, SEQUENCE_KEY, seq_value);
-    } else {
-        persist_status = db_->Put(write_opts, SEQUENCE_KEY, seq_value);
-    }
-
-    if (!persist_status.ok()) {
-        THEMIS_ERROR("Changefeed: fallback Put persistence failed: {}",
-                     persist_status.ToString());
-    } else {
-        persisted_sequence_.store(seq, std::memory_order_release);
-    }
-
-    return seq;
+    // Lock-free, O(1) atomic increment.  No RocksDB I/O per call in the hot path
+    // (counter is initialised once from RocksDB in loadInitialSequence()).
+    // Crash-safe sequence persistence is deferred to recordEvent() where it is
+    // combined with the event Put into a single WriteBatch (one WAL append
+    // instead of two), halving WAL serialization contention under concurrent writers.
+    return sequence_counter_.fetch_add(1, std::memory_order_relaxed) + 1;
 }
 
 Changefeed::ChangeEvent Changefeed::recordEvent(ChangeEvent event) {
-    // Assign sequence number
+    // Assign sequence number (pure atomic increment, O(1), no RocksDB I/O here).
     event.sequence = nextSequence();
     
     // Set timestamp if not set
@@ -375,16 +316,85 @@ Changefeed::ChangeEvent Changefeed::recordEvent(ChangeEvent event) {
     std::string value = event.toJson().dump();
     std::string key = makeKey(event.sequence);
     
-    // Store in RocksDB
     rocksdb::WriteOptions write_opts;
     rocksdb::Status s;
-    
+
+    if (sequence_merge_supported_.load(std::memory_order_acquire)) {
+        // Combine sequence high-watermark persistence (Merge on SEQUENCE_KEY) and
+        // event storage (Put on event key) into a single WriteBatch.  This halves
+        // the number of WAL serialization points per event (2 → 1), cutting WAL
+        // mutex contention roughly in half under concurrent writers.
+        const uint64_t delta = 1;
+        const rocksdb::Slice delta_slice(reinterpret_cast<const char*>(&delta),
+                                         sizeof(delta));
+        rocksdb::WriteBatch batch;
+        if (cf_) {
+            batch.Merge(cf_, SEQUENCE_KEY, delta_slice);
+            batch.Put(cf_, key, value);
+        } else {
+            batch.Merge(SEQUENCE_KEY, delta_slice);
+            batch.Put(key, value);
+        }
+        s = db_->Write(write_opts, &batch);
+
+        if (s.ok()) {
+            // Maintain monotonic high-water mark for the fallback path.
+            uint64_t persisted = persisted_sequence_.load(std::memory_order_relaxed);
+            while (persisted < event.sequence &&
+                   !persisted_sequence_.compare_exchange_weak(
+                       persisted, event.sequence, std::memory_order_relaxed)) {
+            }
+            THEMIS_DEBUG("Recorded change event {} (type={}, key={})",
+                         event.sequence, static_cast<int>(event.type), event.key);
+            notifySubscribers(event);
+            return event;
+        }
+
+        // The WriteBatch failed.  This typically means the DB/CF was opened
+        // without a merge_operator; permanently disable the Merge path to prevent
+        // RocksDB background error state from blocking all subsequent writes.
+        sequence_merge_supported_.store(false, std::memory_order_release);
+        THEMIS_ERROR("Changefeed: WriteBatch(Merge+Put) failed ({}); "
+                     "disabling Merge path and retrying with Put-only fallback",
+                     s.ToString());
+        // Fall through to the Put-only fallback below.
+    }
+
+    // Fallback path: merge_operator not available.
+    // Persist the sequence high-watermark via a plain Put to SEQUENCE_KEY
+    // (guarded by a mutex to prevent a lower-sequence thread from overwriting a
+    // higher value already written by a concurrent thread), and store the event
+    // with a separate Put.
+    {
+        uint64_t persisted = persisted_sequence_.load(std::memory_order_acquire);
+        if (event.sequence > persisted) {
+            std::lock_guard<std::mutex> lk(sequence_persist_mutex_);
+            persisted = persisted_sequence_.load(std::memory_order_relaxed);
+            if (event.sequence > persisted) {
+                std::string seq_bytes(sizeof(uint64_t), '\0');
+                std::memcpy(seq_bytes.data(), &event.sequence, sizeof(uint64_t));
+                rocksdb::Status ps;
+                if (cf_) {
+                    ps = db_->Put(write_opts, cf_, SEQUENCE_KEY, seq_bytes);
+                } else {
+                    ps = db_->Put(write_opts, SEQUENCE_KEY, seq_bytes);
+                }
+                if (ps.ok()) {
+                    persisted_sequence_.store(event.sequence, std::memory_order_release);
+                } else {
+                    THEMIS_ERROR("Changefeed: fallback Put(SEQUENCE_KEY) failed: {}",
+                                 ps.ToString());
+                }
+            }
+        }
+    }
+
     if (cf_) {
         s = db_->Put(write_opts, cf_, key, value);
     } else {
         s = db_->Put(write_opts, key, value);
     }
-    
+
     if (!s.ok()) {
         THEMIS_ERROR("Failed to record change event {}: {}", event.sequence, s.ToString());
         throw error::eventRecordFailed(s.ToString());
@@ -581,6 +591,7 @@ void Changefeed::clear() {
     // Using Put() overwrites any prior Merge operands so that subsequent
     // Merge(+1) calls start from zero again.
     sequence_counter_.store(0, std::memory_order_relaxed);
+    persisted_sequence_.store(0, std::memory_order_relaxed);
     const uint64_t zero = 0;
     const std::string zero_bytes(reinterpret_cast<const char*>(&zero), sizeof(zero));
     if (cf_) {
