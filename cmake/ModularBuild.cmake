@@ -199,6 +199,8 @@ set(THEMIS_BASE_SOURCES
     ../src/acceleration/device_manager.cpp
     ../src/acceleration/vllm_resource_manager.cpp
     ../src/acceleration/shader_integrity.cpp
+    # PERF-D3: Parallel batch insertion + SIMD distance pipeline
+    ../src/acceleration/vec_knn.cpp
     # CPU multi-threaded backends (requires THEMIS_ENABLE_GPU)
     $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/acceleration/cpu_backend_mt.cpp>
     $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/acceleration/cpu_backend_tbb.cpp>
