@@ -247,5 +247,178 @@ std::vector<uint8_t> zstd_decompress(const std::vector<uint8_t>& compressed) {
     return {};
 }
 
+// ---------------------------------------------------------------------------
+// Streaming compressor
+// ---------------------------------------------------------------------------
+
+struct ZstdStreamCompressor::Impl {
+#ifdef THEMIS_HAS_ZSTD
+    ZSTD_CStream* cstream = nullptr;
+    int           level   = 3;
+
+    explicit Impl(int lvl) : level(lvl) {
+        cstream = ZSTD_createCStream();
+        if (cstream) ZSTD_initCStream(cstream, level);
+    }
+    ~Impl() { if (cstream) ZSTD_freeCStream(cstream); }
+
+    void reinit(int new_level) {
+        level = (new_level > 0) ? new_level : level;
+        if (cstream) ZSTD_initCStream(cstream, level);
+    }
+#else
+    explicit Impl(int) {}
+#endif
+};
+
+ZstdStreamCompressor::ZstdStreamCompressor(int level)
+    : impl_(std::make_unique<Impl>(level)) {}
+
+ZstdStreamCompressor::~ZstdStreamCompressor() = default;
+
+Result<std::vector<uint8_t>> ZstdStreamCompressor::compress_chunk(const uint8_t* data, size_t size) {
+#ifdef THEMIS_HAS_ZSTD
+    if (!impl_->cstream) {
+        return Err<std::vector<uint8_t>>(errors::ErrorCode::ERR_UTIL_COMPRESSION_FAILED,
+                                          "ZSTD stream not initialised");
+    }
+    if (!data || size == 0) return Ok(std::vector<uint8_t>());
+
+    const size_t out_buf_size = ZSTD_CStreamOutSize();
+    std::vector<uint8_t> output;
+    output.reserve(out_buf_size);
+
+    ZSTD_inBuffer  in  = { data, size, 0 };
+    while (in.pos < in.size) {
+        std::vector<uint8_t> chunk(out_buf_size);
+        ZSTD_outBuffer out = { chunk.data(), chunk.size(), 0 };
+        const size_t rc = ZSTD_compressStream(impl_->cstream, &out, &in);
+        if (ZSTD_isError(rc)) {
+            return Err<std::vector<uint8_t>>(errors::ErrorCode::ERR_UTIL_COMPRESSION_FAILED,
+                                              ZSTD_getErrorName(rc));
+        }
+        output.insert(output.end(), chunk.begin(), chunk.begin() + static_cast<ptrdiff_t>(out.pos));
+    }
+    return Ok(std::move(output));
+#else
+    (void)data; (void)size;
+    return Err<std::vector<uint8_t>>(errors::ErrorCode::ERR_UTIL_COMPRESSION_FAILED,
+                                      "ZSTD support not compiled in");
+#endif
+}
+
+Result<std::vector<uint8_t>> ZstdStreamCompressor::flush() {
+#ifdef THEMIS_HAS_ZSTD
+    if (!impl_->cstream) {
+        return Err<std::vector<uint8_t>>(errors::ErrorCode::ERR_UTIL_COMPRESSION_FAILED,
+                                          "ZSTD stream not initialised");
+    }
+    const size_t out_buf_size = ZSTD_CStreamOutSize();
+    std::vector<uint8_t> output;
+
+    // Flush then end-frame loop.
+    for (bool done = false; !done; ) {
+        std::vector<uint8_t> chunk(out_buf_size);
+        ZSTD_outBuffer out = { chunk.data(), chunk.size(), 0 };
+        const size_t remaining = ZSTD_endStream(impl_->cstream, &out);
+        if (ZSTD_isError(remaining)) {
+            return Err<std::vector<uint8_t>>(errors::ErrorCode::ERR_UTIL_COMPRESSION_FAILED,
+                                              ZSTD_getErrorName(remaining));
+        }
+        output.insert(output.end(), chunk.begin(), chunk.begin() + static_cast<ptrdiff_t>(out.pos));
+        done = (remaining == 0);
+    }
+    // Reset so the compressor can be reused.
+    ZSTD_initCStream(impl_->cstream, impl_->level);
+    return Ok(std::move(output));
+#else
+    return Err<std::vector<uint8_t>>(errors::ErrorCode::ERR_UTIL_COMPRESSION_FAILED,
+                                      "ZSTD support not compiled in");
+#endif
+}
+
+void ZstdStreamCompressor::reset(int level) {
+#ifdef THEMIS_HAS_ZSTD
+    if (impl_->cstream) impl_->reinit(level);
+#else
+    (void)level;
+#endif
+}
+
+// ---------------------------------------------------------------------------
+// Streaming decompressor
+// ---------------------------------------------------------------------------
+
+struct ZstdStreamDecompressor::Impl {
+#ifdef THEMIS_HAS_ZSTD
+    ZSTD_DStream* dstream = nullptr;
+    bool          done    = false;
+
+    Impl() {
+        dstream = ZSTD_createDStream();
+        if (dstream) ZSTD_initDStream(dstream);
+    }
+    ~Impl() { if (dstream) ZSTD_freeDStream(dstream); }
+
+    void reinit() {
+        done = false;
+        if (dstream) ZSTD_initDStream(dstream);
+    }
+#else
+    bool done = false;
+    Impl() {}
+#endif
+};
+
+ZstdStreamDecompressor::ZstdStreamDecompressor()
+    : impl_(std::make_unique<Impl>()) {}
+
+ZstdStreamDecompressor::~ZstdStreamDecompressor() = default;
+
+Result<std::vector<uint8_t>> ZstdStreamDecompressor::decompress_chunk(const uint8_t* data, size_t size) {
+#ifdef THEMIS_HAS_ZSTD
+    if (!impl_->dstream) {
+        return Err<std::vector<uint8_t>>(errors::ErrorCode::ERR_UTIL_COMPRESSION_FAILED,
+                                          "ZSTD decompression stream not initialised");
+    }
+    if (!data || size == 0) return Ok(std::vector<uint8_t>());
+
+    const size_t out_buf_size = ZSTD_DStreamOutSize();
+    std::vector<uint8_t> output;
+    output.reserve(out_buf_size);
+
+    ZSTD_inBuffer in = { data, size, 0 };
+    while (in.pos < in.size) {
+        std::vector<uint8_t> chunk(out_buf_size);
+        ZSTD_outBuffer out = { chunk.data(), chunk.size(), 0 };
+        const size_t rc = ZSTD_decompressStream(impl_->dstream, &out, &in);
+        if (ZSTD_isError(rc)) {
+            return Err<std::vector<uint8_t>>(errors::ErrorCode::ERR_UTIL_COMPRESSION_FAILED,
+                                              ZSTD_getErrorName(rc));
+        }
+        output.insert(output.end(), chunk.begin(), chunk.begin() + static_cast<ptrdiff_t>(out.pos));
+        if (rc == 0) {
+            impl_->done = true;
+            break; // Frame complete.
+        }
+    }
+    return Ok(std::move(output));
+#else
+    (void)data; (void)size;
+    return Err<std::vector<uint8_t>>(errors::ErrorCode::ERR_UTIL_COMPRESSION_FAILED,
+                                      "ZSTD support not compiled in");
+#endif
+}
+
+bool ZstdStreamDecompressor::is_done() const {
+    return impl_->done;
+}
+
+void ZstdStreamDecompressor::reset() {
+#ifdef THEMIS_HAS_ZSTD
+    if (impl_->dstream) impl_->reinit();
+#endif
+}
+
 } // namespace utils
 } // namespace themis
