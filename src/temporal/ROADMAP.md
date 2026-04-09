@@ -45,7 +45,7 @@
 ### Long-term (6-12 months)
 - [x] Temporal foreign keys with period-aware referential integrity (`TemporalForeignKey::validate()`)
 - [I] Temporal CDC: version-aware change event streaming with before/after diff (Target: Q1 2027)
-- [I] Temporal migration tooling: convert existing tables to system-versioned with history backfill (Target: Q1 2027)
+- [x] Temporal migration tooling: convert existing tables to system-versioned with history backfill (`temporal_migrator.h/cpp`)
 - [I] Interval-tree index for efficient overlapping-period detection (Target: Q1 2027)
 
 ## Implementation Phases
@@ -91,9 +91,9 @@
 - [I] Temporal foreign keys CASCADE/RESTRICT at SQL layer
 - [x] Interval-tree index for `O(log n + k)` overlap detection
 
-### Phase 5: Tooling & Migration (Status: Planned 📋)
-- [I] `TemporalMigrator`: analyze, migrate, and verify existing tables to system-versioned
-- [I] History backfill from audit log during migration
+### Phase 5: Tooling & Migration (Status: Partial ⚙️)
+- [x] `TemporalMigrator`: analyze, migrate, and verify existing tables to system-versioned (`temporal_migrator.h/cpp`)
+- [x] History backfill from audit log during migration (`TemporalMigrator::backfillHistory`)
 - [I] Integration with `src/scheduler/` for fully automated retention enforcement cycles
 - [I] Temporal query metrics exposed via `src/observability/`
 
