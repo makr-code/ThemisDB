@@ -81,6 +81,18 @@
       }
     },
     {
+      "name": "msvc-ninja-perf",
+      "displayName": "Windows: MSVC + Ninja Performance",
+      "description": "Performance-focused Release build for local benchmark runs (tests disabled, benchmarks enabled)",
+      "inherits": "msvc-ninja-release",
+      "binaryDir": "${sourceDir}/build-msvc-ninja-perf",
+      "cacheVariables": {
+        "THEMIS_BUILD_TESTS": "OFF",
+        "THEMIS_BUILD_BENCHMARKS": "ON",
+        "THEMIS_PERF_AUTO_ENABLE": "ON"
+      }
+    },
+    {
       "name": "msvc-ninja-debug",
       "displayName": "Windows: MSVC + Ninja Debug",
       "description": "Debug build for Windows with MSVC, Ninja and vcpkg (COMMUNITY Edition)",
@@ -109,6 +121,20 @@
       "displayName": "Build: Windows Release",
       "configurePreset": "msvc-ninja-release",
       "jobs": 4
+    },
+    {
+      "name": "msvc-ninja-perf",
+      "displayName": "Build: Windows Performance",
+      "configurePreset": "msvc-ninja-perf",
+      "jobs": 4,
+      "targets": [
+        "themis_server",
+        "bench_storage_performance",
+        "bench_vector_search",
+        "bench_graph_traversal",
+        "bench_graph_query_optimizer",
+        "bench_metrics_collector"
+      ]
     },
     {
       "name": "msvc-ninja-debug",
@@ -185,6 +211,21 @@
         {
           "type": "test",
           "name": "msvc-ninja-debug"
+        }
+      ]
+    },
+    {
+      "name": "windows-perf-workflow",
+      "displayName": "Workflow: Windows Performance (Configure → Build)",
+      "description": "Reproducible local performance workflow without test execution",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "msvc-ninja-perf"
+        },
+        {
+          "type": "build",
+          "name": "msvc-ninja-perf"
         }
       ]
     },

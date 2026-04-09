@@ -16989,7 +16989,26 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_nvme_manager.cpp")
     message(STATUS "  NVMe: capability detection, io_uring lifecycle, ZNS no-ops, Direct I/O flags, RocksDB integration")
 endif()
 
-# ErasureCodingBackend ÔÇô focused tests for Reed-Solomon blob erasure coding (Issue #207 / v1.7.0)
+# Streaming Blob Write Path – focused tests (PERF-D5 / v2.0.0)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_blob_streaming.cpp")
+    message(STATUS "Adding Storage: BlobStreamingFocusedTests (PERF-D5)")
+    add_executable(test_blob_streaming_focused test_blob_streaming.cpp)
+    target_include_directories(test_blob_streaming_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_blob_streaming_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        spdlog::spdlog
+        Threads::Threads
+    )
+    target_compile_definitions(test_blob_streaming_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME BlobStreamingFocusedTests COMMAND test_blob_streaming_focused)
+    set_tests_properties(BlobStreamingFocusedTests PROPERTIES
+        LABELS "storage;blob;streaming;chunked;parallel;nvme;perf-d5;focused;unit"
+        TIMEOUT 120
+    )
+    message(STATUS "  BlobStreaming: putBlob/getBlob/delBlob, chunked parallel writes, round-trip integrity, parallel safety")
+endif()
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_erasure_coding_backend.cpp" AND NOT TARGET test_erasure_coding_backend_focused)
     message(STATUS "Adding Storage: ErasureCodingBackend focused tests (Issue #207)")
 
@@ -20512,4 +20531,40 @@ if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ethics_a
     message(STATUS "  EthicsAIPlugin: getName, initialize, shutdown, re-init, guards, metrics, config, getStatistics")
 elseif(NOT THEMIS_PLUGIN_ETHICS_AI)
     message(STATUS "EthicsAI Plugin lifecycle tests skipped (THEMIS_PLUGIN_ETHICS_AI disabled)")
+endif()
+
+# ──────────────────────────────────────────────────────────────────────────────
+# PERF-D6: ConcurrentWriteController focused tests
+# ──────────────────────────────────────────────────────────────────────────────
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_concurrent_write_controller.cpp")
+    message(STATUS "Adding ConcurrentWriteController focused tests (PERF-D6)")
+
+    add_executable(test_concurrent_write_controller_focused
+        test_concurrent_write_controller.cpp
+        ${CMAKE_SOURCE_DIR}/src/storage/concurrent_write_controller.cpp
+    )
+
+    target_include_directories(test_concurrent_write_controller_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_concurrent_write_controller_focused PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_concurrent_write_controller_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ConcurrentWriteControllerFocusedTests
+             COMMAND test_concurrent_write_controller_focused)
+
+    set_tests_properties(ConcurrentWriteControllerFocusedTests PROPERTIES
+        LABELS "storage;concurrency;write-controller;fifo;perf-d6;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  ConcurrentWriteController: FIFO semaphore, RAII guard, stats (EWMA/P99/max), timeout, shutdown, CV regression guard")
 endif()
