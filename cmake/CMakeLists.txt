@@ -1894,6 +1894,7 @@ set(THEMIS_CORE_SOURCES
     ../src/timeseries/aggregates.cpp
     ../src/timeseries/downsampling.cpp
     ../src/timeseries/ts_auto_buffer_adaptive.cpp
+    ../src/timeseries/adaptive_flush_controller.cpp
     ../src/timeseries/encrypted_chunk_store.cpp
     ../src/timeseries/ts_encrypted_key_rotation.cpp
     

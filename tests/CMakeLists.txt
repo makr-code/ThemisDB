@@ -12243,6 +12243,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ts_adaptive_flush.cpp")
     message(STATUS "  TSAdaptiveFlush: FlushController EWMA, backpressure, TSAutoBufferConfig, metrics integration")
 endif()
 
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_adaptive_flush_controller.cpp")
+    message(STATUS "Adding AdaptiveFlushController integration tests")
 # ---------------------------------------------------------------------------
 # AdaptiveFlushController Focused Tests (PERF-D1-C, Issue #4437)
 # AC: ≥500k pts/s throughput, P99 latency <100µs, no data loss,
@@ -12272,6 +12274,14 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_adaptive_flush_controller.cpp")
         THEMIS_TEST_BUILD=1
     )
 
+    add_test(NAME AdaptiveFlushControllerFocusedTests COMMAND test_adaptive_flush_controller_focused)
+
+    set_tests_properties(AdaptiveFlushControllerFocusedTests PROPERTIES
+        LABELS "timeseries;adaptive-flush-controller;tsstore;integration;focused"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  AdaptiveFlushController: TSStore write path routing, buffered/direct modes, stats, metrics")
     add_test(NAME AdaptiveFlushControllerFocusedTests
              COMMAND test_adaptive_flush_controller_focused)
 
