@@ -1310,6 +1310,8 @@ if(WIN32)
         target_link_libraries(themis_tests PRIVATE "${_themis_vcpkg_tbb_lib}")
     endif()
 
+    target_link_libraries(themis_tests PRIVATE dxgi d3d11)
+
     set(_themis_vcpkg_pugixml_lib "${THEMIS_ROOT_DIR}/vcpkg_installed/x64-windows/lib/pugixml.lib")
     if(EXISTS "${_themis_vcpkg_pugixml_lib}")
         target_link_libraries(themis_tests PRIVATE "${_themis_vcpkg_pugixml_lib}")
@@ -1432,6 +1434,15 @@ add_test(NAME AllTests COMMAND themis_tests)
 set_tests_properties(AllTests PROPERTIES
     LABELS "all;unified"
     TIMEOUT 3600
+)
+
+# Hardware baseline must run first to capture machine-level context for every test run.
+add_test(NAME 000_HardwareBaseline COMMAND themis_tests --gtest_filter=HardwareBaseline.*)
+set_tests_properties(000_HardwareBaseline PROPERTIES
+    LABELS "baseline;hardware;system"
+    TIMEOUT 300
+    RUN_SERIAL TRUE
+    FIXTURES_SETUP HW_BASELINE
 )
 
 # Themis Wire Protocol V1 unit tests (subset of AllTests)
@@ -15966,6 +15977,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_voice_browser_streaming.cpp")
     target_link_libraries(test_voice_browser_streaming_focused PRIVATE
         ${TEST_LIBS}
         themis_core
+            themis_base
         spdlog::spdlog
         Threads::Threads
     )
@@ -15997,6 +16009,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_voice_browser_streaming.cpp" AND NOT
 
     target_link_libraries(test_voice_browser_streaming_focused PRIVATE
         ${TEST_LIBS}
+            themis_base
         nlohmann_json::nlohmann_json
         spdlog::spdlog
         Threads::Threads
@@ -16102,6 +16115,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_voice_telephony.cpp" AND NOT TARGET 
     target_link_libraries(test_voice_telephony_focused PRIVATE
         ${TEST_LIBS}
         themis_core
+            themis_base
         nlohmann_json::nlohmann_json
         spdlog::spdlog
         Threads::Threads
@@ -20698,3 +20712,11 @@ list(LENGTH _eligible_focused_test_targets _eligible_focused_test_count)
 list(LENGTH _eligible_test_targets _eligible_test_count)
 message(STATUS "Aggregate test target 'themis_tests_all_eligible_focus' includes ${_eligible_focused_test_count} currently eligible focused test executables")
 message(STATUS "Aggregate test target 'themis_tests_all_eligible' includes ${_eligible_test_count} currently eligible test executables")
+
+# Enforce hardware baseline execution before all other CTest entries in this directory.
+get_property(_all_registered_tests DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY TESTS)
+foreach(_registered_test IN LISTS _all_registered_tests)
+    if(NOT _registered_test STREQUAL "000_HardwareBaseline")
+        set_property(TEST ${_registered_test} APPEND PROPERTY FIXTURES_REQUIRED HW_BASELINE)
+    endif()
+endforeach()
