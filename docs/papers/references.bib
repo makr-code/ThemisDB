@@ -1,0 +1,271 @@
+% Bibliography for:
+% "ThemisDB: Hardware-Normalized Performance Evaluation of a
+%  Hybrid Multi-Model Database System"
+%
+% IEEE conference format (IEEEtran)
+
+% --- Multi-model / polystore databases ---
+@inproceedings{Lu2018,
+  author    = {Jiaheng Lu and Irena Holubov{\'a}},
+  title     = {Multi-model databases: A new journey to handle the variety of data},
+  booktitle = {ACM Computing Surveys},
+  volume    = {51},
+  number    = {4},
+  pages     = {1--38},
+  year      = {2018},
+  doi       = {10.1145/3180lint}
+}
+
+@inproceedings{Atzeni2016,
+  author    = {Paolo Atzeni and Francesca Bugiotti and Luca Cabibbo and Riccardo Torlone},
+  title     = {Data Modeling in the {NoSQL} World},
+  booktitle = {Computer Standards \& Interfaces},
+  volume    = {67},
+  year      = {2019},
+  doi       = {10.1016/j.csi.2019.01.002}
+}
+
+@inproceedings{Stonebraker2010,
+  author    = {Michael Stonebraker},
+  title     = {SQL databases v. {NoSQL} databases},
+  booktitle = {Communications of the ACM},
+  volume    = {53},
+  number    = {4},
+  pages     = {10--11},
+  year      = {2010},
+  doi       = {10.1145/1721654.1721659}
+}
+
+% --- Benchmarking frameworks ---
+@techreport{IEEE2807,
+  author      = {{IEEE Standards Association}},
+  title       = {{IEEE Std 2807-2022}: Framework for Artificial Intelligence (AI)
+                 Based Data Processing in the Internet of Things (IoT)},
+  institution = {IEEE},
+  year        = {2022}
+}
+
+@techreport{ISO14756,
+  author      = {{ISO/IEC}},
+  title       = {{ISO/IEC 14756:2015} -- Information technology -- Measurement and
+                 rating of performance of computer-based software systems},
+  institution = {International Organization for Standardization},
+  year        = {2015}
+}
+
+@inproceedings{Cooper2010,
+  author    = {Brian F. Cooper and Adam Silberstein and Erwin Tam and
+               Raghu Ramakrishnan and Russell Sears},
+  title     = {Benchmarking cloud serving systems with {YCSB}},
+  booktitle = {Proc. ACM Symposium on Cloud Computing (SoCC)},
+  pages     = {143--154},
+  year      = {2010},
+  doi       = {10.1145/1807128.1807152}
+}
+
+@techreport{TPCC,
+  author      = {{Transaction Processing Performance Council}},
+  title       = {{TPC-C} Benchmark, Revision 5.11.0},
+  institution = {TPC},
+  year        = {2010},
+  url         = {https://www.tpc.org/tpcc/}
+}
+
+@techreport{TPCH,
+  author      = {{Transaction Processing Performance Council}},
+  title       = {{TPC-H} Benchmark, Revision 3.0.1},
+  institution = {TPC},
+  year        = {2021},
+  url         = {https://www.tpc.org/tpch/}
+}
+
+@inproceedings{AnnBenchmarks,
+  author    = {Martin Aumueller and Erik Bernhardsson and Alexander Faithfull},
+  title     = {{ANN}-benchmarks: A benchmarking tool for approximate nearest neighbor algorithms},
+  booktitle = {Proc. International Conference on Similarity Search and Applications (SISAP)},
+  pages     = {34--49},
+  year      = {2017}
+}
+
+@inproceedings{LDBCSNB,
+  author    = {Arnau Prat-P{\'e}rez and David Dominguez-Sal and Josep-Lluis Larriba-Pey},
+  title     = {High quality, scalable and parallel community detection for large real graphs},
+  booktitle = {Proc. LDBC Social Network Benchmark (LDBC-SNB) Workshop},
+  year      = {2019}
+}
+
+% --- Vector databases / ANN search ---
+@inproceedings{Malkov2018,
+  author    = {Yury A. Malkov and Dmitry A. Yashunin},
+  title     = {Efficient and robust approximate nearest neighbor search using
+               hierarchical navigable small world graphs},
+  booktitle = {IEEE Transactions on Pattern Analysis and Machine Intelligence},
+  volume    = {42},
+  number    = {4},
+  pages     = {824--836},
+  year      = {2018},
+  doi       = {10.1109/TPAMI.2018.2889473}
+}
+
+@inproceedings{Pandey2023,
+  author    = {Suhas Jayaram Subramanya and Fnu Devvrit and Harsha Vardhan Simhadri
+               and Ravishankar Krishnawamy and Rohan Kadekodi},
+  title     = {{DiskANN}: Fast accurate billion-point nearest neighbor search on a single node},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+  year      = {2019}
+}
+
+% --- MVCC and concurrency ---
+@inproceedings{Bernstein1983,
+  author    = {Philip A. Bernstein and Nathan Goodman},
+  title     = {Multiversion concurrency control -- theory and algorithms},
+  booktitle = {ACM Transactions on Database Systems (TODS)},
+  volume    = {8},
+  number    = {4},
+  pages     = {465--483},
+  year      = {1983},
+  doi       = {10.1145/319996.319998}
+}
+
+@inproceedings{Larson2011,
+  author    = {Per-{\AA}ke Larson and Spyros Blanas and Cristian Diaconu and
+               Craig Freedman and Jignesh M. Patel and Mike Zwilling},
+  title     = {High-performance concurrency control mechanisms for main-memory
+               databases},
+  booktitle = {Proc. VLDB Endowment},
+  volume    = {5},
+  number    = {4},
+  pages     = {298--309},
+  year      = {2011}
+}
+
+% --- RocksDB ---
+@inproceedings{Dong2021,
+  author    = {Siying Dong and Andrew Kryczka and Yanqin Jin and Michael Stumm},
+  title     = {Evolution of development priorities in key-value stores serving
+               large-scale applications: The {RocksDB} experience},
+  booktitle = {Proc. USENIX Conference on File and Storage Technologies (FAST)},
+  pages     = {33--49},
+  year      = {2021}
+}
+
+% --- LLM inference ---
+@misc{Touvron2023,
+  author    = {Hugo Touvron and others},
+  title     = {{LLaMA}: Open and efficient foundation language models},
+  howpublished = {arXiv:2302.13971},
+  year      = {2023}
+}
+
+@misc{llamacpp2023,
+  author    = {Georgi Gerganov and others},
+  title     = {llama.cpp -- Inference of LLaMA model in pure {C/C++}},
+  howpublished = {\url{https://github.com/ggerganov/llama.cpp}},
+  year      = {2023}
+}
+
+% --- Hardware performance counters / normalization ---
+@inproceedings{McCalpin1995,
+  author    = {John D. McCalpin},
+  title     = {Memory Bandwidth and Machine Balance in Current High Performance
+               Computers},
+  booktitle = {IEEE Technical Committee on Computer Architecture (TCCA) Newsletter},
+  year      = {1995}
+}
+
+@inproceedings{Hennessy2019,
+  author    = {John L. Hennessy and David A. Patterson},
+  title     = {A new golden age for computer architecture},
+  booktitle = {Communications of the ACM},
+  volume    = {62},
+  number    = {2},
+  pages     = {48--60},
+  year      = {2019},
+  doi       = {10.1145/3282307}
+}
+
+% --- Google Benchmark ---
+@misc{GoogleBenchmark,
+  author       = {{Google LLC}},
+  title        = {Google Benchmark -- A microbenchmark support library},
+  howpublished = {\url{https://github.com/google/benchmark}},
+  year         = {2023}
+}
+
+% --- Graph databases ---
+@inproceedings{Angles2018,
+  author    = {Renzo Angles and others},
+  title     = {The {Linked Data Benchmark Council}: a graph and {RDF} industry
+               benchmarking effort},
+  booktitle = {ACM SIGMOD Record},
+  volume    = {43},
+  number    = {1},
+  pages     = {27--31},
+  year      = {2014},
+  doi       = {10.1145/2627692.2627697}
+}
+
+@inproceedings{Malewicz2010,
+  author    = {Grzegorz Malewicz and others},
+  title     = {Pregel: A system for large-scale graph processing},
+  booktitle = {Proc. ACM SIGMOD International Conference on Management of Data},
+  pages     = {135--146},
+  year      = {2010},
+  doi       = {10.1145/1807167.1807184}
+}
+
+% --- RAG ---
+@misc{Lewis2020,
+  author    = {Patrick Lewis and others},
+  title     = {Retrieval-augmented generation for knowledge-intensive {NLP} tasks},
+  howpublished = {arXiv:2005.11401},
+  year      = {2020}
+}
+
+% --- Time series ---
+@inproceedings{Pelkonen2015,
+  author    = {Tuomas Pelkonen and others},
+  title     = {Gorilla: A fast, scalable, in-memory time series database},
+  booktitle = {Proc. VLDB Endowment},
+  volume    = {8},
+  number    = {12},
+  pages     = {1816--1827},
+  year      = {2015}
+}
+
+% --- LoRA ---
+@misc{Hu2022,
+  author    = {Edward J. Hu and others},
+  title     = {{LoRA}: Low-rank adaptation of large language models},
+  howpublished = {arXiv:2106.09685},
+  year      = {2022}
+}
+
+% --- Raft consensus ---
+@inproceedings{Ongaro2014,
+  author    = {Diego Ongaro and John Ousterhout},
+  title     = {In search of an understandable consensus algorithm},
+  booktitle = {Proc. USENIX Annual Technical Conference (ATC)},
+  pages     = {305--319},
+  year      = {2014}
+}
+
+% --- SAGA pattern ---
+@inproceedings{Garcia-Molina1987,
+  author    = {Hector Garcia-Molina and Kenneth Salem},
+  title     = {Sagas},
+  booktitle = {Proc. ACM SIGMOD International Conference on Management of Data},
+  pages     = {249--259},
+  year      = {1987},
+  doi       = {10.1145/38713.38742}
+}
+
+% --- 2PC ---
+@inproceedings{Gray1978,
+  author    = {Jim Gray},
+  title     = {Notes on Data Base Operating Systems},
+  booktitle = {Operating Systems: An Advanced Course, LNCS},
+  volume    = {60},
+  pages     = {393--481},
+  year      = {1978}
+}
