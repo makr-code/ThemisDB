@@ -5,6 +5,7 @@
 #include "stable_diffusion/sd_generator.h"
 #include "stable_diffusion/sd_prompt_sanitizer.h"
 #include <memory>
+#include <mutex>
 #include <atomic>
 #include <nlohmann/json.hpp>
 
@@ -21,7 +22,11 @@ namespace imggen {
  * All generated images receive mandatory provenance fields:
  *  - generation_timestamp (Unix epoch ms)
  *  - prompt_hash          (SHA-256 hex of the sanitised prompt)
- *  - plugin_version       "2.0.0"
+ *  - plugin_version       "2.1.0"
+ *
+ * Thread safety: generate(), generateBatch(), and generateImg2Img() are
+ * serialised by an internal mutex.  Statistics counters are updated atomically
+ * under the same lock.
  */
 class SDPlugin : public IImageGenerationBackend {
 public:
@@ -42,13 +47,37 @@ public:
     GeneratedImage generate(const std::string& prompt,
                             const SDGenerationConfig& cfg) override;
 
+    /**
+     * @brief Generate multiple images from a list of prompts (batch mode).
+     *
+     * Each prompt is screened independently by SDPromptSanitizer.
+     * Results are returned in the same order as the input prompts.
+     */
+    std::vector<GeneratedImage> generateBatch(
+            const std::vector<std::string>& prompts,
+            const SDGenerationConfig& cfg) override;
+
+    /**
+     * @brief Modify an existing image guided by a text prompt (img2img).
+     *
+     * In v2.1.0 the stub/in-memory generators ignore the input image and
+     * produce a normal generate() result.  SDCppGenerator will override this
+     * with real denoising in a future release.
+     *
+     * Both the positive prompt and the negative_prompt in cfg are screened
+     * by SDPromptSanitizer before reaching the generator.
+     */
+    GeneratedImage generateImg2Img(const std::string& prompt,
+                                   const Img2ImgConfig& cfg) override;
+
     bool isPromptAllowed(const std::string& prompt) const override;
 
     std::string getModelId() const override;
-    std::string getPluginVersion() const override { return "2.0.0"; }
+    std::string getPluginVersion() const override { return "2.1.0"; }
     nlohmann::json getStatistics() const override;
 
 private:
+    mutable std::mutex            generate_mutex_;
     std::unique_ptr<ISDGenerator> generator_;
     SDPromptSanitizer             sanitizer_;
     bool     initialized_ = false;
@@ -56,6 +85,10 @@ private:
     uint64_t blocked_count_    = 0;
     uint64_t error_count_      = 0;
     std::string model_path_;
+
+    // Internal helper: run generate without locking (caller holds generate_mutex_)
+    GeneratedImage generateLocked(const std::string& prompt,
+                                   const SDGenerationConfig& cfg);
 
     static std::string sha256Hex(const std::string& input);
     static std::vector<uint8_t> encodeMinimalPng(const std::vector<uint8_t>& rgb,

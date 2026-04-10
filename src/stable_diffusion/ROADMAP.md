@@ -6,8 +6,9 @@
 
 ## Current Status
 
-v2.0.0 — Core pipeline operational. Content-policy sanitizer functional. Stub mode fully
-functional. stable-diffusion.cpp integration compiled when
+v2.1.0 — Batch generation, img2img stub interface, thread-safe plugin, and negative-prompt
+content policy enforcement complete. Core pipeline operational. Content-policy sanitizer
+functional. Stub mode fully functional. stable-diffusion.cpp integration compiled when
 `THEMIS_ENABLE_STABLE_DIFFUSION=ON`.
 
 ## Completed ✅
@@ -16,11 +17,16 @@ functional. stable-diffusion.cpp integration compiled when
 - [x] `SDPromptSanitizer` — keyword blocklist (case-insensitive, file-loadable)
 - [x] `ISDGenerator` strategy interface
 - [x] `SDStubGenerator` (CI / no model)
-- [x] `InMemorySDGenerator` test double
+- [x] `InMemorySDGenerator` test double (with img2img inspection helpers)
 - [x] `SDPlugin` — provenance stamps, blocked_count, DL entry points
 - [x] `SDConfig::fromJson` / `toJson` with clamping
 - [x] Minimal PNG stub encoder
-- [x] 30 unit tests (`SDPluginFocusedTests`)
+- [x] `generateBatch(prompts, cfg)` on `IImageGenerationBackend` and `SDPlugin`
+- [x] `generateImg2Img(prompt, cfg)` + `Img2ImgConfig` struct
+- [x] `ISDGenerator::generateImg2Img()` default fallback
+- [x] Thread-safety: `generate_mutex_` serialises all generate paths
+- [x] `negative_prompt` content-policy enforcement (SECURITY.md gap SD-NP-01 resolved)
+- [x] 45 unit tests (`SDPluginFocusedTests`, groups A–O)
 - [x] Plugin manifest + CMake registration
 
 ## In Progress
@@ -53,32 +59,41 @@ functional. stable-diffusion.cpp integration compiled when
 - [x] Generator exception isolation
 
 ### Phase 4 — Tests ✅
-- [x] 30 unit tests across groups A–J
+- [x] 30 unit tests across groups A–J (v2.0.0)
+- [x] 15 additional tests groups K–O (v2.1.0): negative_prompt policy, batch, img2img
 
 ### Phase 5 — Performance / Hardening
+- [x] Thread-safe generate/generateBatch/generateImg2Img (v2.1.0)
+- [x] `negative_prompt` content-policy enforcement (v2.1.0)
 - [ ] Real PNG encoder (libpng or stb_image_write) (Target: Q3 2026)
 - [ ] Benchmark: time-to-PNG for 512×512 stub vs. real model
-- [ ] Thread-safety audit (Target: Q3 2026)
+- [ ] Thread-safety audit (completed for current methods; SDCppGenerator pending)
 
 ### Phase 6 — Documentation & Acceptance ✅
 - [x] README, CHANGELOG, ROADMAP, ARCHITECTURE, FUTURE_ENHANCEMENTS, AUDIT, SECURITY
 
 ## Production Readiness Checklist
 
-- [x] Unit tests present (30 tests)
+- [x] Unit tests present (45 tests)
 - [x] Stub mode for CI without model file
 - [x] Injection constructor for test doubles
 - [x] Content-policy sanitizer before every generate call
 - [x] Provenance stamps on every result
+- [x] Thread-safe generate/generateBatch/generateImg2Img
+- [x] `negative_prompt` content-policy enforcement
+- [x] Batch generation API
+- [x] Img2img interface with stub default
 - [ ] Real PNG encoder verified
 - [ ] Real stable-diffusion.cpp integration validated end-to-end
-- [ ] Thread-safety verified
 
 ## Known Issues & Limitations
 
 - Stub PNG encoder produces a structurally valid but pixel-content-free PNG (no IDAT chunk).
-- `SDCppGenerator` is not yet implemented; `SDStubGenerator` is the only generator in v2.0.0.
-- `SDPlugin` is not thread-safe for concurrent `generate()` calls.
+- `SDCppGenerator` is not yet implemented; `SDStubGenerator` is the only generator in v2.1.0.
+- `generateImg2Img` with stub/in-memory generators ignores the input image entirely.
+- `SDPlugin` thread-safety applies to individual method calls; external callers must not
+  share an `SDPlugin` instance across threads without external synchronisation for
+  `initialize()` calls.
 
 ## Breaking Changes
 
