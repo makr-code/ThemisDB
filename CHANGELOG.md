@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Documentation
+
+- **Module-Docs Sync 📚 — 2026-04-10**
+  - 57 Module indexiert; 761 Primary-Markdown-Dateien in `src/` und `include/`
+  - 7 Module ohne Sekundärdokumentation erkannt; Issues erzeugt
+  - Sekundärdokumentation aktualisiert in `docs/de/` und `docs/en/`
+  - Tool: `tools/module_docs_builder.py` v1.0.0
+  <!-- changelog-updater: module-docs-sync-2026-04-10 -->
+
 ## [1.8.1-rc2] - 2026-04-08
 
 ### Fixed — Hotfix: Docker image SIGSEGV on startup (`Exit 139`)
