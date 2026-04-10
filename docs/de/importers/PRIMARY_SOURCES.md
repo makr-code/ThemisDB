@@ -1,5 +1,5 @@
 [docs](../../index.md) > [de](../index.md) > [importers](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-04-09  
+**Datum:** 2026-04-10  
 **Status:** draft  
 **Primary (Quelle der Wahrheit):**
 - `include/importers/ARCHITECTURE.md`
@@ -55,4 +55,4 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`importers`
 
 ---
 
-*Automatisch generiert von `tools/module_docs_builder.py` · 2026-04-09*
+*Automatisch generiert von `tools/module_docs_builder.py` · 2026-04-10*
