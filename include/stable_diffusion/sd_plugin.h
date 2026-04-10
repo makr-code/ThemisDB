@@ -6,7 +6,6 @@
 #include "stable_diffusion/sd_prompt_sanitizer.h"
 #include <memory>
 #include <mutex>
-#include <atomic>
 #include <nlohmann/json.hpp>
 
 namespace themis {
