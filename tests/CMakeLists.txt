@@ -977,6 +977,7 @@ if(NOT THEMIS_ENABLE_LEGAL_TRAINING)
         ../src/training/provenance_tracker.cpp
         ../src/training/modality_parser.cpp
         ../src/training/lora_adapter.cpp
+        ../src/training/adapter_serving.cpp
     )
 endif()
 
@@ -15474,6 +15475,53 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_lora_adapter_merger.cpp")
     message(STATUS "  LoRAMerger: mergeLinear, mergeTIES, mergeLinearAll, mergeTIESAll, error handling")
 else()
     message(STATUS "LoRAMerger focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_lora_adapter_merger.cpp")
+endif()
+
+# TrainingPhase2 focused tests — adapter serving integration, multi-domain
+# support, and integrity verification (Phase 2 items from ROADMAP).
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_training_phase2.cpp")
+    message(STATUS "Adding TrainingPhase2 focused tests")
+
+    add_executable(test_training_phase2_focused
+        test_training_phase2.cpp
+        ${THEMIS_ROOT_DIR}/src/training/adapter_serving.cpp
+        ${THEMIS_ROOT_DIR}/src/training/incremental_lora_trainer.cpp
+        ${THEMIS_ROOT_DIR}/src/training/lora_checkpoint_manager.cpp
+        ${THEMIS_ROOT_DIR}/src/training/auto_labeler.cpp
+        ${THEMIS_ROOT_DIR}/src/training/modality_parser.cpp
+        ${THEMIS_ROOT_DIR}/src/training/provenance_tracker.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/checksum_utils.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
+    )
+
+    target_include_directories(test_training_phase2_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_training_phase2_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        spdlog::spdlog
+        OpenSSL::Crypto
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_training_phase2_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TrainingPhase2FocusedTests COMMAND test_training_phase2_focused)
+
+    set_tests_properties(TrainingPhase2FocusedTests PROPERTIES
+        LABELS "training;phase2;adapter-serving;multi-domain;integrity;deploy;rollback;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  TrainingPhase2: DeployResult, deployVersionEx/rollbackVersionEx, ILLMRouter wiring, DomainType LEGAL/MEDICAL/FINANCIAL, integrity bypass")
+else()
+    message(STATUS "TrainingPhase2 focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_training_phase2.cpp")
 endif()
 
 # ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
