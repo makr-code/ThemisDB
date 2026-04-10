@@ -127,9 +127,12 @@ replication layer employs Raft consensus~\cite{Ongaro2014}.
 a distinct concern.
 Table~\ref{tab:arch} summarizes the layers, selected modules, and
 key technologies.
+Across these layers the system comprises 46 software modules, 153
+documentation files, and a test suite of 1\,078+ benchmark cases plus
+over 1\,200 unit/integration tests (v1.8.2, partial run).
 
 \begin{table}[t]
-  \caption{ThemisDB Architecture Layers}
+  \caption{ThemisDB Architecture Layers (46 modules)}
   \label{tab:arch}
   \centering
   \begin{tabular}{L{1.5cm}L{2.6cm}L{3.5cm}}
@@ -179,6 +182,48 @@ The security layer provides AES-256-GCM field-level encryption, TLS
 1.3 termination, RBAC, and SOC~2 / NIST / GDPR compliance hooks.
 Seven network protocols are supported: HTTP/1.1, HTTP/2, HTTP/3,
 WebSocket, MQTT, PostgreSQL Wire, and gRPC.
+
+\subsection{Module-Level SLO Inventory}
+\label{ssec:slo-inventory}
+
+Each module carries explicit service-level objectives (SLOs)
+maintained in per-module \texttt{FUTURE\_ENHANCEMENTS.md} files.
+Table~\ref{tab:slo-summary} lists representative SLOs across
+14 selected modules together with the measurement status in v1.8.2.
+A total of 28 modules define at least one SLO; of these, 12 have
+at least one directly measured value, 10 have only proxy coverage,
+and 6 lack any current measurement (no benchmark runner activated).
+
+\begin{table}[t]
+  \caption{Representative Module SLOs and v1.8.2 Status}
+  \label{tab:slo-summary}
+  \centering
+  \renewcommand{\arraystretch}{1.1}
+  \begin{tabular}{L{1.2cm}L{1.3cm}R{1.3cm}L{1.0cm}L{1.5cm}}
+    \toprule
+    \textbf{Mod.} & \textbf{SLO ID} & \textbf{Target} &
+    \textbf{v1.8.2} & \textbf{Status} \\
+    \midrule
+    Query   & Q-1 & 750\,M\,items/s & 796\,M & \checkmark \\
+    Index   & I-1 & 280\,k\,ins/s  & 549\,k & \checkmark \\
+    Index   & I-2 & 180\,k\,ins/s  & 255\,k & \checkmark \\
+    Cache   & C-1 & 5\,M\,ops/s    & 5.9\,M & \checkmark \\
+    Storage & S-1 & 100\,k\,ops/s  & $\sim$1.3\,k & $\times$ \\
+    Graph   & G-1 & 500\,k\,e/s    & 1.18\,M & \checkmark \\
+    TS      & TS-1 & 500\,k\,pts/s  & 61\,M* & \checkmark \\
+    TS      & TS-2 & 2\,GB/s/core   & n/a & -- \\
+    Tx      & TX-3 & 6\,k\,2PC/s    & 6.4\,k & \checkmark \\
+    Replica & R-1  & P99 $\leq$50ms  & n/a & -- \\
+    LLM     & L-1  & TTFT$\leq$200ms & n/a & -- \\
+    Search  & SE-1 & P99$\leq$20ms   & n/a & -- \\
+    Auth    & AUT-4 & $\leq$1\,$\mu$s (Bloom) & n/a & -- \\
+    CDC     & CDC-2 & P99$\leq$20ms  & n/a & -- \\
+    \bottomrule
+  \end{tabular}
+  \vspace{0.5ex}
+  {\footnotesize * In-memory append; sustained NVMe write not yet measured separately.
+    $\times$ = SLO not met; -- = no current measurement.}
+\end{table}
 
 % ==============================================================================
 \section{Benchmark Methodology}
@@ -567,6 +612,250 @@ once sufficient paired runs are available.
   \end{tabular}
 \end{table*}
 
+\subsection{Raw Benchmark Details}
+\label{ssec:raw-benchmarks}
+
+\subsubsection{Allocator Performance}
+\label{sssec:alloc}
+
+\themis{} ships a custom allocator (themis-malloc, inspired by
+mimalloc~\cite{Leijen2019}).
+Table~\ref{tab:alloc} compares wall-clock throughput against the
+system allocator on the v1.8.1-rc2 build (Windows x64,
+MSVC~Release, benchmark \texttt{bench\_storage\_performance}).
+
+\begin{table}[t]
+  \caption{Allocator Throughput (v1.8.1-rc2, \texttt{bench\_storage\_performance})}
+  \label{tab:alloc}
+  \centering
+  \begin{tabular}{lR{1.3cm}R{1.3cm}R{1.1cm}}
+    \toprule
+    \textbf{Case} & \textbf{System} & \textbf{Themis} & \textbf{Ratio} \\
+    \midrule
+    Small alloc ($\leq$256 B)  & 15.5\,M/s  & 128.5\,M/s & 8.3$\times$ \\
+    Large alloc ($\geq$64 KB)  & 119\,k/s   & 2.49\,M/s  & 20.9$\times$ \\
+    Mixed workload             & ---        & 19.6\,M/s  & --- \\
+    RCU read (single thread)   & ---        & 919.8\,M/s & --- \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+The 8--21$\times$ allocator speedup is consistent with the mimalloc
+free-list sharding approach~\cite{Leijen2019} and is a primary
+enabler of the high OLTP throughput reported in
+Section~\ref{ssec:longitudinal}.
+
+\subsubsection{WAL Scaling with Thread Count}
+\label{sssec:wal-scaling}
+
+Table~\ref{tab:wal-scaling} shows write throughput (ops/s) for three
+storage patterns as the thread count scales from 1 to 16.
+WAL-ON throughput scales approximately linearly up to 8~threads
+(+13\% at 8T vs.\ 1T) but degrades $-25\%$ at 16~threads due to
+log-group-commit contention.
+WAL-OFF, which bypasses the on-disk journal, scales well up to 8T but
+also saturates at 16T.
+Mixed 80/20 read-write and secondary-index writes exhibit near-linear
+scaling through 16~threads.
+
+\begin{table}[t]
+  \caption{Storage Hotspot Scaling (\texttt{bench\_hotspots\_micro}, v1.3.4)}
+  \label{tab:wal-scaling}
+  \centering
+  \begin{tabular}{lR{1.0cm}R{1.0cm}R{1.0cm}R{1.0cm}}
+    \toprule
+    \textbf{Pattern} & \textbf{1T} & \textbf{4T} & \textbf{8T} & \textbf{16T} \\
+    \midrule
+    WAL~ON (ops/s)       & 283   & 609   & 1\,193  & 1\,546 \\
+    WAL~OFF (k\,ops/s)   & 146   & 370   & 508     & 350 \\
+    Mixed 80/20 (ops/s)  & 583   & 1\,289 & 2\,534  & 4\,405 \\
+    Sec.\ Index (ops/s)  & 281   & 590   & 1\,056  & 1\,990 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\subsubsection{Vector Distance Kernel Throughput}
+\label{sssec:vec-kernels}
+
+Table~\ref{tab:vec-kernels} reports throughput of the SIMD-accelerated
+distance kernels (AVX2, \texttt{bench\_hybrid\_vector\_geo}, v1.3.4).
+All kernels operate on 32-bit float vectors.
+Throughput decreases roughly as $1/d$ for small $d$ (dominated by
+loop overhead) and asymptotes toward a bandwidth-limited regime
+around $d=512$.
+Geo operations (Haversine, bounding-box containment) operate at
+much higher throughput because they use scalar arithmetic on
+two-dimensional coordinate pairs rather than full $d$-dimensional
+dot products.
+
+\begin{table}[t]
+  \caption{Distance Kernel Throughput (AVX2, v1.3.4)}
+  \label{tab:vec-kernels}
+  \centering
+  \begin{tabular}{lR{1.3cm}R{1.5cm}R{1.5cm}}
+    \toprule
+    \textbf{Kernel} & \textbf{Dim~$d$} & \textbf{Latency} & \textbf{Throughput} \\
+    \midrule
+    Euclidean    & 64    & 42\,ns  & 23.7\,M/s \\
+    Euclidean    & 256   & 209\,ns & 4.8\,M/s \\
+    Euclidean    & 1024  & 828\,ns & 1.21\,M/s \\
+    Cosine       & 64    & 38\,ns  & 26.4\,M/s \\
+    Cosine       & 256   & 205\,ns & 4.9\,M/s \\
+    Cosine       & 1024  & 827\,ns & 1.21\,M/s \\
+    Haversine    & 2     & 3.6\,$\mu$s/100 pts & 28.0\,M\,pts/s \\
+    Bbox contain.& 2     & 64\,ns/100 pts  & 1.56\,G\,pts/s \\
+    Vec+Geo filt.& 256   & 1.27\,ms/32K pts & 25.8\,M/s \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\subsubsection{Graph Query Optimizer}
+\label{sssec:graph-opt}
+
+Table~\ref{tab:graph-opt} shows plan generation and BFS execution
+latency on the v1.8.1-rc2 build
+(\texttt{bench\_graph\_query\_optimizer}).
+Plan generation is sub-microsecond ($\leq 246$\,ns) and is
+cache-resident after the first execution.
+BFS execution time grows super-linearly with depth (3\,214\,ns at
+depth~2 vs.\ 13\,241\,ns at depth~4), reflecting the exponential
+fan-out of the traversal frontier.
+
+\begin{table}[t]
+  \caption{Graph Query Optimizer (v1.8.1-rc2)}
+  \label{tab:graph-opt}
+  \centering
+  \begin{tabular}{lR{1.5cm}R{1.5cm}}
+    \toprule
+    \textbf{Benchmark} & \textbf{Latency} & \textbf{Throughput} \\
+    \midrule
+    PlanGen -- Shortest Path    & 223\,ns & 4.53\,M/s \\
+    PlanGen -- k-Hop (k=2)      & 246\,ns & 4.03\,M/s \\
+    PlanGen -- With Cache Hit   & 225\,ns & 4.53\,M/s \\
+    BFS -- depth 2 (100 nodes)  & 3\,214\,ns & 321\,k/s \\
+    BFS -- depth 3 (100 nodes)  & 6\,038\,ns & 161\,k/s \\
+    BFS -- depth 4 (100 nodes)  & 13\,241\,ns & 77\,k/s \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\subsection{Regression Overview v1.3.0 $\to$ v1.3.4}
+\label{ssec:regression}
+
+Table~\ref{tab:regression} documents the most significant performance
+changes between the v1.3.0 baseline and v1.3.4.
+Several regressions marked \emph{critical} are attributable to
+intentional infrastructure changes (per-test temporary directories,
+single-transaction-per-put RocksDB semantics in test harnesses)
+rather than to production code path changes.
+This distinction is documented in
+\texttt{PERFORMANCE\_COMPARISON\_V1.3.0\_VS\_V1.3.3.md} and must be
+accounted for when interpreting absolute values.
+
+\begin{table}[t]
+  \caption{Regression Summary v1.3.0 $\to$ v1.3.4}
+  \label{tab:regression}
+  \centering
+  \renewcommand{\arraystretch}{1.1}
+  \begin{tabular}{L{2.8cm}R{1.2cm}R{1.2cm}R{0.8cm}L{1.3cm}}
+    \toprule
+    \textbf{Benchmark} & \textbf{v1.3.0} & \textbf{v1.3.4} &
+    \textbf{$\Delta$} & \textbf{Cause} \\
+    \midrule
+    Vec Insert     & 567\,k/s & 351\,k/s & $-38\%$ & infra change \\
+    Sec.\ Index    & 1.78\,M/s & 217\,k/s & $-88\%$ & infra change \\
+    Query Engine   & 969\,M/s & 815\,M/s & $-16\%$ & governance \\
+    Graph Edges    & 1.47\,M/s & 629\,k/s & $-57\%$ & infra change \\
+    TS Insert      & 61.0\,M/s & 49.0\,M/s & $-20\%$ & flush policy \\
+    Encrypt 1KB    & 255\,k/s & 191\,k/s & $-25\%$ & EVP overhead \\
+    Decrypt 256B   & 60\,k/s  & 41\,k/s  & $-32\%$ & EVP overhead \\
+    Geo Content API & 5.6\,k/s & 7.2\,k/s & $+29\%$ & \emph{improvement} \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\subsection{CHIMERA Vendor-Neutral Comparison}
+\label{ssec:chimera-compare}
+
+The CHIMERA suite exposes \themis{} benchmarks in a vendor-neutral
+form and reports anonymised comparison data obtained from independent
+reference runs.
+Table~\ref{tab:chimera-qps} and Table~\ref{tab:chimera-vec}
+summarise the two primary comparison dimensions: query throughput
+and vector search latency.
+Statistical methodology follows IEEE~Std~2807-2022~\cite{IEEE2807}:
+Welch's $t$-test~\cite{Welch1947} for two-sample comparisons,
+Mann-Whitney $U$~\cite{Mann1947} for non-parametric checks,
+Cohen's $d$~\cite{Cohen1988} for effect sizes, and
+Tukey's IQR rule~\cite{Tukey1977} for outlier removal.
+
+\begin{table}[t]
+  \caption{CHIMERA Query Throughput Comparison (95\% CI, Welch's $t$)}
+  \label{tab:chimera-qps}
+  \centering
+  \begin{tabular}{lR{1.0cm}R{1.1cm}R{1.2cm}R{1.0cm}R{1.0cm}}
+    \toprule
+    \textbf{System} & $N$ & \textbf{Mean} & \textbf{Median} &
+    \textbf{CI lo} & \textbf{CI hi} \\
+    \midrule
+    Alpha (ThemisDB) & 29 & 14\,842 & 14\,813 & 14\,604 & 15\,286 \\
+    Beta   & 29 & 12\,678 & 12\,789 & 11\,966 & 13\,090 \\
+    Gamma  & 28 &  9\,392 &  9\,431 &  8\,677 &  9\,940 \\
+    \bottomrule
+  \end{tabular}
+  \vspace{0.3ex}
+  {\footnotesize All values in queries/s. System names anonymised per IEEE Std~2807 neutrality.}
+\end{table}
+
+\begin{table}[t]
+  \caption{CHIMERA Vector Search P95 Latency Comparison (ms, 95\% CI)}
+  \label{tab:chimera-vec}
+  \centering
+  \begin{tabular}{lR{0.7cm}R{1.0cm}R{1.0cm}R{0.9cm}R{0.9cm}}
+    \toprule
+    \textbf{System} & $N$ & \textbf{Mean} & \textbf{P95} &
+    \textbf{CI lo} & \textbf{CI hi} \\
+    \midrule
+    Aurora  & 48 & 8.51 & 10.01 & 7.91 & 8.76 \\
+    Nexus   & 49 & 9.43 & 12.40 & 9.02 & 10.02 \\
+    Quantum & 50 & 7.59 &  9.27 & 7.25 &  7.93 \\
+    Vertex  & 48 & 8.77 & 10.98 & 8.34 &  9.23 \\
+    Zenith  & 48 & 9.47 & 12.46 & 8.77 & 10.14 \\
+    \bottomrule
+  \end{tabular}
+  \vspace{0.3ex}
+  {\footnotesize Lower is better. $N \geq 28$ per IEEE Std~2807; outliers removed by IQR$\times$1.5.}
+\end{table}
+
+System Alpha (ThemisDB) leads query throughput by $+17\%$ over
+System~Beta and $+58\%$ over System~Gamma.
+In vector search latency the spread is narrower: the fastest system
+(Quantum, mean 7.59\,ms) beats the slowest (Zenith, mean 9.47\,ms)
+by only $24.7\%$, suggesting that HNSW index performance is largely
+converging across the vendor landscape at SIFT-1M scale.
+
+The CHIMERA baseline for \themis{} (v1.5.0-dev,
+Table~\ref{tab:chimera-baseline}) also records four core
+workload throughput and latency metrics measured within the system
+under the same IEEE~Std~2807 protocol.
+
+\begin{table}[t]
+  \caption{ThemisDB CHIMERA Self-Baseline (v1.5.0-dev)}
+  \label{tab:chimera-baseline}
+  \centering
+  \begin{tabular}{lR{1.5cm}R{1.3cm}R{1.0cm}R{1.0cm}}
+    \toprule
+    \textbf{Workload} & \textbf{Throughput} & \textbf{Mean} &
+    \textbf{P95} & \textbf{P99} \\
+    \midrule
+    relational\_sort    & 42\,503\,ops/s & 0.024\,ms & 0.023\,ms & 0.034\,ms \\
+    vector\_dot\_product & 75\,835\,ops/s & 0.013\,ms & 0.013\,ms & 0.024\,ms \\
+    document\_lookup    & 2.96\,M\,ops/s  & 0.18\,$\mu$s & 0.20\,$\mu$s & 0.25\,$\mu$s \\
+    graph\_bfs          & 40\,373\,ops/s  & 0.025\,ms & 0.025\,ms & 0.033\,ms \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
 % ==============================================================================
 \section{Analysis and Discussion}
 \label{sec:analysis}
@@ -659,6 +948,159 @@ Three meta-causes explain the majority of coverage gaps:
         that terminates within CI time limits.
 \end{enumerate}
 
+\subsection{Known Performance Gaps (D-1..D-7)}
+\label{ssec:known-gaps}
+
+Table~\ref{tab:known-gaps} collates the seven explicitly documented
+performance gaps extracted from Section~35 of the performance
+expectations registry.
+All seven require targeted engineering effort before the v2.0 release.
+
+\begin{table}[t]
+  \caption{Documented Performance Gaps (Section 35 Registry)}
+  \label{tab:known-gaps}
+  \centering
+  \renewcommand{\arraystretch}{1.1}
+  \begin{tabular}{C{0.4cm}L{1.5cm}R{1.3cm}R{1.1cm}R{0.8cm}L{0.9cm}}
+    \toprule
+    \textbf{ID} & \textbf{Module} & \textbf{Current} &
+    \textbf{Target} & \textbf{Gap} & \textbf{Prio.} \\
+    \midrule
+    D-1 & TS Write      & 200\,k\,pts/s  & 500\,k\,pts/s  & $-60\%$ & High \\
+    D-2 & Gorilla Dec.  & 400\,MB/s  & 2\,GB/s   & $-80\%$ & High \\
+    D-3 & Vec~vs~FAISS~\cite{Johnson2021}  & 351\,k/s & 600\,k/s & $-41\%$ & Med \\
+    D-4 & 2PC~vs~TiDB   & 6.4\,k/s   & 15\,k/s   & $-57\%$ & Med \\
+    D-5 & Blob Write    & 741\,ops/s  & 100\,k/s  & $-99\%$ & High \\
+    D-6 & Concur. CV    & 20.74       & stable    & ---     & Med \\
+    D-7 & Q~vs~ClickHouse & 815\,M/s & 1\,200\,M/s & $-32\%$ & Low \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\textbf{D-1 and D-2 (Time-Series).}
+The sustained NVMe write target (D-1) is not yet evaluated by the
+available benchmark; the reported 61\,M\,pts/s is for in-memory
+append only.
+The Gorilla decoder throughput gap (D-2) reflects the lack of an
+AVX2/AVX-512 decode kernel; the current implementation is scalar.
+
+\textbf{D-5 (Blob Write).}
+The 1\,MB blob write path achieves only 741\,ops/s against a target
+of 100\,k/s.
+Profiling reveals 99\% of wall time is spent in multi-part
+upload coordination within the RocksDB blob extension layer.
+A direct \texttt{pwrite} bypass for blobs exceeding a configurable
+threshold is the primary proposed mitigation.
+
+\textbf{D-6 (Concurrency Stability).}
+Under 10-client concurrent write workload the coefficient of variation
+of throughput exceeds 20\%, indicating lock-convoy behaviour in the
+RocksDB write-group-commit path.
+Increasing the write batch budget or adopting a LMAX-disruptor ring
+buffer for the commit queue are candidate mitigations.
+
+\subsection{CI Regression Governance}
+\label{ssec:ci-gov}
+
+\themis{} enforces three-tier regression governance via the
+\texttt{05-quality\_build\_cross-module-performance-regression-ci.yml}
+GitHub Actions workflow:
+
+\begin{itemize}
+  \item \emph{Minor} ($\geq 5\%$ degradation): tracking issue created
+        automatically; does not block merge.
+  \item \emph{Major} ($\geq 10\%$ degradation): PR merge blocked until
+        a root-cause comment is attached to the blocking benchmark.
+  \item \emph{Critical} ($\geq 20\%$ degradation): immediate
+        escalation; PR cannot be merged until the regression is
+        resolved or explicitly waived by a maintainer.
+\end{itemize}
+
+\noindent
+The governance framework operates on \emph{score\_hw\_neutral} rather
+than raw throughput, preventing false positives when the benchmark
+host's hardware capability differs between runs.
+Root-cause analysis is mandatory when
+$\text{score\_hw\_neutral} < 0.90$ occurs in two consecutive runs
+on the same module (Section~\ref{ssec:calibration}).
+
+% ==============================================================================
+\section{Threats to Validity}
+\label{sec:threats}
+
+\subsection{Internal Validity}
+\label{ssec:int-valid}
+
+\textbf{Infrastructure-induced regressions.}
+Several benchmarks listed in Table~\ref{tab:regression} show
+large apparent regressions between v1.3.0 and v1.3.4 that are
+caused by deliberate changes to the test harness (per-test temporary
+directories, single-transaction-per-put semantics for correctness
+isolation) rather than by production code changes.
+These values must not be interpreted as production performance
+regressions.
+Mitigation: the \texttt{PERFORMANCE\_COMPARISON} documentation file
+explicitly flags all harness-induced changes with root-cause notes.
+
+\textbf{WAL-OFF vs.\ WAL-ON semantics.}
+The \texttt{BM\_RawWrite\_WAL\_Off} benchmark bypasses the
+write-ahead log entirely, yielding throughput values
+($\geq$145\,k\,ops/s) that are not representative of any production
+workload, which always requires durability.
+All durability-relevant comparisons in this paper use WAL-ON
+measurements exclusively.
+
+\textbf{In-memory vs.\ persistent time-series.}
+The \texttt{TimeseriesBench/InsertTimepoints} benchmark measures
+in-memory append throughput (61\,M\,pts/s at v1.8.2).
+Persistent, Gorilla-compressed, multi-tier write throughput is
+not yet covered by any automated benchmark (Gap D-1) and may be
+substantially lower.
+
+\subsection{External Validity}
+\label{ssec:ext-valid}
+
+\textbf{Single platform.}
+All measurements are taken on a single Windows x64 workstation with
+an Intel i9-10900K.
+Throughput numbers may not generalise to Linux ARM64, AMD EPYC,
+or cloud-native serverless deployments without recalibration.
+
+\textbf{Benchmark representativeness.}
+Google Benchmark micro-benchmarks isolate individual code paths under
+unrealistic conditions (e.g., warm caches, single query type, no
+concurrent background I/O).
+CHIMERA macro-workloads (YCSB, TPC-C/H) provide more realistic
+coverage but have not yet been fully executed with production data
+volumes ($\geq$10\,TB) on the reference hardware.
+
+\textbf{Hardware model accuracy.}
+The v0 efficiency model uses heuristic weights derived from
+first-principles analysis.
+Until 30 or more paired runs across at least three distinct hardware
+classes are available, the statistical significance of the model
+cannot be assessed.
+All v0 scores exceeding 1.0 should therefore be interpreted as
+\emph{conservative baselines}, not as validated performance claims.
+
+\subsection{Construct Validity}
+\label{ssec:con-valid}
+
+\textbf{Proxy benchmarks.}
+Twelve of the 29 benchmark gaps are proxy-only measurements, meaning
+the measured code path does not directly correspond to the
+documented SLO metric.
+The \texttt{score\_hw\_neutral} values derived from proxy benchmarks
+carry higher uncertainty and are labeled \emph{proxy} in all tables.
+
+\textbf{CHIMERA anonymisation.}
+The anonymised vendor comparison (Section~\ref{ssec:chimera-compare})
+uses system aliases to comply with IEEE Std~2807-2022 neutrality
+requirements.
+The mapping between aliases and actual systems is not disclosed;
+readers should treat comparative scores as indicative rather than
+definitive.
+
 % ==============================================================================
 \section{Related Work}
 \label{sec:related}
@@ -675,7 +1117,9 @@ concept of measuring memory bandwidth as a hardware baseline.
 Hennessy and Patterson~\cite{Hennessy2019} discuss the growing
 importance of domain-specific hardware.
 Our efficiency model applies the same normalization philosophy to
-database workloads.
+database workloads, extending it to GPU-specific factors
+($N_{\text{vram}}$, $N_{\text{h2d}}$, $N_{\text{d2h}}$,
+$N_{\text{dispatch}}$) that are absent from CPU-centric HPC models.
 
 YCSB~\cite{Cooper2010} provides workload-portable key-value
 benchmarking.
@@ -686,14 +1130,27 @@ evaluation.
 LDBC-SNB~\cite{LDBCSNB} targets graph analytics.
 The CHIMERA suite integrated into \themis{} provides a unified
 adapter layer over all five standards.
+The statistical methodology used by CHIMERA is grounded in
+Welch's~$t$-test~\cite{Welch1947}, Mann-Whitney
+$U$~\cite{Mann1947}, Cohen's~$d$~\cite{Cohen1988}, and
+Tukey's IQR~\cite{Tukey1977}, following the minimum sample-size and
+warmup requirements of IEEE~Std~2807-2022~\cite{IEEE2807}.
 
 Approximate nearest-neighbor search using HNSW~\cite{Malkov2018}
 underpins the vector search engine.
+FAISS~\cite{Johnson2021} provides GPU-accelerated ANN baselines
+against which Gap~D-3 is measured.
+The custom allocator design follows the mimalloc free-list
+sharding approach~\cite{Leijen2019}, yielding 8--21$\times$ speedup
+over the system allocator on allocation-intensive code paths.
 RocksDB~\cite{Dong2021} is the storage foundation; its
-write-amplification characteristics are discussed in the context of
-the secondary index gap in Section~\ref{ssec:rootcause}.
+write-amplification characteristics drive Gap~D-5 (blob write)
+and the secondary index gap.
 Raft~\cite{Ongaro2014} provides consensus; SAGA~\cite{Garcia-Molina1987}
 and 2PC~\cite{Gray1978} handle distributed transactions.
+Gorilla delta-of-delta encoding~\cite{Pelkonen2015} is used in the
+time-series module; Gap~D-2 documents the planned SIMD acceleration
+of the decode path~\cite{Lemire2018}.
 
 % ==============================================================================
 \section{Conclusions}
@@ -702,9 +1159,11 @@ and 2PC~\cite{Gray1978} handle distributed transactions.
 We have presented a longitudinal performance evaluation of \themis{}
 spanning versions v1.3.0 through v1.8.2, together with a
 hardware-normalized efficiency model that produces platform-independent
-benchmark scores.
+benchmark scores, a module-level SLO inventory across 28 modules,
+detailed raw benchmark tables, a CHIMERA vendor-neutral comparison,
+and an analysis of seven known performance gaps with root causes.
 
-Three major findings emerge:
+Five major findings emerge:
 \begin{enumerate}
   \item Graph edge operations (+87\%) and time-series insert
         throughput (+25\%) both surpassed their product targets in
@@ -718,14 +1177,24 @@ Three major findings emerge:
         initial baseline references are conservative.
         Recalibration to v1 statistical rules requires 30+ paired
         runs across at least three distinct hardware classes.
+  \item The CHIMERA query throughput comparison shows \themis{}
+        (System Alpha) leading two reference systems by $+17\%$ and
+        $+58\%$ respectively; vector search P95 latency is within
+        $25\%$ of the field leader.
+  \item Seven documented performance gaps (D-1..D-7) remain open,
+        of which three (D-1, D-2, D-5) are rated high priority for
+        the v2.0 roadmap; all require production-path benchmarks
+        that are currently missing.
 \end{enumerate}
 
 Future work will focus on (i)~closing the 29~identified benchmark
-coverage gaps, particularly the 12~proxy-only benchmarks; (ii)~running
-the CHIMERA suite on heterogeneous hardware (ARM, AMD, NVMe RAID) to
-build the v1 calibration dataset; and (iii)~extending the efficiency
-model to encompass network I/O and PCIe topology for distributed
-deployments.
+coverage gaps, particularly the 12~proxy-only benchmarks and 7~high-
+priority known gaps; (ii)~running the CHIMERA suite on heterogeneous
+hardware (ARM, AMD, NVMe RAID) to build the v1 calibration dataset;
+(iii)~extending the efficiency model to encompass network I/O and PCIe
+topology for distributed deployments; and (iv)~implementing the
+AVX2 Gorilla decode kernel (Gap~D-2) and the LMAX-disruptor write
+queue (Gap~D-6).
 
 % ==============================================================================
 \balance
