@@ -75,6 +75,10 @@ protected:
         engine_ = std::make_unique<RAGContextEngine>(store_);
 
         // ── kant PRO (7, STRONG) ──────────────────────────────────────────
+        // Content shares the core Kantian vocabulary so that text-similarity
+        // queries on "justice fairness duty" reliably return these arguments.
+        // Ordinal suffixes differentiate entries while keeping them uniquely
+        // identifiable without introducing semantic noise into the test.
         const std::vector<std::string> kant_content = {
             "justice fairness duty universalizability categorical imperative one",
             "justice fairness duty universalizability categorical imperative two",
@@ -268,7 +272,11 @@ TEST_F(RAGContextEngineFocusedTests, GetBestPracticesRespectsLimit) {
 // ============================================================================
 
 TEST_F(RAGContextEngineFocusedTests, VectorSemanticSearchReturnsRankedResults) {
-    // Build a 768-dim query vector aligned with "justice" character distribution
+    // Build a 768-dim query vector using the same character-frequency hashing
+    // approach as RAGContextEngine::generateEmbedding() so that query and
+    // argument embeddings share the same dimensionality and can be compared.
+    // Note: this is a bag-of-characters placeholder, not a semantic embedding;
+    // it exercises the search path end-to-end without requiring a real model.
     std::vector<float> query(768, 0.0f);
     const std::string query_text = "justice fairness duty universalizability";
     for (unsigned char c : query_text) {
