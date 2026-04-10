@@ -64,6 +64,13 @@ struct SSMLResult {
     bool has_emphasis = false;
 };
 
+// SSML sanitization result (injection prevention)
+struct SSMLSanitizeResult {
+    std::string sanitized_text;              // SSML with only allowlisted tags retained
+    std::vector<std::string> rejected_tags;  // Tag names that were stripped (lowercased)
+    bool had_injection_attempt = false;      // True if any disallowed content was found
+};
+
 // MOS (Mean Opinion Score) quality metrics
 struct MOSMetrics {
     float mos_score = 0.0f;        // 1.0–5.0 (5.0 = excellent)
@@ -115,6 +122,14 @@ public:
 
     // SSML processing: strip tags, extract prosody hints
     SSMLResult parseSSML(const std::string& ssml_text) const;
+
+    // SSML injection prevention: validate tags against allowlist and strip
+    // disallowed content; returns the sanitized SSML and a flag indicating
+    // whether an injection attempt was detected.
+    SSMLSanitizeResult sanitizeSSML(const std::string& ssml_input) const;
+
+    // Returns true if ssml_input contains only allowlisted tags/attributes.
+    bool isSSMLSafe(const std::string& ssml_input) const;
 
     // Quality metrics
     MOSMetrics estimateMOS(const std::vector<uint8_t>& audio_data, int sample_rate = 22050) const;

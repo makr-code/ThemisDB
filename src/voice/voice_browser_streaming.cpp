@@ -276,6 +276,13 @@ size_t VoiceStreamingSession::bytesReceived() const noexcept {
     return impl_ ? impl_->bytes_received : 0;
 }
 
+bool VoiceStreamingSession::checkOrigin(const std::string& origin) const {
+    if (!impl_) return false;
+    const auto& allowlist = impl_->config.origin_allowlist;
+    if (allowlist.empty()) return true; // no restriction
+    return std::find(allowlist.begin(), allowlist.end(), origin) != allowlist.end();
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // VoiceStreamingManager
 // ─────────────────────────────────────────────────────────────────────────────
