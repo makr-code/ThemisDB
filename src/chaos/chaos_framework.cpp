@@ -259,7 +259,7 @@ void ChaosScheduler::runLoop() {
 
         // ── Wait phase: sleep until next tick or until woken ───────────────
         if (cfg_.wake_strategy == WakeStrategy::CONDVAR) {
-            std::unique_lock<std::mutex> lock(sched_mutex_);
+            std::unique_lock<std::mutex> lock(wake_mutex_);
             sched_cv_.wait_for(lock, cfg_.tick_interval,
                                [this] { return !running_.load(); });
         } else {

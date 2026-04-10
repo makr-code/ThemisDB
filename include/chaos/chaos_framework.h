@@ -203,6 +203,10 @@ private:
     Config                            cfg_;
     std::vector<ChaosScheduleEntry>   pending_;
     mutable std::mutex                sched_mutex_;
+    // Separate mutex for the condition variable so that schedule() can insert
+    // entries into pending_ (using sched_mutex_) without being blocked by the
+    // background thread holding wake_mutex_ during wait_for.
+    std::mutex                        wake_mutex_;
     std::condition_variable           sched_cv_;
     std::atomic<bool>                 running_{false};
     std::thread                       worker_;
