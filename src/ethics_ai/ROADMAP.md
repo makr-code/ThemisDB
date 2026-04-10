@@ -33,7 +33,7 @@ v0.1.0.
 ## In Progress [~]
 
 - [x] Focused unit test suites implemented and passing:
-  `test_argument_store_standalone` (18), `test_rag_context_engine_focused` (13),
+  `test_argument_store_standalone` (18), `test_rag_context_engine_focused` (18),
   `test_ethics_ai_plugin_focused` (28), `test_discourse_engine_focused` (11),
   `test_philosophy_loader_focused` (7 passed, 1 skipped env-dependent)
 - [x] Integration test suite implemented and passing:
@@ -147,7 +147,7 @@ v0.1.0.
 | Argument content | ⚠️ | Template strings only; LLM generation planned Q3 2026 |
 | Confidence scoring | ⚠️ | Static placeholder values; real scoring planned Q3 2026 |
 | Embedding search | ⚠️ | Stubs only; real model integration planned Q3 2026 |
-| Unit test coverage | ✅ | 5 focused unit suites + 1 integration suite; 99 tests total, 1 env-skipped |
+| Unit test coverage | ✅ | 5 focused unit suites + 1 integration suite; 104 tests total, 1 env-skipped |
 | Performance benchmarks | ❌ | Not yet measured |
 | Prometheus metrics | ❌ | Planned Q4 2026 |
 
