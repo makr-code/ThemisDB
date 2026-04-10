@@ -2850,6 +2850,7 @@ endif()
 target_include_directories(themis_core
     PUBLIC
         ${THEMIS_ROOT_DIR}/include
+    ${THEMIS_ROOT_DIR}/external/chimera/include
         ${THEMIS_ROOT_DIR}/src
         ${CMAKE_BINARY_DIR}/proto_generated
 )

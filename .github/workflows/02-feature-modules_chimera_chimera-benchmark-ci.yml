@@ -73,7 +73,7 @@ jobs:
       - name: Run chimera regression detector unit tests
         run: |
           mkdir -p benchmark_results
-          python3 -m pytest benchmarks/tests/test_chimera_regression_detector.py \
+            python3 -m pytest external/chimera/tests/benchmarks/test_chimera_regression_detector.py \
             -v --tb=short 2>&1 | tee benchmark_results/unit_test_results.log
 
       - name: Run CHIMERA benchmark harness

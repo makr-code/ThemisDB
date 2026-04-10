@@ -85,7 +85,7 @@ jobs:
           mkdir -p benchmark_results
           python3 -m pytest \
             benchmarks/tests/test_cross_module_regression_detector.py \
-            benchmarks/tests/test_chimera_regression_detector.py \
+              external/chimera/tests/benchmarks/test_chimera_regression_detector.py \
             -v --tb=short 2>&1 | tee benchmark_results/unit_test_results.log
 
       # -----------------------------------------------------------------------
