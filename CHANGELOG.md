@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **`UpdateStateMachine` rollback checkpoint API** (v1.8.0)
+  - `createCheckpoint(description)` → `CheckpointId`: captures current state and version as an in-memory rollback point
+  - `rollbackToCheckpoint(id)`: restores state + version, prunes newer checkpoints, fires state-change callbacks, and records a transaction-log entry
+  - `listCheckpoints()`: returns all checkpoints in creation order
+  - `clearCheckpoints()`: discards all stored checkpoints
+  - `setHistoryLogger(UpdateHistoryLogger*)`: opt-in audit trail — emits `checkpoint_created` / `checkpoint_rollback` entries to the provided logger
+  - 17 new focused tests in `CheckpointTest` suite (`tests/test_updates_production.cpp`)
+
 ## [1.8.1-rc2] - 2026-04-08
 
 ### Fixed — Hotfix: Docker image SIGSEGV on startup (`Exit 139`)
