@@ -185,8 +185,8 @@ void FaultInjector::pruneExpired() {
 
 // ─── ChaosScheduler ──────────────────────────────────────────────────────────
 
-ChaosScheduler::ChaosScheduler(std::shared_ptr<FaultInjector> injector)
-    : injector_(std::move(injector)) {
+ChaosScheduler::ChaosScheduler(std::shared_ptr<FaultInjector> injector, Config cfg)
+    : injector_(std::move(injector)), cfg_(cfg) {
     if (!injector_) {
         throw std::invalid_argument("ChaosScheduler: injector must not be null");
     }
@@ -197,8 +197,11 @@ ChaosScheduler::~ChaosScheduler() {
 }
 
 void ChaosScheduler::schedule(ChaosScheduleEntry entry) {
-    std::lock_guard<std::mutex> lock(sched_mutex_);
-    pending_.push_back(std::move(entry));
+    {
+        std::lock_guard<std::mutex> lock(sched_mutex_);
+        pending_.push_back(std::move(entry));
+    }
+    sched_cv_.notify_one();
 }
 
 void ChaosScheduler::scheduleIn(std::chrono::milliseconds delay, const FaultSpec& fault) {
@@ -212,6 +215,7 @@ void ChaosScheduler::start() {
 
 void ChaosScheduler::stop() {
     running_.store(false);
+    sched_cv_.notify_all();
     if (worker_.joinable()) {
         worker_.join();
     }
@@ -233,8 +237,8 @@ void ChaosScheduler::clearPending() {
 
 void ChaosScheduler::runLoop() {
     while (running_.load()) {
+        // ── Fire phase: collect and inject all due faults ──────────────────
         const auto now = std::chrono::steady_clock::now();
-
         std::vector<FaultSpec> to_fire;
         {
             std::lock_guard<std::mutex> lock(sched_mutex_);
@@ -253,7 +257,14 @@ void ChaosScheduler::runLoop() {
             injector_->injectFault(fault);
         }
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        // ── Wait phase: sleep until next tick or until woken ───────────────
+        if (cfg_.wake_strategy == WakeStrategy::CONDVAR) {
+            std::unique_lock<std::mutex> lock(sched_mutex_);
+            sched_cv_.wait_for(lock, cfg_.tick_interval,
+                               [this] { return !running_.load(); });
+        } else {
+            std::this_thread::sleep_for(cfg_.tick_interval);
+        }
     }
 }
 

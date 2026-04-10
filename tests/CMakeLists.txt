@@ -17563,6 +17563,30 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_chaos_framework.cpp")
     message(STATUS "  ChaosFramework: FaultInjector lifecycle, fault inject/recover/expiry, ChaosScheduler, event callbacks")
 endif()
 
+# ── Chaos Stress focused tests (Phase 4 — scheduler jitter & configurable tick) ─
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_chaos_stress.cpp")
+    message(STATUS "Adding Chaos: Stress / jitter focused tests (Phase 4)")
+    add_executable(test_chaos_stress_focused
+        test_chaos_stress.cpp
+        ${THEMIS_ROOT_DIR}/src/chaos/chaos_framework.cpp
+    )
+    target_include_directories(test_chaos_stress_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+    target_link_libraries(test_chaos_stress_focused PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+    target_compile_definitions(test_chaos_stress_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME ChaosStressFocusedTests COMMAND test_chaos_stress_focused)
+    set_tests_properties(ChaosStressFocusedTests PROPERTIES
+        LABELS "chaos;phase4;phase5;stress;jitter;scheduler;focused;unit"
+        TIMEOUT 120
+    )
+    message(STATUS "  ChaosStress: configurable tick, CONDVAR/FIXED_TICK, jitter, burst, concurrency")
+endif()
+
 # ── Chaos Network focused tests (Phase 4.3) ───────────────────────────────────
 if(THEMIS_ENABLE_HTTP_SERVER AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_chaos_network.cpp")
     message(STATUS "Adding Chaos: Network chaos focused tests (Phase 4.3)")

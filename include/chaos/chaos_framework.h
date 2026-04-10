@@ -25,6 +25,7 @@
 
 #include <atomic>
 #include <chrono>
+#include <condition_variable>
 #include <functional>
 #include <mutex>
 #include <string>
@@ -141,6 +142,27 @@ struct ChaosScheduleEntry {
     FaultSpec fault;
 };
 
+// ─── Wake strategy ───────────────────────────────────────────────────────────
+
+/// Controls how the ChaosScheduler background thread wakes between ticks.
+/// FIXED_TICK: sleep a fixed tick_interval on every loop iteration (original behaviour).
+/// CONDVAR:    use a condition variable; wakes early when a new entry is scheduled
+///             or when stop() is called.  tick_interval serves as the maximum wait.
+enum class WakeStrategy {
+    FIXED_TICK,  ///< Plain sleep_for(tick_interval) — simple, deterministic
+    CONDVAR      ///< Condition-variable with tick_interval timeout — lower latency stop
+};
+
+// ─── ChaosScheduler configuration ───────────────────────────────────────────
+
+/// Configuration for the ChaosScheduler background thread.
+struct ChaosSchedulerConfig {
+    /// Polling / maximum-wait interval for the background thread (default: 10 ms).
+    std::chrono::milliseconds tick_interval{10};
+    /// Wake strategy: FIXED_TICK (original) or CONDVAR (lower latency stop/schedule).
+    WakeStrategy wake_strategy{WakeStrategy::FIXED_TICK};
+};
+
 // ─── ChaosScheduler ──────────────────────────────────────────────────────────
 //
 // Time-driven fault scheduler: fires scheduled faults in a background thread.
@@ -148,7 +170,11 @@ struct ChaosScheduleEntry {
 
 class ChaosScheduler {
 public:
-    explicit ChaosScheduler(std::shared_ptr<FaultInjector> injector);
+    /// Convenience alias so callers can write ChaosScheduler::Config.
+    using Config = ChaosSchedulerConfig;
+
+    explicit ChaosScheduler(std::shared_ptr<FaultInjector> injector,
+                            Config cfg = Config{});
     ~ChaosScheduler();
 
     // Schedule a future fault injection.
@@ -174,8 +200,10 @@ private:
     void runLoop();
 
     std::shared_ptr<FaultInjector>    injector_;
+    Config                            cfg_;
     std::vector<ChaosScheduleEntry>   pending_;
     mutable std::mutex                sched_mutex_;
+    std::condition_variable           sched_cv_;
     std::atomic<bool>                 running_{false};
     std::thread                       worker_;
 };
