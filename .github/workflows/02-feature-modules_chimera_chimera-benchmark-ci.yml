@@ -15,10 +15,10 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
-      - 'src/chimera/**'
-      - 'include/chimera/**'
-      - 'adapters/chimera/**'
-      - 'benchmarks/chimera/**'
+      - 'src/chimera/themisdb_adapter.cpp'
+      - 'include/chimera/themisdb_adapter.hpp'
+      - 'adapters/chimera/themisdb_adapter.hpp'
+      - 'external/chimera/**'
       - 'benchmarks/baselines/chimera/**'
       - 'tests/chimera/**'
       - '.github/workflows/02-feature-modules_chimera_chimera-benchmark-ci.yml'
@@ -67,19 +67,19 @@ jobs:
       - name: Install Python dependencies
         run: |
           pip install --upgrade pip
-          pip install -r benchmarks/chimera/requirements.txt
+          pip install -r external/chimera/requirements.txt
           pip install pytest
 
       - name: Run chimera regression detector unit tests
         run: |
           mkdir -p benchmark_results
-            python3 -m pytest external/chimera/tests/benchmarks/test_chimera_regression_detector.py \
+          python3 -m pytest external/chimera/tests/benchmarks/test_chimera_regression_detector.py \
             -v --tb=short 2>&1 | tee benchmark_results/unit_test_results.log
 
       - name: Run CHIMERA benchmark harness
         run: |
           mkdir -p benchmark_results
-          python3 benchmarks/chimera/run_ci_benchmarks.py \
+          python3 external/chimera/run_ci_benchmarks.py \
             --output benchmark_results/chimera_results.json \
             --warmup 100 \
             --iterations 1000 \
@@ -88,7 +88,7 @@ jobs:
       - name: Detect performance regressions
         shell: bash
         run: |
-          python3 benchmarks/chimera/chimera_regression_detector.py \
+          python3 external/chimera/chimera_regression_detector.py \
             --baseline benchmarks/baselines/chimera/baseline.json \
             --current  benchmark_results/chimera_results.json \
             --output   benchmark_results/chimera_regression_report.txt \

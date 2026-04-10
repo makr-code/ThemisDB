@@ -24,11 +24,11 @@ on:
     paths:
       - 'src/**'
       - 'include/**'
-      - 'benchmarks/chimera/**'
+      - 'external/chimera/**'
       - 'benchmarks/baselines/chimera/**'
       - 'benchmarks/baselines/cross_module/**'
       - 'benchmarks/cross_module_regression_detector.py'
-      - 'benchmarks/chimera/chimera_regression_detector.py'
+      - 'external/chimera/chimera_regression_detector.py'
       - '.github/workflows/05-quality_build_cross-module-performance-regression-ci.yml'
   schedule:
     - cron: '0 3 * * 1'   # Weekly on Monday at 03:00 UTC
@@ -77,7 +77,7 @@ jobs:
       - name: Install Python dependencies
         run: |
           pip install --upgrade pip
-          pip install -r benchmarks/chimera/requirements.txt
+          pip install -r external/chimera/requirements.txt
           pip install pytest
 
       - name: Run cross-module regression detector unit tests
@@ -94,7 +94,7 @@ jobs:
       - name: Run CHIMERA benchmark harness
         run: |
           mkdir -p benchmark_results/chimera
-          python3 benchmarks/chimera/run_ci_benchmarks.py \
+          python3 external/chimera/run_ci_benchmarks.py \
             --output benchmark_results/chimera/results.json \
             --warmup 100 \
             --iterations 1000 \
@@ -103,7 +103,7 @@ jobs:
       - name: Detect chimera regressions
         shell: bash
         run: |
-          python3 benchmarks/chimera/chimera_regression_detector.py \
+          python3 external/chimera/chimera_regression_detector.py \
             --baseline benchmarks/baselines/chimera/baseline.json \
             --current  benchmark_results/chimera/results.json \
             --output   benchmark_results/chimera/regression_report.txt \
