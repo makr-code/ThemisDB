@@ -61,6 +61,7 @@ enum class FailoverEventType {
     RECOVERY_STARTED,
     RECOVERY_COMPLETED,
     NETWORK_PARTITION_DETECTED,
+    QUEUE_PRESSURE,            // Emitted when queue depth exceeds pressure threshold
 };
 
 /**
@@ -94,6 +95,7 @@ struct AutoFailoverConfig {
     // Thresholds
     uint32_t consecutive_failures_before_action{3};                     // 3 consecutive failures
     uint32_t max_concurrent_failovers{2};                               // Max 2 failovers at same time
+    float    queue_pressure_threshold{0.75f};                           // Emit QUEUE_PRESSURE when queue >= 75% full
     
     // Behavior
     bool enable_automatic_failover{true};
@@ -175,6 +177,17 @@ public:
         std::chrono::milliseconds avg_failover_time;
         std::chrono::milliseconds min_failover_time;
         std::chrono::milliseconds max_failover_time;
+
+        // Queue-pressure telemetry (Phase 5)
+        uint32_t current_queue_depth{0};
+        uint32_t max_queue_depth_observed{0};
+        uint64_t tasks_dropped_queue_full{0};
+        uint64_t queue_pressure_events{0};
+
+        // Retry telemetry (Phase 5)
+        uint64_t total_retry_attempts{0};
+        uint64_t successful_retries{0};
+        uint64_t failed_retries{0};
     };
 
     Statistics getStatistics() const;
