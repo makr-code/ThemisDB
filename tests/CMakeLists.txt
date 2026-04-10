@@ -20361,7 +20361,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../src/llama_cpp/tests/test_llama_cpp_plu
         LABELS "plugins;llama_cpp;llm;v2.1.0"
         TIMEOUT 60
     )
-    message(STATUS "  LlamaCppPlugin: 50 tests (A-M)")
+    message(STATUS "  LlamaCppPlugin: 50 tests (A-N)")
 else()
     message(STATUS "  LlamaCppPlugin tests not found – skipped")
 endif()
