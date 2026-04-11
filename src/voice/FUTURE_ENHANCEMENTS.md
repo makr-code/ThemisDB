@@ -3,7 +3,7 @@
 
 # Voice Module - Future Enhancements
 
-The voice module implements an end-to-end voice interface for ThemisDB. It covers: speech-to-text (STT) via Whisper-based models, text-to-speech (TTS) synthesis, LLM-based intent recognition and natural-language-to-AQL translation, user-defined voice command macros, wake-word detection (custom and built-in), real-time noise suppression (RNNoise), automatic language detection across 50+ languages, multi-speaker diarization, biometric voice authentication with liveness detection, browser WebSocket audio streaming, and a voice analytics dashboard. Affected source files: `voice_processor.cpp`, `stt_engine.cpp`, `tts_engine.cpp`, `wake_word_detector.cpp`, `voice_authenticator.cpp`, and headers under `include/voice/`.
+The voice module implements an end-to-end voice interface for ThemisDB. It covers: speech-to-text (STT) via Whisper-based models, text-to-speech (TTS) synthesis, LLM-based intent recognition and natural-language-to-AQL translation, user-defined voice command macros, wake-word detection (custom and built-in), real-time noise suppression (RNNoise), automatic language detection across 50+ languages, multi-speaker diarization, biometric voice authentication with liveness detection, browser WebSocket audio streaming, and a voice analytics dashboard. Affected source files include `voice_assistant.cpp`, `audio_preprocessing.cpp`, `voice_assistant_llm.cpp`, `wake_word_detector.cpp`, `voice_authenticator.cpp`, `voice_meeting_support.cpp`, and `voice_browser_streaming.cpp`.
 
 ---
 
@@ -1274,9 +1274,9 @@ For detailed guidelines, see [CONTRIBUTING.md](../../CONTRIBUTING.md).
 
 | Metric | Target | Measurement Method |
 |--------|--------|--------------------|
-| STT latency for 5-second audio (p95) | ≤ 300 ms | `benchmarks/bench_voice_stt.cpp` using pre-recorded 5-second 16 kHz WAV samples |
+| STT latency for 5-second audio (p95) | ≤ 300 ms | `benchmarks/bench_voice_assistant.cpp` using pre-recorded 5-second 16 kHz WAV samples |
 | TTS first-token generation latency | ≤ 200 ms | Time from `synthesize()` call to first PCM chunk returned |
-| Wake-word detection latency | ≤ 20 ms | Per-chunk detection time measured in `tests/voice/test_wake_word.cpp` |
+| Wake-word detection latency | ≤ 20 ms | Per-chunk detection time measured in `tests/test_voice_coverage.cpp` |
 | STT batch throughput | ≥ 10× real-time | Audio minutes processed per wall-clock second in batch mode |
 | WebSocket end-to-end latency | ≤ 500 ms | Time from audio chunk sent to transcript received in integration tests |
 | Concurrent streaming sessions | ≥ 100 | Load test using 100 simultaneous WebSocket clients each sending 5-second streams |
@@ -1288,12 +1288,12 @@ For detailed guidelines, see [CONTRIBUTING.md](../../CONTRIBUTING.md).
 
 | Test Type | Coverage Target | Notes |
 |-----------|----------------|-------|
-| Unit | ≥ 80% line coverage in `stt_engine.cpp`, `tts_engine.cpp`, `voice_authenticator.cpp` | Use pre-recorded WAV fixtures; mock model inference with deterministic outputs to eliminate GPU dependency in CI |
-| Wake-word | False-positive rate ≤ 1 per hour in continuous background noise; false-negative rate ≤ 5% | Tested with `tests/voice/test_wake_word.cpp` using standardized NOIZEUS noise samples |
+| Unit | ≥ 80% line coverage in `voice_assistant.cpp`, `voice_assistant_llm.cpp`, `voice_authenticator.cpp` | Use pre-recorded WAV fixtures; mock model inference with deterministic outputs to eliminate GPU dependency in CI |
+| Wake-word | False-positive rate ≤ 1 per hour in continuous background noise; false-negative rate ≤ 5% | Tested with `tests/test_voice_coverage.cpp` using standardized background-noise fixtures |
 | Authentication | Genuine speaker acceptance rate ≥ 95%; impostor rejection rate ≥ 99% | 10-speaker test corpus; liveness detection must reject all synthetic/replayed audio samples |
 | Streaming | WebSocket session handles 10-second audio without dropped frames at 50 Mbps network constraint | Integration test using a local WebSocket echo server |
-| Noise suppression | SNR improvement ≥ 10 dB measured on NOIZEUS test corpus | Automated WER comparison before and after enhancement using `tests/voice/test_noise_suppression.cpp` |
-| PII redaction | 100% of phone numbers, email addresses, and payment card numbers stripped from stored transcripts | Property-based test with synthetically generated PII patterns in `tests/voice/test_pii_redaction.cpp` |
+| Noise suppression | SNR improvement ≥ 10 dB measured on NOIZEUS test corpus | Automated WER comparison before and after enhancement in `tests/test_voice_coverage.cpp` |
+| PII redaction | 100% of phone numbers, email addresses, and payment card numbers stripped from stored transcripts | Property-based test scenarios in `tests/test_voice_production.cpp` |
 
 ---
 

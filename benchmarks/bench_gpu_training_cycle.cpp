@@ -30,6 +30,20 @@
 #include <vector>
 #include <memory>
 
+#ifndef THEMIS_ENABLE_GPU
+
+static void BM_GPUTrainingCycle_GPUDisabled(benchmark::State& state) {
+    for (auto _ : state) {
+        state.SkipWithError("GPU training cycle benchmarks are disabled in this build");
+        break;
+    }
+}
+BENCHMARK(BM_GPUTrainingCycle_GPUDisabled);
+
+BENCHMARK_MAIN();
+
+#else
+
 using namespace themis::llm::lora;
 
 /**
@@ -59,7 +73,7 @@ constexpr int MEASURE_ITERS = 10;
 static bool cuda_available() {
     auto backends = GPUMemoryManager::detect_backends();
     for (const auto& backend : backends) {
-        if (backend.type == acceleration::BackendType::CUDA && backend.available) {
+        if (backend.type == themis::acceleration::BackendType::CUDA && backend.available) {
             return true;
         }
     }
@@ -69,7 +83,7 @@ static bool cuda_available() {
 static bool hip_available() {
     auto backends = GPUMemoryManager::detect_backends();
     for (const auto& backend : backends) {
-        if (backend.type == acceleration::BackendType::HIP && backend.available) {
+        if (backend.type == themis::acceleration::BackendType::HIP && backend.available) {
             return true;
         }
     }
@@ -79,7 +93,7 @@ static bool hip_available() {
 static bool vulkan_available() {
     auto backends = GPUMemoryManager::detect_backends();
     for (const auto& backend : backends) {
-        if (backend.type == acceleration::BackendType::VULKAN && backend.available) {
+        if (backend.type == themis::acceleration::BackendType::VULKAN && backend.available) {
             return true;
         }
     }
@@ -411,3 +425,5 @@ BENCHMARK(BM_CompleteTrainingStep_CUDA)
     ->UseManualTime();
 
 BENCHMARK_MAIN();
+
+#endif  // THEMIS_ENABLE_GPU

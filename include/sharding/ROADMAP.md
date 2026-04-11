@@ -94,8 +94,8 @@ coordination.
 - [ ] ADR (Architecture Decision Record) for adaptive quorum approach
 
 ### Phase 2 — Core Implementation
-- [ ] `src/sharding/geo_partition_router.cpp` skeleton + unit tests
-- [ ] `src/sharding/streaming_replication_v2.cpp` back-pressure logic
+- [ ] Geo partition router implementation file (planned) + unit tests
+- [ ] Streaming replication v2 implementation file (planned) with back-pressure logic
 
 ### Phase 3 — Error Handling & Edge Cases
 - [ ] Timeout and fallback paths for geo-routing failures

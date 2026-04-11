@@ -41,6 +41,20 @@
 #include "training/knowledge_graph_enricher.h"
 #include "training/incremental_lora_trainer.h"
 
+#if !defined(THEMIS_ENABLE_LEGAL_TRAINING)
+
+static void BM_LegalLoRAPipeline_Disabled(benchmark::State& state) {
+    for (auto _ : state) {
+        state.SkipWithError("Legal LoRA pipeline benchmarks are disabled in this build");
+        break;
+    }
+}
+BENCHMARK(BM_LegalLoRAPipeline_Disabled);
+
+BENCHMARK_MAIN();
+
+#else
+
 using namespace themis;
 
 // =============================================================================
@@ -319,3 +333,5 @@ static void BM_TargetTrainingTime(benchmark::State& state) {
 // =============================================================================
 
 BENCHMARK_MAIN();
+
+#endif  // THEMIS_ENABLE_LEGAL_TRAINING

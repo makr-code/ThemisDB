@@ -155,12 +155,44 @@ v1.8.0 – Production-grade persistent storage layer built on RocksDB with MVCC,
   - Full put/get/remove/scan/compact API with thread safety
   - Write-amplification and read-hit-ratio metrics in Stats
 
+### Phase 6b: PERF-D6 – Concurrent Write Controller (Status: Completed ✅ — v2.0.0)
+- [x] `ConcurrentWriteController` – bounded FIFO write-concurrency semaphore (Target: v2.0.0) (Issue: PERF-D6)
+  — implemented in `include/storage/concurrent_write_controller.h`, `src/storage/concurrent_write_controller.cpp`
+- [x] `ConcurrentWriteControllerConfig` – `max_concurrent_writes` (0 = hw_concurrency/2), `max_queue_depth` (0 = unlimited), `acquire_timeout` (0 = blocking)
+- [x] `WriteGuard` – RAII slot holder; move-only; destructor wakes the next FIFO waiter
+- [x] `acquire()` – blocking acquire; FIFO wakeup via `std::promise`/`std::future` chain; raises `std::runtime_error` on queue-full, timeout, or shutdown
+- [x] `tryAcquire()` – non-blocking; returns `std::nullopt` if at capacity
+- [x] `shutdown()` – unblocks all waiters atomically (no deadlock on destruction)
+- [x] EWMA statistics: `avg_wait_us` updated on every acquire (α ≈ 0.1, integer-scaled)
+- [x] P99 latency: sliding window of last 128 wait times; sorted on read via `getStats()`
+- [x] Lifetime max and total acquired / rejected counters (lock-free atomics)
+- [x] Throughput: ≥ 50k acquires/s (measured: ~616k ops/s, 8 threads) ✅
+- [x] CV regression guard: 10-thread stress test (AC-D6-21) verifies CV < 20 % — eliminates the thundering-herd variance that caused D-6
+- [x] Tests: 25 tests in `tests/test_concurrent_write_controller.cpp` (`ConcurrentWriteControllerFocusedTests`)
+  - AC-D6-1–20: unit tests (config, guard lifecycle, FIFO, stats, timeout, shutdown)
+  - AC-D6-21: 10-thread stress CV < 20 % regression guard
+  - AC-D6-22–24: move semantics, idempotent release, unlimited queue
+  - AC-D6-25: throughput SLO (gated by `THEMIS_RUN_PERF_TESTS=1`)
+
 ### Phase 5.5: Build System Audit & Stub Fixes (Status: Completed ✅ — March 2026)
 - [x] All `src/storage/*.cpp` files verified registered in cmake build system (main `CMakeLists.txt` + `StorageEnhancements.cmake` + `BlobStorage.cmake`)
 - [x] 21+ focused standalone test targets added in `tests/CMakeLists.txt`: StorageEngineDI, StorageEngineProd, StorageAuditLogger, StorageFuzz, StorageLatencyBench, BlobStorage, BlobTransferCheckpoint, CompressionStrategy, TieredStorage, WalStorage, WalManager, WalArchiving, WalBackupManager, WalChaos, WalManifestCorruption, WalReplication, WalReplicationIntegration, WalGrpcApply, MvccStore, MvccHistory, MvccWalIntegration, NVMeFocusedTests, ErasureCodingFocusedTests, RocksDBSizeCalculationFocusedTests, BlobRedundancyEventListenerFocusedTests
 - [x] `RocksDBWrapper::getApproximateSize()` returns real on-disk SST size (`rocksdb.total-sst-files-size`) — was returning 0 (CI: rocksdb-size-calculation-ci.yml)
 - [x] `SecuritySignatureManager::listAllSignatures()` iterates full RocksDB key-range via `iterateRange` — was stub (CI: security-signature-rocksdb-iteration-ci.yml)
 - [x] `BlobRedundancyManager::createRocksDBListener()` returns working `RocksDBBlobListener` — was returning error stub (CI: blob-redundancy-event-listener-ci.yml)
+
+### Phase 7: Streaming Blob Write Path (Status: Completed ✅ — v2.0.0, PERF-D5)
+- [x] `RocksDBWrapper::putBlob()` — streaming write path for large blobs (Issue PERF-D5)
+  - Blobs ≥ `blob_streaming_threshold_bytes` (default 64 KB) are split into `blob_chunk_size_bytes` (default 128 KB) chunks
+  - Parallel chunk encoding via `std::async` thread pool (`blob_streaming_threads`, default 4)
+  - All chunks + manifest committed atomically via single `WriteBatch::Write()` — bypasses per-write transaction overhead
+  - Internal key scheme: manifest `__tmbs_m__:<key>`, chunks `__tmbs_c__:<key>:<6-digit-index>`
+  - Backward compatible: blobs below threshold fall back to regular `put()`
+- [x] `RocksDBWrapper::getBlob()` — transparent reassembly from manifest + chunk keys via `MultiGet`
+- [x] `RocksDBWrapper::delBlob()` — atomic manifest + chunk deletion via `WriteBatch`
+- [x] New Config fields: `enable_blob_streaming`, `blob_streaming_threshold_bytes`, `blob_chunk_size_bytes`, `blob_streaming_threads`
+- [x] `tests/test_blob_streaming.cpp` — 16 focused tests (BlobStreamingFocusedTests): round-trip, boundary, parallel, integrity, delete, overwrite, fallback, custom chunk size, single thread, zero-length, non-aligned
+- [x] `benchmarks/bench_comprehensive.cpp` `StoreLargeBlobs_1MB` updated to use `putBlob()` with 8-thread encoding
 
 ## Production Readiness Checklist
 - [x] Unit test coverage for core storage paths
@@ -173,6 +205,7 @@ v1.8.0 – Production-grade persistent storage layer built on RocksDB with MVCC,
 - [x] Erasure coding (Reed-Solomon) for space-efficient blob redundancy
 - [x] Distributed 2PC transactions for cross-shard atomicity
 - [x] Write-Optimized Merge Tree for write-heavy workloads
+- [x] Streaming blob write path (`putBlob` / `getBlob` / `delBlob`) for high-throughput 1 MB+ blob storage (PERF-D5, v2.0.0)
 - [ ] Chaos/fault-injection tests for blob backend failover (Target: v2.0.0)
 
 ## Known Issues & Limitations

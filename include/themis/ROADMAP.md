@@ -63,7 +63,7 @@
 - [ ] Draft certificate-chain verification API signature
 
 ### Phase 2 — Core Implementation
-- [ ] Implement `LicenseDenialReason` + `GateResult::message()` in `src/themis/license_gate.cpp`
+- [ ] Implement `LicenseDenialReason` + `GateResult::message()` in `src/themis/license_info.cpp`
 - [ ] Implement `LicenseInfo::remaining_grace_days()` in `src/themis/license_info.cpp`
 - [ ] Implement cert-chain validation in `ModuleSignatureVerifier`
 

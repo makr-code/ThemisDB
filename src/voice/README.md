@@ -4,24 +4,24 @@ Voice/audio interface capabilities for natural language interaction with ThemisD
 
 ## Module Purpose
 
-Implements a voice query interface for ThemisDB, enabling speech-to-text transcription, natural language query parsing from voice input, and AQL query generation from spoken language.
+Implements a production-ready voice assistant stack for ThemisDB: speech-to-text transcription, natural language query parsing, AQL query generation, TTS response generation, session handling, and streaming voice interaction.
 
 ## Subsystem Scope
 
-**In scope:** Speech-to-text integration (Whisper), voice-to-AQL query generation, audio preprocessing, voice session management.
+**In scope:** Speech-to-text integration (Whisper), voice-to-AQL query generation, TTS response synthesis, audio preprocessing, voice session management, and browser streaming integration.
 
-**Out of scope:** TTS (text-to-speech) output, audio recording hardware interface, language model training.
+**Out of scope:** Audio recording hardware drivers and model training/fine-tuning pipelines.
 
 ## Relevant Interfaces
 
-- `voice_processor.cpp` — audio preprocessing and transcription orchestration
-- `speech_to_text.cpp` — Whisper integration
-- `voice_query_generator.cpp` — NL-to-AQL from voice
-- `voice_session.cpp` — session management
+- `voice_assistant.cpp` — end-to-end orchestration (STT/LLM/TTS/session)
+- `audio_preprocessing.cpp` — audio cleanup and normalization pipeline
+- `voice_intent_detector.cpp` — intent detection for voice commands
+- `voice_session_manager.cpp` — voice session lifecycle and history
 
 ## Current Delivery Status
 
-**Maturity:** 🔴 Alpha — Voice query infrastructure scaffolding; Whisper integration and NL-to-AQL pipeline experimental.
+**Maturity:** 🟢 Production-Ready (v1.1.0) — VoiceAssistant orchestration, Whisper-based STT, llama.cpp-based LLM/TTS integration, phone-call transcription, meeting protocol generation, WebSocket streaming, and telephony bridge are implemented.
 
 ## Architecture Overview
 
@@ -119,7 +119,7 @@ Assistant: "The top 3 products were: Product A with $450K,
             Product B with $380K, and Product C with $320K."
 ```
 
-**Implementation:**
+**Implementation (schematic):**
 ```cpp
 // Process voice command
 VoiceAssistant assistant(config);
@@ -133,6 +133,8 @@ std::vector<uint8_t> audio_response =
 
 play_audio(audio_response);
 ```
+
+Note: The snippet is an architectural usage sketch; exact method signatures depend on the current `VoiceAssistant` API.
 
 ### 2. Phone Call Recording & Transcription
 **Purpose**: Record, transcribe, and analyze phone conversations

@@ -25,6 +25,20 @@
 #include "llm/lora_framework/gpu_lora_layers.h"
 #include <spdlog/spdlog.h>
 
+#ifndef THEMIS_ENABLE_GPU
+
+static void BM_FusedLoRAKernels_GPUDisabled(benchmark::State& state) {
+    for (auto _ : state) {
+        state.SkipWithError("Fused LoRA kernel benchmarks are disabled in this build");
+        break;
+    }
+}
+
+BENCHMARK(BM_FusedLoRAKernels_GPUDisabled);
+BENCHMARK_MAIN();
+
+#else
+
 using namespace themis::llm::lora;
 
 // Helper to check if CUDA is available
@@ -443,3 +457,5 @@ BENCHMARK(BM_LoRAForward_CUDA_Fused)->Args({32, 768, 768, 16})->Unit(benchmark::
 BENCHMARK(BM_LoRAForward_CUDA_Optimized)->Args({32, 768, 768, 16})->Unit(benchmark::kMicrosecond);
 
 BENCHMARK_MAIN();
+
+#endif  // THEMIS_ENABLE_GPU

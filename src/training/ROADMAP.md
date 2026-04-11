@@ -51,7 +51,7 @@ v1.6.0 – AdaLoRA (adaptive rank pruning), LoRAAdapterMerger (TIES + linear), a
   - Perf: trial overhead (excluding training) ≤ 50 ms/trial; total sweep for 9-trial 3×3 grid ≤ 3× single-train time
 
 - [~] Adapter serving integration with LLM inference layer (Target: Q3 2026)
-  - Subsystems: `src/training/incremental_lora_trainer.cpp` (`deployVersion`), `src/llm/multi_lora_manager.h`
+  - Subsystems: `src/training/incremental_lora_trainer.cpp` (`deployVersion`), `include/llm/multi_lora_manager.h`
   - Inputs: `adapter_version` (string), `traffic_split` (float [0,1]); LLM router must expose `setAdapterWeight(version, weight)`
   - Outputs: LLM module routes `traffic_split` fraction of requests to new adapter; `DeployResult{active_version, split_applied}`
   - Constraints: atomic routing update (no mid-request split change); rollback must complete within 1 request cycle

@@ -28,6 +28,8 @@
 - [x] Policy simulation / dry-run mode (`PolicyEngine::simulateDecision()`) (Issue: #1766)
 - [x] OPA (Open Policy Agent) integration for policy-as-code (`opa_adapter.cpp`) (Issue: #1768)
 - [x] PCI-DSS data isolation rules (`pci_dss_rules.cpp`) (Issue: #1770)
+- [x] ISO 27001 Annex A control evaluators (`iso27001_rules.cpp`, `Iso27001ControlSet`) (v1.9.0)
+- [x] HIPAA Security Rule evaluators (`hipaa_rules.cpp`, `HipaaRuleSet`) (v1.9.0)
 
 ## In Progress 🚧
 
@@ -71,7 +73,9 @@ _(No new planned features at this time — see `FUTURE_ENHANCEMENTS.md` for long
 
 ## Production Readiness Checklist
 
-- [x] Unit tests coverage > 80% (Issue: #1778) — 19 focused test targets registered in `tests/CMakeLists.txt`; CI: `governance-module-ci.yml`
+- [x] Unit tests coverage > 80% (Issue: #1778) — 21 focused test targets registered in `tests/CMakeLists.txt`; CI: `governance-module-ci.yml`
+- [x] ISO 27001 Annex A controls evaluated (`iso27001_rules.cpp`): A.9.1.2, A.10.1.1, A.12.4.1, A.12.4.2, A.13.2.3, A.18.1.3
+- [x] HIPAA Security Rule checks implemented (`hipaa_rules.cpp`): §164.312(a)(1), §164.312(a)(2)(iv), §164.312(b), §164.312(c)(1), §164.312(e)(2)(ii), §164.530(j)
 - [x] Integration tests (policy evaluation, retention enforcement, audit trail)
 - [x] Performance benchmarks (policy evaluation latency at query time) (Issue: #1779)
   - Benchmark file: `benchmarks/bench_governance_policy_latency.cpp`

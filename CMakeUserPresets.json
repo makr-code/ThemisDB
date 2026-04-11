@@ -9,7 +9,7 @@
       "hidden": false,
       "inherits": "msvc-ninja-release",
       "cacheVariables": {
-        "THEMIS_BUILD_TESTS": "ON",
+        "THEMIS_BUILD_TESTS": "OFF",
         "THEMIS_ENABLE_LLM": "ON",
         "THEMIS_ENABLE_GPU": "OFF",
         "THEMIS_PLUGIN_ETHICS_AI": "ON",
@@ -67,7 +67,7 @@
     {
       "name": "vscode-windows-release",
       "configurePreset": "vscode-windows-release",
-      "targets": ["themis_tests"],
+      "targets": ["themis_server"],
       "jobs": 8
     },
     {

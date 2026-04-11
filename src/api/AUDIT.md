@@ -32,7 +32,7 @@
 | `graphql.cpp` | GraphQL schema definition and multi-model query resolver |
 | `graphql_ws_handler.cpp` | GraphQL over WebSocket (`graphql-transport-ws` protocol) with subscription management |
 | `grpc_server.cpp` | gRPC server surface mirroring REST API |
-| `http_server.cpp` | Crow/Beast HTTP server; RESTful CRUD, AQL execution, graph operations |
+| `http_server.cpp` | Deprecated placeholder in `src/api/`; live Crow/Beast HTTP server resides in `src/server/http_server.cpp` |
 | `otlp_exporter.cpp` | OpenTelemetry OTLP trace export |
 | `themisdb_grpc_service.cpp` | gRPC service handler for ThemisDB operations |
 | `tracing_middleware.cpp` | `X-Correlation-ID` propagation and distributed tracing middleware |
@@ -54,7 +54,7 @@
 
 ### Open
 - **OpenAPI spec completeness** — newer endpoints (gRPC reflection, async jobs, multi-tenant routing) are not fully documented in the OpenAPI spec (Issue #1491).
-- **API versioning** — `/v1/`/`/v2/` prefix routing with deprecation headers planned (Issue #1497) but not yet implemented; callers use unversioned paths.
+- **API versioning governance** — `/v1/`/`/v2/` routing and unversioned-path redirects are implemented; remaining work is enforcing deprecation header policy and timeline communication (Issue #1497).
 - **Unit and integration test coverage** — PRs open; production readiness depends on test completion.
 
 ## Compliance

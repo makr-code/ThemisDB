@@ -22,7 +22,7 @@
 
 | Interface | Consumer | Notes |
 |-----------|----------|-------|
-| `ProjectVersioning` | `include/projects/project_manager.h` | Immutable snapshots; `createSnapshot()` returns `SnapshotId` |
+| `ProjectVersioning` | `include/projects/DocumentManager/document_manager.h` | Keep snapshot/version API changes aligned with existing document-management contracts |
 | `CollaborationHook` | `CollaborationManager` | Thread-safe; invoked on `shareProject()` and change events |
 | `ProjectDiff` | Migration tooling, CI pipelines | Returns `DeltaSet`; field-level granularity |
 | `ProjectMerge` | Git-style integration backend | Requires common ancestor `SnapshotId` |

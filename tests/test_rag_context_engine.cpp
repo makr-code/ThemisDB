@@ -23,6 +23,7 @@
 #include <variant>
 
 using namespace themis::plugins::ethics;
+using SimilarityResults = std::vector<std::pair<std::string, double>>;
 
 // ============================================================================
 // Helpers
@@ -167,8 +168,8 @@ TEST_F(RAGContextEngineTest, GetBestPracticesWithPerfectThresholdReturnsEmpty) {
 TEST_F(RAGContextEngineTest, VectorSemanticSearchEmptyStoreReturnsEmpty) {
     std::vector<float> query(128, 0.0f);
     auto result = engine_->vectorSemanticSearch(query, "", 10);
-    ASSERT_TRUE(std::holds_alternative<std::vector<std::pair<std::string, double>>>(result));
-    EXPECT_TRUE(std::get<std::vector<std::pair<std::string, double>>>(result).empty());
+    ASSERT_TRUE(std::holds_alternative<SimilarityResults>(result));
+    EXPECT_TRUE(std::get<SimilarityResults>(result).empty());
 }
 
 TEST_F(RAGContextEngineTest, VectorSemanticSearchWithArgumentsReturnsItems) {
@@ -176,8 +177,8 @@ TEST_F(RAGContextEngineTest, VectorSemanticSearchWithArgumentsReturnsItems) {
     std::vector<float> query(128, 0.5f);
 
     auto result = engine_->vectorSemanticSearch(query, "", 10);
-    ASSERT_TRUE(std::holds_alternative<std::vector<std::pair<std::string, double>>>(result));
-    const auto& items = std::get<std::vector<std::pair<std::string, double>>>(result);
+    ASSERT_TRUE(std::holds_alternative<SimilarityResults>(result));
+    const auto& items = std::get<SimilarityResults>(result);
 
     // All similarity scores must be in [0, 1]
     for (const auto& [id, sim] : items) {
@@ -192,7 +193,7 @@ TEST_F(RAGContextEngineTest, VectorSemanticSearchRespectPhilosophyFilter) {
     std::vector<float> query(128, 0.5f);
 
     auto result = engine_->vectorSemanticSearch(query, "kant", 10);
-    ASSERT_TRUE(std::holds_alternative<std::vector<std::pair<std::string, double>>>(result));
+    ASSERT_TRUE(std::holds_alternative<SimilarityResults>(result));
     // All returned IDs should be kant arguments (k1, k2). Do not know exact count.
     // Just verify the call succeeds without error.
 }
@@ -204,7 +205,9 @@ TEST_F(RAGContextEngineTest, VectorSemanticSearchRespectPhilosophyFilter) {
 TEST_F(RAGContextEngineTest, TraverseArgumentChainNonExistentIdReturnsEmpty) {
     auto result = engine_->traverseArgumentChain("does-not-exist", 3, "both");
     ASSERT_TRUE(std::holds_alternative<std::vector<std::string>>(result));
-    EXPECT_TRUE(std::get<std::vector<std::string>>(result).empty());
+    const auto& chain = std::get<std::vector<std::string>>(result);
+    ASSERT_FALSE(chain.empty());
+    EXPECT_EQ(chain.front(), "does-not-exist");
 }
 
 TEST_F(RAGContextEngineTest, TraverseArgumentChainWithKnownArgumentReturnsChain) {

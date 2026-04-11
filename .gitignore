@@ -299,6 +299,7 @@ wiki-temp/
 wiki/
 *.wiki/
 artifacts/docs/
+artifacts/perf_nv/
 
 # Docker / containers
 docker-compose.override.yml

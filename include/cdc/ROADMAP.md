@@ -10,10 +10,12 @@
 
 ## Current Status
 
-Public headers at v1.8.0. All five v1.8.0 interfaces (`ICDCPauseControl`,
+Public headers at v2.0.0. All five v1.8.0 interfaces (`ICDCPauseControl`,
 `ICDCBackpressureSignal`, `ICDCFanIn`, `ICDCEventSchema`, `IDeliveryGuaranteeConfig`)
 are present and implemented. Kafka, Debezium, outbox, schema registry, and
-materialised view headers are stable.
+materialised view headers are stable.  Three v2.0.0 interfaces
+(`ICDCReplayController`, `ICDCFilterPipeline`, `ICDCBatchCommitCoordinator`)
+have been added and are fully implemented.
 
 ---
 
@@ -39,9 +41,9 @@ materialised view headers are stable.
 
 ## Planned Features
 
-- [ ] `ICDCReplayController` for time-based changefeed replay (Target: Q3 2026)
-- [ ] `ICDCFilterPipeline` for server-side event filtering (Target: Q3 2026)
-- [ ] `ICDCBatchCommitCoordinator` for exactly-once batch commits (Target: Q4 2026)
+- [x] `ICDCReplayController` for time-based changefeed replay (Target: Q3 2026)
+- [x] `ICDCFilterPipeline` for server-side event filtering (Target: Q3 2026)
+- [x] `ICDCBatchCommitCoordinator` for exactly-once batch commits (Target: Q4 2026)
 
 ---
 
@@ -61,12 +63,12 @@ materialised view headers are stable.
 - [x] `ICDCEventSchema`, `ISchemaRegistry`, `IDeadLetterQueue`
 
 ### Phase 5: Advanced Features
-- [ ] `ICDCReplayController` (Q3 2026)
-- [ ] `ICDCFilterPipeline` (Q3 2026)
+- [x] `ICDCReplayController` (Q3 2026)
+- [x] `ICDCFilterPipeline` (Q3 2026)
 
 ### Phase 6: Documentation & Acceptance
 - [x] Architecture and audit docs present
-- [ ] Doxygen fully annotated on all 24 headers
+- [ ] Doxygen fully annotated on all 27 headers
 
 ---
 
@@ -76,5 +78,7 @@ materialised view headers are stable.
 - [x] Dead letter queue and schema registry headers present
 - [x] Tenant isolation via `ITenantBufferManager`
 - [x] Backpressure and pause/resume interfaces stable
-- [ ] Exactly-once batch commit coordinator header
+- [x] Exactly-once batch commit coordinator header (`ICDCBatchCommitCoordinator`)
+- [x] Time-based replay controller header (`ICDCReplayController`)
+- [x] Server-side filter pipeline header (`ICDCFilterPipeline`)
 - [ ] Doxygen fully annotated

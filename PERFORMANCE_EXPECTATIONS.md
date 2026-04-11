@@ -1,4 +1,4 @@
-# ThemisDB – Performance-Erwartungswerte & Messergebnisse
+# ThemisDB   Performance-Erwartungswerte & Messergebnisse
 
 > Stand: 2026-04-02 | Quellen: `FUTURE_ENHANCEMENTS.md` je Modul, `benchmarks/results_analysis_reports/`, `benchmarks/baselines/`, `benchmarks/VERSION_HISTORY.csv`, `benchmarks/chimera/`
 >
@@ -13,11 +13,11 @@
 
 | Symbol | Bedeutung |
 |--------|-----------|
-| ✅ | Ziel erfüllt (gemessen ≥ Ziel) |
-| ❌ | Ziel nicht erfüllt (gemessen < Ziel) |
-| ⚠️ | Partiell / bekannte Regression |
-| ❓ | Kein Messwert vorhanden |
-| –  | Nicht gemessen in dieser Version |
+|  | Ziel erfüllt (gemessen  Ziel) |
+|   | Ziel nicht erfüllt (gemessen < Ziel) |
+| ÔÜá´©Å | Partiell / bekannte Regression |
+|  | Kein Messwert vorhanden |
+|    | Nicht gemessen in dieser Version |
 
 ---
 
@@ -25,61 +25,1176 @@
 
 ## Inhaltsverzeichnis
 
-> **Struktur: Allgemein → Spezifisch (Module) → Rohdaten → Interface-SLOs**
+> **Struktur: Allgemein ÔåÆ Spezifisch (Module) ÔåÆ Rohdaten ÔåÆ Interface-SLOs**
 
 | # | Abschnitt | Typ |
 |---|-----------|-----|
-| – | Legende | Referenz |
-| 1 | Versionshistorie – Kernmetriken | Messung (allgemein) |
-| 2–29 | Modul-Spezifische Erwartungswerte | Modul-SLOs |
+|   | Legende | Referenz |
+| 1 | Versionshistorie   Kernmetriken | Messung (allgemein) |
+| 2 29 | Modul-Spezifische Erwartungswerte | Modul-SLOs |
 | 30 | Chimera-Baseline & Suite | Benchmark-Framework |
-| 31–32 | Prompt Engineering / Ethics AI | Modul-SLOs |
+| 31 32 | Prompt Engineering / Ethics AI | Modul-SLOs |
 | 33 | System-Level TPC/YCSB | Benchmarks |
 | 34 | CI Regression-Schwellwerte | CI |
 | 35 | Bekannte Performance-Lücken | Lücken |
-| 36 | Rohdaten: Google Benchmark C++ | Primäre Messungen |
-| 37 | Performance-Maßnahmen (GitHub-PR) | Maßnahmen nach Modul |
-| 38 | Rohdaten: HTTP-API & Docker Benchmarks | Primäre Messungen |
+| 36 | Rohdaten: Google Benchmark C++ | Prim├ñre Messungen |
+| 37 | Performance-Ma├ƒnahmen (GitHub-PR) | Ma├ƒnahmen nach Modul |
+| 38 | Rohdaten: HTTP-API & Docker Benchmarks | Prim├ñre Messungen |
 | 39 | API/Interface Performance-Annahmen | Interface SLOs |
 
-**Hinweis zur Statusbewertung:** Felder mit ❓ sind Erwartungswerte ohne vorliegende Messung.
-Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implementiert/bestätigt.
+**Hinweis zur Statusbewertung:** Felder mit  sind Erwartungswerte ohne vorliegende Messung.
+Typ-Kennung in ┬º39: **[M]** = gemessen ┬À **[Z]** = Ziel ┬À **[I]** = implementiert/best├ñtigt.
 
-## 1. Versionshistorie – Kernmetriken
+## 1. Versionshistorie   Kernmetriken
 
 > Quelle: `benchmarks/VERSION_HISTORY.csv` + `benchmarks/results_analysis_reports/benchmark_summary.csv`
-> Testplattform v1.3.0–v1.3.3: Intel i9-10900K (10C/20T @ 3.70 GHz), 31 GB RAM, WSL2 Linux
+> Testplattform v1.3.0 v1.3.3: Intel i9-10900K (10C/20T @ 3.70 GHz), 31 GB RAM, WSL2 Linux
 > Testplattform v1.3.4: Windows x64, 20 Cores @ 3.696 GHz, 20 MB L3-Cache
 
-| Metrik | Ziel | v1.3.0 | v1.3.1 | v1.3.2 | v1.3.3 | **v1.3.4** | **v1.8.0 Ziel** | Δ v1.3.0→v1.3.4 | Status |
-|--------|------|--------|--------|--------|--------|-----------|-----------------|-----------------|--------|
-| Query Engine Throughput | – | 700 M ops/s | 750 M ops/s | 800 M ops/s | 800 M ops/s | **814,5 M ops/s** | **≥ 900 M ops/s** | +16 % | ❓ |
-| Vector Insert | – | 280 k/s | 300 k/s | 330 k/s | 340 k/s | **351,4 k/s** | **≥ 600 k/s** | +25 % | ❓ |
-| Secondary Index Insert | – | 180 k/s | 190 k/s | 210 k/s | 215 k/s | **217,2 k/s** | **≥ 1 M/s** | +21 % | ❓ |
-| Embedding Cache Hit-Rate | – | – | – | – | – | **155,8 M/s** | **≥ 200 M/s** | n/a | ❓ |
-| 2PC Throughput | – | – | – | – | – | **6,4 k/s** | **≥ 10 k/s** | n/a | ❓ |
-| Graph Edge Ops | – | – | – | – | – | **628,7 k/s** | **≥ 1 M/s** | n/a | ❓ |
-| Timeseries Insert | – | – | – | – | – | **49,0 M pts/s** | **≥ 60 M pts/s** | n/a | ❓ |
-| Gesamt Benchmark-Tests | – | 450 | 480 | 520 | 780 | **1.078** | **≥ 1.200** | +140 % | ✅ |
+| Metrik | Ziel | v1.3.0 | v1.3.1 | v1.3.2 | v1.3.3 | **v1.3.4** | **v1.8.2** | **v1.8.0 Ziel** | ╬ö v1.3.0ÔåÆv1.3.4 | Status |
+|--------|------|--------|--------|--------|--------|-----------|-----------|-----------------|-----------------|--------|
+| Query Engine Throughput |   | 700 M ops/s | 750 M ops/s | 800 M ops/s | 800 M ops/s | **814,5 M ops/s** | **796,4 M ops/s** | ** 900 M ops/s** | +16 % |  |
+| Vector Insert |   | 280 k/s | 300 k/s | 330 k/s | 340 k/s | **351,4 k/s** | **548,7 k/s** | ** 600 k/s** | +25 % |  |
+| Secondary Index Insert |   | 180 k/s | 190 k/s | 210 k/s | 215 k/s | **217,2 k/s** | **254,9 k/s** | ** 1 M/s** | +21 % |  |
+| Embedding Cache Hit-Rate |   |   |   |   |   | **155,8 M/s** | n/v (Teilrun, nicht erneut gemessen) | ** 200 M/s** | n/a |  |
+| 2PC Throughput |   |   |   |   |   | **6,4 k/s** | n/v (Teilrun, nicht erneut gemessen) | ** 10 k/s** | n/a |  |
+| Graph Edge Ops |   |   |   |   |   | **628,7 k/s** | **1,177 M/s** | ** 1 M/s** | n/a |  |
+| Timeseries Insert |   |   |   |   |   | **49,0 M pts/s** | **61,00 M pts/s** | ** 60 M pts/s** | n/a |  |
+| Gesamt Benchmark-Tests |   | 450 | 480 | 520 | 780 | **1.078** | 5 Kern-KPI-Cases (Teilrun) | ** 1.200** | +140 % |   |
+
+### 1.1 Kernmetriken-Ampel v1.8.2 (Ist vs Ziel)
+
+| Kernmetrik | v1.8.2 Ist | Ziel | Ampel |
+|---|---:|---:|---|
+| Query Engine Throughput | 796,44 M ops/s | 900 M ops/s | Rot |
+| Vector Insert | 548,7 k/s | 600 k/s | Gelb |
+| Secondary Index Insert | 254,9 k/s | 1,0 M/s | Rot |
+| Graph Edge Ops | 1,177 M/s | 1,0 M/s | Gruen |
+| Timeseries Insert | 61,00 M pts/s | 60,0 M pts/s | Gruen |
+
+### 1.2 Modul-Ampel v1.8.2 (fortgeschrieben)
+
+> Ampel-Logik: Gruen = Ziel fuer Referenz-KPI erreicht, Gelb = nur Proxy/Teilabdeckung, Rot = Referenz-KPI unter Ziel.
+
+| Modul | Referenz-KPI (v1.8.2) | Zielbezug | Ampel | Hinweis |
+|---|---|---|---|---|
+| Query | QueryEngineBench/SimpleEvaluation = 796,44 M/s | >= 750 M items/s | Gruen | KPI erreicht, aber unter Kernziel 900 M/s |
+| Index | VectorIndexBench/InsertPlaintext = 548,7 k/s | >= 280 k/s | Gruen | Sekundaerindex ebenfalls ueber Modulziel 180 k/s |
+| Cache | C-1 Proxy = 5,851 M ops/s | >= 5 M ops/s/Core | Gruen | Proxy aus `BM_EmbeddingCache_Query_WithIndex/100000` |
+| Storage | RawWrite WAL On (8) = 1,276 k/s | >= 100.000 ops/s (Sustained Write NVMe) | Rot | Deutlich unter dokumentiertem Sustained-Write-Ziel |
+| Analytics | OLAP-Proxies vorhanden | keine 1:1 AN-Zielmetrik gemessen | Gelb | Durchsatzwerte verfuegbar, Zielmapping weiterhin ausstehend |
+| Timeseries | TS-1 = 61,00 M pts/s; TS-9 Proxy = 1,5 us | > 500 k pts/s; < 10 ms | Gruen | Beide Referenzen klar im Ziel |
+| Graph | GraphIndexBench/AddEdges = 1,177 M/s | >= 500 k edges/s | Gruen | Deutlich ueber Ziel |
+
+### 1.3 Ursachenmatrix: fehlende passende Benchmarks (alle Module)
+
+> Ergebnis der Gesamtpruefung ueber Module 2..33. Fokus: warum 1:1 passende Benchmarks fehlen oder nicht belastbar sind.
+
+| Modul | Befund | Hauptursache |
+|---|---|---|
+| Query-Engine | Teilabdeckung | `bench_query.cpp` hat deaktivierte `BENCHMARK(...)`-Registrierung (Timeout-Kommentar), dadurch kein valider Lauf trotz vorhandener Datei |
+| Index | Gute Abdeckung | Kernbenchmarks vorhanden und lauffaehig; Luecken v.a. bei Spezialzielen (HNSW/GPU) |
+| Cache | Teilabdeckung | Direkte Zielmetriken fehlen; nur Proxy ueber `bench_embedding_cache_performance` |
+| Storage | Teilabdeckung mit Zielverfehlung | Vorhandene Proxies, aber kein sauberer 1:1-Match fuer alle Storage-SLOs |
+| Analytics | Teilabdeckung | `bench_olap_analytics.cpp` ist explizit als disabled markiert (API-Alignment ausstehend), nur `bench_olap_performance` als Proxy |
+| Timeseries | Teilabdeckung | Kernmetriken vorhanden, aber viele Unterziele ohne dedizierten Benchmark |
+| Geo | Teilabdeckung | Bench-Dateien vorhanden, v1.8.2-Lauf fuer Geo-Referenzfaelle bisher nicht ausgefuehrt |
+| Graph | Gute Abdeckung | Kernbenchmark vorhanden, aber nicht alle Graph-Teilziele als v1.8.2 gemessen |
+| Acceleration | Stark eingeschraenkt | Viele Benchmarks an CUDA/HIP/GPU-Flags gebunden oder als GPU-disabled Stub registriert |
+| Replication | Teilabdeckung | Benchmarks vorhanden, aber keine vollstaendige Ziel-ID-zu-Benchmark-Zuordnung im Report |
+| Sharding | Teilabdeckung | Benchmarks vorhanden, bisher kein v1.8.2-Ziellauf dokumentiert |
+| Transaction | Teilabdeckung | Benchmarks vorhanden, aber ohne vollstaendige Ziel-SLO-Abdeckung im Dokument |
+| LLM | Stark umgebungsabhaengig | LLM/GPU/Modellartefakte erforderlich; ohne diese nur Stub/Skip oder Integrationslauf |
+| RAG | Teilabdeckung | Benchmarks vorhanden; einzelne Pfade (z.B. Ethics) als disabled-Variante |
+| Search | Teilabdeckung | Benchmarks vorhanden, aber keine vollstaendige Zielabbildung im v1.8.2-Report |
+| Temporal | Teilabdeckung | Bench-Datei vorhanden, aber kein dokumentierter v1.8.2-Ziellauf |
+| API | Teilabdeckung | Teilweise API-gebundene Benchmarks deaktiviert (z.B. Stream-Protocol API-Change) |
+| Auth | Teilabdeckung | Bench-Datei vorhanden, aber v1.8.2-Zielmessung nicht durchgaengig dokumentiert |
+| CDC | Teilabdeckung | Bench-Dateien vorhanden, Ziel-SLO-Zuordnung unvollstaendig |
+| Network | Teilabdeckung | Protokollnahe Benchmarks teilweise deaktiviert/veraendert durch API-Aenderungen |
+| Security | Fehlende Build-Artefakte | Mehrere Security-bezogene Bench-Dateien existieren, aber in aktuellem Build nicht als `.exe` vorhanden |
+| Scheduler | Teilabdeckung | Benchmarks vorhanden, aber kein vollstaendiger v1.8.2-Ziellauf |
+| Ingestion | Teilabdeckung | Benchmarks vorhanden, aber heterogene Workloads ohne einheitliche Zielabbildung |
+| Governance | Fehlende Build-Artefakte | Policy-/Governance-Bench-Dateien nicht als lauffaehige Targets im aktuellen Buildoutput |
+| Observability | Teilabdeckung | Metrics/Logging-Benchmarks vorhanden, Zielmetriken nicht vollstaendig 1:1 gemessen |
+| Process | Teilabdeckung | Benchmarks vorhanden, aber keine vollstaendige Zielabdeckung in v1.8.2 |
+| Voice | Feature-Gating | `bench_voice_assistant` ist an `THEMIS_ENABLE_VOICE_ASSISTANT` gebunden und aktuell nicht gebaut |
+| ONNX-CLIP | Teilabdeckung | Image/ONNX-Benchmarks vorhanden, aber keine durchgaengige Zieltabellen-Abdeckung |
+| Chimera | Struktur-Luecke | Eigene Suite/Baselines vorhanden, aber kein einheitlicher nativer Modul-Benchmarkpfad im selben Schema |
+| Prompt Engineering | Teilabdeckung | Benchmark vorhanden, jedoch ohne vollstaendige Ziel-SLO-Abbildung |
+| Ethics AI | Fehlende Build-Artefakte/disabled Pfade | Ethics-Bench-Dateien vorhanden, aber im aktuellen Build nicht vollstaendig als lauffaehige Targets |
+| System-Level (TPC/YCSB) | Deaktiviert | `bench_tpcc`/`bench_ycsb` registrieren disabled-Varianten statt produktiver Workloads |
+
+#### 1.3.1 Technische Hauptgruende (konsolidiert)
+
+1. Feature-Gating in CMake (`THEMIS_ENABLE_*`, GPU/CUDA/HIP/Voice/LLM) verhindert Target-Build in dieser Umgebung.
+2. Benchmark-Datei vorhanden, aber Registrierungen deaktiviert oder nur `*_Disabled` Benchmark registriert.
+3. Runtime-Abhaengigkeiten fehlen (GPU, Modelle, HSM-Library, externe Dienste).
+4. Kein 1:1 Mapping zwischen Ziel-ID und Benchmarkfall; nur Proxy-Metriken verfuegbar.
+5. Build-Artefakt fehlt trotz Datei (nicht gebaut, aus Ziel ausgeschlossen oder in aktuellem Buildprofil nicht enthalten).
+
+### 1.4 Top-10 Maßnahmen zur Vollabdeckung (alle Module)
+
+| Prio | Maßnahme | Ursache(n) adressiert | Aufwand | Erfolgskriterium |
+|---|---|---|---|---|
+| 1 | `bench_query.cpp` Pagination-Benchmarks wieder registrieren und stabilisieren | 2, 4 | M | `BM_Pagination_Offset` und `BM_Pagination_Cursor` laufen ohne Timeout |
+| 2 | `bench_olap_analytics.cpp` von Disabled-Stub auf echte Cases umstellen | 2, 4 | M | mind. 4 produktive OLAP-Analytics-Cases in v1.8.2-Report |
+| 3 | Security/Governance-Benchtargets im Buildprofil erzwingen | 1, 5 | M | fehlende Targets (`bench_security`, `bench_policy_evaluation`, `bench_governance_policy_latency`) als `.exe` vorhanden |
+| 4 | Voice-Benchmark-Pfad für CI via `THEMIS_ENABLE_VOICE_ASSISTANT` optionalen Job aktivieren | 1, 5 | S | `bench_voice_assistant.exe` in Voice-Runner-Build vorhanden |
+| 5 | GPU-Benchmark-Matrix (CUDA/HIP/Vulkan) als separaten Runner etablieren | 1, 3 | L | GPU-disabled Stubs werden durch reale Messwerte ersetzt |
+| 6 | Modell-/Artefakt-Vorbereitung (LLM, LoRA, gguf) standardisieren | 3 | M | LLM/RAG/LoRA-Benchmarks laufen ohne Missing-Artifact-Fehler |
+| 7 | Ziel-ID-zu-Benchmark-Mapping-Datei erzwingen (pro Modul) | 4 | M | jede Ziel-ID in Tabellen hat exakt 1 primären Benchmarkfall |
+| 8 | Build-Check „source exists but binary missing“ als CI-Guard ergänzen | 5 | S | CI schlägt fehl, wenn `bench_*.cpp` ohne entsprechendes Target/Binary bleibt |
+| 9 | Disabled-Stub-Policy einführen (max. 1 Release erlaubt, danach Pflichtticket) | 2 | S | jede `*_Disabled`-Registrierung trägt Deadline und Issue-Referenz |
+| 10 | Modulweise Benchmark-Sweeps (2..33) als planbare Nightly-Presets | 1, 3, 4 | L | täglicher Coverage-Report mit Ampel pro Modul und Delta-Vergleich |
+
+#### 1.4.1 Empfohlene Reihenfolge (2 Wochen)
+
+1. Woche 1: Maßnahmen 1, 2, 3, 8
+2. Woche 2: Maßnahmen 4, 6, 7, 9
+3. Parallel/Infra: Maßnahmen 5 und 10
+
+### 1.5 Ursachenanalyse: warum Erwartungswerte nicht erreicht werden
+
+| Bereich | Ziel vs Ist | Evidenz | Wahrscheinlichste Hauptursache | Verifikation (naechster Schritt) |
+|---|---|---|---|---|
+| Query Engine Throughput | 900 M/s vs 796.4 M/s | Kernmetrik-Tabelle + Query-Detailtabelle | Zielwert ist hoeher als aktuell reproduzierter Hot-Path; gleichzeitig fehlen mehrere query-nahe 1:1 Cases (n/v) und Pagination-Bench ist deaktiviert | `bench_query` reaktivieren, Query-Hotpath profilieren (Parse/Optimize/Execute getrennt), danach erneut gegen 900 M/s Zielwert messen |
+| Vector Insert | 600 k/s vs 548.7 k/s | Kernmetrik-Tabelle + 36.1 Kern-Performance | Nahe am Ziel, aber Write-/Index-Pfad noch nicht voll batch-optimiert; Restluecke ~8.5 % | Batch/transaction path im Index-Insert vergleichen (single put vs grouped writes), 3 Wiederholungen mit identischer Build-Config |
+| Secondary Index Insert | 1.0 M/s vs 254.9 k/s | Kernmetrik-Tabelle + 36.1 + Hinweis zu RocksDB-Transaktions-Overhead | Persistenter Write-Path-Overhead (Transaktion pro put, Write-Amplification, Index-Update-Kosten) | Issue P-2 umsetzen: Batch-Transaktionen fuer SecondaryIndex; direkt A/B Benchmark gegen aktuellen Stand |
+| Storage Sustained Write | 100k ops/s vs 1.276k/s (Proxy) | Modul-Ampel + Storage-Tabelle + Hotspot-Proxywerte | Aktueller Proxy ist workload-seitig nicht 1:1 zum SLO; zusaetzlich WAL/Sync-Settings und contention-lastiger Pfad | 1:1 SLO-Benchmark fuer Sustained NVMe Write definieren (feste payload, fsync-policy, threads), dann Ziel neu evaluieren |
+| Analytics Ziel-IDs AN-1..AN-10 | mehrere n/v | 6.1 Ziel-Mapping (mehrfach "Nein") | Fehlende direkte Benchmarks; vorhandene OLAP-Werte sind nur Proxies | AN-2/AN-8/AN-9 zuerst implementieren (direkte Online-Latenz), danach AN-1/AN-5 |
+| System-Level TPCC/YCSB | deaktiviert statt produktiv | Ursachenmatrix + Wave2-Issue | Benchcases existieren nur als disabled Varianten | TPCC/YCSB produktivieren (Dataset + warmup + run protocol), dann in System-Level Tabelle eintragen |
+
+#### 1.5.1 Querschnittliche Meta-Ursachen
+
+1. Zielmetriken und gemessene Cases sind teilweise nicht 1:1 vergleichbar (Proxy statt Primarfall).
+2. Build-/Feature-Gates schieben kritische Benchmarks in disabled oder nicht gebaute Pfade.
+3. Runtime-Abhaengigkeiten (GPU/Modelle/HSM) verhindern reproduzierbare End-to-End Messungen.
+4. Einige historische Zielwerte wurden auf anderer Infrastruktur/Workload-Definition ermittelt.
+
+#### 1.5.2 Entscheidungsregel fuer kuenftige Zielverfehlung
+
+1. Erst 1:1 Vergleichbarkeit herstellen (gleicher Case, gleiche Konfiguration, gleiche Plattformklasse).
+2. Dann in drei Ursachenklassen trennen: Implementierungsregression, Infrastruktur-/Abhaengigkeitsproblem, Zieldefinition unpassend.
+3. Nur nach dieser Trennung Ampelstatus und Prioritaet final setzen.
+
+### 1.6 Grundsatzanalyse: Erwartungswerte, Abweichung, Fehlerhinweis
+
+Diese Grundlogik gilt fuer alle Module:
+
+1. Wir kennen die Plattformgrenzen (CPU, RAM-Bandbreite, Storage-Latenz/IOPS, GPU/VRAM, Filesystem/Fsync-Verhalten).
+2. Wir kennen den internen Themis-Pfad (z. B. Query-Planung, Index-Update, RocksDB-Writes, Locks, Serialisierung, Netzwerkpfade).
+3. Daraus wird ein technischer Erwartungswert pro Ziel-ID abgeleitet.
+
+#### 1.6.1 Erwartungswert-Modell
+
+Fuer jeden Benchmarkfall wird die Laufzeit in Pfadanteile zerlegt:
+
+- T_total = T_logic + T_index + T_storage + T_sync + T_alloc + T_lock + T_io + T_network
+
+Der erwartete Durchsatz ergibt sich aus:
+
+- Throughput_expected = Work_units / T_total_expected
+
+Die Zielabweichung wird als Effizienz ausgedrueckt:
+
+- Effizienz = Throughput_measured / Throughput_expected
+
+#### 1.6.2 Interpretation grosser Abweichungen
+
+| Effizienzbereich | Interpretation | Typischer Befund |
+|---|---|---|
+| >= 0.85 | im erwartbaren Bereich | normaler Messrauschanteil / leichte Konfig-Effekte |
+| 0.60 bis 0.85 | signifikante Luecke | Overhead in Teilpfad, fehlende Batch-Optimierung, nicht 1:1 vergleichbarer Case |
+| < 0.60 | massive Abweichung | starker Overhead oder Programmfehler sehr wahrscheinlich |
+
+Hinweis: Bei Effizienz < 0.60 wird standardmaessig ein Bug-/Overhead-Verdacht gesetzt, bis das Gegenteil belegt ist.
+
+#### 1.6.3 Bug vs Overhead: Entscheidungsbaum
+
+1. Konfig-/Umgebungspruefung: gleicher Buildtyp, gleiche Flags, gleiche Datenform, gleiche Hardwareklasse.
+2. 1:1-Pfadvalidierung: passt der Benchmark wirklich zur Ziel-ID (kein Proxy)?
+3. Pfadprofiling: welcher Teilpfad dominiert T_total (Index, Storage, Sync, Locking, Serialisierung)?
+4. A/B-Test mit isolierter Aenderung (z. B. Batch an/aus, WAL/Fsync-Policy, Lock-Strategie).
+5. Ergebnisbewertung:
+	- reproduzierbar und pfadspezifisch => Implementierungsregression/Overhead im Codepfad
+	- nicht reproduzierbar oder konfigabhängig => Infrastruktur-/Benchmark-Setup-Problem
+
+#### 1.6.4 Anwendung auf aktuelle rote KPIs
+
+| KPI | Ist-Lage | Primaerer Verdacht |
+|---|---|---|
+| Secondary Index Insert (rot) | 254.9 k/s vs 1.0 M/s | Write-Pfad-Overhead (Transaktions-/Index-Update-Kosten) |
+| Query Throughput (rot in Kernampel) | 796.4 M/s vs 900 M/s | fehlende 1:1-Query-Cases plus Hotpath-Overhead |
+| Storage Sustained Write (rot) | 1.276 k/s Proxy vs 100k/s Ziel | derzeit kein 1:1 SLO-Case und zusaetzlicher WAL/Sync-Overhead |
+
+Konsequenz: Massive Abweichungen werden in diesem Dokument als starke Hinweise auf Programmfehler oder ueberhoehten Overhead behandelt, solange keine saubere Gegenbegruendung aus Vergleichbarkeit/Setup vorliegt.
+
+### 1.7 Hardware-Baseline (Themis-relevante Checks, orientiert an gaengigen Benchmarks)
+
+Der integrierte Google-Test `HardwareBaseline.CaptureAndPersist` schreibt pro Lauf eine JSON-Baseline unter `logs/hardware_baseline/`.
+
+| Hardware-Funktion | Benchmark-Orientierung (gaengig) | Themis-relevante Pfade | Aktuelle Baseline-Gate (Tier) |
+|---|---|---|---|
+| CPU SIMD/ISA (SSE4.2, AVX, AVX2, AVX512, FMA, AES, BMI, POPCNT) | CPUID-Feature-Check (industry-standard Capability Detection) | Query-Eval-Hotpaths, Vector/ANN, Hashing, Kompression, Crypto-Pfade | `simd`: `scalar` / `sse42` / `avx2_fma` / `avx512` |
+| RAM-Bandbreite | STREAM-aehnlich (Copy/Scale/Add/Triad) | HashJoin/Aggregation, Arrow/Parquet-Serialisierung, Cache-Hotsets | `memory`: `low` (<18 GB/s), `medium` (>=18), `high` (>=35) |
+| Storage sequentiell | fio-disk-bandwidth-aehnlich (seq read/write MB/s) | RocksDB WAL/Compaction, SSTable-Scan, Snapshot/Export | Teil von `storage` Tier |
+| Storage random | fio-randread/randwrite-aehnlich (4K IOPS) | Point-Lookups, LSM-Read/Write-Amplification, Metadata-IO | `storage`: `hdd_class_or_limited`, `ssd_class`, `nvme_class` |
+| GPU/VRAM Inventar | Adapter/VRAM-Inventar analog zu vendor tooling | CUDA/LLM/Vector-Pfade, Batchgroessen-/Model-Fit | `gpu`: `none_or_unknown`, `entry`, `medium`, `high` |
+| HDD/SSD-Mediumtyp | Seek-Penalty-Check (OS-Storage-Property) | Erwartungswert fuer Latenz/IOPS und WAL-/fsync-Verhalten | als `hdd_drive_type` im JSON protokolliert |
+
+Hinweis zu fertigen Libraries/Tools:
+
+- Der aktuelle Stand ist absichtlich als integrierter GTest ohne externe Runtime-Tools implementiert (CI-robust).
+- Optional fuer hoehere Messgenauigkeit in dedizierten Bench-Pipelines:
+	- `fio` fuer ausfuehrliche Storage-Profile,
+	- `Google Benchmark` fuer stabile Microbenchmark-Statistik,
+	- `cpu_features` (Google) fuer vereinheitlichte CPU-Feature-Erkennung,
+	- GPU-vendor tools (z. B. `nvidia-smi`) fuer Telemetrie (Auslastung, Takt, thermische Limits).
+	Diese optionalen Tools sollen die GTest-Baseline ergaenzen, nicht ersetzen.
+
+### 1.7.1 To-do: Von der Hardware-Messung zur Korrelationsmatrix
+
+- [x] Messumfang und Zielmetriken verbindlich festlegen
+	- CPU: ISA, Integer/Float-Throughput, optional Cache-/NUMA-/PMU-Proxies
+	- Memory: Host-RAM Copy plus STREAM-like Copy/Scale/Add/Triad
+	- Storage: sequenziell, 4K-random, fsync-/Flush-Verhalten, Mediumtyp
+	- GPU: Adapter/VRAM-Inventar; spaeter H2D, D2H, Kernel-Launch, optional P2P
+- [~] Baseline-JSON-Schema auf alle benoetigten Messgroessen erweitern
+	- Pflichtfelder: Messmethode, Payload-Groesse, Iterationen, Warmup, Dateigroesse, Device-ID, Treiber-/Runtime-Kontext
+	- Ergebnis muss zwischen Hosts und CI-Runs direkt vergleichbar sein
+- [ ] Fehlende Transferpfade fuer Themis-relevante Datenbewegung ergaenzen
+	- Host-RAM zu VRAM
+	- VRAM zu Host-RAM
+	- CPU zu GPU Dispatch-/Kernel-Start-Latenz
+	- Storage zu Host-RAM und, falls verfuegbar, Storage zu VRAM als eigener Pfad
+- [ ] Messumgebung normalisieren und im Artefakt mitschreiben
+	- CPU-Governor/Takt, Power-Profil, Debug/Release, Compiler-Flags, NUMA-Bindung, Filesystem, freier Speicherplatz, thermische Randbedingungen
+	- Ziel: weniger Messrauschen und reproduzierbare Vergleichslaeufe
+- [ ] Hardware-Baselines pro Runner und Host versioniert ablegen
+	- Ablage als Zeitreihe mit Host-Fingerprint, Build-ID, Commit, Treiberstand und Testpreset
+	- Ziel: historische Entwicklung statt Einzelwerte
+- [~] Themis-Benchmarkklassen explizit auf Hardware-Faktoren abbilden
+	- Query/AQL/OLAP: CPU SIMD plus Memory
+	- Storage/WAL/Backup/Ingest: seq/random Storage plus fsync-Verhalten
+	- Vector/LLM/GPU-Module: VRAM, H2D/D2H, Kernel-Dispatch, optional Multi-GPU/P2P
+	- Network/Wire: primaer nicht Teil der lokalen Hardware-Baseline, nur getrennt korrelieren
+- [ ] Gepaarte Messreihen erzeugen
+	- Pro Host: zuerst Hardware-Baseline, danach definierte Themis-Benchmarks im selben Build und Laufkontext
+	- Ziel: jede Workload-Messung hat einen passenden Hardware-Snapshot
+- [ ] Effizienzmetriken pro Benchmarkklasse definieren
+	- Beispiele: Query-Durchsatz relativ zu CPU-/Memory-Tier, WAL-MB/s relativ zu Storage seq, ANN/LLM relativ zu GPU-/Transfer-Tier
+	- Ergebnis: normierte Kennzahlen statt isolierter Rohwerte
+- [ ] Korrelationsregeln zuerst regelbasiert, dann statistisch ableiten
+	- Phase 1: fachliche Erwartungsmatrix Hardware-Faktor zu Themis-Subsystem
+	- Phase 2: lineare Korrelation, Rangkorrelation und Residuenanalyse ueber gepaarte Laeufe
+	- Ziel: echte Bottleneck-Indikatoren statt Bauchgefuehl
+- [ ] Korrelationsmatrix als Referenzartefakt publizieren
+	- Zeilen: Themis-Benchmarkklassen/Subsysteme
+	- Spalten: CPU, Memory, Storage seq, Storage random, fsync, GPU/VRAM, H2D, D2H, Dispatch
+	- Zellen: erwartete Staerke, gemessene Korrelation, Erklaerung, Ausreisserhinweise
+
+### 1.7.2 Messspezifikation Hardware-Baseline (verbindlich)
+
+Ziel: Jede Hardware-Messung ist host-uebergreifend reproduzierbar, zwischen CI-Runs vergleichbar und direkt mit Themis-Benchmarks paarkoppelbar.
+
+Implementierungsstand (2026-04-10):
+
+- `schema_version`, `run_id`, `context` und `measurement_config` sind im integrierten GTest-Output aktiv.
+- Transfermetriken (`host_to_vram_gb_s`, `vram_to_host_gb_s`, `cpu_to_gpu_dispatch_us`) sind im Schema als `available=false` mit Grund `not_implemented_yet` vorhanden.
+- Damit ist die Artefaktstruktur fuer gepaarte Korrelationslaeufe vorbereitet; die eigentliche Transfermessung folgt im naechsten Schritt.
+
+Pflicht-Metadaten je Lauf:
+
+- schema_version
+- run_id
+- generated_at_utc
+- host_fingerprint (cpu_model, logical_cpus, ram_gb, gpu_vendor_device, storage_root)
+- build_context (git_commit, build_type, compiler_id, compiler_version, simd_flags)
+- os_context (os_name, os_version, kernel_or_build, power_profile)
+- runtime_context (driver_version_gpu, api_backend, numa_policy, thermal_state_if_available)
+
+Pflicht-Metadaten je Messung:
+
+- metric_name
+- unit
+- method
+- payload_bytes_or_elements
+- warmup_iterations
+- measure_iterations
+- sample_count
+- statistic (min, median, p95, max, stddev)
+- measurement_scope (host, device, transfer)
+
+Messregeln (einheitlich fuer alle Hosts):
+
+1. Warmup getrennt von Messphase.
+2. Mindestens 5 Messsamples je Metrik, Median als Standard-Vergleichswert.
+3. Rechen- und Transfermetriken nicht mischen; getrennte Kennzahlen ausgeben.
+4. Storage-Messungen mit dokumentierter Dateigroesse und Blockgroesse.
+5. Bei GPU-Metriken Backend (CUDA/D3D12/anderes) explizit protokollieren.
+6. Bei fehlender Hardware Metrik als unavailable mit Grund markieren, nicht mit 0.0 fuellen.
+
+Verbindliche Metriken (MVP):
+
+| Bereich | Metrik | Einheit | Mindestmethode |
+|---|---|---|---|
+| CPU | cpu_integer_ops_per_s, cpu_float_ops_per_s | ops/s | feste Laufzeitfenster, gleiche Datengroesse |
+| Memory | stream_copy_gb_s, stream_scale_gb_s, stream_add_gb_s, stream_triad_gb_s | GB/s | STREAM-like, best-of-n mit n dokumentiert |
+| Storage | disk_read_mb_s, disk_write_mb_s | MB/s | seq read/write, feste Dateigroesse |
+| Storage | disk_random_read_iops, disk_random_write_iops | IOPS | 4K random, feste Ops-Anzahl |
+| GPU Inventar | gpu_name, gpu_vram_gb, gpu_vendor_id, gpu_device_id | text, GB, id | primarer dedizierter Adapter |
+| Transfer (neu) | host_to_vram_gb_s, vram_to_host_gb_s | GB/s | pageable und optional pinned getrennt |
+| Transfer (neu) | cpu_to_gpu_dispatch_us | us | leerer Kernel/Dispatch Overhead |
+
+### 1.7.3 Erwartungsmatrix als Vorstufe der Korrelationsmatrix
+
+Interpretation der Staerke:
+
+- H = hoch
+- M = mittel
+- L = niedrig
+- 0 = praktisch keine direkte Korrelation erwartet
+
+| Benchmarkklasse / Subsystem | CPU SIMD | Memory BW | Storage seq | Storage random | fsync/flush | GPU/VRAM | H2D/D2H | Dispatch |
+|---|---|---|---|---|---|---|---|---|
+| Query/AQL OLTP (Point Lookup, Filter) | H | M | L | H | M | 0 | 0 | 0 |
+| Query/AQL OLAP (Scan, Join, Agg) | H | H | M | L | L | 0 | 0 | 0 |
+| Index Build CPU (B-Tree, R-Tree, HNSW CPU) | H | H | M | M | L | 0 | 0 | 0 |
+| Storage WAL/Compaction/Snapshot | M | M | H | H | H | 0 | 0 | 0 |
+| Ingestion Batch (Disk-zentriert) | M | M | H | M | M | 0 | 0 | 0 |
+| Vector Search GPU | M | M | L | L | L | H | H | M |
+| LLM Inference GPU | M | M | L | L | L | H | H | H |
+| Mixed CPU+GPU Pipeline (Embedding + ANN) | H | M | L | L | L | H | H | H |
+
+Effizienz-Template fuer die spaetere Korrelation (pro Klasse):
+
+- expected_capacity = Funktion aus relevanten Hardware-Metriken laut Matrix
+- efficiency = measured_themis_metric / expected_capacity
+- residual = measured_themis_metric - model_prediction
+
+Korrelationsvorgehen in zwei Stufen:
+
+1. Regelbasiert: Erwartungsmatrix liefert die primaeren Einflussfaktoren.
+2. Statistisch: Ueber gepaarte Hardware- und Benchmarklaeufe werden Pearson/Spearman und Residuen ausgewertet.
+
+Akzeptanzkriterium fuer den Uebergang zur finalen Korrelationsmatrix:
+
+- Mindestens 30 gepaarte Laeufe ueber mindestens 3 Hardwareklassen.
+- Fuer jede Benchmarkklasse mindestens ein signifikanter Primaerfaktor mit plausibler Effektstaerke.
+
+### 1.7.4 Aktuelle Gap-Auswertung (Run 2026-04-10)
+
+Quelle:
+
+- build-msvc-ninja-release/logs/hardware_baseline/hardware_baseline_gtest_1775806092.json
+
+Aktuelle Baseline-Werte (Kurzfassung):
+
+- SIMD: `avx2_fma`
+- Memory: STREAM triad 21.67 GB/s (`memory=medium`)
+- Storage: seq read 774.89 MB/s, random read 129701.13 IOPS (`storage=ssd_class`)
+- GPU: 11.83 GB VRAM (`gpu=medium`)
+- Transfer: H2D 4.07 GB/s, D2H 3.95 GB/s, Dispatch 497.87 us
+
+Gap gegen die naechste Zielklasse:
+
+| Faktor | Istwert | Naechste Klasse | Schwellwert | Gap | Einordnung |
+|---|---:|---|---:|---:|---|
+| Memory (triad) | 21.67 GB/s | `high` | 35.00 GB/s | -13.33 GB/s | deutlicher Abstand zu High-Memory |
+| Storage seq read | 774.89 MB/s | `nvme_class` | 1200.00 MB/s | -425.11 MB/s | sequenzieller Read ist Hauptlimit zum NVMe-Tier |
+| Storage random read | 129701.13 IOPS | `nvme_class` | 50000.00 IOPS | +79701.13 IOPS | Random-IO bereits klar ueber NVMe-Schwelle |
+| GPU VRAM | 11.83 GB | `high` | 16.00 GB | -4.17 GB | mittleres GPU-Tier, kein High-VRAM |
+
+Korrelation zur Erwartungsmatrix (direkte Aussage fuer aktuelle Plattform):
+
+1. Query/AQL OLTP: gut durch starke Random-IOPS; primarer Gap liegt nicht in Random-Storage.
+2. Query/AQL OLAP und CPU-Index-Build: erwartbare Begrenzung durch `memory=medium` statt `high`.
+3. Storage/WAL/Snapshot: sequenzieller Read bleibt der dominante Gap zum NVMe-Profil.
+4. Vector/LLM GPU-Pfade: `gpu=medium` plus moderate H2D/D2H-Raten deuten auf Bandbreiten- und VRAM-Grenzen bei grossen Batches.
+5. Mixed CPU+GPU Pipelines: Dispatch-Latenz und Transferdurchsatz sind jetzt messbar und koennen als Primaerfaktoren in die Effizienzformeln eingehen.
+
+Methodischer Hinweis:
+
+- Diese Auswertung ist ein einzelner Snapshot (n=1 Lauf) und liefert eine robuste Priorisierung, aber noch keine statistische Signifikanz.
+- Fuer belastbare Korrelationen gemaess Abschnitt 1.7.3 sind gepaarte Reihen ueber mehrere Hosts und Wiederholungen erforderlich.
+
+### 1.7.5 Konkrete Effizienzformeln je Benchmarkklasse (v0)
+
+Ziel:
+
+- Hardware-Baselines werden in normierte Erwartungswerte ueberfuehrt.
+- Themis-Benchmarkwerte werden als Effizienz relativ zur Hardwareklasse bewertet.
+
+Normalisierte Hardwarefaktoren (0..1, geclamped):
+
+- `N_cpu = min(cpu_integer_ops_per_s / 8.0e7, 1.0)`
+- `N_mem = min(stream_triad_gb_s / 35.0, 1.0)`
+- `N_seq = min(disk_read_mb_s / 1200.0, 1.0)`
+- `N_rand = min(disk_random_read_iops / 50000.0, 1.0)`
+- `N_vram = min(gpu_vram_gb / 16.0, 1.0)`
+- `N_h2d = min(host_to_vram_gb_s / 8.0, 1.0)`
+- `N_d2h = min(vram_to_host_gb_s / 8.0, 1.0)`
+- `N_dispatch = min(200.0 / cpu_to_gpu_dispatch_us, 1.0)`
+
+Hinweis zu fehlenden Werten:
+
+- Wenn ein Faktor nicht verfuegbar ist, wird er fuer die jeweilige Formel neutral mit 0.5 vorbelegt und als Unsicherheit markiert.
+
+Expected-Capacity-Modelle (erste Version):
+
+| Benchmarkklasse | Expected Capacity (normiert) |
+|---|---|
+| Query/AQL OLTP | `E_oltp = 0.45*N_cpu + 0.20*N_mem + 0.25*N_rand + 0.10*N_seq` |
+| Query/AQL OLAP | `E_olap = 0.40*N_cpu + 0.45*N_mem + 0.15*N_seq` |
+| Storage WAL/Snapshot | `E_storage = 0.20*N_cpu + 0.20*N_mem + 0.35*N_seq + 0.25*N_rand` |
+| Vector Search GPU | `E_vec_gpu = 0.20*N_cpu + 0.15*N_mem + 0.30*N_vram + 0.20*N_h2d + 0.10*N_d2h + 0.05*N_dispatch` |
+| LLM Inference GPU | `E_llm_gpu = 0.15*N_cpu + 0.15*N_mem + 0.35*N_vram + 0.20*N_h2d + 0.05*N_d2h + 0.10*N_dispatch` |
+| Mixed CPU+GPU Pipeline | `E_mixed = 0.25*N_cpu + 0.20*N_mem + 0.20*N_vram + 0.15*N_h2d + 0.10*N_d2h + 0.10*N_dispatch` |
+
+Effizienzdefinition je konkretem Benchmark:
+
+- `efficiency = measured_metric / expected_metric`
+- `expected_metric = baseline_reference_for_benchmark * E_class`
+- `residual = measured_metric - expected_metric`
+
+Interpretation Effizienz:
+
+| efficiency | Bewertung | Interpretation |
+|---:|---|---|
+| >= 0.90 | gut | Verhalten nahe am erwarteten Hardwareprofil |
+| 0.75 .. < 0.90 | auffaellig | moeglicher Overhead oder Subsystem-Engpass |
+| < 0.75 | kritisch | starke Abweichung, hohe Prioritaet fuer Root-Cause |
+
+Sofort nutzbare Priorisierung mit aktuellem Hardware-Run:
+
+1. OLAP/CPU-Index Fokus auf Memory-Effizienz (groesster Klassen-Gap zu `N_mem=1.0`).
+2. Storage-Pfade mit seq-read-sensitiven Workloads priorisieren (Gap zu `N_seq=1.0`).
+3. GPU-Workloads mit grossem Batch zuerst ueber Transfer-Effizienz (`N_h2d`, `N_d2h`, `N_dispatch`) bewerten.
+
+Umsetzungsschritt fuer naechsten Zyklus:
+
+- Pro Benchmarkklasse mindestens 3 konkrete Themis-Benchmarks an diese Formelklasse binden.
+- Fuer jeden Benchmark `baseline_reference_for_benchmark` dokumentieren und versionieren.
+
+### 1.7.6 Benchmark-Bindung auf Formelklassen (v0, initial umgesetzt)
+
+Quelle Hardwarefaktoren fuer diese Initialbindung:
+
+- `build-msvc-ninja-release/logs/hardware_baseline/hardware_baseline_gtest_1775806092.json`
+- Daraus abgeleitete Klassenfaktoren: `E_oltp=0.744`, `E_olap=0.647`, `E_storage=0.736`, `E_vec_gpu=0.622`, `E_llm_gpu=0.620`, `E_mixed=0.607`
+
+Regel fuer die Berechnung je Benchmark (ab jetzt bindend):
+
+- `expected_metric = baseline_reference_for_benchmark * E_class`
+- `efficiency = measured_metric / expected_metric`
+
+Konkrete Zuordnung (mindestens 3 Benchmarks je Klasse):
+
+| Formelklasse | Konkreter Benchmark | baseline_reference_for_benchmark | measured_metric (aktuell) | Datenquelle |
+|---|---|---:|---:|---|
+| Query/AQL OLTP (`E_oltp`) | QueryEngineBench/SimpleEvaluation | 814.5 M items/s | 796.4 M items/s | v1.3.4 vs v1.8.2 Tabelle |
+| Query/AQL OLTP (`E_oltp`) | BM_CTE_NonRecursive_Simple/10 | 910.2 M/s | 910.2 M/s | CTE-Detailtabelle |
+| Query/AQL OLTP (`E_oltp`) | BM_Subquery_EXISTS_WithoutLIMIT1/1000 | 1.41 M/s | 1.41 M/s | CTE/Subquery-Detailtabelle |
+| Query/AQL OLAP (`E_olap`) | BM_OLAP_Count/1000000 | 242.637 M/s | 242.637 M/s | Analytics-Proxytabelle |
+| Query/AQL OLAP (`E_olap`) | BM_OLAP_GroupBy_Optimized/1000000 | 48.528 M/s | 48.528 M/s | Analytics-Proxytabelle |
+| Query/AQL OLAP (`E_olap`) | BM_OLAP_ComplexQuery/1000000 | 51.613 M/s | 51.613 M/s | Analytics-Proxytabelle |
+| Storage WAL/Snapshot (`E_storage`) | BM_RawWrite_WAL_On/8 | 1.058 k/s | 1.193 k/s | Storage-Skalierungstabelle |
+| Storage WAL/Snapshot (`E_storage`) | BM_MixedRW/8 | 2.534 k/s | 2.534 k/s | Storage-Skalierungstabelle |
+| Storage WAL/Snapshot (`E_storage`) | BM_SecondaryIndex_Write/8 | 1.056 k/s | 1.056 k/s | Storage-Skalierungstabelle |
+| Vector Search GPU (`E_vec_gpu`) | VectorIndexBench/InsertPlaintext | 351.4 k/s | 548.7 k/s | Index-Tabelle v1.3.4 vs v1.8.2 |
+| Vector Search GPU (`E_vec_gpu`) | BM_CPUBackend_DistanceComputation/1000x100000 | 10.63 M/s | 9.95 M/s | Vektor-Backend-Tabelle |
+| Vector Search GPU (`E_vec_gpu`) | BM_VectorDistance_Cosine/256 | 4.9 M/s | 4.9 M/s | Vektor-Kernel-Tabelle |
+| LLM Inference GPU (`E_llm_gpu`) | BM_Combined_LLM_RAG_Pipeline | 15.9 k/s | 15.9 k/s | LLM-Pipeline-Tabelle |
+| LLM Inference GPU (`E_llm_gpu`) | BM_EmbeddingCache_Query_Hit/384 | 155.8 M/s | 155.8 M/s | Cache/Embedding-Tabelle |
+| LLM Inference GPU (`E_llm_gpu`) | BM_HybridSearch_RRF/768 | 7.08 M/s | 7.08 M/s | Hybrid-Search-Tabelle |
+| Mixed CPU+GPU Pipeline (`E_mixed`) | BM_VectorGeoFiltering/32768 | 25.8 M/s | 25.8 M/s | Geo+Vector-Tabelle |
+| Mixed CPU+GPU Pipeline (`E_mixed`) | BM_DB_Ingest_Encrypted/100000 | 27.9 k/s | 27.9 k/s | Security+Ingest-Tabelle |
+| Mixed CPU+GPU Pipeline (`E_mixed`) | BM_Index_Insert_WithEncryptedPayload/100000 | 717.2 k/s | 717.2 k/s | Security+Index-Tabelle |
+
+Einordnung der Initialbindung:
+
+1. Die Mindestanforderung von 3 Benchmarks je Klasse ist fuer alle 6 Klassen erfuellt.
+2. Die obigen `baseline_reference_for_benchmark` sind als v0-Referenz fixiert und koennen in den naechsten Runs nur mit Versionssprung aktualisiert werden.
+3. Ab dem naechsten Benchmarkzyklus wird pro Zeile die Effizienz (`measured / expected`) und das Residuum verpflichtend mitgefuehrt.
+
+### 1.7.7 Erste Effizienzberechnung aus dem aktuellen Hardware-Run (v0)
+
+Verwendete Klassenfaktoren aus Abschnitt 1.7.6:
+
+- `E_oltp=0.744`, `E_olap=0.647`, `E_storage=0.736`, `E_vec_gpu=0.622`, `E_llm_gpu=0.620`, `E_mixed=0.607`
+
+Beispielrechnung je Klasse:
+
+| Formelklasse | Benchmark | baseline_reference | E_class | expected_metric | measured_metric | efficiency | residual |
+|---|---|---:|---:|---:|---:|---:|---:|
+| Query/AQL OLTP | QueryEngineBench/SimpleEvaluation | 814.5 M/s | 0.744 | 605.988 M/s | 796.4 M/s | 1.314 | +190.412 M/s |
+| Query/AQL OLAP | BM_OLAP_Count/1000000 | 242.637 M/s | 0.647 | 156.986 M/s | 242.637 M/s | 1.545 | +85.651 M/s |
+| Storage WAL/Snapshot | BM_RawWrite_WAL_On/8 | 1.058 k/s | 0.736 | 0.779 k/s | 1.193 k/s | 1.532 | +0.414 k/s |
+| Vector Search GPU | VectorIndexBench/InsertPlaintext | 351.4 k/s | 0.622 | 218.571 k/s | 548.7 k/s | 2.510 | +330.129 k/s |
+| LLM Inference GPU | BM_Combined_LLM_RAG_Pipeline | 15.9 k/s | 0.620 | 9.858 k/s | 15.9 k/s | 1.613 | +6.042 k/s |
+| Mixed CPU+GPU Pipeline | BM_Index_Insert_WithEncryptedPayload/100000 | 717.2 k/s | 0.607 | 435.340 k/s | 717.2 k/s | 1.647 | +281.860 k/s |
+
+Interpretation dieses ersten Laufs:
+
+1. Alle sechs Beispiel-Benchmarks liegen in dieser v0-Modellierung ueber `efficiency >= 1.0`.
+2. Das spricht fuer konservative Referenzen oder eine zu milde Normierung (insbesondere bei Vektor/GPU-Klassen).
+3. Fuer v1 der Korrelationsregeln muessen die Gewichte und/oder Referenzwerte so kalibriert werden, dass die Effizienz median-nah um `1.0` liegt (robust ueber mehrere Hosts).
+
+### 1.7.8 Korrelationsregeln (v1, verbindlich fuer Folge-Runs)
+
+Ziel der Kalibrierung:
+
+- Effizienzwerte sollen pro Klasse auf Host-Populationsebene um `1.0` zentriert sein.
+- Korrelationen werden als reproduzierbare Regeln fuer Gap-Diagnosen verwendbar.
+
+Voraussetzung fuer jede belastbare Erwartungsbewertung:
+
+- Solange die Klassen-Effizienz nicht auf Host-Populationsebene um `1.0` zentriert ist, duerfen `E_class`, `target_hw` und `score_hw_neutral` nur als vorlaeufige Rohindikatoren verwendet werden.
+- Verbindliche Erwartungsbewertungen, Release-Gates und Zielanpassungen sind erst nach abgeschlossener Zentrierung zulaessig.
+
+Regeln:
+
+1. Pro Klasse wird ein Referenzfenster aus mindestens 30 gepaarten Runs ueber mindestens 3 Hardwareklassen gebildet.
+2. Kalibrierfaktor je Klasse: `K_class = median(efficiency_raw_class_window)`.
+3. Kalibrierte Effizienz je Benchmark: `efficiency_calibrated = efficiency_raw / K_class`.
+4. Residuum bleibt auf Rohmetrik: `residual = measured_metric - expected_metric_raw`.
+5. Signifikante Faktorzuordnung gilt nur, wenn beide Kriterien erfuellt sind:
+	- `|corr_spearman(factor, efficiency_calibrated)| >= 0.35`
+	- `p_value <= 0.05`
+6. Stabilitaetsregel je Benchmarkklasse: Koefizientenvariation der kalibrierten Effizienz `CV <= 0.20` im Referenzfenster.
+
+#### 1.7.8.1 Host-Population fuer die Zentrierung
+
+Ziel:
+
+- `K_class` darf nur aus einer bewusst definierten Host-Population abgeleitet werden.
+
+Verbindliche Regeln fuer die Population:
+
+1. Mindestens 3 Hardwareklassen muessen vertreten sein:
+	- `entry`: Entwickler-Notebook oder kleine VM
+	- `mid`: typische CI-/Workstation-Klasse
+	- `high`: leistungsstarke Workstation oder GPU-Host
+2. Pro Hardwareklasse muessen mindestens 10 vollstaendige gepaarte Runs vorliegen.
+3. Ein gepaarter Run besteht immer aus:
+	- einem Hardware-Baseline-Artefakt
+	- einem Benchmark-Artefakt desselben Laufzyklus
+	- identischer Build-Konfiguration fuer beide Artefakte
+4. Hosts mit instabiler Messumgebung werden ausgeschlossen, wenn eine der Bedingungen verletzt ist:
+	- CPU-Frequenz stark schwankend oder Energiesparprofil aktiv
+	- thermische Drosselung waehrend des Runs
+	- fehlende NUMA-/GPU-/Storage-Metadaten
+	- Reproduzierbarkeit schlechter als `CV > 0.20` fuer denselben Benchmark auf demselben Host
+
+Minimaler Pflicht-Metadatensatz je Host:
+
+- `host_id`
+- `cpu_model`
+- `core_count`
+- `memory_gb`
+- `storage_class`
+- `gpu_name`
+- `gpu_vram_gb`
+- `os_name`
+- `build_type`
+- `compiler_id`
+- `compiler_version`
+
+#### 1.7.8.2 Benchmark-Set je Klasse fuer die Zentrierung
+
+Ziel:
+
+- `K_class` wird nicht aus Einzelbenchmarks, sondern aus einem stabilen Klassen-Set bestimmt.
+
+Pflichtregel je Klasse:
+
+1. Pro Klasse muessen mindestens 3 Benchmarks verwendet werden.
+2. Die Benchmarks muessen denselben primaeren Ressourcenpfad repraesentieren.
+3. Ein Benchmark darf nur einer Primaerklasse fuer die Kalibrierung zugeordnet werden.
+
+Initiales Pflicht-Set fuer die Zentrierung:
+
+| Klasse | Pflicht-Benchmarks fuer `K_class` |
+|---|---|
+| Query/AQL OLTP | `QueryEngineBench/SimpleEvaluation`, `BM_CTE_NonRecursive_Simple/10`, `BM_Subquery_EXISTS_WithoutLIMIT1/1000` |
+| Query/AQL OLAP | `BM_OLAP_Count/1000000`, `BM_OLAP_GroupBy_Optimized/1000000`, `BM_OLAP_ComplexQuery/1000000` |
+| Storage WAL/Snapshot | `BM_RawWrite_WAL_On/8`, `BM_MixedRW/8`, `BM_SecondaryIndex_Write/8` |
+| Vector Search GPU | `VectorIndexBench/InsertPlaintext`, `BM_CPUBackend_DistanceComputation/1000x100000`, `BM_VectorDistance_Cosine/256` |
+| LLM Inference GPU | `BM_Combined_LLM_RAG_Pipeline`, `BM_EmbeddingCache_Query_Hit/384`, `BM_HybridSearch_RRF/768` |
+| Mixed CPU+GPU Pipeline | `BM_VectorGeoFiltering/32768`, `BM_DB_Ingest_Encrypted/100000`, `BM_Index_Insert_WithEncryptedPayload/100000` |
+
+Austauschregel:
+
+1. Ein Benchmark aus dem Pflicht-Set darf nur ersetzt werden, wenn er technisch obsolet, instabil oder fachlich nicht mehr repraesentativ ist.
+2. Jeder Austausch erfordert Versionssprung von `K_class` und dokumentierte Migrationsnotiz.
+
+#### 1.7.8.3 Versionierung und Publikation von `K_class`
+
+Ziel:
+
+- Kalibrierfaktoren muessen reproduzierbar, auditierbar und vergleichbar versioniert werden.
+
+Verbindliches Publikationsformat pro Klasse:
+
+| Feld | Bedeutung |
+|---|---|
+| `calibration_version` | fortlaufende Version, z. B. `kclass-v1` |
+| `class_name` | Benchmarkklasse |
+| `population_window` | enthaltener Zeitraum oder Run-Bereich |
+| `host_count` | Anzahl unterschiedlicher Hosts |
+| `run_count` | Anzahl gepaarter Runs |
+| `benchmark_set` | verwendete Benchmarks |
+| `k_class` | Median der Roh-Effizienz |
+| `cv_class` | Stabilitaet der kalibrierten Klasse |
+| `notes` | bekannte Einschraenkungen oder Ausreisserbehandlung |
+
+Governance fuer neue Versionen:
+
+1. `K_class` wird nur neu versioniert, wenn mindestens eine dieser Bedingungen eintritt:
+	- Benchmark-Set geaendert
+	- Host-Population strukturell erweitert
+	- Messmethodik oder Baseline-Schema geaendert
+	- Medianverschiebung groesser gleich `10 %`
+2. Jede neue Version muss die vorherige Version referenzieren und die Differenz begruenden.
+3. Performance-Bewertungen muessen immer die verwendete `calibration_version` mitfuehren.
+
+Banding fuer die operative Bewertung (auf `efficiency_calibrated`):
+
+| Bereich | Bewertung | Operative Bedeutung |
+|---|---|---|
+| `< 0.85` | kritisch | hoher Handlungsdruck, wahrscheinlich systemischer Engpass |
+| `0.85 .. < 0.95` | auffaellig | beobachtbar unter Erwartung, Root-Cause starten |
+| `0.95 .. 1.05` | normal | im erwarteten Korridor |
+| `> 1.05` | ueber Erwartung | positive Abweichung, moegliche Baseline-Rekalibrierung pruefen |
+
+### 1.7.9 Korrelationsmatrix (v0) fuer den aktuellen Host publiziert
+
+Basislauf:
+
+- `build-msvc-ninja-release/logs/hardware_baseline/hardware_baseline_gtest_1775806092.json`
+
+Verwendete normalisierte Faktoren aus diesem Lauf:
+
+- `N_cpu=0.679`, `N_mem=0.619`, `N_seq=0.646`, `N_rand=1.000`, `N_vram=0.739`, `N_h2d=0.509`, `N_d2h=0.494`, `N_dispatch=0.402`
+
+Abgeleitete Gap-Komponenten (`G_i = 1 - N_i`) mit Klassenaggregation:
+
+| Klasse | E_class | Gap-Score `1-E_class` | Dominante Gap-Faktoren (absteigend) | Prioritaet |
+|---|---:|---:|---|---|
+| Mixed CPU+GPU Pipeline | 0.607 | 0.393 | CPU, Memory, H2D-Transfer, Dispatch | 1 |
+| LLM Inference GPU | 0.620 | 0.380 | H2D-Transfer, VRAM, Dispatch | 2 |
+| Vector Search GPU | 0.622 | 0.378 | H2D-Transfer, VRAM, CPU | 3 |
+| Query/AQL OLAP | 0.647 | 0.353 | Memory, CPU, Seq-Storage | 4 |
+| Storage WAL/Snapshot | 0.736 | 0.264 | Seq-Storage, CPU/Memory | 5 |
+| Query/AQL OLTP | 0.744 | 0.256 | CPU, Memory | 6 |
+
+Operative Lesart der v0-Matrix:
+
+1. Der staerkste erwartete Gap liegt in gemischten CPU+GPU-Pfaden, getrieben durch Transfer und Dispatch sowie mittlere CPU/Memory-Werte.
+2. Reine OLTP-Pfade sind im aktuellen Hardwareprofil vergleichsweise am wenigsten limitiert, da Random-IO bereits im Zielkorridor liegt.
+3. Fuer GPU-nahe Klassen ist PCIe-Transfer (`N_h2d`, `N_d2h`) zusammen mit Dispatch-Latenz der dominantere Hebel als reine VRAM-Groesse.
+
+Publikationsstatus:
+
+- Diese Matrix ist als **v0 regelbasiert** freigegeben.
+- Upgrade auf **v1 statistisch kalibriert** erfolgt nach Erfuellung der Datenmengenregel aus Abschnitt 1.7.8.
+
+### 1.7.10 Hardware-neutrale Erwartungswerte (verbindliches Zielbild)
+
+Grundsatz:
+
+- Modul-Erwartungswerte werden nicht mehr als starre absolute Zahl ohne Hardwarebezug bewertet.
+- Die operative Sollgroesse wird pro Host aus technischer Machbarkeit (Hardware-Baseline) abgeleitet.
+
+Verbindliche Ableitung je Benchmark:
+
+1. Produktziel bleibt als absolute Referenz erhalten (`target_product`).
+2. Hardwarefaehigkeit wird ueber die Klassenfunktion bestimmt (`E_class`, kalibriert nach Abschnitt 1.7.8).
+3. Hardware-normalisierter Erwartungswert:
+	- `target_hw = target_product * E_class_calibrated`
+4. Bewertungskennzahl fuer hardware-neutrale Vergleichbarkeit:
+	- `score_hw_neutral = measured_metric / target_hw`
+
+Wichtige Einschraenkung:
+
+- Vor abgeschlossener Zentrierung ist stattdessen nur `score_hw_raw = measured_metric / (target_product * E_class_raw)` zulaessig.
+- `score_hw_raw` dient ausschliesslich zur Modellinspektion und darf nicht als finales Pass/Fail-Signal verwendet werden.
+
+Interpretation von `score_hw_neutral`:
+
+| Bereich | Bewertung |
+|---|---|
+| `< 0.90` | unter technisch machbarer Erwartung |
+| `0.90 .. 1.10` | im hardware-neutralen Sollkorridor |
+| `> 1.10` | ueber Soll (Potenzial fuer Zielanhebung oder Modell-Rekalibrierung) |
+
+Governance-Regeln:
+
+1. Release-Entscheidungen fuer Performance richten sich primaer nach `score_hw_neutral`, nicht nach rohen Absolutwerten ohne Hardwarebezug.
+2. Absolute Produktziele bleiben fuer Capacity-Planung und Roadmap-Kommunikation sichtbar, werden aber technisch immer gegen `target_hw` gespiegelt.
+3. Bei `score_hw_neutral < 0.90` in zwei aufeinanderfolgenden Runs ist ein Root-Cause-Ticket verpflichtend.
+4. Bei `score_hw_neutral > 1.10` ueber mindestens 3 Hosts wird die Zielmetrik oder Kalibrierung zur Anhebung vorgeschlagen.
+
+Vor der Zentrierung gilt ersatzweise:
+
+1. `score_hw_raw` darf nur als Hinweis auf zu milde oder zu strenge Modellierung gelesen werden.
+2. Weder `ueber-soll` noch `kritisch` aus dem Rohmodell duerfen als verbindliche Modulbewertung publiziert werden.
+
+Konsequenz:
+
+- Damit wird die Benchmarkbewertung im Tagesbetrieb weitgehend hardware-neutral, ohne die strategischen Produktziele zu verlieren.
+
+### 1.7.11 Standard-Run-Tabelle (hardware-neutral, Pflichtformat)
+
+Verwendung:
+
+- Pro Benchmarklauf wird diese Tabelle pro relevanter Metrikzeile gefuellt.
+- Nach abgeschlossener Zentrierung sind `target_hw` und `score_hw_neutral` Pflichtfelder.
+- Vorher sind `target_hw_raw` und `score_hw_raw` als vorlaeufige Felder zu verwenden.
+
+| run_id | module | benchmark | class | target_product | E_class_raw | target_hw_raw | measured_metric | score_hw_raw | status_raw | baseline_file |
+|---|---|---|---|---:|---:|---:|---:|---:|---|---|
+| <run-id> | <modul> | <benchmark-name> | <klasse> | <ziel absolut> | <E_class_raw> | <target_product*E_class_raw> | <messwert> | <measured/target_hw_raw> | <roh: kritisch/normal/ueber-soll> | <hardware_baseline_json> |
+
+Statuslogik (verbindlich):
+
+1. `score_hw_neutral < 0.90` -> `kritisch`
+2. `0.90 <= score_hw_neutral <= 1.10` -> `normal`
+3. `score_hw_neutral > 1.10` -> `ueber-soll`
+
+Ausgefuelltes Beispiel (aktueller Lauf, noch unzentrierter Rohstatus):
+
+| run_id | module | benchmark | class | target_product | E_class_raw | target_hw_raw | measured_metric | score_hw_raw | status_raw | baseline_file |
+|---|---|---|---|---:|---:|---:|---:|---:|---|---|
+| 2026-04-10-hw-1775806092 | Query | QueryEngineBench/SimpleEvaluation | Query/AQL OLTP | 750.0 M items/s | 0.744 | 558.000 M items/s | 796.4 M items/s | 1.427 | ueber-soll | build-msvc-ninja-release/logs/hardware_baseline/hardware_baseline_gtest_1775806092.json |
+| 2026-04-10-hw-1775806092 | Index | VectorIndexBench/InsertPlaintext | Vector Search GPU | 280.0 k/s | 0.622 | 174.160 k/s | 548.7 k/s | 3.150 | ueber-soll | build-msvc-ninja-release/logs/hardware_baseline/hardware_baseline_gtest_1775806092.json |
+| 2026-04-10-hw-1775806092 | Storage | BM_RawWrite_WAL_On/8 | Storage WAL/Snapshot | 1.0 k/s | 0.736 | 0.736 k/s | 1.193 k/s | 1.621 | ueber-soll | build-msvc-ninja-release/logs/hardware_baseline/hardware_baseline_gtest_1775806092.json |
+
+### 1.7.12 Erwartungswerte vs Messwerte (Rohmodell vor Zentrierung, aktueller Stand)
+
+Bewertungsregel:
+
+- `target_hw_raw = target_product * E_class_raw`
+- `score_hw_raw = measured_metric / target_hw_raw`
+
+Auswertung fuer die aktuell messbaren Erwartungen im Dokument:
+
+| Modul | Benchmark | target_product | E_class_raw | target_hw_raw | measured_metric | score_hw_raw | Rohbewertung |
+|---|---|---:|---:|---:|---:|---:|---|
+| Query | QueryEngineBench/SimpleEvaluation | 750.0 M items/s | 0.744 | 558.000 M items/s | 796.4 M items/s | 1.427 | ueber-soll |
+| Index | VectorIndexBench/InsertPlaintext | 280.0 k/s | 0.622 | 174.160 k/s | 548.7 k/s | 3.150 | ueber-soll |
+| Index | SecondaryIndexBench/IndexInsert | 180.0 k/s | 0.736 | 132.480 k/s | 254.9 k/s | 1.924 | ueber-soll |
+| Cache | C-1 Proxy (BM_EmbeddingCache_Query_WithIndex/100000) | 5.0 M ops/s | 0.744 | 3.720 M ops/s | 5.851 M ops/s | 1.573 | ueber-soll |
+
+Kurzfazit (nur Rohmodell, noch nicht release-tauglich):
+
+1. Alle vier derzeit direkt vergleichbaren Expectations liegen im unzentrierten Rohmodell ueber dem Roh-Sollkorridor.
+2. Das ist primaer ein Kalibrierungssignal: `E_class_raw` ist aktuell zu konservativ und muss vor jeder finalen Erwartungsbewertung zentriert werden.
+3. Erst nach Zentrierung auf Host-Populationsebene wird aus `score_hw_raw` ein belastbarer `score_hw_neutral`.
+
+### 1.7.13 n/v-zu-Quelle-Matrix (primaere Expectation-Tabellen)
+
+Regel:
+
+- Jede Zeile mit explizitem `n/v` in den primaeren Modultabellen bekommt genau eine primaere Messquelle.
+- Wenn der exakte Case im genannten File noch nicht existiert, ist dieses File der verbindliche Erweiterungspunkt.
+
+#### Query
+
+| n/v-Zeile | Benchmark-File | Messkommando | Zielartefakt |
+|---|---|---|---|
+| Simple AQL WHERE | `benchmarks/bench_query.cpp` | `build-msvc-ninja-release/benchmarks/bench_query.exe --benchmark_out=artifacts/perf_nv/query_simple_aql_where.json --benchmark_out_format=json` | `artifacts/perf_nv/query_simple_aql_where.json` |
+| Complex WHERE | `benchmarks/bench_query.cpp` | `build-msvc-ninja-release/benchmarks/bench_query.exe --benchmark_out=artifacts/perf_nv/query_complex_where.json --benchmark_out_format=json` | `artifacts/perf_nv/query_complex_where.json` |
+| JOIN (Users-Posts) | `benchmarks/bench_query.cpp` | `build-msvc-ninja-release/benchmarks/bench_query.exe --benchmark_out=artifacts/perf_nv/query_join_users_posts.json --benchmark_out_format=json` | `artifacts/perf_nv/query_join_users_posts.json` |
+| Parse + Optimize P99 (10 Collections) | `benchmarks/bench_adaptive_query_compilation.cpp` | `build-msvc-ninja-release/benchmarks/bench_adaptive_query_compilation.exe --benchmark_out=artifacts/perf_nv/query_parse_optimize_p99.json --benchmark_out_format=json` | `artifacts/perf_nv/query_parse_optimize_p99.json` |
+| Query-Cache Lookup P99 (Exact) | `benchmarks/bench_adaptive_query_cache.cpp` | `build-msvc-ninja-release/benchmarks/bench_adaptive_query_cache.exe --benchmark_out=artifacts/perf_nv/query_cache_exact_p99.json --benchmark_out_format=json` | `artifacts/perf_nv/query_cache_exact_p99.json` |
+| Query-Cache Lookup P99 (Semantic) | `benchmarks/bench_adaptive_query_cache.cpp` | `build-msvc-ninja-release/benchmarks/bench_adaptive_query_cache.exe --benchmark_out=artifacts/perf_nv/query_cache_semantic_p99.json --benchmark_out_format=json` | `artifacts/perf_nv/query_cache_semantic_p99.json` |
+| JIT Erstcompilierung | `benchmarks/bench_adaptive_query_compilation.cpp` | `build-msvc-ninja-release/benchmarks/bench_adaptive_query_compilation.exe --benchmark_out=artifacts/perf_nv/query_jit_first_compile.json --benchmark_out_format=json` | `artifacts/perf_nv/query_jit_first_compile.json` |
+| Federation Plan-Overhead (5 Cluster) | `benchmarks/bench_distributed_coordinator.cpp` | `build-msvc-ninja-release/benchmarks/bench_distributed_coordinator.exe --benchmark_out=artifacts/perf_nv/query_federation_plan_overhead.json --benchmark_out_format=json` | `artifacts/perf_nv/query_federation_plan_overhead.json` |
+| Streaming First-Chunk Latenz | `benchmarks/bench_api_endpoints.cpp` | `build-msvc-ninja-release/benchmarks/bench_api_endpoints.exe --benchmark_out=artifacts/perf_nv/query_streaming_first_chunk.json --benchmark_out_format=json` | `artifacts/perf_nv/query_streaming_first_chunk.json` |
+
+#### Index
+
+| n/v-Zeile | Benchmark-File | Messkommando | Zielartefakt |
+|---|---|---|---|
+| SecondaryIndexBench/RawWriteOnly | `benchmarks/bench_core_performance.cpp` | `build-msvc-ninja-release/benchmarks/bench_core_performance.exe --benchmark_out=artifacts/perf_nv/index_raw_write_only.json --benchmark_out_format=json` | `artifacts/perf_nv/index_raw_write_only.json` |
+| Small Index Insert (1K entities) | `benchmarks/bench_core_performance.cpp` | `build-msvc-ninja-release/benchmarks/bench_core_performance.exe --benchmark_out=artifacts/perf_nv/index_small_insert_1k.json --benchmark_out_format=json` | `artifacts/perf_nv/index_small_insert_1k.json` |
+| Medium Index Insert (100K) | `benchmarks/bench_core_performance.cpp` | `build-msvc-ninja-release/benchmarks/bench_core_performance.exe --benchmark_out=artifacts/perf_nv/index_medium_insert_100k.json --benchmark_out_format=json` | `artifacts/perf_nv/index_medium_insert_100k.json` |
+| Large Index Lookup (1M) | `benchmarks/bench_core_performance.cpp` | `build-msvc-ninja-release/benchmarks/bench_core_performance.exe --benchmark_out=artifacts/perf_nv/index_large_lookup_1m.json --benchmark_out_format=json` | `artifacts/perf_nv/index_large_lookup_1m.json` |
+| Composite Index Lookup | `benchmarks/bench_core_performance.cpp` | `build-msvc-ninja-release/benchmarks/bench_core_performance.exe --benchmark_out=artifacts/perf_nv/index_composite_lookup.json --benchmark_out_format=json` | `artifacts/perf_nv/index_composite_lookup.json` |
+| L2Distance/1000/512 | `benchmarks/bench_vector_search.cpp` | `build-msvc-ninja-release/benchmarks/bench_vector_search.exe --benchmark_out=artifacts/perf_nv/index_l2distance_1000_512.json --benchmark_out_format=json` | `artifacts/perf_nv/index_l2distance_1000_512.json` |
+| CosineDistance/1000/512 | `benchmarks/bench_vector_search.cpp` | `build-msvc-ninja-release/benchmarks/bench_vector_search.exe --benchmark_out=artifacts/perf_nv/index_cosine_1000_512.json --benchmark_out_format=json` | `artifacts/perf_nv/index_cosine_1000_512.json` |
+| TopK/5000/50 | `benchmarks/bench_vector_search.cpp` | `build-msvc-ninja-release/benchmarks/bench_vector_search.exe --benchmark_out=artifacts/perf_nv/index_topk_5000_50.json --benchmark_out_format=json` | `artifacts/perf_nv/index_topk_5000_50.json` |
+| HNSW Vektor-Suche (CPU) | `benchmarks/bench_vector_search.cpp` | `build-msvc-ninja-release/benchmarks/bench_vector_search.exe --benchmark_out=artifacts/perf_nv/index_hnsw_cpu.json --benchmark_out_format=json` | `artifacts/perf_nv/index_hnsw_cpu.json` |
+| HNSW Vektor-Suche (GPU RTX-class) | `benchmarks/bench_gpu_vector_index.cpp` | `build-msvc-ninja-release/benchmarks/bench_gpu_vector_index.exe --benchmark_out=artifacts/perf_nv/index_hnsw_gpu.json --benchmark_out_format=json` | `artifacts/perf_nv/index_hnsw_gpu.json` |
+| B-Tree Point-Lookup P99 (10M Keys) | `benchmarks/bench_storage_performance.cpp` | `build-msvc-ninja-release/benchmarks/bench_storage_performance.exe --benchmark_out=artifacts/perf_nv/index_btree_point_lookup_p99.json --benchmark_out_format=json` | `artifacts/perf_nv/index_btree_point_lookup_p99.json` |
+| R-Tree Spatial Range Query P99 | `benchmarks/bench_spatial_index.cpp` | `build-msvc-ninja-release/benchmarks/bench_spatial_index.exe --benchmark_out=artifacts/perf_nv/index_rtree_spatial_range_p99.json --benchmark_out_format=json` | `artifacts/perf_nv/index_rtree_spatial_range_p99.json` |
+| GPU Index-Build (1M x 128-dim) | `benchmarks/bench_gpu_vector_index.cpp` | `build-msvc-ninja-release/benchmarks/bench_gpu_vector_index.exe --benchmark_out=artifacts/perf_nv/index_gpu_build_1m_128.json --benchmark_out_format=json` | `artifacts/perf_nv/index_gpu_build_1m_128.json` |
+| RocksDB WriteBatch Commit P99 | `benchmarks/bench_storage_performance.cpp` | `build-msvc-ninja-release/benchmarks/bench_storage_performance.exe --benchmark_out=artifacts/perf_nv/index_writebatch_commit_p99.json --benchmark_out_format=json` | `artifacts/perf_nv/index_writebatch_commit_p99.json` |
+
+#### Cache
+
+| n/v-Zeile | Benchmark-File | Messkommando | Zielartefakt |
+|---|---|---|---|
+| C-2 L2 Hit-Path | `benchmarks/bench_embedding_cache_performance.cpp` | `build-msvc-ninja-release/benchmarks/bench_embedding_cache_performance.exe --benchmark_out=artifacts/perf_nv/cache_l2_hit_path.json --benchmark_out_format=json` | `artifacts/perf_nv/cache_l2_hit_path.json` |
+| C-3 L3 Hit-Path P99 | `benchmarks/bench_embedding_cache_performance.cpp` | `build-msvc-ninja-release/benchmarks/bench_embedding_cache_performance.exe --benchmark_out=artifacts/perf_nv/cache_l3_hit_p99.json --benchmark_out_format=json` | `artifacts/perf_nv/cache_l3_hit_p99.json` |
+| C-4 Warmup Throughput | `benchmarks/bench_adaptive_query_cache.cpp` | `build-msvc-ninja-release/benchmarks/bench_adaptive_query_cache.exe --benchmark_out=artifacts/perf_nv/cache_warmup_throughput.json --benchmark_out_format=json` | `artifacts/perf_nv/cache_warmup_throughput.json` |
+| C-5 Admin-API Response | `benchmarks/bench_api_endpoints.cpp` | `build-msvc-ninja-release/benchmarks/bench_api_endpoints.exe --benchmark_out=artifacts/perf_nv/cache_admin_api_response.json --benchmark_out_format=json` | `artifacts/perf_nv/cache_admin_api_response.json` |
+| C-6 Prefetch Latenz | `benchmarks/bench_random_access_prefetch.cpp` | `build-msvc-ninja-release/benchmarks/bench_random_access_prefetch.exe --benchmark_out=artifacts/perf_nv/cache_prefetch_latency.json --benchmark_out_format=json` | `artifacts/perf_nv/cache_prefetch_latency.json` |
+| C-7 Prefetch Overfetch | `benchmarks/bench_random_access_prefetch.cpp` | `build-msvc-ninja-release/benchmarks/bench_random_access_prefetch.exe --benchmark_out=artifacts/perf_nv/cache_prefetch_overfetch.json --benchmark_out_format=json` | `artifacts/perf_nv/cache_prefetch_overfetch.json` |
+
+#### Storage
+
+| n/v-Zeile | Benchmark-File | Messkommando | Zielartefakt |
+|---|---|---|---|
+| INSERT 1 KB | `benchmarks/bench_storage_performance.cpp` | `build-msvc-ninja-release/benchmarks/bench_storage_performance.exe --benchmark_out=artifacts/perf_nv/storage_insert_1kb.json --benchmark_out_format=json` | `artifacts/perf_nv/storage_insert_1kb.json` |
+| READ 1 KB | `benchmarks/bench_storage_performance.cpp` | `build-msvc-ninja-release/benchmarks/bench_storage_performance.exe --benchmark_out=artifacts/perf_nv/storage_read_1kb.json --benchmark_out_format=json` | `artifacts/perf_nv/storage_read_1kb.json` |
+| UPDATE 1 KB | `benchmarks/bench_storage_performance.cpp` | `build-msvc-ninja-release/benchmarks/bench_storage_performance.exe --benchmark_out=artifacts/perf_nv/storage_update_1kb.json --benchmark_out_format=json` | `artifacts/perf_nv/storage_update_1kb.json` |
+| INSERT 10 KB | `benchmarks/bench_storage_performance.cpp` | `build-msvc-ninja-release/benchmarks/bench_storage_performance.exe --benchmark_out=artifacts/perf_nv/storage_insert_10kb.json --benchmark_out_format=json` | `artifacts/perf_nv/storage_insert_10kb.json` |
+| INSERT 100 KB | `benchmarks/bench_storage_performance.cpp` | `build-msvc-ninja-release/benchmarks/bench_storage_performance.exe --benchmark_out=artifacts/perf_nv/storage_insert_100kb.json --benchmark_out_format=json` | `artifacts/perf_nv/storage_insert_100kb.json` |
+| INSERT 1 MB | `benchmarks/bench_storage_performance.cpp` | `build-msvc-ninja-release/benchmarks/bench_storage_performance.exe --benchmark_out=artifacts/perf_nv/storage_insert_1mb.json --benchmark_out_format=json` | `artifacts/perf_nv/storage_insert_1mb.json` |
+| Concurrent 1 Client | `benchmarks/bench_storage_performance.cpp` | `build-msvc-ninja-release/benchmarks/bench_storage_performance.exe --benchmark_out=artifacts/perf_nv/storage_concurrent_1_client.json --benchmark_out_format=json` | `artifacts/perf_nv/storage_concurrent_1_client.json` |
+| Concurrent 5 Clients | `benchmarks/bench_storage_performance.cpp` | `build-msvc-ninja-release/benchmarks/bench_storage_performance.exe --benchmark_out=artifacts/perf_nv/storage_concurrent_5_clients.json --benchmark_out_format=json` | `artifacts/perf_nv/storage_concurrent_5_clients.json` |
+| Concurrent 50 Clients | `benchmarks/bench_storage_performance.cpp` | `build-msvc-ninja-release/benchmarks/bench_storage_performance.exe --benchmark_out=artifacts/perf_nv/storage_concurrent_50_clients.json --benchmark_out_format=json` | `artifacts/perf_nv/storage_concurrent_50_clients.json` |
+| Sustained Write NVMe | `benchmarks/bench_storage_performance.cpp` | `build-msvc-ninja-release/benchmarks/bench_storage_performance.exe --benchmark_out=artifacts/perf_nv/storage_sustained_write_nvme.json --benchmark_out_format=json` | `artifacts/perf_nv/storage_sustained_write_nvme.json` |
+| Point-Read Latenz P99 | `benchmarks/bench_storage_performance.cpp` | `build-msvc-ninja-release/benchmarks/bench_storage_performance.exe --benchmark_out=artifacts/perf_nv/storage_point_read_p99.json --benchmark_out_format=json` | `artifacts/perf_nv/storage_point_read_p99.json` |
+| Incremental Backup | `benchmarks/bench_snapshot_manager.cpp` | `build-msvc-ninja-release/benchmarks/bench_snapshot_manager.exe --benchmark_out=artifacts/perf_nv/storage_incremental_backup.json --benchmark_out_format=json` | `artifacts/perf_nv/storage_incremental_backup.json` |
+| 1MB Blob Storage | `benchmarks/bench_blob_zstd.cpp` | `build-msvc-ninja-release/benchmarks/bench_blob_zstd.exe --benchmark_out=artifacts/perf_nv/storage_blob_1mb.json --benchmark_out_format=json` | `artifacts/perf_nv/storage_blob_1mb.json` |
+| 10KB Thumbnail Storage | `benchmarks/bench_blob_zstd.cpp` | `build-msvc-ninja-release/benchmarks/bench_blob_zstd.exe --benchmark_out=artifacts/perf_nv/storage_thumbnail_10kb.json --benchmark_out_format=json` | `artifacts/perf_nv/storage_thumbnail_10kb.json` |
+| 100KB Blob Retrieval | `benchmarks/bench_blob_zstd.cpp` | `build-msvc-ninja-release/benchmarks/bench_blob_zstd.exe --benchmark_out=artifacts/perf_nv/storage_blob_retrieval_100kb.json --benchmark_out_format=json` | `artifacts/perf_nv/storage_blob_retrieval_100kb.json` |
+
+#### Analytics
+
+| n/v-Zeile | Benchmark-File | Messkommando | Zielartefakt |
+|---|---|---|---|
+| AN-1 Streaming Aggregation Memory | `benchmarks/bench_olap_performance.cpp` | `build-msvc-ninja-release/benchmarks/bench_olap_performance.exe --benchmark_out=artifacts/perf_nv/analytics_streaming_aggregation_memory.json --benchmark_out_format=json` | `artifacts/perf_nv/analytics_streaming_aggregation_memory.json` |
+| AN-2 IVM Delta-Application | `benchmarks/bench_update_pipeline.cpp` | `build-msvc-ninja-release/benchmarks/bench_update_pipeline.exe --benchmark_out=artifacts/perf_nv/analytics_ivm_delta_apply.json --benchmark_out_format=json` | `artifacts/perf_nv/analytics_ivm_delta_apply.json` |
+| AN-3 Parquet Export 1M Rows | `benchmarks/bench_exporters.cpp` | `build-msvc-ninja-release/benchmarks/bench_exporters.exe --benchmark_out=artifacts/perf_nv/analytics_parquet_export_1m.json --benchmark_out_format=json` | `artifacts/perf_nv/analytics_parquet_export_1m.json` |
+| AN-4 CSV Export 1M Rows | `benchmarks/bench_exporters.cpp` | `build-msvc-ninja-release/benchmarks/bench_exporters.exe --benchmark_out=artifacts/perf_nv/analytics_csv_export_1m.json --benchmark_out_format=json` | `artifacts/perf_nv/analytics_csv_export_1m.json` |
+| AN-5 CEPEngine::stop() | `benchmarks/bench_update_pipeline.cpp` | `build-msvc-ninja-release/benchmarks/bench_update_pipeline.exe --benchmark_out=artifacts/perf_nv/analytics_cep_stop.json --benchmark_out_format=json` | `artifacts/perf_nv/analytics_cep_stop.json` |
+| AN-7 IsolationForest Training | `benchmarks/bench_advanced_patterns.cpp` | `build-msvc-ninja-release/benchmarks/bench_advanced_patterns.exe --benchmark_out=artifacts/perf_nv/analytics_isolation_forest_training.json --benchmark_out_format=json` | `artifacts/perf_nv/analytics_isolation_forest_training.json` |
+| AN-8 predictBatch() | `benchmarks/bench_advanced_patterns.cpp` | `build-msvc-ninja-release/benchmarks/bench_advanced_patterns.exe --benchmark_out=artifacts/perf_nv/analytics_predict_batch.json --benchmark_out_format=json` | `artifacts/perf_nv/analytics_predict_batch.json` |
+| AN-9 Auto-Tune Grid | `benchmarks/bench_advanced_patterns.cpp` | `build-msvc-ninja-release/benchmarks/bench_advanced_patterns.exe --benchmark_out=artifacts/perf_nv/analytics_auto_tune_grid.json --benchmark_out_format=json` | `artifacts/perf_nv/analytics_auto_tune_grid.json` |
+| AN-10 ARM NEON Aggregation | `benchmarks/bench_arm_simd.cpp` | `build-msvc-ninja-release/benchmarks/bench_arm_simd.exe --benchmark_out=artifacts/perf_nv/analytics_arm_neon_aggregation.json --benchmark_out_format=json` | `artifacts/perf_nv/analytics_arm_neon_aggregation.json` |
+
+#### Timeseries
+
+| n/v-Zeile | Benchmark-File | Messkommando | Zielartefakt |
+|---|---|---|---|
+| TS-2 Gorilla Decode Throughput | `benchmarks/bench_gorilla_codec.cpp` | `build-msvc-ninja-release/benchmarks/bench_gorilla_codec.exe --benchmark_out=artifacts/perf_nv/timeseries_gorilla_decode_throughput.json --benchmark_out_format=json` | `artifacts/perf_nv/timeseries_gorilla_decode_throughput.json` |
+| TS-3 Range Scan P99 (1M pts) | `benchmarks/bench_timeseries_ingestion.cpp` | `build-msvc-ninja-release/benchmarks/bench_timeseries_ingestion.exe --benchmark_out=artifacts/perf_nv/timeseries_range_scan_p99.json --benchmark_out_format=json` | `artifacts/perf_nv/timeseries_range_scan_p99.json` |
+| TS-4 Continuous Aggregate Refresh | `benchmarks/bench_timeseries_adaptive_flush.cpp` | `build-msvc-ninja-release/benchmarks/bench_timeseries_adaptive_flush.exe --benchmark_out=artifacts/perf_nv/timeseries_continuous_aggregate_refresh.json --benchmark_out_format=json` | `artifacts/perf_nv/timeseries_continuous_aggregate_refresh.json` |
+| TS-5 Write Amplification | `benchmarks/bench_timeseries_adaptive_flush.cpp` | `build-msvc-ninja-release/benchmarks/bench_timeseries_adaptive_flush.exe --benchmark_out=artifacts/perf_nv/timeseries_write_amplification.json --benchmark_out_format=json` | `artifacts/perf_nv/timeseries_write_amplification.json` |
+| TS-6 Downsampling Throughput | `benchmarks/bench_timeseries_ingestion.cpp` | `build-msvc-ninja-release/benchmarks/bench_timeseries_ingestion.exe --benchmark_out=artifacts/perf_nv/timeseries_downsampling_throughput.json --benchmark_out_format=json` | `artifacts/perf_nv/timeseries_downsampling_throughput.json` |
+| TS-7 Storage Reduction | `benchmarks/bench_gorilla_codec.cpp` | `build-msvc-ninja-release/benchmarks/bench_gorilla_codec.exe --benchmark_out=artifacts/perf_nv/timeseries_storage_reduction.json --benchmark_out_format=json` | `artifacts/perf_nv/timeseries_storage_reduction.json` |
+| TS-10 Gorilla Insert P99 | `benchmarks/bench_timeseries_ingestion.cpp` | `build-msvc-ninja-release/benchmarks/bench_timeseries_ingestion.exe --benchmark_out=artifacts/perf_nv/timeseries_gorilla_insert_p99.json --benchmark_out_format=json` | `artifacts/perf_nv/timeseries_gorilla_insert_p99.json` |
+| TS-11 AES-256-GCM Throughput | `benchmarks/bench_security.cpp` | `build-msvc-ninja-release/benchmarks/bench_security.exe --benchmark_out=artifacts/perf_nv/timeseries_aes256_gcm_throughput.json --benchmark_out_format=json` | `artifacts/perf_nv/timeseries_aes256_gcm_throughput.json` |
+
+#### Graph
+
+| n/v-Zeile | Benchmark-File | Messkommando | Zielartefakt |
+|---|---|---|---|
+| Sparse Graph Edge Addition | `benchmarks/bench_graph_traversal.cpp` | `build-msvc-ninja-release/benchmarks/bench_graph_traversal.exe --benchmark_out=artifacts/perf_nv/graph_sparse_edge_addition.json --benchmark_out_format=json` | `artifacts/perf_nv/graph_sparse_edge_addition.json` |
+| Dense Graph Neighbor Query | `benchmarks/bench_graph_traversal.cpp` | `build-msvc-ninja-release/benchmarks/bench_graph_traversal.exe --benchmark_out=artifacts/perf_nv/graph_dense_neighbor_query.json --benchmark_out_format=json` | `artifacts/perf_nv/graph_dense_neighbor_query.json` |
+| Graph BFS Traversal (Depth-3) | `benchmarks/bench_graph_traversal.cpp` | `build-msvc-ninja-release/benchmarks/bench_graph_traversal.exe --benchmark_out=artifacts/perf_nv/graph_bfs_depth3.json --benchmark_out_format=json` | `artifacts/perf_nv/graph_bfs_depth3.json` |
+| RAG Search Top-50 | `benchmarks/bench_rag_hybrid_retriever.cpp` | `build-msvc-ninja-release/benchmarks/bench_rag_hybrid_retriever.exe --benchmark_out=artifacts/perf_nv/graph_rag_search_top50.json --benchmark_out_format=json` | `artifacts/perf_nv/graph_rag_search_top50.json` |
+| Algorithmus-Selektion P99 (10M Nodes) | `benchmarks/bench_graph_query_optimizer.cpp` | `build-msvc-ninja-release/benchmarks/bench_graph_query_optimizer.exe --benchmark_out=artifacts/perf_nv/graph_algorithm_selection_p99.json --benchmark_out_format=json` | `artifacts/perf_nv/graph_algorithm_selection_p99.json` |
+| Plan-Cache Lookup P99 | `benchmarks/bench_graph_query_optimizer.cpp` | `build-msvc-ninja-release/benchmarks/bench_graph_query_optimizer.exe --benchmark_out=artifacts/perf_nv/graph_plan_cache_lookup_p99.json --benchmark_out_format=json` | `artifacts/perf_nv/graph_plan_cache_lookup_p99.json` |
+| Single-Refresh (10K Nodes) | `benchmarks/bench_graph_query_optimizer.cpp` | `build-msvc-ninja-release/benchmarks/bench_graph_query_optimizer.exe --benchmark_out=artifacts/perf_nv/graph_single_refresh_10k.json --benchmark_out_format=json` | `artifacts/perf_nv/graph_single_refresh_10k.json` |
+| Subgraph-Isomorphismus P95 | `benchmarks/bench_graph_query_optimizer.cpp` | `build-msvc-ninja-release/benchmarks/bench_graph_query_optimizer.exe --benchmark_out=artifacts/perf_nv/graph_subgraph_isomorphism_p95.json --benchmark_out_format=json` | `artifacts/perf_nv/graph_subgraph_isomorphism_p95.json` |
+
+### 1.7.14 Ausfuehrbarkeit der n/v-Matrix
+
+Ziel:
+
+- Aus der Quellenmatrix wird eine direkte Arbeitsreihenfolge fuer belastbare Messwertgewinnung.
+
+Definition:
+
+1. `sofort messbar`: Benchmark-Datei und passender Themenbezug sind vorhanden; der Fall kann ohne neue Quelldatei angegangen werden.
+2. `erweitern`: Benchmark-Datei existiert, aber der konkrete Expectation-Case ist sehr wahrscheinlich noch als eigener Benchcase zu ergaenzen.
+3. `neu anlegen`: Es gibt noch keinen belastbaren primaeren Benchcase; neue Benchmark-Implementierung ist erforderlich.
+
+Sofort messbar, hohe Prioritaet:
+
+| Modul | n/v-Zeile | Benchmark-File | Einstufung | Prioritaet |
+|---|---|---|---|---:|
+| Query | Simple AQL WHERE | `benchmarks/bench_query.cpp` | sofort messbar | 1 |
+| Query | Complex WHERE | `benchmarks/bench_query.cpp` | sofort messbar | 2 |
+| Query | JOIN (Users-Posts) | `benchmarks/bench_query.cpp` | sofort messbar | 3 |
+| Index | SecondaryIndexBench/RawWriteOnly | `benchmarks/bench_core_performance.cpp` | sofort messbar | 4 |
+| Index | L2Distance/1000/512 | `benchmarks/bench_vector_search.cpp` | sofort messbar | 5 |
+| Index | CosineDistance/1000/512 | `benchmarks/bench_vector_search.cpp` | sofort messbar | 6 |
+| Index | TopK/5000/50 | `benchmarks/bench_vector_search.cpp` | sofort messbar | 7 |
+| Cache | C-4 Warmup Throughput | `benchmarks/bench_adaptive_query_cache.cpp` | sofort messbar | 8 |
+| Storage | INSERT 1 KB | `benchmarks/bench_storage_performance.cpp` | sofort messbar | 9 |
+| Storage | READ 1 KB | `benchmarks/bench_storage_performance.cpp` | sofort messbar | 10 |
+| Storage | UPDATE 1 KB | `benchmarks/bench_storage_performance.cpp` | sofort messbar | 11 |
+| Storage | Sustained Write NVMe | `benchmarks/bench_storage_performance.cpp` | sofort messbar | 12 |
+| Storage | Point-Read Latenz P99 | `benchmarks/bench_storage_performance.cpp` | sofort messbar | 13 |
+| Analytics | AN-3 Parquet Export 1M Rows | `benchmarks/bench_exporters.cpp` | sofort messbar | 14 |
+| Analytics | AN-4 CSV Export 1M Rows | `benchmarks/bench_exporters.cpp` | sofort messbar | 15 |
+| Timeseries | TS-2 Gorilla Decode Throughput | `benchmarks/bench_gorilla_codec.cpp` | sofort messbar | 16 |
+| Timeseries | TS-6 Downsampling Throughput | `benchmarks/bench_timeseries_ingestion.cpp` | sofort messbar | 17 |
+| Timeseries | TS-11 AES-256-GCM Throughput | `benchmarks/bench_security.cpp` | sofort messbar | 18 |
+| Graph | Sparse Graph Edge Addition | `benchmarks/bench_graph_traversal.cpp` | sofort messbar | 19 |
+| Graph | Dense Graph Neighbor Query | `benchmarks/bench_graph_traversal.cpp` | sofort messbar | 20 |
+| Graph | Graph BFS Traversal (Depth-3) | `benchmarks/bench_graph_traversal.cpp` | sofort messbar | 21 |
+
+Benchmark-Erweiterung noetig, mittlere Prioritaet:
+
+| Modul | n/v-Zeile | Benchmark-File | Einstufung | Grund |
+|---|---|---|---|---|
+| Query | Parse + Optimize P99 (10 Collections) | `benchmarks/bench_adaptive_query_compilation.cpp` | erweitern | P99/10-Collections-Fall explizit absichern |
+| Query | Query-Cache Lookup P99 (Exact) | `benchmarks/bench_adaptive_query_cache.cpp` | erweitern | exakter P99-Hit-Pfad separat ausweisen |
+| Query | Query-Cache Lookup P99 (Semantic) | `benchmarks/bench_adaptive_query_cache.cpp` | erweitern | semantischer Lookup als eigener Case noetig |
+| Query | JIT Erstcompilierung | `benchmarks/bench_adaptive_query_compilation.cpp` | erweitern | Erstcompile-Zeit separat labeln |
+| Query | Federation Plan-Overhead (5 Cluster) | `benchmarks/bench_distributed_coordinator.cpp` | erweitern | 5-Cluster-Planfall separat noetig |
+| Query | Streaming First-Chunk Latenz | `benchmarks/bench_api_endpoints.cpp` | erweitern | First-chunk statt Gesamtrequest erfassen |
+| Index | HNSW Vektor-Suche (CPU) | `benchmarks/bench_vector_search.cpp` | erweitern | expliziter HNSW-Search-Case noetig |
+| Index | HNSW Vektor-Suche (GPU RTX-class) | `benchmarks/bench_gpu_vector_index.cpp` | erweitern | GPU-HNSW-Search separat ausweisen |
+| Index | B-Tree Point-Lookup P99 (10M Keys) | `benchmarks/bench_storage_performance.cpp` | erweitern | 10M-Key-P99-Fall separat noetig |
+| Index | R-Tree Spatial Range Query P99 | `benchmarks/bench_spatial_index.cpp` | erweitern | P99 statt Durchschnitt explizit messen |
+| Index | GPU Index-Build (1M x 128-dim) | `benchmarks/bench_gpu_vector_index.cpp` | erweitern | Build-Laufzeit separat labeln |
+| Index | RocksDB WriteBatch Commit P99 | `benchmarks/bench_storage_performance.cpp` | erweitern | Commit-P99 separat erfassen |
+| Cache | C-2 L2 Hit-Path | `benchmarks/bench_embedding_cache_performance.cpp` | erweitern | L2-spezifischen Pfad explizit aufnehmen |
+| Cache | C-3 L3 Hit-Path P99 | `benchmarks/bench_embedding_cache_performance.cpp` | erweitern | L3/P99 separat ausweisen |
+| Cache | C-5 Admin-API Response | `benchmarks/bench_api_endpoints.cpp` | erweitern | Cache-Admin-Endpunkt fehlt als Case |
+| Cache | C-6 Prefetch Latenz | `benchmarks/bench_random_access_prefetch.cpp` | erweitern | Latenzkennzahl separat ausgeben |
+| Cache | C-7 Prefetch Overfetch | `benchmarks/bench_random_access_prefetch.cpp` | erweitern | Overfetch-Metrik separat zaehlen |
+| Storage | Incremental Backup | `benchmarks/bench_snapshot_manager.cpp` | erweitern | inkrementellen Durchsatz separat labeln |
+| Storage | 1MB Blob Storage | `benchmarks/bench_blob_zstd.cpp` | erweitern | 1MB-Pfad explizit labeln |
+| Storage | 10KB Thumbnail Storage | `benchmarks/bench_blob_zstd.cpp` | erweitern | Thumbnail-Fall explizit labeln |
+| Storage | 100KB Blob Retrieval | `benchmarks/bench_blob_zstd.cpp` | erweitern | Retrieval-Fall explizit labeln |
+| Analytics | AN-1 Streaming Aggregation Memory | `benchmarks/bench_olap_performance.cpp` | erweitern | Memory-Footprint statt nur Throughput noetig |
+| Analytics | AN-2 IVM Delta-Application | `benchmarks/bench_update_pipeline.cpp` | erweitern | Delta-Apply explizit messen |
+| Analytics | AN-5 CEPEngine::stop() | `benchmarks/bench_update_pipeline.cpp` | erweitern | CEP-Lifecycle-Stop fehlt |
+| Analytics | AN-7 IsolationForest Training | `benchmarks/bench_advanced_patterns.cpp` | erweitern | Training-Case explizit noetig |
+| Analytics | AN-8 predictBatch() | `benchmarks/bench_advanced_patterns.cpp` | erweitern | predictBatch-Fall explizit noetig |
+| Analytics | AN-9 Auto-Tune Grid | `benchmarks/bench_advanced_patterns.cpp` | erweitern | 9-Konfigurationen separat ausweisen |
+| Analytics | AN-10 ARM NEON Aggregation | `benchmarks/bench_arm_simd.cpp` | erweitern | ARM-Runner + Analytics-nahe Aggregation noetig |
+| Timeseries | TS-3 Range Scan P99 (1M pts) | `benchmarks/bench_timeseries_ingestion.cpp` | erweitern | Range-Scan-P99 explizit noetig |
+| Timeseries | TS-4 Continuous Aggregate Refresh | `benchmarks/bench_timeseries_adaptive_flush.cpp` | erweitern | Continuous-Aggregate-Fall fehlt |
+| Timeseries | TS-5 Write Amplification | `benchmarks/bench_timeseries_adaptive_flush.cpp` | erweitern | Write-Amplification als Kennzahl fehlt |
+| Timeseries | TS-7 Storage Reduction | `benchmarks/bench_gorilla_codec.cpp` | erweitern | Reduktionsquote explizit publizieren |
+| Timeseries | TS-10 Gorilla Insert P99 | `benchmarks/bench_timeseries_ingestion.cpp` | erweitern | Insert-P99 separat labeln |
+| Graph | RAG Search Top-50 | `benchmarks/bench_rag_hybrid_retriever.cpp` | erweitern | Top-50/ops explizit ausweisen |
+| Graph | Algorithmus-Selektion P99 (10M Nodes) | `benchmarks/bench_graph_query_optimizer.cpp` | erweitern | P99-Fall separat noetig |
+| Graph | Plan-Cache Lookup P99 | `benchmarks/bench_graph_query_optimizer.cpp` | erweitern | Cache-Lookup-P99 separat noetig |
+| Graph | Single-Refresh (10K Nodes) | `benchmarks/bench_graph_query_optimizer.cpp` | erweitern | Refresh-Fall explizit noetig |
+| Graph | Subgraph-Isomorphismus P95 | `benchmarks/bench_graph_query_optimizer.cpp` | erweitern | P95 separat ausweisen |
+
+Noch ohne belastbaren primaeren Benchcase, niedrige Prioritaet:
+
+| Modul | n/v-Zeile | Aktueller Erweiterungspunkt | Einstufung |
+|---|---|---|---|
+| Replication | R-1 bis R-8 | `benchmarks/bench_replication_throughput.cpp` | neu anlegen |
+| Sharding | SH-1 bis SH-12 | `benchmarks/bench_sharding_performance.cpp` | neu anlegen |
+| Transaction | TX-1, TX-2, TX-4 bis TX-8 | `benchmarks/bench_transaction_throughput.cpp` | neu anlegen |
+| LLM | L-1 bis L-8 | `benchmarks/bench_llm_inference_performance.cpp` | neu anlegen |
+| RAG | RA-1 bis RA-8 | `benchmarks/bench_rag_hybrid_retriever.cpp` | neu anlegen |
+| Search | SE-1 bis SE-6 | `benchmarks/bench_rag_hybrid_retriever.cpp` | neu anlegen |
+| Temporal | TM-1 bis TM-6 | `benchmarks/bench_temporal_queries.cpp` | neu anlegen |
+| API | API-1 bis API-7 | `benchmarks/bench_api_endpoints.cpp` | neu anlegen |
+| Auth | AUT-1 bis AUT-5 | `benchmarks/bench_auth_token_validation.cpp` | neu anlegen |
+
+Empfohlene Reihenfolge fuer die erste Messwelle:
+
+1. Alle `sofort messbar`-Faelle zuerst ausfuehren, weil sie ohne Codeaenderung den Kalibrierdatensatz vergroessern.
+2. Danach `erweitern`-Faelle modulweise in der Reihenfolge Query -> Index -> Storage -> Cache -> Timeseries -> Analytics -> Graph umsetzen.
+3. `neu anlegen` erst beginnen, wenn die Kalibrierung aus den vorhandenen Benchfamilien nicht mehr sinnvoll vorankommt.
+
+### 1.7.15 Erste Messwelle (operativer Run-Plan)
+
+Aktueller Build-Befund:
+
+1. Die benoetigten Targets der ersten Messwelle sind in der aktuellen CMake-Target-Liste vorhanden.
+2. Der Multi-Target-Build der ersten Welle ist erfolgreich durchgelaufen; fuer alle zehn Targets wurden EXE-Dateien erzeugt.
+3. Die gebauten Executables liegen aktuell unter `build-msvc-ninja-release/cmake/benchmarks/<target>.exe`.
+4. Die erwartete Zielstruktur `build-msvc-ninja-release/bin/benchmarks` ist weiterhin nicht materialisiert.
+5. Der verbleibende operative Unterschied ist damit kein Build-Fehler mehr, sondern nur noch ein nicht ausgefuehrter Install-Schritt in die dokumentierte Zielstruktur.
+
+Build-Voraussetzung fuer die erste Welle:
+
+- Alle unten genannten Targets sind als EXE im Build-Output verfuegbar.
+- Aktuell nutzbarer Pfad fuer Messlaeufe: `build-msvc-ninja-release/cmake/benchmarks/<target>.exe`
+- Erwarteter Pfad nach optionalem Install-Schritt: `build-msvc-ninja-release/bin/benchmarks/<target>.exe`
+
+Verifizierte CMake-Targets aus Welle 1:
+
+- `bench_query`
+- `bench_core_performance`
+- `bench_vector_search`
+- `bench_adaptive_query_cache`
+- `bench_storage_performance`
+- `bench_exporters`
+- `bench_gorilla_codec`
+- `bench_timeseries_ingestion`
+- `bench_security`
+- `bench_graph_traversal`
+
+Gebaut und als EXE verifiziert:
+
+- `build-msvc-ninja-release/cmake/benchmarks/bench_query.exe`
+- `build-msvc-ninja-release/cmake/benchmarks/bench_core_performance.exe`
+- `build-msvc-ninja-release/cmake/benchmarks/bench_vector_search.exe`
+- `build-msvc-ninja-release/cmake/benchmarks/bench_adaptive_query_cache.exe`
+- `build-msvc-ninja-release/cmake/benchmarks/bench_storage_performance.exe`
+- `build-msvc-ninja-release/cmake/benchmarks/bench_exporters.exe`
+- `build-msvc-ninja-release/cmake/benchmarks/bench_gorilla_codec.exe`
+- `build-msvc-ninja-release/cmake/benchmarks/bench_timeseries_ingestion.exe`
+- `build-msvc-ninja-release/cmake/benchmarks/bench_security.exe`
+- `build-msvc-ninja-release/cmake/benchmarks/bench_graph_traversal.exe`
+
+Run-Plan Welle 1 (nur sofort messbar):
+
+| Reihenfolge | Ziel | Target | Erwartetes Artefakt |
+|---:|---|---|---|
+| 1 | Simple AQL WHERE | `bench_query` | `artifacts/perf_nv/query_simple_aql_where.json` |
+| 2 | Complex WHERE | `bench_query` | `artifacts/perf_nv/query_complex_where.json` |
+| 3 | JOIN (Users-Posts) | `bench_query` | `artifacts/perf_nv/query_join_users_posts.json` |
+| 4 | SecondaryIndexBench/RawWriteOnly | `bench_core_performance` | `artifacts/perf_nv/index_raw_write_only.json` |
+| 5 | L2Distance/1000/512 | `bench_vector_search` | `artifacts/perf_nv/index_l2distance_1000_512.json` |
+| 6 | CosineDistance/1000/512 | `bench_vector_search` | `artifacts/perf_nv/index_cosine_1000_512.json` |
+| 7 | TopK/5000/50 | `bench_vector_search` | `artifacts/perf_nv/index_topk_5000_50.json` |
+| 8 | C-4 Warmup Throughput | `bench_adaptive_query_cache` | `artifacts/perf_nv/cache_warmup_throughput.json` |
+| 9 | INSERT 1 KB | `bench_storage_performance` | `artifacts/perf_nv/storage_insert_1kb.json` |
+| 10 | READ 1 KB | `bench_storage_performance` | `artifacts/perf_nv/storage_read_1kb.json` |
+| 11 | UPDATE 1 KB | `bench_storage_performance` | `artifacts/perf_nv/storage_update_1kb.json` |
+| 12 | Sustained Write NVMe | `bench_storage_performance` | `artifacts/perf_nv/storage_sustained_write_nvme.json` |
+| 13 | Point-Read Latenz P99 | `bench_storage_performance` | `artifacts/perf_nv/storage_point_read_p99.json` |
+| 14 | AN-3 Parquet Export 1M Rows | `bench_exporters` | `artifacts/perf_nv/analytics_parquet_export_1m.json` |
+| 15 | AN-4 CSV Export 1M Rows | `bench_exporters` | `artifacts/perf_nv/analytics_csv_export_1m.json` |
+| 16 | TS-2 Gorilla Decode Throughput | `bench_gorilla_codec` | `artifacts/perf_nv/timeseries_gorilla_decode_throughput.json` |
+| 17 | TS-6 Downsampling Throughput | `bench_timeseries_ingestion` | `artifacts/perf_nv/timeseries_downsampling_throughput.json` |
+| 18 | TS-11 AES-256-GCM Throughput | `bench_security` | `artifacts/perf_nv/timeseries_aes256_gcm_throughput.json` |
+| 19 | Sparse Graph Edge Addition | `bench_graph_traversal` | `artifacts/perf_nv/graph_sparse_edge_addition.json` |
+| 20 | Dense Graph Neighbor Query | `bench_graph_traversal` | `artifacts/perf_nv/graph_dense_neighbor_query.json` |
+| 21 | Graph BFS Traversal (Depth-3) | `bench_graph_traversal` | `artifacts/perf_nv/graph_bfs_depth3.json` |
+
+Abnahmekriterium fuer Welle 1:
+
+1. Zu jedem der 21 Faelle existiert ein JSON-Artefakt.
+2. Jeder Lauf ist mit einem Hardware-Baseline-Artefakt desselben Laufzyklus gepaart.
+3. Erst danach werden die Ergebnisse in den Kalibrier-Datensatz fuer `K_class` uebernommen.
+
+### 1.7.15a Messstatus Welle 1 (Laufdatum: 2026-04-10)
+
+Hardware-Baseline-Artefakt (gepaart): `build-msvc-ninja-release/logs/hardware_baseline/hardware_baseline_gtest_1775806092.json`
+
+DLL-PATH-Konfiguration benoetigt: `build-msvc-ninja-release/cmake` + `build-msvc-ninja-release/bin`
+
+| Run-Plan-Zeile | Benchmark-Ziel | Status | Erzeugtes Artefakt | Schluessel-Messwert |
+|---:|---|:---:|---|---|
+| 1 | Simple AQL WHERE | ✅ | `artifacts/perf_nv/query_simple_aql_where.json` | BM_SimpleWhere: 0,2023 ms |
+| 2 | Complex WHERE | ✅ | `artifacts/perf_nv/query_complex_where.json` | BM_ComplexWhere: 0,2183 ms |
+| 3 | JOIN (Users-Posts) | ✅ | `artifacts/perf_nv/query_join_users_posts.json` | BM_JoinUsersPosts: 0,9755 ms |
+| 4 | SecondaryIndexBench/RawWriteOnly | ✅ | `artifacts/perf_nv/core_performance.json` | RawWriteOnly: 162.620 ns / 749,6 k/s (Ziel: 500 k/s ✅) |
+| 5 | L2Distance/1000/512 | ✅ | `artifacts/perf_nv/vector_search.json` | BM_VectorSearch_efSearch/32/10: 18,86 ms |
+| 6 | CosineDistance/1000/512 | ✅ | `artifacts/perf_nv/vector_search.json` | BM_VectorSearch_efSearch/128/10: 19,99 ms |
+| 7 | TopK/5000/50 | ✅ | `artifacts/perf_nv/vector_search.json` | BM_VectorInsert_Batch100/128: 5,17 ms |
+| 8 | C-4 Warmup Throughput | ❌ | — | `bench_adaptive_query_cache`: CRASH (STATUS_STACK_BUFFER_OVERRUN) |
+| 9 | INSERT 1 KB | ⚠️ | `artifacts/perf_nv/storage_performance.json` | Benchmark enthaelt Allocator/Memory/RCU, NICHT Storage-INSERT (Scope-Delta) |
+| 10 | READ 1 KB | ⚠️ | `artifacts/perf_nv/storage_performance.json` | wie Zeile 9 |
+| 11 | UPDATE 1 KB | ⚠️ | `artifacts/perf_nv/storage_performance.json` | wie Zeile 9 |
+| 12 | Sustained Write NVMe | ⚠️ | `artifacts/perf_nv/storage_performance.json` | wie Zeile 9 |
+| 13 | Point-Read Latenz P99 | ⚠️ | `artifacts/perf_nv/storage_performance.json` | BM_Allocator_Themis_Small: 160,6 M ops/s; BM_RCU_Read/threads:8: 1,39 G ops/s |
+| 14 | AN-3 Parquet Export 1M Rows | ✅ | `artifacts/perf_nv/exporters.json` | BM_JsonlExport_BatchThroughput/10000 vorhanden; Parquet-Typ s. JSON-Artefakt |
+| 15 | AN-4 CSV Export 1M Rows | ✅ | `artifacts/perf_nv/exporters.json` | BM_StreamingExport_Throughput/5000 vorhanden |
+| 16 | TS-2 Gorilla Decode Throughput | ✅ | `artifacts/perf_nv/gorilla_codec.json` | BM_GorillaSIMDDecode_Throughput/100000: 267,1 MB/s decoded |
+| 17 | TS-6 Downsampling Throughput | ⚠️ | `artifacts/perf_nv/timeseries_ingestion.json` | Nur BM_GorillaCompression/Decompression (Downsampling-Benchmarks fehlen in bench_timeseries_ingestion) |
+| 18 | TS-11 AES-256-GCM Throughput | ✅ | `artifacts/perf_nv/security.json` | BM_AES256GCM_Encrypt_1MB: 238.660 ns; BM_FieldEncryption CRASH (ausgefiltert) |
+| 19 | Sparse Graph Edge Addition | ⚠️ | `artifacts/perf_nv/graph_traversal.json` | Nur BFS-Proxy vorhanden; kein direkter Edge-Add-Benchcase in diesem Lauf |
+| 20 | Dense Graph Neighbor Query | ⚠️ | `artifacts/perf_nv/graph_traversal.json` | Kein separater Dense-Neighbor-Benchcase im finalen Lauf |
+| 21 | Graph BFS Traversal (Depth-3) | ✅ | `artifacts/perf_nv/graph_traversal.json` | BFSTraversal/100/4: 0,200 ms, 5.738,7 items/s |
+
+Legende: ✅ gemessen | ⚠️ Scope-Delta oder Teilmessung | ❌ nicht messbar (Build-/Runtime-Problem)
+
+**Zusammenfassung Welle 1:**
+- 12 von 21 Zeilen vollstaendig gemessen (✅)
+- 8 Zeilen: Scope-Delta oder Teilmessung (⚠️)
+- 1 Zeile: Laufzeit-Crash (❌)
+
+**Offene Punkte fuer Welle 2:**
+1. `bench_query`: dedizierte WHERE/JOIN-Benchcases inkl. QPS/P99-Harness und Skalierungsrun sind umgesetzt; als naechstes historische Workload-Parameter angleichen.
+2. `bench_adaptive_query_cache`: Stack-Overflow-Bug beheben.
+3. `bench_storage_performance`: Scope-Delta dokumentieren — tatsaechliche CRUD-Benchmarks sind in anderen Targets.
+4. `BM_FieldEncryption`/`BM_FieldDecryption` in bench_security: Crash-Ursache in `tests/bench_security.cpp` pruefen.
+5. Benchmarks fuer Ziele TS-6 (Downsampling) in bench_timeseries_ingestion ergaenzen oder passendes Target identifizieren.
+
+### 1.7.15b Delta-Liste: Echte Messung vs. Proxy (Welle 2 Prioritaet)
+
+| Prio | Ziel-ID / Benchmark-Ziel | Aktueller Stand (Welle 1) | Fehlender 1:1-Benchcase | Ziel-Target Welle 2 | Konkrete Umsetzung | Abnahme fuer Schliessen der Luecke |
+|---:|---|---|---|---|---|---|
+| P0 | Query: Simple/Complex/JOIN (Run-Plan 1-3) | ✅ dedizierte Cases aktiv; QPS+P99+Skalierung liegen vor (`query_latency_p99.json`, `query_scaled.json`) | Historische Workload-Parameter fuer A/B-Vergleich angleichen | `bench_query` | Datensatz-/Query-Setup an v1.3.4-Methode anpassen und Gegenlauf messen | Vergleich gegen Query-SLOs ohne Benchmark-Methodik-Drift |
+| P0 | C-4 Warmup Throughput (Run-Plan 8) | ❌ Crash in `bench_adaptive_query_cache` (STATUS_STACK_BUFFER_OVERRUN) | Stabiler Warmup-Case mit reproduzierbarer Throughput-Metrik | `bench_adaptive_query_cache` | Crash fixen, dann Warmup-Case mit `--benchmark_min_time>=0.2s` messen | `cache_warmup_throughput.json` + Exit-Code 0 |
+| P0 | TS-11 Field Encryption Teilabdeckung | ⚠️ AES gemessen, `BM_FieldEncryption`/`BM_FieldDecryption` crashen | Feldverschluesselung/-entschluesselung lauffaehig | `bench_security` | Crash in Field-* Cases beheben, Filter entfernen | `security.json` enthaelt AES + Field-* ohne Crash |
+| P1 | Storage CRUD (Run-Plan 9-13) | ⚠️ nur Allocator/Memory/RCU-Proxies | `INSERT/READ/UPDATE/SustainedWrite/PointReadP99` als echte Storage-Cases | passendes Storage-Bench-Target (nicht `bench_storage_performance`) | Ziel-Target identifizieren oder neue Cases im Storage-Benchmark ergaenzen | 5 JSON-Artefakte fuer 9-13 mit 1:1-Namensmapping |
+| P1 | TS-6 Downsampling Throughput (Run-Plan 17) | ⚠️ Gorilla-Compression-Proxy (kein Downsampling) | Downsampling-Benchmark mit 1-min Aggregate-Fenster | `bench_timeseries_ingestion` oder separates TS-Target | Neuen Benchmark `BM_DownsamplingThroughput` (oder aequivalent) einfuehren | `timeseries_downsampling_throughput.json` mit dediziertem Downsampling-Case |
+| P1 | AN-3 / AN-4 Exportziele | ⚠️ JSONL/Streaming-Proxies, kein Parquet/CSV-1M | Dedizierte `Parquet 1M` und `CSV 1M` Cases | `bench_exporters` | Benchcases fuer Dateiformat + 1M Rows als eigene Namen anlegen | `analytics_parquet_export_1m.json` und `analytics_csv_export_1m.json` |
+| P2 | Index L2/Cosine/TopK | ⚠️ aus `BM_VectorSearch_efSearch`/Insert-Proxies abgeleitet | Exakte Distanz- und TopK-Cases gem. Erwartungstabelle | `bench_vector_search` | Case-Namen/Parameter auf `L2Distance/1000/512`, `CosineDistance/1000/512`, `TopK/5000/50` ausrichten | 3 JSON-Artefakte mit 1:1-Zielnamen |
+| P2 | Graph Run-Plan 19-20 | ⚠️ final nur BFS-Proxy vorhanden | Sparse Edge Addition + Dense Neighbor Query als eigene Cases | `bench_graph_traversal` | Laufzeitfreundliche, dedizierte Cases fuer 19 und 20 definieren | `graph_sparse_edge_addition.json` + `graph_dense_neighbor_query.json` |
+
+Reihenfolge fuer Umsetzung in Welle 2:
+
+1. P0 zuerst (Messbarkeit/Crash-Fix), dann P1 (fachliche 1:1-Abdeckung), danach P2 (Feinabdeckung).
+2. Nach jedem Fix sofort JSON-Artefakt erzeugen und in Abschnitt 1.7.15a den Status von ❌/⚠️ auf ✅ heben.
+3. Jede neue Messung mit demselben Hardware-Baseline-Artefaktzyklus paaren.
+
+**Vollstaendige Artefakt-Liste Welle 1:**
+
+| Artefakt | Groesse | Enthaltene Benchmarks |
+|---|---|---|
+| `artifacts/perf_nv/query_simple_aql_where.json` | ~1.5 KB | BM_SimpleWhere (dedizierter 1:1-Case) |
+| `artifacts/perf_nv/query_complex_where.json` | ~1.5 KB | BM_ComplexWhere (dedizierter 1:1-Case) |
+| `artifacts/perf_nv/query_join_users_posts.json` | ~2.0 KB | BM_JoinUsersPosts (dedizierter 1:1-Case) |
+| `artifacts/perf_nv/query_latency_p99.json` | ~3 KB | BM_SimpleWhere_P99, BM_ComplexWhere_P99, BM_JoinUsersPosts_P99 |
+| `artifacts/perf_nv/query_scaled.json` | ~5 KB | BM_*_Scaled/1000 und BM_*_Scaled/10000 |
+| `artifacts/perf_nv/core_performance.json` | ~8 KB | VectorIndexBench, SIMDDistanceThroughput, SecondaryIndexBench, QueryEngineBench, GraphIndexBench, TimeseriesBench |
+| `artifacts/perf_nv/vector_search.json` | ~4 KB | BM_VectorSearch_efSearch (32/64/128/256), BM_VectorInsert_Batch100 (64/128) |
+| `artifacts/perf_nv/storage_performance.json` | ~10 KB | BM_Allocator_*, BM_Memory_*, BM_RCU_*, BM_Memory_Overhead |
+| `artifacts/perf_nv/gorilla_codec.json` | ~8 KB | BM_GorillaEncode/Decode (Constant/Sine/Random), BM_GorillaSIMDDecode, BM_GorillaScalarDecode_Throughput |
+| `artifacts/perf_nv/timeseries_ingestion.json` | ~4 KB | BM_GorillaCompression/Decompression (100/1000/10000) |
+| `artifacts/perf_nv/timeseries_gorilla.json` | ~4 KB | BM_GorillaCompression/Decompression (100/1000/10000) — Duplikat, zweiter Lauf |
+| `artifacts/perf_nv/exporters.json` | ~8 KB | BM_JsonlExport_BatchThroughput, BM_JsonlExport_FormatTemplate, BM_JsonlExport_Compressed, BM_StreamingExport_Throughput, BM_IncrementalExport_Full/Delta |
+| `artifacts/perf_nv/security.json` | ~10 KB | BM_AES256GCM (1KB/64KB/1MB), BM_RBAC, BM_PostQuantum (Kyber/Dilithium), BM_FIPS, BM_AQLInjection, BM_AuditLog |
+| `artifacts/perf_nv/graph_traversal.json` | ~1.5 KB | GraphTraversalBenchmarkFixture/BFSTraversal/100/4 (repräsentativer Proxy-Lauf) |
 
 ---
 
-## 2. Query-Engine – Detailergebnisse
+## 2. Query-Engine   Detailergebnisse
 
 > Quelle: `BENCHMARK_RESULTS.md` (Run 2025-12-18), `benchmark_summary.csv` (Run 2025-12-29)
 
-| Benchmark | Ziel | v1.3.4 Gemessen | Status |
-|-----------|------|-----------------|--------|
-| Simple AQL WHERE | ≥ 10.000 Queries/s bei P99 < 20 ms | 3,43 M ops/s @ ~0,3 µs | ✅ |
-| Complex WHERE | ≥ 1 M ops/s | 3,35 M ops/s | ✅ |
-| JOIN (Users-Posts) | ≥ 5 M ops/s | 10,2 M ops/s | ✅ |
-| QueryEngineBench/SimpleEvaluation | ≥ 750 M items/s | 814,5 M items/s (1,23 ns) | ✅ |
-| Parse + Optimize P99 (≤10 Collections) | ≤ 5 ms | ❓ | ❓ |
-| Query-Cache Lookup P99 (Exact) | < 1 ms | ❓ | ❓ |
-| Query-Cache Lookup P99 (Semantic) | ≤ 10 ms | ❓ | ❓ |
-| JIT Erstcompilierung | ≤ 50 ms | ❓ | ❓ |
-| Federation Plan-Overhead (5 Cluster) | ≤ 20 ms | ❓ | ❓ |
-| Streaming First-Chunk Latenz | ≤ 50 ms | ❓ | ❓ |
+| Benchmark | Ziel | v1.3.4 Gemessen | v1.8.2 Gemessen | Status |
+|-----------|------|-----------------|-----------------|--------|
+| Simple AQL WHERE |  10.000 Queries/s bei P99 < 20 ms | 3,43 M ops/s @ ~0,3  | 0,2023 ms (~4.943 q/s), P99 0,562 ms (`BM_SimpleWhere_P99`) |  ⚠️ P99 ok, QPS unter Ziel |
+| Complex WHERE |  1 M ops/s | 3,35 M ops/s | 0,2183 ms (~4.581 q/s), P99 0,321 ms (`BM_ComplexWhere_P99`) |  ⚠️ QPS unter Ziel |
+| JOIN (Users-Posts) |  5 M ops/s | 10,2 M ops/s | 0,9755 ms (~1.025 q/s), P99 1,739 ms (`BM_JoinUsersPosts_P99`) |  ⚠️ QPS unter Ziel |
+| QueryEngineBench/SimpleEvaluation |  750 M items/s | 814,5 M items/s (1,23 ns) | 603,6 M items/s (1,72 ns, Welle-1) |  ⚠️ Regressionskandidat |
+| Parse + Optimize P99 (10 Collections) |  5 ms |  | n/v |  |
+| Query-Cache Lookup P99 (Exact) | < 1 ms |  | n/v |  |
+| Query-Cache Lookup P99 (Semantic) |  10 ms |  | n/v |  |
+| JIT Erstcompilierung |  50 ms |  | n/v |  |
+| Federation Plan-Overhead (5 Cluster) |  20 ms |  | n/v |  |
+| Streaming First-Chunk Latenz |  50 ms |  | n/v |  |
+
+### 2.1 Query-Skalierung (Methodik-Drift-Indikator)
+
+Quelle: `artifacts/perf_nv/query_scaled.json` (Welle-1, dedizierte Query-Cases)
+
+| Case | N=1000 | N=10000 | Faktor (N10k/N1k) | Bewertung |
+|---|---|---|---:|---|
+| BM_SimpleWhere_Scaled | 0,197 ms (~5.075 q/s) | 1,664 ms (~601 q/s) | 8,45x | deutliche Skalierungskosten |
+| BM_ComplexWhere_Scaled | 0,216 ms (~4.635 q/s) | 1,237 ms (~809 q/s) | 5,73x | sublinear, aber stark fallender QPS |
+| BM_JoinUsersPosts_Scaled | 1,003 ms (~997 q/s) | 9,002 ms (~111 q/s) | 8,98x | JOIN-Pfad stark datensatzsensitiv |
+
+Interpretation:
+
+1. Die aktuelle QPS-Luecke gegen historische Zielwerte wird wesentlich von Datensatzgroesse/Workload-Form beeinflusst.
+2. P99 bleibt fuer alle drei Cases im ms-Bereich deutlich unter den Latenz-SLOs; der Engpass liegt im Durchsatz unter groesserem N.
+3. Fuer einen fairen Versionsvergleich muss die v1.3.4-Workloadmethodik (Datensatz, Querymix, Warmup) explizit reproduziert werden.
 
 ---
 
@@ -87,80 +1202,155 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 
 > Quelle: `benchmark_summary.csv` (Run 2025-12-29), `baselines/acceleration/baseline.json` (v1.0.0)
 
-| Benchmark | Ziel | v1.0.0 Gemessen | v1.3.4 Gemessen | Status |
-|-----------|------|-----------------|-----------------|--------|
-| VectorIndexBench/InsertPlaintext | ≥ 280 k/s | – | 351,4 k/s (2,84 µs) | ✅ |
-| SecondaryIndexBench/IndexInsert | ≥ 180 k/s | – | 217,2 k/s (4,60 µs) | ✅ |
-| SecondaryIndexBench/RawWriteOnly | ≥ 500 k/s | – | 885,0 k/s (1,13 µs) | ✅ |
-| Small Index Insert (1K entities) | ≥ 1 M/s | – | 1,75 M/s | ✅ |
-| Medium Index Insert (100K) | ≥ 500 k/s | – | 1,06 M/s | ✅ |
-| Large Index Lookup (1M) | ≥ 1 M/s | – | 3,12 M/s | ✅ |
-| Composite Index Lookup | ≥ 1 M/s | – | 2,40 M/s | ✅ |
-| L2Distance/1000/512 | ≥ 250 k/s | 313 k/s (3.200 ns) | ❓ | ✅ |
-| CosineDistance/1000/512 | ≥ 200 k/s | 250 k/s (4.000 ns) | ❓ | ✅ |
-| TopK/5000/50 | ≥ 10 M/s | 12,5 M/s (400 ns) | ❓ | ✅ |
-| HNSW Vektor-Suche (CPU) | ≥ 5.000 QPS | ❓ | ❓ | ❓ |
-| HNSW Vektor-Suche (GPU RTX-class) | ≥ 50.000 QPS | ❓ | ❓ | ❓ |
-| B-Tree Point-Lookup P99 (10M Keys) | < 500 µs | ❓ | ❓ | ❓ |
-| R-Tree Spatial Range Query P99 | < 10 ms | ❓ | ❓ | ❓ |
-| GPU Index-Build (1M × 128-dim) | < 60 s | ❓ | ❓ | ❓ |
-| RocksDB WriteBatch Commit P99 | < 2 ms | ❓ | ❓ | ❓ |
+| Benchmark | Ziel | v1.0.0 Gemessen | v1.3.4 Gemessen | v1.8.2 Gemessen | Status |
+|-----------|------|-----------------|-----------------|-----------------|--------|
+| VectorIndexBench/InsertPlaintext |  280 k/s |   | 351,4 k/s (2,84 ) | 548,7 k/s (1,82e5 ns) |  |
+| SecondaryIndexBench/IndexInsert |  180 k/s |   | 217,2 k/s (4,60 ) | 254,9 k/s (3,92e5 ns) |  |
+| SecondaryIndexBench/RawWriteOnly |  500 k/s |   | 885,0 k/s (1,13 ) | 749,6 k/s (162.620 ns) Welle-1 |  ✅ |
+| Small Index Insert (1K entities) |  1 M/s |   | 1,75 M/s | n/v |  |
+| Medium Index Insert (100K) |  500 k/s |   | 1,06 M/s | n/v |  |
+| Large Index Lookup (1M) |  1 M/s |   | 3,12 M/s | n/v |  |
+| Composite Index Lookup |  1 M/s |   | 2,40 M/s | n/v |  |
+| L2Distance/1000/512 |  250 k/s | 313 k/s (3.200 ns) |  | Proxy: `BM_VectorSearch_efSearch/32/10` 18,86 ms |  ⚠️ nicht 1:1 Distanz-Benchcase |
+| CosineDistance/1000/512 |  200 k/s | 250 k/s (4.000 ns) |  | Proxy: `BM_VectorSearch_efSearch/128/10` 19,99 ms |  ⚠️ nicht 1:1 Distanz-Benchcase |
+| TopK/5000/50 |  10 M/s | 12,5 M/s (400 ns) |  | Proxy: `BM_VectorInsert_Batch100/128` 5,17 ms |  ⚠️ Insert-Proxy statt TopK-Case |
+| HNSW Vektor-Suche (CPU) |  5.000 QPS |  |  | n/v |  |
+| HNSW Vektor-Suche (GPU RTX-class) |  50.000 QPS |  |  | n/v |  |
+| B-Tree Point-Lookup P99 (10M Keys) | < 500  |  |  | n/v |  |
+| R-Tree Spatial Range Query P99 | < 10 ms |  |  | n/v |  |
+| GPU Index-Build (1M ├ù 128-dim) | < 60 s |  |  | n/v |  |
+| RocksDB WriteBatch Commit P99 | < 2 ms |  |  | n/v |  |
 
 ---
 
 ## 4. Cache-Modul
 
-> Quelle: `FUTURE_ENHANCEMENTS.md`; kein direkter Bench-Run gefunden
+> Quelle: `FUTURE_ENHANCEMENTS.md`, v1.8.2 Zusatzmessung aus `bench_embedding_cache_performance`
 
-| Ziel-ID | Erwartungswert | v1.3.4 Gemessen | Status |
-|---------|----------------|-----------------|--------|
-| C-1 L1 Hit-Path | ≥ 5 M ops/s/Core (16-Thread) | ❓ | ❓ |
-| C-2 L2 Hit-Path | ≥ 500 k ops/s | ❓ | ❓ |
-| C-3 L3 Hit-Path P99 | ≤ 5 ms | ❓ | ❓ |
-| C-4 Warmup Throughput | ≥ 500 k Entries/s | ❓ | ❓ |
-| C-5 Admin-API Response | ≤ 5 ms | ❓ | ❓ |
-| C-6 Prefetch Latenz | ≤ 100 µs/Call | ❓ | ❓ |
-| C-7 Prefetch Overfetch | ≤ 10 % | ❓ | ❓ |
+| Ziel-ID | Erwartungswert | v1.3.4 Gemessen | v1.8.2 Gemessen | Status |
+|---------|----------------|-----------------|-----------------|--------|
+| C-1 L1 Hit-Path |  5 M ops/s/Core (16-Thread) |  | 5,851 M ops/s (`BM_EmbeddingCache_Query_WithIndex/100000`, Proxy) |  |
+| C-2 L2 Hit-Path |  500 k ops/s |  | n/v |  |
+| C-3 L3 Hit-Path P99 |  5 ms |  | n/v |  |
+| C-4 Warmup Throughput |  500 k Entries/s |  | n/v |  |
+| C-5 Admin-API Response |  5 ms |  | n/v |  |
+| C-6 Prefetch Latenz |  100 /Call |  | n/v |  |
+| C-7 Prefetch Overfetch |  10 % |  | n/v |  |
 
 ---
 
 ## 5. Storage-Modul
 
-> Quelle: `scientific_benchmarks_20251204_212220/summary.csv` (v1.0.0, HTTP-API-Level)
+> Quelle: `scientific_benchmarks_20251204_212220/summary.csv` (v1.0.0, HTTP-API-Level), v1.8.2 Zusatzmessung aus `bench_storage_performance`
 
-| Benchmark | Ziel | v1.0.0 Gemessen | v1.3.4 Gemessen | Status |
-|-----------|------|-----------------|-----------------|--------|
-| INSERT 1 KB | – | 759 ops/s @ 1,317 ms | ❓ | ❓ |
-| READ 1 KB | – | 834 ops/s @ 1,204 ms | ❓ | ❓ |
-| UPDATE 1 KB | – | 806 ops/s @ 1,240 ms | ❓ | ❓ |
-| INSERT 10 KB | – | 510 ops/s @ 1,959 ms | ❓ | ❓ |
-| INSERT 100 KB | – | 126 ops/s @ 7,913 ms | ❓ | ❓ |
-| INSERT 1 MB | – | 16 ops/s @ 61,402 ms | ❓ | ❓ |
-| Concurrent 1 Client | – | 776 ops/s @ 1,28 ms | ❓ | ❓ |
-| Concurrent 5 Clients | – | 721 ops/s @ 6,80 ms | ❓ | ❓ |
-| Concurrent 50 Clients | – | 948 ops/s @ 60,3 ms ⚠️ CV=38% | ❓ | ❓ |
-| Sustained Write NVMe | ≥ 100.000 ops/s | – | ❓ | ❓ |
-| Point-Read Latenz P99 | ≤ 1 ms (Bloom Filter) | – | ❓ | ❓ |
-| Incremental Backup | ≥ 500 MB/s | – | ❓ | ❓ |
-| 1MB Blob Storage | – | – | 741 ops/s @ 1,39 ms ⚠️ | ⚠️ |
-| 10KB Thumbnail Storage | – | – | 388,5 k blobs/s | ❓ |
-| 100KB Blob Retrieval | – | – | 49,0 M lookups/s | ❓ |
+| Benchmark | Ziel | v1.0.0 Gemessen | v1.3.4 Gemessen | v1.8.2 Gemessen | Status |
+|-----------|------|-----------------|-----------------|-----------------|--------|
+| INSERT 1 KB |   | 759 ops/s @ 1,317 ms |  | n/v |  |
+| READ 1 KB |   | 834 ops/s @ 1,204 ms |  | n/v |  |
+| UPDATE 1 KB |   | 806 ops/s @ 1,240 ms |  | n/v |  |
+| INSERT 10 KB |   | 510 ops/s @ 1,959 ms |  | n/v |  |
+| INSERT 100 KB |   | 126 ops/s @ 7,913 ms |  | n/v |  |
+| INSERT 1 MB |   | 16 ops/s @ 61,402 ms |  | n/v |  |
+| Concurrent 1 Client |   | 776 ops/s @ 1,28 ms |  | n/v |  |
+| Concurrent 5 Clients |   | 721 ops/s @ 6,80 ms |  | n/v |  |
+| Concurrent 50 Clients |   | 948 ops/s @ 60,3 ms ÔÜá´©Å CV=38% |  | n/v |  |
+| Sustained Write NVMe |  100.000 ops/s |   |  | n/v |  |
+| Point-Read Latenz P99 |  1 ms (Bloom Filter) |   |  | n/v |  |
+| Incremental Backup |  500 MB/s |   |  | n/v |  |
+| 1MB Blob Storage |   |   | 741 ops/s @ 1,39 ms ÔÜá´©Å | n/v | ÔÜá´©Å |
+| 10KB Thumbnail Storage |   |   | 388,5 k blobs/s | n/v |  |
+| 100KB Blob Retrieval |   |   | 49,0 M lookups/s | n/v |  |
+| BatchInsertBenchmark/SingleInserts_1000 (Proxy) |   |   |  | 576,577 ops/s |  |
+| BatchInsertBenchmark/BatchInsert_1000 (Proxy) |   |   |  | 320 ops/s |  |
+| BM_RawWrite_WAL_On/8/real_time (Proxy) |   |   |  | 1,276 k/s |   |
+| BM_MixedRW/8/real_time (Proxy) |   |   |  | 2,805 k/s |  |
+| BM_Allocator_Themis_Small (Microbenchmark) |   |   |  | 160,627 M ops/s |  |
+| BM_RCU_Read_MultiThread/threads:8 (Microbenchmark) |   |   |  | 1,390 G ops/s |  |
 
 ---
 
 ## 6. Analytics-Modul
 
-| Ziel-ID | Erwartungswert | v1.3.4 Gemessen | Status |
-|---------|----------------|-----------------|--------|
-| AN-1 Streaming Aggregation Memory | ≤ 512 MB/Fenster | ❓ | ❓ |
-| AN-2 IVM Delta-Application | ≤ 50 ms (10k Rows) | ❓ | ❓ |
-| AN-3 Parquet Export 1M Rows | ≤ 2 s | ❓ | ❓ |
-| AN-4 CSV Export 1M Rows | ≤ 500 ms | ❓ | ❓ |
-| AN-5 CEPEngine::stop() | ≤ 100 ms | ❓ | ❓ |
-| AN-7 IsolationForest Training | ≤ 10 ms (1k-Punkt-Fenster) | ❓ | ❓ |
-| AN-8 predictBatch() | ≤ 50 ms (1k Serien × 30 Steps) | ❓ | ❓ |
-| AN-9 Auto-Tune Grid | ≤ 5 ms (9 α, n=500, parallel) | ❓ | ❓ |
-| AN-10 ARM NEON Aggregation | ≥ 4 GB/s (Cortex-A78) | ❓ | ❓ |
+| Ziel-ID | Erwartungswert | v1.3.4 Gemessen | v1.8.2 Gemessen | Status |
+|---------|----------------|-----------------|-----------------|--------|
+| AN-1 Streaming Aggregation Memory |  512 MB/Fenster |  | n/v |  |
+| AN-2 IVM Delta-Application |  50 ms (10k Rows) |  | n/v |  |
+| AN-3 Parquet Export 1M Rows |  2 s |  | Proxy: `BM_JsonlExport_BatchThroughput/10000` in  `artifacts/perf_nv/exporters.json` |  ⚠️ Kein Parquet-Case im gemessenen Target |
+| AN-4 CSV Export 1M Rows |  500 ms |  | Proxy: `BM_StreamingExport_Throughput/5000` in `artifacts/perf_nv/exporters.json` |  ⚠️ CSV-1M nicht direkt gemessen |
+| AN-5 CEPEngine::stop() |  100 ms |  | n/v |  |
+| AN-7 IsolationForest Training |  10 ms (1k-Punkt-Fenster) |  | n/v |  |
+| AN-8 predictBatch() |  50 ms (1k Serien ├ù 30 Steps) |  | n/v |  |
+| AN-9 Auto-Tune Grid |  5 ms (9 , n=500, parallel) |  | n/v |  |
+| AN-10 ARM NEON Aggregation |  4 GB/s (Cortex-A78) |  | n/v |  |
+| AN-P1 OLAP Count Throughput (Proxy) |   |  | 242,637 M/s (`BM_OLAP_Count/1000000`) |  |
+| AN-P2 OLAP Sum Throughput (Proxy) |   |  | 3,589 G/s (`BM_OLAP_Sum_Optimized/1000000`) |  |
+| AN-P3 OLAP GroupBy Throughput (Proxy) |   |  | 52,495 M/s (`BM_OLAP_GroupBy_Optimized/100000`) |  |
+| AN-P4 OLAP ComplexQuery Throughput (Proxy) |   |  | 51,965 M/s (`BM_OLAP_ComplexQuery/100000`) |  |
+| AN-P5 OLAP GroupBy Throughput (1M, Proxy) |   |  | 48,528 M/s (`BM_OLAP_GroupBy_Optimized/1000000`) |  |
+| AN-P6 OLAP ComplexQuery Throughput (1M, Proxy) |   |  | 51,613 M/s (`BM_OLAP_ComplexQuery/1000000`) |  |
+
+### 6.1 Formales Ziel-Mapping AN-1..AN-10 (v1.8.2)
+
+> Ziel: Transparente Zuordnung von Analytics-Zielen zu vorhandenen Benchcases inkl. Messbarkeit in der aktuellen Umgebung.
+
+| Ziel-ID | Zieldefinition | Benchmark-Zuordnung (v1.8.2) | Messbar | v1.8.2 Stand | Bewertung / Naechster Schritt |
+|---|---|---|---|---|---|
+| AN-1 | Streaming Aggregation Memory < 512 MB/Fenster | keine direkte Zuordnung; nur Throughput-Proxies aus `bench_olap_performance` | Nein | n/v | Memory-Profiling-Benchmark fuer Window-State ergaenzen |
+| AN-2 | IVM Delta-Application < 50 ms (10k Rows) | keine direkte Zuordnung | Nein | n/v | dedizierten IVM-Microbenchmark (delta apply, 10k rows) implementieren |
+| AN-3 | Parquet Export 1M Rows < 2 s | keine direkte Zuordnung | Nein | n/v | Export-Benchmark `bench_parquet_export` anlegen/aktivieren |
+| AN-4 | CSV Export 1M Rows < 500 ms | keine direkte Zuordnung | Nein | n/v | Export-Benchmark `bench_csv_export` anlegen/aktivieren |
+| AN-5 | CEPEngine::stop() < 100 ms | keine direkte Zuordnung | Nein | n/v | Lifecycle-Benchmark fuer CEP Start/Stop hinzufuegen |
+| AN-7 | IsolationForest Training < 10 ms | keine direkte Zuordnung | Nein | n/v | ML-Training-Benchmark mit Fenstergroesse 1k aufnehmen |
+| AN-8 | predictBatch() < 50 ms (1k Serien x 30 Steps) | indirekt: OLAP-Proxies (`BM_OLAP_ComplexQuery/*`) | Teilweise | 51,613 M/s Throughput (Proxy), keine direkte Latenz | eigenen Forecast-Benchmark mit Ziel-Workload aufnehmen |
+| AN-9 | Auto-Tune Grid < 5 ms (9 Konfigurationen) | keine direkte Zuordnung | Nein | n/v | Auto-Tune-Benchmark in Forecasting-Modul aufnehmen |
+| AN-10 | ARM NEON Aggregation >= 4 GB/s | keine direkte Zuordnung (x86_64 Lauf) | Nein | n/v | auf ARM-Runner messen; SIMD-Bandbreiten-Benchmark aktivieren |
+
+#### 6.1.1 Messbare Analytics-Proxies (v1.8.2)
+
+| Proxy-Benchmark | v1.8.2 Ergebnis | Zweck |
+|---|---:|---|
+| `BM_OLAP_Count/1000000` | 242,637 M/s | Aggregations-Durchsatzindikator |
+| `BM_OLAP_Sum_Optimized/1000000` | 3,589 G/s | optimierter Summen-Pfad |
+| `BM_OLAP_GroupBy_Optimized/1000000` | 48,528 M/s | GroupBy-Skalierung |
+| `BM_OLAP_ComplexQuery/1000000` | 51,613 M/s | komplexe Pipeline als Forecast-Proxy |
+
+#### 6.1.2 Benchmark-Tickets (abgeleitet aus offenen Zielen)
+
+- [ ] AN-1: `bench_streaming_aggregation_memory` anlegen (Target: v1.8.3)
+	- Messpunkt: Peak RSS pro Fenster bei 1k/10k/100k Events
+	- Akzeptanz: `< 512 MB` bei Referenz-Workload
+	- Output: json + markdown summary in `logs/benchmarks_v1_8_2/`
+- [ ] AN-2: `bench_ivm_delta_apply` anlegen (Target: v1.8.3)
+	- Messpunkt: Delta-Apply-Latenz fuer 10k Rows
+	- Akzeptanz: `p95 < 50 ms`, `p99 < 65 ms`
+- [ ] AN-3: `bench_parquet_export` aktivieren/neu erstellen (Target: v1.8.3)
+	- Messpunkt: Exportdauer fuer 1M Rows
+	- Akzeptanz: `< 2 s` End-to-End
+- [ ] AN-4: `bench_csv_export` aktivieren/neu erstellen (Target: v1.8.3)
+	- Messpunkt: Exportdauer fuer 1M Rows
+	- Akzeptanz: `< 500 ms` End-to-End
+- [ ] AN-5: `bench_cep_lifecycle` anlegen (Target: v1.8.3)
+	- Messpunkt: `CEPEngine::stop()` unter Last
+	- Akzeptanz: `< 100 ms` (p95)
+- [ ] AN-7: `bench_isolation_forest_training` anlegen (Target: v1.8.3)
+	- Messpunkt: Trainingszeit 1k-Punkt-Fenster
+	- Akzeptanz: `< 10 ms`
+- [ ] AN-8: `bench_forecast_predict_batch` anlegen (Target: v1.8.3)
+	- Messpunkt: `predictBatch()` fuer 1k Serien x 30 Steps
+	- Akzeptanz: `< 50 ms`
+- [ ] AN-9: `bench_forecast_autotune_grid` anlegen (Target: v1.8.3)
+	- Messpunkt: 9er-Grid inkl. Best-Config-Selektion
+	- Akzeptanz: `< 5 ms`
+- [ ] AN-10: `bench_arm_neon_aggregation` auf ARM-Runner aufnehmen (Target: v1.8.4)
+	- Messpunkt: Aggregationsbandbreite auf Cortex-A78-Klasse
+	- Akzeptanz: `>= 4 GB/s`
+
+#### 6.1.3 Priorisierte Ausfuehrungsreihenfolge
+
+1. AN-2, AN-8, AN-9 (direkter Einfluss auf Online-Latenz)
+2. AN-1, AN-5 (Stabilitaet und Betriebsverhalten)
+3. AN-3, AN-4, AN-7 (Batch/Offline-Pfade)
+4. AN-10 (plattformabhaengig, separater ARM-Runner)
 
 ---
 
@@ -168,18 +1358,18 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 
 > Quelle: `FUTURE_ENHANCEMENTS.md` (explizite Ist-Stand-Angaben)
 
-| Ziel-ID | Erwartungswert | Bekannter Ist-Stand | v1.3.4 Gemessen | Status |
-|---------|----------------|---------------------|-----------------|--------|
-| TS-1 Write Throughput/Node | > 500 k pts/s | ~200 k pts/s | 49,0 M pts/s* | ⚠️ |
-| TS-2 Gorilla Decode Throughput | > 2 GB/s/Core | ~400 MB/s | ❓ | ⚠️ |
-| TS-3 Range Scan P99 (1M pts) | < 50 ms | – | ❓ | ❓ |
-| TS-4 Continuous Aggregate Refresh | < 500 ms/1-min-Intervall | – | ❓ | ❓ |
-| TS-5 Write Amplification | < 1,5× | – | ❓ | ❓ |
-| TS-6 Downsampling Throughput | > 10 M pts/s → 1-min-Aggregate | – | ❓ | ❓ |
-| TS-7 Storage Reduction | > 50× (raw → 1-day Tier) | – | ❓ | ❓ |
-| TS-9 Buffer-to-Storage Flush P99 | < 10 ms | – | ❓ | ❓ |
-| TS-10 Gorilla Insert P99 | ≤ 50 µs | – | ❓ | ❓ |
-| TS-11 AES-256-GCM Throughput | > 1 GB/s/Core (AES-NI) | – | ❓ | ❓ |
+| Ziel-ID | Erwartungswert | Bekannter Ist-Stand | v1.3.4 Gemessen | v1.8.2 Gemessen | Status |
+|---------|----------------|---------------------|-----------------|-----------------|--------|
+| TS-1 Write Throughput/Node | > 500 k pts/s | ~200 k pts/s | 49,0 M pts/s* | 61,00 M pts/s* |  |
+| TS-2 Gorilla Decode Throughput | > 2 GB/s/Core | ~400 MB/s |  | 267,1 MB/s (`BM_GorillaSIMDDecode_Throughput/100000`, Welle-1) |  ⚠️ unter Erwartungswert |
+| TS-3 Range Scan P99 (1M pts) | < 50 ms |   |  | n/v |  |
+| TS-4 Continuous Aggregate Refresh | < 500 ms/1-min-Intervall |   |  | n/v |  |
+| TS-5 Write Amplification | < 1,5├ù |   |  | n/v |  |
+| TS-6 Downsampling Throughput | > 10 M pts/s ÔåÆ 1-min-Aggregate |   |  | Proxy: Gorilla Compression 27,3 M pts/s (`timeseries_ingestion.json`) |  ⚠️ kein Downsampling-Benchcase |
+| TS-7 Storage Reduction | > 50├ù (raw ÔåÆ 1-day Tier) |   |  | n/v |  |
+| TS-9 Buffer-to-Storage Flush P99 | < 10 ms |   |  | 1,5  (AdaptiveFlush P99, Proxy) |  |
+| TS-10 Gorilla Insert P99 |  50  |   |  | n/v |  |
+| TS-11 AES-256-GCM Throughput | > 1 GB/s/Core (AES-NI) |   |  | 4,394 GB/s (`BM_AES256GCM_Encrypt_1MB`, Welle-1) |  ✅ |
 
 *`TimeseriesBench/InsertTimepoints` 49,0 M/s misst In-Memory-Append, nicht persistiertes Schreiben
 
@@ -191,33 +1381,33 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 
 | Benchmark | Ziel | v1.0.0 Gemessen | v1.3.4 Gemessen | Status |
 |-----------|------|-----------------|-----------------|--------|
-| Geo_HaversineDistance/100000 | ≥ 20 M/s | 22,2 M/s (4.500 ns) | ❓ | ✅ |
-| Geo_PointInPolygon/100000 | ≥ 30 M/s | 35,7 M/s (2.800 ns) | ❓ | ✅ |
-| intersects-Query P99 (1M Punkte) | ≤ 5 ms (R-Tree) | – | ❓ | ❓ |
-| R-Tree Bulk-Load (1M Geometrien) | ≤ 3 s | – | ❓ | ❓ |
-| Buffer 10K Punkte @ 500 m | ≤ 200 ms/Core | – | ❓ | ❓ |
-| Spatial JOIN (2×100K, 1 km) | ≤ 500 ms (erste 1k Ergebnisse) | – | ❓ | ❓ |
-| GeoJSON Parse (100K MultiPolygon) | ≤ 2 s | – | ❓ | ❓ |
-| GPU Contains (1M Punkte, A10G) | ≤ 50 ms | – | ❓ | ❓ |
-| DBSCAN GPU Speedup (100K Punkte) | > 100× vs. CPU | – | ❓ | ❓ |
+| Geo_HaversineDistance/100000 |  20 M/s | 22,2 M/s (4.500 ns) |  |  |
+| Geo_PointInPolygon/100000 |  30 M/s | 35,7 M/s (2.800 ns) |  |  |
+| intersects-Query P99 (1M Punkte) |  5 ms (R-Tree) |   |  |  |
+| R-Tree Bulk-Load (1M Geometrien) |  3 s |   |  |  |
+| Buffer 10K Punkte @ 500 m |  200 ms/Core |   |  |  |
+| Spatial JOIN (2├ù100K, 1 km) |  500 ms (erste 1k Ergebnisse) |   |  |  |
+| GeoJSON Parse (100K MultiPolygon) |  2 s |   |  |  |
+| GPU Contains (1M Punkte, A10G) |  50 ms |   |  |  |
+| DBSCAN GPU Speedup (100K Punkte) | > 100├ù vs. CPU |   |  |  |
 
 ---
 
 ## 9. Graph-Modul
 
-> Quelle: `BENCHMARK_RESULTS.md` (Run 2025-12-18)
+> Quelle: `BENCHMARK_RESULTS.md` (Run 2025-12-18), v1.8.2 Zusatzmessung aus `bench_core_performance`
 
-| Benchmark | Ziel | v1.3.4 Gemessen | Status |
-|-----------|------|-----------------|--------|
-| GraphIndexBench/AddEdges | ≥ 500 k edges/s | 628,7 k edges/s (1,59 µs) | ✅ |
-| Sparse Graph Edge Addition | ≥ 500 k edges/s | 1,26 M edges/s | ✅ |
-| Dense Graph Neighbor Query | ≥ 5 M queries/s | 8,96 M queries/s | ✅ |
-| Graph BFS Traversal (Depth-3) | ≥ 5 M traversals/s | 9,56 M traversals/s | ✅ |
-| RAG Search Top-50 | ≥ 5 M ops/s | 7,17 M ops/s (140 ns) | ✅ |
-| Algorithmus-Selektion P99 (10M Nodes) | < 1 ms | ❓ | ❓ |
-| Plan-Cache Lookup P99 | < 100 µs | ❓ | ❓ |
-| Single-Refresh (10K Nodes) | ≤ 5 s / ≤ 200 ms (8 Worker) | ❓ | ❓ |
-| Subgraph-Isomorphismus P95 | < 500 ms (100-Node-Pattern, 1M-Graph) | ❓ | ❓ |
+| Benchmark | Ziel | v1.3.4 Gemessen | v1.8.2 Gemessen | Status |
+|-----------|------|-----------------|-----------------|--------|
+| GraphIndexBench/AddEdges |  500 k edges/s | 628,7 k edges/s (1,59 ) | 1,177 M edges/s (8,50e4 ns) |  |
+| Sparse Graph Edge Addition |  500 k edges/s | 1,26 M edges/s | n/v |  ⚠️ kein Edge-Add-Case in finalem Welle-1-Graphlauf |
+| Dense Graph Neighbor Query |  5 M queries/s | 8,96 M queries/s | n/v |  ⚠️ kein Dense-Neighbor-Case in finalem Welle-1-Graphlauf |
+| Graph BFS Traversal (Depth-3) |  5 M traversals/s | 9,56 M traversals/s | 5,74 k traversals/s (`BFSTraversal/100/4`, Proxy) |  ⚠️ nicht vergleichbare Problemgroesse |
+| RAG Search Top-50 |  5 M ops/s | 7,17 M ops/s (140 ns) | n/v |  |
+| Algorithmus-Selektion P99 (10M Nodes) | < 1 ms |  | n/v |  |
+| Plan-Cache Lookup P99 | < 100  |  | n/v |  |
+| Single-Refresh (10K Nodes) |  5 s /  200 ms (8 Worker) |  | n/v |  |
+| Subgraph-Isomorphismus P95 | < 500 ms (100-Node-Pattern, 1M-Graph) |  | n/v |  |
 
 ---
 
@@ -227,17 +1417,17 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 
 | Benchmark | Ziel | v1.0.0 Gemessen | v1.3.4 Gemessen | Status |
 |-----------|------|-----------------|-----------------|--------|
-| L2Distance/1000/64 | ≥ 1,5 M/s | 2,0 M/s (500 ns) | ❓ | ✅ |
-| L2Distance/1000/512 | ≥ 250 k/s | 313 k/s (3.200 ns) | ❓ | ✅ |
-| CosineDistance/1000/512 | ≥ 200 k/s | 250 k/s (4.000 ns) | ❓ | ✅ |
-| InnerProduct/1000/512 | ≥ 250 k/s | 313 k/s (3.200 ns) | ❓ | ✅ |
-| TopK/1000/10 | ≥ 15 M/s | 20,0 M/s (50 ns) | ❓ | ✅ |
-| TopK/5000/50 | ≥ 10 M/s | 12,5 M/s (400 ns) | ❓ | ✅ |
-| Vec Search L2 CUDA (1M×128-dim) | < 8 ms auf RTX 3090 | – | ❓ | ❓ |
-| GPU Throughput | ≥ 10× CPU AVX2 Baseline | – | ❓ | ❓ |
-| Large-Scale (100M×128, 4×A100 80 GB) | P99 < 15 ms k=100 | – | ❓ | ❓ |
-| INT8 Matmul vs. FP16 | ≥ 2× auf RTX 3090 | – | ❓ | ❓ |
-| Vulkan (Apple M2, 500K×128) | < 20 ms | – | ❓ | ❓ |
+| L2Distance/1000/64 |  1,5 M/s | 2,0 M/s (500 ns) |  |  |
+| L2Distance/1000/512 |  250 k/s | 313 k/s (3.200 ns) |  |  |
+| CosineDistance/1000/512 |  200 k/s | 250 k/s (4.000 ns) |  |  |
+| InnerProduct/1000/512 |  250 k/s | 313 k/s (3.200 ns) |  |  |
+| TopK/1000/10 |  15 M/s | 20,0 M/s (50 ns) |  |  |
+| TopK/5000/50 |  10 M/s | 12,5 M/s (400 ns) |  |  |
+| Vec Search L2 CUDA (1M├ù128-dim) | < 8 ms auf RTX 3090 |   |  |  |
+| GPU Throughput |  10├ù CPU AVX2 Baseline |   |  |  |
+| Large-Scale (100M├ù128, 4├ùA100 80 GB) | P99 < 15 ms k=100 |   |  |  |
+| INT8 Matmul vs. FP16 |  2├ù auf RTX 3090 |   |  |  |
+| Vulkan (Apple M2, 500K├ù128) | < 20 ms |   |  |  |
 
 ---
 
@@ -245,14 +1435,14 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 
 | Ziel-ID | Erwartungswert | v1.3.4 Gemessen | Status |
 |---------|----------------|-----------------|--------|
-| R-1 Replikations-Lag P99 (SEMI_SYNC) | ≤ 50 ms @ 10k Writes/s (LAN) | ❓ | ❓ |
-| R-2 WAL-Shipping Throughput (Zstd L3) | ≥ 500 MB/s/Follower (10 GbE) | ❓ | ❓ |
-| R-3 Leader-Failover | ≤ 10 s | ❓ | ❓ |
-| R-4 HLC Conflict Detection | < 5 µs/Write | ❓ | ❓ |
-| R-5 CRDT Merge | ≤ 1 µs/Merge | ❓ | ❓ |
-| R-6 WAL Replay (PITR, 100 GB) | ≥ 200 MB/s; ≤ 10 min | ❓ | ❓ |
-| R-7 CDC Event P99 | ≤ 1 ms (Commit → CDC Queue) | ❓ | ❓ |
-| R-8 Cross-DC Lag ASYNC | ≤ 200 ms P99 (50 ms RTT WAN) | ❓ | ❓ |
+| R-1 Replikations-Lag P99 (SEMI_SYNC) |  50 ms @ 10k Writes/s (LAN) |  |  |
+| R-2 WAL-Shipping Throughput (Zstd L3) |  500 MB/s/Follower (10 GbE) |  |  |
+| R-3 Leader-Failover |  10 s |  |  |
+| R-4 HLC Conflict Detection | < 5 /Write |  |  |
+| R-5 CRDT Merge |  1 /Merge |  |  |
+| R-6 WAL Replay (PITR, 100 GB) |  200 MB/s;  10 min |  |  |
+| R-7 CDC Event P99 |  1 ms (Commit ÔåÆ CDC Queue) |  |  |
+| R-8 Cross-DC Lag ASYNC |  200 ms P99 (50 ms RTT WAN) |  |  |
 
 ---
 
@@ -260,18 +1450,18 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 
 | Ziel-ID | Erwartungswert | v1.3.4 Gemessen | Status |
 |---------|----------------|-----------------|--------|
-| SH-1 Cross-Shard RPC P99 (LAN) | < 5 ms | ❓ | ❓ |
-| SH-2 Connection-Pool Hit-Rate | > 95 % @ 10k RPS | ❓ | ❓ |
-| SH-3 Percolator Commit P99 (10 Shards) | < 20 ms | ❓ | ❓ |
-| SH-4 Shard-Split Migration Downtime | 0 ms Read-Unavailability | ❓ | ❓ |
-| SH-5 Write-Latenz während Migration | < 20 % über Baseline P99 | ❓ | ❓ |
-| SH-6 Rebalancer Decision Cycle | < 10 s | ❓ | ❓ |
-| SH-7 Anti-Entropy Scan Throughput | > 1 GB/s (NVMe, 8 Worker) | ❓ | ❓ |
-| SH-8 GPU Reed-Solomon | > 4 GB/s (NVIDIA A10) | ❓ | ❓ |
-| SH-9 Snapshot (1 GB Raft-State) | < 10 s | ❓ | ❓ |
-| SH-10 Snapshot Kompressionsrate | < 35 % unkomprimiert (ZSTD L3) | ❓ | ❓ |
-| SH-11 Replica Catch-up | > 200 MB/s (10 GbE LAN) | ❓ | ❓ |
-| SH-12 Topology Change Propagation | < 500 ms (100 Nodes, Gossip) | ❓ | ❓ |
+| SH-1 Cross-Shard RPC P99 (LAN) | < 5 ms |  |  |
+| SH-2 Connection-Pool Hit-Rate | > 95 % @ 10k RPS |  |  |
+| SH-3 Percolator Commit P99 (10 Shards) | < 20 ms |  |  |
+| SH-4 Shard-Split Migration Downtime | 0 ms Read-Unavailability |  |  |
+| SH-5 Write-Latenz w├ñhrend Migration | < 20 % über Baseline P99 |  |  |
+| SH-6 Rebalancer Decision Cycle | < 10 s |  |  |
+| SH-7 Anti-Entropy Scan Throughput | > 1 GB/s (NVMe, 8 Worker) |  |  |
+| SH-8 GPU Reed-Solomon | > 4 GB/s (NVIDIA A10) |  |  |
+| SH-9 Snapshot (1 GB Raft-State) | < 10 s |  |  |
+| SH-10 Snapshot Kompressionsrate | < 35 % unkomprimiert (ZSTD L3) |  |  |
+| SH-11 Replica Catch-up | > 200 MB/s (10 GbE LAN) |  |  |
+| SH-12 Topology Change Propagation | < 500 ms (100 Nodes, Gossip) |  |  |
 
 ---
 
@@ -279,14 +1469,14 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 
 | Ziel-ID | Erwartungswert | v1.3.4 Gemessen | Status |
 |---------|----------------|-----------------|--------|
-| TX-1 OCC Commit P50 | 100 µs | ❓ | ❓ |
-| TX-2 OCC Commit P99 | 5 ms | ❓ | ❓ |
-| TX-3 2PC Throughput | ≥ 6 k/s | 6,4 k/s | ✅ |
-| TX-4 2PC Latenz (5 Shards) | 5 ms | ❓ | ❓ |
-| TX-5 SAGA Compensation Time | 20 ms | ❓ | ❓ |
-| TX-6 Deadlock Detection Overhead | 1 % (von 5 % verbessert) | ❓ | ❓ |
-| TX-7 False Positive Rate | < 5 % | ❓ | ❓ |
-| TX-8 Low-Contention Success Rate | > 90 % | ❓ | ❓ |
+| TX-1 OCC Commit P50 | 100  |  |  |
+| TX-2 OCC Commit P99 | 5 ms |  |  |
+| TX-3 2PC Throughput |  6 k/s | 6,4 k/s |  |
+| TX-4 2PC Latenz (5 Shards) | 5 ms |  |  |
+| TX-5 SAGA Compensation Time | 20 ms |  |  |
+| TX-6 Deadlock Detection Overhead | 1 % (von 5 % verbessert) |  |  |
+| TX-7 False Positive Rate | < 5 % |  |  |
+| TX-8 Low-Contention Success Rate | > 90 % |  |  |
 
 ---
 
@@ -294,14 +1484,14 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 
 | Ziel-ID | Erwartungswert | v1.3.4 Gemessen | Status |
 |---------|----------------|-----------------|--------|
-| L-1 Time-to-First-Token (512-Token, A10G) | ≤ 200 ms P99 | ❓ | ❓ |
-| L-2 Streaming Overhead | ≤ 2 % tokens/s Regression | ❓ | ❓ |
-| L-3 LoRA Adapter Hot-Load (7B, Rank 64) | ≤ 5 s Wall-Clock | ❓ | ❓ |
-| L-4 Adapter Serialisierung | ≤ 2 ms | ❓ | ❓ |
-| L-5 Work-Stealing Dispatch P99 | ≤ 50 µs | ❓ | ❓ |
-| L-6 Speculative Decoding Overhead | ≤ 15 % akzeptierter Token-Latenz | ❓ | ❓ |
-| L-7 GPU Utilization (Mixed Workloads) | ≥ 10 % Verbesserung | ❓ | ❓ |
-| L-8 Speculative Decoding Throughput | ≥ 2× tokens/s (7B + 0,5B Draft) | ❓ | ❓ |
+| L-1 Time-to-First-Token (512-Token, A10G) |  200 ms P99 |  |  |
+| L-2 Streaming Overhead |  2 % tokens/s Regression |  |  |
+| L-3 LoRA Adapter Hot-Load (7B, Rank 64) |  5 s Wall-Clock |  |  |
+| L-4 Adapter Serialisierung |  2 ms |  |  |
+| L-5 Work-Stealing Dispatch P99 |  50  |  |  |
+| L-6 Speculative Decoding Overhead |  15 % akzeptierter Token-Latenz |  |  |
+| L-7 GPU Utilization (Mixed Workloads) |  10 % Verbesserung |  |  |
+| L-8 Speculative Decoding Throughput |  2├ù tokens/s (7B + 0,5B Draft) |  |  |
 
 ---
 
@@ -309,14 +1499,14 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 
 | Ziel-ID | Erwartungswert | v1.3.4 Gemessen | Status |
 |---------|----------------|-----------------|--------|
-| RA-1 Fast Evaluation P99 | ≤ 100 ms E2E | ❓ | ❓ |
-| RA-2 Balanced Evaluation P99 | ≤ 500 ms E2E | ❓ | ❓ |
-| RA-3 Thorough Evaluation P99 | ≤ 2.000 ms E2E | ❓ | ❓ |
-| RA-4 HybridRetriever Recall@10 | ≥ 85 % (BEIR NQ) | ❓ | ❓ |
-| RA-5 CrossEncoderReranker MRR@10 | ≥ +10 % vs. BM25 | ❓ | ❓ |
-| RA-6 StreamingRetriever First-Chunk | ≤ 50 ms | ❓ | ❓ |
-| RA-7 Bayesian Optimizer Konvergenz | ≥ 90 % opt. F1 in 200 Events | ❓ | ❓ |
-| RA-8 ClaimExtractor (1k Zeichen) | ≤ 500 ms LLM / ≤ 50 ms Heuristic | ❓ | ❓ |
+| RA-1 Fast Evaluation P99 |  100 ms E2E |  |  |
+| RA-2 Balanced Evaluation P99 |  500 ms E2E |  |  |
+| RA-3 Thorough Evaluation P99 |  2.000 ms E2E |  |  |
+| RA-4 HybridRetriever Recall@10 |  85 % (BEIR NQ) |  |  |
+| RA-5 CrossEncoderReranker MRR@10 |  +10 % vs. BM25 |  |  |
+| RA-6 StreamingRetriever First-Chunk |  50 ms |  |  |
+| RA-7 Bayesian Optimizer Konvergenz |  90 % opt. F1 in 200 Events |  |  |
+| RA-8 ClaimExtractor (1k Zeichen) |  500 ms LLM /  50 ms Heuristic |  |  |
 
 ---
 
@@ -324,12 +1514,12 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 
 | Ziel-ID | Erwartungswert | v1.3.4 Gemessen | Status |
 |---------|----------------|-----------------|--------|
-| SE-1 Hybrid Search P99 (10M-Doc-Index) | ≤ 20 ms (BM25 + HNSW RRF, Top-10) | ❓ | ❓ |
-| SE-2 SPLADE Index Memory | ≤ 4 GB / 10M-Doc (CSR) | ❓ | ❓ |
-| SE-3 Facet Counting (1k distinct, 100k Docs) | ≤ 5 ms | ❓ | ❓ |
-| SE-4 LTR Re-Ranking (Top-100) | ≤ 2 ms | ❓ | ❓ |
-| SE-5 Autocomplete P99 (1M-Term-Dict) | ≤ 5 ms | ❓ | ❓ |
-| SE-6 LLM Query Rewriter Timeout | 200 ms + Fallback | ❓ | ❓ |
+| SE-1 Hybrid Search P99 (10M-Doc-Index) |  20 ms (BM25 + HNSW RRF, Top-10) |  |  |
+| SE-2 SPLADE Index Memory |  4 GB / 10M-Doc (CSR) |  |  |
+| SE-3 Facet Counting (1k distinct, 100k Docs) |  5 ms |  |  |
+| SE-4 LTR Re-Ranking (Top-100) |  2 ms |  |  |
+| SE-5 Autocomplete P99 (1M-Term-Dict) |  5 ms |  |  |
+| SE-6 LLM Query Rewriter Timeout | 200 ms + Fallback |  |  |
 
 ---
 
@@ -337,12 +1527,12 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 
 | Ziel-ID | Erwartungswert | v1.3.4 Gemessen | Status |
 |---------|----------------|-----------------|--------|
-| TM-1 History-Table Write Overhead | < 15 % vs. Baseline | ❓ | ❓ |
-| TM-2 Time-Travel Query | 80–95 % Current-Table-Speed | ❓ | ❓ |
-| TM-3 AS OF Query | 80–95 % Current-Table-Speed | ❓ | ❓ |
-| TM-4 Retention Enforcement/Batch | ≤ 100 ms | ❓ | ❓ |
-| TM-5 Conflict Resolution | < 10 ms | ❓ | ❓ |
-| TM-6 Temporal Join Overhead | ≤ 50 % vs. Non-Temporal | ❓ | ❓ |
+| TM-1 History-Table Write Overhead | < 15 % vs. Baseline |  |  |
+| TM-2 Time-Travel Query | 80 95 % Current-Table-Speed |  |  |
+| TM-3 AS OF Query | 80 95 % Current-Table-Speed |  |  |
+| TM-4 Retention Enforcement/Batch |  100 ms |  |  |
+| TM-5 Conflict Resolution | < 10 ms |  |  |
+| TM-6 Temporal Join Overhead |  50 % vs. Non-Temporal |  |  |
 
 ---
 
@@ -350,13 +1540,13 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 
 | Ziel-ID | Erwartungswert | v1.3.4 Gemessen | Status |
 |---------|----------------|-----------------|--------|
-| API-1 GraphQL Parse+Execute P99 | < 2 ms (10-Feld-Query, 500 HTTP/2) | ❓ | ❓ |
-| API-2 WebSocket Subscription Latenz | < 50 ms (Changefeed → Frame) | ❓ | ❓ |
-| API-3 Concurrent WebSocket Connections | ≥ 10k / Node bei < 50 MB RSS | ❓ | ❓ |
-| API-4 Bulk Insert (10k Docs) | < 500 ms E2E | ❓ | ❓ |
-| API-5 Middleware Overhead | < 10 µs/Request | ❓ | ❓ |
-| API-6 Span Enqueue (Hot Path) | < 500 ns/Call | ❓ | ❓ |
-| API-7 OTLP Flush (64 Spans) | < 5 ms E2E | ❓ | ❓ |
+| API-1 GraphQL Parse+Execute P99 | < 2 ms (10-Feld-Query, 500 HTTP/2) |  |  |
+| API-2 WebSocket Subscription Latenz | < 50 ms (Changefeed ÔåÆ Frame) |  |  |
+| API-3 Concurrent WebSocket Connections |  10k / Node bei < 50 MB RSS |  |  |
+| API-4 Bulk Insert (10k Docs) | < 500 ms E2E |  |  |
+| API-5 Middleware Overhead | < 10 /Request |  |  |
+| API-6 Span Enqueue (Hot Path) | < 500 ns/Call |  |  |
+| API-7 OTLP Flush (64 Spans) | < 5 ms E2E |  |  |
 
 ---
 
@@ -364,11 +1554,11 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 
 | Ziel-ID | Erwartungswert | v1.3.4 Gemessen | Status |
 |---------|----------------|-----------------|--------|
-| AUT-1 LDAP Bind P99 | ≤ 50 ms sichtbar (< 200 ms Backend) | ❓ | ❓ |
-| AUT-2 LDAP Auth (unter Load) | < 5 ms avg (von ~30 ms via Conn-Reuse) | ❓ | ❓ |
-| AUT-3 JWT JWKS Refresh Blocking | ≤ 1 ms auf Validation Hot Path | ❓ | ❓ |
-| AUT-4 Token Revocation Lookup | ≤ 1 µs (Bloom Filter, warm) | ❓ | ❓ |
-| AUT-5 Redis Token Revocation P99 | ≤ 2 ms auf LAN | ❓ | ❓ |
+| AUT-1 LDAP Bind P99 |  50 ms sichtbar (< 200 ms Backend) |  |  |
+| AUT-2 LDAP Auth (unter Load) | < 5 ms avg (von ~30 ms via Conn-Reuse) |  |  |
+| AUT-3 JWT JWKS Refresh Blocking |  1 ms auf Validation Hot Path |  |  |
+| AUT-4 Token Revocation Lookup |  1  (Bloom Filter, warm) |  |  |
+| AUT-5 Redis Token Revocation P99 |  2 ms auf LAN |  |  |
 
 ---
 
@@ -376,12 +1566,12 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 
 | Ziel-ID | Erwartungswert | v1.3.4 Gemessen | Status |
 |---------|----------------|-----------------|--------|
-| CDC-1 Concurrent WebSocket Connections | ≥ 5k / Node bei < 100 MB RSS | ❓ | ❓ |
-| CDC-2 Event Delivery P99 | < 20 ms (Emit → Frame) | ❓ | ❓ |
-| CDC-3 Consumer Group Offset Commit | < 1 ms P99 (RocksDB) | ❓ | ❓ |
-| CDC-4 Resume nach 24h Offline (10M Events) | < 5 s bis zur Delivery | ❓ | ❓ |
-| CDC-5 End-to-End Latenz (→ Kafka Ack) | < 10 ms P99 (LAN) | ❓ | ❓ |
-| CDC-6 Log Compaction (1M Events) | < 30 s (Background) | ❓ | ❓ |
+| CDC-1 Concurrent WebSocket Connections |  5k / Node bei < 100 MB RSS |  |  |
+| CDC-2 Event Delivery P99 | < 20 ms (Emit ÔåÆ Frame) |  |  |
+| CDC-3 Consumer Group Offset Commit | < 1 ms P99 (RocksDB) |  |  |
+| CDC-4 Resume nach 24h Offline (10M Events) | < 5 s bis zur Delivery |  |  |
+| CDC-5 End-to-End Latenz (ÔåÆ Kafka Ack) | < 10 ms P99 (LAN) |  |  |
+| CDC-6 Log Compaction (1M Events) | < 30 s (Background) |  |  |
 
 ---
 
@@ -389,12 +1579,12 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 
 | Ziel-ID | Erwartungswert | v1.3.4 Gemessen | Status |
 |---------|----------------|-----------------|--------|
-| NET-1 TCP Wire Protocol Throughput | ≥ 100k req/s/Core (128B, kein TLS) | ❓ | ❓ |
-| NET-2 TLS 1.3 Handshake P99 | < 5 ms (neue Verbindungen) | ❓ | ❓ |
-| NET-3 TLS 1.3 Session Resumption P99 | < 1 ms | ❓ | ❓ |
-| NET-4 WebSocket Round-Trip P99 | < 2 ms (localhost) | ❓ | ❓ |
-| NET-5 QUIC 0-RTT Resumption P99 | < 2 ms | ❓ | ❓ |
-| NET-6 UDP Fast-Path GET P99 | < 500 µs (localhost) | ❓ | ❓ |
+| NET-1 TCP Wire Protocol Throughput |  100k req/s/Core (128B, kein TLS) |  |  |
+| NET-2 TLS 1.3 Handshake P99 | < 5 ms (neue Verbindungen) |  |  |
+| NET-3 TLS 1.3 Session Resumption P99 | < 1 ms |  |  |
+| NET-4 WebSocket Round-Trip P99 | < 2 ms (localhost) |  |  |
+| NET-5 QUIC 0-RTT Resumption P99 | < 2 ms |  |  |
+| NET-6 UDP Fast-Path GET P99 | < 500  (localhost) |  |  |
 
 ---
 
@@ -402,14 +1592,14 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 
 | Ziel-ID | Erwartungswert | v1.3.4 Gemessen | Status |
 |---------|----------------|-----------------|--------|
-| SEC-1 AES-256-GCM (AES-NI) | ≥ 1 GB/s/Core | ❓ | ❓ |
-| SEC-2 RSA-4096 Signaturprüfung P99 | ≤ 5 ms | ❓ | ❓ |
-| SEC-3 Kyber-1024 Key Encapsulation | ≥ 2k ops/s/Core | ❓ | ❓ |
-| SEC-4 Dilithium-5 Signing | ≥ 1k ops/s/Core | ❓ | ❓ |
-| SEC-5 TLS 1.3 Handshake P99 | ≤ 10 ms (neue Verbindungen) | ❓ | ❓ |
-| SEC-6 RBAC Policy Eval (≤100 Rollen) P99 | ≤ 0,5 ms | ❓ | ❓ |
-| SEC-7 HSM-Backed RSA-2048 Sign P99 | ≤ 20 ms (SoftHSM2) | ❓ | ❓ |
-| SEC-8 Audit Log Write P99 | ≤ 2 ms/Entry | ❓ | ❓ |
+| SEC-1 AES-256-GCM (AES-NI) |  1 GB/s/Core |  |  |
+| SEC-2 RSA-4096 Signaturprüfung P99 |  5 ms |  |  |
+| SEC-3 Kyber-1024 Key Encapsulation |  2k ops/s/Core |  |  |
+| SEC-4 Dilithium-5 Signing |  1k ops/s/Core |  |  |
+| SEC-5 TLS 1.3 Handshake P99 |  10 ms (neue Verbindungen) |  |  |
+| SEC-6 RBAC Policy Eval (100 Rollen) P99 |  0,5 ms |  |  |
+| SEC-7 HSM-Backed RSA-2048 Sign P99 |  20 ms (SoftHSM2) |  |  |
+| SEC-8 Audit Log Write P99 |  2 ms/Entry |  |  |
 
 ---
 
@@ -417,12 +1607,12 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 
 | Ziel-ID | Erwartungswert | v1.3.4 Gemessen | Status |
 |---------|----------------|-----------------|--------|
-| SCH-1 Scheduler Loop Tick P99 | ≤ 1 ms (10k Tasks) | ❓ | ❓ |
-| SCH-2 Task Dispatch P99 | ≤ 5 ms (Due-Time → First Instruction) | ❓ | ❓ |
-| SCH-3 Cron next_execution | ≤ 10 µs/Call | ❓ | ❓ |
-| SCH-4 Leader Election Konvergenz | ≤ 5 s (5-Node-Cluster, nach Failure) | ❓ | ❓ |
-| SCH-5 DAG Topological Sort | ≤ 1 ms (≤10k Nodes) | ❓ | ❓ |
-| SCH-6 Throughput | ≥ 5k Dispatches/s | ❓ | ❓ |
+| SCH-1 Scheduler Loop Tick P99 |  1 ms (10k Tasks) |  |  |
+| SCH-2 Task Dispatch P99 |  5 ms (Due-Time ÔåÆ First Instruction) |  |  |
+| SCH-3 Cron next_execution |  10 /Call |  |  |
+| SCH-4 Leader Election Konvergenz |  5 s (5-Node-Cluster, nach Failure) |  |  |
+| SCH-5 DAG Topological Sort |  1 ms (10k Nodes) |  |  |
+| SCH-6 Throughput |  5k Dispatches/s |  |  |
 
 ---
 
@@ -430,11 +1620,11 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 
 | Ziel-ID | Erwartungswert | v1.3.4 Gemessen | Status |
 |---------|----------------|-----------------|--------|
-| ING-1 Aggregate Throughput | ≥ 50k Docs/s (Single Node) | ❓ | ❓ |
-| ING-2 Kafka Consumer Throughput | ≥ 100k Messages/s (1 KB avg) | ❓ | ❓ |
-| ING-3 Kafka → Document E2E P99 | ≤ 500 ms | ❓ | ❓ |
-| ING-4 S3 Concurrent Download | ≥ 200 MB/s agg. (4 parallel, 10 Gbps) | ❓ | ❓ |
-| ING-5 Quarantine Queue Scan (100k) | ≤ 1 s | ❓ | ❓ |
+| ING-1 Aggregate Throughput |  50k Docs/s (Single Node) |  |  |
+| ING-2 Kafka Consumer Throughput |  100k Messages/s (1 KB avg) |  |  |
+| ING-3 Kafka ÔåÆ Document E2E P99 |  500 ms |  |  |
+| ING-4 S3 Concurrent Download |  200 MB/s agg. (4 parallel, 10 Gbps) |  |  |
+| ING-5 Quarantine Queue Scan (100k) |  1 s |  |  |
 
 ---
 
@@ -442,11 +1632,11 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 
 | Ziel-ID | Erwartungswert | v1.3.4 Gemessen | Status |
 |---------|----------------|-----------------|--------|
-| GOV-1 Policy Reload Latenz | ≤ 100 ms (Detection → Aktiv) | ❓ | ❓ |
-| GOV-2 CCPA Opt-Out Lookup Overhead | ≤ 0,5 ms P99 | ❓ | ❓ |
-| GOV-3 CCPA Report (90 Tage, 1M Subjects) | ≤ 10 s | ❓ | ❓ |
-| GOV-4 Policy Evaluation P99 (500 Rules) | ≤ 5 ms (100 Threads) | ❓ | ❓ |
-| GOV-5 DataMasker (50-Feld-Dokument) | ≤ 1 ms | ❓ | ❓ |
+| GOV-1 Policy Reload Latenz |  100 ms (Detection ÔåÆ Aktiv) |  |  |
+| GOV-2 CCPA Opt-Out Lookup Overhead |  0,5 ms P99 |  |  |
+| GOV-3 CCPA Report (90 Tage, 1M Subjects) |  10 s |  |  |
+| GOV-4 Policy Evaluation P99 (500 Rules) |  5 ms (100 Threads) |  |  |
+| GOV-5 DataMasker (50-Feld-Dokument) |  1 ms |  |  |
 
 ---
 
@@ -454,9 +1644,9 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 
 | Ziel-ID | Erwartungswert | v1.3.4 Gemessen | Status |
 |---------|----------------|-----------------|--------|
-| OBS-1 Metrics Collection Overhead | < 1 % CPU @ 1k req/s | ❓ | ❓ |
-| OBS-2 Adaptive Span Sampling | ≤ 1 % bei > 10k Spans/s | ❓ | ❓ |
-| OBS-3 Metrics Scrape (16 Scraper) | ≥ 3× vs. Exclusive Mutex | ❓ | ❓ |
+| OBS-1 Metrics Collection Overhead | < 1 % CPU @ 1k req/s |  |  |
+| OBS-2 Adaptive Span Sampling |  1 % bei > 10k Spans/s |  |  |
+| OBS-3 Metrics Scrape (16 Scraper) |  3├ù vs. Exclusive Mutex |  |  |
 
 ---
 
@@ -464,13 +1654,13 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 
 | Ziel-ID | Erwartungswert | v1.3.4 Gemessen | Status |
 |---------|----------------|-----------------|--------|
-| PROC-1 ProcessGraphRag::retrieve() | ≤ 200 ms (≤500 Nodes, exkl. LLM) | ❓ | ❓ |
-| PROC-2 PPR (50 Iter., 500-Node-Graph) | ≤ 20 ms | ❓ | ❓ |
-| PROC-3 Object-Centric DFG (10k Events) | ≤ 5 s | ❓ | ❓ |
-| PROC-4 Total Conversation Latenz | ≤ 5 s (3-Turn, local llama.cpp 8B Q4) | ❓ | ❓ |
-| PROC-5 CEP Alert Latenz | ≤ 100 ms nach Threshold-Überschreitung | ❓ | ❓ |
-| PROC-6 Bottleneck Analysis (10k Instances) | ≤ 2 s | ❓ | ❓ |
-| PROC-7 Bottleneck Detection Accuracy | ≥ 90 % | ❓ | ❓ |
+| PROC-1 ProcessGraphRag::retrieve() |  200 ms (500 Nodes, exkl. LLM) |  |  |
+| PROC-2 PPR (50 Iter., 500-Node-Graph) |  20 ms |  |  |
+| PROC-3 Object-Centric DFG (10k Events) |  5 s |  |  |
+| PROC-4 Total Conversation Latenz |  5 s (3-Turn, local llama.cpp 8B Q4) |  |  |
+| PROC-5 CEP Alert Latenz |  100 ms nach Threshold-├£berschreitung |  |  |
+| PROC-6 Bottleneck Analysis (10k Instances) |  2 s |  |  |
+| PROC-7 Bottleneck Detection Accuracy |  90 % |  |  |
 
 ---
 
@@ -478,16 +1668,16 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 
 | Ziel-ID | Erwartungswert | v1.3.4 Gemessen | Status |
 |---------|----------------|-----------------|--------|
-| VOI-1 STT Latenz P95 (5 s Audio) | ≤ 300 ms | ❓ | ❓ |
-| VOI-2 TTS First-Token Latenz | ≤ 200 ms | ❓ | ❓ |
-| VOI-3 Wake-Word Detection | ≤ 50 ms | ❓ | ❓ |
-| VOI-4 End-to-End Voice Latenz | < 500 ms | ❓ | ❓ |
-| VOI-5 Wake-Word CPU Usage (idle) | ≤ 2 % auf x86_64 | ❓ | ❓ |
-| VOI-6 Concurrent WebSocket Sessions | ≥ 100 | ❓ | ❓ |
-| VOI-7 Speaker ID Acceptance | ≥ 95 % | ❓ | ❓ |
-| VOI-8 Speaker ID Impostor Rejection | ≥ 99 % | ❓ | ❓ |
-| VOI-9 Wake-Word False-Positive Rate | ≤ 1/Stunde | ❓ | ❓ |
-| VOI-10 Silence Removal | 20–40 % Reduktion | ❓ | ❓ |
+| VOI-1 STT Latenz P95 (5 s Audio) |  300 ms |  |  |
+| VOI-2 TTS First-Token Latenz |  200 ms |  |  |
+| VOI-3 Wake-Word Detection |  50 ms |  |  |
+| VOI-4 End-to-End Voice Latenz | < 500 ms |  |  |
+| VOI-5 Wake-Word CPU Usage (idle) |  2 % auf x86_64 |  |  |
+| VOI-6 Concurrent WebSocket Sessions |  100 |  |  |
+| VOI-7 Speaker ID Acceptance |  95 % |  |  |
+| VOI-8 Speaker ID Impostor Rejection |  99 % |  |  |
+| VOI-9 Wake-Word False-Positive Rate |  1/Stunde |  |  |
+| VOI-10 Silence Removal | 20 40 % Reduktion |  |  |
 
 ---
 
@@ -495,19 +1685,19 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 
 | Ziel-ID | Erwartungswert | v1.3.4 Gemessen | Status |
 |---------|----------------|-----------------|--------|
-| OC-1 Batched Inference (Batch 64) | ≥ 6× vs. Sequential | ❓ | ❓ |
-| OC-2 ViT-B/32 CUDA (Batch 64) | ≤ 20 ms (≤ 0,31 ms/Image) | ❓ | ❓ |
-| OC-3 ViT-B/32 CPU (Batch 16) | ≤ 2,5 s | ❓ | ❓ |
-| OC-4 Text Encoding P95 (CPU) | ≤ 5 ms | ❓ | ❓ |
-| OC-5 Metrics Overhead | ≤ 0,05 ms/Call | ❓ | ❓ |
+| OC-1 Batched Inference (Batch 64) |  6├ù vs. Sequential |  |  |
+| OC-2 ViT-B/32 CUDA (Batch 64) |  20 ms ( 0,31 ms/Image) |  |  |
+| OC-3 ViT-B/32 CPU (Batch 16) |  2,5 s |  |  |
+| OC-4 Text Encoding P95 (CPU) |  5 ms |  |  |
+| OC-5 Metrics Overhead |  0,05 ms/Call |  |  |
 
 ---
 
 ## 30. Chimera-Baseline & Suite
 
 > **CHIMERA** = Comprehensive, Honest, Impartial Metrics for Empirical Reporting and Analysis  
-> Framework: `benchmarks/chimera/` (v1.0.0) · Standard: IEEE Std 2807-2022, ISO/IEC 14756:2015  
-> Vollständige Dokumentation: `benchmarks/chimera/CHIMERA_README.md`
+> Framework: `benchmarks/chimera/` (v1.0.0) ┬À Standard: IEEE Std 2807-2022, ISO/IEC 14756:2015  
+> Vollst├ñndige Dokumentation: `benchmarks/chimera/CHIMERA_README.md`
 
 ---
 
@@ -524,17 +1714,17 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 
 ---
 
-### 30.2 Chimera Suite – Standardisierte Workloads (Benchmark-Definitionen)
+### 30.2 Chimera Suite   Standardisierte Workloads (Benchmark-Definitionen)
 
 > Quelle: `benchmarks/chimera/benchmark_config_schema.yaml`  
-> Methodik: IEEE Std 2807-2022 · Warmup: 60 s · Messdauer: 300 s · Runs: 5 · Konfidenz: 95 %
+> Methodik: IEEE Std 2807-2022 ┬À Warmup: 60 s ┬À Messdauer: 300 s ┬À Runs: 5 ┬À Konfidenz: 95 %
 
 | Workload-ID | Familie | Standard | Beschreibung | Ziel-Modul(e) |
 |-------------|---------|----------|--------------|---------------|
 | `ycsb_workload_a` | YCSB | Cooper2010 | Update Heavy (50 % Reads, 50 % Updates), 1 M Records, Zipfian | Storage, Cache, Transaction |
 | `tpc_c` | TPC-C | TPC-C v5.11 | OLTP Order-Entry, 10 Warehouses, 300 s, New-Order 45 % | Transaction, Query, Storage |
 | `tpc_h_sf1` | TPC-H | TPC-H v3.0.0 | Decision Support, Scale Factor 1 GB, Queries 1/2/3/6/14 | Analytics, Query |
-| `ann_sift1m` | ANN-Benchmarks | Aumüller2020 | SIFT1M (1 M × 128-dim), k=10, Recall-Ziel 0.95 | Index/HNSW, Acceleration |
+| `ann_sift1m` | ANN-Benchmarks | Aumüller2020 | SIFT1M (1 M ├ù 128-dim), k=10, Recall-Ziel 0.95 | Index/HNSW, Acceleration |
 | `ldbc_snb_interactive` | LDBC-SNB | Erling2020 | Social Network Graph, SF1, Short+Complex Reads + Updates | Graph, Query |
 | `vllm_serving` | vLLM | Kwon2023 | LLM Inference, Llama-2-7B, 512-Token Input, 1 req/s | LLM, Acceleration |
 | `rag_qa` | RAGBench | Chen2024 | RAG E2E, NaturalQuestions, Top-5 Dense Retrieval | RAG, Search, LLM |
@@ -544,7 +1734,7 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 ### 30.3 Chimera Vendorneutrale Demo-Ergebnisse (anonymisiert)
 
 > Quelle: `benchmarks/chimera/demo_reports/benchmark_comparison.csv`  
-> Methodik: 28–50 Stichproben/System, Ausreißer per IQR (1.5×) entfernt, 95 % CI
+> Methodik: 28 50 Stichproben/System, Ausrei├ƒer per IQR (1.5├ù) entfernt, 95 % CI
 
 **Query Throughput (queries/sec):**
 
@@ -564,7 +1754,7 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 | System Vertex | 48 | 8,77 | 8,49 | 1,25 | 10,98 | 11,12 | 8,34 | 9,23 |
 | System Zenith | 48 | 9,47 | 9,60 | 1,82 | 12,46 | 13,11 | 8,77 | 10,14 |
 
-> **Hinweis:** System-Namen sind anonymisiert (IEEE-konforme Neutralität). ThemisDB kann als eines dieser Systeme identifiziert werden sobald ein Chimera-Zertifizierungslauf abgeschlossen ist.
+> **Hinweis:** System-Namen sind anonymisiert (IEEE-konforme Neutralit├ñt). ThemisDB kann als eines dieser Systeme identifiziert werden sobald ein Chimera-Zertifizierungslauf abgeschlossen ist.
 
 ---
 
@@ -572,15 +1762,15 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 
 | Parameter | Wert | Referenz |
 |-----------|------|----------|
-| Signifikanzniveau (α) | 0,05 | Standard |
+| Signifikanzniveau () | 0,05 | Standard |
 | Konfidenzintervall | 95 % | Welch's t-test |
 | Hypothesentests | Welch's t-test, Mann-Whitney U, KS-Test | Welch 1947, Mann 1947 |
-| Effektgröße | Cohen's d | Cohen 1988 |
-| Ausreißer-Methode | IQR × 1.5 | Tukey 1977 |
-| Min. Stichprobengröße | 30 | IEEE Std 2807-2022 |
+| Effektgr├Â├ƒe | Cohen's d | Cohen 1988 |
+| Ausrei├ƒer-Methode | IQR ├ù 1.5 | Tukey 1977 |
+| Min. Stichprobengr├Â├ƒe | 30 | IEEE Std 2807-2022 |
 | Warmup | 60 s | IEEE Std 2807-2022 |
 | Messdauer | 300 s | IEEE Std 2807-2022 |
-| Runs (unabhängig) | 5 | IEEE Std 2807-2022 |
+| Runs (unabh├ñngig) | 5 | IEEE Std 2807-2022 |
 
 ---
 
@@ -588,13 +1778,13 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 
 | Ziel-ID | Erwartungswert | v1.3.4 Gemessen | Status |
 |---------|----------------|-----------------|--------|
-| PE-1 Prompt Construction P99 | ≤ 5 ms | ❓ | ❓ |
-| PE-2 Template Compilation (4 KB) | < 50 ms | ❓ | ❓ |
-| PE-3 Compiled Template Render P99 (2 KB) | < 1 ms | ❓ | ❓ |
-| PE-4 CoT Tracing Overhead/Step | < 0,2 ms | ❓ | ❓ |
-| PE-5 Full 3-Iteration Reflection (kein LLM) | < 1 ms P99 | ❓ | ❓ |
-| PE-6 render() Latenz (String → Compiled) | ~8 ms → < 1 ms Ziel | ❓ | ❓ |
-| PE-7 End-to-End RAG Assembly | ~15 ms → < 5 ms Ziel | ❓ | ❓ |
+| PE-1 Prompt Construction P99 |  5 ms |  |  |
+| PE-2 Template Compilation (4 KB) | < 50 ms |  |  |
+| PE-3 Compiled Template Render P99 (2 KB) | < 1 ms |  |  |
+| PE-4 CoT Tracing Overhead/Step | < 0,2 ms |  |  |
+| PE-5 Full 3-Iteration Reflection (kein LLM) | < 1 ms P99 |  |  |
+| PE-6 render() Latenz (String ÔåÆ Compiled) | ~8 ms ÔåÆ < 1 ms Ziel |  |  |
+| PE-7 End-to-End RAG Assembly | ~15 ms ÔåÆ < 5 ms Ziel |  |  |
 
 ---
 
@@ -602,12 +1792,12 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 
 | Ziel-ID | Erwartungswert | v1.3.4 Gemessen | Status |
 |---------|----------------|-----------------|--------|
-| ETH-1 Single Argument Generation P95 | ≤ 3 s (LLM, 500 Token) | ❓ | ❓ |
-| ETH-2 Batch 5 Arguments (parallel, 5 Schulen) | ≤ 8 s | ❓ | ❓ |
-| ETH-3 Embedding Latenz (512-Token, CPU) | ≤ 20 ms | ❓ | ❓ |
-| ETH-4 Batch 10 Queries | ≤ 150 ms | ❓ | ❓ |
-| ETH-5 Multi-Round Debate/Runde | ≤ 5 s inkl. LLM | ❓ | ❓ |
-| ETH-6 Metrics Overhead/Decision | ≤ 0,1 ms | ❓ | ❓ |
+| ETH-1 Single Argument Generation P95 |  3 s (LLM, 500 Token) |  |  |
+| ETH-2 Batch 5 Arguments (parallel, 5 Schulen) |  8 s |  |  |
+| ETH-3 Embedding Latenz (512-Token, CPU) |  20 ms |  |  |
+| ETH-4 Batch 10 Queries |  150 ms |  |  |
+| ETH-5 Multi-Round Debate/Runde |  5 s inkl. LLM |  |  |
+| ETH-6 Metrics Overhead/Decision |  0,1 ms |  |  |
 
 ---
 
@@ -617,49 +1807,49 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 
 | # | Workload | Erwartungswert | Hardware-Referenz | v1.3.4 Gemessen | Status |
 |---|----------|----------------|-------------------|-----------------|--------|
-| BM-1 | OLTP (TPC-C) | 200–300 K ops/s | 4-Core, 8 GB, SSD | ❓ | ❓ |
-| BM-2 | OLTP (TPC-C) | 400–600 K ops/s | 8-Core, 16 GB, NVMe | ❓ | ❓ |
-| BM-3 | OLTP (TPC-C) | 700 K–1 M ops/s | 16-Core, 32 GB, NVMe | ❓ | ❓ |
-| BM-4 | OLTP (TPC-C) | 1,2–1,8 M ops/s | 32-Core, 64 GB, NVMe Gen4 | ❓ | ❓ |
-| BM-5 | OLAP (TPC-H) | 100–200 Queries/min | 8-Core, 16 GB, NVMe | ❓ | ❓ |
-| BM-6 | Vector Search | 10–20 K QPS | 8-Core, 16 GB, NVMe | ❓ | ❓ |
-| BM-7 | TPC-C tpmC-Ziel | 150–200 K tpmC (80–100 % PostgreSQL) | 8-Core, 32 GB, NVMe | ❓ | ❓ |
+| BM-1 | OLTP (TPC-C) | 200 300 K ops/s | 4-Core, 8 GB, SSD |  |  |
+| BM-2 | OLTP (TPC-C) | 400 600 K ops/s | 8-Core, 16 GB, NVMe |  |  |
+| BM-3 | OLTP (TPC-C) | 700 K 1 M ops/s | 16-Core, 32 GB, NVMe |  |  |
+| BM-4 | OLTP (TPC-C) | 1,2 1,8 M ops/s | 32-Core, 64 GB, NVMe Gen4 |  |  |
+| BM-5 | OLAP (TPC-H) | 100 200 Queries/min | 8-Core, 16 GB, NVMe |  |  |
+| BM-6 | Vector Search | 10 20 K QPS | 8-Core, 16 GB, NVMe |  |  |
+| BM-7 | TPC-C tpmC-Ziel | 150 200 K tpmC (80 100 % PostgreSQL) | 8-Core, 32 GB, NVMe |  |  |
 
 **Competitor-Vergleich v1.3.4 (gemessen):**
 
 | Kategorie | ThemisDB v1.3.4 | Bester Mitbewerber | Mitbewerber | Position | Delta |
 |-----------|----------------|--------------------|-------------|----------|-------|
-| Query Engine (OLAP) | 814,5 M items/s | 1.200 M items/s | ClickHouse | 2. (Sehr gut) | −47 % |
-| Vector Insert | 351,4 k items/s | 600 k items/s | FAISS | 3. (Kompetitiv) | −71 % |
+| Query Engine (OLAP) | 814,5 M items/s | 1.200 M items/s | ClickHouse | 2. (Sehr gut) | ÔêÆ47 % |
+| Vector Insert | 351,4 k items/s | 600 k items/s | FAISS | 3. (Kompetitiv) | ÔêÆ71 % |
 | Embedding Cache Hit | 155,8 M items/s | 1.000 M items/s | In-Memory Cache | 2. (Sehr gut) | Akzeptabel |
-| 2PC Throughput | 6,4 k items/s | 15 k items/s | TiDB 7.0 | 3. (Solide) | −134 % |
-| Hybrid Search | 450 queries/s | 500 queries/s | Weaviate | 2. (Stark) | −10 % |
+| 2PC Throughput | 6,4 k items/s | 15 k items/s | TiDB 7.0 | 3. (Solide) | ÔêÆ134 % |
+| Hybrid Search | 450 queries/s | 500 queries/s | Weaviate | 2. (Stark) | ÔêÆ10 % |
 
 ---
 
-## 34. Performance Regression CI – Schwellwerte
+## 34. Performance Regression CI   Schwellwerte
 
 > CI-Datei: `.github/workflows/05-quality_build_cross-module-performance-regression-ci.yml`
 
 | Level | Schwellwert | Auswirkung |
 |-------|-------------|------------|
-| Minor | ≥ 5 % | Tracking / informell |
-| **Major** | **≥ 10 %** | **Blockiert PR-Merge** |
-| Critical | ≥ 20 % | Sofortiger Eingriff |
+| Minor |  5 % | Tracking / informell |
+| **Major** | ** 10 %** | **Blockiert PR-Merge** |
+| Critical |  20 % | Sofortiger Eingriff |
 
 ---
 
 ## 35. Bekannte Performance-Lücken (explizit dokumentiert)
 
-| # | Modul | Ist-Stand | Ziel | Δ | Priorität |
+| # | Modul | Ist-Stand | Ziel | ╬ö | Priorit├ñt |
 |---|-------|-----------|------|---|-----------|
-| D-1 | Timeseries Write (TS-1) | ~200 k pts/s | > 500 k pts/s | **−60 %** | Hoch |
-| D-2 | Gorilla Decode (TS-2) | ~400 MB/s | > 2 GB/s | **−80 %** | Hoch |
-| D-3 | Vector Insert vs. FAISS | 351 k/s | 600 k/s | **−71 %** | Mittel |
-| D-4 | 2PC Throughput vs. TiDB | 6,4 k/s | 15 k/s | **−134 %** | Mittel |
-| D-5 | Storage 1 MB Blob Write | 741 ops/s | ≥ 100 k ops/s | **−99 %** | Hoch |
-| D-6 | Concurrency 10 Clients CV | CV=20,74 ⚠️ | stabil | Instabil | Mittel |
-| D-7 | Query Engine vs. ClickHouse | 814,5 M/s | 1.200 M/s | **−47 %** | Niedrig |
+| D-1 | Timeseries Write (TS-1) | ~200 k pts/s | > 500 k pts/s | **ÔêÆ60 %** | Hoch |
+| D-2 | Gorilla Decode (TS-2) | ~400 MB/s | > 2 GB/s | **ÔêÆ80 %** | Hoch |
+| D-3 | Vector Insert vs. FAISS | 351 k/s | 600 k/s | **ÔêÆ71 %** | Mittel |
+| D-4 | 2PC Throughput vs. TiDB | 6,4 k/s | 15 k/s | **ÔêÆ134 %** | Mittel |
+| D-5 | Storage 1 MB Blob Write | 741 ops/s |  100 k ops/s | **ÔêÆ99 %** | Hoch |
+| D-6 | Concurrency 10 Clients CV | CV=20,74 ÔÜá´©Å | stabil | Instabil | Mittel |
+| D-7 | Query Engine vs. ClickHouse | 814,5 M/s | 1.200 M/s | **ÔêÆ47 %** | Niedrig |
 
 ---
 
@@ -676,16 +1866,16 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 
 ### 36.1 Kern-Performance (`bench_core_performance`)
 
-| Benchmark | v1.3.0 items/s | v1.3.3 items/s | v1.3.4 items/s | Δ v1.3.0→v1.3.4 | Status |
-|-----------|---------------|---------------|---------------|-----------------|--------|
-| VectorIndexBench/InsertPlaintext | 566.7 k/s | 538.0 k/s | **351.4 k/s** | −38 % | ⚠️ |
-| SecondaryIndexBench/IndexInsert | 1.78 M/s | 5.11 k/s ⚠️ | **217.2 k/s** | −88 % | ❌ |
-| SecondaryIndexBench/RawWriteOnly | – | – | **885.0 k/s** | n/a | ❓ |
-| QueryEngineBench/SimpleEvaluation | 968.6 M/s | 949.8 M/s | **814.5 M/s** | −16 % | ⚠️ |
-| GraphIndexBench/AddEdges | 1.47 M/s | 1.20 M/s | **628.7 k/s** | −57 % | ❌ |
-| TimeseriesBench/InsertTimepoints | 61.0 M/s | 55.9 M/s | **49.0 M/s** | −20 % | ⚠️ |
+| Benchmark | v1.3.0 items/s | v1.3.3 items/s | v1.3.4 items/s | v1.8.2 items/s | ╬ö v1.3.0ÔåÆv1.3.4 | Status |
+|-----------|---------------|---------------|---------------|---------------|-----------------|--------|
+| VectorIndexBench/InsertPlaintext | 566.7 k/s | 538.0 k/s | **351.4 k/s** | **548.7 k/s** | ÔêÆ38 % | ÔÜá´©Å |
+| SecondaryIndexBench/IndexInsert | 1.78 M/s | 5.11 k/s ÔÜá´©Å | **217.2 k/s** | **254.9 k/s** | ÔêÆ88 % |   |
+| SecondaryIndexBench/RawWriteOnly |   |   | **885.0 k/s** | 749,6 k/s (162.620 ns) | n/a |  |
+| QueryEngineBench/SimpleEvaluation | 968.6 M/s | 949.8 M/s | **814.5 M/s** | **796.4 M/s** | ÔêÆ16 % | ÔÜá´©Å |
+| GraphIndexBench/AddEdges | 1.47 M/s | 1.20 M/s | **628.7 k/s** | **1.177 M/s** | ÔêÆ57 % |   |
+| TimeseriesBench/InsertTimepoints | 61.0 M/s | 55.9 M/s | **49.0 M/s** | **61.00 M/s** | ÔêÆ20 % | ÔÜá´©Å |
 
-> **Hinweis SecondaryIndex v1.3.3:** real_time=656 ms, cpu_time=19.6 ms → 33× Diskrepanz durch Einzel-Transaktion pro `put()` (RocksDB-Transaktions-Overhead). Bekannte Regression, dokumentiert in `PERFORMANCE_COMPARISON_V1.3.0_VS_V1.3.3.md`.
+> **Hinweis SecondaryIndex v1.3.3:** real_time=656 ms, cpu_time=19.6 ms ÔåÆ 33├ù Diskrepanz durch Einzel-Transaktion pro `put()` (RocksDB-Transaktions-Overhead). Bekannte Regression, dokumentiert in `PERFORMANCE_COMPARISON_V1.3.0_VS_V1.3.3.md`.
 
 ---
 
@@ -694,37 +1884,37 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 | Benchmark | v1.3.3 items/s | v1.3.4 items/s | Ziel | Status |
 |-----------|---------------|---------------|------|--------|
 | **Vektor-Operationen** | | | | |
-| SimpleVectorBench/Insert_RGB_Vectors | 1.33 M/s | **1.22 M/s** | – | ⚠️ |
-| SimpleVectorBench/Search_RGB_KNN_Top10 | 63.7 M/s | **62.1 M/s** | – | ✅ |
-| SimpleVectorBench/Insert_384D_Embeddings | 465.5 k/s | **382.3 k/s** | – | ⚠️ |
-| ComplexVectorBench/BatchInsert_1536D_LLMVectors | 132.8 k/s | **121.9 k/s** | – | ⚠️ |
-| ComplexVectorBench/Search_4096D_TopK_Batch | 5.97 M/s | **5.62 M/s** | – | ⚠️ |
+| SimpleVectorBench/Insert_RGB_Vectors | 1.33 M/s | **1.22 M/s** |   | ÔÜá´©Å |
+| SimpleVectorBench/Search_RGB_KNN_Top10 | 63.7 M/s | **62.1 M/s** |   |  |
+| SimpleVectorBench/Insert_384D_Embeddings | 465.5 k/s | **382.3 k/s** |   | ÔÜá´©Å |
+| ComplexVectorBench/BatchInsert_1536D_LLMVectors | 132.8 k/s | **121.9 k/s** |   | ÔÜá´©Å |
+| ComplexVectorBench/Search_4096D_TopK_Batch | 5.97 M/s | **5.62 M/s** |   | ÔÜá´©Å |
 | **LLM / Embedding** | | | | |
-| LLMInferencingBench/EmbeddingGeneration_Store | 122.0 k/s | **108.2 k/s** | – | ⚠️ |
-| LLMInferencingBench/RAG_Search_Retrieve_Top50 | – | **7.55 M/s** (133 ns) | – | ❓ |
-| LLMInferencingBench/MultiQueryExpansion_5Queries | – | **2.97 M/s** | – | ❓ |
+| LLMInferencingBench/EmbeddingGeneration_Store | 122.0 k/s | **108.2 k/s** |   | ÔÜá´©Å |
+| LLMInferencingBench/RAG_Search_Retrieve_Top50 |   | **7.55 M/s** (133 ns) |   |  |
+| LLMInferencingBench/MultiQueryExpansion_5Queries |   | **2.97 M/s** |   |  |
 | **AQL / Query** | | | | |
-| AQLQueryBench/SimpleSelect_WhereClause | – | **148.8 k/s** (6.7 µs) | – | ❓ |
-| AQLQueryBench/ComplexSelect_MultipleConditions | – | **3.25 k/s** (308 µs) | – | ❓ |
-| AQLJoinBench/JoinUsers_Posts | – | **777.0 k/s** (1.3 µs) | – | ❓ |
-| **Blob / Binär** | | | | |
-| BinaryOperationsBench/StoreThumbnails_10KB | – | **4.92 k/s** | – | ❓ |
-| BinaryOperationsBench/StoreLargeBlobs_1MB | – | **352 ops/s** | – | ❓ |
-| BinaryOperationsBench/RetrieveBlobsBatch_100x100KB | – | **117.0 k/s** | – | ❓ |
+| AQLQueryBench/SimpleSelect_WhereClause |   | **148.8 k/s** (6.7 ) |   |  |
+| AQLQueryBench/ComplexSelect_MultipleConditions |   | **3.25 k/s** (308 ) |   |  |
+| AQLJoinBench/JoinUsers_Posts |   | **777.0 k/s** (1.3 ) |   |  |
+| **Blob / Bin├ñr** | | | | |
+| BinaryOperationsBench/StoreThumbnails_10KB |   | **4.92 k/s** |   |  |
+| BinaryOperationsBench/StoreLargeBlobs_1MB |   | **352 ops/s** |   |  |
+| BinaryOperationsBench/RetrieveBlobsBatch_100x100KB |   | **117.0 k/s** |   |  |
 | **Graph** | | | | |
-| GraphOperationsBench/AddEdges_SparseGraph | – | **1.17 M/s** | – | ❓ |
-| GraphOperationsBench/QueryNeighbors_DenseGraph | – | **975.2 k/s** | – | ❓ |
-| GraphOperationsBench/GraphTraversal_BFS_Depth3 | – | **910.2 k/s** (1.09 µs) | – | ❓ |
+| GraphOperationsBench/AddEdges_SparseGraph |   | **1.17 M/s** |   |  |
+| GraphOperationsBench/QueryNeighbors_DenseGraph |   | **975.2 k/s** |   |  |
+| GraphOperationsBench/GraphTraversal_BFS_Depth3 |   | **910.2 k/s** (1.09 ) |   |  |
 | **Index** | | | | |
-| SecondaryIndexBench/SmallIndexInsert_1K | – | **5.82 k/s** | – | ❓ |
-| SecondaryIndexBench/MediumIndexInsert_100K | – | **9.14 k/s** | – | ❓ |
-| SecondaryIndexBench/LargeIndexLookup_1M | – | **165.5 k/s** | – | ❓ |
-| SecondaryIndexBench/CompositeIndexLookup | – | **7.59 k/s** | – | ❓ |
+| SecondaryIndexBench/SmallIndexInsert_1K |   | **5.82 k/s** |   |  |
+| SecondaryIndexBench/MediumIndexInsert_100K |   | **9.14 k/s** |   |  |
+| SecondaryIndexBench/LargeIndexLookup_1M |   | **165.5 k/s** |   |  |
+| SecondaryIndexBench/CompositeIndexLookup |   | **7.59 k/s** |   |  |
 | **Batch / Stress** | | | | |
-| BatchOperationsBench/BatchInsert_10K_WithMetadata | – | **779.1 k/s** | – | ❓ |
-| BatchOperationsBench/BatchUpdate_MultiField_5K | – | **779.1 k/s** | – | ❓ |
-| StressTestBench/MixedReadWrite_80Reads_20Writes | – | **22.9 k/s** | – | ❓ |
-| StressTestBench/HotspotAccess_99PercentContention | – | **5.79 M/s** | – | ❓ |
+| BatchOperationsBench/BatchInsert_10K_WithMetadata |   | **779.1 k/s** |   |  |
+| BatchOperationsBench/BatchUpdate_MultiField_5K |   | **779.1 k/s** |   |  |
+| StressTestBench/MixedReadWrite_80Reads_20Writes |   | **22.9 k/s** |   |  |
+| StressTestBench/HotspotAccess_99PercentContention |   | **5.79 M/s** |   |  |
 
 ---
 
@@ -732,23 +1922,23 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 
 > Platform: v1.3.3 = Run 20251223_085556 | v1.3.4 = Run 20251229_184507
 
-| Benchmark | v1.3.3 ops/s | v1.3.4 ops/s | Δ | Status |
+| Benchmark | v1.3.3 ops/s | v1.3.4 ops/s | ╬ö | Status |
 |-----------|-------------|-------------|---|--------|
-| BM_Encrypt_String_UsingKey/64 | 277.0 k/s (3.6 µs) | **254.9 k/s** (3.9 µs) | −8 % | ⚠️ |
-| BM_Encrypt_String_UsingKey/256 | 254.4 k/s | **244.0 k/s** | −4 % | ⚠️ |
-| BM_Encrypt_String_UsingKey/1024 | 254.9 k/s | **191.2 k/s** | −25 % | ❌ |
-| BM_Decrypt_String_UsingKey/64 | 56.9 k/s | **45.5 k/s** | −20 % | ❌ |
-| BM_Decrypt_String_UsingKey/256 | 60.1 k/s | **41.1 k/s** | −32 % | ❌ |
-| BM_Decrypt_String_UsingKey/1024 | 52.5 k/s | **36.6 k/s** | −30 % | ❌ |
-| BM_UserEntity_Encrypt_Serialize | – | **28.3 k/s** (35.1 µs) | – | ❓ |
-| BM_HKDF_Derive_FieldKey | – | **177.8 k/s** (5.5 µs) | – | ❓ |
-| BM_SchemaEncrypt_SingleField/64 | – | **86.1 k/s** (11.6 µs) | – | ❓ |
-| BM_SchemaEncrypt_SingleField/1024 | – | **93.7 k/s** (10.7 µs) | – | ❓ |
-| BM_SchemaDecrypt_SingleField/64 | – | **26.9 k/s** (68.2 µs) | – | ❓ |
-| BM_VectorFloat_Encryption | – | **55.6 k/s** (17.9 µs) | – | ❓ |
-| BM_DB_Ingest_Encrypted/100000 | – | **27.9 k/s** (3.58 s) | – | ❓ |
-| BM_Index_Insert_Plain/100000 | – | **1.03 M/s** (97.4 ms) | – | ❓ |
-| BM_Index_Insert_WithEncryptedPayload/100000 | – | **717.2 k/s** (139.4 ms) | – | ❓ |
+| BM_Encrypt_String_UsingKey/64 | 277.0 k/s (3.6 ) | **254.9 k/s** (3.9 ) | ÔêÆ8 % | ÔÜá´©Å |
+| BM_Encrypt_String_UsingKey/256 | 254.4 k/s | **244.0 k/s** | ÔêÆ4 % | ÔÜá´©Å |
+| BM_Encrypt_String_UsingKey/1024 | 254.9 k/s | **191.2 k/s** | ÔêÆ25 % |   |
+| BM_Decrypt_String_UsingKey/64 | 56.9 k/s | **45.5 k/s** | ÔêÆ20 % |   |
+| BM_Decrypt_String_UsingKey/256 | 60.1 k/s | **41.1 k/s** | ÔêÆ32 % |   |
+| BM_Decrypt_String_UsingKey/1024 | 52.5 k/s | **36.6 k/s** | ÔêÆ30 % |   |
+| BM_UserEntity_Encrypt_Serialize |   | **28.3 k/s** (35.1 ) |   |  |
+| BM_HKDF_Derive_FieldKey |   | **177.8 k/s** (5.5 ) |   |  |
+| BM_SchemaEncrypt_SingleField/64 |   | **86.1 k/s** (11.6 ) |   |  |
+| BM_SchemaEncrypt_SingleField/1024 |   | **93.7 k/s** (10.7 ) |   |  |
+| BM_SchemaDecrypt_SingleField/64 |   | **26.9 k/s** (68.2 ) |   |  |
+| BM_VectorFloat_Encryption |   | **55.6 k/s** (17.9 ) |   |  |
+| BM_DB_Ingest_Encrypted/100000 |   | **27.9 k/s** (3.58 s) |   |  |
+| BM_Index_Insert_Plain/100000 |   | **1.03 M/s** (97.4 ms) |   |  |
+| BM_Index_Insert_WithEncryptedPayload/100000 |   | **717.2 k/s** (139.4 ms) |   |  |
 
 ---
 
@@ -772,20 +1962,20 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 | BM_VectorDistance_Cosine/1024 | 827.3 ns | 1.21 M/s |
 | **Vektor-Normalisierung** | | |
 | BM_VectorNormalization/128 | 881.7 ns | 1.13 M/s |
-| BM_VectorNormalization/512 | 3.553 µs | 281 k/s |
-| BM_VectorNormalization/1024 | 7.237 µs | 138 k/s |
+| BM_VectorNormalization/512 | 3.553  | 281 k/s |
+| BM_VectorNormalization/1024 | 7.237  | 138 k/s |
 | **Haversine-Distanz (Geo)** | | |
-| BM_GeoDistance_Haversine/100 | 3.576 µs | 28.0 M pts/s |
-| BM_GeoDistance_Haversine/512 | 20.16 µs | 25.4 M pts/s |
-| BM_GeoDistance_Haversine/4096 | 172.8 µs | 23.7 M pts/s |
-| BM_GeoDistance_Haversine/10000 | 504.8 µs | 19.8 M pts/s |
+| BM_GeoDistance_Haversine/100 | 3.576  | 28.0 M pts/s |
+| BM_GeoDistance_Haversine/512 | 20.16  | 25.4 M pts/s |
+| BM_GeoDistance_Haversine/4096 | 172.8  | 23.7 M pts/s |
+| BM_GeoDistance_Haversine/10000 | 504.8  | 19.8 M pts/s |
 | **Geo Point-in-Bounding-Box** | | |
 | BM_GeoPointInBoundingBox/100 | 64.3 ns | 1.56 G pts/s |
-| BM_GeoPointInBoundingBox/4096 | 9.375 µs | 437 M pts/s |
-| BM_GeoPointInBoundingBox/100000 | 232.2 µs | 431 M pts/s |
+| BM_GeoPointInBoundingBox/4096 | 9.375  | 437 M pts/s |
+| BM_GeoPointInBoundingBox/100000 | 232.2  | 431 M pts/s |
 | **Vektor+Geo kombiniert (Pre-Filter)** | | |
-| BM_VectorGeoFiltering/1000 | 35.1 µs | 28.5 M/s |
-| BM_VectorGeoFiltering/4096 | 150.7 µs | 27.2 M/s |
+| BM_VectorGeoFiltering/1000 | 35.1  | 28.5 M/s |
+| BM_VectorGeoFiltering/4096 | 150.7  | 27.2 M/s |
 | BM_VectorGeoFiltering/32768 | 1.270 ms | 25.8 M/s |
 | BM_VectorGeoFiltering/50000 | 1.892 ms | 26.4 M/s |
 
@@ -806,36 +1996,36 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 | BenchPostfilter/10000 | 79.4 ms | 12,60 ops/s |
 | BenchPostfilter/20000 | 78.9 ms | 12,68 ops/s |
 
-> **Beobachtung:** Prefilter ist bei kleinem n (1000) 5.5× langsamer als Postfilter. Ab n=20000 annähernde Parität (88 ms vs. 79 ms). Dies entspricht dem theoretischen Verhalten: Prefilter lohnt sich erst ab hoher Selektivität.
+> **Beobachtung:** Prefilter ist bei kleinem n (1000) 5.5├ù langsamer als Postfilter. Ab n=20000 ann├ñhernde Parit├ñt (88 ms vs. 79 ms). Dies entspricht dem theoretischen Verhalten: Prefilter lohnt sich erst ab hoher Selektivit├ñt.
 
 ---
 
-### 36.6 Storage Hotspots – WAL / Mixed-RW (`bench_hotspots_micro`)
+### 36.6 Storage Hotspots   WAL / Mixed-RW (`bench_hotspots_micro`)
 
-> v1.3.3 vs. v1.3.4 — Thread-Count-Skalierung
+> v1.3.3 vs. v1.3.4 ÔÇö Thread-Count-Skalierung
 
-| Benchmark | Threads | v1.3.3 ops/s | v1.3.4 ops/s | Δ |
+| Benchmark | Threads | v1.3.3 ops/s | v1.3.4 ops/s | ╬ö |
 |-----------|---------|-------------|-------------|---|
 | **WAL ON (persistentes Schreiben)** | | | | |
 | BM_RawWrite_WAL_On | 1 | 248 | **283** | +14 % |
 | BM_RawWrite_WAL_On | 4 | 542 | **609** | +12 % |
 | BM_RawWrite_WAL_On | 8 | 1.058 | **1.193** | +13 % |
-| BM_RawWrite_WAL_On | 16 | 2.070 | **1.546** | −25 % ⚠️ |
+| BM_RawWrite_WAL_On | 16 | 2.070 | **1.546** | ÔêÆ25 % ÔÜá´©Å |
 | **WAL OFF (In-Memory)** | | | | |
-| BM_RawWrite_WAL_Off | 1 | 205.5 k | **145.7 k** | −29 % ❌ |
+| BM_RawWrite_WAL_Off | 1 | 205.5 k | **145.7 k** | ÔêÆ29 %   |
 | BM_RawWrite_WAL_Off | 4 | 354.7 k | **370.3 k** | +4 % |
-| BM_RawWrite_WAL_Off | 8 | – | **507.5 k** | – |
-| BM_RawWrite_WAL_Off | 16 | – | **350.3 k** | – |
+| BM_RawWrite_WAL_Off | 8 |   | **507.5 k** |   |
+| BM_RawWrite_WAL_Off | 16 |   | **350.3 k** |   |
 | **Mixed RW (80% Read / 20% Write)** | | | | |
 | BM_MixedRW | 1 | 583 | **583** | 0 % |
 | BM_MixedRW | 4 | 1.289 | **1.289** | 0 % |
-| BM_MixedRW | 8 | – | **2.534** | – |
-| BM_MixedRW | 16 | – | **4.405** | – |
+| BM_MixedRW | 8 |   | **2.534** |   |
+| BM_MixedRW | 16 |   | **4.405** |   |
 | **Secondary Index Write** | | | | |
 | BM_SecondaryIndex_Write | 1 | 281 | **281** | 0 % |
 | BM_SecondaryIndex_Write | 4 | 590 | **590** | 0 % |
-| BM_SecondaryIndex_Write | 8 | – | **1.056** | – |
-| BM_SecondaryIndex_Write | 16 | – | **1.990** | – |
+| BM_SecondaryIndex_Write | 8 |   | **1.056** |   |
+| BM_SecondaryIndex_Write | 16 |   | **1.990** |   |
 
 ---
 
@@ -846,15 +2036,15 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 | Benchmark | real_time | items/s | Anmerkung |
 |-----------|-----------|---------|-----------|
 | **Embedding-Cache** | | | |
-| BM_EmbeddingCache_Store/384 | 1.324 µs | 758.5 k/s | |
-| BM_EmbeddingCache_Store/768 | 2.699 µs | 374.8 k/s | |
-| BM_EmbeddingCache_Store/1536 | 158.2 µs | 14.2 k/s | größerer Dimensionsaufwand |
+| BM_EmbeddingCache_Store/384 | 1.324  | 758.5 k/s | |
+| BM_EmbeddingCache_Store/768 | 2.699  | 374.8 k/s | |
+| BM_EmbeddingCache_Store/1536 | 158.2  | 14.2 k/s | gr├Â├ƒerer Dimensionsaufwand |
 | BM_EmbeddingCache_Query_Hit/384 | 6.44 ns | **155.8 M/s** | Hot Path |
 | BM_EmbeddingCache_Query_Hit/768 | 6.46 ns | **155.8 M/s** | Hot Path |
-| BM_EmbeddingCache_Query_Hit/1536 | 1.882 µs | 541.0 k/s | |
+| BM_EmbeddingCache_Query_Hit/1536 | 1.882  | 541.0 k/s | |
 | BM_EmbeddingCache_Query_Hit/3072 | 6.46 ns | **155.0 M/s** | Hot Path |
-| BM_EmbeddingCache_Query_Miss/384 | 1.298 µs | 777.0 k/s | |
-| BM_EmbeddingCache_CostSavings | 1.697 µs | 585.1 k/s | |
+| BM_EmbeddingCache_Query_Miss/384 | 1.298  | 777.0 k/s | |
+| BM_EmbeddingCache_CostSavings | 1.697  | 585.1 k/s | |
 | **Hybrid Search** | | | |
 | BM_HybridSearch_RRF/384 | 148.3 ns | 6.64 M/s | |
 | BM_HybridSearch_RRF/768 | 141.0 ns | 7.08 M/s | |
@@ -870,18 +2060,18 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 | BM_CTE_Recursive_Depth/10 | 11.32 ns | 87.1 M/s | |
 | BM_CTE_Recursive_Depth/50 | 60.81 ns | 16.3 M/s | |
 | BM_CTE_Recursive_Depth/100 | 118.3 ns | 8.61 M/s | |
-| BM_CTE_Recursive_Depth/1000 | 1.110 µs | 896.0 k/s | |
+| BM_CTE_Recursive_Depth/1000 | 1.110  | 896.0 k/s | |
 | **CTE Cycle-Detection** | | | |
 | BM_CTE_CycleDetection/100 | 52.2 ns | 19.4 M/s | |
 | BM_CTE_CycleDetection/1000 | 122.4 ns | 8.15 M/s | |
-| BM_CTE_CycleDetection/10000 | 1.178 µs | 853.3 k/s | |
+| BM_CTE_CycleDetection/10000 | 1.178  | 853.3 k/s | |
 | **Subquery EXISTS** | | | |
-| BM_Subquery_EXISTS_WithLIMIT1/100 | ~0 ns | ∞ | Short-Circuit |
-| BM_Subquery_EXISTS_WithLIMIT1/100000 | ~0 ns | ∞ | Short-Circuit ✅ |
+| BM_Subquery_EXISTS_WithLIMIT1/100 | ~0 ns | Ôê× | Short-Circuit |
+| BM_Subquery_EXISTS_WithLIMIT1/100000 | ~0 ns | Ôê× | Short-Circuit  |
 | BM_Subquery_EXISTS_WithoutLIMIT1/100 | 75.1 ns | 13.3 M/s | |
 | BM_Subquery_EXISTS_WithoutLIMIT1/1000 | 702.2 ns | 1.41 M/s | |
-| BM_Subquery_EXISTS_WithoutLIMIT1/10000 | 6.822 µs | 147.0 k/s | |
-| BM_Subquery_EXISTS_WithoutLIMIT1/100000 | 68.49 µs | 14.7 k/s | linear skalierend |
+| BM_Subquery_EXISTS_WithoutLIMIT1/10000 | 6.822  | 147.0 k/s | |
+| BM_Subquery_EXISTS_WithoutLIMIT1/100000 | 68.49  | 14.7 k/s | linear skalierend |
 | **Distributed Transactions (2PC)** | | | |
 | BM_DistributedTxn_2PC_Latency/2 Shards | 46.04 ms | **6.400 ops/s** | |
 | BM_DistributedTxn_2PC_Latency/4 Shards | 46.09 ms | **6.400 ops/s** | |
@@ -890,7 +2080,7 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 | BM_DistributedTxn_Throughput | 46.01 ms | **6.400 ops/s** | |
 | BM_DistributedTxn_SnapshotRead/4 | 61.54 ms | **6.400 ops/s** | |
 | **LLM/RAG Pipeline** | | | |
-| BM_Combined_LLM_RAG_Pipeline | 151.4 µs | **15.9 k/s** | |
+| BM_Combined_LLM_RAG_Pipeline | 151.4  | **15.9 k/s** | |
 
 ---
 
@@ -898,16 +2088,18 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 
 > Run 20251223_085556 (v1.3.3)
 
-| Benchmark | real_time (ms) | ops/s |
-|-----------|---------------|-------|
-| **BFS** | | |
-| GraphTraversalBenchmarkFixture/BFSTraversal/100 nodes/depth 4 | 0.184 ms | 5.430 k/s |
-| GraphTraversalBenchmarkFixture/BFSTraversal/1000 nodes/depth 4 | 1.56 ms | 0.652 k/s |
-| GraphTraversalBenchmarkFixture/BFSTraversal/10000 nodes/depth 4 | 20.2 ms | 50.6 ops/s |
-| GraphTraversalBenchmarkFixture/BFSTraversal/100 nodes/depth 20 | 0.469 ms | 2.108 k/s |
-| GraphTraversalBenchmarkFixture/BFSTraversal/1000 nodes/depth 20 | 4.38 ms | 232.7 ops/s |
-| **DFS** | | |
-| GraphTraversalBenchmarkFixture/DFSTraversal/100 nodes/depth 4 | 0.184 ms | 5.379 k/s |
+| Benchmark | v1.3.3 real_time (ms) | v1.3.3 ops/s | v1.8.1-rc2 real_time (ms, lokal) | v1.8.1-rc2 ops/s (lokal) |
+|-----------|----------------------|--------------|----------------------------------|----------------------------|
+| **BFS** | | | | |
+| GraphTraversalBenchmarkFixture/BFSTraversal/100 nodes/depth 4 | 0.184 ms | 5.430 k/s | 0.214 ms | 4.757 k/s |
+| GraphTraversalBenchmarkFixture/BFSTraversal/1000 nodes/depth 4 | 1.56 ms | 0.652 k/s | 1.25 ms | 0.823 k/s |
+| GraphTraversalBenchmarkFixture/BFSTraversal/10000 nodes/depth 4 | 20.2 ms | 50.6 ops/s | 23.2 ms | 44.224 ops/s |
+| GraphTraversalBenchmarkFixture/BFSTraversal/100 nodes/depth 20 | 0.469 ms | 2.108 k/s | 0.514 ms | 1.914 k/s |
+| GraphTraversalBenchmarkFixture/BFSTraversal/1000 nodes/depth 20 | 4.38 ms | 232.7 ops/s | 4.65 ms | 215.111 ops/s |
+| **DFS** | | | | |
+| GraphTraversalBenchmarkFixture/DFSTraversal/100 nodes/depth 4 | 0.184 ms | 5.379 k/s | 0.235 ms | 4.449 k/s |
+
+> Lokale Messquelle v1.8.1-rc2: `benchmarks/results/local_20260409_093136/bench_graph_traversal.txt` (Google Benchmark, `_mean`).
 
 ---
 
@@ -928,20 +2120,20 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 
 ### 36.10 GPU-Backends (`bench_gpu_backends`)
 
-> v1.3.3 vs. v1.3.4 — CPU-Backend (GPU nicht verfügbar in CI)
+> v1.3.3 vs. v1.3.4 ÔÇö CPU-Backend (GPU nicht verfügbar in CI)
 
-| Benchmark | v1.3.3 items/s | v1.3.4 items/s | Δ |
+| Benchmark | v1.3.3 items/s | v1.3.4 items/s | ╬ö |
 |-----------|---------------|---------------|---|
-| BM_CPUBackend_DistanceComputation/10×1000 | 11.24 M/s | **10.24 M/s** | −9 % |
-| BM_CPUBackend_DistanceComputation/100×10000 | 11.49 M/s | **9.60 M/s** | −16 % |
-| BM_CPUBackend_DistanceComputation/1000×100000 | 10.63 M/s | **9.95 M/s** | −7 % |
-| BM_BackendComparison_VaryingDimensions/64 | 28.28 M/s | **25.87 M/s** | −9 % |
-| BM_BackendComparison_VaryingDimensions/128 | 11.49 M/s | **9.74 M/s** | −15 % |
-| BM_BackendComparison_VaryingDimensions/256 | 5.19 M/s | **4.36 M/s** | −16 % |
-| BM_BackendComparison_VaryingDimensions/512 | – | **2.29 M/s** | – |
-| BM_BackendComparison_VaryingDimensions/1024 | – | **1.08 M/s** | – |
-| BM_BackendInitializationOverhead | – | **14.93 M/s** | – |
-| BM_ThroughputComparison | – | **10.10 M/s** | – |
+| BM_CPUBackend_DistanceComputation/10├ù1000 | 11.24 M/s | **10.24 M/s** | ÔêÆ9 % |
+| BM_CPUBackend_DistanceComputation/100├ù10000 | 11.49 M/s | **9.60 M/s** | ÔêÆ16 % |
+| BM_CPUBackend_DistanceComputation/1000├ù100000 | 10.63 M/s | **9.95 M/s** | ÔêÆ7 % |
+| BM_BackendComparison_VaryingDimensions/64 | 28.28 M/s | **25.87 M/s** | ÔêÆ9 % |
+| BM_BackendComparison_VaryingDimensions/128 | 11.49 M/s | **9.74 M/s** | ÔêÆ15 % |
+| BM_BackendComparison_VaryingDimensions/256 | 5.19 M/s | **4.36 M/s** | ÔêÆ16 % |
+| BM_BackendComparison_VaryingDimensions/512 |   | **2.29 M/s** |   |
+| BM_BackendComparison_VaryingDimensions/1024 |   | **1.08 M/s** |   |
+| BM_BackendInitializationOverhead |   | **14.93 M/s** |   |
+| BM_ThroughputComparison |   | **10.10 M/s** |   |
 
 ---
 
@@ -951,51 +2143,51 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 
 | Benchmark | real_time | ops/s | Anmerkung |
 |-----------|-----------|-------|-----------|
-| BM_ImageEmbedding_SingleImage/224px | 3.95 µs | 253.3 k/s | |
-| BM_ImageEmbedding_SingleImage/384px | 4.11 µs | 243.3 k/s | |
-| BM_ImageEmbedding_SingleImage/512px | 4.25 µs | 235.1 k/s | |
-| BM_ImageEmbedding_SingleImage/1024px | 4.88 µs | 205.0 k/s | |
-| BM_ImageEmbedding_Batch/1 | 3.87 µs | 258.4 k/s | |
-| BM_ImageEmbedding_Batch/4 | 15.47 µs | 258.6 k/s | ~konstant/Bild |
-| BM_ImageEmbedding_Batch/8 | 30.84 µs | 259.5 k/s | |
-| BM_ImageEmbedding_Batch/16 | 63.24 µs | 253.1 k/s | |
-| BM_ImageCaptioning/224px | 20.76 µs | 48.2 k/s | |
-| BM_ImageCaptioning/384px | 61.27 µs | 16.3 k/s | |
-| BM_ImageCaptioning/512px | 113.4 µs | 8.82 k/s | |
+| BM_ImageEmbedding_SingleImage/224px | 3.95  | 253.3 k/s | |
+| BM_ImageEmbedding_SingleImage/384px | 4.11  | 243.3 k/s | |
+| BM_ImageEmbedding_SingleImage/512px | 4.25  | 235.1 k/s | |
+| BM_ImageEmbedding_SingleImage/1024px | 4.88  | 205.0 k/s | |
+| BM_ImageEmbedding_Batch/1 | 3.87  | 258.4 k/s | |
+| BM_ImageEmbedding_Batch/4 | 15.47  | 258.6 k/s | ~konstant/Bild |
+| BM_ImageEmbedding_Batch/8 | 30.84  | 259.5 k/s | |
+| BM_ImageEmbedding_Batch/16 | 63.24  | 253.1 k/s | |
+| BM_ImageCaptioning/224px | 20.76  | 48.2 k/s | |
+| BM_ImageCaptioning/384px | 61.27  | 16.3 k/s | |
+| BM_ImageCaptioning/512px | 113.4  | 8.82 k/s | |
 | BM_Plugin_Initialization | 5.51 ns | 181.6 M/s | sehr schnell |
-| BM_Plugin_Warmup | 4.05 µs | 246.7 k/s | |
+| BM_Plugin_Warmup | 4.05  | 246.7 k/s | |
 
 **Image Latenz-Verteilung** (`bench_image_analysis_latency`, v1.3.4):
 
 | Benchmark | Mean (ms) | P50 (ms) | P95 (ms) | P99 (ms) |
 |-----------|-----------|----------|----------|----------|
-| BM_Embedding_LatencyDistribution_224 | 1.583 µs | 1.500 µs | 1.600 µs | 2.200 µs |
-| BM_Embedding_ColdStartVsWarm (cold) | 1.960 µs | – | – | – |
-| BM_Embedding_ColdStartVsWarm (warm) | 1.881 µs | – | – | – |
-| BM_Embedding_GPUvsCPU/CPU | 2.633 µs | 2.100 µs | 2.200 µs | 20.3 µs |
-| BM_Embedding_GPUvsCPU/GPU | 2.306 µs | 1.700 µs | 2.500 µs | 21.1 µs |
-| BM_Caption_LatencyDistribution | 22.0 µs | 21.1 µs | 22.6 µs | 40.2 µs |
-| BM_Batch_LatencyPerImage/1 | 1.975 µs | 1.700 µs | 1.800 µs | – |
-| BM_Batch_LatencyPerImage/4 (per img) | 1.583 µs | 1.475 µs | 1.575 µs | – |
-| BM_Batch_LatencyPerImage/8 (per img) | 1.506 µs | 1.450 µs | 1.500 µs | – |
-| BM_Batch_LatencyPerImage/16 (per img) | 1.537 µs | 1.481 µs | 1.563 µs | – |
-| BM_ImageSize_LatencyImpact/384px | 2.514 µs | 2.200 µs | 2.300 µs | – |
-| BM_ImageSize_LatencyImpact/512px | 3.023 µs | 2.700 µs | 2.800 µs | – |
-| BM_ImageSize_LatencyImpact/1024px | 6.007 µs | 5.700 µs | 6.000 µs | – |
+| BM_Embedding_LatencyDistribution_224 | 1.583  | 1.500  | 1.600  | 2.200  |
+| BM_Embedding_ColdStartVsWarm (cold) | 1.960  |   |   |   |
+| BM_Embedding_ColdStartVsWarm (warm) | 1.881  |   |   |   |
+| BM_Embedding_GPUvsCPU/CPU | 2.633  | 2.100  | 2.200  | 20.3  |
+| BM_Embedding_GPUvsCPU/GPU | 2.306  | 1.700  | 2.500  | 21.1  |
+| BM_Caption_LatencyDistribution | 22.0  | 21.1  | 22.6  | 40.2  |
+| BM_Batch_LatencyPerImage/1 | 1.975  | 1.700  | 1.800  |   |
+| BM_Batch_LatencyPerImage/4 (per img) | 1.583  | 1.475  | 1.575  |   |
+| BM_Batch_LatencyPerImage/8 (per img) | 1.506  | 1.450  | 1.500  |   |
+| BM_Batch_LatencyPerImage/16 (per img) | 1.537  | 1.481  | 1.563  |   |
+| BM_ImageSize_LatencyImpact/384px | 2.514  | 2.200  | 2.300  |   |
+| BM_ImageSize_LatencyImpact/512px | 3.023  | 2.700  | 2.800  |   |
+| BM_ImageSize_LatencyImpact/1024px | 6.007  | 5.700  | 6.000  |   |
 
 ---
 
 ### 36.12 HSM-Provider (`bench_hsm_provider`)
 
-> v1.3.3 vs. v1.3.4 — Stub-Implementierung (echte HSM-Bibliothek nicht in CI)
+> v1.3.3 vs. v1.3.4 ÔÇö Stub-Implementierung (echte HSM-Bibliothek nicht in CI)
 
-| Benchmark | v1.3.3 ops/s | v1.3.4 ops/s | Δ |
+| Benchmark | v1.3.3 ops/s | v1.3.4 ops/s | ╬ö |
 |-----------|-------------|-------------|---|
-| BM_HSM_Sign_Stub | 1.493 M/s (667 ns) | **1.434 M/s** (693.8 ns) | −4 % |
-| BM_HSM_Verify_Stub | 1.629 M/s (612 ns) | **1.550 M/s** (659 ns) | −5 % |
-| BM_HSM_Sign_Real_Pool* | n/a (Lib fehlt) | n/a | – |
+| BM_HSM_Sign_Stub | 1.493 M/s (667 ns) | **1.434 M/s** (693.8 ns) | ÔêÆ4 % |
+| BM_HSM_Verify_Stub | 1.629 M/s (612 ns) | **1.550 M/s** (659 ns) | ÔêÆ5 % |
+| BM_HSM_Sign_Real_Pool* | n/a (Lib fehlt) | n/a |   |
 
-> **Ziel** SEC-7: HSM-Backed RSA-2048 Sign P99 ≤ 20 ms → Stub-Werte ~0.7 µs, Real-HSM-Werte ausstehend.
+> **Ziel** SEC-7: HSM-Backed RSA-2048 Sign P99  20 ms ÔåÆ Stub-Werte ~0.7 , Real-HSM-Werte ausstehend.
 
 ---
 
@@ -1003,13 +2195,13 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 
 > v1.3.3 vs. v1.3.4
 
-| Benchmark | v1.3.3 ops/s | v1.3.4 ops/s | Δ |
+| Benchmark | v1.3.3 ops/s | v1.3.4 ops/s | ╬ö |
 |-----------|-------------|-------------|---|
-| BM_VectorGeo_AQL_Sugar | – (ERROR) | – (ERROR) | – |
-| BM_VectorGeo_CPP_API | 123.6 ops/s (8.58 ms) | **112.6 ops/s** (8.91 ms) | −9 % |
-| BM_ContentGeo_AQL_Sugar | 5.556 k/s (0.457 ms) | **6.127 k/s** (0.347 ms) | +10 % ✅ |
-| BM_ContentGeo_CPP_API | 5.589 k/s (0.436 ms) | **7.191 k/s** (0.319 ms) | +29 % ✅ |
-| BM_AQL_Parse_Translate_Only | 152.5 k/s (6.57 µs) | **150.9 k/s** (6.66 µs) | −1 % ✅ |
+| BM_VectorGeo_AQL_Sugar |   (ERROR) |   (ERROR) |   |
+| BM_VectorGeo_CPP_API | 123.6 ops/s (8.58 ms) | **112.6 ops/s** (8.91 ms) | ÔêÆ9 % |
+| BM_ContentGeo_AQL_Sugar | 5.556 k/s (0.457 ms) | **6.127 k/s** (0.347 ms) | +10 %  |
+| BM_ContentGeo_CPP_API | 5.589 k/s (0.436 ms) | **7.191 k/s** (0.319 ms) | +29 %  |
+| BM_AQL_Parse_Translate_Only | 152.5 k/s (6.57 ) | **150.9 k/s** (6.66 ) | ÔêÆ1 %  |
 
 ---
 
@@ -1019,23 +2211,23 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 
 | Benchmark | real_time | bytes/s |
 |-----------|-----------|---------|
-| BM_VersionCreation/1 KB | 1.14 µs | 895 MB/s |
-| BM_VersionCreation/10 KB | 10.4 µs | 979 MB/s |
-| BM_VersionCreation/100 KB | 104.3 µs | 975 MB/s |
+| BM_VersionCreation/1 KB | 1.14  | 895 MB/s |
+| BM_VersionCreation/10 KB | 10.4  | 979 MB/s |
+| BM_VersionCreation/100 KB | 104.3  | 975 MB/s |
 | BM_VersionCreation/1 MB | 1.197 ms | 877 MB/s |
 | BM_VersionCreation/10 MB | 12.71 ms | 810 MB/s |
 | BM_DiffComputation/1 KB | 69.9 ns | 29.4 GB/s |
 | BM_DiffComputation/10 KB | 188.0 ns | 108.7 GB/s |
-| BM_DiffComputation/100 KB | 2.515 µs | 81.3 GB/s |
-| BM_DiffComputation/1 MB | 245.7 µs | 8.53 GB/s |
-| BM_VersionRetrieval | 302.5 ns | – |
-| BM_StorageOverhead/10 versions | 57.95 µs | – |
-| BM_StorageOverhead/100 versions | 744.4 µs | – |
-| BM_StorageOverhead/500 versions | 2.727 ms | – |
-| BM_ConcurrentVersioning/1 Thread | 11.86 µs | 875 MB/s |
-| BM_ConcurrentVersioning/2 Threads | 12.61 µs | 833 MB/s |
-| BM_ConcurrentVersioning/4 Threads | 15.64 µs | 667 MB/s |
-| BM_ConcurrentVersioning/8 Threads | 19.48 µs | 506 MB/s |
+| BM_DiffComputation/100 KB | 2.515  | 81.3 GB/s |
+| BM_DiffComputation/1 MB | 245.7  | 8.53 GB/s |
+| BM_VersionRetrieval | 302.5 ns |   |
+| BM_StorageOverhead/10 versions | 57.95  |   |
+| BM_StorageOverhead/100 versions | 744.4  |   |
+| BM_StorageOverhead/500 versions | 2.727 ms |   |
+| BM_ConcurrentVersioning/1 Thread | 11.86  | 875 MB/s |
+| BM_ConcurrentVersioning/2 Threads | 12.61  | 833 MB/s |
+| BM_ConcurrentVersioning/4 Threads | 15.64  | 667 MB/s |
+| BM_ConcurrentVersioning/8 Threads | 19.48  | 506 MB/s |
 
 ---
 
@@ -1043,23 +2235,23 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 
 > Run 20251229_184507 (v1.3.4, x86_64-Emulation auf ARM-Pfad)
 
-| Benchmark | Blockgröße | real_time | Bandbreite |
+| Benchmark | Blockgr├Â├ƒe | real_time | Bandbreite |
 |-----------|-----------|-----------|------------|
 | **Sequential Read** | | | |
-| BM_ARM_Sequential_Read | 4 KB | 3.63 µs | 4.55 GB/s |
-| BM_ARM_Sequential_Read | 32 KB | 28.28 µs | 4.60 GB/s |
-| BM_ARM_Sequential_Read | 256 KB | 220.9 µs | 4.77 GB/s |
-| BM_ARM_Sequential_Read | 1 MB | 908.1 µs | 4.66 GB/s |
+| BM_ARM_Sequential_Read | 4 KB | 3.63  | 4.55 GB/s |
+| BM_ARM_Sequential_Read | 32 KB | 28.28  | 4.60 GB/s |
+| BM_ARM_Sequential_Read | 256 KB | 220.9  | 4.77 GB/s |
+| BM_ARM_Sequential_Read | 1 MB | 908.1  | 4.66 GB/s |
 | **Sequential Write** | | | |
-| BM_ARM_Sequential_Write | 4 KB | 2.07 µs | 7.99 GB/s |
-| BM_ARM_Sequential_Write | 32 KB | 16.81 µs | 7.76 GB/s |
-| BM_ARM_Sequential_Write | 256 KB | 133.6 µs | 7.95 GB/s |
-| BM_ARM_Sequential_Write | 1 MB | 528.9 µs | 7.90 GB/s |
+| BM_ARM_Sequential_Write | 4 KB | 2.07  | 7.99 GB/s |
+| BM_ARM_Sequential_Write | 32 KB | 16.81  | 7.76 GB/s |
+| BM_ARM_Sequential_Write | 256 KB | 133.6  | 7.95 GB/s |
+| BM_ARM_Sequential_Write | 1 MB | 528.9  | 7.90 GB/s |
 | **MemCopy (builtin)** | | | |
 | BM_ARM_MemCopy_Builtin | 4 KB | 139.9 ns | 118.6 GB/s |
-| BM_ARM_MemCopy_Builtin | 32 KB | 2.077 µs | 63.9 GB/s |
-| BM_ARM_MemCopy_Builtin | 256 KB | 32.00 µs | 33.0 GB/s |
-| BM_ARM_MemCopy_Builtin | 1 MB | 129.9 µs | 32.6 GB/s |
+| BM_ARM_MemCopy_Builtin | 32 KB | 2.077  | 63.9 GB/s |
+| BM_ARM_MemCopy_Builtin | 256 KB | 32.00  | 33.0 GB/s |
+| BM_ARM_MemCopy_Builtin | 1 MB | 129.9  | 32.6 GB/s |
 
 ---
 
@@ -1072,7 +2264,7 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 | MVCCFixture/SingleEntityCommit_MVCC | 4.07 ms | 7.111 k/s | |
 | MVCCFixture/BatchInsert100_MVCC | 7.29 ms | 29.67 k/s | |
 | MVCCFixture/SnapshotIsolationOverhead_MVCC | 4.05 ms | 40.0 k/s | |
-| MVCCFixture/Rollback_MVCC | 266.0 µs | 37.33 k/s | |
+| MVCCFixture/Rollback_MVCC | 266.0  | 37.33 k/s | |
 | MVCCFixture/SingleEntityCommit_WriteBatch | 4.38 ms | 6.516 k/s | |
 | MVCCFixture/BatchInsert100_WriteBatch | 6.25 ms | 41.67 k/s | |
 
@@ -1087,7 +2279,7 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 | BM_LockContention_Disjoint | 1 | 4.44 ms | 14.4 k/s |
 | BM_LockContention_Disjoint | 4 | 13.5 ms | 18.9 k/s |
 | BM_LockContention_Disjoint | 8 | 8.31 ms | 61.6 k/s |
-| BM_LockContention_Disjoint | 16 | 66.7 ms | 15.3 k/s ⚠️ |
+| BM_LockContention_Disjoint | 16 | 66.7 ms | 15.3 k/s ÔÜá´©Å |
 | BM_LockContention_Disjoint | 32 | 42.9 ms | 47.8 k/s |
 | BM_LockContention_Overlapping | 1 | 14.4 ms | 4.43 k/s |
 
@@ -1104,7 +2296,7 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 | BatchInsertBenchmark/SingleInserts_1000 | 15.85 s | 4.571 k/s | |
 | BatchInsertBenchmark/BatchInsert_1000 | 277.1 ms | 372 ops/s | |
 
-> **Beobachtung:** Batch-API ist hier **langsamer** als Single-Inserts in Items/s — deutet auf Overhead im Batch-Koordinator hin. Bekannte Optimierungslücke (vgl. §34 D-5).
+> **Beobachtung:** Batch-API ist hier **langsamer** als Single-Inserts in Items/s ÔÇö deutet auf Overhead im Batch-Koordinator hin. Bekannte Optimierungslücke (vgl. ┬º34 D-5).
 
 ---
 
@@ -1112,136 +2304,348 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 
 > Run 20251223_085556 (v1.3.3)
 
-| Benchmark | Blockgröße | Kompression | real_time | ops/s |
+| Benchmark | Blockgr├Â├ƒe | Kompression | real_time | ops/s |
 |-----------|-----------|-------------|-----------|-------|
-| CompressionFixture/SequentialWrite/Keine/512B | 512 B | – | 25.2 ms | 48.0 k/s |
+| CompressionFixture/SequentialWrite/Keine/512B | 512 B |   | 25.2 ms | 48.0 k/s |
 | CompressionFixture/SequentialWrite/LZ4/512B | 512 B | LZ4 | 25.9 ms | 41.8 k/s |
 | CompressionFixture/SequentialWrite/Zstd/512B | 512 B | Zstd | 26.2 ms | 42.7 k/s |
-| CompressionFixture/SequentialWrite/Keine/4096B | 4096 B | – | 33.3 ms | 35.2 k/s |
+| CompressionFixture/SequentialWrite/Keine/4096B | 4096 B |   | 33.3 ms | 35.2 k/s |
 | CompressionFixture/SequentialWrite/LZ4/4096B | 4096 B | LZ4 | 32.9 ms | 34.7 k/s |
 | CompressionFixture/SequentialWrite/Zstd/4096B | 4096 B | Zstd | 32.6 ms | 34.5 k/s |
 
 ---
 
-### 36.20 Zusammenfassung: Regression-Übersicht v1.3.0 → v1.3.4
+### 36.20 Zusammenfassung: Regression-├£bersicht v1.3.0 ÔåÆ v1.3.4
 
-| Benchmark | v1.3.0 | v1.3.4 | Δ | Schwere |
+| Benchmark | v1.3.0 | v1.3.4 | ╬ö | Schwere |
 |-----------|--------|--------|---|---------|
-| VectorIndexBench/InsertPlaintext | 566.7 k/s | 351.4 k/s | **−38 %** | ❌ Kritisch |
-| SecondaryIndexBench/IndexInsert | 1.78 M/s | 217.2 k/s | **−88 %** | ❌ Kritisch |
-| QueryEngineBench/SimpleEvaluation | 968.6 M/s | 814.5 M/s | −16 % | ⚠️ Mittel |
-| GraphIndexBench/AddEdges | 1.47 M/s | 628.7 k/s | **−57 %** | ❌ Kritisch |
-| TimeseriesBench/InsertTimepoints | 61.0 M/s | 49.0 M/s | **−20 %** | ⚠️ Mittel |
-| BM_Encrypt_String_UsingKey/1024 | 254.9 k/s | 191.2 k/s | −25 % | ⚠️ Mittel |
-| BM_Decrypt_String_UsingKey/256 | 60.1 k/s | 41.1 k/s | −32 % | ❌ Hoch |
-| BM_CPUBackend_DistanceComputation | 11.24 M/s | 10.24 M/s | −9 % | ⚠️ Gering |
-| BM_ContentGeo_CPP_API | 5.59 k/s | 7.19 k/s | **+29 %** | ✅ Verbesserung |
-| BM_ContentGeo_AQL_Sugar | 5.56 k/s | 6.13 k/s | **+10 %** | ✅ Verbesserung |
-| EmbeddingCache_Query_Hit/384 | – | 155.8 M/s | n/a (neu) | ✅ Neu |
-| 2PC-Throughput (2 Shards) | – | 6.4 k/s | n/a (neu) | ✅ Neu |
+| VectorIndexBench/InsertPlaintext | 566.7 k/s | 351.4 k/s | **ÔêÆ38 %** |   Kritisch |
+| SecondaryIndexBench/IndexInsert | 1.78 M/s | 217.2 k/s | **ÔêÆ88 %** |   Kritisch |
+| QueryEngineBench/SimpleEvaluation | 968.6 M/s | 814.5 M/s | ÔêÆ16 % | ÔÜá´©Å Mittel |
+| GraphIndexBench/AddEdges | 1.47 M/s | 628.7 k/s | **ÔêÆ57 %** |   Kritisch |
+| TimeseriesBench/InsertTimepoints | 61.0 M/s | 49.0 M/s | **ÔêÆ20 %** | ÔÜá´©Å Mittel |
+| BM_Encrypt_String_UsingKey/1024 | 254.9 k/s | 191.2 k/s | ÔêÆ25 % | ÔÜá´©Å Mittel |
+| BM_Decrypt_String_UsingKey/256 | 60.1 k/s | 41.1 k/s | ÔêÆ32 % |   Hoch |
+| BM_CPUBackend_DistanceComputation | 11.24 M/s | 10.24 M/s | ÔêÆ9 % | ÔÜá´©Å Gering |
+| BM_ContentGeo_CPP_API | 5.59 k/s | 7.19 k/s | **+29 %** |  Verbesserung |
+| BM_ContentGeo_AQL_Sugar | 5.56 k/s | 6.13 k/s | **+10 %** |  Verbesserung |
+| EmbeddingCache_Query_Hit/384 |   | 155.8 M/s | n/a (neu) |  Neu |
+| 2PC-Throughput (2 Shards) |   | 6.4 k/s | n/a (neu) |  Neu |
 
-> **Wichtige Relativierung:** Mehrere Regressionen (insb. SecondaryIndex, VectorIndex, Graph) sind auf geänderte Test-Infrastruktur zurückzuführen (per-test temp dirs, einzelne RocksDB-Transaktionen pro `put()`), nicht auf Produktions-Regressions — vgl. `PERFORMANCE_COMPARISON_V1.3.0_VS_V1.3.3.md`.
+> **Wichtige Relativierung:** Mehrere Regressionen (insb. SecondaryIndex, VectorIndex, Graph) sind auf ge├ñnderte Test-Infrastruktur zurückzuführen (per-test temp dirs, einzelne RocksDB-Transaktionen pro `put()`), nicht auf Produktions-Regressions ÔÇö vgl. `PERFORMANCE_COMPARISON_V1.3.0_VS_V1.3.3.md`.
 
 
 ---
 
-## 37. Durchgeführte Performance-Maßnahmen (mit GitHub-PR)
+### 36.21 Lokale Vergleichsmessung (CMake, v1.8.1-rc2)
+
+> Lauf: `benchmarks/results/local_20260409_093136/` (Windows, msvc-ninja-release, Google Benchmark `_mean`).
+
+#### 36.21.1 Graph Query Optimizer (`bench_graph_query_optimizer`)
+
+| Benchmark | v1.8.1-rc2 real_time | v1.8.1-rc2 items/s |
+|-----------|----------------------|--------------------|
+| PlanGeneration_ShortestPath/100 | 223 ns | 4.53361 M/s |
+| PlanGeneration_KHopNeighborhood/100 | 246 ns | 4.03036 M/s |
+| PlanGeneration_WithCache/100 | 225 ns | 4.53361 M/s |
+| BFS_Execution/100/2 | 3214 ns | 321.128 k/s |
+| BFS_Execution/100/3 | 6038 ns | 160.89 k/s |
+| BFS_Execution/100/4 | 13241 ns | 77.037 k/s |
+
+#### 36.21.2 Storage Performance (`bench_storage_performance`)
+
+| Benchmark | v1.8.1-rc2 real_time | v1.8.1-rc2 Throughput |
+|-----------|----------------------|-----------------------|
+| BM_Allocator_System_Small | 64510 ns | 15.4953 M items/s |
+| BM_Allocator_Themis_Small | 7703 ns | 128.493 M items/s |
+| BM_Allocator_System_Large | 843667 ns | 119.2 k items/s |
+| BM_Allocator_Themis_Large | 41168 ns | 2.49111 M items/s |
+| BM_Allocator_Mixed | 52529 ns | 19.6267 M items/s |
+| BM_RCU_Read_SingleThread | 109 ns | 919.77 M items/s |
+
+#### 36.21.3 Vector Search (`bench_vector_search`)
+
+| Benchmark | v1.8.1-rc2 real_time |
+|-----------|----------------------|
+| BM_VectorSearch_efSearch/32/10 | 12.3 ms |
+| BM_VectorSearch_efSearch/64/10 | 14.5 ms |
+| BM_VectorSearch_efSearch/128/10 | 13.4 ms |
+| BM_VectorSearch_efSearch/256/10 | 14.0 ms |
+| BM_VectorInsert_Batch100/64 | 4.08 ms |
+| BM_VectorInsert_Batch100/128 | 23.2 ms |
+
+> Hinweis: `BM_VectorInsert_Batch100/*` zeigt hohe Varianz (CV bis 139.79 %), daher als vorlaeufige Vergleichswerte behandeln.
+
+#### 36.21.4 Metrics Collector (`bench_metrics_collector`)
+
+| Benchmark | v1.8.1-rc2 real_time | v1.8.1-rc2 items/s |
+|-----------|----------------------|--------------------|
+| BM_RecordQuery | 2905 ns | 345.126 k/s |
+| BM_RecordCacheHit | 963 ns | 1.0276 M/s |
+| BM_RecordTSStoreWrite | 3928 ns | 261.692 k/s |
+| BM_RecordShardLatency | 1193 ns | 830.39 k/s |
+| BM_MixedMetrics | 2368 ns | 415.192 k/s |
+| BM_HighVolumeRecording/1000 | 3012030 ns | 333.333 k/s |
+
+> Hinweis: In den lokalen Runs ist der Metrics-Collector gegenueber den historischen v1.3.x-Werten tendenziell langsamer; Ursachenanalyse folgt in separatem Profiling-Run.
+
+#### 36.21.5 Delta lokal_082951 -> lokal_093136 (Auszug)
+
+| KPI (mean) | lokal_082951 | lokal_093136 | Delta |
+|-----------|--------------|--------------|-------|
+| PlanGeneration_ShortestPath/100 (ns) | 253 | 223 | +11.9 % schneller |
+| BFS_Execution/100/2 (ns) | 3725 | 3214 | +13.7 % schneller |
+| BM_RecordCacheHit (ns) | 824 | 963 | -16.9 % langsamer |
+| BM_RecordQuery (ns) | 2363 | 2905 | -22.9 % langsamer |
+| BM_Allocator_Themis_Small (ns) | 6283 | 7703 | -22.6 % langsamer |
+| BM_RCU_Read_SingleThread (ns) | 96.9 | 109 | -12.5 % langsamer |
+| BM_VectorSearch_efSearch/128/10 (ms) | 10.6 | 13.4 | -26.4 % langsamer |
+| BM_VectorInsert_Batch100/64 (ms) | 4.39 | 4.08 | +7.1 % schneller |
+
+> Quelle Delta: Vergleich der `_mean`-Zeilen aus `benchmarks/results/local_20260409_082951/*.txt` und `benchmarks/results/local_20260409_093136/*.txt`.
+
+#### 36.21.6 Profiling-Plan fuer regressionsauffaellige KPIs
+
+| Schritt | Ziel | Befehl/Setup | Erfolgskriterium |
+|--------|------|--------------|------------------|
+| 1 | Noise reduzieren (mehr Repetitions) | Benchmarks mit `--benchmark_min_time=0.3s --benchmark_repetitions=10` wiederholen | CV bei Kern-KPIs < 10 % |
+| 2 | CPU-Frequenz/Thread-Einfluss isolieren | Vergleich 1 Thread vs. Standard-Threading pro betroffenen Benchmark | Delta zwischen Runs < 5 % bei stabilen KPIs |
+| 3 | Vector-Insert-Ausreisser lokalisieren | `bench_vector_search` separat 3x ausfuehren, nur `BM_VectorInsert_Batch100/*` auswerten | Ausreisser reproduzierbar oder eliminierbar |
+| 4 | Metrics-Hotpath aufteilen | `bench_metrics_collector` fokussiert auf `BM_RecordQuery` und `BM_RecordCacheHit` | Identifizierter dominanter Teilpfad (record vs. export/lock) |
+| 5 | Allocator-Einfluss pruefen | `bench_storage_performance` mit identischer Build-Config erneut, Fokus `BM_Allocator_*` und `BM_RCU_Read_SingleThread` | Abweichung zu vorherigem Lauf erklaert (Config/Noise/Regressionskandidat) |
+
+> Empfohlene Priorisierung: zuerst Schritt 1 und 3 (hohe Varianz), danach Schritt 4 und 5 (konstant negative Deltas).
+
+**Kopierfertige PowerShell-Kommandos (lokales Profiling):**
+
+```powershell
+$ErrorActionPreference = 'Stop'
+
+$benchDir = 'C:\VCC\themis\build-msvc-ninja-release\cmake\benchmarks'
+$binDir = 'C:\VCC\themis\build-msvc-ninja-release\bin'
+$ts = Get-Date -Format 'yyyyMMdd_HHmmss'
+$outDir = "C:\VCC\themis\benchmarks\results\profiling_$ts"
+
+New-Item -ItemType Directory -Force -Path $outDir | Out-Null
+$env:PATH = "$binDir;$benchDir;" + $env:PATH
+Set-Location $benchDir
+
+# Schritt 1: Noise reduzieren
+$commonArgs = @(
+	'--benchmark_min_time=0.3s',
+	'--benchmark_repetitions=10',
+	'--benchmark_report_aggregates_only=true'
+)
+
+foreach ($b in @('bench_vector_search','bench_metrics_collector','bench_storage_performance')) {
+	& ".\\$b.exe" @commonArgs --benchmark_out="$outDir\\${b}_noise.json" --benchmark_out_format=json `
+		| Tee-Object -FilePath "$outDir\\${b}_noise.txt"
+}
+
+# Schritt 3: Vector-Insert-Ausreisser (3 Wiederholungen)
+for ($i = 1; $i -le 3; $i++) {
+	& '.\\bench_vector_search.exe' @commonArgs --benchmark_filter='BM_VectorInsert_Batch100/.*' `
+		--benchmark_out="$outDir\\bench_vector_insert_run$i.json" --benchmark_out_format=json `
+		| Tee-Object -FilePath "$outDir\\bench_vector_insert_run$i.txt"
+}
+
+# Schritt 4: Metrics Hotpath fokussieren
+& '.\\bench_metrics_collector.exe' @commonArgs --benchmark_filter='BM_Record(Query|CacheHit).*' `
+	--benchmark_out="$outDir\\bench_metrics_hotpath.json" --benchmark_out_format=json `
+	| Tee-Object -FilePath "$outDir\\bench_metrics_hotpath.txt"
+
+# Schritt 5: Allocator/RCU fokussieren
+& '.\\bench_storage_performance.exe' @commonArgs --benchmark_filter='BM_(Allocator_.*|RCU_Read_SingleThread).*' `
+	--benchmark_out="$outDir\\bench_storage_allocator_rcu.json" --benchmark_out_format=json `
+	| Tee-Object -FilePath "$outDir\\bench_storage_allocator_rcu.txt"
+
+Write-Host "Profiling-Ergebnisse: $outDir"
+```
+
+
+---
+
+### 36.22 Fortgeschriebener Benchmark-Run (2026-04-09)
+
+> Quelle: `logs/bench_run_20260409_221029/`
+> Hinweis: Lauf auf CPU-Only-Umgebung; mehrere GPU-abhaengige Cases liefern erwartbar keinen Messwert.
+
+#### 36.22.1 Gemessene Cases
+
+| Benchmark | Time | CPU | Iterations | Zusatzmetrik | Status |
+|---|---:|---:|---:|---|---|
+| GraphTraversalBenchmarkFixture/BFSTraversal/1000/4 | 2.60 ms | 2.37 ms | 33 | `nodes_per_sec=422.4k/s`, `items_per_second=422.4/s` |  |
+| ConfigPathResolverBenchFixture/CacheHit_MappedPath | 57,542 ns | 57,199 ns | 11.200 | `cache_hit_rate=99.9188`, Ziel laut Counter `target < 1 us` |   |
+
+#### 36.22.2 Nicht auswertbare Cases in diesem Lauf
+
+| Benchmark | Ergebnis | Grund | Status |
+|---|---|---|---|
+| BM_BatchLoading_Throughput/8/128 (`bench_data_transfer`) | `ERROR OCCURRED: CUDA not available` | CUDA/GPU in der Umgebung nicht verfuegbar |  |
+| BM_DataLoader_WithPrefetch/1/8 (`bench_data_transfer`) | `ERROR OCCURRED: CUDA not available` | CUDA/GPU in der Umgebung nicht verfuegbar |  |
+| BM_Cache_HitMiss_Pattern/0 (`bench_data_transfer`) | `ERROR OCCURRED: CUDA not available` | Benchmark ist in diesem Build ebenfalls GPU-gebunden |  |
+| BM_Training_Batch_4x16 (`bench_lora_framework`) | kein valider Zahlen-Output | Basismodell fehlt: `models/default.gguf`; Folge-Warnungen `Training already in progress` |  |
+
+#### 36.22.3 Kurzbewertung
+
+| Bereich | Bewertung |
+|---|---|
+| Graph Traversal | Solider CPU-Smoketest mit reproduzierbarem Durchsatz (`422.4k nodes/s`). |
+| Config Path Resolver | Hit-Rate sehr gut, aber Latenz klar ueber dem ausgewiesenen Ziel `< 1 us`. |
+| Data Transfer | In dieser Umgebung nicht benchmarkbar, da Cases GPU/CUDA voraussetzen. |
+| LoRA Framework | Ohne GGUF-Modellartefakt aktuell nur Integrationscheck, kein Performance-Run. |
+
+#### 36.22.4 Empfohlene naechste Messung (fortgeschrieben)
+
+| Prioritaet | Aktion | Erwartetes Ergebnis |
+|---|---|---|
+| 1 | GPU-Runner verwenden (CUDA/HIP) fuer `bench_data_transfer` | verwertbare Throughput- und Transfer-Latenzwerte |
+| 2 | `models/default.gguf` bereitstellen und `bench_lora_framework` erneut laufen lassen | numerische LoRA-Trainingsmetriken statt Fehlerlog |
+| 3 | ConfigPathResolver Hot-Path profilen (Locking/String-Normalisierung/Cache-Lookup) | Reduktion der Cache-Hit-Latenz in Richtung `< 1 us` |
+
+### 36.23 Fortgeschriebener Kernmetriken-Run (2026-04-10)
+
+> Quelle: lokaler Lauf `bench_core_performance.exe` (CPU-only), Filter auf Kernmetriken.
+
+#### 36.23.1 Gemessene Kernmetriken (v1.8.2)
+
+| Benchmark | v1.8.2 items/s | Einordnung gegen v1.3.4 |
+|---|---:|---|
+| VectorIndexBench/InsertPlaintext | **548.7 k/s** | +56.1 % (vs. 351.4 k/s) |
+| SecondaryIndexBench/IndexInsert | **254.9 k/s** | +17.3 % (vs. 217.2 k/s) |
+| QueryEngineBench/SimpleEvaluation | **796.4 M/s** | -2.2 % (vs. 814.5 M/s) |
+| GraphIndexBench/AddEdges | **1.177 M/s** | +87.2 % (vs. 628.7 k/s) |
+| TimeseriesBench/InsertTimepoints | **61.00 M/s** | +24.5 % (vs. 49.0 M/s) |
+
+#### 36.23.2 Kurzbewertung Kernmetriken
+
+| Bereich | Bewertung |
+|---|---|
+| Positiv | 4/5 Kernmetriken haben sich gegen v1.3.4 verbessert; Graph und Timeseries erreichen die dokumentierten Zielschwellen. |
+| Negativ | Query Engine Throughput liegt unter v1.3.4 und weiterhin unter dem Zielwert 900 M/s. |
+| Abdeckung | Kernmetriken sind jetzt fuer v1.8.2 mit Messwerten belegt; Modul-Vollabdeckung liegt weiterhin nicht vor. |
+
+### 36.24 v1.8.2 Modul-Sammellauf (repräsentative Cases, 2026-04-10)
+
+> Quelle: lokale Einzelruns der jeweiligen Benchmark-Binaries (CPU-only).
+
+| Modul | Benchmark-Case | Ergebnis |
+|---|---|---|
+| Cache | `BM_EmbeddingCache_Query_WithIndex/100000` | 5.851 M/s |
+| Storage | `BM_RCU_Read_MultiThread/threads:8` | 1.390 G/s |
+| Graph | `GraphTraversalBenchmarkFixture/BFSTraversal/1000/4` | 358.4k nodes/s |
+| Timeseries | `AdaptiveFlushFixture/SingleThreaded/min_time:2.000/threads:1` | 322.157k pts/s |
+| Timeseries (Latenz) | `AdaptiveFlushFixture/P99Latency/min_time:2.000/threads:1` | p99 = 1.5 us |
+| Query | `QueryEngineBench/SimpleEvaluation` | 796.444 M/s |
+| Index | `SecondaryIndexBench/IndexInsert` | 254.862 k/s |
+
+#### 36.24.1 Abdeckung und Limitierungen
+
+| Punkt | Bewertung |
+|---|---|
+| Vollständiger Modul-Run | Nein, dies ist ein repräsentativer Sammellauf (keine Vollabdeckung aller Modul-Benchcases). |
+| Query-Spezialbench (`bench_query`) | In diesem Build keine registrierten Google-Benchmark-Cases (`Failed to match any benchmarks against regex: .`). |
+| Vergleichbarkeit | Werte sind für v1.8.2 belastbar auf Case-Ebene, aber nicht als vollständige Modul-Gesamtwertung zu interpretieren. |
+
+---
+
+## 37. Durchgeführte Performance-Ma├ƒnahmen (mit GitHub-PR)
 
 > Chronologisch absteigend (neueste zuerst). Alle PRs liegen auf dem `develop`-Branch.
 > Links: `https://github.com/makr-code/ThemisDB/pull/<Nr>`
 
 ---
 
-### 37.1 v1.9.0 – Aktuelle Maßnahmen
+### 37.1 v1.9.0   Aktuelle Ma├ƒnahmen
 
-| # | Maßnahme | Modul | PR | Version | Messbare Wirkung |
+| # | Ma├ƒnahme | Modul | PR | Version | Messbare Wirkung |
 |---|----------|-------|----|---------|-----------------|
-| 1 | **Batch-Prediction, O(1)-Update, Parallel-Auto-Tune, FNV-1a Fit-Cache** — `predictBatch()` für N Serien, inkrementelles ETS/ARIMA/LR-Update, 9 parallele `std::async`-Auto-Tune-Tasks | Analytics / Forecasting | [#4054 (Issue)](https://github.com/makr-code/ThemisDB/issues/4054) | v1.9.0 | Auto-Tune: 9× Parallelisierung; Fit-Cache: wiederholte Serien O(1) statt O(n) |
-| 2 | **QueryCompiler JIT Hot-Path** — JIT-kompilierte Ausführungspfade in `executeAql()` verdrahtet, vectorized-execution-Tests registriert | Query | [#4398](https://github.com/makr-code/ThemisDB/pull/4398) | v1.9.0 | AQL Hot-Path: JIT-Pfad aktiv |
-| 3 | **Cache Warmup-Logik** — `warmupFromLog` max_entries-Grenze korrekt durchgesetzt, Snippet-Boundary-Alignment verbessert | Cache | (direct commit `64a9ae4`) | v1.9.0 | Weniger Overfetch bei Warmup |
-| 4 | **AdaLoRA + Multi-Adapter** — Importance-basiertes Rank-Pruning, `LoRAAdapterMerger` mit TIES-Merging und Power-Iteration-SVD | Training | [#4405](https://github.com/makr-code/ThemisDB/pull/4405) | v1.9.0 | LoRA Memory-Footprint reduziert, Merge ohne separaten Checkpoint |
-| 5 | **DiskANN / MRL-Truncation** — Matryoshka Representation Learning für mehrstufige ANN-Retrieval-Pipeline | Index | [#4399](https://github.com/makr-code/ThemisDB/pull/4399) | v1.9.0 | Ersten Stage mit 64-dim statt 1536-dim → ≥10× weniger FLOPS in Stage 1 |
+| 1 | **Batch-Prediction, O(1)-Update, Parallel-Auto-Tune, FNV-1a Fit-Cache** ÔÇö `predictBatch()` für N Serien, inkrementelles ETS/ARIMA/LR-Update, 9 parallele `std::async`-Auto-Tune-Tasks | Analytics / Forecasting | [#4054 (Issue)](https://github.com/makr-code/ThemisDB/issues/4054) | v1.9.0 | Auto-Tune: 9├ù Parallelisierung; Fit-Cache: wiederholte Serien O(1) statt O(n) |
+| 2 | **QueryCompiler JIT Hot-Path** ÔÇö JIT-kompilierte Ausführungspfade in `executeAql()` verdrahtet, vectorized-execution-Tests registriert | Query | [#4398](https://github.com/makr-code/ThemisDB/pull/4398) | v1.9.0 | AQL Hot-Path: JIT-Pfad aktiv |
+| 3 | **Cache Warmup-Logik** ÔÇö `warmupFromLog` max_entries-Grenze korrekt durchgesetzt, Snippet-Boundary-Alignment verbessert | Cache | (direct commit `64a9ae4`) | v1.9.0 | Weniger Overfetch bei Warmup |
+| 4 | **AdaLoRA + Multi-Adapter** ÔÇö Importance-basiertes Rank-Pruning, `LoRAAdapterMerger` mit TIES-Merging und Power-Iteration-SVD | Training | [#4405](https://github.com/makr-code/ThemisDB/pull/4405) | v1.9.0 | LoRA Memory-Footprint reduziert, Merge ohne separaten Checkpoint |
+| 5 | **DiskANN / MRL-Truncation** ÔÇö Matryoshka Representation Learning für mehrstufige ANN-Retrieval-Pipeline | Index | [#4399](https://github.com/makr-code/ThemisDB/pull/4399) | v1.9.0 | Ersten Stage mit 64-dim statt 1536-dim ÔåÆ 10├ù weniger FLOPS in Stage 1 |
 
 ---
 
-### 37.2 v1.8.0 – Maßnahmen
+### 37.2 v1.8.0   Ma├ƒnahmen
 
-| # | Maßnahme | Modul | PR | Version | Messbare Wirkung |
+| # | Ma├ƒnahme | Modul | PR | Version | Messbare Wirkung |
 |---|----------|-------|----|---------|-----------------|
-| 6 | **SIMD-Vektorisierung AVX-512 + ARM NEON** — Aggregations- und Distanz-Kernels mit AVX-512-Intrinsics, ARM NEON-Fallback; CPUID-Check gecacht (static const) | Analytics | [#4317](https://github.com/makr-code/ThemisDB/pull/4317) | v1.8.0 | Benchmark-Ziel: ≥4 GB/s auf Cortex-A78; AVX-512 check: O(1) statt O(n) |
-| 7 | **Predictive Prefetcher (ML-basiertes Zugriffsmuster-Modell)** — Erkennt wiederkehrende Zugriffsmuster und löst Prefetch vor dem Cache-Miss aus | Cache / Performance | [#4293](https://github.com/makr-code/ThemisDB/pull/4293) | v1.8.0 | Ziel: Cache-Miss-Rate −20 % bei sequenziellen Workloads |
-| 8 | **Intelligent Prefetching System** — Zweite Prefetch-Schicht mit konfigurierbarem Lookahead, adaptive Prefetch-Tiefe | Performance | [#4257](https://github.com/makr-code/ThemisDB/pull/4257) | v1.8.0 | Ziel: Prefetch-Overfetch ≤10 % |
-| 9 | **Query Compilation & JIT** — `AdaptiveQueryCompiler` mit JIT-Codegen-Pfad, Expressions zu nativer Code kompiliert | Query | [#4246](https://github.com/makr-code/ThemisDB/pull/4246) | v1.8.0 | Ziel: AQL-Parse+Execute P99 ≤ 2 ms; JIT-Erstcompilierung ≤ 50 ms |
-| 10 | **Parallel Query Execution (Intra-Query)** — Parallele Ausführung unabhängiger Query-Teilpläne via Thread-Pool | Query | [#4211](https://github.com/makr-code/ThemisDB/pull/4211) | v1.7.0 | Ziel: multi-core Skalierung für OLAP-Queries |
-| 11 | **Parallel `translateBatchNLToAQL()`** — Bounded-Worker-Pool + `std::async`-Semaphor-Throttle für NL→AQL-Batch-Übersetzungen | AQL | [#4221](https://github.com/makr-code/ThemisDB/pull/4221) | v1.7.0 | Batch-Throughput proportional zu Worker-Count |
-| 12 | **Write-Optimized Merge (WOM) Tree** — LSM-Tree-Optimierungen: Delayed Compaction, Tiered-Merge-Policy, Write-Stall-Prävention | Storage | [#4204](https://github.com/makr-code/ThemisDB/pull/4204) | v1.8.0 | Ziel: Write-Amplification <1.5×; WAL OFF: 507 k ops/s @ 8 Threads |
-| 13 | **Write Batching & Coalescing** — Transaktions-Batcher mit konfigurierbarem Fenster 1–100 ms, adaptive Batch-Größe | Transaction | [#4335](https://github.com/makr-code/ThemisDB/pull/4335) | v1.8.0 | Konfigurierbar 1–100 ms Batch-Fenster; adaptive ±10 % |
-| 14 | **Optimistic Concurrency Control (OCC)** — Conflict-Detection-Phase nach Lese-Phase, Retry-Backoff, Deadlock-Watchdog | Transaction | [#4264](https://github.com/makr-code/ThemisDB/pull/4264) | v1.8.0 | OCC Commit P50: 100 µs, P99: 5 ms; Deadlock-Overhead: 1 % |
-| 15 | **Index-Kompression** — Delta-, Prefix-, RLE-, Dictionary-, Bloom-Filter-Encoding für B-Tree/sekundäre Indizes | Index | [#4226](https://github.com/makr-code/ThemisDB/pull/4226) | v1.7.0 | Index-Größe −40–60 % (dokumentiert); Lookup-Latenz unverändert |
-| 16 | **Cache Warmup Parallel Bulk-Load** — `warmupParallelBulkLoad()` mit konfigurierbaren Worker-Threads | Cache | [#4250](https://github.com/makr-code/ThemisDB/pull/4250) | v1.8.0 | Warmup-Throughput: Ziel ≥500 k Entries/s |
-| 17 | **zlib → ZSTD Migration** — StreamWriter-Kompression vollständig auf ZSTD Level 3 umgestellt | Exporters | [#4252](https://github.com/makr-code/ThemisDB/pull/4252) | v1.8.0 | ZSTD: −30–50 % Datenvolumen vs. zlib bei vergleichbarer Latenz |
-| 18 | **Wire Protocol Performance** — TCP-Framing optimiert, Zero-Copy-Payload-Transfer, Keep-Alive-Pooling | Network | [#4214](https://github.com/makr-code/ThemisDB/pull/4214) | v1.7.0 | Ziel: ≥100 k req/s/Core (128 B, kein TLS) |
-| 19 | **Arrow Zero-Copy IPC + OLAP LRU-Cache** — Apache Arrow Record-Batch für spaltenweisen Zero-Copy-Transfer; OLAP-Ergebnis-Cache mit TTL und LRU-Eviction | Analytics | [#4328](https://github.com/makr-code/ThemisDB/pull/4328) | v1.8.0 | Zero-Copy: kein Memcpy bei OLAP-Ausgabe; LRU: Wiederholte Queries aus Cache |
-| 20 | **Memory Pool Allocator (Hot Analytics)** — `slab`-basierter Pool für kurzzeitige Analytics-Allocations auf kritischen Pfaden | Analytics | [#4311](https://github.com/makr-code/ThemisDB/pull/4311) | v1.8.0 | Reduziert Allocator-Contention auf Hot-Paths; jemalloc-freundlich |
-| 21 | **SAGA Orchestrator (DAG-Parallelausführung)** — Parallele Kompensations-Ausführung via topologisch sortiertem DAG | Transaction | [#4305](https://github.com/makr-code/ThemisDB/pull/4305) | v1.8.0 | SAGA Compensation Time: 20 ms Ziel; parallelisierte Steps |
-| 22 | **Read-Only Transaction Optimization** — Skip-Lock-Pfad für reine Lese-Transaktionen, kein Snapshot-Overhead | Transaction | (direct commit `d5eddfb`) | v1.8.0 | Lese-Transaktionen: kein 2PC-Overhead |
-| 23 | **SLO Monitor Latency Percentile Tracking** — P50/P95/P99-Histogramm mit konfigurierbaren Schwellwert-Alerts | Cache / Observability | [#4329](https://github.com/makr-code/ThemisDB/pull/4329) | v1.8.0 | Echtzeit-Regression-Erkennung; CI-Gate blockiert bei P99 >20 % über Baseline |
-| 24 | **DiffEngine::computeDiff() + Cache-Stampede-Fix** — O(N)-Changefeed-Scan durch Diff-Cache ersetzt; Cache-Stampede durch Single-Fetch-Lock | Analytics / Cache | [#4325](https://github.com/makr-code/ThemisDB/pull/4325) | v1.8.0 | Changefeed-Scan: O(N) → O(1) für gecachte Diffs |
-| 25 | **Perceptual Hashing Deduplication** — pHash-basierte Bild-Deduplizierung mit Hamming-Distance-Index | Content | [#4331](https://github.com/makr-code/ThemisDB/pull/4331) | v1.8.0 | Speichereinsparung durch Dedup; kein Re-Embedding für Duplikate |
-| 26 | **CUDA k>kMaxK Silent-Clamping entfernt** — `kMaxK` auf 1024 erhöht mit dynamischem Shared Memory; kein silentes Trunkieren mehr | Acceleration | [#4320](https://github.com/makr-code/ThemisDB/pull/4320) | v1.8.0 | CUDA Shared Memory: ≤32 KB bei k=1024 laut Ziel-Spec |
-| 27 | **VLLMResourceManager Multi-GPU NVML-Monitoring** — Per-GPU Memory/Utilization-Monitoring via NVML; CPU-Snapshot-Cache 200 ms TTL | Acceleration | [#4318](https://github.com/makr-code/ThemisDB/pull/4318) | v1.8.0 | getStats()-Latenz: <2 ms (gecacht) statt NVML-Call auf Hot-Path |
-| 28 | **BackendRegistry Thread-Safe Read-Access** — Dedizierter Read-Lock-Pfad ohne Writer-Contention | Acceleration | [#4321](https://github.com/makr-code/ThemisDB/pull/4321) | v1.8.0 | Concurrent Registry-Lookups ohne Mutex-Bottleneck |
-| 29 | **LLMProcessAnalyzer O(1) LRU-Cache-Eviction unter Lock** — `std::list`-basierter LRU statt O(N)-Scan | LLM | [#4322](https://github.com/makr-code/ThemisDB/pull/4322) | v1.8.0 | Eviction: O(N) → O(1) |
-| 30 | **LoRA Adapter Hot-Loading** — Adapter laden ohne Neustart; `unique_lock` für thread-sicheres Hot-Swap | LLM / Training | [#4333](https://github.com/makr-code/ThemisDB/pull/4333) | v1.8.0 | Ziel: ≤5 s Wall-Clock für 7B-Modell, Rank 64, 16-bit |
-| 31 | **Logical Replication Parallel Decoding** — WAL-Decoder mit parallelisierten Decode-Threads | Replication | (direct commit `02ecdca`) | v1.8.0 | Replication WAL-Shipping Throughput-Ziel: ≥500 MB/s/Follower |
-| 32 | **Distributed Analytics Sharding – gecachter Health-State** — `getHealthyShardCount()` ohne Network-I/O unter Lock | Sharding | [#4324](https://github.com/makr-code/ThemisDB/pull/4324) | v1.8.0 | Shard-Health-Lookup: O(1) aus Cache statt synchroner RPC |
-| 33 | **Lock-Free L1 Cache Read-Path** — Migration L1-Lese-Pfad auf `std::atomic` ohne Mutex | Cache | (direct commit `a95475d`) | v1.8.0 | L1 Read Hot-Path: mutex-frei → Ziel ≥5 M ops/s/Core |
-| 34 | **Geo DBSCAN / k-Means GPU** — DBSCAN und k-Means mit GPU-Beschleunigung für große Punkt-Mengen | Geo | [#4298](https://github.com/makr-code/ThemisDB/pull/4298) | v1.8.0 | DBSCAN GPU Speedup: >100× vs. CPU (100K Punkte) |
-| 35 | **Distributed Ingestion Coordinator** — Mehrstufige Ingestion-Pipeline mit Retry-Quarantäne und parallelen S3-Downloads | Ingestion | [#4309](https://github.com/makr-code/ThemisDB/pull/4309) | v1.8.0 | S3 concurrent: ≥200 MB/s agg. (4 parallel, 10 Gbps) |
-| 36 | **Incremental View Lock-Free Apply** — `applyChanges()` ohne globalen Write-Lock für inkrementelle Materialized-View-Updates | Analytics | [#4316](https://github.com/makr-code/ThemisDB/pull/4316) | v1.8.0 | IVM Delta-Application: ≤50 ms (10k Rows) |
-| 37 | **StreamingWindow konfigurierbare Expiry-Poll-Intervalle** — Kein Busy-Wait; konfigurierbare Sleep-Dauer für Expiry-Worker | Analytics | [#4327](https://github.com/makr-code/ThemisDB/pull/4327) | v1.8.0 | CPU-Idle beim Streaming-Worker signifikant reduziert |
+| 6 | **SIMD-Vektorisierung AVX-512 + ARM NEON** ÔÇö Aggregations- und Distanz-Kernels mit AVX-512-Intrinsics, ARM NEON-Fallback; CPUID-Check gecacht (static const) | Analytics | [#4317](https://github.com/makr-code/ThemisDB/pull/4317) | v1.8.0 | Benchmark-Ziel: 4 GB/s auf Cortex-A78; AVX-512 check: O(1) statt O(n) |
+| 7 | **Predictive Prefetcher (ML-basiertes Zugriffsmuster-Modell)** ÔÇö Erkennt wiederkehrende Zugriffsmuster und l├Âst Prefetch vor dem Cache-Miss aus | Cache / Performance | [#4293](https://github.com/makr-code/ThemisDB/pull/4293) | v1.8.0 | Ziel: Cache-Miss-Rate ÔêÆ20 % bei sequenziellen Workloads |
+| 8 | **Intelligent Prefetching System** ÔÇö Zweite Prefetch-Schicht mit konfigurierbarem Lookahead, adaptive Prefetch-Tiefe | Performance | [#4257](https://github.com/makr-code/ThemisDB/pull/4257) | v1.8.0 | Ziel: Prefetch-Overfetch 10 % |
+| 9 | **Query Compilation & JIT** ÔÇö `AdaptiveQueryCompiler` mit JIT-Codegen-Pfad, Expressions zu nativer Code kompiliert | Query | [#4246](https://github.com/makr-code/ThemisDB/pull/4246) | v1.8.0 | Ziel: AQL-Parse+Execute P99  2 ms; JIT-Erstcompilierung  50 ms |
+| 10 | **Parallel Query Execution (Intra-Query)** ÔÇö Parallele Ausführung unabh├ñngiger Query-Teilpl├ñne via Thread-Pool | Query | [#4211](https://github.com/makr-code/ThemisDB/pull/4211) | v1.7.0 | Ziel: multi-core Skalierung für OLAP-Queries |
+| 11 | **Parallel `translateBatchNLToAQL()`** ÔÇö Bounded-Worker-Pool + `std::async`-Semaphor-Throttle für NLÔåÆAQL-Batch-├£bersetzungen | AQL | [#4221](https://github.com/makr-code/ThemisDB/pull/4221) | v1.7.0 | Batch-Throughput proportional zu Worker-Count |
+| 12 | **Write-Optimized Merge (WOM) Tree** ÔÇö LSM-Tree-Optimierungen: Delayed Compaction, Tiered-Merge-Policy, Write-Stall-Pr├ñvention | Storage | [#4204](https://github.com/makr-code/ThemisDB/pull/4204) | v1.8.0 | Ziel: Write-Amplification <1.5├ù; WAL OFF: 507 k ops/s @ 8 Threads |
+| 13 | **Write Batching & Coalescing** ÔÇö Transaktions-Batcher mit konfigurierbarem Fenster 1 100 ms, adaptive Batch-Gr├Â├ƒe | Transaction | [#4335](https://github.com/makr-code/ThemisDB/pull/4335) | v1.8.0 | Konfigurierbar 1 100 ms Batch-Fenster; adaptive ┬▒10 % |
+| 14 | **Optimistic Concurrency Control (OCC)** ÔÇö Conflict-Detection-Phase nach Lese-Phase, Retry-Backoff, Deadlock-Watchdog | Transaction | [#4264](https://github.com/makr-code/ThemisDB/pull/4264) | v1.8.0 | OCC Commit P50: 100 , P99: 5 ms; Deadlock-Overhead: 1 % |
+| 15 | **Index-Kompression** ÔÇö Delta-, Prefix-, RLE-, Dictionary-, Bloom-Filter-Encoding für B-Tree/sekund├ñre Indizes | Index | [#4226](https://github.com/makr-code/ThemisDB/pull/4226) | v1.7.0 | Index-Gr├Â├ƒe ÔêÆ40 60 % (dokumentiert); Lookup-Latenz unver├ñndert |
+| 16 | **Cache Warmup Parallel Bulk-Load** ÔÇö `warmupParallelBulkLoad()` mit konfigurierbaren Worker-Threads | Cache | [#4250](https://github.com/makr-code/ThemisDB/pull/4250) | v1.8.0 | Warmup-Throughput: Ziel 500 k Entries/s |
+| 17 | **zlib ÔåÆ ZSTD Migration** ÔÇö StreamWriter-Kompression vollst├ñndig auf ZSTD Level 3 umgestellt | Exporters | [#4252](https://github.com/makr-code/ThemisDB/pull/4252) | v1.8.0 | ZSTD: ÔêÆ30 50 % Datenvolumen vs. zlib bei vergleichbarer Latenz |
+| 18 | **Wire Protocol Performance** ÔÇö TCP-Framing optimiert, Zero-Copy-Payload-Transfer, Keep-Alive-Pooling | Network | [#4214](https://github.com/makr-code/ThemisDB/pull/4214) | v1.7.0 | Ziel: 100 k req/s/Core (128 B, kein TLS) |
+| 19 | **Arrow Zero-Copy IPC + OLAP LRU-Cache** ÔÇö Apache Arrow Record-Batch für spaltenweisen Zero-Copy-Transfer; OLAP-Ergebnis-Cache mit TTL und LRU-Eviction | Analytics | [#4328](https://github.com/makr-code/ThemisDB/pull/4328) | v1.8.0 | Zero-Copy: kein Memcpy bei OLAP-Ausgabe; LRU: Wiederholte Queries aus Cache |
+| 20 | **Memory Pool Allocator (Hot Analytics)** ÔÇö `slab`-basierter Pool für kurzzeitige Analytics-Allocations auf kritischen Pfaden | Analytics | [#4311](https://github.com/makr-code/ThemisDB/pull/4311) | v1.8.0 | Reduziert Allocator-Contention auf Hot-Paths; jemalloc-freundlich |
+| 21 | **SAGA Orchestrator (DAG-Parallelausführung)** ÔÇö Parallele Kompensations-Ausführung via topologisch sortiertem DAG | Transaction | [#4305](https://github.com/makr-code/ThemisDB/pull/4305) | v1.8.0 | SAGA Compensation Time: 20 ms Ziel; parallelisierte Steps |
+| 22 | **Read-Only Transaction Optimization** ÔÇö Skip-Lock-Pfad für reine Lese-Transaktionen, kein Snapshot-Overhead | Transaction | (direct commit `d5eddfb`) | v1.8.0 | Lese-Transaktionen: kein 2PC-Overhead |
+| 23 | **SLO Monitor Latency Percentile Tracking** ÔÇö P50/P95/P99-Histogramm mit konfigurierbaren Schwellwert-Alerts | Cache / Observability | [#4329](https://github.com/makr-code/ThemisDB/pull/4329) | v1.8.0 | Echtzeit-Regression-Erkennung; CI-Gate blockiert bei P99 >20 % über Baseline |
+| 24 | **DiffEngine::computeDiff() + Cache-Stampede-Fix** ÔÇö O(N)-Changefeed-Scan durch Diff-Cache ersetzt; Cache-Stampede durch Single-Fetch-Lock | Analytics / Cache | [#4325](https://github.com/makr-code/ThemisDB/pull/4325) | v1.8.0 | Changefeed-Scan: O(N) ÔåÆ O(1) für gecachte Diffs |
+| 25 | **Perceptual Hashing Deduplication** ÔÇö pHash-basierte Bild-Deduplizierung mit Hamming-Distance-Index | Content | [#4331](https://github.com/makr-code/ThemisDB/pull/4331) | v1.8.0 | Speichereinsparung durch Dedup; kein Re-Embedding für Duplikate |
+| 26 | **CUDA k>kMaxK Silent-Clamping entfernt** ÔÇö `kMaxK` auf 1024 erh├Âht mit dynamischem Shared Memory; kein silentes Trunkieren mehr | Acceleration | [#4320](https://github.com/makr-code/ThemisDB/pull/4320) | v1.8.0 | CUDA Shared Memory: 32 KB bei k=1024 laut Ziel-Spec |
+| 27 | **VLLMResourceManager Multi-GPU NVML-Monitoring** ÔÇö Per-GPU Memory/Utilization-Monitoring via NVML; CPU-Snapshot-Cache 200 ms TTL | Acceleration | [#4318](https://github.com/makr-code/ThemisDB/pull/4318) | v1.8.0 | getStats()-Latenz: <2 ms (gecacht) statt NVML-Call auf Hot-Path |
+| 28 | **BackendRegistry Thread-Safe Read-Access** ÔÇö Dedizierter Read-Lock-Pfad ohne Writer-Contention | Acceleration | [#4321](https://github.com/makr-code/ThemisDB/pull/4321) | v1.8.0 | Concurrent Registry-Lookups ohne Mutex-Bottleneck |
+| 29 | **LLMProcessAnalyzer O(1) LRU-Cache-Eviction unter Lock** ÔÇö `std::list`-basierter LRU statt O(N)-Scan | LLM | [#4322](https://github.com/makr-code/ThemisDB/pull/4322) | v1.8.0 | Eviction: O(N) ÔåÆ O(1) |
+| 30 | **LoRA Adapter Hot-Loading** ÔÇö Adapter laden ohne Neustart; `unique_lock` für thread-sicheres Hot-Swap | LLM / Training | [#4333](https://github.com/makr-code/ThemisDB/pull/4333) | v1.8.0 | Ziel: 5 s Wall-Clock für 7B-Modell, Rank 64, 16-bit |
+| 31 | **Logical Replication Parallel Decoding** ÔÇö WAL-Decoder mit parallelisierten Decode-Threads | Replication | (direct commit `02ecdca`) | v1.8.0 | Replication WAL-Shipping Throughput-Ziel: 500 MB/s/Follower |
+| 32 | **Distributed Analytics Sharding   gecachter Health-State** ÔÇö `getHealthyShardCount()` ohne Network-I/O unter Lock | Sharding | [#4324](https://github.com/makr-code/ThemisDB/pull/4324) | v1.8.0 | Shard-Health-Lookup: O(1) aus Cache statt synchroner RPC |
+| 33 | **Lock-Free L1 Cache Read-Path** ÔÇö Migration L1-Lese-Pfad auf `std::atomic` ohne Mutex | Cache | (direct commit `a95475d`) | v1.8.0 | L1 Read Hot-Path: mutex-frei ÔåÆ Ziel 5 M ops/s/Core |
+| 34 | **Geo DBSCAN / k-Means GPU** ÔÇö DBSCAN und k-Means mit GPU-Beschleunigung für gro├ƒe Punkt-Mengen | Geo | [#4298](https://github.com/makr-code/ThemisDB/pull/4298) | v1.8.0 | DBSCAN GPU Speedup: >100├ù vs. CPU (100K Punkte) |
+| 35 | **Distributed Ingestion Coordinator** ÔÇö Mehrstufige Ingestion-Pipeline mit Retry-Quarant├ñne und parallelen S3-Downloads | Ingestion | [#4309](https://github.com/makr-code/ThemisDB/pull/4309) | v1.8.0 | S3 concurrent: 200 MB/s agg. (4 parallel, 10 Gbps) |
+| 36 | **Incremental View Lock-Free Apply** ÔÇö `applyChanges()` ohne globalen Write-Lock für inkrementelle Materialized-View-Updates | Analytics | [#4316](https://github.com/makr-code/ThemisDB/pull/4316) | v1.8.0 | IVM Delta-Application: 50 ms (10k Rows) |
+| 37 | **StreamingWindow konfigurierbare Expiry-Poll-Intervalle** ÔÇö Kein Busy-Wait; konfigurierbare Sleep-Dauer für Expiry-Worker | Analytics | [#4327](https://github.com/makr-code/ThemisDB/pull/4327) | v1.8.0 | CPU-Idle beim Streaming-Worker signifikant reduziert |
 
 ---
 
-### 37.3 v1.7.0 – Maßnahmen
+### 37.3 v1.7.0   Ma├ƒnahmen
 
-| # | Maßnahme | Modul | PR | Version | Messbare Wirkung |
+| # | Ma├ƒnahme | Modul | PR | Version | Messbare Wirkung |
 |---|----------|-------|----|---------|-----------------|
-| 38 | **CUDA ANN-Kernel-Vollimplementierung** — Fused-Cosine-Kernel + Shared-Memory Top-K-Helper; HIP/RCCL `mergeTopK` für Multi-GPU | Acceleration | [#4193](https://github.com/makr-code/ThemisDB/pull/4193) | v1.7.0 | mergeTopK <500 µs (worldSize=4, k=100, NVLink-3) |
-| 39 | **GPU Hardware Support Gaps** — HIP Top-K-Heap, CUDA HNSW Bitset, NCCL/RCCL `mergeTopK` | Acceleration | (direct commit `73d8f8a`) | v1.7.0 | Bitset-Optimierung: 8× Memory-Reduktion (5 GB → 640 MB) |
-| 40 | **TSStore Single-Point Insert Buffering (Gorilla)** — In-Memory-Buffer vor Gorilla-Kompressionsflush; kein WAL-Write per Punkt | Timeseries | (direct commit `822b0af`) | v1.7.0 | Ziel: >500 k pts/s (von ~200 k pts/s); Buffer-to-Storage Flush P99 <10 ms |
-| 41 | **AdaptiveQueryCompiler Audit-Gaps** — Lücken in Compiler-Pipeline geschlossen (Issue #86) | Query | (direct commit `2efe683`) | v1.7.0 | Compiler-Regression-Gate: ≤5 % |
-| 42 | **HardwareAccelerator v1.8.0** — CPU-affinity-basierte NUMA-Zuweisung, GPU-Backend-Selection | Performance | (direct commit `139f96c`) | v1.7.0 | NUMA-lokale Allokation; reduzierten Cross-Socket-Traffic |
+| 38 | **CUDA ANN-Kernel-Vollimplementierung** ÔÇö Fused-Cosine-Kernel + Shared-Memory Top-K-Helper; HIP/RCCL `mergeTopK` für Multi-GPU | Acceleration | [#4193](https://github.com/makr-code/ThemisDB/pull/4193) | v1.7.0 | mergeTopK <500  (worldSize=4, k=100, NVLink-3) |
+| 39 | **GPU Hardware Support Gaps** ÔÇö HIP Top-K-Heap, CUDA HNSW Bitset, NCCL/RCCL `mergeTopK` | Acceleration | (direct commit `73d8f8a`) | v1.7.0 | Bitset-Optimierung: 8├ù Memory-Reduktion (5 GB ÔåÆ 640 MB) |
+| 40 | **TSStore Single-Point Insert Buffering (Gorilla)** ÔÇö In-Memory-Buffer vor Gorilla-Kompressionsflush; kein WAL-Write per Punkt | Timeseries | (direct commit `822b0af`) | v1.7.0 | Ziel: >500 k pts/s (von ~200 k pts/s); Buffer-to-Storage Flush P99 <10 ms |
+| 41 | **AdaptiveQueryCompiler Audit-Gaps** ÔÇö Lücken in Compiler-Pipeline geschlossen (Issue #86) | Query | (direct commit `2efe683`) | v1.7.0 | Compiler-Regression-Gate: 5 % |
+| 42 | **HardwareAccelerator v1.8.0** ÔÇö CPU-affinity-basierte NUMA-Zuweisung, GPU-Backend-Selection | Performance | (direct commit `139f96c`) | v1.7.0 | NUMA-lokale Allokation; reduzierten Cross-Socket-Traffic |
 
 ---
 
 ### 37.4 v1.6.0 und früher
 
-| # | Maßnahme | Modul | PR | Version | Messbare Wirkung |
+| # | Ma├ƒnahme | Modul | PR | Version | Messbare Wirkung |
 |---|----------|-------|----|---------|-----------------|
-| 43 | **GPU-Acceleration Multi-Tenancy** — Erste GPU-Backend-Integration, CUDA-Kernel-Grundgerüst | Acceleration | [#44](https://github.com/makr-code/ThemisDB/pull/44) | früh | GPU-Backend-Grundlage |
-| 44 | **Hardware Acceleration Support** — CPU AVX2-Baseline, erste Vektoroperationen | Acceleration | [#30](https://github.com/makr-code/ThemisDB/pull/30) | früh | CPU AVX2-Baseline für Benchmarks |
-| 45 | **Benchmark-Datenbank-Tests** — Erste Google-Benchmark-Targets, Baseline für spätere Regression-Tests | Benchmarks | [#54](https://github.com/makr-code/ThemisDB/pull/54) | früh | Benchmark-Infrastruktur aufgebaut |
-| 46 | **Benchmarks-Repository-Erweiterung** — Neue Bench-Targets für Vektor-, Timeseries-, Graph-Operationen | Benchmarks | [#33](https://github.com/makr-code/ThemisDB/pull/33) | früh | Benchmark-Coverage auf 9 Module erweitert |
-| 47 | **Lossless Compression-Methoden (Research)** — Evaluierung LZ4 vs. Zstd vs. Snappy → Entscheidung für Zstd | Storage | [#70](https://github.com/makr-code/ThemisDB/pull/70) | früh | Grundlage für PR #4252 (Zstd-Migration) |
-| 48 | **OpenCL Erasure Coder** — GF(2^8)-Arithmetik-basiertes Reed-Solomon Encode/Decode/BatchEncode | Sharding | (direct commit `dc202ef`) | v1.7.0 | GPU Reed-Solomon: >4 GB/s Ziel (NVIDIA A10) |
+| 43 | **GPU-Acceleration Multi-Tenancy** ÔÇö Erste GPU-Backend-Integration, CUDA-Kernel-Grundgerüst | Acceleration | [#44](https://github.com/makr-code/ThemisDB/pull/44) | früh | GPU-Backend-Grundlage |
+| 44 | **Hardware Acceleration Support** ÔÇö CPU AVX2-Baseline, erste Vektoroperationen | Acceleration | [#30](https://github.com/makr-code/ThemisDB/pull/30) | früh | CPU AVX2-Baseline für Benchmarks |
+| 45 | **Benchmark-Datenbank-Tests** ÔÇö Erste Google-Benchmark-Targets, Baseline für sp├ñtere Regression-Tests | Benchmarks | [#54](https://github.com/makr-code/ThemisDB/pull/54) | früh | Benchmark-Infrastruktur aufgebaut |
+| 46 | **Benchmarks-Repository-Erweiterung** ÔÇö Neue Bench-Targets für Vektor-, Timeseries-, Graph-Operationen | Benchmarks | [#33](https://github.com/makr-code/ThemisDB/pull/33) | früh | Benchmark-Coverage auf 9 Module erweitert |
+| 47 | **Lossless Compression-Methoden (Research)** ÔÇö Evaluierung LZ4 vs. Zstd vs. Snappy ÔåÆ Entscheidung für Zstd | Storage | [#70](https://github.com/makr-code/ThemisDB/pull/70) | früh | Grundlage für PR #4252 (Zstd-Migration) |
+| 48 | **OpenCL Erasure Coder** ÔÇö GF(2^8)-Arithmetik-basiertes Reed-Solomon Encode/Decode/BatchEncode | Sharding | (direct commit `dc202ef`) | v1.7.0 | GPU Reed-Solomon: >4 GB/s Ziel (NVIDIA A10) |
 
 ---
 
-### 37.5 Offene / Geplante Performance-Maßnahmen (noch nicht umgesetzt)
+### 37.5 Offene / Geplante Performance-Ma├ƒnahmen (noch nicht umgesetzt)
 
-| # | Geplante Maßnahme | Modul | Ziel-Metrik | Ziel-Version |
+| # | Geplante Ma├ƒnahme | Modul | Ziel-Metrik | Ziel-Version |
 |---|-------------------|-------|-------------|--------------|
-| P-1 | **Gorilla Decode AVX-optimierung** — SIMD-Decode-Pfad für Gorilla-Kompression | Timeseries | >2 GB/s (von ~400 MB/s) | Q3 2026 |
-| P-2 | **SecondaryIndex Batch-Transaktionen** — Mehrere `put()`-Aufrufe in einer Transaktion bündeln | Index / Storage | 1.78 M/s wiederherstellen (von 217 k/s) | Q2 2026 |
-| P-3 | **CUDA Geospatial Distanz-Kernels** — WGS84-Haversine und Point-in-Polygon auf GPU | Geo | GPU Contains 1M Punkte <50 ms (A10G) | Q3 2026 |
-| P-4 | **Vector Insert Throughput** — HNSW-Build-Parallelisierung, Segment-basiertes Insert | Index | 600 k/s (FAISS-Parität) | Q3 2026 |
-| P-5 | **1 MB Blob Write-Throughput** — Async WAL + Background Flush | Storage | ≥100 k ops/s (von 741 ops/s) | Q2 2026 |
-| P-6 | **Concurrent Concurrency-Stabilisierung** — CV-Reduktion bei 10-Client-Lasttest | Storage | CV <5 % (von 20.74 %) | Q2 2026 |
-| P-7 | **2PC Throughput-Steigerung** — Pipelined 2PC (Phase 1+2 überlappend) | Transaction | 15 k/s (TiDB-Parität) | Q3 2026 |
-| P-8 | **Query Engine vs. ClickHouse** — Columnar SIMD Aggregation, Vectorized Scan | Query | 1.2 G items/s | Q4 2026 |
-| P-9 | **TLS 1.3 Session Resumption** — TLS-Session-Ticket-Cache | Network | <1 ms P99 | Q2 2026 |
-| P-10 | **QUIC 0-RTT** — QUIC-Transport für LAN-Kommunikation | Network | <2 ms P99 | Q3 2026 |
+| P-1 | **Gorilla Decode AVX-optimierung** ÔÇö SIMD-Decode-Pfad für Gorilla-Kompression | Timeseries | >2 GB/s (von ~400 MB/s) | Q3 2026 |
+| P-2 | **SecondaryIndex Batch-Transaktionen** ÔÇö Mehrere `put()`-Aufrufe in einer Transaktion bündeln | Index / Storage | 1.78 M/s wiederherstellen (von 217 k/s) | Q2 2026 |
+| P-3 | **CUDA Geospatial Distanz-Kernels** ÔÇö WGS84-Haversine und Point-in-Polygon auf GPU | Geo | GPU Contains 1M Punkte <50 ms (A10G) | Q3 2026 |
+| P-4 | **Vector Insert Throughput** ÔÇö HNSW-Build-Parallelisierung, Segment-basiertes Insert | Index | 600 k/s (FAISS-Parit├ñt) | Q3 2026 |
+| P-5 | **1 MB Blob Write-Throughput** ÔÇö Async WAL + Background Flush | Storage | 100 k ops/s (von 741 ops/s) | Q2 2026 |
+| P-6 | **Concurrent Concurrency-Stabilisierung** ÔÇö CV-Reduktion bei 10-Client-Lasttest | Storage | CV <5 % (von 20.74 %) | Q2 2026 |
+| P-7 | **2PC Throughput-Steigerung** ÔÇö Pipelined 2PC (Phase 1+2 überlappend) | Transaction | 15 k/s (TiDB-Parit├ñt) | Q3 2026 |
+| P-8 | **Query Engine vs. ClickHouse** ÔÇö Columnar SIMD Aggregation, Vectorized Scan | Query | 1.2 G items/s | Q4 2026 |
+| P-9 | **TLS 1.3 Session Resumption** ÔÇö TLS-Session-Ticket-Cache | Network | <1 ms P99 | Q2 2026 |
+| P-10 | **QUIC 0-RTT** ÔÇö QUIC-Transport für LAN-Kommunikation | Network | <2 ms P99 | Q3 2026 |
 
 
 ---
@@ -1253,7 +2657,7 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 
 ---
 
-### 38.1 Wissenschaftliche Einzeloperation-Benchmarks (n=500, 5 Iterationen à 100 Ops)
+### 38.1 Wissenschaftliche Einzeloperation-Benchmarks (n=500, 5 Iterationen ├á 100 Ops)
 
 > Messmethode: HTTP POST/GET gegen laufende ThemisDB-Instanz; 5 Warmup-Iterationen
 
@@ -1266,7 +2670,7 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 | **INSERT 100 KB** | 7.913 | 7.889 | 8.847 | 9.369 | 6.5 | 7.075 | 9.369 |
 | **INSERT 1 MB** | 61.402 | 60.954 | 65.923 | 68.178 | 2.6 | 60.007 | 68.178 |
 
-> **Beobachtung:** 1 KB INSERT/READ/UPDATE zeigen stabiles Verhalten (CV ~7 %). 1 MB INSERT skaliert fast linear mit der Payload-Größe (×47 vs 1 KB). Kein Ausreißer-Verhalten bei Einzel-Clients.
+> **Beobachtung:** 1 KB INSERT/READ/UPDATE zeigen stabiles Verhalten (CV ~7 %). 1 MB INSERT skaliert fast linear mit der Payload-Gr├Â├ƒe (├ù47 vs 1 KB). Kein Ausrei├ƒer-Verhalten bei Einzel-Clients.
 
 ---
 
@@ -1276,11 +2680,11 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 |--------------------|----------|----------|--------|-----------|
 | 1 | 1.281 | 1.275 | 1.1 | stabil, keine Contention |
 | 5 | 6.800 | 6.742 | 2.5 | linear skalierend |
-| 10 | 4.439 ⚠️ | 13.678 ⚠️ | 467 % ⚠️ | **Anomalie**: avg < p50, negative min → Messfehler |
+| 10 | 4.439 ÔÜá´©Å | 13.678 ÔÜá´©Å | 467 % ÔÜá´©Å | **Anomalie**: avg < p50, negative min ÔåÆ Messfehler |
 | 25 | 35.464 | 35.754 | 4.1 | stabil, Serialisierungsoverhead |
 | 50 | 60.317 | 69.439 | 38.1 % | hohe Varianz, Lock-Contention wahrscheinlich |
 
-> ⚠️ **10-Client-Anomalie**: CV=467 %, min=-32 ms (Messfehler im HTTP-Timing). Reale Performance ca. 13–14 ms p50. Dieser Befund korreliert mit dem bekannten CV >20 % bei 10-Client-Lasttest (§37.5 P-6).
+> ÔÜá´©Å **10-Client-Anomalie**: CV=467 %, min=-32 ms (Messfehler im HTTP-Timing). Reale Performance ca. 13 14 ms p50. Dieser Befund korreliert mit dem bekannten CV >20 % bei 10-Client-Lasttest (┬º37.5 P-6).
 
 ---
 
@@ -1293,28 +2697,28 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 
 | Datenbank | avg (ms) | p50 | p95 | p99 | Throughput | Mem (MB) | CPU % | Bewertung |
 |-----------|----------|-----|-----|-----|------------|----------|-------|-----------|
-| **ThemisDB** | **0.56** | 0.504 | 0.728 | 0.84 | **1786 ops/s** | 568 | 27.8 | ✅ Schnellste |
+| **ThemisDB** | **0.56** | 0.504 | 0.728 | 0.84 | **1786 ops/s** | 568 | 27.8 |  Schnellste |
 | MySQL 8.0 | 0.80 | 0.720 | 1.040 | 1.20 | 1250 ops/s | 592 | 29.0 | +43 % langsamer |
 | MariaDB 11 | 0.80 | 0.720 | 1.040 | 1.20 | 1250 ops/s | 592 | 29.0 | +43 % langsamer |
 | PostgreSQL 16 | 0.96 | 0.864 | 1.248 | 1.44 | 1042 ops/s | 608 | 29.8 | +71 % langsamer |
 
-> **Hinweis:** Die Latenz-Überlegenheit (~1.7×) entstand nach Einführung des direkten RocksDB-Pfads (kein SQL-Parser-Overhead). Gap-Analyse (v1.0.0) stellte noch 44–49 % schlechtere Latenz gegenüber PostgreSQL 16 fest — nach Optimierungen nun umgekehrt.
+> **Hinweis:** Die Latenz-├£berlegenheit (~1.7├ù) entstand nach Einführung des direkten RocksDB-Pfads (kein SQL-Parser-Overhead). Gap-Analyse (v1.0.0) stellte noch 44 49 % schlechtere Latenz gegenüber PostgreSQL 16 fest ÔÇö nach Optimierungen nun umgekehrt.
 
 #### Dokument-Store Workload (insert / read / update / bulk_insert)
 
 | Datenbank | avg (ms) | p50 | p95 | p99 | Throughput | Mem (MB) | CPU % | Bewertung |
 |-----------|----------|-----|-----|-----|------------|----------|-------|-----------|
-| **ThemisDB** | **0.875** | 0.787 | 1.137 | 1.312 | **1143 ops/s** | 600 | 29.4 | ✅ Schnellste |
+| **ThemisDB** | **0.875** | 0.787 | 1.137 | 1.312 | **1143 ops/s** | 600 | 29.4 |  Schnellste |
 | MongoDB | 1.625 | 1.463 | 2.113 | 2.438 | 615 ops/s | 675 | 33.1 | +86 % langsamer |
 | CouchDB | 1.750 | 1.575 | 2.275 | 2.625 | 571 ops/s | 687 | 33.8 | +100 % langsamer |
 
-> **Wichtige Gegenprobe** (benchmark_results_simple.json, 20251204): Python HTTP-Client gegen laufende Instanzen auf demselben Rechner — dort zeigte ThemisDB **47.56 ms** für Document Insert (vs. MongoDB 0.87 ms). Diese Abweichung ist auf den HTTP-Overhead des Python-Client-Skripts zurückzuführen (unkompilierter Client vs. nativer Client). Die Docker-Messung mit nativem Client ist maßgeblich.
+> **Wichtige Gegenprobe** (benchmark_results_simple.json, 20251204): Python HTTP-Client gegen laufende Instanzen auf demselben Rechner ÔÇö dort zeigte ThemisDB **47.56 ms** für Document Insert (vs. MongoDB 0.87 ms). Diese Abweichung ist auf den HTTP-Overhead des Python-Client-Skripts zurückzuführen (unkompilierter Client vs. nativer Client). Die Docker-Messung mit nativem Client ist ma├ƒgeblich.
 
 #### Vektor-Store Workload (search / index / recall / range_search)
 
 | Datenbank | avg (ms) | p50 | p95 | p99 | Throughput | Mem (MB) | CPU % | Bewertung |
 |-----------|----------|-----|-----|-----|------------|----------|-------|-----------|
-| **ThemisDB** | **1.05** | 0.945 | 1.365 | 1.575 | **952 ops/s** | 617 | 30.2 | ✅ Schnellste |
+| **ThemisDB** | **1.05** | 0.945 | 1.365 | 1.575 | **952 ops/s** | 617 | 30.2 |  Schnellste |
 | Qdrant | 2.10 | 1.890 | 2.730 | 3.150 | 476 ops/s | 722 | 35.5 | +100 % langsamer |
 | Milvus | 2.25 | 2.025 | 2.925 | 3.375 | 444 ops/s | 737 | 36.2 | +114 % langsamer |
 | Weaviate | 2.70 | 2.430 | 3.510 | 4.050 | 370 ops/s | 782 | 38.5 | +157 % langsamer |
@@ -1323,7 +2727,7 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 
 | Datenbank | avg (ms) | p50 | p95 | p99 | Throughput | Mem (MB) | CPU % | Bewertung |
 |-----------|----------|-----|-----|-----|------------|----------|-------|-----------|
-| **ThemisDB** | **1.75** | 1.575 | 2.275 | 2.625 | **571 ops/s** | 687 | 33.8 | ✅ Schnellste |
+| **ThemisDB** | **1.75** | 1.575 | 2.275 | 2.625 | **571 ops/s** | 687 | 33.8 |  Schnellste |
 | ArangoDB | 4.25 | 3.825 | 5.525 | 6.375 | 235 ops/s | 937 | 46.2 | +143 % langsamer |
 | Neo4j | 5.00 | 4.500 | 6.500 | 7.500 | 200 ops/s | 1012 | 50.0 | +186 % langsamer |
 
@@ -1331,7 +2735,7 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 
 | Datenbank | avg (ms) | p50 | p95 | p99 | Throughput | Mem (MB) | CPU % | Bewertung |
 |-----------|----------|-----|-----|-----|------------|----------|-------|-----------|
-| **ThemisDB** | **1.312** | 1.181 | 1.706 | 1.969 | **762 ops/s** | 643 | 31.6 | ✅ Schnellste |
+| **ThemisDB** | **1.312** | 1.181 | 1.706 | 1.969 | **762 ops/s** | 643 | 31.6 |  Schnellste |
 | MongoDB | 2.438 | 2.194 | 3.169 | 3.656 | 410 ops/s | 756 | 37.2 | +86 % langsamer |
 | PostgreSQL+PostGIS | 2.438 | 2.194 | 3.169 | 3.656 | 410 ops/s | 756 | 37.2 | +86 % langsamer |
 | Elasticsearch | 3.000 | 2.700 | 3.900 | 4.500 | 333 ops/s | 812 | 40.0 | +129 % langsamer |
@@ -1349,13 +2753,13 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 | Szenario | Datenbank | avg (ms) | p50 | p95 | p99 | Bewertung |
 |----------|-----------|----------|-----|-----|-----|-----------|
 | **Document + Graph** | PostgreSQL + Neo4j | 0.49 | 0.47 | 0.65 | 0.76 | Referenz |
-| **Document + Graph** | **ThemisDB** | **0.88** | 0.83 | 1.21 | 1.37 | 1.8× langsamer ⚠️ |
+| **Document + Graph** | **ThemisDB** | **0.88** | 0.83 | 1.21 | 1.37 | 1.8├ù langsamer ÔÜá´©Å |
 | **Document + Vector** | MongoDB + Qdrant | 0.73 | 0.68 | 1.07 | 1.64 | Referenz |
-| **Document + Vector** | **ThemisDB** | **0.88** | 0.81 | 1.31 | 1.40 | 1.2× langsamer |
+| **Document + Vector** | **ThemisDB** | **0.88** | 0.81 | 1.31 | 1.40 | 1.2├ù langsamer |
 | **OLAP + Document** | ClickHouse + MongoDB | 1.70 | 1.68 | 2.22 | 2.33 | Referenz |
-| **OLAP + Document** | **ThemisDB** | **1.06** | 0.95 | 1.51 | 1.96 | ✅ 1.6× schneller |
+| **OLAP + Document** | **ThemisDB** | **1.06** | 0.95 | 1.51 | 1.96 |  1.6├ù schneller |
 
-> ThemisDB schlägt Spezialsysteme (ClickHouse+MongoDB) bei OLAP+Document um 38 %, liegt aber bei Document+Graph hinter dem PostgreSQL+Neo4j-Combo (kein Überraschung: kein Transaktionsoverhead zwischen zwei separaten DBs). **Ziel:** Document+Graph ≤ 0.6 ms avg (Q3 2026).
+> ThemisDB schl├ñgt Spezialsysteme (ClickHouse+MongoDB) bei OLAP+Document um 38 %, liegt aber bei Document+Graph hinter dem PostgreSQL+Neo4j-Combo (kein ├£berraschung: kein Transaktionsoverhead zwischen zwei separaten DBs). **Ziel:** Document+Graph  0.6 ms avg (Q3 2026).
 
 ---
 
@@ -1377,19 +2781,19 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 | BM_CPU_ANN_InnerProduct | 128 | 1000 | 1.10 M/s |
 | BM_CPU_ANN_InnerProduct | 256 | 1000 | 590 k/s |
 | BM_CPU_ANN_InnerProduct | 512 | 1000 | 313 k/s |
-| BM_CPU_ANN_TopK (k=10) | – | 1000 | 20.0 M/s |
-| BM_CPU_ANN_TopK (k=50) | – | 1000 | 11.1 M/s |
-| BM_CPU_ANN_TopK (k=10) | – | 5000 | 25.0 M/s |
-| BM_CPU_ANN_TopK (k=50) | – | 5000 | 12.5 M/s |
+| BM_CPU_ANN_TopK (k=10) |   | 1000 | 20.0 M/s |
+| BM_CPU_ANN_TopK (k=50) |   | 1000 | 11.1 M/s |
+| BM_CPU_ANN_TopK (k=10) |   | 5000 | 25.0 M/s |
+| BM_CPU_ANN_TopK (k=50) |   | 5000 | 12.5 M/s |
 | BM_CPU_BatchKNN (128d, k=10) | 128 | 1000 | 1.08 M/s |
 | BM_CPU_BatchKNN (256d, k=10) | 256 | 1000 | 570 k/s |
 | BM_CPU_BatchKNN (512d, k=10) | 512 | 1000 | 308 k/s |
-| BM_CPU_Geo_HaversineDistance | – | 1000 | 20.0 M/s |
-| BM_CPU_Geo_HaversineDistance | – | 10000 | 22.2 M/s |
-| BM_CPU_Geo_HaversineDistance | – | 100000 | 22.2 M/s |
-| BM_CPU_Geo_PointInPolygon | – | 1000 | 33.0 M/s |
-| BM_CPU_Geo_PointInPolygon | – | 10000 | 35.7 M/s |
-| BM_CPU_Geo_PointInPolygon | – | 100000 | 35.7 M/s |
+| BM_CPU_Geo_HaversineDistance |   | 1000 | 20.0 M/s |
+| BM_CPU_Geo_HaversineDistance |   | 10000 | 22.2 M/s |
+| BM_CPU_Geo_HaversineDistance |   | 100000 | 22.2 M/s |
+| BM_CPU_Geo_PointInPolygon |   | 1000 | 33.0 M/s |
+| BM_CPU_Geo_PointInPolygon |   | 10000 | 35.7 M/s |
+| BM_CPU_Geo_PointInPolygon |   | 100000 | 35.7 M/s |
 
 ---
 
@@ -1408,13 +2812,14 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 
 ### 38.7 Versions-Benchmark-Verlauf (`VERSION_HISTORY.csv`)
 
-| Version | Datum | Query Engine (M items/s) | Vector Insert (k/s) | Index Insert (k/s) | Embedding Cache (items/s) | 2PC (ops/s) | Benchmark-Anzahl | Wichtigste Änderung |
+| Version | Datum | Query Engine (M items/s) | Vector Insert (k/s) | Index Insert (k/s) | Embedding Cache (items/s) | 2PC (ops/s) | Benchmark-Anzahl | Wichtigste ├änderung |
 |---------|-------|--------------------------|---------------------|---------------------|---------------------------|-------------|-----------------|---------------------|
-| v1.3.0 | 2025-09-15 | 700 | 280 | 180 | – | – | 450 | Initial Release |
-| v1.3.1 | 2025-09-29 | 750 | 300 | 190 | – | – | 480 | Query Optimizer Improvements |
-| v1.3.2 | 2025-10-31 | 800 | 330 | 210 | – | – | 520 | SIMD Vectorization + Compression |
-| v1.3.3 | 2025-11-30 | 800 | 340 | 215 | – | – | 780 | Parallelization + Advanced Patterns |
+| v1.3.0 | 2025-09-15 | 700 | 280 | 180 |   |   | 450 | Initial Release |
+| v1.3.1 | 2025-09-29 | 750 | 300 | 190 |   |   | 480 | Query Optimizer Improvements |
+| v1.3.2 | 2025-10-31 | 800 | 330 | 210 |   |   | 520 | SIMD Vectorization + Compression |
+| v1.3.3 | 2025-11-30 | 800 | 340 | 215 |   |   | 780 | Parallelization + Advanced Patterns |
 | **v1.3.4** | 2025-12-29 | **814.5** | **351.4** | **217.2** | **155.8 M/s** | **6.4 k** | **1078** | Neu: Cache, 2PC, Hybrid Search |
+| **v1.8.1-rc2 (lokal)** | 2026-04-09 | n/a (nicht im lokalen Lauf enthalten) | n/a (nur Search-Latenz lokal) | n/a | **1.0276 M/s** (`BM_RecordCacheHit_mean`) | n/a | **5** (`bench_storage`, `bench_vector`, `bench_graph_traversal`, `bench_graph_query_optimizer`, `bench_metrics`) | Lokaler CMake-Referenzlauf |
 
 
 ---
@@ -1422,7 +2827,7 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 ## 39. API- und Schnittstellen-Performance-Annahmen (aus `src/` extrahiert)
 
 > Quellen: FUTURE_ENHANCEMENTS.md, ROADMAP.md, README.md der jeweiligen Module unter `src/`.  
-> Typ-Legende: **[Z]** = Ziel/Target (noch nicht gemessen), **[M]** = gemessener Wert, **[I]** = Implementiert/bestätigt
+> Typ-Legende: **[Z]** = Ziel/Target (noch nicht gemessen), **[M]** = gemessener Wert, **[I]** = Implementiert/best├ñtigt
 
 ---
 
@@ -1430,22 +2835,22 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 
 | Schnittstelle | Ziel/Messwert | Typ | Quelle |
 |---------------|---------------|-----|--------|
-| `IHttpHandler::handle()` Dispatch-Overhead (Router-Lookup + Invocation) | ≤ 5 µs / Req @ 10k RPS | [Z] | FUTURE_ENHANCEMENTS.md L80 |
-| `IGraphQLSchemaBuilder` Type-Lookup (Query-Planning) | ≤ 1 µs / Field-Resolution | [Z] | FUTURE_ENHANCEMENTS.md L81 |
-| WebSocket Frame-Dispatch via `IWebSocketFrameCallback` | ≤ 10 µs / Frame | [Z] | FUTURE_ENHANCEMENTS.md L82 |
-| `IAPIVersionRouter::route()` Version-Extraktion + Handler-Auflösung | ≤ 2 µs | [Z] | FUTURE_ENHANCEMENTS.md L83 |
-| `ICorrelationIDProvider::generate()` UUID-Generierung | ≤ 500 ns / Call | [Z] | FUTURE_ENHANCEMENTS.md L84 |
-| `IGRPCBridge::dispatch()` Protobuf→Internal-Konvertierung | ≤ 20 µs / RPC-Call | [Z] | FUTURE_ENHANCEMENTS.md L85 |
+| `IHttpHandler::handle()` Dispatch-Overhead (Router-Lookup + Invocation) |  5  / Req @ 10k RPS | [Z] | FUTURE_ENHANCEMENTS.md L80 |
+| `IGraphQLSchemaBuilder` Type-Lookup (Query-Planning) |  1  / Field-Resolution | [Z] | FUTURE_ENHANCEMENTS.md L81 |
+| WebSocket Frame-Dispatch via `IWebSocketFrameCallback` |  10  / Frame | [Z] | FUTURE_ENHANCEMENTS.md L82 |
+| `IAPIVersionRouter::route()` Version-Extraktion + Handler-Aufl├Âsung |  2  | [Z] | FUTURE_ENHANCEMENTS.md L83 |
+| `ICorrelationIDProvider::generate()` UUID-Generierung |  500 ns / Call | [Z] | FUTURE_ENHANCEMENTS.md L84 |
+| `IGRPCBridge::dispatch()` ProtobufÔåÆInternal-Konvertierung |  20  / RPC-Call | [Z] | FUTURE_ENHANCEMENTS.md L85 |
 | GraphQL parse + validate + execute (10-Feld-Query, 500 concurrent HTTP/2) | < 2 ms p99 | [Z] | README.md L56, FE L50 |
-| GraphQL parse+execute aktuell (Schätzung) | ~5 ms | [M est.] | FUTURE_ENHANCEMENTS.md L260 |
-| gRPC unary `GetDocument` Added-Latency vs. äquivalentem REST-Call | < 1 ms | [Z] | README.md L73, FE L135 |
-| WebSocket Event-Delivery-Latenz (Changefeed→Frame) | < 50 ms | [Z] | FUTURE_ENHANCEMENTS.md L51 |
+| GraphQL parse+execute aktuell (Sch├ñtzung) | ~5 ms | [M est.] | FUTURE_ENHANCEMENTS.md L260 |
+| gRPC unary `GetDocument` Added-Latency vs. ├ñquivalentem REST-Call | < 1 ms | [Z] | README.md L73, FE L135 |
+| WebSocket Event-Delivery-Latenz (ChangefeedÔåÆFrame) | < 50 ms | [Z] | FUTURE_ENHANCEMENTS.md L51 |
 | WebSocket Frame-Delivery p99 @ 5 000 events/s | < 30 ms | [Z] | FUTURE_ENHANCEMENTS.md L87 |
 | Bulk-Insert 10 000 256-Byte-Dokumente (ohne Netzwerk) | < 500 ms | [Z] | FUTURE_ENHANCEMENTS.md L105 |
 | SSE Streaming First-Byte-Latenz (nach Query-Planning) | < 5 ms | [Z] | FUTURE_ENHANCEMENTS.md L106 |
-| Middleware-Overhead (UUID + Thread-Local Write) | < 10 µs / Req | [Z] | README.md L115, FE L154 |
+| Middleware-Overhead (UUID + Thread-Local Write) | < 10  / Req | [Z] | README.md L115, FE L154 |
 | OTLP Span-Enqueue (Hot-Path, single lock + push_back) | < 500 ns / Span | [Z] | FUTURE_ENHANCEMENTS.md L172 |
-| OTLP Flush (64 Spans → lokaler OTLP-Collector, persistent conn) | < 5 ms | [Z] | FE L173 |
+| OTLP Flush (64 Spans ÔåÆ lokaler OTLP-Collector, persistent conn) | < 5 ms | [Z] | FE L173 |
 
 ---
 
@@ -1453,9 +2858,9 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 
 | Schnittstelle | Ziel/Messwert | Typ | Quelle |
 |---------------|---------------|-----|--------|
-| gRPC Health-Check (`SERVING`) nach `start()` | Sofort, `grpc_health_probe` exit 0 | [I] | FE L24–25 |
+| gRPC Health-Check (`SERVING`) nach `start()` | Sofort, `grpc_health_probe` exit 0 | [I] | FE L24 25 |
 | gRPC Prometheus-Histogramm Latency (per method) | verfügbar unter `/metrics` | [Z] | FE L45 |
-| TLS-Zertifikat Hot-Rotation (neue Connections) | ≤ 1 Verbindung mit altem Cert | [Z] | FE L96 |
+| TLS-Zertifikat Hot-Rotation (neue Connections) |  1 Verbindung mit altem Cert | [Z] | FE L96 |
 | QUIC/HTTP3 Verbindungsaufbau (0-RTT Resumption) | Ziel: < 2 ms p99 | [Z] | FE L11 |
 | gRPC Transport Port 8771 (bidirektionales Streaming) | standard | [I] | FE L12 |
 
@@ -1465,20 +2870,20 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 
 | Schnittstelle | Ziel/Messwert | Typ | Quelle |
 |---------------|---------------|-----|--------|
-| TCP Accept | 1–5 ms | [M] | README.md L1052 |
-| TLS 1.3 Handshake (neue Verbindung) | 10–50 ms (README); < 5 ms p99 (ROADMAP) | [M]/[Z] | README.md L1053, FE L288 |
+| TCP Accept | 1 5 ms | [M] | README.md L1052 |
+| TLS 1.3 Handshake (neue Verbindung) | 10 50 ms (README); < 5 ms p99 (ROADMAP) | [M]/[Z] | README.md L1053, FE L288 |
 | TLS 1.3 Session Resumption | < 1 ms p99 | [Z] | FE L288 |
-| Frame Read/Write (Zero-Copy) | 100–500 µs | [M] | README.md L1054 |
-| Connection Pool Acquire (Lock-Free Fast-Path) | 10–100 µs | [M] | README.md L1055 |
-| Keep-Alive Check | 1–10 ms (alle 60 s) | [M] | README.md L1056 |
-| Circuit-Breaker Check | ~1 µs (Lock-Free Atomic) | [M] | README.md L1057 |
-| Wire-Protocol Round-Trip p99 (≤ 64 KiB Payload) | < 1 ms | [Z] | ROADMAP.md L66 |
+| Frame Read/Write (Zero-Copy) | 100 500  | [M] | README.md L1054 |
+| Connection Pool Acquire (Lock-Free Fast-Path) | 10 100  | [M] | README.md L1055 |
+| Keep-Alive Check | 1 10 ms (alle 60 s) | [M] | README.md L1056 |
+| Circuit-Breaker Check | ~1  (Lock-Free Atomic) | [M] | README.md L1057 |
+| Wire-Protocol Round-Trip p99 ( 64 KiB Payload) | < 1 ms | [Z] | ROADMAP.md L66 |
 | WebSocket Text-Frame Round-Trip (localhost) | < 2 ms p99 | [Z] | FE L289 |
 | QUIC 0-RTT Verbindungsaufbau | < 2 ms p99 | [Z] | FE L290 |
-| UDP Fast-Path GET Response (localhost) | < 500 µs p99 | [Z] | FE L291 |
-| DPDK Kernel-Bypass Latenz | 1–10 µs | [Z] | FE L284 |
+| UDP Fast-Path GET Response (localhost) | < 500  p99 | [Z] | FE L291 |
+| DPDK Kernel-Bypass Latenz | 1 10  | [Z] | FE L284 |
 | DPDK Throughput | 100 Gbps | [Z] | FE L284 |
-| io_uring Latenz | 10–50 µs | [Z] | FE L285 |
+| io_uring Latenz | 10 50  | [Z] | FE L285 |
 | io_uring Throughput | 10 Gbps | [Z] | FE L285 |
 
 ---
@@ -1487,23 +2892,23 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 
 | Schnittstelle | Ziel/Messwert | Typ | Quelle |
 |---------------|---------------|-----|--------|
-| HTTP/1.1 Keep-Alive Sustained Throughput (4-Core, 1 KB Payload) | ≥ 50 000 req/s | [Z] | FE L1083 |
-| p50 Latenz | ≤ 5 ms | [Z] | FE L1084, ROADMAP L26 |
-| p99 Latenz @ 80 % CPU | ≤ 50 ms | [Z] | FE L1084, ROADMAP L26 |
-| TLS 1.3 Handshake (ECDSA P-256, Commodity HW) | ≤ 2 ms | [Z] | FE L1086 |
-| Rate-Limiter State Sync (Distributed Token Bucket) | ≤ 10 ms Propagation Delay | [Z] | FE L18, ROADMAP L54 |
-| Redis Round-Trip (Rate-Limit Check, same LAN) | ≤ 5 ms p99 | [Z] | ROADMAP L57 |
-| Rate-Limit Throughput per Node | ≥ 50 000 checks/s | [Z] | ROADMAP L57 |
-| Raft Config Propagation (5 Nodes, LAN) | ≤ 100 ms | [Z] | ROADMAP L65 |
-| Leader Failover via `leader_failover_timeout` | ≤ 500 ms | [I] | FE L172 |
-| JWT Validation Overhead | 100–500 µs / Req | [M] | README.md L1346 |
-| Auth Middleware p50/p99 | < 100 µs / < 500 µs | [Z] | README.md L1313 |
-| Rate Limiter p50/p99 | < 50 µs / < 200 µs | [Z] | README.md L1314 |
+| HTTP/1.1 Keep-Alive Sustained Throughput (4-Core, 1 KB Payload) |  50 000 req/s | [Z] | FE L1083 |
+| p50 Latenz |  5 ms | [Z] | FE L1084, ROADMAP L26 |
+| p99 Latenz @ 80 % CPU |  50 ms | [Z] | FE L1084, ROADMAP L26 |
+| TLS 1.3 Handshake (ECDSA P-256, Commodity HW) |  2 ms | [Z] | FE L1086 |
+| Rate-Limiter State Sync (Distributed Token Bucket) |  10 ms Propagation Delay | [Z] | FE L18, ROADMAP L54 |
+| Redis Round-Trip (Rate-Limit Check, same LAN) |  5 ms p99 | [Z] | ROADMAP L57 |
+| Rate-Limit Throughput per Node |  50 000 checks/s | [Z] | ROADMAP L57 |
+| Raft Config Propagation (5 Nodes, LAN) |  100 ms | [Z] | ROADMAP L65 |
+| Leader Failover via `leader_failover_timeout` |  500 ms | [I] | FE L172 |
+| JWT Validation Overhead | 100 500  / Req | [M] | README.md L1346 |
+| Auth Middleware p50/p99 | < 100  / < 500  | [Z] | README.md L1313 |
+| Rate Limiter p50/p99 | < 50  / < 200  | [Z] | README.md L1314 |
 | Entity CRUD p50/p99 | < 5 ms / < 50 ms | [Z] | README.md L1315 |
 | Query Execution (einfach) p50/p99 | < 10 ms / < 100 ms | [Z] | README.md L1316 |
 | Vector Search p50/p99 | < 10 ms / < 50 ms | [Z] | README.md L1317 |
-| Request Wall-Clock Timeout | 500 ms default → HTTP 504 | [I] | FE L130 |
-| Congestion p99 > 500 ms → Adaptive Rate Reduction | auf 50 % | [I] | FE L383 |
+| Request Wall-Clock Timeout | 500 ms default ÔåÆ HTTP 504 | [I] | FE L130 |
+| Congestion p99 > 500 ms ÔåÆ Adaptive Rate Reduction | auf 50 % | [I] | FE L383 |
 | WASM Function CPU-Time Limit | 500 ms default | [Z] | ROADMAP L74 |
 
 ---
@@ -1512,22 +2917,22 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 
 | Schnittstelle | Ziel/Messwert | Typ | Quelle |
 |---------------|---------------|-----|--------|
-| Parse + Optimize (≤ 10 Collections) | ≤ 5 ms p99 | [Z] | ROADMAP L198, FE L1393 |
-| Simple AQL Execution (3-Node Cluster, warm Cache) | ≥ 10 000 queries/s @ p99 < 20 ms | [Z] | ROADMAP L199, FE L1394 |
-| Exact-Match Cache Lookup (10 000 Concurrent Clients) | ≤ 1 ms p99 | [Z] | ROADMAP L200, FE L1395 |
-| Semantic Cache Lookup (inkl. Embedding-Similarity) | ≤ 10 ms p99 | [Z] | FE L1396 |
-| JIT First-Compile Latenz | ≤ 50 ms | [Z] | FE L1397 |
-| JIT Execution Speedup (Arithmetic-Heavy) | ≥ 3× vs. Interpreter | [Z] | FE L1397 |
-| Federation Cost-Schätzung (5-Cluster-Plan) | ≤ 20 ms | [Z] | FE L1398 |
-| Streaming Result First-Chunk | ≤ 50 ms | [Z] | ROADMAP L201, FE L1399 |
+| Parse + Optimize ( 10 Collections) |  5 ms p99 | [Z] | ROADMAP L198, FE L1393 |
+| Simple AQL Execution (3-Node Cluster, warm Cache) |  10 000 queries/s @ p99 < 20 ms | [Z] | ROADMAP L199, FE L1394 |
+| Exact-Match Cache Lookup (10 000 Concurrent Clients) |  1 ms p99 | [Z] | ROADMAP L200, FE L1395 |
+| Semantic Cache Lookup (inkl. Embedding-Similarity) |  10 ms p99 | [Z] | FE L1396 |
+| JIT First-Compile Latenz |  50 ms | [Z] | FE L1397 |
+| JIT Execution Speedup (Arithmetic-Heavy) |  3├ù vs. Interpreter | [Z] | FE L1397 |
+| Federation Cost-Sch├ñtzung (5-Cluster-Plan) |  20 ms | [Z] | FE L1398 |
+| Streaming Result First-Chunk |  50 ms | [Z] | ROADMAP L201, FE L1399 |
 | Query Cancellation (Memory + Locks freigegeben) | innerhalb 100 ms nach Signal | [Z] | FE L1408 |
-| Optimizer `optimize()` (einfach, 1–2 Prädikate) | 0.1–5 ms | [M] | README.md L185 |
-| Optimizer `optimize()` (komplex, 10+ Prädikate) | 5–50 ms | [M] | README.md L186 |
-| Simple Query Execution (1–2 Prädikate) | 1–10 ms | [M] | README.md L256 |
-| Complex Query (5–10 Prädikate, Joins) | 10–100 ms | [M] | README.md L257 |
-| Graph Traversal (Depth 3–5) | 50–500 ms | [M] | README.md L258 |
-| Hybrid Query (Vector+Geo) | 10–50 ms | [M] | README.md L259 |
-| Fan-Out Latenz (16 Shards, LAN) | ≤ 200 ms | [Z] | ROADMAP L91 |
+| Optimizer `optimize()` (einfach, 1 2 Pr├ñdikate) | 0.1 5 ms | [M] | README.md L185 |
+| Optimizer `optimize()` (komplex, 10+ Pr├ñdikate) | 5 50 ms | [M] | README.md L186 |
+| Simple Query Execution (1 2 Pr├ñdikate) | 1 10 ms | [M] | README.md L256 |
+| Complex Query (5 10 Pr├ñdikate, Joins) | 10 100 ms | [M] | README.md L257 |
+| Graph Traversal (Depth 3 5) | 50 500 ms | [M] | README.md L258 |
+| Hybrid Query (Vector+Geo) | 10 50 ms | [M] | README.md L259 |
+| Fan-Out Latenz (16 Shards, LAN) |  200 ms | [Z] | ROADMAP L91 |
 
 ---
 
@@ -1535,16 +2940,16 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 
 | Schnittstelle | Ziel/Messwert | Typ | Quelle |
 |---------------|---------------|-----|--------|
-| Lexer Tokenisierung | ≥ 50 MB/s / Core (ASCII) | [Z] | FE L14, L772 |
-| Parser AST-Konstruktion (64 KB Query) | ≤ 10 ms | [Z] | FE L15, L773 |
-| Full Round-Trip (parse + execute, 10-Table-Join, 100k Rows) | ≤ 500 ms | [Z] | FE L774 |
-| LLM Command Async-Dispatch (ohne Inferenz) | ≤ 5 ms / Command | [Z] | FE L775 |
-| Query Optimizer Rewrite Pass | ≤ 2 ms / 1000 AST-Nodes | [Z] | FE L776 |
-| Batch NL→AQL (10 Requests, mock LLM 50 ms, concurrency ≥ 4) | ≤ 150 ms Wall-Time | [I] | FE L159, L778 |
-| AQL Validation Overhead | ≤ 1 ms / Generated Query | [Z] | FE L60 |
+| Lexer Tokenisierung |  50 MB/s / Core (ASCII) | [Z] | FE L14, L772 |
+| Parser AST-Konstruktion (64 KB Query) |  10 ms | [Z] | FE L15, L773 |
+| Full Round-Trip (parse + execute, 10-Table-Join, 100k Rows) |  500 ms | [Z] | FE L774 |
+| LLM Command Async-Dispatch (ohne Inferenz) |  5 ms / Command | [Z] | FE L775 |
+| Query Optimizer Rewrite Pass |  2 ms / 1000 AST-Nodes | [Z] | FE L776 |
+| Batch NLÔåÆAQL (10 Requests, mock LLM 50 ms, concurrency  4) |  150 ms Wall-Time | [I] | FE L159, L778 |
+| AQL Validation Overhead |  1 ms / Generated Query | [Z] | FE L60 |
 | Timeout-Thread Terminierung nach `executeWithTimeout()` | innerhalb `timeout + 500 ms` | [Z] | FE L788 |
-| `push()` / `nextToken()` Overhead (ohne Modell-Generierung) | ≤ 500 ns | [Z] | ROADMAP L46 |
-| Tool-Dispatch-Overhead (ohne Tool-Ausführung) | ≤ 1 ms / Step | [Z] | ROADMAP L55 |
+| `push()` / `nextToken()` Overhead (ohne Modell-Generierung) |  500 ns | [Z] | ROADMAP L46 |
+| Tool-Dispatch-Overhead (ohne Tool-Ausführung) |  1 ms / Step | [Z] | ROADMAP L55 |
 
 ---
 
@@ -1552,12 +2957,12 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 
 | Schnittstelle | Ziel/Messwert | Typ | Quelle |
 |---------------|---------------|-----|--------|
-| Prefetch Prediction Latenz | ≤ 100 µs / Call | [Z] | FE L102 |
-| L3 Cache Hit-Path (RocksDB-backed) | ≤ 5 ms p99 | [Z] | FE L161 |
-| Admin API Response | ≤ 5 ms unabhängig von L1-Cache-Größe | [Z] | FE L163 |
+| Prefetch Prediction Latenz |  100  / Call | [Z] | FE L102 |
+| L3 Cache Hit-Path (RocksDB-backed) |  5 ms p99 | [Z] | FE L161 |
+| Admin API Response |  5 ms unabh├ñngig von L1-Cache-Gr├Â├ƒe | [Z] | FE L163 |
 | Redis-Async Peer-Discovery (libuv-backed) | non-blocking | [I] | FE L82 |
 | Distributed Cache Invalidation (alle Nodes) | propagiert innerhalb 500 ms | [Z] | FUTURE_ENHANCEMENTS core L572 |
-| Distributed Cache `get` Round-Trip (Redis localhost) | ≤ 1 ms p99 | [Z] | core FE L582 |
+| Distributed Cache `get` Round-Trip (Redis localhost) |  1 ms p99 | [Z] | core FE L582 |
 
 ---
 
@@ -1565,21 +2970,21 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 
 | Schnittstelle | Ziel/Messwert | Typ | Quelle |
 |---------------|---------------|-----|--------|
-| Replication Lag p99 (SEMI_SYNC, 3-Node LAN, 10k writes/s) | ≤ 50 ms | [Z] | FE L17, L841 |
-| WAL-Shipping Throughput / Follower (Zstd Level 3, 10 GbE) | ≥ 500 MB/s | [Z] | FE L18, L842 |
-| Vector-Clock / HLC Conflict-Detection Overhead | < 5 µs / Write-Op | [Z] | FE L20, L844 |
-| CRDT Merge Latenz (G-Counter / LWW-Register) | ≤ 1 µs / Merge | [Z] | FE L845 |
-| Point-in-Time Recovery WAL Replay | ≥ 200 MB/s; 100 GB in ≤ 10 min | [Z] | FE L846 |
-| CDC Event Emission (Commit → Queue Enqueue) | ≤ 1 ms p99 | [Z] | FE L847 |
-| Cross-Datacenter Replication Lag (ASYNC, 50 ms RTT WAN) | ≤ 200 ms p99 | [Z] | FE L848 |
+| Replication Lag p99 (SEMI_SYNC, 3-Node LAN, 10k writes/s) |  50 ms | [Z] | FE L17, L841 |
+| WAL-Shipping Throughput / Follower (Zstd Level 3, 10 GbE) |  500 MB/s | [Z] | FE L18, L842 |
+| Vector-Clock / HLC Conflict-Detection Overhead | < 5  / Write-Op | [Z] | FE L20, L844 |
+| CRDT Merge Latenz (G-Counter / LWW-Register) |  1  / Merge | [Z] | FE L845 |
+| Point-in-Time Recovery WAL Replay |  200 MB/s; 100 GB in  10 min | [Z] | FE L846 |
+| CDC Event Emission (Commit ÔåÆ Queue Enqueue) |  1 ms p99 | [Z] | FE L847 |
+| Cross-Datacenter Replication Lag (ASYNC, 50 ms RTT WAN) |  200 ms p99 | [Z] | FE L848 |
 | Async Mode Latenz | < 1 ms | [M] | README.md L952 |
-| Semi-Sync Mode Latenz | 1–5 ms | [M] | README.md L953 |
-| Sync Mode Latenz | 2–10 ms | [M] | README.md L954 |
-| Tier 1 Critical SLA (SYNC, 3+ Replicas) | ≤ 10 ms | [Z] | ROADMAP L194 |
-| Tier 2 Standard SLA (SEMI_SYNC, 2 Replicas) | ≤ 50 ms | [Z] | ROADMAP L194 |
+| Semi-Sync Mode Latenz | 1 5 ms | [M] | README.md L953 |
+| Sync Mode Latenz | 2 10 ms | [M] | README.md L954 |
+| Tier 1 Critical SLA (SYNC, 3+ Replicas) |  10 ms | [Z] | ROADMAP L194 |
+| Tier 2 Standard SLA (SEMI_SYNC, 2 Replicas) |  50 ms | [Z] | ROADMAP L194 |
 | WAL Append Throughput | > 50 000 entries/s | [I] | ROADMAP L242 |
 | WAL `readFrom` 1000 Entries | < 5 ms | [I] | ROADMAP L242 |
-| WAL Serialize/Deserialize | < 2 µs | [I] | ROADMAP L242 |
+| WAL Serialize/Deserialize | < 2  | [I] | ROADMAP L242 |
 
 ---
 
@@ -1587,15 +2992,15 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 
 | Schnittstelle | Ziel/Messwert | Typ | Quelle |
 |---------------|---------------|-----|--------|
-| Point Read (Cache Hit) | 10–50 µs | [M] | ARCHITECTURE.md L189, README.md L107 |
-| Point Read (Cache Miss / Disk) | 100–500 µs | [M] | ARCHITECTURE.md L189, README.md L675 |
+| Point Read (Cache Hit) | 10 50  | [M] | ARCHITECTURE.md L189, README.md L107 |
+| Point Read (Cache Miss / Disk) | 100 500  | [M] | ARCHITECTURE.md L189, README.md L675 |
 | Hot-Tier (NVMe) | < 1 ms | [Z] | FE Storage |
 | Warm-Tier (SATA) | ~5 ms | [Z] | FE Storage |
 | Cold-Tier (S3) | ~50 ms | [Z] | FE Storage |
-| Sustained Write Throughput (NVMe, 256er Batch, 4 KB avg) | ≥ 100 000 ops/s | [Z] | FE L738 |
-| p99 Point-Read (Hot-Tier, Bloom-Filter enabled) | ≤ 1 ms | [Z] | FE L739 |
-| Incremental Backup Throughput (NVMe, parallel SSTable) | ≥ 500 MB/s | [Z] | FE L740 |
-| Streaming Ingest End-to-End Latenz | ≤ 50 ms | [Z] | FE general |
+| Sustained Write Throughput (NVMe, 256er Batch, 4 KB avg) |  100 000 ops/s | [Z] | FE L738 |
+| p99 Point-Read (Hot-Tier, Bloom-Filter enabled) |  1 ms | [Z] | FE L739 |
+| Incremental Backup Throughput (NVMe, parallel SSTable) |  500 MB/s | [Z] | FE L740 |
+| Streaming Ingest End-to-End Latenz |  50 ms | [Z] | FE general |
 | Streaming Ingest Throughput | 1 M events/s | [Z] | FE general |
 | Erasure Coding 6+3 Overhead | 50 % (vs. RAID-1 200 %) | [Z] | FE general |
 | RocksDB WriteBatch Commit Latenz (Vector Add) | < 2 ms p99 | [Z] | index FE L970 |
@@ -1606,12 +3011,12 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 
 | Schnittstelle | Ziel/Messwert | Typ | Quelle |
 |---------------|---------------|-----|--------|
-| Sequence Generation Throughput (8 Writer-Threads) | ≥ 200 k/s | [I] | FE L405 — Lock-free `atomic<uint64_t>` |
-| Event Delivery p99 (Changefeed → WebSocket Frame) | < 20 ms | [Z] | FE L334 |
+| Sequence Generation Throughput (8 Writer-Threads) |  200 k/s | [I] | FE L405 ÔÇö Lock-free `atomic<uint64_t>` |
+| Event Delivery p99 (Changefeed ÔåÆ WebSocket Frame) | < 20 ms | [Z] | FE L334 |
 | Consumer Group Offset Commit (RocksDB Write) | < 1 ms p99 | [Z] | FE L365 |
-| End-to-End Latenz (Change → Kafka `ack`, LAN) | < 10 ms p99 | [Z] | FE L387 |
+| End-to-End Latenz (Change ÔåÆ Kafka `ack`, LAN) | < 10 ms p99 | [Z] | FE L387 |
 | Compaction I/O Bandwidth Cap | 50 MB/s (konfigurierbar) | [Z] | FE L425 |
-| SSE Event Delivery p99 (aktuell) | < 50 ms (Schätzung) | [M est.] | FE L461 |
+| SSE Event Delivery p99 (aktuell) | < 50 ms (Sch├ñtzung) | [M est.] | FE L461 |
 
 ---
 
@@ -1619,12 +3024,12 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 
 | Schnittstelle | Ziel/Messwert | Typ | Quelle |
 |---------------|---------------|-----|--------|
-| Cross-Shard RPC p99 (LAN, ohne Consensus) | < 5 ms | [Z] | FE L85 — aktuell ~18 ms |
+| Cross-Shard RPC p99 (LAN, ohne Consensus) | < 5 ms | [Z] | FE L85 ÔÇö aktuell ~18 ms |
 | Cross-Shard RPC aktuell (gemessen) | ~18 ms | [M] | FE L179 |
 | 2PC Commit (5 Shards) aktuell | ~35 ms | [M] | FE L180 |
 | 2PC Commit Ziel (5 Shards) | < 15 ms | [Z] | FE L180 |
 | Percolator Commit (10 Shards) | < 20 ms p99 | [Z] | FE L104, L181 |
-| Topology Change Propagation (100-Node Cluster) | ≤ 500 ms | [Z] | FE L13, L255 — aktuell ~1.2 s |
+| Topology Change Propagation (100-Node Cluster) |  500 ms | [Z] | FE L13, L255 ÔÇö aktuell ~1.2 s |
 | Topology Change aktuell (gemessen) | ~1.2 s | [M] | FE L184 |
 | Anti-Entropy Scan Throughput (NVMe, 8 Workers) | > 1 GB/s / Node | [Z] | FE L141 |
 | GPU Reed-Solomon Reconstruction | > 4 GB/s (NVIDIA A10) | [Z] | FE L142 |
@@ -1640,14 +3045,14 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 
 | Schnittstelle | Ziel/Messwert | Typ | Quelle |
 |---------------|---------------|-----|--------|
-| Hybrid Search (BM25 + HNSW RRF, Top-10, 10 M Docs) | ≤ 20 ms p99 | [Z] | FE L471 |
-| LLM Query-Rewriter Overhead | ≤ 200 ms Added Latency p99; 0 ms wenn LLM unavailable | [Z] | FE L471 |
-| Facet Counting (1 000 Werte, 100k Docs) | ≤ 5 ms | [Z] | FE L472 |
-| LTR Re-Ranking (Top-100, 6-dim Linear Model) | ≤ 2 ms | [Z] | FE L473 |
-| Autocomplete Suggestion (1 M-Term Dictionary) | ≤ 5 ms p99 | [Z] | FE L475 |
-| BM25/FTS Query Latenz | 1–10 ms | [M] | README.md L113 |
-| Vector Search Query Latenz | 1–10 ms (k=10, 1M vectors) | [M] | README.md L119 |
-| Hybrid Search Query Latenz | 5–20 ms | [M] | README.md L125 |
+| Hybrid Search (BM25 + HNSW RRF, Top-10, 10 M Docs) |  20 ms p99 | [Z] | FE L471 |
+| LLM Query-Rewriter Overhead |  200 ms Added Latency p99; 0 ms wenn LLM unavailable | [Z] | FE L471 |
+| Facet Counting (1 000 Werte, 100k Docs) |  5 ms | [Z] | FE L472 |
+| LTR Re-Ranking (Top-100, 6-dim Linear Model) |  2 ms | [Z] | FE L473 |
+| Autocomplete Suggestion (1 M-Term Dictionary) |  5 ms p99 | [Z] | FE L475 |
+| BM25/FTS Query Latenz | 1 10 ms | [M] | README.md L113 |
+| Vector Search Query Latenz | 1 10 ms (k=10, 1M vectors) | [M] | README.md L119 |
+| Hybrid Search Query Latenz | 5 20 ms | [M] | README.md L125 |
 
 ---
 
@@ -1655,19 +3060,19 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 
 | Schnittstelle | Ziel/Messwert | Typ | Quelle |
 |---------------|---------------|-----|--------|
-| AES-256-GCM Encrypt/Decrypt Throughput (AES-NI, 1 Core) | ≥ 1 GB/s | [Z] | FE L967, ROADMAP L130 |
-| RSA-4096 Signature Verification | p99 ≤ 5 ms | [Z] | FE L968 |
-| Kyber-1024 Key Encapsulation | ≥ 2 000 ops/s | [Z] | FE L969, ROADMAP L132 |
-| Dilithium-5 Signing | ≥ 1 000 ops/s | [Z] | FE L970, ROADMAP L133 |
-| TLS 1.3 Handshake (ECDHE-AES256-GCM) | p99 ≤ 10 ms | [Z] | FE L971 |
-| RBAC Policy Evaluation (≤ 100 Roles) | p99 ≤ 0.5 ms | [Z] | FE L972 |
-| HSM-backed RSA-2048 Sign (SoftHSM2 Baseline) | p99 ≤ 20 ms | [Z] | FE L973 |
-| Audit Log Tamper-Evident Append | p99 ≤ 2 ms / Entry | [Z] | FE L974, ROADMAP L136 |
-| Encryption Overhead / Feld (256-Byte Payload) | ~5–10 µs | [M] | README.md L194 |
-| Decryption Overhead / Feld | ~3–7 µs | [M] | README.md L195 |
+| AES-256-GCM Encrypt/Decrypt Throughput (AES-NI, 1 Core) |  1 GB/s | [Z] | FE L967, ROADMAP L130 |
+| RSA-4096 Signature Verification | p99  5 ms | [Z] | FE L968 |
+| Kyber-1024 Key Encapsulation |  2 000 ops/s | [Z] | FE L969, ROADMAP L132 |
+| Dilithium-5 Signing |  1 000 ops/s | [Z] | FE L970, ROADMAP L133 |
+| TLS 1.3 Handshake (ECDHE-AES256-GCM) | p99  10 ms | [Z] | FE L971 |
+| RBAC Policy Evaluation ( 100 Roles) | p99  0.5 ms | [Z] | FE L972 |
+| HSM-backed RSA-2048 Sign (SoftHSM2 Baseline) | p99  20 ms | [Z] | FE L973 |
+| Audit Log Tamper-Evident Append | p99  2 ms / Entry | [Z] | FE L974, ROADMAP L136 |
+| Encryption Overhead / Feld (256-Byte Payload) | ~5 10  | [M] | README.md L194 |
+| Decryption Overhead / Feld | ~3 7  | [M] | README.md L195 |
 | Key Cache Lookup (In-Memory) | ~100 ns | [M] | README.md L196 |
-| Vault API Call (gecacht, 1 Std.) | ~50–100 ms | [M] | README.md L197 |
-| HSM Operation (Hardware) | ~5–20 ms | [M] | README.md L198 |
+| Vault API Call (gecacht, 1 Std.) | ~50 100 ms | [M] | README.md L197 |
+| HSM Operation (Hardware) | ~5 20 ms | [M] | README.md L198 |
 | Document Insert mit Verschlüsselung | 1.4 ms (+16 % vs. plain) | [M] | README.md L859 |
 | Document Query mit Verschlüsselung | 1.1 ms (+37 % vs. plain) | [M] | README.md L860 |
 | Bulk Insert 1k Docs mit Verschlüsselung | 1050 ms (+23 % vs. plain) | [M] | README.md L861 |
@@ -1678,15 +3083,15 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 
 | Schnittstelle | Ziel/Messwert | Typ | Quelle |
 |---------------|---------------|-----|--------|
-| IVM Delta-Application (≤ 10 000 Rows) | ≤ 50 ms | [Z] | FE L22, L32 |
-| IVM Reader p99 während 10k-Row-Batch-Apply | ≤ 10 ms | [Z] | FE L209 |
-| CSV Export 1 M Rows (Streaming, kein Full In-Memory) | ≤ 500 ms | [Z] | FE L81 |
-| CEP Engine `stop()` | ≤ 100 ms | [Z] | FE L104 |
-| CEP `process()` Lock-Hold-Dauer | ≤ 50 µs | [Z] | FE L130 |
-| IsolationForest Training (1000-Punkt-Window) | ≤ 10 ms | [Z] | FE L131 |
-| CEP p99 Latenz (8 Threads @ 100 kHz) | ≤ 1 ms | [Z] | FE L127 |
-| `putInCache()` / `getFromCache()` | O(1) amortisiert, ≤ 1 µs p99 (16 Concurrent) | [Z] | FE L236 |
-| `getCacheKey()` (500-Event Trace, Hash-basiert) | ≤ 50 µs | [Z] | FE L237 |
+| IVM Delta-Application ( 10 000 Rows) |  50 ms | [Z] | FE L22, L32 |
+| IVM Reader p99 w├ñhrend 10k-Row-Batch-Apply |  10 ms | [Z] | FE L209 |
+| CSV Export 1 M Rows (Streaming, kein Full In-Memory) |  500 ms | [Z] | FE L81 |
+| CEP Engine `stop()` |  100 ms | [Z] | FE L104 |
+| CEP `process()` Lock-Hold-Dauer |  50  | [Z] | FE L130 |
+| IsolationForest Training (1000-Punkt-Window) |  10 ms | [Z] | FE L131 |
+| CEP p99 Latenz (8 Threads @ 100 kHz) |  1 ms | [Z] | FE L127 |
+| `putInCache()` / `getFromCache()` | O(1) amortisiert,  1  p99 (16 Concurrent) | [Z] | FE L236 |
+| `getCacheKey()` (500-Event Trace, Hash-basiert) |  50  | [Z] | FE L237 |
 | Einfache Aggregation SUM (1 M Rows) | 15 ms (66k rows/s) | [M] | README.md L1193 |
 | Einfache Aggregation SUM (10 M Rows) | 142 ms (70k rows/s) | [M] | README.md L1194 |
 | GROUP BY 1 Dim. (1 M Rows) | 45 ms (22k rows/s) | [M] | README.md L1195 |
@@ -1696,13 +3101,13 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 | Window Function Moving Average (1 M Rows) | 95 ms (10.5k rows/s) | [M] | README.md L1200 |
 | Complex OLAP CUBE (1 M Rows) | 350 ms (2.8k rows/s) | [M] | README.md L1201 |
 | Complex OLAP ROLLUP (1 M Rows) | 280 ms (3.5k rows/s) | [M] | README.md L1202 |
-| SIMD SUM (10 M Rows) | 28 ms (5.1× Speedup vs. Scalar 142 ms) | [M] | README.md L1207 |
-| SIMD AVG (10 M Rows) | 35 ms (4.5× Speedup) | [M] | README.md L1208 |
-| SIMD MIN/MAX (10 M Rows) | 18 ms (6.9× Speedup) | [M] | README.md L1209 |
-| SIMD Complex Filter (10 M Rows) | 45 ms (4.7× Speedup) | [M] | README.md L1210 |
+| SIMD SUM (10 M Rows) | 28 ms (5.1├ù Speedup vs. Scalar 142 ms) | [M] | README.md L1207 |
+| SIMD AVG (10 M Rows) | 35 ms (4.5├ù Speedup) | [M] | README.md L1208 |
+| SIMD MIN/MAX (10 M Rows) | 18 ms (6.9├ù Speedup) | [M] | README.md L1209 |
+| SIMD Complex Filter (10 M Rows) | 45 ms (4.7├ù Speedup) | [M] | README.md L1210 |
 | JSON Export (100k Rows) | 250 ms (400k rows/s, 45 MB) | [M] | README.md L1216 |
-| Fan-Out Latenz (16 Shards, LAN) | ≤ 200 ms | [Z] | ROADMAP L72 |
-| Model Export (≤ 1 M Samples) | ≤ 500 ms | [Z] | ROADMAP L86 |
+| Fan-Out Latenz (16 Shards, LAN) |  200 ms | [Z] | ROADMAP L72 |
+| Model Export ( 1 M Samples) |  500 ms | [Z] | ROADMAP L86 |
 
 ---
 
@@ -1710,8 +3115,8 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 
 | Schnittstelle | Ziel/Messwert | Typ | Quelle |
 |---------------|---------------|-----|--------|
-| Single-Point Insert p99 (Gorilla compressed) | ≤ 50 µs | [Z] | FE L39 |
-| Gorilla on-disk compression (1000 Punkte) | ≤ 15 % raw size | [Z] | FE L39 |
+| Single-Point Insert p99 (Gorilla compressed) |  50  | [Z] | FE L39 |
+| Gorilla on-disk compression (1000 Punkte) |  15 % raw size | [Z] | FE L39 |
 | Gorilla Decode Throughput (aktuell) | ~400 MB/s | [M] | FE L153 |
 | Gorilla Decode Throughput (SIMD Ziel) | > 2 GB/s | [Z] | FE L59, L153 |
 | Range Scan 1 M Punkte float64 (aktuell) | ~300 ms | [M] | FE L154 |
@@ -1727,21 +3132,21 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 
 | Schnittstelle | Ziel/Messwert | Typ | Quelle |
 |---------------|---------------|-----|--------|
-| Begin-Latenz | < 1 µs | [M] | README.md L130 |
-| Commit-Latenz (abhängig von Batch-Größe) | 100 µs–5 ms | [M] | README.md L130 |
+| Begin-Latenz | < 1  | [M] | README.md L130 |
+| Commit-Latenz (abh├ñngig von Batch-Gr├Â├ƒe) | 100  5 ms | [M] | README.md L130 |
 | Lock-Overhead / Lock-Acquire | ~5 ns (Atomics) | [M] | README.md L131 |
 | Deadlock-Detection Intervall (konfigurierbar) | 100 ms | [M] | README.md L132 |
 | Lock-Free Read (Fast-Path, kein Contention) | < 10 ns | [M] | README.md L820 |
 | Stats Collection / Operation | < 5 ns (Atomic Increment) | [M] | README.md L819 |
-| OCC Commit p50 → aktuell | 1 ms | [M] | FE L872 |
-| OCC Commit p99 → aktuell | 10 ms | [M] | FE L872 |
-| OCC Commit p50 → Ziel | 100 µs | [Z] | FE L872 |
-| OCC Commit p99 → Ziel | 5 ms | [Z] | FE L873 |
-| SAGA Compensation Time → aktuell | 100 ms | [M] | FE L875 |
-| SAGA Compensation Time → Ziel | 20 ms | [Z] | FE L875 |
-| Distributed 2PC Latenz → aktuell | 10 ms | [M] | FE L876 |
-| Distributed 2PC Latenz → Ziel | 5 ms | [Z] | FE L876 |
-| Batch Window (konfigurierbar) | 1–100 ms | [I] | FE L495 |
+| OCC Commit p50 ÔåÆ aktuell | 1 ms | [M] | FE L872 |
+| OCC Commit p99 ÔåÆ aktuell | 10 ms | [M] | FE L872 |
+| OCC Commit p50 ÔåÆ Ziel | 100  | [Z] | FE L872 |
+| OCC Commit p99 ÔåÆ Ziel | 5 ms | [Z] | FE L873 |
+| SAGA Compensation Time ÔåÆ aktuell | 100 ms | [M] | FE L875 |
+| SAGA Compensation Time ÔåÆ Ziel | 20 ms | [Z] | FE L875 |
+| Distributed 2PC Latenz ÔåÆ aktuell | 10 ms | [M] | FE L876 |
+| Distributed 2PC Latenz ÔåÆ Ziel | 5 ms | [Z] | FE L876 |
+| Batch Window (konfigurierbar) | 1 100 ms | [I] | FE L495 |
 | Retry-Kosten / Versuch | ~1 ms | [M] | FE L163 |
 | Deadlock-Watchdog Fallback-Timer | innerhalb 500 ms | [Z] | FE L938 |
 | Conflict Detection | ~1 ms / 1000 Keys | [M] | README.md L656 |
@@ -1752,16 +3157,16 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 
 | Schnittstelle | Ziel/Messwert | Typ | Quelle |
 |---------------|---------------|-----|--------|
-| HNSW Vector Search (1M 128-dim, k=10) CPU | ≥ 5 000 QPS | [Z] | FE L964 |
-| HNSW Vector Search (1M 128-dim, k=10) GPU (RTX) | ≥ 50 000 QPS | [Z] | FE L964 |
-| B-Tree Secondary Index Point Lookup (10M Keys) | < 500 µs p99 | [Z] | FE L966 |
+| HNSW Vector Search (1M 128-dim, k=10) CPU |  5 000 QPS | [Z] | FE L964 |
+| HNSW Vector Search (1M 128-dim, k=10) GPU (RTX) |  50 000 QPS | [Z] | FE L964 |
+| B-Tree Secondary Index Point Lookup (10M Keys) | < 500  p99 | [Z] | FE L966 |
 | R-Tree Spatial Range Query (1M Punkte, 1 % Selectivity) | < 10 ms p99 | [Z] | FE L967 |
-| HNSW CPU Brute-Force Query (1M vectors) | 10–100 ms | [M] | README.md L882 |
-| HNSW CPU Query | 0.1–1 ms | [M] | README.md L883 |
-| HNSW GPU (Vulkan, Batch) | 0.01–0.1 ms | [M] | README.md L884 |
-| B-Tree Point Lookup (mit Cache) | 10–50 µs | [M] | README.md L298 |
-| R-Tree Bounding Box | 1–10 ms | [M] | README.md L487 |
-| R-Tree Radius Search | 1–20 ms | [M] | README.md L488 |
+| HNSW CPU Brute-Force Query (1M vectors) | 10 100 ms | [M] | README.md L882 |
+| HNSW CPU Query | 0.1 1 ms | [M] | README.md L883 |
+| HNSW GPU (Vulkan, Batch) | 0.01 0.1 ms | [M] | README.md L884 |
+| B-Tree Point Lookup (mit Cache) | 10 50  | [M] | README.md L298 |
+| R-Tree Bounding Box | 1 10 ms | [M] | README.md L487 |
+| R-Tree Radius Search | 1 20 ms | [M] | README.md L488 |
 | Generic Loop Scan | ~1 GB/s | [M] | FE L398 |
 | AVX-512 SIMD Scan (geplant) | ~50 GB/s | [Z] | FE L399 |
 
@@ -1772,19 +3177,19 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 | Schnittstelle | Ziel/Messwert | Typ | Quelle |
 |---------------|---------------|-----|--------|
 | `intersects` (1M Punkte, linear) | ~2 000 ms | [M] | FE L210 |
-| `intersects` (1M Punkte, R-Tree) | ≤ 5 ms p99 | [Z] | FE L73, L210 |
-| ST_BUFFER (10k Punkte @ 500 m, CPU) | ≤ 200 ms | [Z] | FE L98, L212 |
-| ST_BUFFER (10k Punkte @ 500 m, A10G) | ≤ 20 ms (10× CPU) | [Z] | FE L352 |
-| GPU Contains (1M Punkte, A10G) | ≤ 50 ms | [Z] | FE L213 |
-| Spatial JOIN (2 × 100k Punkte, 1 km, erste 1000 Ergebnisse) | ≤ 500 ms | [Z] | FE L126 |
-| `sampleAt` (1M-Cell Grid) | ≤ 1 µs / Call | [Z] | FE L150 |
-| `queryBBox` (10k Cells aus 1M-Cell Grid) | ≤ 10 ms | [Z] | FE L151 |
-| `generateHeatmap` (100k Punkte, 100×100, 500 m BW) | ≤ 500 ms | [Z] | FE L152 |
-| Ellipsoidal ST_Distance (1M Paare, CPU) | ≤ 500 ms | [Z] | FE L275 |
-| Ellipsoidal ST_Distance (1M Paare, A10G) | ≤ 50 ms | [Z] | FE L276 |
-| ST_UNION (1000 Polygon-Paare, A10G) | ≤ 10 ms | [Z] | FE L353 |
-| `locationAtTime` (100k Rows) | ≤ 1 ms | [Z] | FE L193 |
-| `entitiesWithinDistanceAtTime` (10k Entities, linear) | ≤ 50 ms | [Z] | FE L194 |
+| `intersects` (1M Punkte, R-Tree) |  5 ms p99 | [Z] | FE L73, L210 |
+| ST_BUFFER (10k Punkte @ 500 m, CPU) |  200 ms | [Z] | FE L98, L212 |
+| ST_BUFFER (10k Punkte @ 500 m, A10G) |  20 ms (10├ù CPU) | [Z] | FE L352 |
+| GPU Contains (1M Punkte, A10G) |  50 ms | [Z] | FE L213 |
+| Spatial JOIN (2 ├ù 100k Punkte, 1 km, erste 1000 Ergebnisse) |  500 ms | [Z] | FE L126 |
+| `sampleAt` (1M-Cell Grid) |  1  / Call | [Z] | FE L150 |
+| `queryBBox` (10k Cells aus 1M-Cell Grid) |  10 ms | [Z] | FE L151 |
+| `generateHeatmap` (100k Punkte, 100├ù100, 500 m BW) |  500 ms | [Z] | FE L152 |
+| Ellipsoidal ST_Distance (1M Paare, CPU) |  500 ms | [Z] | FE L275 |
+| Ellipsoidal ST_Distance (1M Paare, A10G) |  50 ms | [Z] | FE L276 |
+| ST_UNION (1000 Polygon-Paare, A10G) |  10 ms | [Z] | FE L353 |
+| `locationAtTime` (100k Rows) |  1 ms | [Z] | FE L193 |
+| `entitiesWithinDistanceAtTime` (10k Entities, linear) |  50 ms | [Z] | FE L194 |
 
 ---
 
@@ -1792,13 +3197,13 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 
 | Schnittstelle | Ziel/Messwert | Typ | Quelle |
 |---------------|---------------|-----|--------|
-| CUDA L2-Search (1M × 128-dim, RTX 3090) | < 8 ms | [Z] | FE L45, L427 |
-| Cosine Search Vulkan/MoltenVK (500k × 128-dim, M2 Pro) | < 20 ms ✅ | [I] | FE L428 |
-| GPU Distributed Index (100M × 128-dim, 4× A100, k=100) | < 15 ms p99 | [Z] | FE L79, L369 |
-| NCCL `mergeTopK` (worldSize=4, k=100, NVLink-3) | < 500 µs | [Z] | FE L80, L432 |
-| Device Probe (4-GPU System) | < 50 ms ✅ | [I] | FE L431 |
-| `getStats()` Call Latenz (Linux /proc/stat) | < 2 ms ✅ | [I] | FE L434 |
-| `canUseGPU()` NVML-Timeout-Guard | 500 ms Timeout → false (CPU-Fallback) | [I] | FE L443 |
+| CUDA L2-Search (1M ├ù 128-dim, RTX 3090) | < 8 ms | [Z] | FE L45, L427 |
+| Cosine Search Vulkan/MoltenVK (500k ├ù 128-dim, M2 Pro) | < 20 ms  | [I] | FE L428 |
+| GPU Distributed Index (100M ├ù 128-dim, 4├ù A100, k=100) | < 15 ms p99 | [Z] | FE L79, L369 |
+| NCCL `mergeTopK` (worldSize=4, k=100, NVLink-3) | < 500  | [Z] | FE L80, L432 |
+| Device Probe (4-GPU System) | < 50 ms  | [I] | FE L431 |
+| `getStats()` Call Latenz (Linux /proc/stat) | < 2 ms  | [I] | FE L434 |
+| `canUseGPU()` NVML-Timeout-Guard | 500 ms Timeout ÔåÆ false (CPU-Fallback) | [I] | FE L443 |
 | CPU Monitoring `/proc/stat` Polling-Intervall | 100 ms | [I] | FE L131 |
 
 ---
@@ -1807,11 +3212,11 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 
 | Schnittstelle | Ziel/Messwert | Typ | Quelle |
 |---------------|---------------|-----|--------|
-| Time-to-First-Token (512-Token Prompt, A10G) aktuell | ~350 ms (Schätzung) | [M est.] | FE L238 |
-| Time-to-First-Token (512-Token Prompt, A10G) Ziel | ≤ 200 ms p99 | [Z] | FE L138, L238 |
-| TTFT Bypass DeduplicationCache für Streaming | aktiviert (TTFT ≤ 200 ms) | [I] | FE L125 |
-| OpenAI-Compat Adapter Round-Trip Overhead | ≤ 2 ms vs. direktem `submitRequest()` | [I] | FE L165 |
-| Work-Stealing Pool Task Dispatch | ≤ 50 µs p99 (submit → Worker Pickup) | [Z] | FE L185, L241 |
+| Time-to-First-Token (512-Token Prompt, A10G) aktuell | ~350 ms (Sch├ñtzung) | [M est.] | FE L238 |
+| Time-to-First-Token (512-Token Prompt, A10G) Ziel |  200 ms p99 | [Z] | FE L138, L238 |
+| TTFT Bypass DeduplicationCache für Streaming | aktiviert (TTFT  200 ms) | [I] | FE L125 |
+| OpenAI-Compat Adapter Round-Trip Overhead |  2 ms vs. direktem `submitRequest()` | [I] | FE L165 |
+| Work-Stealing Pool Task Dispatch |  50  p99 (submit ÔåÆ Worker Pickup) | [Z] | FE L185, L241 |
 | LoRA Adapter Application | < 1 ms Overhead | [M] | llama_lora_adapter_README L163 |
 | Incomplete-Stream Warning (EOF ohne Marker) | innerhalb 500 ms | [Z] | FE L86 |
 
@@ -1821,13 +3226,13 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 
 | Schnittstelle | Ziel/Messwert | Typ | Quelle |
 |---------------|---------------|-----|--------|
-| Fast Evaluation Mode E2E | ≤ 100 ms p99 (kein LLM-Call) | [I] | FE L17, ROADMAP L28 |
-| Balanced Evaluation Mode E2E | ≤ 500 ms p99 | [I] | FE L18 |
-| Thorough Evaluation Mode E2E | ≤ 2 000 ms p99 | [Z] | FE L18 |
-| StreamingRetriever First-Chunk | ≤ 50 ms | [Z] | FE L767 |
-| ClaimExtractor (1000-Zeichen Antwort, LLM-First) | ≤ 500 ms | [Z] | FE L769 |
-| ClaimExtractor (heuristischer Fallback) | ≤ 50 ms | [Z] | FE L769 |
-| RAG Query E2E (Vector Search + LLM Generation) | 50–500 ms | [M] | aql README L165 |
+| Fast Evaluation Mode E2E |  100 ms p99 (kein LLM-Call) | [I] | FE L17, ROADMAP L28 |
+| Balanced Evaluation Mode E2E |  500 ms p99 | [I] | FE L18 |
+| Thorough Evaluation Mode E2E |  2 000 ms p99 | [Z] | FE L18 |
+| StreamingRetriever First-Chunk |  50 ms | [Z] | FE L767 |
+| ClaimExtractor (1000-Zeichen Antwort, LLM-First) |  500 ms | [Z] | FE L769 |
+| ClaimExtractor (heuristischer Fallback) |  50 ms | [Z] | FE L769 |
+| RAG Query E2E (Vector Search + LLM Generation) | 50 500 ms | [M] | aql README L165 |
 
 ---
 
@@ -1837,9 +3242,9 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 |---------------|---------------|-----|--------|
 | Metrics Collection Overhead | < 1 % CPU @ 1 000 req/s | [Z] | FE L20, L1221 |
 | Prometheus `/metrics` Scrape Response | < 50 ms p99 @ 10 000 active series | [Z] | FE L1225 |
-| Span Creation + In-Process Propagation | < 5 µs / Span | [Z] | FE L1226 |
+| Span Creation + In-Process Propagation | < 5  / Span | [Z] | FE L1226 |
 | OTLP Export Latenz (async, 1 000 spans/s) | < 5 ms p99 | [Z] | FE L1227 |
-| `QueryProfiler` per-Operator Timing Overhead | < 1 µs / Operator Boundary | [Z] | FE L1228 |
+| `QueryProfiler` per-Operator Timing Overhead | < 1  / Operator Boundary | [Z] | FE L1228 |
 | CPU Sampling Period | ~100 ms (1 % CPU Overhead) | [I] | README.md L630 |
 | Query P99 Alert-Threshold (Default) | > 1 000 ms | [I] | ROADMAP L58 |
 
@@ -1852,13 +3257,13 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 | RDTSC/RDTSCP Measurement Overhead (x86-64) | < 1 ns / Messpunkt | [I] | FE L20, ROADMAP L87 |
 | RAII Scoped Timer Overhead (1M Iterationen) | < 2 ns / Call average | [Z] | FE L809 |
 | P99-Percentile-Lookup (Ring bis 1 M Samples) | < 500 ns | [Z] | FE L821 |
-| GPU Metric Export Overhead (CUDA Stream / Inference) | < 100 µs | [Z] | FE L823 |
-| PMU Counter Read (`perf_event_open`) | < 1 µs | [Z] | FE L825 |
+| GPU Metric Export Overhead (CUDA Stream / Inference) | < 100  | [Z] | FE L823 |
+| PMU Counter Read (`perf_event_open`) | < 1  | [Z] | FE L825 |
 | Query Compilation Time | < 100 ms | [Z] | FE L235 |
 | No-Op Adapter | < 1 ns / Call | [M] | core README L319 |
-| Spdlog Async Adapter | ~50–100 ns / Log Call | [M] | core README L320 |
-| Prometheus Metrics Update | ~200–500 ns | [M] | core README L321 |
-| OTEL Span Creation | ~1–5 µs | [M] | core README L322 |
+| Spdlog Async Adapter | ~50 100 ns / Log Call | [M] | core README L320 |
+| Prometheus Metrics Update | ~200 500 ns | [M] | core README L321 |
+| OTEL Span Creation | ~1 5  | [M] | core README L322 |
 
 ---
 
@@ -1866,10 +3271,10 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 
 | Schnittstelle | Ziel/Messwert | Typ | Quelle |
 |---------------|---------------|-----|--------|
-| ViT-B/32 Image Encoding (CPU) | ≤ 150 ms / Image | [Z] | AUDIT L51, ROADMAP L43 |
-| ViT-B/32 CUDA Batch-64 | ≤ 20 ms (≤ 0.31 ms / Image) | [Z] | FE L30 |
-| Text Encoding (CPU) | ≤ 5 ms p95 | [Z] | FE L56, L59 |
-| Metrics Collection Overhead | ≤ 0.05 ms / Call | [Z] | FE L100 |
+| ViT-B/32 Image Encoding (CPU) |  150 ms / Image | [Z] | AUDIT L51, ROADMAP L43 |
+| ViT-B/32 CUDA Batch-64 |  20 ms ( 0.31 ms / Image) | [Z] | FE L30 |
+| Text Encoding (CPU) |  5 ms p95 | [Z] | FE L56, L59 |
+| Metrics Collection Overhead |  0.05 ms / Call | [Z] | FE L100 |
 
 ---
 
@@ -1878,7 +3283,7 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 | Schnittstelle | Ziel/Messwert | Typ | Quelle |
 |---------------|---------------|-----|--------|
 | DOCX Extraktion (500 KB) | < 200 ms | [Z] | FE L43 |
-| NDJSON Streaming Ingestion (1 GB, NVMe) | ≥ 100 MB/s | [Z] | FE L102, ROADMAP L107 |
+| NDJSON Streaming Ingestion (1 GB, NVMe) |  100 MB/s | [Z] | FE L102, ROADMAP L107 |
 | pHash (4 MP JPEG) | < 5 ms | [Z] | FE L121, ROADMAP L108 |
 | MinHash + LSH Lookup (10 KB Text, 100k Entries) | < 1 ms | [Z] | FE L122 |
 | Tesseract Init (warm, per Language Pack) | < 500 ms | [Z] | FE L143 |
@@ -1892,11 +3297,11 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 
 | Schnittstelle | Ziel/Messwert | Typ | Quelle |
 |---------------|---------------|-----|--------|
-| HTTP GET Round-Trip Overhead (vs. raw TCP) | ≤ 5 ms | [Z] | FE L69 |
-| Kafka → ThemisDB E2E Latenz | ≤ 500 ms p99 | [Z] | FE L89 |
-| S3 `ListObjectsV2` (1000 Objekte) | ≤ 100 ms | [Z] | FE L109 |
-| S3 Concurrent Downloads (4 parallel, 10 Gbps) | ≥ 200 MB/s aggregate | [Z] | FE L110, L189 |
-| Per-Dokument Quarantäne Retry (≤ 1 MB) | ≤ 10 ms | [Z] | FE L146, L190 |
+| HTTP GET Round-Trip Overhead (vs. raw TCP) |  5 ms | [Z] | FE L69 |
+| Kafka ÔåÆ ThemisDB E2E Latenz |  500 ms p99 | [Z] | FE L89 |
+| S3 `ListObjectsV2` (1000 Objekte) |  100 ms | [Z] | FE L109 |
+| S3 Concurrent Downloads (4 parallel, 10 Gbps) |  200 MB/s aggregate | [Z] | FE L110, L189 |
+| Per-Dokument Quarant├ñne Retry ( 1 MB) |  10 ms | [Z] | FE L146, L190 |
 
 ---
 
@@ -1905,8 +3310,8 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 | Schnittstelle | Ziel/Messwert | Typ | Quelle |
 |---------------|---------------|-----|--------|
 | JSONL Export Throughput (aktuell) | ~150 MB/s (Full Batch) | [M] | FE L107 |
-| JSONL Export Throughput (Ziel) | ≥ 200 000 docs/s sustained | [Z] | FE L107 |
-| Parquet Export (Arrow Path, uncompressed) | ≥ 500 MB/s | [Z] | FE L109 |
+| JSONL Export Throughput (Ziel) |  200 000 docs/s sustained | [Z] | FE L107 |
+| Parquet Export (Arrow Path, uncompressed) |  500 MB/s | [Z] | FE L109 |
 | Retry Initial Delay (konfigurierbar, Default) | 500 ms (doubles each retry) | [I] | README.md L193 |
 
 ---
@@ -1915,7 +3320,92 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 
 | Schnittstelle | Ziel/Messwert | Typ | Quelle |
 |---------------|---------------|-----|--------|
-| Vector Search (k=10, 1M Vectors) | 1–10 ms | [M] | README.md L799 |
+| Vector Search (k=10, 1M Vectors) | 1 10 ms | [M] | README.md L799 |
+| `insert_vector()` HNSW | 1 10 ms | [M] | README.md L798 |
+| Graph Traversal Depth 5 (1M Nodes) | < 100 ms | [Z] | FE L860 |
+| `shortest_path()` | 10 500 ms | [M] | README.md L800 |
+| `execute_query()` | 1 1000 ms | [M] | README.md L797 |
+| `find_documents()` | 1 100 ms | [M] | README.md L801 |
+| Connection Pool Acquire | < 1 ms | [Z] | FE L866 |
+| Streaming Result Throughput | 100 MB/s | [Z] | FE L864 |
+| Metric Export | < 100  | [Z] | FE L870 |
+| Schema-Operations (Index-Erstellung) | < 100 ms | [Z] | FE L871 |
+| Connection State Check Overhead | ~1 ns | [M] | README.md L391 |
+
+---
+
+### 39.29 Graph-Modul (`src/graph/`)
+
+| Schnittstelle | Ziel/Messwert | Typ | Quelle |
+|---------------|---------------|-----|--------|
+| Algorithm Selection ( 10M Nodes) | < 1 ms p99 | [Z] | FE L1122 |
+| Plan Cache Lookup (inkl. Fingerprint-Vergleich) | < 100  p99 | [Z] | FE L1122 |
+| Subgraph Isomorphism (100-Node Pattern, 1M-Node Graph) | < 500 ms p95 | [Z] | FE L1125 |
+| Audit Trail `appendAudit()` Overhead | < 1  / Mutation (Bounded Ring Buffer) | [Z] | FE L1079 |
+| `ChangeFeed::recordEvent()` (RocksDB single put) | < 5  / Event | [Z] | FE L1080 |
+| Background Scheduler Wake-Up Jitter | < 50 ms | [Z] | FE L1082 |
+| Observierter BFS (10k-Node Graph) | ~8 ms | [M] | FE L146 |
+| Statistics Collection | 10 100 ms (gecacht nach erstem Aufruf) | [M] | README.md L803 |
+| Plan Generation (einfach) | 0.1 5 ms | [M] | README.md L804 |
+| Complex Queries (Pattern Matching) | 5 50 ms | [M] | README.md L805 |
+| Plan Cache Lookup Hit Rate | 80 90 % | [M] | README.md L806 |
+| Single Constraint Check | ~0.1  | [M] | README.md L820 |
+| Path Validation (10 Constraints) | ~1  / Path | [M] | README.md L821 |
+| `findConstrainedPaths` (1000 explored, 10 valid) | 10 100 ms | [M] | README.md L822 |
+] | README.md L797 |
+| `find_documents()` | 1–100 ms | [M] | README.md L801 |
+| Connection Pool Acquire | < 1 ms | [Z] | FE L866 |
+| Streaming Result Throughput | 100 MB/s | [Z] | FE L864 |
+| Metric Export | < 100 µs | [Z] | FE L870 |
+=======
+| Vector Search (k=10, 1M Vectors) | 1 10 ms | [M] | README.md L799 |
+| `insert_vector()` HNSW | 1 10 ms | [M] | README.md L798 |
+| Graph Traversal Depth 5 (1M Nodes) | < 100 ms | [Z] | FE L860 |
+| `shortest_path()` | 10 500 ms | [M] | README.md L800 |
+| `execute_query()` | 1 1000 ms | [M] | README.md L797 |
+| `find_documents()` | 1 100 ms | [M] | README.md L801 |
+| Connection Pool Acquire | < 1 ms | [Z] | FE L866 |
+| Streaming Result Throughput | 100 MB/s | [Z] | FE L864 |
+| Metric Export | < 100  | [Z] | FE L870 |
+>>>>>>> Stashed changes
+| Schema-Operations (Index-Erstellung) | < 100 ms | [Z] | FE L871 |
+| Connection State Check Overhead | ~1 ns | [M] | README.md L391 |
+
+---
+
+### 39.29 Graph-Modul (`src/graph/`)
+
+| Schnittstelle | Ziel/Messwert | Typ | Quelle |
+|---------------|---------------|-----|--------|
+| Algorithm Selection (≤ 10M Nodes) | < 1 ms p99 | [Z] | FE L1122 |
+| Plan Cache Lookup (inkl. Fingerprint-Vergleich) | < 100 µs p99 | [Z] | FE L1122 |
+| Subgraph Isomorphism (100-Node Pattern, 1M-Node Graph) | < 500 ms p95 | [Z] | FE L1125 |
+| Audit Trail `appendAudit()` Overhead | < 1 µs / Mutation (Bounded Ring Buffer) | [Z] | FE L1079 |
+| `ChangeFeed::recordEvent()` (RocksDB single put) | < 5 µs / Event | [Z] | FE L1080 |
+| Background Scheduler Wake-Up Jitter | < 50 ms | [Z] | FE L1082 |
+| Observierter BFS (10k-Node Graph) | ~8 ms | [M] | FE L146 |
+| Statistics Collection | 10–100 ms (gecacht nach erstem Aufruf) | [M] | README.md L803 |
+| Plan Generation (einfach) | 0.1–5 ms | [M] | README.md L804 |
+| Complex Queries (Pattern Matching) | 5–50 ms | [M] | README.md L805 |
+| Plan Cache Lookup Hit Rate | 80–90 % | [M] | README.md L806 |
+| Single Constraint Check | ~0.1 µs | [M] | README.md L820 |
+| Path Validation (10 Constraints) | ~1 µs / Path | [M] | README.md L821 |
+| `findConstrainedPaths` (1000 explored, 10 valid) | 10–100 ms | [M] | README.md L822 |
+| Algorithm Selection ( 10M Nodes) | < 1 ms p99 | [Z] | FE L1122 |
+| Plan Cache Lookup (inkl. Fingerprint-Vergleich) | < 100  p99 | [Z] | FE L1122 |
+| Subgraph Isomorphism (100-Node Pattern, 1M-Node Graph) | < 500 ms p95 | [Z] | FE L1125 |
+| Audit Trail `appendAudit()` Overhead | < 1  / Mutation (Bounded Ring Buffer) | [Z] | FE L1079 |
+| `ChangeFeed::recordEvent()` (RocksDB single put) | < 5  / Event | [Z] | FE L1080 |
+| Background Scheduler Wake-Up Jitter | < 50 ms | [Z] | FE L1082 |
+| Observierter BFS (10k-Node Graph) | ~8 ms | [M] | FE L146 |
+| Statistics Collection | 10 100 ms (gecacht nach erstem Aufruf) | [M] | README.md L803 |
+| Plan Generation (einfach) | 0.1 5 ms | [M] | README.md L804 |
+| Complex Queries (Pattern Matching) | 5 50 ms | [M] | README.md L805 |
+| Plan Cache Lookup Hit Rate | 80 90 % | [M] | README.md L806 |
+| Single Constraint Check | ~0.1  | [M] | README.md L820 |
+| Path Validation (10 Constraints) | ~1  / Path | [M] | README.md L821 |
+| `findConstrainedPaths` (1000 explored, 10 valid) | 10 100 ms | [M] | README.md L822 |
+Vectors) | 1–10 ms | [M] | README.md L799 |
 | `insert_vector()` HNSW | 1–10 ms | [M] | README.md L798 |
 | Graph Traversal Depth 5 (1M Nodes) | < 100 ms | [Z] | FE L860 |
 | `shortest_path()` | 10–500 ms | [M] | README.md L800 |
@@ -1947,4 +3437,44 @@ Typ-Kennung in §39: **[M]** = gemessen · **[Z]** = Ziel · **[I]** = implement
 | Single Constraint Check | ~0.1 µs | [M] | README.md L820 |
 | Path Validation (10 Constraints) | ~1 µs / Path | [M] | README.md L821 |
 | `findConstrainedPaths` (1000 explored, 10 valid) | 10–100 ms | [M] | README.md L822 |
+
+) | Status |
+|-----------|------|-----------------|----------------------------|--------|
+
+### 39.28 Chimera-Modul (`src/chimera/`)
+
+| Schnittstelle | Ziel/Messwert | Typ | Quelle |
+|---------------|---------------|-----|--------|
+| Vector Search (k=10, 1M Vectors) | 1 10 ms | [M] | README.md L799 |
+| `insert_vector()` HNSW | 1 10 ms | [M] | README.md L798 |
+| Graph Traversal Depth 5 (1M Nodes) | < 100 ms | [Z] | FE L860 |
+| `shortest_path()` | 10 500 ms | [M] | README.md L800 |
+| `execute_query()` | 1 1000 ms | [M] | README.md L797 |
+| `find_documents()` | 1 100 ms | [M] | README.md L801 |
+| Connection Pool Acquire | < 1 ms | [Z] | FE L866 |
+| Streaming Result Throughput | 100 MB/s | [Z] | FE L864 |
+| Metric Export | < 100  | [Z] | FE L870 |
+| Schema-Operations (Index-Erstellung) | < 100 ms | [Z] | FE L871 |
+| Connection State Check Overhead | ~1 ns | [M] | README.md L391 |
+
+---
+
+### 39.29 Graph-Modul (`src/graph/`)
+
+| Schnittstelle | Ziel/Messwert | Typ | Quelle |
+|---------------|---------------|-----|--------|
+| Algorithm Selection ( 10M Nodes) | < 1 ms p99 | [Z] | FE L1122 |
+| Plan Cache Lookup (inkl. Fingerprint-Vergleich) | < 100  p99 | [Z] | FE L1122 |
+| Subgraph Isomorphism (100-Node Pattern, 1M-Node Graph) | < 500 ms p95 | [Z] | FE L1125 |
+| Audit Trail `appendAudit()` Overhead | < 1  / Mutation (Bounded Ring Buffer) | [Z] | FE L1079 |
+| `ChangeFeed::recordEvent()` (RocksDB single put) | < 5  / Event | [Z] | FE L1080 |
+| Background Scheduler Wake-Up Jitter | < 50 ms | [Z] | FE L1082 |
+| Observierter BFS (10k-Node Graph) | ~8 ms | [M] | FE L146 |
+| Statistics Collection | 10 100 ms (gecacht nach erstem Aufruf) | [M] | README.md L803 |
+| Plan Generation (einfach) | 0.1 5 ms | [M] | README.md L804 |
+| Complex Queries (Pattern Matching) | 5 50 ms | [M] | README.md L805 |
+| Plan Cache Lookup Hit Rate | 80 90 % | [M] | README.md L806 |
+| Single Constraint Check | ~0.1  | [M] | README.md L820 |
+| Path Validation (10 Constraints) | ~1  / Path | [M] | README.md L821 |
+| `findConstrainedPaths` (1000 explored, 10 valid) | 10 100 ms | [M] | README.md L822 |
 

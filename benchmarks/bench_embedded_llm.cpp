@@ -185,7 +185,7 @@ static void BM_LLM_Streaming(benchmark::State& state) {
             tokens.push_back(token);
         };
         
-        THEMIS_LLM().generate("Test prompt", max_tokens, callback);
+        THEMIS_LLM().generateStreaming("Test prompt", callback, max_tokens);
         benchmark::DoNotOptimize(tokens);
     }
     

@@ -1,5 +1,5 @@
 [docs](../../index.md) > [de](../index.md) > [network](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-04-08  
+**Datum:** 2026-04-11  
 **Status:** draft  
 **Primary (Quelle der Wahrheit):**
 - `include/network/ARCHITECTURE.md`
@@ -55,4 +55,4 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`network`**
 
 ---
 
-*Automatisch generiert von `tools/module_docs_builder.py` · 2026-04-08*
+*Automatisch generiert von `tools/module_docs_builder.py` · 2026-04-11*

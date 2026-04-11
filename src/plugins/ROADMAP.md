@@ -73,12 +73,12 @@ v1.3.0 — Phases 1–4 complete and production-ready (Phase 5 planned):
   - Tests: per-SDK smoke tests under `sdk/*/tests/`
 
 - [ ] Community plugin repository scanning and trust scoring (Target: Q4 2027)
-  - Files: `src/plugins/signed_plugin_repository.cpp`, new `src/plugins/plugin_trust_scorer.cpp`
+  - Files: `src/plugins/signed_plugin_repository.cpp`, new trust-scorer implementation file (planned)
   - Implementation: `PluginTrustScorer` queries community registry for known CVEs, maintainer reputation score, and download count; trust score (0–1) stored in registry metadata; plugins below configurable threshold rejected or flagged
   - Security: registry communication over mTLS; trust scores re-evaluated on every OCI manifest update
 
 - [ ] Marketplace integration (Target: Q4 2027)
-  - Files: new `src/plugins/plugin_marketplace_client.cpp`, `include/plugins/plugin_marketplace_client.h`
+  - Files: new marketplace client source/header pair (planned)
   - Implementation: REST client for community plugin discovery, rating, and one-click installation; integrates with `OciRegistryClient` for download and `SignedPluginRepository` for trust verification
 
 ## Implementation Phases

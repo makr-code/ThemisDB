@@ -1,7 +1,14 @@
 [docs](../../index.md) > [de](../index.md) > [whisper](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-04-08  
+**Datum:** 2026-04-11  
 **Status:** draft  
 **Primary (Quelle der Wahrheit):**
+- `include/whisper/ARCHITECTURE.md`
+- `include/whisper/AUDIT.md`
+- `include/whisper/CHANGELOG.md`
+- `include/whisper/FUTURE_ENHANCEMENTS.md`
+- `include/whisper/README.md`
+- `include/whisper/ROADMAP.md`
+- `include/whisper/SECURITY.md`
 - `src/whisper/ARCHITECTURE.md`
 - `src/whisper/AUDIT.md`
 - `src/whisper/CHANGELOG.md`
@@ -34,6 +41,18 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`whisper`**
 | `ROADMAP.md` | [`src/whisper/ROADMAP.md`](../../../src/whisper/ROADMAP.md) |
 | `SECURITY.md` | [`src/whisper/SECURITY.md`](../../../src/whisper/SECURITY.md) |
 
+### `include/whisper/`
+
+| Datei | Pfad |
+|-------|------|
+| `ARCHITECTURE.md` | [`include/whisper/ARCHITECTURE.md`](../../../include/whisper/ARCHITECTURE.md) |
+| `AUDIT.md` | [`include/whisper/AUDIT.md`](../../../include/whisper/AUDIT.md) |
+| `CHANGELOG.md` | [`include/whisper/CHANGELOG.md`](../../../include/whisper/CHANGELOG.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`include/whisper/FUTURE_ENHANCEMENTS.md`](../../../include/whisper/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`include/whisper/README.md`](../../../include/whisper/README.md) |
+| `ROADMAP.md` | [`include/whisper/ROADMAP.md`](../../../include/whisper/ROADMAP.md) |
+| `SECURITY.md` | [`include/whisper/SECURITY.md`](../../../include/whisper/SECURITY.md) |
+
 ---
 
-*Automatisch generiert von `tools/module_docs_builder.py` · 2026-04-08*
+*Automatisch generiert von `tools/module_docs_builder.py` · 2026-04-11*

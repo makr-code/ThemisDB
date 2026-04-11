@@ -33,6 +33,20 @@
 #include <vector>
 #include <random>
 
+#ifndef THEMIS_ENABLE_GPU
+
+static void BM_GPUErasure_GPUDisabled(benchmark::State& state) {
+    for (auto _ : state) {
+        state.SkipWithError("GPU erasure benchmarks are disabled in this build");
+        break;
+    }
+}
+BENCHMARK(BM_GPUErasure_GPUDisabled);
+
+BENCHMARK_MAIN();
+
+#else
+
 using namespace themis::sharding;
 
 // ═══════════════════════════════════════════════════════════
@@ -309,3 +323,5 @@ BENCHMARK(BM_GPU_Encode_HighRedundancy);
 
 // Main function
 BENCHMARK_MAIN();
+
+#endif  // THEMIS_ENABLE_GPU

@@ -1464,6 +1464,7 @@ set(THEMIS_CORE_SOURCES
     ../src/storage/blob_backend_azure.cpp
     ../src/storage/blob_backend_webdav.cpp
     ../src/storage/blob_backend_gcs.cpp
+    ../src/storage/concurrent_write_controller.cpp
     # nvme_manager.cpp is registered via cmake/StorageEnhancements.cmake
 
     ../src/metadata/schema_manager.cpp
@@ -1744,6 +1745,7 @@ set(THEMIS_CORE_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_HTTP3}>:../src/server/http3_production_config.cpp>
     $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:../src/server/websocket_session.cpp>
     $<$<BOOL:${THEMIS_ENABLE_MQTT}>:../src/server/mqtt_session.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_MQTT}>:../src/server/mqtt_client_service.cpp>
     $<$<BOOL:${THEMIS_ENABLE_POSTGRES_WIRE}>:../src/server/postgres_session.cpp>
     $<$<BOOL:${THEMIS_ENABLE_MCP}>:../src/server/mcp_server.cpp>
     $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/server/grpc_web_proxy_handler.cpp>
@@ -1894,6 +1896,7 @@ set(THEMIS_CORE_SOURCES
     ../src/timeseries/aggregates.cpp
     ../src/timeseries/downsampling.cpp
     ../src/timeseries/ts_auto_buffer_adaptive.cpp
+    ../src/timeseries/adaptive_flush_controller.cpp
     ../src/timeseries/encrypted_chunk_store.cpp
     ../src/timeseries/ts_encrypted_key_rotation.cpp
     
@@ -1992,6 +1995,9 @@ set(THEMIS_CORE_SOURCES
     ../src/search/search_highlighter.cpp
     ../src/search/negative_keyword_filter.cpp
     ../src/search/distributed_hybrid_search.cpp
+    ../src/search/conversational_search.cpp
+    ../src/search/federated_search.cpp
+    ../src/search/search_result_stream.cpp
     ../src/security/pki_key_provider.cpp
     ../src/security/cms_signing.cpp
     ../src/security/rbac.cpp
@@ -2070,6 +2076,8 @@ set(THEMIS_CORE_SOURCES
     ../src/governance/data_lineage.cpp
     ../src/governance/ccpa_rules.cpp
     ../src/governance/soc2_controls.cpp
+    ../src/governance/iso27001_rules.cpp
+    ../src/governance/hipaa_rules.cpp
     ../src/governance/model_governance.cpp
     ../src/governance/pci_dss_rules.cpp
     ../src/governance/data_masker.cpp
@@ -2194,6 +2202,8 @@ set(THEMIS_CORE_SOURCES
     ../src/acceleration/geo_acceleration_bridge.cpp
     ../src/acceleration/device_manager.cpp
     ../src/acceleration/vllm_resource_manager.cpp
+    # PERF-D3: Parallel batch insertion + SIMD distance pipeline
+    ../src/acceleration/vec_knn.cpp
     # shader_integrity.cpp uses only OpenSSL (SHA-256) — no GPU/graphics dependency.
     # Compiled unconditionally so ShaderIntegrityVerifier is always available.
     ../src/acceleration/shader_integrity.cpp
@@ -2654,6 +2664,8 @@ if(THEMIS_ENABLE_LLM)
     ../src/rag/onnx_model_loader.cpp
     ../src/rag/prompt_templates.cpp
     ../src/rag/response_parser.cpp
+    ../src/rag/multi_step_rag.cpp
+    ../src/rag/rag_context_assembler.cpp
     )
 endif()  # Close if(THEMIS_ENABLE_LLM)
 
@@ -2670,6 +2682,13 @@ if(NOT THEMIS_ENABLE_LLM)
     ../src/rag/citation_highlighter.cpp
     )
 endif()
+
+# Failover and chaos engineering sources
+list(APPEND THEMIS_CORE_SOURCES
+    ../src/failover/auto_failover_manager.cpp
+    ../src/failover/disaster_recovery_manager.cpp
+    ../src/chaos/chaos_framework.cpp
+)
 
 _themis_normalize_sources(THEMIS_CORE_SOURCES)
 
@@ -2837,6 +2856,7 @@ endif()
 target_include_directories(themis_core
     PUBLIC
         ${THEMIS_ROOT_DIR}/include
+    ${THEMIS_ROOT_DIR}/external/chimera/include
         ${THEMIS_ROOT_DIR}/src
         ${CMAKE_BINARY_DIR}/proto_generated
 )
@@ -3534,6 +3554,19 @@ endif()
 if(THEMIS_ENABLE_MQTT)
     target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_MQTT)
     message(STATUS "MQTT protocol support enabled")
+
+    # MQTT TLS — requires Boost.Asio SSL (OpenSSL) and THEMIS_ENABLE_MQTT=ON
+    if(NOT DEFINED THEMIS_ENABLE_MQTT_TLS)
+        option(THEMIS_ENABLE_MQTT_TLS "Enable TLS for MQTT client (requires OpenSSL)" OFF)
+    endif()
+    if(THEMIS_ENABLE_MQTT_TLS)
+        if(NOT OpenSSL_FOUND)
+            message(FATAL_ERROR "THEMIS_ENABLE_MQTT_TLS requires OpenSSL but it was not found.")
+        endif()
+        target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_MQTT_TLS)
+        target_link_libraries(themis_core PUBLIC OpenSSL::SSL OpenSSL::Crypto)
+        message(STATUS "MQTT TLS support enabled (Boost.Asio ssl::stream + OpenSSL)")
+    endif()
 endif()
 
 # PostgreSQL Wire Protocol Support
@@ -4312,6 +4345,23 @@ if(THEMIS_BUILD_TESTS)
         CONFIGURATIONS Release Debug
     )
 
+    if(EXISTS "${THEMIS_ROOT_DIR}/tests/test_search_future_interfaces.cpp")
+        add_executable(test_search_future_interfaces
+            ${THEMIS_ROOT_DIR}/tests/test_search_future_interfaces.cpp
+        )
+        target_link_libraries(test_search_future_interfaces
+            PRIVATE themis_core GTest::gtest GTest::gtest_main
+        )
+        gtest_discover_tests(test_search_future_interfaces
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_search_future_interfaces>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
+            PROPERTIES LABELS "search;conversational;federated;streaming;phase5;v2.4.0;unit"
+        )
+        message(STATUS "  SearchFutureInterfaces: ConversationalSearch, FederatedSearch, SearchResultStream (v2.4.0)")
+    endif()
+
     add_executable(test_bitemporal_join
         ${THEMIS_ROOT_DIR}/tests/test_bitemporal_join.cpp
     )
@@ -4429,6 +4479,19 @@ if(THEMIS_BUILD_TESTS)
     gtest_discover_tests(test_ts_auto_buffer_adaptive
         DISCOVERY_MODE PRE_TEST
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_ts_auto_buffer_adaptive>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+    )
+
+    add_executable(test_adaptive_flush_controller
+        ${THEMIS_ROOT_DIR}/tests/test_adaptive_flush_controller.cpp
+    )
+    target_link_libraries(test_adaptive_flush_controller
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(test_adaptive_flush_controller
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_adaptive_flush_controller>
         EXTRA_ARGS --gtest_color=yes
         CONFIGURATIONS Release Debug
     )

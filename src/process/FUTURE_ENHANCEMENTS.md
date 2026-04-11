@@ -801,7 +801,7 @@ Import Event-driven Process Chain (EPK) models exported from the ARIS toolset in
 - Must not break existing EPK text/JSON import.
 
 **Required Interfaces:**  
-New file `src/process/aris_xml_parser.cpp`:
+New ARIS XML parser implementation file (planned):
 ```cpp
 namespace themis::process {
 // Returns a ProcessModelRecord with notation=EPK

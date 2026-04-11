@@ -95,7 +95,8 @@ static void BM_ScanEmptyDirectory(benchmark::State& state) {
     fs::create_directories(empty_dir);
     
     for (auto _ : state) {
-        size_t count = manager.scanPluginDirectory(empty_dir);
+        auto count_result = manager.scanPluginDirectory(empty_dir);
+        size_t count = count_result.has_value() ? *count_result : 0;
         benchmark::DoNotOptimize(count);
     }
     
@@ -112,7 +113,8 @@ static void BM_ScanDirectoryWithPlugins(benchmark::State& state) {
         PluginManager manager;
         state.ResumeTiming();
         
-        size_t count = manager.scanPluginDirectory(PluginBenchmarkFixture::test_dir);
+        auto count_result = manager.scanPluginDirectory(PluginBenchmarkFixture::test_dir);
+        size_t count = count_result.has_value() ? *count_result : 0;
         benchmark::DoNotOptimize(count);
     }
     
@@ -123,10 +125,11 @@ BENCHMARK(BM_ScanDirectoryWithPlugins);
 static void BM_ReScanDirectory(benchmark::State& state) {
     PluginBenchmarkFixture::setupOnce();
     PluginManager manager;
-    manager.scanPluginDirectory(PluginBenchmarkFixture::test_dir);
+    (void)manager.scanPluginDirectory(PluginBenchmarkFixture::test_dir);
     
     for (auto _ : state) {
-        size_t count = manager.scanPluginDirectory(PluginBenchmarkFixture::test_dir);
+        auto count_result = manager.scanPluginDirectory(PluginBenchmarkFixture::test_dir);
+        size_t count = count_result.has_value() ? *count_result : 0;
         benchmark::DoNotOptimize(count);
     }
     
@@ -141,10 +144,10 @@ BENCHMARK(BM_ReScanDirectory);
 static void BM_IsPluginLoaded(benchmark::State& state) {
     PluginBenchmarkFixture::setupOnce();
     PluginManager manager;
-    manager.scanPluginDirectory(PluginBenchmarkFixture::test_dir);
+    (void)manager.scanPluginDirectory(PluginBenchmarkFixture::test_dir);
     
     for (auto _ : state) {
-        bool loaded = manager.isLoaded("plugin0");
+        bool loaded = manager.isPluginLoaded("plugin0");
         benchmark::DoNotOptimize(loaded);
     }
     
@@ -155,10 +158,10 @@ BENCHMARK(BM_IsPluginLoaded);
 static void BM_GetPluginInfo(benchmark::State& state) {
     PluginBenchmarkFixture::setupOnce();
     PluginManager manager;
-    manager.scanPluginDirectory(PluginBenchmarkFixture::test_dir);
+    (void)manager.scanPluginDirectory(PluginBenchmarkFixture::test_dir);
     
     for (auto _ : state) {
-        auto info = manager.getPluginInfo("plugin0");
+        auto info = manager.getManifest("plugin0");
         benchmark::DoNotOptimize(info);
     }
     
@@ -169,10 +172,10 @@ BENCHMARK(BM_GetPluginInfo);
 static void BM_GetAllPlugins(benchmark::State& state) {
     PluginBenchmarkFixture::setupOnce();
     PluginManager manager;
-    manager.scanPluginDirectory(PluginBenchmarkFixture::test_dir);
+    (void)manager.scanPluginDirectory(PluginBenchmarkFixture::test_dir);
     
     for (auto _ : state) {
-        auto plugins = manager.getAllPlugins();
+        auto plugins = manager.listPlugins();
         benchmark::DoNotOptimize(plugins);
     }
     
@@ -183,7 +186,7 @@ BENCHMARK(BM_GetAllPlugins);
 static void BM_GetPluginsByType(benchmark::State& state) {
     PluginBenchmarkFixture::setupOnce();
     PluginManager manager;
-    manager.scanPluginDirectory(PluginBenchmarkFixture::test_dir);
+    (void)manager.scanPluginDirectory(PluginBenchmarkFixture::test_dir);
     
     PluginType type = PluginType::COMPUTE_BACKEND;
     for (auto _ : state) {
@@ -198,10 +201,10 @@ BENCHMARK(BM_GetPluginsByType);
 static void BM_GetLoadedPlugins(benchmark::State& state) {
     PluginBenchmarkFixture::setupOnce();
     PluginManager manager;
-    manager.scanPluginDirectory(PluginBenchmarkFixture::test_dir);
+    (void)manager.scanPluginDirectory(PluginBenchmarkFixture::test_dir);
     
     for (auto _ : state) {
-        auto plugins = manager.getLoadedPlugins();
+        auto plugins = manager.listLoadedPlugins();
         benchmark::DoNotOptimize(plugins);
     }
     
@@ -216,10 +219,10 @@ BENCHMARK(BM_GetLoadedPlugins);
 static void BM_LoadNonexistentPlugin(benchmark::State& state) {
     PluginBenchmarkFixture::setupOnce();
     PluginManager manager;
-    manager.scanPluginDirectory(PluginBenchmarkFixture::test_dir);
+    (void)manager.scanPluginDirectory(PluginBenchmarkFixture::test_dir);
     
     for (auto _ : state) {
-        IThemisPlugin* plugin = manager.loadPlugin("plugin0");
+        auto plugin = manager.loadPlugin("plugin0");
         benchmark::DoNotOptimize(plugin);
     }
     
@@ -245,7 +248,8 @@ static void BM_ManifestParsing(benchmark::State& state) {
     
     for (auto _ : state) {
         PluginManager manager;
-        size_t count = manager.scanPluginDirectory(bench_dir);
+        auto count_result = manager.scanPluginDirectory(bench_dir);
+        size_t count = count_result.has_value() ? *count_result : 0;
         benchmark::DoNotOptimize(count);
     }
     
@@ -258,19 +262,21 @@ BENCHMARK(BM_ManifestParsing)->Arg(10)->Arg(50)->Arg(100);
 // Plugin Enable/Disable Benchmarks
 // ============================================================================
 
-static void BM_EnableDisablePlugin(benchmark::State& state) {
+static void BM_LoadUnloadPlugin(benchmark::State& state) {
     PluginBenchmarkFixture::setupOnce();
     PluginManager manager;
-    manager.scanPluginDirectory(PluginBenchmarkFixture::test_dir);
+    (void)manager.scanPluginDirectory(PluginBenchmarkFixture::test_dir);
     
     for (auto _ : state) {
-        manager.disablePlugin("plugin0");
-        manager.enablePlugin("plugin0");
+        auto load_result = manager.loadPlugin("plugin0");
+        auto unload_result = manager.unloadPlugin("plugin0");
+        benchmark::DoNotOptimize(load_result);
+        benchmark::DoNotOptimize(unload_result);
     }
     
     state.SetItemsProcessed(state.iterations() * 2);
 }
-BENCHMARK(BM_EnableDisablePlugin);
+BENCHMARK(BM_LoadUnloadPlugin);
 
 // ============================================================================
 // Hot Reload Benchmarks
@@ -279,10 +285,10 @@ BENCHMARK(BM_EnableDisablePlugin);
 static void BM_ReloadPlugin(benchmark::State& state) {
     PluginBenchmarkFixture::setupOnce();
     PluginManager manager;
-    manager.scanPluginDirectory(PluginBenchmarkFixture::test_dir);
+    (void)manager.scanPluginDirectory(PluginBenchmarkFixture::test_dir);
     
     for (auto _ : state) {
-        bool result = manager.reloadPlugin("plugin0");
+        auto result = manager.reloadPlugin("plugin0");
         benchmark::DoNotOptimize(result);
     }
     
@@ -294,19 +300,19 @@ BENCHMARK(BM_ReloadPlugin);
 // Statistics Benchmarks
 // ============================================================================
 
-static void BM_GetStatistics(benchmark::State& state) {
+static void BM_GetMetricsSnapshot(benchmark::State& state) {
     PluginBenchmarkFixture::setupOnce();
     PluginManager manager;
-    manager.scanPluginDirectory(PluginBenchmarkFixture::test_dir);
+    (void)manager.scanPluginDirectory(PluginBenchmarkFixture::test_dir);
     
     for (auto _ : state) {
-        auto stats = manager.getStatistics();
+        auto stats = manager.getMetrics().getAllStats();
         benchmark::DoNotOptimize(stats);
     }
     
     state.SetItemsProcessed(state.iterations());
 }
-BENCHMARK(BM_GetStatistics);
+BENCHMARK(BM_GetMetricsSnapshot);
 
 // ============================================================================
 // Concurrent Access Benchmarks
@@ -317,7 +323,7 @@ static void BM_ConcurrentQueries(benchmark::State& state) {
     static PluginManager manager;
     
     if (state.thread_index() == 0) {
-        manager.scanPluginDirectory(PluginBenchmarkFixture::test_dir);
+        (void)manager.scanPluginDirectory(PluginBenchmarkFixture::test_dir);
     }
     
     std::random_device rd;
@@ -328,7 +334,7 @@ static void BM_ConcurrentQueries(benchmark::State& state) {
         int idx = dis(gen);
         std::string plugin_name = "plugin" + std::to_string(idx);
         
-        auto info = manager.getPluginInfo(plugin_name);
+        auto info = manager.getManifest(plugin_name);
         benchmark::DoNotOptimize(info);
     }
     
@@ -341,7 +347,8 @@ static void BM_ConcurrentScans(benchmark::State& state) {
     static PluginManager manager;
     
     for (auto _ : state) {
-        size_t count = manager.scanPluginDirectory(PluginBenchmarkFixture::test_dir);
+        auto count_result = manager.scanPluginDirectory(PluginBenchmarkFixture::test_dir);
+        size_t count = count_result.has_value() ? *count_result : 0;
         benchmark::DoNotOptimize(count);
     }
     
@@ -354,11 +361,11 @@ static void BM_ConcurrentGetAllPlugins(benchmark::State& state) {
     static PluginManager manager;
     
     if (state.thread_index() == 0) {
-        manager.scanPluginDirectory(PluginBenchmarkFixture::test_dir);
+        (void)manager.scanPluginDirectory(PluginBenchmarkFixture::test_dir);
     }
     
     for (auto _ : state) {
-        auto plugins = manager.getAllPlugins();
+        auto plugins = manager.listPlugins();
         benchmark::DoNotOptimize(plugins);
     }
     
@@ -406,13 +413,13 @@ BENCHMARK(BM_MemoryOverhead)->Arg(10)->Arg(100)->Arg(1000);
 static void BM_FilterPluginsByType(benchmark::State& state) {
     PluginBenchmarkFixture::setupOnce();
     PluginManager manager;
-    manager.scanPluginDirectory(PluginBenchmarkFixture::test_dir);
+    (void)manager.scanPluginDirectory(PluginBenchmarkFixture::test_dir);
     
     std::vector<PluginType> types = {
         PluginType::COMPUTE_BACKEND,
-        PluginType::CONTENT_PROCESSOR,
-        PluginType::STORAGE_BACKEND,
-        PluginType::SECURITY_MODULE
+        PluginType::BLOB_STORAGE,
+        PluginType::EXPORTER,
+        PluginType::CUSTOM
     };
     
     int idx = 0;
@@ -433,14 +440,14 @@ BENCHMARK(BM_FilterPluginsByType);
 static void BM_BatchPluginQueries(benchmark::State& state) {
     PluginBenchmarkFixture::setupOnce();
     PluginManager manager;
-    manager.scanPluginDirectory(PluginBenchmarkFixture::test_dir);
+    (void)manager.scanPluginDirectory(PluginBenchmarkFixture::test_dir);
     
     const int batch_size = state.range(0);
     
     for (auto _ : state) {
         for (int i = 0; i < batch_size; i++) {
             std::string plugin_name = "plugin" + std::to_string(i % 100);
-            auto info = manager.getPluginInfo(plugin_name);
+            auto info = manager.getManifest(plugin_name);
             benchmark::DoNotOptimize(info);
         }
     }
@@ -470,7 +477,7 @@ static void BM_ManagerDestruction(benchmark::State& state) {
     for (auto _ : state) {
         state.PauseTiming();
         PluginManager* manager = new PluginManager();
-        manager->scanPluginDirectory(cleanup_dir);
+        (void)manager->scanPluginDirectory(cleanup_dir);
         state.ResumeTiming();
         
         delete manager;
@@ -494,20 +501,20 @@ static void BM_TypicalWorkflow(benchmark::State& state) {
         state.ResumeTiming();
         
         // Scan directory
-        manager.scanPluginDirectory(PluginBenchmarkFixture::test_dir);
+        (void)manager.scanPluginDirectory(PluginBenchmarkFixture::test_dir);
         
         // Query some plugins
         auto compute_plugins = manager.getPluginsByType(PluginType::COMPUTE_BACKEND);
-        auto all_plugins = manager.getAllPlugins();
+        auto all_plugins = manager.listPlugins();
         
         // Get specific plugin info
-        auto info = manager.getPluginInfo("plugin0");
+        auto info = manager.getManifest("plugin0");
         
         // Check if loaded
-        bool loaded = manager.isLoaded("plugin0");
+        bool loaded = manager.isPluginLoaded("plugin0");
         
         // Get statistics
-        auto stats = manager.getStatistics();
+        auto stats = manager.getMetrics().getAllStats();
         
         benchmark::DoNotOptimize(compute_plugins);
         benchmark::DoNotOptimize(all_plugins);

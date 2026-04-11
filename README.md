@@ -5,7 +5,7 @@
   <!-- Row 1: Build & Release -->
   [![CI](https://github.com/makr-code/ThemisDB/actions/workflows/01-core_themis-core-ci.yml/badge.svg?branch=develop)](docs/en/badges/ci-status.md)
   [![Security CI](https://github.com/makr-code/ThemisDB/actions/workflows/05-quality_security_security-hardening-ci.yml/badge.svg?branch=develop)](docs/en/badges/security-ci.md)
-  [![Version](https://img.shields.io/badge/version-1.8.0-blue)](docs/en/badges/version.md)
+    [![Version](https://img.shields.io/badge/version-1.8.1--rc2-blue)](docs/en/badges/version.md)
   [![License](https://img.shields.io/badge/license-MIT-green)](docs/en/badges/license.md)
   [![Docker Pulls](https://img.shields.io/docker/pulls/themisdb/themisdb)](docs/en/badges/docker.md)
 
@@ -156,7 +156,7 @@ ThemisDB has **comprehensive documentation for all 46 modules** (153 files total
 <summary><b>🎯 Specialized</b> (5 modules)</summary>
 
 - **[Graph](src/graph/README.md)** - 5 traversal algorithms (BFS/DFS/Dijkstra/A*/Bidirectional), 12 constraint types ([Future Enhancements](src/graph/FUTURE_ENHANCEMENTS.md))
-- **[Chimera](src/chimera/README.md)** - Vendor-neutral CHIMERA benchmark adapter ([Future Enhancements](src/chimera/FUTURE_ENHANCEMENTS.md))
+- **[Chimera](external/chimera/src/chimera/README.md)** - Vendor-neutral CHIMERA benchmark adapter ([Future Enhancements](external/chimera/src/chimera/FUTURE_ENHANCEMENTS.md))
 - **[Geo](src/geo/README.md)** - Advanced geospatial features and queries ([Future Enhancements](src/geo/FUTURE_ENHANCEMENTS.md))
 - **[Acceleration](src/acceleration/README.md)** - Hardware acceleration (GPU, SIMD, etc.) ([Future Enhancements](src/acceleration/FUTURE_ENHANCEMENTS.md))
 - **[Process](src/process/README.md)** - BPMN 2.0/EPK/VCC-VPB process model management, LLM descriptors, Graph-RAG for Verwaltungsvorgänge, compliance tagging ([Future Enhancements](src/process/FUTURE_ENHANCEMENTS.md))
@@ -1106,11 +1106,11 @@ ThemisDB performance is evaluated using the **CHIMERA Suite** (_Comprehensive Hy
 - 🌐 Vendor-neutral, color-blind friendly reporting
 - 📊 Statistical rigor with confidence intervals
 
-**📊 [CHIMERA Suite Documentation](benchmarks/chimera/README.md)** | **[Complete Benchmark Results](benchmarks/BENCHMARK_DETAILED_RESULTS.md)**
+**📊 [CHIMERA Suite Documentation](external/chimera/README.md)** | **[Complete Benchmark Results](benchmarks/BENCHMARK_DETAILED_RESULTS.md)**
 
 ### Independent Benchmarking
 
-ThemisDB performance can be independently evaluated using the **[CHIMERA Suite](benchmarks/chimera/CHIMERA_README.md)** - a vendor-neutral, IEEE-compliant benchmarking framework that supports fair comparison across multiple database systems.
+ThemisDB performance can be independently evaluated using the **[CHIMERA Suite](external/chimera/CHIMERA_README.md)** - a vendor-neutral, IEEE-compliant benchmarking framework that supports fair comparison across multiple database systems.
 
 CHIMERA Suite features:
 - Vendor-neutral reporting and visualization
@@ -1118,7 +1118,7 @@ CHIMERA Suite features:
 - Color-blind friendly design
 - Support for multiple database systems (PostgreSQL, MongoDB, Neo4j, ThemisDB, and more)
 
-Learn more: [CHIMERA Suite Documentation](benchmarks/chimera/)
+Learn more: [CHIMERA Suite Documentation](external/chimera/)
 
 ### Performance Dashboard & Monitoring
 

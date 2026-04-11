@@ -88,7 +88,7 @@ Production-ready for module loading, signature verification, and plugin lifecycl
 ## Known Issues & Limitations
 - WASM plugin isolation (`WasmPluginSandbox`) requires injection of a concrete WASM runtime (Wasmtime, WasmEdge, etc.) for full execution support (Issue: #1572)
 - Automatic plugin restart after health-check failure is implemented via `ModuleLoader` watchdog thread (Issue: #2373)
-- Unit test coverage, integration tests, and performance benchmarks are still open (Issues: #1573, #1574, #1575)
+- Integration tests and performance benchmarks are still open (Issues: #1574, #1575)
 
 ## Breaking Changes
 - WASM plugin interface will be a new API surface (additive, non-breaking to existing plugin interface)
