@@ -90,10 +90,10 @@ std::vector<uint8_t> SDPlugin::encodeMinimalPng(const std::vector<uint8_t>& /*rg
     return png;
 }
 
-// ── generate ──────────────────────────────────────────────────────────────────
+// ── generateLocked (internal, called with generate_mutex_ held) ───────────────
 
-GeneratedImage SDPlugin::generate(const std::string& prompt,
-                                   const SDGenerationConfig& cfg) {
+GeneratedImage SDPlugin::generateLocked(const std::string& prompt,
+                                         const SDGenerationConfig& cfg) {
     GeneratedImage img;
     img.plugin_version = getPluginVersion();
 
@@ -104,11 +104,20 @@ GeneratedImage SDPlugin::generate(const std::string& prompt,
         return img;
     }
 
-    // Content policy check
+    // Content policy check – positive prompt
     if (!isPromptAllowed(prompt)) {
         ++blocked_count_;
         img.success = false;
         img.error_message = "prompt blocked by content policy";
+        img.prompt_hash   = sha256Hex(prompt);
+        return img;
+    }
+
+    // Content policy check – negative_prompt (security: prevent policy bypass via negation)
+    if (!cfg.negative_prompt.empty() && !isPromptAllowed(cfg.negative_prompt)) {
+        ++blocked_count_;
+        img.success = false;
+        img.error_message = "negative_prompt blocked by content policy";
         img.prompt_hash   = sha256Hex(prompt);
         return img;
     }
@@ -120,6 +129,89 @@ GeneratedImage SDPlugin::generate(const std::string& prompt,
         int      w = 0, h = 0;
         uint64_t seed_used = 0;
         const auto rgb = generator_->generate(sanitized, cfg, w, h, seed_used);
+
+        img.png_data   = encodeMinimalPng(rgb, w, h);
+        img.width      = w;
+        img.height     = h;
+        img.sampler    = cfg.sampler;
+        img.seed_used  = seed_used;
+        img.model_id   = getModelId();
+        img.generation_timestamp = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::system_clock::now().time_since_epoch()).count();
+        img.success = true;
+        ++generation_count_;
+    } catch (const std::exception& ex) {
+        ++error_count_;
+        img.success       = false;
+        img.error_message = ex.what();
+    }
+
+    return img;
+}
+
+// ── generate ──────────────────────────────────────────────────────────────────
+
+GeneratedImage SDPlugin::generate(const std::string& prompt,
+                                   const SDGenerationConfig& cfg) {
+    std::lock_guard<std::mutex> lock(generate_mutex_);
+    return generateLocked(prompt, cfg);
+}
+
+// ── generateBatch ─────────────────────────────────────────────────────────────
+
+std::vector<GeneratedImage> SDPlugin::generateBatch(
+        const std::vector<std::string>& prompts,
+        const SDGenerationConfig& cfg) {
+    std::lock_guard<std::mutex> lock(generate_mutex_);
+    std::vector<GeneratedImage> results;
+    results.reserve(prompts.size());
+    for (const auto& p : prompts) {
+        results.push_back(generateLocked(p, cfg));
+    }
+    return results;
+}
+
+// ── generateImg2Img ───────────────────────────────────────────────────────────
+
+GeneratedImage SDPlugin::generateImg2Img(const std::string& prompt,
+                                          const Img2ImgConfig& cfg) {
+    std::lock_guard<std::mutex> lock(generate_mutex_);
+
+    GeneratedImage img;
+    img.plugin_version = getPluginVersion();
+
+    if (!initialized_) {
+        ++error_count_;
+        img.success = false;
+        img.error_message = "SDPlugin not initialized";
+        return img;
+    }
+
+    // Content policy check – positive prompt
+    if (!isPromptAllowed(prompt)) {
+        ++blocked_count_;
+        img.success = false;
+        img.error_message = "prompt blocked by content policy";
+        img.prompt_hash   = sha256Hex(prompt);
+        return img;
+    }
+
+    // Content policy check – negative_prompt
+    if (!cfg.negative_prompt.empty() && !isPromptAllowed(cfg.negative_prompt)) {
+        ++blocked_count_;
+        img.success = false;
+        img.error_message = "negative_prompt blocked by content policy";
+        img.prompt_hash   = sha256Hex(prompt);
+        return img;
+    }
+
+    const std::string sanitized = sanitizer_.sanitize(prompt);
+    img.prompt_hash = sha256Hex(sanitized);
+
+    try {
+        int      w = 0, h = 0;
+        uint64_t seed_used = 0;
+        const auto rgb = generator_->generateImg2Img(sanitized, cfg, w, h, seed_used);
 
         img.png_data   = encodeMinimalPng(rgb, w, h);
         img.width      = w;
