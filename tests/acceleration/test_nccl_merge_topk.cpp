@@ -3,7 +3,7 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_nccl_merge_topk.cpp                           ║
-  Version:         1.0.0                                              ║
+  Version:         1.9.0                                              ║
   Last Modified:   2026-04-11                                         ║
   Author:          copilot                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
@@ -379,7 +379,8 @@ TEST_F(NCCLMergeTopKSingleRankTest, B04_WorldSize1_K0_NoOp) {
 
 // B-05: k > localK must be rejected
 TEST_F(NCCLMergeTopKSingleRankTest, B05_RejectsKGreaterThanLocalK) {
-    EXPECT_FALSE(backend_.mergeTopK(nullptr, nullptr, 5u, nullptr, nullptr, 10u, 0, nullptr));
+    EXPECT_FALSE(backend_.mergeTopK(nullptr, nullptr, 5u, nullptr, nullptr, 10u, 0, nullptr))
+        << "Expected mergeTopK to reject k > localK (k=10, localK=5)";
 }
 
 #endif // THEMIS_ENABLE_NCCL
@@ -462,7 +463,8 @@ TEST_F(RCCLMergeTopKSingleRankTest, C04_WorldSize1_K0_NoOp) {
 
 // C-05: k > localK must be rejected
 TEST_F(RCCLMergeTopKSingleRankTest, C05_RejectsKGreaterThanLocalK) {
-    EXPECT_FALSE(backend_.mergeTopK(nullptr, nullptr, 5u, nullptr, nullptr, 10u, 0, nullptr));
+    EXPECT_FALSE(backend_.mergeTopK(nullptr, nullptr, 5u, nullptr, nullptr, 10u, 0, nullptr))
+        << "Expected mergeTopK to reject k > localK (k=10, localK=5)";
 }
 
 #endif // THEMIS_ENABLE_RCCL
