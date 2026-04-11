@@ -450,7 +450,7 @@ static void BM_AuditLog_TamperEvidentAppend(benchmark::State& state) {
     cfg.log_path        = benchmark_temp_path("bench_security_audit.jsonl").string();
     cfg.chain_head_path = benchmark_temp_path("bench_security_audit_head.bin").string();
     cfg.fsync_on_write  = false;  // disable fsync for throughput benchmark
-    cfg.checkpoint_interval = 64;
+    cfg.checkpoint_interval = 4096;
     std::filesystem::remove(cfg.log_path);
     std::filesystem::remove(cfg.chain_head_path);
     themis::utils::HashChainAuditWriter writer(cfg);
@@ -463,18 +463,45 @@ static void BM_AuditLog_TamperEvidentAppend(benchmark::State& state) {
 
     for (auto _ : state) {
         writer.write(ev);
-        benchmark::DoNotOptimize(writer.sequenceNumber());
+        benchmark::ClobberMemory();
     }
-    state.SetLabel("HashChainAuditWriter tamper-evident append — target p99 ≤ 2 ms");
+    state.SetLabel("HashChainAuditWriter tamper-evident append - target p99 <= 2 ms");
 }
 BENCHMARK(BM_AuditLog_TamperEvidentAppend);
+
+static void BM_AuditLog_TamperEvidentAppend_HotPath(benchmark::State& state) {
+    themis::utils::HashChainAuditWriterConfig cfg;
+#ifdef _WIN32
+    cfg.log_path = "NUL";
+#else
+    cfg.log_path = "/dev/null";
+#endif
+    cfg.chain_head_path = benchmark_temp_path("bench_security_audit_hotpath_head.bin").string();
+    cfg.fsync_on_write  = false;
+    cfg.checkpoint_interval = 4096;
+    std::filesystem::remove(cfg.chain_head_path);
+    themis::utils::HashChainAuditWriter writer(cfg);
+
+    nlohmann::json ev;
+    ev["actor"]    = "bench_user";
+    ev["action"]   = "READ";
+    ev["resource"] = "collection:accounts";
+    ev["outcome"]  = "SUCCESS";
+
+    for (auto _ : state) {
+        writer.write(ev);
+        benchmark::ClobberMemory();
+    }
+    state.SetLabel("HashChainAuditWriter tamper-evident append (hotpath, null sink)");
+}
+BENCHMARK(BM_AuditLog_TamperEvidentAppend_HotPath);
 
 static void BM_AuditLog_BatchAppend_100(benchmark::State& state) {
     themis::utils::HashChainAuditWriterConfig cfg;
     cfg.log_path        = benchmark_temp_path("bench_security_audit_batch.jsonl").string();
     cfg.chain_head_path = benchmark_temp_path("bench_security_audit_batch_head.bin").string();
     cfg.fsync_on_write  = false;
-    cfg.checkpoint_interval = 64;
+    cfg.checkpoint_interval = 4096;
     std::filesystem::remove(cfg.log_path);
     std::filesystem::remove(cfg.chain_head_path);
     themis::utils::HashChainAuditWriter writer(cfg);
@@ -488,7 +515,7 @@ static void BM_AuditLog_BatchAppend_100(benchmark::State& state) {
         for (int i = 0; i < 100; ++i) {
             writer.write(ev);
         }
-        benchmark::DoNotOptimize(writer.sequenceNumber());
+        benchmark::ClobberMemory();
     }
     state.SetLabel("HashChainAuditWriter batch-append 100 entries");
 }

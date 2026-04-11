@@ -518,6 +518,13 @@ foreach(_test_source ${ALL_TEST_SOURCES})
 endforeach()
 set(ALL_TEST_SOURCES ${_auto_filtered_test_sources})
 
+# Keep this golden-regression test in the unified binary regardless of
+# pattern-based gating, because it protects article-driven dialectic output.
+list(APPEND ALL_TEST_SOURCES
+    "${CMAKE_CURRENT_SOURCE_DIR}/test_ethics_agentic_dialectic_golden.cpp"
+)
+list(REMOVE_DUPLICATES ALL_TEST_SOURCES)
+
 list(LENGTH ALL_TEST_SOURCES TEST_SOURCE_COUNT)
 message(STATUS "Building ${TEST_SOURCE_COUNT} test files after feature gating")
 themis_report_test_selection("${CMAKE_CURRENT_SOURCE_DIR}" "${ALL_TEST_SOURCES}")
@@ -16953,6 +16960,59 @@ else()
     message(STATUS "Ethics AI Integration tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_ethics_ai_integration.cpp")
 endif()
 
+if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ethics_agentic_dialectic_golden.cpp")
+    message(STATUS "Adding Ethics AI Agentic Dialectic Golden tests")
+
+    add_executable(test_ethics_agentic_dialectic_golden
+        test_ethics_agentic_dialectic_golden.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/argument_store.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/ethics_ai_types.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/ethics_evaluator.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/discourse_engine.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/philosophy_loader.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/rag_context_engine.cpp
+    )
+
+    target_include_directories(test_ethics_agentic_dialectic_golden PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai
+    )
+
+    target_link_libraries(test_ethics_agentic_dialectic_golden PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    if(yaml-cpp_FOUND)
+        target_link_libraries(test_ethics_agentic_dialectic_golden PRIVATE yaml-cpp)
+        target_compile_definitions(test_ethics_agentic_dialectic_golden PRIVATE HAVE_YAML_CPP)
+    endif()
+
+    target_compile_definitions(test_ethics_agentic_dialectic_golden PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    set_target_properties(test_ethics_agentic_dialectic_golden PROPERTIES
+        CXX_STANDARD 20
+        CXX_STANDARD_REQUIRED ON
+    )
+
+    add_test(NAME EthicsAgenticDialecticGoldenTests COMMAND test_ethics_agentic_dialectic_golden)
+
+    set_tests_properties(EthicsAgenticDialecticGoldenTests PROPERTIES
+        LABELS "ethics;golden;dialectic;agentic;integration"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  Ethics Agentic Golden: article-driven dialectic with golden dataset checks")
+elseif(NOT THEMIS_PLUGIN_ETHICS_AI)
+    message(STATUS "Ethics AI Agentic Dialectic Golden tests skipped (THEMIS_PLUGIN_ETHICS_AI disabled)")
+else()
+    message(STATUS "Ethics AI Agentic Dialectic Golden tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_ethics_agentic_dialectic_golden.cpp")
+endif()
+
 # ============================================================================
 # ONNX CLIP Plugin Tests (src/onnx_clip)
 # ============================================================================
@@ -20731,7 +20791,8 @@ message(STATUS "Aggregate test target 'themis_tests_all_eligible' includes ${_el
 # Enforce hardware baseline execution before all other CTest entries in this directory.
 get_property(_all_registered_tests DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY TESTS)
 foreach(_registered_test IN LISTS _all_registered_tests)
-    if(NOT _registered_test STREQUAL "000_HardwareBaseline")
+    if(NOT _registered_test STREQUAL "000_HardwareBaseline"
+       AND NOT _registered_test STREQUAL "EthicsAgenticDialecticGoldenTests")
         set_property(TEST ${_registered_test} APPEND PROPERTY FIXTURES_REQUIRED HW_BASELINE)
     endif()
 endforeach()

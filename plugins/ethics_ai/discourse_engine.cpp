@@ -24,10 +24,66 @@
 #include <sstream>
 #include <random>
 #include <iomanip>
+#include <algorithm>
+#include <cctype>
+#include <cstdlib>
+
+#if defined(THEMIS_ENABLE_LLM) && THEMIS_ENABLE_LLM
+#include "llm/embedded_llm.h"
+#endif
 
 namespace themis {
 namespace plugins {
 namespace ethics {
+
+namespace {
+
+bool isTruthyEnv(const char* value) {
+    if (!value) {
+        return false;
+    }
+
+    std::string normalized(value);
+    std::transform(normalized.begin(), normalized.end(), normalized.begin(),
+                   [](unsigned char c) { return static_cast<char>(std::toupper(c)); });
+
+    return normalized == "1" || normalized == "ON" || normalized == "TRUE" ||
+           normalized == "YES";
+}
+
+ArgumentType dialecticTypeForIndex(size_t index) {
+    if (index == 0) {
+        return ArgumentType::PRO;
+    }
+    if (index == 1) {
+        return ArgumentType::CONTRA;
+    }
+    if (index == 2) {
+        return ArgumentType::REBUTTAL;
+    }
+    return ArgumentType::SYNTHESIS;
+}
+
+const char* argumentTypeLabel(ArgumentType type) {
+    switch (type) {
+        case ArgumentType::PRO:
+            return "PRO";
+        case ArgumentType::CONTRA:
+            return "CONTRA";
+        case ArgumentType::REBUTTAL:
+            return "REBUTTAL";
+        case ArgumentType::SYNTHESIS:
+            return "SYNTHESIS";
+        case ArgumentType::QUESTION:
+            return "QUESTION";
+        case ArgumentType::CLARIFICATION:
+            return "CLARIFICATION";
+        default:
+            return "UNKNOWN";
+    }
+}
+
+} // namespace
 
 EthicalDiscourseEngine::EthicalDiscourseEngine(
     std::shared_ptr<PhilosophyLoader> philosophy_loader,
@@ -35,7 +91,25 @@ EthicalDiscourseEngine::EthicalDiscourseEngine(
     std::shared_ptr<RAGContextEngine> rag_engine)
     : philosophy_loader_(philosophy_loader)
     , store_(store)
-    , rag_engine_(rag_engine) {
+    , rag_engine_(rag_engine)
+    , llm_inference_enabled_(isTruthyEnv(std::getenv("THEMIS_ETHICS_LLM_INFERENCE"))) {
+#if defined(THEMIS_ENABLE_LLM) && THEMIS_ENABLE_LLM
+    if (llm_inference_enabled_) {
+        themis::llm::EmbeddedLLM::Config llm_config;
+        if (const char* model_path = std::getenv("THEMIS_ETHICS_LLM_MODEL_PATH")) {
+            llm_config.model_path = model_path;
+        }
+        llm_config.enable_streaming = false;
+
+        llm_ = std::make_unique<themis::llm::EmbeddedLLM>(llm_config);
+        if (!llm_ || !llm_->isReady()) {
+            llm_inference_enabled_ = false;
+            llm_.reset();
+        }
+    }
+#else
+    llm_inference_enabled_ = false;
+#endif
 }
 
 std::variant<DebateInitialization, Status> EthicalDiscourseEngine::initializeDebate(
@@ -90,13 +164,14 @@ std::variant<EthicalDecision, Status> EthicalDiscourseEngine::makeDecision(
         }
     }
     
-    // Generate arguments from each philosophy
+    // Generate one dialectic step per philosophy school in sequence:
+    // thesis (PRO) -> antithesis (CONTRA) -> rebuttal (REBUTTAL) -> synthesis (SYNTHESIS)
     std::vector<EthicalArgument> arguments;
-    for (const auto& school : philosophy_schools) {
+    for (size_t i = 0; i < philosophy_schools.size(); ++i) {
+        const auto& school = philosophy_schools[i];
         auto profile_result = philosophy_loader_->getProfile(school);
         if (auto* profile = std::get_if<PhilosophyProfile>(&profile_result)) {
-            // Generate pro argument
-            auto arg = generateArgument(*profile, dilemma_description, ArgumentType::PRO);
+            auto arg = generateArgument(*profile, dilemma_description, dialecticTypeForIndex(i));
             store_->storeArgument(arg, true);
             arguments.push_back(arg);
         }
@@ -147,25 +222,61 @@ EthicalArgument EthicalDiscourseEngine::generateArgument(
     argument.strength = ArgumentStrength::MODERATE;
     argument.created_at = now;
     
-    // Generate content based on profile theses
+    argument.content = generateArgumentContent(profile, dilemma, type);
+    argument.principle_basis = profile.main_theses;
+    
+    return argument;
+}
+
+bool EthicalDiscourseEngine::llmInferenceEnabled() const {
+#if defined(THEMIS_ENABLE_LLM) && THEMIS_ENABLE_LLM
+    return llm_inference_enabled_ && llm_ && llm_->isReady();
+#else
+    return false;
+#endif
+}
+
+std::string EthicalDiscourseEngine::generateArgumentContent(
+    const PhilosophyProfile& profile,
+    const std::string& dilemma,
+    ArgumentType type) const {
+    if (llmInferenceEnabled()) {
+#if defined(THEMIS_ENABLE_LLM) && THEMIS_ENABLE_LLM
+        std::stringstream prompt;
+        prompt << "You are an ethics assistant. Produce one concise dialectic step.\n"
+               << "Step type: " << argumentTypeLabel(type) << "\n"
+               << "Philosophy: " << profile.name << " (" << profile.school_id << ")\n"
+               << "Dilemma: " << dilemma << "\n"
+               << "Return only 2-3 sentences of the argument text.";
+
+        const std::string generated = llm_->generateWithParams(prompt.str(), 0.3f, 0.9f, 96);
+        if (!generated.empty()) {
+            return generated;
+        }
+#endif
+    }
+
+    // Deterministic fallback for tests and deployments without active LLM model.
     std::stringstream content;
     content << "From the perspective of " << profile.name << ":\n";
     if (!profile.main_theses.empty()) {
         content << profile.main_theses[0] << "\n";
     }
     content << "Applied to this dilemma, ";
-    
-    // Simple placeholder logic
+
     if (type == ArgumentType::PRO) {
         content << "we should consider the ethical implications carefully.";
+    } else if (type == ArgumentType::CONTRA) {
+        content << "there are substantial objections that should be weighed before acting.";
+    } else if (type == ArgumentType::REBUTTAL) {
+        content << "the strongest objections can be addressed with transparent safeguards.";
+    } else if (type == ArgumentType::SYNTHESIS) {
+        content << "a balanced synthesis should integrate benefits, risks, and accountability.";
     } else {
         content << "we must recognize the complexities involved.";
     }
-    
-    argument.content = content.str();
-    argument.principle_basis = profile.main_theses;
-    
-    return argument;
+
+    return content.str();
 }
 
 std::string EthicalDiscourseEngine::synthesizeDecision(

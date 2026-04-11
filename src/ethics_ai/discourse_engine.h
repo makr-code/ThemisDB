@@ -31,6 +31,12 @@
 #include <memory>
 
 namespace themis {
+namespace llm {
+class EmbeddedLLM;
+} // namespace llm
+} // namespace themis
+
+namespace themis {
 namespace plugins {
 namespace ethics {
 
@@ -93,6 +99,19 @@ private:
         const std::vector<EthicalArgument>& arguments,
         const std::string& primary_philosophy
     );
+
+    bool llmInferenceEnabled() const;
+
+    std::string generateArgumentContent(
+      const PhilosophyProfile& profile,
+      const std::string& dilemma,
+      ArgumentType type
+    ) const;
+
+    bool llm_inference_enabled_;
+  #if defined(THEMIS_ENABLE_LLM) && THEMIS_ENABLE_LLM
+    std::unique_ptr<themis::llm::EmbeddedLLM> llm_;
+  #endif
 };
 
 } // namespace ethics

@@ -196,12 +196,9 @@ BENCHMARK_DEFINE_F(AdaptiveFlushFixture, MultiThreaded)(benchmark::State& state)
         }
     }
 
-    // Only the first thread flushes to avoid double-counting
-    if (tid == 0) {
-        state.PauseTiming();
-        buffer_->flush();
-        state.ResumeTiming();
-    }
+    // Do not flush here: thread 0 can finish earlier than other threads,
+    // which may still call add(). Flushing concurrently caused rare crashes.
+    // Final drain is handled by fixture teardown via buffer_->stop().
 
     state.SetItemsProcessed(static_cast<int64_t>(state.iterations()));
     state.counters["points_per_sec"] = benchmark::Counter(

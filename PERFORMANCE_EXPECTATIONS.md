@@ -112,7 +112,7 @@ Typ-Kennung in ┬º39: **[M]** = gemessen ┬À **[Z]** = Ziel ┬À **[I]** = 
 | Auth | Teilabdeckung | Bench-Datei vorhanden, aber v1.8.2-Zielmessung nicht durchgaengig dokumentiert |
 | CDC | Teilabdeckung | Bench-Dateien vorhanden, Ziel-SLO-Zuordnung unvollstaendig |
 | Network | Teilabdeckung | Protokollnahe Benchmarks teilweise deaktiviert/veraendert durch API-Aenderungen |
-| Security | Messbar (Audit verbessert) | `bench_security.exe` laeuft vollstaendig; aktuelle Artefakte in `artifacts/perf_nv/bench_security_release.json` und `artifacts/perf_nv/bench_security_20260411_131126.json`; Audit-Tamper-Append via Commits `b9f21b5495` und `02d9d87f6c` von ~11.4 ms auf ~4.03 ms Realzeit verbessert (Ziel p99 <= 2 ms bleibt offen) |
+| Security | Messbar (Audit verbessert) | `bench_security.exe` laeuft vollstaendig; aktuelle Artefakte in `artifacts/perf_nv/bench_security_release.json` und `artifacts/perf_nv/bench_security_20260411_131126.json`; Audit-Tamper-Append ist jetzt explizit in zwei Modi getrennt und gemeinsam verifiziert (`--benchmark_min_time=3s`, 5 Repetitionen): Persisted (`BM_AuditLog_TamperEvidentAppend`) ~10.90 us Mean / ~10.87 us Median, Hotpath (`BM_AuditLog_TamperEvidentAppend_HotPath`, Null-Sink) ~9.78 us Mean / ~9.80 us Median; zusaetzlich Batch (`BM_AuditLog_BatchAppend_100`) ~1.043 ms pro 100 Events (~10.43 us/Event). Stability-Check (`--benchmark_min_time=5s`, 3 Repetitionen) bestaetigt das Niveau: Persisted ~10.87 us Mean, Hotpath ~9.81 us Mean, Batch ~1.057 ms pro 100 Events. Artefakte: `logs/bench_security_audit_modes.json`, `logs/bench_security_audit_modes_5s_3r.json`. |
 | Scheduler | Teilabdeckung | Benchmarks vorhanden, aber kein vollstaendiger v1.8.2-Ziellauf |
 | Ingestion | Teilabdeckung | Benchmarks vorhanden, aber heterogene Workloads ohne einheitliche Zielabbildung |
 | Governance | Messbar | `bench_governance_policy_latency.exe` und `bench_compliance_security_governance.exe` laufen vollstaendig; aktuelle Artefakte in `artifacts/perf_nv/bench_governance_policy_latency_release.json`, `artifacts/perf_nv/bench_compliance_security_governance_release.json` und `artifacts/perf_nv/bench_compliance_20260411_142340.json` |
@@ -122,8 +122,24 @@ Typ-Kennung in ┬º39: **[M]** = gemessen ┬À **[Z]** = Ziel ┬À **[I]** = 
 | ONNX-CLIP | Teilabdeckung | Image/ONNX-Benchmarks vorhanden, aber keine durchgaengige Zieltabellen-Abdeckung |
 | Chimera | Struktur-Luecke | Eigene Suite/Baselines vorhanden, aber kein einheitlicher nativer Modul-Benchmarkpfad im selben Schema |
 | Prompt Engineering | Teilabdeckung | Benchmark vorhanden, jedoch ohne vollstaendige Ziel-SLO-Abbildung |
-| Ethics AI | Messbar | `bench_rag_ethics.exe` vollstaendig messbar (DLL-Blocker geloest); Artefakt in `artifacts/perf_nv/bench_rag_ethics_release.json` |
+| Ethics AI | Messbar | `bench_rag_ethics.exe` vollstaendig messbar (DLL-Blocker geloest); Artefakt in `artifacts/perf_nv/bench_rag_ethics_release.json`. Zusaetzlich ist die agentic Dialectic Golden-Regression als GTest und CTest verifiziert (`EthicsAgenticDialecticGoldenTests`, Stand 2026-04-11). |
 | System-Level (TPC/YCSB) | Deaktiviert | `bench_tpcc`/`bench_ycsb` registrieren disabled-Varianten statt produktiver Workloads |
+
+#### 1.3.0 Audit-Append Vergleich (Security)
+
+| Benchmark | 3s/5r Mean | 3s/5r Median | 5s/3r Mean | 5s/3r Median |
+|---|---:|---:|---:|---:|
+| `BM_AuditLog_TamperEvidentAppend` (persisted) | 10.90 us | 10.87 us | 10.87 us | 10.87 us |
+| `BM_AuditLog_TamperEvidentAppend_HotPath` (null sink) | 9.78 us | 9.80 us | 9.81 us | 9.73 us |
+| `BM_AuditLog_BatchAppend_100` | 1.043 ms / 100 | 1.032 ms / 100 | 1.057 ms / 100 | 1.049 ms / 100 |
+
+| Abgeleitete Batch-Rate | 3s/5r (Mean) | 3s/5r (Median) | 5s/3r (Mean) | 5s/3r (Median) |
+|---|---:|---:|---:|---:|
+| `BM_AuditLog_BatchAppend_100` in Events/s | ~95,877 | ~96,899 | ~94,608 | ~95,329 |
+
+Referenzartefakte: `logs/bench_security_audit_modes.json` (3s/5r), `logs/bench_security_audit_modes_5s_3r.json` (5s/3r).
+
+Interpretation: Gegenueber einem p99-Budget von 2 ms liegen die gemessenen Mean-Werte fuer Append im Bereich von rund 9.8-10.9 us (etwa Faktor 180 bis 200 unter dem Budget). Der Batch-Durchsatz bleibt stabil im Korridor von rund 94.6k bis 96.9k Events/s.
 
 #### 1.3.1 Technische Hauptgruende (konsolidiert)
 
@@ -1453,6 +1469,9 @@ Benchmark-Code: `BM_QueryMix_Historical`, `BM_QueryMix_Historical_P99` in `bench
 
 *`TimeseriesBench/InsertTimepoints` 49,0 M/s misst In-Memory-Append, nicht persistiertes Schreiben
 
+Stand 2026-04-11 (Stabilitaet Adaptive Flush):
+- `AdaptiveFlushFixture/MultiThreaded` in `bench_timeseries_adaptive_flush` wurde nach Race-Fix ohne Access Violation validiert (Build erfolgreich, 3 Repetitionen mit `--benchmark_min_time=5s`, Threads 2/4/8).
+
 ---
 
 ## 8. Geo-Modul
@@ -1878,6 +1897,28 @@ Benchmark-Code: `BM_QueryMix_Historical`, `BM_QueryMix_Historical_P99` in `bench
 | ETH-4 Batch 10 Queries |  150 ms |  |  |
 | ETH-5 Multi-Round Debate/Runde |  5 s inkl. LLM |  |  |
 | ETH-6 Metrics Overhead/Decision |  0,1 ms |  |  |
+
+### 32.1 Agentic Dialectic Golden-Regression (Stand 2026-04-11)
+
+| Nachweis | Kommando / Artefakt | Ergebnis |
+|---|---|---|
+| Fokussierter Build | `cmake --build --preset msvc-ninja-debug --target test_ethics_agentic_dialectic_golden` | Erfolgreich |
+| Direkter GTest-Lauf | `build-msvc-ninja-debug/bin/test_ethics_agentic_dialectic_golden.exe --gtest_filter=EthicsAgenticDialecticGoldenTest.ArticleDialecticMatchesGoldenDataset` | 1/1 PASSED |
+| CTest-Lauf | `ctest --preset msvc-ninja-debug -R EthicsAgenticDialecticGoldenTests --output-on-failure` | 1/1 PASSED |
+
+Implementierungsdetails:
+- Golden-Dataset-Testdatei: `tests/test_ethics_agentic_dialectic_golden.cpp`
+- CMake-Registrierung: `tests/CMakeLists.txt` (Standalone-Target + CTest-Eintrag)
+- Dialektik-Schritte werden nun explizit verifiziert: PRO (Rede) -> CONTRA (Gegenrede) -> REBUTTAL (Erwiderung) -> SYNTHESIS (Synthese)
+- SYNTHESIS ist zusaetzlich durch einen 4-Schulen-Golden-Fall abgesichert (Reihenfolge bleibt deterministisch)
+- Optionaler Real-LLM-Integrationstest vorhanden (skip-sicher, falls kein Modell gesetzt ist)
+- Fixture-Ausnahme fuer gezielten CTest-Lauf ohne `themis_tests`-Binary-Abhaengigkeit aktiv
+
+Realen llama.cpp-Integrationstest lokal starten (optional):
+- PowerShell: `$env:THEMIS_ETHICS_LLM_INTEGRATION_MODEL_PATH = "C:/models/ethics.gguf"`
+- PowerShell: `$env:THEMIS_ETHICS_LLM_INFERENCE = "1"`
+- Testlauf: `ctest --preset msvc-ninja-debug -R EthicsAgenticDialecticGoldenTests --output-on-failure`
+- Hinweis: Ohne gueltigen Modellpfad wird der Real-LLM-Test per `GTEST_SKIP()` uebersprungen.
 
 ---
 

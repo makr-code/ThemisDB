@@ -303,6 +303,20 @@ cd ThemisDB
 > ```
 > See [docs/architecture/MODULARIZATION_GUIDE.md](docs/architecture/MODULARIZATION_GUIDE.md) for details.
 
+### Optional: Ethics AI Real-LLM Integration Test
+
+The focused ethics golden test contains an optional real llama.cpp integration path.
+
+```powershell
+$env:THEMIS_ETHICS_LLM_INTEGRATION_MODEL_PATH = "C:/models/ethics.gguf"
+$env:THEMIS_ETHICS_LLM_INFERENCE = "1"
+ctest --preset msvc-ninja-debug -R EthicsAgenticDialecticGoldenTests --output-on-failure
+```
+
+Notes:
+- If `THEMIS_ETHICS_LLM_INTEGRATION_MODEL_PATH` is missing or invalid, the real-model test is skipped via `GTEST_SKIP()`.
+- The deterministic fallback tests still run and must pass.
+
 ### Deployment Architecture
 
 ```mermaid

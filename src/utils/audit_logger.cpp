@@ -1549,6 +1549,18 @@ HashChainAuditWriter::HashChainAuditWriter(HashChainAuditWriterConfig cfg,
 
     loadOrInitChainHead(chain_seed);
 
+    // Use larger stream buffers to reduce write syscall frequency in hot paths.
+    log_stream_buffer_.resize(1 << 20);
+    chain_head_stream_buffer_.resize(8 << 10);
+    if (auto* buf = log_stream_.rdbuf()) {
+        buf->pubsetbuf(log_stream_buffer_.data(),
+                       static_cast<std::streamsize>(log_stream_buffer_.size()));
+    }
+    if (auto* buf = chain_head_stream_.rdbuf()) {
+        buf->pubsetbuf(chain_head_stream_buffer_.data(),
+                       static_cast<std::streamsize>(chain_head_stream_buffer_.size()));
+    }
+
     chain_head_stream_.open(cfg_.chain_head_path,
                             std::ios::in | std::ios::out | std::ios::binary | std::ios::trunc);
     if (!chain_head_stream_.is_open()) {
@@ -1577,9 +1589,13 @@ void HashChainAuditWriter::write(nlohmann::json record) {
 
     // Compute new chain head: SHA-256(prev_hash || record_json)
     std::string record_json = record.dump();
-    std::string hash_input  = last_hash_ + record_json;
-    std::vector<uint8_t> hash_bytes(hash_input.begin(), hash_input.end());
-    last_hash_ = bytesToHex(sha256(hash_bytes));
+    unsigned char digest[SHA256_DIGEST_LENGTH];
+    SHA256_CTX ctx;
+    SHA256_Init(&ctx);
+    SHA256_Update(&ctx, last_hash_.data(), last_hash_.size());
+    SHA256_Update(&ctx, record_json.data(), record_json.size());
+    SHA256_Final(digest, &ctx);
+    last_hash_ = bytesToHex(std::vector<uint8_t>(digest, digest + SHA256_DIGEST_LENGTH));
     ++seq_;
 
     // Append record to log file.
@@ -1590,7 +1606,8 @@ void HashChainAuditWriter::write(nlohmann::json record) {
         if (!log_stream_.is_open()) {
             throw std::runtime_error("log stream is not open");
         }
-        log_stream_ << record_json << '\n';
+        log_stream_.write(record_json.data(), static_cast<std::streamsize>(record_json.size()));
+        log_stream_.put('\n');
         if (cfg_.fsync_on_write) {
             log_stream_.flush();
         }
