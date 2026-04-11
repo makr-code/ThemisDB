@@ -6970,7 +6970,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_olap_lru_cache.cpp")
         TIMEOUT 120
     )
 
-    message(STATUS "  OLAPLRUCache: cache hit, LRU eviction, TTL invalidation, key normalisation, background cleanup")
+    message(STATUS "  OLAPLRUCache: cache hit, LRU eviction, TTL invalidation, key normalisation, background cleanup, bounded memory growth (10k unique queries)")
 endif()
 
 # Process Mining pattern-focused tests (file is test_process_mining_llm.cpp but exercises
