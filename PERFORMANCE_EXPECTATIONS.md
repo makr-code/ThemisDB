@@ -112,7 +112,7 @@ Typ-Kennung in ┬º39: **[M]** = gemessen ┬À **[Z]** = Ziel ┬À **[I]** = 
 | Auth | Teilabdeckung | Bench-Datei vorhanden, aber v1.8.2-Zielmessung nicht durchgaengig dokumentiert |
 | CDC | Teilabdeckung | Bench-Dateien vorhanden, Ziel-SLO-Zuordnung unvollstaendig |
 | Network | Teilabdeckung | Protokollnahe Benchmarks teilweise deaktiviert/veraendert durch API-Aenderungen |
-| Security | Messbar | `bench_security.exe` laeuft vollstaendig; aktuelle Artefakte in `artifacts/perf_nv/bench_security_release.json` und `artifacts/perf_nv/bench_security_20260411_131126.json` |
+| Security | Messbar (Audit verbessert) | `bench_security.exe` laeuft vollstaendig; aktuelle Artefakte in `artifacts/perf_nv/bench_security_release.json` und `artifacts/perf_nv/bench_security_20260411_131126.json`; Audit-Tamper-Append via Commit `b9f21b5495` von ~11.4 ms auf ~4.07 ms Realzeit verbessert (Ziel p99 <= 2 ms bleibt offen) |
 | Scheduler | Teilabdeckung | Benchmarks vorhanden, aber kein vollstaendiger v1.8.2-Ziellauf |
 | Ingestion | Teilabdeckung | Benchmarks vorhanden, aber heterogene Workloads ohne einheitliche Zielabbildung |
 | Governance | Messbar | `bench_governance_policy_latency.exe` und `bench_compliance_security_governance.exe` laufen vollstaendig; aktuelle Artefakte in `artifacts/perf_nv/bench_governance_policy_latency_release.json`, `artifacts/perf_nv/bench_compliance_security_governance_release.json` und `artifacts/perf_nv/bench_compliance_20260411_142340.json` |
@@ -3148,6 +3148,8 @@ Write-Host "Profiling-Ergebnisse: $outDir"
 | RBAC Policy Evaluation ( 100 Roles) | p99  0.5 ms | [Z] | FE L972 |
 | HSM-backed RSA-2048 Sign (SoftHSM2 Baseline) | p99  20 ms | [Z] | FE L973 |
 | Audit Log Tamper-Evident Append | p99  2 ms / Entry | [Z] | FE L974, ROADMAP L136 |
+| Audit Log Tamper-Evident Append (Bench 2026-04-11, post-optimierung) | ~4.07 ms Realzeit, ~0.98 ms CPU-Zeit | [M] | `bench_security --benchmark_filter=BM_AuditLog_TamperEvidentAppend` |
+| Audit Log Batch-Append 100 (Bench 2026-04-11, post-optimierung) | ~375 ms Realzeit, ~187.5 ms CPU-Zeit | [M] | `bench_security --benchmark_filter=BM_AuditLog_BatchAppend_100` |
 | Encryption Overhead / Feld (256-Byte Payload) | ~5 10  | [M] | README.md L194 |
 | Decryption Overhead / Feld | ~3 7  | [M] | README.md L195 |
 | Key Cache Lookup (In-Memory) | ~100 ns | [M] | README.md L196 |
