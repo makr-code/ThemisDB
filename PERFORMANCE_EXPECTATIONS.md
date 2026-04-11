@@ -112,10 +112,10 @@ Typ-Kennung in ┬º39: **[M]** = gemessen ┬À **[Z]** = Ziel ┬À **[I]** = 
 | Auth | Teilabdeckung | Bench-Datei vorhanden, aber v1.8.2-Zielmessung nicht durchgaengig dokumentiert |
 | CDC | Teilabdeckung | Bench-Dateien vorhanden, Ziel-SLO-Zuordnung unvollstaendig |
 | Network | Teilabdeckung | Protokollnahe Benchmarks teilweise deaktiviert/veraendert durch API-Aenderungen |
-| Security | Teilabdeckung / Crash-Subset | Binary laeuft (DLL-Blocker geloest via PATH), Artefakt in `artifacts/perf_nv/bench_security_release.json`; BM_FieldEncryption/BM_FieldDecryption crashen (STATUS_STACK_BUFFER_OVERRUN, offen) |
+| Security | Messbar | `bench_security.exe` laeuft vollstaendig; aktuelle Artefakte in `artifacts/perf_nv/bench_security_release.json` und `artifacts/perf_nv/bench_security_20260411_131126.json` |
 | Scheduler | Teilabdeckung | Benchmarks vorhanden, aber kein vollstaendiger v1.8.2-Ziellauf |
 | Ingestion | Teilabdeckung | Benchmarks vorhanden, aber heterogene Workloads ohne einheitliche Zielabbildung |
-| Governance | Messbar (Compliance: Crash-Subset) | `bench_governance_policy_latency.exe` vollstaendig messbar; `bench_compliance_security_governance.exe` laeuft, BM_FieldEncrypt/-Decrypt und BM_KeyManagement crashen; Artefakte in `artifacts/perf_nv/` |
+| Governance | Messbar | `bench_governance_policy_latency.exe` und `bench_compliance_security_governance.exe` laufen vollstaendig; aktuelle Artefakte in `artifacts/perf_nv/bench_governance_policy_latency_release.json`, `artifacts/perf_nv/bench_compliance_security_governance_release.json` und `artifacts/perf_nv/bench_compliance_20260411_142340.json` |
 | Observability | Teilabdeckung | Metrics/Logging-Benchmarks vorhanden, Zielmetriken nicht vollstaendig 1:1 gemessen |
 | Process | Teilabdeckung | Benchmarks vorhanden, aber keine vollstaendige Zielabdeckung in v1.8.2 |
 | Voice | Feature-Gating | `bench_voice_assistant` ist an `THEMIS_ENABLE_VOICE_ASSISTANT` gebunden und aktuell nicht gebaut |
@@ -139,7 +139,7 @@ Typ-Kennung in ┬º39: **[M]** = gemessen ┬À **[Z]** = Ziel ┬À **[I]** = 
 |---|---|---|---|---|
 | 1 | `bench_query.cpp` Pagination-Benchmarks wieder registrieren und stabilisieren | 2, 4 | M | `BM_Pagination_Offset` und `BM_Pagination_Cursor` laufen ohne Timeout |
 | 2 | `bench_olap_analytics.cpp` von Disabled-Stub auf echte Cases umstellen | 2, 4 | M | mind. 4 produktive OLAP-Analytics-Cases in v1.8.2-Report |
-| 3 | ~~Security/Governance-Binaries inkl. Runtime-DLL-Sync erzwingen~~ **ERLEDIGT** | 1, 3, 5 | M | Alle 4 Binaries starten und produzieren Artefakte; offener Folge-Task: BM_FieldEncryption/-Decryption Crash (STATUS_STACK_BUFFER_OVERRUN) und BM_KeyManagement Crash in bench_compliance beheben |
+| 3 | ~~Security/Governance-Binaries inkl. Runtime-DLL-Sync erzwingen~~ **ERLEDIGT** | 1, 3, 5 | M | Alle 4 Binaries starten und produzieren vollstaendige Artefakte; DLL-Pfad-Fix und Security/Compliance-Benchmarkreparaturen verifiziert |
 | 4 | Voice-Benchmark-Pfad für CI via `THEMIS_ENABLE_VOICE_ASSISTANT` optionalen Job aktivieren | 1, 5 | S | `bench_voice_assistant.exe` in Voice-Runner-Build vorhanden |
 | 5 | GPU-Benchmark-Matrix (CUDA/HIP/Vulkan) als separaten Runner etablieren | 1, 3 | L | GPU-disabled Stubs werden durch reale Messwerte ersetzt |
 | 6 | Modell-/Artefakt-Vorbereitung (LLM, LoRA, gguf) standardisieren | 3 | M | LLM/RAG/LoRA-Benchmarks laufen ohne Missing-Artifact-Fehler |

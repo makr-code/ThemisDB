@@ -202,12 +202,16 @@ BENCHMARK(BM_AES256GCM_Decrypt_1MB);
 
 static void BM_FieldEncryption_SmallDocument(benchmark::State& state) {
     auto provider = std::make_shared<themis::MockKeyProvider>();
+    provider->createKey("bench-doc-key", 1);
     themis::FieldEncryption enc(provider);
     const std::string key_id = "bench-doc-key";
     const std::string plaintext = random_string(256);
 
+    auto raw_key = provider->getKey(key_id);
+    auto meta    = provider->getKeyMetadata(key_id);
+
     for (auto _ : state) {
-        auto blob = enc.encrypt(key_id, plaintext);
+        auto blob = enc.encryptWithKey(plaintext, key_id, meta.version, raw_key);
         benchmark::DoNotOptimize(blob.ciphertext.data());
     }
     state.SetBytesProcessed(state.iterations() * static_cast<int64_t>(plaintext.size()));
@@ -217,13 +221,16 @@ BENCHMARK(BM_FieldEncryption_SmallDocument);
 
 static void BM_FieldDecryption_SmallDocument(benchmark::State& state) {
     auto provider = std::make_shared<themis::MockKeyProvider>();
+    provider->createKey("bench-doc-key", 1);
     themis::FieldEncryption enc(provider);
     const std::string key_id = "bench-doc-key";
     const std::string plaintext = random_string(256);
-    auto blob = enc.encrypt(key_id, plaintext);
+    auto raw_key = provider->getKey(key_id);
+    auto meta    = provider->getKeyMetadata(key_id);
+    auto blob    = enc.encryptWithKey(plaintext, key_id, meta.version, raw_key);
 
     for (auto _ : state) {
-        auto recovered = enc.decrypt(blob);
+        auto recovered = enc.decryptWithKey(blob, raw_key);
         benchmark::DoNotOptimize(recovered.data());
     }
     state.SetBytesProcessed(state.iterations() * static_cast<int64_t>(plaintext.size()));
