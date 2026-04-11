@@ -32,6 +32,7 @@
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
 #include "index/secondary_index.h"
+#include "index/secondary_index_metadata_cache.h"
 
 using namespace themis;
 
@@ -407,6 +408,128 @@ TEST(SecondaryIndexTest, PartialIndex_DeleteRemovesEntry) {
     auto [st2, keys2] = idx.scanKeysEqualPartial("sessions", "user_id", "u42");
     ASSERT_TRUE(st2.ok);
     EXPECT_TRUE(keys2.empty());
+
+    db.close();
+}
+
+// ─── KeySchema hot-path optimization: correctness parity ─────────────────────
+
+TEST(KeySchemaOptTest, RelationalKey_Parity) {
+    // The optimized append-path must produce identical output to the old format
+    EXPECT_EQ(KeySchema::makeRelationalKey("users", "u123"), "rel:users:u123");
+    EXPECT_EQ(KeySchema::makeRelationalKey("", "pk"), "rel::pk");
+    EXPECT_EQ(KeySchema::makeRelationalKey("t", ""), "rel:t:");
+}
+
+TEST(KeySchemaOptTest, DocumentKey_Parity) {
+    EXPECT_EQ(KeySchema::makeDocumentKey("orders", "o456"), "doc:orders:o456");
+}
+
+TEST(KeySchemaOptTest, GraphNodeKey_Parity) {
+    EXPECT_EQ(KeySchema::makeGraphNodeKey("alice"), "node:alice");
+}
+
+TEST(KeySchemaOptTest, GraphEdgeKey_Parity) {
+    EXPECT_EQ(KeySchema::makeGraphEdgeKey("e1"), "edge:e1");
+}
+
+TEST(KeySchemaOptTest, VectorKey_Parity) {
+    EXPECT_EQ(KeySchema::makeVectorKey("embeddings", "v7"), "vec:embeddings:v7");
+}
+
+TEST(KeySchemaOptTest, SecondaryIndexKey_Parity) {
+    EXPECT_EQ(KeySchema::makeSecondaryIndexKey("users", "age", "30", "u1"),
+              "idx:users:age:30:u1");
+}
+
+TEST(KeySchemaOptTest, GraphOutdexKey_Parity) {
+    EXPECT_EQ(KeySchema::makeGraphOutdexKey("alice", "e1"), "graph:out:alice:e1");
+}
+
+TEST(KeySchemaOptTest, GraphIndexKey_Parity) {
+    EXPECT_EQ(KeySchema::makeGraphIndexKey("bob", "e2"), "graph:in:bob:e2");
+}
+
+// ─── SecondaryIndexMetadataCache: unique-flag caching ─────────────────────────
+
+TEST(MetadataCacheUniqueFlagTest, RegularUniqueFlag_SetAndGet) {
+    SecondaryIndexMetadataCache::IndexMetadata m;
+    m.regular_indexes = {"email", "name"};
+    m.regular_unique["email"] = true;
+    m.regular_unique["name"]  = false;
+
+    SecondaryIndexMetadataCache& cache = SecondaryIndexMetadataCache::instance();
+    cache.invalidate("tbl_unique_reg");
+    cache.set("tbl_unique_reg", m);
+
+    auto opt = cache.get("tbl_unique_reg");
+    ASSERT_TRUE(opt.has_value());
+    EXPECT_TRUE(opt->regular_unique.at("email"));
+    EXPECT_FALSE(opt->regular_unique.at("name"));
+}
+
+TEST(MetadataCacheUniqueFlagTest, SparseUniqueFlag_SetAndGet) {
+    SecondaryIndexMetadataCache::IndexMetadata m;
+    m.sparse_indexes = {"phone"};
+    m.sparse_unique["phone"] = true;
+
+    SecondaryIndexMetadataCache& cache = SecondaryIndexMetadataCache::instance();
+    cache.invalidate("tbl_unique_sparse");
+    cache.set("tbl_unique_sparse", m);
+
+    auto opt = cache.get("tbl_unique_sparse");
+    ASSERT_TRUE(opt.has_value());
+    EXPECT_TRUE(opt->sparse_unique.at("phone"));
+}
+
+TEST(MetadataCacheUniqueFlagTest, PartialUniqueFlag_SetAndGet) {
+    SecondaryIndexMetadataCache::IndexMetadata m;
+    m.partial_indexes = {"coupon"};
+    m.partial_predicates["coupon"] = "active = '1'";
+    m.partial_unique["coupon"] = false;
+
+    SecondaryIndexMetadataCache& cache = SecondaryIndexMetadataCache::instance();
+    cache.invalidate("tbl_unique_partial");
+    cache.set("tbl_unique_partial", m);
+
+    auto opt = cache.get("tbl_unique_partial");
+    ASSERT_TRUE(opt.has_value());
+    EXPECT_FALSE(opt->partial_unique.at("coupon"));
+    EXPECT_EQ(opt->partial_predicates.at("coupon"), "active = '1'");
+}
+
+TEST(MetadataCacheUniqueFlagTest, Invalidate_ClearsUniqueMaps) {
+    SecondaryIndexMetadataCache::IndexMetadata m;
+    m.regular_unique["x"] = true;
+
+    SecondaryIndexMetadataCache& cache = SecondaryIndexMetadataCache::instance();
+    cache.set("tbl_inv", m);
+    ASSERT_TRUE(cache.get("tbl_inv").has_value());
+
+    cache.invalidate("tbl_inv");
+    EXPECT_FALSE(cache.get("tbl_inv").has_value());
+}
+
+TEST(MetadataCacheUniqueFlagTest, UniqueIndex_EnforcedViaCache) {
+    // Integration: creating a unique index and putting a duplicate key should fail.
+    RocksDBWrapper::Config cfg;
+    cfg.db_path = makeTempDbPath("vccdb_unique_cache_");
+    cfg.enable_blobdb = false;
+    RocksDBWrapper db(cfg);
+    ASSERT_TRUE(db.open());
+    SecondaryIndexManager idx(db);
+
+    // Create unique index on "email"
+    ASSERT_TRUE(idx.createIndex("accounts", "email", /*unique=*/true).ok);
+    SecondaryIndexMetadataCache::instance().invalidate("accounts");
+
+    BaseEntity::FieldMap f1{{"email", std::string("a@b.com")}};
+    BaseEntity::FieldMap f2{{"email", std::string("a@b.com")}};  // duplicate
+
+    ASSERT_TRUE(idx.put("accounts", BaseEntity::fromFields("acc1", f1)).ok);
+    // Second put with same email must be rejected (unique constraint)
+    auto st2 = idx.put("accounts", BaseEntity::fromFields("acc2", f2));
+    EXPECT_FALSE(st2.ok) << "Duplicate unique-index value should be rejected";
 
     db.close();
 }
