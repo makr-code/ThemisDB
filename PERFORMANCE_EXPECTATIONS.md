@@ -1164,7 +1164,9 @@ Reihenfolge fuer Umsetzung in Welle 2:
 | `artifacts/perf_nv/timeseries_gorilla.json` | ~4 KB | BM_GorillaCompression/Decompression (100/1000/10000) — Duplikat, zweiter Lauf |
 | `artifacts/perf_nv/exporters.json` | ~8 KB | BM_JsonlExport_BatchThroughput, BM_JsonlExport_FormatTemplate, BM_JsonlExport_Compressed, BM_StreamingExport_Throughput, BM_IncrementalExport_Full/Delta |
 | `artifacts/perf_nv/security.json` | ~10 KB | BM_AES256GCM (1KB/64KB/1MB), BM_RBAC, BM_PostQuantum (Kyber/Dilithium), BM_FIPS, BM_AQLInjection, BM_AuditLog |
-| `artifacts/perf_nv/graph_traversal.json` | ~1.5 KB | GraphTraversalBenchmarkFixture/BFSTraversal/100/4 (repräsentativer Proxy-Lauf) |
+| `artifacts/perf_nv/graph_traversal.json` | ~1.5 KB | GraphTraversalBenchmarkFixture/BFSTraversal/100/4 (repräsentativer BFS-Lauf) |
+| `artifacts/perf_nv/graph_sparse_edge_addition.json` | ~2 KB | GraphTraversalBenchmarkFixture/SparseEdgeAddition/1000/4, /10000/4 |
+| `artifacts/perf_nv/graph_dense_neighbor_query.json` | ~2 KB | GraphTraversalBenchmarkFixture/DenseNeighborQuery/1000/20 (dedizierter 1:1-Case) |
 
 ---
 
@@ -1480,8 +1482,8 @@ Benchmark-Code: `BM_QueryMix_Historical`, `BM_QueryMix_Historical_P99` in `bench
 | Benchmark | Ziel | v1.3.4 Gemessen | v1.8.2 Gemessen | Status |
 |-----------|------|-----------------|-----------------|--------|
 | GraphIndexBench/AddEdges |  500 k edges/s | 628,7 k edges/s (1,59 ) | 1,177 M edges/s (8,50e4 ns) |  |
-| Sparse Graph Edge Addition |  500 k edges/s | 1,26 M edges/s | n/v |  ⚠️ kein Edge-Add-Case in finalem Welle-1-Graphlauf |
-| Dense Graph Neighbor Query |  5 M queries/s | 8,96 M queries/s | n/v |  ⚠️ kein Dense-Neighbor-Case in finalem Welle-1-Graphlauf |
+| Sparse Graph Edge Addition |  500 k edges/s | 1,26 M edges/s | 331,27 edges/s (`SparseEdgeAddition/1000/4`) |  🔴 dedizierter 1:1-Case vorhanden, deutlich unter Ziel |
+| Dense Graph Neighbor Query |  5 M queries/s | 8,96 M queries/s | 265,48 k queries/s (`DenseNeighborQuery/1000/20`) |  🔴 dedizierter 1:1-Case vorhanden, unter Ziel |
 | Graph BFS Traversal (Depth-3) |  5 M traversals/s | 9,56 M traversals/s | 5,74 k traversals/s (`BFSTraversal/100/4`, Proxy) |  ⚠️ nicht vergleichbare Problemgroesse |
 | RAG Search Top-50 |  5 M ops/s | 7,17 M ops/s (140 ns) | n/v |  |
 | Algorithmus-Selektion P99 (10M Nodes) | < 1 ms |  | n/v |  |
