@@ -1087,14 +1087,14 @@ DLL-PATH-Konfiguration benoetigt: `build-msvc-ninja-release/cmake` + `build-msvc
 
 | Run-Plan-Zeile | Benchmark-Ziel | Status | Erzeugtes Artefakt | Schluessel-Messwert |
 |---:|---|:---:|---|---|
-| 1 | Simple AQL WHERE | ❌ | — | `bench_query`: keine Benchmarks registriert (bedingte Kompilierung) |
-| 2 | Complex WHERE | ❌ | — | wie Zeile 1 |
-| 3 | JOIN (Users-Posts) | ❌ | — | wie Zeile 1 |
+| 1 | Simple AQL WHERE | ✅ | `artifacts/perf_nv/query_simple_aql_where.json` | BM_SimpleWhere: 0,2023 ms |
+| 2 | Complex WHERE | ✅ | `artifacts/perf_nv/query_complex_where.json` | BM_ComplexWhere: 0,2183 ms |
+| 3 | JOIN (Users-Posts) | ✅ | `artifacts/perf_nv/query_join_users_posts.json` | BM_JoinUsersPosts: 0,9755 ms |
 | 4 | SecondaryIndexBench/RawWriteOnly | ✅ | `artifacts/perf_nv/core_performance.json` | RawWriteOnly: 162.620 ns / 749,6 k/s (Ziel: 500 k/s ✅) |
 | 5 | L2Distance/1000/512 | ✅ | `artifacts/perf_nv/vector_search.json` | BM_VectorSearch_efSearch/32/10: 18,86 ms |
 | 6 | CosineDistance/1000/512 | ✅ | `artifacts/perf_nv/vector_search.json` | BM_VectorSearch_efSearch/128/10: 19,99 ms |
 | 7 | TopK/5000/50 | ✅ | `artifacts/perf_nv/vector_search.json` | BM_VectorInsert_Batch100/128: 5,17 ms |
-| 8 | C-4 Warmup Throughput | ⚠️ | — | `bench_adaptive_query_cache`: CRASH (STATUS_STACK_BUFFER_OVERRUN) |
+| 8 | C-4 Warmup Throughput | ❌ | — | `bench_adaptive_query_cache`: CRASH (STATUS_STACK_BUFFER_OVERRUN) |
 | 9 | INSERT 1 KB | ⚠️ | `artifacts/perf_nv/storage_performance.json` | Benchmark enthaelt Allocator/Memory/RCU, NICHT Storage-INSERT (Scope-Delta) |
 | 10 | READ 1 KB | ⚠️ | `artifacts/perf_nv/storage_performance.json` | wie Zeile 9 |
 | 11 | UPDATE 1 KB | ⚠️ | `artifacts/perf_nv/storage_performance.json` | wie Zeile 9 |
@@ -1105,29 +1105,52 @@ DLL-PATH-Konfiguration benoetigt: `build-msvc-ninja-release/cmake` + `build-msvc
 | 16 | TS-2 Gorilla Decode Throughput | ✅ | `artifacts/perf_nv/gorilla_codec.json` | BM_GorillaSIMDDecode_Throughput/100000: 267,1 MB/s decoded |
 | 17 | TS-6 Downsampling Throughput | ⚠️ | `artifacts/perf_nv/timeseries_ingestion.json` | Nur BM_GorillaCompression/Decompression (Downsampling-Benchmarks fehlen in bench_timeseries_ingestion) |
 | 18 | TS-11 AES-256-GCM Throughput | ✅ | `artifacts/perf_nv/security.json` | BM_AES256GCM_Encrypt_1MB: 238.660 ns; BM_FieldEncryption CRASH (ausgefiltert) |
-| 19 | Sparse Graph Edge Addition | ✅ | `artifacts/perf_nv/graph_traversal.json` | BFSTraversal/100 gemessen; grosse Graphen (10000) ausgeschlossen (Laufzeit) |
-| 20 | Dense Graph Neighbor Query | ✅ | `artifacts/perf_nv/graph_traversal.json` | GeneralTraversalOutbound/1000 gemessen |
-| 21 | Graph BFS Traversal (Depth-3) | ✅ | `artifacts/perf_nv/graph_traversal.json` | GraphTraversalBenchmarkFixture/BFSTraversal/1000: ~2,4 ms |
+| 19 | Sparse Graph Edge Addition | ⚠️ | `artifacts/perf_nv/graph_traversal.json` | Nur BFS-Proxy vorhanden; kein direkter Edge-Add-Benchcase in diesem Lauf |
+| 20 | Dense Graph Neighbor Query | ⚠️ | `artifacts/perf_nv/graph_traversal.json` | Kein separater Dense-Neighbor-Benchcase im finalen Lauf |
+| 21 | Graph BFS Traversal (Depth-3) | ✅ | `artifacts/perf_nv/graph_traversal.json` | BFSTraversal/100/4: 0,200 ms, 5.738,7 items/s |
 
 Legende: ✅ gemessen | ⚠️ Scope-Delta oder Teilmessung | ❌ nicht messbar (Build-/Runtime-Problem)
 
 **Zusammenfassung Welle 1:**
 - 12 von 21 Zeilen vollstaendig gemessen (✅)
-- 5 Zeilen: Scope-Delta (bench_storage_performance enthaelt Allocator/RCU statt CRUD-Storage-Ops) oder Teilmessung (⚠️)
-- 3 Zeilen: bench_query nicht registriert (❌)
-- 1 Zeile: bench_adaptive_query_cache Laufzeit-Crash (❌)
+- 8 Zeilen: Scope-Delta oder Teilmessung (⚠️)
+- 1 Zeile: Laufzeit-Crash (❌)
 
 **Offene Punkte fuer Welle 2:**
-1. `bench_query`: Build-Konfiguration pruefen, warum keine Benchmarks registriert sind.
+1. `bench_query`: dedizierte WHERE/JOIN-Benchcases inkl. QPS/P99-Harness und Skalierungsrun sind umgesetzt; als naechstes historische Workload-Parameter angleichen.
 2. `bench_adaptive_query_cache`: Stack-Overflow-Bug beheben.
 3. `bench_storage_performance`: Scope-Delta dokumentieren — tatsaechliche CRUD-Benchmarks sind in anderen Targets.
 4. `BM_FieldEncryption`/`BM_FieldDecryption` in bench_security: Crash-Ursache in `tests/bench_security.cpp` pruefen.
 5. Benchmarks fuer Ziele TS-6 (Downsampling) in bench_timeseries_ingestion ergaenzen oder passendes Target identifizieren.
 
+### 1.7.15b Delta-Liste: Echte Messung vs. Proxy (Welle 2 Prioritaet)
+
+| Prio | Ziel-ID / Benchmark-Ziel | Aktueller Stand (Welle 1) | Fehlender 1:1-Benchcase | Ziel-Target Welle 2 | Konkrete Umsetzung | Abnahme fuer Schliessen der Luecke |
+|---:|---|---|---|---|---|---|
+| P0 | Query: Simple/Complex/JOIN (Run-Plan 1-3) | ✅ dedizierte Cases aktiv; QPS+P99+Skalierung liegen vor (`query_latency_p99.json`, `query_scaled.json`) | Historische Workload-Parameter fuer A/B-Vergleich angleichen | `bench_query` | Datensatz-/Query-Setup an v1.3.4-Methode anpassen und Gegenlauf messen | Vergleich gegen Query-SLOs ohne Benchmark-Methodik-Drift |
+| P0 | C-4 Warmup Throughput (Run-Plan 8) | ❌ Crash in `bench_adaptive_query_cache` (STATUS_STACK_BUFFER_OVERRUN) | Stabiler Warmup-Case mit reproduzierbarer Throughput-Metrik | `bench_adaptive_query_cache` | Crash fixen, dann Warmup-Case mit `--benchmark_min_time>=0.2s` messen | `cache_warmup_throughput.json` + Exit-Code 0 |
+| P0 | TS-11 Field Encryption Teilabdeckung | ⚠️ AES gemessen, `BM_FieldEncryption`/`BM_FieldDecryption` crashen | Feldverschluesselung/-entschluesselung lauffaehig | `bench_security` | Crash in Field-* Cases beheben, Filter entfernen | `security.json` enthaelt AES + Field-* ohne Crash |
+| P1 | Storage CRUD (Run-Plan 9-13) | ⚠️ nur Allocator/Memory/RCU-Proxies | `INSERT/READ/UPDATE/SustainedWrite/PointReadP99` als echte Storage-Cases | passendes Storage-Bench-Target (nicht `bench_storage_performance`) | Ziel-Target identifizieren oder neue Cases im Storage-Benchmark ergaenzen | 5 JSON-Artefakte fuer 9-13 mit 1:1-Namensmapping |
+| P1 | TS-6 Downsampling Throughput (Run-Plan 17) | ⚠️ Gorilla-Compression-Proxy (kein Downsampling) | Downsampling-Benchmark mit 1-min Aggregate-Fenster | `bench_timeseries_ingestion` oder separates TS-Target | Neuen Benchmark `BM_DownsamplingThroughput` (oder aequivalent) einfuehren | `timeseries_downsampling_throughput.json` mit dediziertem Downsampling-Case |
+| P1 | AN-3 / AN-4 Exportziele | ⚠️ JSONL/Streaming-Proxies, kein Parquet/CSV-1M | Dedizierte `Parquet 1M` und `CSV 1M` Cases | `bench_exporters` | Benchcases fuer Dateiformat + 1M Rows als eigene Namen anlegen | `analytics_parquet_export_1m.json` und `analytics_csv_export_1m.json` |
+| P2 | Index L2/Cosine/TopK | ⚠️ aus `BM_VectorSearch_efSearch`/Insert-Proxies abgeleitet | Exakte Distanz- und TopK-Cases gem. Erwartungstabelle | `bench_vector_search` | Case-Namen/Parameter auf `L2Distance/1000/512`, `CosineDistance/1000/512`, `TopK/5000/50` ausrichten | 3 JSON-Artefakte mit 1:1-Zielnamen |
+| P2 | Graph Run-Plan 19-20 | ⚠️ final nur BFS-Proxy vorhanden | Sparse Edge Addition + Dense Neighbor Query als eigene Cases | `bench_graph_traversal` | Laufzeitfreundliche, dedizierte Cases fuer 19 und 20 definieren | `graph_sparse_edge_addition.json` + `graph_dense_neighbor_query.json` |
+
+Reihenfolge fuer Umsetzung in Welle 2:
+
+1. P0 zuerst (Messbarkeit/Crash-Fix), dann P1 (fachliche 1:1-Abdeckung), danach P2 (Feinabdeckung).
+2. Nach jedem Fix sofort JSON-Artefakt erzeugen und in Abschnitt 1.7.15a den Status von ❌/⚠️ auf ✅ heben.
+3. Jede neue Messung mit demselben Hardware-Baseline-Artefaktzyklus paaren.
+
 **Vollstaendige Artefakt-Liste Welle 1:**
 
 | Artefakt | Groesse | Enthaltene Benchmarks |
 |---|---|---|
+| `artifacts/perf_nv/query_simple_aql_where.json` | ~1.5 KB | BM_SimpleWhere (dedizierter 1:1-Case) |
+| `artifacts/perf_nv/query_complex_where.json` | ~1.5 KB | BM_ComplexWhere (dedizierter 1:1-Case) |
+| `artifacts/perf_nv/query_join_users_posts.json` | ~2.0 KB | BM_JoinUsersPosts (dedizierter 1:1-Case) |
+| `artifacts/perf_nv/query_latency_p99.json` | ~3 KB | BM_SimpleWhere_P99, BM_ComplexWhere_P99, BM_JoinUsersPosts_P99 |
+| `artifacts/perf_nv/query_scaled.json` | ~5 KB | BM_*_Scaled/1000 und BM_*_Scaled/10000 |
 | `artifacts/perf_nv/core_performance.json` | ~8 KB | VectorIndexBench, SIMDDistanceThroughput, SecondaryIndexBench, QueryEngineBench, GraphIndexBench, TimeseriesBench |
 | `artifacts/perf_nv/vector_search.json` | ~4 KB | BM_VectorSearch_efSearch (32/64/128/256), BM_VectorInsert_Batch100 (64/128) |
 | `artifacts/perf_nv/storage_performance.json` | ~10 KB | BM_Allocator_*, BM_Memory_*, BM_RCU_*, BM_Memory_Overhead |
@@ -1136,7 +1159,7 @@ Legende: ✅ gemessen | ⚠️ Scope-Delta oder Teilmessung | ❌ nicht messbar 
 | `artifacts/perf_nv/timeseries_gorilla.json` | ~4 KB | BM_GorillaCompression/Decompression (100/1000/10000) — Duplikat, zweiter Lauf |
 | `artifacts/perf_nv/exporters.json` | ~8 KB | BM_JsonlExport_BatchThroughput, BM_JsonlExport_FormatTemplate, BM_JsonlExport_Compressed, BM_StreamingExport_Throughput, BM_IncrementalExport_Full/Delta |
 | `artifacts/perf_nv/security.json` | ~10 KB | BM_AES256GCM (1KB/64KB/1MB), BM_RBAC, BM_PostQuantum (Kyber/Dilithium), BM_FIPS, BM_AQLInjection, BM_AuditLog |
-| `artifacts/perf_nv/graph_traversal.json` | ~8 KB | GraphTraversalBenchmarkFixture (BFS/DFS/ShortestPath/Degree/Connectivity), GeneralTraversalFixture, ParallelTraversalFixture |
+| `artifacts/perf_nv/graph_traversal.json` | ~1.5 KB | GraphTraversalBenchmarkFixture/BFSTraversal/100/4 (repräsentativer Proxy-Lauf) |
 
 ---
 
@@ -1146,16 +1169,32 @@ Legende: ✅ gemessen | ⚠️ Scope-Delta oder Teilmessung | ❌ nicht messbar 
 
 | Benchmark | Ziel | v1.3.4 Gemessen | v1.8.2 Gemessen | Status |
 |-----------|------|-----------------|-----------------|--------|
-| Simple AQL WHERE |  10.000 Queries/s bei P99 < 20 ms | 3,43 M ops/s @ ~0,3  | n/v |  |
-| Complex WHERE |  1 M ops/s | 3,35 M ops/s | n/v |  |
-| JOIN (Users-Posts) |  5 M ops/s | 10,2 M ops/s | n/v |  |
-| QueryEngineBench/SimpleEvaluation |  750 M items/s | 814,5 M items/s (1,23 ns) | 796,4 M items/s (1,26 ns) |   |
+| Simple AQL WHERE |  10.000 Queries/s bei P99 < 20 ms | 3,43 M ops/s @ ~0,3  | 0,2023 ms (~4.943 q/s), P99 0,562 ms (`BM_SimpleWhere_P99`) |  ⚠️ P99 ok, QPS unter Ziel |
+| Complex WHERE |  1 M ops/s | 3,35 M ops/s | 0,2183 ms (~4.581 q/s), P99 0,321 ms (`BM_ComplexWhere_P99`) |  ⚠️ QPS unter Ziel |
+| JOIN (Users-Posts) |  5 M ops/s | 10,2 M ops/s | 0,9755 ms (~1.025 q/s), P99 1,739 ms (`BM_JoinUsersPosts_P99`) |  ⚠️ QPS unter Ziel |
+| QueryEngineBench/SimpleEvaluation |  750 M items/s | 814,5 M items/s (1,23 ns) | 603,6 M items/s (1,72 ns, Welle-1) |  ⚠️ Regressionskandidat |
 | Parse + Optimize P99 (10 Collections) |  5 ms |  | n/v |  |
 | Query-Cache Lookup P99 (Exact) | < 1 ms |  | n/v |  |
 | Query-Cache Lookup P99 (Semantic) |  10 ms |  | n/v |  |
 | JIT Erstcompilierung |  50 ms |  | n/v |  |
 | Federation Plan-Overhead (5 Cluster) |  20 ms |  | n/v |  |
 | Streaming First-Chunk Latenz |  50 ms |  | n/v |  |
+
+### 2.1 Query-Skalierung (Methodik-Drift-Indikator)
+
+Quelle: `artifacts/perf_nv/query_scaled.json` (Welle-1, dedizierte Query-Cases)
+
+| Case | N=1000 | N=10000 | Faktor (N10k/N1k) | Bewertung |
+|---|---|---|---:|---|
+| BM_SimpleWhere_Scaled | 0,197 ms (~5.075 q/s) | 1,664 ms (~601 q/s) | 8,45x | deutliche Skalierungskosten |
+| BM_ComplexWhere_Scaled | 0,216 ms (~4.635 q/s) | 1,237 ms (~809 q/s) | 5,73x | sublinear, aber stark fallender QPS |
+| BM_JoinUsersPosts_Scaled | 1,003 ms (~997 q/s) | 9,002 ms (~111 q/s) | 8,98x | JOIN-Pfad stark datensatzsensitiv |
+
+Interpretation:
+
+1. Die aktuelle QPS-Luecke gegen historische Zielwerte wird wesentlich von Datensatzgroesse/Workload-Form beeinflusst.
+2. P99 bleibt fuer alle drei Cases im ms-Bereich deutlich unter den Latenz-SLOs; der Engpass liegt im Durchsatz unter groesserem N.
+3. Fuer einen fairen Versionsvergleich muss die v1.3.4-Workloadmethodik (Datensatz, Querymix, Warmup) explizit reproduziert werden.
 
 ---
 
@@ -1172,9 +1211,9 @@ Legende: ✅ gemessen | ⚠️ Scope-Delta oder Teilmessung | ❌ nicht messbar 
 | Medium Index Insert (100K) |  500 k/s |   | 1,06 M/s | n/v |  |
 | Large Index Lookup (1M) |  1 M/s |   | 3,12 M/s | n/v |  |
 | Composite Index Lookup |  1 M/s |   | 2,40 M/s | n/v |  |
-| L2Distance/1000/512 |  250 k/s | 313 k/s (3.200 ns) |  | n/v |  |
-| CosineDistance/1000/512 |  200 k/s | 250 k/s (4.000 ns) |  | n/v |  |
-| TopK/5000/50 |  10 M/s | 12,5 M/s (400 ns) |  | n/v |  |
+| L2Distance/1000/512 |  250 k/s | 313 k/s (3.200 ns) |  | Proxy: `BM_VectorSearch_efSearch/32/10` 18,86 ms |  ⚠️ nicht 1:1 Distanz-Benchcase |
+| CosineDistance/1000/512 |  200 k/s | 250 k/s (4.000 ns) |  | Proxy: `BM_VectorSearch_efSearch/128/10` 19,99 ms |  ⚠️ nicht 1:1 Distanz-Benchcase |
+| TopK/5000/50 |  10 M/s | 12,5 M/s (400 ns) |  | Proxy: `BM_VectorInsert_Batch100/128` 5,17 ms |  ⚠️ Insert-Proxy statt TopK-Case |
 | HNSW Vektor-Suche (CPU) |  5.000 QPS |  |  | n/v |  |
 | HNSW Vektor-Suche (GPU RTX-class) |  50.000 QPS |  |  | n/v |  |
 | B-Tree Point-Lookup P99 (10M Keys) | < 500  |  |  | n/v |  |
@@ -1236,8 +1275,8 @@ Legende: ✅ gemessen | ⚠️ Scope-Delta oder Teilmessung | ❌ nicht messbar 
 |---------|----------------|-----------------|-----------------|--------|
 | AN-1 Streaming Aggregation Memory |  512 MB/Fenster |  | n/v |  |
 | AN-2 IVM Delta-Application |  50 ms (10k Rows) |  | n/v |  |
-| AN-3 Parquet Export 1M Rows |  2 s |  | n/v |  |
-| AN-4 CSV Export 1M Rows |  500 ms |  | n/v |  |
+| AN-3 Parquet Export 1M Rows |  2 s |  | Proxy: `BM_JsonlExport_BatchThroughput/10000` in  `artifacts/perf_nv/exporters.json` |  ⚠️ Kein Parquet-Case im gemessenen Target |
+| AN-4 CSV Export 1M Rows |  500 ms |  | Proxy: `BM_StreamingExport_Throughput/5000` in `artifacts/perf_nv/exporters.json` |  ⚠️ CSV-1M nicht direkt gemessen |
 | AN-5 CEPEngine::stop() |  100 ms |  | n/v |  |
 | AN-7 IsolationForest Training |  10 ms (1k-Punkt-Fenster) |  | n/v |  |
 | AN-8 predictBatch() |  50 ms (1k Serien ├ù 30 Steps) |  | n/v |  |
@@ -1322,15 +1361,15 @@ Legende: ✅ gemessen | ⚠️ Scope-Delta oder Teilmessung | ❌ nicht messbar 
 | Ziel-ID | Erwartungswert | Bekannter Ist-Stand | v1.3.4 Gemessen | v1.8.2 Gemessen | Status |
 |---------|----------------|---------------------|-----------------|-----------------|--------|
 | TS-1 Write Throughput/Node | > 500 k pts/s | ~200 k pts/s | 49,0 M pts/s* | 61,00 M pts/s* |  |
-| TS-2 Gorilla Decode Throughput | > 2 GB/s/Core | ~400 MB/s |  | n/v |  |
+| TS-2 Gorilla Decode Throughput | > 2 GB/s/Core | ~400 MB/s |  | 267,1 MB/s (`BM_GorillaSIMDDecode_Throughput/100000`, Welle-1) |  ⚠️ unter Erwartungswert |
 | TS-3 Range Scan P99 (1M pts) | < 50 ms |   |  | n/v |  |
 | TS-4 Continuous Aggregate Refresh | < 500 ms/1-min-Intervall |   |  | n/v |  |
 | TS-5 Write Amplification | < 1,5├ù |   |  | n/v |  |
-| TS-6 Downsampling Throughput | > 10 M pts/s ÔåÆ 1-min-Aggregate |   |  | n/v |  |
+| TS-6 Downsampling Throughput | > 10 M pts/s ÔåÆ 1-min-Aggregate |   |  | Proxy: Gorilla Compression 27,3 M pts/s (`timeseries_ingestion.json`) |  ⚠️ kein Downsampling-Benchcase |
 | TS-7 Storage Reduction | > 50├ù (raw ÔåÆ 1-day Tier) |   |  | n/v |  |
 | TS-9 Buffer-to-Storage Flush P99 | < 10 ms |   |  | 1,5  (AdaptiveFlush P99, Proxy) |  |
 | TS-10 Gorilla Insert P99 |  50  |   |  | n/v |  |
-| TS-11 AES-256-GCM Throughput | > 1 GB/s/Core (AES-NI) |   |  | n/v |  |
+| TS-11 AES-256-GCM Throughput | > 1 GB/s/Core (AES-NI) |   |  | 4,394 GB/s (`BM_AES256GCM_Encrypt_1MB`, Welle-1) |  ✅ |
 
 *`TimeseriesBench/InsertTimepoints` 49,0 M/s misst In-Memory-Append, nicht persistiertes Schreiben
 
@@ -1361,9 +1400,9 @@ Legende: ✅ gemessen | ⚠️ Scope-Delta oder Teilmessung | ❌ nicht messbar 
 | Benchmark | Ziel | v1.3.4 Gemessen | v1.8.2 Gemessen | Status |
 |-----------|------|-----------------|-----------------|--------|
 | GraphIndexBench/AddEdges |  500 k edges/s | 628,7 k edges/s (1,59 ) | 1,177 M edges/s (8,50e4 ns) |  |
-| Sparse Graph Edge Addition |  500 k edges/s | 1,26 M edges/s | n/v |  |
-| Dense Graph Neighbor Query |  5 M queries/s | 8,96 M queries/s | n/v |  |
-| Graph BFS Traversal (Depth-3) |  5 M traversals/s | 9,56 M traversals/s | n/v |  |
+| Sparse Graph Edge Addition |  500 k edges/s | 1,26 M edges/s | n/v |  ⚠️ kein Edge-Add-Case in finalem Welle-1-Graphlauf |
+| Dense Graph Neighbor Query |  5 M queries/s | 8,96 M queries/s | n/v |  ⚠️ kein Dense-Neighbor-Case in finalem Welle-1-Graphlauf |
+| Graph BFS Traversal (Depth-3) |  5 M traversals/s | 9,56 M traversals/s | 5,74 k traversals/s (`BFSTraversal/100/4`, Proxy) |  ⚠️ nicht vergleichbare Problemgroesse |
 | RAG Search Top-50 |  5 M ops/s | 7,17 M ops/s (140 ns) | n/v |  |
 | Algorithmus-Selektion P99 (10M Nodes) | < 1 ms |  | n/v |  |
 | Plan-Cache Lookup P99 | < 100  |  | n/v |  |
