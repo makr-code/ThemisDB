@@ -1100,11 +1100,11 @@ DLL-PATH-Konfiguration benoetigt: `build-msvc-ninja-release/cmake` + `build-msvc
 | 11 | UPDATE 1 KB | ⚠️ | `artifacts/perf_nv/storage_performance.json` | wie Zeile 9 |
 | 12 | Sustained Write NVMe | ⚠️ | `artifacts/perf_nv/storage_performance.json` | wie Zeile 9 |
 | 13 | Point-Read Latenz P99 | ⚠️ | `artifacts/perf_nv/storage_performance.json` | BM_Allocator_Themis_Small: 160,6 M ops/s; BM_RCU_Read/threads:8: 1,39 G ops/s |
-| 14 | AN-3 Parquet Export 1M Rows | ✅ | `artifacts/perf_nv/exporters.json` | BM_JsonlExport_BatchThroughput/10000 vorhanden; Parquet-Typ s. JSON-Artefakt |
-| 15 | AN-4 CSV Export 1M Rows | ✅ | `artifacts/perf_nv/exporters.json` | BM_StreamingExport_Throughput/5000 vorhanden |
+| 14 | AN-3 Parquet Export 1M Rows | ✅ | `artifacts/perf_nv/exporters_1m_throughput.json` | BM_Export_Parquet_1M: ~125k items/s |
+| 15 | AN-4 CSV Export 1M Rows | ✅ | `artifacts/perf_nv/exporters_csv_1m_final.json` | BM_Export_CSV_1M: ~128k items/s |
 | 16 | TS-2 Gorilla Decode Throughput | ✅ | `artifacts/perf_nv/gorilla_codec.json` | BM_GorillaSIMDDecode_Throughput/100000: 267,1 MB/s decoded |
 | 17 | TS-6 Downsampling Throughput | ✅ | `artifacts/perf_nv/timeseries_downsampling_throughput.json` | BM_DownsamplingThroughput: ~1.9M pts/s, 60 Buckets/iter à 1min, P99-Bucket-Latenz=44µs |
-| 18 | TS-11 AES-256-GCM Throughput | ✅ | `artifacts/perf_nv/security.json` | BM_AES256GCM_Encrypt_1MB: 238.660 ns; BM_FieldEncryption CRASH (ausgefiltert) |
+| 18 | TS-11 AES-256-GCM Throughput | ✅ | `artifacts/perf_nv/security.json` | BM_AES256GCM_Encrypt_1MB: 238.660 ns; FieldEncryption/FieldDecryption aktuell nicht im Artefakt enthalten |
 | 19 | Sparse Graph Edge Addition | ✅ | `artifacts/perf_nv/graph_sparse_edge_addition.json` | GraphTraversalBenchmarkFixture/SparseEdgeAddition/1000/4: 3,019 ms, 331,27 edges/s |
 | 20 | Dense Graph Neighbor Query | ✅ | `artifacts/perf_nv/graph_dense_neighbor_query.json` | GraphTraversalBenchmarkFixture/DenseNeighborQuery/1000/20: 0,003767 ms, 265.480 qps, 14,74 neighbors/query |
 | 21 | Graph BFS Traversal (Depth-3) | ✅ | `artifacts/perf_nv/graph_traversal.json` | BFSTraversal/100/4: 0,200 ms, 5.738,7 items/s |
@@ -1112,16 +1112,13 @@ DLL-PATH-Konfiguration benoetigt: `build-msvc-ninja-release/cmake` + `build-msvc
 Legende: ✅ gemessen | ⚠️ Scope-Delta oder Teilmessung | ❌ nicht messbar (Build-/Runtime-Problem)
 
 **Zusammenfassung Welle 1:**
-- 12 von 21 Zeilen vollstaendig gemessen (✅)
-- 8 Zeilen: Scope-Delta oder Teilmessung (⚠️)
-- 1 Zeile: Laufzeit-Crash (❌)
+- 15 von 21 Zeilen vollstaendig gemessen (✅)
+- 6 Zeilen: Scope-Delta oder Teilmessung (⚠️)
+- 0 Zeilen: Laufzeit-Crash (❌)
 
 **Offene Punkte fuer Welle 2:**
-1. `bench_query`: dedizierte WHERE/JOIN-Benchcases inkl. QPS/P99-Harness und Skalierungsrun sind umgesetzt; Pagination-Parameter-A/B (20/10 vs 50/50) liegt vor, als naechstes folgen Datensatz-/Querymix-/Warmup-Abgleich zur historischen Methodik.
-2. `bench_adaptive_query_cache`: Stack-Overflow-Bug beheben.
-3. `bench_storage_performance`: Scope-Delta dokumentieren — tatsaechliche CRUD-Benchmarks sind in anderen Targets.
-4. `BM_FieldEncryption`/`BM_FieldDecryption` in bench_security: Crash-Ursache in `tests/bench_security.cpp` pruefen.
-5. Benchmarks fuer Ziele TS-6 (Downsampling) in bench_timeseries_ingestion ergaenzen oder passendes Target identifizieren.
+1. Storage Run-Plan 9-13 weiter haerten: 1KB-Payload-Varianten und SLO-nahe Sustained-NVMe-Profile als dedizierte Cases nachziehen (aktuell CRUD-Baseline vorhanden, aber nicht voll 1:1 zu allen SLO-Parametern).
+2. TS-11 vervollstaendigen: dedizierte FieldEncryption/FieldDecryption-Cases wieder in das Security-Artefakt aufnehmen und explizit reporten.
 
 ### 1.7.15b Delta-Liste: Echte Messung vs. Proxy (Welle 2 Prioritaet)
 
@@ -1129,7 +1126,7 @@ Legende: ✅ gemessen | ⚠️ Scope-Delta oder Teilmessung | ❌ nicht messbar 
 |---:|---|---|---|---|---|---|
 | P0 | Query: Simple/Complex/JOIN (Run-Plan 1-3) | ✅ dedizierte Cases aktiv; QPS+P99+Skalierung liegen vor (`query_latency_p99.json`, `query_scaled.json`), Pagination-A/B gemessen (`query_pagination_2010_refresh.json`, `query_pagination_5050.json`), **historischer Querymix gemessen** (`query_historical_method.json`: N=10000, warmup=50, qps≈450/s, mean=2,31 ms, P99=9,67 ms) | ~~Vollstaendiger historischer Methodik-Abgleich (Datensatz, Querymix, Warmup)~~ **Erledigt, Abschnitt 2.4** | `bench_query` | ✅ Datensatz- und Query-Setup an v1.3.4-Methode angeglichen, Gegenlauf gemessen | ✅ Vergleich gegen Query-SLOs ohne Benchmark-Methodik-Drift |
 | P0 | C-4 Warmup Throughput (Run-Plan 8) | ✅ Crash behoben; **Gemessen**: 10K/4-workers: 443K entries/s, 100K/4-workers: 305K entries/s (Ziel: 500K/s → ~2× speedup vs 1-worker baseline 83K/s) | Warmup-Messung funktioniert, Parallelisierung nachgewiesen | `bench_adaptive_query_cache` | ✅ Crash gefixt (l3_db_path), `BM_WarmupFromLog` ausgeführt | `cache_warmup_throughput.json` mit Parallelisierungsergebnissen |
-| P0 | TS-11 Field Encryption Teilabdeckung | ✅ Crash behoben (geerbt von Cache); AES + Field-Encrypt/Decrypt gemessen | Feldverschluesselung/-entschluesselung ohne Crash lauffaehig | `bench_security` | ✅ Cache-Fix transitiv gelöst; `bench_security` läuft komplett | `security.json` enthält AES-256-GCM + FieldEncryption-Cases |
+| P0 | TS-11 Field Encryption Teilabdeckung | ⚠️ AES-256-GCM gemessen; FieldEncryption/FieldDecryption aktuell nicht im Security-Artefakt sichtbar | Feldverschluesselung/-entschluesselung als dedizierte Cases noch nachzuziehen | `bench_security` | Security-Bench laeuft stabil, aber Artefaktabdeckung fuer Field-* ist unvollstaendig | `security.json` (derzeit AES/RBAC/PQ/FIPS/AQL/Audit; ohne Field-* Eintraege) |
 | P1 | Storage CRUD (Run-Plan 9-13) | ✅ CRUD-Cases implementiert: `BM_StorageInsert` (~300 ops/s WAL-on), `BM_StorageRead` (~1.6M ops/s cached), `BM_StorageUpdate` (~300 ops/s WAL-on), `BM_SustainedWrite/16` (~2.4k ops/s), `BM_PointReadP99` (P99=1us, 20k samples) | `INSERT/READ/UPDATE/SustainedWrite/PointReadP99` implementiert auf `RocksDBWrapper::put()/get()` | `bench_hotspots_micro` + Artifact `artifacts/perf_nv/storage_crud_wave2.json` | ✅ Alle 5 CRUD-Cases laufen, Baseline-Artefakt gespeichert | 5 JSON-Ergebnisse in `storage_crud_wave2.json` mit 1:1-Namensmapping |
 | P1 | TS-6 Downsampling Throughput (Run-Plan 17) | ✅ BM_DownsamplingThroughput: 1.9M pts/s, 60×1-min Buckets, P99=44µs/Bucket | ~~Downsampling-Benchmark fehlt~~ implementiert via RocksDBWrapper bucketed scan | `bench_timeseries_ingestion` (neu CMake-registriert) | ✅ BM_DownsamplingThroughput standalone-implementiert; TimeSeriesStore-Fixture-Doppel-Open-Bug gefixt | `timeseries_downsampling_throughput.json` mit 1.906M pts/s, P99-Bucket=44µs |
 | P1 | AN-3 / AN-4 Exporters 1M | ✅ Gemessen: An-3 Parquet 125.98k items/s (32.2 MB/s, 9.47 sec/1M), AN-4 CSV 128.26k items/s (32.8 MB/s, 9.09 sec/1M) | Batched export throughput mit JSONL-Proxy etabliert (100x10K entities) | `bench_exporters` | ✅ BM_Export_Parquet_1M + BM_Export_CSV_1M implementiert; beide Benchmarks kompilieren und laufen | ✅ Artefakte: `exporters_1m_throughput.json` + `exporters_csv_1m_final.json`; Durchsatz-Baseline dokumentiert (WAVE2_P1_EXPORTERS_SUMMARY.md) |
@@ -1357,8 +1354,8 @@ Benchmark-Code: `BM_QueryMix_Historical`, `BM_QueryMix_Historical_P99` in `bench
 |---------|----------------|-----------------|-----------------|--------|
 | AN-1 Streaming Aggregation Memory |  512 MB/Fenster |  | n/v |  |
 | AN-2 IVM Delta-Application |  50 ms (10k Rows) |  | n/v |  |
-| AN-3 Parquet Export 1M Rows |  2 s |  | Proxy: `BM_JsonlExport_BatchThroughput/10000` in  `artifacts/perf_nv/exporters.json` |  ⚠️ Kein Parquet-Case im gemessenen Target |
-| AN-4 CSV Export 1M Rows |  500 ms |  | Proxy: `BM_StreamingExport_Throughput/5000` in `artifacts/perf_nv/exporters.json` |  ⚠️ CSV-1M nicht direkt gemessen |
+| AN-3 Parquet Export 1M Rows |  2 s |  | BM_Export_Parquet_1M: ~125k items/s, ~9,47 s (`artifacts/perf_nv/exporters_1m_throughput.json`) |  🔴 direkter 1:1-Case vorhanden, Laufzeit ueber Ziel |
+| AN-4 CSV Export 1M Rows |  500 ms |  | BM_Export_CSV_1M: ~128k items/s, ~9,09 s (`artifacts/perf_nv/exporters_csv_1m_final.json`) |  🔴 direkter 1:1-Case vorhanden, Laufzeit ueber Ziel |
 | AN-5 CEPEngine::stop() |  100 ms |  | n/v |  |
 | AN-7 IsolationForest Training |  10 ms (1k-Punkt-Fenster) |  | n/v |  |
 | AN-8 predictBatch() |  50 ms (1k Serien ├ù 30 Steps) |  | n/v |  |
@@ -1447,7 +1444,7 @@ Benchmark-Code: `BM_QueryMix_Historical`, `BM_QueryMix_Historical_P99` in `bench
 | TS-3 Range Scan P99 (1M pts) | < 50 ms |   |  | n/v |  |
 | TS-4 Continuous Aggregate Refresh | < 500 ms/1-min-Intervall |   |  | n/v |  |
 | TS-5 Write Amplification | < 1,5├ù |   |  | n/v |  |
-| TS-6 Downsampling Throughput | > 10 M pts/s ÔåÆ 1-min-Aggregate |   |  | Proxy: Gorilla Compression 27,3 M pts/s (`timeseries_ingestion.json`) |  ⚠️ kein Downsampling-Benchcase |
+| TS-6 Downsampling Throughput | > 10 M pts/s ÔåÆ 1-min-Aggregate |   |  | BM_DownsamplingThroughput: 1,906 M pts/s, P99-Bucket 44 µs (`timeseries_downsampling_throughput.json`) |  🔴 direkter 1:1-Case vorhanden, Durchsatz unter Ziel |
 | TS-7 Storage Reduction | > 50├ù (raw ÔåÆ 1-day Tier) |   |  | n/v |  |
 | TS-9 Buffer-to-Storage Flush P99 | < 10 ms |   |  | 1,5  (AdaptiveFlush P99, Proxy) |  |
 | TS-10 Gorilla Insert P99 |  50  |   |  | n/v |  |
