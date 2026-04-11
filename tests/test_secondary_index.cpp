@@ -679,6 +679,10 @@ TEST(ConcurrentUniqueLückeTest, TxnUnique_Concurrent_OnlyOneCommits) {
     auto [st, results] = idx.scanKeysEqual("accounts", "ssn", "123-45-6789");
     EXPECT_EQ(results.size(), 1u)
         << "Unique index must contain exactly one entry after concurrent inserts";
+    if (results.size() == 1u) {
+        EXPECT_TRUE(results[0] == "acc_a" || results[0] == "acc_b")
+            << "Committed PK must be one of the two worker PKs, got: " << results[0];
+    }
 
     db.close();
 }

@@ -183,6 +183,56 @@ std::string SecondaryIndexManager::makeCompositeIndexPrefix(std::string_view tab
 	return key;
 }
 
+// static — unique-constraint sentinel keys for GetForUpdate locking
+// Format: "uidx:table:col:encodedVal" (single-column)
+std::string SecondaryIndexManager::makeUniqueSentinelKey_(
+		std::string_view table, std::string_view col, std::string_view encodedVal) {
+	std::string key;
+	key.reserve(5 + table.size() + col.size() + encodedVal.size());
+	key += "uidx:";
+	key += table;
+	key += ":";
+	key += col;
+	key += ":";
+	key += encodedVal;
+	return key;
+}
+
+// static — composite unique-constraint sentinel key for GetForUpdate locking
+// Format: "uidx:table:col1+col2:encVal1:encVal2"
+std::string SecondaryIndexManager::makeCompositeUniqueSentinelKey_(
+		std::string_view table,
+		const std::vector<std::string>& columns,
+		const std::vector<std::string>& values) {
+	// Encode values once so we use them for both the reserve hint and the build.
+	std::vector<std::string> encodedVals;
+	encodedVals.reserve(values.size());
+	size_t total = 5 + table.size() + 1; // "uidx:" + table + ":"
+	for (size_t i = 0; i < columns.size(); ++i) {
+		if (i > 0) total += 1; // "+"
+		total += columns[i].size();
+	}
+	for (const auto& v : values) {
+		encodedVals.push_back(encodeKeyComponent(v));
+		total += 1 + encodedVals.back().size(); // ":" + encoded
+	}
+
+	std::string key;
+	key.reserve(total);
+	key += "uidx:";
+	key += table;
+	key += ":";
+	for (size_t i = 0; i < columns.size(); ++i) {
+		if (i > 0) key += "+";
+		key += columns[i];
+	}
+	for (const auto& ev : encodedVals) {
+		key += ":";
+		key += ev;
+	}
+	return key;
+}
+
 // static
 std::string SecondaryIndexManager::encodeKeyComponent(std::string_view raw) {
 	std::string out;
@@ -3801,8 +3851,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 				// all concurrent transactions that try to insert the same unique value.
 				// Without this, two transactions could both pass the db_.scanPrefix
 				// check, both commit, and yield a duplicate unique-index entry.
-				const std::string sentinelKey = std::string("uidx:") + std::string(table) + ":" + col + ":" + encodedVal;
-				if (!txn.getForUpdate(sentinelKey)) {
+				if (!txn.getForUpdate(makeUniqueSentinelKey_(table, col, encodedVal))) {
 					return Status::Error("Unique constraint write conflict: " + std::string(table) + "." + col + " = " + *maybe + " (concurrent transaction holds lock)");
 				}
 				// Prüfe ob bereits ein anderer PK mit diesem Wert existiert
@@ -3868,16 +3917,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 				// Fix Concurrent-Unique-Lücke (ACID): lock a composite sentinel key
 				// derived from (table, columns, values) to serialize concurrent writes
 				// of the same unique composite value across transactions.
-				std::string compositeSentinel = std::string("uidx:") + std::string(table) + ":";
-				for (size_t i = 0; i < columns.size(); ++i) {
-					if (i > 0) compositeSentinel += "+";
-					compositeSentinel += columns[i];
-				}
-				for (const auto& v : values) {
-					compositeSentinel += ":";
-					compositeSentinel += encodeKeyComponent(v);
-				}
-				if (!txn.getForUpdate(compositeSentinel)) {
+				if (!txn.getForUpdate(makeCompositeUniqueSentinelKey_(table, columns, values))) {
 					std::string valueStr;
 					for (size_t i = 0; i < values.size(); ++i) {
 						if (i > 0) valueStr += ", ";
