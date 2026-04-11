@@ -4,7 +4,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-**Production** — Real-time change notifications, SSE-based event streaming, WebSocket transport, consumer group semantics, and Kafka producer integration are all implemented. Build system audit completed (2026-03-10): all CDC source files are now registered in `cmake/CMakeLists.txt` and `cmake/ModularBuild.cmake`. Five new public interface headers (`ICDCPauseControl`, `ICDCBackpressureSignal`, `ICDCFanIn`, `ICDCEventSchema`, `IDeliveryGuaranteeConfig`) with concrete in-memory implementations and 5 focused test executables added (v1.8.0, 2026-03-22).
+**Production** — Real-time change notifications, SSE-based event streaming, WebSocket transport, consumer group semantics, and Kafka producer integration are all implemented. Build system audit completed (2026-03-10): all CDC source files are now registered in `cmake/CMakeLists.txt` and `cmake/ModularBuild.cmake`. Five new public interface headers (`ICDCPauseControl`, `ICDCBackpressureSignal`, `ICDCFanIn`, `ICDCEventSchema`, `IDeliveryGuaranteeConfig`) with concrete in-memory implementations and 5 focused test executables added (v1.8.0, 2026-03-22). Three additional v2.0.0 interface headers (`ICDCReplayController`, `ICDCFilterPipeline`, `ICDCBatchCommitCoordinator`) with concrete in-memory implementations and 3 focused test executables added (v2.0.0, 2026-04-08).
 
 ## Completed ✅
 - [x] Changefeed implementation for real-time change tracking — `changefeed.cpp`, `include/cdc/changefeed.h`
@@ -82,6 +82,12 @@
 - [x] Implement `include/cdc/idelivery_guarantee_config.h` — `IDeliveryGuaranteeConfig` abstract interface with `setMode()`, `setAckTimeout()`, `setDeduplicationWindow()`, `isDuplicate()`; `DeliveryMode` enum (`AtLeastOnce`, `ExactlyOnce`); rolling dedup hash window; `InMemoryDeliveryGuaranteeConfig` concrete implementation
 - [x] Add 5 focused test executables in `tests/CMakeLists.txt` with CI workflow `cdc-interfaces-ci.yml`
 
+### Phase 6: Advanced Interface Headers (Status: Completed ✅)
+- [x] Implement `include/cdc/icdc_replay_controller.h` — `ICDCReplayController` abstract interface with `beginReplay(ReplayOptions)`, `replayFromTimestamp()`, `replayFromSequence()`, `totalSessionsCreated()`; `IReplaySession` abstract session interface with `nextBatch()`, `done()`, `cancel()`, `state()`, `deliveredCount()`; `ReplayOptions` struct (sequence/timestamp range, key_prefix, event_types, batch_size, max_events_per_session); `InMemoryReplaySession` and `InMemoryReplayController` concrete implementations; 15 tests in `tests/test_cdc_replay_controller.cpp`
+- [x] Implement `include/cdc/icdc_filter_pipeline.h` — `ICDCFilterPipeline` abstract interface with `addFilter()`, `removeFilter()`, `hasFilter()`, `size()`, `empty()`, `apply()`, `applyBatch()`, `filterNames()`, `totalPassed()`, `totalDropped()`, `resetCounters()`; `IEventFilter` abstract base; `PredicateFilter` (std::function-backed), `KeyPrefixFilter`, `EventTypeFilter` built-in stages; fail-fast short-circuit; `InMemoryFilterPipeline` concrete implementation; 15 tests in `tests/test_cdc_filter_pipeline.cpp`
+- [x] Implement `include/cdc/icdc_batch_commit_coordinator.h` — `ICDCBatchCommitCoordinator` abstract interface with `beginBatch()`, `addEvent()`, `commitBatch()`, `rollbackBatch()`, `status()`, `info()`, `committedEvents()`, `isCommitted()`; `BatchId` type alias; `AddEventResult`, `CommitResult`, `RollbackResult`, `BatchStatus` enums; `BatchConfig` (max_batch_size, commit_history_size); `BatchInfo` summary struct; `InMemoryBatchCommitCoordinator` with FIFO commit history; 16 tests in `tests/test_cdc_batch_commit_coordinator.cpp`
+- [x] Add 3 focused test executables in `tests/CMakeLists.txt` with updated CI workflow `cdc-interfaces-ci.yml`
+
 ## Production Readiness Checklist
 - [x] Unit tests coverage > 80% (Issue: #1623) — `test_cdc_changefeed_buffer.cpp` (ChangefeedBuffer direct tests) and `test_cdc_changefeed_core.cpp` (subscribe API, SubscriptionHandle/Filter, listEvents variants, getStats, clear, JSON roundtrip) added; closes Issue #1623
 - [x] Integration tests (SSE streaming, change replay, subscription filtering)
@@ -90,6 +96,7 @@
 - [x] Documentation complete
 - [x] API stability guaranteed for changefeed and subscription APIs
 - [x] Build system audit complete — all source files registered in cmake (2026-03-10)
+- [x] v2.0.0 interface headers: `ICDCReplayController`, `ICDCFilterPipeline`, `ICDCBatchCommitCoordinator`
 
 ## Known Issues & Limitations
 - Consumer offset tracking is available via `ConsumerGroupManager`; full log scan is no longer required for existing groups

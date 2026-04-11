@@ -9970,6 +9970,126 @@ else()
     message(STATUS "CDC Delivery Guarantee Config tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cdc_delivery_guarantee_config.cpp")
 endif()
 
+# ============================================================================
+# CDC Replay Controller Focused Tests (v2.0.0 — ICDCReplayController /
+# InMemoryReplayController / IReplaySession; header-only, no RocksDB dependency
+# beyond what the VectorReplayController stub supplies)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cdc_replay_controller.cpp")
+    message(STATUS "Adding CDC Replay Controller focused tests")
+
+    add_executable(test_cdc_replay_controller
+        test_cdc_replay_controller.cpp
+    )
+
+    target_include_directories(test_cdc_replay_controller PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_cdc_replay_controller PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_cdc_replay_controller PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME CDCReplayControllerFocusedTests COMMAND test_cdc_replay_controller)
+
+    set_tests_properties(CDCReplayControllerFocusedTests PROPERTIES
+        LABELS "cdc;replay;time-based;sequence;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  CDCReplayController: beginReplay/replayFromTimestamp/replayFromSequence, batch_size, cursor, timestamp range, key_prefix, event_types, max_events, cancel, deliveredCount, totalSessionsCreated")
+else()
+    message(STATUS "CDC Replay Controller tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cdc_replay_controller.cpp")
+endif()
+
+# ============================================================================
+# CDC Filter Pipeline Focused Tests (v2.0.0 — ICDCFilterPipeline /
+# InMemoryFilterPipeline / PredicateFilter / KeyPrefixFilter / EventTypeFilter;
+# header-only, no RocksDB dependency)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cdc_filter_pipeline.cpp")
+    message(STATUS "Adding CDC Filter Pipeline focused tests")
+
+    add_executable(test_cdc_filter_pipeline
+        test_cdc_filter_pipeline.cpp
+    )
+
+    target_include_directories(test_cdc_filter_pipeline PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_cdc_filter_pipeline PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_cdc_filter_pipeline PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME CDCFilterPipelineFocusedTests COMMAND test_cdc_filter_pipeline)
+
+    set_tests_properties(CDCFilterPipelineFocusedTests PROPERTIES
+        LABELS "cdc;filter;pipeline;server-side;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  CDCFilterPipeline: addFilter/removeFilter/hasFilter/size/empty, PredicateFilter, KeyPrefixFilter, EventTypeFilter, short-circuit, applyBatch, filterNames, pass/drop counters, thread-safety")
+else()
+    message(STATUS "CDC Filter Pipeline tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cdc_filter_pipeline.cpp")
+endif()
+
+# ============================================================================
+# CDC Batch Commit Coordinator Focused Tests (v2.0.0 — ICDCBatchCommitCoordinator /
+# InMemoryBatchCommitCoordinator; header-only, no RocksDB dependency)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cdc_batch_commit_coordinator.cpp")
+    message(STATUS "Adding CDC Batch Commit Coordinator focused tests")
+
+    add_executable(test_cdc_batch_commit_coordinator
+        test_cdc_batch_commit_coordinator.cpp
+    )
+
+    target_include_directories(test_cdc_batch_commit_coordinator PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_cdc_batch_commit_coordinator PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_cdc_batch_commit_coordinator PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME CDCBatchCommitCoordinatorFocusedTests
+             COMMAND test_cdc_batch_commit_coordinator)
+
+    set_tests_properties(CDCBatchCommitCoordinatorFocusedTests PROPERTIES
+        LABELS "cdc;batch;exactly-once;commit;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  CDCBatchCommitCoordinator: beginBatch/addEvent/commitBatch/rollbackBatch, BatchFull, isCommitted, committedEvents, FIFO history eviction, thread-safety")
+else()
+    message(STATUS "CDC Batch Commit Coordinator tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cdc_batch_commit_coordinator.cpp")
+endif()
+
 # Config Module ÔÇô Focused Standalone Test Targets
 # ============================================================================
 
