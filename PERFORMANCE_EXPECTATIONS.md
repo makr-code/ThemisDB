@@ -1,6 +1,6 @@
 # ThemisDB   Performance-Erwartungswerte & Messergebnisse
 
-> Stand: 2026-04-11 (Wave-2 P0+P1 Exporters complete) | Quellen: `FUTURE_ENHANCEMENTS.md` je Modul, `benchmarks/results_analysis_reports/`, `benchmarks/baselines/`, `benchmarks/VERSION_HISTORY.csv`, `benchmarks/chimera/`, Wave-2 Performance Session
+> Stand: 2026-04-02 | Quellen: `FUTURE_ENHANCEMENTS.md` je Modul, `benchmarks/results_analysis_reports/`, `benchmarks/baselines/`, `benchmarks/VERSION_HISTORY.csv`, `benchmarks/chimera/`
 >
 > **Benchmark-Plattformen:**
 > - Run **20251223** (v1.3.0-baseline): MSVC Release x64, AVX2, 20-Core @ 3.7 GHz, 20 MB L3
@@ -80,11 +80,11 @@ Typ-Kennung in ┬º39: **[M]** = gemessen ┬À **[Z]** = Ziel ┬À **[I]** = 
 |---|---|---|---|---|
 | Query | QueryEngineBench/SimpleEvaluation = 796,44 M/s | >= 750 M items/s | Gruen | KPI erreicht, aber unter Kernziel 900 M/s |
 | Index | VectorIndexBench/InsertPlaintext = 548,7 k/s | >= 280 k/s | Gruen | Sekundaerindex ebenfalls ueber Modulziel 180 k/s |
-| Cache | C-1 Proxy = 5,851 M ops/s; C-4 = 443 k Entries/s (10k/4 workers) | >= 5 M ops/s/Core; >= 500 k Entries/s | Gelb | C-1 ueber Ziel, C-4 messbar aber noch unter Ziel |
-| Storage | BM_SustainedWrite/16 = ~2,4 k ops/s | >= 100.000 ops/s (Sustained Write NVMe) | Rot | 1:1-nahe CRUD-Cases vorhanden, aber Sustained-Write klar unter Ziel |
-| Analytics | AN-3/AN-4 direkt gemessen (Parquet/CSV je ~125-128k items/s) | 1M-Export-Ziele 2,0 s / 0,5 s | Rot | Direkte Cases vorhanden, aber Laufzeit fuer beide Exportziele deutlich ueber Ziel |
-| Timeseries | TS-1 = 61,00 M pts/s; TS-6 = 1,906 M pts/s (1-min Aggregate) | > 500 k pts/s; TS-6 > 10 M pts/s | Gelb | TS-1 im Ziel, TS-6 direkt gemessen aber unter Ziel |
-| Graph | SparseEdge = 331 edges/s; DenseNeighbor = 265k qps | >= 500k edges/s; >= 5M qps | Rot | 1:1-Cases fuer 19/20 vorhanden, beide aktuell unter Ziel |
+| Cache | C-1 Proxy = 5,851 M ops/s | >= 5 M ops/s/Core | Gruen | Proxy aus `BM_EmbeddingCache_Query_WithIndex/100000` |
+| Storage | RawWrite WAL On (8) = 1,276 k/s | >= 100.000 ops/s (Sustained Write NVMe) | Rot | Deutlich unter dokumentiertem Sustained-Write-Ziel |
+| Analytics | OLAP-Proxies vorhanden | keine 1:1 AN-Zielmetrik gemessen | Gelb | Durchsatzwerte verfuegbar, Zielmapping weiterhin ausstehend |
+| Timeseries | TS-1 = 61,00 M pts/s; TS-9 Proxy = 1,5 us | > 500 k pts/s; < 10 ms | Gruen | Beide Referenzen klar im Ziel |
+| Graph | GraphIndexBench/AddEdges = 1,177 M/s | >= 500 k edges/s | Gruen | Deutlich ueber Ziel |
 
 ### 1.3 Ursachenmatrix: fehlende passende Benchmarks (alle Module)
 
@@ -92,14 +92,14 @@ Typ-Kennung in ┬º39: **[M]** = gemessen ┬À **[Z]** = Ziel ┬À **[I]** = 
 
 | Modul | Befund | Hauptursache |
 |---|---|---|
-| Query-Engine | Gute Abdeckung | Dedizierte 1:1-Cases fuer Run-Plan 1-3 inkl. P99, Skalierung und historischem Querymix vorhanden |
+| Query-Engine | Teilabdeckung | `bench_query.cpp` hat deaktivierte `BENCHMARK(...)`-Registrierung (Timeout-Kommentar), dadurch kein valider Lauf trotz vorhandener Datei |
 | Index | Gute Abdeckung | Kernbenchmarks vorhanden und lauffaehig; Luecken v.a. bei Spezialzielen (HNSW/GPU) |
-| Cache | Teilabdeckung | C-1 und C-4 sind messbar, aber C-2/C-3/C-5/C-6/C-7 weiterhin ohne dedizierte 1:1-Metrik im Report |
-| Storage | Teilabdeckung mit Zielverfehlung | Dedizierte CRUD-Cases vorhanden, jedoch nicht alle Storage-SLO-Profile (insb. Sustained NVMe/P99-Setup) 1:1 abgebildet |
-| Analytics | Teilabdeckung mit Zielverfehlung | Direkte AN-3/AN-4-Cases vorhanden, weitere AN-Unterziele weiterhin n/v; zudem AN-3/AN-4 unter Ziel |
+| Cache | Teilabdeckung | Direkte Zielmetriken fehlen; nur Proxy ueber `bench_embedding_cache_performance` |
+| Storage | Teilabdeckung mit Zielverfehlung | Vorhandene Proxies, aber kein sauberer 1:1-Match fuer alle Storage-SLOs |
+| Analytics | Teilabdeckung | `bench_olap_analytics.cpp` ist explizit als disabled markiert (API-Alignment ausstehend), nur `bench_olap_performance` als Proxy |
 | Timeseries | Teilabdeckung | Kernmetriken vorhanden, aber viele Unterziele ohne dedizierten Benchmark |
 | Geo | Teilabdeckung | Bench-Dateien vorhanden, v1.8.2-Lauf fuer Geo-Referenzfaelle bisher nicht ausgefuehrt |
-| Graph | Gute Abdeckung mit Zielverfehlung | Dedizierte Cases fuer Run-Plan 19/20 vorhanden, jedoch beide SLOs aktuell unter Ziel |
+| Graph | Gute Abdeckung | Kernbenchmark vorhanden, aber nicht alle Graph-Teilziele als v1.8.2 gemessen |
 | Acceleration | Stark eingeschraenkt | Viele Benchmarks an CUDA/HIP/GPU-Flags gebunden oder als GPU-disabled Stub registriert |
 | Replication | Teilabdeckung | Benchmarks vorhanden, aber keine vollstaendige Ziel-ID-zu-Benchmark-Zuordnung im Report |
 | Sharding | Teilabdeckung | Benchmarks vorhanden, bisher kein v1.8.2-Ziellauf dokumentiert |
@@ -112,17 +112,17 @@ Typ-Kennung in ┬º39: **[M]** = gemessen ┬À **[Z]** = Ziel ┬À **[I]** = 
 | Auth | Teilabdeckung | Bench-Datei vorhanden, aber v1.8.2-Zielmessung nicht durchgaengig dokumentiert |
 | CDC | Teilabdeckung | Bench-Dateien vorhanden, Ziel-SLO-Zuordnung unvollstaendig |
 | Network | Teilabdeckung | Protokollnahe Benchmarks teilweise deaktiviert/veraendert durch API-Aenderungen |
-| Security | Messbar (Audit verbessert) | `bench_security.exe` laeuft vollstaendig; aktuelle Artefakte in `artifacts/perf_nv/bench_security_release.json` und `artifacts/perf_nv/bench_security_20260411_131126.json`; Audit-Tamper-Append via Commit `b9f21b5495` von ~11.4 ms auf ~4.07 ms Realzeit verbessert (Ziel p99 <= 2 ms bleibt offen) |
+| Security | Fehlende Build-Artefakte | Mehrere Security-bezogene Bench-Dateien existieren, aber in aktuellem Build nicht als `.exe` vorhanden |
 | Scheduler | Teilabdeckung | Benchmarks vorhanden, aber kein vollstaendiger v1.8.2-Ziellauf |
 | Ingestion | Teilabdeckung | Benchmarks vorhanden, aber heterogene Workloads ohne einheitliche Zielabbildung |
-| Governance | Messbar | `bench_governance_policy_latency.exe` und `bench_compliance_security_governance.exe` laufen vollstaendig; aktuelle Artefakte in `artifacts/perf_nv/bench_governance_policy_latency_release.json`, `artifacts/perf_nv/bench_compliance_security_governance_release.json` und `artifacts/perf_nv/bench_compliance_20260411_142340.json` |
+| Governance | Fehlende Build-Artefakte | Policy-/Governance-Bench-Dateien nicht als lauffaehige Targets im aktuellen Buildoutput |
 | Observability | Teilabdeckung | Metrics/Logging-Benchmarks vorhanden, Zielmetriken nicht vollstaendig 1:1 gemessen |
 | Process | Teilabdeckung | Benchmarks vorhanden, aber keine vollstaendige Zielabdeckung in v1.8.2 |
 | Voice | Feature-Gating | `bench_voice_assistant` ist an `THEMIS_ENABLE_VOICE_ASSISTANT` gebunden und aktuell nicht gebaut |
 | ONNX-CLIP | Teilabdeckung | Image/ONNX-Benchmarks vorhanden, aber keine durchgaengige Zieltabellen-Abdeckung |
 | Chimera | Struktur-Luecke | Eigene Suite/Baselines vorhanden, aber kein einheitlicher nativer Modul-Benchmarkpfad im selben Schema |
 | Prompt Engineering | Teilabdeckung | Benchmark vorhanden, jedoch ohne vollstaendige Ziel-SLO-Abbildung |
-| Ethics AI | Messbar | `bench_rag_ethics.exe` vollstaendig messbar (DLL-Blocker geloest); Artefakt in `artifacts/perf_nv/bench_rag_ethics_release.json` |
+| Ethics AI | Fehlende Build-Artefakte/disabled Pfade | Ethics-Bench-Dateien vorhanden, aber im aktuellen Build nicht vollstaendig als lauffaehige Targets |
 | System-Level (TPC/YCSB) | Deaktiviert | `bench_tpcc`/`bench_ycsb` registrieren disabled-Varianten statt produktiver Workloads |
 
 #### 1.3.1 Technische Hauptgruende (konsolidiert)
@@ -139,7 +139,7 @@ Typ-Kennung in ┬º39: **[M]** = gemessen ┬À **[Z]** = Ziel ┬À **[I]** = 
 |---|---|---|---|---|
 | 1 | `bench_query.cpp` Pagination-Benchmarks wieder registrieren und stabilisieren | 2, 4 | M | `BM_Pagination_Offset` und `BM_Pagination_Cursor` laufen ohne Timeout |
 | 2 | `bench_olap_analytics.cpp` von Disabled-Stub auf echte Cases umstellen | 2, 4 | M | mind. 4 produktive OLAP-Analytics-Cases in v1.8.2-Report |
-| 3 | ~~Security/Governance-Binaries inkl. Runtime-DLL-Sync erzwingen~~ **ERLEDIGT** | 1, 3, 5 | M | Alle 4 Binaries starten und produzieren vollstaendige Artefakte; DLL-Pfad-Fix und Security/Compliance-Benchmarkreparaturen verifiziert |
+| 3 | Security/Governance-Benchtargets im Buildprofil erzwingen | 1, 5 | M | fehlende Targets (`bench_security`, `bench_policy_evaluation`, `bench_governance_policy_latency`) als `.exe` vorhanden |
 | 4 | Voice-Benchmark-Pfad für CI via `THEMIS_ENABLE_VOICE_ASSISTANT` optionalen Job aktivieren | 1, 5 | S | `bench_voice_assistant.exe` in Voice-Runner-Build vorhanden |
 | 5 | GPU-Benchmark-Matrix (CUDA/HIP/Vulkan) als separaten Runner etablieren | 1, 3 | L | GPU-disabled Stubs werden durch reale Messwerte ersetzt |
 | 6 | Modell-/Artefakt-Vorbereitung (LLM, LoRA, gguf) standardisieren | 3 | M | LLM/RAG/LoRA-Benchmarks laufen ohne Missing-Artifact-Fehler |
@@ -804,105 +804,105 @@ Regel:
 
 | n/v-Zeile | Benchmark-File | Messkommando | Zielartefakt |
 |---|---|---|---|
-| Simple AQL WHERE | `benchmarks/bench_query.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_query.exe --benchmark_out=artifacts/perf_nv/query_simple_aql_where.json --benchmark_out_format=json` | `artifacts/perf_nv/query_simple_aql_where.json` |
-| Complex WHERE | `benchmarks/bench_query.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_query.exe --benchmark_out=artifacts/perf_nv/query_complex_where.json --benchmark_out_format=json` | `artifacts/perf_nv/query_complex_where.json` |
-| JOIN (Users-Posts) | `benchmarks/bench_query.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_query.exe --benchmark_out=artifacts/perf_nv/query_join_users_posts.json --benchmark_out_format=json` | `artifacts/perf_nv/query_join_users_posts.json` |
-| Parse + Optimize P99 (10 Collections) | `benchmarks/bench_adaptive_query_compilation.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_adaptive_query_compilation.exe --benchmark_out=artifacts/perf_nv/query_parse_optimize_p99.json --benchmark_out_format=json` | `artifacts/perf_nv/query_parse_optimize_p99.json` |
-| Query-Cache Lookup P99 (Exact) | `benchmarks/bench_adaptive_query_cache.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_adaptive_query_cache.exe --benchmark_out=artifacts/perf_nv/query_cache_exact_p99.json --benchmark_out_format=json` | `artifacts/perf_nv/query_cache_exact_p99.json` |
-| Query-Cache Lookup P99 (Semantic) | `benchmarks/bench_adaptive_query_cache.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_adaptive_query_cache.exe --benchmark_out=artifacts/perf_nv/query_cache_semantic_p99.json --benchmark_out_format=json` | `artifacts/perf_nv/query_cache_semantic_p99.json` |
-| JIT Erstcompilierung | `benchmarks/bench_adaptive_query_compilation.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_adaptive_query_compilation.exe --benchmark_out=artifacts/perf_nv/query_jit_first_compile.json --benchmark_out_format=json` | `artifacts/perf_nv/query_jit_first_compile.json` |
-| Federation Plan-Overhead (5 Cluster) | `benchmarks/bench_distributed_coordinator.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_distributed_coordinator.exe --benchmark_out=artifacts/perf_nv/query_federation_plan_overhead.json --benchmark_out_format=json` | `artifacts/perf_nv/query_federation_plan_overhead.json` |
-| Streaming First-Chunk Latenz | `benchmarks/bench_api_endpoints.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_api_endpoints.exe --benchmark_out=artifacts/perf_nv/query_streaming_first_chunk.json --benchmark_out_format=json` | `artifacts/perf_nv/query_streaming_first_chunk.json` |
+| Simple AQL WHERE | `benchmarks/bench_query.cpp` | `build-msvc-ninja-release/benchmarks/bench_query.exe --benchmark_out=artifacts/perf_nv/query_simple_aql_where.json --benchmark_out_format=json` | `artifacts/perf_nv/query_simple_aql_where.json` |
+| Complex WHERE | `benchmarks/bench_query.cpp` | `build-msvc-ninja-release/benchmarks/bench_query.exe --benchmark_out=artifacts/perf_nv/query_complex_where.json --benchmark_out_format=json` | `artifacts/perf_nv/query_complex_where.json` |
+| JOIN (Users-Posts) | `benchmarks/bench_query.cpp` | `build-msvc-ninja-release/benchmarks/bench_query.exe --benchmark_out=artifacts/perf_nv/query_join_users_posts.json --benchmark_out_format=json` | `artifacts/perf_nv/query_join_users_posts.json` |
+| Parse + Optimize P99 (10 Collections) | `benchmarks/bench_adaptive_query_compilation.cpp` | `build-msvc-ninja-release/benchmarks/bench_adaptive_query_compilation.exe --benchmark_out=artifacts/perf_nv/query_parse_optimize_p99.json --benchmark_out_format=json` | `artifacts/perf_nv/query_parse_optimize_p99.json` |
+| Query-Cache Lookup P99 (Exact) | `benchmarks/bench_adaptive_query_cache.cpp` | `build-msvc-ninja-release/benchmarks/bench_adaptive_query_cache.exe --benchmark_out=artifacts/perf_nv/query_cache_exact_p99.json --benchmark_out_format=json` | `artifacts/perf_nv/query_cache_exact_p99.json` |
+| Query-Cache Lookup P99 (Semantic) | `benchmarks/bench_adaptive_query_cache.cpp` | `build-msvc-ninja-release/benchmarks/bench_adaptive_query_cache.exe --benchmark_out=artifacts/perf_nv/query_cache_semantic_p99.json --benchmark_out_format=json` | `artifacts/perf_nv/query_cache_semantic_p99.json` |
+| JIT Erstcompilierung | `benchmarks/bench_adaptive_query_compilation.cpp` | `build-msvc-ninja-release/benchmarks/bench_adaptive_query_compilation.exe --benchmark_out=artifacts/perf_nv/query_jit_first_compile.json --benchmark_out_format=json` | `artifacts/perf_nv/query_jit_first_compile.json` |
+| Federation Plan-Overhead (5 Cluster) | `benchmarks/bench_distributed_coordinator.cpp` | `build-msvc-ninja-release/benchmarks/bench_distributed_coordinator.exe --benchmark_out=artifacts/perf_nv/query_federation_plan_overhead.json --benchmark_out_format=json` | `artifacts/perf_nv/query_federation_plan_overhead.json` |
+| Streaming First-Chunk Latenz | `benchmarks/bench_api_endpoints.cpp` | `build-msvc-ninja-release/benchmarks/bench_api_endpoints.exe --benchmark_out=artifacts/perf_nv/query_streaming_first_chunk.json --benchmark_out_format=json` | `artifacts/perf_nv/query_streaming_first_chunk.json` |
 
 #### Index
 
 | n/v-Zeile | Benchmark-File | Messkommando | Zielartefakt |
 |---|---|---|---|
-| SecondaryIndexBench/RawWriteOnly | `benchmarks/bench_core_performance.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_core_performance.exe --benchmark_out=artifacts/perf_nv/index_raw_write_only.json --benchmark_out_format=json` | `artifacts/perf_nv/index_raw_write_only.json` |
-| Small Index Insert (1K entities) | `benchmarks/bench_core_performance.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_core_performance.exe --benchmark_out=artifacts/perf_nv/index_small_insert_1k.json --benchmark_out_format=json` | `artifacts/perf_nv/index_small_insert_1k.json` |
-| Medium Index Insert (100K) | `benchmarks/bench_core_performance.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_core_performance.exe --benchmark_out=artifacts/perf_nv/index_medium_insert_100k.json --benchmark_out_format=json` | `artifacts/perf_nv/index_medium_insert_100k.json` |
-| Large Index Lookup (1M) | `benchmarks/bench_core_performance.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_core_performance.exe --benchmark_out=artifacts/perf_nv/index_large_lookup_1m.json --benchmark_out_format=json` | `artifacts/perf_nv/index_large_lookup_1m.json` |
-| Composite Index Lookup | `benchmarks/bench_core_performance.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_core_performance.exe --benchmark_out=artifacts/perf_nv/index_composite_lookup.json --benchmark_out_format=json` | `artifacts/perf_nv/index_composite_lookup.json` |
-| L2Distance/1000/512 | `benchmarks/bench_vector_search.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_vector_search.exe --benchmark_out=artifacts/perf_nv/index_l2distance_1000_512.json --benchmark_out_format=json` | `artifacts/perf_nv/index_l2distance_1000_512.json` |
-| CosineDistance/1000/512 | `benchmarks/bench_vector_search.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_vector_search.exe --benchmark_out=artifacts/perf_nv/index_cosine_1000_512.json --benchmark_out_format=json` | `artifacts/perf_nv/index_cosine_1000_512.json` |
-| TopK/5000/50 | `benchmarks/bench_vector_search.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_vector_search.exe --benchmark_out=artifacts/perf_nv/index_topk_5000_50.json --benchmark_out_format=json` | `artifacts/perf_nv/index_topk_5000_50.json` |
-| HNSW Vektor-Suche (CPU) | `benchmarks/bench_vector_search.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_vector_search.exe --benchmark_out=artifacts/perf_nv/index_hnsw_cpu.json --benchmark_out_format=json` | `artifacts/perf_nv/index_hnsw_cpu.json` |
-| HNSW Vektor-Suche (GPU RTX-class) | `benchmarks/bench_gpu_vector_index.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_gpu_vector_index.exe --benchmark_out=artifacts/perf_nv/index_hnsw_gpu.json --benchmark_out_format=json` | `artifacts/perf_nv/index_hnsw_gpu.json` |
-| B-Tree Point-Lookup P99 (10M Keys) | `benchmarks/bench_storage_performance.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_storage_performance.exe --benchmark_out=artifacts/perf_nv/index_btree_point_lookup_p99.json --benchmark_out_format=json` | `artifacts/perf_nv/index_btree_point_lookup_p99.json` |
-| R-Tree Spatial Range Query P99 | `benchmarks/bench_spatial_index.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_spatial_index.exe --benchmark_out=artifacts/perf_nv/index_rtree_spatial_range_p99.json --benchmark_out_format=json` | `artifacts/perf_nv/index_rtree_spatial_range_p99.json` |
-| GPU Index-Build (1M x 128-dim) | `benchmarks/bench_gpu_vector_index.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_gpu_vector_index.exe --benchmark_out=artifacts/perf_nv/index_gpu_build_1m_128.json --benchmark_out_format=json` | `artifacts/perf_nv/index_gpu_build_1m_128.json` |
-| RocksDB WriteBatch Commit P99 | `benchmarks/bench_storage_performance.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_storage_performance.exe --benchmark_out=artifacts/perf_nv/index_writebatch_commit_p99.json --benchmark_out_format=json` | `artifacts/perf_nv/index_writebatch_commit_p99.json` |
+| SecondaryIndexBench/RawWriteOnly | `benchmarks/bench_core_performance.cpp` | `build-msvc-ninja-release/benchmarks/bench_core_performance.exe --benchmark_out=artifacts/perf_nv/index_raw_write_only.json --benchmark_out_format=json` | `artifacts/perf_nv/index_raw_write_only.json` |
+| Small Index Insert (1K entities) | `benchmarks/bench_core_performance.cpp` | `build-msvc-ninja-release/benchmarks/bench_core_performance.exe --benchmark_out=artifacts/perf_nv/index_small_insert_1k.json --benchmark_out_format=json` | `artifacts/perf_nv/index_small_insert_1k.json` |
+| Medium Index Insert (100K) | `benchmarks/bench_core_performance.cpp` | `build-msvc-ninja-release/benchmarks/bench_core_performance.exe --benchmark_out=artifacts/perf_nv/index_medium_insert_100k.json --benchmark_out_format=json` | `artifacts/perf_nv/index_medium_insert_100k.json` |
+| Large Index Lookup (1M) | `benchmarks/bench_core_performance.cpp` | `build-msvc-ninja-release/benchmarks/bench_core_performance.exe --benchmark_out=artifacts/perf_nv/index_large_lookup_1m.json --benchmark_out_format=json` | `artifacts/perf_nv/index_large_lookup_1m.json` |
+| Composite Index Lookup | `benchmarks/bench_core_performance.cpp` | `build-msvc-ninja-release/benchmarks/bench_core_performance.exe --benchmark_out=artifacts/perf_nv/index_composite_lookup.json --benchmark_out_format=json` | `artifacts/perf_nv/index_composite_lookup.json` |
+| L2Distance/1000/512 | `benchmarks/bench_vector_search.cpp` | `build-msvc-ninja-release/benchmarks/bench_vector_search.exe --benchmark_out=artifacts/perf_nv/index_l2distance_1000_512.json --benchmark_out_format=json` | `artifacts/perf_nv/index_l2distance_1000_512.json` |
+| CosineDistance/1000/512 | `benchmarks/bench_vector_search.cpp` | `build-msvc-ninja-release/benchmarks/bench_vector_search.exe --benchmark_out=artifacts/perf_nv/index_cosine_1000_512.json --benchmark_out_format=json` | `artifacts/perf_nv/index_cosine_1000_512.json` |
+| TopK/5000/50 | `benchmarks/bench_vector_search.cpp` | `build-msvc-ninja-release/benchmarks/bench_vector_search.exe --benchmark_out=artifacts/perf_nv/index_topk_5000_50.json --benchmark_out_format=json` | `artifacts/perf_nv/index_topk_5000_50.json` |
+| HNSW Vektor-Suche (CPU) | `benchmarks/bench_vector_search.cpp` | `build-msvc-ninja-release/benchmarks/bench_vector_search.exe --benchmark_out=artifacts/perf_nv/index_hnsw_cpu.json --benchmark_out_format=json` | `artifacts/perf_nv/index_hnsw_cpu.json` |
+| HNSW Vektor-Suche (GPU RTX-class) | `benchmarks/bench_gpu_vector_index.cpp` | `build-msvc-ninja-release/benchmarks/bench_gpu_vector_index.exe --benchmark_out=artifacts/perf_nv/index_hnsw_gpu.json --benchmark_out_format=json` | `artifacts/perf_nv/index_hnsw_gpu.json` |
+| B-Tree Point-Lookup P99 (10M Keys) | `benchmarks/bench_storage_performance.cpp` | `build-msvc-ninja-release/benchmarks/bench_storage_performance.exe --benchmark_out=artifacts/perf_nv/index_btree_point_lookup_p99.json --benchmark_out_format=json` | `artifacts/perf_nv/index_btree_point_lookup_p99.json` |
+| R-Tree Spatial Range Query P99 | `benchmarks/bench_spatial_index.cpp` | `build-msvc-ninja-release/benchmarks/bench_spatial_index.exe --benchmark_out=artifacts/perf_nv/index_rtree_spatial_range_p99.json --benchmark_out_format=json` | `artifacts/perf_nv/index_rtree_spatial_range_p99.json` |
+| GPU Index-Build (1M x 128-dim) | `benchmarks/bench_gpu_vector_index.cpp` | `build-msvc-ninja-release/benchmarks/bench_gpu_vector_index.exe --benchmark_out=artifacts/perf_nv/index_gpu_build_1m_128.json --benchmark_out_format=json` | `artifacts/perf_nv/index_gpu_build_1m_128.json` |
+| RocksDB WriteBatch Commit P99 | `benchmarks/bench_storage_performance.cpp` | `build-msvc-ninja-release/benchmarks/bench_storage_performance.exe --benchmark_out=artifacts/perf_nv/index_writebatch_commit_p99.json --benchmark_out_format=json` | `artifacts/perf_nv/index_writebatch_commit_p99.json` |
 
 #### Cache
 
 | n/v-Zeile | Benchmark-File | Messkommando | Zielartefakt |
 |---|---|---|---|
-| C-2 L2 Hit-Path | `benchmarks/bench_embedding_cache_performance.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_embedding_cache_performance.exe --benchmark_out=artifacts/perf_nv/cache_l2_hit_path.json --benchmark_out_format=json` | `artifacts/perf_nv/cache_l2_hit_path.json` |
-| C-3 L3 Hit-Path P99 | `benchmarks/bench_embedding_cache_performance.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_embedding_cache_performance.exe --benchmark_out=artifacts/perf_nv/cache_l3_hit_p99.json --benchmark_out_format=json` | `artifacts/perf_nv/cache_l3_hit_p99.json` |
-| C-4 Warmup Throughput | `benchmarks/bench_adaptive_query_cache.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_adaptive_query_cache.exe --benchmark_out=artifacts/perf_nv/cache_warmup_throughput.json --benchmark_out_format=json` | `artifacts/perf_nv/cache_warmup_throughput.json` |
-| C-5 Admin-API Response | `benchmarks/bench_api_endpoints.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_api_endpoints.exe --benchmark_out=artifacts/perf_nv/cache_admin_api_response.json --benchmark_out_format=json` | `artifacts/perf_nv/cache_admin_api_response.json` |
-| C-6 Prefetch Latenz | `benchmarks/bench_random_access_prefetch.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_random_access_prefetch.exe --benchmark_out=artifacts/perf_nv/cache_prefetch_latency.json --benchmark_out_format=json` | `artifacts/perf_nv/cache_prefetch_latency.json` |
-| C-7 Prefetch Overfetch | `benchmarks/bench_random_access_prefetch.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_random_access_prefetch.exe --benchmark_out=artifacts/perf_nv/cache_prefetch_overfetch.json --benchmark_out_format=json` | `artifacts/perf_nv/cache_prefetch_overfetch.json` |
+| C-2 L2 Hit-Path | `benchmarks/bench_embedding_cache_performance.cpp` | `build-msvc-ninja-release/benchmarks/bench_embedding_cache_performance.exe --benchmark_out=artifacts/perf_nv/cache_l2_hit_path.json --benchmark_out_format=json` | `artifacts/perf_nv/cache_l2_hit_path.json` |
+| C-3 L3 Hit-Path P99 | `benchmarks/bench_embedding_cache_performance.cpp` | `build-msvc-ninja-release/benchmarks/bench_embedding_cache_performance.exe --benchmark_out=artifacts/perf_nv/cache_l3_hit_p99.json --benchmark_out_format=json` | `artifacts/perf_nv/cache_l3_hit_p99.json` |
+| C-4 Warmup Throughput | `benchmarks/bench_adaptive_query_cache.cpp` | `build-msvc-ninja-release/benchmarks/bench_adaptive_query_cache.exe --benchmark_out=artifacts/perf_nv/cache_warmup_throughput.json --benchmark_out_format=json` | `artifacts/perf_nv/cache_warmup_throughput.json` |
+| C-5 Admin-API Response | `benchmarks/bench_api_endpoints.cpp` | `build-msvc-ninja-release/benchmarks/bench_api_endpoints.exe --benchmark_out=artifacts/perf_nv/cache_admin_api_response.json --benchmark_out_format=json` | `artifacts/perf_nv/cache_admin_api_response.json` |
+| C-6 Prefetch Latenz | `benchmarks/bench_random_access_prefetch.cpp` | `build-msvc-ninja-release/benchmarks/bench_random_access_prefetch.exe --benchmark_out=artifacts/perf_nv/cache_prefetch_latency.json --benchmark_out_format=json` | `artifacts/perf_nv/cache_prefetch_latency.json` |
+| C-7 Prefetch Overfetch | `benchmarks/bench_random_access_prefetch.cpp` | `build-msvc-ninja-release/benchmarks/bench_random_access_prefetch.exe --benchmark_out=artifacts/perf_nv/cache_prefetch_overfetch.json --benchmark_out_format=json` | `artifacts/perf_nv/cache_prefetch_overfetch.json` |
 
 #### Storage
 
 | n/v-Zeile | Benchmark-File | Messkommando | Zielartefakt |
 |---|---|---|---|
-| INSERT 1 KB | `benchmarks/bench_storage_performance.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_storage_performance.exe --benchmark_out=artifacts/perf_nv/storage_insert_1kb.json --benchmark_out_format=json` | `artifacts/perf_nv/storage_insert_1kb.json` |
-| READ 1 KB | `benchmarks/bench_storage_performance.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_storage_performance.exe --benchmark_out=artifacts/perf_nv/storage_read_1kb.json --benchmark_out_format=json` | `artifacts/perf_nv/storage_read_1kb.json` |
-| UPDATE 1 KB | `benchmarks/bench_storage_performance.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_storage_performance.exe --benchmark_out=artifacts/perf_nv/storage_update_1kb.json --benchmark_out_format=json` | `artifacts/perf_nv/storage_update_1kb.json` |
-| INSERT 10 KB | `benchmarks/bench_storage_performance.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_storage_performance.exe --benchmark_out=artifacts/perf_nv/storage_insert_10kb.json --benchmark_out_format=json` | `artifacts/perf_nv/storage_insert_10kb.json` |
-| INSERT 100 KB | `benchmarks/bench_storage_performance.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_storage_performance.exe --benchmark_out=artifacts/perf_nv/storage_insert_100kb.json --benchmark_out_format=json` | `artifacts/perf_nv/storage_insert_100kb.json` |
-| INSERT 1 MB | `benchmarks/bench_storage_performance.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_storage_performance.exe --benchmark_out=artifacts/perf_nv/storage_insert_1mb.json --benchmark_out_format=json` | `artifacts/perf_nv/storage_insert_1mb.json` |
-| Concurrent 1 Client | `benchmarks/bench_storage_performance.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_storage_performance.exe --benchmark_out=artifacts/perf_nv/storage_concurrent_1_client.json --benchmark_out_format=json` | `artifacts/perf_nv/storage_concurrent_1_client.json` |
-| Concurrent 5 Clients | `benchmarks/bench_storage_performance.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_storage_performance.exe --benchmark_out=artifacts/perf_nv/storage_concurrent_5_clients.json --benchmark_out_format=json` | `artifacts/perf_nv/storage_concurrent_5_clients.json` |
-| Concurrent 50 Clients | `benchmarks/bench_storage_performance.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_storage_performance.exe --benchmark_out=artifacts/perf_nv/storage_concurrent_50_clients.json --benchmark_out_format=json` | `artifacts/perf_nv/storage_concurrent_50_clients.json` |
-| Sustained Write NVMe | `benchmarks/bench_storage_performance.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_storage_performance.exe --benchmark_out=artifacts/perf_nv/storage_sustained_write_nvme.json --benchmark_out_format=json` | `artifacts/perf_nv/storage_sustained_write_nvme.json` |
-| Point-Read Latenz P99 | `benchmarks/bench_storage_performance.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_storage_performance.exe --benchmark_out=artifacts/perf_nv/storage_point_read_p99.json --benchmark_out_format=json` | `artifacts/perf_nv/storage_point_read_p99.json` |
-| Incremental Backup | `benchmarks/bench_snapshot_manager.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_snapshot_manager.exe --benchmark_out=artifacts/perf_nv/storage_incremental_backup.json --benchmark_out_format=json` | `artifacts/perf_nv/storage_incremental_backup.json` |
-| 1MB Blob Storage | `benchmarks/bench_blob_zstd.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_blob_zstd.exe --benchmark_out=artifacts/perf_nv/storage_blob_1mb.json --benchmark_out_format=json` | `artifacts/perf_nv/storage_blob_1mb.json` |
-| 10KB Thumbnail Storage | `benchmarks/bench_blob_zstd.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_blob_zstd.exe --benchmark_out=artifacts/perf_nv/storage_thumbnail_10kb.json --benchmark_out_format=json` | `artifacts/perf_nv/storage_thumbnail_10kb.json` |
-| 100KB Blob Retrieval | `benchmarks/bench_blob_zstd.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_blob_zstd.exe --benchmark_out=artifacts/perf_nv/storage_blob_retrieval_100kb.json --benchmark_out_format=json` | `artifacts/perf_nv/storage_blob_retrieval_100kb.json` |
+| INSERT 1 KB | `benchmarks/bench_storage_performance.cpp` | `build-msvc-ninja-release/benchmarks/bench_storage_performance.exe --benchmark_out=artifacts/perf_nv/storage_insert_1kb.json --benchmark_out_format=json` | `artifacts/perf_nv/storage_insert_1kb.json` |
+| READ 1 KB | `benchmarks/bench_storage_performance.cpp` | `build-msvc-ninja-release/benchmarks/bench_storage_performance.exe --benchmark_out=artifacts/perf_nv/storage_read_1kb.json --benchmark_out_format=json` | `artifacts/perf_nv/storage_read_1kb.json` |
+| UPDATE 1 KB | `benchmarks/bench_storage_performance.cpp` | `build-msvc-ninja-release/benchmarks/bench_storage_performance.exe --benchmark_out=artifacts/perf_nv/storage_update_1kb.json --benchmark_out_format=json` | `artifacts/perf_nv/storage_update_1kb.json` |
+| INSERT 10 KB | `benchmarks/bench_storage_performance.cpp` | `build-msvc-ninja-release/benchmarks/bench_storage_performance.exe --benchmark_out=artifacts/perf_nv/storage_insert_10kb.json --benchmark_out_format=json` | `artifacts/perf_nv/storage_insert_10kb.json` |
+| INSERT 100 KB | `benchmarks/bench_storage_performance.cpp` | `build-msvc-ninja-release/benchmarks/bench_storage_performance.exe --benchmark_out=artifacts/perf_nv/storage_insert_100kb.json --benchmark_out_format=json` | `artifacts/perf_nv/storage_insert_100kb.json` |
+| INSERT 1 MB | `benchmarks/bench_storage_performance.cpp` | `build-msvc-ninja-release/benchmarks/bench_storage_performance.exe --benchmark_out=artifacts/perf_nv/storage_insert_1mb.json --benchmark_out_format=json` | `artifacts/perf_nv/storage_insert_1mb.json` |
+| Concurrent 1 Client | `benchmarks/bench_storage_performance.cpp` | `build-msvc-ninja-release/benchmarks/bench_storage_performance.exe --benchmark_out=artifacts/perf_nv/storage_concurrent_1_client.json --benchmark_out_format=json` | `artifacts/perf_nv/storage_concurrent_1_client.json` |
+| Concurrent 5 Clients | `benchmarks/bench_storage_performance.cpp` | `build-msvc-ninja-release/benchmarks/bench_storage_performance.exe --benchmark_out=artifacts/perf_nv/storage_concurrent_5_clients.json --benchmark_out_format=json` | `artifacts/perf_nv/storage_concurrent_5_clients.json` |
+| Concurrent 50 Clients | `benchmarks/bench_storage_performance.cpp` | `build-msvc-ninja-release/benchmarks/bench_storage_performance.exe --benchmark_out=artifacts/perf_nv/storage_concurrent_50_clients.json --benchmark_out_format=json` | `artifacts/perf_nv/storage_concurrent_50_clients.json` |
+| Sustained Write NVMe | `benchmarks/bench_storage_performance.cpp` | `build-msvc-ninja-release/benchmarks/bench_storage_performance.exe --benchmark_out=artifacts/perf_nv/storage_sustained_write_nvme.json --benchmark_out_format=json` | `artifacts/perf_nv/storage_sustained_write_nvme.json` |
+| Point-Read Latenz P99 | `benchmarks/bench_storage_performance.cpp` | `build-msvc-ninja-release/benchmarks/bench_storage_performance.exe --benchmark_out=artifacts/perf_nv/storage_point_read_p99.json --benchmark_out_format=json` | `artifacts/perf_nv/storage_point_read_p99.json` |
+| Incremental Backup | `benchmarks/bench_snapshot_manager.cpp` | `build-msvc-ninja-release/benchmarks/bench_snapshot_manager.exe --benchmark_out=artifacts/perf_nv/storage_incremental_backup.json --benchmark_out_format=json` | `artifacts/perf_nv/storage_incremental_backup.json` |
+| 1MB Blob Storage | `benchmarks/bench_blob_zstd.cpp` | `build-msvc-ninja-release/benchmarks/bench_blob_zstd.exe --benchmark_out=artifacts/perf_nv/storage_blob_1mb.json --benchmark_out_format=json` | `artifacts/perf_nv/storage_blob_1mb.json` |
+| 10KB Thumbnail Storage | `benchmarks/bench_blob_zstd.cpp` | `build-msvc-ninja-release/benchmarks/bench_blob_zstd.exe --benchmark_out=artifacts/perf_nv/storage_thumbnail_10kb.json --benchmark_out_format=json` | `artifacts/perf_nv/storage_thumbnail_10kb.json` |
+| 100KB Blob Retrieval | `benchmarks/bench_blob_zstd.cpp` | `build-msvc-ninja-release/benchmarks/bench_blob_zstd.exe --benchmark_out=artifacts/perf_nv/storage_blob_retrieval_100kb.json --benchmark_out_format=json` | `artifacts/perf_nv/storage_blob_retrieval_100kb.json` |
 
 #### Analytics
 
 | n/v-Zeile | Benchmark-File | Messkommando | Zielartefakt |
 |---|---|---|---|
-| AN-1 Streaming Aggregation Memory | `benchmarks/bench_olap_performance.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_olap_performance.exe --benchmark_out=artifacts/perf_nv/analytics_streaming_aggregation_memory.json --benchmark_out_format=json` | `artifacts/perf_nv/analytics_streaming_aggregation_memory.json` |
-| AN-2 IVM Delta-Application | `benchmarks/bench_update_pipeline.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_update_pipeline.exe --benchmark_out=artifacts/perf_nv/analytics_ivm_delta_apply.json --benchmark_out_format=json` | `artifacts/perf_nv/analytics_ivm_delta_apply.json` |
-| AN-3 Parquet Export 1M Rows | `benchmarks/bench_exporters.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_exporters.exe --benchmark_out=artifacts/perf_nv/analytics_parquet_export_1m.json --benchmark_out_format=json` | `artifacts/perf_nv/analytics_parquet_export_1m.json` |
-| AN-4 CSV Export 1M Rows | `benchmarks/bench_exporters.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_exporters.exe --benchmark_out=artifacts/perf_nv/analytics_csv_export_1m.json --benchmark_out_format=json` | `artifacts/perf_nv/analytics_csv_export_1m.json` |
-| AN-5 CEPEngine::stop() | `benchmarks/bench_update_pipeline.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_update_pipeline.exe --benchmark_out=artifacts/perf_nv/analytics_cep_stop.json --benchmark_out_format=json` | `artifacts/perf_nv/analytics_cep_stop.json` |
-| AN-7 IsolationForest Training | `benchmarks/bench_advanced_patterns.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_advanced_patterns.exe --benchmark_out=artifacts/perf_nv/analytics_isolation_forest_training.json --benchmark_out_format=json` | `artifacts/perf_nv/analytics_isolation_forest_training.json` |
-| AN-8 predictBatch() | `benchmarks/bench_advanced_patterns.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_advanced_patterns.exe --benchmark_out=artifacts/perf_nv/analytics_predict_batch.json --benchmark_out_format=json` | `artifacts/perf_nv/analytics_predict_batch.json` |
-| AN-9 Auto-Tune Grid | `benchmarks/bench_advanced_patterns.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_advanced_patterns.exe --benchmark_out=artifacts/perf_nv/analytics_auto_tune_grid.json --benchmark_out_format=json` | `artifacts/perf_nv/analytics_auto_tune_grid.json` |
-| AN-10 ARM NEON Aggregation | `benchmarks/bench_arm_simd.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_arm_simd.exe --benchmark_out=artifacts/perf_nv/analytics_arm_neon_aggregation.json --benchmark_out_format=json` | `artifacts/perf_nv/analytics_arm_neon_aggregation.json` |
+| AN-1 Streaming Aggregation Memory | `benchmarks/bench_olap_performance.cpp` | `build-msvc-ninja-release/benchmarks/bench_olap_performance.exe --benchmark_out=artifacts/perf_nv/analytics_streaming_aggregation_memory.json --benchmark_out_format=json` | `artifacts/perf_nv/analytics_streaming_aggregation_memory.json` |
+| AN-2 IVM Delta-Application | `benchmarks/bench_update_pipeline.cpp` | `build-msvc-ninja-release/benchmarks/bench_update_pipeline.exe --benchmark_out=artifacts/perf_nv/analytics_ivm_delta_apply.json --benchmark_out_format=json` | `artifacts/perf_nv/analytics_ivm_delta_apply.json` |
+| AN-3 Parquet Export 1M Rows | `benchmarks/bench_exporters.cpp` | `build-msvc-ninja-release/benchmarks/bench_exporters.exe --benchmark_out=artifacts/perf_nv/analytics_parquet_export_1m.json --benchmark_out_format=json` | `artifacts/perf_nv/analytics_parquet_export_1m.json` |
+| AN-4 CSV Export 1M Rows | `benchmarks/bench_exporters.cpp` | `build-msvc-ninja-release/benchmarks/bench_exporters.exe --benchmark_out=artifacts/perf_nv/analytics_csv_export_1m.json --benchmark_out_format=json` | `artifacts/perf_nv/analytics_csv_export_1m.json` |
+| AN-5 CEPEngine::stop() | `benchmarks/bench_update_pipeline.cpp` | `build-msvc-ninja-release/benchmarks/bench_update_pipeline.exe --benchmark_out=artifacts/perf_nv/analytics_cep_stop.json --benchmark_out_format=json` | `artifacts/perf_nv/analytics_cep_stop.json` |
+| AN-7 IsolationForest Training | `benchmarks/bench_advanced_patterns.cpp` | `build-msvc-ninja-release/benchmarks/bench_advanced_patterns.exe --benchmark_out=artifacts/perf_nv/analytics_isolation_forest_training.json --benchmark_out_format=json` | `artifacts/perf_nv/analytics_isolation_forest_training.json` |
+| AN-8 predictBatch() | `benchmarks/bench_advanced_patterns.cpp` | `build-msvc-ninja-release/benchmarks/bench_advanced_patterns.exe --benchmark_out=artifacts/perf_nv/analytics_predict_batch.json --benchmark_out_format=json` | `artifacts/perf_nv/analytics_predict_batch.json` |
+| AN-9 Auto-Tune Grid | `benchmarks/bench_advanced_patterns.cpp` | `build-msvc-ninja-release/benchmarks/bench_advanced_patterns.exe --benchmark_out=artifacts/perf_nv/analytics_auto_tune_grid.json --benchmark_out_format=json` | `artifacts/perf_nv/analytics_auto_tune_grid.json` |
+| AN-10 ARM NEON Aggregation | `benchmarks/bench_arm_simd.cpp` | `build-msvc-ninja-release/benchmarks/bench_arm_simd.exe --benchmark_out=artifacts/perf_nv/analytics_arm_neon_aggregation.json --benchmark_out_format=json` | `artifacts/perf_nv/analytics_arm_neon_aggregation.json` |
 
 #### Timeseries
 
 | n/v-Zeile | Benchmark-File | Messkommando | Zielartefakt |
 |---|---|---|---|
-| TS-2 Gorilla Decode Throughput | `benchmarks/bench_gorilla_codec.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_gorilla_codec.exe --benchmark_out=artifacts/perf_nv/timeseries_gorilla_decode_throughput.json --benchmark_out_format=json` | `artifacts/perf_nv/timeseries_gorilla_decode_throughput.json` |
-| TS-3 Range Scan P99 (1M pts) | `benchmarks/bench_timeseries_ingestion.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_timeseries_ingestion.exe --benchmark_out=artifacts/perf_nv/timeseries_range_scan_p99.json --benchmark_out_format=json` | `artifacts/perf_nv/timeseries_range_scan_p99.json` |
-| TS-4 Continuous Aggregate Refresh | `benchmarks/bench_timeseries_adaptive_flush.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_timeseries_adaptive_flush.exe --benchmark_out=artifacts/perf_nv/timeseries_continuous_aggregate_refresh.json --benchmark_out_format=json` | `artifacts/perf_nv/timeseries_continuous_aggregate_refresh.json` |
-| TS-5 Write Amplification | `benchmarks/bench_timeseries_adaptive_flush.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_timeseries_adaptive_flush.exe --benchmark_out=artifacts/perf_nv/timeseries_write_amplification.json --benchmark_out_format=json` | `artifacts/perf_nv/timeseries_write_amplification.json` |
-| TS-6 Downsampling Throughput | `benchmarks/bench_timeseries_ingestion.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_timeseries_ingestion.exe --benchmark_out=artifacts/perf_nv/timeseries_downsampling_throughput.json --benchmark_out_format=json` | `artifacts/perf_nv/timeseries_downsampling_throughput.json` |
-| TS-7 Storage Reduction | `benchmarks/bench_gorilla_codec.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_gorilla_codec.exe --benchmark_out=artifacts/perf_nv/timeseries_storage_reduction.json --benchmark_out_format=json` | `artifacts/perf_nv/timeseries_storage_reduction.json` |
-| TS-10 Gorilla Insert P99 | `benchmarks/bench_timeseries_ingestion.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_timeseries_ingestion.exe --benchmark_out=artifacts/perf_nv/timeseries_gorilla_insert_p99.json --benchmark_out_format=json` | `artifacts/perf_nv/timeseries_gorilla_insert_p99.json` |
-| TS-11 AES-256-GCM Throughput | `benchmarks/bench_security.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_security.exe --benchmark_out=artifacts/perf_nv/timeseries_aes256_gcm_throughput.json --benchmark_out_format=json` | `artifacts/perf_nv/timeseries_aes256_gcm_throughput.json` |
+| TS-2 Gorilla Decode Throughput | `benchmarks/bench_gorilla_codec.cpp` | `build-msvc-ninja-release/benchmarks/bench_gorilla_codec.exe --benchmark_out=artifacts/perf_nv/timeseries_gorilla_decode_throughput.json --benchmark_out_format=json` | `artifacts/perf_nv/timeseries_gorilla_decode_throughput.json` |
+| TS-3 Range Scan P99 (1M pts) | `benchmarks/bench_timeseries_ingestion.cpp` | `build-msvc-ninja-release/benchmarks/bench_timeseries_ingestion.exe --benchmark_out=artifacts/perf_nv/timeseries_range_scan_p99.json --benchmark_out_format=json` | `artifacts/perf_nv/timeseries_range_scan_p99.json` |
+| TS-4 Continuous Aggregate Refresh | `benchmarks/bench_timeseries_adaptive_flush.cpp` | `build-msvc-ninja-release/benchmarks/bench_timeseries_adaptive_flush.exe --benchmark_out=artifacts/perf_nv/timeseries_continuous_aggregate_refresh.json --benchmark_out_format=json` | `artifacts/perf_nv/timeseries_continuous_aggregate_refresh.json` |
+| TS-5 Write Amplification | `benchmarks/bench_timeseries_adaptive_flush.cpp` | `build-msvc-ninja-release/benchmarks/bench_timeseries_adaptive_flush.exe --benchmark_out=artifacts/perf_nv/timeseries_write_amplification.json --benchmark_out_format=json` | `artifacts/perf_nv/timeseries_write_amplification.json` |
+| TS-6 Downsampling Throughput | `benchmarks/bench_timeseries_ingestion.cpp` | `build-msvc-ninja-release/benchmarks/bench_timeseries_ingestion.exe --benchmark_out=artifacts/perf_nv/timeseries_downsampling_throughput.json --benchmark_out_format=json` | `artifacts/perf_nv/timeseries_downsampling_throughput.json` |
+| TS-7 Storage Reduction | `benchmarks/bench_gorilla_codec.cpp` | `build-msvc-ninja-release/benchmarks/bench_gorilla_codec.exe --benchmark_out=artifacts/perf_nv/timeseries_storage_reduction.json --benchmark_out_format=json` | `artifacts/perf_nv/timeseries_storage_reduction.json` |
+| TS-10 Gorilla Insert P99 | `benchmarks/bench_timeseries_ingestion.cpp` | `build-msvc-ninja-release/benchmarks/bench_timeseries_ingestion.exe --benchmark_out=artifacts/perf_nv/timeseries_gorilla_insert_p99.json --benchmark_out_format=json` | `artifacts/perf_nv/timeseries_gorilla_insert_p99.json` |
+| TS-11 AES-256-GCM Throughput | `benchmarks/bench_security.cpp` | `build-msvc-ninja-release/benchmarks/bench_security.exe --benchmark_out=artifacts/perf_nv/timeseries_aes256_gcm_throughput.json --benchmark_out_format=json` | `artifacts/perf_nv/timeseries_aes256_gcm_throughput.json` |
 
 #### Graph
 
 | n/v-Zeile | Benchmark-File | Messkommando | Zielartefakt |
 |---|---|---|---|
-| Sparse Graph Edge Addition | `benchmarks/bench_graph_traversal.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_graph_traversal.exe --benchmark_out=artifacts/perf_nv/graph_sparse_edge_addition.json --benchmark_out_format=json` | `artifacts/perf_nv/graph_sparse_edge_addition.json` |
-| Dense Graph Neighbor Query | `benchmarks/bench_graph_traversal.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_graph_traversal.exe --benchmark_out=artifacts/perf_nv/graph_dense_neighbor_query.json --benchmark_out_format=json` | `artifacts/perf_nv/graph_dense_neighbor_query.json` |
-| Graph BFS Traversal (Depth-3) | `benchmarks/bench_graph_traversal.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_graph_traversal.exe --benchmark_out=artifacts/perf_nv/graph_bfs_depth3.json --benchmark_out_format=json` | `artifacts/perf_nv/graph_bfs_depth3.json` |
-| RAG Search Top-50 | `benchmarks/bench_rag_hybrid_retriever.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_rag_hybrid_retriever.exe --benchmark_out=artifacts/perf_nv/graph_rag_search_top50.json --benchmark_out_format=json` | `artifacts/perf_nv/graph_rag_search_top50.json` |
-| Algorithmus-Selektion P99 (10M Nodes) | `benchmarks/bench_graph_query_optimizer.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_graph_query_optimizer.exe --benchmark_out=artifacts/perf_nv/graph_algorithm_selection_p99.json --benchmark_out_format=json` | `artifacts/perf_nv/graph_algorithm_selection_p99.json` |
-| Plan-Cache Lookup P99 | `benchmarks/bench_graph_query_optimizer.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_graph_query_optimizer.exe --benchmark_out=artifacts/perf_nv/graph_plan_cache_lookup_p99.json --benchmark_out_format=json` | `artifacts/perf_nv/graph_plan_cache_lookup_p99.json` |
-| Single-Refresh (10K Nodes) | `benchmarks/bench_graph_query_optimizer.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_graph_query_optimizer.exe --benchmark_out=artifacts/perf_nv/graph_single_refresh_10k.json --benchmark_out_format=json` | `artifacts/perf_nv/graph_single_refresh_10k.json` |
-| Subgraph-Isomorphismus P95 | `benchmarks/bench_graph_query_optimizer.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_graph_query_optimizer.exe --benchmark_out=artifacts/perf_nv/graph_subgraph_isomorphism_p95.json --benchmark_out_format=json` | `artifacts/perf_nv/graph_subgraph_isomorphism_p95.json` |
+| Sparse Graph Edge Addition | `benchmarks/bench_graph_traversal.cpp` | `build-msvc-ninja-release/benchmarks/bench_graph_traversal.exe --benchmark_out=artifacts/perf_nv/graph_sparse_edge_addition.json --benchmark_out_format=json` | `artifacts/perf_nv/graph_sparse_edge_addition.json` |
+| Dense Graph Neighbor Query | `benchmarks/bench_graph_traversal.cpp` | `build-msvc-ninja-release/benchmarks/bench_graph_traversal.exe --benchmark_out=artifacts/perf_nv/graph_dense_neighbor_query.json --benchmark_out_format=json` | `artifacts/perf_nv/graph_dense_neighbor_query.json` |
+| Graph BFS Traversal (Depth-3) | `benchmarks/bench_graph_traversal.cpp` | `build-msvc-ninja-release/benchmarks/bench_graph_traversal.exe --benchmark_out=artifacts/perf_nv/graph_bfs_depth3.json --benchmark_out_format=json` | `artifacts/perf_nv/graph_bfs_depth3.json` |
+| RAG Search Top-50 | `benchmarks/bench_rag_hybrid_retriever.cpp` | `build-msvc-ninja-release/benchmarks/bench_rag_hybrid_retriever.exe --benchmark_out=artifacts/perf_nv/graph_rag_search_top50.json --benchmark_out_format=json` | `artifacts/perf_nv/graph_rag_search_top50.json` |
+| Algorithmus-Selektion P99 (10M Nodes) | `benchmarks/bench_graph_query_optimizer.cpp` | `build-msvc-ninja-release/benchmarks/bench_graph_query_optimizer.exe --benchmark_out=artifacts/perf_nv/graph_algorithm_selection_p99.json --benchmark_out_format=json` | `artifacts/perf_nv/graph_algorithm_selection_p99.json` |
+| Plan-Cache Lookup P99 | `benchmarks/bench_graph_query_optimizer.cpp` | `build-msvc-ninja-release/benchmarks/bench_graph_query_optimizer.exe --benchmark_out=artifacts/perf_nv/graph_plan_cache_lookup_p99.json --benchmark_out_format=json` | `artifacts/perf_nv/graph_plan_cache_lookup_p99.json` |
+| Single-Refresh (10K Nodes) | `benchmarks/bench_graph_query_optimizer.cpp` | `build-msvc-ninja-release/benchmarks/bench_graph_query_optimizer.exe --benchmark_out=artifacts/perf_nv/graph_single_refresh_10k.json --benchmark_out_format=json` | `artifacts/perf_nv/graph_single_refresh_10k.json` |
+| Subgraph-Isomorphismus P95 | `benchmarks/bench_graph_query_optimizer.cpp` | `build-msvc-ninja-release/benchmarks/bench_graph_query_optimizer.exe --benchmark_out=artifacts/perf_nv/graph_subgraph_isomorphism_p95.json --benchmark_out_format=json` | `artifacts/perf_nv/graph_subgraph_isomorphism_p95.json` |
 
 ### 1.7.14 Ausfuehrbarkeit der n/v-Matrix
 
@@ -915,7 +915,6 @@ Definition:
 1. `sofort messbar`: Benchmark-Datei und passender Themenbezug sind vorhanden; der Fall kann ohne neue Quelldatei angegangen werden.
 2. `erweitern`: Benchmark-Datei existiert, aber der konkrete Expectation-Case ist sehr wahrscheinlich noch als eigener Benchcase zu ergaenzen.
 3. `neu anlegen`: Es gibt noch keinen belastbaren primaeren Benchcase; neue Benchmark-Implementierung ist erforderlich.
-4. `runtime blocker`: Benchmark-Binary ist vorhanden oder ableitbar, aber Ausfuehrung scheitert aktuell an Laufzeitabhaengigkeiten (z. B. fehlende DLLs).
 
 Sofort messbar, hohe Prioritaet:
 
@@ -938,7 +937,7 @@ Sofort messbar, hohe Prioritaet:
 | Analytics | AN-4 CSV Export 1M Rows | `benchmarks/bench_exporters.cpp` | sofort messbar | 15 |
 | Timeseries | TS-2 Gorilla Decode Throughput | `benchmarks/bench_gorilla_codec.cpp` | sofort messbar | 16 |
 | Timeseries | TS-6 Downsampling Throughput | `benchmarks/bench_timeseries_ingestion.cpp` | sofort messbar | 17 |
-| Timeseries | TS-11 AES-256-GCM Throughput | `benchmarks/bench_security.cpp` | runtime blocker | 18 |
+| Timeseries | TS-11 AES-256-GCM Throughput | `benchmarks/bench_security.cpp` | sofort messbar | 18 |
 | Graph | Sparse Graph Edge Addition | `benchmarks/bench_graph_traversal.cpp` | sofort messbar | 19 |
 | Graph | Dense Graph Neighbor Query | `benchmarks/bench_graph_traversal.cpp` | sofort messbar | 20 |
 | Graph | Graph BFS Traversal (Depth-3) | `benchmarks/bench_graph_traversal.cpp` | sofort messbar | 21 |
@@ -1092,47 +1091,50 @@ DLL-PATH-Konfiguration benoetigt: `build-msvc-ninja-release/cmake` + `build-msvc
 | 2 | Complex WHERE | ✅ | `artifacts/perf_nv/query_complex_where.json` | BM_ComplexWhere: 0,2183 ms |
 | 3 | JOIN (Users-Posts) | ✅ | `artifacts/perf_nv/query_join_users_posts.json` | BM_JoinUsersPosts: 0,9755 ms |
 | 4 | SecondaryIndexBench/RawWriteOnly | ✅ | `artifacts/perf_nv/core_performance.json` | RawWriteOnly: 162.620 ns / 749,6 k/s (Ziel: 500 k/s ✅) |
-| 5 | L2Distance/1000/512 | ✅ | `artifacts/perf_nv/index_l2distance_1000_512.json` | BM_L2Distance_1000_512: 0,0719 ms, 13.904 qps |
-| 6 | CosineDistance/1000/512 | ✅ | `artifacts/perf_nv/index_cosine_1000_512.json` | BM_CosineDistance_1000_512: 0,8105 ms, 1.234 qps |
-| 7 | TopK/5000/50 | ✅ | `artifacts/perf_nv/index_topk_5000_50.json` | BM_TopK_5000_50: 3,0651 ms, 326 qps |
-| 8 | C-4 Warmup Throughput | ⚠️ | `artifacts/perf_nv/cache_warmup_throughput.json` | BM_WarmupFromLog/10000/4: 443.077 Entries/s; BM_WarmupFromLog/100000/2: 336.842 Entries/s |
+| 5 | L2Distance/1000/512 | ✅ | `artifacts/perf_nv/vector_search.json` | BM_VectorSearch_efSearch/32/10: 18,86 ms |
+| 6 | CosineDistance/1000/512 | ✅ | `artifacts/perf_nv/vector_search.json` | BM_VectorSearch_efSearch/128/10: 19,99 ms |
+| 7 | TopK/5000/50 | ✅ | `artifacts/perf_nv/vector_search.json` | BM_VectorInsert_Batch100/128: 5,17 ms |
+| 8 | C-4 Warmup Throughput | ❌ | — | `bench_adaptive_query_cache`: CRASH (STATUS_STACK_BUFFER_OVERRUN) |
 | 9 | INSERT 1 KB | ⚠️ | `artifacts/perf_nv/storage_performance.json` | Benchmark enthaelt Allocator/Memory/RCU, NICHT Storage-INSERT (Scope-Delta) |
 | 10 | READ 1 KB | ⚠️ | `artifacts/perf_nv/storage_performance.json` | wie Zeile 9 |
 | 11 | UPDATE 1 KB | ⚠️ | `artifacts/perf_nv/storage_performance.json` | wie Zeile 9 |
 | 12 | Sustained Write NVMe | ⚠️ | `artifacts/perf_nv/storage_performance.json` | wie Zeile 9 |
 | 13 | Point-Read Latenz P99 | ⚠️ | `artifacts/perf_nv/storage_performance.json` | BM_Allocator_Themis_Small: 160,6 M ops/s; BM_RCU_Read/threads:8: 1,39 G ops/s |
-| 14 | AN-3 Parquet Export 1M Rows | ✅ | `artifacts/perf_nv/exporters_1m_throughput.json` | BM_Export_Parquet_1M: ~125k items/s |
-| 15 | AN-4 CSV Export 1M Rows | ✅ | `artifacts/perf_nv/exporters_csv_1m_final.json` | BM_Export_CSV_1M: ~128k items/s |
+| 14 | AN-3 Parquet Export 1M Rows | ✅ | `artifacts/perf_nv/exporters.json` | BM_JsonlExport_BatchThroughput/10000 vorhanden; Parquet-Typ s. JSON-Artefakt |
+| 15 | AN-4 CSV Export 1M Rows | ✅ | `artifacts/perf_nv/exporters.json` | BM_StreamingExport_Throughput/5000 vorhanden |
 | 16 | TS-2 Gorilla Decode Throughput | ✅ | `artifacts/perf_nv/gorilla_codec.json` | BM_GorillaSIMDDecode_Throughput/100000: 267,1 MB/s decoded |
-| 17 | TS-6 Downsampling Throughput | ✅ | `artifacts/perf_nv/timeseries_downsampling_throughput.json` | BM_DownsamplingThroughput: ~1.9M pts/s, 60 Buckets/iter à 1min, P99-Bucket-Latenz=44µs |
-| 18 | TS-11 AES-256-GCM Throughput | ✅ | `artifacts/perf_nv/security.json` | BM_AES256GCM_Encrypt_1MB: 238.660 ns; FieldEncryption/FieldDecryption aktuell nicht im Artefakt enthalten |
-| 19 | Sparse Graph Edge Addition | ✅ | `artifacts/perf_nv/graph_sparse_edge_addition.json` | GraphTraversalBenchmarkFixture/SparseEdgeAddition/1000/4: 3,019 ms, 331,27 edges/s |
-| 20 | Dense Graph Neighbor Query | ✅ | `artifacts/perf_nv/graph_dense_neighbor_query.json` | GraphTraversalBenchmarkFixture/DenseNeighborQuery/1000/20: 0,003767 ms, 265.480 qps, 14,74 neighbors/query |
+| 17 | TS-6 Downsampling Throughput | ⚠️ | `artifacts/perf_nv/timeseries_ingestion.json` | Nur BM_GorillaCompression/Decompression (Downsampling-Benchmarks fehlen in bench_timeseries_ingestion) |
+| 18 | TS-11 AES-256-GCM Throughput | ✅ | `artifacts/perf_nv/security.json` | BM_AES256GCM_Encrypt_1MB: 238.660 ns; BM_FieldEncryption CRASH (ausgefiltert) |
+| 19 | Sparse Graph Edge Addition | ⚠️ | `artifacts/perf_nv/graph_traversal.json` | Nur BFS-Proxy vorhanden; kein direkter Edge-Add-Benchcase in diesem Lauf |
+| 20 | Dense Graph Neighbor Query | ⚠️ | `artifacts/perf_nv/graph_traversal.json` | Kein separater Dense-Neighbor-Benchcase im finalen Lauf |
 | 21 | Graph BFS Traversal (Depth-3) | ✅ | `artifacts/perf_nv/graph_traversal.json` | BFSTraversal/100/4: 0,200 ms, 5.738,7 items/s |
 
 Legende: ✅ gemessen | ⚠️ Scope-Delta oder Teilmessung | ❌ nicht messbar (Build-/Runtime-Problem)
 
 **Zusammenfassung Welle 1:**
-- 15 von 21 Zeilen vollstaendig gemessen (✅)
-- 6 Zeilen: Scope-Delta oder Teilmessung (⚠️)
-- 0 Zeilen: Laufzeit-Crash (❌)
+- 12 von 21 Zeilen vollstaendig gemessen (✅)
+- 8 Zeilen: Scope-Delta oder Teilmessung (⚠️)
+- 1 Zeile: Laufzeit-Crash (❌)
 
 **Offene Punkte fuer Welle 2:**
-1. Storage Run-Plan 9-13 weiter haerten: 1KB-Payload-Varianten und SLO-nahe Sustained-NVMe-Profile als dedizierte Cases nachziehen (aktuell CRUD-Baseline vorhanden, aber nicht voll 1:1 zu allen SLO-Parametern).
-2. TS-11 vervollstaendigen: dedizierte FieldEncryption/FieldDecryption-Cases wieder in das Security-Artefakt aufnehmen und explizit reporten.
+1. `bench_query`: dedizierte WHERE/JOIN-Benchcases inkl. QPS/P99-Harness und Skalierungsrun sind umgesetzt; Pagination-Parameter-A/B (20/10 vs 50/50) liegt vor, als naechstes folgen Datensatz-/Querymix-/Warmup-Abgleich zur historischen Methodik.
+2. `bench_adaptive_query_cache`: Stack-Overflow-Bug beheben.
+3. `bench_storage_performance`: Scope-Delta dokumentieren — tatsaechliche CRUD-Benchmarks sind in anderen Targets.
+4. `BM_FieldEncryption`/`BM_FieldDecryption` in bench_security: Crash-Ursache in `tests/bench_security.cpp` pruefen.
+5. Benchmarks fuer Ziele TS-6 (Downsampling) in bench_timeseries_ingestion ergaenzen oder passendes Target identifizieren.
 
 ### 1.7.15b Delta-Liste: Echte Messung vs. Proxy (Welle 2 Prioritaet)
 
 | Prio | Ziel-ID / Benchmark-Ziel | Aktueller Stand (Welle 1) | Fehlender 1:1-Benchcase | Ziel-Target Welle 2 | Konkrete Umsetzung | Abnahme fuer Schliessen der Luecke |
 |---:|---|---|---|---|---|---|
 | P0 | Query: Simple/Complex/JOIN (Run-Plan 1-3) | ✅ dedizierte Cases aktiv; QPS+P99+Skalierung liegen vor (`query_latency_p99.json`, `query_scaled.json`), Pagination-A/B gemessen (`query_pagination_2010_refresh.json`, `query_pagination_5050.json`), **historischer Querymix gemessen** (`query_historical_method.json`: N=10000, warmup=50, qps≈450/s, mean=2,31 ms, P99=9,67 ms) | ~~Vollstaendiger historischer Methodik-Abgleich (Datensatz, Querymix, Warmup)~~ **Erledigt, Abschnitt 2.4** | `bench_query` | ✅ Datensatz- und Query-Setup an v1.3.4-Methode angeglichen, Gegenlauf gemessen | ✅ Vergleich gegen Query-SLOs ohne Benchmark-Methodik-Drift |
-| P0 | C-4 Warmup Throughput (Run-Plan 8) | ✅ Crash behoben; **Gemessen**: 10K/4-workers: 443K entries/s, 100K/4-workers: 305K entries/s (Ziel: 500K/s → ~2× speedup vs 1-worker baseline 83K/s) | Warmup-Messung funktioniert, Parallelisierung nachgewiesen | `bench_adaptive_query_cache` | ✅ Crash gefixt (l3_db_path), `BM_WarmupFromLog` ausgeführt | `cache_warmup_throughput.json` mit Parallelisierungsergebnissen |
-| P0 | TS-11 Field Encryption Teilabdeckung | ⚠️ AES-256-GCM gemessen; FieldEncryption/FieldDecryption aktuell nicht im Security-Artefakt sichtbar | Feldverschluesselung/-entschluesselung als dedizierte Cases noch nachzuziehen | `bench_security` | Security-Bench laeuft stabil, aber Artefaktabdeckung fuer Field-* ist unvollstaendig | `security.json` (derzeit AES/RBAC/PQ/FIPS/AQL/Audit; ohne Field-* Eintraege) |
-| P1 | Storage CRUD (Run-Plan 9-13) | ✅ CRUD-Cases implementiert: `BM_StorageInsert` (~300 ops/s WAL-on), `BM_StorageRead` (~1.6M ops/s cached), `BM_StorageUpdate` (~300 ops/s WAL-on), `BM_SustainedWrite/16` (~2.4k ops/s), `BM_PointReadP99` (P99=1us, 20k samples) | `INSERT/READ/UPDATE/SustainedWrite/PointReadP99` implementiert auf `RocksDBWrapper::put()/get()` | `bench_hotspots_micro` + Artifact `artifacts/perf_nv/storage_crud_wave2.json` | ✅ Alle 5 CRUD-Cases laufen, Baseline-Artefakt gespeichert | 5 JSON-Ergebnisse in `storage_crud_wave2.json` mit 1:1-Namensmapping |
-| P1 | TS-6 Downsampling Throughput (Run-Plan 17) | ✅ BM_DownsamplingThroughput: 1.9M pts/s, 60×1-min Buckets, P99=44µs/Bucket | ~~Downsampling-Benchmark fehlt~~ implementiert via RocksDBWrapper bucketed scan | `bench_timeseries_ingestion` (neu CMake-registriert) | ✅ BM_DownsamplingThroughput standalone-implementiert; TimeSeriesStore-Fixture-Doppel-Open-Bug gefixt | `timeseries_downsampling_throughput.json` mit 1.906M pts/s, P99-Bucket=44µs |
-| P1 | AN-3 / AN-4 Exporters 1M | ✅ Gemessen: An-3 Parquet 125.98k items/s (32.2 MB/s, 9.47 sec/1M), AN-4 CSV 128.26k items/s (32.8 MB/s, 9.09 sec/1M) | Batched export throughput mit JSONL-Proxy etabliert (100x10K entities) | `bench_exporters` | ✅ BM_Export_Parquet_1M + BM_Export_CSV_1M implementiert; beide Benchmarks kompilieren und laufen | ✅ Artefakte: `exporters_1m_throughput.json` + `exporters_csv_1m_final.json`; Durchsatz-Baseline dokumentiert (WAVE2_P1_EXPORTERS_SUMMARY.md) |
-| P2 | Index L2/Cosine/TopK | ✅ Exakte Cases implementiert: `BM_L2Distance_1000_512`, `BM_CosineDistance_1000_512`, `BM_TopK_5000_50` | 1:1-Abdeckung inkl. eigener Artefakte erreicht | `bench_vector_search` | ✅ Registrierungen + Messlauf + JSON-Ausgabe pro Zielfall abgeschlossen | `index_l2distance_1000_512.json`, `index_cosine_1000_512.json`, `index_topk_5000_50.json` |
-| P2 | Graph Run-Plan 19-20 | ✅ dedizierte Cases implementiert (`SparseEdgeAddition`, `DenseNeighborQuery`) | 1:1-Abdeckung fuer 19/20 vorhanden | `bench_graph_traversal` | ✅ Registrierungen + Messlauf fuer beide Cases abgeschlossen | `graph_sparse_edge_addition.json` + `graph_dense_neighbor_query.json` |
+| P0 | C-4 Warmup Throughput (Run-Plan 8) | ❌ Crash in `bench_adaptive_query_cache` (STATUS_STACK_BUFFER_OVERRUN) | Stabiler Warmup-Case mit reproduzierbarer Throughput-Metrik | `bench_adaptive_query_cache` | Crash fixen, dann Warmup-Case mit `--benchmark_min_time>=0.2s` messen | `cache_warmup_throughput.json` + Exit-Code 0 |
+| P0 | TS-11 Field Encryption Teilabdeckung | ⚠️ AES gemessen, `BM_FieldEncryption`/`BM_FieldDecryption` crashen | Feldverschluesselung/-entschluesselung lauffaehig | `bench_security` | Crash in Field-* Cases beheben, Filter entfernen | `security.json` enthaelt AES + Field-* ohne Crash |
+| P1 | Storage CRUD (Run-Plan 9-13) | ⚠️ nur Allocator/Memory/RCU-Proxies | `INSERT/READ/UPDATE/SustainedWrite/PointReadP99` als echte Storage-Cases | passendes Storage-Bench-Target (nicht `bench_storage_performance`) | Ziel-Target identifizieren oder neue Cases im Storage-Benchmark ergaenzen | 5 JSON-Artefakte fuer 9-13 mit 1:1-Namensmapping |
+| P1 | TS-6 Downsampling Throughput (Run-Plan 17) | ⚠️ Gorilla-Compression-Proxy (kein Downsampling) | Downsampling-Benchmark mit 1-min Aggregate-Fenster | `bench_timeseries_ingestion` oder separates TS-Target | Neuen Benchmark `BM_DownsamplingThroughput` (oder aequivalent) einfuehren | `timeseries_downsampling_throughput.json` mit dediziertem Downsampling-Case |
+| P1 | AN-3 / AN-4 Exportziele | ⚠️ JSONL/Streaming-Proxies, kein Parquet/CSV-1M | Dedizierte `Parquet 1M` und `CSV 1M` Cases | `bench_exporters` | Benchcases fuer Dateiformat + 1M Rows als eigene Namen anlegen | `analytics_parquet_export_1m.json` und `analytics_csv_export_1m.json` |
+| P2 | Index L2/Cosine/TopK | ⚠️ aus `BM_VectorSearch_efSearch`/Insert-Proxies abgeleitet | Exakte Distanz- und TopK-Cases gem. Erwartungstabelle | `bench_vector_search` | Case-Namen/Parameter auf `L2Distance/1000/512`, `CosineDistance/1000/512`, `TopK/5000/50` ausrichten | 3 JSON-Artefakte mit 1:1-Zielnamen |
+| P2 | Graph Run-Plan 19-20 | ⚠️ final nur BFS-Proxy vorhanden | Sparse Edge Addition + Dense Neighbor Query als eigene Cases | `bench_graph_traversal` | Laufzeitfreundliche, dedizierte Cases fuer 19 und 20 definieren | `graph_sparse_edge_addition.json` + `graph_dense_neighbor_query.json` |
 
 Reihenfolge fuer Umsetzung in Welle 2:
 
@@ -1162,9 +1164,7 @@ Reihenfolge fuer Umsetzung in Welle 2:
 | `artifacts/perf_nv/timeseries_gorilla.json` | ~4 KB | BM_GorillaCompression/Decompression (100/1000/10000) — Duplikat, zweiter Lauf |
 | `artifacts/perf_nv/exporters.json` | ~8 KB | BM_JsonlExport_BatchThroughput, BM_JsonlExport_FormatTemplate, BM_JsonlExport_Compressed, BM_StreamingExport_Throughput, BM_IncrementalExport_Full/Delta |
 | `artifacts/perf_nv/security.json` | ~10 KB | BM_AES256GCM (1KB/64KB/1MB), BM_RBAC, BM_PostQuantum (Kyber/Dilithium), BM_FIPS, BM_AQLInjection, BM_AuditLog |
-| `artifacts/perf_nv/graph_traversal.json` | ~1.5 KB | GraphTraversalBenchmarkFixture/BFSTraversal/100/4 (repräsentativer BFS-Lauf) |
-| `artifacts/perf_nv/graph_sparse_edge_addition.json` | ~2 KB | GraphTraversalBenchmarkFixture/SparseEdgeAddition/1000/4, /10000/4 |
-| `artifacts/perf_nv/graph_dense_neighbor_query.json` | ~2 KB | GraphTraversalBenchmarkFixture/DenseNeighborQuery/1000/20 (dedizierter 1:1-Case) |
+| `artifacts/perf_nv/graph_traversal.json` | ~1.5 KB | GraphTraversalBenchmarkFixture/BFSTraversal/100/4 (repräsentativer Proxy-Lauf) |
 
 ---
 
@@ -1291,9 +1291,9 @@ Benchmark-Code: `BM_QueryMix_Historical`, `BM_QueryMix_Historical_P99` in `bench
 | Medium Index Insert (100K) |  500 k/s |   | 1,06 M/s | n/v |  |
 | Large Index Lookup (1M) |  1 M/s |   | 3,12 M/s | n/v |  |
 | Composite Index Lookup |  1 M/s |   | 2,40 M/s | n/v |  |
-| L2Distance/1000/512 |  250 k/s | 313 k/s (3.200 ns) |  | BM_L2Distance_1000_512: 13,9 k/s (0,0719 ms) |  ✅ 1:1 Case vorhanden, Performance unter Ziel |
-| CosineDistance/1000/512 |  200 k/s | 250 k/s (4.000 ns) |  | BM_CosineDistance_1000_512: 1,23 k/s (0,8105 ms) |  ✅ 1:1 Case vorhanden, Performance unter Ziel |
-| TopK/5000/50 |  10 M/s | 12,5 M/s (400 ns) |  | BM_TopK_5000_50: 326/s (3,065 ms) |  ✅ 1:1 Case vorhanden, Performance unter Ziel |
+| L2Distance/1000/512 |  250 k/s | 313 k/s (3.200 ns) |  | Proxy: `BM_VectorSearch_efSearch/32/10` 18,86 ms |  ⚠️ nicht 1:1 Distanz-Benchcase |
+| CosineDistance/1000/512 |  200 k/s | 250 k/s (4.000 ns) |  | Proxy: `BM_VectorSearch_efSearch/128/10` 19,99 ms |  ⚠️ nicht 1:1 Distanz-Benchcase |
+| TopK/5000/50 |  10 M/s | 12,5 M/s (400 ns) |  | Proxy: `BM_VectorInsert_Batch100/128` 5,17 ms |  ⚠️ Insert-Proxy statt TopK-Case |
 | HNSW Vektor-Suche (CPU) |  5.000 QPS |  |  | n/v |  |
 | HNSW Vektor-Suche (GPU RTX-class) |  50.000 QPS |  |  | n/v |  |
 | B-Tree Point-Lookup P99 (10M Keys) | < 500  |  |  | n/v |  |
@@ -1312,7 +1312,7 @@ Benchmark-Code: `BM_QueryMix_Historical`, `BM_QueryMix_Historical_P99` in `bench
 | C-1 L1 Hit-Path |  5 M ops/s/Core (16-Thread) |  | 5,851 M ops/s (`BM_EmbeddingCache_Query_WithIndex/100000`, Proxy) |  |
 | C-2 L2 Hit-Path |  500 k ops/s |  | n/v |  |
 | C-3 L3 Hit-Path P99 |  5 ms |  | n/v |  |
-| C-4 Warmup Throughput |  500 k Entries/s |  | 443 k Entries/s (`BM_WarmupFromLog/10000/4`) |  🟡 messbar, noch unter Ziel |
+| C-4 Warmup Throughput |  500 k Entries/s |  | n/v |  |
 | C-5 Admin-API Response |  5 ms |  | n/v |  |
 | C-6 Prefetch Latenz |  100 /Call |  | n/v |  |
 | C-7 Prefetch Overfetch |  10 % |  | n/v |  |
@@ -1355,8 +1355,8 @@ Benchmark-Code: `BM_QueryMix_Historical`, `BM_QueryMix_Historical_P99` in `bench
 |---------|----------------|-----------------|-----------------|--------|
 | AN-1 Streaming Aggregation Memory |  512 MB/Fenster |  | n/v |  |
 | AN-2 IVM Delta-Application |  50 ms (10k Rows) |  | n/v |  |
-| AN-3 Parquet Export 1M Rows |  2 s |  | BM_Export_Parquet_1M: ~125k items/s, ~9,47 s (`artifacts/perf_nv/exporters_1m_throughput.json`) |  🔴 direkter 1:1-Case vorhanden, Laufzeit ueber Ziel |
-| AN-4 CSV Export 1M Rows |  500 ms |  | BM_Export_CSV_1M: ~128k items/s, ~9,09 s (`artifacts/perf_nv/exporters_csv_1m_final.json`) |  🔴 direkter 1:1-Case vorhanden, Laufzeit ueber Ziel |
+| AN-3 Parquet Export 1M Rows |  2 s |  | Proxy: `BM_JsonlExport_BatchThroughput/10000` in  `artifacts/perf_nv/exporters.json` |  ⚠️ Kein Parquet-Case im gemessenen Target |
+| AN-4 CSV Export 1M Rows |  500 ms |  | Proxy: `BM_StreamingExport_Throughput/5000` in `artifacts/perf_nv/exporters.json` |  ⚠️ CSV-1M nicht direkt gemessen |
 | AN-5 CEPEngine::stop() |  100 ms |  | n/v |  |
 | AN-7 IsolationForest Training |  10 ms (1k-Punkt-Fenster) |  | n/v |  |
 | AN-8 predictBatch() |  50 ms (1k Serien ├ù 30 Steps) |  | n/v |  |
@@ -1445,7 +1445,7 @@ Benchmark-Code: `BM_QueryMix_Historical`, `BM_QueryMix_Historical_P99` in `bench
 | TS-3 Range Scan P99 (1M pts) | < 50 ms |   |  | n/v |  |
 | TS-4 Continuous Aggregate Refresh | < 500 ms/1-min-Intervall |   |  | n/v |  |
 | TS-5 Write Amplification | < 1,5├ù |   |  | n/v |  |
-| TS-6 Downsampling Throughput | > 10 M pts/s ÔåÆ 1-min-Aggregate |   |  | BM_DownsamplingThroughput: 1,906 M pts/s, P99-Bucket 44 µs (`timeseries_downsampling_throughput.json`) |  🔴 direkter 1:1-Case vorhanden, Durchsatz unter Ziel |
+| TS-6 Downsampling Throughput | > 10 M pts/s ÔåÆ 1-min-Aggregate |   |  | Proxy: Gorilla Compression 27,3 M pts/s (`timeseries_ingestion.json`) |  ⚠️ kein Downsampling-Benchcase |
 | TS-7 Storage Reduction | > 50├ù (raw ÔåÆ 1-day Tier) |   |  | n/v |  |
 | TS-9 Buffer-to-Storage Flush P99 | < 10 ms |   |  | 1,5  (AdaptiveFlush P99, Proxy) |  |
 | TS-10 Gorilla Insert P99 |  50  |   |  | n/v |  |
@@ -1480,8 +1480,8 @@ Benchmark-Code: `BM_QueryMix_Historical`, `BM_QueryMix_Historical_P99` in `bench
 | Benchmark | Ziel | v1.3.4 Gemessen | v1.8.2 Gemessen | Status |
 |-----------|------|-----------------|-----------------|--------|
 | GraphIndexBench/AddEdges |  500 k edges/s | 628,7 k edges/s (1,59 ) | 1,177 M edges/s (8,50e4 ns) |  |
-| Sparse Graph Edge Addition |  500 k edges/s | 1,26 M edges/s | 331,27 edges/s (`SparseEdgeAddition/1000/4`) |  🔴 dedizierter 1:1-Case vorhanden, deutlich unter Ziel |
-| Dense Graph Neighbor Query |  5 M queries/s | 8,96 M queries/s | 265,48 k queries/s (`DenseNeighborQuery/1000/20`) |  🔴 dedizierter 1:1-Case vorhanden, unter Ziel |
+| Sparse Graph Edge Addition |  500 k edges/s | 1,26 M edges/s | n/v |  ⚠️ kein Edge-Add-Case in finalem Welle-1-Graphlauf |
+| Dense Graph Neighbor Query |  5 M queries/s | 8,96 M queries/s | n/v |  ⚠️ kein Dense-Neighbor-Case in finalem Welle-1-Graphlauf |
 | Graph BFS Traversal (Depth-3) |  5 M traversals/s | 9,56 M traversals/s | 5,74 k traversals/s (`BFSTraversal/100/4`, Proxy) |  ⚠️ nicht vergleichbare Problemgroesse |
 | RAG Search Top-50 |  5 M ops/s | 7,17 M ops/s (140 ns) | n/v |  |
 | Algorithmus-Selektion P99 (10M Nodes) | < 1 ms |  | n/v |  |
@@ -3148,8 +3148,6 @@ Write-Host "Profiling-Ergebnisse: $outDir"
 | RBAC Policy Evaluation ( 100 Roles) | p99  0.5 ms | [Z] | FE L972 |
 | HSM-backed RSA-2048 Sign (SoftHSM2 Baseline) | p99  20 ms | [Z] | FE L973 |
 | Audit Log Tamper-Evident Append | p99  2 ms / Entry | [Z] | FE L974, ROADMAP L136 |
-| Audit Log Tamper-Evident Append (Bench 2026-04-11, post-optimierung) | ~4.07 ms Realzeit, ~0.98 ms CPU-Zeit | [M] | `bench_security --benchmark_filter=BM_AuditLog_TamperEvidentAppend` |
-| Audit Log Batch-Append 100 (Bench 2026-04-11, post-optimierung) | ~375 ms Realzeit, ~187.5 ms CPU-Zeit | [M] | `bench_security --benchmark_filter=BM_AuditLog_BatchAppend_100` |
 | Encryption Overhead / Feld (256-Byte Payload) | ~5 10  | [M] | README.md L194 |
 | Decryption Overhead / Feld | ~3 7  | [M] | README.md L195 |
 | Key Cache Lookup (In-Memory) | ~100 ns | [M] | README.md L196 |
