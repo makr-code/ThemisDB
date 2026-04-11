@@ -450,7 +450,6 @@ static void BM_AuditLog_TamperEvidentAppend(benchmark::State& state) {
     cfg.log_path        = benchmark_temp_path("bench_security_audit.jsonl").string();
     cfg.chain_head_path = benchmark_temp_path("bench_security_audit_head.bin").string();
     cfg.fsync_on_write  = false;  // disable fsync for throughput benchmark
-    cfg.checkpoint_interval = 64;
     std::filesystem::remove(cfg.log_path);
     std::filesystem::remove(cfg.chain_head_path);
     themis::utils::HashChainAuditWriter writer(cfg);
@@ -474,7 +473,6 @@ static void BM_AuditLog_BatchAppend_100(benchmark::State& state) {
     cfg.log_path        = benchmark_temp_path("bench_security_audit_batch.jsonl").string();
     cfg.chain_head_path = benchmark_temp_path("bench_security_audit_batch_head.bin").string();
     cfg.fsync_on_write  = false;
-    cfg.checkpoint_interval = 64;
     std::filesystem::remove(cfg.log_path);
     std::filesystem::remove(cfg.chain_head_path);
     themis::utils::HashChainAuditWriter writer(cfg);
