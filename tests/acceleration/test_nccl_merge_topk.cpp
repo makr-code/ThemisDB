@@ -93,6 +93,14 @@ struct Candidate {
     float    distance;
 };
 
+// Sentinel value representing an "invalid" / unfilled candidate slot.
+constexpr Candidate kInvalidCandidate{static_cast<uint32_t>(-1), FLT_MAX};
+
+// Helper: compute the global index for rank r, slot i with localK items per rank.
+inline uint32_t globalIndex(int r, size_t localK, size_t i) {
+    return static_cast<uint32_t>(static_cast<size_t>(r) * localK + i);
+}
+
 // Simulate the host-side merge used by mergeTopK():
 // 1. Build a flat gathered vector of worldSize × localK candidates.
 // 2. std::partial_sort the first k elements by ascending distance.
@@ -119,7 +127,7 @@ std::vector<Candidate> simulateMerge(const std::vector<std::vector<Candidate>>& 
                           return h_distances[a] < h_distances[b];
                       });
 
-    std::vector<Candidate> result(k, {static_cast<uint32_t>(-1), FLT_MAX});
+    std::vector<Candidate> result(k, kInvalidCandidate);
     for (size_t i = 0; i < selectK; ++i) {
         result[i] = {h_indices[order[i]], h_distances[order[i]]};
     }
@@ -154,10 +162,7 @@ std::vector<std::vector<Candidate>> generatePerRankData(int worldSize, size_t lo
     for (int r = 0; r < worldSize; ++r) {
         perRank[r].resize(localK);
         for (size_t i = 0; i < localK; ++i) {
-            perRank[r][i] = {
-                static_cast<uint32_t>(static_cast<size_t>(r) * localK + i),
-                dist(rng)
-            };
+            perRank[r][i] = {globalIndex(r, localK, i), dist(rng)};
         }
     }
     return perRank;
@@ -222,7 +227,7 @@ TEST_F(NCCLMergeTopKSimulationTest, A10_TieBreaking_DuplicatedDistances) {
     for (int r = 0; r < worldSize; ++r) {
         perRank[r].resize(localK);
         for (size_t i = 0; i < localK; ++i) {
-            perRank[r][i] = {static_cast<uint32_t>(static_cast<size_t>(r) * localK + i), 1.0f};
+            perRank[r][i] = {globalIndex(r, localK, i), 1.0f};
         }
     }
 
@@ -243,7 +248,7 @@ TEST_F(NCCLMergeTopKSimulationTest, A11_AllEqualDistances) {
     for (int r = 0; r < worldSize; ++r) {
         perRank[r].resize(localK, {0u, 0.5f});
         for (size_t i = 0; i < localK; ++i) {
-            perRank[r][i].index = static_cast<uint32_t>(static_cast<size_t>(r) * localK + i);
+            perRank[r][i].index = globalIndex(r, localK, i);
         }
     }
 
@@ -267,7 +272,7 @@ TEST_F(NCCLMergeTopKSimulationTest, A12_PresortedPerRankInput) {
         perRank[r].resize(localK);
         for (size_t i = 0; i < localK; ++i) {
             perRank[r][i] = {
-                static_cast<uint32_t>(static_cast<size_t>(r) * localK + i),
+                globalIndex(r, localK, i),
                 static_cast<float>(r) * 0.1f + static_cast<float>(i) * 0.001f
             };
         }
@@ -287,7 +292,7 @@ TEST_F(NCCLMergeTopKSimulationTest, A12_PresortedPerRankInput) {
 TEST_F(NCCLMergeTopKSimulationTest, A13_K_EqualsTotal) {
     const int    worldSize = 2;
     const size_t localK    = 5;
-    const size_t k         = worldSize * localK; // 10
+    const size_t k         = static_cast<size_t>(worldSize) * localK;
 
     auto perRank = generatePerRankData(worldSize, localK, /*seed=*/99);
     auto result  = simulateMerge(perRank, k);
