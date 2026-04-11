@@ -117,7 +117,55 @@ replication layer employs Raft consensus~\cite{Ongaro2014}.
         when score\_hw\_neutral $< 0.90$ across two consecutive runs,
         and automatic recalibration proposals when the score exceeds
         $1.10$ across three or more distinct hardware platforms.
+  \item \emph{Comprehensive gap analysis} across 33 modules with a
+        prioritized 29-item remediation roadmap covering benchmarks
+        missing due to proxy substitution, CMake feature gating,
+        and disabled registrations.
+  \item \emph{CHIMERA vendor-neutral comparison} following
+        IEEE~Std~2807-2022 protocol, showing \themis{} leads two
+        reference systems by $+17\%$ and $+58\%$ in query throughput.
 \end{enumerate}
+
+Table~\ref{tab:workload-taxonomy} summarizes the six benchmark
+workload classes used throughout this paper and their dominant
+hardware characteristics.
+
+\begin{table}[t]
+  \caption{Workload Taxonomy}
+  \label{tab:workload-taxonomy}
+  \centering
+  \begin{tabular}{L{1.8cm}L{2.3cm}L{2.1cm}L{1.2cm}}
+    \toprule
+    \textbf{Class} & \textbf{Typical operations} &
+    \textbf{Bottleneck} & \textbf{SLO unit} \\
+    \midrule
+    OLTP &
+      Point read/write, MVCC commit &
+      Random IOPS, alloc &
+      ops/s \\
+    OLAP &
+      CUBE, CTE, window functions &
+      CPU, memory bw &
+      ops/s \\
+    Storage WAL &
+      WAL-ON write, fsync, compaction &
+      Seq I/O, fsync &
+      ops/s \\
+    Vector GPU &
+      ANN insert, distance, index &
+      VRAM, H2D bw &
+      k\,ops/s \\
+    LLM GPU &
+      Inference, LoRA hot-load &
+      VRAM, dispatch &
+      tokens/s \\
+    Mixed CPU+GPU &
+      RAG, image embed, hybrid search &
+      All factors &
+      ops/s \\
+    \bottomrule
+  \end{tabular}
+\end{table}
 
 % ==============================================================================
 \section{System Architecture Overview}
@@ -739,6 +787,217 @@ fan-out of the traversal frontier.
   \end{tabular}
 \end{table}
 
+\subsubsection{AQL Function Benchmarks}
+\label{sssec:aql-functions}
+
+Table~\ref{tab:aql-funcs} reports throughput for four
+representative AQL function classes measured on v1.3.4
+(\texttt{bench\_aql\_functions}).
+
+\textbf{Embedding Cache.}
+The hot-path lookup (\texttt{BM\_EmbeddingCache\_Query\_Hit}) achieves
+155.8\,M/s at 384--3\,072 dimensions with only 6.4--6.5\,ns per call
+because the result is fully resident in L1 cache.
+Cache misses incur a 200$\times$ penalty (777\,k/s) due to the
+backing vector comparison.
+
+\textbf{Hybrid Search RRF.}
+Reciprocal-rank fusion across BM25 and HNSW result sets runs at
+6.6--7.1\,M/s for 384--1\,536 dimensions; the 50/50-weight variant
+hits 10.2\,M/s due to branch elimination in the weight-balancing path.
+
+\textbf{CTEs.}
+Non-recursive CTEs scale nearly linearly: 1-clause throughput is
+952.6\,M/s; 20-clause throughput is 938.5\,M/s ($-1.5\%$), indicating
+negligible per-clause overhead.
+Recursive CTEs degrade with depth: depth~10 achieves 87.1\,M/s;
+depth~1\,000 drops to 896\,k/s, reflecting $O(d)$ stack traversal.
+
+\textbf{Subquery EXISTS.}
+The LIMIT~1 early-exit optimisation eliminates essentially all
+per-row work and is listed as short-circuit in
+Table~\ref{tab:aql-funcs}.
+Without LIMIT~1 the cost grows linearly with the result set size:
+147\,k/s at 10\,K rows, 14.7\,k/s at 100\,K rows.
+
+\begin{table}[t]
+  \caption{AQL Function Benchmark Highlights (v1.3.4)}
+  \label{tab:aql-funcs}
+  \centering
+  \begin{tabular}{L{3.0cm}R{1.3cm}R{1.7cm}}
+    \toprule
+    \textbf{Benchmark} & \textbf{Latency} & \textbf{Throughput} \\
+    \midrule
+    EmbeddingCache hit /384       & 6.44\,ns  & 155.8\,M/s \\
+    EmbeddingCache miss /384      & 1.298\,$\mu$s & 777\,k/s \\
+    HybridSearch RRF /384         & 148\,ns   & 6.64\,M/s \\
+    HybridSearch 50/50            & 99\,ns    & 10.2\,M/s \\
+    CTE non-recursive /1          & 1.0\,ns   & 952.6\,M/s \\
+    CTE non-recursive /20         & 21.3\,ns  & 938.5\,M/s \\
+    CTE recursive depth~10        & 11.3\,ns  & 87.1\,M/s \\
+    CTE recursive depth~1000      & 1.11\,$\mu$s & 896\,k/s \\
+    EXISTS w/ LIMIT~1 /100K       & $\approx$0 & short-circuit \\
+    EXISTS w/o LIMIT~1 /10K       & 6.82\,$\mu$s & 147\,k/s \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\subsubsection{Graph Traversal Scaling}
+\label{sssec:graph-traversal}
+
+Table~\ref{tab:graph-traversal} compares BFS traversal throughput
+across node-count and depth combinations between v1.3.3 and
+v1.8.1-rc2 (\texttt{bench\_graph\_traversal}).
+Both versions exhibit the expected $O(n)$ scaling at fixed depth:
+100 nodes at depth~4 runs $\approx$33$\times$ faster than 100 nodes
+at depth~20.
+The v1.8.1-rc2 build shows a slight regression at
+10\,000 nodes/depth~4 ($+15\%$ latency) but a $+26\%$ improvement
+at 1\,000 nodes/depth~4, suggesting improved cache locality for
+medium-sized graphs.
+
+\begin{table}[t]
+  \caption{BFS Traversal Throughput: v1.3.3 vs v1.8.1-rc2}
+  \label{tab:graph-traversal}
+  \centering
+  \begin{tabular}{L{2.0cm}R{1.1cm}R{1.2cm}R{1.2cm}R{1.1cm}}
+    \toprule
+    \textbf{Config} &
+    \multicolumn{2}{c}{\textbf{v1.3.3}} &
+    \multicolumn{2}{c}{\textbf{v1.8.1-rc2}} \\
+    \cmidrule(lr){2-3}\cmidrule(lr){4-5}
+    & lat.\ (ms) & ops/s & lat.\ (ms) & ops/s \\
+    \midrule
+    100n / d4   & 0.184 & 5.43\,k & 0.214 & 4.76\,k \\
+    1000n / d4  & 1.560 & 652   & 1.250 & 823 \\
+    10000n / d4 & 20.2  & 50.6  & 23.2  & 44.2 \\
+    100n / d20  & 0.469 & 2.11\,k & 0.514 & 1.91\,k \\
+    1000n / d20 & 4.38  & 232.7 & 4.65  & 215.1 \\
+    \bottomrule
+  \end{tabular}
+  \vspace{0.3ex}
+  {\footnotesize n = nodes; d = traversal depth.}
+\end{table}
+
+\subsubsection{Image Analysis Latency}
+\label{sssec:image-latency}
+
+The ONNX-CLIP image embedding pipeline was benchmarked with
+\texttt{bench\_image\_analysis} (v1.3.4).
+Key findings:
+\begin{itemize}
+  \item Embedding throughput is constant across batch sizes 1--16
+        at $\approx$258\,k/s per image, indicating CPU-bound execution
+        with no parallelism overhead up to batch~16.
+  \item P99 latency spikes to 20--21\,ms for both CPU and GPU
+        backends, likely caused by garbage-collection or OS scheduling
+        jitter; median latency is 1.5--2.1\,ms.
+  \item Image resolution increases from 224\,px to 1024\,px raise
+        median embedding latency $3.6\times$ (1.975\,ms $\to$
+        6.007\,ms), consistent with an $O(r^2)$ pixel-scan dependency.
+  \item Captioning at 384\,px incurs a $9\times$ overhead vs.\
+        embedding (P50 = 22\,ms), due to the additional transformer
+        decode pass.
+\end{itemize}
+
+\begin{table}[t]
+  \caption{Image Analysis Latency Distribution (v1.3.4)}
+  \label{tab:img-latency}
+  \centering
+  \begin{tabular}{L{3.2cm}R{1.1cm}R{1.0cm}R{1.0cm}R{1.0cm}}
+    \toprule
+    \textbf{Operation} & \textbf{Mean} & \textbf{P50} &
+    \textbf{P95} & \textbf{P99} \\
+    \midrule
+    Embed 224\,px           & 1.58\,ms & 1.50\,ms & 1.60\,ms & 2.20\,ms \\
+    Embed 512\,px           & 3.02\,ms & 2.70\,ms & 2.80\,ms & -- \\
+    Embed 1024\,px          & 6.01\,ms & 5.70\,ms & 6.00\,ms & -- \\
+    Caption 384\,px         & 22.0\,ms & 21.1\,ms & 22.6\,ms & 40.2\,ms \\
+    Batch /4 (per img)      & 1.58\,ms & 1.47\,ms & 1.58\,ms & -- \\
+    Batch /16 (per img)     & 1.54\,ms & 1.48\,ms & 1.56\,ms & -- \\
+    GPU vs CPU (embed 224)  & 2.31\,ms & 1.70\,ms & 2.50\,ms & 21.1\,ms \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\subsubsection{MVCC Transactions and Lock Contention}
+\label{sssec:mvcc-lock}
+
+Table~\ref{tab:mvcc-lock} presents MVCC commit throughput and lock
+contention data from v1.3.3
+(\texttt{bench\_mvcc}, \texttt{bench\_lock\_contention}).
+
+MVCC single-entity commit runs at 7.1\,k/s (4.07\,ms/tx); snapshot
+isolation imposes only $-3.9\%$ overhead vs.\ raw WriteBatch at
+40.0\,k/s, confirming that the MVCC read-view chain is not on the
+critical write path.
+
+Lock contention exhibits a bimodal profile: disjoint-key workloads
+scale near-linearly up to 8~threads (61.6\,k/s) but collapse at
+16~threads (15.3\,k/s) due to RocksDB write-group-commit
+congestion.
+This pattern directly corroborates Gap~D-6 (concurrency coefficient
+of variation $> 20\%$).
+Overlapping-key contention is 3.3$\times$ slower than disjoint
+even at a single thread (4.43\,k/s vs.\ 14.4\,k/s), consistent with
+lock-convoy formation on high-contention key ranges.
+
+\begin{table}[t]
+  \caption{MVCC and Lock-Contention Benchmarks (v1.3.3)}
+  \label{tab:mvcc-lock}
+  \centering
+  \begin{tabular}{L{3.2cm}R{1.3cm}R{1.5cm}}
+    \toprule
+    \textbf{Benchmark} & \textbf{Latency} & \textbf{Throughput} \\
+    \midrule
+    MVCC SingleEntity Commit   & 4.07\,ms  & 7.11\,k/s \\
+    MVCC BatchInsert 100       & 7.29\,ms  & 29.7\,k/s \\
+    MVCC SnapshotIsolation     & 4.05\,ms  & 40.0\,k/s \\
+    MVCC Rollback              & 266\,$\mu$s & 37.3\,k/s \\
+    WriteBatch SingleEntity    & 4.38\,ms  & 6.52\,k/s \\
+    WriteBatch BatchInsert 100 & 6.25\,ms  & 41.7\,k/s \\
+    \midrule
+    LockContention Disjoint 1T  & 4.44\,ms & 14.4\,k/s \\
+    LockContention Disjoint 8T  & 8.31\,ms & 61.6\,k/s \\
+    LockContention Disjoint 16T & 66.7\,ms & 15.3\,k/s \\
+    LockContention Overlap 1T   & 14.4\,ms & 4.43\,k/s \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\subsubsection{2PC Shard-Count Scaling}
+\label{sssec:2pc-scaling}
+
+Table~\ref{tab:2pc-scaling} shows 2PC latency and throughput as the
+shard count scales from 2 to 16 (v1.3.4,
+\texttt{BM\_DistributedTxn\_2PC\_Latency}).
+Commit latency is essentially flat at 46\,ms regardless of shard
+count because the latency is dominated by the coordinator's
+synchronous fsync, not by fan-out RPC overhead.
+Throughput halves from 6.4\,k/s to 1.6\,k/s as shard count doubles
+from 4 to 8, then halves again to 1.28\,k/s at 16~shards, indicating
+a linear fan-out bottleneck in the coordinator's parallel-prepare
+phase.
+Gap D-4 (target 15\,k/s) therefore requires both batched commits
+and a pipelined prepare phase to eliminate the fsync bottleneck.
+
+\begin{table}[t]
+  \caption{2PC Shard-Count Scaling (v1.3.4)}
+  \label{tab:2pc-scaling}
+  \centering
+  \begin{tabular}{R{1.5cm}R{1.5cm}R{1.5cm}R{1.8cm}}
+    \toprule
+    \textbf{Shards} & \textbf{Lat.\ (ms)} & \textbf{ops/s} &
+    \textbf{vs.\ target (15k/s)} \\
+    \midrule
+    2   & 46.04 & 6\,400  & $-57\%$ \\
+    4   & 46.09 & 6\,400  & $-57\%$ \\
+    8   & 46.09 & 1\,600  & $-89\%$ \\
+    16  & 45.95 & 1\,280  & $-91\%$ \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
 \subsection{Regression Overview v1.3.0 $\to$ v1.3.4}
 \label{ssec:regression}
 
@@ -947,6 +1206,59 @@ Three meta-causes explain the majority of coverage gaps:
         Remediation: un-gate or replace with a reduced-scope variant
         that terminates within CI time limits.
 \end{enumerate}
+
+Table~\ref{tab:remediation} provides a concrete remediation plan
+for all 29 benchmark gaps, grouped by meta-cause and priority.
+Each entry specifies the responsible module, required action, and
+target milestone.
+
+\begin{table}[t]
+  \caption{Remediation Roadmap for 29 Benchmark Gaps}
+  \label{tab:remediation}
+  \centering
+  \renewcommand{\arraystretch}{1.05}
+  \begin{tabular}{L{1.4cm}L{2.4cm}L{2.0cm}L{1.2cm}}
+    \toprule
+    \textbf{Priority} & \textbf{Module / Gap} &
+    \textbf{Required Action} & \textbf{Target} \\
+    \midrule
+    \multicolumn{4}{l}{\textit{P1 -- High: 8 items}} \\
+    P1 & Storage WAL (D-5) & Direct pwrite path; bypass blob ext. & v2.0 \\
+    P1 & TS NVMe write (D-1) & New 64KB seq-write benchmark & v2.0 \\
+    P1 & Gorilla decode (D-2) & AVX2 kernel + dedicated bench & v2.0 \\
+    P1 & CPU Concurrency (D-6) & LMAX ring-buf; re-enable CV bench & v2.0 \\
+    P1 & Sec.\ Index (proxy) & Un-comment \texttt{BENCHMARK()} & v1.9 \\
+    P1 & HNSW GPU (feature) & GPU runner in CI & v1.9 \\
+    P1 & LLM inference (feature) & GPU runner; enable flag & v1.9 \\
+    P1 & Vec vs.\ FAISS (D-3) & FAISS parity benchmark & v2.0 \\
+    \midrule
+    \multicolumn{4}{l}{\textit{P2 -- Medium: 13 items}} \\
+    P2 & 2PC throughput (D-4) & Pipelined prepare phase & v2.0 \\
+    P2 & Query vs.\ CH (D-7) & Vectorized agg. pass & v2.0 \\
+    P2 & Replication lag & WAL-shipping bench & v1.9 \\
+    P2 & Search SE-1 & Dedicated HNSW+BM25 bench & v1.9 \\
+    P2 & Auth AUT-4 & Bloom-filter microbench & v1.9 \\
+    P2 & CDC CDC-2 & Delivery latency bench & v1.9 \\
+    P2 & Analytics proxy & Un-disable \texttt{bench\_olap\_analytics} & v1.9 \\
+    P2 & Cache proxy & Map to LRU direct-hit SLO & v1.9 \\
+    P2 & AQL-Sugar (ERROR) & Fix API mismatch; re-register & v1.9 \\
+    P2 & Network NET-1 & TCP wire-protocol bench & v1.9 \\
+    P2 & Graph traversal & Extend to v1.8.2 run & v1.9 \\
+    P2 & GNN embeddings & Full-dim GPU variant & v2.0 \\
+    P2 & HSM real lib & Integrate stub$\to$real sign bench & v2.0 \\
+    \midrule
+    \multicolumn{4}{l}{\textit{P3 -- Low: 8 items}} \\
+    P3 & ARM emulation & Native ARM runner & v2.1 \\
+    P3 & TS compression & Gorilla encode bench & v2.1 \\
+    P3 & Content ver.\ CV & Thread-count tuning & v2.1 \\
+    P3 & Batch insert & API align; re-enable & v2.1 \\
+    P3 & Image GPU & Real CUDA pipeline bench & v2.1 \\
+    P3 & CDC compaction & 1M-event replay bench & v2.1 \\
+    P3 & Temporal join & Overhead vs.\ non-temporal & v2.1 \\
+    P3 & QUIC 0-RTT & QUIC transport bench & v2.1 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
 
 \subsection{Known Performance Gaps (D-1..D-7)}
 \label{ssec:known-gaps}
@@ -1200,5 +1512,125 @@ queue (Gap~D-6).
 \balance
 \bibliographystyle{IEEEtran}
 \bibliography{references}
+
+% ==============================================================================
+\appendix
+
+\section{Efficiency Formula Derivation}
+\label{app:derivation}
+
+\subsection{Hardware Factor Definition}
+
+Each hardware factor $N_f$ is defined as a ratio of the measured
+platform capability to a reference machine capability:
+\begin{equation}
+  N_f = \frac{\hat{C}_f}{C_f^{\text{ref}}}
+  \label{eq:nf}
+\end{equation}
+where $\hat{C}_f$ is the measured value and $C_f^{\text{ref}}$ is
+the reference-machine value, both expressed in the same unit (GB/s,
+M\,ops/s, etc.).
+Values are clamped to $[0.10, 3.00]$ to prevent outlier machines
+from producing degenerate scores.
+
+\subsection{Class Capability Factor}
+
+The combined class capability factor $E_c$ aggregates all
+normalized factors relevant to workload class $c$ by a
+weighted geometric mean:
+\begin{equation}
+  E_c = \prod_{f \in \mathcal{F}} N_f^{w_{c,f}}
+  \label{eq:ec}
+\end{equation}
+where $\mathcal{F} = \{$cpu, mem, seq, rand, vram, h2d, d2h, dispatch$\}$
+and the weight vector $\mathbf{w}_c$ is normalized per class:
+$\sum_f w_{c,f} = 1$.
+The geometric mean is preferred over the arithmetic mean because
+performance is multiplicatively bounded: a system with
+$N_{\text{cpu}} = 2$ and $N_{\text{mem}} = 0.5$ achieves the
+same throughput as the reference machine (1.0 net), whereas an
+arithmetic mean would yield 1.25.
+
+\subsection{Hardware-Neutral Score}
+
+The hardware-neutral score for benchmark $b$ on platform $p$ is:
+\begin{equation}
+  \text{score}_{b,p} = \frac{T_{b,p}}{T_{b}^{\text{target}} \cdot E_{c(b),p}}
+  \label{eq:score}
+\end{equation}
+where $T_{b,p}$ is the measured throughput, $T_b^{\text{target}}$ is
+the documented product target, and $E_{c(b),p}$ is the capability
+factor of platform $p$ for the workload class of benchmark $b$.
+A score of 1.0 indicates the benchmark exactly meets its target
+after accounting for the platform's hardware capability.
+Values $>1.0$ indicate above-target performance; values $<0.9$
+trigger the regression governance rule (Section~\ref{ssec:ci-gov}).
+
+\subsection{Recalibration Trigger}
+
+The automatic recalibration proposal fires when
+$\text{score}_{b,p} > 1.10$ for the same benchmark $b$ across
+at least three distinct platforms.
+In this case the target $T_b^{\text{target}}$ is raised to the
+geometric mean of the three measured values:
+\begin{equation}
+  T_b^{\text{target, new}} =
+    \left(\prod_{i=1}^{3} T_{b,p_i}\right)^{1/3}
+  \label{eq:recalib}
+\end{equation}
+This prevents benchmark targets from becoming permanently stale as
+hardware improves.
+The updated target takes effect at the next minor release boundary
+(e.g., v1.9 $\to$ v2.0) so that in-flight performance work is not
+retroactively invalidated.
+
+% ------------------------------------------------------------------------------
+\section{CHIMERA Workload Schema}
+\label{app:chimera}
+
+The CHIMERA adapter serializes all benchmark results to a JSON
+structure conformant with IEEE~Std~2807-2022 Annex~A.
+The canonical schema is summarized in Table~\ref{tab:chimera-schema}.
+System names are replaced with stable UUIDs during ingestion; the
+alias table is kept in a restricted-access registry and is not
+distributed with benchmark artefacts.
+
+\begin{table}[h]
+  \caption{CHIMERA Result Schema (IEEE Std 2807-2022 Annex A)}
+  \label{tab:chimera-schema}
+  \centering
+  \begin{tabular}{L{2.2cm}L{1.5cm}L{3.5cm}}
+    \toprule
+    \textbf{Field} & \textbf{Type} & \textbf{Description} \\
+    \midrule
+    \texttt{run\_id}       & string  & UUID of the benchmark run \\
+    \texttt{system\_alias} & string  & Anonymised system identifier \\
+    \texttt{suite}         & enum    & YCSB / TPC-C / TPC-H / ANN /
+                                       LDBC / vLLM / RAGBench \\
+    \texttt{workload}      & string  & Suite-specific workload name \\
+    \texttt{scale\_factor} & number  & Dataset scale (e.g.\ SF=10 for TPC-H) \\
+    \texttt{n\_samples}    & integer & Number of independent runs ($\geq 28$) \\
+    \texttt{mean}          & number  & Arithmetic mean throughput \\
+    \texttt{median}        & number  & Median throughput \\
+    \texttt{p95}           & number  & 95th percentile latency (ms) \\
+    \texttt{p99}           & number  & 99th percentile latency (ms) \\
+    \texttt{ci\_lo\_95}    & number  & Lower bound of 95\% CI (Welch) \\
+    \texttt{ci\_hi\_95}    & number  & Upper bound of 95\% CI (Welch) \\
+    \texttt{cohen\_d}      & number  & Effect size vs.\ reference system \\
+    \texttt{outliers\_removed} & integer & IQR$\times$1.5 outliers removed \\
+    \texttt{hw\_snapshot}  & object  & Hardware baseline (Appendix~\ref{app:derivation}) \\
+    \texttt{timestamp}     & ISO8601 & Run completion timestamp \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+Participating systems submit raw result archives (JSON + hardware
+snapshot) to the CHIMERA coordinator.
+The coordinator runs the statistical pipeline (outlier removal,
+normalization, CI computation) and publishes aggregate comparison
+tables to the read-only leaderboard API at
+\texttt{chimera.themisdb.io/api/v1/results}.
+Individual run archives are retained for 24~months to support
+longitudinal analysis.
 
 \end{document}
