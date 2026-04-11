@@ -18255,6 +18255,48 @@ else()
 endif()
 
 # ============================================================================
+# NCCL/RCCL mergeTopK integration tests — Issue v1.9.0
+# Covers:
+#   Section A: CPU-side merge algorithm simulation (worldSize ∈ {2,4,8}, k ∈ {10,100,256})
+#   Section B: NCCLVectorBackend single-rank path (k ∈ {10,100,256}); skipped without NCCL HW
+#   Section C: RCCLVectorBackend single-rank path (k ∈ {10,100,256}); skipped without RCCL HW
+# ============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/acceleration/test_nccl_merge_topk.cpp")
+    message(STATUS "Adding NCCL/RCCL mergeTopK integration tests (acceleration, v1.9.0)")
+
+    add_executable(test_nccl_merge_topk_focused
+        acceleration/test_nccl_merge_topk.cpp
+    )
+
+    target_include_directories(test_nccl_merge_topk_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_nccl_merge_topk_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_nccl_merge_topk_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME NCCLMergeTopKFocusedTests
+        COMMAND test_nccl_merge_topk_focused)
+
+    set_tests_properties(NCCLMergeTopKFocusedTests PROPERTIES
+        LABELS "acceleration;nccl;rccl;merge-topk;multi-gpu;v1.9.0;integration"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  NCCLMergeTopK: simulation (13 tests, no HW), NCCL single-rank (6 tests), RCCL single-rank (6 tests)")
+else()
+    message(STATUS "NCCL/RCCL mergeTopK tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/acceleration/test_nccl_merge_topk.cpp")
+endif()
+
+# ============================================================================
 # VecKnnInsertPipeline – PERF-D3 parallel batch insert + SIMD distance tests
 # Covers: simd_l2_sq, simd_batch_l2_sq, DistanceCache, VecKnnInsertPipeline
 # Issue: PERF-D3 – Vector Insert: Parallel Insertion, SIMD Distance 600k/s
