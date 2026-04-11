@@ -27,6 +27,8 @@
 #include <chrono>
 #include <string>
 #include <vector>
+#include <thread>
+#include <atomic>
 
 #include "storage/key_schema.h"
 #include "storage/rocksdb_wrapper.h"
@@ -534,6 +536,149 @@ TEST(MetadataCacheUniqueFlagTest, UniqueIndex_EnforcedViaCache) {
     // Second put with same email must be rejected (unique constraint)
     auto st2 = idx.put("accounts", BaseEntity::fromFields("acc2", f2));
     EXPECT_FALSE(st2.ok) << "Duplicate unique-index value should be rejected";
+
+    db.close();
+}
+
+// ────────────────────────────────────────────────────────────────────────────
+// ConcurrentUniqueLücke fix tests
+//
+// These tests verify that the Concurrent-Unique-Lücke fix (using
+// TransactionWrapper::getForUpdate for unique-index sentinel locking) correctly
+// enforces unique constraints in the transactional (MVCC) put path.
+// ────────────────────────────────────────────────────────────────────────────
+
+// CU-1: Transaction overload enforces single-column unique constraint
+//       (sequential: commit, then attempt duplicate in a new transaction).
+TEST(ConcurrentUniqueLückeTest, TxnUnique_SingleColumn_SequentialReject) {
+    RocksDBWrapper::Config cfg;
+    cfg.db_path = makeTempDbPath("vccdb_cu1_");
+    cfg.enable_blobdb = false;
+    RocksDBWrapper db(cfg);
+    ASSERT_TRUE(db.open());
+    SecondaryIndexManager idx(db);
+
+    ASSERT_TRUE(idx.createIndex("users", "email", /*unique=*/true).ok);
+    SecondaryIndexMetadataCache::instance().invalidate("users");
+
+    // First transaction: insert email=x@y.com under pk=u1
+    {
+        auto txn = db.beginTransaction();
+        ASSERT_NE(txn, nullptr);
+        BaseEntity::FieldMap f1{{"email", std::string("x@y.com")}};
+        auto st = idx.put("users", BaseEntity::fromFields("u1", f1), *txn);
+        ASSERT_TRUE(st.ok) << "First txn put should succeed: " << st.message;
+        ASSERT_TRUE(txn->commit()) << "First txn commit should succeed";
+    }
+
+    // Second transaction: attempt to insert same email under pk=u2 — must be rejected
+    {
+        auto txn = db.beginTransaction();
+        ASSERT_NE(txn, nullptr);
+        BaseEntity::FieldMap f2{{"email", std::string("x@y.com")}};
+        auto st = idx.put("users", BaseEntity::fromFields("u2", f2), *txn);
+        EXPECT_FALSE(st.ok) << "Duplicate unique-index value must be rejected in txn path";
+        txn->rollback();
+    }
+
+    db.close();
+}
+
+// CU-2: Transaction overload enforces composite unique constraint
+//       (sequential: commit, then attempt duplicate in a new transaction).
+TEST(ConcurrentUniqueLückeTest, TxnUnique_Composite_SequentialReject) {
+    RocksDBWrapper::Config cfg;
+    cfg.db_path = makeTempDbPath("vccdb_cu2_");
+    cfg.enable_blobdb = false;
+    RocksDBWrapper db(cfg);
+    ASSERT_TRUE(db.open());
+    SecondaryIndexManager idx(db);
+
+    ASSERT_TRUE(idx.createCompositeIndex("orders", {"tenant", "order_no"}, /*unique=*/true).ok);
+    SecondaryIndexMetadataCache::instance().invalidate("orders");
+
+    // First transaction: insert (tenant=acme, order_no=42) under pk=o1
+    {
+        auto txn = db.beginTransaction();
+        ASSERT_NE(txn, nullptr);
+        BaseEntity::FieldMap f1{{"tenant", std::string("acme")}, {"order_no", std::string("42")}};
+        auto st = idx.put("orders", BaseEntity::fromFields("o1", f1), *txn);
+        ASSERT_TRUE(st.ok) << "First composite txn put should succeed: " << st.message;
+        ASSERT_TRUE(txn->commit());
+    }
+
+    // Second transaction: attempt same (tenant, order_no) under pk=o2 — must be rejected
+    {
+        auto txn = db.beginTransaction();
+        ASSERT_NE(txn, nullptr);
+        BaseEntity::FieldMap f2{{"tenant", std::string("acme")}, {"order_no", std::string("42")}};
+        auto st = idx.put("orders", BaseEntity::fromFields("o2", f2), *txn);
+        EXPECT_FALSE(st.ok) << "Duplicate composite unique value must be rejected in txn path";
+        txn->rollback();
+    }
+
+    db.close();
+}
+
+// CU-3: Concurrent transactions — at most one transaction may commit with a
+//       given unique value.  The sentinel getForUpdate lock ensures that two
+//       transactions racing to insert the same unique value result in exactly
+//       one success and at least one failure (conflict or unique violation).
+TEST(ConcurrentUniqueLückeTest, TxnUnique_Concurrent_OnlyOneCommits) {
+    RocksDBWrapper::Config cfg;
+    cfg.db_path = makeTempDbPath("vccdb_cu3_");
+    cfg.enable_blobdb = false;
+    RocksDBWrapper db(cfg);
+    ASSERT_TRUE(db.open());
+    SecondaryIndexManager idx(db);
+
+    ASSERT_TRUE(idx.createIndex("accounts", "ssn", /*unique=*/true).ok);
+    SecondaryIndexMetadataCache::instance().invalidate("accounts");
+
+    std::atomic<int> success_count{0};
+    std::atomic<int> failure_count{0};
+
+    // Barrier so both threads start as simultaneously as possible
+    std::atomic<bool> go{false};
+
+    auto worker = [&](const std::string& pk) {
+        while (!go.load(std::memory_order_acquire)) { /* spin */ }
+
+        auto txn = db.beginTransaction();
+        if (!txn) { failure_count.fetch_add(1, std::memory_order_relaxed); return; }
+
+        BaseEntity::FieldMap fields{{"ssn", std::string("123-45-6789")}};
+        auto st = idx.put("accounts", BaseEntity::fromFields(pk, fields), *txn);
+        if (!st.ok) {
+            txn->rollback();
+            failure_count.fetch_add(1, std::memory_order_relaxed);
+            return;
+        }
+        if (txn->commit()) {
+            success_count.fetch_add(1, std::memory_order_relaxed);
+        } else {
+            failure_count.fetch_add(1, std::memory_order_relaxed);
+        }
+    };
+
+    std::thread t1(worker, "acc_a");
+    std::thread t2(worker, "acc_b");
+
+    go.store(true, std::memory_order_release);
+    t1.join();
+    t2.join();
+
+    // Exactly one transaction must have committed; the unique index must be
+    // clean (no two different PKs holding the same SSN value).
+    EXPECT_EQ(success_count.load(), 1)
+        << "Exactly one concurrent transaction should commit the unique value";
+    EXPECT_GE(failure_count.load(), 1)
+        << "At least one concurrent transaction must be rejected";
+
+    // Verify the committed state: only one row with ssn=123-45-6789 exists
+    auto [st, results] = idx.scanKeysEqual("accounts", "ssn", "123-45-6789");
+    EXPECT_EQ(results.size(), 1u)
+        << "Unique index must contain exactly one entry after concurrent inserts";
 
     db.close();
 }

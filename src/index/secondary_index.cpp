@@ -3795,6 +3795,16 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 				uniqueIndex = isUniqueIndex_(table, col);
 			}
 			if (uniqueIndex) {
+				// Fix Concurrent-Unique-Lücke (ACID): acquire an exclusive lock on a
+				// sentinel key that identifies this (table, col, value) triple.  The
+				// lock is held until the transaction commits or rolls back, serializing
+				// all concurrent transactions that try to insert the same unique value.
+				// Without this, two transactions could both pass the db_.scanPrefix
+				// check, both commit, and yield a duplicate unique-index entry.
+				const std::string sentinelKey = std::string("uidx:") + std::string(table) + ":" + col + ":" + encodedVal;
+				if (!txn.getForUpdate(sentinelKey)) {
+					return Status::Error("Unique constraint write conflict: " + std::string(table) + "." + col + " = " + *maybe + " (concurrent transaction holds lock)");
+				}
 				// Prüfe ob bereits ein anderer PK mit diesem Wert existiert
 				std::string prefix = std::string("idx:") + std::string(table) + ":" + col + ":" + encodedVal + ":";
 				bool conflict = false;
@@ -3855,6 +3865,26 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 			
 			// Unique-Constraint prüfen für Composite Index
 			if (isUniqueCompositeIndex_(table, columns)) {
+				// Fix Concurrent-Unique-Lücke (ACID): lock a composite sentinel key
+				// derived from (table, columns, values) to serialize concurrent writes
+				// of the same unique composite value across transactions.
+				std::string compositeSentinel = std::string("uidx:") + std::string(table) + ":";
+				for (size_t i = 0; i < columns.size(); ++i) {
+					if (i > 0) compositeSentinel += "+";
+					compositeSentinel += columns[i];
+				}
+				for (const auto& v : values) {
+					compositeSentinel += ":";
+					compositeSentinel += encodeKeyComponent(v);
+				}
+				if (!txn.getForUpdate(compositeSentinel)) {
+					std::string valueStr;
+					for (size_t i = 0; i < values.size(); ++i) {
+						if (i > 0) valueStr += ", ";
+						valueStr += columns[i] + "=" + values[i];
+					}
+					return Status::Error("Unique constraint write conflict: " + std::string(table) + ".{" + valueStr + "} (concurrent transaction holds lock)");
+				}
 				// Prüfe ob bereits ein anderer PK mit dieser Wertekombination existiert
 				std::string prefix = makeCompositeIndexPrefix(table, columns, values);
 				bool conflict = false;
