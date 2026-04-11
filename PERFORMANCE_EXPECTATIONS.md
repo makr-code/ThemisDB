@@ -1091,9 +1091,9 @@ DLL-PATH-Konfiguration benoetigt: `build-msvc-ninja-release/cmake` + `build-msvc
 | 2 | Complex WHERE | ✅ | `artifacts/perf_nv/query_complex_where.json` | BM_ComplexWhere: 0,2183 ms |
 | 3 | JOIN (Users-Posts) | ✅ | `artifacts/perf_nv/query_join_users_posts.json` | BM_JoinUsersPosts: 0,9755 ms |
 | 4 | SecondaryIndexBench/RawWriteOnly | ✅ | `artifacts/perf_nv/core_performance.json` | RawWriteOnly: 162.620 ns / 749,6 k/s (Ziel: 500 k/s ✅) |
-| 5 | L2Distance/1000/512 | ✅ | `artifacts/perf_nv/vector_search.json` | BM_VectorSearch_efSearch/32/10: 18,86 ms |
-| 6 | CosineDistance/1000/512 | ✅ | `artifacts/perf_nv/vector_search.json` | BM_VectorSearch_efSearch/128/10: 19,99 ms |
-| 7 | TopK/5000/50 | ✅ | `artifacts/perf_nv/vector_search.json` | BM_VectorInsert_Batch100/128: 5,17 ms |
+| 5 | L2Distance/1000/512 | ✅ | `artifacts/perf_nv/index_l2distance_1000_512.json` | BM_L2Distance_1000_512: 0,0719 ms, 13.904 qps |
+| 6 | CosineDistance/1000/512 | ✅ | `artifacts/perf_nv/index_cosine_1000_512.json` | BM_CosineDistance_1000_512: 0,8105 ms, 1.234 qps |
+| 7 | TopK/5000/50 | ✅ | `artifacts/perf_nv/index_topk_5000_50.json` | BM_TopK_5000_50: 3,0651 ms, 326 qps |
 | 8 | C-4 Warmup Throughput | ❌ | — | `bench_adaptive_query_cache`: CRASH (STATUS_STACK_BUFFER_OVERRUN) |
 | 9 | INSERT 1 KB | ⚠️ | `artifacts/perf_nv/storage_performance.json` | Benchmark enthaelt Allocator/Memory/RCU, NICHT Storage-INSERT (Scope-Delta) |
 | 10 | READ 1 KB | ⚠️ | `artifacts/perf_nv/storage_performance.json` | wie Zeile 9 |
@@ -1133,7 +1133,7 @@ Legende: ✅ gemessen | ⚠️ Scope-Delta oder Teilmessung | ❌ nicht messbar 
 | P1 | Storage CRUD (Run-Plan 9-13) | ✅ CRUD-Cases implementiert: `BM_StorageInsert` (~300 ops/s WAL-on), `BM_StorageRead` (~1.6M ops/s cached), `BM_StorageUpdate` (~300 ops/s WAL-on), `BM_SustainedWrite/16` (~2.4k ops/s), `BM_PointReadP99` (P99=1us, 20k samples) | `INSERT/READ/UPDATE/SustainedWrite/PointReadP99` implementiert auf `RocksDBWrapper::put()/get()` | `bench_hotspots_micro` + Artifact `artifacts/perf_nv/storage_crud_wave2.json` | ✅ Alle 5 CRUD-Cases laufen, Baseline-Artefakt gespeichert | 5 JSON-Ergebnisse in `storage_crud_wave2.json` mit 1:1-Namensmapping |
 | P1 | TS-6 Downsampling Throughput (Run-Plan 17) | ✅ BM_DownsamplingThroughput: 1.9M pts/s, 60×1-min Buckets, P99=44µs/Bucket | ~~Downsampling-Benchmark fehlt~~ implementiert via RocksDBWrapper bucketed scan | `bench_timeseries_ingestion` (neu CMake-registriert) | ✅ BM_DownsamplingThroughput standalone-implementiert; TimeSeriesStore-Fixture-Doppel-Open-Bug gefixt | `timeseries_downsampling_throughput.json` mit 1.906M pts/s, P99-Bucket=44µs |
 | P1 | AN-3 / AN-4 Exporters 1M | ✅ Gemessen: An-3 Parquet 125.98k items/s (32.2 MB/s, 9.47 sec/1M), AN-4 CSV 128.26k items/s (32.8 MB/s, 9.09 sec/1M) | Batched export throughput mit JSONL-Proxy etabliert (100x10K entities) | `bench_exporters` | ✅ BM_Export_Parquet_1M + BM_Export_CSV_1M implementiert; beide Benchmarks kompilieren und laufen | ✅ Artefakte: `exporters_1m_throughput.json` + `exporters_csv_1m_final.json`; Durchsatz-Baseline dokumentiert (WAVE2_P1_EXPORTERS_SUMMARY.md) |
-| P2 | Index L2/Cosine/TopK | ⚠️ aus `BM_VectorSearch_efSearch`/Insert-Proxies abgeleitet | Exakte Distanz- und TopK-Cases gem. Erwartungstabelle | `bench_vector_search` | Case-Namen/Parameter auf `L2Distance/1000/512`, `CosineDistance/1000/512`, `TopK/5000/50` ausrichten | 3 JSON-Artefakte mit 1:1-Zielnamen |
+| P2 | Index L2/Cosine/TopK | ✅ Exakte Cases implementiert: `BM_L2Distance_1000_512`, `BM_CosineDistance_1000_512`, `BM_TopK_5000_50` | 1:1-Abdeckung inkl. eigener Artefakte erreicht | `bench_vector_search` | ✅ Registrierungen + Messlauf + JSON-Ausgabe pro Zielfall abgeschlossen | `index_l2distance_1000_512.json`, `index_cosine_1000_512.json`, `index_topk_5000_50.json` |
 | P2 | Graph Run-Plan 19-20 | ⚠️ final nur BFS-Proxy vorhanden | Sparse Edge Addition + Dense Neighbor Query als eigene Cases | `bench_graph_traversal` | Laufzeitfreundliche, dedizierte Cases fuer 19 und 20 definieren | `graph_sparse_edge_addition.json` + `graph_dense_neighbor_query.json` |
 
 Reihenfolge fuer Umsetzung in Welle 2:
@@ -1291,9 +1291,9 @@ Benchmark-Code: `BM_QueryMix_Historical`, `BM_QueryMix_Historical_P99` in `bench
 | Medium Index Insert (100K) |  500 k/s |   | 1,06 M/s | n/v |  |
 | Large Index Lookup (1M) |  1 M/s |   | 3,12 M/s | n/v |  |
 | Composite Index Lookup |  1 M/s |   | 2,40 M/s | n/v |  |
-| L2Distance/1000/512 |  250 k/s | 313 k/s (3.200 ns) |  | Proxy: `BM_VectorSearch_efSearch/32/10` 18,86 ms |  ⚠️ nicht 1:1 Distanz-Benchcase |
-| CosineDistance/1000/512 |  200 k/s | 250 k/s (4.000 ns) |  | Proxy: `BM_VectorSearch_efSearch/128/10` 19,99 ms |  ⚠️ nicht 1:1 Distanz-Benchcase |
-| TopK/5000/50 |  10 M/s | 12,5 M/s (400 ns) |  | Proxy: `BM_VectorInsert_Batch100/128` 5,17 ms |  ⚠️ Insert-Proxy statt TopK-Case |
+| L2Distance/1000/512 |  250 k/s | 313 k/s (3.200 ns) |  | BM_L2Distance_1000_512: 13,9 k/s (0,0719 ms) |  ✅ 1:1 Case vorhanden, Performance unter Ziel |
+| CosineDistance/1000/512 |  200 k/s | 250 k/s (4.000 ns) |  | BM_CosineDistance_1000_512: 1,23 k/s (0,8105 ms) |  ✅ 1:1 Case vorhanden, Performance unter Ziel |
+| TopK/5000/50 |  10 M/s | 12,5 M/s (400 ns) |  | BM_TopK_5000_50: 326/s (3,065 ms) |  ✅ 1:1 Case vorhanden, Performance unter Ziel |
 | HNSW Vektor-Suche (CPU) |  5.000 QPS |  |  | n/v |  |
 | HNSW Vektor-Suche (GPU RTX-class) |  50.000 QPS |  |  | n/v |  |
 | B-Tree Point-Lookup P99 (10M Keys) | < 500  |  |  | n/v |  |
