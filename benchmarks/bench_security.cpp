@@ -59,6 +59,7 @@
 #include <openssl/rand.h>
 
 #include <algorithm>
+#include <filesystem>
 #include <memory>
 #include <random>
 #include <string>
@@ -85,6 +86,12 @@ std::string random_string(std::size_t n) {
     for (char& c : s)
         c = kAlpha[dist(rng)];
     return s;
+}
+
+std::filesystem::path benchmark_temp_path(const std::string& stem) {
+    auto dir = std::filesystem::temp_directory_path() / "themis_benchmarks";
+    std::filesystem::create_directories(dir);
+    return dir / stem;
 }
 
 // ---------------------------------------------------------------------------
@@ -440,9 +447,11 @@ BENCHMARK(BM_AQLInjection_MaliciousQuery);
 
 static void BM_AuditLog_TamperEvidentAppend(benchmark::State& state) {
     themis::utils::HashChainAuditWriterConfig cfg;
-    cfg.log_path        = "/tmp/bench_security_audit.jsonl";
-    cfg.chain_head_path = "/tmp/bench_security_audit_head.bin";
+    cfg.log_path        = benchmark_temp_path("bench_security_audit.jsonl").string();
+    cfg.chain_head_path = benchmark_temp_path("bench_security_audit_head.bin").string();
     cfg.fsync_on_write  = false;  // disable fsync for throughput benchmark
+    std::filesystem::remove(cfg.log_path);
+    std::filesystem::remove(cfg.chain_head_path);
     themis::utils::HashChainAuditWriter writer(cfg);
 
     nlohmann::json ev;
@@ -461,9 +470,11 @@ BENCHMARK(BM_AuditLog_TamperEvidentAppend);
 
 static void BM_AuditLog_BatchAppend_100(benchmark::State& state) {
     themis::utils::HashChainAuditWriterConfig cfg;
-    cfg.log_path        = "/tmp/bench_security_audit_batch.jsonl";
-    cfg.chain_head_path = "/tmp/bench_security_audit_batch_head.bin";
+    cfg.log_path        = benchmark_temp_path("bench_security_audit_batch.jsonl").string();
+    cfg.chain_head_path = benchmark_temp_path("bench_security_audit_batch_head.bin").string();
     cfg.fsync_on_write  = false;
+    std::filesystem::remove(cfg.log_path);
+    std::filesystem::remove(cfg.chain_head_path);
     themis::utils::HashChainAuditWriter writer(cfg);
 
     nlohmann::json ev;

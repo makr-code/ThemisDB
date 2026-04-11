@@ -1477,11 +1477,22 @@ void HashChainAuditWriter::loadOrInitChainHead(const std::string& chain_seed) {
     if (fs::exists(cfg_.chain_head_path)) {
         try {
             std::ifstream ifs(cfg_.chain_head_path);
-            nlohmann::json j;
-            ifs >> j;
-            last_hash_ = j.value("last_hash", std::string(64, '0'));
-            seq_       = j.value("seq", uint64_t{0});
-            return;
+            std::string content((std::istreambuf_iterator<char>(ifs)), std::istreambuf_iterator<char>());
+            if (!content.empty() && content.front() == '{') {
+                auto j = nlohmann::json::parse(content);
+                last_hash_ = j.value("last_hash", std::string(64, '0'));
+                seq_       = j.value("seq", uint64_t{0});
+                return;
+            }
+
+            std::istringstream iss(content);
+            std::string hash_line;
+            uint64_t seq = 0;
+            if (std::getline(iss, hash_line) && (iss >> seq)) {
+                last_hash_ = hash_line.empty() ? std::string(64, '0') : hash_line;
+                seq_ = seq;
+                return;
+            }
         } catch (...) {
             // Fall through to re-initialise on corrupted file.
         }
@@ -1495,19 +1506,18 @@ void HashChainAuditWriter::loadOrInitChainHead(const std::string& chain_seed) {
         last_hash_ = std::string(64, '0');
     }
     seq_ = 0;
-    saveChainHead();
 }
 
 void HashChainAuditWriter::saveChainHead() {
-    namespace fs = std::filesystem;
     try {
-        auto path = fs::path(cfg_.chain_head_path);
-        fs::create_directories(path.parent_path());
+        if (!chain_head_stream_.is_open()) {
+            throw std::runtime_error("chain head stream is not open");
+        }
 
-        nlohmann::json j = {{"last_hash", last_hash_}, {"seq", seq_}};
-        std::ofstream ofs(cfg_.chain_head_path, std::ios::trunc);
-        ofs << j.dump();
-        ofs.close();
+        chain_head_stream_.seekp(0);
+        chain_head_stream_.clear();
+        chain_head_stream_ << last_hash_ << '\n' << seq_ << '\n';
+        chain_head_stream_.flush();
 
 #ifndef _WIN32
         if (cfg_.fsync_on_write) {
@@ -1528,12 +1538,26 @@ HashChainAuditWriter::HashChainAuditWriter(HashChainAuditWriterConfig cfg,
                                            const std::string& chain_seed)
     : cfg_(std::move(cfg))
 {
-    loadOrInitChainHead(chain_seed);
-    // Ensure log directory exists.
     namespace fs = std::filesystem;
     try {
         fs::create_directories(fs::path(cfg_.log_path).parent_path());
+        fs::create_directories(fs::path(cfg_.chain_head_path).parent_path());
     } catch (...) {}
+
+    loadOrInitChainHead(chain_seed);
+
+    chain_head_stream_.open(cfg_.chain_head_path,
+                            std::ios::in | std::ios::out | std::ios::binary | std::ios::trunc);
+    if (!chain_head_stream_.is_open()) {
+        THEMIS_ERROR("HashChainAuditWriter: failed to open chain head file {}", cfg_.chain_head_path);
+    } else {
+        saveChainHead();
+    }
+
+    log_stream_.open(cfg_.log_path, std::ios::app | std::ios::binary);
+    if (!log_stream_.is_open()) {
+        THEMIS_ERROR("HashChainAuditWriter: failed to open log file {}", cfg_.log_path);
+    }
 }
 
 HashChainAuditWriter::~HashChainAuditWriter() = default;
@@ -1554,8 +1578,16 @@ void HashChainAuditWriter::write(nlohmann::json record) {
 
     // Append record to log file.
     try {
-        std::ofstream ofs(cfg_.log_path, std::ios::app | std::ios::binary);
-        ofs << record_json << '\n';
+        if (!log_stream_.is_open()) {
+            log_stream_.open(cfg_.log_path, std::ios::app | std::ios::binary);
+        }
+        if (!log_stream_.is_open()) {
+            throw std::runtime_error("log stream is not open");
+        }
+        log_stream_ << record_json << '\n';
+        if (cfg_.fsync_on_write) {
+            log_stream_.flush();
+        }
     } catch (const std::exception& e) {
         THEMIS_ERROR("HashChainAuditWriter: failed to append log to {}: {}",
                      cfg_.log_path, e.what());

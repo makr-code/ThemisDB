@@ -483,6 +483,8 @@ public:
 private:
     HashChainAuditWriterConfig cfg_;
     mutable std::mutex         mu_;
+    std::ofstream              log_stream_;
+    std::fstream               chain_head_stream_;
     std::string                last_hash_;
     uint64_t                   seq_{0};
 
