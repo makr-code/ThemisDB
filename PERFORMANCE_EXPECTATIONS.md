@@ -80,7 +80,7 @@ Typ-Kennung in ┬º39: **[M]** = gemessen ┬À **[Z]** = Ziel ┬À **[I]** = 
 |---|---|---|---|---|
 | Query | QueryEngineBench/SimpleEvaluation = 796,44 M/s | >= 750 M items/s | Gruen | KPI erreicht, aber unter Kernziel 900 M/s |
 | Index | VectorIndexBench/InsertPlaintext = 548,7 k/s | >= 280 k/s | Gruen | Sekundaerindex ebenfalls ueber Modulziel 180 k/s |
-| Cache | C-1 Proxy = 5,851 M ops/s | >= 5 M ops/s/Core | Gruen | Proxy aus `BM_EmbeddingCache_Query_WithIndex/100000` |
+| Cache | C-1 Proxy = 5,851 M ops/s; C-4 = 443 k Entries/s (10k/4 workers) | >= 5 M ops/s/Core; >= 500 k Entries/s | Gelb | C-1 ueber Ziel, C-4 messbar aber noch unter Ziel |
 | Storage | RawWrite WAL On (8) = 1,276 k/s | >= 100.000 ops/s (Sustained Write NVMe) | Rot | Deutlich unter dokumentiertem Sustained-Write-Ziel |
 | Analytics | OLAP-Proxies vorhanden | keine 1:1 AN-Zielmetrik gemessen | Gelb | Durchsatzwerte verfuegbar, Zielmapping weiterhin ausstehend |
 | Timeseries | TS-1 = 61,00 M pts/s; TS-9 Proxy = 1,5 us | > 500 k pts/s; < 10 ms | Gruen | Beide Referenzen klar im Ziel |
@@ -1094,7 +1094,7 @@ DLL-PATH-Konfiguration benoetigt: `build-msvc-ninja-release/cmake` + `build-msvc
 | 5 | L2Distance/1000/512 | ✅ | `artifacts/perf_nv/index_l2distance_1000_512.json` | BM_L2Distance_1000_512: 0,0719 ms, 13.904 qps |
 | 6 | CosineDistance/1000/512 | ✅ | `artifacts/perf_nv/index_cosine_1000_512.json` | BM_CosineDistance_1000_512: 0,8105 ms, 1.234 qps |
 | 7 | TopK/5000/50 | ✅ | `artifacts/perf_nv/index_topk_5000_50.json` | BM_TopK_5000_50: 3,0651 ms, 326 qps |
-| 8 | C-4 Warmup Throughput | ❌ | — | `bench_adaptive_query_cache`: CRASH (STATUS_STACK_BUFFER_OVERRUN) |
+| 8 | C-4 Warmup Throughput | ⚠️ | `artifacts/perf_nv/cache_warmup_throughput.json` | BM_WarmupFromLog/10000/4: 443.077 Entries/s; BM_WarmupFromLog/100000/2: 336.842 Entries/s |
 | 9 | INSERT 1 KB | ⚠️ | `artifacts/perf_nv/storage_performance.json` | Benchmark enthaelt Allocator/Memory/RCU, NICHT Storage-INSERT (Scope-Delta) |
 | 10 | READ 1 KB | ⚠️ | `artifacts/perf_nv/storage_performance.json` | wie Zeile 9 |
 | 11 | UPDATE 1 KB | ⚠️ | `artifacts/perf_nv/storage_performance.json` | wie Zeile 9 |
@@ -1314,7 +1314,7 @@ Benchmark-Code: `BM_QueryMix_Historical`, `BM_QueryMix_Historical_P99` in `bench
 | C-1 L1 Hit-Path |  5 M ops/s/Core (16-Thread) |  | 5,851 M ops/s (`BM_EmbeddingCache_Query_WithIndex/100000`, Proxy) |  |
 | C-2 L2 Hit-Path |  500 k ops/s |  | n/v |  |
 | C-3 L3 Hit-Path P99 |  5 ms |  | n/v |  |
-| C-4 Warmup Throughput |  500 k Entries/s |  | n/v |  |
+| C-4 Warmup Throughput |  500 k Entries/s |  | 443 k Entries/s (`BM_WarmupFromLog/10000/4`) |  🟡 messbar, noch unter Ziel |
 | C-5 Admin-API Response |  5 ms |  | n/v |  |
 | C-6 Prefetch Latenz |  100 /Call |  | n/v |  |
 | C-7 Prefetch Overfetch |  10 % |  | n/v |  |
