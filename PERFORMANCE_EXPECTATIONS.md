@@ -889,7 +889,7 @@ Regel:
 | TS-6 Downsampling Throughput | `benchmarks/bench_timeseries_ingestion.cpp` | `build-msvc-ninja-release/benchmarks/bench_timeseries_ingestion.exe --benchmark_out=artifacts/perf_nv/timeseries_downsampling_throughput.json --benchmark_out_format=json` | `artifacts/perf_nv/timeseries_downsampling_throughput.json` |
 | TS-7 Storage Reduction | `benchmarks/bench_gorilla_codec.cpp` | `build-msvc-ninja-release/benchmarks/bench_gorilla_codec.exe --benchmark_out=artifacts/perf_nv/timeseries_storage_reduction.json --benchmark_out_format=json` | `artifacts/perf_nv/timeseries_storage_reduction.json` |
 | TS-10 Gorilla Insert P99 | `benchmarks/bench_timeseries_ingestion.cpp` | `build-msvc-ninja-release/benchmarks/bench_timeseries_ingestion.exe --benchmark_out=artifacts/perf_nv/timeseries_gorilla_insert_p99.json --benchmark_out_format=json` | `artifacts/perf_nv/timeseries_gorilla_insert_p99.json` |
-| TS-11 AES-256-GCM Throughput | `benchmarks/bench_security.cpp` | `build-msvc-ninja-release/benchmarks/bench_security.exe --benchmark_out=artifacts/perf_nv/timeseries_aes256_gcm_throughput.json --benchmark_out_format=json` | `artifacts/perf_nv/timeseries_aes256_gcm_throughput.json` |
+| TS-11 AES-256-GCM Throughput | `benchmarks/bench_security.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_security.exe --benchmark_out=artifacts/perf_nv/timeseries_aes256_gcm_throughput.json --benchmark_out_format=json` | `artifacts/perf_nv/timeseries_aes256_gcm_throughput.json` |
 
 #### Graph
 
@@ -915,6 +915,7 @@ Definition:
 1. `sofort messbar`: Benchmark-Datei und passender Themenbezug sind vorhanden; der Fall kann ohne neue Quelldatei angegangen werden.
 2. `erweitern`: Benchmark-Datei existiert, aber der konkrete Expectation-Case ist sehr wahrscheinlich noch als eigener Benchcase zu ergaenzen.
 3. `neu anlegen`: Es gibt noch keinen belastbaren primaeren Benchcase; neue Benchmark-Implementierung ist erforderlich.
+4. `runtime blocker`: Benchmark-Binary ist vorhanden oder ableitbar, aber Ausfuehrung scheitert aktuell an Laufzeitabhaengigkeiten (z. B. fehlende DLLs).
 
 Sofort messbar, hohe Prioritaet:
 
@@ -937,7 +938,7 @@ Sofort messbar, hohe Prioritaet:
 | Analytics | AN-4 CSV Export 1M Rows | `benchmarks/bench_exporters.cpp` | sofort messbar | 15 |
 | Timeseries | TS-2 Gorilla Decode Throughput | `benchmarks/bench_gorilla_codec.cpp` | sofort messbar | 16 |
 | Timeseries | TS-6 Downsampling Throughput | `benchmarks/bench_timeseries_ingestion.cpp` | sofort messbar | 17 |
-| Timeseries | TS-11 AES-256-GCM Throughput | `benchmarks/bench_security.cpp` | sofort messbar | 18 |
+| Timeseries | TS-11 AES-256-GCM Throughput | `benchmarks/bench_security.cpp` | runtime blocker | 18 |
 | Graph | Sparse Graph Edge Addition | `benchmarks/bench_graph_traversal.cpp` | sofort messbar | 19 |
 | Graph | Dense Graph Neighbor Query | `benchmarks/bench_graph_traversal.cpp` | sofort messbar | 20 |
 | Graph | Graph BFS Traversal (Depth-3) | `benchmarks/bench_graph_traversal.cpp` | sofort messbar | 21 |
