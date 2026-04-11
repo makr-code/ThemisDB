@@ -1158,10 +1158,16 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(std::s
 		SecondaryIndexMetadataCache::IndexMetadata metadata;
 		metadata.regular_indexes = std::vector<std::string>(indexedCols.begin(), indexedCols.end());
 		metadata.range_indexes = std::vector<std::string>(rangeCols.begin(), rangeCols.end());
+		for (const auto& col : metadata.regular_indexes) {
+			metadata.regular_unique[col] = isUniqueIndex_(table, col);
+		}
 		
 		// Load other index types too
 		auto sparseCols = loadSparseIndexedColumns_(table);
 		metadata.sparse_indexes = std::vector<std::string>(sparseCols.begin(), sparseCols.end());
+		for (const auto& col : metadata.sparse_indexes) {
+			metadata.sparse_unique[col] = isSparseIndexUnique_(table, col);
+		}
 		auto geoCols = loadGeoIndexedColumns_(table);
 		metadata.geo_indexes = std::vector<std::string>(geoCols.begin(), geoCols.end());
 		auto ttlCols = loadTTLIndexedColumns_(table);
@@ -1172,6 +1178,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(std::s
 		for (const auto& [col, pred] : partialColsMap) {
 			metadata.partial_indexes.push_back(col);
 			metadata.partial_predicates[col] = pred;
+			metadata.partial_unique[col] = isPartialIndexUnique_(table, col);
 		}
 		
 		cache.set(table, metadata);
@@ -1189,7 +1196,14 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(std::s
 			const std::string encodedVal = encodeKeyComponent(*maybe);
 			
 			// Unique-Constraint prüfen
-			if (isUniqueIndex_(table, col)) {
+			bool uniqueIndex = false;
+			if (cachedMetadata) {
+				auto it = cachedMetadata->regular_unique.find(col);
+				uniqueIndex = (it != cachedMetadata->regular_unique.end()) ? it->second : isUniqueIndex_(table, col);
+			} else {
+				uniqueIndex = isUniqueIndex_(table, col);
+			}
+			if (uniqueIndex) {
 				// Prüfe ob bereits ein anderer PK mit diesem Wert existiert
 				std::string prefix = std::string("idx:") + std::string(table) + ":" + col + ":" + encodedVal + ":";
 				bool conflict = false;
@@ -1308,7 +1322,14 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(std::s
 		const std::string encodedVal = encodeKeyComponent(*maybe);
 		
 		// Unique-Constraint prüfen für Sparse Index
-		if (isSparseIndexUnique_(table, scol)) {
+		bool sparseUnique = false;
+		if (cachedMetadata) {
+			auto it = cachedMetadata->sparse_unique.find(scol);
+			sparseUnique = (it != cachedMetadata->sparse_unique.end()) ? it->second : isSparseIndexUnique_(table, scol);
+		} else {
+			sparseUnique = isSparseIndexUnique_(table, scol);
+		}
+		if (sparseUnique) {
 			std::string prefix = makeSparseIndexKey(table, scol, encodedVal, "");
 			bool conflict = false;
 			db_.scanPrefix(prefix, [&pk, &conflict](std::string_view key, std::string_view /*val*/) {
@@ -1445,7 +1466,14 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(std::s
 			const std::string encodedVal = encodeKeyComponent(*maybe);
 
 			// Unique-Constraint prüfen
-			if (isPartialIndexUnique_(table, pcol)) {
+			bool partialUnique = false;
+			if (cachedMetadata) {
+				auto it = cachedMetadata->partial_unique.find(pcol);
+				partialUnique = (it != cachedMetadata->partial_unique.end()) ? it->second : isPartialIndexUnique_(table, pcol);
+			} else {
+				partialUnique = isPartialIndexUnique_(table, pcol);
+			}
+			if (partialUnique) {
 				const std::string checkPrefix = makePartialIndexPrefix(table, pcol, encodedVal);
 				bool conflict = false;
 				db_.scanPrefix(checkPrefix, [&pk, &conflict](std::string_view key, std::string_view) {
@@ -3667,10 +3695,16 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 		SecondaryIndexMetadataCache::IndexMetadata metadata;
 		metadata.regular_indexes = std::vector<std::string>(indexedCols.begin(), indexedCols.end());
 		metadata.range_indexes   = std::vector<std::string>(rangeCols.begin(), rangeCols.end());
+		for (const auto& col : metadata.regular_indexes) {
+			metadata.regular_unique[col] = isUniqueIndex_(table, col);
+		}
 
 		// Load other index types too for future calls
 		auto sparseColsLoad = loadSparseIndexedColumns_(table);
 		metadata.sparse_indexes = std::vector<std::string>(sparseColsLoad.begin(), sparseColsLoad.end());
+		for (const auto& col : metadata.sparse_indexes) {
+			metadata.sparse_unique[col] = isSparseIndexUnique_(table, col);
+		}
 		auto geoColsLoad = loadGeoIndexedColumns_(table);
 		metadata.geo_indexes = std::vector<std::string>(geoColsLoad.begin(), geoColsLoad.end());
 		auto ttlColsLoad = loadTTLIndexedColumns_(table);
@@ -3681,6 +3715,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 		for (const auto& [col, pred] : partialColsLoad) {
 			metadata.partial_indexes.push_back(col);
 			metadata.partial_predicates[col] = pred;
+			metadata.partial_unique[col] = isPartialIndexUnique_(table, col);
 		}
 
 		cache.set(table, metadata);
@@ -3698,7 +3733,14 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 			const std::string encodedVal = encodeKeyComponent(*maybe);
 			
 			// Unique-Constraint prüfen
-			if (isUniqueIndex_(table, col)) {
+			bool uniqueIndex = false;
+			if (cachedMetadata) {
+				auto it = cachedMetadata->regular_unique.find(col);
+				uniqueIndex = (it != cachedMetadata->regular_unique.end()) ? it->second : isUniqueIndex_(table, col);
+			} else {
+				uniqueIndex = isUniqueIndex_(table, col);
+			}
+			if (uniqueIndex) {
 				// Prüfe ob bereits ein anderer PK mit diesem Wert existiert
 				std::string prefix = std::string("idx:") + std::string(table) + ":" + col + ":" + encodedVal + ":";
 				bool conflict = false;
@@ -3816,7 +3858,14 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 		const std::string encodedVal = encodeKeyComponent(*maybe);
 		
 		// Unique-Constraint prüfen für Sparse Index
-		if (isSparseIndexUnique_(table, scol)) {
+		bool sparseUnique = false;
+		if (cachedMetadata) {
+			auto it = cachedMetadata->sparse_unique.find(scol);
+			sparseUnique = (it != cachedMetadata->sparse_unique.end()) ? it->second : isSparseIndexUnique_(table, scol);
+		} else {
+			sparseUnique = isSparseIndexUnique_(table, scol);
+		}
+		if (sparseUnique) {
 			std::string prefix = makeSparseIndexKey(table, scol, encodedVal, "");
 			bool conflict = false;
 			db_.scanPrefix(prefix, [&pk, &conflict](std::string_view key, std::string_view /*val*/) {
@@ -3954,7 +4003,14 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 			const std::string encodedVal = encodeKeyComponent(*maybe);
 
 			// Unique-Constraint prüfen
-			if (isPartialIndexUnique_(table, pcol)) {
+			bool partialUnique = false;
+			if (cachedMetadata) {
+				auto it = cachedMetadata->partial_unique.find(pcol);
+				partialUnique = (it != cachedMetadata->partial_unique.end()) ? it->second : isPartialIndexUnique_(table, pcol);
+			} else {
+				partialUnique = isPartialIndexUnique_(table, pcol);
+			}
+			if (partialUnique) {
 				const std::string checkPrefix = makePartialIndexPrefix(table, pcol, encodedVal);
 				bool conflict = false;
 				db_.scanPrefix(checkPrefix, [&pk, &conflict](std::string_view key, std::string_view) {
