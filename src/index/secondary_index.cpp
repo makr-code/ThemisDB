@@ -1512,11 +1512,11 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(std
 
 	// Helper: load a column-name set from cache or DB.
 	auto getIndexedCols = [&]() -> std::unordered_set<std::string> {
-		if (cachedMetadata) return {cachedMetadata->regular_indexes.begin(), cachedMetadata->regular_indexes.end()};
+		if (cachedMetadata) return cachedMetadata->regular_indexes_set;
 		return loadIndexedColumns_(table);
 	};
 	auto getRangeCols = [&]() -> std::unordered_set<std::string> {
-		if (cachedMetadata) return {cachedMetadata->range_indexes.begin(), cachedMetadata->range_indexes.end()};
+		if (cachedMetadata) return cachedMetadata->range_indexes_set;
 		return loadRangeIndexedColumns_(table);
 	};
 	auto getSparseCols = [&]() -> std::unordered_set<std::string> {
@@ -4099,11 +4099,11 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(
 	auto cachedMetadata = cache.get(table);
 
 	auto getIndexedCols = [&]() -> std::unordered_set<std::string> {
-		if (cachedMetadata) return {cachedMetadata->regular_indexes.begin(), cachedMetadata->regular_indexes.end()};
+		if (cachedMetadata) return cachedMetadata->regular_indexes_set;
 		return loadIndexedColumns_(table);
 	};
 	auto getRangeCols = [&]() -> std::unordered_set<std::string> {
-		if (cachedMetadata) return {cachedMetadata->range_indexes.begin(), cachedMetadata->range_indexes.end()};
+		if (cachedMetadata) return cachedMetadata->range_indexes_set;
 		return loadRangeIndexedColumns_(table);
 	};
 	auto getSparseCols = [&]() -> std::unordered_set<std::string> {
