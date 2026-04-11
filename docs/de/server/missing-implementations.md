@@ -1,6 +1,6 @@
 # Server Module – Fehlende Implementierungen
 
-**Stand:** 2026-03-11  
+**Stand:** 2026-04-09  
 **Modul:** `src/server/` / `include/server/`  
 **Geprüft anhand:** Commit `ea7db4d` (Branch `copilot/implement-redis-backend-rate-limiter-v2`)  
 **Methodik:** Source-Code-Scan gegen Behauptungen in `src/server/ROADMAP.md`, `src/server/FUTURE_ENHANCEMENTS.md` und `include/server/README.md`
@@ -17,6 +17,7 @@
 | 4 | ✅ Gelöst | Distributed API Gateway | `server/distributed_gateway.cpp`, `include/server/distributed_gateway.h` | Implementiert in PR: `DistributedGateway` mit Raft-Config-Sync, ConsistentHashRing, Failover |
 | 5 | ✅ Gelöst | WebAssembly Handler Registry | `server/wasm_handler_registry.cpp`, `include/server/wasm_handler_registry.h` | Implementiert (v2.1.0): Upload, List, Get, Delete, Invoke-Endpoints; WASI-Sandbox via `WasmPluginSandbox`; CPU-Zeitlimit (500 ms), Speicher-Cap (64 MB) |
 | 6 | ℹ️ Info | PostgreSQL Wire: Advanced Features | Vollständige PG-Kompatibilität | `postgres_session.cpp` (1929 LOC) – ROADMAP warnt explizit: „partial compatibility" |
+| 7 | ✅ Gelöst | MQTT Client TLS | `mqtt_client_service.cpp` mit `ssl::stream<tcp::socket>` via `THEMIS_ENABLE_MQTT_TLS` | Implementiert (v1.10.0): `doHandshake()`, CA-Verify, mutual TLS, SNI, 15 Tests |
 
 ---
 
