@@ -3543,6 +3543,57 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_pii_stream_scanner.cpp")
 endif()
 
 # ============================================================================
+# Timeseries Ingestion & Downsampling benchmarks (TS-6, Run-Plan 17)
+# Validates acceptance criteria:
+#   - Gorilla compression round-trip throughput
+#   - Time-range query performance at various range sizes
+#   - DownsamplingThroughput: 1-min bucket aggregation over 3600-pt 1-hour dataset
+# ============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_timeseries_ingestion.cpp")
+    message(STATUS "Adding Timeseries Ingestion & Downsampling benchmarks (TS-6)")
+
+    add_executable(bench_timeseries_ingestion
+        bench_timeseries_ingestion.cpp
+    )
+
+    target_include_directories(bench_timeseries_ingestion PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(bench_timeseries_ingestion PRIVATE
+        themis_core
+        ${BENCHMARK_LIBS}
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_timeseries_ingestion PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(bench_timeseries_ingestion PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_timeseries_ingestion
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  DownsamplingThroughput: 1-min bucketed aggregation, 3600 pts/iter, throughput in pts/s")
+endif()
+
+# ============================================================================
 # Timeseries Adaptive Flush benchmarks (PERF-D1)
 # Validates acceptance criteria:
 #   - Sustained ≥500k pts/s single- and multi-threaded TSAutoBuffer::add()
