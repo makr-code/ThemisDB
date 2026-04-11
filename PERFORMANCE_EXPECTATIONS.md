@@ -115,14 +115,14 @@ Typ-Kennung in ┬º39: **[M]** = gemessen ┬À **[Z]** = Ziel ┬À **[I]** = 
 | Security | Teilabdeckung | Security-Artefakt mit AES/RBAC/PQ/FIPS/AQL/Audit vorhanden; FieldEncryption/FieldDecryption aktuell nicht enthalten |
 | Scheduler | Teilabdeckung | Benchmarks vorhanden, aber kein vollstaendiger v1.8.2-Ziellauf |
 | Ingestion | Teilabdeckung | Benchmarks vorhanden, aber heterogene Workloads ohne einheitliche Zielabbildung |
-| Governance | Fehlende Build-Artefakte | Policy-/Governance-Bench-Dateien nicht als lauffaehige Targets im aktuellen Buildoutput |
+| Governance | Teilabdeckung | Governance-Bench-Targets sind buildbar vorhanden (z. B. `bench_governance_policy_latency`, `bench_compliance_security_governance`), aber Ziel-SLO-Abdeckung im Report noch unvollstaendig |
 | Observability | Teilabdeckung | Metrics/Logging-Benchmarks vorhanden, Zielmetriken nicht vollstaendig 1:1 gemessen |
 | Process | Teilabdeckung | Benchmarks vorhanden, aber keine vollstaendige Zielabdeckung in v1.8.2 |
 | Voice | Feature-Gating | `bench_voice_assistant` ist an `THEMIS_ENABLE_VOICE_ASSISTANT` gebunden und aktuell nicht gebaut |
 | ONNX-CLIP | Teilabdeckung | Image/ONNX-Benchmarks vorhanden, aber keine durchgaengige Zieltabellen-Abdeckung |
 | Chimera | Struktur-Luecke | Eigene Suite/Baselines vorhanden, aber kein einheitlicher nativer Modul-Benchmarkpfad im selben Schema |
 | Prompt Engineering | Teilabdeckung | Benchmark vorhanden, jedoch ohne vollstaendige Ziel-SLO-Abbildung |
-| Ethics AI | Fehlende Build-Artefakte/disabled Pfade | Ethics-Bench-Dateien vorhanden, aber im aktuellen Build nicht vollstaendig als lauffaehige Targets |
+| Ethics AI | Teilabdeckung / Feature-Gating | Ethics-Bench-Target vorhanden (`bench_rag_ethics`), jedoch Ergebnislage und Zielzuordnung im Report noch unvollstaendig |
 | System-Level (TPC/YCSB) | Deaktiviert | `bench_tpcc`/`bench_ycsb` registrieren disabled-Varianten statt produktiver Workloads |
 
 #### 1.3.1 Technische Hauptgruende (konsolidiert)
