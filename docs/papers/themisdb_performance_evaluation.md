@@ -245,9 +245,9 @@ Random I/O ($N_\text{rand} = 1.0$) is fully saturated, meaning OLTP workloads ar
 
 All scores exceed 1.0, confirming above-target performance relative to hardware capability.
 
-### 5.4.1 Hardware Factor Expectation Matrix (v0)
+### 5.5 Hardware Factor Correlation Matrix (v0)
 
-**Table 10 — Hardware Factor Expectation Matrix (v0) — H=High, M=Medium, L=Low, 0=Negligible**
+**Table 10 — Hardware Factor Correlation Matrix (v0) — H=High, M=Medium, L=Low, 0=Negligible**
 
 | Class | $N_\text{cpu}$ | $N_\text{mem}$ | $N_\text{seq}$ | $N_\text{rand}$ | $N_\text{vram}$ | $N_\text{h2d}$ | $N_\text{d2h}$ | $N_\text{disp}$ |
 |---|---|---|---|---|---|---|---|---|
@@ -258,9 +258,9 @@ All scores exceed 1.0, confirming above-target performance relative to hardware 
 | LLM GPU | L | M | 0 | 0 | H | H | L | M |
 | Mixed CPU+GPU | M | M | 0 | 0 | M | M | M | M |
 
-### 5.5 Raw Benchmark Details
+### 5.6 Raw Benchmark Details
 
-#### 5.5.1 Allocator Performance
+#### 5.6.1 Allocator Performance
 
 **ThemisDB** ships a custom allocator (themis-malloc, inspired by mimalloc). Table 11 compares wall-clock throughput against the system allocator on the v1.8.1-rc2 build (Windows x64, MSVC Release, benchmark `bench_storage_performance`).
 
@@ -275,7 +275,7 @@ All scores exceed 1.0, confirming above-target performance relative to hardware 
 
 The 8–21× allocator speedup is consistent with the mimalloc free-list sharding approach and is a primary enabler of the high OLTP throughput reported in §5.1.
 
-#### 5.5.2 WAL Scaling with Thread Count
+#### 5.6.2 WAL Scaling with Thread Count
 
 **Table 12 — Storage Hotspot Scaling (`bench_hotspots_micro`, v1.3.4)**
 
@@ -288,7 +288,7 @@ The 8–21× allocator speedup is consistent with the mimalloc free-list shardin
 
 WAL-ON throughput scales approximately linearly up to 8 threads (+13% at 8T vs. 1T) but degrades −25% at 16 threads due to log-group-commit contention. WAL-OFF saturates at 16T. Mixed 80/20 read-write and secondary-index writes exhibit near-linear scaling through 16 threads.
 
-#### 5.5.3 Vector Distance Kernel Throughput
+#### 5.6.3 Vector Distance Kernel Throughput
 
 **Table 13 — Distance Kernel Throughput (AVX2, v1.3.4)**
 
@@ -306,7 +306,7 @@ WAL-ON throughput scales approximately linearly up to 8 threads (+13% at 8T vs. 
 
 Throughput decreases roughly as $1/d$ for small *d* and asymptotes toward a bandwidth-limited regime around *d* = 512. Geo operations run at much higher throughput because they use scalar arithmetic on two-dimensional coordinate pairs rather than full *d*-dimensional dot products.
 
-#### 5.5.4 Graph Query Optimizer
+#### 5.6.4 Graph Query Optimizer
 
 **Table 14 — Graph Query Optimizer (v1.8.1-rc2)**
 
@@ -321,7 +321,7 @@ Throughput decreases roughly as $1/d$ for small *d* and asymptotes toward a band
 
 Plan generation is sub-microsecond (≤ 246 ns) and is cache-resident after the first execution. BFS execution time grows super-linearly with depth (3,214 ns at depth 2 vs. 13,241 ns at depth 4), reflecting the exponential fan-out of the traversal frontier.
 
-#### 5.5.5 AQL Function Benchmarks
+#### 5.6.5 AQL Function Benchmarks
 
 **Table 15 — AQL Function Benchmark Highlights (v1.3.4)**
 
@@ -346,7 +346,7 @@ Plan generation is sub-microsecond (≤ 246 ns) and is cache-resident after the 
 
 **Subquery EXISTS.** The LIMIT 1 early-exit optimisation eliminates essentially all per-row work (short-circuit). Without LIMIT 1 the cost grows linearly: 147 k/s at 10 K rows, 14.7 k/s at 100 K rows.
 
-#### 5.5.6 Graph Traversal Scaling
+#### 5.6.6 Graph Traversal Scaling
 
 **Table 16 — BFS Traversal Throughput: v1.3.3 vs v1.8.1-rc2**
 
@@ -362,7 +362,7 @@ Plan generation is sub-microsecond (≤ 246 ns) and is cache-resident after the 
 
 Both versions exhibit O(n) scaling at fixed depth. The v1.8.1-rc2 build shows a slight regression at 10,000 nodes/depth 4 (+15% latency) but a +26% improvement at 1,000 nodes/depth 4, suggesting improved cache locality for medium-sized graphs.
 
-#### 5.5.7 Image Analysis Latency
+#### 5.6.7 Image Analysis Latency
 
 **Table 17 — Image Analysis Latency Distribution (v1.3.4)**
 
@@ -382,7 +382,7 @@ Key findings:
 - Image resolution increases from 224 px to 1024 px raise median embedding latency 3.6× (1.975 ms → 6.007 ms), consistent with an O(r²) pixel-scan dependency.
 - Captioning at 384 px incurs a 9× overhead vs. embedding (P50 = 22 ms), due to the additional transformer decode pass.
 
-#### 5.5.8 MVCC Transactions and Lock Contention
+#### 5.6.8 MVCC Transactions and Lock Contention
 
 **Table 18 — MVCC and Lock-Contention Benchmarks (v1.3.3)**
 
@@ -403,7 +403,7 @@ MVCC single-entity commit runs at 7.1 k/s (4.07 ms/tx); snapshot isolation impos
 
 Lock contention exhibits a bimodal profile: disjoint-key workloads scale near-linearly up to 8 threads (61.6 k/s) but collapse at 16 threads (15.3 k/s) due to RocksDB write-group-commit congestion. This pattern directly corroborates Gap D-6 (concurrency CV > 20%). Overlapping-key contention is 3.3× slower than disjoint even at a single thread (4.43 k/s vs. 14.4 k/s), consistent with lock-convoy formation on high-contention key ranges.
 
-#### 5.5.9 2PC Shard-Count Scaling
+#### 5.6.9 2PC Shard-Count Scaling
 
 **Table 19 — 2PC Shard-Count Scaling (v1.3.4)**
 
@@ -416,7 +416,7 @@ Lock contention exhibits a bimodal profile: disjoint-key workloads scale near-li
 
 Commit latency is essentially flat at 46 ms regardless of shard count because the latency is dominated by the coordinator's synchronous fsync, not by fan-out RPC overhead. Throughput halves from 6.4 k/s to 1.6 k/s as shard count doubles from 4 to 8, then halves again to 1.28 k/s at 16 shards, indicating a linear fan-out bottleneck in the coordinator's parallel-prepare phase. Gap D-4 (target 15 k/s) therefore requires both batched commits and a pipelined prepare phase to eliminate the fsync bottleneck.
 
-### 5.6 Regression Overview v1.3.0 → v1.3.4
+### 5.7 Regression Overview v1.3.0 → v1.3.4
 
 **Table 20 — Regression Summary v1.3.0 → v1.3.4**
 
@@ -433,7 +433,7 @@ Commit latency is essentially flat at 46 ms regardless of shard count because th
 
 Several regressions marked *critical* are attributable to intentional infrastructure changes (per-test temporary directories, single-transaction-per-put RocksDB semantics) rather than production code path changes. This distinction is documented in `PERFORMANCE_COMPARISON_V1.3.0_VS_V1.3.3.md`.
 
-### 5.7 CHIMERA Vendor-Neutral Comparison
+### 5.8 CHIMERA Vendor-Neutral Comparison
 
 **Table 21 — CHIMERA Query Throughput Comparison (95% CI, Welch's t)**
 
@@ -596,7 +596,7 @@ The governance framework operates on `score_hw_neutral` rather than raw throughp
 
 **Proxy benchmarks.** Twelve of the 29 benchmark gaps are proxy-only measurements, meaning the measured code path does not directly correspond to the documented SLO metric. The `score_hw_neutral` values derived from proxy benchmarks carry higher uncertainty and are labeled *proxy* in all tables.
 
-**CHIMERA anonymisation.** The anonymised vendor comparison (§5.7) uses system aliases to comply with IEEE Std 2807-2022 neutrality requirements. The mapping between aliases and actual systems is not disclosed; readers should treat comparative scores as indicative rather than definitive.
+**CHIMERA anonymisation.** The anonymised vendor comparison (§5.8) uses system aliases to comply with IEEE Std 2807-2022 neutrality requirements. The mapping between aliases and actual systems is not disclosed; readers should treat comparative scores as indicative rather than definitive.
 
 ---
 
