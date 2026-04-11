@@ -1098,6 +1098,44 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_storage_performance.cpp")
     message(STATUS "  Storage: mimalloc, huge pages, RCU index")
 endif()
 
+# Storage Hotspot CRUD Benchmarks (Wave-2 P1)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_hotspots_micro.cpp")
+    message(STATUS "Adding Storage Hotspot CRUD benchmarks")
+
+    add_executable(bench_hotspots_micro
+        bench_hotspots_micro.cpp
+    )
+
+    target_link_libraries(bench_hotspots_micro PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_hotspots_micro PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(bench_hotspots_micro PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_hotspots_micro
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  Storage Hotspots: raw write, mixed read/write, secondary index; owner target for Wave-2 CRUD cases")
+endif()
+
 # Random Access with Prefetch Benchmarks (v1.4.1)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_random_access_prefetch.cpp")
     message(STATUS "Adding Random Access Prefetch benchmarks")
