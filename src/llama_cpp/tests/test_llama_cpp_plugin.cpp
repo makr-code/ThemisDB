@@ -2,7 +2,7 @@
  * @file test_llama_cpp_plugin.cpp
  * @brief Unit tests for the llama_cpp LLM plugin
  *
- * Test suite: LlamaCppPluginFocusedTests (30 tests)
+ * Test suite: LlamaCppPluginFocusedTests (50 tests)
  *   Group A (3)  – loadModel: succeeds, double-load, unload
  *   Group B (3)  – getModelInfo: before/after load, model_id
  *   Group C (3)  – isModelLoaded: initially false, after load, after unload
@@ -13,10 +13,20 @@
  *   Group H (3)  – LoRA: duplicate id replaced, unload nonexistent returns false
  *   Group I (3)  – getCapabilities: supports_lora, supports_embeddings, plugin_version
  *   Group J (3)  – getMemoryStats / getPerformanceStats keys and inference_count
+ *   Group K (5)  – generateStream: callback invoked, no callback path, uninit error,
+ *                  callback exception swallowed, response text matches
+ *   Group L (5)  – generateBatch: empty input, single request, multiple requests,
+ *                  error propagation, order preserved
+ *   Group M (4)  – capabilities v2.1.0: supports_streaming, supports_batching,
+ *                  plugin_version, getPluginVersion()
+ *   Group N (6)  – registrar: createPlugin stub/config, defaultReloadCallback,
+ *                  reload with empty path, generate after registrar load,
+ *                  InferenceResponse trace_id/span_id echo
  */
 
 #include <gtest/gtest.h>
 #include "llama_cpp/llama_cpp_plugin.h"
+#include "llama_cpp/llama_cpp_registrar.h"
 #include <nlohmann/json.hpp>
 
 using namespace themis::llamacpp;
@@ -223,7 +233,7 @@ TEST(LlamaCppPluginFocusedTests, I2_SupportsEmbeddings) {
 
 TEST(LlamaCppPluginFocusedTests, I3_PluginVersion) {
     LlamaCppPlugin p;
-    EXPECT_EQ(p.getCapabilities().plugin_version, "2.0.0");
+    EXPECT_EQ(p.getCapabilities().plugin_version, "2.1.0");
 }
 
 // ── Group J – stats ───────────────────────────────────────────────────────────
@@ -248,4 +258,191 @@ TEST(LlamaCppPluginFocusedTests, J2_PerformanceStatsContainsInferenceCount) {
 TEST(LlamaCppPluginFocusedTests, J3_PluginNameInMemoryStats) {
     LlamaCppPlugin p;
     EXPECT_EQ(p.getMemoryStats()["plugin"].get<std::string>(), "llama_cpp");
+}
+
+// ── Group K – generateStream ──────────────────────────────────────────────────
+
+TEST(LlamaCppPluginFocusedTests, K1_StreamCallbackInvokedOnSuccess) {
+    LlamaCppPlugin p;
+    p.loadModel("", {});
+    InferenceRequest req;
+    req.prompt = "stream test";
+    std::vector<std::string> tokens;
+    const auto resp = p.generateStream(req,
+        [&tokens](const std::string& t) { tokens.push_back(t); });
+    EXPECT_TRUE(resp.success);
+    EXPECT_FALSE(tokens.empty());
+}
+
+TEST(LlamaCppPluginFocusedTests, K2_GenerateStreamResponseTextNotEmpty) {
+    LlamaCppPlugin p;
+    p.loadModel("", {});
+    InferenceRequest req;
+    req.prompt = "hello";
+    const auto resp = p.generateStream(req, [](const std::string&) {});
+    EXPECT_FALSE(resp.text.empty());
+}
+
+TEST(LlamaCppPluginFocusedTests, K3_GenerateStreamUninitReturnsError) {
+    LlamaCppPlugin p;
+    InferenceRequest req;
+    req.prompt = "test";
+    bool cb_called = false;
+    const auto resp = p.generateStream(req,
+        [&cb_called](const std::string&) { cb_called = true; });
+    EXPECT_FALSE(resp.success);
+    EXPECT_FALSE(cb_called);
+}
+
+TEST(LlamaCppPluginFocusedTests, K4_StreamCallbackExceptionSwallowed) {
+    LlamaCppPlugin p;
+    p.loadModel("", {});
+    InferenceRequest req;
+    req.prompt = "boom";
+    // Callback that throws — should not propagate to caller
+    EXPECT_NO_THROW({
+        p.generateStream(req, [](const std::string&) {
+            throw std::runtime_error("intentional");
+        });
+    });
+}
+
+TEST(LlamaCppPluginFocusedTests, K5_StreamCallbackTokenMatchesGenerateText) {
+    LlamaCppPlugin p;
+    p.loadModel("", {});
+    InferenceRequest req;
+    req.prompt = "compare";
+    std::string streamed;
+    const auto stream_resp = p.generateStream(req,
+        [&streamed](const std::string& t) { streamed += t; });
+    const auto direct_resp = p.generate(req);
+    EXPECT_EQ(stream_resp.text, direct_resp.text);
+    EXPECT_EQ(streamed, direct_resp.text);
+}
+
+// ── Group L – generateBatch ───────────────────────────────────────────────────
+
+TEST(LlamaCppPluginFocusedTests, L1_BatchEmptyInputReturnsEmpty) {
+    LlamaCppPlugin p;
+    p.loadModel("", {});
+    EXPECT_TRUE(p.generateBatch({}).empty());
+}
+
+TEST(LlamaCppPluginFocusedTests, L2_BatchSingleRequestReturnsOneResponse) {
+    LlamaCppPlugin p;
+    p.loadModel("", {});
+    InferenceRequest req;
+    req.prompt = "single";
+    const auto results = p.generateBatch({req});
+    ASSERT_EQ(results.size(), 1u);
+    EXPECT_TRUE(results[0].success);
+}
+
+TEST(LlamaCppPluginFocusedTests, L3_BatchMultipleRequestsPreservesOrder) {
+    LlamaCppPlugin p;
+    p.loadModel("", {});
+    InferenceRequest r1, r2, r3;
+    r1.prompt = "aaaa"; r2.prompt = "bbbb"; r3.prompt = "cccc";
+    const auto results = p.generateBatch({r1, r2, r3});
+    ASSERT_EQ(results.size(), 3u);
+    // Each response text should contain part of the corresponding prompt
+    EXPECT_NE(results[0].text.find("aaaa"), std::string::npos);
+    EXPECT_NE(results[1].text.find("bbbb"), std::string::npos);
+    EXPECT_NE(results[2].text.find("cccc"), std::string::npos);
+}
+
+TEST(LlamaCppPluginFocusedTests, L4_BatchErrorWhenNotLoaded) {
+    LlamaCppPlugin p;
+    InferenceRequest req;
+    req.prompt = "fail";
+    const auto results = p.generateBatch({req});
+    ASSERT_EQ(results.size(), 1u);
+    EXPECT_FALSE(results[0].success);
+}
+
+TEST(LlamaCppPluginFocusedTests, L5_BatchIncreasesInferenceCount) {
+    LlamaCppPlugin p;
+    p.loadModel("", {});
+    InferenceRequest r1, r2;
+    r1.prompt = "x"; r2.prompt = "y";
+    p.generateBatch({r1, r2});
+    const auto stats = p.getPerformanceStats();
+    EXPECT_GE(stats["inference_count"].get<uint64_t>(), 2u);
+}
+
+// ── Group M – capabilities v2.1.0 ────────────────────────────────────────────
+
+TEST(LlamaCppPluginFocusedTests, M1_CapabilitiesSupportsStreaming) {
+    LlamaCppPlugin p;
+    EXPECT_TRUE(p.getCapabilities().supports_streaming);
+}
+
+TEST(LlamaCppPluginFocusedTests, M2_CapabilitiesSupportsBatching) {
+    LlamaCppPlugin p;
+    EXPECT_TRUE(p.getCapabilities().supports_batching);
+}
+
+TEST(LlamaCppPluginFocusedTests, M3_CapabilitiesPluginVersion210) {
+    LlamaCppPlugin p;
+    EXPECT_EQ(p.getCapabilities().plugin_version, "2.1.0");
+}
+
+TEST(LlamaCppPluginFocusedTests, M4_GetPluginVersionMethod) {
+    LlamaCppPlugin p;
+    EXPECT_EQ(p.getPluginVersion(), "2.1.0");
+}
+
+// ── Group N – LlamaCppPluginRegistrar ────────────────────────────────────────
+
+TEST(LlamaCppPluginFocusedTests, N1_RegistrarCreatePluginStubMode) {
+    auto plugin = LlamaCppPluginRegistrar::createPlugin({});
+    ASSERT_NE(plugin, nullptr);
+    // Stub mode: no model_path in config → plugin not loaded
+    EXPECT_FALSE(plugin->isModelLoaded());
+}
+
+TEST(LlamaCppPluginFocusedTests, N2_RegistrarCreatePluginWithEmptyPath) {
+    json cfg; cfg["model_path"] = "";
+    auto plugin = LlamaCppPluginRegistrar::createPlugin(cfg);
+    ASSERT_NE(plugin, nullptr);
+    // Empty path treated the same as stub mode
+    EXPECT_FALSE(plugin->isModelLoaded());
+}
+
+TEST(LlamaCppPluginFocusedTests, N3_RegistrarDefaultReloadCallbackStubMode) {
+    auto cb = LlamaCppPluginRegistrar::defaultReloadCallback();
+    LlamaCppPlugin p;
+    // No model_path → stub success
+    EXPECT_TRUE(cb(p, {}));
+}
+
+TEST(LlamaCppPluginFocusedTests, N4_RegistrarDefaultReloadCallbackWithPath) {
+    auto cb = LlamaCppPluginRegistrar::defaultReloadCallback();
+    LlamaCppPlugin p;
+    json cfg; cfg["model_path"] = "/some/model.gguf";
+    // loadModel with any non-empty path always succeeds in stub mode
+    EXPECT_TRUE(cb(p, cfg));
+    EXPECT_TRUE(p.isModelLoaded());
+}
+
+TEST(LlamaCppPluginFocusedTests, N5_RegistrarCreatePluginSupportsGenerate) {
+    json cfg; cfg["model_path"] = "/stub/m.gguf";
+    auto plugin = LlamaCppPluginRegistrar::createPlugin(cfg);
+    ASSERT_NE(plugin, nullptr);
+    InferenceRequest req; req.prompt = "hello from registrar";
+    const auto resp = plugin->generate(req);
+    EXPECT_TRUE(resp.success);
+}
+
+TEST(LlamaCppPluginFocusedTests, N6_InferenceResponseEchoesTraceContext) {
+    LlamaCppPlugin p;
+    p.loadModel("", {});
+    InferenceRequest req;
+    req.prompt   = "trace test";
+    req.trace_id = "abc123";
+    req.span_id  = "span456";
+    const auto resp = p.generate(req);
+    EXPECT_TRUE(resp.success);
+    EXPECT_EQ(resp.trace_id, "abc123");
+    EXPECT_EQ(resp.span_id,  "span456");
 }
