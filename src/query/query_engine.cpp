@@ -3434,13 +3434,17 @@ QueryEngine::executeGeneralTraversal(
     int minDepth,
     int maxDepth,
     TraversalDirection direction,
-    const std::string& graphId
+    const std::string& graphId,
+    const std::string& edgeTypeFilter
 ) const {
 	auto span = Tracer::startSpan("QueryEngine.executeGeneralTraversal");
 	span.setAttribute("query.start_vertex", startVertex);
 	span.setAttribute("query.min_depth", static_cast<int64_t>(minDepth));
 	span.setAttribute("query.max_depth", static_cast<int64_t>(maxDepth));
 	span.setAttribute("query.graph_id", graphId);
+	if (!edgeTypeFilter.empty()) {
+		span.setAttribute("query.edge_type_filter", edgeTypeFilter);
+	}
 	
 	if (!graphIdx_) {
 		return Err<std::vector<TraversalResult>>(ErrorCode::ERR_INDEX_NOT_FOUND, "GraphIndexManager not available");
@@ -3555,13 +3559,16 @@ QueryEngine::executeGeneralTraversal(
 			}
 		}
 		
-		// Filter by graph ID if specified
+		// Filter by graph ID and optional edge type
 		for (const auto& adj : neighbors) {
 			// Filter by graph ID - adj.graphId contains the graph namespace
-			// Note: Edge type filtering requires access to GraphIndexManager::getEdgeType_()
-			// which is private. For now, we rely on graphId filtering only.
-			// TODO: Add edge type filtering once exposed in TraversalQuery struct
 			if (!graphId.empty() && graphId != "default" && !adj.graphId.empty() && adj.graphId != graphId) {
+				continue;
+			}
+
+			// Edge type filter: adj.graphId doubles as edge type identifier
+			// (same convention as RecursivePathQuery::edge_type).
+			if (!edgeTypeFilter.empty() && !adj.graphId.empty() && adj.graphId != edgeTypeFilter) {
 				continue;
 			}
 			
