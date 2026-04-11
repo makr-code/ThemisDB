@@ -1105,8 +1105,8 @@ DLL-PATH-Konfiguration benoetigt: `build-msvc-ninja-release/cmake` + `build-msvc
 | 16 | TS-2 Gorilla Decode Throughput | ✅ | `artifacts/perf_nv/gorilla_codec.json` | BM_GorillaSIMDDecode_Throughput/100000: 267,1 MB/s decoded |
 | 17 | TS-6 Downsampling Throughput | ✅ | `artifacts/perf_nv/timeseries_downsampling_throughput.json` | BM_DownsamplingThroughput: ~1.9M pts/s, 60 Buckets/iter à 1min, P99-Bucket-Latenz=44µs |
 | 18 | TS-11 AES-256-GCM Throughput | ✅ | `artifacts/perf_nv/security.json` | BM_AES256GCM_Encrypt_1MB: 238.660 ns; BM_FieldEncryption CRASH (ausgefiltert) |
-| 19 | Sparse Graph Edge Addition | ⚠️ | `artifacts/perf_nv/graph_traversal.json` | Nur BFS-Proxy vorhanden; kein direkter Edge-Add-Benchcase in diesem Lauf |
-| 20 | Dense Graph Neighbor Query | ⚠️ | `artifacts/perf_nv/graph_traversal.json` | Kein separater Dense-Neighbor-Benchcase im finalen Lauf |
+| 19 | Sparse Graph Edge Addition | ✅ | `artifacts/perf_nv/graph_sparse_edge_addition.json` | GraphTraversalBenchmarkFixture/SparseEdgeAddition/1000/4: 3,019 ms, 331,27 edges/s |
+| 20 | Dense Graph Neighbor Query | ✅ | `artifacts/perf_nv/graph_dense_neighbor_query.json` | GraphTraversalBenchmarkFixture/DenseNeighborQuery/1000/20: 0,003767 ms, 265.480 qps, 14,74 neighbors/query |
 | 21 | Graph BFS Traversal (Depth-3) | ✅ | `artifacts/perf_nv/graph_traversal.json` | BFSTraversal/100/4: 0,200 ms, 5.738,7 items/s |
 
 Legende: ✅ gemessen | ⚠️ Scope-Delta oder Teilmessung | ❌ nicht messbar (Build-/Runtime-Problem)
@@ -1134,7 +1134,7 @@ Legende: ✅ gemessen | ⚠️ Scope-Delta oder Teilmessung | ❌ nicht messbar 
 | P1 | TS-6 Downsampling Throughput (Run-Plan 17) | ✅ BM_DownsamplingThroughput: 1.9M pts/s, 60×1-min Buckets, P99=44µs/Bucket | ~~Downsampling-Benchmark fehlt~~ implementiert via RocksDBWrapper bucketed scan | `bench_timeseries_ingestion` (neu CMake-registriert) | ✅ BM_DownsamplingThroughput standalone-implementiert; TimeSeriesStore-Fixture-Doppel-Open-Bug gefixt | `timeseries_downsampling_throughput.json` mit 1.906M pts/s, P99-Bucket=44µs |
 | P1 | AN-3 / AN-4 Exporters 1M | ✅ Gemessen: An-3 Parquet 125.98k items/s (32.2 MB/s, 9.47 sec/1M), AN-4 CSV 128.26k items/s (32.8 MB/s, 9.09 sec/1M) | Batched export throughput mit JSONL-Proxy etabliert (100x10K entities) | `bench_exporters` | ✅ BM_Export_Parquet_1M + BM_Export_CSV_1M implementiert; beide Benchmarks kompilieren und laufen | ✅ Artefakte: `exporters_1m_throughput.json` + `exporters_csv_1m_final.json`; Durchsatz-Baseline dokumentiert (WAVE2_P1_EXPORTERS_SUMMARY.md) |
 | P2 | Index L2/Cosine/TopK | ✅ Exakte Cases implementiert: `BM_L2Distance_1000_512`, `BM_CosineDistance_1000_512`, `BM_TopK_5000_50` | 1:1-Abdeckung inkl. eigener Artefakte erreicht | `bench_vector_search` | ✅ Registrierungen + Messlauf + JSON-Ausgabe pro Zielfall abgeschlossen | `index_l2distance_1000_512.json`, `index_cosine_1000_512.json`, `index_topk_5000_50.json` |
-| P2 | Graph Run-Plan 19-20 | ⚠️ final nur BFS-Proxy vorhanden | Sparse Edge Addition + Dense Neighbor Query als eigene Cases | `bench_graph_traversal` | Laufzeitfreundliche, dedizierte Cases fuer 19 und 20 definieren | `graph_sparse_edge_addition.json` + `graph_dense_neighbor_query.json` |
+| P2 | Graph Run-Plan 19-20 | ✅ dedizierte Cases implementiert (`SparseEdgeAddition`, `DenseNeighborQuery`) | 1:1-Abdeckung fuer 19/20 vorhanden | `bench_graph_traversal` | ✅ Registrierungen + Messlauf fuer beide Cases abgeschlossen | `graph_sparse_edge_addition.json` + `graph_dense_neighbor_query.json` |
 
 Reihenfolge fuer Umsetzung in Welle 2:
 
