@@ -712,6 +712,8 @@ set(THEMIS_SECURITY_SOURCES
     ../src/governance/policy_review.cpp
     ../src/governance/policy_file_watcher.cpp
     ../src/governance/soc2_controls.cpp
+    ../src/governance/iso27001_rules.cpp
+    ../src/governance/hipaa_rules.cpp
     
     # PII detection
     ../src/utils/pii_detection_engine.cpp

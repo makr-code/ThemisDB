@@ -5938,7 +5938,43 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_soc2_controls.cpp")
     message(STATUS "  SOC 2 Controls: CC6.1/CC7.2/CC8.1/A1.1/C1.1/PI1.2 controls, evidence collection, Soc2Controls")
 endif()
 
-# Scheduler ÔÇô TaskScheduler auth context propagation focused tests (Issue #98 v1.8.0)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_iso27001_rules.cpp")
+    message(STATUS "Adding ISO 27001 Rules focused tests")
+    add_executable(test_iso27001_rules_focused test_iso27001_rules.cpp)
+    target_link_libraries(test_iso27001_rules_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+    target_compile_definitions(test_iso27001_rules_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME Iso27001RulesFocusedTests COMMAND test_iso27001_rules_focused)
+    set_tests_properties(Iso27001RulesFocusedTests PROPERTIES
+        LABELS "governance;iso27001;compliance;information-security;annex-a;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  ISO 27001 Rules: A.9.1.2 access control, A.10.1.1 cryptography, A.12.4.1 event logging, A.18.1.3 records retention")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_hipaa_rules.cpp")
+    message(STATUS "Adding HIPAA Rules focused tests")
+    add_executable(test_hipaa_rules_focused test_hipaa_rules.cpp)
+    target_link_libraries(test_hipaa_rules_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+    target_compile_definitions(test_hipaa_rules_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME HipaaRulesFocusedTests COMMAND test_hipaa_rules_focused)
+    set_tests_properties(HipaaRulesFocusedTests PROPERTIES
+        LABELS "governance;hipaa;phi;compliance;access-control;audit;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  HIPAA Rules: access control, encryption, audit controls, integrity, transmission security, retention")
+endif()
+
+# Scheduler — TaskScheduler auth context propagation focused tests (Issue #98 v1.8.0)
 if(THEMIS_ENABLE_HTTP_SERVER AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_task_scheduler_auth_context.cpp")
     message(STATUS "Adding TaskScheduler Auth Context focused tests (Issue #98)")
     add_executable(test_task_scheduler_auth_context_focused
