@@ -81,10 +81,10 @@ Typ-Kennung in ┬º39: **[M]** = gemessen ┬À **[Z]** = Ziel ┬À **[I]** = 
 | Query | QueryEngineBench/SimpleEvaluation = 796,44 M/s | >= 750 M items/s | Gruen | KPI erreicht, aber unter Kernziel 900 M/s |
 | Index | VectorIndexBench/InsertPlaintext = 548,7 k/s | >= 280 k/s | Gruen | Sekundaerindex ebenfalls ueber Modulziel 180 k/s |
 | Cache | C-1 Proxy = 5,851 M ops/s; C-4 = 443 k Entries/s (10k/4 workers) | >= 5 M ops/s/Core; >= 500 k Entries/s | Gelb | C-1 ueber Ziel, C-4 messbar aber noch unter Ziel |
-| Storage | RawWrite WAL On (8) = 1,276 k/s | >= 100.000 ops/s (Sustained Write NVMe) | Rot | Deutlich unter dokumentiertem Sustained-Write-Ziel |
-| Analytics | OLAP-Proxies vorhanden | keine 1:1 AN-Zielmetrik gemessen | Gelb | Durchsatzwerte verfuegbar, Zielmapping weiterhin ausstehend |
-| Timeseries | TS-1 = 61,00 M pts/s; TS-9 Proxy = 1,5 us | > 500 k pts/s; < 10 ms | Gruen | Beide Referenzen klar im Ziel |
-| Graph | GraphIndexBench/AddEdges = 1,177 M/s | >= 500 k edges/s | Gruen | Deutlich ueber Ziel |
+| Storage | BM_SustainedWrite/16 = ~2,4 k ops/s | >= 100.000 ops/s (Sustained Write NVMe) | Rot | 1:1-nahe CRUD-Cases vorhanden, aber Sustained-Write klar unter Ziel |
+| Analytics | AN-3/AN-4 direkt gemessen (Parquet/CSV je ~125-128k items/s) | 1M-Export-Ziele 2,0 s / 0,5 s | Rot | Direkte Cases vorhanden, aber Laufzeit fuer beide Exportziele deutlich ueber Ziel |
+| Timeseries | TS-1 = 61,00 M pts/s; TS-6 = 1,906 M pts/s (1-min Aggregate) | > 500 k pts/s; TS-6 > 10 M pts/s | Gelb | TS-1 im Ziel, TS-6 direkt gemessen aber unter Ziel |
+| Graph | SparseEdge = 331 edges/s; DenseNeighbor = 265k qps | >= 500k edges/s; >= 5M qps | Rot | 1:1-Cases fuer 19/20 vorhanden, beide aktuell unter Ziel |
 
 ### 1.3 Ursachenmatrix: fehlende passende Benchmarks (alle Module)
 
@@ -92,14 +92,14 @@ Typ-Kennung in ┬º39: **[M]** = gemessen ┬À **[Z]** = Ziel ┬À **[I]** = 
 
 | Modul | Befund | Hauptursache |
 |---|---|---|
-| Query-Engine | Teilabdeckung | `bench_query.cpp` hat deaktivierte `BENCHMARK(...)`-Registrierung (Timeout-Kommentar), dadurch kein valider Lauf trotz vorhandener Datei |
+| Query-Engine | Gute Abdeckung | Dedizierte 1:1-Cases fuer Run-Plan 1-3 inkl. P99, Skalierung und historischem Querymix vorhanden |
 | Index | Gute Abdeckung | Kernbenchmarks vorhanden und lauffaehig; Luecken v.a. bei Spezialzielen (HNSW/GPU) |
-| Cache | Teilabdeckung | Direkte Zielmetriken fehlen; nur Proxy ueber `bench_embedding_cache_performance` |
-| Storage | Teilabdeckung mit Zielverfehlung | Vorhandene Proxies, aber kein sauberer 1:1-Match fuer alle Storage-SLOs |
-| Analytics | Teilabdeckung | `bench_olap_analytics.cpp` ist explizit als disabled markiert (API-Alignment ausstehend), nur `bench_olap_performance` als Proxy |
+| Cache | Teilabdeckung | C-1 und C-4 sind messbar, aber C-2/C-3/C-5/C-6/C-7 weiterhin ohne dedizierte 1:1-Metrik im Report |
+| Storage | Teilabdeckung mit Zielverfehlung | Dedizierte CRUD-Cases vorhanden, jedoch nicht alle Storage-SLO-Profile (insb. Sustained NVMe/P99-Setup) 1:1 abgebildet |
+| Analytics | Teilabdeckung mit Zielverfehlung | Direkte AN-3/AN-4-Cases vorhanden, weitere AN-Unterziele weiterhin n/v; zudem AN-3/AN-4 unter Ziel |
 | Timeseries | Teilabdeckung | Kernmetriken vorhanden, aber viele Unterziele ohne dedizierten Benchmark |
 | Geo | Teilabdeckung | Bench-Dateien vorhanden, v1.8.2-Lauf fuer Geo-Referenzfaelle bisher nicht ausgefuehrt |
-| Graph | Gute Abdeckung | Kernbenchmark vorhanden, aber nicht alle Graph-Teilziele als v1.8.2 gemessen |
+| Graph | Gute Abdeckung mit Zielverfehlung | Dedizierte Cases fuer Run-Plan 19/20 vorhanden, jedoch beide SLOs aktuell unter Ziel |
 | Acceleration | Stark eingeschraenkt | Viele Benchmarks an CUDA/HIP/GPU-Flags gebunden oder als GPU-disabled Stub registriert |
 | Replication | Teilabdeckung | Benchmarks vorhanden, aber keine vollstaendige Ziel-ID-zu-Benchmark-Zuordnung im Report |
 | Sharding | Teilabdeckung | Benchmarks vorhanden, bisher kein v1.8.2-Ziellauf dokumentiert |
@@ -112,7 +112,7 @@ Typ-Kennung in ┬º39: **[M]** = gemessen ┬À **[Z]** = Ziel ┬À **[I]** = 
 | Auth | Teilabdeckung | Bench-Datei vorhanden, aber v1.8.2-Zielmessung nicht durchgaengig dokumentiert |
 | CDC | Teilabdeckung | Bench-Dateien vorhanden, Ziel-SLO-Zuordnung unvollstaendig |
 | Network | Teilabdeckung | Protokollnahe Benchmarks teilweise deaktiviert/veraendert durch API-Aenderungen |
-| Security | Fehlende Build-Artefakte | Mehrere Security-bezogene Bench-Dateien existieren, aber in aktuellem Build nicht als `.exe` vorhanden |
+| Security | Teilabdeckung | Security-Artefakt mit AES/RBAC/PQ/FIPS/AQL/Audit vorhanden; FieldEncryption/FieldDecryption aktuell nicht enthalten |
 | Scheduler | Teilabdeckung | Benchmarks vorhanden, aber kein vollstaendiger v1.8.2-Ziellauf |
 | Ingestion | Teilabdeckung | Benchmarks vorhanden, aber heterogene Workloads ohne einheitliche Zielabbildung |
 | Governance | Fehlende Build-Artefakte | Policy-/Governance-Bench-Dateien nicht als lauffaehige Targets im aktuellen Buildoutput |
