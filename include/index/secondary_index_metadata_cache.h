@@ -57,6 +57,12 @@ public:
         std::unordered_map<std::string, bool> sparse_unique;
         std::unordered_map<std::string, std::string> partial_predicates; // column -> predicate
         std::unordered_map<std::string, bool> partial_unique; // column -> unique flag
+
+        // Precomputed sets for O(1) membership lookup in write-path hot loops.
+        // Populated alongside the vectors so callers avoid rebuilding sets on
+        // every cache hit.
+        std::unordered_set<std::string> regular_indexes_set;
+        std::unordered_set<std::string> range_indexes_set;
     };
 
     /// Singleton instance
