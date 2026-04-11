@@ -265,11 +265,12 @@ set(THEMIS_BASE_SOURCES
 set(THEMIS_STORAGE_SOURCES
     # Core storage engine
     ../src/storage/rocksdb_wrapper.cpp
-    ../src/storage/wom_tree.cpp
     ../src/storage/base_entity.cpp
     ../src/storage/key_schema.cpp
     ../src/storage/backup_manager.cpp
     ../src/storage/columnar_format.cpp
+    ../src/storage/simd_filter.cpp
+    ../src/storage/storage_parquet_exporter.cpp
     ../src/storage/batch_write_optimizer.cpp
     # ../src/storage/pitr_manager.cpp  # Temporarily disabled - needs transaction module
     ../src/storage/blob_redundancy_manager.cpp
@@ -712,8 +713,6 @@ set(THEMIS_SECURITY_SOURCES
     ../src/governance/policy_review.cpp
     ../src/governance/policy_file_watcher.cpp
     ../src/governance/soc2_controls.cpp
-    ../src/governance/iso27001_rules.cpp
-    ../src/governance/hipaa_rules.cpp
     
     # PII detection
     ../src/utils/pii_detection_engine.cpp
@@ -771,9 +770,6 @@ set(THEMIS_SECURITY_SOURCES
     ../src/search/search_highlighter.cpp
     ../src/search/cross_lingual_search.cpp
     ../src/search/negative_keyword_filter.cpp
-    ../src/search/conversational_search.cpp
-    ../src/search/federated_search.cpp
-    ../src/search/search_result_stream.cpp
 )
 
 set(THEMIS_TRANSACTION_SOURCES
@@ -1242,7 +1238,6 @@ set(THEMIS_TIMESERIES_SOURCES
     # Time-series storage
     ../src/timeseries/timeseries.cpp
     ../src/timeseries/tsstore.cpp
-    ../src/timeseries/adaptive_flush_controller.cpp
     ../src/timeseries/gorilla.cpp
     ../src/timeseries/gorilla_simd.cpp
     ../src/timeseries/retention.cpp
@@ -1819,16 +1814,6 @@ function(themis_build_modular)
         SOURCES ${THEMIS_NETWORK_SOURCES}
         DEPENDENCIES ${_themis_network_deps}
     )
-    if(THEMIS_ENABLE_MQTT)
-        target_compile_definitions(themis_network PUBLIC THEMIS_ENABLE_MQTT)
-        if(THEMIS_ENABLE_MQTT_TLS)
-            if(NOT OpenSSL_FOUND)
-                message(FATAL_ERROR "THEMIS_ENABLE_MQTT_TLS requires OpenSSL but it was not found.")
-            endif()
-            target_compile_definitions(themis_network PUBLIC THEMIS_ENABLE_MQTT_TLS)
-            target_link_libraries(themis_network PUBLIC OpenSSL::SSL OpenSSL::Crypto)
-        endif()
-    endif()
     if(MSVC)
         set_source_files_properties(
             ${CMAKE_SOURCE_DIR}/src/server/monitoring_api_handler.cpp
