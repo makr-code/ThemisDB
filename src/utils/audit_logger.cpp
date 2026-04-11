@@ -1538,6 +1538,9 @@ HashChainAuditWriter::HashChainAuditWriter(HashChainAuditWriterConfig cfg,
                                            const std::string& chain_seed)
     : cfg_(std::move(cfg))
 {
+    if (cfg_.checkpoint_interval == 0) {
+        cfg_.checkpoint_interval = 1;
+    }
     namespace fs = std::filesystem;
     try {
         fs::create_directories(fs::path(cfg_.log_path).parent_path());
@@ -1560,7 +1563,10 @@ HashChainAuditWriter::HashChainAuditWriter(HashChainAuditWriterConfig cfg,
     }
 }
 
-HashChainAuditWriter::~HashChainAuditWriter() = default;
+HashChainAuditWriter::~HashChainAuditWriter() {
+    std::lock_guard<std::mutex> lk(mu_);
+    saveChainHead();
+}
 
 void HashChainAuditWriter::write(nlohmann::json record) {
     std::lock_guard<std::mutex> lk(mu_);
@@ -1593,8 +1599,10 @@ void HashChainAuditWriter::write(nlohmann::json record) {
                      cfg_.log_path, e.what());
     }
 
-    // Persist chain head (fsync if configured).
-    saveChainHead();
+    // Persist chain head at configured checkpoint cadence.
+    if ((seq_ % cfg_.checkpoint_interval) == 0) {
+        saveChainHead();
+    }
 }
 
 std::string HashChainAuditWriter::headHash() const {
