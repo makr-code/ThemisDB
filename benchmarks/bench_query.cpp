@@ -530,6 +530,93 @@ static void BM_JoinUsersPosts_P99(benchmark::State& state) {
     }
 }
 
+// ── Historical method approximation ──────────────────────────────────────────
+// Mirrors v1.3.4 workload characteristics:
+//   • N=10000 dataset (bounded for CI; historical ran 100k+ in nightly)
+//   • kWarmupIters=50 warmup queries executed before any timing
+//   • Round-robin querymix: 60% SimpleWhere / 30% ComplexWhere / 10% JOIN
+
+static void BM_QueryMix_Historical(benchmark::State& state) {
+    constexpr size_t kDatasetN    = 10000;
+    constexpr size_t kWarmupIters = 50;
+    auto& env = BenchEnv::instance();
+    if (!env.ensureInit(state, kDatasetN)) return;
+    QueryEngine engine(*env.storage, *env.secIdx);
+
+    // Warmup: populate index/cache paths before timing starts.
+    for (size_t w = 0; w < kWarmupIters; ++w) {
+        std::string err;
+        size_t du = 0, dj = 0;
+        if      (w % 10 == 9)  { run_join_users_posts(engine, du, dj, err); }
+        else if (w % 10 >= 7)  { run_complex_where(engine, du, err);        }
+        else                   { run_simple_where(engine, du, err);          }
+        benchmark::DoNotOptimize(du);
+    }
+
+    size_t iter_count = 0;
+    for (auto _ : state) {
+        std::string err;
+        size_t mu = 0, jr = 0;
+        bool ok;
+        // Deterministic round-robin mix: 6 Simple, 3 Complex, 1 JOIN per 10 iters.
+        const size_t slot = iter_count % 10;
+        if      (slot < 6) ok = run_simple_where(engine, mu, err);
+        else if (slot < 9) ok = run_complex_where(engine, mu, err);
+        else               ok = run_join_users_posts(engine, mu, jr, err);
+        if (!ok) { state.SkipWithError(err.c_str()); return; }
+        state.counters["dataset_n"]    = static_cast<double>(kDatasetN);
+        state.counters["warmup_iters"] = static_cast<double>(kWarmupIters);
+        ++iter_count;
+    }
+}
+
+static void BM_QueryMix_Historical_P99(benchmark::State& state) {
+    constexpr size_t kDatasetN    = 10000;
+    constexpr size_t kWarmupIters = 50;
+    constexpr size_t kSamples     = 300;
+    auto& env = BenchEnv::instance();
+    if (!env.ensureInit(state, kDatasetN)) return;
+    QueryEngine engine(*env.storage, *env.secIdx);
+
+    for (size_t w = 0; w < kWarmupIters; ++w) {
+        std::string err;
+        size_t du = 0, dj = 0;
+        if      (w % 10 == 9)  { run_join_users_posts(engine, du, dj, err); }
+        else if (w % 10 >= 7)  { run_complex_where(engine, du, err);        }
+        else                   { run_simple_where(engine, du, err);          }
+        benchmark::DoNotOptimize(du);
+    }
+
+    std::vector<double> samples_us;
+    samples_us.reserve(kSamples);
+    for (auto _ : state) {
+        (void)_;
+        samples_us.clear();
+        for (size_t i = 0; i < kSamples; ++i) {
+            std::string err;
+            size_t mu = 0, jr = 0;
+            bool ok;
+            const size_t slot = i % 10;
+            auto t0 = std::chrono::high_resolution_clock::now();
+            if      (slot < 6) ok = run_simple_where(engine, mu, err);
+            else if (slot < 9) ok = run_complex_where(engine, mu, err);
+            else               ok = run_join_users_posts(engine, mu, jr, err);
+            auto t1 = std::chrono::high_resolution_clock::now();
+            if (!ok) { state.SkipWithError(err.c_str()); return; }
+            samples_us.push_back(
+                std::chrono::duration_cast<std::chrono::duration<double, std::micro>>(t1 - t0).count());
+        }
+        const double p99_us  = percentile_us(samples_us, 99.0);
+        const double mean_us = std::accumulate(samples_us.begin(), samples_us.end(), 0.0)
+                               / static_cast<double>(samples_us.size());
+        state.counters["p99_us"]       = p99_us;
+        state.counters["mean_us"]      = mean_us;
+        state.counters["qps_est"]      = 1e6 / mean_us;
+        state.counters["dataset_n"]    = static_cast<double>(kDatasetN);
+        state.counters["warmup_iters"] = static_cast<double>(kWarmupIters);
+    }
+}
+
 // Register with conservative defaults to keep runtime bounded in CI/local runs.
 BENCHMARK(BM_Pagination_Offset)->Args({20, 10})->Unit(benchmark::kMillisecond);
 BENCHMARK(BM_Pagination_Offset)->Args({50, 50})->Unit(benchmark::kMillisecond);
@@ -544,3 +631,5 @@ BENCHMARK(BM_JoinUsersPosts_P99)->Unit(benchmark::kMillisecond);
 BENCHMARK(BM_SimpleWhere_Scaled)->Args({1000})->Args({10000})->Unit(benchmark::kMillisecond);
 BENCHMARK(BM_ComplexWhere_Scaled)->Args({1000})->Args({10000})->Unit(benchmark::kMillisecond);
 BENCHMARK(BM_JoinUsersPosts_Scaled)->Args({1000})->Args({10000})->Unit(benchmark::kMillisecond);
+BENCHMARK(BM_QueryMix_Historical)->Unit(benchmark::kMillisecond);
+BENCHMARK(BM_QueryMix_Historical_P99)->Unit(benchmark::kMillisecond);

@@ -172,6 +172,30 @@ Key PRs and features included in v1.8.0:
 
 ---
 
+## Milestone Delta (2026-04-11)
+
+Recently merged PRs aligned to their target milestones:
+
+| Milestone | PR | Scope |
+|---|---|---|
+| v1.9.0 | [#4478](https://github.com/makr-code/ThemisDB/pull/4478) | chimera - streaming result sets, prepared statements, connection pool adapter interfaces |
+| v1.9.0 | [#4484](https://github.com/makr-code/ThemisDB/pull/4484) | governance - ISO 27001 and HIPAA compliance rule evaluators |
+| v1.9.1 | [#4474](https://github.com/makr-code/ThemisDB/pull/4474) | auth - register missing focused test targets |
+| v1.10.0 | [#4512](https://github.com/makr-code/ThemisDB/pull/4512) | server - MQTT client TLS support |
+| v2.0.0 | [#4477](https://github.com/makr-code/ThemisDB/pull/4477) | cdc - replay/filter/batch-commit coordinator interfaces |
+| v2.0.0 | [#4569](https://github.com/makr-code/ThemisDB/pull/4569) | query - v2.0.0 port for issue #3528 |
+| v2.0.0 | [#4570](https://github.com/makr-code/ThemisDB/pull/4570) | storage - v2.0.0 port for issue #3536 |
+| v2.1.0 | [#4555](https://github.com/makr-code/ThemisDB/pull/4555) | stable_diffusion - batch generation, img2img, thread-safety |
+| v2.1.0 | [#4556](https://github.com/makr-code/ThemisDB/pull/4556) | llama_cpp - streaming, batch inference, PluginManager hot-plug registrar |
+| v2.4.0 | [#4511](https://github.com/makr-code/ThemisDB/pull/4511) | search - conversational/federated/streaming search interfaces |
+
+Superseded PR mapping:
+
+- [#4507](https://github.com/makr-code/ThemisDB/pull/4507) superseded by [#4569](https://github.com/makr-code/ThemisDB/pull/4569)
+- [#4515](https://github.com/makr-code/ThemisDB/pull/4515) superseded by [#4570](https://github.com/makr-code/ThemisDB/pull/4570)
+
+---
+
 ## Implementation Phases
 
 ### Phase 1: Foundation Hardening (Q1–Q2 2026) — 🚧 In Progress

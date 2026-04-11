@@ -21,38 +21,58 @@
  */
 
 #include "storage/key_schema.h"
-#include <sstream>
 
 namespace themis {
 
 std::string KeySchema::makeRelationalKey(std::string_view table, std::string_view pk) {
-    std::ostringstream oss;
-    oss << "rel" << SEPARATOR << table << SEPARATOR << pk;
-    return oss.str();
+    std::string key;
+    key.reserve(4 + table.size() + pk.size());
+    key += "rel";
+    key += SEPARATOR;
+    key += table;
+    key += SEPARATOR;
+    key += pk;
+    return key;
 }
 
 std::string KeySchema::makeDocumentKey(std::string_view collection, std::string_view pk) {
-    std::ostringstream oss;
-    oss << "doc" << SEPARATOR << collection << SEPARATOR << pk;
-    return oss.str();
+    std::string key;
+    key.reserve(4 + collection.size() + pk.size());
+    key += "doc";
+    key += SEPARATOR;
+    key += collection;
+    key += SEPARATOR;
+    key += pk;
+    return key;
 }
 
 std::string KeySchema::makeGraphNodeKey(std::string_view pk) {
-    std::ostringstream oss;
-    oss << "node" << SEPARATOR << pk;
-    return oss.str();
+    std::string key;
+    key.reserve(5 + pk.size());
+    key += "node";
+    key += SEPARATOR;
+    key += pk;
+    return key;
 }
 
 std::string KeySchema::makeGraphEdgeKey(std::string_view pk) {
-    std::ostringstream oss;
-    oss << "edge" << SEPARATOR << pk;
-    return oss.str();
+    std::string key;
+    key.reserve(5 + pk.size());
+    key += "edge";
+    key += SEPARATOR;
+    key += pk;
+    return key;
 }
 
 std::string KeySchema::makeVectorKey(std::string_view object_name, std::string_view pk) {
-    std::ostringstream oss;
-    oss << "vec" << SEPARATOR << object_name << SEPARATOR << pk;
-    return oss.str();
+    std::string key;
+    key.reserve(4 + object_name.size() + pk.size());
+    key += "vec";
+    key += SEPARATOR;
+    key += object_name;
+    key += SEPARATOR;
+    key += pk;
+    return key;
 }
 
 std::string KeySchema::makeSecondaryIndexKey(
@@ -61,21 +81,44 @@ std::string KeySchema::makeSecondaryIndexKey(
     std::string_view value,
     std::string_view pk
 ) {
-    std::ostringstream oss;
-    oss << "idx" << SEPARATOR << table << SEPARATOR << column << SEPARATOR << value << SEPARATOR << pk;
-    return oss.str();
+    std::string key;
+    key.reserve(5 + table.size() + column.size() + value.size() + pk.size());
+    key += "idx";
+    key += SEPARATOR;
+    key += table;
+    key += SEPARATOR;
+    key += column;
+    key += SEPARATOR;
+    key += value;
+    key += SEPARATOR;
+    key += pk;
+    return key;
 }
 
 std::string KeySchema::makeGraphOutdexKey(std::string_view pk_start, std::string_view pk_edge) {
-    std::ostringstream oss;
-    oss << "graph" << SEPARATOR << "out" << SEPARATOR << pk_start << SEPARATOR << pk_edge;
-    return oss.str();
+    std::string key;
+    key.reserve(10 + pk_start.size() + pk_edge.size());
+    key += "graph";
+    key += SEPARATOR;
+    key += "out";
+    key += SEPARATOR;
+    key += pk_start;
+    key += SEPARATOR;
+    key += pk_edge;
+    return key;
 }
 
 std::string KeySchema::makeGraphIndexKey(std::string_view pk_target, std::string_view pk_edge) {
-    std::ostringstream oss;
-    oss << "graph" << SEPARATOR << "in" << SEPARATOR << pk_target << SEPARATOR << pk_edge;
-    return oss.str();
+    std::string key;
+    key.reserve(9 + pk_target.size() + pk_edge.size());
+    key += "graph";
+    key += SEPARATOR;
+    key += "in";
+    key += SEPARATOR;
+    key += pk_target;
+    key += SEPARATOR;
+    key += pk_edge;
+    return key;
 }
 
 KeySchema::KeyType KeySchema::parseKeyType(std::string_view key) {
