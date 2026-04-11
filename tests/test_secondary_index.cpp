@@ -519,9 +519,13 @@ TEST(MetadataCacheUniqueFlagTest, UniqueIndex_EnforcedViaCache) {
     ASSERT_TRUE(db.open());
     SecondaryIndexManager idx(db);
 
-    // Create unique index on "email"
+    // Create unique index on "email"; this populates the metadata cache on the
+    // first put() call, so ensure it is warm by invalidating stale entries first.
     ASSERT_TRUE(idx.createIndex("accounts", "email", /*unique=*/true).ok);
+    // Confirm no stale entry exists before the first write populates the cache
     SecondaryIndexMetadataCache::instance().invalidate("accounts");
+    EXPECT_FALSE(SecondaryIndexMetadataCache::instance().get("accounts").has_value())
+        << "Cache should be empty before the first put()";
 
     BaseEntity::FieldMap f1{{"email", std::string("a@b.com")}};
     BaseEntity::FieldMap f2{{"email", std::string("a@b.com")}};  // duplicate
