@@ -183,6 +183,56 @@ std::string SecondaryIndexManager::makeCompositeIndexPrefix(std::string_view tab
 	return key;
 }
 
+// static — unique-constraint sentinel keys for GetForUpdate locking
+// Format: "uidx:table:col:encodedVal" (single-column)
+std::string SecondaryIndexManager::makeUniqueSentinelKey_(
+		std::string_view table, std::string_view col, std::string_view encodedVal) {
+	std::string key;
+	key.reserve(5 + table.size() + col.size() + encodedVal.size());
+	key += "uidx:";
+	key += table;
+	key += ":";
+	key += col;
+	key += ":";
+	key += encodedVal;
+	return key;
+}
+
+// static — composite unique-constraint sentinel key for GetForUpdate locking
+// Format: "uidx:table:col1+col2:encVal1:encVal2"
+std::string SecondaryIndexManager::makeCompositeUniqueSentinelKey_(
+		std::string_view table,
+		const std::vector<std::string>& columns,
+		const std::vector<std::string>& values) {
+	// Encode values once so we use them for both the reserve hint and the build.
+	std::vector<std::string> encodedVals;
+	encodedVals.reserve(values.size());
+	size_t total = 5 + table.size() + 1; // "uidx:" + table + ":"
+	for (size_t i = 0; i < columns.size(); ++i) {
+		if (i > 0) total += 1; // "+"
+		total += columns[i].size();
+	}
+	for (const auto& v : values) {
+		encodedVals.push_back(encodeKeyComponent(v));
+		total += 1 + encodedVals.back().size(); // ":" + encoded
+	}
+
+	std::string key;
+	key.reserve(total);
+	key += "uidx:";
+	key += table;
+	key += ":";
+	for (size_t i = 0; i < columns.size(); ++i) {
+		if (i > 0) key += "+";
+		key += columns[i];
+	}
+	for (const auto& ev : encodedVals) {
+		key += ":";
+		key += ev;
+	}
+	return key;
+}
+
 // static
 std::string SecondaryIndexManager::encodeKeyComponent(std::string_view raw) {
 	std::string out;
@@ -202,9 +252,10 @@ std::string SecondaryIndexManager::encodeKeyComponent(std::string_view raw) {
 
 	for (unsigned char c : raw) {
 		if (c == ':' || c == '%') {
-			char buf[4];
-			snprintf(buf, sizeof(buf), "%%%02X", c);
-			out.append(buf);
+			constexpr char kHex[] = "0123456789ABCDEF";
+			out.push_back('%');
+			out.push_back(kHex[c >> 4]);
+			out.push_back(kHex[c & 0x0F]);
 		} else {
 			out.push_back(static_cast<char>(c));
 		}
@@ -1138,26 +1189,26 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(std::s
 	auto& cache = SecondaryIndexMetadataCache::instance();
 	auto cachedMetadata = cache.get(table);
 	
-	std::unordered_set<std::string> indexedCols;
-	std::unordered_set<std::string> rangeCols;
-	
+	// On cache hit use the precomputed sets directly; on miss load from DB and
+	// populate the cache including the precomputed sets for future hits.
+	const std::unordered_set<std::string>* indexedColsPtr = nullptr;
+	const std::unordered_set<std::string>* rangeColsPtr   = nullptr;
+	std::unordered_set<std::string> indexedColsMiss, rangeColsMiss;
+
 	if (cachedMetadata) {
-		// Cache hit! Convert to unordered_set
-		for (const auto& col : cachedMetadata->regular_indexes) {
-			indexedCols.insert(col);
-		}
-		for (const auto& col : cachedMetadata->range_indexes) {
-			rangeCols.insert(col);
-		}
+		indexedColsPtr = &cachedMetadata->regular_indexes_set;
+		rangeColsPtr   = &cachedMetadata->range_indexes_set;
 	} else {
 		// Cache miss - load from DB and populate cache
-		indexedCols = loadIndexedColumns_(table);
-		rangeCols = loadRangeIndexedColumns_(table);
+		indexedColsMiss = loadIndexedColumns_(table);
+		rangeColsMiss   = loadRangeIndexedColumns_(table);
 		
 		// Populate cache for next time
 		SecondaryIndexMetadataCache::IndexMetadata metadata;
-		metadata.regular_indexes = std::vector<std::string>(indexedCols.begin(), indexedCols.end());
-		metadata.range_indexes = std::vector<std::string>(rangeCols.begin(), rangeCols.end());
+		metadata.regular_indexes = std::vector<std::string>(indexedColsMiss.begin(), indexedColsMiss.end());
+		metadata.range_indexes   = std::vector<std::string>(rangeColsMiss.begin(), rangeColsMiss.end());
+		metadata.regular_indexes_set = indexedColsMiss;
+		metadata.range_indexes_set   = rangeColsMiss;
 		for (const auto& col : metadata.regular_indexes) {
 			metadata.regular_unique[col] = isUniqueIndex_(table, col);
 		}
@@ -1182,7 +1233,12 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(std::s
 		}
 		
 		cache.set(table, metadata);
+		indexedColsPtr = &indexedColsMiss;
+		rangeColsPtr   = &rangeColsMiss;
 	}
+
+	const auto& indexedCols = *indexedColsPtr;
+	const auto& rangeCols   = *rangeColsPtr;
 
 	// Micro-Optimization: compute PK bytes once and reuse
 	std::vector<uint8_t> pkBytes = toBytes(pk);
@@ -1500,10 +1556,51 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(std
 																			 std::string_view pk,
 																			 const BaseEntity* oldEntityOpt,
 																			 RocksDBWrapper::WriteBatchWrapper& batch) {
+	// Use metadata cache to avoid repeated DB meta-scans on every delete/upsert.
+	auto& cache = SecondaryIndexMetadataCache::instance();
+	auto cachedMetadata = cache.get(table);
+
+	// Helper: load a column-name set from cache or DB.
+	auto getIndexedCols = [&]() -> std::unordered_set<std::string> {
+		if (cachedMetadata) return cachedMetadata->regular_indexes_set;
+		return loadIndexedColumns_(table);
+	};
+	auto getRangeCols = [&]() -> std::unordered_set<std::string> {
+		if (cachedMetadata) return cachedMetadata->range_indexes_set;
+		return loadRangeIndexedColumns_(table);
+	};
+	auto getSparseCols = [&]() -> std::unordered_set<std::string> {
+		if (cachedMetadata) return {cachedMetadata->sparse_indexes.begin(), cachedMetadata->sparse_indexes.end()};
+		return loadSparseIndexedColumns_(table);
+	};
+	auto getGeoCols = [&]() -> std::unordered_set<std::string> {
+		if (cachedMetadata) return {cachedMetadata->geo_indexes.begin(), cachedMetadata->geo_indexes.end()};
+		return loadGeoIndexedColumns_(table);
+	};
+	auto getTTLCols = [&]() -> std::unordered_set<std::string> {
+		if (cachedMetadata) return {cachedMetadata->ttl_indexes.begin(), cachedMetadata->ttl_indexes.end()};
+		return loadTTLIndexedColumns_(table);
+	};
+	auto getFulltextCols = [&]() -> std::unordered_set<std::string> {
+		if (cachedMetadata) return {cachedMetadata->fulltext_indexes.begin(), cachedMetadata->fulltext_indexes.end()};
+		return loadFulltextIndexedColumns_(table);
+	};
+	auto getPartialCols = [&]() -> std::unordered_map<std::string, std::string> {
+		if (cachedMetadata) {
+			std::unordered_map<std::string, std::string> result;
+			for (const auto& col : cachedMetadata->partial_indexes) {
+				auto it = cachedMetadata->partial_predicates.find(col);
+				result[col] = (it != cachedMetadata->partial_predicates.end()) ? it->second : "";
+			}
+			return result;
+		}
+		return loadPartialIndexedColumns_(table);
+	};
+
 	if (!oldEntityOpt) {
 		// Falls keine alte Entity, können wir die spezifischen Index-Keys nicht sicher bestimmen.
 		// Defensive strategy: alle Index-Prefixe für diesen PK löschen via Scan.
-		auto indexedCols = loadIndexedColumns_(table);
+		auto indexedCols = getIndexedCols();
 		for (const auto& col : indexedCols) {
 			std::string prefix;
 			if (col.find('+') == std::string::npos) {
@@ -1527,7 +1624,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(std
 			});
 		}
 		// Auch alle Range-Index-Einträge mit diesem PK für diese Tabelle entfernen
-		auto rangeCols = loadRangeIndexedColumns_(table);
+		auto rangeCols = getRangeCols();
 		for (const auto& rcol : rangeCols) {
 			std::string rprefix = std::string("ridx:") + std::string(table) + ":" + rcol + ":";
 			db_.scanPrefix(rprefix, [&pk, &batch](std::string_view key, std::string_view /*val*/){
@@ -1542,7 +1639,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(std
 			});
 		}
 		// Partial index entries löschen (via Scan, da Wert unbekannt)
-		auto partialCols = loadPartialIndexedColumns_(table);
+		auto partialCols = getPartialCols();
 		for (const auto& [pcol, ppred] : partialCols) {
 			std::string pprefix = makePartialIndexPrefix(table, pcol);
 			db_.scanPrefix(pprefix, [&pk, &batch](std::string_view key, std::string_view) {
@@ -1556,8 +1653,11 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(std
 		return Status::OK();
 	}
 
-	// Zielgerichtet löschen basierend auf alten Feldwerten
-	auto indexedCols = loadIndexedColumns_(table);
+	// Zielgerichtet löschen basierend auf alten Feldwerten.
+	// Load all metadata sets ONCE outside any inner loop.
+	auto indexedCols = getIndexedCols();
+	auto rangeCols   = getRangeCols();   // hoisted — was incorrectly called inside the loop below
+
 	for (const auto& col : indexedCols) {
 		if (col.find('+') == std::string::npos) {
 			// Single-Column
@@ -1567,7 +1667,6 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(std
 			const std::string idxKey = KeySchema::makeSecondaryIndexKey(table, col, encodedVal, pk);
 			batch.del(idxKey);
 			// Auch Range-Index-Eintrag löschen, falls vorhanden
-			auto rangeCols = loadRangeIndexedColumns_(table);
 			if (rangeCols.find(col) != rangeCols.end()) {
 				const std::string rkey = makeRangeIndexKey(table, col, *maybe, pk);
 				batch.del(rkey);
@@ -1607,7 +1706,6 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(std
 
 	// Zusätzlich: Range-Indizes löschen, die keine passenden Equality-Indizes haben
 	{
-		auto rangeCols = loadRangeIndexedColumns_(table);
 		for (const auto& rcol : rangeCols) {
 			if (indexedCols.find(rcol) != indexedCols.end()) continue; // bereits oben behandelt
 			auto maybe = oldEntityOpt->extractField(rcol);
@@ -1619,7 +1717,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(std
 
 	// Sparse-Indizes löschen
 	{
-		auto sparseCols = loadSparseIndexedColumns_(table);
+		auto sparseCols = getSparseCols();
 		for (const auto& scol : sparseCols) {
 			auto maybe = oldEntityOpt->extractField(scol);
 			if (!maybe || isNullOrEmpty_(*maybe)) continue; // War nicht im Index
@@ -1631,7 +1729,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(std
 
 	// Geo-Indizes löschen
 	{
-		auto geoCols = loadGeoIndexedColumns_(table);
+		auto geoCols = getGeoCols();
 		for (const auto& gcol : geoCols) {
 			std::string latField = gcol + "_lat";
 			std::string lonField = gcol + "_lon";
@@ -1657,7 +1755,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(std
 
 	// TTL-Indizes löschen
 	{
-		auto ttlCols = loadTTLIndexedColumns_(table);
+		auto ttlCols = getTTLCols();
 		for (const auto& tcol : ttlCols) {
 			auto maybeValue = oldEntityOpt->extractField(tcol);
 			if (!maybeValue) continue;
@@ -1682,7 +1780,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(std
 
 	// Fulltext-Indizes löschen
 	{
-		auto fulltextCols = loadFulltextIndexedColumns_(table);
+		auto fulltextCols = getFulltextCols();
 		for (const auto& fcol : fulltextCols) {
 			auto maybeText = oldEntityOpt->extractField(fcol);
 			if (!maybeText || isNullOrEmpty_(maybeText)) continue;
@@ -1707,7 +1805,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(std
 
 	// Partial (filtered) indexes löschen
 	{
-		auto partialCols = loadPartialIndexedColumns_(table);
+		auto partialCols = getPartialCols();
 		for (const auto& [pcol, ppred] : partialCols) {
 			auto maybe = oldEntityOpt->extractField(pcol);
 			if (!maybe) continue;
@@ -3676,25 +3774,26 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 	// v1.3.4 OPTIMIZATION: Use metadata cache to avoid repeated DB scans
 	auto& cache = SecondaryIndexMetadataCache::instance();
 	auto cachedMetadata = cache.get(table);
-    
-	std::unordered_set<std::string> indexedCols;
-	std::unordered_set<std::string> rangeCols;
+
+	// On cache hit use the precomputed sets directly; on miss load from DB and
+	// populate the cache including the precomputed sets for future hits.
+	const std::unordered_set<std::string>* indexedColsPtr = nullptr;
+	const std::unordered_set<std::string>* rangeColsPtr   = nullptr;
+	std::unordered_set<std::string> indexedColsMiss, rangeColsMiss;
 
 	if (cachedMetadata) {
-		for (const auto& col : cachedMetadata->regular_indexes) {
-			indexedCols.insert(col);
-		}
-		for (const auto& col : cachedMetadata->range_indexes) {
-			rangeCols.insert(col);
-		}
+		indexedColsPtr = &cachedMetadata->regular_indexes_set;
+		rangeColsPtr   = &cachedMetadata->range_indexes_set;
 	} else {
 		// Cache miss - load from DB and populate cache
-		indexedCols = loadIndexedColumns_(table);
-		rangeCols = loadRangeIndexedColumns_(table);
+		indexedColsMiss = loadIndexedColumns_(table);
+		rangeColsMiss   = loadRangeIndexedColumns_(table);
 
 		SecondaryIndexMetadataCache::IndexMetadata metadata;
-		metadata.regular_indexes = std::vector<std::string>(indexedCols.begin(), indexedCols.end());
-		metadata.range_indexes   = std::vector<std::string>(rangeCols.begin(), rangeCols.end());
+		metadata.regular_indexes = std::vector<std::string>(indexedColsMiss.begin(), indexedColsMiss.end());
+		metadata.range_indexes   = std::vector<std::string>(rangeColsMiss.begin(), rangeColsMiss.end());
+		metadata.regular_indexes_set = indexedColsMiss;
+		metadata.range_indexes_set   = rangeColsMiss;
 		for (const auto& col : metadata.regular_indexes) {
 			metadata.regular_unique[col] = isUniqueIndex_(table, col);
 		}
@@ -3719,7 +3818,12 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 		}
 
 		cache.set(table, metadata);
+		indexedColsPtr = &indexedColsMiss;
+		rangeColsPtr   = &rangeColsMiss;
 	}
+
+	const auto& indexedCols = *indexedColsPtr;
+	const auto& rangeCols   = *rangeColsPtr;
 
 	// Micro-Optimization: compute PK bytes once and reuse
 	std::vector<uint8_t> pkBytes = toBytes(pk);
@@ -3741,6 +3845,15 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 				uniqueIndex = isUniqueIndex_(table, col);
 			}
 			if (uniqueIndex) {
+				// Fix Concurrent-Unique-Lücke (ACID): acquire an exclusive lock on a
+				// sentinel key that identifies this (table, col, value) triple.  The
+				// lock is held until the transaction commits or rolls back, serializing
+				// all concurrent transactions that try to insert the same unique value.
+				// Without this, two transactions could both pass the db_.scanPrefix
+				// check, both commit, and yield a duplicate unique-index entry.
+				if (!txn.getForUpdate(makeUniqueSentinelKey_(table, col, encodedVal))) {
+					return Status::Error("Unique constraint write conflict: " + std::string(table) + "." + col + " = " + *maybe + " (concurrent transaction holds lock)");
+				}
 				// Prüfe ob bereits ein anderer PK mit diesem Wert existiert
 				std::string prefix = std::string("idx:") + std::string(table) + ":" + col + ":" + encodedVal + ":";
 				bool conflict = false;
@@ -3801,6 +3914,17 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 			
 			// Unique-Constraint prüfen für Composite Index
 			if (isUniqueCompositeIndex_(table, columns)) {
+				// Fix Concurrent-Unique-Lücke (ACID): lock a composite sentinel key
+				// derived from (table, columns, values) to serialize concurrent writes
+				// of the same unique composite value across transactions.
+				if (!txn.getForUpdate(makeCompositeUniqueSentinelKey_(table, columns, values))) {
+					std::string valueStr;
+					for (size_t i = 0; i < values.size(); ++i) {
+						if (i > 0) valueStr += ", ";
+						valueStr += columns[i] + "=" + values[i];
+					}
+					return Status::Error("Unique constraint write conflict: " + std::string(table) + ".{" + valueStr + "} (concurrent transaction holds lock)");
+				}
 				// Prüfe ob bereits ein anderer PK mit dieser Wertekombination existiert
 				std::string prefix = makeCompositeIndexPrefix(table, columns, values);
 				bool conflict = false;
@@ -4039,11 +4163,51 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(
 	std::string_view pk,
 	const BaseEntity* oldEntityOpt,
 	RocksDBWrapper::TransactionWrapper& txn) {
-	
+
+	// Use metadata cache to avoid repeated DB meta-scans on every delete/upsert.
+	auto& cache = SecondaryIndexMetadataCache::instance();
+	auto cachedMetadata = cache.get(table);
+
+	auto getIndexedCols = [&]() -> std::unordered_set<std::string> {
+		if (cachedMetadata) return cachedMetadata->regular_indexes_set;
+		return loadIndexedColumns_(table);
+	};
+	auto getRangeCols = [&]() -> std::unordered_set<std::string> {
+		if (cachedMetadata) return cachedMetadata->range_indexes_set;
+		return loadRangeIndexedColumns_(table);
+	};
+	auto getSparseCols = [&]() -> std::unordered_set<std::string> {
+		if (cachedMetadata) return {cachedMetadata->sparse_indexes.begin(), cachedMetadata->sparse_indexes.end()};
+		return loadSparseIndexedColumns_(table);
+	};
+	auto getGeoCols = [&]() -> std::unordered_set<std::string> {
+		if (cachedMetadata) return {cachedMetadata->geo_indexes.begin(), cachedMetadata->geo_indexes.end()};
+		return loadGeoIndexedColumns_(table);
+	};
+	auto getTTLCols = [&]() -> std::unordered_set<std::string> {
+		if (cachedMetadata) return {cachedMetadata->ttl_indexes.begin(), cachedMetadata->ttl_indexes.end()};
+		return loadTTLIndexedColumns_(table);
+	};
+	auto getFulltextCols = [&]() -> std::unordered_set<std::string> {
+		if (cachedMetadata) return {cachedMetadata->fulltext_indexes.begin(), cachedMetadata->fulltext_indexes.end()};
+		return loadFulltextIndexedColumns_(table);
+	};
+	auto getPartialCols = [&]() -> std::unordered_map<std::string, std::string> {
+		if (cachedMetadata) {
+			std::unordered_map<std::string, std::string> result;
+			for (const auto& col : cachedMetadata->partial_indexes) {
+				auto it = cachedMetadata->partial_predicates.find(col);
+				result[col] = (it != cachedMetadata->partial_predicates.end()) ? it->second : "";
+			}
+			return result;
+		}
+		return loadPartialIndexedColumns_(table);
+	};
+
 	if (!oldEntityOpt) {
 		// Falls keine alte Entity, können wir die spezifischen Index-Keys nicht sicher bestimmen.
 		// Defensive strategy: alle Index-Prefixe für diesen PK löschen via Scan.
-		auto indexedCols = loadIndexedColumns_(table);
+		auto indexedCols = getIndexedCols();
 		for (const auto& col : indexedCols) {
 			std::string prefix;
 			if (col.find('+') == std::string::npos) {
@@ -4067,7 +4231,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(
 			});
 		}
 		// Auch alle Range-Index-Einträge mit diesem PK für diese Tabelle entfernen
-		auto rangeCols = loadRangeIndexedColumns_(table);
+		auto rangeCols = getRangeCols();
 		for (const auto& rcol : rangeCols) {
 			std::string rprefix = std::string("ridx:") + std::string(table) + ":" + rcol + ":";
 			db_.scanPrefix(rprefix, [&pk, &txn](std::string_view key, std::string_view /*val*/){
@@ -4082,7 +4246,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(
 			});
 		}
 		// Partial index entries löschen (via Scan, da Wert unbekannt)
-		auto partialCols = loadPartialIndexedColumns_(table);
+		auto partialCols = getPartialCols();
 		for (const auto& [pcol, ppred] : partialCols) {
 			std::string pprefix = makePartialIndexPrefix(table, pcol);
 			db_.scanPrefix(pprefix, [&pk, &txn](std::string_view key, std::string_view) {
@@ -4096,8 +4260,11 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(
 		return Status::OK();
 	}
 
-	// Zielgerichtet löschen basierend auf alten Feldwerten
-	auto indexedCols = loadIndexedColumns_(table);
+	// Zielgerichtet löschen basierend auf alten Feldwerten.
+	// Load all metadata sets ONCE outside any inner loop.
+	auto indexedCols = getIndexedCols();
+	auto rangeCols   = getRangeCols();   // hoisted — was incorrectly called inside the loop below
+
 	for (const auto& col : indexedCols) {
 		if (col.find('+') == std::string::npos) {
 			// Single-Column
@@ -4107,7 +4274,6 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(
 			const std::string idxKey = KeySchema::makeSecondaryIndexKey(table, col, encodedVal, pk);
 			txn.del(idxKey);
 			// Auch Range-Index-Eintrag löschen, falls vorhanden
-			auto rangeCols = loadRangeIndexedColumns_(table);
 			if (rangeCols.find(col) != rangeCols.end()) {
 				const std::string rkey = makeRangeIndexKey(table, col, *maybe, pk);
 				txn.del(rkey);
@@ -4147,7 +4313,6 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(
 
 	// Zusätzlich: Range-Indizes löschen, die keine passenden Equality-Indizes haben
 	{
-		auto rangeCols = loadRangeIndexedColumns_(table);
 		for (const auto& rcol : rangeCols) {
 			if (indexedCols.find(rcol) != indexedCols.end()) continue; // bereits oben behandelt
 			auto maybe = oldEntityOpt->extractField(rcol);
@@ -4159,7 +4324,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(
 
 	// Sparse-Indizes löschen
 	{
-		auto sparseCols = loadSparseIndexedColumns_(table);
+		auto sparseCols = getSparseCols();
 		for (const auto& scol : sparseCols) {
 			auto maybe = oldEntityOpt->extractField(scol);
 			if (!maybe || isNullOrEmpty_(*maybe)) continue; // War nicht im Index
@@ -4171,7 +4336,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(
 
 	// Geo-Indizes löschen
 	{
-		auto geoCols = loadGeoIndexedColumns_(table);
+		auto geoCols = getGeoCols();
 		for (const auto& gcol : geoCols) {
 			std::string latField = gcol + "_lat";
 			std::string lonField = gcol + "_lon";
@@ -4197,7 +4362,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(
 
 	// TTL-Indizes löschen
 	{
-		auto ttlCols = loadTTLIndexedColumns_(table);
+		auto ttlCols = getTTLCols();
 		for (const auto& tcol : ttlCols) {
 			auto maybeValue = oldEntityOpt->extractField(tcol);
 			if (!maybeValue) continue;
@@ -4222,7 +4387,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(
 
 	// Fulltext-Indizes löschen
 	{
-		auto fulltextCols = loadFulltextIndexedColumns_(table);
+		auto fulltextCols = getFulltextCols();
 		for (const auto& fcol : fulltextCols) {
 			auto maybeText = oldEntityOpt->extractField(fcol);
 			if (!maybeText || isNullOrEmpty_(maybeText)) continue;
@@ -4247,7 +4412,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(
 
 	// Partial (filtered) indexes löschen
 	{
-		auto partialCols = loadPartialIndexedColumns_(table);
+		auto partialCols = getPartialCols();
 		for (const auto& [pcol, ppred] : partialCols) {
 			auto maybe = oldEntityOpt->extractField(pcol);
 			if (!maybe) continue;
