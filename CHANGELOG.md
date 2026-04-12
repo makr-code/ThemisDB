@@ -9,6 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Documentation
 
+- **Module-Docs Sync 📚 — 2026-04-12**
+  - 56 Module indexiert; 747 Primary-Markdown-Dateien in `src/` und `include/`
+  - 6 Module ohne Sekundärdokumentation erkannt; Issues erzeugt
+  - Sekundärdokumentation aktualisiert in `docs/de/` und `docs/en/`
+  - Tool: `tools/module_docs_builder.py` v1.0.0
+  <!-- changelog-updater: module-docs-sync-2026-04-12 -->
+
 - **Milestone- und Release-Sync - 2026-04-11**
   - Referenzierte offene Sub-Issue-PRs mit Versionsbezug auf ihre Ziel-Milestones ausgerichtet und abgeschlossen.
   - Konfliktbehaftete Alt-PRs #4507 und #4515 durch Port-Ersatz-PRs #4569 und #4570 ersetzt.
