@@ -262,6 +262,40 @@ Die folgenden Komponenten wurden mit dem v1.9.x-Release (Commit 2026-04-12) in d
 
 ---
 
+## Implementierungsstatus — Plugins & Sharding
+
+### Plugins (v2.x)
+
+| Feature | Modul | Status | Tests | Beschreibung |
+|---------|-------|--------|-------|-------------|
+| `WhisperPlugin` v2.0 | `whisper/` | ✅ GA | 30 (WhisperPluginFocusedTests) | `IAudioBackend`, WavAudioChunkReader, Strategy Pattern, Provenienz-Stempel |
+| `WavAudioChunkReader` | `whisper/` | ✅ GA | im WhisperPlugin-Suite | RIFF/WAV ohne libsndfile; 16-bit PCM + float32 |
+| `SDPlugin` v2.1 | `stable_diffusion/` | ✅ GA | 45 (SDPluginFocusedTests, A–O) | Text2Img, Batch, Img2Img, SDPromptSanitizer, Provenienz |
+| `SDStubGenerator` | `stable_diffusion/` | ✅ GA | im SDPlugin-Suite | CI-Stub ohne Modell-Datei |
+| `SDPromptSanitizer` | `stable_diffusion/` | ✅ GA | im SDPlugin-Suite | Keyword-Blocklist, negative_prompt-Policy (SD-NP-01) |
+
+### Ethics AI Plugin (v0.0.x)
+
+| Feature | Modul | Status | Tests | Beschreibung |
+|---------|-------|--------|-------|-------------|
+| `EthicsEvaluator` | `ethics_ai/` | ✅ GA | 28 (EthicsAiPluginFocusedTests) | 5-Dimensions-Scoring (Quality/Consistency/Fairness/Alignment/Transparency) |
+| `PhilosophyLoader` | `ethics_ai/` | ✅ GA | 7 (PhilosophyLoaderFocusedTests) | YAML-Profilladung mit Cache und Validierung |
+| `EthicalDiscourseEngine` | `ethics_ai/` | ✅ GA | 11 (DiscourseEngineFocusedTests) | `initializeDebate()` + `makeDecision()` |
+| `ArgumentStore` | `ethics_ai/` | ✅ GA | 18 (ArgumentStoreStandaloneFocusedTests) | BaseEntity-Persistenz + Standalone-Modus |
+| `RAGContextEngine` | `ethics_ai/` | ✅ GA | 13 (RAGContextEngineFocusedTests) | 7 AQL-Abfragemuster |
+| Ethics AI Integration | `ethics_ai/` | ✅ GA | 21 (EthicsAiIntegration) | FullPipeline, ArgumentStoreRAG, RAGContextBuild |
+
+### Sharding / Paxos
+
+| Feature | Modul | Status | Tests | Beschreibung |
+|---------|-------|--------|-------|-------------|
+| Paxos WAL `logAccept` | `sharding/` | ✅ GA | — | ACCEPT vor Quorum-Broadcast persistiert |
+| Paxos WAL `logCommit` | `sharding/` | ✅ GA | — | COMMIT in `broadcastCommit()` persistiert |
+| `recoverFromWAL()` | `sharding/` | ✅ GA | — | Snapshot + WAL-Replay; `commit_index_` wird restauriert |
+| Snapshot-Compaction | `sharding/` | ✅ GA | — | `shouldCreateSnapshot(ops)` nach konfigurierbaren Operationen |
+
+---
+
 **Version History:**
 - 1.4.0-alpha (2026-01-06): 25 neue Alpha-Features (LLM, Performance, HA, Monitoring, Protocol)
 - 1.3.0 (2025-12-30): Umfassendes Update mit allen Features bis Dez 2025

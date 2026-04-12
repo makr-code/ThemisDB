@@ -849,3 +849,127 @@ ThemisDB ermöglicht effiziente Computer Vision Anwendungen durch:
 3. Nutze HNSW für Similarity Search
 4. Kombiniere Visual + Spatial + Temporal Queries
 5. Thumbnails für Performance
+
+---
+
+## 12.10 Stable Diffusion Image Generation Plugin (v2.1)
+
+ThemisDB verfügt über ein produktionsreifes **Stable Diffusion Plugin** (`include/stable_diffusion/`, `src/stable_diffusion/`), das Text-zu-Bild- und Bild-zu-Bild-Generierung direkt in die Datenbankpipeline integriert.
+
+### Architektur
+
+```
+IImageGenerationBackend (Interface)
+    └── SDPlugin (Thread-safe Lifecycle)
+            ├── ISDGenerator (Strategy)
+            │       ├── SDStubGenerator   — CI / kein Modell benötigt
+            │       ├── InMemorySDGenerator — Test-Double
+            │       └── SDCppGenerator    — stable-diffusion.cpp (THEMIS_ENABLE_STABLE_DIFFUSION)
+            └── SDPromptSanitizer — Keyword-Blocklist + content-policy
+```
+
+**Alle Pfade (Text2Img, Batch, Img2Img) werden durch einen internen `generate_mutex_` serialisiert.**
+
+### SDPlugin — Schnellstart
+
+```cpp
+#include "stable_diffusion/sd_plugin.h"
+#include "stable_diffusion/sd_config.h"
+
+// Default-Konstruktor nutzt SDStubGenerator (kein Modell erforderlich)
+themis::imggen::SDPlugin plugin;
+
+// Initialisieren mit Modell-Pfad
+nlohmann::json cfg = {
+    {"width", 512}, {"height", 512}, {"steps", 20}, {"cfg_scale", 7.5}
+};
+plugin.initialize("/models/sd_v1.5.safetensors", cfg);
+
+// Text-zu-Bild generieren
+themis::imggen::SDGenerationConfig gen_cfg;
+gen_cfg.width  = 512;
+gen_cfg.height = 512;
+gen_cfg.steps  = 20;
+gen_cfg.seed   = -1;  // random
+
+auto img = plugin.generate("Eine Detektiv-Noir-Szene im Regen", gen_cfg);
+// img.width, img.height, img.png_bytes (vollständiges PNG)
+// img.provenance: {"generation_timestamp":..., "prompt_hash":..., "plugin_version":"2.1.0"}
+```
+
+### generateBatch — Parallele Bilderzeugung
+
+```cpp
+std::vector<std::string> prompts = {
+    "Sonnenuntergang über Berggipfeln",
+    "Futuristische Stadtlandschaft, Neon-Lichter",
+    "Aquarell-Portrait eines Roboters",
+};
+
+auto results = plugin.generateBatch(prompts, gen_cfg);
+for (const auto& img : results) {
+    if (img.success) {
+        save_png(img.png_bytes, img.prompt_hash + ".png");
+    }
+}
+```
+
+Jeder Prompt wird **unabhängig** durch den `SDPromptSanitizer` gefiltert.  Blockierte Prompts ergeben ein `GeneratedImage{success=false, blocked=true}`.
+
+### generateImg2Img — Bildkonditionierung
+
+```cpp
+#include "stable_diffusion/sd_generator.h"
+
+themis::imggen::Img2ImgConfig img2img_cfg;
+img2img_cfg.input_image_rgb = existing_image_bytes;  // RGB-Rohdaten
+img2img_cfg.strength        = 0.75f;   // 0.0 = unverändertes Original, 1.0 = vollständige Neugenerierung
+img2img_cfg.width  = 512;
+img2img_cfg.height = 512;
+img2img_cfg.steps  = 30;
+
+auto result = plugin.generateImg2Img("Gleiche Szene, aber bei Nacht", img2img_cfg);
+```
+
+`SDStubGenerator::generateImg2Img()` gibt das Eingangsbild pass-through zurück (für CI-Tests ohne Modell).
+
+### SDPromptSanitizer — Content Policy
+
+Der Sanitizer blockt Prompts, die Schlüsselwörter aus einer konfigurierbaren Blocklist enthalten (case-insensitive, Datei-ladbar).  Negative Prompts unterliegen derselben Prüfung.
+
+```yaml
+stable_diffusion:
+  prompt_sanitizer:
+    blocklist_path: /etc/themisdb/sd_blocklist.txt
+    block_negative_prompts: true  # Security-Gap SD-NP-01
+```
+
+### Provenienz-Stempel
+
+Jedes generierte Bild erhält automatisch folgende Provenienz-Metadaten:
+
+| Feld | Wert |
+|------|------|
+| `generation_timestamp` | Unix-Epoch ms |
+| `prompt_hash` | SHA-256-Hex des bereinigten Prompts |
+| `plugin_version` | `"2.1.0"` |
+
+### CMake-Aktivierung
+
+```cmake
+# Mit echtem stable-diffusion.cpp Modell
+cmake -DTHEMIS_ENABLE_STABLE_DIFFUSION=ON ..
+
+# Ohne Modell (Stub-Modus, Standard für CI)
+cmake ..
+```
+
+### Kennzahlen und Monitoring
+
+```cpp
+auto stats = plugin.getStatistics();
+// stats["total_generated"]   — Gesamtzahl erfolgreicher Generierungen
+// stats["total_blocked"]     — Abgelehnte Prompts (content policy)
+// stats["total_errors"]      — Fehlgeschlagene Inferenz-Aufrufe
+// stats["plugin_version"]    — "2.1.0"
+```

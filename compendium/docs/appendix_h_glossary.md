@@ -647,6 +647,28 @@ Low cardinality: Status (10 values)
 
 **AiHardwareDispatcher:** Universal AI-hardware dispatch layer that selects the best available backend at runtime following the priority chain: NPU → ONNX Runtime → GPU → CPU. Supports INT4/W4A8/W8A8 precision modes. See Chapter 16.11.
 
+**ArgumentStore:** Ethics AI Plugin component that persists `EthicalArgument` objects as ThemisDB `BaseEntity` entries in RocksDB (or an in-memory fallback for tests). See Chapter 24.9.
+
+**EthicalDiscourseEngine:** Ethics AI Plugin orchestrator that coordinates multi-philosophy debates via `initializeDebate()` and synthesises an `EthicalDecision` via `makeDecision()`. See Chapter 24.9.
+
+**EthicsEvaluator:** Ethics AI Plugin component that scores an `EthicalDecision` across five dimensions: Decision Quality, Consistency, Fairness, Alignment, and Transparency. See Chapter 24.9.
+
+**IAudioBackend:** Plugin interface implemented by `WhisperPlugin`. Provides `transcribe()`, `transcribeFile()`, and `detectLanguage()` methods. See Chapter 10.7.x.
+
+**IImageGenerationBackend:** Plugin interface implemented by `SDPlugin`. Provides `generate()`, `generateBatch()`, and `generateImg2Img()` methods. See Chapter 12.10.
+
+**PhilosophyLoader:** Ethics AI Plugin component that loads and caches philosophy school profiles from YAML files. See Chapter 24.9.
+
+**RAGContextEngine:** Ethics AI Plugin component providing 7 optimised AQL query patterns for context retrieval from the ethics knowledge base. See Chapter 24.9.
+
+**SDPlugin:** Stable Diffusion image-generation plugin implementing `IImageGenerationBackend`. Provides text-to-image, batch, and img2img generation with prompt sanitisation and provenance stamps. See Chapter 12.10.
+
+**SDPromptSanitizer:** Stable Diffusion content-policy component that blocks prompts containing forbidden keywords (case-insensitive, file-loadable blocklist). Covers negative prompts (security gap SD-NP-01). See Chapter 12.10.
+
+**WhisperPlugin:** Speech-to-text plugin implementing `IAudioBackend`. Wraps `IWhisperTranscriber` strategy and `IAudioChunkReader` for file I/O. Thread-safe; adds provenance stamps to every result. See Chapter 10.7.x.
+
+**WavAudioChunkReader:** WAV file reader without external library dependency. Supports 16-bit PCM and IEEE float32 RIFF/WAV. Used by `WhisperPlugin` as default audio input. See Chapter 10.7.x.
+
 **LIRS (Low Inter-Reference Recency Set):** Advanced cache eviction algorithm distinguishing LIR (low inter-reference recency, "hot") from HIR (high inter-reference recency, "warm/cold") entries. ThemisDB's LIRS implementation uses `std::shared_mutex` for thread-safe access.
 
 **RCU (Read-Copy-Update):** Lock-free synchronisation technique for shared data: readers proceed without locks while writers create a new version. `g_rcu_reader_count` tracks active readers; writers wait until the count reaches zero.
