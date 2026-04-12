@@ -259,6 +259,21 @@ Die folgenden Komponenten wurden mit dem v1.9.x-Release (Commit 2026-04-12) in d
 | LIRS `shared_mutex` Fix | `performance/` | ✅ GA | — | TOCTOU-Race beseitigt; `get()` → `unique_lock` |
 | RCU `g_rcu_reader_count` Fix | `performance/` | ✅ GA | — | `readers_active()` war immer false, jetzt korrekt |
 
+### Geo-Modul (v1.x)
+
+| Feature | Modul | Status | Tests | Beschreibung |
+|---------|-------|--------|-------|-------------|
+| ST_BUFFER | `geo/` | ✅ GA | — | CPU-exact + Boost; GPU-Fallback mit Audit-Log |
+| ST_UNION / ST_DIFFERENCE | `geo/` | ✅ GA | — | CPU-exact, Boost, GPU-fallback; AQL-Funktionen |
+| CUDA Geo-Kernel | `geo/acceleration/` | ✅ GA | — | Haversine-Distanz, Containment-Batch (CUDA + ROCm/HIP) |
+| S2-Zell-Indizierung | `geo/` | ✅ GA | — | Hierarchische S2-Zellen; `cellForPoint()`, `coveringCells()` |
+| H3-Hexagonales Grid | `geo/` | ✅ GA | — | Uber H3; `geoToH3()`, `kRing()`, `compact()` |
+| `TemporalSpatialQuery` | `geo/` | ✅ GA | — | Location-at-Time T; `locationAtTime()`, `entitiesInBboxAtTime()` |
+| `RasterGrid` / `sampleAt()` | `geo/` | ✅ GA | — | Elevation-Sampling mit bilinearer Interpolation |
+| `generateHeatmap()` | `geo/` | ✅ GA | — | Gaussian-KDE aus Punktwolke; konfigurierbare Bandbreite + Auflösung |
+| Spatial JOIN | `geo/` | ✅ GA | — | Alle Paare innerhalb Distanz (CUDA-optimiert) |
+| ROCm/HIP-Backend | `geo/` | ✅ GA | — | AMD GPU-Unterstützung als CUDA-Alternative |
+
 ### AI / Acceleration
 
 | Feature | Modul | Status | Tests | Beschreibung |

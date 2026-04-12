@@ -750,3 +750,121 @@ In diesem Kapitel haben Sie gelernt:
 Geo-Spatial Features in ThemisDB bieten eine solide Grundlage für Location-Based Services ohne externe Geo-Datenbank. Die native Integration mit anderen Datenmodellen (Relational, Graph, Dokument, Vector) macht ThemisDB zur idealen Plattform für moderne Geo-Anwendungen.
 
 Im nächsten Kapitel sehen wir uns **Analytics & Reporting** an – Aggregationen, Dashboards und Business Intelligence mit ThemisDB.
+
+---
+
+## 14.11 Geo-Modul — Erweiterte C++ API (v1.x)
+
+Das Geo-Modul (`include/geo/`, `src/geo/`) bietet über die AQL-Schnittstelle hinaus eine vollständige C++ API für komplexe Geospatial-Szenarien.
+
+### 14.11.1 Geometrie-Operationen (ST_UNION, ST_DIFFERENCE, ST_BUFFER)
+
+```cpp
+#include "geo/geo_engine.h"
+
+// ST_BUFFER: Geometrie um Distanz erweitern
+auto buffered = geo_engine.stBuffer(polygon, /*distance_m=*/500.0);
+
+// ST_UNION: Vereinigung zweier Geometrien
+auto united   = geo_engine.stUnion(poly_a, poly_b);
+
+// ST_DIFFERENCE: Differenz zweier Geometrien
+auto diff     = geo_engine.stDifference(poly_a, poly_b);
+```
+
+Die Operationen werden automatisch auf das verfügbare Backend geroutet: **CPU-exact** → **Boost.Geometry** → **GPU (CUDA/ROCm)** mit Circuit-Breaker-Fallback.
+
+### 14.11.2 S2- und H3-Zell-Indizierung
+
+```cpp
+#include "geo/s2_index.h"
+#include "geo/h3_index.h"
+
+// S2: Google S2 Hierarchische Zellen
+themis::geo::S2Index s2;
+auto cell_id = s2.cellForPoint(lon, lat, /*level=*/13);
+auto cells   = s2.coveringCells(polygon, /*max_cells=*/8);
+
+// H3: Uber Hexagonales Grid
+themis::geo::H3Index h3;
+auto hex_id    = h3.geoToH3(lat, lon, /*resolution=*/9);
+auto neighbors = h3.kRing(hex_id, /*k=*/1);     // 7 Hexagone
+auto compact   = h3.compact(cells);              // Vereinfachung
+```
+
+### 14.11.3 Temporale Räumliche Abfragen
+
+`TemporalSpatialQuery` (`include/geo/temporal_spatial_query.h`) verbindet das Temporal-Versioning mit Geospatial-Queries: „Wo war Entität X zum Zeitpunkt T?" oder „Welche Entitäten lagen in Region R zum Zeitpunkt T?"
+
+```cpp
+#include "geo/temporal_spatial_query.h"
+
+// Geometrie einer Entität zu einem bestimmten Zeitpunkt
+auto loc = themis::geo::TemporalSpatialQuery::locationAtTime(
+    versioned_table,
+    "fahrzeug:001",
+    /*as_of_ms=*/1712000000000LL
+);
+// loc: std::optional<GeometryInfo>
+
+// Alle Entitäten in einer Bounding Box zum Zeitpunkt T
+auto in_bbox = themis::geo::TemporalSpatialQuery::entitiesInBboxAtTime(
+    versioned_table,
+    MBR{13.2, 52.4, 13.6, 52.6},   // Berlin Bounding Box
+    /*as_of_ms=*/1712000000000LL
+);
+
+// Alle Standorte aller Entitäten zum Zeitpunkt T
+auto all = themis::geo::TemporalSpatialQuery::allLocationsAtTime(
+    versioned_table,
+    /*as_of_ms=*/1712000000000LL
+);
+```
+
+### 14.11.4 Raster-Abfragen (Höhenmodelle, Heatmaps)
+
+`RasterGrid` + freie Funktionen (`include/geo/raster.h`) unterstützen Höhendaten-Sampling und Gaussian-KDE-Heatmap-Generierung aus Punktwolken.
+
+```cpp
+#include "geo/raster.h"
+
+// ── Elevation Sampling ────────────────────────────────────────────────────
+// RasterGrid elevation_dem = ...;  // aus DEM-Datei geladen
+
+auto sample = themis::geo::sampleAt(elevation_dem, lon, lat);
+// sample.value:        Höhenwert in Metern (float)
+// sample.interpolated: bilinear interpoliert?
+// sample.is_no_data:   kein Datenwert (NaN-Sentinel)
+
+// ── Gaussian KDE Heatmap ──────────────────────────────────────────────────
+std::vector<themis::geo::Coordinate> gps_points = { {13.4, 52.5}, ... };
+
+themis::geo::HeatmapConfig cfg;
+cfg.bandwidth_m = 500.0;   // Gaussian-σ in Metern
+cfg.resolution  = 256;     // Grid-Auflösung (NxN)
+cfg.normalize   = true;    // Werte auf [0.0, 1.0] normieren
+
+themis::geo::MBR bbox{ 13.2, 52.4, 13.6, 52.6 };
+auto heatmap = themis::geo::generateHeatmap(gps_points, bbox, cfg);
+// heatmap.data: row-major float-Grid (row 0 = min_lat)
+// heatmap.width, heatmap.height: Gitterdimensionen
+```
+
+### 14.11.5 GPU-Backend-Architektur
+
+Das Geo-Modul unterstützt CUDA- und ROCm/HIP-Beschleunigung mit automatischem Circuit-Breaker:
+
+```
+GeoEngine::execute()
+    ├── GPU verfügbar?  → gpu_backend_cuda.cu (CUDA) / ROCm
+    │       ↓ Fehler / keine GPU
+    └── CPU-Fallback   → Boost.Geometry (exact) / CPU-basic
+                         + Audit-Log für Backend-Wechsel
+```
+
+**Unterstützte CUDA-Kernel** (GPU-Backend):
+- Distanzberechnungen (Haversine, Vincenty)
+- Punkt-in-Polygon-Containment (Batch)
+- Spatial JOIN (alle Paare innerhalb Distanz)
+
+ST_BUFFER, ST_UNION, ST_DIFFERENCE → CPU-Backend mit Audit-Eintrag (CUDA-Kernel geplant für v2.2.0).
