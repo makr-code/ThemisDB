@@ -46,17 +46,16 @@ management, and aggregated health reporting.
   - Audit log records `forced: true`
 
 ### Medium-term (v1.2.0)
-- [ ] DAG with explicit per-task predecessors (replace implicit list order) (Target: v1.2.0)
-  - `MaintenanceTaskDependency` struct with `task_type` and `depends_on: [TaskType]`
-  - Topological sort via `ModuleDependencyResolver` (already implemented)
-  - Errors: cycle detection → reject schedule creation; missing predecessor type → `ERR_UTIL_INVALID_ARGUMENT`
-  - Tests: DAG scheduling correctness, cycle rejection, cascading failure
-  - Perf: topological sort O(V+E); V=19 max tasks, negligible overhead
+- [x] DAG with explicit per-task predecessors (replace implicit list order) (Target: v1.2.0)
+  - `MaintenanceTaskDependency` struct with `task_type` and `depends_on: [TaskType]` — `include/maintenance/maintenance_schedule.h` (commit de8a5ac414)
+  - Topological sort via Kahn's algorithm in `DatabaseMaintenanceOrchestrator::resolveTaskOrder_()` — `include/maintenance/database_maintenance_orchestrator.h`
+  - Cycle detection → rejects schedule creation; missing predecessor type → `ERR_UTIL_INVALID_ARGUMENT`
+- [x] StorageCompaction integration (Target: v1.2.0)
+  - `StorageCompactionHandler` in `include/maintenance/maintenance_task_handler_impls.h`: wraps `CompactionManager::compactAll()`
+  - Register via `orchestrator.registerTaskHandler(STORAGE_COMPACTION, std::make_shared<StorageCompactionHandler>(mgr))`
 - [ ] Replica consistency check integration (Target: v1.2.0)
   - Wire `REPLICA_VALIDATION` task to sharding/replica module once available
   - Health probe contributed by sharding module via `registerHealthProbe("replica", ...)`
-- [ ] StorageCompaction integration (Target: v1.2.0)
-  - Wire `STORAGE_COMPACTION` task to `CompactionManager::triggerCompaction()`
 
 ### Long-term (v2.0.0)
 - [ ] Multi-tenant schedule isolation – per-tenant windows and quotas (Target: v2.0.0)
@@ -76,7 +75,7 @@ management, and aggregated health reporting.
 - [x] Cascading failure control: `halt_on_task_failure`
 - [x] HTTP RBAC: `maintenance:read` / `maintenance:write` / `maintenance:admin`
 - [x] Schedule persistence (survives restart) – implemented v1.1.0 (`MaintenanceScheduleStore`, write-through CRUD, loadAll on start())
-- [ ] Explicit DAG dependency graph – planned v1.2.0
+- [x] Explicit DAG dependency graph – implemented v1.2.0 (`MaintenanceTaskDependency`, Kahn's topological sort)
 
 ## Known Issues & Limitations
 
@@ -115,7 +114,7 @@ management, and aggregated health reporting.
 ### Phase 5: Persistence & Advanced DAG (Planned – v1.1.0 / v1.2.0)
 - [ ] RocksDB persistence for schedules
 - [ ] Explicit per-task dependency graph
-- [ ] Module-specific task wiring (compaction, replica validation)
+- [x] Module-specific task wiring: `StorageCompactionHandler` (compactAll), DAG execution
 
 ## Breaking Changes
 *None – new module with no existing API contract.*

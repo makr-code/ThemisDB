@@ -34,6 +34,8 @@
 #include <cstdint>
 #include <string>
 #include <limits>
+#include <numeric>
+#include <utility>
 
 using namespace themis::utils;
 
@@ -377,4 +379,198 @@ TEST_F(ZstdCompressionSecurityTest, StressTestMultipleDecompressions) {
         ASSERT_TRUE(result.has_value()) << "Decompression failed at iteration " << i;
         EXPECT_EQ(*result, data);
     }
+}
+
+
+// ============================================================================
+// Streaming ZSTD tests (ZstdStreamingTests)
+// ============================================================================
+
+class ZstdStreamingTests : public ::testing::Test {
+protected:
+    // Build a chunk-based source from a flat byte vector.
+    static auto makeVecSource(const std::vector<uint8_t>& data, size_t chunk_size) {
+        struct State {
+            const std::vector<uint8_t>& buf;
+            size_t                      offset     = 0;
+            size_t                      chunk_size = 0;
+        };
+        return [state = std::make_shared<State>(State{data, 0, chunk_size})]()
+               -> std::pair<const uint8_t*, size_t> {
+            if (state->offset >= state->buf.size()) {
+                return {nullptr, 0};
+            }
+            size_t n = std::min(state->chunk_size, state->buf.size() - state->offset);
+            const uint8_t* ptr = state->buf.data() + state->offset;
+            state->offset += n;
+            return {ptr, n};
+        };
+    }
+
+    // Collect all sink chunks into one vector.
+    static auto makeVecSink(std::vector<uint8_t>& out) {
+        return [&out](const uint8_t* p, size_t n) -> bool {
+            out.insert(out.end(), p, p + n);
+            return true;
+        };
+    }
+
+    // Generate compressible data (repetitive pattern).
+    static std::vector<uint8_t> makeData(size_t n) {
+        std::vector<uint8_t> d(n);
+        for (size_t i = 0; i < n; ++i) d[i] = static_cast<uint8_t>(i % 251);
+        return d;
+    }
+};
+
+// ZS-01: Round-trip 1 KiB ────────────────────────────────────────────────────
+
+TEST(ZstdStreamingTests, ZS_01_RoundTrip_1KiB) {
+#ifndef THEMIS_HAS_ZSTD
+    GTEST_SKIP() << "ZSTD not available";
+#endif
+    auto data = makeData(1024);
+    std::vector<uint8_t> compressed, decompressed;
+
+    auto r1 = zstd_compress_stream(makeVecSource(data, 256), makeVecSink(compressed));
+    ASSERT_TRUE(r1.has_value()) << r1.error().message();
+    EXPECT_FALSE(compressed.empty());
+
+    auto r2 = zstd_decompress_stream(makeVecSource(compressed, 128), makeVecSink(decompressed));
+    ASSERT_TRUE(r2.has_value()) << r2.error().message();
+    EXPECT_EQ(decompressed, data);
+}
+
+// ZS-02: Round-trip 64 KiB with 4 KiB chunks ────────────────────────────────
+
+TEST(ZstdStreamingTests, ZS_02_RoundTrip_64KiB_4KiB_Chunks) {
+#ifndef THEMIS_HAS_ZSTD
+    GTEST_SKIP() << "ZSTD not available";
+#endif
+    auto data = makeData(65536);
+    std::vector<uint8_t> compressed, decompressed;
+
+    ASSERT_TRUE(zstd_compress_stream(makeVecSource(data, 4096), makeVecSink(compressed)).has_value());
+    ASSERT_TRUE(zstd_decompress_stream(makeVecSource(compressed, 4096), makeVecSink(decompressed)).has_value());
+    EXPECT_EQ(decompressed, data);
+}
+
+// ZS-03: Empty input produces valid (empty) output ───────────────────────────
+
+TEST(ZstdStreamingTests, ZS_03_EmptyInput) {
+#ifndef THEMIS_HAS_ZSTD
+    GTEST_SKIP() << "ZSTD not available";
+#endif
+    std::vector<uint8_t> empty_input;
+    std::vector<uint8_t> compressed, decompressed;
+
+    ASSERT_TRUE(zstd_compress_stream(makeVecSource(empty_input, 256), makeVecSink(compressed)).has_value());
+    ASSERT_TRUE(zstd_decompress_stream(makeVecSource(compressed, 128), makeVecSink(decompressed)).has_value());
+    EXPECT_TRUE(decompressed.empty());
+}
+
+// ZS-04: Compressed output is smaller than input (compressible data) ─────────
+
+TEST(ZstdStreamingTests, ZS_04_CompressionReducesSize) {
+#ifndef THEMIS_HAS_ZSTD
+    GTEST_SKIP() << "ZSTD not available";
+#endif
+    // Highly compressible: all-zero 128 KiB
+    std::vector<uint8_t> data(131072, 0);
+    std::vector<uint8_t> compressed;
+
+    ASSERT_TRUE(zstd_compress_stream(makeVecSource(data, 16384), makeVecSink(compressed)).has_value());
+    EXPECT_LT(compressed.size(), data.size());
+}
+
+// ZS-05: max_output_bytes guard triggers on over-sized decompression ──────────
+
+TEST(ZstdStreamingTests, ZS_05_MaxOutputBytes_GuardTriggered) {
+#ifndef THEMIS_HAS_ZSTD
+    GTEST_SKIP() << "ZSTD not available";
+#endif
+    auto data = makeData(8192);
+    std::vector<uint8_t> compressed;
+    ASSERT_TRUE(zstd_compress_stream(makeVecSource(data, 4096), makeVecSink(compressed)).has_value());
+
+    // Limit decompressed to 512 bytes — must fail
+    std::vector<uint8_t> sink_out;
+    auto result = zstd_decompress_stream(makeVecSource(compressed, 256), makeVecSink(sink_out), 512);
+    EXPECT_FALSE(result.has_value())
+        << "Expected failure when max_output_bytes=512 but data=8192";
+}
+
+// ZS-06: Sink returning false aborts compression ─────────────────────────────
+
+TEST(ZstdStreamingTests, ZS_06_SinkReturnFalse_AbortsCompression) {
+#ifndef THEMIS_HAS_ZSTD
+    GTEST_SKIP() << "ZSTD not available";
+#endif
+    auto data = makeData(65536);
+    int  call_count = 0;
+    auto aborting_sink = [&](const uint8_t*, size_t) -> bool {
+        ++call_count;
+        return false;  // always reject
+    };
+
+    auto r = zstd_compress_stream(makeVecSource(data, 4096), aborting_sink);
+    EXPECT_FALSE(r.has_value());
+    EXPECT_LE(call_count, 2);  // aborted quickly
+}
+
+// ZS-07: Sink returning false aborts decompression ───────────────────────────
+
+TEST(ZstdStreamingTests, ZS_07_SinkReturnFalse_AbortsDecompression) {
+#ifndef THEMIS_HAS_ZSTD
+    GTEST_SKIP() << "ZSTD not available";
+#endif
+    auto data = makeData(16384);
+    std::vector<uint8_t> compressed;
+    ASSERT_TRUE(zstd_compress_stream(makeVecSource(data, 4096), makeVecSink(compressed)).has_value());
+
+    auto aborting_sink = [](const uint8_t*, size_t) -> bool { return false; };
+    auto r = zstd_decompress_stream(makeVecSource(compressed, 1024), aborting_sink);
+    EXPECT_FALSE(r.has_value());
+}
+
+// ZS-08: Corrupt compressed data returns error ───────────────────────────────
+
+TEST(ZstdStreamingTests, ZS_08_CorruptInput_ReturnsError) {
+#ifndef THEMIS_HAS_ZSTD
+    GTEST_SKIP() << "ZSTD not available";
+#endif
+    std::vector<uint8_t> garbage(512, 0xDE);
+    std::vector<uint8_t> sink_out;
+    auto r = zstd_decompress_stream(makeVecSource(garbage, 64), makeVecSink(sink_out));
+    EXPECT_FALSE(r.has_value());
+}
+
+// ZS-09: Single-byte chunk size still works ──────────────────────────────────
+
+TEST(ZstdStreamingTests, ZS_09_SingleByteChunks_RoundTrip) {
+#ifndef THEMIS_HAS_ZSTD
+    GTEST_SKIP() << "ZSTD not available";
+#endif
+    auto data = makeData(256);
+    std::vector<uint8_t> compressed, decompressed;
+
+    ASSERT_TRUE(zstd_compress_stream(makeVecSource(data, 1), makeVecSink(compressed)).has_value());
+    ASSERT_TRUE(zstd_decompress_stream(makeVecSource(compressed, 1), makeVecSink(decompressed)).has_value());
+    EXPECT_EQ(decompressed, data);
+}
+
+// ZS-10: max_output_bytes = 0 uses default (should succeed for normal input) ──
+
+TEST(ZstdStreamingTests, ZS_10_MaxOutput_Zero_UsesDefault) {
+#ifndef THEMIS_HAS_ZSTD
+    GTEST_SKIP() << "ZSTD not available";
+#endif
+    auto data = makeData(4096);
+    std::vector<uint8_t> compressed, decompressed;
+
+    ASSERT_TRUE(zstd_compress_stream(makeVecSource(data, 1024), makeVecSink(compressed)).has_value());
+    // max_output_bytes = 0 → uses compression::MAX_DECOMPRESSED_SIZE
+    auto r = zstd_decompress_stream(makeVecSource(compressed, 512), makeVecSink(decompressed), 0);
+    ASSERT_TRUE(r.has_value()) << r.error().message();
+    EXPECT_EQ(decompressed, data);
 }

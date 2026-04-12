@@ -247,5 +247,147 @@ std::vector<uint8_t> zstd_decompress(const std::vector<uint8_t>& compressed) {
     return {};
 }
 
+// ---------------------------------------------------------------------------
+// Streaming compress / decompress (ZSTD_CStream / ZSTD_DStream)
+// ---------------------------------------------------------------------------
+
+Result<void> zstd_compress_stream(
+        std::function<std::pair<const uint8_t*, size_t>()> source,
+        std::function<bool(const uint8_t*, size_t)>        sink,
+        int                                                 level) {
+#ifdef THEMIS_HAS_ZSTD
+    ZSTD_CStream* cstream = ZSTD_createCStream();
+    if (!cstream) {
+        return Err<void>(errors::ErrorCode::ERR_UTIL_ALLOCATION_FAILED,
+                         "ZSTD_createCStream failed");
+    }
+    struct CStreamGuard {
+        ZSTD_CStream* p;
+        ~CStreamGuard() { ZSTD_freeCStream(p); }
+    } guard{cstream};
+
+    size_t init_result = ZSTD_initCStream(cstream, level);
+    if (ZSTD_isError(init_result)) {
+        return Err<void>(errors::ErrorCode::ERR_UTIL_COMPRESSION_FAILED,
+                         fmt::format("ZSTD_initCStream: {}", ZSTD_getErrorName(init_result)));
+    }
+
+    const size_t in_buf_size  = ZSTD_CStreamInSize();
+    const size_t out_buf_size = ZSTD_CStreamOutSize();
+    std::vector<uint8_t> out_buf(out_buf_size);
+
+    for (;;) {
+        auto [chunk_data, chunk_size] = source();
+        const bool is_last = (chunk_data == nullptr || chunk_size == 0);
+
+        if (!is_last) {
+            if (chunk_size > in_buf_size) {
+                return Err<void>(errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
+                                 fmt::format("Chunk size {} exceeds ZSTD input buffer {}", chunk_size, in_buf_size));
+            }
+            ZSTD_inBuffer in{chunk_data, chunk_size, 0};
+            while (in.pos < in.size) {
+                ZSTD_outBuffer out{out_buf.data(), out_buf_size, 0};
+                size_t ret = ZSTD_compressStream(cstream, &out, &in);
+                if (ZSTD_isError(ret)) {
+                    return Err<void>(errors::ErrorCode::ERR_UTIL_COMPRESSION_FAILED,
+                                     fmt::format("ZSTD_compressStream: {}", ZSTD_getErrorName(ret)));
+                }
+                if (out.pos > 0 && !sink(out_buf.data(), out.pos)) {
+                    return Err<void>(errors::ErrorCode::ERR_UTIL_COMPRESSION_FAILED,
+                                     "Sink callback rejected compressed data");
+                }
+            }
+        } else {
+            // Flush and end frame
+            ZSTD_outBuffer out{out_buf.data(), out_buf_size, 0};
+            size_t ret = ZSTD_endStream(cstream, &out);
+            if (ZSTD_isError(ret)) {
+                return Err<void>(errors::ErrorCode::ERR_UTIL_COMPRESSION_FAILED,
+                                 fmt::format("ZSTD_endStream: {}", ZSTD_getErrorName(ret)));
+            }
+            if (out.pos > 0 && !sink(out_buf.data(), out.pos)) {
+                return Err<void>(errors::ErrorCode::ERR_UTIL_COMPRESSION_FAILED,
+                                 "Sink callback rejected final compressed frame");
+            }
+            break;
+        }
+    }
+    return Ok();
+#else
+    (void)source; (void)sink; (void)level;
+    return Err<void>(errors::ErrorCode::ERR_UTIL_NOT_IMPLEMENTED,
+                     "ZSTD streaming not available (built without THEMIS_HAS_ZSTD)");
+#endif
+}
+
+Result<void> zstd_decompress_stream(
+        std::function<std::pair<const uint8_t*, size_t>()> source,
+        std::function<bool(const uint8_t*, size_t)>        sink,
+        size_t                                             max_output_bytes) {
+#ifdef THEMIS_HAS_ZSTD
+    if (max_output_bytes == 0) {
+        max_output_bytes = compression::MAX_DECOMPRESSED_SIZE;
+    }
+
+    ZSTD_DStream* dstream = ZSTD_createDStream();
+    if (!dstream) {
+        return Err<void>(errors::ErrorCode::ERR_UTIL_ALLOCATION_FAILED,
+                         "ZSTD_createDStream failed");
+    }
+    struct DStreamGuard {
+        ZSTD_DStream* p;
+        ~DStreamGuard() { ZSTD_freeDStream(p); }
+    } guard{dstream};
+
+    size_t init_result = ZSTD_initDStream(dstream);
+    if (ZSTD_isError(init_result)) {
+        return Err<void>(errors::ErrorCode::ERR_UTIL_COMPRESSION_FAILED,
+                         fmt::format("ZSTD_initDStream: {}", ZSTD_getErrorName(init_result)));
+    }
+
+    const size_t out_buf_size = ZSTD_DStreamOutSize();
+    std::vector<uint8_t> out_buf(out_buf_size);
+    size_t total_output = 0;
+
+    for (;;) {
+        auto [chunk_data, chunk_size] = source();
+        if (chunk_data == nullptr || chunk_size == 0) {
+            break;  // No more input
+        }
+
+        ZSTD_inBuffer in{chunk_data, chunk_size, 0};
+        while (in.pos < in.size) {
+            ZSTD_outBuffer out{out_buf.data(), out_buf_size, 0};
+            size_t ret = ZSTD_decompressStream(dstream, &out, &in);
+            if (ZSTD_isError(ret)) {
+                return Err<void>(errors::ErrorCode::ERR_UTIL_COMPRESSION_FAILED,
+                                 fmt::format("ZSTD_decompressStream: {}", ZSTD_getErrorName(ret)));
+            }
+            if (out.pos > 0) {
+                total_output += out.pos;
+                if (total_output > max_output_bytes) {
+                    THEMIS_ERROR("Streaming decompression exceeded max output size {} bytes", max_output_bytes);
+                    return Err<void>(errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
+                                     fmt::format("Decompressed output exceeded limit of {} bytes", max_output_bytes));
+                }
+                if (!sink(out_buf.data(), out.pos)) {
+                    return Err<void>(errors::ErrorCode::ERR_UTIL_COMPRESSION_FAILED,
+                                     "Sink callback rejected decompressed data");
+                }
+            }
+            if (ret == 0) {
+                break;  // Frame complete
+            }
+        }
+    }
+    return Ok();
+#else
+    (void)source; (void)sink; (void)max_output_bytes;
+    return Err<void>(errors::ErrorCode::ERR_UTIL_NOT_IMPLEMENTED,
+                     "ZSTD streaming not available (built without THEMIS_HAS_ZSTD)");
+#endif
+}
+
 } // namespace utils
 } // namespace themis

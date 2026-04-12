@@ -22,6 +22,8 @@
 
 #pragma once
 
+#include <functional>
+#include <utility>
 #include <vector>
 #include <cstdint>
 #include <string>
@@ -63,6 +65,62 @@ std::vector<uint8_t> zstd_decompress(const std::vector<uint8_t>& compressed);
 // These provide detailed error information and are recommended for new code
 Result<std::vector<uint8_t>> zstd_compress_safe(const uint8_t* data, size_t size, int level = 3);
 Result<std::vector<uint8_t>> zstd_decompress_safe(const std::vector<uint8_t>& compressed);
+
+// ---------------------------------------------------------------------------
+// Streaming API (ZSTD_CStream / ZSTD_DStream)
+// ---------------------------------------------------------------------------
+//
+// Both functions accept a `source` callback that returns successive input
+// chunks as (pointer, size) pairs and a `sink` callback that receives the
+// processed output chunks.  The source signals end-of-input by returning a
+// pair with a null pointer or zero size.  The sink returns `false` to abort
+// processing (the function will then return ERR_UTIL_COMPRESSION_FAILED).
+//
+// The streaming API never buffers the entire input or output in memory,
+// making it suitable for large files or network streams.
+//
+// Example – compress a file in 64 KiB chunks:
+//   std::ifstream in("input.bin", std::ios::binary);
+//   std::ofstream out("output.zst", std::ios::binary);
+//   zstd_compress_stream(
+//       [&] {
+//           static std::vector<uint8_t> buf(65536);
+//           in.read(reinterpret_cast<char*>(buf.data()), buf.size());
+//           return std::make_pair(buf.data(), static_cast<size_t>(in.gcount()));
+//       },
+//       [&](const uint8_t* p, size_t n) {
+//           out.write(reinterpret_cast<const char*>(p), n);
+//           return true;
+//       });
+
+/**
+ * @brief Stream-compress arbitrary data using ZSTD_CStream.
+ *
+ * @param source   Callback that supplies the next input chunk; return
+ *                 `{nullptr, 0}` or `{ptr, 0}` to signal end of input.
+ * @param sink     Callback that receives each compressed output chunk.
+ *                 Return `false` to abort.
+ * @param level    ZSTD compression level (default 3).
+ * @return Result<void> — ok on success, error otherwise.
+ */
+Result<void> zstd_compress_stream(
+    std::function<std::pair<const uint8_t*, size_t>()> source,
+    std::function<bool(const uint8_t*, size_t)>        sink,
+    int                                                level = 3);
+
+/**
+ * @brief Stream-decompress ZSTD-compressed data using ZSTD_DStream.
+ *
+ * @param source          Callback that supplies the next compressed chunk.
+ * @param sink            Callback that receives each decompressed chunk.
+ * @param max_output_bytes Hard cap on total decompressed bytes (DoS guard).
+ *                        Pass 0 to use `compression::MAX_DECOMPRESSED_SIZE`.
+ * @return Result<void> — ok on success, error otherwise.
+ */
+Result<void> zstd_decompress_stream(
+    std::function<std::pair<const uint8_t*, size_t>()> source,
+    std::function<bool(const uint8_t*, size_t)>        sink,
+    size_t                                             max_output_bytes = 0);
 
 } // namespace utils
 } // namespace themis
