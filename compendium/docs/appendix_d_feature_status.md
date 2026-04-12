@@ -279,6 +279,9 @@ Die folgenden Komponenten wurden mit dem v1.9.x-Release (Commit 2026-04-12) in d
 | Feature | Modul | Status | Tests | Beschreibung |
 |---------|-------|--------|-------|-------------|
 | `AiHardwareDispatcher` | `acceleration/` | ✅ GA | AHD-01..AHD-30 | NPU-Prioritätskette, INT4/W4A8, ONNX-EP-Fallback |
+| `GPUVectorIndex` Oversubscription | `index/` | ✅ GA | 26 (GPUMemOversubTests) | Partitions-basiertes VRAM-Paging; LRU/MRU/SEQUENTIAL Prefetch |
+| `GPUMemoryOversubscriptionManager` | `index/` | ✅ GA | 26 (GPUMemOversubTests) | Unified Memory (cudaMallocManaged/hipMallocManaged); CPU-Fallback |
+| `GPUUnifiedMemoryAllocator` | `index/` | ✅ GA | — | Transparente CUDA/HIP Unified Memory + CPU-Heap-Fallback |
 
 ### Utils
 
