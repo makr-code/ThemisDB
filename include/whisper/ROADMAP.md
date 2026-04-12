@@ -3,7 +3,11 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-- [x] Header API for whisper plugin and helpers is available (Target: Q2 2026)
+- [x] Header API for whisper plugin and helpers is available — v2.1.0 (2026-04-12)
+  - Thread-safe `WhisperPlugin` via `transcriber_mutex_` + `std::atomic` counters (Issue: #4591)
+  - `FfmpegAudioChunkReader` (popen ffmpeg, shell-escaped path, 500 MB cap) (Issue: #4591)
+  - `CompositeAudioChunkReader` chaining multiple `IAudioChunkReader` implementations (Issue: #4591)
+  - 36 unit tests groups A–L (Issue: #4591)
 
 ## In Progress
 - [ ] Add richer contract notes for multilingual/translation defaults (Target: Q3 2026)

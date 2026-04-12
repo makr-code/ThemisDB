@@ -33,6 +33,10 @@ Stub mode fully functional. stable-diffusion.cpp integration compiled when
 - [x] `negative_prompt` content-policy enforcement (SECURITY.md gap SD-NP-01 resolved)
 - [x] 51 unit tests (`SDPluginFocusedTests`, groups A–Q)
 - [x] Plugin manifest + CMake registration
+- [x] **`SDCppGenerator`** — wraps `stable-diffusion.cpp` C API under `THEMIS_ENABLE_STABLE_DIFFUSION` guard (Issue: #4590) (2026-04-12)
+- [x] **Real PNG IDAT encoder** — `encodeMinimalPng()` produces valid IDAT block via stored-deflate + CRC32 + Adler32 (Issue: #4590) (2026-04-12)
+- [x] **`SDStubGenerator::generateImg2Img`** — returns input-image pass-through (Issue: #4590) (2026-04-12)
+- [x] **51 unit tests** (`SDPluginFocusedTests`, groups A–Q) — 6 new tests groups P–Q for SDCppGenerator + real PNG encoder (Issue: #4590) (2026-04-12)
 
 ## In Progress
 

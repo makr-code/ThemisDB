@@ -6,11 +6,7 @@
 
 ## Current Status
 
-v0.0.1 — Core plugin skeleton operational. `EthicalDiscourseEngine` orchestrates
-debates across any number of philosophy schools; `ArgumentStore` persists entities
-via BaseEntity; `RAGContextEngine` provides 7 AQL retrieval patterns. Argument text
-generation and scoring are placeholder-quality; real LLM integration is planned for
-v0.1.0.
+v0.2.0 — `PhilosophyLoader` handles rich YAML (complex thesis objects, point-keyed strengths/weaknesses, nested `decision_framework`). `EthicsEvaluator::Config` configurable weights normalised in ctor. `ChainVisualizer` ships `exportDot`/`exportMermaid`/`chainToDot`/`chainToMermaid`. 8 tests CV-01…CV-08 in `tests/test_ethics_ai_chain_visualizer.cpp`. LLM argument generation and real embeddings remain planned for v0.1.0/v0.3.0.
 
 ---
 
@@ -27,6 +23,10 @@ v0.1.0.
 - [x] BaseEntity adapter for ethics types
 - [x] `std::variant<T, Status>` error handling throughout all public APIs
 - [x] Standalone in-memory mode for `ArgumentStore` (testing without RocksDB)
+- [x] **`PhilosophyLoader` rich YAML** — complex thesis objects, point-keyed `strengths`/`weaknesses`, nested `decision_framework` (Issue: #4596) (2026-04-12)
+- [x] **`EthicsEvaluator::Config`** — configurable dimension weights normalised in ctor (Issue: #4596) (2026-04-12)
+- [x] **`ChainVisualizer`** — `exportDot()`, `exportMermaid()`, `chainToDot()`, `chainToMermaid()` (Issue: #4596) (2026-04-12)
+- [x] **8 tests CV-01…CV-08** in `tests/test_ethics_ai_chain_visualizer.cpp` (Issue: #4596) (2026-04-12)
 
 ---
 
@@ -101,11 +101,12 @@ v0.1.0.
 - [x] Standalone mode activation when `RocksDBWrapper` is null
 
 ### Phase 4: Tests [~]
-- [x] Unit tests for `PhilosophyLoader` (directory, file, invalid YAML)
+- [x] Unit tests for `PhilosophyLoader` (directory, file, invalid YAML; rich YAML with complex thesis objects and nested `decision_framework` — Issue: #4596)
 - [x] Unit tests for `ArgumentStore` standalone mode
 - [x] Unit tests for `EthicalDiscourseEngine` decision flow
 - [x] Unit tests for `RAGContextEngine` focused query patterns
 - [x] Unit tests for `EthicsAIPlugin` lifecycle and metrics API
+- [x] 8 tests CV-01…CV-08 for `ChainVisualizer` (`exportDot`/`exportMermaid`/`chainToDot`/`chainToMermaid`) — `tests/test_ethics_ai_chain_visualizer.cpp` (Issue: #4596, 2026-04-12)
 - [x] Integration test: full decision pipeline end-to-end (Target: Q3 2026)
   - Scope: `EthicsAIPlugin::initialize()` → `initializeDebate()` → `makeDecision()` → `EthicsEvaluator::evaluate()`
   - Subsystems: `ethics_ai_plugin.cpp`, `discourse_engine.cpp`, `argument_store.cpp`, `ethics_evaluator.cpp`

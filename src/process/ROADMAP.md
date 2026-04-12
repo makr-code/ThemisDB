@@ -32,7 +32,9 @@ Beta-ready for core process modelling (BPMN, EPK, VCC-VPB), process linking, and
 - [x] `ProcessGraphRag`: similar case finding via cosine + Jaccard fallback (`findSimilarCases`)
 - [x] `ProcessGraphRag`: German and English LLM prompt builder
 - [x] 17 pre-loaded VCC-VPB administrative models (5 domains: Verwaltung, IT, Gesundheit, Finanzen, Kundenservice)
-- [x] AQL-queryable `_process_definitions` system collection (base-entity layer)
+- [x] 6 focused tests PL-01…PL-06 for `ProcessLinker` hard-delete + secondary-index behaviour (Issue: #4594) (2026-04-12)
+- [x] **`BpmnSerializer` state-machine tokenizer** (`importXml()`) — `tokenizeXml`/`parseAttrs`/`stripNs`/`unescapeXml`; handles `bpmn:` namespace prefixes, nested `subProcess`, `conditionExpression` child text, comments/PIs/CDATA; 10 MiB security guard; no regex (Issue: #4595) (2026-04-12)
+- [x] 11 focused tests PM-01…PM-11 for BPMN state-machine parser (Issue: #4595) (2026-04-12)
 - [x] `ProcessRagConfig` struct with full tuning parameters
 
 ## In Progress 🚧
@@ -103,14 +105,14 @@ Beta-ready for core process modelling (BPMN, EPK, VCC-VPB), process linking, and
 ### Phase 1: Core Process Modelling (Status: Completed ✅)
 
 - [x] `ProcessModelManager` CRUD with RocksDB storage
-- [x] BPMN 2.0 XML import/export (`BpmnSerializer`)
+- [x] BPMN 2.0 XML import/export (`BpmnSerializer`) — state-machine tokenizer (v1.0.1, Issue: #4595)
 - [x] EPK text/JSON import/export (`EpkSerializer`)
 - [x] VCC-VPB YAML import (`VccVpbImporter`)
 - [x] LLM descriptor generation (`LlmProcessDescriptor`)
 
 ### Phase 2: Linking & Attachment (Status: Completed ✅)
 
-- [x] `ProcessLinker`: attach documents and metadata to instances
+- [x] `ProcessLinker`: attach documents and metadata to instances — hard delete via `db_.del()`, secondary index `proc:obj_idx:` (Issue: #4594)
 - [x] `ProcessLinker`: process-to-process links (sub-process, cross-reference, triggers)
 - [x] Required document registry per process node
 - [x] Missing document detection via cross-reference
