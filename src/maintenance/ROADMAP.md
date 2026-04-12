@@ -114,7 +114,7 @@ management, and aggregated health reporting.
 ### Phase 5: Persistence & Advanced DAG (Planned – v1.1.0 / v1.2.0)
 - [ ] RocksDB persistence for schedules
 - [ ] Explicit per-task dependency graph
-- [x] Module-specific task wiring: `StorageCompactionHandler` (compactAll), DAG execution
+- [ ] Module-specific task wiring: `StorageCompactionHandler` (compactAll), DAG execution
 
 ## Breaking Changes
 *None – new module with no existing API contract.*

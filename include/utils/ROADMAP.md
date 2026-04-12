@@ -23,13 +23,13 @@
 - [ ] GPU-accelerated SIMD distance fallback path in `simd_distance.h` (Target: Q3 2026)
 - [ ] Streaming PII redaction in `pii_redacting_sink.h` (chunked input) (Target: Q2 2026)
 - [ ] `safe_arithmetic.h` — 128-bit integer support (Target: Q3 2026)
-- [x] `zstd_codec.h` — streaming compress/decompress API (Target: Q2 2026) — see above
-- [x] UUID v7 implementation — `generate_uuid_v7()` in `include/utils/uuid.h`- [ ] `rate_limiter.h` — distributed (Redis-backed) rate limiting (Target: Q3 2026)
+- [ ] `zstd_codec.h` — streaming compress/decompress API (Target: Q2 2026)
+- [ ] `uuid.h` — UUID v7 (time-ordered) support (Target: Q3 2026)
+- [ ] `rate_limiter.h` — distributed (Redis-backed) rate limiting (Target: Q3 2026)
 - [ ] `bloom_filter.h` — scalable Bloom filter (SBF) variant (Target: Q4 2026)
 - [ ] `retention_manager.h` — GDPR right-to-erasure integration (Target: Q2 2026)
 - [ ] Formal ReDoS audit of `regex_detection_engine.h` patterns (Target: Q2 2026)
-- [x] `uuid.h` — UUID v7 (time-ordered) support (Target: Q3 2026) — `generate_uuid_v7()` in `include/utils/uuid.h`: 48-bit ms timestamp + 18-bit monotonic seq + 56-bit rand; RFC 9562; 20 tests in `tests/test_uuid_v7.cpp`
-- [x] `zstd_codec.h` — streaming compress/decompress API (Target: Q2 2026) — `zstd_compress_stream` + `zstd_decompress_stream` with ZSTD_CStream/ZSTD_DStream; `max_output_bytes` DoS guard; 10 tests added to `tests/test_zstd_compression_security.cpp`
+
 ## Implementation Phases
 
 ### Phase 1 — Design / API Contract
@@ -38,11 +38,11 @@
 - [ ] Define streaming API contract for `zstd_codec.h`
 
 ### Phase 2 — Core Implementation
-- [x] Streaming ZSTD compress/decompress — `zstd_compress_stream` + `zstd_decompress_stream`
-- [x] UUID v7 implementation — `generate_uuid_v7()`
+- [ ] Streaming ZSTD compress/decompress — `zstd_compress_stream` + `zstd_decompress_stream`
+- [ ] UUID v7 implementation — `generate_uuid_v7()`
 
 ### Phase 3 — Error Handling & Edge Cases
-- [x] `zstd_codec.h`: max decompression output enforced via `max_output_bytes` parameter in `zstd_decompress_stream()`
+- [ ] `zstd_codec.h`: max decompression output enforced via `max_output_bytes` parameter in `zstd_decompress_stream()`
 - [ ] `pii_detector.h`: ReDoS-safe regex audit and replacements
 - [ ] `rate_limiter.h`: handle backend (Redis) unavailability gracefully
 
@@ -64,7 +64,7 @@
 ## Production Readiness Checklist
 - [x] PII pipeline tested and in production
 - [x] SIMD distance benchmarked
-- [x] Streaming ZSTD API released — `zstd_compress_stream` + `zstd_decompress_stream`
+- [ ] Streaming ZSTD API released
 - [ ] Distributed rate limiter released
 - [ ] ReDoS audit completed for regex detection engine
 - [ ] All headers have complete Doxygen documentation
