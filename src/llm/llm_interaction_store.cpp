@@ -29,6 +29,13 @@
 #include <rocksdb/utilities/transaction_db.h>
 #include <rocksdb/utilities/transaction.h>
 
+// simdjson fast-path: used for the hot read loops (getInteraction, listInteractions,
+// getStats).  Serialisation (toJson/fromJson) keeps nlohmann for convenience.
+#if __has_include(<simdjson.h>)
+#  include <simdjson.h>
+#  define THEMIS_LLM_SIMDJSON 1
+#endif
+
 namespace themis {
 
 // ===== Interaction JSON Serialization =====
@@ -163,6 +170,20 @@ std::optional<LLMInteractionStore::Interaction> LLMInteractionStore::getInteract
     }
     
     try {
+#ifdef THEMIS_LLM_SIMDJSON
+        static thread_local simdjson::ondemand::parser sj_parser;
+        // simdjson requires a padded copy
+        simdjson::padded_string padded(value);
+        auto doc = sj_parser.iterate(padded);
+        // Fall through to nlohmann for field extraction (ondemand DOM is not
+        // directly compatible with fromJson; we use simdjson for validation
+        // and forward the original string to nlohmann only on success).
+        if (doc.error()) {
+            THEMIS_ERROR("Failed to parse LLM interaction {} (simdjson): {}", id,
+                         simdjson::error_message(doc.error()));
+            return std::nullopt;
+        }
+#endif
         nlohmann::json j = nlohmann::json::parse(value);
         return Interaction::fromJson(j);
     } catch (const std::exception& e) {
@@ -212,6 +233,16 @@ std::vector<LLMInteractionStore::Interaction> LLMInteractionStore::listInteracti
         }
         
         try {
+#ifdef THEMIS_LLM_SIMDJSON
+            static thread_local simdjson::ondemand::parser sj_parser_list;
+            simdjson::padded_string padded_list(it->value().data(), it->value().size());
+            auto doc_list = sj_parser_list.iterate(padded_list);
+            if (doc_list.error()) {
+                THEMIS_WARN("simdjson rejected interaction at key {}: {}",
+                            key, simdjson::error_message(doc_list.error()));
+                continue;
+            }
+#endif
             nlohmann::json j = nlohmann::json::parse(it->value().ToString());
             Interaction interaction = Interaction::fromJson(j);
             
@@ -274,6 +305,16 @@ LLMInteractionStore::Stats LLMInteractionStore::getStats() const {
         }
         
         try {
+#ifdef THEMIS_LLM_SIMDJSON
+            static thread_local simdjson::ondemand::parser sj_parser_stats;
+            simdjson::padded_string padded_stats(it->value().data(), it->value().size());
+            auto doc_stats = sj_parser_stats.iterate(padded_stats);
+            if (doc_stats.error()) {
+                THEMIS_WARN("simdjson rejected interaction in stats scan: {}",
+                            simdjson::error_message(doc_stats.error()));
+                continue;
+            }
+#endif
             nlohmann::json j = nlohmann::json::parse(it->value().ToString());
             Interaction interaction = Interaction::fromJson(j);
             

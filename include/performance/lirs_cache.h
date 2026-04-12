@@ -26,6 +26,7 @@
 #include <list>
 #include <optional>
 #include <mutex>
+#include <shared_mutex>
 #include <atomic>
 
 namespace themis {
@@ -77,20 +78,24 @@ public:
      * @return true if found (hit), false if not found (miss)
      */
     bool get(const Key& key, Value& value) {
-        std::lock_guard<std::mutex> lock(mutex_);
-        
-        auto it = map_.find(key);
-        if (it == map_.end()) {
-            misses_++;
-            return false;
+        // Fast path: shared (read) lock for lookup
+        {
+            std::shared_lock<std::shared_mutex> rlock(mutex_);
+            auto it = map_.find(key);
+            if (it == map_.end()) {
+                misses_++;
+                return false;
+            }
+            hits_++;
+            value = it->second.value;
         }
-        
-        hits_++;
-        value = it->second.value;
-        
-        // Update access pattern
-        access(key);
-        
+        // Slow path: exclusive lock only to update access metadata
+        {
+            std::unique_lock<std::shared_mutex> wlock(mutex_);
+            if (map_.find(key) != map_.end()) {
+                access(key);
+            }
+        }
         return true;
     }
 
@@ -100,7 +105,7 @@ public:
      * @param value Value
      */
     void put(const Key& key, const Value& value) {
-        std::lock_guard<std::mutex> lock(mutex_);
+        std::unique_lock<std::shared_mutex> lock(mutex_);
         
         auto it = map_.find(key);
         if (it != map_.end()) {
@@ -141,7 +146,7 @@ public:
      * Check if key exists in cache
      */
     bool contains(const Key& key) const {
-        std::lock_guard<std::mutex> lock(mutex_);
+        std::shared_lock<std::shared_mutex> lock(mutex_);
         return map_.find(key) != map_.end();
     }
 
@@ -149,7 +154,7 @@ public:
      * Get current cache size
      */
     size_t size() const {
-        std::lock_guard<std::mutex> lock(mutex_);
+        std::shared_lock<std::shared_mutex> lock(mutex_);
         return map_.size();
     }
 
@@ -187,7 +192,7 @@ public:
      * Clear cache and reset statistics
      */
     void clear() {
-        std::lock_guard<std::mutex> lock(mutex_);
+        std::unique_lock<std::shared_mutex> lock(mutex_);
         map_.clear();
         stack_.clear();
         hir_list_.clear();
@@ -200,7 +205,7 @@ public:
      * Get LIR count
      */
     size_t get_lir_count() const {
-        std::lock_guard<std::mutex> lock(mutex_);
+        std::shared_lock<std::shared_mutex> lock(mutex_);
         return lir_count_;
     }
 
@@ -208,7 +213,7 @@ public:
      * Get HIR count
      */
     size_t get_hir_count() const {
-        std::lock_guard<std::mutex> lock(mutex_);
+        std::shared_lock<std::shared_mutex> lock(mutex_);
         return map_.size() - lir_count_;
     }
 
@@ -368,7 +373,7 @@ private:
     std::list<Key> stack_;                // LIRS stack (top = most recent)
     std::list<Key> hir_list_;             // HIR list (top = most recent)
     
-    mutable std::mutex mutex_;     // Thread safety
+    mutable std::shared_mutex mutex_; // Thread safety: shared for reads, exclusive for writes
     std::atomic<size_t> hits_;     // Hit counter
     std::atomic<size_t> misses_;   // Miss counter
 };
