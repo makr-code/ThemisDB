@@ -38,7 +38,7 @@ API stable — no breaking changes planned before v2.0.0.
 
 ### Q3 2026
 
-- [ ] **Streaming cursor API** — `ts_stream_cursor.h` (Target: Q3 2026)
+- [x] **Streaming cursor API** — `ts_stream_cursor.h` (Implemented: 2026-04-12)
   - Inputs: `QueryPlan` + `ChunkRef` iterator
   - Outputs: lazy row-iterator with back-pressure support
   - Constraints: zero-copy; caller owns result memory

@@ -82,7 +82,8 @@ management, and aggregated health reporting.
 - Schedules are in-memory only (lost on server restart). Persistence to RocksDB is planned for v1.1.0.
 - The `tasks` list implies a total order (first to last). Explicit dependency graphs (per-task `depends_on`) are planned for v1.2.0.
 - Module-delegated tasks (`METRICS_COLLECTION`, `STORAGE_COMPACTION`, etc.) currently succeed immediately without calling the actual module. Wiring to real module methods requires each module to register a handler, which is documented in `docs/maintenance/MODULE_INTEGRATION_GUIDE.md`.
-- `REPLICA_VALIDATION` and `MVCC_CLEANUP` tasks are not yet wired to real implementations; they are delegated to module health probes.
+- `REPLICA_VALIDATION` tasks are not yet wired to real implementations; they are delegated to module health probes.
+- `MVCC_CLEANUP` is now wired (2026-04-12): `MvccCleanupHandler` registered in `http_server.cpp` using the shared `mvcc_store_` member.
 
 ## Implementation Phases
 

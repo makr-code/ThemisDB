@@ -48,9 +48,7 @@
 - [ ] `temporal_query_engine.h` — `SEQUENCED DISTINCT` query primitive (SQL:2011 §13.4) (Target: v1.7.0)
 - [ ] `interval_tree_index.h` — `erase(key)` with rebalancing in O(log n) (Target: v1.7.0)
 - [ ] `temporal_aggregator.h` — `FIRST_VALUE` / `LAST_VALUE` ordered temporal analytic functions (Target: v1.7.0)
-- [ ] `temporal_compressor.h` — `LZ4Strategy` for high-throughput low-latency paths (Target: v1.8.0)
-  - Perf target: ≥ 2 GB/s encode throughput on timestamp columns
-  - Tests: round-trip fuzz + speed benchmark vs ZstdStrategy
+- [x] `temporal_compressor.h` — `LZ4Strategy` for high-throughput low-latency paths (Implemented: 2026-04-12)
 - [ ] `temporal_cdc.h` — persistent CDC log backed by append-only WAL segment (Target: v1.8.0)
   - Design: `CDCPersistentLog` implementing `CDCListener`; WAL segment rotation at 64 MB
   - Errors: disk-full handling, segment corruption detection (CRC-32)

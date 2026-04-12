@@ -456,8 +456,8 @@ HttpServer::HttpServer(
         // Initialize MVCC API Handler (per-record versioning + HLC)
         {
             auto clock = std::make_shared<themis::HybridLogicalClock>();
-            auto mvcc_store = std::make_shared<themis::MVCCStore>(storage_, std::move(clock));
-            mvcc_api_handler_ = std::make_unique<server::MvccApiHandler>(std::move(mvcc_store));
+            mvcc_store_ = std::make_shared<themis::MVCCStore>(storage_, std::move(clock));
+            mvcc_api_handler_ = std::make_unique<server::MvccApiHandler>(mvcc_store_);
         }
         THEMIS_INFO("MVCC API Handler initialized");
         
@@ -1190,6 +1190,13 @@ HttpServer::HttpServer(
                 themis::maintenance::MaintenanceTaskType::STORAGE_COMPACTION,
                 std::make_shared<themis::maintenance::StorageCompactionHandler>(
                     std::move(compaction_mgr)));
+        }
+
+        // Wire MVCC_CLEANUP handler — GC-s stale MVCC versions older than 24 h
+        if (mvcc_store_) {
+            maintenance_orchestrator_->registerTaskHandler(
+                themis::maintenance::MaintenanceTaskType::MVCC_CLEANUP,
+                std::make_shared<themis::maintenance::MvccCleanupHandler>(mvcc_store_));
         }
 
         maintenance_api_ = std::make_unique<server::MaintenanceApiHandler>(

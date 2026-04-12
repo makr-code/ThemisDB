@@ -59,8 +59,8 @@ migration.
 
 ### Q3 2026
 
-- [ ] `streaming_ingest_manager.h` — high-throughput streaming ingest interface
-      (Target: Q3 2026)
+- [x] `streaming_ingest_manager.h` — high-throughput streaming ingest interface
+      (Implemented: 2026-04-12)
   - Inputs: event streams (Kafka-compatible / raw TCP)
   - Outputs: durable writes via WAL with ≤ 50 ms end-to-end latency
   - Perf: ≥ 1M events/s sustained on 8-core node
