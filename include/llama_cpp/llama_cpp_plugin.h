@@ -9,6 +9,10 @@
 #include <functional>
 #include <nlohmann/json.hpp>
 
+#ifdef THEMIS_LLM_ENABLED
+#include "llm/llama_wrapper.h"
+#endif
+
 namespace themis {
 namespace llamacpp {
 
@@ -115,6 +119,12 @@ private:
         float       scale = 1.0f;
     };
     std::vector<LoRAEntry> loras_;
+
+#ifdef THEMIS_LLM_ENABLED
+    /// Real llama.cpp inference backend, created when a non-empty model path is
+    /// provided to loadModel().  Null in stub/CI mode (empty model path).
+    std::unique_ptr<llm::LlamaWrapper> wrapper_;
+#endif
 };
 
 } // namespace llamacpp

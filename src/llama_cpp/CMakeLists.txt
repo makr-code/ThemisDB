@@ -41,4 +41,24 @@ configure_file(
     @ONLY
 )
 
+# ── Real LlamaWrapper backend (optional) ──────────────────────────────────────
+# When THEMIS_ENABLE_LLM is ON (set by the parent build or edition cmake),
+# compile in the LlamaWrapper and propagate THEMIS_LLM_ENABLED so the plugin
+# activates real inference instead of stub mode.
+if(THEMIS_ENABLE_LLM)
+    target_compile_definitions(llama_cpp_plugin PUBLIC THEMIS_LLM_ENABLED)
+    # Link against the aggregated LLM library target when it exists (full build).
+    if(TARGET themis_llm)
+        target_link_libraries(llama_cpp_plugin PUBLIC themis_llm)
+    elseif(TARGET themis_core)
+        target_link_libraries(llama_cpp_plugin PUBLIC themis_core)
+    endif()
+    if(TARGET spdlog::spdlog)
+        target_link_libraries(llama_cpp_plugin PUBLIC spdlog::spdlog)
+    endif()
+    if(TARGET fmt::fmt)
+        target_link_libraries(llama_cpp_plugin PUBLIC fmt::fmt)
+    endif()
+endif()
+
 message(STATUS "llama_cpp_plugin v${PROJECT_VERSION} configured")
