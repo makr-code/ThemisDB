@@ -57,7 +57,32 @@ public:
         const EthicalDecision& decision,
         const std::vector<EthicalArgument>& arguments
     );
-    
+
+    /**
+     * @brief Compute confidence from argument strength distribution
+     *
+     * Returns the strength-weighted average over all arguments mapped as:
+     * WEAK=0.25, MODERATE=0.50, STRONG=0.75, DECISIVE=1.00.
+     * Returns 0.5 (neutral) when the argument list is empty.
+     *
+     * @param arguments Generated arguments for this decision
+     * @return Confidence score in [0.0, 1.0]
+     */
+    static double computeConfidence(const std::vector<EthicalArgument>& arguments);
+
+    /**
+     * @brief Compute consensus from inter-philosophy argument agreement
+     *
+     * Each philosophy school's arguments are tallied: PRO/SYNTHESIS count +1,
+     * CONTRA/REBUTTAL count -1.  A school "agrees" when its net tally >= 0.
+     * Consensus = fraction of schools that agree.
+     * A single school always returns 1.0 (unanimous by definition).
+     *
+     * @param arguments Generated arguments spanning one or more philosophy schools
+     * @return Consensus score in [0.0, 1.0]
+     */
+    static double computeConsensus(const std::vector<EthicalArgument>& arguments);
+
 private:
     // Dimension evaluators
     double evaluateDecisionQuality(

@@ -24,6 +24,7 @@
 
 #include "ethics_evaluator.h"
 #include <algorithm>
+#include <map>
 #include <numeric>
 #include <set>
 #include <variant>
@@ -191,6 +192,67 @@ double EthicsEvaluator::evaluateTransparency(
     }
     
     return std::min(score, 1.0);
+}
+
+// ---------------------------------------------------------------------------
+// Static scoring helpers
+// ---------------------------------------------------------------------------
+
+static double strengthToScore(ArgumentStrength s) {
+    switch (s) {
+        case ArgumentStrength::WEAK:     return 0.25;
+        case ArgumentStrength::MODERATE: return 0.50;
+        case ArgumentStrength::STRONG:   return 0.75;
+        case ArgumentStrength::DECISIVE: return 1.00;
+        default:                         return 0.50;
+    }
+}
+
+double EthicsEvaluator::computeConfidence(
+    const std::vector<EthicalArgument>& arguments) {
+    
+    if (arguments.empty()) return 0.5;
+
+    double sum = 0.0;
+    for (const auto& arg : arguments) {
+        sum += strengthToScore(arg.strength);
+    }
+    return sum / static_cast<double>(arguments.size());
+}
+
+double EthicsEvaluator::computeConsensus(
+    const std::vector<EthicalArgument>& arguments) {
+    
+    if (arguments.empty()) return 1.0;
+
+    // Tally each school's net vote: PRO/SYNTHESIS = +1, CONTRA/REBUTTAL = -1.
+    std::map<std::string, int> school_votes;
+    for (const auto& arg : arguments) {
+        int vote = 0;
+        switch (arg.argument_type) {
+            case ArgumentType::PRO:
+            case ArgumentType::SYNTHESIS:
+                vote = 1;
+                break;
+            case ArgumentType::CONTRA:
+            case ArgumentType::REBUTTAL:
+                vote = -1;
+                break;
+            default:
+                vote = 0;
+                break;
+        }
+        school_votes[arg.philosophy_school] += vote;
+    }
+
+    if (school_votes.empty()) return 1.0;
+    if (school_votes.size() == 1) return 1.0;
+
+    size_t agreeing = 0;
+    for (const auto& [school, tally] : school_votes) {
+        if (tally >= 0) ++agreeing;
+    }
+    return static_cast<double>(agreeing) / static_cast<double>(school_votes.size());
 }
 
 } // namespace ethics
