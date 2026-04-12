@@ -1880,6 +1880,7 @@ set(THEMIS_CORE_SOURCES
     ../src/temporal/interval_tree_index.cpp
     ../src/temporal/temporal_compressor.cpp
     ../src/temporal/temporal_cdc.cpp
+    ../src/temporal/temporal_migrator.cpp
     
     ../src/timeseries/timeseries.cpp
     ../src/timeseries/timeseries_metrics.cpp
@@ -4429,6 +4430,30 @@ if(THEMIS_BUILD_TESTS)
                 TIMEOUT 60
         )
         message(STATUS "  TemporalCDC: subscribe/publish/replay change data capture")
+    endif()
+
+    if(EXISTS "${THEMIS_ROOT_DIR}/tests/temporal/test_temporal_migrator.cpp")
+        add_executable(test_temporal_migrator
+            ${THEMIS_ROOT_DIR}/tests/temporal/test_temporal_migrator.cpp
+            ${THEMIS_ROOT_DIR}/src/temporal/temporal_migrator.cpp
+            ${THEMIS_ROOT_DIR}/src/temporal/system_versioned_table.cpp
+        )
+        target_include_directories(test_temporal_migrator
+            PRIVATE ${THEMIS_ROOT_DIR}/include
+        )
+        target_link_libraries(test_temporal_migrator
+            PRIVATE GTest::gtest GTest::gtest_main nlohmann_json::nlohmann_json Threads::Threads
+        )
+        gtest_discover_tests(test_temporal_migrator
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_temporal_migrator>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
+            PROPERTIES
+                LABELS "temporal;migrator;phase5;unit"
+                TIMEOUT 60
+        )
+        message(STATUS "  TemporalMigrator: analyze/migrate/backfill/verify system-versioned table migration")
     endif()
 
     add_executable(test_ts_auto_buffer_adaptive
