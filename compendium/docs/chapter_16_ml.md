@@ -2764,3 +2764,72 @@ Für Production Deployment siehe:
 **Status**: Comprehensive Reference Chapter  
 **Autoren**: ThemisDB Team
 
+
+---
+
+## 16.12 Exporters-Modul — C++ Produktions-API (v1.x)
+
+Das Exporters-Modul (`include/exporters/`, `src/exporters/`) stellt eine produktionsreife Export-Pipeline für LLM-Trainingsdaten bereit: JSONL, Parquet, Apache Arrow IPC, HuggingFace Datasets, Streaming, Incremental/Delta und Instruction-Tuning-Format-Templates.
+
+### 16.12.1 HuggingFaceExporter — direkt auf HuggingFace Hub
+
+```cpp
+#include "exporters/huggingface_exporter.h"
+
+themis::exporters::HuggingFaceExporterConfig hf_cfg;
+hf_cfg.dataset_name    = "my-org/legal-rag-de";
+hf_cfg.hub_api_token   = hf_token;
+hf_cfg.split           = "train";
+hf_cfg.instruction_format = "alpaca";   // Instruction-Tuning Template
+
+themis::exporters::HuggingFaceExporter exporter(hf_cfg);
+
+themis::exporters::ExportOptions opts;
+opts.output_path  = "/tmp/export-hf";
+opts.batch_size   = 1000;
+opts.encrypt      = false;  // AES-256-GCM Export Encryption verfügbar
+
+auto stats = exporter.exportEntities(entities, opts);
+// stats.records_exported, stats.bytes_written, stats.duration_ms
+
+// Dataset-Karte + Metadaten generieren
+auto readme    = exporter.generateDatasetCard();
+auto info_json = exporter.generateDatasetInfoJson(stats);
+```
+
+### 16.12.2 StreamingExporter + IncrementalExporter
+
+```cpp
+#include "exporters/streaming_exporter.h"
+#include "exporters/incremental_exporter.h"
+
+// ── Streaming (großer Datensatz, kein Aufblasen des RAM) ─────────────
+themis::exporters::StreamingExporter stream_exp;
+stream_exp.exportStream(
+    collection_cursor,
+    { .output_path = "/data/export/legal.jsonl", .format = "jsonl" },
+    [](size_t exported, size_t total, double eta_sec) {
+        // Fortschritts-Callback
+    }
+);
+
+// ── Incremental/Delta Export (nur Änderungen seit Watermark) ─────────
+themis::exporters::IncrementalExporter incr_exp;
+incr_exp.setWatermark("2026-04-01T00:00:00Z");
+auto delta_stats = incr_exp.exportDelta(
+    "legal_documents",
+    { .output_path = "/data/export/delta.parquet", .format = "parquet" }
+);
+// delta_stats.new_records, delta_stats.updated_records, delta_stats.watermark_advanced_to
+```
+
+### 16.12.3 Unterstützte Exportformate
+
+| Format | Klasse | Instruction-Tuning |
+|--------|--------|--------------------|
+| JSONL | `JsonlExporter` | Alpaca, ShareGPT, ChatML, OpenAI |
+| Parquet | `ParquetExporter` | konfigurierbare Arrow-Schema |
+| Apache Arrow IPC | `ArrowIpcExporter` | Zero-Copy Pipeline |
+| HuggingFace Datasets | `HuggingFaceExporter` | Dataset-Card + dataset_info.json |
+| Streaming | `StreamingExporter` | Cursor-basiert, beliebige Größe |
+| Delta/Incremental | `IncrementalExporter` | Watermark + Checkpoint |

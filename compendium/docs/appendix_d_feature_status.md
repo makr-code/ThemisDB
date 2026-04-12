@@ -535,6 +535,32 @@ Die folgenden Komponenten wurden mit dem v1.9.x-Release (Commit 2026-04-12) in d
 | Cache Warmup | `cache/` | ✅ GA | — | `warmupFromLog()`/`exportSnapshot()`; Bulk-Vorausladen |
 | Rate Limiting | `cache/` | ✅ GA | — | Token Bucket; `max_requests_per_second` konfigurierbar |
 
+### Observability-Modul (v1.x)
+
+| Feature | Modul | Status | Tests | Beschreibung |
+|---------|-------|--------|-------|-------------|
+| `MetricsCollector` (Singleton) | `observability/` | ✅ GA | — | Prometheus Text-Format; 40+ Metriken (Query/Cache/Shard/Security/System) |
+| `QueryProfiler` | `observability/` | ✅ GA | — | Per-Phase Timing (parse/optimize/execute); Index-Usage; Empfehlungen |
+| `StorageProfiler` | `observability/` | ✅ GA | — | RocksDB-Stats; Write/Read-Amplification; Cache Hit Rates |
+| `PerformanceAnalyzer` | `observability/` | ✅ GA | — | Automatische Issue-Erkennung; INFO/WARNING/CRITICAL; Empfehlungen |
+| `AlertingEngine` (Alertmanager) | `observability/` | ✅ GA | — | Rule-based Alerting; Alertmanager Integration; PagerDuty/Slack |
+| Distributed Tracing | `observability/` | ✅ GA | — | OpenTelemetry-kompatibel; Span-Kontext-Propagierung |
+| Kubernetes Health Probes | `observability/` | ✅ GA | — | `/ready` + `/live` Endpunkte |
+
+### Exporters-Modul (v1.x)
+
+| Feature | Modul | Status | Tests | Beschreibung |
+|---------|-------|--------|-------|-------------|
+| `JsonlExporter` | `exporters/` | ✅ GA | — | JSONL; Instruction-Tuning: Alpaca/ShareGPT/ChatML/OpenAI |
+| `ParquetExporter` | `exporters/` | ✅ GA | — | Parquet + konfigurierbare Arrow-Schema; Kompression |
+| `ArrowIpcExporter` | `exporters/` | ✅ GA | — | Zero-Copy Apache Arrow IPC Pipeline |
+| `HuggingFaceExporter` | `exporters/` | ✅ GA | — | HF Hub Direct Upload; dataset_info.json + README-Karte |
+| `StreamingExporter` | `exporters/` | ✅ GA | — | Cursor-basiertes Streaming; Fortschritts-Callback + ETA |
+| `IncrementalExporter` | `exporters/` | ✅ GA | — | Delta-Export mit Watermark + Checkpoint |
+| AQL Predicate Filter | `exporters/` | ✅ GA | — | AQL-basiertes Filtern bei Export |
+| AES-256-GCM Export Encryption | `exporters/` | ✅ GA | — | Verschlüsselter Export; PolicyEngine-Authorization |
+| PII Detection + Redaction | `exporters/` | ✅ GA | — | Automatische PII-Erkennung + Redaktion vor Export |
+
 ## Implementierungsstatus — Process Module (v1.0)
 
 ### Serialisierer & Import
