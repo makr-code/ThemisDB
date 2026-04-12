@@ -194,6 +194,8 @@ static inline void portable_gmtime_r_impl(const time_t* t, std::tm* out) {
 #include "server/api_version_config.h"
 #include "server/route_version_router.h"
 #include "scheduler/task_scheduler.h"
+#include "maintenance/maintenance_task_handler_impls.h"
+#include "storage/compaction_manager.h"
 
 #include <nlohmann/json.hpp>
 #include <yaml-cpp/yaml.h>
@@ -1180,6 +1182,16 @@ HttpServer::HttpServer(
         maintenance_orchestrator_ = std::make_unique<themis::maintenance::DatabaseMaintenanceOrchestrator>(
             task_scheduler_.get());
         maintenance_orchestrator_->start();
+
+        // Wire STORAGE_COMPACTION handler — calls CompactionManager::compactAll()
+        {
+            auto compaction_mgr = std::make_shared<themis::CompactionManager>(storage_);
+            maintenance_orchestrator_->registerTaskHandler(
+                themis::maintenance::MaintenanceTaskType::STORAGE_COMPACTION,
+                std::make_shared<themis::maintenance::StorageCompactionHandler>(
+                    std::move(compaction_mgr)));
+        }
+
         maintenance_api_ = std::make_unique<server::MaintenanceApiHandler>(
             maintenance_orchestrator_.get());
         THEMIS_INFO("Database Maintenance Orchestrator initialized (endpoints: /api/v1/maintenance/*)");

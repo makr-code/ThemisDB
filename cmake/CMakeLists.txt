@@ -1467,6 +1467,7 @@ set(THEMIS_CORE_SOURCES
     ../src/storage/blob_backend_webdav.cpp
     ../src/storage/blob_backend_gcs.cpp
     # nvme_manager.cpp is registered via cmake/StorageEnhancements.cmake
+    ../src/storage/streaming_ingest_manager.cpp
 
     ../src/metadata/schema_manager.cpp
     ../src/metadata/statistics_collector.cpp
@@ -1899,6 +1900,7 @@ set(THEMIS_CORE_SOURCES
     ../src/timeseries/adaptive_flush_controller.cpp
     ../src/timeseries/encrypted_chunk_store.cpp
     ../src/timeseries/ts_encrypted_key_rotation.cpp
+    ../src/timeseries/ts_stream_cursor.cpp
     
     ../src/utils/serialization.cpp
     ../src/utils/logger.cpp
