@@ -77,6 +77,10 @@ As of **2026-04-12 (UTC)**, the current released version of ThemisDB is **v1.8.0
 - **Utils:** UUID v7 (`generate_uuid_v7()`, RFC 9562) ([#4582](https://github.com/makr-code/ThemisDB/issues/4582)) and streaming ZSTD (`zstd_compress_stream`/`zstd_decompress_stream`) ([#4583](https://github.com/makr-code/ThemisDB/issues/4583)) shipped (2026-04-12).
 - **Maintenance:** MVCC_CLEANUP ([#4586](https://github.com/makr-code/ThemisDB/issues/4586)) and STORAGE_COMPACTION ([#4587](https://github.com/makr-code/ThemisDB/issues/4587)) wired in `http_server.cpp` (2026-04-12).
 - **Index:** Concurrent-Unique-Lücke fix (sentinel key locking in `updateIndexesForPut_`) ([#4588](https://github.com/makr-code/ThemisDB/issues/4588)); secondary index performance improvements via `SecondaryIndexMetadataCache` ([#4589](https://github.com/makr-code/ThemisDB/issues/4589)) (2026-04-12).
+- **Stable Diffusion plugin v2.2.0** ([#4590](https://github.com/makr-code/ThemisDB/issues/4590)): `SDCppGenerator` wrapping `stable-diffusion.cpp` C API (THEMIS_ENABLE_STABLE_DIFFUSION); real IDAT PNG encoder (`encodeMinimalPng` stored-deflate + CRC32 + Adler32); `SDStubGenerator::generateImg2Img` pass-through; 51 tests A-Q (2026-04-12).
+- **WhisperPlugin v2.1.0** ([#4591](https://github.com/makr-code/ThemisDB/issues/4591)): thread-safe via `transcriber_mutex_` + `std::atomic` counters; `FfmpegAudioChunkReader` (popen ffmpeg, shell-escaped path, 500 MB cap); `CompositeAudioChunkReader`; 36 tests A-L (2026-04-12).
+- **Sharding: Paxos WAL durability** ([#4592](https://github.com/makr-code/ThemisDB/issues/4592)): `handlePrepare`/`handleAccept` call `wal_->logPromise()`/`logAccept()` before returning; `recoverFromWAL()` restores instances on restart; 10 tests PSR-01…PSR-10 (2026-04-12).
+- **Sharding: `ShardRPCClient::writeEntity()`** ([#4593](https://github.com/makr-code/ThemisDB/issues/4593)): gRPC `ReplicateData` RPC for cross-shard writes; `handleWriteEntityGrpc()` wired in `sendRequestGrpc()` (2026-04-12).
 
 **Current focus after Phase 4:**
 - Phase 5 operational tooling (admin CLI, repair dashboard, ops runbooks).

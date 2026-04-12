@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added — 2026-04-12 Module Additions (batch 2)
+
+- **stable_diffusion: `SDCppGenerator` + real PNG encoder v2.2.0** ([#4590](https://github.com/makr-code/ThemisDB/issues/4590)) — `SDCppGenerator` wraps `stable-diffusion.cpp` C API under `THEMIS_ENABLE_STABLE_DIFFUSION` guard; `encodeMinimalPng()` produces valid IDAT via stored-deflate + CRC32 + Adler32; `SDStubGenerator::generateImg2Img` returns input-image pass-through. 51 unit tests (groups A–Q, 6 new P–Q).
+- **whisper: `WhisperPlugin` v2.1.0** ([#4591](https://github.com/makr-code/ThemisDB/issues/4591)) — thread-safe `transcriber_mutex_` (`std::mutex`) + `std::atomic` counters; `FfmpegAudioChunkReader` (popen ffmpeg, shell-escaped path, 500 MB cap); `CompositeAudioChunkReader` chains multiple `IAudioChunkReader` implementations. 36 unit tests (groups A–L, 6 new K–L).
+- **sharding: `ShardRPCClient::writeEntity()`** ([#4593](https://github.com/makr-code/ThemisDB/issues/4593)) — gRPC `ReplicateData` RPC for cross-shard writes; in-process simulation returns `{success:true, replicated_count:1}`; `handleWriteEntityGrpc()` wired in `sendRequestGrpc()` routing as `"write_entity"`.
+
+### Fixed — 2026-04-12 (batch 2)
+
+- **sharding: Paxos WAL durability** ([#4592](https://github.com/makr-code/ThemisDB/issues/4592)) — `handlePrepare()` now calls `wal_->logPromise()` before returning `true`; `handleAccept()` calls `wal_->logAccept()` before returning `true`; `recoverFromWAL()` restores `instances_` from `PROMISE`/`ACCEPT`/`COMMIT` entries on restart. 10 focused tests PSR-01…PSR-10 in `tests/test_paxos_persistence_recovery.cpp`.
+
 ### Added — 2026-04-12 Module Additions
 
 - **storage: `StreamingIngestManager` v1.0** ([#4571](https://github.com/makr-code/ThemisDB/issues/4571)) — ring-buffer + flush-thread → single `WriteBatch`; flush_interval=10 ms, max_buffer=1 M events, max_batch=65 536; `OverflowPolicy::BLOCK/DROP`; `ingest(key,value)` / `ingestBatch()` / `flush()` / `stats()`. 10 tests SM-01…SM-10.
