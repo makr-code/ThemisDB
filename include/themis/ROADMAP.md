@@ -33,11 +33,12 @@
 
 ## Planned Features
 
-- [ ] `runtime_license_gate.h` — `LicenseDenialReason` enum + `GateResult::message()` (Target: v1.7.1)
+- [x] `runtime_license_gate.h` — `LicenseDenialReason` enum + `GateResult::message()` (v1.7.1)
   - Values: `TIER_TOO_LOW`, `LICENSE_EXPIRED`, `SIGNATURE_MISMATCH`, `NODE_LIMIT_EXCEEDED`, `STORAGE_LIMIT_EXCEEDED`
   - `message()` returns a locale-independent English string for logging
-  - Backward-compatible: `GateResult` layout extended, not replaced
-- [ ] `license_info.h` — `LicenseInfo::remaining_grace_days()` helper (Target: v1.7.1)
+  - `checkFeature()` added to `RuntimeLicenseGate` returning `GateResult`
+  - Backward-compatible: `GateResult` is a new struct; existing `isFeatureAllowed()` unchanged
+- [x] `license_info.h` — `LicenseInfo::remaining_grace_days()` helper (v1.7.1)
 - [ ] `module_signature_verifier.h` — certificate-chain verification support for enterprise CA-signed modules (Target: v1.8.0)
   - Inputs: DER-encoded certificate chain + module binary
   - Validation: chain to pinned ThemisDB root CA; revocation check via OCSP
@@ -63,8 +64,8 @@
 - [ ] Draft certificate-chain verification API signature
 
 ### Phase 2 — Core Implementation
-- [ ] Implement `LicenseDenialReason` + `GateResult::message()` in `src/themis/license_info.cpp`
-- [ ] Implement `LicenseInfo::remaining_grace_days()` in `src/themis/license_info.cpp`
+- [x] Implement `LicenseDenialReason` enum + `GateResult::message()` + `RuntimeLicenseGate::checkFeature()` in `src/utils/runtime_license_gate.cpp`
+- [x] Implement `LicenseInfo::remaining_grace_days()` in `src/themis/license_info.cpp`
 - [ ] Implement cert-chain validation in `ModuleSignatureVerifier`
 
 ### Phase 3 — Error Handling & Edge Cases
@@ -73,8 +74,10 @@
 - [ ] Cert-chain — OCSP stapling fallback when network is unavailable
 
 ### Phase 4 — Tests
-- [ ] Unit: `GateResult::message()` for each `LicenseDenialReason` value
-- [ ] Unit: `remaining_grace_days()` boundary (0, 1, max) days
+- [x] Unit: `GateResult::message()` for each `LicenseDenialReason` value (tests/test_gate_result.cpp)
+- [x] Unit: `remaining_grace_days()` boundary (0, 1, max) days (tests/test_gate_result.cpp)
+- [x] Unit: `RuntimeLicenseGate::checkFeature()` for all denial paths (tests/test_gate_result.cpp)
+- [x] Unit: `LicenseClient` activation/validation/caching/fingerprint (tests/test_license_client.cpp)
 - [ ] Integration: cert-chain verification with production and revoked certificates
 - [ ] Thread-safety: `EditionManager::upgrade()` under concurrent `check()` calls
 
@@ -99,6 +102,7 @@
 - [x] `export.h` covers MSVC / GCC / Clang
 - [x] `EditionManager` singleton is thread-safe
 - [x] ABI soname policy documented and enforced
-- [ ] `GateResult` denial reason (Finding 1 — Target v1.7.1)
-- [ ] Certificate-chain verification (Target v1.8.0)
-- [ ] Async license refresh for long-running daemons (Target v1.9.0)
+- [x] `GateResult` denial reason — `LicenseDenialReason` enum + `GateResult::message()` + `checkFeature()` (v1.7.1)
+- [x] `LicenseInfo::remaining_grace_days()` helper (v1.7.1)
+- [ ] Certificate-chain verification (Target: v1.8.0)
+- [ ] Async license refresh for long-running daemons (Target: v1.9.0)
