@@ -30,6 +30,7 @@
 #include <string>
 #include <vector>
 #include <optional>
+#include <span>
 #include <cstdint>
 #include <memory>
 #include <atomic>
@@ -205,6 +206,69 @@ public:
      * stored as individual entities like putDataPoint().
      */
     Result<void> putDataPoints(const std::vector<DataPoint>& points);
+
+    /**
+     * @brief Zero-copy view of a single time-series row for high-throughput batch ingestion.
+     *
+     * Unlike `DataPoint`, all string fields are `std::string_view` — no heap allocation is
+     * required at the call site.  The caller must ensure that the backing storage for
+     * `metric` and `entity` outlives the `putBatch()` call.
+     *
+     * `tags` and `metadata` are optional JSON blobs; pass an empty / null JSON value when
+     * not needed.
+     */
+    struct TSRow {
+        std::string_view metric;       ///< Metric name (e.g., "cpu_usage")
+        std::string_view entity;       ///< Entity ID   (e.g., "server01")
+        int64_t          timestamp_ms; ///< Unix epoch in milliseconds
+        double           value;        ///< Numeric sample value
+    };
+
+    /**
+     * @brief Result of a `putBatch()` call.
+     *
+     * On full success `failed_count == 0` and `row_errors` is empty.
+     * On partial validation failure some rows may be rejected before the
+     * `WriteBatch` is submitted; in that case the entire RocksDB write is
+     * still attempted with the valid rows only (no atomicity across invalid
+     * rows).
+     *
+     * On a RocksDB write failure the whole batch is rejected and
+     * `failed_count == total rows`.
+     */
+    struct BatchWriteResult {
+        size_t ok_count     = 0; ///< Rows accepted and written
+        size_t failed_count = 0; ///< Rows rejected (validation or storage error)
+
+        /// Per-row error details: (row_index, error_message).  Empty on full success.
+        std::vector<std::pair<size_t, std::string>> row_errors;
+
+        bool all_ok() const noexcept { return failed_count == 0; }
+    };
+
+    /**
+     * @brief High-throughput zero-copy batch write using `std::span`.
+     *
+     * Accepts a span of `TSRow` values and writes them using a single
+     * `rocksdb::WriteBatch` commit, amortising WAL and memtable overhead across
+     * the entire batch.  All valid rows are committed atomically; invalid rows
+     * (empty metric / entity) are reported in the `BatchWriteResult` but do not
+     * abort the write for the remaining rows.
+     *
+     * When Gorilla compression is enabled the rows are grouped by metric:entity,
+     * sorted by timestamp, Gorilla-encoded, and stored as compressed chunks —
+     * identical to `putDataPoints()` but without the intermediate `std::vector`
+     * allocation at the call site.
+     *
+     * @param rows   Span of TSRow values.  String views must remain valid for
+     *               the duration of the call.
+     * @return `Result<BatchWriteResult>` — ok() on successful RocksDB write;
+     *         error() only when the RocksDB `Write()` itself fails.
+     *
+     * Performance target: ≥ 1 M rows/s at p99 < 2 ms on an 8-core host
+     *                     (see ROADMAP — Multi-metric batch write API).
+     */
+    Result<BatchWriteResult> putBatch(std::span<const TSRow> rows);
     
     /**
      * @brief Query data points with filters

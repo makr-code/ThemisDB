@@ -1,7 +1,7 @@
 # Releases & Updates Dokumentation
 
-**Stand:** 17. März 2026
-**Aktuelle Version:** 1.8.0
+**Stand:** 11. April 2026
+**Aktueller Milestone-Stand:** v2.4.0
 **Kategorie:** Releases & Updates
 
 ---
@@ -14,6 +14,25 @@ ThemisDB Release-Dokumentation enthält:
 - Release-Verteilungsstrategie
 
 ## 🎉 Aktuelle Releases
+
+### v2.0.x Serie (Q4 2026)
+
+| Version | Datum | Fokus | Dokumentation |
+|---------|-------|-------|---------------|
+| **v2.0.0** | in Umsetzung | CDC Interface-Ausbau, Query v2.0.0 Port, Storage SIMD/Parquet Port | [Release Notes](./RELEASE_NOTES_v2.0.0.md) |
+
+### v1.10.x Serie (Q3 2026)
+
+| Version | Datum | Fokus | Dokumentation |
+|---------|-------|-------|---------------|
+| **v1.10.0** | in Umsetzung | MQTT Client TLS im Server-Modul | [Release Notes](./RELEASE_NOTES_v1.10.0.md) |
+
+### v1.9.x Serie (Q3 2026)
+
+| Version | Datum | Fokus | Dokumentation |
+|---------|-------|-------|---------------|
+| **v1.9.1** | in Umsetzung | Auth-Testtarget-Registrierung / Build-Integration | [Release Notes](./RELEASE_NOTES_v1.9.1.md) |
+| **v1.9.0** | in Umsetzung | Chimera Adapter-Interface-Update, Governance Compliance-Regeln | [Release Notes](./RELEASE_NOTES_v1.9.0.md) |
 
 ### v1.8.x Serie (Q2 2026)
 

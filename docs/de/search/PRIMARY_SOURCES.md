@@ -1,5 +1,5 @@
 [docs](../../index.md) > [de](../index.md) > [search](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-04-09  
+**Datum:** 2026-04-12  
 **Status:** draft  
 **Primary (Quelle der Wahrheit):**
 - `include/search/ARCHITECTURE.md`
@@ -55,4 +55,4 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`search`** 
 
 ---
 
-*Automatisch generiert von `tools/module_docs_builder.py` · 2026-04-09*
+*Automatisch generiert von `tools/module_docs_builder.py` · 2026-04-12*

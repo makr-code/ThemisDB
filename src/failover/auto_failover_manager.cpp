@@ -100,10 +100,17 @@ bool AutoFailoverManager::triggerManualFailover(
         return false;
     }
 
+    bool pressure_event_pending = false;
+    std::string pressure_detail;
+
     {
         std::lock_guard<std::mutex> lock(failover_mutex_);
         if (failover_queue_.size() >= config_.max_concurrent_failovers) {
             spdlog::error("Failover queue is full (max: {})", config_.max_concurrent_failovers);
+            {
+                std::lock_guard<std::mutex> stats_lock(stats_mutex_);
+                stats_.tasks_dropped_queue_full++;
+            }
             return false;
         }
 
@@ -113,7 +120,37 @@ bool AutoFailoverManager::triggerManualFailover(
         task.enqueued_at = std::chrono::steady_clock::now();
 
         failover_queue_.push(task);
+        auto depth = static_cast<uint32_t>(failover_queue_.size());
+
+        // Compute fill ratio once under the failover lock for consistency
+        float fill_ratio = static_cast<float>(depth) /
+                           static_cast<float>(config_.max_concurrent_failovers);
+        bool over_threshold = fill_ratio >= config_.queue_pressure_threshold;
+
+        // Update queue-depth and pressure telemetry atomically
+        {
+            std::lock_guard<std::mutex> stats_lock(stats_mutex_);
+            stats_.current_queue_depth = depth;
+            if (depth > stats_.max_queue_depth_observed) {
+                stats_.max_queue_depth_observed = depth;
+            }
+            if (over_threshold) {
+                stats_.queue_pressure_events++;
+            }
+        }
+
+        if (over_threshold) {
+            pressure_event_pending = true;
+            pressure_detail = "Queue depth: " + std::to_string(depth) +
+                              "/" + std::to_string(config_.max_concurrent_failovers);
+        }
+
         spdlog::info("Manual failover queued for node: {}", failed_node_id);
+    }
+
+    // Emit pressure event outside the failover lock to avoid recursive locking
+    if (pressure_event_pending) {
+        emitEvent(FailoverEventType::QUEUE_PRESSURE, failed_node_id, pressure_detail);
     }
 
     failover_cv_.notify_one();
@@ -259,6 +296,12 @@ void AutoFailoverManager::failoverLoop() {
             auto task = failover_queue_.front();
             failover_queue_.pop();
 
+            // Update queue depth after pop
+            {
+                std::lock_guard<std::mutex> stats_lock(stats_mutex_);
+                stats_.current_queue_depth = static_cast<uint32_t>(failover_queue_.size());
+            }
+
             lock.unlock();
 
             // Process failover
@@ -275,6 +318,7 @@ void AutoFailoverManager::failoverLoop() {
 
             // Attempt recovery if failover succeeds
             if (result.success && config_.enable_automatic_recovery) {
+                emitEvent(FailoverEventType::RECOVERY_STARTED, task.failed_node_id, "");
                 std::this_thread::sleep_for(std::chrono::seconds(5));  // Brief delay before recovery attempt
                 attemptRecovery(task.failed_node_id);
             }
@@ -518,10 +562,25 @@ bool AutoFailoverManager::attemptRecovery(const std::string& failed_node_id) {
     spdlog::info("Attempting recovery for node: {}", failed_node_id);
 
     for (uint32_t attempt = 0; attempt < config_.max_recovery_attempts; ++attempt) {
+        {
+            std::lock_guard<std::mutex> stats_lock(stats_mutex_);
+            stats_.total_retry_attempts++;
+        }
+
         if (waitForNodeRecovery(failed_node_id, 1)) {
             spdlog::info("Node recovered: {}", failed_node_id);
+            {
+                std::lock_guard<std::mutex> stats_lock(stats_mutex_);
+                stats_.successful_retries++;
+            }
             updateFailureTracking(failed_node_id, true);
+            emitEvent(FailoverEventType::RECOVERY_COMPLETED, failed_node_id, "");
             return true;
+        }
+
+        {
+            std::lock_guard<std::mutex> stats_lock(stats_mutex_);
+            stats_.failed_retries++;
         }
 
         if (attempt < config_.max_recovery_attempts - 1) {

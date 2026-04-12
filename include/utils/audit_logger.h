@@ -429,6 +429,7 @@ struct HashChainAuditWriterConfig {
     std::string log_path        = "data/logs/audit_chain.jsonl";
     std::string chain_head_path = "data/logs/audit_chain_head.bin";
     bool        fsync_on_write  = true;   ///< fdatasync the head file after each write
+    uint64_t    checkpoint_interval = 1;  ///< persist chain head every N writes (1 = every write)
 };
 
 /**
@@ -483,6 +484,8 @@ public:
 private:
     HashChainAuditWriterConfig cfg_;
     mutable std::mutex         mu_;
+    std::ofstream              log_stream_;
+    std::fstream               chain_head_stream_;
     std::string                last_hash_;
     uint64_t                   seq_{0};
 

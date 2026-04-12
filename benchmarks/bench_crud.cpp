@@ -21,7 +21,7 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-﻿#include <benchmark/benchmark.h>
+#include <benchmark/benchmark.h>
 #include "storage/base_entity.h"
 #include "storage/rocksdb_wrapper.h"
 #include "index/secondary_index.h"

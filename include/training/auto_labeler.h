@@ -91,6 +91,23 @@ using LabelingCallback = std::function<void(size_t processed,
                                             const std::string& status)>;
 
 /**
+ * @brief Target domain for auto-labeling and sample extraction.
+ *
+ * Controls domain-specific keyword dictionaries and NLP heuristics used by
+ * `LegalAutoLabeler` when the external NlpTextAnalyzer is unavailable or
+ * returns no modalities.
+ *
+ * - LEGAL    : German legal text (modal verbs: muss/soll/kann/darf/…)
+ * - MEDICAL  : Medical / clinical text (obligatory / recommended / optional care)
+ * - FINANCIAL: Financial regulatory text (obligation / prohibition / disclosure)
+ */
+enum class DomainType {
+    LEGAL,      ///< German legal / regulatory domain (default)
+    MEDICAL,    ///< Medical / clinical / pharmaceutical domain
+    FINANCIAL,  ///< Financial regulation / compliance domain
+};
+
+/**
  * @brief Configuration for auto-labeling
  */
 struct AutoLabelConfig {
@@ -101,7 +118,8 @@ struct AutoLabelConfig {
     float min_confidence = 0.5f;            ///< Minimum confidence to include sample
     bool flag_low_confidence = true;        ///< Flag low-confidence for review
     size_t batch_size = 100;                ///< Documents per batch
-    
+    DomainType domain_type = DomainType::LEGAL; ///< Target domain for sample extraction
+
     AutoLabelConfig() = default;
 };
 

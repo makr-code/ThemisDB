@@ -9,6 +9,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 *(All planned features implemented — see `FUTURE_ENHANCEMENTS.md` for long-horizon research items.)*
 
+## [1.9.0] — 2026-04-09
+### Added
+- `iso27001_rules.cpp`: ISO 27001 Annex A control evaluators — `Iso27001A912Control` (A.9.1.2 access control policy), `Iso27001A1011Control` (A.10.1.1 cryptography policy), `Iso27001A1241Control` (A.12.4.1 event logging), `Iso27001A1242Control` (A.12.4.2 protection of log information), `Iso27001A1323Control` (A.13.2.3 electronic messaging), `Iso27001A1813Control` (A.18.1.3 protection of records); `Iso27001ControlSet` with `evaluateRule()`, `isRuleCompliant()`, `generateReport()`, and evidence collection
+- `hipaa_rules.cpp`: HIPAA Security Rule evaluators — `HipaaAccessControl` (§164.312(a)(1)), `HipaaEncryption` (§164.312(a)(2)(iv)), `HipaaAuditControls` (§164.312(b)), `HipaaIntegrityControls` (§164.312(c)(1)), `HipaaTransmissionSecurity` (§164.312(e)(2)(ii)), `HipaaRetention` (§164.530(j)); `HipaaRuleSet` with `evaluateRule()` and `isRuleCompliant()`
+- `tests/test_iso27001_rules.cpp`: 19 focused unit tests for all 6 ISO 27001 controls plus `Iso27001ControlSet` aggregate evaluation
+- `tests/test_hipaa_rules.cpp`: 19 focused unit tests for all 6 HIPAA rules plus `HipaaRuleSet` aggregate evaluation
+
 ## [1.8.0] — 2026-03-21
 ### Added
 - Registered 9 previously unregistered governance test targets in `tests/CMakeLists.txt`: `CcpaRulesFocusedTests`, `CrossTenantPolicyInheritanceFocusedTests`, `DataLineageFocusedTests`, `DataMaskerFocusedTests`, `PciDssRulesFocusedTests`, `PolicyReviewFocusedTests`, `PolicyTemplateFocusedTests`, `PolicyVersioningFocusedTests`, `Soc2ControlsFocusedTests`

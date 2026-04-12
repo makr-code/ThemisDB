@@ -25,6 +25,8 @@
 
 #pragma once
 
+#include "training/adapter_serving.h"
+
 #include <string>
 #include <vector>
 #include <memory>
@@ -279,16 +281,49 @@ public:
      * @brief Deploy adapter version to production
      * @param adapter_version Version to deploy
      * @param traffic_split Traffic split for A/B testing (0.0-1.0)
-     * @return true if deployment successful
+     * @return true if deployment successful (including integrity verification)
      */
     bool deployVersion(const std::string& adapter_version, float traffic_split = 1.0f);
-    
+
+    /**
+     * @brief Deploy adapter version with full result details.
+     *
+     * Equivalent to deployVersion() but returns a DeployResult that includes
+     * the active version, applied split fraction, and a human-readable error
+     * message on failure.  When an ILLMRouter has been injected via
+     * setLLMRouter(), the router's setAdapterWeight() is called atomically
+     * after the local version registry is updated.
+     *
+     * Error codes in DeployResult::error:
+     *  - "version_not_found"  – version is unknown and not in checkpoint dir
+     *  - "integrity_failure"  – checkpoint checksum validation failed
+     *  - "router_unavailable" – router is not reachable
+     *  - "invalid_split"      – traffic_split outside [0, 1]
+     *
+     * @param adapter_version Version identifier to deploy.
+     * @param traffic_split   Fraction of traffic routed to this version [0,1].
+     * @return DeployResult with success flag, active_version, split_applied, error.
+     */
+    DeployResult deployVersionEx(const std::string& adapter_version,
+                                 float traffic_split = 1.0f);
+
     /**
      * @brief Rollback to previous adapter version
      * @param target_version Version to roll back to
      * @return true if rollback successful
      */
     bool rollbackVersion(const std::string& target_version);
+
+    /**
+     * @brief Roll back to a target version with full result details.
+     *
+     * Equivalent to rollbackVersion() but returns a DeployResult.  When an
+     * ILLMRouter has been injected, the router weight is updated atomically.
+     *
+     * @param target_version Version to roll back to.
+     * @return DeployResult describing the outcome.
+     */
+    DeployResult rollbackVersionEx(const std::string& target_version);
     
     /**
      * @brief Get list of available adapter versions
@@ -321,6 +356,20 @@ public:
      * @param checkpoint_steps Steps between checkpoints
      */
     void setCheckpointing(bool enabled, size_t checkpoint_steps = 100);
+
+    /**
+     * @brief Inject an LLM router for adapter serving integration.
+     *
+     * When a non-null router is set, deployVersionEx() and rollbackVersionEx()
+     * call router->setAdapterWeight() after updating the local version registry
+     * to propagate the traffic split to the live inference layer.
+     *
+     * The trainer does NOT take ownership; the router must remain valid for the
+     * lifetime of this trainer.
+     *
+     * @param router Pointer to ILLMRouter implementation, or nullptr to detach.
+     */
+    void setLLMRouter(ILLMRouter* router);
 
     /**
      * @brief Get training metrics accumulated during the last train() call.

@@ -1163,15 +1163,20 @@ The planned enhancements described above are grounded in current research. Selec
 - No-op stubs when `THEMIS_ENABLE_MQTT` is absent
 
 **Known Limitation / Planned Enhancement:**
-- `MqttClientConfig` contains `tls_cert_path`, `tls_key_path`, `tls_ca_path`, `tls_enabled` fields
+- ~~`MqttClientConfig` contains `tls_cert_path`, `tls_key_path`, `tls_ca_path`, `tls_enabled` fields
   but the current implementation uses a plain TCP socket (`asio::ip::tcp::socket`).
   **TLS for the MQTT client** (Boost.Asio `ssl::stream<tcp::socket>` with `ssl::context`) is
-  planned for v1.10.0:
-  - Load CA cert via `ssl::context::load_verify_file(tls_ca_path)` for broker verification
-  - Optionally load client cert+key for mutual TLS via `ssl::context::use_certificate_file()` +
-    `ssl::context::use_private_key_file()`
-  - All three paths configurable per `MqttClientConfig`
-  - Target: v1.10.0 (requires `Boost::asio` SSL components; add `THEMIS_ENABLE_MQTT_TLS` guard)
+  planned for v1.10.0~~
+
+**✅ Implemented (v1.10.0):** MQTT Client TLS via `THEMIS_ENABLE_MQTT_TLS` cmake flag:
+- `doHandshake()` creates `ssl::context(tlsv12_client)` at each connection attempt
+- CA cert loaded via `ssl::context::load_verify_file(tls_ca_path)` with `verify_peer` mode
+- Mutual TLS via `ssl::context::use_certificate_file()` + `ssl::context::use_private_key_file()`
+- SNI set via `SSL_set_tlsext_host_name()` for virtual-hosting broker support
+- `doRead()` / `doWrite()` route through `ssl::stream` when TLS handshake is complete
+- `stop()` and `handleDisconnect()` use `ssl_stream->lowest_layer()` for graceful teardown
+- cmake: `THEMIS_ENABLE_MQTT_TLS` option in `cmake/CMakeLists.txt`, `cmake/features/NetworkFeatures.cmake`, `cmake/ModularBuild.cmake`
+- 15 new tests in `tests/test_mqtt_client_service.cpp` (13 config + 2 runtime under `THEMIS_ENABLE_MQTT_TLS`)
 
 **References:**
 - OASIS MQTT 3.1.1 Specification, OASIS Standard, Oct. 2014. [Online]. Available: https://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.html

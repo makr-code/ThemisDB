@@ -386,6 +386,29 @@ bool ShardRPCClient::ping() {
     }
 }
 
+bool ShardRPCClient::writeEntity(
+    const std::string& collection,
+    const std::string& uuid,
+    const nlohmann::json& data,
+    uint64_t timestamp_ns
+) {
+    THEMIS_DEBUG("RPC WRITE_ENTITY to {}: collection={} uuid={}",
+                impl_->config.endpoint, collection, uuid);
+    try {
+        nlohmann::json params = {
+            {"collection",    collection},
+            {"uuid",          uuid},
+            {"data",          data},
+            {"timestamp_ns",  timestamp_ns}
+        };
+        auto response = sendRequest("write_entity", params);
+        return response.contains("success") && response["success"].get<bool>();
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("RPC WRITE_ENTITY exception: {}", e.what());
+        return false;
+    }
+}
+
 nlohmann::json ShardRPCClient::sendRequest(
     const std::string& method,
     const nlohmann::json& params
@@ -457,6 +480,8 @@ nlohmann::json ShardRPCClient::sendRequestGrpc(
                 }
             } else if (method == "snapshot_read") {
                 result = handleSnapshotReadGrpc(context, params);
+            } else if (method == "write_entity") {
+                result = handleWriteEntityGrpc(context, params);
             } else if (method == "ping") {
                 result = handleHealthCheckGrpc(context);
             } else {
@@ -667,6 +692,43 @@ nlohmann::json ShardRPCClient::handleHealthCheckGrpc(
     return result;
 }
 
+nlohmann::json ShardRPCClient::handleWriteEntityGrpc(
+    grpc::ClientContext& context,
+    const nlohmann::json& params
+) {
+    themis::sharding::proto::ReplicateRequest request;
+    request.set_shard_id(impl_->config.shard_id.empty()
+                         ? impl_->config.endpoint
+                         : impl_->config.shard_id);
+
+    auto* entity = request.add_entities();
+    entity->set_uuid(params.value("uuid", std::string{}));
+    entity->set_collection(params.value("collection", std::string{}));
+    entity->set_data(params.value("data", nlohmann::json{}).dump());
+    entity->set_version(1);
+    if (params.contains("timestamp_ns") && !params["timestamp_ns"].is_null()) {
+        const uint64_t ts = params["timestamp_ns"].get<uint64_t>();
+        entity->set_timestamp_ns(ts);
+        request.set_timestamp_ns(ts);
+    }
+
+    themis::sharding::proto::ReplicateResponse response;
+    grpc::Status status = impl_->stub->ReplicateData(&context, request, &response);
+
+    if (!status.ok()) {
+        if (isRetryableError(status.error_code())) {
+            throw std::runtime_error("Retryable error: " + status.error_message());
+        }
+        throw NonRetryableRpcError(status.error_message());
+    }
+
+    return {
+        {"success",           response.success()},
+        {"replicated_count",  static_cast<uint64_t>(response.replicated_count())},
+        {"error",             response.error()}
+    };
+}
+
 bool ShardRPCClient::isRetryableError(grpc::StatusCode code) {
     // Categorize errors as retryable or non-retryable
     switch (code) {
@@ -746,6 +808,11 @@ nlohmann::json ShardRPCClient::sendRequestInProcess(
                 response = {
                     {"status", "success"},
                     {"data", nlohmann::json::array()}
+                };
+            } else if (method == "write_entity") {
+                response = {
+                    {"success",          true},
+                    {"replicated_count", 1}
                 };
             } else if (method == "ping") {
                 response = {

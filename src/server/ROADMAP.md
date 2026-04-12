@@ -171,6 +171,21 @@ v1.7.0 – Production-ready API surface built on Boost.Beast/Asio. HTTP/1.1, HTT
 - [x] `IMqttMessageHandler` — callback interface for inbound MQTT messages: `onMessage(topic, payload, qos)`, `onConnected(client_id)`, `onDisconnected(reason)`; all callbacks `noexcept` (v1.9.0)
 - [x] Service registration via `RPCServiceRegistry` — `MqttClientService` self-registers as `"mqtt_client"` (or custom name) for service discovery by other ThemisDB components (v1.9.0)
 
+### Phase 8: MQTT Client TLS — Secure Broker Connections (Status: Completed ✅)
+- [x] TLS 1.2+ for `MqttClientService` using Boost.Asio `ssl::stream<tcp::socket>` + OpenSSL (v1.10.0)
+  - Feature flag: `THEMIS_ENABLE_MQTT_TLS` (cmake option, depends on `THEMIS_ENABLE_MQTT=ON` and OpenSSL)
+  - Files: `include/server/mqtt_client_service.h`, `src/server/mqtt_client_service.cpp`
+  - Behaviour:
+    - When `tls_enabled=true`, `doConnect()` branches to `doHandshake()` after TCP connect
+    - `doHandshake()`: creates `ssl::context(tlsv12_client)`, loads CA cert via `load_verify_file` (peer verification), loads client cert+key via `use_certificate_file`/`use_private_key_file` (mutual TLS), sets SNI hostname via `SSL_set_tlsext_host_name`; performs async handshake then calls `sendMqttConnect()`
+    - `doRead()`, `doWrite()`: route through `ssl::stream` when `tls_ready=true`
+    - `stop()`, `handleDisconnect()`: use `ssl_stream->lowest_layer()` for graceful TLS teardown
+    - Plain TCP path (`tls_enabled=false`) unchanged — no performance regression
+  - Errors: TLS context/handshake failures trigger `scheduleReconnect()` with the normal back-off policy; invalid CA path, missing cert/key, or broker rejection are all handled gracefully
+  - Config: `MqttClientConfig::tls_enabled`, `tls_cert_path`, `tls_key_path`, `tls_ca_path` (all existing fields, now wired to `doHandshake()`)
+  - Tests: 15 new TLS tests in `tests/test_mqtt_client_service.cpp` (`MqttClientTlsConfigTests`: 13 config/field tests; `MqttClientTlsRuntimeTests`: 2 runtime tests gated on `THEMIS_ENABLE_MQTT_TLS`)
+  - CMake: `THEMIS_ENABLE_MQTT_TLS` option added to `cmake/CMakeLists.txt`, `cmake/features/NetworkFeatures.cmake`, and `cmake/ModularBuild.cmake`
+
 ## Known Issues & Limitations
 - HTTP/3 is implemented and hardened for high-throughput production workloads; further QUIC congestion-control tuning is ongoing.
 - GraphQL support is available via `server/graphql_api_handler.cpp`; advanced federation features are planned.

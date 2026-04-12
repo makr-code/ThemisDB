@@ -806,6 +806,7 @@ private:
     
     // MVCC API Handler (per-record versioning + HLC)
     std::unique_ptr<server::MvccApiHandler> mvcc_api_handler_;
+    std::shared_ptr<themis::MVCCStore>      mvcc_store_; // shared with MvccCleanupHandler
     
     // Diff Engine and API Handler (Phase 2 MVCC features)
     std::unique_ptr<analytics::DiffEngine> diff_engine_;
