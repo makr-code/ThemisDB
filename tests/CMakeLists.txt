@@ -12345,6 +12345,82 @@ else()
 endif()
 
 # ============================================================================
+# RequestCoalescer Singleflight — focused tests (RC-01 … RC-14)
+# ============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_request_coalescer.cpp")
+    message(STATUS "Adding RequestCoalescer Singleflight focused tests (RC-01…RC-14)")
+
+    add_executable(test_request_coalescer_focused
+        test_request_coalescer.cpp
+    )
+
+    target_include_directories(test_request_coalescer_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_request_coalescer_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_request_coalescer_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME RequestCoalescerFocusedTests
+        COMMAND test_request_coalescer_focused)
+
+    set_tests_properties(RequestCoalescerFocusedTests PROPERTIES
+        LABELS "cache;singleflight;performance;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  RequestCoalescer: singleflight, concurrent coalescing, exception propagation")
+else()
+    message(STATUS "RequestCoalescer focused tests not found")
+endif()
+
+# ============================================================================
+# LockFreeHistogram — focused tests (LFH-01 … LFH-12)
+# ============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_lockfree_histogram.cpp")
+    message(STATUS "Adding LockFreeHistogram focused tests (LFH-01…LFH-12)")
+
+    add_executable(test_lockfree_histogram_focused
+        test_lockfree_histogram.cpp
+    )
+
+    target_include_directories(test_lockfree_histogram_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_lockfree_histogram_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_lockfree_histogram_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME LockFreeHistogramFocusedTests
+        COMMAND test_lockfree_histogram_focused)
+
+    set_tests_properties(LockFreeHistogramFocusedTests PROPERTIES
+        LABELS "performance;histogram;lock-free;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  LockFreeHistogram: exponential/linear buckets, percentile, concurrency, reset")
+else()
+    message(STATUS "LockFreeHistogram focused tests not found")
+endif()
+
+# ============================================================================
 # Geo Module ÔÇô Focused Standalone Test Targets
 # Each geo test is a standalone executable so it can be run independently
 # without requiring a full themis_tests build.  All tests run in CPU-only
