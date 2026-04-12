@@ -22,8 +22,8 @@ Entry-point: `plugins/ethics_ai/CMakeLists.txt` (compatibility shim) · implemen
 
 [6] A. K. A. de Medeiros, W. M. P. van der Aalst, and A. J. M. M. Weijters, “Extending the Alpha-Algorithm to Mine Short Loops,” BETA Working Papers, vol. 113, 2004.
 
-- [~] Unit tests for all six components (coverage target ≥ 80 %)
-- [~] Unit tests for all six components (coverage target ≥ 80 %) — discourse_engine test added
+- [x] Unit tests for all six components (coverage target ≥ 80 %) — all four focused test targets added (2026-04-08)
+- [x] Unit tests for all six components (coverage target ≥ 80 %) — discourse_engine test added
 - [ ] Prometheus metrics wiring into ThemisDB `/metrics` endpoint
 - [ ] YAML philosophy profiles CI validation
 - [ ] Removal of remaining stubs identified in `STUB_REMOVAL_PLAN.md`
@@ -64,7 +64,7 @@ Entry-point: `plugins/ethics_ai/CMakeLists.txt` (compatibility shim) · implemen
 
 | Milestone | Target | Status |
 |-----------|--------|--------|
-| Unit test coverage ≥ 80 % | TODO | 🔲 Planned |
+| Unit test coverage ≥ 80 % | v0.0.2 | ✅ Done |
 | 15 philosophy schools | TODO | 🔲 Planned |
 | Python bindings | TODO | 🔲 Planned |
 | LLM explanation layer | TODO | 🔲 Planned |
@@ -74,12 +74,12 @@ Entry-point: `plugins/ethics_ai/CMakeLists.txt` (compatibility shim) · implemen
 ### Phase 1 – Test Coverage ≥ 80 %
 - [x] `test_ethics_ai_types.cpp` — type conversion tests (exists, excluded from main runner)
 - [x] `test_ethics_evaluator.cpp` — evaluator tests (exists, excluded from main runner)
-- [~] `test_discourse_engine.cpp` — `initializeDebate`, `makeDecision`, standalone mode (added 2026-04-08; registered as `test_discourse_engine_focused`)
-- [~] `test_philosophy_loader.cpp` — YAML load/parse tests (exists; registered as `test_philosophy_loader_focused`)
-- [~] `PhilosophyLoader::addProfile()` added for test injection
-- [ ] `test_argument_store.cpp` — standalone + RocksDB-backed store tests
-- [ ] `test_rag_context_engine.cpp` — RAGContextEngine tests
-- [ ] `test_ethics_ai_plugin.cpp` — plugin lifecycle and initialize/shutdown tests
+- [x] `test_discourse_engine.cpp` — `initializeDebate`, `makeDecision`, standalone mode (added 2026-04-08; registered as `test_discourse_engine_focused`)
+- [x] `test_philosophy_loader.cpp` — YAML load/parse tests (exists; registered as `test_philosophy_loader_focused`)
+- [x] `PhilosophyLoader::addProfile()` added for test injection
+- [x] `test_argument_store_standalone.cpp` — standalone + in-memory store tests (18 tests, `ArgumentStoreStandaloneTests`)
+- [x] `test_rag_context_engine.cpp` — RAGContextEngine tests (13 tests, `RAGContextEngineTests`)
+- [x] `test_ethics_ai_plugin.cpp` — plugin lifecycle and initialize/shutdown tests (28 tests, `EthicsAiPluginTests`)
 - [ ] Wire Prometheus metrics; verify `/metrics` endpoint in CI
 - [ ] YAML philosophy profile schema validation in CI; remove stubs from `STUB_REMOVAL_PLAN.md`
 
@@ -121,7 +121,7 @@ Entry-point: `plugins/ethics_ai/CMakeLists.txt` (compatibility shim) · implemen
 | Item | Status |
 |------|--------|
 | 6 core components implemented | ✅ Done |
-| Unit test coverage ≥ 80 % | ❌ Pending |
+| Unit test coverage ≥ 80 % | ✅ Done |
 | Prometheus metrics wired | ❌ Pending |
 | YAML philosophy profiles validated in CI | ❌ Pending |
 | Stubs removed (`STUB_REMOVAL_PLAN.md`) | ❌ Pending |

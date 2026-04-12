@@ -1,4 +1,4 @@
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-04-09 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
@@ -6,9 +6,10 @@
 
 ## Current Status
 
-v0.0.1 — `GRPCServer` and `GRPCPlugin` provide a fully functional gRPC server with
+v0.0.2 — `GRPCServer` and `GRPCPlugin` provide a fully functional gRPC server with
 mTLS, service registration, and HTTP/2. The fail-closed TLS design is in place.
-Tests and advanced features (health service, interceptors, streaming helpers) are planned.
+Unit tests for the plugin lifecycle and server are now complete (30 tests).
+Advanced features (health service, interceptors, streaming helpers) are planned.
 
 ---
 
@@ -27,13 +28,13 @@ Tests and advanced features (health service, interceptors, streaming helpers) ar
 - [x] `PluginCapabilities`: `supports_streaming=true`, `supports_batching=true`, `thread_safe=true`
 - [x] `extern "C"` export: `createPlugin()` / `destroyPlugin()`
 
+- [x] Unit tests for server lifecycle and GRPCPlugin — `tests/test_grpc_plugin.cpp` (30 tests, `GrpcPluginTests`); covers `initialize`, `start` (insecure/TLS/mTLS guard), `stop`, `registerService`, `getStats`, all `IThemisPlugin` methods; registered in `tests/CMakeLists.txt` as `test_grpc_plugin` under `THEMIS_ENABLE_GRPC` guard (2026-04-08)
+
 ---
 
 ## In Progress [~]
 
-- [~] Unit tests for server lifecycle (insecure, TLS, mTLS modes)
-- [~] Unit tests for GRPCPlugin (getName, getVersion, getType, getCapabilities, initialize, createServer, getProtocol, getDefaultPort)
-- [~] tests/test_grpc_plugin.cpp registered as standalone target (THEMIS_ENABLE_GRPC guard)
+*(none — all previously in-progress items are now complete)*
 
 ---
 
@@ -41,8 +42,8 @@ Tests and advanced features (health service, interceptors, streaming helpers) ar
 
 ### v0.1.0 — Tests and Uptime Tracking (Target: Q3 2026)
 
-- [~] Unit tests: `initialize`, `start` (insecure), `stop`, `registerService` (Target: Q3 2026)
-- [~] Fail-closed TLS test: start() returns false on bad cert path (Target: Q3 2026)
+- [x] Unit tests: `initialize`, `start` (insecure), `stop`, `registerService` (Target: Q3 2026)
+- [x] Fail-closed TLS test: start() returns false on bad cert path (Target: Q3 2026)
 - [ ] Integration tests: mTLS round-trip with real gRPC service (Target: Q3 2026)
 - [ ] `RPCServerStats::uptime_seconds` incremental tracking with `std::chrono` (Target: Q3 2026)
 
@@ -79,12 +80,11 @@ Tests and advanced features (health service, interceptors, streaming helpers) ar
 - [x] Null service guard in `registerService()`
 - [x] Cert file load failure → fail-closed throw
 
-### Phase 4: Tests [ ]
-- [~] `tests/test_grpc_plugin.cpp` — GRPCPlugin + GRPCServer unit tests
-- [~] Fail-closed TLS: start() returns false (no insecure fallback)
-- [~] Registered in `tests/CMakeLists.txt` as `test_grpc_plugin` (THEMIS_ENABLE_GRPC guard)
+### Phase 4: Tests [~]
+- [x] `tests/test_grpc_plugin.cpp` — GRPCPlugin + GRPCServer unit tests (30 tests, 2026-04-08)
+- [x] Fail-closed TLS: start() returns false (no insecure fallback)
+- [x] Registered in `tests/CMakeLists.txt` as `test_grpc_plugin` (THEMIS_ENABLE_GRPC guard)
 - [ ] Integration test: mTLS round-trip with echo service
-- [ ] Unit tests (Target: Q3 2026)
 - [ ] Integration tests (Target: Q3 2026)
 
 ### Phase 5: Performance / Hardening [ ]
@@ -104,7 +104,7 @@ Tests and advanced features (health service, interceptors, streaming helpers) ar
 | TLS / mTLS | ✅ | Fail-closed; mTLS requires and verifies client cert |
 | Service registration | ✅ | Any `grpc::Service*` accepted before start |
 | Thread safety | ✅ | Atomic running state; mutex-protected stats |
-| Unit/integration tests | ❌ | Planned Q3 2026 |
+| Unit/integration tests | ✅ | 30 unit tests in `test_grpc_plugin.cpp` (v0.0.2); integration tests planned Q3 2026 |
 | Uptime tracking | ⚠️ | Initialised to 0; incremental tracking planned Q3 2026 |
 | Health service | ❌ | Planned Q4 2026 |
 | Prometheus metrics | ❌ | Planned Q4 2026 |

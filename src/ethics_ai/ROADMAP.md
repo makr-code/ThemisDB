@@ -1,4 +1,4 @@
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-04-09 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
@@ -20,6 +20,11 @@ v0.2.0 — `PhilosophyLoader` handles rich YAML (complex thesis objects, point-k
 - [x] `EthicsAiPlugin` — IThemisPlugin wiring and lifecycle
 - [x] Shared domain types (`EthicalArgument`, `EthicalDecision`, `PhilosophyProfile`, etc.)
 - [x] AQL query constants for all 7 retrieval patterns
+- [x] `PhilosophyLoader::addProfile()` — programmatic profile injection for unit tests (`philosophy_loader.h`)
+- [x] Unit tests for all six components — 70 tests across four focused targets:
+  `DiscourseEngineFocusedTests` (11), `ArgumentStoreStandaloneTests` (18),
+  `EthicsAiPluginTests` (28), `RAGContextEngineTests` (13); all registered in
+  `tests/CMakeLists.txt` under `THEMIS_PLUGIN_ETHICS_AI` guard (2026-04-08)
 - [x] BaseEntity adapter for ethics types
 - [x] `std::variant<T, Status>` error handling throughout all public APIs
 - [x] Standalone in-memory mode for `ArgumentStore` (testing without RocksDB)
