@@ -41,6 +41,16 @@ v1.8.0 – Production-grade persistent storage layer built on RocksDB with MVCC,
 - [x] `NVMeManager` – io_uring async I/O (Linux ≥ 5.1), multi-queue NVMe, ZNS zone management, Direct I/O flag recommendation; RocksDBWrapper NVMe integration (`enable_nvme_optimizations` config)
 - [x] `WomTree` – Write-Optimized Merge (WOM) Tree: Bε-tree alternative to LSM; write amplification 2–5× vs 10–30× for LSM; lazy buffer propagation; full put/get/remove/scan/compact API
 - [x] Production-mode safety flag (`THEMIS_PRODUCTION_MODE`) preventing no-op encryption defaults
+- [x] `StreamingIngestManager` — ring-buffer + flush-thread → single `WriteBatch` (2026-04-12)
+  - `include/storage/streaming_ingest_manager.h` + `src/storage/streaming_ingest_manager.cpp`
+  - `flush_interval`=10 ms, `max_buffer`=1 M events, `max_batch`=65 536; `OverflowPolicy::BLOCK/DROP`
+  - API: `ingest(key, value)` / `ingestBatch()` / `flush()` / `stats()`
+  - 10 focused tests (SM-01…SM-10) in `tests/test_streaming_ingest_manager.cpp`
+- [x] `ColumnarCache` — LRU in-memory columnar cache for analytics acceleration (2026-04-12)
+  - `include/storage/columnar_cache.h` + `src/storage/columnar_cache.cpp`
+  - LRU eviction + `PinGuard` RAII; `SegmentDType` (Int64/Double/String/Bool); `byteSize()` accounting
+  - `on_evict` callback; hit/miss counters; default ctor delegates to `Config{}`
+  - 12 focused tests (CC-01…CC-12) in `tests/test_columnar_cache.cpp`
 
 ## In Progress 🚧
 

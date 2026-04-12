@@ -40,7 +40,10 @@
 - [I] `FOR SYSTEM_TIME` / `FOR APPLICATION_TIME` clause in AQL query parser (Target: Q3 2026)
 - [x] Temporal uniqueness constraints and gap/overlap detection for valid-time periods (`BiTemporalTable::hasUniquenessConflict`, `BiTemporalTable::findGaps`, `BiTemporalTable::findOverlaps`)
 - [I] Storage-based and archive-to-cold-storage retention policy variants (Target: Q3 2026)
-- [I] Delta compression for historical versions (ZSTD / Gorilla for numeric time-series data) (Target: Q4 2026)
+- [x] Delta compression for historical versions (DELTA, ZSTD, Gorilla, DICTIONARY algorithms via `TemporalCompressor`)
+  - `[x]` LZ4 compression added to `TemporalCompressor` (2026-04-12): `CompressionAlgorithm::LZ4`, `applyLz4()`/`decompressLz4()` via `<lz4.h>`
+  - JSON payload: `{"__compressed":"lz4","__original_size":N,"__data":"<base64>"}` wired into `algorithmName()`, `decompress()`, `compressHistory()`
+  - 5 focused tests (TC-LZ4-01…TC-LZ4-05) appended to `tests/temporal/test_temporal_compressor.cpp`
 
 ### Long-term (6-12 months)
 - [x] Temporal foreign keys with period-aware referential integrity (`TemporalForeignKey::validate()`)
@@ -108,7 +111,7 @@
 ## Known Issues & Limitations
 - SQL `PERIOD FOR` DDL syntax is not yet supported; application-time periods must be managed via the C++ API.
 - No automatic SQL-level retention syntax (`ALTER TABLE … SET RETENTION_PERIOD`); retention policies must be set programmatically via `RetentionManager::setPolicy()`.
-- History table compression is implemented via TemporalCompressor (DELTA, ZSTD, Gorilla, DICTIONARY algorithms).
+- History table compression is implemented via TemporalCompressor (DELTA, ZSTD, Gorilla, DICTIONARY, LZ4 algorithms). LZ4 added 2026-04-12 via `<lz4.h>`.
 - Temporal CDC is available via TemporalCDC (in-process pub/sub with bounded ring-buffer; external Kafka integration deferred to Phase 5).
 
 ## Breaking Changes

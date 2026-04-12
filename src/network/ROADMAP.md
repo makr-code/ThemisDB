@@ -88,6 +88,11 @@ v1.8.0 – Production-grade networking layer. All transport paths (TCP, WebSocke
   - Cross-datacenter preference: routes to local datacenter first, falls back to remote on failure
   - `Stats`: `total_requests`, `total_failures`, `failover_events`, `rebalance_events`
   - Unit tests in `tests/test_raft_load_balancer.cpp` (`RaftLoadBalancerTest`, 26 tests)
+- [x] **io_uring batched sender** — `IoUringBatchedSender` in `io_uring_batcher.h/cpp` (2026-04-12)
+  - Single `io_uring_enter()` syscall for N concurrent `WireProtocolBatcher` flushes (`IORING_OP_WRITEV` SQEs)
+  - CQE reap + per-operation error reporting; transparent `writev(2)` fallback when io_uring unavailable
+  - Guarded by `THEMIS_ENABLE_IO_URING`; no ABI change to `WireProtocolBatcher`
+  - 12 focused tests (IUB-01…IUB-12) in `tests/test_io_uring_batcher.cpp`
 
 ## In Progress 🚧
 - [x] UDP-based fast-path for read-only queries (Target: Q3 2026) (Issue: #1962) (PR: #3098)

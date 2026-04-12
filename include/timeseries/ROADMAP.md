@@ -1,4 +1,4 @@
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-04-12 -->
 
 # Roadmap — include/timeseries/
 
@@ -72,7 +72,7 @@ API stable — no breaking changes planned before v2.0.0.
 - [x] Define `TimeSeriesEngine` and `TSConfig` contracts
 - [x] Establish chunk-sealed-immutable semantics
 - [x] Define `ChunkKey` ownership and copy semantics
-- [ ] Draft `ts_stream_cursor.h` interface (Target: Q3 2026)
+- [x] Draft `ts_stream_cursor.h` interface — implemented 2026-04-12
 - [ ] Draft `ts_columnar_store.h` Arrow ABI contract (Target: Q4 2026)
 
 ### Phase 2 — Core Implementation
@@ -86,12 +86,13 @@ API stable — no breaking changes planned before v2.0.0.
 - [x] IV uniqueness enforcement in `EncryptedChunkStore`
 - [x] Adaptive buffer OOM guard in `TSAutoBufferAdaptive`
 - [x] Chunk-reference dangling-handle prevention in `TSStore`
-- [ ] Streaming cursor iterator-invalidation handling (Target: Q3 2026)
+- [x] Streaming cursor iterator-invalidation handling — implemented 2026-04-12 (`TsStreamCursor`)
 
 ### Phase 4 — Tests
 - [x] Unit tests for all v1.x headers (≥ 90 % line coverage)
 - [x] Gorilla round-trip fuzz tests
 - [x] Encryption key-rotation integration tests
+- [x] Streaming cursor focused tests (SC-01…SC-08) and batch-write tests (TB-01…TB-14) — 2026-04-12
 - [ ] Columnar store Arrow-compatibility suite (Target: Q4 2026)
 
 ### Phase 5 — Performance / Hardening

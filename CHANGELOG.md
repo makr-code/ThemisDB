@@ -7,6 +7,38 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added — 2026-04-12 Module Additions
+
+- **storage: `StreamingIngestManager` v1.0** — ring-buffer + flush-thread → single `WriteBatch`; flush_interval=10 ms, max_buffer=1 M events, max_batch=65 536; `OverflowPolicy::BLOCK/DROP`; `ingest(key,value)` / `ingestBatch()` / `flush()` / `stats()`. 10 tests SM-01…SM-10.
+- **storage: `ColumnarCache` v1.0** — LRU eviction + `PinGuard` RAII; `SegmentDType` (Int64/Double/String/Bool); `byteSize()` accounting; `on_evict` callback; hit/miss counters. 12 tests CC-01…CC-12.
+- **timeseries: `TsStreamCursor` v1.0** — lazy paginated iterator over `TSStore::query()`; default page_size=4 096; `open()`/`valid()`/`current()`/`advance()`/`close()`; `rowsConsumed()`/`pagesFetched()` stats. 8 tests SC-01…SC-08.
+- **timeseries: `TSStore::putBatch`** — zero-copy batch write via single `WriteBatch` commit; `TSRow` uses `string_view`; `BatchWriteResult` (ok_count/failed_count/row_errors); Gorilla+raw paths. 14 tests TB-01…TB-14.
+- **temporal: `TemporalCompressor` LZ4** — `CompressionAlgorithm::LZ4` added; `applyLz4()`/`decompressLz4()` via `<lz4.h>`; JSON payload `{"__compressed":"lz4","__original_size":N,"__data":"<base64>"}`. 5 tests TC-LZ4-01…TC-LZ4-05.
+- **analytics: `IStreamingJoin` / `HashJoin` / `IntervalJoin`** — composite-key hash table, inner/left-outer join, multi-batch build; `IntervalJoin` with before_ms/after_ms/slack_ms and LRU pruning. 15 tests SJ-01…SJ-15.
+- **performance: `LockFreeHistogram<T>`** — header-only, exponential+linear modes, 64-byte aligned buckets, `record()`=1 atomic fetch_add, `percentile(p)`. `LatencyHistogram`(32) + `WideHistogram`(64) aliases. 12 tests LFH-01…LFH-12.
+- **network: `IoUringBatchedSender` v1.0** — single `io_uring_enter()` for N `WireProtocolBatcher` flushes (`IORING_OP_WRITEV` SQEs); `THEMIS_ENABLE_IO_URING` guard; `writev(2)` fallback. 12 tests IUB-01…IUB-12.
+- **utils: UUID v7** — `generate_uuid_v7()` (RFC 9562): 48-bit Unix-ms + 18-bit monotonic seq (thread_local, mutex) + 56-bit rand (MT19937-64). 20 tests UV7-01…UV7-20.
+- **utils: Streaming ZSTD** — `zstd_compress_stream`/`zstd_decompress_stream` via `ZSTD_CStream`/`ZSTD_DStream`; `max_output_bytes` DoS-guard (default 4 GB). 10 tests ZS-01…ZS-10.
+- **acceleration: `AiHardwareDispatcher` v1.0** — priority chain NPU_APPLE→NPU_INTEL→NPU_QUALCOMM→NPU_ARM→NNAPI→ONNX_RUNTIME→GPU→CPU; INT4/FP4/W4A8/W8A8 precision modes; `DeviceCapabilityInfo` with NPU TOPS and quantisation flags. 30 tests.
+- **acceleration: NCCL/RCCL `mergeTopK`** — AllGather + partial_sort + Bcast in `nccl_vector_backend.cpp` / `rccl_vector_backend.cpp`; 13 CPU-simulation + 6 NCCL + 6 RCCL single-rank tests.
+
+### Fixed — 2026-04-12
+
+- **performance: LIRS cache TOCTOU race** — `get()` upgraded from `shared_lock` to `unique_lock`; `contains()`/`size()` retain `shared_lock`.
+- **performance: RCU `readers_active()` always-false bug** — `g_rcu_reader_count` global `atomic<int64_t>` wired to `ReadLock` ctor/dtor; `readers_active()` now reads real count.
+- **cache: `RequestCoalescer` real Singleflight** — replaced stub with `promise/shared_future` inflight map; `fn()` called exactly once per concurrent key group; exceptions propagated to all waiters. 14 tests RC-01…RC-14.
+- **index: Concurrent-Unique-Lücke** — `TransactionWrapper::getForUpdate()` added; sentinel key locked before unique-constraint check in `updateIndexesForPut_`. 3 new tests CU-1/CU-2/CU-3.
+- **index: secondary index performance** — `updateIndexesForDelete_` overloads use `SecondaryIndexMetadataCache`; `regular_indexes_set`/`range_indexes_set` cached sets; `encodeKeyComponent` uses kHex table.
+- **maintenance: MVCC_CLEANUP wiring** — `MvccCleanupHandler` registered with `maintenance_orchestrator_` (24 h watermark); `mvcc_store_` member wired in `http_server.cpp`.
+- **maintenance: STORAGE_COMPACTION wiring** — `StorageCompactionHandler(CompactionManager(storage_))` registered with `maintenance_orchestrator_` in `http_server.cpp`.
+
+### Documentation — 2026-04-12
+
+- **Root-level documentation sync** — `roadmap.md` (46→55 modules, acceleration status fixed, Milestone Delta section added), `ARCHITECTURE.md` (55 components, 9 new module rows), `DEVELOPMENT_STATUS.md` (Active Work Items updated), `include/maintenance/ROADMAP.md` (v1.2.0, all wiring items marked done), `CURRENT_STATUS.md` (progress 85→88%, date updated).
+- **src/* module ROADMAP sync** — `src/timeseries`, `src/storage`, `src/analytics`, `src/performance`, `src/cache`, `src/network`, `src/utils`, `src/temporal` all updated to reflect 2026-04-12 additions.
+- **include/* module ROADMAP sync** — `include/timeseries/ROADMAP.md` Phase items updated (TsStreamCursor `[x]`).
+  <!-- changelog-updater: module-docs-sync-2026-04-12-implementations -->
+
 ### Documentation
 
 - **Module-Docs Sync 📚 — 2026-04-12**
