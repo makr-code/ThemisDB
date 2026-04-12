@@ -20658,10 +20658,10 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../src/stable_diffusion/tests/test_sd_plu
     target_compile_definitions(test_sd_plugin PRIVATE THEMIS_PLUGIN_EXPORTS)
     add_test(NAME SDPluginFocusedTests COMMAND test_sd_plugin)
     set_tests_properties(SDPluginFocusedTests PROPERTIES
-        LABELS "plugins;stable_diffusion;image_generation;v2.0.0"
+        LABELS "plugins;stable_diffusion;image_generation;v2.2.0"
         TIMEOUT 60
     )
-    message(STATUS "  SDPlugin: 30 tests (A-J)")
+    message(STATUS "  SDPlugin: 51 tests (A-Q)")
 else()
     message(STATUS "  SDPlugin tests not found – skipped")
 endif()

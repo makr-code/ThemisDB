@@ -1,8 +1,10 @@
 #include "stable_diffusion/sd_plugin.h"
+#include <algorithm>
+#include <array>
 #include <chrono>
-#include <sstream>
-#include <iomanip>
 #include <cstring>
+#include <iomanip>
+#include <sstream>
 
 namespace themis {
 namespace imggen {
@@ -10,7 +12,11 @@ namespace imggen {
 // ── constructors ──────────────────────────────────────────────────────────────
 
 SDPlugin::SDPlugin()
+#ifdef THEMIS_ENABLE_STABLE_DIFFUSION
+    : generator_(std::make_unique<SDCppGenerator>())
+#else
     : generator_(std::make_unique<SDStubGenerator>())
+#endif
     , sanitizer_() {}
 
 SDPlugin::SDPlugin(std::unique_ptr<ISDGenerator> generator, SDPromptSanitizer sanitizer)
@@ -59,34 +65,138 @@ std::string SDPlugin::sha256Hex(const std::string& input) {
 
 // ── encodeMinimalPng ──────────────────────────────────────────────────────────
 
-std::vector<uint8_t> SDPlugin::encodeMinimalPng(const std::vector<uint8_t>& /*rgb*/,
+std::vector<uint8_t> SDPlugin::encodeMinimalPng(const std::vector<uint8_t>& rgb,
                                                   int width, int height) {
-    // Produce a minimal valid PNG: 8-byte signature + IHDR + IDAT (empty) + IEND
-    // This is a stub encoder sufficient for tests.  Real deployments link libpng/stb.
-    static const uint8_t kSig[]  = {0x89,'P','N','G','\r','\n',0x1a,'\n'};
-    static const uint8_t kIEND[] = {0,0,0,0,'I','E','N','D',0xae,0x42,0x60,0x82};
+    // ── CRC-32 (ISO 3309) ─────────────────────────────────────────────────────
+    static const auto kCrcTable = []() {
+        std::array<uint32_t, 256> t{};
+        for (uint32_t n = 0; n < 256u; ++n) {
+            uint32_t c = n;
+            for (int k = 0; k < 8; ++k)
+                c = (c & 1u) ? (0xEDB88320u ^ (c >> 1)) : (c >> 1);
+            t[n] = c;
+        }
+        return t;
+    }();
 
-    // IHDR chunk: length(4) + "IHDR"(4) + w(4) + h(4) + bitdepth(1) + colortype(1)
-    //             + compression(1) + filter(1) + interlace(1) + crc(4) = 25 bytes
+    auto crc32_of = [&](const uint8_t* data, size_t len) -> uint32_t {
+        uint32_t crc = 0xFFFFFFFFu;
+        for (size_t i = 0; i < len; ++i)
+            crc = kCrcTable[(crc ^ data[i]) & 0xFFu] ^ (crc >> 8);
+        return crc ^ 0xFFFFFFFFu;
+    };
+
+    // ── Adler-32 (RFC 1950) ───────────────────────────────────────────────────
+    auto adler32_of = [](const uint8_t* data, size_t len) -> uint32_t {
+        uint32_t s1 = 1u, s2 = 0u;
+        for (size_t i = 0; i < len; ++i) {
+            s1 = (s1 + data[i]) % 65521u;
+            s2 = (s2 + s1)      % 65521u;
+        }
+        return (s2 << 16) | s1;
+    };
+
+    // ── Write helpers ─────────────────────────────────────────────────────────
+    auto put_be32 = [](std::vector<uint8_t>& v, uint32_t x) {
+        v.push_back(static_cast<uint8_t>(x >> 24));
+        v.push_back(static_cast<uint8_t>(x >> 16));
+        v.push_back(static_cast<uint8_t>(x >>  8));
+        v.push_back(static_cast<uint8_t>(x      ));
+    };
+    auto put_le16 = [](std::vector<uint8_t>& v, uint16_t x) {
+        v.push_back(static_cast<uint8_t>(x     ));
+        v.push_back(static_cast<uint8_t>(x >> 8));
+    };
+
+    // Append a PNG chunk: 4-byte length + 4-byte type + data + 4-byte CRC-32.
+    auto append_chunk = [&](std::vector<uint8_t>& png,
+                             const uint8_t type[4],
+                             const uint8_t* data, uint32_t data_len) {
+        put_be32(png, data_len);
+        const size_t type_pos = png.size();
+        png.insert(png.end(), type, type + 4);
+        if (data_len > 0)
+            png.insert(png.end(), data, data + data_len);
+        put_be32(png, crc32_of(png.data() + type_pos, 4u + data_len));
+    };
+
+    // ── Filtered scanlines (PNG filter method 0: None) ────────────────────────
+    // Each row is preceded by a 0x00 "None" filter byte.
+    const size_t row_bytes = static_cast<size_t>(width)  * 3u;
+    const size_t num_rows  = static_cast<size_t>(height);
+    const size_t filt_size = num_rows * (1u + row_bytes);
+
+    std::vector<uint8_t> filtered(filt_size, 0u);
+    for (size_t y = 0; y < num_rows; ++y) {
+        filtered[y * (1u + row_bytes)] = 0x00u;  // filter type: None
+        const size_t src_off = y * row_bytes;
+        const size_t dst_off = y * (1u + row_bytes) + 1u;
+        const size_t avail = (src_off < rgb.size())
+                             ? std::min(row_bytes, rgb.size() - src_off) : 0u;
+        if (avail > 0)
+            std::copy(rgb.begin() + static_cast<ptrdiff_t>(src_off),
+                      rgb.begin() + static_cast<ptrdiff_t>(src_off + avail),
+                      filtered.begin() + static_cast<ptrdiff_t>(dst_off));
+    }
+
+    // ── zlib stream wrapping uncompressed (stored) deflate blocks ────────────
+    // zlib header CMF=0x78, FLG=0x01  →  (0x78*256 + 0x01) % 31 == 0  ✓
+    std::vector<uint8_t> idat_payload;
+    idat_payload.push_back(0x78u);
+    idat_payload.push_back(0x01u);
+
+    const uint8_t* src_ptr  = filtered.data();
+    size_t         remaining = filtered.size();
+
+    // Emit at least one stored deflate block (handles empty images too).
+    do {
+        const uint16_t block_len = static_cast<uint16_t>(
+                std::min(remaining, static_cast<size_t>(0xFFFFu)));
+        const bool is_final = (remaining - block_len == 0u);
+
+        idat_payload.push_back(is_final ? 0x01u : 0x00u);  // BFINAL | BTYPE=00
+        put_le16(idat_payload, block_len);
+        put_le16(idat_payload, static_cast<uint16_t>(~block_len));
+        idat_payload.insert(idat_payload.end(), src_ptr, src_ptr + block_len);
+
+        src_ptr   += block_len;
+        remaining -= block_len;
+    } while (remaining > 0u);
+
+    put_be32(idat_payload, adler32_of(filtered.data(), filtered.size()));
+
+    // ── Assemble PNG ──────────────────────────────────────────────────────────
     std::vector<uint8_t> png;
-    png.insert(png.end(), kSig, kSig + 8);
+    png.reserve(8u + 25u + 12u + idat_payload.size() + 12u);
 
-    // IHDR
-    uint8_t ihdr[25];
-    ihdr[0]=0; ihdr[1]=0; ihdr[2]=0; ihdr[3]=13;   // data length = 13
-    ihdr[4]='I'; ihdr[5]='H'; ihdr[6]='D'; ihdr[7]='R';
-    ihdr[8] =(width>>24)&0xFF;  ihdr[9] =(width>>16)&0xFF;
-    ihdr[10]=(width>> 8)&0xFF;  ihdr[11]=(width    )&0xFF;
-    ihdr[12]=(height>>24)&0xFF; ihdr[13]=(height>>16)&0xFF;
-    ihdr[14]=(height>> 8)&0xFF; ihdr[15]=(height    )&0xFF;
-    ihdr[16]=8;  // bit depth
-    ihdr[17]=2;  // RGB
-    ihdr[18]=0; ihdr[19]=0; ihdr[20]=0;  // compression, filter, interlace
-    // CRC (stub: zero)
-    ihdr[21]=0; ihdr[22]=0; ihdr[23]=0; ihdr[24]=0;
-    png.insert(png.end(), ihdr, ihdr + 25);
+    static const uint8_t kSig[] = {0x89u,'P','N','G','\r','\n',0x1Au,'\n'};
+    png.insert(png.end(), kSig, kSig + 8u);
 
-    png.insert(png.end(), kIEND, kIEND + 12);
+    // IHDR: width(4) + height(4) + bit_depth(1) + color_type(1)
+    //       + compression(1) + filter(1) + interlace(1) = 13 bytes
+    uint8_t ihdr[13];
+    ihdr[0]  = static_cast<uint8_t>(width  >> 24); ihdr[1]  = static_cast<uint8_t>(width  >> 16);
+    ihdr[2]  = static_cast<uint8_t>(width  >>  8); ihdr[3]  = static_cast<uint8_t>(width       );
+    ihdr[4]  = static_cast<uint8_t>(height >> 24); ihdr[5]  = static_cast<uint8_t>(height >> 16);
+    ihdr[6]  = static_cast<uint8_t>(height >>  8); ihdr[7]  = static_cast<uint8_t>(height      );
+    ihdr[8]  = 8u;   // bit depth: 8
+    ihdr[9]  = 2u;   // color type: RGB truecolor
+    ihdr[10] = 0u;   // compression method: deflate
+    ihdr[11] = 0u;   // filter method: adaptive
+    ihdr[12] = 0u;   // interlace: none
+    static const uint8_t kIHDR[4] = {'I','H','D','R'};
+    append_chunk(png, kIHDR, ihdr, 13u);
+
+    // IDAT: one chunk containing the full zlib stream
+    static const uint8_t kIDAT[4] = {'I','D','A','T'};
+    append_chunk(png, kIDAT,
+                 idat_payload.data(),
+                 static_cast<uint32_t>(idat_payload.size()));
+
+    // IEND
+    static const uint8_t kIEND[4] = {'I','E','N','D'};
+    append_chunk(png, kIEND, nullptr, 0u);
+
     return png;
 }
 
