@@ -649,6 +649,7 @@ Result<IThemisPlugin*> PluginManager::loadPlugin(const std::string& name) {
     current_entry.instance.reset(plugin);
     current_entry.loaded = true;
     current_entry.file_hash = calculateFileHash(current_entry.path);
+    current_entry.frozen_capabilities = plugin->getCapabilities();
     
     // Auto-register self-healing plugins with the health monitor
     if (health_monitor_) {
@@ -734,6 +735,7 @@ Result<IThemisPlugin*> PluginManager::loadPluginFromPath(
     entry.instance.reset(plugin);
     entry.loaded = true;
     entry.file_hash = calculateFileHash(path);
+    entry.frozen_capabilities = plugin->getCapabilities();
     
     // Store
     plugins_[entry.name] = std::move(entry);
@@ -1320,6 +1322,61 @@ PluginNegotiationResult PluginManager::negotiateCapabilities(
 
 PluginManager::~PluginManager() {
     unloadAllPlugins();
+}
+
+// ============================================================================
+// Runtime capability escalation blocking
+// ============================================================================
+
+Result<void> PluginManager::checkCapabilityEscalation(const std::string& name)
+{
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    auto it = plugins_.find(name);
+    if (it == plugins_.end() || !it->second.loaded || !it->second.instance) {
+        return ErrVoid(errors::ErrorCode::ERR_PLUGIN_NOT_FOUND,
+                       fmt::format("Plugin '{}' not found or not loaded", name));
+    }
+
+    auto& entry = it->second;
+    const PluginCapabilities& frozen  = entry.frozen_capabilities;
+    const PluginCapabilities  current = entry.instance->getCapabilities();
+
+    // A capability escalation occurs when a flag that was false at load time
+    // (i.e. not declared in the manifest capabilities snapshot) is now true.
+    bool escalated =
+        (!frozen.supports_streaming    && current.supports_streaming)    ||
+        (!frozen.supports_batching     && current.supports_batching)     ||
+        (!frozen.supports_transactions && current.supports_transactions) ||
+        (!frozen.thread_safe           && current.thread_safe)           ||
+        (!frozen.gpu_accelerated       && current.gpu_accelerated);
+
+    if (!escalated) {
+        return OkVoid();
+    }
+
+    // Mark the plugin as restricted so that operators can act on it.
+    entry.is_restricted = true;
+
+    THEMIS_ERROR(
+        "Capability escalation attempt detected for plugin '{}' — marking as RESTRICTED",
+        name);
+
+    return ErrVoid(
+        errors::ErrorCode::ERR_PLUGIN_CAPABILITY_ESCALATION,
+        fmt::format(
+            "Plugin '{}' attempted to escalate capabilities beyond its manifest declaration",
+            name));
+}
+
+bool PluginManager::isPluginRestricted(const std::string& name) const
+{
+    std::lock_guard<std::mutex> lock(mutex_);
+    auto it = plugins_.find(name);
+    if (it == plugins_.end()) {
+        return false;
+    }
+    return it->second.is_restricted;
 }
 
 // Singleton
