@@ -728,3 +728,121 @@ In diesem Kapitel haben wir ein umfassendes Framework für Data Governance und C
 
 **Kapitel 40 vollständig überarbeitet nach wissenschaftlichen Standards.**  
 **Wortanzahl:** ~4200 | **Quellen:** 8 | **Code-Beispiele:** 15+ | **Diagramme:** 2 | **Querverweise:** 6
+
+---
+
+## 40.11 Governance-Modul — C++ Produktions-API (v1.x)
+
+Das Governance-Modul (`include/governance/`, `src/governance/`) implementiert Policy-based Data Access Control, Multi-Framework-Compliance (GDPR/HIPAA/CCPA/PCI-DSS/SOC 2/ISO 27001), Data Lineage Tracking, automatisiertes Data Masking, OPA-Integration und Compliance-Reporting.
+
+### 40.11.1 PolicyEngine — Zugriffssteuerung + Simulation
+
+```cpp
+#include "governance/policy_engine.h"
+#include "governance/opa_adapter.h"
+
+themis::governance::PolicyEngine engine;
+engine.loadFromYAML("/etc/themisdb/policies.yaml");
+engine.setAuditLogger(audit_logger);
+
+// ── Policy-Entscheidung ───────────────────────────────────────────────
+std::unordered_map<std::string, std::string> headers = {
+    {"X-User-Id", "alice"}, {"X-Classification", "CONFIDENTIAL"}
+};
+auto decision = engine.evaluate(headers, "/vector/search");
+// decision.allowed, decision.reason, decision.classification
+// decision.ccpa_opted_out, decision.export_allowed
+
+// ── Query Permission + Masking Policy ────────────────────────────────
+auto qpr = engine.checkQueryPermission(headers, "/query/aql");
+// qpr.decision, qpr.masking_policy (für DataMasker)
+
+// ── LLM Inference Permission ──────────────────────────────────────────
+auto ipr = engine.checkInferencePermission(headers);
+// ipr.allowed, ipr.http_status, ipr.denial_reason
+
+// ── Dry-Run / Simulation (kein Audit-Eintrag) ─────────────────────────
+themis::governance::SimulationRequest sim_req{headers, "/admin/export"};
+auto sim = engine.simulateDecision(sim_req);
+// sim.decision, sim.matched_rule, sim.matched_profile
+
+// ── Hot-Reload bei YAML-Änderung ──────────────────────────────────────
+engine.reloadIfChanged();
+
+// ── OPA Integration ───────────────────────────────────────────────────
+auto opa = std::make_unique<themis::governance::OpaAdapter>(opa_url);
+engine.setOpaEvaluator(opa.get());
+// Fallback auf native Evaluation wenn OPA nicht erreichbar
+```
+
+### 40.11.2 DataMasker — Feldbasiertes Masking
+
+```cpp
+#include "governance/data_masker.h"
+
+// MaskingStrategy: REDACT | HASH | TRUNCATE | TOKENIZE | ENCRYPT
+
+themis::governance::FieldMaskingPolicy policy;
+policy.enabled = true;
+policy.rules = {
+    { .field_name = "email",  .strategy = themis::governance::MaskingStrategy::HASH },
+    { .field_name = "phone",  .strategy = themis::governance::MaskingStrategy::TRUNCATE,
+                               .truncate_length = 4 },
+    { .field_name = "ssn",    .strategy = themis::governance::MaskingStrategy::TOKENIZE,
+                               .collection_secret = "secret-key-material" },
+    { .field_name = "salary", .strategy = themis::governance::MaskingStrategy::REDACT }
+};
+
+themis::governance::DataMasker masker;
+auto masked_doc = masker.maskFields(original_doc, policy);
+// original_doc["email"] = "user@example.com"
+// masked_doc["email"]   = "a1b2c3d4..." (SHA-256-Hash)
+```
+
+### 40.11.3 DataLineageTracker — Append-Only Provenienz
+
+```cpp
+#include "governance/data_lineage.h"
+
+themis::governance::DataLineageTracker tracker;
+tracker.setAuditLogger(audit_logger);
+
+// Event aufzeichnen
+themis::governance::LineageEvent ev;
+ev.dataset_id    = "ds:customer_profiles";
+ev.event_type    = themis::governance::LineageEventType::TRANSFORMATION;
+ev.performed_by  = "etl-service";
+ev.operation     = "anonymize_pii_fields";
+ev.input_schema  = "raw_customer_v3";
+ev.output_schema = "anonymized_customer_v1";
+ev.metadata      = { {"gdpr_relevant", true} };
+
+tracker.recordEvent(ev);
+
+// Lineage für Dataset abrufen
+auto record = tracker.getLineage("ds:customer_profiles");
+// record.dataset_id, record.events (chronologisch)
+
+// Als JSON exportieren
+auto json_export = record.toJson();
+```
+
+### 40.11.4 Compliance-Regelwerke
+
+| Regelwerk | Klasse | Beschreibung |
+|-----------|--------|-------------|
+| GDPR / DSGVO | `GdprRuleSet` | Art. 5/6/17/20/32; Right-to-Delete, Data Portability |
+| HIPAA | `HipaaRuleSet` | PHI-Schutz, Zugriffskontrolle, Audit-Trail |
+| CCPA/CPRA | `CcpaRuleSet` | Right-to-Know, Right-to-Delete, Opt-Out-of-Sale |
+| PCI-DSS | `PciDssRuleSet` | Karteninhaberdaten-Isolation; Field-Level Encryption |
+| SOC 2 | `Soc2Controls` | 5 Trust Services Criteria; Evidence Collection |
+| ISO 27001 | `Iso27001Rules` | Annex-A-Kontrollen; `generateReport()` |
+
+```cpp
+#include "governance/compliance_reporter.h"
+
+themis::governance::ComplianceReporter reporter(engine, lineage_tracker);
+auto report = reporter.generate(themis::governance::Framework::GDPR);
+// report.summary, report.violations, report.recommendations
+// report.evidence_references, report.as_json(), report.as_pdf()
+```

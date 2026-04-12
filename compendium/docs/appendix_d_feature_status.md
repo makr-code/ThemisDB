@@ -395,7 +395,20 @@ Die folgenden Komponenten wurden mit dem v1.9.x-Release (Commit 2026-04-12) in d
 | `LogicalReplicationManager` Cross-Version | `replication/` | ✅ GA | — | Per-Change-Transformer + Cross-Version-Transforms |
 | `IArchivalBackend` | `replication/` | ✅ GA | — | Pluggable Backend-Interface für WAL-Segment-Storage |
 
----
+### Governance-Modul (v1.x)
+
+| Feature | Modul | Status | Tests | Beschreibung |
+|---------|-------|--------|-------|-------------|
+| `PolicyEngine::evaluate()` | `governance/` | ✅ GA | — | YAML-Policy, RBAC/ABAC, CCPA-Opt-Out, Hot-Reload |
+| `PolicyEngine::simulateDecision()` | `governance/` | ✅ GA | — | Dry-Run ohne Audit-Eintrag; `matched_rule` + `matched_profile` |
+| `PolicyEngine::checkQueryPermission()` | `governance/` | ✅ GA | — | Decision + `FieldMaskingPolicy` für DataMasker |
+| `PolicyEngine::checkInferencePermission()` | `governance/` | ✅ GA | — | LLM-Endpunkt Zugangskontrolle; OpenAI-style Fehlerkörper |
+| `OpaAdapter` | `governance/` | ✅ GA | — | OPA (Open Policy Agent) Integration; nativer Fallback |
+| `DataMasker::maskFields()` | `governance/` | ✅ GA | — | REDACT/HASH/TRUNCATE/TOKENIZE/ENCRYPT; letzter In-Process-Schutz |
+| `DataLineageTracker` | `governance/` | ✅ GA | — | Append-only Provenienz; Prometheus-Counter; Audit-Log |
+| `ModelGovernancePolicy` | `governance/` | ✅ GA | — | KI/ML Training Data Lineage, Bias-Auditing, Export-Check |
+| `CrossTenantPolicyInheritance` | `governance/` | ✅ GA | — | Hierarchische Policy-Vererbung über Tenants |
+| `ComplianceReporter` | `governance/` | ✅ GA | — | GDPR/HIPAA/CCPA/PCI-DSS/SOC 2/ISO 27001 Reports (JSON + PDF) |
 
 ## Implementierungsstatus — Process Module (v1.0)
 
