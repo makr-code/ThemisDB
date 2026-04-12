@@ -186,6 +186,25 @@ public:
     );
     
     /**
+     * @brief Replicate (write) a single entity to this shard.
+     *
+     * Uses the gRPC ReplicateData RPC in multi-node deployments and a
+     * lightweight in-process acknowledgement for loopback/test endpoints.
+     *
+     * @param collection  Collection / namespace name
+     * @param uuid        Entity UUID
+     * @param data        Entity payload (JSON object)
+     * @param timestamp_ns Write timestamp (nanoseconds since epoch); 0 = now
+     * @return true if the entity was accepted by the remote shard
+     */
+    bool writeEntity(
+        const std::string& collection,
+        const std::string& uuid,
+        const nlohmann::json& data,
+        uint64_t timestamp_ns = 0
+    );
+    
+    /**
      * @brief Check if shard is available
      */
     bool ping();
@@ -248,6 +267,14 @@ private:
      * @brief Handle gRPC snapshot read request
      */
     nlohmann::json handleSnapshotReadGrpc(
+        grpc::ClientContext& context,
+        const nlohmann::json& params
+    );
+    
+    /**
+     * @brief Handle gRPC write-entity request (ReplicateData RPC)
+     */
+    nlohmann::json handleWriteEntityGrpc(
         grpc::ClientContext& context,
         const nlohmann::json& params
     );

@@ -50,7 +50,7 @@
 - [ ] Security tests (no key material in /tmp, no key in argv)
 
 ### Phase 5 — Performance / Hardening
-- [ ] Benchmark mount latency (pipe vs file approach)
+- [x] Benchmark mount latency (pipe vs file approach) (`bench_user_storage_mount_latency.cpp`)
 - [ ] Memory zeroization audit
 - [ ] Fuzzing of `UserModels` deserialization
 

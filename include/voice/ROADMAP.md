@@ -23,12 +23,12 @@
 - [ ] Anti-spoofing model upgrade in `voice_security.h` (Target: Q2 2026)
   - Replace threshold-based with ML liveness model
   - Configurable false-accept rate target
-- [ ] SSML injection sanitization in `voice_tts_customizer.h` (Target: Q2 2026)
+- [x] SSML injection sanitization in `voice_tts_customizer.h` (Target: Q2 2026)
 - [ ] Real-time emotion streaming API in `emotion_analyzer.h` (Target: Q3 2026)
 - [ ] Multi-language wake word support in `wake_word_detector.h` (Target: Q3 2026)
 - [ ] End-to-end encryption for `voice_audio_storage.h` (AES-256-GCM) (Target: Q2 2026)
-- [ ] Path traversal protection for model names in `voice_model_cache.h` (Target: Q2 2026)
-- [ ] WebRTC origin allowlist in `voice_browser_streaming.h` (Target: Q2 2026)
+- [x] Path traversal protection for model names in `voice_model_cache.h` (Target: Q2 2026)
+- [x] WebRTC origin allowlist in `voice_browser_streaming.h` (Target: Q2 2026)
 - [ ] Meeting transcript export (GDPR-compliant redaction) in `voice_meeting_support.h` (Target: Q3 2026)
 - [ ] Voice macro privilege model (prevent escalation via replay) (Target: Q3 2026)
 - [ ] Telephony DTMF isolation in `voice_telephony.h` (Target: Q3 2026)
@@ -48,20 +48,20 @@
 - [ ] AES-256-GCM audio storage in `voice_audio_storage.h`
 
 ### Phase 3 — Error Handling & Edge Cases
-- [ ] Handle WebRTC origin mismatch gracefully
+- [x] Handle WebRTC origin mismatch gracefully
 - [ ] Handle liveness model unavailability (fail-closed)
 - [ ] Handle telephony leg drop mid-session
 
 ### Phase 4 — Tests
 - [ ] Unit tests for `WakeWordDetector` sensitivity/specificity
 - [ ] Integration tests for full auth pipeline (wake → auth → intent)
-- [ ] Security tests for SSML injection prevention
+- [x] Security tests for SSML injection prevention
 - [ ] Privacy tests: no audio retained post-VAD window
 
 ### Phase 5 — Performance / Hardening
-- [ ] Wake word latency target: < 200 ms end-to-end on embedded
+- [x] Wake word latency target: < 200 ms end-to-end on embedded (`bench_voice_wake_word_batch.cpp`)
 - [ ] Emotion analyzer: < 50 ms per 2-second audio chunk
-- [ ] Batch processor: linear throughput scaling to 16 threads
+- [x] Batch processor: linear throughput scaling to 16 threads (`bench_voice_wake_word_batch.cpp`)
 
 ### Phase 6 — Documentation & Sign-off
 - [ ] Complete API documentation for all 18 headers

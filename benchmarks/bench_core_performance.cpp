@@ -123,7 +123,7 @@ BENCHMARK_F(VectorIndexBench, ParallelBatchInsert_PERFD3)(benchmark::State& stat
 
 // PERF-D3 benchmark: raw SIMD pairwise distance throughput (no index overhead).
 // Measures AVX2/AVX-512 distance kernel in isolation to validate SIMD gains.
-BENCHMARK(SIMDDistanceThroughput_PERFD3)(benchmark::State& state) {
+static void SIMDDistanceThroughput_PERFD3(benchmark::State& state) {
     const int   DIM   = 384;
     const int   N_DB  = 1024;
     std::mt19937 rng(42);
@@ -142,6 +142,8 @@ BENCHMARK(SIMDDistanceThroughput_PERFD3)(benchmark::State& state) {
     state.SetItemsProcessed(state.iterations() * N_DB);
     state.SetLabel("AVX2/AVX-512 L2-sq kernel");
 }
+
+BENCHMARK(SIMDDistanceThroughput_PERFD3);
 
 // ============================================================================
 // SECONDARY INDEX BENCHMARKS

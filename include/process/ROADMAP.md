@@ -5,7 +5,9 @@
 
 ## Current Status
 
-v1.0.0 — production. BPMN 2.0, EPK, and VCC-VPB import/export; LLM descriptors; Graph-RAG retrieval; versioned RocksDB storage; 8 process link types.
+v1.0.1 — production. BPMN 2.0, EPK, and VCC-VPB import/export; LLM descriptors; Graph-RAG retrieval; versioned RocksDB storage; 8 process link types.
+- `detachObject()` uses `db_.del()` hard delete; secondary index `proc:obj_idx:` maintained (Issue: #4594, 2026-04-12)
+- `BpmnSerializer::importXml()` rewritten with state-machine tokenizer (no regex); handles `bpmn:` namespace prefixes, nested `subProcess`, CDATA, 10 MiB guard (Issue: #4595, 2026-04-12)
 
 ## Completed
 

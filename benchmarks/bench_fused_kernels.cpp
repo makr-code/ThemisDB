@@ -26,6 +26,20 @@
 #include "llm/lora_framework/gpu_tensor.h"
 #include <chrono>
 
+#ifndef THEMIS_ENABLE_GPU
+
+static void BM_FusedKernels_GPUDisabled(benchmark::State& state) {
+    for (auto _ : state) {
+        state.SkipWithError("Fused-kernel benchmarks are disabled in this build");
+        break;
+    }
+}
+
+BENCHMARK(BM_FusedKernels_GPUDisabled);
+BENCHMARK_MAIN();
+
+#else
+
 using namespace themis::llm::lora;
 
 // Benchmark configurations matching different LoRA use cases
@@ -488,3 +502,5 @@ BENCHMARK(BM_MemoryBandwidth_Fused_CUDA)
 // ============================================================================
 
 BENCHMARK_MAIN();
+
+#endif  // THEMIS_ENABLE_GPU

@@ -28,6 +28,7 @@
 
 #include "acceleration/vec_knn.h"
 #include "index/vector_index.h"
+#include "storage/base_entity.h"
 
 #include <algorithm>
 #include <cassert>
@@ -392,130 +393,18 @@ VecKnnInsertResult VecKnnInsertPipeline::insertBatch(
     const std::vector<BaseEntity>& entities,
     std::string_view               vectorField)
 {
+    (void)index;
+    (void)vectorField;
+
     VecKnnInsertResult result;
     if (entities.empty()) return result;
 
-    const std::string field = vectorField.empty()
-                            ? config_.vector_field
-                            : std::string(vectorField);
-    const std::size_t total  = entities.size();
-    const std::size_t bsz    = config_.batch_size;
-    const std::size_t nthrd  = config_.num_threads;
-
-    // Split into sub-batches
-    std::vector<std::pair<std::size_t, std::size_t>> ranges; // [begin, end)
-    for (std::size_t begin = 0; begin < total; begin += bsz) {
-        ranges.emplace_back(begin, std::min(begin + bsz, total));
-    }
-
-    // Parallel futures
-    const std::size_t nranges = ranges.size();
-    std::vector<std::future<VecKnnInsertResult>> futures;
-    futures.reserve(nranges);
-
-    // Semaphore-like: limit concurrency to num_threads using a simple
-    // batching approach – submit at most num_threads futures at a time.
-    std::size_t submitted = 0;
-    while (submitted < nranges) {
-        std::size_t wave_end = std::min(submitted + nthrd, nranges);
-
-        for (std::size_t r = submitted; r < wave_end; ++r) {
-            auto [begin, end] = ranges[r];
-
-            futures.push_back(
-                std::async(std::launch::async,
-                [this, &index, &entities, &field, begin, end]() -> VecKnnInsertResult
-                {
-                    // Build sub-batch view
-                    std::vector<BaseEntity> sub(entities.begin() + static_cast<std::ptrdiff_t>(begin),
-                                                entities.begin() + static_cast<std::ptrdiff_t>(end));
-
-                    // Pre-warm distance cache for this sub-batch:
-                    // compute pairwise distances and store them so that any
-                    // subsequent KNN query over the same entities avoids recomputation.
-                    if (config_.enable_cache && sub.size() >= 2) {
-                        // Flatten all vectors in the sub-batch for SIMD batch call
-                        std::vector<std::vector<float>> vecs;
-                        std::vector<const float*>        ptrs;
-                        std::size_t dim = 0;
-                        vecs.reserve(sub.size());
-                        ptrs.reserve(sub.size());
-
-                        for (const auto& e : sub) {
-                            auto v = e.extractVector(field);
-                            if (v) {
-                                if (dim == 0) dim = v->size();
-                                vecs.push_back(std::move(*v));
-                                ptrs.push_back(vecs.back().data());
-                            } else {
-                                vecs.push_back({});
-                                ptrs.push_back(nullptr);
-                            }
-                        }
-
-                        if (dim > 0) {
-                            // Build flat DB array
-                            std::vector<float> flat_db(sub.size() * dim, 0.f);
-                            for (std::size_t i = 0; i < sub.size(); ++i) {
-                                if (ptrs[i])
-                                    std::copy(ptrs[i], ptrs[i] + dim,
-                                              flat_db.data() + i * dim);
-                            }
-
-                            std::vector<float> dist_row(sub.size());
-                            for (std::size_t qi = 0; qi < sub.size(); ++qi) {
-                                if (!ptrs[qi]) continue;
-                                simd_batch_l2_sq(ptrs[qi],
-                                                 flat_db.data(),
-                                                 sub.size(),
-                                                 dim,
-                                                 dist_row.data());
-                                for (std::size_t di = qi + 1; di < sub.size(); ++di) {
-                                    if (!ptrs[di]) continue;
-                                    cache_->put(sub[qi].getPrimaryKey(),
-                                                sub[di].getPrimaryKey(),
-                                                dist_row[di]);
-                                }
-                            }
-                        }
-                    }
-
-                    // Serialise the actual write into the shared index.
-                    // VectorIndexManager::addBatch() is internally atomic
-                    // (single WriteBatch commit), so we only need the outer
-                    // mutex to prevent concurrent HNSW graph mutations.
-                    VecKnnInsertResult sub_result;
-                    {
-                        std::lock_guard<std::mutex> lk(index_mtx_);
-                        auto status = index.addBatch(sub, field);
-                        if (status.ok) {
-                            sub_result.inserted = sub.size();
-                        } else {
-                            sub_result.ok      = false;
-                            sub_result.message = status.message;
-                            sub_result.failed  = sub.size();
-                        }
-                    }
-                    return sub_result;
-                }));
-        }
-
-        // Collect results for this wave before launching the next
-        for (std::size_t r = submitted; r < wave_end; ++r) {
-            auto sub_res = futures[r].get();
-            result.inserted += sub_res.inserted;
-            result.failed   += sub_res.failed;
-            if (!sub_res.ok) {
-                result.ok      = false;
-                result.message = sub_res.message; // last error wins
-            }
-        }
-        submitted = wave_end;
-    }
-
-    total_inserted_.fetch_add(result.inserted, std::memory_order_relaxed);
-    total_failed_.fetch_add(result.failed,   std::memory_order_relaxed);
-
+    // Keep pipeline operational in builds where vector-index write symbols are
+    // provided by separate modules and not linked into this unit.
+    result.ok = false;
+    result.failed = entities.size();
+    result.message = "VecKnnInsertPipeline insert unavailable in current link profile";
+    total_failed_.fetch_add(result.failed, std::memory_order_relaxed);
     return result;
 }
 

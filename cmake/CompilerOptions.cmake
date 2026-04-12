@@ -156,7 +156,29 @@ else()
         -Wno-deprecated-declarations
         -Wsign-compare   # Enable signed/unsigned comparison warnings
     )
-    
+
+    # ── Release optimisation flags ────────────────────────────────────────────
+    # Active by default.  Opt-out:
+    #   -DTHEMIS_DISABLE_O3=ON          → use compiler default (-O2)
+    #   -DTHEMIS_DISABLE_FAST_MATH=ON   → strict IEEE 754 (no -ffast-math)
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        # -fno-omit-frame-pointer is always added in Release so profilers
+        # (perf, VTune) can produce accurate call graphs.
+        add_compile_options(-fno-omit-frame-pointer)
+
+        if(NOT THEMIS_DISABLE_O3)
+            add_compile_options(-O3)
+            message(STATUS "  Release: -O3 enabled (set THEMIS_DISABLE_O3=ON to use -O2)")
+        endif()
+
+        if(NOT THEMIS_DISABLE_FAST_MATH)
+            add_compile_options(-ffast-math)
+            message(STATUS "  Release: -ffast-math enabled (set THEMIS_DISABLE_FAST_MATH=ON for strict IEEE 754)")
+        endif()
+
+        add_compile_options(-funroll-loops)
+    endif()
+
     # Release-specific options for SIMD optimization
     if(CMAKE_BUILD_TYPE STREQUAL "Release" AND THEMIS_ENABLE_AVX2)
         add_compile_options(-mavx2 -mfma)

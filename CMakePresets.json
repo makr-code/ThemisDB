@@ -113,6 +113,17 @@
         "CMAKE_BUILD_TYPE": "Release",
         "THEMIS_EDITION": "COMMUNITY"
       }
+    },
+    {
+      "name": "linux-ninja-perf",
+      "displayName": "Linux: GCC + Ninja Performance",
+      "description": "Performance-focused Release build for Linux \u2014 -O3, -ffast-math, Huge Pages, io_uring, RCU, LIRS, benchmarks enabled",
+      "inherits": "linux-ninja-release",
+      "binaryDir": "${sourceDir}/build-linux-ninja-perf",
+      "cacheVariables": {
+        "THEMIS_BUILD_TESTS": "OFF",
+        "THEMIS_BUILD_BENCHMARKS": "ON"
+      }
     }
   ],
   "buildPresets": [
@@ -178,7 +189,7 @@
   "workflowPresets": [
     {
       "name": "windows-dev-workflow",
-      "displayName": "Workflow: Windows Release (Configure → Build → Test)",
+      "displayName": "Workflow: Windows Release (Configure \u2192 Build \u2192 Test)",
       "description": "Complete development workflow for Windows",
       "steps": [
         {
@@ -197,7 +208,7 @@
     },
     {
       "name": "windows-debug-workflow",
-      "displayName": "Workflow: Windows Debug (Configure → Build → Test)",
+      "displayName": "Workflow: Windows Debug (Configure \u2192 Build \u2192 Test)",
       "description": "Complete debug workflow for Windows",
       "steps": [
         {
@@ -216,7 +227,7 @@
     },
     {
       "name": "windows-perf-workflow",
-      "displayName": "Workflow: Windows Performance (Configure → Build)",
+      "displayName": "Workflow: Windows Performance (Configure \u2192 Build)",
       "description": "Reproducible local performance workflow without test execution",
       "steps": [
         {
@@ -231,7 +242,7 @@
     },
     {
       "name": "linux-workflow",
-      "displayName": "Workflow: Linux Release (Configure → Build → Test)",
+      "displayName": "Workflow: Linux Release (Configure \u2192 Build \u2192 Test)",
       "description": "Complete development workflow for Linux",
       "steps": [
         {

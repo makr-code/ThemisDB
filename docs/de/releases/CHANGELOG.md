@@ -2,6 +2,38 @@
 
 All notable changes to ThemisDB are documented in this file.
 
+## [2.0.0] - Q4 2026 (Milestone-Stand 11.04.2026)
+
+### Added - Module Ports & Interfaces
+
+- **CDC Interface Set**: `ICDCReplayController`, `ICDCFilterPipeline` und `ICDCBatchCommitCoordinator` ueber PR #4477.
+- **Query v2.0.0 Port**: Port des Query-Scopes fuer Issue #3528 ueber Ersatz-PR #4569; ersetzt die konfliktbehaftete Alt-PR #4507.
+- **Storage v2.0.0 Port**: Port des Storage-Scope fuer Issue #3536 ueber Ersatz-PR #4570; ersetzt die konfliktbehaftete Alt-PR #4515.
+
+### Notes
+
+- Zugeordnete Sub-Issues: #3508, #3528, #3536.
+- Superseded-Mapping: #4507 -> #4569, #4515 -> #4570.
+
+## [1.10.0] - Q3 2026 (Milestone-Stand 11.04.2026)
+
+### Added - Server Security
+
+- **MQTT Client TLS Support**: TLS-aktivierbarer MQTT-Client-Pfad im Server-Modul ueber PR #4512.
+
+## [1.9.1] - Q3 2026 (Milestone-Stand 11.04.2026)
+
+### Added - Build & Tests
+
+- **Auth Focused Test Targets**: fehlende Testtargets in den Build integriert ueber PR #4474.
+
+## [1.9.0] - Q3 2026 (Milestone-Stand 11.04.2026)
+
+### Added - Compliance & Adapter Layer
+
+- **Chimera Adapter Interfaces**: Streaming Result Sets, Prepared Statements und Connection-Pool-Adapter-Schnittstellen ueber PR #4478.
+- **Governance Compliance Evaluators**: ISO 27001- und HIPAA-Regelwerke ueber PR #4484.
+
 ## [1.2.0] - Q2 2026 (In Progress)
 
 ### Added - Enterprise Features
@@ -124,6 +156,8 @@ ThemisDB follows semantic versioning: MAJOR.MINOR.PATCH
 
 ## Links
 
+- [v2.0.0 Release Notes](RELEASE_NOTES_v2.0.0.md)
+- [v1.9.0 Release Notes](RELEASE_NOTES_v1.9.0.md)
 - [v1.2.0 Release Notes](v1.2.0.md)
 - [v1.1.0 Release Notes](v1.1.0.md)
 - [GitHub Repository](https://github.com/makr-code/ThemisDB)
