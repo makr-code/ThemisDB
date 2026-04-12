@@ -1,4 +1,4 @@
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-04-09 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 # Scheduler Module - Future Enhancements
@@ -8,6 +8,7 @@
 - Task DAG dependency resolution: topological sort, parallel fan-out, cascading-failure propagation
 - Retention management: data expiry policies and compaction scheduling
 - Priority-based task queuing with starvation prevention via aging
+- SLO-based adaptive retry policy ✅ implemented v1.9.0 (`ScheduledTask::SloRetryConfig`)
 - Multi-tenancy: per-tenant quota tracking and task namespace isolation
 - Observability hooks: Prometheus metrics, event streaming, and execution timeline
 
