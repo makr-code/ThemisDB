@@ -230,6 +230,30 @@ namespace ValidationLimits {
 }
 
 /**
+ * @brief Runtime-configurable counterpart of the @c ValidationLimits constants.
+ *
+ * Inject an instance into @c LLMAQLHandler via
+ * @c LLMAQLHandler::setValidationLimits() to tune all input-length and
+ * query-count caps without recompilation. Fields default to the same values
+ * as the corresponding @c ValidationLimits constexpr constants so that
+ * existing deployments are unaffected until an explicit override is applied.
+ */
+struct ValidationLimitsConfig {
+    /// Maximum prompt length (chars).  Default: ValidationLimits::MAX_PROMPT_LENGTH
+    std::size_t max_prompt_length           = ValidationLimits::MAX_PROMPT_LENGTH;
+    /// Maximum NL query length (chars).  Default: ValidationLimits::MAX_NL_QUERY_LENGTH
+    std::size_t max_nl_query_length         = ValidationLimits::MAX_NL_QUERY_LENGTH;
+    /// Maximum schema context length (chars).  Default: ValidationLimits::MAX_SCHEMA_CONTEXT_LENGTH
+    std::size_t max_schema_context_length   = ValidationLimits::MAX_SCHEMA_CONTEXT_LENGTH;
+    /// Maximum RAG top_k.  Default: ValidationLimits::MAX_RAG_TOP_K
+    int         max_rag_top_k               = ValidationLimits::MAX_RAG_TOP_K;
+    /// Minimum RAG top_k.  Default: ValidationLimits::MIN_RAG_TOP_K
+    int         min_rag_top_k               = ValidationLimits::MIN_RAG_TOP_K;
+    /// Default execution timeout (seconds).  Default: ValidationLimits::DEFAULT_TIMEOUT_SECONDS
+    int         default_timeout_seconds     = ValidationLimits::DEFAULT_TIMEOUT_SECONDS;
+};
+
+/**
  * @brief Validation helper functions
  */
 class LLMValidator {

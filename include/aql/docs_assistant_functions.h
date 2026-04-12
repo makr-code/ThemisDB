@@ -91,9 +91,27 @@ using json = nlohmann::json;
  * 
  * This class provides a thin wrapper around the DocsAssistant
  * to make it available as AQL functions.
+ *
+ * Degraded-mode behaviour: when the documentation database or LoRA adapter
+ * cannot be loaded the object degrades gracefully. Use @c isFullyReady() and
+ * @c degradedReason() to inspect the current degradation state. In embedded
+ * deployments without a docs database this is the expected steady state;
+ * affected commands fall back to LLM generation.
  */
 class DocsAssistantFunctions {
 public:
+    /**
+     * @brief Reason why the assistant is operating in degraded mode.
+     *
+     * Check @c degradedReason() to obtain a human-readable string for logging
+     * or diagnostics. @c OK means the assistant is fully operational.
+     */
+    enum class DegradedReason {
+        OK,                  ///< All components loaded successfully
+        DATABASE_NOT_FOUND,  ///< Documentation database file could not be located
+        DATABASE_LOAD_FAILED, ///< Database found but failed to load
+        LORA_LOAD_FAILED,    ///< LoRA adapter initialisation failed
+    };
     /**
      * @brief Constructor - initializes documentation assistant
      */
@@ -203,6 +221,28 @@ public:
      * @return true if ready, false otherwise
      */
     bool isReady() const;
+
+    /**
+     * @brief Return true only when all components (database AND LoRA) are loaded.
+     *
+     * Use this for health-check endpoints that need to distinguish a partially
+     * degraded assistant from a fully operational one.
+     *
+     * @return true iff @c isReady() is true AND the LoRA adapter is available.
+     */
+    bool isFullyReady() const;
+
+    /**
+     * @brief Return a human-readable description of the current degradation state.
+     *
+     * Returns an empty string when @c degradedReason() == @c DegradedReason::OK.
+     *
+     * Examples:
+     * - "Documentation database not found"
+     * - "Documentation database failed to load: <exception message>"
+     * - "LoRA adapter failed to load: <exception message>"
+     */
+    std::string degradedReason() const;
     
     /**
      * @brief Clear any cached results and unload LoRA adapter if loaded

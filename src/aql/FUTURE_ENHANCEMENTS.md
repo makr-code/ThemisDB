@@ -167,9 +167,9 @@ The AQL module is ThemisDB's query language and LLM-integration layer. It covers
 **Problem (from code):** `aql_fewshot_example_library.cpp:computeRelevance_()` (line ~177) uses Jaccard word-overlap between the incoming natural-language query and each example's `nl_query`. Jaccard similarity is cheap but vocabulary-dependent: the query *"retrieve all users with email addresses"* scores zero overlap against an example titled *"fetch members by contact info"* even though they are semantically identical. This causes the few-shot examples injected into LLM prompts to be less relevant than they could be, degrading translation quality.
 
 **Implementation Notes:**
-- `[ ]` Add an optional `IEmbeddingProvider* embedding_provider_` pointer to `AQLFewShotExampleLibrary`; when set, pre-embed all examples on first `add()` or `addBuiltinSamples()` and store embeddings alongside examples
+- `[x]` Add an optional `IEmbeddingProvider* embedding_provider_` pointer to `AQLFewShotExampleLibrary`; when set, pre-embed all examples on first `add()` or `addBuiltinSamples()` and store embeddings alongside examples
 - `[ ]` Implement `computeRelevanceSemantic_()` using cosine similarity between the query embedding and each stored example embedding; fall back to `computeRelevance_()` (Jaccard) when no provider is set
-- `[ ]` Add `AQLFewShotExampleLibrary::setEmbeddingProvider(IEmbeddingProvider*)` and `rebuildEmbeddingIndex()` methods
+- `[x]` Add `AQLFewShotExampleLibrary::setEmbeddingProvider(IEmbeddingProvider*)` and `rebuildEmbeddingIndex()` methods
 - `[ ]` Use the `LLMAQLHandler`'s existing `executeEmbed()` as the default embedding provider bridge
 - `[ ]` Add a benchmark comparing Jaccard vs. semantic selection on 50 held-out NL queries from the built-in sample set; target: ≥ 15 % improvement in top-3 relevance@k
 
@@ -203,10 +203,10 @@ Each copy independently strips backtick fences, trims whitespace, and performs `
 
 **Implementation Notes:**
 - `[ ]` Extract `std::string LLMAQLHandler::buildNLToAQLSystemPrompt(const std::string& schema_context, const std::vector<FewShotExample>& examples) const` as a private helper; use `std::string::reserve()` with a pre-estimated capacity before the first append
-- `[ ]` Extract `std::string LLMAQLHandler::stripMarkdownFences(std::string raw) const` as a private static helper containing the `find("```")` / `find('\n')` / `substr` logic
+- `[x]` Extract `std::string LLMAQLHandler::stripMarkdownFences(std::string raw) const` as a private static helper containing the `find("```")` / `find('\n')` / `substr` logic
 - `[ ]` Extract `void LLMAQLHandler::logAnnotations(const std::vector<Annotation>& anns, const std::string& query_preview) const` to consolidate the three copies of the annotation-logging block
 - `[ ]` Replace the three functions' duplicated code with calls to these helpers
-- `[ ]` Add a unit test that verifies `stripMarkdownFences("```aql\nFOR x IN c RETURN x\n```")` returns `"FOR x IN c RETURN x"`
+- `[x]` Add a unit test that verifies `stripMarkdownFences("```aql\nFOR x IN c RETURN x\n```")` returns `"FOR x IN c RETURN x"`
 
 ---
 
@@ -235,7 +235,7 @@ Each copy independently strips backtick fences, trims whitespace, and performs `
 
 **Implementation Notes:**
 - `[ ]` Add `ValidationResult AQLQueryValidator::validate(const std::string& query, const AQLSchemaProvider& schema) const` overload that also performs schema-aware checks
-- `[ ]` Implement `checkUnknownCollections()`: extract `FOR x IN <name>` identifiers using a regex; for each, call `schema.getCollectionMeta(name)`; if missing, add a `WARNING`-severity issue
+- `[x]` Implement `checkUnknownCollections()`: extract `FOR x IN <name>` identifiers using a regex; for each, call `schema.getCollectionMeta(name)`; if missing, add a `WARNING`-severity issue
 - `[ ]` Implement `checkUnknownFields()`: extract `<var>.<field>` accesses and check against the schema's known field list for each collection variable in scope
 - `[ ]` Integrate with `AQLQueryBuilder::validate()` (line 243) which already calls the schema-less version — add a second overload that accepts a schema
 - `[ ]` Add dedicated tests with a mock schema: query referencing a non-existent collection must produce a WARNING; query referencing a valid collection's known fields must produce no issues
@@ -257,10 +257,10 @@ constexpr int    DEFAULT_TIMEOUT_SECONDS = 300;
 These values cannot be adjusted without recompilation, making it impossible to tune the system for different deployment profiles (embedded device vs. server cluster) without a build change. Similarly, `LLMTimeoutManager::TimeoutConfig` embeds default values in the struct definition rather than reading from a configuration file.
 
 **Implementation Notes:**
-- `[ ]` Add a `ValidationLimitsConfig` struct (or extend an existing config struct) with the same fields as `ValidationLimits` but as instance members with the current `constexpr` values as defaults
-- `[ ]` Inject `ValidationLimitsConfig` into `LLMAQLHandler` via constructor; propagate to `sanitizePromptInput()` call sites (lines 967–970, 1073–1076, 1235–1238, 1261–1264)
+- `[x]` Add a `ValidationLimitsConfig` struct (or extend an existing config struct) with the same fields as `ValidationLimits` but as instance members with the current `constexpr` values as defaults
+- `[x]` Inject `ValidationLimitsConfig` into `LLMAQLHandler` via constructor; propagate to `sanitizePromptInput()` call sites (lines 967–970, 1073–1076, 1235–1238, 1261–1264)
 - `[ ]` Load `ValidationLimitsConfig` and `LLMTimeoutManager::TimeoutConfig` from a TOML/JSON config section at startup; fall back to defaults when the section is absent
-- `[ ]` Expose `LLMAQLHandler::setValidationLimits(const ValidationLimitsConfig&)` and `LLMAQLHandler::setTimeoutConfig(const TimeoutConfig&)` for runtime adjustment
+- `[x]` Expose `LLMAQLHandler::setValidationLimits(const ValidationLimitsConfig&)` and `LLMAQLHandler::setTimeoutConfig(const TimeoutConfig&)` for runtime adjustment
 - `[ ]` Add a test that overrides `MAX_NL_QUERY_LENGTH=10` and confirms `translateNLToAQL("this is a long query beyond 10 chars", "")` throws `PROMPT_TOO_LONG`
 
 ---
@@ -283,9 +283,9 @@ hyperparameters.warmup_steps   = 10;
 These values are AQL-optimised starting points but there are no named constants, no documentation of the rationale behind each value, and no runtime path to override them via the AQL `LLM FINETUNE … WITH { … }` options map that is parsed elsewhere in the handler.
 
 **Implementation Notes:**
-- `[ ]` Replace the magic numbers in `Config::Config()` with named `static constexpr` members (`kDefaultBatchSize = 4`, `kDefaultEpochs = 3`, etc.) with a one-line comment justifying each value
+- `[x]` Replace the magic numbers in `Config::Config()` with named `static constexpr` members (`kDefaultBatchSize = 4`, `kDefaultEpochs = 3`, etc.) with a one-line comment justifying each value
 - `[ ]` Parse the `WITH { … }` options map passed to `LLM FINETUNE` in `llm_aql_handler.cpp` and forward relevant keys (`rank`, `alpha`, `epochs`, `learning_rate`, `batch_size`, `max_seq_length`) to `AQLLoRAFinetuner::Config` before calling `train()`
-- `[ ]` Add `Config::fromOptions(const std::unordered_map<std::string, std::string>&)` factory that constructs a `Config` from the AQL `WITH` map, with the existing defaults as fallback
+- `[x]` Add `Config::fromOptions(const std::unordered_map<std::string, std::string>&)` factory that constructs a `Config` from the AQL `WITH` map, with the existing defaults as fallback
 - `[ ]` Validate hyperparameter ranges on construction: `rank` must be 1–256, `alpha` must be > 0, `dropout` must be in [0, 1), `learning_rate` must be > 0; throw `std::invalid_argument` on violation
 
 ---
@@ -304,7 +304,7 @@ if (!docs_assistant_->loadDatabase()) {
 The caller receives a `DocsAssistantFunctions` object that appears healthy but silently falls back to a degraded mode. There is no diagnostic surface: no log message at `WARN` level, no `isReady()` method that callers can check, and no way to distinguish "database not found" from "database failed to load". The same pattern occurs for `ThemisHelpLoRA` initialisation.
 
 **Implementation Notes:**
-- `[ ]` Add a `DegradedReason` enum (`OK`, `DATABASE_NOT_FOUND`, `DATABASE_LOAD_FAILED`, `LORA_LOAD_FAILED`) and a `degraded_reason_` member to `DocsAssistantFunctions::Impl`
+- `[x]` Add a `DegradedReason` enum (`OK`, `DATABASE_NOT_FOUND`, `DATABASE_LOAD_FAILED`, `LORA_LOAD_FAILED`) and a `degraded_reason_` member to `DocsAssistantFunctions::Impl`
 - `[ ]` Emit a `spdlog::warn` with a human-readable message before each `.reset()` call, including the exception message if one was caught
 - `[ ]` Expose `bool DocsAssistantFunctions::isFullyReady() const` and `std::string DocsAssistantFunctions::degradedReason() const` in the public API
 - `[ ]` Document in the header that degraded mode is expected in embedded deployments without a docs database, and explain which commands will fall back to LLM generation

@@ -33,6 +33,7 @@
 #include <memory>
 #include <optional>
 #include <functional>
+#include <unordered_map>
 
 namespace themis {
 namespace aql {
@@ -181,6 +182,31 @@ public:
     // -------------------------------------------------------------------------
 
     struct Config {
+        // ---------------------------------------------------------------
+        // AQL-optimised LoRA default hyperparameters (named constants)
+        // ---------------------------------------------------------------
+
+        /// LoRA rank: 8 is a well-validated starting point for 7B–13B models.
+        static constexpr int kDefaultRank          = 8;
+        /// LoRA alpha: typically set to 2 × rank for stable training.
+        static constexpr float kDefaultAlpha       = 16.0f;
+        /// Dropout: small value reduces over-fitting on the AQL dataset.
+        static constexpr float kDefaultDropout     = 0.05f;
+        /// Learning rate: 3e-4 works well with AdamW on AQL translation tasks.
+        static constexpr float kDefaultLearningRate = 3e-4f;
+        /// Batch size: 4 balances GPU memory and gradient quality.
+        static constexpr int kDefaultBatchSize     = 4;
+        /// Epochs: 3 is sufficient for the built-in AQL sample set.
+        static constexpr int kDefaultEpochs        = 3;
+        /// Max sequence length: 512 covers virtually all AQL query+NL pairs.
+        static constexpr int kDefaultMaxSeqLength  = 512;
+        /// Warmup steps: 10 steps give a smooth LR ramp-up.
+        static constexpr int kDefaultWarmupSteps   = 10;
+
+        // ---------------------------------------------------------------
+        // Fields
+        // ---------------------------------------------------------------
+
         /// Unique identifier for the AQL adapter family (versioned at train time)
         std::string adapter_id = "themisdb-aql-adapter";
 
@@ -208,6 +234,27 @@ public:
         std::function<void(int epoch, double loss)> epoch_callback;
 
         Config();
+
+        /**
+         * @brief Construct a Config from an AQL @c WITH options map.
+         *
+         * Recognised keys (all optional; unrecognised keys are silently ignored):
+         *  - @c rank          (int, 1–256)
+         *  - @c alpha         (float, > 0)
+         *  - @c dropout       (float, [0, 1))
+         *  - @c learning_rate (float, > 0)
+         *  - @c batch_size    (int, > 0)
+         *  - @c epochs        (int, > 0)
+         *  - @c max_seq_length (int, > 0)
+         *
+         * @param options  Key/value map from the AQL WITH clause.
+         * @return Config with overridden values; fields absent from @p options
+         *         keep their default values.
+         * @throws std::invalid_argument if any supplied value is out of range.
+         */
+        static Config fromOptions(
+            const std::unordered_map<std::string, std::string>& options
+        );
     };
 
     // -------------------------------------------------------------------------
