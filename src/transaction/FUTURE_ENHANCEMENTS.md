@@ -1,4 +1,4 @@
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-04-10 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 # Transaction Module - Future Enhancements
@@ -166,7 +166,7 @@ while (!committed) {
 - Version keys are stored in RocksDB alongside entity data under `occ:ver:{table}:{pk}`
 - Version encoding: 8-byte little-endian uint64_t (`encodeVersion` / `decodeVersion` helpers)
 - `optimisticPut` / `optimisticErase` use `mvcc_txn_->put` / `mvcc_txn_->del` so all writes participate in the MVCC snapshot; MVCC conflict errors are surfaced as `Status::Error`
-- Tests: `tests/test_transaction_occ.cpp` (11 unit tests covering creation, update, erase, version-conflict detection, retry pattern, and isolation-level compatibility)
+- Tests: `tests/test_transaction_occ.cpp` (13 unit tests covering creation, update, erase, version-conflict detection, retry pattern, isolation-level compatibility, and null-opt guard)
 - Benchmarks: `benchmarks/bench_transaction_throughput.cpp` — `OccOptimisticPut`, `OccReadVersionAndUpdate`, `OccOptimisticErase`
 
 ---
@@ -919,7 +919,7 @@ Track requests from GitHub issues:
 | Test Type | Coverage Target | Notes |
 |-----------|----------------|-------|
 | Unit | ≥ 90% line coverage in `transaction_manager.cpp` | Cover all isolation levels, OCC version conflict, savepoint LIFO ordering, and transaction timeout detection |
-| OCC | 11 existing tests in `tests/test_transaction_occ.cpp` must pass; add concurrent-contention tests | Verify ≥ 90% commit success rate at 10% contention ratio using a 10-thread stress driver |
+| OCC | 13 existing tests in `tests/test_transaction_occ.cpp` must pass; add concurrent-contention tests | Verify ≥ 90% commit success rate at 10% contention ratio using a 10-thread stress driver |
 | 2PC | Simulate coordinator crash after PREPARE; verify recovery commits or aborts correctly without duplicates | Use in-memory RocksDB for coordinator log in unit tests; inject crash via a test-hook API |
 | SAGA | Sequential and parallel SAGA with injected step failures; verify compensation executes in reverse dependency order | At least one parallel SAGA test with 4+ steps and 2 injected failures at non-leaf nodes |
 | SSI | Write-skew anomaly must be prevented under `SerializableSnapshot`; confirm retry loop resolves | Phantom-read test using concurrent range-scan + insert pattern; assert zero anomalies across 1000 iterations |
@@ -946,3 +946,51 @@ Track requests from GitHub issues:
 - [PostgreSQL Serializable Snapshot Isolation](https://drkp.net/papers/ssi-vldb12.pdf)
 - [SAGA Pattern](https://microservices.io/patterns/data/saga.html)
 - [Two-Phase Commit](https://en.wikipedia.org/wiki/Two-phase_commit_protocol)
+
+---
+
+## Scientific References (IEEE)
+
+The following references support the research basis for planned and implemented features in this module.
+
+**Serializable Snapshot Isolation (SSI)**
+
+[1] M. J. Cahill, U. Röhm, and A. D. Fekete, "Serializable isolation for snapshot databases," *ACM Trans. Database Syst.*, vol. 34, no. 4, pp. 1–42, Dec. 2009, doi: 10.1145/1620585.1620587.
+
+[2] D. R. K. Ports and K. Grittner, "Serializable snapshot isolation in PostgreSQL," *Proc. VLDB Endow.*, vol. 5, no. 12, pp. 1850–1861, Aug. 2012, doi: 10.14778/2367502.2367523.
+
+**Two-Phase Commit and Distributed Transactions**
+
+[3] J. Gray, "Notes on data base operating systems," in *Operating Systems: An Advanced Course*, R. Bayer, R. M. Graham, and G. Seegmüller, Eds. Berlin, Germany: Springer, 1978, pp. 393–481.
+
+[4] P. A. Bernstein, V. Hadzilacos, and N. Goodman, *Concurrency Control and Recovery in Database Systems*. Reading, MA, USA: Addison-Wesley, 1987. Available: https://www.microsoft.com/en-us/research/people/philbe/book/
+
+[5] D. Spanner: Google's Globally-Distributed Database, J. C. Corbett *et al.*, "Spanner: Google's globally distributed database," *ACM Trans. Comput. Syst.*, vol. 31, no. 3, pp. 1–22, Aug. 2013, doi: 10.1145/2491245.
+
+**SAGA Pattern and Compensation**
+
+[6] H. Garcia-Molina and K. Salem, "Sagas," *ACM SIGMOD Rec.*, vol. 16, no. 3, pp. 249–259, Dec. 1987, doi: 10.1145/38714.38742.
+
+[7] C. Richardson, *Microservices Patterns: With Examples in Java*. Shelter Island, NY, USA: Manning Publications, 2018, ch. 4 (Saga Pattern). ISBN: 978-1617294549.
+
+**Optimistic Concurrency Control**
+
+[8] H. T. Kung and J. T. Robinson, "On optimistic methods for concurrency control," *ACM Trans. Database Syst.*, vol. 6, no. 2, pp. 213–226, Jun. 1981, doi: 10.1145/319566.319567.
+
+**Deadlock Detection and Prevention**
+
+[9] A. Silberschatz, P. B. Galvin, and G. Gagne, *Operating System Concepts*, 10th ed. Hoboken, NJ, USA: Wiley, 2018, ch. 8 (Deadlocks). ISBN: 978-1119320913.
+
+[10] E. Knapp, "Deadlock detection in distributed databases," *ACM Comput. Surv.*, vol. 19, no. 4, pp. 303–328, Dec. 1987, doi: 10.1145/46157.46158.
+
+**MVCC and Snapshot Isolation**
+
+[11] A. Fekete, D. Liarokapis, E. O'Neil, P. O'Neil, and D. Shasha, "Making snapshot isolation serializable," *ACM Trans. Database Syst.*, vol. 30, no. 2, pp. 492–528, Jun. 2005, doi: 10.1145/1071610.1071615.
+
+[12] T. Neumann, T. Mühlbauer, and A. Kemper, "Fast serializable multi-version concurrency control for main-memory database systems," in *Proc. ACM SIGMOD Int. Conf. Manag. Data*, Melbourne, VIC, Australia, 2015, pp. 743–755, doi: 10.1145/2723372.2749436.
+
+**Write Batching and Group Commit**
+
+[13] T. Helland, "Life beyond distributed transactions: An apostate's opinion," in *Proc. 3rd Biennial Conf. Innovative Data Syst. Res. (CIDR)*, Asilomar, CA, USA, Jan. 2007.
+
+[14] B. Lampson and H. Sturgis, "Crash recovery in a distributed data storage system," unpublished manuscript, Xerox Palo Alto Research Center, 1979. (Foundational group-commit reference.)
