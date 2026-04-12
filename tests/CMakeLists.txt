@@ -13685,6 +13685,42 @@ else()
 endif()
 
 # ============================================================================
+# Cache Phase 6 Interface Tests (Phase 6 distribution headers)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cache_phase6_interfaces.cpp")
+    message(STATUS "Adding Cache Phase 6 Interface tests")
+
+    add_executable(test_cache_phase6_interfaces
+        test_cache_phase6_interfaces.cpp
+    )
+
+    target_include_directories(test_cache_phase6_interfaces PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_cache_phase6_interfaces PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_cache_phase6_interfaces PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME CachePhase6InterfacesTests COMMAND test_cache_phase6_interfaces)
+
+    set_tests_properties(CachePhase6InterfacesTests PROPERTIES
+        LABELS "cache;interfaces;distributed;partition;ttl;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  CachePhase6: IDistributedEviction, ICachePartition, IAdaptiveTTLPolicy")
+else()
+    message(STATUS "Cache Phase 6 Interface tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cache_phase6_interfaces.cpp")
+endif()
+
+# ============================================================================
 # LLM Module Focused Tests (tests/llm/)
 # ============================================================================
 

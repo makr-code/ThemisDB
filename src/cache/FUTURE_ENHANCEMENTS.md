@@ -12,10 +12,10 @@ This document covers implementation-specific future enhancements for the Cache m
 ## Design Constraints
 
 - `[x]` L1 and L2 in-memory tiers must stay lock-free on the read path; no new `std::mutex` acquisitions may be introduced on `AdaptiveQueryCache::get()`. **Resolved (v1.9.0): `l1_mutex_` is now `std::shared_mutex`; `get()` holds only a `shared_lock`, allowing concurrent readers.**
-- `[ ]` The `cache::CircuitBreaker` protecting L3 RocksDB must remain the sole fault-isolation mechanism for the persistence tier; new L3 features must check breaker state before every operation.
-- `[ ]` Per-tenant quotas enforced via `config_.per_tenant_max_bytes` must not be bypassable by any new Admin API write path.
-- `[ ]` Serialization format for L2 compressed entries (`zstd_codec`) and L3 RocksDB keys (`QUERY_CACHE_PREFIX`) must remain stable across minor versions; breaking format changes require a cache flush on upgrade.
-- `[ ]` `RedisCacheCoordinator` must gracefully degrade to standalone operation (pub/sub disabled) when Redis is unreachable, without throwing exceptions into caller code.
+- `[x]` The `cache::CircuitBreaker` protecting L3 RocksDB must remain the sole fault-isolation mechanism for the persistence tier; new L3 features must check breaker state before every operation. **Enforced: all L3 paths call `circuitBreaker_.allowRequest()` before RocksDB access.**
+- `[x]` Per-tenant quotas enforced via `config_.per_tenant_max_bytes` must not be bypassable by any new Admin API write path. **Enforced: `PATCH /v1/admin/cache/tenant/{id}/quota` only raises the quota; the put path always checks `tenant_bytes_used_`.**
+- `[x]` Serialization format for L2 compressed entries (`zstd_codec`) and L3 RocksDB keys (`QUERY_CACHE_PREFIX`) must remain stable across minor versions; breaking format changes require a cache flush on upgrade. **Stable since v1.0.0; documented in ARCHITECTURE.md.**
+- `[x]` `RedisCacheCoordinator` must gracefully degrade to standalone operation (pub/sub disabled) when Redis is unreachable, without throwing exceptions into caller code. **Resolved (v1.7.0): subscriber thread catches all exceptions and schedules reconnect with exponential back-off.**
 
 ---
 
@@ -107,13 +107,14 @@ This document covers implementation-specific future enhancements for the Cache m
 ### SLO Monitor: Latency Percentile Tracking
 **Priority:** Medium
 **Target Version:** v1.8.0
+**Status:** ✅ Implemented (v1.9.0)
 
 `cache_hit_rate_slo_monitor.cpp` monitors only hit-rate thresholds (`config_.warning_threshold`, `config_.critical_threshold`). It does not track cache operation latency (p50/p99). Latency regressions (e.g. L3 compaction slowing down `get()`) are invisible.
 
 **Implementation Notes:**
-- `[ ]` Add a rolling HDRHistogram (or `utils/hdr_histogram.h` if available) to `CacheHitRateSloMonitor`; record latency per tier (L1/L2/L3) on each `get()` call.
-- `[ ]` Add `CacheSloConfig::p99_warn_ms` and `p99_critical_ms` thresholds; fire Alertmanager alerts when exceeded, similar to the existing hit-rate alert path.
-- `[ ]` Expose `p50_latency_ms`, `p95_latency_ms`, `p99_latency_ms` in the `/v1/admin/cache/stats` response.
+- `[x]` Add a rolling HDRHistogram (or `utils/hdr_histogram.h` if available) to `CacheHitRateSloMonitor`; record latency per tier (L1/L2/L3) on each `get()` call. **Delivered: `LatencyHistogram` struct with 12 fixed buckets; `recordLatency(Tier, double)` API; per-tier histograms `latency_hist_[]`.**
+- `[x]` Add `CacheSloConfig::p99_warn_ms` and `p99_critical_ms` thresholds; fire Alertmanager alerts when exceeded, similar to the existing hit-rate alert path. **Delivered: `Config::p99_warn_ms` and `p99_critical_ms` added; latency alert firing/resolving path identical to hit-rate path.**
+- `[x]` Expose `p50_latency_ms`, `p95_latency_ms`, `p99_latency_ms` in the `/v1/admin/cache/stats` response. **Delivered: `EvaluationResult` carries `p50_latency_ms`, `p95_latency_ms`, `p99_latency_ms`; `getStatus()` JSON includes `latency.p50_ms`, `latency.p95_ms`, `latency.p99_ms` and per-tier breakdowns.**
 
 ---
 
