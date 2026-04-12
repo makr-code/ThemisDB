@@ -849,4 +849,124 @@ Overall Grade:  A- (85-90% Compliance)
 
 ---
 
+## 8.9 DatabaseMaintenanceOrchestrator — Zentrales Wartungs-Framework
+
+`DatabaseMaintenanceOrchestrator` (`include/maintenance/database_maintenance_orchestrator.h`) ist das zentrale Koordinationssystem für alle Datenbankwartungsoperationen in ThemisDB.  Es integriert Planung, Ausführung, Audit-Logging, Observability und modulspezifische Gesundheitsberichte in einem einheitlichen API.
+
+### Architektur
+
+```
+DatabaseMaintenanceOrchestrator
+    ├── MaintenanceScheduleStore  — RocksDB-persistierte Schedule-CRUD
+    ├── TaskScheduler             — Cron-basierte Ausführung
+    ├── IMaintenanceTaskHandler   — Module registrieren Implementierungen
+    │       ├── StorageCompactionHandler  — STORAGE_COMPACTION
+    │       ├── MvccCleanupHandler        — MVCC_CLEANUP
+    │       └── ReplicaValidationHandler  — REPLICA_VALIDATION (geplant)
+    └── HealthProbe Registry      — Aggregierter ModuleHealthReport
+```
+
+### Job-Lebenzyklus
+
+```
+PENDING → RUNNING → SUCCEEDED
+                 → FAILED
+                 → CANCELLED (via /cancel)
+                 → SKIPPED (außerhalb Maintenance-Window)
+```
+
+Jobs werden 24 Stunden vorgehalten und danach automatisch bereinigt.
+
+### REST API
+
+| Methode | Endpoint | Beschreibung |
+|---------|----------|-------------|
+| `POST` | `/api/v1/maintenance/schedules` | Schedule erstellen |
+| `GET` | `/api/v1/maintenance/schedules` | Schedules auflisten |
+| `GET` | `/api/v1/maintenance/schedules/{id}` | Schedule abrufen |
+| `PUT` | `/api/v1/maintenance/schedules/{id}` | Schedule ersetzen |
+| `PATCH` | `/api/v1/maintenance/schedules/{id}` | Schedule partiell aktualisieren |
+| `DELETE` | `/api/v1/maintenance/schedules/{id}` | Schedule löschen |
+| `GET` | `/api/v1/maintenance/jobs` | Jobs auflisten |
+| `GET` | `/api/v1/maintenance/jobs/{id}` | Job-Details |
+| `POST` | `/api/v1/maintenance/jobs/{id}/cancel` | Job abbrechen |
+| `POST` | `/api/v1/maintenance/schedules/{id}/run` | Ad-hoc-Ausführung |
+| `GET` | `/api/v1/maintenance/status` | Aggregierter Gesundheitsstatus |
+
+### C++ API
+
+```cpp
+#include "maintenance/database_maintenance_orchestrator.h"
+#include "maintenance/maintenance_task_handler_impls.h"
+
+DatabaseMaintenanceOrchestrator orchestrator(
+    task_scheduler,
+    index_maintenance_manager,
+    storage_engine,
+    audit_logger
+);
+
+// Modul-spezifische Handler registrieren
+orchestrator.registerTaskHandler(
+    MaintenanceTaskType::STORAGE_COMPACTION,
+    std::make_shared<StorageCompactionHandler>(compaction_manager)
+);
+orchestrator.registerTaskHandler(
+    MaintenanceTaskType::MVCC_CLEANUP,
+    std::make_shared<MvccCleanupHandler>(mvcc_store, /*watermark_ms=*/86400000)
+);
+
+// Gesundheits-Probe registrieren (beliebiges Modul)
+orchestrator.registerHealthProbe("storage", []() -> ModuleHealthSignal {
+    return { .status = ModuleHealthStatus::HEALTHY, .message = "All good" };
+});
+
+// Orchestrator starten (lädt Schedules aus RocksDB, registriert Cron-Tasks)
+orchestrator.start();
+
+// Schedule anlegen (täglich um 03:00 UTC)
+MaintenanceScheduleEntry schedule;
+schedule.task_type        = MaintenanceTaskType::STORAGE_COMPACTION;
+schedule.cron_expression  = "0 3 * * *";
+schedule.enabled          = true;
+schedule.halt_on_failure  = false;
+schedule.window_utc_hours = {2, 3, 4};  // Erlaubte UTC-Stunden
+
+auto result = orchestrator.createSchedule(schedule);
+
+// Ad-hoc-Ausführung (mit Window-Override)
+orchestrator.triggerNow(schedule_id, /*force=*/true);
+
+// Gesundheitsbericht abfragen
+auto health = orchestrator.getHealthReport();
+// health.overall_status: HEALTHY / DEGRADED / UNHEALTHY
+// health.module_signals: map<module_name, ModuleHealthSignal>
+```
+
+### Eingebaute Task-Typen (19 Typen)
+
+| Typ | Beschreibung |
+|-----|-------------|
+| `STORAGE_COMPACTION` | Vollständige RocksDB-Kompaktierung |
+| `MVCC_CLEANUP` | Bereinigung abgelaufener MVCC-Versionen |
+| `INDEX_REBUILD` | Index-Neuaufbau nach Schema-Änderungen |
+| `REPLICA_VALIDATION` | Replikat-Konsistenzprüfung |
+| `WAL_ARCHIVAL` | WAL-Archivierung und -Rotation |
+| `STATISTICS_UPDATE` | Aktualisierung der Query-Optimizer-Statistiken |
+| `CACHE_FLUSH` | Cache-Invalidierung und -Warm-up |
+| `SNAPSHOT_CLEANUP` | Entfernung veralteter Snapshots |
+| `LOG_ROTATION` | Log-Datei-Rotation |
+| `HEALTH_CHECK` | Systemweite Gesundheitsprüfung |
+| ... | 9 weitere interne Typen |
+
+### Sicherheits-Features
+
+- **Maintenance-Windows**: Tasks werden automatisch `SKIPPED` wenn die aktuelle UTC-Stunde nicht im konfigurierten `window_utc_hours`-Set liegt.
+- **Audit-Logging**: Alle CRUD-Operationen und Job-Events werden über `AuditLogger::logEvent()` protokolliert.
+- **Halt-on-Failure**: `halt_on_failure: true` bricht die DAG-Ausführung ab wenn ein Task fehlschlägt.
+- **DAG-Scheduling**: Explizite `depends_on`-Beziehungen zwischen Tasks; topologische Sortierung via Kahn-Algorithmus; Zykelerkennung verhindert ungültige Schedules.
+- **Prometheus-Metriken**: 11 Zähler und Histogramme für Jobs, Laufzeit und Fehlerraten.
+
+---
+
 **Nächstes Kapitel:** [Chapter 9: Indexing Strategies →](chapter_09_indexing.md)

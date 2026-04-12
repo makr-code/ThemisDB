@@ -229,6 +229,18 @@ Die folgenden Komponenten wurden mit dem v1.9.x-Release (Commit 2026-04-12) in d
 | `STORAGE_COMPACTION` Wiring | `maintenance/` | ✅ GA | — | `StorageCompactionHandler` in `maintenance_orchestrator_` registriert |
 | `MVCC_CLEANUP` Wiring | `maintenance/` | ✅ GA | — | `MvccCleanupHandler` mit 24 h Watermark registriert |
 
+### Maintenance
+
+| Feature | Modul | Status | Tests | Beschreibung |
+|---------|-------|--------|-------|-------------|
+| `DatabaseMaintenanceOrchestrator` | `maintenance/` | ✅ GA | 40+ (OrchestratorTests) | Zentraler Wartungskoordinator: CRUD, Cron, DAG, Window-Enforcement, Audit |
+| `MaintenanceScheduleStore` | `maintenance/` | ✅ GA | — | RocksDB-Persistenz für Schedules (`maint_sched::<id>`) |
+| `StorageCompactionHandler` | `maintenance/` | ✅ GA | — | Kapselt `CompactionManager::compactAll()` |
+| `MvccCleanupHandler` | `maintenance/` | ✅ GA | — | Bereinigt MVCC-Versionen mit konfigurierbarem Watermark |
+| DAG Task Dependencies | `maintenance/` | ✅ GA | — | `depends_on`-Felder; topologische Sortierung via Kahn; Zykelerkennung |
+| Maintenance Window Enforcement | `maintenance/` | ✅ GA | — | Tasks außerhalb `window_utc_hours` → SKIPPED |
+| 11 REST Endpoints | `maintenance/` | ✅ GA | — | `/api/v1/maintenance/schedules` + `/jobs` + `/status` |
+
 ### Analytics
 
 | Feature | Modul | Status | Tests | Beschreibung |
