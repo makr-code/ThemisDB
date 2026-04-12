@@ -203,6 +203,11 @@ void rcu_defer_delete(T* ptr) {
 // GracePeriodManager::readers_active() polls this to detect quiescent states.
 // Using relaxed ordering is safe because we are checking for zero (a
 // stable state once all readers have decremented).
+//
+// The `inline` specifier (C++17) guarantees a single definition across all
+// translation units that include this header.  If building with C++14, move
+// this declaration to a .cpp file and declare `extern std::atomic<int64_t>
+// g_rcu_reader_count;` here instead.
 inline std::atomic<int64_t> g_rcu_reader_count{0};
 
 // Thread-local read counter definition

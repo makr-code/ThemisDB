@@ -12263,6 +12263,88 @@ else()
 endif()
 
 # ============================================================================
+# TSStore putBatch — focused tests (TB-01 … TB-14)
+# ============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_tsstore_batch.cpp")
+    message(STATUS "Adding TSStore putBatch focused tests (TB-01…TB-14)")
+
+    add_executable(test_tsstore_batch_focused
+        test_tsstore_batch.cpp
+    )
+
+    target_include_directories(test_tsstore_batch_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_tsstore_batch_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_tsstore_batch_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TSStoreBatchFocusedTests
+        COMMAND test_tsstore_batch_focused)
+
+    set_tests_properties(TSStoreBatchFocusedTests PROPERTIES
+        LABELS "timeseries;tsstore;batch;performance;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  TSStoreBatch: putBatch span, TSRow, BatchWriteResult, Gorilla, late-arrival")
+else()
+    message(STATUS "TSStore putBatch focused tests not found")
+endif()
+
+# ============================================================================
+# IoUringBatchedSender — focused tests (IUB-01 … IUB-12)
+# ============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_io_uring_batcher.cpp")
+    message(STATUS "Adding IoUringBatchedSender focused tests (IUB-01…IUB-12)")
+
+    add_executable(test_io_uring_batcher_focused
+        test_io_uring_batcher.cpp
+    )
+
+    target_include_directories(test_io_uring_batcher_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_io_uring_batcher_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_io_uring_batcher_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    if(THEMIS_ENABLE_IO_URING)
+        target_compile_definitions(test_io_uring_batcher_focused PRIVATE
+            THEMIS_ENABLE_IO_URING=1
+        )
+    endif()
+
+    add_test(NAME IoUringBatchedSenderFocusedTests
+        COMMAND test_io_uring_batcher_focused)
+
+    set_tests_properties(IoUringBatchedSenderFocusedTests PROPERTIES
+        LABELS "network;io_uring;performance;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  IoUringBatcher: construction, enqueue, submitAndWait, stats, fallback")
+else()
+    message(STATUS "IoUringBatchedSender focused tests not found")
+endif()
+
+# ============================================================================
 # Geo Module ÔÇô Focused Standalone Test Targets
 # Each geo test is a standalone executable so it can be run independently
 # without requiring a full themis_tests build.  All tests run in CPU-only

@@ -46,11 +46,12 @@ API stable — no breaking changes planned before v2.0.0.
   - Tests: unit + concurrent stress + ASan memory-leak
   - Perf: ≥ 500 MB/s sustained scan throughput on NVMe storage
 
-- [ ] **Multi-metric batch write API** — extend `tsstore.h` (Target: Q3 2026)
-  - Inputs: `std::span<TSRow>` batch + `ChunkKey`
-  - Outputs: `BatchWriteResult` with per-row status
-  - Constraints: atomic commit or full rollback
-  - Perf: ≥ 1 M rows/s at p99 < 2 ms on 8-core host
+- [x] **Multi-metric batch write API** — `TSStore::putBatch(std::span<const TSRow>)` in `tsstore.h` (Target: Q3 2026)
+  - `TSRow` (string_view metric/entity, int64_t timestamp_ms, double value) — zero allocation at call site
+  - `BatchWriteResult` with `ok_count`, `failed_count`, `row_errors` (per-row index + message)
+  - Single `rocksdb::WriteBatch` commit for the entire span (atomic, O(1) WAL writes)
+  - Gorilla-compression path: groups by metric:entity, sorts by timestamp, Gorilla-encodes per group
+  - 14 focused tests in `tests/test_tsstore_batch.cpp` (TB-01…TB-14)
 
 - [ ] **OpenTelemetry Metrics export** — `ts_otel_exporter.h` (Target: Q3 2026)
 
