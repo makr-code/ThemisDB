@@ -2,7 +2,7 @@
 
 ## Development Status
 
-As of **2026-04-03 (UTC)**, the current released version of ThemisDB is **v1.8.0**.
+As of **2026-04-12 (UTC)**, the current released version of ThemisDB is **v1.8.0**.
 
 ### Completed Phases
 
@@ -62,11 +62,20 @@ As of **2026-04-03 (UTC)**, the current released version of ThemisDB is **v1.8.0
 
 **Selected highlights across modules:**
 - **Phase 4 completion:** Epoch fencing (4.1), automatic failover orchestration (4.2), chaos framework (4.3), and disaster recovery orchestration (4.4) are implemented and phase4-focused tests are green.
-- **Cache (v1.9.0):** Lock-free L1 read path (`std::shared_mutex`), atomic `L1Entry` fields, lazy expiry via CAS.
+- **Cache (v1.9.0):** Lock-free L1 read path (`std::shared_mutex`), atomic `L1Entry` fields, lazy expiry via CAS. `RequestCoalescer` real Singleflight implementation shipped (promise/shared_future inflight map, 14 tests RC-01…RC-14).
 - **Prompt Engineering:** Typed DSL for structured prompt authoring, token budget manager, context-window enforcement.
 - **Search:** Additional HybridSearch and multi-modal search hardening.
 - **Server (MQTT, v1.9.0):** `MqttClientService` + `MqttCDCTransport`, Boost.Asio async I/O, RPCServiceRegistry integration.
 - **Prompt Library IO (v2.0.0):** `PromptLibraryBundle` with FNV-1a checksum, JSON+YAML export, A/B experiment framework.
+- **Storage:** `StreamingIngestManager` (ring-buffer + flush-thread, ≥1 M events/s) and `ColumnarCache` (LRU + PinGuard RAII) shipped (2026-04-12).
+- **Timeseries:** `TsStreamCursor` (lazy paginated iterator, page_size=4 096) and `TSStore::putBatch` (zero-copy batch write via single `WriteBatch`) shipped (2026-04-12).
+- **Temporal:** `TemporalCompressor` LZ4 support added (2026-04-12).
+- **Performance:** `LockFreeHistogram<T>` header-only with atomic buckets, P50/P90/P99; LIRS cache `shared_mutex` race fixed; RCU `readers_active()` fixed (2026-04-12).
+- **Acceleration:** `AiHardwareDispatcher` v1.0 with NPU priority chain shipped; NCCL/RCCL `mergeTopK` complete; all Phase 1–6 items now [x] (2026-04-12).
+- **Network:** `IoUringBatchedSender` (single `io_uring_enter()` for N WireProtocolBatcher flushes) shipped (2026-04-12).
+- **Utils:** UUID v7 (`generate_uuid_v7()`, RFC 9562) and streaming ZSTD (`zstd_compress_stream`/`zstd_decompress_stream`) shipped (2026-04-12).
+- **Maintenance:** MVCC_CLEANUP and STORAGE_COMPACTION wired in `http_server.cpp` (2026-04-12).
+- **Index:** Concurrent-Unique-Lücke fix (sentinel key locking in `updateIndexesForPut_`); secondary index performance improvements via `SecondaryIndexMetadataCache` (2026-04-12).
 
 **Current focus after Phase 4:**
 - Phase 5 operational tooling (admin CLI, repair dashboard, ops runbooks).

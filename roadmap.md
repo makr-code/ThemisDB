@@ -3,8 +3,8 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 **Version:** 2.0  
-**Last Updated:** 2026-04-06  
-**Scope:** Aggregated roadmap across all 46 modules in `src/`
+**Last Updated:** 2026-04-12  
+**Scope:** Aggregated roadmap across all 55 modules in `src/`
 
 > For module-specific details see each module's `src/<module>/ROADMAP.md`.
 
@@ -12,7 +12,7 @@
 
 ## Overview
 
-ThemisDB is a high-performance multi-model database with native AI/LLM integration. This top-level roadmap aggregates the status and planned work across all 46 source modules. The project follows a phased approach: stabilise core infrastructure first, then harden distributed and AI layers, and finally deliver operational excellence at hyperscale.
+ThemisDB is a high-performance multi-model database with native AI/LLM integration. This top-level roadmap aggregates the status and planned work across all 55 source modules. The project follows a phased approach: stabilise core infrastructure first, then harden distributed and AI layers, and finally deliver operational excellence at hyperscale.
 
 **Overall Timeline:** Q1 2026 – Q4 2027  
 **Current Release:** v1.8.0-rc1
@@ -23,7 +23,7 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 
 | Module | Status | Individual Roadmap |
 |--------|--------|--------------------|
-| **acceleration** | 🚧 Pre-production hardening | [src/acceleration/ROADMAP.md](src/acceleration/ROADMAP.md) |
+| **acceleration** | ✅ Production-ready (v1.9.0) — All GPU backends (CUDA/HIP/Vulkan/OpenCL) complete; AiHardwareDispatcher NPU priority chain (NPU_APPLE→NPU_INTEL→NPU_QUALCOMM→NPU_ARM→NNAPI→ONNX_RUNTIME→GPU→CPU) operational; NCCL/RCCL mergeTopK delivered | [src/acceleration/ROADMAP.md](src/acceleration/ROADMAP.md) |
 | **analytics** | ✅ Production-ready | [src/analytics/ROADMAP.md](src/analytics/ROADMAP.md) |
 | **api** | ✅ Production-ready — REST/gRPC/WebSocket/OpenAPI 3.x complete; GraphQL v1.x limitations version-gated | [src/api/ROADMAP.md](src/api/ROADMAP.md) |
 | **aql** | ✅ Production-ready | [src/aql/ROADMAP.md](src/aql/ROADMAP.md) |
@@ -69,6 +69,15 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 | **updates** | ✅ Production-ready | [src/updates/ROADMAP.md](src/updates/ROADMAP.md) |
 | **utils** | ✅ Production-ready | [src/utils/ROADMAP.md](src/utils/ROADMAP.md) |
 | **voice** | ✅ Production-ready | [src/voice/ROADMAP.md](src/voice/ROADMAP.md) |
+| **chaos** | ✅ Production-ready — Fault injection registry, `FaultInjector`, `ChaosScheduler` with expiry and callback hooks operational | [src/chaos/ROADMAP.md](src/chaos/ROADMAP.md) |
+| **ethics_ai** | 🔴 Alpha (v0.0.1) — `EthicsEvaluator` 5-dimension scoring, `EthicalDiscourseEngine`, `RAGContextEngine`; real LLM integration planned for v0.1.0 | [src/ethics_ai/ROADMAP.md](src/ethics_ai/ROADMAP.md) |
+| **failover** | ✅ Production-ready — Automatic failover orchestration and disaster recovery plan execution pipeline operational | [src/failover/ROADMAP.md](src/failover/ROADMAP.md) |
+| **llama_cpp** | 🟡 Beta (v2.1.0) — Streaming token output, batch inference, PluginManager hot-plug registrar; full inference requires linking `LlamaWrapper` | [src/llama_cpp/ROADMAP.md](src/llama_cpp/ROADMAP.md) |
+| **onnx_clip** | 🟡 Beta (v0.0.2) — `ONNXClipPlugin` with pImpl, multi-backend (CPU/CUDA/DirectML/TensorRT/AUTO); native batch path in progress | [src/onnx_clip/ROADMAP.md](src/onnx_clip/ROADMAP.md) |
+| **rpc_grpc** | 🟡 Beta (v0.0.1) — `GRPCServer`/`GRPCPlugin` with mTLS and fail-closed TLS; health service and advanced streaming planned | [src/rpc_grpc/ROADMAP.md](src/rpc_grpc/ROADMAP.md) |
+| **stable_diffusion** | 🟡 Beta (v2.1.0) — Batch generation, img2img, content-policy sanitizer, thread-safe plugin; stable-diffusion.cpp integration conditional on `THEMIS_ENABLE_STABLE_DIFFUSION=ON` | [src/stable_diffusion/ROADMAP.md](src/stable_diffusion/ROADMAP.md) |
+| **user_storage_encrypted** | 🟡 Beta (v0.1.0) — `GocryptfsBackend` with fork/execvp FUSE lifecycle, Argon2id KDF, stdin key delivery, key rotation persistence | [src/user_storage_encrypted/ROADMAP.md](src/user_storage_encrypted/ROADMAP.md) |
+| **whisper** | 🟡 Beta (v2.0.0) — Core STT pipeline with `WhisperCppTranscriber` and stub mode; whisper.cpp integration conditional on `THEMIS_ENABLE_WHISPER=ON` | [src/whisper/ROADMAP.md](src/whisper/ROADMAP.md) |
 
 **Legend:** ✅ Production-ready · 🟡 Beta · 🔴 Alpha · 🚧 In active hardening
 
@@ -196,6 +205,33 @@ Superseded PR mapping:
 
 ---
 
+## Milestone Delta (2026-04-12)
+
+Direct implementations merged to `src/` and `include/` on 2026-04-12, targeting v1.9.0 unless noted:
+
+| Module | Component | Description |
+|--------|-----------|-------------|
+| **storage** | `StreamingIngestManager` | Ring-buffer + flush-thread → single `WriteBatch`; flush_interval=10 ms, max_buffer=1 M, max_batch=65 536; `OverflowPolicy::BLOCK/DROP`; `ingest()`/`ingestBatch()`/`flush()`/`stats()`. 10 tests SM-01…SM-10. |
+| **storage** | `ColumnarCache` | LRU eviction + `PinGuard` RAII; `SegmentDType` (Int64/Double/String/Bool); `byteSize()` accounting; `on_evict` callback; hit/miss counters. 12 tests CC-01…CC-12. |
+| **timeseries** | `TsStreamCursor` | Lazy paginated iterator over `TSStore::query()`; default page_size=4 096; `open()`/`valid()`/`current()`/`advance()`/`close()`; `rowsConsumed()`/`pagesFetched()` stats. 8 tests SC-01…SC-08. |
+| **timeseries** | `TSStore::putBatch` | Zero-copy batch write via single `WriteBatch` commit; `TSRow` uses `string_view`; `BatchWriteResult` (ok_count/failed_count/row_errors); Gorilla+raw paths. 14 tests TB-01…TB-14. |
+| **temporal** | `TemporalCompressor` LZ4 | `CompressionAlgorithm::LZ4` added; `applyLz4()`/`decompressLz4()` via `<lz4.h>`; JSON payload `{"__compressed":"lz4","__original_size":N,"__data":"<base64>"}`. 5 tests TC-LZ4-01…TC-LZ4-05. |
+| **maintenance** | MVCC_CLEANUP wiring | `http_server.h` adds `mvcc_store_` shared_ptr; `http_server.cpp` saves `mvcc_store_` before moving into `MvccApiHandler`; `MvccCleanupHandler` registered with `maintenance_orchestrator_` (24 h default watermark). |
+| **maintenance** | STORAGE_COMPACTION wiring | `maintenance_orchestrator_->registerTaskHandler(STORAGE_COMPACTION, StorageCompactionHandler(CompactionManager(storage_)))` wired after `start()` in `http_server.cpp`. |
+| **analytics** | `IStreamingJoin` / `HashJoin` / `IntervalJoin` | Composite-key hash table, inner/left-outer join, multi-batch build, `max_build_rows`; `IntervalJoin` with `before_ms`/`after_ms`/`slack_ms` and LRU pruning. 15 tests SJ-01…SJ-15. |
+| **performance** | `LockFreeHistogram<T>` | Header-only; exponential + linear modes; 64-byte aligned buckets; `record()` = 1 atomic fetch_add; `percentile(p)`; `LatencyHistogram`(32) + `WideHistogram`(64) aliases. 12 tests LFH-01…LFH-12. |
+| **performance** | LIRS cache + RCU fixes | `get()` upgraded to `unique_lock` (TOCTOU race fixed); `contains()`/`size()` use `shared_lock`; `g_rcu_reader_count` global `atomic<int64_t>`; `readers_active()` reads count correctly (was always false). |
+| **cache** | `RequestCoalescer` | Real Singleflight — `promise/shared_future` inflight map; `fn()` called once per in-flight key; exceptions → `success=false` for all waiters. 14 tests RC-01…RC-14. |
+| **network** | `IoUringBatchedSender` | Single `io_uring_enter()` for N `WireProtocolBatcher` flushes (`IORING_OP_WRITEV` SQEs); `THEMIS_ENABLE_IO_URING` guard; transparent `writev(2)` fallback. 12 tests IUB-01…IUB-12. |
+| **utils** | UUID v7 | `generate_uuid_v7()` — RFC 9562: 48-bit Unix-ms timestamp + 18-bit monotonic seq (thread_local, mutex, 0x3FFFFU mask) + 56-bit rand (MT19937-64). 20 tests UV7-01…UV7-20. |
+| **utils** | Streaming ZSTD | `zstd_compress_stream`/`zstd_decompress_stream` via `ZSTD_CStream`/`ZSTD_DStream`; `max_output_bytes` DoS-guard (default 4 GB). 10 tests ZS-01…ZS-10. |
+| **acceleration** | `AiHardwareDispatcher` | Priority chain NPU_APPLE→NPU_INTEL→NPU_QUALCOMM→NPU_ARM→NNAPI→ONNX_RUNTIME→GPU→CPU; `INT4`/`FP4`/`W4A8`/`W8A8` precision modes; `DeviceCapabilityInfo` with NPU TOPS and quantisation flags. 30 tests. |
+| **acceleration** | NCCL/RCCL `mergeTopK` | AllGather + partial_sort + Bcast in `nccl_vector_backend.cpp` / `rccl_vector_backend.cpp`; 13 CPU-simulation + 6 NCCL + 6 RCCL single-rank tests. |
+| **index** | Concurrent-Unique-Lücke fix | `TransactionWrapper::getForUpdate(key)` added; `makeUniqueSentinelKey_`/`makeCompositeUniqueSentinelKey_` helpers; `updateIndexesForPut_` locks sentinel before unique check. 3 new tests CU-1/CU-2/CU-3. |
+| **index** | Secondary index perf | `updateIndexesForDelete_` (WriteBatch + Transaction overloads) use `SecondaryIndexMetadataCache`; `regular_indexes_set`/`range_indexes_set` cached; `encodeKeyComponent` uses kHex table. |
+
+---
+
 ## Implementation Phases
 
 ### Phase 1: Foundation Hardening (Q1–Q2 2026) — 🚧 In Progress
@@ -204,10 +240,10 @@ Focus: Bring all remaining Beta/Alpha modules to production grade. Eliminate kno
 cross-backend consistency, error handling, and resource management.
 
 #### 1.1 Acceleration Module — CUDA/Vulkan Kernel Completion
-- [P] CUDA ANN + geospatial kernels production-ready (Issue: #1383) (Target: Q2 2026)
-- [P] Vulkan compute shader pipeline (Issue: #1384) (Target: Q2 2026)
-- [P] Cross-backend L2 distance consistency validation (Issue: #1390) (Target: Q2 2026)
-- [I] Runtime device detection and capability negotiation (Issue: #1374) (Target: Q2 2026)
+- [x] CUDA ANN + geospatial kernels production-ready (Issue: #1383) (Target: Q2 2026)
+- [x] Vulkan compute shader pipeline (Issue: #1384) (Target: Q2 2026)
+- [x] Cross-backend L2 distance consistency validation (Issue: #1390) (Target: Q2 2026)
+- [x] Runtime device detection and capability negotiation (Issue: #1374) (Target: Q2 2026)
 
 #### 1.2 API — OpenAPI & gRPC Surface
 - [I] OpenAPI 3.x spec completeness for all endpoints (Issue: #1491) (Target: Q2 2026)
