@@ -359,7 +359,21 @@ Die folgenden Komponenten wurden mit dem v1.9.x-Release (Commit 2026-04-12) in d
 | `IntegrationTestSuite` | `llm/testing/` | ✅ GA | — | 14 Szenarien (Komponenten-, Multi-Modell-, Fehler-, Performance-Tests) |
 | `LlamaWrapper` Output-Validierung | `llm/` | ✅ GA | — | UTF-8-Prüfung, min/max-Länge, Kohärenz-Score |
 
-### RAG Module — v2.0 Produktionskomponenten
+### Prompt-Engineering-Modul (v2.0)
+
+| Feature | Modul | Status | Tests | Beschreibung |
+|---------|-------|--------|-------|-------------|
+| `PromptManager` | `prompt_engineering/` | ✅ GA | — | RocksDB-Persistenz; CRUD; TBB lock-free Hash-Map; YAML Bulk-Load |
+| `PromptManager::validateTemplate()` | `prompt_engineering/` | ✅ GA | — | Syntaxprüfung + Warnungen; in `createTemplate()` integriert |
+| `PromptManager::buildMultiModalPrompt()` | `prompt_engineering/` | ✅ GA | — | Multi-Modal Prompts mit ImageDescription-Blöcken |
+| `FeedbackCollector` | `prompt_engineering/` | ✅ GA | — | 10 Feedback-Typen; FNV-1a Audit-Checksum; Z-Score Outlier |
+| Git-ähnliche Versionskontrolle | `prompt_engineering/` | ✅ GA | — | Branches, Commits, Diffs, Parent-Tracking |
+| A/B Testing | `prompt_engineering/` | ✅ GA | — | Welch-t-Test Signifikanztests; `std::erfc`-basierter Z-Score |
+| `SelfImprovementOrchestrator` | `prompt_engineering/` | ✅ GA | — | Auto-Optimierung bei Feedback-Verschlechterung; Hintergrund-Worker |
+| `TreeOfThoughtsBuilder` | `prompt_engineering/` | ✅ GA | — | Multi-Pfad-Reasoning (Beam Search, max_depth, beam_width) |
+| `ProTeGiOptimizer` | `prompt_engineering/` | ✅ GA | — | Textual-Gradient-Optimierung; population_size + iterations |
+| DSPy-Modul (`dspy_module.h`) | `prompt_engineering/` | ✅ GA | — | DSPy-kompatibler Prompt-Deklarations-Layer |
+| `ContextWindowManager` | `prompt_engineering/` | ✅ GA | — | Context-Window-Budget-Enforcement |
 
 | Feature | Modul | Status | Tests | Beschreibung |
 |---------|-------|--------|-------|-------------|

@@ -5901,3 +5901,106 @@ for (const auto& r : results) {
 
 **Nächstes Kapitel:** [Kapitel 18: Machine Learning Integration](chapter_18_ml.md)  
 **Vorheriges Kapitel:** [Kapitel 16: Machine Learning](chapter_16_ml.md)
+
+---
+
+## 17.25 Prompt-Engineering-Modul — C++ Produktions-API (v2.0)
+
+Das Prompt-Engineering-Modul (`include/prompt_engineering/`, `src/prompt_engineering/`) implementiert vollständigen Lifecycle-Management für LLM-Prompt-Templates: Versionskontrolle (Git-ähnlich), A/B-Testing, Feedback-Analyse, Self-Improvement-Orchestrierung, Chain-of-Thought, Tree-of-Thoughts, ProTeGi-Textual-Gradient-Optimierung und DSPy-kompatibler Deklarations-Layer.
+
+### 17.25.1 PromptManager — Template-CRUD mit RocksDB-Persistenz
+
+```cpp
+#include "prompt_engineering/prompt_manager.h"
+
+// RocksDB-backed (persistent)
+themis::prompt_engineering::PromptManager mgr(&rocks_db, cf_handle);
+
+// ── Template erstellen ────────────────────────────────────────────────
+themis::prompt_engineering::PromptManager::PromptTemplate tmpl;
+tmpl.name    = "rag-answer-de";
+tmpl.version = "v2.0";
+tmpl.content = "Beantworte die Frage auf Basis der Dokumente.\n\nFrage: {query}\n\nDokumente:\n{context}\n\nAntwort:";
+
+// Validierung (vor Persistenz)
+auto vr = themis::prompt_engineering::PromptManager::validateTemplate(tmpl);
+// vr.valid, vr.errors, vr.warnings
+
+auto created = mgr.createTemplate(tmpl);
+// created.id (generiert), created.name, created.version
+
+// ── Context-Injektion ─────────────────────────────────────────────────
+std::unordered_map<std::string, std::string> ctx = {
+    { "query", "Was gilt für §34 BauGB?" },
+    { "context", "Dokument A: ..." }
+};
+auto prompt = mgr.getPromptWithContext(created.id, ctx);
+
+// ── Multi-Modal Prompt ────────────────────────────────────────────────
+themis::prompt_engineering::PromptManager::PromptTemplate mm_tmpl;
+mm_tmpl.content = "Beschreibe das Bild: {alt_text}";
+mm_tmpl.images  = {{ .url = "https://...", .alt_text = "Bauplan", .mime_type = "image/png" }};
+auto mm_prompt = themis::prompt_engineering::PromptManager::buildMultiModalPrompt(mm_tmpl, ctx);
+
+// ── YAML Bulk-Load ────────────────────────────────────────────────────
+size_t loaded = mgr.loadFromYAML("/etc/themisdb/prompts.yaml");
+```
+
+### 17.25.2 FeedbackCollector — Feedback-Analyse + Anomalie-Erkennung
+
+```cpp
+#include "prompt_engineering/feedback_collector.h"
+
+themis::prompt_engineering::FeedbackCollector collector;
+
+// Feedback-Typen: POSITIVE, NEGATIVE, NEUTRAL, HALLUCINATION, INCOMPLETE,
+//                 IRRELEVANT, BIASED, OUTDATED, TOO_VERBOSE, TOO_BRIEF
+collector.addFeedback(template_id, themis::prompt_engineering::FeedbackType::HALLUCINATION,
+                      "Behauptung nicht durch Dokumente gestützt");
+
+// Statistiken + Anomalie-Erkennung
+auto stats = collector.getStats(template_id);
+// stats.total, stats.positive_rate, stats.failure_patterns
+// stats.hallucination_count, stats.audit_checksum (FNV-1a)
+
+// Paginierter Zugriff (für große Feedback-Mengen)
+auto page = collector.getFeedbackPaged(template_id, /*offset=*/0, /*limit=*/100);
+
+// Z-Score Outlier-Erkennung
+auto outliers = collector.detectOutliers(template_id);
+```
+
+### 17.25.3 SelfImprovementOrchestrator + ProTeGi + Tree-of-Thoughts
+
+```cpp
+#include "prompt_engineering/self_improvement_orchestrator.h"
+#include "prompt_engineering/protegi_optimizer.h"
+#include "prompt_engineering/tree_of_thoughts.h"
+
+// ── Self-Improvement: automatische Optimierung bei Feedback-Verschlechterung ─
+themis::prompt_engineering::SelfImprovementOrchestrator orchestrator(
+    &mgr, &collector, &prompt_optimizer
+);
+orchestrator.start();                        // Hintergrund-Worker
+
+// ── Tree-of-Thoughts: Multi-Pfad-Reasoning ────────────────────────────
+auto tot_result = themis::prompt_engineering::TreeOfThoughtsBuilder()
+    .withQuery("Wie optimiere ich eine HNSW-Konfiguration?")
+    .withMaxDepth(3)
+    .withBeamWidth(5)
+    .withEvaluator(llm_evaluator)
+    .build()
+    .search();
+// tot_result.best_path, tot_result.reasoning_trace, tot_result.confidence
+
+// ── ProTeGi: Textual Gradient Optimization ────────────────────────────
+themis::prompt_engineering::ProTeGiOptimizer::Config pg_cfg;
+pg_cfg.max_iterations    = 10;
+pg_cfg.population_size   = 8;
+pg_cfg.improvement_threshold = 0.05;
+
+themis::prompt_engineering::ProTeGiOptimizer optimizer(llm_provider, pg_cfg);
+auto opt_prompt = optimizer.optimize(initial_prompt, eval_function);
+// opt_prompt.text: verbesserter Prompt
+// opt_prompt.score_history: Verbesserungsverlauf
+```
