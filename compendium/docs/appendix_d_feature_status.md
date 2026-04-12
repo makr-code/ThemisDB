@@ -397,7 +397,29 @@ Die folgenden Komponenten wurden mit dem v1.9.x-Release (Commit 2026-04-12) in d
 | `SDStubGenerator` | `stable_diffusion/` | ✅ GA | im SDPlugin-Suite | CI-Stub ohne Modell-Datei |
 | `SDPromptSanitizer` | `stable_diffusion/` | ✅ GA | im SDPlugin-Suite | Keyword-Blocklist, negative_prompt-Policy (SD-NP-01) |
 
-### Ethics AI Plugin (v0.0.x)
+### Network-Modul (v1.8)
+
+| Feature | Modul | Status | Tests | Beschreibung |
+|---------|-------|--------|-------|-------------|
+| `WireProtocolServer` | `network/` | ✅ GA | — | Port 8766; dedizierted I/O+Worker-Pool; mTLS; SCRAM-SHA-256 |
+| `WireProtocolServer` WebSocket-Upgrade | `network/` | ✅ GA | — | HTTP-Upgrade auf Port 8766; JSON Text-Frames (THEMIS_ENABLE_WEBSOCKET) |
+| `WireProtocolServer` IPv6+Dual-Stack | `network/` | ✅ GA | — | IPv6-Socket + ipv6_dual_stack für IPv4-mapped Verbindungen |
+| `QuicTransport` | `network/` | ✅ GA | — | Port 8770; UDP+TLS 1.3; 0-RTT; kein HOL-Blocking |
+| `RaftLoadBalancer` | `network/` | ✅ GA | — | Raft In-Process-Konsensus; konsistentes Routing; Leader-Election |
+| UDP Fast-Path | `network/` | ✅ GA | — | Port 8769; latenzoptimierter Ingest-Pfad |
+| gRPC Transport | `network/` | ✅ GA | — | Port 8771; HTTP/2 Multiplexing |
+
+### Security-Modul (v1.x)
+
+| Feature | Modul | Status | Tests | Beschreibung |
+|---------|-------|--------|-------|-------------|
+| `RLSManager` | `security/` | ✅ GA | — | PostgreSQL-kompatible Row-Level Security; PERMISSIVE+RESTRICTIVE; JSON-Persistenz |
+| `ZeroTrustPolicyEnforcer` | `security/` | ✅ GA | — | Per-Request Identity + CIDR Whitelist/Blacklist; Composite Trust Score |
+| `FieldEncryption` (AES-256-GCM) | `security/` | ✅ GA | — | Field-Level Encryption; Key Rotation (90d); DEK/KEK/MasterKey Hierarchie |
+| HSM Integration | `security/` | ✅ GA | — | HashiCorp Vault; HSM-backed Key Storage |
+| AQL Injection Detection | `security/` | ✅ GA | — | Pattern-basierte Angriffserkennung in AQL-Queries |
+| Malware Scanner (Plugin Manifests) | `security/` | ✅ GA | — | Plugin-Manifest-Scan vor Activation |
+| CMS/PKCS#7 + eIDAS Timestamping | `security/` | ✅ GA | — | Digitale Signaturen; eIDAS-konformes Timestamping |
 
 | Feature | Modul | Status | Tests | Beschreibung |
 |---------|-------|--------|-------|-------------|

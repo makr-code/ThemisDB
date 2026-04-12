@@ -4192,3 +4192,90 @@ Diese Referenzen kombinieren theoretische Fundierung (Fielding, RFCs), empirisch
 ---
 
 **Kapitel 31 von 33** | **Teil V: Protokolle & Integration** | **~12.800 Wörter**
+
+---
+
+## 31.13 Network-Modul — C++ Produktions-API (v1.8)
+
+### 31.13.1 WireProtocolServer — Binäres TCP-Protokoll
+
+`WireProtocolServer` (`include/network/wire_protocol_server.h`) implementiert das Hochleistungs-Binary-TCP-Protokoll auf Port 8766 mit dediziertem I/O-Thread-Pool, TLS 1.3 / mTLS, Auth und WebSocket-Upgrade.
+
+```cpp
+#include "network/wire_protocol_server.h"
+
+themis::network::WireProtocolServer::Config cfg;
+cfg.host                    = "0.0.0.0";
+cfg.port                    = 8766;
+cfg.num_io_threads          = 4;
+cfg.num_worker_threads      = std::thread::hardware_concurrency();
+
+// ── Sicherheitslimits ────────────────────────────────────────────────
+cfg.max_connections         = 1000;
+cfg.max_connections_per_ip  = 10;
+cfg.max_requests_per_second = 1000;
+cfg.connection_timeout_sec  = 300;
+
+// ── TLS 1.3 / mTLS ───────────────────────────────────────────────────
+cfg.enable_tls              = true;
+cfg.tls_cert_path           = "/etc/ssl/server.crt";
+cfg.tls_key_path            = "/etc/ssl/server.key";
+cfg.tls_ca_cert_path        = "/etc/ssl/ca.crt";
+cfg.tls_require_client_cert = true;   // mTLS: Client-Zertifikat erforderlich
+
+// ── Authentifizierung ─────────────────────────────────────────────────
+cfg.require_auth            = true;
+cfg.auth_mechanism          = "SCRAM-SHA-256";
+cfg.auth_token              = "";     // leer = dev-Modus; sonst exakter Match
+
+// ── WebSocket-Upgrade (Port 8766) ─────────────────────────────────────
+cfg.enable_websocket_upgrade = true;  // THEMIS_ENABLE_WEBSOCKET guard
+
+// ── IPv6 + Dual-Stack ─────────────────────────────────────────────────
+cfg.enable_ipv6             = true;
+cfg.ipv6_dual_stack         = true;   // IPv4-mapped über IPv6-Socket
+
+themis::network::WireProtocolServer server(cfg);
+server.start();
+```
+
+**Wire Protocol Opcodes:** HELLO, AUTH, GET, PUT, DELETE, QUERY_AQL, VECTOR_SEARCH, GEO_QUERY  
+**Ports:** 8766 (TCP/WS), 8769 (UDP Fast-Path), 8770 (QUIC/HTTP3), 8771 (gRPC)
+
+### 31.13.2 QUIC / HTTP3 Transport
+
+```cpp
+#include "network/quic_transport.h"
+
+themis::network::QuicTransport::Config quic_cfg;
+quic_cfg.port           = 8770;
+quic_cfg.cert_path      = "/etc/ssl/server.crt";
+quic_cfg.key_path       = "/etc/ssl/server.key";
+quic_cfg.max_streams    = 100;     // Parallele QUIC-Streams
+quic_cfg.idle_timeout_ms = 30000;
+
+themis::network::QuicTransport quic_transport(quic_cfg);
+quic_transport.start();
+// QUIC: UDP + TLS 1.3 mandatory; 0-RTT Connection Resumption; kein HOL-Blocking
+```
+
+### 31.13.3 RaftLoadBalancer — Konsistentes Load Balancing
+
+```cpp
+#include "network/raft_load_balancer.h"
+
+themis::network::RaftLoadBalancer::Config lb_cfg;
+lb_cfg.election_timeout_ms  = 150;
+lb_cfg.heartbeat_interval_ms = 50;
+lb_cfg.replication_factor    = 3;
+
+themis::network::RaftLoadBalancer lb(lb_cfg);
+lb.addNode("node-0", "192.168.1.10:8766");
+lb.addNode("node-1", "192.168.1.11:8766");
+lb.addNode("node-2", "192.168.1.12:8766");
+
+lb.start();  // Raft In-Process-Simulation; distributed Multi-Node: geplant
+
+// Ziel-Node für Request auflösen
+auto target = lb.route("collection:customers/key:12345");
+```

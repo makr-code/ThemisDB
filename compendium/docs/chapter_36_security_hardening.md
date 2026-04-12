@@ -6564,5 +6564,98 @@ void updateLicenseMetrics() {
 
 ---
 
+## 36.16 Security-Modul — Erweiterte C++ API (v1.x)
+
+### 36.16.1 RLSManager — Row-Level Security (PostgreSQL-kompatibel)
+
+```cpp
+#include "security/row_level_security.h"
+
+themis::security::RLSManager rls;
+
+// Policy definieren (PERMISSIVE: Zeile sichtbar wenn beliebige Policy erlaubt)
+themis::security::RLSPolicy policy;
+policy.id                = "tenant-isolation";
+policy.collection        = "orders";
+policy.type              = themis::security::RLSPolicyType::PERMISSIVE;
+policy.applicable_roles  = { "tenant_user" };
+policy.predicate         = { .field = "tenant_id", .op = "==", .value_from_ctx = "user.tenant_id" };
+rls.addPolicy(policy);
+
+// Zeilen filtern
+themis::security::SecurityContext ctx;
+ctx.user_id = "alice";
+ctx.roles   = { "tenant_user" };
+ctx.attributes["user.tenant_id"] = "acme-corp";
+
+auto filtered_rows = rls.filterRows("orders", ctx, raw_rows);
+// filtered_rows enthält nur Zeilen mit tenant_id="acme-corp"
+
+// Persistenz
+rls.toJson();               // Export als JSON
+rls.loadFromJson(json_doc); // Import aus JSON
+```
+
+**RLS-Filterlogik (PostgreSQL-kompatibel):**
+- Keine Policies → alle Zeilen sichtbar
+- Nur PERMISSIVE → Zeile sichtbar wenn mindestens eine Policy zustimmt
+- Nur RESTRICTIVE → Zeile sichtbar wenn alle Policies zustimmen
+- Gemischt → PERMISSIVE und RESTRICTIVE kombiniert
+
+### 36.16.2 ZeroTrustPolicyEnforcer — Per-Request Identity Verification
+
+```cpp
+#include "security/zero_trust_policy_enforcer.h"
+
+themis::security::ZeroTrustPolicyEnforcer::Config zt_cfg;
+zt_cfg.default_deny      = true;       // Ablehnen wenn keine Whitelist-Übereinstimmung
+zt_cfg.min_trust_score   = 0.7;        // Minimaler Composite Trust Score
+
+themis::security::ZeroTrustPolicyEnforcer enforcer(zt_cfg);
+
+// Token-Verifier setzen
+enforcer.setTokenVerifier([&](const std::string& token, const std::string& user_id) {
+    return jwt_validator.validate(token, user_id);
+});
+
+// Netzwerk-Policy hinzufügen
+enforcer.addNetworkPolicy({ .user_id = "service-a",
+                            .allowed_cidrs = { "10.0.1.0/24", "10.0.2.0/24" },
+                            .blocked_cidrs = { "0.0.0.0/0" } });
+
+// Anfrage prüfen
+themis::security::ZeroTrustContext ctx;
+ctx.user_id   = "service-a";
+ctx.token     = "Bearer <jwt>";
+ctx.client_ip = "10.0.1.55";
+ctx.device_id = "dev-abc123";
+
+auto result = enforcer.verify(ctx);
+// result.allowed, result.trust_score (0.0–1.0)
+// result.denial_reason, result.steps_passed
+
+// Composite Trust Score: identity(+0.4) + network(+0.4) + device(+0.1) + ...
+```
+
+### 36.16.3 FieldEncryption — AES-256-GCM Field-Level Encryption
+
+```cpp
+#include "security/encryption.h"
+
+themis::security::FieldEncryption::Config enc_cfg;
+enc_cfg.algorithm         = "AES-256-GCM";
+enc_cfg.key_rotation_days = 90;   // DEK automatisch rotieren nach 90 Tagen
+
+themis::security::FieldEncryption encryption(key_provider, enc_cfg);
+
+// Dokument-Felder verschlüsseln
+auto encrypted_doc = encryption.encryptFields(doc, { "ssn", "credit_card", "iban" });
+
+// Felder entschlüsseln
+auto decrypted_doc = encryption.decryptFields(encrypted_doc, { "ssn" });
+```
+
+---
+
 **Ende von Kapitel 36: Security Hardening** 🔒
 
