@@ -3952,6 +3952,39 @@ else()
     message(STATUS "RocksDBWrapper comprehensive tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_rocksdb_wrapper_comprehensive.cpp")
 endif()
 
+# ColumnarCache focused tests (CC-01 … CC-12)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_columnar_cache.cpp")
+    message(STATUS "Adding ColumnarCache focused tests")
+
+    add_executable(test_columnar_cache_focused
+        test_columnar_cache.cpp
+        ${CMAKE_SOURCE_DIR}/src/storage/columnar_cache.cpp
+    )
+
+    target_include_directories(test_columnar_cache_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_columnar_cache_focused PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_columnar_cache_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ColumnarCacheFocusedTests COMMAND test_columnar_cache_focused)
+
+    set_tests_properties(ColumnarCacheFocusedTests PROPERTIES
+        LABELS "storage;cache;columnar;performance;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  ColumnarCache: LRU eviction, pinning, concurrent access, CC-01..CC-12")
+endif()
+
 # PITR Manager Comprehensive Tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_pitr_manager_comprehensive.cpp")
     message(STATUS "Adding PITR Manager comprehensive tests")
@@ -6533,6 +6566,41 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_columnar_execution.cpp")
     )
 
     message(STATUS "  ColumnarExecution: vectorized pipeline, SIMD aggregations, filter+project operators")
+endif()
+
+# StreamingJoin focused tests (SJ-01 … SJ-15)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_streaming_join.cpp")
+    message(STATUS "Adding StreamingJoin focused tests")
+
+    add_executable(test_streaming_join_focused
+        analytics/test_streaming_join.cpp
+        ${CMAKE_SOURCE_DIR}/src/analytics/streaming_join.cpp
+        ${CMAKE_SOURCE_DIR}/src/analytics/columnar_execution.cpp
+    )
+
+    target_include_directories(test_streaming_join_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_streaming_join_focused PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_streaming_join_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME StreamingJoinFocusedTests COMMAND test_streaming_join_focused)
+
+    set_tests_properties(StreamingJoinFocusedTests PROPERTIES
+        LABELS "analytics;streaming;join;performance;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  StreamingJoin: HashJoin + IntervalJoin, inner/left-outer, LRU pruning, SJ-01..SJ-15")
 endif()
 
 # JIT Aggregation focused tests
@@ -12260,6 +12328,240 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_tsstore_out_of_order.cpp")
     message(STATUS "  TSStoreOOO: late_arrival_window_ms, watermark per-series, batch+Gorilla, stats")
 else()
     message(STATUS "TSStore Out-of-Order focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_tsstore_out_of_order.cpp")
+endif()
+
+# ============================================================================
+# TSStore putBatch — focused tests (TB-01 … TB-14)
+# ============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_tsstore_batch.cpp")
+    message(STATUS "Adding TSStore putBatch focused tests (TB-01…TB-14)")
+
+    add_executable(test_tsstore_batch_focused
+        test_tsstore_batch.cpp
+    )
+
+    target_include_directories(test_tsstore_batch_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_tsstore_batch_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_tsstore_batch_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TSStoreBatchFocusedTests
+        COMMAND test_tsstore_batch_focused)
+
+    set_tests_properties(TSStoreBatchFocusedTests PROPERTIES
+        LABELS "timeseries;tsstore;batch;performance;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  TSStoreBatch: putBatch span, TSRow, BatchWriteResult, Gorilla, late-arrival")
+else()
+    message(STATUS "TSStore putBatch focused tests not found")
+endif()
+
+# ============================================================================
+# StreamingIngestManager — focused tests (SM-01 … SM-10)
+# ============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_streaming_ingest_manager.cpp")
+    message(STATUS "Adding StreamingIngestManager focused tests (SM-01…SM-10)")
+
+    add_executable(test_streaming_ingest_manager_focused
+        test_streaming_ingest_manager.cpp
+    )
+
+    target_include_directories(test_streaming_ingest_manager_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_streaming_ingest_manager_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_streaming_ingest_manager_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME StreamingIngestManagerFocusedTests
+        COMMAND test_streaming_ingest_manager_focused)
+
+    set_tests_properties(StreamingIngestManagerFocusedTests PROPERTIES
+        LABELS "storage;ingest;streaming;performance;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  StreamingIngestManager: ring buffer, flush, drop/block policy, stats")
+else()
+    message(STATUS "StreamingIngestManager focused tests not found")
+endif()
+
+# ============================================================================
+# TsStreamCursor — focused tests (SC-01 … SC-08)
+# ============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ts_stream_cursor.cpp")
+    message(STATUS "Adding TsStreamCursor focused tests (SC-01…SC-08)")
+
+    add_executable(test_ts_stream_cursor_focused
+        test_ts_stream_cursor.cpp
+    )
+
+    target_include_directories(test_ts_stream_cursor_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_ts_stream_cursor_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_ts_stream_cursor_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TsStreamCursorFocusedTests
+        COMMAND test_ts_stream_cursor_focused)
+
+    set_tests_properties(TsStreamCursorFocusedTests PROPERTIES
+        LABELS "timeseries;cursor;streaming;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  TsStreamCursor: open, valid, advance, rowsConsumed, pagesFetched, close, cross-page")
+else()
+    message(STATUS "TsStreamCursor focused tests not found")
+endif()
+
+# ============================================================================
+# IoUringBatchedSender — focused tests (IUB-01 … IUB-12)
+# ============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_io_uring_batcher.cpp")
+    message(STATUS "Adding IoUringBatchedSender focused tests (IUB-01…IUB-12)")
+
+    add_executable(test_io_uring_batcher_focused
+        test_io_uring_batcher.cpp
+    )
+
+    target_include_directories(test_io_uring_batcher_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_io_uring_batcher_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_io_uring_batcher_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    if(THEMIS_ENABLE_IO_URING)
+        target_compile_definitions(test_io_uring_batcher_focused PRIVATE
+            THEMIS_ENABLE_IO_URING=1
+        )
+    endif()
+
+    add_test(NAME IoUringBatchedSenderFocusedTests
+        COMMAND test_io_uring_batcher_focused)
+
+    set_tests_properties(IoUringBatchedSenderFocusedTests PROPERTIES
+        LABELS "network;io_uring;performance;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  IoUringBatcher: construction, enqueue, submitAndWait, stats, fallback")
+else()
+    message(STATUS "IoUringBatchedSender focused tests not found")
+endif()
+
+# ============================================================================
+# RequestCoalescer Singleflight — focused tests (RC-01 … RC-14)
+# ============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_request_coalescer.cpp")
+    message(STATUS "Adding RequestCoalescer Singleflight focused tests (RC-01…RC-14)")
+
+    add_executable(test_request_coalescer_focused
+        test_request_coalescer.cpp
+    )
+
+    target_include_directories(test_request_coalescer_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_request_coalescer_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_request_coalescer_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME RequestCoalescerFocusedTests
+        COMMAND test_request_coalescer_focused)
+
+    set_tests_properties(RequestCoalescerFocusedTests PROPERTIES
+        LABELS "cache;singleflight;performance;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  RequestCoalescer: singleflight, concurrent coalescing, exception propagation")
+else()
+    message(STATUS "RequestCoalescer focused tests not found")
+endif()
+
+# ============================================================================
+# LockFreeHistogram — focused tests (LFH-01 … LFH-12)
+# ============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_lockfree_histogram.cpp")
+    message(STATUS "Adding LockFreeHistogram focused tests (LFH-01…LFH-12)")
+
+    add_executable(test_lockfree_histogram_focused
+        test_lockfree_histogram.cpp
+    )
+
+    target_include_directories(test_lockfree_histogram_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_lockfree_histogram_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_lockfree_histogram_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME LockFreeHistogramFocusedTests
+        COMMAND test_lockfree_histogram_focused)
+
+    set_tests_properties(LockFreeHistogramFocusedTests PROPERTIES
+        LABELS "performance;histogram;lock-free;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  LockFreeHistogram: exponential/linear buckets, percentile, concurrency, reset")
+else()
+    message(STATUS "LockFreeHistogram focused tests not found")
 endif()
 
 # ============================================================================
@@ -18246,6 +18548,48 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/acceleration/test_vec_knn_insert.cpp")
     message(STATUS "  VecKnnInsert: simd_l2_sq, simd_batch_l2_sq, DistanceCache, VecKnnInsertPipeline (25 tests)")
 else()
     message(STATUS "VecKnnInsert focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/acceleration/test_vec_knn_insert.cpp")
+endif()
+
+# ──────────────────────────────────────────────────────────────────────────────
+# AiHardwareDispatcher focused tests
+# Universal AI-hardware dispatch layer:
+#   Apple ANE / Intel NPU / Qualcomm QNN / ARM Ethos / NNAPI / ONNX Runtime / GPU / CPU
+# ──────────────────────────────────────────────────────────────────────────────
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/acceleration/test_ai_hardware_dispatcher.cpp")
+    message(STATUS "Adding AiHardwareDispatcher focused tests (AI hardware, v1.0.0)")
+
+    add_executable(test_ai_hardware_dispatcher_focused
+        acceleration/test_ai_hardware_dispatcher.cpp
+        ${CMAKE_SOURCE_DIR}/src/acceleration/ai_hardware_dispatcher.cpp
+    )
+
+    target_include_directories(test_ai_hardware_dispatcher_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_ai_hardware_dispatcher_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_ai_hardware_dispatcher_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME AiHardwareDispatcherFocusedTests
+        COMMAND test_ai_hardware_dispatcher_focused)
+
+    set_tests_properties(AiHardwareDispatcherFocusedTests PROPERTIES
+        LABELS "acceleration;ai-hardware;npu;onnx;apple-ane;intel-npu;qualcomm-qnn;arm-ethos;nnapi;v1.0.0;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  AiHardwareDispatcher: BackendType/PrecisionMode enums, probeCapabilities, run() fallback, runOn() per-backend, DeviceCapabilityInfo (30 tests)")
+else()
+    message(STATUS "AiHardwareDispatcher focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/acceleration/test_ai_hardware_dispatcher.cpp")
 endif()
 
 # ============================================================================

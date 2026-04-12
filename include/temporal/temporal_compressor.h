@@ -62,7 +62,8 @@ enum class CompressionAlgorithm {
     DELTA,      ///< JSON field-level delta between consecutive versions
     ZSTD,       ///< General-purpose LZ-family byte-level compression
     GORILLA,    ///< XOR-delta encoding for numeric (double) columns
-    DICTIONARY  ///< Value-table encoding for repeated string fields
+    DICTIONARY, ///< Value-table encoding for repeated string fields
+    LZ4         ///< LZ4 block compression — high-throughput, low-latency path
 };
 
 // ============================================================================
@@ -232,6 +233,12 @@ private:
                                      int level);
 
     static nlohmann::json decompressZstd(const nlohmann::json& doc);
+
+    /// Compress a JSON document with LZ4 block format.
+    static nlohmann::json applyLz4(const nlohmann::json& doc);
+
+    /// Decompress a payload that was compressed with applyLz4().
+    static nlohmann::json decompressLz4(const nlohmann::json& doc);
 
     /// Build a Gorilla-encoded payload from a vector of (timestamp, value) pairs.
     static nlohmann::json applyGorilla(

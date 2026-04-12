@@ -1467,6 +1467,7 @@ set(THEMIS_CORE_SOURCES
     ../src/storage/blob_backend_webdav.cpp
     ../src/storage/blob_backend_gcs.cpp
     # nvme_manager.cpp is registered via cmake/StorageEnhancements.cmake
+    ../src/storage/streaming_ingest_manager.cpp
 
     ../src/metadata/schema_manager.cpp
     ../src/metadata/statistics_collector.cpp
@@ -1899,6 +1900,7 @@ set(THEMIS_CORE_SOURCES
     ../src/timeseries/adaptive_flush_controller.cpp
     ../src/timeseries/encrypted_chunk_store.cpp
     ../src/timeseries/ts_encrypted_key_rotation.cpp
+    ../src/timeseries/ts_stream_cursor.cpp
     
     ../src/utils/serialization.cpp
     ../src/utils/logger.cpp
@@ -2202,6 +2204,9 @@ set(THEMIS_CORE_SOURCES
     # shader_integrity.cpp uses only OpenSSL (SHA-256) — no GPU/graphics dependency.
     # Compiled unconditionally so ShaderIntegrityVerifier is always available.
     ../src/acceleration/shader_integrity.cpp
+    # AI Hardware Dispatcher: universal AI-hardware abstraction layer
+    # (Apple ANE, Intel NPU, Qualcomm QNN, ARM Ethos, NNAPI, ONNX Runtime, GPU fallback)
+    ../src/acceleration/ai_hardware_dispatcher.cpp
     # Plugin manager (core plugin orchestration)
     ../src/plugins/plugin_manager.cpp
     ../src/plugins/plugin_hot_plug_monitor.cpp
@@ -2225,6 +2230,7 @@ set(THEMIS_CORE_SOURCES
     ../src/network/wire_protocol_performance.cpp
     ../src/network/wire_protocol_zero_copy.cpp
     ../src/network/wire_protocol_batch.cpp
+    ../src/network/io_uring_batcher.cpp
     ../src/network/connection_compression.cpp
     ../src/network/socket_timeout_manager.cpp
     ../src/network/adaptive_circuit_breaker.cpp

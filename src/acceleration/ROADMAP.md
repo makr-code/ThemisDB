@@ -84,6 +84,21 @@ Production hardening complete — all GPU kernel surfaces and design contracts a
 - Tensor Core matrix ops (`CUDAMatrixBackend`) are production-ready; FP16/BF16 Tensor Core acceleration requires a CUDA-capable device (SM 7.0+ for FP16, SM 8.0+ for BF16)
 - Multi-GPU sharding backend (`MultiGPUVectorBackend`) implemented in acceleration layer; uses CPU sub-backends pending real CUDA kernels
 - CUDA HNSW: kMaxK increased from 256 to 512; for k > 512 the launcher logs a warning and truncates results (multi-pass host-side strategy required for k > 512)
+- `AiHardwareDispatcher` NPU dispatch helpers (Apple ANE, Qualcomm QNN, ARM Ethos, NNAPI) return graceful "not yet implemented" errors; ONNX Runtime and Intel NPU (OpenVINO) paths are fully wired when the respective SDKs are linked
+
+## AI Hardware Support (v1.1.0)
+- [x] `AiHardwareDispatcher` singleton in `include/acceleration/ai_hardware_dispatcher.h` + `src/acceleration/ai_hardware_dispatcher.cpp`
+- [x] Priority chain: NPU_APPLE → NPU_INTEL → NPU_QUALCOMM → NPU_ARM → NNAPI → ONNX_RUNTIME → GPU → CPU
+- [x] `BackendType` extended: NPU_APPLE / NPU_INTEL / NPU_QUALCOMM / NPU_ARM / NNAPI / ONNX_RUNTIME
+- [x] `PrecisionMode` extended: INT4 / FP4 / W4A8 / W8A8 (LLM quantisation modes)
+- [x] `DeviceCapabilityInfo` extended: is_npu / npu_tops / supports_int4 / supports_w4a8 / onnx_ep
+- [x] `BackendCapabilities` extended: supportsAiInference / npuTops / preferredOnnxEP
+- [x] `cmake/features/GPUFeatures.cmake`: THEMIS_ENABLE_NPU_INTEL / THEMIS_ENABLE_NPU_QUALCOMM / THEMIS_ENABLE_NPU_ARM; auto-enable Apple ANE on Darwin, NNAPI on Android; ONNX Runtime auto-detect via find_path
+- [x] ONNX Runtime full inference path (CreateEnv / CreateSession / Run / OrtValue extraction) in `dispatchOnnxRuntime()`
+- [x] Intel NPU path via OpenVINO ov::Core in `dispatchIntelNPU()`
+- [x] 30 tests in `tests/acceleration/test_ai_hardware_dispatcher.cpp` (AiHardwareDispatcherFocusedTests AH-1 … AH-30)
 
 ## Breaking Changes
 - GPU kernel APIs are not yet stable; function signatures may change before v1.0
+- `BackendType` enum: new values (NPU_APPLE, NPU_INTEL, NPU_QUALCOMM, NPU_ARM, NNAPI, ONNX_RUNTIME) inserted before AUTO — any code that switch-cases on BackendType without a default must be recompiled
+- `PrecisionMode` enum: new bitmask values (INT4, FP4, W4A8, W8A8) added — existing stored bitmasks remain valid (additive change)

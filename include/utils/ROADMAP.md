@@ -24,11 +24,11 @@
 - [ ] Streaming PII redaction in `pii_redacting_sink.h` (chunked input) (Target: Q2 2026)
 - [ ] `safe_arithmetic.h` — 128-bit integer support (Target: Q3 2026)
 - [ ] `zstd_codec.h` — streaming compress/decompress API (Target: Q2 2026)
+- [ ] `uuid.h` — UUID v7 (time-ordered) support (Target: Q3 2026)
 - [ ] `rate_limiter.h` — distributed (Redis-backed) rate limiting (Target: Q3 2026)
 - [ ] `bloom_filter.h` — scalable Bloom filter (SBF) variant (Target: Q4 2026)
 - [ ] `retention_manager.h` — GDPR right-to-erasure integration (Target: Q2 2026)
 - [ ] Formal ReDoS audit of `regex_detection_engine.h` patterns (Target: Q2 2026)
-- [ ] `uuid.h` — UUID v7 (time-ordered) support (Target: Q3 2026)
 
 ## Implementation Phases
 
@@ -38,12 +38,11 @@
 - [ ] Define streaming API contract for `zstd_codec.h`
 
 ### Phase 2 — Core Implementation
-- [ ] Streaming ZSTD compress/decompress
-- [ ] Distributed rate limiter backend
-- [ ] UUID v7 implementation
+- [ ] Streaming ZSTD compress/decompress — `zstd_compress_stream` + `zstd_decompress_stream`
+- [ ] UUID v7 implementation — `generate_uuid_v7()`
 
 ### Phase 3 — Error Handling & Edge Cases
-- [ ] `zstd_codec.h`: enforce max decompression output size
+- [ ] `zstd_codec.h`: max decompression output enforced via `max_output_bytes` parameter in `zstd_decompress_stream()`
 - [ ] `pii_detector.h`: ReDoS-safe regex audit and replacements
 - [ ] `rate_limiter.h`: handle backend (Redis) unavailability gracefully
 

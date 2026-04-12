@@ -66,10 +66,9 @@ SIMDLevel detectSIMDLevel() noexcept {
 #elif defined(THEMIS_SIMD_FILTER_AVX2)
     SIMDLevel level = SIMDLevel::AVX2;
 #elif defined(THEMIS_SIMD_FILTER_NEON)
-    // NEON provides SIMD capability. No NEON-specific filter kernels are
-    // implemented yet; the scalar fallback is used. Marking as SSE4 so future
-    // NEON kernels can be gated on SIMDLevel::SSE4.
-    SIMDLevel level = SIMDLevel::SSE4;
+    // AArch64 NEON: 4×int32 / 2×int64 / 4×float32 / 2×float64 per iteration.
+    // Kernels are implemented below and selected when level == NEON.
+    SIMDLevel level = SIMDLevel::NEON;
 #else
     SIMDLevel level = SIMDLevel::SCALAR;
 #endif
@@ -325,7 +324,171 @@ size_t avx2_filter_f64(const double* data, size_t n, FilterOp op, double thr,
 
 #endif // AVX2 / AVX512
 
-} // anonymous namespace
+// ============================================================================
+// ARM NEON kernels (AArch64 / ARMv8)
+// ============================================================================
+// Lane widths per iteration:
+//   int32  : 4 lanes  (128-bit vceqq_s32 / vcgtq_s32)
+//   int64  : 2 lanes  (128-bit vceqq_s64 / vcgtq_s64)  – AArch64 only
+//   float32: 4 lanes  (128-bit vceqq_f32 / vcgtq_f32)
+//   float64: 2 lanes  (128-bit vceqq_f64 / vcgtq_f64)  – AArch64 only
+//
+// Mask extraction uses vmovemask equivalents built from vget_high/vget_low
+// and vzip to produce a 4-bit (int32/float32) or 2-bit (int64/float64) mask.
+// ============================================================================
+
+#if defined(THEMIS_SIMD_FILTER_NEON)
+
+// Helper: collapse a uint32x4 predicate mask into a 4-bit integer where
+// bit i is set when lane i is all-ones (0xFFFFFFFF).
+static inline int neon_movemask_u32(uint32x4_t mask) noexcept {
+    // Shift each lane to its sign bit position then OR together.
+    const uint32x4_t shift = {0, 1, 2, 3};
+    uint32x4_t bits = vshrq_n_u32(vshlq_u32(mask, vreinterpretq_s32_u32(
+                           vsubq_u32(vdupq_n_u32(31), shift))), 31);
+    // Horizontal add via pairwise
+    uint32x2_t lo = vget_low_u32(bits);
+    uint32x2_t hi = vget_high_u32(bits);
+    uint32x2_t pair = vorr_u32(lo, vshl_u32(hi, vdup_n_s32(2)));
+    return static_cast<int>(vget_lane_u32(vpadd_u32(pair, pair), 0));
+}
+
+// Helper: collapse a uint64x2 predicate mask into a 2-bit integer.
+static inline int neon_movemask_u64(uint64x2_t mask) noexcept {
+    uint64_t lo = vgetq_lane_u64(mask, 0) & 1u;
+    uint64_t hi = vgetq_lane_u64(mask, 1) & 1u;
+    return static_cast<int>(lo | (hi << 1));
+}
+
+// ── int32 (4 lanes) ──────────────────────────────────────────────────────────
+size_t neon_filter_i32(const int32_t* data, size_t n, FilterOp op, int32_t thr,
+                       std::vector<uint32_t>& out) {
+    size_t before = out.size();
+    const int32x4_t vt = vdupq_n_s32(thr);
+    size_t i = 0;
+
+    for (; i + 4 <= n; i += 4) {
+        int32x4_t va = vld1q_s32(data + i);
+        uint32x4_t pred;
+        switch (op) {
+            case FilterOp::EQ: pred = vceqq_s32(va, vt); break;
+            case FilterOp::NE: pred = vmvnq_u32(vceqq_s32(va, vt)); break;
+            case FilterOp::LT: pred = vcltq_s32(va, vt); break;
+            case FilterOp::LE: pred = vcleq_s32(va, vt); break;
+            case FilterOp::GT: pred = vcgtq_s32(va, vt); break;
+            case FilterOp::GE: pred = vcgeq_s32(va, vt); break;
+            default: pred = vdupq_n_u32(0); break;
+        }
+        int bits = neon_movemask_u32(pred);
+        while (bits) {
+            int lane = themis_ctz(static_cast<unsigned>(bits));
+            out.push_back(static_cast<uint32_t>(i + lane));
+            bits &= bits - 1;
+        }
+    }
+    for (; i < n; ++i) {
+        if (scalar_cmp(data[i], op, thr)) out.push_back(static_cast<uint32_t>(i));
+    }
+    return out.size() - before;
+}
+
+// ── int64 (2 lanes, AArch64) ─────────────────────────────────────────────────
+size_t neon_filter_i64(const int64_t* data, size_t n, FilterOp op, int64_t thr,
+                       std::vector<uint32_t>& out) {
+    size_t before = out.size();
+    const int64x2_t vt = vdupq_n_s64(thr);
+    size_t i = 0;
+
+    for (; i + 2 <= n; i += 2) {
+        int64x2_t va = vld1q_s64(data + i);
+        uint64x2_t pred;
+        switch (op) {
+            case FilterOp::EQ: pred = vceqq_s64(va, vt); break;
+            case FilterOp::NE: pred = vmvnq_u64(vceqq_s64(va, vt)); break;
+            case FilterOp::LT: pred = vcltq_s64(va, vt); break;
+            case FilterOp::LE: pred = vcleq_s64(va, vt); break;
+            case FilterOp::GT: pred = vcgtq_s64(va, vt); break;
+            case FilterOp::GE: pred = vcgeq_s64(va, vt); break;
+            default: pred = vdupq_n_u64(0); break;
+        }
+        int bits = neon_movemask_u64(pred);
+        while (bits) {
+            int lane = themis_ctz(static_cast<unsigned>(bits));
+            out.push_back(static_cast<uint32_t>(i + lane));
+            bits &= bits - 1;
+        }
+    }
+    for (; i < n; ++i) {
+        if (scalar_cmp(data[i], op, thr)) out.push_back(static_cast<uint32_t>(i));
+    }
+    return out.size() - before;
+}
+
+// ── float32 (4 lanes) ────────────────────────────────────────────────────────
+size_t neon_filter_f32(const float* data, size_t n, FilterOp op, float thr,
+                       std::vector<uint32_t>& out) {
+    size_t before = out.size();
+    const float32x4_t vt = vdupq_n_f32(thr);
+    size_t i = 0;
+
+    for (; i + 4 <= n; i += 4) {
+        float32x4_t va = vld1q_f32(data + i);
+        uint32x4_t pred;
+        switch (op) {
+            case FilterOp::EQ: pred = vceqq_f32(va, vt); break;
+            case FilterOp::NE: pred = vmvnq_u32(vceqq_f32(va, vt)); break;
+            case FilterOp::LT: pred = vcltq_f32(va, vt); break;
+            case FilterOp::LE: pred = vcleq_f32(va, vt); break;
+            case FilterOp::GT: pred = vcgtq_f32(va, vt); break;
+            case FilterOp::GE: pred = vcgeq_f32(va, vt); break;
+            default: pred = vdupq_n_u32(0); break;
+        }
+        int bits = neon_movemask_u32(pred);
+        while (bits) {
+            int lane = themis_ctz(static_cast<unsigned>(bits));
+            out.push_back(static_cast<uint32_t>(i + lane));
+            bits &= bits - 1;
+        }
+    }
+    for (; i < n; ++i) {
+        if (scalar_cmp(data[i], op, thr)) out.push_back(static_cast<uint32_t>(i));
+    }
+    return out.size() - before;
+}
+
+// ── float64 (2 lanes, AArch64) ───────────────────────────────────────────────
+size_t neon_filter_f64(const double* data, size_t n, FilterOp op, double thr,
+                       std::vector<uint32_t>& out) {
+    size_t before = out.size();
+    const float64x2_t vt = vdupq_n_f64(thr);
+    size_t i = 0;
+
+    for (; i + 2 <= n; i += 2) {
+        float64x2_t va = vld1q_f64(data + i);
+        uint64x2_t pred;
+        switch (op) {
+            case FilterOp::EQ: pred = vceqq_f64(va, vt); break;
+            case FilterOp::NE: pred = vmvnq_u64(vceqq_f64(va, vt)); break;
+            case FilterOp::LT: pred = vcltq_f64(va, vt); break;
+            case FilterOp::LE: pred = vcleq_f64(va, vt); break;
+            case FilterOp::GT: pred = vcgtq_f64(va, vt); break;
+            case FilterOp::GE: pred = vcgeq_f64(va, vt); break;
+            default: pred = vdupq_n_u64(0); break;
+        }
+        int bits = neon_movemask_u64(pred);
+        while (bits) {
+            int lane = themis_ctz(static_cast<unsigned>(bits));
+            out.push_back(static_cast<uint32_t>(i + lane));
+            bits &= bits - 1;
+        }
+    }
+    for (; i < n; ++i) {
+        if (scalar_cmp(data[i], op, thr)) out.push_back(static_cast<uint32_t>(i));
+    }
+    return out.size() - before;
+}
+
+#endif // THEMIS_SIMD_FILTER_NEON
 
 // ============================================================================
 // Public API implementations
@@ -339,6 +502,11 @@ size_t simd_filter_int32(const int32_t* data, size_t n, FilterOp op,
         return avx2_filter_i32(data, n, op, threshold, out);
     }
 #endif
+#if defined(THEMIS_SIMD_FILTER_NEON)
+    if (detectSIMDLevel() == SIMDLevel::NEON) {
+        return neon_filter_i32(data, n, op, threshold, out);
+    }
+#endif
     return scalar_filter(data, n, op, threshold, out);
 }
 
@@ -348,6 +516,11 @@ size_t simd_filter_int64(const int64_t* data, size_t n, FilterOp op,
 #if defined(THEMIS_SIMD_FILTER_AVX2) || defined(THEMIS_SIMD_FILTER_AVX512)
     if (detectSIMDLevel() >= SIMDLevel::AVX2) {
         return avx2_filter_i64(data, n, op, threshold, out);
+    }
+#endif
+#if defined(THEMIS_SIMD_FILTER_NEON)
+    if (detectSIMDLevel() == SIMDLevel::NEON) {
+        return neon_filter_i64(data, n, op, threshold, out);
     }
 #endif
     return scalar_filter(data, n, op, threshold, out);
@@ -361,6 +534,11 @@ size_t simd_filter_float(const float* data, size_t n, FilterOp op,
         return avx2_filter_f32(data, n, op, threshold, out);
     }
 #endif
+#if defined(THEMIS_SIMD_FILTER_NEON)
+    if (detectSIMDLevel() == SIMDLevel::NEON) {
+        return neon_filter_f32(data, n, op, threshold, out);
+    }
+#endif
     return scalar_filter(data, n, op, threshold, out);
 }
 
@@ -370,6 +548,11 @@ size_t simd_filter_double(const double* data, size_t n, FilterOp op,
 #if defined(THEMIS_SIMD_FILTER_AVX2) || defined(THEMIS_SIMD_FILTER_AVX512)
     if (detectSIMDLevel() >= SIMDLevel::AVX2) {
         return avx2_filter_f64(data, n, op, threshold, out);
+    }
+#endif
+#if defined(THEMIS_SIMD_FILTER_NEON)
+    if (detectSIMDLevel() == SIMDLevel::NEON) {
+        return neon_filter_f64(data, n, op, threshold, out);
     }
 #endif
     return scalar_filter(data, n, op, threshold, out);
