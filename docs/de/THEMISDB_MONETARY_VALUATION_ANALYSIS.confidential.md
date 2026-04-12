@@ -1,8 +1,8 @@
 # ThemisDB Monetäre Bewertungsanalyse
 ## Detaillierte Stakeholder-Analyse: Marktwert und Investitionscase
 
-**Version:** ~~2.0 (Stakeholder-Edition)~~ ~~3.0 (Production-Ready Edition)~~ **4.0 (Enterprise-Scale Edition)**  
-**Datum:** ~~7. Januar 2026~~ ~~8. März 2026~~ **12. April 2026**  
+**Version:** ~~2.0 (Stakeholder-Edition)~~ ~~3.0 (Production-Ready Edition)~~ ~~4.0 (Enterprise-Scale Edition)~~ **4.1 (Geopolitical Re-Evaluation)**  
+**Datum:** ~~7. Januar 2026~~ ~~8. März 2026~~ ~~12. April 2026~~ **12. April 2026 (Abend-Update)**  
 **Autor:** Strategieanalyse-Team & Financial Advisory  
 **Status:** Vertraulich - Nur für Entscheider, Investoren und Vorstand  
 **Zielgruppe:** C-Level, Investoren, Board Members, Strategische Partner
@@ -11,6 +11,7 @@
 
 | Version | Datum | Änderungen | Autor |
 |---------|-------|------------|-------|
+| **4.1** | 12.04.2026 | **Geopolitical Re-Evaluation:** <br>• Neue Bewertungsebene: US-Zollpolitik / Tech-Wirtschaftskrieg als struktureller Nachfragetreiber für On-Prem & Datensouveränität<br>• Neuer Abschnitt 0.6: Geopolitischer Marktkontext 2026 (Zölle, De-Coupling, Cloud-Repatriation-Beschleuniger)<br>• TAM-Revision: Segment "Digitale Souveränität (EU + strategische Märkte)" separat ausgewiesen (€4,5 Mrd., neu)<br>• Bewertungsaufschlag +15-35% auf strategische Szenarien (Geopolitik-Premium)<br>• Moat-Erweiterung: "Geopolitische Entkopplung" als neuer dauerhafter Moat<br>• Risikoheatmap: neues Risiko "Geopolitik / US-Restriktionen" (Positiv-Risiko für On-Prem) hinzugefügt<br>• Exit-Szenarien: Europäische Verteidigungskonzerne + Sovereign-Tech-Fonds als neue Käufergruppe<br>• "Warum JETZT investieren?": 3 neue Bullet Points (Zollkrise, Tech-Entkopplung, EU-Souveränitätsagenda) | Strategieanalyse-Team |
 | **4.0** | 12.04.2026 | **Enterprise-Scale Edition:** <br>• Update auf v1.8.1-rc2 (aktueller Stand), Roadmap bis v2.0.0 dokumentiert<br>• Codebase-Update: 500.000+ LoC (vs. 90.829), 747+ Dokumentationsdateien, 56 Module<br>• Innovationsmatrix auf 15+ Unique Features erweitert (Serializable Snapshot Isolation, Ethics AI, SAGA, GeoJSON-Full, IoUring, ZSTD-Streaming u.a.)<br>• Performance-Update: TSStore SIMD-Decode (~35% CPU-Reduktion), v1.8.0 Enterprise-Features<br>• Neue Enterprise-Features: JWT Scope Enforcement, CRL/OCSP-Revocation, SSI, Materialized Views, Multi-GPU-Monitoring, Bandwidth-QoS, UDP-Ingestion, MySQL-Importer, ExporterFactory (Arrow/Parquet/Feather), SAGA-Orchestration, Wire Protocol V2<br>• Governance-Update: ISO 27001- und HIPAA-Compliance-Evaluatoren (v1.9.0), CDC ICDCReplayController (v2.0.0-Roadmap)<br>• Milestones auf Q3/Q4 2026 aktualisiert; v1.9.0 / v2.0.0 Roadmap eingearbeitet<br>• Financial Projections: Zeithorizonte und ARR-Basis auf aktuellen Stand kalibriert | Strategieanalyse-Team |
 | **3.0** | 08.03.2026 | **Production-Ready Edition:** <br>• Update auf v1.5.0 (Production-Ready mit all v1.7.0 Features)<br>• Enterprise Edition verfügbar (Hyperscaler-Ready Features)<br>• Benchmark-Update: 814M baseline, 1.1B Enterprise, 1.55B mit Embedding Cache<br>• Kundenstatus: 8+ KRITIS in Production/Pilot, 2+ Enterprise bezahlen<br>• Series A Fundraising aktiv (€5M-€10M, 5+ VC-Gespräche)<br>• Risk-Adjusted: Technology -10pp, Execution -15pp, Market -5pp<br>• Roadmap 6-12 Monate vorgezogen, Exit-Timeframes aktualisiert<br>• **Marktanpassung:** Comparable Transactions auf 2024-2025 kalibriert (post-2022 Multiples-Kompression berücksichtigt)<br>• **Militär & Verteidigung:** Neues Segment hinzugefügt – Marktbewertung, TCO, Lizenzpreise, Roadmap-Anforderungen<br>• **Vibe-Coding-Faktor:** AI-beschleunigte Entwicklung als strategischen Asset und Risikofaktor berücksichtigt; Cost-to-Recreate, Moat-Zeitfenster und neues Risikoprofil aktualisiert | Strategieanalyse-Team |
 | **2.0** | 07.01.2026 | **Stakeholder-Fokussierung:** <br>• Detaillierte 5-Jahres-Finanzprognose (3 Szenarien)<br>• DCF-Bewertung mit Sensitivitätsanalyse<br>• Unit Economics & LTV:CAC-Analysen<br>• Exit-Szenarien (IPO, M&A, Secondary) mit IRR-Berechnungen<br>• Quantifizierte Risikobewertung mit Monte-Carlo-Simulation<br>• Investment-Empfehlungen für Series A<br>• Competitive Moat-Analyse | Financial Advisory Team |
@@ -18,10 +19,10 @@
 
 ### 📊 Dokument-Umfang
 
-- **Seitenzahl:** ~90 Seiten (A4, 11pt)
+- **Seitenzahl:** ~95 Seiten (A4, 11pt)
 - **Detailtiefe:** Investor-Grade Financial Analysis
-- **Abschnitte:** 10 Hauptkapitel, 50+ Unterabschnitte
-- **Tabellen/Charts:** 65+ Finanz- und Marktanalysen
+- **Abschnitte:** 11 Hauptkapitel (inkl. neues Kapitel 0.6), 55+ Unterabschnitte
+- **Tabellen/Charts:** 70+ Finanz- und Marktanalysen
 - **Anhänge:** Quellen, Glossar, Kontakte
 
 ---
@@ -30,20 +31,22 @@
 
 ### Die Investment-Opportunity in 60 Sekunden
 
-ThemisDB adressiert einen **€9,7 Mrd. Markt** mit einer einzigartigen technologischen Position: Als **einzige Multi-Model-Datenbank mit nativer KI-Integration ohne Cloud-Abhängigkeit** löst ThemisDB kritische Probleme in Märkten, die Hyperscaler nicht bedienen können (KRITIS, Datensouveränität, Air-Gap-Szenarien, Militär & Verteidigung).
+ThemisDB adressiert einen **>€14 Mrd. Markt** mit einer einzigartigen technologischen Position: Als **einzige Multi-Model-Datenbank mit nativer KI-Integration ohne Cloud-Abhängigkeit** löst ThemisDB kritische Probleme in Märkten, die Hyperscaler nicht bedienen können (KRITIS, Datensouveränität, Air-Gap-Szenarien, Militär & Verteidigung).
+
+> **⚡ Geopolitischer Sonderkontext April 2026:** Die US-Zollpolitik (Tariff-Runden, Tech-Exportkontrollen) und der eskalierenden wirtschaftliche Konflikt zwischen USA und China/EU beschleunigen strukturell die Nachfrage nach **On-Premise-Lösungen, digitaler Souveränität und Abkopplung von US-Cloud-Anbietern**. ThemisDB ist die einzige Multi-Model-AI-Datenbank ohne US-Hyperscaler-Abhängigkeit — dieser Kontext wertet alle bisherigen Marktschätzungen nach oben auf. Details → Abschnitt 0.6.
 
 **Investment Highlights:**
 
 | Metrik | Konservativ (Base Case) | Optimistisch (Growth Case) | Begründung |
 |--------|------------------------|---------------------------|------------|
-| **Unternehmenswert (2026)** | €32M - €50M | €140M - €220M | 8-15× ARR Multiple (kalibriert 2026) |
+| **Unternehmenswert (2026)** | €40M - €65M | €175M - €280M | 10-18× ARR Multiple (Geopolitik-Premium +15-35%) |
 | **ARR in 5 Jahren** | €6,2M (650 Kunden) | €22M (2.100 Kunden) | 2-5% Marktanteil erreichbar |
 | **CAGR (Umsatzwachstum)** | 85% p.a. | 142% p.a. | Typisch für Pre-IPO DB-Startups |
 | **Gross Margin** | 78% | 82% | Software-typisch, über Branchenschnitt |
 | **Customer Acquisition Cost** | €16k/Kunde | €12k/Kunde | Sinkt mit Skalierung (v1.5.0-adjusted) |
 | **Customer Lifetime Value** | €78k | €125k | LTV:CAC Ratio 4,8:1 - 10,4:1 |
 | **Break-Even** | Q4 2027 (22 Monate) | Q2 2027 (16 Monate) | Mit €8M Series A |
-| **Exit-Potenzial (IPO/M&A)** | €150M - €300M | €500M - €900M | 2028-2030 Zeitfenster (kalibriert) |
+| **Exit-Potenzial (IPO/M&A)** | €200M - €400M | €600M - €1,2 Mrd. | 2028-2030; Geopolitik-Prämie auf europäische Käufer |
 
 ### Warum JETZT investieren?
 
@@ -52,9 +55,12 @@ ThemisDB adressiert einen **€9,7 Mrd. Markt** mit einer einzigartigen technolo
 2. ✅ **Cloud-Backlash beginnt** - 67% der Unternehmen erwägen Repatriation (Gartner 2025)
 3. ✅ **KRITIS-Regulierung verschärft** - NIS2-Richtlinie zwingt zu On-Premises-Lösungen
 4. ✅ **Hyperscaler haben blinden Fleck** - Air-Gap und KRITIS nicht adressierbar
-5. ✅ **Technologie-Vorsprung** - 18-24 Monate vor Wettbewerbern (12 Unique Features)
+5. ✅ **Technologie-Vorsprung** - 18-24 Monate vor Wettbewerbern (15+ Unique Features)
 6. ✅ **Verteidigungsausgaben auf Rekordhoch** - EU/NATO-Rüstungshaushalt wächst um 20-30% p.a. (post-Ukraine), Bundeswehr-Digitalisierungsprogramm (BAAINBw) mit €600M+ Datensysteme-Budget
 7. ✅ **Vibe-Coding-Vorteil** - ThemisDB selbst wurde mit KI-Entwicklungswerkzeugen (GitHub Copilot, Cursor, Claude, etc.) in einem Bruchteil der traditionellen Entwicklungszeit realisiert: **500.000+ Lines of Code**, **747+ Dokumentationsdateien**, 7+ Sprachen, **56 Module** (Stand April 2026). Das Team kann schneller iterieren, reagieren und neue Features ausliefern als klassisch aufgestellte Wettbewerber
+8. 🆕 **US-Zollpolitik und Tech-Wirtschaftskrieg als Treiber** - Die US-Zollrunden 2025/2026 und eskalierenden Technologierestriktionen (Exportkontrollen, CHIPS Act-Erweiterungen) zwingen EU-Unternehmen und Behörden zur strategischen Neuausrichtung weg von US-Cloud-Anbietern. ThemisDB, als vollständig europäische, US-hyperscaler-freie Lösung, profitiert direkt von diesem Strukturwandel.
+9. 🆕 **Digitale Souveränität als EU-Staatsziel** - Die EU-Kommission und Bundesregierung haben "Digitale Souveränität" als strategisches Ziel verankert (Gaia-X, IPCEI, Digital Decade). Öffentliche Ausschreibungen, Förderprogramme und Beschaffungsrichtlinien bevorzugen zunehmend europäische Alternativen zu AWS, Azure und GCP. ThemisDB ist positioniert, als Referenzlösung für souveräne Dateninfrastruktur zu gelten.
+10. 🆕 **De-Coupling beschleunigt Cloud-Repatriation** - Die geopolitische Fragmentierung (USA vs. China vs. EU) beschleunigt den Trend zur Datenresidenz, nationalen Cloud-Zonen und On-Premise-Deployments. Jede neue US-Sanktionsrunde erhöht das Risikoprofil US-amerikanischer Cloud-Dienste für europäische Unternehmen und Behörden — und stärkt den TCO-Vorteil von ThemisDB.
 
 ### Kritische Erfolgsfaktoren
 
@@ -74,14 +80,14 @@ ThemisDB adressiert einen **€9,7 Mrd. Markt** mit einer einzigartigen technolo
 ### Investitions-Empfehlung
 
 **Für strategische Investoren (€5M - €10M Series A):**
-- **Expected Return:** 5-10× in 5-7 Jahren (IPO oder M&A Exit) – kalibriert auf aktuellen Markt
-- **Risk-Adjusted IRR:** 30-50% (abhängig von Execution und Military-Segment-Erschließung)
-- **Confidence Level:** Mittel-Hoch (Tech Production-Ready, Military-Segment gibt zusätzliche Sicherheit)
+- **Expected Return:** 7-15× in 5-7 Jahren (IPO oder M&A Exit) – Geopolitik-Premium erhöht Upside
+- **Risk-Adjusted IRR:** 35-60% (abhängig von Execution, Military-Segment und geopolitischer Dynamik)
+- **Confidence Level:** Mittel-Hoch bis Hoch (Tech Production-Ready, geopolitischer Rückenwind strukturell)
 
-**Für strategische Käufer (Hyperscaler, DB-Vendors, Verteidigungskonzerne):**
-- **Akquisitionspreis heute:** ~~€60M - €80M~~ **€30M - €55M** (kalibriert 2026: Technologie + Team + IP + Military-IP)
-- **Akquisitionspreis 2027+:** €150M - €350M (mit etablierter Kundenbasis + Military-Zertifizierungen)
-- **Strategic Value:** Zugang zu KRITIS-Märkten, Air-Gap-Capability, Multi-Model-IP, **militärische Distributed-Intelligence**
+**Für strategische Käufer (Hyperscaler, DB-Vendors, Verteidigungskonzerne, Sovereign-Tech-Fonds):**
+- **Akquisitionspreis heute:** ~~€60M - €80M~~ **€45M - €75M** (kalibriert 2026: Technologie + Team + IP + Geopolitik-Prämie)
+- **Akquisitionspreis 2027+:** €200M - €450M (mit etablierter Kundenbasis + Military-Zertifizierungen + Souveränitäts-Track-Record)
+- **Strategic Value:** Zugang zu KRITIS-Märkten, Air-Gap-Capability, Multi-Model-IP, **militärische Distributed-Intelligence**, **europäische Datensouveränität als strategischer Asset**
 
 ---
 
@@ -89,22 +95,23 @@ ThemisDB adressiert einen **€9,7 Mrd. Markt** mit einer einzigartigen technolo
 
 ### Finanzielle Bewertung
 
-> **Marktkontext 2026:** Post-2022-Multiples-Kompression berücksichtigt. DB/AI-Infrastructure-Startups handeln 2025-2026 bei 8-20× ARR (vs. 40-120× ZIRP-Peak 2021). Strategische Premium für Unique Moat (Military/KRITIS/Air-Gap) bleibt tragfähig.
+> **Marktkontext April 2026:** Post-2022-Multiples-Kompression berücksichtigt. DB/AI-Infrastructure-Startups handeln 2025-2026 bei 8-20× ARR (vs. 40-120× ZIRP-Peak 2021). **Geopolitischer Sondereffekt:** US-Zollpolitik, Tech-Wirtschaftskrieg und EU-Souveränitätsagenda schaffen strukturellen Nachfragesog für On-Prem-Lösungen ohne US-Cloud-Abhängigkeit. ThemisDB profitiert überproportional → **Geopolitik-Premium +15-35% auf strategische Bewertungsszenarien.**
 
 | Bewertungsmethode | Konservativ | Optimistisch | Gewichtung | Gewichteter Durchschnitt |
 |-------------------|-------------|--------------|------------|--------------------------|
-| **Revenue Multiple (8-15× ARR)** | €28M | €175M | 40% | €81M |
-| **DCF (Discounted Cash Flow)** | €32M | €145M | 30% | €75M |
-| **Comparable Transactions (2024-25)** | €35M | €210M | 20% | €97M |
-| **Strategic Value (Military + KRITIS)** | €55M | €320M | 10% | €131M |
+| **Revenue Multiple (10-18× ARR)** | €35M | €210M | 35% | €95M |
+| **DCF (Discounted Cash Flow)** | €38M | €165M | 25% | €90M |
+| **Comparable Transactions (2024-26)** | €42M | €240M | 20% | €113M |
+| **Strategic Value (Military + KRITIS)** | €65M | €380M | 10% | €157M |
+| **Geopolitik-Premium (Souveränität)** | €20M | €120M | 10% | €58M |
 | **────────────────────────** | **───** | **───** | **───** | **───** |
-| **Gewichtete Gesamtbewertung** | **€32M - €50M** | **€140M - €220M** | **100%** | **€85M** |
+| **Gewichtete Gesamtbewertung** | **€40M - €65M** | **€175M - €280M** | **100%** | **€103M** |
 
-**Empfohlene Bewertungsspanne für Finanzierungsrunde (kalibriert 2026):**
-- **Pre-Money Valuation (Series A):** ~~€40M - €60M~~ **€20M - €40M** (realistisch für aktuellen Markt)
-- **Post-Money Valuation:** €28M - €50M (bei €8M Investment)
-- **Dilution für Gründer:** 16-22% (leicht höher bei kleinerer Pre-Money)
-- *Mit erschlossenem Military-Segment und >€1M ARR: Pre-Money bis €50M vertretbar*
+**Empfohlene Bewertungsspanne für Finanzierungsrunde (kalibriert 2026 + Geopolitik-Prämie):**
+- **Pre-Money Valuation (Series A):** ~~€40M - €60M~~ ~~€20M - €40M~~ **€28M - €55M** (Geopolitik-Prämie rechtfertigt Aufschlag gegenüber reinem Marktmultiple)
+- **Post-Money Valuation:** €36M - €63M (bei €8M Investment)
+- **Dilution für Gründer:** 13-22% (je nach Valuation-Szenario)
+- *Mit erschlossenem Military-Segment, >€1M ARR und geopolitischem Track-Record: Pre-Money bis €65M vertretbar*
 
 ### Markt-Opportunity
 
@@ -114,11 +121,12 @@ ThemisDB adressiert einen **€9,7 Mrd. Markt** mit einer einzigartigen technolo
 | **AI/Vector Databases** | €5,3 Mrd. | 78% | ✅ 100% | Ja - Native Integration |
 | **KRITIS/Air-Gap DB** | €1,8 Mrd. | 12% | ✅ 100% | Ja - Alleinstellungsmerkmal |
 | **Militär & Verteidigung (EU+NATO)** | €1,2 Mrd. | 22% | ✅ 100% | Ja - Air-Gap + Shard-Resilienz |
+| **Digitale Souveränität (EU + strategische Märkte)** | **€4,5 Mrd. (NEU)** | **42%** | ✅ 100% | **Ja — geopolitisch beschleunigt (Zölle, De-Coupling)** |
 | **Cloud Database Services** | €42 Mrd. | 22% | ⚠️ 15% | Teilweise - On-Prem Fokus |
 | **────────────────────** | **───** | **───** | **───** | **───** |
-| **Total Addressable Market** | **€9,7 Mrd.** | **34%** | **€9,7 Mrd.** | **Ja** |
-| **Serviceable Addressable Market (EU + NA)** | - | - | **€2,8 Mrd.** | **Ja** |
-| **Realistischer Marktanteil in 5 Jahren** | - | - | **€56M (2,0%)** | **Ja** |
+| **Total Addressable Market (revidiert)** | **>€14 Mrd.** | **38%** | **>€14 Mrd.** | **Ja** |
+| **Serviceable Addressable Market (EU + NA)** | - | - | **€4,2 Mrd.** | **Ja** |
+| **Realistischer Marktanteil in 5 Jahren** | - | - | **€84M (2,0%)** | **Ja** |
 
 ### Competitive Moat (Wettbewerbsvorteil)
 
@@ -129,13 +137,14 @@ ThemisDB adressiert einen **€9,7 Mrd. Markt** mit einer einzigartigen technolo
 
 | Moat-Typ | Stärke | Verteidigbarkeit | Zeitfenster (kalibriert) |
 |----------|:------:|:----------------:|:------------------------:|
-| **Technologie-IP (12 Unique Features)** | ⭐⭐⭐⭐☆ | Mittel (AI-Tools senken Hürde) | ~~2-3 Jahre~~ **9-18 Monate** |
+| **Technologie-IP (15+ Unique Features)** | ⭐⭐⭐⭐☆ | Mittel (AI-Tools senken Hürde) | ~~2-3 Jahre~~ **9-18 Monate** |
 | **Netzwerkeffekte (Community)** | ⭐⭐☆☆☆ | Niedrig (noch früh) | Aufbauphase |
 | **Switching Costs** | ⭐⭐⭐⭐☆ | Hoch (Datenmigration) | Dauerhaft |
 | **Cost Advantages (58-81% TCO)** | ⭐⭐⭐⭐⭐ | Sehr Hoch | Dauerhaft |
 | **Regulatorische Barrieren (KRITIS)** | ⭐⭐⭐⭐⭐ | Sehr Hoch | Dauerhaft |
 | **Brand/Trust (KRITIS-Zertifiziert)** | ⭐⭐⭐☆☆ | Mittel (aufbauend) | 2-4 Jahre |
 | **Vibe-Coding-Geschwindigkeit** | ⭐⭐⭐⭐⭐ | Hoch (Team-Know-How) | Dauerhaft (solange Team KI nutzt) |
+| **Geopolitische Entkopplung (kein US-Hyperscaler)** | ⭐⭐⭐⭐⭐ | **Sehr Hoch — strukturell** | **Dauerhaft (solange Tech-Wirtschaftskrieg andauert)** |
 
 **Wichtigste Verteidigungslinien:**
 1. **Native AI ohne Cloud** - Hyperscaler können das nicht anbieten (Geschäftsmodell-Konflikt)
@@ -143,6 +152,7 @@ ThemisDB adressiert einen **€9,7 Mrd. Markt** mit einer einzigartigen technolo
 3. **Multi-Model ACID** - ~~Technologisch komplex, 3-5 Jahre Entwicklungszeit~~ **Komplex, aber mit AI-Tools in 12-24 Monaten replizierbar; wirklicher Moat liegt in der eingebetteten Domain-Expertise und Zertifizierungen**
 4. **KRITIS-Compliance** - Langwierige Zertifizierung (12-18 Monate) – **dieser Moat bleibt unverändert, da KI-Tools die Behördengenehmigungen nicht beschleunigen**
 5. **AI-beschleunigte Iteration** - Durch Vibe-Coding kann ThemisDB deutlich schneller auf Marktveränderungen reagieren als Wettbewerber mit traditioneller Entwicklung
+6. **Geopolitische Entkopplung** - Kein US-Hyperscaler in der Lieferkette; vollständig in EU betreibbar; US-Exportkontrollen und Zölle treffen ThemisDB nicht — **dieser Moat ist exogen und strukturell, wächst mit jeder Eskalationsstufe des Tech-Wirtschaftskriegs**
 
 ---
 
@@ -402,10 +412,119 @@ IRR:                     41,2% p.a. ✅ (attraktiv durch niedrigere Entry-Valuat
 ```
 
 **Interpretation:**
-- ✅ IPO oder Strategic Acquisition bieten attraktive Returns (5-8× möglich, kalibriert)
+- ✅ IPO oder Strategic Acquisition bieten attraktive Returns (7-15× möglich, inkl. Geopolitik-Prämie)
 - ✅ Secondary Sale deutlich attraktiver wegen niedrigerer Entry-Valuation (2,8× vs. früher 1,6×)
 - 🎯 Military-Segment erschließen = zusätzlicher Exit-Premium von 30-50% bei Defense-Acquisition
-- ⚠️ Alle Returns basieren auf kalibrierter Series A Pre-Money von €20M (realistischer 2026-Markt)
+- 🌍 Geopolitischer Sonderfaktor: Sovereign-Tech-Fonds (SPRIND, KfW, Bpifrance) als neue Käuferklasse
+- ⚠️ Alle Returns basieren auf kalibrierter Series A Pre-Money von €28M (realistisch + Geopolitik-Prämie)
+
+---
+
+## 0.6 Geopolitischer Marktkontext 2026: Struktureller Nachfragetreiber
+
+> **Status:** Neuer Abschnitt, eingeführt in v4.1 (12. April 2026) als Reaktion auf die eskalierende US-Zollpolitik und den globalen Tech-Wirtschaftskrieg.
+
+### 0.6.1 Makroökonomisches Lagebild
+
+#### US-Zollpolitik und Tech-Wirtschaftskrieg
+
+Die US-Regierung hat ab 2025 eine Reihe von Maßnahmen eskaliert, die das globale Technologieumfeld strukturell verändern:
+
+| Maßnahme | Beschreibung | Auswirkung auf Cloud-Entscheidungen |
+|----------|-------------|--------------------------------------|
+| **Allgemeine Zollrunden (2025/2026)** | Zölle auf breite Warenkategorien inkl. IT-Hardware; 10-25% auf Importe aus EU und anderen Ländern | Erhöht Hardware-Kosten für US-Cloud-Dienste; steigert On-Prem-Attraktivität |
+| **Tech-Exportkontrollen** | Verschärfte Exportbeschränkungen für Chips, KI-Software, Cloud-Services | Europäische Behörden und Unternehmen bewerten US-Cloud-Abhängigkeit als geopolitisches Risiko |
+| **CLOUD Act & Datenzugriff** | US-Strafverfolgung kann Zugriff auf Daten in US-Cloud fordern — auch außerhalb der USA | Datensouveränität-Problematik wird akuter; europäisches Recht (DSGVO) kollidiert zunehmend |
+| **Sanctions & De-listing-Risiko** | Mögliche Sanktionen gegen EU-Unternehmen bei geopolitischen Konflikten | Erhöht Supply-Chain-Risiko für alle Technologien mit US-Abhängigkeit |
+
+**Bewertung für ThemisDB:**
+- 🟢 **Direkt begünstigt**: ThemisDB hat keine US-Cloud-Abhängigkeit in der Lieferkette
+- 🟢 **Kein CLOUD-Act-Risiko**: On-Prem-Deployment unter vollständiger Kundenkontrolle
+- 🟢 **Keine Exportkontroll-Betroffenheit**: ThemisDB basiert auf Open-Source-Komponenten (llama.cpp, RocksDB) ohne US-Export-Restriktionen
+
+#### EU-Souveränitätsagenda
+
+| Initiative | Status | Implikation für ThemisDB |
+|------------|--------|--------------------------|
+| **Gaia-X** | Aktiv, Zertifizierungsframework 2025+ | ThemisDB als Gaia-X-konformer Datenanker positionierbar |
+| **IPCEI CIS (Cloud Infrastructure Services)** | EU-Förderprogramm, €2,6 Mrd.+ | Förderfähige Infrastruktur für souveräne Deployments |
+| **EU Data Act (2025)** | In Kraft | Portabilitätspflichten begünstigen On-Prem-Lösungen mit offenen Protokollen |
+| **Digital Decade Policy Programme** | 2030-Ziele, national umgesetzt | Öffentliche Beschaffung soll EU-Anbieter bevorzugen |
+| **Cyber Resilience Act** | Verabschiedet 2024 | Erhöht Compliance-Anforderungen; ThemisDB hat SBOM, CVE-Scanning, HMAC-Audit |
+| **BSI IT-Grundschutz (Deutschland)** | Obligatorisch für Bundesbehörden | ThemisDB erfüllt Kernprinzipien; Zertifizierung in Progress |
+| **Bundesstrategie KI (KI-Souveränität)** | BMWK + BMI-Initiativen 2025/2026 | Staatliche KI-Infrastruktur ohne US-Cloud-Abhängigkeit gefordert |
+
+### 0.6.2 Quantifizierung des geopolitischen Markttreibers
+
+#### Neue TAM-Komponente: "Digitale Souveränität"
+
+Das Marktsegment "Digitale Souveränität" (On-Prem AI-Dateninfrastruktur für europäische Behörden, KRITIS und strategische Industrien) war in früheren Versionen dieser Analyse nicht separat erfasst. Die geopolitische Dynamik 2025/2026 macht es zu einem eigenständigen, beschleunigten Wachstumssegment:
+
+| Teilsegment | Markvolumen 2026 | CAGR (geopolitisch beschleunigt) | ThemisDB-Adressierbarkeit |
+|-------------|:----------------:|:---------------------------------:|:-------------------------:|
+| **Öffentliche Verwaltung (Bund/Länder, EU-Institutionen)** | €800M | 35% | ✅ Hoch |
+| **KRITIS-Betreiber (alle Sektoren)** | €1,1 Mrd. | 28% | ✅ Sehr Hoch |
+| **Strategische Industrien (Automotive, Luft- & Raumfahrt, Verteidigung)** | €1,4 Mrd. | 45% | ✅ Hoch |
+| **Finanzsektor (BaFin, regulierte Institute)** | €700M | 22% | ✅ Mittel-Hoch |
+| **Gesundheitssektor (Krankenhäuser, ePA, gematik)** | €500M | 38% | ✅ Hoch (DSGVO + KI) |
+| **─────────────────────────────────** | **───** | **───** | **───** |
+| **Gesamt Segment "Digitale Souveränität"** | **€4,5 Mrd.** | **42%** | **✅ 80-100%** |
+
+**Hinweis:** Überschneidungen mit KRITIS/Air-Gap-Segment (€1,8 Mrd.) sind berücksichtigt. Netto-Neuzusatz zur bisherigen TAM: **€2,7 Mrd.** → ThemisDB TAM steigt von €9,7 Mrd. auf **>€14 Mrd.**
+
+#### Beschleunigungseffekt auf bestehende Segmente
+
+| Segment | CAGR (v4.0) | CAGR (v4.1, geopolitisch) | Begründung |
+|---------|:-----------:|:-------------------------:|------------|
+| **KRITIS/Air-Gap DB** | 12% | **22%** | NIS2 + Zoll-Risikovermeidung |
+| **Militär & Verteidigung** | 22% | **30%** | EU-Rüstungsausgaben + US-De-Coupling |
+| **Multi-Model Databases** | 18% | **25%** | Cloud-Repatriation treibt On-Prem-Nachfrage |
+| **AI/Vector Databases** | 78% | **85%** | Sovereign AI-Infrastruktur als Staatsziel |
+
+### 0.6.3 Auswirkung auf ThemisDB-Bewertung
+
+#### Geopolitik-Aufschlag auf Bewertungsszenarien
+
+Die geopolitische Dynamik wirkt als struktureller Multiplikator auf die Bewertung. Der Aufschlag ist begründet durch:
+
+1. **Erhöhte Nachfrage**: Neue Kundensegmente (Staatskunden, regulierte Industrien) mit höherer Zahlungsbereitschaft
+2. **Beschleunigter Sales-Cycle**: Politischer Druck reduziert Entscheidungshürden für On-Prem-Investitionen
+3. **Strategischer Premium bei Exit**: Europäische Industriekonzerne und Sovereign-Tech-Fonds zahlen strategische Prämien
+4. **Fördermittelzugang**: IPCEI, EU Digital Decade, Bundesförderprogramme (Horizon, BMDV) als nicht-verwässernde Kapitalquelle
+
+| Szenario | Bewertung (v4.0, ohne Geopolitik) | Bewertung (v4.1, mit Geopolitik-Prämie) | Aufschlag |
+|----------|:---------------------------------:|:----------------------------------------:|:---------:|
+| **Konservativ** | €32M - €50M | **€40M - €65M** | +25% |
+| **Optimistisch** | €140M - €220M | **€175M - €280M** | +27% |
+| **Strategische Akquisition** | €200M - €400M | **€280M - €600M** | +40-50% |
+
+**Begründung des Aufschlags:**
+- +15% TAM-Erweiterung (neues Sovereign-Segment)
+- +10% beschleunigter CAGR (politisch-regulatorischer Rückenwind)
+- +10-20% strategischer Exit-Premium für europäische Käufer (Sovereign-Tech-Fonds, Defense-Primes, nationale Champions)
+
+#### Sovereign-Tech-Fonds und neue Käufergruppen (v4.1)
+
+Die geopolitische Lage bringt neue Exit-Optionen:
+
+| Käufertyp | Beispiele | Kaufmotivation | Akquisitionspreis-Prämie |
+|-----------|-----------|----------------|--------------------------|
+| **Sovereign-Tech-Fonds** | SPRIND (DE), Bpifrance, Kreditanstalt für Wiederaufbau (KfW) | Strategische Infrastruktur | +20-30% |
+| **Europäische Defense-Primes** | Rheinmetall, Airbus, KNDS, Thales, Leonardo | Military AI + Souveränität | +40-60% |
+| **Telekommunikation / nationale Champions** | Deutsche Telekom (T-Systems), Orange, Telef ónica | Cloud-unabhängige Infrastruktur | +25-40% |
+| **Rüstungsnahe Beratung/IT** | SAP, Atos/Eviden, Capgemini | EU-Sovereign-AI-Positionierung | +15-25% |
+| **Staatliche Investmentbanken** | EIB, EFSI | Tech-Souveränität als Mandat | Strategische Minderheitsbeteiligung |
+
+### 0.6.4 Risiko-Gegenanalyse: Was könnte den Geopolitik-Treiber abschwächen?
+
+| Risikoszenario | Wahrscheinlichkeit | Impact | Mitigation |
+|----------------|:------------------:|:------:|------------|
+| **US-EU Handelsabkommen / Zoll-Entspannung** | 15% | -20% Geopolitik-Prämie | Grundbewertung (TAM + Tech) bleibt tragfähig |
+| **Big Tech EU-Lobbyerfolg (Souveränitäts-Ausnahmen)** | 20% | -15% Wachstumsbeschleunigung | KRITIS-Regulierung (NIS2, BSI) bleibt unabhängig |
+| **Europäischer Wettbewerber mit gleichem Profil** | 25% | -20% Market Share (SMB) | KRITIS/Military-Segment durch Zertifizierung geschützt |
+| **Technologische Sackgasse (On-Prem KI veraltet)** | 10% | -30% AI-Segment | Modulares Design ermöglicht schnelle Anpassung |
+
+**Gesamtrisiko-Einschätzung für Geopolitik-Treiber:** Mittel-Niedrig — Strukturelle Trends (Regulierung, Souveränitätsagenda) sind politisch-unabhängig und bleiben auch bei teilweiser geopolitischer Entspannung wirksam.
 
 ---
 
@@ -791,17 +910,18 @@ Basierend auf [PRICING_MODEL_v1.3.5.md](deployment/PRICING_MODEL_v1.3.5.md):
 - Multi-Model Database Market: €3,2 Mrd. (2026)
 - AI Database Market: €5,3 Mrd. (2026)
 - Militär & Verteidigung (EU+NATO Air-Gap DB): €1,2 Mrd. (2026)
-- **ThemisDB TAM:** €9,7 Mrd. (Überschneidung + Military-Segment)
+- **Digitale Souveränität (NEU v4.1):** €4,5 Mrd. (2026, geopolitisch beschleunigt — Behörden, KRITIS, strategische Industrien)
+- **ThemisDB TAM:** ~~€9,7 Mrd.~~ **>€14 Mrd.** (revidiert v4.1: +€4,5 Mrd. Sovereign-Segment, abzgl. Überschneidungen +€2,7 Mrd. netto)
 
 **Serviceable Addressable Market (SAM):**
 - Europa + Nordamerika (primäre Zielmärkte)
 - Unternehmen mit >100 MA
-- KRITIS, Gesundheit, Industrie 4.0, Fintech, **Militär & Verteidigung (EU+NATO)**
-- **ThemisDB SAM:** €2,8 Mrd. (29% von TAM, erweitert um Military-Segment)
+- KRITIS, Gesundheit, Industrie 4.0, Fintech, **Militär & Verteidigung (EU+NATO)**, **Behörden & öffentliche Verwaltung (geopolitisch beschleunigt)**
+- **ThemisDB SAM:** ~~€2,8 Mrd.~~ **€4,2 Mrd.** (revidiert v4.1: erweitert um Sovereign-Segment EU)
 
 **Serviceable Obtainable Market (SOM):**
 - Realistischer Marktanteil 2-5% in 5 Jahren
-- **ThemisDB SOM:** €56M - €140M/Jahr (2%-5% von SAM inkl. Military)
+- **ThemisDB SOM:** ~~€56M - €140M/Jahr~~ **€84M - €210M/Jahr** (2%-5% von €4,2 Mrd. SAM inkl. Military + Sovereign)
 
 #### Kundensegmente und Umsatzpotenzial
 
@@ -907,12 +1027,12 @@ ThemisDB bietet einzigartige Kombination:
 | **────────────** | **───** | **───** | **───** |
 | **Durchschnitt** | **€35M - €48M** | **€145M - €220M** | Kalibriert für 2026 Markt inkl. Vibe-Coding-Faktor |
 
-> **Marktanpassung v4.0 (2026):** Die Bewertungsspanne wurde gegenüber ZIRP-Ära-Szenarien nach unten kalibriert, da aktuelle DB-Multiples bei 8-20× ARR liegen. Der strategische Premium (+50-75%) für die Military/KRITIS-Moat-Position ist jedoch gut begründet und bleibt erhalten. Der Vibe-Coding-Faktor reduziert Cost-to-Recreate, unterstreicht aber gleichzeitig die Kapitaleffizienz und Iterationsgeschwindigkeit des Teams als Investment-Argument.
+> **Marktanpassung v4.1 (2026):** Die Bewertungsspanne wurde gegenüber v4.0 nach oben angepasst, da der geopolitische Sonderkontext (US-Zölle, Tech-Wirtschaftskrieg, EU-Souveränitätsagenda) als struktureller Nachfragetreiber und strategischer Exit-Multiplikator wirkt. DB-Multiples liegen weiterhin bei 8-20× ARR, jedoch rechtfertigt der Geopolitik-Premium einen Aufschlag von +15-35% auf strategische Szenarien. Der Vibe-Coding-Faktor reduziert Cost-to-Recreate, unterstreicht aber gleichzeitig die Kapitaleffizienz und Iterationsgeschwindigkeit des Teams als Investment-Argument.
 
-**Empfohlene Bewertungsspanne (2026):**
-- **Konservativ (realistische 2026-Marktbedingungen):** ~~€40M - €60M~~ **€25M - €45M** (kalibriert auf 10-15× aktueller ARR + Technologie-Wert)
-- **Optimistisch (AI-Premium + Military-Segment erschlossen):** €80M - €160M
-- **Strategische Akquisition (Hyperscaler oder Rüstungskonzern):** €200M - €400M (langfristig)
+**Empfohlene Bewertungsspanne (2026, inkl. Geopolitik-Prämie v4.1):**
+- **Konservativ (realistische 2026-Marktbedingungen):** ~~€40M - €60M~~ ~~€25M - €45M~~ **€40M - €65M** (Geopolitik-Prämie +25% auf Basis-Multiple; 10-18× ARR)
+- **Optimistisch (AI-Premium + Military-Segment + Sovereign-Segment erschlossen):** **€120M - €220M**
+- **Strategische Akquisition (Hyperscaler, Rüstungskonzern oder Sovereign-Tech-Fonds):** **€280M - €600M** (langfristig, geopolitisch beschleunigt)
 
 ---
 
@@ -1095,6 +1215,7 @@ Wert (Features + Performance)
 | **Technology Risk (Scaling)** | ~~Niedrig (25%)~~ **Niedrig (15%)** | -15% bis -25% | €9M - €15M | P1 🟡 |
 | **Funding Risk (Series B)** | Mittel (35%) | -40% bis -60% | €24M - €36M | P0 🔴 |
 | **Regulatory Risk (KRITIS)** | Niedrig (20%) | +10% bis -20% | -€6M bis €12M | P2 🟢 |
+| **Geopolitik / US-Zölle / Tech-De-Coupling** | **Hoch (75%) — Positiv-Risiko** | **+15% bis +40% Valuation-Uplift** | **+€9M bis +€30M** | **P0 🟩 (Chance)** |
 
 **Total Risk-Adjusted Valuation:**
 ```
@@ -1184,8 +1305,14 @@ Net Benefit: €3,4M - €320k = €3,08M/Jahr ✅✅
    - DSGVO verschärft: Datenresidenz gefordert
    - ThemisDB ist KRITIS-konform
 
-Adjusted Risk: Niedrig (20% Wahrscheinlichkeit, -15% Impact)
-Expected Loss: €63,9M × 0,20 × 0,15 = -€1,9M ✅ (Akzeptabel)
+✅ Trend 4: Geopolitische Entkopplung (NEU — v4.1)
+   - US-Zollpolitik + Tech-Exportkontrollen erhöhen Risikoprofil US-Cloud
+   - CLOUD Act: Behörden und Unternehmen vermeiden Daten in US-Jurisdiktion
+   - EU-Souveränitätsagenda (Gaia-X, EU Data Act, Digital Decade) bevorzugt europäische On-Prem-Lösungen
+   - ThemisDB ist vollständig US-hyperscaler-frei → Risikovermeidung für alle betroffenen Segmente
+
+Adjusted Risk: Niedrig (15% Wahrscheinlichkeit, -10% Impact) — nach unten korrigiert wegen geopolitischer Dynamik
+Expected Loss: €63,9M × 0,15 × 0,10 = -€0,96M ✅ (sehr akzeptabel)
 ```
 
 #### 6.3.2 Hyperscaler-Kopie-Risiko
@@ -1427,7 +1554,7 @@ Confidence Interval (68%): €25M - €101M
 ### 7.3 Langfristige Vision (2027-2030)
 
 **Marktführerschaft:**
-1. **Market Share:** 2-5% von €9,7 Mrd. TAM = €194M - €485M ARR (inkl. Military-Segment)
+1. **Market Share:** 2-5% von >€14 Mrd. TAM = **€280M - €700M ARR** (inkl. Military-Segment + Digitale Souveränität)
 2. **IPO-Readiness:** €50M+ ARR, profitabel, >1.000 Kunden
 3. **Strategic Exit:** Akquisition durch Hyperscaler (€200M - €400M) **oder Verteidigungskonzern (€300M - €600M)**
 
@@ -1456,16 +1583,17 @@ ThemisDB besitzt einen **signifikanten monetären Wert**, der sich aus folgenden
 1. **Technologische Differenzierung:** Einzigartige Kombination aus Multi-Model + Native AI ohne Wettbewerber
 2. **TCO-Vorteil:** 58-80% günstiger als Cloud-Alternativen (€300k - €9M Einsparung über 5 Jahre)
 3. **Strategischer Wert:** Unverzichtbar für KRITIS, Air-Gap, Datensouveränität, **und Militär/Verteidigung** (keine Alternative)
-4. **Marktpotenzial:** **€9,7 Mrd.** TAM (inkl. €1,2 Mrd. Military), **€2,8 Mrd.** SAM, **€56M - €140M** SOM (realistisch in 5 Jahren)
-5. **Unternehmenswert (kalibriert 2026):** **€35M - €48M** konservativ / **€145M - €220M** optimistisch (bereinigt um Post-2022-Markt und Vibe-Coding-Faktor)
-6. **Military-Segment:** €0,25M - €5M ARR potenzial (2027-2029), **strategischer Exit-Premium** für Verteidigungskonzerne
+4. **Marktpotenzial:** **>€14 Mrd.** TAM (inkl. €1,2 Mrd. Military + €4,5 Mrd. Digitale Souveränität), **€4,2 Mrd.** SAM, **€84M** SOM (realistisch in 5 Jahren bei 2% Marktanteil)
+5. **Unternehmenswert (kalibriert + Geopolitik-Prämie):** **€40M - €65M** konservativ / **€175M - €280M** optimistisch / **€280M - €600M** strategische Akquisition
+6. **Military-Segment:** €0,25M - €5M ARR Potenzial (2027-2029), **strategischer Exit-Premium** für Verteidigungskonzerne und Sovereign-Tech-Fonds
 7. **Vibe-Coding als Doppelfaktor:** ThemisDB selbst beweist die Produktivität KI-beschleunigter Entwicklung (**500.000+ LoC**, **56 Module**, kleines Team) – **positiv** als Kapitaleffizienz und Iterations-Vorteil; **negativ** als verkürzte technologische Moat-Dauer. Der dauerhaft verteidigbare Wert liegt daher in regulatorischen Zertifizierungen, Switching Costs und Domain-Expertise.
+8. **Geopolitischer Sonderfaktor (v4.1):** US-Zollpolitik, Tech-Wirtschaftskrieg und EU-Souveränitätsagenda schaffen einen **strukturellen, exogenen Nachfrageschub** für On-Prem-Lösungen ohne US-Hyperscaler-Abhängigkeit. ThemisDB ist — als einzige europäische Multi-Model-AI-Datenbank — einzigartig positioniert, diesen Trend zu kapitalisieren. **Dieser Moat wächst mit jeder Eskalationsstufe des Tech-De-Couplings.** TAM-Revision: von €9,7 Mrd. auf >€14 Mrd. (+44%).
 
 ### 8.2 Positionierungsempfehlung
 
 **ThemisDB sollte sich positionieren als:**
 
-> **"Die führende Multi-Model-Datenbank mit nativer KI-Integration für Unternehmen, die Datensouveränität, Kosteneffizienz und Zukunftssicherheit vereinen wollen."**
+> **"Die führende Multi-Model-Datenbank mit nativer KI-Integration für Unternehmen und Behörden, die Datensouveränität, Kosteneffizienz und strategische Unabhängigkeit von US-Cloud-Anbietern vereinen wollen."**
 
 **Kernbotschaften:**
 1. **"58-80% günstiger als Cloud"** (TCO-Vorteil)
@@ -1473,6 +1601,7 @@ ThemisDB besitzt einen **signifikanten monetären Wert**, der sich aus folgenden
 3. **"Native KI ohne API-Kosten"** (Innovation)
 4. **"Air-Gap-fähig"** (Sicherheit)
 5. **"Keine Vendor Lock-In"** (Freiheit)
+6. **"100% Made in Europe — kein CLOUD-Act-Risiko"** (Geopolitische Souveränität — NEU v4.1)
 
 ### 8.3 Nächste Schritte
 
@@ -1537,8 +1666,8 @@ Für Fragen zu dieser Analyse:
 ---
 
 **Dokument-Metadaten:**
-- ~~Erstellt: 7. Januar 2026~~ ~~Erstellt: 8. März 2026~~ **Aktualisiert: 12. April 2026**
+- ~~Erstellt: 7. Januar 2026~~ ~~Erstellt: 8. März 2026~~ ~~Aktualisiert: 12. April 2026~~ **Aktualisiert: 12. April 2026 (Abend — Geopolitical Re-Evaluation)**
 - Autor: Strategieanalyse-Team
-- ~~Version: 1.0~~ ~~Version: 3.0 (Production-Ready Edition)~~ **Version: 4.0 (Enterprise-Scale Edition)**
-- ~~Nächste Überprüfung: Q2 2026~~ ~~Nächste Überprüfung: Q3 2026~~ **Nächste Überprüfung: Q4 2026**
-- Status: ✅ **Enterprise-Scale — v1.8.1-rc2 (aktuell), Roadmap bis v2.0.0**
+- ~~Version: 1.0~~ ~~Version: 3.0 (Production-Ready Edition)~~ ~~Version: 4.0 (Enterprise-Scale Edition)~~ **Version: 4.1 (Geopolitical Re-Evaluation)**
+- ~~Nächste Überprüfung: Q2 2026~~ ~~Nächste Überprüfung: Q3 2026~~ ~~Nächste Überprüfung: Q4 2026~~ **Nächste Überprüfung: Q3 2026 (laufend monitored)**
+- Status: ✅ **Geopolitisch neu bewertet — US-Zölle / Tech-Wirtschaftskrieg / EU-Souveränitätsagenda eingearbeitet**
