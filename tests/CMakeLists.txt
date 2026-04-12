@@ -14585,6 +14585,60 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_metadata_export_policy.cpp")
     message(STATUS "  MetadataExportPolicy: Always/Never/Filtered, exclusion list, exportDelay, removeExclusion, thread-safety")
 endif()
 
+# Metadata — IMetadataEncryptionProvider focused tests (v1.7.0)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_metadata_encryption_provider.cpp")
+    message(STATUS "Adding Metadata EncryptionProvider focused tests")
+    add_executable(test_metadata_encryption_provider_focused test_metadata_encryption_provider.cpp)
+    target_include_directories(test_metadata_encryption_provider_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_metadata_encryption_provider_focused PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+    target_compile_definitions(test_metadata_encryption_provider_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME MetadataEncryptionProviderFocusedTests COMMAND test_metadata_encryption_provider_focused)
+    set_tests_properties(MetadataEncryptionProviderFocusedTests PROPERTIES
+        LABELS "metadata;encryption;field-level;rbac;security;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  MetadataEncryptionProvider: NoOp passthrough, FieldSet XOR cipher, wildcard, addField/removeField, thread-safety, round-trip")
+endif()
+
+# Metadata — SchemaDiff focused tests (v1.7.0)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_schema_diff.cpp")
+    message(STATUS "Adding Metadata SchemaDiff focused tests")
+    add_executable(test_schema_diff_focused test_schema_diff.cpp)
+    target_include_directories(test_schema_diff_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_schema_diff_focused PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+    target_compile_definitions(test_schema_diff_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME SchemaDiffFocusedTests COMMAND test_schema_diff_focused)
+    set_tests_properties(SchemaDiffFocusedTests PROPERTIES
+        LABELS "metadata;schema;diff;migration;column;index;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  SchemaDiff: added/removed/modified columns and indexes, sorted output, isEmpty, toJSON, SchemaDiffEngine")
+endif()
+
+# Metadata — MetadataSnapshot focused tests (v1.7.0)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_metadata_snapshot.cpp")
+    message(STATUS "Adding Metadata Snapshot focused tests")
+    add_executable(test_metadata_snapshot_focused test_metadata_snapshot.cpp)
+    target_include_directories(test_metadata_snapshot_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_metadata_snapshot_focused PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+    target_compile_definitions(test_metadata_snapshot_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME MetadataSnapshotFocusedTests COMMAND test_metadata_snapshot_focused)
+    set_tests_properties(MetadataSnapshotFocusedTests PROPERTIES
+        LABELS "metadata;snapshot;point-in-time;catalog;audit;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  MetadataSnapshot: save/load/remove/list, empty-id guard, sorted list, thread-safety, toJSON, polymorphic store")
+endif()
+
 # ============================================================================
 # Network Module ÔÇô Focused Standalone Test Targets
 # Standalone executables so each network component can be tested in isolation
