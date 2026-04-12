@@ -111,11 +111,13 @@ AdaptiveQueryCache::AdaptiveQueryCache(const Config& config)
     }
     
     // Initialize L3 (RocksDB) cache with retry logic
-    int retry_count = 0;
-    int max_retries = 3;
-    int retry_delay_ms = 1000;  // Start with 1 second
-    
-    while (retry_count < max_retries) {
+    // Empty l3_db_path means L3 is disabled (l3_db_ stays null).
+    if (!config_.l3_db_path.empty()) {
+        int retry_count = 0;
+        int max_retries = 3;
+        int retry_delay_ms = 1000;  // Start with 1 second
+
+        while (retry_count < max_retries) {
         try {
             RocksDBWrapper::Config db_config;
             db_config.db_path = config_.l3_db_path;
@@ -144,7 +146,8 @@ AdaptiveQueryCache::AdaptiveQueryCache(const Config& config)
                 }
             }
         }
-    }
+        } // while
+    } // if !l3_db_path.empty()
 
     // Restore the Markov prefetch model from RocksDB (no-op if either is null)
     loadPrefetchModel();
@@ -1380,10 +1383,6 @@ bool AdaptiveQueryCache::Config::validate(std::string* error_msg) const {
     if (l3_ttl_seconds < 0) {
         return set_error("l3_ttl_seconds must be non-negative");
     }
-    if (l3_db_path.empty()) {
-        return set_error("l3_db_path must not be empty");
-    }
-    
     // Validate adaptive TTL (legacy + current fields)
     const int effective_min_ttl = (min_ttl_seconds != 60) ? min_ttl_seconds : adaptive_ttl_min_seconds;
     const int effective_max_ttl = (max_ttl_seconds != 86400) ? max_ttl_seconds : adaptive_ttl_max_seconds;

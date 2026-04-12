@@ -31,6 +31,15 @@ v1.x – Comprehensive research-driven performance optimization infrastructure i
 - [x] ML-based workload predictor for proactive resource scaling (Issue: #2214)
 - [x] Cicada OCC data installation — `CicadaRecord` data payload + `install_writes()` now atomically writes pending data under write lock
 - [x] PMU non-Linux stub coverage — macOS kpc, Windows QueryThreadCycleTime, and RDTSC/CNTVCT_EL0 fallback (v1.9.0)
+- [x] `LockFreeHistogram<T>` — header-only, atomic-bucket P50/P90/P99 latency tracking (Issue: #4577) (2026-04-12)
+  - `include/performance/lockfree_histogram.h` — exponential + linear modes, 64-byte aligned buckets
+  - `record()` = 1 `atomic::fetch_add`; `percentile(p)` via prefix-sum over bucket weights
+  - `LatencyHistogram` (32 exp buckets) + `WideHistogram` (64 exp buckets) type aliases
+  - 12 focused tests (LFH-01…LFH-12) in `tests/test_lockfree_histogram.cpp`
+- [x] LIRS cache TOCTOU fix — `get()` upgraded from `shared_lock` to `unique_lock` to prevent read-modify-write race (Issue: #4578) (2026-04-12)
+  - `contains()` / `size()` / `get_lir_count()` / `get_hir_count()` retain `shared_lock`; `clear()` / `put()` use `unique_lock`
+  - `mutex_` is `std::shared_mutex`
+- [x] RCU `readers_active()` fix — `g_rcu_reader_count` global `atomic<int64_t>`; `ReadLock` ctor/dtor increment/decrement it; `readers_active()` now returns the real count (was always `false`) (Issue: #4579) (2026-04-12)
 
 ## In Progress 🚧
 *(none currently in progress)*

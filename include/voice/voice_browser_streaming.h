@@ -168,6 +168,10 @@ public:
         uint32_t    max_frame_bytes = 65536;  ///< Max accepted WebSocket frame size (64 KB)
         uint32_t    max_duration_s  = 600;    ///< Auto-close after this many seconds (10 min)
         bool        partial_results = true;   ///< Emit PartialTranscript as audio arrives
+        /// Permitted WebRTC/HTTP request origins (e.g. "https://app.example.com").
+        /// An empty list means all origins are allowed.  When non-empty, only
+        /// exact string matches are accepted; pass the full scheme+host[:port].
+        std::vector<std::string> origin_allowlist;
     };
 
     /**
@@ -241,6 +245,21 @@ public:
     const Config& config()     const noexcept;
     int64_t      startedAtMs() const noexcept;
     size_t       bytesReceived()const noexcept;
+
+    // ── Origin allowlist ──────────────────────────────────────────────────────
+
+    /**
+     * @brief Check whether @p origin is permitted by this session's allowlist.
+     *
+     * Returns true when Config::origin_allowlist is empty (no restriction) or
+     * when @p origin is found verbatim in the allowlist.  The comparison is
+     * case-sensitive; callers should normalise the origin to lowercase before
+     * calling this method.
+     *
+     * @param origin  Full scheme+host[:port] of the connecting client
+     *                (e.g. "https://app.example.com").
+     */
+    bool checkOrigin(const std::string& origin) const;
 
 private:
     explicit VoiceStreamingSession(Config config);

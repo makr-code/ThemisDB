@@ -45,6 +45,19 @@ struct SDGenerationConfig {
 };
 
 /**
+ * @brief Configuration for image-to-image (img2img) generation.
+ *
+ * Extends SDGenerationConfig with an input image and denoising strength.
+ */
+struct Img2ImgConfig : public SDGenerationConfig {
+    std::vector<uint8_t> input_image_rgb;   // Raw RGB byte buffer of the input image
+    int         input_width  = 0;           // Width of the input image
+    int         input_height = 0;           // Height of the input image
+    float       strength = 0.75f;           // Denoising strength [0.0, 1.0]; 1.0 = fully redraw
+    std::vector<uint8_t> mask_rgb;          // Optional binary mask (white = repaint); empty = no mask
+};
+
+/**
  * @brief Pure-virtual interface for image-generation backends.
  *
  * Implementations: SDPlugin (stable-diffusion.cpp), stub/test doubles.
@@ -71,6 +84,43 @@ public:
      */
     virtual GeneratedImage generate(const std::string& prompt,
                                     const SDGenerationConfig& cfg) = 0;
+
+    /**
+     * @brief Generate multiple images from a list of prompts.
+     *
+     * Default implementation calls generate() for each prompt independently.
+     * Backends may override with a parallelised implementation.
+     * Content-policy screening is applied to each prompt independently.
+     *
+     * @param prompts  List of text prompts (one per image).
+     * @param cfg      Shared generation config applied to every prompt.
+     * @return         One GeneratedImage per prompt, in the same order.
+     */
+    virtual std::vector<GeneratedImage> generateBatch(
+            const std::vector<std::string>& prompts,
+            const SDGenerationConfig& cfg) {
+        std::vector<GeneratedImage> results;
+        results.reserve(prompts.size());
+        for (const auto& p : prompts) {
+            results.push_back(generate(p, cfg));
+        }
+        return results;
+    }
+
+    /**
+     * @brief Modify an existing image guided by a text prompt (img2img).
+     *
+     * Default implementation falls back to generate(prompt, cfg) ignoring the
+     * input image.  Backends with real model support override this method.
+     *
+     * @param prompt  Text prompt describing the desired output.
+     * @param cfg     Img2Img config including the input image and denoising strength.
+     * @return        GeneratedImage with the result.
+     */
+    virtual GeneratedImage generateImg2Img(const std::string& prompt,
+                                           const Img2ImgConfig& cfg) {
+        return generate(prompt, cfg);
+    }
 
     /**
      * @brief Content-policy check.  Returns false for blocked prompts.

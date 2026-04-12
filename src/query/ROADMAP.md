@@ -61,7 +61,30 @@ Production-ready multi-model query engine supporting relational, document, graph
 
 ## In Progress 🚧
 
-- [~] `QueryEngine` graph traversal: edge-type filtering — `query_engine.cpp` line 3533 has a TODO ("Add edge type filtering once exposed in `TraversalQuery` struct"); depends on graph module exposing the field (Target: v1.9.0)
+- [~] `QueryEngine` graph traversal: edge-type filtering — ✅ implemented in v2.0.0 as optional `edgeTypeFilter` parameter to `executeGeneralTraversal()`. Edges are matched by `adj.graphId` (same convention as `RecursivePathQuery::edge_type`). (Target: v1.9.0 → shipped v2.0.0)
+
+## Completed (v2.0.0) ✅
+
+- [x] **Edge-type filtering in `executeGeneralTraversal()`** — optional `edgeTypeFilter` parameter added to `include/query/query_engine.h` and `src/query/query_engine.cpp`. Edges are filtered by `adj.graphId` (same convention as `RecursivePathQuery::edge_type`). Old callers unaffected (default: `""`).
+- [x] **`IQueryRewriteRule` + `QueryRewritePipeline`** — `include/query/query_rewrite_rule.h` + `src/query/query_rewrite_rule.cpp`
+  - 5 built-in rules: `PredicatePushdownRule`, `ProjectionPushdownRule`, `OrToInRewriteRule`, `ConstantFoldingRule`, `CommonSubexpressionRule`
+  - Fixed-point iteration (`max_iterations=5`); `createDefault()` factory
+  - `RewriteContext` (row counts, OR threshold, constant-folding flag) + `RewriteStats` (rules applied, transformation count)
+- [x] **`IQueryProfiler` / `QueryProfiler` / `NullQueryProfiler`** — `include/query/query_profiler.h` + `src/query/query_profiler.cpp`
+  - `OperatorProfile` (name, duration_ns, rows_in/out, memory_bytes, io_reads)
+  - `QueryProfile` (total_duration_ns, peak_memory_bytes, operators, result_rows, cache_hit, slowestOperator())
+  - `QueryProfiler`: wall-clock timing via `std::chrono::steady_clock`; `NullQueryProfiler`: zero-overhead no-op
+- [x] **`IApproximateAggregator` + three concrete implementations** — `include/query/approximate_aggregator.h` + `src/query/approximate_aggregator.cpp`
+  - `ApproximateCountDistinct`: HyperLogLog++ (precision 4–18; default 12 → ~1.6 % error; merge support)
+  - `ApproximatePercentile`: t-Digest (configurable compression; median, p95, merge, interpolation)
+  - `SamplingAggregator`: reservoir sampling (COUNT/AVG/SUM; configurable reservoir size; 1 % scale-up)
+  - Hash function: FNV-1a with MurmurHash3 64-bit avalanche finalizer for uniform top-bit distribution
+- [x] **54 focused tests** in `tests/test_query_future_interfaces.cpp` (`QueryFutureInterfacesFocusedTests`)
+  - 24 rewrite rule tests (all 5 rules + pipeline stats + fixed-point)
+  - 8 profiler tests (timing, cache-hit, operators, reset, NullProfiler, peak memory)
+  - 9 HyperLogLog tests (precision, error rate, small/large sets, duplicates, merge, reset)
+  - 6 t-Digest tests (median, p95, merge, reset)
+  - 7 reservoir sampling tests (COUNT/AVG/SUM, cap, non-numeric skip, reset)
 
 ## Completed (v1.9.0) ✅
 
@@ -82,8 +105,8 @@ Production-ready multi-model query engine supporting relational, document, graph
 
 ### Short-term (v1.9.0, Q2 2026)
 
-- [ ] Edge-type filtering in graph traversal (`TraversalQuery` struct extension) (Target: v1.9.0)
-- [ ] `QueryFederation` shard-key routing (see In Progress above) (Target: v1.9.0)
+- [ ] Edge-type filtering in graph traversal (`TraversalQuery` struct extension) (Target: v1.9.0) — ✅ implemented: `executeGeneralTraversal()` now accepts optional `edgeTypeFilter` parameter
+- [ ] `QueryFederation` shard-key routing (see In Progress above) (Target: v1.9.0) — ✅ already completed (v1.9.0)
   - Inputs: AQL query with shard-key predicate; `ShardingManager` interface
   - Outputs: routed plan executing on ≤ N relevant shards
   - Errors: shard unreachable → skip with `WARN`; no shard-key predicate → broadcast + `WARN` if > 10 shards
@@ -111,8 +134,8 @@ Production-ready multi-model query engine supporting relational, document, graph
   - Errors: cold-start fallback to heuristic cost model; inference latency > 10 ms → fallback
   - Tests: A/B accuracy vs. heuristic on 20 synthetic datasets; assert cost error < 15 %
   - Perf: inference latency ≤ 5 ms at p99
-- [ ] Approximate query processing (Target: Q4 2026)
-  - Affected: `src/query/statistical_aggregator.cpp`, `include/query/statistical_aggregator.h`
+- [ ] Approximate query processing (Target: Q4 2026) — 🟡 **interface & reference implementation shipped in v2.0.0**
+  - Affected: `include/query/approximate_aggregator.h`, `src/query/approximate_aggregator.cpp`
   - Techniques: HyperLogLog for `COUNT DISTINCT`, t-Digest for percentiles, 1 % sampling for aggregations
   - Errors: insufficient sample size → structured error; incompatible expression type → `UNSUPPORTED_OPERATION`
   - Tests: accuracy within 1 % of exact results on 1M-row dataset; performance ≥ 50× faster than exact path
@@ -214,7 +237,7 @@ Production-ready multi-model query engine supporting relational, document, graph
 
 - **`AQLParser` is NOT thread-safe**: each thread must own its own `AQLParser` instance or protect shared instances with a mutex. Thread-safe wrapper is planned but not yet scheduled.
 - **`QueryEngine::createDefault()` unimplemented**: throws `std::runtime_error`. Use constructor injection (`IStorageEnginePtr` + `IIndexManagerPtr`) until concrete interface adapters are wired (v1.9.0).
-- **Graph traversal edge-type filtering missing**: `TraversalQuery` struct does not yet expose an edge-type filter field (`query_engine.cpp` line 3533 TODO). Traversals match all edge types. Depends on the graph module exposing the field.
+- **Graph traversal edge-type filtering** — ✅ resolved in v2.0.0: `executeGeneralTraversal()` now accepts an optional `edgeTypeFilter` parameter. Edges are matched by `adj.graphId` (same convention as `RecursivePathQuery::edge_type`).
 - **Stale statistics for cost estimation**: statistics used for cardinality estimation can become stale over time as data grows, leading to suboptimal join ordering. Workaround: restart or manually trigger `StatisticsCollector::refresh()`. Continuous incremental stats collection is planned.
 - **JIT compilation requires matching compiler ABI**: `QueryCompiler` hot-path specialisation relies on the same compiler toolchain used for the server binary. Cross-compiled or plugin-loaded UDFs may have ABI mismatches.
 - **SQL compatibility layer covers DML only** (SELECT/INSERT/UPDATE/DELETE); DDL (CREATE TABLE, ALTER TABLE) is not translated and returns `UNSUPPORTED_OPERATION`.

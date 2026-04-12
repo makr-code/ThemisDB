@@ -57,8 +57,10 @@ TEST(MqttClientServiceFocusedTests, SkippedMqttDisabled) {
 #include "server/mqtt_client_service.h"
 
 #include <atomic>
+#include <chrono>
 #include <memory>
 #include <string>
+#include <thread>
 #include <vector>
 
 using namespace themis::server;
@@ -564,5 +566,148 @@ TEST(MqttRetryConfigFocusedTests, DefaultExponentialBackoff) {
     MqttRetryConfig r;
     EXPECT_TRUE(r.exponentialBackoff);
 }
+
+// ── TLS configuration (AC-TLS) ───────────────────────────────────────────────
+// These tests validate the TLS fields of MqttClientConfig.  They run in all
+// builds regardless of THEMIS_ENABLE_MQTT_TLS because the TLS fields are
+// always present in MqttClientConfig (the config struct is not gated).
+
+TEST(MqttClientTlsConfigTests, TlsEnabledDefaultsFalse) {
+    MqttClientConfig cfg;
+    EXPECT_FALSE(cfg.tls_enabled);
+}
+
+TEST(MqttClientTlsConfigTests, TlsCertPathDefaultsEmpty) {
+    MqttClientConfig cfg;
+    EXPECT_TRUE(cfg.tls_cert_path.empty());
+}
+
+TEST(MqttClientTlsConfigTests, TlsKeyPathDefaultsEmpty) {
+    MqttClientConfig cfg;
+    EXPECT_TRUE(cfg.tls_key_path.empty());
+}
+
+TEST(MqttClientTlsConfigTests, TlsCaPathDefaultsEmpty) {
+    MqttClientConfig cfg;
+    EXPECT_TRUE(cfg.tls_ca_path.empty());
+}
+
+TEST(MqttClientTlsConfigTests, TlsEnabledCanBeSetTrue) {
+    MqttClientConfig cfg;
+    cfg.tls_enabled = true;
+    EXPECT_TRUE(cfg.tls_enabled);
+}
+
+TEST(MqttClientTlsConfigTests, TlsCertPathCanBeSet) {
+    MqttClientConfig cfg;
+    cfg.tls_cert_path = "/etc/certs/client.pem";
+    EXPECT_EQ(cfg.tls_cert_path, "/etc/certs/client.pem");
+}
+
+TEST(MqttClientTlsConfigTests, TlsKeyPathCanBeSet) {
+    MqttClientConfig cfg;
+    cfg.tls_key_path = "/etc/certs/client.key";
+    EXPECT_EQ(cfg.tls_key_path, "/etc/certs/client.key");
+}
+
+TEST(MqttClientTlsConfigTests, TlsCaPathCanBeSet) {
+    MqttClientConfig cfg;
+    cfg.tls_ca_path = "/etc/certs/ca-bundle.pem";
+    EXPECT_EQ(cfg.tls_ca_path, "/etc/certs/ca-bundle.pem");
+}
+
+TEST(MqttClientTlsConfigTests, TlsPortConventionIs8883) {
+    // RFC convention: plain MQTT = 1883, MQTT over TLS = 8883
+    MqttClientConfig cfg;
+    cfg.tls_enabled = true;
+    cfg.broker_port  = 8883;
+    EXPECT_EQ(cfg.broker_port, uint16_t{8883});
+    EXPECT_TRUE(cfg.tls_enabled);
+}
+
+TEST(MqttClientTlsConfigTests, TlsConfigPreservedInService) {
+    MqttClientConfig cfg;
+    cfg.tls_enabled   = true;
+    cfg.broker_port   = 8883;
+    cfg.tls_cert_path = "/certs/c.pem";
+    cfg.tls_key_path  = "/certs/c.key";
+    cfg.tls_ca_path   = "/certs/ca.pem";
+
+    MqttClientService svc(cfg);
+    const auto& stored = svc.getConfig();
+    EXPECT_TRUE(stored.tls_enabled);
+    EXPECT_EQ(stored.broker_port, uint16_t{8883});
+    EXPECT_EQ(stored.tls_cert_path, "/certs/c.pem");
+    EXPECT_EQ(stored.tls_key_path, "/certs/c.key");
+    EXPECT_EQ(stored.tls_ca_path, "/certs/ca.pem");
+}
+
+TEST(MqttClientTlsConfigTests, TlsDisabledDoesNotChangePort) {
+    // Leaving tls_enabled=false should keep the default plain-text port.
+    MqttClientConfig cfg;
+    EXPECT_FALSE(cfg.tls_enabled);
+    EXPECT_EQ(cfg.broker_port, uint16_t{1883});
+}
+
+TEST(MqttClientTlsConfigTests, MutualTlsBothPathsSet) {
+    // A valid mutual-TLS config must supply both cert and key paths.
+    MqttClientConfig cfg;
+    cfg.tls_enabled   = true;
+    cfg.tls_cert_path = "/certs/client.crt";
+    cfg.tls_key_path  = "/certs/client.key";
+    // No CA path → server cert will not be verified (verify_none).
+    EXPECT_FALSE(cfg.tls_cert_path.empty());
+    EXPECT_FALSE(cfg.tls_key_path.empty());
+    EXPECT_TRUE(cfg.tls_ca_path.empty());
+}
+
+TEST(MqttClientTlsConfigTests, CaOnlyConfigEnablesPeerVerification) {
+    // CA path alone enables server-cert verification without mutual TLS.
+    MqttClientConfig cfg;
+    cfg.tls_enabled = true;
+    cfg.tls_ca_path = "/certs/ca.pem";
+    EXPECT_FALSE(cfg.tls_ca_path.empty());
+    EXPECT_TRUE(cfg.tls_cert_path.empty());
+    EXPECT_TRUE(cfg.tls_key_path.empty());
+}
+
+#ifdef THEMIS_ENABLE_MQTT_TLS
+// When compiled with TLS support, verify that starting a service with
+// tls_enabled=true and a non-existent CA path causes a graceful failure
+// (scheduleReconnect) rather than a crash or exception propagation.
+TEST(MqttClientTlsRuntimeTests, StartWithBadCaPathDoesNotCrash) {
+    MqttClientConfig cfg;
+    cfg.broker_host  = "127.0.0.1";
+    cfg.broker_port  = 8883;
+    cfg.tls_enabled  = true;
+    cfg.tls_ca_path  = "/nonexistent/path/ca.pem";
+    cfg.retry.maxRetries = 0; // do not retry so the test terminates quickly
+
+    MqttClientService svc(cfg);
+    // start() is non-blocking and must not throw
+    EXPECT_NO_THROW(svc.start());
+    // Brief wait so the I/O thread has time to attempt a connection
+    std::this_thread::sleep_for(std::chrono::milliseconds(150));
+    svc.stop();
+    // The service must not be in a connected state
+    EXPECT_FALSE(svc.isConnected());
+}
+
+TEST(MqttClientTlsRuntimeTests, StartWithTlsDisabledIsUnaffectedByTlsPaths) {
+    // Even if tls_* paths are set, they are ignored when tls_enabled=false.
+    MqttClientConfig cfg;
+    cfg.broker_host   = "127.0.0.1";
+    cfg.broker_port   = 1883;
+    cfg.tls_enabled   = false;
+    cfg.tls_ca_path   = "/nonexistent/ca.pem"; // should be ignored
+    cfg.retry.maxRetries = 0;
+
+    MqttClientService svc(cfg);
+    EXPECT_NO_THROW(svc.start());
+    std::this_thread::sleep_for(std::chrono::milliseconds(50));
+    svc.stop();
+    EXPECT_FALSE(svc.isConnected());
+}
+#endif // THEMIS_ENABLE_MQTT_TLS
 
 #endif // THEMIS_ENABLE_MQTT

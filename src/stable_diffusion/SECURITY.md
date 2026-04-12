@@ -17,7 +17,7 @@ This document covers the security posture of the Stable Diffusion image generati
 | Threat | Attack Vector | Mitigation |
 |--------|--------------|------------|
 | Harmful image generation | User supplies a prompt designed to produce CSAM or other prohibited content | `SDPromptSanitizer::isAllowed()` called before every `generate()`; blocked prompts never reach the model |
-| Prompt injection via negative_prompt | Attacker injects override instructions via `negative_prompt` field | `negative_prompt` is passed verbatim to the model; content-policy sanitizer currently covers only the positive prompt — applying the sanitizer to `negative_prompt` is planned for v2.1.0 |
+| Prompt injection via negative_prompt | Attacker injects override instructions via `negative_prompt` field | `SDPlugin` calls `SDPromptSanitizer::isAllowed()` on `cfg.negative_prompt` before every generate call since v2.1.0; blocked negative prompts return `success=false` |
 | Model file tampering | Crafted model file injecting unexpected behaviour | Planned SHA-256 digest check before model load (Target: v2.1.0) |
 | Path traversal via `blocked_keywords_file` | Attacker supplies `../../etc/passwd` as keyword file path | `SDPromptSanitizer::fromFile` opens only regular files; path normalisation is the responsibility of the caller |
 | Denial of service via large generation | Attacker requests 8192×8192 images flooding GPU VRAM | Callers and the API layer must enforce max dimensions; `SDPlugin` itself has no dimension cap in v2.0.0 |
@@ -49,7 +49,7 @@ This document covers the security posture of the Stable Diffusion image generati
 - [x] Blocked prompts return error, not silently succeed
 - [x] Exception isolation: generator exceptions caught in `SDPlugin`
 - [x] Prompt hash in audit log for blocked prompts
-- [ ] Apply sanitizer to `negative_prompt` (Target: v2.1.0)
+- [x] Apply sanitizer to `negative_prompt` (v2.1.0 ✅)
 - [ ] Model file integrity check (Target: v2.1.0)
 - [ ] Maximum dimension enforcement (caller / API layer responsibility)
 - [ ] Rate limiting (caller / API layer responsibility)

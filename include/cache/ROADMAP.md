@@ -27,7 +27,10 @@ fully implemented and tested. TinyLFU L1 policy added.
 - [x] `CacheReplicationManager` for HA
 - [x] `RedisCacheCoordinator` with HMAC-SHA256 signing
 - [x] `GRPCRemoteCachePeer` for gRPC remote invalidation
-- [x] `RequestCoalescer` for concurrent miss deduplication
+- [x] `RequestCoalescer` for concurrent miss deduplication — **real Singleflight implementation (2026-04-12)**
+  - `promise/shared_future` inflight map; fn() called once per in-flight key
+  - Exception from fn() propagated as `success=false` to all waiters
+  - 14 tests (RC-01…RC-14) in `tests/test_request_coalescer.cpp`
 - [x] `PredictivePrefetcher`
 - [x] `AlignedVectorAllocator` for SIMD-aligned embedding storage
 

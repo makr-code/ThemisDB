@@ -2,7 +2,7 @@
 
 ## Development Status
 
-As of **2026-04-03 (UTC)**, the current released version of ThemisDB is **v1.8.0**.
+As of **2026-04-12 (UTC)**, the current released version of ThemisDB is **v1.8.0**.
 
 ### Completed Phases
 
@@ -62,11 +62,28 @@ As of **2026-04-03 (UTC)**, the current released version of ThemisDB is **v1.8.0
 
 **Selected highlights across modules:**
 - **Phase 4 completion:** Epoch fencing (4.1), automatic failover orchestration (4.2), chaos framework (4.3), and disaster recovery orchestration (4.4) are implemented and phase4-focused tests are green.
-- **Cache (v1.9.0):** Lock-free L1 read path (`std::shared_mutex`), atomic `L1Entry` fields, lazy expiry via CAS.
+- **Cache (v1.9.0):** Lock-free L1 read path (`std::shared_mutex`), atomic `L1Entry` fields, lazy expiry via CAS. `RequestCoalescer` real Singleflight implementation shipped ([#4580](https://github.com/makr-code/ThemisDB/issues/4580): promise/shared_future inflight map, 14 tests RC-01…RC-14).
 - **Prompt Engineering:** Typed DSL for structured prompt authoring, token budget manager, context-window enforcement.
 - **Search:** Additional HybridSearch and multi-modal search hardening.
 - **Server (MQTT, v1.9.0):** `MqttClientService` + `MqttCDCTransport`, Boost.Asio async I/O, RPCServiceRegistry integration.
 - **Prompt Library IO (v2.0.0):** `PromptLibraryBundle` with FNV-1a checksum, JSON+YAML export, A/B experiment framework.
+- **Analytics:** `IStreamingJoin` / `HashJoin` / `IntervalJoin` shipped ([#4576](https://github.com/makr-code/ThemisDB/issues/4576): composite-key hash table, inner/left-outer join, `IntervalJoin` with LRU pruning, 15 tests SJ-01…SJ-15) (2026-04-12).
+- **Storage:** `StreamingIngestManager` ([#4571](https://github.com/makr-code/ThemisDB/issues/4571): ring-buffer + flush-thread, ≥1 M events/s) and `ColumnarCache` ([#4572](https://github.com/makr-code/ThemisDB/issues/4572): LRU + PinGuard RAII) shipped (2026-04-12).
+- **Timeseries:** `TsStreamCursor` ([#4573](https://github.com/makr-code/ThemisDB/issues/4573): lazy paginated iterator, page_size=4 096) and `TSStore::putBatch` ([#4574](https://github.com/makr-code/ThemisDB/issues/4574): zero-copy batch write via single `WriteBatch`) shipped (2026-04-12).
+- **Temporal:** `TemporalCompressor` LZ4 support added ([#4575](https://github.com/makr-code/ThemisDB/issues/4575)) (2026-04-12).
+- **Performance:** `LockFreeHistogram<T>` header-only with atomic buckets, P50/P90/P99 ([#4577](https://github.com/makr-code/ThemisDB/issues/4577)); LIRS cache `shared_mutex` race fixed ([#4578](https://github.com/makr-code/ThemisDB/issues/4578)); RCU `readers_active()` fixed ([#4579](https://github.com/makr-code/ThemisDB/issues/4579)) (2026-04-12).
+- **Acceleration:** `AiHardwareDispatcher` v1.0 with NPU priority chain shipped ([#4584](https://github.com/makr-code/ThemisDB/issues/4584)); NCCL/RCCL `mergeTopK` complete ([#4585](https://github.com/makr-code/ThemisDB/issues/4585)); all Phase 1–6 items now [x] (2026-04-12).
+- **Network:** `IoUringBatchedSender` (single `io_uring_enter()` for N WireProtocolBatcher flushes) shipped ([#4581](https://github.com/makr-code/ThemisDB/issues/4581)) (2026-04-12).
+- **Utils:** UUID v7 (`generate_uuid_v7()`, RFC 9562) ([#4582](https://github.com/makr-code/ThemisDB/issues/4582)) and streaming ZSTD (`zstd_compress_stream`/`zstd_decompress_stream`) ([#4583](https://github.com/makr-code/ThemisDB/issues/4583)) shipped (2026-04-12).
+- **Maintenance:** MVCC_CLEANUP ([#4586](https://github.com/makr-code/ThemisDB/issues/4586)) and STORAGE_COMPACTION ([#4587](https://github.com/makr-code/ThemisDB/issues/4587)) wired in `http_server.cpp` (2026-04-12).
+- **Index:** Concurrent-Unique-Lücke fix (sentinel key locking in `updateIndexesForPut_`) ([#4588](https://github.com/makr-code/ThemisDB/issues/4588)); secondary index performance improvements via `SecondaryIndexMetadataCache` ([#4589](https://github.com/makr-code/ThemisDB/issues/4589)) (2026-04-12).
+- **Stable Diffusion plugin v2.2.0** ([#4590](https://github.com/makr-code/ThemisDB/issues/4590)): `SDCppGenerator` wrapping `stable-diffusion.cpp` C API (THEMIS_ENABLE_STABLE_DIFFUSION); real IDAT PNG encoder (`encodeMinimalPng` stored-deflate + CRC32 + Adler32); `SDStubGenerator::generateImg2Img` pass-through; 51 tests A-Q (2026-04-12).
+- **WhisperPlugin v2.1.0** ([#4591](https://github.com/makr-code/ThemisDB/issues/4591)): thread-safe via `transcriber_mutex_` + `std::atomic` counters; `FfmpegAudioChunkReader` (popen ffmpeg, shell-escaped path, 500 MB cap); `CompositeAudioChunkReader`; 36 tests A-L (2026-04-12).
+- **Sharding: Paxos WAL durability** ([#4592](https://github.com/makr-code/ThemisDB/issues/4592)): `handlePrepare`/`handleAccept` call `wal_->logPromise()`/`logAccept()` before returning; `recoverFromWAL()` restores instances on restart; 10 tests PSR-01…PSR-10 (2026-04-12).
+- **Sharding: `ShardRPCClient::writeEntity()`** ([#4593](https://github.com/makr-code/ThemisDB/issues/4593)): gRPC `ReplicateData` RPC for cross-shard writes; `handleWriteEntityGrpc()` wired in `sendRequestGrpc()` (2026-04-12).
+- **Process: `ProcessLinker` hard-delete + secondary index** ([#4594](https://github.com/makr-code/ThemisDB/issues/4594)): `detachObject()` uses `db_.del()` hard delete (no tombstone); secondary index `proc:obj_idx:<object_id>:<collection>:<instance_id>`; `findInstancesWithObject()` scans `obj_idx` prefix; 6 tests PL-01…PL-06 (2026-04-12).
+- **Process: `BpmnSerializer` state-machine tokenizer** ([#4595](https://github.com/makr-code/ThemisDB/issues/4595)): `importXml()` rewritten with `tokenizeXml`/`parseAttrs`/`stripNs`/`unescapeXml` (no regex); `bpmn:` prefix, nested `subProcess`, CDATA, 10 MiB guard; 11 tests PM-01…PM-11 (2026-04-12).
+- **Ethics AI v0.2.0** ([#4596](https://github.com/makr-code/ThemisDB/issues/4596)): `PhilosophyLoader` rich YAML (complex thesis objects, point-keyed strengths/weaknesses, nested `decision_framework`); `EthicsEvaluator::Config` configurable weights; `ChainVisualizer` `exportDot`/`exportMermaid`/`chainToDot`/`chainToMermaid`; 8 tests CV-01…CV-08 (2026-04-12).
 
 **Current focus after Phase 4:**
 - Phase 5 operational tooling (admin CLI, repair dashboard, ops runbooks).

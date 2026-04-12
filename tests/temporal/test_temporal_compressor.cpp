@@ -157,3 +157,79 @@ TEST_F(TemporalCompressorTest, CompressHistory_CompressImmediately_DoesNotSkip) 
     EXPECT_EQ(stats.versions_skipped, 0u);
 }
 
+// ── LZ4 algorithm tests (TC-LZ4-01 … TC-LZ4-05) ─────────────────────────────
+
+TEST_F(TemporalCompressorTest, TCLZ4_01_AlgorithmName) {
+    EXPECT_EQ(TemporalCompressor::algorithmName(CompressionAlgorithm::LZ4), "LZ4");
+}
+
+TEST_F(TemporalCompressorTest, TCLZ4_02_CompressHistoryLZ4ProcessesVersions) {
+    auto table = SystemVersionedTable::createVersionedTable("lz4_tbl", {});
+    table.insert("key1", {{"x", 1}, {"y", "hello"}});
+    table.upsert("key1", {{"x", 2}, {"y", "world"}});
+    table.upsert("key1", {{"x", 3}, {"y", "foo"}});
+
+    CompressionConfig cfg;
+    cfg.algorithm            = CompressionAlgorithm::LZ4;
+    cfg.compress_immediately = true;
+
+    auto stats = compressor.compressHistory(table, {0, kMaxTimestamp}, cfg);
+    EXPECT_GT(stats.versions_compressed, 0u);
+    EXPECT_EQ(stats.errors.size(), 0u);
+}
+
+TEST_F(TemporalCompressorTest, TCLZ4_03_DecompressRoundTrip) {
+    auto table = SystemVersionedTable::createVersionedTable("lz4_rt", {});
+    const nlohmann::json payload = {{"sensor", "temp"}, {"val", 99.7}, {"tag", "abc"}};
+    table.insert("k1", payload);
+
+    CompressionConfig cfg;
+    cfg.algorithm            = CompressionAlgorithm::LZ4;
+    cfg.compress_immediately = true;
+
+    auto stats = compressor.compressHistory(table, {0, kMaxTimestamp}, cfg);
+    ASSERT_GT(stats.versions_compressed, 0u) << "Nothing was compressed";
+
+    // Retrieve the compressed version and decompress it.
+    auto versions = table.getHistory("k1");
+    ASSERT_FALSE(versions.empty());
+
+    const nlohmann::json& stored = versions.front().data;
+    ASSERT_TRUE(stored.contains("__compressed")) << "Expected compressed payload";
+    EXPECT_EQ(stored["__compressed"].get<std::string>(), "lz4");
+
+    auto decoded = compressor.decompress(stored);
+    ASSERT_TRUE(decoded) << decoded.error().message();
+    EXPECT_EQ(*decoded, payload);
+}
+
+TEST_F(TemporalCompressorTest, TCLZ4_04_CompressionRatioPositive) {
+    auto table = SystemVersionedTable::createVersionedTable("lz4_ratio", {});
+    // Insert repetitive data to get measurable compression.
+    for (int i = 0; i < 10; ++i) {
+        table.insert("k" + std::to_string(i),
+                     {{"a", "aaaaaaaaaa"}, {"b", "bbbbbbbbbb"}, {"n", i}});
+    }
+
+    CompressionConfig cfg;
+    cfg.algorithm            = CompressionAlgorithm::LZ4;
+    cfg.compress_immediately = true;
+
+    auto stats = compressor.compressHistory(table, {0, kMaxTimestamp}, cfg);
+    EXPECT_GT(stats.versions_compressed, 0u);
+    EXPECT_GT(stats.original_size_bytes,  0u);
+    EXPECT_GT(stats.compressed_size_bytes, 0u);
+}
+
+TEST_F(TemporalCompressorTest, TCLZ4_05_EmptyTableNoError) {
+    auto table = SystemVersionedTable::createVersionedTable("lz4_empty", {});
+
+    CompressionConfig cfg;
+    cfg.algorithm            = CompressionAlgorithm::LZ4;
+    cfg.compress_immediately = true;
+
+    auto stats = compressor.compressHistory(table, {0, kMaxTimestamp}, cfg);
+    EXPECT_EQ(stats.versions_compressed, 0u);
+    EXPECT_EQ(stats.errors.size(), 0u);
+}
+

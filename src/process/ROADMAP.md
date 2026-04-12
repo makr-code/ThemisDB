@@ -14,12 +14,12 @@ Beta-ready for core process modelling (BPMN, EPK, VCC-VPB), process linking, and
 ## Completed ✅
 
 - [x] `ProcessModelManager`: import/export BPMN 2.0, EPK, VCC-VPB YAML
-- [x] BPMN 2.0 XML serializer with all node/edge types (regex-based, lenient)
+- [x] BPMN 2.0 XML serializer – state-machine tokenizer (namespace-aware, no regex, nested sub-processes, `conditionExpression` child, 10 MiB security guard)
 - [x] EPK text and JSON serializer
 - [x] `VccVpbImporter`: single model, batch list, and directory import
 - [x] `LlmProcessDescriptor`: generate structured JSON descriptor + system-prompt-ready text; conformance-checking prompt builder; multi-model summary
 - [x] Base-entity storage layer (`proc:def:` key prefix, versioned revisions)
-- [x] `ProcessLinker`: attach/detach documents and metadata to process instances
+- [x] `ProcessLinker`: attach/detach documents and metadata to process instances (hard-delete via `db_.del()`, secondary index `proc:obj_idx:` for `findInstancesWithObject()`)
 - [x] `ProcessLinker`: process-to-process linking (sub-process, cross-reference, triggers)
 - [x] `ProcessLinker`: required document registry per process node
 - [x] `ProcessLinker`: missing document detection via cross-reference
@@ -32,7 +32,9 @@ Beta-ready for core process modelling (BPMN, EPK, VCC-VPB), process linking, and
 - [x] `ProcessGraphRag`: similar case finding via cosine + Jaccard fallback (`findSimilarCases`)
 - [x] `ProcessGraphRag`: German and English LLM prompt builder
 - [x] 17 pre-loaded VCC-VPB administrative models (5 domains: Verwaltung, IT, Gesundheit, Finanzen, Kundenservice)
-- [x] AQL-queryable `_process_definitions` system collection (base-entity layer)
+- [x] 6 focused tests PL-01…PL-06 for `ProcessLinker` hard-delete + secondary-index behaviour (Issue: #4594) (2026-04-12)
+- [x] **`BpmnSerializer` state-machine tokenizer** (`importXml()`) — `tokenizeXml`/`parseAttrs`/`stripNs`/`unescapeXml`; handles `bpmn:` namespace prefixes, nested `subProcess`, `conditionExpression` child text, comments/PIs/CDATA; 10 MiB security guard; no regex (Issue: #4595) (2026-04-12)
+- [x] 11 focused tests PM-01…PM-11 for BPMN state-machine parser (Issue: #4595) (2026-04-12)
 - [x] `ProcessRagConfig` struct with full tuning parameters
 
 ## In Progress 🚧
@@ -103,14 +105,14 @@ Beta-ready for core process modelling (BPMN, EPK, VCC-VPB), process linking, and
 ### Phase 1: Core Process Modelling (Status: Completed ✅)
 
 - [x] `ProcessModelManager` CRUD with RocksDB storage
-- [x] BPMN 2.0 XML import/export (`BpmnSerializer`)
+- [x] BPMN 2.0 XML import/export (`BpmnSerializer`) — state-machine tokenizer (v1.0.1, Issue: #4595)
 - [x] EPK text/JSON import/export (`EpkSerializer`)
 - [x] VCC-VPB YAML import (`VccVpbImporter`)
 - [x] LLM descriptor generation (`LlmProcessDescriptor`)
 
 ### Phase 2: Linking & Attachment (Status: Completed ✅)
 
-- [x] `ProcessLinker`: attach documents and metadata to instances
+- [x] `ProcessLinker`: attach documents and metadata to instances — hard delete via `db_.del()`, secondary index `proc:obj_idx:` (Issue: #4594)
 - [x] `ProcessLinker`: process-to-process links (sub-process, cross-reference, triggers)
 - [x] Required document registry per process node
 - [x] Missing document detection via cross-reference
@@ -208,9 +210,7 @@ Beta-ready for core process modelling (BPMN, EPK, VCC-VPB), process linking, and
 
 ## Known Issues & Limitations
 
-- BPMN parser uses regex (not a full DOM/SAX parser); complex nested BPMN structures (e.g., deeply nested sub-process pools) may not parse correctly.
 - Embedding-based similarity search in `findSimilarCases()` requires pre-computed embeddings stored under `proc:inst_emb:<id>`; auto-generation is not yet implemented.
 - VCC-VPB YAML parser handles the VCC-VPB subset; full YAML 1.2 constructs (anchors, custom tags) are not supported.
 - EPK import uses implicit sequential flow for lines without explicit arrows; complex EPK models with branches may require manual edge specification.
-- `detachObject()` writes a tombstone (soft delete) rather than a hard RocksDB delete, because the `RocksDBWrapper` API does not expose a `remove()` method; scans skip tombstoned entries.
-- `findInstancesWithObject()` performs a full prefix scan; this can be slow for very large instance sets. A secondary index over `object_id` is planned for Phase 4.
+- `findInstancesWithObject()` now uses a secondary reverse-lookup index (`proc:obj_idx:`) for O(prefix-scan) performance; the index is maintained by `attachObject()`/`detachObject()`. Attachments created before this change (that lack index entries) will not appear in the index scan but will still appear in `getAttachments()` direct scans.

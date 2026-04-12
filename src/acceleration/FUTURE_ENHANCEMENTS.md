@@ -74,6 +74,7 @@ std::vector<SearchResult> CUDAVectorBackend::batchSimilaritySearch(
 - `[x]` `ncclGroupStart()` / `ncclGroupEnd()` bracket pipelining both AllGather calls and both Bcast calls.
 - `[x]` `(void)root; (void)stream;` suppression lines removed.
 - `[x]` Tests added to `tests/test_collective_backends.cpp` validating single-rank copy correctness and k > localK rejection.
+- `[x]` Integration test `tests/acceleration/test_nccl_merge_topk.cpp` added: 13 CPU-side merge-algorithm simulation tests (worldSize ∈ {2, 4, 8}, k ∈ {10, 100, 256}) plus 6 NCCL single-rank device tests (skipped without hardware) and 6 RCCL single-rank device tests (skipped without hardware); registered in `tests/CMakeLists.txt` as `NCCLMergeTopKFocusedTests`.
 
 **Performance Targets:**
 - 100M × 128-dim index distributed across 4× A100 80 GB; p99 query latency < 15 ms for k=100.
