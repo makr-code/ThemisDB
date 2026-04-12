@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **`UpdateStateMachine` rollback checkpoint API** (v1.8.0)
+  - `createCheckpoint(description)` → `CheckpointId`: captures current state and version as an in-memory rollback point
+  - `rollbackToCheckpoint(id)`: restores state + version, prunes newer checkpoints, fires state-change callbacks, and records a transaction-log entry
+  - `listCheckpoints()`: returns all checkpoints in creation order
+  - `clearCheckpoints()`: discards all stored checkpoints
+  - `setHistoryLogger(UpdateHistoryLogger*)`: opt-in audit trail — emits `checkpoint_created` / `checkpoint_rollback` entries to the provided logger
+  - 17 new focused tests in `CheckpointTest` suite (`tests/test_updates_production.cpp`)
 ### Added — Training Module Phase 2
 
 - **`include/training/adapter_serving.h`** — New `ILLMRouter` abstract interface and `DeployResult` value type for adapter serving integration between the training module and the LLM inference layer.
