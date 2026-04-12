@@ -1087,6 +1087,7 @@ set(THEMIS_LLM_SOURCES
     ../src/rag/prompt_templates.cpp
     ../src/rag/response_parser.cpp
     ../src/training/lora_data_selection.cpp
+    ../src/training/adapter_serving.cpp
     ../src/rag/faithfulness_evaluator.cpp
     ../src/rag/relevance_evaluator.cpp
     ../src/rag/completeness_evaluator.cpp

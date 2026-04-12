@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added — Training Module Phase 2
+
+- **`include/training/adapter_serving.h`** — New `ILLMRouter` abstract interface and `DeployResult` value type for adapter serving integration between the training module and the LLM inference layer.
+- **`IncrementalLoRATrainer::deployVersionEx()` / `rollbackVersionEx()`** — Extended deploy/rollback API returning a `DeployResult` with explicit error codes (`"version_not_found"`, `"integrity_failure"`, `"router_unavailable"`, `"invalid_split"`).
+- **`IncrementalLoRATrainer::setLLMRouter(ILLMRouter*)`** — Injects an LLM router; `deployVersionEx`/`rollbackVersionEx` propagate adapter traffic weights to the live inference layer after updating the local version registry.
+- **`verifyAdapterIntegrity()`** — SHA-256 integrity check via `LoRACheckpointManager::validate()` before committing a deploy or rollback when `checkpoint_dir` is set.
+- **`DomainType` enum** (`LEGAL` / `MEDICAL` / `FINANCIAL`) in `auto_labeler.h` and `AutoLabelConfig::domain_type` field — enables domain-specific keyword extraction for medical (clinical obligation/recommendation/contraindication) and financial (regulatory obligation/prohibition/disclosure) domains in addition to the existing German legal domain.
 ### Added — 2026-04-12 Module Additions (batch 3)
 
 - **process: `ProcessLinker` hard-delete + secondary index** ([#4594](https://github.com/makr-code/ThemisDB/issues/4594)) — `detachObject()` now uses `db_.del()` hard delete (no tombstone); secondary index `proc:obj_idx:<object_id>:<collection>:<instance_id>` maintained by `attachObject`/`detachObject`; `findInstancesWithObject()` scans the `obj_idx` prefix. 6 focused tests PL-01…PL-06.
