@@ -15,55 +15,64 @@ ThemisDB is a high-performance, multi-model database system that integrates rela
 
 ## Main Directory Structure
 
-### `/src/` - Implementation (46 Core Components)
+### `/src/` - Implementation (55 Core Components)
 
 | Directory | Purpose | Key Classes |
 |-----------|---------|-------------|
-| **acceleration/** | GPU & hardware backends (CUDA, HIP, Vulkan, OpenCL) | CudaBackend, HipBackend, VulkanBackend |
-| **analytics/** | Process mining, OLAP, diff engine, NLP analysis | OlapEngine, DiffEngine, ProcessAnalyzer |
+| **acceleration/** | GPU & hardware backends (CUDA, HIP, Vulkan, OpenCL); AI hardware dispatcher with NPU priority chain | CudaBackend, HipBackend, VulkanBackend, AiHardwareDispatcher |
+| **analytics/** | Process mining, OLAP, diff engine, NLP analysis, multi-stream joins | OlapEngine, DiffEngine, ProcessAnalyzer, HashJoin, IntervalJoin |
 | **api/** | GraphQL API, HTTP server setup | GraphQLAPI |
 | **aql/** | AQL-specific handlers and assistant functions | LlmAqlHandler, DocsAssistant |
 | **auth/** | Authentication (JWT, GSSAPI, MFA) | JWTValidator, GSSAPIAuthenticator |
 | **base/** | Core module loader and initialization | ModuleLoader |
-| **cache/** | Semantic caching, query caching, embedding caching | SemanticCache, AdaptiveQueryCache |
+| **cache/** | Semantic caching, query caching, embedding caching, singleflight coalescing | SemanticCache, AdaptiveQueryCache, RequestCoalescer |
 | **cdc/** | Change Data Capture and changefeeds | ChangeFeed, ChangeBuffer |
+| **chaos/** | Fault injection framework for chaos engineering | FaultInjector, ChaosScheduler |
 | **chimera/** | Adapter factory for database compatibility | ThemisDBAdapter, IDatabaseAdapter |
 | **config/** | Backward-compatible config path resolution, LRU caching, JSON Schema validation | ConfigPathResolver, ConfigSchemaValidator, ConfigAuditLog |
 | **content/** | Multimodal ingestion (PDF, images, audio, video, CAD) | ContentManager, AsyncIngestionWorker |
 | **core/** | Security initialization, concerns context (logging, tracing) | ConcernsContext, SecurityInit |
+| **ethics_ai/** | Ethical discourse engine, 5-dimension decision scoring, RAG context retrieval | EthicsEvaluator, EthicalDiscourseEngine, RAGContextEngine |
 | **exporters/** | Data export in various formats | JsonlLlmExporter |
+| **failover/** | Automatic failover orchestration and disaster recovery plan execution | AutoFailoverManager, DisasterRecoveryOrchestrator |
 | **geo/** | Geospatial query processing and indexing | SpatialBackend, GpuBackend |
 | **governance/** | Policy engine, compliance, versioning | PolicyEngine, ComplianceReporter |
 | **graph/** | Property graphs, graph indexing, path constraints | PropertyGraph, GraphIndex |
 | **gpu/** | GPU-specific memory and acceleration | GpuMemoryManager |
-| **importers/** | Data import (PostgreSQL, etc.) | PostgresImporter |
-| **index/** | Vector indexing (HNSW, quantization), graph indices | VectorIndex, GraphIndex, HnswIndex |
+| **importers/** | Data import (PostgreSQL, MySQL/MariaDB, etc.) | PostgresImporter, MysqlImporter |
+| **index/** | Vector indexing (HNSW, quantization), graph indices, secondary indices with ACID | VectorIndex, GraphIndex, HnswIndex, SecondaryIndex |
 | **ingestion/** | Multi-source data intake (filesystem, HuggingFace, REST API), rate limiting, checkpointing | IngestionManager, FileSystemIngester, HuggingFaceConnector |
+| **llama_cpp/** | llama.cpp plugin — streaming inference, batch inference, LoRA, PluginManager hot-plug | LlamaCppPlugin, ILLMPlugin |
 | **llm/** | LLM integration, inference, LoRA, embeddings, vision | EmbeddedLlm, LoraFramework, FlashAttention |
-| **maintenance/** | Centralized DB maintenance orchestration: cron scheduling, maintenance windows, health aggregation | DatabaseMaintenanceOrchestrator, MaintenanceRegistry |
+| **maintenance/** | Centralized DB maintenance orchestration: cron scheduling, maintenance windows, health aggregation, MVCC cleanup, storage compaction | DatabaseMaintenanceOrchestrator, MaintenanceRegistry, MvccCleanupHandler, StorageCompactionHandler |
 | **metadata/** | Schema management | SchemaManager |
-| **network/** | Wire protocol, socket management | WireProtocolServer |
+| **network/** | Wire protocol, socket management, io_uring batched send | WireProtocolServer, IoUringBatchedSender |
 | **observability/** | Metrics, profiling, alerting | MetricsCollector, QueryProfiler |
-| **performance/** | Advanced data structures (RCU, LIRS, lock-free buffers) | PerformanceOptimizations |
+| **onnx_clip/** | ONNX CLIP plugin for image analysis with multi-backend (CPU/CUDA/DirectML/TensorRT) | ONNXClipPlugin, IImageAnalysisBackend |
+| **performance/** | Advanced data structures (RCU, LIRS, lock-free buffers, lock-free histograms) | PerformanceOptimizations, LockFreeHistogram, LirsCache |
 | **plugins/** | Plugin system, hot-plugging, RPC interfaces | PluginManager, PluginRegistry |
 | **process/** | BPMN 2.0, EPK, VCC-VPB process model management; LLM descriptors; Graph-RAG for Verwaltungsvorgänge | ProcessModelManager, BpmnSerializer, EpkSerializer, ProcessLinker, ProcessGraphRag |
 | **prompt_engineering/** | Prompt template lifecycle, version control, A/B testing, self-optimization, injection detection | PromptManager, PromptOptimizer, SelfImprovementOrchestrator, PromptInjectionDetector |
 | **query/** | AQL parser, optimizer, execution engine | QueryEngine, AqlParser, QueryOptimizer |
 | **rag/** | RAG evaluation (faithfulness, relevance, bias detection) | RagJudge, CoherenceEvaluator |
 | **replication/** | Multi-master replication | ReplicationManager |
+| **rpc_grpc/** | gRPC server plugin with mTLS and fail-closed TLS | GRPCServer, GRPCPlugin |
 | **scheduler/** | Task scheduling, retention management | TaskScheduler, HybridRetentionManager |
 | **search/** | Hybrid search (vector + full-text) | HybridSearch |
 | **security/** | Encryption, key management, PKI, RBAC, audit | RbacManager, FieldEncryption, KeyProvider |
 | **server/** | HTTP/gRPC servers, 40+ API handlers, rate limiting, tenant management | HttpServer, ApiGateway, QueryApiHandler, RateLimiter, TenantManager |
 | **sharding/** | Horizontal scaling, consensus (Raft/Paxos/Gossip) | ShardRouter, RaftConsensus, DistributedCoordinator |
-| **storage/** | RocksDB wrapper, compression, blob storage, transactions | StorageEngine, BlobStorageManager |
-| **temporal/** | Conflict resolution for temporal data | TemporalConflictResolver |
-| **timeseries/** | Time series compression (Gorilla), aggregates, retention | TimeSeriesManager, GorillaEncoder, GorillaDecoder |
+| **stable_diffusion/** | Stable Diffusion image generation plugin with content-policy sanitizer | SDGenerator, SDPromptSanitizer, IImageGenerationBackend |
+| **storage/** | RocksDB wrapper, compression, blob storage, transactions, streaming ingest, columnar cache | StorageEngine, BlobStorageManager, StreamingIngestManager, ColumnarCache |
+| **temporal/** | Conflict resolution for temporal data; LZ4 compression for temporal histories | TemporalConflictResolver, TemporalCompressor |
+| **timeseries/** | Time series compression (Gorilla), aggregates, retention, streaming cursor, batch writes | TimeSeriesManager, GorillaEncoder, GorillaDecoder, TsStreamCursor |
 | **training/** | Domain-specific LLM fine-tuning, LoRA adapter management, knowledge graph enrichment | LegalAutoLabeler, IncrementalLoRATrainer, KnowledgeGraphEnricher |
 | **transaction/** | ACID transactions, SAGA pattern, branching | TransactionManager, SagaManager |
 | **updates/** | Hot reload, manifest management, version control | HotReloadEngine, ReleaseManifest |
-| **utils/** | Logging, PII detection, compression, utilities | Logger, PiiDetector, Serialization |
+| **user_storage_encrypted/** | Encrypted per-user storage via GocryptFS with Argon2id KDF and key rotation | GocryptfsBackend, KeyRotationScheduler |
+| **utils/** | Logging, PII detection, compression, UUID v7, streaming ZSTD | Logger, PiiDetector, Serialization, generate_uuid_v7, zstd_compress_stream |
 | **voice/** | Voice assistant integration | VoiceAssistant |
+| **whisper/** | Whisper STT plugin for audio transcription via whisper.cpp | WhisperPlugin, WhisperCppTranscriber |
 
 ### `/include/` - Public Headers
 

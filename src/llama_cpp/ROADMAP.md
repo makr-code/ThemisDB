@@ -1,13 +1,14 @@
 # llama_cpp Plugin Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Roadmap-Status: current | validated: 2026-04-07 | Primary: src/llama_cpp/ -->
+<!-- Roadmap-Status: current | validated: 2026-04-10 | Primary: src/llama_cpp/ -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Status
 
-v2.0.0 — Full `ILLMPlugin` interface implemented in stub mode. LoRA registry, stats, and
-capabilities fully functional. Real inference requires linking the existing `LlamaWrapper`.
+v2.1.0 — Streaming token output, batch inference, and PluginManager hot-plug
+registrar added. Full `ILLMPlugin` interface remains implemented in stub mode;
+real inference requires linking the existing `LlamaWrapper`.
 
 ## Completed ✅
 
@@ -18,17 +19,22 @@ capabilities fully functional. Real inference requires linking the existing `Lla
 - [x] `getCapabilities()` — `supports_lora`, `supports_embeddings`, `plugin_version`
 - [x] `getMemoryStats()` / `getPerformanceStats()` — JSON
 - [x] `themis_llm_create` / `themis_llm_destroy` C-linkage entry points
-- [x] 30 unit tests (`LlamaCppPluginFocusedTests`)
+- [x] 50 unit tests (`LlamaCppPluginFocusedTests`, groups A–M)
 - [x] Plugin manifest + CMake registration
+- [x] Streaming token output via `InferenceRequest::stream_callback` (v2.1.0)
+- [x] `generateStream(request, callback)` convenience method (v2.1.0)
+- [x] `generateBatch(requests)` batch inference method (v2.1.0)
+- [x] `LlamaCppPluginRegistrar` — PluginManager hot-plug integration (v2.1.0)
+- [x] `getCapabilities().supports_streaming = true` (v2.1.0)
+- [x] `getCapabilities().supports_batching = true` (v2.1.0)
 
 ## In Progress
 
-- [~] Integration with `PluginManager` hot-plug monitor
+- [~] Real llama.cpp inference via `LlamaWrapper`
 
 ## Planned Features
 
 - [ ] Real llama.cpp inference via `LlamaWrapper` (Target: Q3 2026)
-- [ ] Streaming token output (Target: Q3 2026)
 - [ ] Real embedding model (non-zero vectors) (Target: Q3 2026)
 - [ ] Function/tool calling (Target: Q4 2026)
 - [ ] `exportLoRA` / `importLoRA` real implementation (Target: Q4 2026)
@@ -46,20 +52,23 @@ capabilities fully functional. Real inference requires linking the existing `Lla
 - [x] `generate()` returns error when model not loaded
 - [x] `embed()` returns empty when model not loaded
 - [x] Thread-safe LoRA registry (duplicate id replacement)
+- [x] `generateStream()` swallows callback exceptions; increments `error_count_`
+- [x] `generateBatch()` propagates per-request errors without aborting the batch
 
 ### Phase 4 — Tests ✅
-- [x] 30 unit tests across groups A–J
+- [x] 50 unit tests across groups A–M
 
 ### Phase 5 — Performance / Hardening
 - [ ] Real llama.cpp inference benchmark (Target: Q3 2026)
 - [ ] Concurrency test for `loadModel` / `generate` race (Target: Q3 2026)
+- [ ] Concurrency test for `generateBatch` under parallel callers (Target: Q3 2026)
 
 ### Phase 6 — Documentation & Acceptance ✅
 - [x] README, CHANGELOG, ROADMAP, ARCHITECTURE, FUTURE_ENHANCEMENTS, AUDIT, SECURITY
 
 ## Production Readiness Checklist
 
-- [x] Unit tests present (30 tests)
+- [x] Unit tests present (50 tests)
 - [x] Stub mode for CI without model file
 - [x] Thread-safe LoRA registry
 - [x] Capabilities correctly reported
@@ -67,16 +76,22 @@ capabilities fully functional. Real inference requires linking the existing `Lla
 - [x] `ModelInfo::context_length` populated from config on `loadModel()`
 - [x] `generateRAG()` uses `RAGContextAssembler` — no naive document concatenation
 - [x] `InferenceRequest::max_tokens` capped by `RAGContextAssembler::computeMaxTokens()`
+- [x] `generateStream()` honours callback; callback exceptions swallowed
+- [x] `generateBatch()` preserves request order in response vector
+- [x] `LlamaCppPluginRegistrar` provides PluginManager hot-plug integration
 - [ ] Real llama.cpp inference validated end-to-end
 - [ ] Real embeddings validated
 - [ ] `exportLoRA` / `importLoRA` implemented
 
 ## Known Issues & Limitations
 
-- `generate()` returns an echo stub; real inference not wired in v2.0.0.
+- `generate()` returns an echo stub; real inference not wired in v2.1.0.
 - `embed()` returns a zero vector; real embeddings require a loaded model.
 - `exportLoRA` / `importLoRA` are stubs returning empty/false.
+- `generateBatch()` is sequential; true parallel batch requires real llama.cpp.
 
 ## Breaking Changes
 
-None (v2.0.0 is the initial release).
+v2.1.0 — `getCapabilities().plugin_version` changed from `"2.0.0"` to `"2.1.0"`.
+`getPluginVersion()` similarly returns `"2.1.0"`.
+

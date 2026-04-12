@@ -277,6 +277,11 @@ private:
 
     std::string makeAttachKey_(std::string_view instance_id,
                                std::string_view object_id) const;
+    /// Reverse-lookup key for findInstancesWithObject():
+    ///   proc:obj_idx:<object_id>:<collection>:<instance_id>
+    std::string makeObjIdxKey_(std::string_view object_id,
+                               std::string_view collection,
+                               std::string_view instance_id) const;
     std::string makeLinkKey_(std::string_view source_id,
                              std::string_view target_id,
                              ProcessLinkType  link_type) const;

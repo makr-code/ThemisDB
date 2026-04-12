@@ -7,6 +7,88 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added — 2026-04-12 Module Additions (batch 3)
+
+- **process: `ProcessLinker` hard-delete + secondary index** ([#4594](https://github.com/makr-code/ThemisDB/issues/4594)) — `detachObject()` now uses `db_.del()` hard delete (no tombstone); secondary index `proc:obj_idx:<object_id>:<collection>:<instance_id>` maintained by `attachObject`/`detachObject`; `findInstancesWithObject()` scans the `obj_idx` prefix. 6 focused tests PL-01…PL-06.
+- **process: `BpmnSerializer` state-machine tokenizer** ([#4595](https://github.com/makr-code/ThemisDB/issues/4595)) — `importXml()` rewritten using `tokenizeXml`/`parseAttrs`/`stripNs`/`unescapeXml` (no regex); handles `bpmn:` namespace prefixes, nested `subProcess`, `conditionExpression` child text, XML comments/PIs/CDATA; 10 MiB security guard. 11 tests PM-01…PM-11.
+- **ethics_ai: v0.2.0** ([#4596](https://github.com/makr-code/ThemisDB/issues/4596)) — `PhilosophyLoader` handles rich YAML (complex thesis objects, point-keyed `strengths`/`weaknesses`, nested `decision_framework`); `EthicsEvaluator::Config` configurable weights normalised in ctor; `ChainVisualizer` ships `exportDot()`/`exportMermaid()`/`chainToDot()`/`chainToMermaid()`. 8 tests CV-01…CV-08 in `tests/test_ethics_ai_chain_visualizer.cpp`.
+
+### Fixed — 2026-04-12 (batch 3)
+
+- **process: BPMN regex parser replaced** ([#4595](https://github.com/makr-code/ThemisDB/issues/4595)) — previous regex-based parser failed on deeply nested sub-process pools and `bpmn:` namespace prefixes; state-machine tokenizer handles all standard BPMN 2.0 constructs correctly.
+- **process: `detachObject()` tombstone eliminated** ([#4594](https://github.com/makr-code/ThemisDB/issues/4594)) — tombstone soft-delete replaced by `db_.del()` hard delete; secondary index ensures `findInstancesWithObject()` is exact and no stale entries remain.
+
+### Added — 2026-04-12 Module Additions (batch 2)
+
+- **stable_diffusion: `SDCppGenerator` + real PNG encoder v2.2.0** ([#4590](https://github.com/makr-code/ThemisDB/issues/4590)) — `SDCppGenerator` wraps `stable-diffusion.cpp` C API under `THEMIS_ENABLE_STABLE_DIFFUSION` guard; `encodeMinimalPng()` produces valid IDAT via stored-deflate + CRC32 + Adler32; `SDStubGenerator::generateImg2Img` returns input-image pass-through. 51 unit tests (groups A–Q, 6 new P–Q).
+- **whisper: `WhisperPlugin` v2.1.0** ([#4591](https://github.com/makr-code/ThemisDB/issues/4591)) — thread-safe `transcriber_mutex_` (`std::mutex`) + `std::atomic` counters; `FfmpegAudioChunkReader` (popen ffmpeg, shell-escaped path, 500 MB cap); `CompositeAudioChunkReader` chains multiple `IAudioChunkReader` implementations. 36 unit tests (groups A–L, 6 new K–L).
+- **sharding: `ShardRPCClient::writeEntity()`** ([#4593](https://github.com/makr-code/ThemisDB/issues/4593)) — gRPC `ReplicateData` RPC for cross-shard writes; in-process simulation returns `{success:true, replicated_count:1}`; `handleWriteEntityGrpc()` wired in `sendRequestGrpc()` routing as `"write_entity"`.
+
+### Fixed — 2026-04-12 (batch 2)
+
+- **sharding: Paxos WAL durability** ([#4592](https://github.com/makr-code/ThemisDB/issues/4592)) — `handlePrepare()` now calls `wal_->logPromise()` before returning `true`; `handleAccept()` calls `wal_->logAccept()` before returning `true`; `recoverFromWAL()` restores `instances_` from `PROMISE`/`ACCEPT`/`COMMIT` entries on restart. 10 focused tests PSR-01…PSR-10 in `tests/test_paxos_persistence_recovery.cpp`.
+
+### Added — 2026-04-12 Module Additions
+
+- **storage: `StreamingIngestManager` v1.0** ([#4571](https://github.com/makr-code/ThemisDB/issues/4571)) — ring-buffer + flush-thread → single `WriteBatch`; flush_interval=10 ms, max_buffer=1 M events, max_batch=65 536; `OverflowPolicy::BLOCK/DROP`; `ingest(key,value)` / `ingestBatch()` / `flush()` / `stats()`. 10 tests SM-01…SM-10.
+- **storage: `ColumnarCache` v1.0** ([#4572](https://github.com/makr-code/ThemisDB/issues/4572)) — LRU eviction + `PinGuard` RAII; `SegmentDType` (Int64/Double/String/Bool); `byteSize()` accounting; `on_evict` callback; hit/miss counters. 12 tests CC-01…CC-12.
+- **timeseries: `TsStreamCursor` v1.0** ([#4573](https://github.com/makr-code/ThemisDB/issues/4573)) — lazy paginated iterator over `TSStore::query()`; default page_size=4 096; `open()`/`valid()`/`current()`/`advance()`/`close()`; `rowsConsumed()`/`pagesFetched()` stats. 8 tests SC-01…SC-08.
+- **timeseries: `TSStore::putBatch`** ([#4574](https://github.com/makr-code/ThemisDB/issues/4574)) — zero-copy batch write via single `WriteBatch` commit; `TSRow` uses `string_view`; `BatchWriteResult` (ok_count/failed_count/row_errors); Gorilla+raw paths. 14 tests TB-01…TB-14.
+- **temporal: `TemporalCompressor` LZ4** ([#4575](https://github.com/makr-code/ThemisDB/issues/4575)) — `CompressionAlgorithm::LZ4` added; `applyLz4()`/`decompressLz4()` via `<lz4.h>`; JSON payload `{"__compressed":"lz4","__original_size":N,"__data":"<base64>"}`. 5 tests TC-LZ4-01…TC-LZ4-05.
+- **analytics: `IStreamingJoin` / `HashJoin` / `IntervalJoin`** ([#4576](https://github.com/makr-code/ThemisDB/issues/4576)) — composite-key hash table, inner/left-outer join, multi-batch build; `IntervalJoin` with before_ms/after_ms/slack_ms and LRU pruning. 15 tests SJ-01…SJ-15.
+- **performance: `LockFreeHistogram<T>`** ([#4577](https://github.com/makr-code/ThemisDB/issues/4577)) — header-only, exponential+linear modes, 64-byte aligned buckets, `record()`=1 atomic fetch_add, `percentile(p)`. `LatencyHistogram`(32) + `WideHistogram`(64) aliases. 12 tests LFH-01…LFH-12.
+- **network: `IoUringBatchedSender` v1.0** ([#4581](https://github.com/makr-code/ThemisDB/issues/4581)) — single `io_uring_enter()` for N `WireProtocolBatcher` flushes (`IORING_OP_WRITEV` SQEs); `THEMIS_ENABLE_IO_URING` guard; `writev(2)` fallback. 12 tests IUB-01…IUB-12.
+- **utils: UUID v7** ([#4582](https://github.com/makr-code/ThemisDB/issues/4582)) — `generate_uuid_v7()` (RFC 9562): 48-bit Unix-ms + 18-bit monotonic seq (thread_local, mutex) + 56-bit rand (MT19937-64). 20 tests UV7-01…UV7-20.
+- **utils: Streaming ZSTD** ([#4583](https://github.com/makr-code/ThemisDB/issues/4583)) — `zstd_compress_stream`/`zstd_decompress_stream` via `ZSTD_CStream`/`ZSTD_DStream`; `max_output_bytes` DoS-guard (default 4 GB). 10 tests ZS-01…ZS-10.
+- **acceleration: `AiHardwareDispatcher` v1.0** ([#4584](https://github.com/makr-code/ThemisDB/issues/4584)) — priority chain NPU_APPLE→NPU_INTEL→NPU_QUALCOMM→NPU_ARM→NNAPI→ONNX_RUNTIME→GPU→CPU; INT4/FP4/W4A8/W8A8 precision modes; `DeviceCapabilityInfo` with NPU TOPS and quantisation flags. 30 tests.
+- **acceleration: NCCL/RCCL `mergeTopK`** ([#4585](https://github.com/makr-code/ThemisDB/issues/4585)) — AllGather + partial_sort + Bcast in `nccl_vector_backend.cpp` / `rccl_vector_backend.cpp`; 13 CPU-simulation + 6 NCCL + 6 RCCL single-rank tests.
+
+### Fixed — 2026-04-12
+
+- **performance: LIRS cache TOCTOU race** ([#4578](https://github.com/makr-code/ThemisDB/issues/4578)) — `get()` upgraded from `shared_lock` to `unique_lock`; `contains()`/`size()` retain `shared_lock`.
+- **performance: RCU `readers_active()` always-false bug** ([#4579](https://github.com/makr-code/ThemisDB/issues/4579)) — `g_rcu_reader_count` global `atomic<int64_t>` wired to `ReadLock` ctor/dtor; `readers_active()` now reads real count.
+- **cache: `RequestCoalescer` real Singleflight** ([#4580](https://github.com/makr-code/ThemisDB/issues/4580)) — replaced stub with `promise/shared_future` inflight map; `fn()` called exactly once per concurrent key group; exceptions propagated to all waiters. 14 tests RC-01…RC-14.
+- **index: Concurrent-Unique-Lücke** ([#4588](https://github.com/makr-code/ThemisDB/issues/4588)) — `TransactionWrapper::getForUpdate()` added; sentinel key locked before unique-constraint check in `updateIndexesForPut_`. 3 new tests CU-1/CU-2/CU-3.
+- **index: secondary index performance** ([#4589](https://github.com/makr-code/ThemisDB/issues/4589)) — `updateIndexesForDelete_` overloads use `SecondaryIndexMetadataCache`; `regular_indexes_set`/`range_indexes_set` cached sets; `encodeKeyComponent` uses kHex table.
+- **maintenance: MVCC_CLEANUP wiring** ([#4586](https://github.com/makr-code/ThemisDB/issues/4586)) — `MvccCleanupHandler` registered with `maintenance_orchestrator_` (24 h watermark); `mvcc_store_` member wired in `http_server.cpp`.
+- **maintenance: STORAGE_COMPACTION wiring** ([#4587](https://github.com/makr-code/ThemisDB/issues/4587)) — `StorageCompactionHandler(CompactionManager(storage_))` registered with `maintenance_orchestrator_` in `http_server.cpp`.
+
+### Documentation — 2026-04-12
+
+- **Root-level documentation sync** — `roadmap.md` (46→55 modules, acceleration status fixed, Milestone Delta section added), `ARCHITECTURE.md` (55 components, 9 new module rows), `DEVELOPMENT_STATUS.md` (Active Work Items updated), `include/maintenance/ROADMAP.md` (v1.2.0, all wiring items marked done), `CURRENT_STATUS.md` (progress 85→88%, date updated).
+- **src/* module ROADMAP sync** — `src/timeseries`, `src/storage`, `src/analytics`, `src/performance`, `src/cache`, `src/network`, `src/utils`, `src/temporal` all updated to reflect 2026-04-12 additions.
+- **include/* module ROADMAP sync** — `include/timeseries/ROADMAP.md` Phase items updated (TsStreamCursor `[x]`).
+  <!-- changelog-updater: module-docs-sync-2026-04-12-implementations -->
+
+### Documentation
+
+- **Module-Docs Sync 📚 — 2026-04-12**
+  - 56 Module indexiert; 747 Primary-Markdown-Dateien in `src/` und `include/`
+  - 6 Module ohne Sekundärdokumentation erkannt; Issues erzeugt
+  - Sekundärdokumentation aktualisiert in `docs/de/` und `docs/en/`
+  - Tool: `tools/module_docs_builder.py` v1.0.0
+  <!-- changelog-updater: module-docs-sync-2026-04-12 -->
+
+- **Milestone- und Release-Sync - 2026-04-11**
+  - Referenzierte offene Sub-Issue-PRs mit Versionsbezug auf ihre Ziel-Milestones ausgerichtet und abgeschlossen.
+  - Konfliktbehaftete Alt-PRs #4507 und #4515 durch Port-Ersatz-PRs #4569 und #4570 ersetzt.
+  - Release-Dokumentation fuer v1.9.0, v1.9.1, v1.10.0 und v2.0.0 in `docs/de/releases/` synchronisiert.
+  <!-- changelog-updater: milestone-release-sync-2026-04-11 -->
+
+- **Module-Docs Sync 📚 — 2026-04-11**
+  - 56 Module indexiert; 747 Primary-Markdown-Dateien in `src/` und `include/`
+  - 6 Module ohne Sekundärdokumentation erkannt; Issues erzeugt
+  - Sekundärdokumentation aktualisiert in `docs/de/` und `docs/en/`
+  - Tool: `tools/module_docs_builder.py` v1.0.0
+  <!-- changelog-updater: module-docs-sync-2026-04-11 -->
+
+- **Module-Docs Sync 📚 — 2026-04-10**
+  - 57 Module indexiert; 761 Primary-Markdown-Dateien in `src/` und `include/`
+  - 7 Module ohne Sekundärdokumentation erkannt; Issues erzeugt
+  - Sekundärdokumentation aktualisiert in `docs/de/` und `docs/en/`
+  - Tool: `tools/module_docs_builder.py` v1.0.0
+  <!-- changelog-updater: module-docs-sync-2026-04-10 -->
+
 ## [1.8.1-rc2] - 2026-04-08
 
 ### Fixed — Hotfix: Docker image SIGSEGV on startup (`Exit 139`)

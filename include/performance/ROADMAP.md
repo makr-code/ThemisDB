@@ -24,6 +24,7 @@ v1.9.0 — production. Cross-platform PMU cycle metrics, NUMA-aware allocation, 
 - [x] macOS kperf/kpc PMU (dlopen), Windows rdtsc/QueryThreadCycleTime, ARM64 CNTVCT_EL0
 - [x] WorkloadPredictor with adaptive LLM batch tuning
 - [x] HardwareAccelerator GPU/FPGA/AVX-512 dispatch
+- [x] LockFreeHistogram\<T\> — atomic-bucket P50/P90/P99 latency tracking
 
 ## Implementation Phases
 
@@ -43,6 +44,10 @@ v1.9.0 — production. Cross-platform PMU cycle metrics, NUMA-aware allocation, 
 - [x] WorkloadPredictor Isolation Forest / LSTM
 - [x] CycleMetrics macOS kperf/kpc + Windows rdtsc
 - [x] AdaptiveQueryCompiler JIT/LLVM
+- [x] LockFreeHistogram\<T\> — exponential + linear modes, P50/P90/P95/P99, ≤ 20 ns `record()` (2026-04-12)
+  - `include/performance/lockfree_histogram.h` — header-only, cache-line-aligned buckets
+  - `LatencyHistogram` (32 exp buckets) + `WideHistogram` (64 exp buckets) aliases
+  - 12 tests (LFH-01…LFH-12) in `tests/test_lockfree_histogram.cpp`
 
 ### Phase 5 — DPDK / io_uring / Persistent Memory (Planned)
 - [ ] DPDK kernel-bypass data plane integration (Target: Q3 2026)

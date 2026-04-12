@@ -43,9 +43,18 @@ namespace fs = std::filesystem;
 class AdaptiveFlushFixture : public benchmark::Fixture {
 public:
     void SetUp(const ::benchmark::State& state) override {
+        // In multi-threaded Google Benchmark fixtures, SetUp is called once per
+        // thread on the *same* fixture instance concurrently.  Only thread 0
+        // initialises shared state; all other threads wait until it is ready.
+        if (state.thread_index() != 0) {
+            // Spin-wait until thread 0 has finished SetUp.
+            while (!setup_done_.load(std::memory_order_acquire)) {
+                std::this_thread::yield();
+            }
+            return;
+        }
         auto ns = std::chrono::high_resolution_clock::now().time_since_epoch().count();
-        db_path_ = "/tmp/bench_adaptive_flush_" + std::to_string(ns) + "_" +
-                   std::to_string(state.thread_index());
+        db_path_ = "/tmp/bench_adaptive_flush_" + std::to_string(ns);
 
         if (fs::exists(db_path_)) fs::remove_all(db_path_);
 
@@ -80,15 +89,19 @@ public:
 
         buffer_ = std::make_unique<TSAutoBuffer>(tsstore_.get(), buf_cfg);
         buffer_->start();
+        setup_done_.store(true, std::memory_order_release);
     }
 
-    void TearDown(const ::benchmark::State& /*state*/) override {
+    void TearDown(const ::benchmark::State& state) override {
+        if (state.thread_index() != 0) return;
         if (buffer_) buffer_->stop();
         buffer_.reset();
         tsstore_.reset();
         if (db_) db_->close();
         db_.reset();
-        if (fs::exists(db_path_)) fs::remove_all(db_path_);
+        std::error_code ec;
+        if (fs::exists(db_path_)) fs::remove_all(db_path_, ec);
+        setup_done_.store(false, std::memory_order_release);
     }
 
 protected:
@@ -104,6 +117,7 @@ protected:
         return p;
     }
 
+    std::atomic<bool>               setup_done_{false};
     std::string                     db_path_;
     std::unique_ptr<RocksDBWrapper> db_;
     std::unique_ptr<TSStore>        tsstore_;

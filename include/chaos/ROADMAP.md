@@ -19,6 +19,7 @@
 - [ ] Add dedicated API conformance tests at include boundary (Target: Q3 2026)
 ### Phase 5: Performance/Hardening
 - [ ] Review ABI compatibility constraints for external consumers (Target: Q3 2026)
+- [x] Extended stress-benchmark coverage (`bench_chaos_stress.cpp`): FaultInjector inject/query/recover throughput, concurrent 1..16 threads, ChaosScheduler overhead (Target: Q3 2026)
 ### Phase 6: Documentation & Acceptance
 - [x] Baseline include module docs created (Target: Q2 2026)
 

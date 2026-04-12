@@ -28,6 +28,10 @@
 #ifdef THEMIS_ENABLE_MQTT
 
 #include <boost/asio.hpp>
+#ifdef THEMIS_ENABLE_MQTT_TLS
+#include <boost/asio/ssl.hpp>
+#include <openssl/ssl.h>
+#endif
 #include <nlohmann/json.hpp>
 
 #include <algorithm>
@@ -208,6 +212,16 @@ struct MqttClientService::AsioImpl {
     asio::steady_timer            connect_timer{io_ctx};
     asio::executor_work_guard<asio::io_context::executor_type>
                                   work_guard{asio::make_work_guard(io_ctx)};
+#ifdef THEMIS_ENABLE_MQTT_TLS
+    // TLS context and stream.  Both are re-created on each connection attempt
+    // when tls_enabled=true.  ssl_stream takes ownership of the connected
+    // plain socket via std::move; socket is then reset to a fresh value.
+    std::unique_ptr<boost::asio::ssl::context>
+        ssl_ctx;
+    std::unique_ptr<boost::asio::ssl::stream<asio::ip::tcp::socket>>
+        ssl_stream;
+    bool tls_ready{false};  ///< true after the TLS handshake succeeds.
+#endif
 };
 
 // ── MqttClientService ─────────────────────────────────────────────────────────
@@ -254,12 +268,33 @@ void MqttClientService::stop() {
         if (stats_.is_connected.load()) {
             boost::system::error_code ec;
             auto pkt = detail::buildDisconnect();
-            asio::write(asio_->socket, asio::buffer(pkt), ec);
-            asio_->socket.shutdown(asio::ip::tcp::socket::shutdown_both, ec);
-            asio_->socket.close(ec);
+#ifdef THEMIS_ENABLE_MQTT_TLS
+            if (config_.tls_enabled && asio_->ssl_stream) {
+                asio::write(*asio_->ssl_stream, asio::buffer(pkt), ec);
+                asio_->ssl_stream->lowest_layer().shutdown(
+                    asio::ip::tcp::socket::shutdown_both, ec);
+                asio_->ssl_stream->lowest_layer().close(ec);
+                asio_->ssl_stream.reset();
+                asio_->tls_ready = false;
+            } else
+#endif
+            {
+                asio::write(asio_->socket, asio::buffer(pkt), ec);
+                asio_->socket.shutdown(asio::ip::tcp::socket::shutdown_both, ec);
+                asio_->socket.close(ec);
+            }
         } else {
             boost::system::error_code ec;
-            asio_->socket.close(ec);
+#ifdef THEMIS_ENABLE_MQTT_TLS
+            if (config_.tls_enabled && asio_->ssl_stream) {
+                asio_->ssl_stream->lowest_layer().close(ec);
+                asio_->ssl_stream.reset();
+                asio_->tls_ready = false;
+            } else
+#endif
+            {
+                asio_->socket.close(ec);
+            }
         }
         asio_->work_guard.reset();
     });
@@ -359,6 +394,13 @@ void MqttClientService::doConnect() {
     if (!running_.load()) return;
 
     boost::system::error_code ec;
+#ifdef THEMIS_ENABLE_MQTT_TLS
+    if (asio_->ssl_stream) {
+        asio_->ssl_stream->lowest_layer().close(ec);
+        asio_->ssl_stream.reset();
+        asio_->tls_ready = false;
+    }
+#endif
     asio_->socket.close(ec);
     stats_.is_connected = false;
     packet_buf_.clear();
@@ -380,13 +422,13 @@ void MqttClientService::doConnect() {
             asio_->connect_timer.cancel(); // cancel connection timeout
             connected->store(true);
             if (ec2) { scheduleReconnect(); return; }
-            // Send CONNECT
-            auto pkt = detail::buildConnect(config_, effective_client_id_);
-            boost::system::error_code we;
-            asio::write(asio_->socket, asio::buffer(pkt), we);
-            if (we) { scheduleReconnect(); return; }
-            stats_.bytes_sent += pkt.size();
-            doRead();
+#ifdef THEMIS_ENABLE_MQTT_TLS
+            if (config_.tls_enabled) {
+                doHandshake();
+                return;
+            }
+#endif
+            sendMqttConnect();
         });
 
     // Independent timer for connection-establishment timeout.
@@ -400,9 +442,41 @@ void MqttClientService::doConnect() {
     });
 }
 
+void MqttClientService::sendMqttConnect() {
+    auto pkt = detail::buildConnect(config_, effective_client_id_);
+    boost::system::error_code we;
+#ifdef THEMIS_ENABLE_MQTT_TLS
+    if (config_.tls_enabled && asio_->tls_ready && asio_->ssl_stream) {
+        asio::write(*asio_->ssl_stream, asio::buffer(pkt), we);
+    } else
+#endif
+    {
+        asio::write(asio_->socket, asio::buffer(pkt), we);
+    }
+    if (we) { scheduleReconnect(); return; }
+    stats_.bytes_sent += pkt.size();
+    doRead();
+}
+
 void MqttClientService::doRead() {
     if (!running_.load()) return;
 
+#ifdef THEMIS_ENABLE_MQTT_TLS
+    if (config_.tls_enabled && asio_->tls_ready && asio_->ssl_stream) {
+        asio_->ssl_stream->async_read_some(
+            asio::buffer(read_buf_),
+            [this](boost::system::error_code ec, size_t n) {
+                if (ec) { handleDisconnect(ec.message()); return; }
+                stats_.bytes_received += n;
+                packet_buf_.insert(packet_buf_.end(),
+                                   read_buf_.begin(),
+                                   read_buf_.begin() + static_cast<ptrdiff_t>(n));
+                processBuffer();
+                doRead();
+            });
+        return;
+    }
+#endif
     asio_->socket.async_read_some(
         asio::buffer(read_buf_),
         [this](boost::system::error_code ec, size_t n) {
@@ -533,6 +607,20 @@ void MqttClientService::doWrite() {
     }
     writing_ = true;
     auto buf = std::make_shared<std::vector<uint8_t>>(std::move(pkt));
+#ifdef THEMIS_ENABLE_MQTT_TLS
+    if (config_.tls_enabled && asio_->tls_ready && asio_->ssl_stream) {
+        asio::async_write(
+            *asio_->ssl_stream,
+            asio::buffer(*buf),
+            [this, buf](boost::system::error_code ec, size_t n) {
+                writing_ = false;
+                if (ec) { handleDisconnect(ec.message()); return; }
+                stats_.bytes_sent += n;
+                doWrite(); // drain next
+            });
+        return;
+    }
+#endif
     asio::async_write(
         asio_->socket,
         asio::buffer(*buf),
@@ -602,7 +690,16 @@ void MqttClientService::handleDisconnect(const std::string& reason) {
     asio_->keepalive_timer.cancel();
 
     boost::system::error_code ec;
-    asio_->socket.close(ec);
+#ifdef THEMIS_ENABLE_MQTT_TLS
+    if (config_.tls_enabled && asio_->ssl_stream) {
+        asio_->ssl_stream->lowest_layer().close(ec);
+        asio_->ssl_stream.reset();
+        asio_->tls_ready = false;
+    } else
+#endif
+    {
+        asio_->socket.close(ec);
+    }
 
     if (was_connected) {
         std::shared_ptr<IMqttMessageHandler> h;
@@ -621,6 +718,86 @@ void MqttClientService::handleDisconnect(const std::string& reason) {
 std::string MqttClientService::generateClientId() {
     return generateClientIdImpl();
 }
+
+#ifdef THEMIS_ENABLE_MQTT_TLS
+// ── TLS Handshake ─────────────────────────────────────────────────────────────
+
+void MqttClientService::doHandshake() {
+    // Create a fresh SSL context for this connection attempt.
+    try {
+        asio_->ssl_ctx = std::make_unique<boost::asio::ssl::context>(
+            boost::asio::ssl::context::tlsv12_client);
+    } catch (...) {
+        scheduleReconnect();
+        return;
+    }
+
+    auto& ctx = *asio_->ssl_ctx;
+    boost::system::error_code ec;
+
+    ctx.set_options(
+        boost::asio::ssl::context::default_workarounds |
+        boost::asio::ssl::context::no_sslv2               |
+        boost::asio::ssl::context::no_sslv3               |
+        boost::asio::ssl::context::single_dh_use,
+        ec);
+    if (ec) { scheduleReconnect(); return; }
+
+    // Broker CA certificate (peer verification).
+    if (!config_.tls_ca_path.empty()) {
+        ctx.load_verify_file(config_.tls_ca_path, ec);
+        if (ec) { scheduleReconnect(); return; }
+        ctx.set_verify_mode(boost::asio::ssl::verify_peer, ec);
+        if (ec) { scheduleReconnect(); return; }
+    } else {
+        ctx.set_verify_mode(boost::asio::ssl::verify_none, ec);
+        if (ec) { scheduleReconnect(); return; }
+    }
+
+    // Mutual TLS: client certificate.
+    if (!config_.tls_cert_path.empty()) {
+        ctx.use_certificate_file(config_.tls_cert_path,
+                                 boost::asio::ssl::context::pem, ec);
+        if (ec) { scheduleReconnect(); return; }
+    }
+
+    // Mutual TLS: client private key.
+    if (!config_.tls_key_path.empty()) {
+        ctx.use_private_key_file(config_.tls_key_path,
+                                 boost::asio::ssl::context::pem, ec);
+        if (ec) { scheduleReconnect(); return; }
+    }
+
+    // Move the connected plain socket into the SSL stream.
+    asio_->ssl_stream =
+        std::make_unique<boost::asio::ssl::stream<asio::ip::tcp::socket>>(
+            std::move(asio_->socket), ctx);
+    // Restore a fresh socket so future reconnects work correctly.
+    asio_->socket = asio::ip::tcp::socket{asio_->io_ctx};
+
+    // SNI: let the broker present the correct certificate for virtual hosting.
+    if (!config_.broker_host.empty()) {
+        SSL_set_tlsext_host_name(asio_->ssl_stream->native_handle(),
+                                 config_.broker_host.c_str());
+    }
+
+    // Perform the async TLS handshake.
+    asio_->ssl_stream->async_handshake(
+        boost::asio::ssl::stream_base::client,
+        [this](boost::system::error_code hec) {
+            if (hec) {
+                boost::system::error_code ce;
+                if (asio_->ssl_stream)
+                    asio_->ssl_stream->lowest_layer().close(ce);
+                asio_->ssl_stream.reset();
+                scheduleReconnect();
+                return;
+            }
+            asio_->tls_ready = true;
+            sendMqttConnect();
+        });
+}
+#endif // THEMIS_ENABLE_MQTT_TLS
 
 // ── MqttCDCTransport ──────────────────────────────────────────────────────────
 

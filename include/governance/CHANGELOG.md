@@ -10,6 +10,11 @@ For implementation-level changes see `../../src/governance/CHANGELOG.md`.
 ## [Unreleased]
 *(All planned features implemented — see `../../src/governance/FUTURE_ENHANCEMENTS.md` for long-horizon items.)*
 
+## [1.9.0] — 2026-04-09
+### Added
+- `iso27001_rules.h`: 6 Annex A control evaluators (`Iso27001A912Control`, `Iso27001A1011Control`, `Iso27001A1241Control`, `Iso27001A1242Control`, `Iso27001A1323Control`, `Iso27001A1813Control`), `Iso27001ControlSet`, and supporting types (`Iso27001EvidenceItem`, `Iso27001ControlResult`, `Iso27001AuditReport`) covering A.9.1.2, A.10.1.1, A.12.4.1, A.12.4.2, A.13.2.3, A.18.1.3
+- `hipaa_rules.h`: 6 Security Rule requirement evaluators (`HipaaAccessControl`, `HipaaEncryption`, `HipaaAuditControls`, `HipaaIntegrityControls`, `HipaaTransmissionSecurity`, `HipaaRetention`), `HipaaRuleSet`, and `HipaaRuleEvalResult` covering §164.312(a)(1), §164.312(a)(2)(iv), §164.312(b), §164.312(c)(1), §164.312(e)(2)(ii), §164.530(j)
+
 ## [1.8.0] — 2026-03-21
 ### Added
 - CI workflow `governance-module-ci.yml` covering 19 governance test suites

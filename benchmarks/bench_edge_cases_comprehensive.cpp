@@ -498,7 +498,7 @@ static void BM_RapidSuccessiveReads(benchmark::State& state) {
         BaseEntity entity("rapid_" + std::to_string(i), BaseEntity::FieldMap{
             {"value", rng.generateInt(0, 1000000)}
         });
-        db.put("entity:" + entity.id, entity.serialize());
+        db.put("entity:" + entity.getPrimaryKey(), entity.serialize());
     }
 
     const int rapid_count = 1000;

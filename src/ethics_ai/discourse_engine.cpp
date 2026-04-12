@@ -23,6 +23,7 @@
  */
 
 #include "discourse_engine.h"
+#include "ethics_evaluator.h"
 #include <sstream>
 #include <random>
 #include <iomanip>
@@ -120,8 +121,8 @@ std::variant<EthicalDecision, Status> EthicalDiscourseEngine::makeDecision(
     decision.decision_text = decision_text;
     decision.primary_philosophy = primary_philosophy;
     decision.supporting_philosophies = philosophy_schools;
-    decision.confidence = 0.75; // Placeholder
-    decision.consensus_level = arguments.size() > 1 ? 0.70 : 1.0;
+    decision.confidence = EthicsEvaluator::computeConfidence(arguments);
+    decision.consensus_level = EthicsEvaluator::computeConsensus(arguments);
     decision.created_at = now;
     
     // Store decision
@@ -146,22 +147,54 @@ EthicalArgument EthicalDiscourseEngine::generateArgument(
     argument.id = ss.str();
     argument.philosophy_school = profile.school_id;
     argument.argument_type = type;
-    argument.strength = ArgumentStrength::MODERATE;
     argument.created_at = now;
+
+    // Derive strength from the richness of the profile: more theses → stronger argument.
+    // Heuristic: 0 theses → WEAK (no principled basis); 1-2 → MODERATE (minimal support);
+    // 3-5 → STRONG (well-grounded); 6+ → DECISIVE (comprehensive philosophical basis).
+    // This feeds directly into EthicsEvaluator::computeConfidence() via ArgumentStrength.
+    const size_t total_theses = profile.main_theses.size() + profile.secondary_theses.size();
+    if (total_theses == 0) {
+        argument.strength = ArgumentStrength::WEAK;
+    } else if (total_theses <= 2) {
+        argument.strength = ArgumentStrength::MODERATE;
+    } else if (total_theses <= 5) {
+        argument.strength = ArgumentStrength::STRONG;
+    } else {
+        argument.strength = ArgumentStrength::DECISIVE;
+    }
     
-    // Generate content based on profile theses
+    // Build content from all available profile data.
     std::stringstream content;
     content << "From the perspective of " << profile.name << ":\n";
-    if (!profile.main_theses.empty()) {
-        content << profile.main_theses[0] << "\n";
+
+    // Incorporate all main theses.
+    for (const auto& thesis : profile.main_theses) {
+        content << "  • " << thesis << "\n";
     }
-    content << "Applied to this dilemma, ";
-    
-    // Simple placeholder logic
+
+    // Incorporate secondary theses if present.
+    if (!profile.secondary_theses.empty()) {
+        content << "Supporting principles:\n";
+        for (const auto& thesis : profile.secondary_theses) {
+            content << "  – " << thesis << "\n";
+        }
+    }
+
+    // Reference the decision framework if available.
+    auto fw_it = profile.decision_framework.find("primary");
+    if (fw_it != profile.decision_framework.end()) {
+        content << "Decision framework: " << fw_it->second << "\n";
+    }
+
+    // Apply to the specific dilemma.
+    content << "Applied to: \"" << dilemma << "\"\n";
     if (type == ArgumentType::PRO) {
-        content << "we should consider the ethical implications carefully.";
+        content << "This framework supports proceeding, as the core principles "
+                   "justify the action when all dimensions are weighed.";
     } else {
-        content << "we must recognize the complexities involved.";
+        content << "This framework raises concerns: the principles cited above "
+                   "indicate caution or constraint is warranted.";
     }
     
     argument.content = content.str();

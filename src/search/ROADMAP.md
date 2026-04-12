@@ -6,7 +6,7 @@
 <!-- Primary: src/search/ | Secondary: docs/de/src/search/ -->
 
 ## Current Status
-v2.3.0 – Production-ready hybrid search with distributed search across shards, highlight/snippet generation and NOT-operator negative keyword filtering. The core engine (BM25, HNSW vector, RRF fusion, fuzzy matching, phonetic search, query expansion) has been production-ready since v1.2.0. v1.5.0 adds 7 new components: `QueryExpander`, `FuzzyMatcher`, `FacetedSearch`, `SearchAnalytics`, `AutocompleteEngine`, `LearningToRank`, and `MultiModalSearch`. v2.1.0 adds `SearchHighlighter` for highlight and snippet generation. v2.2.0 adds `NegativeKeywordFilter` for NOT-operator support. v2.3.0 adds `DistributedHybridSearch` for distributed search across shards with cross-shard RRF result merging and mTLS-secured inter-node communication.
+v2.4.0 – Production-ready hybrid search with distributed search across shards, highlight/snippet generation and NOT-operator negative keyword filtering. The core engine (BM25, HNSW vector, RRF fusion, fuzzy matching, phonetic search, query expansion) has been production-ready since v1.2.0. v1.5.0 adds 7 new components: `QueryExpander`, `FuzzyMatcher`, `FacetedSearch`, `SearchAnalytics`, `AutocompleteEngine`, `LearningToRank`, and `MultiModalSearch`. v2.1.0 adds `SearchHighlighter` for highlight and snippet generation. v2.2.0 adds `NegativeKeywordFilter` for NOT-operator support. v2.3.0 adds `DistributedHybridSearch` for distributed search across shards with cross-shard RRF result merging and mTLS-secured inter-node communication. v2.4.0 adds Phase 5 interfaces: `ConversationalSearch` (multi-turn context-aware query reformulation), `FederatedSearch` (tenant-isolated parallel search with per-tenant weighting), and `SearchResultStream` (cursor-based streaming pagination for large result sets).
 
 ## Completed ✅
 - [x] HybridSearch – RRF-based fusion of BM25 and vector results
@@ -42,6 +42,9 @@ v2.3.0 – Production-ready hybrid search with distributed search across shards,
 - [x] Highlight / snippet generation for matched terms (`SearchHighlighter`, v2.1.0) (Issue: #2457)
 - [x] Negative keyword filtering (`NOT` operator) (`NegativeKeywordFilter`, v2.2.0) (Issue: #2003)
 - [x] Distributed search across shards with result merging (`DistributedHybridSearch`, v2.3.0) (Issue: #2280)
+- [x] Multi-turn context-aware search (`ConversationalSearch`, v2.4.0)
+- [x] Tenant-isolated federated search with per-tenant weighting (`FederatedSearch`, v2.4.0)
+- [x] Cursor-based streaming pagination for large result sets (`SearchResultStream`, v2.4.0)
 
 ## Planned Features 📋
 
@@ -50,6 +53,9 @@ v2.3.0 – Production-ready hybrid search with distributed search across shards,
 
 ### Long-term (6-12 months)
 - [x] Distributed search across shards with result merging (Issue: #2280) (v2.3.0)
+- [x] Conversational / multi-turn search context (v2.4.0)
+- [x] Federated search across isolated tenant indexes (v2.4.0)
+- [x] Streaming result delivery for large k (v2.4.0)
 
 ## Implementation Phases
 
@@ -84,8 +90,13 @@ v2.3.0 – Production-ready hybrid search with distributed search across shards,
 - [x] Distributed search across shards with result merging (`DistributedHybridSearch`, v2.3.0) (Issue: #2280)
 - [x] Autocomplete / type-ahead query suggestions (`AutocompleteEngine`, v1.5.0)
 
+### Phase 5: Conversational, Federated & Streaming (Status: Completed ✅)
+- [x] Multi-turn conversational search (`ConversationalSearch`, v2.4.0)
+- [x] Tenant-isolated federated search (`FederatedSearch`, v2.4.0)
+- [x] Streaming / cursor-based result delivery (`SearchResultStream`, v2.4.0)
+
 ## Production Readiness Checklist
-- [x] Unit tests coverage > 80% (LlmReranker: 29 tests; LearningToRank: 20 tests; HybridSearch: 30+ tests; v1.5.0 components: 162+ tests)
+- [x] Unit tests coverage > 80% (v2.4.0: 51 new tests in test_search_future_interfaces.cpp)
 - [x] Integration tests (BM25 correctness, hybrid recall@10, LlmReranker with real indices)
 - [?] Performance benchmarks (QPS, index build time, latency p99)
 - [?] Security audit (query injection, resource exhaustion on large datasets)
