@@ -287,6 +287,37 @@ Die folgenden Komponenten wurden mit dem v1.9.x-Release (Commit 2026-04-12) in d
 | UUID v7 (`generate_uuid_v7`) | `utils/` | ✅ GA | UV7-01..UV7-20 | RFC 9562, 48-bit Timestamp, 18-bit Seq, MT19937-64 |
 | Streaming ZSTD (`zstd_compress_stream`) | `utils/` | ✅ GA | ZS-01..ZS-10 | ZSTD_CStream/DStream, max_output_bytes DoS-Guard |
 
+### Content-Modul (v1.x)
+
+| Feature | Modul | Status | Tests | Beschreibung |
+|---------|-------|--------|-------|-------------|
+| `ContentManager::ingestRawBlob()` | `content/` | ✅ GA | — | Auto-MIME, 10-stufige Pipeline, Archive-Rekursion |
+| `PdfProcessor` | `content/` | ✅ GA | — | Text-Extraktion via poppler-cpp |
+| `OfficeProcessor` (OOXML/ODF) | `content/` | ✅ GA | — | DOCX/XLSX/PPTX/ODF via libzip+pugixml |
+| `OfficeProcessor` (Legacy) | `content/` | ✅ GA | — | DOC/XLS/PPT via LibreOffice-Headless-Fallback |
+| `HtmlProcessor` | `content/` | ✅ GA | — | Boilerplate-Entfernung |
+| `MarkdownProcessor` | `content/` | ✅ GA | — | Frontmatter-Parsing |
+| `SttProcessor` / `TtsProcessor` | `content/` | ✅ GA | — | Whisper-Transkription + TTS |
+| `OcrProcessor` | `content/` | ✅ GA | — | Tesseract OCR für Bild-PDFs |
+| `DeduplicationChecker` | `content/` | ✅ GA | — | pHash (Bilder) + MinHash+LSH (Text); Jaccard-Schwellenwert |
+| `LanguageDetector` | `content/` | ✅ GA | — | Multi-Sprach-Erkennung mit Konfidenz |
+| `ContentManagerLlm` | `content/` | ✅ GA | — | Summary, Topics, Sentiment, Category via LLM |
+
+### Scheduler-Modul (v1.5)
+
+| Feature | Modul | Status | Tests | Beschreibung |
+|---------|-------|--------|-------|-------------|
+| `TaskScheduler` | `scheduler/` | ✅ GA | — | Cron/Interval/CDC/Manual/Webhook Trigger; 5/6-Feld, Timezone |
+| DAG-Workflow-Engine | `scheduler/` | ✅ GA | — | Topologische Ausführung, paralleler Fan-Out, `branch_condition` |
+| Retry-Policies | `scheduler/` | ✅ GA | — | FIXED/EXPONENTIAL/LINEAR/JITTER/FIBONACCI |
+| `TaskScheduler` Dynamic Scaling | `scheduler/` | ✅ GA | — | Auto-Concurrency via Queue-Tiefe + `enable_dynamic_scaling` |
+| `TaskAuditManager` | `scheduler/` | ✅ GA | — | Durchsuchbares Audit-Log; GDPR-Modus |
+| `TaskAnomalyDetector` | `scheduler/` | ✅ GA | — | Anomalie-Erkennung über Task-Ausführungs-Metriken |
+| Prometheus-Export (`exportMetrics()`) | `scheduler/` | ✅ GA | — | Metriken-Text für Scraping |
+| `HybridRetentionManager` | `scheduler/` | ✅ GA | — | 3-Stufen: Gorilla (0–7d), Varianz-Downsampling (7–365d), Tages-Aggregate (>365d) |
+| `DistributedTaskCoordinator` | `scheduler/` | ✅ GA | — | Leader-Election; One-Runner-Per-Cluster |
+| `ExternalSchedulerAdapter` | `scheduler/` | ✅ GA | — | Kubernetes CronJob + Apache Airflow Adapter |
+
 ---
 
 ## Implementierungsstatus — Plugins & Sharding

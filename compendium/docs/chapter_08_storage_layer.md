@@ -970,3 +970,94 @@ auto health = orchestrator.getHealthReport();
 ---
 
 **Nächstes Kapitel:** [Chapter 9: Indexing Strategies →](chapter_09_indexing.md)
+
+---
+
+## 8.10 TaskScheduler — Generischer Aufgaben-Planer (v1.5)
+
+`TaskScheduler` (`include/scheduler/task_scheduler.h`) ist ein produktionsreifer, allgemeiner Aufgaben-Planer für periodische AQL-Queries, Custom-Functions und CDC-Event-Trigger. Er ergänzt den `DatabaseMaintenanceOrchestrator` (§8.9), ist aber unabhängig nutzbar.
+
+### Features (v1.5)
+
+- **Vollständiges Cron-Parsing**: 5/6-Felder, Wildcards, Ranges, Listen, Steps, Name-Aliases (`@daily`, `@weekly`), Timezone-aware
+- **Trigger-Typen**: Cron, Fixed-Interval, CDC-Event (Changefeed), Manual, Webhook
+- **DAG-Workflow-Engine**: topologische Ausführungsreihenfolge mit parallelem Fan-Out und bedingtem Branching (`branch_condition`)
+- **Retry-Policies**: FIXED_DELAY, EXPONENTIAL_BACKOFF, LINEAR_BACKOFF, JITTER_BACKOFF, FIBONACCI_BACKOFF
+- **Dynamische Skalierung**: Auto-Concurrency basierend auf Queue-Tiefe (`enable_dynamic_scaling`)
+- **Observability**: Audit-Log (`TaskAuditManager`), Prometheus-Export (`exportMetrics()`), OpenTelemetry Tracing, Anomalie-Erkennung
+- **Persistenz**: Task-Definitionen auf Disk; Results in ThemisDB (`TaskResultStore`)
+
+### Schnellstart
+
+```cpp
+#include "scheduler/task_scheduler.h"
+
+themis::scheduler::TaskScheduler::Config cfg;
+cfg.max_concurrent_tasks  = 8;
+cfg.persist_tasks         = true;
+cfg.persistence_path      = "data/tasks";
+cfg.enable_audit_logging  = true;
+cfg.enable_dynamic_scaling = true;
+cfg.max_concurrent_tasks_ceil = 16;
+cfg.scale_up_queue_depth  = 2;
+cfg.enable_result_store   = true;
+
+themis::scheduler::TaskScheduler scheduler(&query_engine, cfg, &changefeed);
+scheduler.start();
+
+// ── Task registrieren ─────────────────────────────────────────────────
+themis::scheduler::ScheduledTask task;
+task.name            = "nightly-cleanup";
+task.cron_expression = "0 2 * * *";           // täglich 02:00 UTC
+task.aql_query       = "FOR doc IN old_data FILTER doc.ts < @cutoff REMOVE doc IN old_data";
+task.parameters      = { {"cutoff", now_minus_30d} };
+task.timeout_seconds = 300;
+task.retry_policy    = themis::scheduler::RetryPolicy::EXPONENTIAL_BACKOFF;
+task.max_retries     = 3;
+
+auto task_id = scheduler.registerTask(task);
+
+// ── DAG-Workflow ──────────────────────────────────────────────────────
+themis::scheduler::ScheduledTask task_b;
+task_b.name         = "post-cleanup-report";
+task_b.dependencies = { task_id };  // läuft nach nightly-cleanup
+task_b.function     = [](const auto& ctx) { /* ... */ return json{}; };
+
+scheduler.registerTask(task_b);
+
+// DAG ausführen
+auto dag_result = scheduler.executeDag({task_id, task_b_id});
+// dag_result.succeeded: {task_id -> result_json}
+// dag_result.failed:    {task_id -> error_msg}
+// dag_result.skipped:   task_ids mit gescheiterten Dependencies
+
+// ── Sofort-Ausführung ─────────────────────────────────────────────────
+auto exec_result = scheduler.executeTaskNow(task_id);
+
+// ── Prometheus-Metriken exportieren ──────────────────────────────────
+std::string metrics_text = scheduler.exportMetrics();
+
+// ── Queue-Tiefe und Concurrency-Limit ─────────────────────────────────
+size_t queue  = scheduler.getQueueDepth();
+size_t conc   = scheduler.getDynamicConcurrencyLimit();
+
+scheduler.stop();
+```
+
+### HybridRetentionManager — 3-Stufen-Time-Series-Lifecycle
+
+```cpp
+#include "scheduler/hybrid_retention_manager.h"
+
+themis::scheduler::HybridRetentionConfig ret_cfg;
+ret_cfg.stage1_retention_days = 7;     // Gorilla-Kompression (10–20× Reduktion)
+ret_cfg.stage2_retention_days = 365;   // Varianz-basiertes Downsampling
+// Stage 3 (>365 Tage): Tages-Aggregate
+
+themis::scheduler::HybridRetentionManager retention(ts_store, ret_cfg);
+retention.start();  // startet Hintergrund-Thread für alle 3 Stufen
+
+auto stats = retention.getStats();
+// stats.stage1_points_processed, stats.stage2_points_downsampled,
+// stats.stage3_aggregates_created
+```
