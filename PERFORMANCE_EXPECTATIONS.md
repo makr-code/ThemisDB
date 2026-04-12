@@ -1,6 +1,6 @@
 # ThemisDB   Performance-Erwartungswerte & Messergebnisse
 
-> Stand: 2026-04-12 (zielgerichteter Validierungs-Run auf aktuellem Release-Build) | Quellen: `FUTURE_ENHANCEMENTS.md` je Modul, `benchmarks/results_analysis_reports/`, `benchmarks/baselines/`, `benchmarks/VERSION_HISTORY.csv`, `benchmarks/chimera/`, `artifacts/perf_nv/targeted_validation/*.json`, Wave-2 Performance Session
+> Stand: 2026-04-12 (zielgerichteter Validierungs- und Reproduktions-Run auf aktuellem Release-Build) | Quellen: `FUTURE_ENHANCEMENTS.md` je Modul, `benchmarks/results_analysis_reports/`, `benchmarks/baselines/`, `benchmarks/VERSION_HISTORY.csv`, `benchmarks/chimera/`, `artifacts/perf_nv/targeted_validation/*.json`, `artifacts/perf_nv/repro_validation_*/*.json`, `artifacts/perf_nv/repro_validation_clean_manual_*/*.json`, Wave-2 Performance Session
 >
 > **Benchmark-Plattformen:**
 > - Run **20251223** (v1.3.0-baseline): MSVC Release x64, AVX2, 20-Core @ 3.7 GHz, 20 MB L3
@@ -27,7 +27,26 @@ Kernaussagen aus diesem Validierungs-Run:
 2. Query-Pagination ist aktuell messbar und nicht mehr als deaktivierter Pfad zu behandeln.
 3. Analytics AN-1/AN-2/AN-5/AN-7/AN-8/AN-9 sind im aktuellen Build direkt messbar.
 4. Timeseries TS-1 ist im aktuellen Persistenzpfad nur knapp unter Ziel (`AdaptiveFlushFixture/SingleThreaded`: 477,9 k pts/s); TS-6 wurde im selben Build erneut reproduziert (`BM_DownsamplingThroughput`: 1,836 M pts/s, P99-Bucket 63 µs).
-5. System-Level TPC-C/YCSB ist nach Reaktivierung der produktiven Bench-Pfade wieder direkt messbar (`TPCCLiteFixture`, `YCSBLiteFixture`); ein Restproblem bleibt im Timeseries-`TimeRangeQuery`-Pfad (Crash, Exit `-1073741819`).
+5. System-Level TPC-C/YCSB ist nach Reaktivierung der produktiven Bench-Pfade wieder direkt messbar (`TPCCLiteFixture`, `YCSBLiteFixture`); der zuvor reproduzierbare Timeseries-`TimeRangeQuery`-Crash ist im aktuellen Build behoben.
+
+### 0.2 Reproduktionslauf 2026-04-12 (Abend)
+
+Ergaenzender Repro-Lauf zur Validierung der wichtigsten KPI-Pfade:
+
+- Query-Kernfaelle: `artifacts/perf_nv/repro_validation_20260412_211053/query_core.json`
+- Timeseries TimeRange + TS-6: `artifacts/perf_nv/repro_validation_20260412_211053/timeseries_timerange_ts6.json`
+- OLAP-Zielcases: `artifacts/perf_nv/repro_validation_20260412_211053/olap_targets.json`
+- TPCC Lite: `artifacts/perf_nv/repro_validation_clean_manual_20260412_2120/tpcc_lite_clean.json`
+- YCSB Lite: `artifacts/perf_nv/repro_validation_clean_manual_20260412_2120/ycsb_lite_clean.json`
+
+Reproduzierte Referenzwerte (einzelne Kernfaelle):
+
+1. Query: `BM_SimpleWhere` 0,206 ms, `BM_ComplexWhere` 0,217 ms, `BM_JoinUsersPosts` 1,109 ms.
+2. Timeseries TimeRange: 60s 0,213 ms, 300s 1,015 ms, 3600s 3,782 ms, 86400s 3,892 ms.
+3. OLAP: `BM_OLAP_IVM_DeltaApply_10k` 20,19 µs, `BM_OLAP_PredictBatch_1k30` 66,04 µs, `BM_OLAP_AutoTune_Grid9` 6,48 µs.
+4. System-Level Lite: `TPCCLiteFixture/NewOrderLite/1/3000` 3282 µs; `YCSBLiteFixture/WorkloadA_50_50/1000000` 1455 µs; `WorkloadB_95_5` 54,70 µs; `WorkloadC_ReadOnly` 7,70 µs.
+
+Hinweis zur Interpretierbarkeit: In einzelnen Lite-Faellen tritt weiterhin CPU-Time-Quantisierung (bis hin zu 0) auf; die Real-Time-Reproduzierbarkeit der Pfade bleibt davon unberuehrt.
 
 ---
 
@@ -1475,7 +1494,7 @@ Benchmark-Code: `BM_QueryMix_Historical`, `BM_QueryMix_Historical_P99` in `bench
 
 *`TimeseriesBench/InsertTimepoints` 49,0 M/s misst In-Memory-Append, nicht persistiertes Schreiben
 
-Hinweis 2026-04-12: `TimeseriesBenchmarkFixture/TimeRangeQuery/60` fuehrt im aktuellen Binary zu einem reproduzierbaren Crash (Exit `-1073741819`). TS-6 (`BM_DownsamplingThroughput`) laeuft dagegen stabil und ist separat validiert.
+Hinweis 2026-04-12 (Update): `TimeseriesBenchmarkFixture/TimeRangeQuery/*` laeuft im aktuellen Binary wieder stabil (60s: `0,176 ms`; 300s: `0,701 ms`; 3600s: `2,21 ms`; 86400s: `2,41 ms`; Exit `0`; Artefakt: `artifacts/perf_nv/targeted_validation/bench_timeseries_timerange_all_retest.json`). TS-6 (`BM_DownsamplingThroughput`) bleibt separat validiert.
 
 ---
 
