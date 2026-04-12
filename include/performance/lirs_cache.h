@@ -78,24 +78,29 @@ public:
      * @return true if found (hit), false if not found (miss)
      */
     bool get(const Key& key, Value& value) {
-        // Fast path: shared (read) lock for lookup
-        {
-            std::shared_lock<std::shared_mutex> rlock(mutex_);
-            auto it = map_.find(key);
-            if (it == map_.end()) {
-                misses_++;
-                return false;
-            }
-            hits_++;
-            value = it->second.value;
+        // Use a single unique_lock for the whole get() operation.
+        //
+        // A two-phase shared→unique approach (shared for lookup, then upgrade to
+        // unique for access()) creates a TOCTOU race: the key can be evicted in the
+        // window between releasing the shared lock and acquiring the unique lock, so
+        // access() would silently be skipped and the caller would hold a stale value
+        // with no access-pattern update.
+        //
+        // With a single exclusive lock the trade-off is slightly reduced read
+        // concurrency; for workloads where reads dominate over writes the bottleneck
+        // is typically memory bandwidth rather than lock contention at cache sizes
+        // below ~10 M entries.  Large-scale deployments should use sharded instances.
+        std::unique_lock<std::shared_mutex> lock(mutex_);
+
+        auto it = map_.find(key);
+        if (it == map_.end()) {
+            misses_++;
+            return false;
         }
-        // Slow path: exclusive lock only to update access metadata
-        {
-            std::unique_lock<std::shared_mutex> wlock(mutex_);
-            if (map_.find(key) != map_.end()) {
-                access(key);
-            }
-        }
+
+        hits_++;
+        value = it->second.value;
+        access(key);
         return true;
     }
 

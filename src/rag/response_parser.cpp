@@ -189,12 +189,12 @@ nlohmann::json ResponseParser::parseJSONResponse(const std::string& response) {
         std::string json_str = response.substr(start, end - start + 1);
         // Fast structural validation before full parse
 #ifdef THEMIS_RAG_SIMDJSON
-        static thread_local simdjson::ondemand::parser sj_parser2;
-        simdjson::padded_string padded2(json_str);
-        auto doc2 = sj_parser2.iterate(padded2);
-        if (doc2.error()) {
+        static thread_local simdjson::ondemand::parser sj_parser_json_response;
+        simdjson::padded_string padded_json_response(json_str);
+        auto doc_json_response = sj_parser_json_response.iterate(padded_json_response);
+        if (doc_json_response.error()) {
             THEMIS_DEBUG("parseJSONResponse: simdjson rejected: {}",
-                         simdjson::error_message(doc2.error()));
+                         simdjson::error_message(doc_json_response.error()));
             return nlohmann::json::object();
         }
 #endif

@@ -14,8 +14,10 @@
 #include "utils/logger.h"
 
 #include <algorithm>
+#include <cerrno>
 #include <chrono>
 #include <cstring>
+#include <sys/stat.h>
 
 // ── Platform-gated includes ───────────────────────────────────────────────────
 
@@ -348,13 +350,22 @@ AiHardwareCapability AiHardwareDispatcher::probeArmEthos() const noexcept {
     // Ethos-N is probed via the Arm NN delegate or a sysfs device node.
     // We check for the kernel driver node /dev/ethosu0.
     struct stat st{};
-    if (::stat("/dev/ethosu0", &st) == 0) {
+    int ret = ::stat("/dev/ethosu0", &st);
+    if (ret == 0) {
         cap.available = true;
         cap.tops      = 4; // Ethos-N78 estimate (scales with config)
         cap.supported_precisions = PrecisionMode::FP32 | PrecisionMode::INT8;
     } else {
-        cap.available = false;
-        cap.error     = "Ethos-N kernel driver not found (/dev/ethosu0 absent)";
+        int saved_errno = errno;
+        if (saved_errno == ENOENT) {
+            cap.available = false;
+            cap.error     = "Ethos-N kernel driver not found (/dev/ethosu0 absent)";
+        } else {
+            cap.available = false;
+            cap.error     = std::string("Ethos-N probe failed: stat() errno=") +
+                            std::to_string(saved_errno) + " (" + ::strerror(saved_errno) + ")";
+            THEMIS_WARN("AiHardwareDispatcher: probeArmEthos: unexpected stat error: {}", cap.error);
+        }
     }
 #else
     cap.available = false;

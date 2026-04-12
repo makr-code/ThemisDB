@@ -171,13 +171,9 @@ std::optional<LLMInteractionStore::Interaction> LLMInteractionStore::getInteract
     
     try {
 #ifdef THEMIS_LLM_SIMDJSON
-        static thread_local simdjson::ondemand::parser sj_parser;
-        // simdjson requires a padded copy
+        static thread_local simdjson::ondemand::parser sj_parser_get_interaction;
         simdjson::padded_string padded(value);
-        auto doc = sj_parser.iterate(padded);
-        // Fall through to nlohmann for field extraction (ondemand DOM is not
-        // directly compatible with fromJson; we use simdjson for validation
-        // and forward the original string to nlohmann only on success).
+        auto doc = sj_parser_get_interaction.iterate(padded);
         if (doc.error()) {
             THEMIS_ERROR("Failed to parse LLM interaction {} (simdjson): {}", id,
                          simdjson::error_message(doc.error()));
@@ -234,9 +230,9 @@ std::vector<LLMInteractionStore::Interaction> LLMInteractionStore::listInteracti
         
         try {
 #ifdef THEMIS_LLM_SIMDJSON
-            static thread_local simdjson::ondemand::parser sj_parser_list;
+            static thread_local simdjson::ondemand::parser sj_parser_list_interactions;
             simdjson::padded_string padded_list(it->value().data(), it->value().size());
-            auto doc_list = sj_parser_list.iterate(padded_list);
+            auto doc_list = sj_parser_list_interactions.iterate(padded_list);
             if (doc_list.error()) {
                 THEMIS_WARN("simdjson rejected interaction at key {}: {}",
                             key, simdjson::error_message(doc_list.error()));
@@ -306,9 +302,9 @@ LLMInteractionStore::Stats LLMInteractionStore::getStats() const {
         
         try {
 #ifdef THEMIS_LLM_SIMDJSON
-            static thread_local simdjson::ondemand::parser sj_parser_stats;
+            static thread_local simdjson::ondemand::parser sj_parser_get_stats;
             simdjson::padded_string padded_stats(it->value().data(), it->value().size());
-            auto doc_stats = sj_parser_stats.iterate(padded_stats);
+            auto doc_stats = sj_parser_get_stats.iterate(padded_stats);
             if (doc_stats.error()) {
                 THEMIS_WARN("simdjson rejected interaction in stats scan: {}",
                             simdjson::error_message(doc_stats.error()));

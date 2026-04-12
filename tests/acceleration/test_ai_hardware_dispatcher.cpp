@@ -348,17 +348,42 @@ TEST(AiHardwareDispatcherFocusedTests, AH_28_PrecisionMode_Bitmask_Orthogonal) {
     }
 }
 
-TEST(AiHardwareDispatcherFocusedTests, AH_29_HasAccelerator_ReturnsBool) {
-    AiHardwareDispatcher::instance().initialize();
-    // Just verify the call doesn't throw; result depends on CI hardware
-    bool acc = AiHardwareDispatcher::instance().hasAccelerator();
-    EXPECT_TRUE(acc || !acc);  // always one or the other
+TEST(AiHardwareDispatcherFocusedTests, AH_29_HasAccelerator_ConsistentWithCapabilities) {
+    AiHardwareDispatcher::instance().initialize(/*force=*/true);
+    bool has_acc = AiHardwareDispatcher::instance().hasAccelerator();
+    auto caps    = AiHardwareDispatcher::instance().probeCapabilities();
+
+    bool any_non_cpu = false;
+    for (const auto& c : caps) {
+        if (c.available && c.type != BackendType::CPU) {
+            any_non_cpu = true;
+            break;
+        }
+    }
+    // hasAccelerator() must agree with what probeCapabilities() reports
+    EXPECT_EQ(has_acc, any_non_cpu)
+        << "hasAccelerator() disagreed with probeCapabilities(): "
+        << "hasAccelerator=" << has_acc << ", any_non_cpu=" << any_non_cpu;
 }
 
-TEST(AiHardwareDispatcherFocusedTests, AH_30_HasNPU_ReturnsBool) {
-    AiHardwareDispatcher::instance().initialize();
-    bool npu = AiHardwareDispatcher::instance().hasNPU();
-    // On CI without dedicated NPU hardware this is expected to be false
-    // but must not throw
-    EXPECT_TRUE(npu || !npu);
+TEST(AiHardwareDispatcherFocusedTests, AH_30_HasNPU_ConsistentWithCapabilities) {
+    AiHardwareDispatcher::instance().initialize(/*force=*/true);
+    bool has_npu = AiHardwareDispatcher::instance().hasNPU();
+    auto caps    = AiHardwareDispatcher::instance().probeCapabilities();
+
+    bool any_npu_cap = false;
+    for (const auto& c : caps) {
+        if (!c.available) continue;
+        if (c.type == BackendType::NPU_APPLE   ||
+            c.type == BackendType::NPU_INTEL    ||
+            c.type == BackendType::NPU_QUALCOMM ||
+            c.type == BackendType::NPU_ARM      ||
+            c.type == BackendType::NNAPI) {
+            any_npu_cap = true;
+            break;
+        }
+    }
+    EXPECT_EQ(has_npu, any_npu_cap)
+        << "hasNPU() disagreed with probeCapabilities(): "
+        << "hasNPU=" << has_npu << ", any_npu_cap=" << any_npu_cap;
 }
