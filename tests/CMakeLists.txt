@@ -20976,6 +20976,11 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../src/llama_cpp/tests/test_llama_cpp_plu
     add_executable(test_llama_cpp_plugin
         "${CMAKE_CURRENT_SOURCE_DIR}/../src/llama_cpp/tests/test_llama_cpp_plugin.cpp"
         "${CMAKE_CURRENT_SOURCE_DIR}/../src/llama_cpp/llama_cpp_plugin.cpp"
+        # Registrar (groups N1-N6) and its transitive dependencies compiled
+        # directly into the test so no shared library is needed.
+        "${CMAKE_CURRENT_SOURCE_DIR}/../src/llama_cpp/llama_cpp_registrar.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../src/llm/llm_plugin_manager.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../src/utils/error_registry.cpp"
     )
     target_include_directories(test_llama_cpp_plugin PRIVATE
         "${CMAKE_CURRENT_SOURCE_DIR}/../include"
@@ -20984,15 +20989,17 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../src/llama_cpp/tests/test_llama_cpp_plu
         GTest::gtest
         GTest::gtest_main
         nlohmann_json::nlohmann_json
+        spdlog::spdlog
+        fmt::fmt
     )
     target_compile_features(test_llama_cpp_plugin PRIVATE cxx_std_17)
     target_compile_definitions(test_llama_cpp_plugin PRIVATE THEMIS_PLUGIN_EXPORTS)
     add_test(NAME LlamaCppPluginFocusedTests COMMAND test_llama_cpp_plugin)
     set_tests_properties(LlamaCppPluginFocusedTests PROPERTIES
-        LABELS "plugins;llama_cpp;llm;v2.0.0"
+        LABELS "plugins;llama_cpp;llm;v2.1.0"
         TIMEOUT 60
     )
-    message(STATUS "  LlamaCppPlugin: 30 tests (A-J)")
+    message(STATUS "  LlamaCppPlugin: 50 tests (A-N)")
 else()
     message(STATUS "  LlamaCppPlugin tests not found – skipped")
 endif()
