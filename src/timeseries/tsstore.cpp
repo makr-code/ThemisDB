@@ -39,6 +39,7 @@
 #include <sstream>
 #include <iomanip>
 #include <map>
+#include <unordered_map>
 #include <unordered_set>
 #include <algorithm>
 #include <chrono>
@@ -468,6 +469,208 @@ Result<void> TSStore::putDataPoints(const std::vector<DataPoint>& points) {
     
     THEMIS_INFO("Wrote batch of {} data points (raw)", points.size());
     return OkVoid();
+}
+
+Result<TSStore::BatchWriteResult> TSStore::putBatch(std::span<const TSRow> rows) {
+    auto span = Tracer::startSpan("TSStore.putBatch");
+    span.setAttribute("batch_size", static_cast<int64_t>(rows.size()));
+    auto start_time = std::chrono::steady_clock::now();
+
+    BatchWriteResult result;
+    if (rows.empty()) {
+        return Ok(result);
+    }
+
+    if (config_.compression == CompressionType::Gorilla) {
+        // Group by metric:entity preserving string_view lifetimes via indexed groups.
+        // Key: owned string "metric:entity", Value: vector of row indices.
+        std::unordered_map<std::string, std::vector<size_t>> groups;
+        groups.reserve(rows.size());
+
+        // Validate and group
+        for (size_t i = 0; i < rows.size(); ++i) {
+            const auto& row = rows[i];
+            if (row.metric.empty() || row.entity.empty()) {
+                result.row_errors.emplace_back(i, "metric and entity cannot be empty");
+                ++result.failed_count;
+                continue;
+            }
+            // Late-arrival / out-of-order check
+            if (config_.late_arrival_window_ms > 0) {
+                std::string wm_key; wm_key.reserve(row.metric.size() + 1 + row.entity.size()); wm_key.append(row.metric).append(":").append(row.entity);
+                std::lock_guard<std::mutex> lock(watermark_mutex_);
+                int r = checkAndUpdateWatermarkLocked(wm_key, row.timestamp_ms);
+                if (r < 0) {
+                    ooo_rejected_.fetch_add(1, std::memory_order_relaxed);
+                    if (metrics_) metrics_->recordOutOfOrderWrite(std::string(row.metric), true);
+                    result.row_errors.emplace_back(i,
+                        "timestamp outside late-arrival window");
+                    ++result.failed_count;
+                    continue;
+                }
+                if (r > 0) {
+                    ooo_accepted_.fetch_add(1, std::memory_order_relaxed);
+                    if (metrics_) metrics_->recordOutOfOrderWrite(std::string(row.metric), false);
+                }
+            }
+            std::string gk; gk.reserve(row.metric.size() + 1 + row.entity.size()); gk.append(row.metric).append(":").append(row.entity);
+            groups[gk].push_back(i);
+        }
+
+        rocksdb::WriteBatch batch;
+
+        for (auto& [group_key, indices] : groups) {
+            // Sort by timestamp for Gorilla efficiency
+            std::sort(indices.begin(), indices.end(),
+                [&rows](size_t a, size_t b) {
+                    return rows[a].timestamp_ms < rows[b].timestamp_ms;
+                });
+
+            std::vector<int64_t> timestamps;
+            std::vector<double>  values;
+            timestamps.reserve(indices.size());
+            values.reserve(indices.size());
+            for (size_t idx : indices) {
+                timestamps.push_back(rows[idx].timestamp_ms);
+                values.push_back(rows[idx].value);
+            }
+
+            try {
+                GorillaEncoder encoder;
+                for (size_t j = 0; j < timestamps.size(); ++j) {
+                    encoder.add(timestamps[j], values[j]);
+                }
+                std::vector<uint8_t> compressed = encoder.finish();
+
+                const auto& first_row = rows[indices.front()];
+                std::string chunk_key;
+                {
+                    const std::string ts_front = std::to_string(timestamps.front());
+                    const std::string ts_back  = std::to_string(timestamps.back());
+                    chunk_key.reserve(std::strlen(GORILLA_CHUNK_PREFIX) +
+                                      first_row.metric.size() + 1 +
+                                      first_row.entity.size() + 1 +
+                                      ts_front.size() + 1 + ts_back.size());
+                    chunk_key.append(GORILLA_CHUNK_PREFIX)
+                             .append(first_row.metric).append(":")
+                             .append(first_row.entity).append(":")
+                             .append(ts_front).append(":")
+                             .append(ts_back);
+                }
+
+                nlohmann::json chunk_meta;
+                chunk_meta["compression"] = "gorilla";
+                chunk_meta["count"]       = indices.size();
+
+                if (enc_chunk_store_) {
+                    std::string series_id;
+                    series_id.reserve(first_row.metric.size() + 1 + first_row.entity.size());
+                    series_id.append(first_row.metric).append(":").append(first_row.entity);
+                    std::string chunk_range = "[" + std::to_string(timestamps.front()) +
+                                              "," + std::to_string(timestamps.back()) + "]";
+                    auto enc_result = enc_chunk_store_->encryptChunk(
+                        series_id, compressed, chunk_range);
+                    chunk_meta["encryption"] = "aes-256-gcm";
+                    chunk_meta["key_id"]     = enc_result.key_id;
+                    chunk_meta["data"]       = nlohmann::json::binary(enc_result.blob);
+                } else {
+                    chunk_meta["data"] = nlohmann::json::binary(compressed);
+                }
+
+                std::string value = chunk_meta.dump();
+                if (cf_) {
+                    batch.Put(cf_, chunk_key, value);
+                } else {
+                    batch.Put(chunk_key, value);
+                }
+
+                if (metrics_) {
+                    size_t uncompressed = indices.size() * (sizeof(int64_t) + sizeof(double));
+                    metrics_->recordCompression(std::string(first_row.metric),
+                                                uncompressed, compressed.size());
+                }
+            } catch (const std::exception& e) {
+                // Mark all rows in this group as failed
+                for (size_t idx : indices) {
+                    result.row_errors.emplace_back(idx,
+                        std::string("Gorilla compression failed: ") + e.what());
+                    ++result.failed_count;
+                }
+            }
+        }
+
+        rocksdb::WriteOptions write_opts;
+        rocksdb::Status s = db_->Write(write_opts, &batch);
+        if (!s.ok()) {
+            return Err<BatchWriteResult>(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
+                std::string("putBatch WriteBatch failed: ") + s.ToString());
+        }
+
+        result.ok_count = rows.size() - result.failed_count;
+        auto latency_ms = std::chrono::duration<double, std::milli>(
+            std::chrono::steady_clock::now() - start_time).count();
+        THEMIS_INFO("putBatch (Gorilla): {} ok / {} failed in {:.2f} ms",
+            result.ok_count, result.failed_count, latency_ms);
+        return Ok(result);
+    }
+
+    // No-compression path — raw key-value entries per row in a single WriteBatch.
+    rocksdb::WriteBatch batch;
+
+    for (size_t i = 0; i < rows.size(); ++i) {
+        const auto& row = rows[i];
+        if (row.metric.empty() || row.entity.empty()) {
+            result.row_errors.emplace_back(i, "metric and entity cannot be empty");
+            ++result.failed_count;
+            continue;
+        }
+
+        if (config_.late_arrival_window_ms > 0) {
+            std::string wm_key; wm_key.reserve(row.metric.size() + 1 + row.entity.size()); wm_key.append(row.metric).append(":").append(row.entity);
+            std::lock_guard<std::mutex> lock(watermark_mutex_);
+            int r = checkAndUpdateWatermarkLocked(wm_key, row.timestamp_ms);
+            if (r < 0) {
+                ooo_rejected_.fetch_add(1, std::memory_order_relaxed);
+                if (metrics_) metrics_->recordOutOfOrderWrite(std::string(row.metric), true);
+                result.row_errors.emplace_back(i, "timestamp outside late-arrival window");
+                ++result.failed_count;
+                continue;
+            }
+            if (r > 0) {
+                ooo_accepted_.fetch_add(1, std::memory_order_relaxed);
+                if (metrics_) metrics_->recordOutOfOrderWrite(std::string(row.metric), false);
+            }
+        }
+
+        std::string key = makeKey(std::string(row.metric), std::string(row.entity),
+                                  row.timestamp_ms);
+        nlohmann::json jv;
+        jv["metric"]       = row.metric;
+        jv["entity"]       = row.entity;
+        jv["timestamp_ms"] = row.timestamp_ms;
+        jv["value"]        = row.value;
+        std::string value  = jv.dump();
+
+        if (cf_) {
+            batch.Put(cf_, key, value);
+        } else {
+            batch.Put(key, value);
+        }
+    }
+
+    rocksdb::WriteOptions write_opts;
+    rocksdb::Status s = db_->Write(write_opts, &batch);
+    if (!s.ok()) {
+        return Err<BatchWriteResult>(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
+            std::string("putBatch WriteBatch failed: ") + s.ToString());
+    }
+
+    result.ok_count = rows.size() - result.failed_count;
+    auto latency_ms = std::chrono::duration<double, std::milli>(
+        std::chrono::steady_clock::now() - start_time).count();
+    THEMIS_INFO("putBatch (raw): {} ok / {} failed in {:.2f} ms",
+        result.ok_count, result.failed_count, latency_ms);
+    return Ok(result);
 }
 
 Result<std::vector<TSStore::DataPoint>>

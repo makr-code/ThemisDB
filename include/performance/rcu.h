@@ -198,15 +198,29 @@ void rcu_defer_delete(T* ptr) {
     #endif
 }
 
+// Global active-reader count.
+// Each ReadLock increments this on construction and decrements on destruction.
+// GracePeriodManager::readers_active() polls this to detect quiescent states.
+// Using relaxed ordering is safe because we are checking for zero (a
+// stable state once all readers have decremented).
+//
+// The `inline` specifier (C++17) guarantees a single definition across all
+// translation units that include this header.  If building with C++14, move
+// this declaration to a .cpp file and declare `extern std::atomic<int64_t>
+// g_rcu_reader_count;` here instead.
+inline std::atomic<int64_t> g_rcu_reader_count{0};
+
 // Thread-local read counter definition
 inline thread_local std::atomic<uint64_t> ReadLock::read_count_{0};
 
 // ReadLock implementation
 inline ReadLock::ReadLock() {
     read_count_.fetch_add(1, std::memory_order_acquire);
+    g_rcu_reader_count.fetch_add(1, std::memory_order_relaxed);
 }
 
 inline ReadLock::~ReadLock() {
+    g_rcu_reader_count.fetch_sub(1, std::memory_order_release);
     read_count_.fetch_sub(1, std::memory_order_release);
 }
 
@@ -268,9 +282,10 @@ inline void GracePeriodManager::synchronize_rcu() {
 }
 
 inline bool GracePeriodManager::readers_active() {
-    // Simple implementation: just wait a bit
-    // Real RCU would check per-CPU read counters
-    return false;
+    // A grace period has elapsed when no reader holds a ReadLock.
+    // g_rcu_reader_count is the authoritative global active-reader count;
+    // it is incremented on ReadLock construction and decremented on destruction.
+    return g_rcu_reader_count.load(std::memory_order_acquire) > 0;
 }
 
 inline void GracePeriodManager::grace_period_thread() {

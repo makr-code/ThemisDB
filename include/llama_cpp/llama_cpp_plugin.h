@@ -6,6 +6,7 @@
 #include <memory>
 #include <mutex>
 #include <atomic>
+#include <functional>
 #include <nlohmann/json.hpp>
 
 namespace themis {
@@ -27,6 +28,13 @@ using json = nlohmann::json;
  *
  * Usage with model:
  *   - initialize() calls loadModel() with model_path from config
+ *
+ * Streaming:
+ *   - Set InferenceRequest::stream_callback to receive tokens one-by-one.
+ *   - Alternatively call generateStream(request, callback) directly.
+ *
+ * Batch inference:
+ *   - generateBatch(requests) iterates over each request and calls generate().
  */
 class LlamaCppPlugin : public llm::ILLMPlugin {
 public:
@@ -57,7 +65,38 @@ public:
     bool importLoRA(const std::string& lora_id,
                     const std::vector<uint8_t>& data) override;
 
-    std::string getPluginVersion() const { return "2.0.0"; }
+    // ── Extended API (beyond ILLMPlugin) ──────────────────────────────────
+
+    /**
+     * @brief Streaming generation convenience wrapper.
+     *
+     * Calls generate() with the given request, injecting @p token_callback into
+     * InferenceRequest::stream_callback.  When a real llama.cpp model is wired in,
+     * each sampled token is forwarded to the callback before the full response is
+     * returned.  In stub mode the callback receives the stub response as a single
+     * "token" so that callers always get at least one callback invocation.
+     *
+     * @param request       Inference parameters (stream_callback field is overwritten).
+     * @param token_callback Called once per token; must not throw.
+     * @return Full InferenceResponse (same as generate()).
+     */
+    llm::InferenceResponse generateStream(
+        llm::InferenceRequest request,
+        std::function<void(const std::string& token)> token_callback);
+
+    /**
+     * @brief Batch inference over multiple requests.
+     *
+     * Iterates over @p requests and calls generate() for each one.
+     * Order of responses mirrors order of requests.
+     *
+     * @param requests Vector of inference requests.
+     * @return Vector of InferenceResponse, same size as @p requests.
+     */
+    std::vector<llm::InferenceResponse> generateBatch(
+        const std::vector<llm::InferenceRequest>& requests);
+
+    std::string getPluginVersion() const { return "2.1.0"; }
     std::string getModelId() const;
 
 private:

@@ -435,6 +435,7 @@ private:
 
     void ioThreadEntry();
     void doConnect();
+    void sendMqttConnect();
     void doRead();
     void doWrite();
     void onConnAck(uint8_t flags, uint8_t return_code);
@@ -447,6 +448,9 @@ private:
     void handleDisconnect(const std::string& reason);
     void enqueuePacket(std::vector<uint8_t> packet);
     void sendSubscriptions();
+#ifdef THEMIS_ENABLE_MQTT_TLS
+    void doHandshake();
+#endif
 
     static std::string generateClientId();
 

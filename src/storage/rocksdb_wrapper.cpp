@@ -1325,6 +1325,37 @@ std::optional<std::vector<uint8_t>> RocksDBWrapper::TransactionWrapper::get(std:
     return std::nullopt;
 }
 
+bool RocksDBWrapper::TransactionWrapper::getForUpdate(std::string_view key) {
+    if (!txn_ || state_ != State::Active) {
+        THEMIS_ERROR("TransactionWrapper::getForUpdate: transaction not active");
+        return false;
+    }
+
+    std::string value;
+    rocksdb::ReadOptions read_opts;
+    if (isolation_ == TransactionIsolationLevel::Snapshot) {
+        read_opts.snapshot = txn_->GetSnapshot();
+    }
+
+    // exclusive=true: no other transaction may acquire a conflicting write lock
+    // on this key until this transaction commits or rolls back.
+    rocksdb::Status status = txn_->GetForUpdate(
+        read_opts,
+        rocksdb::Slice(key.data(), key.size()),
+        &value,
+        /*exclusive=*/true);
+
+    if (status.ok() || status.IsNotFound()) {
+        // Lock acquired; the key may or may not exist — both are success cases.
+        return true;
+    }
+
+    // Lock acquisition failed (write-write conflict, lock timeout, …)
+    THEMIS_WARN("TransactionWrapper::getForUpdate: lock acquisition failed for key '{}': {}",
+                key, status.ToString());
+    return false;
+}
+
 bool RocksDBWrapper::TransactionWrapper::put(std::string_view key, const std::vector<uint8_t>& value) {
     if (!txn_) {
         THEMIS_ERROR("TransactionWrapper::put: txn_ is nullptr");

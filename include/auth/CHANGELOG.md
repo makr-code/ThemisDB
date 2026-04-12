@@ -8,6 +8,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+## [1.9.1] — 2026-04-08
+### Changed
+- `tests/CMakeLists.txt`: Registered 13 previously unregistered test executables covering federated identity, token blacklist persistence, password policy, Kerberos security validator, server rate limiting, mTLS client/pool, API auth config, API key management, and PKI/eIDAS placeholder. All targets are gated with `if(EXISTS ...)` guards consistent with existing patterns.
+
 ## [1.9.0] — 2026-03-24
 ### Added
 - `eid_authenticator.h`: `EIDAttributeType`, `EIDAttribute`, `EIDAssuranceLevel`, `EIDIdentity`, `EIDAuthConfig`, `EIDAuthResult`, `IEIDAuthenticator`, `InMemoryEIDAuthenticator` — integration with the German Online-Ausweisfunktion (eID) per BSI TR-03130 v3.3 / TR-03110 v2.21 / TR-03127 v1.20; supports initialize, beginAuthSession (returns redirect URL), completeAuthSession (SAML assertion validation simulation), revokeSession, EIDIdentity attribute access, fullName helper, eIDAS Level of Assurance; 30 tests in `tests/test_eid_authenticator.cpp`; CI: `eid-authenticator-ci.yml`

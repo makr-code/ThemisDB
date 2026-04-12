@@ -1,4 +1,4 @@
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-04-12 -->
 
 # include/sharding/ — Roadmap
 
@@ -9,10 +9,9 @@
 
 ## Current Status
 
-The sharding public API is **production-ready** at v1.5.0.  All 86 headers are
-stable, versioned, and covered by integration tests.  The v1.5 release added
-predictive detection, GPU erasure coding, SLO monitoring, and multi-primary
-coordination.
+The sharding public API is **production-ready** at v1.6.0.  All 86 headers are
+stable, versioned, and covered by integration tests.  The v1.6.0 release added
+Paxos WAL durability and `ShardRPCClient::writeEntity()` gRPC integration.
 
 ---
 
@@ -33,6 +32,9 @@ coordination.
 - [x] Multi-primary coordinator interface
 - [x] TrueTime / HLC clock interfaces
 - [x] Prometheus metrics interface
+- [x] **Paxos WAL durability** — `handlePrepare`/`handleAccept` log to WAL before returning; `recoverFromWAL()` restores `instances_` on restart (Issue: #4592) (2026-04-12)
+- [x] **`ShardRPCClient::writeEntity()`** — gRPC `ReplicateData` cross-shard write; `handleWriteEntityGrpc()` wired in `sendRequestGrpc()` (Issue: #4593) (2026-04-12)
+- [x] **10 focused tests PSR-01…PSR-10** — `PaxosPersistenceRecoveryFocusedTests` in `tests/test_paxos_persistence_recovery.cpp` (Issue: #4592)
 
 ---
 

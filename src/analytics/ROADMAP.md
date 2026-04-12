@@ -45,6 +45,11 @@ Production-ready for core OLAP, data export, process mining, text analytics, LLM
 - [x] Multi-language NLP support (beyond English) (Issue: #1478)
 - [x] Full morphological lemmatization (Issue: #1479)
 - [x] Arrow Flight RPC support for remote analytics: in-process + optional native gRPC transport (Issue: #1472) (`analytics/arrow_flight.cpp`)
+- [x] **Multi-stream join engine** — `IStreamingJoin` / `HashJoin` / `IntervalJoin` (Issue: #4576) (2026-04-12)
+  - `include/analytics/streaming_join.h` + `src/analytics/streaming_join.cpp`
+  - `HashJoin`: composite-key hash table, inner/left-outer join, multi-batch build, configurable `max_build_rows`
+  - `IntervalJoin`: `before_ms`/`after_ms`/`slack_ms` time-window join with LRU probe-side pruning
+  - 15 focused tests (SJ-01…SJ-15) in `tests/analytics/test_streaming_join.cpp`
 
 ## In Progress 🚧
 *(none — all Phase 3 items completed)*

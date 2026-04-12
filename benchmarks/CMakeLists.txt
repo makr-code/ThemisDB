@@ -1098,6 +1098,44 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_storage_performance.cpp")
     message(STATUS "  Storage: mimalloc, huge pages, RCU index")
 endif()
 
+# Storage Hotspot CRUD Benchmarks (Wave-2 P1)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_hotspots_micro.cpp")
+    message(STATUS "Adding Storage Hotspot CRUD benchmarks")
+
+    add_executable(bench_hotspots_micro
+        bench_hotspots_micro.cpp
+    )
+
+    target_link_libraries(bench_hotspots_micro PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_hotspots_micro PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(bench_hotspots_micro PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_hotspots_micro
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  Storage Hotspots: raw write, mixed read/write, secondary index; owner target for Wave-2 CRUD cases")
+endif()
+
 # Random Access with Prefetch Benchmarks (v1.4.1)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_random_access_prefetch.cpp")
     message(STATUS "Adding Random Access Prefetch benchmarks")
@@ -3505,6 +3543,57 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_pii_stream_scanner.cpp")
 endif()
 
 # ============================================================================
+# Timeseries Ingestion & Downsampling benchmarks (TS-6, Run-Plan 17)
+# Validates acceptance criteria:
+#   - Gorilla compression round-trip throughput
+#   - Time-range query performance at various range sizes
+#   - DownsamplingThroughput: 1-min bucket aggregation over 3600-pt 1-hour dataset
+# ============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_timeseries_ingestion.cpp")
+    message(STATUS "Adding Timeseries Ingestion & Downsampling benchmarks (TS-6)")
+
+    add_executable(bench_timeseries_ingestion
+        bench_timeseries_ingestion.cpp
+    )
+
+    target_include_directories(bench_timeseries_ingestion PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(bench_timeseries_ingestion PRIVATE
+        themis_core
+        ${BENCHMARK_LIBS}
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_timeseries_ingestion PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(bench_timeseries_ingestion PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_timeseries_ingestion
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  DownsamplingThroughput: 1-min bucketed aggregation, 3600 pts/iter, throughput in pts/s")
+endif()
+
+# ============================================================================
 # Timeseries Adaptive Flush benchmarks (PERF-D1)
 # Validates acceptance criteria:
 #   - Sustained ≥500k pts/s single- and multi-threaded TSAutoBuffer::add()
@@ -3602,6 +3691,437 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_query_lazy_eval.cpp")
     )
 
     message(STATUS "  bench_query_lazy_eval: filter/project/multi-pred/aggregate/full-pipeline throughput, batch-size sweep, selectivity sweep, SIMD vs scalar")
+endif()
+
+# ============================================================================
+# Thread Pool Saturation Benchmarks (utils module — Issue #1575 analogue)
+# Validates: load tests under queue saturation, concurrent producers
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_thread_pool_saturation.cpp")
+    message(STATUS "Adding ThreadPoolManager saturation benchmarks")
+
+    add_executable(bench_thread_pool_saturation
+        bench_thread_pool_saturation.cpp
+    )
+
+    target_include_directories(bench_thread_pool_saturation PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(bench_thread_pool_saturation PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_thread_pool_saturation PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(bench_thread_pool_saturation PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_thread_pool_saturation
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  ThreadPool: submit throughput, saturated-queue drop rate, priority ordering, concurrent producers, shutdown latency")
+endif()
+
+# ============================================================================
+# Voice Wake-Word and Batch-Processor Benchmarks
+# Validates: wake-word latency <200 ms, batch linear scaling to 16 threads
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_voice_wake_word_batch.cpp")
+    message(STATUS "Adding Voice wake-word and batch-processor benchmarks")
+
+    add_executable(bench_voice_wake_word_batch
+        bench_voice_wake_word_batch.cpp
+    )
+
+    target_include_directories(bench_voice_wake_word_batch PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(bench_voice_wake_word_batch PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_voice_wake_word_batch PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(bench_voice_wake_word_batch PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_voice_wake_word_batch
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  Voice: wake-word latency (silent/energy/rolling), batch throughput 1..16 threads, runLoadTest overhead")
+endif()
+
+# ============================================================================
+# llama.cpp Inference Benchmarks
+# Validates: LlamaCppPlugin stub/real latency, batch throughput, concurrency
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_llama_cpp_inference.cpp")
+    message(STATUS "Adding llama.cpp inference benchmarks")
+
+    add_executable(bench_llama_cpp_inference
+        bench_llama_cpp_inference.cpp
+    )
+
+    target_include_directories(bench_llama_cpp_inference PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(bench_llama_cpp_inference PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_llama_cpp_inference PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(DEFINED ENV{THEMIS_BENCH_LLAMA_MODEL_PATH})
+        target_compile_definitions(bench_llama_cpp_inference PRIVATE
+            THEMIS_BENCH_LLAMA_MODEL_PATH="$ENV{THEMIS_BENCH_LLAMA_MODEL_PATH}"
+        )
+    endif()
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(bench_llama_cpp_inference PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_llama_cpp_inference
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  LlamaCpp: generate/batch/embed/stream latency, concurrent threads, stats query (stub + real model)")
+endif()
+
+# ============================================================================
+# Whisper Transcription Benchmarks
+# Validates: transcribe() latency, file-size limits, CLI parity budget
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_whisper_transcription.cpp")
+    message(STATUS "Adding Whisper transcription benchmarks")
+
+    add_executable(bench_whisper_transcription
+        bench_whisper_transcription.cpp
+    )
+
+    target_include_directories(bench_whisper_transcription PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(bench_whisper_transcription PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_whisper_transcription PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(DEFINED ENV{THEMIS_BENCH_WHISPER_MODEL_PATH})
+        target_compile_definitions(bench_whisper_transcription PRIVATE
+            THEMIS_BENCH_WHISPER_MODEL_PATH="$ENV{THEMIS_BENCH_WHISPER_MODEL_PATH}"
+        )
+    endif()
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(bench_whisper_transcription PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_whisper_transcription
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  Whisper: transcribe 1s/5s/30s/8kHz, detectLanguage, file fast-fail, stub dispatch, buffer-size sweep")
+endif()
+
+# ============================================================================
+# User Storage Encrypted Mount-Latency Benchmarks
+# Validates: Pipe vs. File key delivery, mount/unmount cycle overhead
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_user_storage_mount_latency.cpp")
+    message(STATUS "Adding user_storage_encrypted mount-latency benchmarks")
+
+    add_executable(bench_user_storage_mount_latency
+        bench_user_storage_mount_latency.cpp
+    )
+
+    target_include_directories(bench_user_storage_mount_latency PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(bench_user_storage_mount_latency PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_user_storage_mount_latency PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(bench_user_storage_mount_latency PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_user_storage_mount_latency
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  UserStorageEncrypted: initialize, checkAvailability, isMounted, mount/unmount fast-fail, pipe vs. no-KDF dispatch")
+endif()
+
+# ============================================================================
+# Base Module Load and Hot-Reload Benchmarks (Issue #1575)
+# Validates: module load/unload overhead, hot-reload cycles, concurrent scaling
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_module_load_hot_reload.cpp")
+    message(STATUS "Adding base module-load and hot-reload benchmarks")
+
+    add_executable(bench_module_load_hot_reload
+        bench_module_load_hot_reload.cpp
+    )
+
+    target_include_directories(bench_module_load_hot_reload PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(bench_module_load_hot_reload PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_module_load_hot_reload PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(bench_module_load_hot_reload PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_module_load_hot_reload
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  Base: loadModule fast-fail, unload, isLoaded, loadAllModules empty dir, getMetrics, audit trail, concurrent reload 1..16 threads")
+endif()
+
+# ============================================================================
+# Ingestion Extraction Throughput and LLM-Latency Benchmarks
+# Validates: DeonticExtractor regex throughput, LLM adapter latency, MIME detection
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_ingestion_extraction.cpp")
+    message(STATUS "Adding ingestion extraction and LLM-latency benchmarks")
+
+    add_executable(bench_ingestion_extraction
+        bench_ingestion_extraction.cpp
+    )
+
+    target_include_directories(bench_ingestion_extraction PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(bench_ingestion_extraction PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_ingestion_extraction PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(DEFINED ENV{THEMIS_BENCH_LLM_MODEL_PATH})
+        target_compile_definitions(bench_ingestion_extraction PRIVATE
+            THEMIS_BENCH_LLM_MODEL_PATH="$ENV{THEMIS_BENCH_LLM_MODEL_PATH}"
+        )
+    endif()
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(bench_ingestion_extraction PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_ingestion_extraction
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  Ingestion: DeonticExtractor regex throughput, LegalLlmAdapter fn call, MIME detection, checkpoint store")
+endif()
+
+# ============================================================================
+# Process Module Import, Retrieval and Prompt-Size Benchmarks
+# Validates: BPMN/EPK import latency, RocksDB CRUD, LlmProcessDescriptor size
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_process_import_retrieval.cpp")
+    message(STATUS "Adding process module import/retrieval/prompt-size benchmarks")
+
+    add_executable(bench_process_import_retrieval
+        bench_process_import_retrieval.cpp
+    )
+
+    target_include_directories(bench_process_import_retrieval PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(bench_process_import_retrieval PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_process_import_retrieval PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(bench_process_import_retrieval PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_process_import_retrieval
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  Process: BPMN/EPK import, RocksDB save/load/list, LlmDescriptor generate/prompt/conformance")
+endif()
+
+# ============================================================================
+# Chaos Framework Extended Stress Benchmarks
+# Validates: FaultInjector throughput, concurrent stress, scheduler overhead
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_chaos_stress.cpp")
+    message(STATUS "Adding chaos framework extended stress benchmarks")
+
+    add_executable(bench_chaos_stress
+        bench_chaos_stress.cpp
+    )
+
+    target_include_directories(bench_chaos_stress PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(bench_chaos_stress PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_chaos_stress PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(bench_chaos_stress PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_chaos_stress
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  Chaos: FaultInjector inject/query/recover throughput, expired pruning, callback dispatch, concurrent stress 1..16 threads, ChaosScheduler")
 endif()
 
 # ============================================================================

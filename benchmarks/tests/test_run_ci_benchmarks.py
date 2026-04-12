@@ -23,7 +23,7 @@
 
 #!/usr/bin/env python3
 """
-Unit tests for benchmarks/chimera/run_ci_benchmarks.py
+Unit tests for external/chimera/run_ci_benchmarks.py
 
 Covers:
 - run_benchmarks() returns a valid harness report with all four workload families
@@ -46,7 +46,7 @@ import pytest
 # Ensure the chimera package directory is importable
 # ---------------------------------------------------------------------------
 _HERE       = Path(__file__).resolve().parent          # benchmarks/tests/
-_CHIMERA    = _HERE.parent / "chimera"                 # benchmarks/chimera/
+_CHIMERA    = _HERE.parent.parent / "external" / "chimera"  # external/chimera/
 _BENCHMARKS = _HERE.parent                             # benchmarks/
 
 for _p in (_CHIMERA, _BENCHMARKS):

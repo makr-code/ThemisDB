@@ -104,8 +104,25 @@ llm::InferenceResponse LlamaCppPlugin::generate(const llm::InferenceRequest& req
     }
     // Stub: echo back the prompt as the generated text
     ++inference_count_;
-    response.text    = "[stub:" + request.prompt.substr(0, 40) + "]";
+    const std::string text = "[stub:" + request.prompt.substr(0, 40) + "]";
+
+    // Honour streaming callback when present.
+    // In stub mode the full text is emitted as a single "token" so callers
+    // that set stream_callback always receive at least one invocation.
+    if (request.stream_callback) {
+        try {
+            request.stream_callback(text);
+        } catch (...) {
+            // Exceptions from callbacks are swallowed (per FUTURE_ENHANCEMENTS spec)
+            ++error_count_;
+        }
+    }
+
+    response.text    = text;
     response.success = true;
+    response.tokens_generated = static_cast<int>(text.size() / 4 + 1);
+    response.trace_id = request.trace_id;
+    response.span_id  = request.span_id;
     return response;
 }
 
@@ -173,12 +190,13 @@ std::vector<float> LlamaCppPlugin::embed(const std::string& text) {
 
 llm::LLMCapabilities LlamaCppPlugin::getCapabilities() const {
     llm::LLMCapabilities cap;
-    cap.supports_streaming     = false;
+    cap.supports_streaming     = true;
+    cap.supports_batching      = true;
     cap.supports_lora          = true;
     cap.supports_embeddings    = true;
     cap.supports_rag           = true;
     cap.supports_function_call = false;
-    cap.plugin_version         = "2.0.0";
+    cap.plugin_version         = "2.1.0";
     return cap;
 }
 
@@ -208,6 +226,29 @@ std::vector<uint8_t> LlamaCppPlugin::exportLoRA(const std::string& /*lora_id*/) 
 bool LlamaCppPlugin::importLoRA(const std::string& /*lora_id*/,
                                  const std::vector<uint8_t>& /*data*/) {
     return false;
+}
+
+// ── generateStream ────────────────────────────────────────────────────────────
+
+llm::InferenceResponse LlamaCppPlugin::generateStream(
+        llm::InferenceRequest request,
+        std::function<void(const std::string& token)> token_callback) {
+    // Inject the caller-supplied callback and delegate to generate(), which
+    // already dispatches stream_callback when it is set.
+    request.stream_callback = std::move(token_callback);
+    return generate(request);
+}
+
+// ── generateBatch ─────────────────────────────────────────────────────────────
+
+std::vector<llm::InferenceResponse> LlamaCppPlugin::generateBatch(
+        const std::vector<llm::InferenceRequest>& requests) {
+    std::vector<llm::InferenceResponse> results;
+    results.reserve(requests.size());
+    for (const auto& req : requests) {
+        results.push_back(generate(req));
+    }
+    return results;
 }
 
 } // namespace llamacpp

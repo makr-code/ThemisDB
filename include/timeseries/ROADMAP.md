@@ -1,4 +1,4 @@
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-04-12 -->
 
 # Roadmap — include/timeseries/
 
@@ -38,7 +38,7 @@ API stable — no breaking changes planned before v2.0.0.
 
 ### Q3 2026
 
-- [ ] **Streaming cursor API** — `ts_stream_cursor.h` (Target: Q3 2026)
+- [x] **Streaming cursor API** — `ts_stream_cursor.h` (Implemented: 2026-04-12)
   - Inputs: `QueryPlan` + `ChunkRef` iterator
   - Outputs: lazy row-iterator with back-pressure support
   - Constraints: zero-copy; caller owns result memory
@@ -46,11 +46,12 @@ API stable — no breaking changes planned before v2.0.0.
   - Tests: unit + concurrent stress + ASan memory-leak
   - Perf: ≥ 500 MB/s sustained scan throughput on NVMe storage
 
-- [ ] **Multi-metric batch write API** — extend `tsstore.h` (Target: Q3 2026)
-  - Inputs: `std::span<TSRow>` batch + `ChunkKey`
-  - Outputs: `BatchWriteResult` with per-row status
-  - Constraints: atomic commit or full rollback
-  - Perf: ≥ 1 M rows/s at p99 < 2 ms on 8-core host
+- [x] **Multi-metric batch write API** — `TSStore::putBatch(std::span<const TSRow>)` in `tsstore.h` (Target: Q3 2026)
+  - `TSRow` (string_view metric/entity, int64_t timestamp_ms, double value) — zero allocation at call site
+  - `BatchWriteResult` with `ok_count`, `failed_count`, `row_errors` (per-row index + message)
+  - Single `rocksdb::WriteBatch` commit for the entire span (atomic, O(1) WAL writes)
+  - Gorilla-compression path: groups by metric:entity, sorts by timestamp, Gorilla-encodes per group
+  - 14 focused tests in `tests/test_tsstore_batch.cpp` (TB-01…TB-14)
 
 - [ ] **OpenTelemetry Metrics export** — `ts_otel_exporter.h` (Target: Q3 2026)
 
@@ -71,7 +72,7 @@ API stable — no breaking changes planned before v2.0.0.
 - [x] Define `TimeSeriesEngine` and `TSConfig` contracts
 - [x] Establish chunk-sealed-immutable semantics
 - [x] Define `ChunkKey` ownership and copy semantics
-- [ ] Draft `ts_stream_cursor.h` interface (Target: Q3 2026)
+- [x] Draft `ts_stream_cursor.h` interface — implemented 2026-04-12
 - [ ] Draft `ts_columnar_store.h` Arrow ABI contract (Target: Q4 2026)
 
 ### Phase 2 — Core Implementation
@@ -85,12 +86,13 @@ API stable — no breaking changes planned before v2.0.0.
 - [x] IV uniqueness enforcement in `EncryptedChunkStore`
 - [x] Adaptive buffer OOM guard in `TSAutoBufferAdaptive`
 - [x] Chunk-reference dangling-handle prevention in `TSStore`
-- [ ] Streaming cursor iterator-invalidation handling (Target: Q3 2026)
+- [x] Streaming cursor iterator-invalidation handling — implemented 2026-04-12 (`TsStreamCursor`)
 
 ### Phase 4 — Tests
 - [x] Unit tests for all v1.x headers (≥ 90 % line coverage)
 - [x] Gorilla round-trip fuzz tests
 - [x] Encryption key-rotation integration tests
+- [x] Streaming cursor focused tests (SC-01…SC-08) and batch-write tests (TB-01…TB-14) — 2026-04-12
 - [ ] Columnar store Arrow-compatibility suite (Target: Q4 2026)
 
 ### Phase 5 — Performance / Hardening

@@ -1,5 +1,5 @@
 [docs](../../index.md) > [de](../index.md) > [api](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-04-10  
+**Datum:** 2026-04-12  
 **Status:** draft  
 **Primary (Quelle der Wahrheit):**
 - `include/api/ARCHITECTURE.md`
@@ -55,4 +55,4 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`api`** aus
 
 ---
 
-*Automatisch generiert von `tools/module_docs_builder.py` · 2026-04-10*
+*Automatisch generiert von `tools/module_docs_builder.py` · 2026-04-12*

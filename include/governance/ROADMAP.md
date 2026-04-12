@@ -7,7 +7,7 @@
 
 ## Current Status
 
-v1.8.0 — Production-ready. 21 public headers covering policy management, CCPA/PCI-DSS/SOC-2 compliance, data masking, lineage, model governance, OPA integration, and cross-tenant policy inheritance.
+v1.9.0 — Production-ready. 23 public headers covering policy management, CCPA/PCI-DSS/SOC-2/ISO-27001/HIPAA compliance, data masking, lineage, model governance, OPA integration, and cross-tenant policy inheritance.
 
 ## Completed ✅
 
@@ -22,14 +22,14 @@ v1.8.0 — Production-ready. 21 public headers covering policy management, CCPA/
 
 ## Planned
 
-- [ ] ISO 27001 rule set header (Target: v1.9.0)
-- [ ] HIPAA compliance rules (Target: v2.0.0)
-- [ ] Policy diff and rollback interface (Target: v1.9.0)
+- [x] ISO 27001 rule set header (v1.9.0)
+- [x] HIPAA compliance rules (v1.9.0)
+- [x] Policy diff and rollback interface (v1.9.0) — implemented via `policy_version_history.h` (`VersionDiff`, `compareVersions`, `compareRules`) and `policy_manager.h` (`rollbackToVersion`, `rollbackToPreviousVersion`)
 
 ## Production Readiness Checklist
 
 - [x] All headers compile cleanly
 - [x] 3 compliance frameworks (CCPA, PCI-DSS, SOC 2)
 - [x] Tenant policy hierarchy with cycle detection
-- [ ] ISO 27001 header
-- [ ] HIPAA header
+- [x] ISO 27001 header
+- [x] HIPAA header

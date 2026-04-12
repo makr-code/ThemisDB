@@ -1,9 +1,26 @@
 # Analytics Module - Future Enhancements
 
-**Version:** 1.7.0
-**Status:** 📋 Planned
-**Last Updated:** 2026-04-06
+**Version:** 1.9.0
+**Status:** 📋 Active — Core analytics fully implemented; extensions planned
+**Last Updated:** 2026-04-11
 **Module Path:** `include/analytics/`
+
+---
+
+## Completed Public API Additions (v1.8.0 – v1.9.0)
+
+The following public API additions are now available in `include/analytics/`:
+
+| API | File | Version | Notes |
+|-----|------|---------|-------|
+| `OLAPEngine::Config::result_cache_max_entries` | `olap.h` | v1.8.0 | LRU result cache cap (default 1 000); set to 0 to disable |
+| `OLAPEngine::Config::result_cache_ttl_ms` | `olap.h` | v1.8.0 | Cache TTL in milliseconds (default 60 000) |
+| `ExporterFactory::createExporter(ExportFormat)` | `analytics_export.h` | v1.8.0 | Dispatches to `ArrowIPCExporter`, `ParquetExporter`, `FeatherExporter`, or `JSONCSVExporter` |
+| `WindowConfig::session_expiry_check_interval_ms` | `streaming_window.h` | v1.8.0 | Session-gap detection resolution (default 200 ms) |
+| `WindowConfig::global_window_emit_interval_ms` | `streaming_window.h` | v1.8.0 | GLOBAL-window emission latency (default 500 ms) |
+| `LLMConfig::max_cache_entries` | `llm_process_analyzer.h` | v1.8.0 | LRU cache cap for LLM response cache (default 1 000) |
+| `ForecastModel::predictBatch(series, steps)` | `forecasting.h` | v1.9.0 | Batch forecasting across N independent series |
+| `ForecastModel::update(new_value)` | `forecasting.h` | v1.9.0 | O(1) incremental ETS/ARIMA/LR state absorption |
 
 ---
 
@@ -131,6 +148,7 @@ auto embeddings = analytics.node2vec({
 
 ### Real-Time Anomaly Detection
 **Priority:** High  
+**Status:** ✅ Implemented (v1.7.0)  
 **Target Version:** v1.7.0
 
 ML-based anomaly detection for streaming data and historical analysis.
@@ -488,6 +506,7 @@ auto result = fed.execute(R"(
 
 ### Stream Processing Enhancements
 **Priority:** High  
+**Status:** ✅ CEP engine implemented (v1.7.0); configurable intervals added (v1.8.0)  
 **Target Version:** v1.7.0
 
 Enhanced complex event processing capabilities.
@@ -531,6 +550,7 @@ auto result = engine.executeSQL(R"(
 
 ### Incremental Materialized Views
 **Priority:** High  
+**Status:** ✅ Implemented (v1.7.0)  
 **Target Version:** v1.7.0
 
 Automatically maintain OLAP aggregations with incremental updates.

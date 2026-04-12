@@ -1,5 +1,5 @@
 [docs](../../index.md) > [de](../index.md) > [llama_cpp](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-04-10  
+**Datum:** 2026-04-12  
 **Status:** draft  
 **Primary (Quelle der Wahrheit):**
 - `include/llama_cpp/ARCHITECTURE.md`
@@ -55,4 +55,4 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`llama_cpp`
 
 ---
 
-*Automatisch generiert von `tools/module_docs_builder.py` · 2026-04-10*
+*Automatisch generiert von `tools/module_docs_builder.py` · 2026-04-12*
