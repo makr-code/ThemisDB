@@ -765,6 +765,28 @@ Low cardinality: Status (10 values)
 
 **VisionRequest / VisionResponse:** Structs for multi-modal LLM inference. `VisionRequest` contains `text_prompt`, `image_path`/`image_paths`, and generation parameters. `VisionResponse` contains `text`, `tokens_generated`, `inference_time_ms`, and `image_encoding_time_ms`. See Chapter 17.24.
 
+---
+
+## RAG v2 Module Terms
+
+**BatchEvaluator:** Parallel batch RAG evaluation using configurable worker threads and async futures/promises. Aggregates individual `EvaluationResult`s into statistics (pass_rate, avg_faithfulness, avg_overall). See Chapter 17.3.5.
+
+**CalibrationManager:** Aligns RAGJudge scores with human annotations via temperature scaling, Platt scaling, and isotonic regression. Reports ECE (Expected Calibration Error), Brier score, and Pearson/Spearman correlation. See Chapter 17.3.5.
+
+**DocumentSplitter:** Configurable text chunking for RAG ingestion pipelines. Strategies: FIXED (token count), SENTENCE (boundary-aware), SEMANTIC (embedding-similarity), RECURSIVE (hierarchical). Configurable `chunk_size` and `chunk_overlap`. See Chapter 17.3.5.
+
+**EvaluationCache:** Thread-safe LRU cache for `EvaluationResult` objects with TTL expiry and invalidation triggers. Tracks hit/miss/eviction statistics. Prevents redundant LLM judge calls for identical inputs. See Chapter 17.3.5.
+
+**EvaluationMode (RAG):** Evaluation speed/depth trade-off for `RAGJudge`. `FAST` (~100 ms, single-dimension), `BALANCED` (~500 ms, multi-dimension, default), `THOROUGH` (~2 s, CoT + NLI verification). See Chapter 17.3.5.
+
+**HallucinationDashboard:** Rolling-window hallucination rate tracker for `RAGJudge` evaluations. Reports current rate (0.0–1.0) and trend (IMPROVING/STABLE/DEGRADING) over a configurable window. See Chapter 17.3.5.
+
+**HybridRetriever:** Fuses BM25 (sparse/keyword) and vector (dense/semantic) candidate lists using Reciprocal Rank Fusion (RRF, k=60) or linear combination. Configurable per-source weights (default 0.5/0.5). See Chapter 17.3.5.
+
+**RAGJudge:** Central RAG evaluation orchestrator in `themis::rag::judge`. Evaluates generated answers across 5 dimensions: Faithfulness, Relevance, Completeness, Coherence, Ethical Compliance. Supports pairwise comparison, batch evaluation, and pluggable NLI/G-Eval scorers. See Chapter 17.3.5.
+
+**RRF (Reciprocal Rank Fusion):** Rank-based fusion formula combining multiple ranked lists: `score(d) = Σ 1/(k + rank(d))`. The constant k=60 (default) controls rank-sensitivity. Used by `HybridRetriever` to combine BM25 and vector results. See Chapter 17.3.5.
+
 Understanding these terms is essential for:
 - **Development:** Writing efficient queries
 - **Operations:** Configuring and monitoring

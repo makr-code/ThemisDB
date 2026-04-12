@@ -827,6 +827,161 @@ Gesamt-Latenz: 100.000ms + 500ms + 200ms + 10ms = ~100.710ms
 
 ---
 
+### 17.3.5 RAG v2 — C++ Produktionskomponenten
+
+Release v2.0 des RAG-Moduls (`include/rag/`, `src/rag/`) bringt 27 Implementierungs-Dateien mit Multi-Judge-Orchestration, Hybrid-Retrieval, konfigurierbarem Dokumenten-Splitting, LRU-Evaluation-Cache, RLAIF-Training und Online-Feedback-Learning. Die zentralen Klassen sind über den Namespace `themis::rag` erreichbar.
+
+#### RAGJudge — Multi-dimensionale Evaluierung
+
+`RAGJudge` (`include/rag/rag_judge.h`) ist die zentrale Evaluierungskomponente. Sie bewertet generierte RAG-Antworten über fünf Dimensionen und unterstützt drei Evaluierungsmodi (Fast/Balanced/Thorough).
+
+```cpp
+#include "rag/rag_judge.h"
+
+themis::rag::judge::RAGJudgeConfig cfg;
+cfg.mode                       = themis::rag::judge::EvaluationMode::BALANCED;
+cfg.faithfulness_weight        = 0.35;
+cfg.relevance_weight           = 0.25;
+cfg.completeness_weight        = 0.15;
+cfg.coherence_weight           = 0.10;
+cfg.ethical_compliance_weight  = 0.15;
+cfg.enable_ethical_evaluation  = true;
+cfg.ethical_veto_power         = true;   // Ethical-Failure → Gesamt-FAIL
+cfg.quality_threshold          = 0.70;
+cfg.faithfulness_threshold     = 0.80;
+cfg.use_nli_verifier           = true;   // NLI-Entailment-Verifikation
+cfg.use_geval_scoring          = false;  // G-Eval (Liu et al. 2023)
+
+themis::rag::judge::RAGJudge judge(cfg);
+
+// ── Einzelevaluierung ────────────────────────────────────────────────────
+std::vector<themis::rag::judge::RetrievedDocument> docs = {
+    { .id = "d1", .content = "Bauordnung §34 BauGB ...", .similarity_score = 0.92 }
+};
+auto result = judge.evaluate("Welche Voraussetzungen gelten für §34 BauGB?", docs, answer);
+
+// result.overall_score             0.0–1.0
+// result.faithfulness_score        Faktengenauigkeit
+// result.ethical_compliance_score  Autonomie, Meinungsvielfalt, Zitierqualität
+// result.verified_claims           von Dokumenten gestützte Behauptungen
+// result.ethical_violations        erkannte ethische Probleme
+// result.passed_quality_threshold  true/false
+// result.evaluation_time           std::chrono::milliseconds
+// result.confidence                Judge-Konfidenz
+
+// ── Paarweiser Vergleich ─────────────────────────────────────────────────
+auto cmp = judge.compare(query, docs, answer_a, answer_b);
+// cmp.winner: ANSWER_A | ANSWER_B | TIE
+```
+
+**Evaluierungsdimensionen:**
+
+| Dimension | Gewicht (Standard) | Beschreibung |
+|-----------|-------------------|-------------|
+| `FAITHFULNESS` | 35% | Antwort durch Dokumente belegt |
+| `RELEVANCE` | 25% | Antwort adressiert die Query |
+| `COMPLETENESS` | 15% | Alle Query-Aspekte abgedeckt |
+| `COHERENCE` | 10% | Logisch strukturiert |
+| `ETHICAL_COMPLIANCE` | 15% | Autonomie, Meinungsvielfalt, Zitat-Qualität |
+
+**Evaluierungsmodi:**
+
+| Modus | Latenz | Beschreibung |
+|-------|--------|-------------|
+| `FAST` | ~100 ms | Schnelle Einzel-Dimensions-Prüfung |
+| `BALANCED` | ~500 ms | Multi-Dimensions (Standard) |
+| `THOROUGH` | ~2 s | Vollständig + CoT + NLI-Verifikation |
+
+#### HybridRetriever — BM25 + Vector Fusion
+
+`HybridRetriever` (`include/rag/hybrid_retriever.h`) fusioniert BM25-Sparse- und Vector-Dense-Kandidaten mittels **Reciprocal Rank Fusion (RRF)** oder linearer Kombination.
+
+```cpp
+#include "rag/hybrid_retriever.h"
+
+// ── Factory-Konstruktoren ────────────────────────────────────────────────
+auto retriever = themis::rag::HybridRetrieverFactory::createBalanced(10);
+// Alternativ:
+auto retriever = themis::rag::HybridRetrieverFactory::createSemanticFocused(10);
+// (bm25_weight=0.3, vector_weight=0.7)
+
+// ── Manuelle Konfiguration ────────────────────────────────────────────────
+themis::rag::HybridRetrieverConfig rcfg;
+rcfg.bm25_weight   = 0.4;
+rcfg.vector_weight = 0.6;
+rcfg.use_rrf       = true;   // RRF (empfohlen)
+rcfg.rrf_k         = 60.0;   // RRF-Glattheits-Konstante
+rcfg.top_k         = 15;
+
+themis::rag::HybridRetriever retriever(rcfg);
+
+// ── Fusion ────────────────────────────────────────────────────────────────
+auto fusion_result = retriever.fuse(bm25_candidates, vector_candidates);
+// fusion_result.documents: nach absteigendem Hybrid-Score sortiert
+// fusion_result.bm25_contribution / vector_contribution: Anteilswerte
+```
+
+**RRF-Formel:** `score(d) = bm25_w × Σ(1/(k+rank_bm25(d))) + vec_w × Σ(1/(k+rank_vec(d)))`
+
+#### DocumentSplitter — Konfigurierbares Chunking
+
+```cpp
+#include "rag/document_splitter.h"
+
+themis::rag::DocumentSplitterConfig dcfg;
+dcfg.strategy    = themis::rag::SplitStrategy::SEMANTIC;  // FIXED/SENTENCE/SEMANTIC/RECURSIVE
+dcfg.chunk_size  = 512;
+dcfg.chunk_overlap = 64;
+dcfg.separator   = "\n\n";
+
+themis::rag::DocumentSplitter splitter(dcfg);
+auto chunks = splitter.split(document_text);
+// chunks: vector<DocumentChunk> mit {text, start_offset, end_offset, metadata}
+```
+
+#### BatchEvaluator — Parallele Massenevaluierung
+
+```cpp
+#include "rag/batch_evaluator.h"
+
+themis::rag::BatchEvaluatorConfig bcfg;
+bcfg.worker_threads = 8;
+bcfg.async_mode     = true;
+
+themis::rag::BatchEvaluator evaluator(judge, bcfg);
+auto results = evaluator.evaluate(test_cases);
+// results.individual_results, results.aggregated_stats
+// results.pass_rate, results.avg_faithfulness, results.avg_overall
+```
+
+#### EvaluationCache — LRU-Cache mit TTL
+
+```cpp
+#include "rag/evaluation_cache.h"
+
+themis::rag::EvaluationCacheConfig ccfg;
+ccfg.max_size  = 1000;
+ccfg.ttl_ms    = 3600000;  // 1 h
+
+themis::rag::EvaluationCache cache(ccfg);
+cache.put(cache_key, eval_result);
+auto cached = cache.get(cache_key);  // std::optional<EvaluationResult>
+auto stats = cache.getStats();       // hits, misses, evictions
+```
+
+#### HallucinationDashboard — Rolling-Window-Metriken
+
+```cpp
+#include "rag/hallucination_dashboard.h"
+
+themis::rag::HallucinationDashboard dashboard(/*window_size=*/100);
+dashboard.record(eval_result);
+auto rate = dashboard.getHallucinationRate();   // 0.0–1.0
+auto trend = dashboard.getTrend();              // IMPROVING/STABLE/DEGRADING
+```
+
+---
+
 ## 17.4 Prompt Engineering Best Practices
 
 ### 17.4.1 Chain-of-Thought Prompting

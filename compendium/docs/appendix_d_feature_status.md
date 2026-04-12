@@ -310,6 +310,23 @@ Die folgenden Komponenten wurden mit dem v1.9.x-Release (Commit 2026-04-12) in d
 | `IntegrationTestSuite` | `llm/testing/` | ✅ GA | — | 14 Szenarien (Komponenten-, Multi-Modell-, Fehler-, Performance-Tests) |
 | `LlamaWrapper` Output-Validierung | `llm/` | ✅ GA | — | UTF-8-Prüfung, min/max-Länge, Kohärenz-Score |
 
+### RAG Module — v2.0 Produktionskomponenten
+
+| Feature | Modul | Status | Tests | Beschreibung |
+|---------|-------|--------|-------|-------------|
+| `RAGJudge` | `rag/` | ✅ GA | — | 5-dimensionale Evaluierung (Faith/Rel/Compl/Coh/Ethics); FAST/BALANCED/THOROUGH |
+| `HybridRetriever` | `rag/` | ✅ GA | — | BM25+Vector RRF-Fusion (k=60); linear Fallback; Factory-Helfer |
+| `DocumentSplitter` | `rag/` | ✅ GA | — | FIXED/SENTENCE/SEMANTIC/RECURSIVE; chunk_size + overlap |
+| `BatchEvaluator` | `rag/` | ✅ GA | — | Parallele Massenevaluierung mit Worker-Threads + Futures |
+| `EvaluationCache` | `rag/` | ✅ GA | — | Thread-sicherer LRU-Cache mit TTL; Invalidierungs-Triggers |
+| `CalibrationManager` | `rag/` | ✅ GA | — | Temperature Scaling, Platt Scaling, Isotonic Regression; ECE/Brier |
+| `HallucinationDashboard` | `rag/` | ✅ GA | — | Rolling-Window Halluzinationsrate + Trend (IMPROVING/STABLE/DEGRADING) |
+| `StreamingRetriever` | `rag/` | ✅ GA | — | Inkrementelles Kontext-Window-Filling |
+| `KnowledgeGraphRetriever` | `rag/` | ✅ GA | — | Entity-Linking + Graph-augmentierte Retrieval |
+| `CrossEncoderReranker` | `rag/` | ✅ GA | — | Heuristischer Scorer + ONNX-Stub |
+| `ContinuousLearningOrchestrator` | `rag/` | ✅ GA | — | Bayesian Optimierung über top_k/threshold via User-Feedback |
+| `RlaifTrainer` | `rag/` | ✅ GA | — | Constitutional AI / RLAIF Training Pipeline |
+
 ### Sharding / Paxos
 
 | Feature | Modul | Status | Tests | Beschreibung |
