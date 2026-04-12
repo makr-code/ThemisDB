@@ -18,7 +18,7 @@
 ### Phase 4: Tests
 - [ ] Add include/API compatibility tests for plugin loading boundaries (Target: Q3 2026)
 ### Phase 5: Performance/Hardening
-- [ ] Track compatibility for high-throughput concurrent inference calls (Target: Q3 2026)
+- [x] Track compatibility for high-throughput concurrent inference calls (`bench_llama_cpp_inference.cpp`): generate/batch/embed/stream latency, concurrent threads, stub+real model (Target: Q3 2026)
 ### Phase 6: Documentation & Acceptance
 - [x] Baseline include module docs created (Target: Q2 2026)
 

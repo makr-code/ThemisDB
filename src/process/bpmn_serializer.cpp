@@ -39,10 +39,12 @@
 #include "utils/logger.h"
 
 #include <algorithm>
+#include <cctype>
 #include <fstream>
 #include <sstream>
-#include <regex>
 #include <stdexcept>
+#include <unordered_map>
+#include <unordered_set>
 
 namespace themis {
 namespace process {
@@ -50,44 +52,211 @@ namespace process {
 using json = nlohmann::json;
 
 // ---------------------------------------------------------------------------
-// Internal XML mini-parser helpers
+// Minimal SAX-like XML tokenizer – no regex, no external library
 // ---------------------------------------------------------------------------
 
 namespace {
 
-/// Extract value of attribute `name` from an XML tag string.
-/// Returns empty string when the attribute is not found.
-std::string extractAttr(const std::string& tag, const std::string& name) {
-    // Match: name="value" or name='value'
-    std::regex re(name + R"(\s*=\s*["']([^"']*)["'])");
-    std::smatch m;
-    if (std::regex_search(tag, m, re)) {
-        return m[1].str();
+/// Maximum BPMN XML document size accepted (10 MiB security guard).
+static constexpr size_t kMaxBpmnXmlBytes = 10u * 1024u * 1024u;
+
+/// Strip XML character entities and leading/trailing whitespace.
+std::string unescapeXml(std::string_view s) {
+    std::string out;
+    out.reserve(s.size());
+    for (size_t i = 0; i < s.size(); ) {
+        if (s[i] != '&') { out += s[i++]; continue; }
+        // entity reference
+        size_t semi = s.find(';', i + 1);
+        if (semi == std::string_view::npos) { out += s[i++]; continue; }
+        std::string_view ent = s.substr(i, semi - i + 1);
+        if      (ent == "&amp;")  out += '&';
+        else if (ent == "&lt;")   out += '<';
+        else if (ent == "&gt;")   out += '>';
+        else if (ent == "&quot;") out += '"';
+        else if (ent == "&apos;") out += '\'';
+        else                      out += std::string(ent); // unknown – keep as-is
+        i = semi + 1;
     }
-    return {};
+    // trim
+    size_t a = out.find_first_not_of(" \t\n\r");
+    if (a == std::string::npos) return {};
+    size_t b = out.find_last_not_of(" \t\n\r");
+    return out.substr(a, b - a + 1);
 }
 
-/// Strip XML/HTML character entities and leading/trailing whitespace.
-std::string cleanText(const std::string& s) {
-    std::string out = s;
-    // Basic entity unescaping
-    auto replace_all = [&](const std::string& from, const std::string& to) {
-        size_t pos = 0;
-        while ((pos = out.find(from, pos)) != std::string::npos) {
-            out.replace(pos, from.size(), to);
-            pos += to.size();
-        }
-    };
-    replace_all("&amp;",  "&");
-    replace_all("&lt;",   "<");
-    replace_all("&gt;",   ">");
-    replace_all("&quot;", "\"");
-    replace_all("&apos;", "'");
+/// Strip XML namespace prefix: "bpmn2:startEvent" → "startEvent".
+std::string_view stripNs(std::string_view name) {
+    auto colon = name.rfind(':');
+    return (colon != std::string_view::npos) ? name.substr(colon + 1) : name;
+}
 
-    // Trim
-    out.erase(0, out.find_first_not_of(" \t\n\r"));
-    out.erase(out.find_last_not_of(" \t\n\r") + 1);
-    return out;
+/// Parsed representation of a single XML element tag.
+struct XmlTag {
+    std::string name;       ///< Local element name (namespace stripped).
+    std::unordered_map<std::string, std::string> attrs; ///< Attribute map.
+    bool self_closing{false};
+    bool is_close{false};   ///< True for </tag>.
+};
+
+/// Parse attributes from the raw text between the tag name and '>' / '/>'
+/// (no regex; handles single- and double-quoted values).
+void parseAttrs(std::string_view src,
+                std::unordered_map<std::string, std::string>& out)
+{
+    size_t i = 0;
+    const size_t n = src.size();
+    while (i < n) {
+        // skip whitespace
+        while (i < n && std::isspace(static_cast<unsigned char>(src[i]))) ++i;
+        if (i >= n || src[i] == '/' || src[i] == '>') break;
+
+        // attribute name
+        size_t ns = i;
+        while (i < n && src[i] != '=' && src[i] != '/' && src[i] != '>' &&
+               !std::isspace(static_cast<unsigned char>(src[i]))) ++i;
+        if (i <= ns) break;
+        std::string attr_name = std::string(stripNs(src.substr(ns, i - ns)));
+
+        // skip whitespace
+        while (i < n && std::isspace(static_cast<unsigned char>(src[i]))) ++i;
+        if (i >= n || src[i] != '=') {
+            // valueless attribute (e.g., isExecutable without value)
+            if (!attr_name.empty()) out.emplace(std::move(attr_name), "true");
+            continue;
+        }
+        ++i; // skip '='
+
+        // skip whitespace
+        while (i < n && std::isspace(static_cast<unsigned char>(src[i]))) ++i;
+        if (i >= n) break;
+
+        std::string attr_val;
+        if (src[i] == '"' || src[i] == '\'') {
+            char q = src[i++];
+            size_t vs = i;
+            while (i < n && src[i] != q) ++i;
+            attr_val = unescapeXml(src.substr(vs, i - vs));
+            if (i < n) ++i; // skip closing quote
+        } else {
+            size_t vs = i;
+            while (i < n && !std::isspace(static_cast<unsigned char>(src[i])) &&
+                   src[i] != '>' && src[i] != '/') ++i;
+            attr_val = std::string(src.substr(vs, i - vs));
+        }
+        if (!attr_name.empty()) out.emplace(std::move(attr_name), std::move(attr_val));
+    }
+}
+
+/// Walk every XML token in @p xml, calling @p tag_cb for each element tag and
+/// @p text_cb for each text node.  Skips comments, PIs, DOCTYPE, and CDATA.
+/// Returns false if @p xml exceeds kMaxBpmnXmlBytes.
+template<typename TagCb, typename TextCb>
+bool tokenizeXml(std::string_view xml, TagCb tag_cb, TextCb text_cb)
+{
+    if (xml.size() > kMaxBpmnXmlBytes) return false;
+
+    size_t i = 0;
+    const size_t n = xml.size();
+
+    while (i < n) {
+        // text node
+        size_t ts = i;
+        while (i < n && xml[i] != '<') ++i;
+        if (i > ts) text_cb(xml.substr(ts, i - ts));
+        if (i >= n) break;
+
+        // '<' found
+        ++i;
+        if (i >= n) break;
+
+        // <!-- comment -->
+        if (i + 2 < n && xml[i] == '!' && xml[i+1] == '-' && xml[i+2] == '-') {
+            i += 3;
+            while (i + 2 < n &&
+                   !(xml[i] == '-' && xml[i+1] == '-' && xml[i+2] == '>')) ++i;
+            if (i + 2 < n) i += 3;
+            continue;
+        }
+        // <![CDATA[...]]>
+        if (i + 7 < n && xml.substr(i, 8) == "![CDATA[") {
+            i += 8;
+            size_t cs = i;
+            while (i + 2 < n &&
+                   !(xml[i] == ']' && xml[i+1] == ']' && xml[i+2] == '>')) ++i;
+            text_cb(xml.substr(cs, i - cs));
+            if (i + 2 < n) i += 3;
+            continue;
+        }
+        // <? PI ?>
+        if (xml[i] == '?') {
+            while (i + 1 < n && !(xml[i] == '?' && xml[i+1] == '>')) ++i;
+            if (i + 1 < n) i += 2;
+            continue;
+        }
+        // <!DOCTYPE …> or other <! constructs (non-recursive depth tracking)
+        if (xml[i] == '!') {
+            int depth = 1; ++i;
+            while (i < n && depth > 0) {
+                if (xml[i] == '<') ++depth;
+                else if (xml[i] == '>') --depth;
+                ++i;
+            }
+            continue;
+        }
+
+        // closing tag </name>
+        bool is_close = false;
+        if (xml[i] == '/') { is_close = true; ++i; }
+
+        // tag name
+        size_t name_s = i;
+        while (i < n && xml[i] != '>' && xml[i] != '/' &&
+               !std::isspace(static_cast<unsigned char>(xml[i]))) ++i;
+        if (i <= name_s) {
+            while (i < n && xml[i] != '>') ++i;
+            if (i < n) ++i;
+            continue;
+        }
+        std::string local_name =
+            std::string(stripNs(xml.substr(name_s, i - name_s)));
+
+        if (is_close) {
+            while (i < n && xml[i] != '>') ++i;
+            if (i < n) ++i;
+            XmlTag t; t.name = std::move(local_name); t.is_close = true;
+            tag_cb(t);
+            continue;
+        }
+
+        // attribute section — must handle quoted '>' inside values
+        size_t attr_s = i;
+        bool in_dq = false, in_sq = false, self_close = false;
+        size_t tag_end = i;
+        while (i < n) {
+            char c = xml[i];
+            if (in_dq) { if (c == '"')  in_dq = false; }
+            else if (in_sq) { if (c == '\'') in_sq = false; }
+            else if (c == '"')  { in_dq = true; }
+            else if (c == '\'') { in_sq = true; }
+            else if (c == '>' ) { tag_end = i; break; }
+            else if (c == '/' && i + 1 < n && xml[i+1] == '>') {
+                self_close = true; tag_end = i; break;
+            }
+            ++i;
+        }
+
+        XmlTag tag;
+        tag.name = std::move(local_name);
+        tag.self_closing = self_close;
+        parseAttrs(xml.substr(attr_s, tag_end - attr_s), tag.attrs);
+
+        if (self_close) i += 2; // skip '/>'
+        else if (i < n) ++i;    // skip '>'
+
+        tag_cb(tag);
+    }
+    return true;
 }
 
 } // anonymous namespace
@@ -176,110 +345,198 @@ BPMNNodeType BpmnSerializer::xmlTagToNodeType_(std::string_view tag) {
 BpmnSerializer::ImportResult BpmnSerializer::importXml(std::string_view bpmn_xml) {
     ImportResult result;
 
-    // Minimal token-based XML scan (no full DOM) — sufficient for BPMN 2.0
-    std::string xml(bpmn_xml);
-
-    // Extract process id and name
-    {
-        std::regex proc_re(R"(<process[^>]+\bid\s*=\s*["']([^"']*)["'][^>]*>)", std::regex::icase);
-        std::smatch m;
-        if (std::regex_search(xml, m, proc_re)) {
-            result.process_id = m[1].str();
-            // Try to extract name attribute from the same tag match
-            std::string tag_str = m[0].str();
-            result.process_name = extractAttr(tag_str, "name");
-        } else {
-            result.process_id   = "imported_process";
-            result.process_name = "Imported Process";
-        }
+    if (bpmn_xml.empty()) {
+        result.ok      = false;
+        result.message = "No BPMN flow elements found in XML";
+        return result;
     }
 
-    // Known flow node tags
-    static const std::vector<std::string> node_tags = {
-        "startEvent", "endEvent", "intermediateCatchEvent", "intermediateThrowEvent",
-        "boundaryEvent", "task", "userTask", "serviceTask", "scriptTask",
+    // Security guard: reject oversized documents before any parsing work.
+    if (bpmn_xml.size() > kMaxBpmnXmlBytes) {
+        result.ok      = false;
+        result.message = "BPMN XML exceeds maximum allowed size (10 MiB)";
+        return result;
+    }
+
+    // Known flow-node local names.
+    static const std::unordered_set<std::string> kFlowNodeTags = {
+        "startEvent", "endEvent",
+        "intermediateCatchEvent", "intermediateThrowEvent",
+        "boundaryEvent",
+        "task", "userTask", "serviceTask", "scriptTask",
         "sendTask", "receiveTask", "manualTask", "businessRuleTask",
-        "subProcess", "callActivity",
+        "subProcess", "adHocSubProcess", "transaction", "callActivity",
         "exclusiveGateway", "parallelGateway", "inclusiveGateway",
         "eventBasedGateway", "complexGateway",
-        "dataObjectReference", "dataStoreReference", "textAnnotation"
+        "dataObjectReference", "dataStoreReference",
+        "textAnnotation", "participant", "lane",
     };
 
-    // Parse flow nodes
-    for (const auto& tag : node_tags) {
-        // Match self-closing and opening tags
-        std::regex tag_re("<" + tag + R"([^>]*(?:id\s*=\s*["'][^"']*["'])[^>]*(?:/>|>))",
-                          std::regex::icase);
-        auto it  = std::sregex_iterator(xml.begin(), xml.end(), tag_re);
-        auto end = std::sregex_iterator();
-        for (; it != end; ++it) {
-            std::string tag_str = it->str();
-            std::string id   = extractAttr(tag_str, "id");
-            std::string name = extractAttr(tag_str, "name");
+    // State for conditionExpression child collection.
+    bool        in_seq_flow{false};
+    bool        in_cond_expr{false};
+    std::string sf_id, sf_src, sf_tgt, sf_name, cond_text;
 
-            if (id.empty()) continue;
+    // Deduplication guard (duplicate IDs can appear in sub-process copies).
+    std::unordered_set<std::string> seen_node_ids;
+
+    auto tag_cb = [&](const XmlTag& t) {
+        const std::string& tn = t.name;
+
+        // ── Closing tags ──────────────────────────────────────────────────
+        if (t.is_close) {
+            if (tn == "sequenceFlow" && in_seq_flow) {
+                ProcessEdgeInfo edge;
+                edge.edge_id   = sf_id;
+                edge.from_node = sf_src;
+                edge.to_node   = sf_tgt;
+                edge.edge_type = ProcessEdgeType::SEQUENCE_FLOW;
+                if (!cond_text.empty())
+                    edge.condition_expression = unescapeXml(cond_text);
+                else if (!sf_name.empty())
+                    edge.condition_expression = sf_name;
+                if (!edge.from_node.empty() && !edge.to_node.empty())
+                    result.edges.push_back(std::move(edge));
+                in_seq_flow  = false;
+                in_cond_expr = false;
+                cond_text.clear();
+            }
+            if (tn == "conditionExpression") in_cond_expr = false;
+            return;
+        }
+
+        // ── Inside a sequenceFlow: look for conditionExpression child ─────
+        if (in_seq_flow && tn == "conditionExpression") {
+            if (!t.self_closing) {
+                in_cond_expr = true;
+                cond_text.clear();
+            }
+            return;
+        }
+
+        // ── <process> (first occurrence wins) ────────────────────────────
+        if (tn == "process") {
+            if (result.process_id.empty()) {
+                auto it_id = t.attrs.find("id");
+                auto it_nm = t.attrs.find("name");
+                result.process_id   = (it_id != t.attrs.end()) ? it_id->second : "imported_process";
+                result.process_name = (it_nm != t.attrs.end()) ? it_nm->second : result.process_id;
+            }
+            return;
+        }
+
+        // ── sequenceFlow ──────────────────────────────────────────────────
+        if (tn == "sequenceFlow") {
+            auto get = [&](const char* k) -> std::string {
+                auto it = t.attrs.find(k);
+                return (it != t.attrs.end()) ? it->second : std::string{};
+            };
+            if (t.self_closing) {
+                ProcessEdgeInfo edge;
+                edge.edge_id   = get("id");
+                edge.from_node = get("sourceRef");
+                edge.to_node   = get("targetRef");
+                edge.edge_type = ProcessEdgeType::SEQUENCE_FLOW;
+                std::string cond = get("name");
+                if (!cond.empty()) edge.condition_expression = cond;
+                if (!edge.from_node.empty() && !edge.to_node.empty())
+                    result.edges.push_back(std::move(edge));
+            } else {
+                in_seq_flow = true;
+                sf_id  = get("id");
+                sf_src = get("sourceRef");
+                sf_tgt = get("targetRef");
+                sf_name= get("name");
+                cond_text.clear();
+            }
+            return;
+        }
+
+        // ── messageFlow ───────────────────────────────────────────────────
+        if (tn == "messageFlow") {
+            auto get = [&](const char* k) -> std::string {
+                auto it = t.attrs.find(k);
+                return (it != t.attrs.end()) ? it->second : std::string{};
+            };
+            ProcessEdgeInfo edge;
+            edge.edge_id   = get("id");
+            edge.from_node = get("sourceRef");
+            edge.to_node   = get("targetRef");
+            edge.edge_type = ProcessEdgeType::MESSAGE_FLOW;
+            if (!edge.from_node.empty() && !edge.to_node.empty())
+                result.edges.push_back(std::move(edge));
+            return;
+        }
+
+        // ── association / dataInputAssociation ────────────────────────────
+        if (tn == "association" || tn == "dataInputAssociation" ||
+            tn == "dataOutputAssociation") {
+            auto get = [&](const char* k) -> std::string {
+                auto it = t.attrs.find(k);
+                return (it != t.attrs.end()) ? it->second : std::string{};
+            };
+            ProcessEdgeInfo edge;
+            edge.edge_id   = get("id");
+            edge.from_node = get("sourceRef");
+            edge.to_node   = get("targetRef");
+            edge.edge_type = (tn == "association")
+                             ? ProcessEdgeType::ASSOCIATION
+                             : ProcessEdgeType::DATA_ASSOCIATION;
+            if (!edge.from_node.empty() && !edge.to_node.empty())
+                result.edges.push_back(std::move(edge));
+            return;
+        }
+
+        // ── Flow nodes ────────────────────────────────────────────────────
+        if (kFlowNodeTags.count(tn)) {
+            auto it_id = t.attrs.find("id");
+            if (it_id == t.attrs.end() || it_id->second.empty()) return;
+            const std::string& nid = it_id->second;
+            if (!seen_node_ids.insert(nid).second) return; // duplicate
+
+            auto it_nm = t.attrs.find("name");
 
             ProcessNodeInfo node;
-            node.node_id  = id;
-            node.name     = name.empty() ? id : cleanText(name);
-            node.node_type = xmlTagToNodeType_(tag);
+            node.node_id  = nid;
+            node.name     = (it_nm != t.attrs.end() && !it_nm->second.empty())
+                             ? it_nm->second : nid;
+            node.node_type = xmlTagToNodeType_(tn);
 
-            // Determine subtype for task variants
-            if (tag == "userTask")         node.subtype = "USER_TASK";
-            else if (tag == "serviceTask") node.subtype = "SERVICE_TASK";
-            else if (tag == "scriptTask")  node.subtype = "SCRIPT_TASK";
-            else if (tag == "sendTask")    node.subtype = "SEND_TASK";
-            else if (tag == "receiveTask") node.subtype = "RECEIVE_TASK";
-            else if (tag == "manualTask")  node.subtype = "MANUAL_TASK";
-            else if (tag == "businessRuleTask") node.subtype = "BUSINESS_RULE_TASK";
+            if      (tn == "userTask")          node.subtype = "USER_TASK";
+            else if (tn == "serviceTask")       node.subtype = "SERVICE_TASK";
+            else if (tn == "scriptTask")        node.subtype = "SCRIPT_TASK";
+            else if (tn == "sendTask")          node.subtype = "SEND_TASK";
+            else if (tn == "receiveTask")       node.subtype = "RECEIVE_TASK";
+            else if (tn == "manualTask")        node.subtype = "MANUAL_TASK";
+            else if (tn == "businessRuleTask")  node.subtype = "BUSINESS_RULE_TASK";
+
+            // async markers from common BPMN engine extensions
+            for (const char* k : {"isAsync", "asyncBefore", "async"}) {
+                auto it = t.attrs.find(k);
+                if (it != t.attrs.end() &&
+                    (it->second == "true" || it->second == "TRUE")) {
+                    node.is_async = true;
+                    break;
+                }
+            }
 
             result.nodes.push_back(std::move(node));
         }
+    };
+
+    auto text_cb = [&](std::string_view txt) {
+        if (in_cond_expr) cond_text += std::string(txt);
+    };
+
+    if (!tokenizeXml(bpmn_xml, tag_cb, text_cb)) {
+        result.ok      = false;
+        result.message = "BPMN XML exceeds maximum allowed size (10 MiB)";
+        return result;
     }
 
-    // Parse sequenceFlow
-    {
-        std::regex sf_re(R"(<sequenceFlow[^>]+>)", std::regex::icase);
-        auto it  = std::sregex_iterator(xml.begin(), xml.end(), sf_re);
-        auto end = std::sregex_iterator();
-        for (; it != end; ++it) {
-            std::string tag_str = it->str();
-            ProcessEdgeInfo edge;
-            edge.edge_id   = extractAttr(tag_str, "id");
-            edge.from_node = extractAttr(tag_str, "sourceRef");
-            edge.to_node   = extractAttr(tag_str, "targetRef");
-            edge.edge_type = ProcessEdgeType::SEQUENCE_FLOW;
-
-            // Extract inline condition expression if present
-            // (conditionExpression child element — simplistic extraction)
-            std::string cond_name = extractAttr(tag_str, "name");
-            if (!cond_name.empty()) {
-                edge.condition_expression = cond_name;
-            }
-
-            if (!edge.from_node.empty() && !edge.to_node.empty()) {
-                result.edges.push_back(std::move(edge));
-            }
-        }
-    }
-
-    // Parse messageFlow
-    {
-        std::regex mf_re(R"(<messageFlow[^>]+>)", std::regex::icase);
-        auto it  = std::sregex_iterator(xml.begin(), xml.end(), mf_re);
-        auto end = std::sregex_iterator();
-        for (; it != end; ++it) {
-            std::string tag_str = it->str();
-            ProcessEdgeInfo edge;
-            edge.edge_id   = extractAttr(tag_str, "id");
-            edge.from_node = extractAttr(tag_str, "sourceRef");
-            edge.to_node   = extractAttr(tag_str, "targetRef");
-            edge.edge_type = ProcessEdgeType::MESSAGE_FLOW;
-
-            if (!edge.from_node.empty() && !edge.to_node.empty()) {
-                result.edges.push_back(std::move(edge));
-            }
-        }
+    if (result.process_id.empty()) {
+        result.process_id   = "imported_process";
+        result.process_name = "Imported Process";
     }
 
     if (result.nodes.empty() && result.edges.empty()) {

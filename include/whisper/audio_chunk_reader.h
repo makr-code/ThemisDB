@@ -2,6 +2,7 @@
 
 #include <string>
 #include <vector>
+#include <memory>
 #include <stdexcept>
 
 namespace themis {
@@ -44,6 +45,57 @@ public:
 private:
     std::vector<float> parseWav(const std::vector<uint8_t>& data,
                                 float& out_sample_rate);
+};
+
+/**
+ * @brief Audio reader that decodes MP3, OGG, FLAC and other formats by shelling
+ *        out to the `ffmpeg` binary.
+ *
+ * The binary must be on PATH.  Output is always resampled to 16 kHz mono
+ * float32 PCM.
+ *
+ * Security: the file path is shell-escaped before being passed to the subprocess.
+ * Files whose path contains characters that cannot be safely escaped are rejected
+ * with std::runtime_error.
+ *
+ * If `ffmpeg` is not found on PATH, readFile() throws
+ * std::runtime_error("ffmpeg not available").
+ */
+class FfmpegAudioChunkReader : public IAudioChunkReader {
+public:
+    /// Maximum raw PCM output accepted from ffmpeg (≈ 3.5 h at 16 kHz mono f32).
+    static constexpr size_t kMaxOutputBytes = 500UL * 1024UL * 1024UL;
+
+    std::vector<float> readFile(const std::string& path,
+                                float& out_sample_rate) override;
+
+    bool canRead(const std::string& path) const override;
+
+private:
+    /// Shell-escape a path for use inside single quotes.
+    /// Throws std::runtime_error if the path contains a NUL byte.
+    static std::string shellEscape(const std::string& path);
+};
+
+/**
+ * @brief Composite reader that delegates to the first registered
+ *        IAudioChunkReader whose canRead() returns true.
+ *
+ * Readers are tried in registration order.  If none accepts the file,
+ * readFile() throws std::runtime_error.
+ */
+class CompositeAudioChunkReader : public IAudioChunkReader {
+public:
+    /// Register a reader.  Readers are tried in the order they are added.
+    void addReader(std::unique_ptr<IAudioChunkReader> reader);
+
+    std::vector<float> readFile(const std::string& path,
+                                float& out_sample_rate) override;
+
+    bool canRead(const std::string& path) const override;
+
+private:
+    std::vector<std::unique_ptr<IAudioChunkReader>> readers_;
 };
 
 } // namespace whisper

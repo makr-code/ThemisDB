@@ -31,12 +31,16 @@
 #include <functional>
 #include <vector>
 #include <optional>
+#include <cstdint>
 #include <nlohmann/json.hpp>
 
 namespace themis {
 namespace updates {
 
 using json = nlohmann::json;
+
+// Forward declaration for optional history-logger integration
+class UpdateHistoryLogger;
 
 /**
  * @brief States for the update state machine
@@ -68,6 +72,28 @@ struct UpdateTransactionEntry {
 
     json toJson() const;
     static std::optional<UpdateTransactionEntry> fromJson(const json& j);
+};
+
+/// Opaque identifier returned by createCheckpoint() and accepted by rollbackToCheckpoint().
+using CheckpointId = uint64_t;
+
+/**
+ * @brief Snapshot of the state machine captured by createCheckpoint().
+ *
+ * Stored in-memory; checkpoints survive for the lifetime of the
+ * UpdateStateMachine instance.
+ */
+struct Checkpoint {
+    /// Monotonically increasing identifier (1-based).
+    CheckpointId id{0};
+    /// State at the time the checkpoint was created.
+    UpdateState state{UpdateState::IDLE};
+    /// Version string at the time the checkpoint was created.
+    std::string version;
+    /// Optional human-readable description supplied by the caller.
+    std::string description;
+    /// Wall-clock time the checkpoint was recorded.
+    std::chrono::system_clock::time_point timestamp;
 };
 
 /**
@@ -162,6 +188,61 @@ public:
      */
     static std::string stateName(UpdateState s);
 
+    // -------------------------------------------------------------------------
+    // Rollback checkpoint API (v1.8.0 – Q2 2026)
+    // -------------------------------------------------------------------------
+
+    /**
+     * @brief Attach an UpdateHistoryLogger for auditability.
+     *
+     * When set, createCheckpoint() and rollbackToCheckpoint() emit entries
+     * to the provided logger.  The logger pointer must remain valid for the
+     * lifetime of this state machine (or until replaced by another call).
+     *
+     * @param logger Pointer to the logger, or nullptr to disable.
+     */
+    void setHistoryLogger(UpdateHistoryLogger* logger);
+
+    /**
+     * @brief Capture the current state as a named rollback point.
+     *
+     * Checkpoints are stored in memory and survive until the state machine is
+     * destroyed or clearCheckpoints() is called.  Each checkpoint receives a
+     * monotonically increasing @ref CheckpointId.
+     *
+     * If a history logger has been attached via setHistoryLogger(), a
+     * "checkpoint_created" entry is appended to it automatically.
+     *
+     * @param description Optional human-readable label for the checkpoint.
+     * @return            The identifier of the newly created checkpoint.
+     */
+    CheckpointId createCheckpoint(const std::string& description = "");
+
+    /**
+     * @brief Restore the state machine to a previously created checkpoint.
+     *
+     * The state and current version are overwritten with the values captured
+     * at checkpoint creation time.  Checkpoints newer than @p id are removed
+     * from the in-memory list.  The restoration is recorded in the transaction
+     * log and, if a history logger is attached, emitted as a "checkpoint_rollback"
+     * event.
+     *
+     * @param id  Identifier of the target checkpoint (returned by createCheckpoint()).
+     * @return    true if a checkpoint with the given id was found and applied;
+     *            false if no such checkpoint exists.
+     */
+    bool rollbackToCheckpoint(CheckpointId id);
+
+    /**
+     * @brief Return all checkpoints in creation order (oldest first).
+     */
+    std::vector<Checkpoint> listCheckpoints() const;
+
+    /**
+     * @brief Remove all stored checkpoints from memory.
+     */
+    void clearCheckpoints();
+
 private:
     bool isValidTransition(UpdateState from, UpdateState to) const;
     void appendLogEntry(const UpdateTransactionEntry& entry);
@@ -174,6 +255,9 @@ private:
     std::string inflight_version_;
     std::vector<UpdateTransactionEntry> transaction_log_;
     std::vector<StateChangeCallback> callbacks_;
+    std::vector<Checkpoint> checkpoints_;
+    uint64_t next_checkpoint_id_{1};
+    UpdateHistoryLogger* history_logger_{nullptr};
 };
 
 } // namespace updates

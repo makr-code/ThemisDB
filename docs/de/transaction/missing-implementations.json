@@ -1,0 +1,156 @@
+{
+  "meta": {
+    "generated_at": "2026-04-10T05:31:00Z",
+    "module": "transaction",
+    "source_paths": [
+      "src/transaction/",
+      "include/transaction/"
+    ],
+    "validated_branch": "copilot/update-module-transaction-documentation",
+    "audit_note": "Reality-check performed during PR copilot/update-module-transaction-documentation (2026-04-10). All primary docs verified against source files in src/transaction/ and include/transaction/."
+  },
+  "missing_implementations": [
+    {
+      "id": "TXN-MISSING-001",
+      "title": "TransactionAuditor — exportToKafka / exportToS3 sind Stubs",
+      "claim_source": "src/transaction/ROADMAP.md Phase 8; src/transaction/FUTURE_ENHANCEMENTS.md §Transaction Audit Trail",
+      "claim_section": "Phase 8: exportToKafka(topic) / exportToS3(bucket, prefix)",
+      "expected": "exportToKafka() exportiert Audit-Log-Einträge an einen Kafka-Topic; exportToS3() lädt in S3-kompatiblen Speicher hoch",
+      "observed": "Beide Methoden geben Status::Error('not yet implemented') zurück; keine echte Verbindung zu Kafka oder S3",
+      "evidence": {
+        "files": ["src/transaction/transaction_auditor.cpp"],
+        "stub_lines": "lines 98–109 (exportToKafka: not yet implemented, exportToS3: not yet implemented)",
+        "pr_evidence": "none"
+      },
+      "status": "open",
+      "resolution": null,
+      "roadmap_status": "documented_as_stub",
+      "roadmap_marker": "[x] placeholder stubs",
+      "issue_number": null,
+      "criticality": "low",
+      "suggested_issue_title": "[transaction] Implement TransactionAuditor::exportToKafka / exportToS3 real integration",
+      "suggested_labels": ["type:feature", "priority:low", "area:transaction"]
+    },
+    {
+      "id": "TXN-MISSING-002",
+      "title": "SnapshotManager::serialize/deserialize — kein Cross-Shard-Import-Pfad",
+      "claim_source": "include/transaction/ROADMAP.md Planned Features §Cross-shard read snapshot export",
+      "claim_section": "Cross-shard read snapshot export (Target: Q3 2026)",
+      "expected": "serialize()/deserialize() erlauben Transport eines Snapshot auf Remote-Shard via RPC für globally consistent read replicas",
+      "observed": "serialize()/deserialize() sind lokal implementiert (include/transaction/snapshot_manager.h:273–278); kein RPC-Transport oder Remote-Import-Pfad vorhanden",
+      "evidence": {
+        "files": ["include/transaction/snapshot_manager.h"],
+        "stub_lines": "lines 273–278 (local serialize/deserialize only)",
+        "pr_evidence": "none"
+      },
+      "status": "open",
+      "resolution": null,
+      "roadmap_status": "planned",
+      "roadmap_marker": "[ ] Cross-shard read snapshot export (Target: Q3 2026)",
+      "issue_number": null,
+      "criticality": "low",
+      "suggested_issue_title": "[transaction] Wire SnapshotManager serialize/deserialize to cross-shard RPC import",
+      "suggested_labels": ["type:feature", "priority:low", "area:transaction", "area:sharding"]
+    },
+    {
+      "id": "TXN-MISSING-003",
+      "title": "SagaOrchestrator — kein Async/Coroutine-Step-Dispatch",
+      "claim_source": "include/transaction/ROADMAP.md Planned Features §Async saga step execution",
+      "claim_section": "Async saga step execution in SagaOrchestrator (Target: Q3 2026)",
+      "expected": "co_await-basierter Step-Dispatch; C++20 Coroutinen für asynchrone Saga-Steps",
+      "observed": "SAGAStep::forward und compensate sind std::function<void()>; keine Coroutinen-Unterstützung in saga_orchestrator.h/cpp",
+      "evidence": {
+        "files": ["include/transaction/saga_orchestrator.h"],
+        "stub_lines": "SAGAStep::forward = std::function<void()>; no co_await, no coroutine_handle",
+        "pr_evidence": "none"
+      },
+      "status": "open",
+      "resolution": null,
+      "roadmap_status": "planned",
+      "roadmap_marker": "[ ] Async saga step execution in SagaOrchestrator (Target: Q3 2026)",
+      "issue_number": null,
+      "criticality": "low",
+      "suggested_issue_title": "[transaction] Add C++20 coroutine-based async step dispatch to SagaOrchestrator",
+      "suggested_labels": ["type:feature", "priority:low", "area:transaction"]
+    },
+    {
+      "id": "TXN-DRIFT-001",
+      "title": "ROADMAP-Testanzahl-Drift: 2PC (32→43), OCC (11→13), Deadlock (keine Zahl→34)",
+      "claim_source": "src/transaction/ROADMAP.md Phase 6; src/transaction/FUTURE_ENHANCEMENTS.md §OCC",
+      "claim_section": "Phase 6: '32 tests, TransactionDistributed2PCFocusedTests'; FUTURE_ENHANCEMENTS §OCC: '11 unit tests'",
+      "expected": "Testanzahlen stimmen mit tatsächlichen Testfällen überein",
+      "observed": "test_transaction_distributed_2pc.cpp: 43 Tests; test_transaction_occ.cpp: 13 Tests; test_adaptive_deadlock_prevention.cpp: 34 Tests (keine Zahl in ROADMAP Phase 5)",
+      "evidence": {
+        "files": [
+          "tests/test_transaction_distributed_2pc.cpp",
+          "tests/test_transaction_occ.cpp",
+          "tests/test_adaptive_deadlock_prevention.cpp"
+        ],
+        "stub_lines": "grep -c '^TEST_F|^TEST(' on each file",
+        "pr_evidence": "Fixed in this PR"
+      },
+      "status": "resolved",
+      "resolution": {
+        "resolved_at": "2026-04-10",
+        "pr_branch": "copilot/update-module-transaction-documentation",
+        "modified_files": [
+          "src/transaction/ROADMAP.md",
+          "src/transaction/FUTURE_ENHANCEMENTS.md"
+        ],
+        "description": "ROADMAP.md Phase 6 updated to '32 tests (DistributedTxnManagerTest) + 11 PERF-D4 = 43 total'; Phase 5 updated to '34 tests'; FUTURE_ENHANCEMENTS.md OCC section updated from '11 unit tests' to '13 unit tests'."
+      },
+      "roadmap_status": "fixed",
+      "roadmap_marker": null,
+      "issue_number": null,
+      "criticality": "low",
+      "suggested_issue_title": null,
+      "suggested_labels": []
+    },
+    {
+      "id": "TXN-DRIFT-002",
+      "title": "include/transaction/ROADMAP.md: Savepoint-API als offen markiert, obwohl implementiert",
+      "claim_source": "include/transaction/ROADMAP.md Planned Features §Autonomous savepoint API",
+      "claim_section": "[ ] Autonomous savepoint API on Transaction (Target: Q2 2026)",
+      "expected": "[ ] deutet auf nicht implementiert hin",
+      "observed": "createSavepoint, rollbackToSavepoint, releaseSavepoint, getSavepoints, hasSavepoint sind bereits in include/transaction/transaction_manager.h (Zeilen 354–386) implementiert und in tests/test_savepoints.cpp (20 Tests) abgedeckt",
+      "evidence": {
+        "files": [
+          "include/transaction/transaction_manager.h",
+          "tests/test_savepoints.cpp"
+        ],
+        "stub_lines": "transaction_manager.h:354–386",
+        "pr_evidence": "Fixed in this PR"
+      },
+      "status": "resolved",
+      "resolution": {
+        "resolved_at": "2026-04-10",
+        "pr_branch": "copilot/update-module-transaction-documentation",
+        "modified_files": [
+          "include/transaction/ROADMAP.md"
+        ],
+        "description": "include/transaction/ROADMAP.md: moved savepoint API from Planned Features [ ] to Completed [x]; also corrected header count from 15 to 17 and version from v1.8.0 to v1.9.0."
+      },
+      "roadmap_status": "fixed",
+      "roadmap_marker": null,
+      "issue_number": null,
+      "criticality": "low",
+      "suggested_issue_title": null,
+      "suggested_labels": []
+    }
+  ],
+  "summary": {
+    "total_findings": 5,
+    "resolved_findings": 2,
+    "by_criticality": {
+      "high": 0,
+      "medium": 0,
+      "low": 5
+    },
+    "by_type": {
+      "stub": 1,
+      "planned_not_implemented": 2,
+      "documentation_drift": 2
+    },
+    "note": "Alle wesentlichen Features des Transaktions-Moduls (2PC, SAGA, OCC, SSI, Savepoints, Deadlock-Prävention, Write-Batching, Audit-Trail) sind vollständig implementiert und production-ready. Offene Punkte betreffen ausschließlich explizit dokumentierte Stubs oder zukünftig geplante Features."
+  }
+}

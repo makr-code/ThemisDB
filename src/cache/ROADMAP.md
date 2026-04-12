@@ -46,6 +46,11 @@ Production-ready multi-level cache (L1/L2/L3) with all four implementation phase
 - [x] `RedisCacheCoordinator` Async Pub/Sub Subscription Loop (v1.7.0) — exponential back-off reconnection (1 s → 30 s) with `cache.redis.reconnect` metric; `isConnected()` exposed in `GET /v1/admin/cache/health`; Windows stub replaced with `THEMIS_POSIX_SOCKETS` compile-time feature flag; noisy `THEMIS_WARN` in stub constructor downgraded to `THEMIS_DEBUG`; CI: `redis-cache-coordinator-async-loop-ci.yml`
 - [x] Warmup: Parallel Bulk Load (v1.8.0, Issue: #244) — `src/cache/warmup.cpp` rewrites `warmupFromLog()` with N `std::async` workers (one per CPU core); `Config::max_parallel_workers` (default: `std::thread::hardware_concurrency()`); `WarmupResult::warmup_duration_ms` + `warmup_entries_per_second`; per-shard L1/L2 insertion under existing mutexes; atomic aggregate counters; API response extended with timing/throughput fields; 4 new tests in `tests/test_cache_warmup.cpp`; CI: `cache-warmup-parallel-bulk-load-ci.yml`
 - [x] Lock-Free L1 Read Path (v1.9.0) — `l1_mutex_` → `std::shared_mutex`; `L1Entry` fields atomicised; `l1_cache_` stores `unique_ptr<L1Entry>`; `l1_eviction_mutex_` guards eviction strategy; lazy expiry via CAS on `expired_flag`; `onAccess()` removed from hot path
+- [x] `RequestCoalescer` — real Singleflight implementation (Issue: #4580) (2026-04-12)
+  - `include/cache/request_coalescer.h`; `promise/shared_future` inflight map
+  - `fn()` called exactly once per concurrent in-flight key group; results broadcast to all waiters
+  - Exception from `fn()` propagated as `success=false` + error message to all waiters
+  - 14 focused tests (RC-01…RC-14) in `tests/test_request_coalescer.cpp`
 
 ## Implementation Phases
 

@@ -24,7 +24,7 @@
 #include <benchmark/benchmark.h>
 #include "llm/llama_resource_manager.h"
 #include "llm/sampling_strategy.h"
-#include "acceleration/backend_registry.h"
+#include "acceleration/compute_backend.h"
 
 using namespace themis::llm;
 using namespace themis::acceleration;

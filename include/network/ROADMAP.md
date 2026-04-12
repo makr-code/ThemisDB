@@ -43,7 +43,12 @@ v1.8.0 — production. All core transports (TCP, UDP, QUIC, gRPC, WebSocket) and
 
 ### Phase 5 — Performance / Hardening (Planned)
 - [ ] DPDK kernel-bypass data plane (Target: Q3 2026)
-- [ ] io_uring batched send on Linux 6.x (Target: Q3 2026)
+- [x] io_uring batched send on Linux 6.x (Target: Q3 2026)
+  - `IoUringBatchedSender` in `include/network/io_uring_batcher.h` + `src/network/io_uring_batcher.cpp`
+  - Single `io_uring_enter()` syscall for N concurrent `WireProtocolBatcher` flushes
+  - `IORING_OP_WRITEV` SQEs; CQE reap + per-op error reporting
+  - `THEMIS_ENABLE_IO_URING` guard; transparent `writev(2)` fallback otherwise
+  - 12 focused tests in `tests/test_io_uring_batcher.cpp` (IUB-01…IUB-12)
 - [ ] Persistent QUIC sessions across restarts (Target: Q4 2026)
 
 ### Phase 6 — Documentation & Acceptance ✅

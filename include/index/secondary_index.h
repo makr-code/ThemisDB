@@ -423,6 +423,12 @@ private:
     static std::string makeCompositeIndexKey(std::string_view table, const std::vector<std::string>& columns, const std::vector<std::string>& values, std::string_view pk);
     static std::string makeCompositeIndexPrefix(std::string_view table, const std::vector<std::string>& columns, const std::vector<std::string>& values);
 
+    // Unique-Index sentinel key used for GetForUpdate locking (Concurrent-Unique-Lücke fix).
+    // Single-column: "uidx:table:col:encodedVal"
+    // Composite:     "uidx:table:col1+col2:encVal1:encVal2"
+    static std::string makeUniqueSentinelKey_(std::string_view table, std::string_view col, std::string_view encodedVal);
+    static std::string makeCompositeUniqueSentinelKey_(std::string_view table, const std::vector<std::string>& columns, const std::vector<std::string>& values);
+
     // Range-Index-Key-Builder: ridx:table:column:value:PK und Prefix ridx:table:column:value:
     static std::string makeRangeIndexKey(std::string_view table, std::string_view column, std::string_view value, std::string_view pk);
     static std::string makeRangeIndexPrefix(std::string_view table, std::string_view column, std::string_view valuePrefix);

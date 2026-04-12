@@ -26,6 +26,20 @@
 #include <random>
 #include <vector>
 
+#ifndef THEMIS_ENABLE_GPU
+
+static void BM_GPUVectorIndex_GPUDisabled(benchmark::State& state) {
+    for (auto _ : state) {
+        state.SkipWithError("GPU vector index benchmarks are disabled in this build");
+        break;
+    }
+}
+BENCHMARK(BM_GPUVectorIndex_GPUDisabled);
+
+BENCHMARK_MAIN();
+
+#else
+
 using namespace themis::index;
 
 // NOTE: GPU benchmarks (CUDA, Vulkan, HIP) are disabled in v1.5.x.
@@ -415,3 +429,5 @@ BENCHMARK(BM_DistanceMetric_Cosine)
     ->Unit(benchmark::kMicrosecond);
 
 BENCHMARK_MAIN();
+
+#endif  // THEMIS_ENABLE_GPU
