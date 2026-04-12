@@ -651,7 +651,7 @@ Low cardinality: Status (10 values)
 
 **RCU (Read-Copy-Update):** Lock-free synchronisation technique for shared data: readers proceed without locks while writers create a new version. `g_rcu_reader_count` tracks active readers; writers wait until the count reaches zero.
 
-**UUID v7:** UUID version defined by RFC 9562 embedding a 48-bit millisecond Unix timestamp for time-sortable identifiers. ThemisDB generates UUID v7 via `generate_uuid_v7()` using a thread-local monotonic sequence counter and MT19937-64 randomness.
+**UUID v7:** UUID version 7 as defined by RFC 9562, embedding a 48-bit millisecond Unix timestamp for time-sortable identifiers. ThemisDB generates UUID v7 via `generate_uuid_v7()` using a thread-local monotonic sequence counter and MT19937-64 randomness.
 
 **Vector:** Ordered list of numbers
 

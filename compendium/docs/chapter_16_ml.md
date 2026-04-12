@@ -2683,7 +2683,7 @@ Alle Methoden sind thread-safe.  Probe-Ergebnisse werden für `kCacheTTL` Sekund
 |---------|-----------------|----------|
 | Apple ANE (M3 Ultra) | ~38 TOPS | macOS/iOS |
 | Intel NPU (Core Ultra) | ~11 TOPS | Windows/Linux |
-| Qualcomm QNN (Snapdragon X) | ~45 TOPS | Windows/Linux/Android |
+| Qualcomm QNN (Snapdragon X Elite) | ~45 TOPS | Windows/Linux/Android |
 | NVIDIA CUDA (RTX 4090) | ~82 TFLOPS FP16 | Linux/Windows |
 | CPU AVX-512 (Xeon) | ~2 TFLOPS INT8 | Alle Plattformen |
 
