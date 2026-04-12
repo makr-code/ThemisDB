@@ -448,6 +448,33 @@ Die folgenden Komponenten wurden mit dem v1.9.x-Release (Commit 2026-04-12) in d
 | `CrossTenantPolicyInheritance` | `governance/` | ✅ GA | — | Hierarchische Policy-Vererbung über Tenants |
 | `ComplianceReporter` | `governance/` | ✅ GA | — | GDPR/HIPAA/CCPA/PCI-DSS/SOC 2/ISO 27001 Reports (JSON + PDF) |
 
+### Transaction-Modul (v1.9)
+
+| Feature | Modul | Status | Tests | Beschreibung |
+|---------|-------|--------|-------|-------------|
+| `BranchManager` | `transaction/` | ✅ GA | — | Git-ähnliche Branches + 3-Way-Merge; from_tag/from_sequence |
+| `SnapshotManager` | `transaction/` | ✅ GA | — | Named Snapshots/Tags; PITR-Basis |
+| SAGA Distributed | `transaction/` | ✅ GA | — | Kompensationsaktionen für Relational/Index/Graph/Vector; Distributed Orchestration |
+| `DeadlockPredictor` | `transaction/` | ✅ GA | — | Probability Scoring (0–1); Lock-Order-Empfehlung; Adaptive Timeout |
+| `DistributedTransactionManager` (2PC) | `transaction/` | ✅ GA | — | WAL-backed Coordinator; Parallel Prepare/Commit; Crash Recovery |
+| `GlobalTransactionManager` (TrueTime) | `transaction/` | ✅ GA | — | Multi-Region ACID; TrueTime-basiertes Commit-Timestamp |
+| Transaction Savepoints | `transaction/` | ✅ GA | — | `createSavepoint`/`rollbackToSavepoint`/`releaseSavepoint` |
+| OCC Mode | `transaction/` | ✅ GA | — | `getEntityVersion`/`optimisticPut`/`optimisticErase`; per-Entity Versions |
+| Bulk Transaction API | `transaction/` | ✅ GA | — | `bulkPutEntities`/`bulkEraseEntities`; kein Per-Row-Overhead |
+| Transaction Explain | `transaction/` | ✅ GA | — | `explain()`: Locks, Write-Set, MVCC-Version-Chain |
+
+### Cache-Modul (v1.x)
+
+| Feature | Modul | Status | Tests | Beschreibung |
+|---------|-------|--------|-------|-------------|
+| `AdaptiveQueryCache` (L1/L2/L3) | `cache/` | ✅ GA | — | BoundedLRU (L1) + zstd/lz4 (L2) + RocksDB (L3); Adaptive TTL |
+| `SemanticCache` | `cache/` | ✅ GA | — | SHA-256 Fingerprint + Cosine Similarity; semantische Äquivalenz |
+| GDPR-aware Invalidation | `cache/` | ✅ GA | — | `invalidatePII()` (Art. 17); UUID-basierte PII-Verknüpfung |
+| Tenant-Isolation + Quotas | `cache/` | ✅ GA | — | `per_tenant_max_bytes`; cross-tenant Zugriff = nullopt |
+| Circuit Breaker (L3) | `cache/` | ✅ GA | — | CLOSED/OPEN/HALF_OPEN; `cb_failure_threshold` konfigurierbar |
+| Cache Warmup | `cache/` | ✅ GA | — | `warmupFromLog()`/`exportSnapshot()`; Bulk-Vorausladen |
+| Rate Limiting | `cache/` | ✅ GA | — | Token Bucket; `max_requests_per_second` konfigurierbar |
+
 ## Implementierungsstatus — Process Module (v1.0)
 
 ### Serialisierer & Import
