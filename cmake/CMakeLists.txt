@@ -2669,6 +2669,9 @@ if(THEMIS_ENABLE_LLM)
     ../src/rag/onnx_model_loader.cpp
     ../src/rag/prompt_templates.cpp
     ../src/rag/response_parser.cpp
+    # Phase 7: Multi-hop reasoning and adaptive retrieval
+    ../src/rag/multi_hop_reasoner.cpp
+    ../src/rag/adaptive_retrieval.cpp
     )
 endif()  # Close if(THEMIS_ENABLE_LLM)
 
@@ -3884,6 +3887,9 @@ if(THEMIS_ENABLE_LLM)
         ../src/rag/quality_control_factory.cpp
         ../src/rag/relevance_evaluator.cpp
         ../src/rag/rubric_evaluator.cpp
+        # Phase 7: Multi-hop reasoning and adaptive retrieval depth
+        ../src/rag/multi_hop_reasoner.cpp
+        ../src/rag/adaptive_retrieval.cpp
 
         # Model Deployment Plugin (Ollama-inspired, production-ready)
         ../src/llm/model_downloader.cpp           # Model downloading from Ollama/HTTP/local sources

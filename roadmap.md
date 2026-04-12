@@ -313,8 +313,8 @@ Focus: Deepen AI capabilities across prompt engineering, training, RAG, and anal
 - [?] Domain adaptation beyond legal (medical, financial) (Target: Q4 2026)
 
 #### 2.3 RAG — Advanced Retrieval
-- [I] Adaptive retrieval depth based on query complexity (Target: Q2 2026)
-- [I] Multi-hop reasoning with intermediate knowledge graph traversal (Target: Q3 2026)
+- [x] Adaptive retrieval depth based on query complexity (Target: Q2 2026) — `AdaptiveRetrieval` (include/rag/adaptive_retrieval.h, src/rag/adaptive_retrieval.cpp); QueryComplexity tiers; heuristic + IComplexityScorer plugin; 15 unit tests
+- [x] Multi-hop reasoning with query decomposition (Target: Q2 2026) — `MultiHopReasoner` (include/rag/multi_hop_reasoner.h, src/rag/multi_hop_reasoner.cpp); heuristic + LLM decomposition; per-hop context injection; 15 unit tests
 - [I] Retrieval confidence calibration and hallucination detection improvements (Target: Q3 2026)
 
 #### 2.4 AQL — Extended Language Features

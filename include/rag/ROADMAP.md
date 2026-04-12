@@ -60,9 +60,10 @@ v2.0.0 — production. Full RAG pipeline with hybrid retrieval, cross-encoder re
 - [x] `ReplugRetriever` — REPLUG-style LLM-scored fusion (Shi et al., 2023); ILLMScorer interface; HeuristicLLMScorer; λ interpolation; REPLUG-LSR weight update; factory helpers; 30 unit tests
 - [x] `RLAIFTrainer` — Constitutional AI + RLAIF preference dataset generation (Bai et al., 2022; Lee et al., 2023); IAIJudge interface; HeuristicAIJudge; AIPrinciple registry; processBatch(); factory helpers; 30 unit tests
 
-### Phase 7 — Future Enhancements (Planned)
+### Phase 7 — Advanced Retrieval & Reasoning ✅
+- [x] `MultiHopReasoner` — multi-hop reasoning with query decomposition (`include/rag/multi_hop_reasoner.h`, `src/rag/multi_hop_reasoner.cpp`); heuristic + LLM-based decomposition; per-hop retrieval with context injection; answer composition; factory helpers; 15 unit tests
+- [x] `AdaptiveRetrieval` — adaptive retrieval depth based on query complexity (`include/rag/adaptive_retrieval.h`, `src/rag/adaptive_retrieval.cpp`); QueryComplexity tiers (SIMPLE/MODERATE/COMPLEX/VERY_COMPLEX); heuristic + custom scorer; top_k and similarity_threshold scaling; factory helpers; 15 unit tests
 - [ ] Video modality support in `MultimodalRag` (Target: Q4 2026)
-- [ ] Adaptive retrieval budget based on query complexity (Target: Q3 2026)
 - [ ] Federated RAG across isolated data silos (Target: Q4 2026)
 
 ## Production Readiness Checklist
@@ -72,4 +73,6 @@ v2.0.0 — production. Full RAG pipeline with hybrid retrieval, cross-encoder re
 - [x] Agentic RAG tested with 10-step tool chains
 - [x] ReplugRetriever: 30 unit tests (ILLMScorer, fusion, weight updates, factory)
 - [x] RLAIFTrainer: 30 unit tests (IAIJudge, runTrainingStep, batch, dataset, stats)
+- [x] MultiHopReasoner: 15 unit tests (config, heuristic + LLM decomposition, pipeline)
+- [x] AdaptiveRetrieval: 15 unit tests (config, complexity analysis, param computation, custom scorer)
 - [ ] Video modality support (Target: Q4 2026)

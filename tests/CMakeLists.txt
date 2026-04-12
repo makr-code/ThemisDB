@@ -21455,6 +21455,84 @@ else()
 endif()
 
 # ============================================================================
+# MultiHopReasoner Focused Tests (Phase 7)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_rag_multi_hop_reasoner.cpp")
+    message(STATUS "Adding MultiHopReasoner focused tests (multi-hop reasoning, v1.0.0)")
+
+    add_executable(test_rag_multi_hop_reasoner_focused
+        test_rag_multi_hop_reasoner.cpp
+        ${CMAKE_SOURCE_DIR}/src/rag/multi_hop_reasoner.cpp
+    )
+
+    target_include_directories(test_rag_multi_hop_reasoner_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_rag_multi_hop_reasoner_focused PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_features(test_rag_multi_hop_reasoner_focused PRIVATE cxx_std_17)
+
+    target_compile_definitions(test_rag_multi_hop_reasoner_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME MultiHopReasonerFocusedTests COMMAND test_rag_multi_hop_reasoner_focused)
+
+    set_tests_properties(MultiHopReasonerFocusedTests PROPERTIES
+        LABELS "rag;multi_hop;reasoning;phase7;v1.0.0;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  MultiHopReasoner: 15 tests (A-C) – config, decomposition, pipeline")
+else()
+    message(STATUS "MultiHopReasoner focused tests not found – skipped")
+endif()
+
+# ============================================================================
+# AdaptiveRetrieval Focused Tests (Phase 7)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_rag_adaptive_retrieval.cpp")
+    message(STATUS "Adding AdaptiveRetrieval focused tests (adaptive depth, v1.0.0)")
+
+    add_executable(test_rag_adaptive_retrieval_focused
+        test_rag_adaptive_retrieval.cpp
+        ${CMAKE_SOURCE_DIR}/src/rag/adaptive_retrieval.cpp
+    )
+
+    target_include_directories(test_rag_adaptive_retrieval_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_rag_adaptive_retrieval_focused PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_features(test_rag_adaptive_retrieval_focused PRIVATE cxx_std_17)
+
+    target_compile_definitions(test_rag_adaptive_retrieval_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME AdaptiveRetrievalFocusedTests COMMAND test_rag_adaptive_retrieval_focused)
+
+    set_tests_properties(AdaptiveRetrievalFocusedTests PROPERTIES
+        LABELS "rag;adaptive_retrieval;complexity;phase7;v1.0.0;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  AdaptiveRetrieval: 15 tests (A-C) – config, complexity analysis, params")
+else()
+    message(STATUS "AdaptiveRetrieval focused tests not found – skipped")
+endif()
+
+# ============================================================================
 # Ethics AI – ArgumentStore Standalone Tests
 # ============================================================================
 
