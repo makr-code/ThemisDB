@@ -15342,6 +15342,14 @@ add_prompt_focused_test(
     "DspyModule: DspySignature, DspyPredict, DspyChainOfThought, EchoDspyLLMProvider (v2.0.0)"
 )
 
+add_prompt_focused_test(
+    test_prompt_template_compiler_focused
+    test_prompt_template_compiler.cpp
+    PromptTemplateCompilerFocusedTests
+    "prompt_engineering;dsl;typed_slots;compiler;validator;unit"
+    "PromptTemplateCompiler: typed DSL, IPromptTemplate, SlotType, PromptContext, PromptTemplateValidator (PE-MISSING-001, AC-1 through AC-30)"
+)
+
 # ============================================================================
 # Custom Test Targets
 # ============================================================================

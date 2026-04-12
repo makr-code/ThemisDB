@@ -1,13 +1,13 @@
 {
   "meta": {
-    "generated_at": "2026-03-09T18:18:00Z",
+    "generated_at": "2026-04-09T19:28:38Z",
     "module": "prompt_engineering",
     "source_paths": [
       "src/prompt_engineering/",
       "include/prompt_engineering/"
     ],
     "validated_branch": "develop",
-    "audit_note": "Reality-check performed during PR copilot/update-documentation-sync-again (2026-03-09)."
+    "audit_note": "Reality-check update 2026-04-09: PE-MISSING-001 (Typed DSL) resolved."
   },
   "missing_implementations": [
     {
@@ -16,19 +16,32 @@
       "claim_source": "src/prompt_engineering/ROADMAP.md",
       "claim_section": "Phase 2: Typed DSL & Context Budget ([?])",
       "expected": "IPromptTemplate interface with compiled DSL support (slots, conditionals, loops), typed TemplateContext, validate() without rendering",
-      "observed": "No IPromptTemplate interface in include/; current templates are plain std::string fields in PromptTemplate::content; no DSL compiler present",
+      "observed": "Implemented: PromptTemplateCompiler (recursive-descent parser), IPromptTemplate interface, CompiledPromptTemplate (slots/conditionals/loops), SlotType enum, PromptContextValue typed context, PromptTemplateValidator (nlohmann/json). 30 tests in tests/test_prompt_template_compiler.cpp (PromptTemplateCompilerFocusedTests).",
       "evidence": {
-        "files_present": [],
-        "files_absent": ["include/prompt_engineering/prompt_template.h"],
+        "files_present": [
+          "include/prompt_engineering/prompt_template_compiler.h",
+          "src/prompt_engineering/prompt_template_compiler.cpp",
+          "include/prompt_engineering/prompt_template_validator.h",
+          "src/prompt_engineering/prompt_template_validator.cpp",
+          "tests/test_prompt_template_compiler.cpp"
+        ],
+        "files_absent": [
+          "include/prompt_engineering/prompt_template.h"
+        ],
         "future_enhancements_ref": "include/prompt_engineering/FUTURE_ENHANCEMENTS.md §Structured Prompt Template DSL API (all [ ])",
         "pr_evidence": "none"
       },
-      "roadmap_status": "not_started",
-      "roadmap_marker": "[?]",
+      "roadmap_status": "complete",
+      "roadmap_marker": "[x]",
       "target_date": "Q2 2026",
       "criticality": "medium",
       "suggested_issue_title": "[prompt_engineering] Implement typed DSL for PromptTemplate with slot/conditional/loop support",
-      "suggested_labels": ["type:feature", "priority:medium", "prompt_engineering", "status:planned"]
+      "suggested_labels": [
+        "type:feature",
+        "priority:medium",
+        "prompt_engineering",
+        "status:planned"
+      ]
     },
     {
       "id": "PE-MISSING-002",
@@ -38,8 +51,12 @@
       "expected": "IRAGContextBudgetManager with allocate(tokens), remaining(), BudgetExhaustedError; strict token-limit enforcement before LLM dispatch",
       "observed": "RAGPromptBuilder::selectChunks() implements character-based budget (not token-based); no IRAGContextBudgetManager; no token counter; no BudgetExhaustedError exception",
       "evidence": {
-        "files_present": ["include/prompt_engineering/rag_prompt_builder.h"],
-        "files_absent": ["include/prompt_engineering/rag_context_budget_manager.h"],
+        "files_present": [
+          "include/prompt_engineering/rag_prompt_builder.h"
+        ],
+        "files_absent": [
+          "include/prompt_engineering/rag_context_budget_manager.h"
+        ],
         "future_enhancements_ref": "include/prompt_engineering/FUTURE_ENHANCEMENTS.md §RAG Context Budget Manager (all [ ])",
         "pr_evidence": "none"
       },
@@ -48,7 +65,12 @@
       "target_date": "Q2 2026",
       "criticality": "high",
       "suggested_issue_title": "[prompt_engineering] Implement IRAGContextBudgetManager with hard token-limit enforcement",
-      "suggested_labels": ["type:feature", "priority:high", "prompt_engineering", "status:planned"]
+      "suggested_labels": [
+        "type:feature",
+        "priority:high",
+        "prompt_engineering",
+        "status:planned"
+      ]
     },
     {
       "id": "PE-MISSING-003",
@@ -58,8 +80,12 @@
       "expected": "IChainOfThoughtTracer with noexcept callbacks onStepBegin(StepId), onStepEnd(StepId, reasoning, duration); ChainOfThoughtBuilder::attachTracer()",
       "observed": "ChainOfThoughtBuilder is a pure string assembler; no tracer interface; no callback mechanism; no per-step latency attribution",
       "evidence": {
-        "files_present": ["include/prompt_engineering/chain_of_thought.h"],
-        "files_absent": ["include/prompt_engineering/chain_of_thought_tracer.h"],
+        "files_present": [
+          "include/prompt_engineering/chain_of_thought.h"
+        ],
+        "files_absent": [
+          "include/prompt_engineering/chain_of_thought_tracer.h"
+        ],
         "future_enhancements_ref": "include/prompt_engineering/FUTURE_ENHANCEMENTS.md §Chain-of-Thought Step Tracer Interface (all [ ])",
         "pr_evidence": "none"
       },
@@ -68,7 +94,12 @@
       "target_date": "Phase 3",
       "criticality": "low",
       "suggested_issue_title": "[prompt_engineering] Implement IChainOfThoughtTracer for per-step reasoning instrumentation",
-      "suggested_labels": ["type:feature", "priority:low", "prompt_engineering", "status:planned"]
+      "suggested_labels": [
+        "type:feature",
+        "priority:low",
+        "prompt_engineering",
+        "status:planned"
+      ]
     },
     {
       "id": "PE-MISSING-004",
@@ -78,7 +109,9 @@
       "expected": "IPromptABFramework with deterministic assignVariant(UserId, ExperimentKey), listExperiments(), configurable traffic splits",
       "observed": "Internal A/B testing in self_improvement_orchestrator.cpp (ABTest class + startABTest/analyzeABTest) is implemented for optimization cycles only; no public IPromptABFramework; no deterministic per-user variant assignment",
       "evidence": {
-        "files_present": ["src/prompt_engineering/self_improvement_orchestrator.cpp"],
+        "files_present": [
+          "src/prompt_engineering/self_improvement_orchestrator.cpp"
+        ],
         "stub_note": "ABTest is an internal optimization tool, not a public typed framework",
         "future_enhancements_ref": "include/prompt_engineering/FUTURE_ENHANCEMENTS.md §Prompt A/B Experimentation Framework (all [ ])",
         "pr_evidence": "none"
@@ -88,7 +121,12 @@
       "target_date": "Phase 3",
       "criticality": "medium",
       "suggested_issue_title": "[prompt_engineering] Implement IPromptABFramework with deterministic per-user variant assignment",
-      "suggested_labels": ["type:feature", "priority:medium", "prompt_engineering", "status:planned"]
+      "suggested_labels": [
+        "type:feature",
+        "priority:medium",
+        "prompt_engineering",
+        "status:planned"
+      ]
     },
     {
       "id": "PE-MISSING-005",
@@ -98,8 +136,12 @@
       "expected": "IPromptQualityEvaluator with evaluate(IPromptTemplate, QualityConfig) -> QualityReport; stateless, no raw content persistence",
       "observed": "PromptEvaluator is a generic quality scorer; no IPromptQualityEvaluator interface; no regression runner; no QualityReport type",
       "evidence": {
-        "files_present": ["include/prompt_engineering/prompt_evaluator.h"],
-        "files_absent": ["include/prompt_engineering/prompt_quality_evaluator.h"],
+        "files_present": [
+          "include/prompt_engineering/prompt_evaluator.h"
+        ],
+        "files_absent": [
+          "include/prompt_engineering/prompt_quality_evaluator.h"
+        ],
         "future_enhancements_ref": "include/prompt_engineering/FUTURE_ENHANCEMENTS.md §Automated Quality Regression Interface (all [ ])",
         "pr_evidence": "none"
       },
@@ -108,7 +150,12 @@
       "target_date": "Phase 3",
       "criticality": "medium",
       "suggested_issue_title": "[prompt_engineering] Implement IPromptQualityEvaluator regression interface",
-      "suggested_labels": ["type:feature", "priority:medium", "prompt_engineering", "status:planned"]
+      "suggested_labels": [
+        "type:feature",
+        "priority:medium",
+        "prompt_engineering",
+        "status:planned"
+      ]
     },
     {
       "id": "PE-MISSING-006",
@@ -118,7 +165,9 @@
       "expected": "PII detection via utils/pii_detector.cpp before LLM transmission; template integrity hash in prompt_version_control.cpp; tenant-scoped A/B experiment context",
       "observed": "No PII check call in prompt_engineering_integration.cpp; no integrity hash for externally loaded templates; no tenant-scoping in SelfImprovementOrchestrator",
       "evidence": {
-        "files_present": ["src/prompt_engineering/prompt_engineering_integration.cpp"],
+        "files_present": [
+          "src/prompt_engineering/prompt_engineering_integration.cpp"
+        ],
         "stub_note": "utils/pii_detector.cpp may exist elsewhere in the project but is not used here",
         "future_enhancements_ref": "src/prompt_engineering/FUTURE_ENHANCEMENTS.md §Security / Reliability (all [ ])",
         "pr_evidence": "none"
@@ -128,7 +177,12 @@
       "target_date": null,
       "criticality": "high",
       "suggested_issue_title": "[prompt_engineering] Wire PII detection and integrity hash into prompt template lifecycle",
-      "suggested_labels": ["type:security", "priority:high", "prompt_engineering", "status:planned"]
+      "suggested_labels": [
+        "type:security",
+        "priority:high",
+        "prompt_engineering",
+        "status:planned"
+      ]
     }
   ],
   "verified_complete": [
@@ -150,6 +204,7 @@
     "Multi-modal prompt support (ImageDescription, buildMultiModalPrompt)",
     "ChainOfThoughtBuilder (addStep, buildZeroShot, buildFewShot, wrapWithCoT)",
     "RAGPromptBuilder (selectChunks, buildContextSection, build, buildFullPrompt)",
-    "SystemPromptManager (built-in + custom roles, renderPrompt, JSON serialisation)"
+    "SystemPromptManager (built-in + custom roles, renderPrompt, JSON serialisation)",
+    "Typed Template DSL (PromptTemplateCompiler, IPromptTemplate, CompiledPromptTemplate, PromptTemplateValidator)"
   ]
 }

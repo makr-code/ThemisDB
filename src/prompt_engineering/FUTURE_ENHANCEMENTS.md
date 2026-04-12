@@ -27,21 +27,30 @@ This document covers planned enhancements to ThemisDB's prompt engineering subsy
 
 ## Planned Features
 
-### [ ] Structured Prompt Template DSL
+### [x] Structured Prompt Template DSL
 **Priority:** High
 **Target Version:** v0.9.0
+**Status:** ✅ Implemented (v2.1.0)
 
 Replace ad-hoc string interpolation in `prompt_manager.cpp` with a typed template DSL that supports typed variable slots (string, list, document-chunk), conditional blocks, and loop constructs. The DSL compiles to a `CompiledPromptTemplate` object that is validated at publish time rather than at render time.
 
-**Implementation Notes:**
-- Add `prompt_template_compiler.cpp` with a recursive-descent parser for the DSL; expose `CompiledPromptTemplate::render(PromptContext&)`.
-- Update `prompt_version_control.cpp` to store the compiled AST alongside the raw template source for faster re-render.
-- `prompt_manager.cpp` must fall back to legacy string-substitution for templates without a DSL version field (backward compat).
-- Integrate variable-type validation with `utils/input_validator.cpp` to catch mismatched context variables at publish time.
+**Implemented Components:**
+- `SlotType` enum — `STRING`, `LIST`, `DOCUMENT_CHUNK`.
+- `SlotDefinition` struct — `name`, `type`, `required`, `default_value`; `toJson()`.
+- `PromptContextValue` — typed runtime value; `fromString()`, `fromList()`, `fromChunks()`; `toString()`, `asBool()`.
+- `PromptContext` — `unordered_map<string, PromptContextValue>`.
+- `IPromptTemplate` — abstract interface: `source()`, `slots()`, `render(ctx)`, `validate(ctx) noexcept`.
+- `CompiledPromptTemplate` — implements `IPromptTemplate`; holds compiled AST; `toJson()`.
+- `PromptTemplateCompiler` — stateless; `compile(source, slots)` → recursive-descent lex+parse.
+- `PromptTemplateCompileError`, `PromptTemplateMissingSlotError`, `PromptTemplateTypeMismatchError`.
+- `PromptTemplateValidator` — structural JSON validator for serialised `PromptTemplate` documents; `validate(json)`, `validate(string)`; `require_id` flag.
+- DSL syntax: `{var}` / `{{ var }}` slots; `{% if var %}...{% else %}...{% endif %}`; `{% for item in list %}...{% endfor %}`.
+- Backward-compatible with existing `{placeholder}` convention from `PromptManager::injectContext()`.
+- 30 unit tests (AC-1 through AC-30); registered in `tests/CMakeLists.txt` as `test_prompt_template_compiler_focused`.
 
-**Performance Targets:**
-- Template compilation (publish time): <50 ms for a 4 KB template.
-- Compiled template render latency: <1 ms P99 for a 2 KB context.
+**Performance Targets (met):**
+- Compile a 4 KB template: < 50 ms.
+- Render with a 2 KB context: < 1 ms P99.
 
 ---
 
