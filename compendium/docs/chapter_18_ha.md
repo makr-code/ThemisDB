@@ -1405,5 +1405,88 @@ auto stats = lr_mgr.getStats();
 
 ---
 
+## 18.11 Chaos Engineering und Failover — C++ API
+
+### 18.11.1 FaultInjector + ChaosScheduler
+
+```cpp
+#include "chaos/chaos_framework.h"
+
+themis::chaos::FaultInjector injector("test-cluster");
+
+// Zeitlich begrenzter NODE_FAILURE
+injector.injectFault({
+    .type           = themis::chaos::FaultType::NODE_FAILURE,
+    .target_node_id = "shard-2",
+    .duration       = std::chrono::seconds(30),
+    .description    = "Simulate node crash for DR drill"
+});
+
+// Netzwerk-Partition mit Wiederherstellung
+injector.injectFault({
+    .type           = themis::chaos::FaultType::NETWORK_PARTITION,
+    .target_node_id = "shard-3",
+    .duration       = std::chrono::seconds(10)
+});
+
+// Zufälliger Fehler (5% Wahrscheinlichkeit, permanent bis recoverFault)
+injector.injectFault({
+    .type        = themis::chaos::FaultType::RANDOM_FAILURE,
+    .target_node_id = "shard-1",
+    .probability = 0.05
+});
+
+// Status prüfen
+bool active = injector.isFaultActive("shard-2");
+auto faults = injector.getActiveFaults();   // Liste aller aktiven Fehler
+
+// Manuell wiederherstellen
+injector.recoverFault("shard-2");
+injector.clearAllFaults();
+
+// Callback bei Inject/Recover Events
+injector.registerEventCallback([](const auto& spec, bool injected) {
+    LOG(INFO) << (injected ? "Injected" : "Recovered") << ": " << spec.description;
+});
+```
+
+**FaultTypes:** NODE_FAILURE, NETWORK_PARTITION, LEADER_CRASH, DELAYED_RESPONSE, DISK_FAILURE, RANDOM_FAILURE, DISASTER_RECOVERY_DRILL
+
+### 18.11.2 DisasterRecoveryManager — Automatisierter DR-Plan
+
+```cpp
+#include "failover/disaster_recovery_manager.h"
+
+themis::failover::DisasterRecoveryConfig dr_cfg;
+dr_cfg.max_catchup_wait_sec = 120;
+dr_cfg.dry_run              = false;
+
+themis::failover::DisasterRecoveryManager dr_manager(
+    dr_cfg, replication_mgr, fencing_mgr
+);
+
+// Schrittweise Hooks (z.B. für Custom Traffic-Shifter)
+dr_manager.setStepHook(themis::failover::DisasterRecoveryStep::SHIFT_TRAFFIC,
+    [](const auto& plan, std::string& err) {
+        return dns_router.switchTo(plan.target_region);
+    });
+
+// DR-Plan ausführen
+themis::failover::DisasterRecoveryPlan plan;
+plan.snapshot_id        = "snap-2026-04-01-00:00";
+plan.target_region      = "eu-west-1";
+plan.validate_restored  = true;
+
+auto result = dr_manager.executePlan(plan);
+// result.success, result.steps_completed, result.duration_ms
+// result.failed_step (falls Fehler)
+
+// Statistiken
+auto stats = dr_manager.getStatistics();
+// stats.total_runs, .successful_runs, .average_duration
+```
+
+---
+
 **Nächstes Kapitel:** [Kapitel 19: Monitoring & Observability](chapter_19_monitoring.md)  
 **Vorheriges Kapitel:** [Kapitel 17: Horizontal Scaling](chapter_17_scaling.md)

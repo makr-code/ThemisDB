@@ -474,6 +474,27 @@ Die folgenden Komponenten wurden mit dem v1.9.x-Release (Commit 2026-04-12) in d
 | `ContinuousLearningOrchestrator` | `rag/` | ✅ GA | — | Bayesian Optimierung über top_k/threshold via User-Feedback |
 | `RlaifTrainer` | `rag/` | ✅ GA | — | Constitutional AI / RLAIF Training Pipeline |
 
+### Graph-Modul (v1.x)
+
+| Feature | Modul | Status | Tests | Beschreibung |
+|---------|-------|--------|-------|-------------|
+| `GraphQueryOptimizer` | `graph/` | ✅ GA | — | Cost-Based Algo-Selektion (BFS/DFS/BiDir/A*/Dijkstra); Schema-aware |
+| Constrained Path Finding | `graph/` | ✅ GA | — | max_depth, required/forbidden vertices, timeout_ms |
+| Adaptive Kostenmodell | `graph/` | ✅ GA | — | EMA-basiertes Lernen aus Ausführungsfeedback |
+| Parallele Traversierung | `graph/` | ✅ GA | — | Parallele BFS-Frontier-Expansion; fan_out_threshold |
+| `DistributedGraphManager` | `graph/` | ✅ GA | — | Shard-übergreifende Graph-Queries; EXPLAIN-Endpunkt |
+| Inkrementelle Graph-Queries | `graph/` | ✅ GA | — | Live-Updates ohne Full-Recompute |
+| Graph Query Result Streaming | `graph/` | ✅ GA | — | Cursor-basierte Streaming-Pagination für große Path-Sets |
+
+### Chaos Engineering & Failover (v1.x)
+
+| Feature | Modul | Status | Tests | Beschreibung |
+|---------|-------|--------|-------|-------------|
+| `FaultInjector` | `chaos/` | ✅ GA | — | NODE_FAILURE/NETWORK_PARTITION/LEADER_CRASH/DISK_FAILURE/RANDOM; zeitlich begrenzt |
+| `ChaosScheduler` | `chaos/` | ✅ GA | — | Zeitgesteuerte Fault-Injections; Expiry-Handling |
+| `DisasterRecoveryManager` | `failover/` | `✅ GA` | — | DR-Plan-Ausführung (7 Schritte); Step-Hooks; dry_run; Statistiken |
+| Automatic Failover Queue | `failover/` | ✅ GA | — | Worker-Loop; Epoch-Fencing; Catchup-Wait |
+
 ### Sharding / Paxos
 
 | Feature | Modul | Status | Tests | Beschreibung |

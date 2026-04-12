@@ -1664,3 +1664,76 @@ Im nächsten Kapitel schauen wir uns **Dokument-Speicherung** an - flexibles, sc
 - 📖 `docs/de/features/features_property_graph.md` - Graph-Features
 - 📖 NetworkX Documentation - Graph-Visualisierung
 - 📖 "Graph Algorithms" (Mark Needham, Amy E. Hodler) - Tiefere Algorithmen
+
+---
+
+## 6.10 Graph-Modul — Erweiterte C++ API (v1.x)
+
+### 6.10.1 GraphQueryOptimizer — Cost-Based Algorithm-Selektion
+
+`GraphQueryOptimizer` (`include/graph/graph_query_optimizer.h`) wählt automatisch den optimalen Traversierungs-Algorithmus anhand von Graph-Statistiken und Query-Constraints.
+
+```cpp
+#include "graph/graph_query_optimizer.h"
+
+themis::graph::GraphQueryOptimizer optimizer;
+
+// Graph-Statistiken aktualisieren (für Kostenmodell)
+themis::graph::GraphQueryOptimizer::GraphStatistics stats;
+stats.vertex_count         = 1_000_000;
+stats.edge_count           = 5_000_000;
+stats.avg_degree           = 10.0;
+stats.avg_branching_factor = 8.0;
+optimizer.updateStatistics(stats);
+
+// Query-Plan erzeugen
+themis::graph::GraphQueryOptimizer::QueryConstraints constraints;
+constraints.max_depth         = 4;
+constraints.edge_type         = "FOLLOWS";
+constraints.unique_vertices   = true;
+constraints.enable_parallel   = true;   // Parallele Frontier-Expansion
+constraints.num_threads       = 8;
+constraints.timeout_ms        = 500;
+
+auto plan = optimizer.optimize(
+    themis::graph::GraphQueryOptimizer::QueryPattern::K_HOP_NEIGHBORS,
+    constraints
+);
+// plan.algorithm: BFS / DFS / BIDIRECTIONAL / ASTAR / DIJKSTRA
+// plan.cost_estimate, plan.index_usage, plan.cache_usage
+
+// Constrained Path Finding
+auto path_plan = optimizer.optimize(
+    themis::graph::GraphQueryOptimizer::QueryPattern::SHORTEST_PATH,
+    { .max_depth = 6, .required_vertices = { "intermediary-X" },
+      .forbidden_vertices = { "blacklisted-node" } }
+);
+```
+
+**Adaptive Kostenmodell:** EMA-basiertes Lernen aus Ausführungsfeedback — der Optimizer kalibriert seine Kostenschätzungen anhand tatsächlicher Laufzeiten.
+
+### 6.10.2 DistributedGraphManager — Shard-übergreifende Graph-Queries
+
+```cpp
+#include "graph/distributed_graph.h"
+
+themis::graph::DistributedGraphManager::Config dg_cfg;
+dg_cfg.local_shard_id     = "shard-0";
+dg_cfg.shard_timeout_ms   = 2000;
+dg_cfg.enable_streaming   = true;  // Large path-set streaming
+
+themis::graph::DistributedGraphManager dist_graph(shard_clients, dg_cfg);
+
+// Distributed K-Hop Query
+auto results = dist_graph.kHopNeighbors("user:alice", /*k=*/3, {
+    .edge_type = "KNOWS",
+    .max_results = 1000
+});
+
+// EXPLAIN Endpunkt (Dry-Run)
+auto explain = dist_graph.explain({
+    .from = "user:alice", .to = "user:bob",
+    .pattern = QueryPattern::SHORTEST_PATH
+});
+// explain.plan, explain.estimated_shards, explain.estimated_cost
+```
