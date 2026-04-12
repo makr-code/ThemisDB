@@ -1578,6 +1578,105 @@ def get_channel_members(channel_id):
     """, {"channel_id": channel_id})
 ```
 
+## 11.8 StreamingIngestManager — Hochdurchsatz-Ingest-Engine (v1.9.x)
+
+Neben CDC-basierten Downstream-Konsumenten benötigen viele Anwendungen auch einen schnellen, backpressure-fähigen **Eingangskanal** für hochvolumige Event-Ströme.  Der `StreamingIngestManager` implementiert genau dies: ein Ring-Buffer-basierter In-Memory-Buffer, der von einem dedizierten Flush-Thread kontinuierlich nach RocksDB drainiert wird.
+
+### Architektur
+
+```
+Producer Thread(s)
+      │  ingest(key, value)
+      ▼
+┌─────────────────────────────┐
+│  Ring Buffer (in-memory)    │  max_buffer_events = 1 000 000
+│  OverflowPolicy: BLOCK/DROP │
+└─────────────┬───────────────┘
+              │  alle flush_interval = 10 ms
+              ▼
+┌─────────────────────────────┐
+│  Flush Thread               │  max_batch_size = 65 536
+│  rocksdb::WriteBatch        │  WAL-sync optional
+└─────────────┬───────────────┘
+              │
+              ▼
+          RocksDB
+```
+
+**Durability-Garantie:** Jedes Event wird in den WAL geschrieben, bevor `ingest()` zurückkehrt (`sync_wal = true`, Standard).  Der RocksDB-Commit erfolgt asynchron durch den Flush-Thread.
+
+**Performance-Ziel:** ≥ 1 M Events/s bei End-to-End-Latenz ≤ 50 ms auf einem 8-Core-Knoten.
+
+### Schnellstart
+
+```cpp
+#include "storage/streaming_ingest_manager.h"
+
+// Konfiguration
+themis::StreamingIngestManager::Config cfg;
+cfg.flush_interval      = std::chrono::milliseconds(10);
+cfg.max_buffer_events   = 1'000'000;
+cfg.max_batch_size      = 65'536;
+cfg.overflow_policy     = themis::StreamingIngestManager::OverflowPolicy::BLOCK;
+cfg.sync_wal            = true;
+
+// Instanz erstellen und starten
+auto mgr = themis::StreamingIngestManager::create(rocksdb_wrapper, cfg);
+mgr->start();
+
+// Einzelnes Event einreihen
+mgr->ingest("metrics:cpu:server-01", "0.72");
+
+// Effizienteres Batch-Einreihen (Mutex nur einmal)
+std::vector<themis::StreamingIngestManager::Event> batch;
+for (auto& row : sensor_rows) {
+    batch.push_back({row.key, row.payload});
+}
+auto result = mgr->ingestBatch(std::move(batch));
+// result.value() == Anzahl erfolgreich eingereihter Events
+
+// Manueller sofortiger Flush (z.B. für Tests / Graceful Shutdown)
+mgr->flush();
+
+// Statistiken
+auto s = mgr->stats();
+// s.events_ingested   – Gesamtanzahl akzeptierter Events
+// s.events_flushed    – In RocksDB persistierte Events
+// s.backpressure_waits – Wie oft ingest() auf Pufferplatz warten musste
+// s.dropped_events    – Verworfene Events (nur bei OVERFLOW_DROP)
+
+mgr->stop();  // Drainiert den Buffer, beendet den Flush-Thread
+```
+
+### Konfigurationsparameter
+
+| Parameter | Standard | Beschreibung |
+|-----------|---------|-------------|
+| `flush_interval` | 10 ms | Flush-Frequenz des Background-Threads |
+| `max_buffer_events` | 1 000 000 | Pufferkapazität; bei Überschreitung greift `overflow_policy` |
+| `max_batch_size` | 65 536 | Max. Events pro RocksDB-WriteBatch |
+| `backpressure_timeout` | 0 (unbegrenzt) | Timeout für `BLOCK`-Policy; 0 = ewig warten |
+| `overflow_policy` | `BLOCK` | `BLOCK` blockiert den Aufrufer; `DROP` verwirft Events |
+| `sync_wal` | `true` | Synchroner WAL-Flush pro Batch |
+
+### OverflowPolicy
+
+- **BLOCK:** Der Aufrufer wartet, bis Pufferplatz vorhanden ist (subject to `backpressure_timeout`).  Bei Ablauf des Timeouts wird `ERR_STORAGE_LOG_FULL` zurückgegeben.
+- **DROP:** Das Event wird verworfen, `dropped_events`-Counter wird erhöht; kein Fehler.
+
+### Integration mit CDC
+
+StreamingIngestManager und CDC ergänzen sich:  Während CDC Downstream-Consumer über Änderungen informiert, ist StreamingIngestManager die Upstream-Schnittstelle für hochvolumige Schreibquellen wie IoT-Sensoren, Log-Aggregatoren oder Metriken-Exporteure.
+
+```mermaid
+graph LR
+    Sensors -->|"ingest(key, value)"| SIM[StreamingIngestManager]
+    SIM -->|WriteBatch| RDB[(RocksDB)]
+    RDB -->|CDC Events| Consumers[Analytics / Alerting]
+```
+
+Abb. 11.8: StreamingIngestManager als Upstream-Ingest-Pipeline
+
 ## Zusammenfassung
 
 In diesem Kapitel haben Sie gelernt:
@@ -1590,6 +1689,7 @@ In diesem Kapitel haben Sie gelernt:
 6. **Kanban Board**: Collaborative Drag & Drop mit Sync
 7. **Best Practices**: Connection Management, Rate Limiting, Monitoring
 8. **Performance**: Batching, Pooling, Caching
+9. **StreamingIngestManager**: Hochdurchsatz-Ingest ≥ 1 M Events/s mit Backpressure
 
 Realtime-Anwendungen mit ThemisDB sind einfach zu implementieren dank:
 - Integriertem CDC-System

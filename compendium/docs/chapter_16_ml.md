@@ -2588,6 +2588,104 @@ ThemisDB implementiert eine **world-class, unified ML architecture** mit folgend
 5. **Security**: Cryptographic Verification, Encryption at Rest, Checksum Validation
 6. **Performance**: GPU Acceleration, KV Cache, Batch Processing, Kernel Fusion
 7. **Vector Integration**: Semantic Search über Models, Adapters und Embeddings
+8. **AiHardwareDispatcher**: Universelle NPU/ONNX/GPU/CPU-Dispatch-Schicht
+
+---
+
+## 16.11 AiHardwareDispatcher — Universal-AI-Hardware-Abstraktionsschicht {#ai-hardware-dispatcher}
+
+`AiHardwareDispatcher` ist eine compile-time-getestete, runtime-fallback-sichere Abstraktionsschicht für AI-Inferenz-Hardware.  Ein einzelner Header (`include/acceleration/ai_hardware_dispatcher.h`) deckt alle relevanten Beschleuniger ab.
+
+### Prioritätskette
+
+```
+NPU (Apple ANE)
+    ↓ (falls nicht verfügbar)
+NPU (Intel NPU / OpenVINO)
+    ↓
+NPU (Qualcomm QNN)
+    ↓
+NPU (ARM Ethos)
+    ↓
+Android NNAPI
+    ↓
+ONNX Runtime (wählt EP zur Laufzeit: CUDA, DirectML, CoreML, TensorRT, QNN, OpenVINO, CPU)
+    ↓
+GPU-Backend (CUDA / HIP / Vulkan / Metal / OpenCL / DirectX / OneAPI)
+    ↓
+CPU + SIMD (AVX-512 / AVX2 / NEON) — immer verfügbar
+```
+
+### Unterstützte Präzisionsmodi
+
+| Modus | Beschreibung | Typischer Einsatz |
+|-------|-------------|------------------|
+| `FP32` | 32-Bit Gleitkomma | Referenz-Inferenz |
+| `FP16` | 16-Bit Gleitkomma | GPU-Inferenz |
+| `INT8` | 8-Bit Integer | Quantisierte Modelle |
+| `INT4` | 4-Bit Integer | Extreme Kompression |
+| `FP4` | 4-Bit Gleitkomma | Research / Edge |
+| `W4A8` | 4-Bit Weights + 8-Bit Activations | Produktions-Quantisierung |
+| `W8A8` | 8-Bit Weights + 8-Bit Activations | Ausgewogene Quantisierung |
+
+### Geräteinformationen (DeviceCapabilityInfo)
+
+```cpp
+#include "acceleration/ai_hardware_dispatcher.h"
+
+auto& dispatcher = themis::acceleration::AiHardwareDispatcher::instance();
+auto caps = dispatcher.getDeviceCapabilities();
+
+// caps.is_npu          – true, wenn dedizierter NPU vorhanden
+// caps.npu_tops        – TOPS-Leistung des NPUs (falls bekannt)
+// caps.supports_int4   – true, wenn INT4-Inferenz hardware-beschleunigt
+// caps.supports_w4a8   – true, wenn W4A8-Quantisierung unterstützt
+// caps.onnx_ep         – gewählter ONNX-Execution-Provider ("CUDA", "CoreML", ...)
+```
+
+### Schnellstart
+
+```cpp
+auto& dispatcher = themis::acceleration::AiHardwareDispatcher::instance();
+
+// Automatische Wahl des besten verfügbaren Backends
+auto result = dispatcher.run(model_input, PrecisionMode::W4A8);
+
+// Explizit NPU bevorzugen, fallback auf GPU
+dispatcher.setPreferredBackend(BackendType::NPU_APPLE);
+auto result = dispatcher.run(model_input);
+```
+
+### CMake-Konfiguration
+
+```cmake
+# NPU-Backends aktivieren (Linux/Windows)
+cmake -DTHEMIS_ENABLE_NPU_INTEL=ON \
+      -DTHEMIS_ENABLE_NPU_QUALCOMM=ON \
+      -DTHEMIS_ENABLE_NPU_ARM=ON \
+      ..
+
+# Apple ANE und Android NNAPI werden automatisch erkannt (kein Flag benötigt)
+
+# Einzelne Backends deaktivieren
+cmake -DTHEMIS_DISABLE_NPU_APPLE=ON \
+      -DTHEMIS_DISABLE_ONNX_RUNTIME=ON \
+      ..
+```
+
+### Thread-Safety
+
+Alle Methoden sind thread-safe.  Probe-Ergebnisse werden für `kCacheTTL` Sekunden gecacht und bei explizitem `refresh()` oder TTL-Ablauf neu ermittelt.
+
+### Performance-Metriken
+
+| Backend | Typische Leistung | Plattform |
+|---------|-----------------|----------|
+| Apple ANE (M3 Ultra) | ~38 TOPS | macOS/iOS |
+| Intel NPU (Core Ultra) | ~11 TOPS | Windows/Linux |
+| Qualcomm QNN (Snapdragon X) | ~45 TOPS | Windows/Linux/Android |
+| NVIDIA CUDA (RTX 4090) | ~82 TFLOPS FP16 | Linux/Windows |
+| CPU AVX-512 (Xeon) | ~2 TFLOPS INT8 | Alle Plattformen |
 
 ### Architecture Highlights
 

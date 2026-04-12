@@ -1230,3 +1230,149 @@ ThemisDB bietet umfassende Analytics-Funktionen:
 - **Reporting:** PDF/CSV-Export und Visualisierung
 
 Im nächsten Kapitel behandeln wir Machine Learning Integration für erweiterte Analysen.
+
+---
+
+## 15.13 Hochleistungs-Analytics-Infrastruktur (v1.9.x)
+
+### 15.13.1 ColumnarCache — LRU-basierter Spaltensegment-Cache
+
+`ColumnarCache` speichert vorberechnete Spaltensegmente (`ColumnSegment`) aus Breit-Tabellen-Scans in einem LRU-In-Memory-Store.  Da die gecachten Daten bereits im spaltenorientierten Layout des Analytics-Engines (`ColumnBatch`) vorliegen, entfällt jede Deserialisierungsarbeit — ein direkter Zugriff auf gecachte Spalten ist **Zero-Copy**.
+
+**Kernkonzept:**
+- Jedes `ColumnSegment` deckt eine feste Anzahl Rows `[segment_id × rows_per_segment, (segment_id+1) × rows_per_segment)` einer Spalte ab.
+- Aktiv gelesene Segmente können **gepinnt** werden (`PinGuard` RAII), um Eviction zu verhindern.
+- Unpinnierte Segmente werden **LRU-seitig** verdrängt, wenn `max_bytes` überschritten ist.
+
+**Performance-Ziele:**
+
+| Operation | Ziel |
+|-----------|------|
+| `get()` (Cache-Hit) | ≤ 500 ns |
+| `put()` (≤ 64 KB Segment) | ≤ 1 µs |
+| Eviction | O(1) amortisiert |
+| Durchsatz-Speedup vs. Row-Cache | ≥ 10× bei Breit-Tabellen |
+
+**Schnellstart:**
+
+```cpp
+#include "storage/columnar_cache.h"
+
+themis::storage::ColumnarCache cache({
+    .max_bytes = 256ULL * 1024 * 1024  // 256 MB
+});
+
+// Segment aus einem Storage-Scan einfügen
+cache.put(segment);
+
+// Lese-Seite — PinGuard verhindert Eviction während der Nutzung
+auto guard = cache.get(key);
+if (guard) {
+    // guard.segment().asColumn() → Zero-Copy für ColumnBatch
+    batch.addColumn(guard.segment().asColumn());
+}
+// guard geht out-of-scope → Pin wird automatisch freigegeben
+
+// Statistiken
+size_t hits   = cache.hits();
+size_t misses = cache.misses();
+```
+
+**Konfigurationsparameter:**
+
+| Parameter | Beschreibung |
+|-----------|-------------|
+| `max_bytes` | Maximale Cache-Größe in Bytes |
+| `on_evict` | Optionaler Eviction-Callback (z.B. für Metriken) |
+
+**Datentypen (SegmentDType):**
+
+| Typ | C++-Äquivalent | Beschreibung |
+|-----|---------------|-------------|
+| `Int64` | `int64_t` | Ganzzahlen |
+| `Double` | `double` | Gleitkommazahlen |
+| `String` | `std::string` | Zeichenketten |
+| `Bool` | `bool` | Boolesche Werte |
+
+---
+
+### 15.13.2 IStreamingJoin — HashJoin und IntervalJoin
+
+Das `IStreamingJoin`-Interface bietet zwei konkrete Streaming-Join-Strategien auf Basis des `ColumnBatch`-Datenmodells:
+
+#### HashJoin — Equi-Join auf Schlüsselspalten
+
+`HashJoin` baut eine Hash-Tabelle aus der "Build-Seite" (typischerweise die kleinere Dimension-Relation) und probt sie mit jedem "Probe-Batch".  Beide **Inner** und **Left-Outer** Join-Semantiken werden unterstützt.
+
+```cpp
+#include "analytics/streaming_join.h"
+
+themisdb::analytics::HashJoin join({
+    .join_keys    = {"user_id"},
+    .join_type    = themisdb::analytics::JoinType::Inner,
+    .build_select = {"user_id", "name"},
+    .probe_select = {"user_id", "event"},
+    .max_build_rows = 10'000'000,  // Sicherheitslimit
+});
+
+// Build-Phase (Dimensionstabelle einlesen)
+join.build(dimension_batches.begin(), dimension_batches.end());
+
+// Probe-Phase (Faktentabelle streamen)
+themisdb::analytics::ColumnBatch result = join.probe(fact_batch);
+```
+
+**Konfigurationsparameter HashJoin:**
+
+| Parameter | Beschreibung |
+|-----------|-------------|
+| `join_keys` | Spalten für den Equi-Join (composite keys möglich) |
+| `join_type` | `Inner` oder `LeftOuter` |
+| `build_select` | Spalten, die aus der Build-Seite in das Ergebnis übernommen werden |
+| `probe_select` | Spalten, die aus der Probe-Seite in das Ergebnis übernommen werden |
+| `max_build_rows` | Sicherheitslimit; bricht Build ab, wenn überschritten |
+
+#### IntervalJoin — Zeitbasierter Event-Join
+
+`IntervalJoin` verknüpft Rows zweier Streams, deren Ereigniszeit-Spalten innerhalb eines konfigurierbaren Zeitfensters `[probe_time - before_ms, probe_time + after_ms]` liegen.  Typischer Einsatz: CEP-Event-Korrelation (z.B. "Clicks" mit "Impressions" innerhalb ±5 Sekunden joinen).
+
+```cpp
+themisdb::analytics::IntervalJoin join({
+    .join_keys   = {"session_id"},
+    .time_column = "event_time_ms",
+    .before_ms   = 5000,   // 5 Sekunden vor dem Probe-Event
+    .after_ms    = 5000,   // 5 Sekunden nach dem Probe-Event
+    .slack_ms    = 100,    // Toleranz für Clock-Skew
+    .join_type   = themisdb::analytics::JoinType::Inner,
+});
+
+// Build-Events (linker Stream) einfügen
+join.addBuildEvent(left_batch);
+
+// Probe-Batch (rechter Stream) joinen
+themisdb::analytics::ColumnBatch result = join.probe(right_batch);
+```
+
+**Konfigurationsparameter IntervalJoin:**
+
+| Parameter | Standard | Beschreibung |
+|-----------|---------|-------------|
+| `join_keys` | — | Partitionierungsschlüssel |
+| `time_column` | — | Spaltenname mit Event-Zeit (ms) |
+| `before_ms` | 0 | Fenstergröße nach links |
+| `after_ms` | 0 | Fenstergröße nach rechts |
+| `slack_ms` | 0 | Toleranz für leichte Clock-Skews |
+| `join_type` | `Inner` | Join-Semantik |
+
+**Speicherverwaltung:** IntervalJoin nutzt LRU-Pruning, um veraltete Build-Events automatisch zu entfernen und den Speicherverbrauch zu begrenzen.
+
+#### Typische Streaming-Join-Pipeline
+
+```mermaid
+graph LR
+    S1[Stream: Clicks] -->|addBuildEvent| IJ[IntervalJoin]
+    S2[Stream: Impressions] -->|probe| IJ
+    IJ --> R[Result: Matched Pairs ±5s]
+```
+
+Abb. 15.13: IntervalJoin für Event-Korrelation zwischen zwei Streams

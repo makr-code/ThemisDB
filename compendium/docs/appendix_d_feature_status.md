@@ -214,6 +214,54 @@ Dieser Appendix bietet eine vollständige, strukturierte Übersicht aller Themis
 
 ---
 
+## Implementierungsstatus v1.9.x (2026-04-12)
+
+Die folgenden Komponenten wurden mit dem v1.9.x-Release (Commit 2026-04-12) in den Produktionscode aufgenommen:
+
+### Storage & Ingest
+
+| Feature | Modul | Status | Tests | Beschreibung |
+|---------|-------|--------|-------|-------------|
+| `StreamingIngestManager` | `storage/` | ✅ GA | SM-01..SM-10 | Ring-Buffer-Ingest ≥ 1 M Events/s, OverflowPolicy BLOCK/DROP |
+| `TSStore::putBatch` | `timeseries/` | ✅ GA | TB-01..TB-14 | Zero-Copy Batch Write via `std::span<const TSRow>` |
+| `TsStreamCursor` | `timeseries/` | ✅ GA | SC-01..SC-08 | Lazy paginierter Iterator, page_size=4 096 |
+| `TemporalCompressor LZ4` | `temporal/` | ✅ GA | TC-LZ4-01..TC-LZ4-05 | LZ4-Block-Kompression im TemporalCompressor |
+| `STORAGE_COMPACTION` Wiring | `maintenance/` | ✅ GA | — | `StorageCompactionHandler` in `maintenance_orchestrator_` registriert |
+| `MVCC_CLEANUP` Wiring | `maintenance/` | ✅ GA | — | `MvccCleanupHandler` mit 24 h Watermark registriert |
+
+### Analytics
+
+| Feature | Modul | Status | Tests | Beschreibung |
+|---------|-------|--------|-------|-------------|
+| `ColumnarCache` | `storage/` | ✅ GA | CC-01..CC-12 | LRU-Eviction + PinGuard RAII, ≥ 10× Speedup |
+| `IStreamingJoin` / `HashJoin` | `analytics/` | ✅ GA | SJ-01..SJ-15 | Equi-Join, Inner/LeftOuter, composite keys |
+| `IntervalJoin` | `analytics/` | ✅ GA | SJ-01..SJ-15 | Zeitbasierter Event-Join, LRU-Pruning |
+
+### Performance & Netzwerk
+
+| Feature | Modul | Status | Tests | Beschreibung |
+|---------|-------|--------|-------|-------------|
+| `LockFreeHistogram<T>` | `performance/` | ✅ GA | LFH-01..LFH-12 | Lock-free, ≤ 20 ns record(), Exponential+Linear |
+| `RequestCoalescer` (Singleflight) | `cache/` | ✅ GA | RC-01..RC-14 | Thundering-Herd-Schutz, fn() exakt einmal |
+| `IoUringBatchedSender` | `network/` | ✅ GA | IUB-01..IUB-12 | O(1) Syscalls/Runde, writev(2)-Fallback |
+| LIRS `shared_mutex` Fix | `performance/` | ✅ GA | — | TOCTOU-Race beseitigt; `get()` → `unique_lock` |
+| RCU `g_rcu_reader_count` Fix | `performance/` | ✅ GA | — | `readers_active()` war immer false, jetzt korrekt |
+
+### AI / Acceleration
+
+| Feature | Modul | Status | Tests | Beschreibung |
+|---------|-------|--------|-------|-------------|
+| `AiHardwareDispatcher` | `acceleration/` | ✅ GA | AHD-01..AHD-30 | NPU-Prioritätskette, INT4/W4A8, ONNX-EP-Fallback |
+
+### Utils
+
+| Feature | Modul | Status | Tests | Beschreibung |
+|---------|-------|--------|-------|-------------|
+| UUID v7 (`generate_uuid_v7`) | `utils/` | ✅ GA | UV7-01..UV7-20 | RFC 9562, 48-bit Timestamp, 18-bit Seq, MT19937-64 |
+| Streaming ZSTD (`zstd_compress_stream`) | `utils/` | ✅ GA | ZS-01..ZS-10 | ZSTD_CStream/DStream, max_output_bytes DoS-Guard |
+
+---
+
 **Version History:**
 - 1.4.0-alpha (2026-01-06): 25 neue Alpha-Features (LLM, Performance, HA, Monitoring, Protocol)
 - 1.3.0 (2025-12-30): Umfassendes Update mit allen Features bis Dez 2025

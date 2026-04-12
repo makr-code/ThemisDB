@@ -794,3 +794,133 @@ ThemisDB ist bestens geeignet für Time-Series & IoT-Anwendungen durch:
 3. Batch-Inserts für Performance
 4. Materialized Views für Dashboards
 5. Down-Sample alte Daten automatisch
+
+## 9.11 Hochleistungs-API (v1.9.x)
+
+Mit Release 1.9.x wurden drei neue native Hochleistungs-APIs für Time-Series-Workloads in ThemisDB eingeführt:  **TSStore::putBatch**, **TsStreamCursor** und **LZ4-Kompression** im TemporalCompressor.  Alle drei Komponenten sind vollständig thread-safe und für Produktions-SLOs ausgelegt.
+
+### 9.11.1 TSStore::putBatch — Zero-Copy Batch Write
+
+`TSStore::putBatch(std::span<const TSRow>)` schreibt eine Sequenz von Messpunkten in einem einzigen atomaren `rocksdb::WriteBatch`-Commit.  Damit entfällt der Pro-Row-Overhead von Einzelaufrufen und ermöglicht ≥ 1 M Schreibvorgänge/s auf einem 8-Core-Knoten.
+
+**Datentypen:**
+
+```cpp
+struct TSRow {
+    std::string_view metric;   // z.B. "cpu_usage"
+    int64_t          timestamp_ms;
+    double           value;
+    std::string_view entity_id; // optional, kann leer bleiben
+};
+
+struct BatchWriteResult {
+    size_t ok_count     = 0;
+    size_t failed_count = 0;
+    std::vector<std::pair<size_t, std::string>> row_errors; // (index, message)
+};
+```
+
+**Beispiel:**
+
+```cpp
+std::vector<themis::timeseries::TSStore::TSRow> rows;
+rows.reserve(10'000);
+for (int i = 0; i < 10'000; ++i) {
+    rows.push_back({"cpu_usage", now_ms() + i, 0.5 + 0.01 * i, "server-01"});
+}
+
+auto result = ts_store->putBatch(rows);
+// result.ok_count == 10000, result.failed_count == 0
+```
+
+**Interne Routing-Logik:**
+- Wenn Gorilla-Kompression aktiv ist, werden Datenpunkte über den Gorilla-Pfad geschrieben.
+- Andernfalls erfolgt ein Raw-Write direkt in RocksDB.
+- Alle Rows eines Batches landen in **einem** `WriteBatch`-Commit → atomare Durability-Garantie.
+
+---
+
+### 9.11.2 TsStreamCursor — Lazy Paginated Cursor
+
+`TsStreamCursor` ist ein lazy, paginierter Row-Iterator über `TSStore::query()`.  Große Zeitreihen-Abfragen können damit gestreamt werden, ohne das gesamte Ergebnis in den Hauptspeicher zu laden.
+
+**Kernkonzept:**  Der Cursor fetcht Ergebnisse in Seiten der Größe `page_size` (Standard: **4 096** Datenpunkte).  Die nächste Seite wird erst angefordert, wenn die aktuelle erschöpft ist — natürliche Backpressure ohne Thread-Blocking.
+
+```cpp
+TSStore::QueryOptions opts;
+opts.metric          = "cpu_usage";
+opts.from_timestamp_ms = start_ms;
+opts.to_timestamp_ms   = end_ms;
+
+auto cursor = themis::timeseries::TsStreamCursor::open(*ts_store, opts);
+while (cursor->valid()) {
+    const auto& dp = cursor->current();
+    process(dp.timestamp_ms, dp.value);
+
+    if (auto err = cursor->advance(); !err) {
+        log_error(err.error());
+        break;
+    }
+}
+cursor->close();
+
+// Observability
+uint64_t rows  = cursor->rowsConsumed();  // Gesamtzahl konsumierter Datenpunkte
+uint64_t pages = cursor->pagesFetched();  // Anzahl Backend-Roundtrips
+```
+
+**Konfiguration:**
+
+| Parameter    | Standard | Beschreibung |
+|-------------|---------|-------------|
+| `page_size` | 4 096   | Datenpunkte pro Backend-Fetch |
+
+**Performance-Ziel:**  ≥ 500 MB/s Scan-Durchsatz auf NVMe-Storage.
+
+**Fehlerbehandlung:**  Gibt `CursorInvalidated` zurück, wenn ein concurrent Chunk-Rotation das Cursor-Fenster ungültig macht.
+
+---
+
+### 9.11.3 TemporalCompressor — LZ4-Kompression
+
+Der `TemporalCompressor` unterstützt neben ZSTD nun auch **LZ4-Block-Kompression** (`CompressionAlgorithm::LZ4`).  LZ4 ist auf den High-Throughput / Low-Latency-Pfad ausgelegt und geeignet für heiße Datenbereiche mit vielen Lese-/Schreibzugriffen.
+
+**Drahtformat (Wire Format):**
+
+```json
+{
+  "__compressed": "lz4",
+  "__original_size": 4096,
+  "__data": "<Base64-kodiertes LZ4-Payload>"
+}
+```
+
+**API:**
+
+```cpp
+#include "temporal/temporal_compressor.h"
+
+TemporalCompressor compressor(CompressionAlgorithm::LZ4);
+
+// Komprimieren
+std::string compressed = compressor.compressHistory(history_json);
+
+// Dekomprimieren
+auto result = compressor.decompress(compressed);
+// result enthält das originale JSON-Objekt
+```
+
+**Algorithmus-Auswahl:**
+
+| Algorithmus | Ratio | Kompressionsgeschw. | Dekompressionsgeschw. | Einsatzgebiet |
+|------------|-------|--------------------|-----------------------|--------------|
+| `LZ4`      | ~1.5–2x | sehr hoch (GB/s)  | sehr hoch (GB/s)      | Heiße Daten, Low-Latency |
+| `ZSTD`     | ~3–5x   | mittel             | hoch                  | Kalte Daten, Archiv |
+
+**Konfiguration in `themisdb.yaml`:**
+
+```yaml
+timeseries:
+  temporal_compressor:
+    algorithm: lz4   # oder: zstd
+```

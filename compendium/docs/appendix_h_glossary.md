@@ -621,11 +621,37 @@ Low cardinality: Status (10 values)
 
 **SSTable:** Sorted String Table
 
+**StreamingIngestManager:** High-throughput key-value ingest component using an in-memory ring buffer drained by a background flush thread into a single RocksDB WriteBatch. Supports ≥ 1 M events/s at ≤ 50 ms end-to-end latency. OverflowPolicy BLOCK or DROP. See Chapter 11.8.
+
+**TsStreamCursor:** Lazy, paginated streaming cursor over TSStore query results. Fetches results in configurable pages (default 4 096 DataPoints) to avoid materialising large result sets in memory. See Chapter 9.11.2.
+
+**TSStore::putBatch:** Zero-copy batch write API for TSStore. Accepts `std::span<const TSRow>` and commits all rows in a single RocksDB WriteBatch for maximum write throughput. See Chapter 9.11.1.
+
+**TemporalCompressor:** Component responsible for compressing and decompressing temporal (time-versioned) JSON data in ThemisDB. Supports ZSTD and LZ4 algorithms. LZ4 is optimised for high-throughput, low-latency hot paths. See Chapter 9.11.3.
+
 **TTL:** Time-To-Live (auto-delete after interval)
 
 **Transaction:** Atomic unit of work
 
 **Throughput:** Operations per unit time
+
+**LockFreeHistogram:** Header-only, lock-free latency histogram using per-bucket atomic counters. `record()` costs ≤ 20 ns. Supports Exponential and Linear bucket modes. See Chapter 21.1.1.
+
+**RequestCoalescer:** Cache singleflight implementation that coalesces concurrent requests with the same key so that the backend function `fn()` is executed exactly once per in-flight key, eliminating thundering-herd cache-miss storms. See Chapter 21.1.2.
+
+**IoUringBatchedSender:** Linux io_uring-backed batched network sender that submits multiple WireProtocolBatcher flush operations as a single `io_uring_enter()` syscall, reducing syscall count from O(N) to O(1) per round. Falls back to `writev(2)` when io_uring is unavailable. See Chapter 21.1.3.
+
+**ColumnarCache:** LRU in-memory cache for columnar `ColumnSegment` objects. Cached data is in the same layout as `ColumnBatch`, enabling zero-copy analytics access. Supports PinGuard RAII for eviction protection. See Chapter 15.13.1.
+
+**IStreamingJoin:** Interface for streaming join operators over `ColumnBatch` streams. Concrete implementations: `HashJoin` (equi-join, Inner/LeftOuter) and `IntervalJoin` (time-based event correlation). See Chapter 15.13.2.
+
+**AiHardwareDispatcher:** Universal AI-hardware dispatch layer that selects the best available backend at runtime following the priority chain: NPU → ONNX Runtime → GPU → CPU. Supports INT4/W4A8/W8A8 precision modes. See Chapter 16.11.
+
+**LIRS (Low Inter-Reference Recency Set):** Advanced cache eviction algorithm distinguishing LIR (low inter-reference recency, "hot") from HIR (high inter-reference recency, "warm/cold") entries. ThemisDB's LIRS implementation uses `std::shared_mutex` for thread-safe access.
+
+**RCU (Read-Copy-Update):** Lock-free synchronisation technique for shared data: readers proceed without locks while writers create a new version. `g_rcu_reader_count` tracks active readers; writers wait until the count reaches zero.
+
+**UUID v7:** UUID version defined by RFC 9562 embedding a 48-bit millisecond Unix timestamp for time-sortable identifiers. ThemisDB generates UUID v7 via `generate_uuid_v7()` using a thread-local monotonic sequence counter and MT19937-64 randomness.
 
 **Vector:** Ordered list of numbers
 
