@@ -132,7 +132,7 @@ Exact duplicate detection (SHA-256 of raw bytes) is already performed in `conten
 
 **Implementation Notes:**
 - `[x]` `ocr_processor.cpp` implementing `IIngestionPlugin` created; wraps `tesseract::TessBaseAPI` (enabled via `THEMIS_ENABLE_OCR=ON`).
-- `[ ]` `MimeDetector` triggers OCR for `image/png`, `image/jpeg`, `image/tiff` when `ContentPolicy::ocrEnabled() == true` for the collection.
+- `[x]` `MimeDetector` triggers OCR for `image/png`, `image/jpeg`, `image/tiff` when `ContentPolicy::ocrEnabled() == true` for the collection.
 - `[x]` Pre-process image before OCR: rescale to 300 DPI if metadata indicates lower resolution; apply adaptive binarisation via Leptonica (`pixSauvolaBinarize`). Controlled by `Config::enable_dpi_rescaling` / `Config::enable_adaptive_binarization`; results surfaced in `ocr_input_dpi`, `ocr_rescaled`, `ocr_binarized` metadata fields.
 - `[x]` Language packs loaded from `config/ai_ml/tesseract_lang/`; default `eng`; configurable per-collection (language via `config_.language`; data directory resolved via `ConfigPathResolver::tryResolve("config/ai_ml/tesseract_lang")` in `runTesseract()` when `Config::data_dir` is empty; falls back to Tesseract auto-detect when directory absent).
 - `[x]` OCR output stored as `content_ocr_text` metadata field alongside image (`result.metadata["content_ocr_text"] = result.text` in `ocr_processor.cpp:220`).
@@ -183,7 +183,7 @@ After text extraction (from documents, PDF, OCR output), automatically generate 
 
 - `[x]` `content_security.cpp` scans all uploaded archives (ZIP, tar) for zip-bomb patterns before extraction in `archive_processor.cpp`; enforces a maximum decompressed-to-compressed ratio of 100× and a maximum extracted file count of 1,000 via `ContentSecurityManager::checkZipBomb()` (CON-006).
 - `[x]` LibreOffice headless subprocess spawned by `office_processor.cpp` uses `posix_spawn` with `POSIX_SPAWN_RESETIDS` (drops SUID/SGID), `POSIX_SPAWN_SETPGROUP` (isolated process group), minimal sanitised environment (`HOME=tmpdir`), and no write access to ThemisDB data directory (CON-007 ✅).
-- `[ ]` OCR output from `ocr_processor.cpp` must pass through `content_validator.cpp` before indexing to prevent injection of control characters or oversized text fields into the document store.
+- `[x]` OCR output from `ocr_processor.cpp` must pass through `content_validator.cpp` before indexing to prevent injection of control characters or oversized text fields into the document store.
 
 ---
 
