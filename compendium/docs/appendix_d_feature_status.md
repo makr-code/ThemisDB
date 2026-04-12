@@ -349,7 +349,22 @@ Die folgenden Komponenten wurden mit dem v1.9.x-Release (Commit 2026-04-12) in d
 | `AutocompleteEngine` | `search/` | ✅ GA | — | Prefix-Trie Autocomplete; Fuzzy + Phonetik |
 | `MultiModalSearch` | `search/` | ✅ GA | — | Text + Bild + Audio Query Fusion |
 
-### Plugins (v2.x)
+### Ingestion-Modul (v1.5)
+
+| Feature | Modul | Status | Tests | Beschreibung |
+|---------|-------|--------|-------|-------------|
+| `IngestionManager` | `ingestion/` | ✅ GA | — | Parallele Multi-Source-Orchestrierung; Thread-Pool; Prometheus-Metriken |
+| `IngestionBuilder` | `ingestion/` | ✅ GA | — | Fluent API (withKafkaSource/withApiSource/withHuggingFaceSource/...) |
+| `GenericApiConnector` | `ingestion/` | ✅ GA | — | Cursor/Offset-Pagination; OAuth 2.0; libcurl; Exponential Back-off |
+| `HuggingFaceConnector` | `ingestion/` | ✅ GA | — | Dataset-Split-Ingest; API-Token-Auth |
+| `ObjectStorageConnector` | `ingestion/` | ✅ GA | — | S3/GCS/Azure Blob; Prefix-Filter |
+| `KafkaConnector` | `ingestion/` | ✅ GA | — | Consumer-Group; Auto-Commit; Back-pressure |
+| `WebCrawlerConnector` | `ingestion/` | ✅ GA | — | Sitemap + Recursive Crawl; politeness_delay |
+| `CdcConnector` (PostgreSQL) | `ingestion/` | ✅ GA | — | Logical Replication Slot; WAL-basiertes CDC |
+| `DatabaseConnector` (JDBC/ODBC) | `ingestion/` | ✅ GA | — | Batch-Select + Cursor-basierte Pagination |
+| Quarantine + Retry | `ingestion/` | ✅ GA | — | Exponential Back-off; Dead-Letter nach max_retries |
+| Incremental Checkpoint | `ingestion/` | ✅ GA | — | Fortschritt persistiert; Re-Start ab letztem Checkpoint |
+| Plugin API | `ingestion/` | ✅ GA | — | `ISourceConnector`-Interface für Third-Party Konnektoren |
 
 | Feature | Modul | Status | Tests | Beschreibung |
 |---------|-------|--------|-------|-------------|

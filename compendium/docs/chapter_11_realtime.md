@@ -1711,3 +1711,69 @@ Im nächsten Kapitel schauen wir uns Computer Vision-Anwendungen an, wo wir Bild
 8. **Live-Poll**: Echtzeit-Abstimmungssystem mit automatischen Updates
 9. **Activity-Feed**: Timeline aller Aktivitäten im System
 10. **Realtime-Search**: Live-Search-Results während dem Tippen
+
+---
+
+## 11.9 Ingestion-Modul — Multi-Source Daten-Intake (v1.5)
+
+Das Ingestion-Modul (`include/ingestion/`, `src/ingestion/`) implementiert eine produktionsreife, mehrquellen-fähige Daten-Intake-Pipeline: Kafka, S3/GCS/Azure, REST-API, HuggingFace-Datasets, Filesystem, WebCrawler, CDC (PostgreSQL), JDBC/ODBC und ein Plugin-API für eigene Konnektoren.
+
+### 11.9.1 IngestionBuilder — Fluent API
+
+```cpp
+#include "ingestion/ingestion_manager.h"
+
+auto manager = themis::ingestion::IngestionBuilder("themisdb://localhost:8765")
+    // ── HuggingFace Dataset ───────────────────────────────────────────
+    .withHuggingFaceSource("hf-legal", "lexlms/ger_legal_data",
+        { {"split", "train"}, {"token", hf_token} }, /*priority=*/8)
+
+    // ── Filesystem (HTML/XML via pugixml) ─────────────────────────────
+    .withFilesystemSource("fs-docs", "/data/documents",
+        { {"recursive", "true"}, {"format", "html"} })
+
+    // ── REST API (cursor-based pagination) ────────────────────────────
+    .withApiSource("api-contracts", "https://api.example.com/contracts",
+        { {"api_key", api_key}, {"pagination_mode", "cursor"},
+          {"cursor_param", "next_cursor"}, {"page_size", "200"} })
+
+    // ── Kafka Consumer ────────────────────────────────────────────────
+    .withKafkaSource("kafka-orders", kafka_config,
+        { {"group_id", "themis-ingestor"}, {"topic", "orders"} })
+
+    // ── Object Storage (S3/GCS/Azure Blob) ───────────────────────────
+    .withObjectStorageSource("s3-docs", s3_config,
+        { {"bucket", "my-documents"}, {"prefix", "legal/2026/"} })
+
+    // ── PostgreSQL CDC (Logical Replication) ──────────────────────────
+    .withCdcSource("pg-cdc", cdc_config,
+        { {"slot_name", "themis_slot"}, {"publication", "all_tables"} })
+
+    // ── Globale Konfiguration ─────────────────────────────────────────
+    .withRateLimitConfig({ .tokens_per_second = 500 })
+    .withDryRun(false)
+    .withSchemaValidation("hf-legal", legal_schema_json)
+    .build();
+
+// Ingestion starten
+manager->start();
+
+// Prometheus-Metriken exportieren
+auto metrics = manager->exportMetrics();
+// docs_processed, errors, throughput_per_sec, quarantine_queue_size
+
+// Quelle pausieren/fortsetzen
+manager->pauseSource("kafka-orders");
+manager->resumeSource("kafka-orders");
+```
+
+### 11.9.2 Quarantine + Retry
+
+```
+Dokument schlägt fehl →
+  Quarantine Queue (Exponentielles Back-off: 1s→2s→4s→... max 10 Versuche)
+  ↓ nach max_retries
+  Dead-Letter-Speicherung + Prometheus-Alert
+```
+
+**Checkpoint-basierte Incremental Ingestion:** Der Fortschritt wird pro Quelle persistiert. Neustart setzt ab letztem Checkpoint fort – kein Re-Processing.
