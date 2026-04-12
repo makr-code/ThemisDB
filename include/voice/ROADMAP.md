@@ -59,9 +59,9 @@
 - [ ] Privacy tests: no audio retained post-VAD window
 
 ### Phase 5 — Performance / Hardening
-- [ ] Wake word latency target: < 200 ms end-to-end on embedded
+- [x] Wake word latency target: < 200 ms end-to-end on embedded (`bench_voice_wake_word_batch.cpp`)
 - [ ] Emotion analyzer: < 50 ms per 2-second audio chunk
-- [ ] Batch processor: linear throughput scaling to 16 threads
+- [x] Batch processor: linear throughput scaling to 16 threads (`bench_voice_wake_word_batch.cpp`)
 
 ### Phase 6 — Documentation & Sign-off
 - [ ] Complete API documentation for all 18 headers

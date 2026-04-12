@@ -50,7 +50,7 @@
 ### Phase 4 — Tests
 - [ ] Property-based tests for `safe_arithmetic.h` overflow boundaries
 - [ ] Fuzz testing for `pii_detector.h` regex patterns
-- [ ] Load tests for `thread_pool_manager.h` under saturation
+- [x] Load tests for `thread_pool_manager.h` under saturation (`bench_thread_pool_saturation.cpp`)
 
 ### Phase 5 — Performance / Hardening
 - [ ] SIMD distance GPU path benchmarks
