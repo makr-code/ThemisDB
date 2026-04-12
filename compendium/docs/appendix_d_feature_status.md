@@ -334,9 +334,20 @@ Die folgenden Komponenten wurden mit dem v1.9.x-Release (Commit 2026-04-12) in d
 | `ModelServingEngine` | `analytics/` | ✅ GA | — | Online + Batch ONNX Inference; versioniertes Model Loading |
 | Inkrementelle Materialized Views | `analytics/` | ✅ GA | — | CDC-getrieben; Delta-Update ohne Full-Recompute |
 
----
+### Search-Modul (v2.4)
 
-## Implementierungsstatus — Plugins & Sharding
+| Feature | Modul | Status | Tests | Beschreibung |
+|---------|-------|--------|-------|-------------|
+| `HybridSearch` | `search/` | ✅ GA | — | BM25+Vector RRF (k=60); konfig. Gewichte; Partial-Result Stats |
+| `DistributedHybridSearch` | `search/` | ✅ GA | — | Cross-Shard RRF; mTLS; skip_failed_shards Degraded Mode |
+| `SearchHighlighter` | `search/` | ✅ GA | — | Term Highlighting `<mark>`; Best-Passage Snippet Extraktion |
+| `SearchResultStream` | `search/` | ✅ GA | — | Cursor-basierte Streaming-Pagination (total_k/page_size) |
+| `ConversationalSearch` | `search/` | ✅ GA | — | Multi-Turn Context Window (last N turns); automatische Query-Reformulation |
+| `FederatedSearch` | `search/` | ✅ GA | — | Tenant-isolierte Parallel-Suche mit per-Tenant Gewichtung |
+| `FacetedSearch` | `search/` | ✅ GA | — | Facettierte Suche über kategorische + Bereichs-Felder |
+| `LearningToRank` | `search/` | ✅ GA | — | Listwise/Pairwise LTR; Feature-basiertes Re-Ranking |
+| `AutocompleteEngine` | `search/` | ✅ GA | — | Prefix-Trie Autocomplete; Fuzzy + Phonetik |
+| `MultiModalSearch` | `search/` | ✅ GA | — | Text + Bild + Audio Query Fusion |
 
 ### Plugins (v2.x)
 
