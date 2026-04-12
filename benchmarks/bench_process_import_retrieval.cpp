@@ -7,16 +7,14 @@
  *
  * Scenarios:
  *   - BPMN XML parsing / import throughput (varying node count)
- *   - EPK JSON import throughput
- *   - ProcessModelManager: RocksDB key-scheme encode/decode latency
+ *   - EPK text import throughput
  *   - ProcessModelManager: save() + load() round-trip latency
  *   - ProcessModelManager: list() scan throughput over N stored models
  *   - LlmProcessDescriptor: generate() prompt assembly time
  *   - LlmProcessDescriptor: buildSystemPrompt() size vs. generation latency
  *   - LlmProcessDescriptor: summarizeList() over N models
  *
- * Self-contained — no real RocksDB instance required for structural benchmarks.
- * ProcessModelManager tests that touch RocksDB use a temporary path under /tmp.
+ * Self-contained — ProcessModelManager tests use a temporary RocksDB path under /tmp.
  */
 
 #include <benchmark/benchmark.h>
@@ -26,13 +24,10 @@
 #include "process/llm_process_descriptor.h"
 #include "storage/rocksdb_wrapper.h"
 
-#include <algorithm>
-#include <cmath>
 #include <filesystem>
-#include <numeric>
-#include <random>
 #include <sstream>
 #include <string>
+#include <unistd.h>
 #include <vector>
 
 namespace fs = std::filesystem;
@@ -71,39 +66,33 @@ static std::string makeBpmnXml(int model_idx, int node_count) {
     return oss.str();
 }
 
-/// Generate a minimal EPK JSON document.
-static std::string makeEpkJson(int model_idx, int event_count) {
+/// Generate a minimal EPK text fragment (simple line-based notation).
+static std::string makeEpkText(int model_idx, int event_count) {
     std::ostringstream oss;
-    oss << R"({"epk_id":"epk_)" << model_idx << R"(","name":"EPK Prozess )" << model_idx
-        << R"(","events":[)";
-
-    for (int i = 0; i < event_count; ++i) {
-        if (i > 0) oss << ",";
-        oss << R"({"id":"ev_)" << i << R"(","name":"Ereignis )" << i << R"("})";
-    }
-    oss << R"(],"functions":[)";
+    oss << "PROCESS: epk_" << model_idx << " \"EPK Prozess " << model_idx << "\"\n";
+    oss << "EVENT: \"Eingang " << model_idx << "\"\n";
     for (int i = 0; i < event_count - 1; ++i) {
-        if (i > 0) oss << ",";
-        oss << R"({"id":"fn_)" << i << R"(","name":"Funktion )" << i << R"("})";
+        oss << "FUNCTION: \"Schritt " << i << "\"\n";
+        oss << "EVENT: \"Zwischenergebnis " << i << "\"\n";
     }
-    oss << "]}";
+    oss << "EVENT: \"Abschluss " << model_idx << "\"\n";
     return oss.str();
 }
 
 /// Build a synthetic ProcessModelRecord for testing descriptor generation.
 static ProcessModelRecord makeRecord(int idx, int node_count = 5) {
     ProcessModelRecord rec;
-    rec.id          = "bench_proc_" + std::to_string(idx);
-    rec.name        = "Verwaltungsvorgang " + std::to_string(idx);
-    rec.description = "Automatisierter Prozess für Benchmark-Zwecke. "
-                      "Dieser Prozess enthält " + std::to_string(node_count) +
-                      " Schritte und ist gemäß DSGVO und VwVfG ausgelegt.";
-    rec.notation    = ProcessNotation::BPMN_2_0;
-    rec.domain      = ProcessDomain::ADMINISTRATION;
-    rec.state       = ProcessModelState::ACTIVE;
-    rec.version     = "1." + std::to_string(idx) + ".0";
-    rec.payload     = makeBpmnXml(idx, node_count);
-    rec.compliance  = {"DSGVO", "VwVfG", "§34 BauO"};
+    rec.id               = "bench_proc_" + std::to_string(idx);
+    rec.name             = "Verwaltungsvorgang " + std::to_string(idx);
+    rec.description      = "Automatisierter Prozess fuer Benchmark-Zwecke. "
+                           "Dieser Prozess enthaelt " + std::to_string(node_count) +
+                           " Schritte und ist gemaess DSGVO und VwVfG ausgelegt.";
+    rec.notation         = ProcessNotation::BPMN_2_0;
+    rec.domain           = ProcessDomain::ADMINISTRATION;
+    rec.state            = ProcessModelState::ACTIVE;
+    rec.version          = "1." + std::to_string(idx) + ".0";
+    rec.raw_payload      = makeBpmnXml(idx, node_count);
+    rec.compliance_tags  = {"DSGVO", "VwVfG", "§34 BauO"};
     return rec;
 }
 
@@ -111,16 +100,15 @@ static ProcessModelRecord makeRecord(int idx, int node_count = 5) {
 
 static void BM_BpmnImport_NodeCount(benchmark::State& state) {
     const int kNodes = static_cast<int>(state.range(0));
-    BpmnSerializer serializer;
 
     for (auto _ : state) {
         std::string xml = makeBpmnXml(0, kNodes);
-        auto graph = serializer.importFromXml(xml);
-        benchmark::DoNotOptimize(graph.has_value());
+        auto result = BpmnSerializer::importXml(xml);
+        benchmark::DoNotOptimize(result.ok);
     }
 
     state.SetItemsProcessed(state.iterations());
-    state.SetLabel("BPMN import " + std::to_string(kNodes) + " nodes");
+    state.SetLabel("BPMN importXml " + std::to_string(kNodes) + " nodes");
 }
 BENCHMARK(BM_BpmnImport_NodeCount)
     ->Arg(5)->Arg(20)->Arg(50)->Arg(100)->Arg(200)
@@ -130,39 +118,38 @@ BENCHMARK(BM_BpmnImport_NodeCount)
 
 static void BM_BpmnExport(benchmark::State& state) {
     const int kNodes = static_cast<int>(state.range(0));
-    BpmnSerializer serializer;
-    auto xml = makeBpmnXml(0, kNodes);
-    auto graph = serializer.importFromXml(xml);
+    std::string xml = makeBpmnXml(0, kNodes);
+    auto result = BpmnSerializer::importXml(xml);
 
-    if (!graph.has_value()) {
-        state.SkipWithError("BPMN import failed in setup");
+    if (!result.ok) {
+        state.SkipWithError("BPMN importXml failed in setup");
         return;
     }
 
     for (auto _ : state) {
-        auto result = serializer.exportToXml(*graph);
-        benchmark::DoNotOptimize(result.size());
+        auto out = BpmnSerializer::exportXml(
+            result.process_id, result.process_name, result.nodes, result.edges);
+        benchmark::DoNotOptimize(out.size());
     }
 
     state.SetItemsProcessed(state.iterations());
-    state.SetLabel("BPMN export " + std::to_string(kNodes) + " nodes");
+    state.SetLabel("BPMN exportXml " + std::to_string(kNodes) + " nodes");
 }
 BENCHMARK(BM_BpmnExport)->Arg(5)->Arg(20)->Arg(100)->Unit(benchmark::kMicrosecond);
 
-// ─── 3. EPK JSON import throughput ───────────────────────────────────────────
+// ─── 3. EPK text import throughput ───────────────────────────────────────────
 
 static void BM_EpkImport_EventCount(benchmark::State& state) {
     const int kEvents = static_cast<int>(state.range(0));
-    EpkSerializer serializer;
 
     for (auto _ : state) {
-        std::string json_str = makeEpkJson(0, kEvents);
-        auto graph = serializer.importFromJson(json_str);
-        benchmark::DoNotOptimize(graph.has_value());
+        std::string epk_text = makeEpkText(0, kEvents);
+        auto result = EpkSerializer::importText(epk_text);
+        benchmark::DoNotOptimize(result.ok);
     }
 
     state.SetItemsProcessed(state.iterations());
-    state.SetLabel("EPK JSON import " + std::to_string(kEvents) + " events");
+    state.SetLabel("EPK importText " + std::to_string(kEvents) + " events");
 }
 BENCHMARK(BM_EpkImport_EventCount)
     ->Arg(5)->Arg(20)->Arg(50)->Arg(100)
@@ -173,18 +160,18 @@ BENCHMARK(BM_EpkImport_EventCount)
 class ProcessManagerFixture : public benchmark::Fixture {
 public:
     void SetUp(const benchmark::State& /*s*/) override {
-        db_path_ = "/tmp/bench_process_mgr_" + std::to_string(getpid());
+        db_path_ = "/tmp/bench_process_mgr_" + std::to_string(::getpid());
         fs::remove_all(db_path_);
 
         RocksDBWrapper::Config cfg;
-        cfg.db_path = db_path_;
+        cfg.db_path    = db_path_;
         cfg.enable_wal = false;
-        db_ = std::make_shared<RocksDBWrapper>(cfg);
+        db_ = std::make_unique<RocksDBWrapper>(cfg);
         if (!db_->open()) {
             throw std::runtime_error("Cannot open RocksDB for process benchmark");
         }
 
-        mgr_ = std::make_unique<ProcessModelManager>(db_);
+        mgr_ = std::make_unique<ProcessModelManager>(*db_);
     }
 
     void TearDown(const benchmark::State& /*s*/) override {
@@ -194,17 +181,17 @@ public:
         fs::remove_all(db_path_);
     }
 
-    std::string                           db_path_;
-    std::shared_ptr<RocksDBWrapper>       db_;
-    std::unique_ptr<ProcessModelManager>  mgr_;
+    std::string                          db_path_;
+    std::unique_ptr<RocksDBWrapper>      db_;
+    std::unique_ptr<ProcessModelManager> mgr_;
 };
 
 BENCHMARK_F(ProcessManagerFixture, SaveLoad_RoundTrip)(benchmark::State& state) {
     auto rec = makeRecord(0);
 
     for (auto _ : state) {
-        bool saved = mgr_->save(rec).isSuccess();
-        benchmark::DoNotOptimize(saved);
+        auto save_result = mgr_->save(rec);
+        benchmark::DoNotOptimize(save_result.ok);
         auto loaded = mgr_->load(rec.id);
         benchmark::DoNotOptimize(loaded.has_value());
     }
@@ -218,12 +205,12 @@ BENCHMARK_F(ProcessManagerFixture, Save_Throughput)(benchmark::State& state) {
 
     for (auto _ : state) {
         auto rec = makeRecord(idx++);
-        bool ok  = mgr_->save(rec).isSuccess();
-        benchmark::DoNotOptimize(ok);
+        auto ok  = mgr_->save(rec);
+        benchmark::DoNotOptimize(ok.ok);
     }
 
     state.SetItemsProcessed(state.iterations());
-    state.SetLabel("save() throughput (sequential, no cache)");
+    state.SetLabel("save() throughput (sequential)");
 }
 
 BENCHMARK_F(ProcessManagerFixture, List_Scan)(benchmark::State& state) {
@@ -258,7 +245,7 @@ static void BM_LlmDescriptor_Generate(benchmark::State& state) {
     }
 
     state.SetItemsProcessed(state.iterations());
-    state.SetLabel("LlmProcessDescriptor::generate() " + std::to_string(kNodes) + " nodes");
+    state.SetLabel("LlmProcessDescriptor::generate() nodes=" + std::to_string(kNodes));
 }
 BENCHMARK(BM_LlmDescriptor_Generate)->Arg(5)->Arg(20)->Arg(50)->Arg(100);
 
@@ -274,17 +261,16 @@ static void BM_BuildSystemPrompt(benchmark::State& state) {
         benchmark::DoNotOptimize(prompt.size());
     }
 
-    state.SetLabel("buildSystemPrompt() — desc nodes=" + std::to_string(kNodes));
+    state.SetLabel("buildSystemPrompt() nodes=" + std::to_string(kNodes));
 }
 BENCHMARK(BM_BuildSystemPrompt)->Arg(5)->Arg(20)->Arg(100);
 
-// ─── 7. buildConformancePrompt() — size vs. latency ──────────────────────────
+// ─── 7. buildConformancePrompt() ─────────────────────────────────────────────
 
 static void BM_BuildConformancePrompt(benchmark::State& state) {
     auto rec  = makeRecord(0, 10);
     auto desc = LlmProcessDescriptor::generate(rec);
 
-    // Build a synthetic execution trace JSON.
     nlohmann::json trace = nlohmann::json::array();
     const int kTraceLen = static_cast<int>(state.range(0));
     for (int i = 0; i < kTraceLen; ++i) {

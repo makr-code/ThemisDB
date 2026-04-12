@@ -70,8 +70,8 @@ public:
         cfg.sample_rate       = 16000;
 
         detector = std::make_unique<WakeWordDetector>(cfg);
-        detector->addWakeWord("hey themis",  0.6f);
-        detector->addWakeWord("themis",      0.7f);
+        detector->addWakeWord("hey_themis",  "hey themis");
+        detector->addWakeWord("themis",      "themis");
 
         // Pre-bake a 100 ms chunk with energy (VAD-triggering).
         chunk_100ms_energy = pcmToBytes(makeSyntheticPCM(100, 16000, true));
@@ -91,7 +91,7 @@ public:
 
 BENCHMARK_F(WakeWordBenchFixture, ProcessChunk_Silent_100ms)(benchmark::State& state) {
     for (auto _ : state) {
-        auto result = detector->processAudioChunk(chunk_100ms_silent, 16000);
+        auto result = detector->processAudioChunk(chunk_100ms_silent);
         benchmark::DoNotOptimize(result.detected);
     }
 
@@ -103,7 +103,7 @@ BENCHMARK_F(WakeWordBenchFixture, ProcessChunk_Silent_100ms)(benchmark::State& s
 
 BENCHMARK_F(WakeWordBenchFixture, ProcessChunk_Energy_100ms)(benchmark::State& state) {
     for (auto _ : state) {
-        auto result = detector->processAudioChunk(chunk_100ms_energy, 16000);
+        auto result = detector->processAudioChunk(chunk_100ms_energy);
         benchmark::DoNotOptimize(result.detected);
     }
 
@@ -121,7 +121,7 @@ BENCHMARK_F(WakeWordBenchFixture, RollingBuffer_1500ms)(benchmark::State& state)
         WakeWordDetectionResult last{};
         for (int i = 0; i < kChunks; ++i) {
             auto& chunk = (i == kChunks - 1) ? chunk_100ms_energy : chunk_100ms_silent;
-            last = detector->processAudioChunk(chunk, 16000);
+            last = detector->processAudioChunk(chunk);
         }
         benchmark::DoNotOptimize(last.detected);
     }
@@ -137,7 +137,7 @@ BENCHMARK_F(WakeWordBenchFixture, ChunkThroughput)(benchmark::State& state) {
 
     for (auto _ : state) {
         for (int i = 0; i < kBatch; ++i) {
-            auto result = detector->processAudioChunk(chunk_100ms_energy, 16000);
+            auto result = detector->processAudioChunk(chunk_100ms_energy);
             benchmark::DoNotOptimize(result);
         }
     }

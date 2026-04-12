@@ -23,6 +23,7 @@
 #include "ingestion/llm_adapter.h"
 #include "ingestion/filesystem_ingester.h"
 #include "ingestion/ingestion_coordinator.h"
+#include "ingestion/ingestion_manager.h"
 
 #include <string>
 #include <vector>
@@ -87,7 +88,7 @@ BENCHMARK_F(DeonticExtractionFixture, SingleSentence_Obligation)(benchmark::Stat
 
     for (auto _ : state) {
         auto result = extractor->extract(sentence);
-        benchmark::DoNotOptimize(result.category);
+        benchmark::DoNotOptimize(result.primaryCategory());
     }
 
     state.SetItemsProcessed(state.iterations());
@@ -100,7 +101,7 @@ BENCHMARK_F(DeonticExtractionFixture, SingleSentence_AllCategories)(benchmark::S
     for (auto _ : state) {
         const auto& sentence = kLegalSentences[idx % kLegalSentences.size()];
         auto result = extractor->extract(sentence);
-        benchmark::DoNotOptimize(result.category);
+        benchmark::DoNotOptimize(result.primaryCategory());
         ++idx;
     }
 
@@ -120,7 +121,7 @@ BENCHMARK_F(DeonticExtractionFixture, BatchExtraction_Scaling)(benchmark::State&
     }
 
     for (auto _ : state) {
-        std::vector<ExtractionResult> results;
+        std::vector<DeonticExtraction> results;
         results.reserve(sentences.size());
         for (const auto& s : sentences) {
             results.push_back(extractor->extract(s));
@@ -140,21 +141,21 @@ BENCHMARK_REGISTER_F(DeonticExtractionFixture, BatchExtraction_Scaling)
 BENCHMARK_F(DeonticExtractionFixture, LongText_MultiParagraph)(benchmark::State& state) {
     for (auto _ : state) {
         auto result = extractor->extract(kLongLegalText);
-        benchmark::DoNotOptimize(result.category);
+        benchmark::DoNotOptimize(result.primaryCategory());
     }
 
     state.SetLabel("Long text: " + std::to_string(kLongLegalText.size()) + " bytes");
 }
 
-// ─── 4. extractAll() over multiple patterns ──────────────────────────────────
+// ─── 4. extractEntities() over full document ─────────────────────────────────
 
-BENCHMARK_F(DeonticExtractionFixture, ExtractAll_FullDocument)(benchmark::State& state) {
+BENCHMARK_F(DeonticExtractionFixture, ExtractEntities_FullDocument)(benchmark::State& state) {
     for (auto _ : state) {
-        auto results = extractor->extractAll(kLongLegalText);
-        benchmark::DoNotOptimize(results.size());
+        auto entities = extractor->extractEntities(kLongLegalText);
+        benchmark::DoNotOptimize(entities.size());
     }
 
-    state.SetLabel("extractAll() on 1 000-byte legal document");
+    state.SetLabel("extractEntities() on 1 000-byte legal document");
 }
 
 // ─── LegalLlmAdapter fixtures ─────────────────────────────────────────────────
@@ -162,9 +163,10 @@ BENCHMARK_F(DeonticExtractionFixture, ExtractAll_FullDocument)(benchmark::State&
 class LlmAdapterFixture : public benchmark::Fixture {
 public:
     void SetUp(const benchmark::State& /*s*/) override {
+        adapter = std::make_unique<LegalLlmAdapter>();
         LlmAdapterConfig cfg;
         cfg.model_path = kLlmModel;  // empty → regex fallback
-        adapter = std::make_unique<LegalLlmAdapter>(cfg);
+        adapter->setConfig(cfg);
     }
 
     void TearDown(const benchmark::State& /*s*/) override {
@@ -179,37 +181,35 @@ public:
 BENCHMARK_F(LlmAdapterFixture, BuildExtractorFn)(benchmark::State& state) {
     for (auto _ : state) {
         auto fn = adapter->buildExtractorFn();
-        benchmark::DoNotOptimize(fn != nullptr);
+        // fn may be empty in Phase 1 (no model); bool conversion checks validity
+        bool valid = static_cast<bool>(fn);
+        benchmark::DoNotOptimize(valid);
     }
-    state.SetLabel("buildExtractorFn() — returns std::function wrapping regex/LLM path");
+    state.SetLabel("buildExtractorFn() — returns ExtractorFn (may be empty in Phase 1)");
 }
 
-// ─── 6. Extractor function call latency (regex fallback) ─────────────────────
+// ─── 6. buildExtractor() convenience factory ─────────────────────────────────
 
-BENCHMARK_F(LlmAdapterFixture, ExtractorFnCall_Latency)(benchmark::State& state) {
-    auto fn = adapter->buildExtractorFn();
-    const std::string sentence = kLegalSentences[0];
-
+BENCHMARK_F(LlmAdapterFixture, BuildExtractor_Factory)(benchmark::State& state) {
     for (auto _ : state) {
-        auto result = fn(sentence);
-        benchmark::DoNotOptimize(result.category);
+        auto extractor = adapter->buildExtractor(0.75);
+        benchmark::DoNotOptimize(extractor.getConfidenceThreshold());
     }
-
-    state.SetItemsProcessed(state.iterations());
-    state.SetLabel("Extractor fn call — regex path (no model)");
+    state.SetLabel("buildExtractor() convenience factory call");
 }
 
-// ─── 7. Extractor throughput: 1000 sentences via LLM adapter ─────────────────
+// ─── 7. Extractor throughput via adapter-configured extractor ─────────────────
 
 BENCHMARK_F(LlmAdapterFixture, ExtractorFn_Throughput)(benchmark::State& state) {
-    auto fn = adapter->buildExtractorFn();
+    // Build a DeonticExtractor configured with this adapter's fn (Phase 1 = regex)
+    auto extractor = adapter->buildExtractor(0.75);
     const int kN = static_cast<int>(state.range(0));
 
     for (auto _ : state) {
         uint64_t matched = 0;
         for (int i = 0; i < kN; ++i) {
-            auto result = fn(kLegalSentences[i % kLegalSentences.size()]);
-            if (result.category != DeonticCategory::UNKNOWN) ++matched;
+            auto result = extractor.extract(kLegalSentences[i % kLegalSentences.size()]);
+            if (result.hasCategory()) ++matched;
         }
         benchmark::DoNotOptimize(matched);
     }
@@ -224,15 +224,16 @@ BENCHMARK_REGISTER_F(LlmAdapterFixture, ExtractorFn_Throughput)
 // ─── 8. detectBinaryMimeType() throughput ────────────────────────────────────
 
 static void BM_DetectBinaryMimeType(benchmark::State& state) {
-    // PDF magic bytes
-    const std::vector<uint8_t> pdf_header = {0x25, 0x50, 0x44, 0x46, 0x2D, 0x31, 0x2E, 0x34};
+    // PDF magic bytes → first 8 chars suffice for detection
+    const std::string pdf_header  = "%PDF-1.4 some content follows here";
     // DOCX magic bytes (ZIP PK header)
-    const std::vector<uint8_t> docx_header = {0x50, 0x4B, 0x03, 0x04, 0x14, 0x00, 0x06, 0x00};
+    const std::string docx_header = std::string(2, '\x50') + '\x4B' + '\x03' + '\x04'
+                                  + " rest of ZIP content";
     // Plain text
-    const std::vector<uint8_t> text_header = {'H', 'e', 'l', 'l', 'o', ' ', 'W', 'o'};
+    const std::string text_header = "Hello World, this is plain text content";
 
     size_t idx = 0;
-    const std::vector<const std::vector<uint8_t>*> headers = {
+    const std::vector<const std::string*> headers = {
         &pdf_header, &docx_header, &text_header
     };
 
@@ -255,14 +256,21 @@ static void BM_CheckpointStore(benchmark::State& state) {
 
     for (auto _ : state) {
         for (int w = 0; w < kWorkers; ++w) {
-            const std::string key = "worker_" + std::to_string(w);
-            store.save(key, "offset_" + std::to_string(w * 1000));
-            auto val = store.load(key);
-            benchmark::DoNotOptimize(val);
+            IngestionCheckpoint cp;
+            cp.source_id        = "worker_" + std::to_string(w);
+            cp.processed_count  = static_cast<size_t>(w * 1000);
+            cp.byte_offset      = static_cast<size_t>(w * 512);
+
+            bool written = store.write(cp);
+            benchmark::DoNotOptimize(written);
+
+            IngestionCheckpoint out;
+            bool read = store.read(cp.source_id, out);
+            benchmark::DoNotOptimize(read);
         }
     }
 
     state.SetItemsProcessed(state.iterations() * kWorkers * 2LL);
-    state.SetLabel("Checkpoint save+load × " + std::to_string(kWorkers) + " workers");
+    state.SetLabel("Checkpoint write+read × " + std::to_string(kWorkers) + " workers");
 }
 BENCHMARK(BM_CheckpointStore)->Arg(1)->Arg(4)->Arg(16)->Arg(64);

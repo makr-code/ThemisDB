@@ -69,14 +69,14 @@ BENCHMARK_F(ModuleLoaderFixture, UnloadModule_Unknown)(benchmark::State& state) 
     state.SetLabel("unloadModule() on unregistered name — early-return cost");
 }
 
-// ─── 3. isLoaded() query — always false path ─────────────────────────────────
+// ─── 3. isModuleLoaded() query — always false path ───────────────────────────
 
-BENCHMARK_F(ModuleLoaderFixture, IsLoaded_NotLoaded)(benchmark::State& state) {
+BENCHMARK_F(ModuleLoaderFixture, IsModuleLoaded_NotLoaded)(benchmark::State& state) {
     for (auto _ : state) {
-        bool loaded = loader->isLoaded("bench_nonexistent");
+        bool loaded = loader->isModuleLoaded("bench_nonexistent");
         benchmark::DoNotOptimize(loaded);
     }
-    state.SetLabel("isLoaded() negative path");
+    state.SetLabel("isModuleLoaded() negative path");
 }
 
 // ─── 4. loadAllModules() on empty / nonexistent directory ───────────────────
@@ -109,27 +109,27 @@ BENCHMARK_F(ModuleLoaderFixture, GetMetrics)(benchmark::State& state) {
     state.SetLabel("getMetrics() after 10 failed load attempts");
 }
 
-// ─── 6. getAuditTrail() size growth overhead ─────────────────────────────────
+// ─── 6. getAllLoadedModules() size-growth overhead ───────────────────────────
 
-static void BM_AuditTrailGrowth(benchmark::State& state) {
+static void BM_GetAllLoadedModules_Growth(benchmark::State& state) {
     const int kEvents = static_cast<int>(state.range(0));
 
     ModuleLoader loader;
     loader.setAllowUnsigned(true);
 
-    // Populate audit trail
+    // Trigger load attempts (all fail fast — no real .so)
     for (int i = 0; i < kEvents; ++i) {
-        loader.loadModule("/tmp/bench_audit_" + std::to_string(i) + ".so", "bench_audit");
+        loader.loadModule("/tmp/bench_growth_" + std::to_string(i) + ".so", "bench_growth");
     }
 
     for (auto _ : state) {
-        auto trail = loader.getAuditTrail();
-        benchmark::DoNotOptimize(trail.size());
+        auto modules = loader.getAllLoadedModules();
+        benchmark::DoNotOptimize(modules.size());
     }
 
-    state.SetLabel("getAuditTrail() after " + std::to_string(kEvents) + " events");
+    state.SetLabel("getAllLoadedModules() after " + std::to_string(kEvents) + " load attempts");
 }
-BENCHMARK(BM_AuditTrailGrowth)->Arg(0)->Arg(10)->Arg(100)->Arg(1000);
+BENCHMARK(BM_GetAllLoadedModules_Growth)->Arg(0)->Arg(10)->Arg(100)->Arg(1000);
 
 // ─── HotReloadManager fixtures ────────────────────────────────────────────────
 
