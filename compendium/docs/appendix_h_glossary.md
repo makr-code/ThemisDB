@@ -749,7 +749,21 @@ Low cardinality: Status (10 values)
 
 ---
 
-## Summary
+## LLM Module Terms
+
+**IntegrationTestSuite:** LLM module testing class with 14 scenarios covering component integration (LazyLoader + GPU Memory, Scheduler + Paged Attention, Kernel Fusion + Inference, full E2E pipeline), multi-model serving/switching/LoRA management, failure scenarios (OOM, load failure, cancellation, preemption), and performance (high concurrency, burst traffic, long requests). See Chapter 17.24.
+
+**LlamaWrapper:** Central llama.cpp adapter in ThemisDB's LLM module. Implements `ILLMPlugin`, wrapping llama.cpp inference with full production features: Multi-LoRA, KV-Cache / Prefix Cache, RoPE Scaling, grammar-constrained generation, streaming, and multi-modal vision support. See Chapter 17.24.
+
+**MultiLoRAManager:** vLLM-inspired LoRA adapter manager supporting up to N simultaneous adapters, dynamic load/unload without model reload, INT8/INT4 quantization (`quantizeLoRA()`), and multi-GPU placement (ROUND_ROBIN, DATA_PARALLEL, MODEL_PARALLEL). See Chapter 17.24.
+
+**ProductionValidator:** End-to-end validation framework for the LLM module. Covers 72-hour stress tests, load tests (100 concurrent, 50 RPS), quality validation (≥80% pass rate), and performance regression detection (≤1% tolerance). See Chapter 17.24.
+
+**RoPE Scaling:** Rotary Position Embedding scaling for extending the context window beyond a model's training length. ThemisDB supports LINEAR, NTK, YARN, and DYNAMIC methods. YARN provides the best quality for 8×+ extension (4K→32K tokens). See Chapter 17.24.
+
+**VisionEncoder:** CLIP-based image encoder (`include/llm/vision_encoder.h`) used by `LlamaWrapper::generateVision()`. Loads CLIP GGUF models, encodes image files to float embedding vectors, and supports GPU acceleration. Configured via `enable_vision` + `clip_model_path` in `LlamaWrapper::Config`. See Chapter 17.24.
+
+**VisionRequest / VisionResponse:** Structs for multi-modal LLM inference. `VisionRequest` contains `text_prompt`, `image_path`/`image_paths`, and generation parameters. `VisionResponse` contains `text`, `tokens_generated`, `inference_time_ms`, and `image_encoding_time_ms`. See Chapter 17.24.
 
 Understanding these terms is essential for:
 - **Development:** Writing efficient queries

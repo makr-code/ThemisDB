@@ -297,6 +297,19 @@ Die folgenden Komponenten wurden mit dem v1.9.x-Release (Commit 2026-04-12) in d
 | `RAGContextEngine` | `ethics_ai/` | ✅ GA | 13 (RAGContextEngineFocusedTests) | 7 AQL-Abfragemuster |
 | Ethics AI Integration | `ethics_ai/` | ✅ GA | 21 (EthicsAiIntegration) | FullPipeline, ArgumentStoreRAG, RAGContextBuild |
 
+### LLM Module — Produktionskomponenten (v1.0)
+
+| Feature | Modul | Status | Tests | Beschreibung |
+|---------|-------|--------|-------|-------------|
+| `LlamaWrapper::generateVision()` | `llm/` | ✅ GA | — | Multi-Modal Inference via CLIP-VisionEncoder; LLaVA-Architektur |
+| `VisionEncoder` | `llm/` | ✅ GA | — | CLIP-GGUF-Modell; `encodeImage()` → float-Embedding-Vektor |
+| `LlamaWrapper` RoPE Scaling | `llm/` | ✅ GA | — | LINEAR/NTK/YARN/DYNAMIC; 4K→32K Kontext-Extension |
+| `MultiLoRAManager::loadLoRA()` | `llm/` | ✅ GA | — | vLLM-Stil; dynamic load, INT8/INT4-Quantisierung via `quantizeLoRA()` |
+| `MultiLoRAManager` Multi-GPU | `llm/` | ✅ GA | — | ROUND_ROBIN/DATA_PARALLEL/MODEL_PARALLEL; GPUDirect P2P |
+| `ProductionValidator` | `llm/testing/` | ✅ GA | — | 72h-Stresstest, Lasttest, Performance-Regression |
+| `IntegrationTestSuite` | `llm/testing/` | ✅ GA | — | 14 Szenarien (Komponenten-, Multi-Modell-, Fehler-, Performance-Tests) |
+| `LlamaWrapper` Output-Validierung | `llm/` | ✅ GA | — | UTF-8-Prüfung, min/max-Länge, Kohärenz-Score |
+
 ### Sharding / Paxos
 
 | Feature | Modul | Status | Tests | Beschreibung |

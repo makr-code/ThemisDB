@@ -5433,32 +5433,6 @@ RETURN BENCHMARK_LORA_TRAINING({
 
 ## 17.23 Zusammenfassung
 
-### 17.19.1 DO ✅
-
-1. **Verwende @parameter binding** für alle Benutzereingaben
-2. **Cache häufige Anfragen** um Kosten zu sparen
-3. **Validiere LLM-Outputs** vor der Speicherung
-4. **Batch-Verarbeitung** für große Datenmengen
-5. **Monitor Kosten** und Performance kontinuierlich
-6. **Sanitize Inputs** vor LLM-Calls
-7. **Verwende strukturierte Outputs** (JSON) wenn möglich
-8. **Implementiere Fallbacks** bei LLM-Fehlern
-9. **Nutze LoRA für Domain-Spezialisierung** statt Full Fine-Tuning
-10. **Multi-Adapter Deployment** für verschiedene Use Cases
-
-### 17.19.2 DON'T ❌
-
-1. **Keine sensiblen Daten** ungefiltert an LLMs senden
-2. **Keine unvalidierten LLM-Queries** ausführen
-3. **Keine unbegrenzten LLM-Calls** ohne Rate-Limiting
-4. **Keine Hardcoded API-Keys** im Code
-5. **Keine synchronen LLM-Calls** für zeitkritische Operationen
-6. **Keine Abhängigkeit** von einem einzelnen Provider
-7. **Kein Full Fine-Tuning** wenn LoRA ausreicht
-8. **Keine ungecachten Model-Loads** in Production
-
-## 17.23 Zusammenfassung
-
 ThemisDB's umfassende LLM-Integration ermöglicht:
 
 **Kern-Features:**
@@ -5514,6 +5488,259 @@ Die Integration von LLMs direkt in die Datenbankebene reduziert Latenz, vereinfa
 | QLoRA Memory | 65% reduction | ✅ 65% | ✅ Yes |
 | Multi-GPU Efficiency | > 85% @ 4 GPUs | ✅ 90% | ✅ Yes |
 | Fused Kernels Speedup | 2-3x | ✅ 2.9x | ✅ Yes |
+
+---
+
+## 17.24 LLM Produktionskomponenten — C++ API (v1.0)
+
+Dieser Abschnitt dokumentiert die drei produktionsreifen C++ Schlüsselkomponenten des LLM-Moduls: **LlamaWrapper** (Multi-Modal Inference), **MultiLoRAManager** (vLLM-inspiriertes LoRA-Management) und **ProductionValidator** (End-to-End Validierungsrahmen).
+
+### 17.24.1 LlamaWrapper — llama.cpp Integration mit Vision-Support
+
+`LlamaWrapper` (`include/llm/llama_wrapper.h`) ist der zentrale Inference-Adapter, der die llama.cpp-API in die ThemisDB-Abstraktionsschicht einbettet. Neben Standardinferenz (Text, Embeddings, Streaming) unterstützt er Multi-Modal Inference über eine integrierte CLIP Vision-Encoder-Pipeline.
+
+```cpp
+#include "llm/llama_wrapper.h"
+
+// ── Konfiguration ───────────────────────────────────────────────────────────
+themis::llm::LlamaWrapper::Config cfg;
+cfg.model_path          = "/models/mistral-7b-instruct.gguf";
+cfg.n_ctx               = 4096;
+cfg.n_gpu_layers        = 35;
+cfg.n_threads           = 8;
+
+// Vision (Multi-Modal / LLaVA) aktivieren
+cfg.enable_vision       = true;
+cfg.clip_model_path     = "/models/mmproj-model-f16.gguf";
+cfg.vision_threads      = 4;
+cfg.preload_vision      = true;
+
+// RoPE Scaling für erweiterten Kontext (4K → 32K)
+cfg.rope_scaling.enabled    = true;
+cfg.rope_scaling.method     = RopeScalingMethod::YARN;
+cfg.rope_scaling.max_context = 32768;
+
+// Multi-LoRA (vLLM-Stil)
+cfg.multi_lora_config.max_loras = 8;
+
+// Output-Validierung
+cfg.enable_output_validation = true;
+
+// Request-Timeout
+cfg.request_timeout_ms = 30000;
+
+auto wrapper = std::make_shared<themis::llm::LlamaWrapper>(cfg);
+wrapper->loadModel(cfg.model_path);
+
+// ── Text-Inferenz ────────────────────────────────────────────────────────────
+themis::llm::InferenceRequest req;
+req.prompt      = "Erkläre Paxos-Konsens in zwei Sätzen.";
+req.max_tokens  = 200;
+req.temperature = 0.7f;
+
+auto resp = wrapper->generate(req);
+// resp.text, resp.tokens_generated, resp.latency_ms
+
+// ── Vision / Multi-Modal (LLaVA) ─────────────────────────────────────────────
+#ifdef THEMIS_ENABLE_VISION
+themis::llm::VisionRequest vreq;
+vreq.text_prompt   = "Was ist auf diesem Bild zu sehen?";
+vreq.image_path    = "/data/bauzeichnung.png";
+vreq.max_tokens    = 300;
+vreq.temperature   = 0.5f;
+
+auto vresp = wrapper->generateVision(vreq);
+// vresp.success, vresp.text
+// vresp.inference_time_ms, vresp.image_encoding_time_ms
+// vresp.tokens_generated
+#endif
+
+// ── Embeddings ───────────────────────────────────────────────────────────────
+auto embeddings = wrapper->embed("Bauantrag vollständig einzureichen");
+// std::vector<float>
+
+// ── Statistiken ─────────────────────────────────────────────────────────────
+auto perf_stats = wrapper->getPerformanceStats();  // nlohmann::json
+auto mem_stats  = wrapper->getMemoryStats();        // nlohmann::json
+```
+
+**Vision Request/Response Felder:**
+
+| Feld | Typ | Beschreibung |
+|------|-----|-------------|
+| `text_prompt` | string | Text-Frage / Prompt |
+| `image_path` | string | Pfad zum Einzelbild |
+| `image_paths` | vector\<string\> | Mehrere Bilder |
+| `max_tokens` | int | Max. Tokens (Standard: 256) |
+| `temperature` | float | Sampling-Temperatur (Standard: 0.7) |
+| `use_image_start_end` | bool | `<image>`-Token einfügen |
+| **`text`** | string | Generierter Text (Response) |
+| **`image_encoding_time_ms`** | int64 | CLIP-Encoding-Zeit |
+| **`inference_time_ms`** | int64 | LLM-Inferenzzeit |
+
+**LlamaWrapper-Config-Übersicht (wichtigste Felder):**
+
+| Feld | Standard | Beschreibung |
+|------|---------|-------------|
+| `enable_vision` | false | Vision/Multi-Modal aktivieren |
+| `clip_model_path` | — | Pfad zum CLIP-Modell (GGUF) |
+| `rope_scaling.enabled` | false | RoPE-Kontextfenster-Extension |
+| `rope_scaling.method` | YARN | LINEAR / NTK / YARN / DYNAMIC |
+| `rope_scaling.max_context` | 32768 | Ziel-Kontextlänge |
+| `enable_response_cache` | false | Persistenter Response-Cache (RocksDB) |
+| `enable_output_validation` | true | Output-Validierung (UTF-8, Kohärenz) |
+| `request_timeout_ms` | 0 | Timeout pro Request (0 = unbegrenzt) |
+
+### 17.24.2 MultiLoRAManager — vLLM-inspiriertes LoRA-Management
+
+`MultiLoRAManager` (`include/llm/multi_lora_manager.h`) implementiert dynamisches, paralleles LoRA-Adapter-Management analog zu vLLMs Konzept: mehrere Adapter können gleichzeitig geladen sein, verschiedene Requests können verschiedene Adapter nutzen, und Quantisierung (INT8/INT4) reduziert den VRAM-Verbrauch.
+
+```cpp
+#include "llm/multi_lora_manager.h"
+
+themis::llm::MultiLoRAManager::Config lora_cfg;
+lora_cfg.max_loras            = 8;
+lora_cfg.quantization.enabled = true;
+lora_cfg.quantization.mode    = QuantizationMode::INT8;
+lora_cfg.multi_gpu.enabled    = true;
+lora_cfg.multi_gpu.devices    = {0, 1};
+lora_cfg.multi_gpu.strategy   = MultiGPUStrategy::ROUND_ROBIN;
+
+themis::llm::MultiLoRAManager manager(llama_ctx, lora_cfg);
+
+// ── LoRA laden ─────────────────────────────────────────────────────────────
+bool ok = manager.loadLoRA(
+    "legal-de",                     // ID
+    "/adapters/legal_de.bin",       // Pfad
+    "mistral-7b",                   // Basis-Modell
+    /*quantize=*/true,
+    /*scale=*/1.0f
+);
+
+// ── LoRA für Inferenz aktivieren ─────────────────────────────────────────
+manager.activateLoRA("legal-de", llama_ctx);
+
+// ── LoRA entladen ────────────────────────────────────────────────────────
+manager.unloadLoRA("legal-de");
+
+// ── VRAM-Nutzung abfragen ────────────────────────────────────────────────
+auto stats = manager.getLoRAStats("legal-de");
+// stats.vram_bytes, stats.is_quantized, stats.quantization_mode
+```
+
+**Quantisierungsmethoden:**
+
+| Modus | VRAM-Reduktion | Qualitätsverlust | Beschreibung |
+|-------|--------------|-----------------|-------------|
+| `NONE` | 0% | — | Keine Quantisierung (FP32) |
+| `INT8` | ~50% | Minimal (<1%) | 8-Bit Gewichte (symmetrisch) |
+| `INT4` | ~75% | Gering (1-2%) | 4-Bit Gewichte (gepackt, Nibble-Format) |
+
+**Multi-GPU-Strategien:**
+
+| Strategie | Beschreibung |
+|-----------|-------------|
+| `NONE` | Einzel-GPU |
+| `ROUND_ROBIN` | LoRAs gleichmäßig verteilt |
+| `DATA_PARALLEL` | Adapter auf alle GPUs repliziert |
+| `MODEL_PARALLEL` | Große Adapter über GPUs aufgeteilt |
+
+### 17.24.3 ProductionValidator & IntegrationTestSuite
+
+`ProductionValidator` (`include/llm/production_validator.h`) ist das Produktionsvalidierungs-Framework für das LLM-Modul. Es umfasst End-to-End-Tests, 72-Stunden-Stresstests, Lastprofile und Qualitätsmessungen.
+
+```cpp
+#include "llm/production_validator.h"
+
+themis::llm::testing::ProductionValidator::ValidationConfig val_cfg;
+val_cfg.stress_test_duration         = std::chrono::hours(72);
+val_cfg.concurrent_requests          = 100;
+val_cfg.requests_per_second          = 50;
+val_cfg.max_latency_ms               = 100.0;
+val_cfg.max_p99_latency_ms           = 200.0;
+val_cfg.min_throughput_tokens_per_sec = 1000.0;
+val_cfg.max_error_rate_pct           = 0.1;
+val_cfg.max_memory_growth_mb_per_hour = 10.0;
+val_cfg.max_regression_pct           = 1.0;
+
+themis::llm::testing::ProductionValidator validator(val_cfg);
+
+// ── End-to-End Tests ──────────────────────────────────────────────────────
+auto e2e_result = validator.runEndToEndTests();
+// e2e_result.passed, e2e_result.avg_latency_ms, e2e_result.p99_latency_ms
+
+// ── Performance-Benchmark ────────────────────────────────────────────────
+// 100 Requests variierender Länge; P50/P95/P99; Speicherverbrauch
+auto metrics = validator.benchmarkInference("mistral-7b");
+// metrics.avg_latency_ms, metrics.tokens_per_second, metrics.memory_mb
+
+// ── Modell-Qualitäts-Validierung (≥80% erforderlich) ────────────────────
+bool quality_ok = validator.validateQuality("mistral-7b");
+
+// ── Einzelne Test-Kategorien ─────────────────────────────────────────────
+bool model_load_ok    = validator.testModelLoading();
+bool inference_ok     = validator.testInferencePipeline();
+bool batch_ok         = validator.testBatchScheduling();
+bool memory_ok        = validator.testMemoryManagement();
+bool quantize_ok      = validator.testQuantization();
+bool cb_ok            = validator.testContinuousBatching();
+bool kernel_ok        = validator.testKernelFusion();
+
+// ── Live-Statistiken (während Stresstest) ───────────────────────────────
+validator.startStressTest();
+auto live = validator.getLiveStats();
+// live.active_requests, live.current_latency_ms, live.memory_mb
+validator.stopStressTest();
+
+// ── Regressionsprüfung ────────────────────────────────────────────────────
+auto regression = validator.checkPerformanceRegression("/data/baseline.json");
+```
+
+**IntegrationTestSuite — 14 Szenarien:**
+
+```cpp
+themis::llm::testing::IntegrationTestSuite suite;
+
+// Komponentenintegration
+suite.testLazyLoaderWithGPUMemory();
+suite.testSchedulerWithPagedAttention();
+suite.testKernelFusionWithInference();
+suite.testFullPipelineE2E();
+
+// Multi-Modell
+suite.testMultiModelServing();
+suite.testModelSwitching();
+suite.testLoRAAdapterManagement();
+
+// Fehlerszenarien
+suite.testGPUOutOfMemory();
+suite.testModelLoadFailure();
+suite.testRequestCancellation();
+suite.testPreemption();
+
+// Performance
+suite.testHighConcurrency();
+suite.testLongRunningRequests();
+suite.testBurstTraffic();
+
+// Alle Tests ausführen
+auto results = suite.runAllTests();
+for (const auto& r : results) {
+    // r.test_name, r.passed, r.duration_ms, r.error_message
+}
+```
+
+**SLA-Schwellenwerte (ProductionValidator-Defaults):**
+
+| Metrik | Schwellenwert | Beschreibung |
+|--------|--------------|-------------|
+| Durchschnittliche Latenz | ≤ 100 ms | Über alle Request-Typen |
+| P99-Latenz | ≤ 200 ms | 99. Perzentil |
+| Durchsatz | ≥ 1 000 Token/s | Minimaler Durchsatz |
+| Fehlerrate | ≤ 0,1 % | Maximale Fehlerrate |
+| Speicherwachstum | ≤ 10 MB/h | VRAM-Wachstum (OOM-Prüfung) |
+| Fragmentierung | ≤ 15 % | VRAM-Fragmentierung |
+| Performance-Regression | ≤ 1 % | Max. Regressionstoleranz |
 
 ---
 
