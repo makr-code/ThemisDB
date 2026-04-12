@@ -13,7 +13,10 @@ WhisperPlugin::WhisperPlugin() {
 #else
     transcriber_ = std::make_unique<WhisperStubTranscriber>();
 #endif
-    reader_ = std::make_unique<WavAudioChunkReader>();
+    auto composite = std::make_unique<CompositeAudioChunkReader>();
+    composite->addReader(std::make_unique<WavAudioChunkReader>());
+    composite->addReader(std::make_unique<FfmpegAudioChunkReader>());
+    reader_ = std::move(composite);
 }
 
 WhisperPlugin::WhisperPlugin(std::unique_ptr<IWhisperTranscriber> transcriber,
@@ -29,16 +32,17 @@ bool WhisperPlugin::initialize(const std::string& model_path,
     WhisperConfig cfg = WhisperConfig::fromJson(config);
     cfg.model_path = model_path;
 
-    initialized_ = transcriber_->initialize(cfg);
-    return initialized_;
+    const bool ok = transcriber_->initialize(cfg);
+    initialized_.store(ok, std::memory_order_release);
+    return ok;
 }
 
 // ── transcribe ───────────────────────────────────────────────────────────────
 
 audio::TranscriptionResult WhisperPlugin::transcribe(const std::vector<float>& pcm,
                                                       float sample_rate) {
-    if (!initialized_) {
-        ++error_count_;
+    if (!initialized_.load(std::memory_order_acquire)) {
+        error_count_.fetch_add(1, std::memory_order_relaxed);
         audio::TranscriptionResult err;
         err.success = false;
         err.error_message = "WhisperPlugin not initialized";
@@ -47,7 +51,11 @@ audio::TranscriptionResult WhisperPlugin::transcribe(const std::vector<float>& p
         return err;
     }
     try {
-        auto result = transcriber_->transcribe(pcm, sample_rate);
+        audio::TranscriptionResult result;
+        {
+            std::lock_guard<std::mutex> lock(transcriber_mutex_);
+            result = transcriber_->transcribe(pcm, sample_rate);
+        }
         // Mandatory provenance override – always from this plugin
         result.ingestion_source_type = "WHISPER";
         result.plugin_version        = getPluginVersion();
@@ -56,10 +64,10 @@ audio::TranscriptionResult WhisperPlugin::transcribe(const std::vector<float>& p
             result.generation_timestamp = std::chrono::duration_cast<std::chrono::milliseconds>(
                 std::chrono::system_clock::now().time_since_epoch()).count();
         }
-        ++transcription_count_;
+        transcription_count_.fetch_add(1, std::memory_order_relaxed);
         return result;
     } catch (const std::exception& ex) {
-        ++error_count_;
+        error_count_.fetch_add(1, std::memory_order_relaxed);
         audio::TranscriptionResult err;
         err.success               = false;
         err.error_message         = ex.what();
@@ -72,8 +80,8 @@ audio::TranscriptionResult WhisperPlugin::transcribe(const std::vector<float>& p
 // ── transcribeFile ───────────────────────────────────────────────────────────
 
 audio::TranscriptionResult WhisperPlugin::transcribeFile(const std::string& path) {
-    if (!initialized_) {
-        ++error_count_;
+    if (!initialized_.load(std::memory_order_acquire)) {
+        error_count_.fetch_add(1, std::memory_order_relaxed);
         audio::TranscriptionResult err;
         err.success               = false;
         err.error_message         = "WhisperPlugin not initialized";
@@ -86,7 +94,7 @@ audio::TranscriptionResult WhisperPlugin::transcribeFile(const std::string& path
         auto pcm = reader_->readFile(path, sample_rate);
         return transcribe(pcm, sample_rate);
     } catch (const std::exception& ex) {
-        ++error_count_;
+        error_count_.fetch_add(1, std::memory_order_relaxed);
         audio::TranscriptionResult err;
         err.success               = false;
         err.error_message         = std::string("transcribeFile: ") + ex.what();
@@ -100,7 +108,8 @@ audio::TranscriptionResult WhisperPlugin::transcribeFile(const std::string& path
 
 audio::LanguageDetectionResult WhisperPlugin::detectLanguage(
         const std::vector<float>& pcm, float sample_rate) {
-    if (!initialized_) return {};
+    if (!initialized_.load(std::memory_order_acquire)) return {};
+    std::lock_guard<std::mutex> lock(transcriber_mutex_);
     return transcriber_->detectLanguage(pcm, sample_rate);
 }
 
@@ -115,9 +124,9 @@ nlohmann::json WhisperPlugin::getStatistics() const {
         {"plugin",             "whisper"},
         {"plugin_version",     getPluginVersion()},
         {"model_id",           getModelId()},
-        {"initialized",        initialized_},
-        {"transcription_count", transcription_count_},
-        {"error_count",        error_count_}
+        {"initialized",        initialized_.load(std::memory_order_acquire)},
+        {"transcription_count", transcription_count_.load(std::memory_order_relaxed)},
+        {"error_count",        error_count_.load(std::memory_order_relaxed)}
     };
 }
 

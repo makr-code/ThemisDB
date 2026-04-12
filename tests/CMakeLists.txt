@@ -361,6 +361,7 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_discourse_engine\\.cpp$"
     ".*test_grpc_plugin\\.cpp$"
     ".*test_paxos_wal_recovery\\.cpp$"
+    ".*test_paxos_persistence_recovery\\.cpp$"
         ".*test_argument_store_standalone\\.cpp$"
         ".*test_rag_context_engine\\.cpp$"
         ".*test_ethics_ai_plugin\\.cpp$"
@@ -17210,6 +17211,113 @@ else()
 endif()
 
 # ============================================================================
+# Ethics AI Benchmark Tests (src/ethics_ai)
+# ============================================================================
+
+if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ethics_ai_benchmark.cpp")
+    message(STATUS "Adding Ethics AI Benchmark tests")
+
+    add_executable(test_ethics_ai_benchmark
+        test_ethics_ai_benchmark.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/argument_store.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/ethics_ai_types.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/ethics_evaluator.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/discourse_engine.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/philosophy_loader.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/rag_context_engine.cpp
+    )
+
+    target_include_directories(test_ethics_ai_benchmark PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai
+    )
+
+    target_link_libraries(test_ethics_ai_benchmark PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    find_package(yaml-cpp CONFIG QUIET)
+    if(yaml-cpp_FOUND)
+        target_link_libraries(test_ethics_ai_benchmark PRIVATE yaml-cpp)
+        target_compile_definitions(test_ethics_ai_benchmark PRIVATE HAVE_YAML_CPP)
+    endif()
+
+    target_compile_definitions(test_ethics_ai_benchmark PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    set_target_properties(test_ethics_ai_benchmark PROPERTIES
+        CXX_STANDARD 20
+        CXX_STANDARD_REQUIRED ON
+    )
+
+    add_test(NAME EthicsAIBenchmarkTests COMMAND test_ethics_ai_benchmark)
+
+    set_tests_properties(EthicsAIBenchmarkTests PROPERTIES
+        LABELS "ethics;benchmark;performance;latency"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  EthicsAI Benchmark: decision pipeline, confidence/consensus, embedding, RAG")
+elseif(NOT THEMIS_PLUGIN_ETHICS_AI)
+    message(STATUS "Ethics AI Benchmark tests skipped (THEMIS_PLUGIN_ETHICS_AI disabled)")
+else()
+    message(STATUS "Ethics AI Benchmark tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_ethics_ai_benchmark.cpp")
+endif()
+
+# ============================================================================
+# Ethics AI Chain Visualizer Tests (src/ethics_ai)
+# ============================================================================
+
+if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ethics_ai_chain_visualizer.cpp")
+    message(STATUS "Adding Ethics AI Chain Visualizer tests")
+
+    add_executable(test_ethics_ai_chain_visualizer
+        test_ethics_ai_chain_visualizer.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/argument_store.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/ethics_ai_types.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/chain_visualizer.cpp
+    )
+
+    target_include_directories(test_ethics_ai_chain_visualizer PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai
+    )
+
+    target_link_libraries(test_ethics_ai_chain_visualizer PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_ethics_ai_chain_visualizer PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    set_target_properties(test_ethics_ai_chain_visualizer PROPERTIES
+        CXX_STANDARD 20
+        CXX_STANDARD_REQUIRED ON
+    )
+
+    add_test(NAME ChainVisualizerTests COMMAND test_ethics_ai_chain_visualizer)
+
+    set_tests_properties(ChainVisualizerTests PROPERTIES
+        LABELS "ethics;visualizer;dot;mermaid;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  ChainVisualizer: DOT/Mermaid export CV-01..CV-08")
+elseif(NOT THEMIS_PLUGIN_ETHICS_AI)
+    message(STATUS "Ethics AI Chain Visualizer tests skipped (THEMIS_PLUGIN_ETHICS_AI disabled)")
+else()
+    message(STATUS "Ethics AI Chain Visualizer tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_ethics_ai_chain_visualizer.cpp")
+endif()
+
+# ============================================================================
 # ONNX CLIP Plugin Tests (src/onnx_clip)
 # ============================================================================
 
@@ -19132,6 +19240,44 @@ else()
     message(STATUS "Shard RPC Integration focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_shard_rpc_integration.cpp")
 endif()
 
+# ── Paxos Persistence Recovery focused tests ──────────────────────────────────
+# PSR-01..PSR-10: PaxosStatePersistence open/close, persistPromise/Accept/Commit,
+#                 recovery from WAL, compaction, writeEntity via ShardRPCClient.
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_paxos_persistence_recovery.cpp")
+    message(STATUS "Adding Paxos Persistence Recovery focused tests (PSR-01..PSR-10)")
+
+    add_executable(test_paxos_persistence_recovery_focused
+        test_paxos_persistence_recovery.cpp
+    )
+
+    target_include_directories(test_paxos_persistence_recovery_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_paxos_persistence_recovery_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_paxos_persistence_recovery_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME PaxosPersistenceRecoveryFocusedTests
+        COMMAND test_paxos_persistence_recovery_focused)
+
+    set_tests_properties(PaxosPersistenceRecoveryFocusedTests PROPERTIES
+        LABELS "sharding;paxos;persistence;recovery;wal;snapshot;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  open/close, persistPromise/Accept/Commit, restart recovery, compaction, writeEntity RPC")
+else()
+    message(STATUS "Paxos Persistence Recovery focused tests not found")
+endif()
+
 
 if(TARGET themis_tests)
     get_target_property(_themis_tests_sources_final themis_tests SOURCES)
@@ -20625,15 +20771,16 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../src/whisper/tests/test_whisper_plugin.
         GTest::gtest
         GTest::gtest_main
         nlohmann_json::nlohmann_json
+        Threads::Threads
     )
     target_compile_features(test_whisper_plugin PRIVATE cxx_std_17)
     target_compile_definitions(test_whisper_plugin PRIVATE THEMIS_PLUGIN_EXPORTS)
     add_test(NAME WhisperPluginFocusedTests COMMAND test_whisper_plugin)
     set_tests_properties(WhisperPluginFocusedTests PROPERTIES
-        LABELS "plugins;whisper;audio;v2.0.0"
+        LABELS "plugins;whisper;audio;v2.1.0"
         TIMEOUT 60
     )
-    message(STATUS "  WhisperPlugin: 30 tests (A-J)")
+    message(STATUS "  WhisperPlugin: 36 tests (A-L)")
 else()
     message(STATUS "  WhisperPlugin tests not found – skipped")
 endif()
@@ -20658,10 +20805,10 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../src/stable_diffusion/tests/test_sd_plu
     target_compile_definitions(test_sd_plugin PRIVATE THEMIS_PLUGIN_EXPORTS)
     add_test(NAME SDPluginFocusedTests COMMAND test_sd_plugin)
     set_tests_properties(SDPluginFocusedTests PROPERTIES
-        LABELS "plugins;stable_diffusion;image_generation;v2.0.0"
+        LABELS "plugins;stable_diffusion;image_generation;v2.2.0"
         TIMEOUT 60
     )
-    message(STATUS "  SDPlugin: 30 tests (A-J)")
+    message(STATUS "  SDPlugin: 51 tests (A-Q)")
 else()
     message(STATUS "  SDPlugin tests not found – skipped")
 endif()

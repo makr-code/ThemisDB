@@ -16,6 +16,7 @@ set(ETHICS_AI_SOURCES
     rag_context_engine.cpp
     discourse_engine.cpp
     ethics_evaluator.cpp
+    chain_visualizer.cpp
 )
 
 add_library(ethics_ai_plugin SHARED ${ETHICS_AI_SOURCES})

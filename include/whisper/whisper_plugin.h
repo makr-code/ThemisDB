@@ -6,6 +6,7 @@
 #include "whisper/audio_chunk_reader.h"
 #include <memory>
 #include <atomic>
+#include <mutex>
 #include <nlohmann/json.hpp>
 
 namespace themis {
@@ -16,10 +17,15 @@ namespace whisper {
  *
  * Wires together:
  *  - IWhisperTranscriber  (model inference, injected or created from type)
- *  - IAudioChunkReader    (file I/O, injected or defaults to WavAudioChunkReader)
+ *  - IAudioChunkReader    (file I/O, injected or defaults to CompositeAudioChunkReader)
  *
  * The default constructor selects WhisperCppTranscriber when
  * THEMIS_ENABLE_WHISPER is defined, otherwise WhisperStubTranscriber.
+ *
+ * Thread-safety: transcribe(), transcribeFile(), and detectLanguage() are
+ * individually thread-safe.  Concurrent calls serialize through
+ * transcriber_mutex_ so that the underlying whisper_context* is never
+ * accessed from two threads simultaneously.  Counters are std::atomic.
  */
 class WhisperPlugin : public audio::IAudioBackend {
 public:
@@ -36,7 +42,7 @@ public:
     bool initialize(const std::string& model_path,
                     const nlohmann::json& config) override;
 
-    bool isInitialized() const override { return initialized_; }
+    bool isInitialized() const override { return initialized_.load(std::memory_order_acquire); }
 
     audio::TranscriptionResult transcribe(const std::vector<float>& pcm_samples,
                                           float sample_rate) override;
@@ -53,10 +59,11 @@ public:
 private:
     std::unique_ptr<IWhisperTranscriber> transcriber_;
     std::unique_ptr<IAudioChunkReader>   reader_;
-    bool     initialized_ = false;
-    uint64_t transcription_count_ = 0;
-    uint64_t error_count_         = 0;
+    std::atomic<bool>     initialized_{false};
+    std::atomic<uint64_t> transcription_count_{0};
+    std::atomic<uint64_t> error_count_{0};
     std::string model_path_;
+    mutable std::mutex transcriber_mutex_;  ///< serializes transcriber calls
 };
 
 } // namespace whisper

@@ -14,12 +14,12 @@ Beta-ready for core process modelling (BPMN, EPK, VCC-VPB), process linking, and
 ## Completed ✅
 
 - [x] `ProcessModelManager`: import/export BPMN 2.0, EPK, VCC-VPB YAML
-- [x] BPMN 2.0 XML serializer with all node/edge types (regex-based, lenient) — replaced by state-machine tokenizer in v1.0.1 (see below)
+- [x] BPMN 2.0 XML serializer – state-machine tokenizer (namespace-aware, no regex, nested sub-processes, `conditionExpression` child, 10 MiB security guard)
 - [x] EPK text and JSON serializer
 - [x] `VccVpbImporter`: single model, batch list, and directory import
 - [x] `LlmProcessDescriptor`: generate structured JSON descriptor + system-prompt-ready text; conformance-checking prompt builder; multi-model summary
 - [x] Base-entity storage layer (`proc:def:` key prefix, versioned revisions)
-- [x] `ProcessLinker`: attach/detach documents and metadata to process instances — `detachObject()` uses `db_.del()` hard delete (no tombstone) with secondary index `proc:obj_idx:<object_id>:<collection>:<instance_id>`; `findInstancesWithObject()` scans the `obj_idx` prefix (Issue: #4594, 2026-04-12)
+- [x] `ProcessLinker`: attach/detach documents and metadata to process instances (hard-delete via `db_.del()`, secondary index `proc:obj_idx:` for `findInstancesWithObject()`)
 - [x] `ProcessLinker`: process-to-process linking (sub-process, cross-reference, triggers)
 - [x] `ProcessLinker`: required document registry per process node
 - [x] `ProcessLinker`: missing document detection via cross-reference
@@ -210,6 +210,7 @@ Beta-ready for core process modelling (BPMN, EPK, VCC-VPB), process linking, and
 
 ## Known Issues & Limitations
 
-- BPMN parser was regex-based up to v1.0.0; replaced by a state-machine tokenizer (`tokenizeXml`/`parseAttrs`/`stripNs`/`unescapeXml`) in v1.0.1 (Issue: #4595, 2026-04-12). Complex nested `subProcess`, `bpmn:` namespace prefixes, and CDATA sections are now handled correctly.
-- `detachObject()` previously wrote tombstones; now uses `db_.del()` hard delete; secondary index `proc:obj_idx:<object_id>:<collection>:<instance_id>` maintained by `attachObject`/`detachObject` (Issue: #4594, 2026-04-12). `findInstancesWithObject()` scans the `obj_idx` prefix — linear in results, not full-table.
 - Embedding-based similarity search in `findSimilarCases()` requires pre-computed embeddings stored under `proc:inst_emb:<id>`; auto-generation is not yet implemented.
+- VCC-VPB YAML parser handles the VCC-VPB subset; full YAML 1.2 constructs (anchors, custom tags) are not supported.
+- EPK import uses implicit sequential flow for lines without explicit arrows; complex EPK models with branches may require manual edge specification.
+- `findInstancesWithObject()` now uses a secondary reverse-lookup index (`proc:obj_idx:`) for O(prefix-scan) performance; the index is maintained by `attachObject()`/`detachObject()`. Attachments created before this change (that lack index entries) will not appear in the index scan but will still appear in `getAttachments()` direct scans.
