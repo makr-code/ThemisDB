@@ -366,6 +366,29 @@ Die folgenden Komponenten wurden mit dem v1.9.x-Release (Commit 2026-04-12) in d
 | Incremental Checkpoint | `ingestion/` | ✅ GA | — | Fortschritt persistiert; Re-Start ab letztem Checkpoint |
 | Plugin API | `ingestion/` | ✅ GA | — | `ISourceConnector`-Interface für Third-Party Konnektoren |
 
+### Importers-Modul (v2.1)
+
+| Feature | Modul | Status | Tests | Beschreibung |
+|---------|-------|--------|-------|-------------|
+| `PostgresImporter` v2.1 | `importers/` | ✅ GA | — | FK-Preservation (ON DELETE/UPDATE, DEFERRABLE); CHECK/EXCLUDE/GENERATED Constraints |
+| `MongoImporter` | `importers/` | ✅ GA | — | BSON→JSON; _id-Preservation |
+| `MySQLImporter` | `importers/` | ✅ GA | — | Batch-Import; Charset-Mapping |
+| `OracleImporter` | `importers/` | ✅ GA | — | DDL + Data Export |
+| `SqliteImporter` | `importers/` | ✅ GA | — | Lightweight; kein Server nötig |
+| `FlatFileImporter` | `importers/` | ✅ GA | — | CSV/TSV/Parquet; Auto-Type-Detection; Parquet-Kompression |
+| `KafkaImporter` | `importers/` | ✅ GA | — | Consumer-Group; Offset-Tracking |
+| `S3Importer` | `importers/` | ✅ GA | — | Prefix-Filter; Multipart-Download |
+| `IImporter::importDataStreaming()` | `importers/` | ✅ GA | — | Low-Memory Streaming; per-Row Callback; frühzeitiger Abbruch |
+| `SchemaInferenceEngine` | `importers/` | ✅ GA | — | Implicit FK Discovery; Semantic Type Detection; Cardinality Estimation |
+| `AuditedImporter` | `importers/` | ✅ GA | — | Audit-Trail für jede importierte Zeile + Schema-Änderung |
+| `IImporterPlugin` API | `importers/` | ✅ GA | — | Plugin-Interface für Third-Party Importer |
+
+---
+
+## Implementierungsstatus — Plugins & Sharding
+
+### Plugins (v2.x)
+
 | Feature | Modul | Status | Tests | Beschreibung |
 |---------|-------|--------|-------|-------------|
 | `WhisperPlugin` v2.0 | `whisper/` | ✅ GA | 30 (WhisperPluginFocusedTests) | `IAudioBackend`, WavAudioChunkReader, Strategy Pattern, Provenienz-Stempel |
