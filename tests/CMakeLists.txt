@@ -20625,15 +20625,16 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../src/whisper/tests/test_whisper_plugin.
         GTest::gtest
         GTest::gtest_main
         nlohmann_json::nlohmann_json
+        Threads::Threads
     )
     target_compile_features(test_whisper_plugin PRIVATE cxx_std_17)
     target_compile_definitions(test_whisper_plugin PRIVATE THEMIS_PLUGIN_EXPORTS)
     add_test(NAME WhisperPluginFocusedTests COMMAND test_whisper_plugin)
     set_tests_properties(WhisperPluginFocusedTests PROPERTIES
-        LABELS "plugins;whisper;audio;v2.0.0"
+        LABELS "plugins;whisper;audio;v2.1.0"
         TIMEOUT 60
     )
-    message(STATUS "  WhisperPlugin: 30 tests (A-J)")
+    message(STATUS "  WhisperPlugin: 36 tests (A-L)")
 else()
     message(STATUS "  WhisperPlugin tests not found – skipped")
 endif()
