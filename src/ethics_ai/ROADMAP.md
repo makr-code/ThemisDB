@@ -33,7 +33,7 @@ v0.2.0 — `PhilosophyLoader` handles rich YAML (complex thesis objects, point-k
 ## In Progress [~]
 
 - [x] Focused unit test suites implemented and passing:
-  `test_argument_store_standalone` (18), `test_rag_context_engine_focused` (13),
+  `test_argument_store_standalone` (18), `test_rag_context_engine_focused` (18),
   `test_ethics_ai_plugin_focused` (28), `test_discourse_engine_focused` (11),
   `test_philosophy_loader_focused` (7 passed, 1 skipped env-dependent)
 - [x] Integration test suite implemented and passing:
