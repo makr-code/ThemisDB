@@ -41,7 +41,7 @@ v1.5.0 – Comprehensive shared utilities library. Logging, audit trail, PII det
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [?] LZ4 codec as faster alternative to Zstd for hot-path data
+- [x] LZ4 codec as faster alternative to Zstd for hot-path data (`include/utils/lz4_codec.h` + `src/utils/lz4_codec.cpp`)
 
 ### Long-term (6-12 months)
 - [?] Multi-language stemmer support (German, French, Spanish)

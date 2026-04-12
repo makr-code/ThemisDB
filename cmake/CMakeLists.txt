@@ -1913,6 +1913,7 @@ set(THEMIS_CORE_SOURCES
     ../src/core/concerns/redis_cache.cpp
     ../src/core/concerns/zero_copy_logger.cpp
     ../src/utils/zstd_codec.cpp
+    ../src/utils/lz4_codec.cpp
     ../src/utils/pki_client.cpp
     ../src/utils/input_validator.cpp
     ../src/utils/audit_logger.cpp

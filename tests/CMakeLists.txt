@@ -5052,7 +5052,46 @@ else()
     message(STATUS "UtilsStandalone focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_utils_standalone.cpp")
 endif()
 
-# Sharding Transaction WAL Focused Tests
+# UtilsFutureInterfaces Focused Tests (UUID v7, LZ4 codec, streaming ZSTD)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_utils_future_interfaces.cpp")
+    message(STATUS "Adding UtilsFutureInterfaces focused tests")
+
+    add_executable(test_utils_future_interfaces_focused
+        test_utils_future_interfaces.cpp
+    )
+
+    target_link_libraries(test_utils_future_interfaces_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    if(DEFINED THEMIS_LZ4_TARGET)
+        target_link_libraries(test_utils_future_interfaces_focused PRIVATE ${THEMIS_LZ4_TARGET})
+        target_compile_definitions(test_utils_future_interfaces_focused PRIVATE THEMIS_HAS_LZ4)
+    endif()
+
+    if(zstd_FOUND OR TARGET zstd::libzstd_shared OR TARGET zstd::libzstd_static)
+        target_compile_definitions(test_utils_future_interfaces_focused PRIVATE THEMIS_HAS_ZSTD)
+    endif()
+
+    target_compile_definitions(test_utils_future_interfaces_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME UtilsFutureInterfacesFocusedTests COMMAND test_utils_future_interfaces_focused)
+
+    set_tests_properties(UtilsFutureInterfacesFocusedTests PROPERTIES
+        LABELS "utils;uuid;lz4;zstd;streaming;codec;unit"
+        TIMEOUT 30
+    )
+
+    message(STATUS "  UtilsFutureInterfaces: UUID v7, LZ4 codec, streaming ZSTD compressor/decompressor")
+else()
+    message(STATUS "UtilsFutureInterfaces focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_utils_future_interfaces.cpp")
+endif()
+
+
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_sharding_transaction_wal.cpp")
     message(STATUS "Adding Sharding Transaction WAL focused tests")
 
