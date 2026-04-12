@@ -158,7 +158,7 @@ inline std::string generate_uuid_v7() {
             state.seq     = static_cast<uint32_t>(dist(prng) & 0x3F);
         } else {
             // Same (or backward) ms: increment and clamp to 18 bits.
-            state.seq = (state.seq + 1) & 0x3FFFU;
+            state.seq = (state.seq + 1) & 0x3FFFFU;
         }
         seq_val = state.seq;
     }
