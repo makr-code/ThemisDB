@@ -393,7 +393,7 @@ public:
 
     // General graph traversal (non-shortest path)
     // Performs BFS with depth filtering and direction support
-    // Note: Edge type filtering not yet implemented (requires TraversalQuery extension)
+    // Edge type filtering: pass edgeTypeFilter to restrict which edges are followed.
     /**
      * @brief Execute a general graph traversal query
      * @param startVertex Starting vertex primary key
@@ -401,17 +401,22 @@ public:
      * @param maxDepth Maximum traversal depth (limits recursion)
      * @param direction Traversal direction (OUTBOUND, INBOUND, or ANY)
      * @param graphId Graph identifier (default: "default")
+     * @param edgeTypeFilter Optional edge type filter; only edges whose graphId
+     *        matches this value are followed. Empty string = no filtering.
      * @return Vector of traversal results containing visited vertices and paths
      * 
-     * Performs breadth-first or depth-first graph traversal starting from the given vertex.
+     * Performs breadth-first graph traversal starting from the given vertex.
      * Results include the full path and depth information for each reachable vertex.
+     * When edgeTypeFilter is non-empty, only edges with a matching graphId are
+     * traversed (same convention as RecursivePathQuery::edge_type).
      */
     Result<std::vector<TraversalResult>> executeGeneralTraversal(
         const std::string& startVertex,
         int minDepth,
         int maxDepth,
         TraversalDirection direction,
-        const std::string& graphId = "default"
+        const std::string& graphId = "default",
+        const std::string& edgeTypeFilter = ""
     ) const;
 
     /**

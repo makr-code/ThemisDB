@@ -219,6 +219,55 @@ struct ScheduledTask {
 
     std::optional<RetryPolicy> retry_policy;  // Advanced retry configuration (optional)
 
+    /**
+     * @brief SLO-based adaptive retry configuration (Phase 5, v1.9.0).
+     *
+     * When set together with @c sla_deadline, the scheduler adapts retry behaviour
+     * to avoid spending the full SLA budget on retries and prevent cascading SLO
+     * violations.
+     *
+     * Adaptive rules applied before each retry delay:
+     *  1. If elapsed task time + computed retry delay > sla_deadline *
+     *     slo_budget_fraction, the retry delay is clamped to the remaining SLA
+     *     budget fraction (minimum 0 ms — i.e. retry immediately).
+     *  2. If the remaining SLA budget (sla_deadline − elapsed) ≤ 0, all further
+     *     retries are skipped immediately — the task has already exceeded its SLO.
+     *  3. When the rolling SLO compliance rate (over the last @c slo_history_window
+     *     executions) drops below @c slo_compliance_threshold, the effective
+     *     max_retries is clamped to @c min_retries_under_pressure.
+     *
+     * Requires @c sla_deadline to be set; ignored (no-op) otherwise.
+     */
+    struct SloRetryConfig {
+        /// Enable SLO-based retry adaptation.
+        bool slo_aware = true;
+
+        /// Maximum fraction of @c sla_deadline that may be consumed by retry
+        /// delays.  E.g. 0.5 means retries can use at most 50 % of the SLA
+        /// budget, leaving the rest for actual task execution.
+        double slo_budget_fraction = 0.5;
+
+        /// When the rolling SLO compliance rate drops below this threshold,
+        /// max_retries is clamped to @c min_retries_under_pressure.
+        double slo_compliance_threshold = 0.8;
+
+        /// Minimum number of retries always allowed, even under SLO pressure.
+        size_t min_retries_under_pressure = 1;
+
+        /// Rolling window size (number of recent executions) used for compliance
+        /// tracking.  Set to 0 to disable history-based retry reduction.
+        size_t slo_history_window = 20;
+    };
+
+    /// Optional SLO-aware adaptive retry configuration.
+    /// Requires @c sla_deadline to be set; silently ignored otherwise.
+    std::optional<SloRetryConfig> slo_retry_config;
+
+    // SLO compliance tracking (updated atomically after each execution; protected
+    // by tasks_mutex_ in the scheduler).
+    size_t slo_violations       = 0;  ///< Cumulative SLO violations in current window
+    size_t slo_window_count     = 0;  ///< Total executions tracked in current window
+
     // Task dependency configuration
     std::vector<std::string> dependencies;  // IDs of tasks that must complete before this task runs
 

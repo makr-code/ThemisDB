@@ -30,9 +30,10 @@ stable under semantic versioning.
 
 ## Planned Features
 
-- [ ] Rollback checkpoint API on `UpdateStateMachine` (Target: Q2 2026)
-  - `createCheckpoint()`, `rollbackToCheckpoint(CheckpointId)`
-  - Must integrate with `UpdateHistoryLogger` for auditability
+- [x] Rollback checkpoint API on `UpdateStateMachine` (Target: Q2 2026) — **Completed v1.8.0**
+  - `createCheckpoint()`, `rollbackToCheckpoint(CheckpointId)`, `listCheckpoints()`, `clearCheckpoints()`, `setHistoryLogger()`
+  - Integrated with `UpdateHistoryLogger` for auditability (checkpoint_created / checkpoint_rollback events)
+  - 17 focused tests added to `tests/test_updates_production.cpp` (CheckpointTest suite)
 - [ ] Progressive schema migration — multi-step expand/contract (Target: Q3 2026)
   - `SchemaMigration::addExpandStep()` / `addContractStep()`
   - Validated by `SchemaMigrationTester` in shadow mode
@@ -83,5 +84,5 @@ stable under semantic versioning.
 - [x] `UpdateStateMachine` invalid transitions throw typed exceptions
 - [x] `PreflightHealthCheck` result is strongly typed; cannot be silently ignored
 - [x] `UpdateHistoryLogger` methods are `[[nodiscard]]`
-- [ ] Rollback checkpoint API finalised
+- [x] Rollback checkpoint API finalised (v1.8.0)
 - [ ] Progressive schema migration validated against production schemas

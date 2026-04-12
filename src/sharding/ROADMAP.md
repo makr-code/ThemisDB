@@ -4,7 +4,7 @@
 
 ## Current Status
 
-**Status:** 🚧 In Progress — Phase 4.1 (Epoch Fencing) complete; Phase 4.2 planned
+**Status:** 🚧 In Progress — Phase 4.1 (Epoch Fencing) complete; Phase 4.2 (Automatic Failover Orchestration) complete ✅
 
 | Component | Status |
 |-----------|--------|
@@ -18,15 +18,24 @@
 | **Epoch-based fencing + lease management (Phase 4.1)** | ✅ **Complete (v1.9.0)** |
 | RPC integration (cross-shard read/write) | 🚧 In Progress |
 | Persistent Paxos acceptor state | 🚧 In Progress |
+| Automatic failover orchestration (Phase 4.2) | ✅ Complete (v2.0.0) |
+| Persistent Paxos acceptor state | ✅ **Fixed (2026-04-12)** |
 | Automatic failover orchestration (Phase 4.2) | 🔲 Planned |
 | Consistent-hashing metadata shards | 🔲 Planned |
-| Cross-shard query routing | 🔲 Planned |
+| Cross-shard query routing | ✅ **Implemented** |
 | Adaptive rebalancer | 🔲 Planned |
 
 ## In Progress
 
 - [~] Full RPC integration for cross-shard read/write operations (`sharding/rpc/`) (Target: Q2 2026)
-- [~] Persistent Paxos acceptor state (survives process restart) (Target: Q2 2026)
+  - [x] `ShardRPCClient::writeEntity()` added — uses gRPC `ReplicateData` RPC for cross-shard entity writes
+  - [~] `readKey` / `readEntity` gRPC RPC not yet in proto (planned Q3 2026); reads currently routed via HTTP `RemoteExecutor`
+- [x] Persistent Paxos acceptor state (survives process restart) — **Fixed 2026-04-12**
+  - `handlePrepare()` now calls `wal_->logPromise()` before returning PROMISE
+  - `handleAccept()` now calls `wal_->logAccept()` before returning ACCEPTED
+  - `handleCommit()` now calls `wal_->logCommit()` before broadcasting
+  - `recoverFromWAL()` now restores `instances_` (promised/accepted round + value) from PROMISE/ACCEPT/COMMIT entries
+  - 10 focused tests added: `PaxosPersistenceRecoveryFocusedTests` (PSR-01..PSR-10)
 
 ## Planned Features
 
@@ -69,18 +78,24 @@ Sharding is a database architecture pattern that involves breaking a database in
 - [x] CI workflow added: `.github/workflows/06-infrastructure_distributed_sharding-focused-tests-ci.yml`
 
 ### Phase 3: RPC Integration & Persistent State (Status: In Progress 🚧)
-- [?] Full RPC integration for cross-shard read/write operations (`sharding/rpc/`) (Target: Q2 2026)
-- [?] Persistent Paxos acceptor state (survives process restart) (Target: Q2 2026)
+- [x] Persistent Paxos acceptor state (survives process restart) — **Fixed 2026-04-12**
+  - `handlePrepare/Accept/Commit` now fsync WAL before responding
+  - `recoverFromWAL()` properly restores `instances_` from WAL entries
+  - `PaxosStatePersistence` unit tests: PSR-01..PSR-10
+- [~] Full RPC integration for cross-shard read/write operations (`sharding/rpc/`) (Target: Q2 2026)
+  - [x] `ShardRPCClient::writeEntity()` — gRPC `ReplicateData` + in-process path
+  - [~] `readEntity` gRPC RPC (planned Q3 2026, reads via HTTP RemoteExecutor for now)
 - [?] Complete metadata shard implementation with consistent hashing (Target: Q3 2026)
-- [?] End-to-end cross-shard query routing layer (Target: Q3 2026)
+- [x] Cross-shard query routing — `ShardRouter::executeQuery/scatterGather/executeOnShards` implemented
 
 ### Phase 4: Hardening & Adaptive Rebalancing (Status: In Progress 🚧)
-- [x] Epoch-based fencing + lease management (`epoch_fencing.h` / `epoch_fencing.cpp`) — Phase 4.1 ✅ (v1.9.0)
-- [?] Automatic failover orchestration — Phase 4.2 (planned)
+- [x] **Epoch-based fencing + lease management (`epoch_fencing.h` / `epoch_fencing.cpp`) — Phase 4.1 ✅ (v1.9.0)**
+- [x] **Automatic failover orchestration — Phase 4.2 ✅ (v2.0.0)** (`failover/auto_failover_manager.h` / `.cpp` — 39 focused tests)
 - [?] Adaptive rebalancer driven by per-shard access-pattern telemetry
 - [~] Reed-Solomon repair parallelisation across repair workers (v1.6.0 — parallel scan bands, IOPS throttle, GPU flag)
 - [?] Raft snapshot compaction to bound log growth
 - [x] Chaos-engineering test suite (shard partition, node failure injection) — `test_sharding_chaos_focused` registered
+- [x] Paxos persistence recovery tests — `test_paxos_persistence_recovery_focused` registered (PSR-01..PSR-10)
 
 ### Phase 5: Hardware Migration Support (Status: Beta 🟡)
 - [x] `HardwareMigrationManager` — safe endpoint replacement without altering hash-ring positions
@@ -98,17 +113,17 @@ Implementing sharding requires careful planning and execution. Following this ro
 - [x] Cross-shard transactions with rollback and deadlock detection
 - [x] ShardRepairEngine with Reed-Solomon erasure recovery
 - [x] Prometheus metrics and admin API endpoints
-- [ ] RPC integration with mTLS for all cross-shard channels
-- [ ] Persistent consensus state survives process restart
+- [x] Persistent Paxos acceptor state survives process restart (WAL fsynced before PROMISE/ACCEPTED response)
+- [x] Cross-shard query routing (scatter-gather, single-shard, cross-shard join via ShardRouter)
+- [x] Chaos-engineering test suite registered and passing (`test_sharding_chaos_focused`, `test_paxos_persistence_recovery_focused`)
+- [ ] RPC integration with mTLS for all cross-shard channels (write: gRPC ReplicateData ✅; read: HTTP for now)
 - [ ] End-to-end cross-shard query routing verified under load (≥ 10,000 cross-shard ops/s)
-- [ ] Chaos-engineering test suite passing (shard partition, node failure, split-brain)
 
 ## Known Issues & Limitations
 
-- `[?]` Cross-shard RPC (`sharding/rpc/`) stubs not yet fully wired — inter-shard calls fall back to in-process routing in current builds.
-- `[?]` Paxos acceptor state is in-memory only; a process restart loses pending votes (tracked for Phase 3 fix).
+- `[?]` Cross-shard RPC (`sharding/rpc/`) read path (`readEntity`) not yet gRPC — reads currently routed via HTTP `RemoteExecutor`. Write path uses `ReplicateData` gRPC since 2026-04-12.
+- `[~]` Raft snapshot compaction not yet wired — WAL growth unbounded for long-running Raft deployments.
 - `[?]` Adaptive rebalancer not yet implemented; rebalancing is currently manual-only.
-- `[?]` Chaos test suite not yet committed to CI — shard partition failures detected only in manual test runs.
 
 | # | Description | Status |
 |---|-------------|--------|

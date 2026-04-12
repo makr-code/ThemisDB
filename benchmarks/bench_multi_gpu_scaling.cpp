@@ -30,6 +30,20 @@
 #include <vector>
 #include <memory>
 
+#ifndef THEMIS_ENABLE_GPU
+
+static void BM_MultiGPUScaling_GPUDisabled(benchmark::State& state) {
+    for (auto _ : state) {
+        state.SkipWithError("Multi-GPU scaling benchmarks are disabled in this build");
+        break;
+    }
+}
+BENCHMARK(BM_MultiGPUScaling_GPUDisabled);
+
+BENCHMARK_MAIN();
+
+#else
+
 using namespace themis::llm::lora;
 
 /**
@@ -59,8 +73,8 @@ static int get_gpu_count() {
     int max_gpus = 0;
     for (const auto& backend : backends) {
         if (backend.available && 
-            (backend.type == acceleration::BackendType::CUDA ||
-             backend.type == acceleration::BackendType::HIP)) {
+            (backend.type == themis::acceleration::BackendType::CUDA ||
+             backend.type == themis::acceleration::BackendType::HIP)) {
             // For simplicity, assume we can query device count
             // In real implementation, this would query cudaGetDeviceCount/hipGetDeviceCount
             max_gpus = std::max(max_gpus, 4);  // Cap at 4 for benchmark
@@ -449,3 +463,5 @@ BENCHMARK(BM_CommCompute_Ratio)
     ->UseManualTime();
 
 BENCHMARK_MAIN();
+
+#endif  // THEMIS_ENABLE_GPU

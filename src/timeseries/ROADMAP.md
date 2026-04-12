@@ -16,9 +16,20 @@ v1.x – Production-ready time series storage with Gorilla compression, continuo
 - [x] Configurable compression strategies
 - [x] RocksDB-backed persistence
 - [x] Out-of-order write support with configurable late-arrival window (Target: Q2 2026) (Issue: #1976)
+- [x] **Streaming cursor API** — `TsStreamCursor` in `ts_stream_cursor.h/cpp` (Issue: #4573) (2026-04-12)
+  - Lazy paginated iterator over `TSStore::query()`; default page_size=4 096
+  - `open()`/`valid()`/`current()`/`advance()`/`close()`; `rowsConsumed()`/`pagesFetched()` stats
+  - Zero-copy; caller owns result memory; iterator invalidation on concurrent chunk rotation detected
+  - 8 focused tests (SC-01…SC-08) in `tests/test_ts_stream_cursor.cpp`
+- [x] **Multi-metric batch write API** — `TSStore::putBatch(std::span<const TSRow>)` in `tsstore.h/cpp` (Issue: #4574) (2026-04-12)
+  - `TSRow` uses `string_view` for metric/entity — zero allocation at call site
+  - `BatchWriteResult` with `ok_count`, `failed_count`, `row_errors` (per-row index + message)
+  - Single `rocksdb::WriteBatch` commit for the entire span (atomic, O(1) WAL writes)
+  - Gorilla-compression path: groups by metric:entity, sorts by timestamp, Gorilla-encodes per group
+  - 14 focused tests (TB-01…TB-14) in `tests/test_tsstore_batch.cpp`
 
 ## In Progress 🚧
-- [~] Adaptive compression selection per series (Gorilla vs. Delta-of-delta vs. RLE) (Target: Q2 2026)
+- [x] Adaptive compression selection per series (Gorilla vs. Delta-of-delta vs. RLE) — `HeuristicCompressionSelector` + `PerSeriesCompressionRegistry` in `compression_selector.{h,cpp}` (Target: Q2 2026)
 - [~] Distributed time series partitioning across shards (Target: Q3 2026)
 
 ## Planned Features 📋
@@ -26,8 +37,8 @@ v1.x – Production-ready time series storage with Gorilla compression, continuo
 ### Short-term (Next 3-6 months)
 - [I] Columnar storage layout for analytical scan queries (Issue: #2007)
 - [x] Downsampling policies (min/max/avg/sum per window) — DownsamplingPipeline + TierSelector
-- [?] Time series anomaly detection (Z-score, IQR-based)
-- [?] Gap-filling functions (forward fill, linear interpolation)
+- [x] Time series anomaly detection (Z-score, IQR-based) — `ZScoreDetector` + `IQRDetector` + `AnomalyDetector` in `anomaly_detection.{h,cpp}`
+- [x] Gap-filling functions (forward fill, linear interpolation) — `ForwardFillGapFiller` + `LinearInterpolationGapFiller` + `BackwardFillGapFiller` + `GapFiller` in `gap_fill.{h,cpp}`
 - [?] Multi-series JOIN queries with aligned timestamps
 
 ### Long-term (6-12 months)
@@ -67,7 +78,7 @@ v1.x – Production-ready time series storage with Gorilla compression, continuo
   - Tests: 12 unit/integration tests in `tests/test_prometheus_remote_write.cpp`
 
 ## Production Readiness Checklist
-- [x] Unit tests coverage > 80% — 49+ new tests added (test_downsampling, test_ts_adaptive_flush, test_prometheus_remote_write, test_tsstore_out_of_order); focused standalone targets: `DownsamplingFocusedTests`, `TSAdaptiveFlushFocusedTests`, `PrometheusRemoteWriteFocusedTests`, `TSStoreOutOfOrderFocusedTests`
+- [x] Unit tests coverage > 80% — 49+ tests (test_downsampling, test_ts_adaptive_flush, test_prometheus_remote_write, test_tsstore_out_of_order) + 49 new tests in `test_ts_future_interfaces.cpp`; focused standalone targets: `DownsamplingFocusedTests`, `TSAdaptiveFlushFocusedTests`, `PrometheusRemoteWriteFocusedTests`, `TSStoreOutOfOrderFocusedTests`, `TsFutureInterfacesFocusedTests`
 - [x] Integration tests (compression round-trip, retention enforcement, aggregation accuracy)
 - [?] Performance benchmarks (ingestion rate, query latency, compression ratio)
 - [?] Security audit (time series key namespace isolation per tenant)

@@ -25,8 +25,6 @@
 #include <string>
 #include <vector>
 
-// Disable legacy InputValidator-based security tests
-#if 0
 using namespace themis::utils;
 
 /**
@@ -42,7 +40,6 @@ using namespace themis::utils;
 class InputValidationSecurityTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        GTEST_SKIP() << "InputValidator legacy API missing; test temporarily skipped";
         validator_ = std::make_unique<InputValidator>();
     }
     
@@ -325,10 +322,4 @@ TEST_F(InputValidationSecurityTest, CRLFInjection_HTTPHeaderSplitting) {
         EXPECT_FALSE(is_safe) 
             << "CRLF injection should be rejected: " << injection;
     }
-}
-
-#endif // legacy InputValidator tests
-
-TEST(InputValidationSecuritySkip, DISABLED_InputValidationLegacy) {
-    GTEST_SKIP() << "InputValidator legacy API missing; security validator tests temporarily disabled";
 }

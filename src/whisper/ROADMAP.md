@@ -1,27 +1,30 @@
 # Whisper Plugin Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Roadmap-Status: current | validated: 2026-04-07 | Primary: src/whisper/ -->
+<!-- Roadmap-Status: current | validated: 2026-04-12 | Primary: src/whisper/ -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Status
 
-v2.0.0 — Core pipeline operational. Stub mode fully functional. whisper.cpp integration
-compiled when `THEMIS_ENABLE_WHISPER=ON`.
+v2.1.0 — Thread-safe. MP3/OGG input via FFmpeg adapter. Benchmarks wired.
 
 ## Completed ✅
 
 - [x] `IAudioBackend` interface + `THEMIS_AUDIO_PLUGIN()` export macro
 - [x] `WavAudioChunkReader` — RIFF/WAV parser (16-bit PCM, IEEE float32)
+- [x] `FfmpegAudioChunkReader` — MP3/OGG/FLAC/M4A via `ffmpeg` subprocess
+- [x] `CompositeAudioChunkReader` — chains multiple readers by extension
 - [x] `IWhisperTranscriber` strategy interface
 - [x] `WhisperCppTranscriber` (production, optional compile)
 - [x] `WhisperStubTranscriber` (CI / no model file)
 - [x] `InMemoryWhisperTranscriber` test double
 - [x] `WhisperPlugin` — provenance stamps, error counting, DL entry points
 - [x] `WhisperConfig::fromJson` / `toJson` with validation and clamping
-- [x] 30 unit tests (`WhisperPluginFocusedTests`)
+- [x] 36 unit tests (`WhisperPluginFocusedTests`, groups A–L)
 - [x] Plugin manifest (`plugins/whisper/plugin.json.in`)
 - [x] CMake registration (plugin + tests)
+- [x] Thread-safety: `transcription_count_` / `error_count_` are `std::atomic`, transcriber calls serialized via `transcriber_mutex_`
+- [x] Performance benchmarks wired (`benchmarks/bench_whisper_transcription.cpp`)
 
 ## In Progress
 
@@ -32,7 +35,6 @@ compiled when `THEMIS_ENABLE_WHISPER=ON`.
 - [ ] Streaming token output during transcription (Target: Q3 2026)
 - [ ] Speaker diarisation — multi-speaker attribution (Target: Q4 2026)
 - [ ] VAD pre-filter to skip silent segments (Target: Q3 2026)
-- [ ] MP3/OGG input support via FFmpeg adapter (Target: Q4 2026)
 - [ ] Language-detection confidence threshold config (Target: Q3 2026)
 
 ## Implementation Phases
@@ -43,39 +45,49 @@ compiled when `THEMIS_ENABLE_WHISPER=ON`.
 
 ### Phase 2 — Core Implementation ✅
 - [x] `WavAudioChunkReader` — PCM parsing without libsndfile dependency
+- [x] `FfmpegAudioChunkReader` — MP3/OGG/FLAC decoder via subprocess
+- [x] `CompositeAudioChunkReader` — extension-based reader dispatch
 - [x] `WhisperPlugin` wiring config → reader → transcriber → result
 
 ### Phase 3 — Error Handling & Edge Cases ✅
 - [x] WAV format validation (magic, chunk size, sample rate bounds)
 - [x] File-not-found, empty file, truncated data → `success=false` + `error_message`
 - [x] Transcriber exception catching in `WhisperPlugin::transcribe()`
+- [x] ffmpeg not available → `runtime_error("ffmpeg not available")`
+- [x] Shell-escaped path in ffmpeg subprocess (NUL-byte guard, single-quote wrapping)
+- [x] Max-output guard (500 MB) in `FfmpegAudioChunkReader`
 
 ### Phase 4 — Tests ✅
-- [x] 30 unit tests across groups A–J
+- [x] 36 unit tests across groups A–L
+- [x] Group K: thread-safety (concurrent transcribe, atomic error/success counters, detectLanguage)
+- [x] Group L: FfmpegAudioChunkReader canRead, graceful degradation, composite routing
 
-### Phase 5 — Performance / Hardening
-- [ ] Thread-safety audit of `WhisperPlugin` for concurrent `transcribe()` calls (Target: Q3 2026)
-- [ ] Benchmark against whisper.cpp CLI (Target: Q3 2026)
+### Phase 5 — Performance / Hardening ✅
+- [x] Thread-safety audit of `WhisperPlugin` for concurrent `transcribe()` calls
+- [x] Benchmark wired (`bench_whisper_transcription.cpp`, 9 scenarios)
+- [ ] Benchmark against whisper.cpp CLI on real model (Target: Q3 2026)
 
 ### Phase 6 — Documentation & Acceptance ✅
 - [x] README, CHANGELOG, ROADMAP, ARCHITECTURE, FUTURE_ENHANCEMENTS, AUDIT, SECURITY
 
 ## Production Readiness Checklist
 
-- [x] Unit tests present (30 tests)
+- [x] Unit tests present (36 tests)
 - [x] Stub mode for CI without model file
 - [x] Injection constructor for test doubles
 - [x] Provenance stamps on every result
-- [ ] Thread-safety verified for concurrent access
-- [ ] Performance benchmarked vs. whisper.cpp CLI
-- [ ] Real whisper.cpp integration validated end-to-end
+- [x] Thread-safety verified for concurrent access
+- [x] Performance benchmarks wired (stub path exercised in CI)
+- [ ] Real whisper.cpp integration validated end-to-end (requires model file)
 
 ## Known Issues & Limitations
 
 - `WhisperCppTranscriber` is compiled but not exercised in CI without a model file.
-- MP3 and OGG inputs are not yet supported — callers must convert to WAV first.
 - Speaker diarisation is not implemented.
+- `FfmpegAudioChunkReader` requires `ffmpeg` on PATH; degrades gracefully when absent.
 
 ## Breaking Changes
 
-None yet (v2.0.0 is the initial release).
+- v2.1.0: `WhisperPlugin` default constructor now installs a `CompositeAudioChunkReader`
+  (WAV first, then FFmpeg) instead of a bare `WavAudioChunkReader`.  Injection-constructor
+  callers are unaffected.

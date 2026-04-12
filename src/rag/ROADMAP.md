@@ -108,6 +108,8 @@ v2.0.0 – Production-ready Retrieval-Augmented Generation system. 27 implementa
 - [x] `LlamaCppPlugin::generateRAG()` replaced naive doc concat with `RAGContextAssembler`; `max_tokens` capped via `computeMaxTokens()` (Target: Q2 2026)
 - [x] `RAGContext::max_context_tokens` set to 0 (dynamic fallback); `response_budget_tokens` field added (Target: Q2 2026)
 - [x] `RAGPromptConfig::reserved_response_tokens` field added (default: 512) (Target: Q2 2026)
+- [x] `MultiHopReasoner` — multi-hop reasoning with query decomposition (`include/rag/multi_hop_reasoner.h`, `src/rag/multi_hop_reasoner.cpp`) (Target: Q2 2026) — heuristic + LLM-based decomposition; per-hop retrieval + inference with context injection; answer composition; factory helpers (single-hop, balanced, deep-reasoning); 15 unit tests
+- [x] `AdaptiveRetrieval` — adaptive retrieval depth based on query complexity (`include/rag/adaptive_retrieval.h`, `src/rag/adaptive_retrieval.cpp`) (Target: Q2 2026) — QueryComplexity tiers (SIMPLE/MODERATE/COMPLEX/VERY_COMPLEX); connective/question-word heuristic; IComplexityScorer plugin; top_k + similarity_threshold scaling; factory helpers (lightweight, balanced, high-recall); 15 unit tests
 
 ## Production Readiness Checklist
 - [x] Unit tests coverage > 80% (streaming_retriever: 28 test cases; reranker: 30+ test cases; document_splitter: 37 test cases)
@@ -123,6 +125,8 @@ v2.0.0 – Production-ready Retrieval-Augmented Generation system. 27 implementa
 - [x] Unit tests for ContextWindowBudget (test_context_window_budget.cpp: estimateTokens, tokensToChars, compute, reserved_response_tokens enforcement, available_context_tokens arithmetic, helpers; 30 tests)
 - [x] Unit tests for RagContextAssembler (test_rag_context_assembler.cpp: empty edge cases, single chunk fit/truncation, greedy fill, response-guard, truncation marker, computeMaxTokens; 30 tests)
 - [x] Unit tests for MultiStepRAGOrchestrator (test_multi_step_rag.cpp: map-reduce single-pass, multi-batch, iterative cap, factory helpers; 15 tests)
+- [x] Unit tests for MultiHopReasoner (test_rag_multi_hop_reasoner.cpp: 15 tests — A config/factory, B decomposition heuristic+LLM, C pipeline single/multi/error cases)
+- [x] Unit tests for AdaptiveRetrieval (test_rag_adaptive_retrieval.cpp: 15 tests — A config/factory, B complexity analysis, C params + custom scorer injection)
 - [x] Performance benchmarks (benchmarks/bench_rag_evaluation.cpp: recall@K harness, FAST/BALANCED/THOROUGH latency, distributed evaluator, injection scan throughput, end-to-end pipeline)
 - [x] Integration tests (full pipeline: retrieve → generate → evaluate) — `test_rag_pipeline_integration.cpp` (heuristic/FAST mode, no live LLM required)
 - [x] Performance benchmarks (recall@10, latency per mode)

@@ -81,6 +81,18 @@
       }
     },
     {
+      "name": "msvc-ninja-perf",
+      "displayName": "Windows: MSVC + Ninja Performance",
+      "description": "Performance-focused Release build for local benchmark runs (tests disabled, benchmarks enabled)",
+      "inherits": "msvc-ninja-release",
+      "binaryDir": "${sourceDir}/build-msvc-ninja-perf",
+      "cacheVariables": {
+        "THEMIS_BUILD_TESTS": "OFF",
+        "THEMIS_BUILD_BENCHMARKS": "ON",
+        "THEMIS_PERF_AUTO_ENABLE": "ON"
+      }
+    },
+    {
       "name": "msvc-ninja-debug",
       "displayName": "Windows: MSVC + Ninja Debug",
       "description": "Debug build for Windows with MSVC, Ninja and vcpkg (COMMUNITY Edition)",
@@ -101,6 +113,17 @@
         "CMAKE_BUILD_TYPE": "Release",
         "THEMIS_EDITION": "COMMUNITY"
       }
+    },
+    {
+      "name": "linux-ninja-perf",
+      "displayName": "Linux: GCC + Ninja Performance",
+      "description": "Performance-focused Release build for Linux \u2014 -O3, -ffast-math, Huge Pages, io_uring, RCU, LIRS, benchmarks enabled",
+      "inherits": "linux-ninja-release",
+      "binaryDir": "${sourceDir}/build-linux-ninja-perf",
+      "cacheVariables": {
+        "THEMIS_BUILD_TESTS": "OFF",
+        "THEMIS_BUILD_BENCHMARKS": "ON"
+      }
     }
   ],
   "buildPresets": [
@@ -109,6 +132,20 @@
       "displayName": "Build: Windows Release",
       "configurePreset": "msvc-ninja-release",
       "jobs": 4
+    },
+    {
+      "name": "msvc-ninja-perf",
+      "displayName": "Build: Windows Performance",
+      "configurePreset": "msvc-ninja-perf",
+      "jobs": 4,
+      "targets": [
+        "themis_server",
+        "bench_storage_performance",
+        "bench_vector_search",
+        "bench_graph_traversal",
+        "bench_graph_query_optimizer",
+        "bench_metrics_collector"
+      ]
     },
     {
       "name": "msvc-ninja-debug",
@@ -152,7 +189,7 @@
   "workflowPresets": [
     {
       "name": "windows-dev-workflow",
-      "displayName": "Workflow: Windows Release (Configure → Build → Test)",
+      "displayName": "Workflow: Windows Release (Configure \u2192 Build \u2192 Test)",
       "description": "Complete development workflow for Windows",
       "steps": [
         {
@@ -171,7 +208,7 @@
     },
     {
       "name": "windows-debug-workflow",
-      "displayName": "Workflow: Windows Debug (Configure → Build → Test)",
+      "displayName": "Workflow: Windows Debug (Configure \u2192 Build \u2192 Test)",
       "description": "Complete debug workflow for Windows",
       "steps": [
         {
@@ -189,8 +226,23 @@
       ]
     },
     {
+      "name": "windows-perf-workflow",
+      "displayName": "Workflow: Windows Performance (Configure \u2192 Build)",
+      "description": "Reproducible local performance workflow without test execution",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "msvc-ninja-perf"
+        },
+        {
+          "type": "build",
+          "name": "msvc-ninja-perf"
+        }
+      ]
+    },
+    {
       "name": "linux-workflow",
-      "displayName": "Workflow: Linux Release (Configure → Build → Test)",
+      "displayName": "Workflow: Linux Release (Configure \u2192 Build \u2192 Test)",
       "description": "Complete development workflow for Linux",
       "steps": [
         {

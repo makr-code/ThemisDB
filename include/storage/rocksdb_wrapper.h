@@ -241,6 +241,23 @@ public:
         };
         MergeOperatorPreset merge_operator_preset =
             MergeOperatorPreset::None;
+
+        // v2.0.0: Streaming blob write path (PERF-D5)
+        // Blobs >= blob_streaming_threshold_bytes are split into 128KB chunks and
+        // written in parallel using a WriteBatch (bypasses per-write transaction
+        // overhead) and a compact thread pool for encoding.  The manifest key +
+        // all chunk keys are committed atomically in one WriteBatch.Write().
+        // putBlob() / getBlob() expose the streaming API; putBlob() falls back to
+        // put() for small values so callers need no size checks.
+        bool enable_blob_streaming = true;
+        // Minimum blob size that triggers the chunked streaming path (bytes).
+        // Blobs smaller than this threshold are stored via the regular put() path.
+        size_t blob_streaming_threshold_bytes = 65536;  // 64 KB
+        // Size of each chunk when splitting a large blob (bytes).
+        size_t blob_chunk_size_bytes = 131072;           // 128 KB
+        // Number of threads used for parallel chunk encoding.
+        // Each thread encodes (and optionally compresses) one chunk concurrently.
+        int blob_streaming_threads = 4;
     };
     
     explicit RocksDBWrapper(const Config& config);
@@ -281,6 +298,45 @@ public:
     
     /// Delete key
     bool del(std::string_view key);
+
+    // ===== Streaming Blob API (v2.0.0, PERF-D5) =====
+
+    /// Store a blob using the high-throughput streaming write path.
+    ///
+    /// For blobs >= Config::blob_streaming_threshold_bytes the data is split
+    /// into Config::blob_chunk_size_bytes chunks.  Chunks are encoded in
+    /// parallel by a compact thread pool (Config::blob_streaming_threads) and
+    /// then committed atomically via a single WriteBatch, bypassing per-write
+    /// transaction overhead.  A manifest key records chunk metadata so that
+    /// getBlob() can reassemble the blob transparently.
+    ///
+    /// Small blobs (< threshold) fall back to the regular put() path, so
+    /// callers need no size checks and the API is backward compatible.
+    ///
+    /// Key scheme (internal, not part of public contract):
+    ///   manifest : "__tmbs_m__:<key>"
+    ///   chunk N  : "__tmbs_c__:<key>:<6-digit-index>"
+    ///
+    /// @param key  Logical blob key (visible to getBlob() / delBlob()).
+    /// @param data Blob bytes.
+    /// @return true on success.
+    bool putBlob(std::string_view key, const std::vector<uint8_t>& data);
+
+    /// Read a blob previously stored by putBlob() or put().
+    ///
+    /// Automatically detects whether the key was stored as a chunked blob
+    /// (reads manifest + all chunks via MultiGet and reassembles) or as a
+    /// regular value (single get()).
+    ///
+    /// @param key Logical blob key.
+    /// @return Blob bytes, or std::nullopt if not found.
+    std::optional<std::vector<uint8_t>> getBlob(std::string_view key);
+
+    /// Delete a blob stored by putBlob() (removes manifest + all chunk keys).
+    /// Falls back to del() for blobs stored via the regular path.
+    /// @param key Logical blob key.
+    /// @return true if at least one key was deleted.
+    bool delBlob(std::string_view key);
     
     /// Multi-get (batch read)
     std::vector<std::optional<std::vector<uint8_t>>> multiGet(
@@ -371,6 +427,21 @@ public:
         /// Snapshot: reads from transaction snapshot
         std::optional<std::vector<uint8_t>> get(std::string_view key);
         
+        /// Acquire an exclusive write lock on a key for this transaction.
+        ///
+        /// Uses RocksDB GetForUpdate internally. The exclusive lock is held until the
+        /// transaction commits or rolls back, preventing any other concurrent transaction
+        /// from acquiring a conflicting lock on the same key.
+        ///
+        /// Primary use-case: serializing unique-constraint checks in the secondary-index
+        /// write path so that two concurrent transactions cannot both pass the check and
+        /// then both commit with the same unique value (the "Concurrent-Unique-Lücke").
+        ///
+        /// Returns true  – lock acquired (key may or may not exist in the DB).
+        /// Returns false – lock acquisition failed (e.g. write-write conflict, timeout).
+        ///                 Caller should roll back and return an error.
+        bool getForUpdate(std::string_view key);
+
         /// Put key-value pair (visible only after commit)
         bool put(std::string_view key, const std::vector<uint8_t>& value);
         

@@ -30,7 +30,7 @@ Provides a unified, cross-platform plugin architecture for ThemisDB that consoli
 **Out of Scope:**
 - Plugin business logic (in individual plugin packages, e.g. `huggingface_ingestion_plugin.h`)
 - WASM runtime instantiation (`src/plugins/wasm_plugin_loader.cpp` — requires Wasmtime/WasmEdge)
-- Community marketplace REST client (planned — `src/plugins/plugin_marketplace_client.cpp`)
+- Community marketplace REST client (planned — concrete implementation file will be introduced in the plugin source tree)
 - Query execution (handled by the query module)
 - Network transport (handled by the server module)
 

@@ -168,7 +168,7 @@ module_dependency_resolver: build dependency graph
 
 - Full modularization (`ThemisDB` main class, `QueryRouter`, `LifecycleManager`) is
   planned for v1.7.0+.
-- Currently much logic lives in `src/server/server.cpp` and `src/core/`.
+- Currently much logic lives in `src/server/http_server.cpp` and `src/core/`.
 - Hot-reload of individual modules (without restart) is planned.
 
 ---

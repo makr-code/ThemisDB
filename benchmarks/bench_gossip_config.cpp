@@ -27,6 +27,7 @@
 
 #include "sharding/gossip_config_manager.h"
 #include "sharding/shard_topology.h"
+#include "shard_rpc.pb.h"
 #include <benchmark/benchmark.h>
 #include <memory>
 #include <random>

@@ -25,10 +25,14 @@
 #include <sstream>
 #include <cctype>
 #include <algorithm>
+#include <array>
 #include <regex>
 
 namespace themis {
 namespace utils {
+
+InputValidator::InputValidator()
+    : schema_dir_() {}
 
 InputValidator::InputValidator(std::string schema_dir)
     : schema_dir_(std::move(schema_dir)) {}
@@ -294,6 +298,367 @@ std::optional<std::string> InputValidator::validateAqlRequest(const nlohmann::js
     }
 
     return std::nullopt;
+}
+
+// =============================================================================
+// Security-focused validation methods
+// =============================================================================
+
+// Named limits used across multiple security validators
+static constexpr size_t kMaxAqlQuerySize  = 100000;  // 100 KB
+static constexpr size_t kMaxFilePathSize  =   4096;  // POSIX PATH_MAX
+static constexpr size_t kMaxFilenameSize  =    255;  // POSIX NAME_MAX
+static constexpr size_t kMaxUrlSize       =   2048;  // common browser limit
+
+// O(1) lookup table for shell-injection metacharacter detection.
+// Flags: ; | & ` $ ( ) { } [ ] < > ! ? * " \ '
+static const std::array<bool, 256>& filenameMetacharTable() {
+    static const std::array<bool, 256> tbl = [] {
+        std::array<bool, 256> t{};
+        for (unsigned char c : std::string(";|&`$(){}[]<>!?*\"\\'")) {
+            t[c] = true;
+        }
+        return t;
+    }();
+    return tbl;
+}
+
+bool InputValidator::validateAQLQuery(const std::string& query) const {
+    if (query.empty() || query.size() > kMaxAqlQuerySize) return false;
+
+    std::string lower = query;
+    std::transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
+
+    // Reject comment markers used to truncate query conditions
+    if (lower.find("--") != std::string::npos) return false;
+    if (lower.find("/*") != std::string::npos) return false;
+
+    // Reject double-slash comment markers (not valid AQL, signals injection attempt)
+    // Note: avoid rejecting valid http:// in string literals by checking for ' //'
+    if (lower.find("; //") != std::string::npos) return false;
+
+    // Reject dangerous write/DDL operations
+    static const char* const dangerous_ops[] = {
+        " drop ", "; drop", "' drop", " remove ", "; remove", "' remove",
+        " truncate ", " insert ", " update ", " delete ",
+        " union ", "' union",
+    };
+    for (const char* op : dangerous_ops) {
+        if (lower.find(op) != std::string::npos) return false;
+    }
+    // Also catch patterns like '; DROP ... (leading semicolon)
+    if (lower.rfind("';", 0) != std::string::npos ||
+        lower.find("'; drop") != std::string::npos ||
+        lower.find("'; remove") != std::string::npos ||
+        lower.find("'; ") != std::string::npos) {
+        return false;
+    }
+
+    // Detect boolean injection: OR '...'='...' pattern
+    {
+        static const std::regex bool_inject_str(
+            R"([\s']or\s+'[^']*'\s*=\s*'[^']*')", std::regex::icase);
+        if (std::regex_search(lower, bool_inject_str)) return false;
+    }
+    // Detect boolean injection: OR <num>=<num> pattern
+    {
+        static const std::regex bool_inject_num(
+            R"(\bor\s+\d+\s*=\s*\d+)", std::regex::icase);
+        if (std::regex_search(lower, bool_inject_num)) return false;
+    }
+
+    return true;
+}
+
+bool InputValidator::validateFilePath(const std::string& path) const {
+    if (path.empty() || path.size() > kMaxFilePathSize) return false;
+
+    // Reject directory traversal sequences
+    if (path.find("..") != std::string::npos) return false;
+
+    // Reject double-slash (also catches file://)
+    if (path.find("//") != std::string::npos) return false;
+
+    std::string lower = path;
+    std::transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
+
+    // Reject URL-encoded traversal (%2e = '.', %2f = '/')
+    if (lower.find("%2e") != std::string::npos) return false;
+    if (lower.find("%2f") != std::string::npos) return false;
+    // Reject double-encoded percent sign (e.g. %252f)
+    if (lower.find("%25") != std::string::npos) return false;
+
+    // Reject dangerous protocol schemes
+    if (lower.find("file:") != std::string::npos) return false;
+
+    // Reject access to sensitive kernel/OS paths
+    if (lower.find("/proc/") != std::string::npos) return false;
+    if (lower.find("/sys/") != std::string::npos) return false;
+
+    return true;
+}
+
+std::string InputValidator::sanitizeForHTML(const std::string& input) const {
+    // Step 1: remove dangerous protocol schemes (javascript:, vbscript:)
+    std::string tmp = input;
+    {
+        static const std::regex js_proto(R"(javascript\s*:)", std::regex::icase);
+        tmp = std::regex_replace(tmp, js_proto, "");
+    }
+    {
+        static const std::regex vbs_proto(R"(vbscript\s*:)", std::regex::icase);
+        tmp = std::regex_replace(tmp, vbs_proto, "");
+    }
+    // Step 2: remove on* event-handler attributes (onerror=, onload=, etc.)
+    {
+        static const std::regex event_handler(R"(\bon\w+\s*=)", std::regex::icase);
+        tmp = std::regex_replace(tmp, event_handler, "");
+    }
+    // Step 3: HTML-encode remaining special characters
+    std::string result;
+    result.reserve(static_cast<size_t>(tmp.size() * 1.2));
+    for (char c : tmp) {
+        switch (c) {
+            case '&':  result += "&amp;";  break;
+            case '<':  result += "&lt;";   break;
+            case '>':  result += "&gt;";   break;
+            case '"':  result += "&quot;"; break;
+            case '\'': result += "&#x27;"; break;
+            case '/':  result += "&#x2F;"; break;
+            default:   result += c;        break;
+        }
+    }
+    return result;
+}
+
+bool InputValidator::validateFilename(const std::string& filename) const {
+    if (filename.empty() || filename.size() > kMaxFilenameSize) return false;
+
+    // Reject shell metacharacters that enable command injection (O(1) lookup)
+    const auto& meta = filenameMetacharTable();
+    for (char c : filename) {
+        if (meta[static_cast<unsigned char>(c)]) return false;
+        if (static_cast<unsigned char>(c) < 0x20) return false; // control chars
+    }
+
+    // Reject traversal sequences
+    if (filename.find("..") != std::string::npos) return false;
+
+    return true;
+}
+
+bool InputValidator::validateJSON(const std::string& input) const {
+    // Reject MongoDB operator injection patterns
+    static const char* const mongo_ops[] = {
+        "$gt", "$gte", "$lt", "$lte", "$ne", "$in", "$nin",
+        "$or", "$and", "$not", "$nor", "$where", "$regex",
+        "$exists", "$type", "$mod", "$text", "$elemMatch"
+    };
+    for (const char* op : mongo_ops) {
+        if (input.find(op) != std::string::npos) return false;
+    }
+
+    // Reject JavaScript injection patterns (case-insensitive)
+    std::string lower = input;
+    std::transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
+    if (lower.find("return true") != std::string::npos) return false;
+    if (input.find("|| ") != std::string::npos) return false;
+
+    return true;
+}
+
+bool InputValidator::validateXML(const std::string& input) const {
+    std::string upper = input;
+    std::transform(upper.begin(), upper.end(), upper.begin(), ::toupper);
+
+    // Reject DOCTYPE and ENTITY declarations used for XXE
+    if (upper.find("<!DOCTYPE") != std::string::npos) return false;
+    if (upper.find("<!ENTITY") != std::string::npos) return false;
+
+    // Reject external resource references
+    if (upper.find("SYSTEM") != std::string::npos) return false;
+    if (upper.find("PUBLIC") != std::string::npos) return false;
+
+    return true;
+}
+
+bool InputValidator::validateLDAPFilter(const std::string& input) const {
+    // Reject unescaped LDAP filter metacharacters: * ( ) \ NUL
+    for (char c : input) {
+        if (c == '*' || c == '(' || c == ')' || c == '\\' || c == '\0') {
+            return false;
+        }
+    }
+    return true;
+}
+
+bool InputValidator::validateEmail(const std::string& email) const {
+    // Reject CRLF injection sequences that enable header injection
+    if (email.find('\n') != std::string::npos) return false;
+    if (email.find('\r') != std::string::npos) return false;
+
+    // Reject URL-encoded CRLF
+    std::string lower = email;
+    std::transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
+    if (lower.find("%0a") != std::string::npos) return false;
+    if (lower.find("%0d") != std::string::npos) return false;
+
+    // Basic structural check: must have exactly one '@' not at start/end
+    size_t at_pos = email.find('@');
+    if (at_pos == std::string::npos || at_pos == 0) return false;
+    if (at_pos == email.size() - 1) return false;
+    if (email.find('@', at_pos + 1) != std::string::npos) return false;
+
+    // Must have a '.' after the '@'
+    if (email.find('.', at_pos) == std::string::npos) return false;
+
+    return true;
+}
+
+bool InputValidator::validateURL(const std::string& url,
+                                  const std::vector<std::string>& allowed_schemes) const {
+    if (url.empty() || url.size() > kMaxUrlSize) return false;
+
+    // Reject protocol-relative URLs
+    if (url.size() >= 2 && url[0] == '/' && url[1] == '/') return false;
+
+    // Extract scheme
+    size_t scheme_sep = url.find("://");
+    std::string scheme;
+    std::string rest_after_scheme;
+
+    if (scheme_sep != std::string::npos) {
+        scheme = url.substr(0, scheme_sep);
+        rest_after_scheme = url.substr(scheme_sep + 3);
+    } else {
+        // No "://" – look for a bare colon (e.g. "javascript:alert()")
+        size_t colon = url.find(':');
+        if (colon == std::string::npos) return false; // no scheme at all
+        scheme = url.substr(0, colon);
+        rest_after_scheme = url.substr(colon + 1);
+    }
+
+    // Lower-case the scheme for comparison
+    std::transform(scheme.begin(), scheme.end(), scheme.begin(), ::tolower);
+
+    // Validate scheme against whitelist
+    bool scheme_ok = false;
+    for (const auto& s : allowed_schemes) {
+        std::string ls = s;
+        std::transform(ls.begin(), ls.end(), ls.begin(), ::tolower);
+        if (scheme == ls) { scheme_ok = true; break; }
+    }
+    if (!scheme_ok) return false;
+
+    // If we had "://", check the authority part
+    if (scheme_sep != std::string::npos) {
+        size_t path_start = rest_after_scheme.find('/');
+        size_t query_start = rest_after_scheme.find('?');
+        size_t auth_end = std::min(path_start, query_start);
+
+        std::string authority = (auth_end != std::string::npos)
+                                    ? rest_after_scheme.substr(0, auth_end)
+                                    : rest_after_scheme;
+
+        // Reject user-info in authority (phishing / credential confusion)
+        if (authority.find('@') != std::string::npos) return false;
+
+        // Check query string for embedded redirect URLs (open redirect)
+        if (query_start != std::string::npos) {
+            std::string query = rest_after_scheme.substr(query_start + 1);
+            std::string qlower = query;
+            std::transform(qlower.begin(), qlower.end(), qlower.begin(), ::tolower);
+            if (qlower.find("=http://")  != std::string::npos) return false;
+            if (qlower.find("=https://") != std::string::npos) return false;
+            if (qlower.find("=%2f%2f")   != std::string::npos) return false;
+        }
+    }
+
+    return true;
+}
+
+bool InputValidator::validateStringLength(const std::string& input, size_t max_len) const {
+    return input.size() <= max_len;
+}
+
+bool InputValidator::validateIntegerRange(int64_t value,
+                                           int64_t min_val,
+                                           int64_t max_val) const {
+    return value >= min_val && value <= max_val;
+}
+
+std::string InputValidator::sanitizeLogMessage(const std::string& input) const {
+    // Remove %n and %N format specifiers – these can write to arbitrary memory
+    // if the string is ever passed as a printf format argument.
+    std::string result;
+    result.reserve(input.size());
+    for (size_t i = 0; i < input.size(); ++i) {
+        if (input[i] == '%' && i + 1 < input.size()) {
+            char next = input[i + 1];
+            if (next == 'n' || next == 'N') {
+                ++i; // skip the 'n'/'N' character; don't emit either byte
+                continue;
+            }
+        }
+        result += input[i];
+    }
+    return result;
+}
+
+std::string InputValidator::normalizeUnicode(const std::string& input) const {
+    // Normalize full-width Unicode characters (U+FF01..U+FF5E) to their ASCII
+    // equivalents (U+0021..U+007E) so that hidden injection patterns become
+    // visible.  These characters are encoded in UTF-8 as three bytes:
+    //   U+FF01..U+FF3F -> EF BC 81..EF BC BF  (maps to ASCII 0x21..0x5F)
+    //   U+FF40..U+FF5E -> EF BD 80..EF BD 9E  (maps to ASCII 0x60..0x7E)
+    std::string result;
+    result.reserve(input.size());
+
+    for (size_t i = 0; i < input.size(); ) {
+        auto byte = static_cast<unsigned char>(input[i]);
+
+        if (byte == 0xEF && i + 2 < input.size()) {
+            auto b2 = static_cast<unsigned char>(input[i + 1]);
+            auto b3 = static_cast<unsigned char>(input[i + 2]);
+
+            if (b2 == 0xBC && b3 >= 0x81 && b3 <= 0xBF) {
+                // U+FF01..U+FF3F -> ASCII 0x21..0x5F
+                result += static_cast<char>(b3 - 0x81 + 0x21);
+                i += 3;
+                continue;
+            }
+            if (b2 == 0xBD && b3 >= 0x80 && b3 <= 0x9E) {
+                // U+FF40..U+FF5E -> ASCII 0x60..0x7E
+                result += static_cast<char>(b3 - 0x80 + 0x60);
+                i += 3;
+                continue;
+            }
+        }
+
+        result += input[i];
+        ++i;
+    }
+
+    return result;
+}
+
+bool InputValidator::validateHeaderValue(const std::string& value) const {
+    // Reject raw CRLF characters
+    if (value.find('\n') != std::string::npos) return false;
+    if (value.find('\r') != std::string::npos) return false;
+
+    // Reject null bytes.  std::string::find() searches by value within the
+    // full string length (not limited by NUL termination), so embedded NULs
+    // in a std::string are correctly detected here.
+    if (value.find('\0') != std::string::npos) return false;
+
+    // Reject URL-encoded CRLF sequences
+    std::string lower = value;
+    std::transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
+    if (lower.find("%0d") != std::string::npos) return false;
+    if (lower.find("%0a") != std::string::npos) return false;
+
+    return true;
 }
 
 } // namespace utils

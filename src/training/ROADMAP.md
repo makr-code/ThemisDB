@@ -50,14 +50,7 @@ v1.6.0 – AdaLoRA (adaptive rank pruning), LoRAAdapterMerger (TIES + linear), a
   - Tests: unit — mock trainer, verify trial scheduling; integration — sweep over 3 rank values on synthetic dataset
   - Perf: trial overhead (excluding training) ≤ 50 ms/trial; total sweep for 9-trial 3×3 grid ≤ 3× single-train time
 
-- [~] Adapter serving integration with LLM inference layer (Target: Q3 2026)
-  - Subsystems: `src/training/incremental_lora_trainer.cpp` (`deployVersion`), `src/llm/multi_lora_manager.h`
-  - Inputs: `adapter_version` (string), `traffic_split` (float [0,1]); LLM router must expose `setAdapterWeight(version, weight)`
-  - Outputs: LLM module routes `traffic_split` fraction of requests to new adapter; `DeployResult{active_version, split_applied}`
-  - Constraints: atomic routing update (no mid-request split change); rollback must complete within 1 request cycle
-  - Errors: adapter not found → `DeployResult.error = "version_not_found"`; LLM router unavailable → propagate `std::runtime_error`
-  - Tests: integration — deploy v1.1 at 10% split, verify 10% of mock requests routed to v1.1; rollback test
-  - Perf: routing weight update latency ≤ 1 ms; zero dropped requests during split change
+- [x] Adapter serving integration with LLM inference layer (Target: Q3 2026) — `ILLMRouter` abstract interface + `DeployResult` in `include/training/adapter_serving.h`; `setLLMRouter(ILLMRouter*)` on `IncrementalLoRATrainer`; `deployVersionEx()`/`rollbackVersionEx()` propagate weight to router; 29 focused tests in `test_training_phase2.cpp`
 
 ## Planned Features 📋
 
@@ -71,7 +64,7 @@ v1.6.0 – AdaLoRA (adaptive rank pruning), LoRAAdapterMerger (TIES + linear), a
 ### Long-term (6-12 months)
 - [?] Reinforcement learning from human feedback (RLHF) training loop
 - [?] Multi-modal training samples (text + table + chart)
-- [?] Domain adaptation beyond legal (medical, financial)
+- [x] Domain adaptation beyond legal (medical, financial) — `DomainType` LEGAL/MEDICAL/FINANCIAL in `auto_labeler.h`; domain-specific keyword extraction for medical/financial domains in `auto_labeler.cpp`
 - [?] Federated learning for privacy-preserving cross-institution training
 - [?] Model distillation from large to small adapters
 
@@ -90,11 +83,11 @@ v1.6.0 – AdaLoRA (adaptive rank pruning), LoRAAdapterMerger (TIES + linear), a
 - [x] Confidence-threshold filtering for automatic sample acceptance
 - [x] Pimpl pattern for ABI stability across all three components
 
-### Phase 2: Adapter Management & Multi-Domain (Status: In Progress 🚧)
-- [?] Adapter version management: atomic deploy/rollback with integrity verification (Target: Q2 2026)
-- [?] Multi-domain support beyond German legal text (medical, financial) (Target: Q2 2026)
+### Phase 2: Adapter Management & Multi-Domain (Status: Completed ✅)
+- [x] Adapter version management: atomic deploy/rollback with integrity verification (Target: Q2 2026) — `deployVersionEx()`/`rollbackVersionEx()` in `incremental_lora_trainer.h/.cpp`; `verifyAdapterIntegrity()` calls `LoRACheckpointManager::validate()` when `checkpoint_dir` is set; bypass for unmanaged adapters; `DeployResult{success,active_version,split_applied,error}` result struct; error codes: `"version_not_found"`, `"integrity_failure"`, `"router_unavailable"`, `"invalid_split"`
+- [x] Multi-domain support beyond German legal text (medical, financial) (Target: Q2 2026) — `DomainType` enum (LEGAL/MEDICAL/FINANCIAL) added to `auto_labeler.h`; `AutoLabelConfig::domain_type` field; `extractFallbackModalities()` in `auto_labeler.cpp` dispatches domain-specific obligation/recommendation/permission/prohibition patterns for medical (must/shall/required/should/recommended/may/contraindicated/verboten) and financial (must/shall/required/should/may/prohibited/forbidden/disclose/report/offenlegen/melden) domains; German and English terms both covered
 - [x] Automated hyperparameter search (LoRA rank and learning rate sweep) (Target: Q2 2026)
-- [?] Adapter serving integration with the LLM inference layer (Target: Q3 2026)
+- [x] Adapter serving integration with the LLM inference layer (Target: Q3 2026) — `ILLMRouter` abstract interface (`adapter_serving.h/.cpp`): `setAdapterWeight(version,weight)`, `isAvailable()`, `activeVersion()`; `IncrementalLoRATrainer::setLLMRouter(ILLMRouter*)` wires the router; `deployVersionEx()`/`rollbackVersionEx()` propagate weight updates to the router atomically after local registry update; unavailable router → `DeployResult.error = "router_unavailable"`
 
 ### Phase 3: Multi-Modality & Provenance (Status: Completed ✅)
 - [x] `ContentModality` enum (TEXT_CLAUSE, TABLE, CITATION, OCR_IMAGE, UNKNOWN) added to `auto_labeler.h`

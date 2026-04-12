@@ -14,6 +14,8 @@
  *   Group H (3)  – WhisperPlugin: getStatistics JSON keys
  *   Group I (3)  – WhisperPlugin: error paths (uninit, reader throws, empty PCM)
  *   Group J (3)  – WhisperPlugin: double-init, getModelId, error_count
+ *   Group K (3)  – Thread-safety: concurrent transcribe, atomic counters, detectLanguage
+ *   Group L (3)  – FfmpegAudioChunkReader + CompositeAudioChunkReader routing
  */
 
 #include <gtest/gtest.h>
@@ -24,6 +26,9 @@
 #include <nlohmann/json.hpp>
 #include <fstream>
 #include <stdexcept>
+#include <thread>
+#include <vector>
+#include <atomic>
 
 using namespace themis::whisper;
 using namespace themis::audio;
@@ -370,4 +375,120 @@ TEST(WhisperPluginFocusedTests, J3_ErrorCountIncrements) {
     p.transcribe({}, 16000.f);
     p.transcribeFile("any.wav");
     EXPECT_GE(p.getStatistics()["error_count"].get<uint64_t>(), 2u);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Group K – Thread-safety
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST(WhisperPluginFocusedTests, K1_ConcurrentTranscribeDoesNotCrash) {
+    // 8 threads each performing 20 transcribe() calls on a shared plugin.
+    auto t = std::make_unique<InMemoryWhisperTranscriber>();
+    TranscriptionResult preset; preset.text = "parallel";
+    t->setNextResult(preset);
+    WhisperPlugin p(std::move(t), std::make_unique<PresetReader>());
+    p.initialize("", {});
+
+    constexpr int kThreads = 8;
+    constexpr int kCalls   = 20;
+    std::vector<std::thread> threads;
+    threads.reserve(kThreads);
+    for (int i = 0; i < kThreads; ++i) {
+        threads.emplace_back([&p]() {
+            const std::vector<float> pcm(160, 0.0f);
+            for (int j = 0; j < kCalls; ++j) {
+                auto res = p.transcribe(pcm, 16000.f);
+                (void)res;
+            }
+        });
+    }
+    for (auto& th : threads) th.join();
+
+    const uint64_t count = p.getStatistics()["transcription_count"].get<uint64_t>();
+    EXPECT_EQ(count, static_cast<uint64_t>(kThreads * kCalls));
+}
+
+TEST(WhisperPluginFocusedTests, K2_AtomicCountersUnderConcurrentErrors) {
+    // All calls fail (not initialized) — error_count must equal total calls.
+    WhisperPlugin p(std::make_unique<InMemoryWhisperTranscriber>(),
+                    std::make_unique<PresetReader>());
+    // NOT initialized on purpose.
+
+    constexpr int kThreads = 4;
+    constexpr int kCalls   = 25;
+    std::vector<std::thread> threads;
+    threads.reserve(kThreads);
+    for (int i = 0; i < kThreads; ++i) {
+        threads.emplace_back([&p]() {
+            for (int j = 0; j < kCalls; ++j) {
+                auto res = p.transcribe({0.f}, 16000.f);
+                EXPECT_FALSE(res.success);
+            }
+        });
+    }
+    for (auto& th : threads) th.join();
+
+    EXPECT_EQ(p.getStatistics()["error_count"].get<uint64_t>(),
+              static_cast<uint64_t>(kThreads * kCalls));
+}
+
+TEST(WhisperPluginFocusedTests, K3_ConcurrentDetectLanguageDoesNotCrash) {
+    auto t = std::make_unique<InMemoryWhisperTranscriber>();
+    t->initialize(WhisperConfig{});
+    t->setNextLanguage({"en", 0.9f});
+    WhisperPlugin p(std::move(t), std::make_unique<PresetReader>());
+    p.initialize("", {});
+
+    constexpr int kThreads = 6;
+    std::vector<std::thread> threads;
+    threads.reserve(kThreads);
+    for (int i = 0; i < kThreads; ++i) {
+        threads.emplace_back([&p]() {
+            for (int j = 0; j < 10; ++j) {
+                auto res = p.detectLanguage({0.f, 0.f}, 16000.f);
+                EXPECT_FALSE(res.language.empty());
+            }
+        });
+    }
+    for (auto& th : threads) th.join();
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Group L – FfmpegAudioChunkReader + CompositeAudioChunkReader
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST(WhisperPluginFocusedTests, L1_FfmpegCanReadMp3OggFlac) {
+    FfmpegAudioChunkReader r;
+    EXPECT_TRUE(r.canRead("audio.mp3"));
+    EXPECT_TRUE(r.canRead("audio.ogg"));
+    EXPECT_TRUE(r.canRead("audio.flac"));
+    EXPECT_TRUE(r.canRead("audio.m4a"));
+    EXPECT_TRUE(r.canRead("audio.OPUS"));
+    EXPECT_FALSE(r.canRead("audio.wav"));
+    EXPECT_FALSE(r.canRead("audio.txt"));
+}
+
+TEST(WhisperPluginFocusedTests, L2_FfmpegThrowsOnMissingFileOrNoFfmpeg) {
+    FfmpegAudioChunkReader r;
+    float sr = 0.0f;
+    // Either ffmpeg is unavailable or the file doesn't exist — both throw.
+    EXPECT_THROW(r.readFile("/tmp/nonexistent_audio_file.mp3", sr), std::runtime_error);
+}
+
+TEST(WhisperPluginFocusedTests, L3_CompositeRoutesByExtension) {
+    // Build a composite with WAV reader first, then ffmpeg reader.
+    CompositeAudioChunkReader composite;
+    composite.addReader(std::make_unique<WavAudioChunkReader>());
+    composite.addReader(std::make_unique<FfmpegAudioChunkReader>());
+
+    // WAV is handled by WavAudioChunkReader (first match).
+    EXPECT_TRUE(composite.canRead("audio.wav"));
+    // MP3 is handled by FfmpegAudioChunkReader.
+    EXPECT_TRUE(composite.canRead("audio.mp3"));
+    // Unknown extension → canRead returns false.
+    EXPECT_FALSE(composite.canRead("audio.xyz"));
+
+    // readFile() on an unsupported extension throws (no reader accepts it).
+    float sr = 0.0f;
+    EXPECT_THROW(composite.readFile("/tmp/test.xyz", sr), std::runtime_error);
 }

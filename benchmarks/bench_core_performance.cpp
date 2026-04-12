@@ -34,8 +34,10 @@
 #include "index/vector_index.h"
 #include "index/secondary_index.h"
 #include "index/graph_index.h"
+#include "acceleration/vec_knn.h"
 
 using namespace themis;
+using namespace themis::acceleration;
 
 // ============================================================================
 // VECTOR INDEX BENCHMARKS
@@ -85,6 +87,63 @@ BENCHMARK_F(VectorIndexBench, InsertPlaintext)(benchmark::State& state) {
     }
     state.SetItemsProcessed(state.iterations() * 100);
 }
+
+// PERF-D3 benchmark: parallel batch insert pipeline targeting 600k vectors/s SLO.
+// Uses VecKnnInsertPipeline with AVX2 SIMD distance + configurable thread pool.
+// Batch size 32, threads = hardware_concurrency (typical 4-16).
+BENCHMARK_F(VectorIndexBench, ParallelBatchInsert_PERFD3)(benchmark::State& state) {
+    VectorIndexManager vim(*db_);
+    vim.init("bench_vi", 384);
+
+    VecKnnPipelineConfig cfg;
+    cfg.batch_size    = 32;
+    cfg.num_threads   = 0;   // 0 = hardware_concurrency
+    cfg.enable_cache  = true;
+    cfg.vector_field  = "embedding";
+    VecKnnInsertPipeline pipeline(cfg);
+
+    // Pre-generate a fixed pool of entities to avoid timing allocation
+    static constexpr int kPool = 512;
+    std::vector<BaseEntity> pool;
+    pool.reserve(kPool);
+    for (int i = 0; i < kPool; ++i) {
+        pool.emplace_back("vi_" + std::to_string(i), BaseEntity::FieldMap{
+            {"embedding", genVec(384)}
+        });
+    }
+
+    for (auto _ : state) {
+        // Submit a batch of 512 entities per iteration
+        pipeline.insertBatch(vim, pool, "embedding");
+    }
+    state.SetItemsProcessed(state.iterations() * kPool);
+    // SLO: items_per_second >= 600,000
+    state.SetLabel("SLO=600k/s");
+}
+
+// PERF-D3 benchmark: raw SIMD pairwise distance throughput (no index overhead).
+// Measures AVX2/AVX-512 distance kernel in isolation to validate SIMD gains.
+static void SIMDDistanceThroughput_PERFD3(benchmark::State& state) {
+    const int   DIM   = 384;
+    const int   N_DB  = 1024;
+    std::mt19937 rng(42);
+    std::uniform_real_distribution<float> dis(-1.f, 1.f);
+
+    std::vector<float> query(DIM), db(N_DB * DIM);
+    for (auto& x : query) x = dis(rng);
+    for (auto& x : db)    x = dis(rng);
+
+    std::vector<float> out(N_DB);
+
+    for (auto _ : state) {
+        simd_batch_l2_sq(query.data(), db.data(), N_DB, DIM, out.data());
+        benchmark::DoNotOptimize(out.data());
+    }
+    state.SetItemsProcessed(state.iterations() * N_DB);
+    state.SetLabel("AVX2/AVX-512 L2-sq kernel");
+}
+
+BENCHMARK(SIMDDistanceThroughput_PERFD3);
 
 // ============================================================================
 // SECONDARY INDEX BENCHMARKS

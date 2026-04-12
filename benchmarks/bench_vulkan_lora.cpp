@@ -30,6 +30,20 @@
 #include <random>
 #include <memory>
 
+#ifndef THEMIS_ENABLE_GPU
+
+static void BM_VulkanLoRA_GPUDisabled(benchmark::State& state) {
+    for (auto _ : state) {
+        state.SkipWithError("Vulkan LoRA benchmarks are disabled in this build");
+        break;
+    }
+}
+BENCHMARK(BM_VulkanLoRA_GPUDisabled);
+
+BENCHMARK_MAIN();
+
+#else
+
 using namespace themis::lora::vulkan;
 
 // ============================================================================
@@ -72,11 +86,13 @@ public:
         static bool initialized = false;
         if (!initialized) {
             if (!is_vulkan_available()) {
-                state.SkipWithError("Vulkan not available");
+                auto& mutable_state = const_cast<benchmark::State&>(state);
+                mutable_state.SkipWithError("Vulkan not available");
                 return;
             }
             if (!initialize_vulkan_lora(0)) {
-                state.SkipWithError("Failed to initialize Vulkan");
+                auto& mutable_state = const_cast<benchmark::State&>(state);
+                mutable_state.SkipWithError("Failed to initialize Vulkan");
                 return;
             }
             initialized = true;
@@ -446,3 +462,5 @@ BENCHMARK_REGISTER_F(VulkanBenchmarkFixture, BufferUploadDownload)
 // ============================================================================
 
 BENCHMARK_MAIN();
+
+#endif  // THEMIS_ENABLE_GPU

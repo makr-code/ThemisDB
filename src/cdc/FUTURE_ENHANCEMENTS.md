@@ -312,7 +312,76 @@ round-trip.
 - `DeliveryMode` enum: `AtLeastOnce`, `ExactlyOnce`
 - Thread-safe; tested by `CDCDeliveryGuaranteeConfigFocusedTests`
 
-## Planned Features
+## Implemented Features (v2.0.0 additions)
+
+### CDC Replay Controller ✅ Implemented (v2.0.0)
+
+`ICDCReplayController` (`include/cdc/icdc_replay_controller.h`) provides time-based
+and sequence-based changefeed replay for CDC consumers.  `InMemoryReplayController`
+is the concrete implementation backed by an existing `Changefeed` instance.
+
+- `beginReplay(ReplayOptions)` — bounded replay session; returns `IReplaySession`
+- `replayFromTimestamp(from_ms, to_ms)` — convenience overload (wall-clock range)
+- `replayFromSequence(from_seq, to_seq)` — convenience overload (sequence range)
+- `totalSessionsCreated()` — monotonic session counter
+
+**`ReplayOptions`:** `from_sequence`, `to_sequence`, `from_timestamp_ms`,
+`to_timestamp_ms`, `key_prefix`, `event_types`, `batch_size`, `max_events_per_session`
+
+**`IReplaySession`:** `nextBatch()` (returns up to batch_size events), `done()`,
+`cancel()`, `state()` (`Active`/`Done`/`Cancelled`), `deliveredCount()`
+
+Thread-safe; 15 unit tests in `tests/test_cdc_replay_controller.cpp`
+(`CDCReplayControllerFocusedTests`).
+
+---
+
+### CDC Server-Side Filter Pipeline ✅ Implemented (v2.0.0)
+
+`ICDCFilterPipeline` (`include/cdc/icdc_filter_pipeline.h`) provides a composable,
+ordered chain of named event filters applied server-side before event delivery.
+
+- `addFilter(IEventFilter)` — append a named filter stage; duplicate names return false
+- `removeFilter(name)` — remove stage by name; returns false if not found
+- `hasFilter(name)` / `size()` / `empty()` — pipeline introspection
+- `apply(event)` — run all stages; short-circuits on first `Drop`
+- `applyBatch(events)` — filter a batch, preserving order of passing events
+- `filterNames()` — stage names in insertion order
+- `totalPassed()` / `totalDropped()` / `resetCounters()` — cumulative statistics
+
+**Built-in filter stages:**
+- `PredicateFilter` — `std::function<bool(ChangeEvent)>` backed; fail-open on exception
+- `KeyPrefixFilter` — passes events whose key starts with a configured prefix
+- `EventTypeFilter` — passes events matching one of the configured types
+
+Thread-safe; 15 unit tests in `tests/test_cdc_filter_pipeline.cpp`
+(`CDCFilterPipelineFocusedTests`).
+
+---
+
+### CDC Batch Commit Coordinator ✅ Implemented (v2.0.0)
+
+`ICDCBatchCommitCoordinator` (`include/cdc/icdc_batch_commit_coordinator.h`)
+coordinates exactly-once, multi-event batch commits for CDC consumers.
+
+- `beginBatch()` — open a new batch; returns BatchId (0 if already open)
+- `addEvent(event)` — stage an event; returns `Added`, `NoBatchOpen`, or `BatchFull`
+- `commitBatch()` — atomically commit all staged events
+- `rollbackBatch()` — discard all staged events; transition to `RolledBack`
+- `status()` — `Idle`, `Open`, `Committed`, or `RolledBack`
+- `info()` — `BatchInfo` summary (status, current_batch_id, pending_event_count, counters)
+- `committedEvents(batch_id)` — retrieve events for a committed batch from history
+- `isCommitted(batch_id)` — true if the batch is in the commit history
+
+**`BatchConfig`:** `max_batch_size` (0 = unlimited), `commit_history_size` (FIFO ring)
+
+`InMemoryBatchCommitCoordinator` retains committed batches in a FIFO ring bounded by
+`BatchConfig::commit_history_size` (default 1000) to bound memory usage.
+
+Thread-safe; 16 unit tests in `tests/test_cdc_batch_commit_coordinator.cpp`
+(`CDCBatchCommitCoordinatorFocusedTests`).
+
+---
 
 ### WebSocket Change Streaming Transport
 **Priority:** High

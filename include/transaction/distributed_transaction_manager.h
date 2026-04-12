@@ -61,13 +61,16 @@
 #include <chrono>
 #include <condition_variable>
 #include <functional>
+#include <future>
 #include <map>
 #include <memory>
 #include <mutex>
 #include <optional>
+#include <queue>
 #include <set>
 #include <string>
 #include <thread>
+#include <unordered_map>
 #include <vector>
 
 namespace themis::transaction {
@@ -234,6 +237,20 @@ struct DistributedTxnManagerConfig {
 
     /// Maximum number of concurrent transactions tracked in memory.
     size_t max_active_transactions = 10000;
+
+    // ── Performance / PERF-D4 ────────────────────────────────────────────────
+
+    /// Batched-prepare window.  When > 0ms the coordinator accumulates
+    /// prepareDistributed() calls for this window before flushing them all in
+    /// one parallel Phase-1 sweep (amortises per-transaction overhead).
+    /// 0ms = immediate (no batching); recommended range 10-100ms.
+    std::chrono::milliseconds prepare_batch_window{0};
+
+    /// Number of worker threads in the internal thread pool used to dispatch
+    /// prepare/commit/abort calls to participants in parallel.
+    /// 0 = fall back to std::async per call (legacy behaviour).
+    /// Default: 4 (good for typical 2-8 shard deployments).
+    size_t worker_thread_count = 4;
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -470,12 +487,56 @@ private:
     DistributedTransaction* findTransaction(const TransactionId& txn_id);
     const DistributedTransaction* findTransaction(const TransactionId& txn_id) const;
 
+    // ── Thread pool (PERF-D4) ─────────────────────────────────────────────────
+
+    /// Submit a callable to the thread pool; returns a future for the result.
+    /// Falls back to std::async when worker_thread_count == 0.
+    template<class F>
+    auto submitTask(F&& f) -> std::future<decltype(f())> {
+        using R = decltype(f());
+        if (config_.worker_thread_count == 0) {
+            // Legacy: one-shot thread via std::async.
+            return std::async(std::launch::async, std::forward<F>(f));
+        }
+        auto task_ptr = std::make_shared<std::packaged_task<R()>>(std::forward<F>(f));
+        std::future<R> fut = task_ptr->get_future();
+        {
+            std::lock_guard<std::mutex> lock(pool_mutex_);
+            if (!pool_stop_) {
+                task_queue_.push([task_ptr]() { (*task_ptr)(); });
+            } else {
+                // Pool is stopping – run inline.
+                (*task_ptr)();
+                return fut;
+            }
+        }
+        pool_cv_.notify_one();
+        return fut;
+    }
+
+    /// Start the background worker threads (called from constructor).
+    void startThreadPool();
+
+    /// Stop the background worker threads (called from destructor).
+    void stopThreadPool();
+
+    // ── Batch-prepare flush (PERF-D4) ─────────────────────────────────────────
+
+    /// Entry in the pending-prepare batch queue.
+    struct BatchPrepareEntry {
+        TransactionId          txn_id;
+        std::promise<bool>     result;
+    };
+
+    /// Background loop that drains the batch queue every prepare_batch_window.
+    void batchFlushLoop();
+
     const std::string             coordinator_id_;
     DistributedTxnManagerConfig   config_;
 
-    mutable std::mutex                                   mutex_;
-    std::condition_variable                              vote_cv_;
-    std::map<TransactionId, DistributedTransaction>      transactions_;
+    mutable std::mutex                                        mutex_;
+    std::condition_variable                                   vote_cv_;
+    std::unordered_map<TransactionId, DistributedTransaction> transactions_;
 
     std::unique_ptr<themis::sharding::WALManager>        wal_;
 
@@ -487,6 +548,20 @@ private:
     std::atomic<uint64_t> stat_recovered_{0};
 
     std::atomic<uint64_t> txn_counter_{0};
+
+    // ── Thread pool state ─────────────────────────────────────────────────────
+    std::vector<std::thread>              worker_threads_;
+    std::queue<std::function<void()>>     task_queue_;
+    std::mutex                            pool_mutex_;
+    std::condition_variable               pool_cv_;
+    bool                                  pool_stop_{false};
+
+    // ── Batch-prepare state ───────────────────────────────────────────────────
+    std::mutex                            batch_mutex_;
+    std::condition_variable               batch_cv_;
+    std::vector<BatchPrepareEntry>        batch_queue_;
+    std::thread                           batch_flush_thread_;
+    std::atomic<bool>                     batch_stop_{false};
 };
 
 } // namespace themis::transaction

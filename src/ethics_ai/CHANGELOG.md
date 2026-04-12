@@ -100,7 +100,7 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), newest first.
   `RAGContextEngine`, and `EthicalDiscourseEngine` on `initialize()`. Supports
   JSON config for `philosophy_dir` path.
 
-- **Shared types** (`ethics_ai_types.h/.cpp`):
+- **Shared types** (`include/plugins/ethics_ai/ethics_ai_types.h` + `ethics_ai_types.cpp`):
   `EthicalArgument`, `EthicalDecision`, `PhilosophyProfile`, `DebateInitialization`,
   `RAGContext`, `EthicsEvaluationResult`, `ArgumentType` (`PRO`/`CON`/`NEUTRAL`),
   `ArgumentStrength` (`WEAK`/`MODERATE`/`STRONG`).

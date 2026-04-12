@@ -103,7 +103,6 @@ v1.16.0 – Full-featured production LLM module. All short-term and long-term pl
 ## Known Issues & Limitations
 - Cancellation is best-effort only; in-flight inference cannot be interrupted at llama.cpp level.
 - Grammar-constrained generation depends on runtime API availability.
-- Speculative decoding uses synthetic logit arrays (placeholder) until per-token logits are exposed through the plugin interface.
 
 ## Breaking Changes
 - `InferenceHandle` header path changed in v1.15.0 (from `async_inference_engine.h` include to `inference_handle.h`).

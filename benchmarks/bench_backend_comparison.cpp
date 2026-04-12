@@ -29,6 +29,20 @@
 #include <chrono>
 #include <vector>
 
+#ifndef THEMIS_ENABLE_GPU
+
+static void BM_BackendComparison_GPUDisabled(benchmark::State& state) {
+    for (auto _ : state) {
+        state.SkipWithError("GPU backend benchmarks are disabled in this build");
+        break;
+    }
+}
+
+BENCHMARK(BM_BackendComparison_GPUDisabled);
+BENCHMARK_MAIN();
+
+#else
+
 using namespace themis::llm::lora;
 namespace accel = themis::acceleration;
 
@@ -548,3 +562,5 @@ static void BM_CrossBackend_Transfer(benchmark::State& state) {
 BENCHMARK(BM_CrossBackend_Transfer)->UseManualTime();
 
 BENCHMARK_MAIN();
+
+#endif  // THEMIS_ENABLE_GPU

@@ -4,7 +4,7 @@
 # Updates Module Roadmap
 
 ## Current Status
-v1.7.0 – Production-ready zero-downtime update and migration system. HotReloadEngine, release manifest management, schema migration framework, digital signature verification, automatic backup, rollback, binary delta updates, canary rollout, CanaryDeployment (progressive rollout with latency/metric monitoring, A/B testing, auto-rollback), blue/green deployment, multi-node coordinated updates, notification webhooks, dry-run migration preview, pre-flight health checks, parallel file downloads, and dependency resolution engine are all implemented. Build system audit complete (March 2026): all 16 source files registered in cmake/CMakeLists.txt and cmake/ModularBuild.cmake; 10 standalone focused test targets added.
+v1.8.0 – Production-ready zero-downtime update and migration system. HotReloadEngine, release manifest management, schema migration framework, digital signature verification, automatic backup, rollback, binary delta updates, canary rollout, CanaryDeployment (progressive rollout with latency/metric monitoring, A/B testing, auto-rollback), blue/green deployment, multi-node coordinated updates, notification webhooks, dry-run migration preview, pre-flight health checks, parallel file downloads, dependency resolution engine, and rollback checkpoint API are all implemented. Build system audit complete (March 2026): all 16 source files registered in cmake/CMakeLists.txt and cmake/ModularBuild.cmake; 10 standalone focused test targets added.
 
 ## Completed ✅
 - [x] HotReloadEngine – atomic file replacement with fsync and all-or-nothing semantics
@@ -78,6 +78,11 @@ v1.7.0 – Production-ready zero-downtime update and migration system. HotReload
   - API: `MaintenanceWindow`, `BlackoutPeriod`, `UpdatePolicy`, `UpdatePriority`, `TenantUpdateStatus`, `TenantUpdateScheduler`
   - Tests: 37 focused tests in `tests/test_multi_tenant_update_scheduling.cpp`
   - CI: `.github/workflows/02-feature-modules_multi-tenant-update-scheduling-ci.yml`
+- [x] Rollback checkpoint API on `UpdateStateMachine` (v1.8.0)
+  - Implemented: `CheckpointId`/`Checkpoint` types in `include/updates/update_state_machine.h`; methods in `src/updates/update_state_machine.cpp`
+  - API: `createCheckpoint(description)` → `CheckpointId`, `rollbackToCheckpoint(id)`, `listCheckpoints()`, `clearCheckpoints()`, `setHistoryLogger()`
+  - `UpdateHistoryLogger` integration: emits `checkpoint_created` and `checkpoint_rollback` audit entries
+  - Tests: 16 focused tests in `CheckpointTest` suite (`tests/test_updates_production.cpp`)
 
 ### Long-term (6-12 months)
 - [!] Kubernetes operator integration (rolling update coordination) (Issue: #2483)
@@ -130,7 +135,7 @@ v1.7.0 – Production-ready zero-downtime update and migration system. HotReload
 - [x] Dependency resolution engine: topological sort, cycle detection, version constraints, conflict resolution, backfill (Issue: #216)
 
 ## Production Readiness Checklist
-- [x] Unit tests coverage > 80% (DeltaUpdateEngine: 29 tests; InPlaceSchemaMigrator+preview: 31 tests; NotificationWebhook: 40 tests; PreflightHealthChecker: 35 tests; CoordinatedUpdateManager: 25 tests; ParallelDownloader: 29 tests; DependencyResolver: 49 tests; module total: 238 tests)
+- [x] Unit tests coverage > 80% (DeltaUpdateEngine: 29 tests; InPlaceSchemaMigrator+preview: 31 tests; NotificationWebhook: 40 tests; PreflightHealthChecker: 35 tests; CoordinatedUpdateManager: 25 tests; ParallelDownloader: 29 tests; DependencyResolver: 49 tests; CheckpointAPI: 17 tests; module total: 255 tests)
 - [x] Integration tests (applyDelta end-to-end: generate → apply → hash verify → atomic install; InPlaceSchemaMigrator: apply → version verify → history check)
 - [?] Performance benchmarks (migration duration, downtime measurement)
 - [x] Security audit (path traversal in update bundles fixed; `isSafePath` guard in `applyDelta`; InPlaceSchemaMigrator: metadata-only, no data access, no path operations; PreflightHealthChecker: injectable providers, no privilege escalation; ParallelDownloader: hash verification, corrupt file auto-removal)

@@ -23,6 +23,7 @@
  */
 
 #include "updates/update_state_machine.h"
+#include "updates/update_history_logger.h"
 #include "utils/logger.h"
 
 #define LOG_ERROR(...) SPDLOG_ERROR(__VA_ARGS__)
@@ -353,6 +354,142 @@ void UpdateStateMachine::appendLogEntry(const UpdateTransactionEntry& entry) {
 /*static*/
 std::string UpdateStateMachine::stateName(UpdateState s) {
     return stateToString(s);
+}
+
+// ============================================================================
+// Rollback checkpoint API
+// ============================================================================
+
+void UpdateStateMachine::setHistoryLogger(UpdateHistoryLogger* logger) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    history_logger_ = logger;
+}
+
+CheckpointId UpdateStateMachine::createCheckpoint(const std::string& description) {
+    CheckpointId assigned_id = 0;
+    std::string  snap_version;
+    UpdateState  snap_state;
+
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+
+        snap_state   = state_.load(std::memory_order_relaxed);
+        snap_version = current_version_;
+
+        Checkpoint cp;
+        cp.id          = next_checkpoint_id_++;
+        cp.state       = snap_state;
+        cp.version     = snap_version;
+        cp.description = description;
+        cp.timestamp   = std::chrono::system_clock::now();
+
+        checkpoints_.push_back(cp);
+        assigned_id = cp.id;
+
+        LOG_INFO("UpdateStateMachine: checkpoint {} created (state={}, version={}, desc={})",
+                 assigned_id, stateToString(snap_state), snap_version, description);
+    }
+
+    // Audit trail – record outside the lock to avoid holding it during I/O
+    if (history_logger_) {
+        auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::system_clock::now().time_since_epoch()).count();
+
+        UpdateHistoryEntry e;
+        e.who           = "state_machine";
+        e.timestamp_ms  = now_ms;
+        e.from_version  = snap_version;
+        e.to_version    = snap_version;
+        e.event_type    = "checkpoint_created";
+        e.success       = true;
+        e.error_message = description;
+        history_logger_->record(e);
+    }
+
+    return assigned_id;
+}
+
+bool UpdateStateMachine::rollbackToCheckpoint(CheckpointId id) {
+    std::vector<StateChangeCallback> callbacks_copy;
+    UpdateState from_state;
+    UpdateState to_state;
+    std::string notify_version;
+    bool found = false;
+
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+
+        auto it = std::find_if(checkpoints_.begin(), checkpoints_.end(),
+                               [id](const Checkpoint& cp) { return cp.id == id; });
+        if (it == checkpoints_.end()) {
+            LOG_WARN("UpdateStateMachine: rollbackToCheckpoint({}) – checkpoint not found", id);
+            return false;
+        }
+
+        from_state = state_.load(std::memory_order_relaxed);
+        to_state   = it->state;
+
+        current_version_ = it->version;
+        state_.store(to_state, std::memory_order_release);
+
+        // Discard checkpoints newer than the target
+        checkpoints_.erase(it + 1, checkpoints_.end());
+
+        // Record the restoration in the transaction log
+        UpdateTransactionEntry entry{
+            from_state, to_state,
+            current_version_,
+            "rollback to checkpoint " + std::to_string(id),
+            std::chrono::system_clock::now()
+        };
+        transaction_log_.push_back(entry);
+        if (!log_path_.empty()) {
+            appendLogEntry(entry);
+        }
+
+        LOG_INFO("UpdateStateMachine: rolled back to checkpoint {} (state={}, version={})",
+                 id, stateToString(to_state), current_version_);
+
+        notify_version = current_version_;
+        callbacks_copy = callbacks_;
+        found = true;
+    }
+
+    // Notify callbacks outside the lock
+    for (auto& cb : callbacks_copy) {
+        try {
+            cb(from_state, to_state, notify_version);
+        } catch (...) {}
+    }
+
+    // Audit trail
+    if (found && history_logger_) {
+        auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::system_clock::now().time_since_epoch()).count();
+
+        UpdateHistoryEntry e;
+        e.who           = "state_machine";
+        e.timestamp_ms  = now_ms;
+        e.from_version  = "";  // pre-rollback version already overwritten
+        e.to_version    = notify_version;
+        e.event_type    = "checkpoint_rollback";
+        e.success       = true;
+        e.error_message = "checkpoint_id=" + std::to_string(id);
+        history_logger_->record(e);
+    }
+
+    return found;
+}
+
+std::vector<Checkpoint> UpdateStateMachine::listCheckpoints() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return checkpoints_;
+}
+
+void UpdateStateMachine::clearCheckpoints() {
+    std::lock_guard<std::mutex> lock(mutex_);
+    checkpoints_.clear();
+    LOG_INFO("UpdateStateMachine: all checkpoints cleared");
 }
 
 } // namespace updates

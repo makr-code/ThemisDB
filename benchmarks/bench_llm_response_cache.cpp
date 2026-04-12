@@ -132,8 +132,8 @@ static void BM_CacheGetSemanticMatch(benchmark::State& state) {
     
     auto stats = cache.getStatistics();
     state.counters["hit_rate"] = stats.getHitRate();
-    state.counters["hits"] = stats.hits;
-    state.counters["misses"] = stats.misses;
+    state.counters["hits"] = static_cast<double>(stats.hits.load(std::memory_order_relaxed));
+    state.counters["misses"] = static_cast<double>(stats.misses.load(std::memory_order_relaxed));
     state.SetItemsProcessed(state.iterations());
 }
 BENCHMARK(BM_CacheGetSemanticMatch);
@@ -195,8 +195,8 @@ static void BM_CacheMixedWorkload(benchmark::State& state) {
     
     auto stats = cache.getStatistics();
     state.counters["hit_rate"] = stats.getHitRate();
-    state.counters["total_entries"] = stats.total_entries;
-    state.counters["avg_lookup_ms"] = stats.avg_lookup_time_ms;
+    state.counters["total_entries"] = static_cast<double>(stats.total_entries.load(std::memory_order_relaxed));
+    state.counters["avg_lookup_ms"] = stats.avg_lookup_time_ms.load(std::memory_order_relaxed);
     state.SetItemsProcessed(state.iterations());
 }
 BENCHMARK(BM_CacheMixedWorkload);
@@ -217,7 +217,7 @@ static void BM_CacheLRUEviction(benchmark::State& state) {
     }
     
     auto stats = cache.getStatistics();
-    state.counters["final_entries"] = stats.total_entries;
+    state.counters["final_entries"] = static_cast<double>(stats.total_entries.load(std::memory_order_relaxed));
     state.SetItemsProcessed(state.iterations());
 }
 BENCHMARK(BM_CacheLRUEviction);

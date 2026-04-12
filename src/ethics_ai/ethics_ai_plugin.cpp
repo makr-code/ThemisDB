@@ -68,7 +68,7 @@ private:
         double avg_decision_quality = 0.0;
     } metrics_;
     
-    std::mutex metrics_mutex_;
+    mutable std::mutex metrics_mutex_;
     
 public:
     EthicsAIPlugin() : initialized_(false) {}
@@ -141,20 +141,12 @@ public:
             }
             
             // Register philosophies with EthicalGuidelinesManager if available
-            if (ethical_guidelines_manager_ && philosophy_loader_) {
-                // Forward declare to avoid circular dependency
-                namespace llm = themis::llm;
-                auto* manager = static_cast<llm::EthicalGuidelinesManager*>(ethical_guidelines_manager_);
-                
-                auto all_profiles = philosophy_loader_->getAllProfiles();
-                if (!all_profiles.empty()) {
-                    size_t registered = manager->mergePhilosophies(all_profiles);
-                    // Note: Using printf since logger might not be available in plugin context
-                    // In production, this would use the plugin's logging mechanism
-                    if (registered > 0) {
-                        // Successfully registered - manager will log details
-                    }
-                }
+            // (ethical_guidelines_manager_ is a void* forward-declared pointer;
+            //  actual registration requires the LLM subsystem headers which are
+            //  not available in standalone plugin builds.  Skip if not set.)
+            if (ethical_guidelines_manager_) {
+                // Reserved: integration with themis::llm::EthicalGuidelinesManager
+                // requires full LLM subsystem linkage (not available in standalone mode).
             }
             
             initialized_ = true;

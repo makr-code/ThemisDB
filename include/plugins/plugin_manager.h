@@ -101,6 +101,14 @@ private:
         std::unique_ptr<IThemisPlugin> instance;
         bool loaded = false;
         std::string file_hash;
+
+        /// Capabilities snapshot captured immediately after plugin initialization.
+        /// Used by checkCapabilityEscalation() to detect post-load capability expansion.
+        PluginCapabilities frozen_capabilities;
+
+        /// Set to true when checkCapabilityEscalation() detects a superset violation.
+        /// A restricted plugin remains loaded but is flagged for operator review.
+        bool is_restricted = false;
     };
     
     std::unordered_map<std::string, PluginEntry> plugins_;  // name -> entry
@@ -279,6 +287,37 @@ public:
     PluginNegotiationResult negotiateCapabilities(
         const std::string& name,
         const std::vector<PluginCapabilityRequirement>& requirements) const;
+
+    /**
+     * @brief Check whether a loaded plugin has escalated its capabilities beyond
+     *        what was declared in the manifest at load time.
+     *
+     * The capabilities returned by the plugin's getCapabilities() are compared
+     * against the snapshot frozen at load time.  If the current capabilities are
+     * a strict superset (i.e. any flag that was false at load is now true), the
+     * plugin is marked RESTRICTED and ERR_PLUGIN_CAPABILITY_ESCALATION is returned.
+     *
+     * This method is a no-op on the hot call path: capabilities are only checked
+     * when this method is explicitly called (e.g. from a periodic security scan or
+     * after an explicit re-negotiation request).
+     *
+     * @param name  Name of the loaded plugin.
+     * @return      Ok(void) if no escalation is detected.
+     *              Err(ERR_PLUGIN_CAPABILITY_ESCALATION) if escalation is detected;
+     *              the plugin is also marked as RESTRICTED in the registry.
+     *              Err(ERR_PLUGIN_NOT_FOUND) if the plugin is not loaded.
+     */
+    Result<void> checkCapabilityEscalation(const std::string& name);
+
+    /**
+     * @brief Query whether a plugin has been marked RESTRICTED due to a capability
+     *        escalation attempt.
+     *
+     * @param name  Plugin name.
+     * @return      true if the plugin exists, is loaded, and has been marked
+     *              RESTRICTED; false in all other cases.
+     */
+    bool isPluginRestricted(const std::string& name) const;
     
     /**
      * @brief Get plugin metrics
