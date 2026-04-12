@@ -693,6 +693,62 @@ Low cardinality: Status (10 values)
 
 ---
 
+## Process Module Terms
+
+**BpmnSerializer:** Process module component that imports and exports BPMN 2.0 XML using a state-machine tokenizer (no external XML library). Handles Camunda/Flowable/Signavio/VCC-VPB files. 10 MiB input guard. See Chapter 29.14.
+
+**EPK (Ereignisgesteuerte Prozesskette):** Event-driven Process Chain — a German process notation standard. ThemisDB supports EPK via `EpkSerializer` for both text and JSON formats. See Chapter 29.14.
+
+**EpkSerializer:** Process module component for EPK text/JSON import and export. `importText()` accepts line-based EPK notation; `exportJson()` produces a machine-readable JSON graph. See Chapter 29.14.
+
+**LlmProcessDescriptor:** Process module component that generates structured JSON descriptors and system prompts from process models, optimised for GPT-4, Claude, and local LLMs. See Chapter 29.14.
+
+**ProcessAttachment:** Descriptor of a data object attached to a process instance, stored under `proc:attach:<instance_id>:<object_id>` in RocksDB. See Chapter 29.14.
+
+**ProcessDomain:** Classification for process models: `ADMINISTRATION`, `BUSINESS`, `IT_SERVICE`, `HEALTHCARE`, `FINANCE`, `CUSTOMER_SERVICE`, `CUSTOM`. See Chapter 29.14.
+
+**ProcessGraphRag:** Graph-RAG engine that bridges the process execution graph with LLMs. Produces `ProcessRagContext` with subgraph, attachments, missing documents, similar cases, and a ready-to-send LLM prompt. See Chapter 29.14.
+
+**ProcessLinkType:** Typed relationship between a process instance and a data object or another instance: `HAS_DOCUMENT`, `HAS_METADATA`, `REQUIRES_DOCUMENT`, `IS_INSTANCE_OF`, `SUB_PROCESS`, `CROSS_REFERENCE`, `TRIGGERS`, `EVIDENCE_FOR`. See Chapter 29.14.
+
+**ProcessLinker:** Process module component managing attachments (`proc:attach:`), typed process-to-process links (`proc:link:`), and required-document registrations (`proc:req_doc:`) in RocksDB. See Chapter 29.14.
+
+**ProcessModelManager:** Process module CRUD manager storing versioned process models (`proc:def:<id>`) in RocksDB. Supports BPMN 2.0, EPK, and VCC-VPB import/export as well as deployment to `ProcessGraphManager`. See Chapter 29.14.
+
+**ProcessModelRecord:** Metadata record stored alongside each process model: id, name, notation, domain, state, normalised graph, compliance tags, version, and embedding. See Chapter 29.14.
+
+**ProcessNotation:** Format enum for process models: `BPMN_2_0`, `EPK`, `VCC_VPB`, `CMMN_1_1`, `DMN_1_5`. See Chapter 29.14.
+
+**ProcessRagContext:** Full Graph-RAG result produced by `ProcessGraphRag::retrieve()`. Contains the LLM prompt, subgraph, attachments, similar cases, compliance check, and missing documents list. See Chapter 29.14.
+
+**VccVpbImporter:** Process module component that imports VCC-VPB YAML process definitions into the ThemisDB internal graph format. See Chapter 29.14.
+
+**Verwaltungsvorgang:** German administrative case/procedure. ThemisDB's Process Module and `ProcessGraphRag` are specifically optimised for German Verwaltungsprozesse (e.g., Bauantrag, Führerscheinantrag). See Chapter 29.14.
+
+**LIRS (Low Inter-Reference Recency Set):** Advanced cache eviction algorithm distinguishing LIR (low inter-reference recency, "hot") from HIR (high inter-reference recency, "warm/cold") entries. ThemisDB's LIRS implementation uses `std::shared_mutex` for thread-safe access.
+
+**RCU (Read-Copy-Update):** Lock-free synchronisation technique for shared data: readers proceed without locks while writers create a new version. `g_rcu_reader_count` tracks active readers; writers wait until the count reaches zero.
+
+**UUID v7:** UUID version 7 as defined by RFC 9562, embedding a 48-bit millisecond Unix timestamp for time-sortable identifiers. ThemisDB generates UUID v7 via `generate_uuid_v7()` using a thread-local monotonic sequence counter and MT19937-64 randomness.
+
+**Vector:** Ordered list of numbers
+
+**View:** Virtual table derived from query
+
+**Voice Assistant:** Enterprise feature providing natural language voice interaction using Whisper (STT), Piper (TTS), and llama.cpp (LLM). Enables call center automation, meeting protocol generation, and voice-controlled database queries with DSGVO-compliant storage. See Chapter 10.7.
+
+**WAL (Write-Ahead Log):** Transaction log that records all database changes before they are applied, ensuring durability and enabling replication. In ThemisDB v1.5.0-dev, WAL replication provides zero-data-loss failover with support for synchronous, asynchronous, and hybrid replication modes. See Chapter 16.10.2.
+
+**WAL Replication:** Replication mechanism based on Write-Ahead Log streaming that continuously transfers transaction log entries from primary to replica nodes. Supports sync (zero data loss, higher latency), async (minimal latency, potential data loss), and hybrid modes. See Chapter 16.10.2.
+
+**Warm Data:** Occasionally accessed data
+
+**Whisper:** OpenAI's high-accuracy Speech-to-Text (STT) model integrated into ThemisDB Voice Assistant via whisper.cpp. Supports 100+ languages with auto-detection, speaker diarization, and 5 model sizes (tiny to large) trading accuracy for speed. See Chapter 10.7.
+
+**Workload:** Pattern of database usage
+
+---
+
 ## Summary
 
 Understanding these terms is essential for:

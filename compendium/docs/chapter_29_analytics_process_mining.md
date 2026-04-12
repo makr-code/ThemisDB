@@ -3282,4 +3282,351 @@ Wir empfehlen die Kombination mehrerer Quellen für ein tiefes Verständnis:
 
 ---
 
+## 29.14 Process Module — C++ API (v1.0)
+
+Das **Process Module** (`include/process/`, `src/process/`) ist das native C++-Backend für Prozessmodellierung, Prozessausführung und KI-gestützte Prozessanalyse in ThemisDB. Es stellt produktionsreife Implementierungen für BPMN 2.0, EPK, VCC-VPB und einen Graph-RAG-Layer für Verwaltungsvorgänge bereit.
+
+### Architektur
+
+```
+Eingabe: BPMN 2.0 XML / EPK Text / VCC-VPB YAML
+          │
+          ▼
+ProcessModelManager   ─── importBpmn/importEpk/importVccVpb()
+          │                speichert: proc:def:<id> (RocksDB, versioniert)
+          │
+          ├── deployToEngine(model_id, engine)
+          ▼
+ProcessGraphManager   ─── Instanzen, Token-Traversal, History
+          │
+          ├── attachObject() / detachObject()
+          ▼
+ProcessLinker         ─── proc:attach:, proc:link:, proc:req_doc: (RocksDB)
+          │
+          ├── retrieve(instance_id, query, config)
+          ▼
+ProcessGraphRag       ─── KnowledgeGraph-Extraktion + LLM-Prompt-Generierung
+          │
+          └─ LlmProcessDescriptor  ─── JSON-Schema für LLM-System-Prompts
+```
+
+### ProcessModelManager — Prozessmodell-CRUD
+
+```cpp
+#include "process/process_model_manager.h"
+
+themis::RocksDBWrapper db = /* open DB */;
+themis::process::ProcessModelManager models(db);
+
+// ── BPMN 2.0 importieren ──────────────────────────────────────────
+auto result = models.importBpmn(
+    bpmn_xml_string,
+    themis::process::ProcessDomain::ADMINISTRATION,
+    {"DSGVO", "§34 BauO NRW", "VwVfG"}
+);
+// result.ok, result.model_id, result.message
+
+// ── EPK importieren ────────────────────────────────────────────────
+auto epk_result = models.importEpk(
+    epk_text,
+    themis::process::ProcessDomain::BUSINESS,
+    {"ISO-9001"}
+);
+
+// ── VCC-VPB YAML importieren ───────────────────────────────────────
+auto vpb_result = models.importVccVpb(
+    vpb_yaml_string,
+    themis::process::ProcessDomain::ADMINISTRATION
+);
+
+// ── Modell abrufen ─────────────────────────────────────────────────
+auto record = models.get("bauantrag_standard");  // optional<ProcessModelRecord>
+if (record) {
+    std::string xml = models.exportBpmn(record->id);
+    nlohmann::json desc = models.generateLlmDescriptor(record->id);
+}
+
+// ── Modelle auflisten / suchen ─────────────────────────────────────
+auto admin_models = models.list(
+    ProcessDomain::ADMINISTRATION,
+    ProcessModelState::ACTIVE,
+    ProcessNotation::BPMN_2_0
+);
+
+// ── Modell mit ProcessGraphManager verknüpfen ──────────────────────
+themis::ProcessGraphManager engine(db);
+models.deployToEngine("bauantrag_standard", engine);
+```
+
+**ProcessNotation-Werte:**
+
+| Wert | Format | Standard |
+|------|--------|---------|
+| `BPMN_2_0` | Business Process Model and Notation 2.0 | ISO/IEC 19510:2013 |
+| `EPK` | Ereignisgesteuerte Prozesskette | — |
+| `VCC_VPB` | VCC-VPB YAML | ThemisDB-intern |
+| `CMMN_1_1` | Case Management Model and Notation | OMG |
+| `DMN_1_5` | Decision Model and Notation | OMG |
+
+**ProcessDomain-Werte:** `ADMINISTRATION`, `BUSINESS`, `IT_SERVICE`, `HEALTHCARE`, `FINANCE`, `CUSTOMER_SERVICE`, `CUSTOM`
+
+### BpmnSerializer — BPMN 2.0 Import/Export
+
+`BpmnSerializer` konvertiert direkt zwischen BPMN 2.0 XML und dem internen `ProcessNodeInfo`/`ProcessEdgeInfo`-Graphformat.  Der Parser ist tolerant gegenüber BPMN-Dateien verschiedener Werkzeuge (Camunda, Flowable, Signavio, VCC-VPB).
+
+```cpp
+#include "process/bpmn_serializer.h"
+
+// Import
+auto result = themis::process::BpmnSerializer::importXml(bpmn_xml);
+if (result.ok) {
+    // result.process_id, result.process_name
+    // result.nodes: std::vector<ProcessNodeInfo>
+    // result.edges: std::vector<ProcessEdgeInfo>
+}
+
+// Import aus Datei
+auto file_result = themis::process::BpmnSerializer::importFile("/data/bauantrag.bpmn");
+
+// Export (Nodes → BPMN XML)
+std::string xml = themis::process::BpmnSerializer::exportXml(
+    "bauantrag_standard",
+    "Bauantrag (Standard)",
+    nodes,
+    edges
+);
+
+// Export aus normalisiertem JSON-Graph (aus ProcessModelRecord.normalized)
+std::string xml2 = themis::process::BpmnSerializer::exportFromJson(normalized_graph_json);
+```
+
+**BPMN-Elementunterstützung:**
+
+| Elementklasse | Import | Export |
+|--------------|--------|--------|
+| Events (Start/End/Intermediate) | ✅ | ✅ |
+| Tasks (User/Service/Script/Send/Receive) | ✅ | ✅ |
+| Sub-Processes & Call Activities | ✅ | ✅ |
+| Gateways (XOR/AND/OR/Event-based/Complex) | ✅ | ✅ |
+| Sequenzflüsse (mit Bedingungen) | ✅ | ✅ |
+| Nachrichtenflüsse | ✅ | ✅ |
+| Pools & Lanes | ✅ | ✅ |
+| Datenobjekte & Data Stores | ✅ | ✅ |
+| Annotationen & Assoziationen | ✅ | ✅ |
+| BPMNDI Layout-Hints | ❌ (ignoriert) | ❌ |
+
+Der XML-Parser ist ein zustandsbasierter Tokenizer (`tokenizeXml`/`parseAttrs`/`stripNs`/`unescapeXml`) ohne externe XML-Bibliothek. Ein **10 MiB-Guard** schützt vor DoS-Angriffen.
+
+### EpkSerializer — EPK Import/Export
+
+```cpp
+#include "process/epk_serializer.h"
+
+// Aus EPK-Text-Notation
+auto result = themis::process::EpkSerializer::importText(epk_text);
+
+// Aus EPK-JSON-Array
+auto json_result = themis::process::EpkSerializer::importJson(epk_json_array);
+
+// Export als Text-Notation
+std::string text = themis::process::EpkSerializer::exportText("Prozessname", nodes, edges);
+
+// Export als strukturiertes JSON
+nlohmann::json json = themis::process::EpkSerializer::exportJson(
+    "proc_id", "Prozessname", nodes, edges
+);
+```
+
+### ProcessLinker — Objekt- und Prozessverknüpfungen
+
+`ProcessLinker` verwaltet bidirektionale Verknüpfungen zwischen Prozessinstanzen und Datenobjekten sowie zwischen Prozessinstanzen untereinander. Alle Links werden unter RocksDB-Präfixen `proc:attach:`, `proc:link:` und `proc:req_doc:` gespeichert.
+
+```cpp
+#include "process/process_linker.h"
+
+themis::process::ProcessLinker linker(db);
+
+// ── Dokument anhängen ──────────────────────────────────────────────
+auto [ok, attach_id] = linker.attachObject(
+    "inst-42",                     // Prozessinstanz-ID
+    "doc-7",                       // Dokumenten-ID
+    "documents",                   // Kollektion ("documents", "metadata", ...)
+    ProcessLinkType::HAS_DOCUMENT,
+    "vollstaendigkeitspruefung",   // Knoten-ID (optional)
+    {{"doc_type", "Bauzeichnung"}, {"mandatory", true}},
+    "sachbearbeiter@amt.de"
+);
+
+// ── Dokument ablösen (Hard-Delete) ────────────────────────────────
+linker.detachObject(attach_id);
+
+// ── Alle Anhänge einer Instanz abrufen ────────────────────────────
+auto attachments = linker.getAttachments(
+    "inst-42",
+    ProcessLinkType::HAS_DOCUMENT   // optionaler Filter
+);
+
+// ── Reverse-Lookup: Welche Instanzen haben ein Dokument? ──────────
+auto instances = linker.findInstancesWithObject("doc-7", "documents");
+
+// ── Prozesse verknüpfen ────────────────────────────────────────────
+auto [link_ok, link_id] = linker.linkProcesses(
+    "inst-42", "inst-55",
+    ProcessLinkType::TRIGGERS,
+    {{"reason", "Abschluss Vollständigkeitsprüfung"}}
+);
+
+// ── Pflichtdokumente registrieren ─────────────────────────────────
+linker.registerRequiredDocument(
+    "bauantrag_standard",            // Modell-ID
+    "vollstaendigkeitspruefung",     // Knoten-ID
+    "Bauzeichnung",                  // Dokumenttyp
+    /*mandatory=*/true,
+    {}                               // JSON-Schema (optional)
+);
+
+// ── Fehlende Pflichtdokumente ermitteln ───────────────────────────
+auto missing = linker.getMissingDocuments(
+    "inst-42",
+    "vollstaendigkeitspruefung",
+    "bauantrag_standard"
+);
+// missing: std::vector<std::string> → ["Lageplan", "Statik"]
+```
+
+**ProcessLinkType-Werte:**
+
+| Wert | Bedeutung |
+|------|-----------|
+| `HAS_DOCUMENT` | Instanz hat ein angehängtes Dokument |
+| `HAS_METADATA` | Instanz hat strukturierte Metadaten |
+| `REQUIRES_DOCUMENT` | Modellknoten erfordert ein Dokument |
+| `IS_INSTANCE_OF` | Instanz wurde aus diesem Modell erzeugt |
+| `SUB_PROCESS` | Instanz ist ein Teilprozess einer anderen Instanz |
+| `CROSS_REFERENCE` | Verweist auf einen anderen Verwaltungsvorgang |
+| `TRIGGERS` | Abschluss dieses Prozesses löst einen anderen aus |
+| `EVIDENCE_FOR` | Dokument ist Nachweis für eine Prozessentscheidung |
+
+### ProcessGraphRag — Graph-RAG für Verwaltungsvorgänge
+
+`ProcessGraphRag` ist die KI-Brücke zwischen dem Prozessausführungsgraphen und einem LLM. Sie extrahiert kontextrelevante Teilgraphen, findet ähnliche historische Vorgänge und generiert deutsche/englische Prompts für LLM-Anfragen.
+
+```cpp
+#include "process/process_graph_rag.h"
+
+themis::process::ProcessGraphRag rag(db, engine, models, linker);
+
+// ── Vollständigen RAG-Kontext für eine Instanz abrufen ────────────
+themis::process::ProcessRagConfig cfg;
+cfg.language           = "de";
+cfg.max_similar_cases  = 3;
+cfg.max_prompt_tokens  = 4000;
+cfg.include_missing_docs = true;
+
+auto ctx = rag.retrieve("inst-42", "Was fehlt noch?", cfg);
+// ctx.llm_prompt            → fertig für LLM
+// ctx.missing_documents     → ["Lageplan"]
+// ctx.subgraph              → JSON mit nodes/edges
+// ctx.similar_cases         → ähnliche Vorgänge
+// ctx.compliance            → {"is_compliant": false, ...}
+
+// ── Strukturierte Zusammenfassung für UI ──────────────────────────
+auto summary = rag.summarizeVerwaltungsvorgang("inst-42");
+// {"state":"RUNNING","progress_pct":45.0,"missing_documents":[...]}
+
+// ── Compliance-Check ──────────────────────────────────────────────
+auto comp = rag.checkCompliance("inst-42");
+// {"is_compliant": false, "violations": ["Fehlende Pflichtunterlage: Lageplan"]}
+
+// ── Ähnliche historische Vorgänge ────────────────────────────────
+auto similar = rag.findSimilarCases("inst-42", /*k=*/5, /*min_sim=*/0.7f);
+```
+
+**ProcessRagConfig-Felder:**
+
+| Feld | Typ | Standard | Beschreibung |
+|------|-----|---------|-------------|
+| `max_subgraph_depth` | int | 3 | BFS-Tiefe vom aktuellen Knoten |
+| `max_similar_cases` | int | 5 | Maximale ähnliche Vorgänge |
+| `include_attachments` | bool | true | Angehängte Dokumente einbeziehen |
+| `include_history` | bool | true | Token-Traversal-Historie einbeziehen |
+| `include_missing_docs` | bool | true | Fehlende Pflichtdokumente prüfen |
+| `include_compliance` | bool | true | Compliance-Tags und -Regeln einbeziehen |
+| `similarity_threshold` | float | 0.7 | Minimale Ähnlichkeit für Vergleichsvorgänge |
+| `max_prompt_tokens` | size_t | 3000 | Ungefähres Token-Budget für den LLM-Prompt |
+| `language` | string | `"de"` | Ausgabesprache: `"de"` oder `"en"` |
+
+### LlmProcessDescriptor — Strukturierter LLM-Kontext
+
+`LlmProcessDescriptor` wandelt ein `ProcessModelRecord` in ein JSON-Descriptor-Objekt um, das als System-Prompt für GPT-4, Claude und lokale LLMs geeignet ist.
+
+```cpp
+#include "process/llm_process_descriptor.h"
+
+themis::process::LlmProcessDescriptor descriptor(models);
+
+// JSON-Descriptor generieren
+nlohmann::json desc = descriptor.generateDescriptor("bauantrag_standard");
+// desc["process_id"], desc["name"], desc["domain"], desc["summary"]
+// desc["nodes"]: [{id, type, name, role, sla_hours, description}]
+// desc["edges"]: [{from, to, type, condition}]
+// desc["compliance"], desc["sla_total_hours"], desc["llm_context"]
+
+// System-Prompt (Deutsch)
+std::string sys_prompt = descriptor.generateSystemPrompt("bauantrag_standard", "de");
+
+// System-Prompt (Englisch)
+std::string sys_prompt_en = descriptor.generateSystemPrompt("bauantrag_standard", "en");
+
+// Conformance-Checking-Prompt
+std::string conf_prompt = descriptor.buildConformancePrompt("bauantrag_standard", trace_json);
+```
+
+### Komplettes Beispiel: Bauantrags-Pipeline
+
+```cpp
+#include "process/process_model_manager.h"
+#include "process/process_linker.h"
+#include "process/process_graph_rag.h"
+#include "index/process_graph.h"
+
+using namespace themis::process;
+
+// 1. Setup
+RocksDBWrapper      db    = /* DB öffnen */;
+ProcessGraphManager engine(db);
+ProcessModelManager models(db);
+ProcessLinker       linker(db);
+ProcessGraphRag     rag   (db, engine, models, linker);
+
+// 2. Modell laden / importieren
+models.importBpmn(bpmn_xml, ProcessDomain::ADMINISTRATION,
+                  {"DSGVO", "§34 BauO NRW"});
+models.deployToEngine("bauantrag_standard", engine);
+
+// 3. Instanz starten
+engine.startInstance("bauantrag_standard", "inst-42",
+                     {{"applicant", "Mustermann GmbH"}});
+
+// 4. Dokument anhängen
+linker.registerRequiredDocument("bauantrag_standard",
+    "vollstaendigkeitspruefung", "Bauzeichnung", /*mandatory=*/true, {});
+linker.attachObject("inst-42", "doc-7", "documents",
+                    ProcessLinkType::HAS_DOCUMENT,
+                    "vollstaendigkeitspruefung",
+                    {{"doc_type","Bauzeichnung"}}, "sachbearbeiter@amt.de");
+
+// 5. KI-Kontext für LLM erstellen
+ProcessRagConfig cfg;
+cfg.language = "de";
+auto ctx = rag.retrieve("inst-42",
+                        "Ist der Vorgang vollständig? Was fehlt noch?", cfg);
+
+// 6. LLM aufrufen (ctx.llm_prompt → LLM → Antwort)
+auto summary = rag.summarizeVerwaltungsvorgang("inst-42");
+auto compliance = rag.checkCompliance("inst-42");
+```
+
+---
+
 **Kapitel 29 von 30** | **Teil XI: Analytics & Operations** | **~10.400 Wörter**

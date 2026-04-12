@@ -296,6 +296,66 @@ Die folgenden Komponenten wurden mit dem v1.9.x-Release (Commit 2026-04-12) in d
 
 ---
 
+## Implementierungsstatus — Process Module (v1.0)
+
+### Serialisierer & Import
+
+| Feature | Modul | Status | Tests | Beschreibung |
+|---------|-------|--------|-------|-------------|
+| `BpmnSerializer::importXml()` | `process/` | ✅ GA | BpmnSerializerTest | Zustandsbasierter XML-Tokenizer; 10 MiB-Guard; `bpmn:`-Namespace-Strip; tolerant |
+| `BpmnSerializer::exportXml()` | `process/` | ✅ GA | BpmnSerializerTest | Volle BPMN 2.0-Fidelity; OMG-konforme Ausgabe |
+| `BpmnSerializer::importFile()` | `process/` | ✅ GA | — | Datei-I/O-Wrapper |
+| `BpmnSerializer::exportFromJson()` | `process/` | ✅ GA | — | Export aus normalisiertem JSON-Graph |
+| `EpkSerializer::importText()` | `process/` | ✅ GA | EpkSerializerTest | EPK-Text-Notation + JSON-Array-Format |
+| `EpkSerializer::exportText()` | `process/` | ✅ GA | EpkSerializerTest | Round-trip-fähig |
+| `EpkSerializer::exportJson()` | `process/` | ✅ GA | EpkSerializerTest | Strukturiertes JSON für LLM-Kontext |
+| `VccVpbImporter` | `process/` | ✅ GA | VccVpbImporterTest | VCC-VPB YAML-Import |
+
+### ProcessModelManager
+
+| Feature | Modul | Status | Tests | Beschreibung |
+|---------|-------|--------|-------|-------------|
+| `importBpmn()` | `process/` | ✅ GA | ProcessModuleTest | BPMN 2.0 → ProcessModelRecord; RocksDB `proc:def:<id>` |
+| `importEpk()` | `process/` | ✅ GA | ProcessModuleTest | EPK → ProcessModelRecord |
+| `importVccVpb()` | `process/` | ✅ GA | ProcessModuleTest | VCC-VPB → ProcessModelRecord |
+| `save()`/`get()`/`remove()`/`list()` | `process/` | ✅ GA | ProcessModuleTest | Versioniertes CRUD |
+| `deployToEngine()` | `process/` | ✅ GA | ProcessModuleTest | Registriert Modell mit ProcessGraphManager |
+| `exportBpmn()`/`exportEpk()` | `process/` | ✅ GA | ProcessModuleTest | Rückexport in Originalformat |
+| `generateLlmDescriptor()` | `process/` | ✅ GA | LlmDescriptorTest | JSON-Schema für LLM-System-Prompts |
+
+### ProcessLinker
+
+| Feature | Modul | Status | Tests | Beschreibung |
+|---------|-------|--------|-------|-------------|
+| `attachObject()` | `process/` | ✅ GA | ProcessModuleTest | 8 `ProcessLinkType`-Werte; node-scoped optional |
+| `detachObject()` | `process/` | ✅ GA | ProcessModuleTest | Hard-Delete (kein Tombstone) |
+| `getAttachments()` / `getNodeAttachments()` | `process/` | ✅ GA | ProcessModuleTest | Mit optionalem Typ-Filter |
+| `findInstancesWithObject()` | `process/` | ✅ GA | ProcessModuleTest | Sekundärindex `proc:obj_idx:` |
+| `linkProcesses()` / `getLinks()` | `process/` | ✅ GA | ProcessModuleTest | Typisierte Prozess-zu-Prozess-Links |
+| `registerRequiredDocument()` | `process/` | ✅ GA | ProcessModuleTest | Pflichtdokumentregistrierung pro Modell-Knoten |
+| `getMissingDocuments()` | `process/` | ✅ GA | ProcessModuleTest | Prüft welche Pflichtdokumente fehlen |
+
+### ProcessGraphRag
+
+| Feature | Modul | Status | Tests | Beschreibung |
+|---------|-------|--------|-------|-------------|
+| `retrieve()` | `process/` | ✅ GA | ProcessGraphRagTest | Vollständiger Graph-RAG-Kontext; DE/EN |
+| `retrieveForNode()` | `process/` | ✅ GA | ProcessGraphRagTest | Knoten-scoped RAG |
+| `summarizeVerwaltungsvorgang()` | `process/` | ✅ GA | ProcessGraphRagTest | JSON-Zusammenfassung für UI/API |
+| `checkCompliance()` | `process/` | ✅ GA | ProcessGraphRagTest | Compliance-Check (Dokumente, SLA, Status) |
+| `findSimilarCases()` | `process/` | ✅ GA | ProcessGraphRagTest | Cosine/Jaccard-Ähnlichkeit; konfigurierbarer Threshold |
+| `buildAdminProcessingPrompt()` | `process/` | ✅ GA | ProcessGraphRagTest | Verwaltungsspezifischer LLM-Prompt (DE) |
+
+### LlmProcessDescriptor
+
+| Feature | Modul | Status | Tests | Beschreibung |
+|---------|-------|--------|-------|-------------|
+| `generateDescriptor()` | `process/` | ✅ GA | LlmDescriptorTest | JSON-Schema mit nodes/edges/compliance/sla |
+| `generateSystemPrompt()` | `process/` | ✅ GA | LlmDescriptorTest | System-Prompt DE/EN |
+| `buildConformancePrompt()` | `process/` | ✅ GA | LlmDescriptorTest | Conformance-Checking-Prompt |
+
+---
+
 **Version History:**
 - 1.4.0-alpha (2026-01-06): 25 neue Alpha-Features (LLM, Performance, HA, Monitoring, Protocol)
 - 1.3.0 (2025-12-30): Umfassendes Update mit allen Features bis Dez 2025
