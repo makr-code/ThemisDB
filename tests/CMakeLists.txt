@@ -19621,6 +19621,120 @@ else()
     message(STATUS "IntelligentPrefetcher focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_intelligent_prefetcher.cpp")
 endif()
 
+# ============================================================================
+# NUMAMemoryManager focused tests (v1.9.0, Issue #228)
+# ============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_numa_memory_manager.cpp")
+    message(STATUS "Adding NUMAMemoryManager focused tests (performance module, Issue #228)")
+
+    add_executable(test_numa_memory_manager_focused
+        test_numa_memory_manager.cpp
+        ${CMAKE_SOURCE_DIR}/src/performance/numa_memory_manager.cpp
+    )
+
+    target_include_directories(test_numa_memory_manager_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_numa_memory_manager_focused PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_numa_memory_manager_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME NUMAMemoryManagerFocusedTests
+        COMMAND test_numa_memory_manager_focused)
+
+    set_tests_properties(NUMAMemoryManagerFocusedTests PROPERTIES
+        LABELS "performance;numa;memory;allocation;migration;stats;v1.9.0;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  NUMAMemoryManager: topology, allocate_local/on_node, migrate, stats, thread-safety")
+else()
+    message(STATUS "NUMAMemoryManager focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_numa_memory_manager.cpp")
+endif()
+
+# ============================================================================
+# AdvancedCacheManager focused tests (v1.9.0, Issue #229)
+# ============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_advanced_cache_manager.cpp")
+    message(STATUS "Adding AdvancedCacheManager focused tests (performance module, Issue #229)")
+
+    add_executable(test_advanced_cache_manager_focused
+        test_advanced_cache_manager.cpp
+        ${CMAKE_SOURCE_DIR}/src/performance/advanced_cache_manager.cpp
+    )
+
+    target_include_directories(test_advanced_cache_manager_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_advanced_cache_manager_focused PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_advanced_cache_manager_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME AdvancedCacheManagerFocusedTests
+        COMMAND test_advanced_cache_manager_focused)
+
+    set_tests_properties(AdvancedCacheManagerFocusedTests PROPERTIES
+        LABELS "performance;cache;partitioning;bloom-filter;lru;compression;v1.9.0;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  AdvancedCacheManager: partitions, get/put, bloom-filter, LRU eviction, stats, flush, thread-safety")
+else()
+    message(STATUS "AdvancedCacheManager focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_advanced_cache_manager.cpp")
+endif()
+
+# ============================================================================
+# WorkloadAdaptiveOptimizer focused tests (v1.9.0, Issue #230)
+# ============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_workload_adaptive_optimizer.cpp")
+    message(STATUS "Adding WorkloadAdaptiveOptimizer focused tests (performance module, Issue #230)")
+
+    add_executable(test_workload_adaptive_optimizer_focused
+        test_workload_adaptive_optimizer.cpp
+        ${CMAKE_SOURCE_DIR}/src/performance/workload_adaptive_optimizer.cpp
+    )
+
+    target_include_directories(test_workload_adaptive_optimizer_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_workload_adaptive_optimizer_focused PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_workload_adaptive_optimizer_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME WorkloadAdaptiveOptimizerFocusedTests
+        COMMAND test_workload_adaptive_optimizer_focused)
+
+    set_tests_properties(WorkloadAdaptiveOptimizerFocusedTests PROPERTIES
+        LABELS "performance;workload;adaptive;classification;strategy;auto-adapt;v1.9.0;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  WorkloadAdaptiveOptimizer: classification, strategy, auto-adapt, callback, stats, thread-safety")
+else()
+    message(STATUS "WorkloadAdaptiveOptimizer focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_workload_adaptive_optimizer.cpp")
+endif()
+
 add_custom_target(run_tests
     COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}

@@ -2510,6 +2510,9 @@ endif()
 list(APPEND THEMIS_CORE_SOURCES
     ../src/performance/phase4/feature_flags.cpp
     ../src/performance/phase4/pmu_counters.cpp
+    ../src/performance/numa_memory_manager.cpp
+    ../src/performance/advanced_cache_manager.cpp
+    ../src/performance/workload_adaptive_optimizer.cpp
 )
 
 if(THEMIS_ENABLE_PMEM)
