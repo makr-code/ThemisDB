@@ -33,6 +33,24 @@ namespace themis {
 namespace plugins {
 namespace ethics {
 
+EthicsEvaluator::EthicsEvaluator(const Config& config) {
+    // Normalise weights so they always sum to 1.0.
+    double total = config.weight_decision_quality
+                 + config.weight_consistency
+                 + config.weight_fairness
+                 + config.weight_alignment
+                 + config.weight_transparency;
+    if (total <= 0.0) {
+        config_ = Config{};  // fall back to defaults
+    } else {
+        config_.weight_decision_quality = config.weight_decision_quality / total;
+        config_.weight_consistency      = config.weight_consistency      / total;
+        config_.weight_fairness         = config.weight_fairness         / total;
+        config_.weight_alignment        = config.weight_alignment        / total;
+        config_.weight_transparency     = config.weight_transparency     / total;
+    }
+}
+
 std::variant<EthicsEvaluationResult, Status> EthicsEvaluator::evaluateDecision(
     const EthicalDecision& decision,
     const std::vector<EthicalArgument>& arguments) {
@@ -46,20 +64,13 @@ std::variant<EthicsEvaluationResult, Status> EthicsEvaluator::evaluateDecision(
     result.alignment_score = evaluateAlignment(decision, arguments);
     result.transparency_score = evaluateTransparency(decision, arguments);
     
-    // Calculate overall score (weighted average)
-    const double weights[5] = {0.25, 0.20, 0.20, 0.20, 0.15};
-    const double scores[5] = {
-        result.decision_quality_score,
-        result.consistency_score,
-        result.fairness_score,
-        result.alignment_score,
-        result.transparency_score
-    };
-    
-    result.overall_score = 0.0;
-    for (int i = 0; i < 5; ++i) {
-        result.overall_score += weights[i] * scores[i];
-    }
+    // Calculate overall score using configured (normalised) weights.
+    result.overall_score =
+        config_.weight_decision_quality * result.decision_quality_score +
+        config_.weight_consistency      * result.consistency_score      +
+        config_.weight_fairness         * result.fairness_score         +
+        config_.weight_alignment        * result.alignment_score        +
+        config_.weight_transparency     * result.transparency_score;
     
     // Store detailed metrics
     result.detailed_metrics["decision_quality"] = result.decision_quality_score;

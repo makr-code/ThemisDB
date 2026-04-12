@@ -17268,6 +17268,55 @@ else()
 endif()
 
 # ============================================================================
+# Ethics AI Chain Visualizer Tests (src/ethics_ai)
+# ============================================================================
+
+if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ethics_ai_chain_visualizer.cpp")
+    message(STATUS "Adding Ethics AI Chain Visualizer tests")
+
+    add_executable(test_ethics_ai_chain_visualizer
+        test_ethics_ai_chain_visualizer.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/argument_store.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/ethics_ai_types.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/chain_visualizer.cpp
+    )
+
+    target_include_directories(test_ethics_ai_chain_visualizer PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai
+    )
+
+    target_link_libraries(test_ethics_ai_chain_visualizer PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_ethics_ai_chain_visualizer PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    set_target_properties(test_ethics_ai_chain_visualizer PROPERTIES
+        CXX_STANDARD 20
+        CXX_STANDARD_REQUIRED ON
+    )
+
+    add_test(NAME ChainVisualizerTests COMMAND test_ethics_ai_chain_visualizer)
+
+    set_tests_properties(ChainVisualizerTests PROPERTIES
+        LABELS "ethics;visualizer;dot;mermaid;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  ChainVisualizer: DOT/Mermaid export CV-01..CV-08")
+elseif(NOT THEMIS_PLUGIN_ETHICS_AI)
+    message(STATUS "Ethics AI Chain Visualizer tests skipped (THEMIS_PLUGIN_ETHICS_AI disabled)")
+else()
+    message(STATUS "Ethics AI Chain Visualizer tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_ethics_ai_chain_visualizer.cpp")
+endif()
+
+# ============================================================================
 # ONNX CLIP Plugin Tests (src/onnx_clip)
 # ============================================================================
 

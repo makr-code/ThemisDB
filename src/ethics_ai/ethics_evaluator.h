@@ -44,7 +44,27 @@ namespace ethics {
  */
 class EthicsEvaluator {
 public:
+    /**
+     * @brief Per-dimension weight configuration.
+     *
+     * Weights are normalised to sum to 1.0 in the constructor, so the caller
+     * may supply arbitrary positive values.  Default values reproduce the
+     * original hardcoded behaviour: 0.25 / 0.20 / 0.20 / 0.20 / 0.15.
+     */
+    struct Config {
+        double weight_decision_quality = 0.25; ///< Decision Quality dimension weight
+        double weight_consistency      = 0.20; ///< Consistency dimension weight
+        double weight_fairness         = 0.20; ///< Fairness dimension weight
+        double weight_alignment        = 0.20; ///< Alignment dimension weight
+        double weight_transparency     = 0.15; ///< Transparency dimension weight
+    };
+
+    /// Default constructor — uses default Config weights.
     EthicsEvaluator() = default;
+
+    /// Constructor with explicit configuration.
+    explicit EthicsEvaluator(const Config& config);
+
     ~EthicsEvaluator() = default;
     
     /**
@@ -109,6 +129,8 @@ private:
         const EthicalDecision& decision,
         const std::vector<EthicalArgument>& arguments
     );
+
+    Config config_; ///< Active weight configuration
 };
 
 } // namespace ethics

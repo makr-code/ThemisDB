@@ -63,16 +63,19 @@ v0.1.0.
 
 - [ ] Philosophy profile hot-reload without server restart (Target: Q4 2026)
 - [ ] Multi-round debates: `continueDebate()` with counter-argument generation (Target: Q4 2026)
-- [ ] Configurable aggregation weights for EthicsEvaluator dimensions (Target: Q4 2026)
+- [x] Configurable aggregation weights for EthicsEvaluator dimensions (Target: Q4 2026)
+  - `EthicsEvaluator::Config` struct; weights normalised in constructor; default ctor preserves legacy behaviour
 - [ ] Prometheus metrics: decisions/sec, avg confidence, RAG hit rate (Target: Q4 2026)
 - [x] Performance benchmark: full decision pipeline ≤ 200 ms (excl. LLM) at p99 (Target: Q4 2026)
   - Implemented: `tests/test_ethics_ai_benchmark.cpp` (PB-01..PB-06); CI threshold 500 ms
 
 ### v0.3.0 — Philosophy Library (Target: Q1 2027)
 
-- [ ] Ship built-in YAML profiles: utilitarianism, Kantian ethics, virtue ethics, care ethics, contractualism (Target: Q1 2027)
+- [x] Ship built-in YAML profiles: utilitarianism, Kantian, virtue ethics, care ethics, contractualism, rationalism, others (Target: Q1 2027)
+  - Profiles already in `plugins/ethics_ai/philosophies/`; `PhilosophyLoader` now handles rich YAML schema (complex thesis objects, point-keyed strengths/weaknesses, nested decision_framework)
 - [ ] Compliance ethics profiles: GDPR, ISO 42001, IEEE 7000 (Target: Q1 2027)
-- [ ] Argument chain visualisation (DOT/Mermaid export) (Target: Q1 2027)
+- [x] Argument chain visualisation (DOT/Mermaid export) (Target: Q1 2027)
+  - `ChainVisualizer::exportDot()` / `exportMermaid()` / `chainToDot()` / `chainToMermaid()` in `chain_visualizer.h/cpp`; 8 tests CV-01..CV-08
 
 ---
 
@@ -153,8 +156,11 @@ v0.1.0.
 | Argument content | ⚠️ | All profile theses + decision framework used; LLM generation planned Q3 2026 |
 | Confidence scoring | ✅ | `EthicsEvaluator::computeConfidence()`: strength-weighted average |
 | Consensus scoring | ✅ | `EthicsEvaluator::computeConsensus()`: inter-school PRO/CONTRA tally |
+| Configurable weights | ✅ | `EthicsEvaluator::Config`; normalised; default preserves legacy behaviour |
+| YAML profile loading | ✅ | Handles complex thesis objects, point-keyed strengths/weaknesses, nested frameworks |
+| Argument chain visualisation | ✅ | `ChainVisualizer` DOT + Mermaid export |
 | Embedding search | ⚠️ | BOC-TF 768-dim fallback; real ONNX model planned Q3 2026 |
-| Unit test coverage | ✅ | 5 focused unit suites + 1 integration suite + 1 benchmark suite (PB-01..PB-06) |
+| Unit test coverage | ✅ | 5 focused unit suites + 1 integration suite + 1 benchmark suite + 1 visualizer suite |
 | Performance benchmarks | ✅ | PB-01..PB-06 in `tests/test_ethics_ai_benchmark.cpp` |
 | Prometheus metrics | ❌ | Planned Q4 2026 |
 
