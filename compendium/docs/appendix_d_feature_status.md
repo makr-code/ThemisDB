@@ -282,6 +282,11 @@ Die folgenden Komponenten wurden mit dem v1.9.x-Release (Commit 2026-04-12) in d
 | `GPUVectorIndex` Oversubscription | `index/` | ✅ GA | 26 (GPUMemOversubTests) | Partitions-basiertes VRAM-Paging; LRU/MRU/SEQUENTIAL Prefetch |
 | `GPUMemoryOversubscriptionManager` | `index/` | ✅ GA | 26 (GPUMemOversubTests) | Unified Memory (cudaMallocManaged/hipMallocManaged); CPU-Fallback |
 | `GPUUnifiedMemoryAllocator` | `index/` | ✅ GA | — | Transparente CUDA/HIP Unified Memory + CPU-Heap-Fallback |
+| `CUDAVectorBackend` | `acceleration/` | ✅ GA | — | HNSW on GPU; Batch-KNN; CUDA Graph Capture; buildHnswAnnIndex |
+| `MultiGPUVectorBackend` | `acceleration/` | ✅ GA | — | NCCL/RCCL Fan-out KNN; NVLink P2P; CPU-Fallback; bis zu N GPUs |
+| `GeoAccelerationBridge` | `acceleration/` | ✅ GA | — | CUDA/Vulkan Haversine + Point-in-Polygon; Backend-Dispatch |
+| Vulkan Compute (non-NVIDIA) | `acceleration/` | ✅ GA | — | SPIR-V Shaders: L2/Cosine/InnProd/TopK/Batch+Geo-Kernels |
+| ROCm/HIP Backend (AMD) | `acceleration/` | ✅ GA | — | `ann_kernels.hip` + `geo_kernels.hip`; non-HIP CPU-Fallback |
 
 ### Utils
 
@@ -458,6 +463,21 @@ Die folgenden Komponenten wurden mit dem v1.9.x-Release (Commit 2026-04-12) in d
 | `ProTeGiOptimizer` | `prompt_engineering/` | ✅ GA | — | Textual-Gradient-Optimierung; population_size + iterations |
 | DSPy-Modul (`dspy_module.h`) | `prompt_engineering/` | ✅ GA | — | DSPy-kompatibler Prompt-Deklarations-Layer |
 | `ContextWindowManager` | `prompt_engineering/` | ✅ GA | — | Context-Window-Budget-Enforcement |
+
+### Voice-Modul (v1.1)
+
+| Feature | Modul | Status | Tests | Beschreibung |
+|---------|-------|--------|-------|-------------|
+| `VoiceAssistant` | `voice/` | ✅ GA | — | STT (Whisper) + LLM (LlamaWrapper) + TTS; Session-Management |
+| Wake-Word-Detektion | `voice/` | ✅ GA | — | "Hey Themis"; konfig. Wake-Words; Low-Latency Detection |
+| `VoiceBiometricAuthenticator` | `voice/` | ✅ GA | — | Sprecher-Enrollment + Verification; Confidence Score |
+| `TelephonyBridge` (SIP/WebRTC) | `voice/` | ✅ GA | — | Anruf-Aufzeichnung + Transkription; Sprecher-Diarisierung |
+| Browser WebSocket Streaming | `voice/` | ✅ GA | — | Real-Time Audio-Chunking; ws://server/voice/stream |
+| Meeting-Protokoll-Generierung | `voice/` | ✅ GA | — | Zusammenfassung + Action-Items + Key-Points via LLM |
+| `EmotionAnalyzer` | `voice/` | ✅ GA | — | Emotionserkennung aus Audio-Features |
+| `VoiceMacro` | `voice/` | ✅ GA | — | Konfigurierbare Sprach-Makros + Trigger-Patterns |
+
+### RAG-Modul v2 (v2.x)
 
 | Feature | Modul | Status | Tests | Beschreibung |
 |---------|-------|--------|-------|-------------|

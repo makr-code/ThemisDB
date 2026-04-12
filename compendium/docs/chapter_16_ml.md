@@ -2833,3 +2833,68 @@ auto delta_stats = incr_exp.exportDelta(
 | HuggingFace Datasets | `HuggingFaceExporter` | Dataset-Card + dataset_info.json |
 | Streaming | `StreamingExporter` | Cursor-basiert, beliebige Größe |
 | Delta/Incremental | `IncrementalExporter` | Watermark + Checkpoint |
+
+---
+
+## 16.13 Acceleration-Modul — CUDA/Vulkan/Multi-GPU C++ API (v1.x)
+
+Das Acceleration-Modul (`include/acceleration/`, `src/acceleration/`) stellt GPU-beschleunigte Vector-Suche, Geo-Kernels und Multi-GPU-Sharding bereit: CUDA/HIP (ANN, Geo), Vulkan (non-NVIDIA Fallback), Multi-GPU NCCL/RCCL und CUDA Graph Capture.
+
+### 16.13.1 CUDAVectorBackend — HNSW + KNN auf NVIDIA-GPU
+
+```cpp
+#include "acceleration/cuda_backend.h"
+
+themis::acceleration::CUDAVectorBackend cuda_backend;
+cuda_backend.initialize();   // Prüft CUDA-Gerät-Verfügbarkeit
+
+// HNSW ANN-Index auf GPU laden
+cuda_backend.buildHnswAnnIndex(hnsw_layers, flat_vectors, num_vecs, dim);
+
+// Batch-KNN-Suche (delegiert automatisch an HNSW auf GPU)
+auto knn_results = cuda_backend.batchKnnSearch(
+    query_vecs, num_queries, dim, flat_vectors, num_vecs, /*k=*/10, /*useL2=*/true
+);
+// knn_results[q][i].first = vector_id, .second = distance
+
+// CUDA Graph Capture (wiederverwendbare Kernel-Folge für Hot Queries)
+themis::acceleration::CUDAGraphCache graph_cache;
+auto graph_id = graph_cache.capture([&]() {
+    cuda_backend.batchKnnSearch(fixed_query, 1, dim, flat_vectors, num_vecs, 10);
+});
+graph_cache.replay(graph_id);  // Zero-Overhead-Replay ohne Kernel-Launch-Overhead
+```
+
+### 16.13.2 MultiGPUVectorBackend — Verteilte Vektor-Suche
+
+```cpp
+#include "acceleration/multi_gpu_backend.h"
+
+themis::acceleration::MultiGPUVectorBackend::Config mgpu_cfg;
+mgpu_cfg.numDevices     = 4;           // Bis zu 4 GPUs
+mgpu_cfg.commBackend    = themis::acceleration::MultiGPUVectorBackend::CommBackend::NCCL;
+mgpu_cfg.enableP2P      = true;        // GPUDirect P2P-Transfers
+mgpu_cfg.enableNVLink   = true;        // NVLink Collective-Ops
+mgpu_cfg.commBufferSizeMB = 512;
+mgpu_cfg.allowCPUFallback = true;      // CPU-Fallback wenn GPU nicht verfügbar
+
+themis::acceleration::MultiGPUVectorBackend mgpu(mgpu_cfg);
+mgpu.initialize();
+
+// Fan-out KNN über alle GPU-Shards + Top-K-Merge
+auto results = mgpu.batchKnnSearch(queries, n_queries, dim, null, 0, k);
+```
+
+### 16.13.3 Vulkan Fallback (non-NVIDIA) und ROCm/HIP (AMD)
+
+```
+Dispatch-Priorität (AiHardwareDispatcher automatisch):
+  1. CUDA  (NVIDIA, wenn verfügbar)
+  2. ROCm/HIP (AMD, wenn verfügbar)
+  3. Vulkan  (beliebige GPU via SPIR-V Compute Shader)
+  4. CPU    (SIMD/AVX2-Fallback)
+
+Vulkan Compute Shaders: l2_distance.comp, cosine_distance.comp,
+  inner_product_distance.comp, batch_search.comp, topk_selection.comp,
+  haversine_distance.comp (Geo), point_in_polygon.comp (Geo)
+```

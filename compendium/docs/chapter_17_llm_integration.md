@@ -6004,3 +6004,72 @@ auto opt_prompt = optimizer.optimize(initial_prompt, eval_function);
 // opt_prompt.text: verbesserter Prompt
 // opt_prompt.score_history: Verbesserungsverlauf
 ```
+
+---
+
+## 17.26 Voice-Modul — C++ Produktions-API (v1.1)
+
+Das Voice-Modul (`include/voice/`, `src/voice/`) implementiert einen vollständigen Voice-Assistant-Stack: STT (Whisper), LLM (LlamaWrapper), TTS, Session-Management, Meeting-Protokoll-Generierung, Voice-Biometrie, Wake-Word-Detektion, Browser-WebSocket-Streaming und SIP/WebRTC-Telefonie-Bridge.
+
+### 17.26.1 VoiceAssistant — Vollständiger Voice-Stack
+
+```cpp
+#include "voice/voice_assistant.h"
+
+themis::voice::VoiceAssistant::Config va_cfg;
+va_cfg.stt_model_path        = "/models/ggml-base.bin";
+va_cfg.stt_language          = "de";
+va_cfg.llm_model_path        = "/models/mistral-7b.gguf";
+va_cfg.llm_n_ctx             = 8192;
+va_cfg.llm_n_gpu_layers      = 40;
+va_cfg.tts_model_path        = "/models/piper-de.onnx";
+va_cfg.enable_voice_auth     = true;       // Biometrische Stimm-Authentifizierung
+va_cfg.enable_wake_word      = true;       // "Hey Themis" Wake-Word
+va_cfg.wake_words            = { {"hey-themis", "hey themis"} };
+va_cfg.storage_path          = "/data/voice-sessions";
+va_cfg.compress_audio        = true;
+va_cfg.audio_format          = "ogg";
+
+themis::voice::VoiceAssistant assistant(va_cfg);
+assistant.initialize();
+
+// ── Sprach-Kommando verarbeiten ───────────────────────────────────────
+auto response_audio = assistant.processVoiceCommand(audio_bytes, session_id);
+
+// ── Meeting-Protokoll generieren ──────────────────────────────────────
+auto protocol = assistant.generateMeetingProtocol(
+    transcript,
+    { .include_action_items = true, .language = "de" }
+);
+// protocol["summary"], protocol["action_items"], protocol["participants"]
+
+// ── Key Points extrahieren ────────────────────────────────────────────
+auto key_points = assistant.extractKeyPoints(transcript);
+// key_points["points"], key_points["topics"]
+```
+
+### 17.26.2 Voice-Biometrie, Telephonie und Browser-Streaming
+
+```cpp
+#include "voice/voice_auth.h"
+#include "voice/voice_telephony.h"
+#include "voice/voice_browser_streaming.h"
+
+// ── Voice Biometric Authenticator ────────────────────────────────────
+themis::voice::VoiceBiometricAuthenticator auth(auth_cfg);
+auth.enrollSpeaker("alice", reference_audio_samples);
+auto result = auth.authenticate(test_audio);
+// result.verified, result.confidence_score, result.speaker_id
+
+// ── TelephonyBridge (SIP/WebRTC) ─────────────────────────────────────
+themis::voice::TelephonyBridge telephony(telephony_cfg);
+telephony.transcribeCall(call_recording, {
+    .diarize       = true,    // Sprecher-Segmentierung
+    .timestamps    = true,    // Zeitstempel pro Wort
+    .language      = "de"
+});
+
+// ── Real-Time Browser WebSocket Streaming ────────────────────────────
+// Streaming-Endpunkt: ws://server:8080/voice/stream
+// Audio-Chunks werden live transkribiert + geantwortet
+```
