@@ -3952,6 +3952,39 @@ else()
     message(STATUS "RocksDBWrapper comprehensive tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_rocksdb_wrapper_comprehensive.cpp")
 endif()
 
+# ColumnarCache focused tests (CC-01 … CC-12)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_columnar_cache.cpp")
+    message(STATUS "Adding ColumnarCache focused tests")
+
+    add_executable(test_columnar_cache_focused
+        test_columnar_cache.cpp
+        ${CMAKE_SOURCE_DIR}/src/storage/columnar_cache.cpp
+    )
+
+    target_include_directories(test_columnar_cache_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_columnar_cache_focused PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_columnar_cache_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ColumnarCacheFocusedTests COMMAND test_columnar_cache_focused)
+
+    set_tests_properties(ColumnarCacheFocusedTests PROPERTIES
+        LABELS "storage;cache;columnar;performance;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  ColumnarCache: LRU eviction, pinning, concurrent access, CC-01..CC-12")
+endif()
+
 # PITR Manager Comprehensive Tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_pitr_manager_comprehensive.cpp")
     message(STATUS "Adding PITR Manager comprehensive tests")
@@ -6533,6 +6566,41 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_columnar_execution.cpp")
     )
 
     message(STATUS "  ColumnarExecution: vectorized pipeline, SIMD aggregations, filter+project operators")
+endif()
+
+# StreamingJoin focused tests (SJ-01 … SJ-15)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_streaming_join.cpp")
+    message(STATUS "Adding StreamingJoin focused tests")
+
+    add_executable(test_streaming_join_focused
+        analytics/test_streaming_join.cpp
+        ${CMAKE_SOURCE_DIR}/src/analytics/streaming_join.cpp
+        ${CMAKE_SOURCE_DIR}/src/analytics/columnar_execution.cpp
+    )
+
+    target_include_directories(test_streaming_join_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_streaming_join_focused PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_streaming_join_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME StreamingJoinFocusedTests COMMAND test_streaming_join_focused)
+
+    set_tests_properties(StreamingJoinFocusedTests PROPERTIES
+        LABELS "analytics;streaming;join;performance;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  StreamingJoin: HashJoin + IntervalJoin, inner/left-outer, LRU pruning, SJ-01..SJ-15")
 endif()
 
 # JIT Aggregation focused tests

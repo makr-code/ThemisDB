@@ -31,7 +31,7 @@ implementations in `src/analytics/`.
 
 ## Planned Features
 
-- [ ] `IStreamingJoin` header for multi-stream join operations (Target: Q3 2026)
+- [x] `IStreamingJoin` header for multi-stream join operations (Target: Q3 2026)
 - [ ] `IFederatedAnalytics` for privacy-preserving federated query execution (Target: Q4 2026)
 - [ ] `IExplainableML` interface for model explanation / feature importance (Target: Q4 2026)
 
@@ -54,7 +54,7 @@ implementations in `src/analytics/`.
 
 ### Phase 5: Performance / Hardening
 - [x] `IJITAggregator` for compiled aggregation
-- [ ] `IStreamingJoin` for multi-stream operations (Q3 2026)
+- [x] `IStreamingJoin` for multi-stream operations (Q3 2026)
 
 ### Phase 6: Documentation & Acceptance
 - [x] Architecture and audit docs present
@@ -68,4 +68,5 @@ implementations in `src/analytics/`.
 - [x] Arrow interop headers present and flag-guarded
 - [x] Export visibility macro established
 - [ ] Doxygen fully annotated
-- [ ] `IStreamingJoin` and `IFederatedAnalytics` headers published
+- [x] `IStreamingJoin` header published (`streaming_join.h`; HashJoin + IntervalJoin; 15 tests SJ-01…SJ-15)
+- [ ] `IFederatedAnalytics` header published

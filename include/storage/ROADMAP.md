@@ -65,11 +65,11 @@ migration.
   - Outputs: durable writes via WAL with ≤ 50 ms end-to-end latency
   - Perf: ≥ 1M events/s sustained on 8-core node
 
-- [ ] `columnar_cache.h` — in-memory columnar cache for analytics acceleration
-      (Target: Q3 2026)
-  - Apache Arrow-compatible memory layout
-  - LRU eviction + pinned segment API
-  - Perf: ≥ 10× scan speedup vs row-store on wide-table queries
+- [x] `columnar_cache.h` — in-memory columnar cache for analytics acceleration
+      (Target: Q3 2026) ✅ **implemented 2026-04-12**
+  - LRU eviction + pinned segment API (`PinGuard` RAII)
+  - `SegmentDType` (Int64/Double/String/Bool), `SegmentKey`, `ColumnSegment`
+  - 12 tests CC-01…CC-12 in `tests/test_columnar_cache.cpp`
 
 - [ ] `change_data_capture.h` — CDC stream interface for downstream consumers
       (Target: Q3 2026)
