@@ -1,4 +1,4 @@
-<!-- Status: current | generated: 2026-03-12 | source: all src/*/FUTURE_ENHANCEMENTS.md -->
+<!-- Status: current | generated: 2026-04-12 | source: all src/*/FUTURE_ENHANCEMENTS.md -->
 <!-- Use this file as the master backlog for GitHub Issue creation. -->
 <!-- Each item row maps directly to one GitHub Issue. -->
 
@@ -170,7 +170,7 @@ See: <Detail link>
 | 36 | acceleration | Vulkan Compute Shader Pipeline for Cross-Platform GPU | v1.7.0 | `gpu`, `module:acceleration` | #3864 | [→ Detail](acceleration/FUTURE_ENHANCEMENTS.md#vulkan-compute-shader-pipeline-for-cross-platform-gpu) |
 | 37 | acceleration | Runtime Device Capability Negotiation | v1.7.0 | `gpu`, `module:acceleration` | #3865 | [→ Detail](acceleration/FUTURE_ENHANCEMENTS.md#runtime-device-capability-negotiation) |
 | 38 | acceleration | Plugin Security: CRL and OCSP Certificate Revocation Checking | v1.8.0 | `security`, `module:acceleration` | #3866 | [→ Detail](acceleration/FUTURE_ENHANCEMENTS.md#plugin-security-crl-and-ocsp-certificate-revocation-checking) |
-| 39 | acceleration | NCCL/RCCL Distributed `mergeTopK` Implementation | v1.9.0 | `gpu`, `distributed`, `module:acceleration` | #3867 | [→ Detail](acceleration/FUTURE_ENHANCEMENTS.md#ncclrccl-distributed-mergetopk-implementation) |
+| 39 | acceleration | NCCL/RCCL Distributed `mergeTopK` Implementation | v1.9.0 | `gpu`, `distributed`, `module:acceleration` | #3867 ✅ | [→ Detail](acceleration/FUTURE_ENHANCEMENTS.md#ncclrccl-distributed-mergetopk-implementation) |
 | 40 | analytics | ExporterFactory Stub Replacement | v1.8.0 | `stub-replacement`, `module:analytics` | #3868 | [→ Detail](analytics/FUTURE_ENHANCEMENTS.md#1--exporterfactory-stub-replacement) |
 | 41 | analytics | Lock Held Across User Callbacks in `CEPEngine::timerLoop()` | v1.8.0 | `thread-safety`, `module:analytics` | #3869 | [→ Detail](analytics/FUTURE_ENHANCEMENTS.md#2--lock-held-across-user-callbacks-in-cepenginetimerloop) |
 | 42 | analytics | `StreamingAnomalyDetector::process()` — Training Under Lock | v1.8.0 | `thread-safety`, `performance`, `module:analytics` | #3870 | [→ Detail](analytics/FUTURE_ENHANCEMENTS.md#3--streaminganomalydetectorprocess--training-under-lock) |
