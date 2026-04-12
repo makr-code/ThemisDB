@@ -1311,5 +1311,99 @@ dr_datacenter: enabled
 
 ---
 
+## 18.10 Replikations-Erweiterungen C++ API (v1.6)
+
+### 18.10.1 WALArchivalManager — Cloud-Archivierung mit AES-256-GCM
+
+`WALArchivalManager` (`include/replication/replication_manager.h`) archiviert abgeschlossene WAL-Segmente mit optionaler Zstd-Kompression und AES-256-GCM-Verschlüsselung in lokale oder Cloud-Backends (S3/GCS/Azure via `IArchivalBackend`). Lifecycle-Management transitiert Segmente automatisch in kältere Storage-Tier.
+
+```cpp
+#include "replication/replication_manager.h"
+
+themis::WALArchivalManager::ArchivalConfig cfg;
+cfg.wal_directory            = "/data/wal";
+cfg.archive_directory        = "/archive/wal";
+
+// Cloud-Backend (optional)
+cfg.storage_type             = "s3";
+cfg.bucket_name              = "my-cluster-wal";
+cfg.prefix                   = "production/wal/";
+
+// Archivierungs-Policy
+cfg.archive_after_segments   = 100;
+cfg.local_retention_segments = 10;
+cfg.compress_before_archive  = true;
+cfg.delete_after_days        = 365;
+
+// AES-256-GCM Verschlüsselung
+cfg.encrypt_at_rest          = true;
+cfg.encryption_key_hex       = "deadbeef...";  // 64-Hex-Zeichen = 32 Byte
+
+// Lifecycle: Standard → Cold → Glacier
+cfg.transition_to_cold_after_days = 90;
+
+auto s3_backend = std::make_shared<S3ArchivalBackend>(aws_config);
+themis::WALArchivalManager archiver(cfg, s3_backend);
+
+// WAL-Segmente archivieren
+auto archived_count = archiver.archiveSegments(segment_paths);
+
+// Segmente für PITR abrufen
+auto segments = archiver.listSegments();
+// ArchivedSegment: segment_id, start_sequence, end_sequence,
+//                  size_bytes, compressed, encrypted,
+//                  archived_at, archive_path, storage_tier
+
+// PITR-Wiederherstellung (Segment entschlüsseln + dekomprimieren)
+auto raw_bytes = archiver.retrieveSegment(segment.segment_id);
+```
+
+**Storage-Tiers:**
+
+| Tier | Beschreibung | Übergang |
+|------|-------------|---------|
+| `standard` | Aktuell, schneller Zugriff | Standard |
+| `cold` | Günstigerer Speicher, langsamerer Zugriff | nach `transition_to_cold_after_days` Tagen |
+| `glacier` | Archiv-Tier, sehr günstiger Speicher | via `setStorageTier()` |
+
+### 18.10.2 LogicalReplicationManager — Schema-aware Logical Slots
+
+`LogicalReplicationManager` (`include/replication/logical_replication.h`) implementiert PostgreSQL-ähnliche Logical Replication Slots mit Collection-Filtern, Row-Prädikaten, DDL-Streaming, Cross-Version-Transforms und parallelem Decoding.
+
+```cpp
+#include "replication/logical_replication.h"
+
+themis::LogicalReplicationManager::Config lr_cfg;
+lr_cfg.wal_directory    = "/data/wal";
+lr_cfg.parallel_decoding = true;
+lr_cfg.transform        = [](themis::LogicalChange& change) {
+    // Optionale Transformation per Change (z.B. Feld-Mapping)
+};
+
+themis::LogicalReplicationManager lr_mgr(wal_manager, lr_cfg);
+
+// ── Slot erstellen mit Filter ─────────────────────────────────────────
+themis::LogicalReplicationManager::ReplicationFilter filter;
+filter.include_collections   = { "orders", "customers" };
+filter.row_filter_expression = "tenant_id == 'acme'";
+filter.replicate_ddl         = true;
+
+auto slot = lr_mgr.createSlot("acme-slot", "json_changes", filter, /*initial_sync=*/true);
+// slot.slot_name, slot.restart_lsn, slot.confirmed_flush_lsn
+
+// ── Änderungen lesen ──────────────────────────────────────────────────
+auto changes = lr_mgr.readChanges("acme-slot", /*max_changes=*/1000);
+// changes[i]: collection, operation (INSERT/UPDATE/DELETE), old_data, new_data
+
+// ── LSN-Fortschritt bestätigen ────────────────────────────────────────
+lr_mgr.advanceSlot("acme-slot", confirmed_lsn);
+
+// ── Statistiken ───────────────────────────────────────────────────────
+auto stats = lr_mgr.getStats();
+// stats.changes_enqueued, stats.ddl_enqueued, stats.filtered_out
+```
+
+---
+
 **Nächstes Kapitel:** [Kapitel 19: Monitoring & Observability](chapter_19_monitoring.md)  
 **Vorheriges Kapitel:** [Kapitel 17: Horizontal Scaling](chapter_17_scaling.md)

@@ -382,6 +382,16 @@ Die folgenden Komponenten wurden mit dem v1.9.x-Release (Commit 2026-04-12) in d
 | `recoverFromWAL()` | `sharding/` | ✅ GA | — | Snapshot + WAL-Replay; `commit_index_` wird restauriert |
 | Snapshot-Compaction | `sharding/` | ✅ GA | — | `shouldCreateSnapshot(ops)` nach konfigurierbaren Operationen |
 
+### Replikation (v1.6)
+
+| Feature | Modul | Status | Tests | Beschreibung |
+|---------|-------|--------|-------|-------------|
+| `WALArchivalManager` | `replication/` | ✅ GA | — | Zstd + AES-256-GCM; S3/GCS/Azure via `IArchivalBackend` |
+| Storage-Tier Lifecycle | `replication/` | ✅ GA | — | standard → cold → glacier; konfigurierbare Alters-Schwellen |
+| `LogicalReplicationManager` | `replication/` | ✅ GA | — | Schema-aware Slots; Row-Filter, DDL-Streaming, Parallel Decoding |
+| `LogicalReplicationManager` Cross-Version | `replication/` | ✅ GA | — | Per-Change-Transformer + Cross-Version-Transforms |
+| `IArchivalBackend` | `replication/` | ✅ GA | — | Pluggable Backend-Interface für WAL-Segment-Storage |
+
 ---
 
 ## Implementierungsstatus — Process Module (v1.0)
