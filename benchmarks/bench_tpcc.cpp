@@ -21,7 +21,7 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-#if 0
+#if 1
 #include <benchmark/benchmark.h>
 #include "storage/base_entity.h"
 #include "storage/rocksdb_wrapper.h"
@@ -577,6 +577,7 @@ BENCHMARK_REGISTER_F(TPCCFixture, MixedWorkload)->Arg(1)->Unit(benchmark::kMilli
 BENCHMARK_MAIN();
 #endif
 
+#if 0
 #include <benchmark/benchmark.h>
 
 static void BM_TPCC_Disabled(benchmark::State& state) {
@@ -587,3 +588,4 @@ static void BM_TPCC_Disabled(benchmark::State& state) {
 
 BENCHMARK(BM_TPCC_Disabled)->Unit(benchmark::kMillisecond);
 BENCHMARK_MAIN();
+#endif

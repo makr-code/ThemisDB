@@ -156,6 +156,8 @@ public:
 private:
     rocksdb::TransactionDB* db_;
     rocksdb::ColumnFamilyHandle* cf_;
+
+  rocksdb::ColumnFamilyHandle* resolveColumnFamily() const;
     
     static constexpr const char* KEY_PREFIX = "ts:";
     
