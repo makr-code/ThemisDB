@@ -19,8 +19,8 @@ v1.2.0 — Production-ready. 7 public headers. Orchestrator, 4 built-in handlers
 - [x] RocksDB schedule persistence — `MaintenanceScheduleStore` write-through CRUD, loadAll on `start()` (v1.1.0)
 - [x] Force-run override `{"force": true}` via `POST /api/v1/maintenance/schedules/{id}/run` (v1.1.0)
 - [x] DAG dependency graph — `MaintenanceTaskDependency` + Kahn topological sort + cycle detection (v1.2.0)
-- [x] `STORAGE_COMPACTION` wired to `StorageCompactionHandler(CompactionManager)` in `http_server.cpp` (2026-04-12)
-- [x] `MVCC_CLEANUP` wired — `MvccCleanupHandler` registered with `maintenance_orchestrator_` (24 h default watermark); `mvcc_store_` wired in `http_server.cpp` (2026-04-12)
+- [x] `STORAGE_COMPACTION` wired to `StorageCompactionHandler(CompactionManager)` in `http_server.cpp` (Issue: #4587) (2026-04-12)
+- [x] `MVCC_CLEANUP` wired — `MvccCleanupHandler` registered with `maintenance_orchestrator_` (24 h default watermark); `mvcc_store_` wired in `http_server.cpp` (Issue: #4586) (2026-04-12)
 
 ## Planned
 
@@ -34,6 +34,6 @@ v1.2.0 — Production-ready. 7 public headers. Orchestrator, 4 built-in handlers
 - [x] 4 built-in task handlers
 - [x] RocksDB schedule persistence
 - [x] DAG dependency support
-- [x] Compaction manager integration (STORAGE_COMPACTION wired 2026-04-12)
-- [x] MVCC cleanup integration (MVCC_CLEANUP wired 2026-04-12)
+- [x] Compaction manager integration (STORAGE_COMPACTION wired Issue: #4587, 2026-04-12)
+- [x] MVCC cleanup integration (MVCC_CLEANUP wired Issue: #4586, 2026-04-12)
 - [ ] Replica validation integration

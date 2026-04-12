@@ -16,12 +16,12 @@ v1.x – Production-ready time series storage with Gorilla compression, continuo
 - [x] Configurable compression strategies
 - [x] RocksDB-backed persistence
 - [x] Out-of-order write support with configurable late-arrival window (Target: Q2 2026) (Issue: #1976)
-- [x] **Streaming cursor API** — `TsStreamCursor` in `ts_stream_cursor.h/cpp` (2026-04-12)
+- [x] **Streaming cursor API** — `TsStreamCursor` in `ts_stream_cursor.h/cpp` (Issue: #4573) (2026-04-12)
   - Lazy paginated iterator over `TSStore::query()`; default page_size=4 096
   - `open()`/`valid()`/`current()`/`advance()`/`close()`; `rowsConsumed()`/`pagesFetched()` stats
   - Zero-copy; caller owns result memory; iterator invalidation on concurrent chunk rotation detected
   - 8 focused tests (SC-01…SC-08) in `tests/test_ts_stream_cursor.cpp`
-- [x] **Multi-metric batch write API** — `TSStore::putBatch(std::span<const TSRow>)` in `tsstore.h/cpp` (2026-04-12)
+- [x] **Multi-metric batch write API** — `TSStore::putBatch(std::span<const TSRow>)` in `tsstore.h/cpp` (Issue: #4574) (2026-04-12)
   - `TSRow` uses `string_view` for metric/entity — zero allocation at call site
   - `BatchWriteResult` with `ok_count`, `failed_count`, `row_errors` (per-row index + message)
   - Single `rocksdb::WriteBatch` commit for the entire span (atomic, O(1) WAL writes)

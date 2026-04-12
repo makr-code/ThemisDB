@@ -41,7 +41,7 @@
 - [x] Temporal uniqueness constraints and gap/overlap detection for valid-time periods (`BiTemporalTable::hasUniquenessConflict`, `BiTemporalTable::findGaps`, `BiTemporalTable::findOverlaps`)
 - [I] Storage-based and archive-to-cold-storage retention policy variants (Target: Q3 2026)
 - [x] Delta compression for historical versions (DELTA, ZSTD, Gorilla, DICTIONARY algorithms via `TemporalCompressor`)
-  - `[x]` LZ4 compression added to `TemporalCompressor` (2026-04-12): `CompressionAlgorithm::LZ4`, `applyLz4()`/`decompressLz4()` via `<lz4.h>`
+  - `[x]` LZ4 compression added to `TemporalCompressor` (Issue: #4575) (2026-04-12): `CompressionAlgorithm::LZ4`, `applyLz4()`/`decompressLz4()` via `<lz4.h>`
   - JSON payload: `{"__compressed":"lz4","__original_size":N,"__data":"<base64>"}` wired into `algorithmName()`, `decompress()`, `compressHistory()`
   - 5 focused tests (TC-LZ4-01…TC-LZ4-05) appended to `tests/temporal/test_temporal_compressor.cpp`
 
