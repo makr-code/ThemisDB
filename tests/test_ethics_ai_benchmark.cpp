@@ -187,19 +187,15 @@ TEST_F(EthicsAIBenchmarkTests, PB04_ComputeConsensus100ArgsUnder1ms) {
 }
 
 // =============================================================================
-// PB-05  generateEmbedding() (BOC-TF 768-dim) < 5 ms per call
+// PB-05  vectorSemanticSearch() (uses generateEmbedding() internally) < 5 ms
 // =============================================================================
 
-TEST_F(EthicsAIBenchmarkTests, PB05_GenerateEmbeddingUnder5ms) {
-    const std::string text =
-        "The categorical imperative demands that we act only according to "
-        "principles we could universalise without contradiction, treating "
-        "rational agents always as ends and never merely as means.";
-
-    auto t0 = Clock::now();
-    // Access generateEmbedding via vectorSemanticSearch (which calls it internally).
-    // Since we only want to time the embedding, use the public search API with a
-    // non-empty query vector of the same dimension (768) against zero stored args.
+TEST_F(EthicsAIBenchmarkTests, PB05_VectorSemanticSearchUnder5ms) {
+    // vectorSemanticSearch() calls generateEmbedding() on every stored argument
+    // as part of cosine similarity ranking.  With an empty store the timing
+    // reflects the overhead of a single query-embedding call plus the search
+    // dispatch path.  A real embedding benchmark requires injecting a populated
+    // store; this threshold covers the query-path overhead only.
     std::vector<float> query(768, 0.0f);
     query[0] = 1.0f;
     auto result = rag_->vectorSemanticSearch(query, "utilitarianism", 1);
@@ -210,7 +206,7 @@ TEST_F(EthicsAIBenchmarkTests, PB05_GenerateEmbeddingUnder5ms) {
 
     double elapsed = ms(t0, t1);
     EXPECT_LT(elapsed, 5.0)
-        << "vectorSemanticSearch (embedding path) took " << elapsed
+        << "vectorSemanticSearch (empty store) took " << elapsed
         << " ms, expected < 5 ms";
 }
 

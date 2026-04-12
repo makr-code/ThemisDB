@@ -154,7 +154,7 @@ v0.1.0.
 | Confidence scoring | ✅ | `EthicsEvaluator::computeConfidence()`: strength-weighted average |
 | Consensus scoring | ✅ | `EthicsEvaluator::computeConsensus()`: inter-school PRO/CONTRA tally |
 | Embedding search | ⚠️ | BOC-TF 768-dim fallback; real ONNX model planned Q3 2026 |
-| Unit test coverage | ✅ | 5 focused unit suites + 1 integration suite + 1 benchmark suite; 105 tests total |
+| Unit test coverage | ✅ | 5 focused unit suites + 1 integration suite + 1 benchmark suite (PB-01..PB-06) |
 | Performance benchmarks | ✅ | PB-01..PB-06 in `tests/test_ethics_ai_benchmark.cpp` |
 | Prometheus metrics | ❌ | Planned Q4 2026 |
 

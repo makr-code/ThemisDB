@@ -149,7 +149,10 @@ EthicalArgument EthicalDiscourseEngine::generateArgument(
     argument.argument_type = type;
     argument.created_at = now;
 
-    // Derive strength from the richness of the profile: more theses = stronger argument.
+    // Derive strength from the richness of the profile: more theses → stronger argument.
+    // Heuristic: 0 theses → WEAK (no principled basis); 1-2 → MODERATE (minimal support);
+    // 3-5 → STRONG (well-grounded); 6+ → DECISIVE (comprehensive philosophical basis).
+    // This feeds directly into EthicsEvaluator::computeConfidence() via ArgumentStrength.
     const size_t total_theses = profile.main_theses.size() + profile.secondary_theses.size();
     if (total_theses == 0) {
         argument.strength = ArgumentStrength::WEAK;
