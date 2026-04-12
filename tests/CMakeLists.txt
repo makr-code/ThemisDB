@@ -18210,6 +18210,32 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_disaster_recovery_manager.cpp")
     message(STATUS "  DisasterRecoveryManager: prechecks, snapshot validation, epoch fencing, restore orchestration, verification")
 endif()
 
+# ── Failover Chaos Scenario Matrix (Phase 4 / Phase 5) ───────────────────────
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_failover_chaos_scenarios.cpp")
+    message(STATUS "Adding Failover: Chaos + failover end-to-end scenario matrix (Phase 4/5)")
+    add_executable(test_failover_chaos_scenarios_focused
+        test_failover_chaos_scenarios.cpp
+        ${THEMIS_ROOT_DIR}/src/failover/auto_failover_manager.cpp
+    )
+    target_include_directories(test_failover_chaos_scenarios_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+    target_link_libraries(test_failover_chaos_scenarios_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+    target_compile_definitions(test_failover_chaos_scenarios_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME FailoverChaosScenariosFocusedTests COMMAND test_failover_chaos_scenarios_focused)
+    set_tests_properties(FailoverChaosScenariosFocusedTests PROPERTIES
+        LABELS "failover;chaos;phase4;phase5;queue-pressure;retry-telemetry;ha;focused;unit"
+        TIMEOUT 120
+    )
+    message(STATUS "  FailoverChaos: queue saturation, pressure telemetry, retry tracking, concurrent triggers, config hot-update")
+endif()
+
 # Process Modeling Module focused tests
 # Covers: BpmnSerializer, EpkSerializer, VccVpbImporter, LlmProcessDescriptor,
 #         ProcessModelManager, ProcessLinker, ProcessGraphRag
