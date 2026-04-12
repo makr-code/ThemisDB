@@ -2282,6 +2282,10 @@ set(THEMIS_CORE_SOURCES
     ../src/observability/ml_anomaly_detector.cpp
     # Observability: automated root cause identification for performance issues (v1.7.0, Issue #84)
     ../src/observability/root_cause_analyzer.cpp
+    # Observability: per-tenant metric namespacing (v1.8.0)
+    ../src/observability/tenant_metrics_namespace.cpp
+    # Observability: structured log search API (v1.8.0)
+    ../src/observability/log_search_engine.cpp
 
     # GraphQL API (conditional)
     $<$<BOOL:${THEMIS_ENABLE_GRAPHQL}>:../src/api/graphql.cpp>
