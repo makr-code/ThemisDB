@@ -2202,6 +2202,9 @@ set(THEMIS_CORE_SOURCES
     # shader_integrity.cpp uses only OpenSSL (SHA-256) — no GPU/graphics dependency.
     # Compiled unconditionally so ShaderIntegrityVerifier is always available.
     ../src/acceleration/shader_integrity.cpp
+    # AI Hardware Dispatcher: universal AI-hardware abstraction layer
+    # (Apple ANE, Intel NPU, Qualcomm QNN, ARM Ethos, NNAPI, ONNX Runtime, GPU fallback)
+    ../src/acceleration/ai_hardware_dispatcher.cpp
     # Plugin manager (core plugin orchestration)
     ../src/plugins/plugin_manager.cpp
     ../src/plugins/plugin_hot_plug_monitor.cpp

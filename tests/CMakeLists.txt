@@ -18248,6 +18248,48 @@ else()
     message(STATUS "VecKnnInsert focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/acceleration/test_vec_knn_insert.cpp")
 endif()
 
+# ──────────────────────────────────────────────────────────────────────────────
+# AiHardwareDispatcher focused tests
+# Universal AI-hardware dispatch layer:
+#   Apple ANE / Intel NPU / Qualcomm QNN / ARM Ethos / NNAPI / ONNX Runtime / GPU / CPU
+# ──────────────────────────────────────────────────────────────────────────────
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/acceleration/test_ai_hardware_dispatcher.cpp")
+    message(STATUS "Adding AiHardwareDispatcher focused tests (AI hardware, v1.0.0)")
+
+    add_executable(test_ai_hardware_dispatcher_focused
+        acceleration/test_ai_hardware_dispatcher.cpp
+        ${CMAKE_SOURCE_DIR}/src/acceleration/ai_hardware_dispatcher.cpp
+    )
+
+    target_include_directories(test_ai_hardware_dispatcher_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_ai_hardware_dispatcher_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_ai_hardware_dispatcher_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME AiHardwareDispatcherFocusedTests
+        COMMAND test_ai_hardware_dispatcher_focused)
+
+    set_tests_properties(AiHardwareDispatcherFocusedTests PROPERTIES
+        LABELS "acceleration;ai-hardware;npu;onnx;apple-ane;intel-npu;qualcomm-qnn;arm-ethos;nnapi;v1.0.0;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  AiHardwareDispatcher: BackendType/PrecisionMode enums, probeCapabilities, run() fallback, runOn() per-backend, DeviceCapabilityInfo (30 tests)")
+else()
+    message(STATUS "AiHardwareDispatcher focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/acceleration/test_ai_hardware_dispatcher.cpp")
+endif()
+
 # ============================================================================
 # VLLMResourceManager ÔÇô CPU/RAM Monitoring Stats Tests
 # Covers: getStats() OS-specific CPU utilisation + RAM monitoring,
