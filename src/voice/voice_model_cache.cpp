@@ -75,6 +75,11 @@ std::optional<CachedModel> VoiceModelCache::get(
     // Cache miss
     ++cache_misses_;
 
+    // Path traversal protection: reject unsafe model paths before loading
+    if (!isSafeModelPath(model_path)) {
+        return std::nullopt;
+    }
+
     // Attempt to load via registered loader
     auto loader_it = loaders_.find(model_type);
     if (loader_it == loaders_.end()) {
@@ -305,6 +310,20 @@ bool VoiceModelCache::evictLRUOne() {
 int64_t VoiceModelCache::nowMs() const {
     using namespace std::chrono;
     return duration_cast<milliseconds>(steady_clock::now().time_since_epoch()).count();
+}
+
+bool VoiceModelCache::isSafeModelPath(const std::string& path) {
+    if (path.empty()) return false;
+    // Reject path traversal sequences
+    if (path.find("..") != std::string::npos) return false;
+    // Reject null bytes
+    if (path.find('\0') != std::string::npos) return false;
+    // Reject shell metacharacters that could be used in injection attacks
+    static const std::string kForbiddenChars = ";|&$`!{}()\\";
+    for (unsigned char c : path) {
+        if (kForbiddenChars.find(static_cast<char>(c)) != std::string::npos) return false;
+    }
+    return true;
 }
 
 }} // namespace themis::voice
