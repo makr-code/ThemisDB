@@ -70,7 +70,7 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 | **utils** | ✅ Production-ready | [src/utils/ROADMAP.md](src/utils/ROADMAP.md) |
 | **voice** | ✅ Production-ready | [src/voice/ROADMAP.md](src/voice/ROADMAP.md) |
 | **chaos** | ✅ Production-ready — Fault injection registry, `FaultInjector`, `ChaosScheduler` with expiry and callback hooks operational | [src/chaos/ROADMAP.md](src/chaos/ROADMAP.md) |
-| **ethics_ai** | 🔴 Alpha (v0.0.1) — `EthicsEvaluator` 5-dimension scoring, `EthicalDiscourseEngine`, `RAGContextEngine`; real LLM integration planned for v0.1.0 | [src/ethics_ai/ROADMAP.md](src/ethics_ai/ROADMAP.md) |
+| **ethics_ai** | 🟡 Beta (v0.2.0) — `EthicsEvaluator` 5-dimension scoring with configurable `Config` weights; `EthicalDiscourseEngine`; `RAGContextEngine`; `ChainVisualizer` (DOT/Mermaid); `PhilosophyLoader` rich YAML; real LLM integration planned for v0.1.0/v0.3.0 | [src/ethics_ai/ROADMAP.md](src/ethics_ai/ROADMAP.md) |
 | **failover** | ✅ Production-ready — Automatic failover orchestration and disaster recovery plan execution pipeline operational | [src/failover/ROADMAP.md](src/failover/ROADMAP.md) |
 | **llama_cpp** | 🟡 Beta (v2.1.0) — Streaming token output, batch inference, PluginManager hot-plug registrar; full inference requires linking `LlamaWrapper` | [src/llama_cpp/ROADMAP.md](src/llama_cpp/ROADMAP.md) |
 | **onnx_clip** | 🟡 Beta (v0.0.2) — `ONNXClipPlugin` with pImpl, multi-backend (CPU/CUDA/DirectML/TensorRT/AUTO); native batch path in progress | [src/onnx_clip/ROADMAP.md](src/onnx_clip/ROADMAP.md) |
@@ -233,6 +233,9 @@ Direct implementations merged to `src/` and `include/` on 2026-04-12, targeting 
 | **whisper** | `WhisperPlugin` v2.1.0 ([#4591](https://github.com/makr-code/ThemisDB/issues/4591)) | Thread-safe `transcriber_mutex_` + `std::atomic` counters; `FfmpegAudioChunkReader` (popen ffmpeg, shell-escaped path, 500 MB cap); `CompositeAudioChunkReader`. 36 tests A–L. |
 | **sharding** | Paxos WAL durability ([#4592](https://github.com/makr-code/ThemisDB/issues/4592)) | `handlePrepare()` calls `wal_->logPromise()` before returning `true`; `handleAccept()` calls `wal_->logAccept()` before returning `true`; `recoverFromWAL()` restores `instances_` from WAL on restart. 10 tests PSR-01…PSR-10. |
 | **sharding** | `ShardRPCClient::writeEntity()` ([#4593](https://github.com/makr-code/ThemisDB/issues/4593)) | gRPC `ReplicateData` RPC for cross-shard writes; in-process simulation returns `{success:true, replicated_count:1}`; `handleWriteEntityGrpc()` wired in `sendRequestGrpc()`. |
+| **process** | `ProcessLinker` hard-delete + secondary index ([#4594](https://github.com/makr-code/ThemisDB/issues/4594)) | `detachObject()` uses `db_.del()` hard delete (no tombstone); secondary index `proc:obj_idx:<object_id>:<collection>:<instance_id>` maintained by `attachObject`/`detachObject`; `findInstancesWithObject()` scans `obj_idx` prefix. 6 tests PL-01…PL-06. |
+| **process** | `BpmnSerializer` state-machine tokenizer ([#4595](https://github.com/makr-code/ThemisDB/issues/4595)) | `importXml()` rewritten using `tokenizeXml`/`parseAttrs`/`stripNs`/`unescapeXml` (no regex); handles `bpmn:` prefixes, nested `subProcess`, `conditionExpression`, CDATA, comments; 10 MiB security guard. 11 tests PM-01…PM-11. |
+| **ethics_ai** | `PhilosophyLoader` rich YAML + `ChainVisualizer` v0.2.0 ([#4596](https://github.com/makr-code/ThemisDB/issues/4596)) | Rich YAML: complex thesis objects, point-keyed `strengths`/`weaknesses`, nested `decision_framework`. `EthicsEvaluator::Config` configurable weights normalised in ctor. `ChainVisualizer`: `exportDot()`/`exportMermaid()`/`chainToDot()`/`chainToMermaid()`. 8 tests CV-01…CV-08. |
 
 ---
 
@@ -507,7 +510,7 @@ Focus: Developer experience, official SDKs, and community ecosystem.
 | 11 | training | Multi-GPU distributed training coordination not implemented | 📋 Planned |
 | 12 | prompt_engineering | Token counting / context-window budget enforcement not implemented | 📋 Planned |
 | 13 | process | Embedding-based similarity search requires pre-computed embeddings; auto-generation not yet implemented | 🚧 In progress |
-| 14 | process | BPMN parser uses regex (not DOM/SAX); deeply nested sub-process pools may not parse correctly | ⚠️ Known limitation |
+| 14 | process | BPMN parser previously used regex (not DOM/SAX) — replaced by state-machine tokenizer in v1.0.1 (Issue: #4595, 2026-04-12) | ✅ Resolved |
 | 15 | maintenance | Explicit per-task DAG dependency graph not yet implemented; tasks execute in list order | 📋 Planned v1.2.0 |
 
 ---

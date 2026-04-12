@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added — 2026-04-12 Module Additions (batch 3)
+
+- **process: `ProcessLinker` hard-delete + secondary index** ([#4594](https://github.com/makr-code/ThemisDB/issues/4594)) — `detachObject()` now uses `db_.del()` hard delete (no tombstone); secondary index `proc:obj_idx:<object_id>:<collection>:<instance_id>` maintained by `attachObject`/`detachObject`; `findInstancesWithObject()` scans the `obj_idx` prefix. 6 focused tests PL-01…PL-06.
+- **process: `BpmnSerializer` state-machine tokenizer** ([#4595](https://github.com/makr-code/ThemisDB/issues/4595)) — `importXml()` rewritten using `tokenizeXml`/`parseAttrs`/`stripNs`/`unescapeXml` (no regex); handles `bpmn:` namespace prefixes, nested `subProcess`, `conditionExpression` child text, XML comments/PIs/CDATA; 10 MiB security guard. 11 tests PM-01…PM-11.
+- **ethics_ai: v0.2.0** ([#4596](https://github.com/makr-code/ThemisDB/issues/4596)) — `PhilosophyLoader` handles rich YAML (complex thesis objects, point-keyed `strengths`/`weaknesses`, nested `decision_framework`); `EthicsEvaluator::Config` configurable weights normalised in ctor; `ChainVisualizer` ships `exportDot()`/`exportMermaid()`/`chainToDot()`/`chainToMermaid()`. 8 tests CV-01…CV-08 in `tests/test_ethics_ai_chain_visualizer.cpp`.
+
+### Fixed — 2026-04-12 (batch 3)
+
+- **process: BPMN regex parser replaced** ([#4595](https://github.com/makr-code/ThemisDB/issues/4595)) — previous regex-based parser failed on deeply nested sub-process pools and `bpmn:` namespace prefixes; state-machine tokenizer handles all standard BPMN 2.0 constructs correctly.
+- **process: `detachObject()` tombstone eliminated** ([#4594](https://github.com/makr-code/ThemisDB/issues/4594)) — tombstone soft-delete replaced by `db_.del()` hard delete; secondary index ensures `findInstancesWithObject()` is exact and no stale entries remain.
+
 ### Added — 2026-04-12 Module Additions (batch 2)
 
 - **stable_diffusion: `SDCppGenerator` + real PNG encoder v2.2.0** ([#4590](https://github.com/makr-code/ThemisDB/issues/4590)) — `SDCppGenerator` wraps `stable-diffusion.cpp` C API under `THEMIS_ENABLE_STABLE_DIFFUSION` guard; `encodeMinimalPng()` produces valid IDAT via stored-deflate + CRC32 + Adler32; `SDStubGenerator::generateImg2Img` returns input-image pass-through. 51 unit tests (groups A–Q, 6 new P–Q).
