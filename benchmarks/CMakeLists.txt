@@ -1213,6 +1213,46 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_olap_performance.cpp")
     message(STATUS "  OLAP: Aggregations, GROUP BY, filters at scale")
 endif()
 
+# OLAP Analytics Benchmarks (AN-1/AN-2/AN-8/AN-9)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_olap_analytics.cpp")
+    message(STATUS "Adding OLAP Analytics benchmarks")
+
+    add_executable(bench_olap_analytics
+        bench_olap_analytics.cpp
+    )
+
+    target_link_libraries(bench_olap_analytics PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_olap_analytics PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(MSVC)
+        target_compile_options(bench_olap_analytics PRIVATE /W3)
+    elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(bench_olap_analytics PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_olap_analytics
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  OLAP Analytics: AN-1/AN-2/AN-8/AN-9 productive cases")
+endif()
+
 # Embedding Cache Performance Benchmarks
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_embedding_cache_performance.cpp")
     message(STATUS "Adding Embedding Cache Performance benchmarks")
@@ -3654,6 +3694,102 @@ endif()
 #   - Multi-predicate AND filter throughput ≥ 100 M items/s
 #   - Filter+Aggregate (SUM) throughput ≥ 80 M items/s
 #   - Full pipeline (Filter → Project → Sort) ≥ 50 M items/s
+# ============================================================================
+
+# ============================================================================
+# bench_query (Query-Engine Pagination, P99, QueryMix, Scaled)
+# Validates acceptance criteria:
+#   - Offset-based pagination: page latency reported per page_size/pages combo
+#   - Cursor-based pagination: anchor-based, lower overhead than offset
+#   - BM_SimpleWhere / BM_ComplexWhere P99 latency
+#   - BM_QueryMix_Historical: mixed workload throughput
+# ============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_query.cpp")
+    message(STATUS "Adding Query Engine Pagination + P99 benchmarks (bench_query)")
+
+    add_executable(bench_query
+        bench_query.cpp
+    )
+
+    target_link_libraries(bench_query PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_query PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(MSVC)
+        target_compile_options(bench_query PRIVATE /W3)
+    elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(bench_query PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_query
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  bench_query: Pagination Offset/Cursor, SimpleWhere, ComplexWhere, Join, P99, QueryMix, Scaled")
+endif()
+
+# ============================================================================
+# bench_arm_simd (AN-10 ARM NEON Aggregation Bandwidth)
+# Validates acceptance criteria:
+#   - Effective read bandwidth >= 4 GB/s on Cortex-A78-class ARM runner
+#   - SIMD batch-distance throughput exposed as effective_read_gb_s
+# ============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_arm_simd.cpp")
+    message(STATUS "Adding ARM SIMD benchmarks (bench_arm_simd)")
+
+    add_executable(bench_arm_simd
+        bench_arm_simd.cpp
+    )
+
+    target_link_libraries(bench_arm_simd PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_arm_simd PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(MSVC)
+        target_compile_options(bench_arm_simd PRIVATE /W3)
+    elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(bench_arm_simd PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_arm_simd
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  bench_arm_simd: L2/dot/batch SIMD with effective_read_gb_s counter for AN-10")
+endif()
+
+# ============================================================================
+# bench_query_lazy_eval (PERF-D7, v1.0.0)
 # ============================================================================
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_query_lazy_eval.cpp")
     message(STATUS "Adding Query Engine Lazy Evaluation benchmarks (PERF-D7, v1.0.0)")

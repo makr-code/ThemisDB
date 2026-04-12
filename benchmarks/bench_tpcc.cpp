@@ -578,12 +578,189 @@ BENCHMARK_MAIN();
 #endif
 
 #include <benchmark/benchmark.h>
+#include "storage/base_entity.h"
+#include "storage/rocksdb_wrapper.h"
+#include "index/secondary_index.h"
 
-static void BM_TPCC_Disabled(benchmark::State& state) {
-    for (auto _ : state) {
-        benchmark::DoNotOptimize(state.iterations());
-    }
+#include <filesystem>
+#include <random>
+#include <string>
+
+namespace {
+
+void cleanupBenchDb(const std::string& path) {
+    std::error_code ec;
+    std::filesystem::remove_all(path, ec);
 }
 
-BENCHMARK(BM_TPCC_Disabled)->Unit(benchmark::kMillisecond);
+class TPCCLiteFixture : public benchmark::Fixture {
+public:
+    void SetUp(const ::benchmark::State& state) override {
+        db_path_ = "bench_tpcc_lite_db";
+        cleanupBenchDb(db_path_);
+
+        themis::RocksDBWrapper::Config cfg;
+        cfg.db_path = db_path_;
+        cfg.compression_default = "lz4";
+        cfg.compression_bottommost = "zstd";
+        cfg.block_cache_size_mb = 128;
+
+        db_ = std::make_unique<themis::RocksDBWrapper>(cfg);
+        if (!db_->open()) {
+            throw std::runtime_error("Failed to open TPCC-lite benchmark DB");
+        }
+
+        secondary_ = std::make_unique<themis::SecondaryIndexManager>(*db_);
+        secondary_->createIndex("CUSTOMER", "customer_id", true);
+        secondary_->createIndex("ORDERS", "customer_id", false);
+        secondary_->createIndex("ORDERS", "warehouse_id", false);
+
+        warehouse_count_ = state.range(0);
+        customers_per_warehouse_ = state.range(1);
+        customer_count_ = warehouse_count_ * customers_per_warehouse_;
+
+        for (int64_t warehouse_id = 0; warehouse_id < warehouse_count_; ++warehouse_id) {
+            for (int64_t customer_offset = 0; customer_offset < customers_per_warehouse_; ++customer_offset) {
+                const int64_t customer_id = warehouse_id * customers_per_warehouse_ + customer_offset;
+                themis::BaseEntity customer("cust_" + std::to_string(customer_id));
+                customer.setField("customer_id", customer_id);
+                customer.setField("warehouse_id", warehouse_id);
+                customer.setField("balance", 1000.0);
+                customer.setField("credit_limit", 5000.0);
+                secondary_->put("CUSTOMER", customer);
+            }
+        }
+
+        next_order_id_ = 0;
+        rng_.seed(42);
+    }
+
+    void TearDown(const ::benchmark::State&) override {
+        secondary_.reset();
+        db_.reset();
+        cleanupBenchDb(db_path_);
+    }
+
+protected:
+    void doNewOrder() {
+        std::uniform_int_distribution<int64_t> cust_dist(0, customer_count_ - 1);
+        const int64_t customer_id = cust_dist(rng_);
+        const int64_t warehouse_id = customer_id / customers_per_warehouse_;
+
+        themis::BaseEntity order("order_" + std::to_string(next_order_id_++));
+        order.setField("customer_id", customer_id);
+        order.setField("warehouse_id", warehouse_id);
+        order.setField("item_count", static_cast<int64_t>(5));
+        order.setField("total", 199.95);
+        order.setField("status", std::string("NEW"));
+        secondary_->put("ORDERS", order);
+    }
+
+    void doPayment() {
+        std::uniform_int_distribution<int64_t> cust_dist(0, customer_count_ - 1);
+        const int64_t customer_id = cust_dist(rng_);
+        auto result = secondary_->scanEntitiesEqual(
+            "CUSTOMER",
+            "customer_id",
+            std::to_string(customer_id)
+        );
+        if (!result.first.ok || result.second.empty()) {
+            return;
+        }
+
+        auto customer = result.second.front();
+        const double current = customer.getFieldAsDouble("balance").value_or(1000.0);
+        customer.setField("balance", current - 10.0);
+        secondary_->put("CUSTOMER", customer);
+    }
+
+    void doOrderStatus() {
+        std::uniform_int_distribution<int64_t> cust_dist(0, customer_count_ - 1);
+        const int64_t customer_id = cust_dist(rng_);
+        auto result = secondary_->scanEntitiesEqual(
+            "ORDERS",
+            "customer_id",
+            std::to_string(customer_id)
+        );
+        benchmark::DoNotOptimize(result.second.size());
+    }
+
+    void doStockLevel() {
+        std::uniform_int_distribution<int64_t> wh_dist(0, warehouse_count_ - 1);
+        const int64_t warehouse_id = wh_dist(rng_);
+        auto result = secondary_->scanEntitiesEqual(
+            "ORDERS",
+            "warehouse_id",
+            std::to_string(warehouse_id)
+        );
+        benchmark::DoNotOptimize(result.second.size());
+    }
+
+    std::string db_path_;
+    std::unique_ptr<themis::RocksDBWrapper> db_;
+    std::unique_ptr<themis::SecondaryIndexManager> secondary_;
+    std::mt19937 rng_;
+    int64_t warehouse_count_{1};
+    int64_t customers_per_warehouse_{3000};
+    int64_t customer_count_{1000};
+    int64_t next_order_id_{0};
+};
+
+} // namespace
+
+BENCHMARK_DEFINE_F(TPCCLiteFixture, NewOrderLite)(benchmark::State& state) {
+    for (auto _ : state) {
+        doNewOrder();
+    }
+    state.SetItemsProcessed(state.iterations());
+    state.counters["warehouses"] = static_cast<double>(warehouse_count_);
+    state.counters["customers_total"] = static_cast<double>(customer_count_);
+    state.SetLabel("tpcc_scaled_new_order");
+}
+
+BENCHMARK_DEFINE_F(TPCCLiteFixture, PaymentLite)(benchmark::State& state) {
+    for (auto _ : state) {
+        doPayment();
+    }
+    state.SetItemsProcessed(state.iterations());
+    state.counters["warehouses"] = static_cast<double>(warehouse_count_);
+    state.counters["customers_total"] = static_cast<double>(customer_count_);
+    state.SetLabel("tpcc_scaled_payment");
+}
+
+BENCHMARK_DEFINE_F(TPCCLiteFixture, MixedOrderEntryScale)(benchmark::State& state) {
+    std::uniform_int_distribution<int> mix_dist(1, 100);
+    for (auto _ : state) {
+        const int tx = mix_dist(rng_);
+        if (tx <= 45) {
+            doNewOrder();
+        } else if (tx <= 88) {
+            doPayment();
+        } else if (tx <= 92) {
+            doOrderStatus();
+        } else {
+            doStockLevel();
+        }
+    }
+    state.SetItemsProcessed(state.iterations());
+    state.counters["warehouses"] = static_cast<double>(warehouse_count_);
+    state.counters["customers_total"] = static_cast<double>(customer_count_);
+    state.SetLabel("tpcc_scaled_mixed_45_43_4_8");
+}
+
+BENCHMARK_REGISTER_F(TPCCLiteFixture, NewOrderLite)
+    ->Args({1, 3000})
+    ->Args({10, 3000})
+    ->Unit(benchmark::kMicrosecond);
+
+BENCHMARK_REGISTER_F(TPCCLiteFixture, PaymentLite)
+    ->Args({1, 3000})
+    ->Args({10, 3000})
+    ->Unit(benchmark::kMicrosecond);
+
+BENCHMARK_REGISTER_F(TPCCLiteFixture, MixedOrderEntryScale)
+    ->Args({1, 3000})
+    ->Args({10, 3000})
+    ->Unit(benchmark::kMicrosecond);
+
 BENCHMARK_MAIN();

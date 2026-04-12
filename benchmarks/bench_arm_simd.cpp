@@ -265,6 +265,11 @@ static void BM_ARM_Batch_L2_SIMD(benchmark::State& state) {
         static_cast<double>(state.iterations() * batch_size),
         benchmark::Counter::kIsRate
     );
+    state.counters["effective_read_gb_s"] = benchmark::Counter(
+        (static_cast<double>(state.iterations()) * static_cast<double>(batch_size) *
+         static_cast<double>(dim) * static_cast<double>(sizeof(float)) * 2.0) / 1e9,
+        benchmark::Counter::kIsRate
+    );
 #ifdef THEMIS_ARM_NEON
     state.SetLabel("ARM_NEON_batch");
 #else
@@ -294,6 +299,11 @@ static void BM_ARM_Batch_L2_Scalar(benchmark::State& state) {
     state.counters["batch_size"] = static_cast<double>(batch_size);
     state.counters["vectors_per_sec"] = benchmark::Counter(
         static_cast<double>(state.iterations() * batch_size),
+        benchmark::Counter::kIsRate
+    );
+    state.counters["effective_read_gb_s"] = benchmark::Counter(
+        (static_cast<double>(state.iterations()) * static_cast<double>(batch_size) *
+         static_cast<double>(dim) * static_cast<double>(sizeof(float)) * 2.0) / 1e9,
         benchmark::Counter::kIsRate
     );
     state.SetLabel("Scalar_batch");

@@ -428,12 +428,219 @@ BENCHMARK_MAIN();
 #endif
 
 #include <benchmark/benchmark.h>
+#include "storage/base_entity.h"
+#include "storage/rocksdb_wrapper.h"
+#include "index/secondary_index.h"
 
-static void BM_YCSB_Disabled(benchmark::State& state) {
-    for (auto _ : state) {
-        benchmark::DoNotOptimize(state.iterations());
-    }
+#include <filesystem>
+#include <cmath>
+#include <random>
+#include <string>
+#include <vector>
+
+namespace {
+
+void cleanupBenchDb(const std::string& path) {
+    std::error_code ec;
+    std::filesystem::remove_all(path, ec);
 }
 
-BENCHMARK(BM_YCSB_Disabled)->Unit(benchmark::kMillisecond);
+class ZipfianGenerator {
+public:
+    explicit ZipfianGenerator(int64_t num_items, double theta = 0.99)
+        : num_items_(num_items), theta_(theta) {
+        zeta_n_ = zeta(num_items_, theta_);
+        zeta_2_ = zeta(2, theta_);
+        alpha_ = 1.0 / (1.0 - theta_);
+        eta_ = (1.0 - std::pow(2.0 / static_cast<double>(num_items_), 1.0 - theta_)) /
+               (1.0 - zeta_2_ / zeta_n_);
+    }
+
+    int64_t next(std::mt19937& rng) const {
+        std::uniform_real_distribution<double> dist(0.0, 1.0);
+        const double u = dist(rng);
+        const double uz = u * zeta_n_;
+        if (uz < 1.0) {
+            return 0;
+        }
+        if (uz < 1.0 + std::pow(0.5, theta_)) {
+            return 1;
+        }
+        const int64_t value = static_cast<int64_t>(
+            num_items_ * std::pow(eta_ * u - eta_ + 1.0, alpha_)
+        );
+        return std::min(value, num_items_ - 1);
+    }
+
+private:
+    static double zeta(int64_t n, double theta) {
+        double sum = 0.0;
+        for (int64_t i = 1; i <= n; ++i) {
+            sum += 1.0 / std::pow(static_cast<double>(i), theta);
+        }
+        return sum;
+    }
+
+    int64_t num_items_;
+    double theta_;
+    double zeta_n_;
+    double zeta_2_;
+    double alpha_;
+    double eta_;
+};
+
+class YCSBLiteFixture : public benchmark::Fixture {
+public:
+    void SetUp(const ::benchmark::State& state) override {
+        db_path_ = "bench_ycsb_lite_db";
+        cleanupBenchDb(db_path_);
+
+        themis::RocksDBWrapper::Config cfg;
+        cfg.db_path = db_path_;
+        cfg.compression_default = "lz4";
+        cfg.compression_bottommost = "zstd";
+        cfg.block_cache_size_mb = 128;
+
+        db_ = std::make_unique<themis::RocksDBWrapper>(cfg);
+        if (!db_->open()) {
+            throw std::runtime_error("Failed to open YCSB-lite benchmark DB");
+        }
+
+        secondary_ = std::make_unique<themis::SecondaryIndexManager>(*db_);
+        secondary_->createIndex("usertable", "user_id", true);
+
+        record_count_ = state.range(0);
+        preload_batch_size_ = 1000;
+        for (int64_t i = 0; i < record_count_; ++i) {
+            pending_preload_.clear();
+            const int64_t end = std::min<int64_t>(i + preload_batch_size_, record_count_);
+            pending_preload_.reserve(static_cast<size_t>(end - i));
+            for (int64_t j = i; j < end; ++j) {
+                themis::BaseEntity user("user" + std::to_string(j));
+                user.setField("user_id", j);
+                user.setField("field0", std::string("value_") + std::to_string(j));
+                pending_preload_.push_back(std::move(user));
+            }
+            auto status = secondary_->putBatch("usertable", pending_preload_);
+            if (!status.ok) {
+                throw std::runtime_error("Failed YCSB preload batch insert: " + status.message);
+            }
+            i = end - 1;
+        }
+
+        rng_.seed(1337);
+        zipfian_ = std::make_unique<ZipfianGenerator>(record_count_);
+    }
+
+    void TearDown(const ::benchmark::State&) override {
+        zipfian_.reset();
+        secondary_.reset();
+        db_.reset();
+        cleanupBenchDb(db_path_);
+    }
+
+protected:
+    int64_t randomUserIdUniform() {
+        std::uniform_int_distribution<int64_t> dist(0, record_count_ - 1);
+        return dist(rng_);
+    }
+
+    int64_t randomUserIdZipfian() {
+        return zipfian_->next(rng_);
+    }
+
+    void doRead(bool zipfian = true) {
+        const int64_t user_id = zipfian ? randomUserIdZipfian() : randomUserIdUniform();
+        auto result = secondary_->scanEntitiesEqual(
+            "usertable",
+            "user_id",
+            std::to_string(user_id)
+        );
+        benchmark::DoNotOptimize(result.second.size());
+    }
+
+    void doUpdate(bool zipfian = true) {
+        const int64_t user_id = zipfian ? randomUserIdZipfian() : randomUserIdUniform();
+        auto result = secondary_->scanEntitiesEqual(
+            "usertable",
+            "user_id",
+            std::to_string(user_id)
+        );
+        if (!result.first.ok || result.second.empty()) {
+            return;
+        }
+
+        auto row = result.second.front();
+        row.setField("field0", std::string("updated_") + std::to_string(counter_++));
+        secondary_->put("usertable", row);
+    }
+
+    std::string db_path_;
+    std::unique_ptr<themis::RocksDBWrapper> db_;
+    std::unique_ptr<themis::SecondaryIndexManager> secondary_;
+    std::unique_ptr<ZipfianGenerator> zipfian_;
+    std::mt19937 rng_;
+    int64_t record_count_{10000};
+    int64_t counter_{0};
+    int64_t preload_batch_size_{1000};
+    std::vector<themis::BaseEntity> pending_preload_;
+};
+
+} // namespace
+
+BENCHMARK_DEFINE_F(YCSBLiteFixture, WorkloadA_50_50)(benchmark::State& state) {
+    std::uniform_int_distribution<int> op_dist(0, 99);
+    for (auto _ : state) {
+        if (op_dist(rng_) < 50) {
+            doRead(true);
+        } else {
+            doUpdate(true);
+        }
+    }
+    state.SetItemsProcessed(state.iterations());
+    state.counters["records"] = static_cast<double>(record_count_);
+    state.SetLabel("ycsb_scaled_A_50_50_zipfian");
+}
+
+BENCHMARK_DEFINE_F(YCSBLiteFixture, WorkloadB_95_5)(benchmark::State& state) {
+    std::uniform_int_distribution<int> op_dist(0, 99);
+    for (auto _ : state) {
+        if (op_dist(rng_) < 95) {
+            doRead(true);
+        } else {
+            doUpdate(true);
+        }
+    }
+    state.SetItemsProcessed(state.iterations());
+    state.counters["records"] = static_cast<double>(record_count_);
+    state.SetLabel("ycsb_scaled_B_95_5_zipfian");
+}
+
+BENCHMARK_DEFINE_F(YCSBLiteFixture, WorkloadC_ReadOnly)(benchmark::State& state) {
+    for (auto _ : state) {
+        doRead(true);
+    }
+    state.SetItemsProcessed(state.iterations());
+    state.counters["records"] = static_cast<double>(record_count_);
+    state.SetLabel("ycsb_scaled_C_read_only_zipfian");
+}
+
+BENCHMARK_REGISTER_F(YCSBLiteFixture, WorkloadA_50_50)
+    ->Arg(10000)
+    ->Arg(100000)
+    ->Arg(1000000)
+    ->Unit(benchmark::kMicrosecond);
+
+BENCHMARK_REGISTER_F(YCSBLiteFixture, WorkloadB_95_5)
+    ->Arg(10000)
+    ->Arg(100000)
+    ->Arg(1000000)
+    ->Unit(benchmark::kMicrosecond);
+
+BENCHMARK_REGISTER_F(YCSBLiteFixture, WorkloadC_ReadOnly)
+    ->Arg(10000)
+    ->Arg(100000)
+    ->Arg(1000000)
+    ->Unit(benchmark::kMicrosecond);
+
 BENCHMARK_MAIN();

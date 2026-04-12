@@ -17004,6 +17004,7 @@ if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ethics_a
     set_tests_properties(EthicsAgenticDialecticGoldenTests PROPERTIES
         LABELS "ethics;golden;dialectic;agentic;integration"
         TIMEOUT 120
+        ENVIRONMENT "MIMALLOC_DISABLE_REDIRECT=1"
     )
 
     message(STATUS "  Ethics Agentic Golden: article-driven dialectic with golden dataset checks")

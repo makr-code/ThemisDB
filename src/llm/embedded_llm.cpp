@@ -23,6 +23,7 @@
 #include "llm/embedded_llm.h"
 #include "utils/error_registry.h"
 #include <spdlog/spdlog.h>
+#include <algorithm>
 
 namespace themis {
 namespace llm {
@@ -42,6 +43,7 @@ EmbeddedLLM::EmbeddedLLM(const Config& config)
     LlamaWrapper::Config wrapper_config;
     wrapper_config.n_gpu_layers = config.n_gpu_layers;
     wrapper_config.n_ctx = config.n_ctx;
+    wrapper_config.n_batch = std::clamp(config.n_ctx, 512, 4096);
     
     wrapper_ = std::make_unique<LlamaWrapper>(wrapper_config);
     

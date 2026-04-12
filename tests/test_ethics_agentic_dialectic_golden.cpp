@@ -206,9 +206,27 @@ std::vector<EthicalArgument> collectDecisionArguments(
     return arguments;
 }
 
+const char* expectedFallbackFragment(ArgumentType type) {
+    switch (type) {
+        case ArgumentType::PRO:
+            return "we should consider the ethical implications carefully.";
+        case ArgumentType::CONTRA:
+            return "there are substantial objections that should be weighed before acting.";
+        case ArgumentType::REBUTTAL:
+            return "the strongest objections can be addressed with transparent safeguards.";
+        case ArgumentType::SYNTHESIS:
+            return "a balanced synthesis should integrate benefits, risks, and accountability.";
+        default:
+            return "we must recognize the complexities involved.";
+    }
+}
+
 } // namespace
 
 TEST(EthicsAgenticDialecticGoldenTest, ArticleDialecticMatchesGoldenDataset) {
+    ScopedEnvVar llm_enabled("THEMIS_ETHICS_LLM_INFERENCE", "0");
+    ScopedEnvVar llm_model("THEMIS_ETHICS_LLM_MODEL_PATH", "");
+
     for (const auto& golden : kGoldenDialecticDataset) {
         SCOPED_TRACE(golden.name);
 
@@ -249,6 +267,8 @@ TEST(EthicsAgenticDialecticGoldenTest, ArticleDialecticMatchesGoldenDataset) {
         ASSERT_EQ(golden.expected_argument_types.size(), golden.schools.size());
         for (size_t i = 0; i < arguments.size(); ++i) {
             EXPECT_EQ(arguments[i].argument_type, golden.expected_argument_types[i]);
+            EXPECT_NE(arguments[i].content.find(expectedFallbackFragment(arguments[i].argument_type)),
+                      std::string::npos);
         }
 
         auto eval_result = evaluator->evaluateDecision(decision, arguments);
@@ -264,6 +284,9 @@ TEST(EthicsAgenticDialecticGoldenTest, ArticleDialecticMatchesGoldenDataset) {
 }
 
 TEST(EthicsAgenticDialecticGoldenTest, DialecticStepOrderIsDeterministicForFourSchools) {
+    ScopedEnvVar llm_enabled("THEMIS_ETHICS_LLM_INFERENCE", "0");
+    ScopedEnvVar llm_model("THEMIS_ETHICS_LLM_MODEL_PATH", "");
+
     auto loader = std::make_shared<PhilosophyLoader>();
     auto store = std::make_shared<ArgumentStore>();
     ASSERT_TRUE(store->initialize(nullptr, nullptr).isOK());
@@ -307,6 +330,62 @@ TEST(EthicsAgenticDialecticGoldenTest, DialecticStepOrderIsDeterministicForFourS
 
     EXPECT_EQ(actual, expected);
     EXPECT_NE(actual, wrong_order);
+}
+
+TEST(EthicsAgenticDialecticGoldenTest, DeterministicFallbackStableAcrossIndependentRuns) {
+    ScopedEnvVar llm_enabled("THEMIS_ETHICS_LLM_INFERENCE", "0");
+    ScopedEnvVar llm_model("THEMIS_ETHICS_LLM_MODEL_PATH", "");
+
+    const std::string dilemma =
+        "A regional authority evaluates AI-assisted welfare eligibility checks with mandatory human appeal.";
+    const std::vector<std::string> schools = {"rawls", "care_ethics", "utilitarianism", "kant"};
+
+    auto build_snapshot = [&](std::string* decision_text,
+                              double* consensus_level,
+                              std::vector<ArgumentType>* types,
+                              std::vector<std::string>* contents) {
+        auto loader = std::make_shared<PhilosophyLoader>();
+        auto store = std::make_shared<ArgumentStore>();
+        ASSERT_TRUE(store->initialize(nullptr, nullptr).isOK());
+        auto rag = std::make_shared<RAGContextEngine>(store);
+        auto engine = std::make_unique<EthicalDiscourseEngine>(loader, store, rag);
+
+        registerProfiles(loader);
+
+        auto decision_result = engine->makeDecision(dilemma, schools, "governance", true);
+        ASSERT_TRUE(std::holds_alternative<EthicalDecision>(decision_result));
+        const auto& decision = std::get<EthicalDecision>(decision_result);
+
+        *decision_text = decision.decision_text;
+        *consensus_level = decision.consensus_level;
+
+        auto arguments = collectDecisionArguments(store, schools);
+        ASSERT_EQ(arguments.size(), schools.size());
+
+        types->clear();
+        contents->clear();
+        for (const auto& argument : arguments) {
+            types->push_back(argument.argument_type);
+            contents->push_back(argument.content);
+        }
+    };
+
+    std::string decision_text_a;
+    std::string decision_text_b;
+    double consensus_a = 0.0;
+    double consensus_b = 0.0;
+    std::vector<ArgumentType> types_a;
+    std::vector<ArgumentType> types_b;
+    std::vector<std::string> contents_a;
+    std::vector<std::string> contents_b;
+
+    build_snapshot(&decision_text_a, &consensus_a, &types_a, &contents_a);
+    build_snapshot(&decision_text_b, &consensus_b, &types_b, &contents_b);
+
+    EXPECT_EQ(decision_text_a, decision_text_b);
+    EXPECT_DOUBLE_EQ(consensus_a, consensus_b);
+    EXPECT_EQ(types_a, types_b);
+    EXPECT_EQ(contents_a, contents_b);
 }
 
 TEST(EthicsAgenticDialecticGoldenTest, LlmEnabledInvalidModelFallsBackDeterministically) {

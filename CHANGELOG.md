@@ -29,6 +29,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Tool: `tools/module_docs_builder.py` v1.0.0
   <!-- changelog-updater: module-docs-sync-2026-04-10 -->
 
+### Tests
+
+- **Ethics AI: Agentic Dialectic um llama.cpp-Opt-In und Regressionssicherheit erweitert**
+  - `src/ethics_ai/discourse_engine.cpp` und `plugins/ethics_ai/discourse_engine.cpp` um optionalen LLM-Inferenzpfad erweitert.
+  - LLM bleibt explizit opt-in via `THEMIS_ETHICS_LLM_INFERENCE=1`; ohne Opt-In bleibt deterministischer Fallback aktiv.
+  - Modellpfad konfigurierbar via `THEMIS_ETHICS_LLM_MODEL_PATH`; bei ungueltigem Pfad erfolgt stabiler Fallback ohne Testabbruch.
+  - Golden-Tests in `tests/test_ethics_agentic_dialectic_golden.cpp` ausgebaut:
+    - Dialektik-Sequenz bis `SYNTHESIS` verifiziert,
+    - Reihenfolge-Anti-Regression,
+    - LLM-Fallback-Regression,
+    - optionaler Real-LLM-Integrationstest mit `GTEST_SKIP()` bei fehlendem Modell.
+  - Lokaler Real-LLM-Testpfad ueber `THEMIS_ETHICS_LLM_INTEGRATION_MODEL_PATH` dokumentiert in README und Performance-Doku.
+
 ## [1.8.1-rc2] - 2026-04-08
 
 ### Fixed — Hotfix: Docker image SIGSEGV on startup (`Exit 139`)

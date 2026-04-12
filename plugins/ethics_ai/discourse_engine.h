@@ -51,7 +51,7 @@ public:
         std::shared_ptr<ArgumentStore> store,
         std::shared_ptr<RAGContextEngine> rag_engine
     );
-    ~EthicalDiscourseEngine() = default;
+    ~EthicalDiscourseEngine();
     
     /**
      * @brief Initialize a debate

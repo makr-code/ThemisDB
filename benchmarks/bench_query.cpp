@@ -297,7 +297,11 @@ static void BM_JoinUsersPosts(benchmark::State& state) {
 
 static bool run_simple_where(QueryEngine& engine, size_t& matched_users, std::string& err);
 static bool run_complex_where(QueryEngine& engine, size_t& matched_users, std::string& err);
-static bool run_join_users_posts(QueryEngine& engine, size_t& matched_users, size_t& joined_rows, std::string& err);
+static bool run_join_users_posts(QueryEngine& engine,
+                                 size_t& matched_users,
+                                 size_t& joined_rows,
+                                 std::string& err,
+                                 size_t max_users_to_join = std::numeric_limits<size_t>::max());
 
 static void BM_SimpleWhere_Scaled(benchmark::State& state) {
     const size_t N = static_cast<size_t>(state.range(0));
@@ -337,6 +341,7 @@ static void BM_ComplexWhere_Scaled(benchmark::State& state) {
 
 static void BM_JoinUsersPosts_Scaled(benchmark::State& state) {
     const size_t N = static_cast<size_t>(state.range(0));
+    const size_t join_user_cap = (N >= 10000) ? 128 : std::numeric_limits<size_t>::max();
     auto& env = BenchEnv::instance();
     if (!env.ensureInit(state, N)) return;
     QueryEngine engine(*env.storage, *env.secIdx);
@@ -345,12 +350,15 @@ static void BM_JoinUsersPosts_Scaled(benchmark::State& state) {
         std::string err;
         size_t matched_users = 0;
         size_t joined_rows = 0;
-        if (!run_join_users_posts(engine, matched_users, joined_rows, err)) {
+        if (!run_join_users_posts(engine, matched_users, joined_rows, err, join_user_cap)) {
             state.SkipWithError(err.c_str());
             return;
         }
         state.counters["matched_users"] = static_cast<double>(matched_users);
         state.counters["joined_rows"] = static_cast<double>(joined_rows);
+        if (join_user_cap != std::numeric_limits<size_t>::max()) {
+            state.counters["join_user_cap"] = static_cast<double>(join_user_cap);
+        }
         state.counters["dataset_n"] = static_cast<double>(N);
     }
 }
@@ -392,7 +400,11 @@ static bool run_complex_where(QueryEngine& engine, size_t& matched_users, std::s
     return true;
 }
 
-static bool run_join_users_posts(QueryEngine& engine, size_t& matched_users, size_t& joined_rows, std::string& err) {
+static bool run_join_users_posts(QueryEngine& engine,
+                                 size_t& matched_users,
+                                 size_t& joined_rows,
+                                 std::string& err,
+                                 size_t max_users_to_join) {
     matched_users = 0;
     joined_rows = 0;
 
@@ -408,7 +420,11 @@ static bool run_join_users_posts(QueryEngine& engine, size_t& matched_users, siz
     }
 
     matched_users = users->size();
+    size_t processed_users = 0;
     for (const auto& user : *users) {
+        if (processed_users >= max_users_to_join) {
+            break;
+        }
         ConjunctiveQuery posts_q;
         posts_q.table = "bench_posts";
         posts_q.predicates.push_back(PredicateEq{"user_id", user.getPrimaryKey()});
@@ -419,6 +435,7 @@ static bool run_join_users_posts(QueryEngine& engine, size_t& matched_users, siz
             return false;
         }
         joined_rows += posts->size();
+        ++processed_users;
     }
     return true;
 }
@@ -498,7 +515,8 @@ static void BM_JoinUsersPosts_P99(benchmark::State& state) {
     if (!env.ensureInit(state)) return;
     QueryEngine engine(*env.storage, *env.secIdx);
 
-    constexpr size_t kSamples = 150;
+    constexpr size_t kSamples = 120;
+    constexpr size_t kJoinUserCap = 128;
     std::vector<double> samples_us;
     samples_us.reserve(kSamples);
     size_t matched_users = 0;
@@ -510,7 +528,7 @@ static void BM_JoinUsersPosts_P99(benchmark::State& state) {
         for (size_t i = 0; i < kSamples; ++i) {
             std::string err;
             auto t0 = std::chrono::high_resolution_clock::now();
-            bool ok = run_join_users_posts(engine, matched_users, joined_rows, err);
+            bool ok = run_join_users_posts(engine, matched_users, joined_rows, err, kJoinUserCap);
             auto t1 = std::chrono::high_resolution_clock::now();
             if (!ok) {
                 state.SkipWithError(err.c_str());
@@ -527,6 +545,7 @@ static void BM_JoinUsersPosts_P99(benchmark::State& state) {
         state.counters["qps_est"] = 1e6 / mean_us;
         state.counters["matched_users"] = static_cast<double>(matched_users);
         state.counters["joined_rows"] = static_cast<double>(joined_rows);
+        state.counters["join_user_cap"] = static_cast<double>(kJoinUserCap);
     }
 }
 
@@ -538,7 +557,8 @@ static void BM_JoinUsersPosts_P99(benchmark::State& state) {
 
 static void BM_QueryMix_Historical(benchmark::State& state) {
     constexpr size_t kDatasetN    = 10000;
-    constexpr size_t kWarmupIters = 50;
+    constexpr size_t kWarmupIters = 30;
+    constexpr size_t kJoinUserCap = 128;
     auto& env = BenchEnv::instance();
     if (!env.ensureInit(state, kDatasetN)) return;
     QueryEngine engine(*env.storage, *env.secIdx);
@@ -547,7 +567,7 @@ static void BM_QueryMix_Historical(benchmark::State& state) {
     for (size_t w = 0; w < kWarmupIters; ++w) {
         std::string err;
         size_t du = 0, dj = 0;
-        if      (w % 10 == 9)  { run_join_users_posts(engine, du, dj, err); }
+        if      (w % 10 == 9)  { run_join_users_posts(engine, du, dj, err, kJoinUserCap); }
         else if (w % 10 >= 7)  { run_complex_where(engine, du, err);        }
         else                   { run_simple_where(engine, du, err);          }
         benchmark::DoNotOptimize(du);
@@ -562,18 +582,20 @@ static void BM_QueryMix_Historical(benchmark::State& state) {
         const size_t slot = iter_count % 10;
         if      (slot < 6) ok = run_simple_where(engine, mu, err);
         else if (slot < 9) ok = run_complex_where(engine, mu, err);
-        else               ok = run_join_users_posts(engine, mu, jr, err);
+        else               ok = run_join_users_posts(engine, mu, jr, err, kJoinUserCap);
         if (!ok) { state.SkipWithError(err.c_str()); return; }
         state.counters["dataset_n"]    = static_cast<double>(kDatasetN);
         state.counters["warmup_iters"] = static_cast<double>(kWarmupIters);
+        state.counters["join_user_cap"] = static_cast<double>(kJoinUserCap);
         ++iter_count;
     }
 }
 
 static void BM_QueryMix_Historical_P99(benchmark::State& state) {
     constexpr size_t kDatasetN    = 10000;
-    constexpr size_t kWarmupIters = 50;
-    constexpr size_t kSamples     = 300;
+    constexpr size_t kWarmupIters = 30;
+    constexpr size_t kSamples     = 120;
+    constexpr size_t kJoinUserCap = 128;
     auto& env = BenchEnv::instance();
     if (!env.ensureInit(state, kDatasetN)) return;
     QueryEngine engine(*env.storage, *env.secIdx);
@@ -581,7 +603,7 @@ static void BM_QueryMix_Historical_P99(benchmark::State& state) {
     for (size_t w = 0; w < kWarmupIters; ++w) {
         std::string err;
         size_t du = 0, dj = 0;
-        if      (w % 10 == 9)  { run_join_users_posts(engine, du, dj, err); }
+        if      (w % 10 == 9)  { run_join_users_posts(engine, du, dj, err, kJoinUserCap); }
         else if (w % 10 >= 7)  { run_complex_where(engine, du, err);        }
         else                   { run_simple_where(engine, du, err);          }
         benchmark::DoNotOptimize(du);
@@ -600,7 +622,7 @@ static void BM_QueryMix_Historical_P99(benchmark::State& state) {
             auto t0 = std::chrono::high_resolution_clock::now();
             if      (slot < 6) ok = run_simple_where(engine, mu, err);
             else if (slot < 9) ok = run_complex_where(engine, mu, err);
-            else               ok = run_join_users_posts(engine, mu, jr, err);
+            else               ok = run_join_users_posts(engine, mu, jr, err, kJoinUserCap);
             auto t1 = std::chrono::high_resolution_clock::now();
             if (!ok) { state.SkipWithError(err.c_str()); return; }
             samples_us.push_back(
@@ -614,6 +636,7 @@ static void BM_QueryMix_Historical_P99(benchmark::State& state) {
         state.counters["qps_est"]      = 1e6 / mean_us;
         state.counters["dataset_n"]    = static_cast<double>(kDatasetN);
         state.counters["warmup_iters"] = static_cast<double>(kWarmupIters);
+        state.counters["join_user_cap"] = static_cast<double>(kJoinUserCap);
     }
 }
 

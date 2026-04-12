@@ -257,12 +257,20 @@ LlamaWrapper::LlamaWrapper(const Config& config)
         const char* runtime_info = llama_print_system_info();
         const std::string expected_commit = THEMIS_LLAMA_CPP_EXPECTED_COMMIT;
         const std::string runtime_info_str = runtime_info ? runtime_info : "";
+        const bool has_runtime_commit_hint =
+            runtime_info_str.find("commit") != std::string::npos ||
+            runtime_info_str.find("git") != std::string::npos;
 
         if (runtime_info_str.empty()) {
             spdlog::warn("LlamaWrapper: llama_print_system_info() returned empty string — "
                          "cannot verify runtime version. Expected commit: {}. "
                          "Ensure the linked llama.cpp is built from the correct commit.",
                          expected_commit);
+        } else if (!has_runtime_commit_hint) {
+            spdlog::info(
+                "LlamaWrapper: runtime system info does not expose commit metadata; "
+                "skipping strict commit match check. Expected commit: '{}', runtime info: '{}'.",
+                expected_commit, runtime_info_str);
         } else if (runtime_info_str.find(expected_commit) == std::string::npos) {
             spdlog::warn(
                 "LlamaWrapper: llama.cpp version could not be matched exactly — "

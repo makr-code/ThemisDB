@@ -1,0 +1,23 @@
+BENCHMARK-MESSERGEBNISSE (bench_query, Release Build, 2026-04-12)
+================================================================
+
+Pagination (offset vs. cursor):
+  - Offset/20/10:   3.41 ms  (prev: 3.80-3.85 ms)
+  - Offset/50/50:  25.40 ms  (prev: 69.54 ms → 57.5% VERBESSERT ✓)
+  - Cursor/20/10:  10.66 ms  (prev: 4.42 ms → 140% REGRESSION ✗)
+  - Cursor/50/50:   8.05 ms  (prev: 8.94 ms → 10% VERBESSERT)
+
+Core Queries (default dataset N=1000):
+  - SimpleWhere:    0.142 ms (qps_est: ~7040 q/s)
+  - ComplexWhere:   0.180 ms (qps_est: ~5556 q/s)
+  - JoinUsersPosts: 0.728 ms (qps_est: ~1374 q/s)
+
+P99 Latencies:
+  - SimpleWhere_P99:      43.2 ms (mean_us=144.3 µs,p99=207 µs) → qps_est=6929/s
+  - ComplexWhere_P99:     54.1 ms (mean_us=181.9 µs, p99=236.9 µs) → qps_est=5496/s
+  - JoinUsersPosts_P99:  127.6 ms (mean_us=852.8 µs, p99=1022 µs) → qps_est=1173/s
+
+Scalability (N=1000 vs. N=10000):
+  - SimpleWhere:        0.144 ms (1k) → 0.704 ms (10k) = 4.9x ✓
+  - ComplexWhere:       0.231 ms (1k) → 1.156 ms (10k) = 5.0x ✓
+  - JoinUsersPosts:     0.755 ms (1k) → [N/A incomplete run]

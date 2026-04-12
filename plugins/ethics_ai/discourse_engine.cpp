@@ -83,6 +83,16 @@ const char* argumentTypeLabel(ArgumentType type) {
     }
 }
 
+std::string clampForPrompt(const std::string& text, size_t max_chars) {
+    if (text.size() <= max_chars) {
+        return text;
+    }
+    if (max_chars <= 3) {
+        return text.substr(0, max_chars);
+    }
+    return text.substr(0, max_chars - 3) + "...";
+}
+
 } // namespace
 
 EthicalDiscourseEngine::EthicalDiscourseEngine(
@@ -111,6 +121,8 @@ EthicalDiscourseEngine::EthicalDiscourseEngine(
     llm_inference_enabled_ = false;
 #endif
 }
+
+EthicalDiscourseEngine::~EthicalDiscourseEngine() = default;
 
 std::variant<DebateInitialization, Status> EthicalDiscourseEngine::initializeDebate(
     const std::string& dilemma_description,
@@ -242,14 +254,19 @@ std::string EthicalDiscourseEngine::generateArgumentContent(
     ArgumentType type) const {
     if (llmInferenceEnabled()) {
 #if defined(THEMIS_ENABLE_LLM) && THEMIS_ENABLE_LLM
+        const std::string compact_dilemma = clampForPrompt(dilemma, 420);
+        const std::string primary_thesis =
+            profile.main_theses.empty() ? std::string() : clampForPrompt(profile.main_theses[0], 180);
+
         std::stringstream prompt;
         prompt << "You are an ethics assistant. Produce one concise dialectic step.\n"
                << "Step type: " << argumentTypeLabel(type) << "\n"
                << "Philosophy: " << profile.name << " (" << profile.school_id << ")\n"
-               << "Dilemma: " << dilemma << "\n"
+               << "Primary principle: " << (primary_thesis.empty() ? "N/A" : primary_thesis) << "\n"
+               << "Dilemma: " << compact_dilemma << "\n"
                << "Return only 2-3 sentences of the argument text.";
 
-        const std::string generated = llm_->generateWithParams(prompt.str(), 0.3f, 0.9f, 96);
+        const std::string generated = llm_->generateWithParams(prompt.str(), 0.3f, 0.9f, 64);
         if (!generated.empty()) {
             return generated;
         }

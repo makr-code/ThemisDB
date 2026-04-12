@@ -71,8 +71,16 @@ bool GGUFLoader::isFormatSupported(GGMLType type) {
     switch (type) {
         case GGMLType::F32:
         case GGMLType::F16:
-        case GGMLType::Q4_K:  // Q4_K_M and Q4_K_S share the same enum value
+        case GGMLType::Q4_0:
+        case GGMLType::Q4_1:
+        case GGMLType::Q5_0:
+        case GGMLType::Q5_1:
         case GGMLType::Q8_0:
+        case GGMLType::Q8_1:
+        case GGMLType::Q4_K:  // Q4_K_M and Q4_K_S share the same enum value
+        case GGMLType::Q5_K:
+        case GGMLType::Q6_K:
+        case GGMLType::Q8_K:
             return true;
         default:
             return false;
@@ -395,8 +403,7 @@ bool GGUFLoader::parseTensorInfo() {
         if (!isFormatSupported(tensor.type)) {
             last_error_ = "Unsupported quantization format " + tensor.type_string()
                           + " in tensor '" + tensor.name + "'"
-                          + ". Supported formats: F32, F16, Q4_K_M, Q8_0."
-                          + " Download a Q4_K_M or Q8_0 variant of this model.";
+                          + ". Supported formats: F32, F16, Q4_0, Q4_1, Q5_0, Q5_1, Q8_0, Q8_1, Q4_K_M, Q5_K, Q6_K, Q8_K.";
             spdlog::error("GGUFLoader: {}", last_error_);
             return false;
         }
