@@ -45,12 +45,13 @@ enum class FilterOp : uint8_t {
 enum class SIMDLevel : uint8_t {
     SCALAR  = 0,
     SSE4    = 1,
-    AVX2    = 2,
-    AVX512  = 3,
+    NEON    = 2,   ///< ARM NEON / AArch64 (4×i32, 2×i64, 4×f32, 2×f64 per iter)
+    AVX2    = 3,
+    AVX512  = 4,
 };
 
 /// Detect the best available SIMD level at runtime.
-/// Returns SSE4/AVX2/AVX512 when the CPU supports those extensions,
+/// Returns NEON on AArch64, SSE4/AVX2/AVX512 on x86 when supported,
 /// SCALAR otherwise.  Result is memoised after the first call.
 SIMDLevel detectSIMDLevel() noexcept;
 
