@@ -321,6 +321,19 @@ Die folgenden Komponenten wurden mit dem v1.9.x-Release (Commit 2026-04-12) in d
 | `DistributedTaskCoordinator` | `scheduler/` | ✅ GA | — | Leader-Election; One-Runner-Per-Cluster |
 | `ExternalSchedulerAdapter` | `scheduler/` | ✅ GA | — | Kubernetes CronJob + Apache Airflow Adapter |
 
+### Analytics-Modul (v1.9)
+
+| Feature | Modul | Status | Tests | Beschreibung |
+|---------|-------|--------|-------|-------------|
+| `OLAPEngine` GPU-Pfad | `analytics/` | ✅ GA | — | GPU-beschleunigt (threshold=10K rows); LRU Result Cache (TTL) |
+| `OLAPEngine` CUBE/ROLLUP | `analytics/` | ✅ GA | — | CUBE (alle Dimensionskombinationen), ROLLUP (Hierarchisch), GROUPING SETS |
+| Window Functions | `analytics/` | ✅ GA | — | ROW_NUMBER, SUM/AVG OVER, P50/P90/P99, ROWS/RANGE BETWEEN |
+| `CEPEngine` (EPL Parser) | `analytics/` | ✅ GA | — | NFA Pattern Matching; EPL CREATE RULE; WINDOW/GROUP BY/HAVING/ACTION |
+| `CEPEngine` Event Types | `analytics/` | ✅ GA | — | CDC (INSERT/UPDATE/DELETE), Graph, Query, System events; MPMC Ring Buffer |
+| `AnomalyDetector` | `analytics/` | ✅ GA | — | Isolation Forest; konfigurierbare Kontaminationsrate; Rolling Window |
+| `ModelServingEngine` | `analytics/` | ✅ GA | — | Online + Batch ONNX Inference; versioniertes Model Loading |
+| Inkrementelle Materialized Views | `analytics/` | ✅ GA | — | CDC-getrieben; Delta-Update ohne Full-Recompute |
+
 ---
 
 ## Implementierungsstatus — Plugins & Sharding

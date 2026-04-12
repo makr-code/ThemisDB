@@ -1376,3 +1376,124 @@ graph LR
 ```
 
 Abb. 15.13: IntervalJoin für Event-Korrelation zwischen zwei Streams
+
+---
+
+## 15.14 Analytics-Modul — Erweiterte C++ API (v1.9)
+
+### 15.14.1 OLAPEngine — GPU-beschleunigte OLAP-Abfragen
+
+```cpp
+#include "analytics/olap.h"
+
+themisdb::analytics::OLAPEngine::Config olap_cfg;
+olap_cfg.enable_gpu               = true;
+olap_cfg.gpu_device_id            = 0;
+olap_cfg.gpu_memory_limit         = 4ULL * 1024 * 1024 * 1024;  // 4 GB
+olap_cfg.gpu_threshold_rows       = 10000;
+olap_cfg.result_cache_max_entries = 1000;
+olap_cfg.result_cache_ttl_ms      = 60000;
+
+themisdb::analytics::OLAPEngine olap(olap_cfg);
+
+// ── CUBE (alle Dimensionskombinationen) ───────────────────────────────
+auto cube_cells = olap.executeCube(
+    "sales",
+    { {"region"}, {"product"}, {"quarter"} },
+    { {.function="SUM", .field="revenue"} }
+);
+
+// ── ROLLUP (hierarchische Aggregation) ───────────────────────────────
+auto rollup_rows = olap.executeRollup(
+    "sales",
+    { {"country"}, {"region"}, {"city"} },
+    { {.function="COUNT"}, {.function="SUM", .field="amount"} }
+);
+
+// ── Window Functions ──────────────────────────────────────────────────
+auto win_results = olap.evaluateWindowFunctions(
+    data_rows,
+    { {.function="ROW_NUMBER"}, {.function="SUM", .field="revenue"} },
+    window_spec
+);
+```
+
+**Unterstützte Aggregationsfunktionen:** COUNT, SUM, AVG, MIN, MAX, STDDEV, VARIANCE, MEDIAN, PERCENTILE  
+**Window-Typen:** ROWS BETWEEN, RANGE BETWEEN, SLIDING, TUMBLING
+
+### 15.14.2 CEPEngine — Complex Event Processing mit EPL
+
+`CEPEngine` (`include/analytics/cep_engine.h`) implementiert NFA-basiertes Pattern Matching, einen vollständigen EPL (Event Processing Language) Parser und MPMC Lock-Free Ring Buffer für die Event-Queue.
+
+```cpp
+#include "analytics/cep_engine.h"
+
+auto& cep = themisdb::analytics::CEPEngine::getInstance();
+cep.initialize(cep_config);
+
+// ── Event Stream erstellen ─────────────────────────────────────────────
+auto stream = cep.createStream({ .id = "orders_stream", .retention_ms = 60000 });
+
+// ── EPL-Regel (Event Processing Language) ────────────────────────────
+// Syntax: CREATE RULE <name> AS SELECT <agg> FROM <stream>
+//         WINDOW(5 minutes) GROUP BY <field> PATTERN WITHIN 30 seconds
+//         ACTION alert(...)
+cep.addRule({
+    .name = "high-value-alert",
+    .epl  = R"(
+        CREATE RULE high_value AS
+        SELECT SUM(amount) AS total, COUNT(*) AS cnt, customer_id
+        FROM orders_stream
+        WINDOW(5 minutes)
+        GROUP BY customer_id
+        HAVING SUM(amount) > 10000
+        ACTION alert('High-value customer detected', severity='HIGH')
+    )"
+});
+
+// ── CDC-Event senden ──────────────────────────────────────────────────
+auto ev = themisdb::analytics::CEPEngine::createCDCEvent(
+    themisdb::analytics::EventType::DOCUMENT_INSERT,
+    "orders", doc_id, fields
+);
+cep.submitEvent(ev);
+```
+
+**EPL-Features:** SELECT aggregations (COUNT/SUM/AVG/MIN/MAX/FIRST/LAST/STDDEV/PERCENTILE/TOPN/COLLECT), GROUP BY, WINDOW mit Zeit-Einheiten (ms/s/minutes/hours), PATTERN WITHIN, ACTION (alert/webhook/db_write/log/slack/kafka/email)
+
+### 15.14.3 AnomalyDetector — Echtzeit-Anomalie-Erkennung
+
+```cpp
+#include "analytics/anomaly_detection.h"
+
+themisdb::analytics::AnomalyDetector::Config ad_cfg;
+ad_cfg.algorithm          = themisdb::analytics::AnomalyAlgorithm::ISOLATION_FOREST;
+ad_cfg.contamination      = 0.05;  // 5% erwartete Ausreißer
+ad_cfg.window_size        = 1000;
+ad_cfg.alert_threshold    = 0.8;
+
+themisdb::analytics::AnomalyDetector detector(ad_cfg);
+
+// Training + Erkennung
+detector.fit(training_data);
+auto results = detector.detect(new_data_points);
+// results[i].is_anomaly, results[i].score, results[i].explanation
+```
+
+### 15.14.4 ModelServingEngine — Online Inference Pipeline
+
+```cpp
+#include "analytics/model_serving.h"
+
+themisdb::analytics::ModelServingEngine serving;
+serving.loadModel("churn-predictor-v2", model_bytes, /*format=*/"onnx");
+
+// Inference
+auto prediction = serving.predict("churn-predictor-v2", feature_vector);
+// prediction.scores, prediction.label, prediction.confidence
+// prediction.latency_ms, prediction.model_version
+
+// Batch Inference (async)
+auto future = serving.predictBatch("churn-predictor-v2", feature_matrix);
+auto batch_result = future.get();
+```
