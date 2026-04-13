@@ -40,6 +40,11 @@ v1.x – Comprehensive research-driven performance optimization infrastructure i
   - `contains()` / `size()` / `get_lir_count()` / `get_hir_count()` retain `shared_lock`; `clear()` / `put()` use `unique_lock`
   - `mutex_` is `std::shared_mutex`
 - [x] RCU `readers_active()` fix — `g_rcu_reader_count` global `atomic<int64_t>`; `ReadLock` ctor/dtor increment/decrement it; `readers_active()` now returns the real count (was always `false`) (Issue: #4579) (2026-04-12)
+- [x] Workload-Adaptive Optimizer — automatic workload classification (OLTP/OLAP/MIXED/GRAPH/VECTOR/TIMESERIES), dynamic strategy selection, resource reallocation, performance feedback loop, and predictive scaling (Issue: #230) (v1.9.0) (2026-04-13)
+  - `include/performance/workload_adaptive_optimizer.h` — `WorkloadType` enum, `WorkloadProfile`, `OptimizationStrategy`, `AdaptationCallback`, full `WorkloadAdaptiveOptimizer` class
+  - `src/performance/workload_adaptive_optimizer.cpp` — classify_workload() heuristics, per-type strategy table, predictive pool scaling, thread-safe background adaptation loop
+  - 16 focused tests in `tests/test_workload_adaptive_optimizer.cpp` (construction, classification, strategy, callback, auto-adapt, stats, thread safety)
+  - `test_workload_adaptive_optimizer` standalone target added to `cmake/CMakeLists.txt`
 
 ## In Progress 🚧
 *(none currently in progress)*
@@ -90,6 +95,19 @@ v1.x – Comprehensive research-driven performance optimization infrastructure i
 - [x] DPDK / io_uring zero-copy I/O path for network performance
 - [x] Persistent memory (Optane) aware storage layout
 
+### Phase 5: Workload-Adaptive Optimization (Status: Completed ✅)
+- [x] `WorkloadType` enum: OLTP, OLAP, MIXED, GRAPH, VECTOR, TIMESERIES, UNKNOWN
+- [x] `WorkloadProfile` snapshot: read_write_ratio, avg_query_complexity, avg_result_size, concurrent_queries, hot_tables
+- [x] `OptimizationStrategy`: enable_jit_compilation, enable_parallel_execution, thread_pool_size, cache_size_mb, join_algorithm, index_type
+- [x] `classify_workload()`: heuristic classification from rolling 512-query observation window
+- [x] `get_strategy()`: per-workload-type strategy table with predictive thread-pool scaling
+- [x] `apply_strategy()`: thread-safe strategy commit + stats tracking + AdaptationCallback dispatch
+- [x] `enable_auto_adapt()` / `disable_auto_adapt()`: background adaptation loop (configurable interval)
+- [x] `set_callback()`: AdaptationCallback (old_profile, new_profile, strategy)
+- [x] `get_stats()` / `reset_stats()`: total_queries_recorded, total_adaptations, last_workload_type
+- [x] Thread safety: all public methods protected by fine-grained mutexes
+- [x] 16 focused tests covering construction, classification, strategy, callback, auto-adapt, stats, and concurrent record_query
+
 ## Production Readiness Checklist
 - [x] Unit tests coverage > 80%
 - [x] Integration tests (cycle timer accuracy, lock-free buffer correctness)
@@ -97,8 +115,8 @@ v1.x – Comprehensive research-driven performance optimization infrastructure i
 - [x] Security audit (timing side-channels via cycle counters) – RDTSC is available in user-space and does not expose privileged state; measurements are local to the calling thread and not transmitted externally; no cross-tenant leakage path identified
 - [x] Documentation complete
 - [x] API stability guaranteed
-- [x] All source files registered in cmake/CMakeLists.txt and cmake/ModularBuild.cmake (prometheus_exporter, chimera_exporter, async_metrics_exporter, phase3/adaptive_batch_tuner, phase4/io_uring_zero_copy)
-- [x] Standalone focused test targets added (test_cycle_metrics, test_numa_topology, test_wire_perf_benchmark, test_adaptive_batch_tuner, test_io_uring_zero_copy)
+- [x] All source files registered in cmake/CMakeLists.txt and cmake/ModularBuild.cmake (prometheus_exporter, chimera_exporter, async_metrics_exporter, phase3/adaptive_batch_tuner, phase4/io_uring_zero_copy, workload_adaptive_optimizer)
+- [x] Standalone focused test targets added (test_cycle_metrics, test_numa_topology, test_wire_perf_benchmark, test_adaptive_batch_tuner, test_io_uring_zero_copy, test_workload_adaptive_optimizer)
 - [x] THEMIS_ENABLE_PMU_COUNTERS and THEMIS_ENABLE_IO_URING options declared in cmake/CMakeLists.txt
 
 ## Known Issues & Limitations
