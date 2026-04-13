@@ -331,10 +331,11 @@ for (auto it = table->begin(); it != table->end(); ++it) {
 
 ---
 
-### NUMA-Aware Memory Management
+### ~~NUMA-Aware Memory Management~~ ✅ IMPLEMENTED (Issue #228, v1.9.0)
 **Priority:** Medium  
 **Target Version:** v1.9.0  
 **Research Basis:** "NUMA-aware Memory Management" (ASPLOS'15)
+**Status:** Production-ready — see `include/performance/numa_memory_manager.h` and `src/performance/numa_memory_manager.cpp`.
 
 Optimize memory allocation and data placement for NUMA architectures.
 
