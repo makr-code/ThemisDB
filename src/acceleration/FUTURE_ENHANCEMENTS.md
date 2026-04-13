@@ -302,7 +302,7 @@ The `selectTyped<T>()` helper in `backend_registry.cpp:223–233` iterates the e
 - `[x]` Added `INT8` case in `dispatchMatmul()` (`tensor_core_matmul.cpp`) that dispatches to `launchINT8MatmulKernel()`.
 - `[x]` Implemented `launchINT8MatmulKernel()` in `cuda/tensor_core_matmul.cu` using `cublasGemmEx` with `CUDA_R_8I` inputs, `CUDA_R_32I` accumulator, and `CUBLAS_GEMM_DEFAULT_TENSOR_OP`; includes runtime SM 7.5+ guard (returns 1 on older hardware).
 - `[x]` Updated `CUDAMatrixBackend::getCapabilities()` to advertise `PrecisionMode::INT8` only when `sm >= 75` (Turing+).
-- `[ ]` `quantize()` / `dequantize()` FP32↔INT8 helpers not yet added (callers currently responsible for quantization).
+- `[x]` `quantize()` / `dequantize()` FP32↔INT8 helpers added to `tensor_core_matmul.h` / `tensor_core_matmul.cpp`; symmetric per-tensor quantisation with clamp and round, guard for null pointers / non-positive scale.
 
 **Performance Targets:**
 - INT8 matmul throughput ≥ 2× FP16 throughput on RTX 3090 (sm_86) for 4096×4096 matrices.

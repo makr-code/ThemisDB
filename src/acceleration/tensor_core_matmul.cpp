@@ -30,6 +30,8 @@
 
 #include "acceleration/tensor_core_matmul.h"
 #include <cstring>
+#include <cmath>
+#include <algorithm>
 #include <iostream>
 
 #ifdef THEMIS_ENABLE_CUDA
@@ -146,6 +148,30 @@ int dispatchMatmul(const MatrixKernelParams& params, void* opaque_stream)
         params.alpha, params.beta
     );
 #endif
+}
+
+// =============================================================================
+// FP32 ↔ INT8 quantisation helpers
+// =============================================================================
+
+void quantize(const float* src, int8_t* dst, size_t n, float scale)
+{
+    if (!src || !dst || n == 0 || scale <= 0.0f) return;
+    const float inv_scale = 1.0f / scale;
+    for (size_t i = 0; i < n; ++i) {
+        float val = std::round(src[i] * inv_scale);
+        val = std::max(val, -128.0f);
+        val = std::min(val,  127.0f);
+        dst[i] = static_cast<int8_t>(val);
+    }
+}
+
+void dequantize(const int8_t* src, float* dst, size_t n, float scale)
+{
+    if (!src || !dst || n == 0) return;
+    for (size_t i = 0; i < n; ++i) {
+        dst[i] = static_cast<float>(src[i]) * scale;
+    }
 }
 
 } // namespace tensor_core
