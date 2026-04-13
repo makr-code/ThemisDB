@@ -48,7 +48,7 @@ namespace process {
  * | Pools & lanes | ✅ | ✅ |
  * | Data objects & data stores | ✅ | ✅ |
  * | Annotations & associations | ✅ | ✅ |
- * | BPMNDI layout hints | ❌ (ignored on import, omitted on export) | |
+ * | BPMNDI layout hints | ✅ (BPMNShape x/y/width/height → node.metadata.layout) | ❌ (not emitted) |
  *
  * ## Compliance
  *

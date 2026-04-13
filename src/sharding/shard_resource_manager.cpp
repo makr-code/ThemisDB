@@ -295,8 +295,8 @@ void ShardResourceManager::broadcastResourceUpdate() {
     );
     gossip_snapshot.available_memory_bytes = snapshot.ram_total_bytes - snapshot.ram_usage_bytes;
     gossip_snapshot.total_memory_bytes = snapshot.ram_total_bytes;
-    // TODO: Implement platform-specific CPU core detection (sysconf on Linux, WMI on Windows)
-    // For now, use std::thread::hardware_concurrency() as a fallback
+    // std::thread::hardware_concurrency() is the correct cross-platform approach
+    // (maps to sysconf(_SC_NPROCESSORS_ONLN) on Linux, GetSystemInfo on Windows).
     gossip_snapshot.total_cpu_cores = std::thread::hardware_concurrency();
     gossip_snapshot.available_cpu_cores = std::max(0U, 
         gossip_snapshot.total_cpu_cores - static_cast<uint32_t>(snapshot.cpu_usage_percent / 100.0f * gossip_snapshot.total_cpu_cores)

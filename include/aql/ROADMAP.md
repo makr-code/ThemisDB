@@ -35,9 +35,9 @@ and multimodal inference headers are all stable.
 
 ## Planned Features
 
-- [ ] `IAQLQueryDiffExplainer` for explaining differences between two queries (Target: Q3 2026)
-- [ ] `IAQLRollbackSuggester` for automatic rollback query generation (Target: Q4 2026)
-- [ ] `IModelRouter` for multi-model routing and fallback (Target: Q3 2026)
+- [x] `IAQLQueryDiffExplainer` for explaining differences between two queries (Target: Q3 2026)
+- [x] `IAQLRollbackSuggester` for automatic rollback query generation (Target: Q4 2026)
+- [x] `IModelRouter` for multi-model routing and fallback (Target: Q3 2026)
 
 ---
 
@@ -57,13 +57,13 @@ and multimodal inference headers are all stable.
 - [x] Multimodal inference, token estimator
 
 ### Phase 5: Future Query Intelligence
-- [ ] `IAQLQueryDiffExplainer` (Q3 2026)
-- [ ] `IModelRouter` (Q3 2026)
+- [x] `IAQLQueryDiffExplainer` (Q3 2026)
+- [x] `IModelRouter` (Q3 2026)
 
 ### Phase 6: Documentation & Acceptance
 - [x] Architecture and audit docs
-- [ ] Doxygen fully annotated
-- [ ] LoRA compile flag documented
+- [x] Doxygen fully annotated
+- [x] LoRA compile flag documented
 
 ---
 
@@ -72,5 +72,5 @@ and multimodal inference headers are all stable.
 - [x] LLM backend fully abstracted
 - [x] Validation and schema headers present
 - [x] Observability headers complete
-- [ ] `THEMIS_ENABLE_LORA` compile guard verified and documented
-- [ ] `IModelRouter` published
+- [x] `THEMIS_ENABLE_GPU` guards GPU LoRA training; CPU LoRA always compiled (no separate `THEMIS_ENABLE_LORA` flag — verified and documented in `aql_lora_finetuner.h`)
+- [x] `IModelRouter` published (implemented in `aql_model_router.h` / `src/aql/aql_model_router.cpp`)

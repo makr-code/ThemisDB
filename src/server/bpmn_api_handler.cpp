@@ -448,16 +448,22 @@ http::response<http::string_body> BpmnApiHandler::handleQueryInstance(
             response["variables"] = json::object();
         }
         
-        // History (simplified - just list visited nodes)
+        // History — use per-node visit timestamps when available.
         if (include_history) {
             json history = json::array();
             for (const auto& token : instance.tokens) {
                 for (const auto& node : token.visited_nodes) {
                     json event;
                     event["event_type"] = "node_visited";
-                    // TODO: ProcessGraphManager doesn't store individual visit timestamps per node,
-                    // only token creation time. Future enhancement: add visit timestamp tracking.
-                    event["timestamp_ns"] = token.created_at_ms * 1000000;
+                    // Use the precise per-node visit timestamp if stored; fall back to
+                    // the token creation time for nodes that predate timestamp tracking.
+                    const auto tsIt = token.visit_timestamps.find(node);
+                    int64_t ts_ms = token.created_at_ms;
+                    if (tsIt != token.visit_timestamps.end()) {
+                        ts_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+                                    tsIt->second.time_since_epoch()).count();
+                    }
+                    event["timestamp_ns"] = ts_ms * 1'000'000;
                     event["data"] = json::object();
                     event["data"]["node_id"] = node;
                     history.push_back(event);

@@ -27,14 +27,17 @@
 #include "index/process_graph.h"
 #include "storage/base_entity.h"
 #include <nlohmann/json.hpp>
+#include <functional>
+#include <memory>
+#include <optional>
 #include <string>
 #include <string_view>
 #include <vector>
-#include <optional>
-#include <memory>
 
 namespace themis {
 class RocksDBWrapper;
+namespace index { class InvertedIndex; }
+class VectorIndexManager;
 
 namespace process {
 
@@ -355,8 +358,57 @@ public:
         ProcessGraphManager& engine
     ) const;
 
+    // -------------------------------------------------------------------------
+    // Optional integrations
+    // -------------------------------------------------------------------------
+
+    /**
+     * @brief Wire a text-embedding function.
+     *
+     * When set, @p embedder is called automatically inside save() whenever the
+     * saved record has an empty embedding vector.  The concatenation of
+     * `name + " " + description + " " + long_description` is used as input.
+     *
+     * @param embedder  Callable `(std::string_view text) → std::vector<float>`.
+     *                  Pass an empty function to disable.
+     */
+    void setEmbedder(std::function<std::vector<float>(std::string_view)> embedder);
+
+    /**
+     * @brief Wire an InvertedIndex for BM25 full-text search.
+     *
+     * When set, save() automatically indexes the model name and description
+     * fields, and remove() removes the posting entries.  The search() method
+     * uses the BM25 index instead of the linear keyword scan.
+     *
+     * The index must be created for the logical table "process_definitions"
+     * and the column "text" before the first save() call.
+     *
+     * @param fts  Shared pointer to an InvertedIndex instance (may be null to
+     *             disable).
+     */
+    void setInvertedIndex(std::shared_ptr<index::InvertedIndex> fts);
+
+    /**
+     * @brief Wire a VectorIndexManager for HNSW-based findSimilar().
+     *
+     * When set, findSimilar() delegates to the HNSW index for O(log n)
+     * approximate nearest-neighbour search instead of a linear cosine scan.
+     * save() upserts the model embedding; remove() deletes it from the index.
+     *
+     * The index must be initialised for the object name "process_models"
+     * with the correct embedding dimension before the first save() call.
+     *
+     * @param vi  Shared pointer to an initialised VectorIndexManager (may be
+     *            null to disable).
+     */
+    void setVectorIndex(std::shared_ptr<VectorIndexManager> vi);
+
 private:
     ::themis::RocksDBWrapper& db_;
+    std::function<std::vector<float>(std::string_view)> embedder_;
+    std::shared_ptr<index::InvertedIndex> fts_index_;
+    std::shared_ptr<VectorIndexManager> vector_index_;
 
     // Helpers
     std::string makeKey_(std::string_view model_id) const;
