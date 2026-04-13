@@ -258,6 +258,7 @@ if(NOT THEMIS_ENABLE_HTTP3)
     list(APPEND TEST_EXCLUDE_PATTERNS
         ".*test_http3_protocol\\.cpp$"
         ".*test_quic_transport\\.cpp$"
+        ".*test_quic_server\\.cpp$"
         ".*test_http3_production_readiness\\.cpp$"
     )
 endif()
@@ -15360,6 +15361,44 @@ if(THEMIS_ENABLE_HTTP3)
         message(STATUS "  QuicTransport: config defaults, port validation, stats initialisation, protocol constants, isRunning state")
     else()
         message(STATUS "Network focused test not found: ${CMAKE_CURRENT_SOURCE_DIR}/test_quic_transport.cpp")
+    endif()
+endif()
+
+# --- QUIC Server (QUICServer + QUICClient) ---
+if(THEMIS_ENABLE_HTTP3)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_quic_server.cpp")
+        message(STATUS "Adding Network focused test: test_quic_server_focused")
+
+        add_executable(test_quic_server_focused
+            test_quic_server.cpp
+        )
+
+        target_include_directories(test_quic_server_focused PRIVATE
+            ${THEMIS_ROOT_DIR}/include
+            ${CMAKE_SOURCE_DIR}/include
+        )
+
+        target_link_libraries(test_quic_server_focused PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            Threads::Threads
+        )
+
+        target_compile_definitions(test_quic_server_focused PRIVATE
+            THEMIS_TEST_BUILD=1
+            THEMIS_ENABLE_HTTP3=1
+        )
+
+        add_test(NAME QUICServerFocusedTests COMMAND test_quic_server_focused)
+
+        set_tests_properties(QUICServerFocusedTests PROPERTIES
+            LABELS "network;quic;http3;server;client;0rtt;migration;congestion;focused;unit"
+            TIMEOUT 60
+        )
+
+        message(STATUS "  QUICServer: config defaults, port/CC validation, stats, 0-RTT, migration, URL parsing, stream IDs")
+    else()
+        message(STATUS "Network focused test not found: ${CMAKE_CURRENT_SOURCE_DIR}/test_quic_server.cpp")
     endif()
 endif()
 
