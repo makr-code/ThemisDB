@@ -1425,14 +1425,27 @@ Hinweis 2026-04-12 (Update): `TimeseriesBenchmarkFixture/TimeRangeQuery/*` laeuf
 
 #### 33. System-Level (TPC/YCSB-Standards)
 
-> Quelle: `benchmarks/README.md`, `COMPETITOR_COMPARISON.csv` (v1.3.4), aktueller Quellstand 2026-04-12
+> Quelle: `benchmarks/README.md`, `COMPETITOR_COMPARISON.csv` (v1.3.4), aktueller Quellstand 2026-04-13
 
-**Validierungsbefund 2026-04-12:**
+**Validierungsbefund 2026-04-13 (Wave-2 produktive Umstellung):**
 
-1. TPC-C-/YCSB-Lite-Pfade sind im aktuellen Release-Build wieder produktiv messbar.
+1. TPC-C- und YCSB-Benchmarks sind vollständig auf produktive Workloads umgestellt (Issue Wave-2).
+   - Fixture-Namen: `TPCCLiteFixture` (bench_tpcc v0.1.0) und `YCSBLiteFixture` (bench_ycsb v0.1.0).
+   - Disabled-Stubs (`BM_TPCC_Disabled`, `BM_YCSB_Disabled`) vollständig entfernt.
 2. Aktuelle Artefakte: `artifacts/perf_nv/targeted_validation/bench_tpcc_targeted_v2.json` und `artifacts/perf_nv/targeted_validation/bench_ycsb_targeted_v2.json`.
-3. Gemessene Beispiele: `TPCCLiteFixture/NewOrderLite/1/3000` ~3,456 k items/s, `YCSBLiteFixture/WorkloadC_ReadOnly/1000000` ~231,2 k items/s.
-4. Diese Werte sind derzeit als Lite-Validierung zu lesen; sie ersetzen noch keinen vollskalierten, langlaufenden TPC-C/YCSB-Compliance-Lauf.
+3. Gemessene Referenzpunkte: `TPCCLiteFixture/NewOrderLite/1/3000` ~3.456 k items/s, `YCSBLiteFixture/WorkloadC_ReadOnly/1000000` ~231,2 k items/s.
+4. Parameter und Warmup dokumentiert in Benchmark-Quelldatei (`bench_tpcc.cpp`, `bench_ycsb.cpp` §-Header).
+5. CI-Artefakte werden per `--benchmark_out=<file> --benchmark_out_format=json` erzeugt; Baseline-JSON-Dateien unter `artifacts/perf_nv/` versioniert.
+
+**Benchmark-Parameter (dokumentiert):**
+
+| Parameter | TPC-C (`bench_tpcc`) | YCSB (`bench_ycsb`) |
+|-----------|----------------------|---------------------|
+| range(0) | num_warehouses (1) | record_count (10k / 100k / 1M) |
+| range(1) | customers_per_district (100 = CI-fast; 3000 = spec) | – |
+| Warmup | Vollständiges SetUp() vor Messbeginn | Vollständiges SetUp() vor Messbeginn |
+| Items-Einheit | kMillisecond + SetItemsProcessed | kMicrosecond + SetItemsProcessed |
+| CI-Referenz-Arg | Args({1, 3000}) → `…/NewOrderLite/1/3000` | Arg(1000000) → `…/WorkloadC_ReadOnly/1000000` |
 
 | # | Workload | Erwartungswert | Hardware-Referenz | v1.3.4 Gemessen | Status |
 |---|----------|----------------|-------------------|-----------------|--------|
@@ -1537,7 +1550,7 @@ Kernaussagen aus diesem Validierungs-Run:
 2. Query-Pagination ist aktuell messbar und nicht mehr als deaktivierter Pfad zu behandeln.
 3. Analytics AN-1/AN-2/AN-5/AN-7/AN-8/AN-9 sind im aktuellen Build direkt messbar.
 4. Timeseries TS-1 ist im aktuellen Persistenzpfad nur knapp unter Ziel (`AdaptiveFlushFixture/SingleThreaded`: 477,9 k pts/s); TS-6 wurde im selben Build erneut reproduziert (`BM_DownsamplingThroughput`: 1,836 M pts/s, P99-Bucket 63 µs).
-5. System-Level TPC-C/YCSB ist nach Reaktivierung der produktiven Bench-Pfade wieder direkt messbar (`TPCCLiteFixture`, `YCSBLiteFixture`); der zuvor reproduzierbare Timeseries-`TimeRangeQuery`-Crash ist im aktuellen Build behoben.
+5. System-Level TPC-C/YCSB läuft produktiv mit `TPCCLiteFixture` und `YCSBLiteFixture` (Wave-2 Umstellung); Disabled-Stubs wurden entfernt; Benchmark-Parameter, Datensätze und Warmup sind in den Quelldateien dokumentiert.
 
 ### 0.2 Reproduktionslauf 2026-04-12 (Abend)
 
