@@ -44,7 +44,7 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 | **gpu** | ✅ Production-ready — Device management, P2P transfer, NVLink topology-aware scheduling complete; hardware capability benchmarks verified | [src/gpu/ROADMAP.md](src/gpu/ROADMAP.md) |
 | **graph** | ✅ Production-ready — Cost-based optimiser, constrained path finding, distributed execution, EXPLAIN endpoint operational; GPU traversal kernels pending for full CUDA path | [src/graph/ROADMAP.md](src/graph/ROADMAP.md) |
 | **importers** | ✅ Production-ready (v2.1) — Multi-source import pipeline incl. FK-preserving PostgreSQL importer and v1.x production-ready adapters | [src/importers/ROADMAP.md](src/importers/ROADMAP.md) |
-| **index** | ✅ Production-ready | [src/index/ROADMAP.md](src/index/ROADMAP.md) |
+| **index** | ✅ Production-ready — exportIndexStats to metadata module (Issue #1866) complete; multi-tenancy isolation, online rebuild, GPU oversubscription all operational | [src/index/ROADMAP.md](src/index/ROADMAP.md) |
 | **ingestion** | ✅ Production-ready | [src/ingestion/ROADMAP.md](src/ingestion/ROADMAP.md) |
 | **llama_cpp** | ✅ Production-ready (v2.2.0) — `LlamaWrapper` real inference (generate/embed/exportLoRA/importLoRA), streaming, batch inference, PluginManager hot-plug registrar | [src/llama_cpp/ROADMAP.md](src/llama_cpp/ROADMAP.md) |
 | **llm** | ✅ Production-ready (v1.16.0) | [src/llm/ROADMAP.md](src/llm/ROADMAP.md) |
