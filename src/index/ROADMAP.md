@@ -100,6 +100,14 @@ v1.x – Production-grade indexing infrastructure. HNSW vector indexing, B-tree/
   implemented and returned by `IndexManager::createVectorIndex()` / `createSecondaryIndex()`.
   Partial (filtered) indexes are created by passing `config = "partial:<predicate>"` to
   `createSecondaryIndex()`.
+- `ProcessGraphManager` multi-model query functions (v2026-04-13): 13 previously stubbed
+  methods are now fully implemented:
+  - Relational: `queryTasksByFormData`, `joinWithCollection`, `aggregateByField`
+  - Vector: `findSimilarProcesses` (cosine similarity), `findSimilarTasks`, `semanticSearchProcesses` (keyword scoring)
+  - Anomaly: `detectAnomalies` (duration z-score + path deviation)
+  - Geo: `findTasksInArea` (Haversine radius), `findTasksInGeofence` (WKT ray-casting),
+    `optimizeTaskRoute` (nearest-neighbor TSP), `validateLocationConstraint`, `getRegionalParameters`
+  - Cross-model: `executeMultiModelQuery` (BFS graph + relational + vector + geo combined)
 
 ## Breaking Changes
 - `IndexManager` factory API (`createDefault()`) is stable from v1.x.
