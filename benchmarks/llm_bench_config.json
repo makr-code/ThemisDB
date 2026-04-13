@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "version": "1.0.0",
+  "description": "LLM / LoRA / gguf benchmark artifact configuration for ThemisDB (Maßnahme #6).",
+  "model_dir_env": "THEMIS_MODEL_DIR",
+  "stub_models_cmake_var": "THEMIS_LLM_STUB_MODELS",
+  "models": {
+    "tinyllama_q4": {
+      "filename": "tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf",
+      "relative_path": "gguf/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf",
+      "is_stub_model": true,
+      "min_vram_mb": 0,
+      "description": "Minimal 4-bit quantised TinyLlama stub model for CI runners without GPU",
+      "source_url": "https://huggingface.co/TheBloke/TinyLlama-1.1B-Chat-v1.0-GGUF/resolve/main/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf",
+      "sha256": ""
+    },
+    "llama3_8b_q4": {
+      "filename": "Meta-Llama-3-8B-Instruct.Q4_K_M.gguf",
+      "relative_path": "gguf/Meta-Llama-3-8B-Instruct.Q4_K_M.gguf",
+      "is_stub_model": false,
+      "min_vram_mb": 6000,
+      "description": "Full 4-bit quantised Llama-3 8B model for real benchmark runs",
+      "source_url": "",
+      "sha256": ""
+    }
+  },
+  "lora_adapters": {
+    "legal_lora_stub": {
+      "filename": "legal_lora_stub.bin",
+      "relative_path": "lora/legal_lora_stub.bin",
+      "base_model": "tinyllama_q4",
+      "is_stub_adapter": true,
+      "rank": 8,
+      "description": "Minimal LoRA adapter stub for CI (random weights, rank 8)"
+    }
+  },
+  "benchmark_profiles": {
+    "ci_stub": {
+      "description": "CI runner profile: stub model, no GPU required",
+      "model": "tinyllama_q4",
+      "lora_adapter": "legal_lora_stub",
+      "use_stub_models": true,
+      "require_gpu": false,
+      "batch_sizes": [1, 4],
+      "prompt_lengths": [64, 256],
+      "max_tokens": 32
+    },
+    "gpu_full": {
+      "description": "Full GPU benchmark profile: real models, RTX-class GPU required",
+      "model": "llama3_8b_q4",
+      "lora_adapter": null,
+      "use_stub_models": false,
+      "require_gpu": true,
+      "min_vram_mb": 8000,
+      "batch_sizes": [1, 4, 16, 32],
+      "prompt_lengths": [64, 256, 1024, 4096],
+      "max_tokens": 256
+    }
+  }
+}

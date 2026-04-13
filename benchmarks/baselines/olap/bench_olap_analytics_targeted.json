@@ -1,0 +1,88 @@
+{
+  "version": "1.8.2",
+  "branch": "main",
+  "commit": "pending-first-run",
+  "timestamp": "2026-04-13T00:00:00Z",
+  "description": "Targeted OLAP analytics baselines for Maßnahme #2 (PERFORMANCE_EXPECTATIONS.md §1.4). Populated by first CI run of bench_olap_analytics.",
+  "productive_case_count": 4,
+  "ci_audit_check": "2b",
+  "benchmarks": {
+    "BM_OLAP_GroupBy_Int/10000": {
+      "label": "groupby_int",
+      "rows": 10000,
+      "target_rows_per_sec": 500000,
+      "real_time_ns": null,
+      "items_per_second": null
+    },
+    "BM_OLAP_GroupBy_Int/100000": {
+      "label": "groupby_int",
+      "rows": 100000,
+      "target_rows_per_sec": 500000,
+      "real_time_ns": null,
+      "items_per_second": null
+    },
+    "BM_OLAP_GroupBy_Int/1000000": {
+      "label": "groupby_int",
+      "rows": 1000000,
+      "target_rows_per_sec": 500000,
+      "real_time_ns": null,
+      "items_per_second": null
+    },
+    "BM_OLAP_WindowFunction/10000": {
+      "label": "window_func",
+      "rows": 10000,
+      "target_rows_per_sec": 200000,
+      "real_time_ns": null,
+      "items_per_second": null
+    },
+    "BM_OLAP_WindowFunction/100000": {
+      "label": "window_func",
+      "rows": 100000,
+      "target_rows_per_sec": 200000,
+      "real_time_ns": null,
+      "items_per_second": null
+    },
+    "BM_OLAP_WindowFunction/1000000": {
+      "label": "window_func",
+      "rows": 1000000,
+      "target_rows_per_sec": 200000,
+      "real_time_ns": null,
+      "items_per_second": null
+    },
+    "BM_OLAP_MultiJoin/10000": {
+      "label": "multi_join",
+      "rows": 10000,
+      "target_rows_per_sec": 100000,
+      "real_time_ns": null,
+      "items_per_second": null
+    },
+    "BM_OLAP_MultiJoin/100000": {
+      "label": "multi_join",
+      "rows": 100000,
+      "target_rows_per_sec": 100000,
+      "real_time_ns": null,
+      "items_per_second": null
+    },
+    "BM_OLAP_TopN_Sorted/10000": {
+      "label": "topn_sorted",
+      "rows": 10000,
+      "target_rows_per_sec": 300000,
+      "real_time_ns": null,
+      "items_per_second": null
+    },
+    "BM_OLAP_TopN_Sorted/100000": {
+      "label": "topn_sorted",
+      "rows": 100000,
+      "target_rows_per_sec": 300000,
+      "real_time_ns": null,
+      "items_per_second": null
+    },
+    "BM_OLAP_TopN_Sorted/1000000": {
+      "label": "topn_sorted",
+      "rows": 1000000,
+      "target_rows_per_sec": 300000,
+      "real_time_ns": null,
+      "items_per_second": null
+    }
+  }
+}
