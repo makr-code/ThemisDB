@@ -1,7 +1,14 @@
 [docs](../../index.md) > [de](../index.md) > [config](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-04-12  
+**Datum:** 2026-04-13  
 **Status:** draft  
 **Primary (Quelle der Wahrheit):**
+- `include/config/ARCHITECTURE.md`
+- `include/config/AUDIT.md`
+- `include/config/CHANGELOG.md`
+- `include/config/FUTURE_ENHANCEMENTS.md`
+- `include/config/README.md`
+- `include/config/ROADMAP.md`
+- `include/config/SECURITY.md`
 - `src/config/ARCHITECTURE.md`
 - `src/config/AUDIT.md`
 - `src/config/CHANGELOG.md`
@@ -34,6 +41,18 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`config`** 
 | `ROADMAP.md` | [`src/config/ROADMAP.md`](../../../src/config/ROADMAP.md) |
 | `SECURITY.md` | [`src/config/SECURITY.md`](../../../src/config/SECURITY.md) |
 
+### `include/config/`
+
+| Datei | Pfad |
+|-------|------|
+| `ARCHITECTURE.md` | [`include/config/ARCHITECTURE.md`](../../../include/config/ARCHITECTURE.md) |
+| `AUDIT.md` | [`include/config/AUDIT.md`](../../../include/config/AUDIT.md) |
+| `CHANGELOG.md` | [`include/config/CHANGELOG.md`](../../../include/config/CHANGELOG.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`include/config/FUTURE_ENHANCEMENTS.md`](../../../include/config/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`include/config/README.md`](../../../include/config/README.md) |
+| `ROADMAP.md` | [`include/config/ROADMAP.md`](../../../include/config/ROADMAP.md) |
+| `SECURITY.md` | [`include/config/SECURITY.md`](../../../include/config/SECURITY.md) |
+
 ---
 
-*Automatisch generiert von `tools/module_docs_builder.py` · 2026-04-12*
+*Automatisch generiert von `tools/module_docs_builder.py` · 2026-04-13*
