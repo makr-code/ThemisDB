@@ -58,7 +58,13 @@ management, and aggregated health reporting.
   - Health probe contributed by sharding module via `registerHealthProbe("replica", ...)`
 
 ### Long-term (v2.0.0)
-- [ ] Multi-tenant schedule isolation – per-tenant windows and quotas (Target: v2.0.0)
+- [x] Multi-tenant schedule isolation – per-tenant windows and quotas (Target: v2.0.0)
+  - `MaintenanceScheduleEntry::tenant_id` (optional; empty = global/system schedule)
+  - Per-tenant window enforcement via `TenantMaintenanceConfig::enforce_window`; configured via `setTenantMaintenanceConfig()`
+  - Per-tenant concurrent job quota: `TenantMaintenanceConfig::max_concurrent_jobs`; enforced in `executeSchedule()`
+  - `listSchedules(tenant_id_filter)`: filter schedules by tenant; `MaintenanceApiHandler::listSchedules(tenant_id)` passes filter
+  - `OrchestratorJob::tenant_id` populated from parent schedule
+  - 15 new tests (MT-01..MT-15) covering field round-trip, filter, window override, and quota enforcement
 - [ ] Distributed maintenance coordination via Raft – prevent two nodes running same schedule (Target: v2.0.0)
 - [ ] Maintenance impact prediction – ML model to predict CPU/memory impact before execution (Target: v2.0.0)
 

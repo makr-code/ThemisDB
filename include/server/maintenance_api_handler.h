@@ -78,8 +78,12 @@ public:
     /** POST /api/v1/maintenance/schedules */
     nlohmann::json createSchedule(const nlohmann::json& body);
 
-    /** GET /api/v1/maintenance/schedules */
-    nlohmann::json listSchedules();
+    /** GET /api/v1/maintenance/schedules
+     *
+     *  Optional query parameter: tenant_id
+     *  When provided, only schedules belonging to the specified tenant are returned.
+     */
+    nlohmann::json listSchedules(const std::string& tenant_id = "");
 
     /** GET /api/v1/maintenance/schedules/{id} */
     nlohmann::json getSchedule(const std::string& id);
