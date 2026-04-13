@@ -55,6 +55,7 @@
  *   snapshot create [tag]        Create a snapshot tag
  *   admin stats                  Show observability health / node stats
  *   admin cache                  Show cache health and statistics
+ *   index recommend [table]      Show automatic index recommendations
  *   repl                         Start interactive REPL (with history)
  *
  * Exit codes:
@@ -676,6 +677,96 @@ static int cmdAdmin(const std::vector<std::string>& args) {
     return 2;
 }
 
+// ── index ─────────────────────────────────────────────────────────────────────
+//
+// index recommend [table]   — GET /api/v1/metadata/index_recommendations[/:table]
+//
+// Without a table argument lists ADD/DROP recommendations for all tracked tables.
+// With a table argument restricts output to that table.
+
+static int cmdIndex(const std::vector<std::string>& args) {
+    const std::string sub = args.empty() ? "" : args[0];
+
+    if (!sub.empty() && sub != "recommend") {
+        std::cerr << "Unknown index sub-command: " << sub
+                  << "\n  Valid sub-command: recommend [table]\n";
+        return 2;
+    }
+
+    // Determine the optional table name (first non-sub argument).
+    std::string table_name;
+    if (sub == "recommend" && args.size() > 1) {
+        table_name = args[1];
+    }
+
+    std::string path = "/api/v1/metadata/index_recommendations";
+    if (!table_name.empty()) {
+        path += "/" + table_name;
+    }
+
+    Response r = httpGet(path);
+    if (r.status == -1) { std::cerr << "[" << fail() << "] " << r.body << "\n"; return 3; }
+    if (!r.ok()) {
+        std::cerr << "[" << fail() << "] HTTP " << r.status << "\n";
+        if (!r.body.empty()) {
+            try { std::cerr << json::parse(r.body).dump(2) << "\n"; }
+            catch (...) { std::cerr << r.body << "\n"; }
+        }
+        return 1;
+    }
+
+    if (g_ctx.raw_json) { printJson(r.body); return 0; }
+
+    try {
+        json j = json::parse(r.body);
+
+        auto print_rec = [](const json& rec) {
+            std::string action     = rec.value("action", "?");
+            std::string col_name   = rec.value("column_name", "?");
+            std::string idx_type   = rec.value("index_type", "?");
+            double      score      = rec.value("benefit_score", 0.0);
+            std::string rationale  = rec.value("rationale", "");
+
+            std::string action_col = (action == "ADD") ? Color::Green : Color::Yellow;
+            std::cout << "  " << col(action_col, action) << "  "
+                      << col(Color::Cyan, col_name)
+                      << "  (" << idx_type << ")"
+                      << "  score=" << std::to_string(static_cast<int>(score + 0.5)) << "\n";
+            if (!rationale.empty()) {
+                std::cout << "       " << col(Color::Dim, rationale) << "\n";
+            }
+        };
+
+        if (!table_name.empty()) {
+            // Single-table response: {"status":…, "table_name":…, "recommendations":[…]}
+            auto recs = j.value("recommendations", json::array());
+            if (recs.empty()) {
+                std::cout << col(Color::Dim, "(no recommendations for " + table_name + ")") << "\n";
+            } else {
+                std::cout << col(Color::Bold, table_name) << ":\n";
+                for (const auto& rec : recs) { print_rec(rec); }
+            }
+        } else {
+            // All-tables response: {"status":…, "recommendations":{"tbl":[…], …}}
+            auto all = j.value("recommendations", json::object());
+            bool any = false;
+            for (const auto& [tbl, recs] : all.items()) {
+                if (!recs.is_array() || recs.empty()) continue;
+                any = true;
+                std::cout << col(Color::Bold, tbl) << ":\n";
+                for (const auto& rec : recs) { print_rec(rec); }
+            }
+            if (!any) {
+                std::cout << col(Color::Dim, "(no recommendations available)") << "\n";
+            }
+        }
+    } catch (...) {
+        std::cout << r.body << "\n";
+    }
+
+    return 0;
+}
+
 // ============================================================================
 // REPL support — shared tokeniser used by both cmdRepl and tests
 // ============================================================================
@@ -840,6 +931,8 @@ static void printHelp(const char* prog) {
         << "  " << col(Color::Cyan, "snapshot") << " list|create [tag]\n"
         << "  " << col(Color::Cyan, "admin") << " stats|cache"
             << "             Show observability/cache statistics\n"
+        << "  " << col(Color::Cyan, "index") << " recommend [table]"
+            << "        Show automatic index recommendations\n"
         << "  " << col(Color::Cyan, "repl")
             << "                        Start interactive REPL (with history)\n\n"
         << col(Color::Bold, "Examples") << ":\n"
@@ -858,6 +951,8 @@ static void printHelp(const char* prog) {
         << "  " << prog << " snapshot create v1.2.0\n"
         << "  " << prog << " admin stats\n"
         << "  " << prog << " --json admin cache\n"
+        << "  " << prog << " index recommend\n"
+        << "  " << prog << " index recommend users\n"
         << "  " << prog << " repl\n";
 }
 
@@ -880,6 +975,7 @@ static int dispatchCommand(const std::string& cmd,
         {"branch",   cmdBranch},
         {"snapshot", cmdSnapshot},
         {"admin",    cmdAdmin},
+        {"index",    cmdIndex},
         {"repl",     cmdRepl},
     };
 

@@ -154,6 +154,15 @@ void launchGraphBFRelaxKernel(
     int             numPairs,
     cudaStream_t    stream
 );
+
+// Block-size setters for occupancy tuning — called during initialize() with
+// the value returned by cudaOccupancyMaxPotentialBlockSize().
+void setGeoKernelBlockSize(int blockSize);
+int  tuneGeoKernelBlockSize();
+void setGraphBFSBlockDim(int blockDim);
+int  tuneGraphBFSBlockDim();
+void setVecKernelBlockDim(int dim);
+int  tuneVecKernelBlockSize();
 }
 
 #endif
@@ -301,6 +310,11 @@ bool CUDAVectorBackend::initialize() {
 #ifdef THEMIS_VLLM_COLOCATION
     std::cout << "  vLLM Co-Location: ENABLED (low-priority stream, max " << THEMIS_MAX_GPU_VRAM_MB << " MB VRAM)" << std::endl;
 #endif
+
+    // Tune kernel block dimensions via the occupancy API so distance and
+    // top-K kernels use the optimal thread count for this device.
+    const int vecBlockDim = tuneVecKernelBlockSize();
+    std::cout << "  Occupancy-tuned vector block dim: " << vecBlockDim << "x" << vecBlockDim << std::endl;
     
     // Clear error on success
     clearError();
@@ -354,11 +368,59 @@ bool CUDAVectorBackend::buildHnswAnnIndex(
     cfg.device_id = 0;
 
     hnswEngine_ = std::make_unique<CudaHnswTraversalEngine>(cfg);
-    return hnswEngine_->buildIndex(layers, vectors, numVectors);
+
+    // Clamp maxBatchSize_ to avoid exceeding BackendCapabilities::maxMemoryBytes.
+    // Pool size = maxBatchSize × ceil(numNodes / 8) bytes.  We check against
+    // the device's total VRAM reported by getCapabilities().
+    size_t effectiveBatchSize = maxBatchSize_;
+    const size_t numNodes = layers[0].num_nodes;
+    if (numNodes > 0) {
+        const size_t vis_per_q  = (numNodes + 7u) / 8u;
+        const size_t caps_mem   = getCapabilities().maxMemoryBytes;
+        // Reserve ≥ 10% of VRAM for other allocations; cap pool to 90% of VRAM.
+        const size_t pool_limit = (caps_mem > 0)
+                                  ? static_cast<size_t>(caps_mem * 0.9)
+                                  : SIZE_MAX;
+        if (vis_per_q > 0 && effectiveBatchSize > pool_limit / vis_per_q) {
+            effectiveBatchSize = pool_limit / vis_per_q;
+            if (effectiveBatchSize == 0) effectiveBatchSize = 1;
+            std::cout << "CUDAVectorBackend: clamping maxBatchSize from "
+                      << maxBatchSize_ << " to " << effectiveBatchSize
+                      << " to stay within VRAM budget" << std::endl;
+        }
+    }
+    hnswEngine_->setMaxBatchSize(effectiveBatchSize);
+
+    const bool ok = hnswEngine_->buildIndex(layers, vectors, numVectors);
+
+    // Surface pool allocation failure as a degraded health status so that
+    // getHealthStatus() reports "degraded" and callers can react.
+    if (ok && !hnswEngine_->hasVisitedPool()) {
+        setError(ErrorContext(
+            AccelerationErrorCode::AllocationFailed,
+            "CUDA-HNSW",
+            "Visited bitset pool allocation failed during buildHnswAnnIndex(); "
+            "per-invocation fallback will be used (degraded performance). "
+            "Reduce setMaxBatchSize() or free GPU memory.",
+            "Call setMaxBatchSize() with a smaller value before buildHnswAnnIndex()"));
+    }
+
+    return ok;
 }
 
 bool CUDAVectorBackend::isHnswIndexBuilt() const noexcept {
     return hnswEngine_ && hnswEngine_->isBuilt();
+}
+
+void CUDAVectorBackend::setMaxBatchSize(size_t n) {
+    if (n == 0) n = 1;
+    maxBatchSize_ = n;
+    // If the HNSW engine is already built, propagate the new setting so that
+    // the next buildHnswAnnIndex() picks it up.  A re-build is required to
+    // reallocate the visited pool with the new batch size.
+    if (hnswEngine_) {
+        hnswEngine_->setMaxBatchSize(n);
+    }
 }
 
 std::vector<std::vector<std::pair<uint32_t, float>>>
@@ -1279,6 +1341,11 @@ bool CUDAGraphBackend::initialize() {
         return false;
     }
 
+    // Tune BFS/SP kernel block dimensions via the occupancy API.
+    const int bfsBlockDim = tuneGraphBFSBlockDim();
+    std::cout << "CUDA Graph Backend: occupancy-tuned BFS block dim = "
+              << bfsBlockDim << std::endl;
+
     clearError();
     initialized_ = true;
     return true;
@@ -1902,6 +1969,10 @@ bool CUDAGeoBackend::initialize() {
 
     std::cout << "CUDA Geo Backend initialized successfully:" << std::endl;
     std::cout << "  Device: " << prop.name << std::endl;
+
+    // Tune geo kernel block size via the occupancy API.
+    const int geoBlockSize = tuneGeoKernelBlockSize();
+    std::cout << "  Occupancy-tuned geo block size: " << geoBlockSize << std::endl;
 
     clearError();
     initialized_ = true;

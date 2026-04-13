@@ -1760,3 +1760,84 @@ auto& acc_metrics = themis::acceleration::MetricsCollector::instance();
     // ...
 }  // automatische vkDestroyBuffer
 ```
+
+## 39.15 Workload-Adaptive Optimizer C++ API (v1.9.0) {#workload-adaptive-optimizer-cpp}
+
+The `WorkloadAdaptiveOptimizer` (Issue #230, Research Basis: "Adaptive Execution" SIGMOD'19) automatically classifies the current database workload and selects optimal execution strategies at runtime.
+
+### 39.15.1 WorkloadAdaptiveOptimizer — Workload-Klassifikation und Strategieauswahl
+
+```cpp
+#include "performance/workload_adaptive_optimizer.h"
+
+themis::performance::WorkloadAdaptiveOptimizer optimizer;
+
+// Queries beobachten (is_write, complexity [1..10], result_rows, table, latency_µs)
+optimizer.record_query(false, 2.0, 500, "orders", 120);
+optimizer.record_query(true,  1.5, 1,   "orders", 85);
+optimizer.set_concurrent_queries(16);
+
+// Workload klassifizieren
+auto profile = optimizer.classify_workload();
+// profile.type: OLTP | OLAP | MIXED | GRAPH | VECTOR | TIMESERIES | UNKNOWN
+// profile.read_write_ratio: 0.0..1.0 (Anteil Lesezugriffe)
+// profile.avg_query_complexity: 1..10
+// profile.avg_result_size: Ø Ergebniszeilen
+// profile.concurrent_queries: aktuelle Parallelität
+// profile.hot_tables: Top-3 am häufigsten zugegriffene Tabellen
+
+// Optimale Strategie ableiten
+auto strategy = optimizer.get_strategy(profile);
+// strategy.enable_jit_compilation
+// strategy.enable_parallel_execution
+// strategy.thread_pool_size    (mit Predictive Scaling bei Lastspitzen)
+// strategy.cache_size_mb
+// strategy.join_algorithm      "hash" | "sort-merge" | "nested-loop"
+// strategy.index_type          "btree" | "hash" | "brin"
+
+// Strategie anwenden
+optimizer.apply_strategy(strategy);
+```
+
+### 39.15.2 Automatische Adaption im Hintergrund
+
+```cpp
+// Callback registrieren (wird bei jeder Adaption aufgerufen)
+optimizer.set_callback(
+    [](const themis::performance::WorkloadProfile& old_p,
+       const themis::performance::WorkloadProfile& new_p,
+       const themis::performance::OptimizationStrategy& s) {
+        // Ressourcen (Thread-Pool, Cache) gemäß s neu konfigurieren
+    });
+
+// Hintergrund-Thread alle 30 Sekunden neu klassifizieren
+optimizer.enable_auto_adapt(std::chrono::seconds{30});
+
+// ... Anwendungslaufzeit ...
+
+optimizer.disable_auto_adapt();
+```
+
+### 39.15.3 Statistiken und Reset
+
+```cpp
+auto stats = optimizer.get_stats();
+// stats.total_queries_recorded
+// stats.total_adaptations
+// stats.last_workload_type
+
+optimizer.reset_stats();
+```
+
+### 39.15.4 Strategietabelle nach Workload-Typ
+
+| WorkloadType | JIT  | Threads | Cache (MB) | Join        | Index   |
+|-------------|------|---------|-----------|-------------|---------|
+| OLTP        | No   | max(4, concurrency) | 128  | hash        | btree   |
+| OLAP        | Yes  | 8       | 1024      | sort-merge  | brin    |
+| MIXED       | Yes  | 6       | 512       | hash        | btree   |
+| GRAPH       | No   | 8       | 512       | hash        | hash    |
+| VECTOR      | No   | 8       | 2048      | hash        | hash    |
+| TIMESERIES  | No   | 4       | 256       | sort-merge  | brin    |
+
+> **Predictive Scaling**: Übersteigt `concurrent_queries` den Basiswert für `thread_pool_size`, wird der Pool auf `concurrent_queries × 1.25` hochskaliert.

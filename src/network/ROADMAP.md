@@ -93,6 +93,14 @@ v1.8.0 – Production-grade networking layer. All transport paths (TCP, WebSocke
   - CQE reap + per-operation error reporting; transparent `writev(2)` fallback when io_uring unavailable
   - Guarded by `THEMIS_ENABLE_IO_URING`; no ABI change to `WireProtocolBatcher`
   - 12 focused tests (IUB-01…IUB-12) in `tests/test_io_uring_batcher.cpp`
+- [x] **Kernel Bypass (DPDK / io_uring)** — `DPDKServer` + `IoUringServer` + `CpuPinner` + `NumaAllocator` + `ZeroCopyDmaBuffer` in `kernel_bypass.h/cpp` (Issue: #227, v1.9.0) (2026-04-13)
+  - `DPDKServer`: DPDK EAL integration for 10G/40G/100G NICs; configurable RX/TX queue count, RSS, HW checksum, jumbo frames; huge-page mbuf pool; per-lcore poll loop; guarded by `THEMIS_ENABLE_DPDK`; port 8772 default
+  - `IoUringServer`: io_uring SQPOLL server; `IORING_SETUP_SQPOLL` + `IORING_SETUP_SQ_AFF`; fixed-buffer registration for zero-copy sends (`IORING_REGISTER_BUFFERS`); multi-worker CQE drain; guarded by `THEMIS_ENABLE_IO_URING` + Linux; port 8773 default
+  - `CpuPinner`: `pinCallerToCore()` / `pinThreadToCore()` via `sched_setaffinity` / `pthread_setaffinity_np`; `numaNodeForCore()` via sysfs; `coresOnNuma()` for NUMA topology queries
+  - `NumaAllocator`: NUMA-local allocation via `libnuma` when available (`THEMIS_ENABLE_NUMA`); fallback to `posix_memalign` with 64-byte alignment
+  - `ZeroCopyDmaBuffer`: huge-page-backed (`MAP_HUGETLB`) DMA buffer; `mbind()` NUMA binding; move-only semantics
+  - Performance targets: DPDK 1–10 µs / 100 Gbps; io_uring 10–50 µs / 10 Gbps
+  - 40 focused tests (KBP-01…KBP-40) in `tests/test_kernel_bypass.cpp`
 
 ## In Progress 🚧
 - [x] UDP-based fast-path for read-only queries (Target: Q3 2026) (Issue: #1962) (PR: #3098)

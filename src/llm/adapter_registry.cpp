@@ -36,6 +36,7 @@
 #include "storage/security_signature.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
+#include <cctype>
 #include <mutex>
 #include <shared_mutex>
 #include <unordered_map>
@@ -185,6 +186,81 @@ std::vector<AdapterMetadata> AdapterRegistry::listAdaptersByDomain(
         }
     }
     return result;
+}
+
+std::vector<AdapterMetadata> AdapterRegistry::listAdaptersByRole(AdapterRole role) {
+    std::shared_lock<std::shared_mutex> lock(impl_->rw_mu);
+    std::vector<AdapterMetadata> result;
+    for (const auto& [id, meta] : impl_->adapters) {
+        if (meta.role == role) {
+            result.push_back(meta);
+        }
+    }
+    return result;
+}
+
+std::optional<AdapterMetadata> AdapterRegistry::findDraftAdapterForFamily(
+    const std::string& model_family
+) {
+    if (model_family.empty()) {
+        return std::nullopt;
+    }
+
+    // Build lowercase copy of family for case-insensitive matching.
+    std::string family_lower = model_family;
+    std::transform(family_lower.begin(), family_lower.end(),
+                   family_lower.begin(), [](unsigned char c) {
+                       return static_cast<char>(std::tolower(c));
+                   });
+
+    std::shared_lock<std::shared_mutex> lock(impl_->rw_mu);
+
+    std::optional<AdapterMetadata> best;
+    for (const auto& [id, meta] : impl_->adapters) {
+        if (meta.role != AdapterRole::DRAFT) {
+            continue;
+        }
+
+        // Case-insensitive substring match on architecture field.
+        std::string arch_lower = meta.architecture;
+        std::transform(arch_lower.begin(), arch_lower.end(),
+                       arch_lower.begin(), [](unsigned char c) {
+                           return static_cast<char>(std::tolower(c));
+                       });
+        if (arch_lower.find(family_lower) == std::string::npos) {
+            continue;
+        }
+
+        if (!best.has_value()) {
+            best = meta;
+            continue;
+        }
+
+        // Prefer DEPLOYED status over other states.
+        const bool meta_deployed = (meta.status == AdapterMetadata::Status::DEPLOYED);
+        const bool best_deployed = (best->status == AdapterMetadata::Status::DEPLOYED);
+        if (meta_deployed && !best_deployed) {
+            best = meta;
+            continue;
+        }
+        if (!meta_deployed && best_deployed) {
+            continue;
+        }
+
+        // Among equal-status candidates prefer the highest version.
+        if (best->version < meta.version) {
+            best = meta;
+        }
+    }
+
+    if (best.has_value()) {
+        spdlog::debug("AdapterRegistry::findDraftAdapterForFamily: found '{}' for family '{}'",
+                      best->adapter_id, model_family);
+    } else {
+        spdlog::debug("AdapterRegistry::findDraftAdapterForFamily: no DRAFT adapter for family '{}'",
+                      model_family);
+    }
+    return best;
 }
 
 // ============================================================================

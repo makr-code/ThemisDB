@@ -168,16 +168,28 @@ Enforce schema constraints and validation.
 
 ### Automatic Indexing Recommendations
 **Priority:** Low  
-**Target Version:** v1.9.0
+**Target Version:** v1.9.0  
+**Status:** ✅ Implemented
 
 Analyze query patterns and recommend indexes.
 
 **Features:**
-- Query log analysis
-- Index usage tracking
-- Missing index detection
-- Unused index identification
-- Cost-benefit analysis
+- `[x]` Query log analysis — `IndexRecommender::recordAccess()` records filter and sort access patterns per column per query; `recordQuery()` tracks the total query count for normalisation.
+- `[x]` Index usage tracking — `recommend()` accepts an `existing_indexes` list; indexed columns with a low benefit score are returned as `DROP` recommendations.
+- `[x]` Missing index detection — columns with a benefit score above `kAddThreshold` (20.0) and no existing index are returned as `ADD` recommendations.
+- `[x]` Unused index identification — indexed columns whose benefit score falls below `kDropThreshold` (5.0) are returned as `DROP` recommendations.
+- `[x]` Cost-benefit analysis — `computeCostModelBenefit()` uses `StatisticsCollector` cardinality / selectivity estimates and a write-amplification penalty based on table row count (logarithmic, capped at 20 %).
+
+**Implemented in:**
+- `include/metadata/index_recommender.h`
+- `src/metadata/index_recommender.cpp`
+
+**Tests:**
+- `tests/test_index_recommender.cpp`
+
+**REST endpoint:** `GET /api/v1/metadata/index_recommendations[/:table]`
+
+**CLI:** `themisctl index recommend [table]`
 
 ---
 

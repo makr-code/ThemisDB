@@ -1886,6 +1886,52 @@ else()
 endif()
 
 # ============================================================================
+# Graph Query Rewriter Tests (standalone, Issue #250)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graph_query_rewriter.cpp")
+    message(STATUS "Adding Graph Query Rewriter tests (Issue #250)")
+
+    add_executable(test_graph_query_rewriter
+        test_graph_query_rewriter.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/graph_query_rewriter.cpp
+    )
+
+    target_link_libraries(test_graph_query_rewriter PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        fmt::fmt
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_include_directories(test_graph_query_rewriter PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_compile_definitions(test_graph_query_rewriter PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    if(WIN32)
+        themis_sync_runtime_dlls_for_target(test_graph_query_rewriter)
+        add_dependencies(test_graph_query_rewriter sync_test_runtime_dlls)
+    endif()
+
+    add_test(NAME GraphQueryRewriterTests COMMAND test_graph_query_rewriter)
+
+    set_tests_properties(GraphQueryRewriterTests PROPERTIES
+        LABELS "graph;rewriter;query;optimization;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  Graph Query Rewriter: predicate pushdown, CSE, join reordering, materialized views, decomposition")
+else()
+    message(STATUS "Graph Query Rewriter tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_graph_query_rewriter.cpp")
+endif()
+
+# ============================================================================
 # Graph Advanced Features Tests (standalone ÔÇö excluded from unified binary
 # because helper functions use bare assert() calls that abort the process)
 # ============================================================================
@@ -10202,7 +10248,67 @@ else()
 endif()
 
 # ============================================================================
-# CDC Pause/Resume Control Focused Tests (v1.8.0 ÔÇö ICDCPauseControl /
+# CDC Kafka Producer Focused Tests (v1.9.0 — KafkaCDCProducer / ICDCTransport;
+# exercises config defaults, no-op stub behaviour, ICDCTransport compliance,
+# Prometheus counter fields, Debezium format integration)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cdc_kafka_producer.cpp")
+    message(STATUS "Adding CDC Kafka Producer focused tests (v1.9.0 roadmap:161)")
+
+    add_executable(test_cdc_kafka_producer
+        test_cdc_kafka_producer.cpp
+    )
+
+    # kafka_cdc_producer.cpp is compiled conditionally when THEMIS_ENABLE_KAFKA=ON.
+    # Add it explicitly here so the full implementation is exercised when the
+    # library is available; when OFF the no-op stub (inline in the header) is used.
+    if(THEMIS_ENABLE_KAFKA)
+        target_sources(test_cdc_kafka_producer PRIVATE
+            ${THEMIS_ROOT_DIR}/src/cdc/kafka_cdc_producer.cpp
+        )
+    endif()
+
+    target_include_directories(test_cdc_kafka_producer PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_cdc_kafka_producer PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    if(THEMIS_ENABLE_KAFKA AND TARGET RdKafka::rdkafka++)
+        target_link_libraries(test_cdc_kafka_producer PRIVATE
+            RdKafka::rdkafka
+            RdKafka::rdkafka++
+        )
+        target_compile_definitions(test_cdc_kafka_producer PRIVATE
+            THEMIS_ENABLE_KAFKA=1
+        )
+    endif()
+
+    target_compile_definitions(test_cdc_kafka_producer PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME CDCKafkaProducerFocusedTests COMMAND test_cdc_kafka_producer)
+
+    set_tests_properties(CDCKafkaProducerFocusedTests PROPERTIES
+        LABELS "cdc;kafka;producer;transport;metrics;debezium;v1.9.0;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  CDCKafkaProducer: config defaults, no-op stub, ICDCTransport compliance, Prometheus counters (cdc_kafka_delivered_total/cdc_kafka_error_total), Debezium format")
+else()
+    message(STATUS "CDC Kafka Producer tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cdc_kafka_producer.cpp")
+endif()
+
+# ============================================================================
+# CDC Pause/Resume Control Focused Tests (v1.8.0 — ICDCPauseControl /
 # InMemoryPauseControl; header-only, no RocksDB dependency)
 # ============================================================================
 
@@ -13008,6 +13114,66 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_io_uring_batcher.cpp")
     message(STATUS "  IoUringBatcher: construction, enqueue, submitAndWait, stats, fallback")
 else()
     message(STATUS "IoUringBatchedSender focused tests not found")
+endif()
+
+# ============================================================================
+# Kernel Bypass (DPDK / io_uring) — focused tests (KBP-01 … KBP-40)
+# ============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_kernel_bypass.cpp")
+    message(STATUS "Adding Kernel Bypass focused tests (KBP-01…KBP-40)")
+
+    add_executable(test_kernel_bypass_focused
+        test_kernel_bypass.cpp
+        ${CMAKE_SOURCE_DIR}/src/network/kernel_bypass.cpp
+    )
+
+    target_include_directories(test_kernel_bypass_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_kernel_bypass_focused PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_kernel_bypass_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    if(THEMIS_ENABLE_IO_URING)
+        target_compile_definitions(test_kernel_bypass_focused PRIVATE
+            THEMIS_ENABLE_IO_URING=1
+        )
+    endif()
+
+    if(THEMIS_ENABLE_DPDK)
+        target_compile_definitions(test_kernel_bypass_focused PRIVATE
+            THEMIS_ENABLE_DPDK=1
+        )
+        if(TARGET dpdk::dpdk)
+            target_link_libraries(test_kernel_bypass_focused PRIVATE dpdk::dpdk)
+        endif()
+    endif()
+
+    if(THEMIS_ENABLE_NUMA)
+        target_compile_definitions(test_kernel_bypass_focused PRIVATE
+            THEMIS_ENABLE_NUMA=1
+        )
+        target_link_libraries(test_kernel_bypass_focused PRIVATE numa)
+    endif()
+
+    add_test(NAME KernelBypassFocusedTests
+        COMMAND test_kernel_bypass_focused)
+
+    set_tests_properties(KernelBypassFocusedTests PROPERTIES
+        LABELS "network;kernel_bypass;dpdk;io_uring;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  KernelBypass: CpuPinner, NumaAllocator, ZeroCopyDmaBuffer, DPDKServer, IoUringServer")
+else()
+    message(STATUS "Kernel Bypass focused tests not found")
 endif()
 
 # ============================================================================
@@ -19527,7 +19693,50 @@ else()
 endif()
 
 # ============================================================================
-# VLLMResourceManager ÔÇô CPU/RAM Monitoring Stats Tests
+# NCCLMergeTopKFocusedTests — NCCL/RCCL distributed mergeTopK() tests
+# Issue: #222 — Multi-GPU Sharding for Large Embedding Datasets (v1.9.0)
+# Covers:
+#   Section A (13 tests): CPU-side merge algorithm simulation, no hardware required
+#   Section B (6 tests): NCCLVectorBackend single-rank path, skipped without NCCL
+#   Section C (6 tests): RCCLVectorBackend single-rank path, skipped without RCCL
+# ============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/acceleration/test_nccl_merge_topk.cpp")
+    message(STATUS "Adding NCCLMergeTopK focused tests (acceleration, Issue #222, v1.9.0)")
+
+    add_executable(test_nccl_merge_topk_focused
+        acceleration/test_nccl_merge_topk.cpp
+    )
+
+    target_include_directories(test_nccl_merge_topk_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_nccl_merge_topk_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_nccl_merge_topk_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME NCCLMergeTopKFocusedTests
+        COMMAND test_nccl_merge_topk_focused)
+
+    set_tests_properties(NCCLMergeTopKFocusedTests PROPERTIES
+        LABELS "acceleration;nccl;rccl;multi-gpu;merge-topk;v1.9.0;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  NCCLMergeTopK: CPU merge simulation (worldSize 2/4/8, k 10/100/256), tie-breaking, NCCL/RCCL single-rank copy (25 tests)")
+else()
+    message(STATUS "NCCLMergeTopK focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/acceleration/test_nccl_merge_topk.cpp")
+endif()
+
+# ============================================================================
+# VLLMResourceManager — CPU/RAM Monitoring Stats Tests
 # Covers: getStats() OS-specific CPU utilisation + RAM monitoring,
 #         canUseGPU() NVML timeout safety, uninitialised guard.
 # ============================================================================

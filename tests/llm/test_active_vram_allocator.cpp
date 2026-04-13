@@ -680,3 +680,159 @@ TEST(ActiveVRAMAllocatorTest, BridgeHandlesCleanedUpOnEviction) {
     EXPECT_EQ(alloc.listAllocations().size(), 0u);
     EXPECT_NO_THROW(alloc.getStats());
 }
+
+// ═══════════════════════════════════════════════════════════
+// AdaptiveVRAMAllocator::calculateDualModelAllocation
+// ═══════════════════════════════════════════════════════════
+
+namespace {
+/// Build a minimal 7B target model config (LLaMA-like, FP16).
+AdaptiveVRAMAllocator::ModelConfig make7BTargetConfig() {
+    AdaptiveVRAMAllocator::ModelConfig cfg;
+    cfg.model_name      = "llama-7b";
+    cfg.num_parameters  = 7'000'000'000ULL;
+    cfg.num_layers      = 32;
+    cfg.hidden_dim      = 4096;
+    cfg.num_heads       = 32;
+    cfg.num_kv_heads    = 8;
+    cfg.head_dim        = 128;
+    cfg.precision_bytes = 2;  // FP16
+    return cfg;
+}
+
+/// Build a minimal 0.5B draft model config (no explicit precision → INT4 default).
+AdaptiveVRAMAllocator::ModelConfig make500MDraftConfig() {
+    AdaptiveVRAMAllocator::ModelConfig cfg;
+    cfg.model_name      = "llama-0.5b";
+    cfg.num_parameters  = 500'000'000ULL;
+    cfg.num_layers      = 24;
+    cfg.hidden_dim      = 1024;
+    cfg.num_heads       = 16;
+    cfg.num_kv_heads    = 4;
+    cfg.head_dim        = 64;
+    cfg.precision_bytes = 0;  // 0 signals INT4 (0.5 bytes/param)
+    return cfg;
+}
+
+/// A10G-class GPU: 24 GB VRAM.
+AdaptiveVRAMAllocator::HardwareInfo makeA10GHardware() {
+    AdaptiveVRAMAllocator::HardwareInfo hw;
+    hw.total_vram_bytes     = 24ULL * 1024 * 1024 * 1024;
+    hw.available_vram_bytes = 22ULL * 1024 * 1024 * 1024;
+    hw.compute_capability_major = 8;
+    hw.compute_capability_minor = 6;
+    hw.has_tensor_cores     = true;
+    hw.memory_bandwidth_gbps = 600;
+    return hw;
+}
+} // namespace
+
+/// Dual-model plan total >= single-model plan total (draft weights added).
+TEST(AdaptiveVRAMAllocatorDualModelTest, DualModelTotalGreaterThanSingleModel) {
+    AdaptiveVRAMAllocator alloc;
+    const auto target = make7BTargetConfig();
+    const auto draft  = make500MDraftConfig();
+    const auto hw     = makeA10GHardware();
+
+    AdaptiveVRAMAllocator::InferenceConfig inf_cfg;
+    inf_cfg.batch_size   = 1;
+    inf_cfg.max_seq_length = 2048;
+
+    auto single_plan = alloc.calculateOptimalAllocation(target, hw, inf_cfg);
+    auto dual_plan   = alloc.calculateDualModelAllocation(target, draft, hw, inf_cfg);
+
+    EXPECT_GT(dual_plan.total, single_plan.total)
+        << "Dual-model allocation must be larger than single-model allocation";
+}
+
+/// Draft model weights are INT4 (0.5 bytes/param) when precision_bytes == 0.
+TEST(AdaptiveVRAMAllocatorDualModelTest, DraftModelDefaultsToInt4WhenPrecisionIsZero) {
+    AdaptiveVRAMAllocator alloc;
+    const auto target = make7BTargetConfig();
+    const auto draft  = make500MDraftConfig(); // precision_bytes = 0
+    const auto hw     = makeA10GHardware();
+
+    AdaptiveVRAMAllocator::InferenceConfig inf_cfg;
+    inf_cfg.batch_size    = 1;
+    inf_cfg.max_seq_length = 2048;
+
+    auto plan = alloc.calculateDualModelAllocation(target, draft, hw, inf_cfg);
+
+    // INT4: 500M × 0.5 bytes = 250 MB
+    const size_t expected_draft_bytes = 500'000'000ULL / 2;  // 0.5 bytes per param
+    EXPECT_EQ(plan.draft_model_weights, expected_draft_bytes)
+        << "Draft model (INT4) should use 0.5 bytes per parameter";
+    EXPECT_EQ(plan.draft_precision_bytes, 0)
+        << "draft_precision_bytes should reflect the INT4 default (0)";
+}
+
+/// draft_model_weights contributes to plan.model_weights.
+TEST(AdaptiveVRAMAllocatorDualModelTest, ModelWeightsIncludesDraftContribution) {
+    AdaptiveVRAMAllocator alloc;
+    const auto target = make7BTargetConfig();
+    const auto draft  = make500MDraftConfig();
+    const auto hw     = makeA10GHardware();
+
+    AdaptiveVRAMAllocator::InferenceConfig inf_cfg;
+    inf_cfg.batch_size    = 1;
+    inf_cfg.max_seq_length = 2048;
+
+    auto single_plan = alloc.calculateOptimalAllocation(target, hw, inf_cfg);
+    auto dual_plan   = alloc.calculateDualModelAllocation(target, draft, hw, inf_cfg);
+
+    EXPECT_EQ(dual_plan.model_weights,
+              single_plan.model_weights + dual_plan.draft_model_weights)
+        << "model_weights in dual plan must equal target + draft weights";
+}
+
+/// fits_in_vram is false when total exceeds available VRAM.
+TEST(AdaptiveVRAMAllocatorDualModelTest, FitsInVramFalseWhenTotalExceedsAvailable) {
+    AdaptiveVRAMAllocator alloc;
+
+    // Huge model that won't fit in 22 GB
+    AdaptiveVRAMAllocator::ModelConfig big_target;
+    big_target.num_parameters  = 70'000'000'000ULL;  // 70B
+    big_target.num_layers      = 80;
+    big_target.hidden_dim      = 8192;
+    big_target.num_heads       = 64;
+    big_target.num_kv_heads    = 8;
+    big_target.head_dim        = 128;
+    big_target.precision_bytes = 2;  // FP16
+
+    AdaptiveVRAMAllocator::ModelConfig draft;
+    draft.num_parameters  = 500'000'000ULL;
+    draft.precision_bytes = 0;  // INT4
+
+    const auto hw = makeA10GHardware();  // 22 GB available
+    AdaptiveVRAMAllocator::InferenceConfig inf_cfg;
+
+    auto plan = alloc.calculateDualModelAllocation(big_target, draft, hw, inf_cfg);
+    EXPECT_FALSE(plan.fits_in_vram)
+        << "A 70B + 0.5B model combination must not fit in 22 GB";
+    EXPECT_FALSE(plan.recommendation.empty())
+        << "Recommendation should be non-empty when allocation fails";
+}
+
+/// Explicit draft precision is respected when precision_bytes > 0.
+TEST(AdaptiveVRAMAllocatorDualModelTest, ExplicitDraftPrecisionRespected) {
+    AdaptiveVRAMAllocator alloc;
+    const auto target = make7BTargetConfig();
+
+    // Draft model with explicit INT8 precision (1 byte/param)
+    AdaptiveVRAMAllocator::ModelConfig draft = make500MDraftConfig();
+    draft.precision_bytes = 1;  // INT8
+
+    const auto hw = makeA10GHardware();
+    AdaptiveVRAMAllocator::InferenceConfig inf_cfg;
+    inf_cfg.batch_size    = 1;
+    inf_cfg.max_seq_length = 2048;
+
+    auto plan = alloc.calculateDualModelAllocation(target, draft, hw, inf_cfg);
+
+    // INT8: 500M × 1 byte = 500 MB
+    const size_t expected_draft_bytes = 500'000'000ULL;
+    EXPECT_EQ(plan.draft_model_weights, expected_draft_bytes)
+        << "Draft model (INT8) should use 1 byte per parameter";
+    EXPECT_EQ(plan.draft_precision_bytes, 1)
+        << "draft_precision_bytes should reflect the explicit INT8 value";
+}

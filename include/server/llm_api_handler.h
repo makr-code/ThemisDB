@@ -56,6 +56,8 @@ class QueryEngine;
 namespace server {
 class LoRAApiHandler;
 }
+class VectorIndexManager;
+class RocksDBWrapper;
 }
 
 namespace themis::server {

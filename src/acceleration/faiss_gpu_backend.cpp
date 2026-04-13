@@ -575,15 +575,6 @@ std::vector<std::vector<std::pair<uint32_t, float>>> FaissGPUVectorBackend::batc
     size_t k,
     bool useL2
 ) {
-std::vector<std::vector<std::pair<uint32_t, float>>> FaissGPUVectorBackend::batchKnnSearch(
-    const float* queries,
-    size_t numQueries,
-    size_t dim,
-    const float* vectors,
-    size_t numVectors,
-    size_t k,
-    bool useL2
-) {
     if (!queries || !vectors || numQueries == 0 || numVectors == 0 || dim == 0 || k == 0) {
         setError(AccelerationErrorCode::InvalidInputShape,
                  "batchKnnSearch: null pointers or zero-size inputs");

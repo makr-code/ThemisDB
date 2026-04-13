@@ -154,9 +154,12 @@ Dieser Appendix bietet eine vollständige, strukturierte Übersicht aller Themis
 | Distributed RAG Evaluator | ✅ | `DistributedRAGEvaluator` | §17.25 |
 | Hybrid Retrieval (BM25+Vector) | ✅ | `HybridRetriever` | §17.26 |
 | Knowledge Graph RAG | ✅ | `KGRAGPipeline` | §17.27 |
+| FLARE Retrieval-Callback Bridge | ✅ | `KnowledgeGapDetector::setRetrievalCallback` | §17.30 |
+| Vector Search in RAG (HTTP) | ✅ | `LLMApiHandler::setVectorIndex` | §17.30 |
 
-**Module:** `src/rag/`, `include/rag/`  
-**Compendium:** [chapter_17_llm_integration.md](chapter_17_llm_integration.md)
+**Module:** `src/rag/`, `include/rag/`, `src/server/`, `include/server/`  
+**Compendium:** [chapter_17_llm_integration.md](chapter_17_llm_integration.md)  
+**Referenz:** [flare_retrieval_callback_bridge.md](../../docs/flare_retrieval_callback_bridge.md)
 
 ---
 
@@ -1545,6 +1548,9 @@ Die folgenden Komponenten wurden mit dem v1.9.x-Release (Commit 2026-04-12) in d
 | `HardwareAccelerator::execute()` | `performance/hardware_accelerator.h` | ✅ GA | CPU/CUDA/OpenCL/NPU/FPGA Dispatch; OperatorType-Auswahl |
 | `LockFreeRingBuffer<T>` | `performance/lockfree_metrics_buffer.h` | ✅ GA | SPSC Lock-Free FIFO; tryPush/tryPop; dropped_count |
 | `WorkloadPredictor::getScaleRecommendation()` | `performance/workload_predictor.h` | ✅ GA | Konkrete Replikations-Empfehlung mit Konfidenz |
+| `WorkloadAdaptiveOptimizer::classify_workload()` | `performance/workload_adaptive_optimizer.h` | ✅ GA | Heuristische Klassifikation (OLTP/OLAP/MIXED/GRAPH/VECTOR/TIMESERIES); 512-Query Rolling Window |
+| `WorkloadAdaptiveOptimizer::get_strategy()` | `performance/workload_adaptive_optimizer.h` | ✅ GA | Per-Workload-Strategie: JIT, Thread-Pool, Cache-MB, Join-Algorithmus, Index-Typ; Predictive Scaling |
+| `WorkloadAdaptiveOptimizer::enable_auto_adapt()` | `performance/workload_adaptive_optimizer.h` | ✅ GA | Hintergrund-Adaptionsloop (konfigurierbares Intervall); AdaptationCallback |
 
 ### Plugin-System (v1.x)
 

@@ -131,6 +131,12 @@ __global__ void pointInPolygonKernel(
 // Kernel launchers — conform to GeoDistanceFn / GeoContainmentFn typedefs
 // =============================================================================
 
+// Module-level block size tuned at initialize() time via
+// hipOccupancyMaxPotentialBlockSize().  AMD GCN devices (warpSize == 64) use 64
+// as their baseline to avoid half-occupancy.  HIPGeoBackend::initialize()
+// overwrites this with the device-optimal value.
+static int g_hip_geo_block_size = 256;
+
 extern "C" {
 
 /**
@@ -151,9 +157,9 @@ int hip_launchGeoDistanceKernel(
 ) {
     if (count <= 0) return 0;
 
-    constexpr int kBlockSize = 256;
+    const int kBlockSize = g_hip_geo_block_size;
     const dim3 blockDim(kBlockSize);
-    const dim3 gridDim((static_cast<unsigned>(count) + kBlockSize - 1u) / kBlockSize);
+    const dim3 gridDim((static_cast<unsigned>(count) + static_cast<unsigned>(kBlockSize) - 1u) / static_cast<unsigned>(kBlockSize));
 
     const hipStream_t stream = static_cast<hipStream_t>(opaque_stream);
 
@@ -181,9 +187,9 @@ int hip_launchGeoContainmentKernel(
 ) {
     if (numPoints <= 0) return 0;
 
-    constexpr int kBlockSize = 256;
+    const int kBlockSize = g_hip_geo_block_size;
     const dim3 blockDim(kBlockSize);
-    const dim3 gridDim((static_cast<unsigned>(numPoints) + kBlockSize - 1u) / kBlockSize);
+    const dim3 gridDim((static_cast<unsigned>(numPoints) + static_cast<unsigned>(kBlockSize) - 1u) / static_cast<unsigned>(kBlockSize));
 
     const hipStream_t stream = static_cast<hipStream_t>(opaque_stream);
 
@@ -194,6 +200,19 @@ int hip_launchGeoContainmentKernel(
         d_results);
 
     return static_cast<int>(hipGetLastError());
+}
+
+/**
+ * Update the block size used by the HIP geo kernel launchers.
+ *
+ * Called from HIPGeoBackend::initialize() with the value returned by
+ * hipOccupancyMaxPotentialBlockSize().  AMD GCN devices (warpSize == 64)
+ * default to 64 threads to avoid half-occupancy.
+ *
+ * @param blockSize  Number of threads per block.
+ */
+void hipSetGeoKernelBlockSize(int blockSize) {
+    g_hip_geo_block_size = blockSize;
 }
 
 } // extern "C"

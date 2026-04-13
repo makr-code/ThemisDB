@@ -373,48 +373,34 @@ constraints.addGeoFence(
 ---
 
 ### Query Rewriting for Graph Optimization
+**Status: ✅ DONE (Issue #250, delivered v1.9.0)**  
 **Priority:** Medium  
-**Target Version:** v1.8.0
+**Target Version:** v1.8.0 → delivered v1.9.0
 
 Automatically rewrite graph queries for better performance.
 
-**Features:**
-- Common subexpression elimination
-- Predicate pushdown to graph layer
-- Join reordering for graph patterns
-- Materialized view utilization
-- Query decomposition for parallelism
-
-**Benefits:**
-- Improved query performance without user intervention
-- Better integration with relational/document queries
-- Optimal execution plans for complex queries
-- Reduced redundant computation
-
-**Example Rewrite:**
-```aql
--- Original query
-FOR v1 IN vertices
-  FILTER v1.type == "Person"
-  FOR v2 IN 1..3 OUTBOUND v1 GRAPH "social"
-    FILTER v2.country == "USA"
-    RETURN {person: v1, friend: v2}
-
--- Rewritten query
-FOR v1 IN vertices
-  FILTER v1.type == "Person"
-  FOR v2 IN 1..3 OUTBOUND v1 GRAPH "social"
-    PRUNE v2.country != "USA"  // Early pruning
-    FILTER v2.country == "USA"
-    RETURN {person: v1, friend: v2}
-```
+**Implemented Features:**
+- ✅ `GraphQueryRewriter` class (`include/graph/graph_query_rewriter.h`, `src/graph/graph_query_rewriter.cpp`)
+- ✅ `PREDICATE_PUSHDOWN` / `PRUNE_EARLY` rule — promotes `vertex_filters` to `prune_conditions` for early BFS/DFS branch pruning
+- ✅ `COMMON_SUBEXPRESSION` rule — detects duplicate graph traversal sub-expressions and replaces repeated occurrences with LET-scoped `ref` nodes
+- ✅ `JOIN_REORDERING` rule — swaps `traversal_join` operands so the more selective (lower cardinality) side is executed first
+- ✅ `MATERIALIZED_VIEW` rule — tags traversal nodes for subgraph materialisation (activated automatically for multi-access patterns or when `aggressive_optimization = true`)
+- ✅ `QUERY_DECOMPOSITION` rule — splits `multi_traversal` nodes into independent `parallel_subqueries` for concurrent execution
+- ✅ `RewriteConfig` — per-rewrite configuration: `enabled_rules`, `aggressive_optimization`, `rewrite_time_limit_ms`
+- ✅ `RewriteResult` — structured return value with rewritten plan and `GraphRewriteStats` (rules_applied, applied_rule_names, total_transformations)
+- ✅ `explainRewrites(original, rewritten)` — human-readable multi-line summary of applied transformations
+- ✅ `estimateSpeedup(original, rewritten)` — heuristic speedup factor estimate based on applied rules
+- ✅ `addCustomRule(name, fn)` / `clearCustomRules()` — extensible custom rule hook
+- ✅ Factory helpers: `makeTraversalPlan`, `makeFilterScanPlan`, `makeJoinPlan`, `makeMultiTraversalPlan`, `estimateCardinality`
+- ✅ 38 unit tests in `tests/test_graph_query_rewriter.cpp` covering all acceptance criteria
+- ✅ Standalone CMake target `test_graph_query_rewriter`
 
 **Rewrite Rules:**
-- Push predicates into graph traversal (prune early)
-- Decompose multi-pattern queries into independent subqueries
-- Materialize frequently accessed subgraphs
-- Convert repeated traversals to single traversal with caching
-- Reorder multi-hop traversals based on selectivity
+- Push predicates into graph traversal (prune early) — PREDICATE_PUSHDOWN converts vertex_filters to prune_conditions
+- Decompose multi-pattern queries into independent subqueries — QUERY_DECOMPOSITION splits multi_traversal nodes
+- Materialize frequently accessed subgraphs — MATERIALIZED_VIEW tags traversals for precomputed results
+- Convert repeated traversals to single traversal with caching — COMMON_SUBEXPRESSION via LET-scoped refs
+- Reorder multi-hop traversals based on selectivity — JOIN_REORDERING uses heuristic cardinality estimation
 
 ---
 

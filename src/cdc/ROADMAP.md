@@ -73,6 +73,7 @@
 - [x] Register `consumer_group.cpp`, `delivery_tracker.cpp`, `outbox.cpp`, and `ws_transport.cpp` in `cmake/ModularBuild.cmake` THEMIS_STORAGE_SOURCES — previously only in `CMakeLists.txt`
 - [x] Add all CDC source files to `_themis_test_extra_sources` in `tests/CMakeLists.txt` (including `delivery_tracker.cpp` and `ws_transport.cpp`)
 - [x] Add standalone focused test targets `CDCAdminFocusedTests` and `TenantBufferManagerFocusedTests` in `tests/CMakeLists.txt`
+- [x] Add focused test target `CDCKafkaProducerFocusedTests` in `tests/CMakeLists.txt` — covers config defaults, no-op stub, `ICDCTransport` compliance, Prometheus counters, Debezium format (v1.9.0)
 
 ### Phase 5: Public Interface Headers (Status: Completed ✅)
 - [x] Implement `include/cdc/icdc_pause_control.h` — `ICDCPauseControl` abstract interface with `pause(PauseReason)`, `resume()`, `isPaused()`, `drainBufferedEvents()`; `InMemoryPauseControl` concrete implementation; `PauseReason` enum (`AdminRequest`, `Backpressure`, `SchemaEvolution`)
@@ -97,6 +98,7 @@
 - [x] API stability guaranteed for changefeed and subscription APIs
 - [x] Build system audit complete — all source files registered in cmake (2026-03-10)
 - [x] v2.0.0 interface headers: `ICDCReplayController`, `ICDCFilterPipeline`, `ICDCBatchCommitCoordinator`
+- [x] v1.9.0 Kafka CDC producer: `KafkaCDCProducer`, `ICDCTransport`, `cdc_kafka.yaml`, `CDCKafkaProducerFocusedTests` registered in `tests/CMakeLists.txt`
 
 ## Known Issues & Limitations
 - Consumer offset tracking is available via `ConsumerGroupManager`; full log scan is no longer required for existing groups

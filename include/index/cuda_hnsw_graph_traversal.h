@@ -181,6 +181,37 @@ public:
                 uint32_t     k,
                 uint32_t     ef = 0) const;
 
+    // ── Visited bitset pool tuning ────────────────────────────────────────────
+
+    /**
+     * @brief Set the maximum query-batch size used to size the persistent
+     *        visited bitset pool.
+     *
+     * The pool is allocated once in buildIndex() as
+     *   `n × ceil(numNodes / 8)` bytes.
+     * Calling setMaxBatchSize() after buildIndex() takes effect on the next
+     * buildIndex() call (the pool is not reallocated lazily).
+     *
+     * Default: 512 queries.
+     *
+     * @param n  Maximum number of queries per single kernel launch.
+     *           Must be ≥ 1; values of 0 are silently clamped to 1.
+     */
+    void setMaxBatchSize(size_t n);
+
+    /**
+     * @brief Return the current max-batch-size setting.
+     */
+    size_t maxBatchSize() const noexcept;
+
+    /**
+     * @brief Return true when the persistent visited bitset pool has been
+     *        successfully allocated (i.e. buildIndex() allocated it without
+     *        error).  When false, batchSearch() falls back to per-invocation
+     *        allocation.
+     */
+    bool hasVisitedPool() const noexcept;
+
     // ── Diagnostics ───────────────────────────────────────────────────────────
 
     /** @brief True when device memory has been allocated and the index is built. */

@@ -273,31 +273,35 @@ stream2.send_request(query2);
 
 ### Kernel Bypass (DPDK/io_uring)
 **Priority:** Medium  
-**Target Version:** v1.9.0
+**Target Version:** v1.9.0  
+**Status:** ✅ Implemented (v1.9.0, 2026-04-13)
 
-Add kernel bypass support for ultra-low latency applications.
+Kernel bypass support for ultra-low latency applications.
+
+**Implementation:** `include/network/kernel_bypass.h` / `src/network/kernel_bypass.cpp`
+
+**Classes delivered:**
+- `DPDKServer` — DPDK EAL integration; poll-mode RX/TX; guarded by `THEMIS_ENABLE_DPDK`; port 8772 default
+- `IoUringServer` — io_uring SQPOLL async server; fixed-buffer zero-copy sends; guarded by `THEMIS_ENABLE_IO_URING` + Linux; port 8773 default
+- `CpuPinner` — `pinCallerToCore()` / `pinThreadToCore()` / `numaNodeForCore()` / `coresOnNuma()`
+- `NumaAllocator` — NUMA-local allocation (`THEMIS_ENABLE_NUMA`) with `posix_memalign` fallback
+- `ZeroCopyDmaBuffer` — huge-page (`MAP_HUGETLB`) DMA buffer; `mbind()` NUMA binding; move-only
 
 **Features:**
-- DPDK (Data Plane Development Kit) for 10G/40G/100G NICs
-- io_uring for efficient async I/O on Linux
-- Zero-copy networking
-- User-space TCP/IP stack
-- CPU pinning and NUMA awareness
-
-**Benefits:**
-- **5-10x lower latency:** Bypass kernel TCP/IP stack
-- **Higher throughput:** Saturate 100G NICs
-- **Lower CPU usage:** Efficient polling mode
-- **Predictable latency:** No context switches
+- [x] DPDK (Data Plane Development Kit) for 10G/40G/100G NICs
+- [x] io_uring for efficient async I/O on Linux
+- [x] Zero-copy networking (fixed-buffer `IORING_REGISTER_BUFFERS` + `ZeroCopyDmaBuffer`)
+- [x] User-space TCP/IP stack (DPDK PMD poll loop)
+- [x] CPU pinning and NUMA awareness (`CpuPinner` / `NumaAllocator`)
 
 **DPDK Integration:**
 ```cpp
 DPDKServer::Config config;
-config.port = 8770;
+config.port = 8772;                    // default DPDK server port
 config.pci_address = "0000:05:00.0";  // NIC PCI address
 config.num_rx_queues = 4;
 config.num_tx_queues = 4;
-config.cpu_core_mask = 0x0F;  // Cores 0-3
+config.cpu_core_mask = 0x0F;           // Cores 0-3
 config.huge_pages_mb = 2048;
 
 DPDKServer dpdk_server(config, storage, index_mgr);
@@ -306,13 +310,10 @@ dpdk_server.start();
 
 **io_uring Integration:**
 ```cpp
-io_uring_params params = {};
-params.flags = IORING_SETUP_SQPOLL;  // Kernel SQ polling
-
 IoUringServer::Config config;
-config.port = 8771;
-config.ring_size = 4096;
-config.sq_thread_cpu = 2;  // CPU for SQ polling
+config.port              = 8773;       // default io_uring server port
+config.ring_size         = 4096;
+config.sq_thread_cpu     = 2;          // CPU for kernel SQ polling
 config.sq_thread_idle_ms = 1000;
 
 IoUringServer uring_server(config, storage, index_mgr);
@@ -336,6 +337,8 @@ uring_server.start();
 - ❌ Complex setup (huge pages, CPU pinning)
 - ❌ Hardware specific (DPDK requires compatible NIC)
 - ❌ Limited OS compatibility (Linux only for io_uring)
+
+**Tests:** 40 focused tests (KBP-01…KBP-40) in `tests/test_kernel_bypass.cpp`
 
 ---
 

@@ -687,6 +687,15 @@ struct ForecastModel::Impl {
     // In-sample RMSE
     double in_sample_rmse = 0.0;
 
+    // ---- Running OLS moments for O(1) incremental linear regression update ----
+    // Populated by fitLinear() and updated O(1) by update().
+    // x values are 0-based integer indices (0, 1, 2, …, n-1).
+    double   lin_sx  = 0.0; ///< Σ x_i
+    double   lin_sy  = 0.0; ///< Σ y_i
+    double   lin_sxx = 0.0; ///< Σ x_i²
+    double   lin_sxy = 0.0; ///< Σ x_i·y_i
+    size_t   lin_n   = 0;   ///< number of observations in running sums
+
     // ---- fit-result cache ------------------------------------------------
     // Key: FNV-1a 64-bit hash over (training_data_bytes + config_bytes).
     // On cache hit we skip re-fitting and reuse the cached params.
@@ -714,6 +723,12 @@ struct ForecastModel::Impl {
         ArimaParams       arima_p{};
         double            in_sample_rmse = 0.0;
         ForecastConfig    config{};
+        // Running OLS moments (for O(1) incremental update after cache restore)
+        double   lin_sx  = 0.0;
+        double   lin_sy  = 0.0;
+        double   lin_sxx = 0.0;
+        double   lin_sxy = 0.0;
+        size_t   lin_n   = 0;
     };
     // Single-entry cache (last fit)
     bool            cache_valid = false;
@@ -757,6 +772,16 @@ struct ForecastModel::Impl {
     // ---- fit helpers ----
     void fitLinear() {
         linear_p = ::themisdb::analytics::fitLinear(train_y);
+        // Populate running OLS moments for O(1) incremental update().
+        lin_n = train_y.size();
+        lin_sx = 0.0; lin_sy = 0.0; lin_sxx = 0.0; lin_sxy = 0.0;
+        for (size_t i = 0; i < lin_n; ++i) {
+            double xi = static_cast<double>(i);
+            lin_sx  += xi;
+            lin_sy  += train_y[i];
+            lin_sxx += xi * xi;
+            lin_sxy += xi * train_y[i];
+        }
     }
 
     void fitSES() {
@@ -956,6 +981,11 @@ void ForecastModel::fit(const TimeSeries& ts, const ForecastConfig& config) {
         impl_->arima_p       = impl_->cache_entry.arima_p;
         impl_->in_sample_rmse = impl_->cache_entry.in_sample_rmse;
         impl_->config        = impl_->cache_entry.config;
+        impl_->lin_sx  = impl_->cache_entry.lin_sx;
+        impl_->lin_sy  = impl_->cache_entry.lin_sy;
+        impl_->lin_sxx = impl_->cache_entry.lin_sxx;
+        impl_->lin_sxy = impl_->cache_entry.lin_sxy;
+        impl_->lin_n   = impl_->cache_entry.lin_n;
         impl_->fitted        = true;
         return;
     }
@@ -1017,6 +1047,11 @@ void ForecastModel::fit(const TimeSeries& ts, const ForecastConfig& config) {
     impl_->cache_entry.arima_p        = impl_->arima_p;
     impl_->cache_entry.in_sample_rmse = impl_->in_sample_rmse;
     impl_->cache_entry.config         = impl_->config;
+    impl_->cache_entry.lin_sx  = impl_->lin_sx;
+    impl_->cache_entry.lin_sy  = impl_->lin_sy;
+    impl_->cache_entry.lin_sxx = impl_->lin_sxx;
+    impl_->cache_entry.lin_sxy = impl_->lin_sxy;
+    impl_->cache_entry.lin_n   = impl_->lin_n;
     impl_->cache_key   = ck;
     impl_->cache_valid = true;
 }
@@ -1090,13 +1125,49 @@ void ForecastModel::update(double new_value) {
 
     const double y = new_value;
 
-    // ---- LINEAR_REGRESSION: incremental OLS update ----
-    // Recompute alpha/beta using the full (extended) series (O(n) but simple).
-    // For true O(1) we would need Welford-style running moments — however the
-    // series growth is bounded in practice and the fit is already fast.
+    // ---- LINEAR_REGRESSION: O(1) incremental OLS update via running moments ----
+    // Running sums (lin_sx, lin_sy, lin_sxx, lin_sxy, lin_n) were populated
+    // during fitLinear() and are updated here in O(1) per new observation.
+    // Residual std-dev is tracked with an exponential moving average (EMA) so
+    // the confidence-interval width stays approximately current without O(n) refit.
     {
         auto& lp = impl_->linear_p;
-        lp = ::themisdb::analytics::fitLinear(impl_->train_y);
+        if (impl_->lin_n > 0) {
+            double x_new = static_cast<double>(impl_->lin_n); // next 0-based index
+            impl_->lin_sx  += x_new;
+            impl_->lin_sy  += y;
+            impl_->lin_sxx += x_new * x_new;
+            impl_->lin_sxy += x_new * y;
+            impl_->lin_n   += 1;
+            double dn    = static_cast<double>(impl_->lin_n);
+            double denom = dn * impl_->lin_sxx - impl_->lin_sx * impl_->lin_sx;
+            if (std::abs(denom) > 1e-12) {
+                lp.beta  = (dn * impl_->lin_sxy - impl_->lin_sx * impl_->lin_sy) / denom;
+                lp.alpha = (impl_->lin_sy - lp.beta * impl_->lin_sx) / dn;
+            } else {
+                lp.alpha = impl_->lin_sy / dn;
+                lp.beta  = 0.0;
+            }
+            // EMA update for residual std-dev (O(1) approximation)
+            double res = y - (lp.alpha + lp.beta * x_new);
+            lp.residual_stddev = std::sqrt(
+                0.9 * lp.residual_stddev * lp.residual_stddev + 0.1 * res * res);
+        } else {
+            // Fallback: running sums not initialized (model was deserialized
+            // without running-sum state).  Full refit is correct but O(n).
+            lp = ::themisdb::analytics::fitLinear(impl_->train_y);
+            // Reinitialize running sums from the freshly fitted series.
+            impl_->lin_n = impl_->train_y.size();
+            impl_->lin_sx = 0.0; impl_->lin_sy = 0.0;
+            impl_->lin_sxx = 0.0; impl_->lin_sxy = 0.0;
+            for (size_t i = 0; i < impl_->lin_n; ++i) {
+                double xi = static_cast<double>(i);
+                impl_->lin_sx  += xi;
+                impl_->lin_sy  += impl_->train_y[i];
+                impl_->lin_sxx += xi * xi;
+                impl_->lin_sxy += xi * impl_->train_y[i];
+            }
+        }
     }
 
     // ---- EXP_SMOOTHING (SES): O(1) level update ----

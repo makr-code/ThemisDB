@@ -1572,6 +1572,7 @@ set(THEMIS_CORE_SOURCES
     ../src/query/adaptive_join.cpp
     ../src/query/runtime_reoptimizer.cpp
     ../src/graph/graph_query_optimizer.cpp
+    ../src/graph/graph_query_rewriter.cpp
     ../src/graph/path_constraints.cpp
     ../src/graph/gpu_traversal.cpp
     ../src/graph/parallel_traversal.cpp
@@ -4344,6 +4345,20 @@ if(THEMIS_BUILD_TESTS)
         CONFIGURATIONS Release Debug
     )
 
+    add_executable(test_knowledge_gap_retrieval_callback
+        ${THEMIS_ROOT_DIR}/tests/test_knowledge_gap_retrieval_callback.cpp
+        ${THEMIS_ROOT_DIR}/src/rag/knowledge_gap_detector.cpp
+    )
+    target_link_libraries(test_knowledge_gap_retrieval_callback
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(test_knowledge_gap_retrieval_callback
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_knowledge_gap_retrieval_callback>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+    )
+
     add_executable(test_bitemporal_join
         ${THEMIS_ROOT_DIR}/tests/test_bitemporal_join.cpp
     )
@@ -4791,6 +4806,22 @@ if(THEMIS_BUILD_TESTS)
         EXTRA_ARGS --gtest_color=yes
     )
 
+    # Workload-Adaptive Optimizer tests (v1.9.0, Issue #230)
+    add_executable(test_workload_adaptive_optimizer
+        ${THEMIS_ROOT_DIR}/tests/test_workload_adaptive_optimizer.cpp
+    )
+    target_link_libraries(test_workload_adaptive_optimizer
+        PRIVATE
+            themis_core
+            GTest::gtest
+            GTest::gtest_main
+    )
+    gtest_discover_tests(test_workload_adaptive_optimizer
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_workload_adaptive_optimizer>
+        EXTRA_ARGS --gtest_color=yes
+    )
+
     # RaBitQ ProductQuantizer k-means tests
     if(THEMIS_ENABLE_RABITQ)
         add_executable(test_rabitq_product_quantizer
@@ -4856,6 +4887,38 @@ if(THEMIS_BUILD_TESTS)
     gtest_discover_tests(test_numa_topology
         DISCOVERY_MODE PRE_TEST
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_numa_topology>
+        EXTRA_ARGS --gtest_color=yes
+    )
+
+    # Advanced Cache Manager tests (Issue #229 – v1.9.0 partitioned cache with bloom filters)
+    add_executable(test_advanced_cache_manager
+        ${THEMIS_ROOT_DIR}/tests/test_advanced_cache_manager.cpp
+    )
+    target_link_libraries(test_advanced_cache_manager
+        PRIVATE
+            themis_core
+            GTest::gtest
+            GTest::gtest_main
+    )
+    gtest_discover_tests(test_advanced_cache_manager
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_advanced_cache_manager>
+        EXTRA_ARGS --gtest_color=yes
+    )
+
+    # NUMA-aware memory manager tests (Issue #228 – v1.9.0)
+    add_executable(test_numa_memory_manager
+        ${THEMIS_ROOT_DIR}/tests/test_numa_memory_manager.cpp
+    )
+    target_link_libraries(test_numa_memory_manager
+        PRIVATE
+            themis_core
+            GTest::gtest
+            GTest::gtest_main
+    )
+    gtest_discover_tests(test_numa_memory_manager
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_numa_memory_manager>
         EXTRA_ARGS --gtest_color=yes
     )
 
@@ -5668,6 +5731,36 @@ if(FALSE)  # Disabled - benchmarks now defined in benchmarks/CMakeLists.txt
             target_compile_options(bench_cuda_vs_cpu PRIVATE -O3 -DNDEBUG)
         endif()
         message(STATUS "Added bench_cuda_vs_cpu (acceleration benchmarks)")
+    endif()
+
+    # Kernel Block-Size Occupancy Sweep Benchmark (Issue #234 — v1.9.0)
+    if(EXISTS "${THEMIS_ROOT_DIR}/benchmarks/kernel_block_size_bench.cpp")
+        add_executable(kernel_block_size_bench
+            ${THEMIS_ROOT_DIR}/benchmarks/kernel_block_size_bench.cpp
+        )
+        target_link_libraries(kernel_block_size_bench PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+            Threads::Threads
+        )
+        target_compile_definitions(kernel_block_size_bench PRIVATE
+            THEMIS_BENCHMARK_BUILD=1
+        )
+        if(THEMIS_ENABLE_CUDA)
+            target_compile_definitions(kernel_block_size_bench PRIVATE
+                THEMIS_ENABLE_CUDA=1
+            )
+        endif()
+        if(THEMIS_ENABLE_HIP)
+            target_compile_definitions(kernel_block_size_bench PRIVATE
+                THEMIS_ENABLE_HIP=1
+            )
+        endif()
+        if(CMAKE_BUILD_TYPE STREQUAL "Release" AND NOT MSVC)
+            target_compile_options(kernel_block_size_bench PRIVATE -O3 -DNDEBUG)
+        endif()
+        message(STATUS "Added kernel_block_size_bench (occupancy sweep)")
     endif()
 
     # Sharding Performance Benchmark

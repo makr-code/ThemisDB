@@ -239,7 +239,49 @@ __device__ void bitonicSortStep(
 // Kernel Launchers (C++ interface)
 // ============================================================================
 
+// Module-level 2-D block dimension for the L2 and Inner Product distance
+// kernels.  The launchers use a (g_cuda_vec_block_dim × g_cuda_vec_block_dim)
+// workgroup; the default 16×16 gives 256 total threads which is optimal for
+// sm_86 (Ampere).  CUDAVectorBackend::initialize() overwrites this via
+// tuneVecKernelBlockSize() to accommodate different GPU micro-architectures.
+static int g_cuda_vec_block_dim = 16;
+
 extern "C" {
+
+/**
+ * Update the 2-D block dimension used by L2 / InnerProduct kernel launchers.
+ *
+ * @param dim  Per-axis thread count; total threads = dim².
+ *             Must be a power of 2 between 8 and 32.
+ */
+void setVecKernelBlockDim(int dim) {
+    g_cuda_vec_block_dim = dim;
+}
+
+/**
+ * Query the CUDA occupancy API for the L2 distance kernel and set the optimal
+ * 2-D block dimension.  Total threads = g_cuda_vec_block_dim².
+ *
+ * @return  The per-axis block dimension stored in g_cuda_vec_block_dim.
+ */
+int tuneVecKernelBlockSize() {
+    int minGridSize    = 0;
+    int tunedBlockSize = 256;  // 1-D suggestion from the occupancy API
+    cudaError_t err = cudaOccupancyMaxPotentialBlockSize(
+        &minGridSize, &tunedBlockSize, computeL2DistanceKernel, 0, 0);
+    if (err == cudaSuccess && tunedBlockSize > 0) {
+        // Convert 1-D count to a square 2-D block size (integer square root
+        // rounded to nearest power of 2, clamped to [8, 32]).
+        int dim = 1;
+        while (dim * dim * 4 <= tunedBlockSize) dim *= 2;
+        // dim is now the largest power of 2 so that dim*dim*4 <= tunedBlockSize
+        // Clamp: minimum 8, maximum 32 (32×32 = 1024, sm_70+ max threads).
+        if (dim < 8)  dim = 8;
+        if (dim > 32) dim = 32;
+        g_cuda_vec_block_dim = dim;
+    }
+    return g_cuda_vec_block_dim;
+}
 
 /**
  * Launch L2 distance computation kernel
@@ -253,7 +295,8 @@ void launchL2DistanceKernel(
     int dim,
     cudaStream_t stream
 ) {
-    dim3 blockDim(16, 16);
+    const int bd = g_cuda_vec_block_dim;
+    const dim3 blockDim(bd, bd);
     dim3 gridDim(
         (numVectors + blockDim.x - 1) / blockDim.x,
         (numQueries + blockDim.y - 1) / blockDim.y
@@ -301,7 +344,8 @@ void launchInnerProductKernel(
     int dim,
     cudaStream_t stream
 ) {
-    dim3 blockDim(16, 16);
+    const int bd = g_cuda_vec_block_dim;
+    const dim3 blockDim(bd, bd);
     dim3 gridDim(
         (numVectors + blockDim.x - 1) / blockDim.x,
         (numQueries + blockDim.y - 1) / blockDim.y
@@ -350,7 +394,8 @@ void launchInnerProductDistanceKernel(
     int dim,
     cudaStream_t stream
 ) {
-    dim3 blockDim(16, 16);
+    const int bd = g_cuda_vec_block_dim;
+    const dim3 blockDim(bd, bd);
     dim3 gridDim(
         (numVectors + blockDim.x - 1) / blockDim.x,
         (numQueries + blockDim.y - 1) / blockDim.y

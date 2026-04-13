@@ -356,11 +356,10 @@ http::response<http::string_body> LLMApiHandler::handleRAG(
         llm::InferenceRequest llm_request;
         llm_request.prompt = query;
         llm_request.lora_adapter_id = lora_id;
-        
+
         // Call LLMPluginManager for RAG inference
-        auto& plugin_mgr = llm::LLMPluginManager::instance();
         auto llm_response = plugin_mgr.generateRAG(rag_context, llm_request);
-        
+
         json response_data = {
             {"text", llm_response.text},
             {"query", query},
@@ -369,7 +368,7 @@ http::response<http::string_body> LLMApiHandler::handleRAG(
             {"inference_time_ms", llm_response.inference_time_ms},
             {"cache_hit", llm_response.cache_hit}
         };
-        
+
         return createJsonResponse(response_data);
     } catch (const std::exception& e) {
         return createErrorResponse(

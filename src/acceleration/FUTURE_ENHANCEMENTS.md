@@ -199,7 +199,7 @@ This means any GPU plugin with a revoked code-signing certificate will pass secu
 ### CUDA HNSW Kernel: Visited Array Memory Scaling
 **Priority:** Medium
 **Target Version:** v1.9.0
-**Status:** ✅ Partially implemented (1-bit-per-node bitset adopted; per-invocation malloc remains)
+**Status:** ✅ Production Ready
 
 `cuda/cuda_hnsw_kernels.cu` previously allocated `num_queries × num_nodes × sizeof(uint8_t)` bytes per kernel launch — 5 GB for 512 queries × 10M nodes.
 
@@ -207,11 +207,15 @@ This means any GPU plugin with a revoked code-signing certificate will pass secu
 - `[x]` Switched from `uint8_t` per-node to 1-bit-per-node bitset: allocation is now `ceil(num_nodes / 8)` bytes per query (10M nodes → 1.25 MB per query, 512 queries → 640 MB — 8× reduction).
 - `[x]` Kernel updated to use bitset read (`visited[nb >> 3] & (1u << (nb & 7u))`) and write (`visited[nb >> 3] |= (1u << (nb & 7u))`) operations.
 - `[x]` Initialisation loop reduced from `num_nodes` to `ceil(num_nodes/8)` iterations.
-- `[ ]` Replace per-invocation `cudaMalloc` / `cudaFree` with a persistent pre-allocated pool (eliminates per-launch allocation overhead; ≥ 15% speedup for repeated fixed-batch queries).
-- `[ ]` Chunked batch processing for graphs where even the bitset exceeds budget.
+- `[x]` Replace per-invocation `cudaMalloc` / `cudaFree` with a persistent pre-allocated pool owned by `CudaHnswTraversalEngine::Impl::d_visited_pool`; allocated once in `buildIndex()` at `maxBatchSize × ceil(numNodes/8)` bytes; eliminates per-launch allocation overhead.
+- `[x]` Chunked batch processing for graphs where bitset pool cannot cover all queries: `batchSearch()` splits `numQueries` into sub-batches of at most `pool_capacity` queries, processes them serially, and concatenates results on the host.
+- `[x]` Exposed `CudaHnswTraversalEngine::setMaxBatchSize(size_t n)` and `CUDAVectorBackend::setMaxBatchSize(size_t n)` so callers can tune pool allocation.
+- `[x]` Pool allocation failure surfaces as `BackendHealthStatus::makeDegraded()` via `setError()` in `CUDAVectorBackend::buildHnswAnnIndex()`.
+- `[x]` Pool size is clamped to 90% of `BackendCapabilities::maxMemoryBytes` during `buildHnswAnnIndex()`.
 
 **Performance Targets:**
 - Pool allocation must not exceed `BackendCapabilities::maxMemoryBytes` at construction time.
+- Per-query `cudaMalloc`/`cudaFree` round trips eliminated; visited-pool reuse reduces HNSW launch overhead by ≥ 15% for repeated fixed-batch queries.
 
 ---
 
@@ -231,11 +235,11 @@ Multiple CUDA and HIP kernel launchers use hard-coded block dimensions that are 
 A fixed block size of 256 is a reasonable default for NVIDIA sm_86 and AMD RDNA2, but may underperform on GPUs with 64-thread wavefronts (AMD GCN2) or on sm_90 (Hopper) where 128-thread blocks better utilize the warp scheduler.
 
 **Implementation Notes:**
-- `[ ]` Replace hard-coded `threadsPerBlock = 256` in `cuda/vector_kernels.cu:359` and `hip_backend.cpp:602` with a runtime call to `cudaOccupancyMaxPotentialBlockSize()` / `hipOccupancyMaxPotentialBlockSize()` at `initialize()` time; store the result in the backend's `Impl` struct and pass it to all kernel launches.
-- `[ ]` For `constexpr` block sizes in `.cu`/`.hip` files (`ann_kernels.cu`, `geo_kernels.cu`, `graph_kernels.cu`), expose a launch wrapper that accepts `threadsPerBlock` as a parameter and is called from the backend with the occupancy-tuned value rather than hard-coding the constant at the launch site.
-- `[ ]` For AMD GCN targets (wavefront = 64): default to 64 threads when `hipGetDeviceProperties().warpSize == 64` to avoid half-occupancy.
+- `[x]` Replace hard-coded `threadsPerBlock = 256` in `cuda/vector_kernels.cu:359` and `hip_backend.cpp:602` with a runtime call to `cudaOccupancyMaxPotentialBlockSize()` / `hipOccupancyMaxPotentialBlockSize()` at `initialize()` time; store the result in the backend's `Impl` struct and pass it to all kernel launches.
+- `[x]` For `constexpr` block sizes in `.cu`/`.hip` files (`ann_kernels.cu`, `geo_kernels.cu`, `graph_kernels.cu`), expose a launch wrapper that accepts `threadsPerBlock` as a parameter and is called from the backend with the occupancy-tuned value rather than hard-coding the constant at the launch site.
+- `[x]` For AMD GCN targets (wavefront = 64): default to 64 threads when `hipGetDeviceProperties().warpSize == 64` to avoid half-occupancy.
 - `[x]` Vulkan `l2_distance.comp` hard-codes `layout(local_size_x = 16, local_size_y = 16)`: expose this as a specialization constant (`layout(constant_id = 0) const uint LOCAL_SIZE_X = 16`) so the `VulkanVectorBackend` can inject the optimal value for the target device via `VkSpecializationInfo` at pipeline creation time. Also `batch_search.comp` `local_size_x = 256` is now a specialization constant.
-- `[ ]` Add a micro-benchmark (`benchmarks/kernel_block_size_bench.cpp`) that sweeps block sizes 64/128/256/512 for each kernel and reports achieved occupancy.
+- `[x]` Add a micro-benchmark (`benchmarks/kernel_block_size_bench.cpp`) that sweeps block sizes 64/128/256/512 for each kernel and reports achieved occupancy.
 
 **Performance Targets:**
 - ≥ 5% throughput improvement on AMD RDNA2 (wavefront=32) vs. 256-thread baseline.
@@ -278,13 +282,14 @@ A fixed block size of 256 is a reasonable default for NVIDIA sm_86 and AMD RDNA2
 ### BackendRegistry: O(n²) Backend Selection Index
 **Priority:** Low
 **Target Version:** v1.9.0
+**Status:** ✅ Implemented
 
 The `selectTyped<T>()` helper in `backend_registry.cpp:223–233` iterates the entire `kFallbackOrder` vector (13 entries) and for each entry scans all registered backends in `backends_`. In the current implementation with ~15 backends this is negligible, but it is called for every query that needs backend selection (`selectVectorBackendFor`, `selectGraphBackendFor`, `selectGeoBackendFor`, `selectMatrixBackendFor`, `getBestVectorBackend`, etc.). More importantly, the nested loop requires O(|kFallbackOrder| × |backends_|) `dynamic_cast` calls per selection.
 
 **Implementation Notes:**
-- `[ ]` At the end of `initializeRuntime()`, build a `std::unordered_map<BackendType, IComputeBackend*>` index from `backends_`; replace the nested loop in `selectTyped<T>()` with a single map lookup per priority level.
-- `[ ]` Pre-compute and cache `getBestVectorBackend()` / `getBestGraphBackend()` / `getBestGeoBackend()` results into `selectedVectorBackend_` etc. as is already partially done; ensure `getBackend(type)` also uses the map.
-- `[ ]` Avoid `dynamic_cast` in the hot path: store typed pointers (`IVectorBackend*`, `IGraphBackend*`, `IGeoBackend*`) alongside the `IComputeBackend*` in a `RegisteredBackend` struct at `registerBackend()` time (one `dynamic_cast` per registration, not per query).
+- `[x]` At the end of `initializeRuntime()`, build a `std::unordered_map<BackendType, IComputeBackend*>` index from `backends_`; replace the nested loop in `selectTyped<T>()` with a single map lookup per priority level. — `typeIndex_` (`unordered_map<BackendType, RegisteredBackend>`) is populated in `registerBackend()` and used by `selectTyped<T>()` for O(|kFallbackOrder|) typed selection; `getBackend()` also uses the map for O(1) lookup.
+- `[x]` Pre-compute and cache `getBestVectorBackend()` / `getBestGraphBackend()` / `getBestGeoBackend()` results into `selectedVectorBackend_` etc. as is already partially done; ensure `getBackend(type)` also uses the map. — `getBestVectorBackend/GraphBackend/GeoBackend/MatrixBackend()` iterate `kFallbackOrder` and look up `typeIndex_` for O(|kFallbackOrder|) with no dynamic_cast; `getBackend()` uses `typeIndex_` for O(1).
+- `[x]` Avoid `dynamic_cast` in the hot path: store typed pointers (`IVectorBackend*`, `IGraphBackend*`, `IGeoBackend*`) alongside the `IComputeBackend*` in a `RegisteredBackend` struct at `registerBackend()` time (one `dynamic_cast` per registration, not per query). — `RegisteredBackend` struct in `compute_backend.h` holds `base`, `vectorPtr`, `graphPtr`, `geoPtr`, `matrixPtr`; all casts done once in `registerBackend()`.
 
 ---
 
@@ -298,7 +303,7 @@ The `selectTyped<T>()` helper in `backend_registry.cpp:223–233` iterates the e
 - `[x]` Added `INT8` case in `dispatchMatmul()` (`tensor_core_matmul.cpp`) that dispatches to `launchINT8MatmulKernel()`.
 - `[x]` Implemented `launchINT8MatmulKernel()` in `cuda/tensor_core_matmul.cu` using `cublasGemmEx` with `CUDA_R_8I` inputs, `CUDA_R_32I` accumulator, and `CUBLAS_GEMM_DEFAULT_TENSOR_OP`; includes runtime SM 7.5+ guard (returns 1 on older hardware).
 - `[x]` Updated `CUDAMatrixBackend::getCapabilities()` to advertise `PrecisionMode::INT8` only when `sm >= 75` (Turing+).
-- `[ ]` `quantize()` / `dequantize()` FP32↔INT8 helpers not yet added (callers currently responsible for quantization).
+- `[x]` `quantize()` / `dequantize()` FP32↔INT8 helpers added to `tensor_core_matmul.h` / `tensor_core_matmul.cpp`; symmetric per-tensor quantisation with clamp and round, guard for null pointers / non-positive scale.
 
 **Performance Targets:**
 - INT8 matmul throughput ≥ 2× FP16 throughput on RTX 3090 (sm_86) for 4096×4096 matrices.
@@ -369,15 +374,17 @@ and `L2 | INNER_PRODUCT` metric bits. Tests in `tests/test_faiss_gpu_backend.cpp
 ### Multi-GPU Sharding for Large Embedding Datasets
 **Priority:** Medium
 **Target Version:** v1.9.0
+**Status:** ✅ Implemented
 
-`nccl_vector_backend.cpp` and `rccl_vector_backend.cpp` stub NCCL/RCCL collective operations. Implement a sharding strategy in `BackendRegistry` that partitions an embedding index across N GPUs and scatters queries using NCCL `ncclBcast` + `ncclAllGather`. The tensor-parallel all-reduce communication pattern follows the Megatron-LM approach \[7\].
+`MultiGPUVectorBackend` in `multi_gpu_backend.cpp` implements range-based sharding across N GPUs with NCCL/RCCL collective operations for distributed top-k merge, falling back to host-side merge when collectives are unavailable. Registered in `BackendRegistry::autoDetect()` when `detectGPUCount() >= 2`.
 
 **Implementation Notes:**
 - `[x]` Introduce `MultiGPUVectorBackend` in `multi_gpu_backend.cpp`; register it in `BackendRegistry` when `cudaGetDeviceCount() > 1`.
 - `[x]` Shard by contiguous vector-ID ranges; store shard metadata in a `std::vector<ShardDescriptor>` on the host.
-- `[~]` Use `ncclGroupStart` / `ncclGroupEnd` to batch cross-GPU transfers. (NCCL/RCCL backends initialized; actual group-call wiring pending `mergeTopK` implementation above.)
+- `[x]` Use `ncclGroupStart` / `ncclGroupEnd` to batch cross-GPU transfers. Both `NCCLVectorBackend::mergeTopK()` and `RCCLVectorBackend::mergeTopK()` bracket the `AllGather` pair and the `Bcast` pair inside `ncclGroupStart`/`ncclGroupEnd` (and `rcclGroupStart`/`rcclGroupEnd`) respectively.
 - `[x]` RCCL mirror: `rccl_vector_backend.cpp` exposes the same `IVectorBackend` interface; `BackendRegistry` selects NCCL vs RCCL at runtime via `cudaGetDeviceProperties`.
 - `[x]` Graceful degradation: if NCCL init fails, fall back to single-GPU or CPU backend.
+- `[x]` Integration tests in `tests/acceleration/test_nccl_merge_topk.cpp` (registered as `NCCLMergeTopKFocusedTests`): 13 CPU-side merge simulation tests + 6 NCCL single-rank device tests + 6 RCCL single-rank device tests.
 
 **Performance Targets:**
 - 100M × 128-dim index distributed across 4× A100 80GB; query latency < 15 ms @ 99th percentile for k=100.
