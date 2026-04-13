@@ -88,10 +88,11 @@ function(themis_suite_group_enabled out_var suite_group)
             themis_is_edition_at_least(_enabled ENTERPRISE)
         endif()
     elseif(suite_group STREQUAL "security")
-        themis_any_feature_enabled(_enabled THEMIS_ENABLE_TRACING THEMIS_ENABLE_HSM_REAL THEMIS_ENABLE_S3 THEMIS_ENABLE_AZURE THEMIS_ENABLE_WEBDAV)
-        if(NOT _enabled)
-            themis_is_edition_at_least(_enabled ENTERPRISE)
-        endif()
+        # Core security benchmarks (AES-GCM, RBAC, policy evaluation, audit log)
+        # rely only on OpenSSL and themis_core – always eligible regardless of
+        # hardware / cloud feature flags.  Hardware-specific extras (HSM, cloud
+        # storage) are compiled in conditionally inside each source file.
+        set(_enabled TRUE)
     endif()
 
     set(${out_var} ${_enabled} PARENT_SCOPE)

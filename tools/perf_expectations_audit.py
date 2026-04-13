@@ -266,6 +266,7 @@ def check_measure_3(root: pathlib.Path) -> dict[str, Any]:
         ("benchmarks/bench_security.cpp", "bench_security"),
         ("benchmarks/bench_compliance_security_governance.cpp", "bench_compliance_security_governance"),
         ("benchmarks/bench_governance_policy_latency.cpp", "bench_governance_policy_latency"),
+        ("benchmarks/bench_policy_evaluation.cpp", "bench_policy_evaluation"),
     ]
 
     for idx, (rel_path, cmake_target) in enumerate(required_files, start=1):
