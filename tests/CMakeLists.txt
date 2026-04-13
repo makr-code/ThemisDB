@@ -1886,6 +1886,52 @@ else()
 endif()
 
 # ============================================================================
+# Graph Query Rewriter Tests (standalone, Issue #250)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graph_query_rewriter.cpp")
+    message(STATUS "Adding Graph Query Rewriter tests (Issue #250)")
+
+    add_executable(test_graph_query_rewriter
+        test_graph_query_rewriter.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/graph_query_rewriter.cpp
+    )
+
+    target_link_libraries(test_graph_query_rewriter PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        fmt::fmt
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_include_directories(test_graph_query_rewriter PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_compile_definitions(test_graph_query_rewriter PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    if(WIN32)
+        themis_sync_runtime_dlls_for_target(test_graph_query_rewriter)
+        add_dependencies(test_graph_query_rewriter sync_test_runtime_dlls)
+    endif()
+
+    add_test(NAME GraphQueryRewriterTests COMMAND test_graph_query_rewriter)
+
+    set_tests_properties(GraphQueryRewriterTests PROPERTIES
+        LABELS "graph;rewriter;query;optimization;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  Graph Query Rewriter: predicate pushdown, CSE, join reordering, materialized views, decomposition")
+else()
+    message(STATUS "Graph Query Rewriter tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_graph_query_rewriter.cpp")
+endif()
+
+# ============================================================================
 # Graph Advanced Features Tests (standalone ÔÇö excluded from unified binary
 # because helper functions use bare assert() calls that abort the process)
 # ============================================================================

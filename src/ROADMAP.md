@@ -410,7 +410,7 @@ See: <Detail link>
 | 247 | config | SIGHUP Hot-Reload: inotify-Based File Watch | v1.8.0 | `dx`, `module:config` | #4077 | [→ Detail](config/FUTURE_ENHANCEMENTS.md#sighup-hot-reload-inotify-based-file-watch) |
 | 248 | config | ConfigSchemaValidator: Extended JSON Schema Keyword Support | v2.0.0 | `feature`, `module:config` | #4078 | [→ Detail](config/FUTURE_ENHANCEMENTS.md#configschemavalidator-extended-json-schema-keyword-support) |
 | 249 | exporters | `StreamWriter`: Replace zlib with ZSTD as Sole Compression Backend | v1.8.0 | `cleanup`, `performance`, `module:exporters` | #4079 | [→ Detail](exporters/FUTURE_ENHANCEMENTS.md#streamwriter-replace-zlib-with-zstd-as-sole-compression-backend) |
-| 250 | graph | Query Rewriting for Graph Optimization | v1.9.0 | `performance`, `module:graph` | #4080 | [→ Detail](graph/FUTURE_ENHANCEMENTS.md#query-rewriting-for-graph-optimization) |
+| 250 | graph | Query Rewriting for Graph Optimization | ~~v1.9.0~~ ✅ done | `performance`, `module:graph` | #4080 ✅ | [→ Detail](graph/FUTURE_ENHANCEMENTS.md#query-rewriting-for-graph-optimization) |
 | 251 | importers | Importer Plugin API | v1.8.0 | `feature`, `plugin`, `module:importers` | #4081 | [→ Detail](importers/FUTURE_ENHANCEMENTS.md#importer-plugin-api) |
 | 252 | maintenance | Distributed Maintenance Coordination via Raft | v2.0.0 | `distributed`, `module:maintenance` | #4082 | [→ Detail](maintenance/FUTURE_ENHANCEMENTS.md#distributed-maintenance-coordination-via-raft) |
 | 253 | maintenance | Multi-Tenant Schedule Isolation | v2.0.0 | `feature`, `multi-tenant`, `module:maintenance` | #4083 | [→ Detail](maintenance/FUTURE_ENHANCEMENTS.md#multi-tenant-schedule-isolation) |

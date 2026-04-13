@@ -30,6 +30,7 @@
 - [x] Parallel multi-source traversal for large fan-out queries — fan_out_threshold + intra-frontier parallelism (Issue: #1811)
 - [x] Subgraph isomorphism queries (pattern matching) (Issue: #2390)
 - [x] EXPLAIN HTTP endpoint (`POST /api/v1/graph/query/explain`) for all query types (Issue: #1816)
+- [x] Query Rewriting for Graph Optimization (Issue: #250): `GraphQueryRewriter` with predicate pushdown, CSE, join reordering, materialized view utilisation, and query decomposition for parallelism (`include/graph/graph_query_rewriter.h`, `src/graph/graph_query_rewriter.cpp`)
 
 ## In Progress 🚧
 - [~] GPU-accelerated BFS/DFS for massive graphs (`graph/gpu_traversal.cpp`, CPU fallback active; real CUDA kernels planned for THEMIS_ENABLE_CUDA)
@@ -88,6 +89,26 @@
 - [x] Integration with acceleration module for ANN/GNN top-k candidate edges — `setANNIndex(IAnnIndex*)`, `rebuildANNIndex()`, ANN path in `discoverCandidateEdges()` when vertex count > `policy.ann_min_vertices` (Target: Q1 2027)
 - [x] CEP event emission for edge mutations via `analytics/cep_engine` — `setCEPEventCallback(std::function<void(themisdb::analytics::Event)>)`, `EDGE_CREATE`/`EDGE_DELETE` events emitted after successful batch commit (Target: Q1 2027)
 - [x] Bilingual documentation EN (`docs/scheduled_edge_refresh.md`) and DE (`docs/de/scheduled_edge_refresh.md`) including anomaly detection + Changefeed sections (Target: Q4 2026)
+
+### Phase 5: Query Rewriting for Graph Optimization (Status: Completed ✅, Issue: #250)
+- [x] `GraphQueryRewriter` class (`include/graph/graph_query_rewriter.h`, `src/graph/graph_query_rewriter.cpp`, Target: Q2 2026)
+  - Affected files: `include/graph/graph_query_rewriter.h`, `src/graph/graph_query_rewriter.cpp`, `tests/test_graph_query_rewriter.cpp`
+  - Runtime: pure JSON-plan transformer; no database I/O; thread-safe (stateless rules); fixed-point iteration (max 5 passes)
+  - Rules: `PREDICATE_PUSHDOWN`/`PRUNE_EARLY` (promotes vertex filters to prune conditions for early BFS/DFS branch cutting), `COMMON_SUBEXPRESSION` (replaces duplicate traversals with LET-scoped refs), `JOIN_REORDERING` (swaps traversal_join operands by heuristic cardinality), `MATERIALIZED_VIEW` (tags sub-graph traversals for precomputed materialisation), `QUERY_DECOMPOSITION` (splits multi-start traversals into independent parallel subqueries)
+  - Error handling: `addCustomRule(nullptr)` throws `std::invalid_argument`; `rewrite_time_limit_ms` provides a wall-clock escape hatch
+  - Tests: `tests/test_graph_query_rewriter.cpp` (38 unit tests covering all acceptance criteria; standalone target `test_graph_query_rewriter`)
+  - Performance: O(n) per rule pass where n = JSON plan nodes; total rewrite for typical AQL plan < 1 ms
+  - Compatibility: additive new class; no changes to `GraphQueryOptimizer` public API
+- [x] Common subexpression elimination for graph traversal plans
+- [x] Predicate pushdown to graph traversal layer (prune early)
+- [x] Join reordering for graph traversal patterns based on estimated selectivity
+- [x] Materialized view utilisation tags for frequently accessed subgraphs
+- [x] Query decomposition for multi-start traversal parallelism
+- [x] `estimateSpeedup()` heuristic for pre/post rewrite plan comparison
+- [x] `explainRewrites()` human-readable transformation summary
+- [x] Custom rule hook via `addCustomRule()`
+- [x] Selective rule enablement via `RewriteConfig::enabled_rules`
+- [x] Wall-clock time budget via `RewriteConfig::rewrite_time_limit_ms`
 
 ## Production Readiness Checklist
 - [I] Unit tests coverage > 80% (Issue: #1830)
