@@ -225,7 +225,22 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 			"Table name cannot be empty"
 		);
 	}
-	
+
+	// ── Primary-key fast path ──────────────────────────────────────────────
+	// When pk_eq is set the caller already knows the primary key.  Skip all
+	// secondary-index lookups and do a single direct storage existence check.
+	// This is the minimal-overhead 1:1 OLTP path (hotpath).
+	if (q.pk_eq.has_value()) {
+		const std::string& pk = *q.pk_eq;
+		auto blob = db_->get(KeySchema::makeRelationalKey(q.table, pk));
+		span.setAttribute("query.pk_fast_path", true);
+		span.setStatus(true);
+		if (blob.has_value()) {
+			return Ok(std::vector<std::string>{pk});
+		}
+		return Ok(std::vector<std::string>{});
+	}
+
 	// Handle phrase search queries
 	if (q.phrasePredicate.has_value()) {
 		const auto& ph = *q.phrasePredicate;
@@ -678,6 +693,27 @@ Result<std::vector<BaseEntity>>
 QueryEngine::executeAndEntities(const ConjunctiveQuery& q) const {
 	auto span = Tracer::startSpan("QueryEngine.executeAndEntities");
 	span.setAttribute("query.table", q.table);
+
+	// ── Primary-key fast path ──────────────────────────────────────────────
+	// Avoid the double storage round-trip (executeAndKeys checks existence,
+	// then this method fetches the blob again).  With pk_eq set we do a single
+	// get and deserialise in one step.
+	if (q.pk_eq.has_value()) {
+		const std::string& pk = *q.pk_eq;
+		auto blob = db_->get(KeySchema::makeRelationalKey(q.table, pk));
+		span.setAttribute("query.pk_fast_path", true);
+		span.setStatus(true);
+		if (!blob.has_value()) return Ok(std::vector<BaseEntity>{});
+		try {
+			std::vector<BaseEntity> out;
+			out.emplace_back(BaseEntity::deserialize(pk, *blob));
+			return Ok(std::move(out));
+		} catch (...) {
+			THEMIS_WARN("executeAndEntities pk_fast_path: Deserialisierung fehlgeschlagen für PK={}", pk);
+			return Ok(std::vector<BaseEntity>{});
+		}
+	}
+
 	auto keysResult = executeAndKeys(q);
 	if (!keysResult) return Err<std::vector<BaseEntity>>(keysResult.error().code(), keysResult.error().context());
 	auto keys = std::move(keysResult.value());

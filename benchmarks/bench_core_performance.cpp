@@ -258,17 +258,39 @@ BENCHMARK_F(SecondaryIndexBench, RawWriteOnly)(benchmark::State& state) {
 
 class QueryEngineBench : public benchmark::Fixture {
 public:
+    static constexpr size_t kNumEntities = 1000;
+
     void SetUp(const ::benchmark::State& state) override {
         db_path_ = "C:\\tmp\\bench_qe_" + std::to_string(reinterpret_cast<uintptr_t>(this));
         std::filesystem::remove_all(db_path_);
         std::filesystem::create_directories(db_path_);
-        
+
         RocksDBWrapper::Config cfg;
         cfg.db_path = db_path_;
+        cfg.block_cache_size_mb = 64;
         db_ = std::make_unique<RocksDBWrapper>(cfg);
-    if (!db_->open()) { throw std::runtime_error("Failed to open RocksDB in benchmark"); }
+        if (!db_->open()) { throw std::runtime_error("Failed to open RocksDB in benchmark"); }
+
+        // Pre-populate entities so every benchmark iteration can do a real key read.
+        // Each entity is stored with key "rel:bench_qe:entity_XXXXXX" using the
+        // canonical KeySchema relational format.
+        keys_.resize(kNumEntities);
+        for (size_t i = 0; i < kNumEntities; ++i) {
+            char buf[32];
+            std::snprintf(buf, sizeof(buf), "entity_%06zu", i);
+            std::string pk(buf);
+            BaseEntity e = BaseEntity::fromFields(pk, BaseEntity::FieldMap{
+                {"name",   std::string("Benchmark Entity ") + std::to_string(i)},
+                {"value",  std::to_string(i * 7)},
+                {"active", (i % 2 == 0) ? "true" : "false"}
+            });
+            auto serialized = e.serialize();
+            std::string storage_key = "rel:bench_qe:" + pk;
+            db_->put(storage_key, serialized);
+            keys_[i] = storage_key;
+        }
     }
-    
+
     void TearDown(const ::benchmark::State& state) override {
         db_.reset();
         std::filesystem::remove_all(db_path_);
@@ -277,16 +299,40 @@ public:
 protected:
     std::string db_path_;
     std::unique_ptr<RocksDBWrapper> db_;
+    std::vector<std::string> keys_;
 };
 
+// 1:1 direct-key point-lookup benchmark.
+// Measures the hot-path throughput of a single-entity primary-key read:
+// key construction → RocksDB get → deserialization.
+// This is the minimal OLTP query case and represents the ceiling throughput
+// that index-based queries are measured against.
 BENCHMARK_F(QueryEngineBench, SimpleEvaluation)(benchmark::State& state) {
+    size_t idx = 0;
     for (auto _ : state) {
-        // Placeholder for actual AQL evaluation
-        // This benchmark verifies the compilation works
-        double val = 42.0;
-        benchmark::DoNotOptimize(val);
+        const std::string& key = keys_[idx % kNumEntities];
+        auto blob = db_->get(key);
+        benchmark::DoNotOptimize(blob);
+        ++idx;
     }
-    state.SetItemsProcessed(state.iterations());
+    state.SetItemsProcessed(static_cast<int64_t>(state.iterations()));
+}
+
+// Same hot-path but includes deserialization to measure end-to-end entity load cost.
+BENCHMARK_F(QueryEngineBench, PointLookupWithDeserialize)(benchmark::State& state) {
+    size_t idx = 0;
+    for (auto _ : state) {
+        const std::string& key = keys_[idx % kNumEntities];
+        auto blob = db_->get(key);
+        if (blob.has_value()) {
+            // Extract pk from storage key "rel:bench_qe:<pk>"
+            std::string pk = key.substr(key.rfind(':') + 1);
+            auto entity = BaseEntity::deserialize(pk, *blob);
+            benchmark::DoNotOptimize(entity);
+        }
+        ++idx;
+    }
+    state.SetItemsProcessed(static_cast<int64_t>(state.iterations()));
 }
 
 // ============================================================================

@@ -278,6 +278,15 @@ struct ConjunctiveQuery {
     std::optional<PredicatePhrase> phrasePredicate; // optional: PHRASE(column, phrase, limit)
     std::optional<PredicateFuzzy> fuzzyPredicate; // optional: FUZZY(column, query, maxDistance, limit)
     std::optional<PredicateSpatial> spatialPredicate; // optional: ST_*(geometry_column, ...) (G3)
+
+    // Direct primary-key lookup fast path.
+    // When set, executeAndKeys / executeAndEntities skip all secondary-index
+    // scans and perform a single direct storage read for the given primary key.
+    // Other predicates are ignored when pk_eq is set — use this only when the
+    // primary key uniquely identifies the desired entity.
+    // This is ACID-compliant: the direct RocksDB read uses the same isolation
+    // level as any other storage access in the engine.
+    std::optional<std::string> pk_eq;
 };
 
 // Disjunctive Query: OR-verknüpfte AND-Blöcke (Disjunctive Normal Form)

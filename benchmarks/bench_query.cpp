@@ -39,6 +39,7 @@
 #include "storage/rocksdb_wrapper.h"
 #include "index/secondary_index.h"
 #include "storage/base_entity.h"
+#include "storage/key_schema.h"
 #include "query/query_engine.h"
 
 using themis::RocksDBWrapper;
@@ -619,6 +620,104 @@ static void BM_QueryMix_Historical_P99(benchmark::State& state) {
     }
 }
 
+// ── Direct primary-key point-lookup benchmarks ───────────────────────────────
+// These are the 1:1 "single-entity read" cases that represent the OLTP hotpath:
+// key construction → RocksDB get → optional deserialization.
+// They provide the correct baseline for the 900 M/s throughput target and expose
+// the per-query overhead relative to the raw storage get speed.
+
+static void BM_PointLookup(benchmark::State& state) {
+    auto& env = BenchEnv::instance();
+    if (!env.ensureInit(state)) return;
+
+    // Pre-build the lookup keys for all N entities so the hot loop only does
+    // the storage get and no string construction per iteration.
+    const size_t N = env.initializedN;
+    std::vector<std::string> lookup_keys;
+    lookup_keys.reserve(N);
+    for (size_t i = 0; i < N; ++i) {
+        std::string pk = std::string("u_") + BenchEnv::padInt(static_cast<int>(i), 8);
+        lookup_keys.push_back(KeySchema::makeRelationalKey("bench_users", pk));
+    }
+
+    size_t idx = 0;
+    for (auto _ : state) {
+        auto blob = env.storage->get(lookup_keys[idx % N]);
+        benchmark::DoNotOptimize(blob);
+        ++idx;
+    }
+    state.SetItemsProcessed(static_cast<int64_t>(state.iterations()));
+    state.counters["dataset_n"] = static_cast<double>(N);
+}
+
+static void BM_PointLookup_WithDeserialize(benchmark::State& state) {
+    auto& env = BenchEnv::instance();
+    if (!env.ensureInit(state)) return;
+
+    const size_t N = env.initializedN;
+    std::vector<std::pair<std::string, std::string>> lookup_pairs; // (key, pk)
+    lookup_pairs.reserve(N);
+    for (size_t i = 0; i < N; ++i) {
+        std::string pk = std::string("u_") + BenchEnv::padInt(static_cast<int>(i), 8);
+        lookup_pairs.emplace_back(KeySchema::makeRelationalKey("bench_users", pk), pk);
+    }
+
+    size_t idx = 0;
+    for (auto _ : state) {
+        const auto& [storage_key, pk] = lookup_pairs[idx % N];
+        auto blob = env.storage->get(storage_key);
+        if (blob.has_value()) {
+            auto entity = BaseEntity::deserialize(pk, *blob);
+            benchmark::DoNotOptimize(entity);
+        }
+        ++idx;
+    }
+    state.SetItemsProcessed(static_cast<int64_t>(state.iterations()));
+    state.counters["dataset_n"] = static_cast<double>(N);
+}
+
+static void BM_PointLookup_P99(benchmark::State& state) {
+    auto& env = BenchEnv::instance();
+    if (!env.ensureInit(state)) return;
+
+    const size_t N = env.initializedN;
+    std::vector<std::pair<std::string, std::string>> lookup_pairs;
+    lookup_pairs.reserve(N);
+    for (size_t i = 0; i < N; ++i) {
+        std::string pk = std::string("u_") + BenchEnv::padInt(static_cast<int>(i), 8);
+        lookup_pairs.emplace_back(KeySchema::makeRelationalKey("bench_users", pk), pk);
+    }
+
+    constexpr size_t kSamples = 300;
+    std::vector<double> samples_us;
+    samples_us.reserve(kSamples);
+
+    for (auto _ : state) {
+        (void)_;
+        samples_us.clear();
+        for (size_t i = 0; i < kSamples; ++i) {
+            const auto& [storage_key, pk] = lookup_pairs[i % N];
+            auto t0 = std::chrono::high_resolution_clock::now();
+            auto blob = env.storage->get(storage_key);
+            if (blob.has_value()) {
+                auto entity = BaseEntity::deserialize(pk, *blob);
+                benchmark::DoNotOptimize(entity);
+            }
+            auto t1 = std::chrono::high_resolution_clock::now();
+            samples_us.push_back(
+                std::chrono::duration_cast<std::chrono::duration<double, std::micro>>(t1 - t0).count());
+        }
+
+        const double p99_us  = percentile_us(samples_us, 99.0);
+        const double mean_us = std::accumulate(samples_us.begin(), samples_us.end(), 0.0)
+                               / static_cast<double>(samples_us.size());
+        state.counters["p99_us"]    = p99_us;
+        state.counters["mean_us"]   = mean_us;
+        state.counters["qps_est"]   = 1e6 / mean_us;
+        state.counters["dataset_n"] = static_cast<double>(N);
+    }
+}
+
 // Register with conservative defaults to keep runtime bounded in CI/local runs.
 BENCHMARK(BM_Pagination_Offset)->Args({20, 10})->Unit(benchmark::kMillisecond);
 BENCHMARK(BM_Pagination_Offset)->Args({50, 50})->Unit(benchmark::kMillisecond);
@@ -633,5 +732,8 @@ BENCHMARK(BM_JoinUsersPosts_P99)->Unit(benchmark::kMillisecond);
 BENCHMARK(BM_SimpleWhere_Scaled)->Args({1000})->Args({10000})->Unit(benchmark::kMillisecond);
 BENCHMARK(BM_ComplexWhere_Scaled)->Args({1000})->Args({10000})->Unit(benchmark::kMillisecond);
 BENCHMARK(BM_JoinUsersPosts_Scaled)->Args({1000})->Args({10000})->Unit(benchmark::kMillisecond);
+BENCHMARK(BM_PointLookup)->Unit(benchmark::kMicrosecond);
+BENCHMARK(BM_PointLookup_WithDeserialize)->Unit(benchmark::kMicrosecond);
+BENCHMARK(BM_PointLookup_P99)->Unit(benchmark::kMicrosecond);
 BENCHMARK(BM_QueryMix_Historical)->Unit(benchmark::kMillisecond);
 BENCHMARK(BM_QueryMix_Historical_P99)->Unit(benchmark::kMillisecond);
