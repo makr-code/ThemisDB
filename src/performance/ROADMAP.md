@@ -40,6 +40,11 @@ v1.x – Comprehensive research-driven performance optimization infrastructure i
   - `contains()` / `size()` / `get_lir_count()` / `get_hir_count()` retain `shared_lock`; `clear()` / `put()` use `unique_lock`
   - `mutex_` is `std::shared_mutex`
 - [x] RCU `readers_active()` fix — `g_rcu_reader_count` global `atomic<int64_t>`; `ReadLock` ctor/dtor increment/decrement it; `readers_active()` now returns the real count (was always `false`) (Issue: #4579) (2026-04-12)
+- [x] NUMA-Aware Memory Management — `NUMAMemoryManager` with topology detection, affinity-based allocation, data migration, and statistics (Issue: #228, Target: v1.9.0) (2026-04-13)
+  - `include/performance/numa_memory_manager.h` — `NUMATopologyInfo`, `AllocationHint`, `NUMAStats`, `NUMAMemoryManager` class
+  - `src/performance/numa_memory_manager.cpp` — Linux sysfs topology detection, posix_memalign + mbind advisory, per-bucket allocation tracking, locality stats
+  - Thread binding via existing `ThreadPinner::pin_to_node()` in `include/performance/numa_topology.h`
+  - 20 focused tests in `tests/test_numa_memory_manager.cpp`; registered as `test_numa_memory_manager` target in `cmake/CMakeLists.txt`
 
 ## In Progress 🚧
 *(none currently in progress)*
@@ -98,7 +103,7 @@ v1.x – Comprehensive research-driven performance optimization infrastructure i
 - [x] Documentation complete
 - [x] API stability guaranteed
 - [x] All source files registered in cmake/CMakeLists.txt and cmake/ModularBuild.cmake (prometheus_exporter, chimera_exporter, async_metrics_exporter, phase3/adaptive_batch_tuner, phase4/io_uring_zero_copy)
-- [x] Standalone focused test targets added (test_cycle_metrics, test_numa_topology, test_wire_perf_benchmark, test_adaptive_batch_tuner, test_io_uring_zero_copy)
+- [x] Standalone focused test targets added (test_cycle_metrics, test_numa_topology, test_numa_memory_manager, test_wire_perf_benchmark, test_adaptive_batch_tuner, test_io_uring_zero_copy)
 - [x] THEMIS_ENABLE_PMU_COUNTERS and THEMIS_ENABLE_IO_URING options declared in cmake/CMakeLists.txt
 
 ## Known Issues & Limitations

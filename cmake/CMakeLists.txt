@@ -4856,6 +4856,22 @@ if(THEMIS_BUILD_TESTS)
         EXTRA_ARGS --gtest_color=yes
     )
 
+    # NUMA-aware memory manager tests (Issue #228 – v1.9.0)
+    add_executable(test_numa_memory_manager
+        ${THEMIS_ROOT_DIR}/tests/test_numa_memory_manager.cpp
+    )
+    target_link_libraries(test_numa_memory_manager
+        PRIVATE
+            themis_core
+            GTest::gtest
+            GTest::gtest_main
+    )
+    gtest_discover_tests(test_numa_memory_manager
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_numa_memory_manager>
+        EXTRA_ARGS --gtest_color=yes
+    )
+
     # Wire protocol performance benchmark tests
     add_executable(test_wire_perf_benchmark
         ${THEMIS_ROOT_DIR}/tests/performance/test_wire_perf_benchmark.cpp
