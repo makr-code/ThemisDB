@@ -25,7 +25,7 @@
 #pragma once
 
 // =============================================================================
-// ThemisDB - Tensor Core FP16 / BF16 Matrix Multiply
+// ThemisDB - Tensor Core FP16 / BF16 / INT8 Matrix Multiply
 //
 // File:    include/acceleration/tensor_core_matmul.h
 // Status:  Production (CUDA path) / CPU fallback always available
@@ -37,11 +37,17 @@
 //   FP16  — half precision  (CUDA SM 7.0+, Volta / Turing / Ampere / Hopper)
 //   BF16  — bfloat16        (CUDA SM 8.0+, Ampere / Hopper)
 //   FP32  — single precision (CPU fallback, always available)
+//   INT8  — 8-bit integer with INT32 accumulator (CUDA SM 7.5+, Turing+)
 //
 // When THEMIS_ENABLE_CUDA is defined the launchers call cuBLAS cublasHgemm
-// (FP16) or cublasGemmEx with CUDA_R_16BF (BF16), both of which automatically
-// engage Tensor Core units on supported hardware.  Without CUDA the calls
-// transparently fall through to the FP32 CPU implementation.
+// (FP16) or cublasGemmEx with CUDA_R_16BF (BF16) or CUDA_R_8I (INT8), all of
+// which automatically engage Tensor Core units on supported hardware.  Without
+// CUDA the calls transparently fall through to the FP32 CPU implementation.
+//
+// FP32 ↔ INT8 quantisation helpers:
+//   quantize()   — converts a FP32 array to INT8 using symmetric per-tensor
+//                  quantisation: dst[i] = clamp(round(src[i] / scale), -128, 127)
+//   dequantize() — inverse: dst[i] = src[i] * scale
 // =============================================================================
 
 #include "acceleration/kernel_invocation.h"
@@ -53,6 +59,7 @@
 #endif
 
 #include <cstddef>
+#include <cstdint>
 
 namespace themis {
 namespace acceleration {
@@ -156,10 +163,39 @@ int launchCPUMatmulKernel(
 // =============================================================================
 
 /// General matmul dispatcher conforming to MatrixKernelFn.
-/// Routes to the CUDA FP16/BF16/FP32 launcher or the CPU fallback depending on
+/// Routes to the CUDA FP16/BF16/INT8/FP32 launcher or the CPU fallback depending on
 /// params.precision and whether THEMIS_ENABLE_CUDA is defined.
 /// Returns 0 on success, non-zero on failure.
 int dispatchMatmul(const MatrixKernelParams& params, void* opaque_stream);
+
+// =============================================================================
+// FP32 ↔ INT8 quantisation helpers (CPU, always available)
+// =============================================================================
+
+/// Quantise a FP32 array to INT8 using symmetric per-tensor quantisation.
+///
+/// Each element is converted as:
+///   dst[i] = clamp(round(src[i] / scale), -128, 127)
+///
+/// @param src   Input array of @p n float values (host pointer).
+/// @param dst   Output array of @p n int8_t values (host pointer).
+/// @param n     Number of elements to convert.
+/// @param scale Quantisation scale factor (must be > 0).  A typical value is
+///              max(|src|) / 127.  Passing scale <= 0 has no effect and leaves
+///              @p dst unchanged.
+void quantize(const float* src, int8_t* dst, size_t n, float scale);
+
+/// Dequantise an INT8 array back to FP32 using the same symmetric scale factor.
+///
+/// Each element is converted as:
+///   dst[i] = src[i] * scale
+///
+/// @param src   Input array of @p n int8_t values (host pointer).
+/// @param dst   Output array of @p n float values (host pointer).
+/// @param n     Number of elements to convert.
+/// @param scale Quantisation scale factor used during the forward quantize() call.
+///              Must match the scale used in quantize() to recover the original values.
+void dequantize(const int8_t* src, float* dst, size_t n, float scale);
 
 } // namespace tensor_core
 } // namespace acceleration
