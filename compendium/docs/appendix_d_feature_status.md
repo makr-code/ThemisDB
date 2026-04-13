@@ -546,6 +546,7 @@ Dieser Appendix bietet eine vollständige, strukturierte Übersicht aller Themis
 | DistributedGraphManager | ✅ | `DistributedGraphManager` | §6.5 |
 | EXPLAIN Endpoint | ✅ | — | §6.6 |
 | Streaming Graph Results | ✅ | — | §6.7 |
+| ScheduledGraphEdgeRefreshEngine | ✅ | `ScheduledGraphEdgeRefreshEngine` | §6.11 |
 
 **Module:** `src/graph/`, `include/graph/`  
 **Compendium:** [chapter_06_graph.md](chapter_06_graph.md)
@@ -1177,6 +1178,7 @@ Die folgenden Komponenten wurden mit dem v1.9.x-Release (Commit 2026-04-12) in d
 | `DistributedGraphManager` | `graph/` | ✅ GA | — | Shard-übergreifende Graph-Queries; EXPLAIN-Endpunkt |
 | Inkrementelle Graph-Queries | `graph/` | ✅ GA | — | Live-Updates ohne Full-Recompute |
 | Graph Query Result Streaming | `graph/` | ✅ GA | — | Cursor-basierte Streaming-Pagination für große Path-Sets |
+| `ScheduledGraphEdgeRefreshEngine` | `graph/` | ✅ GA | `test_scheduled_edge_refresh.cpp` | Semantischer Kanten-Refresh; Kosinus/Dot/Euklid; Temporal Decay; Centrality; ACID-Batch; ANN; CEP; Changefeed; §6.11 |
 
 ### Chaos Engineering & Failover (v1.x)
 

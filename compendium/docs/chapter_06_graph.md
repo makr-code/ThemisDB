@@ -1737,3 +1737,121 @@ auto explain = dist_graph.explain({
 });
 // explain.plan, explain.estimated_shards, explain.estimated_cost
 ```
+
+## 6.11 Graph-Modul — Scheduled Semantic Edge Refresh (v1.x)
+
+### 6.11.1 ScheduledGraphEdgeRefreshEngine — Semantisch-gesteuerte Kanten-Wartung
+
+`ScheduledGraphEdgeRefreshEngine` (`include/graph/scheduled_edge_refresh.h`) hält einen Property-Graphen semantisch aktuell: Es bewertet Kanten regelmäßig anhand von Vektorähnlichkeit, zeitlichem Verfall und Zentralitätsdämpfung, entfernt irrelevante Kanten und fügt neue, semantisch ähnliche Kanten hinzu — alles in einer einzigen ACID-Transaktion.
+
+**Wissenschaftliche Grundlage:**
+
+| Forschungsbereich | Ansatz | Umsetzung in ThemisDB |
+|---|---|---|
+| Dynamic Graph Maintenance (Brandes, 2008) | Inkrementelle Kanten-Aktualisierung basierend auf Betweenness-Centrality | `centrality_weight = 1 / (1 + log(1 + out_degree))` in `EdgeScore` |
+| STGCN (Yu et al., 2017) | Spatio-temporale GNN-Embeddings für sich entwickelnde Graphen | `NodeEmbeddingProvider` kann GNN-Index nutzen |
+| Temporal Graph Evolution (Leskovec et al., 2008) | Exponentieller Verfall der Kantenrelevanz über die Zeit | `temporal_factor = 2^(−age / half_life)` in `computeTemporalDecay()` |
+| Link Prediction via Embeddings (Hamilton et al., 2017) | Kosinus-/Skalarprodukt-Ähnlichkeit für Kandidatenkanten | `SimilarityMetric::COSINE / DOT_PRODUCT / EUCLIDEAN` |
+
+```cpp
+#include "graph/scheduled_edge_refresh.h"
+#include "cdc/changefeed.h"
+#include "index/graph_index.h"
+
+// 1. Richtlinie konfigurieren
+themis::graph::RefreshPolicy policy;
+policy.refresh_interval               = std::chrono::seconds(300); // alle 5 Minuten
+policy.similarity_metric              = themis::graph::SimilarityMetric::COSINE;
+policy.relevance_threshold            = 0.4f;   // Kanten unter diesem Wert entfernen
+policy.add_threshold                  = 0.75f;  // Mindestähnlichkeit für neue Kanten
+policy.decay_half_life_seconds        = 86400.0;  // 1 Tag
+policy.max_removal_fraction           = 0.05f;  // max. 5% Löschungen pro Zyklus (Sicherheitssperre)
+policy.top_k_candidates               = 20;     // top-20 Kandidaten pro Knoten
+policy.anomaly_threshold_removal_rate = 0.15f;  // Warnung bei >15% Entfernungen
+
+// 2. Einbettungs-Provider (GNN-Index oder HNSW-Vektorspeicher)
+themis::graph::NodeEmbeddingProvider embedding_fn =
+    [&](const std::string& node_id) -> std::vector<float> {
+        return gnn_index.getEmbedding(node_id);
+    };
+
+// 3. Engine erzeugen, Changefeed und CEP-Callback verdrahten, starten
+themis::graph::ScheduledGraphEdgeRefreshEngine engine(
+    graph_manager, policy, embedding_fn);
+
+auto changefeed = std::make_shared<themis::Changefeed>(rocksdb_ptr);
+engine.setChangefeed(changefeed);
+
+engine.setCEPEventCallback([&](themisdb::analytics::Event ev) {
+    cep_engine.ingest(ev);  // EDGE_CREATE / EDGE_DELETE ins CEP-System
+});
+
+engine.start();  // Hintergrund-Scheduler-Thread starten
+
+// 4. Manueller Trigger (z.B. für Tests)
+auto stats = engine.triggerRefresh();
+// stats.edges_evaluated, .edges_removed, .edges_added
+// stats.cycle_duration_ms, .removal_rate, .anomaly_high_removal_rate
+
+// 5. Anomalie-Prüfung
+if (stats.anomaly_high_removal_rate) {
+    alert_ops("Anomale Entfernungsrate: " + std::to_string(stats.removal_rate));
+}
+
+// 6. Prüfspur auslesen (max. 10.000 Einträge, FIFO-Ring)
+for (const auto& entry : engine.getAuditTrail()) {
+    // entry.action (ADD / REMOVE), .edge_id, .from_vertex, .to_vertex
+    // entry.relevance_score, .timestamp, .cycle_number
+}
+
+// 7. Ordentliches Herunterfahren
+engine.stop();
+```
+
+### 6.11.2 Bewertungsmodell
+
+Die Relevanz jeder Kante ergibt sich aus:
+
+```
+relevance = similarity × temporal_factor × centrality_weight
+```
+
+| Faktor | Berechnung | Bereich |
+|--------|-----------|---------|
+| `similarity` (COSINE) | `(cos(a,b) + 1) / 2` | [0, 1] |
+| `similarity` (DOT_PRODUCT) | `dot(a,b) / (‖a‖ · ‖b‖)`, normiert | [0, 1] |
+| `similarity` (EUCLIDEAN) | `1 / (1 + dist(a,b))` | (0, 1] |
+| `temporal_factor` | `2^(−age_s / half_life_s)` | (0, 1] |
+| `centrality_weight` | `1 / (1 + log(1 + out_degree))` | (0, 1] |
+
+### 6.11.3 Sicherheitssperren & Anomalieerkennung
+
+```
+Safety Gate:  |removal_candidates| / |total_edges| > max_removal_fraction
+              → Zyklus abgebrochen (aborted_safety_gate = true), keine Schreibvorgänge
+
+Anomalie:     removal_rate > anomaly_threshold_removal_rate (wenn > 0)
+              → anomaly_high_removal_rate = true + Warnung im Log
+```
+
+### 6.11.4 ANN-Index für große Graphen
+
+Bei Graphen mit mehr als `policy.ann_min_vertices` Knoten (Standard: 10.000) kann ein ANN-Index angebunden werden, um die Kandidatenentdeckung von O(V²) auf O(V · log V) zu reduzieren:
+
+```cpp
+// HNSW-Index aus dem Acceleration-Modul
+engine.setANNIndex(&hnsw_index);
+// Der Index wird zu Beginn jedes Zyklus automatisch neu aufgebaut
+```
+
+**Integrationspunkte:**
+
+| Modul | Integration |
+|-------|-------------|
+| `index/graph_index.h` | Kanten-CRUD, Adjazenzabfragen, ACID-WriteBatch |
+| `acceleration` | HNSW/ANN-Index für O(V·log V) Kandidatenentdeckung |
+| `analytics/cep_engine` | `EDGE_CREATE`/`EDGE_DELETE`-Ereignisse nach Commit |
+| `cdc/changefeed` | `EVENT_PUT`/`EVENT_DELETE` je Kante für nachgelagerte Konsumenten |
+| `temporal_graph` | `_created_at`-Feld für zeitlichen Verfall |
+
+**Weiterführende Dokumentation:** `docs/scheduled_edge_refresh.md` (EN), `docs/de/scheduled_edge_refresh.md` (DE)

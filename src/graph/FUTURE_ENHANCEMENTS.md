@@ -989,15 +989,15 @@ Keeping a graph semantically current as the underlying data evolves is a well-st
 
 ### Design Constraints
 
-- [ ] `RefreshPolicy` fields validated at construction; out-of-range values throw `std::invalid_argument` (no silent defaults after construction)
-- [ ] `max_removal_fraction` safety gate must abort the entire batch before any storage writes if violated — no partial mutations
-- [ ] All edge mutations (removals + additions) for a single cycle are committed as one `WriteBatchWrapper`; atomic at the RocksDB level
-- [ ] `anomaly_threshold_removal_rate = 0.0` disables anomaly detection (zero = off); enabling requires explicit opt-in
-- [ ] Background scheduler must not start concurrent cycles; `cycle_mutex_` serialises all `runRefreshCycle()` invocations
-- [ ] `setPolicy()` takes effect on the *next* cycle; a currently running cycle completes with the old policy
-- [ ] `NodeEmbeddingProvider` returning an empty vector is treated as "embedding unavailable" → similarity skipped → `similarity = 1.0`
-- [ ] Audit trail bounded at `kMaxAuditEntries = 10,000`; oldest entries evicted FIFO (no unbounded growth)
-- [ ] `Changefeed` attachment is optional; `recordEvent` failures are logged as warnings, never as errors that abort the cycle
+- [x] `RefreshPolicy` fields validated at construction; out-of-range values throw `std::invalid_argument` (no silent defaults after construction)
+- [x] `max_removal_fraction` safety gate must abort the entire batch before any storage writes if violated — no partial mutations
+- [x] All edge mutations (removals + additions) for a single cycle are committed as one `WriteBatchWrapper`; atomic at the RocksDB level
+- [x] `anomaly_threshold_removal_rate = 0.0` disables anomaly detection (zero = off); enabling requires explicit opt-in
+- [x] Background scheduler must not start concurrent cycles; `cycle_mutex_` serialises all `runRefreshCycle()` invocations
+- [x] `setPolicy()` takes effect on the *next* cycle; a currently running cycle completes with the old policy
+- [x] `NodeEmbeddingProvider` returning an empty vector is treated as "embedding unavailable" → similarity skipped → `similarity = 1.0`
+- [x] Audit trail bounded at `kMaxAuditEntries = 10,000`; oldest entries evicted FIFO (no unbounded growth)
+- [x] `Changefeed` attachment is optional; `recordEvent` failures are logged as warnings, never as errors that abort the cycle
 - [x] ANN integration: `setANNIndex(IAnnIndex*)` + `rebuildANNIndex()` + ANN path in `discoverCandidateEdges()` when vertex count > `policy.ann_min_vertices`; brute-force fallback when below threshold or no index attached
 
 ### Required Interfaces
@@ -1026,16 +1026,16 @@ relevance = similarity × temporal_factor × centrality_weight
 - `temporal_factor = 2^(−age_s / half_life_s)` where `age_s` is read from the edge's `_created_at` field. If absent or `half_life_s = 0`, factor = 1.0.
 - `centrality_weight = 1 / (1 + log(1 + out_degree))` — dampens hub nodes.
 
-**Candidate discovery** (brute-force, partially implemented):
+**Candidate discovery** (✅ implemented — brute-force + ANN):
 - For each vertex `v`, compute `similarity(embedding(v), embedding(u))` for all `u ≠ v`.
 - Keep the top-k pairs above `add_threshold` that do not already have an edge `v → u`.
-- **Planned upgrade:** replace with `acceleration::ANNIndex::knnSearch(embedding(v), top_k)` for graphs > 10,000 nodes. This reduces O(V²) to O(V · log V) per cycle.
+- **ANN path:** when vertex count > `policy.ann_min_vertices` (default 10,000) and an `IAnnIndex` is attached via `setANNIndex()`, uses `knnSearch(embedding(v), top_k)` to reduce O(V²) to O(V · log V) per cycle.
 
-**CEP integration** (planned, Target: Q1 2027):
-- After `applyBatch()` succeeds, emit one `CEPEngine::ChangeEvent` per mutation into the configured CEP stream.
-- Pattern: `EDGE_REMOVED` / `EDGE_ADDED` with payload `{ edge_id, from, to, relevance_score, cycle_number }`.
+**CEP integration** (✅ implemented):
+- After `applyBatch()` succeeds, emits one `themisdb::analytics::Event` per mutation via `setCEPEventCallback()`.
+- Event types: `EDGE_CREATE` / `EDGE_DELETE` with payload `{ edge_id, from, to, relevance_score, cycle_number }`.
 - Downstream CEP rules can react (e.g., alert on burst of removals, trigger reindexing on cluster-like additions).
-- This is additive to the existing `Changefeed` integration; both may be active simultaneously.
+- Additive to the existing `Changefeed` integration; both may be active simultaneously.
 
 **Scheduling strategies** (configurable via `RefreshPolicy`):
 | Strategy | How to configure | Best for |
