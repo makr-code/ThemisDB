@@ -5,7 +5,10 @@
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · ../../docs/de/llm/README.md -->
 
 ## Current Status
-v1.16.0 – Full-featured production LLM module. All short-term and long-term planned features have been implemented. Key additions since v1.15.0:
+v1.17.0 – Full-featured production LLM module. All short-term and long-term planned features have been implemented. Key additions since v1.16.0:
+- InlineTrainingEngine: on-the-fly LoRA fine-tuning with AdamW/Adam/SGD/Adagrad/RMSProp optimizers, Cosine/Linear/Polynomial LR schedulers, gradient accumulation, checkpointing, and progress callbacks
+
+Key additions since v1.15.0:
 - Function/tool calling (JSON schema binding) (Issue: #1922)
 - Model hot-swap without engine restart (Issue: #1923)
 - Request deduplication cache (Issue: #1924)
@@ -99,6 +102,7 @@ v1.16.0 – Full-featured production LLM module. All short-term and long-term pl
 - [x] Test registration: all 28 tests/llm/ focused test targets added to tests/CMakeLists.txt via add_llm_focused_test macro (March 2026)
 - [x] ActiveVRAMAllocator implemented (LLM-MISSING-001): real GPU allocation, OOM recovery (eviction/defrag/spill), 36 tests, benchmark (2026-03-11)
 - [x] KV-cache prewarming with embedding-based lookup (LLM-MISSING-002): `prewarmCache()` stores real embeddings via `ILLMPlugin::embed()`, `checkCache()` / `updateCache()` use prompt-keyed HNSW similarity search, `PrefixCacheEntry::generated_text` returns actual cached response (2026-03-11)
+- [x] InlineTrainingEngine implemented (`src/llm/inline_training_engine.cpp`): on-the-fly LoRA fine-tuning from RocksDB data, AdamW/Adam/SGD/Adagrad/RMSProp optimizers, Cosine/Linear/Polynomial LR schedulers, gradient accumulation, gradient clipping, JSON checkpointing with pruning, progress/checkpoint callbacks (2026-04-13)
 
 ## Known Issues & Limitations
 - Cancellation is best-effort only; in-flight inference cannot be interrupted at llama.cpp level.
