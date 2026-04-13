@@ -3,7 +3,7 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            check_bench_targets.py                             ║
-  Version:         1.0.0                                              ║
+  Version:         1.1.0                                              ║
   Last Modified:   2026-04-13                                         ║
   Author:          ThemisDB CI                                        ║
 ╠═════════════════════════════════════════════════════════════════════╣
@@ -39,9 +39,18 @@ conditions is true:
    that is not explicitly wired is still guaranteed to receive a CMake target
    and therefore is **not** considered orphaned by this guard.
 
+3. The source stem appears in the allowlist file (``--allowlist FILE``),
+   meaning it is explicitly permitted to be absent from the build profile
+   (e.g. GPU-only or platform-specific benchmarks).
+
+In binary-check mode (``--build-dir DIR``) the guard additionally compares
+bench_*.cpp sources against the bench_* executables that were actually produced
+in the given build directory, reporting any source whose binary is absent and
+not covered by the allowlist.
+
 Exit codes
 ----------
-0  All benchmark sources are covered.
+0  All benchmark sources are covered (or allowlisted).
 1  One or more orphaned benchmark sources detected.
 2  Internal error / bad arguments.
 
@@ -49,6 +58,8 @@ Usage
 -----
     python3 tools/check_bench_targets.py [--benchmarks-dir DIR]
                                          [--cmake-file FILE]
+                                         [--allowlist FILE]
+                                         [--build-dir DIR]
                                          [--strict]
                                          [--format {text,json}]
                                          [--no-color]
@@ -60,6 +71,14 @@ Options
                           (default: benchmarks/ relative to repo root)
     --cmake-file FILE     Path to the CMakeLists.txt to parse
                           (default: benchmarks/CMakeLists.txt)
+    --allowlist FILE      Path to the allowlist file listing bench stems that
+                          are permitted to be absent from the build profile
+                          (default: tools/bench_source_allowlist.toml if
+                          present, otherwise no allowlist is applied)
+    --build-dir DIR       When provided, also check that each covered bench
+                          source has a corresponding executable (bench_* or
+                          bench_*.exe) inside DIR.  Missing binaries that are
+                          not allowlisted are reported as binary-orphans.
     --strict              Treat auto-registration as insufficient; every
                           bench_*.cpp MUST have an explicit add_executable()
                           entry.  With --strict the guard will currently
@@ -76,6 +95,154 @@ import re
 import sys
 from pathlib import Path
 from typing import Optional
+
+# ---------------------------------------------------------------------------
+# Category helpers
+# ---------------------------------------------------------------------------
+
+# Maps first-segment prefixes to human-readable categories used in output.
+# When no prefix matches, the raw first segment is used as the category.
+_CATEGORY_MAP: dict[str, str] = {
+    "acceleration": "acceleration",
+    "active": "memory",
+    "adaptive": "query",
+    "advanced": "misc",
+    "api": "api",
+    "approximate": "geo",
+    "aql": "aql",
+    "arm": "platform",
+    "async": "io",
+    "auth": "security",
+    "auto": "storage",
+    "backend": "acceleration",
+    "batch": "storage",
+    "binary": "storage",
+    "blob": "storage",
+    "branch": "version",
+    "cdc": "cdc",
+    "changefeed": "cdc",
+    "chaos": "resilience",
+    "compliance": "security",
+    "comprehensive": "misc",
+    "compression": "storage",
+    "config": "config",
+    "content": "content",
+    "core": "core",
+    "cross": "misc",
+    "crud": "storage",
+    "cuda": "gpu",
+    "cycle": "misc",
+    "data": "storage",
+    "di": "misc",
+    "diff": "query",
+    "distributed": "distributed",
+    "docker": "platform",
+    "edge": "misc",
+    "embedded": "misc",
+    "embedding": "ml",
+    "encryption": "security",
+    "ethics": "ml",
+    "exporters": "observability",
+    "extended": "misc",
+    "flash": "storage",
+    "fused": "query",
+    "geo": "geo",
+    "gnn": "ml",
+    "gorilla": "timeseries",
+    "gossip": "distributed",
+    "governance": "security",
+    "gpu": "gpu",
+    "graph": "graph",
+    "hnsw": "vector",
+    "hot": "storage",
+    "hotspots": "storage",
+    "hsm": "security",
+    "hybrid": "query",
+    "image": "ml",
+    "importer": "storage",
+    "index": "index",
+    "ingestion": "storage",
+    "insert": "storage",
+    "knowledge": "ml",
+    "latency": "misc",
+    "learned": "ml",
+    "legal": "security",
+    "llama": "ml",
+    "llm": "ml",
+    "locality": "storage",
+    "lock": "concurrency",
+    "lora": "ml",
+    "lossy": "ml",
+    "metadata": "storage",
+    "metrics": "observability",
+    "mixed": "misc",
+    "mmdb": "geo",
+    "module": "misc",
+    "multi": "misc",
+    "multithreading": "concurrency",
+    "mvcc": "concurrency",
+    "olap": "query",
+    "pagerank": "graph",
+    "phase1": "misc",
+    "pii": "security",
+    "plugin": "misc",
+    "policy": "security",
+    "postgres": "storage",
+    "process": "misc",
+    "product": "misc",
+    "prompt": "ml",
+    "qlora": "ml",
+    "query": "query",
+    "rag": "ml",
+    "raid": "storage",
+    "random": "misc",
+    "replication": "distributed",
+    "residual": "ml",
+    "rotary": "ml",
+    "saga": "distributed",
+    "sanity": "misc",
+    "scalability": "misc",
+    "security": "security",
+    "shard": "distributed",
+    "sharding": "distributed",
+    "simd": "platform",
+    "simple": "misc",
+    "snapshot": "storage",
+    "spatial": "geo",
+    "storage": "storage",
+    "stream": "streaming",
+    "task": "misc",
+    "temporal": "timeseries",
+    "text": "content",
+    "thread": "concurrency",
+    "timeseries": "timeseries",
+    "tpcc": "benchmark",
+    "tpch": "benchmark",
+    "transaction": "concurrency",
+    "update": "storage",
+    "user": "misc",
+    "v1": "misc",
+    "vector": "vector",
+    "video": "ml",
+    "voice": "ml",
+    "vulkan": "gpu",
+    "wal": "storage",
+    "whisper": "ml",
+    "ycsb": "benchmark",
+}
+
+
+def get_category(stem: str) -> str:
+    """
+    Return the Grundkategorie (base category) for a bench_*.cpp stem.
+
+    The category is derived from the first ``_``-separated segment after
+    the ``bench_`` prefix.  Known prefixes are mapped to canonical category
+    names via ``_CATEGORY_MAP``; unknown prefixes are returned as-is.
+    """
+    without_prefix = stem[len("bench_"):] if stem.startswith("bench_") else stem
+    first_segment = without_prefix.split("_")[0]
+    return _CATEGORY_MAP.get(first_segment, first_segment)
 
 # ---------------------------------------------------------------------------
 # ANSI helpers
@@ -145,23 +312,125 @@ def auto_registration_present(cmake_file: Path) -> bool:
     return _AUTO_REG_MARKER in text
 
 
+# ---------------------------------------------------------------------------
+# Allowlist helpers
+# ---------------------------------------------------------------------------
+
+_DEFAULT_ALLOWLIST_RELPATH = "tools/bench_source_allowlist.toml"
+
+
+def load_allowlist(allowlist_file: Path) -> dict[str, str]:
+    """
+    Parse an allowlist file and return a mapping of ``stem → reason``.
+
+    File format (subset of TOML used for maximum portability with stdlib only):
+
+    * Lines starting with ``#`` are comments.
+    * Empty lines are ignored.
+    * A plain identifier line (e.g. ``bench_cuda_vs_cpu``) records the stem
+      with an empty reason.
+    * A line of the form ``bench_foo  # reason text`` records the stem with
+      the trailing comment as the reason.
+    * TOML section headers (``[section]``) and key-value lines
+      (``bench_foo = "reason"`` or ``bench_foo = 'reason'``) are also parsed
+      so that the allowlist file can be a valid TOML document.
+
+    Unknown / malformed lines are silently skipped.
+
+    Returns
+    -------
+    dict mapping stem (e.g. ``bench_cuda_vs_cpu``) to reason string.
+    """
+    result: dict[str, str] = {}
+    if not allowlist_file.is_file():
+        return result
+
+    _stem_re = re.compile(
+        r"^\s*(?P<stem>bench_[A-Za-z0-9_]+)"
+        r"(?:\s*[=#]\s*['\"]?(?P<reason>[^'\"#\n]*)['\"]?)?"
+        r"\s*(?:#.*)?$"
+    )
+
+    try:
+        lines = allowlist_file.read_text(encoding="utf-8", errors="replace").splitlines()
+    except OSError as exc:
+        print(
+            _c(f"WARNING: cannot read allowlist {allowlist_file}: {exc}", _YELLOW),
+            file=sys.stderr,
+        )
+        return result
+
+    for line in lines:
+        stripped = line.strip()
+        if not stripped or stripped.startswith("#") or stripped.startswith("["):
+            continue
+        m = _stem_re.match(stripped)
+        if m:
+            stem = m.group("stem")
+            reason = (m.group("reason") or "").strip().strip("'\"")
+            result[stem] = reason
+
+    return result
+
+
+def find_built_binaries(build_dir: Path) -> set[str]:
+    """
+    Return the set of bench_* executable stems found under ``build_dir``.
+
+    Searches recursively for files whose name starts with ``bench_`` and
+    is either an ELF/PE executable (no extension or ``.exe``).  On Windows
+    only ``bench_*.exe`` is matched; on other platforms both forms are
+    considered.
+    """
+    found: set[str] = set()
+    if not build_dir.is_dir():
+        return found
+
+    for path in build_dir.rglob("bench_*"):
+        if not path.is_file():
+            continue
+        name = path.name
+        if name.endswith(".exe"):
+            stem = name[:-4]
+            found.add(stem)
+        elif "." not in name:
+            # Unix executable without extension
+            found.add(name)
+    return found
+
+
 def check_bench_targets(
     benchmarks_dir: Path,
     cmake_file: Path,
     *,
     strict: bool = False,
-) -> tuple[list[str], list[str], bool]:
+    allowlist: Optional[dict[str, str]] = None,
+    build_dir: Optional[Path] = None,
+) -> tuple[list[str], list[str], bool, list[str]]:
     """
-    Check benchmark sources against CMake targets.
+    Check benchmark sources against CMake targets and (optionally) built binaries.
+
+    Parameters
+    ----------
+    benchmarks_dir : directory containing bench_*.cpp files
+    cmake_file     : benchmarks/CMakeLists.txt
+    strict         : require explicit add_executable(); auto-reg is not enough
+    allowlist      : mapping of stem → reason for explicitly permitted absences
+    build_dir      : when set, also verify actual built binaries exist here
 
     Returns
     -------
-    (orphaned, explicit_only, auto_reg_present)
-        orphaned         – source stems with no coverage (always empty when
-                           auto-registration is present and strict=False)
+    (orphaned, auto_reg_covered, auto_reg_present, binary_missing)
+        orphaned         – source stems with no CMake coverage (after allowlist filter)
         auto_reg_covered – source stems covered only by auto-registration
         auto_reg_present – whether the auto-registration block was found
+        binary_missing   – source stems with CMake coverage but no built binary
+                           (only populated when build_dir is provided; after
+                           allowlist filter)
     """
+    if allowlist is None:
+        allowlist = {}
+
     sources = find_bench_sources(benchmarks_dir)
     explicit_targets = parse_explicit_targets(cmake_file)
     auto_reg = auto_registration_present(cmake_file)
@@ -170,6 +439,8 @@ def check_bench_targets(
     auto_reg_covered: list[str] = []
 
     for stem in sources:
+        if stem in allowlist:
+            continue  # explicitly permitted absence
         has_explicit = stem in explicit_targets
         if has_explicit:
             continue
@@ -179,7 +450,17 @@ def check_bench_targets(
         else:
             orphaned.append(stem)
 
-    return orphaned, auto_reg_covered, auto_reg
+    # Optional binary-level check
+    binary_missing: list[str] = []
+    if build_dir is not None:
+        built = find_built_binaries(build_dir)
+        for stem in sources:
+            if stem in allowlist:
+                continue
+            if stem not in built:
+                binary_missing.append(stem)
+
+    return orphaned, auto_reg_covered, auto_reg, binary_missing
 
 
 # ---------------------------------------------------------------------------
@@ -192,11 +473,26 @@ def _repo_root() -> Path:
     return Path(__file__).resolve().parent.parent
 
 
-def _resolve_defaults(args: argparse.Namespace) -> tuple[Path, Path]:
+def _resolve_defaults(args: argparse.Namespace) -> tuple[Path, Path, Optional[Path], Optional[Path]]:
     root = _repo_root()
     bench_dir = Path(args.benchmarks_dir) if args.benchmarks_dir else root / "benchmarks"
     cmake_file = Path(args.cmake_file) if args.cmake_file else bench_dir / "CMakeLists.txt"
-    return bench_dir.resolve(), cmake_file.resolve()
+
+    # Allowlist: explicit path > default location > None
+    allowlist_path: Optional[Path] = None
+    if args.allowlist:
+        allowlist_path = Path(args.allowlist).resolve()
+    else:
+        default_al = root / _DEFAULT_ALLOWLIST_RELPATH
+        if default_al.is_file():
+            allowlist_path = default_al
+
+    # Build-dir for binary check
+    build_dir: Optional[Path] = None
+    if args.build_dir:
+        build_dir = Path(args.build_dir).resolve()
+
+    return bench_dir.resolve(), cmake_file.resolve(), allowlist_path, build_dir
 
 
 def format_text(
@@ -206,19 +502,34 @@ def format_text(
     *,
     quiet: bool,
     strict: bool,
+    allowlist: Optional[dict[str, str]] = None,
+    binary_missing: Optional[list[str]] = None,
+    allowlist_file: Optional[Path] = None,
 ) -> str:
+    if allowlist is None:
+        allowlist = {}
+    if binary_missing is None:
+        binary_missing = []
+
     lines: list[str] = []
 
     if not quiet:
         lines.append(
             _c("ThemisDB Bench-Source CI Guard", _BOLD)
-            + f" – benchmarks/CMakeLists.txt coverage check"
+            + " – benchmarks/CMakeLists.txt coverage check"
         )
+        if allowlist_file:
+            lines.append(
+                _c("ℹ️  Allowlist", _CYAN)
+                + f"  {len(allowlist)} entries loaded from {allowlist_file.name}"
+            )
         lines.append("")
 
     n_orphaned = len(orphaned)
     n_auto = len(auto_reg_covered)
+    n_binary = len(binary_missing)
 
+    # ── CMake-target check ──────────────────────────────────────────────────
     if n_orphaned == 0 and n_auto == 0:
         lines.append(_c("✅ PASS", _GREEN, _BOLD) + "  All bench_*.cpp sources have explicit CMake targets.")
     elif n_orphaned == 0 and not strict:
@@ -250,7 +561,11 @@ def format_text(
             )
         if not quiet:
             for name in orphaned:
-                lines.append(f"    {_c('✗', _RED)}  benchmarks/{name}.cpp")
+                cat = get_category(name)
+                lines.append(
+                    f"    {_c('✗', _RED)}  benchmarks/{name}.cpp"
+                    f"  {_c(f'[{cat}]', _YELLOW)}"
+                )
 
     if not quiet and strict and auto_reg_covered:
         lines.append("")
@@ -259,7 +574,41 @@ def format_text(
             + f"  {n_auto} source(s) covered only by auto-registration (no explicit target):"
         )
         for name in auto_reg_covered:
-            lines.append(f"    {_c('~', _YELLOW)}  benchmarks/{name}.cpp")
+            cat = get_category(name)
+            lines.append(
+                f"    {_c('~', _YELLOW)}  benchmarks/{name}.cpp"
+                f"  {_c(f'[{cat}]', _YELLOW)}"
+            )
+
+    # ── Binary check (only when --build-dir was supplied) ──────────────────
+    if binary_missing:
+        lines.append("")
+        lines.append(
+            _c("❌ FAIL", _RED, _BOLD)
+            + f"  {n_binary} bench_*.cpp source(s) have no built binary."
+        )
+        if not quiet:
+            for name in binary_missing:
+                cat = get_category(name)
+                lines.append(
+                    f"    {_c('✗', _RED)}  {name}  →  no binary found"
+                    f"  {_c(f'[{cat}]', _YELLOW)}"
+                )
+
+    # ── Allowlist summary ───────────────────────────────────────────────────
+    if not quiet and allowlist:
+        lines.append("")
+        lines.append(
+            _c("ℹ️  ALLOWLIST", _CYAN, _BOLD)
+            + f"  {len(allowlist)} source(s) are explicitly allowed to be absent:"
+        )
+        for stem, reason in sorted(allowlist.items()):
+            cat = get_category(stem)
+            reason_str = f"  # {reason}" if reason else ""
+            lines.append(
+                f"    {_c('○', _CYAN)}  benchmarks/{stem}.cpp"
+                f"  {_c(f'[{cat}]', _CYAN)}{_c(reason_str, _CYAN)}"
+            )
 
     return "\n".join(lines)
 
@@ -270,17 +619,34 @@ def format_json(
     auto_reg_present: bool,
     *,
     strict: bool,
+    allowlist: Optional[dict[str, str]] = None,
+    binary_missing: Optional[list[str]] = None,
 ) -> str:
+    if allowlist is None:
+        allowlist = {}
+    if binary_missing is None:
+        binary_missing = []
+
+    def _with_category(stems: list[str]) -> list[dict[str, str]]:
+        return [{"stem": s, "category": get_category(s)} for s in stems]
+
     return json.dumps(
         {
-            "pass": len(orphaned) == 0,
+            "pass": len(orphaned) == 0 and len(binary_missing) == 0,
             "auto_registration_present": auto_reg_present,
-            "orphaned_sources": orphaned,
-            "auto_reg_covered_sources": auto_reg_covered,
+            "orphaned_sources": _with_category(orphaned),
+            "auto_reg_covered_sources": _with_category(auto_reg_covered),
+            "binary_missing_sources": _with_category(binary_missing),
+            "allowlisted_sources": [
+                {"stem": s, "reason": r, "category": get_category(s)}
+                for s, r in sorted(allowlist.items())
+            ],
             "strict": strict,
             "counts": {
                 "orphaned": len(orphaned),
                 "auto_reg_covered": len(auto_reg_covered),
+                "binary_missing": len(binary_missing),
+                "allowlisted": len(allowlist),
             },
         },
         indent=2,
@@ -309,6 +675,27 @@ def build_parser() -> argparse.ArgumentParser:
         metavar="FILE",
         default="",
         help="Path to benchmarks/CMakeLists.txt (default: <benchmarks-dir>/CMakeLists.txt)",
+    )
+    p.add_argument(
+        "--allowlist",
+        metavar="FILE",
+        default="",
+        help=(
+            "Path to the allowlist file (default: tools/bench_source_allowlist.toml "
+            "if present, otherwise no allowlist is applied). "
+            "Allowlisted sources are excluded from failure reporting."
+        ),
+    )
+    p.add_argument(
+        "--build-dir",
+        metavar="DIR",
+        default="",
+        help=(
+            "When provided, also verify that each bench source has an actual "
+            "executable (bench_* or bench_*.exe) in this directory.  "
+            "Sources with no binary and not on the allowlist are reported as "
+            "binary-orphans."
+        ),
     )
     p.add_argument(
         "--strict",
@@ -350,7 +737,7 @@ def main(argv: Optional[list[str]] = None) -> int:
     if args.no_color or not sys.stdout.isatty():
         _use_color = False
 
-    bench_dir, cmake_file = _resolve_defaults(args)
+    bench_dir, cmake_file, allowlist_path, build_dir = _resolve_defaults(args)
 
     if not bench_dir.is_dir():
         print(
@@ -366,14 +753,34 @@ def main(argv: Optional[list[str]] = None) -> int:
         )
         return 2
 
-    orphaned, auto_reg_covered, auto_reg_present = check_bench_targets(
+    allowlist = load_allowlist(allowlist_path) if allowlist_path else {}
+
+    if build_dir and not build_dir.is_dir():
+        print(
+            _c(f"ERROR: build directory not found: {build_dir}", _RED, _BOLD),
+            file=sys.stderr,
+        )
+        return 2
+
+    orphaned, auto_reg_covered, auto_reg_present, binary_missing = check_bench_targets(
         bench_dir,
         cmake_file,
         strict=args.strict,
+        allowlist=allowlist,
+        build_dir=build_dir,
     )
 
     if args.format == "json":
-        print(format_json(orphaned, auto_reg_covered, auto_reg_present, strict=args.strict))
+        print(
+            format_json(
+                orphaned,
+                auto_reg_covered,
+                auto_reg_present,
+                strict=args.strict,
+                allowlist=allowlist,
+                binary_missing=binary_missing,
+            )
+        )
     else:
         print(
             format_text(
@@ -382,10 +789,13 @@ def main(argv: Optional[list[str]] = None) -> int:
                 auto_reg_present,
                 quiet=args.quiet,
                 strict=args.strict,
+                allowlist=allowlist,
+                binary_missing=binary_missing,
+                allowlist_file=allowlist_path,
             )
         )
 
-    return 1 if orphaned else 0
+    return 1 if (orphaned or binary_missing) else 0
 
 
 if __name__ == "__main__":
