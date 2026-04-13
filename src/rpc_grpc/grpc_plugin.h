@@ -26,10 +26,11 @@
 
 #include "plugins/rpc_plugin_interface.h"
 #include <grpcpp/grpcpp.h>
-#include <memory>
-#include <string>
 #include <atomic>
+#include <chrono>
+#include <memory>
 #include <mutex>
+#include <string>
 
 /**
  * @file grpc_plugin.h
@@ -76,6 +77,7 @@ private:
     mutable std::mutex stats_mutex_;
     RPCServerStats stats_;
     std::string server_address_;
+    std::chrono::steady_clock::time_point start_time_;
     
     // Service implementations registered with this server
     std::vector<grpc::Service*> services_;
