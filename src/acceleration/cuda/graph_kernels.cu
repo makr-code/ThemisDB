@@ -245,7 +245,42 @@ __global__ void graphBFRelaxKernel(
 
 using namespace themis::acceleration::cuda;
 
-static constexpr int kBFSBlockDim = 256;
+static int kBFSBlockDim = 256;
+
+/**
+ * Update the block size used by BFS/Bellman-Ford kernel launchers.
+ *
+ * Called from CUDAGraphBackend::initialize() with the value returned by
+ * cudaOccupancyMaxPotentialBlockSize().  Falls back to 256 when not called.
+ *
+ * @param blockDim  Number of threads per block (must be a multiple of 32
+ *                  and ≤ the device's maxThreadsPerBlock).
+ */
+extern "C" void setGraphBFSBlockDim(int blockDim) {
+    kBFSBlockDim = blockDim;
+}
+
+/**
+ * Query the CUDA occupancy API for the BFS init kernel and update kBFSBlockDim
+ * with the device-optimal block size.
+ *
+ * Called by CUDAGraphBackend::initialize() so all BFS/SP launchers use the
+ * tuned block size from the first dispatch.
+ *
+ * @return  The occupancy-tuned block size (also stored in kBFSBlockDim).
+ */
+extern "C" int tuneGraphBFSBlockDim() {
+    int minGridSize   = 0;
+    int tunedBlockDim = 256;
+    cudaError_t err = cudaOccupancyMaxPotentialBlockSize(
+        &minGridSize, &tunedBlockDim, graphBFSInitKernel, 0, 0);
+    if (err == cudaSuccess && tunedBlockDim > 0) {
+        tunedBlockDim = (tunedBlockDim / 32) * 32;
+        if (tunedBlockDim < 32) tunedBlockDim = 32;
+        kBFSBlockDim = tunedBlockDim;
+    }
+    return kBFSBlockDim;
+}
 
 extern "C" void launchGraphBFSInitKernel(
     const uint32_t* d_startVertices,

@@ -154,6 +154,15 @@ void launchGraphBFRelaxKernel(
     int             numPairs,
     cudaStream_t    stream
 );
+
+// Block-size setters for occupancy tuning — called during initialize() with
+// the value returned by cudaOccupancyMaxPotentialBlockSize().
+void setGeoKernelBlockSize(int blockSize);
+int  tuneGeoKernelBlockSize();
+void setGraphBFSBlockDim(int blockDim);
+int  tuneGraphBFSBlockDim();
+void setVecKernelBlockDim(int dim);
+int  tuneVecKernelBlockSize();
 }
 
 #endif
@@ -301,6 +310,11 @@ bool CUDAVectorBackend::initialize() {
 #ifdef THEMIS_VLLM_COLOCATION
     std::cout << "  vLLM Co-Location: ENABLED (low-priority stream, max " << THEMIS_MAX_GPU_VRAM_MB << " MB VRAM)" << std::endl;
 #endif
+
+    // Tune kernel block dimensions via the occupancy API so distance and
+    // top-K kernels use the optimal thread count for this device.
+    const int vecBlockDim = tuneVecKernelBlockSize();
+    std::cout << "  Occupancy-tuned vector block dim: " << vecBlockDim << "x" << vecBlockDim << std::endl;
     
     // Clear error on success
     clearError();
@@ -1327,6 +1341,11 @@ bool CUDAGraphBackend::initialize() {
         return false;
     }
 
+    // Tune BFS/SP kernel block dimensions via the occupancy API.
+    const int bfsBlockDim = tuneGraphBFSBlockDim();
+    std::cout << "CUDA Graph Backend: occupancy-tuned BFS block dim = "
+              << bfsBlockDim << std::endl;
+
     clearError();
     initialized_ = true;
     return true;
@@ -1950,6 +1969,10 @@ bool CUDAGeoBackend::initialize() {
 
     std::cout << "CUDA Geo Backend initialized successfully:" << std::endl;
     std::cout << "  Device: " << prop.name << std::endl;
+
+    // Tune geo kernel block size via the occupancy API.
+    const int geoBlockSize = tuneGeoKernelBlockSize();
+    std::cout << "  Occupancy-tuned geo block size: " << geoBlockSize << std::endl;
 
     clearError();
     initialized_ = true;
