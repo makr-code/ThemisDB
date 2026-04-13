@@ -184,4 +184,4 @@ Change the host port mapping: `-p 18765:8765`.
 **Build fails: missing vcpkg package**  
 Run `pwsh ./scripts/setup-third-party.ps1` again; vcpkg bootstrap sometimes requires a second pass.
 
-**More help:** [SUPPORT.md](SUPPORT.md) · [GitHub Discussions](https://github.com/makr-code/ThemisDB/discussions) · [FAQ](docs/en/FAQ.md)
+**More help:** [SUPPORT.md](SUPPORT.md) · [GitHub Discussions](https://github.com/makr-code/ThemisDB/discussions) · [FAQ](docs/FAQ.md)
