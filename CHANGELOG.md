@@ -27,6 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `compendium/docs/chapter_18_ha.md` §18.10–18.11 added: WALArchivalManager (lifecycle tiers), LogicalReplicationManager (parallel decoding), FaultInjector (5 fault types), ChaosScheduler (cron + event trigger), DisasterRecoveryManager (7-step plan), AutoFailoverManager
   - `compendium/docs/chapter_40_data_governance_compliance.md` §40.11 added: PolicyEngine (OPA fallback, hot-reload, simulate), DataMasker (5 strategies), DataLineageTracker (append-only, upstream/downstream), ComplianceReporter (GDPR/HIPAA/CCPA/PCI/SOC2), PolicyManager hot-reload
   - `compendium/docs/chapter_06_graph.md` §6.10 added: GraphQueryOptimizer (BFS/DFS/BIDIRECTIONAL/A*/Dijkstra, EMA cost model, plan cache), DistributedGraphManager (mTLS, EXPLAIN, streaming), pipeline diagram, performance table
+  - `roadmap.md` v2.1: updated header (Last Updated 2026-04-13, Current Release v1.8.1-rc2, scope 55 modules); 9 missing modules added to Module Status Summary (chaos/failover/ethics_ai/llama_cpp/stable_diffusion/whisper/onnx_clip/rpc_grpc/user_storage_encrypted); acceleration upgraded ✅ Production-ready (v1.8.0); Vulkan Known Issue marked Fixed; Milestone Delta updated to 2026-04-13 with full 2026-04-12/13 shipped-item table; new §Milestone: v1.9.0 section with acceptance criteria
   <!-- changelog-updater: compendium-phase1-2026-04-13 -->
 
 - **Module-Docs Sync 📚 — 2026-04-13**
