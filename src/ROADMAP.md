@@ -370,7 +370,7 @@ See: <Detail link>
 
 | # | Module | Title | Target | Labels | Issue | Detail |
 | --- | --- | --- | --- | --- | --- | --- |
-| 219 | acceleration | CUDA HNSW Kernel: Visited Array Memory Scaling | v1.9.0 | `gpu`, `memory`, `module:acceleration` | #4050 | [→ Detail](acceleration/FUTURE_ENHANCEMENTS.md#cuda-hnsw-kernel-visited-array-memory-scaling) |
+| 219 | acceleration | CUDA HNSW Kernel: Visited Array Memory Scaling | ~~v1.9.0~~ ✅ done | `gpu`, `memory`, `module:acceleration` | #4050 | [→ Detail](acceleration/FUTURE_ENHANCEMENTS.md#cuda-hnsw-kernel-visited-array-memory-scaling) |
 | 220 | acceleration | TensorCore Matmul: INT8 Quantized Precision Path | v1.9.0 | `gpu`, `ml`, `module:acceleration` | #4051 | [→ Detail](acceleration/FUTURE_ENHANCEMENTS.md#tensorcore-matmul-int8-quantized-precision-path) |
 | 221 | acceleration | FAISS GPU Backend: HNSW and ScalarQuantizer Index Types | ~~v1.9.0~~ ✅ done | `gpu`, `module:acceleration` | #4052 | [→ Detail](acceleration/FUTURE_ENHANCEMENTS.md#faiss-gpu-backend-hnsw-and-scalarquantizer-index-types) |
 | 222 | acceleration | Multi-GPU Sharding for Large Embedding Datasets | v1.9.0 | `gpu`, `distributed`, `module:acceleration` | #4053 | [→ Detail](acceleration/FUTURE_ENHANCEMENTS.md#multi-gpu-sharding-for-large-embedding-datasets) |

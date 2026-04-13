@@ -256,3 +256,91 @@ TEST(CudaHnswLargeK, K257_MultipleQueriesAllReturnK) {
             << "Query " << qi << " must return exactly k=" << K << " results";
     }
 }
+
+// =============================================================================
+// CUDAVectorBackend::setMaxBatchSize / pool tuning API
+// =============================================================================
+
+TEST(CudaHnswLargeK, SetMaxBatchSizeDefaultIs512) {
+    CUDAVectorBackend backend;
+    EXPECT_EQ(backend.maxBatchSize(), 512u);
+}
+
+TEST(CudaHnswLargeK, SetMaxBatchSizeUpdatesValue) {
+    CUDAVectorBackend backend;
+    backend.setMaxBatchSize(128);
+    EXPECT_EQ(backend.maxBatchSize(), 128u);
+}
+
+TEST(CudaHnswLargeK, SetMaxBatchSizeZeroClampedToOne) {
+    CUDAVectorBackend backend;
+    backend.setMaxBatchSize(0);
+    EXPECT_GE(backend.maxBatchSize(), 1u);
+}
+
+TEST(CudaHnswLargeK, SetMaxBatchSizeBeforeBuildPropagated) {
+    // setMaxBatchSize() called before buildHnswAnnIndex() is the recommended
+    // pattern; the value must be honoured by the engine created inside build.
+    constexpr uint32_t N   = 32u;
+    constexpr uint32_t DIM = 1u;
+    constexpr uint32_t K   = 1u;
+
+    CUDAVectorBackend backend;
+    backend.setMaxBatchSize(16);
+
+    auto vecs = makeLinearVectors(N);
+    auto g    = makeFullGraph(N);
+    ASSERT_TRUE(backend.buildHnswAnnIndex({g}, vecs.data(), N, DIM));
+
+    // Search must still work after setting batch size
+    std::vector<float> query = {0.5f};
+    auto results = backend.annBatchSearch(query.data(), 1u, K);
+    ASSERT_EQ(results.size(), 1u);
+    EXPECT_EQ(results[0].size(), static_cast<size_t>(K));
+}
+
+// =============================================================================
+// Pool-based visited array: degraded health status when pool allocation fails
+// =============================================================================
+
+TEST(CudaHnswLargeK, HealthStatusDegradedWhenPoolFails) {
+    // Simulate pool allocation failure by requesting an absurdly large
+    // batch size so that even in a non-CUDA build the engine cannot satisfy
+    // the pool request via CUDA malloc.  On CPU-only builds the pool is never
+    // allocated (THEMIS_ENABLE_CUDA absent), so hasVisitedPool() is false and
+    // the backend sets a degraded error after buildHnswAnnIndex().
+    //
+    // We test the health-status branch by checking that after a successful
+    // build with a very large (and therefore failing) pool request, the
+    // backend's health status is NOT "healthy" in a release build, or that
+    // the build still succeeds (CPU fallback remains operational).
+    constexpr uint32_t N   = 8u;
+    constexpr uint32_t DIM = 1u;
+
+    CUDAVectorBackend backend;
+    // Request a pool so large it cannot be satisfied on any real device
+    // (2^60 queries × 1 byte ≈ 1 EiB).  Pool allocation will fail, backend
+    // stays operational in CPU-fallback mode.
+    backend.setMaxBatchSize(static_cast<size_t>(1) << 60);
+
+    auto vecs = makeLinearVectors(N);
+    auto g    = makeFullGraph(N);
+    // Build must not crash and CPU search must still produce results
+    ASSERT_TRUE(backend.buildHnswAnnIndex({g}, vecs.data(), N, DIM));
+
+    std::vector<float> query = {0.5f};
+    auto results = backend.annBatchSearch(query.data(), 1u, 1u);
+    ASSERT_EQ(results.size(), 1u)
+        << "Search must succeed even when visited pool allocation fails";
+    EXPECT_EQ(results[0].size(), 1u);
+
+#if defined(NDEBUG)
+    // In release builds the pool failure is surfaced via the health status
+    auto health = backend.getHealthStatus();
+    // After a successful build with a failed pool, status should be degraded
+    // (not healthy) because setError() was called for the alloc failure.
+    EXPECT_NE(health.status, "healthy")
+        << "Backend must be degraded when visited pool allocation failed";
+#endif
+}
+
