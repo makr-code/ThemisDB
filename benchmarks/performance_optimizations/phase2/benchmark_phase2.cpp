@@ -30,5 +30,6 @@ static void BM_Phase2_Disabled(benchmark::State& state) {
     }
 }
 
+// Disabled: phase2 optimizations pending implementation sync | Deadline: v2.0.0 | Issue: #258
 BENCHMARK(BM_Phase2_Disabled);
 BENCHMARK_MAIN();
