@@ -1599,6 +1599,263 @@ Realtime-Anwendungen mit ThemisDB sind einfach zu implementieren dank:
 
 Im nächsten Kapitel schauen wir uns Computer Vision-Anwendungen an, wo wir Bilder speichern, analysieren und durchsuchen.
 
+---
+
+## 11.10 CDC-Infrastruktur: Erweiterte Komponenten (v1.8.0)
+
+<!-- Source: include/cdc/ — changefeed.h, cdc_materialized_view.h, cdc_admin.h, consumer_group.h -->
+
+> **Production-Ready seit v1.8.0** – Das CDC-Modul von ThemisDB bietet eine vollständige Change-Data-Capture-Infrastruktur: von der sequenzbasierten `Changefeed`-Engine über automatisch aktualisierte `CdcMaterializedView`s bis hin zu Kafka-ähnlichen `ConsumerGroup`s mit Offset-Tracking.
+
+### 11.10.1 Changefeed — Sequence-based CDC Engine
+
+`Changefeed` ist die Kernkomponente des CDC-Systems. Sie verfolgt alle Datenänderungen als geordnete Sequenz und ermöglicht Long-Polling sowie Event-Filterung.
+
+**Architektur:**
+
+```
+RocksDB Write Path
+        │
+        ▼
+Changefeed (Sequence-Counter)
+        │
+        ├── Event-Buffer (In-Memory-Ring)
+        │       └── Long-Poll Subscribers
+        │
+        ├── Persistent CDC-Log (RocksDB CF)
+        │       └── Replay / PITR
+        │
+        └── Kafka / WebSocket / gRPC Transports
+```
+
+**API-Nutzung:**
+
+```cpp
+#include "cdc/changefeed.h"
+
+// Changefeed erstellen
+Changefeed::Config feed_cfg;
+feed_cfg.max_buffer_size   = 10000;     // Events im In-Memory-Puffer
+feed_cfg.retention_hours   = 168;       // CDC-Log 7 Tage behalten
+feed_cfg.enable_merge_detection = true; // RocksDB MergeOperator-Events erkennen
+
+Changefeed feed(rocksdb_txn_db, cf_handle, feed_cfg);
+
+// Subscriber registrieren (Long-Poll)
+auto subscriber_id = feed.subscribe(
+    Changefeed::Filter{
+        .event_types   = {ChangeEventType::PUT, ChangeEventType::DELETE},
+        .key_prefix    = "orders:",     // Nur Orders-Collection
+        .tenant_id     = "tenant_42"    // Tenant-Isolation
+    },
+    [](const ChangeEvent& evt) {
+        printf("CDC: [%s] key=%s seq=%llu\n",
+            evt.type == ChangeEventType::PUT ? "PUT" : "DEL",
+            evt.key.c_str(), evt.sequence_number);
+    }
+);
+
+// Polling: Events seit letzter bekannter Sequence
+auto events = feed.getEventsSince(last_seq, max_count=100, timeout_ms=5000);
+for (auto& evt : events) {
+    process(evt.key, evt.value, evt.sequence_number, evt.timestamp);
+}
+
+// Subscriber abmelden
+feed.unsubscribe(subscriber_id);
+```
+
+**ChangeEvent-Felder:**
+
+| Feld | Typ | Beschreibung |
+|------|-----|-------------|
+| `sequence_number` | `uint64_t` | Monoton steigend, global eindeutig |
+| `key` | `string` | Betroffener Datenbankschlüssel |
+| `value` | `optional<string>` | Neuer Wert (bei PUT), leer bei DELETE |
+| `old_value` | `optional<string>` | Alter Wert (wenn verfügbar) |
+| `event_type` | `ChangeEventType` | PUT / DELETE / MERGE |
+| `timestamp` | `int64_t` | Unix-Timestamp in Millisekunden |
+| `tenant_id` | `string` | Für Multi-Tenant-Isolation |
+
+**AQL-Integration:**
+
+```aql
+// CDC-Events in AQL abfragen
+FOR event IN _cdc_events
+  FILTER event.key LIKE "orders:%"
+    AND event.sequence_number > @last_known_seq
+  SORT event.sequence_number ASC
+  LIMIT 1000
+  RETURN {
+    seq:       event.sequence_number,
+    key:       event.key,
+    type:      event.event_type,
+    timestamp: DATE_ISO8601(event.timestamp / 1000)
+  }
+```
+
+---
+
+### 11.10.2 CdcMaterializedView — CDC-basierte View-Aktualisierung
+
+`CdcMaterializedView` verbindet den Changefeed automatisch mit dem Analytics-`IncrementalViewManager`, so dass materialisierte Views inkrementell aktuell gehalten werden ohne vollständige Neuberechnung.
+
+```cpp
+#include "cdc/cdc_materialized_view.h"
+
+// Materialisierte View "orders_summary" via CDC aktuell halten
+cdc::CdcMaterializedViewConfig mv_cfg;
+mv_cfg.feed_id   = "primary_feed";
+mv_cfg.view_name = "orders_summary";
+mv_cfg.filter    = Changefeed::Filter{.key_prefix = "orders:"};
+
+cdc::CdcMaterializedView mv_maintainer(
+    feed,
+    incremental_view_manager,
+    mv_cfg
+);
+
+// Start: View-Updates werden automatisch aus CDC-Events abgeleitet
+mv_maintainer.start();
+
+// Status überwachen
+auto status = mv_maintainer.getStatus();
+// status.events_processed, status.last_processed_sequence
+// status.refresh_latency_ms, status.error_count
+
+// Stoppen
+mv_maintainer.stop();
+```
+
+**Schlüssel-zu-Collection-Mapping:**
+
+Die Collection wird aus dem Schlüssel vor dem ersten `:` extrahiert:
+- `orders:42` → Collection `orders`
+- `users:alice` → Collection `users`
+- `raw_key` → Collection `raw_key` (gesamter Schlüssel)
+
+**Change-Typ-Mapping:**
+
+| CDC-Typ | View-Operation |
+|---------|---------------|
+| `PUT` (neuer Schlüssel) | `INSERT` |
+| `PUT` (bestehender Schlüssel) | `UPDATE` |
+| `DELETE` | `DELETE` |
+
+---
+
+### 11.10.3 CdcAdmin — Verwaltung und Wartung des CDC-Logs
+
+`CdcAdmin` bietet administrative Operationen für den CDC-Log: Retention-basierte Bereinigung, GDPR-Redaktion und Metriken.
+
+```cpp
+#include "cdc/cdc_admin.h"
+
+cdc::CdcAdmin admin(feed, db, tenant_buffer_mgr);
+
+// Retention-Policy: Events älter als 7 Tage löschen
+cdc::RetentionPolicy policy;
+policy.max_age_hours         = 168;
+policy.max_events            = 10_000_000;
+policy.check_interval_minutes = 60;
+admin.setRetentionPolicy(policy);
+
+// Manuelle Bereinigung
+auto purge = admin.purgeOldEvents(std::chrono::hours(168));
+// purge.events_deleted, purge.elapsed_time_ms
+
+// GDPR Art. 17: Alle Events eines Benutzers redaktieren
+admin.redactByKey("user:alice", RedactionMode::OVERWRITE_WITH_TOMBSTONE);
+
+// Metriken abfragen
+auto metrics = admin.getMetrics();
+// metrics.total_events, metrics.events_per_second
+// metrics.lag_ms, metrics.oldest_event_age_hours
+
+// Ereignisfilterung: Nur bestimmte Operation-Typen im Log behalten
+admin.setEventFilter({ChangeEventType::PUT, ChangeEventType::DELETE});
+// MERGE-Events werden verworfen (Speicher-Einsparung)
+```
+
+---
+
+### 11.10.4 ConsumerGroup — Kafka-ähnliche Offset-Verwaltung
+
+`ConsumerGroup` implementiert Consumer-Group-Semantik für den CDC-Changefeed: durable Offset-Verwaltung in RocksDB, Partition-Zuweisung per Key-Hash und Resume-from-Offset ohne vollständiges Log-Scanning.
+
+```cpp
+#include "cdc/consumer_group.h"
+
+cdc::ConsumerGroupConfig group_cfg;
+group_cfg.group_id          = "order-processing-service";
+group_cfg.num_partitions    = 4;      // Key-Hash-Partitionen
+group_cfg.auto_commit       = false;  // Manuelle Offset-Bestätigung
+group_cfg.max_poll_records  = 500;
+
+// RocksDB-Key-Layout:
+//   cdc_group:order-processing-service:config  → JSON-Config
+//   cdc_group:order-processing-service:offset  → aktueller Offset
+
+cdc::ConsumerGroup consumer(group_cfg, rocksdb_db, cf_handle);
+
+// Verbraucher 1 von 2 (Partition 0 + 1)
+consumer.join("worker_1", 2);  // consumer_index=0, total_consumers=2
+
+// Events abholen (nur Partition 0 + 1)
+auto batch = consumer.poll(max_records=500, timeout_ms=1000);
+for (auto& evt : batch) {
+    processOrder(evt.key, evt.value);
+}
+
+// Offset manuell bestätigen (At-Least-Once-Semantik)
+consumer.commit(batch.back().sequence_number);
+
+// Letzten committed Offset abfragen (für Resume nach Neustart)
+auto last_offset = consumer.getCommittedOffset();
+
+// Gruppe verlassen
+consumer.leave("worker_1");
+```
+
+**RocksDB-Persistenz:**
+
+```
+cdc_group:{group_id}:config  → JSON: {"num_partitions":4, "auto_commit":false}
+cdc_group:{group_id}:offset  → "1_523_447"  (decimal, committed sequence)
+```
+
+**Semantik-Garantien:**
+
+| Garantie | Beschreibung |
+|---------|-------------|
+| At-Least-Once | Events werden bei Absturz erneut geliefert |
+| Partition-Isolation | Consumer verarbeitet nur seinen Key-Hash-Bereich |
+| Resume-from-Offset | Kein Log-Scan beim Neustart |
+| Durable Offsets | Persistent in RocksDB gespeichert |
+
+### 11.10.5 CDC-Performance-Kennzahlen (v1.8.0)
+
+| Metrik | Wert |
+|--------|------|
+| Event-Ingestion-Rate | 100.000 Events/s (RocksDB-gebunden) |
+| Long-Poll-Latenz | < 5 ms (median) |
+| Consumer-Group-Commit | < 1 ms / Batch |
+| GDPR-Redaktion | < 10 ms / Schlüssel |
+| CDC-Log-Kompression | 70% (ZSTD) |
+
+### 11.10.6 Gesamtübersicht: CDC-Komponenten (v1.8.0)
+
+| Komponente | Status | Zweck |
+|------------|--------|-------|
+| `Changefeed` | ✅ Production-Ready | Sequence-based Event-Capture |
+| `CdcMaterializedView` | ✅ Production-Ready | Inkrementelle View-Aktualisierung |
+| `CdcAdmin` | ✅ Production-Ready | Retention, GDPR, Metriken |
+| `ConsumerGroup` | ✅ Production-Ready | Kafka-ähnliche Offset-Verwaltung |
+
+**Weiterführende Ressourcen:**
+- [Kapitel 20: Backup & PITR](chapter_20_backup.md) — PITR verwendet CDC intern für Replay
+- [Kapitel 15: Analytics](chapter_15_analytics.md) — CDC-basierte Materialized Views
+
 ## Übungen
 
 1. **Chat-Erweiterung**: Fügen Sie Voice Messages und File Sharing hinzu

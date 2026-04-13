@@ -1,4 +1,4 @@
-<!-- Status: current | generated: 2026-04-12 | source: all src/*/FUTURE_ENHANCEMENTS.md -->
+<!-- Status: current | generated: 2026-04-13 | source: all src/*/FUTURE_ENHANCEMENTS.md -->
 <!-- Use this file as the master backlog for GitHub Issue creation. -->
 <!-- Each item row maps directly to one GitHub Issue. -->
 
@@ -93,18 +93,20 @@ See: <Detail link>
 | Priority | Count |
 |----------|-------|
 | 🔴 Critical | 4 |
-| 🟠 High | 89 |
-| 🟡 Medium | 84 |
-| 🟢 Low | 38 |
-| **Total** | **215** |
+| 🟠 High | 124 |
+| 🟡 Medium | 105 |
+| 🟢 Low | 43 |
+| **Total** | **276** |
+| ✅ Completed (in table) | 2 |
+| **Open** | **274** |
 
 | Target Version | Open Items |
 |---|---|
-| ≤ v1.2.0 | 34 |
-| v1.3.0 – v1.6.0 | 63 |
-| v1.7.0 – v1.8.0 | 86 |
-| v1.9.0 – v2.0.0 | 21 |
-| v2.1.0+ | 11 |
+| ≤ v1.4.0 | 48 |
+| v1.5.0 – v1.6.0 | 38 |
+| v1.7.0 – v1.8.0 | 141 |
+| v1.9.0 – v2.0.0 | 33 |
+| v2.1.0+ | 1 |
 
 ---
 
@@ -524,11 +526,11 @@ Affects: `sharding`, `replication`, `transaction`, `maintenance`, `cache`, `quer
 
 | Count | Priority | Modules |
 |-------|----------|---------|
-| 5 | 🟠 High | auth, base, chimera, geo, security, temporal |
+| 20 | 🟠 High | auth, base, chimera, geo, security, temporal |
 | 10 | 🟡 Medium | auth, base, chimera, maintenance, temporal |
 | 5 | 🟢 Low | auth, base |
 
-→ **20 open items**  
+→ **~35 open items** (≤ v1.4.0 total: 48, minus v1.1.0 cohort)  
 → Primary labels: `security`, `thread-safety`, `wasm`, `transactions`
 
 ---
@@ -538,10 +540,10 @@ Affects: `sharding`, `replication`, `transaction`, `maintenance`, `cache`, `quer
 
 | Count | Priority | Modules |
 |-------|----------|---------|
-| 15 | 🟠 High | aql, core, geo, index, ingestion, observability, query, replication, server, sharding, storage, updates |
-| 10 | 🟡 Medium | aql, analytics, ingestion, replication, storage, updates |
+| 25 | 🟠 High | aql, core, geo, index, ingestion, observability, query, replication, server, sharding, storage, updates |
+| 13 | 🟡 Medium | aql, analytics, ingestion, replication, storage, updates |
 
-→ **25 open items**  
+→ **38 open items**  
 → Primary labels: `feature`, `performance`, `observability`, `distributed`
 
 ---
@@ -551,11 +553,11 @@ Affects: `sharding`, `replication`, `transaction`, `maintenance`, `cache`, `quer
 
 | Count | Priority | Modules |
 |-------|----------|---------|
-| 50 | 🟠 High | acceleration, analytics, api, cache, cdc, config, content, gpu, importers, ingestion, llm, network, observability, query, rag, replication, scheduler, security, server, sharding, storage, themis, timeseries, training, transaction, updates |
-| 60 | 🟡 Medium | (most modules) |
-| 15 | 🟢 Low | various |
+| 72 | 🟠 High | acceleration, analytics, api, cache, cdc, config, content, gpu, importers, ingestion, llm, network, observability, query, rag, replication, scheduler, security, server, sharding, storage, themis, timeseries, training, transaction, updates |
+| 55 | 🟡 Medium | (most modules) |
+| 14 | 🟢 Low | various |
 
-→ **~125 open items** — largest milestone  
+→ **141 open items** — largest milestone  
 → Primary labels: `stub-replacement`, `thread-safety`, `gpu`, `performance`, `security`
 
 ---
@@ -565,11 +567,11 @@ Affects: `sharding`, `replication`, `transaction`, `maintenance`, `cache`, `quer
 
 | Count | Priority | Modules |
 |-------|----------|---------|
-| 8 | 🟠 High | api, sharding, transaction |
-| 10 | 🟡 Medium | acceleration, analytics, config, llm, network, performance, storage, transaction |
-| 6 | 🟢 Low | cdc, chimera, config, graph, maintenance |
+| 10 | 🟠 High | api, sharding, transaction |
+| 14 | 🟡 Medium | acceleration, analytics, config, llm, network, performance, storage, transaction |
+| 9 | 🟢 Low | cdc, chimera, config, graph, maintenance |
 
-→ **24 open items**  
+→ **33 open items**  
 → Primary labels: `distributed`, `gpu`, `performance`, `platform`
 
 ---
@@ -630,6 +632,6 @@ epic:llm-integration       LLM inference, LoRA, training pipeline
 
 ---
 
-*Generated: 2026-03-12 · Based on: `src/*/FUTURE_ENHANCEMENTS.md` (46 modules)*  
+*Generated: 2026-04-13 · Based on: `src/*/FUTURE_ENHANCEMENTS.md` (54 modules)*  
 *Next update: when any module FUTURE_ENHANCEMENTS.md is changed.*  
 *Issues tracker: [GitHub Issues](https://github.com/makr-code/ThemisDB/issues)*

@@ -9,7 +9,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Documentation
 
-- **Module-Docs Sync 📚 — 2026-04-13**
+- **Compendium Chapter Extensions — 2026-04-13 Session 2**
+  - §21.10 in `chapter_21_auth.md`: JWTValidator, OAuth2PkceFlow, SAMLAuthenticator, WebAuthnAuthenticator, LDAPAuthenticator, MFAAuthenticator, SessionManager, PasswordPolicy, FederatedIdentityManager
+  - §9.11 in `chapter_09_timeseries.md`: BiTemporalTable, BiTemporalJoin, TemporalQueryEngine, SnapshotManager (SQL:2011)
+  - §20.11 in `chapter_20_backup.md`: BackupManager (RAID0/1/5/6/10), PITRManager, TieredStorageManager
+  - §16.11 in `chapter_16_ml.md`: TrainingPipeline, IncrementalLoRATrainer, AutoLabeler, LoRACheckpointManager, ProvenanceTracker
+  - §11.10 in `chapter_11_realtime.md`: Changefeed, CdcMaterializedView, CdcAdmin, ConsumerGroup
+  - §25.11 in `chapter_25_devops_infrastructure.md`: ClusterUpdateManager, CanaryRollout, HotReloadEngine, InPlaceSchemaMigrator, BlueGreenDeployment
+  - §17.24–17.27 in `chapter_17_llm_integration.md`: PagedKVCache, ContinuousBatchScheduler, SpeculativeDecoder, OpenAICompatAdapter, LoRARouter, AdapterRegistry, ModelRouter; fixed duplicate §17.23
+  - `appendix_d_feature_status.md`: 33 neue Komponenten-Einträge (v1.8.0)
+  <!-- changelog-updater: compendium-chapter-extensions-2026-04-13-session2 -->
+
+
   - 56 Module indexiert; 754 Primary-Markdown-Dateien in `src/` und `include/`
   - 6 Module ohne Sekundärdokumentation erkannt; Issues erzeugt
   - Sekundärdokumentation aktualisiert in `docs/de/` und `docs/en/`
