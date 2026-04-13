@@ -611,12 +611,14 @@ def check_measure_9(root: pathlib.Path) -> dict[str, Any]:
     return {
         "id": 9,
         "title": "Disabled-Stub-Policy einführen (max. 1 Release, danach Pflichtticket)",
-        "erledigt": False,
+        "erledigt": ok_policy,
         "status": STATUS_PASS if ok_policy else STATUS_WARN,
         "checks": checks,
         "evidence": evidence,
-        "notes": "Measure noch offen. Policy-Compliance wird geprüft "
-                 "(WARN solange Measure nicht ERLEDIGT ist).",
+        "notes": "Policy-Dokument: docs/governance/DISABLED_STUB_POLICY.md. "
+                 "CI-Guard: tools/check_disabled_stubs.py. "
+                 + ("Alle Disabled-Stubs sind policy-konform." if ok_policy
+                    else "WARN: Policy-Compliance nicht vollständig hergestellt."),
     }
 
 
