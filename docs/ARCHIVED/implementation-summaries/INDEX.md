@@ -9,6 +9,7 @@ These documents summarized major feature implementations, migrations, and system
 ## Archived Implementation Files
 
 ### Core Features
+- **GAP_IMPLEMENTATION_SUMMARY.md** - GAP remediation implementation summary
 - **IMPLEMENTATION_COMPLETE.md** - General implementation completion
 - **IMPLEMENTATION_COMPLETE_CROSS_COMPILER.md** - Cross-compiler support
 - **IMPLEMENTATION_MODULARIZATION.md** - Modular architecture
@@ -27,8 +28,11 @@ These documents summarized major feature implementations, migrations, and system
 - **FAISS_MIGRATION_EXECUTIVE_SUMMARY.md** - Migration executive summary
 - **FAISS_MIGRATION_README.md** - Migration documentation
 - **FLASH_ATTENTION_IMPLEMENTATION_SUMMARY.md** - Flash attention
+- **LLM_DEPLOYMENT_PLUGIN_SUMMARY.md** - LLM deployment plugin implementation summary
 - **LORA_ADAPTER_IMPLEMENTATION_COMPLETE.md** - LoRA adapter
+- **METADATA_IMPLEMENTATION_SUMMARY.md** - Metadata implementation summary
 - **MULTI_GPU_IMPLEMENTATION_SUMMARY.md** - Multi-GPU support
+- **REVIEW_SUMMARY.txt** - Historical implementation review summary
 - **ROPE_API_IMPLEMENTATION_SUMMARY.md** - RoPE API
 
 ### Integration & Testing

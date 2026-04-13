@@ -138,13 +138,14 @@ bool ContentValidationPlugin::containsSpam(const std::string& text) const {
     );
     auto urls_begin = std::sregex_iterator(text.begin(), text.end(), url_pattern);
     auto urls_end = std::sregex_iterator();
-    int url_count = std::distance(urls_begin, urls_end);
+    const auto url_count = std::distance(urls_begin, urls_end);
     if (url_count > 3) return true; // Too many URLs
     
     return false;
 }
 
 bool ContentValidationPlugin::containsProfanity(const std::string& text) const {
+    (void)text;
     // Placeholder - can be implemented with a profanity filter library
     // or word list if needed
     return false;

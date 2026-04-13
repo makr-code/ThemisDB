@@ -25,21 +25,9 @@
 
 # Primary Sources — `security`
 
-This index lists all Markdown documentation files for module **`security`** from the directories `src/security/` and/or `include/security/`.
+This index lists all Markdown documentation files for module **`security`** from the detected source directories for that module.
 
 ## Primary Markdown Files
-
-### `src/security/`
-
-| File | Path |
-|------|------|
-| `ARCHITECTURE.md` | [`src/security/ARCHITECTURE.md`](../../../src/security/ARCHITECTURE.md) |
-| `AUDIT.md` | [`src/security/AUDIT.md`](../../../src/security/AUDIT.md) |
-| `CHANGELOG.md` | [`src/security/CHANGELOG.md`](../../../src/security/CHANGELOG.md) |
-| `FUTURE_ENHANCEMENTS.md` | [`src/security/FUTURE_ENHANCEMENTS.md`](../../../src/security/FUTURE_ENHANCEMENTS.md) |
-| `README.md` | [`src/security/README.md`](../../../src/security/README.md) |
-| `ROADMAP.md` | [`src/security/ROADMAP.md`](../../../src/security/ROADMAP.md) |
-| `SECURITY.md` | [`src/security/SECURITY.md`](../../../src/security/SECURITY.md) |
 
 ### `include/security/`
 
@@ -52,6 +40,18 @@ This index lists all Markdown documentation files for module **`security`** from
 | `README.md` | [`include/security/README.md`](../../../include/security/README.md) |
 | `ROADMAP.md` | [`include/security/ROADMAP.md`](../../../include/security/ROADMAP.md) |
 | `SECURITY.md` | [`include/security/SECURITY.md`](../../../include/security/SECURITY.md) |
+
+### `src/security/`
+
+| File | Path |
+|------|------|
+| `ARCHITECTURE.md` | [`src/security/ARCHITECTURE.md`](../../../src/security/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/security/AUDIT.md`](../../../src/security/AUDIT.md) |
+| `CHANGELOG.md` | [`src/security/CHANGELOG.md`](../../../src/security/CHANGELOG.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`src/security/FUTURE_ENHANCEMENTS.md`](../../../src/security/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`src/security/README.md`](../../../src/security/README.md) |
+| `ROADMAP.md` | [`src/security/ROADMAP.md`](../../../src/security/ROADMAP.md) |
+| `SECURITY.md` | [`src/security/SECURITY.md`](../../../src/security/SECURITY.md) |
 
 ---
 

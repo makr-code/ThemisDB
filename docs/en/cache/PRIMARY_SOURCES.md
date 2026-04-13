@@ -25,21 +25,9 @@
 
 # Primary Sources — `cache`
 
-This index lists all Markdown documentation files for module **`cache`** from the directories `src/cache/` and/or `include/cache/`.
+This index lists all Markdown documentation files for module **`cache`** from the detected source directories for that module.
 
 ## Primary Markdown Files
-
-### `src/cache/`
-
-| File | Path |
-|------|------|
-| `ARCHITECTURE.md` | [`src/cache/ARCHITECTURE.md`](../../../src/cache/ARCHITECTURE.md) |
-| `AUDIT.md` | [`src/cache/AUDIT.md`](../../../src/cache/AUDIT.md) |
-| `CHANGELOG.md` | [`src/cache/CHANGELOG.md`](../../../src/cache/CHANGELOG.md) |
-| `FUTURE_ENHANCEMENTS.md` | [`src/cache/FUTURE_ENHANCEMENTS.md`](../../../src/cache/FUTURE_ENHANCEMENTS.md) |
-| `README.md` | [`src/cache/README.md`](../../../src/cache/README.md) |
-| `ROADMAP.md` | [`src/cache/ROADMAP.md`](../../../src/cache/ROADMAP.md) |
-| `SECURITY.md` | [`src/cache/SECURITY.md`](../../../src/cache/SECURITY.md) |
 
 ### `include/cache/`
 
@@ -52,6 +40,18 @@ This index lists all Markdown documentation files for module **`cache`** from th
 | `README.md` | [`include/cache/README.md`](../../../include/cache/README.md) |
 | `ROADMAP.md` | [`include/cache/ROADMAP.md`](../../../include/cache/ROADMAP.md) |
 | `SECURITY.md` | [`include/cache/SECURITY.md`](../../../include/cache/SECURITY.md) |
+
+### `src/cache/`
+
+| File | Path |
+|------|------|
+| `ARCHITECTURE.md` | [`src/cache/ARCHITECTURE.md`](../../../src/cache/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/cache/AUDIT.md`](../../../src/cache/AUDIT.md) |
+| `CHANGELOG.md` | [`src/cache/CHANGELOG.md`](../../../src/cache/CHANGELOG.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`src/cache/FUTURE_ENHANCEMENTS.md`](../../../src/cache/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`src/cache/README.md`](../../../src/cache/README.md) |
+| `ROADMAP.md` | [`src/cache/ROADMAP.md`](../../../src/cache/ROADMAP.md) |
+| `SECURITY.md` | [`src/cache/SECURITY.md`](../../../src/cache/SECURITY.md) |
 
 ---
 

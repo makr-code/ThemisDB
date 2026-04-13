@@ -26,9 +26,21 @@
 
 # Primary Sources — `graph`
 
-This index lists all Markdown documentation files for module **`graph`** from the directories `src/graph/` and/or `include/graph/`.
+This index lists all Markdown documentation files for module **`graph`** from the detected source directories for that module.
 
 ## Primary Markdown Files
+
+### `include/graph/`
+
+| File | Path |
+|------|------|
+| `ARCHITECTURE.md` | [`include/graph/ARCHITECTURE.md`](../../../include/graph/ARCHITECTURE.md) |
+| `AUDIT.md` | [`include/graph/AUDIT.md`](../../../include/graph/AUDIT.md) |
+| `CHANGELOG.md` | [`include/graph/CHANGELOG.md`](../../../include/graph/CHANGELOG.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`include/graph/FUTURE_ENHANCEMENTS.md`](../../../include/graph/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`include/graph/README.md`](../../../include/graph/README.md) |
+| `ROADMAP.md` | [`include/graph/ROADMAP.md`](../../../include/graph/ROADMAP.md) |
+| `SECURITY.md` | [`include/graph/SECURITY.md`](../../../include/graph/SECURITY.md) |
 
 ### `src/graph/`
 
@@ -42,18 +54,6 @@ This index lists all Markdown documentation files for module **`graph`** from th
 | `README.md` | [`src/graph/README.md`](../../../src/graph/README.md) |
 | `ROADMAP.md` | [`src/graph/ROADMAP.md`](../../../src/graph/ROADMAP.md) |
 | `SECURITY.md` | [`src/graph/SECURITY.md`](../../../src/graph/SECURITY.md) |
-
-### `include/graph/`
-
-| File | Path |
-|------|------|
-| `ARCHITECTURE.md` | [`include/graph/ARCHITECTURE.md`](../../../include/graph/ARCHITECTURE.md) |
-| `AUDIT.md` | [`include/graph/AUDIT.md`](../../../include/graph/AUDIT.md) |
-| `CHANGELOG.md` | [`include/graph/CHANGELOG.md`](../../../include/graph/CHANGELOG.md) |
-| `FUTURE_ENHANCEMENTS.md` | [`include/graph/FUTURE_ENHANCEMENTS.md`](../../../include/graph/FUTURE_ENHANCEMENTS.md) |
-| `README.md` | [`include/graph/README.md`](../../../include/graph/README.md) |
-| `ROADMAP.md` | [`include/graph/ROADMAP.md`](../../../include/graph/ROADMAP.md) |
-| `SECURITY.md` | [`include/graph/SECURITY.md`](../../../include/graph/SECURITY.md) |
 
 ---
 

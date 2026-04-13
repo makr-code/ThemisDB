@@ -26,21 +26,9 @@
 
 # Primary Sources — `utils`
 
-Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`utils`** aus den Verzeichnissen `src/utils/` und/oder `include/utils/`.
+Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`utils`** aus den erkannten Quellverzeichnissen des Moduls.
 
 ## Primäre Markdown-Dateien
-
-### `src/utils/`
-
-| Datei | Pfad |
-|-------|------|
-| `ARCHITECTURE.md` | [`src/utils/ARCHITECTURE.md`](../../../src/utils/ARCHITECTURE.md) |
-| `AUDIT.md` | [`src/utils/AUDIT.md`](../../../src/utils/AUDIT.md) |
-| `CHANGELOG.md` | [`src/utils/CHANGELOG.md`](../../../src/utils/CHANGELOG.md) |
-| `FUTURE_ENHANCEMENTS.md` | [`src/utils/FUTURE_ENHANCEMENTS.md`](../../../src/utils/FUTURE_ENHANCEMENTS.md) |
-| `README.md` | [`src/utils/README.md`](../../../src/utils/README.md) |
-| `ROADMAP.md` | [`src/utils/ROADMAP.md`](../../../src/utils/ROADMAP.md) |
-| `SECURITY.md` | [`src/utils/SECURITY.md`](../../../src/utils/SECURITY.md) |
 
 ### `include/utils/`
 
@@ -54,6 +42,18 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`utils`** a
 | `README.md` | [`include/utils/README.md`](../../../include/utils/README.md) |
 | `ROADMAP.md` | [`include/utils/ROADMAP.md`](../../../include/utils/ROADMAP.md) |
 | `SECURITY.md` | [`include/utils/SECURITY.md`](../../../include/utils/SECURITY.md) |
+
+### `src/utils/`
+
+| Datei | Pfad |
+|-------|------|
+| `ARCHITECTURE.md` | [`src/utils/ARCHITECTURE.md`](../../../src/utils/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/utils/AUDIT.md`](../../../src/utils/AUDIT.md) |
+| `CHANGELOG.md` | [`src/utils/CHANGELOG.md`](../../../src/utils/CHANGELOG.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`src/utils/FUTURE_ENHANCEMENTS.md`](../../../src/utils/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`src/utils/README.md`](../../../src/utils/README.md) |
+| `ROADMAP.md` | [`src/utils/ROADMAP.md`](../../../src/utils/ROADMAP.md) |
+| `SECURITY.md` | [`src/utils/SECURITY.md`](../../../src/utils/SECURITY.md) |
 
 ---
 

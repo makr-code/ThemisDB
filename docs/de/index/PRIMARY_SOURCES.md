@@ -26,9 +26,21 @@
 
 # Primary Sources — `index`
 
-Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`index`** aus den Verzeichnissen `src/index/` und/oder `include/index/`.
+Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`index`** aus den erkannten Quellverzeichnissen des Moduls.
 
 ## Primäre Markdown-Dateien
+
+### `include/index/`
+
+| Datei | Pfad |
+|-------|------|
+| `ARCHITECTURE.md` | [`include/index/ARCHITECTURE.md`](../../../include/index/ARCHITECTURE.md) |
+| `AUDIT.md` | [`include/index/AUDIT.md`](../../../include/index/AUDIT.md) |
+| `CHANGELOG.md` | [`include/index/CHANGELOG.md`](../../../include/index/CHANGELOG.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`include/index/FUTURE_ENHANCEMENTS.md`](../../../include/index/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`include/index/README.md`](../../../include/index/README.md) |
+| `ROADMAP.md` | [`include/index/ROADMAP.md`](../../../include/index/ROADMAP.md) |
+| `SECURITY.md` | [`include/index/SECURITY.md`](../../../include/index/SECURITY.md) |
 
 ### `src/index/`
 
@@ -42,18 +54,6 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`index`** a
 | `ROADMAP.md` | [`src/index/ROADMAP.md`](../../../src/index/ROADMAP.md) |
 | `SECURITY.md` | [`src/index/SECURITY.md`](../../../src/index/SECURITY.md) |
 | `VECTOR_ADVANCED_FEATURES_README.md` | [`src/index/VECTOR_ADVANCED_FEATURES_README.md`](../../../src/index/VECTOR_ADVANCED_FEATURES_README.md) |
-
-### `include/index/`
-
-| Datei | Pfad |
-|-------|------|
-| `ARCHITECTURE.md` | [`include/index/ARCHITECTURE.md`](../../../include/index/ARCHITECTURE.md) |
-| `AUDIT.md` | [`include/index/AUDIT.md`](../../../include/index/AUDIT.md) |
-| `CHANGELOG.md` | [`include/index/CHANGELOG.md`](../../../include/index/CHANGELOG.md) |
-| `FUTURE_ENHANCEMENTS.md` | [`include/index/FUTURE_ENHANCEMENTS.md`](../../../include/index/FUTURE_ENHANCEMENTS.md) |
-| `README.md` | [`include/index/README.md`](../../../include/index/README.md) |
-| `ROADMAP.md` | [`include/index/ROADMAP.md`](../../../include/index/ROADMAP.md) |
-| `SECURITY.md` | [`include/index/SECURITY.md`](../../../include/index/SECURITY.md) |
 
 ---
 

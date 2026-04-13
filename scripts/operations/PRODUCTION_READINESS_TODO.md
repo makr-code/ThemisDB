@@ -45,5 +45,5 @@ pwsh -File scripts/operations/Invoke-LocalProductionReadiness.ps1 \
 ## Manual follow-up (release manager)
 
 - [ ] Archive `readiness-summary.json` and `readiness-summary.md` for the release
-- [ ] Update `CURRENT_STATUS.md` and `DEVELOPMENT_STATUS.md` with final gate evidence
+- [ ] Update `docs/development/CURRENT_STATUS.md` and `docs/development/DEVELOPMENT_STATUS.md` with final gate evidence
 - [ ] Create release sign-off note referencing all generated artifacts

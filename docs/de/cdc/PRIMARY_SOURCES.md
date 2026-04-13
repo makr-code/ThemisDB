@@ -25,21 +25,9 @@
 
 # Primary Sources — `cdc`
 
-Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`cdc`** aus den Verzeichnissen `src/cdc/` und/oder `include/cdc/`.
+Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`cdc`** aus den erkannten Quellverzeichnissen des Moduls.
 
 ## Primäre Markdown-Dateien
-
-### `src/cdc/`
-
-| Datei | Pfad |
-|-------|------|
-| `ARCHITECTURE.md` | [`src/cdc/ARCHITECTURE.md`](../../../src/cdc/ARCHITECTURE.md) |
-| `AUDIT.md` | [`src/cdc/AUDIT.md`](../../../src/cdc/AUDIT.md) |
-| `CHANGELOG.md` | [`src/cdc/CHANGELOG.md`](../../../src/cdc/CHANGELOG.md) |
-| `FUTURE_ENHANCEMENTS.md` | [`src/cdc/FUTURE_ENHANCEMENTS.md`](../../../src/cdc/FUTURE_ENHANCEMENTS.md) |
-| `README.md` | [`src/cdc/README.md`](../../../src/cdc/README.md) |
-| `ROADMAP.md` | [`src/cdc/ROADMAP.md`](../../../src/cdc/ROADMAP.md) |
-| `SECURITY.md` | [`src/cdc/SECURITY.md`](../../../src/cdc/SECURITY.md) |
 
 ### `include/cdc/`
 
@@ -52,6 +40,18 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`cdc`** aus
 | `README.md` | [`include/cdc/README.md`](../../../include/cdc/README.md) |
 | `ROADMAP.md` | [`include/cdc/ROADMAP.md`](../../../include/cdc/ROADMAP.md) |
 | `SECURITY.md` | [`include/cdc/SECURITY.md`](../../../include/cdc/SECURITY.md) |
+
+### `src/cdc/`
+
+| Datei | Pfad |
+|-------|------|
+| `ARCHITECTURE.md` | [`src/cdc/ARCHITECTURE.md`](../../../src/cdc/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/cdc/AUDIT.md`](../../../src/cdc/AUDIT.md) |
+| `CHANGELOG.md` | [`src/cdc/CHANGELOG.md`](../../../src/cdc/CHANGELOG.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`src/cdc/FUTURE_ENHANCEMENTS.md`](../../../src/cdc/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`src/cdc/README.md`](../../../src/cdc/README.md) |
+| `ROADMAP.md` | [`src/cdc/ROADMAP.md`](../../../src/cdc/ROADMAP.md) |
+| `SECURITY.md` | [`src/cdc/SECURITY.md`](../../../src/cdc/SECURITY.md) |
 
 ---
 

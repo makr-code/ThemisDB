@@ -5,6 +5,18 @@ message(STATUS "==========================================")
 message(STATUS "vcpkg Configuration")
 message(STATUS "==========================================")
 
+# Consume optional cache vars some tooling passes via -D to avoid
+# "Manually-specified variables were not used" warnings.
+if(DEFINED VCPKG_POWERSHELL_PATH)
+    set(ENV{VCPKG_POWERSHELL_PATH} "${VCPKG_POWERSHELL_PATH}")
+endif()
+if(DEFINED Z_VCPKG_PWSH_PATH)
+    set(ENV{Z_VCPKG_PWSH_PATH} "${Z_VCPKG_PWSH_PATH}")
+endif()
+if(DEFINED Z_VCPKG_POWERSHELL_PATH)
+    set(ENV{Z_VCPKG_POWERSHELL_PATH} "${Z_VCPKG_POWERSHELL_PATH}")
+endif()
+
 # ============================================================================
 # BINARY CACHE CONFIGURATION
 # ============================================================================
@@ -109,10 +121,17 @@ else()
     # Normalize both paths to forward slashes before comparing (Windows backslash vs forward slash)
     file(TO_CMAKE_PATH "${CMAKE_TOOLCHAIN_FILE}" _current_toolchain_norm)
     file(TO_CMAKE_PATH "${VCPKG_ROOT_DIR}/scripts/buildsystems/vcpkg.cmake" _expected_toolchain_norm)
+    # Also compare canonicalized absolute paths to tolerate relative/alternate spellings.
+    get_filename_component(_current_toolchain_real "${_current_toolchain_norm}" REALPATH)
+    get_filename_component(_expected_toolchain_real "${_expected_toolchain_norm}" REALPATH)
     # On Windows paths are case-insensitive – fall back to lowercase comparison
     string(TOLOWER "${_current_toolchain_norm}" _current_toolchain_lower)
     string(TOLOWER "${_expected_toolchain_norm}" _expected_toolchain_lower)
+    string(TOLOWER "${_current_toolchain_real}" _current_toolchain_real_lower)
+    string(TOLOWER "${_expected_toolchain_real}" _expected_toolchain_real_lower)
     if(_current_toolchain_lower STREQUAL _expected_toolchain_lower)
+        message(STATUS "CMAKE_TOOLCHAIN_FILE: ${CMAKE_TOOLCHAIN_FILE} (matches vcpkg root)")
+    elseif(_current_toolchain_real_lower STREQUAL _expected_toolchain_real_lower)
         message(STATUS "CMAKE_TOOLCHAIN_FILE: ${CMAKE_TOOLCHAIN_FILE} (matches vcpkg root)")
     elseif(_current_toolchain_norm STREQUAL _expected_toolchain_norm)
         message(STATUS "CMAKE_TOOLCHAIN_FILE: ${CMAKE_TOOLCHAIN_FILE} (matches vcpkg root)")

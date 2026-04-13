@@ -16,7 +16,6 @@
 - `src/query/README.md`
 - `src/query/ROADMAP.md`
 - `src/query/SECURITY.md`
-- `src/query/roadmap.md`
 
 **Reference:**
 - Tool: `tools/module_docs_builder.py`
@@ -26,22 +25,9 @@
 
 # Primary Sources — `query`
 
-This index lists all Markdown documentation files for module **`query`** from the directories `src/query/` and/or `include/query/`.
+This index lists all Markdown documentation files for module **`query`** from the detected source directories for that module.
 
 ## Primary Markdown Files
-
-### `src/query/`
-
-| File | Path |
-|------|------|
-| `ARCHITECTURE.md` | [`src/query/ARCHITECTURE.md`](../../../src/query/ARCHITECTURE.md) |
-| `AUDIT.md` | [`src/query/AUDIT.md`](../../../src/query/AUDIT.md) |
-| `CHANGELOG.md` | [`src/query/CHANGELOG.md`](../../../src/query/CHANGELOG.md) |
-| `FUTURE_ENHANCEMENTS.md` | [`src/query/FUTURE_ENHANCEMENTS.md`](../../../src/query/FUTURE_ENHANCEMENTS.md) |
-| `README.md` | [`src/query/README.md`](../../../src/query/README.md) |
-| `ROADMAP.md` | [`src/query/ROADMAP.md`](../../../src/query/ROADMAP.md) |
-| `SECURITY.md` | [`src/query/SECURITY.md`](../../../src/query/SECURITY.md) |
-| `roadmap.md` | [`src/query/roadmap.md`](../../../src/query/roadmap.md) |
 
 ### `include/query/`
 
@@ -54,6 +40,18 @@ This index lists all Markdown documentation files for module **`query`** from th
 | `README.md` | [`include/query/README.md`](../../../include/query/README.md) |
 | `ROADMAP.md` | [`include/query/ROADMAP.md`](../../../include/query/ROADMAP.md) |
 | `SECURITY.md` | [`include/query/SECURITY.md`](../../../include/query/SECURITY.md) |
+
+### `src/query/`
+
+| File | Path |
+|------|------|
+| `ARCHITECTURE.md` | [`src/query/ARCHITECTURE.md`](../../../src/query/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/query/AUDIT.md`](../../../src/query/AUDIT.md) |
+| `CHANGELOG.md` | [`src/query/CHANGELOG.md`](../../../src/query/CHANGELOG.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`src/query/FUTURE_ENHANCEMENTS.md`](../../../src/query/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`src/query/README.md`](../../../src/query/README.md) |
+| `ROADMAP.md` | [`src/query/ROADMAP.md`](../../../src/query/ROADMAP.md) |
+| `SECURITY.md` | [`src/query/SECURITY.md`](../../../src/query/SECURITY.md) |
 
 ---
 

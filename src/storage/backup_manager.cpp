@@ -391,6 +391,7 @@ Result<std::string> BackupManager::createFullBackup(const std::string& dest_dir)
 bool BackupManager::createFullBackup(const std::string& dest_dir, 
                                      std::error_code& ec,
                                      const BackupOptions& options) {
+    (void)options;
     // Call the Result-based version and convert to bool + error_code
     auto result = createFullBackup(dest_dir);
     if (result) {
@@ -1016,6 +1017,7 @@ bool BackupManager::compressPath(const std::string& src_path, const std::string&
 
 bool BackupManager::decompressPath(const std::string& src_path, const std::string& dest_path,
                                    CompressionType type, std::error_code& ec) {
+    (void)type;
     // Placeholder implementation
     namespace fs = std::filesystem;
     try {
@@ -1058,6 +1060,7 @@ bool BackupManager::encryptFile(const std::string& src_path, const std::string& 
 
 bool BackupManager::decryptFile(const std::string& src_path, const std::string& dest_path,
                                 const std::string& key, std::error_code& ec) {
+    (void)key;
     // Placeholder implementation
     namespace fs = std::filesystem;
     try {
@@ -1099,6 +1102,8 @@ bool BackupManager::downloadFromCloud(const std::string& cloud_path, const std::
                                       StorageBackend backend,
                                       const std::map<std::string, std::string>& config,
                                       std::error_code& ec) {
+    (void)local_path;
+    (void)config;
     // Placeholder implementation
     try {
         THEMIS_INFO("Downloading {} from cloud backend {}", cloud_path, static_cast<int>(backend));
@@ -1220,6 +1225,7 @@ bool BackupManager::restoreFromBackup(const std::string& src_dir, std::error_cod
 
 bool BackupManager::performPITR(const std::string& dest_dir, const PITROptions& pitr_options,
                                 std::error_code& ec, RecoveryStats* stats) {
+    (void)pitr_options;
     // Placeholder implementation for PITR
     namespace fs = std::filesystem;
     try {
@@ -1255,6 +1261,7 @@ bool BackupManager::performPITR(const std::string& dest_dir, const PITROptions& 
 bool BackupManager::restoreCollections(const std::string& src_dir, 
                                        const std::vector<std::string>& collections,
                                        std::error_code& ec) {
+    (void)src_dir;
     // Placeholder implementation for partial recovery
     try {
         THEMIS_INFO("Restoring {} collections from backup", collections.size());

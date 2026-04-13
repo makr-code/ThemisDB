@@ -18,7 +18,7 @@
 
 # Primary Sources — `rpc_grpc`
 
-Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`rpc_grpc`** aus den Verzeichnissen `src/rpc_grpc/` und/oder `include/rpc_grpc/`.
+Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`rpc_grpc`** aus den erkannten Quellverzeichnissen des Moduls.
 
 ## Primäre Markdown-Dateien
 

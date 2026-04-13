@@ -18,7 +18,7 @@
 
 # Primary Sources — `gpu`
 
-This index lists all Markdown documentation files for module **`gpu`** from the directories `src/gpu/` and/or `include/gpu/`.
+This index lists all Markdown documentation files for module **`gpu`** from the detected source directories for that module.
 
 ## Primary Markdown Files
 

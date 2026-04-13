@@ -25,21 +25,9 @@
 
 # Primary Sources — `observability`
 
-This index lists all Markdown documentation files for module **`observability`** from the directories `src/observability/` and/or `include/observability/`.
+This index lists all Markdown documentation files for module **`observability`** from the detected source directories for that module.
 
 ## Primary Markdown Files
-
-### `src/observability/`
-
-| File | Path |
-|------|------|
-| `ARCHITECTURE.md` | [`src/observability/ARCHITECTURE.md`](../../../src/observability/ARCHITECTURE.md) |
-| `AUDIT.md` | [`src/observability/AUDIT.md`](../../../src/observability/AUDIT.md) |
-| `CHANGELOG.md` | [`src/observability/CHANGELOG.md`](../../../src/observability/CHANGELOG.md) |
-| `FUTURE_ENHANCEMENTS.md` | [`src/observability/FUTURE_ENHANCEMENTS.md`](../../../src/observability/FUTURE_ENHANCEMENTS.md) |
-| `README.md` | [`src/observability/README.md`](../../../src/observability/README.md) |
-| `ROADMAP.md` | [`src/observability/ROADMAP.md`](../../../src/observability/ROADMAP.md) |
-| `SECURITY.md` | [`src/observability/SECURITY.md`](../../../src/observability/SECURITY.md) |
 
 ### `include/observability/`
 
@@ -52,6 +40,18 @@ This index lists all Markdown documentation files for module **`observability`**
 | `README.md` | [`include/observability/README.md`](../../../include/observability/README.md) |
 | `ROADMAP.md` | [`include/observability/ROADMAP.md`](../../../include/observability/ROADMAP.md) |
 | `SECURITY.md` | [`include/observability/SECURITY.md`](../../../include/observability/SECURITY.md) |
+
+### `src/observability/`
+
+| File | Path |
+|------|------|
+| `ARCHITECTURE.md` | [`src/observability/ARCHITECTURE.md`](../../../src/observability/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/observability/AUDIT.md`](../../../src/observability/AUDIT.md) |
+| `CHANGELOG.md` | [`src/observability/CHANGELOG.md`](../../../src/observability/CHANGELOG.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`src/observability/FUTURE_ENHANCEMENTS.md`](../../../src/observability/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`src/observability/README.md`](../../../src/observability/README.md) |
+| `ROADMAP.md` | [`src/observability/ROADMAP.md`](../../../src/observability/ROADMAP.md) |
+| `SECURITY.md` | [`src/observability/SECURITY.md`](../../../src/observability/SECURITY.md) |
 
 ---
 

@@ -25,21 +25,9 @@
 
 # Primary Sources — `governance`
 
-This index lists all Markdown documentation files for module **`governance`** from the directories `src/governance/` and/or `include/governance/`.
+This index lists all Markdown documentation files for module **`governance`** from the detected source directories for that module.
 
 ## Primary Markdown Files
-
-### `src/governance/`
-
-| File | Path |
-|------|------|
-| `ARCHITECTURE.md` | [`src/governance/ARCHITECTURE.md`](../../../src/governance/ARCHITECTURE.md) |
-| `AUDIT.md` | [`src/governance/AUDIT.md`](../../../src/governance/AUDIT.md) |
-| `CHANGELOG.md` | [`src/governance/CHANGELOG.md`](../../../src/governance/CHANGELOG.md) |
-| `FUTURE_ENHANCEMENTS.md` | [`src/governance/FUTURE_ENHANCEMENTS.md`](../../../src/governance/FUTURE_ENHANCEMENTS.md) |
-| `README.md` | [`src/governance/README.md`](../../../src/governance/README.md) |
-| `ROADMAP.md` | [`src/governance/ROADMAP.md`](../../../src/governance/ROADMAP.md) |
-| `SECURITY.md` | [`src/governance/SECURITY.md`](../../../src/governance/SECURITY.md) |
 
 ### `include/governance/`
 
@@ -52,6 +40,18 @@ This index lists all Markdown documentation files for module **`governance`** fr
 | `README.md` | [`include/governance/README.md`](../../../include/governance/README.md) |
 | `ROADMAP.md` | [`include/governance/ROADMAP.md`](../../../include/governance/ROADMAP.md) |
 | `SECURITY.md` | [`include/governance/SECURITY.md`](../../../include/governance/SECURITY.md) |
+
+### `src/governance/`
+
+| File | Path |
+|------|------|
+| `ARCHITECTURE.md` | [`src/governance/ARCHITECTURE.md`](../../../src/governance/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/governance/AUDIT.md`](../../../src/governance/AUDIT.md) |
+| `CHANGELOG.md` | [`src/governance/CHANGELOG.md`](../../../src/governance/CHANGELOG.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`src/governance/FUTURE_ENHANCEMENTS.md`](../../../src/governance/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`src/governance/README.md`](../../../src/governance/README.md) |
+| `ROADMAP.md` | [`src/governance/ROADMAP.md`](../../../src/governance/ROADMAP.md) |
+| `SECURITY.md` | [`src/governance/SECURITY.md`](../../../src/governance/SECURITY.md) |
 
 ---
 

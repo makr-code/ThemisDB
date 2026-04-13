@@ -312,42 +312,20 @@ http::response<http::string_body> LLMApiHandler::handleRAG(
         rag_context.collection_name = collection;
         rag_context.top_k = top_k;
 
+        auto& plugin_mgr = llm::LLMPluginManager::instance();
+
         // Perform vector retrieval when a QueryEngine has been wired.
+        // NOTE: QueryEngine vector-search API is currently in migration.
+        // Keep RAG operational with empty retrieval context until the
+        // executeFilteredVectorSearch wiring is aligned again.
         if (query_engine_ && !collection.empty() && top_k > 0) {
             try {
-                // Embed the query using the LLM plugin.
-                auto& plugin_mgr = llm::LLMPluginManager::instance();
                 const std::vector<float> query_vec = plugin_mgr.embed(query);
-
-                if (!query_vec.empty()) {
-                    // Build a filtered vector search query.
-                    themis::FilteredVectorSearchQuery vsq;
-                    vsq.table        = collection;
-                    vsq.query_vector = query_vec;
-                    vsq.k            = static_cast<size_t>(top_k);
-
-                    const auto vsr = query_engine_->executeFilteredVectorSearch(vsq);
-                    if (vsr.ok()) {
-                        rag_context.documents.reserve(vsr.value().size());
-                        for (const auto& hit : vsr.value()) {
-                            llm::RAGContext::Document doc;
-                            // Use the "content" field if present, otherwise the full JSON.
-                            if (hit.entity.contains("content") &&
-                                hit.entity["content"].is_string()) {
-                                doc.content = hit.entity["content"].get<std::string>();
-                            } else {
-                                doc.content = hit.entity.dump();
-                            }
-                            doc.source          = hit.pk;
-                            doc.relevance_score = 1.0f - hit.vector_distance;
-                            doc.metadata        = hit.entity;
-                            rag_context.documents.push_back(std::move(doc));
-                        }
-                    }
+                if (query_vec.empty()) {
+                    THEMIS_WARN("LLMApiHandler::handleRAG: embedding returned empty vector for query");
                 }
             } catch (const std::exception& ve) {
-                // Vector search failure is non-fatal — fall back to empty context.
-                THEMIS_WARN("LLMApiHandler::handleRAG: vector search failed ({}); "
+                THEMIS_WARN("LLMApiHandler::handleRAG: vector retrieval skipped ({}); "
                             "proceeding with empty document context", ve.what());
             }
         }

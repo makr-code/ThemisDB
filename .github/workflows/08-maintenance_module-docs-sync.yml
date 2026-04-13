@@ -14,6 +14,7 @@ name: Module Docs Sync
 # Triggers:
 #   - push to develop when *.md files in src/** or include/** change,
 #     or when the generator / workflow files themselves change.
+#   - nightly schedule at 03:00 UTC as a safety net.
 #   - workflow_dispatch for manual runs.
 #
 # Auto-commit and issue creation are guarded by:
@@ -21,6 +22,16 @@ name: Module Docs Sync
 # so they never run on PRs or other branches.
 
 on:
+  push:
+    branches:
+      - develop
+    paths:
+      - 'src/**/*.md'
+      - 'include/**/*.md'
+      - 'tools/module_docs_builder.py'
+      - 'tools/ci/changelog_updater.py'
+      - 'tools/ci/module_docs_issue_reporter.py'
+      - '.github/workflows/08-maintenance_module-docs-sync.yml'
   schedule:
     - cron: '0 3 * * *'  # Nightly at 03:00 UTC – sync module docs across all branches
   workflow_dispatch:

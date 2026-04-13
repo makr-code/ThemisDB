@@ -25,21 +25,9 @@
 
 # Primary Sources — `maintenance`
 
-This index lists all Markdown documentation files for module **`maintenance`** from the directories `src/maintenance/` and/or `include/maintenance/`.
+This index lists all Markdown documentation files for module **`maintenance`** from the detected source directories for that module.
 
 ## Primary Markdown Files
-
-### `src/maintenance/`
-
-| File | Path |
-|------|------|
-| `ARCHITECTURE.md` | [`src/maintenance/ARCHITECTURE.md`](../../../src/maintenance/ARCHITECTURE.md) |
-| `AUDIT.md` | [`src/maintenance/AUDIT.md`](../../../src/maintenance/AUDIT.md) |
-| `CHANGELOG.md` | [`src/maintenance/CHANGELOG.md`](../../../src/maintenance/CHANGELOG.md) |
-| `FUTURE_ENHANCEMENTS.md` | [`src/maintenance/FUTURE_ENHANCEMENTS.md`](../../../src/maintenance/FUTURE_ENHANCEMENTS.md) |
-| `README.md` | [`src/maintenance/README.md`](../../../src/maintenance/README.md) |
-| `ROADMAP.md` | [`src/maintenance/ROADMAP.md`](../../../src/maintenance/ROADMAP.md) |
-| `SECURITY.md` | [`src/maintenance/SECURITY.md`](../../../src/maintenance/SECURITY.md) |
 
 ### `include/maintenance/`
 
@@ -52,6 +40,18 @@ This index lists all Markdown documentation files for module **`maintenance`** f
 | `README.md` | [`include/maintenance/README.md`](../../../include/maintenance/README.md) |
 | `ROADMAP.md` | [`include/maintenance/ROADMAP.md`](../../../include/maintenance/ROADMAP.md) |
 | `SECURITY.md` | [`include/maintenance/SECURITY.md`](../../../include/maintenance/SECURITY.md) |
+
+### `src/maintenance/`
+
+| File | Path |
+|------|------|
+| `ARCHITECTURE.md` | [`src/maintenance/ARCHITECTURE.md`](../../../src/maintenance/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/maintenance/AUDIT.md`](../../../src/maintenance/AUDIT.md) |
+| `CHANGELOG.md` | [`src/maintenance/CHANGELOG.md`](../../../src/maintenance/CHANGELOG.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`src/maintenance/FUTURE_ENHANCEMENTS.md`](../../../src/maintenance/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`src/maintenance/README.md`](../../../src/maintenance/README.md) |
+| `ROADMAP.md` | [`src/maintenance/ROADMAP.md`](../../../src/maintenance/ROADMAP.md) |
+| `SECURITY.md` | [`src/maintenance/SECURITY.md`](../../../src/maintenance/SECURITY.md) |
 
 ---
 

@@ -1321,7 +1321,7 @@ PluginNegotiationResult PluginManager::negotiateCapabilities(
 }
 
 PluginManager::~PluginManager() {
-    unloadAllPlugins();
+    (void)unloadAllPlugins();
 }
 
 // ============================================================================

@@ -83,7 +83,7 @@ SelfAwareness::Config SelfAwareness::Config::loadFromYAML(const std::string& yam
             }
         }
         
-    } catch (const std::exception& e) {
+    } catch (const std::exception&) {
         // Use defaults if config fails to load
     }
     

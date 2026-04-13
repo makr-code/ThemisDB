@@ -25,21 +25,9 @@
 
 # Primary Sources — `search`
 
-This index lists all Markdown documentation files for module **`search`** from the directories `src/search/` and/or `include/search/`.
+This index lists all Markdown documentation files for module **`search`** from the detected source directories for that module.
 
 ## Primary Markdown Files
-
-### `src/search/`
-
-| File | Path |
-|------|------|
-| `ARCHITECTURE.md` | [`src/search/ARCHITECTURE.md`](../../../src/search/ARCHITECTURE.md) |
-| `AUDIT.md` | [`src/search/AUDIT.md`](../../../src/search/AUDIT.md) |
-| `CHANGELOG.md` | [`src/search/CHANGELOG.md`](../../../src/search/CHANGELOG.md) |
-| `FUTURE_ENHANCEMENTS.md` | [`src/search/FUTURE_ENHANCEMENTS.md`](../../../src/search/FUTURE_ENHANCEMENTS.md) |
-| `README.md` | [`src/search/README.md`](../../../src/search/README.md) |
-| `ROADMAP.md` | [`src/search/ROADMAP.md`](../../../src/search/ROADMAP.md) |
-| `SECURITY.md` | [`src/search/SECURITY.md`](../../../src/search/SECURITY.md) |
 
 ### `include/search/`
 
@@ -52,6 +40,18 @@ This index lists all Markdown documentation files for module **`search`** from t
 | `README.md` | [`include/search/README.md`](../../../include/search/README.md) |
 | `ROADMAP.md` | [`include/search/ROADMAP.md`](../../../include/search/ROADMAP.md) |
 | `SECURITY.md` | [`include/search/SECURITY.md`](../../../include/search/SECURITY.md) |
+
+### `src/search/`
+
+| File | Path |
+|------|------|
+| `ARCHITECTURE.md` | [`src/search/ARCHITECTURE.md`](../../../src/search/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/search/AUDIT.md`](../../../src/search/AUDIT.md) |
+| `CHANGELOG.md` | [`src/search/CHANGELOG.md`](../../../src/search/CHANGELOG.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`src/search/FUTURE_ENHANCEMENTS.md`](../../../src/search/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`src/search/README.md`](../../../src/search/README.md) |
+| `ROADMAP.md` | [`src/search/ROADMAP.md`](../../../src/search/ROADMAP.md) |
+| `SECURITY.md` | [`src/search/SECURITY.md`](../../../src/search/SECURITY.md) |
 
 ---
 

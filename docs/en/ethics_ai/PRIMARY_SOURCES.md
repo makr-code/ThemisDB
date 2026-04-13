@@ -18,7 +18,7 @@
 
 # Primary Sources — `ethics_ai`
 
-This index lists all Markdown documentation files for module **`ethics_ai`** from the directories `src/ethics_ai/` and/or `include/ethics_ai/`.
+This index lists all Markdown documentation files for module **`ethics_ai`** from the detected source directories for that module.
 
 ## Primary Markdown Files
 

@@ -25,21 +25,9 @@
 
 # Primary Sources — `analytics`
 
-This index lists all Markdown documentation files for module **`analytics`** from the directories `src/analytics/` and/or `include/analytics/`.
+This index lists all Markdown documentation files for module **`analytics`** from the detected source directories for that module.
 
 ## Primary Markdown Files
-
-### `src/analytics/`
-
-| File | Path |
-|------|------|
-| `ARCHITECTURE.md` | [`src/analytics/ARCHITECTURE.md`](../../../src/analytics/ARCHITECTURE.md) |
-| `AUDIT.md` | [`src/analytics/AUDIT.md`](../../../src/analytics/AUDIT.md) |
-| `CHANGELOG.md` | [`src/analytics/CHANGELOG.md`](../../../src/analytics/CHANGELOG.md) |
-| `FUTURE_ENHANCEMENTS.md` | [`src/analytics/FUTURE_ENHANCEMENTS.md`](../../../src/analytics/FUTURE_ENHANCEMENTS.md) |
-| `README.md` | [`src/analytics/README.md`](../../../src/analytics/README.md) |
-| `ROADMAP.md` | [`src/analytics/ROADMAP.md`](../../../src/analytics/ROADMAP.md) |
-| `SECURITY.md` | [`src/analytics/SECURITY.md`](../../../src/analytics/SECURITY.md) |
 
 ### `include/analytics/`
 
@@ -52,6 +40,18 @@ This index lists all Markdown documentation files for module **`analytics`** fro
 | `README.md` | [`include/analytics/README.md`](../../../include/analytics/README.md) |
 | `ROADMAP.md` | [`include/analytics/ROADMAP.md`](../../../include/analytics/ROADMAP.md) |
 | `SECURITY.md` | [`include/analytics/SECURITY.md`](../../../include/analytics/SECURITY.md) |
+
+### `src/analytics/`
+
+| File | Path |
+|------|------|
+| `ARCHITECTURE.md` | [`src/analytics/ARCHITECTURE.md`](../../../src/analytics/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/analytics/AUDIT.md`](../../../src/analytics/AUDIT.md) |
+| `CHANGELOG.md` | [`src/analytics/CHANGELOG.md`](../../../src/analytics/CHANGELOG.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`src/analytics/FUTURE_ENHANCEMENTS.md`](../../../src/analytics/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`src/analytics/README.md`](../../../src/analytics/README.md) |
+| `ROADMAP.md` | [`src/analytics/ROADMAP.md`](../../../src/analytics/ROADMAP.md) |
+| `SECURITY.md` | [`src/analytics/SECURITY.md`](../../../src/analytics/SECURITY.md) |
 
 ---
 

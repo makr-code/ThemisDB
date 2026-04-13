@@ -27,21 +27,9 @@
 
 # Primary Sources — `themis`
 
-This index lists all Markdown documentation files for module **`themis`** from the directories `src/themis/` and/or `include/themis/`.
+This index lists all Markdown documentation files for module **`themis`** from the detected source directories for that module.
 
 ## Primary Markdown Files
-
-### `src/themis/`
-
-| File | Path |
-|------|------|
-| `ARCHITECTURE.md` | [`src/themis/ARCHITECTURE.md`](../../../src/themis/ARCHITECTURE.md) |
-| `AUDIT.md` | [`src/themis/AUDIT.md`](../../../src/themis/AUDIT.md) |
-| `CHANGELOG.md` | [`src/themis/CHANGELOG.md`](../../../src/themis/CHANGELOG.md) |
-| `FUTURE_ENHANCEMENTS.md` | [`src/themis/FUTURE_ENHANCEMENTS.md`](../../../src/themis/FUTURE_ENHANCEMENTS.md) |
-| `README.md` | [`src/themis/README.md`](../../../src/themis/README.md) |
-| `ROADMAP.md` | [`src/themis/ROADMAP.md`](../../../src/themis/ROADMAP.md) |
-| `SECURITY.md` | [`src/themis/SECURITY.md`](../../../src/themis/SECURITY.md) |
 
 ### `include/themis/`
 
@@ -54,8 +42,30 @@ This index lists all Markdown documentation files for module **`themis`** from t
 | `README.md` | [`include/themis/README.md`](../../../include/themis/README.md) |
 | `ROADMAP.md` | [`include/themis/ROADMAP.md`](../../../include/themis/ROADMAP.md) |
 | `SECURITY.md` | [`include/themis/SECURITY.md`](../../../include/themis/SECURITY.md) |
+
+### `include/themis/base/`
+
+| File | Path |
+|------|------|
 | `README.md` | [`include/themis/base/README.md`](../../../include/themis/base/README.md) |
+
+### `include/themis/gpu/`
+
+| File | Path |
+|------|------|
 | `README.md` | [`include/themis/gpu/README.md`](../../../include/themis/gpu/README.md) |
+
+### `src/themis/`
+
+| File | Path |
+|------|------|
+| `ARCHITECTURE.md` | [`src/themis/ARCHITECTURE.md`](../../../src/themis/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/themis/AUDIT.md`](../../../src/themis/AUDIT.md) |
+| `CHANGELOG.md` | [`src/themis/CHANGELOG.md`](../../../src/themis/CHANGELOG.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`src/themis/FUTURE_ENHANCEMENTS.md`](../../../src/themis/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`src/themis/README.md`](../../../src/themis/README.md) |
+| `ROADMAP.md` | [`src/themis/ROADMAP.md`](../../../src/themis/ROADMAP.md) |
+| `SECURITY.md` | [`src/themis/SECURITY.md`](../../../src/themis/SECURITY.md) |
 
 ---
 

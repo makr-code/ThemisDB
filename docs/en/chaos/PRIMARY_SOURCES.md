@@ -25,21 +25,9 @@
 
 # Primary Sources — `chaos`
 
-This index lists all Markdown documentation files for module **`chaos`** from the directories `src/chaos/` and/or `include/chaos/`.
+This index lists all Markdown documentation files for module **`chaos`** from the detected source directories for that module.
 
 ## Primary Markdown Files
-
-### `src/chaos/`
-
-| File | Path |
-|------|------|
-| `ARCHITECTURE.md` | [`src/chaos/ARCHITECTURE.md`](../../../src/chaos/ARCHITECTURE.md) |
-| `AUDIT.md` | [`src/chaos/AUDIT.md`](../../../src/chaos/AUDIT.md) |
-| `CHANGELOG.md` | [`src/chaos/CHANGELOG.md`](../../../src/chaos/CHANGELOG.md) |
-| `FUTURE_ENHANCEMENTS.md` | [`src/chaos/FUTURE_ENHANCEMENTS.md`](../../../src/chaos/FUTURE_ENHANCEMENTS.md) |
-| `README.md` | [`src/chaos/README.md`](../../../src/chaos/README.md) |
-| `ROADMAP.md` | [`src/chaos/ROADMAP.md`](../../../src/chaos/ROADMAP.md) |
-| `SECURITY.md` | [`src/chaos/SECURITY.md`](../../../src/chaos/SECURITY.md) |
 
 ### `include/chaos/`
 
@@ -52,6 +40,18 @@ This index lists all Markdown documentation files for module **`chaos`** from th
 | `README.md` | [`include/chaos/README.md`](../../../include/chaos/README.md) |
 | `ROADMAP.md` | [`include/chaos/ROADMAP.md`](../../../include/chaos/ROADMAP.md) |
 | `SECURITY.md` | [`include/chaos/SECURITY.md`](../../../include/chaos/SECURITY.md) |
+
+### `src/chaos/`
+
+| File | Path |
+|------|------|
+| `ARCHITECTURE.md` | [`src/chaos/ARCHITECTURE.md`](../../../src/chaos/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/chaos/AUDIT.md`](../../../src/chaos/AUDIT.md) |
+| `CHANGELOG.md` | [`src/chaos/CHANGELOG.md`](../../../src/chaos/CHANGELOG.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`src/chaos/FUTURE_ENHANCEMENTS.md`](../../../src/chaos/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`src/chaos/README.md`](../../../src/chaos/README.md) |
+| `ROADMAP.md` | [`src/chaos/ROADMAP.md`](../../../src/chaos/ROADMAP.md) |
+| `SECURITY.md` | [`src/chaos/SECURITY.md`](../../../src/chaos/SECURITY.md) |
 
 ---
 

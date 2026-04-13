@@ -94,6 +94,23 @@ Historical implementation summaries moved to `/implementation-summaries/` subdir
 
 **Current Documentation:** Feature-specific docs in main docs tree
 
+### Documentation Hygiene Archive Update (Current Cleanup Pass)
+
+The following historical root-level documents were moved into this archive structure during the documentation hygiene cleanup pass:
+
+- `/gaps/GAP_ANALYSIS_SUMMARY.md`
+- `/implementation-summaries/GAP_IMPLEMENTATION_SUMMARY.md`
+- `/implementation-summaries/LLM_DEPLOYMENT_PLUGIN_SUMMARY.md`
+- `/implementation-summaries/METADATA_IMPLEMENTATION_SUMMARY.md`
+- `/implementation-summaries/REVIEW_SUMMARY.txt`
+- `/todos/issue_3491_sub_issue_1.md`
+
+The following active status documents were moved out of the repository root into active documentation areas instead of being archived:
+
+- `docs/development/CURRENT_STATUS.md`
+- `docs/development/DEVELOPMENT_STATUS.md`
+- `docs/en/llm/EUROPEAN_ACADEMIC_MODELS_GUIDE.md`
+
 ---
 
 ## Documents NOT Archived (Keep Active)

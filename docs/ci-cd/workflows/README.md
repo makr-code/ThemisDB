@@ -114,8 +114,12 @@ Für jeden Workflow wird Aufgabe, Auslöser, Eingaben und Funktionsweise beschri
 | Workflow | Typ | Dokumentation |
 |----------|-----|---------------|
 | [Manual] Bootstrap Release Branches | 🖱️ Manuell | [04-release/bootstrap-release-branches.md](04-release/bootstrap-release-branches.md) |
+| Binary Package Layout & Installer Policy | 📐 Standard | [04-release/binary-package-layout.md](04-release/binary-package-layout.md) |
+| Build Binary Release · Linux | 🔄 CI/CD | [04-release/build-binary-linux.md](04-release/build-binary-linux.md) |
+| Build Binary Release · Windows | 🔄 CI/CD | [04-release/build-binary-windows.md](04-release/build-binary-windows.md) |
 | Canary Deployments CI | 🔄 CI/CD | [04-release/canary-deployments-ci.md](04-release/canary-deployments-ci.md) |
 | [Manual] Create Release Archive | 🖱️ Manuell | [04-release/create-release-archive.md](04-release/create-release-archive.md) |
+| Docker Image CI | 🔄 CI/CD | [04-release/docker-image.md](04-release/docker-image.md) |
 | Publish Docker image to Docker Hub (on GitHub Release) | 🔄 CI/CD | [04-release/dockerhub-publish-on-release.md](04-release/dockerhub-publish-on-release.md) |
 | Publish · Enterprise Edition | 🔄 CI/CD | [04-release/publish-enterprise.md](04-release/publish-enterprise.md) |
 | Publish · Hyperscaler Edition | 🔄 CI/CD | [04-release/publish-hyperscaler.md](04-release/publish-hyperscaler.md) |
@@ -190,14 +194,13 @@ Für jeden Workflow wird Aufgabe, Auslöser, Eingaben und Funktionsweise beschri
 | [Manual] Add Documentation Metadata | 🖱️ Manuell | [08-maintenance/add-doc-metadata.md](08-maintenance/add-doc-metadata.md) |
 | Auto Label | 🔄 CI/CD | [08-maintenance/auto-label.md](08-maintenance/auto-label.md) |
 | Classify Bridge CI | 🔄 CI/CD | [08-maintenance/classify-bridge-ci.md](08-maintenance/classify-bridge-ci.md) |
-| Code Maturity Analysis & Auto-Versioning | ⏰ Geplant | [08-maintenance/code-maturity-analysis.md](08-maintenance/code-maturity-analysis.md) |
+| Code Maturity Analysis & Auto-Versioning | 🔄 CI/CD | [08-maintenance/code-maturity-analysis.md](08-maintenance/code-maturity-analysis.md) |
 | Data Augmentation Pipeline Tests | 🔄 CI/CD | [08-maintenance/data-augmentation-tests.md](08-maintenance/data-augmentation-tests.md) |
+| Docs Orphan Check | 🔄 CI/CD | [08-maintenance/docs-orphan-check.md](08-maintenance/docs-orphan-check.md) |
 | [Manual] Label Governance - Setup & Audit | 🖱️ Manuell | [08-maintenance/github_workflows_label-governance.md](08-maintenance/github_workflows_label-governance.md) |
 | Module Docs Sync | 🔄 CI/CD | [08-maintenance/module-docs-sync.md](08-maintenance/module-docs-sync.md) |
 | OpenAPI SDK Generation | 🔄 CI/CD | [08-maintenance/sdk-generation.md](08-maintenance/sdk-generation.md) |
-| Sync-Milestones CI | 🔄 CI/CD | [08-maintenance/sync-milestones-ci.md](08-maintenance/sync-milestones-ci.md) |
-| [Manual] Sync Milestones from Roadmap | 🖱️ Manuell | [08-maintenance/sync-milestones.md](08-maintenance/sync-milestones.md) |
-| [Manual] Sync Roadmap Issues | 🖱️ Manuell | [08-maintenance/sync-roadmap-issues.md](08-maintenance/sync-roadmap-issues.md) |
+| Root Docs Hygiene | 🔄 CI/CD | [08-maintenance/root-docs-hygiene.md](08-maintenance/root-docs-hygiene.md) |
 
 ## 09 · PR Gates
 
@@ -233,14 +236,12 @@ Für jeden Workflow wird Aufgabe, Auslöser, Eingaben und Funktionsweise beschri
 | Content Abuse Detection CI | 🔄 CI/CD | [content-abuse-detection-ci.md](content-abuse-detection-ci.md) |
 | Content Deduplication via Perceptual Hashing CI | 🔄 CI/CD | [content-dedup-perceptual-hashing-ci.md](content-dedup-perceptual-hashing-ci.md) |
 | Prompt Engineering – CoT Step Tracer CI | 🔄 CI/CD | [cot-tracer-ci.md](cot-tracer-ci.md) |
-| [Manual] Create Release Archive | 🖱️ Manuell | [create-release-archive.md](create-release-archive.md) |
 | CSV Export for Compliance Reports CI | 🔄 CI/CD | [csv-export-compliance-reporting-ci.md](csv-export-compliance-reporting-ci.md) |
 | Cypher/Gremlin Parser CI | 🔄 CI/CD | [cypher-gremlin-parser-ci.md](cypher-gremlin-parser-ci.md) |
 | DiffEngine Cache Stampede CI | 🔄 CI/CD | [diff-engine-cache-stampede-ci.md](diff-engine-cache-stampede-ci.md) |
 | DistributedAnalytics Healthy Shard Count CI | 🔄 CI/CD | [distributed-analytics-healthy-shard-count-ci.md](distributed-analytics-healthy-shard-count-ci.md) |
 | DistributedGraphManager Shared Mutex CI | 🔄 CI/CD | [distributed-graph-shared-mutex-ci.md](distributed-graph-shared-mutex-ci.md) |
 | Distributed Ingestion Coordinator CI | 🔄 CI/CD | [distributed-ingestion-coordinator-ci.md](distributed-ingestion-coordinator-ci.md) |
-| Docker Image CI | 🔄 CI/CD | [docker-image.md](docker-image.md) |
 | Prompt Engineering – DSPy Module CI | 🔄 CI/CD | [dspy-module-ci.md](dspy-module-ci.md) |
 | eID Authenticator CI | 🔄 CI/CD | [eid-authenticator-ci.md](eid-authenticator-ci.md) |
 | Analytics – Forecasting Batch/Streaming CI | 🔄 CI/CD | [forecasting-batch-streaming-ci.md](forecasting-batch-streaming-ci.md) |

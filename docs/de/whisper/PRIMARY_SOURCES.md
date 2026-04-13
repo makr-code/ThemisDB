@@ -25,21 +25,9 @@
 
 # Primary Sources — `whisper`
 
-Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`whisper`** aus den Verzeichnissen `src/whisper/` und/oder `include/whisper/`.
+Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`whisper`** aus den erkannten Quellverzeichnissen des Moduls.
 
 ## Primäre Markdown-Dateien
-
-### `src/whisper/`
-
-| Datei | Pfad |
-|-------|------|
-| `ARCHITECTURE.md` | [`src/whisper/ARCHITECTURE.md`](../../../src/whisper/ARCHITECTURE.md) |
-| `AUDIT.md` | [`src/whisper/AUDIT.md`](../../../src/whisper/AUDIT.md) |
-| `CHANGELOG.md` | [`src/whisper/CHANGELOG.md`](../../../src/whisper/CHANGELOG.md) |
-| `FUTURE_ENHANCEMENTS.md` | [`src/whisper/FUTURE_ENHANCEMENTS.md`](../../../src/whisper/FUTURE_ENHANCEMENTS.md) |
-| `README.md` | [`src/whisper/README.md`](../../../src/whisper/README.md) |
-| `ROADMAP.md` | [`src/whisper/ROADMAP.md`](../../../src/whisper/ROADMAP.md) |
-| `SECURITY.md` | [`src/whisper/SECURITY.md`](../../../src/whisper/SECURITY.md) |
 
 ### `include/whisper/`
 
@@ -52,6 +40,18 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`whisper`**
 | `README.md` | [`include/whisper/README.md`](../../../include/whisper/README.md) |
 | `ROADMAP.md` | [`include/whisper/ROADMAP.md`](../../../include/whisper/ROADMAP.md) |
 | `SECURITY.md` | [`include/whisper/SECURITY.md`](../../../include/whisper/SECURITY.md) |
+
+### `src/whisper/`
+
+| Datei | Pfad |
+|-------|------|
+| `ARCHITECTURE.md` | [`src/whisper/ARCHITECTURE.md`](../../../src/whisper/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/whisper/AUDIT.md`](../../../src/whisper/AUDIT.md) |
+| `CHANGELOG.md` | [`src/whisper/CHANGELOG.md`](../../../src/whisper/CHANGELOG.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`src/whisper/FUTURE_ENHANCEMENTS.md`](../../../src/whisper/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`src/whisper/README.md`](../../../src/whisper/README.md) |
+| `ROADMAP.md` | [`src/whisper/ROADMAP.md`](../../../src/whisper/ROADMAP.md) |
+| `SECURITY.md` | [`src/whisper/SECURITY.md`](../../../src/whisper/SECURITY.md) |
 
 ---
 

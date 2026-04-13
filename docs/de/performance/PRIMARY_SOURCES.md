@@ -25,21 +25,9 @@
 
 # Primary Sources — `performance`
 
-Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`performance`** aus den Verzeichnissen `src/performance/` und/oder `include/performance/`.
+Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`performance`** aus den erkannten Quellverzeichnissen des Moduls.
 
 ## Primäre Markdown-Dateien
-
-### `src/performance/`
-
-| Datei | Pfad |
-|-------|------|
-| `ARCHITECTURE.md` | [`src/performance/ARCHITECTURE.md`](../../../src/performance/ARCHITECTURE.md) |
-| `AUDIT.md` | [`src/performance/AUDIT.md`](../../../src/performance/AUDIT.md) |
-| `CHANGELOG.md` | [`src/performance/CHANGELOG.md`](../../../src/performance/CHANGELOG.md) |
-| `FUTURE_ENHANCEMENTS.md` | [`src/performance/FUTURE_ENHANCEMENTS.md`](../../../src/performance/FUTURE_ENHANCEMENTS.md) |
-| `README.md` | [`src/performance/README.md`](../../../src/performance/README.md) |
-| `ROADMAP.md` | [`src/performance/ROADMAP.md`](../../../src/performance/ROADMAP.md) |
-| `SECURITY.md` | [`src/performance/SECURITY.md`](../../../src/performance/SECURITY.md) |
 
 ### `include/performance/`
 
@@ -52,6 +40,18 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`performanc
 | `README.md` | [`include/performance/README.md`](../../../include/performance/README.md) |
 | `ROADMAP.md` | [`include/performance/ROADMAP.md`](../../../include/performance/ROADMAP.md) |
 | `SECURITY.md` | [`include/performance/SECURITY.md`](../../../include/performance/SECURITY.md) |
+
+### `src/performance/`
+
+| Datei | Pfad |
+|-------|------|
+| `ARCHITECTURE.md` | [`src/performance/ARCHITECTURE.md`](../../../src/performance/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/performance/AUDIT.md`](../../../src/performance/AUDIT.md) |
+| `CHANGELOG.md` | [`src/performance/CHANGELOG.md`](../../../src/performance/CHANGELOG.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`src/performance/FUTURE_ENHANCEMENTS.md`](../../../src/performance/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`src/performance/README.md`](../../../src/performance/README.md) |
+| `ROADMAP.md` | [`src/performance/ROADMAP.md`](../../../src/performance/ROADMAP.md) |
+| `SECURITY.md` | [`src/performance/SECURITY.md`](../../../src/performance/SECURITY.md) |
 
 ---
 

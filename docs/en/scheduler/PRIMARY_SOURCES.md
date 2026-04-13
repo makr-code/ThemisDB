@@ -25,21 +25,9 @@
 
 # Primary Sources — `scheduler`
 
-This index lists all Markdown documentation files for module **`scheduler`** from the directories `src/scheduler/` and/or `include/scheduler/`.
+This index lists all Markdown documentation files for module **`scheduler`** from the detected source directories for that module.
 
 ## Primary Markdown Files
-
-### `src/scheduler/`
-
-| File | Path |
-|------|------|
-| `ARCHITECTURE.md` | [`src/scheduler/ARCHITECTURE.md`](../../../src/scheduler/ARCHITECTURE.md) |
-| `AUDIT.md` | [`src/scheduler/AUDIT.md`](../../../src/scheduler/AUDIT.md) |
-| `CHANGELOG.md` | [`src/scheduler/CHANGELOG.md`](../../../src/scheduler/CHANGELOG.md) |
-| `FUTURE_ENHANCEMENTS.md` | [`src/scheduler/FUTURE_ENHANCEMENTS.md`](../../../src/scheduler/FUTURE_ENHANCEMENTS.md) |
-| `README.md` | [`src/scheduler/README.md`](../../../src/scheduler/README.md) |
-| `ROADMAP.md` | [`src/scheduler/ROADMAP.md`](../../../src/scheduler/ROADMAP.md) |
-| `SECURITY.md` | [`src/scheduler/SECURITY.md`](../../../src/scheduler/SECURITY.md) |
 
 ### `include/scheduler/`
 
@@ -52,6 +40,18 @@ This index lists all Markdown documentation files for module **`scheduler`** fro
 | `README.md` | [`include/scheduler/README.md`](../../../include/scheduler/README.md) |
 | `ROADMAP.md` | [`include/scheduler/ROADMAP.md`](../../../include/scheduler/ROADMAP.md) |
 | `SECURITY.md` | [`include/scheduler/SECURITY.md`](../../../include/scheduler/SECURITY.md) |
+
+### `src/scheduler/`
+
+| File | Path |
+|------|------|
+| `ARCHITECTURE.md` | [`src/scheduler/ARCHITECTURE.md`](../../../src/scheduler/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/scheduler/AUDIT.md`](../../../src/scheduler/AUDIT.md) |
+| `CHANGELOG.md` | [`src/scheduler/CHANGELOG.md`](../../../src/scheduler/CHANGELOG.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`src/scheduler/FUTURE_ENHANCEMENTS.md`](../../../src/scheduler/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`src/scheduler/README.md`](../../../src/scheduler/README.md) |
+| `ROADMAP.md` | [`src/scheduler/ROADMAP.md`](../../../src/scheduler/ROADMAP.md) |
+| `SECURITY.md` | [`src/scheduler/SECURITY.md`](../../../src/scheduler/SECURITY.md) |
 
 ---
 

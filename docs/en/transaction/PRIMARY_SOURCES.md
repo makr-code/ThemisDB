@@ -25,21 +25,9 @@
 
 # Primary Sources — `transaction`
 
-This index lists all Markdown documentation files for module **`transaction`** from the directories `src/transaction/` and/or `include/transaction/`.
+This index lists all Markdown documentation files for module **`transaction`** from the detected source directories for that module.
 
 ## Primary Markdown Files
-
-### `src/transaction/`
-
-| File | Path |
-|------|------|
-| `ARCHITECTURE.md` | [`src/transaction/ARCHITECTURE.md`](../../../src/transaction/ARCHITECTURE.md) |
-| `AUDIT.md` | [`src/transaction/AUDIT.md`](../../../src/transaction/AUDIT.md) |
-| `CHANGELOG.md` | [`src/transaction/CHANGELOG.md`](../../../src/transaction/CHANGELOG.md) |
-| `FUTURE_ENHANCEMENTS.md` | [`src/transaction/FUTURE_ENHANCEMENTS.md`](../../../src/transaction/FUTURE_ENHANCEMENTS.md) |
-| `README.md` | [`src/transaction/README.md`](../../../src/transaction/README.md) |
-| `ROADMAP.md` | [`src/transaction/ROADMAP.md`](../../../src/transaction/ROADMAP.md) |
-| `SECURITY.md` | [`src/transaction/SECURITY.md`](../../../src/transaction/SECURITY.md) |
 
 ### `include/transaction/`
 
@@ -52,6 +40,18 @@ This index lists all Markdown documentation files for module **`transaction`** f
 | `README.md` | [`include/transaction/README.md`](../../../include/transaction/README.md) |
 | `ROADMAP.md` | [`include/transaction/ROADMAP.md`](../../../include/transaction/ROADMAP.md) |
 | `SECURITY.md` | [`include/transaction/SECURITY.md`](../../../include/transaction/SECURITY.md) |
+
+### `src/transaction/`
+
+| File | Path |
+|------|------|
+| `ARCHITECTURE.md` | [`src/transaction/ARCHITECTURE.md`](../../../src/transaction/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/transaction/AUDIT.md`](../../../src/transaction/AUDIT.md) |
+| `CHANGELOG.md` | [`src/transaction/CHANGELOG.md`](../../../src/transaction/CHANGELOG.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`src/transaction/FUTURE_ENHANCEMENTS.md`](../../../src/transaction/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`src/transaction/README.md`](../../../src/transaction/README.md) |
+| `ROADMAP.md` | [`src/transaction/ROADMAP.md`](../../../src/transaction/ROADMAP.md) |
+| `SECURITY.md` | [`src/transaction/SECURITY.md`](../../../src/transaction/SECURITY.md) |
 
 ---
 

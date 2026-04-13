@@ -73,8 +73,14 @@ from typing import Any, Dict, List, Optional
 TOOL_NAME: str = "module_docs_builder"
 TOOL_VERSION: str = "1.0.0"
 
-#: Top-level source directories to scan recursively.
-SCAN_DIRS: List[str] = ["src", "include"]
+#: Source directory roots to scan recursively together with the relative index
+#: of the module name inside the repo-root-relative path.
+SCAN_ROOTS: List[tuple[str, int]] = [
+    ("src", 1),
+    ("include", 1),
+    ("external/chimera/src", 3),
+    ("external/chimera/include", 3),
+]
 
 
 # ---------------------------------------------------------------------------
@@ -88,7 +94,7 @@ def get_repo_root(script_path: Path) -> Path:
 
 
 def collect_module_files(repo_root: Path) -> Dict[str, List[str]]:
-    """Scan ``src/**`` and ``include/**`` for ``*.md`` files.
+    """Scan configured source roots for ``*.md`` files.
 
     Files located directly in a scan directory (e.g. ``src/README.md``)
     are **skipped** because they do not belong to a named module.
@@ -101,7 +107,7 @@ def collect_module_files(repo_root: Path) -> Dict[str, List[str]]:
     """
     module_files: Dict[str, List[str]] = {}
 
-    for scan_dir in SCAN_DIRS:
+    for scan_dir, module_index in SCAN_ROOTS:
         scan_path = repo_root / scan_dir
         if not scan_path.is_dir():
             continue
@@ -112,14 +118,12 @@ def collect_module_files(repo_root: Path) -> Dict[str, List[str]]:
                 continue
             rel_path = md_file.relative_to(repo_root)
             parts = rel_path.parts
-            # parts[0] = "src" | "include"
-            # parts[1] = module directory name
-            # parts[2..] = file path within the module
-            # Files sitting directly in the scan dir (len < 3) are skipped.
-            if len(parts) < 3:
+            # Files sitting directly in the scan dir or above the configured
+            # module index are skipped because they do not belong to a module.
+            if len(parts) <= module_index + 1:
                 continue
 
-            module = parts[1]
+            module = parts[module_index]
             rel_str = "/".join(parts)  # always forward slashes
             module_files.setdefault(module, []).append(rel_str)
 
@@ -154,6 +158,16 @@ def _file_table_rows(files: List[str]) -> List[str]:
     return rows
 
 
+def _group_files_by_source_root(module: str, files: List[str]) -> List[tuple[str, List[str]]]:
+    """Group module files by their effective source-root directory."""
+    grouped: Dict[str, List[str]] = {}
+    for path in files:
+        root = str(Path(path).parent).replace("\\", "/") + "/"
+        grouped.setdefault(root, []).append(path)
+
+    return [(root, grouped[root]) for root in sorted(grouped.keys())]
+
+
 def _section(
     heading: str,
     files: List[str],
@@ -180,9 +194,8 @@ def _section(
 
 def generate_de_page(module: str, files: List[str], today: str) -> str:
     """Generate the German ``PRIMARY_SOURCES.md`` for *module*."""
-    src_files = [f for f in files if f.startswith("src/")]
-    include_files = [f for f in files if f.startswith("include/")]
     primary_list = _primary_source_list(files)
+    grouped_files = _group_files_by_source_root(module, files)
 
     header_lines: List[str] = [
         # Breadcrumb (trailing two spaces = Markdown line break)
@@ -205,14 +218,16 @@ def generate_de_page(module: str, files: List[str], today: str) -> str:
         "",
         (
             f"Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls "
-            f"**`{module}`** aus den Verzeichnissen `src/{module}/` und/oder "
-            f"`include/{module}/`."
+            f"**`{module}`** aus den erkannten Quellverzeichnissen des Moduls."
         ),
         "",
         "## Primäre Markdown-Dateien",
         "",
-        *_section(f"src/{module}/", src_files, "Datei", "Pfad"),
-        *_section(f"include/{module}/", include_files, "Datei", "Pfad"),
+        *[
+            line
+            for root, root_files in grouped_files
+            for line in _section(root, root_files, "Datei", "Pfad")
+        ],
         "---",
         "",
         f"*Automatisch generiert von `tools/{TOOL_NAME}.py` · {today}*",
@@ -229,9 +244,8 @@ def generate_de_page(module: str, files: List[str], today: str) -> str:
 
 def generate_en_page(module: str, files: List[str], today: str) -> str:
     """Generate the English ``PRIMARY_SOURCES.md`` for *module*."""
-    src_files = [f for f in files if f.startswith("src/")]
-    include_files = [f for f in files if f.startswith("include/")]
     primary_list = _primary_source_list(files)
+    grouped_files = _group_files_by_source_root(module, files)
 
     header_lines: List[str] = [
         # Breadcrumb
@@ -254,14 +268,16 @@ def generate_en_page(module: str, files: List[str], today: str) -> str:
         "",
         (
             f"This index lists all Markdown documentation files for module "
-            f"**`{module}`** from the directories `src/{module}/` and/or "
-            f"`include/{module}/`."
+            f"**`{module}`** from the detected source directories for that module."
         ),
         "",
         "## Primary Markdown Files",
         "",
-        *_section(f"src/{module}/", src_files, "File", "Path"),
-        *_section(f"include/{module}/", include_files, "File", "Path"),
+        *[
+            line
+            for root, root_files in grouped_files
+            for line in _section(root, root_files, "File", "Path")
+        ],
         "---",
         "",
         f"*Auto-generated by `tools/{TOOL_NAME}.py` · {today}*",

@@ -11,6 +11,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Module Docs S
 ## Auslöser (Triggers)
 
 - **`push`** — Automatisch bei jedem Push auf die konfigurierten Branches (Branches: `develop`) (6 überwachte Pfade)
+- **`schedule`** — Zeitgesteuert (Cron-Schedule) (`0 3 * * *`, täglich um 03:00 UTC)
 - **`workflow_dispatch`** — Manuell über die GitHub Actions UI ausführbar
 
 ## Eingaben (Inputs)

@@ -21,7 +21,7 @@ name: Build Binary Release · Linux
 #   contents: write  – to upload release assets
 #
 # ALTERNATIVE (GitHub CLI)
-#   gh workflow run "04-release/build-binary-linux.yml" \
+#   gh workflow run "04-release_build-binary-linux.yml" \
 #     --repo makr-code/ThemisDB --ref main \
 #     --field tag_name=v1.9.0 --field dry_run=false
 
@@ -131,6 +131,8 @@ jobs:
             -DCMAKE_TOOLCHAIN_FILE="${GITHUB_WORKSPACE}/vcpkg/scripts/buildsystems/vcpkg.cmake" \
             -DTHEMIS_BUILD_TESTS=OFF \
             -DTHEMIS_BUILD_BENCHMARKS=OFF \
+            -DTHEMIS_DOCS_DB_MODE=AUTO \
+            -DTHEMIS_MODELS_MODE=PACKAGE \
             -DTHEMIS_STRICT_BUILD=OFF
 
       - name: Build

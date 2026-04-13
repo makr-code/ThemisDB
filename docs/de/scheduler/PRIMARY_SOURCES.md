@@ -25,21 +25,9 @@
 
 # Primary Sources — `scheduler`
 
-Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`scheduler`** aus den Verzeichnissen `src/scheduler/` und/oder `include/scheduler/`.
+Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`scheduler`** aus den erkannten Quellverzeichnissen des Moduls.
 
 ## Primäre Markdown-Dateien
-
-### `src/scheduler/`
-
-| Datei | Pfad |
-|-------|------|
-| `ARCHITECTURE.md` | [`src/scheduler/ARCHITECTURE.md`](../../../src/scheduler/ARCHITECTURE.md) |
-| `AUDIT.md` | [`src/scheduler/AUDIT.md`](../../../src/scheduler/AUDIT.md) |
-| `CHANGELOG.md` | [`src/scheduler/CHANGELOG.md`](../../../src/scheduler/CHANGELOG.md) |
-| `FUTURE_ENHANCEMENTS.md` | [`src/scheduler/FUTURE_ENHANCEMENTS.md`](../../../src/scheduler/FUTURE_ENHANCEMENTS.md) |
-| `README.md` | [`src/scheduler/README.md`](../../../src/scheduler/README.md) |
-| `ROADMAP.md` | [`src/scheduler/ROADMAP.md`](../../../src/scheduler/ROADMAP.md) |
-| `SECURITY.md` | [`src/scheduler/SECURITY.md`](../../../src/scheduler/SECURITY.md) |
 
 ### `include/scheduler/`
 
@@ -52,6 +40,18 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`scheduler`
 | `README.md` | [`include/scheduler/README.md`](../../../include/scheduler/README.md) |
 | `ROADMAP.md` | [`include/scheduler/ROADMAP.md`](../../../include/scheduler/ROADMAP.md) |
 | `SECURITY.md` | [`include/scheduler/SECURITY.md`](../../../include/scheduler/SECURITY.md) |
+
+### `src/scheduler/`
+
+| Datei | Pfad |
+|-------|------|
+| `ARCHITECTURE.md` | [`src/scheduler/ARCHITECTURE.md`](../../../src/scheduler/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/scheduler/AUDIT.md`](../../../src/scheduler/AUDIT.md) |
+| `CHANGELOG.md` | [`src/scheduler/CHANGELOG.md`](../../../src/scheduler/CHANGELOG.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`src/scheduler/FUTURE_ENHANCEMENTS.md`](../../../src/scheduler/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`src/scheduler/README.md`](../../../src/scheduler/README.md) |
+| `ROADMAP.md` | [`src/scheduler/ROADMAP.md`](../../../src/scheduler/ROADMAP.md) |
+| `SECURITY.md` | [`src/scheduler/SECURITY.md`](../../../src/scheduler/SECURITY.md) |
 
 ---
 

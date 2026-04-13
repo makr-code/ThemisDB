@@ -25,21 +25,9 @@
 
 # Primary Sources — `training`
 
-This index lists all Markdown documentation files for module **`training`** from the directories `src/training/` and/or `include/training/`.
+This index lists all Markdown documentation files for module **`training`** from the detected source directories for that module.
 
 ## Primary Markdown Files
-
-### `src/training/`
-
-| File | Path |
-|------|------|
-| `ARCHITECTURE.md` | [`src/training/ARCHITECTURE.md`](../../../src/training/ARCHITECTURE.md) |
-| `AUDIT.md` | [`src/training/AUDIT.md`](../../../src/training/AUDIT.md) |
-| `CHANGELOG.md` | [`src/training/CHANGELOG.md`](../../../src/training/CHANGELOG.md) |
-| `FUTURE_ENHANCEMENTS.md` | [`src/training/FUTURE_ENHANCEMENTS.md`](../../../src/training/FUTURE_ENHANCEMENTS.md) |
-| `README.md` | [`src/training/README.md`](../../../src/training/README.md) |
-| `ROADMAP.md` | [`src/training/ROADMAP.md`](../../../src/training/ROADMAP.md) |
-| `SECURITY.md` | [`src/training/SECURITY.md`](../../../src/training/SECURITY.md) |
 
 ### `include/training/`
 
@@ -52,6 +40,18 @@ This index lists all Markdown documentation files for module **`training`** from
 | `README.md` | [`include/training/README.md`](../../../include/training/README.md) |
 | `ROADMAP.md` | [`include/training/ROADMAP.md`](../../../include/training/ROADMAP.md) |
 | `SECURITY.md` | [`include/training/SECURITY.md`](../../../include/training/SECURITY.md) |
+
+### `src/training/`
+
+| File | Path |
+|------|------|
+| `ARCHITECTURE.md` | [`src/training/ARCHITECTURE.md`](../../../src/training/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/training/AUDIT.md`](../../../src/training/AUDIT.md) |
+| `CHANGELOG.md` | [`src/training/CHANGELOG.md`](../../../src/training/CHANGELOG.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`src/training/FUTURE_ENHANCEMENTS.md`](../../../src/training/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`src/training/README.md`](../../../src/training/README.md) |
+| `ROADMAP.md` | [`src/training/ROADMAP.md`](../../../src/training/ROADMAP.md) |
+| `SECURITY.md` | [`src/training/SECURITY.md`](../../../src/training/SECURITY.md) |
 
 ---
 

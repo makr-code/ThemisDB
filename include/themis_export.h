@@ -23,6 +23,7 @@
 #pragma once
 
 // DLL Export/Import macros for Windows
+#ifndef THEMIS_BASE_API
 #ifdef _WIN32
     #if defined(THEMIS_BASE_EXPORTS) || defined(THEMIS_TEST_BUILD)
         #define THEMIS_BASE_API __declspec(dllexport)
@@ -31,4 +32,5 @@
     #endif
 #else
     #define THEMIS_BASE_API
+#endif
 #endif

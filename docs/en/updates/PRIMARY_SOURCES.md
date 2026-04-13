@@ -25,21 +25,9 @@
 
 # Primary Sources — `updates`
 
-This index lists all Markdown documentation files for module **`updates`** from the directories `src/updates/` and/or `include/updates/`.
+This index lists all Markdown documentation files for module **`updates`** from the detected source directories for that module.
 
 ## Primary Markdown Files
-
-### `src/updates/`
-
-| File | Path |
-|------|------|
-| `ARCHITECTURE.md` | [`src/updates/ARCHITECTURE.md`](../../../src/updates/ARCHITECTURE.md) |
-| `AUDIT.md` | [`src/updates/AUDIT.md`](../../../src/updates/AUDIT.md) |
-| `CHANGELOG.md` | [`src/updates/CHANGELOG.md`](../../../src/updates/CHANGELOG.md) |
-| `FUTURE_ENHANCEMENTS.md` | [`src/updates/FUTURE_ENHANCEMENTS.md`](../../../src/updates/FUTURE_ENHANCEMENTS.md) |
-| `README.md` | [`src/updates/README.md`](../../../src/updates/README.md) |
-| `ROADMAP.md` | [`src/updates/ROADMAP.md`](../../../src/updates/ROADMAP.md) |
-| `SECURITY.md` | [`src/updates/SECURITY.md`](../../../src/updates/SECURITY.md) |
 
 ### `include/updates/`
 
@@ -52,6 +40,18 @@ This index lists all Markdown documentation files for module **`updates`** from 
 | `README.md` | [`include/updates/README.md`](../../../include/updates/README.md) |
 | `ROADMAP.md` | [`include/updates/ROADMAP.md`](../../../include/updates/ROADMAP.md) |
 | `SECURITY.md` | [`include/updates/SECURITY.md`](../../../include/updates/SECURITY.md) |
+
+### `src/updates/`
+
+| File | Path |
+|------|------|
+| `ARCHITECTURE.md` | [`src/updates/ARCHITECTURE.md`](../../../src/updates/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/updates/AUDIT.md`](../../../src/updates/AUDIT.md) |
+| `CHANGELOG.md` | [`src/updates/CHANGELOG.md`](../../../src/updates/CHANGELOG.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`src/updates/FUTURE_ENHANCEMENTS.md`](../../../src/updates/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`src/updates/README.md`](../../../src/updates/README.md) |
+| `ROADMAP.md` | [`src/updates/ROADMAP.md`](../../../src/updates/ROADMAP.md) |
+| `SECURITY.md` | [`src/updates/SECURITY.md`](../../../src/updates/SECURITY.md) |
 
 ---
 

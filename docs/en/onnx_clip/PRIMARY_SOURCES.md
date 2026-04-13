@@ -18,7 +18,7 @@
 
 # Primary Sources — `onnx_clip`
 
-This index lists all Markdown documentation files for module **`onnx_clip`** from the directories `src/onnx_clip/` and/or `include/onnx_clip/`.
+This index lists all Markdown documentation files for module **`onnx_clip`** from the detected source directories for that module.
 
 ## Primary Markdown Files
 

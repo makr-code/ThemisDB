@@ -917,7 +917,7 @@ namespace {
 static const bool kHasAVX512 = __builtin_cpu_supports("avx512f");
 #endif
 
-static double vectorizedSum(const double* __restrict__ data, size_t n) noexcept {
+static double vectorizedSum(const double* data, size_t n) noexcept {
     double total = 0.0;
     size_t i = 0;
 #if defined(__AVX512F__)
@@ -944,7 +944,7 @@ static double vectorizedSum(const double* __restrict__ data, size_t n) noexcept 
     return total;
 }
 
-static double vectorizedMin(const double* __restrict__ data, size_t n) noexcept {
+static double vectorizedMin(const double* data, size_t n) noexcept {
     if (n == 0) return std::numeric_limits<double>::max();
     double result = data[0];
     size_t i = 1;
@@ -976,7 +976,7 @@ static double vectorizedMin(const double* __restrict__ data, size_t n) noexcept 
     return result;
 }
 
-static double vectorizedMax(const double* __restrict__ data, size_t n) noexcept {
+static double vectorizedMax(const double* data, size_t n) noexcept {
     if (n == 0) return std::numeric_limits<double>::lowest();
     double result = data[0];
     size_t i = 1;

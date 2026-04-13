@@ -1037,7 +1037,7 @@ ProcessGraphManager::Status ProcessGraphManager::advanceToken(
                     }
                 }
                 summary["visited_nodes"] = visited_all;
-                summary["variables"]     = instance.process_variables;
+                summary["variables"]     = instance.variables;
 
                 try {
                     std::vector<float> emb = embedder_(summary.dump());

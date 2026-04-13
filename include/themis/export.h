@@ -53,87 +53,111 @@
 // Each module defines THEMIS_<MODULE>_EXPORTS when building the DLL
 
 // themis_base - Core types, interfaces, utilities
+#ifndef THEMIS_BASE_API
 #ifdef THEMIS_BASE_EXPORTS
     #define THEMIS_BASE_API THEMIS_EXPORT_MACRO
 #else
     #define THEMIS_BASE_API THEMIS_IMPORT_MACRO
 #endif
+#endif
 
 // themis_storage - Storage engine and indexes
+#ifndef THEMIS_STORAGE_API
 #ifdef THEMIS_STORAGE_EXPORTS
     #define THEMIS_STORAGE_API THEMIS_EXPORT_MACRO
 #else
     #define THEMIS_STORAGE_API THEMIS_IMPORT_MACRO
 #endif
+#endif
 
 // themis_query - Query engine and AQL
+#ifndef THEMIS_QUERY_API
 #ifdef THEMIS_QUERY_EXPORTS
     #define THEMIS_QUERY_API THEMIS_EXPORT_MACRO
 #else
     #define THEMIS_QUERY_API THEMIS_IMPORT_MACRO
 #endif
+#endif
 
 // themis_security - Encryption, PKI, RBAC
+#ifndef THEMIS_SECURITY_API
 #ifdef THEMIS_SECURITY_EXPORTS
     #define THEMIS_SECURITY_API THEMIS_EXPORT_MACRO
 #else
     #define THEMIS_SECURITY_API THEMIS_IMPORT_MACRO
 #endif
+#endif
 
 // themis_network - HTTP/gRPC servers
+#ifndef THEMIS_NETWORK_API
 #ifdef THEMIS_NETWORK_EXPORTS
     #define THEMIS_NETWORK_API THEMIS_EXPORT_MACRO
 #else
     #define THEMIS_NETWORK_API THEMIS_IMPORT_MACRO
 #endif
+#endif
 
 // themis_transaction - Transaction management
+#ifndef THEMIS_TRANSACTION_API
 #ifdef THEMIS_TRANSACTION_EXPORTS
     #define THEMIS_TRANSACTION_API THEMIS_EXPORT_MACRO
 #else
     #define THEMIS_TRANSACTION_API THEMIS_IMPORT_MACRO
 #endif
+#endif
 
 // themis_sharding - Distributed system (optional)
+#ifndef THEMIS_SHARDING_API
 #ifdef THEMIS_SHARDING_EXPORTS
     #define THEMIS_SHARDING_API THEMIS_EXPORT_MACRO
 #else
     #define THEMIS_SHARDING_API THEMIS_IMPORT_MACRO
 #endif
+#endif
 
 // themis_llm - LLM integration (optional)
+#ifndef THEMIS_LLM_API
 #ifdef THEMIS_LLM_EXPORTS
     #define THEMIS_LLM_API THEMIS_EXPORT_MACRO
 #else
     #define THEMIS_LLM_API THEMIS_IMPORT_MACRO
 #endif
+#endif
 
 // themis_content - Content processors (optional)
+#ifndef THEMIS_CONTENT_API
 #ifdef THEMIS_CONTENT_EXPORTS
     #define THEMIS_CONTENT_API THEMIS_EXPORT_MACRO
 #else
     #define THEMIS_CONTENT_API THEMIS_IMPORT_MACRO
 #endif
+#endif
 
 // themis_timeseries - Time-series support (optional)
+#ifndef THEMIS_TIMESERIES_API
 #ifdef THEMIS_TIMESERIES_EXPORTS
     #define THEMIS_TIMESERIES_API THEMIS_EXPORT_MACRO
 #else
     #define THEMIS_TIMESERIES_API THEMIS_IMPORT_MACRO
 #endif
+#endif
 
 // themis_graph - Graph analytics (optional)
+#ifndef THEMIS_GRAPH_API
 #ifdef THEMIS_GRAPH_EXPORTS
     #define THEMIS_GRAPH_API THEMIS_EXPORT_MACRO
 #else
     #define THEMIS_GRAPH_API THEMIS_IMPORT_MACRO
 #endif
+#endif
 
 // themis_geo - Geospatial features (optional)
+#ifndef THEMIS_GEO_API
 #ifdef THEMIS_GEO_EXPORTS
     #define THEMIS_GEO_API THEMIS_EXPORT_MACRO
 #else
     #define THEMIS_GEO_API THEMIS_IMPORT_MACRO
+#endif
 #endif
 
 // Legacy compatibility: themis_core for monolithic builds

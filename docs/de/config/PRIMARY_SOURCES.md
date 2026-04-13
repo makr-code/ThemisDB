@@ -25,21 +25,9 @@
 
 # Primary Sources — `config`
 
-Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`config`** aus den Verzeichnissen `src/config/` und/oder `include/config/`.
+Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`config`** aus den erkannten Quellverzeichnissen des Moduls.
 
 ## Primäre Markdown-Dateien
-
-### `src/config/`
-
-| Datei | Pfad |
-|-------|------|
-| `ARCHITECTURE.md` | [`src/config/ARCHITECTURE.md`](../../../src/config/ARCHITECTURE.md) |
-| `AUDIT.md` | [`src/config/AUDIT.md`](../../../src/config/AUDIT.md) |
-| `CHANGELOG.md` | [`src/config/CHANGELOG.md`](../../../src/config/CHANGELOG.md) |
-| `FUTURE_ENHANCEMENTS.md` | [`src/config/FUTURE_ENHANCEMENTS.md`](../../../src/config/FUTURE_ENHANCEMENTS.md) |
-| `README.md` | [`src/config/README.md`](../../../src/config/README.md) |
-| `ROADMAP.md` | [`src/config/ROADMAP.md`](../../../src/config/ROADMAP.md) |
-| `SECURITY.md` | [`src/config/SECURITY.md`](../../../src/config/SECURITY.md) |
 
 ### `include/config/`
 
@@ -52,6 +40,18 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`config`** 
 | `README.md` | [`include/config/README.md`](../../../include/config/README.md) |
 | `ROADMAP.md` | [`include/config/ROADMAP.md`](../../../include/config/ROADMAP.md) |
 | `SECURITY.md` | [`include/config/SECURITY.md`](../../../include/config/SECURITY.md) |
+
+### `src/config/`
+
+| Datei | Pfad |
+|-------|------|
+| `ARCHITECTURE.md` | [`src/config/ARCHITECTURE.md`](../../../src/config/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/config/AUDIT.md`](../../../src/config/AUDIT.md) |
+| `CHANGELOG.md` | [`src/config/CHANGELOG.md`](../../../src/config/CHANGELOG.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`src/config/FUTURE_ENHANCEMENTS.md`](../../../src/config/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`src/config/README.md`](../../../src/config/README.md) |
+| `ROADMAP.md` | [`src/config/ROADMAP.md`](../../../src/config/ROADMAP.md) |
+| `SECURITY.md` | [`src/config/SECURITY.md`](../../../src/config/SECURITY.md) |
 
 ---
 

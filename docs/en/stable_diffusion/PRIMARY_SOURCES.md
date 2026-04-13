@@ -25,21 +25,9 @@
 
 # Primary Sources — `stable_diffusion`
 
-This index lists all Markdown documentation files for module **`stable_diffusion`** from the directories `src/stable_diffusion/` and/or `include/stable_diffusion/`.
+This index lists all Markdown documentation files for module **`stable_diffusion`** from the detected source directories for that module.
 
 ## Primary Markdown Files
-
-### `src/stable_diffusion/`
-
-| File | Path |
-|------|------|
-| `ARCHITECTURE.md` | [`src/stable_diffusion/ARCHITECTURE.md`](../../../src/stable_diffusion/ARCHITECTURE.md) |
-| `AUDIT.md` | [`src/stable_diffusion/AUDIT.md`](../../../src/stable_diffusion/AUDIT.md) |
-| `CHANGELOG.md` | [`src/stable_diffusion/CHANGELOG.md`](../../../src/stable_diffusion/CHANGELOG.md) |
-| `FUTURE_ENHANCEMENTS.md` | [`src/stable_diffusion/FUTURE_ENHANCEMENTS.md`](../../../src/stable_diffusion/FUTURE_ENHANCEMENTS.md) |
-| `README.md` | [`src/stable_diffusion/README.md`](../../../src/stable_diffusion/README.md) |
-| `ROADMAP.md` | [`src/stable_diffusion/ROADMAP.md`](../../../src/stable_diffusion/ROADMAP.md) |
-| `SECURITY.md` | [`src/stable_diffusion/SECURITY.md`](../../../src/stable_diffusion/SECURITY.md) |
 
 ### `include/stable_diffusion/`
 
@@ -52,6 +40,18 @@ This index lists all Markdown documentation files for module **`stable_diffusion
 | `README.md` | [`include/stable_diffusion/README.md`](../../../include/stable_diffusion/README.md) |
 | `ROADMAP.md` | [`include/stable_diffusion/ROADMAP.md`](../../../include/stable_diffusion/ROADMAP.md) |
 | `SECURITY.md` | [`include/stable_diffusion/SECURITY.md`](../../../include/stable_diffusion/SECURITY.md) |
+
+### `src/stable_diffusion/`
+
+| File | Path |
+|------|------|
+| `ARCHITECTURE.md` | [`src/stable_diffusion/ARCHITECTURE.md`](../../../src/stable_diffusion/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/stable_diffusion/AUDIT.md`](../../../src/stable_diffusion/AUDIT.md) |
+| `CHANGELOG.md` | [`src/stable_diffusion/CHANGELOG.md`](../../../src/stable_diffusion/CHANGELOG.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`src/stable_diffusion/FUTURE_ENHANCEMENTS.md`](../../../src/stable_diffusion/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`src/stable_diffusion/README.md`](../../../src/stable_diffusion/README.md) |
+| `ROADMAP.md` | [`src/stable_diffusion/ROADMAP.md`](../../../src/stable_diffusion/ROADMAP.md) |
+| `SECURITY.md` | [`src/stable_diffusion/SECURITY.md`](../../../src/stable_diffusion/SECURITY.md) |
 
 ---
 
