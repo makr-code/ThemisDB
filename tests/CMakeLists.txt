@@ -19587,7 +19587,50 @@ else()
 endif()
 
 # ============================================================================
-# VLLMResourceManager ÔÇô CPU/RAM Monitoring Stats Tests
+# NCCLMergeTopKFocusedTests — NCCL/RCCL distributed mergeTopK() tests
+# Issue: #222 — Multi-GPU Sharding for Large Embedding Datasets (v1.9.0)
+# Covers:
+#   Section A (13 tests): CPU-side merge algorithm simulation, no hardware required
+#   Section B (6 tests): NCCLVectorBackend single-rank path, skipped without NCCL
+#   Section C (6 tests): RCCLVectorBackend single-rank path, skipped without RCCL
+# ============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/acceleration/test_nccl_merge_topk.cpp")
+    message(STATUS "Adding NCCLMergeTopK focused tests (acceleration, Issue #222, v1.9.0)")
+
+    add_executable(test_nccl_merge_topk_focused
+        acceleration/test_nccl_merge_topk.cpp
+    )
+
+    target_include_directories(test_nccl_merge_topk_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_nccl_merge_topk_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_nccl_merge_topk_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME NCCLMergeTopKFocusedTests
+        COMMAND test_nccl_merge_topk_focused)
+
+    set_tests_properties(NCCLMergeTopKFocusedTests PROPERTIES
+        LABELS "acceleration;nccl;rccl;multi-gpu;merge-topk;v1.9.0;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  NCCLMergeTopK: CPU merge simulation (worldSize 2/4/8, k 10/100/256), tie-breaking, NCCL/RCCL single-rank copy (25 tests)")
+else()
+    message(STATUS "NCCLMergeTopK focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/acceleration/test_nccl_merge_topk.cpp")
+endif()
+
+# ============================================================================
+# VLLMResourceManager — CPU/RAM Monitoring Stats Tests
 # Covers: getStats() OS-specific CPU utilisation + RAM monitoring,
 #         canUseGPU() NVML timeout safety, uninitialised guard.
 # ============================================================================
