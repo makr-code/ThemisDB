@@ -23,6 +23,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `compendium/docs/index.md` updated: version bumped from 1.4.0-alpha to 1.8.0; full 7-part structured TOC added covering all 44 chapters and 7 appendices
   - `docs/migration/v1.7-to-v1.8.md` added: comprehensive migration guide for the three breaking changes in v1.8.0 (unversioned HTTP 301 redirects, zlib→ZSTD StreamWriter, CI workflow relocation)
   - `docs/migration/README.md` updated: v1.7→v1.8 guide linked; full version path updated
+  - `compendium/docs/chapter_21_auth.md` §21.10 added: full API reference for JWTValidator, OAuth2PKCEHandler, SAMLAuthenticator, WebAuthnAuthenticator, LDAPAuthenticator, MFAManager, SessionManager, FederatedOIDCProvider, GSSAPIAuthenticator; includes YAML config example and performance table
+  - `compendium/docs/chapter_18_ha.md` §18.10–18.11 added: WALArchivalManager (lifecycle tiers), LogicalReplicationManager (parallel decoding), FaultInjector (5 fault types), ChaosScheduler (cron + event trigger), DisasterRecoveryManager (7-step plan), AutoFailoverManager
+  - `compendium/docs/chapter_40_data_governance_compliance.md` §40.11 added: PolicyEngine (OPA fallback, hot-reload, simulate), DataMasker (5 strategies), DataLineageTracker (append-only, upstream/downstream), ComplianceReporter (GDPR/HIPAA/CCPA/PCI/SOC2), PolicyManager hot-reload
+  - `compendium/docs/chapter_06_graph.md` §6.10 added: GraphQueryOptimizer (BFS/DFS/BIDIRECTIONAL/A*/Dijkstra, EMA cost model, plan cache), DistributedGraphManager (mTLS, EXPLAIN, streaming), pipeline diagram, performance table
   <!-- changelog-updater: compendium-phase1-2026-04-13 -->
 
 - **Module-Docs Sync 📚 — 2026-04-13**
