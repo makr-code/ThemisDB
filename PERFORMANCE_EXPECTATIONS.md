@@ -92,16 +92,16 @@ Typ-Kennung in ┬º39: **[M]** = gemessen ┬À **[Z]** = Ziel ┬À **[I]** = 
 > Testplattform v1.3.0 v1.3.3: Intel i9-10900K (10C/20T @ 3.70 GHz), 31 GB RAM, WSL2 Linux
 > Testplattform v1.3.4: Windows x64, 20 Cores @ 3.696 GHz, 20 MB L3-Cache
 
-| Metrik | Ziel | v1.3.0 | v1.3.1 | v1.3.2 | v1.3.3 | **v1.3.4** | **v1.8.2** | **v1.8.0 Ziel** | ╬ö v1.3.0ÔåÆv1.3.4 | Status |
+| Metrik | Ziel | v1.3.0 | v1.3.1 | v1.3.2 | v1.3.3 | **v1.3.4** | **v1.8.2** | **v1.8.0 Ziel** |  | Status |
 |--------|------|--------|--------|--------|--------|-----------|-----------|-----------------|-----------------|--------|
-| Query Engine Throughput |   | 700 M ops/s | 750 M ops/s | 800 M ops/s | 800 M ops/s | **814,5 M ops/s** | **796,4 M ops/s** | ** 900 M ops/s** | +16 % |  |
-| Vector Insert |   | 280 k/s | 300 k/s | 330 k/s | 340 k/s | **351,4 k/s** | **548,7 k/s** | ** 600 k/s** | +25 % |  |
-| Secondary Index Insert |   | 180 k/s | 190 k/s | 210 k/s | 215 k/s | **217,2 k/s** | **254,9 k/s** | ** 1 M/s** | +21 % |  |
-| Embedding Cache Hit-Rate |   |   |   |   |   | **155,8 M/s** | n/v (Teilrun, nicht erneut gemessen) | ** 200 M/s** | n/a |  |
-| 2PC Throughput |   |   |   |   |   | **6,4 k/s** | n/v (Teilrun, nicht erneut gemessen) | ** 10 k/s** | n/a |  |
-| Graph Edge Ops |   |   |   |   |   | **628,7 k/s** | **1,177 M/s** | ** 1 M/s** | n/a |  |
-| Timeseries Insert |   |   |   |   |   | **49,0 M pts/s** | **61,00 M pts/s** | ** 60 M pts/s** | n/a |  |
-| Gesamt Benchmark-Tests |   | 450 | 480 | 520 | 780 | **1.078** | 5 Kern-KPI-Cases (Teilrun) | ** 1.200** | +140 % |   |
+| Query Engine Throughput |   | 700 M ops/s | 750 M ops/s | 800 M ops/s | 800 M ops/s | **814,5 M ops/s** | **796,4 M ops/s** | ** 900 M ops/s** |  |  |
+| Vector Insert |   | 280 k/s | 300 k/s | 330 k/s | 340 k/s | **351,4 k/s** | **548,7 k/s** | ** 600 k/s** |  |  |
+| Secondary Index Insert |   | 180 k/s | 190 k/s | 210 k/s | 215 k/s | **217,2 k/s** | **254,9 k/s** | ** 1 M/s** |  |  |
+| Embedding Cache Hit-Rate |   |   |   |   |   | **155,8 M/s** | n/v (Teilrun, nicht erneut gemessen) | ** 200 M/s** |  |  |
+| 2PC Throughput |   |   |   |   |   | **6,4 k/s** | n/v (Teilrun, nicht erneut gemessen) | ** 10 k/s** |  |  |
+| Graph Edge Ops |   |   |   |   |   | **628,7 k/s** | **1,177 M/s** | ** 1 M/s** |  |  |
+| Timeseries Insert |   |   |   |   |   | **49,0 M pts/s** | **61,00 M pts/s** | ** 60 M pts/s** |  |  |
+| Gesamt Benchmark-Tests |   | 450 | 480 | 520 | 780 | **1.078** | 5 Kern-KPI-Cases (Teilrun) | ** 1.200** |  |   |
 
 ### 1.1 Kernmetriken-Ampel v1.8.2 (Ist vs Ziel)
 
