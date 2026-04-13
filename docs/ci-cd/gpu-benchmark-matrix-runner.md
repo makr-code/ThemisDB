@@ -220,7 +220,7 @@ Jedes Artefakt-Verzeichnis enthält:
 ## Fallback-Verhalten
 
 Wenn kein selbst-gehosteter GPU-Runner mit dem jeweiligen Label registriert ist,
-queuéiert GitHub Actions den Job und er bleibt bis zum Runner-Timeout ausstehend
+queuet GitHub Actions den Job und er bleibt bis zum Runner-Timeout ausstehend
 (Standard: 6 Stunden). Da alle drei GPU-Jobs `continue-on-error: true` tragen,
 blockieren sie nicht den PR.
 
