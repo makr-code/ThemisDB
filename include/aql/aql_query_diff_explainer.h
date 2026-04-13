@@ -17,6 +17,25 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
+/**
+ * @file aql_query_diff_explainer.h
+ * @brief Structural diff explainer for pairs of AQL queries.
+ *
+ * Performs a clause-level diff between two AQL strings: normalises whitespace,
+ * splits each query into its canonical clauses (FOR, LET, FILTER, SORT, LIMIT,
+ * RETURN, COLLECT, INSERT, UPDATE, REMOVE, UPSERT, REPLACE), and reports every
+ * clause that was added, removed, or changed.
+ *
+ * No LLM dependency is required — the analysis is purely rule-based and
+ * runs in O(n) time where n is the total number of detected clauses.
+ *
+ * Compile guards: no external dependencies; always compiled.
+ *
+ * @see IAQLQueryDiffExplainer
+ * @see AQLQueryDiffExplainer
+ * @see AQLMigrationAssistant  for automated query migration
+ */
+
 #pragma once
 
 #include <string>

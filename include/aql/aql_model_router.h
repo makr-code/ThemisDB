@@ -17,6 +17,24 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
+/**
+ * @file aql_model_router.h
+ * @brief Multi-model routing interface for AQL queries.
+ *
+ * Classifies an AQL query into one or more QueryModelType categories by
+ * scanning for keyword patterns and selects the best-matching ModelRoute
+ * from a priority-ordered registry.  When the primary route is disabled or
+ * absent the router automatically falls back to the next enabled route.
+ *
+ * Compile guards: no external dependencies; always compiled.
+ * GPU-accelerated inference back-ends are activated at runtime via the model
+ * alias string — no separate compile flag is required.
+ *
+ * @see IModelRouter
+ * @see AQLModelRouter
+ * @see themis::aql::QueryModelType
+ */
+
 #pragma once
 
 #include <functional>

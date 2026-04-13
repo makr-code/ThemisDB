@@ -17,6 +17,26 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
+/**
+ * @file aql_rollback_suggester.h
+ * @brief Rollback query generator for mutating AQL statements.
+ *
+ * Given a mutation query (INSERT / UPDATE / REPLACE / REMOVE / UPSERT), derives
+ * a compensating AQL query that reverses the mutation.  Where a reversal requires
+ * pre-mutation data (e.g. document snapshots for REMOVE), the output query uses
+ * named bind-parameter placeholders (@snapshot, @old_values) together with a
+ * caveat string and manual_steps list.
+ *
+ * No LLM dependency is required; all logic is rule-based and runs in O(n)
+ * time where n is the query length.
+ *
+ * Compile guards: no external dependencies; always compiled.
+ *
+ * @see IAQLRollbackSuggester
+ * @see AQLRollbackSuggester
+ * @see IAQLQueryDiffExplainer  for query comparison / diffing
+ */
+
 #pragma once
 
 #include <optional>

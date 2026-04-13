@@ -62,8 +62,8 @@ and multimodal inference headers are all stable.
 
 ### Phase 6: Documentation & Acceptance
 - [x] Architecture and audit docs
-- [ ] Doxygen fully annotated
-- [ ] LoRA compile flag documented
+- [x] Doxygen fully annotated
+- [x] LoRA compile flag documented
 
 ---
 
@@ -72,5 +72,5 @@ and multimodal inference headers are all stable.
 - [x] LLM backend fully abstracted
 - [x] Validation and schema headers present
 - [x] Observability headers complete
-- [ ] `THEMIS_ENABLE_LORA` compile guard verified and documented
-- [ ] `IModelRouter` published
+- [x] `THEMIS_ENABLE_GPU` guards GPU LoRA training; CPU LoRA always compiled (no separate `THEMIS_ENABLE_LORA` flag — verified and documented in `aql_lora_finetuner.h`)
+- [x] `IModelRouter` published (implemented in `aql_model_router.h` / `src/aql/aql_model_router.cpp`)
