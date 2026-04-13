@@ -1,10 +1,10 @@
 # Scheduled Semantic Graph Edge Refresh
 
 **Module:** `graph/scheduled_edge_refresh`  
-**Version:** 0.1.0  
-**Status:** 🚧 Beta  
+**Version:** 1.0.0  
+**Status:** ✅ Production Ready  
 **Issue:** #FEATURE/ScheduledGraphEdgeRefresh  
-**Target Milestone:** Q4 2026
+**Compendium:** §6.11
 
 ---
 
@@ -74,6 +74,7 @@ Low-relevance edges are pruned and new high-similarity edges are discovered, kee
 | `max_edges_to_remove` | `uint32_t` | 500 | Hard cap on removals per cycle (0 = unlimited). |
 | `graph_id` | `std::string` | `""` | Restrict refresh to a specific graph. Empty = all graphs. |
 | `anomaly_threshold_removal_rate` | `float` [0,1] | 0.0 | **Anomaly detection**: removal rate above which `RefreshStats::anomaly_high_removal_rate` is set and a warning is logged. 0 = disabled. |
+| `ann_min_vertices` | `uint32_t` | 10000 | Vertex count threshold above which the attached ANN index is used for candidate discovery. |
 
 ### Validation
 
@@ -357,6 +358,39 @@ engine.stop();
 - **Batch writes** amortise RocksDB write amplification.
 - **Centrality dampening** reduces unnecessary churn on hub nodes.
 - The background scheduler does not run concurrent cycles; each cycle holds `cycle_mutex_` for its duration.
+
+---
+
+### ANN Index Integration
+
+For graphs with more than `policy.ann_min_vertices` vertices (default 10,000), the engine uses an Approximate Nearest Neighbour (ANN) index for candidate discovery instead of brute-force pairwise similarity, reducing complexity from O(V²) to O(V · log V) per cycle.
+
+```cpp
+// Attach an HNSW ANN index from the acceleration module
+engine.setANNIndex(&my_hnsw_index);
+
+// The engine rebuilds its internal ANN index at the start of each cycle
+// when vertex count > policy.ann_min_vertices (default 10,000)
+```
+
+---
+
+### CEP Event Emission
+
+After a successful batch commit, the engine emits one `themisdb::analytics::Event` per edge mutation into the attached CEP callback:
+
+- **`EDGE_CREATE`** — new edge added
+- **`EDGE_DELETE`** — edge removed
+
+```cpp
+engine.setCEPEventCallback([](themisdb::analytics::Event ev) {
+    // ev.type  = "EDGE_CREATE" or "EDGE_DELETE"
+    // ev.payload contains: edge_id, from, to, relevance_score, cycle_number
+    cep_engine.ingest(ev);
+});
+```
+
+Both CEP events and `Changefeed` events may be active simultaneously; they are independent channels.
 
 ---
 

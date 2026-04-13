@@ -1,4 +1,4 @@
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-04-13 -->
 <!-- Links: README.md · ARCHITECTURE.md · ../../src/graph/ROADMAP.md -->
 
 # Roadmap — Graph Module (Public Headers)
@@ -18,6 +18,9 @@ v1.4.0 — Production-ready. 6 public headers. `ScheduledGraphEdgeRefreshEngine`
 - [x] Distributed shard execution (`distributed_graph.h`)
 - [x] Scheduled edge refresh with ANN + temporal decay (`scheduled_edge_refresh.h`)
 - [x] `setANNIndex()` and `setCEPEventCallback()` on `ScheduledGraphEdgeRefreshEngine`
+- [x] Bilingual documentation EN (`docs/scheduled_edge_refresh.md`) and DE (`docs/de/scheduled_edge_refresh.md`) — status ✅ Production Ready
+- [x] Compendium §6.11 for `ScheduledGraphEdgeRefreshEngine` added to `chapter_06_graph.md`
+- [x] `appendix_d_feature_status.md` updated with `ScheduledGraphEdgeRefreshEngine` entry (§6.11)
 
 ## Planned
 
@@ -44,5 +47,7 @@ v1.4.0 — Production-ready. 6 public headers. `ScheduledGraphEdgeRefreshEngine`
 - [x] 6 public headers compile cleanly
 - [x] Distributed execution shard-isolated
 - [x] ANN index integration in edge refresh
+- [x] Bilingual documentation (EN + DE) for `ScheduledGraphEdgeRefreshEngine`
+- [x] Compendium §6.11 documented
 - [ ] GPU BFS/DFS kernel coverage
 - [ ] GNN embedding interface

@@ -1,10 +1,10 @@
 # Geplante Semantische Graph-Kanten-Aktualisierung
 
 **Modul:** `graph/scheduled_edge_refresh`  
-**Version:** 0.1.0  
-**Status:** 🚧 Beta  
+**Version:** 1.0.0  
+**Status:** ✅ Production Ready  
 **Issue:** #FEATURE/ScheduledGraphEdgeRefresh  
-**Ziel-Meilenstein:** Q4 2026
+**Compendium:** §6.11
 
 ---
 
@@ -74,6 +74,7 @@ Kanten mit niedriger Relevanz werden entfernt und neue Kanten mit hoher Ähnlich
 | `max_edges_to_remove` | `uint32_t` | 500 | Maximale Anzahl zu löschender Kanten pro Zyklus (0 = unbegrenzt). |
 | `graph_id` | `std::string` | `""` | Refresh auf einen bestimmten Graphen einschränken. Leer = alle Graphen. |
 | `anomaly_threshold_removal_rate` | `float` [0,1] | 0.0 | **Anomalieerkennung**: Entfernungsrate, ab der `anomaly_high_removal_rate` gesetzt wird. 0 = deaktiviert. |
+| `ann_min_vertices` | `uint32_t` | 10000 | Knotenanzahl, ab der bei der Kandidatenentdeckung der ANN-Index verwendet wird (statt Brute-Force). |
 
 ### Validierung
 
@@ -335,6 +336,39 @@ engine.stop();
 - **Batch-Schreibvorgänge** amortisieren die RocksDB-Schreibverstärkung.
 - **Zentralitätsdämpfung** reduziert unnötige Fluktuation bei Hub-Knoten.
 - Der Hintergrund-Scheduler führt keine parallelen Zyklen aus; jeder Zyklus hält `cycle_mutex_` für seine gesamte Laufzeit.
+
+---
+
+### ANN-Index-Integration
+
+Für Graphen mit mehr als `policy.ann_min_vertices` Knoten (Standard: 10.000) verwendet der Engine für die Kandidatenentdeckung einen Approximate-Nearest-Neighbour-Index (ANN) anstelle der brute-force-paarweisen Ähnlichkeitsberechnung, was die Komplexität von O(V²) auf O(V · log V) pro Zyklus reduziert.
+
+```cpp
+// HNSW-ANN-Index aus dem Acceleration-Modul einbinden
+engine.setANNIndex(&mein_hnsw_index);
+
+// Der Engine baut seinen internen ANN-Index zu Beginn jedes Zyklus neu auf,
+// wenn die Knotenanzahl > policy.ann_min_vertices (Standard: 10.000)
+```
+
+---
+
+### CEP-Ereignis-Emission
+
+Nach einem erfolgreichen Batch-Commit emittiert der Engine für jede Kantenmutation ein `themisdb::analytics::Event`-Ereignis über den konfigurierten CEP-Callback:
+
+- **`EDGE_CREATE`** — neue Kante hinzugefügt
+- **`EDGE_DELETE`** — Kante entfernt
+
+```cpp
+engine.setCEPEventCallback([](themisdb::analytics::Event ev) {
+    // ev.type  = "EDGE_CREATE" oder "EDGE_DELETE"
+    // ev.payload enthält: edge_id, from, to, relevance_score, cycle_number
+    cep_engine.ingest(ev);
+});
+```
+
+CEP-Ereignisse und `Changefeed`-Ereignisse können gleichzeitig aktiv sein; sie sind unabhängige Kanäle.
 
 ---
 
