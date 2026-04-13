@@ -10202,7 +10202,67 @@ else()
 endif()
 
 # ============================================================================
-# CDC Pause/Resume Control Focused Tests (v1.8.0 ÔÇö ICDCPauseControl /
+# CDC Kafka Producer Focused Tests (v1.9.0 — KafkaCDCProducer / ICDCTransport;
+# exercises config defaults, no-op stub behaviour, ICDCTransport compliance,
+# Prometheus counter fields, Debezium format integration)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cdc_kafka_producer.cpp")
+    message(STATUS "Adding CDC Kafka Producer focused tests (v1.9.0 roadmap:161)")
+
+    add_executable(test_cdc_kafka_producer
+        test_cdc_kafka_producer.cpp
+    )
+
+    # kafka_cdc_producer.cpp is compiled conditionally when THEMIS_ENABLE_KAFKA=ON.
+    # Add it explicitly here so the full implementation is exercised when the
+    # library is available; when OFF the no-op stub (inline in the header) is used.
+    if(THEMIS_ENABLE_KAFKA)
+        target_sources(test_cdc_kafka_producer PRIVATE
+            ${THEMIS_ROOT_DIR}/src/cdc/kafka_cdc_producer.cpp
+        )
+    endif()
+
+    target_include_directories(test_cdc_kafka_producer PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_cdc_kafka_producer PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    if(THEMIS_ENABLE_KAFKA AND TARGET RdKafka::rdkafka++)
+        target_link_libraries(test_cdc_kafka_producer PRIVATE
+            RdKafka::rdkafka
+            RdKafka::rdkafka++
+        )
+        target_compile_definitions(test_cdc_kafka_producer PRIVATE
+            THEMIS_ENABLE_KAFKA=1
+        )
+    endif()
+
+    target_compile_definitions(test_cdc_kafka_producer PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME CDCKafkaProducerFocusedTests COMMAND test_cdc_kafka_producer)
+
+    set_tests_properties(CDCKafkaProducerFocusedTests PROPERTIES
+        LABELS "cdc;kafka;producer;transport;metrics;debezium;v1.9.0;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  CDCKafkaProducer: config defaults, no-op stub, ICDCTransport compliance, Prometheus counters (cdc_kafka_delivered_total/cdc_kafka_error_total), Debezium format")
+else()
+    message(STATUS "CDC Kafka Producer tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cdc_kafka_producer.cpp")
+endif()
+
+# ============================================================================
+# CDC Pause/Resume Control Focused Tests (v1.8.0 — ICDCPauseControl /
 # InMemoryPauseControl; header-only, no RocksDB dependency)
 # ============================================================================
 
