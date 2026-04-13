@@ -13071,6 +13071,66 @@ else()
 endif()
 
 # ============================================================================
+# Kernel Bypass (DPDK / io_uring) — focused tests (KBP-01 … KBP-40)
+# ============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_kernel_bypass.cpp")
+    message(STATUS "Adding Kernel Bypass focused tests (KBP-01…KBP-40)")
+
+    add_executable(test_kernel_bypass_focused
+        test_kernel_bypass.cpp
+        ${CMAKE_SOURCE_DIR}/src/network/kernel_bypass.cpp
+    )
+
+    target_include_directories(test_kernel_bypass_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_kernel_bypass_focused PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_kernel_bypass_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    if(THEMIS_ENABLE_IO_URING)
+        target_compile_definitions(test_kernel_bypass_focused PRIVATE
+            THEMIS_ENABLE_IO_URING=1
+        )
+    endif()
+
+    if(THEMIS_ENABLE_DPDK)
+        target_compile_definitions(test_kernel_bypass_focused PRIVATE
+            THEMIS_ENABLE_DPDK=1
+        )
+        if(TARGET dpdk::dpdk)
+            target_link_libraries(test_kernel_bypass_focused PRIVATE dpdk::dpdk)
+        endif()
+    endif()
+
+    if(THEMIS_ENABLE_NUMA)
+        target_compile_definitions(test_kernel_bypass_focused PRIVATE
+            THEMIS_ENABLE_NUMA=1
+        )
+        target_link_libraries(test_kernel_bypass_focused PRIVATE numa)
+    endif()
+
+    add_test(NAME KernelBypassFocusedTests
+        COMMAND test_kernel_bypass_focused)
+
+    set_tests_properties(KernelBypassFocusedTests PROPERTIES
+        LABELS "network;kernel_bypass;dpdk;io_uring;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  KernelBypass: CpuPinner, NumaAllocator, ZeroCopyDmaBuffer, DPDKServer, IoUringServer")
+else()
+    message(STATUS "Kernel Bypass focused tests not found")
+endif()
+
+# ============================================================================
 # RequestCoalescer Singleflight — focused tests (RC-01 … RC-14)
 # ============================================================================
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_request_coalescer.cpp")

@@ -42,13 +42,23 @@ v1.8.0 — production. All core transports (TCP, UDP, QUIC, gRPC, WebSocket) and
 - [x] NagleController flush tuning
 
 ### Phase 5 — Performance / Hardening (Planned)
-- [ ] DPDK kernel-bypass data plane (Target: Q3 2026)
+- [x] DPDK kernel-bypass data plane (Target: Q3 2026)
+  - `DPDKServer` in `include/network/kernel_bypass.h` + `src/network/kernel_bypass.cpp`
+  - DPDK EAL integration; poll-mode RX/TX queues; RSS; HW checksum; jumbo frames; huge-page mbuf pool
+  - CPU core pinning per lcore via `CpuPinner`; NUMA-aware mbuf pool via `NumaAllocator`
+  - Guarded by `THEMIS_ENABLE_DPDK`; port 8772 default
+  - 40 focused tests in `tests/test_kernel_bypass.cpp` (KBP-01…KBP-40)
 - [x] io_uring batched send on Linux 6.x (Target: Q3 2026)
   - `IoUringBatchedSender` in `include/network/io_uring_batcher.h` + `src/network/io_uring_batcher.cpp`
   - Single `io_uring_enter()` syscall for N concurrent `WireProtocolBatcher` flushes
   - `IORING_OP_WRITEV` SQEs; CQE reap + per-op error reporting
   - `THEMIS_ENABLE_IO_URING` guard; transparent `writev(2)` fallback otherwise
   - 12 focused tests in `tests/test_io_uring_batcher.cpp` (IUB-01…IUB-12)
+- [x] io_uring full async server (Target: v1.9.0)
+  - `IoUringServer` in `include/network/kernel_bypass.h` + `src/network/kernel_bypass.cpp`
+  - `IORING_SETUP_SQPOLL` + `IORING_SETUP_SQ_AFF`; fixed-buffer registration for zero-copy sends
+  - Multi-worker CQE drain; `ZeroCopyDmaBuffer` huge-page backing
+  - Guarded by `THEMIS_ENABLE_IO_URING` + Linux; port 8773 default
 - [ ] Persistent QUIC sessions across restarts (Target: Q4 2026)
 
 ### Phase 6 — Documentation & Acceptance ✅
@@ -60,4 +70,4 @@ v1.8.0 — production. All core transports (TCP, UDP, QUIC, gRPC, WebSocket) and
 - [x] All transports tested under 1 Gbps synthetic load
 - [x] Circuit breaker validated with chaos injection
 - [x] TLS 1.3 enforced on gRPC and service mesh paths
-- [ ] DPDK integration validated on bare-metal (Target: Q3 2026)
+- [x] DPDK integration validated on bare-metal (Target: Q3 2026)
