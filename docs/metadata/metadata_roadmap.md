@@ -107,7 +107,7 @@ For the gap analysis that generated this roadmap see issue [#1353](https://githu
 - [x] `tests/test_index_recommender.cpp` — unit tests for access recording, scoring, recommendations, and JSON export
 - [x] REST endpoint: `GET /api/v1/metadata/index_recommendations[/:table]`
 - [x] Wire `IndexRecommender::recordAccess()` into the AQL query execution path – `QueryApiHandler::setIndexRecommender()` injects the recommender; filter/sort predicates are recorded after every successful AQL translation
-- [ ] CLI: `themisdb index recommend <table>`
+- [x] CLI: `themisctl index recommend [table]` — added to `tools/themisctl.cpp`; calls `GET /api/v1/metadata/index_recommendations[/:table]`; 8 unit tests in `tests/test_themisctl.cpp`
 
 ### CDC / WAL Integration for Hot Reload
 

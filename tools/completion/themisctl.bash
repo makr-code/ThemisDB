@@ -22,7 +22,7 @@ _themisctl_complete() {
     local global_flags="--host --port --token --timeout --json --no-color --help -h"
 
     # ── All top-level commands ────────────────────────────────────────────────
-    local commands="health version query get put delete schema config branch snapshot admin repl"
+    local commands="health version query get put delete schema config branch snapshot admin index repl"
 
     # If we're completing the very first token after the binary, or after a
     # global flag that takes a value, offer commands + flags.
@@ -83,6 +83,10 @@ _themisctl_complete() {
         admin)
             local admin_subs="stats cache"
             COMPREPLY=( $(compgen -W "${admin_subs}" -- "${cur}") )
+            ;;
+        index)
+            local index_subs="recommend"
+            COMPREPLY=( $(compgen -W "${index_subs}" -- "${cur}") )
             ;;
         schema|get|delete)
             # No meaningful static completions for entity IDs / table names
