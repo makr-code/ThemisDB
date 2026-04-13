@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            entity_linker.h                                    ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-04-06 04:07:15                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-04-13 04:15:37                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

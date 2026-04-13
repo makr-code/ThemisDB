@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_governance_compliance_time_window.cpp         ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-06 04:28:18                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-13 04:38:56                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

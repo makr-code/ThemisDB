@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            tsa_api.h                                          ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-06 04:10:50                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-13 04:19:47                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

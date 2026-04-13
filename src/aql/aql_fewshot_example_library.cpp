@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            aql_fewshot_example_library.cpp                    ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-06 04:14:21                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-13 04:23:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     603                                            ║
+    • Total Lines:     685                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 3a758b465a  2026-04-12  feat(aql): AQL module enhancements — Features 8, 10, 12, ... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 5fcab4ddf6  2026-02-26  feat(aql): implement few-shot example library for improve... ║
 ╠═════════════════════════════════════════════════════════════════════╣
@@ -29,6 +30,7 @@
 #include "aql/aql_fewshot_example_library.h"
 #include "utils/logger.h"
 #include <algorithm>
+#include <cmath>
 #include <sstream>
 #include <stdexcept>
 #include <unordered_set>
@@ -118,11 +120,33 @@ std::vector<AQLFewShotExample> AQLFewShotExampleLibrary::findRelevant(
         return {};
     }
 
-    // Score each candidate by relevance to nl_query
+    // Score each candidate by relevance to nl_query.
+    // When an embedding provider is available, use cosine similarity; otherwise
+    // fall back to the existing Jaccard word-overlap metric.
     std::vector<std::pair<double, const AQLFewShotExample*>> scored;
     scored.reserve(candidates.size());
-    for (const auto* c : candidates) {
-        scored.emplace_back(computeRelevance_(nl_query, *c), c);
+
+    if (embedding_provider_) {
+        // Semantic path: embed the query once, then score each example.
+        const std::vector<float> query_emb = embedding_provider_->embed(nl_query);
+        for (const auto* c : candidates) {
+            // Find the index of this example in examples_
+            auto it = index_by_id_.find(c->id);
+            double sim = -1.0;
+            if (it != index_by_id_.end()) {
+                sim = computeRelevanceSemantic_(query_emb, it->second);
+            }
+            // Fall back to Jaccard if embedding failed (-1.0 means no embedding)
+            if (sim < 0.0) {
+                sim = computeRelevance_(nl_query, *c);
+            }
+            scored.emplace_back(sim, c);
+        }
+    } else {
+        // Lexical path (default): Jaccard word-overlap
+        for (const auto* c : candidates) {
+            scored.emplace_back(computeRelevance_(nl_query, *c), c);
+        }
     }
 
     // Sort by descending relevance
@@ -164,6 +188,65 @@ std::string AQLFewShotExampleLibrary::buildPromptSection(
 
 std::size_t AQLFewShotExampleLibrary::size() const {
     return examples_.size();
+}
+
+// ============================================================================
+// Semantic ranking methods
+// ============================================================================
+
+void AQLFewShotExampleLibrary::setEmbeddingProvider(IEmbeddingProvider* provider) {
+    embedding_provider_ = provider;
+    // Invalidate the cache so new embeddings are computed with the new provider
+    embedding_cache_.clear();
+}
+
+void AQLFewShotExampleLibrary::rebuildEmbeddingIndex() {
+    if (!embedding_provider_) return;
+
+    embedding_cache_.resize(examples_.size());
+    for (std::size_t i = 0; i < examples_.size(); ++i) {
+        embedding_cache_[i] = embedding_provider_->embed(examples_[i].nl_query);
+    }
+}
+
+bool AQLFewShotExampleLibrary::ensureEmbedding_(std::size_t idx) const {
+    if (!embedding_provider_) return false;
+    if (idx >= examples_.size()) return false;
+
+    // Grow cache if needed
+    if (embedding_cache_.size() <= idx) {
+        embedding_cache_.resize(examples_.size());
+    }
+    // Compute on demand if not yet cached
+    if (embedding_cache_[idx].empty()) {
+        embedding_cache_[idx] = embedding_provider_->embed(examples_[idx].nl_query);
+    }
+    return !embedding_cache_[idx].empty();
+}
+
+double AQLFewShotExampleLibrary::cosineSimilarity_(
+    const std::vector<float>& a,
+    const std::vector<float>& b
+) {
+    if (a.size() != b.size() || a.empty()) return 0.0;
+
+    double dot = 0.0, norm_a = 0.0, norm_b = 0.0;
+    for (std::size_t i = 0; i < a.size(); ++i) {
+        dot    += static_cast<double>(a[i]) * static_cast<double>(b[i]);
+        norm_a += static_cast<double>(a[i]) * static_cast<double>(a[i]);
+        norm_b += static_cast<double>(b[i]) * static_cast<double>(b[i]);
+    }
+    const double denom = std::sqrt(norm_a) * std::sqrt(norm_b);
+    return (denom > 1e-12) ? dot / denom : 0.0;
+}
+
+double AQLFewShotExampleLibrary::computeRelevanceSemantic_(
+    const std::vector<float>& query_embedding,
+    std::size_t example_index
+) const {
+    if (query_embedding.empty()) return -1.0;
+    if (!ensureEmbedding_(example_index)) return -1.0;
+    return cosineSimilarity_(query_embedding, embedding_cache_[example_index]);
 }
 
 // ============================================================================

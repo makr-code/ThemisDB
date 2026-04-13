@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            http_server.h                                      ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:11:05                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:20:02                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1114                                           ║
+    • Total Lines:     1146                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 040083b025  2026-04-12  feat: StreamingIngestManager, TsStreamCursor, LZ4 compres... ║
+    • 9f5c953436  2026-04-07  feat(config): Introduce new hierarchical configuration st... ║
+    • 4c09145112  2026-04-07  fix(http_server): correct member declaration order to pre... ║
+    • fc0c65a058  2026-04-07  feat(api/aql): AQL-GraphQL integration – cost model bridg... ║
     • 490de27f06  2026-03-26  fix: implement all P0/P1 blockers - QueryEngine, RAG, eth... ║
-    • c9b1433946  2026-03-15  feat(server): inject live ShardingManager into HttpServer... ║
-    • 2fed5b1c69  2026-03-15  fix(cdc): wire ConsumerGroupManager into WebSocket server... ║
-    • ef1605ac5f  2026-03-11  fix(server): ExportApiHandler - 403 Forbidden for ERR_EXP... ║
-    • 0eb79f3e41  2026-03-11  feat: add DatabaseMaintenanceOrchestrator with full sched... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

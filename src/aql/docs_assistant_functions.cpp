@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            docs_assistant_functions.cpp                       ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:14:25                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:23:48                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     560                                            ║
+    • Total Lines:     600                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 3a758b465a  2026-04-12  feat(aql): AQL module enhancements — Features 8, 10, 12, ... ║
     • a7b41e3e73  2026-03-22  feat(docs): refactor DocsAssistantFunctions to use unique... ║
     • 3da4977c8c  2026-03-14  fix(aql): address classify-bridge PR review comments ║
     • f62f9c89c4  2026-03-14  feat(aql): wire detectIntentWithNativeNLP() to IClassifyF... ║
@@ -60,11 +61,19 @@ public:
             docs_assistant_ = std::make_unique<llm::DocsAssistant>(config);
             if (!docs_assistant_->loadDatabase()) {
                 // Failed to load, but don't throw - just mark as not ready
+                spdlog::warn("DocsAssistantFunctions: documentation database failed to load; "
+                             "falling back to degraded mode (LLM generation only)");
                 docs_assistant_.reset();
+                degraded_reason_ = DocsAssistantFunctions::DegradedReason::DATABASE_LOAD_FAILED;
+                degraded_message_ = "Documentation database failed to load";
             }
         } else {
             // No database found, but don't throw - allow graceful degradation
+            spdlog::warn("DocsAssistantFunctions: no documentation database found; "
+                         "falling back to degraded mode (LLM generation only)");
             docs_assistant_.reset();
+            degraded_reason_ = DocsAssistantFunctions::DegradedReason::DATABASE_NOT_FOUND;
+            degraded_message_ = "Documentation database not found";
         }
         
         // Try to initialize ThemisHelpLoRA
@@ -81,6 +90,11 @@ public:
         } catch (const std::exception& e) {
             spdlog::warn("ThemisHelpLoRA initialization failed, using base LLM: {}", e.what());
             lora_available_ = false;
+            // Only override degraded_reason_ if no prior degradation was recorded
+            if (degraded_reason_ == DocsAssistantFunctions::DegradedReason::OK) {
+                degraded_reason_ = DocsAssistantFunctions::DegradedReason::LORA_LOAD_FAILED;
+                degraded_message_ = std::string("LoRA adapter failed to load: ") + e.what();
+            }
         }
     }
     
@@ -95,6 +109,18 @@ public:
     
     bool isReady() const {
         return docs_assistant_ && docs_assistant_->isReady();
+    }
+
+    bool isFullyReady() const {
+        return isReady() && lora_available_ && help_lora_ != nullptr;
+    }
+
+    DocsAssistantFunctions::DegradedReason getDegradedReason() const {
+        return degraded_reason_;
+    }
+
+    const std::string& getDegradedMessage() const {
+        return degraded_message_;
     }
     
     bool isLoRAAvailable() const {
@@ -112,6 +138,9 @@ private:
     std::unique_ptr<llm::DocsAssistant> docs_assistant_;
     std::unique_ptr<llm::applications::ThemisHelpLoRA> help_lora_;
     bool lora_available_ = false;
+    DocsAssistantFunctions::DegradedReason degraded_reason_ =
+        DocsAssistantFunctions::DegradedReason::OK;
+    std::string degraded_message_;
 };
 
 DocsAssistantFunctions::DocsAssistantFunctions()
@@ -466,6 +495,18 @@ json DocsAssistantFunctions::docsStats() {
 bool DocsAssistantFunctions::isReady() const {
     const auto* impl = tryGetImpl();
     return impl ? impl->isReady() : false;
+}
+
+bool DocsAssistantFunctions::isFullyReady() const {
+    const auto* impl = tryGetImpl();
+    return impl ? impl->isFullyReady() : false;
+}
+
+std::string DocsAssistantFunctions::degradedReason() const {
+    const auto* impl = tryGetImpl();
+    if (!impl) return "Not initialised";
+    const auto& msg = impl->getDegradedMessage();
+    return msg;
 }
 
 void DocsAssistantFunctions::clearCache() {

@@ -3,21 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_multi_tenant_index.cpp                        ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-06 04:31:16                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-13 04:42:15                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     239                                            ║
+    • Total Lines:     369                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 504f42c537  2026-04-07  fix(index): fix misleading test comment in MultiTenantInj... ║
+    • dd49fe5493  2026-04-07  fix(index): tenant key separator injection – validate col... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • edf27e3ee8  2026-02-26  Refactor CMake configuration, add vision components, and ... ║
     • 341b887e7e  2026-02-26  audit: fix ROADMAP gaps and add missing edge-case tests f... ║
-    • 92ff271635  2026-02-26  feat(index): implement multi-tenancy index isolation with... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

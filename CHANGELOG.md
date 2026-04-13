@@ -9,12 +9,45 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Documentation
 
-- **Module-Docs Sync 📚 — 2026-04-12**
-  - 56 Module indexiert; 747 Primary-Markdown-Dateien in `src/` und `include/`
+- **Root documentation overhaul — 2026-04-13**
+  - `README.md` rewritten: project description, feature table, quick start, edition matrix, architecture overview, full link index
+  - `QUICKSTART.md` added: Docker, Dev Container, and build-from-source quick start guide with first-query examples
+  - `VERSIONING.md` added: dedicated versioning policy (SemVer, release types, cadence, EOL table, deprecation policy, breaking-change rules)
+  - `SOP.md` added: Standard Operating Procedures for stable release, hotfix, RC promotion, rollback, security response, dependency update, contributor onboarding, and incident response
+  - `MAINTAINERS.md` added: maintainer roster and module ownership
+  - `GOVERNANCE.md` added: project governance model (roles, decision-making, contribution policy)
+  - `.github/CODEOWNERS` expanded: now covers all 46 source modules, include/ headers, tests, docs, deployment, and root docs
+  - `.github/pull_request_template.md` updated: added Linked Issues field, Breaking Change checklist, CHANGELOG reminder
+  - `INDEX.md` updated: VERSIONING.md, SOP.md, GOVERNANCE.md, MAINTAINERS.md added to important documents section
+  - `compendium/docs/appendix_d_feature_status.md` overhauled: updated from v1.5.0-dev to v1.8.0; now covers all 46 modules with per-class feature tables, section references, version history, and v1.9/v2.0 planned items
+  - `compendium/docs/index.md` updated: version bumped from 1.4.0-alpha to 1.8.0; full 7-part structured TOC added covering all 44 chapters and 7 appendices
+  - `docs/migration/v1.7-to-v1.8.md` added: comprehensive migration guide for the three breaking changes in v1.8.0 (unversioned HTTP 301 redirects, zlib→ZSTD StreamWriter, CI workflow relocation)
+  - `docs/migration/README.md` updated: v1.7→v1.8 guide linked; full version path updated
+  - `compendium/docs/chapter_21_auth.md` §21.10 added: full API reference for JWTValidator, OAuth2PKCEHandler, SAMLAuthenticator, WebAuthnAuthenticator, LDAPAuthenticator, MFAManager, SessionManager, FederatedOIDCProvider, GSSAPIAuthenticator; includes YAML config example and performance table
+  - `compendium/docs/chapter_18_ha.md` §18.10–18.11 added: WALArchivalManager (lifecycle tiers), LogicalReplicationManager (parallel decoding), FaultInjector (5 fault types), ChaosScheduler (cron + event trigger), DisasterRecoveryManager (7-step plan), AutoFailoverManager
+  - `compendium/docs/chapter_40_data_governance_compliance.md` §40.11 added: PolicyEngine (OPA fallback, hot-reload, simulate), DataMasker (5 strategies), DataLineageTracker (append-only, upstream/downstream), ComplianceReporter (GDPR/HIPAA/CCPA/PCI/SOC2), PolicyManager hot-reload
+  - `compendium/docs/chapter_06_graph.md` §6.10 added: GraphQueryOptimizer (BFS/DFS/BIDIRECTIONAL/A*/Dijkstra, EMA cost model, plan cache), DistributedGraphManager (mTLS, EXPLAIN, streaming), pipeline diagram, performance table
+  - `roadmap.md` v2.1: updated header (Last Updated 2026-04-13, Current Release v1.8.1-rc2, scope 55 modules); 9 missing modules added to Module Status Summary (chaos/failover/ethics_ai/llama_cpp/stable_diffusion/whisper/onnx_clip/rpc_grpc/user_storage_encrypted); acceleration upgraded ✅ Production-ready (v1.8.0); Vulkan Known Issue marked Fixed; Milestone Delta updated to 2026-04-13 with full 2026-04-12/13 shipped-item table; new §Milestone: v1.9.0 section with acceptance criteria
+  <!-- changelog-updater: compendium-phase1-2026-04-13 -->
+
+- **Module-Docs Sync 📚 — 2026-04-13**
+- **Compendium Chapter Extensions — 2026-04-13 Session 2**
+  - §21.10 in `chapter_21_auth.md`: JWTValidator, OAuth2PkceFlow, SAMLAuthenticator, WebAuthnAuthenticator, LDAPAuthenticator, MFAAuthenticator, SessionManager, PasswordPolicy, FederatedIdentityManager
+  - §9.11 in `chapter_09_timeseries.md`: BiTemporalTable, BiTemporalJoin, TemporalQueryEngine, SnapshotManager (SQL:2011)
+  - §20.11 in `chapter_20_backup.md`: BackupManager (RAID0/1/5/6/10), PITRManager, TieredStorageManager
+  - §16.11 in `chapter_16_ml.md`: TrainingPipeline, IncrementalLoRATrainer, AutoLabeler, LoRACheckpointManager, ProvenanceTracker
+  - §11.10 in `chapter_11_realtime.md`: Changefeed, CdcMaterializedView, CdcAdmin, ConsumerGroup
+  - §25.11 in `chapter_25_devops_infrastructure.md`: ClusterUpdateManager, CanaryRollout, HotReloadEngine, InPlaceSchemaMigrator, BlueGreenDeployment
+  - §17.24–17.27 in `chapter_17_llm_integration.md`: PagedKVCache, ContinuousBatchScheduler, SpeculativeDecoder, OpenAICompatAdapter, LoRARouter, AdapterRegistry, ModelRouter; fixed duplicate §17.23
+  - `appendix_d_feature_status.md`: 33 neue Komponenten-Einträge (v1.8.0)
+  <!-- changelog-updater: compendium-chapter-extensions-2026-04-13-session2 -->
+
+
+  - 56 Module indexiert; 754 Primary-Markdown-Dateien in `src/` und `include/`
   - 6 Module ohne Sekundärdokumentation erkannt; Issues erzeugt
   - Sekundärdokumentation aktualisiert in `docs/de/` und `docs/en/`
   - Tool: `tools/module_docs_builder.py` v1.0.0
-  <!-- changelog-updater: module-docs-sync-2026-04-12 -->
+  <!-- changelog-updater: module-docs-sync-2026-04-13 -->
 
 - **Milestone- und Release-Sync - 2026-04-11**
   - Referenzierte offene Sub-Issue-PRs mit Versionsbezug auf ihre Ziel-Milestones ausgerichtet und abgeschlossen.

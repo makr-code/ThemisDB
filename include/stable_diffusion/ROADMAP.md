@@ -3,7 +3,10 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-- [x] Header API for Stable Diffusion plugin and helpers is available (Target: Q2 2026)
+- [x] Header API for Stable Diffusion plugin and helpers is available — v2.2.0 (2026-04-12)
+  - `SDCppGenerator` wrapping `stable-diffusion.cpp` C API (Issue: #4590)
+  - Real PNG IDAT encoder in `encodeMinimalPng()` (Issue: #4590)
+  - `SDStubGenerator::generateImg2Img` input-image pass-through (Issue: #4590)
 
 ## In Progress
 - [ ] Extend config and policy hooks for advanced deployment profiles (Target: Q3 2026)

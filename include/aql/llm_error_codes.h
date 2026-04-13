@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llm_error_codes.h                                  ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:05:20                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:13:43                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     307                                            ║
+    • Total Lines:     331                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 3a758b465a  2026-04-12  feat(aql): AQL module enhancements — Features 8, 10, 12, ... ║
     • dc13f3fdb3  2026-03-13  feat(aql): implement post-generation AQL validation with ... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • a629043ab2  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
@@ -228,6 +229,30 @@ namespace ValidationLimits {
     // (32 768 chars ≈ 8 192 tokens)
     constexpr size_t MAX_SCHEMA_CONTEXT_LENGTH = 32768;
 }
+
+/**
+ * @brief Runtime-configurable counterpart of the @c ValidationLimits constants.
+ *
+ * Inject an instance into @c LLMAQLHandler via
+ * @c LLMAQLHandler::setValidationLimits() to tune all input-length and
+ * query-count caps without recompilation. Fields default to the same values
+ * as the corresponding @c ValidationLimits constexpr constants so that
+ * existing deployments are unaffected until an explicit override is applied.
+ */
+struct ValidationLimitsConfig {
+    /// Maximum prompt length (chars).  Default: ValidationLimits::MAX_PROMPT_LENGTH
+    std::size_t max_prompt_length           = ValidationLimits::MAX_PROMPT_LENGTH;
+    /// Maximum NL query length (chars).  Default: ValidationLimits::MAX_NL_QUERY_LENGTH
+    std::size_t max_nl_query_length         = ValidationLimits::MAX_NL_QUERY_LENGTH;
+    /// Maximum schema context length (chars).  Default: ValidationLimits::MAX_SCHEMA_CONTEXT_LENGTH
+    std::size_t max_schema_context_length   = ValidationLimits::MAX_SCHEMA_CONTEXT_LENGTH;
+    /// Maximum RAG top_k.  Default: ValidationLimits::MAX_RAG_TOP_K
+    int         max_rag_top_k               = ValidationLimits::MAX_RAG_TOP_K;
+    /// Minimum RAG top_k.  Default: ValidationLimits::MIN_RAG_TOP_K
+    int         min_rag_top_k               = ValidationLimits::MIN_RAG_TOP_K;
+    /// Default execution timeout (seconds).  Default: ValidationLimits::DEFAULT_TIMEOUT_SECONDS
+    int         default_timeout_seconds     = ValidationLimits::DEFAULT_TIMEOUT_SECONDS;
+};
 
 /**
  * @brief Validation helper functions

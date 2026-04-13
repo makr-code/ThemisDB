@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            sync-milestones-from-roadmap.py                    ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-06 04:13:55                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-13 04:23:14                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            github-release.py                                  ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-06 04:13:49                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-13 04:23:06                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

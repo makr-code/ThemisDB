@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            paxos_consensus.cpp                                ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:20:53                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:30:37                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟠 BETA                                         ║
-    • Quality Score:   49.0/100                                       ║
-    • Total Lines:     1107                                           ║
+    • Quality Score:   48.0/100                                       ║
+    • Total Lines:     1158                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 116157e290  2026-04-12  fix(sharding): Paxos WAL durability, writeEntity RPC, PSR... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: 🔧 In Progress                                               ║
@@ -933,11 +934,19 @@ bool PaxosConsensus::handlePrepare(uint64_t slot, const ProposalNumber& proposal
         // Update promised proposal
         instance.promised_proposal = proposal;
         
+        // WAL durability: persist promise BEFORE responding so the invariant
+        // survives a crash between sending the PROMISE and the next restart.
+        if (wal_) {
+            const uint64_t prev_accepted_round = instance.accepted_proposal.round;
+            const nlohmann::json prev_accepted_value = instance.accepted_value.data;
+            wal_->logPromise(slot, proposal.round, node_id_,
+                             prev_accepted_round, prev_accepted_value);
+            ++operations_since_snapshot_;
+        }
+        
         spdlog::debug("Node {} promised slot {} to proposal {}/{}",
                      node_id_, slot, proposal.round, proposal.node_id);
         
-        // Return true (promise granted)
-        // In a real implementation, we would also return the previously accepted value
         return true;
     }
     
@@ -963,6 +972,13 @@ bool PaxosConsensus::handleAccept(
         // Accept the proposal
         instance.accepted_proposal = proposal;
         instance.accepted_value = value;
+        
+        // WAL durability: persist accept BEFORE responding so the invariant
+        // survives a crash between sending ACCEPTED and the next restart.
+        if (wal_) {
+            wal_->logAccept(slot, proposal.round, node_id_, value);
+            ++operations_since_snapshot_;
+        }
         
         spdlog::debug("Node {} accepted slot {} with proposal {}/{}",
                      node_id_, slot, proposal.round, proposal.node_id);
@@ -1038,17 +1054,53 @@ bool PaxosConsensus::recoverFromWAL() {
                     spdlog::debug("Replay PREPARE: slot={}, round={}", entry.slot, entry.round);
                     break;
                     
-                case themis::sharding::PaxosWALEntryType::ACCEPT:
-                    spdlog::debug("Replay ACCEPT: slot={}, round={}", entry.slot, entry.round);
+                case themis::sharding::PaxosWALEntryType::PROMISE: {
+                    spdlog::debug("Replay PROMISE: slot={}, round={}", entry.slot, entry.round);
+                    auto& inst = instances_[entry.slot];
+                    inst.slot = entry.slot;
+                    if (entry.round > inst.promised_proposal.round) {
+                        inst.promised_proposal.round   = entry.round;
+                        inst.promised_proposal.node_id = entry.node_id;
+                    }
                     break;
+                }
                     
-                case themis::sharding::PaxosWALEntryType::COMMIT:
+                case themis::sharding::PaxosWALEntryType::ACCEPT:
+                case themis::sharding::PaxosWALEntryType::ACCEPTED: {
+                    spdlog::debug("Replay ACCEPT: slot={}, round={}", entry.slot, entry.round);
+                    auto& inst = instances_[entry.slot];
+                    inst.slot = entry.slot;
+                    if (entry.round >= inst.accepted_proposal.round) {
+                        inst.accepted_proposal.round   = entry.round;
+                        inst.accepted_proposal.node_id = entry.node_id;
+                        if (!entry.data.is_null()) {
+                            inst.accepted_value.operation =
+                                entry.data.value("operation", std::string{});
+                            inst.accepted_value.data =
+                                entry.data.value("data", nlohmann::json{});
+                        }
+                    }
+                    break;
+                }
+                    
+                case themis::sharding::PaxosWALEntryType::COMMIT: {
                     spdlog::debug("Replay COMMIT: slot={}", entry.slot);
+                    auto& inst = instances_[entry.slot];
+                    inst.is_committed = true;
                     // Update commit index
                     if (entry.slot > commit_index_.load()) {
                         commit_index_.store(entry.slot);
                     }
+                    // Rebuild committed log
+                    ConsensusLogEntry log_entry;
+                    if (!entry.data.is_null()) {
+                        log_entry.operation = entry.data.value("operation", std::string{});
+                        log_entry.data      = entry.data.value("data", nlohmann::json{});
+                        log_entry.index     = entry.slot;
+                    }
+                    committed_log_[entry.slot] = log_entry;
                     break;
+                }
                     
                 default:
                     break;

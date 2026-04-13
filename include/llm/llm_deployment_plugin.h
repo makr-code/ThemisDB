@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llm_deployment_plugin.h                            ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-06 04:08:06                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-13 04:16:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

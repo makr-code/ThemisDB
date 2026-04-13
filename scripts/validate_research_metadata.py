@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            validate_research_metadata.py                      ║
-  Version:         0.0.14                                             ║
-  Last Modified:   2026-04-06 04:13:57                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-13 04:23:16                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

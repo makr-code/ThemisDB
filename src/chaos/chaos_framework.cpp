@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            chaos_framework.cpp                                ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-04-06 04:15:03                                ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-04-13 04:24:26                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     238                                            ║
+    • Total Lines:     271                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 1f070f992b  2026-04-12  chaos: Phase 4+5 — configurable scheduler tick/wake strat... ║
     • 5bee4e8e41  2026-04-03  Implement Disaster Recovery Manager and associated tests ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
@@ -185,8 +186,8 @@ void FaultInjector::pruneExpired() {
 
 // ─── ChaosScheduler ──────────────────────────────────────────────────────────
 
-ChaosScheduler::ChaosScheduler(std::shared_ptr<FaultInjector> injector)
-    : injector_(std::move(injector)) {
+ChaosScheduler::ChaosScheduler(std::shared_ptr<FaultInjector> injector, Config cfg)
+    : injector_(std::move(injector)), cfg_(cfg) {
     if (!injector_) {
         throw std::invalid_argument("ChaosScheduler: injector must not be null");
     }
@@ -197,8 +198,11 @@ ChaosScheduler::~ChaosScheduler() {
 }
 
 void ChaosScheduler::schedule(ChaosScheduleEntry entry) {
-    std::lock_guard<std::mutex> lock(sched_mutex_);
-    pending_.push_back(std::move(entry));
+    {
+        std::lock_guard<std::mutex> lock(sched_mutex_);
+        pending_.push_back(std::move(entry));
+    }
+    sched_cv_.notify_one();
 }
 
 void ChaosScheduler::scheduleIn(std::chrono::milliseconds delay, const FaultSpec& fault) {
@@ -212,6 +216,7 @@ void ChaosScheduler::start() {
 
 void ChaosScheduler::stop() {
     running_.store(false);
+    sched_cv_.notify_all();
     if (worker_.joinable()) {
         worker_.join();
     }
@@ -233,8 +238,8 @@ void ChaosScheduler::clearPending() {
 
 void ChaosScheduler::runLoop() {
     while (running_.load()) {
+        // ── Fire phase: collect and inject all due faults ──────────────────
         const auto now = std::chrono::steady_clock::now();
-
         std::vector<FaultSpec> to_fire;
         {
             std::lock_guard<std::mutex> lock(sched_mutex_);
@@ -253,7 +258,14 @@ void ChaosScheduler::runLoop() {
             injector_->injectFault(fault);
         }
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        // ── Wait phase: sleep until next tick or until woken ───────────────
+        if (cfg_.wake_strategy == WakeStrategy::CONDVAR) {
+            std::unique_lock<std::mutex> lock(wake_mutex_);
+            sched_cv_.wait_for(lock, cfg_.tick_interval,
+                               [this] { return !running_.load(); });
+        } else {
+            std::this_thread::sleep_for(cfg_.tick_interval);
+        }
     }
 }
 

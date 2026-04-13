@@ -16,7 +16,7 @@ February 19, 2026
 ### Phase 1: High Priority (Stability & Security)
 
 #### 1. Structured Error Types ✅
-**Location**: `src/config/config_errors.h`
+**Location**: `include/config/config_errors.h`
 
 Replaced generic `std::runtime_error` with specific exception types:
 - `ConfigNotFoundException` - Includes attempted paths for debugging
@@ -27,7 +27,7 @@ Replaced generic `std::runtime_error` with specific exception types:
 **Impact**: Better error handling, clearer debugging, actionable error messages
 
 #### 2. Metrics Infrastructure ✅
-**Location**: `src/config/config_path_resolver.h`
+**Location**: `include/config/config_path_resolver.h`
 
 Added comprehensive metrics tracking using atomic counters:
 - `resolution_hits` / `resolution_misses`
@@ -38,7 +38,7 @@ Added comprehensive metrics tracking using atomic counters:
 **Impact**: Full observability into config resolution patterns and cache efficiency
 
 #### 3. Thread-Safety Documentation ✅
-**Location**: `src/config/config_path_resolver.h`
+**Location**: `include/config/config_path_resolver.h`
 
 Documented concurrency guarantees:
 - All public methods are thread-safe for concurrent reads
@@ -116,7 +116,7 @@ Comprehensive documentation including:
 ### Phase 2: Medium Priority (Performance & Operations)
 
 #### 1. LRU Cache with TTL ✅
-**Location**: `src/config/lru_cache.h`
+**Location**: `include/config/lru_cache.h`
 
 Thread-safe cache implementation:
 - Configurable capacity (default: 1000 entries)
@@ -139,7 +139,7 @@ Thread-safe cache implementation:
 **Impact**: Significant performance improvement for repeated config access
 
 #### 2. Deprecation Metadata ✅
-**Location**: `src/config/path_mapping_metadata.h`
+**Location**: `include/config/path_mapping_metadata.h`
 
 Structured metadata for each path mapping:
 ```cpp
@@ -245,9 +245,9 @@ ConfigPathResolver::cacheStats() returns:
 ## File Summary
 
 ### New Files Created
-1. `src/config/config_errors.h` - Exception types (2.9 KB)
-2. `src/config/lru_cache.h` - LRU cache implementation (6.4 KB)
-3. `src/config/path_mapping_metadata.h` - Deprecation metadata (2.4 KB)
+1. `include/config/config_errors.h` - Exception types (2.9 KB)
+2. `include/config/lru_cache.h` - LRU cache implementation (6.4 KB)
+3. `include/config/path_mapping_metadata.h` - Deprecation metadata (2.4 KB)
 4. `tests/test_config_path_resolver.cpp` - Resolver tests (9.9 KB)
 5. `tests/test_lru_cache.cpp` - Cache tests (6.4 KB)
 6. `tests/test_path_mapping_metadata.cpp` - Metadata tests (7.0 KB)
@@ -258,7 +258,7 @@ ConfigPathResolver::cacheStats() returns:
 11. `docs/config_implementation_summary.md` - This file
 
 ### Modified Files
-1. `src/config/config_path_resolver.h` - Enhanced with metrics, cache, metadata
+1. `include/config/config_path_resolver.h` - Enhanced with metrics, cache, metadata
 2. `src/config/config_path_resolver.cpp` - Integrated all new features
 
 ### Total Lines Added

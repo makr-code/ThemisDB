@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            process_linker.h                                   ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-04-06 04:09:23                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-04-13 04:18:04                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     289                                            ║
+    • Total Lines:     294                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • b18a0735c6  2026-04-12  fix(process): replace regex BPMN parser with state-machin... ║
     • 7f7a272409  2026-03-12  feat(process): add ProcessLinker, ProcessGraphRag, and mo... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
@@ -277,6 +278,11 @@ private:
 
     std::string makeAttachKey_(std::string_view instance_id,
                                std::string_view object_id) const;
+    /// Reverse-lookup key for findInstancesWithObject():
+    ///   proc:obj_idx:<object_id>:<collection>:<instance_id>
+    std::string makeObjIdxKey_(std::string_view object_id,
+                               std::string_view collection,
+                               std::string_view instance_id) const;
     std::string makeLinkKey_(std::string_view source_id,
                              std::string_view target_id,
                              ProcessLinkType  link_type) const;

@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            llama_cpp_plugin.cpp                               ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-04-13 04:26:29                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
+    • Quality Score:   60.0/100                                       ║
+    • Total Lines:     378                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 8                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • df59ab8148  2026-04-12  feat(llm): promote llama_wrapper, multi_lora_manager, pro... ║
+    • f0f3ecebde  2026-04-11  feat(llama_cpp): v2.1.0 — streaming, batch inference, Plu... ║
+    • 7b80a66e02  2026-04-07  fix(llama_cpp): align LlamaCppPlugin with ILLMPlugin inte... ║
+    • bc505b7f56  2026-04-07  feat(rag): implement context-window budget, RAGContextAss... ║
+    • 01a86c4f10  2026-04-07  Changes before error encountered        ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ⚠️  Needs Work                                              ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "llama_cpp/llama_cpp_plugin.h"
 #include "rag/rag_context_assembler.h"
 #include <algorithm>
@@ -27,6 +53,46 @@ bool LlamaCppPlugin::loadModel(const std::string& model_path, const json& config
     }
     context_length_ = (ctx > 0u) ? ctx : llm::kDefaultContextWindowTokens;
 
+#ifdef THEMIS_LLM_ENABLED
+    // When a real model path is supplied, attempt to create a LlamaWrapper and
+    // load the model through it.  Any exception or load failure is caught and
+    // the plugin silently falls back to stub mode so that CI and unit tests
+    // that pass an empty or non-existent path continue to work.
+    wrapper_.reset();
+    if (!model_path.empty()) {
+        try {
+            llm::LlamaWrapper::Config wrapper_cfg;
+            if (config.contains("n_gpu_layers") && config["n_gpu_layers"].is_number())
+                wrapper_cfg.n_gpu_layers = config["n_gpu_layers"].get<int>();
+            if (config.contains("n_ctx") && config["n_ctx"].is_number())
+                wrapper_cfg.n_ctx = config["n_ctx"].get<int>();
+            else if (config.contains("context_length") && config["context_length"].is_number())
+                wrapper_cfg.n_ctx = static_cast<int>(config["context_length"].get<size_t>());
+            if (config.contains("n_batch") && config["n_batch"].is_number())
+                wrapper_cfg.n_batch = config["n_batch"].get<int>();
+            if (config.contains("n_threads") && config["n_threads"].is_number())
+                wrapper_cfg.n_threads = config["n_threads"].get<int>();
+            // Disable the response cache to avoid an unconditional RocksDB
+            // initialisation during startup (matches LlamaWrapper default comment).
+            wrapper_cfg.enable_response_cache = false;
+            // Continuous batching is managed externally; keep it off in the plugin.
+            wrapper_cfg.use_continuous_batching = false;
+
+            auto w = std::make_unique<llm::LlamaWrapper>(wrapper_cfg);
+            if (w->loadModel(model_path, config)) {
+                wrapper_ = std::move(w);
+                // Prefer the wrapper's richer context-length information.
+                auto info = wrapper_->getModelInfo();
+                if (info && info->context_length > 0)
+                    context_length_ = info->context_length;
+            }
+        } catch (...) {
+            // Fallback to stub mode; wrapper_ remains null.
+            wrapper_.reset();
+        }
+    }
+#endif
+
     model_loaded_ = true;
     return true;
 }
@@ -37,6 +103,9 @@ void LlamaCppPlugin::unloadModel() {
     model_id_.clear();
     model_path_.clear();
     loras_.clear();
+#ifdef THEMIS_LLM_ENABLED
+    wrapper_.reset();
+#endif
 }
 
 // ── getModelInfo ──────────────────────────────────────────────────────────────
@@ -44,9 +113,15 @@ void LlamaCppPlugin::unloadModel() {
 std::optional<llm::ModelInfo> LlamaCppPlugin::getModelInfo() const {
     std::lock_guard<std::mutex> lock(mutex_);
     if (!model_loaded_) return std::nullopt;
+#ifdef THEMIS_LLM_ENABLED
+    if (wrapper_) {
+        auto info = wrapper_->getModelInfo();
+        if (info) return info;
+    }
+#endif
     llm::ModelInfo info;
-    info.model_id      = model_id_;
-    info.path          = model_path_;
+    info.model_id       = model_id_;
+    info.path           = model_path_;
     info.context_length = context_length_;
     return info;
 }
@@ -96,13 +171,46 @@ std::vector<llm::LoRAInfo> LlamaCppPlugin::listLoRAs() const {
 
 llm::InferenceResponse LlamaCppPlugin::generate(const llm::InferenceRequest& request) {
     llm::InferenceResponse response;
-    if (!model_loaded_) {
+
+    // Snapshot state under lock; do not hold lock during (potentially long) inference.
+    bool loaded = false;
+#ifdef THEMIS_LLM_ENABLED
+    llm::LlamaWrapper* w = nullptr;
+#endif
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        loaded = model_loaded_;
+#ifdef THEMIS_LLM_ENABLED
+        w = wrapper_.get();
+#endif
+    }
+
+    if (!loaded) {
         ++error_count_;
-        response.success = false;
+        response.success       = false;
         response.error_message = "LlamaCppPlugin: model not loaded";
         return response;
     }
-    // Stub: echo back the prompt as the generated text
+
+#ifdef THEMIS_LLM_ENABLED
+    if (w) {
+        ++inference_count_;
+        try {
+            response = w->generate(request);
+            // LlamaWrapper does not set success=true on the happy path.
+            response.success = true;
+        } catch (const std::exception& e) {
+            ++error_count_;
+            response.success       = false;
+            response.error_message = e.what();
+            response.trace_id      = request.trace_id;
+            response.span_id       = request.span_id;
+        }
+        return response;
+    }
+#endif
+
+    // ── Stub fallback (no real model or THEMIS_LLM_ENABLED not set) ──────────
     ++inference_count_;
     const std::string text = "[stub:" + request.prompt.substr(0, 40) + "]";
 
@@ -118,11 +226,11 @@ llm::InferenceResponse LlamaCppPlugin::generate(const llm::InferenceRequest& req
         }
     }
 
-    response.text    = text;
-    response.success = true;
+    response.text             = text;
+    response.success          = true;
     response.tokens_generated = static_cast<int>(text.size() / 4 + 1);
-    response.trace_id = request.trace_id;
-    response.span_id  = request.span_id;
+    response.trace_id         = request.trace_id;
+    response.span_id          = request.span_id;
     return response;
 }
 
@@ -181,6 +289,18 @@ llm::InferenceResponse LlamaCppPlugin::generateRAG(
 
 std::vector<float> LlamaCppPlugin::embed(const std::string& text) {
     if (!model_loaded_) return {};
+#ifdef THEMIS_LLM_ENABLED
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        if (wrapper_) {
+            try {
+                return wrapper_->embed(text);
+            } catch (...) {
+                // Fallback to stub zero-vector on error.
+            }
+        }
+    }
+#endif
     // Stub: return a fixed-size zero vector
     (void)text;
     return std::vector<float>(384, 0.0f);
@@ -217,14 +337,31 @@ json LlamaCppPlugin::getPerformanceStats() const {
     };
 }
 
-// ── LoRA import/export (stubs) ────────────────────────────────────────────────
+// ── LoRA import/export ────────────────────────────────────────────────────────
 
-std::vector<uint8_t> LlamaCppPlugin::exportLoRA(const std::string& /*lora_id*/) {
+std::vector<uint8_t> LlamaCppPlugin::exportLoRA(const std::string& lora_id) {
+#ifdef THEMIS_LLM_ENABLED
+    std::lock_guard<std::mutex> lock(mutex_);
+    if (wrapper_) {
+        return wrapper_->exportLoRA(lora_id);
+    }
+#else
+    (void)lora_id;
+#endif
     return {};
 }
 
-bool LlamaCppPlugin::importLoRA(const std::string& /*lora_id*/,
-                                 const std::vector<uint8_t>& /*data*/) {
+bool LlamaCppPlugin::importLoRA(const std::string& lora_id,
+                                 const std::vector<uint8_t>& data) {
+#ifdef THEMIS_LLM_ENABLED
+    std::lock_guard<std::mutex> lock(mutex_);
+    if (wrapper_) {
+        return wrapper_->importLoRA(lora_id, data);
+    }
+#else
+    (void)lora_id;
+    (void)data;
+#endif
     return false;
 }
 

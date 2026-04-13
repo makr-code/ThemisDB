@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            auto_labeler.cpp                                   ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:21:35                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:31:35                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     690                                            ║
+    • Total Lines:     732                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • ac63c2ec8d  2026-04-12  [WIP] Update developer documentation for module training ... ║
     • a9c8e3f831  2026-03-30  Fix schema migration ODR in modular tests and align query... ║
     • f38c013cdc  2026-03-29  Enhance various components with improvements and fixes ║
     • c6daefeb71  2026-03-15  fix: add mean confidence per modality to THEMIS_INFO log;... ║
     • f9bd877988  2026-03-15  feat: ProvenanceTracker live AQL connection, KGE fail-fas... ║
-    • 8f0ee70ece  2026-03-11  fix(training): close all acceptance criteria gaps from AQ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -578,10 +578,52 @@ private:
             }
         };
 
-        add_matches("muss", "obligation", 1.0f, "O(φ)", "Bindende Rechtspflicht");
-        add_matches("soll", "default_obligation", 0.8f, "O_default(φ)",
-                    "Regelfall, Abweichung rechtfertigungsbedürftig");
-        add_matches("kann", "permission", 0.3f, "P(φ)", "Ermessensentscheidung");
+        switch (config_.domain_type) {
+            case DomainType::MEDICAL:
+                // Medical / clinical domain: obligation = must perform/prescribe,
+                // recommendation = should, optional = may.
+                add_matches("must",        "obligation",       1.0f,  "O(φ)", "Mandatory clinical procedure");
+                add_matches("shall",       "obligation",       0.95f, "O(φ)", "Clinical requirement");
+                add_matches("required",    "obligation",       0.90f, "O(φ)", "Required care standard");
+                add_matches("should",      "recommendation",   0.75f, "R(φ)", "Clinical recommendation");
+                add_matches("recommended", "recommendation",   0.70f, "R(φ)", "Best-practice recommendation");
+                add_matches("may",         "permission",       0.40f, "P(φ)", "Discretionary clinical act");
+                add_matches("contraindicated", "prohibition",  1.0f,  "F(φ)", "Clinical contraindication");
+                add_matches("prohibited",  "prohibition",      0.95f, "F(φ)", "Prohibited procedure");
+                // German medical terms
+                add_matches("muss",        "obligation",       1.0f,  "O(φ)", "Verbindliche medizinische Pflicht");
+                add_matches("soll",        "recommendation",   0.75f, "R(φ)", "Medizinische Empfehlung");
+                add_matches("kann",        "permission",       0.40f, "P(φ)", "Medizinisches Ermessen");
+                add_matches("kontraindiziert", "prohibition",  1.0f,  "F(φ)", "Klinische Kontraindikation");
+                break;
+
+            case DomainType::FINANCIAL:
+                // Financial / regulatory compliance domain
+                add_matches("must",        "obligation",       1.0f,  "O(φ)", "Regulatory obligation");
+                add_matches("shall",       "obligation",       0.95f, "O(φ)", "Compliance requirement");
+                add_matches("required",    "obligation",       0.90f, "O(φ)", "Mandatory disclosure");
+                add_matches("should",      "recommendation",   0.75f, "R(φ)", "Regulatory guidance");
+                add_matches("may",         "permission",       0.40f, "P(φ)", "Permitted activity");
+                add_matches("prohibited",  "prohibition",      1.0f,  "F(φ)", "Prohibited transaction");
+                add_matches("forbidden",   "prohibition",      1.0f,  "F(φ)", "Forbidden financial activity");
+                add_matches("disclose",    "obligation",       0.85f, "O(φ)", "Disclosure obligation");
+                add_matches("report",      "obligation",       0.80f, "O(φ)", "Reporting obligation");
+                // German financial terms
+                add_matches("muss",        "obligation",       1.0f,  "O(φ)", "Regulatorische Pflicht");
+                add_matches("soll",        "default_obligation", 0.8f, "O_default(φ)", "Regelfall-Pflicht");
+                add_matches("kann",        "permission",       0.30f, "P(φ)", "Regulatorisches Ermessen");
+                add_matches("verboten",    "prohibition",      1.0f,  "F(φ)", "Verbotene Transaktion");
+                add_matches("offenlegen",  "obligation",       0.85f, "O(φ)", "Offenlegungspflicht");
+                add_matches("melden",      "obligation",       0.80f, "O(φ)", "Meldepflicht");
+                break;
+
+            default: // DomainType::LEGAL
+                add_matches("muss", "obligation", 1.0f, "O(φ)", "Bindende Rechtspflicht");
+                add_matches("soll", "default_obligation", 0.8f, "O_default(φ)",
+                            "Regelfall, Abweichung rechtfertigungsbedürftig");
+                add_matches("kann", "permission", 0.3f, "P(φ)", "Ermessensentscheidung");
+                break;
+        }
 
         std::sort(modalities.begin(), modalities.end(),
                   [](const analytics::LegalModality& a, const analytics::LegalModality& b) {

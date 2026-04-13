@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_secure_transport_client.cpp                   ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:34:46                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:46:10                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_type_conversion_safety.cpp                    ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:36:17                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:47:56                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

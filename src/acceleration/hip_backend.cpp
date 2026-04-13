@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            hip_backend.cpp                                    ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:14:01                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:23:21                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

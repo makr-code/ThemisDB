@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            chaos_framework.h                                  ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-04-06 04:06:03                                ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-04-13 04:14:33                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   91.0/100                                       ║
-    • Total Lines:     163                                            ║
+    • Quality Score:   99.0/100                                       ║
+    • Total Lines:     217                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 1f070f992b  2026-04-12  chaos: Phase 4+5 — configurable scheduler tick/wake strat... ║
     • 5bee4e8e41  2026-04-03  Implement Disaster Recovery Manager and associated tests ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
@@ -25,6 +26,7 @@
 
 #include <atomic>
 #include <chrono>
+#include <condition_variable>
 #include <functional>
 #include <mutex>
 #include <string>
@@ -141,6 +143,27 @@ struct ChaosScheduleEntry {
     FaultSpec fault;
 };
 
+// ─── Wake strategy ───────────────────────────────────────────────────────────
+
+/// Controls how the ChaosScheduler background thread wakes between ticks.
+/// FIXED_TICK: sleep a fixed tick_interval on every loop iteration (original behaviour).
+/// CONDVAR:    use a condition variable; wakes early when a new entry is scheduled
+///             or when stop() is called.  tick_interval serves as the maximum wait.
+enum class WakeStrategy {
+    FIXED_TICK,  ///< Plain sleep_for(tick_interval) — simple, deterministic
+    CONDVAR      ///< Condition-variable with tick_interval timeout — lower latency stop
+};
+
+// ─── ChaosScheduler configuration ───────────────────────────────────────────
+
+/// Configuration for the ChaosScheduler background thread.
+struct ChaosSchedulerConfig {
+    /// Polling / maximum-wait interval for the background thread (default: 10 ms).
+    std::chrono::milliseconds tick_interval{10};
+    /// Wake strategy: FIXED_TICK (original) or CONDVAR (lower latency stop/schedule).
+    WakeStrategy wake_strategy{WakeStrategy::FIXED_TICK};
+};
+
 // ─── ChaosScheduler ──────────────────────────────────────────────────────────
 //
 // Time-driven fault scheduler: fires scheduled faults in a background thread.
@@ -148,7 +171,11 @@ struct ChaosScheduleEntry {
 
 class ChaosScheduler {
 public:
-    explicit ChaosScheduler(std::shared_ptr<FaultInjector> injector);
+    /// Convenience alias so callers can write ChaosScheduler::Config.
+    using Config = ChaosSchedulerConfig;
+
+    explicit ChaosScheduler(std::shared_ptr<FaultInjector> injector,
+                            Config cfg = Config{});
     ~ChaosScheduler();
 
     // Schedule a future fault injection.
@@ -174,8 +201,14 @@ private:
     void runLoop();
 
     std::shared_ptr<FaultInjector>    injector_;
+    Config                            cfg_;
     std::vector<ChaosScheduleEntry>   pending_;
     mutable std::mutex                sched_mutex_;
+    // Separate mutex for the condition variable so that schedule() can insert
+    // entries into pending_ (using sched_mutex_) without being blocked by the
+    // background thread holding wake_mutex_ during wait_for.
+    std::mutex                        wake_mutex_;
+    std::condition_variable           sched_cv_;
     std::atomic<bool>                 running_{false};
     std::thread                       worker_;
 };

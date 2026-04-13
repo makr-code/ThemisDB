@@ -5,7 +5,7 @@
 
 ## Scope
 
-This document covers implementation-specific future enhancements for the Config module (`src/config/`), comprising `config_path_resolver.cpp` (legacy-to-new path mapping, 60+ paths), `config_path_resolver.h`, `config_schema_validator.cpp` / `config_schema_validator.h` (JSON Schema Draft 7 subset validation), `lru_cache.h` (`LRUCacheWithTTL<K,V>`, capacity 1,000, TTL 5 min), `config_errors.h` (typed exception hierarchy), and `path_mapping_metadata.h` (`PathMappingMetadata` with deprecation dates and migration guide URLs). Config file parsing beyond what is needed for schema validation, runtime hot-reload, and secrets management are explicitly out of scope for this module.
+This document covers implementation-specific future enhancements for the Config module (`src/config/`), comprising `config_path_resolver.cpp` (legacy-to-new path mapping, 60+ paths), `config_schema_validator.cpp` / `config_schema_validator.h` (JSON Schema Draft 7 subset validation), `lru_cache.h` (`LRUCacheWithTTL<K,V>`, capacity 1,000, TTL 5 min), `config_errors.h` (typed exception hierarchy), and `path_mapping_metadata.h` (`PathMappingMetadata` with deprecation dates and migration guide URLs). Public headers reside in `include/config/`. Config file parsing beyond what is needed for schema validation, runtime hot-reload, and secrets management are explicitly out of scope for this module.
 
 ## Design Constraints
 

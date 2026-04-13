@@ -1,8 +1,32 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_sd_plugin.cpp                                 ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-04-13 04:30:46                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     648                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • b66a69c598  2026-04-12  feat(stable_diffusion): implement SDCppGenerator, real PN... ║
+    • 75af53c598  2026-04-11  feat(stable_diffusion): v2.1.0 — batch generation, img2im... ║
+    • 1e348484ec  2026-04-07  feat(plugins): add stable_diffusion + llama_cpp plugins, ... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file test_sd_plugin.cpp
  * @brief Unit tests for the Stable Diffusion image generation plugin
  *
- * Test suite: SDPluginFocusedTests (45 tests)
+ * Test suite: SDPluginFocusedTests (51 tests)
  *   Group A (3)  – SDConfig: fromJson defaults, custom, clamping
  *   Group B (3)  – SDConfig: toJson round-trip, keys present, float round-trip
  *   Group C (3)  – SDPromptSanitizer: isAllowed, blocked keyword, case-insensitive
@@ -18,6 +42,8 @@
  *   Group M (3)  – SDPlugin::generateImg2Img: success, blocked prompt, uninit
  *   Group N (3)  – InMemorySDGenerator img2img: path taken, strength/dimensions recorded
  *   Group O (3)  – IImageGenerationBackend: Img2ImgConfig default, generateBatch default impl
+ *   Group P (3)  – PNG encoder: signature, IDAT chunk present, IHDR dimensions correct
+ *   Group Q (3)  – SDStubGenerator::generateImg2Img: input dimensions, data pass-through, fallback
  */
 
 #include <gtest/gtest.h>
@@ -464,4 +490,183 @@ TEST(SDPluginFocusedTests, O3_GenerateBatchCountsGenerations) {
     p.initialize("", {});
     p.generateBatch({"a", "b", "c"}, SDGenerationConfig{});
     EXPECT_EQ(p.getStatistics()["generation_count"].get<uint64_t>(), 3u);
+}
+
+// ── PNG parsing helpers ───────────────────────────────────────────────────────
+
+namespace {
+
+// Returns true when buf contains a PNG chunk with the given 4-byte type.
+// Scans the entire buffer (post-signature) to find any matching chunk.
+bool png_has_chunk(const std::vector<uint8_t>& buf, const char type[4]) {
+    if (buf.size() < 8u) return false;
+    size_t pos = 8u;  // skip PNG signature
+    while (pos + 12u <= buf.size()) {
+        const uint32_t len =
+            (static_cast<uint32_t>(buf[pos])     << 24) |
+            (static_cast<uint32_t>(buf[pos + 1]) << 16) |
+            (static_cast<uint32_t>(buf[pos + 2]) <<  8) |
+             static_cast<uint32_t>(buf[pos + 3]);
+        if (buf.size() < pos + 12u + len) break;
+        if (buf[pos + 4] == static_cast<uint8_t>(type[0]) &&
+            buf[pos + 5] == static_cast<uint8_t>(type[1]) &&
+            buf[pos + 6] == static_cast<uint8_t>(type[2]) &&
+            buf[pos + 7] == static_cast<uint8_t>(type[3])) {
+            return true;
+        }
+        pos += 12u + len;
+    }
+    return false;
+}
+
+// Read the IDAT chunk data (first occurrence) from a PNG buffer.
+// Returns empty vector if not found.
+std::vector<uint8_t> png_idat_data(const std::vector<uint8_t>& buf) {
+    if (buf.size() < 8u) return {};
+    size_t pos = 8u;
+    while (pos + 12u <= buf.size()) {
+        const uint32_t len =
+            (static_cast<uint32_t>(buf[pos])     << 24) |
+            (static_cast<uint32_t>(buf[pos + 1]) << 16) |
+            (static_cast<uint32_t>(buf[pos + 2]) <<  8) |
+             static_cast<uint32_t>(buf[pos + 3]);
+        if (buf.size() < pos + 12u + len) break;
+        if (buf[pos + 4] == 'I' && buf[pos + 5] == 'D' &&
+            buf[pos + 6] == 'A' && buf[pos + 7] == 'T') {
+            return std::vector<uint8_t>(buf.begin() + pos + 8,
+                                        buf.begin() + pos + 8 + len);
+        }
+        pos += 12u + len;
+    }
+    return {};
+}
+
+// Read IHDR dimensions from a PNG buffer.
+// Returns {-1,-1} on error.
+std::pair<int,int> png_ihdr_dims(const std::vector<uint8_t>& buf) {
+    if (buf.size() < 8u + 25u) return {-1, -1};
+    const size_t pos = 8u;
+    // Length of IHDR data must be 13
+    const uint32_t len =
+        (static_cast<uint32_t>(buf[pos])     << 24) |
+        (static_cast<uint32_t>(buf[pos + 1]) << 16) |
+        (static_cast<uint32_t>(buf[pos + 2]) <<  8) |
+         static_cast<uint32_t>(buf[pos + 3]);
+    if (len != 13u) return {-1, -1};
+    if (buf[pos + 4] != 'I' || buf[pos + 5] != 'H' ||
+        buf[pos + 6] != 'D' || buf[pos + 7] != 'R') return {-1, -1};
+    const int w =
+        (static_cast<int>(buf[pos + 8])  << 24) |
+        (static_cast<int>(buf[pos + 9])  << 16) |
+        (static_cast<int>(buf[pos + 10]) <<  8) |
+         static_cast<int>(buf[pos + 11]);
+    const int h =
+        (static_cast<int>(buf[pos + 12]) << 24) |
+        (static_cast<int>(buf[pos + 13]) << 16) |
+        (static_cast<int>(buf[pos + 14]) <<  8) |
+         static_cast<int>(buf[pos + 15]);
+    return {w, h};
+}
+
+} // namespace
+
+// ── Group P – PNG encoder ─────────────────────────────────────────────────────
+
+TEST(SDPluginFocusedTests, P1_PngSignatureCorrect) {
+    auto g = std::make_unique<InMemorySDGenerator>();
+    g->setNextPixels({255, 0, 0}, 1, 1);   // 1×1 red pixel
+    SDPlugin p(std::move(g), SDPromptSanitizer{});
+    p.initialize("", {});
+    SDGenerationConfig cfg; cfg.width = 1; cfg.height = 1;
+    const auto img = p.generate("test", cfg);
+    ASSERT_TRUE(img.success);
+    ASSERT_GE(img.png_data.size(), 8u);
+    // PNG magic: 89 50 4E 47 0D 0A 1A 0A
+    EXPECT_EQ(img.png_data[0], 0x89u);
+    EXPECT_EQ(img.png_data[1], static_cast<uint8_t>('P'));
+    EXPECT_EQ(img.png_data[2], static_cast<uint8_t>('N'));
+    EXPECT_EQ(img.png_data[3], static_cast<uint8_t>('G'));
+    EXPECT_EQ(img.png_data[4], 0x0Du);
+    EXPECT_EQ(img.png_data[5], 0x0Au);
+    EXPECT_EQ(img.png_data[6], 0x1Au);
+    EXPECT_EQ(img.png_data[7], 0x0Au);
+}
+
+TEST(SDPluginFocusedTests, P2_PngContainsIdatChunk) {
+    auto g = std::make_unique<InMemorySDGenerator>();
+    std::vector<uint8_t> px(2 * 3 * 3, 128u);  // 2×3 grey image
+    g->setNextPixels(px, 2, 3);
+    SDPlugin p(std::move(g), SDPromptSanitizer{});
+    p.initialize("", {});
+    SDGenerationConfig cfg; cfg.width = 2; cfg.height = 3;
+    const auto img = p.generate("test", cfg);
+    ASSERT_TRUE(img.success);
+    EXPECT_TRUE(png_has_chunk(img.png_data, "IDAT"))
+        << "PNG output must contain an IDAT chunk with pixel data";
+    const auto idat = png_idat_data(img.png_data);
+    EXPECT_FALSE(idat.empty());
+    // zlib CMF byte 0x78 indicates deflate with 32 KB window
+    EXPECT_EQ(idat[0], 0x78u);
+}
+
+TEST(SDPluginFocusedTests, P3_PngIhdrDimensionsMatchRequest) {
+    auto g = std::make_unique<InMemorySDGenerator>();
+    std::vector<uint8_t> px(4 * 7 * 3, 0u);
+    g->setNextPixels(px, 4, 7);
+    SDPlugin p(std::move(g), SDPromptSanitizer{});
+    p.initialize("", {});
+    SDGenerationConfig cfg; cfg.width = 4; cfg.height = 7;
+    const auto img = p.generate("test", cfg);
+    ASSERT_TRUE(img.success);
+    const auto [w, h] = png_ihdr_dims(img.png_data);
+    EXPECT_EQ(w, 4);
+    EXPECT_EQ(h, 7);
+}
+
+// ── Group Q – SDStubGenerator::generateImg2Img ────────────────────────────────
+
+TEST(SDPluginFocusedTests, Q1_StubImg2ImgUsesInputDimensions) {
+    SDStubGenerator g;
+    g.initialize(SDConfig{});
+    Img2ImgConfig cfg;
+    cfg.input_image_rgb = {100, 150, 200, 50, 75, 100};  // 2 pixels (2×1 RGB)
+    cfg.input_width  = 2;
+    cfg.input_height = 1;
+    cfg.strength = 0.5f;
+    int out_w = 0, out_h = 0;
+    uint64_t out_seed = 0;
+    g.generateImg2Img("prompt", cfg, out_w, out_h, out_seed);
+    EXPECT_EQ(out_w, 2);
+    EXPECT_EQ(out_h, 1);
+}
+
+TEST(SDPluginFocusedTests, Q2_StubImg2ImgReturnsInputData) {
+    SDStubGenerator g;
+    g.initialize(SDConfig{});
+    const std::vector<uint8_t> input_rgb = {10, 20, 30, 40, 50, 60};
+    Img2ImgConfig cfg;
+    cfg.input_image_rgb = input_rgb;
+    cfg.input_width  = 2;
+    cfg.input_height = 1;
+    int out_w = 0, out_h = 0;
+    uint64_t out_seed = 0;
+    const auto result = g.generateImg2Img("prompt", cfg, out_w, out_h, out_seed);
+    EXPECT_EQ(result, input_rgb)
+        << "SDStubGenerator::generateImg2Img must return the input pixel data";
+}
+
+TEST(SDPluginFocusedTests, Q3_StubImg2ImgFallsBackWhenInputEmpty) {
+    SDStubGenerator g;
+    SDConfig sc; sc.width = 8; sc.height = 8;
+    g.initialize(sc);
+    Img2ImgConfig cfg;
+    cfg.width  = 8;
+    cfg.height = 8;
+    // No input_image_rgb provided → fall back to generate()
+    int out_w = 0, out_h = 0;
+    uint64_t out_seed = 0;
+    const auto result = g.generateImg2Img("prompt", cfg, out_w, out_h, out_seed);
+    EXPECT_EQ(out_w, 8);
+    EXPECT_EQ(out_h, 8);
+    EXPECT_EQ(result.size(), static_cast<size_t>(8 * 8 * 3));
 }

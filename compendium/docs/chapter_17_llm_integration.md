@@ -5586,7 +5586,33 @@ RETURN BENCHMARK_LORA_TRAINING({
 3. **Nicht mit zu kleinen Batches** - Overhead dominiert bei batch=1
 4. **Nicht mit veralteten CUDA-Versionen** - Mindestens CUDA 11.0
 
-## 17.23 Zusammenfassung
+## 17.23 Best Practices: DO ✅ / DON'T ❌
+
+### 17.23.1 DO ✅
+
+1. **Verwende @parameter binding** für alle Benutzereingaben
+2. **Cache häufige Anfragen** um Kosten zu sparen
+3. **Validiere LLM-Outputs** vor der Speicherung
+4. **Batch-Verarbeitung** für große Datenmengen
+5. **Monitor Kosten** und Performance kontinuierlich
+6. **Sanitize Inputs** vor LLM-Calls
+7. **Verwende strukturierte Outputs** (JSON) wenn möglich
+8. **Implementiere Fallbacks** bei LLM-Fehlern
+9. **Nutze LoRA für Domain-Spezialisierung** statt Full Fine-Tuning
+10. **Multi-Adapter Deployment** für verschiedene Use Cases
+
+### 17.23.2 DON'T ❌
+
+1. **Keine sensiblen Daten** ungefiltert an LLMs senden
+2. **Keine unvalidierten LLM-Queries** ausführen
+3. **Keine unbegrenzten LLM-Calls** ohne Rate-Limiting
+4. **Keine Hardcoded API-Keys** im Code
+5. **Keine synchronen LLM-Calls** für zeitkritische Operationen
+6. **Keine Abhängigkeit** von einem einzelnen Provider
+7. **Kein Full Fine-Tuning** wenn LoRA ausreicht
+8. **Keine ungecachten Model-Loads** in Production
+
+## 17.23.3 Gesamtzusammenfassung: LLM-Integration
 
 ThemisDB's umfassende LLM-Integration ermöglicht:
 

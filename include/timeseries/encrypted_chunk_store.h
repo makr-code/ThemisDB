@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            encrypted_chunk_store.h                            ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-04-06 04:12:19                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-04-13 04:21:28                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

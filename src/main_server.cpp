@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            main_server.cpp                                    ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:17:44                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:27:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  ⚫ DRAFT                                        ║
     • Quality Score:   11.0/100                                       ║
-    • Total Lines:     2302                                           ║
+    • Total Lines:     2321                                           ║
     • Open Issues:     TODOs: 0, Stubs: 17                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 9f5c953436  2026-04-07  feat(config): Introduce new hierarchical configuration st... ║
     • 5c0bdc6d43  2026-04-04  hotfix: address code-review feedback (port consistency, c... ║
     • eb00b82270  2026-04-04  hotfix: prevent SIGSEGV in RocksDB/LLM init on Docker sta... ║
     • c9b1433946  2026-03-15  feat(server): inject live ShardingManager into HttpServer... ║
     • 985dc57d92  2026-03-14  fix: harden config metrics exporter compatibility ║
-    • 535cee36dc  2026-03-13  feat: export config metrics via Prometheus registry ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: 📝 Draft / Stub                                              ║
 ╚═════════════════════════════════════════════════════════════════════╝

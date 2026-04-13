@@ -3,28 +3,29 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            incremental_lora_trainer.cpp                       ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:21:35                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:31:35                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   94.0/100                                       ║
-    • Total Lines:     1294                                           ║
+    • Total Lines:     1387                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • ac63c2ec8d  2026-04-12  [WIP] Update developer documentation for module training ... ║
     • e25b25ef58  2026-03-24  Changes before error encountered        ║
     • 334ca1434e  2026-03-11  fix: selectAdapterForRequest traffic routing; DocsAssista... ║
     • ac7727506d  2026-03-11  fix(training): wire QLoRALayer for INT8/NF4 quantization;... ║
     • 68739c4d84  2026-03-11  fix(training): address code review - avoid temp vector co... ║
-    • 495594752a  2026-03-11  feat(training): add quantization, multi-GPU, metrics trac... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
 #include "training/incremental_lora_trainer.h"
+#include "training/adapter_serving.h"
 #include "training/lora_checkpoint_manager.h"
 #include <algorithm>
 #include <chrono>
@@ -502,16 +503,95 @@ public:
         checkpoint_steps_      = (checkpoint_steps > 0) ? checkpoint_steps : 100;
     }
 
+    void setLLMRouter(ILLMRouter* router) {
+        llm_router_ = router;
+    }
+
     TrainingMetrics getMetrics() const {
         return metrics_;
     }
 
-private:
+    // -------------------------------------------------------------------------
+    // Phase 2: Adapter serving integration helpers
+    // -------------------------------------------------------------------------
+
+    // Verify integrity of a named adapter version via the checkpoint manager.
+    // Returns true when: (a) no checkpoint_dir is set (unmanaged adapters),
+    //                    (b) a matching manifest entry is found and passes SHA-256.
+    // Returns false when: a manifest entry is found but the checksum fails.
+    bool verifyAdapterIntegrity(const std::string& adapter_version) const {
+        if (config_.checkpoint_dir.empty()) {
+            return true; // Unmanaged adapters bypass integrity check
+        }
+        // Lazily initialise checkpoint_manager_ for the configured directory.
+        if (!checkpoint_manager_) {
+            CheckpointManagerConfig mgr_cfg;
+            mgr_cfg.checkpoint_dir = config_.checkpoint_dir;
+            checkpoint_manager_ = std::make_unique<LoRACheckpointManager>(mgr_cfg);
+        }
+        auto entries = checkpoint_manager_->listCheckpoints();
+        for (const auto& entry : entries) {
+            if (entry.adapter_version == adapter_version) {
+                return checkpoint_manager_->validate(entry);
+            }
+        }
+        // No manifest entry for this version: assume externally-verified adapter.
+        return true;
+    }
+
+    DeployResult deployVersionEx(const std::string& adapter_version, float traffic_split) {
+        if (adapter_version.empty()) {
+            return DeployResult::fail("version_not_found");
+        }
+        if (traffic_split < 0.0f || traffic_split > 1.0f) {
+            return DeployResult::fail("invalid_split");
+        }
+        if (!verifyAdapterIntegrity(adapter_version)) {
+            return DeployResult::fail("integrity_failure");
+        }
+        // Update local version registry (same logic as deployVersion)
+        bool ok = deployVersion(adapter_version, traffic_split);
+        if (!ok) {
+            return DeployResult::fail("version_not_found");
+        }
+        // Propagate to LLM router when available
+        if (llm_router_) {
+            if (!llm_router_->isAvailable()) {
+                return DeployResult::fail("router_unavailable");
+            }
+            llm_router_->setAdapterWeight(adapter_version, traffic_split);
+        }
+        return DeployResult::ok(adapter_version, traffic_split);
+    }
+
+    DeployResult rollbackVersionEx(const std::string& target_version) {
+        if (target_version.empty()) {
+            return DeployResult::fail("version_not_found");
+        }
+        if (!verifyAdapterIntegrity(target_version)) {
+            return DeployResult::fail("integrity_failure");
+        }
+        bool ok = rollbackVersion(target_version);
+        if (!ok) {
+            return DeployResult::fail("version_not_found");
+        }
+        if (llm_router_) {
+            if (!llm_router_->isAvailable()) {
+                return DeployResult::fail("router_unavailable");
+            }
+            llm_router_->setAdapterWeight(target_version, 1.0f);
+        }
+        return DeployResult::ok(target_version, 1.0f);
+    }
+
     IncrementalTrainingConfig config_;
     std::string db_connection_;
     bool checkpointing_enabled_;
     size_t checkpoint_steps_;
     std::map<std::string, VersionRecord> version_registry_;
+
+    // LLM inference router for adapter serving integration (non-owning, may be null)
+    ILLMRouter* llm_router_ = nullptr;
 
     // Accumulated training metrics (reset at the start of each train() call)
     TrainingMetrics metrics_;
@@ -1284,6 +1364,19 @@ void IncrementalLoRATrainer::setHyperparameters(int rank, float alpha, float lea
 
 void IncrementalLoRATrainer::setCheckpointing(bool enabled, size_t checkpoint_steps) {
     impl_->setCheckpointing(enabled, checkpoint_steps);
+}
+
+void IncrementalLoRATrainer::setLLMRouter(ILLMRouter* router) {
+    impl_->setLLMRouter(router);
+}
+
+DeployResult IncrementalLoRATrainer::deployVersionEx(const std::string& adapter_version,
+                                                     float traffic_split) {
+    return impl_->deployVersionEx(adapter_version, traffic_split);
+}
+
+DeployResult IncrementalLoRATrainer::rollbackVersionEx(const std::string& target_version) {
+    return impl_->rollbackVersionEx(target_version);
 }
 
 TrainingMetrics IncrementalLoRATrainer::getMetrics() const {

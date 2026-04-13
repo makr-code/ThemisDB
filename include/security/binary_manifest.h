@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            binary_manifest.h                                  ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:10:40                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:19:36                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            task_scheduler.cpp                                 ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:19:48                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:29:25                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   99.0/100                                       ║
-    • Total Lines:     2696                                           ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     2873                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • ed0fb65444  2026-04-12  feat(scheduler): register 10 missing focused test targets... ║
     • 5e4a201cc9  2026-03-21  docs(scheduler): update FUTURE_ENHANCEMENTS, CHANGELOG, R... ║
     • c8aa401935  2026-03-15  feat(scheduler): propagate authenticated user context to ... ║
     • 592b543821  2026-03-15  fix(scheduler,acceleration): remove stale TODOs, add VLLM... ║
     • c97360e579  2026-03-15  fix(auth,scheduler): JWT scope enforcement, Kerberos role... ║
-    • 646fb7bd6d  2026-03-10  feat(scheduler): build-system audit – register sources, a... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -233,6 +233,70 @@ ScheduledTask::RetryPolicy effectiveRetryPolicy(const ScheduledTask& task) {
     p.max_delay      = std::chrono::milliseconds{30000};
     p.backoff_multiplier = 2.0;
     return p;
+}
+
+/**
+ * @brief Apply SLO-based retry adaptation to a computed delay and max-attempts.
+ *
+ * When the task has both an SloRetryConfig and an sla_deadline, this function:
+ *  - Clamps @p delay_ms to the remaining SLA budget fraction.
+ *  - Returns false (skip retry) if no SLA budget remains.
+ *  - Reduces @p effective_max_retries to min_retries_under_pressure when the
+ *    rolling SLO compliance rate (tracked on the task) is below the threshold.
+ *
+ * @param task               The scheduled task (provides sla_deadline and SLO state).
+ * @param elapsed_ms         Time already spent since task execution began (ms).
+ * @param delay_ms           [in/out] Computed retry delay – may be clamped.
+ * @param effective_max_retries [in/out] Max attempts – may be clamped.
+ * @return true  – retry is permitted (possibly with an adjusted delay).
+ * @return false – retry should be skipped (SLA budget exhausted).
+ */
+bool applySloAdaptation(const ScheduledTask& task,
+                        double elapsed_ms,
+                        double& delay_ms,
+                        size_t& effective_max_retries) {
+    // No adaptation without both an SloRetryConfig and a deadline.
+    if (!task.slo_retry_config.has_value() || !task.sla_deadline.has_value()) {
+        return true;
+    }
+    const auto& slo = *task.slo_retry_config;
+    if (!slo.slo_aware) {
+        return true;
+    }
+
+    const double deadline_ms = static_cast<double>(task.sla_deadline->count());
+
+    // 1. If SLA budget is already exhausted, skip further retries.
+    if (elapsed_ms >= deadline_ms) {
+        return false;
+    }
+
+    // 2. Clamp retry delay to the remaining SLA budget fraction.
+    const double budget_ms = deadline_ms * slo.slo_budget_fraction;
+    const double remaining_budget_ms = budget_ms - elapsed_ms;
+    if (remaining_budget_ms <= 0.0) {
+        return false;  // Budget spent; do not retry
+    }
+    if (delay_ms > remaining_budget_ms) {
+        delay_ms = remaining_budget_ms;
+    }
+    if (delay_ms < 0.0) {
+        delay_ms = 0.0;
+    }
+
+    // 3. Reduce max retries when SLO compliance is below threshold.
+    if (slo.slo_history_window > 0 && task.slo_window_count >= slo.slo_history_window) {
+        const double compliance =
+            1.0 - (static_cast<double>(task.slo_violations) /
+                   static_cast<double>(task.slo_window_count));
+        if (compliance < slo.slo_compliance_threshold) {
+            if (effective_max_retries > 1 + slo.min_retries_under_pressure) {
+                effective_max_retries = 1 + slo.min_retries_under_pressure;
+            }
+        }
+    }
+
+    return true;
 }
 
 } // anonymous namespace
@@ -684,9 +748,10 @@ nlohmann::json TaskScheduler::executeTaskNow(const std::string& task_id) {
 
     // Execute synchronously with retry logic (same as scheduled execution)
     const ScheduledTask::RetryPolicy policy = effectiveRetryPolicy(*task);
-    const size_t max_attempts = (policy.strategy == ScheduledTask::RetryStrategy::NONE)
-                                    ? 1
-                                    : 1 + policy.max_retries;
+    const size_t base_max_attempts = (policy.strategy == ScheduledTask::RetryStrategy::NONE)
+                                         ? 1
+                                         : 1 + policy.max_retries;
+    size_t max_attempts = base_max_attempts;  // may be clamped by SLO adaptation
     std::string last_error;
     bool succeeded = false;
     nlohmann::json result;
@@ -694,12 +759,30 @@ nlohmann::json TaskScheduler::executeTaskNow(const std::string& task_id) {
 
     for (size_t attempt = 0; attempt < max_attempts; ++attempt) {
         if (attempt > 0) {
-            auto delay = computeRetryDelay(policy, attempt - 1);
+            double delay_ms = static_cast<double>(computeRetryDelay(policy, attempt - 1).count());
+
+            // SLO-based adaptive retry for manual execution
+            {
+                auto now_elapsed = std::chrono::steady_clock::now();
+                double elapsed_so_far =
+                    std::chrono::duration<double, std::milli>(now_elapsed - start_time).count();
+                if (!applySloAdaptation(*task, elapsed_so_far, delay_ms, max_attempts)) {
+                    THEMIS_INFO("executeTaskNow: task {} SLO budget exhausted after {:.0f}ms; "
+                                "skipping retries",
+                                task_id, elapsed_so_far);
+                    break;
+                }
+            }
+
             THEMIS_INFO("executeTaskNow: retrying task {} (attempt {}/{}) after {}ms "
                         "[strategy={}]",
-                        task_id, attempt + 1, max_attempts, delay.count(),
+                        task_id, attempt + 1, max_attempts,
+                        static_cast<int64_t>(delay_ms),
                         static_cast<int>(policy.strategy));
-            std::this_thread::sleep_for(delay);
+            if (delay_ms > 0.0) {
+                std::this_thread::sleep_for(
+                    std::chrono::milliseconds(static_cast<int64_t>(delay_ms)));
+            }
         }
 
         ++attempts_made;
@@ -770,7 +853,28 @@ nlohmann::json TaskScheduler::executeTaskNow(const std::string& task_id) {
         fireTaskSlaBreachAlert(*task, elapsed_ms);
     }
 
-    // Persist execution result to ThemisDB (if result store is enabled)
+    // SLO compliance tracking (Phase 5: SLO-based adaptive retry).
+    if (task->slo_retry_config.has_value() && task->sla_deadline.has_value()) {
+        const auto& slo = *task->slo_retry_config;
+        if (slo.slo_aware && slo.slo_history_window > 0) {
+            const bool violated = elapsed_ms >
+                static_cast<double>(task->sla_deadline->count());
+            if (task->slo_window_count >= slo.slo_history_window) {
+                const double ratio =
+                    static_cast<double>(task->slo_violations) /
+                    static_cast<double>(task->slo_window_count);
+                task->slo_window_count  = slo.slo_history_window / 2;
+                task->slo_violations    =
+                    static_cast<size_t>(ratio * static_cast<double>(task->slo_window_count));
+            }
+            ++task->slo_window_count;
+            if (violated) {
+                ++task->slo_violations;
+            }
+        }
+    }
+
+
     if (result_store_) {
         scheduler::TaskExecutionResult exec_result;
         exec_result.task_id      = task->id;
@@ -1543,9 +1647,10 @@ void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
 
     // Retry loop with strategy-based backoff (RetryPolicy)
     const ScheduledTask::RetryPolicy policy = effectiveRetryPolicy(*task);
-    const size_t max_attempts = (policy.strategy == ScheduledTask::RetryStrategy::NONE)
-                                    ? 1
-                                    : 1 + policy.max_retries;
+    const size_t base_max_attempts = (policy.strategy == ScheduledTask::RetryStrategy::NONE)
+                                         ? 1
+                                         : 1 + policy.max_retries;
+    size_t max_attempts = base_max_attempts;  // may be clamped by SLO adaptation
     std::string last_error;
     bool succeeded = false;
     nlohmann::json result;
@@ -1559,13 +1664,31 @@ void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
 
         // Compute and apply delay before each retry (not before the first attempt)
         if (attempt > 0) {
-            auto delay = computeRetryDelay(policy, attempt - 1);
+            double delay_ms = static_cast<double>(computeRetryDelay(policy, attempt - 1).count());
+
+            // SLO-based adaptive retry: clamp delay / skip retry if budget exhausted.
+            {
+                auto now_elapsed = std::chrono::steady_clock::now();
+                double elapsed_so_far =
+                    std::chrono::duration<double, std::milli>(now_elapsed - start).count();
+                if (!applySloAdaptation(*task, elapsed_so_far, delay_ms, max_attempts)) {
+                    THEMIS_INFO("Task {} SLO budget exhausted after {:.0f}ms; "
+                                "skipping {} remaining retries",
+                                task->id, elapsed_so_far,
+                                max_attempts - attempt);
+                    break;
+                }
+            }
 
             THEMIS_INFO("Retrying task {} (attempt {}/{}) after {}ms [strategy={}]",
-                        task->id, attempt + 1, max_attempts, delay.count(),
+                        task->id, attempt + 1, max_attempts,
+                        static_cast<int64_t>(delay_ms),
                         static_cast<int>(policy.strategy));
 
-            std::this_thread::sleep_for(delay);
+            if (delay_ms > 0.0) {
+                std::this_thread::sleep_for(
+                    std::chrono::milliseconds(static_cast<int64_t>(delay_ms)));
+            }
             if (!running_.load()) break;
         }
 
@@ -1732,6 +1855,30 @@ void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
         fireTaskSlaBreachAlert(*task, elapsed_ms);
     }
 
+    // SLO compliance tracking (Phase 5: SLO-based adaptive retry).
+    // Track SLA violations in a rolling window so applySloAdaptation() can
+    // reduce retry attempts when the compliance rate drops below threshold.
+    if (task->slo_retry_config.has_value() && task->sla_deadline.has_value()) {
+        const auto& slo = *task->slo_retry_config;
+        if (slo.slo_aware && slo.slo_history_window > 0) {
+            const bool violated = elapsed_ms >
+                static_cast<double>(task->sla_deadline->count());
+            // Slide the window when it fills up: reset counters proportionally.
+            if (task->slo_window_count >= slo.slo_history_window) {
+                const double ratio =
+                    static_cast<double>(task->slo_violations) /
+                    static_cast<double>(task->slo_window_count);
+                task->slo_window_count  = slo.slo_history_window / 2;
+                task->slo_violations    =
+                    static_cast<size_t>(ratio * static_cast<double>(task->slo_window_count));
+            }
+            ++task->slo_window_count;
+            if (violated) {
+                ++task->slo_violations;
+            }
+        }
+    }
+
     // Persist execution result to ThemisDB (if result store is enabled)
     if (result_store_) {
         scheduler::TaskExecutionResult exec_result;
@@ -1744,7 +1891,7 @@ void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
         exec_result.error        = succeeded ? "" : last_error;
         result_store_->store(exec_result);
     }
-    
+
     task->running = false;
 }
 
@@ -1901,6 +2048,21 @@ void TaskScheduler::saveTasks() {
             task_json["max_retries"] = task->max_retries;
         }
 
+        // Save SLO-based adaptive retry config (Phase 5)
+        if (task->slo_retry_config) {
+            const auto& slo = *task->slo_retry_config;
+            nlohmann::json slo_json;
+            slo_json["slo_aware"]                   = slo.slo_aware;
+            slo_json["slo_budget_fraction"]          = slo.slo_budget_fraction;
+            slo_json["slo_compliance_threshold"]     = slo.slo_compliance_threshold;
+            slo_json["min_retries_under_pressure"]   = slo.min_retries_under_pressure;
+            slo_json["slo_history_window"]           = slo.slo_history_window;
+            task_json["slo_retry_config"] = slo_json;
+        }
+        // Persist SLO compliance counters so the window survives restarts
+        task_json["slo_violations"]    = task->slo_violations;
+        task_json["slo_window_count"]  = task->slo_window_count;
+
         // Save dependency list
         task_json["dependencies"] = task->dependencies;
         
@@ -2015,6 +2177,21 @@ void TaskScheduler::loadTasks() {
             } else {
                 task.max_retries = task_json.value("max_retries", size_t{3});
             }
+
+            // Restore SLO-based adaptive retry config (Phase 5)
+            if (task_json.contains("slo_retry_config")) {
+                const auto& slo_json = task_json["slo_retry_config"];
+                ScheduledTask::SloRetryConfig slo;
+                slo.slo_aware                 = slo_json.value("slo_aware", true);
+                slo.slo_budget_fraction       = slo_json.value("slo_budget_fraction", 0.5);
+                slo.slo_compliance_threshold  = slo_json.value("slo_compliance_threshold", 0.8);
+                slo.min_retries_under_pressure = slo_json.value("min_retries_under_pressure", size_t{1});
+                slo.slo_history_window        = slo_json.value("slo_history_window", size_t{20});
+                task.slo_retry_config = slo;
+            }
+            // Restore SLO compliance counters
+            task.slo_violations   = task_json.value("slo_violations",   size_t{0});
+            task.slo_window_count = task_json.value("slo_window_count", size_t{0});
 
             // Restore dependency list (backward-compatible: absent = no deps)
             if (task_json.contains("dependencies")) {

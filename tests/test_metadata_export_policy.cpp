@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_metadata_export_policy.cpp                    ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-04-06 04:30:47                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-04-13 04:41:42                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            kafka_cdc_producer.cpp                             ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-06 04:15:01                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-13 04:24:24                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

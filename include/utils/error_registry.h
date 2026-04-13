@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            error_registry.h                                   ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:12:56                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:22:09                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     303                                            ║
+    • Total Lines:     304                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • a217820d8f  2026-04-12  feat(plugins): implement runtime capability escalation bl... ║
     • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
     • 5b530b6019  2026-03-16  Changes before error encountered        ║
     • 3db37eb452  2026-03-10  feat(exporters): implement EXP-001 PolicyEngine auth, EXP... ║
     • ab3b22a88e  2026-03-09  feat(query): implement query cancellation via request ID ... ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -155,6 +155,7 @@ enum class ErrorCode {
     ERR_PLUGIN_OCI_MANIFEST_NOT_FOUND = 6308, // OCI manifest not found or registry returned 404
     ERR_PLUGIN_OCI_HASH_MISMATCH = 6309,     // Downloaded plugin blob digest does not match manifest
     ERR_PLUGIN_OCI_INVALID_REFERENCE = 6310, // Malformed OCI image reference string
+    ERR_PLUGIN_CAPABILITY_ESCALATION = 6311, // Plugin attempted to escalate capabilities beyond manifest declaration
 
     // Graph Errors (6400-6499)
     ERR_GRAPH_NO_SUCH_VERTEX = 6400,    // Referenced vertex does not exist in the graph

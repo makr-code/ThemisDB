@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ldap_connection_pool.cpp                           ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-04-06 04:14:30                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-04-13 04:23:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

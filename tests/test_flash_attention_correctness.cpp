@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_flash_attention_correctness.cpp               ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:28:05                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:38:41                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

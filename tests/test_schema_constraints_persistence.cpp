@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_schema_constraints_persistence.cpp            ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:34:36                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:45:57                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

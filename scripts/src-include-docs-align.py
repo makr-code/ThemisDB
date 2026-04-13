@@ -1,55 +1,26 @@
-#!/usr/bin/env python3
 """
 ╔═════════════════════════════════════════════════════════════════════╗
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            src-include-docs-align.py                          ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-04-07                                         ║
-  Author:          github-actions[bot]                                ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-04-13 04:23:12                                ║
+  Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
-    Maturity Level:  PRODUCTION-READY                                 ║
-    Quality Score:   100.0/100                                        ║
-    Open Issues:     TODOs: 0, Stubs: 0                               ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     533                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  Status: Production Ready                                            ║
+  Revision History:                                                   ║
+    • ccff4b4df2  2026-04-07  feat: add src/include ↔ docs/de alignment check script an... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
-
-ThemisDB src/include <-> docs/de Content Alignment Check
-=========================================================
-
-Compares the module landscape of ``src/`` and ``include/`` against ``docs/de/``
-in a **single pass** and reports coverage gaps.
-
-For every module directory found under ``src/`` or ``include/``, the script
-checks whether a corresponding ``docs/de/<module>/`` directory exists and
-contains human-authored documentation (any ``.md`` file other than the
-auto-generated ``PRIMARY_SOURCES.md``).
-
-Additionally, for each documented module the script counts source artefacts
-(``.h``, ``.hpp``, ``.cpp``) so that a documentation-density ratio can be
-reported.
-
-Usage
------
-    python3 scripts/src-include-docs-align.py [OPTIONS]
-
-Options
--------
-    --repo-root DIR     Repository root (auto-detected via git if omitted)
-    --docs-dir DIR      Primary German docs directory (default: docs/de)
-    --format text|json  Output format (default: text)
-    --output PATH       Write report to this file instead of stdout
-    --fail-on-gaps      Exit 1 when undocumented modules are detected
-    --quiet             Suppress progress messages on stdout
-
-Exit codes
-----------
-    0   All modules documented (or --fail-on-gaps not set)
-    1   Undocumented modules found AND --fail-on-gaps is set
-    2   Fatal error (missing repo root, I/O failure, etc.)
 """
+
+#!/usr/bin/env python3
 from __future__ import annotations
 
 import argparse

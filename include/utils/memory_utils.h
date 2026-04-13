@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            memory_utils.h                                     ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:12:58                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:22:11                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

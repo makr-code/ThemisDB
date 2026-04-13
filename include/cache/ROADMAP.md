@@ -10,9 +10,11 @@
 
 ## Current Status
 
-Public headers at v1.9.0. The L1 lock-free shared-mutex read path is now exposed via
+Public headers at v2.0.0. The L1 lock-free shared-mutex read path is now exposed via
 `adaptive_query_cache.h`. All five abstract interfaces in `cache_interfaces.h` are
-fully implemented and tested. TinyLFU L1 policy added.
+fully implemented and tested. TinyLFU L1 policy added. Phase 6 distribution
+headers (`IDistributedEviction`, `ICachePartition`, `IAdaptiveTTLPolicy`) delivered
+and covered by `tests/test_cache_phase6_interfaces.cpp`.
 
 ---
 
@@ -23,7 +25,7 @@ fully implemented and tested. TinyLFU L1 policy added.
 - [x] `BoundedLRUCache` with `std::shared_mutex` L1 reads
 - [x] `ARCCache` and `L1TinyLFUCache` eviction policy headers
 - [x] `SemanticCache` and `EmbeddingCache`
-- [x] `CacheHitRateSloMonitor` with configurable SLO
+- [x] `CacheHitRateSloMonitor` with configurable SLO and p50/p95/p99 latency tracking
 - [x] `CacheReplicationManager` for HA
 - [x] `RedisCacheCoordinator` with HMAC-SHA256 signing
 - [x] `GRPCRemoteCachePeer` for gRPC remote invalidation
@@ -33,14 +35,16 @@ fully implemented and tested. TinyLFU L1 policy added.
   - 14 tests (RC-01…RC-14) in `tests/test_request_coalescer.cpp`
 - [x] `PredictivePrefetcher`
 - [x] `AlignedVectorAllocator` for SIMD-aligned embedding storage
+- [x] `IDistributedEviction` for cross-node coordinated eviction — `distributed_eviction.h`
+- [x] `ICachePartition` for sharded per-tenant partition management — `cache_partition.h`
+- [x] `IAdaptiveTTLPolicy` for stateful history-driven TTL adaptation — `adaptive_ttl_policy.h`
 
 ---
 
 ## Planned Features
 
-- [ ] `IDistributedEviction` header for cross-node coordinated eviction (Target: Q3 2026)
-- [ ] `ICachePartition` for sharded per-tenant cache partition headers (Target: Q3 2026)
-- [ ] `IAdaptiveTTLPolicy` fine-grained TTL adaptation beyond `ITTLAdapter` (Target: Q4 2026)
+- [ ] Redis TLS enforcement at header level (Target: Q3 2026)
+- [ ] L3 encryption enforcement at header level (Target: Q3 2026)
 
 ---
 
@@ -61,8 +65,10 @@ fully implemented and tested. TinyLFU L1 policy added.
 ### Phase 5: Lock-Free Read Path
 - [x] `std::shared_mutex` L1 promotion in v1.9.0
 
-### Phase 6: Future Distribution Headers
-- [ ] `IDistributedEviction`, `ICachePartition` (Q3 2026)
+### Phase 6: Distribution & Partitioning Headers
+- [x] `IDistributedEviction` — cross-node eviction broadcast with `evict()`, `evictByPattern()`, `evictByTenant()`, `flush()`, listener registration, and observable stats
+- [x] `ICachePartition` — sharded per-tenant partition manager with `assignTenant()`, `resize()`, `evictPartition()`, `getStats()`, and `getAllStats()`
+- [x] `IAdaptiveTTLPolicy` — stateful TTL policy with access history tracking, `recordAccess()`, `computeTTL()`, `pruneHistory()`, and `AdaptiveTTLSuggestion` output
 
 ---
 
@@ -72,5 +78,6 @@ fully implemented and tested. TinyLFU L1 policy added.
 - [x] GDPR purge hook present
 - [x] HMAC-signed Redis invalidation
 - [x] Lock-free L1 reads
+- [x] Phase 6 distribution headers covered by `tests/test_cache_phase6_interfaces.cpp`
 - [ ] L3 encryption enforcement at header level (currently operator-managed)
 - [ ] Redis TLS enforcement at header level

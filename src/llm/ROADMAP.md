@@ -1,7 +1,7 @@
 # LLM Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Roadmap-Status: current | validated: 2026-04-06 | Primary: src/llm/ | Secondary: docs/de/llm/ -->
+<!-- Roadmap-Status: current | validated: 2026-04-09 | Primary: src/llm/ | Secondary: docs/de/llm/ -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · ../../docs/de/llm/README.md -->
 
 ## Current Status
@@ -103,7 +103,6 @@ v1.16.0 – Full-featured production LLM module. All short-term and long-term pl
 ## Known Issues & Limitations
 - Cancellation is best-effort only; in-flight inference cannot be interrupted at llama.cpp level.
 - Grammar-constrained generation depends on runtime API availability.
-- Speculative decoding uses synthetic logit arrays (placeholder) until per-token logits are exposed through the plugin interface.
 
 ## Breaking Changes
 - `InferenceHandle` header path changed in v1.15.0 (from `async_inference_engine.h` include to `inference_handle.h`).

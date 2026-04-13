@@ -24,22 +24,26 @@
 - [ ] Streaming PII redaction in `pii_redacting_sink.h` (chunked input) (Target: Q2 2026)
 - [ ] `safe_arithmetic.h` — 128-bit integer support (Target: Q3 2026)
 - [ ] `zstd_codec.h` — streaming compress/decompress API (Target: Q2 2026)
-- [ ] `uuid.h` — UUID v7 (time-ordered) support (Target: Q3 2026)
+- [x] `zstd_codec.h` — streaming API: `ZstdStreamCompressor` + `ZstdStreamDecompressor` added
 - [ ] `rate_limiter.h` — distributed (Redis-backed) rate limiting (Target: Q3 2026)
 - [ ] `bloom_filter.h` — scalable Bloom filter (SBF) variant (Target: Q4 2026)
 - [ ] `retention_manager.h` — GDPR right-to-erasure integration (Target: Q2 2026)
 - [ ] Formal ReDoS audit of `regex_detection_engine.h` patterns (Target: Q2 2026)
+- [ ] `uuid.h` — UUID v7 (time-ordered) support (Target: Q3 2026)
+- [x] `uuid.h` — UUID v7 added: `generate_uuid_v7()` (RFC 9562, time-ordered)
+- [x] LZ4 codec — `lz4_codec.h` + `lz4_codec.cpp` added (safe + legacy API)
 
 ## Implementation Phases
 
 ### Phase 1 — Design / API Contract
 - [x] Define `IEncryptionBackend` interface analogues for utils
 - [x] Standardize `Expected<T,E>` result type across all utility APIs
-- [ ] Define streaming API contract for `zstd_codec.h`
+- [x] Define streaming API contract for `zstd_codec.h`
 
 ### Phase 2 — Core Implementation
-- [ ] Streaming ZSTD compress/decompress — `zstd_compress_stream` + `zstd_decompress_stream`
-- [ ] UUID v7 implementation — `generate_uuid_v7()`
+- [x] Streaming ZSTD compress/decompress (`ZstdStreamCompressor` + `ZstdStreamDecompressor`)
+- [ ] Distributed rate limiter backend
+- [x] UUID v7 implementation (`generate_uuid_v7()`, RFC 9562)
 
 ### Phase 3 — Error Handling & Edge Cases
 - [ ] `zstd_codec.h`: max decompression output enforced via `max_output_bytes` parameter in `zstd_decompress_stream()`

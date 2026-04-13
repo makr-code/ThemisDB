@@ -1,25 +1,26 @@
 # llama_cpp Plugin Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Roadmap-Status: current | validated: 2026-04-10 | Primary: src/llama_cpp/ -->
+<!-- Roadmap-Status: current | validated: 2026-04-12 | Primary: src/llama_cpp/ -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Status
 
-v2.1.0 — Streaming token output, batch inference, and PluginManager hot-plug
-registrar added. Full `ILLMPlugin` interface remains implemented in stub mode;
-real inference requires linking the existing `LlamaWrapper`.
+v2.2.0 — Real `LlamaWrapper` inference wired in behind `THEMIS_LLM_ENABLED`.
+`generate()`, `embed()`, `exportLoRA`, and `importLoRA` all delegate to
+`LlamaWrapper` when a non-empty model path is provided and the macro is set.
+Stub mode (empty path / CI without model) is preserved as a transparent fallback.
 
 ## Completed ✅
 
 - [x] `THEMIS_LLM_PLUGIN()` export macro
 - [x] `LlamaCppPlugin : ILLMPlugin` — full interface (generate, RAG, embed, LoRA, stats)
-- [x] `loadModel` / `unloadModel` with stub mode
+- [x] `loadModel` / `unloadModel` with stub mode and real `LlamaWrapper` initialisation
 - [x] Thread-safe LoRA registry (`std::mutex`)
 - [x] `getCapabilities()` — `supports_lora`, `supports_embeddings`, `plugin_version`
 - [x] `getMemoryStats()` / `getPerformanceStats()` — JSON
 - [x] `themis_llm_create` / `themis_llm_destroy` C-linkage entry points
-- [x] 50 unit tests (`LlamaCppPluginFocusedTests`, groups A–M)
+- [x] 50 unit tests (`LlamaCppPluginFocusedTests`, groups A–N)
 - [x] Plugin manifest + CMake registration
 - [x] Streaming token output via `InferenceRequest::stream_callback` (v2.1.0)
 - [x] `generateStream(request, callback)` convenience method (v2.1.0)
@@ -27,17 +28,18 @@ real inference requires linking the existing `LlamaWrapper`.
 - [x] `LlamaCppPluginRegistrar` — PluginManager hot-plug integration (v2.1.0)
 - [x] `getCapabilities().supports_streaming = true` (v2.1.0)
 - [x] `getCapabilities().supports_batching = true` (v2.1.0)
+- [x] Real llama.cpp inference via `LlamaWrapper` behind `THEMIS_LLM_ENABLED` (v2.2.0)
+- [x] Real embedding vectors via `LlamaWrapper::embed()` (v2.2.0)
+- [x] `exportLoRA` / `importLoRA` delegated to `LlamaWrapper` (v2.2.0)
+- [x] `tests/CMakeLists.txt` updated — registrar + deps added for N1–N6 (v2.2.0)
 
 ## In Progress
 
-- [~] Real llama.cpp inference via `LlamaWrapper`
+- [~] Real llama.cpp inference benchmark / concurrency hardening
 
 ## Planned Features
 
-- [ ] Real llama.cpp inference via `LlamaWrapper` (Target: Q3 2026)
-- [ ] Real embedding model (non-zero vectors) (Target: Q3 2026)
 - [ ] Function/tool calling (Target: Q4 2026)
-- [ ] `exportLoRA` / `importLoRA` real implementation (Target: Q4 2026)
 - [ ] Per-request cancellation token (Target: Q4 2026)
 
 ## Implementation Phases
@@ -47,6 +49,7 @@ real inference requires linking the existing `LlamaWrapper`.
 
 ### Phase 2 — Core Implementation ✅
 - [x] `LlamaCppPlugin` stub with load/generate/embed/LoRA lifecycle
+- [x] Real `LlamaWrapper` delegation behind `THEMIS_LLM_ENABLED` (v2.2.0)
 
 ### Phase 3 — Error Handling & Edge Cases ✅
 - [x] `generate()` returns error when model not loaded
@@ -54,9 +57,11 @@ real inference requires linking the existing `LlamaWrapper`.
 - [x] Thread-safe LoRA registry (duplicate id replacement)
 - [x] `generateStream()` swallows callback exceptions; increments `error_count_`
 - [x] `generateBatch()` propagates per-request errors without aborting the batch
+- [x] Stub fallback when `LlamaWrapper::loadModel()` fails (file not found, etc.) (v2.2.0)
 
 ### Phase 4 — Tests ✅
-- [x] 50 unit tests across groups A–M
+- [x] 50 unit tests across groups A–N
+- [x] Registrar link fixed in `tests/CMakeLists.txt` (v2.2.0)
 
 ### Phase 5 — Performance / Hardening
 - [ ] Real llama.cpp inference benchmark (Target: Q3 2026)
@@ -79,19 +84,17 @@ real inference requires linking the existing `LlamaWrapper`.
 - [x] `generateStream()` honours callback; callback exceptions swallowed
 - [x] `generateBatch()` preserves request order in response vector
 - [x] `LlamaCppPluginRegistrar` provides PluginManager hot-plug integration
-- [ ] Real llama.cpp inference validated end-to-end
-- [ ] Real embeddings validated
-- [ ] `exportLoRA` / `importLoRA` implemented
+- [x] Real llama.cpp inference wired in (`THEMIS_LLM_ENABLED`)
+- [x] Real embeddings via `LlamaWrapper::embed()` with L2 normalisation
+- [x] `exportLoRA` / `importLoRA` delegated to `LlamaWrapper`
 
 ## Known Issues & Limitations
 
-- `generate()` returns an echo stub; real inference not wired in v2.1.0.
-- `embed()` returns a zero vector; real embeddings require a loaded model.
-- `exportLoRA` / `importLoRA` are stubs returning empty/false.
 - `generateBatch()` is sequential; true parallel batch requires real llama.cpp.
+- Stub mode is active when compiled without `THEMIS_LLM_ENABLED` or when the
+  model path is empty / the file does not exist.
 
 ## Breaking Changes
 
 v2.1.0 — `getCapabilities().plugin_version` changed from `"2.0.0"` to `"2.1.0"`.
 `getPluginVersion()` similarly returns `"2.1.0"`.
-

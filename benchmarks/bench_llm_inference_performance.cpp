@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_llm_inference_performance.cpp                ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:03:40                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:11:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

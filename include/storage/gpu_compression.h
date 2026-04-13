@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            gpu_compression.h                                  ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-04-06 04:11:43                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-04-13 04:20:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

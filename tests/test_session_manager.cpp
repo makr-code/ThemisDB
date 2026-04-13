@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_session_manager.cpp                           ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-06 04:34:56                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-13 04:46:20                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

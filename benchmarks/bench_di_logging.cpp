@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_di_logging.cpp                               ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-06 04:03:29                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-13 04:11:40                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

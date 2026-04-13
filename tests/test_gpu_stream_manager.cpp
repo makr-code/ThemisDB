@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_gpu_stream_manager.cpp                        ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:28:41                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:39:20                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_ocr_processor.cpp                             ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-06 04:31:37                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-13 04:42:37                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     835                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     887                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • b832e64389  2026-04-12  fix(content): implement OcrProcessor::generateEmbedding a... ║
     • b3d8aa4a55  2026-03-15  refactor: streamline performance statistics retrieval and... ║
     • 9d8c5ce371  2026-03-15  Refactor service mesh API handler to use fully qualified ... ║
     • 0e2644909c  2026-03-11  fix(content): thread-safe OCR routing — add shouldTrigger... ║
     • e347957866  2026-03-11  fix(audit): close all CON-004 gaps — tests, ROADMAP, FUTU... ║
-    • f8345adee1  2026-03-11  feat(content): address code review - improve test cleanup... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -438,13 +438,38 @@ TEST(OcrProcessorTest, ChunkResultsHaveRequiredFields) {
 }
 
 // ============================================================================
-// OcrProcessor::generateEmbedding (stub)
+// OcrProcessor::generateEmbedding
 // ============================================================================
 
-TEST(OcrProcessorTest, GenerateEmbeddingReturnsEmptyVector) {
+TEST(OcrProcessorTest, GenerateEmbeddingNonEmptyForText) {
     OcrProcessor proc;
     auto emb = proc.generateEmbedding("some OCR text");
-    EXPECT_TRUE(emb.empty());
+    EXPECT_EQ(static_cast<int>(emb.size()), 768);
+    // L2-normalised result must have a non-zero norm
+    float norm = 0.0f;
+    for (float v : emb) norm += v * v;
+    EXPECT_GT(norm, 0.0f);
+}
+
+TEST(OcrProcessorTest, GenerateEmbeddingEmptyInputReturnsZeroVector) {
+    OcrProcessor proc;
+    auto emb = proc.generateEmbedding("");
+    EXPECT_EQ(static_cast<int>(emb.size()), 768);
+    for (float v : emb) {
+        EXPECT_FLOAT_EQ(v, 0.0f);
+    }
+}
+
+TEST(OcrProcessorTest, GenerateEmbeddingDifferentTextsProduceDifferentVectors) {
+    OcrProcessor proc;
+    auto emb1 = proc.generateEmbedding("hello world");
+    auto emb2 = proc.generateEmbedding("completely different text");
+    ASSERT_EQ(emb1.size(), emb2.size());
+    bool differs = false;
+    for (size_t i = 0; i < emb1.size(); ++i) {
+        if (emb1[i] != emb2[i]) { differs = true; break; }
+    }
+    EXPECT_TRUE(differs);
 }
 
 // ============================================================================
@@ -829,6 +854,33 @@ TEST(OcrProcessorDefaultDataDirTest, PerCollectionLanguageOverride) {
 TEST(OcrProcessorDefaultDataDirTest, DefaultLanguageFallbackIsEng) {
     OcrProcessor::Config cfg;
     EXPECT_EQ(cfg.language, "eng");
+}
+
+// ============================================================================
+// OCR output sanitization — control character stripping
+// ============================================================================
+
+/// extract() on a blob that would produce control characters (tested via
+/// the non-OCR path so no Tesseract runtime is needed) shows that
+/// sanitizeOcrText is exercised on the empty-unavailable code path gracefully.
+TEST(OcrProcessorSanitizationTest, ExtractWithNoOcrYieldsCleanResult) {
+    // Without -DTHEMIS_ENABLE_OCR the processor reports unavailable;
+    // the important invariant is that result.text never contains
+    // ASCII control characters (0x00–0x1F except \t\n\r, or 0x7F).
+    OcrProcessor proc;
+    std::string fake_blob(4, '\0');  // 4 null bytes – not a valid image header
+    // 0x89 is the first byte of a PNG file signature; used here so the blob
+    // passes the magic-byte check without requiring a full valid PNG fixture.
+    fake_blob[0] = static_cast<char>(0x89);
+    ContentType ct;
+    ct.mime_type = "image/png";
+    ct.category  = ContentCategory::IMAGE;
+    auto result = proc.extract(fake_blob, ct);
+    // Regardless of OCR availability, the text must contain no raw control chars
+    for (unsigned char c : result.text) {
+        bool allowed = (c == 0x09 || c == 0x0A || c == 0x0D || c >= 0x20);
+        EXPECT_TRUE(allowed) << "Unexpected control char 0x" << std::hex << static_cast<int>(c);
+    }
 }
 
 

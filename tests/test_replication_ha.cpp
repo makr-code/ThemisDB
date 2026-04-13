@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_replication_ha.cpp                            ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:34:04                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:45:22                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🔴 ALPHA                                        ║
-    • Quality Score:   31.0/100                                       ║
-    • Total Lines:     5584                                           ║
+    • Quality Score:   39.0/100                                       ║
+    • Total Lines:     5816                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • fc77bc508d  2026-04-12  [MODULE] replication — perf tests for design constraints,... ║
     • 5bee4e8e41  2026-04-03  Implement Disaster Recovery Manager and associated tests ║
     • 25f9a09910  2026-04-02  Refactor tests and improve assertions   ║
     • 64a9ae4eb6  2026-03-31  feat: enhance cache warmup logic and improve replication ... ║
     • 387fde93e0  2026-03-13  feat(replication): implement MultiTierReplicationManager ... ║
-    • 4a853813e8  2026-03-13  fix(replication): audit fixes — honor bidirectional_sync/... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: 🚧 Early Development                                         ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -44,6 +44,7 @@
 #include "replication/multi_master_replication.h"
 #include "replication/multi_tier_replication.h"
 
+#include <algorithm>
 #include <filesystem>
 #include <fstream>
 #include <future>
@@ -5581,4 +5582,235 @@ TEST(MultiTierReplicationTest, GetCollectionStatsIncludesAllTrackedCollections) 
         }
     }
     EXPECT_TRUE(found_col1);
+}
+
+// ============================================================================
+// Performance Tests (opt-in: set THEMIS_RUN_PERF_TESTS=1)
+//
+// These tests validate the design constraints from
+// src/replication/FUTURE_ENHANCEMENTS.md §Design Constraints:
+//
+//   #4  Vector clock comparison and HLC conflict detection must add
+//       < 5 µs per write operation.
+//
+// Additional local-component benchmarks validate prerequisites for:
+//   #1  Replication lag p99 ≤ 50 ms (WAL append throughput > 50 k/s).
+//   #2  WAL shipping ≥ 500 MB/s compressed (Zstd throughput proxy).
+// ============================================================================
+
+/**
+ * @brief VectorClock increment + compare combined latency < 5 µs.
+ *
+ * Design Constraint #4 (FUTURE_ENHANCEMENTS.md): "Vector clock comparison
+ * and HLC conflict detection must add < 5 µs per write operation."
+ *
+ * This test measures the median cost of one VectorClock::increment() followed
+ * by one VectorClock::compare() — i.e. the overhead added to every write
+ * on the multi-master write path.
+ *
+ * Set THEMIS_RUN_PERF_TESTS=1 to enable.
+ */
+TEST(VectorClockPerfTest, IncrementAndCompareSingleOpUnder5us) {
+    const char* run_perf = std::getenv("THEMIS_RUN_PERF_TESTS");
+    if (!run_perf || std::string(run_perf) != "1") {
+        GTEST_SKIP() << "Skipping VectorClock perf test "
+                        "(set THEMIS_RUN_PERF_TESTS=1 to enable). "
+                        "Design Constraint #4: increment+compare < 5 µs.";
+    }
+
+    VectorClock vc_local("local");
+    VectorClock vc_remote("remote");
+    vc_remote.increment("remote");
+
+    const int kWarmup = 100;
+    const int kIterations = 2000;
+    std::vector<int64_t> durations_ns;
+    durations_ns.reserve(kIterations);
+
+    // Warm up
+    volatile int sink_warmup = 0;
+    for (int i = 0; i < kWarmup; ++i) {
+        vc_local.increment("local");
+        sink_warmup += vc_local.compare(vc_remote);
+    }
+    (void)sink_warmup;
+
+    volatile int sink = 0;
+    for (int i = 0; i < kIterations; ++i) {
+        auto t0 = std::chrono::steady_clock::now();
+        vc_local.increment("local");
+        int cmp = vc_local.compare(vc_remote);
+        auto t1 = std::chrono::steady_clock::now();
+        sink += cmp;
+        durations_ns.push_back(
+            std::chrono::duration_cast<std::chrono::nanoseconds>(t1 - t0).count());
+    }
+
+    std::sort(durations_ns.begin(), durations_ns.end());
+    int64_t median_ns = durations_ns[kIterations / 2];
+    int64_t p99_ns    = durations_ns[static_cast<size_t>(kIterations * 0.99)];
+
+    EXPECT_LT(median_ns, 5000) << "VectorClock increment+compare median must be < 5 us;"
+        " median=" << median_ns << " ns p99=" << p99_ns << " ns";
+}
+
+/**
+ * @brief HybridLogicalClock::now() latency < 5 µs per call.
+ *
+ * Design Constraint #4 (FUTURE_ENHANCEMENTS.md): "Vector clock comparison
+ * and HLC conflict detection must add < 5 µs per write operation."
+ *
+ * Set THEMIS_RUN_PERF_TESTS=1 to enable.
+ */
+TEST(HLCPerfTest, NowCallUnder5us) {
+    const char* run_perf = std::getenv("THEMIS_RUN_PERF_TESTS");
+    if (!run_perf || std::string(run_perf) != "1") {
+        GTEST_SKIP() << "Skipping HLC::now() perf test "
+                        "(set THEMIS_RUN_PERF_TESTS=1 to enable). "
+                        "Design Constraint #4: HLC::now() < 5 µs.";
+    }
+
+    HybridLogicalClock hlc("perf-node");
+
+    const int kWarmup     = 200;
+    const int kIterations = 2000;
+    std::vector<int64_t> durations_ns;
+    durations_ns.reserve(kIterations);
+
+    volatile uint64_t sink_warmup = 0;
+    for (int i = 0; i < kWarmup; ++i) {
+        auto ts = hlc.now();
+        sink_warmup += ts.logical;
+    }
+    (void)sink_warmup;
+
+    volatile uint64_t sink = 0;
+    for (int i = 0; i < kIterations; ++i) {
+        auto t0 = std::chrono::steady_clock::now();
+        auto ts = hlc.now();
+        auto t1 = std::chrono::steady_clock::now();
+        sink += ts.logical;
+        durations_ns.push_back(
+            std::chrono::duration_cast<std::chrono::nanoseconds>(t1 - t0).count());
+    }
+    (void)sink;
+
+    std::sort(durations_ns.begin(), durations_ns.end());
+    int64_t median_ns = durations_ns[kIterations / 2];
+    int64_t p99_ns    = durations_ns[static_cast<size_t>(kIterations * 0.99)];
+
+    EXPECT_LT(median_ns, 5000) << "HLC::now() median must be < 5 us;"
+        " median=" << median_ns << " ns p99=" << p99_ns << " ns";
+}
+
+/**
+ * @brief WAL append throughput > 50,000 entries/s (prerequisite for Design
+ *        Constraint #1: replication lag p99 ≤ 50 ms at 10,000 write/s).
+ *
+ * Set THEMIS_RUN_PERF_TESTS=1 to enable.
+ */
+TEST(WALAppendThroughputPerfTest, Over50kEntriesPerSecond) {
+    const char* run_perf = std::getenv("THEMIS_RUN_PERF_TESTS");
+    if (!run_perf || std::string(run_perf) != "1") {
+        GTEST_SKIP() << "Skipping WAL append throughput perf test "
+                        "(set THEMIS_RUN_PERF_TESTS=1 to enable). "
+                        "Target: > 50,000 entries/s.";
+    }
+
+    TempWALDir wal_dir("/tmp/themis_perf_wal_append");
+    ReplicationConfig cfg = makeConfig(wal_dir.path);
+    cfg.wal_sync_on_commit = false;
+    WALManager wal(cfg);
+
+    const int kEntries = 20000;
+    std::atomic<uint64_t> seq{1};
+
+    auto t0 = std::chrono::steady_clock::now();
+    for (int i = 0; i < kEntries; ++i) {
+        WALEntry e;
+        e.sequence_number = seq.fetch_add(1, std::memory_order_relaxed);
+        e.term            = 1;
+        e.timestamp       = std::chrono::system_clock::now();
+        e.operation       = "INSERT";
+        e.collection      = "perf_col";
+        e.document_id     = "doc_" + std::to_string(e.sequence_number);
+        e.data            = R"({"k":"v","seq":)" + std::to_string(e.sequence_number) + "}";
+        volatile uint64_t written  = wal.append(e);
+        (void)written;
+    }
+    auto t1 = std::chrono::steady_clock::now();
+
+    double elapsed_s = std::chrono::duration<double>(t1 - t0).count();
+    double entries_per_s = static_cast<double>(kEntries) / elapsed_s;
+
+    EXPECT_GT(entries_per_s, 50000.0) << "WAL append throughput must exceed 50,000 entries/s;"
+        " measured " << static_cast<int64_t>(entries_per_s) << " entries/s"
+        " (" << kEntries << " entries in " << elapsed_s * 1000.0 << " ms)";
+}
+
+/**
+ * @brief CompressedReplicationStream Zstd throughput proxy.
+ *
+ * Validates that the in-process Zstd compression path can sustain the
+ * serialise+compress throughput needed for the 500 MB/s WAL shipping goal
+ * (Design Constraint #2).  Each batch of 1,000 × 512-byte WAL entries
+ * amounts to ~512 KB; the test asserts the round-trip completes within
+ * 50 ms (≥ 10 MB/s — conservative floor that rules out algorithmic regressions
+ * without requiring network infrastructure).
+ *
+ * Set THEMIS_RUN_PERF_TESTS=1 to enable.
+ */
+TEST(CompressedStreamThroughputPerfTest, ZstdBatchUnder50ms) {
+    const char* run_perf = std::getenv("THEMIS_RUN_PERF_TESTS");
+    if (!run_perf || std::string(run_perf) != "1") {
+        GTEST_SKIP() << "Skipping compressed stream throughput perf test "
+                        "(set THEMIS_RUN_PERF_TESTS=1 to enable). "
+                        "Target: Zstd batch of 1,000 × 512-byte entries < 50 ms.";
+    }
+
+    CompressedReplicationStream::CompressionConfig cfg;
+    cfg.algorithm        = CompressedReplicationStream::CompressionAlgorithm::ZSTD;
+    cfg.compression_level = 3;
+    cfg.adaptive         = false;
+    cfg.min_batch_size   = 0;
+
+    CompressedReplicationStream stream("bench-endpoint:7000", cfg);
+
+    const int kEntries = 1000;
+    const std::string payload(480, 'x');  // ~480 B data field → ~512 B per entry
+    std::vector<WALEntry> batch;
+    batch.reserve(kEntries);
+    for (int i = 0; i < kEntries; ++i) {
+        WALEntry e;
+        e.sequence_number = static_cast<uint64_t>(i + 1);
+        e.term            = 1;
+        e.timestamp       = std::chrono::system_clock::now();
+        e.operation       = "INSERT";
+        e.collection      = "perf_col";
+        e.document_id     = "doc_" + std::to_string(i);
+        e.data            = "{\"v\":\"" + payload + "\"}";
+        batch.push_back(std::move(e));
+    }
+
+    // Warm up
+    stream.sendBatch(batch);
+    stream.resetStats();
+
+    const int kRounds = 5;
+    auto t0 = std::chrono::steady_clock::now();
+    for (int r = 0; r < kRounds; ++r) {
+        bool ok = stream.sendBatch(batch);
+        ASSERT_TRUE(ok) << "sendBatch() must succeed in the perf test";
+    }
+    auto t1 = std::chrono::steady_clock::now();
+
+    auto elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(t1 - t0).count();
+    double per_round_ms = static_cast<double>(elapsed_ms) / kRounds;
+
+    EXPECT_LT(per_round_ms, 50.0) << "Zstd compress of 1,000 x ~512-byte entries must"
+        " complete in < 50 ms; measured " << per_round_ms << " ms/round";
+
+    auto stats = stream.getStats();
+    EXPECT_GT(stats.bytes_uncompressed, 0u) << "Stats must report processed bytes";
+    EXPECT_GT(stats.compression_ratio, 1.0)  << "Zstd must achieve some compression";
 }

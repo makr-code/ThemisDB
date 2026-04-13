@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            voice_tts_customizer.cpp                           ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-04-06 04:22:24                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-04-13 04:32:28                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     386                                            ║
+    • Total Lines:     588                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 31fa431cf5  2026-04-12  [WIP] Update voice module documentation for accuracy (#4523) ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 78975823f8  2026-03-01  feat(voice): implement multi-language TTS for German, Fre... ║
 ╠═════════════════════════════════════════════════════════════════════╣
@@ -28,6 +29,8 @@
 #include <stdexcept>
 #include <numeric>
 #include <regex>
+#include <map>
+#include <set>
 
 namespace themis { namespace voice {
 
@@ -233,6 +236,206 @@ SSMLResult VoiceTTSCustomizer::parseSSML(const std::string& ssml_text) const {
 
     result.plain_text = std::move(collapsed);
     return result;
+}
+
+// ---------------------------------------------------------------------------
+// SSML injection sanitization
+// ---------------------------------------------------------------------------
+
+namespace {
+
+// Allowlist of permitted SSML 1.1 tags (lowercase)
+const std::set<std::string>& ssmlAllowedTags() {
+    static const std::set<std::string> kTags = {
+        "speak", "prosody", "break", "emphasis", "say-as",
+        "p", "s", "phoneme", "sub", "lang", "voice"
+    };
+    return kTags;
+}
+
+// Allowlist of permitted attributes per tag (tag name → set of attr names)
+const std::map<std::string, std::set<std::string>>& ssmlAllowedAttrs() {
+    static const std::map<std::string, std::set<std::string>> kAttrs = {
+        {"speak",    {"version", "xml:lang", "xmlns"}},
+        {"prosody",  {"rate", "pitch", "volume", "duration", "range", "contour"}},
+        {"break",    {"time", "strength"}},
+        {"emphasis", {"level"}},
+        {"say-as",   {"interpret-as", "format", "detail"}},
+        {"phoneme",  {"alphabet", "ph"}},
+        {"sub",      {"alias"}},
+        {"lang",     {"xml:lang"}},
+        {"voice",    {"name", "gender", "age", "variant", "languages"}},
+        {"p",        {}},
+        {"s",        {}},
+    };
+    return kAttrs;
+}
+
+// Return true if the attribute value looks safe (no nested tags, no script keywords)
+bool isAttrValueSafe(const std::string& value) {
+    if (value.find('<') != std::string::npos) return false;
+    if (value.find('>') != std::string::npos) return false;
+    // Reject common script/entity injection patterns
+    if (value.find("script") != std::string::npos) return false;
+    if (value.find("javascript") != std::string::npos) return false;
+    if (value.find("vbscript") != std::string::npos) return false;
+    if (value.find('\0') != std::string::npos) return false;
+    return true;
+}
+
+// Parse attribute key="value" pairs from a tag's attribute string.
+// Strips disallowed attributes; returns sanitized attribute string.
+// Sets injection_found if a disallowed attribute or unsafe value is detected.
+std::string sanitizeTagAttributes(
+    const std::string& tag_name,
+    const std::string& attrs_str,
+    bool& injection_found)
+{
+    const auto& allowed_map = ssmlAllowedAttrs();
+    auto it = allowed_map.find(tag_name);
+    const std::set<std::string>* allowed = (it != allowed_map.end()) ? &it->second : nullptr;
+
+    std::string output;
+    size_t ap = 0;
+
+    while (ap < attrs_str.size()) {
+        // Skip leading whitespace
+        while (ap < attrs_str.size() && std::isspace(static_cast<unsigned char>(attrs_str[ap]))) ++ap;
+        if (ap >= attrs_str.size()) break;
+
+        // Read attribute name
+        size_t ns = ap;
+        while (ap < attrs_str.size() && attrs_str[ap] != '=' &&
+               !std::isspace(static_cast<unsigned char>(attrs_str[ap])) &&
+               attrs_str[ap] != '/' && attrs_str[ap] != '>')
+        {
+            ++ap;
+        }
+        if (ap == ns) { ++ap; continue; } // guard against infinite loop
+        std::string attr_name = attrs_str.substr(ns, ap - ns);
+        std::string attr_name_lower = attr_name;
+        std::transform(attr_name_lower.begin(), attr_name_lower.end(),
+                       attr_name_lower.begin(), ::tolower);
+
+        // Expect '='
+        while (ap < attrs_str.size() && std::isspace(static_cast<unsigned char>(attrs_str[ap]))) ++ap;
+        if (ap >= attrs_str.size() || attrs_str[ap] != '=') {
+            // Boolean attribute (no value) – strip it
+            injection_found = true;
+            continue;
+        }
+        ++ap; // skip '='
+
+        // Skip whitespace before quote
+        while (ap < attrs_str.size() && std::isspace(static_cast<unsigned char>(attrs_str[ap]))) ++ap;
+
+        // Require quoted value
+        if (ap >= attrs_str.size() || (attrs_str[ap] != '"' && attrs_str[ap] != '\'')) {
+            injection_found = true;
+            // Skip unquoted value token
+            while (ap < attrs_str.size() && !std::isspace(static_cast<unsigned char>(attrs_str[ap]))) ++ap;
+            continue;
+        }
+        char quote = attrs_str[ap++];
+        size_t vs = ap;
+        while (ap < attrs_str.size() && attrs_str[ap] != quote) ++ap;
+        std::string attr_value = attrs_str.substr(vs, ap - vs);
+        if (ap < attrs_str.size()) ++ap; // skip closing quote
+
+        // Validate value safety
+        if (!isAttrValueSafe(attr_value)) {
+            injection_found = true;
+            continue;
+        }
+
+        // Check if attribute is allowed for this tag
+        bool attr_allowed = (allowed != nullptr) && (allowed->count(attr_name_lower) > 0);
+        if (!attr_allowed) {
+            injection_found = true;
+            continue;
+        }
+
+        output += ' ';
+        output += attr_name_lower;
+        output += '=';
+        output += '"';
+        output += attr_value;
+        output += '"';
+    }
+    return output;
+}
+
+} // anonymous namespace
+
+SSMLSanitizeResult VoiceTTSCustomizer::sanitizeSSML(const std::string& ssml_input) const {
+    SSMLSanitizeResult result;
+    const auto& allowed_tags = ssmlAllowedTags();
+
+    std::string output;
+    output.reserve(ssml_input.size());
+    size_t pos = 0;
+
+    while (pos < ssml_input.size()) {
+        if (ssml_input[pos] != '<') {
+            output += ssml_input[pos++];
+            continue;
+        }
+
+        // Find closing '>'
+        size_t end = ssml_input.find('>', pos);
+        if (end == std::string::npos) {
+            // Malformed/unclosed tag – treat remainder as injection
+            result.had_injection_attempt = true;
+            break;
+        }
+
+        std::string tag_body = ssml_input.substr(pos + 1, end - pos - 1);
+        bool is_closing      = (!tag_body.empty() && tag_body[0] == '/');
+        if (is_closing) tag_body = tag_body.substr(1);
+        bool is_self_closing = (!tag_body.empty() && tag_body.back() == '/');
+        if (is_self_closing) tag_body.pop_back();
+
+        // Extract tag name
+        size_t sp = tag_body.find_first_of(" \t\r\n");
+        std::string tag_name = (sp != std::string::npos) ? tag_body.substr(0, sp) : tag_body;
+        std::string attrs_str = (sp != std::string::npos) ? tag_body.substr(sp + 1) : std::string{};
+
+        std::string tag_name_lower = tag_name;
+        std::transform(tag_name_lower.begin(), tag_name_lower.end(),
+                       tag_name_lower.begin(), ::tolower);
+
+        if (allowed_tags.count(tag_name_lower)) {
+            // Allowed tag: emit with sanitized attributes
+            std::string safe_attrs;
+            if (!is_closing && !attrs_str.empty()) {
+                safe_attrs = sanitizeTagAttributes(tag_name_lower, attrs_str,
+                                                   result.had_injection_attempt);
+            }
+            output += '<';
+            if (is_closing) output += '/';
+            output += tag_name_lower;
+            output += safe_attrs;
+            if (is_self_closing) output += '/';
+            output += '>';
+        } else {
+            // Disallowed tag: strip and flag
+            result.had_injection_attempt = true;
+            auto found = std::find(result.rejected_tags.begin(),
+                                   result.rejected_tags.end(), tag_name_lower);
+            if (found == result.rejected_tags.end()) {
+                result.rejected_tags.push_back(tag_name_lower);
+            }
+        }
+        pos = end + 1;
+    }
+
+    result.sanitized_text = std::move(output);
+    return result;
+}
+
+bool VoiceTTSCustomizer::isSSMLSafe(const std::string& ssml_input) const {
+    auto res = sanitizeSSML(ssml_input);
+    return !res.had_injection_attempt;
 }
 
 float VoiceTTSCustomizer::computeSignalEnergy(

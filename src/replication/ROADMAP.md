@@ -237,14 +237,16 @@ v1.x – Production-grade high-availability infrastructure. Leader-follower repl
 - [x] CI workflow: `.github/workflows/wal-archival-object-storage-ci.yml`
 
 ## Production Readiness Checklist
-- [x] Unit tests coverage > 80% (268+ test cases: previous + 21 BidirectionalReplicationManager tests)
+- [x] Unit tests coverage > 80% (272+ test cases: previous 268 + 4 perf tests for Design Constraints #1/#2/#4)
 - [x] Integration tests (failover, lag detection, PITR restoration, cross-cluster end-to-end)
 - [x] Performance benchmarks (WAL append > 50 000 entries/s, WAL readFrom 1000 < 5 ms, serialize/deserialize < 2 µs) — `benchmarks/bench_replication_throughput.cpp`
+- [x] Performance tests for Design Constraint #4 (VectorClock+HLC overhead < 5 µs) — `VectorClockPerfTest` + `HLCPerfTest` in `tests/test_replication_ha.cpp` (set `THEMIS_RUN_PERF_TESTS=1`)
 - [x] Focused standalone test targets: `ReplicationHAFocusedTests`, `ReplicationNewFeaturesFocusedTests`, `MultiRegionActiveActiveTests`, `CacheReplicationTests`
 - [x] WAL encryption at rest (AES-256-GCM) via `WALArchivalManager::ArchivalConfig::encrypt_at_rest`
 - [?] Security audit (WAL encryption in transit, CDC stream authentication)
 - [x] Documentation complete (replication-ha-guide.md, REPLICATION_IMPLEMENTATION_STATUS.md)
 - [x] API stability guaranteed (ReplicationConfig stable; new classes are additive)
+- [x] Usage example added (`examples/replication/example_replication.cpp`)
 
 ## Known Issues & Limitations
 - Cascading replication increases end-to-end lag proportionally to chain depth.

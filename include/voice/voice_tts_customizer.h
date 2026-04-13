@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            voice_tts_customizer.h                             ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-04-06 04:13:10                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-04-13 04:22:24                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     145                                            ║
+    • Total Lines:     160                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 31fa431cf5  2026-04-12  [WIP] Update voice module documentation for accuracy (#4523) ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 78975823f8  2026-03-01  feat(voice): implement multi-language TTS for German, Fre... ║
 ╠═════════════════════════════════════════════════════════════════════╣
@@ -62,6 +63,13 @@ struct SSMLResult {
     std::vector<ProsodyConfig> segments;  // Per-segment prosody
     bool has_breaks = false;
     bool has_emphasis = false;
+};
+
+// SSML sanitization result (injection prevention)
+struct SSMLSanitizeResult {
+    std::string sanitized_text;              // SSML with only allowlisted tags retained
+    std::vector<std::string> rejected_tags;  // Tag names that were stripped (lowercased)
+    bool had_injection_attempt = false;      // True if any disallowed content was found
 };
 
 // MOS (Mean Opinion Score) quality metrics
@@ -115,6 +123,14 @@ public:
 
     // SSML processing: strip tags, extract prosody hints
     SSMLResult parseSSML(const std::string& ssml_text) const;
+
+    // SSML injection prevention: validate tags against allowlist and strip
+    // disallowed content; returns the sanitized SSML and a flag indicating
+    // whether an injection attempt was detected.
+    SSMLSanitizeResult sanitizeSSML(const std::string& ssml_input) const;
+
+    // Returns true if ssml_input contains only allowlisted tags/attributes.
+    bool isSSMLSafe(const std::string& ssml_input) const;
 
     // Quality metrics
     MOSMetrics estimateMOS(const std::vector<uint8_t>& audio_data, int sample_rate = 22050) const;

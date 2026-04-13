@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            prompt_injection_detector.cpp                      ║
-  Version:         0.0.8                                              ║
-  Last Modified:   2026-04-06 04:18:47                                ║
+  Version:         0.0.9                                              ║
+  Last Modified:   2026-04-13 04:28:14                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

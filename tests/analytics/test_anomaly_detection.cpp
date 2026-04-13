@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_anomaly_detection.cpp                         ║
-  Version:         0.0.22                                             ║
-  Last Modified:   2026-04-06 04:22:28                                ║
+  Version:         0.0.23                                             ║
+  Last Modified:   2026-04-13 04:32:39                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_aql_conversation_context.cpp                  ║
-  Version:         0.0.29                                             ║
-  Last Modified:   2026-04-06 04:24:57                                ║
+  Version:         0.0.30                                             ║
+  Last Modified:   2026-04-13 04:35:04                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

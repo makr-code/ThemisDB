@@ -140,6 +140,7 @@ set(THEMIS_BASE_SOURCES
     ../src/utils/cursor.cpp
     ../src/utils/tracing.cpp
     ../src/utils/zstd_codec.cpp
+    ../src/utils/lz4_codec.cpp
     ../src/utils/input_validator.cpp
     ../src/utils/hkdf_helper.cpp
     ../src/utils/hkdf_cache.cpp
@@ -380,6 +381,9 @@ set(THEMIS_STORAGE_SOURCES
     # perf_event_open is unavailable (containers, non-Linux).  The actual PMU
     # paths are gated by the THEMIS_ENABLE_PMU_COUNTERS compile definition.
     ../src/performance/phase4/pmu_counters.cpp
+    ../src/performance/numa_memory_manager.cpp
+    ../src/performance/advanced_cache_manager.cpp
+    ../src/performance/workload_adaptive_optimizer.cpp
     
     # Storage enhancements
     ../src/cache/semantic_cache.cpp
@@ -955,6 +959,8 @@ set(THEMIS_LLM_SOURCES
     ../src/prompt_engineering/tree_of_thoughts.cpp
     ../src/prompt_engineering/protegi_optimizer.cpp
     ../src/prompt_engineering/dspy_module.cpp
+    ../src/prompt_engineering/prompt_template_validator.cpp
+    ../src/prompt_engineering/prompt_template_compiler.cpp
     ../src/llm/block_table.cpp
     ../src/llm/paged_block_manager.cpp
     ../src/llm/paged_kv_cache.cpp
@@ -1087,6 +1093,7 @@ set(THEMIS_LLM_SOURCES
     ../src/rag/prompt_templates.cpp
     ../src/rag/response_parser.cpp
     ../src/training/lora_data_selection.cpp
+    ../src/training/adapter_serving.cpp
     ../src/rag/faithfulness_evaluator.cpp
     ../src/rag/relevance_evaluator.cpp
     ../src/rag/completeness_evaluator.cpp
@@ -1254,6 +1261,9 @@ set(THEMIS_TIMESERIES_SOURCES
     ../src/timeseries/ts_auto_buffer_adaptive.cpp
     ../src/timeseries/encrypted_chunk_store.cpp
     ../src/timeseries/ts_encrypted_key_rotation.cpp
+    ../src/timeseries/compression_selector.cpp
+    ../src/timeseries/anomaly_detection.cpp
+    ../src/timeseries/gap_fill.cpp
 )
 
 set(THEMIS_INGESTION_SOURCES

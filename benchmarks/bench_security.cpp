@@ -3,17 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_security.cpp                                 ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-04-06 04:03:55                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-04-13 04:12:12                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     477                                            ║
+    • Total Lines:     495                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 40456a3c45  2026-04-11  perf(audit): reduce hash-chain writer overhead in benchmarks ║
+    • b55d2d72cc  2026-04-11  perf(index): reduce secondary-index write-path overhead (... ║
     • 2cfa27ed12  2026-03-10  feat(security): add focused test targets, bench_security.... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
@@ -450,7 +452,6 @@ static void BM_AuditLog_TamperEvidentAppend(benchmark::State& state) {
     cfg.log_path        = benchmark_temp_path("bench_security_audit.jsonl").string();
     cfg.chain_head_path = benchmark_temp_path("bench_security_audit_head.bin").string();
     cfg.fsync_on_write  = false;  // disable fsync for throughput benchmark
-    cfg.checkpoint_interval = 64;
     std::filesystem::remove(cfg.log_path);
     std::filesystem::remove(cfg.chain_head_path);
     themis::utils::HashChainAuditWriter writer(cfg);
@@ -474,7 +475,6 @@ static void BM_AuditLog_BatchAppend_100(benchmark::State& state) {
     cfg.log_path        = benchmark_temp_path("bench_security_audit_batch.jsonl").string();
     cfg.chain_head_path = benchmark_temp_path("bench_security_audit_batch_head.bin").string();
     cfg.fsync_on_write  = false;
-    cfg.checkpoint_interval = 64;
     std::filesystem::remove(cfg.log_path);
     std::filesystem::remove(cfg.chain_head_path);
     themis::utils::HashChainAuditWriter writer(cfg);

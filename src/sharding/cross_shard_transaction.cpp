@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cross_shard_transaction.cpp                        ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:20:48                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:30:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

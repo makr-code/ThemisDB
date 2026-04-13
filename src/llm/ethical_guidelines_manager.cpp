@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ethical_guidelines_manager.cpp                     ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:17:20                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:26:35                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

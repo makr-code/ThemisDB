@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_gremlin_parser.cpp                            ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-04-06 04:28:59                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-04-13 04:39:39                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

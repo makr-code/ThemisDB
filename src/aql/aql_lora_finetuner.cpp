@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            aql_lora_finetuner.cpp                             ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-06 04:14:21                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-13 04:23:45                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     750                                            ║
+    • Total Lines:     829                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 3a758b465a  2026-04-12  feat(aql): AQL module enhancements — Features 8, 10, 12, ... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • c6f709c2c4  2026-02-23  fix(aql): wire epoch_callback to LoRATrainingService::reg... ║
     • 43fff097c8  2026-02-23  feat(aql): fine-tuned local LoRA adapter for ThemisDB-spe... ║
@@ -544,18 +545,97 @@ json AQLDatasetBuilder::toJson() const {
 // ============================================================================
 
 AQLLoRAFinetuner::Config::Config() {
-    // AQL-optimised LoRA hyperparameters
-    hyperparameters.rank              = 8;
-    hyperparameters.alpha             = 16.0f;
-    hyperparameters.dropout           = 0.05f;
-    hyperparameters.learning_rate     = 3e-4f;
-    hyperparameters.batch_size        = 4;
-    hyperparameters.num_epochs        = 3;
-    hyperparameters.max_seq_length    = 512;
+    // AQL-optimised LoRA hyperparameters – use named constants so values are
+    // documented and consistent with Config::fromOptions() defaults.
+    hyperparameters.rank              = kDefaultRank;
+    hyperparameters.alpha             = kDefaultAlpha;
+    hyperparameters.dropout           = kDefaultDropout;
+    hyperparameters.learning_rate     = kDefaultLearningRate;
+    hyperparameters.batch_size        = kDefaultBatchSize;
+    hyperparameters.num_epochs        = kDefaultEpochs;
+    hyperparameters.max_seq_length    = kDefaultMaxSeqLength;
     hyperparameters.optimizer         = "adamw";
     hyperparameters.lr_scheduler      = "cosine";
-    hyperparameters.warmup_steps      = 10;
+    hyperparameters.warmup_steps      = kDefaultWarmupSteps;
     hyperparameters.target_modules    = {"q_proj", "v_proj", "k_proj", "o_proj"};
+}
+
+AQLLoRAFinetuner::Config AQLLoRAFinetuner::Config::fromOptions(
+    const std::unordered_map<std::string, std::string>& options
+) {
+    Config cfg{};  // start from defaults
+
+    auto it = options.find("rank");
+    if (it != options.end()) {
+        int val = std::stoi(it->second);
+        if (val < 1 || val > 256) {
+            throw std::invalid_argument(
+                "LoRA 'rank' must be in [1, 256], got " + it->second);
+        }
+        cfg.hyperparameters.rank = val;
+    }
+
+    it = options.find("alpha");
+    if (it != options.end()) {
+        float val = std::stof(it->second);
+        if (val <= 0.0f) {
+            throw std::invalid_argument(
+                "LoRA 'alpha' must be > 0, got " + it->second);
+        }
+        cfg.hyperparameters.alpha = val;
+    }
+
+    it = options.find("dropout");
+    if (it != options.end()) {
+        float val = std::stof(it->second);
+        if (val < 0.0f || val >= 1.0f) {
+            throw std::invalid_argument(
+                "LoRA 'dropout' must be in [0.0, 1.0), got " + it->second);
+        }
+        cfg.hyperparameters.dropout = val;
+    }
+
+    it = options.find("learning_rate");
+    if (it != options.end()) {
+        float val = std::stof(it->second);
+        if (val <= 0.0f) {
+            throw std::invalid_argument(
+                "LoRA 'learning_rate' must be > 0, got " + it->second);
+        }
+        cfg.hyperparameters.learning_rate = val;
+    }
+
+    it = options.find("batch_size");
+    if (it != options.end()) {
+        int val = std::stoi(it->second);
+        if (val <= 0) {
+            throw std::invalid_argument(
+                "LoRA 'batch_size' must be > 0, got " + it->second);
+        }
+        cfg.hyperparameters.batch_size = val;
+    }
+
+    it = options.find("epochs");
+    if (it != options.end()) {
+        int val = std::stoi(it->second);
+        if (val <= 0) {
+            throw std::invalid_argument(
+                "LoRA 'epochs' must be > 0, got " + it->second);
+        }
+        cfg.hyperparameters.num_epochs = val;
+    }
+
+    it = options.find("max_seq_length");
+    if (it != options.end()) {
+        int val = std::stoi(it->second);
+        if (val <= 0) {
+            throw std::invalid_argument(
+                "LoRA 'max_seq_length' must be > 0, got " + it->second);
+        }
+        cfg.hyperparameters.max_seq_length = val;
+    }
+
+    return cfg;
 }
 
 // ============================================================================

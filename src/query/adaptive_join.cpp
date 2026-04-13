@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            adaptive_join.cpp                                  ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-04-06 04:18:55                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-04-13 04:28:25                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

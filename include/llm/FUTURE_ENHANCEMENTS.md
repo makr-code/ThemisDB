@@ -1,6 +1,6 @@
 # LLM Module - Future Header Enhancements
 
-<!-- Status: current | validated: 2026-04-06 | Primary: include/llm/ | Secondary: docs/de/llm/ -->
+<!-- Status: current | validated: 2026-04-09 | Primary: include/llm/ | Secondary: docs/de/llm/ -->
 <!-- Links: ../../src/llm/FUTURE_ENHANCEMENTS.md · ../../src/llm/README.md · ../../src/llm/ROADMAP.md -->
 
 ## Scope

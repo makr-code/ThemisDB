@@ -1,4 +1,28 @@
 /*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_connector_mode_api.cpp                        ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-04-13 04:36:59                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     866                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 7e3d870cf7  2026-04-07  test(connector): stabilize LLM/RAG live tests under slow ... ║
+    • dd98ecc0e0  2026-04-06  Add server crash error log for model loading and tensor i... ║
+    • c797588b59  2026-04-06  fix(llm): route inference through LLMPluginManager + add ... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+/*
  * Live connector-mode API tests for an externally running ThemisDB instance.
  *
  * These tests target the real HTTP surface exposed by connector mode and are

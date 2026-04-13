@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_rocksdb_wrapper_comprehensive.cpp             ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:34:13                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:45:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

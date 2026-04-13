@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            grpc_transport.h                                   ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-06 04:08:38                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-13 04:17:10                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

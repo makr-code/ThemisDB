@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_compliance_security_governance.cpp           ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:03:24                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:11:35                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
     • Quality Score:   70.0/100                                       ║
-    • Total Lines:     876                                            ║
+    • Total Lines:     896                                            ║
     • Open Issues:     TODOs: 0, Stubs: 3                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • b55d2d72cc  2026-04-11  perf(index): reduce secondary-index write-path overhead (... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • ade2399cc7  2026-02-26  feat(governance): add CCPA/CPRA performance benchmarks to... ║
     • 309347f928  2026-02-22  audit(security): fix null-pointer guards and remaining si... ║
     • e52586aae2  2026-02-22  feat(security): implement HSM PKCS#11 direct DEK wrap/unw... ║
-    • a629043ab2  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ⚠️  Needs Work                                              ║
 ╚═════════════════════════════════════════════════════════════════════╝

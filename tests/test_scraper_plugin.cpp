@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_scraper_plugin.cpp                            ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-04-06 04:34:42                                ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-04-13 04:46:05                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     983                                            ║
+    • Total Lines:     1008                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 9f5c953436  2026-04-07  feat(config): Introduce new hierarchical configuration st... ║
     • 5bee4e8e41  2026-04-03  Implement Disaster Recovery Manager and associated tests ║
     • 527ce5dd6e  2026-04-02  fix(scraper): update test count comments (60 tests, 12 gr... ║
     • 09aaa40562  2026-04-02  feat(scraper): add provenance flags, knowledge_sources.ya... ║

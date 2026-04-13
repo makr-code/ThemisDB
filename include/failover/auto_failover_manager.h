@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            auto_failover_manager.h                            ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-04-06 04:06:53                                ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-04-13 04:15:12                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     252                                            ║
+    • Total Lines:     287                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 296263aa37  2026-04-12  [MODULE] failover: Phase 4 chaos tests + Phase 5 queue-pr... ║
     • 5bee4e8e41  2026-04-03  Implement Disaster Recovery Manager and associated tests ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
@@ -61,6 +62,7 @@ enum class FailoverEventType {
     RECOVERY_STARTED,
     RECOVERY_COMPLETED,
     NETWORK_PARTITION_DETECTED,
+    QUEUE_PRESSURE,            // Emitted when queue depth exceeds pressure threshold
 };
 
 /**
@@ -94,6 +96,7 @@ struct AutoFailoverConfig {
     // Thresholds
     uint32_t consecutive_failures_before_action{3};                     // 3 consecutive failures
     uint32_t max_concurrent_failovers{2};                               // Max 2 failovers at same time
+    float    queue_pressure_threshold{0.75f};                           // Emit QUEUE_PRESSURE when queue >= 75% full
     
     // Behavior
     bool enable_automatic_failover{true};
@@ -175,6 +178,17 @@ public:
         std::chrono::milliseconds avg_failover_time;
         std::chrono::milliseconds min_failover_time;
         std::chrono::milliseconds max_failover_time;
+
+        // Queue-pressure telemetry (Phase 5)
+        uint32_t current_queue_depth{0};
+        uint32_t max_queue_depth_observed{0};
+        uint64_t tasks_dropped_queue_full{0};
+        uint64_t queue_pressure_events{0};
+
+        // Retry telemetry (Phase 5)
+        uint64_t total_retry_attempts{0};
+        uint64_t successful_retries{0};
+        uint64_t failed_retries{0};
     };
 
     Statistics getStatistics() const;

@@ -1,11 +1,52 @@
 # ThemisDB   Performance-Erwartungswerte & Messergebnisse
 
-> Stand: 2026-04-11 (Wave-2 P0+P1 Exporters complete) | Quellen: `FUTURE_ENHANCEMENTS.md` je Modul, `benchmarks/results_analysis_reports/`, `benchmarks/baselines/`, `benchmarks/VERSION_HISTORY.csv`, `benchmarks/chimera/`, Wave-2 Performance Session
+> Stand: 2026-04-12 (zielgerichteter Validierungs- und Reproduktions-Run auf aktuellem Release-Build) | Quellen: `FUTURE_ENHANCEMENTS.md` je Modul, `benchmarks/results_analysis_reports/`, `benchmarks/baselines/`, `benchmarks/VERSION_HISTORY.csv`, `benchmarks/chimera/`, `artifacts/perf_nv/targeted_validation/*.json`, `artifacts/perf_nv/repro_validation_*/*.json`, `artifacts/perf_nv/repro_validation_clean_manual_*/*.json`, Wave-2 Performance Session
 >
 > **Benchmark-Plattformen:**
 > - Run **20251223** (v1.3.0-baseline): MSVC Release x64, AVX2, 20-Core @ 3.7 GHz, 20 MB L3
 > - Run **20251223_085556** (v1.3.3-dev): MSVC Release x64, AVX2, 20-Core @ 3.7 GHz, 20 MB L3
 > - Run **20251229_184507** (v1.3.4): Windows x64, 20 Cores @ 3.696 GHz, 20 MB L3-Cache, L1=32KB, L2=256KB
+
+### 0.1 Validierungs-Delta 2026-04-12
+
+Aktuell direkt validierte Artefakte aus dem laufenden Release-Build:
+
+- Query: `artifacts/perf_nv/targeted_validation/bench_query_targeted.json`
+- Vector/Index: `artifacts/perf_nv/targeted_validation/bench_vector_search_targeted.json`
+- Analytics: `artifacts/perf_nv/targeted_validation/bench_olap_targeted.json`
+- Graph: `artifacts/perf_nv/targeted_validation/bench_graph_targeted.json`
+- Timeseries: `artifacts/perf_nv/targeted_validation/bench_timeseries_targeted.json`
+- Timeseries Adaptive Flush: `artifacts/perf_nv/targeted_validation/bench_timeseries_adaptive_flush_targeted.json`
+- System-Level TPC-C: `artifacts/perf_nv/targeted_validation/bench_tpcc_targeted_v2.json`
+- System-Level YCSB: `artifacts/perf_nv/targeted_validation/bench_ycsb_targeted_v2.json`
+- Timeseries TS-6 Probe: `artifacts/perf_nv/targeted_validation/bench_timeseries_ts6_probe_v2.json`
+
+Kernaussagen aus diesem Validierungs-Run:
+
+1. Der DLL-Startblocker fuer Benchmark-Binaries ist behoben; Query- und weitere Kern-Benchmarks laufen wieder direkt an.
+2. Query-Pagination ist aktuell messbar und nicht mehr als deaktivierter Pfad zu behandeln.
+3. Analytics AN-1/AN-2/AN-5/AN-7/AN-8/AN-9 sind im aktuellen Build direkt messbar.
+4. Timeseries TS-1 ist im aktuellen Persistenzpfad nur knapp unter Ziel (`AdaptiveFlushFixture/SingleThreaded`: 477,9 k pts/s); TS-6 wurde im selben Build erneut reproduziert (`BM_DownsamplingThroughput`: 1,836 M pts/s, P99-Bucket 63 µs).
+5. System-Level TPC-C/YCSB ist nach Reaktivierung der produktiven Bench-Pfade wieder direkt messbar (`TPCCLiteFixture`, `YCSBLiteFixture`); der zuvor reproduzierbare Timeseries-`TimeRangeQuery`-Crash ist im aktuellen Build behoben.
+
+### 0.2 Reproduktionslauf 2026-04-12 (Abend)
+
+Ergaenzender Repro-Lauf zur Validierung der wichtigsten KPI-Pfade:
+
+- Query-Kernfaelle: `artifacts/perf_nv/repro_validation_20260412_211053/query_core.json`
+- Timeseries TimeRange + TS-6: `artifacts/perf_nv/repro_validation_20260412_211053/timeseries_timerange_ts6.json`
+- OLAP-Zielcases: `artifacts/perf_nv/repro_validation_20260412_211053/olap_targets.json`
+- TPCC Lite: `artifacts/perf_nv/repro_validation_clean_manual_20260412_2120/tpcc_lite_clean.json`
+- YCSB Lite: `artifacts/perf_nv/repro_validation_clean_manual_20260412_2120/ycsb_lite_clean.json`
+
+Reproduzierte Referenzwerte (einzelne Kernfaelle):
+
+1. Query: `BM_SimpleWhere` 0,206 ms, `BM_ComplexWhere` 0,217 ms, `BM_JoinUsersPosts` 1,109 ms.
+2. Timeseries TimeRange: 60s 0,213 ms, 300s 1,015 ms, 3600s 3,782 ms, 86400s 3,892 ms.
+3. OLAP: `BM_OLAP_IVM_DeltaApply_10k` 20,19 µs, `BM_OLAP_PredictBatch_1k30` 66,04 µs, `BM_OLAP_AutoTune_Grid9` 6,48 µs.
+4. System-Level Lite: `TPCCLiteFixture/NewOrderLite/1/3000` 3282 µs; `YCSBLiteFixture/WorkloadA_50_50/1000000` 1455 µs; `WorkloadB_95_5` 54,70 µs; `WorkloadC_ReadOnly` 7,70 µs.
+
+Hinweis zur Interpretierbarkeit: In einzelnen Lite-Faellen tritt weiterhin CPU-Time-Quantisierung (bis hin zu 0) auf; die Real-Time-Reproduzierbarkeit der Pfade bleibt davon unberuehrt.
 
 ---
 
@@ -51,16 +92,16 @@ Typ-Kennung in ┬º39: **[M]** = gemessen ┬À **[Z]** = Ziel ┬À **[I]** = 
 > Testplattform v1.3.0 v1.3.3: Intel i9-10900K (10C/20T @ 3.70 GHz), 31 GB RAM, WSL2 Linux
 > Testplattform v1.3.4: Windows x64, 20 Cores @ 3.696 GHz, 20 MB L3-Cache
 
-| Metrik | Ziel | v1.3.0 | v1.3.1 | v1.3.2 | v1.3.3 | **v1.3.4** | **v1.8.2** | **v1.8.0 Ziel** | ╬ö v1.3.0ÔåÆv1.3.4 | Status |
+| Metrik | Ziel | v1.3.0 | v1.3.1 | v1.3.2 | v1.3.3 | **v1.3.4** | **v1.8.2** | **v1.8.0 Ziel** |  | Status |
 |--------|------|--------|--------|--------|--------|-----------|-----------|-----------------|-----------------|--------|
-| Query Engine Throughput |   | 700 M ops/s | 750 M ops/s | 800 M ops/s | 800 M ops/s | **814,5 M ops/s** | **796,4 M ops/s** | ** 900 M ops/s** | +16 % |  |
-| Vector Insert |   | 280 k/s | 300 k/s | 330 k/s | 340 k/s | **351,4 k/s** | **548,7 k/s** | ** 600 k/s** | +25 % |  |
-| Secondary Index Insert |   | 180 k/s | 190 k/s | 210 k/s | 215 k/s | **217,2 k/s** | **254,9 k/s** | ** 1 M/s** | +21 % |  |
-| Embedding Cache Hit-Rate |   |   |   |   |   | **155,8 M/s** | n/v (Teilrun, nicht erneut gemessen) | ** 200 M/s** | n/a |  |
-| 2PC Throughput |   |   |   |   |   | **6,4 k/s** | n/v (Teilrun, nicht erneut gemessen) | ** 10 k/s** | n/a |  |
-| Graph Edge Ops |   |   |   |   |   | **628,7 k/s** | **1,177 M/s** | ** 1 M/s** | n/a |  |
-| Timeseries Insert |   |   |   |   |   | **49,0 M pts/s** | **61,00 M pts/s** | ** 60 M pts/s** | n/a |  |
-| Gesamt Benchmark-Tests |   | 450 | 480 | 520 | 780 | **1.078** | 5 Kern-KPI-Cases (Teilrun) | ** 1.200** | +140 % |   |
+| Query Engine Throughput |   | 700 M ops/s | 750 M ops/s | 800 M ops/s | 800 M ops/s | **814,5 M ops/s** | **796,4 M ops/s** | ** 900 M ops/s** |  |  |
+| Vector Insert |   | 280 k/s | 300 k/s | 330 k/s | 340 k/s | **351,4 k/s** | **548,7 k/s** | ** 600 k/s** |  |  |
+| Secondary Index Insert |   | 180 k/s | 190 k/s | 210 k/s | 215 k/s | **217,2 k/s** | **254,9 k/s** | ** 1 M/s** |  |  |
+| Embedding Cache Hit-Rate |   |   |   |   |   | **155,8 M/s** | n/v (Teilrun, nicht erneut gemessen) | ** 200 M/s** |  |  |
+| 2PC Throughput |   |   |   |   |   | **6,4 k/s** | n/v (Teilrun, nicht erneut gemessen) | ** 10 k/s** |  |  |
+| Graph Edge Ops |   |   |   |   |   | **628,7 k/s** | **1,177 M/s** | ** 1 M/s** |  |  |
+| Timeseries Insert |   |   |   |   |   | **49,0 M pts/s** | **61,00 M pts/s** | ** 60 M pts/s** |  |  |
+| Gesamt Benchmark-Tests |   | 450 | 480 | 520 | 780 | **1.078** | 5 Kern-KPI-Cases (Teilrun) | ** 1.200** |  |   |
 
 ### 1.1 Kernmetriken-Ampel v1.8.2 (Ist vs Ziel)
 
@@ -96,7 +137,7 @@ Typ-Kennung in ┬º39: **[M]** = gemessen ┬À **[Z]** = Ziel ┬À **[I]** = 
 | Index | Gute Abdeckung | Kernbenchmarks vorhanden und lauffaehig; Luecken v.a. bei Spezialzielen (HNSW/GPU) |
 | Cache | Teilabdeckung | C-1 und C-4 sind messbar, aber C-2/C-3/C-5/C-6/C-7 weiterhin ohne dedizierte 1:1-Metrik im Report |
 | Storage | Teilabdeckung mit Zielverfehlung | Dedizierte CRUD-Cases vorhanden, jedoch nicht alle Storage-SLO-Profile (insb. Sustained NVMe/P99-Setup) 1:1 abgebildet |
-| Analytics | Teilabdeckung mit Zielverfehlung | Direkte AN-3/AN-4-Cases vorhanden, weitere AN-Unterziele weiterhin n/v; zudem AN-3/AN-4 unter Ziel |
+| Analytics | Teilabdeckung mit Zielverfehlung | Direkte Cases fuer AN-1/AN-2/AN-5/AN-7/AN-8/AN-9 sowie AN-3/AN-4 vorhanden; Export-Ziele weiter unter Ziel, AN-10 weiterhin plattformblockiert |
 | Timeseries | Teilabdeckung | Kernmetriken vorhanden, aber viele Unterziele ohne dedizierten Benchmark |
 | Geo | Teilabdeckung | Bench-Dateien vorhanden, v1.8.2-Lauf fuer Geo-Referenzfaelle bisher nicht ausgefuehrt |
 | Graph | Gute Abdeckung mit Zielverfehlung | Dedizierte Cases fuer Run-Plan 19/20 vorhanden, jedoch beide SLOs aktuell unter Ziel |
@@ -123,7 +164,7 @@ Typ-Kennung in ┬º39: **[M]** = gemessen ┬À **[Z]** = Ziel ┬À **[I]** = 
 | Chimera | Struktur-Luecke | Eigene Suite/Baselines vorhanden, aber kein einheitlicher nativer Modul-Benchmarkpfad im selben Schema |
 | Prompt Engineering | Teilabdeckung | Benchmark vorhanden, jedoch ohne vollstaendige Ziel-SLO-Abbildung |
 | Ethics AI | Messbar | `bench_rag_ethics.exe` vollstaendig messbar (DLL-Blocker geloest); Artefakt in `artifacts/perf_nv/bench_rag_ethics_release.json` |
-| System-Level (TPC/YCSB) | Deaktiviert | `bench_tpcc`/`bench_ycsb` registrieren disabled-Varianten statt produktiver Workloads |
+| System-Level (TPC/YCSB) | Produktiv (Lite-Profile) | `bench_tpcc` und `bench_ycsb` laufen im aktuellen Build mit produktiven Lite-Cases (`TPCCLiteFixture`, `YCSBLiteFixture`); aktuelle Artefakte: `bench_tpcc_targeted_v2.json`, `bench_ycsb_targeted_v2.json` |
 
 #### 1.3.1 Technische Hauptgruende (konsolidiert)
 
@@ -158,12 +199,12 @@ Typ-Kennung in ┬º39: **[M]** = gemessen ┬À **[Z]** = Ziel ┬À **[I]** = 
 
 | Bereich | Ziel vs Ist | Evidenz | Wahrscheinlichste Hauptursache | Verifikation (naechster Schritt) |
 |---|---|---|---|---|
-| Query Engine Throughput | 900 M/s vs 796.4 M/s | Kernmetrik-Tabelle + Query-Detailtabelle | Zielwert ist hoeher als aktuell reproduzierter Hot-Path; gleichzeitig fehlen mehrere query-nahe 1:1 Cases (n/v) und Pagination-Bench ist deaktiviert | `bench_query` reaktivieren, Query-Hotpath profilieren (Parse/Optimize/Execute getrennt), danach erneut gegen 900 M/s Zielwert messen |
+| Query Engine Throughput | 900 M/s vs 796.4 M/s | Kernmetrik-Tabelle + Query-Detailtabelle + `bench_query_targeted.json` | Direkte Query-Cases sind messbar (`BM_SimpleWhere` ~0,151 ms, `BM_ComplexWhere` ~0,190 ms, `BM_JoinUsersPosts` ~0,768 ms); die Luecke betrifft damit primär den Gesamtdurchsatz-Zielwert, nicht mehr fehlende Basisfaelle | Query-Hotpath profilieren (Parse/Optimize/Execute getrennt) und den Durchsatzpfad gegen das 900-M/s-Kernziel nachmessen |
 | Vector Insert | 600 k/s vs 548.7 k/s | Kernmetrik-Tabelle + 36.1 Kern-Performance | Nahe am Ziel, aber Write-/Index-Pfad noch nicht voll batch-optimiert; Restluecke ~8.5 % | Batch/transaction path im Index-Insert vergleichen (single put vs grouped writes), 3 Wiederholungen mit identischer Build-Config |
 | Secondary Index Insert | 1.0 M/s vs 254.9 k/s | Kernmetrik-Tabelle + 36.1 + Hinweis zu RocksDB-Transaktions-Overhead | Persistenter Write-Path-Overhead (Transaktion pro put, Write-Amplification, Index-Update-Kosten) | Issue P-2 umsetzen: Batch-Transaktionen fuer SecondaryIndex; direkt A/B Benchmark gegen aktuellen Stand |
 | Storage Sustained Write | 100k ops/s vs 1.276k/s (Proxy) | Modul-Ampel + Storage-Tabelle + Hotspot-Proxywerte | Aktueller Proxy ist workload-seitig nicht 1:1 zum SLO; zusaetzlich WAL/Sync-Settings und contention-lastiger Pfad | 1:1 SLO-Benchmark fuer Sustained NVMe Write definieren (feste payload, fsync-policy, threads), dann Ziel neu evaluieren |
-| Analytics Ziel-IDs AN-1..AN-10 | mehrere n/v | 6.1 Ziel-Mapping (mehrfach "Nein") | Fehlende direkte Benchmarks; vorhandene OLAP-Werte sind nur Proxies | AN-2/AN-8/AN-9 zuerst implementieren (direkte Online-Latenz), danach AN-1/AN-5 |
-| System-Level TPCC/YCSB | deaktiviert statt produktiv | Ursachenmatrix + Wave2-Issue | Benchcases existieren nur als disabled Varianten | TPCC/YCSB produktivieren (Dataset + warmup + run protocol), dann in System-Level Tabelle eintragen |
+| Analytics Ziel-IDs AN-1..AN-10 | AN-10 weiterhin n/v, AN-3/4 ueber Ziel, AN-1/2/5/7/8/9 direkt messbar | `bench_olap_targeted.json` + Export-Artefakte | Die Hauptluecke ist nicht mehr die fehlende Messbarkeit, sondern die Zielerreichung und AN-10 als ARM-spezifischer Nachweis | AN-10 auf ARM-Runner validieren; Export-Ziele AN-3/4 separat weiter optimieren |
+| System-Level TPCC/YCSB | produktiv, aber als Lite-Profile | `bench_tpcc_targeted_v2.json` + `bench_ycsb_targeted_v2.json` | Die produktiven Lite-Cases laufen wieder; die Werte liegen deutlich unter klassischen TPC-C/YCSB-Zielgroessen und sind deshalb aktuell eher als Funktions-/Pfadvalidierung als als Endleistungsnachweis zu lesen | Dataset-/Workload-Skalierung und stabilere CPU-Zeit-Erfassung (kein 0-us-Pfad) als naechster Schritt |
 
 #### 1.5.1 Querschnittliche Meta-Ursachen
 
@@ -1354,13 +1395,13 @@ Benchmark-Code: `BM_QueryMix_Historical`, `BM_QueryMix_Historical_P99` in `bench
 | Ziel-ID | Erwartungswert | v1.3.4 Gemessen | v1.8.2 Gemessen | Status |
 |---------|----------------|-----------------|-----------------|--------|
 | AN-1 Streaming Aggregation Memory |  512 MB/Fenster |  | n/v |  |
-| AN-2 IVM Delta-Application |  50 ms (10k Rows) |  | n/v |  |
+| AN-2 IVM Delta-Application |  50 ms (10k Rows) |  | `BM_OLAP_IVM_DeltaApply_10k/10000`: 18,98 µs, 573,44 M items/s (`artifacts/perf_nv/targeted_validation/bench_olap_targeted.json`) |  ✅ direkter Case vorhanden, deutlich unter Ziel-Latenz |
 | AN-3 Parquet Export 1M Rows |  2 s |  | BM_Export_Parquet_1M: ~125k items/s, ~9,47 s (`artifacts/perf_nv/exporters_1m_throughput.json`) |  🔴 direkter 1:1-Case vorhanden, Laufzeit ueber Ziel |
 | AN-4 CSV Export 1M Rows |  500 ms |  | BM_Export_CSV_1M: ~128k items/s, ~9,09 s (`artifacts/perf_nv/exporters_csv_1m_final.json`) |  🔴 direkter 1:1-Case vorhanden, Laufzeit ueber Ziel |
-| AN-5 CEPEngine::stop() |  100 ms |  | n/v |  |
-| AN-7 IsolationForest Training |  10 ms (1k-Punkt-Fenster) |  | n/v |  |
-| AN-8 predictBatch() |  50 ms (1k Serien ├ù 30 Steps) |  | n/v |  |
-| AN-9 Auto-Tune Grid |  5 ms (9 , n=500, parallel) |  | n/v |  |
+| AN-5 CEPEngine::stop() |  100 ms |  | `BM_OLAP_CEP_Stop_Lifecycle/10000`: 27,17 µs, 358,4 M items/s (`artifacts/perf_nv/targeted_validation/bench_olap_targeted.json`) |  ✅ direkter Case vorhanden, deutlich unter Ziel-Latenz |
+| AN-7 IsolationForest Training |  10 ms (1k-Punkt-Fenster) |  | `BM_OLAP_IsolationForest_Training_1k/1000`: 54,34 µs, 16,0 M items/s (`artifacts/perf_nv/targeted_validation/bench_olap_targeted.json`) |  ✅ direkter Case vorhanden, deutlich unter Ziel-Latenz |
+| AN-8 predictBatch() |  50 ms (1k Serien ├ù 30 Steps) |  | `BM_OLAP_PredictBatch_1k30/1000`: 66,31 µs, 480,0 M items/s (`artifacts/perf_nv/targeted_validation/bench_olap_targeted.json`) |  ✅ direkter Case vorhanden, deutlich unter Ziel-Latenz |
+| AN-9 Auto-Tune Grid |  5 ms (9 , n=500, parallel) |  | `BM_OLAP_AutoTune_Grid9/500`: 6,44 µs, 720,0 M items/s (`artifacts/perf_nv/targeted_validation/bench_olap_targeted.json`) |  ✅ direkter Case vorhanden, deutlich unter Ziel-Latenz |
 | AN-10 ARM NEON Aggregation |  4 GB/s (Cortex-A78) |  | n/v |  |
 | AN-P1 OLAP Count Throughput (Proxy) |   |  | 242,637 M/s (`BM_OLAP_Count/1000000`) |  |
 | AN-P2 OLAP Sum Throughput (Proxy) |   |  | 3,589 G/s (`BM_OLAP_Sum_Optimized/1000000`) |  |
@@ -1375,14 +1416,14 @@ Benchmark-Code: `BM_QueryMix_Historical`, `BM_QueryMix_Historical_P99` in `bench
 
 | Ziel-ID | Zieldefinition | Benchmark-Zuordnung (v1.8.2) | Messbar | v1.8.2 Stand | Bewertung / Naechster Schritt |
 |---|---|---|---|---|---|
-| AN-1 | Streaming Aggregation Memory < 512 MB/Fenster | keine direkte Zuordnung; nur Throughput-Proxies aus `bench_olap_performance` | Nein | n/v | Memory-Profiling-Benchmark fuer Window-State ergaenzen |
-| AN-2 | IVM Delta-Application < 50 ms (10k Rows) | keine direkte Zuordnung | Nein | n/v | dedizierten IVM-Microbenchmark (delta apply, 10k rows) implementieren |
+| AN-1 | Streaming Aggregation Memory < 512 MB/Fenster | `BM_OLAP_StreamingWindow_Aggregation/100000` in `bench_olap_analytics` | Teilweise | 709,276 µs, 128,0 M items/s, `peak_rss_mb=7,8125` (`artifacts/perf_nv/targeted_validation/bench_olap_targeted.json`) | Durchsatz und Peak-RSS sind direkt messbar; ein expliziter Fenster-/Workload-Abgleich zum 512-MB-Ziel bleibt offen |
+| AN-2 | IVM Delta-Application < 50 ms (10k Rows) | `BM_OLAP_IVM_DeltaApply_10k/10000` in `bench_olap_analytics` | Ja | 18,98 µs, 573,44 M items/s | Ziel im aktuellen Referenzlauf klar erreicht |
 | AN-3 | Parquet Export 1M Rows < 2 s | keine direkte Zuordnung | Nein | n/v | Export-Benchmark `bench_parquet_export` anlegen/aktivieren |
 | AN-4 | CSV Export 1M Rows < 500 ms | keine direkte Zuordnung | Nein | n/v | Export-Benchmark `bench_csv_export` anlegen/aktivieren |
-| AN-5 | CEPEngine::stop() < 100 ms | keine direkte Zuordnung | Nein | n/v | Lifecycle-Benchmark fuer CEP Start/Stop hinzufuegen |
-| AN-7 | IsolationForest Training < 10 ms | keine direkte Zuordnung | Nein | n/v | ML-Training-Benchmark mit Fenstergroesse 1k aufnehmen |
-| AN-8 | predictBatch() < 50 ms (1k Serien x 30 Steps) | indirekt: OLAP-Proxies (`BM_OLAP_ComplexQuery/*`) | Teilweise | 51,613 M/s Throughput (Proxy), keine direkte Latenz | eigenen Forecast-Benchmark mit Ziel-Workload aufnehmen |
-| AN-9 | Auto-Tune Grid < 5 ms (9 Konfigurationen) | keine direkte Zuordnung | Nein | n/v | Auto-Tune-Benchmark in Forecasting-Modul aufnehmen |
+| AN-5 | CEPEngine::stop() < 100 ms | `BM_OLAP_CEP_Stop_Lifecycle/10000` in `bench_olap_analytics` | Ja | 27,17 µs, 358,4 M items/s | Ziel im aktuellen Referenzlauf klar erreicht |
+| AN-7 | IsolationForest Training < 10 ms | `BM_OLAP_IsolationForest_Training_1k/1000` in `bench_olap_analytics` | Ja | 54,34 µs, 16,0 M items/s | Ziel im aktuellen Referenzlauf klar erreicht |
+| AN-8 | predictBatch() < 50 ms (1k Serien x 30 Steps) | `BM_OLAP_PredictBatch_1k30/1000` in `bench_olap_analytics` | Ja | 66,31 µs, 480,0 M items/s | Ziel im aktuellen Referenzlauf klar erreicht |
+| AN-9 | Auto-Tune Grid < 5 ms (9 Konfigurationen) | `BM_OLAP_AutoTune_Grid9/500` in `bench_olap_analytics` | Ja | 6,44 µs, 720,0 M items/s | Ziel im aktuellen Referenzlauf klar erreicht |
 | AN-10 | ARM NEON Aggregation >= 4 GB/s | keine direkte Zuordnung (x86_64 Lauf) | Nein | n/v | auf ARM-Runner messen; SIMD-Bandbreiten-Benchmark aktivieren |
 
 #### 6.1.1 Messbare Analytics-Proxies (v1.8.2)
@@ -1440,18 +1481,20 @@ Benchmark-Code: `BM_QueryMix_Historical`, `BM_QueryMix_Historical_P99` in `bench
 
 | Ziel-ID | Erwartungswert | Bekannter Ist-Stand | v1.3.4 Gemessen | v1.8.2 Gemessen | Status |
 |---------|----------------|---------------------|-----------------|-----------------|--------|
-| TS-1 Write Throughput/Node | > 500 k pts/s | ~200 k pts/s | 49,0 M pts/s* | 61,00 M pts/s* |  |
+| TS-1 Write Throughput/Node | > 500 k pts/s | ~200 k pts/s | 49,0 M pts/s* | `AdaptiveFlushFixture/SingleThreaded`: 477,867 k pts/s; `MultiThreaded/threads:2`: 644,315 k pts/s (`artifacts/perf_nv/targeted_validation/bench_timeseries_adaptive_flush_targeted.json`) |  🟡 Single-Thread knapp unter Ziel, 2 Threads ueber Ziel |
 | TS-2 Gorilla Decode Throughput | > 2 GB/s/Core | ~400 MB/s |  | 267,1 MB/s (`BM_GorillaSIMDDecode_Throughput/100000`, Welle-1) |  ⚠️ unter Erwartungswert |
 | TS-3 Range Scan P99 (1M pts) | < 50 ms |   |  | n/v |  |
 | TS-4 Continuous Aggregate Refresh | < 500 ms/1-min-Intervall |   |  | n/v |  |
 | TS-5 Write Amplification | < 1,5├ù |   |  | n/v |  |
-| TS-6 Downsampling Throughput | > 10 M pts/s ÔåÆ 1-min-Aggregate |   |  | BM_DownsamplingThroughput: 1,906 M pts/s, P99-Bucket 44 µs (`timeseries_downsampling_throughput.json`) |  🔴 direkter 1:1-Case vorhanden, Durchsatz unter Ziel |
+| TS-6 Downsampling Throughput | > 10 M pts/s ÔåÆ 1-min-Aggregate |   |  | `BM_DownsamplingThroughput`: 1,836 M pts/s, P99-Bucket 63 µs (`artifacts/perf_nv/targeted_validation/bench_timeseries_ts6_probe_v2.json`); historischer Vergleich: 1,906 M pts/s (`timeseries_downsampling_throughput.json`) |  🔴 direkt messbar, aber weiterhin klar unter Ziel |
 | TS-7 Storage Reduction | > 50├ù (raw ÔåÆ 1-day Tier) |   |  | n/v |  |
-| TS-9 Buffer-to-Storage Flush P99 | < 10 ms |   |  | 1,5  (AdaptiveFlush P99, Proxy) |  |
+| TS-9 Buffer-to-Storage Flush P99 | < 10 ms |   |  | `AdaptiveFlushFixture/P99Latency`: p99 = 0,7 µs, p999 = 9,4 µs (`artifacts/perf_nv/targeted_validation/bench_timeseries_adaptive_flush_targeted.json`) |  ✅ deutlich unter Ziel |
 | TS-10 Gorilla Insert P99 |  50  |   |  | n/v |  |
 | TS-11 AES-256-GCM Throughput | > 1 GB/s/Core (AES-NI) |   |  | 4,394 GB/s (`BM_AES256GCM_Encrypt_1MB`, Welle-1) |  ✅ |
 
 *`TimeseriesBench/InsertTimepoints` 49,0 M/s misst In-Memory-Append, nicht persistiertes Schreiben
+
+Hinweis 2026-04-12 (Update): `TimeseriesBenchmarkFixture/TimeRangeQuery/*` laeuft im aktuellen Binary wieder stabil (60s: `0,176 ms`; 300s: `0,701 ms`; 3600s: `2,21 ms`; 86400s: `2,41 ms`; Exit `0`; Artefakt: `artifacts/perf_nv/targeted_validation/bench_timeseries_timerange_all_retest.json`). TS-6 (`BM_DownsamplingThroughput`) bleibt separat validiert.
 
 ---
 
@@ -1883,7 +1926,14 @@ Benchmark-Code: `BM_QueryMix_Historical`, `BM_QueryMix_Historical_P99` in `bench
 
 ## 33. System-Level (TPC/YCSB-Standards)
 
-> Quelle: `benchmarks/README.md`, `COMPETITOR_COMPARISON.csv` (v1.3.4)
+> Quelle: `benchmarks/README.md`, `COMPETITOR_COMPARISON.csv` (v1.3.4), aktueller Quellstand 2026-04-12
+
+**Validierungsbefund 2026-04-12:**
+
+1. TPC-C-/YCSB-Lite-Pfade sind im aktuellen Release-Build wieder produktiv messbar.
+2. Aktuelle Artefakte: `artifacts/perf_nv/targeted_validation/bench_tpcc_targeted_v2.json` und `artifacts/perf_nv/targeted_validation/bench_ycsb_targeted_v2.json`.
+3. Gemessene Beispiele: `TPCCLiteFixture/NewOrderLite/1/3000` ~3,456 k items/s, `YCSBLiteFixture/WorkloadC_ReadOnly/1000000` ~231,2 k items/s.
+4. Diese Werte sind derzeit als Lite-Validierung zu lesen; sie ersetzen noch keinen vollskalierten, langlaufenden TPC-C/YCSB-Compliance-Lauf.
 
 | # | Workload | Erwartungswert | Hardware-Referenz | v1.3.4 Gemessen | Status |
 |---|----------|----------------|-------------------|-----------------|--------|

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ingestion_plugin.cpp                               ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:15:29                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:24:35                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

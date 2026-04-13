@@ -1,9 +1,9 @@
 # LLM-Modul – Primäres Inventar
 
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-04-09 -->
 <!-- Primärdokumentation: ../../../src/llm/ | ../../../include/llm/ -->
 
-**Datum:** März 2026  
+**Datum:** 9. April 2026  
 **Modul:** `llm`  
 **Modulpfad:** `src/llm/` + `include/llm/`
 
@@ -35,6 +35,7 @@
 | `inference_handle.cpp` | `include/llm/inference_handle.h` | Geteilter Async-Request-Handle (`get()`, `ready()`, `cancel()`) |
 | `llamacpp_inference_engine.cpp` | `include/llm/llamacpp_inference_engine.h` | llama.cpp Backend-Integration |
 | `embedded_llm.cpp` | `include/llm/embedded_llm.h` | In-Process Embedded LLM Server |
+| `embedded_llm_stub.cpp` | `include/llm/embedded_llm.h` | Stub/default constructors für `EmbeddedLLM` (no-op impl für Builds ohne llama.cpp) |
 | `ai_orchestrator.cpp` | `include/llm/ai_orchestrator.h` | Multi-Model-Orchestrierung und Routing; Mode-Spec-Loading |
 | `mode_spec_loader.cpp` | *(in ai_orchestrator.h)* | YAML Loader für LLM-Orchestrierungsmodi |
 
@@ -81,6 +82,7 @@
 | `multi_lora_manager.cpp` | `include/llm/multi_lora_manager.h` | Concurrent-Multi-LoRA-Management |
 | `lora_metadata_cache.cpp` | `include/llm/lora_metadata_cache.h` | Gecachete LoRA-Adapter-Metadaten |
 | `lora_security_validator.cpp` | `include/llm/lora_security_validator.h` | LoRA-Adapter-Sicherheitsvalidierung vor dem Laden |
+| `lora_certificate_store.cpp` | `include/llm/lora_certificate_store.h` | `LoRACertificateStore`: Filesystem-basierter Zertifikatsspeicher für LoRA-Signatur-Verifikation; Fallback auf System-Zertifikatsspeicher (`/etc/ssl/certs`) |
 | `adapter_registry.cpp` | `include/llm/adapter_registry.h` | Registry für verfügbare LLM-Adapter |
 | `adapter_load_balancer.cpp` | `include/llm/adapter_load_balancer.h` | Load-Balancing über Adapter-Instanzen |
 
@@ -167,10 +169,12 @@
 
 | Quelldatei | Header | Beschreibung |
 |---|---|---|
-| `docs_assistant.cpp` | *(docs_assistant.h)* | Dokumentations-bewusster Assistent (TODO: LLM-Completion-Makro fehlt) |
+| `docs_assistant.cpp` | *(docs_assistant.h)* | Dokumentations-bewusster Assistent; `generateAnswer()` nutzt `THEMIS_LLM_GENERATE` wenn `THEMIS_ENABLE_LLM` gesetzt |
 | `feedback_store.cpp` | `include/llm/feedback_store.h` | User-Feedback-Sammlung |
 | `feedback_plugin_basic.cpp` | *(i_feedback_plugin.h)* | Basis-Feedback-Plugin |
 | `byzantine_detector.cpp` | `include/llm/byzantine_detector.h` | Byzantine-Fault-Erkennung in verteilter Inferenz |
+| `multi_perspective_generator.cpp` | `include/llm/multi_perspective_generator.h` | `MultiPerspectiveGenerator`: Generiert Antworten aus mehreren Perspektiven (z. B. faktisch, ethisch, rechtlich); 🟢 Production-ready |
+| `production_validator.cpp` | `include/llm/production_validator.h` | `ProductionValidator`: Validiert Produktionsbedingungen (Engine-Status, GPU-Verfügbarkeit, Quota); 🟠 Beta (14 Test-TODOs offen) |
 | `distributed_training_coordinator.cpp` | *(distributed_training_coordinator.h)* | Verteilte Trainings-Koordination |
 | `aql_train_parser.cpp` | *(aql_train_parser.h)* | AQL-Trainingsdaten-Parser |
 
@@ -202,7 +206,7 @@
 
 ---
 
-## 5. Reality-Check-Ergebnis (Stand: März 2026)
+## 5. Reality-Check-Ergebnis (Stand: April 2026)
 
 ### ✅ Korrekt dokumentiert
 - Alle Inference-Engine-Komponenten (`AsyncInferenceEngine`, `InferenceEngineEnhanced`) sind implementiert und korrekt dokumentiert
@@ -212,7 +216,12 @@
 - OpenAI-kompatibler Adapter (`openai_compat_adapter.h/.cpp`) implementiert
 - Speculative Decoding, Shared Worker Pool, Streaming-Handler implementiert
 
-### 🔧 Korrigiert (in diesem PR)
+### 🔧 Korrigiert (in diesem PR, 2026-04-09)
+- Inventar: 4 bisher nicht dokumentierte Quelldateien ergänzt (`embedded_llm_stub.cpp`, `lora_certificate_store.cpp`, `multi_perspective_generator.cpp`, `production_validator.cpp`)
+- `docs_assistant.cpp`-Eintrag korrigiert: LLM-Completion-Macro ist implementiert (nicht mehr fehlend)
+- `missing-implementations.json`: LLM-MISSING-002, 003, 004 als gelöst markiert (waren bereits in md als gelöst dokumentiert)
+
+### 🔧 Korrigiert (frühere PRs, März 2026)
 - `src/llm/README.md` Delivery-Status: "🟡 Beta / in progress" → "🟢 Production-ready (v1.16.0)"
 - `src/llm/ARCHITECTURE.md` Version und Datum aktualisiert; Abschnitt 11 (Known Limitations) stale Einträge entfernt
 - `src/llm/ROADMAP.md` Phase 3 als Completed markiert; alle implementierten Features auf `[x]` gesetzt
@@ -220,11 +229,9 @@
 - `src/llm/FUTURE_ENHANCEMENTS.md` IEEE-Referenzen ergänzt (13 Quellen)
 
 ### ⚠️ Bekannte Einschränkungen / Stubs
-- `adaptive_vram_allocator.cpp`: `allocateWithFragmentation()` und `handleOutOfMemory()` sind Stubs (GPU-Hardware `cudaMalloc` erforderlich)
-- `inference_engine_enhanced.cpp`: KV-Cache-Prewarming und Embedding-basiertes Cache-Lookup sind TODOs (Embedding-Modell erforderlich)
-- `docs_assistant.cpp`: LLM-Completion-Macro `THEMIS_LLM_COMPLETE` nicht definiert; gibt Platzhaltertext zurück
-- `async_inference_engine.cpp`: RAG-Kontext-Kodierung ist ein TODO (aktuell naiver Text-Append)
+- `adaptive_vram_allocator.cpp`: `allocateWithFragmentation()` und `handleOutOfMemory()` delegieren an `ActiveVRAMAllocator`; echter GPU-VRAM-Support erfordert `cudaMalloc`-Build
 - Vision-Support: Experimentell; nur bestimmte Modellarchitekturen unterstützt
 - Federated Inference: Nicht implementiert (Issue: #1928)
+- `production_validator.cpp`: 🟠 Beta — 14 Test-TODOs; Produktionslogik implementiert, Integration-Tests fehlen noch
 
 Detaillierter Report: [`missing-implementations.md`](missing-implementations.md)

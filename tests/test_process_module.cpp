@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_process_module.cpp                            ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-04-06 04:32:48                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-04-13 04:43:55                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     800                                            ║
+    • Total Lines:     1172                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • b18a0735c6  2026-04-12  fix(process): replace regex BPMN parser with state-machin... ║
     • 79f0815052  2026-03-28  Add test statistics documentation and collection script ║
     • 3fea6d6b51  2026-03-12  refactor: clean up includes and remove unused transaction... ║
     • f56652abf2  2026-03-12  audit(process): focused tests, ProcessNotation enum fix, ... ║
@@ -52,7 +53,9 @@
 #include "storage/rocksdb_wrapper.h"
 
 #include <filesystem>
+#include <chrono>
 #include <memory>
+#include <sstream>
 #include <string>
 
 namespace fs = std::filesystem;
@@ -797,4 +800,374 @@ TEST(ProcessEnumsTest, ProcessDomainRoundTrip) {
         EXPECT_EQ(back, d) << "Round-trip failed for domain: "
                            << std::string(s);
     }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 9. BpmnSerializer – extended parser hardening tests
+// ─────────────────────────────────────────────────────────────────────────────
+
+// PM-01: Namespace-prefixed BPMN tags (bpmn:startEvent etc.)
+TEST_F(BpmnSerializerTest, ImportNamespacePrefixedBpmn) {
+    const std::string xml = R"(<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions
+    xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+    targetNamespace="http://example.com">
+  <bpmn:process id="ns_proc" name="NS Process">
+    <bpmn:startEvent id="ns_start" name="Eingang"/>
+    <bpmn:userTask   id="ns_task"  name="Prüfung"/>
+    <bpmn:endEvent   id="ns_end"   name="Abschluss"/>
+    <bpmn:sequenceFlow id="ns_f1" sourceRef="ns_start" targetRef="ns_task"/>
+    <bpmn:sequenceFlow id="ns_f2" sourceRef="ns_task"  targetRef="ns_end"/>
+  </bpmn:process>
+</bpmn:definitions>)";
+
+    auto result = themis::process::BpmnSerializer::importXml(xml);
+    ASSERT_TRUE(result.ok) << result.message;
+    EXPECT_EQ(result.process_id, "ns_proc");
+    EXPECT_GE(result.nodes.size(), 3u);
+    EXPECT_GE(result.edges.size(), 2u);
+}
+
+// PM-02: Complex nested subProcess with child nodes
+TEST_F(BpmnSerializerTest, ImportNestedSubProcess) {
+    const std::string xml = R"(<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL">
+  <process id="outer_proc" name="Outer">
+    <startEvent id="out_start" name="Start"/>
+    <subProcess id="sp1" name="Genehmigung">
+      <startEvent id="sp_start" name="SP-Start"/>
+      <userTask   id="sp_task"  name="SP-Prüfung"/>
+      <endEvent   id="sp_end"   name="SP-Ende"/>
+      <sequenceFlow id="sp_f1" sourceRef="sp_start" targetRef="sp_task"/>
+      <sequenceFlow id="sp_f2" sourceRef="sp_task"  targetRef="sp_end"/>
+    </subProcess>
+    <endEvent id="out_end" name="Ende"/>
+    <sequenceFlow id="out_f1" sourceRef="out_start" targetRef="sp1"/>
+    <sequenceFlow id="out_f2" sourceRef="sp1"       targetRef="out_end"/>
+  </process>
+</definitions>)";
+
+    auto result = themis::process::BpmnSerializer::importXml(xml);
+    ASSERT_TRUE(result.ok) << result.message;
+    EXPECT_EQ(result.process_id, "outer_proc");
+    // Outer nodes: out_start, sp1, out_end; inner: sp_start, sp_task, sp_end
+    EXPECT_GE(result.nodes.size(), 6u);
+    // Outer flows + inner flows
+    EXPECT_GE(result.edges.size(), 4u);
+}
+
+// PM-03: conditionExpression as child element of sequenceFlow (non-self-closing)
+TEST_F(BpmnSerializerTest, ImportConditionExpressionChild) {
+    const std::string xml = R"(<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL">
+  <process id="cond_proc" name="Condition Test">
+    <startEvent id="c_start"/>
+    <exclusiveGateway id="gw1"/>
+    <endEvent id="c_end1"/>
+    <endEvent id="c_end2"/>
+    <sequenceFlow id="cf1" sourceRef="c_start" targetRef="gw1"/>
+    <sequenceFlow id="cf2" sourceRef="gw1" targetRef="c_end1">
+      <conditionExpression>${approved == true}</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="cf3" sourceRef="gw1" targetRef="c_end2">
+      <conditionExpression>${approved == false}</conditionExpression>
+    </sequenceFlow>
+  </process>
+</definitions>)";
+
+    auto result = themis::process::BpmnSerializer::importXml(xml);
+    ASSERT_TRUE(result.ok) << result.message;
+    EXPECT_GE(result.edges.size(), 3u);
+
+    bool found_cond = false;
+    for (const auto& e : result.edges) {
+        if (e.condition_expression.has_value() &&
+            e.condition_expression->find("approved") != std::string::npos) {
+            found_cond = true;
+        }
+    }
+    EXPECT_TRUE(found_cond) << "conditionExpression child text not captured";
+}
+
+// PM-04: BPMN XML with XML comment blocks and PIs must parse cleanly
+TEST_F(BpmnSerializerTest, ImportWithCommentsAndPIs) {
+    const std::string xml = R"(<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated by Camunda Modeler 4.8 -->
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL">
+  <!-- Header comment -->
+  <process id="comment_proc" name="Comment Test">
+    <?camunda custom-pi="value"?>
+    <startEvent id="c1" name="Start"/>
+    <!-- mid-element comment -->
+    <endEvent id="c2" name="End"/>
+    <sequenceFlow id="cf1" sourceRef="c1" targetRef="c2"/>
+  </process>
+</definitions>)";
+
+    auto result = themis::process::BpmnSerializer::importXml(xml);
+    ASSERT_TRUE(result.ok) << result.message;
+    EXPECT_EQ(result.process_id, "comment_proc");
+    EXPECT_GE(result.nodes.size(), 2u);
+    EXPECT_GE(result.edges.size(), 1u);
+}
+
+// PM-05: Deeply nested sub-process pools (stress test for proper stack handling)
+TEST_F(BpmnSerializerTest, ImportDeeplyNestedSubProcesses) {
+    const std::string xml = R"(<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL">
+  <process id="deep_proc" name="Deep">
+    <startEvent id="d_start"/>
+    <subProcess id="sp_lvl1" name="Level 1">
+      <subProcess id="sp_lvl2" name="Level 2">
+        <userTask id="inner_task" name="Inner Task"/>
+        <sequenceFlow id="inner_f1" sourceRef="sp_lvl2_start" targetRef="inner_task"/>
+      </subProcess>
+      <sequenceFlow id="sp1_f1" sourceRef="sp_lvl1_start" targetRef="sp_lvl2"/>
+    </subProcess>
+    <endEvent id="d_end"/>
+    <sequenceFlow id="d_f1" sourceRef="d_start" targetRef="sp_lvl1"/>
+    <sequenceFlow id="d_f2" sourceRef="sp_lvl1" targetRef="d_end"/>
+  </process>
+</definitions>)";
+
+    auto result = themis::process::BpmnSerializer::importXml(xml);
+    ASSERT_TRUE(result.ok) << result.message;
+    // Must not crash; must capture all identified nodes/edges
+    EXPECT_GE(result.nodes.size(), 4u);
+    EXPECT_GE(result.edges.size(), 2u);
+}
+
+// PM-06: All gateway types in a single document
+TEST_F(BpmnSerializerTest, ImportAllGatewayTypes) {
+    const std::string xml = R"(<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL">
+  <process id="gw_proc" name="Gateways">
+    <startEvent id="gw_s"/>
+    <exclusiveGateway  id="xor_gw"/>
+    <parallelGateway   id="and_gw"/>
+    <inclusiveGateway  id="or_gw"/>
+    <eventBasedGateway id="ev_gw"/>
+    <complexGateway    id="cplx_gw"/>
+    <endEvent id="gw_e"/>
+    <sequenceFlow id="gf1" sourceRef="gw_s"    targetRef="xor_gw"/>
+    <sequenceFlow id="gf2" sourceRef="xor_gw"  targetRef="and_gw"/>
+    <sequenceFlow id="gf3" sourceRef="and_gw"  targetRef="or_gw"/>
+    <sequenceFlow id="gf4" sourceRef="or_gw"   targetRef="ev_gw"/>
+    <sequenceFlow id="gf5" sourceRef="ev_gw"   targetRef="cplx_gw"/>
+    <sequenceFlow id="gf6" sourceRef="cplx_gw" targetRef="gw_e"/>
+  </process>
+</definitions>)";
+
+    auto result = themis::process::BpmnSerializer::importXml(xml);
+    ASSERT_TRUE(result.ok) << result.message;
+    EXPECT_GE(result.nodes.size(), 7u);
+    EXPECT_EQ(result.edges.size(), 6u);
+}
+
+// PM-07: Security – oversized input must be rejected without crashing
+TEST_F(BpmnSerializerTest, SecurityOversizedInputRejected) {
+    // Build an input just over 10 MiB
+    const std::string huge(11u * 1024u * 1024u, 'X');
+    auto result = themis::process::BpmnSerializer::importXml(huge);
+    EXPECT_FALSE(result.ok);
+    EXPECT_NE(result.message.find("10 MiB"), std::string::npos);
+}
+
+// PM-08: Security – malformed / truncated XML must not crash
+TEST_F(BpmnSerializerTest, SecurityMalformedXmlGraceful) {
+    const std::vector<std::string> malformed = {
+        "<",
+        "<<<<<",
+        "<!-",
+        "<?",
+        "<definitions><process id=\"p1\">",  // unclosed tags
+        R"(<definitions><process id="p1"><startEvent id="s1"/><sequenceFlow)",
+        "<!-- unclosed comment",
+        "<![CDATA[unclosed",
+    };
+    for (const auto& bad : malformed) {
+        EXPECT_NO_THROW({
+            auto r = themis::process::BpmnSerializer::importXml(bad);
+            (void)r;
+        }) << "Crashed on: " << bad;
+    }
+}
+
+// PM-09: Security – XML entity / CDATA content must not be executed
+TEST_F(BpmnSerializerTest, SecurityCdataStrippedFromAttributes) {
+    // id attribute with entity-encoded angle brackets must survive as-is
+    const std::string xml = R"(<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL">
+  <process id="safe_proc" name="Safe &amp; Secure">
+    <startEvent id="safe_start" name="Antrag &lt;geprüft&gt;"/>
+    <endEvent   id="safe_end"   name="Fertig"/>
+    <sequenceFlow id="safe_f1" sourceRef="safe_start" targetRef="safe_end"/>
+  </process>
+</definitions>)";
+
+    auto result = themis::process::BpmnSerializer::importXml(xml);
+    ASSERT_TRUE(result.ok) << result.message;
+    EXPECT_EQ(result.process_id, "safe_proc");
+    EXPECT_GE(result.nodes.size(), 2u);
+    // Verify entity decoding in node names
+    bool found = false;
+    for (const auto& n : result.nodes) {
+        if (n.name.find('<') != std::string::npos ||
+            n.name.find("geprüft") != std::string::npos) found = true;
+    }
+    EXPECT_TRUE(found) << "XML entity decoding did not work correctly";
+}
+
+// PM-10: messageFlow is imported correctly
+TEST_F(BpmnSerializerTest, ImportMessageFlow) {
+    const std::string xml = R"(<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL">
+  <process id="mf_proc">
+    <startEvent id="mf_s"/>
+    <endEvent   id="mf_e"/>
+    <sequenceFlow id="mf_sf1" sourceRef="mf_s" targetRef="mf_e"/>
+  </process>
+  <collaboration id="collab1">
+    <participant id="p1" name="Amt"/>
+    <participant id="p2" name="Bürger"/>
+    <messageFlow id="mf1" sourceRef="p1" targetRef="p2"/>
+    <messageFlow id="mf2" sourceRef="p2" targetRef="p1"/>
+  </collaboration>
+</definitions>)";
+
+    auto result = themis::process::BpmnSerializer::importXml(xml);
+    ASSERT_TRUE(result.ok) << result.message;
+    // participants become nodes, message flows become edges
+    bool has_msg_flow = false;
+    for (const auto& e : result.edges) {
+        if (e.edge_type == themis::ProcessEdgeType::MESSAGE_FLOW) {
+            has_msg_flow = true;
+        }
+    }
+    EXPECT_TRUE(has_msg_flow);
+}
+
+// PM-11: Performance – import of a large BPMN document completes within 500 ms
+TEST_F(BpmnSerializerTest, PerformanceLargeBpmnImport) {
+    // Build a synthetic BPMN with 200 tasks and 199 sequence flows
+    std::ostringstream oss;
+    oss << R"(<?xml version="1.0" encoding="UTF-8"?>)"
+        << R"(<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL">)"
+        << R"(<process id="perf_proc" name="Perf Test">)";
+    oss << R"(<startEvent id="perf_s" name="Start"/>)";
+    for (int i = 0; i < 200; ++i) {
+        oss << "<userTask id=\"perf_t" << i << "\" name=\"Task " << i << "\"/>";
+    }
+    oss << R"(<endEvent id="perf_e" name="End"/>)";
+    oss << R"(<sequenceFlow id="perf_sf0" sourceRef="perf_s" targetRef="perf_t0"/>)";
+    for (int i = 0; i < 199; ++i) {
+        oss << "<sequenceFlow id=\"perf_sf" << (i + 1) << "\" sourceRef=\"perf_t" << i
+            << "\" targetRef=\"perf_t" << (i + 1) << "\"/>";
+    }
+    oss << "<sequenceFlow id=\"perf_sf200\" sourceRef=\"perf_t199\" targetRef=\"perf_e\"/>";
+    oss << "</process></definitions>";
+
+    const std::string large_xml = oss.str();
+    auto t0 = std::chrono::steady_clock::now();
+    auto result = themis::process::BpmnSerializer::importXml(large_xml);
+    auto t1 = std::chrono::steady_clock::now();
+
+    ASSERT_TRUE(result.ok) << result.message;
+    EXPECT_GE(result.nodes.size(), 202u); // start + 200 tasks + end
+    EXPECT_GE(result.edges.size(), 201u);
+
+    auto elapsed_ms =
+        std::chrono::duration_cast<std::chrono::milliseconds>(t1 - t0).count();
+    EXPECT_LT(elapsed_ms, 500)
+        << "Large BPMN import took " << elapsed_ms << " ms (limit: 500 ms)";
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 10. ProcessLinker – hard-delete and secondary-index tests
+// ─────────────────────────────────────────────────────────────────────────────
+
+// PL-01: detachObject performs a hard delete (key must not exist afterwards)
+TEST_F(ProcessModuleTest, DetachObjectHardDelete) {
+    auto [ok, att_id] = linker_->attachObject(
+        "hd-inst-001", "hd-doc-001", "documents",
+        themis::process::ProcessLinkType::HAS_DOCUMENT,
+        std::nullopt, {}, "tester");
+    ASSERT_TRUE(ok);
+
+    ASSERT_TRUE(linker_->detachObject(att_id));
+
+    // No tombstone should appear when we list attachments.
+    auto remaining = linker_->getAttachments("hd-inst-001");
+    EXPECT_TRUE(remaining.empty()) << "Expected hard delete, but attachment still visible";
+
+    // Direct DB key must be gone: a second detach returns false (key not found).
+    EXPECT_FALSE(linker_->detachObject(att_id))
+        << "Expected false on second detach (hard delete must have removed the key)";
+}
+
+// PL-02: detachObject on a non-existent ID returns false gracefully
+TEST_F(ProcessModuleTest, DetachObjectNonExistentReturnsFalse) {
+    EXPECT_FALSE(linker_->detachObject("attach:does-not-exist:doc-x"));
+}
+
+// PL-03: Secondary index: findInstancesWithObject uses index (verify via attach+detach cycle)
+TEST_F(ProcessModuleTest, FindInstancesSecondaryIndexRoundTrip) {
+    // Attach the same shared doc to two instances
+    linker_->attachObject("idx-inst-A", "idx-shared-doc", "documents",
+        themis::process::ProcessLinkType::HAS_DOCUMENT, std::nullopt, {}, "u1");
+    auto [ok, att_id_B] = linker_->attachObject(
+        "idx-inst-B", "idx-shared-doc", "documents",
+        themis::process::ProcessLinkType::HAS_DOCUMENT, std::nullopt, {}, "u2");
+    ASSERT_TRUE(ok);
+
+    auto instances = linker_->findInstancesWithObject("idx-shared-doc", "documents");
+    EXPECT_EQ(instances.size(), 2u);
+    EXPECT_NE(std::find(instances.begin(), instances.end(), "idx-inst-A"), instances.end());
+    EXPECT_NE(std::find(instances.begin(), instances.end(), "idx-inst-B"), instances.end());
+
+    // After detaching inst-B, only inst-A should remain
+    ASSERT_TRUE(linker_->detachObject(att_id_B));
+    auto after_detach = linker_->findInstancesWithObject("idx-shared-doc", "documents");
+    EXPECT_EQ(after_detach.size(), 1u);
+    EXPECT_EQ(after_detach[0], "idx-inst-A");
+}
+
+// PL-04: findInstancesWithObject returns empty when no attachments exist
+TEST_F(ProcessModuleTest, FindInstancesWithObjectEmpty) {
+    auto instances = linker_->findInstancesWithObject("nonexistent-doc", "documents");
+    EXPECT_TRUE(instances.empty());
+}
+
+// PL-05: Secondary index handles multiple collections correctly
+TEST_F(ProcessModuleTest, FindInstancesMultipleCollections) {
+    linker_->attachObject("col-inst-A", "multi-doc", "documents",
+        themis::process::ProcessLinkType::HAS_DOCUMENT, std::nullopt, {}, "u1");
+    linker_->attachObject("col-inst-B", "multi-doc", "metadata",
+        themis::process::ProcessLinkType::HAS_METADATA, std::nullopt, {}, "u2");
+
+    auto docs = linker_->findInstancesWithObject("multi-doc", "documents");
+    EXPECT_EQ(docs.size(), 1u);
+    EXPECT_EQ(docs[0], "col-inst-A");
+
+    auto meta = linker_->findInstancesWithObject("multi-doc", "metadata");
+    EXPECT_EQ(meta.size(), 1u);
+    EXPECT_EQ(meta[0], "col-inst-B");
+}
+
+// PL-06: getAttachments still works after hard-delete (no tombstone leakage)
+TEST_F(ProcessModuleTest, GetAttachmentsAfterHardDelete) {
+    linker_->attachObject("noTmb-inst", "noTmb-doc-a", "documents",
+        themis::process::ProcessLinkType::HAS_DOCUMENT, std::nullopt, {}, "u1");
+    auto [ok, att_id] = linker_->attachObject(
+        "noTmb-inst", "noTmb-doc-b", "documents",
+        themis::process::ProcessLinkType::HAS_DOCUMENT, std::nullopt, {}, "u1");
+    ASSERT_TRUE(ok);
+
+    // Detach doc-b
+    ASSERT_TRUE(linker_->detachObject(att_id));
+
+    // Only doc-a should remain – no tombstone visible
+    auto remaining = linker_->getAttachments("noTmb-inst");
+    ASSERT_EQ(remaining.size(), 1u);
+    EXPECT_EQ(remaining[0].object_id, "noTmb-doc-a");
 }

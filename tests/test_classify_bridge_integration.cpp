@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_classify_bridge_integration.cpp               ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-04-06 04:26:20                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-04-13 04:36:40                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -33,10 +33,11 @@ v1.8.0 – Wire Protocol V2 delivered (Phase 5): `V2Server` + `V2Session` with H
 
 ### Short-term (Next 3-6 months)
 All migration work is complete (v1.7.0): `license_info.cpp` and `module_loader.cpp` are in `src/themis/`.
+`GateResult` + `LicenseDenialReason` + `LicenseInfo::remaining_grace_days()` delivered in v1.7.1.
 
 ### Long-term (6-12 months)
 - [I] Full modularization of monolithic build (split into loadable `.so` / `.dll` modules) (Issue: #2472)
-- [I] Dynamic feature flag gating per edition at runtime (Issue: #2317)
+- [ ] `module_signature_verifier.h` — certificate-chain verification for enterprise CA-signed modules (Target: v1.8.0)
 
 ## Implementation Phases
 
@@ -62,11 +63,11 @@ All migration work is complete (v1.7.0): `license_info.cpp` and `module_loader.c
 - [x] `isModuleCompiledIn()` – runtime module availability check
 - [x] SHA-256 hash verification for loaded modules
 
-### Phase 4: Full Modularization & Signature Verification (Status: Planned 📋)
+### Phase 4: Full Modularization & Signature Verification (Status: Partially Complete 🚧)
 - [ ] Full modularization of monolithic build (split into loadable `.so` / `.dll` modules)
 - [x] Authenticode (Windows) and GPG (Linux) signature verification for modules
 - [x] Zone.Identifier / quarantine detection (Windows)
-- [ ] Dynamic feature flag gating per edition at runtime
+- [x] Dynamic feature flag gating per edition at runtime (`setFeatureOverride`/`clearFeatureOverride` in `edition_manager.cpp`; DynamicFeatureFlagTests)
 - [x] Module dependency resolution and load-order management
 
 ### Phase 5: Wire Protocol V2 (Status: Completed ✅)
@@ -92,6 +93,7 @@ All migration work is complete (v1.7.0): `license_info.cpp` and `module_loader.c
 - [?] Security audit (signature verification, constant-time license comparison)
 - [x] Documentation complete (ARCHITECTURE.md, README.md, ROADMAP.md, FUTURE_ENHANCEMENTS.md, Known Issues section)
 - [x] API stability guaranteed (public header include/themis/network/wire_protocol_server.hpp frozen for v1.x)
+- [x] `GateResult` + `LicenseDenialReason` + `checkFeature()` (v1.7.1): structured denial reason API in `runtime_license_gate.h`; `GateResult::message()` + `RuntimeLicenseGate::checkFeature()` in `src/utils/runtime_license_gate.cpp`; 28 focused tests (GateResultFocusedTests, LicenseClientFocusedTests); CTest targets registered
 
 ## Known Issues & Limitations
 - The `src/themis/` directory now contains all eleven implementation files: `build_info.cpp`, `wire_protocol_server.cpp`, `module_dependency_resolver.cpp`, `edition_manager.cpp`, `module_hash_verifier.cpp`, `module_signature_verifier.cpp`, `module_loader.cpp`, `module_loader_win32.cpp`, `module_loader_linux.cpp`, `module_security.cpp`, and `license_info.cpp`.

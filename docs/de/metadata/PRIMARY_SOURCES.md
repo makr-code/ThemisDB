@@ -1,5 +1,5 @@
 [docs](../../index.md) > [de](../index.md) > [metadata](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-04-12  
+**Datum:** 2026-04-13  
 **Status:** draft  
 **Primary (Quelle der Wahrheit):**
 - `include/metadata/ARCHITECTURE.md`
@@ -55,4 +55,4 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`metadata`*
 
 ---
 
-*Automatisch generiert von `tools/module_docs_builder.py` · 2026-04-12*
+*Automatisch generiert von `tools/module_docs_builder.py` · 2026-04-13*

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            chunked_response_writer.cpp                        ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-06 04:20:16                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-13 04:29:58                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

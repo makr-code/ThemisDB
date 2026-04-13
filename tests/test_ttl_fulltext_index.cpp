@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_ttl_fulltext_index.cpp                        ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:36:16                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:47:56                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

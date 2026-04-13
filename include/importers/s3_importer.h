@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            s3_importer.h                                      ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-06 04:07:32                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-13 04:15:55                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

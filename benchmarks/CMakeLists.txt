@@ -4233,4 +4233,50 @@ endif()
 list(LENGTH _eligible_benchmark_targets _eligible_benchmark_count)
 message(STATUS "Aggregate benchmark target 'themis_benchmarks_all_eligible' includes ${_eligible_benchmark_count} currently eligible benchmark executables")
 
+if(WIN32)
+    function(themis_sync_runtime_dlls_for_benchmark_target target_name)
+        add_custom_command(TARGET ${target_name} POST_BUILD
+            COMMAND ${CMAKE_COMMAND}
+                -DBIN_DIR=${CMAKE_BINARY_DIR}/bin
+                -DVCPKG_BIN_DIR=${CMAKE_BINARY_DIR}/vcpkg_installed/x64-windows/bin
+                -DDST_DIR=$<TARGET_FILE_DIR:${target_name}>
+                -P ${CMAKE_SOURCE_DIR}/cmake/CopyRuntimeDlls.cmake
+            COMMENT "Syncing core runtime DLLs for ${target_name}"
+        )
+
+        add_custom_command(TARGET ${target_name} POST_BUILD
+            COMMAND ${CMAKE_COMMAND}
+                -DBIN_DIR=$<TARGET_FILE_DIR:${target_name}>
+                -DVCPKG_BIN_DIR=${CMAKE_BINARY_DIR}/bin
+                -DDST_DIR=${CMAKE_BINARY_DIR}/bin
+                -P ${CMAKE_SOURCE_DIR}/cmake/CopyRuntimeDlls.cmake
+            COMMENT "Syncing benchmark runtime DLLs for ${target_name} into build/bin"
+        )
+    endfunction()
+
+    add_custom_target(sync_benchmark_runtime_dlls
+        COMMAND ${CMAKE_COMMAND}
+            -DBIN_DIR=${CMAKE_BINARY_DIR}/bin
+            -DVCPKG_BIN_DIR=${CMAKE_BINARY_DIR}/vcpkg_installed/x64-windows/bin
+            -DDST_DIR=${CMAKE_BINARY_DIR}/cmake/benchmarks
+            -P ${CMAKE_SOURCE_DIR}/cmake/CopyRuntimeDlls.cmake
+        COMMAND ${CMAKE_COMMAND}
+            -DBIN_DIR=${CMAKE_BINARY_DIR}/cmake/benchmarks
+            -DVCPKG_BIN_DIR=${CMAKE_BINARY_DIR}/bin
+            -DDST_DIR=${CMAKE_BINARY_DIR}/bin
+            -P ${CMAKE_SOURCE_DIR}/cmake/CopyRuntimeDlls.cmake
+        COMMENT "Syncing benchmark runtime DLLs between cmake/benchmarks and build/bin"
+    )
+
+    foreach(_benchmark_runtime_target ${_eligible_benchmark_targets})
+        if(TARGET ${_benchmark_runtime_target})
+            get_target_property(_benchmark_runtime_type ${_benchmark_runtime_target} TYPE)
+            if(_benchmark_runtime_type STREQUAL "EXECUTABLE")
+                themis_sync_runtime_dlls_for_benchmark_target(${_benchmark_runtime_target})
+                add_dependencies(sync_benchmark_runtime_dlls ${_benchmark_runtime_target})
+            endif()
+        endif()
+    endforeach()
+endif()
+
 themis_report_benchmark_coverage("${CMAKE_CURRENT_SOURCE_DIR}" "${CMAKE_CURRENT_LIST_FILE}")

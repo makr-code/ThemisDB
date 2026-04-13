@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            tsstore_migration_example.cpp                      ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:04:38                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:12:54                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -1494,6 +1494,16 @@ auto stats = dr_manager.getStatistics();
 ## 18.12 Replikation — Multi-Master & CRDT C++ API (v1.x) {#replication-multimaster-cpp}
 
 ### 18.12.1 ReplicationManager — Überblick und Konfiguration
+---
+
+## 18.10 WAL-Archivierung & Logische Replikation {#chapter_18_10_wal_archival}
+
+### 18.10.1 WALArchivalManager
+
+**Header:** `include/replication/replication_manager.h`  
+**Status:** ✅ Production-Ready  
+
+`WALArchivalManager` archiviert WAL-Segmente kontinuierlich mit Zstd-Kompression und AES-256-GCM-Verschlüsselung auf konfigurierbaren Object-Storage-Backends (S3, GCS, Azure Blob). Storage-Tier-Lifecycle steuert den automatischen Übergang von Standard → Cold → Glacier.
 
 ```cpp
 #include "replication/replication_manager.h"

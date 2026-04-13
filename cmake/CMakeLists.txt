@@ -1880,6 +1880,7 @@ set(THEMIS_CORE_SOURCES
     ../src/temporal/interval_tree_index.cpp
     ../src/temporal/temporal_compressor.cpp
     ../src/temporal/temporal_cdc.cpp
+    ../src/temporal/temporal_migrator.cpp
     
     ../src/timeseries/timeseries.cpp
     ../src/timeseries/timeseries_metrics.cpp
@@ -1900,6 +1901,9 @@ set(THEMIS_CORE_SOURCES
     ../src/timeseries/adaptive_flush_controller.cpp
     ../src/timeseries/encrypted_chunk_store.cpp
     ../src/timeseries/ts_encrypted_key_rotation.cpp
+    ../src/timeseries/compression_selector.cpp
+    ../src/timeseries/anomaly_detection.cpp
+    ../src/timeseries/gap_fill.cpp
     ../src/timeseries/ts_stream_cursor.cpp
     
     ../src/utils/serialization.cpp
@@ -1917,6 +1921,7 @@ set(THEMIS_CORE_SOURCES
     ../src/core/concerns/redis_cache.cpp
     ../src/core/concerns/zero_copy_logger.cpp
     ../src/utils/zstd_codec.cpp
+    ../src/utils/lz4_codec.cpp
     ../src/utils/pki_client.cpp
     ../src/utils/input_validator.cpp
     ../src/utils/audit_logger.cpp
@@ -2278,6 +2283,10 @@ set(THEMIS_CORE_SOURCES
     ../src/observability/ml_anomaly_detector.cpp
     # Observability: automated root cause identification for performance issues (v1.7.0, Issue #84)
     ../src/observability/root_cause_analyzer.cpp
+    # Observability: per-tenant metric namespacing (v1.8.0)
+    ../src/observability/tenant_metrics_namespace.cpp
+    # Observability: structured log search API (v1.8.0)
+    ../src/observability/log_search_engine.cpp
 
     # GraphQL API (conditional)
     $<$<BOOL:${THEMIS_ENABLE_GRAPHQL}>:../src/api/graphql.cpp>
@@ -2506,6 +2515,9 @@ endif()
 list(APPEND THEMIS_CORE_SOURCES
     ../src/performance/phase4/feature_flags.cpp
     ../src/performance/phase4/pmu_counters.cpp
+    ../src/performance/numa_memory_manager.cpp
+    ../src/performance/advanced_cache_manager.cpp
+    ../src/performance/workload_adaptive_optimizer.cpp
 )
 
 if(THEMIS_ENABLE_PMEM)
@@ -2665,6 +2677,9 @@ if(THEMIS_ENABLE_LLM)
     ../src/rag/onnx_model_loader.cpp
     ../src/rag/prompt_templates.cpp
     ../src/rag/response_parser.cpp
+    # Phase 7: Multi-hop reasoning and adaptive retrieval
+    ../src/rag/multi_hop_reasoner.cpp
+    ../src/rag/adaptive_retrieval.cpp
     )
 endif()  # Close if(THEMIS_ENABLE_LLM)
 
@@ -3880,6 +3895,9 @@ if(THEMIS_ENABLE_LLM)
         ../src/rag/quality_control_factory.cpp
         ../src/rag/relevance_evaluator.cpp
         ../src/rag/rubric_evaluator.cpp
+        # Phase 7: Multi-hop reasoning and adaptive retrieval depth
+        ../src/rag/multi_hop_reasoner.cpp
+        ../src/rag/adaptive_retrieval.cpp
 
         # Model Deployment Plugin (Ollama-inspired, production-ready)
         ../src/llm/model_downloader.cpp           # Model downloading from Ollama/HTTP/local sources
@@ -4429,6 +4447,30 @@ if(THEMIS_BUILD_TESTS)
                 TIMEOUT 60
         )
         message(STATUS "  TemporalCDC: subscribe/publish/replay change data capture")
+    endif()
+
+    if(EXISTS "${THEMIS_ROOT_DIR}/tests/temporal/test_temporal_migrator.cpp")
+        add_executable(test_temporal_migrator
+            ${THEMIS_ROOT_DIR}/tests/temporal/test_temporal_migrator.cpp
+            ${THEMIS_ROOT_DIR}/src/temporal/temporal_migrator.cpp
+            ${THEMIS_ROOT_DIR}/src/temporal/system_versioned_table.cpp
+        )
+        target_include_directories(test_temporal_migrator
+            PRIVATE ${THEMIS_ROOT_DIR}/include
+        )
+        target_link_libraries(test_temporal_migrator
+            PRIVATE GTest::gtest GTest::gtest_main nlohmann_json::nlohmann_json Threads::Threads
+        )
+        gtest_discover_tests(test_temporal_migrator
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_temporal_migrator>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
+            PROPERTIES
+                LABELS "temporal;migrator;phase5;unit"
+                TIMEOUT 60
+        )
+        message(STATUS "  TemporalMigrator: analyze/migrate/backfill/verify system-versioned table migration")
     endif()
 
     add_executable(test_ts_auto_buffer_adaptive

@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            themisdb_adapter.cpp                               ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:15:14                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:24:27                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   92.0/100                                       ║
-    • Total Lines:     1425                                           ║
+    • Quality Score:   89.0/100                                       ║
+    • Total Lines:     1711                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 95161c29db  2026-04-11  feat(chimera): Streaming result sets, prepared statements... ║
     • 6b598edc46  2026-03-12  Add ThemisDB Graph Navigation plugin with automatic updater ║
     • 3760a281cf  2026-03-12  fix(chimera): move semantics for ScopedTokenRemover, id-r... ║
     • 16eb8c2a4c  2026-03-12  fix(chimera): address async API review comments (RAII cle... ║
     • 0701ac8f4d  2026-03-12  feat(chimera): implement async/promise-based API (IAsyncD... ║
-    • 3fea6d6b51  2026-03-12  refactor: clean up includes and remove unused transaction... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

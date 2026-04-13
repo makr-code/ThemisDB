@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            aql_parser_json.cpp                                ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:18:56                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:28:26                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
