@@ -43,6 +43,8 @@
 
 #include <atomic>
 #include <chrono>
+#include <cstdio>
+#include <fstream>
 #include <mutex>
 #include <thread>
 #include <vector>
@@ -629,4 +631,325 @@ TEST_F(DistributedSagaTest, ExecuteInvalidSagaReturnsFailedState) {
 
     EXPECT_FALSE(report.succeeded());
     EXPECT_EQ(report.state, SagaExecutionState::FAILED);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// executeDistributed() — multi-cluster orchestration
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST(DistributedSagaDistributedTest, ExecuteDistributedSuccessWithNoOpExecutor) {
+    // No remote_executor configured → steps are no-ops that always succeed
+    DistributedSagaCoordinator::Config cfg;
+    DistributedSagaCoordinator c(cfg);
+
+    DistributedSAGADefinition saga;
+    saga.saga_id = "remote-ok";
+
+    RemoteStep r1;
+    r1.name                = "reserve";
+    r1.service_endpoint    = "http://inventory:8080";
+    r1.operation           = "/reserve";
+    r1.params              = {{"sku", "ABC123"}, {"quantity", 5}};
+    r1.compensate_operation = "/release";
+    r1.compensate_params   = {{"sku", "ABC123"}, {"quantity", 5}};
+    r1.max_retries         = 0;
+    r1.retry_backoff       = std::chrono::milliseconds(1);
+    saga.steps.push_back(r1);
+
+    RemoteStep r2;
+    r2.name                = "charge";
+    r2.service_endpoint    = "http://payment:8080";
+    r2.operation           = "/charge";
+    r2.params              = {{"amount", 99.99}, {"currency", "USD"}};
+    r2.compensate_operation = "/refund";
+    r2.compensate_params   = {{"amount", 99.99}};
+    r2.depends_on          = {"reserve"};
+    r2.max_retries         = 0;
+    r2.retry_backoff       = std::chrono::milliseconds(1);
+    saga.steps.push_back(r2);
+
+    auto report = c.executeDistributed(saga);
+
+    EXPECT_TRUE(report.succeeded());
+    EXPECT_EQ(report.state, SagaExecutionState::COMPLETED);
+    EXPECT_EQ(report.step_records.size(), 2u);
+}
+
+TEST(DistributedSagaDistributedTest, ExecuteDistributedWithCustomExecutorRouted) {
+    std::vector<std::string> called_endpoints;
+    std::mutex mtx;
+
+    DistributedSagaCoordinator::Config cfg;
+    cfg.remote_executor = [&](const std::string& endpoint,
+                               const std::string& /*op*/,
+                               const nlohmann::json& /*params*/) -> DistributedSagaStatus {
+        std::lock_guard lk(mtx);
+        called_endpoints.push_back(endpoint);
+        return DistributedSagaStatus::OK();
+    };
+    DistributedSagaCoordinator c(cfg);
+
+    DistributedSAGADefinition saga;
+    saga.saga_id = "routed";
+
+    for (int i = 0; i < 3; ++i) {
+        RemoteStep r;
+        r.name              = "s" + std::to_string(i);
+        r.service_endpoint  = "http://svc" + std::to_string(i) + ":8080";
+        r.operation         = "/op";
+        r.max_retries       = 0;
+        r.retry_backoff     = std::chrono::milliseconds(1);
+        saga.steps.push_back(r);
+    }
+
+    auto report = c.executeDistributed(saga);
+
+    EXPECT_TRUE(report.succeeded());
+    // All three endpoints must have been called
+    ASSERT_EQ(called_endpoints.size(), 3u);
+    std::sort(called_endpoints.begin(), called_endpoints.end());
+    EXPECT_EQ(called_endpoints[0], "http://svc0:8080");
+    EXPECT_EQ(called_endpoints[1], "http://svc1:8080");
+    EXPECT_EQ(called_endpoints[2], "http://svc2:8080");
+}
+
+TEST(DistributedSagaDistributedTest, ExecuteDistributedCompensationOnRemoteFailure) {
+    std::vector<std::string> comp_calls;
+    std::mutex mtx;
+
+    DistributedSagaCoordinator::Config cfg;
+    cfg.remote_executor = [&](const std::string& /*ep*/,
+                               const std::string& op,
+                               const nlohmann::json& /*params*/) -> DistributedSagaStatus {
+        if (op == "/fail") return DistributedSagaStatus::Error("remote failure");
+        if (op == "/compensate") {
+            std::lock_guard lk(mtx);
+            comp_calls.push_back(op);
+        }
+        return DistributedSagaStatus::OK();
+    };
+    DistributedSagaCoordinator c(cfg);
+
+    DistributedSAGADefinition saga;
+    saga.saga_id = "remote-comp";
+
+    RemoteStep ok_step;
+    ok_step.name                = "ok";
+    ok_step.service_endpoint    = "http://svc:8080";
+    ok_step.operation           = "/ok";
+    ok_step.compensate_operation = "/compensate";
+    ok_step.max_retries         = 0;
+    ok_step.retry_backoff       = std::chrono::milliseconds(1);
+    saga.steps.push_back(ok_step);
+
+    RemoteStep fail_step;
+    fail_step.name              = "bad";
+    fail_step.service_endpoint  = "http://svc:8080";
+    fail_step.operation         = "/fail";
+    fail_step.depends_on        = {"ok"};
+    fail_step.max_retries       = 0;
+    fail_step.retry_backoff     = std::chrono::milliseconds(1);
+    saga.steps.push_back(fail_step);
+
+    auto report = c.executeDistributed(saga);
+
+    EXPECT_FALSE(report.succeeded());
+    EXPECT_EQ(report.state, SagaExecutionState::COMPENSATED);
+    // Compensation of the "ok" step must have been called
+    EXPECT_EQ(comp_calls.size(), 1u);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// getDistributedStatus()
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST(DistributedSagaStatusTest, GetDistributedStatusReturnsNulloptForUnknown) {
+    DistributedSagaCoordinator c;
+    EXPECT_FALSE(c.getDistributedStatus("no-such-saga").has_value());
+}
+
+TEST(DistributedSagaStatusTest, GetDistributedStatusReturnsReportAfterExecution) {
+    DistributedSagaCoordinator c;
+    DistributedSAGADefinition saga;
+    saga.saga_id = "status-test";
+    RemoteStep r;
+    r.name         = "s1";
+    r.service_endpoint = "http://svc:8080";
+    r.operation    = "/op";
+    r.max_retries  = 0;
+    r.retry_backoff = std::chrono::milliseconds(1);
+    saga.steps.push_back(r);
+
+    c.executeDistributed(saga);
+
+    auto status = c.getDistributedStatus("status-test");
+    ASSERT_TRUE(status.has_value());
+    EXPECT_EQ(status->state, SagaExecutionState::COMPLETED);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// recoverInProgressSAGAs()
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST(DistributedSagaRecoveryTest, RecoverNoJournalReturnsEmpty) {
+    // No journal_path configured
+    DistributedSagaCoordinator c;
+    auto recovered = c.recoverInProgressSAGAs();
+    EXPECT_TRUE(recovered.empty());
+}
+
+TEST(DistributedSagaRecoveryTest, RecoverNonExistentJournalReturnsEmpty) {
+    DistributedSagaCoordinator::Config cfg;
+    cfg.journal_path = "/tmp/nonexistent_saga_journal_xyz.jsonl";
+    DistributedSagaCoordinator c(cfg);
+    auto recovered = c.recoverInProgressSAGAs();
+    EXPECT_TRUE(recovered.empty());
+}
+
+TEST(DistributedSagaRecoveryTest, RecoverOrphanedSagaFromJournal) {
+    // Write a journal with a STARTED-but-never-completed SAGA
+    std::string journal = "/tmp/test_saga_recovery_" +
+        std::to_string(std::chrono::system_clock::now().time_since_epoch().count()) +
+        ".jsonl";
+
+    {
+        std::ofstream f(journal);
+        f << R"({"ts":1000,"saga_id":"orphan-1","event":"STARTED"})" << "\n";
+        f << R"({"ts":2000,"saga_id":"completed-1","event":"STARTED"})" << "\n";
+        f << R"({"ts":3000,"saga_id":"completed-1","event":"COMPLETED"})" << "\n";
+    }
+
+    DistributedSagaCoordinator::Config cfg;
+    cfg.journal_path = journal;
+    DistributedSagaCoordinator c(cfg);
+
+    auto recovered = c.recoverInProgressSAGAs();
+
+    // Only "orphan-1" should be recovered
+    ASSERT_EQ(recovered.size(), 1u);
+    EXPECT_EQ(recovered[0], "orphan-1");
+
+    // The recovered SAGA should have a FAILED report
+    auto r = c.getReport("orphan-1");
+    ASSERT_TRUE(r.has_value());
+    EXPECT_EQ(r->state, SagaExecutionState::FAILED);
+    EXPECT_NE(r->failure_reason.find("recovered"), std::string::npos);
+
+    // Fully completed SAGA should NOT be recovered
+    EXPECT_FALSE(c.getReport("completed-1").has_value());
+
+    // Cleanup
+    std::remove(journal.c_str());
+}
+
+TEST(DistributedSagaRecoveryTest, RecoverCompensatingSaga) {
+    std::string journal = "/tmp/test_saga_comp_recovery_" +
+        std::to_string(std::chrono::system_clock::now().time_since_epoch().count()) +
+        ".jsonl";
+
+    {
+        std::ofstream f(journal);
+        f << R"({"ts":1000,"saga_id":"comp-orphan","event":"STARTED"})" << "\n";
+        f << R"({"ts":2000,"saga_id":"comp-orphan","event":"COMPENSATING"})" << "\n";
+        // No terminal event — coordinator crashed during compensation
+    }
+
+    DistributedSagaCoordinator::Config cfg;
+    cfg.journal_path = journal;
+    DistributedSagaCoordinator c(cfg);
+
+    auto recovered = c.recoverInProgressSAGAs();
+
+    ASSERT_EQ(recovered.size(), 1u);
+    EXPECT_EQ(recovered[0], "comp-orphan");
+
+    std::remove(journal.c_str());
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// visualize()
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST_F(DistributedSagaTest, VisualizeProducesDotGraphAndTextSummary) {
+    DistributedSagaDefinition def;
+    def.saga_id = "vis-test";
+    def.steps.push_back(makeStep("A", []{ return DistributedSagaStatus::OK(); }));
+    def.steps.push_back(makeStep("B", []{ return DistributedSagaStatus::OK(); }, {}, {"A"}));
+    def.steps.push_back(makeStep("C", []{ return DistributedSagaStatus::OK(); }, {}, {"A"}));
+    def.steps.push_back(makeStep("D", []{ return DistributedSagaStatus::OK(); }, {}, {"B", "C"}));
+
+    auto viz = coord.visualize(def);
+
+    // DOT graph contains the saga_id and all step names
+    EXPECT_NE(viz.dot_graph.find("vis-test"), std::string::npos);
+    EXPECT_NE(viz.dot_graph.find("\"A\""), std::string::npos);
+    EXPECT_NE(viz.dot_graph.find("\"D\""), std::string::npos);
+    // Dependency edges
+    EXPECT_NE(viz.dot_graph.find("\"A\" -> \"B\""), std::string::npos);
+    EXPECT_NE(viz.dot_graph.find("\"B\" -> \"D\""), std::string::npos);
+
+    // Text summary contains saga_id and step names
+    EXPECT_NE(viz.text_summary.find("vis-test"), std::string::npos);
+    EXPECT_NE(viz.text_summary.find("A"), std::string::npos);
+}
+
+TEST_F(DistributedSagaTest, VisualizeAnnotatesExecutionState) {
+    DistributedSagaDefinition def;
+    def.saga_id = "vis-exec";
+    def.steps.push_back(makeStep("step1", []{ return DistributedSagaStatus::OK(); }));
+
+    coord.execute(def);  // Execute first so report exists
+
+    auto viz = coord.visualize(def);
+
+    // After successful execution, DONE annotation should appear
+    EXPECT_NE(viz.dot_graph.find("DONE"), std::string::npos);
+    EXPECT_NE(viz.text_summary.find("COMPLETED"), std::string::npos);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// forceCompensate() / forceComplete()
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST_F(DistributedSagaTest, ForceCompensateUnknownSagaReturnsFalse) {
+    EXPECT_FALSE(coord.forceCompensate("does-not-exist"));
+}
+
+TEST_F(DistributedSagaTest, ForceCompleteUnknownSagaReturnsFalse) {
+    EXPECT_FALSE(coord.forceComplete("does-not-exist"));
+}
+
+TEST_F(DistributedSagaTest, ForceCompensateChangesState) {
+    // First execute a SAGA so a report is stored
+    DistributedSagaDefinition def;
+    def.saga_id = "force-comp-saga";
+    def.steps.push_back(makeStep("s",
+        []{ return DistributedSagaStatus::Error("stuck"); }
+    ));
+    coord.execute(def);  // Will result in COMPENSATED or FAILED
+
+    // Force-compensate it
+    EXPECT_TRUE(coord.forceCompensate("force-comp-saga"));
+
+    auto r = coord.getReport("force-comp-saga");
+    ASSERT_TRUE(r.has_value());
+    EXPECT_EQ(r->state, SagaExecutionState::COMPENSATED);
+}
+
+TEST_F(DistributedSagaTest, ForceCompleteChangesState) {
+    // Execute a SAGA that fails
+    DistributedSagaDefinition def;
+    def.saga_id = "force-complete-saga";
+    def.steps.push_back(makeStep("s",
+        []{ return DistributedSagaStatus::Error("stuck"); }
+    ));
+    coord.execute(def);
+
+    // Force-complete it
+    EXPECT_TRUE(coord.forceComplete("force-complete-saga"));
+
+    auto r = coord.getReport("force-complete-saga");
+    ASSERT_TRUE(r.has_value());
+    EXPECT_EQ(r->state, SagaExecutionState::COMPLETED);
+    EXPECT_TRUE(r->failure_reason.empty());
 }
