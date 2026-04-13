@@ -300,6 +300,7 @@ wiki/
 *.wiki/
 artifacts/docs/
 artifacts/perf_nv/
+artifacts/perf_expectations_audit/
 
 # Docker / containers
 docker-compose.override.yml
