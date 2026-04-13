@@ -162,6 +162,31 @@ struct KnowledgeGapConfig {
 };
 
 /**
+ * @brief Callback type for dynamic document retrieval in the FLARE loop.
+ *
+ * The callable receives a reformulated query string and the maximum number
+ * of documents to return (k).  It must return a (possibly empty) vector of
+ * RetrievedDocument values.  An empty return value is interpreted as "no
+ * additional documents found" and stops the FLARE iteration early.
+ *
+ * Example wiring with VectorIndexManager:
+ * @code
+ *   detector->setRetrievalCallback(
+ *       [&vec_mgr, &db](const std::string& q, size_t k)
+ *           -> std::vector<RetrievedDocument>
+ *       {
+ *           auto embedding = embed(q);
+ *           if (embedding.empty()) return {};
+ *           auto [st, results] = vec_mgr.searchKnn(embedding, k);
+ *           if (!st.ok) return {};
+ *           return rag::convertToRetrievedDocuments(results, db);
+ *       });
+ * @endcode
+ */
+using RetrievalCallback =
+    std::function<std::vector<RetrievedDocument>(const std::string& query, size_t k)>;
+
+/**
  * @brief Main Knowledge Gap Detector class
  * 
  * Implements multi-level detection strategies:
@@ -273,7 +298,24 @@ public:
     void setGapDetectionCallback(
         std::function<void(const DetectionResult&)> callback
     );
-    
+
+    /**
+     * @brief Set the retrieval callback used by the FLARE active-retrieval loop.
+     *
+     * When set, @c detectWithActiveRetrieval() calls this function each time
+     * the current document set does not provide sufficient coverage and a
+     * reformulated sub-query is available.  The callback must be thread-safe
+     * with respect to the surrounding context but does not need to be
+     * re-entrant.
+     *
+     * Passing a default-constructed (empty) function disables dynamic
+     * retrieval; the FLARE loop will then exit after the initial document set
+     * check without attempting further searches.
+     *
+     * @param fn RetrievalCallback — receives (query, k) and returns documents.
+     */
+    void setRetrievalCallback(RetrievalCallback fn);
+
     /**
      * @brief Detect ethical perspective gap
      * @param query User query string
