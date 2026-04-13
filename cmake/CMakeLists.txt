@@ -1572,6 +1572,7 @@ set(THEMIS_CORE_SOURCES
     ../src/query/adaptive_join.cpp
     ../src/query/runtime_reoptimizer.cpp
     ../src/graph/graph_query_optimizer.cpp
+    ../src/graph/graph_query_rewriter.cpp
     ../src/graph/path_constraints.cpp
     ../src/graph/gpu_traversal.cpp
     ../src/graph/parallel_traversal.cpp
