@@ -4788,6 +4788,22 @@ if(THEMIS_BUILD_TESTS)
         EXTRA_ARGS --gtest_color=yes
     )
 
+    # Workload-Adaptive Optimizer tests (v1.9.0, Issue #230)
+    add_executable(test_workload_adaptive_optimizer
+        ${THEMIS_ROOT_DIR}/tests/test_workload_adaptive_optimizer.cpp
+    )
+    target_link_libraries(test_workload_adaptive_optimizer
+        PRIVATE
+            themis_core
+            GTest::gtest
+            GTest::gtest_main
+    )
+    gtest_discover_tests(test_workload_adaptive_optimizer
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_workload_adaptive_optimizer>
+        EXTRA_ARGS --gtest_color=yes
+    )
+
     # RaBitQ ProductQuantizer k-means tests
     if(THEMIS_ENABLE_RABITQ)
         add_executable(test_rabitq_product_quantizer
