@@ -4,13 +4,17 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            kernel_bypass.h                                    ║
   Version:         0.0.1                                              ║
-  Last Modified:   2026-04-13                                         ║
+  Last Modified:   2026-04-13 20:23:41                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
+    • Total Lines:     591                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 303d17b93c  2026-04-13  feat(network): Kernel Bypass (DPDK/io_uring) — v1.9.0 (#4... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

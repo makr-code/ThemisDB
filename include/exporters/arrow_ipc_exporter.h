@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            arrow_ipc_exporter.h                               ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-13 04:15:03                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-13 20:21:37                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

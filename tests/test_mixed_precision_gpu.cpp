@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_mixed_precision_gpu.cpp                       ║
-  Version:         0.0.38                                             ║
-  Last Modified:   2026-04-13 04:41:52                                ║
+  Version:         0.0.39                                             ║
+  Last Modified:   2026-04-13 20:47:08                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

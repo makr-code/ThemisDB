@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            adapter_registry.cpp                               ║
-  Version:         0.0.38                                             ║
-  Last Modified:   2026-04-13 04:26:31                                ║
+  Version:         0.0.39                                             ║
+  Last Modified:   2026-04-13 20:32:34                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   94.0/100                                       ║
-    • Total Lines:     495                                            ║
+    • Quality Score:   92.0/100                                       ║
+    • Total Lines:     571                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • fe135d5215  2026-04-13  feat(llm): Speculative Decoding for Latency Reduction — v... ║
     • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
     • ca711c041f  2026-03-19  fix(lora): unique_lock for hotLoad write, CI path, AC5 pe... ║
     • 2873683f74  2026-03-18  Changes before error encountered        ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 011803ade1  2026-02-28  feat(llm): add hotLoad() and addHotLoadObserver() to Adap... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            modality_parser.cpp                                ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-04-13 04:31:39                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-13 20:37:24                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

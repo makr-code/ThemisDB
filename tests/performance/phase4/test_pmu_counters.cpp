@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_pmu_counters.cpp                              ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-13 04:34:09                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-13 20:39:43                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

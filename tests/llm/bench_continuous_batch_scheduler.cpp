@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_continuous_batch_scheduler.cpp               ║
-  Version:         0.0.38                                             ║
-  Last Modified:   2026-04-13 04:33:48                                ║
+  Version:         0.0.39                                             ║
+  Last Modified:   2026-04-13 20:39:23                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

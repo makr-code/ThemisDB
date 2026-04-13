@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            temporal_support.h                                 ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-04-13 04:15:58                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-13 20:22:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

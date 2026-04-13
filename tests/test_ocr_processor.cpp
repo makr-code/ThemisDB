@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_ocr_processor.cpp                             ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-13 04:42:37                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-13 20:47:50                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

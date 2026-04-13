@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            kafka_importer.cpp                                 ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-13 04:25:54                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-13 20:31:59                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

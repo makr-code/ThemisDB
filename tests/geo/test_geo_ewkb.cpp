@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_geo_ewkb.cpp                                  ║
-  Version:         0.0.38                                             ║
-  Last Modified:   2026-04-13 04:33:16                                ║
+  Version:         0.0.39                                             ║
+  Last Modified:   2026-04-13 20:38:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

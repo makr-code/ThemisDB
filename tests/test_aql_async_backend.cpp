@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_aql_async_backend.cpp                         ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-04-13 04:35:02                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-04-13 20:40:34                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

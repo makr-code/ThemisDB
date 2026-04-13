@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            voice_macro_manager.cpp                            ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-13 04:32:26                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-13 20:38:07                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

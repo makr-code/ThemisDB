@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_accurate_token_count_estimation.cpp           ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-04-13 04:34:36                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-13 20:40:10                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

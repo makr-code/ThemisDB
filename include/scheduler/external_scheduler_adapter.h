@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            external_scheduler_adapter.h                       ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-13 04:19:22                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-13 20:25:45                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

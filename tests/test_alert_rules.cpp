@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_alert_rules.cpp                               ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-13 04:34:49                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-13 20:40:22                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            relevance_evaluator.cpp                            ║
-  Version:         0.0.38                                             ║
-  Last Modified:   2026-04-13 04:29:08                                ║
+  Version:         0.0.39                                             ║
+  Last Modified:   2026-04-13 20:35:03                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

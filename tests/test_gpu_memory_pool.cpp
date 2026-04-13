@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_gpu_memory_pool.cpp                           ║
-  Version:         0.0.38                                             ║
-  Last Modified:   2026-04-13 04:39:12                                ║
+  Version:         0.0.39                                             ║
+  Last Modified:   2026-04-13 20:44:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            numa_topology.h                                    ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-13 04:17:44                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-13 20:24:13                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

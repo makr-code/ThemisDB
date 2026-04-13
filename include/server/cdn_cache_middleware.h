@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cdn_cache_middleware.h                             ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-13 04:19:54                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-13 20:26:15                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

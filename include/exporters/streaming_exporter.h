@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            streaming_exporter.h                               ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-13 04:15:11                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-13 20:21:46                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

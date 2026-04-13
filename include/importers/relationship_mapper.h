@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            relationship_mapper.h                              ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-04-13 04:15:54                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-13 20:22:27                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            edition_manager.h                                  ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-13 04:21:08                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-13 20:27:25                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

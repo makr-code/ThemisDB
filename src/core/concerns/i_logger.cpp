@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            i_logger.cpp                                       ║
-  Version:         0.0.38                                             ║
-  Last Modified:   2026-04-13 04:24:40                                ║
+  Version:         0.0.39                                             ║
+  Last Modified:   2026-04-13 20:30:48                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

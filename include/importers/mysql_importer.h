@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            mysql_importer.h                                   ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-13 04:15:49                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-13 20:22:22                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

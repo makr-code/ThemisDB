@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            unified_memory.cpp                                 ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-13 04:25:36                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-13 20:31:41                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

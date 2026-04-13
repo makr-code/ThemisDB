@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_gpu_graph_cache.cpp                           ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-13 04:39:09                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-13 20:44:30                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

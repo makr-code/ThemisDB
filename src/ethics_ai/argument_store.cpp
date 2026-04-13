@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            argument_store.cpp                                 ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-04-13 04:24:45                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-13 20:30:52                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   96.0/100                                       ║
-    • Total Lines:     392                                            ║
+    • Total Lines:     394                                            ║
     • Open Issues:     TODOs: 2, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║

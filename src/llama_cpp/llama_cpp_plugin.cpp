@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llama_cpp_plugin.cpp                               ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-04-13 04:26:29                                ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-04-13 20:32:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
     • Quality Score:   60.0/100                                       ║
-    • Total Lines:     378                                            ║
+    • Total Lines:     404                                            ║
     • Open Issues:     TODOs: 0, Stubs: 8                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║

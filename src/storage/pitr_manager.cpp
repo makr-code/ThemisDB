@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            pitr_manager.cpp                                   ║
-  Version:         0.0.38                                             ║
-  Last Modified:   2026-04-13 04:30:59                                ║
+  Version:         0.0.39                                             ║
+  Last Modified:   2026-04-13 20:36:47                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

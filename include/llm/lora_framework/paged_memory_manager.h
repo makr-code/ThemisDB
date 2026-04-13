@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            paged_memory_manager.h                             ║
-  Version:         0.0.38                                             ║
-  Last Modified:   2026-04-13 04:16:41                                ║
+  Version:         0.0.39                                             ║
+  Last Modified:   2026-04-13 20:23:11                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            personalized_ranker.cpp                            ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-13 04:29:35                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-13 20:35:28                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

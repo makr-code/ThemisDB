@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            kernel_invocation.h                                ║
-  Version:         0.0.24                                             ║
-  Last Modified:   2026-04-13 04:13:05                                ║
+  Version:         0.0.25                                             ║
+  Last Modified:   2026-04-13 20:19:45                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

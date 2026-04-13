@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_grpc_web_proxy_handler.cpp                    ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-13 04:39:43                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-13 20:45:03                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

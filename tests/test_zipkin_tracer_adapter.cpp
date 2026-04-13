@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_zipkin_tracer_adapter.cpp                     ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-13 04:48:58                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-13 20:53:56                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

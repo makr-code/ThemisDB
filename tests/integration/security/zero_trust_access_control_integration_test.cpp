@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            zero_trust_access_control_integration_test.cpp     ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-13 04:33:45                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-13 20:39:21                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

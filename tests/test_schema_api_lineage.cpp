@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_schema_api_lineage.cpp                        ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-13 04:45:54                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-13 20:50:59                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

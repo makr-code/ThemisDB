@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_temporal_queries.cpp                         ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-13 04:12:15                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-13 20:18:57                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

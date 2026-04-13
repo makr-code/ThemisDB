@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            module_docs_builder.py                             ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-04-13 04:49:45                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-13 20:54:45                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     590                                            ║
+    • Total Lines:     606                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • dd319b9918  2026-04-13  Add CI/CD workflows and scripts for release management ║
     • afcb89febb  2026-03-12  fix: robustness/performance/efficiency improvements for d... ║
     • 212c6d4a65  2026-03-12  feat: add changelog_updater, module_docs_issue_reporter, ... ║
     • 30edd476b9  2026-03-12  feat: add module_docs_builder.py tool and generated PRIMA... ║

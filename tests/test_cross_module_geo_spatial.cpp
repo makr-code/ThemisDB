@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cross_module_geo_spatial.cpp                  ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-04-13 04:37:28                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-04-13 20:42:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

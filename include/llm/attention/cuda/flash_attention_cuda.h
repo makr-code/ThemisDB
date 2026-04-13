@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            flash_attention_cuda.h                             ║
-  Version:         0.0.38                                             ║
-  Last Modified:   2026-04-13 04:16:26                                ║
+  Version:         0.0.39                                             ║
+  Last Modified:   2026-04-13 20:22:56                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

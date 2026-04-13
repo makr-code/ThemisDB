@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_query_masking_policy.cpp                      ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-13 04:44:22                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-13 20:49:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

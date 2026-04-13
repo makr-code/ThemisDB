@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            speculative_decoder.h                              ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-13 04:16:48                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-13 20:23:18                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

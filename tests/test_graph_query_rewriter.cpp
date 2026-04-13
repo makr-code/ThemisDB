@@ -2,15 +2,19 @@
 ╔═════════════════════════════════════════════════════════════════════╗
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_graph_query_rewriter.cpp                     ║
+  File:            test_graph_query_rewriter.cpp                      ║
   Version:         0.0.1                                              ║
-  Last Modified:   2026-04-13                                         ║
+  Last Modified:   2026-04-13 20:44:52                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
+    • Total Lines:     751                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • e9e9c8045d  2026-04-13  feat(graph): Query Rewriting for Graph Optimization (Issu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

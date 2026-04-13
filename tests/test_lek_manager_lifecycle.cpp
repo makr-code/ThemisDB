@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_lek_manager_lifecycle.cpp                     ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-04-13 04:40:57                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-13 20:46:16                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

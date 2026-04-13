@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            totp_replay_cache.h                                ║
-  Version:         0.0.38                                             ║
-  Last Modified:   2026-04-13 04:14:01                                ║
+  Version:         0.0.39                                             ║
+  Last Modified:   2026-04-13 20:20:40                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

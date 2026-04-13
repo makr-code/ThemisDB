@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            timestamp_authority.h                              ║
-  Version:         0.0.38                                             ║
-  Last Modified:   2026-04-13 04:19:45                                ║
+  Version:         0.0.39                                             ║
+  Last Modified:   2026-04-13 20:26:06                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

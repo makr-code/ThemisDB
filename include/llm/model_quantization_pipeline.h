@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            model_quantization_pipeline.h                      ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-13 04:16:44                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-13 20:23:14                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

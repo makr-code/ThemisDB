@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            scraper_plugin.cpp                                 ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-04-13 04:22:39                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-04-13 20:28:51                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

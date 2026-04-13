@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_security_di.cpp                               ║
-  Version:         0.0.38                                             ║
-  Last Modified:   2026-04-13 04:46:11                                ║
+  Version:         0.0.39                                             ║
+  Last Modified:   2026-04-13 20:51:15                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

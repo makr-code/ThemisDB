@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            runtime_reoptimizer.cpp                            ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-13 04:28:41                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-13 20:34:38                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

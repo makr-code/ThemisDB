@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            http_server.cpp                                    ║
-  Version:         0.0.38                                             ║
-  Last Modified:   2026-04-13 04:30:05                                ║
+  Version:         0.0.39                                             ║
+  Last Modified:   2026-04-13 20:35:56                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
-    • Total Lines:     11513                                          ║
+    • Total Lines:     11514                                          ║
     • Open Issues:     TODOs: 1, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 8332e5afa3  2026-04-13  Refactor and update various components for improved compa... ║
     • 040083b025  2026-04-12  feat: StreamingIngestManager, TsStreamCursor, LZ4 compres... ║
     • 9f5c953436  2026-04-07  feat(config): Introduce new hierarchical configuration st... ║
     • fc0c65a058  2026-04-07  feat(api/aql): AQL-GraphQL integration – cost model bridg... ║
     • 2b2fd4812b  2026-04-06  llm: kv-cache clear + mutex fix + crash protection for ge... ║
-    • 306525b1e8  2026-04-06  feat: Add /api/v1/llm/rag and /api/v1/llm/lora/adapters H... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

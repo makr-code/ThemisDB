@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_gpu_olap_accelerator.cpp                      ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-13 04:39:14                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-13 20:44:35                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

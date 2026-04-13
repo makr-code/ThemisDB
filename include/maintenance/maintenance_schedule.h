@@ -3,17 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            maintenance_schedule.h                             ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-04-13 04:16:52                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-13 20:23:23                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     292                                            ║
+    • Total Lines:     309                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 53b0c36537  2026-04-13  feat(maintenance): Distributed Maintenance Coordination v... ║
+    • 12bb69b756  2026-04-13  feat(maintenance): multi-tenant schedule isolation (v2.0.... ║
     • e434e1c0ff  2026-03-12  Apply review feedback: validate task refs, stable orderin... ║
     • de8a5ac414  2026-03-12  Implement explicit per-task DAG with depends_on (v1.2.0 f... ║
     • 0eb79f3e41  2026-03-11  feat: add DatabaseMaintenanceOrchestrator with full sched... ║
