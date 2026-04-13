@@ -30,6 +30,12 @@
 
 #ifdef __linux__
 #  include <sys/uio.h>
+#else
+// Minimal fallback so this header parses on non-Linux platforms.
+struct iovec {
+  void*  iov_base;
+  size_t iov_len;
+};
 #endif
 
 namespace themis {
@@ -51,7 +57,7 @@ struct IoUringBatchStats {
  *
  * Usage:
  * @code
- *   IoUringBatchedSender sender(/*queue_depth=*/256);
+ *   IoUringBatchedSender sender(256); // queue_depth
  *   if (!sender.isAvailable()) {
  *       // fall back to individual WireProtocolBatcher::flush() calls
  *   }

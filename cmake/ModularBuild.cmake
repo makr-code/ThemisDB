@@ -979,6 +979,7 @@ set(THEMIS_LLM_SOURCES
     ../src/llm/prompt_policy.cpp
     ../src/llm/speculative_decoder.cpp
     ../src/llm/model_router.cpp
+    ../src/llm/adapter_registry.cpp
     ../src/llm/inference_engine_enhanced.cpp
     ../src/llm/streaming_handler.cpp
     ../src/llm/openai_compat_adapter.cpp

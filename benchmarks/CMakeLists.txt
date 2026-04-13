@@ -9,6 +9,31 @@ endif()
 
 message(STATUS "Configuring ThemisDB benchmark suite")
 
+function(themis_apply_benchmark_release_flags target_name)
+    if(NOT CMAKE_BUILD_TYPE STREQUAL "Release")
+        return()
+    endif()
+
+    if(MSVC)
+        target_compile_options(${target_name} PRIVATE
+            /O2
+            /DNDEBUG
+        )
+        return()
+    endif()
+
+    set(_themis_benchmark_arch_flags "${BENCHMARK_ARCH_FLAGS}")
+    if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+        set(_themis_benchmark_arch_flags "-march=native")
+    endif()
+
+    target_compile_options(${target_name} PRIVATE
+        -O3
+        ${_themis_benchmark_arch_flags}
+        -DNDEBUG
+    )
+endfunction()
+
 # ============================================================================
 # Standalone Benchmarks (no Google Benchmark required – custom main())
 # These benchmarks use synthetic data and have no external dependencies beyond
@@ -35,13 +60,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_importer_throughput.cpp")
         THEMIS_BENCHMARK_BUILD=1
     )
 
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        target_compile_options(bench_importer_throughput PRIVATE
-            -O3
-            -march=native
-            -DNDEBUG
-        )
-    endif()
+    themis_apply_benchmark_release_flags(bench_importer_throughput)
 
     install(TARGETS bench_importer_throughput
         RUNTIME DESTINATION bin/benchmarks
@@ -104,22 +123,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_lora_framework.cpp")
     target_compile_definitions(bench_lora_framework PRIVATE
         THEMIS_BENCHMARK_BUILD=1
     )
-    
-    # Optimization flags for benchmarks
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        if(MSVC)
-            target_compile_options(bench_lora_framework PRIVATE
-                /O2
-                /DNDEBUG
-            )
-        else()
-            target_compile_options(bench_lora_framework PRIVATE
-                -O3
-                -march=native
-                -DNDEBUG
-            )
-        endif()
-    endif()
+
+    themis_apply_benchmark_release_flags(bench_lora_framework)
     
     # Install benchmark
     install(TARGETS bench_lora_framework
@@ -153,15 +158,8 @@ if(THEMIS_ENABLE_LLM AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_multi_lora_fu
     target_compile_definitions(bench_multi_lora_fusion PRIVATE
         THEMIS_BENCHMARK_BUILD=1
     )
-    
-    # Optimization flags for benchmarks
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        target_compile_options(bench_multi_lora_fusion PRIVATE
-            -O3
-            -march=native
-            -DNDEBUG
-        )
-    endif()
+
+    themis_apply_benchmark_release_flags(bench_multi_lora_fusion)
     
     # Install benchmark
     install(TARGETS bench_multi_lora_fusion
@@ -203,15 +201,8 @@ if(THEMIS_ENABLE_LLM AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_lora_auto_bin
     target_compile_definitions(bench_lora_auto_binding PRIVATE
         THEMIS_BENCHMARK_BUILD=1
     )
-    
-    # Optimization flags for benchmarks
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        target_compile_options(bench_lora_auto_binding PRIVATE
-            -O3
-            -march=native
-            -DNDEBUG
-        )
-    endif()
+
+    themis_apply_benchmark_release_flags(bench_lora_auto_binding)
     
     # Install benchmark
     install(TARGETS bench_lora_auto_binding
@@ -256,15 +247,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_fused_kernels.cpp" AND (THEMIS_ENAB
     target_compile_definitions(bench_fused_kernels PRIVATE
         THEMIS_BENCHMARK_BUILD=1
     )
-    
-    # Optimization flags for accurate benchmarking
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        target_compile_options(bench_fused_kernels PRIVATE
-            -O3
-            -march=native
-            -DNDEBUG
-        )
-    endif()
+
+    themis_apply_benchmark_release_flags(bench_fused_kernels)
     
     # Install benchmark
     install(TARGETS bench_fused_kernels
@@ -303,15 +287,8 @@ if(THEMIS_ENABLE_LLM AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_fused_lora_ke
     target_compile_definitions(bench_fused_lora_kernels PRIVATE
         THEMIS_BENCHMARK_BUILD=1
     )
-    
-    # Optimization flags for accurate benchmarking
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        target_compile_options(bench_fused_lora_kernels PRIVATE
-            -O3
-            -march=native
-            -DNDEBUG
-        )
-    endif()
+
+    themis_apply_benchmark_release_flags(bench_fused_lora_kernels)
     
     # Install benchmark
     install(TARGETS bench_fused_lora_kernels
@@ -354,15 +331,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_snapshot_manager.cpp")
     target_compile_definitions(bench_snapshot_manager PRIVATE
         THEMIS_BENCHMARK_BUILD=1
     )
-    
-    # Optimization flags for benchmarks
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        target_compile_options(bench_snapshot_manager PRIVATE
-            -O3
-            -march=native
-            -DNDEBUG
-        )
-    endif()
+
+    themis_apply_benchmark_release_flags(bench_snapshot_manager)
     
     # Install benchmark
     install(TARGETS bench_snapshot_manager
@@ -399,14 +369,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_gpu_training_cycle.cpp" AND (THEMIS
     target_compile_definitions(bench_gpu_training_cycle PRIVATE
         THEMIS_BENCHMARK_BUILD=1
     )
-    
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        target_compile_options(bench_gpu_training_cycle PRIVATE
-            -O3
-            -march=native
-            -DNDEBUG
-        )
-    endif()
+
+    themis_apply_benchmark_release_flags(bench_gpu_training_cycle)
     
     install(TARGETS bench_gpu_training_cycle
         RUNTIME DESTINATION bin/benchmarks
@@ -438,14 +402,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_multi_gpu_scaling.cpp" AND (THEMIS_
     target_compile_definitions(bench_multi_gpu_scaling PRIVATE
         THEMIS_BENCHMARK_BUILD=1
     )
-    
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        target_compile_options(bench_multi_gpu_scaling PRIVATE
-            -O3
-            -march=native
-            -DNDEBUG
-        )
-    endif()
+
+    themis_apply_benchmark_release_flags(bench_multi_gpu_scaling)
     
     install(TARGETS bench_multi_gpu_scaling
         RUNTIME DESTINATION bin/benchmarks
@@ -477,14 +435,8 @@ if(THEMIS_ENABLE_LLM AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_multi_gpu_lor
     target_compile_definitions(bench_multi_gpu_lora_advanced PRIVATE
         THEMIS_BENCHMARK_BUILD=1
     )
-    
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        target_compile_options(bench_multi_gpu_lora_advanced PRIVATE
-            -O3
-            -march=native
-            -DNDEBUG
-        )
-    endif()
+
+    themis_apply_benchmark_release_flags(bench_multi_gpu_lora_advanced)
     
     install(TARGETS bench_multi_gpu_lora_advanced
         RUNTIME DESTINATION bin/benchmarks
@@ -518,14 +470,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_mixed_precision_perf.cpp" AND (THEM
     target_compile_definitions(bench_mixed_precision_perf PRIVATE
         THEMIS_BENCHMARK_BUILD=1
     )
-    
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        target_compile_options(bench_mixed_precision_perf PRIVATE
-            -O3
-            -march=native
-            -DNDEBUG
-        )
-    endif()
+
+    themis_apply_benchmark_release_flags(bench_mixed_precision_perf)
     
     install(TARGETS bench_mixed_precision_perf
         RUNTIME DESTINATION bin/benchmarks
@@ -560,14 +506,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_data_transfer.cpp" AND THEMIS_ENABL
     target_compile_definitions(bench_data_transfer PRIVATE
         THEMIS_BENCHMARK_BUILD=1
     )
-    
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        target_compile_options(bench_data_transfer PRIVATE
-            -O3
-            -march=native
-            -DNDEBUG
-        )
-    endif()
+
+    themis_apply_benchmark_release_flags(bench_data_transfer)
     
     install(TARGETS bench_data_transfer
         RUNTIME DESTINATION bin/benchmarks
@@ -600,14 +540,8 @@ if(THEMIS_ENABLE_LLM AND THEMIS_ENABLE_GPU AND EXISTS "${CMAKE_CURRENT_SOURCE_DI
     target_compile_definitions(bench_backend_comparison PRIVATE
         THEMIS_BENCHMARK_BUILD=1
     )
-    
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        target_compile_options(bench_backend_comparison PRIVATE
-            -O3
-            -march=native
-            -DNDEBUG
-        )
-    endif()
+
+    themis_apply_benchmark_release_flags(bench_backend_comparison)
     
     install(TARGETS bench_backend_comparison
         RUNTIME DESTINATION bin/benchmarks
@@ -656,15 +590,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_rag_ethics.cpp")
     target_compile_definitions(bench_rag_ethics PRIVATE
         THEMIS_BENCHMARK_BUILD=1
     )
-    
-    # Optimization flags for benchmarks
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        target_compile_options(bench_rag_ethics PRIVATE
-            -O3
-            -march=native
-            -DNDEBUG
-        )
-    endif()
+
+    themis_apply_benchmark_release_flags(bench_rag_ethics)
     
     # Install benchmark
     install(TARGETS bench_rag_ethics
@@ -733,15 +660,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_knowledge_gap_detector_phase2.cpp")
     target_compile_definitions(bench_knowledge_gap_detector_phase2 PRIVATE
         THEMIS_BENCHMARK_BUILD=1
     )
-    
-    # Optimization flags for benchmarks
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        target_compile_options(bench_knowledge_gap_detector_phase2 PRIVATE
-            -O3
-            -march=native
-            -DNDEBUG
-        )
-    endif()
+
+    themis_apply_benchmark_release_flags(bench_knowledge_gap_detector_phase2)
     
     # Install benchmark
     install(TARGETS bench_knowledge_gap_detector_phase2
@@ -784,13 +704,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_rag_hybrid_retriever.cpp")
         THEMIS_BENCHMARK_BUILD=1
     )
 
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        target_compile_options(bench_rag_hybrid_retriever PRIVATE
-            -O3
-            -march=native
-            -DNDEBUG
-        )
-    endif()
+    themis_apply_benchmark_release_flags(bench_rag_hybrid_retriever)
 
     install(TARGETS bench_rag_hybrid_retriever
         RUNTIME DESTINATION bin/benchmarks
@@ -833,13 +747,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_rag_evaluation.cpp")
         THEMIS_BENCHMARK_BUILD=1
     )
 
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        target_compile_options(bench_rag_evaluation PRIVATE
-            -O3
-            -march=native
-            -DNDEBUG
-        )
-    endif()
+    themis_apply_benchmark_release_flags(bench_rag_evaluation)
 
     install(TARGETS bench_rag_evaluation
         RUNTIME DESTINATION bin/benchmarks
@@ -883,15 +791,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_advanced_patterns.cpp")
     target_compile_definitions(bench_advanced_patterns PRIVATE
         THEMIS_BENCHMARK_BUILD=1
     )
-    
-    # Optimization flags for benchmarks
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        target_compile_options(bench_advanced_patterns PRIVATE
-            -O3
-            -march=native
-            -DNDEBUG
-        )
-    endif()
+
+    themis_apply_benchmark_release_flags(bench_advanced_patterns)
     
     # Install benchmark
     install(TARGETS bench_advanced_patterns
@@ -934,15 +835,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_distributed_coordinator.cpp")
     target_compile_definitions(bench_distributed_coordinator PRIVATE
         THEMIS_BENCHMARK_BUILD=1
     )
-    
-    # Optimization flags for benchmarks
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        target_compile_options(bench_distributed_coordinator PRIVATE
-            -O3
-            -march=native
-            -DNDEBUG
-        )
-    endif()
+
+    themis_apply_benchmark_release_flags(bench_distributed_coordinator)
     
     # Install benchmark
     install(TARGETS bench_distributed_coordinator
@@ -989,16 +883,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_graph_traversal.cpp")
         THEMIS_GRAPH_EXPORTS
     )
 
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
-            set(BENCHMARK_ARCH_FLAGS "-march=native")
-        endif()
-        target_compile_options(bench_graph_traversal PRIVATE
-            -O3
-            ${BENCHMARK_ARCH_FLAGS}
-            -DNDEBUG
-        )
-    endif()
+    themis_apply_benchmark_release_flags(bench_graph_traversal)
 
     install(TARGETS bench_graph_traversal
         RUNTIME DESTINATION bin/benchmarks
@@ -1034,16 +919,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_graph_query_optimizer.cpp")
         THEMIS_GRAPH_EXPORTS
     )
 
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
-            set(BENCHMARK_ARCH_FLAGS "-march=native")
-        endif()
-        target_compile_options(bench_graph_query_optimizer PRIVATE
-            -O3
-            ${BENCHMARK_ARCH_FLAGS}
-            -DNDEBUG
-        )
-    endif()
+    themis_apply_benchmark_release_flags(bench_graph_query_optimizer)
 
     install(TARGETS bench_graph_query_optimizer
         RUNTIME DESTINATION bin/benchmarks
@@ -1075,20 +951,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_storage_performance.cpp")
     target_compile_definitions(bench_storage_performance PRIVATE
         THEMIS_BENCHMARK_BUILD=1
     )
-    
-    # Optimization flags for benchmarks (configurable via BENCHMARK_ARCH_FLAGS)
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
-            # Default: Use -march=native for maximum performance on build machine
-            # Override with -DBENCHMARK_ARCH_FLAGS="-march=x86-64" for portability
-            set(BENCHMARK_ARCH_FLAGS "-march=native")
-        endif()
-        target_compile_options(bench_storage_performance PRIVATE
-            -O3
-            ${BENCHMARK_ARCH_FLAGS}
-            -DNDEBUG
-        )
-    endif()
+
+    themis_apply_benchmark_release_flags(bench_storage_performance)
     
     install(TARGETS bench_storage_performance
         RUNTIME DESTINATION bin/benchmarks
@@ -1117,16 +981,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_hotspots_micro.cpp")
         THEMIS_BENCHMARK_BUILD=1
     )
 
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
-            set(BENCHMARK_ARCH_FLAGS "-march=native")
-        endif()
-        target_compile_options(bench_hotspots_micro PRIVATE
-            -O3
-            ${BENCHMARK_ARCH_FLAGS}
-            -DNDEBUG
-        )
-    endif()
+    themis_apply_benchmark_release_flags(bench_hotspots_micro)
 
     install(TARGETS bench_hotspots_micro
         RUNTIME DESTINATION bin/benchmarks
@@ -1154,18 +1009,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_random_access_prefetch.cpp")
     target_compile_definitions(bench_random_access_prefetch PRIVATE
         THEMIS_BENCHMARK_BUILD=1
     )
-    
-    # Optimization flags for benchmarks
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
-            set(BENCHMARK_ARCH_FLAGS "-march=native")
-        endif()
-        target_compile_options(bench_random_access_prefetch PRIVATE
-            -O3
-            ${BENCHMARK_ARCH_FLAGS}
-            -DNDEBUG
-        )
-    endif()
+
+    themis_apply_benchmark_release_flags(bench_random_access_prefetch)
     
     install(TARGETS bench_random_access_prefetch
         RUNTIME DESTINATION bin/benchmarks
@@ -1193,17 +1038,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_olap_performance.cpp")
     target_compile_definitions(bench_olap_performance PRIVATE
         THEMIS_BENCHMARK_BUILD=1
     )
-    
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
-            set(BENCHMARK_ARCH_FLAGS "-march=native")
-        endif()
-        target_compile_options(bench_olap_performance PRIVATE
-            -O3
-            ${BENCHMARK_ARCH_FLAGS}
-            -DNDEBUG
-        )
-    endif()
+
+    themis_apply_benchmark_release_flags(bench_olap_performance)
     
     install(TARGETS bench_olap_performance
         RUNTIME DESTINATION bin/benchmarks
@@ -1231,17 +1067,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_embedding_cache_performance.cpp")
     target_compile_definitions(bench_embedding_cache_performance PRIVATE
         THEMIS_BENCHMARK_BUILD=1
     )
-    
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
-            set(BENCHMARK_ARCH_FLAGS "-march=native")
-        endif()
-        target_compile_options(bench_embedding_cache_performance PRIVATE
-            -O3
-            ${BENCHMARK_ARCH_FLAGS}
-            -DNDEBUG
-        )
-    endif()
+
+    themis_apply_benchmark_release_flags(bench_embedding_cache_performance)
     
     install(TARGETS bench_embedding_cache_performance
         RUNTIME DESTINATION bin/benchmarks
@@ -1272,16 +1099,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_adaptive_query_cache.cpp")
         THEMIS_BENCHMARK_BUILD=1
     )
 
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
-            set(BENCHMARK_ARCH_FLAGS "-march=native")
-        endif()
-        target_compile_options(bench_adaptive_query_cache PRIVATE
-            -O3
-            ${BENCHMARK_ARCH_FLAGS}
-            -DNDEBUG
-        )
-    endif()
+    themis_apply_benchmark_release_flags(bench_adaptive_query_cache)
 
     install(TARGETS bench_adaptive_query_cache
         RUNTIME DESTINATION bin/benchmarks
@@ -1312,16 +1130,7 @@ if(THEMIS_ENABLE_LLM AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/llm_bench.cpp")
         THEMIS_BENCHMARK_BUILD=1
     )
 
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
-            set(BENCHMARK_ARCH_FLAGS "-march=native")
-        endif()
-        target_compile_options(llm_bench PRIVATE
-            -O3
-            ${BENCHMARK_ARCH_FLAGS}
-            -DNDEBUG
-        )
-    endif()
+    themis_apply_benchmark_release_flags(llm_bench)
 
     install(TARGETS llm_bench
         RUNTIME DESTINATION bin/benchmarks
@@ -1349,17 +1158,8 @@ if(THEMIS_ENABLE_LLM AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_llm_inference
     target_compile_definitions(bench_llm_inference_performance PRIVATE
         THEMIS_BENCHMARK_BUILD=1
     )
-    
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
-            set(BENCHMARK_ARCH_FLAGS "-march=native")
-        endif()
-        target_compile_options(bench_llm_inference_performance PRIVATE
-            -O3
-            ${BENCHMARK_ARCH_FLAGS}
-            -DNDEBUG
-        )
-    endif()
+
+    themis_apply_benchmark_release_flags(bench_llm_inference_performance)
     
     install(TARGETS bench_llm_inference_performance
         RUNTIME DESTINATION bin/benchmarks
@@ -1395,16 +1195,7 @@ if(THEMIS_ENABLE_LLM AND EXISTS "${CMAKE_SOURCE_DIR}/tests/llm/bench_model_loadi
         THEMIS_LLM_EXPORTS
     )
 
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
-            set(BENCHMARK_ARCH_FLAGS "-march=native")
-        endif()
-        target_compile_options(bench_llm_model_loading_from_themisdb PRIVATE
-            -O3
-            ${BENCHMARK_ARCH_FLAGS}
-            -DNDEBUG
-        )
-    endif()
+    themis_apply_benchmark_release_flags(bench_llm_model_loading_from_themisdb)
 
     install(TARGETS bench_llm_model_loading_from_themisdb
         RUNTIME DESTINATION bin/benchmarks
@@ -1439,16 +1230,7 @@ if(THEMIS_ENABLE_LLM AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_active_vram_a
         THEMIS_LLM_EXPORTS
     )
 
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
-            set(BENCHMARK_ARCH_FLAGS "-march=native")
-        endif()
-        target_compile_options(bench_active_vram_allocator PRIVATE
-            -O3
-            ${BENCHMARK_ARCH_FLAGS}
-            -DNDEBUG
-        )
-    endif()
+    themis_apply_benchmark_release_flags(bench_active_vram_allocator)
 
     install(TARGETS bench_active_vram_allocator
         RUNTIME DESTINATION bin/benchmarks
@@ -1480,17 +1262,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_rotary_embeddings.cpp")
     target_compile_definitions(bench_rotary_embeddings PRIVATE
         THEMIS_BENCHMARK_BUILD=1
     )
-    
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
-            set(BENCHMARK_ARCH_FLAGS "-march=native")
-        endif()
-        target_compile_options(bench_rotary_embeddings PRIVATE
-            -O3
-            ${BENCHMARK_ARCH_FLAGS}
-            -DNDEBUG
-        )
-    endif()
+
+    themis_apply_benchmark_release_flags(bench_rotary_embeddings)
     
     install(TARGETS bench_rotary_embeddings
         RUNTIME DESTINATION bin/benchmarks
@@ -1525,17 +1298,8 @@ if(THEMIS_ENABLE_LLM AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_gpu_vram_allo
     target_compile_definitions(bench_gpu_vram_allocation PRIVATE
         THEMIS_BENCHMARK_BUILD=1
     )
-    
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
-            set(BENCHMARK_ARCH_FLAGS "-march=native")
-        endif()
-        target_compile_options(bench_gpu_vram_allocation PRIVATE
-            -O3
-            ${BENCHMARK_ARCH_FLAGS}
-            -DNDEBUG
-        )
-    endif()
+
+    themis_apply_benchmark_release_flags(bench_gpu_vram_allocation)
     
     install(TARGETS bench_gpu_vram_allocation
         RUNTIME DESTINATION bin/benchmarks
@@ -1572,16 +1336,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_hot_reload_manager.cpp")
         THEMIS_BENCHMARK_BUILD=1
     )
 
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
-            set(BENCHMARK_ARCH_FLAGS "-march=native")
-        endif()
-        target_compile_options(bench_hot_reload_manager PRIVATE
-            -O3
-            ${BENCHMARK_ARCH_FLAGS}
-            -DNDEBUG
-        )
-    endif()
+    themis_apply_benchmark_release_flags(bench_hot_reload_manager)
 
     install(TARGETS bench_hot_reload_manager
         RUNTIME DESTINATION bin/benchmarks
@@ -1630,16 +1385,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_cuda_vs_cpu.cpp")
         )
     endif()
 
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
-            set(BENCHMARK_ARCH_FLAGS "-march=native")
-        endif()
-        target_compile_options(bench_cuda_vs_cpu PRIVATE
-            -O3
-            ${BENCHMARK_ARCH_FLAGS}
-            -DNDEBUG
-        )
-    endif()
+    themis_apply_benchmark_release_flags(bench_cuda_vs_cpu)
 
     install(TARGETS bench_cuda_vs_cpu
         RUNTIME DESTINATION bin/benchmarks
@@ -1679,16 +1425,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_di_logging.cpp")
         THEMIS_BENCHMARK_BUILD=1
     )
 
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
-            set(BENCHMARK_ARCH_FLAGS "-march=native")
-        endif()
-        target_compile_options(bench_di_logging PRIVATE
-            -O3
-            ${BENCHMARK_ARCH_FLAGS}
-            -DNDEBUG
-        )
-    endif()
+    themis_apply_benchmark_release_flags(bench_di_logging)
 
     install(TARGETS bench_di_logging
         RUNTIME DESTINATION bin/benchmarks
@@ -1726,16 +1463,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_auth_token_validation.cpp")
         THEMIS_BENCHMARK_BUILD=1
     )
 
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
-            set(BENCHMARK_ARCH_FLAGS "-march=native")
-        endif()
-        target_compile_options(bench_auth_token_validation PRIVATE
-            -O3
-            ${BENCHMARK_ARCH_FLAGS}
-            -DNDEBUG
-        )
-    endif()
+    themis_apply_benchmark_release_flags(bench_auth_token_validation)
 
     install(TARGETS bench_auth_token_validation
         RUNTIME DESTINATION bin/benchmarks
@@ -1794,16 +1522,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_api_endpoints.cpp")
         THEMIS_BENCHMARK_BUILD=1
     )
 
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
-            set(BENCHMARK_ARCH_FLAGS "-march=native")
-        endif()
-        target_compile_options(bench_api_endpoints PRIVATE
-            -O3
-            ${BENCHMARK_ARCH_FLAGS}
-            -DNDEBUG
-        )
-    endif()
+    themis_apply_benchmark_release_flags(bench_api_endpoints)
 
     install(TARGETS bench_api_endpoints
         RUNTIME DESTINATION bin/benchmarks
@@ -1915,16 +1634,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_security.cpp")
         THEMIS_BENCHMARK_BUILD=1
     )
 
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
-            set(BENCHMARK_ARCH_FLAGS "-march=native")
-        endif()
-        target_compile_options(bench_security PRIVATE
-            -O3
-            ${BENCHMARK_ARCH_FLAGS}
-            -DNDEBUG
-        )
-    endif()
+    themis_apply_benchmark_release_flags(bench_security)
 
     install(TARGETS bench_security
         RUNTIME DESTINATION bin/benchmarks
@@ -1966,16 +1676,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_config_path_resolver.cpp")
         THEMIS_BENCHMARK_BUILD=1
     )
 
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
-            set(BENCHMARK_ARCH_FLAGS "-march=native")
-        endif()
-        target_compile_options(bench_config_path_resolver PRIVATE
-            -O3
-            ${BENCHMARK_ARCH_FLAGS}
-            -DNDEBUG
-        )
-    endif()
+    themis_apply_benchmark_release_flags(bench_config_path_resolver)
 
     install(TARGETS bench_config_path_resolver
         RUNTIME DESTINATION bin/benchmarks
@@ -2011,16 +1712,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_config_migration_scanner.cpp")
         THEMIS_BENCHMARK_BUILD=1
     )
 
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
-            set(BENCHMARK_ARCH_FLAGS "-march=native")
-        endif()
-        target_compile_options(bench_config_migration_scanner PRIVATE
-            -O3
-            ${BENCHMARK_ARCH_FLAGS}
-            -DNDEBUG
-        )
-    endif()
+    themis_apply_benchmark_release_flags(bench_config_migration_scanner)
 
     install(TARGETS bench_config_migration_scanner
         RUNTIME DESTINATION bin/benchmarks
@@ -2055,13 +1747,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_acceleration_dispatch.cpp")
         THEMIS_BENCHMARK_BUILD=1
     )
 
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        target_compile_options(bench_acceleration_dispatch PRIVATE
-            -O3
-            -march=native
-            -DNDEBUG
-        )
-    endif()
+    themis_apply_benchmark_release_flags(bench_acceleration_dispatch)
 
     install(TARGETS bench_acceleration_dispatch
         RUNTIME DESTINATION bin/benchmarks
@@ -2099,13 +1785,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_cdc_pipeline.cpp")
         THEMIS_BENCHMARK_BUILD=1
     )
 
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        target_compile_options(bench_cdc_pipeline PRIVATE
-            -O3
-            -march=native
-            -DNDEBUG
-        )
-    endif()
+    themis_apply_benchmark_release_flags(bench_cdc_pipeline)
 
     install(TARGETS bench_cdc_pipeline
         RUNTIME DESTINATION bin/benchmarks
@@ -2139,13 +1819,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_temporal_queries.cpp")
         THEMIS_BENCHMARK_BUILD=1
     )
 
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        target_compile_options(bench_temporal_queries PRIVATE
-            -O3
-            -march=native
-            -DNDEBUG
-        )
-    endif()
+    themis_apply_benchmark_release_flags(bench_temporal_queries)
 
     install(TARGETS bench_temporal_queries
         RUNTIME DESTINATION bin/benchmarks
@@ -2183,13 +1857,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_task_scheduler.cpp")
         THEMIS_BENCHMARK_BUILD=1
     )
 
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        target_compile_options(bench_task_scheduler PRIVATE
-            -O3
-            -march=native
-            -DNDEBUG
-        )
-    endif()
+    themis_apply_benchmark_release_flags(bench_task_scheduler)
 
     install(TARGETS bench_task_scheduler
         RUNTIME DESTINATION bin/benchmarks
@@ -2225,13 +1893,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_replication_throughput.cpp")
         THEMIS_BENCHMARK_BUILD=1
     )
 
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        target_compile_options(bench_replication_throughput PRIVATE
-            -O3
-            -march=native
-            -DNDEBUG
-        )
-    endif()
+    themis_apply_benchmark_release_flags(bench_replication_throughput)
 
     install(TARGETS bench_replication_throughput
         RUNTIME DESTINATION bin/benchmarks
@@ -2269,13 +1931,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_update_pipeline.cpp")
         THEMIS_BENCHMARK_BUILD=1
     )
 
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        target_compile_options(bench_update_pipeline PRIVATE
-            -O3
-            -march=native
-            -DNDEBUG
-        )
-    endif()
+    themis_apply_benchmark_release_flags(bench_update_pipeline)
 
     install(TARGETS bench_update_pipeline
         RUNTIME DESTINATION bin/benchmarks
@@ -2314,16 +1970,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_metrics_collector.cpp")
         THEMIS_BENCHMARK_BUILD=1
     )
 
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
-            set(BENCHMARK_ARCH_FLAGS "-march=native")
-        endif()
-        target_compile_options(bench_metrics_collector PRIVATE
-            -O3
-            ${BENCHMARK_ARCH_FLAGS}
-            -DNDEBUG
-        )
-    endif()
+    themis_apply_benchmark_release_flags(bench_metrics_collector)
 
     install(TARGETS bench_metrics_collector
         RUNTIME DESTINATION bin/benchmarks
@@ -2357,16 +2004,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_vector_search.cpp")
         THEMIS_BENCHMARK_BUILD=1
     )
 
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
-            set(BENCHMARK_ARCH_FLAGS "-march=native")
-        endif()
-        target_compile_options(bench_vector_search PRIVATE
-            -O3
-            ${BENCHMARK_ARCH_FLAGS}
-            -DNDEBUG
-        )
-    endif()
+    themis_apply_benchmark_release_flags(bench_vector_search)
 
     install(TARGETS bench_vector_search
         RUNTIME DESTINATION bin/benchmarks
@@ -2397,16 +2035,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_index_rebuild.cpp")
         THEMIS_BENCHMARK_BUILD=1
     )
 
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
-            set(BENCHMARK_ARCH_FLAGS "-march=native")
-        endif()
-        target_compile_options(bench_index_rebuild PRIVATE
-            -O3
-            ${BENCHMARK_ARCH_FLAGS}
-            -DNDEBUG
-        )
-    endif()
+    themis_apply_benchmark_release_flags(bench_index_rebuild)
 
     install(TARGETS bench_index_rebuild
         RUNTIME DESTINATION bin/benchmarks
@@ -2440,16 +2069,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_spatial_index.cpp")
         THEMIS_BENCHMARK_BUILD=1
     )
 
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
-            set(BENCHMARK_ARCH_FLAGS "-march=native")
-        endif()
-        target_compile_options(bench_spatial_index PRIVATE
-            -O3
-            ${BENCHMARK_ARCH_FLAGS}
-            -DNDEBUG
-        )
-    endif()
+    themis_apply_benchmark_release_flags(bench_spatial_index)
 
     install(TARGETS bench_spatial_index
         RUNTIME DESTINATION bin/benchmarks
@@ -2480,16 +2100,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_approximate_radius_search.cpp")
         THEMIS_BENCHMARK_BUILD=1
     )
 
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
-            set(BENCHMARK_ARCH_FLAGS "-march=native")
-        endif()
-        target_compile_options(bench_approximate_radius_search PRIVATE
-            -O3
-            ${BENCHMARK_ARCH_FLAGS}
-            -DNDEBUG
-        )
-    endif()
+    themis_apply_benchmark_release_flags(bench_approximate_radius_search)
 
     install(TARGETS bench_approximate_radius_search
         RUNTIME DESTINATION bin/benchmarks
@@ -2518,16 +2129,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_binary_quantization.cpp")
         THEMIS_BENCHMARK_BUILD=1
     )
 
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
-            set(BENCHMARK_ARCH_FLAGS "-march=native")
-        endif()
-        target_compile_options(bench_binary_quantization PRIVATE
-            -O3
-            ${BENCHMARK_ARCH_FLAGS}
-            -DNDEBUG
-        )
-    endif()
+    themis_apply_benchmark_release_flags(bench_binary_quantization)
 
     install(TARGETS bench_binary_quantization
         RUNTIME DESTINATION bin/benchmarks
@@ -2556,16 +2158,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_product_quantization.cpp")
         THEMIS_BENCHMARK_BUILD=1
     )
 
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
-            set(BENCHMARK_ARCH_FLAGS "-march=native")
-        endif()
-        target_compile_options(bench_product_quantization PRIVATE
-            -O3
-            ${BENCHMARK_ARCH_FLAGS}
-            -DNDEBUG
-        )
-    endif()
+    themis_apply_benchmark_release_flags(bench_product_quantization)
 
     install(TARGETS bench_product_quantization
         RUNTIME DESTINATION bin/benchmarks
@@ -2594,16 +2187,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_residual_quantization.cpp")
         THEMIS_BENCHMARK_BUILD=1
     )
 
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
-            set(BENCHMARK_ARCH_FLAGS "-march=native")
-        endif()
-        target_compile_options(bench_residual_quantization PRIVATE
-            -O3
-            ${BENCHMARK_ARCH_FLAGS}
-            -DNDEBUG
-        )
-    endif()
+    themis_apply_benchmark_release_flags(bench_residual_quantization)
 
     install(TARGETS bench_residual_quantization
         RUNTIME DESTINATION bin/benchmarks
@@ -2632,16 +2216,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_learned_quantization.cpp")
         THEMIS_BENCHMARK_BUILD=1
     )
 
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
-            set(BENCHMARK_ARCH_FLAGS "-march=native")
-        endif()
-        target_compile_options(bench_learned_quantization PRIVATE
-            -O3
-            ${BENCHMARK_ARCH_FLAGS}
-            -DNDEBUG
-        )
-    endif()
+    themis_apply_benchmark_release_flags(bench_learned_quantization)
 
     install(TARGETS bench_learned_quantization
         RUNTIME DESTINATION bin/benchmarks
@@ -2674,16 +2249,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_hnsw_prefilter_minimal.cpp")
         THEMIS_BENCHMARK_BUILD=1
     )
 
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
-            set(BENCHMARK_ARCH_FLAGS "-march=native")
-        endif()
-        target_compile_options(bench_hnsw_prefilter_minimal PRIVATE
-            -O3
-            ${BENCHMARK_ARCH_FLAGS}
-            -DNDEBUG
-        )
-    endif()
+    themis_apply_benchmark_release_flags(bench_hnsw_prefilter_minimal)
 
     install(TARGETS bench_hnsw_prefilter_minimal
         RUNTIME DESTINATION bin/benchmarks
@@ -2712,16 +2278,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_hybrid_vector_geo.cpp")
         THEMIS_BENCHMARK_BUILD=1
     )
 
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
-            set(BENCHMARK_ARCH_FLAGS "-march=native")
-        endif()
-        target_compile_options(bench_hybrid_vector_geo PRIVATE
-            -O3
-            ${BENCHMARK_ARCH_FLAGS}
-            -DNDEBUG
-        )
-    endif()
+    themis_apply_benchmark_release_flags(bench_hybrid_vector_geo)
 
     install(TARGETS bench_hybrid_vector_geo
         RUNTIME DESTINATION bin/benchmarks
@@ -2753,16 +2310,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_vector_prefilter.cpp")
         THEMIS_BENCHMARK_BUILD=1
     )
 
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
-            set(BENCHMARK_ARCH_FLAGS "-march=native")
-        endif()
-        target_compile_options(bench_vector_prefilter PRIVATE
-            -O3
-            ${BENCHMARK_ARCH_FLAGS}
-            -DNDEBUG
-        )
-    endif()
+    themis_apply_benchmark_release_flags(bench_vector_prefilter)
 
     install(TARGETS bench_vector_prefilter
         RUNTIME DESTINATION bin/benchmarks
@@ -2791,16 +2339,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_vector_compression_lossless.cpp")
         THEMIS_BENCHMARK_BUILD=1
     )
 
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
-            set(BENCHMARK_ARCH_FLAGS "-march=native")
-        endif()
-        target_compile_options(bench_vector_compression_lossless PRIVATE
-            -O3
-            ${BENCHMARK_ARCH_FLAGS}
-            -DNDEBUG
-        )
-    endif()
+    themis_apply_benchmark_release_flags(bench_vector_compression_lossless)
 
     install(TARGETS bench_vector_compression_lossless
         RUNTIME DESTINATION bin/benchmarks
@@ -2835,16 +2374,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_gpu_vector_index.cpp")
             THEMIS_ENABLE_GPU
         )
 
-        if(CMAKE_BUILD_TYPE STREQUAL "Release")
-            if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
-                set(BENCHMARK_ARCH_FLAGS "-march=native")
-            endif()
-            target_compile_options(bench_gpu_vector_index PRIVATE
-                -O3
-                ${BENCHMARK_ARCH_FLAGS}
-                -DNDEBUG
-            )
-        endif()
+        themis_apply_benchmark_release_flags(bench_gpu_vector_index)
 
         install(TARGETS bench_gpu_vector_index
             RUNTIME DESTINATION bin/benchmarks
@@ -2880,16 +2410,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_ingestion_kv.cpp")
         THEMIS_BENCHMARK_BUILD=1
     )
 
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
-            set(BENCHMARK_ARCH_FLAGS "-march=native")
-        endif()
-        target_compile_options(bench_ingestion_kv PRIVATE
-            -O3
-            ${BENCHMARK_ARCH_FLAGS}
-            -DNDEBUG
-        )
-    endif()
+    themis_apply_benchmark_release_flags(bench_ingestion_kv)
 
     install(TARGETS bench_ingestion_kv
         RUNTIME DESTINATION bin/benchmarks
@@ -2920,16 +2441,7 @@ if(THEMIS_ENABLE_VOICE_ASSISTANT AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_v
         THEMIS_BENCHMARK_BUILD=1
     )
 
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
-            set(BENCHMARK_ARCH_FLAGS "-march=native")
-        endif()
-        target_compile_options(bench_voice_assistant PRIVATE
-            -O3
-            ${BENCHMARK_ARCH_FLAGS}
-            -DNDEBUG
-        )
-    endif()
+    themis_apply_benchmark_release_flags(bench_voice_assistant)
 
     install(TARGETS bench_voice_assistant
         RUNTIME DESTINATION bin/benchmarks
@@ -2962,16 +2474,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_prompt_engineering.cpp")
         THEMIS_BENCHMARK_BUILD=1
     )
 
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
-            set(BENCHMARK_ARCH_FLAGS "-march=native")
-        endif()
-        target_compile_options(bench_prompt_engineering PRIVATE
-            -O3
-            ${BENCHMARK_ARCH_FLAGS}
-            -DNDEBUG
-        )
-    endif()
+    themis_apply_benchmark_release_flags(bench_prompt_engineering)
 
     install(TARGETS bench_prompt_engineering
         RUNTIME DESTINATION bin/benchmarks
@@ -3008,16 +2511,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_exporters.cpp")
         THEMIS_BENCHMARK_BUILD=1
     )
 
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
-            set(BENCHMARK_ARCH_FLAGS "-march=native")
-        endif()
-        target_compile_options(bench_exporters PRIVATE
-            -O3
-            ${BENCHMARK_ARCH_FLAGS}
-            -DNDEBUG
-        )
-    endif()
+    themis_apply_benchmark_release_flags(bench_exporters)
 
     install(TARGETS bench_exporters
         RUNTIME DESTINATION bin/benchmarks
@@ -3049,16 +2543,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_metadata_cache.cpp")
         THEMIS_BENCHMARK_BUILD=1
     )
 
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
-            set(BENCHMARK_ARCH_FLAGS "-march=native")
-        endif()
-        target_compile_options(bench_metadata_cache PRIVATE
-            -O3
-            ${BENCHMARK_ARCH_FLAGS}
-            -DNDEBUG
-        )
-    endif()
+    themis_apply_benchmark_release_flags(bench_metadata_cache)
 
     install(TARGETS bench_metadata_cache
         RUNTIME DESTINATION bin/benchmarks
@@ -3090,16 +2575,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_content_versioning.cpp")
         THEMIS_BENCHMARK_BUILD=1
     )
 
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
-            set(BENCHMARK_ARCH_FLAGS "-march=native")
-        endif()
-        target_compile_options(bench_content_versioning PRIVATE
-            -O3
-            ${BENCHMARK_ARCH_FLAGS}
-            -DNDEBUG
-        )
-    endif()
+    themis_apply_benchmark_release_flags(bench_content_versioning)
 
     install(TARGETS bench_content_versioning
         RUNTIME DESTINATION bin/benchmarks
@@ -3125,23 +2601,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_text_extraction.cpp")
         THEMIS_BENCHMARK_BUILD=1
     )
 
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        if(MSVC)
-            target_compile_options(bench_text_extraction PRIVATE
-                /O2
-                /DNDEBUG
-            )
-        else()
-            if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
-                set(BENCHMARK_ARCH_FLAGS "-march=native")
-            endif()
-            target_compile_options(bench_text_extraction PRIVATE
-                -O3
-                ${BENCHMARK_ARCH_FLAGS}
-                -DNDEBUG
-            )
-        endif()
-    endif()
+    themis_apply_benchmark_release_flags(bench_text_extraction)
 
     install(TARGETS bench_text_extraction
         RUNTIME DESTINATION bin/benchmarks
@@ -3167,23 +2627,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_content_processor_paths.cpp")
         THEMIS_BENCHMARK_BUILD=1
     )
 
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        if(MSVC)
-            target_compile_options(bench_content_processor_paths PRIVATE
-                /O2
-                /DNDEBUG
-            )
-        else()
-            if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
-                set(BENCHMARK_ARCH_FLAGS "-march=native")
-            endif()
-            target_compile_options(bench_content_processor_paths PRIVATE
-                -O3
-                ${BENCHMARK_ARCH_FLAGS}
-                -DNDEBUG
-            )
-        endif()
-    endif()
+    themis_apply_benchmark_release_flags(bench_content_processor_paths)
 
     install(TARGETS bench_content_processor_paths
         RUNTIME DESTINATION bin/benchmarks
@@ -3214,23 +2658,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_geo_cpu_gpu.cpp")
         THEMIS_BENCHMARK_BUILD=1
     )
 
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        if(MSVC)
-            target_compile_options(bench_geo_cpu_gpu PRIVATE
-                /O2
-                /DNDEBUG
-            )
-        else()
-            if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
-                set(BENCHMARK_ARCH_FLAGS "-march=native")
-            endif()
-            target_compile_options(bench_geo_cpu_gpu PRIVATE
-                -O3
-                ${BENCHMARK_ARCH_FLAGS}
-                -DNDEBUG
-            )
-        endif()
-    endif()
+    themis_apply_benchmark_release_flags(bench_geo_cpu_gpu)
 
     install(TARGETS bench_geo_cpu_gpu
         RUNTIME DESTINATION bin/benchmarks
@@ -3266,23 +2694,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_process_retrieval.cpp")
         THEMIS_BENCHMARK_BUILD=1
     )
 
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        if(MSVC)
-            target_compile_options(bench_process_retrieval PRIVATE
-                /O2
-                /DNDEBUG
-            )
-        else()
-            if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
-                set(BENCHMARK_ARCH_FLAGS "-march=native")
-            endif()
-            target_compile_options(bench_process_retrieval PRIVATE
-                -O3
-                ${BENCHMARK_ARCH_FLAGS}
-                -DNDEBUG
-            )
-        endif()
-    endif()
+    themis_apply_benchmark_release_flags(bench_process_retrieval)
 
     install(TARGETS bench_process_retrieval
         RUNTIME DESTINATION bin/benchmarks
@@ -3317,23 +2729,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_gpu_hardware_capability.cpp")
         THEMIS_BENCHMARK_BUILD=1
     )
 
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        if(MSVC)
-            target_compile_options(bench_gpu_hardware_capability PRIVATE
-                /O2
-                /DNDEBUG
-            )
-        else()
-            if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
-                set(BENCHMARK_ARCH_FLAGS "-march=native")
-            endif()
-            target_compile_options(bench_gpu_hardware_capability PRIVATE
-                -O3
-                ${BENCHMARK_ARCH_FLAGS}
-                -DNDEBUG
-            )
-        endif()
-    endif()
+    themis_apply_benchmark_release_flags(bench_gpu_hardware_capability)
 
     install(TARGETS bench_gpu_hardware_capability
         RUNTIME DESTINATION bin/benchmarks
@@ -3368,23 +2764,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_shard_routing.cpp")
         THEMIS_BENCHMARK_BUILD=1
     )
 
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        if(MSVC)
-            target_compile_options(bench_shard_routing PRIVATE
-                /O2
-                /DNDEBUG
-            )
-        else()
-            if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
-                set(BENCHMARK_ARCH_FLAGS "-march=native")
-            endif()
-            target_compile_options(bench_shard_routing PRIVATE
-                -O3
-                ${BENCHMARK_ARCH_FLAGS}
-                -DNDEBUG
-            )
-        endif()
-    endif()
+    themis_apply_benchmark_release_flags(bench_shard_routing)
 
     install(TARGETS bench_shard_routing
         RUNTIME DESTINATION bin/benchmarks
@@ -3411,23 +2791,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_sharding_performance.cpp")
         THEMIS_BENCHMARK_BUILD=1
     )
 
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        if(MSVC)
-            target_compile_options(bench_sharding_performance PRIVATE
-                /O2
-                /DNDEBUG
-            )
-        else()
-            if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
-                set(BENCHMARK_ARCH_FLAGS "-march=native")
-            endif()
-            target_compile_options(bench_sharding_performance PRIVATE
-                -O3
-                ${BENCHMARK_ARCH_FLAGS}
-                -DNDEBUG
-            )
-        endif()
-    endif()
+    themis_apply_benchmark_release_flags(bench_sharding_performance)
 
     install(TARGETS bench_sharding_performance
         RUNTIME DESTINATION bin/benchmarks
@@ -3469,16 +2833,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_adaptive_query_compilation.cpp")
         THEMIS_BENCHMARK_BUILD=1
     )
 
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
-            set(BENCHMARK_ARCH_FLAGS "-march=native")
-        endif()
-        target_compile_options(bench_adaptive_query_compilation PRIVATE
-            -O3
-            ${BENCHMARK_ARCH_FLAGS}
-            -DNDEBUG
-        )
-    endif()
+    themis_apply_benchmark_release_flags(bench_adaptive_query_compilation)
 
     install(TARGETS bench_adaptive_query_compilation
         RUNTIME DESTINATION bin/benchmarks
@@ -3523,16 +2878,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_pii_stream_scanner.cpp")
         THEMIS_BENCHMARK_BUILD=1
     )
 
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
-            set(BENCHMARK_ARCH_FLAGS "-march=native")
-        endif()
-        target_compile_options(bench_pii_stream_scanner PRIVATE
-            -O3
-            ${BENCHMARK_ARCH_FLAGS}
-            -DNDEBUG
-        )
-    endif()
+    themis_apply_benchmark_release_flags(bench_pii_stream_scanner)
 
     install(TARGETS bench_pii_stream_scanner
         RUNTIME DESTINATION bin/benchmarks
@@ -3574,16 +2920,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_timeseries_ingestion.cpp")
         THEMIS_BENCHMARK_BUILD=1
     )
 
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
-            set(BENCHMARK_ARCH_FLAGS "-march=native")
-        endif()
-        target_compile_options(bench_timeseries_ingestion PRIVATE
-            -O3
-            ${BENCHMARK_ARCH_FLAGS}
-            -DNDEBUG
-        )
-    endif()
+    themis_apply_benchmark_release_flags(bench_timeseries_ingestion)
 
     install(TARGETS bench_timeseries_ingestion
         RUNTIME DESTINATION bin/benchmarks
@@ -3626,16 +2963,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_timeseries_adaptive_flush.cpp")
         THEMIS_BENCHMARK_BUILD=1
     )
 
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
-            set(BENCHMARK_ARCH_FLAGS "-march=native")
-        endif()
-        target_compile_options(bench_timeseries_adaptive_flush PRIVATE
-            -O3
-            ${BENCHMARK_ARCH_FLAGS}
-            -DNDEBUG
-        )
-    endif()
+    themis_apply_benchmark_release_flags(bench_timeseries_adaptive_flush)
 
     install(TARGETS bench_timeseries_adaptive_flush
         RUNTIME DESTINATION bin/benchmarks
@@ -3674,16 +3002,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_query_lazy_eval.cpp")
         THEMIS_BENCHMARK_BUILD=1
     )
 
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
-            set(BENCHMARK_ARCH_FLAGS "-march=native")
-        endif()
-        target_compile_options(bench_query_lazy_eval PRIVATE
-            -O3
-            ${BENCHMARK_ARCH_FLAGS}
-            -DNDEBUG
-        )
-    endif()
+    themis_apply_benchmark_release_flags(bench_query_lazy_eval)
 
     install(TARGETS bench_query_lazy_eval
         RUNTIME DESTINATION bin/benchmarks
@@ -3720,16 +3039,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_thread_pool_saturation.cpp")
         THEMIS_BENCHMARK_BUILD=1
     )
 
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
-            set(BENCHMARK_ARCH_FLAGS "-march=native")
-        endif()
-        target_compile_options(bench_thread_pool_saturation PRIVATE
-            -O3
-            ${BENCHMARK_ARCH_FLAGS}
-            -DNDEBUG
-        )
-    endif()
+    themis_apply_benchmark_release_flags(bench_thread_pool_saturation)
 
     install(TARGETS bench_thread_pool_saturation
         RUNTIME DESTINATION bin/benchmarks
@@ -3766,16 +3076,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_voice_wake_word_batch.cpp")
         THEMIS_BENCHMARK_BUILD=1
     )
 
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
-            set(BENCHMARK_ARCH_FLAGS "-march=native")
-        endif()
-        target_compile_options(bench_voice_wake_word_batch PRIVATE
-            -O3
-            ${BENCHMARK_ARCH_FLAGS}
-            -DNDEBUG
-        )
-    endif()
+    themis_apply_benchmark_release_flags(bench_voice_wake_word_batch)
 
     install(TARGETS bench_voice_wake_word_batch
         RUNTIME DESTINATION bin/benchmarks
@@ -3795,6 +3096,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_llama_cpp_inference.cpp")
 
     add_executable(bench_llama_cpp_inference
         bench_llama_cpp_inference.cpp
+        ${CMAKE_SOURCE_DIR}/src/llama_cpp/llama_cpp_plugin.cpp
     )
 
     target_include_directories(bench_llama_cpp_inference PRIVATE
@@ -3810,6 +3112,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_llama_cpp_inference.cpp")
 
     target_compile_definitions(bench_llama_cpp_inference PRIVATE
         THEMIS_BENCHMARK_BUILD=1
+        THEMIS_PLUGIN_EXPORTS
     )
 
     if(DEFINED ENV{THEMIS_BENCH_LLAMA_MODEL_PATH})
@@ -3818,16 +3121,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_llama_cpp_inference.cpp")
         )
     endif()
 
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
-            set(BENCHMARK_ARCH_FLAGS "-march=native")
-        endif()
-        target_compile_options(bench_llama_cpp_inference PRIVATE
-            -O3
-            ${BENCHMARK_ARCH_FLAGS}
-            -DNDEBUG
-        )
-    endif()
+    themis_apply_benchmark_release_flags(bench_llama_cpp_inference)
 
     install(TARGETS bench_llama_cpp_inference
         RUNTIME DESTINATION bin/benchmarks
@@ -3842,11 +3136,15 @@ endif()
 # Validates: transcribe() latency, file-size limits, CLI parity budget
 # ============================================================================
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_whisper_transcription.cpp")
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_whisper_transcription.cpp" AND NOT WIN32)
     message(STATUS "Adding Whisper transcription benchmarks")
 
     add_executable(bench_whisper_transcription
         bench_whisper_transcription.cpp
+        ${CMAKE_SOURCE_DIR}/src/whisper/whisper_plugin.cpp
+        ${CMAKE_SOURCE_DIR}/src/whisper/whisper_config.cpp
+        ${CMAKE_SOURCE_DIR}/src/whisper/audio_chunk_reader.cpp
+        ${CMAKE_SOURCE_DIR}/src/whisper/whisper_transcriber.cpp
     )
 
     target_include_directories(bench_whisper_transcription PRIVATE
@@ -3862,6 +3160,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_whisper_transcription.cpp")
 
     target_compile_definitions(bench_whisper_transcription PRIVATE
         THEMIS_BENCHMARK_BUILD=1
+        THEMIS_PLUGIN_EXPORTS
     )
 
     if(DEFINED ENV{THEMIS_BENCH_WHISPER_MODEL_PATH})
@@ -3870,16 +3169,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_whisper_transcription.cpp")
         )
     endif()
 
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
-            set(BENCHMARK_ARCH_FLAGS "-march=native")
-        endif()
-        target_compile_options(bench_whisper_transcription PRIVATE
-            -O3
-            ${BENCHMARK_ARCH_FLAGS}
-            -DNDEBUG
-        )
-    endif()
+    themis_apply_benchmark_release_flags(bench_whisper_transcription)
 
     install(TARGETS bench_whisper_transcription
         RUNTIME DESTINATION bin/benchmarks
@@ -3894,11 +3184,12 @@ endif()
 # Validates: Pipe vs. File key delivery, mount/unmount cycle overhead
 # ============================================================================
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_user_storage_mount_latency.cpp")
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_user_storage_mount_latency.cpp" AND NOT WIN32)
     message(STATUS "Adding user_storage_encrypted mount-latency benchmarks")
 
     add_executable(bench_user_storage_mount_latency
         bench_user_storage_mount_latency.cpp
+        ${CMAKE_SOURCE_DIR}/src/user_storage_encrypted/gocryptfs_backend.cpp
     )
 
     target_include_directories(bench_user_storage_mount_latency PRIVATE
@@ -3915,16 +3206,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_user_storage_mount_latency.cpp")
         THEMIS_BENCHMARK_BUILD=1
     )
 
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
-            set(BENCHMARK_ARCH_FLAGS "-march=native")
-        endif()
-        target_compile_options(bench_user_storage_mount_latency PRIVATE
-            -O3
-            ${BENCHMARK_ARCH_FLAGS}
-            -DNDEBUG
-        )
-    endif()
+    themis_apply_benchmark_release_flags(bench_user_storage_mount_latency)
 
     install(TARGETS bench_user_storage_mount_latency
         RUNTIME DESTINATION bin/benchmarks
@@ -3961,16 +3243,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_module_load_hot_reload.cpp")
         THEMIS_BENCHMARK_BUILD=1
     )
 
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
-            set(BENCHMARK_ARCH_FLAGS "-march=native")
-        endif()
-        target_compile_options(bench_module_load_hot_reload PRIVATE
-            -O3
-            ${BENCHMARK_ARCH_FLAGS}
-            -DNDEBUG
-        )
-    endif()
+    themis_apply_benchmark_release_flags(bench_module_load_hot_reload)
 
     install(TARGETS bench_module_load_hot_reload
         RUNTIME DESTINATION bin/benchmarks
@@ -4013,16 +3286,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_ingestion_extraction.cpp")
         )
     endif()
 
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
-            set(BENCHMARK_ARCH_FLAGS "-march=native")
-        endif()
-        target_compile_options(bench_ingestion_extraction PRIVATE
-            -O3
-            ${BENCHMARK_ARCH_FLAGS}
-            -DNDEBUG
-        )
-    endif()
+    themis_apply_benchmark_release_flags(bench_ingestion_extraction)
 
     install(TARGETS bench_ingestion_extraction
         RUNTIME DESTINATION bin/benchmarks
@@ -4060,16 +3324,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_process_import_retrieval.cpp")
         THEMIS_BENCHMARK_BUILD=1
     )
 
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
-            set(BENCHMARK_ARCH_FLAGS "-march=native")
-        endif()
-        target_compile_options(bench_process_import_retrieval PRIVATE
-            -O3
-            ${BENCHMARK_ARCH_FLAGS}
-            -DNDEBUG
-        )
-    endif()
+    themis_apply_benchmark_release_flags(bench_process_import_retrieval)
 
     install(TARGETS bench_process_import_retrieval
         RUNTIME DESTINATION bin/benchmarks
@@ -4089,6 +3344,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_chaos_stress.cpp")
 
     add_executable(bench_chaos_stress
         bench_chaos_stress.cpp
+        ${CMAKE_SOURCE_DIR}/src/chaos/chaos_framework.cpp
     )
 
     target_include_directories(bench_chaos_stress PRIVATE
@@ -4105,16 +3361,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_chaos_stress.cpp")
         THEMIS_BENCHMARK_BUILD=1
     )
 
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
-            set(BENCHMARK_ARCH_FLAGS "-march=native")
-        endif()
-        target_compile_options(bench_chaos_stress PRIVATE
-            -O3
-            ${BENCHMARK_ARCH_FLAGS}
-            -DNDEBUG
-        )
-    endif()
+    themis_apply_benchmark_release_flags(bench_chaos_stress)
 
     install(TARGETS bench_chaos_stress
         RUNTIME DESTINATION bin/benchmarks
@@ -4172,23 +3419,7 @@ if(THEMIS_AUTO_REGISTER_ELIGIBLE_BENCHMARKS)
             THEMIS_BENCHMARK_BUILD=1
         )
 
-        if(CMAKE_BUILD_TYPE STREQUAL "Release")
-            if(MSVC)
-                target_compile_options(${_bench_target} PRIVATE
-                    /O2
-                    /DNDEBUG
-                )
-            else()
-                if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
-                    set(BENCHMARK_ARCH_FLAGS "-march=native")
-                endif()
-                target_compile_options(${_bench_target} PRIVATE
-                    -O3
-                    ${BENCHMARK_ARCH_FLAGS}
-                    -DNDEBUG
-                )
-            endif()
-        endif()
+        themis_apply_benchmark_release_flags(${_bench_target})
 
         install(TARGETS ${_bench_target}
             RUNTIME DESTINATION bin/benchmarks

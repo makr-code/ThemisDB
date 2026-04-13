@@ -127,7 +127,7 @@ static void BM_Generate_PromptSize(benchmark::State& state) {
     auto req = makeRequest(prompt, /*max_tokens=*/16);
 
     for (auto _ : state) {
-        auto resp = plugin->generate(req);
+        auto resp = plugin.generate(req);
         benchmark::DoNotOptimize(resp.text);
     }
 

@@ -104,6 +104,9 @@ public:
     Result<std::vector<uint8_t>> loadOrCreateSalt(
         const std::string& salt_file_path
     ) const override;
+};
+
+/**
  * @brief Abstract interface for per-container key derivation.
  *
  * Implementations derive a fixed-length encryption key from a master key,
@@ -164,10 +167,10 @@ struct Argon2idParams {
  *
  * Latency budget: ≤ 200 ms on reference hardware (4-core / 4 GB RAM).
  */
-class Argon2idKeyDerivationService : public KeyDerivationService {
+class Argon2idContainerKeyService : public KeyDerivationService {
 public:
-    explicit Argon2idKeyDerivationService(const Argon2idParams& params = Argon2idParams{});
-    ~Argon2idKeyDerivationService() override = default;
+    explicit Argon2idContainerKeyService(const Argon2idParams& params = Argon2idParams{});
+    ~Argon2idContainerKeyService() override = default;
 
     std::vector<uint8_t> derive(
         const std::vector<uint8_t>& master_key,

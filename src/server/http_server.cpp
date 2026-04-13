@@ -50,6 +50,7 @@
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
 #include "storage/disk_space_monitor.h"
+#include "storage/mvcc_store.h"
 #include "index/secondary_index.h"
 #include "index/graph_index.h"
 #include "index/vector_index.h"

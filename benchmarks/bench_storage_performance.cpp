@@ -49,6 +49,8 @@
 #include <cstring>
 #include <thread>
 #include <chrono>
+#include <rocksdb/write_batch.h>
+#include <rocksdb/utilities/transaction_db.h>
 
 using namespace themis;
 using namespace themis::memory;

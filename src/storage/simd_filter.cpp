@@ -492,6 +492,8 @@ size_t neon_filter_f64(const double* data, size_t n, FilterOp op, double thr,
 
 #endif // THEMIS_SIMD_FILTER_NEON
 
+} // namespace
+
 // ============================================================================
 // Public API implementations
 // ============================================================================

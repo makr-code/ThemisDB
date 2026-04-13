@@ -35,6 +35,11 @@
 #include "core/concerns/i_feature_flags.h"
 #include "core/concerns/i_audit_log.h"
 
+#ifdef _MSC_VER
+#  pragma warning(push)
+#  pragma warning(disable: 4100) // unreferenced formal parameter (no-op impls intentionally ignore args)
+#endif
+
 namespace themis {
 namespace core {
 namespace concerns {
@@ -220,3 +225,7 @@ public:
 } // namespace concerns
 } // namespace core
 } // namespace themis
+
+#ifdef _MSC_VER
+#  pragma warning(pop)
+#endif

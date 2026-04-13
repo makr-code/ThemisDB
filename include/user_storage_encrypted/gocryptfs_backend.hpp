@@ -118,9 +118,6 @@ private:
         const std::vector<uint8_t>& key_material
     );
 
-    /// Execute command and pipe key_hex to its stdin; zeroes key_hex on return.
-    Result<std::string> deliverKeyViaStdin(
-
     // --- Stdin-based key delivery (Feature 1) ---
 
     /**

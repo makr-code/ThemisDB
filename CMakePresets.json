@@ -26,13 +26,15 @@
       "name": "vcpkg-base",
       "hidden": true,
       "inherits": "base",
-      "cacheVariables": {
-        "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/vcpkg/scripts/buildsystems/vcpkg.cmake",
-        "VCPKG_TARGET_TRIPLET": "x64-windows",
-        "VCPKG_INSTALLED_DIR": "${sourceDir}/vcpkg_installed",
+      "environment": {
         "VCPKG_POWERSHELL_PATH": "$env{LOCALAPPDATA}/Microsoft/WindowsApps/pwsh.exe",
         "Z_VCPKG_POWERSHELL_PATH": "$env{LOCALAPPDATA}/Microsoft/WindowsApps/pwsh.exe",
         "Z_VCPKG_PWSH_PATH": "$env{LOCALAPPDATA}/Microsoft/WindowsApps/pwsh.exe"
+      },
+      "cacheVariables": {
+        "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/vcpkg/scripts/buildsystems/vcpkg.cmake",
+        "VCPKG_TARGET_TRIPLET": "x64-windows",
+        "VCPKG_INSTALLED_DIR": "${sourceDir}/vcpkg_installed"
       }
     },
     {

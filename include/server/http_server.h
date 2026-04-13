@@ -150,6 +150,7 @@ class AdaptiveIndexManager;
 class PITRManager;
 class TaskScheduler;
 class QueryEngine;
+class MVCCStore;
 
 namespace prompt_engineering {
 class PromptManager;
