@@ -892,3 +892,49 @@ Die folgenden Komponenten wurden mit dem v1.9.x-Release (Commit 2026-04-12) in d
 | `GocryptfsBackend::mount()` | `user_storage_encrypted/gocryptfs_backend.hpp` | ✅ GA | Gocryptfs FUSE-Backend; mount/unmount/isMounted |
 | `Argon2idKeyDerivationService::deriveKey()` | `user_storage_encrypted/key_derivation_service.hpp` | ✅ GA | Argon2id KDF (OWASP-Empfehlung); memory/iterations/parallelism |
 | `reconcileStaleMounts()` | `user_storage_encrypted/multi_level_storage.hpp` | ✅ GA | Aufräumen verwaister FUSE-Mounts beim Systemstart |
+
+## Implementierungsstatus — Geo Extended, Timeseries Internals, AQL Advanced, Scheduler (2026-04-13 session 5)
+
+### Geo-Modul Erweiterungen (v2.x)
+
+| Feature | Header | Status | Beschreibung |
+|---------|--------|--------|-------------|
+| `GeoRTree::bulkLoad()` / `queryBBox()` / `queryKNN()` | `geo/geo_rtree.h` | ✅ GA | R*-Tree Spatial Index; Bulk-Load, BBox-Query, K-NN |
+| `SpatialJoinIterator::advance()` | `geo/spatial_join.h` | ✅ GA | Lazy Iterator; INTERSECTS/WITHIN_DISTANCE/CONTAINS/OVERLAPS |
+| `TileServer::getTile()` | `geo/tile_server.h` | ✅ GA | Mapbox Vector Tiles (MVT/Protobuf); Layer-Config; Geometrie-Vereinfachung |
+| `geoDbscan()` / `geoKMeans()` | `geo/geo_clustering.h` | ✅ GA | DBSCAN (eps_m, min_points) + K-Means (k, max_iter); Noise-Points |
+| `RasterGrid::sample()` / `generateHeatmap()` | `geo/raster.h` | ✅ GA | Bilinear-Sampling, Gaussian-Heatmap, normalize |
+
+### Timeseries-Internals (v1.9.x)
+
+| Feature | Header | Status | Beschreibung |
+|---------|--------|--------|-------------|
+| `TimeSeriesStore::put()` / `query()` / `aggregate()` | `timeseries/timeseries.h` | ✅ GA | Core-KV-Store; Range-Query + Window-Aggregation |
+| `Hypertable::insertBatch()` / `compressChunk()` | `timeseries/hypertable.h` | ✅ GA | Auto-Partitionierung nach Zeit; Gorilla+Zstd Chunk-Kompression |
+| `ContinuousAggWatermarkStore` / `DistributedAggregateCoordinator` | `timeseries/continuous_agg.h` | ✅ GA | Inkrementelle Materialisierung; Rollup-Hierarchien; Watermark |
+| `BitWriter` / `BitReader` (Gorilla) | `timeseries/gorilla.h` | ✅ GA | Delta-of-Delta Timestamp + XOR Value Encoding |
+| `DownsamplingPipeline::addPolicy()` | `timeseries/downsampling.h` | ✅ GA | Mehrstufiges Downsampling; AggFunc-Auswahl; Retention |
+| `RetentionManager::startAsync()` | `timeseries/retention.h` | ✅ GA | Soft+Hard Delete; StagedDeletion; Audit-Trail |
+| `TsStreamCursor::nextBatch()` | `timeseries/ts_stream_cursor.h` | ✅ GA | Batch-Streaming-Iterator über Zeitreihen |
+| `PrometheusRemoteWriteHandler::handle()` | `timeseries/prometheus_remote_write.h` | ✅ GA | Prometheus Remote-Write-Endpoint; Grafana-kompatibles Remote-Read |
+
+### AQL Advanced API (v1.x)
+
+| Feature | Header | Status | Beschreibung |
+|---------|--------|--------|-------------|
+| `AQLQueryBuilder::from()` / `build()` | `aql/aql_query_builder.h` | ✅ GA | Fluent Builder; FROM/FILTER/SORT/LIMIT/JOIN/SELECT |
+| `AQLQueryValidator::validate()` | `aql/aql_query_validator.h` | ✅ GA | Syntaktisch + semantisch; ERROR/WARNING/INFO; Line/Column |
+| `AQLOptimizerAdvisor::analyze()` | `aql/aql_optimizer_advisor.h` | ✅ GA | Index-Empfehlungen; Rewrite-Vorschläge; estimated_speedup |
+| `AQLConversationContext::ask()` | `aql/aql_conversation_context.h` | ✅ GA | Multi-Turn NL→AQL; Schema-Kontext; Auto-Correct |
+| `AQLMigrationAssistant::migrate()` | `aql/aql_migration_assistant.h` | ✅ GA | SQL→AQL Migrationshilfe; BLOCKING/WARNING Issues |
+| `AQLAgent::run()` | `aql/aql_agent.h` | ✅ GA | LLM-gesteuerter DB-Agent; Tool-Registrierung; Reasoning-Steps |
+
+### Scheduler-Internals (v1.x)
+
+| Feature | Header | Status | Beschreibung |
+|---------|--------|--------|-------------|
+| `TaskScheduler::addTask()` | `scheduler/task_scheduler.h` | ✅ GA | CRON/INTERVAL/CDC/MANUAL/WEBHOOK; 5/6-Feld, Timezone, CDC-Trigger |
+| `DistributedTaskCoordinator::start()` | `scheduler/distributed_task_coordinator.h` | ✅ GA | Leader-Election; One-Runner-Per-Cluster; LeaderChange-Callback |
+| `TaskAnomalyDetector::analyzeTask()` | `scheduler/task_anomaly_detector.h` | ✅ GA | Frequenz/Pattern/Resource/Failure-Rate-Erkennung; Callback |
+| `TaskAuditManager::query()` / `exportTo()` | `scheduler/task_audit_manager.h` | ✅ GA | Vollständiger Audit-Trail; JSON/CSV/Parquet-Export; 90-Tage-Retention |
+| `HybridRetentionManager::startAsync()` | `scheduler/hybrid_retention_manager.h` | ✅ GA | 3-Stufen: Gorilla (0–7d) + Downsampling (7–365d) + Tages-Agg (>365d) |

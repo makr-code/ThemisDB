@@ -3630,3 +3630,184 @@ auto compliance = rag.checkCompliance("inst-42");
 ---
 
 **Kapitel 29 von 30** | **Teil XI: Analytics & Operations** | **~10.400 Wörter**
+
+## 29.15 Scheduler-Internals C++ API (v1.x) {#scheduler-internals-cpp}
+
+### 29.15.1 TaskScheduler — Verteilter Aufgabenplaner
+
+```cpp
+#include "scheduler/task_scheduler.h"
+
+themis::scheduler::TaskScheduler scheduler(rocksdb, query_engine);
+
+// Cron-Task anlegen
+themis::scheduler::ScheduledTask task;
+task.id            = "daily-vacuum";
+task.type          = themis::scheduler::ScheduledTask::TaskType::MAINTENANCE;
+task.trigger_type  = themis::scheduler::ScheduledTask::TriggerType::CRON;
+task.cron_expr     = "0 3 * * *";  // täglich 03:00 UTC
+task.timezone      = "Europe/Berlin";
+task.handler       = "VacuumTask";
+task.payload_json  = R"({"table": "orders", "full": false})";
+
+scheduler.addTask(task);
+
+// Interval-Task
+themis::scheduler::ScheduledTask stats_task;
+stats_task.id              = "refresh-stats";
+stats_task.trigger_type    = themis::scheduler::ScheduledTask::TriggerType::INTERVAL;
+stats_task.interval_ms     = 5 * 60 * 1000;  // alle 5 Minuten
+stats_task.handler         = "StatsRefreshTask";
+
+scheduler.addTask(stats_task);
+
+// CDC-getriggerter Task
+themis::scheduler::ScheduledTask cdc_task;
+cdc_task.trigger_type    = themis::scheduler::ScheduledTask::TriggerType::CDC;
+cdc_task.cdc_trigger     = {
+    .collection = "orders",
+    .event      = "INSERT",
+};
+cdc_task.handler = "OrderProcessingTask";
+scheduler.addTask(cdc_task);
+
+// Tasks abfragen/verwalten
+auto tasks = scheduler.listTasks();
+scheduler.pauseTask("daily-vacuum");
+scheduler.resumeTask("daily-vacuum");
+scheduler.deleteTask("daily-vacuum");
+```
+
+**TaskType:** `MAINTENANCE` / `EXPORT` / `TRAINING` / `CUSTOM`
+**TriggerType:** `CRON` / `INTERVAL` / `CDC` / `MANUAL` / `WEBHOOK`
+
+### 29.15.2 DistributedTaskCoordinator — Leader-based Cluster-Koordination
+
+```cpp
+#include "scheduler/distributed_task_coordinator.h"
+
+themis::scheduler::DistributedTaskCoordinator::Config dtc_cfg;
+dtc_cfg.node_id              = "node-1";
+dtc_cfg.election_timeout_ms  = 5000;
+dtc_cfg.auto_manage_scheduler = true;
+
+themis::scheduler::DistributedTaskCoordinator coord(
+    scheduler, cluster_nodes, dtc_cfg);
+
+coord.start();
+
+// Leadership-Status prüfen
+if (coord.isLeader()) {
+    std::cout << "This node is the scheduler leader\n";
+}
+
+// Auf Leader-Wechsel reagieren
+coord.setLeaderChangeCallback([](bool is_now_leader) {
+    if (is_now_leader) {
+        // Tasks übernehmen
+    }
+});
+
+coord.stop();
+```
+
+### 29.15.3 TaskAnomalyDetector — Anomalieerkennung für Tasks
+
+```cpp
+#include "scheduler/task_anomaly_detector.h"
+
+themis::scheduler::AnomalyDetectorConfig ad_cfg;
+ad_cfg.enable_frequency_detection  = true;
+ad_cfg.enable_pattern_detection    = true;
+ad_cfg.enable_resource_detection   = true;
+ad_cfg.enable_failure_rate_detection = true;
+ad_cfg.failure_rate_threshold      = 0.2;  // 20% Fehlerrate als Anomalie
+
+themis::scheduler::TaskAnomalyDetector detector(scheduler, ad_cfg);
+
+// Anomalie-Callback
+detector.setAnomalyCallback([](const themis::scheduler::TaskAnomaly& a) {
+    // a.task_id, a.type, a.severity, a.description
+    alert(a.task_id + ": " + a.description);
+});
+
+detector.start();
+
+// Manuelle Analyse
+auto anomalies = detector.analyzeTask("daily-vacuum");
+for (auto& a : anomalies) {
+    std::cout << a.type << ": " << a.description << "\n";
+}
+
+// Task-Statistiken zurücksetzen
+detector.resetTaskStatistics("daily-vacuum");
+```
+
+### 29.15.4 TaskAuditManager — Audit-Trail für Aufgaben
+
+```cpp
+#include "scheduler/task_audit_manager.h"
+
+themis::scheduler::TaskAuditConfig audit_cfg;
+audit_cfg.enable_audit_logging       = true;
+audit_cfg.enable_security_logging    = true;
+audit_cfg.enable_anomaly_detection   = true;
+audit_cfg.enable_export_api          = true;
+audit_cfg.retention_days             = 90;
+
+themis::scheduler::TaskAuditManager audit_mgr(rocksdb, audit_cfg);
+
+// Audit-Log abfragen
+themis::scheduler::AuditQueryParams params;
+params.task_id      = "daily-vacuum";
+params.start_ms     = last_week_ms;
+params.end_ms       = now_ms;
+params.sort_by      = themis::scheduler::AuditQueryParams::SortBy::TIMESTAMP_DESC;
+params.limit        = 100;
+
+auto entries = audit_mgr.query(params);
+for (auto& e : entries) {
+    // e.task_id, e.event_type, e.timestamp_ms, e.duration_ms
+    // e.status (SUCCESS/FAILURE/SKIPPED), e.error_message
+    std::cout << e.task_id << " " << e.event_type
+              << " " << e.status << "\n";
+}
+
+// Export
+audit_mgr.exportTo(themis::scheduler::ExportFormat::JSON,
+    "/exports/task-audit.json", params);
+```
+
+**ExportFormat:** `JSON` / `CSV` / `PARQUET`
+
+### 29.15.5 HybridRetentionManager — 3-Stufen-Retention
+
+```cpp
+#include "scheduler/hybrid_retention_manager.h"
+
+// 3-Stufen-Retention für Zeitreihendaten
+themis::scheduler::HybridRetentionConfig hrc;
+
+// Stufe 1: Gorilla-Kompression (0–7 Tage, Rohdaten)
+hrc.stage1.enabled         = true;
+hrc.stage1.max_age_days    = 7;
+hrc.stage1.use_gorilla     = true;
+
+// Stufe 2: Varianz-Downsampling (7–365 Tage)
+hrc.stage2.enabled          = true;
+hrc.stage2.max_age_days     = 365;
+hrc.stage2.detect_anomalies = true;
+hrc.stage2.target_resolution_ms = 60'000;  // 1min Granularität
+
+// Stufe 3: Tages-Aggregate (> 365 Tage)
+hrc.stage3.enabled       = true;
+hrc.stage3.func          = themis::timeseries::AggFunc::Avg;
+
+themis::scheduler::HybridRetentionManager hrm(ts_store, scheduler, hrc);
+hrm.startAsync(std::chrono::hours(6));
+
+// Statistiken
+auto stats = hrm.getStats();
+// stats.stage1_bytes, stats.stage2_bytes, stats.stage3_bytes
+// stats.total_freed_bytes, stats.last_run_ms
+```

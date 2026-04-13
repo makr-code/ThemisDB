@@ -868,3 +868,150 @@ GeoEngine::execute()
 - Spatial JOIN (alle Paare innerhalb Distanz)
 
 ST_BUFFER, ST_UNION, ST_DIFFERENCE → CPU-Backend mit Audit-Eintrag (CUDA-Kernel geplant für v2.2.0).
+
+## 14.12 Geo-Modul — Erweiterte C++ API (v2.x) {#geo-cpp-extended}
+
+### 14.12.1 GeoRTree — Spatial Index (R*-Tree)
+
+```cpp
+#include "geo/geo_rtree.h"
+
+themis::geo::GeoRTree rtree;
+
+// Bulk-Load (effizienter als einzelne Inserts)
+std::vector<std::pair<std::string, themis::geo::GeometryInfo>> entries;
+entries.push_back({"poi:1", {13.405, 52.520, "Berlin"}});
+entries.push_back({"poi:2", {11.576, 48.137, "Munich"}});
+rtree.bulkLoad(entries);
+
+// Einzelnen Eintrag hinzufügen
+rtree.insert("poi:3", {9.993, 53.551, "Hamburg"});
+
+// Bounding-Box-Suche (MBR-Query)
+themis::geo::MBR bbox{13.2, 52.4, 13.6, 52.6}; // Berlin-Bereich
+auto results = rtree.queryBBox(bbox);
+// results: [{key, geom}, ...]
+
+// K-Nearest-Neighbors
+auto knn = rtree.queryKNN({13.405, 52.520}, /*k=*/ 5);
+// knn: [{key, geom, distance_m}, ...] sortiert nach Distanz
+
+// Eintrag entfernen
+rtree.remove("poi:1", {13.405, 52.520, "Berlin"});
+
+// Leeren
+rtree.clear();
+```
+
+### 14.12.2 SpatialJoin — Lazy Iterator
+
+```cpp
+#include "geo/spatial_join.h"
+
+themis::geo::SpatialJoinConfig config;
+config.max_distance_m   = 500.0;    // nur Paare innerhalb 500m
+config.predicate        = themis::geo::SpatialPredicate::WITHIN_DISTANCE;
+config.batch_size       = 1000;
+
+// Lazy Iterator (kein Laden aller Paare auf einmal)
+themis::geo::SpatialJoinIterator join(left_rtree, right_rtree, config);
+
+while (!join.done()) {
+    if (!join.advance()) break;
+    auto pair = join.current();
+    // pair.left_key, pair.right_key, pair.distance_m
+    process(pair);
+}
+
+// Alle Paare sammeln (wenn Menge klein genug)
+auto all_pairs = join.collectAll();
+// all_pairs: std::vector<SpatialJoinPair>
+```
+
+**SpatialPredicate:** `INTERSECTS` / `WITHIN_DISTANCE` / `CONTAINS` / `OVERLAPS`
+
+### 14.12.3 TileServer — Vektor-Tiles (MVT)
+
+```cpp
+#include "geo/tile_server.h"
+
+// Tile-Layer konfigurieren
+themis::geo::TileLayerConfig layer;
+layer.name       = "pois";
+layer.source     = "poi_collection";
+layer.min_zoom   = 0;
+layer.max_zoom   = 18;
+layer.simplify   = true;  // Geometrie vereinfachen (Ramer-Douglas-Peucker)
+
+// Tile abrufen (MapBox Vector Tile Format)
+themis::geo::TileCoord tile{/*z=*/12, /*x=*/2200, /*y=*/1348};
+auto result = tile_server.getTile(tile, {layer});
+// result.data: Protobuf-encoded MVT bytes
+// result.features: [{geometry, properties}, ...]
+
+// Einzelnes Feature abfragen
+for (auto& f : result.features) {
+    // f.geometry_type: POINT/LINESTRING/POLYGON
+    // f.properties: {{"name", "Brandenburger Tor"}, ...}
+}
+```
+
+### 14.12.4 GeoClustering — DBSCAN und K-Means
+
+```cpp
+#include "geo/geo_clustering.h"
+
+// DBSCAN (Dichte-basiert, gut für unregelmäßige Cluster)
+themis::geo::DbscanConfig dbscan_cfg;
+dbscan_cfg.eps_m        = 200.0;   // 200m Radius
+dbscan_cfg.min_points   = 5;       // Mindest-Punktanzahl
+
+auto dbscan_result = themis::geo::geoDbscan(gps_points, dbscan_cfg);
+// dbscan_result.clusters: [{cluster_id, centroid, points}, ...]
+// dbscan_result.noise_points: Ausreißer-Punkte
+
+// K-Means (k Cluster, euklidisch auf WGS84 approximiert)
+themis::geo::KMeansConfig kmeans_cfg;
+kmeans_cfg.k             = 10;
+kmeans_cfg.max_iterations = 100;
+kmeans_cfg.seed          = 42;
+
+auto kmeans_result = themis::geo::geoKMeans(gps_points, kmeans_cfg);
+// kmeans_result.clusters: [{cluster_id, centroid, radius_m, point_count}, ...]
+// kmeans_result.inertia: Gesamt-Within-Cluster-Varianz
+```
+
+**GeoClusterResult-Felder:** `cluster_id` / `centroid` (lat/lon) / `radius_m` / `point_count` / `inertia`
+
+### 14.12.5 RasterGrid — Raster-Daten und Heatmaps
+
+```cpp
+#include "geo/raster.h"
+
+// Raster anlegen (z.B. DEM-Daten, Temperatur-Grid)
+themis::geo::RasterGrid grid(512 /*cols*/, 512 /*rows*/,
+    /*nodata_value=*/ -9999.0f);
+grid.setExtent(bbox, /*crs=*/ "EPSG:4326");
+
+// Werte setzen
+grid.set(col, row, elevation_m);
+
+// NoData-Prüfung
+if (!grid.isNoData(grid.get(col, row))) {
+    process(grid.get(col, row));
+}
+
+// Sampling an beliebiger Koordinate (bilinear interpoliert)
+auto sample = grid.sample(13.405, 52.520);
+// sample.value, sample.method (NEAREST/BILINEAR)
+
+// Heatmap generieren
+themis::geo::HeatmapConfig hm_cfg;
+hm_cfg.bandwidth_m   = 500.0;
+hm_cfg.resolution    = 256;
+hm_cfg.normalize     = true;
+
+auto heatmap = themis::geo::generateHeatmap(gps_points, bbox, hm_cfg);
+// heatmap.data: row-major float[resolution*resolution]
+// heatmap.width, heatmap.height
+```

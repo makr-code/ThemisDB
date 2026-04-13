@@ -2126,3 +2126,196 @@ RETURN { deleted: LENGTH(to_delete) }
 - **Kapitel 21:** Performance Tuning & Benchmarking
 - **Kapitel 34:** Query Optimizer Internals (Execution Plans, Statistics)
 - **AQL Grammar:** [aql/AQL_GRAMMAR_EXTENDED_v1.3.1.ebnf](../../aql/AQL_GRAMMAR_EXTENDED_v1.3.1.ebnf)
+
+## 28.19 AQL Advanced C++ API (v1.x) {#aql-advanced-cpp}
+
+### 28.19.1 AQLQueryBuilder — Typsicherer Query-Builder
+
+```cpp
+#include "aql/aql_query_builder.h"
+
+// Fluent API für AQL-Queries
+themis::aql::AQLQueryBuilder builder;
+
+auto query = builder
+    .from("orders")
+    .filter("amount > 1000")
+    .filter("status == 'shipped'")
+    .sort("created_at", /*ascending=*/ false)
+    .limit(100)
+    .offset(0)
+    .select({"id", "customer_id", "amount", "created_at"})
+    .build();
+
+// Query validieren
+if (!builder.isValid()) {
+    auto issues = builder.getIssues();
+    for (auto& issue : issues) {
+        std::cerr << "AQL-Fehler: " << issue.message << "\n";
+    }
+}
+
+// Query ausführen
+auto result = query_engine.execute(query.toString());
+
+// JOIN-Query
+auto join_query = builder
+    .from("orders AS o")
+    .join("customers AS c ON o.customer_id == c.id")
+    .filter("c.country == 'DE'")
+    .select({"o.id", "o.amount", "c.name"})
+    .build();
+```
+
+### 28.19.2 AQLQueryValidator — Syntaktische und semantische Prüfung
+
+```cpp
+#include "aql/aql_query_validator.h"
+
+themis::aql::AQLQueryValidator validator(schema_manager);
+
+// Query validieren
+auto result = validator.validate(aql_query_string);
+
+if (result.hasErrors()) {
+    for (auto& issue : result.errors()) {
+        // issue.severity: ERROR / WARNING / INFO
+        // issue.message, issue.line, issue.column
+        std::cerr << "[" << to_string(issue.severity) << "] "
+                  << issue.message
+                  << " at line " << issue.line << "\n";
+    }
+}
+
+if (result.hasWarnings()) {
+    // Warnungen anzeigen (Query kann trotzdem ausgeführt werden)
+    for (auto& w : result.warnings()) {
+        std::cerr << "Warning: " << w.message << "\n";
+    }
+}
+```
+
+**ValidationIssue::Severity:** `ERROR` / `WARNING` / `INFO`
+
+### 28.19.3 AQLOptimizerAdvisor — Query-Optimierungsempfehlungen
+
+```cpp
+#include "aql/aql_optimizer_advisor.h"
+
+themis::aql::AQLOptimizerAdvisor advisor(schema_manager, stats_collector);
+
+// Query analysieren
+auto advice = advisor.analyze(aql_query_string);
+
+// Empfehlungen ausgeben
+for (auto& rec : advice.recommendations) {
+    // rec.type: ADD_INDEX / REWRITE_FILTER / USE_COVERING_INDEX / ...
+    // rec.description: "Consider adding index on orders.customer_id"
+    // rec.estimated_speedup: 5.2x
+    std::cout << rec.description
+              << " (speedup: " << rec.estimated_speedup << "x)\n";
+}
+
+// Optimierten Query-Plan ausgeben
+std::cout << advice.optimized_query << "\n";
+
+// Index-Empfehlungen extrahieren
+auto index_recs = advisor.getIndexRecommendations(query_history);
+// index_recs: [{table, column, type, estimated_benefit}, ...]
+```
+
+### 28.19.4 AQLConversationContext — Multi-Turn SQL-Chat
+
+```cpp
+#include "aql/aql_conversation_context.h"
+
+themis::aql::AQLConversationContext::Config ctx_cfg;
+ctx_cfg.max_turns          = 10;
+ctx_cfg.remember_schema    = true;
+ctx_cfg.auto_correct       = true;
+
+themis::aql::AQLConversationContext ctx(llm_handler, ctx_cfg);
+ctx.setSchemaContext(schema_json);
+
+// Erste Frage
+auto turn1 = ctx.ask("Zeige mir alle Bestellungen über 1000€");
+// turn1.aql_query: "FOR o IN orders FILTER o.amount > 1000 RETURN o"
+// turn1.explanation: "Filtert Bestellungen mit amount > 1000"
+
+// Follow-up (nutzt Kontext aus Turn 1)
+auto turn2 = ctx.ask("Nur die aus Deutschland");
+// turn2.aql_query: "FOR o IN orders FILTER o.amount > 1000 AND o.country == 'DE' RETURN o"
+
+// Kontext zurücksetzen
+ctx.reset();
+```
+
+### 28.19.5 AQLMigrationAssistant — SQL→AQL Migration
+
+```cpp
+#include "aql/aql_migration_assistant.h"
+
+themis::aql::AQLMigrationAssistant migrator(llm_handler);
+
+// SQL-Query migrieren
+auto result = migrator.migrate(
+    "SELECT o.id, c.name, o.amount "
+    "FROM orders o "
+    "JOIN customers c ON o.customer_id = c.id "
+    "WHERE o.amount > 1000 "
+    "ORDER BY o.created_at DESC "
+    "LIMIT 100"
+);
+
+// Ergebnis prüfen
+if (result.is_fully_automatable) {
+    std::cout << "Migrierter AQL:\n" << result.aql_query << "\n";
+} else {
+    // Teilweise manuell
+    for (auto& issue : result.issues) {
+        // issue.severity: BLOCKING / WARNING / INFO
+        // issue.original_construct: "LATERAL JOIN"
+        // issue.recommendation: "Nutze Subquery in AQL"
+        std::cout << issue.original_construct
+                  << " → " << issue.recommendation << "\n";
+    }
+}
+```
+
+**MigrationIssue::Severity:** `BLOCKING` / `WARNING` / `INFO`
+
+### 28.19.6 AQLAgent — LLM-gesteuerter Datenbank-Agent
+
+```cpp
+#include "aql/aql_agent.h"
+
+// Tool-Definitionen für den Agenten
+themis::aql::AgentTool query_tool{"execute_aql",
+    "Führt einen AQL-Query aus und gibt Ergebnisse zurück",
+    &execute_aql_fn};
+themis::aql::AgentTool schema_tool{"get_schema",
+    "Gibt das Schema einer Collection zurück",
+    &get_schema_fn};
+
+// Agent konfigurieren
+themis::aql::AgentConfig agent_cfg;
+agent_cfg.max_steps    = 10;
+agent_cfg.verbose      = true;
+agent_cfg.model        = "llama3-70b";
+
+// Agent instanziieren
+auto agent = themis::aql::createAgent(llm_handler, agent_cfg);
+agent->registerTool(query_tool);
+agent->registerTool(schema_tool);
+
+// Aufgabe ausführen
+auto result = agent->run("Finde die Top-10 Kunden nach Umsatz letzten Monat");
+// result.succeeded, result.answer, result.steps, result.aql_queries_executed
+
+for (auto& step : result.steps) {
+    // step.thought: "Ich muss die Bestellungen gruppieren"
+    // step.action: "execute_aql"
+    // step.observation: "[{customer_id: ..., total: ...}]"
+    std::cout << "Step: " << step.thought << "\n";
+}
+```

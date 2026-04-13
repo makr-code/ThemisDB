@@ -1067,3 +1067,242 @@ svt.deleteRow("c-1");  // Logisches Löschen (Zeitraum geschlossen)
 auto history = svt.getHistory("c-1");
 // Jeder Eintrag trägt: sys_time_start, sys_time_end, payload
 ```
+
+## 9.13 Timeseries-Internals C++ API (v1.9.x) {#timeseries-internals-cpp}
+
+### 9.13.1 TimeSeriesStore — Core-Speicher
+
+```cpp
+#include "timeseries/timeseries.h"
+
+// TimeSeriesStore konstruieren (RocksDB-Backend)
+themis::timeseries::TimeSeriesStore ts_store(rocksdb, cf_handle);
+
+// Datenpunkt schreiben
+ts_store.put("cpu.usage", timestamp_ns, 72.4);
+
+// Batch-Schreiben (hochperformant)
+std::vector<themis::timeseries::TimeSeriesStore::DataPoint> batch;
+batch.push_back({"cpu.usage",  t1_ns, 70.1});
+batch.push_back({"mem.bytes",  t1_ns, 8589934592});
+ts_store.putBatch(batch);
+
+// Range-Query
+themis::timeseries::TimeSeriesStore::RangeQuery q;
+q.metric     = "cpu.usage";
+q.start_ns   = start_ns;
+q.end_ns     = end_ns;
+q.max_points = 10000;
+
+auto points = ts_store.query(q);
+// points: [{timestamp_ns, value}, ...]
+
+// Aggregation
+themis::timeseries::TimeSeriesStore::Aggregation agg;
+agg.metric       = "cpu.usage";
+agg.start_ns     = start_ns;
+agg.end_ns       = end_ns;
+agg.window_ns    = 60 * 1e9;  // 1-Minuten-Fenster
+agg.func         = themis::timeseries::AggFunc::Avg;
+
+auto agg_result = ts_store.aggregate(agg);
+// agg_result: [{window_start_ns, value}, ...]
+```
+
+### 9.13.2 Hypertable — Automatische Zeitpartitionierung
+
+```cpp
+#include "timeseries/hypertable.h"
+
+themis::timeseries::Hypertable::Config cfg;
+cfg.chunk_interval_ms  = 7 * 24 * 3600 * 1000LL;  // 7-Tage-Chunks
+cfg.compression        = true;                     // Gorilla + zstd
+cfg.replication_factor = 3;
+
+themis::timeseries::Hypertable ht("metrics", rocksdb, cfg);
+
+// Datenpunkte einfügen
+ht.insert(timestamp_ms, payload_bytes);
+
+// Batch-Insert
+std::vector<std::pair<int64_t, std::string>> entries = { /* ... */ };
+ht.insertBatch(entries);
+
+// Chunk-Info abfragen (für Monitoring)
+auto chunks = ht.getChunks();
+for (auto& chunk : chunks) {
+    // chunk.start_ms, chunk.end_ms, chunk.is_compressed, chunk.size_bytes
+    std::cout << "Chunk " << chunk.start_ms << " - " << chunk.end_ms
+              << " compressed=" << chunk.is_compressed << "\n";
+}
+
+// Alten Chunk komprimieren
+ht.compressChunk(chunk_id);
+```
+
+### 9.13.3 ContinuousAgg — Inkrementelle Materialisierung
+
+```cpp
+#include "timeseries/continuous_agg.h"
+
+// Aggregations-Konfiguration
+themis::timeseries::AggConfig agg_cfg;
+agg_cfg.id         = "hourly_cpu";
+agg_cfg.metric     = "cpu.usage";
+agg_cfg.func       = themis::timeseries::AggFunc::Avg;
+agg_cfg.window_ms  = 3600 * 1000LL;  // 1-Stunden-Fenster
+agg_cfg.retention_days = 90;
+
+// Hierarchisches Rollup (z.B. minute → hour → day)
+themis::timeseries::RollupHierarchy hierarchy;
+hierarchy.levels = {
+    {.interval_ms = 60'000,         .func = AggFunc::Avg},   // 1min
+    {.interval_ms = 3600'000,       .func = AggFunc::Avg},   // 1h
+    {.interval_ms = 86400'000,      .func = AggFunc::Avg},   // 1d
+};
+
+// Verteilter Aggregations-Koordinator
+themis::timeseries::DistributedAggregateCoordinator coord(nodes);
+coord.registerAgg(agg_cfg);
+
+// Watermark-Management (verhindert Doppelberechnung)
+themis::timeseries::ContinuousAggWatermarkStore watermark_store(rocksdb);
+watermark_store.setWatermark("hourly_cpu", last_processed_ms);
+auto wm = watermark_store.getWatermark("hourly_cpu");
+```
+
+**AggFunc:** `Min` / `Max` / `Avg` / `Sum` / `Count`
+
+### 9.13.4 GorillaCodec — Zeitreihen-Kompression
+
+```cpp
+#include "timeseries/gorilla.h"
+
+// Encoding (Facebook Gorilla-Algorithmus, delta-of-delta + XOR)
+themis::timeseries::BitWriter writer;
+int64_t prev_ts = 0;
+double  prev_val = 0.0;
+
+for (auto& dp : data_points) {
+    writer.writeZigZag64(dp.timestamp_ns - prev_ts);  // Delta
+    // XOR-encoded double für Value
+    uint64_t val_bits;
+    memcpy(&val_bits, &dp.value, 8);
+    writer.writeBits(val_bits, 64);
+    prev_ts = dp.timestamp_ns;
+}
+writer.alignToByte();
+auto compressed = writer.getBytes();
+
+// Decoding
+themis::timeseries::BitReader reader(compressed.data(), compressed.size());
+while (!reader.done()) {
+    int64_t delta = reader.readZigZag64();
+    uint64_t val_bits = reader.readBits(64);
+    double value;
+    memcpy(&value, &val_bits, 8);
+    // ...
+}
+```
+
+### 9.13.5 DownsamplingPipeline — Mehrstufiges Downsampling
+
+```cpp
+#include "timeseries/downsampling.h"
+
+themis::timeseries::DownsamplingPipeline pipeline(ts_store);
+
+// Stufe 1: 1-Minuten-Aggregate (raw → 1min)
+themis::timeseries::DownsamplingPolicy p1;
+p1.source_resolution_ms  = 1'000;      // 1s raw
+p1.target_resolution_ms  = 60'000;     // 1min
+p1.func                  = themis::timeseries::AggFunc::Avg;
+p1.retention_days        = 7;
+
+// Stufe 2: 1-Stunden-Aggregate
+themis::timeseries::DownsamplingPolicy p2;
+p2.source_resolution_ms  = 60'000;
+p2.target_resolution_ms  = 3'600'000;
+p2.func                  = themis::timeseries::AggFunc::Max;
+p2.retention_days        = 365;
+
+pipeline.addPolicy(p1);
+pipeline.addPolicy(p2);
+pipeline.run("cpu.usage", start_ms, end_ms);
+```
+
+### 9.13.6 RetentionManager — Automatisches Löschen
+
+```cpp
+#include "timeseries/retention.h"
+
+themis::timeseries::RetentionPolicy policy;
+policy.metric          = "cpu.usage";
+policy.max_age_ms      = 30LL * 24 * 3600 * 1000;  // 30 Tage
+
+themis::timeseries::StagedDeletionPolicy staged;
+staged.soft_delete_after_ms  = 7LL  * 24 * 3600 * 1000;  // 7 Tage: soft
+staged.hard_delete_after_ms  = 30LL * 24 * 3600 * 1000;  // 30 Tage: hard
+
+themis::timeseries::RetentionManager mgr(ts_store, rocksdb);
+mgr.registerPolicy(policy);
+mgr.registerStagedPolicy(staged);
+
+// Hintergrund-Thread starten
+mgr.startAsync(std::chrono::hours(1));
+
+// Statistiken
+auto stats = mgr.getStats();
+// stats.deleted_points, stats.freed_bytes, stats.last_run_ms
+```
+
+### 9.13.7 TsStreamCursor — Streaming-Iteration
+
+```cpp
+#include "timeseries/ts_stream_cursor.h"
+
+themis::timeseries::TsStreamCursor::Config cur_cfg;
+cur_cfg.metric     = "cpu.usage";
+cur_cfg.start_ns   = start_ns;
+cur_cfg.end_ns     = end_ns;
+cur_cfg.batch_size = 5000;
+
+themis::timeseries::TsStreamCursor cursor(ts_store, cur_cfg);
+
+while (cursor.valid()) {
+    auto batch = cursor.nextBatch();
+    for (auto& dp : batch) {
+        // dp.timestamp_ns, dp.value
+        process(dp);
+    }
+}
+cursor.close();
+```
+
+### 9.13.8 PrometheusRemoteWrite — Prometheus-Kompatibilität
+
+```cpp
+#include "timeseries/prometheus_remote_write.h"
+
+// Prometheus Remote Write Request verarbeiten
+themis::timeseries::PromWriteRequest req;
+req.timeseries.push_back({
+    .labels  = {{"__name__", "cpu_usage"}, {"host", "node-1"}},
+    .samples = {
+        {.timestamp_ms = now_ms, .value = 72.4},
+        {.timestamp_ms = now_ms + 15000, .value = 74.1},
+    }
+});
+
+// In ThemisDB-TimeSeriesStore schreiben
+auto writer = themis::timeseries::PrometheusRemoteWriteHandler(ts_store);
+writer.handle(req);
+
+// Remote-Read beantworten (für Grafana)
+auto read_resp = writer.read({
+    .metric      = "cpu_usage",
+    .start_ms    = start_ms,
+    .end_ms      = end_ms,
+    .label_match = {{"host", "node-1"}},
+});
+```
