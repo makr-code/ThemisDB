@@ -2898,3 +2898,140 @@ Vulkan Compute Shaders: l2_distance.comp, cosine_distance.comp,
   inner_product_distance.comp, batch_search.comp, topk_selection.comp,
   haversine_distance.comp (Geo), point_in_polygon.comp (Geo)
 ```
+
+## 16.14 Training-Modul — C++ Produktions-API (v1.5) {#training-module}
+
+Das Training-Modul (`include/training/`) implementiert End-to-End LoRA-Fine-Tuning direkt aus ThemisDB-Collections.
+
+### 16.14.1 TrainingPipeline — Orchestrator
+
+```cpp
+#include "training/training_pipeline.h"
+
+themis::training::PipelineConfig cfg;
+cfg.source_collection   = "legal_docs";
+cfg.base_model_path     = "/models/mistral-7b.gguf";
+cfg.adapter_version     = "legal_v1.2";
+cfg.checkpoint_dir      = "/var/themis/checkpoints";
+cfg.target_accuracy     = 0.90;
+cfg.max_epochs          = 5;
+cfg.use_mixed_precision = true;
+
+themis::training::TrainingPipeline pipeline(db, cfg);
+
+pipeline.onProgress([](const themis::training::PipelineStats& s) {
+    std::cout << "epoch=" << s.current_epoch
+              << " loss=" << s.training_loss
+              << " accuracy=" << s.accuracy << "\n";
+});
+
+auto stats = pipeline.run();
+// stats.training_success, stats.adapter_version,
+// stats.documents_labeled, stats.samples_created,
+// stats.provenance_records_written, stats.drift_detected
+```
+
+**Stufen der Pipeline:**
+1. `AutoLabeler` — ableiten von Labels aus DB-Dokumenten (Keyword-Extraktion, LLM-Annotation)
+2. `KnowledgeGraphEnricher` — KG-Kontext je Sample hinzufügen
+3. `LoraDataSelection` — aktives Lernen / Unsicherheits-Sampling
+4. `IncrementalLoRATrainer` — inkrementelles Training (INITIAL / RESUME / CONTINUE)
+5. `LoRACheckpointManager` — atomares Speichern mit SHA-256-Verifikation
+6. `ProvenanceTracker` — Lineage-Graph für jede Gewicht-Änderung
+
+### 16.14.2 IncrementalLoRATrainer
+
+```cpp
+#include "training/incremental_lora_trainer.h"
+
+themis::training::IncrementalTrainingConfig tcfg;
+tcfg.training_data_collection = "labeled_samples";
+tcfg.base_model_path          = "/models/mistral-7b.gguf";
+tcfg.adapter_version          = "legal_v1.0";
+tcfg.quantization.type        = themis::training::TrainingQuantizationType::INT8;
+tcfg.quantization.block_size  = 64;
+
+themis::training::IncrementalLoRATrainer trainer(db, tcfg);
+
+// Erstes Training
+auto result = trainer.train(themis::training::TrainingMode::INITIAL, callback);
+
+// Fortführen von Checkpoint
+auto r2 = trainer.resumeFromCheckpoint("/var/themis/checkpoints/legal_v1.0.ckpt");
+
+// Evaluation auf Held-Out-Set
+auto eval = trainer.evaluate("legal_v1.1");
+
+// Deployment in Produktion
+trainer.deploy("legal_v1.1");
+```
+
+| Feld | Typ | Bedeutung |
+|------|-----|-----------|
+| `success` | `bool` | Training abgeschlossen ohne Fehler |
+| `version` | `string` | Neue Adapter-Version (z.B. `"legal_v1.1"`) |
+| `adapter_id` | `string` | Storage-ID des Adapters |
+| `training_loss` | `double` | Finaler Trainings-Loss |
+| `accuracy` | `double` | Evaluations-Genauigkeit |
+
+### 16.14.3 AutoLabeler
+
+```cpp
+#include "training/auto_labeler.h"
+
+themis::training::AutoLabelConfig lcfg;
+lcfg.source_collection  = "raw_docs";
+lcfg.target_collection  = "training_samples";
+lcfg.language_code      = "de";
+lcfg.min_confidence     = 0.75;
+
+themis::training::AutoLabeler labeler(db, lcfg);
+auto lresult = labeler.label();
+// lresult.documents_processed, lresult.samples_created,
+// lresult.high_confidence_count, lresult.low_confidence_skipped
+```
+
+### 16.14.4 LoRACheckpointManager
+
+```cpp
+#include "training/lora_checkpoint_manager.h"
+
+themis::training::CheckpointManagerConfig cmcfg;
+cmcfg.checkpoint_dir    = "/var/themis/checkpoints";
+cmcfg.validate_on_load  = true;
+cmcfg.auto_rollback     = true;
+
+themis::training::LoRACheckpointManager ckpt(cmcfg);
+
+// Speichern
+auto entry = ckpt.save("/tmp/adapter.bin", "legal_v1.2", base_model_hash);
+// entry.checkpoint_path, entry.sha256, entry.adapter_version
+
+// Letzten gültigen Checkpoint laden
+auto latest = ckpt.resume();   // std::optional<CheckpointManifestEntry>
+
+// Alle Checkpoints auflisten
+auto list = ckpt.listCheckpoints();
+```
+
+### 16.14.5 ProvenanceTracker
+
+```cpp
+#include "training/provenance_tracker.h"
+
+themis::training::ProvenanceTracker tracker(db);
+
+// Schreiben
+tracker.record({
+    .sample_id      = "sample-42",
+    .source_doc     = "doc-7",
+    .adapter_version= "legal_v1.1",
+    .pipeline_run   = "run-2026-04-12",
+    .label          = "contract_clause",
+    .confidence     = 0.88,
+});
+
+// Abfragen
+auto records = tracker.getByAdapter("legal_v1.1");
+auto history = tracker.getSampleHistory("sample-42");
+```

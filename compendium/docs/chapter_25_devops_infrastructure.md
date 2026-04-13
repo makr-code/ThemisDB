@@ -5121,3 +5121,129 @@ Die Konzepte und Best Practices in diesem Kapitel basieren auf wissenschaftliche
     - Best Practices für Containerization, Service Mesh, Observability
 
 Vollständige Literaturliste und erweiterte Referenzen: [Anhang A: Literaturverzeichnis](appendix_literatur.md)
+
+## 25.11 Updates-Modul — Zero-Downtime Cluster-Updates (v1.x) {#updates-module}
+
+Das Updates-Modul (`include/updates/`) ermöglicht koordinierte Rolling-Updates, Canary-Rollouts und Zero-Downtime-Schema-Migration im laufenden Cluster.
+
+### 25.11.1 ClusterUpdateManager
+
+```cpp
+#include "updates/cluster_update_manager.h"
+
+themis::updates::ClusterUpdateManager::Config cfg;
+cfg.rollback_on_failure = true;
+cfg.max_parallel_nodes  = 2;        // Rolling: max. 2 Nodes gleichzeitig
+cfg.health_check_timeout_ms = 30000;
+
+themis::updates::ClusterUpdateManager mgr(cfg);
+
+// Callback-Hooks
+mgr.setNodeUpdateFunc([](const std::string& node_id,
+                          const std::string& target_version) -> bool {
+    // Download + Install auf node_id
+    return true;
+});
+
+mgr.setNodeHealthCheckFunc([](const std::string& node_id) -> bool {
+    return ping_node(node_id);
+});
+
+mgr.setNodeRollbackFunc([](const std::string& node_id,
+                             const std::string& prev_version) -> bool {
+    return rollback_node(node_id, prev_version);
+});
+
+mgr.setProgressCallback([](const themis::updates::ClusterUpdateProgress& p) {
+    std::cout << p.completed_nodes << "/" << p.total_nodes << " abgeschlossen\n";
+});
+
+// Update starten
+std::vector<themis::updates::ClusterNode> nodes = getClusterNodes();
+auto result = mgr.update(nodes, "v1.9.1");
+// result.success, result.rolled_back_nodes, result.failed_nodes
+```
+
+**ClusterNodeState:**
+
+| Zustand | Bedeutung |
+|---------|-----------|
+| `PENDING` | Noch nicht gestartet |
+| `DRAINING` | Verbindungen werden abgebaut |
+| `APPLYING` | Update wird installiert |
+| `HEALTH_CHECK` | Gesundheitscheck nach Update |
+| `REJOINING` | Node tritt Cluster wieder bei |
+| `COMPLETED` | Erfolgreich aktualisiert |
+| `FAILED` | Update fehlgeschlagen |
+| `ROLLED_BACK` | Auf Vorgängerversion zurückgesetzt |
+| `SKIPPED` | Bereits auf Zielversion |
+
+### 25.11.2 Canary-Rollout
+
+```cpp
+#include "updates/canary_rollout.h"
+
+themis::updates::CanaryRolloutConfig ccfg;
+ccfg.canary_percentage  = 10;   // 10 % des Traffics auf Canary
+ccfg.bake_time_minutes  = 30;   // Wartezeit vor Erweiterung
+ccfg.error_threshold    = 0.01; // Max. 1 % Fehlerrate
+
+themis::updates::CanaryRollout canary(cluster, ccfg);
+canary.deploy("v1.9.1");
+
+// Automatische Promotion oder Rollback nach bake_time
+canary.promote();   // manuell: 100 % Traffic umschalten
+// oder
+canary.rollback();  // zurück auf stabile Version
+```
+
+### 25.11.3 HotReloadEngine — Live-Konfiguration
+
+```cpp
+#include "updates/hot_reload_engine.h"
+
+themis::updates::HotReloadEngine reload(server_context);
+
+// Konfiguration live neu laden (ohne Neustart)
+reload.reloadConfig("/etc/themis/themis.yaml");
+
+// Plugin live tauschen
+reload.reloadPlugin("auth_plugin", "/plugins/auth_v2.so");
+
+// Callbacks bei Reload
+reload.onConfigReloaded([](const std::string& path) {
+    log("Config reloaded: " + path);
+});
+```
+
+### 25.11.4 InPlaceSchemaMigrator
+
+```cpp
+#include "updates/in_place_schema_migrator.h"
+
+themis::updates::InPlaceSchemaMigrator migrator(db);
+
+// Schema-Migration ohne Downtime (online)
+migrator.addColumn("orders", "discount_pct", "DOUBLE DEFAULT 0.0");
+migrator.renameColumn("orders", "total", "total_amount");
+migrator.dropColumn("orders", "legacy_field");
+
+// Migration mit Validierung und Rollback-Plan
+auto plan = migrator.plan();
+auto mresult = migrator.execute(plan);
+// mresult.success, mresult.migrated_rows, mresult.elapsed_ms
+```
+
+### 25.11.5 BlueGreenDeployment
+
+```cpp
+#include "updates/blue_green_deployment.h"
+
+themis::updates::BlueGreenDeployment bg(load_balancer, db_pool);
+
+// Blue-Umgebung ist aktiv, Green wird vorbereitet
+bg.prepareGreen("v1.9.1");
+bg.runSmokeTests();         // Tests auf Green
+bg.cutover();               // Traffic von Blue → Green
+// bg.rollback();           // zurück zu Blue (instant)
+```

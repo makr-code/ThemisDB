@@ -1777,3 +1777,120 @@ Dokument schlägt fehl →
 ```
 
 **Checkpoint-basierte Incremental Ingestion:** Der Fortschritt wird pro Quelle persistiert. Neustart setzt ab letztem Checkpoint fort – kein Re-Processing.
+
+## 11.10 CDC-Modul — Changefeed & Change Data Capture (v1.x) {#cdc-module}
+
+Das CDC-Modul (`include/cdc/`) bietet eine robuste Change-Data-Capture-Infrastruktur direkt über RocksDB TransactionDB.
+
+### 11.10.1 Changefeed — Kernklasse
+
+```cpp
+#include "cdc/changefeed.h"
+
+// Changefeed an eine RocksDB TransactionDB binden
+auto feed = std::make_shared<themis::Changefeed>(txn_db, cf_handle);
+
+// Seitenweise Events abrufen (long-poll)
+themis::Changefeed::ListOptions opts;
+opts.key_prefix    = "orders/";
+opts.since_seq     = 0;
+opts.limit         = 200;
+opts.timeout_ms    = 5000;  // Long-Polling-Timeout
+
+auto events = feed->listEvents(opts);
+// events[i].type   (INSERT/UPDATE/DELETE/MERGE/TRUNCATE)
+// events[i].key    (Schlüssel)
+// events[i].value  (neuer Wert als JSON)
+// events[i].seq    (monotone Sequenznummer)
+// events[i].ts     (Zeitstempel)
+// events[i].redacted
+```
+
+**ChangeEventType:**
+
+| Typ | Bedeutung |
+|-----|-----------|
+| `INSERT` | Neuer Eintrag |
+| `UPDATE` | Wert geändert |
+| `DELETE` | Eintrag gelöscht |
+| `MERGE` | Atomarer Merge-Operator |
+| `TRUNCATE` | Collection geleert |
+
+### 11.10.2 Subscription (Push-Modus)
+
+```cpp
+// Push-Subscription mit Filter
+themis::Changefeed::SubscriptionFilter filter;
+filter.key_prefix = "invoices/";
+filter.types      = {themis::Changefeed::ChangeEventType::INSERT,
+                     themis::Changefeed::ChangeEventType::UPDATE};
+
+auto handle = feed->subscribe(filter, [](const themis::Changefeed::ChangeEvent& ev) {
+    std::cout << "key=" << ev.key << " type=" << static_cast<int>(ev.type) << "\n";
+});
+
+// Subscription beenden
+handle.cancel();
+```
+
+### 11.10.3 Retention & Compaction
+
+```cpp
+// Retention Policy konfigurieren
+themis::Changefeed::RetentionPolicy rp;
+rp.max_age_seconds = 7 * 24 * 3600;  // 7 Tage
+rp.max_events      = 1'000'000;
+
+feed->updateRetentionPolicy(rp);
+feed->startRetentionCleanup();
+
+// Manuelle Kompaktierung nach Schlüssel
+auto cr = feed->compactByKey();
+// cr.removed_count, cr.bytes_freed
+
+// GDPR-Redaktion (alle Events mit Key-Präfix anonymisieren)
+auto rr = feed->redactByKeyPrefix("users/eu/");
+// rr.scanned_count, rr.redacted_count
+```
+
+### 11.10.4 Watermarks & Stats
+
+```cpp
+auto wm = feed->watermarks();
+// wm.min_seq, wm.max_seq, wm.consumer_lag
+
+auto stats = feed->stats();
+// stats.total_events, stats.total_bytes,
+// stats.subscription_count, stats.compaction_runs
+```
+
+### 11.10.5 CDC Admin & Materialized Views
+
+```cpp
+#include "cdc/cdc_admin.h"
+#include "cdc/cdc_materialized_view.h"
+
+// Admin: Changefeed-Liste, Reset, Export
+themis::cdc::CdcAdmin admin(db);
+admin.listFeeds();
+admin.resetFeed("orders");
+
+// Materialized View über CDC
+themis::cdc::CdcMaterializedView mv(feed, "order_totals_mv");
+mv.onInsert([](const auto& ev) { /* update MV */ });
+mv.onUpdate([](const auto& ev) { /* update MV */ });
+mv.build();     // Initial-Snapshot
+mv.startSync(); // Live-Sync via Changefeed
+```
+
+### 11.10.6 REST-Endpunkte
+
+| Methode | Pfad | Beschreibung |
+|---------|------|--------------|
+| `GET` | `/cdc/{feed}/events` | Events abrufen (long-poll) |
+| `POST` | `/cdc/{feed}/subscribe` | WebSocket-Subscription |
+| `DELETE` | `/cdc/{feed}/events` | Events löschen (Retention) |
+| `POST` | `/cdc/{feed}/compact` | Manuelle Kompaktierung |
+| `POST` | `/cdc/{feed}/redact` | GDPR-Redaktion |
+| `GET` | `/cdc/{feed}/watermarks` | Watermark-Status |
+| `GET` | `/cdc/{feed}/stats` | Metriken |

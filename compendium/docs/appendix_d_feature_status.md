@@ -665,3 +665,48 @@ Die folgenden Komponenten wurden mit dem v1.9.x-Release (Commit 2026-04-12) in d
 **Version History:**
 - 1.4.0-alpha (2026-01-06): 25 neue Alpha-Features (LLM, Performance, HA, Monitoring, Protocol)
 - 1.3.0 (2025-12-30): Umfassendes Update mit allen Features bis Dez 2025
+
+## Implementierungsstatus — Training, CDC & Updates (2026-04-12)
+
+### Training-Modul (v1.5)
+
+| Feature | Header | Status | Beschreibung |
+|---------|--------|--------|-------------|
+| `TrainingPipeline::run()` | `training/training_pipeline.h` | ✅ GA | 6-stufige End-to-End LoRA-Pipeline aus ThemisDB-Collections |
+| `IncrementalLoRATrainer::train()` | `training/incremental_lora_trainer.h` | ✅ GA | INITIAL/RESUME/CONTINUE-Modes, INT8/INT4 Quantisierung |
+| `IncrementalLoRATrainer::resumeFromCheckpoint()` | `training/incremental_lora_trainer.h` | ✅ GA | SHA-256-verifiziertes Laden, Auto-Rollback |
+| `AutoLabeler::label()` | `training/auto_labeler.h` | ✅ GA | LLM-Annotation + Keyword-Extraktion, Konfidenz-Filter |
+| `KnowledgeGraphEnricher` | `training/knowledge_graph_enricher.h` | ✅ GA | KG-Kontext je Sample aus ThemisDB-Graph |
+| `LoraDataSelection` | `training/lora_data_selection.h` | ✅ GA | Aktives Lernen / Uncertainty Sampling |
+| `LoRACheckpointManager::save()/resume()` | `training/lora_checkpoint_manager.h` | ✅ GA | Atomares Speichern, SHA-256, Auto-Rollback, JSON-Manifest |
+| `ProvenanceTracker::record()` | `training/provenance_tracker.h` | ✅ GA | Lineage-Graph für Gewichts-Änderungen |
+| `ModalityParser` | `training/modality_parser.h` | ✅ GA | Multimodale Input-Normalisierung (Text/Bild/Audio) |
+| `LoRAAdapterMerger` | `training/lora_adapter_merger.h` | ✅ GA | Mergen mehrerer LoRA-Adapter (gewichtete Linearkombination) |
+
+### CDC-Modul (v1.x)
+
+| Feature | Header | Status | Beschreibung |
+|---------|--------|--------|-------------|
+| `Changefeed::listEvents()` | `cdc/changefeed.h` | ✅ GA | Sequenz-basiert, Key-Präfix-Filter, Long-Polling |
+| `Changefeed::subscribe()` | `cdc/changefeed.h` | ✅ GA | Push-Subscription mit SubscriptionFilter + cancel() |
+| `Changefeed::compactByKey()` | `cdc/changefeed.h` | ✅ GA | Manuelle Kompaktierung, removed_count + bytes_freed |
+| `Changefeed::redactByKeyPrefix()` | `cdc/changefeed.h` | ✅ GA | GDPR-Redaktion im Event-Log |
+| `Changefeed::watermarks()` | `cdc/changefeed.h` | ✅ GA | min_seq, max_seq, consumer_lag |
+| `CdcMaterializedView` | `cdc/cdc_materialized_view.h` | ✅ GA | Live-Sync MV via Changefeed |
+| `CdcAdmin` | `cdc/cdc_admin.h` | ✅ GA | Feed-Verwaltung, Reset, Export |
+| `ConsumerGroup` | `cdc/consumer_group.h` | ✅ GA | Multi-Consumer-Offset-Management |
+| `CrossCollectionStream` | `cdc/cross_collection_stream.h` | ✅ GA | Joins über mehrere Changefeeds |
+
+### Updates-Modul (v1.x)
+
+| Feature | Header | Status | Beschreibung |
+|---------|--------|--------|-------------|
+| `ClusterUpdateManager::update()` | `updates/cluster_update_manager.h` | ✅ GA | Rolling-Update mit DRAIN/APPLY/HEALTHCHECK/ROLLBACK |
+| `CanaryRollout::deploy()/promote()/rollback()` | `updates/canary_rollout.h` | ✅ GA | Prozentbasierter Canary, automatischer Rollback bei Error-Rate |
+| `HotReloadEngine::reloadConfig()/reloadPlugin()` | `updates/hot_reload_engine.h` | ✅ GA | Zero-Downtime Konfigurations- und Plugin-Reload |
+| `InPlaceSchemaMigrator::execute()` | `updates/in_place_schema_migrator.h` | ✅ GA | Online-Schema-Migration ohne Downtime |
+| `BlueGreenDeployment::cutover()/rollback()` | `updates/blue_green_deployment.h` | ✅ GA | Instant Traffic-Switch Blue↔Green |
+| `DeltaUpdateEngine` | `updates/delta_update_engine.h` | ✅ GA | Inkrementelle Patch-Anwendung auf Datenbankebene |
+| `DependencyResolver` | `updates/dependency_resolver.h` | ✅ GA | Update-Reihenfolge basierend auf Abhängigkeitsgraph |
+| `ManifestDatabase` | `updates/manifest_database.h` | ✅ GA | Versionierter Software-Manifest-Store |
+| `CoordinatedUpdateManager` | `updates/coordinated_update_manager.h` | ✅ GA | Multi-Cluster koordinierte Updates mit Quorum-Fencing |
