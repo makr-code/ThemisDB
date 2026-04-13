@@ -48,6 +48,7 @@ static void BM_FlashAttention_GPUDisabled(benchmark::State& state) {
     }
 }
 
+// Disabled: flash attention CUDA kernel requires GPU runner | Deadline: v1.9.0 | Issue: #5
 BENCHMARK(BM_FlashAttention_GPUDisabled);
 BENCHMARK_MAIN();
 

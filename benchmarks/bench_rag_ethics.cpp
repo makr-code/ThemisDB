@@ -145,6 +145,7 @@ static void BM_EthicalCompliance_Disabled(benchmark::State& state) {
         benchmark::DoNotOptimize(result);
     }
 }
+// Disabled: ethics AI model not available in CI environment | Deadline: v1.9.0 | Issue: #5
 BENCHMARK(BM_EthicalCompliance_Disabled);
 
 // ============================================================================

@@ -30,5 +30,6 @@ static void BM_VideoProcessor_Disabled(benchmark::State& state) {
     }
 }
 
+// Disabled: video processor plugin interface unavailable in this build | Deadline: v1.9.0 | Issue: #5
 BENCHMARK(BM_VideoProcessor_Disabled);
 BENCHMARK_MAIN();

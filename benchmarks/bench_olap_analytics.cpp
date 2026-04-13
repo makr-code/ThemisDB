@@ -332,4 +332,6 @@ BENCHMARK(BM_OLAP_TopN_Sorted)
     ->Arg(100000)
     ->Arg(1000000);
 
+// Disabled: OLAP analytics pending engine API alignment | Deadline: v1.9.0 | Issue: #5
+BENCHMARK(BM_OLAP_Disabled);
 BENCHMARK_MAIN();

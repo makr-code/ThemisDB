@@ -42,6 +42,7 @@ static void BM_GPUErasure_GPUDisabled(benchmark::State& state) {
         break;
     }
 }
+// Disabled: GPU erasure coding requires CUDA/HIP runner | Deadline: v1.9.0 | Issue: #5
 BENCHMARK(BM_GPUErasure_GPUDisabled);
 
 BENCHMARK_MAIN();

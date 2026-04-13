@@ -49,6 +49,7 @@ static void BM_GPUModule_GPUDisabled(benchmark::State& state) {
         break;
     }
 }
+// Disabled: GPU module subsystem requires dedicated GPU hardware | Deadline: v1.9.0 | Issue: #5
 BENCHMARK(BM_GPUModule_GPUDisabled);
 
 BENCHMARK_MAIN();

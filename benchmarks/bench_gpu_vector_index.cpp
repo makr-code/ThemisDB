@@ -35,6 +35,7 @@ static void BM_GPUVectorIndex_GPUDisabled(benchmark::State& state) {
         break;
     }
 }
+// Disabled: GPU vector index requires CUDA/Vulkan runner | Deadline: v1.9.0 | Issue: #5
 BENCHMARK(BM_GPUVectorIndex_GPUDisabled);
 
 BENCHMARK_MAIN();
