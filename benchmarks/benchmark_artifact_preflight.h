@@ -69,6 +69,8 @@
 
 #pragma once
 
+#include <algorithm>
+#include <cctype>
 #include <cstdlib>
 #include <filesystem>
 #include <string>
@@ -119,9 +121,8 @@ inline bool stubModelsEnabled() {
     const char* env = std::getenv("THEMIS_LLM_STUB_MODELS");
     if (!env || *env == '\0') return false;
     std::string val(env);
-    for (char& c : val) {
-        if (c >= 'a' && c <= 'z') c = static_cast<char>(c - 32);
-    }
+    std::transform(val.begin(), val.end(), val.begin(),
+                   [](unsigned char c) { return static_cast<char>(std::toupper(c)); });
     return val == "ON" || val == "1" || val == "TRUE" || val == "YES";
 }
 

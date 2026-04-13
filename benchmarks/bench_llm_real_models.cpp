@@ -44,7 +44,8 @@ std::string getModelPath() {
         return path;
     }
 
-    // Legacy fallback for local developer setups that pre-date Maßnahme #6
+    // Legacy fallback for local developer setups that pre-date Maßnahme #6.
+    // Deprecated: set THEMIS_MODEL_DIR or run scripts/download_models.sh instead.
     const std::vector<std::string> legacy_paths = {
         "./models/tinyllama_1.1b.gguf",
         "./models/llama3.2_1b.gguf",

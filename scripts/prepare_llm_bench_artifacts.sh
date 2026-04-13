@@ -137,6 +137,14 @@ ensure_stub_model() {
     # Fallback for offline / air-gapped CI: generate a minimal valid-header
     # GGUF stub so that path-existence checks pass and benchmarks can emit a
     # clean SkipWithError rather than a hard crash.
+    #
+    # GGUF binary format (https://github.com/ggerganov/ggml/blob/master/docs/gguf.md):
+    #   magic(4)  + version(uint32-LE) + tensor_count(uint64-LE) + kv_count(uint64-LE)
+    # Writing 0 tensors and 0 KV pairs produces a syntactically well-formed
+    # header that real llama.cpp loaders will reject gracefully (no tensors
+    # present), while still allowing file-existence and magic-byte checks to
+    # pass.  Benchmarks guarded by LLMArtifactPreflight will detect the
+    # empty model and call state.SkipWithError() rather than crashing.
     log "Download failed. Creating minimal offline GGUF stub at $STUB_MODEL_PATH ..."
     if check_command python3; then
         python3 - <<'PYEOF'
