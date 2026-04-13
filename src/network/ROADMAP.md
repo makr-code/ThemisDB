@@ -5,7 +5,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-v1.8.0 – Production-grade networking layer. All transport paths (TCP, WebSocket, UDP fast-path, UDP ingestion, QUIC/HTTP3, gRPC), wire protocol optimizations (batch writes, zero-copy, dictionary compression), and Raft-coordinated load balancing are fully implemented. Note: `RaftLoadBalancer` simulates Raft consensus in-process; full distributed multi-node Raft is planned for a future milestone.
+v2.0.0 – Production-grade networking layer. All transport paths (TCP, WebSocket, UDP fast-path, UDP ingestion, QUIC binary wire protocol, QUIC HTTP/3 server, gRPC), wire protocol optimizations (batch writes, zero-copy, dictionary compression), and Raft-coordinated load balancing are fully implemented. Note: `RaftLoadBalancer` simulates Raft consensus in-process; full distributed multi-node Raft is planned for a future milestone.
 
 ## Completed ✅
 - [x] WireProtocolServer – high-performance binary TCP server (port 8766)
@@ -120,6 +120,17 @@ v1.8.0 – Production-grade networking layer. All transport paths (TCP, WebSocke
   - Per-connection rate tracking; `QuicTransport::Stats` for Prometheus integration
   - Guarded by `THEMIS_ENABLE_HTTP3`; requires ngtcp2 + OpenSSL
   - `Http3Session::doRead()` and `Http3Session::onRead()` stubs resolved (server module)
+- [x] **QUIC Protocol Support (HTTP/3)** — `QUICServer` + `QUICClient` in `quic_server.h/cpp` (Issue: #226, v2.0.0) (2026-04-13)
+  - `QUICServer`: high-level QUIC/HTTP/3 server; port 8769 default; ALPN "h3" + "tmdb"; UDP + TLS 1.3
+  - 0-RTT connection establishment: `enable_0rtt=true`; `zero_rtt_accepted` / `zero_rtt_rejected` stats
+  - Configurable congestion control: BBR (default) or Cubic; validated by `isValidCongestionControl()`
+  - Multiple concurrent bidirectional streams per connection: `max_streams_per_connection` (default 100)
+  - Connection migration: `migrations` counter tracks IP-change events (Wi-Fi → cellular)
+  - Built-in encryption: plain QUIC not supported; TLS 1.3 mandatory; `isValidPort()` guards reserved ports
+  - `QUICClient`: `parseUrl("quic://host:port")` URL scheme; `openStream()` returns independent Stream objects
+  - `QUICClient::Stream`: `send()` / `receive()` / `close()` / `isOpen()` / `streamId()` interface
+  - Guarded by `THEMIS_ENABLE_HTTP3`; uses ngtcp2 + OpenSSL (same as `QuicTransport`)
+  - 35 focused tests (QS-01…QS-35) in `tests/test_quic_server.cpp`; CMake target: `test_quic_server_focused`
 
 ## Planned Features 📋
 
@@ -224,6 +235,15 @@ v1.8.0 – Production-grade networking layer. All transport paths (TCP, WebSocke
 - [x] Unit tests added for QUIC transport (`test_quic_transport.cpp`, 17 tests)
   - Config defaults, port validation, stats initialisation, protocol constants, isRunning state
 - [x] QUIC/HTTP3 stub resolved (`Http3Session::doRead()`, `Http3Session::onRead()`)
+- [x] Unit tests added for QUIC Protocol Support (`test_quic_server.cpp`, 35 tests, 2026-04-13)
+  - QUICServer config defaults (port 8769, max_streams=100, enable_0rtt=true, cc="bbr")
+  - Port validation (isValidPort): rejects 0/80/443/8766/8770..8774; accepts 8769/8775/9000
+  - Congestion control validation (isValidCongestionControl): bbr/cubic/case-insensitive; rejects unknown
+  - Protocol constants: kQuicServerDefaultPort=8769, kQuicServerVersion1=0x1, kQuicServerAlpn="h3"
+  - Stats initialisation: all 12 counters start at zero; zero_rtt_accepted, zero_rtt_rejected, migrations
+  - isRunning() state: false before start()
+  - QUICClient config defaults (connect_timeout=5s, enable_0rtt=true, verify_tls=true, cc="bbr")
+  - QUICClient::parseUrl: valid scheme/host/port; invalid scheme/empty/missing port rejected
 - [x] Unit tests added for gRPC native transport (`test_grpc_transport.cpp`, 16 tests)
   - Config defaults, TLS flags, port validation (incl. conflict with 50051), stats, address format, isRunning state
 - [x] Unit tests added for geo topology router (`test_geo_topology_router.cpp`, 26 tests)

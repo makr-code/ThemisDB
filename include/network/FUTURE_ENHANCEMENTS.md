@@ -213,82 +213,21 @@ public:
 
 ### QUIC Server Interface
 **Priority:** Medium  
-**Target Version:** v2.0.0
+**Target Version:** v2.0.0  
+**Status:** ✅ Implemented (v2.0.0, 2026-04-13)
 
-Add QUIC (HTTP/3) server interface for modern low-latency communication.
+QUIC (HTTP/3) server and client interface for modern low-latency communication.
 
-**Proposed Interface:**
-```cpp
-namespace themis::network {
+**Implementation:** `include/network/quic_server.h` / `src/network/quic_server.cpp`
 
-class QUICServer {
-public:
-    struct Config {
-        std::string host = "0.0.0.0";
-        uint16_t port = 8769;
-        size_t num_threads = std::thread::hardware_concurrency();
-        
-        uint32_t max_streams_per_connection = 100;
-        bool enable_0rtt = true;
-        std::string congestion_control = "bbr";  // bbr or cubic
-        
-        std::string tls_cert_path;
-        std::string tls_key_path;
-        
-        uint32_t max_idle_timeout_sec = 60;
-    };
-    
-    QUICServer(
-        const Config& config,
-        std::shared_ptr<RocksDBWrapper> storage,
-        std::shared_ptr<SecondaryIndexManager> index_mgr
-    );
-    
-    ~QUICServer();
-    
-    void start();
-    void stop();
-    bool isRunning() const;
-    
-    struct Stats {
-        uint64_t total_connections = 0;
-        uint64_t active_connections = 0;
-        uint64_t total_streams = 0;
-        uint64_t zero_rtt_accepted = 0;
-        uint64_t zero_rtt_rejected = 0;
-        uint64_t migrations = 0;  // Connection migration events
-    };
-    Stats getStats() const;
-};
+**Delivered Interface (see header for full documentation):**
+- `QUICServer::Config` — host, port (8769), num_threads, max_streams_per_connection (100), enable_0rtt, congestion_control ("bbr"/"cubic"), tls_cert_path, tls_key_path, max_idle_timeout_sec (60)
+- `QUICServer` — start()/stop()/isRunning()/getStats(); `createSslContext()`; `isValidPort()`; `isValidCongestionControl()`
+- `QUICServer::Stats` — total_connections, active_connections, total_streams, zero_rtt_accepted, zero_rtt_rejected, migrations, handshakes_completed, connection_limit_drops, packets_received, packets_sent, bytes_received, bytes_sent
+- `QUICClient` — `parseUrl("quic://host:port")`; connect()/disconnect()/isConnected(); `openStream()` → `unique_ptr<Stream>`
+- `QUICClient::Stream` — send(data)/receive()/close()/isOpen()/streamId()
 
-class QUICClient {
-public:
-    struct Config {
-        std::chrono::seconds connect_timeout{5};
-        bool enable_0rtt = true;
-        bool verify_tls = true;
-        std::string congestion_control = "bbr";
-    };
-    
-    QUICClient(const std::string& url, const Config& config = Config{});
-    ~QUICClient();
-    
-    void connect();
-    void disconnect();
-    bool isConnected() const;
-    
-    class Stream {
-    public:
-        void send(const std::vector<uint8_t>& data);
-        std::vector<uint8_t> receive();
-        void close();
-    };
-    
-    std::unique_ptr<Stream> openStream();
-};
-
-} // namespace themis::network
-```
+**Tests:** 35 focused tests (QS-01…QS-35) in `tests/test_quic_server.cpp`
 
 ---
 
