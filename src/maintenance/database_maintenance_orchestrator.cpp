@@ -43,6 +43,7 @@
 #include "maintenance/database_maintenance_orchestrator.h"
 #include "maintenance/maintenance_schedule_store.h"
 #include "maintenance/i_maintenance_task_handler.h"
+#include "maintenance/i_distributed_lock.h"
 #include "scheduler/task_scheduler.h"
 #include "storage/index_maintenance.h"
 #include "utils/audit_logger.h"
@@ -716,6 +717,13 @@ void DatabaseMaintenanceOrchestrator::registerTaskHandler(
     task_handlers_[static_cast<int>(task_type)] = std::move(handler);
 }
 
+void DatabaseMaintenanceOrchestrator::setDistributedLock(
+    std::shared_ptr<IDistributedLock> lock)
+{
+    std::lock_guard<std::mutex> lg(dist_lock_mutex_);
+    dist_lock_ = std::move(lock);
+}
+
 std::map<std::string, std::string>
 DatabaseMaintenanceOrchestrator::listTaskHandlers() const
 {
@@ -835,6 +843,73 @@ void DatabaseMaintenanceOrchestrator::executeSchedule(
         }
         entry = it->second;
     }
+
+    // ---- Distributed lock acquisition ----------------------------------
+    // When a distributed lock is configured, only the node that successfully
+    // acquires the lock for this schedule runs the job.  Non-leader nodes log
+    // a DEBUG message and skip the job immediately.
+    //
+    // The lock is held by acquired_dist_lock_ for the duration of this function
+    // so that it is automatically released on every code path.
+    std::shared_ptr<IDistributedLock> acquired_dist_lock;
+    {
+        std::shared_ptr<IDistributedLock> dl;
+        {
+            std::lock_guard<std::mutex> lg(dist_lock_mutex_);
+            dl = dist_lock_;
+        }
+        if (dl) {
+            // Compute lock TTL: use explicit lock_ttl_ms when set, otherwise
+            // derive from the window duration + 30 s safety margin.
+            int64_t ttl_ms = entry.lock_ttl_ms;
+            if (ttl_ms <= 0) {
+                int window_hours = entry.window_end_hour - entry.window_start_hour;
+                if (window_hours <= 0) window_hours += 24; // midnight wrap
+                ttl_ms = static_cast<int64_t>(window_hours) * 3600LL * 1000LL + 30000LL;
+            }
+
+            if (!dl->tryAcquire(schedule_id, ttl_ms)) {
+                const std::string holder = dl->getHolderNodeId(schedule_id);
+                spdlog::debug("schedule {} skipped — lock held by peer {}",
+                              schedule_id, holder.empty() ? "<unknown>" : holder);
+
+                int64_t now = themis::maintenance::nowMs();
+                {
+                    std::unique_lock<std::shared_mutex> jlock(jobs_mutex_);
+                    if (auto jit = jobs_.find(job_id); jit != jobs_.end()) {
+                        jit->second.state         = MaintenanceJobState::SKIPPED;
+                        jit->second.error_message = "Skipped: distributed lock held by peer "
+                                                    + (holder.empty() ? "<unknown>" : holder);
+                        jit->second.finished_at_ms = now;
+                    }
+                }
+                {
+                    std::unique_lock<std::shared_mutex> slock(schedules_mutex_);
+                    if (auto it = schedules_.find(schedule_id); it != schedules_.end()) {
+                        it->second.last_run_ms    = now;
+                        it->second.last_run_state = "skipped";
+                        it->second.last_job_id    = job_id;
+                    }
+                }
+                MetricsCollector::getInstance().addCounter(
+                    "maintenance_jobs_skipped_total", 1,
+                    {{"reason", "distributed_lock_held"},
+                     {"schedule_id", schedule_id}});
+                return;
+            }
+            // Successfully acquired – remember the lock so it is released
+            // on every subsequent exit path (window skip, DAG error, completion).
+            acquired_dist_lock = std::move(dl);
+        }
+    }
+
+    // RAII guard: releases the distributed lock on every code path that
+    // returns after this point (window skip, task-order error, completion).
+    struct DistLockGuard {
+        std::shared_ptr<IDistributedLock> lock;
+        const std::string& key;
+        ~DistLockGuard() { if (lock) lock->release(key); }
+    } dist_lock_guard{std::move(acquired_dist_lock), schedule_id};
 
     // ---- Maintenance window enforcement --------------------------------
     // When force=true the window check is bypassed entirely.
@@ -993,6 +1068,7 @@ void DatabaseMaintenanceOrchestrator::executeSchedule(
         {{"schedule_id", schedule_id}});
 
     pruneCompletedJobs();
+    // dist_lock_guard destructor releases the distributed lock automatically.
 }
 
 void DatabaseMaintenanceOrchestrator::executeTask(

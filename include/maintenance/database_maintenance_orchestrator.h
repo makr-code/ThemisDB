@@ -55,6 +55,7 @@
 #include "maintenance/maintenance_schedule.h"
 #include "maintenance/maintenance_health_report.h"
 #include "maintenance/i_maintenance_task_handler.h"
+#include "maintenance/i_distributed_lock.h"
 #include "utils/expected.h"
 
 #include <string>
@@ -323,6 +324,26 @@ public:
     void registerHealthProbe(const std::string& module_name, HealthProbe probe);
 
     /**
+     * @brief Inject a distributed lock implementation.
+     *
+     * When set, the orchestrator calls `dist_lock_->tryAcquire(schedule_id,
+     * ttl_ms)` before firing each scheduled job.  Only the cluster node that
+     * successfully acquires the lock runs the job; all other nodes log a DEBUG
+     * message and mark the job as SKIPPED.
+     *
+     * The TTL is derived from `MaintenanceScheduleEntry::lock_ttl_ms` when
+     * non-zero, otherwise it is computed as the maintenance-window duration
+     * plus a 30-second safety margin.
+     *
+     * This method is thread-safe.  Pass `nullptr` to disable distributed
+     * locking (single-node or test deployments).
+     *
+     * @param lock  Shared pointer to the IDistributedLock implementation,
+     *              or nullptr to disable distributed locking.
+     */
+    void setDistributedLock(std::shared_ptr<IDistributedLock> lock);
+
+    /**
      * @brief Register a task handler for a specific task type.
      *
      * Modules call this to wire real execution logic into the orchestrator for
@@ -403,6 +424,10 @@ private:
     // Registered task handlers (keyed by MaintenanceTaskType cast to int)
     mutable std::mutex                                              handlers_mutex_;
     std::map<int, std::shared_ptr<IMaintenanceTaskHandler>>         task_handlers_;
+
+    // Optional distributed lock (nullptr → no distributed coordination)
+    mutable std::mutex                                              dist_lock_mutex_;
+    std::shared_ptr<IDistributedLock>                               dist_lock_;
 
     std::atomic<bool>                                        running_{false};
     mutable std::atomic<uint64_t>                            id_counter_{0};

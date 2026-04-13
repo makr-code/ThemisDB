@@ -192,6 +192,16 @@ struct MaintenanceScheduleEntry {
     // ---- DAG / dependency enforcement ------------------------------------
     bool halt_on_task_failure = false; ///< Stop subsequent tasks if any task fails
 
+    // ---- Distributed lock ------------------------------------------------
+    /**
+     * Time-to-live for the distributed lock acquired before each scheduled run,
+     * in milliseconds.  0 (default) means the orchestrator auto-computes the
+     * TTL from the maintenance window duration plus a 30-second safety margin.
+     * Operators should set this to at least the estimated task duration + 30 s
+     * to prevent premature lock expiry on slow nodes.
+     */
+    int64_t lock_ttl_ms = 0;
+
     // ---- Audit -----------------------------------------------------------
     int64_t created_at_ms  = 0; ///< Unix ms, set on create
     int64_t updated_at_ms  = 0; ///< Unix ms, updated on every CRUD write
@@ -224,6 +234,7 @@ struct MaintenanceScheduleEntry {
         j["window_start_hour"] = window_start_hour;
         j["window_end_hour"]   = window_end_hour;
         j["halt_on_task_failure"] = halt_on_task_failure;
+        j["lock_ttl_ms"]          = lock_ttl_ms;
         j["created_at_ms"]     = created_at_ms;
         j["updated_at_ms"]     = updated_at_ms;
         j["created_by"]        = created_by;
@@ -257,6 +268,7 @@ struct MaintenanceScheduleEntry {
         if (j.contains("window_start_hour"))   e.window_start_hour   = j["window_start_hour"].get<int>();
         if (j.contains("window_end_hour"))     e.window_end_hour     = j["window_end_hour"].get<int>();
         if (j.contains("halt_on_task_failure"))e.halt_on_task_failure= j["halt_on_task_failure"].get<bool>();
+        if (j.contains("lock_ttl_ms"))         e.lock_ttl_ms         = j["lock_ttl_ms"].get<int64_t>();
         if (j.contains("created_by"))          e.created_by          = j["created_by"].get<std::string>();
         if (j.contains("updated_by"))          e.updated_by          = j["updated_by"].get<std::string>();
         return e;
@@ -285,6 +297,7 @@ struct MaintenanceScheduleEntry {
         if (patch.contains("window_start_hour"))    window_start_hour    = patch["window_start_hour"].get<int>();
         if (patch.contains("window_end_hour"))      window_end_hour      = patch["window_end_hour"].get<int>();
         if (patch.contains("halt_on_task_failure")) halt_on_task_failure = patch["halt_on_task_failure"].get<bool>();
+        if (patch.contains("lock_ttl_ms"))          lock_ttl_ms          = patch["lock_ttl_ms"].get<int64_t>();
     }
 };
 

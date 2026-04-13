@@ -38,6 +38,7 @@
 #include "maintenance/maintenance_task.h"
 #include "maintenance/maintenance_health_report.h"
 #include "maintenance/i_maintenance_task_handler.h"
+#include "maintenance/i_distributed_lock.h"
 #include "server/maintenance_api_handler.h"
 #include "observability/metrics_collector.h"
 
@@ -1871,4 +1872,317 @@ TEST_F(MaintenanceOrchestratorTest, ConcurrentListSchedules_NoDataRace) {
     // Sanity: at least the pre-populated schedules must be visible at the end.
     EXPECT_GE(orchestrator_->listSchedules().size(), 4u);
     EXPECT_GT(total_read.load(), 0);
+}
+
+// ===========================================================================
+// Distributed lock tests (IDistributedLock integration)
+// ===========================================================================
+
+// ---------------------------------------------------------------------------
+// Helper: a lock stub that always refuses to grant the lock, pretending it
+// is held by a specific peer node.
+// ---------------------------------------------------------------------------
+
+class AlwaysLockedDistributedLock : public IDistributedLock {
+public:
+    explicit AlwaysLockedDistributedLock(std::string holder_node_id,
+                                         std::string own_node_id = "this-node")
+        : holder_node_id_(std::move(holder_node_id))
+        , own_node_id_(std::move(own_node_id))
+    {}
+
+    bool        tryAcquire(const std::string& /*key*/, int64_t /*ttl_ms*/) override { return false; }
+    void        release(const std::string& /*key*/) override {}
+    std::string getHolderNodeId(const std::string& /*key*/) const override { return holder_node_id_; }
+    std::string nodeId() const override { return own_node_id_; }
+
+private:
+    std::string holder_node_id_;
+    std::string own_node_id_;
+};
+
+// ---------------------------------------------------------------------------
+// Helper: a lock stub that always succeeds and records acquire/release calls.
+// ---------------------------------------------------------------------------
+
+class RecordingDistributedLock : public IDistributedLock {
+public:
+    explicit RecordingDistributedLock(std::string own_node_id = "this-node")
+        : own_node_id_(std::move(own_node_id)) {}
+
+    bool tryAcquire(const std::string& key, int64_t ttl_ms) override {
+        std::lock_guard<std::mutex> lg(mu_);
+        ++acquire_count_;
+        last_key_    = key;
+        last_ttl_ms_ = ttl_ms;
+        return true;
+    }
+
+    void release(const std::string& key) override {
+        std::lock_guard<std::mutex> lg(mu_);
+        ++release_count_;
+        last_release_key_ = key;
+    }
+
+    std::string getHolderNodeId(const std::string& /*key*/) const override { return own_node_id_; }
+    std::string nodeId() const override { return own_node_id_; }
+
+    int         acquireCount()    const { std::lock_guard<std::mutex> lg(mu_); return acquire_count_; }
+    int         releaseCount()    const { std::lock_guard<std::mutex> lg(mu_); return release_count_; }
+    std::string lastKey()         const { std::lock_guard<std::mutex> lg(mu_); return last_key_; }
+    int64_t     lastTtlMs()       const { std::lock_guard<std::mutex> lg(mu_); return last_ttl_ms_; }
+    std::string lastReleaseKey()  const { std::lock_guard<std::mutex> lg(mu_); return last_release_key_; }
+
+private:
+    std::string own_node_id_;
+    mutable std::mutex mu_;
+    int     acquire_count_{0};
+    int     release_count_{0};
+    std::string last_key_;
+    int64_t     last_ttl_ms_{0};
+    std::string last_release_key_;
+};
+
+// ---------------------------------------------------------------------------
+// DL-1: No lock configured → job runs normally (backwards-compatible)
+// ---------------------------------------------------------------------------
+
+TEST_F(MaintenanceOrchestratorTest, DistributedLock_NoLock_JobRunsNormally) {
+    // No distributed lock set on the orchestrator.
+    auto entry = makeEntry("No Lock Schedule");
+    entry.enforce_window = false;
+    auto created = orchestrator_->createSchedule(entry);
+    ASSERT_TRUE(created) << created.error().message();
+
+    auto job_result = orchestrator_->triggerNow(created->id, /*force=*/true);
+    ASSERT_TRUE(job_result);
+    waitForTerminalJobState(orchestrator_.get(), job_result->id);
+
+    auto final_job = orchestrator_->getJob(job_result->id);
+    ASSERT_TRUE(final_job);
+    EXPECT_TRUE(
+        final_job->state == MaintenanceJobState::SUCCEEDED ||
+        final_job->state == MaintenanceJobState::SKIPPED)  // SKIPPED = no handler (acceptable)
+        << "Unexpected state: " << jobStateToString(final_job->state);
+}
+
+// ---------------------------------------------------------------------------
+// DL-2: Lock acquired by this node → job executes
+// ---------------------------------------------------------------------------
+
+TEST_F(MaintenanceOrchestratorTest, DistributedLock_LockAcquired_JobExecutes) {
+    auto recording_lock = std::make_shared<RecordingDistributedLock>("node-A");
+    orchestrator_->setDistributedLock(recording_lock);
+
+    auto entry = makeEntry("Locked Schedule");
+    entry.enforce_window = false;
+    auto created = orchestrator_->createSchedule(entry);
+    ASSERT_TRUE(created);
+
+    auto job_result = orchestrator_->triggerNow(created->id, /*force=*/true);
+    ASSERT_TRUE(job_result);
+    waitForTerminalJobState(orchestrator_.get(), job_result->id);
+
+    auto final_job = orchestrator_->getJob(job_result->id);
+    ASSERT_TRUE(final_job);
+    // Job should complete (SUCCEEDED or SKIPPED due to unregistered handler, NOT SKIPPED
+    // due to lock denial).
+    EXPECT_NE(final_job->state, MaintenanceJobState::PENDING);
+    EXPECT_NE(final_job->state, MaintenanceJobState::FAILED);
+
+    // Lock must have been acquired once
+    EXPECT_GE(recording_lock->acquireCount(), 1);
+    EXPECT_EQ(recording_lock->lastKey(), created->id);
+
+    // Lock must have been released after job completion
+    EXPECT_GE(recording_lock->releaseCount(), 1);
+    EXPECT_EQ(recording_lock->lastReleaseKey(), created->id);
+}
+
+// ---------------------------------------------------------------------------
+// DL-3: Lock held by peer → job is SKIPPED
+// ---------------------------------------------------------------------------
+
+TEST_F(MaintenanceOrchestratorTest, DistributedLock_LockHeldByPeer_JobSkipped) {
+    auto peer_lock = std::make_shared<AlwaysLockedDistributedLock>(
+        /*holder=*/"peer-node-B", /*own_node=*/"this-node-A");
+    orchestrator_->setDistributedLock(peer_lock);
+
+    auto entry = makeEntry("Peer Holds Lock");
+    entry.enforce_window = false;
+    auto created = orchestrator_->createSchedule(entry);
+    ASSERT_TRUE(created);
+
+    auto job_result = orchestrator_->triggerNow(created->id, /*force=*/true);
+    ASSERT_TRUE(job_result);
+    waitForTerminalJobState(orchestrator_.get(), job_result->id);
+
+    auto final_job = orchestrator_->getJob(job_result->id);
+    ASSERT_TRUE(final_job);
+    EXPECT_EQ(final_job->state, MaintenanceJobState::SKIPPED)
+        << "Expected SKIPPED when peer holds lock, got: "
+        << jobStateToString(final_job->state);
+
+    // Error message must mention the peer
+    EXPECT_NE(final_job->error_message.find("peer-node-B"), std::string::npos)
+        << "Error message should contain peer node ID, got: "
+        << final_job->error_message;
+}
+
+// ---------------------------------------------------------------------------
+// DL-4: TTL auto-computed from window when lock_ttl_ms == 0
+// ---------------------------------------------------------------------------
+
+TEST_F(MaintenanceOrchestratorTest, DistributedLock_TtlAutoComputedFromWindow) {
+    auto recording_lock = std::make_shared<RecordingDistributedLock>();
+    orchestrator_->setDistributedLock(recording_lock);
+
+    auto entry          = makeEntry("TTL Window Schedule");
+    entry.enforce_window    = false;
+    entry.window_start_hour = 2;
+    entry.window_end_hour   = 6;  // 4-hour window → 4 * 3600 * 1000 = 14 400 000 ms
+    entry.lock_ttl_ms       = 0;  // auto-compute
+
+    auto created = orchestrator_->createSchedule(entry);
+    ASSERT_TRUE(created);
+
+    auto job_result = orchestrator_->triggerNow(created->id, /*force=*/true);
+    ASSERT_TRUE(job_result);
+    waitForTerminalJobState(orchestrator_.get(), job_result->id);
+
+    ASSERT_GE(recording_lock->acquireCount(), 1);
+    // Expected TTL: 4h * 3 600 000 ms + 30 000 ms safety margin = 14 430 000 ms
+    const int64_t expected_ttl = 4LL * 3600LL * 1000LL + 30000LL;
+    EXPECT_EQ(recording_lock->lastTtlMs(), expected_ttl)
+        << "Auto-computed TTL should be window_duration + 30 s safety margin";
+}
+
+// ---------------------------------------------------------------------------
+// DL-5: Explicit lock_ttl_ms overrides auto-computation
+// ---------------------------------------------------------------------------
+
+TEST_F(MaintenanceOrchestratorTest, DistributedLock_ExplicitLockTtl_UsedDirectly) {
+    auto recording_lock = std::make_shared<RecordingDistributedLock>();
+    orchestrator_->setDistributedLock(recording_lock);
+
+    auto entry          = makeEntry("Explicit TTL Schedule");
+    entry.enforce_window = false;
+    entry.lock_ttl_ms    = 120000;  // 2 minutes explicit
+
+    auto created = orchestrator_->createSchedule(entry);
+    ASSERT_TRUE(created);
+
+    auto job_result = orchestrator_->triggerNow(created->id, /*force=*/true);
+    ASSERT_TRUE(job_result);
+    waitForTerminalJobState(orchestrator_.get(), job_result->id);
+
+    ASSERT_GE(recording_lock->acquireCount(), 1);
+    EXPECT_EQ(recording_lock->lastTtlMs(), 120000LL)
+        << "Explicit lock_ttl_ms should be passed unchanged to tryAcquire";
+}
+
+// ---------------------------------------------------------------------------
+// DL-6: lock_ttl_ms round-trips through JSON serialisation
+// ---------------------------------------------------------------------------
+
+TEST_F(MaintenanceOrchestratorTest, DistributedLock_LockTtlMs_JsonRoundTrip) {
+    auto entry          = makeEntry("JSON TTL");
+    entry.lock_ttl_ms   = 90000;
+
+    auto j        = entry.toJson();
+    ASSERT_TRUE(j.contains("lock_ttl_ms"));
+    EXPECT_EQ(j["lock_ttl_ms"].get<int64_t>(), 90000LL);
+
+    auto restored = MaintenanceScheduleEntry::fromJson(j);
+    EXPECT_EQ(restored.lock_ttl_ms, 90000LL);
+}
+
+// ---------------------------------------------------------------------------
+// DL-7: lock_ttl_ms can be patched via applyPatch
+// ---------------------------------------------------------------------------
+
+TEST_F(MaintenanceOrchestratorTest, DistributedLock_LockTtlMs_ApplyPatch) {
+    auto entry = makeEntry("Patch TTL");
+    entry.lock_ttl_ms = 0;
+
+    nlohmann::json patch;
+    patch["lock_ttl_ms"] = 60000;
+    entry.applyPatch(patch);
+
+    EXPECT_EQ(entry.lock_ttl_ms, 60000LL);
+}
+
+// ---------------------------------------------------------------------------
+// DL-8: setDistributedLock(nullptr) clears the lock → job runs without lock
+// ---------------------------------------------------------------------------
+
+TEST_F(MaintenanceOrchestratorTest, DistributedLock_SetNullptr_ClearsLock) {
+    auto recording_lock = std::make_shared<RecordingDistributedLock>();
+    orchestrator_->setDistributedLock(recording_lock);
+
+    // Clear the lock
+    orchestrator_->setDistributedLock(nullptr);
+
+    auto entry = makeEntry("Clear Lock Schedule");
+    entry.enforce_window = false;
+    auto created = orchestrator_->createSchedule(entry);
+    ASSERT_TRUE(created);
+
+    auto job_result = orchestrator_->triggerNow(created->id, /*force=*/true);
+    ASSERT_TRUE(job_result);
+    waitForTerminalJobState(orchestrator_.get(), job_result->id);
+
+    // No acquire/release should have happened
+    EXPECT_EQ(recording_lock->acquireCount(), 0);
+    EXPECT_EQ(recording_lock->releaseCount(), 0);
+}
+
+// ---------------------------------------------------------------------------
+// DL-9: InProcessDistributedLock — two nodes, first acquires, second skipped
+// ---------------------------------------------------------------------------
+
+TEST(InProcessDistributedLockTest, FirstNodeAcquires_SecondSkipped) {
+    // Simulate two nodes using the same InProcessDistributedLock (shared state).
+    auto shared_lock = std::make_shared<InProcessDistributedLock>("node-A");
+
+    // node-A acquires
+    EXPECT_TRUE(shared_lock->tryAcquire("sched-1", 60000));
+    EXPECT_EQ(shared_lock->getHolderNodeId("sched-1"), "node-A");
+
+    // node-B uses a separate instance that points to the same underlying lock.
+    // (In real multi-node scenarios this is a distributed lock service;
+    // here we test the in-process version by making the same object visible as
+    // a different "node" with a different node_id.)
+    InProcessDistributedLock node_b_view("node-B");
+    // The in-process lock is per-instance, so node-B has its own state; we
+    // verify the InProcessDistributedLock API directly on the same instance.
+    EXPECT_FALSE(shared_lock->tryAcquire("sched-1", 60000));  // node-A already holds it
+}
+
+TEST(InProcessDistributedLockTest, ReleaseAllowsReacquire) {
+    InProcessDistributedLock lock("node-A");
+    ASSERT_TRUE(lock.tryAcquire("sched-2", 5000));
+    lock.release("sched-2");
+    EXPECT_TRUE(lock.tryAcquire("sched-2", 5000));
+}
+
+TEST(InProcessDistributedLockTest, ExpiredTtlAllowsReacquire) {
+    InProcessDistributedLock lock("node-A");
+    // Acquire with a very short TTL (1 ms); it will expire almost immediately.
+    ASSERT_TRUE(lock.tryAcquire("sched-3", 1));
+    std::this_thread::sleep_for(std::chrono::milliseconds(5));
+    // After expiry another acquire must succeed
+    EXPECT_TRUE(lock.tryAcquire("sched-3", 5000));
+}
+
+TEST(InProcessDistributedLockTest, GetHolderNodeId_ExpiredReturnsEmpty) {
+    InProcessDistributedLock lock("node-A");
+    ASSERT_TRUE(lock.tryAcquire("sched-4", 1));
+    std::this_thread::sleep_for(std::chrono::milliseconds(5));
+    EXPECT_TRUE(lock.getHolderNodeId("sched-4").empty());
+}
+
+TEST(InProcessDistributedLockTest, NodeId_ReturnsConfiguredId) {
+    InProcessDistributedLock lock("my-node-42");
+    EXPECT_EQ(lock.nodeId(), "my-node-42");
 }

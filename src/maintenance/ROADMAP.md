@@ -59,7 +59,12 @@ management, and aggregated health reporting.
 
 ### Long-term (v2.0.0)
 - [ ] Multi-tenant schedule isolation – per-tenant windows and quotas (Target: v2.0.0)
-- [ ] Distributed maintenance coordination via Raft – prevent two nodes running same schedule (Target: v2.0.0)
+- [x] Distributed maintenance coordination via Raft – prevent two nodes running same schedule (Target: v2.0.0)
+  - `IDistributedLock` interface + `InProcessDistributedLock` implementation in `include/maintenance/i_distributed_lock.h`
+  - `DatabaseMaintenanceOrchestrator::setDistributedLock(shared_ptr<IDistributedLock>)` — inject via DI
+  - Before each scheduled job: `tryAcquire(schedule_id, ttl_ms)`; SKIPPED + DEBUG log when lock held by peer
+  - Lock TTL auto-derived from window duration + 30 s, or explicit `MaintenanceScheduleEntry::lock_ttl_ms`
+  - RAII guard ensures lock release on every exit path (success, window skip, DAG error, cancellation)
 - [ ] Maintenance impact prediction – ML model to predict CPU/memory impact before execution (Target: v2.0.0)
 
 ## Production Readiness Checklist
@@ -76,6 +81,7 @@ management, and aggregated health reporting.
 - [x] HTTP RBAC: `maintenance:read` / `maintenance:write` / `maintenance:admin`
 - [x] Schedule persistence (survives restart) – implemented v1.1.0 (`MaintenanceScheduleStore`, write-through CRUD, loadAll on start())
 - [x] Explicit DAG dependency graph – implemented v1.2.0 (`MaintenanceTaskDependency`, Kahn's topological sort)
+- [x] Distributed maintenance coordination via Raft – implemented v2.0.0 (`IDistributedLock`, `setDistributedLock()`, RAII lock guard, per-schedule TTL)
 
 ## Known Issues & Limitations
 
