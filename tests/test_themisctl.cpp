@@ -328,6 +328,55 @@ protected:
             }
         });
 
+        // Index recommendations endpoint (all tables)
+        s_srv_.Get("/api/v1/metadata/index_recommendations",
+                   [](const httplib::Request&, httplib::Response& res) {
+            json j = {
+                {"status", "success"},
+                {"recommendations", {
+                    {"users", json::array({
+                        {{"table_name","users"},{"column_name","email"},
+                         {"index_type","regular"},{"action","ADD"},
+                         {"benefit_score",75.0},
+                         {"rationale","Column 'email' appeared in 100 filter(s)"}}
+                    })},
+                    {"orders", json::array()}
+                }}
+            };
+            res.status = 200;
+            res.set_content(j.dump(), "application/json");
+        });
+        // Index recommendations endpoint (single table)
+        s_srv_.Get(R"(/api/v1/metadata/index_recommendations/(.+))",
+                   [](const httplib::Request& req, httplib::Response& res) {
+            std::string table = req.matches[1];
+            if (table == "users") {
+                json j = {
+                    {"status", "success"},
+                    {"table_name", "users"},
+                    {"recommendations", json::array({
+                        {{"table_name","users"},{"column_name","email"},
+                         {"index_type","regular"},{"action","ADD"},
+                         {"benefit_score",75.0},
+                         {"rationale","Column 'email' appeared in 100 filter(s)"}}
+                    })}
+                };
+                res.status = 200;
+                res.set_content(j.dump(), "application/json");
+            } else if (table == "empty_table") {
+                json j = {
+                    {"status", "success"},
+                    {"table_name", "empty_table"},
+                    {"recommendations", json::array()}
+                };
+                res.status = 200;
+                res.set_content(j.dump(), "application/json");
+            } else {
+                res.status = 404;
+                res.set_content(R"({"error":"table not found"})", "application/json");
+            }
+        });
+
         // Bind and start server
         s_port_ = s_srv_.bind_to_any_port("localhost");
         s_thread_ = std::thread([] { s_srv_.listen_after_bind(); });
@@ -598,6 +647,88 @@ TEST_F(ThemisctlHttpTest, AdminCache) {
 
 TEST_F(ThemisctlHttpTest, AdminUnknownSubcommand) {
     EXPECT_EQ(cmdAdmin({"frobnicate"}), 2);
+}
+
+// ── index ─────────────────────────────────────────────────────────────────────
+
+TEST_F(ThemisctlHttpTest, IndexRecommendAllTablesRawJson) {
+    g_ctx.raw_json = true;
+    std::ostringstream cap;
+    auto* old = std::cout.rdbuf(cap.rdbuf());
+    int rc = cmdIndex({"recommend"});
+    std::cout.rdbuf(old);
+    EXPECT_EQ(rc, 0);
+    json j = json::parse(cap.str());
+    EXPECT_TRUE(j.contains("recommendations"));
+}
+
+TEST_F(ThemisctlHttpTest, IndexRecommendNoSubAllTablesRawJson) {
+    // "index" with no sub-command defaults to recommending all tables
+    g_ctx.raw_json = true;
+    std::ostringstream cap;
+    auto* old = std::cout.rdbuf(cap.rdbuf());
+    int rc = cmdIndex({});
+    std::cout.rdbuf(old);
+    EXPECT_EQ(rc, 0);
+    json j = json::parse(cap.str());
+    EXPECT_TRUE(j.contains("recommendations"));
+}
+
+TEST_F(ThemisctlHttpTest, IndexRecommendSingleTableRawJson) {
+    g_ctx.raw_json = true;
+    std::ostringstream cap;
+    auto* old = std::cout.rdbuf(cap.rdbuf());
+    int rc = cmdIndex({"recommend", "users"});
+    std::cout.rdbuf(old);
+    EXPECT_EQ(rc, 0);
+    json j = json::parse(cap.str());
+    EXPECT_TRUE(j.contains("recommendations"));
+    EXPECT_EQ(j["table_name"], "users");
+    ASSERT_TRUE(j["recommendations"].is_array());
+    ASSERT_FALSE(j["recommendations"].empty());
+    EXPECT_EQ(j["recommendations"][0]["action"], "ADD");
+    EXPECT_EQ(j["recommendations"][0]["column_name"], "email");
+}
+
+TEST_F(ThemisctlHttpTest, IndexRecommendEmptyTableRawJson) {
+    g_ctx.raw_json = true;
+    std::ostringstream cap;
+    auto* old = std::cout.rdbuf(cap.rdbuf());
+    int rc = cmdIndex({"recommend", "empty_table"});
+    std::cout.rdbuf(old);
+    EXPECT_EQ(rc, 0);
+    json j = json::parse(cap.str());
+    EXPECT_TRUE(j["recommendations"].is_array());
+    EXPECT_TRUE(j["recommendations"].empty());
+}
+
+TEST_F(ThemisctlHttpTest, IndexRecommendPrettyPrintAllTables) {
+    g_ctx.raw_json = false;
+    std::ostringstream cap;
+    auto* old = std::cout.rdbuf(cap.rdbuf());
+    int rc = cmdIndex({"recommend"});
+    std::cout.rdbuf(old);
+    EXPECT_EQ(rc, 0);
+    EXPECT_NE(cap.str().find("email"), std::string::npos);
+}
+
+TEST_F(ThemisctlHttpTest, IndexRecommendPrettyPrintSingleTable) {
+    g_ctx.raw_json = false;
+    std::ostringstream cap;
+    auto* old = std::cout.rdbuf(cap.rdbuf());
+    int rc = cmdIndex({"recommend", "users"});
+    std::cout.rdbuf(old);
+    EXPECT_EQ(rc, 0);
+    EXPECT_NE(cap.str().find("users"), std::string::npos);
+}
+
+TEST_F(ThemisctlHttpTest, IndexRecommendNotFoundTableReturnsOne) {
+    int rc = cmdIndex({"recommend", "nonexistent_table"});
+    EXPECT_EQ(rc, 1);
+}
+
+TEST_F(ThemisctlHttpTest, IndexUnknownSubcommandReturnsTwo) {
+    EXPECT_EQ(cmdIndex({"frobnicate"}), 2);
 }
 
 // ── config ────────────────────────────────────────────────────────────────────

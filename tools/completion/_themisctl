@@ -48,6 +48,9 @@ _themisctl() {
                 admin)
                     _arguments '1:sub-command:(stats cache)'
                     ;;
+                index)
+                    _arguments '1:sub-command:(recommend)' '*:table-name:'
+                    ;;
                 get|delete)
                     _message 'entity-id'
                     ;;
@@ -83,6 +86,7 @@ _themisctl_commands() {
         'branch:Branch management'
         'snapshot:Snapshot management'
         'admin:Show observability/cache statistics'
+        'index:Automatic index recommendations'
         'repl:Start interactive REPL'
     )
     _describe 'command' commands

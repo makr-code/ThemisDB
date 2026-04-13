@@ -15,7 +15,7 @@ complete -c themisctl -f -s h -l help -d 'Print help'
 # ── Helper: "no sub-command provided yet" ─────────────────────────────────────
 function __themisctl_no_sub
     not __fish_seen_subcommand_from \
-        health version query get put delete schema config branch snapshot admin repl
+        health version query get put delete schema config branch snapshot admin index repl
 end
 
 # ── Top-level commands ────────────────────────────────────────────────────────
@@ -30,6 +30,7 @@ complete -c themisctl -f -n '__themisctl_no_sub' -a config   -d 'Read or hot-rel
 complete -c themisctl -f -n '__themisctl_no_sub' -a branch   -d 'Branch management'
 complete -c themisctl -f -n '__themisctl_no_sub' -a snapshot -d 'Snapshot management'
 complete -c themisctl -f -n '__themisctl_no_sub' -a admin    -d 'Observability/cache statistics'
+complete -c themisctl -f -n '__themisctl_no_sub' -a index    -d 'Automatic index recommendations'
 complete -c themisctl -f -n '__themisctl_no_sub' -a repl     -d 'Start interactive REPL'
 
 # ── config sub-commands ───────────────────────────────────────────────────────
@@ -77,3 +78,7 @@ complete -c themisctl -f -n '__fish_seen_subcommand_from snapshot' -a create -d 
 # ── admin sub-commands ────────────────────────────────────────────────────────
 complete -c themisctl -f -n '__fish_seen_subcommand_from admin' -a stats -d 'Show observability health'
 complete -c themisctl -f -n '__fish_seen_subcommand_from admin' -a cache -d 'Show cache statistics'
+
+# ── index sub-commands ────────────────────────────────────────────────────────
+complete -c themisctl -f -n '__fish_seen_subcommand_from index' -a recommend \
+    -d 'Show automatic index recommendations'
