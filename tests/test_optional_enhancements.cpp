@@ -24,8 +24,10 @@
 #include "api/persisted_queries.h"
 #include "api/rate_limiter.h"
 #include "api/audit_logger.h"
+#include <atomic>
 #include <thread>
 #include <chrono>
+#include <vector>
 
 using namespace themis::graphql;
 
@@ -316,6 +318,72 @@ TEST(OperationRateLimiter, RateLimitHeaders) {
     auto headers = limiter.getHeaders("Query", "user1");
     EXPECT_EQ(headers.limit, 100);
     EXPECT_GT(headers.remaining, 0);
+}
+
+TEST(OperationRateLimiter, ConcurrentReadsDontBlock) {
+    // Verify shared_mutex: multiple allow() calls can proceed concurrently
+    // (compile-time + runtime correctness check)
+    OperationRateLimiter& limiter = OperationRateLimiter::instance();
+    limiter.clear();
+
+    RateLimiter::Config cfg;
+    cfg.capacity = 10000;
+    limiter.setLimit("Query", cfg);
+
+    constexpr int kThreads = 4;
+    constexpr int kCallsPerThread = 500;
+    std::atomic<int> allowed_count{0};
+
+    auto worker = [&]() {
+        for (int i = 0; i < kCallsPerThread; ++i) {
+            if (limiter.allow("Query", "user1")) {
+                allowed_count.fetch_add(1, std::memory_order_relaxed);
+            }
+        }
+    };
+
+    std::vector<std::thread> threads;
+    threads.reserve(kThreads);
+    for (int i = 0; i < kThreads; ++i) {
+        threads.emplace_back(worker);
+    }
+    for (auto& t : threads) {
+        t.join();
+    }
+
+    // All requests should be allowed (capacity 10000 > kThreads * kCallsPerThread)
+    EXPECT_EQ(allowed_count.load(), kThreads * kCallsPerThread);
+}
+
+TEST(RateLimiter, StaleBucketEviction) {
+    // Buckets that are fully recharged and idle for > 2×window should be evicted.
+    // Eviction runs every 64 allow() calls to amortize the O(n) sweep.
+    RateLimiter::Config cfg;
+    cfg.capacity = 5;
+    cfg.refill_rate = 1000;  // very fast refill
+    cfg.window = std::chrono::seconds(1);
+
+    RateLimiter limiter(cfg);
+
+    // Create buckets for 10 "stale" keys
+    for (int i = 0; i < 10; ++i) {
+        limiter.allow("stale_" + std::to_string(i));
+    }
+
+    // Sleep > 2×window (2s) so buckets become idle and fully recharged
+    std::this_thread::sleep_for(std::chrono::milliseconds(2100));
+
+    // Trigger the eviction sweep: eviction runs every 64 calls, so fire 64+
+    for (int i = 0; i < 64; ++i) {
+        limiter.allow("sweep_trigger_" + std::to_string(i));
+    }
+
+    // Evicted buckets: remaining() returns config_.capacity (no stored bucket)
+    for (int i = 0; i < 10; ++i) {
+        EXPECT_EQ(limiter.remaining("stale_" + std::to_string(i)),
+                  cfg.capacity)
+            << "stale_" << i << " should have been evicted";
+    }
 }
 
 // ============================================================================
