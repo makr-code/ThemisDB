@@ -6280,3 +6280,137 @@ router.addRule(rule_tenant);
 auto result = router.route(request_context);
 // result.matched, result.target_model, result.rule_id
 ```
+
+## 17.28 RAG Advanced C++ API (v2.x) {#rag-advanced}
+
+Dieses Kapitel dokumentiert die fortgeschrittenen RAG-Komponenten (`include/rag/`): AgenticRAG, MultiStepRAG, MultiModalRAG, RAGContextAssembler und DistributedRAGEvaluator.
+
+### 17.28.1 AgenticRAG — Iterativer Retrieval-Agent
+
+`AgenticRAG` führt eine adaptive Retrieve-then-Reason Schleife aus: bis die Qualitäts-Schwelle erreicht ist oder `max_iterations` überschritten werden.
+
+```cpp
+#include "rag/agentic_rag.h"
+
+themis::rag::AgenticRAGConfig cfg;
+cfg.max_iterations        = 5;
+cfg.quality_threshold     = 0.85;
+cfg.accumulate_documents  = true;  // alle Iterationen → ein Kontext
+cfg.timeout_ms            = 10000;
+
+themis::rag::AgenticRAG agent(retriever, judge, llm);
+agent.setConfig(cfg);
+
+auto result = agent.run("Welche Kunden haben Rechnungen > 10.000 €?");
+// result.answer, result.iterations, result.quality_satisfied, result.stop_reason
+
+// Fortschritts-Callback (pro Iteration)
+agent.setIterationCallback([](const themis::rag::IterationRecord& r) {
+    std::cout << "Iter " << r.iteration
+              << " quality=" << r.quality_score << "\n";
+});
+
+// Abbruch (thread-safe)
+agent.cancel();
+```
+
+**StopReason:** `QUALITY_REACHED` / `MAX_ITERATIONS` / `TIMEOUT` / `CANCELLED`
+
+### 17.28.2 MultiStepRAGOrchestrator — Decompose-then-Retrieve
+
+```cpp
+#include "rag/multi_step_rag.h"
+
+themis::rag::MultiStepRAGConfig mscfg;
+mscfg.max_steps            = 4;
+mscfg.use_llm_decomposition = true;
+mscfg.merge_strategy       = themis::rag::MultiStepRAGConfig::MergeStrategy::RANKED;
+
+themis::rag::MultiStepRAGOrchestrator orchestrator(retriever, llm);
+orchestrator.setConfig(mscfg);
+
+auto result = orchestrator.run("Vergleiche Umsatz Q1-2025 mit Q1-2026 je Region");
+// result.final_answer
+// result.steps: [{sub_query, retrieved_docs, sub_answer}, ...]
+// result.total_documents_retrieved
+```
+
+**MergeStrategy:** `SEQUENTIAL` / `RANKED` / `SUMMARIZE`
+
+### 17.28.3 MultiModalRAG — Bild + Text + Tabellen
+
+```cpp
+#include "rag/multimodal_rag.h"
+
+themis::rag::MultiModalRAGConfig mmcfg;
+mmcfg.enable_image_retrieval = true;
+mmcfg.enable_table_qa        = true;
+mmcfg.enable_ocr             = true;  // Bild → Text via OCR
+
+themis::rag::MultiModalRAG mmrag(text_retriever, image_retriever, llm);
+mmrag.setConfig(mmcfg);
+
+// Query mit Bild-Anhang
+themis::rag::MultiModalQuery q;
+q.text = "Was zeigt dieses Diagramm?";
+q.images.push_back({"chart.png", image_bytes, "image/png"});
+q.sources = {themis::rag::Modality::TEXT,
+             themis::rag::Modality::IMAGE};
+
+auto r = mmrag.query(q);
+// r.answer, r.source_modalities, r.retrieved_images, r.retrieved_texts
+```
+
+**Modality:** `TEXT` / `IMAGE` / `TABLE` / `CODE` / `AUDIO`
+
+### 17.28.4 RAGContextAssembler — Token-Budget-Management
+
+```cpp
+#include "rag/rag_context_assembler.h"
+
+themis::rag::RAGContextAssemblerConfig acfg;
+acfg.max_tokens            = 4096;
+acfg.allow_partial_chunk   = true;
+acfg.dedup_strategy        = themis::rag::RAGContextAssemblerConfig::DedupStrategy::HASH;
+acfg.ordering              = themis::rag::RAGContextAssemblerConfig::Ordering::BY_SCORE;
+
+themis::rag::RAGContextAssembler assembler(tokenizer);
+assembler.setConfig(acfg);
+
+// Dokumente in Token-Budget einpassen
+auto ctx = assembler.assemble(retrieved_docs);
+// ctx.context_text       — vollständiger Kontext für LLM
+// ctx.used_tokens        — tatsächlich verwendete Tokens
+// ctx.was_truncated      — true wenn Budget erschöpft
+// ctx.included_doc_count — wie viele Docs eingeflossen sind
+```
+
+### 17.28.5 DistributedRAGEvaluator — Parallele Multi-Judge-Evaluierung
+
+```cpp
+#include "rag/distributed_rag_evaluator.h"
+
+// Worker-Konfigurationen (z.B. Shard-Knoten)
+std::vector<themis::rag::JudgeWorkerConfig> workers = {
+    {"judge-node-1", 8772, "token-a"},
+    {"judge-node-2", 8772, "token-b"},
+    {"judge-node-3", 8772, "token-c"},
+};
+
+themis::rag::DistributedEvaluatorConfig dcfg;
+dcfg.aggregation_strategy = themis::rag::AggregationStrategy::WEIGHTED_MEAN;
+dcfg.skip_failed_judges   = true;
+dcfg.quorum               = 2;  // mind. 2 Judges müssen antworten
+
+themis::rag::DistributedRAGEvaluator evaluator(workers, dcfg);
+
+// Bewertung einer RAG-Antwort
+themis::rag::EvaluationResult score = evaluator.evaluate(question, answer, retrieved_docs);
+// score.faithfulness, score.relevance, score.completeness
+// score.coherence, score.ethics_score, score.overall_score
+
+// Batch-Bewertung
+auto batch = evaluator.evaluateBatch(qa_pairs);
+```
+
+**AggregationStrategy:** `SIMPLE_MEAN` / `WEIGHTED_MEAN` / `MEDIAN` / `MIN` / `MAX`

@@ -780,3 +780,55 @@ Die folgenden Komponenten wurden mit dem v1.9.x-Release (Commit 2026-04-12) in d
 | `LlamaResourceManager` | `llm/llama_resource_manager.h` | ✅ GA | llama.cpp Ressourcen-Lifecycle |
 | `GpuMemoryManager` | `llm/gpu_memory_manager.h` | ✅ GA | VRAM-Budget, OOM-Safe-Fail |
 | `EmbeddedLLM` | `llm/embedded_llm.h` | ✅ GA | In-Process LLM ohne Server |
+
+## Implementierungsstatus — RAG Advanced, Sharding C++ API, Query/Index Engine (2026-04-13)
+
+### RAG-Modul v2 — Erweiterte Pipeline-Komponenten
+
+| Feature | Header | Status | Beschreibung |
+|---------|--------|--------|-------------|
+| `AgenticRAG::run()` | `rag/agentic_rag.h` | ✅ GA | Iterativer Retrieve-then-Reason Agent (max_iterations, quality_threshold, cancel) |
+| `AgenticRAGFactory` | `rag/agentic_rag.h` | ✅ GA | Factory für Standard- und Custom-Konfigurationen |
+| `MultiStepRAGOrchestrator::run()` | `rag/multi_step_rag.h` | ✅ GA | Decompose-then-Retrieve (max_steps, LLM-Decomposition, MergeStrategy) |
+| `MultiModalRAG::query()` | `rag/multimodal_rag.h` | ✅ GA | TEXT/IMAGE/TABLE/CODE/AUDIO; OCR-Support |
+| `RAGContextAssembler::assemble()` | `rag/rag_context_assembler.h` | ✅ GA | Token-Budget-Management, Dedup, Ordering |
+| `DistributedRAGEvaluator::evaluate()` | `rag/distributed_rag_evaluator.h` | ✅ GA | Parallele Multi-Judge-Evaluierung, Quorum, AggregationStrategy |
+| `DistributedEvaluatorFactory` | `rag/distributed_rag_evaluator.h` | ✅ GA | Builder für Distributed-Judge-Cluster |
+
+### Sharding-Modul C++ API (v1.x)
+
+| Feature | Header | Status | Beschreibung |
+|---------|--------|--------|-------------|
+| `AdaptiveShardRouter::route()` | `sharding/adaptive_shard_router.h` | ✅ GA | Lernender Router mit Exploration/Exploitation, Feedback-Loop |
+| `ConsistentHashRing::getShardForKey()` | `sharding/consistent_hash.h` | ✅ GA | Virtueller Knoten-Ring, 150 vNodes/Shard, getNShardsForKey |
+| `CrossShardTransaction::commit()` | `sharding/cross_shard_transaction.h` | ✅ GA | 2PC + WAL, IsolationLevel SERIALIZABLE/SNAPSHOT/READ_COMMITTED |
+| `EpochFencingManager::checkFence()` | `sharding/epoch_fencing.h` | ✅ GA | Stale-Leader-Schutz, Lease-Management, advanceEpoch |
+| `HotShardSplitPolicy` | `sharding/auto_rebalancer.h` | ✅ GA | ML-prädiktive Shard-Aufteilung, QPS-Threshold |
+| `DataMigrator::migrate()` | `sharding/data_migrator.h` | ✅ GA | Live-Migration mit Dual-Write, Verifikation, Rate-Limiting |
+| `AutoRecoveryManager` | `sharding/auto_recovery_manager.h` | ✅ GA | Automatische Shard-Recovery nach Ausfall |
+| `GossipConfigManager` | `sharding/gossip_config_manager.h` | ✅ GA | Gossip-basierte Konfigurationsverteilung |
+
+### Query Engine C++ API (v1.x)
+
+| Feature | Header | Status | Beschreibung |
+|---------|--------|--------|-------------|
+| `AdaptiveQueryStats::recordExecution()` | `query/adaptive_optimizer.h` | ✅ GA | Query-Statistiken akkumulieren, Kardinalitätsfehler erkennen |
+| `AdaptivePlanSelector::selectPlan()` | `query/adaptive_optimizer.h` | ✅ GA | KEEP/SWITCH/PARALLEL_TEST basierend auf Feedback |
+| `DistributedQueryCostModel` | `query/adaptive_optimizer.h` | ✅ GA | Cross-Shard-Join-Kosten, Partition Pruning |
+| `MultiIndexOptimizer` | `query/adaptive_optimizer.h` | ✅ GA | Optimale Index-Kombination für komplexe Prädikate |
+| `AdaptiveJoin::executeJoin()` | `query/adaptive_join.h` | ✅ GA | HASH/SORT_MERGE/INDEX/NESTED_LOOP/GRACE_HASH, Runtime-Wahl |
+| `ApproximateCountDistinct` (HyperLogLog) | `query/approximate_aggregator.h` | ✅ GA | ±2 % Fehler, merge für verteilte Aggregation |
+| `ApproximatePercentile` (T-Digest) | `query/approximate_aggregator.h` | ✅ GA | p50/p95/p99, merge-fähig |
+
+### Index-Modul C++ API (v1.x)
+
+| Feature | Header | Status | Beschreibung |
+|---------|--------|--------|-------------|
+| `IndexManager` | `index/index_manager.h` | ✅ GA | Koordiniert Vector/Secondary/Graph-IndexManager |
+| `InvertedIndex::search()` | `index/inverted_index.h` | ✅ GA | BM25, Stemming, Stopwords, RocksDB-backed |
+| `AdvancedVectorIndex` | `index/advanced_vector_index.h` | ✅ GA | AUTO-Type (HNSW/IVF/SQ/PQ), WorkloadType-aware |
+| `DistributedVectorIndex` | `index/distributed_vector_index.h` | ✅ GA | Scatter-Gather K-NN, ConsistentHash, Replikation |
+| `BinaryQuantizer` | `index/binary_quantizer.h` | ✅ GA | 1-bit Quantisierung, FAISS-Integration |
+| `IndexSuggestionEngine::recommend()` | `index/adaptive_index.h` | ✅ GA | Auto-Empfehlung basierend auf Query-Patterns + Selektivität |
+| `QueryPatternTracker` | `index/adaptive_index.h` | ✅ GA | Scan-Latenz, Rows-scanned, Cache-Miss aufzeichnen |
+| `SelectivityAnalyzer` | `index/adaptive_index.h` | ✅ GA | Distinct-Values, Histogramm, Selektivitäts-Score |

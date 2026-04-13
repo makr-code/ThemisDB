@@ -1720,3 +1720,160 @@ rebalance:
 **Konfiguration:**
 - `config/sharding/shard-router-example.yaml` - Production-Ready Config
 - `.github/workflows/sharding-benchmark.yml` - CI/CD Benchmarks
+
+## 16.14 Sharding C++ Produktions-API (v1.x) {#sharding-cpp-api}
+
+Dieses Kapitel dokumentiert die C++-Schnittstellen des Sharding-Moduls (`include/sharding/`).
+
+### 16.14.1 AdaptiveShardRouter — Lernender Query-Router
+
+```cpp
+#include "sharding/adaptive_shard_router.h"
+
+themis::sharding::AdaptiveShardRouter::AdaptiveConfig acfg;
+acfg.learning_rate           = 0.1;
+acfg.exploration_factor      = 0.05;  // 5 % Exploration
+acfg.enable_predictive_routing = true;
+acfg.latency_weight          = 0.7;
+acfg.load_weight             = 0.3;
+
+themis::sharding::AdaptiveShardRouter router(topology, acfg);
+
+// Request routen
+auto decision = router.route(request_key);
+// decision.shard_id, decision.endpoint, decision.used_adaptive_routing
+
+// Feedback nach Query-Ausführung (für Lernschritt)
+router.recordOutcome(request_key, decision.shard_id,
+    latency_ms, error_occurred);
+
+// Statistiken
+auto stats = router.getAdaptiveStats();
+// stats.total_queries, stats.adaptive_routing_pct, stats.stopped_early
+```
+
+### 16.14.2 ConsistentHashRing — Virtueller Knoten-Ring
+
+```cpp
+#include "sharding/consistent_hash.h"
+
+themis::sharding::ConsistentHashRing ring;
+
+// Shards hinzufügen (150 virtuelle Knoten je Shard)
+ring.addShard("shard-0", 150);
+ring.addShard("shard-1", 150);
+ring.addShard("shard-2", 150);
+
+// Key → Shard mappen
+auto shard = ring.getShardForKey("user:alice");
+
+// Shard entfernen (Rehash automatisch)
+ring.removeShard("shard-1");
+
+// N Shards für Replikation ermitteln
+auto replicas = ring.getNShardsForKey("user:alice", 3);
+```
+
+### 16.14.3 CrossShardTransaction — Verteilte Transaktionen
+
+```cpp
+#include "sharding/cross_shard_transaction.h"
+
+themis::sharding::CrossShardTransactionConfig txcfg;
+txcfg.protocol         = themis::sharding::TransactionProtocol::TWO_PHASE_COMMIT;
+txcfg.isolation_level  = themis::sharding::IsolationLevel::SERIALIZABLE;
+txcfg.timeout_ms       = 5000;
+
+themis::sharding::CrossShardTransaction tx(coordinator, txcfg);
+
+// Transaktions-Teilnehmer registrieren
+tx.addParticipant({"shard-0", "node0:8766"});
+tx.addParticipant({"shard-1", "node1:8766"});
+
+// 2PC ausführen
+tx.begin();
+tx.execute("shard-0", write_op_a);
+tx.execute("shard-1", write_op_b);
+
+auto result = tx.commit();  // Prepare + Commit beide Shards
+// result.committed, result.participating_shards
+
+// WAL-Eintrag für Crash-Recovery
+auto wal_entry = tx.getWALEntry();
+```
+
+### 16.14.4 EpochFencingManager — Stale-Leader-Schutz
+
+```cpp
+#include "sharding/epoch_fencing.h"
+
+themis::sharding::EpochFencingManager fence_mgr(db);
+
+// Aktuelle Epoch abfragen
+auto epoch = fence_mgr.getCurrentEpoch();
+
+// Token für kritische Operation ausstellen
+auto token = fence_mgr.acquireToken(epoch);
+// token.epoch, token.expires_at
+
+// Vor einer Schreiboperation validieren
+auto result = fence_mgr.checkFence(token);
+// result == FencingResult::VALID / STALE_EPOCH / EXPIRED
+
+// Neue Epoch starten (nach Leader-Wechsel)
+fence_mgr.advanceEpoch();
+
+// Lease-Management
+auto lease = fence_mgr.acquireLease("shard-coordinator", std::chrono::seconds(30));
+fence_mgr.renewLease(lease.lease_id);
+fence_mgr.revokeLease(lease.lease_id);
+```
+
+**FencingResult:** `VALID` / `STALE_EPOCH` / `EXPIRED` / `REVOKED`
+
+### 16.14.5 AutoRebalancer — Automatische Shard-Aufteilung
+
+```cpp
+#include "sharding/auto_rebalancer.h"
+
+themis::sharding::HotShardSplitPolicy::Config splcfg;
+splcfg.qps_threshold                = 50000;
+splcfg.enable_predictive_splitting  = true;  // ML-basiert
+splcfg.min_split_interval_seconds   = 300;
+
+themis::sharding::HotShardSplitPolicy policy(splcfg);
+policy.setPredictiveDetector(&failure_detector);
+
+// Hot-Shard erkennen
+auto proposals = policy.analyzeShard("shard-3", current_qps, current_size);
+for (auto& p : proposals) {
+    // p.shard_id, p.suggested_split_key, p.is_predictive, p.priority_score
+    if (p.priority_score > 0.8) {
+        rebalancer.executeSplit(p);
+    }
+}
+```
+
+### 16.14.6 DataMigrator — Live-Migration
+
+```cpp
+#include "sharding/data_migrator.h"
+
+themis::sharding::LiveMigrationConfig migcfg;
+migcfg.enable_dual_write        = true;  // Schreibt gleichzeitig auf alt + neu
+migcfg.verify_after_bulk_copy   = true;
+migcfg.rate_limit_keys_per_sec  = 10000;
+migcfg.batch_size               = 500;
+
+themis::sharding::DataMigrator migrator(source_shard, dest_shard, migcfg);
+
+// Fortschritt überwachen
+migrator.setProgressCallback([](const themis::sharding::MigrationProgress& p) {
+    std::cout << "Migrated " << p.keys_migrated
+              << "/" << p.total_keys
+              << " (" << p.percent_complete << "%)\n";
+});
+
+auto result = migrator.migrate("user:0000" /* from key */, "user:ffff" /* to key */);
+// result.success, result.keys_migrated, result.errors, result.duration_ms
+```

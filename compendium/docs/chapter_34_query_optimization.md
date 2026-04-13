@@ -1660,3 +1660,250 @@ Die Kombination dieser Techniken mit kontinuierlichem [Query Profiling](../appen
 [^11]: Chaudhuri, S. (1998). "An Overview of Query Optimization in Relational Systems". In *Proceedings of the 17th ACM SIGACT-SIGMOD-SIGART Symposium on Principles of Database Systems (PODS)* (pp. 34-43). doi:10.1145/275487.275492
 
 [^12]: Internal ThemisDB Benchmarks (2024). Index strategy comparison. Methodology: 10M user documents, NVMe SSD, 32GB RAM, ThemisDB 1.4.0. Write penalty measured as INSERT/UPDATE latency increase.
+
+## 34.11 Query Engine C++ API — Adaptive Optimizer & Joins (v1.x) {#query-engine-cpp}
+
+### 34.11.1 AdaptiveQueryStats + AdaptivePlanSelector
+
+```cpp
+#include "query/adaptive_optimizer.h"
+
+// Query-Statistiken akkumulieren
+themis::query::AdaptiveQueryStats stats;
+
+themis::query::AdaptiveQueryStats::QueryExecution exec;
+exec.query_hash   = "sha256:abc123";
+exec.actual_rows  = 50000;
+exec.estimated_rows = 1000;   // Fehler → wird gelernt
+exec.operators.push_back({"SortMergeJoin", 120 /*ms*/, 50000 /*rows*/});
+
+stats.recordExecution(exec);
+
+// Kardinalitäts-Schätzfehler erkennen
+bool misestimate = stats.hasCardinalityMisestimation("sha256:abc123", 2.0);
+
+// Plan-Selector: wechselt zur besseren Strategie
+themis::query::AdaptivePlanSelector selector;
+auto choice = selector.selectPlan(stats, current_plan, alternative_plans);
+// choice.strategy: KEEP / SWITCH / PARALLEL_TEST
+// choice.recommended_plan_id
+```
+
+### 34.11.2 DistributedQueryCostModel
+
+```cpp
+#include "query/adaptive_optimizer.h"
+
+// Shard-Topologie bekannt machen
+themis::query::DistributedQueryCostModel cost_model;
+cost_model.addShard({"shard-0", "node0", 1.0 /*load*/,  5 /*latency_ms*/});
+cost_model.addShard({"shard-1", "node1", 0.3 /*load*/, 12 /*latency_ms*/});
+
+// Cross-Shard-Join-Kosten schätzen
+auto join_cost = cost_model.estimateCrossShardJoin("orders", "invoices");
+// join_cost.network_bytes, join_cost.estimated_latency_ms, join_cost.parallel_factor
+
+// Partition pruning
+bool prune = cost_model.shouldPrunePartition("shard-2", query_predicate);
+
+// Multi-Index-Optimierung
+themis::query::MultiIndexOptimizer mio;
+auto plan = mio.selectIndexes(query_predicates, available_indexes);
+// plan.primary_index, plan.bitmap_indexes, plan.estimated_selectivity
+```
+
+### 34.11.3 AdaptiveJoin — Runtime-Algorithmenwahl
+
+```cpp
+#include "query/adaptive_join.h"
+
+// Tabellenbeschreibungen
+themis::query::Table left_table;
+left_table.name        = "orders";
+left_table.row_count   = 1000000;
+left_table.is_sorted   = false;
+left_table.has_index   = true;
+
+themis::query::Table right_table;
+right_table.name       = "customers";
+right_table.row_count  = 50000;
+right_table.is_sorted  = true;
+
+// Join-Spezifikation
+themis::query::JoinSpec spec;
+spec.left             = left_table;
+spec.right            = right_table;
+spec.left_key         = "customer_id";
+spec.right_key        = "id";
+spec.is_distributed   = true;
+
+// Optimalen Algorithmus auswählen
+auto algo = themis::query::selectJoinAlgorithm(spec);
+// algo: HASH_JOIN / SORT_MERGE / NESTED_LOOP / INDEX_JOIN / GRACE_HASH
+
+// Join ausführen
+auto result = themis::query::executeJoin(left_rows, right_rows, spec, algo);
+// result.rows, result.algorithm_used, result.duration_ms
+```
+
+| Algorithmus | Einsatz |
+|-------------|---------|
+| `HASH_JOIN` | Große unsortierte Tabellen (Standard) |
+| `SORT_MERGE` | Bereits sortierte Inputs |
+| `INDEX_JOIN` | Index auf rechter Seite vorhanden |
+| `NESTED_LOOP` | Kleines rechtes Set (< 1000 Zeilen) |
+| `GRACE_HASH` | Disk-spilling für sehr große Joins |
+
+### 34.11.4 ApproximateAggregator — HyperLogLog & T-Digest
+
+```cpp
+#include "query/approximate_aggregator.h"
+
+// COUNT DISTINCT (HyperLogLog, ~1-2 % Fehler)
+themis::query::ApproximateCountDistinct hll;
+for (auto& val : large_dataset) hll.add(val);
+double estimate = hll.estimate();  // ±2 % Fehler
+
+// Merge für verteilte Aggregation
+auto hll1 = ...;
+auto hll2 = ...;
+hll1.merge(hll2);
+
+// PERCENTILE (T-Digest)
+themis::query::ApproximatePercentile td;
+for (auto& latency : latencies) td.add(latency);
+double p50 = td.percentile(0.50);
+double p99 = td.percentile(0.99);
+```
+
+## 34.12 Index C++ API (v1.x) {#index-cpp-api}
+
+### 34.12.1 IndexManager — Zentraler Index-Koordinator
+
+```cpp
+#include "index/index_manager.h"
+
+// IndexManager fasst VectorIndexManager, SecondaryIndexManager, GraphIndexManager zusammen
+themis::index::IndexManager idx_mgr;
+idx_mgr.setStorage(storage_engine);
+idx_mgr.setRocksDB(rocksdb_wrapper);
+idx_mgr.setExpressionEvaluator(expr_evaluator);
+
+// Index anlegen
+idx_mgr.createIndex("orders", "customer_id", IndexType::BTREE);
+idx_mgr.createIndex("products", "embedding", IndexType::VECTOR_HNSW);
+
+// Query über Sekundärindex
+auto results = idx_mgr.lookupByField("orders", "customer_id", "cust-42");
+
+// Index-Nutzungsstatistiken
+auto stats = idx_mgr.getStats("orders", "customer_id");
+// stats.lookups, stats.hits, stats.cache_hit_rate
+```
+
+### 34.12.2 InvertedIndex — Volltextsuche
+
+```cpp
+#include "index/inverted_index.h"
+
+themis::index::InvertedIndex::Config icfg;
+icfg.stemming_enabled  = true;
+icfg.stopwords_enabled = true;
+icfg.language          = "de";
+icfg.max_terms_per_doc = 10000;
+
+themis::index::InvertedIndex inv_idx(rocksdb, icfg);
+
+// Dokument indexieren
+inv_idx.index("articles", "text_body", "doc-1", document_terms);
+
+// BM25-Suche
+auto hits = inv_idx.search("articles", "text_body", "Datenbankoptimierung");
+// hits: [{doc_id, score, positions}, ...]
+
+// Dokument entfernen
+inv_idx.deindex("articles", "text_body", "doc-1");
+```
+
+### 34.12.3 AdvancedVectorIndex — HNSW/IVF/PQ adaptiv
+
+```cpp
+#include "index/advanced_vector_index.h"
+
+themis::index::AdvancedVectorIndex::Config vcfg;
+vcfg.dim           = 1536;
+vcfg.type          = themis::index::AdvancedVectorIndex::Config::Type::AUTO;
+// AUTO wählt HNSW/IVF/SQ/PQ basierend auf Datenmenge
+vcfg.workload_type = themis::index::AdvancedVectorIndex::WorkloadType::BALANCED;
+
+themis::index::AdvancedVectorIndex vidx(vcfg);
+
+// Training (für IVF/PQ erforderlich)
+vidx.train(training_vectors.data(), training_vectors.size());
+
+// Vektoren hinzufügen
+vidx.addWithIds(vectors.data(), ids.data(), vectors.size());
+
+// K-NN-Suche
+auto results = vidx.search(query_vector.data(), k=10);
+// results: [{id, distance}, ...]
+
+// Statistiken
+auto stats = vidx.getStats();
+// stats.num_vectors, stats.is_trained, stats.index_type_used, stats.memory_bytes
+```
+
+### 34.12.4 DistributedVectorIndex — Shard-basierter Vektorindex
+
+```cpp
+#include "index/distributed_vector_index.h"
+
+themis::index::DistributedVectorIndexConfig dvcfg;
+dvcfg.sharding_strategy = themis::index::ShardingStrategy::CONSISTENT_HASH;
+dvcfg.replication_factor = 2;
+dvcfg.shards = {
+    {"shard-0", "node0:8774"},
+    {"shard-1", "node1:8774"},
+    {"shard-2", "node2:8774"},
+};
+dvcfg.dim = 1536;
+
+themis::index::DistributedVectorIndex dvidx(dvcfg);
+
+// Verteiltes Einfügen
+dvidx.insert("vec-id-1", embedding.data(), embedding.size());
+
+// Scatter-Gather K-NN (alle Shards parallel)
+auto results = dvidx.knnSearch(query.data(), k=10);
+// Ergebnisse werden shard-übergreifend gemergt
+
+// Statistiken je Shard
+auto stats = dvidx.getStats();
+// stats.per_shard_count, stats.total_vectors, stats.query_latency_p99_ms
+```
+
+### 34.12.5 IndexSuggestionEngine — Automatische Index-Empfehlungen
+
+```cpp
+#include "index/adaptive_index.h"
+
+// Query-Pattern aufzeichnen
+themis::index::QueryPatternTracker tracker;
+tracker.recordPattern("orders", "customer_id",
+    1500 /*ms*/, 1000000 /*rows_scanned*/, true /*cache_miss*/);
+
+// Selektivität schätzen
+themis::index::SelectivityAnalyzer analyzer;
+auto sel = analyzer.analyze("orders", "customer_id");
+// sel.distinct_values, sel.selectivity (0-1), sel.histogram
+
+// Index-Empfehlungen
+themis::index::IndexSuggestionEngine suggestions(tracker, analyzer);
+auto recs = suggestions.recommend();
+// recs: [{collection, field, index_type, estimated_speedup, priority}, ...]
+
+// Empfehlung umsetzen
+if (!suggestions.indexExists("orders", "customer_id")) {
+    idx_mgr.createIndex("orders", "customer_id", recs[0].index_type);
+}
+```
