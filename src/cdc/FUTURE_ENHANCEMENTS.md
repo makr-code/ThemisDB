@@ -507,8 +507,8 @@ When a data-subject deletion request arrives, all historical change log entries 
 - `[x]` `CDCAdmin::redactByKeyPrefix(tenant_id, key_prefix, operator_id)` implemented in `src/cdc/cdc_admin.cpp`; returns `GDPRRedactionResult` with scan/redaction counts, timing, and full audit context.
 - `[x]` HTTP endpoint `POST /changefeed/redact` exposed via `ChangefeedApiHandler::handleGdprRedact` (requires `cdc:admin` scope).
 - `[x]` Unit + integration tests in `tests/test_cdc_gdpr_redaction.cpp` (10 tests covering redaction, audit-field preservation, idempotency, empty-prefix rejection, DELETE events).
-- `[ ]` Record a redaction audit log entry in a separate `cdc_redactions` RocksDB column family: `{"key_prefix":"user:42","redacted_count":17,"timestamp_ms":...,"operator":"admin@acme"}`.
-- `[ ]` Propagate redaction to Kafka: publish a tombstone record (null value, key = original key) if Kafka producer is configured.
+- `[x]` Record a redaction audit log entry in a separate `cdc_redactions` RocksDB column family: `{"key_prefix":"user:42","redacted_count":17,"timestamp_ms":...,"operator":"admin@acme"}`.
+- `[x]` Propagate redaction to Kafka: publish a tombstone record (null value, key = original key) if Kafka producer is configured.
 - `[!]` Whether in-flight SSE/WebSocket consumers receive the redacted value or the original is unclear; decision needed before implementation.
 
 **Performance Targets:**

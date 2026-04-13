@@ -861,6 +861,7 @@ http::response<http::string_body> ChangefeedApiHandler::handleGdprRedact(
         }
 
         themis::cdc::CDCAdmin admin(changefeed_.get());
+        admin.setAuditStorage(storage_.get());
         auto result = admin.redactByKeyPrefix(tenant_id, key_prefix, operator_id);
 
         span.setAttribute("redact.scanned",  static_cast<int64_t>(result.events_scanned));
