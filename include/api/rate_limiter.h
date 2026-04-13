@@ -29,6 +29,7 @@
 #include <string>
 #include <unordered_map>
 #include <mutex>
+#include <shared_mutex>
 #include <atomic>
 
 namespace themis {
@@ -81,8 +82,7 @@ public:
             , refill_rate(rate)
         {}
         
-        void refill() {
-            auto now = std::chrono::steady_clock::now();
+        void refill(std::chrono::steady_clock::time_point now) {
             auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
                 now - last_refill
             ).count();
@@ -94,8 +94,8 @@ public:
             }
         }
         
-        bool consume(size_t count = 1) {
-            refill();
+        bool consume(std::chrono::steady_clock::time_point now, size_t count = 1) {
+            refill(now);
             
             if (tokens >= count) {
                 tokens -= count;
@@ -116,8 +116,23 @@ public:
      * @return true if request is allowed, false if rate limited
      */
     bool allow(const std::string& key, size_t cost = 1) {
+        auto now = std::chrono::steady_clock::now();
         std::lock_guard<std::mutex> lock(mutex_);
         
+        // TTL-based eviction: remove fully-recharged buckets inactive for > 2×window
+        auto eviction_threshold = 2 * config_.window;
+        for (auto it = buckets_.begin(); it != buckets_.end(); ) {
+            auto idle = std::chrono::duration_cast<std::chrono::seconds>(
+                now - it->second.last_refill
+            );
+            if (idle >= eviction_threshold &&
+                it->second.tokens >= static_cast<double>(it->second.capacity)) {
+                it = buckets_.erase(it);
+            } else {
+                ++it;
+            }
+        }
+
         auto it = buckets_.find(key);
         if (it == buckets_.end()) {
             // Create new bucket
@@ -125,7 +140,7 @@ public:
             it = buckets_.find(key);
         }
         
-        bool allowed = it->second.consume(cost);
+        bool allowed = it->second.consume(now, cost);
         
         if (allowed) {
             stats_.allowed_requests.fetch_add(1, std::memory_order_relaxed);
@@ -140,11 +155,12 @@ public:
      * @brief Get remaining tokens for a key
      */
     size_t remaining(const std::string& key) {
+        auto now = std::chrono::steady_clock::now();
         std::lock_guard<std::mutex> lock(mutex_);
         
         auto it = buckets_.find(key);
         if (it != buckets_.end()) {
-            it->second.refill();
+            it->second.refill(now);
             return it->second.available();
         }
         return config_.capacity;
@@ -263,7 +279,7 @@ public:
      * @brief Set rate limit for an operation type
      */
     void setLimit(const std::string& operation_type, const RateLimiter::Config& config) {
-        std::lock_guard<std::mutex> lock(mutex_);
+        std::unique_lock<std::shared_mutex> lock(mutex_);
         
         auto it = limiters_.find(operation_type);
         if (it != limiters_.end()) {
@@ -281,7 +297,7 @@ public:
      * @return true if allowed, false if rate limited
      */
     bool allow(const std::string& operation_type, const std::string& key, size_t cost = 1) {
-        std::lock_guard<std::mutex> lock(mutex_);
+        std::shared_lock<std::shared_mutex> lock(mutex_);
         
         auto it = limiters_.find(operation_type);
         if (it != limiters_.end()) {
@@ -296,7 +312,7 @@ public:
      * @brief Get remaining tokens for operation and key
      */
     size_t remaining(const std::string& operation_type, const std::string& key) {
-        std::lock_guard<std::mutex> lock(mutex_);
+        std::shared_lock<std::shared_mutex> lock(mutex_);
         
         auto it = limiters_.find(operation_type);
         if (it != limiters_.end()) {
@@ -310,7 +326,7 @@ public:
      * @brief Get rate limit headers for operation
      */
     RateLimitHeaders getHeaders(const std::string& operation_type, const std::string& key) {
-        std::lock_guard<std::mutex> lock(mutex_);
+        std::shared_lock<std::shared_mutex> lock(mutex_);
         
         RateLimitHeaders headers;
         
@@ -329,7 +345,7 @@ public:
      * @brief Clear all rate limit state
      */
     void clear() {
-        std::lock_guard<std::mutex> lock(mutex_);
+        std::unique_lock<std::shared_mutex> lock(mutex_);
         limiters_.clear();
     }
     
@@ -344,7 +360,7 @@ public:
 private:
     OperationRateLimiter() = default;
     
-    mutable std::mutex mutex_;
+    mutable std::shared_mutex mutex_;
     std::unordered_map<std::string, std::unique_ptr<RateLimiter>> limiters_;
 };
 
