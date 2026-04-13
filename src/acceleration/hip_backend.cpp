@@ -52,6 +52,12 @@
 namespace themis {
 namespace acceleration {
 
+// Forward declarations for block-size setters defined in hip/ann_kernels.hip
+// and hip/geo_kernels.hip.  Called during initialize() with the occupancy-tuned
+// block size so that kernel launchers use the optimal thread count.
+extern "C" void hipSetTopKBlockSize(int blockSize);
+extern "C" void hipSetGeoKernelBlockSize(int blockSize);
+
 // ============================================================================
 // HIP Helper Macros
 // ============================================================================
@@ -336,7 +342,13 @@ struct HIPBackendImpl {
     int deviceId = 0;
     raii::HipStream stream;  // RAII-managed stream (automatic cleanup)
     HIPVectorBackend::HIPConfig config;
-    
+
+    // Occupancy-tuned block size for 1-D kernels (top-K selection, etc.).
+    // Set during initialize() via hipOccupancyMaxPotentialBlockSize(); falls
+    // back to 256 (safe for all ROCm-supported devices) if the query fails.
+    // AMD GCN devices with 64-thread wavefronts use 64 as their baseline.
+    int occupancyTunedBlockSize = 256;
+
     // Device properties
     hipDeviceProp_t deviceProps;
     
@@ -502,6 +514,32 @@ bool HIPVectorBackend::initialize() {
         std::cerr << lastError_.format() << std::endl;
         return false;
     }
+
+    // ── Occupancy-based block size tuning ─────────────────────────────────────
+    // Start with a wave-size-aware baseline: AMD GCN devices have 64-thread
+    // wavefronts, so using 256 threads per block would leave half the wavefront
+    // slots idle.  Use 64 as the starting point for those devices.
+    int baseBlockSize = (impl_->deviceProps.warpSize == 64) ? 64 : 256;
+
+    // Query the HIP occupancy API for the top-K selection kernel.
+    int minGridSize   = 0;
+    int tunedBlockSize = baseBlockSize;
+    hipError_t occErr = hipOccupancyMaxPotentialBlockSize(
+        &minGridSize, &tunedBlockSize, topKSelectionKernel, 0, 0);
+    if (occErr == hipSuccess && tunedBlockSize > 0) {
+        // Round down to the nearest multiple of warpSize (never go below it).
+        const int warpSize = impl_->deviceProps.warpSize;
+        tunedBlockSize = (tunedBlockSize / warpSize) * warpSize;
+        if (tunedBlockSize < warpSize) tunedBlockSize = warpSize;
+        impl_->occupancyTunedBlockSize = tunedBlockSize;
+    } else {
+        impl_->occupancyTunedBlockSize = baseBlockSize;
+    }
+    std::cout << "  Occupancy-tuned block size: " << impl_->occupancyTunedBlockSize << std::endl;
+
+    // Propagate the tuned block size to the external HIP kernel launchers.
+    hipSetTopKBlockSize(impl_->occupancyTunedBlockSize);
+    hipSetGeoKernelBlockSize(impl_->occupancyTunedBlockSize);
     
     // Clear error on success
     clearError();
@@ -683,8 +721,8 @@ std::vector<std::vector<std::pair<uint32_t, float>>> HIPVectorBackend::batchKnnS
                 break;
         }
         
-        // Launch top-k selection kernel
-        int threadsPerBlock = 256;
+        // Launch top-k selection kernel using the occupancy-tuned block size
+        int threadsPerBlock = impl_->occupancyTunedBlockSize;
         int numBlocks = (numQueries + threadsPerBlock - 1) / threadsPerBlock;
         
         hipLaunchKernelGGL(topKSelectionKernel, dim3(numBlocks), dim3(threadsPerBlock), 0, impl_->stream.get(),

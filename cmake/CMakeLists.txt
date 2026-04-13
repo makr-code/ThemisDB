@@ -5667,6 +5667,36 @@ if(FALSE)  # Disabled - benchmarks now defined in benchmarks/CMakeLists.txt
         message(STATUS "Added bench_cuda_vs_cpu (acceleration benchmarks)")
     endif()
 
+    # Kernel Block-Size Occupancy Sweep Benchmark (Issue #234 — v1.9.0)
+    if(EXISTS "${THEMIS_ROOT_DIR}/benchmarks/kernel_block_size_bench.cpp")
+        add_executable(kernel_block_size_bench
+            ${THEMIS_ROOT_DIR}/benchmarks/kernel_block_size_bench.cpp
+        )
+        target_link_libraries(kernel_block_size_bench PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+            Threads::Threads
+        )
+        target_compile_definitions(kernel_block_size_bench PRIVATE
+            THEMIS_BENCHMARK_BUILD=1
+        )
+        if(THEMIS_ENABLE_CUDA)
+            target_compile_definitions(kernel_block_size_bench PRIVATE
+                THEMIS_ENABLE_CUDA=1
+            )
+        endif()
+        if(THEMIS_ENABLE_HIP)
+            target_compile_definitions(kernel_block_size_bench PRIVATE
+                THEMIS_ENABLE_HIP=1
+            )
+        endif()
+        if(CMAKE_BUILD_TYPE STREQUAL "Release" AND NOT MSVC)
+            target_compile_options(kernel_block_size_bench PRIVATE -O3 -DNDEBUG)
+        endif()
+        message(STATUS "Added kernel_block_size_bench (occupancy sweep)")
+    endif()
+
     # Sharding Performance Benchmark
     add_executable(bench_sharding_performance
         ${THEMIS_ROOT_DIR}/benchmarks/bench_sharding_performance.cpp

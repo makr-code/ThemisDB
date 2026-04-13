@@ -128,6 +128,11 @@ __global__ void pointInPolygonKernel(
 // Kernel launchers — conform to GeoDistanceFn / GeoContainmentFn typedefs
 // =============================================================================
 
+// Module-level block size tuned at initialize() time via
+// cudaOccupancyMaxPotentialBlockSize().  Default 256 is safe for any SM 7.0+
+// device; CUDAGeoBackend::initialize() overwrites this with the optimal value.
+static int g_cuda_geo_block_size = 256;
+
 extern "C" {
 
 /**
@@ -148,7 +153,7 @@ int launchGeoDistanceKernel(
 ) {
     if (count <= 0) return 0;
 
-    constexpr int kBlockSize = 256;
+    const int kBlockSize = g_cuda_geo_block_size;
     const dim3 blockDim(kBlockSize);
     const dim3 gridDim((count + kBlockSize - 1) / kBlockSize);
 
@@ -178,7 +183,7 @@ int launchGeoContainmentKernel(
 ) {
     if (numPoints <= 0) return 0;
 
-    constexpr int kBlockSize = 256;
+    const int kBlockSize = g_cuda_geo_block_size;
     const dim3 blockDim(kBlockSize);
     const dim3 gridDim((numPoints + kBlockSize - 1) / kBlockSize);
 
@@ -191,6 +196,42 @@ int launchGeoContainmentKernel(
 
     const cudaError_t err = cudaGetLastError();
     return static_cast<int>(err);
+}
+
+/**
+ * Update the block size used by the geo kernel launchers.
+ *
+ * Called from CUDAGeoBackend::initialize() with the value returned by
+ * cudaOccupancyMaxPotentialBlockSize().  Falls back to 256 when not called.
+ *
+ * @param blockSize  Number of threads per block (must be a multiple of 32
+ *                   and ≤ the device's maxThreadsPerBlock).
+ */
+void setGeoKernelBlockSize(int blockSize) {
+    g_cuda_geo_block_size = blockSize;
+}
+
+/**
+ * Query the CUDA occupancy API for the Haversine distance kernel and update
+ * g_cuda_geo_block_size with the device-optimal block size.
+ *
+ * Called by CUDAGeoBackend::initialize() so the launcher uses the tuned value
+ * from the very first kernel dispatch.
+ *
+ * @return  The occupancy-tuned block size (also stored in g_cuda_geo_block_size).
+ */
+int tuneGeoKernelBlockSize() {
+    int minGridSize   = 0;
+    int tunedBlockSize = 256;
+    cudaError_t err = cudaOccupancyMaxPotentialBlockSize(
+        &minGridSize, &tunedBlockSize, haversineDistanceKernel, 0, 0);
+    if (err == cudaSuccess && tunedBlockSize > 0) {
+        // Round to nearest multiple of 32 (warp size), minimum 32.
+        tunedBlockSize = (tunedBlockSize / 32) * 32;
+        if (tunedBlockSize < 32) tunedBlockSize = 32;
+        g_cuda_geo_block_size = tunedBlockSize;
+    }
+    return g_cuda_geo_block_size;
 }
 
 } // extern "C"

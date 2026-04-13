@@ -249,7 +249,26 @@ __global__ void extractTopKKernel(
 // Kernel launchers — conform to ANNDistanceFn / ANNTopKFn in kernel_invocation.h
 // =============================================================================
 
+// Module-level block size for the top-K extraction kernel.
+// Tuned at initialize() time via hipOccupancyMaxPotentialBlockSize(); defaults
+// to 256 which is optimal for RDNA2 (wave32) and GCN (wave64) devices.
+// HIPVectorBackend::initialize() sets this to the device-optimal value.
+static int g_hip_topk_block_size = 256;
+
 extern "C" {
+
+/**
+ * Update the block size used by the top-K kernel launcher.
+ *
+ * Called from HIPVectorBackend::initialize() with the value returned by
+ * hipOccupancyMaxPotentialBlockSize().  AMD GCN devices (warpSize == 64)
+ * use 64 as their default to avoid half-occupancy.
+ *
+ * @param blockSize  Number of threads per block.
+ */
+void hipSetTopKBlockSize(int blockSize) {
+    g_hip_topk_block_size = blockSize;
+}
 
 /**
  * Launch the squared L2 distance kernel.
@@ -364,7 +383,7 @@ int hip_launchTopKKernel(
 ) {
     if (numQueries <= 0 || numVectors <= 0 || topK <= 0) return 0;
 
-    constexpr int kThreadsPerBlock = 256;
+    const int kThreadsPerBlock = g_hip_topk_block_size;
     const int sharedMemBytes = topK * (static_cast<int>(sizeof(float)) +
                                        static_cast<int>(sizeof(uint32_t)));
 
