@@ -25,21 +25,9 @@
 
 # Primary Sources — `api`
 
-This index lists all Markdown documentation files for module **`api`** from the directories `src/api/` and/or `include/api/`.
+This index lists all Markdown documentation files for module **`api`** from the detected source directories for that module.
 
 ## Primary Markdown Files
-
-### `src/api/`
-
-| File | Path |
-|------|------|
-| `ARCHITECTURE.md` | [`src/api/ARCHITECTURE.md`](../../../src/api/ARCHITECTURE.md) |
-| `AUDIT.md` | [`src/api/AUDIT.md`](../../../src/api/AUDIT.md) |
-| `CHANGELOG.md` | [`src/api/CHANGELOG.md`](../../../src/api/CHANGELOG.md) |
-| `FUTURE_ENHANCEMENTS.md` | [`src/api/FUTURE_ENHANCEMENTS.md`](../../../src/api/FUTURE_ENHANCEMENTS.md) |
-| `README.md` | [`src/api/README.md`](../../../src/api/README.md) |
-| `ROADMAP.md` | [`src/api/ROADMAP.md`](../../../src/api/ROADMAP.md) |
-| `SECURITY.md` | [`src/api/SECURITY.md`](../../../src/api/SECURITY.md) |
 
 ### `include/api/`
 
@@ -52,6 +40,18 @@ This index lists all Markdown documentation files for module **`api`** from the 
 | `README.md` | [`include/api/README.md`](../../../include/api/README.md) |
 | `ROADMAP.md` | [`include/api/ROADMAP.md`](../../../include/api/ROADMAP.md) |
 | `SECURITY.md` | [`include/api/SECURITY.md`](../../../include/api/SECURITY.md) |
+
+### `src/api/`
+
+| File | Path |
+|------|------|
+| `ARCHITECTURE.md` | [`src/api/ARCHITECTURE.md`](../../../src/api/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/api/AUDIT.md`](../../../src/api/AUDIT.md) |
+| `CHANGELOG.md` | [`src/api/CHANGELOG.md`](../../../src/api/CHANGELOG.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`src/api/FUTURE_ENHANCEMENTS.md`](../../../src/api/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`src/api/README.md`](../../../src/api/README.md) |
+| `ROADMAP.md` | [`src/api/ROADMAP.md`](../../../src/api/ROADMAP.md) |
+| `SECURITY.md` | [`src/api/SECURITY.md`](../../../src/api/SECURITY.md) |
 
 ---
 

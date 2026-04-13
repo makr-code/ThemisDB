@@ -89,6 +89,9 @@ int launchCPUMatmulKernel(
 
 int dispatchMatmul(const MatrixKernelParams& params, void* opaque_stream)
 {
+#ifndef THEMIS_ENABLE_CUDA
+    (void)opaque_stream;
+#endif
     if (!params.A || !params.B || !params.C) return 1;
     if (params.M == 0 || params.K == 0 || params.N == 0) return 1;
 

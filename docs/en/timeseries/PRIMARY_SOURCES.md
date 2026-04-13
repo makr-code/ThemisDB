@@ -25,21 +25,9 @@
 
 # Primary Sources — `timeseries`
 
-This index lists all Markdown documentation files for module **`timeseries`** from the directories `src/timeseries/` and/or `include/timeseries/`.
+This index lists all Markdown documentation files for module **`timeseries`** from the detected source directories for that module.
 
 ## Primary Markdown Files
-
-### `src/timeseries/`
-
-| File | Path |
-|------|------|
-| `ARCHITECTURE.md` | [`src/timeseries/ARCHITECTURE.md`](../../../src/timeseries/ARCHITECTURE.md) |
-| `AUDIT.md` | [`src/timeseries/AUDIT.md`](../../../src/timeseries/AUDIT.md) |
-| `CHANGELOG.md` | [`src/timeseries/CHANGELOG.md`](../../../src/timeseries/CHANGELOG.md) |
-| `FUTURE_ENHANCEMENTS.md` | [`src/timeseries/FUTURE_ENHANCEMENTS.md`](../../../src/timeseries/FUTURE_ENHANCEMENTS.md) |
-| `README.md` | [`src/timeseries/README.md`](../../../src/timeseries/README.md) |
-| `ROADMAP.md` | [`src/timeseries/ROADMAP.md`](../../../src/timeseries/ROADMAP.md) |
-| `SECURITY.md` | [`src/timeseries/SECURITY.md`](../../../src/timeseries/SECURITY.md) |
 
 ### `include/timeseries/`
 
@@ -52,6 +40,18 @@ This index lists all Markdown documentation files for module **`timeseries`** fr
 | `README.md` | [`include/timeseries/README.md`](../../../include/timeseries/README.md) |
 | `ROADMAP.md` | [`include/timeseries/ROADMAP.md`](../../../include/timeseries/ROADMAP.md) |
 | `SECURITY.md` | [`include/timeseries/SECURITY.md`](../../../include/timeseries/SECURITY.md) |
+
+### `src/timeseries/`
+
+| File | Path |
+|------|------|
+| `ARCHITECTURE.md` | [`src/timeseries/ARCHITECTURE.md`](../../../src/timeseries/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/timeseries/AUDIT.md`](../../../src/timeseries/AUDIT.md) |
+| `CHANGELOG.md` | [`src/timeseries/CHANGELOG.md`](../../../src/timeseries/CHANGELOG.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`src/timeseries/FUTURE_ENHANCEMENTS.md`](../../../src/timeseries/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`src/timeseries/README.md`](../../../src/timeseries/README.md) |
+| `ROADMAP.md` | [`src/timeseries/ROADMAP.md`](../../../src/timeseries/ROADMAP.md) |
+| `SECURITY.md` | [`src/timeseries/SECURITY.md`](../../../src/timeseries/SECURITY.md) |
 
 ---
 

@@ -180,6 +180,7 @@ void ScaNN::PQCodebook::train(const float* data, size_t n, size_t d,
 }
 
 std::vector<uint8_t> ScaNN::PQCodebook::encode(const float* vec, size_t d) const {
+    (void)d;
     std::vector<uint8_t> code(num_subspaces);
     for (size_t s = 0; s < num_subspaces; ++s) {
         const float* sv = vec + s * sub_dim;
@@ -286,6 +287,7 @@ bool ScaNN::add(int64_t id, const float* vector, size_t dim) {
 
 std::vector<AnnSearchResult> ScaNN::search(const float* query, size_t dim,
                                             int k) const {
+    (void)dim;
     // Lazy build from flat buffer (thread-safety not required for this path)
     if (!trained_) {
         if (flat_ids_.empty()) return {};

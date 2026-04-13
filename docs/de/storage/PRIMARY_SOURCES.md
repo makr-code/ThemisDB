@@ -25,21 +25,9 @@
 
 # Primary Sources — `storage`
 
-Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`storage`** aus den Verzeichnissen `src/storage/` und/oder `include/storage/`.
+Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`storage`** aus den erkannten Quellverzeichnissen des Moduls.
 
 ## Primäre Markdown-Dateien
-
-### `src/storage/`
-
-| Datei | Pfad |
-|-------|------|
-| `ARCHITECTURE.md` | [`src/storage/ARCHITECTURE.md`](../../../src/storage/ARCHITECTURE.md) |
-| `AUDIT.md` | [`src/storage/AUDIT.md`](../../../src/storage/AUDIT.md) |
-| `CHANGELOG.md` | [`src/storage/CHANGELOG.md`](../../../src/storage/CHANGELOG.md) |
-| `FUTURE_ENHANCEMENTS.md` | [`src/storage/FUTURE_ENHANCEMENTS.md`](../../../src/storage/FUTURE_ENHANCEMENTS.md) |
-| `README.md` | [`src/storage/README.md`](../../../src/storage/README.md) |
-| `ROADMAP.md` | [`src/storage/ROADMAP.md`](../../../src/storage/ROADMAP.md) |
-| `SECURITY.md` | [`src/storage/SECURITY.md`](../../../src/storage/SECURITY.md) |
 
 ### `include/storage/`
 
@@ -52,6 +40,18 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`storage`**
 | `README.md` | [`include/storage/README.md`](../../../include/storage/README.md) |
 | `ROADMAP.md` | [`include/storage/ROADMAP.md`](../../../include/storage/ROADMAP.md) |
 | `SECURITY.md` | [`include/storage/SECURITY.md`](../../../include/storage/SECURITY.md) |
+
+### `src/storage/`
+
+| Datei | Pfad |
+|-------|------|
+| `ARCHITECTURE.md` | [`src/storage/ARCHITECTURE.md`](../../../src/storage/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/storage/AUDIT.md`](../../../src/storage/AUDIT.md) |
+| `CHANGELOG.md` | [`src/storage/CHANGELOG.md`](../../../src/storage/CHANGELOG.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`src/storage/FUTURE_ENHANCEMENTS.md`](../../../src/storage/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`src/storage/README.md`](../../../src/storage/README.md) |
+| `ROADMAP.md` | [`src/storage/ROADMAP.md`](../../../src/storage/ROADMAP.md) |
+| `SECURITY.md` | [`src/storage/SECURITY.md`](../../../src/storage/SECURITY.md) |
 
 ---
 

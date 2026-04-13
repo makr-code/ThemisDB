@@ -145,7 +145,7 @@ void PluginHotPlugMonitor::handleFileEvent(
                     std::this_thread::sleep_for(std::chrono::milliseconds(500));
                     
                     // Rescan directory to discover new plugin
-                    plugin_manager_->scanPluginDirectory(watch_directory_);
+                    (void)plugin_manager_->scanPluginDirectory(watch_directory_);
                     
                     // Try to load the plugin
                     auto result = plugin_manager_->loadPlugin(plugin_name);
@@ -182,8 +182,12 @@ void PluginHotPlugMonitor::handleFileEvent(
                     
                     // Unload if loaded
                     if (plugin_manager_->isPluginLoaded(plugin_name)) {
-                        plugin_manager_->unloadPlugin(plugin_name);
-                        THEMIS_INFO("Auto-unloaded plugin: {}", plugin_name);
+                        auto unload_result = plugin_manager_->unloadPlugin(plugin_name);
+                        if (unload_result.has_value()) {
+                            THEMIS_INFO("Auto-unloaded plugin: {}", plugin_name);
+                        } else {
+                            THEMIS_WARN("Failed to auto-unload plugin: {}", plugin_name);
+                        }
                     }
                 }
                 break;

@@ -51,7 +51,7 @@
         "CMAKE_CXX_COMPILER": "cl.exe",
         "CMAKE_MAKE_PROGRAM": "ninja.exe",
         "CMAKE_VS_RUNTIME_LIBRARY": "MultiThreadedDLL",
-        "THEMIS_ENABLE_GPU": "OFF",
+        "THEMIS_ENABLE_GPU": "ON",
         "THEMIS_ENABLE_HTTP_SERVER": "ON",
         "THEMIS_ENABLE_LLM": "ON",
         "THEMIS_BUILD_MODULAR": "ON",
@@ -66,7 +66,7 @@
         "CMAKE_C_COMPILER": "gcc",
         "CMAKE_CXX_COMPILER": "g++",
         "VCPKG_TARGET_TRIPLET": "x64-linux",
-        "THEMIS_ENABLE_GPU": "OFF",
+        "THEMIS_ENABLE_GPU": "ON",
         "THEMIS_ENABLE_HTTP_SERVER": "ON",
         "THEMIS_ENABLE_LLM": "ON"
       }
@@ -74,7 +74,7 @@
     {
       "name": "msvc-ninja-release",
       "displayName": "Windows: MSVC + Ninja Release",
-      "description": "Release build for Windows with MSVC, Ninja, vcpkg and COMMUNITY Edition (LLM enabled, GPU disabled)",
+      "description": "Release build for Windows with MSVC, Ninja, vcpkg and COMMUNITY Edition (LLM and GPU enabled with runtime CPU fallback)",
       "inherits": "windows-base",
       "binaryDir": "${sourceDir}/build-msvc-ninja-release",
       "cacheVariables": {

@@ -36,7 +36,7 @@
 
 namespace themis {
 class RocksDBWrapper;
-namespace index { class InvertedIndex; }
+class InvertedIndex;
 class VectorIndexManager;
 
 namespace process {
@@ -387,7 +387,7 @@ public:
      * @param fts  Shared pointer to an InvertedIndex instance (may be null to
      *             disable).
      */
-    void setInvertedIndex(std::shared_ptr<index::InvertedIndex> fts);
+    void setInvertedIndex(std::shared_ptr<InvertedIndex> fts);
 
     /**
      * @brief Wire a VectorIndexManager for HNSW-based findSimilar().
@@ -407,7 +407,7 @@ public:
 private:
     ::themis::RocksDBWrapper& db_;
     std::function<std::vector<float>(std::string_view)> embedder_;
-    std::shared_ptr<index::InvertedIndex> fts_index_;
+    std::shared_ptr<InvertedIndex> fts_index_;
     std::shared_ptr<VectorIndexManager> vector_index_;
 
     // Helpers

@@ -25,21 +25,9 @@
 
 # Primary Sources — `replication`
 
-Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`replication`** aus den Verzeichnissen `src/replication/` und/oder `include/replication/`.
+Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`replication`** aus den erkannten Quellverzeichnissen des Moduls.
 
 ## Primäre Markdown-Dateien
-
-### `src/replication/`
-
-| Datei | Pfad |
-|-------|------|
-| `ARCHITECTURE.md` | [`src/replication/ARCHITECTURE.md`](../../../src/replication/ARCHITECTURE.md) |
-| `AUDIT.md` | [`src/replication/AUDIT.md`](../../../src/replication/AUDIT.md) |
-| `CHANGELOG.md` | [`src/replication/CHANGELOG.md`](../../../src/replication/CHANGELOG.md) |
-| `FUTURE_ENHANCEMENTS.md` | [`src/replication/FUTURE_ENHANCEMENTS.md`](../../../src/replication/FUTURE_ENHANCEMENTS.md) |
-| `README.md` | [`src/replication/README.md`](../../../src/replication/README.md) |
-| `ROADMAP.md` | [`src/replication/ROADMAP.md`](../../../src/replication/ROADMAP.md) |
-| `SECURITY.md` | [`src/replication/SECURITY.md`](../../../src/replication/SECURITY.md) |
 
 ### `include/replication/`
 
@@ -52,6 +40,18 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`replicatio
 | `README.md` | [`include/replication/README.md`](../../../include/replication/README.md) |
 | `ROADMAP.md` | [`include/replication/ROADMAP.md`](../../../include/replication/ROADMAP.md) |
 | `SECURITY.md` | [`include/replication/SECURITY.md`](../../../include/replication/SECURITY.md) |
+
+### `src/replication/`
+
+| Datei | Pfad |
+|-------|------|
+| `ARCHITECTURE.md` | [`src/replication/ARCHITECTURE.md`](../../../src/replication/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/replication/AUDIT.md`](../../../src/replication/AUDIT.md) |
+| `CHANGELOG.md` | [`src/replication/CHANGELOG.md`](../../../src/replication/CHANGELOG.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`src/replication/FUTURE_ENHANCEMENTS.md`](../../../src/replication/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`src/replication/README.md`](../../../src/replication/README.md) |
+| `ROADMAP.md` | [`src/replication/ROADMAP.md`](../../../src/replication/ROADMAP.md) |
+| `SECURITY.md` | [`src/replication/SECURITY.md`](../../../src/replication/SECURITY.md) |
 
 ---
 

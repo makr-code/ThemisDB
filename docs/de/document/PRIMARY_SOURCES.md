@@ -18,7 +18,7 @@
 
 # Primary Sources — `document`
 
-Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`document`** aus den Verzeichnissen `src/document/` und/oder `include/document/`.
+Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`document`** aus den erkannten Quellverzeichnissen des Moduls.
 
 ## Primäre Markdown-Dateien
 

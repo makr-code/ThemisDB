@@ -25,21 +25,9 @@
 
 # Primary Sources — `aql`
 
-Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`aql`** aus den Verzeichnissen `src/aql/` und/oder `include/aql/`.
+Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`aql`** aus den erkannten Quellverzeichnissen des Moduls.
 
 ## Primäre Markdown-Dateien
-
-### `src/aql/`
-
-| Datei | Pfad |
-|-------|------|
-| `ARCHITECTURE.md` | [`src/aql/ARCHITECTURE.md`](../../../src/aql/ARCHITECTURE.md) |
-| `AUDIT.md` | [`src/aql/AUDIT.md`](../../../src/aql/AUDIT.md) |
-| `CHANGELOG.md` | [`src/aql/CHANGELOG.md`](../../../src/aql/CHANGELOG.md) |
-| `FUTURE_ENHANCEMENTS.md` | [`src/aql/FUTURE_ENHANCEMENTS.md`](../../../src/aql/FUTURE_ENHANCEMENTS.md) |
-| `README.md` | [`src/aql/README.md`](../../../src/aql/README.md) |
-| `ROADMAP.md` | [`src/aql/ROADMAP.md`](../../../src/aql/ROADMAP.md) |
-| `SECURITY.md` | [`src/aql/SECURITY.md`](../../../src/aql/SECURITY.md) |
 
 ### `include/aql/`
 
@@ -52,6 +40,18 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`aql`** aus
 | `README.md` | [`include/aql/README.md`](../../../include/aql/README.md) |
 | `ROADMAP.md` | [`include/aql/ROADMAP.md`](../../../include/aql/ROADMAP.md) |
 | `SECURITY.md` | [`include/aql/SECURITY.md`](../../../include/aql/SECURITY.md) |
+
+### `src/aql/`
+
+| Datei | Pfad |
+|-------|------|
+| `ARCHITECTURE.md` | [`src/aql/ARCHITECTURE.md`](../../../src/aql/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/aql/AUDIT.md`](../../../src/aql/AUDIT.md) |
+| `CHANGELOG.md` | [`src/aql/CHANGELOG.md`](../../../src/aql/CHANGELOG.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`src/aql/FUTURE_ENHANCEMENTS.md`](../../../src/aql/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`src/aql/README.md`](../../../src/aql/README.md) |
+| `ROADMAP.md` | [`src/aql/ROADMAP.md`](../../../src/aql/ROADMAP.md) |
+| `SECURITY.md` | [`src/aql/SECURITY.md`](../../../src/aql/SECURITY.md) |
 
 ---
 

@@ -36,7 +36,6 @@
 #include <prometheus/counter.h>
 #include <prometheus/registry.h>
 #include <prometheus/family.h>
-#include <prometheus/builder.h>
 #endif
 
 namespace themis {

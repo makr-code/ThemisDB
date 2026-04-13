@@ -25,21 +25,9 @@
 
 # Primary Sources — `temporal`
 
-Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`temporal`** aus den Verzeichnissen `src/temporal/` und/oder `include/temporal/`.
+Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`temporal`** aus den erkannten Quellverzeichnissen des Moduls.
 
 ## Primäre Markdown-Dateien
-
-### `src/temporal/`
-
-| Datei | Pfad |
-|-------|------|
-| `ARCHITECTURE.md` | [`src/temporal/ARCHITECTURE.md`](../../../src/temporal/ARCHITECTURE.md) |
-| `AUDIT.md` | [`src/temporal/AUDIT.md`](../../../src/temporal/AUDIT.md) |
-| `CHANGELOG.md` | [`src/temporal/CHANGELOG.md`](../../../src/temporal/CHANGELOG.md) |
-| `FUTURE_ENHANCEMENTS.md` | [`src/temporal/FUTURE_ENHANCEMENTS.md`](../../../src/temporal/FUTURE_ENHANCEMENTS.md) |
-| `README.md` | [`src/temporal/README.md`](../../../src/temporal/README.md) |
-| `ROADMAP.md` | [`src/temporal/ROADMAP.md`](../../../src/temporal/ROADMAP.md) |
-| `SECURITY.md` | [`src/temporal/SECURITY.md`](../../../src/temporal/SECURITY.md) |
 
 ### `include/temporal/`
 
@@ -52,6 +40,18 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`temporal`*
 | `README.md` | [`include/temporal/README.md`](../../../include/temporal/README.md) |
 | `ROADMAP.md` | [`include/temporal/ROADMAP.md`](../../../include/temporal/ROADMAP.md) |
 | `SECURITY.md` | [`include/temporal/SECURITY.md`](../../../include/temporal/SECURITY.md) |
+
+### `src/temporal/`
+
+| Datei | Pfad |
+|-------|------|
+| `ARCHITECTURE.md` | [`src/temporal/ARCHITECTURE.md`](../../../src/temporal/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/temporal/AUDIT.md`](../../../src/temporal/AUDIT.md) |
+| `CHANGELOG.md` | [`src/temporal/CHANGELOG.md`](../../../src/temporal/CHANGELOG.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`src/temporal/FUTURE_ENHANCEMENTS.md`](../../../src/temporal/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`src/temporal/README.md`](../../../src/temporal/README.md) |
+| `ROADMAP.md` | [`src/temporal/ROADMAP.md`](../../../src/temporal/ROADMAP.md) |
+| `SECURITY.md` | [`src/temporal/SECURITY.md`](../../../src/temporal/SECURITY.md) |
 
 ---
 

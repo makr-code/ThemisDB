@@ -296,11 +296,44 @@ add_subdirectory(cmake)
 # DOCUMENTATION DATABASE GENERATION
 # ============================================================================
 
-# Control whether docs.db is generated during build. Defaults ON for native builds;
-# Docker should pass -DTHEMIS_BUILD_DOCS_DB=OFF and provide a prebuilt docs.db.
-option(THEMIS_BUILD_DOCS_DB "Generate documentation database during build" ON)
+# Control docs.db handling for local and CI/CD builds.
+# Modes:
+#   AUTO     - local: prefer cache, otherwise build; CI: prefer prebuilt from source
+#   BUILD    - always build docs.db from sources
+#   PREBUILT - use prebuilt docs.db from THEMIS_DOCS_DB_PREBUILT_PATH
+#   OFF      - disable docs.db packaging entirely
+set(THEMIS_DOCS_DB_MODE "AUTO" CACHE STRING "docs.db mode: AUTO, BUILD, PREBUILT, OFF")
+set_property(CACHE THEMIS_DOCS_DB_MODE PROPERTY STRINGS AUTO BUILD PREBUILT OFF)
+set(THEMIS_DOCS_DB_PREBUILT_PATH "${CMAKE_SOURCE_DIR}/data/docs.db" CACHE PATH "Prebuilt docs.db directory path")
+set(THEMIS_DOCS_DB_CACHE_PATH "${CMAKE_BINARY_DIR}/cache/docs.db" CACHE PATH "Local docs.db cache directory path")
 
-if(THEMIS_BUILD_DOCS_DB)
+# Backward-compatible flag support
+option(THEMIS_BUILD_DOCS_DB "Legacy docs.db switch (ON=BUILD, OFF=PREBUILT)" ON)
+if(NOT DEFINED CACHE{THEMIS_DOCS_DB_MODE})
+    if(THEMIS_BUILD_DOCS_DB)
+        set(THEMIS_DOCS_DB_MODE "BUILD" CACHE STRING "docs.db mode" FORCE)
+    else()
+        set(THEMIS_DOCS_DB_MODE "PREBUILT" CACHE STRING "docs.db mode" FORCE)
+    endif()
+endif()
+
+set(_themis_docs_db_mode "${THEMIS_DOCS_DB_MODE}")
+if(_themis_docs_db_mode STREQUAL "AUTO")
+    if(EXISTS "${THEMIS_DOCS_DB_CACHE_PATH}")
+        set(_themis_docs_db_mode "PREBUILT")
+        set(_themis_docs_db_selected_prebuilt "${THEMIS_DOCS_DB_CACHE_PATH}")
+        message(STATUS "docs.db mode AUTO -> PREBUILT (using local cache: ${THEMIS_DOCS_DB_CACHE_PATH})")
+    elseif((DEFINED ENV{CI} OR DEFINED ENV{GITHUB_ACTIONS}) AND EXISTS "${THEMIS_DOCS_DB_PREBUILT_PATH}")
+        set(_themis_docs_db_mode "PREBUILT")
+        set(_themis_docs_db_selected_prebuilt "${THEMIS_DOCS_DB_PREBUILT_PATH}")
+        message(STATUS "docs.db mode AUTO -> PREBUILT (CI with source prebuilt docs.db)")
+    else()
+        set(_themis_docs_db_mode "BUILD")
+        message(STATUS "docs.db mode AUTO -> BUILD")
+    endif()
+endif()
+
+if(_themis_docs_db_mode STREQUAL "BUILD")
     # Find Python3 for documentation database generation
     find_package(Python3 COMPONENTS Interpreter)
     
@@ -355,6 +388,8 @@ if(THEMIS_BUILD_DOCS_DB)
             add_custom_command(
                 OUTPUT ${DOCS_DB_OUTPUT}
                 COMMAND import_docs_rocksdb ${DOCS_JSON_OUTPUT} ${DOCS_DB_OUTPUT}
+                COMMAND ${CMAKE_COMMAND} -E remove_directory "${THEMIS_DOCS_DB_CACHE_PATH}"
+                COMMAND ${CMAKE_COMMAND} -E copy_directory ${DOCS_DB_OUTPUT} "${THEMIS_DOCS_DB_CACHE_PATH}"
                 DEPENDS
                     import_docs_rocksdb
                     ${DOCS_JSON_OUTPUT}
@@ -379,6 +414,7 @@ if(THEMIS_BUILD_DOCS_DB)
             message(STATUS "Documentation database generation enabled")
             message(STATUS "  Output: ${DOCS_DB_OUTPUT}")
             message(STATUS "  Size: ~2-3 MB (1151 documents)")
+            message(STATUS "  Cache: ${THEMIS_DOCS_DB_CACHE_PATH}")
         else()
             message(WARNING "RocksDB not found. Documentation database will be generated as JSON only.")
             message(STATUS "JSON documentation database will be available at: ${DOCS_JSON_OUTPUT}")
@@ -387,16 +423,62 @@ if(THEMIS_BUILD_DOCS_DB)
         message(WARNING "Python3 not found. Documentation database generation disabled.")
         message(STATUS "Install Python 3 to enable automatic documentation database generation.")
     endif()
-else()
-    message(STATUS "Documentation database generation skipped (THEMIS_BUILD_DOCS_DB=OFF)")
-    # If a prebuilt docs.db exists in source tree, install it with the package
-    if(EXISTS "${CMAKE_SOURCE_DIR}/data/docs.db")
-        install(FILES "${CMAKE_SOURCE_DIR}/data/docs.db"
+elseif(_themis_docs_db_mode STREQUAL "PREBUILT")
+    if(NOT DEFINED _themis_docs_db_selected_prebuilt)
+        set(_themis_docs_db_selected_prebuilt "${THEMIS_DOCS_DB_PREBUILT_PATH}")
+    endif()
+
+    if(EXISTS "${_themis_docs_db_selected_prebuilt}")
+        install(DIRECTORY "${_themis_docs_db_selected_prebuilt}"
             DESTINATION ${CMAKE_INSTALL_PREFIX}/data
             COMPONENT documentation
+            OPTIONAL
         )
-        message(STATUS "Using prebuilt documentation database at ${CMAKE_SOURCE_DIR}/data/docs.db")
+        message(STATUS "Using prebuilt documentation database at ${_themis_docs_db_selected_prebuilt}")
+    else()
+        message(WARNING "docs.db mode PREBUILT selected, but path not found: ${_themis_docs_db_selected_prebuilt}")
     endif()
+elseif(_themis_docs_db_mode STREQUAL "OFF")
+    message(STATUS "Documentation database packaging disabled (THEMIS_DOCS_DB_MODE=OFF)")
+else()
+    message(FATAL_ERROR "Invalid THEMIS_DOCS_DB_MODE='${THEMIS_DOCS_DB_MODE}'. Allowed: AUTO, BUILD, PREBUILT, OFF")
+endif()
+
+# ============================================================================
+# OPTIONAL LLM MODEL PACKAGE CONTENT
+# ============================================================================
+
+# Models are runtime assets and must be part of release packages by default.
+# SKIP is still available as an explicit override for special builds.
+set(THEMIS_MODELS_MODE "PACKAGE" CACHE STRING "models packaging mode: AUTO, PACKAGE, SKIP")
+set_property(CACHE THEMIS_MODELS_MODE PROPERTY STRINGS AUTO PACKAGE SKIP)
+set(THEMIS_MODELS_SOURCE_DIR "${CMAKE_SOURCE_DIR}/models" CACHE PATH "Directory containing packaged LLM model files")
+
+set(_themis_models_mode "${THEMIS_MODELS_MODE}")
+if(_themis_models_mode STREQUAL "AUTO")
+    if(EXISTS "${THEMIS_MODELS_SOURCE_DIR}")
+        set(_themis_models_mode "PACKAGE")
+        message(STATUS "models mode AUTO -> PACKAGE")
+    else()
+        message(FATAL_ERROR "models mode AUTO resolved to PACKAGE, but directory not found: ${THEMIS_MODELS_SOURCE_DIR}")
+    endif()
+endif()
+
+if(_themis_models_mode STREQUAL "PACKAGE")
+    if(EXISTS "${THEMIS_MODELS_SOURCE_DIR}")
+        install(DIRECTORY "${THEMIS_MODELS_SOURCE_DIR}/"
+            DESTINATION ${CMAKE_INSTALL_PREFIX}/models
+            COMPONENT models
+            OPTIONAL
+        )
+        message(STATUS "Including runtime models from: ${THEMIS_MODELS_SOURCE_DIR}")
+    else()
+        message(FATAL_ERROR "models mode PACKAGE selected, but directory not found: ${THEMIS_MODELS_SOURCE_DIR}")
+    endif()
+elseif(_themis_models_mode STREQUAL "SKIP")
+    message(STATUS "Runtime model packaging disabled (THEMIS_MODELS_MODE=${_themis_models_mode})")
+else()
+    message(FATAL_ERROR "Invalid THEMIS_MODELS_MODE='${THEMIS_MODELS_MODE}'. Allowed: AUTO, PACKAGE, SKIP")
 endif()
 
 # ============================================================================

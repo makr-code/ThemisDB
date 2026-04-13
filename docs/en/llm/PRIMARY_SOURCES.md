@@ -28,9 +28,21 @@
 
 # Primary Sources — `llm`
 
-This index lists all Markdown documentation files for module **`llm`** from the directories `src/llm/` and/or `include/llm/`.
+This index lists all Markdown documentation files for module **`llm`** from the detected source directories for that module.
 
 ## Primary Markdown Files
+
+### `include/llm/`
+
+| File | Path |
+|------|------|
+| `ARCHITECTURE.md` | [`include/llm/ARCHITECTURE.md`](../../../include/llm/ARCHITECTURE.md) |
+| `AUDIT.md` | [`include/llm/AUDIT.md`](../../../include/llm/AUDIT.md) |
+| `CHANGELOG.md` | [`include/llm/CHANGELOG.md`](../../../include/llm/CHANGELOG.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`include/llm/FUTURE_ENHANCEMENTS.md`](../../../include/llm/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`include/llm/README.md`](../../../include/llm/README.md) |
+| `ROADMAP.md` | [`include/llm/ROADMAP.md`](../../../include/llm/ROADMAP.md) |
+| `SECURITY.md` | [`include/llm/SECURITY.md`](../../../include/llm/SECURITY.md) |
 
 ### `src/llm/`
 
@@ -44,20 +56,13 @@ This index lists all Markdown documentation files for module **`llm`** from the 
 | `ROADMAP.md` | [`src/llm/ROADMAP.md`](../../../src/llm/ROADMAP.md) |
 | `SECURITY.md` | [`src/llm/SECURITY.md`](../../../src/llm/SECURITY.md) |
 | `gguf_loader_README.md` | [`src/llm/gguf_loader_README.md`](../../../src/llm/gguf_loader_README.md) |
-| `README.md` | [`src/llm/grammars/README.md`](../../../src/llm/grammars/README.md) |
 | `llama_lora_adapter_README.md` | [`src/llm/llama_lora_adapter_README.md`](../../../src/llm/llama_lora_adapter_README.md) |
 
-### `include/llm/`
+### `src/llm/grammars/`
 
 | File | Path |
 |------|------|
-| `ARCHITECTURE.md` | [`include/llm/ARCHITECTURE.md`](../../../include/llm/ARCHITECTURE.md) |
-| `AUDIT.md` | [`include/llm/AUDIT.md`](../../../include/llm/AUDIT.md) |
-| `CHANGELOG.md` | [`include/llm/CHANGELOG.md`](../../../include/llm/CHANGELOG.md) |
-| `FUTURE_ENHANCEMENTS.md` | [`include/llm/FUTURE_ENHANCEMENTS.md`](../../../include/llm/FUTURE_ENHANCEMENTS.md) |
-| `README.md` | [`include/llm/README.md`](../../../include/llm/README.md) |
-| `ROADMAP.md` | [`include/llm/ROADMAP.md`](../../../include/llm/ROADMAP.md) |
-| `SECURITY.md` | [`include/llm/SECURITY.md`](../../../include/llm/SECURITY.md) |
+| `README.md` | [`src/llm/grammars/README.md`](../../../src/llm/grammars/README.md) |
 
 ---
 

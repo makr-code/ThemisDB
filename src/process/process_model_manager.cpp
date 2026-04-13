@@ -254,13 +254,13 @@ void ProcessModelManager::setEmbedder(
 }
 
 void ProcessModelManager::setInvertedIndex(
-    std::shared_ptr<index::InvertedIndex> fts)
+    std::shared_ptr<InvertedIndex> fts)
 {
     fts_index_ = std::move(fts);
     // Ensure the logical index exists.
     if (fts_index_) {
         if (!fts_index_->exists("process_definitions", "text")) {
-            index::InvertedIndex::Config cfg;
+            InvertedIndex::Config cfg;
             cfg.stemming_enabled  = false;
             cfg.language          = "none";
             cfg.stopwords_enabled = false;

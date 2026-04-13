@@ -1,11 +1,23 @@
 name: Code Maturity Analysis & Auto-Versioning
 
-# Runs on a weekly schedule and can be triggered manually.
-# Automatic push triggers are intentionally disabled to avoid running
-# this heavy analysis on every source-file change.
+# Runs on source changes, a daily schedule, and can be triggered manually.
 on:
+  push:
+    branches:
+      - main
+      - develop
+      - 'feature/**'
+    paths:
+      - 'src/**'
+      - 'include/**'
+      - 'tests/**'
+      - 'benchmarks/**'
+      - 'projects/**'
+      - 'plugins/**'
+      - '.github/scripts/analyze_code_maturity.py'
+      - '.github/workflows/08-maintenance_code-maturity-analysis.yml'
   schedule:
-    - cron: '0 3 * * 1'   # Every Monday at 03:00 UTC
+    - cron: '0 3 * * *'   # Daily at 03:00 UTC
   workflow_dispatch:
 
 permissions:
@@ -84,4 +96,4 @@ jobs:
           echo "| **Commit** | \`${{ github.sha }}\` |" >> "$GITHUB_STEP_SUMMARY"
           echo "| **Triggered by** | ${{ github.actor }} |" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
-          echo "Runs weekly (Mon 03:00 UTC). Analyses code maturity and auto-updates version files." >> "$GITHUB_STEP_SUMMARY"
+          echo "Runs on relevant source changes, daily at 03:00 UTC, or manually. Analyses code maturity and auto-updates version files." >> "$GITHUB_STEP_SUMMARY"

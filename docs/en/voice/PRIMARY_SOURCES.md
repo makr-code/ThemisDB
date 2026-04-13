@@ -25,21 +25,9 @@
 
 # Primary Sources — `voice`
 
-This index lists all Markdown documentation files for module **`voice`** from the directories `src/voice/` and/or `include/voice/`.
+This index lists all Markdown documentation files for module **`voice`** from the detected source directories for that module.
 
 ## Primary Markdown Files
-
-### `src/voice/`
-
-| File | Path |
-|------|------|
-| `ARCHITECTURE.md` | [`src/voice/ARCHITECTURE.md`](../../../src/voice/ARCHITECTURE.md) |
-| `AUDIT.md` | [`src/voice/AUDIT.md`](../../../src/voice/AUDIT.md) |
-| `CHANGELOG.md` | [`src/voice/CHANGELOG.md`](../../../src/voice/CHANGELOG.md) |
-| `FUTURE_ENHANCEMENTS.md` | [`src/voice/FUTURE_ENHANCEMENTS.md`](../../../src/voice/FUTURE_ENHANCEMENTS.md) |
-| `README.md` | [`src/voice/README.md`](../../../src/voice/README.md) |
-| `ROADMAP.md` | [`src/voice/ROADMAP.md`](../../../src/voice/ROADMAP.md) |
-| `SECURITY.md` | [`src/voice/SECURITY.md`](../../../src/voice/SECURITY.md) |
 
 ### `include/voice/`
 
@@ -52,6 +40,18 @@ This index lists all Markdown documentation files for module **`voice`** from th
 | `README.md` | [`include/voice/README.md`](../../../include/voice/README.md) |
 | `ROADMAP.md` | [`include/voice/ROADMAP.md`](../../../include/voice/ROADMAP.md) |
 | `SECURITY.md` | [`include/voice/SECURITY.md`](../../../include/voice/SECURITY.md) |
+
+### `src/voice/`
+
+| File | Path |
+|------|------|
+| `ARCHITECTURE.md` | [`src/voice/ARCHITECTURE.md`](../../../src/voice/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/voice/AUDIT.md`](../../../src/voice/AUDIT.md) |
+| `CHANGELOG.md` | [`src/voice/CHANGELOG.md`](../../../src/voice/CHANGELOG.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`src/voice/FUTURE_ENHANCEMENTS.md`](../../../src/voice/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`src/voice/README.md`](../../../src/voice/README.md) |
+| `ROADMAP.md` | [`src/voice/ROADMAP.md`](../../../src/voice/ROADMAP.md) |
+| `SECURITY.md` | [`src/voice/SECURITY.md`](../../../src/voice/SECURITY.md) |
 
 ---
 

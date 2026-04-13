@@ -1071,6 +1071,8 @@ CompressionCodec ColumnSegment::selectOptimalCodec(
     const void* data,
     size_t row_count
 ) {
+    (void)data;
+    (void)row_count;
     // Simple heuristic-based codec selection
     switch (type) {
         case ColumnType::INT32:

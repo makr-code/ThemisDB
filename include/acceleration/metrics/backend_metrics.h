@@ -84,6 +84,7 @@ public:
     
     // Error metrics
     void recordError(const std::string& error_code) {
+        (void)error_code;
         if (errors_total_) errors_total_->increment();
         // Could add per-error-code counters here
     }
@@ -108,12 +109,14 @@ public:
     // Throughput metrics
     double getOperationsPerSecond() const {
         if (!l2_distance_ops_ || !cosine_ops_) return 0.0;
-        return l2_distance_ops_->value() + cosine_ops_->value();
+        return static_cast<double>(l2_distance_ops_->value()) +
+               static_cast<double>(cosine_ops_->value());
     }
     
     double getVectorsPerSecond() const {
         if (!l2_distance_vectors_ || !cosine_vectors_) return 0.0;
-        return l2_distance_vectors_->value() + cosine_vectors_->value();
+        return static_cast<double>(l2_distance_vectors_->value()) +
+               static_cast<double>(cosine_vectors_->value());
     }
     
 private:

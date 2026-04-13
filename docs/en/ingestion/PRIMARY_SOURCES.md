@@ -25,21 +25,9 @@
 
 # Primary Sources — `ingestion`
 
-This index lists all Markdown documentation files for module **`ingestion`** from the directories `src/ingestion/` and/or `include/ingestion/`.
+This index lists all Markdown documentation files for module **`ingestion`** from the detected source directories for that module.
 
 ## Primary Markdown Files
-
-### `src/ingestion/`
-
-| File | Path |
-|------|------|
-| `ARCHITECTURE.md` | [`src/ingestion/ARCHITECTURE.md`](../../../src/ingestion/ARCHITECTURE.md) |
-| `AUDIT.md` | [`src/ingestion/AUDIT.md`](../../../src/ingestion/AUDIT.md) |
-| `CHANGELOG.md` | [`src/ingestion/CHANGELOG.md`](../../../src/ingestion/CHANGELOG.md) |
-| `FUTURE_ENHANCEMENTS.md` | [`src/ingestion/FUTURE_ENHANCEMENTS.md`](../../../src/ingestion/FUTURE_ENHANCEMENTS.md) |
-| `README.md` | [`src/ingestion/README.md`](../../../src/ingestion/README.md) |
-| `ROADMAP.md` | [`src/ingestion/ROADMAP.md`](../../../src/ingestion/ROADMAP.md) |
-| `SECURITY.md` | [`src/ingestion/SECURITY.md`](../../../src/ingestion/SECURITY.md) |
 
 ### `include/ingestion/`
 
@@ -52,6 +40,18 @@ This index lists all Markdown documentation files for module **`ingestion`** fro
 | `README.md` | [`include/ingestion/README.md`](../../../include/ingestion/README.md) |
 | `ROADMAP.md` | [`include/ingestion/ROADMAP.md`](../../../include/ingestion/ROADMAP.md) |
 | `SECURITY.md` | [`include/ingestion/SECURITY.md`](../../../include/ingestion/SECURITY.md) |
+
+### `src/ingestion/`
+
+| File | Path |
+|------|------|
+| `ARCHITECTURE.md` | [`src/ingestion/ARCHITECTURE.md`](../../../src/ingestion/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/ingestion/AUDIT.md`](../../../src/ingestion/AUDIT.md) |
+| `CHANGELOG.md` | [`src/ingestion/CHANGELOG.md`](../../../src/ingestion/CHANGELOG.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`src/ingestion/FUTURE_ENHANCEMENTS.md`](../../../src/ingestion/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`src/ingestion/README.md`](../../../src/ingestion/README.md) |
+| `ROADMAP.md` | [`src/ingestion/ROADMAP.md`](../../../src/ingestion/ROADMAP.md) |
+| `SECURITY.md` | [`src/ingestion/SECURITY.md`](../../../src/ingestion/SECURITY.md) |
 
 ---
 

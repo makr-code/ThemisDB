@@ -25,21 +25,9 @@
 
 # Primary Sources — `exporters`
 
-This index lists all Markdown documentation files for module **`exporters`** from the directories `src/exporters/` and/or `include/exporters/`.
+This index lists all Markdown documentation files for module **`exporters`** from the detected source directories for that module.
 
 ## Primary Markdown Files
-
-### `src/exporters/`
-
-| File | Path |
-|------|------|
-| `ARCHITECTURE.md` | [`src/exporters/ARCHITECTURE.md`](../../../src/exporters/ARCHITECTURE.md) |
-| `AUDIT.md` | [`src/exporters/AUDIT.md`](../../../src/exporters/AUDIT.md) |
-| `CHANGELOG.md` | [`src/exporters/CHANGELOG.md`](../../../src/exporters/CHANGELOG.md) |
-| `FUTURE_ENHANCEMENTS.md` | [`src/exporters/FUTURE_ENHANCEMENTS.md`](../../../src/exporters/FUTURE_ENHANCEMENTS.md) |
-| `README.md` | [`src/exporters/README.md`](../../../src/exporters/README.md) |
-| `ROADMAP.md` | [`src/exporters/ROADMAP.md`](../../../src/exporters/ROADMAP.md) |
-| `SECURITY.md` | [`src/exporters/SECURITY.md`](../../../src/exporters/SECURITY.md) |
 
 ### `include/exporters/`
 
@@ -52,6 +40,18 @@ This index lists all Markdown documentation files for module **`exporters`** fro
 | `README.md` | [`include/exporters/README.md`](../../../include/exporters/README.md) |
 | `ROADMAP.md` | [`include/exporters/ROADMAP.md`](../../../include/exporters/ROADMAP.md) |
 | `SECURITY.md` | [`include/exporters/SECURITY.md`](../../../include/exporters/SECURITY.md) |
+
+### `src/exporters/`
+
+| File | Path |
+|------|------|
+| `ARCHITECTURE.md` | [`src/exporters/ARCHITECTURE.md`](../../../src/exporters/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/exporters/AUDIT.md`](../../../src/exporters/AUDIT.md) |
+| `CHANGELOG.md` | [`src/exporters/CHANGELOG.md`](../../../src/exporters/CHANGELOG.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`src/exporters/FUTURE_ENHANCEMENTS.md`](../../../src/exporters/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`src/exporters/README.md`](../../../src/exporters/README.md) |
+| `ROADMAP.md` | [`src/exporters/ROADMAP.md`](../../../src/exporters/ROADMAP.md) |
+| `SECURITY.md` | [`src/exporters/SECURITY.md`](../../../src/exporters/SECURITY.md) |
 
 ---
 

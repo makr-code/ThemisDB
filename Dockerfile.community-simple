@@ -1,6 +1,6 @@
 # ThemisDB Community Edition - Simplified Docker Build
 # Optimized for fast builds without extensive vcpkg compilations
-# EDITION: COMMUNITY (LLM=ON, GPU=OFF)
+# EDITION: COMMUNITY (LLM=ON, GPU=ON with CPU fallback)
 
 FROM ubuntu:24.04
 
@@ -120,7 +120,7 @@ RUN set -eux && \
         -DVCPKG_MANIFEST_MODE=ON \
         -DTHEMIS_EDITION=COMMUNITY \
         -DTHEMIS_ENABLE_LLM=ON \
-        -DTHEMIS_ENABLE_GPU=OFF \
+        -DTHEMIS_ENABLE_GPU=ON \
         -DTHEMIS_BUILD_TESTS=OFF \
         -DTHEMIS_BUILD_BENCHMARKS=OFF \
         -DTHEMIS_ENABLE_TRACING=OFF \

@@ -25,21 +25,9 @@
 
 # Primary Sources — `metadata`
 
-Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`metadata`** aus den Verzeichnissen `src/metadata/` und/oder `include/metadata/`.
+Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`metadata`** aus den erkannten Quellverzeichnissen des Moduls.
 
 ## Primäre Markdown-Dateien
-
-### `src/metadata/`
-
-| Datei | Pfad |
-|-------|------|
-| `ARCHITECTURE.md` | [`src/metadata/ARCHITECTURE.md`](../../../src/metadata/ARCHITECTURE.md) |
-| `AUDIT.md` | [`src/metadata/AUDIT.md`](../../../src/metadata/AUDIT.md) |
-| `CHANGELOG.md` | [`src/metadata/CHANGELOG.md`](../../../src/metadata/CHANGELOG.md) |
-| `FUTURE_ENHANCEMENTS.md` | [`src/metadata/FUTURE_ENHANCEMENTS.md`](../../../src/metadata/FUTURE_ENHANCEMENTS.md) |
-| `README.md` | [`src/metadata/README.md`](../../../src/metadata/README.md) |
-| `ROADMAP.md` | [`src/metadata/ROADMAP.md`](../../../src/metadata/ROADMAP.md) |
-| `SECURITY.md` | [`src/metadata/SECURITY.md`](../../../src/metadata/SECURITY.md) |
 
 ### `include/metadata/`
 
@@ -52,6 +40,18 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`metadata`*
 | `README.md` | [`include/metadata/README.md`](../../../include/metadata/README.md) |
 | `ROADMAP.md` | [`include/metadata/ROADMAP.md`](../../../include/metadata/ROADMAP.md) |
 | `SECURITY.md` | [`include/metadata/SECURITY.md`](../../../include/metadata/SECURITY.md) |
+
+### `src/metadata/`
+
+| Datei | Pfad |
+|-------|------|
+| `ARCHITECTURE.md` | [`src/metadata/ARCHITECTURE.md`](../../../src/metadata/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/metadata/AUDIT.md`](../../../src/metadata/AUDIT.md) |
+| `CHANGELOG.md` | [`src/metadata/CHANGELOG.md`](../../../src/metadata/CHANGELOG.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`src/metadata/FUTURE_ENHANCEMENTS.md`](../../../src/metadata/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`src/metadata/README.md`](../../../src/metadata/README.md) |
+| `ROADMAP.md` | [`src/metadata/ROADMAP.md`](../../../src/metadata/ROADMAP.md) |
+| `SECURITY.md` | [`src/metadata/SECURITY.md`](../../../src/metadata/SECURITY.md) |
 
 ---
 

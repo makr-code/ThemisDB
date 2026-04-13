@@ -18,7 +18,7 @@
 
 # Primary Sources — `rpc_grpc`
 
-This index lists all Markdown documentation files for module **`rpc_grpc`** from the directories `src/rpc_grpc/` and/or `include/rpc_grpc/`.
+This index lists all Markdown documentation files for module **`rpc_grpc`** from the detected source directories for that module.
 
 ## Primary Markdown Files
 

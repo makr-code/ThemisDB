@@ -25,21 +25,9 @@
 
 # Primary Sources — `cdc`
 
-This index lists all Markdown documentation files for module **`cdc`** from the directories `src/cdc/` and/or `include/cdc/`.
+This index lists all Markdown documentation files for module **`cdc`** from the detected source directories for that module.
 
 ## Primary Markdown Files
-
-### `src/cdc/`
-
-| File | Path |
-|------|------|
-| `ARCHITECTURE.md` | [`src/cdc/ARCHITECTURE.md`](../../../src/cdc/ARCHITECTURE.md) |
-| `AUDIT.md` | [`src/cdc/AUDIT.md`](../../../src/cdc/AUDIT.md) |
-| `CHANGELOG.md` | [`src/cdc/CHANGELOG.md`](../../../src/cdc/CHANGELOG.md) |
-| `FUTURE_ENHANCEMENTS.md` | [`src/cdc/FUTURE_ENHANCEMENTS.md`](../../../src/cdc/FUTURE_ENHANCEMENTS.md) |
-| `README.md` | [`src/cdc/README.md`](../../../src/cdc/README.md) |
-| `ROADMAP.md` | [`src/cdc/ROADMAP.md`](../../../src/cdc/ROADMAP.md) |
-| `SECURITY.md` | [`src/cdc/SECURITY.md`](../../../src/cdc/SECURITY.md) |
 
 ### `include/cdc/`
 
@@ -52,6 +40,18 @@ This index lists all Markdown documentation files for module **`cdc`** from the 
 | `README.md` | [`include/cdc/README.md`](../../../include/cdc/README.md) |
 | `ROADMAP.md` | [`include/cdc/ROADMAP.md`](../../../include/cdc/ROADMAP.md) |
 | `SECURITY.md` | [`include/cdc/SECURITY.md`](../../../include/cdc/SECURITY.md) |
+
+### `src/cdc/`
+
+| File | Path |
+|------|------|
+| `ARCHITECTURE.md` | [`src/cdc/ARCHITECTURE.md`](../../../src/cdc/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/cdc/AUDIT.md`](../../../src/cdc/AUDIT.md) |
+| `CHANGELOG.md` | [`src/cdc/CHANGELOG.md`](../../../src/cdc/CHANGELOG.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`src/cdc/FUTURE_ENHANCEMENTS.md`](../../../src/cdc/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`src/cdc/README.md`](../../../src/cdc/README.md) |
+| `ROADMAP.md` | [`src/cdc/ROADMAP.md`](../../../src/cdc/ROADMAP.md) |
+| `SECURITY.md` | [`src/cdc/SECURITY.md`](../../../src/cdc/SECURITY.md) |
 
 ---
 

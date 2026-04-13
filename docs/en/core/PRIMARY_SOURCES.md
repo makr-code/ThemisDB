@@ -28,9 +28,28 @@
 
 # Primary Sources — `core`
 
-This index lists all Markdown documentation files for module **`core`** from the directories `src/core/` and/or `include/core/`.
+This index lists all Markdown documentation files for module **`core`** from the detected source directories for that module.
 
 ## Primary Markdown Files
+
+### `include/core/`
+
+| File | Path |
+|------|------|
+| `ARCHITECTURE.md` | [`include/core/ARCHITECTURE.md`](../../../include/core/ARCHITECTURE.md) |
+| `AUDIT.md` | [`include/core/AUDIT.md`](../../../include/core/AUDIT.md) |
+| `CHANGELOG.md` | [`include/core/CHANGELOG.md`](../../../include/core/CHANGELOG.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`include/core/FUTURE_ENHANCEMENTS.md`](../../../include/core/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`include/core/README.md`](../../../include/core/README.md) |
+| `ROADMAP.md` | [`include/core/ROADMAP.md`](../../../include/core/ROADMAP.md) |
+| `SECURITY.md` | [`include/core/SECURITY.md`](../../../include/core/SECURITY.md) |
+
+### `include/core/concerns/`
+
+| File | Path |
+|------|------|
+| `CACHE_STRATEGIES_README.md` | [`include/core/concerns/CACHE_STRATEGIES_README.md`](../../../include/core/concerns/CACHE_STRATEGIES_README.md) |
+| `README.md` | [`include/core/concerns/README.md`](../../../include/core/concerns/README.md) |
 
 ### `src/core/`
 
@@ -44,20 +63,6 @@ This index lists all Markdown documentation files for module **`core`** from the
 | `README.md` | [`src/core/README.md`](../../../src/core/README.md) |
 | `ROADMAP.md` | [`src/core/ROADMAP.md`](../../../src/core/ROADMAP.md) |
 | `SECURITY.md` | [`src/core/SECURITY.md`](../../../src/core/SECURITY.md) |
-
-### `include/core/`
-
-| File | Path |
-|------|------|
-| `ARCHITECTURE.md` | [`include/core/ARCHITECTURE.md`](../../../include/core/ARCHITECTURE.md) |
-| `AUDIT.md` | [`include/core/AUDIT.md`](../../../include/core/AUDIT.md) |
-| `CHANGELOG.md` | [`include/core/CHANGELOG.md`](../../../include/core/CHANGELOG.md) |
-| `FUTURE_ENHANCEMENTS.md` | [`include/core/FUTURE_ENHANCEMENTS.md`](../../../include/core/FUTURE_ENHANCEMENTS.md) |
-| `README.md` | [`include/core/README.md`](../../../include/core/README.md) |
-| `ROADMAP.md` | [`include/core/ROADMAP.md`](../../../include/core/ROADMAP.md) |
-| `SECURITY.md` | [`include/core/SECURITY.md`](../../../include/core/SECURITY.md) |
-| `CACHE_STRATEGIES_README.md` | [`include/core/concerns/CACHE_STRATEGIES_README.md`](../../../include/core/concerns/CACHE_STRATEGIES_README.md) |
-| `README.md` | [`include/core/concerns/README.md`](../../../include/core/concerns/README.md) |
 
 ---
 

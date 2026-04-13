@@ -95,11 +95,12 @@ public:
         if (feedback.rating < 1 || feedback.rating > 5) return false;
         return true;
     }
-    
+
     void process(Feedback& feedback) override {
+        (void)feedback;
         // Default: no-op
     }
-    
+
     bool onTrainingTrigger(const std::vector<Feedback>& batch) const override {
         // Default: trigger when batch reaches 100 items
         return batch.size() >= 100;

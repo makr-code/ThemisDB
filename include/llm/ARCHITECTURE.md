@@ -100,4 +100,4 @@ The LLM module is the largest public header surface in ThemisDB, providing inter
 ## References
 
 - Implementation: `../../src/llm/`
-- Deployment plugin guide: `LLM_DEPLOYMENT_PLUGIN_SUMMARY.md`
+- Deployment plugin guide: `../../docs/en/llm/llm_deployment_plugin.md`

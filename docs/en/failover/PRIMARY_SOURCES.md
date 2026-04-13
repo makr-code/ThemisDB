@@ -25,21 +25,9 @@
 
 # Primary Sources — `failover`
 
-This index lists all Markdown documentation files for module **`failover`** from the directories `src/failover/` and/or `include/failover/`.
+This index lists all Markdown documentation files for module **`failover`** from the detected source directories for that module.
 
 ## Primary Markdown Files
-
-### `src/failover/`
-
-| File | Path |
-|------|------|
-| `ARCHITECTURE.md` | [`src/failover/ARCHITECTURE.md`](../../../src/failover/ARCHITECTURE.md) |
-| `AUDIT.md` | [`src/failover/AUDIT.md`](../../../src/failover/AUDIT.md) |
-| `CHANGELOG.md` | [`src/failover/CHANGELOG.md`](../../../src/failover/CHANGELOG.md) |
-| `FUTURE_ENHANCEMENTS.md` | [`src/failover/FUTURE_ENHANCEMENTS.md`](../../../src/failover/FUTURE_ENHANCEMENTS.md) |
-| `README.md` | [`src/failover/README.md`](../../../src/failover/README.md) |
-| `ROADMAP.md` | [`src/failover/ROADMAP.md`](../../../src/failover/ROADMAP.md) |
-| `SECURITY.md` | [`src/failover/SECURITY.md`](../../../src/failover/SECURITY.md) |
 
 ### `include/failover/`
 
@@ -52,6 +40,18 @@ This index lists all Markdown documentation files for module **`failover`** from
 | `README.md` | [`include/failover/README.md`](../../../include/failover/README.md) |
 | `ROADMAP.md` | [`include/failover/ROADMAP.md`](../../../include/failover/ROADMAP.md) |
 | `SECURITY.md` | [`include/failover/SECURITY.md`](../../../include/failover/SECURITY.md) |
+
+### `src/failover/`
+
+| File | Path |
+|------|------|
+| `ARCHITECTURE.md` | [`src/failover/ARCHITECTURE.md`](../../../src/failover/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/failover/AUDIT.md`](../../../src/failover/AUDIT.md) |
+| `CHANGELOG.md` | [`src/failover/CHANGELOG.md`](../../../src/failover/CHANGELOG.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`src/failover/FUTURE_ENHANCEMENTS.md`](../../../src/failover/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`src/failover/README.md`](../../../src/failover/README.md) |
+| `ROADMAP.md` | [`src/failover/ROADMAP.md`](../../../src/failover/ROADMAP.md) |
+| `SECURITY.md` | [`src/failover/SECURITY.md`](../../../src/failover/SECURITY.md) |
 
 ---
 

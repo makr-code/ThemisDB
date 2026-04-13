@@ -15,6 +15,7 @@ These documents tracked pending tasks, planned features, and development work it
 - **TODO_DOCS_DATABASE_BUILD.md** - Database documentation build tasks
 
 ### Feature TODOs
+- **issue_3491_sub_issue_1.md** - Historical follow-up task for issue 3491
 - **TODO.md** - General examples and feature TODOs
 - **PRODUCTION_READY_TODO.md** - Production readiness checklist
 - **RAG_LLM_AS_JUDGE_TODO.md** - RAG LLM judge implementation tasks

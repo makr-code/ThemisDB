@@ -185,4 +185,4 @@ themis-cli deploy vicuna-7b-v1.5 --config llm_deployment_academic.yaml
 
 - Main Documentation: `docs/en/llm/llm_deployment_plugin.md`
 - General Configuration: `config/llm_deployment.example.yaml`
-- Implementation Summary: `LLM_DEPLOYMENT_PLUGIN_SUMMARY.md`
+- Implementation Summary (archived): `docs/ARCHIVED/implementation-summaries/LLM_DEPLOYMENT_PLUGIN_SUMMARY.md`

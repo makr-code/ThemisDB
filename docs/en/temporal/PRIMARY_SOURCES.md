@@ -25,21 +25,9 @@
 
 # Primary Sources — `temporal`
 
-This index lists all Markdown documentation files for module **`temporal`** from the directories `src/temporal/` and/or `include/temporal/`.
+This index lists all Markdown documentation files for module **`temporal`** from the detected source directories for that module.
 
 ## Primary Markdown Files
-
-### `src/temporal/`
-
-| File | Path |
-|------|------|
-| `ARCHITECTURE.md` | [`src/temporal/ARCHITECTURE.md`](../../../src/temporal/ARCHITECTURE.md) |
-| `AUDIT.md` | [`src/temporal/AUDIT.md`](../../../src/temporal/AUDIT.md) |
-| `CHANGELOG.md` | [`src/temporal/CHANGELOG.md`](../../../src/temporal/CHANGELOG.md) |
-| `FUTURE_ENHANCEMENTS.md` | [`src/temporal/FUTURE_ENHANCEMENTS.md`](../../../src/temporal/FUTURE_ENHANCEMENTS.md) |
-| `README.md` | [`src/temporal/README.md`](../../../src/temporal/README.md) |
-| `ROADMAP.md` | [`src/temporal/ROADMAP.md`](../../../src/temporal/ROADMAP.md) |
-| `SECURITY.md` | [`src/temporal/SECURITY.md`](../../../src/temporal/SECURITY.md) |
 
 ### `include/temporal/`
 
@@ -52,6 +40,18 @@ This index lists all Markdown documentation files for module **`temporal`** from
 | `README.md` | [`include/temporal/README.md`](../../../include/temporal/README.md) |
 | `ROADMAP.md` | [`include/temporal/ROADMAP.md`](../../../include/temporal/ROADMAP.md) |
 | `SECURITY.md` | [`include/temporal/SECURITY.md`](../../../include/temporal/SECURITY.md) |
+
+### `src/temporal/`
+
+| File | Path |
+|------|------|
+| `ARCHITECTURE.md` | [`src/temporal/ARCHITECTURE.md`](../../../src/temporal/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/temporal/AUDIT.md`](../../../src/temporal/AUDIT.md) |
+| `CHANGELOG.md` | [`src/temporal/CHANGELOG.md`](../../../src/temporal/CHANGELOG.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`src/temporal/FUTURE_ENHANCEMENTS.md`](../../../src/temporal/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`src/temporal/README.md`](../../../src/temporal/README.md) |
+| `ROADMAP.md` | [`src/temporal/ROADMAP.md`](../../../src/temporal/ROADMAP.md) |
+| `SECURITY.md` | [`src/temporal/SECURITY.md`](../../../src/temporal/SECURITY.md) |
 
 ---
 

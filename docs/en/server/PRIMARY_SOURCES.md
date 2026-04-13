@@ -27,9 +27,21 @@
 
 # Primary Sources — `server`
 
-This index lists all Markdown documentation files for module **`server`** from the directories `src/server/` and/or `include/server/`.
+This index lists all Markdown documentation files for module **`server`** from the detected source directories for that module.
 
 ## Primary Markdown Files
+
+### `include/server/`
+
+| File | Path |
+|------|------|
+| `ARCHITECTURE.md` | [`include/server/ARCHITECTURE.md`](../../../include/server/ARCHITECTURE.md) |
+| `AUDIT.md` | [`include/server/AUDIT.md`](../../../include/server/AUDIT.md) |
+| `CHANGELOG.md` | [`include/server/CHANGELOG.md`](../../../include/server/CHANGELOG.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`include/server/FUTURE_ENHANCEMENTS.md`](../../../include/server/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`include/server/README.md`](../../../include/server/README.md) |
+| `ROADMAP.md` | [`include/server/ROADMAP.md`](../../../include/server/ROADMAP.md) |
+| `SECURITY.md` | [`include/server/SECURITY.md`](../../../include/server/SECURITY.md) |
 
 ### `src/server/`
 
@@ -43,19 +55,12 @@ This index lists all Markdown documentation files for module **`server`** from t
 | `ROADMAP.md` | [`src/server/ROADMAP.md`](../../../src/server/ROADMAP.md) |
 | `SECURITY.md` | [`src/server/SECURITY.md`](../../../src/server/SECURITY.md) |
 | `VCCDB Design.md` | [`src/server/VCCDB Design.md`](../../../src/server/VCCDB Design.md) |
-| `README.md` | [`src/server/rpc/README.md`](../../../src/server/rpc/README.md) |
 
-### `include/server/`
+### `src/server/rpc/`
 
 | File | Path |
 |------|------|
-| `ARCHITECTURE.md` | [`include/server/ARCHITECTURE.md`](../../../include/server/ARCHITECTURE.md) |
-| `AUDIT.md` | [`include/server/AUDIT.md`](../../../include/server/AUDIT.md) |
-| `CHANGELOG.md` | [`include/server/CHANGELOG.md`](../../../include/server/CHANGELOG.md) |
-| `FUTURE_ENHANCEMENTS.md` | [`include/server/FUTURE_ENHANCEMENTS.md`](../../../include/server/FUTURE_ENHANCEMENTS.md) |
-| `README.md` | [`include/server/README.md`](../../../include/server/README.md) |
-| `ROADMAP.md` | [`include/server/ROADMAP.md`](../../../include/server/ROADMAP.md) |
-| `SECURITY.md` | [`include/server/SECURITY.md`](../../../include/server/SECURITY.md) |
+| `README.md` | [`src/server/rpc/README.md`](../../../src/server/rpc/README.md) |
 
 ---
 

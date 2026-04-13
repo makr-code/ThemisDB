@@ -435,6 +435,7 @@ bool UpdateChecker::isRunning() const {
 }
 
 std::variant<std::vector<ReleaseInfo>, std::string> UpdateChecker::fetchReleases(int limit) {
+    (void)limit;
 #ifdef THEMIS_ENABLE_CURL
     // Build GitHub API URL
     std::string url = config_.github_api_url + "/repos/" + 
@@ -486,6 +487,7 @@ static size_t writeCallback(void* contents, size_t size, size_t nmemb, std::stri
 #endif
 
 std::variant<json, std::string> UpdateChecker::httpGet(const std::string& url) {
+    (void)url;
 #ifdef THEMIS_ENABLE_CURL
     CURL* curl = curl_easy_init();
     if (!curl) {

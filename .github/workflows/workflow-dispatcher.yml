@@ -39,7 +39,7 @@ name: "🚀 Workflow Dispatcher (Universal)"
 #   gh workflow run "04-release_create-release-archive.yml" \
 #     --repo makr-code/ThemisDB --ref main --field version=1.9.0
 #
-#   gh workflow run "08-maintenance_sync-roadmap-issues.yml" \
+#   gh workflow run "08-maintenance_code-maturity-analysis.yml" \
 #     --repo makr-code/ThemisDB --ref main
 #
 # All 220 workflow files are discoverable in the Actions tab via

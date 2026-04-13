@@ -25,21 +25,9 @@
 
 # Primary Sources — `importers`
 
-This index lists all Markdown documentation files for module **`importers`** from the directories `src/importers/` and/or `include/importers/`.
+This index lists all Markdown documentation files for module **`importers`** from the detected source directories for that module.
 
 ## Primary Markdown Files
-
-### `src/importers/`
-
-| File | Path |
-|------|------|
-| `ARCHITECTURE.md` | [`src/importers/ARCHITECTURE.md`](../../../src/importers/ARCHITECTURE.md) |
-| `AUDIT.md` | [`src/importers/AUDIT.md`](../../../src/importers/AUDIT.md) |
-| `CHANGELOG.md` | [`src/importers/CHANGELOG.md`](../../../src/importers/CHANGELOG.md) |
-| `FUTURE_ENHANCEMENTS.md` | [`src/importers/FUTURE_ENHANCEMENTS.md`](../../../src/importers/FUTURE_ENHANCEMENTS.md) |
-| `README.md` | [`src/importers/README.md`](../../../src/importers/README.md) |
-| `ROADMAP.md` | [`src/importers/ROADMAP.md`](../../../src/importers/ROADMAP.md) |
-| `SECURITY.md` | [`src/importers/SECURITY.md`](../../../src/importers/SECURITY.md) |
 
 ### `include/importers/`
 
@@ -52,6 +40,18 @@ This index lists all Markdown documentation files for module **`importers`** fro
 | `README.md` | [`include/importers/README.md`](../../../include/importers/README.md) |
 | `ROADMAP.md` | [`include/importers/ROADMAP.md`](../../../include/importers/ROADMAP.md) |
 | `SECURITY.md` | [`include/importers/SECURITY.md`](../../../include/importers/SECURITY.md) |
+
+### `src/importers/`
+
+| File | Path |
+|------|------|
+| `ARCHITECTURE.md` | [`src/importers/ARCHITECTURE.md`](../../../src/importers/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/importers/AUDIT.md`](../../../src/importers/AUDIT.md) |
+| `CHANGELOG.md` | [`src/importers/CHANGELOG.md`](../../../src/importers/CHANGELOG.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`src/importers/FUTURE_ENHANCEMENTS.md`](../../../src/importers/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`src/importers/README.md`](../../../src/importers/README.md) |
+| `ROADMAP.md` | [`src/importers/ROADMAP.md`](../../../src/importers/ROADMAP.md) |
+| `SECURITY.md` | [`src/importers/SECURITY.md`](../../../src/importers/SECURITY.md) |
 
 ---
 

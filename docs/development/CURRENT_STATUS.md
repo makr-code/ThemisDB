@@ -331,8 +331,8 @@ Status: **Production-ready for Phase 4 scope** ✅
 
 1. `roadmap.md` - Complete aggregated roadmap (all 46 modules, v1.8.0 current)
 2. `CHANGELOG.md` - Root-level changelog
-3. `DEVELOPMENT_STATUS.md` - Development phase history
-4. `CURRENT_STATUS.md` - This document
+3. `docs/development/DEVELOPMENT_STATUS.md` - Development phase history
+4. `docs/development/CURRENT_STATUS.md` - This document
 5. `docs/de/releases/` - Release notes per version (v1.5.0, v1.7.0, v1.8.0)
 6. `src/<module>/CHANGELOG.md` - Per-module version history (46 modules)
 7. `src/<module>/ROADMAP.md` - Per-module future work

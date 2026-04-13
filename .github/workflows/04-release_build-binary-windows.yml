@@ -1,7 +1,8 @@
 name: Build Binary Release · Windows
 
 # Builds a production Windows binary release of ThemisDB (x64) and attaches
-# the resulting packages (ZIP) to the corresponding GitHub Release.
+# the resulting packages (ZIP + optional MSI via CPack/WIX) to the
+# corresponding GitHub Release.
 #
 # TRIGGERS
 # --------
@@ -12,6 +13,7 @@ name: Build Binary Release · Windows
 # -------
 #   Packages uploaded as GitHub Release assets:
 #     ThemisDB-<VERSION>-Windows-x64.zip    (ZIP archive)
+#     ThemisDB-<VERSION>-Windows-x64.msi    (MSI installer, optional)
 #     SHA256SUMS-windows.txt                 (checksums)
 #
 # REQUIRED PERMISSIONS
@@ -19,7 +21,7 @@ name: Build Binary Release · Windows
 #   contents: write  – to upload release assets
 #
 # ALTERNATIVE (GitHub CLI)
-#   gh workflow run "04-release/build-binary-windows.yml" \
+#   gh workflow run "04-release_build-binary-windows.yml" \
 #     --repo makr-code/ThemisDB --ref main \
 #     --field tag_name=v1.9.0 --field dry_run=false
 
@@ -120,13 +122,15 @@ jobs:
             -DCMAKE_CXX_COMPILER=cl.exe `
             -DTHEMIS_BUILD_TESTS=OFF `
             -DTHEMIS_BUILD_BENCHMARKS=OFF `
+            -DTHEMIS_DOCS_DB_MODE=AUTO `
+            -DTHEMIS_MODELS_MODE=PACKAGE `
             -DTHEMIS_STRICT_BUILD=OFF
 
       - name: Build
         shell: pwsh
         run: cmake --build build --config ${{ env.BUILD_TYPE }} -j $env:NUMBER_OF_PROCESSORS
 
-      - name: Package with CPack (ZIP)
+      - name: Package with CPack (ZIP + optional MSI)
         shell: pwsh
         working-directory: build
         run: |
@@ -135,12 +139,24 @@ jobs:
             Write-Warning "CPack ZIP packaging failed – check build output"
           }
 
+          $hasWixV3 = [bool](Get-Command candle.exe -ErrorAction SilentlyContinue)
+          $hasWixV4 = [bool](Get-Command wix.exe -ErrorAction SilentlyContinue)
+
+          if ($hasWixV3 -or $hasWixV4) {
+            cpack -C ${{ env.BUILD_TYPE }} -G WIX
+            if ($LASTEXITCODE -ne 0) {
+              Write-Warning "CPack WIX/MSI packaging failed – continuing with ZIP-only artifact set"
+            }
+          } else {
+            Write-Warning "WIX toolchain not found on runner – skipping optional MSI packaging"
+          }
+
       - name: Collect packages and generate checksums
         id: collect
         shell: bash
         run: |
           mkdir -p dist
-          find build -maxdepth 2 -name "*.zip" -exec cp {} dist/ \;
+          find build -maxdepth 2 \( -name "*.zip" -o -name "*.msi" \) -exec cp {} dist/ \;
           echo "Packages:"
           ls -lh dist/
           cd dist

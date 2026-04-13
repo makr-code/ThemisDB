@@ -18,7 +18,7 @@
 
 # Primary Sources — `base`
 
-This index lists all Markdown documentation files for module **`base`** from the directories `src/base/` and/or `include/base/`.
+This index lists all Markdown documentation files for module **`base`** from the detected source directories for that module.
 
 ## Primary Markdown Files
 

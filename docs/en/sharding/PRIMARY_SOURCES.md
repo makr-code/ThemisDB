@@ -25,21 +25,9 @@
 
 # Primary Sources — `sharding`
 
-This index lists all Markdown documentation files for module **`sharding`** from the directories `src/sharding/` and/or `include/sharding/`.
+This index lists all Markdown documentation files for module **`sharding`** from the detected source directories for that module.
 
 ## Primary Markdown Files
-
-### `src/sharding/`
-
-| File | Path |
-|------|------|
-| `ARCHITECTURE.md` | [`src/sharding/ARCHITECTURE.md`](../../../src/sharding/ARCHITECTURE.md) |
-| `AUDIT.md` | [`src/sharding/AUDIT.md`](../../../src/sharding/AUDIT.md) |
-| `CHANGELOG.md` | [`src/sharding/CHANGELOG.md`](../../../src/sharding/CHANGELOG.md) |
-| `FUTURE_ENHANCEMENTS.md` | [`src/sharding/FUTURE_ENHANCEMENTS.md`](../../../src/sharding/FUTURE_ENHANCEMENTS.md) |
-| `README.md` | [`src/sharding/README.md`](../../../src/sharding/README.md) |
-| `ROADMAP.md` | [`src/sharding/ROADMAP.md`](../../../src/sharding/ROADMAP.md) |
-| `SECURITY.md` | [`src/sharding/SECURITY.md`](../../../src/sharding/SECURITY.md) |
 
 ### `include/sharding/`
 
@@ -52,6 +40,18 @@ This index lists all Markdown documentation files for module **`sharding`** from
 | `README.md` | [`include/sharding/README.md`](../../../include/sharding/README.md) |
 | `ROADMAP.md` | [`include/sharding/ROADMAP.md`](../../../include/sharding/ROADMAP.md) |
 | `SECURITY.md` | [`include/sharding/SECURITY.md`](../../../include/sharding/SECURITY.md) |
+
+### `src/sharding/`
+
+| File | Path |
+|------|------|
+| `ARCHITECTURE.md` | [`src/sharding/ARCHITECTURE.md`](../../../src/sharding/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/sharding/AUDIT.md`](../../../src/sharding/AUDIT.md) |
+| `CHANGELOG.md` | [`src/sharding/CHANGELOG.md`](../../../src/sharding/CHANGELOG.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`src/sharding/FUTURE_ENHANCEMENTS.md`](../../../src/sharding/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`src/sharding/README.md`](../../../src/sharding/README.md) |
+| `ROADMAP.md` | [`src/sharding/ROADMAP.md`](../../../src/sharding/ROADMAP.md) |
+| `SECURITY.md` | [`src/sharding/SECURITY.md`](../../../src/sharding/SECURITY.md) |
 
 ---
 

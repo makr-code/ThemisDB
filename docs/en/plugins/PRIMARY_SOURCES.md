@@ -25,21 +25,9 @@
 
 # Primary Sources — `plugins`
 
-This index lists all Markdown documentation files for module **`plugins`** from the directories `src/plugins/` and/or `include/plugins/`.
+This index lists all Markdown documentation files for module **`plugins`** from the detected source directories for that module.
 
 ## Primary Markdown Files
-
-### `src/plugins/`
-
-| File | Path |
-|------|------|
-| `ARCHITECTURE.md` | [`src/plugins/ARCHITECTURE.md`](../../../src/plugins/ARCHITECTURE.md) |
-| `AUDIT.md` | [`src/plugins/AUDIT.md`](../../../src/plugins/AUDIT.md) |
-| `CHANGELOG.md` | [`src/plugins/CHANGELOG.md`](../../../src/plugins/CHANGELOG.md) |
-| `FUTURE_ENHANCEMENTS.md` | [`src/plugins/FUTURE_ENHANCEMENTS.md`](../../../src/plugins/FUTURE_ENHANCEMENTS.md) |
-| `README.md` | [`src/plugins/README.md`](../../../src/plugins/README.md) |
-| `ROADMAP.md` | [`src/plugins/ROADMAP.md`](../../../src/plugins/ROADMAP.md) |
-| `SECURITY.md` | [`src/plugins/SECURITY.md`](../../../src/plugins/SECURITY.md) |
 
 ### `include/plugins/`
 
@@ -52,6 +40,18 @@ This index lists all Markdown documentation files for module **`plugins`** from 
 | `README.md` | [`include/plugins/README.md`](../../../include/plugins/README.md) |
 | `ROADMAP.md` | [`include/plugins/ROADMAP.md`](../../../include/plugins/ROADMAP.md) |
 | `SECURITY.md` | [`include/plugins/SECURITY.md`](../../../include/plugins/SECURITY.md) |
+
+### `src/plugins/`
+
+| File | Path |
+|------|------|
+| `ARCHITECTURE.md` | [`src/plugins/ARCHITECTURE.md`](../../../src/plugins/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/plugins/AUDIT.md`](../../../src/plugins/AUDIT.md) |
+| `CHANGELOG.md` | [`src/plugins/CHANGELOG.md`](../../../src/plugins/CHANGELOG.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`src/plugins/FUTURE_ENHANCEMENTS.md`](../../../src/plugins/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`src/plugins/README.md`](../../../src/plugins/README.md) |
+| `ROADMAP.md` | [`src/plugins/ROADMAP.md`](../../../src/plugins/ROADMAP.md) |
+| `SECURITY.md` | [`src/plugins/SECURITY.md`](../../../src/plugins/SECURITY.md) |
 
 ---
 

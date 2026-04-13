@@ -25,21 +25,9 @@
 
 # Primary Sources — `geo`
 
-Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`geo`** aus den Verzeichnissen `src/geo/` und/oder `include/geo/`.
+Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`geo`** aus den erkannten Quellverzeichnissen des Moduls.
 
 ## Primäre Markdown-Dateien
-
-### `src/geo/`
-
-| Datei | Pfad |
-|-------|------|
-| `ARCHITECTURE.md` | [`src/geo/ARCHITECTURE.md`](../../../src/geo/ARCHITECTURE.md) |
-| `AUDIT.md` | [`src/geo/AUDIT.md`](../../../src/geo/AUDIT.md) |
-| `CHANGELOG.md` | [`src/geo/CHANGELOG.md`](../../../src/geo/CHANGELOG.md) |
-| `FUTURE_ENHANCEMENTS.md` | [`src/geo/FUTURE_ENHANCEMENTS.md`](../../../src/geo/FUTURE_ENHANCEMENTS.md) |
-| `README.md` | [`src/geo/README.md`](../../../src/geo/README.md) |
-| `ROADMAP.md` | [`src/geo/ROADMAP.md`](../../../src/geo/ROADMAP.md) |
-| `SECURITY.md` | [`src/geo/SECURITY.md`](../../../src/geo/SECURITY.md) |
 
 ### `include/geo/`
 
@@ -52,6 +40,18 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`geo`** aus
 | `README.md` | [`include/geo/README.md`](../../../include/geo/README.md) |
 | `ROADMAP.md` | [`include/geo/ROADMAP.md`](../../../include/geo/ROADMAP.md) |
 | `SECURITY.md` | [`include/geo/SECURITY.md`](../../../include/geo/SECURITY.md) |
+
+### `src/geo/`
+
+| Datei | Pfad |
+|-------|------|
+| `ARCHITECTURE.md` | [`src/geo/ARCHITECTURE.md`](../../../src/geo/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/geo/AUDIT.md`](../../../src/geo/AUDIT.md) |
+| `CHANGELOG.md` | [`src/geo/CHANGELOG.md`](../../../src/geo/CHANGELOG.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`src/geo/FUTURE_ENHANCEMENTS.md`](../../../src/geo/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`src/geo/README.md`](../../../src/geo/README.md) |
+| `ROADMAP.md` | [`src/geo/ROADMAP.md`](../../../src/geo/ROADMAP.md) |
+| `SECURITY.md` | [`src/geo/SECURITY.md`](../../../src/geo/SECURITY.md) |
 
 ---
 

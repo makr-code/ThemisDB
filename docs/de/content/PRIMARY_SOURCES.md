@@ -26,22 +26,9 @@
 
 # Primary Sources — `content`
 
-Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`content`** aus den Verzeichnissen `src/content/` und/oder `include/content/`.
+Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`content`** aus den erkannten Quellverzeichnissen des Moduls.
 
 ## Primäre Markdown-Dateien
-
-### `src/content/`
-
-| Datei | Pfad |
-|-------|------|
-| `ARCHITECTURE.md` | [`src/content/ARCHITECTURE.md`](../../../src/content/ARCHITECTURE.md) |
-| `AUDIT.md` | [`src/content/AUDIT.md`](../../../src/content/AUDIT.md) |
-| `CHANGELOG.md` | [`src/content/CHANGELOG.md`](../../../src/content/CHANGELOG.md) |
-| `FUTURE_ENHANCEMENTS.md` | [`src/content/FUTURE_ENHANCEMENTS.md`](../../../src/content/FUTURE_ENHANCEMENTS.md) |
-| `README.md` | [`src/content/README.md`](../../../src/content/README.md) |
-| `ROADMAP.md` | [`src/content/ROADMAP.md`](../../../src/content/ROADMAP.md) |
-| `SECURITY.md` | [`src/content/SECURITY.md`](../../../src/content/SECURITY.md) |
-| `README.md` | [`src/content/pipeline/README.md`](../../../src/content/pipeline/README.md) |
 
 ### `include/content/`
 
@@ -54,6 +41,24 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`content`**
 | `README.md` | [`include/content/README.md`](../../../include/content/README.md) |
 | `ROADMAP.md` | [`include/content/ROADMAP.md`](../../../include/content/ROADMAP.md) |
 | `SECURITY.md` | [`include/content/SECURITY.md`](../../../include/content/SECURITY.md) |
+
+### `src/content/`
+
+| Datei | Pfad |
+|-------|------|
+| `ARCHITECTURE.md` | [`src/content/ARCHITECTURE.md`](../../../src/content/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/content/AUDIT.md`](../../../src/content/AUDIT.md) |
+| `CHANGELOG.md` | [`src/content/CHANGELOG.md`](../../../src/content/CHANGELOG.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`src/content/FUTURE_ENHANCEMENTS.md`](../../../src/content/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`src/content/README.md`](../../../src/content/README.md) |
+| `ROADMAP.md` | [`src/content/ROADMAP.md`](../../../src/content/ROADMAP.md) |
+| `SECURITY.md` | [`src/content/SECURITY.md`](../../../src/content/SECURITY.md) |
+
+### `src/content/pipeline/`
+
+| Datei | Pfad |
+|-------|------|
+| `README.md` | [`src/content/pipeline/README.md`](../../../src/content/pipeline/README.md) |
 
 ---
 

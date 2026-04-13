@@ -17,7 +17,6 @@
 - `src/acceleration/README.md`
 - `src/acceleration/ROADMAP.md`
 - `src/acceleration/SECURITY.md`
-- `src/acceleration/future_enhancements.md`
 
 **Reference:**
 - Tool: `tools/module_docs_builder.py`
@@ -27,22 +26,9 @@
 
 # Primary Sources — `acceleration`
 
-This index lists all Markdown documentation files for module **`acceleration`** from the directories `src/acceleration/` and/or `include/acceleration/`.
+This index lists all Markdown documentation files for module **`acceleration`** from the detected source directories for that module.
 
 ## Primary Markdown Files
-
-### `src/acceleration/`
-
-| File | Path |
-|------|------|
-| `ARCHITECTURE.md` | [`src/acceleration/ARCHITECTURE.md`](../../../src/acceleration/ARCHITECTURE.md) |
-| `AUDIT.md` | [`src/acceleration/AUDIT.md`](../../../src/acceleration/AUDIT.md) |
-| `CHANGELOG.md` | [`src/acceleration/CHANGELOG.md`](../../../src/acceleration/CHANGELOG.md) |
-| `FUTURE_ENHANCEMENTS.md` | [`src/acceleration/FUTURE_ENHANCEMENTS.md`](../../../src/acceleration/FUTURE_ENHANCEMENTS.md) |
-| `README.md` | [`src/acceleration/README.md`](../../../src/acceleration/README.md) |
-| `ROADMAP.md` | [`src/acceleration/ROADMAP.md`](../../../src/acceleration/ROADMAP.md) |
-| `SECURITY.md` | [`src/acceleration/SECURITY.md`](../../../src/acceleration/SECURITY.md) |
-| `future_enhancements.md` | [`src/acceleration/future_enhancements.md`](../../../src/acceleration/future_enhancements.md) |
 
 ### `include/acceleration/`
 
@@ -55,7 +41,24 @@ This index lists all Markdown documentation files for module **`acceleration`** 
 | `README.md` | [`include/acceleration/README.md`](../../../include/acceleration/README.md) |
 | `ROADMAP.md` | [`include/acceleration/ROADMAP.md`](../../../include/acceleration/ROADMAP.md) |
 | `SECURITY.md` | [`include/acceleration/SECURITY.md`](../../../include/acceleration/SECURITY.md) |
+
+### `include/acceleration/raii/`
+
+| File | Path |
+|------|------|
 | `README.md` | [`include/acceleration/raii/README.md`](../../../include/acceleration/raii/README.md) |
+
+### `src/acceleration/`
+
+| File | Path |
+|------|------|
+| `ARCHITECTURE.md` | [`src/acceleration/ARCHITECTURE.md`](../../../src/acceleration/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/acceleration/AUDIT.md`](../../../src/acceleration/AUDIT.md) |
+| `CHANGELOG.md` | [`src/acceleration/CHANGELOG.md`](../../../src/acceleration/CHANGELOG.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`src/acceleration/FUTURE_ENHANCEMENTS.md`](../../../src/acceleration/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`src/acceleration/README.md`](../../../src/acceleration/README.md) |
+| `ROADMAP.md` | [`src/acceleration/ROADMAP.md`](../../../src/acceleration/ROADMAP.md) |
+| `SECURITY.md` | [`src/acceleration/SECURITY.md`](../../../src/acceleration/SECURITY.md) |
 
 ---
 

@@ -25,21 +25,9 @@
 
 # Primary Sources — `auth`
 
-This index lists all Markdown documentation files for module **`auth`** from the directories `src/auth/` and/or `include/auth/`.
+This index lists all Markdown documentation files for module **`auth`** from the detected source directories for that module.
 
 ## Primary Markdown Files
-
-### `src/auth/`
-
-| File | Path |
-|------|------|
-| `ARCHITECTURE.md` | [`src/auth/ARCHITECTURE.md`](../../../src/auth/ARCHITECTURE.md) |
-| `AUDIT.md` | [`src/auth/AUDIT.md`](../../../src/auth/AUDIT.md) |
-| `CHANGELOG.md` | [`src/auth/CHANGELOG.md`](../../../src/auth/CHANGELOG.md) |
-| `FUTURE_ENHANCEMENTS.md` | [`src/auth/FUTURE_ENHANCEMENTS.md`](../../../src/auth/FUTURE_ENHANCEMENTS.md) |
-| `README.md` | [`src/auth/README.md`](../../../src/auth/README.md) |
-| `ROADMAP.md` | [`src/auth/ROADMAP.md`](../../../src/auth/ROADMAP.md) |
-| `SECURITY.md` | [`src/auth/SECURITY.md`](../../../src/auth/SECURITY.md) |
 
 ### `include/auth/`
 
@@ -52,6 +40,18 @@ This index lists all Markdown documentation files for module **`auth`** from the
 | `README.md` | [`include/auth/README.md`](../../../include/auth/README.md) |
 | `ROADMAP.md` | [`include/auth/ROADMAP.md`](../../../include/auth/ROADMAP.md) |
 | `SECURITY.md` | [`include/auth/SECURITY.md`](../../../include/auth/SECURITY.md) |
+
+### `src/auth/`
+
+| File | Path |
+|------|------|
+| `ARCHITECTURE.md` | [`src/auth/ARCHITECTURE.md`](../../../src/auth/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/auth/AUDIT.md`](../../../src/auth/AUDIT.md) |
+| `CHANGELOG.md` | [`src/auth/CHANGELOG.md`](../../../src/auth/CHANGELOG.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`src/auth/FUTURE_ENHANCEMENTS.md`](../../../src/auth/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`src/auth/README.md`](../../../src/auth/README.md) |
+| `ROADMAP.md` | [`src/auth/ROADMAP.md`](../../../src/auth/ROADMAP.md) |
+| `SECURITY.md` | [`src/auth/SECURITY.md`](../../../src/auth/SECURITY.md) |
 
 ---
 

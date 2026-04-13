@@ -25,21 +25,9 @@
 
 # Primary Sources — `user_storage_encrypted`
 
-Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`user_storage_encrypted`** aus den Verzeichnissen `src/user_storage_encrypted/` und/oder `include/user_storage_encrypted/`.
+Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`user_storage_encrypted`** aus den erkannten Quellverzeichnissen des Moduls.
 
 ## Primäre Markdown-Dateien
-
-### `src/user_storage_encrypted/`
-
-| Datei | Pfad |
-|-------|------|
-| `ARCHITECTURE.md` | [`src/user_storage_encrypted/ARCHITECTURE.md`](../../../src/user_storage_encrypted/ARCHITECTURE.md) |
-| `AUDIT.md` | [`src/user_storage_encrypted/AUDIT.md`](../../../src/user_storage_encrypted/AUDIT.md) |
-| `CHANGELOG.md` | [`src/user_storage_encrypted/CHANGELOG.md`](../../../src/user_storage_encrypted/CHANGELOG.md) |
-| `FUTURE_ENHANCEMENTS.md` | [`src/user_storage_encrypted/FUTURE_ENHANCEMENTS.md`](../../../src/user_storage_encrypted/FUTURE_ENHANCEMENTS.md) |
-| `README.md` | [`src/user_storage_encrypted/README.md`](../../../src/user_storage_encrypted/README.md) |
-| `ROADMAP.md` | [`src/user_storage_encrypted/ROADMAP.md`](../../../src/user_storage_encrypted/ROADMAP.md) |
-| `SECURITY.md` | [`src/user_storage_encrypted/SECURITY.md`](../../../src/user_storage_encrypted/SECURITY.md) |
 
 ### `include/user_storage_encrypted/`
 
@@ -52,6 +40,18 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`user_stora
 | `README.md` | [`include/user_storage_encrypted/README.md`](../../../include/user_storage_encrypted/README.md) |
 | `ROADMAP.md` | [`include/user_storage_encrypted/ROADMAP.md`](../../../include/user_storage_encrypted/ROADMAP.md) |
 | `SECURITY.md` | [`include/user_storage_encrypted/SECURITY.md`](../../../include/user_storage_encrypted/SECURITY.md) |
+
+### `src/user_storage_encrypted/`
+
+| Datei | Pfad |
+|-------|------|
+| `ARCHITECTURE.md` | [`src/user_storage_encrypted/ARCHITECTURE.md`](../../../src/user_storage_encrypted/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/user_storage_encrypted/AUDIT.md`](../../../src/user_storage_encrypted/AUDIT.md) |
+| `CHANGELOG.md` | [`src/user_storage_encrypted/CHANGELOG.md`](../../../src/user_storage_encrypted/CHANGELOG.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`src/user_storage_encrypted/FUTURE_ENHANCEMENTS.md`](../../../src/user_storage_encrypted/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`src/user_storage_encrypted/README.md`](../../../src/user_storage_encrypted/README.md) |
+| `ROADMAP.md` | [`src/user_storage_encrypted/ROADMAP.md`](../../../src/user_storage_encrypted/ROADMAP.md) |
+| `SECURITY.md` | [`src/user_storage_encrypted/SECURITY.md`](../../../src/user_storage_encrypted/SECURITY.md) |
 
 ---
 

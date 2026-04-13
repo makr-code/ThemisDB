@@ -25,21 +25,9 @@
 
 # Primary Sources — `prompt_engineering`
 
-Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`prompt_engineering`** aus den Verzeichnissen `src/prompt_engineering/` und/oder `include/prompt_engineering/`.
+Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`prompt_engineering`** aus den erkannten Quellverzeichnissen des Moduls.
 
 ## Primäre Markdown-Dateien
-
-### `src/prompt_engineering/`
-
-| Datei | Pfad |
-|-------|------|
-| `ARCHITECTURE.md` | [`src/prompt_engineering/ARCHITECTURE.md`](../../../src/prompt_engineering/ARCHITECTURE.md) |
-| `AUDIT.md` | [`src/prompt_engineering/AUDIT.md`](../../../src/prompt_engineering/AUDIT.md) |
-| `CHANGELOG.md` | [`src/prompt_engineering/CHANGELOG.md`](../../../src/prompt_engineering/CHANGELOG.md) |
-| `FUTURE_ENHANCEMENTS.md` | [`src/prompt_engineering/FUTURE_ENHANCEMENTS.md`](../../../src/prompt_engineering/FUTURE_ENHANCEMENTS.md) |
-| `README.md` | [`src/prompt_engineering/README.md`](../../../src/prompt_engineering/README.md) |
-| `ROADMAP.md` | [`src/prompt_engineering/ROADMAP.md`](../../../src/prompt_engineering/ROADMAP.md) |
-| `SECURITY.md` | [`src/prompt_engineering/SECURITY.md`](../../../src/prompt_engineering/SECURITY.md) |
 
 ### `include/prompt_engineering/`
 
@@ -52,6 +40,18 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`prompt_eng
 | `README.md` | [`include/prompt_engineering/README.md`](../../../include/prompt_engineering/README.md) |
 | `ROADMAP.md` | [`include/prompt_engineering/ROADMAP.md`](../../../include/prompt_engineering/ROADMAP.md) |
 | `SECURITY.md` | [`include/prompt_engineering/SECURITY.md`](../../../include/prompt_engineering/SECURITY.md) |
+
+### `src/prompt_engineering/`
+
+| Datei | Pfad |
+|-------|------|
+| `ARCHITECTURE.md` | [`src/prompt_engineering/ARCHITECTURE.md`](../../../src/prompt_engineering/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/prompt_engineering/AUDIT.md`](../../../src/prompt_engineering/AUDIT.md) |
+| `CHANGELOG.md` | [`src/prompt_engineering/CHANGELOG.md`](../../../src/prompt_engineering/CHANGELOG.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`src/prompt_engineering/FUTURE_ENHANCEMENTS.md`](../../../src/prompt_engineering/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`src/prompt_engineering/README.md`](../../../src/prompt_engineering/README.md) |
+| `ROADMAP.md` | [`src/prompt_engineering/ROADMAP.md`](../../../src/prompt_engineering/ROADMAP.md) |
+| `SECURITY.md` | [`src/prompt_engineering/SECURITY.md`](../../../src/prompt_engineering/SECURITY.md) |
 
 ---
 

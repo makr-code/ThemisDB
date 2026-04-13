@@ -35,6 +35,8 @@ bool CounterMergeOperator::Merge(const rocksdb::Slice& key,
                                   const rocksdb::Slice& value,
                                   std::string* new_value,
                                   rocksdb::Logger* logger) const {
+    (void)key;
+    (void)logger;
     // Parse new value as integer
     int64_t delta = 0;
     auto result = std::from_chars(value.data(), value.data() + value.size(), delta);
@@ -72,6 +74,8 @@ bool AppendMergeOperator::Merge(const rocksdb::Slice& key,
                                  const rocksdb::Slice& value,
                                  std::string* new_value,
                                  rocksdb::Logger* logger) const {
+    (void)key;
+    (void)logger;
     if (existing_value) {
         new_value->reserve(existing_value->size() + delimiter_.size() + value.size());
         new_value->assign(existing_value->data(), existing_value->size());
@@ -89,6 +93,8 @@ bool SetMergeOperator::Merge(const rocksdb::Slice& key,
                               const rocksdb::Slice& value,
                               std::string* new_value,
                               rocksdb::Logger* logger) const {
+    (void)key;
+    (void)logger;
     // Parse existing set
     std::set<std::string> unique_values;
     
@@ -133,6 +139,8 @@ bool MaxMergeOperator::Merge(const rocksdb::Slice& key,
                               const rocksdb::Slice& value,
                               std::string* new_value,
                               rocksdb::Logger* logger) const {
+    (void)key;
+    (void)logger;
     // Parse new value as double
     double new_val = 0.0;
     auto result = std::from_chars(value.data(), value.data() + value.size(), new_val);

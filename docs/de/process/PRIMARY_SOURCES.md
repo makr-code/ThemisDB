@@ -25,21 +25,9 @@
 
 # Primary Sources — `process`
 
-Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`process`** aus den Verzeichnissen `src/process/` und/oder `include/process/`.
+Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`process`** aus den erkannten Quellverzeichnissen des Moduls.
 
 ## Primäre Markdown-Dateien
-
-### `src/process/`
-
-| Datei | Pfad |
-|-------|------|
-| `ARCHITECTURE.md` | [`src/process/ARCHITECTURE.md`](../../../src/process/ARCHITECTURE.md) |
-| `AUDIT.md` | [`src/process/AUDIT.md`](../../../src/process/AUDIT.md) |
-| `CHANGELOG.md` | [`src/process/CHANGELOG.md`](../../../src/process/CHANGELOG.md) |
-| `FUTURE_ENHANCEMENTS.md` | [`src/process/FUTURE_ENHANCEMENTS.md`](../../../src/process/FUTURE_ENHANCEMENTS.md) |
-| `README.md` | [`src/process/README.md`](../../../src/process/README.md) |
-| `ROADMAP.md` | [`src/process/ROADMAP.md`](../../../src/process/ROADMAP.md) |
-| `SECURITY.md` | [`src/process/SECURITY.md`](../../../src/process/SECURITY.md) |
 
 ### `include/process/`
 
@@ -52,6 +40,18 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`process`**
 | `README.md` | [`include/process/README.md`](../../../include/process/README.md) |
 | `ROADMAP.md` | [`include/process/ROADMAP.md`](../../../include/process/ROADMAP.md) |
 | `SECURITY.md` | [`include/process/SECURITY.md`](../../../include/process/SECURITY.md) |
+
+### `src/process/`
+
+| Datei | Pfad |
+|-------|------|
+| `ARCHITECTURE.md` | [`src/process/ARCHITECTURE.md`](../../../src/process/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/process/AUDIT.md`](../../../src/process/AUDIT.md) |
+| `CHANGELOG.md` | [`src/process/CHANGELOG.md`](../../../src/process/CHANGELOG.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`src/process/FUTURE_ENHANCEMENTS.md`](../../../src/process/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`src/process/README.md`](../../../src/process/README.md) |
+| `ROADMAP.md` | [`src/process/ROADMAP.md`](../../../src/process/ROADMAP.md) |
+| `SECURITY.md` | [`src/process/SECURITY.md`](../../../src/process/SECURITY.md) |
 
 ---
 

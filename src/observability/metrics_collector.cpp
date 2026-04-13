@@ -74,11 +74,13 @@ void MetricsCollector::recordQuery(const std::string& query_type, double latency
 }
 
 void MetricsCollector::recordIndexScan(const std::string& index_type, size_t keys_scanned) {
+    (void)keys_scanned;
     incrementCounter("index_scans_total", {{"type", index_type}});
     incrementCounter("index_keys_scanned", {{"type", index_type}});
 }
 
 void MetricsCollector::recordFullScan(const std::string& table, size_t keys_scanned) {
+    (void)keys_scanned;
     incrementCounter("full_scans_total", {{"table", table}});
     incrementCounter("full_scan_keys", {{"table", table}});
 }
@@ -115,15 +117,18 @@ void MetricsCollector::recordRebalanceProgress(const std::string& operation_id, 
 // ===== Content Processing Metrics =====
 
 void MetricsCollector::recordContentImport(const std::string& mime_type, size_t size_bytes) {
+    (void)size_bytes;
     incrementCounter("content_imports_total", {{"mime_type", mime_type}});
     incrementCounter("content_bytes_imported", {{"mime_type", mime_type}});
 }
 
 void MetricsCollector::recordChunkCreation(size_t chunk_count) {
+    (void)chunk_count;
     incrementCounter("chunks_created_total", {});
 }
 
 void MetricsCollector::recordEmbeddingGeneration(size_t count, double latency_ms) {
+    (void)count;
     incrementCounter("embeddings_generated_total", {});
     observeHistogram("embedding_generation_latency_ms", latency_ms, {});
 }
@@ -155,6 +160,8 @@ void MetricsCollector::recordCPUUsage(double percent) {
 }
 
 void MetricsCollector::recordDiskIOps(size_t read_ops, size_t write_ops) {
+    (void)read_ops;
+    (void)write_ops;
     incrementCounter("disk_read_ops_total", {});
     incrementCounter("disk_write_ops_total", {});
 }

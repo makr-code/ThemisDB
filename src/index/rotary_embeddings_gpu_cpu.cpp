@@ -71,6 +71,8 @@ std::vector<std::vector<float>> RotaryEmbeddingGPU::rotateBatchGPU(
     const std::vector<std::vector<float>>& embeddings,
     const std::vector<size_t>& positions
 ) const {
+    (void)embeddings;
+    (void)positions;
     throw std::runtime_error(
         "GPU not available: ThemisDB was built without CUDA or HIP support. "
         "Rebuild with -DTHEMIS_ENABLE_CUDA=ON or -DTHEMIS_ENABLE_HIP=ON to enable GPU acceleration."
@@ -84,6 +86,11 @@ void RotaryEmbeddingGPU::rotateBatchStreamGPU(
     size_t batch_size,
     void* stream
 ) const {
+    (void)d_embeddings;
+    (void)d_positions;
+    (void)d_output;
+    (void)batch_size;
+    (void)stream;
     throw std::runtime_error(
         "GPU not available: ThemisDB was built without CUDA or HIP support. "
         "Rebuild with -DTHEMIS_ENABLE_CUDA=ON or -DTHEMIS_ENABLE_HIP=ON to enable GPU acceleration."

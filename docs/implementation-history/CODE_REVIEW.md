@@ -188,7 +188,7 @@ TEST_F(StatisticalAggregatorTest, PercentileEmpty) {
 - `PHASE1_COMPLETE_SUMMARY.md`
 - `PHASE2_COMPLETE_SUMMARY.md`
 - `MIGRATION_ROADMAP.md`
-- `CURRENT_STATUS.md`
+- `docs/development/CURRENT_STATUS.md`
 
 **Review:**
 - ✅ Comprehensive migration guide with examples

@@ -18,7 +18,7 @@
 
 # Primary Sources — `gpu`
 
-Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`gpu`** aus den Verzeichnissen `src/gpu/` und/oder `include/gpu/`.
+Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`gpu`** aus den erkannten Quellverzeichnissen des Moduls.
 
 ## Primäre Markdown-Dateien
 

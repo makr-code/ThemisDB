@@ -25,21 +25,9 @@
 
 # Primary Sources — `llama_cpp`
 
-Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`llama_cpp`** aus den Verzeichnissen `src/llama_cpp/` und/oder `include/llama_cpp/`.
+Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`llama_cpp`** aus den erkannten Quellverzeichnissen des Moduls.
 
 ## Primäre Markdown-Dateien
-
-### `src/llama_cpp/`
-
-| Datei | Pfad |
-|-------|------|
-| `ARCHITECTURE.md` | [`src/llama_cpp/ARCHITECTURE.md`](../../../src/llama_cpp/ARCHITECTURE.md) |
-| `AUDIT.md` | [`src/llama_cpp/AUDIT.md`](../../../src/llama_cpp/AUDIT.md) |
-| `CHANGELOG.md` | [`src/llama_cpp/CHANGELOG.md`](../../../src/llama_cpp/CHANGELOG.md) |
-| `FUTURE_ENHANCEMENTS.md` | [`src/llama_cpp/FUTURE_ENHANCEMENTS.md`](../../../src/llama_cpp/FUTURE_ENHANCEMENTS.md) |
-| `README.md` | [`src/llama_cpp/README.md`](../../../src/llama_cpp/README.md) |
-| `ROADMAP.md` | [`src/llama_cpp/ROADMAP.md`](../../../src/llama_cpp/ROADMAP.md) |
-| `SECURITY.md` | [`src/llama_cpp/SECURITY.md`](../../../src/llama_cpp/SECURITY.md) |
 
 ### `include/llama_cpp/`
 
@@ -52,6 +40,18 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`llama_cpp`
 | `README.md` | [`include/llama_cpp/README.md`](../../../include/llama_cpp/README.md) |
 | `ROADMAP.md` | [`include/llama_cpp/ROADMAP.md`](../../../include/llama_cpp/ROADMAP.md) |
 | `SECURITY.md` | [`include/llama_cpp/SECURITY.md`](../../../include/llama_cpp/SECURITY.md) |
+
+### `src/llama_cpp/`
+
+| Datei | Pfad |
+|-------|------|
+| `ARCHITECTURE.md` | [`src/llama_cpp/ARCHITECTURE.md`](../../../src/llama_cpp/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/llama_cpp/AUDIT.md`](../../../src/llama_cpp/AUDIT.md) |
+| `CHANGELOG.md` | [`src/llama_cpp/CHANGELOG.md`](../../../src/llama_cpp/CHANGELOG.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`src/llama_cpp/FUTURE_ENHANCEMENTS.md`](../../../src/llama_cpp/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`src/llama_cpp/README.md`](../../../src/llama_cpp/README.md) |
+| `ROADMAP.md` | [`src/llama_cpp/ROADMAP.md`](../../../src/llama_cpp/ROADMAP.md) |
+| `SECURITY.md` | [`src/llama_cpp/SECURITY.md`](../../../src/llama_cpp/SECURITY.md) |
 
 ---
 

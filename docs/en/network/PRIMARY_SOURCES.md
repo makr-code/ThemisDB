@@ -25,21 +25,9 @@
 
 # Primary Sources — `network`
 
-This index lists all Markdown documentation files for module **`network`** from the directories `src/network/` and/or `include/network/`.
+This index lists all Markdown documentation files for module **`network`** from the detected source directories for that module.
 
 ## Primary Markdown Files
-
-### `src/network/`
-
-| File | Path |
-|------|------|
-| `ARCHITECTURE.md` | [`src/network/ARCHITECTURE.md`](../../../src/network/ARCHITECTURE.md) |
-| `AUDIT.md` | [`src/network/AUDIT.md`](../../../src/network/AUDIT.md) |
-| `CHANGELOG.md` | [`src/network/CHANGELOG.md`](../../../src/network/CHANGELOG.md) |
-| `FUTURE_ENHANCEMENTS.md` | [`src/network/FUTURE_ENHANCEMENTS.md`](../../../src/network/FUTURE_ENHANCEMENTS.md) |
-| `README.md` | [`src/network/README.md`](../../../src/network/README.md) |
-| `ROADMAP.md` | [`src/network/ROADMAP.md`](../../../src/network/ROADMAP.md) |
-| `SECURITY.md` | [`src/network/SECURITY.md`](../../../src/network/SECURITY.md) |
 
 ### `include/network/`
 
@@ -52,6 +40,18 @@ This index lists all Markdown documentation files for module **`network`** from 
 | `README.md` | [`include/network/README.md`](../../../include/network/README.md) |
 | `ROADMAP.md` | [`include/network/ROADMAP.md`](../../../include/network/ROADMAP.md) |
 | `SECURITY.md` | [`include/network/SECURITY.md`](../../../include/network/SECURITY.md) |
+
+### `src/network/`
+
+| File | Path |
+|------|------|
+| `ARCHITECTURE.md` | [`src/network/ARCHITECTURE.md`](../../../src/network/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/network/AUDIT.md`](../../../src/network/AUDIT.md) |
+| `CHANGELOG.md` | [`src/network/CHANGELOG.md`](../../../src/network/CHANGELOG.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`src/network/FUTURE_ENHANCEMENTS.md`](../../../src/network/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`src/network/README.md`](../../../src/network/README.md) |
+| `ROADMAP.md` | [`src/network/ROADMAP.md`](../../../src/network/ROADMAP.md) |
+| `SECURITY.md` | [`src/network/SECURITY.md`](../../../src/network/SECURITY.md) |
 
 ---
 

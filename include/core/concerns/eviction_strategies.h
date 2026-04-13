@@ -54,9 +54,10 @@ public:
     }
 
     void onInsert(std::string_view key, uint64_t timestamp_ms) override {
+        (void)timestamp_ms;
         std::string key_str(key);
         auto it = position_map_.find(key_str);
-        
+
         if (it != position_map_.end()) {
             // Already exists, move to front
             access_list_.splice(access_list_.begin(), access_list_, it->second);
@@ -189,6 +190,7 @@ public:
         : default_ttl_ms_(default_ttl_ms) {}
 
     void onAccess(std::string_view key) override {
+        (void)key;
         // TTL strategy doesn't change on access
     }
 
