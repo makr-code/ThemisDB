@@ -48,6 +48,18 @@
 #  define THEMIS_GRPC_HAS_YAML 0
 #endif
 
+namespace {
+/// Well-known path to the gRPC networking configuration file, relative to the
+/// process working directory.  Exposed as a named constant so that
+/// integration tests and deployment tooling can predict the location.
+constexpr const char* kGrpcNetworkingConfigPath = "config/networking/grpc.yaml";
+
+/// Maximum allowed value for grpc.max_message_size_mb in the config file.
+/// Values above this are rejected to prevent integer overflow when multiplying
+/// by 1024 * 1024 on a 32-bit signed int (2047 MB < INT_MAX / (1024*1024)).
+constexpr int kMaxMessageSizeMbLimit = 2048;
+} // namespace
+
 namespace themis {
 namespace api {
 
@@ -89,24 +101,29 @@ bool GrpcApiServer::initialize(const GrpcServerConfig& config) {
     // the key is not present.
 #if THEMIS_GRPC_HAS_YAML
     {
-        const std::string cfg_path = "config/networking/grpc.yaml";
         try {
-            YAML::Node node = YAML::LoadFile(cfg_path);
+            YAML::Node node = YAML::LoadFile(kGrpcNetworkingConfigPath);
             if (node["grpc"] && node["grpc"]["max_message_size_mb"]) {
                 const int mb = node["grpc"]["max_message_size_mb"].as<int>();
-                if (mb > 0) {
+                if (mb > 0 && mb <= kMaxMessageSizeMbLimit) {
                     config_.max_message_size_bytes = mb * 1024 * 1024;
                     THEMIS_INFO("GrpcApiServer: max_message_size_bytes overridden to " +
                                 std::to_string(config_.max_message_size_bytes) +
-                                " bytes from " + cfg_path);
+                                " bytes from " + kGrpcNetworkingConfigPath);
+                } else if (mb > kMaxMessageSizeMbLimit) {
+                    THEMIS_WARN("GrpcApiServer: grpc.max_message_size_mb=" +
+                                std::to_string(mb) + " exceeds limit of " +
+                                std::to_string(kMaxMessageSizeMbLimit) + " MB; ignoring");
                 }
             }
         } catch (const std::exception& ex) {
-            // Config file absent or unreadable – silently fall back to the
-            // struct default so that the server still starts correctly.
-            THEMIS_DEBUG("GrpcApiServer: could not load " + cfg_path +
-                         " (" + ex.what() + "); using default max_message_size_bytes=" +
-                         std::to_string(config_.max_message_size_bytes));
+            // Config file absent or unreadable – warn so that operators are
+            // notified their configuration file is being ignored, then fall
+            // back to the caller-supplied struct value.
+            THEMIS_WARN(std::string("GrpcApiServer: could not load ") +
+                        kGrpcNetworkingConfigPath + " (" + ex.what() +
+                        "); using default max_message_size_bytes=" +
+                        std::to_string(config_.max_message_size_bytes));
         }
     }
 #endif
