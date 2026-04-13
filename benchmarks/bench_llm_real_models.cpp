@@ -28,34 +28,35 @@
 #include <filesystem>
 #include <cstdlib>
 
+#include "benchmark_artifact_preflight.h"
+
 #ifdef THEMIS_ENABLE_LLM
 #include "llm/llm_plugin_manager.h"
 #endif
 
 using namespace themis;
 
-// Get model path from environment or use default
+// Resolve model path via the standardised preflight utility (Maßnahme #6).
+// Priority: THEMIS_LLM_MODEL_PATH > THEMIS_MODEL_DIR/{stub,real} > legacy paths.
 std::string getModelPath() {
-    const char* env_path = std::getenv("THEMIS_LLM_MODEL_PATH");
-    if (env_path && std::filesystem::exists(env_path)) {
-        return env_path;
+    std::string path = bench::resolveModelPath();
+    if (!path.empty()) {
+        return path;
     }
-    
-    // Check default locations
-    std::vector<std::string> default_paths = {
+
+    // Legacy fallback for local developer setups that pre-date Maßnahme #6
+    const std::vector<std::string> legacy_paths = {
         "./models/tinyllama_1.1b.gguf",
         "./models/llama3.2_1b.gguf",
         "./models/phi3_mini.gguf",
         "../models/tinyllama_1.1b.gguf",
-        "C:/VCC/themis/models/tinyllama_1.1b.gguf"
     };
-    
-    for (const auto& path : default_paths) {
-        if (std::filesystem::exists(path)) {
-            return path;
+    for (const auto& p : legacy_paths) {
+        if (std::filesystem::exists(p)) {
+            return p;
         }
     }
-    
+
     return "";
 }
 
@@ -69,7 +70,11 @@ public:
 
         if (model_path_.empty()) {
             ready_ = false;
-            error_message_ = "No LLM model found. Set THEMIS_LLM_MODEL_PATH or place a model in ./models";
+            error_message_ =
+                "LLM artefact preflight FAILED: no model file found. "
+                "Run 'scripts/download_models.sh --stub-only' or set "
+                "THEMIS_MODEL_DIR / THEMIS_LLM_MODEL_PATH. "
+                "See docs/BENCHMARK_RUNBOOK.md §\"LLM/LoRA Model Setup\".";
             return;
         }
 
@@ -195,7 +200,11 @@ static void BM_RealModel_LoadingTime(benchmark::State& state) {
     std::string model_path = getModelPath();
 
     if (model_path.empty()) {
-        state.SkipWithError("No LLM model found");
+        state.SkipWithError(
+            "LLM artefact preflight FAILED: no model file found. "
+            "Run 'scripts/download_models.sh --stub-only' or set "
+            "THEMIS_MODEL_DIR / THEMIS_LLM_MODEL_PATH. "
+            "See docs/BENCHMARK_RUNBOOK.md §\"LLM/LoRA Model Setup\".");
         return;
     }
 
