@@ -755,3 +755,166 @@ def monitored_backup(backup_type):
 - [ ] DR-Plan dokumentiert
 - [ ] Monitoring aktiviert
 - [ ] Team geschult
+
+## 20.11 Storage/Backup C++ API — BackupManager, PITR, Tiered Storage (v1.x) {#backup-cpp-api}
+
+Dieses Kapitel dokumentiert die C++-Produktions-API des Storage-Moduls (`include/storage/`).
+
+### 20.11.1 BackupManager — RAID-aware Backup
+
+```cpp
+#include "storage/backup_manager.h"
+
+// RAID-Konfiguration
+themis::RAIDConfig raid;
+raid.mode = themis::RAIDMode::RAID5;
+raid.shards = {
+    {"shard-0", "node1:8766", false, 0},
+    {"shard-1", "node2:8766", false, 1},
+    {"shard-2", "node3:8766", true,  2},  // Parity-Shard
+};
+
+themis::BackupManager bm(db_wrapper, raid);
+
+// Vollständiges Backup
+themis::BackupOptions opts;
+opts.encrypt             = true;   // AES-256-GCM
+opts.verify_after_backup = true;
+opts.compression         = themis::CompressionType::ZSTD;
+
+std::error_code ec;
+bm.createFullBackup("/backups/full-2026-04-13", ec, opts);
+
+// Inkrementelles Backup (seit letztem Full/Incremental)
+bm.createIncrementalBackup("/backups/incr-2026-04-13", ec, opts);
+
+// Differenzielles Backup (seit letztem Full)
+bm.createDifferentialBackup("/backups/diff-2026-04-13", ec, opts);
+
+// WAL archivieren (für PITR)
+bm.archiveWAL("/wal-archive/2026-04-13", ec);
+```
+
+**RAID-Modi:**
+
+| Modus | Beschreibung |
+|-------|-------------|
+| `NONE` | Kein Redundanz |
+| `RAID0` | Striping (Performance) |
+| `RAID1` | Mirroring (Verfügbarkeit) |
+| `RAID5` | Striping + verteilte Parität |
+| `RAID6` | Striping + doppelte Parität |
+| `RAID10` | Striping + Mirroring |
+
+### 20.11.2 BackupManager — Restore & Verifikation
+
+```cpp
+// Vollständiges Restore (RAID-Shard-Rekonstruktion automatisch)
+bm.restoreFromBackup("/backups/full-2026-04-13", ec);
+
+// Einzelne Collections selektiv wiederherstellen
+bm.restoreCollections("/backups/full-2026-04-13",
+    {"orders", "invoices"}, ec);
+
+// Backup-Integrität prüfen
+bool valid = bm.isBackupComplete("/backups/full-2026-04-13", ec);
+
+// RAID-Shards im Backup verifizieren
+bool raid_ok = bm.verifyRAIDShardsInBackup("/backups/full-2026-04-13", ec);
+
+// Scheduled Backup einrichten (cron-ähnlich)
+bm.scheduleBackup("/backups/scheduled", "0 2 * * *", opts);  // Täglich 02:00
+```
+
+### 20.11.3 PITRManager — Point-in-Time Recovery
+
+```cpp
+#include "storage/pitr_manager.h"
+
+themis::PITRManager pitr(db_wrapper, snap_manager);
+
+// Restore-Vorschau (ohne Änderungen)
+themis::PITRManager::RestoreOptions ropts;
+ropts.target_time = std::chrono::system_clock::time_point{...};  // Ziel-Zeitpunkt
+
+auto preview = pitr.previewRestore(ropts);
+// preview.estimated_duration_ms, preview.wal_segments_to_apply
+
+// Fortschritts-Callback
+ropts.progress_callback = [](const themis::PITRManager::RestoreProgress& p) {
+    std::cout << "Phase=" << static_cast<int>(p.phase)
+              << " " << p.percent_complete << "%\n";
+};
+
+// PITR durchführen
+auto status = pitr.restore(ropts);
+// status.ok, status.message, status.restored_to_time
+```
+
+**RestoreProgress::Phase:**
+
+| Phase | Bedeutung |
+|-------|-----------|
+| `VALIDATING` | Snapshot + WAL-Archiv prüfen |
+| `RESTORING_SNAPSHOT` | Basis-Snapshot einspielen |
+| `APPLYING_WAL` | WAL-Segmente replay |
+| `VERIFYING` | Konsistenz prüfen |
+| `DONE` | Abgeschlossen |
+
+### 20.11.4 TieredStorageManager
+
+```cpp
+#include "storage/tiered_storage.h"
+
+// 3-Tier-Konfiguration: HOT → WARM → COLD
+themis::TieredStorageConfig tcfg;
+tcfg.hot_tier_max_bytes  = 10ULL * 1024 * 1024 * 1024;  // 10 GB
+tcfg.warm_tier_max_bytes = 100ULL * 1024 * 1024 * 1024; // 100 GB
+tcfg.cold_backend        = "s3://themis-cold-archive";
+
+themis::TieredStorageManager tsm(tcfg);
+
+// Schreiben (landet in HOT)
+tsm.put("orders/2026-04", data);
+
+// Lesen (transparenter Abruf aus aktuellem Tier)
+auto val = tsm.get("orders/2024-01");  // ggf. aus COLD
+
+// Manuell migrieren
+tsm.promoteToHot("orders/2025-12");  // WARM → HOT
+tsm.demoteToCold("orders/2023-01");  // HOT/WARM → COLD
+
+// Access-Statistiken
+auto stats = tsm.accessStats("orders/2026-04");
+// stats.read_count, stats.last_access, stats.current_tier
+```
+
+**StorageTierLevel:**
+
+| Tier | Typ | Latenz |
+|------|-----|--------|
+| `HOT` | NVMe/SSD (lokal) | < 1 ms |
+| `WARM` | SSD (netzwerk) | 1–10 ms |
+| `COLD` | Objekt-Storage S3/GCS/Azure | 50–500 ms |
+
+### 20.11.5 AdaptiveCompaction
+
+```cpp
+#include "storage/adaptive_compaction.h"
+
+// Automatische Kompaktierungs-Strategie basierend auf Write/Read-Amplification
+themis::AdaptiveCompactionManager comp(rocksdb_wrapper);
+
+// Statistiken abfragen
+auto stats = comp.currentStats();
+// stats.write_amplification, stats.read_amplification,
+// stats.space_amplification, stats.pending_compactions
+
+// Manuelle Kompaktierung mit Strategie auswählen
+comp.compact(themis::CompactionStrategy::LEVELED);
+// Strategien: LEVELED, UNIVERSAL, FIFO, TIERED
+
+// Hintergrund-Kompaktierung konfigurieren
+comp.setTargetWriteAmplification(10.0);
+comp.enableAutoCompaction(true);
+```

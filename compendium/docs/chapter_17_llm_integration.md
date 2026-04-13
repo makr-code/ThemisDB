@@ -6073,3 +6073,210 @@ telephony.transcribeCall(call_recording, {
 // Streaming-Endpunkt: ws://server:8080/voice/stream
 // Audio-Chunks werden live transkribiert + geantwortet
 ```
+
+## 17.27 LLM-Infrastruktur — vLLM-Architektur C++ API (v1.x) {#llm-infrastructure}
+
+Dieses Kapitel dokumentiert die fortgeschrittene LLM-Infrastruktur des `include/llm/`-Moduls: PagedKVCache, ContinuousBatchScheduler, SpeculativeDecoder, OpenAICompatAdapter, LoRARouter und AdapterRegistry.
+
+### 17.27.1 PagedKVCache — vLLM-inspiriertes KV-Cache-Management
+
+```cpp
+#include "llm/paged_kv_cache.h"
+
+themis::llm::PagedKVCache::Config kcfg;
+kcfg.num_layers     = 32;
+kcfg.block_size     = 16;        // Tokens pro Block
+kcfg.max_blocks     = 4096;
+kcfg.device_id      = 0;         // CUDA-Device
+
+themis::llm::PagedKVCache kv_cache(kcfg);
+
+// KV-Daten für eine Sequence speichern
+kv_cache.store(sequence_id, layer_id, kv_tensor);
+
+// Prefix-Sharing: Neues Request teilt Prompt-Prefix
+kv_cache.sharePrefix(new_seq_id, parent_seq_id, prefix_token_count);
+
+// Sequence freigeben (Blöcke werden wiederverwendet)
+kv_cache.removeSequence(sequence_id);
+
+// Cache-Statistiken
+auto stats = kv_cache.getStats();
+// stats.used_blocks, stats.free_blocks, stats.hit_rate, stats.evictions
+```
+
+### 17.27.2 ContinuousBatchScheduler
+
+```cpp
+#include "llm/continuous_batch_scheduler.h"
+
+themis::llm::ContinuousBatchScheduler::SchedulerConfig scfg;
+scfg.max_batch_size            = 64;
+scfg.enable_preemption         = true;
+scfg.enable_priority_scheduling = true;
+scfg.enable_continuous_batching = true;
+scfg.max_tokens_per_step       = 2048;
+
+themis::llm::ContinuousBatchScheduler scheduler(kv_cache, scfg);
+
+// Request einreihen
+themis::llm::ContinuousBatchScheduler::ScheduledRequest req;
+req.request_id    = "req-1";
+req.prompt_tokens = tokens;
+req.priority      = themis::llm::ContinuousBatchScheduler::RequestPriority::HIGH;
+req.max_new_tokens = 512;
+scheduler.enqueue(req);
+
+// Einen Decode-Schritt ausführen (alle aktuell aktiven Requests)
+auto outputs = scheduler.step();
+for (auto& out : outputs) {
+    // out.request_id, out.new_tokens, out.finished
+}
+```
+
+**RequestPriority:** `LOW` / `NORMAL` / `HIGH` / `REALTIME`
+
+### 17.27.3 SpeculativeDecoder — Draft-Model-Beschleunigung
+
+```cpp
+#include "llm/speculative_decoder.h"
+
+themis::llm::SpeculativeDecoder::Config sdcfg;
+sdcfg.draft_model_path     = "/models/draft-7b.gguf";
+sdcfg.speculation_length   = 5;   // 5 Draft-Tokens je Schritt
+sdcfg.acceptance_threshold = 0.85;
+
+themis::llm::SpeculativeDecoder spec_decoder(target_model, sdcfg);
+
+// Tokens mit Draft-Modell vorschlagen + Hauptmodell verifizieren
+auto result = spec_decoder.decode(prompt_tokens, max_new_tokens);
+// result.tokens, result.draft_accepted_count, result.speedup_factor
+
+// Statistiken
+auto stats = spec_decoder.getStatistics();
+// stats.total_steps, stats.acceptance_rate, stats.mean_speedup
+```
+
+### 17.27.4 OpenAICompatAdapter
+
+```cpp
+#include "llm/openai_compat_adapter.h"
+
+// Drop-in OpenAI API Kompatibilität
+themis::llm::OpenAICompatAdapter oa(llama_wrapper, scheduler);
+
+// HTTP-Handler (in Server integrieren)
+server.post("/v1/chat/completions", [&](const Request& req) {
+    return oa.handleChatCompletion(req.body_json());
+});
+
+server.post("/v1/completions", [&](const Request& req) {
+    return oa.handleCompletion(req.body_json());
+});
+
+server.post("/v1/embeddings", [&](const Request& req) {
+    return oa.handleEmbeddings(req.body_json());
+});
+
+// Streaming-Support (Server-Sent Events)
+server.post("/v1/chat/completions/stream", [&](const Request& req, StreamWriter& w) {
+    oa.handleChatCompletionStream(req.body_json(), w);
+});
+```
+
+### 17.27.5 LoRARouter — A/B-Testing und Rollout
+
+```cpp
+#include "llm/lora_router.h"
+
+// A/B-Testing: 20 % Traffic auf neuen Adapter
+themis::llm::ABTestConfig ab;
+ab.enabled         = true;
+ab.variant_a       = "legal-v1.0";
+ab.variant_b       = "legal-v1.1";
+ab.variant_b_pct   = 0.20;  // 20 % auf B
+
+// Canary-Rollout: schrittweise erhöhen
+themis::llm::RolloutConfig rollout;
+rollout.enabled     = true;
+rollout.adapter_id  = "legal-v1.1";
+rollout.start_pct   = 0.05;
+rollout.target_pct  = 1.00;
+rollout.step_pct    = 0.10;
+
+themis::llm::FallbackConfig fallback;
+fallback.enable_fallback  = true;
+fallback.fallback_adapter = "legal-v1.0";
+fallback.error_threshold  = 0.02;  // > 2 % Fehlerrate → Fallback
+
+themis::llm::LoRARouter router(adapter_registry, ab, rollout, fallback);
+
+// Adapter für einen Request auswählen
+auto decision = router.route("tenant-acme", request_context);
+// decision.adapter_id, decision.reason (AB_TEST/ROLLOUT/FALLBACK/DEFAULT)
+
+// Metriken
+auto metrics = router.getMetrics();
+// metrics.requests_per_adapter, metrics.error_rates
+```
+
+### 17.27.6 AdapterRegistry — Versionierter Adapter-Store
+
+```cpp
+#include "llm/adapter_registry.h"
+
+themis::llm::AdapterRegistry registry(db);
+
+// Adapter registrieren
+themis::llm::AdapterMetadata meta;
+meta.adapter_id      = "legal-v1.1";
+meta.base_model      = "mistral-7b";
+meta.version         = {1, 1, 0};
+meta.status          = themis::llm::AdapterMetadata::Status::PRODUCTION;
+meta.quality.accuracy = 0.91;
+meta.training_config.dataset = "legal_docs_2026";
+
+registry.registerAdapter(meta, "/models/adapters/legal-v1.1.bin");
+
+// Laden + Kompatibilitätsprüfung
+auto loaded = registry.loadAdapter("legal-v1.1");
+bool compat = loaded->isCompatibleWith("mistral-7b", "mistral-7b-v0.1");
+
+// Alle Produktions-Adapter auflisten
+auto all = registry.listByStatus(themis::llm::AdapterMetadata::Status::PRODUCTION);
+
+// Provenance: Welche Trainingsdaten wurden verwendet?
+auto prov = registry.getProvenance("legal-v1.1");
+// prov.dataset, prov.pipeline_run, prov.base_model_hash
+```
+
+**AdapterMetadata::Status:** `EXPERIMENTAL` / `STAGING` / `PRODUCTION` / `DEPRECATED` / `ROLLBACK`
+
+### 17.27.7 ModelRouter — Request-basiertes Model-Routing
+
+```cpp
+#include "llm/model_router.h"
+
+// Routing-Regel: Lange Kontexte → größeres Modell
+themis::llm::RoutingRule rule_long_ctx;
+rule_long_ctx.id         = "long-context";
+rule_long_ctx.match_mode = themis::llm::RoutingRule::MatchMode::THRESHOLD;
+rule_long_ctx.field      = "context_length";
+rule_long_ctx.threshold  = 4096;
+rule_long_ctx.target_model = "mixtral-8x7b";
+
+// Routing-Regel: Tenant-basiert
+themis::llm::RoutingRule rule_tenant;
+rule_tenant.id           = "enterprise-tenant";
+rule_tenant.match_mode   = themis::llm::RoutingRule::MatchMode::EXACT;
+rule_tenant.field        = "tenant_id";
+rule_tenant.value        = "acme-corp";
+rule_tenant.target_model = "llama-70b";
+
+themis::llm::ModelRouter router;
+router.addRule(rule_long_ctx);
+router.addRule(rule_tenant);
+
+auto result = router.route(request_context);
+// result.matched, result.target_model, result.rule_id
+```

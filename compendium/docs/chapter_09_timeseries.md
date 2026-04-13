@@ -924,3 +924,146 @@ timeseries:
   temporal_compressor:
     algorithm: lz4   # oder: zstd
 ```
+
+## 9.12 Bi-Temporal-Modul — SQL:2011 C++ API (v1.x) {#bitemporal-module}
+
+Das Temporal-Modul (`include/temporal/`) implementiert vollständiges SQL:2011-Bi-Temporale Datenhaltung mit System-Zeit und Gültigkeits-Zeit.
+
+### 9.12.1 BiTemporalTable — Zwei-Zeitachsen-Tabelle
+
+```cpp
+#include "temporal/bi_temporal.h"
+#include "temporal/temporal_types.h"
+
+// Bi-temporale Tabelle erstellen
+auto db = std::make_shared<RocksDBWrapper>("/var/db/orders");
+themisdb::temporal::BiTemporalTable orders(db, "orders");
+
+// Eintrag mit Gültigkeits-Zeitraum einfügen
+themisdb::temporal::TimeRange valid_time{1000, 2000};  // Unix-Timestamps
+orders.insertWithValidTime("order-42", payload_json, valid_time);
+
+// Gültigkeits-Zeitraum aktualisieren (erzeugt neue Version)
+orders.updateForValidTime("order-42", new_payload, {1500, 2500});
+
+// Aktuellen Zustand lesen (System-Zeit = jetzt, Valid-Zeit = jetzt)
+auto row = orders.queryCurrentState("order-42");
+
+// Zum bestimmten Zeit-Punkt lesen (AS OF)
+auto historical = orders.queryAsOf("order-42",
+    system_time, valid_time_point);
+
+// Lücken-Erkennung
+auto gaps = orders.detectGaps("order-42");
+
+// Eindeutigkeits-Prüfung
+bool conflict = orders.hasUniquenessConflict("order-42", valid_time);
+```
+
+**Temporal Foreign Key (Referentielle Integrität über Zeitraum):**
+
+```cpp
+themisdb::temporal::TemporalForeignKey fk;
+fk.parent_table = &employees;
+fk.referenced_key = "emp_42";
+
+// Validierung: Kind-Zeitraum muss im Eltern-Zeitraum liegen
+bool ok = fk.validate(employees, "emp_42", {1000, 2000});
+```
+
+### 9.12.2 BiTemporalJoin — SEQUENCED / NON-SEQUENCED
+
+```cpp
+#include "temporal/bitemporal_join.h"
+
+// Alle Zeilen aus beiden Tabellen mit überlappenden Zeiträumen laden
+std::vector<themisdb::temporal::BiTemporalRow> contracts = ...;
+std::vector<themisdb::temporal::BiTemporalRow> employees = ...;
+
+themisdb::temporal::BiTemporalJoin::Config jcfg;
+jcfg.mode = themisdb::temporal::BiTemporalJoin::JoinMode::SEQUENCED;
+// Alternativen: NON_SEQUENCED, CURRENT
+
+themisdb::temporal::BiTemporalJoin join(contracts, employees, jcfg);
+
+join.forEach([](const themisdb::temporal::BiTemporalJoinResult& r) -> bool {
+    // r.left_row, r.right_row, r.overlap_valid_time, r.overlap_sys_time
+    process(r);
+    return true;  // false = abbrechen
+});
+```
+
+| JoinMode | Semantik |
+|----------|----------|
+| `SEQUENCED` | Überschneidung von Gültigkeits-Zeit | 
+| `NON_SEQUENCED` | Alle Kombinationen (kein Zeitfilter) |
+| `CURRENT` | Nur aktuell gültige Zeilen (Spezialfall) |
+
+### 9.12.3 TemporalQueryEngine
+
+```cpp
+#include "temporal/temporal_query_engine.h"
+
+themisdb::temporal::TemporalQueryEngine engine(db);
+
+// Query-Spec aufbauen
+themisdb::temporal::TemporalQuerySpec spec;
+spec.table_name       = "orders";
+spec.clause           = themisdb::temporal::TemporalClause::FOR_VALID_TIME;
+spec.semantics        = themisdb::temporal::TemporalSemantics::AS_OF;
+spec.as_of_time       = 1_000_000_000;
+spec.include_deleted  = false;
+
+// Filter
+spec.filters.push_back({themisdb::temporal::TemporalOperator::EQUALS, "status", "ACTIVE"});
+
+auto results = engine.execute(spec);
+// results: std::vector<VersionedDocument> mit valid_time + sys_time
+
+// BETWEEN … AND … Abfrage
+spec.clause     = themisdb::temporal::TemporalClause::FOR_VALID_TIME;
+spec.semantics  = themisdb::temporal::TemporalSemantics::FROM_TO;
+spec.from_time  = 1_000_000_000;
+spec.to_time    = 2_000_000_000;
+auto period = engine.execute(spec);
+```
+
+### 9.12.4 TemporalSnapshotManager
+
+```cpp
+#include "temporal/snapshot_manager.h"
+
+themisdb::temporal::TemporalSnapshotManager snap_mgr(db);
+
+// Snapshot nehmen
+auto handle = snap_mgr.takeSnapshot("orders");
+// handle.snapshot_id, handle.system_time
+
+// Snapshot-Handle für PITR verwenden
+auto meta = snap_mgr.getMetadata(handle);
+// meta.is_valid, meta.row_count, meta.size_bytes
+
+// Alter Handle freigeben (GC)
+snap_mgr.releaseSnapshot(handle);
+
+// Alle lebenden Snapshots
+auto all = snap_mgr.listAlive();
+```
+
+### 9.12.5 SystemVersionedTable
+
+```cpp
+#include "temporal/system_versioned_table.h"
+
+// Automatische System-Zeit-Verwaltung (SQL:2011 §4.11)
+themisdb::temporal::SystemVersionedTable svt(db, "contracts");
+
+// Nur schreiben — System setzt Zeitstempel automatisch
+svt.insert("c-1", payload);
+svt.update("c-1", new_payload);
+svt.deleteRow("c-1");  // Logisches Löschen (Zeitraum geschlossen)
+
+// History-Abfrage
+auto history = svt.getHistory("c-1");
+// Jeder Eintrag trägt: sys_time_start, sys_time_end, payload
+```

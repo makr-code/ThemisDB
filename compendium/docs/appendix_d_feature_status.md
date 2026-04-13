@@ -710,3 +710,73 @@ Die folgenden Komponenten wurden mit dem v1.9.x-Release (Commit 2026-04-12) in d
 | `DependencyResolver` | `updates/dependency_resolver.h` | ✅ GA | Update-Reihenfolge basierend auf Abhängigkeitsgraph |
 | `ManifestDatabase` | `updates/manifest_database.h` | ✅ GA | Versionierter Software-Manifest-Store |
 | `CoordinatedUpdateManager` | `updates/coordinated_update_manager.h` | ✅ GA | Multi-Cluster koordinierte Updates mit Quorum-Fencing |
+
+## Implementierungsstatus — Auth, BiTemporal, Storage, LLM-Infrastruktur (2026-04-13)
+
+### Auth-Modul C++ API (v1.x)
+
+| Feature | Header | Status | Beschreibung |
+|---------|--------|--------|-------------|
+| `JWTValidator::validate()` | `auth/jwt_validator.h` | ✅ GA | RS256/ES256/EdDSA, Blacklist, KID-Revokation |
+| `OAuthPKCEFlow::exchangeCode()` | `auth/oauth_pkce_flow.h` | ✅ GA | RFC 7636 PKCE, Authorization-Code-Flow |
+| `SAMLAuthenticator::validateResponse()` | `auth/saml_authenticator.h` | ✅ GA | SAML 2.0 SP, Attribut-Mapping, IdP-Zertifikat |
+| `WebAuthnAuthenticator::finishRegistration/Authentication()` | `auth/webauthn_authenticator.h` | ✅ GA | FIDO2/WebAuthn, PassKey-Support |
+| `LDAPAuthenticator::authenticate()` | `auth/ldap_authenticator.h` | ✅ GA | LDAPS, Connection-Pool, Group-Lookup |
+| `MFAAuthenticator::validateTOTP()` | `auth/mfa_authenticator.h` | ✅ GA | TOTP RFC 6238, Recovery Codes, Enrollment |
+| `SessionManager::validateAndRefresh()` | `auth/session_manager.h` | ✅ GA | Idle/Absolute-Timeout, Max-Sessions-Per-User |
+| `PasswordPolicy::validate()` | `auth/password_policy.h` | ✅ GA | Entropie-Scoring, HaveIBeenPwned-Check |
+| `FederatedIdentityManager::validateToken()` | `auth/federated_identity_manager.h` | ✅ GA | OIDC Multi-Realm, Token-Exchange |
+| `JwksValidator` | `auth/jwks_validator.h` | ✅ GA | JWKS-Endpoint, Auto-Refresh |
+| `JwtKeyRotationManager` | `auth/jwt_key_rotation_manager.h` | ✅ GA | Key-Rotation ohne Downtime |
+| `OidcProvider` | `auth/oidc_provider.h` | ✅ GA | OIDC Discovery, UserInfo-Endpoint |
+| `ApiKeyAuthenticator` | `auth/api_key_authenticator.h` | ✅ GA | Scoped API-Keys, Constant-Time-Vergleich |
+| `AuthRateLimiter` | `auth/auth_rate_limiter.h` | ✅ GA | Sliding-Window, Per-User/Per-IP |
+| `MtlsAuthenticator` | `auth/mtls_authenticator.h` | ✅ GA | Client-Zertifikat-Authentifizierung |
+
+### Bi-Temporal-Modul (v1.x)
+
+| Feature | Header | Status | Beschreibung |
+|---------|--------|--------|-------------|
+| `BiTemporalTable::insertWithValidTime()` | `temporal/bi_temporal.h` | ✅ GA | SQL:2011 Bi-Temporale Einfügung |
+| `BiTemporalTable::queryAsOf()` | `temporal/bi_temporal.h` | ✅ GA | AS OF Abfrage (System-Zeit + Gültigkeits-Zeit) |
+| `BiTemporalTable::detectGaps()` | `temporal/bi_temporal.h` | ✅ GA | Lücken-Erkennung im Gültigkeits-Zeitraum |
+| `TemporalForeignKey::validate()` | `temporal/bi_temporal.h` | ✅ GA | Referentielle Integrität über Zeiträume |
+| `BiTemporalJoin` | `temporal/bitemporal_join.h` | ✅ GA | SEQUENCED/NON_SEQUENCED/CURRENT Join |
+| `TemporalQueryEngine::execute()` | `temporal/temporal_query_engine.h` | ✅ GA | AS OF / FROM-TO / CONTAINED IN Abfragen |
+| `TemporalSnapshotManager` | `temporal/snapshot_manager.h` | ✅ GA | Snapshot-Handle für PITR |
+| `SystemVersionedTable` | `temporal/system_versioned_table.h` | ✅ GA | Automatische System-Zeit-Verwaltung |
+| `IntervalTreeIndex` | `temporal/interval_tree_index.h` | ✅ GA | Effiziente Overlap-Suche |
+| `TemporalAggregator` | `temporal/temporal_aggregator.h` | ✅ GA | Zeitraum-aggregierte Aggregate (SUM/AVG/COUNT) |
+
+### Storage/Backup-Modul C++ API (v1.x)
+
+| Feature | Header | Status | Beschreibung |
+|---------|--------|--------|-------------|
+| `BackupManager::createFullBackup()` | `storage/backup_manager.h` | ✅ GA | Full Backup, AES-256-GCM, RAID-aware |
+| `BackupManager::createIncrementalBackup()` | `storage/backup_manager.h` | ✅ GA | Inkrementell seit letztem Backup |
+| `BackupManager::createDifferentialBackup()` | `storage/backup_manager.h` | ✅ GA | Differenziell seit letztem Full-Backup |
+| `BackupManager::restoreFromBackup()` | `storage/backup_manager.h` | ✅ GA | RAID-Shard-Rekonstruktion |
+| `BackupManager::archiveWAL()` | `storage/backup_manager.h` | ✅ GA | WAL-Archivierung für PITR |
+| `PITRManager::restore()` | `storage/pitr_manager.h` | ✅ GA | Point-in-Time Recovery, Fortschritts-Callback |
+| `PITRManager::previewRestore()` | `storage/pitr_manager.h` | ✅ GA | Dry-Run ohne Änderungen |
+| `TieredStorageManager::put()/get()` | `storage/tiered_storage.h` | ✅ GA | HOT/WARM/COLD transparent, Auto-Promotion |
+| `AdaptiveCompactionManager` | `storage/adaptive_compaction.h` | ✅ GA | Write/Read-Amplification-basierte Strategie |
+| `BlobStorageManager` | `storage/blob_storage_manager.h` | ✅ GA | Multi-Backend (FS/GCS/S3), Zero-Copy |
+| `ErasureCodingBackend` | `storage/erasure_coding_backend.h` | ✅ GA | Reed-Solomon, konfigurierbare Parität |
+
+### LLM-Infrastruktur (v1.x)
+
+| Feature | Header | Status | Beschreibung |
+|---------|--------|--------|-------------|
+| `PagedKVCache::store()/sharePrefix()` | `llm/paged_kv_cache.h` | ✅ GA | vLLM Paged Attention, Prefix-Sharing |
+| `ContinuousBatchScheduler::step()` | `llm/continuous_batch_scheduler.h` | ✅ GA | Continuous Batching, Preemption, Priority |
+| `SpeculativeDecoder::decode()` | `llm/speculative_decoder.h` | ✅ GA | Draft-Model, 5-Token-Lookahead, Acceptance-Threshold |
+| `OpenAICompatAdapter` | `llm/openai_compat_adapter.h` | ✅ GA | /v1/chat/completions + Streaming |
+| `LoRARouter::route()` | `llm/lora_router.h` | ✅ GA | A/B-Testing, Canary-Rollout, Fallback |
+| `AdapterRegistry::registerAdapter()` | `llm/adapter_registry.h` | ✅ GA | Versionierter Adapter-Store, Provenance |
+| `ModelRouter::route()` | `llm/model_router.h` | ✅ GA | Rule-based Routing (Kontext/Tenant/Custom) |
+| `AdapterLoadBalancer` | `llm/adapter_load_balancer.h` | ✅ GA | GPU-Placement, JIT-Eviction, Migration |
+| `AdapterDeploymentManager` | `llm/adapter_deployment_manager.h` | ✅ GA | Blue/Green, Canary für Adapter |
+| `LlamaResourceManager` | `llm/llama_resource_manager.h` | ✅ GA | llama.cpp Ressourcen-Lifecycle |
+| `GpuMemoryManager` | `llm/gpu_memory_manager.h` | ✅ GA | VRAM-Budget, OOM-Safe-Fail |
+| `EmbeddedLLM` | `llm/embedded_llm.h` | ✅ GA | In-Process LLM ohne Server |
