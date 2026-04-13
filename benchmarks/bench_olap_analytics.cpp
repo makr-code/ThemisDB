@@ -30,5 +30,6 @@ static void BM_OLAP_Disabled(benchmark::State& state) {
     }
 }
 
+// Disabled: OLAP analytics pending engine API alignment | Deadline: v1.9.0 | Issue: #5
 BENCHMARK(BM_OLAP_Disabled);
 BENCHMARK_MAIN();

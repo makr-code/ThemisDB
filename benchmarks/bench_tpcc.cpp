@@ -587,6 +587,7 @@ static void BM_TPCC_Disabled(benchmark::State& state) {
     }
 }
 
+// Disabled: full TPC-C stub superseded by TPCCFixture lite profile | Deadline: v1.9.0 | Issue: #5
 BENCHMARK(BM_TPCC_Disabled)->Unit(benchmark::kMillisecond);
 BENCHMARK_MAIN();
 #endif

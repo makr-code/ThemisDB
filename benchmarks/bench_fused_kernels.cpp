@@ -36,6 +36,7 @@ static void BM_FusedKernels_GPUDisabled(benchmark::State& state) {
     }
 }
 
+// Disabled: fused CUDA/HIP kernels require GPU runner | Deadline: v1.9.0 | Issue: #5
 BENCHMARK(BM_FusedKernels_GPUDisabled);
 BENCHMARK_MAIN();
 

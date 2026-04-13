@@ -35,6 +35,7 @@ static void BM_LoRAGPU_Disabled(benchmark::State& state) {
         break;
     }
 }
+// Disabled: LoRA GPU operations require CUDA runner | Deadline: v1.9.0 | Issue: #5
 BENCHMARK(BM_LoRAGPU_Disabled);
 
 BENCHMARK_MAIN();

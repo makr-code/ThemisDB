@@ -39,6 +39,7 @@ static void BM_VulkanLoRA_GPUDisabled(benchmark::State& state) {
         break;
     }
 }
+// Disabled: Vulkan LoRA pipeline requires Vulkan-capable GPU runner | Deadline: v1.9.0 | Issue: #5
 BENCHMARK(BM_VulkanLoRA_GPUDisabled);
 
 BENCHMARK_MAIN();

@@ -30,5 +30,6 @@ static void BM_StreamProtocol_Disabled(benchmark::State& state) {
     }
 }
 
+// Disabled: stream protocol API changed; pending re-implementation | Deadline: v1.9.0 | Issue: #5
 BENCHMARK(BM_StreamProtocol_Disabled);
 BENCHMARK_MAIN();
