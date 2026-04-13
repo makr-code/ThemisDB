@@ -38,6 +38,10 @@
 #include "aql/llm_aql_handler.h"
 #include "aql/llm_error_codes.h"
 #include "storage/rocksdb_wrapper.h"
+#include "index/vector_index.h"
+#include "rag/rag_integration_helpers.h"
+#include "rag/knowledge_gap_detector.h"
+#include "utils/logger.h"
 #include <nlohmann/json.hpp>
 #include <sstream>
 #include <regex>
@@ -96,6 +100,11 @@ void LLMApiHandler::setFeedbackStore(std::shared_ptr<llm::FeedbackStore> feedbac
 
 void LLMApiHandler::setPolicyEngine(governance::PolicyEngine* policy_engine) {
     policy_engine_ = policy_engine;
+}
+
+void LLMApiHandler::setVectorIndex(VectorIndexManager* vim, RocksDBWrapper* db) {
+    vector_index_ = vim;
+    rag_db_ = db;
 }
 
 http::response<http::string_body> LLMApiHandler::handleRequest(
@@ -300,31 +309,57 @@ http::response<http::string_body> LLMApiHandler::handleRAG(
     
     // Implement RAG workflow
     try {
-        // Prepare RAG context (vector search would happen here in production)
+        // Prepare RAG context
         llm::RAGContext rag_context;
         rag_context.query = query;
         rag_context.collection_name = collection;
         rag_context.top_k = top_k;
-        // TODO: Add actual vector search results to rag_context.documents
-        
+
+        // Perform vector search when a VectorIndexManager is wired
+        auto& plugin_mgr = llm::LLMPluginManager::instance();
+        if (vector_index_ && rag_db_) {
+            try {
+                auto query_embedding = plugin_mgr.embed(query);
+                if (!query_embedding.empty()) {
+                    auto [status, results] = vector_index_->searchKnn(
+                        query_embedding, static_cast<size_t>(top_k));
+                    if (status.ok) {
+                        auto retrieved = rag::convertToRetrievedDocuments(
+                            results, *rag_db_,
+                            VectorIndexManager::Metric::COSINE);
+                        for (const auto& rdoc : retrieved) {
+                            llm::RAGContext::Document doc;
+                            doc.content        = rdoc.content;
+                            doc.source         = rdoc.id;
+                            doc.relevance_score =
+                                static_cast<float>(rdoc.similarity_score);
+                            rag_context.documents.push_back(std::move(doc));
+                        }
+                    }
+                }
+            } catch (const std::exception& embed_err) {
+                // Non-fatal: proceed with empty context and log the failure
+                THEMIS_DEBUG("RAG vector search failed: {}", embed_err.what());
+            }
+        }
+
         // Prepare inference request
         llm::InferenceRequest llm_request;
         llm_request.prompt = query;
         llm_request.lora_adapter_id = lora_id;
-        
+
         // Call LLMPluginManager for RAG inference
-        auto& plugin_mgr = llm::LLMPluginManager::instance();
         auto llm_response = plugin_mgr.generateRAG(rag_context, llm_request);
-        
+
         json response_data = {
             {"text", llm_response.text},
             {"query", query},
-            {"documents_retrieved", top_k},
+            {"documents_retrieved", rag_context.documents.size()},
             {"tokens_generated", llm_response.tokens_generated},
             {"inference_time_ms", llm_response.inference_time_ms},
             {"cache_hit", llm_response.cache_hit}
         };
-        
+
         return createJsonResponse(response_data);
     } catch (const std::exception& e) {
         return createErrorResponse(
