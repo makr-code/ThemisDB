@@ -640,10 +640,35 @@ def _m09_disabled_stub_policy(repo_root: Path) -> List[Finding]:
     """
     M9: Disabled-stub policy (max 1 release, then mandatory ticket).
     Success criteria: every *_Disabled benchmark registration has a
-    deadline comment and/or issue reference in the same file.
+    deadline comment and an issue reference in the same file, and the
+    policy document docs/governance/DISABLED_STUB_POLICY.md exists.
     """
     fid, label = "M09", "Disabled-stub policy (issue + deadline in each *_Disabled)"
     findings: List[Finding] = []
+
+    # Check that the policy document exists.
+    policy_doc = repo_root / "docs" / "governance" / "DISABLED_STUB_POLICY.md"
+    if policy_doc.exists():
+        findings.append(Finding(fid, label, "OK", "policy_doc_present",
+                                f"Policy document found: {policy_doc.relative_to(repo_root)}"))
+    else:
+        findings.append(Finding(
+            fid, label, "FAIL", "policy_doc_missing",
+            "Policy document docs/governance/DISABLED_STUB_POLICY.md not found. "
+            "Create it per the Disabled-Stub-Policy governance requirement.",
+        ))
+
+    # Check that the standalone CI guard exists.
+    guard_script = repo_root / "tools" / "check_disabled_stubs.py"
+    if guard_script.exists():
+        findings.append(Finding(fid, label, "OK", "ci_guard_present",
+                                f"CI guard found: {guard_script.relative_to(repo_root)}"))
+    else:
+        findings.append(Finding(
+            fid, label, "FAIL", "ci_guard_missing",
+            "CI guard tools/check_disabled_stubs.py not found. "
+            "Create it per the Disabled-Stub-Policy governance requirement.",
+        ))
 
     bench_dir = repo_root / "benchmarks"
     files_with_disabled: List[str] = []
@@ -665,7 +690,11 @@ def _m09_disabled_stub_policy(repo_root: Path) -> List[Finding]:
             r"max\s*\d+\s*release|release.*deadline|stub.*deadline|disabled.*issue)",
             content, re.IGNORECASE
         ))
-        if has_issue:
+        has_deadline = bool(re.search(
+            r"(?:Deadline\s*:|deadline\s*:|DEADLINE\s*:|due[_\s]*date\s*:|sunset\s*:)",
+            content, re.IGNORECASE
+        ))
+        if has_issue and has_deadline:
             files_compliant.append(rel)
         else:
             files_missing_policy.append(rel)
@@ -689,8 +718,8 @@ def _m09_disabled_stub_policy(repo_root: Path) -> List[Finding]:
             "\n  ".join(files_missing_policy[:10]) +
             ("\n  …" if len(files_missing_policy) > 10 else ""),
             evidence="Each *_Disabled BENCHMARK must include a comment with "
-                     "an issue number (e.g. // TODO(#1234)) and a deadline "
-                     "(e.g. // Deadline: v1.9.0) per the disabled-stub policy.",
+                     "an issue number (e.g. // Issue: #1234) and a deadline "
+                     "(e.g. // Deadline: v1.9.0) per docs/governance/DISABLED_STUB_POLICY.md.",
         ))
     if files_compliant:
         findings.append(Finding(
