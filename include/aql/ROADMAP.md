@@ -35,9 +35,9 @@ and multimodal inference headers are all stable.
 
 ## Planned Features
 
-- [ ] `IAQLQueryDiffExplainer` for explaining differences between two queries (Target: Q3 2026)
-- [ ] `IAQLRollbackSuggester` for automatic rollback query generation (Target: Q4 2026)
-- [ ] `IModelRouter` for multi-model routing and fallback (Target: Q3 2026)
+- [x] `IAQLQueryDiffExplainer` for explaining differences between two queries (Target: Q3 2026)
+- [x] `IAQLRollbackSuggester` for automatic rollback query generation (Target: Q4 2026)
+- [x] `IModelRouter` for multi-model routing and fallback (Target: Q3 2026)
 
 ---
 
@@ -57,8 +57,8 @@ and multimodal inference headers are all stable.
 - [x] Multimodal inference, token estimator
 
 ### Phase 5: Future Query Intelligence
-- [ ] `IAQLQueryDiffExplainer` (Q3 2026)
-- [ ] `IModelRouter` (Q3 2026)
+- [x] `IAQLQueryDiffExplainer` (Q3 2026)
+- [x] `IModelRouter` (Q3 2026)
 
 ### Phase 6: Documentation & Acceptance
 - [x] Architecture and audit docs

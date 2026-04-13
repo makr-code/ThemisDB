@@ -2578,6 +2578,9 @@ if(THEMIS_ENABLE_LLM)
     ../src/aql/aql_migration_assistant.cpp
     ../src/aql/aql_autocomplete.cpp
     ../src/aql/aql_agent.cpp
+    ../src/aql/aql_query_diff_explainer.cpp
+    ../src/aql/aql_model_router.cpp
+    ../src/aql/aql_rollback_suggester.cpp
 
         # Optional: gRPC service and generated proto headers (guarded by gRPC)
         # Only add when gRPC is available, otherwise skip to prevent missing headers
