@@ -56,8 +56,10 @@ constexpr const char* kGrpcNetworkingConfigPath = "config/networking/grpc.yaml";
 
 /// Maximum allowed value for grpc.max_message_size_mb in the config file.
 /// Values above this are rejected to prevent integer overflow when multiplying
-/// by 1024 * 1024 on a 32-bit signed int (2047 MB < INT_MAX / (1024*1024)).
-constexpr int kMaxMessageSizeMbLimit = 2048;
+/// by 1024 * 1024 on a 32-bit signed int.
+/// 2047 MB * 1024 * 1024 = 2,146,435,072 < INT_MAX (2,147,483,647).
+/// 2048 MB * 1024 * 1024 = 2,147,483,648 > INT_MAX (overflow).
+constexpr int kMaxMessageSizeMbLimit = 2047;
 } // namespace
 
 namespace themis {
