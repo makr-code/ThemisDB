@@ -119,17 +119,20 @@ public:
         auto now = std::chrono::steady_clock::now();
         std::lock_guard<std::mutex> lock(mutex_);
         
-        // TTL-based eviction: remove fully-recharged buckets inactive for > 2×window
-        auto eviction_threshold = 2 * config_.window;
-        for (auto it = buckets_.begin(); it != buckets_.end(); ) {
-            auto idle = std::chrono::duration_cast<std::chrono::seconds>(
-                now - it->second.last_refill
-            );
-            if (idle >= eviction_threshold &&
-                it->second.tokens >= static_cast<double>(it->second.capacity)) {
-                it = buckets_.erase(it);
-            } else {
-                ++it;
+        // TTL-based eviction: sweep every 64 calls to avoid O(n) on every request.
+        // Remove fully-recharged buckets that have been idle for > 2×window.
+        if ((++evict_counter_ & 63u) == 0) {
+            auto eviction_threshold = config_.window * 2;
+            for (auto it = buckets_.begin(); it != buckets_.end(); ) {
+                auto idle = std::chrono::duration_cast<std::chrono::seconds>(
+                    now - it->second.last_refill
+                );
+                if (idle >= eviction_threshold &&
+                    it->second.tokens >= static_cast<double>(it->second.capacity)) {
+                    it = buckets_.erase(it);
+                } else {
+                    ++it;
+                }
             }
         }
 
@@ -244,6 +247,7 @@ private:
     mutable std::mutex mutex_;
     std::unordered_map<std::string, Bucket> buckets_;
     Stats stats_;
+    uint64_t evict_counter_{0};
 };
 
 /**

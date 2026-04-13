@@ -356,7 +356,8 @@ TEST(OperationRateLimiter, ConcurrentReadsDontBlock) {
 }
 
 TEST(RateLimiter, StaleBucketEviction) {
-    // Buckets that are fully recharged and idle for > 2×window should be evicted
+    // Buckets that are fully recharged and idle for > 2×window should be evicted.
+    // Eviction runs every 64 allow() calls to amortize the O(n) sweep.
     RateLimiter::Config cfg;
     cfg.capacity = 5;
     cfg.refill_rate = 1000;  // very fast refill
@@ -364,19 +365,20 @@ TEST(RateLimiter, StaleBucketEviction) {
 
     RateLimiter limiter(cfg);
 
-    // Create buckets for 10 "stale" keys (each starts at capacity after first allow + refill)
+    // Create buckets for 10 "stale" keys
     for (int i = 0; i < 10; ++i) {
         limiter.allow("stale_" + std::to_string(i));
     }
 
-    // Sleep 3s: idle time > 2×window (2s), tokens refill to capacity → eligible for eviction
-    std::this_thread::sleep_for(std::chrono::seconds(3));
+    // Sleep > 2×window (2s) so buckets become idle and fully recharged
+    std::this_thread::sleep_for(std::chrono::milliseconds(2100));
 
-    // Triggering allow() on a new key runs the eviction pass
-    limiter.allow("active_key");
+    // Trigger the eviction sweep: eviction runs every 64 calls, so fire 64+
+    for (int i = 0; i < 64; ++i) {
+        limiter.allow("sweep_trigger_" + std::to_string(i));
+    }
 
     // Evicted buckets: remaining() returns config_.capacity (no stored bucket)
-    // meaning the map entry was removed
     for (int i = 0; i < 10; ++i) {
         EXPECT_EQ(limiter.remaining("stale_" + std::to_string(i)),
                   cfg.capacity)
