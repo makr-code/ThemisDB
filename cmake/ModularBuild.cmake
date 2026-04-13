@@ -140,6 +140,7 @@ set(THEMIS_BASE_SOURCES
     ../src/utils/cursor.cpp
     ../src/utils/tracing.cpp
     ../src/utils/zstd_codec.cpp
+    ../src/utils/lz4_codec.cpp
     ../src/utils/input_validator.cpp
     ../src/utils/hkdf_helper.cpp
     ../src/utils/hkdf_cache.cpp
