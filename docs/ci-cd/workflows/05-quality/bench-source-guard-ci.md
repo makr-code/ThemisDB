@@ -172,9 +172,9 @@ bench_experimental_feature  # EXPERIMENTAL: not yet wired
 |---|---|
 | `GPU_ONLY` | Benchmark requires physical GPU (CUDA, HIP, Vulkan compute).  CMake gate: `THEMIS_ENABLE_CUDA` / `THEMIS_ENABLE_HIP` / `THEMIS_ENABLE_VULKAN`. |
 | `PLATFORM` | Benchmark only compiles on a specific OS or CPU architecture (ARM, Linux-only, Windows-only). |
-| `EXPERIMENTAL` | Benchmark source exists but is not yet wired into CMake.  **Must be removed from the allowlist** when `add_executable()` is added. |
+| `EXPERIMENTAL` | Benchmark source exists but is not yet wired into CMake.  **Must be removed from the allowlist** when `add_executable()` is added.  Reviewed at each release milestone (see *Allowlist audit* in `tools/bench_source_allowlist.toml`). |
 | `THIRD_PARTY` | Benchmark requires model weights, hardware devices, or libraries that are intentionally absent from CI runners. |
-| `DEPRECATED` | Source is kept for historical reference only.  **Must be deleted from the repository** within one minor release cycle. |
+| `DEPRECATED` | Source is kept for historical reference only.  **Must be deleted from the repository** within one minor release cycle.  Reviewed at each release milestone (see *Allowlist audit* in `tools/bench_source_allowlist.toml`). |
 
 ### Adding an Entry
 

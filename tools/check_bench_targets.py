@@ -96,6 +96,13 @@ import sys
 from pathlib import Path
 from typing import Optional
 
+# tomllib is available in Python 3.11+; fall back to the regex-based parser
+# for older runtimes (pre-commit hooks, dev machines with Python 3.10).
+try:
+    import tomllib as _tomllib  # type: ignore[import]
+except ImportError:
+    _tomllib = None  # type: ignore[assignment]
+
 # ---------------------------------------------------------------------------
 # Category helpers
 # ---------------------------------------------------------------------------
@@ -321,21 +328,22 @@ _DEFAULT_ALLOWLIST_RELPATH = "tools/bench_source_allowlist.toml"
 
 def load_allowlist(allowlist_file: Path) -> dict[str, str]:
     """
-    Parse an allowlist file and return a mapping of ``stem → reason``.
+    Parse an allowlist TOML file and return a mapping of ``stem → reason``.
 
-    File format (subset of TOML used for maximum portability with stdlib only):
+    Expected TOML structure (only top-level string key-value pairs are used):
 
-    * Lines starting with ``#`` are comments.
-    * Empty lines are ignored.
-    * A plain identifier line (e.g. ``bench_cuda_vs_cpu``) records the stem
-      with an empty reason.
-    * A line of the form ``bench_foo  # reason text`` records the stem with
-      the trailing comment as the reason.
-    * TOML section headers (``[section]``) and key-value lines
-      (``bench_foo = "reason"`` or ``bench_foo = 'reason'``) are also parsed
-      so that the allowlist file can be a valid TOML document.
+    .. code-block:: toml
 
-    Unknown / malformed lines are silently skipped.
+        bench_cuda_vs_cpu = "GPU_ONLY: requires CUDA device"
+        bench_arm_simd = "PLATFORM: ARM SIMD intrinsics"
+
+    TOML section headers (``[section]``) are ignored; all ``bench_*`` keys
+    found at any level are collected.
+
+    When ``tomllib`` is not available (Python < 3.11) a line-by-line fallback
+    parser is used that handles the same subset of the format.  Malformed
+    lines in fallback mode are printed as warnings rather than silently
+    skipped.
 
     Returns
     -------
@@ -345,14 +353,8 @@ def load_allowlist(allowlist_file: Path) -> dict[str, str]:
     if not allowlist_file.is_file():
         return result
 
-    _stem_re = re.compile(
-        r"^\s*(?P<stem>bench_[A-Za-z0-9_]+)"
-        r"(?:\s*[=#]\s*['\"]?(?P<reason>[^'\"#\n]*)['\"]?)?"
-        r"\s*(?:#.*)?$"
-    )
-
     try:
-        lines = allowlist_file.read_text(encoding="utf-8", errors="replace").splitlines()
+        raw = allowlist_file.read_bytes()
     except OSError as exc:
         print(
             _c(f"WARNING: cannot read allowlist {allowlist_file}: {exc}", _YELLOW),
@@ -360,15 +362,60 @@ def load_allowlist(allowlist_file: Path) -> dict[str, str]:
         )
         return result
 
-    for line in lines:
+    # ── tomllib path (Python 3.11+) ─────────────────────────────────────────
+    if _tomllib is not None:
+        try:
+            data = _tomllib.loads(raw.decode("utf-8", errors="replace"))
+        except Exception as exc:  # noqa: BLE001
+            print(
+                _c(f"WARNING: TOML parse error in {allowlist_file}: {exc}", _YELLOW),
+                file=sys.stderr,
+            )
+            data = {}
+        # Collect all bench_* keys from any level (flatten nested tables)
+        def _collect(node: object) -> None:
+            if isinstance(node, dict):
+                for k, v in node.items():
+                    if k.startswith("bench_") and isinstance(v, str):
+                        result[k] = v.strip()
+                    else:
+                        _collect(v)
+            elif isinstance(node, list):
+                for item in node:
+                    _collect(item)
+
+        _collect(data)
+        return result
+
+    # ── Fallback line-by-line parser (Python 3.10 and earlier) ─────────────
+    _kv_re = re.compile(
+        r"""^\s*(?P<stem>bench_[A-Za-z0-9_]+)\s*=\s*['"](?P<reason>[^'"]*)['"]\s*$"""
+    )
+    _bare_re = re.compile(
+        r"""^\s*(?P<stem>bench_[A-Za-z0-9_]+)\s*(?:#\s*(?P<reason>.*))?$"""
+    )
+
+    for lineno, line in enumerate(
+        raw.decode("utf-8", errors="replace").splitlines(), start=1
+    ):
         stripped = line.strip()
         if not stripped or stripped.startswith("#") or stripped.startswith("["):
             continue
-        m = _stem_re.match(stripped)
+        m = _kv_re.match(stripped)
         if m:
-            stem = m.group("stem")
-            reason = (m.group("reason") or "").strip().strip("'\"")
-            result[stem] = reason
+            result[m.group("stem")] = m.group("reason").strip()
+            continue
+        m = _bare_re.match(stripped)
+        if m:
+            result[m.group("stem")] = (m.group("reason") or "").strip()
+            continue
+        print(
+            _c(
+                f"WARNING: {allowlist_file.name}:{lineno}: unrecognised line: {stripped!r}",
+                _YELLOW,
+            ),
+            file=sys.stderr,
+        )
 
     return result
 
@@ -378,9 +425,12 @@ def find_built_binaries(build_dir: Path) -> set[str]:
     Return the set of bench_* executable stems found under ``build_dir``.
 
     Searches recursively for files whose name starts with ``bench_`` and
-    is either an ELF/PE executable (no extension or ``.exe``).  On Windows
-    only ``bench_*.exe`` is matched; on other platforms both forms are
-    considered.
+    is a recognisable executable:
+
+    * ``bench_*.exe`` – Windows PE binary (checked by extension only).
+    * ``bench_*`` (no extension) – Unix executable; verified with
+      ``os.access(path, os.X_OK)`` to exclude non-executable files such as
+      backup copies, lock files, or directory traversal artefacts.
     """
     found: set[str] = set()
     if not build_dir.is_dir():
@@ -391,9 +441,8 @@ def find_built_binaries(build_dir: Path) -> set[str]:
             continue
         name = path.name
         if name.endswith(".exe"):
-            stem = name[:-4]
-            found.add(stem)
-        elif "." not in name:
+            found.add(name[:-4])
+        elif "." not in name and os.access(path, os.X_OK):
             # Unix executable without extension
             found.add(name)
     return found

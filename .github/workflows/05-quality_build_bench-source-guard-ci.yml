@@ -157,10 +157,14 @@ jobs:
           echo "" >> "$GITHUB_STEP_SUMMARY"
           if [ -f /tmp/guard_results.json ]; then
             echo "### Guard Results (bench_*.cpp vs CMake targets)" >> "$GITHUB_STEP_SUMMARY"
-            python3 - <<'PYEOF' >> "$GITHUB_STEP_SUMMARY" || true
+            python3 - <<'PYEOF' >> "$GITHUB_STEP_SUMMARY"
 import json, sys
-with open("/tmp/guard_results.json") as f:
-    d = json.load(f)
+try:
+    with open("/tmp/guard_results.json") as f:
+        d = json.load(f)
+except Exception as e:
+    print(f"> ⚠️ Could not parse guard results: {e}")
+    sys.exit(0)
 counts = d.get("counts", {})
 print("| Metric | Count |")
 print("|--------|-------|")
