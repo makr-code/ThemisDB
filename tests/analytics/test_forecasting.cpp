@@ -1018,6 +1018,58 @@ TEST(ForecastingBatchStreamingTests, Update_MultipleUpdates_ModelStillFitted) {
     }
 }
 
+TEST(ForecastingBatchStreamingTests, Update_LinearRegression_IncrementalOLS) {
+    // Verify that update() on a LINEAR_REGRESSION model produces the same
+    // alpha/beta/forecast as a full refit on the extended series.
+    // This exercises the O(1) running-moment OLS path.
+    TimeSeries ts = makeLinearSeries(20, 2.0, 5.0);
+    ForecastModel model(ForecastMethod::LINEAR_REGRESSION);
+    model.fit(ts);
+
+    double new_val = 50.0;
+    model.update(new_val);
+    auto after_update = model.predict(5);
+
+    // Build the reference: full refit on ts + new_val
+    TimeSeries ts_extended = ts;
+    ts_extended.push(static_cast<int64_t>(20) * 1000LL, new_val);
+    ForecastModel ref(ForecastMethod::LINEAR_REGRESSION);
+    ref.fit(ts_extended);
+    auto after_refit = ref.predict(5);
+
+    ASSERT_EQ(after_update.size(), after_refit.size());
+    for (size_t i = 0; i < after_update.size(); ++i) {
+        EXPECT_NEAR(after_update[i].value, after_refit[i].value, 1e-6)
+            << "Incremental OLS update differs from full refit at step " << i;
+    }
+}
+
+TEST(ForecastingBatchStreamingTests, Update_LinearRegression_MultipleUpdatesConsistent) {
+    // Apply 5 successive update() calls and verify results match a full
+    // refit on the correspondingly extended series.
+    TimeSeries ts = makeLinearSeries(30, 1.5, 0.0);
+    ForecastModel model(ForecastMethod::LINEAR_REGRESSION);
+    model.fit(ts);
+
+    TimeSeries ts_ext = ts;
+    for (int i = 0; i < 5; ++i) {
+        double v = 30.0 + static_cast<double>(i) * 1.5;
+        model.update(v);
+        ts_ext.push(static_cast<int64_t>(30 + i) * 1000LL, v);
+    }
+    auto inc = model.predict(3);
+
+    ForecastModel ref(ForecastMethod::LINEAR_REGRESSION);
+    ref.fit(ts_ext);
+    auto full = ref.predict(3);
+
+    ASSERT_EQ(inc.size(), full.size());
+    for (size_t i = 0; i < inc.size(); ++i) {
+        EXPECT_NEAR(inc[i].value, full[i].value, 1e-5)
+            << "Incremental OLS (5 updates) differs from full refit at step " << i;
+    }
+}
+
 // ---------------------------------------------------------------------------
 // fit-result cache — repeated fit on same data is O(1) lookup
 // ---------------------------------------------------------------------------
