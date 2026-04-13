@@ -372,7 +372,8 @@ constraints.addGeoFence(
 
 ---
 
-### Query Rewriting for Graph Optimization ✅ DONE
+### Query Rewriting for Graph Optimization
+**Status: ✅ DONE (Issue #250, delivered v1.9.0)**  
 **Priority:** Medium  
 **Target Version:** v1.8.0 → delivered v1.9.0
 
