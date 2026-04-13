@@ -221,9 +221,17 @@ public:
         bool paranoid_checks = true;                // Verify all data on read (catches corruption early)
         bool verify_checksums_on_read = true;       // Verify block checksums on every read
         bool verify_checksums_in_compaction = true; // Background verification during compaction
-        bool force_sync_on_write = false;           // Force fsync on every write (30% overhead, max durability)
+        bool force_sync_on_write = false;           // Force fsync on every write (max durability, ~30% overhead)
         bool disable_mmap_reads = true;             // Prevent mmap from hiding I/O errors
         bool disable_mmap_writes = true;            // Prevent mmap write errors
+
+        // WAL periodic background flush (v1.9+)
+        // When > 0, RocksDB calls fdatasync on the WAL every wal_bytes_per_sync bytes
+        // (in the background write thread), providing a durability window without the
+        // per-write fsync overhead of force_sync_on_write.
+        // Recommended value: 1 MiB (1048576) for balanced durability/throughput.
+        // 0 = disabled (OS decides when to flush; default for backward compat).
+        uint64_t wal_bytes_per_sync = 0;
         
         // Checksum algorithm (v1.4.1+)
         enum class ChecksumType {

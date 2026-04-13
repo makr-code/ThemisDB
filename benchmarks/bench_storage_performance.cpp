@@ -48,6 +48,7 @@
 #include <random>
 #include <cstring>
 #include <thread>
+#include <chrono>
 
 using namespace themis;
 using namespace themis::memory;
@@ -552,7 +553,241 @@ BENCHMARK(BM_Memory_Overhead)
     ->Arg(10000)
     ->Arg(100000);
 
+// ═══════════════════════════════════════════════════════════
+// Sustained Write Benchmarks (SLO: ≥ 100 k ops/s)
+//
+// These are the canonical 1:1 benchmarks for the "Storage Sustained Write"
+// SLO documented in PERFORMANCE_EXPECTATIONS.md (previously showing only
+// 1.276 k/s due to per-write fsync from write_options_->sync=true).
+//
+// Three configurations are measured:
+//  (a) NoSync   – WAL written, no per-write fsync (target: ≥ 100 k ops/s)
+//  (b) Batched  – RocksDB WriteBatch of 1024 entries, one sync per batch
+//  (c) FullSync – force_sync_on_write=true; characterises max-durability cost
+// ═══════════════════════════════════════════════════════════
+
 } // namespace
+
+#include "storage/rocksdb_wrapper.h"
+#include "storage/wal_storage.h"
+#include <filesystem>
+#include <cassert>
+
+namespace {
+
+// ── Fixture helpers ──────────────────────────────────────────────────────────
+
+struct SustainedWriteFixture {
+    std::string path;
+    std::unique_ptr<themis::RocksDBWrapper> db;
+
+    explicit SustainedWriteFixture(themis::RocksDBWrapper::Config cfg) {
+        path = (std::filesystem::temp_directory_path() /
+                ("themis_swbench_" + std::to_string(
+                    std::chrono::steady_clock::now().time_since_epoch().count())))
+               .string();
+        cfg.db_path = path;
+        cfg.enable_statistics = false;   // reduce micro-benchmark overhead
+        db = std::make_unique<themis::RocksDBWrapper>(cfg);
+        if (!db->open()) {
+            throw std::runtime_error("SustainedWriteFixture: failed to open RocksDB");
+        }
+    }
+
+    ~SustainedWriteFixture() {
+        db.reset();
+        std::error_code ec;
+        std::filesystem::remove_all(path, ec);
+    }
+};
+
+// ── (a) No per-write fsync — canonical SLO benchmark ─────────────────────────
+
+/**
+ * BM_Storage_SustainedWrite_NoSync
+ *
+ * WAL is written on every put() but NOT fsynced per write.  This is the
+ * standard production setting (force_sync_on_write=false).
+ *
+ * SLO target: ≥ 100 000 ops/s  (10 µs/op)
+ * Payload:    256-byte value, 32-byte key
+ */
+static void BM_Storage_SustainedWrite_NoSync(benchmark::State& state) {
+    themis::RocksDBWrapper::Config cfg;
+    cfg.force_sync_on_write    = false;
+    cfg.disable_wal_for_benchmark = false;   // WAL written, not fsynced
+    cfg.memtable_size_mb       = 64;
+    cfg.block_cache_size_mb    = 64;
+
+    SustainedWriteFixture fix(cfg);
+
+    const std::string value(256, 'v');
+    uint64_t counter = 0;
+
+    for (auto _ : state) {
+        std::string key = "sw_nosync_" + std::to_string(counter++);
+        fix.db->put(key, value);
+    }
+
+    state.SetItemsProcessed(static_cast<int64_t>(state.iterations()));
+    state.SetBytesProcessed(static_cast<int64_t>(state.iterations()) *
+                            static_cast<int64_t>(value.size() + 20));
+    state.SetLabel("nosync_wal");
+}
+BENCHMARK(BM_Storage_SustainedWrite_NoSync)
+    ->MinTime(2.0)
+    ->Unit(benchmark::kMicrosecond);
+
+// ── (b) Batched writes — group commit via WriteBatch ─────────────────────────
+
+/**
+ * BM_Storage_SustainedWrite_Batched
+ *
+ * Groups kBatchSize writes into a single rocksdb::WriteBatch and commits
+ * with sync=false.  Shows the throughput benefit of batching.
+ *
+ * SLO target: ≥ 500 000 ops/s (2 µs/op amortised)
+ */
+static void BM_Storage_SustainedWrite_Batched(benchmark::State& state) {
+    const int kBatchSize = static_cast<int>(state.range(0));
+
+    themis::RocksDBWrapper::Config cfg;
+    cfg.force_sync_on_write       = false;
+    cfg.disable_wal_for_benchmark = false;
+    cfg.memtable_size_mb          = 128;
+    cfg.block_cache_size_mb       = 64;
+
+    SustainedWriteFixture fix(cfg);
+
+    const std::string value(256, 'b');
+    uint64_t counter = 0;
+
+    rocksdb::WriteOptions wo;
+    wo.sync       = false;
+    wo.disableWAL = false;
+
+    for (auto _ : state) {
+        rocksdb::WriteBatch batch;
+        for (int i = 0; i < kBatchSize; ++i) {
+            std::string key = "sw_batch_" + std::to_string(counter++);
+            batch.Put(rocksdb::Slice(key), rocksdb::Slice(value));
+        }
+        rocksdb::Status s = fix.db->getRawDB()->Write(wo, &batch);
+        if (!s.ok()) {
+            state.SkipWithError(("WriteBatch failed: " + s.ToString()).c_str());
+            return;
+        }
+    }
+
+    state.SetItemsProcessed(static_cast<int64_t>(state.iterations()) * kBatchSize);
+    state.SetBytesProcessed(static_cast<int64_t>(state.iterations()) * kBatchSize *
+                            static_cast<int64_t>(value.size() + 20));
+    state.SetLabel("batched_wal_batch" + std::to_string(kBatchSize));
+}
+BENCHMARK(BM_Storage_SustainedWrite_Batched)
+    ->Arg(64)
+    ->Arg(256)
+    ->Arg(1024)
+    ->MinTime(2.0)
+    ->Unit(benchmark::kMicrosecond);
+
+// ── (c) Full sync — characterise max-durability cost ─────────────────────────
+
+/**
+ * BM_Storage_SustainedWrite_FullSync
+ *
+ * force_sync_on_write=true: every write fsyncs the WAL.  This was the
+ * unintentional default behaviour before the sync/enable_wal fix and is
+ * the reason for the observed 1.276 k/s baseline.  Retained here so the
+ * durability cost is explicitly visible in the benchmark report.
+ */
+static void BM_Storage_SustainedWrite_FullSync(benchmark::State& state) {
+    themis::RocksDBWrapper::Config cfg;
+    cfg.force_sync_on_write       = true;    // per-write fsync (max durability)
+    cfg.disable_wal_for_benchmark = false;
+    cfg.memtable_size_mb          = 64;
+    cfg.block_cache_size_mb       = 64;
+
+    SustainedWriteFixture fix(cfg);
+
+    const std::string value(256, 'f');
+    uint64_t counter = 0;
+
+    for (auto _ : state) {
+        std::string key = "sw_fullsync_" + std::to_string(counter++);
+        fix.db->put(key, value);
+    }
+
+    state.SetItemsProcessed(static_cast<int64_t>(state.iterations()));
+    state.SetLabel("fullsync_wal");
+}
+BENCHMARK(BM_Storage_SustainedWrite_FullSync)
+    ->MinTime(2.0)
+    ->Unit(benchmark::kMicrosecond);
+
+// ── (d) WAL group-commit — appendBatch vs N × appendPut ──────────────────────
+
+/**
+ * BM_WAL_GroupCommit_Batch
+ *
+ * Measures throughput of WALStorage::appendBatch() vs the same number of
+ * individual appendPut() calls, demonstrating the group-commit speedup.
+ */
+static void BM_WAL_GroupCommit_Batch(benchmark::State& state) {
+    const int kBatchSize = static_cast<int>(state.range(0));
+
+    auto ts = std::chrono::steady_clock::now().time_since_epoch().count();
+    std::string dir = (std::filesystem::temp_directory_path() /
+                       ("themis_wal_gc_" + std::to_string(ts))).string();
+    std::filesystem::create_directories(dir);
+
+    themis::WALStorage::Config cfg;
+    cfg.dir                     = dir;
+    cfg.fsync_on_write          = true;   // make the group-commit benefit visible
+    cfg.rotation_threshold_bytes = 64 * 1024 * 1024;
+
+    auto wal_res = themis::WALStorage::open(cfg);
+    if (!wal_res) {
+        state.SkipWithError("WALStorage::open failed");
+        return;
+    }
+    auto& wal = *wal_res;
+
+    const std::string value(128, 'g');
+    uint64_t counter = 0;
+
+    for (auto _ : state) {
+        std::vector<themis::WALStorage::BatchEntry> entries;
+        entries.reserve(static_cast<size_t>(kBatchSize));
+        std::vector<std::string> keys(static_cast<size_t>(kBatchSize));
+        for (int i = 0; i < kBatchSize; ++i) {
+            keys[static_cast<size_t>(i)] = "gc_" + std::to_string(counter++);
+            entries.push_back({themis::WALStorage::EntryType::PUT,
+                               keys[static_cast<size_t>(i)],
+                               value});
+        }
+        auto res = wal->appendBatch(std::move(entries));
+        if (!res) {
+            state.SkipWithError(("appendBatch failed: " + res.error().context()).c_str());
+            return;
+        }
+    }
+
+    state.SetItemsProcessed(static_cast<int64_t>(state.iterations()) * kBatchSize);
+    state.SetLabel("wal_group_commit_batch" + std::to_string(kBatchSize));
+
+    wal.reset();
+    std::error_code ec;
+    std::filesystem::remove_all(dir, ec);
+}
+BENCHMARK(BM_WAL_GroupCommit_Batch)
+    ->Arg(16)
+    ->Arg(64)
+    ->Arg(256)
+    ->MinTime(2.0)
+    ->Unit(benchmark::kMicrosecond);
+
+} // namespace (sustained write benchmarks)
 
 // ═══════════════════════════════════════════════════════════
 // Main - Configure JSON output for CI
