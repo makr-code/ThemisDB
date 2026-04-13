@@ -308,15 +308,28 @@ The `selectTyped<T>()` helper in `backend_registry.cpp:223–233` iterates the e
 ### FAISS GPU Backend: HNSW and ScalarQuantizer Index Types
 **Priority:** Medium
 **Target Version:** v1.9.0
+**Status:** ✅ IMPLEMENTED
 
-`faiss_gpu_backend.cpp` implements only `IVF_FLAT` (line 164) and `IVF_PQ` (line 187) index types. The FAISS library provides `GpuIndexIVFScalarQuantizer` (IVF_SQ8) for memory-efficient 8-bit quantized search with better recall than PQ at equivalent memory, and the CPU-only `IndexHNSWFlat` which can be combined with a GPU flat index for hybrid search. These omissions mean callers that need higher recall or lower-latency search at medium scale have no GPU-accelerated option.
+`faiss_gpu_backend.cpp` now implements all six index types. `IVF_SQ8` uses
+`GpuIndexIVFScalarQuantizer` with `QT_8bit` for higher recall than PQ at
+equivalent memory. `HNSW_FLAT` uses CPU-side `faiss::IndexHNSWFlat` which
+exposes the same `IVectorBackend` interface and is preferred for
+low-latency single-query search. All switch statements include `default:`
+branches that set `lastError_` via `setError()`. Input validation guards
+(null pointers, zero sizes, empty paths, negative dimension) added to all
+public methods. `getCapabilities()` now advertises `FP32 | INT8` precisions
+and `L2 | INNER_PRODUCT` metric bits. Tests in `tests/test_faiss_gpu_backend.cpp`
+(25 GPU tests + 15 validation + 10 structural).
 
-**Implementation Notes:**
-- `[ ]` Add `IndexType::IVF_SQ8` case in `FAISSGPUBackend::buildIndex()`: create a `faiss::gpu::GpuIndexIVFScalarQuantizer` with `faiss::ScalarQuantizer::QT_8bit`; register the destructor in the cleanup `switch` at line 226.
-- `[ ]` Add `IndexType::FLAT` case: create a `faiss::gpu::GpuIndexFlatL2` or `GpuIndexFlatIP` depending on the distance metric; this is the baseline for exact search and already required for the IVF quantizer — expose it as a first-class index type.
-- `[ ]` Add a `IndexType::HNSW_FLAT` case using CPU-side `faiss::IndexHNSWFlat` backed by a `faiss::gpu::StandardGpuResources` distance oracle for the inner-product step (FAISS `IndexHNSW` supports custom `DistanceComputer` that delegates to GPU flat index).
-- `[ ]` Update `FAISSGPUBackend::getCapabilities()` to advertise the additional index types in the capabilities struct.
-- `[ ]` Add a `default:` branch in the index creation switch (line 164) that returns `false` and sets `lastError_` to `AccelerationErrorCode::InvalidInputShape` — currently the switch falls through silently for unknown types.
+**Resolved checklist:**
+- `[x]` Add `IndexType::IVF_SQ8` — `GpuIndexIVFScalarQuantizer` with `QT_8bit`
+- `[x]` Add `IndexType::HNSW_FLAT` — CPU-side `faiss::IndexHNSWFlat` + `hnswM` config field
+- `[x]` Add `default:` branches with `setError()` in all switch statements
+- `[x]` Update `getCapabilities()` with `INT8` precision flag and metric bitmask
+- `[x]` Input validation in `search()`, `addVectors()`, `trainIndex()`,
+        `computeDistances()`, `batchKnnSearch()`, `initializeIndex()`, `saveIndex()`, `loadIndex()`
+- `[x]` Introduce `setError()` helper; replace bare `std::cerr` error paths
+- `[x]` Add 50 unit + integration tests in `tests/test_faiss_gpu_backend.cpp`
 
 ---
 
