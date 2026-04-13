@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            audit_api_handler.h                                ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:10:56                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:19:52                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

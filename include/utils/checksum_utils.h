@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            checksum_utils.h                                   ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-06 04:12:55                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-13 04:22:08                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

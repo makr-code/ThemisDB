@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            config_encrypted_store.h                           ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-04-06 04:15:19                                ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-04-13 04:14:35                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,6 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • aeb43de031  2026-04-12  feat(config): create include/config/ public header direct... ║
     • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
     • fd5694677a  2026-03-16  Changes before error encountered        ║
     • 6690594e54  2026-03-11  feat(config): encrypted config storage with AES-256-GCM a... ║

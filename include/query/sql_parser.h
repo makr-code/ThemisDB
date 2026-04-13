@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            sql_parser.h                                       ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-06 04:09:57                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-13 04:18:45                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

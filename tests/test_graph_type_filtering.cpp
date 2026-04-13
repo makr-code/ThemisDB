@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_graph_type_filtering.cpp                      ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:28:51                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:39:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

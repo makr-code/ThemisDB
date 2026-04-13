@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cache_admin_api_handler.h                          ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-06 04:10:56                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-13 04:19:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            crash_recovery_manager.h                           ║
-  Version:         0.0.35                                             ║
-  Last Modified:   2026-04-06 04:12:29                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-04-13 04:21:41                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

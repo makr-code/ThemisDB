@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_gpu_stubs_comprehensive.cpp                   ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-06 04:28:42                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-13 04:39:22                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            generate_research_index.py                         ║
-  Version:         0.0.14                                             ║
-  Last Modified:   2026-04-06 04:13:48                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-13 04:23:05                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

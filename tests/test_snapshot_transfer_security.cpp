@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_snapshot_transfer_security.cpp                ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:35:12                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:46:39                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

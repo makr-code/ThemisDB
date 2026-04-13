@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_export_encryption.cpp                         ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-06 04:23:04                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-13 04:33:03                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

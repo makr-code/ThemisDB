@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_rpc_geo_query.cpp                             ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:34:17                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:45:37                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

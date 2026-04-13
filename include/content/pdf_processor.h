@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            pdf_processor.h                                    ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:06:27                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:14:45                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

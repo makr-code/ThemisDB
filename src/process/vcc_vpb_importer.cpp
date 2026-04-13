@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            vcc_vpb_importer.cpp                               ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-04-06 04:18:41                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-04-13 04:28:07                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

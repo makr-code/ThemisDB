@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            PluginService.cs                                   ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:37:26                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:49:12                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

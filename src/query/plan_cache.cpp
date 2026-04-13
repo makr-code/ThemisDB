@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            plan_cache.cpp                                     ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-04-06 04:19:05                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-04-13 04:28:35                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

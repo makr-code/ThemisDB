@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            config_metrics_exporter.h                          ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-06 04:15:21                                ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-04-13 04:14:36                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • aeb43de031  2026-04-12  feat(config): create include/config/ public header direct... ║
     • 985dc57d92  2026-03-14  fix: harden config metrics exporter compatibility ║
     • 535cee36dc  2026-03-13  feat: export config metrics via Prometheus registry ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 77c590e6e3  2026-02-24  audit(config): fix all gaps found in Prometheus metrics e... ║
-    • 71e2d24aeb  2026-02-24  feat(config): implement Prometheus metrics exporter for c... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

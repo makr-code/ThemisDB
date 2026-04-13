@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cdc_fan_in.cpp                                ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-04-06 04:26:04                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-04-13 04:36:20                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

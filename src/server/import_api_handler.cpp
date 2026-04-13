@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            import_api_handler.cpp                             ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:20:24                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:30:05                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

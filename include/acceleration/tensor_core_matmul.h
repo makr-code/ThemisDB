@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            tensor_core_matmul.h                               ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-06 04:04:50                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-13 04:13:08                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

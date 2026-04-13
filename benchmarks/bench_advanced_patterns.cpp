@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_advanced_patterns.cpp                        ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:03:20                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:11:29                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

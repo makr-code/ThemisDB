@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_llm_caching.cpp                               ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:30:14                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:41:03                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

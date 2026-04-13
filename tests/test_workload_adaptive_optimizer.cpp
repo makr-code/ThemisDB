@@ -1,3 +1,25 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_workload_adaptive_optimizer.cpp               ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-04-13 04:48:47                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     189                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • f0fea9a7b5  2026-04-12  feat(performance): add NUMAMemoryManager — Issue #228 (pa... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // Copyright 2026 ThemisDB — WorkloadAdaptiveOptimizer focused tests (Issue #230)
 #include "performance/workload_adaptive_optimizer.h"
 #include <gtest/gtest.h>

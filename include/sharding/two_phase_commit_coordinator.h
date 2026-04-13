@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            two_phase_commit_coordinator.h                     ║
-  Version:         0.0.24                                             ║
-  Last Modified:   2026-04-06 04:11:36                                ║
+  Version:         0.0.25                                             ║
+  Last Modified:   2026-04-13 04:20:34                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

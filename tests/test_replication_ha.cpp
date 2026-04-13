@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_replication_ha.cpp                            ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:34:04                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:45:22                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🔴 ALPHA                                        ║
-    • Quality Score:   31.0/100                                       ║
-    • Total Lines:     5584                                           ║
+    • Quality Score:   39.0/100                                       ║
+    • Total Lines:     5816                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • fc77bc508d  2026-04-12  [MODULE] replication — perf tests for design constraints,... ║
     • 5bee4e8e41  2026-04-03  Implement Disaster Recovery Manager and associated tests ║
     • 25f9a09910  2026-04-02  Refactor tests and improve assertions   ║
     • 64a9ae4eb6  2026-03-31  feat: enhance cache warmup logic and improve replication ... ║
     • 387fde93e0  2026-03-13  feat(replication): implement MultiTierReplicationManager ... ║
-    • 4a853813e8  2026-03-13  fix(replication): audit fixes — honor bidirectional_sync/... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: 🚧 Early Development                                         ║
 ╚═════════════════════════════════════════════════════════════════════╝

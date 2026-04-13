@@ -1,20 +1,23 @@
 /*
- * ThemisDB - Hybrid Database System
- * File:    io_uring_batcher.h
- * Brief:   io_uring-backed batched sender for WireProtocolBatcher flushes.
- *
- * Instead of issuing one writev(2) syscall per WireProtocolBatcher flush
- * (one per connection), IoUringBatchedSender collects SQEs from multiple
- * batchers and submits them all in a single io_uring_enter() call.  On
- * Linux with io_uring available this reduces the syscall count from O(N)
- * to O(1) per round, which dominates latency at high connection counts.
- *
- * When io_uring is unavailable (non-Linux, kernel < 5.1, or
- * THEMIS_ENABLE_IO_URING not defined) every method falls back to
- * synchronous writev(2) so callers need no conditional compilation.
- *
- * Thread-safety: a single IoUringBatchedSender instance is NOT
- * thread-safe.  Use one instance per event-loop thread.
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            io_uring_batcher.h                                 ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-04-13 04:17:10                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     179                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 040083b025  2026-04-12  feat: StreamingIngestManager, TsStreamCursor, LZ4 compres... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
  */
 
 #pragma once

@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            themisdb_adapter.hpp                               ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:06:18                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:14:34                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   94.0/100                                       ║
-    • Total Lines:     334                                            ║
+    • Quality Score:   88.0/100                                       ║
+    • Total Lines:     459                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 95161c29db  2026-04-11  feat(chimera): Streaming result sets, prepared statements... ║
     • 0701ac8f4d  2026-03-12  feat(chimera): implement async/promise-based API (IAsyncD... ║
     • 3fea6d6b51  2026-03-12  refactor: clean up includes and remove unused transaction... ║
     • c4c01c2428  2026-03-12  fix(chimera): address code review feedback on ThemisDB ad... ║
     • 042f896b63  2026-03-12  refactor(chimera): address PR review feedback on transact... ║
-    • cadbebb7b8  2026-03-12  feat(chimera): Production ThemisDB Adapter Integration - ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

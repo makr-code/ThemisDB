@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_deadlock_detection.cpp                        ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:27:25                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:37:52                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

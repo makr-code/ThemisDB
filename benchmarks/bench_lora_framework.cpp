@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_lora_framework.cpp                           ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-06 04:03:42                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-13 04:11:55                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

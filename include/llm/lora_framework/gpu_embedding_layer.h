@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            gpu_embedding_layer.h                              ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:08:10                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:16:36                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

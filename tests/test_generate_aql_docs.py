@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_generate_aql_docs.py                          ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-06 04:28:10                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-13 04:38:48                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

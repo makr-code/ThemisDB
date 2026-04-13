@@ -3,39 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_simd_columnar_filter.cpp                      ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-04-09                                         ║
-  Author:          copilot                                            ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-04-13 04:46:36                                ║
+  Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  Issue:           ROADMAP v2.0.0 – Vectorized execution in           ║
-                   ColumnarFormat (SIMD batch processing)             ║
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     500                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  Coverage:                                                           ║
-    SF-1  – detectSIMDLevel() returns a valid SIMDLevel               ║
-    SF-2  – simd_filter_int32: EQ                                     ║
-    SF-3  – simd_filter_int32: NE                                     ║
-    SF-4  – simd_filter_int32: LT                                     ║
-    SF-5  – simd_filter_int32: LE                                     ║
-    SF-6  – simd_filter_int32: GT                                     ║
-    SF-7  – simd_filter_int32: GE                                     ║
-    SF-8  – simd_filter_int32: empty input                            ║
-    SF-9  – simd_filter_int32: matches none                           ║
-    SF-10 – simd_filter_int32: matches all                            ║
-    SF-11 – simd_filter_int64: EQ across multiple full AVX2 batches   ║
-    SF-12 – simd_filter_int64: GT                                     ║
-    SF-13 – simd_filter_float: LT                                     ║
-    SF-14 – simd_filter_double: GE                                    ║
-    SF-15 – SIMDColumnFilter::scan INT32 EQ (zone-map pass-through)   ║
-    SF-16 – SIMDColumnFilter::scan INT64 GT zone-map early-out        ║
-    SF-17 – SIMDColumnFilter::scan FLOAT32 LT                         ║
-    SF-18 – SIMDColumnFilter::scan FLOAT64 GE                         ║
-    SF-19 – SIMDColumnFilter::scanBatch multiple segments             ║
-    SF-20 – SIMDColumnFilter::resetStats clears all counters          ║
-    SF-21 – SIMDColumnFilter::lastStats updated after scan            ║
-    SF-22 – simd_filter_int32: large batch (8192 rows) correctness    ║
-    SF-23 – scalar reference parity for int32 (all ops)               ║
-    SF-24 – simd_filter_int64: non-aligned tail correctness           ║
-    SF-25 – perf: 8192-row int32 GT scan throughput (PERF gate)       ║
+  Revision History:                                                   ║
+    • 1e700420b4  2026-04-11  feat(storage): port SIMD filter + parquet exporter scope ... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 

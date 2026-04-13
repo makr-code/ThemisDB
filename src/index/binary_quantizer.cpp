@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            binary_quantizer.cpp                               ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:16:55                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:26:08                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

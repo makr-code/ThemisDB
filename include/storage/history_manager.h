@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            history_manager.h                                  ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-06 04:11:43                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-13 04:20:45                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            nlp_metadata_extractor.h                           ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:11:44                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:20:46                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

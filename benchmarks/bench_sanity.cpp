@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_sanity.cpp                                   ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:03:52                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:12:09                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            generate_pdf_weasyprint.py                         ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:13:41                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:22:58                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

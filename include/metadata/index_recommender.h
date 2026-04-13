@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            index_recommender.h                                ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:08:33                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:17:01                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

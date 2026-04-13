@@ -3,27 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ai_hardware_dispatcher.h                           ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-04-12                                         ║
-  Author:          copilot                                            ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-04-13 04:13:00                                ║
+  Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  Design:                                                             ║
-    Universal AI-hardware dispatch layer.  One header — all           ║
-    accelerators.  Platform-gated at compile time, graceful           ║
-    runtime fallback when hardware is absent.                         ║
-                                                                      ║
-    Priority chain (highest to lowest):                               ║
-      1. Dedicated NPU (Apple ANE / Intel NPU / Qualcomm QNN /        ║
-         ARM Ethos)                                                    ║
-      2. ONNX Runtime (selects EP at runtime: CUDA, DirectML,         ║
-         CoreML, TensorRT, QNN, OpenVINO, CPU)                        ║
-      3. GPU backend already registered in BackendRegistry            ║
-         (CUDA / HIP / Vulkan / Metal / OpenCL / DirectX / OneAPI)   ║
-      4. CPU with SIMD (AVX-512 / AVX2 / NEON) — always available    ║
-                                                                      ║
-    All methods are thread-safe.  Probe results are cached for        ║
-    kCacheTTL seconds and refreshed on explicit refresh() or when     ║
-    the TTL expires.                                                   ║
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     266                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 040083b025  2026-04-12  feat: StreamingIngestManager, TsStreamCursor, LZ4 compres... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 

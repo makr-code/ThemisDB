@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            rocksdb_wrapper.cpp                                ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:21:10                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:30:59                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   97.0/100                                       ║
-    • Total Lines:     2295                                           ║
+    • Total Lines:     2561                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • b55d2d72cc  2026-04-11  perf(index): reduce secondary-index write-path overhead (... ║
+    • df501a1b55  2026-04-09  fix(storage): address code review feedback on blob stream... ║
+    • c1205d6286  2026-04-09  feat(storage): streaming blob write path – putBlob/getBlo... ║
     • eb00b82270  2026-04-04  hotfix: prevent SIGSEGV in RocksDB/LLM init on Docker sta... ║
     • 197320301a  2026-03-28  Implement SequenceU64Increment merge operator for RocksDB... ║
-    • 971a3c49d5  2026-03-20  Build/test fixes and auth role mapping refactor ║
-    • 9f9d86ceb0  2026-03-15  feat(storage): implement proper size calculation in Rocks... ║
-    • 8031d339d2  2026-03-15  feat(storage): implement RocksDB iteration for SecuritySi... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

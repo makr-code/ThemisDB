@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_postgres_e2e.cpp                             ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:03:46                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:12:01                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

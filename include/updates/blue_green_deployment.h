@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            blue_green_deployment.h                            ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-06 04:12:40                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-13 04:21:52                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

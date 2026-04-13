@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ml_serving.cpp                                     ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-06 04:14:11                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-13 04:23:33                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

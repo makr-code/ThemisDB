@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_config_migration_scanner.cpp                 ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-04-06 04:03:25                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-04-13 04:11:36                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_faceted_search.cpp                            ║
-  Version:         0.0.33                                             ║
-  Last Modified:   2026-04-06 04:28:02                                ║
+  Version:         0.0.34                                             ║
+  Last Modified:   2026-04-13 04:38:36                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

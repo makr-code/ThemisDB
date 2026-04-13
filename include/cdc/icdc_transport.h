@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            icdc_transport.h                                   ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-06 04:05:58                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-13 04:14:28                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

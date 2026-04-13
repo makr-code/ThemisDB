@@ -3,23 +3,24 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llama_wrapper.cpp                                  ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:17:23                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:26:38                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   91.0/100                                       ║
-    • Total Lines:     2804                                           ║
+    • Maturity Level:  🔴 ALPHA                                        ║
+    • Quality Score:   39.0/100                                       ║
+    • Total Lines:     2923                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • df59ab8148  2026-04-12  feat(llm): promote llama_wrapper, multi_lora_manager, pro... ║
+    • dd98ecc0e0  2026-04-06  Add server crash error log for model loading and tensor i... ║
+    • 2b2fd4812b  2026-04-06  llm: kv-cache clear + mutex fix + crash protection for ge... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 4d754f1041  2026-02-26  refactor(llm): address code review feedback on JSON schem... ║
-    • 0f9839ae4f  2026-02-26  feat(llm): implement JSON schema binding support (Issue #... ║
-    • 53b07730b4  2026-02-26  feat(llm): implement multi-modal input support (image + t... ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
+  Status: 🚧 Early Development                                         ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 

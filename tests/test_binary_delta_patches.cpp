@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_binary_delta_patches.cpp                      ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-04-06 04:25:30                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-04-13 04:35:41                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

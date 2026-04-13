@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            api_version_router.h                               ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-04-06 04:05:04                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-04-13 04:13:25                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
