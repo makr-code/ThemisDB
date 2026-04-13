@@ -6659,3 +6659,182 @@ auto decrypted_doc = encryption.decryptFields(encrypted_doc, { "ssn" });
 
 **Ende von Kapitel 36: Security Hardening** 🔒
 
+
+## 36.17 Plugin-System & Encrypted User-Storage C++ API (v1.x) {#plugins-user-storage-cpp}
+
+### 36.17.1 PluginManager — Hot-Plug-fähige Erweiterungen
+
+```cpp
+#include "plugins/plugin_manager.h"
+
+themis::plugins::PluginManager mgr;
+
+// Plugin laden (verifiziert Manifest-Signatur)
+bool ok = mgr.loadPlugin("/plugins/my_plugin.so");
+// verifyManifestSignature + verifyPlugin werden automatisch ausgeführt
+
+// Plugin prüfen und aktivieren
+if (mgr.isPluginLoaded("my_plugin")) {
+    auto* plugin = mgr.getPlugin<IThemisPlugin>("my_plugin");
+    plugin->initialize(config_json);
+}
+
+// Hot-Reload (ohne Downtime)
+mgr.reloadPlugin("my_plugin");
+// Callbacks: PluginReloadPhase::BEFORE_UNLOAD / AFTER_LOAD
+
+// Plugin deaktivieren
+mgr.unloadPlugin("my_plugin");
+```
+
+**PluginReloadPhase:** `BEFORE_UNLOAD` / `AFTER_LOAD` / `ON_FAILURE`
+
+### 36.17.2 WasmHostAPI — WebAssembly-Plugins
+
+```cpp
+#include "plugins/wasm_host_api.h"
+
+// WASM-Plugin instanziieren
+// Compile: -DTHEMIS_WASM_SUPPORT
+themis::plugins::WasmHostAPI wasm_plugin(module_bytes, module_size);
+
+// Initialisieren mit JSON-Konfiguration
+wasm_plugin.initialize(R"({"max_memory_pages": 256})");
+
+// Host-Funktion aufrufen (WASM → C++)
+// Registrierte Host-Functions: themis_query / themis_store / themis_log
+auto result = wasm_plugin.call("transform_record", input_json);
+
+wasm_plugin.shutdown();
+```
+
+**WasmPluginRuntime:** `WASMTIME` / `WASMER` / `WASM3`
+
+### 36.17.3 PluginHealthMonitor — Automatische Recovery
+
+```cpp
+#include "plugins/plugin_health_monitor.h"
+
+themis::plugins::HealthMonitorConfig hmcfg;
+hmcfg.check_interval_ms      = 5000;
+hmcfg.notify_on_critical      = true;
+hmcfg.auto_disable_on_failure = true;
+hmcfg.max_recovery_attempts   = 3;
+
+themis::plugins::PluginHealthMonitor monitor(plugin_manager, hmcfg);
+
+// Monitoring-Event-Callback
+monitor.setEventCallback([](const themis::plugins::MonitoringEventData& e) {
+    if (e.event == themis::plugins::MonitoringEvent::PLUGIN_FAILED) {
+        alert_ops(e.plugin_name, e.error_message);
+    }
+});
+
+monitor.start();
+
+// Plugin-Status abfragen
+auto status = monitor.getPluginStatus("my_plugin");
+// status.enabled, status.in_recovery, status.health_score
+// status.last_error, status.recovery_attempts
+```
+
+**MonitoringEvent:** `PLUGIN_HEALTHY` / `PLUGIN_DEGRADED` / `PLUGIN_FAILED` / `PLUGIN_RECOVERED`
+
+### 36.17.4 MultiLevelEncryptedStorage — FUSE-basierter Verschlüsselungsspeicher
+
+```cpp
+#include "user_storage_encrypted/multi_level_storage.hpp"
+
+// Konfiguration (JSON-String, kompatibel mit IThemisPlugin::initialize)
+const char* cfg = R"({
+    "levels": [
+        {
+            "name": "user-docs",
+            "security_level": "HIGH",
+            "cipher": "AES256-GCM",
+            "rotation_enabled": true,
+            "auto_rotate": true,
+            "rotation_interval_days": 30
+        },
+        {
+            "name": "archives",
+            "security_level": "MEDIUM",
+            "cipher": "CHACHA20-POLY1305",
+            "rotation_enabled": false
+        }
+    ]
+})";
+
+themis::user_storage::MultiLevelEncryptedStorage storage;
+storage.initialize(cfg);
+
+// Verschlüsseltes Verzeichnis mounten
+storage.mount("user-docs", "/data/user-docs", "/encrypted/user-docs");
+
+// Verzeichnis unmounten (bei Logout)
+storage.unmount("user-docs");
+
+// Stale Mounts aufräumen (beim Start)
+storage.reconcileStaleMounts("/encrypted");
+
+storage.shutdown();
+```
+
+**SecurityLevel:** `LOW` / `MEDIUM` / `HIGH` / `TOP_SECRET`
+
+### 36.17.5 KeyRotationScheduler — Automatische Schlüsselrotation
+
+```cpp
+#include "user_storage_encrypted/key_rotation_scheduler.hpp"
+
+// Persistenz-Backend für Rotations-Metadaten
+auto store = std::make_shared<themis::user_storage::RocksDBRotationStore>(rocksdb);
+
+themis::user_storage::KeyRotationScheduler scheduler;
+scheduler.setRotationStore(store);
+
+// Rotation planen
+scheduler.scheduleRotation(
+    themis::user_storage::SecurityLevel::HIGH,
+    std::chrono::hours(30 * 24),  // alle 30 Tage
+    true                           // auto_rotate = true
+);
+
+// Manuelle Rotation auslösen
+scheduler.triggerRotation(themis::user_storage::SecurityLevel::HIGH);
+
+// Rotation abbrechen
+scheduler.cancelRotation(themis::user_storage::SecurityLevel::HIGH);
+
+scheduler.shutdown();
+```
+
+### 36.17.6 GocryptfsBackend + Argon2id KDF
+
+```cpp
+#include "user_storage_encrypted/gocryptfs_backend.hpp"
+#include "user_storage_encrypted/key_derivation_service.hpp"
+
+// Schlüssel aus Passwort ableiten (Argon2id, OWASP-Empfehlungen)
+themis::user_storage::Argon2idParams kdf_params;
+kdf_params.memory_kib   = 64 * 1024;   // 64 MiB
+kdf_params.iterations   = 3;
+kdf_params.parallelism  = 4;
+kdf_params.key_len      = 32;
+
+themis::user_storage::Argon2idKeyDerivationService kdf(kdf_params);
+auto key_material = kdf.deriveKey(user_passphrase, salt);
+
+// Gocryptfs-Backend mit KDF
+themis::user_storage::GocryptfsBackend backend(key_material, kdf);
+
+// Verschlüsseltes Verzeichnis anlegen und mounten
+backend.createEncryptedDirectory("/encrypted/tenant-1",
+    {.create_salt = true});
+backend.mount("/encrypted/tenant-1", "/mnt/tenant-1");
+
+bool mounted = backend.isMounted("/mnt/tenant-1");
+
+// Unmounten
+backend.unmount("/mnt/tenant-1");
+```

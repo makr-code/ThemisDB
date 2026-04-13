@@ -832,3 +832,63 @@ Die folgenden Komponenten wurden mit dem v1.9.x-Release (Commit 2026-04-12) in d
 | `IndexSuggestionEngine::recommend()` | `index/adaptive_index.h` | ✅ GA | Auto-Empfehlung basierend auf Query-Patterns + Selektivität |
 | `QueryPatternTracker` | `index/adaptive_index.h` | ✅ GA | Scan-Latenz, Rows-scanned, Cache-Miss aufzeichnen |
 | `SelectivityAnalyzer` | `index/adaptive_index.h` | ✅ GA | Distinct-Values, Histogramm, Selektivitäts-Score |
+
+## Implementierungsstatus — Server/API, Metadata, Performance, Plugins, UserStorage (2026-04-13 session 4)
+
+### Server/API-Modul (v1.x)
+
+| Feature | Header | Status | Beschreibung |
+|---------|--------|--------|-------------|
+| `APIGateway::registerHandler()` | `server/api_gateway.h` | ✅ GA | Einheitlicher HTTP-Einstiegspunkt; Route-Registrierung, Load-Shedding, Deprecation-Header |
+| `AdaptiveRateLimiter::allowRequest()` | `server/adaptive_rate_limiter.h` | ✅ GA | Feedback-basiertes Rate-Limiting, Burst-Toleranz, Overload-Threshold |
+| `AuthMiddleware::authenticate()` | `server/auth_middleware.h` | ✅ GA | JWT/GSSAPI/API-Key/USB-Token; Scope-Prüfung |
+| `DistributedGateway` / `ConsistentHashRing` | `server/distributed_gateway.h` | ✅ GA | Cluster-Routing, Circuit-Breaker, Failover, 200 vNodes |
+| `AsyncJobApiHandler` / `AsyncJobRegistry` | `server/async_job_api_handler.h` | ✅ GA | Async-Job-Queue (PENDING/RUNNING/COMPLETED/FAILED), prune() |
+| `GrpcApiServer::start()` | `api/grpc_server.h` | ✅ GA | gRPC Port 8771, TLS, max-message-size, registerService |
+| `GraphQLSchemaBuilder::build()` | `api/graphql_schema_builder.h` | ✅ GA | Type/Query/Mutation-Registrierung, Schema-Validierung |
+| `IWebSocketFrameCallback` | `api/websocket_handler.h` | ✅ GA | WebSocket-Frame-Callbacks (Text/Binary/Ping/Close), CloseCode |
+
+### Metadata/Schema-Modul (v1.x)
+
+| Feature | Header | Status | Beschreibung |
+|---------|--------|--------|-------------|
+| `SchemaManager::createTable()` | `metadata/schema_manager.h` | ✅ GA | Tabellen/Relationships/Indexes; AdaptiveTTL-Konfiguration |
+| `InformationSchema::getTables()` | `metadata/information_schema.h` | ✅ GA | SQL-kompatible IS: tables/columns/statistics/referential_constraints |
+| `SchemaVersionManager::persistChange()` | `metadata/schema_version_manager.h` | ✅ GA | WAL-backed Migrations; rollback; AuditLog-Integration |
+| `DistributedMetadataCatalog::publishSchema()` | `metadata/distributed_catalog.h` | ✅ GA | Cluster-weite Schema-Verteilung via Consensus |
+| `SchemaConsistencyChecker::check()` | `metadata/schema_consistency_checker.h` | ✅ GA | Schema↔Daten-Konsistenz; Auto-Repair; dry_run |
+| `IndexRecommender` | `metadata/index_recommender.h` | ✅ GA | Empfiehlt Indexes basierend auf Query-Statistiken |
+| `SchemaAuditLog` | `metadata/schema_audit_log.h` | ✅ GA | Append-only Schema-Änderungsprotokoll |
+| `ERDiagramExporter` | `metadata/er_diagram_exporter.h` | ✅ GA | ER-Diagramm-Export (Mermaid/PlantUML) |
+
+### Performance-Internals (v1.x)
+
+| Feature | Header | Status | Beschreibung |
+|---------|--------|--------|-------------|
+| `AdaptiveQueryCompiler::compile()` | `performance/adaptive_query_compiler.h` | ✅ GA | JIT-ähnliche Query-Kompilierung; Hot-Query-Cache |
+| `IntelligentPrefetcher::predict_next()` | `performance/intelligent_prefetcher.h` | ✅ GA | ML-basiertes Prefetching (SEQUENTIAL/STRIDED/RANDOM/POINTER_CHASE); Hardware-Prefetch |
+| `WorkloadPredictor::forecast()` | `performance/workload_predictor.h` | ✅ GA | LSTM/EMA Lastvorhersage; ScaleDirection (UP/DOWN/STABLE); Replikationsempfehlung |
+| `HardwareAccelerator::execute()` | `performance/hardware_accelerator.h` | ✅ GA | CPU/CUDA/OpenCL/NPU/FPGA Dispatch; OperatorType-Auswahl |
+| `LockFreeRingBuffer<T>` | `performance/lockfree_metrics_buffer.h` | ✅ GA | SPSC Lock-Free FIFO; tryPush/tryPop; dropped_count |
+| `WorkloadPredictor::getScaleRecommendation()` | `performance/workload_predictor.h` | ✅ GA | Konkrete Replikations-Empfehlung mit Konfidenz |
+
+### Plugin-System (v1.x)
+
+| Feature | Header | Status | Beschreibung |
+|---------|--------|--------|-------------|
+| `PluginManager::loadPlugin()` | `plugins/plugin_manager.h` | ✅ GA | Signatur-Verifikation, Hot-Reload, PluginReloadPhase-Callbacks |
+| `WasmHostAPI` | `plugins/wasm_host_api.h` | ✅ GA | WASM-Plugins (Wasmtime/Wasmer/Wasm3); Host-Function-ABI |
+| `PluginHealthMonitor::start()` | `plugins/plugin_health_monitor.h` | ✅ GA | Auto-Disable + Recovery; MonitoringEvent-Callbacks; Health-Score |
+| `SignedPluginRepository` | `plugins/signed_plugin_repository.h` | ✅ GA | OCI-Registry-Integration für signierte Plugin-Pakete |
+| `SelfHealingPlugin` | `plugins/self_healing_plugin.h` | ✅ GA | Automatische Neustart-Logik bei Crash |
+| `PluginDependencyResolver` | `plugins/plugin_dependency_resolver.h` | ✅ GA | Topologische Sortierung + Zyklenerkennung für Plugin-Deps |
+
+### User Storage Encrypted (v1.x)
+
+| Feature | Header | Status | Beschreibung |
+|---------|--------|--------|-------------|
+| `MultiLevelEncryptedStorage::mount()` | `user_storage_encrypted/multi_level_storage.hpp` | ✅ GA | FUSE-basierter Multi-Level-Verschlüsselungsspeicher; SecurityLevel LOW/MEDIUM/HIGH |
+| `KeyRotationScheduler::scheduleRotation()` | `user_storage_encrypted/key_rotation_scheduler.hpp` | ✅ GA | Geplante + manuelle Schlüsselrotation; IRotationStore-Persistenz |
+| `GocryptfsBackend::mount()` | `user_storage_encrypted/gocryptfs_backend.hpp` | ✅ GA | Gocryptfs FUSE-Backend; mount/unmount/isMounted |
+| `Argon2idKeyDerivationService::deriveKey()` | `user_storage_encrypted/key_derivation_service.hpp` | ✅ GA | Argon2id KDF (OWASP-Empfehlung); memory/iterations/parallelism |
+| `reconcileStaleMounts()` | `user_storage_encrypted/multi_level_storage.hpp` | ✅ GA | Aufräumen verwaister FUSE-Mounts beim Systemstart |

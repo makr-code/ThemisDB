@@ -1457,3 +1457,147 @@ Dieses Kochbuch präsentierte systematische Performance-Optimierung für [Themis
 [^13]: Axboe, J. (2018). "Linux Block I/O: Introducing Multi-queue SSD Access." *Linux Kernel Documentation*. https://www.kernel.org/doc/Documentation/block/blk-mq.txt
 
 [^14]: Berenson, H. et al. (1995). "A Critique of ANSI SQL Isolation Levels." *SIGMOD'95*, pp. 1-10. ACM.
+
+## 39.13 Performance-Internals C++ API (v1.x) {#performance-internals-cpp}
+
+Dieses Kapitel dokumentiert die Low-Level-Performance-Komponenten (`include/performance/`).
+
+### 39.13.1 AdaptiveQueryCompiler — JIT-ähnliche Query-Kompilierung
+
+```cpp
+#include "performance/adaptive_query_compiler.h"
+
+themis::performance::AdaptiveQueryCompiler compiler;
+
+// Query kompilieren (inlined loop generation)
+themis::performance::QueryParams params;
+params.table     = "orders";
+params.filter    = "amount > 1000";
+params.columns   = {"id", "customer_id", "amount"};
+
+auto compiled = compiler.compile(params);
+// compiled.plan_id, compiled.is_jit_compiled, compiled.estimated_cost
+
+// Ausführen
+auto result = compiler.execute(compiled, storage);
+// result.ok, result.rows, result.execution_time_us
+
+// Hot-Query-Cache: Wird nach N Ausführungen automatisch JIT-optimiert
+auto stats = compiler.getStats();
+// stats.total_compiled, stats.jit_hits, stats.jit_misses
+```
+
+### 39.13.2 IntelligentPrefetcher — ML-basiertes Prefetching
+
+```cpp
+#include "performance/intelligent_prefetcher.h"
+
+themis::performance::IntelligentPrefetcher::PrefetchConfig pfcfg;
+pfcfg.enable_learning         = true;
+pfcfg.enable_hardware_prefetch = true;
+pfcfg.lookahead_distance       = 8;   // 8 Cache-Lines voraus
+
+themis::performance::IntelligentPrefetcher prefetcher(pfcfg);
+
+// Zugriff aufzeichnen (für Pattern-Lernen)
+prefetcher.record_access(address, timestamp_ns);
+
+// Prefetch-Entscheidung abfragen
+auto pattern = prefetcher.predict_next(current_address);
+// pattern.prefetch_addresses: [{addr, confidence}, ...]
+// pattern.pattern_type: SEQUENTIAL / STRIDED / RANDOM / POINTER_CHASE
+
+// Hardware-Prefetch auslösen
+prefetcher.issue_prefetch(pattern);
+
+// Statistiken
+auto stats = prefetcher.getStats();
+// stats.predictions_issued, stats.cache_hit_improvement_pct
+```
+
+**CacheLevel:** `L1` / `L2` / `L3` / `DRAM`
+
+### 39.13.3 WorkloadPredictor — LSTM-basierte Lastvorhersage
+
+```cpp
+#include "performance/workload_predictor.h"
+
+themis::performance::WorkloadPredictor::Config wpcfg;
+wpcfg.window_size       = 60;   // 60 Messungen für Vorhersage
+wpcfg.forecast_horizon  = 10;   // 10 Zeitschritte voraus
+wpcfg.use_exponential_smoothing = true;
+
+themis::performance::WorkloadPredictor predictor(wpcfg);
+
+// Aktuellen Zustand aufzeichnen
+themis::performance::WorkloadSnapshot snap;
+snap.timestamp_ms       = now_ms();
+snap.qps                = 4500;
+snap.cpu_utilization    = 0.72;
+snap.memory_used_bytes  = 8LL * 1024 * 1024 * 1024;
+snap.p99_latency_ms     = 12;
+
+predictor.record(snap);
+
+// Vorhersage abrufen
+auto forecast = predictor.forecast();
+// forecast.predicted_qps: [{t+1: 4800}, {t+2: 5100}, ...]
+// forecast.scale_recommendation: {direction: UP/DOWN/STABLE, magnitude: 2}
+
+// Skalierungsempfehlung
+auto rec = predictor.getScaleRecommendation();
+// rec.direction: ScaleDirection::UP / DOWN / STABLE
+// rec.recommended_replicas, rec.confidence
+```
+
+### 39.13.4 HardwareAccelerator — CPU/GPU Query-Operator-Dispatch
+
+```cpp
+#include "performance/hardware_accelerator.h"
+
+themis::performance::HardwareAccelerator accel;
+
+// Operator für Hardware-Pfad beschreiben
+themis::performance::QueryOperator op;
+op.type        = themis::performance::OperatorType::VECTOR_SIMILARITY;
+op.input_bytes = embeddings_size;
+op.batch_size  = 1024;
+
+// Hardware-Pfad ausführen (automatischer GPU/AVX-Dispatch)
+auto exec_result = accel.execute(op, input_data, output_buffer);
+// exec_result.ok, exec_result.used_hw_path, exec_result.device_type
+// exec_result.duration_us, exec_result.throughput_ops_per_sec
+
+// Capabilities abfragen
+auto caps = accel.getCapabilities();
+// caps.has_gpu, caps.has_avx512, caps.has_npu, caps.device_type
+```
+
+**DeviceType:** `CPU` / `CUDA_GPU` / `OPENCL_GPU` / `NPU` / `FPGA`
+**OperatorType:** `VECTOR_SIMILARITY` / `AGGREGATION` / `SORT` / `FILTER` / `HASH_JOIN`
+
+### 39.13.5 LockFreeRingBuffer — Zero-Contention-Metriken
+
+```cpp
+#include "performance/lockfree_metrics_buffer.h"
+
+// Thread-eigene Lock-Free-Buffer (SPSC)
+constexpr size_t BUFFER_SIZE = 1024;
+themis::performance::LockFreeRingBuffer<themis::performance::MetricsEntry, BUFFER_SIZE> buf;
+
+// Producer-Thread
+themis::performance::MetricsEntry e;
+e.timestamp_ns = clock_ns();
+e.metric_id    = MetricId::QUERY_LATENCY;
+e.value        = 12.5;
+bool pushed = buf.tryPush(e);
+
+// Consumer-Thread (z.B. Metrics-Aggregator)
+themis::performance::MetricsEntry item;
+while (buf.tryPop(item)) {
+    aggregator.record(item);
+}
+
+// Dropped-Counter (Overflow-Diagnose)
+size_t dropped = buf.dropped_count();
+```

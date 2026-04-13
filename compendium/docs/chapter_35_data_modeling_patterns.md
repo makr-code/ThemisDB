@@ -2486,3 +2486,134 @@ Wir haben in diesem Kapitel fundamentale Data-Modeling-Patterns und Anti-Pattern
 - Wir nutzen Multi-Model-Capabilities für optimale Domain-Modellierung
 
 Mit diesen wissenschaftlich fundierten Patterns bauen wir skalierbare, wartbare und performante Datenmodelle für Production-Systeme.
+
+## 35.11 Metadata & Schema-Management C++ API (v1.x) {#metadata-schema-cpp}
+
+Dieses Kapitel dokumentiert die C++-Schnittstellen des Metadata-Moduls (`include/metadata/`).
+
+### 35.11.1 SchemaManager — Zentrales Schema-CRUD
+
+```cpp
+#include "metadata/schema_manager.h"
+
+themis::metadata::SchemaManager schema_mgr(rocksdb);
+
+// Tabelle anlegen
+themis::metadata::SchemaManager::TableSchema tbl;
+tbl.name        = "orders";
+tbl.properties  = {
+    {"id",          "string",  /*nullable*/ false, /*indexed*/ true},
+    {"customer_id", "string",  false,              true},
+    {"amount",      "decimal", false,              false},
+    {"created_at",  "datetime",false,              true},
+};
+tbl.primary_key = "id";
+schema_mgr.createTable(tbl);
+
+// Relationship definieren (FK-equivalent)
+themis::metadata::SchemaManager::RelationshipSchema rel;
+rel.from_table  = "orders";
+rel.to_table    = "customers";
+rel.from_field  = "customer_id";
+rel.to_field    = "id";
+rel.cardinality = "N:1";
+schema_mgr.createRelationship(rel);
+
+// Schema abfragen
+auto tbl_schema = schema_mgr.getTable("orders");
+auto all_tables = schema_mgr.listTables();
+
+// Tabelle migrieren (Add Column)
+schema_mgr.addColumn("orders", {"status", "string", true, false});
+
+// TTL konfigurieren
+themis::metadata::AdaptiveTTLConfig ttl_cfg;
+ttl_cfg.base_ttl_seconds  = 7 * 24 * 3600;
+ttl_cfg.enable_adaptive   = true;
+schema_mgr.setAdaptiveTTL("orders", ttl_cfg);
+```
+
+### 35.11.2 InformationSchema — SQL-kompatible Metadaten
+
+```cpp
+#include "metadata/information_schema.h"
+
+themis::metadata::InformationSchema is(schema_mgr);
+
+// Alle Tabellen (analog SQL information_schema.tables)
+auto tables = is.getTables("mydb");
+// tables: [{table_name, table_type, row_count, size_bytes}, ...]
+
+// Spalten einer Tabelle
+auto columns = is.getColumns("mydb", "orders");
+// [{column_name, data_type, is_nullable, column_default, ordinal_position}, ...]
+
+// Statistiken (wie SQL statistics table)
+auto stats = is.getStatistics("mydb", "orders");
+// [{index_name, column_name, cardinality, selectivity}, ...]
+
+// Referentielle Constraints
+auto constraints = is.getReferentialConstraints("mydb");
+// [{constraint_name, from_table, to_table, update_rule, delete_rule}, ...]
+```
+
+### 35.11.3 SchemaVersionManager — Schema-Migration mit WAL
+
+```cpp
+#include "metadata/schema_version_manager.h"
+
+themis::metadata::SchemaVersionManager svm(rocksdb);
+svm.setAuditLog(&audit_log);
+
+// Schema-Änderung persistieren
+themis::metadata::SchemaChange change;
+change.table_name   = "orders";
+change.change_type  = themis::metadata::SchemaChange::Type::ADD_COLUMN;
+change.column_name  = "discount";
+change.column_type  = "decimal";
+
+auto result = svm.persistChange(change);
+// result.ok, result.version_id, result.error_code
+
+// Aktuelle Version abfragen
+auto version = svm.getCurrentVersion("orders");
+
+// Rollback auf vorherige Version
+auto rollback = svm.rollback("orders", version.id - 1);
+```
+
+**VersionErrorCode:** `OK` / `TABLE_NOT_FOUND` / `INVALID_MIGRATION` / `CONCURRENCY_CONFLICT`
+
+### 35.11.4 DistributedMetadataCatalog — Cluster-weite Schema-Verteilung
+
+```cpp
+#include "metadata/distributed_catalog.h"
+
+themis::metadata::DistributedMetadataCatalog catalog(consensus_module);
+
+// Schema auf alle Knoten publizieren
+bool ok = catalog.publishSchema(table_schema);
+
+// Schema entfernen (DROP TABLE äquivalent)
+catalog.removeSchema("orders");
+
+// Schema von Remote-Knoten abrufen
+auto remote_schema = catalog.fetchSchema("node-2", "orders");
+```
+
+### 35.11.5 SchemaConsistencyChecker
+
+```cpp
+#include "metadata/schema_consistency_checker.h"
+
+themis::metadata::SchemaConsistencyChecker checker(schema_mgr, storage_engine);
+
+// Konsistenz prüfen (Schema ↔ tatsächliche Daten)
+auto report = checker.check("orders");
+// report.inconsistencies: [{field, expected_type, actual_type, row_count}, ...]
+// report.missing_indexes, report.orphan_data
+
+// Automatisch reparieren
+auto fix_result = checker.repair("orders", /*dry_run*/ false);
+// fix_result.repaired_count, fix_result.errors
+```
