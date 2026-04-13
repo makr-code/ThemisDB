@@ -766,6 +766,7 @@ Changefeed::RedactionResult Changefeed::redactByKeyPrefix(const std::string& key
             }
 
             // Scrub PII-bearing fields; preserve audit-critical fields
+            const std::string affected_key = event.key;
             event.value           = "[REDACTED]";
             event.before_snapshot = std::nullopt;
             event.after_snapshot  = std::nullopt;
@@ -786,6 +787,7 @@ Changefeed::RedactionResult Changefeed::redactByKeyPrefix(const std::string& key
             }
 
             result.events_redacted++;
+            result.affected_keys.push_back(affected_key);
 
         } catch (const std::exception& e) {
             THEMIS_WARN("redactByKeyPrefix: failed to parse event at {}: {}", rocksdb_key, e.what());

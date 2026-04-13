@@ -43,6 +43,7 @@
 #include "maintenance/database_maintenance_orchestrator.h"
 #include "maintenance/maintenance_schedule_store.h"
 #include "maintenance/i_maintenance_task_handler.h"
+#include "maintenance/i_distributed_lock.h"
 #include "scheduler/task_scheduler.h"
 #include "storage/index_maintenance.h"
 #include "utils/audit_logger.h"
@@ -294,11 +295,16 @@ Result<MaintenanceScheduleEntry> DatabaseMaintenanceOrchestrator::getSchedule(
     return it->second;
 }
 
-std::vector<MaintenanceScheduleEntry> DatabaseMaintenanceOrchestrator::listSchedules() const {
+std::vector<MaintenanceScheduleEntry> DatabaseMaintenanceOrchestrator::listSchedules(
+    const std::string& tenant_id_filter) const
+{
     std::shared_lock<std::shared_mutex> lock(schedules_mutex_);
     std::vector<MaintenanceScheduleEntry> result;
     result.reserve(schedules_.size());
     for (auto& [id, entry] : schedules_) {
+        if (!tenant_id_filter.empty() && entry.tenant_id != tenant_id_filter) {
+            continue;
+        }
         result.push_back(entry);
     }
     return result;
@@ -510,6 +516,7 @@ Result<OrchestratorJob> DatabaseMaintenanceOrchestrator::triggerNow(
     OrchestratorJob job;
     job.id          = generateUuid();
     job.schedule_id = schedule_id;
+    job.tenant_id   = entry.tenant_id;
     job.task_type   = entry.tasks.front();
     job.state       = MaintenanceJobState::RUNNING;
     job.started_at_ms = nowMs();
@@ -716,6 +723,13 @@ void DatabaseMaintenanceOrchestrator::registerTaskHandler(
     task_handlers_[static_cast<int>(task_type)] = std::move(handler);
 }
 
+void DatabaseMaintenanceOrchestrator::setDistributedLock(
+    std::shared_ptr<IDistributedLock> lock)
+{
+    std::lock_guard<std::mutex> lg(dist_lock_mutex_);
+    dist_lock_ = std::move(lock);
+}
+
 std::map<std::string, std::string>
 DatabaseMaintenanceOrchestrator::listTaskHandlers() const
 {
@@ -730,6 +744,33 @@ DatabaseMaintenanceOrchestrator::listTaskHandlers() const
         }
     }
     return result;
+}
+
+// ---------------------------------------------------------------------------
+// Per-tenant maintenance configuration
+// ---------------------------------------------------------------------------
+
+void DatabaseMaintenanceOrchestrator::setTenantMaintenanceConfig(
+    const std::string& tenant_id, TenantMaintenanceConfig config)
+{
+    if (tenant_id.empty()) {
+        spdlog::warn("setTenantMaintenanceConfig: tenant_id must not be empty; ignored");
+        return;
+    }
+    std::lock_guard<std::mutex> lock(tenant_configs_mutex_);
+    tenant_configs_[tenant_id] = std::move(config);
+    spdlog::info("TenantMaintenanceConfig set for tenant '{}'", tenant_id);
+}
+
+TenantMaintenanceConfig DatabaseMaintenanceOrchestrator::getTenantMaintenanceConfig(
+    const std::string& tenant_id) const
+{
+    std::lock_guard<std::mutex> lock(tenant_configs_mutex_);
+    auto it = tenant_configs_.find(tenant_id);
+    if (it != tenant_configs_.end()) {
+        return it->second;
+    }
+    return TenantMaintenanceConfig{};
 }
 
 // ---------------------------------------------------------------------------
@@ -785,6 +826,7 @@ void DatabaseMaintenanceOrchestrator::registerWithScheduler(
                     return {{"status", "error"}, {"error", "schedule_not_found"}};
                 }
                 entry_copy = it->second;
+                job.tenant_id = entry_copy.tenant_id;
                 job.task_type = entry_copy.tasks.empty()
                                 ? MaintenanceTaskType::METRICS_COLLECTION
                                 : entry_copy.tasks.front();
@@ -836,13 +878,142 @@ void DatabaseMaintenanceOrchestrator::executeSchedule(
         entry = it->second;
     }
 
+    // ---- Distributed lock acquisition ----------------------------------
+    // When a distributed lock is configured, only the node that successfully
+    // acquires the lock for this schedule runs the job.  Non-leader nodes log
+    // a DEBUG message and skip the job immediately.
+    //
+    // The lock is held by acquired_dist_lock_ for the duration of this function
+    // so that it is automatically released on every code path.
+    std::shared_ptr<IDistributedLock> acquired_dist_lock;
+    {
+        std::shared_ptr<IDistributedLock> dl;
+        {
+            std::lock_guard<std::mutex> lg(dist_lock_mutex_);
+            dl = dist_lock_;
+        }
+        if (dl) {
+            // Compute lock TTL: use explicit lock_ttl_ms when set, otherwise
+            // derive from the window duration + 30 s safety margin.
+            int64_t ttl_ms = entry.lock_ttl_ms;
+            if (ttl_ms <= 0) {
+                int window_hours = entry.window_end_hour - entry.window_start_hour;
+                if (window_hours <= 0) window_hours += 24; // midnight wrap
+                ttl_ms = static_cast<int64_t>(window_hours) * 3600LL * 1000LL + 30000LL;
+            }
+
+            if (!dl->tryAcquire(schedule_id, ttl_ms)) {
+                const std::string holder = dl->getHolderNodeId(schedule_id);
+                spdlog::debug("schedule {} skipped — lock held by peer {}",
+                              schedule_id, holder.empty() ? "<unknown>" : holder);
+
+                int64_t now = themis::maintenance::nowMs();
+                {
+                    std::unique_lock<std::shared_mutex> jlock(jobs_mutex_);
+                    if (auto jit = jobs_.find(job_id); jit != jobs_.end()) {
+                        jit->second.state         = MaintenanceJobState::SKIPPED;
+                        jit->second.error_message = "Skipped: distributed lock held by peer "
+                                                    + (holder.empty() ? "<unknown>" : holder);
+                        jit->second.finished_at_ms = now;
+                    }
+                }
+                {
+                    std::unique_lock<std::shared_mutex> slock(schedules_mutex_);
+                    if (auto it = schedules_.find(schedule_id); it != schedules_.end()) {
+                        it->second.last_run_ms    = now;
+                        it->second.last_run_state = "skipped";
+                        it->second.last_job_id    = job_id;
+                    }
+                }
+                MetricsCollector::getInstance().addCounter(
+                    "maintenance_jobs_skipped_total", 1,
+                    {{"reason", "distributed_lock_held"},
+                     {"schedule_id", schedule_id}});
+                return;
+            }
+            // Successfully acquired – remember the lock so it is released
+            // on every subsequent exit path (window skip, DAG error, completion).
+            acquired_dist_lock = std::move(dl);
+        }
+    }
+
+    // RAII guard: releases the distributed lock on every code path that
+    // returns after this point (window skip, task-order error, completion).
+    struct DistLockGuard {
+        std::shared_ptr<IDistributedLock> lock;
+        const std::string& key;
+        ~DistLockGuard() { if (lock) lock->release(key); }
+    } dist_lock_guard{std::move(acquired_dist_lock), schedule_id};
+
+    // ---- Per-tenant configuration -----------------------------------------
+    TenantMaintenanceConfig tenant_cfg;
+    if (!entry.tenant_id.empty()) {
+        tenant_cfg = getTenantMaintenanceConfig(entry.tenant_id);
+    }
+
+    // ---- Per-tenant concurrent job quota ----------------------------------
+    // Enforced before the window check so that quota violations are reported
+    // as SKIPPED regardless of the current hour.
+    if (!entry.tenant_id.empty() && tenant_cfg.max_concurrent_jobs > 0) {
+        int running_count = 0;
+        {
+            std::shared_lock<std::shared_mutex> jlock(jobs_mutex_);
+            for (const auto& [jid, jobj] : jobs_) {
+                if (jobj.tenant_id == entry.tenant_id &&
+                    jobj.state == MaintenanceJobState::RUNNING &&
+                    jid != job_id) {
+                    ++running_count;
+                }
+            }
+        }
+        if (running_count >= tenant_cfg.max_concurrent_jobs) {
+            spdlog::warn("MaintenanceJob {} skipped: tenant '{}' quota exceeded "
+                         "({}/{} concurrent jobs)",
+                         job_id, entry.tenant_id,
+                         running_count, tenant_cfg.max_concurrent_jobs);
+
+            int64_t now = themis::maintenance::nowMs();
+            {
+                std::unique_lock<std::shared_mutex> jlock(jobs_mutex_);
+                if (auto jit = jobs_.find(job_id); jit != jobs_.end()) {
+                    jit->second.state         = MaintenanceJobState::SKIPPED;
+                    jit->second.error_message = "Skipped: tenant concurrent job quota exceeded";
+                    jit->second.finished_at_ms = now;
+                }
+            }
+            {
+                std::unique_lock<std::shared_mutex> lock(schedules_mutex_);
+                if (auto it = schedules_.find(schedule_id); it != schedules_.end()) {
+                    it->second.last_run_ms    = now;
+                    it->second.last_run_state = "skipped";
+                    it->second.last_job_id    = job_id;
+                }
+            }
+            MetricsCollector::getInstance().addCounter(
+                "maintenance_jobs_skipped_total", 1,
+                {{"reason", "tenant_quota_exceeded"},
+                 {"schedule_id", schedule_id},
+                 {"tenant_id", entry.tenant_id}});
+            return;
+        }
+    }
+
     // ---- Maintenance window enforcement --------------------------------
     // When force=true the window check is bypassed entirely.
-    if (!force &&
-        entry.enforce_window &&
-        !isInMaintenanceWindow(entry.window_start_hour, entry.window_end_hour)) {
+    // When a per-tenant window override is active (tenant_cfg.enforce_window),
+    // use the tenant-level window instead of the per-schedule window.
+    int  eff_window_start = entry.window_start_hour;
+    int  eff_window_end   = entry.window_end_hour;
+    bool eff_enforce      = entry.enforce_window;
+    if (!entry.tenant_id.empty() && tenant_cfg.enforce_window) {
+        eff_window_start = tenant_cfg.window_start_hour;
+        eff_window_end   = tenant_cfg.window_end_hour;
+        eff_enforce      = true;
+    }
+    if (!force && eff_enforce &&
+        !isInMaintenanceWindow(eff_window_start, eff_window_end)) {
         spdlog::warn("MaintenanceJob {} skipped: outside window [{}-{}] UTC (current hour={})",
-                     job_id, entry.window_start_hour, entry.window_end_hour,
+                     job_id, eff_window_start, eff_window_end,
                      currentUtcHour());
 
         int64_t now = themis::maintenance::nowMs();
@@ -993,6 +1164,7 @@ void DatabaseMaintenanceOrchestrator::executeSchedule(
         {{"schedule_id", schedule_id}});
 
     pruneCompletedJobs();
+    // dist_lock_guard destructor releases the distributed lock automatically.
 }
 
 void DatabaseMaintenanceOrchestrator::executeTask(

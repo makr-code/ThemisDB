@@ -5,7 +5,7 @@
 
 ## Current Status
 
-v2.0.0 — production. Full RAG pipeline with hybrid retrieval, cross-encoder reranking, citation tracking, hallucination detection, multi-modal RAG, agentic RAG, RAGAS-compatible evaluation, distributed evaluation, streaming SSE, online learning, REPLUG-style LLM-scored fusion, and Constitutional AI / RLAIF training pipeline are operational.
+v2.0.0 — production. Full RAG pipeline with hybrid retrieval, cross-encoder reranking, citation tracking, hallucination detection, multi-modal RAG, agentic RAG, RAGAS-compatible evaluation, distributed evaluation, streaming SSE, online learning, REPLUG-style LLM-scored fusion, Constitutional AI / RLAIF training pipeline, and FLARE active retrieval with `VectorIndexManager` callback bridge are operational.
 
 ## Completed
 
@@ -15,6 +15,7 @@ v2.0.0 — production. Full RAG pipeline with hybrid retrieval, cross-encoder re
 - [x] LLM judge pipeline (G-Eval, pairwise, rubric, ensemble)
 - [x] Continuous learning (client + orchestrator)
 - [x] Knowledge gap detection and graph retrieval
+- [x] FLARE active retrieval — `RetrievalCallback` + `setRetrievalCallback()` (§17.30)
 - [x] ONNX local inference support
 - [x] A/B testing + Bayesian optimizer
 - [x] NLI faithfulness verifier, bias detector, calibration manager
@@ -66,6 +67,13 @@ v2.0.0 — production. Full RAG pipeline with hybrid retrieval, cross-encoder re
 - [ ] Video modality support in `MultimodalRag` (Target: Q4 2026)
 - [ ] Federated RAG across isolated data silos (Target: Q4 2026)
 
+### Phase 8 — FLARE Retrieval-Callback Bridge ✅
+- [x] `RetrievalCallback` type alias + `KnowledgeGapDetector::setRetrievalCallback()` — wires FLARE loop to any retrieval back-end (`include/rag/knowledge_gap_detector.h`)
+- [x] `performDynamicRetrieval()` implements callback invocation with exception guard and graceful empty-return fallback (`src/rag/knowledge_gap_detector.cpp`)
+- [x] `LLMApiHandler::setVectorIndex(VectorIndexManager*, RocksDBWrapper*)` — `handleRAG()` performs real `embed()` + `searchKnn()` + `convertToRetrievedDocuments()` pipeline (`include/server/llm_api_handler.h`, `src/server/llm_api_handler.cpp`)
+- [x] 7 unit tests in `tests/test_knowledge_gap_retrieval_callback.cpp` (KGD-CB-01…07); CMake target `test_knowledge_gap_retrieval_callback`
+- [x] Reference documentation: `docs/flare_retrieval_callback_bridge.md`; Compendium §17.30
+
 ## Production Readiness Checklist
 
 - [x] HybridRetriever validated on BEIR benchmark
@@ -75,4 +83,5 @@ v2.0.0 — production. Full RAG pipeline with hybrid retrieval, cross-encoder re
 - [x] RLAIFTrainer: 30 unit tests (IAIJudge, runTrainingStep, batch, dataset, stats)
 - [x] MultiHopReasoner: 15 unit tests (config, heuristic + LLM decomposition, pipeline)
 - [x] AdaptiveRetrieval: 15 unit tests (config, complexity analysis, param computation, custom scorer)
+- [x] FLARE Retrieval-Callback Bridge: 7 unit tests (KGD-CB-01…07); `test_knowledge_gap_retrieval_callback`
 - [ ] Video modality support (Target: Q4 2026)

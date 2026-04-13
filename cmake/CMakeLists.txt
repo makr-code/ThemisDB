@@ -2244,6 +2244,7 @@ set(THEMIS_CORE_SOURCES
     ../src/network/udp_fast_path.cpp
     $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:../src/network/wire_protocol_server_ws.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP3}>:../src/network/quic_transport.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP3}>:../src/network/quic_server.cpp>
     $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/network/grpc_transport.cpp>
     ../src/network/geo_topology_router.cpp
     $<$<BOOL:${THEMIS_ENABLE_SERVICE_MESH}>:../src/network/service_mesh.cpp>
@@ -2579,6 +2580,9 @@ if(THEMIS_ENABLE_LLM)
     ../src/aql/aql_migration_assistant.cpp
     ../src/aql/aql_autocomplete.cpp
     ../src/aql/aql_agent.cpp
+    ../src/aql/aql_query_diff_explainer.cpp
+    ../src/aql/aql_model_router.cpp
+    ../src/aql/aql_rollback_suggester.cpp
 
         # Optional: gRPC service and generated proto headers (guarded by gRPC)
         # Only add when gRPC is available, otherwise skip to prevent missing headers
@@ -4338,6 +4342,20 @@ if(THEMIS_BUILD_TESTS)
     gtest_discover_tests(test_distributed_hybrid_search
         DISCOVERY_MODE PRE_TEST
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_distributed_hybrid_search>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+    )
+
+    add_executable(test_knowledge_gap_retrieval_callback
+        ${THEMIS_ROOT_DIR}/tests/test_knowledge_gap_retrieval_callback.cpp
+        ${THEMIS_ROOT_DIR}/src/rag/knowledge_gap_detector.cpp
+    )
+    target_link_libraries(test_knowledge_gap_retrieval_callback
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(test_knowledge_gap_retrieval_callback
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_knowledge_gap_retrieval_callback>
         EXTRA_ARGS --gtest_color=yes
         CONFIGURATIONS Release Debug
     )

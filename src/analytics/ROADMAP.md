@@ -137,12 +137,14 @@ Production-ready for core OLAP, data export, process mining, text analytics, LLM
 - [x] Security audit (LLM API key handling, data export sanitization)
 - [x] Documentation complete (API docs, OLAP guide, process mining guide)
 - [x] API stability guaranteed for OLAP, export, and process mining
+- [x] Windows platform compatibility: whole-class `_WIN32` stub removed from `olap.cpp`; SIMD guarded per-instruction; Windows CI workflow at `.github/workflows/02-feature-modules_analytics_windows-olap-ci.yml` (Issue: #238)
 
 ## Known Issues & Limitations
 - NLP text analyzer uses rule-based approaches — not suitable as a replacement for full NLP frameworks
 - LLM analyzer requires external API keys; responses are non-deterministic
-- Arrow-dependent formats (Parquet, Feather, IPC) require compile-time flag `THEMIS_HAS_ARROW`
+- Arrow-dependent formats (Parquet, Feather, IPC) require compile-time flag `THEMIS_HAS_ARROW`; when Arrow is absent, `exportToParquet()` / `exportCollectionToParquet()` return `false` with a `spdlog::warn` message
 - Graph analytics advanced algorithms (betweenness centrality, Louvain community detection) are now implemented as AQL functions in `include/query/functions/graph_extensions.h`
+- Windows: `ProcessMining` is gated behind the opt-in flag `THEMIS_PROCESS_MINING_WINDOWS_STUB`; the flag is off by default so the full implementation is used
 
 ## Breaking Changes
 - Arrow export format options may expand in v1.7.0 (additive, non-breaking)

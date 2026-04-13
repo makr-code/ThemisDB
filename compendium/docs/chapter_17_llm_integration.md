@@ -6692,3 +6692,95 @@ auto result = detector.evaluate(
 // Cache leeren (nach Modell-Update)
 detector.clearCache();
 ```
+
+## 17.30 FLARE Retrieval-Callback Bridge {#flare-retrieval-callback}
+
+Die **FLARE Retrieval-Callback Bridge** verbindet den
+`KnowledgeGapDetector` mit einem live `VectorIndexManager` und aktiviert
+damit die aktive Selbst-Abfrage (FLARE) im RAG-Stack.  Zuvor war
+`performDynamicRetrieval()` immer leer — die FLARE-Schleife lief also ohne
+neues Material.
+
+**Referenz-Dokumentation:** [docs/flare_retrieval_callback_bridge.md](../../docs/flare_retrieval_callback_bridge.md)
+
+### 17.30.1 RetrievalCallback und `setRetrievalCallback()`
+
+```cpp
+#include "rag/knowledge_gap_detector.h"
+#include "rag/rag_integration_helpers.h"
+#include "index/vector_index.h"
+
+using namespace themis::rag::knowledge_gap;
+
+// RetrievalCallback-Typ:
+// std::function<std::vector<RetrievedDocument>(const std::string& query, size_t k)>
+
+KnowledgeGapConfig cfg;
+cfg.enable_flare          = true;
+cfg.max_retrieval_rounds  = 3;
+cfg.flare_confidence_threshold = 0.5;
+KnowledgeGapDetector detector(cfg);
+
+// VectorIndexManager verdrahten
+detector.setRetrievalCallback(
+    [&](const std::string& q, size_t k) -> std::vector<RetrievedDocument> {
+        auto emb = your_llm_plugin.embed(q);
+        if (emb.empty()) return {};
+        auto [st, hits] = vec_mgr.searchKnn(emb, k);
+        if (!st.ok) return {};
+        return rag::convertToRetrievedDocuments(hits, db);
+    });
+
+// Aktive Selbst-Abfrage starten
+std::vector<RetrievedDocument> docs = initial_docs;
+auto result = detector.detectWithActiveRetrieval("Was ist ACID Compliance?", docs);
+// docs enthält jetzt den angereicherten Dokumentensatz
+// result.gap_detected, result.coverage_score, result.recommendation
+```
+
+**Verhalten:**
+
+| Szenario | Reaktion |
+|----------|----------|
+| `enable_flare = false` | Callback wird **nie** aufgerufen; Loop sofort beendet |
+| Kein Callback gesetzt | `performDynamicRetrieval()` gibt `{}` zurück; Loop endet frühzeitig |
+| Callback gibt `{}` zurück | Loop endet vorzeitig |
+| Callback wirft Exception | Exception wird abgefangen; leeres Ergebnis; Loop läuft weiter |
+| Duplikate (gleiche PK) | Werden beim Merge übersprungen |
+| `max_retrieval_rounds` erreicht | Loop endet; finale Coverage bestimmt `DetectionResult` |
+
+### 17.30.2 `LLMApiHandler::setVectorIndex()`
+
+```cpp
+#include "server/llm_api_handler.h"
+
+// Einmalig beim Server-Start:
+handler.setVectorIndex(&vector_index_mgr, &rocksdb);
+
+// Ab jetzt führt POST /api/v1/llm/rag folgende Pipeline aus:
+//   embed(query) → searchKnn(top_k) → convertToRetrievedDocuments
+//   → RAGContext::documents → generateRAG()
+```
+
+`setVectorIndex()` nimmt **non-owning** Zeiger.  `nullptr` deaktiviert die
+Vektorsuche (Fallback auf leeren Kontext).  Embed- oder Suchfehler sind
+nicht fatal: der Handler protokolliert eine DEBUG-Meldung und fährt mit
+leerem Kontext fort.
+
+### 17.30.3 Factory-Integration
+
+```cpp
+// Produktionsfertiger Detector mit FLARE bereits aktiviert:
+auto detector = KnowledgeGapDetectorFactory::createProductionReady();
+
+// Callback nachträglich eintragen:
+detector->setRetrievalCallback(
+    [&](const std::string& q, size_t k) {
+        auto emb = llm.embed(q);
+        auto [st, hits] = vec_mgr.searchKnn(emb, k);
+        return rag::convertToRetrievedDocuments(hits, db);
+    });
+```
+
+**Tests:** 7 Unit-Tests in `tests/test_knowledge_gap_retrieval_callback.cpp`
+(KGD-CB-01…07) — CMake-Target `test_knowledge_gap_retrieval_callback`.

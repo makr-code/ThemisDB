@@ -17,19 +17,19 @@ Deliver the scoped changes for Distributed Maintenance Coordination via Raft in 
 In a multi-node cluster, each node independently schedules and fires maintenance jobs. Two nodes may run the same schedule concurrently, causing compaction storms or double maintenance.
 
 **Implementation Notes:**
-- `[ ]` Integrate with the existing Raft-based distributed lock (`src/replication/raft_v2.cpp` or a dedicated distributed lock service) to elect a single maintenance leader per schedule.
-- `[ ]` Before firing a scheduled job, the orchestrator calls `DistributedLock::tryAcquire(schedule_id, ttl=window_duration_ms)`; only the node that acquires the lock runs the job.
-- `[ ]` Non-leader nodes log "schedule {id} skipped — lock held by peer {node_id}" at DEBUG level.
-- `[ ]` Lock TTL must be ≥ estimated task duration + 30 s safety margin; configurable per schedule.
+- `[x]` Integrate with the existing Raft-based distributed lock (`src/replication/raft_v2.cpp` or a dedicated distributed lock service) to elect a single maintenance leader per schedule.
+- `[x]` Before firing a scheduled job, the orchestrator calls `DistributedLock::tryAcquire(schedule_id, ttl=window_duration_ms)`; only the node that acquires the lock runs the job.
+- `[x]` Non-leader nodes log "schedule {id} skipped — lock held by peer {node_id}" at DEBUG level.
+- `[x]` Lock TTL must be ≥ estimated task duration + 30 s safety margin; configurable per schedule.
 
 ---
 
 ### Acceptance Criteria
 
-- [ ] Integrate with the existing Raft-based distributed lock (`src/replication/raft_v2.cpp` or a dedicated distributed lock service) to elect a single maintenance leader per schedule.
-- [ ] Before firing a scheduled job, the orchestrator calls `DistributedLock::tryAcquire(schedule_id, ttl=window_duration_ms)`; only the node that acquires the lock runs the job.
-- [ ] Non-leader nodes log "schedule {id} skipped — lock held by peer {node_id}" at DEBUG level.
-- [ ] Lock TTL must be ≥ estimated task duration + 30 s safety margin; configurable per schedule.
+- [x] Integrate with the existing Raft-based distributed lock (`src/replication/raft_v2.cpp` or a dedicated distributed lock service) to elect a single maintenance leader per schedule.
+- [x] Before firing a scheduled job, the orchestrator calls `DistributedLock::tryAcquire(schedule_id, ttl=window_duration_ms)`; only the node that acquires the lock runs the job.
+- [x] Non-leader nodes log "schedule {id} skipped — lock held by peer {node_id}" at DEBUG level.
+- [x] Lock TTL must be ≥ estimated task duration + 30 s safety margin; configurable per schedule.
 
 ### Relationships
 

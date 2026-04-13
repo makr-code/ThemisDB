@@ -59,6 +59,19 @@ management, and aggregated health reporting.
 
 ### Long-term (v2.0.0)
 - [ ] Multi-tenant schedule isolation – per-tenant windows and quotas (Target: v2.0.0)
+- [x] Distributed maintenance coordination via Raft – prevent two nodes running same schedule (Target: v2.0.0)
+  - `IDistributedLock` interface + `InProcessDistributedLock` implementation in `include/maintenance/i_distributed_lock.h`
+  - `DatabaseMaintenanceOrchestrator::setDistributedLock(shared_ptr<IDistributedLock>)` — inject via DI
+  - Before each scheduled job: `tryAcquire(schedule_id, ttl_ms)`; SKIPPED + DEBUG log when lock held by peer
+  - Lock TTL auto-derived from window duration + 30 s, or explicit `MaintenanceScheduleEntry::lock_ttl_ms`
+  - RAII guard ensures lock release on every exit path (success, window skip, DAG error, cancellation)
+- [x] Multi-tenant schedule isolation – per-tenant windows and quotas (Target: v2.0.0)
+  - `MaintenanceScheduleEntry::tenant_id` (optional; empty = global/system schedule)
+  - Per-tenant window enforcement via `TenantMaintenanceConfig::enforce_window`; configured via `setTenantMaintenanceConfig()`
+  - Per-tenant concurrent job quota: `TenantMaintenanceConfig::max_concurrent_jobs`; enforced in `executeSchedule()`
+  - `listSchedules(tenant_id_filter)`: filter schedules by tenant; `MaintenanceApiHandler::listSchedules(tenant_id)` passes filter
+  - `OrchestratorJob::tenant_id` populated from parent schedule
+  - 15 new tests (MT-01..MT-15) covering field round-trip, filter, window override, and quota enforcement
 - [ ] Distributed maintenance coordination via Raft – prevent two nodes running same schedule (Target: v2.0.0)
 - [ ] Maintenance impact prediction – ML model to predict CPU/memory impact before execution (Target: v2.0.0)
 
@@ -76,6 +89,7 @@ management, and aggregated health reporting.
 - [x] HTTP RBAC: `maintenance:read` / `maintenance:write` / `maintenance:admin`
 - [x] Schedule persistence (survives restart) – implemented v1.1.0 (`MaintenanceScheduleStore`, write-through CRUD, loadAll on start())
 - [x] Explicit DAG dependency graph – implemented v1.2.0 (`MaintenanceTaskDependency`, Kahn's topological sort)
+- [x] Distributed maintenance coordination via Raft – implemented v2.0.0 (`IDistributedLock`, `setDistributedLock()`, RAII lock guard, per-schedule TTL)
 
 ## Known Issues & Limitations
 

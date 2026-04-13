@@ -37,7 +37,9 @@
 #include "llm/openai_compat_adapter.h"
 #include "aql/llm_aql_handler.h"
 #include "aql/llm_error_codes.h"
+#include "query/query_engine.h"
 #include "storage/rocksdb_wrapper.h"
+#include "utils/logger.h"
 #include <nlohmann/json.hpp>
 #include <sstream>
 #include <regex>
@@ -96,6 +98,10 @@ void LLMApiHandler::setFeedbackStore(std::shared_ptr<llm::FeedbackStore> feedbac
 
 void LLMApiHandler::setPolicyEngine(governance::PolicyEngine* policy_engine) {
     policy_engine_ = policy_engine;
+}
+
+void LLMApiHandler::setQueryEngine(std::shared_ptr<query::QueryEngine> query_engine) {
+    query_engine_ = std::move(query_engine);
 }
 
 http::response<http::string_body> LLMApiHandler::handleRequest(
@@ -300,31 +306,69 @@ http::response<http::string_body> LLMApiHandler::handleRAG(
     
     // Implement RAG workflow
     try {
-        // Prepare RAG context (vector search would happen here in production)
+        // Prepare RAG context.
         llm::RAGContext rag_context;
         rag_context.query = query;
         rag_context.collection_name = collection;
         rag_context.top_k = top_k;
-        // TODO: Add actual vector search results to rag_context.documents
+
+        // Perform vector retrieval when a QueryEngine has been wired.
+        if (query_engine_ && !collection.empty() && top_k > 0) {
+            try {
+                // Embed the query using the LLM plugin.
+                auto& plugin_mgr = llm::LLMPluginManager::instance();
+                const std::vector<float> query_vec = plugin_mgr.embed(query);
+
+                if (!query_vec.empty()) {
+                    // Build a filtered vector search query.
+                    themis::FilteredVectorSearchQuery vsq;
+                    vsq.table        = collection;
+                    vsq.query_vector = query_vec;
+                    vsq.k            = static_cast<size_t>(top_k);
+
+                    const auto vsr = query_engine_->executeFilteredVectorSearch(vsq);
+                    if (vsr.ok()) {
+                        rag_context.documents.reserve(vsr.value().size());
+                        for (const auto& hit : vsr.value()) {
+                            llm::RAGContext::Document doc;
+                            // Use the "content" field if present, otherwise the full JSON.
+                            if (hit.entity.contains("content") &&
+                                hit.entity["content"].is_string()) {
+                                doc.content = hit.entity["content"].get<std::string>();
+                            } else {
+                                doc.content = hit.entity.dump();
+                            }
+                            doc.source          = hit.pk;
+                            doc.relevance_score = 1.0f - hit.vector_distance;
+                            doc.metadata        = hit.entity;
+                            rag_context.documents.push_back(std::move(doc));
+                        }
+                    }
+                }
+            } catch (const std::exception& ve) {
+                // Vector search failure is non-fatal — fall back to empty context.
+                THEMIS_WARN("LLMApiHandler::handleRAG: vector search failed ({}); "
+                            "proceeding with empty document context", ve.what());
+            }
+        }
         
         // Prepare inference request
         llm::InferenceRequest llm_request;
         llm_request.prompt = query;
         llm_request.lora_adapter_id = lora_id;
-        
+
         // Call LLMPluginManager for RAG inference
-        auto& plugin_mgr = llm::LLMPluginManager::instance();
         auto llm_response = plugin_mgr.generateRAG(rag_context, llm_request);
-        
+
         json response_data = {
             {"text", llm_response.text},
             {"query", query},
-            {"documents_retrieved", top_k},
+            {"documents_retrieved", static_cast<int>(rag_context.documents.size())},
             {"tokens_generated", llm_response.tokens_generated},
             {"inference_time_ms", llm_response.inference_time_ms},
             {"cache_hit", llm_response.cache_hit}
         };
-        
+
         return createJsonResponse(response_data);
     } catch (const std::exception& e) {
         return createErrorResponse(

@@ -85,15 +85,18 @@ json MaintenanceApiHandler::createSchedule(const json& body) {
     return resp;
 }
 
-json MaintenanceApiHandler::listSchedules() {
+json MaintenanceApiHandler::listSchedules(const std::string& tenant_id) {
     auto span = Tracer::startSpan("GET /maintenance/schedules");
     if (!orchestrator_) {
         span.setStatus(false, "Orchestrator not initialized");
         return errorResponse("Orchestrator not initialized");
     }
 
-    auto schedules = orchestrator_->listSchedules();
+    auto schedules = orchestrator_->listSchedules(tenant_id);
     span.setAttribute("maintenance.schedule_count", static_cast<int64_t>(schedules.size()));
+    if (!tenant_id.empty()) {
+        span.setAttribute("maintenance.tenant_id", tenant_id);
+    }
     span.setStatus(true);
     json arr = json::array();
     for (auto& e : schedules) arr.push_back(scheduleToResponse(e));

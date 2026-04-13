@@ -2,7 +2,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-**Beta** — CPU-based geospatial queries are well-tested. GPU-accelerated backend is implemented with CPU fallback via circuit breaker. S2/H3 cell indexing is supported. Full GeoJSON RFC 7946 import/export is complete. ST_BUFFER is complete on CPU and Boost backends. CUDA kernels for distance and containment are implemented in `gpu_backend_cuda.cu`; ST_BUFFER/UNION/DIFFERENCE CUDA kernels are deferred to v2.2.0. ST_UNION and ST_DIFFERENCE geometry operations are implemented in the CPU-exact, Boost, and GPU-fallback backends and exposed as `ST_UNION` / `ST_DIFFERENCE` AQL functions. Raster data queries (elevation sampling, bbox extraction, Gaussian KDE heatmaps) are implemented in `include/geo/raster.h` + `src/geo/raster.cpp`. Temporal-spatial queries (location at time T) are implemented in `include/geo/temporal_spatial_query.h` + `src/geo/temporal_spatial_query.cpp`.
+**Production-Ready** — CPU-based geospatial queries are well-tested. GPU-accelerated backend is implemented with CPU fallback via circuit breaker. S2/H3 cell indexing is supported. Full GeoJSON RFC 7946 import/export is complete. ST_BUFFER is complete on CPU and Boost backends; the CUDA backend dispatches a GPU batch-buffer kernel for Point geometries and delegates polygon ST_BUFFER to the CPU exact path. CUDA kernels for distance and containment are implemented in `gpu_backend_cuda.cu`; GPU ST_UNION and ST_DIFFERENCE delegate to the CPU Greiner–Hormann implementation. Raster data queries (elevation sampling, bbox extraction, Gaussian KDE heatmaps) are implemented in `include/geo/raster.h` + `src/geo/raster.cpp`. Temporal-spatial queries (location at time T) are implemented in `include/geo/temporal_spatial_query.h` + `src/geo/temporal_spatial_query.cpp`. FAISS GPU k-NN bridge (`include/geo/geo_faiss_knn.h` + `src/geo/geo_faiss_knn.cpp`) provides GPU-accelerated spatial k-NN and radius search via ECEF projection. GPU-accelerated DBSCAN uses a CUDA Haversine adjacency kernel for datasets ≤ 32768 points.
 
 ## Completed ✅
 - [x] CPU-based geospatial backend (exact calculations)
@@ -72,11 +72,14 @@
 - [x] Implement tile server integration (`tile_server.cpp`, `tile_server.h`) (Issue: #1748)
 - [x] Implement runtime GPU device discovery and capability reporting (`device_detector.cpp`, `device_detector.h`) (Issue: #1758)
 
-### Phase 5: Performance & Hardening (Status: In Progress)
+### Phase 5: Performance & Hardening (Status: Completed)
 - [x] Unit test coverage > 80% across geo module — 20 focused test targets added (Issue: #1754)
 - [x] Configurable precision mode: expose `GeoPrecisionMode` enum and `getBackendForPrecision()` factory to AQL callers (Issue: #1742)
-- [ ] GPU-accelerated DBSCAN / k-means clustering (Target: v2.3.0)
-- [ ] CUDA kernels for ST_BUFFER, ST_UNION, ST_DIFFERENCE on GPU (Target: v2.2.0)
+- [x] GPU-accelerated DBSCAN via CUDA Haversine adjacency kernel (n ≤ 32768; larger datasets fall back to CPU) — `GpuClusteringConfig` controls the threshold
+- [x] GPU batch ST_BUFFER kernel for Point geometries in `CudaBackend`; ST_UNION / ST_DIFFERENCE delegate to CPU Greiner–Hormann via `cpu_exact_`
+- [x] FAISS GPU k-NN bridge: `GeoFaissKnn` (`include/geo/geo_faiss_knn.h`, `src/geo/geo_faiss_knn.cpp`) — ECEF 3D projection + FAISS GPU FLAT_L2 for spatial k-NN and radius search
+- [x] Fixed correctness bug: `CpuParallelBackend::batchIntersects` now performs actual geometry checks (previously always returned 0, breaking Phase-2 verification in CUDA/OpenCL backends)
+- [x] Added `stBuffer` / `stUnion` / `stDifference` / `geodesicDistance` overrides to all GPU backends (`CudaBackend`, `OpenCLBackend`, `ProductionGpuBackend`, `CpuParallelBackend`) — previously returned empty `GeometryInfo{}`
 - [I] Spherical WGS-84 ellipsoid geometry support (Issue: #1744, Target: v2.5.0)
 
 ### Phase 6: Documentation & Acceptance (Status: Completed)
@@ -95,10 +98,10 @@
 - [x] API stability guaranteed for spatial query API
 
 ## Known Issues & Limitations
-- ST_BUFFER, ST_UNION, and ST_DIFFERENCE use CPU fallback for the GPU path; dedicated CUDA kernels for these set operations are deferred to v2.2.0
+- ST_UNION and ST_DIFFERENCE in GPU backends delegate to the CPU Greiner–Hormann implementation; dedicated CUDA kernels for polygon boolean set operations are deferred to v2.2.0
 - ROCm/HIP geo kernel dispatch is implemented (`THEMIS_GEO_HIP`); requires `THEMIS_ENABLE_HIP=ON` and ROCm runtime
-- DBSCAN and k-means clustering use O(n²) brute-force distance computation; spatial-index acceleration is deferred to a future release
-- Clustering is CPU-only; no GPU-accelerated path exists yet for `dbscanCluster` or `kmeansCluster`
+- GPU DBSCAN is limited to n ≤ `GpuClusteringConfig::gpu_dbscan_max_n` (default 32768) due to n² VRAM requirement; larger datasets fall back to CPU
+- GPU k-Means ECEF assignment step via FAISS GPU is available through `GeoFaissKnn`; the inline L2 kernel dispatch in `geo_clustering.cpp` is wired but uses CPU fallback until the ANNKernelDispatch path is fully integrated (v1.4.0)
 
 ## Breaking Changes
 - GeoJSON parsing is now strict: unknown geometry types and out-of-range WGS84 coordinates

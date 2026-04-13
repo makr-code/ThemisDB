@@ -154,9 +154,12 @@ Dieser Appendix bietet eine vollständige, strukturierte Übersicht aller Themis
 | Distributed RAG Evaluator | ✅ | `DistributedRAGEvaluator` | §17.25 |
 | Hybrid Retrieval (BM25+Vector) | ✅ | `HybridRetriever` | §17.26 |
 | Knowledge Graph RAG | ✅ | `KGRAGPipeline` | §17.27 |
+| FLARE Retrieval-Callback Bridge | ✅ | `KnowledgeGapDetector::setRetrievalCallback` | §17.30 |
+| Vector Search in RAG (HTTP) | ✅ | `LLMApiHandler::setVectorIndex` | §17.30 |
 
-**Module:** `src/rag/`, `include/rag/`  
-**Compendium:** [chapter_17_llm_integration.md](chapter_17_llm_integration.md)
+**Module:** `src/rag/`, `include/rag/`, `src/server/`, `include/server/`  
+**Compendium:** [chapter_17_llm_integration.md](chapter_17_llm_integration.md)  
+**Referenz:** [flare_retrieval_callback_bridge.md](../../docs/flare_retrieval_callback_bridge.md)
 
 ---
 

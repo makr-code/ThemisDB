@@ -119,10 +119,10 @@ Task execution order is currently determined by list order in `MaintenanceSchedu
 In a multi-node cluster, each node independently schedules and fires maintenance jobs. Two nodes may run the same schedule concurrently, causing compaction storms or double maintenance.
 
 **Implementation Notes:**
-- `[ ]` Integrate with the existing Raft-based distributed lock (`src/replication/raft_v2.cpp` or a dedicated distributed lock service) to elect a single maintenance leader per schedule.
-- `[ ]` Before firing a scheduled job, the orchestrator calls `DistributedLock::tryAcquire(schedule_id, ttl=window_duration_ms)`; only the node that acquires the lock runs the job.
-- `[ ]` Non-leader nodes log "schedule {id} skipped — lock held by peer {node_id}" at DEBUG level.
-- `[ ]` Lock TTL must be ≥ estimated task duration + 30 s safety margin; configurable per schedule.
+- `[x]` Integrate with the existing Raft-based distributed lock (`src/replication/raft_v2.cpp` or a dedicated distributed lock service) to elect a single maintenance leader per schedule.
+- `[x]` Before firing a scheduled job, the orchestrator calls `DistributedLock::tryAcquire(schedule_id, ttl=window_duration_ms)`; only the node that acquires the lock runs the job.
+- `[x]` Non-leader nodes log "schedule {id} skipped — lock held by peer {node_id}" at DEBUG level.
+- `[x]` Lock TTL must be ≥ estimated task duration + 30 s safety margin; configurable per schedule.
 
 ---
 
@@ -133,10 +133,18 @@ In a multi-node cluster, each node independently schedules and fires maintenance
 All schedules currently share a single global namespace and window. In a SaaS deployment, different tenants need independent maintenance windows and quotas.
 
 **Implementation Notes:**
-- `[ ]` Add `MaintenanceScheduleEntry::tenant_id` (optional; empty = global/system schedule).
-- `[ ]` Per-tenant window enforcement: tenant's schedule fires only when the current hour is within that tenant's configured maintenance window, loaded from the tenant config.
-- `[ ]` Per-tenant quota: max N concurrent running maintenance jobs per tenant; enforced in `executeSchedule()`.
-- `[ ]` Admin API: `GET /api/v1/maintenance/schedules?tenant_id={id}` filters by tenant.
+- `[x]` Add `MaintenanceScheduleEntry::tenant_id` (optional; empty = global/system schedule).
+- `[x]` Per-tenant window enforcement: tenant's schedule fires only when the current hour is within that tenant's configured maintenance window, loaded from the tenant config.
+- `[x]` Per-tenant quota: max N concurrent running maintenance jobs per tenant; enforced in `executeSchedule()`.
+- `[x]` Admin API: `GET /api/v1/maintenance/schedules?tenant_id={id}` filters by tenant.
+
+**Implementation Details:**
+- `TenantMaintenanceConfig` struct added to `database_maintenance_orchestrator.h`: `enforce_window`, `window_start_hour`, `window_end_hour`, `max_concurrent_jobs`.
+- `DatabaseMaintenanceOrchestrator::setTenantMaintenanceConfig(tenant_id, config)` / `getTenantMaintenanceConfig(tenant_id)` — thread-safe via `tenant_configs_mutex_`.
+- `listSchedules(tenant_id_filter = "")` — empty filter returns all, non-empty returns only matching tenant.
+- `MaintenanceApiHandler::listSchedules(tenant_id = "")` — API handler passes filter to orchestrator.
+- `OrchestratorJob::tenant_id` populated from parent schedule in `triggerNow()` and `registerWithScheduler()`.
+- 15 unit tests (MT-01..MT-15) in `test_database_maintenance_orchestrator.cpp`.
 
 ---
 
