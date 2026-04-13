@@ -65,6 +65,14 @@ management, and aggregated health reporting.
   - Before each scheduled job: `tryAcquire(schedule_id, ttl_ms)`; SKIPPED + DEBUG log when lock held by peer
   - Lock TTL auto-derived from window duration + 30 s, or explicit `MaintenanceScheduleEntry::lock_ttl_ms`
   - RAII guard ensures lock release on every exit path (success, window skip, DAG error, cancellation)
+- [x] Multi-tenant schedule isolation – per-tenant windows and quotas (Target: v2.0.0)
+  - `MaintenanceScheduleEntry::tenant_id` (optional; empty = global/system schedule)
+  - Per-tenant window enforcement via `TenantMaintenanceConfig::enforce_window`; configured via `setTenantMaintenanceConfig()`
+  - Per-tenant concurrent job quota: `TenantMaintenanceConfig::max_concurrent_jobs`; enforced in `executeSchedule()`
+  - `listSchedules(tenant_id_filter)`: filter schedules by tenant; `MaintenanceApiHandler::listSchedules(tenant_id)` passes filter
+  - `OrchestratorJob::tenant_id` populated from parent schedule
+  - 15 new tests (MT-01..MT-15) covering field round-trip, filter, window override, and quota enforcement
+- [ ] Distributed maintenance coordination via Raft – prevent two nodes running same schedule (Target: v2.0.0)
 - [ ] Maintenance impact prediction – ML model to predict CPU/memory impact before execution (Target: v2.0.0)
 
 ## Production Readiness Checklist

@@ -1802,6 +1802,430 @@ TEST_F(MaintenanceApiHandlerTest, ListTaskHandlers_NullOrchestratorReturnsError)
     auto result = null_handler.listTaskHandlers();
     EXPECT_EQ(result.value("status", ""), "error");
 }
+
+// ===========================================================================
+// Multi-Tenant Schedule Isolation
+// ===========================================================================
+
+// MT-01: tenant_id is stored in the schedule entry and round-trips via JSON.
+TEST_F(MaintenanceOrchestratorTest, TenantId_StoredInSchedule) {
+    auto entry = makeEntry("Tenant A Schedule");
+    entry.tenant_id = "tenant-a";
+
+    auto result = orchestrator_->createSchedule(entry);
+    ASSERT_TRUE(result) << result.error().message();
+    EXPECT_EQ(result->tenant_id, "tenant-a");
+
+    // Round-trip via JSON
+    auto json_val = result->toJson();
+    EXPECT_EQ(json_val.value("tenant_id", ""), "tenant-a");
+
+    auto restored = MaintenanceScheduleEntry::fromJson(json_val);
+    EXPECT_EQ(restored.tenant_id, "tenant-a");
+
+    // getSchedule returns tenant_id
+    auto fetched = orchestrator_->getSchedule(result->id);
+    ASSERT_TRUE(fetched);
+    EXPECT_EQ(fetched->tenant_id, "tenant-a");
+}
+
+// MT-02: empty tenant_id (global schedule) is preserved.
+TEST_F(MaintenanceOrchestratorTest, TenantId_EmptyMeansGlobal) {
+    auto entry = makeEntry("Global Schedule");
+    // tenant_id left empty
+
+    auto result = orchestrator_->createSchedule(entry);
+    ASSERT_TRUE(result);
+    EXPECT_TRUE(result->tenant_id.empty());
+}
+
+// MT-03: applyPatch can update tenant_id.
+TEST_F(MaintenanceOrchestratorTest, TenantId_PatchUpdate) {
+    auto entry = makeEntry("Patchable");
+    entry.tenant_id = "tenant-x";
+
+    auto created = orchestrator_->createSchedule(entry);
+    ASSERT_TRUE(created);
+
+    nlohmann::json patch = {{"tenant_id", "tenant-y"}};
+    auto patched = orchestrator_->patchSchedule(created->id, patch);
+    ASSERT_TRUE(patched) << patched.error().message();
+    EXPECT_EQ(patched->tenant_id, "tenant-y");
+}
+
+// MT-04: listSchedules() without filter returns all schedules (global + tenanted).
+TEST_F(MaintenanceOrchestratorTest, ListSchedules_NoFilterReturnsAll) {
+    auto e1 = makeEntry("Global");
+    auto e2 = makeEntry("Tenant-A-1");
+    e2.tenant_id = "tenant-a";
+    auto e3 = makeEntry("Tenant-B-1");
+    e3.tenant_id = "tenant-b";
+
+    ASSERT_TRUE(orchestrator_->createSchedule(e1));
+    ASSERT_TRUE(orchestrator_->createSchedule(e2));
+    ASSERT_TRUE(orchestrator_->createSchedule(e3));
+
+    auto all = orchestrator_->listSchedules();
+    EXPECT_EQ(all.size(), 3u);
+}
+
+// MT-05: listSchedules(tenant_id) returns only schedules for that tenant.
+TEST_F(MaintenanceOrchestratorTest, ListSchedules_FilterByTenantId) {
+    auto global = makeEntry("Global");
+    auto ta1    = makeEntry("Tenant-A-1");
+    auto ta2    = makeEntry("Tenant-A-2");
+    auto tb1    = makeEntry("Tenant-B-1");
+    ta1.tenant_id = "tenant-a";
+    ta2.tenant_id = "tenant-a";
+    tb1.tenant_id = "tenant-b";
+
+    ASSERT_TRUE(orchestrator_->createSchedule(global));
+    ASSERT_TRUE(orchestrator_->createSchedule(ta1));
+    ASSERT_TRUE(orchestrator_->createSchedule(ta2));
+    ASSERT_TRUE(orchestrator_->createSchedule(tb1));
+
+    auto result_a = orchestrator_->listSchedules("tenant-a");
+    ASSERT_EQ(result_a.size(), 2u);
+    for (auto& s : result_a) {
+        EXPECT_EQ(s.tenant_id, "tenant-a");
+    }
+
+    auto result_b = orchestrator_->listSchedules("tenant-b");
+    ASSERT_EQ(result_b.size(), 1u);
+    EXPECT_EQ(result_b[0].tenant_id, "tenant-b");
+
+    // Unknown tenant returns empty
+    auto result_unknown = orchestrator_->listSchedules("tenant-x");
+    EXPECT_TRUE(result_unknown.empty());
+}
+
+// MT-06: API handler listSchedules(tenant_id) passes filter to orchestrator.
+TEST_F(MaintenanceApiHandlerTest, ListSchedules_FilterByTenantId) {
+    // Create one global and two tenant-a schedules via the handler
+    {
+        nlohmann::json body = makeScheduleBody("Global");
+        handler_->createSchedule(body);
+    }
+    {
+        nlohmann::json body = makeScheduleBody("TenantA-1");
+        body["tenant_id"]   = "tenant-a";
+        handler_->createSchedule(body);
+    }
+    {
+        nlohmann::json body = makeScheduleBody("TenantA-2");
+        body["tenant_id"]   = "tenant-a";
+        handler_->createSchedule(body);
+    }
+
+    // No filter → all 3
+    auto all = handler_->listSchedules();
+    EXPECT_EQ(all["count"].get<int>(), 3);
+
+    // Filter by tenant-a → 2
+    auto tenant_a = handler_->listSchedules("tenant-a");
+    ASSERT_TRUE(tenant_a.contains("schedules"));
+    EXPECT_EQ(tenant_a["count"].get<int>(), 2);
+    for (auto& s : tenant_a["schedules"]) {
+        EXPECT_EQ(s.value("tenant_id", ""), "tenant-a");
+    }
+
+    // Filter by unknown tenant → 0
+    auto unknown = handler_->listSchedules("unknown-tenant");
+    EXPECT_EQ(unknown["count"].get<int>(), 0);
+}
+
+// MT-07: null orchestrator returns error for listSchedules with tenant filter.
+TEST_F(MaintenanceApiHandlerTest, ListSchedules_TenantFilter_NullOrchestratorReturnsError) {
+    server::MaintenanceApiHandler null_handler(nullptr);
+    auto result = null_handler.listSchedules("tenant-x");
+    EXPECT_EQ(result.value("status", ""), "error");
+}
+
+// MT-08: setTenantMaintenanceConfig/getTenantMaintenanceConfig round-trip.
+TEST_F(MaintenanceOrchestratorTest, TenantMaintenanceConfig_RoundTrip) {
+    TenantMaintenanceConfig cfg;
+    cfg.enforce_window      = true;
+    cfg.window_start_hour   = 3;
+    cfg.window_end_hour     = 7;
+    cfg.max_concurrent_jobs = 2;
+
+    orchestrator_->setTenantMaintenanceConfig("tenant-t", cfg);
+
+    auto retrieved = orchestrator_->getTenantMaintenanceConfig("tenant-t");
+    EXPECT_EQ(retrieved.enforce_window,      true);
+    EXPECT_EQ(retrieved.window_start_hour,   3);
+    EXPECT_EQ(retrieved.window_end_hour,     7);
+    EXPECT_EQ(retrieved.max_concurrent_jobs, 2);
+}
+
+// MT-09: getTenantMaintenanceConfig returns defaults for unregistered tenant.
+TEST_F(MaintenanceOrchestratorTest, TenantMaintenanceConfig_DefaultsForUnknown) {
+    auto cfg = orchestrator_->getTenantMaintenanceConfig("not-registered");
+    EXPECT_FALSE(cfg.enforce_window);
+    EXPECT_EQ(cfg.max_concurrent_jobs, 0);
+}
+
+// MT-10: setTenantMaintenanceConfig ignores empty tenant_id.
+TEST_F(MaintenanceOrchestratorTest, TenantMaintenanceConfig_EmptyIdIgnored) {
+    TenantMaintenanceConfig cfg;
+    cfg.enforce_window    = true;
+    cfg.max_concurrent_jobs = 5;
+    // Should not crash or store
+    orchestrator_->setTenantMaintenanceConfig("", cfg);
+    // Default value must be returned for empty id
+    auto retrieved = orchestrator_->getTenantMaintenanceConfig("");
+    EXPECT_FALSE(retrieved.enforce_window);
+    EXPECT_EQ(retrieved.max_concurrent_jobs, 0);
+}
+
+// MT-11: per-tenant window override skips job outside tenant window.
+TEST_F(MaintenanceOrchestratorTest, TenantWindowEnforcement_SkipsJobOutsideTenantWindow) {
+    int current_hour = static_cast<int>(
+        std::chrono::duration_cast<std::chrono::hours>(
+            std::chrono::system_clock::now().time_since_epoch()).count() % 24);
+
+    // Pick a narrow tenant window that is guaranteed to NOT include current_hour
+    int tenant_start = (current_hour + 12) % 24;
+    int tenant_end   = (tenant_start + 1) % 24;
+
+    // Schedule has enforce_window=false so it would normally run at any hour
+    auto entry = makeEntry("Tenant Window Test");
+    entry.tenant_id      = "tenant-window";
+    entry.enforce_window = false;   // per-schedule window NOT enforced
+    entry.tasks = {MaintenanceTaskType::METRICS_COLLECTION};
+
+    auto created = orchestrator_->createSchedule(entry);
+    ASSERT_TRUE(created);
+
+    // Register tenant config with a window that excludes current hour
+    TenantMaintenanceConfig tenant_cfg;
+    tenant_cfg.enforce_window    = true;
+    tenant_cfg.window_start_hour = tenant_start;
+    tenant_cfg.window_end_hour   = tenant_end;
+    orchestrator_->setTenantMaintenanceConfig("tenant-window", tenant_cfg);
+
+    auto job_result = orchestrator_->triggerNow(created->id);
+    ASSERT_TRUE(job_result) << job_result.error().message();
+
+    // Wait for background thread (up to 2 s)
+    for (int i = 0; i < 40; ++i) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        auto j = orchestrator_->getJob(job_result->id);
+        if (j && j->state != MaintenanceJobState::RUNNING &&
+                 j->state != MaintenanceJobState::PENDING) break;
+    }
+
+    auto final_job = orchestrator_->getJob(job_result->id);
+    ASSERT_TRUE(final_job);
+    EXPECT_EQ(final_job->state, MaintenanceJobState::SKIPPED)
+        << "Expected SKIPPED but got: " << jobStateToString(final_job->state);
+    EXPECT_NE(final_job->error_message.find("window"), std::string::npos);
+}
+
+// MT-12: per-tenant window override runs job when inside tenant window.
+TEST_F(MaintenanceOrchestratorTest, TenantWindowEnforcement_RunsJobInsideTenantWindow) {
+    // Schedule with a very narrow schedule window (not current hour)
+    int current_hour = static_cast<int>(
+        std::chrono::duration_cast<std::chrono::hours>(
+            std::chrono::system_clock::now().time_since_epoch()).count() % 24);
+    int sched_start = (current_hour + 12) % 24;
+    int sched_end   = (sched_start + 1) % 24;
+
+    auto entry = makeEntry("Tenant Window Run Test");
+    entry.tenant_id         = "tenant-wide-window";
+    entry.enforce_window    = true;
+    entry.window_start_hour = sched_start;  // per-schedule: not current hour
+    entry.window_end_hour   = sched_end;
+    entry.tasks = {MaintenanceTaskType::METRICS_COLLECTION};
+
+    auto created = orchestrator_->createSchedule(entry);
+    ASSERT_TRUE(created);
+
+    // Tenant config overrides with a full-day window → always in window
+    TenantMaintenanceConfig tenant_cfg;
+    tenant_cfg.enforce_window    = true;
+    tenant_cfg.window_start_hour = 0;
+    tenant_cfg.window_end_hour   = 23;
+    orchestrator_->setTenantMaintenanceConfig("tenant-wide-window", tenant_cfg);
+
+    auto job_result = orchestrator_->triggerNow(created->id);
+    ASSERT_TRUE(job_result);
+
+    for (int i = 0; i < 40; ++i) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        auto j = orchestrator_->getJob(job_result->id);
+        if (j && j->state != MaintenanceJobState::RUNNING &&
+                 j->state != MaintenanceJobState::PENDING) break;
+    }
+
+    auto final_job = orchestrator_->getJob(job_result->id);
+    ASSERT_TRUE(final_job);
+    EXPECT_NE(final_job->state, MaintenanceJobState::FAILED);
+    // Should be SUCCEEDED or SKIPPED (no handler → SKIPPED), but NOT window-based SKIPPED
+    if (final_job->state == MaintenanceJobState::SKIPPED) {
+        // Acceptable only if it was the "no handler" skip, not the window skip
+        EXPECT_EQ(final_job->error_message.find("window"), std::string::npos)
+            << "Unexpected window-based skip: " << final_job->error_message;
+    }
+}
+
+// ---------------------------------------------------------------------------
+// BlockingMockTaskHandler – used for quota enforcement tests
+// ---------------------------------------------------------------------------
+
+namespace {
+class BlockingMockTaskHandler : public IMaintenanceTaskHandler {
+public:
+    BlockingMockTaskHandler() : released_(false) {}
+
+    Result<std::string> execute(const std::string& /*job_id*/,
+                                MaintenanceTaskType /*task_type*/) override {
+        std::unique_lock<std::mutex> lk(mu_);
+        cv_.wait(lk, [this] { return released_.load(); });
+        return Result<std::string>{"blocking handler done"};
+    }
+
+    std::string handlerName() const override { return "BlockingMockTaskHandler"; }
+
+    void release() {
+        released_.store(true);
+        cv_.notify_all();
+    }
+
+private:
+    std::mutex              mu_;
+    std::condition_variable cv_;
+    std::atomic<bool>       released_;
+};
+} // anonymous namespace
+
+// MT-13: per-tenant concurrent job quota – second job is SKIPPED when quota is full.
+TEST_F(MaintenanceOrchestratorTest, TenantQuota_SecondJobSkippedWhenQuotaFull) {
+    auto blocking_handler = std::make_shared<BlockingMockTaskHandler>();
+    orchestrator_->registerTaskHandler(MaintenanceTaskType::METRICS_COLLECTION,
+                                       blocking_handler);
+
+    // Set max_concurrent_jobs=1 for this tenant
+    TenantMaintenanceConfig cfg;
+    cfg.max_concurrent_jobs = 1;
+    orchestrator_->setTenantMaintenanceConfig("tenant-quota", cfg);
+
+    auto entry = makeEntry("Quota Test Schedule");
+    entry.tenant_id      = "tenant-quota";
+    entry.enforce_window = false;
+    entry.tasks          = {MaintenanceTaskType::METRICS_COLLECTION};
+
+    auto created = orchestrator_->createSchedule(entry);
+    ASSERT_TRUE(created);
+
+    // Trigger job1 – it will block inside the handler.
+    // triggerNow() sets job.state=RUNNING in jobs_ synchronously before spawning the thread.
+    auto job1_result = orchestrator_->triggerNow(created->id);
+    ASSERT_TRUE(job1_result) << job1_result.error().message();
+    std::string job1_id = job1_result->id;
+
+    // Trigger job2 – should be SKIPPED because job1 is RUNNING
+    // (jobs_[job1.id].state == RUNNING was set synchronously above)
+    auto job2_result = orchestrator_->triggerNow(created->id);
+    ASSERT_TRUE(job2_result) << job2_result.error().message();
+    std::string job2_id = job2_result->id;
+
+    // Wait for job2 to reach a terminal state (up to 2 s)
+    for (int i = 0; i < 40; ++i) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        auto j = orchestrator_->getJob(job2_id);
+        if (j && j->state != MaintenanceJobState::RUNNING &&
+                 j->state != MaintenanceJobState::PENDING) break;
+    }
+
+    auto final_job2 = orchestrator_->getJob(job2_id);
+    ASSERT_TRUE(final_job2);
+    EXPECT_EQ(final_job2->state, MaintenanceJobState::SKIPPED)
+        << "Expected job2 SKIPPED but got: " << jobStateToString(final_job2->state);
+    EXPECT_NE(final_job2->error_message.find("quota"), std::string::npos);
+
+    // Release blocking handler so job1 can complete
+    blocking_handler->release();
+
+    for (int i = 0; i < 40; ++i) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        auto j = orchestrator_->getJob(job1_id);
+        if (j && j->state != MaintenanceJobState::RUNNING &&
+                 j->state != MaintenanceJobState::PENDING) break;
+    }
+
+    auto final_job1 = orchestrator_->getJob(job1_id);
+    ASSERT_TRUE(final_job1);
+    EXPECT_EQ(final_job1->state, MaintenanceJobState::SUCCEEDED);
+}
+
+// MT-14: per-tenant quota = 0 means unlimited; second job is not quota-skipped.
+TEST_F(MaintenanceOrchestratorTest, TenantQuota_ZeroMeansUnlimited) {
+    TenantMaintenanceConfig cfg;
+    cfg.max_concurrent_jobs = 0;   // unlimited
+    orchestrator_->setTenantMaintenanceConfig("tenant-unlimited", cfg);
+
+    auto entry = makeEntry("Unlimited Quota");
+    entry.tenant_id      = "tenant-unlimited";
+    entry.enforce_window = false;
+    entry.tasks          = {MaintenanceTaskType::METRICS_COLLECTION};
+
+    auto created = orchestrator_->createSchedule(entry);
+    ASSERT_TRUE(created);
+
+    // Trigger two jobs back-to-back
+    auto job1 = orchestrator_->triggerNow(created->id);
+    auto job2 = orchestrator_->triggerNow(created->id);
+    ASSERT_TRUE(job1);
+    ASSERT_TRUE(job2);
+
+    // Wait for both to reach a terminal state
+    for (int i = 0; i < 40; ++i) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        auto j1 = orchestrator_->getJob(job1->id);
+        auto j2 = orchestrator_->getJob(job2->id);
+        bool j1_done = j1 && j1->state != MaintenanceJobState::RUNNING &&
+                            j1->state != MaintenanceJobState::PENDING;
+        bool j2_done = j2 && j2->state != MaintenanceJobState::RUNNING &&
+                            j2->state != MaintenanceJobState::PENDING;
+        if (j1_done && j2_done) break;
+    }
+
+    auto final1 = orchestrator_->getJob(job1->id);
+    auto final2 = orchestrator_->getJob(job2->id);
+    ASSERT_TRUE(final1);
+    ASSERT_TRUE(final2);
+
+    // Neither should be SKIPPED due to quota
+    auto is_quota_skip = [](const OrchestratorJob& j) {
+        return j.state == MaintenanceJobState::SKIPPED &&
+               j.error_message.find("quota") != std::string::npos;
+    };
+    EXPECT_FALSE(is_quota_skip(*final1)) << "job1 was quota-skipped unexpectedly";
+    EXPECT_FALSE(is_quota_skip(*final2)) << "job2 was quota-skipped unexpectedly";
+}
+
+// MT-15: OrchestratorJob::tenant_id is populated from the parent schedule.
+TEST_F(MaintenanceOrchestratorTest, OrchestratorJob_TenantIdPopulated) {
+    auto entry = makeEntry("Job Tenant Test");
+    entry.tenant_id      = "tenant-job";
+    entry.enforce_window = false;
+    entry.tasks          = {MaintenanceTaskType::METRICS_COLLECTION};
+
+    auto created = orchestrator_->createSchedule(entry);
+    ASSERT_TRUE(created);
+
+    auto job_result = orchestrator_->triggerNow(created->id);
+    ASSERT_TRUE(job_result);
+
+    // triggerNow returns the job immediately; tenant_id should be populated
+    EXPECT_EQ(job_result->tenant_id, "tenant-job");
+
+    // Also verify via JSON round-trip
+    auto job_json = job_result->toJson();
+    EXPECT_EQ(job_json.value("tenant_id", ""), "tenant-job");
+}
+
 // Concurrency / TSAN – shared_mutex read-path upgrade
 // Exercises 8 concurrent listSchedules readers + 1 createSchedule writer.
 // When built with -DTHEMIS_ENABLE_TSAN=ON, ThreadSanitizer will report any

@@ -35,7 +35,10 @@
 #include "nlohmann/json.hpp"
 
 namespace themis {
+// Forward declarations
+class RocksDBWrapper;
 namespace cdc {
+class ICDCTransport;
 
 // Forward declarations
 class TenantBufferManager;
@@ -221,6 +224,31 @@ public:
     explicit CDCAdmin(TenantBufferManager* tenant_manager);
     
     ~CDCAdmin() = default;
+
+    /**
+     * @brief Wire a RocksDB storage backend for GDPR redaction audit logging.
+     *
+     * When set, every call to redactByKeyPrefix() writes a structured audit
+     * record to the @c cdc_redactions column family of @p storage.  The audit
+     * record contains:
+     *   @code{"key_prefix":..., "redacted_count":..., "timestamp_ms":..., "operator":...}@endcode
+     *
+     * @param storage  RocksDBWrapper instance (not owned; must outlive CDCAdmin).
+     *                 Pass @c nullptr to disable audit logging.
+     */
+    void setAuditStorage(RocksDBWrapper* storage) noexcept { audit_storage_ = storage; }
+
+    /**
+     * @brief Wire a CDC transport for Kafka tombstone propagation.
+     *
+     * When set, every call to redactByKeyPrefix() publishes a tombstone
+     * (EVENT_DELETE ChangeEvent with null value) for each affected key via
+     * @p transport.  This propagates GDPR erasure to downstream Kafka consumers.
+     *
+     * @param transport  CDC transport (not owned; must outlive CDCAdmin).
+     *                   Pass @c nullptr to disable tombstone propagation.
+     */
+    void setTransport(ICDCTransport* transport) noexcept { transport_ = transport; }
     
     // Purge operations
     
@@ -331,6 +359,11 @@ private:
     Changefeed* changefeed_;
     TenantBufferManager* tenant_manager_;
     std::chrono::system_clock::time_point creation_time_;
+
+    /// Optional RocksDB backend for writing GDPR redaction audit log entries.
+    RocksDBWrapper* audit_storage_ = nullptr;
+    /// Optional CDC transport for publishing Kafka tombstones after redaction.
+    ICDCTransport* transport_ = nullptr;
     
     // Helper methods
     uint64_t countEventsInRange(uint64_t start, uint64_t end);

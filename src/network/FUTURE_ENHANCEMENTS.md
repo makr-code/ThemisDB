@@ -214,60 +214,30 @@ Payload:
 
 ### QUIC Protocol Support
 **Priority:** Medium  
-**Target Version:** v2.0.0
+**Target Version:** v2.0.0  
+**Status:** ✅ Implemented (v2.0.0, 2026-04-13)
 
-Add QUIC (HTTP/3) support for modern low-latency communication.
+QUIC (HTTP/3) support for modern low-latency communication.
 
-**Features:**
-- QUIC protocol (UDP + TLS 1.3)
-- 0-RTT connection establishment
-- Built-in encryption (no plain QUIC)
-- Multiple streams over single connection
-- Better loss recovery than TCP
-- Connection migration (mobile clients)
+**Implementation:** `include/network/quic_server.h` / `src/network/quic_server.cpp`
 
-**Benefits:**
-- **Faster handshake:** 0-RTT for resumed connections (vs 3 RTT for TCP+TLS)
-- **Better loss recovery:** Packet-level retransmission (vs TCP head-of-line blocking)
-- **Connection migration:** Survive IP changes (Wi-Fi to cellular)
-- **Built-in encryption:** No plain QUIC (always encrypted)
+**Classes delivered:**
+- `QUICServer` — QUIC/HTTP/3 server (port 8769 default); ALPN "h3" + "tmdb"; UDP + TLS 1.3; guarded by `THEMIS_ENABLE_HTTP3`
+- `QUICClient` — QUIC client; `quic://host:port` URL; `openStream()` independent bidirectional streams
+- `QUICClient::Stream` — independent QUIC stream; `send()` / `receive()` / `close()` / `streamId()`
 
-**API:**
-```cpp
-QUICServer::Config config;
-config.port = 8769;
-config.max_streams_per_connection = 100;
-config.enable_0rtt = true;         // 0-RTT for resumed connections
-config.congestion_control = "bbr"; // BBR or Cubic
+**Features delivered:**
+- [x] QUIC protocol (UDP + TLS 1.3)
+- [x] 0-RTT connection establishment (`enable_0rtt=true`; `zero_rtt_accepted`/`zero_rtt_rejected` stats)
+- [x] Built-in encryption (no plain QUIC; TLS 1.3 mandatory)
+- [x] Multiple streams over single connection (`max_streams_per_connection`, default 100)
+- [x] Better loss recovery than TCP (QUIC per-packet retransmit via ngtcp2)
+- [x] Connection migration (mobile clients; `migrations` stat)
+- [x] Congestion control: BBR (default) or Cubic (`congestion_control` config field)
+- [x] HTTP/3 ALPN ("h3") for compatibility with standard HTTP/3 clients
+- [x] QUIC-specific metrics (`zero_rtt_accepted`, `zero_rtt_rejected`, `migrations`, `handshakes_completed`)
 
-QUICServer quic_server(config, storage, index_mgr);
-quic_server.start();
-
-// Client-side
-QUICClient client("quic://server.example.com:8769");
-client.connect();  // 0-RTT if resumed
-
-// Multiple concurrent streams
-auto stream1 = client.open_stream();
-stream1.send_request(query1);
-
-auto stream2 = client.open_stream();
-stream2.send_request(query2);
-
-// Streams are independent (no head-of-line blocking)
-```
-
-**Performance Characteristics:**
-- Initial connection: ~1 RTT (vs 3 RTT for TCP+TLS)
-- 0-RTT connection: 0 RTT (vs 3 RTT for TCP+TLS)
-- Stream multiplexing: No head-of-line blocking
-- Loss recovery: Faster than TCP (per-packet retransmit)
-
-**Implementation:**
-- Use quiche (Cloudflare) or mvfst (Meta) QUIC library
-- Implement HTTP/3 mapping for compatibility
-- Support connection migration (mobile use case)
-- Add QUIC-specific metrics (0-RTT usage, migration events)
+**Tests:** 35 focused tests (QS-01…QS-35) in `tests/test_quic_server.cpp`; CMake target: `test_quic_server_focused`
 
 ---
 

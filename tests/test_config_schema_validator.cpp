@@ -3,17 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_config_schema_validator.cpp                   ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-13 04:36:57                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-13 16:01:12                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1419                                           ║
+    • Total Lines:     1472                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • (current)        2026-04-13  test(config): add performance acceptance test for       ║
+    •                              validate() < 5 ms on 100-field config / 200-rule schema ║
     • 64c72611d4  2026-03-22  feat(config): implement `not` JSON Schema keyword, upgrad... ║
     • ee59cce514  2026-03-11  docs(config): update ARCHITECTURE.md and header metadata ... ║
     • ec0d1bcbc8  2026-03-11  feat(config): add validateFromString API for in-memory YA... ║
@@ -27,6 +29,7 @@
 #include <gtest/gtest.h>
 #include "config/config_schema_validator.h"
 #include "config/config_errors.h"
+#include <chrono>
 #include <filesystem>
 #include <fstream>
 #include <nlohmann/json.hpp>
@@ -1412,6 +1415,67 @@ TEST_F(ConfigSchemaValidatorTest, NotKeyword_NotWithComplexSubSchemaPass) {
     })"_json;
     auto result = ConfigSchemaValidator::validate(path, schema);
     EXPECT_TRUE(result.valid) << result.formatErrors();
+}
+
+// ============================================================================
+// Performance acceptance criterion: validate() for a 100-field JSON config
+// against a 200-rule schema must complete in < 5 ms on a single thread.
+// ============================================================================
+
+TEST_F(ConfigSchemaValidatorTest, Performance_100FieldConfig_200RuleSchema_Under5ms) {
+    // Build a 100-field JSON object: fields field_0 … field_99, each an integer.
+    nlohmann::json data = nlohmann::json::object();
+    for (int i = 0; i < 100; ++i) {
+        data["field_" + std::to_string(i)] = i;
+    }
+    auto path = writeFile("perf_cfg.json", data.dump());
+
+    // Build a schema with ~200 constraint rules spread across properties and
+    // allOf / anyOf / not sub-schemas.
+    nlohmann::json schema = nlohmann::json::object();
+    schema["type"] = "object";
+
+    // 100 property definitions, each with type + minimum + maximum (300 keywords total
+    // but concentrated into 100 "rules" for properties).
+    nlohmann::json props = nlohmann::json::object();
+    nlohmann::json required_arr = nlohmann::json::array();
+    for (int i = 0; i < 100; ++i) {
+        const std::string key = "field_" + std::to_string(i);
+        props[key] = {{"type", "integer"}, {"minimum", 0}, {"maximum", 999}};
+        required_arr.push_back(key);
+    }
+    schema["properties"] = props;
+    schema["required"] = required_arr;
+
+    // Add 100 allOf sub-schemas (each checks one field is >= 0), bringing the
+    // total number of distinct schema nodes well above 200.
+    nlohmann::json all_of = nlohmann::json::array();
+    for (int i = 0; i < 100; ++i) {
+        nlohmann::json sub = nlohmann::json::object();
+        sub["properties"] = nlohmann::json::object();
+        sub["properties"]["field_" + std::to_string(i)] = {{"minimum", 0}};
+        all_of.push_back(sub);
+    }
+    schema["allOf"] = all_of;
+
+    // Warm up (ensure regex/JIT etc. are initialised).
+    ConfigSchemaValidator::validate(path, schema);
+
+    // Measure 10 iterations and check the *average* is under the 5 ms target.
+    constexpr int iterations = 10;
+    auto t0 = std::chrono::high_resolution_clock::now();
+    for (int n = 0; n < iterations; ++n) {
+        auto result = ConfigSchemaValidator::validate(path, schema);
+        ASSERT_TRUE(result.valid) << result.formatErrors();
+    }
+    auto t1 = std::chrono::high_resolution_clock::now();
+
+    double avg_ms = std::chrono::duration<double, std::milli>(t1 - t0).count() /
+                    static_cast<double>(iterations);
+
+    EXPECT_LT(avg_ms, 5.0)
+        << "Average validation time " << avg_ms
+        << " ms exceeds the 5 ms acceptance criterion";
 }
 
 } // namespace test

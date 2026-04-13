@@ -171,6 +171,7 @@ struct MaintenanceScheduleEntry {
     std::string id;          ///< UUID, assigned by orchestrator on create
     std::string name;        ///< Human-readable label (required, must be non-empty)
     std::string description; ///< Optional longer description
+    std::string tenant_id;   ///< Optional tenant identifier; empty = global/system schedule
 
     // ---- Scheduling ------------------------------------------------------
     ScheduleFrequency frequency = ScheduleFrequency::DAILY;
@@ -221,6 +222,7 @@ struct MaintenanceScheduleEntry {
         j["id"]                = id;
         j["name"]              = name;
         j["description"]       = description;
+        j["tenant_id"]         = tenant_id;
         j["frequency"]         = frequencyToString(frequency);
         j["cron_expression"]   = cron_expression;
         nlohmann::json task_arr = nlohmann::json::array();
@@ -251,6 +253,7 @@ struct MaintenanceScheduleEntry {
         if (j.contains("id"))               e.id             = j["id"].get<std::string>();
         if (j.contains("name"))             e.name           = j["name"].get<std::string>();
         if (j.contains("description"))      e.description    = j["description"].get<std::string>();
+        if (j.contains("tenant_id"))        e.tenant_id      = j["tenant_id"].get<std::string>();
         if (j.contains("frequency"))        e.frequency      = frequencyFromString(j["frequency"].get<std::string>());
         if (j.contains("cron_expression"))  e.cron_expression= j["cron_expression"].get<std::string>();
         if (j.contains("tasks")) {
@@ -278,6 +281,7 @@ struct MaintenanceScheduleEntry {
     void applyPatch(const nlohmann::json& patch) {
         if (patch.contains("name"))              name              = patch["name"].get<std::string>();
         if (patch.contains("description"))       description       = patch["description"].get<std::string>();
+        if (patch.contains("tenant_id"))         tenant_id         = patch["tenant_id"].get<std::string>();
         if (patch.contains("frequency"))         frequency         = frequencyFromString(patch["frequency"].get<std::string>());
         if (patch.contains("cron_expression"))   cron_expression   = patch["cron_expression"].get<std::string>();
         if (patch.contains("tasks")) {

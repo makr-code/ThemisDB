@@ -251,6 +251,8 @@ public:
     struct RedactionResult {
         size_t events_scanned = 0;   ///< Total events examined
         size_t events_redacted = 0;  ///< Events whose value field was scrubbed
+        /// Unique event keys that were redacted (for Kafka tombstone propagation).
+        std::vector<std::string> affected_keys;
     };
 
     /**

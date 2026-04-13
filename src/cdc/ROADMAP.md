@@ -33,6 +33,8 @@
 - [x] Multi-Source Fan-In API — `include/cdc/icdc_fan_in.h`; `ICDCFanIn` + `InMemoryFanIn`; `FanInEvent` tagged with `CollectionId`; pluggable `IFanInMergePolicy`
 - [x] Schema Evolution Hook — `include/cdc/icdc_event_schema.h`; `ICDCEventSchema` + `InMemoryEventSchemaRegistry`; `SchemaEvolutionDescriptor`; `ISchemaEvolutionCallback`
 - [x] Delivery Guarantee Configuration — `include/cdc/idelivery_guarantee_config.h`; `IDeliveryGuaranteeConfig` + `InMemoryDeliveryGuaranteeConfig`; `DeliveryMode` enum; rolling dedup hash window for ExactlyOnce mode
+- [x] GDPR redaction audit log in `cdc_redactions` column family (v2.0.0) — `cdc_admin.cpp`; `CDCAdmin::setAuditStorage()`; audit record `{"key_prefix":..., "redacted_count":..., "timestamp_ms":..., "operator":..., "tenant_id":...}` written to `cdc_redactions` CF on every `redactByKeyPrefix()` call
+- [x] Kafka tombstone propagation after GDPR redaction (v2.0.0) — `cdc_admin.cpp`; `CDCAdmin::setTransport()`; `EVENT_DELETE` tombstone published for each distinct affected key via wired `ICDCTransport`; deduplicated before publishing
 
 ## In Progress 🚧
 *(none currently in progress)*
