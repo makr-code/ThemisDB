@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            deduplication_checker.h                            ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-13 04:14:42                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-13 20:21:18                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            metric_aggregator.cpp                              ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-04-13 04:27:30                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-13 20:33:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

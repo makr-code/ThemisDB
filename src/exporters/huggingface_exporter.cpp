@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            huggingface_exporter.cpp                           ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-13 04:24:54                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-13 20:31:01                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

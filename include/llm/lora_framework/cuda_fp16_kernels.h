@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cuda_fp16_kernels.h                                ║
-  Version:         0.0.38                                             ║
-  Last Modified:   2026-04-13 04:16:35                                ║
+  Version:         0.0.39                                             ║
+  Last Modified:   2026-04-13 20:23:05                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            rocksdb_wrapper.h                                  ║
-  Version:         0.0.38                                             ║
-  Last Modified:   2026-04-13 04:20:48                                ║
+  Version:         0.0.39                                             ║
+  Last Modified:   2026-04-13 20:27:07                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     759                                            ║
+    • Total Lines:     767                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 35e7ecae2c  2026-04-13  perf(storage): fix sustained write throughput - decouple ... ║
     • b55d2d72cc  2026-04-11  perf(index): reduce secondary-index write-path overhead (... ║
     • c1205d6286  2026-04-09  feat(storage): streaming blob write path – putBlob/getBlo... ║
     • 197320301a  2026-03-28  Implement SequenceU64Increment merge operator for RocksDB... ║
     • 8031d339d2  2026-03-15  feat(storage): implement RocksDB iteration for SecuritySi... ║
-    • 78f419ea26  2026-03-13  feat(storage): implement BlobRedundancyEventListener for ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

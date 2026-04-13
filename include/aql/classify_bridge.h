@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            classify_bridge.h                                  ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-04-13 04:13:41                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-13 20:20:22                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

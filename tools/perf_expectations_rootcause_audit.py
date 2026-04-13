@@ -1,49 +1,26 @@
-#!/usr/bin/env python3
 """
 ╔═════════════════════════════════════════════════════════════════════╗
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            perf_expectations_rootcause_audit.py               ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-04-13                                         ║
-  Author:          Copilot                                            ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-04-13 20:54:47                                ║
+  Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
+    • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
+    • Quality Score:   69.0/100                                       ║
+    • Total Lines:     826                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 8                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
+  Revision History:                                                   ║
+    • 68ce40a2f9  2026-04-13  feat: automated §1.5 root-cause audit for PERFORMANCE_EXP... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ⚠️  Needs Work                                              ║
 ╚═════════════════════════════════════════════════════════════════════╝
-
-ThemisDB Performance-Expectations Root-Cause Audit
-=====================================================
-
-Reads ``PERFORMANCE_EXPECTATIONS.md`` (section 1.5 and 1.5.1) and cross-checks
-every Gap entry against the actual repository artefacts, source files and
-CMake target registrations.
-
-Exit codes
-----------
-    0   All hard claims are consistent with the source evidence
-        (may include WARN entries for soft gaps / missing artefacts).
-    1   At least one FAIL: a hard claim in the document is contradicted by
-        source/build evidence (document is stale and must be updated).
-    2   Internal error / bad arguments.
-
-Usage
------
-    python3 tools/perf_expectations_rootcause_audit.py [OPTIONS]
-
-Options
--------
-    --repo-root DIR       Repository root (default: parent of this script's dir)
-    --perf-doc PATH       Path to PERFORMANCE_EXPECTATIONS.md (relative to repo-root)
-    --output-dir DIR      Directory for report artefacts (relative to repo-root)
-    --format {json,text,both}  Output format (default: both)
-    --no-color            Disable ANSI colour output
-    -q, --quiet           Suppress per-finding detail; only print summary
 """
 
+#!/usr/bin/env python3
 from __future__ import annotations
 
 import argparse

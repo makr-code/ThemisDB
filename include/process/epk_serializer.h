@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            epk_serializer.h                                   ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-04-13 04:18:01                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-13 20:24:30                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

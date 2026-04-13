@@ -1,31 +1,26 @@
-#!/usr/bin/env python3
 """
 ╔═════════════════════════════════════════════════════════════════════╗
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
-║  File:    tools/bench_coverage_report.py                            ║
-║  Purpose: Nightly benchmark coverage report with traffic-light      ║
-║           (🟢/🟡/🔴) status per module and delta comparison against ║
-║           the previous nightly run.                                 ║
-║                                                                     ║
-║  PERFORMANCE_EXPECTATIONS.md §1.4, Maßnahme #10                     ║
-║  CI-Audit checks: 10a (schedule workflow), 10b (CMake preset)        ║
+  File:            bench_coverage_report.py                           ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-04-13 20:54:32                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     366                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 02fd81c194  2026-04-13  feat(perf): add nightly-bench-sweep CMake preset, workflo... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
-
-Usage
------
-    python3 tools/bench_coverage_report.py \\
-        --bench-dir artifacts/nightly \\
-        --output-dir artifacts/nightly/audit \\
-        [--prev-dir artifacts/nightly-prev]
-
-Output
-------
-    <output-dir>/coverage_report.md   Markdown report (GitHub Step Summary)
-    <output-dir>/coverage_report.json Machine-readable summary per module
-    stdout                            Human-readable console output
 """
 
+#!/usr/bin/env python3
 from __future__ import annotations
 
 import argparse

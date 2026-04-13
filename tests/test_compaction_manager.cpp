@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_compaction_manager.cpp                        ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-13 04:36:46                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 20:42:14                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

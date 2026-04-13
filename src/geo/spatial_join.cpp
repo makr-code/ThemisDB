@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            spatial_join.cpp                                   ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-13 04:25:10                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-13 20:31:16                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

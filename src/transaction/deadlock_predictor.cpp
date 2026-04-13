@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            deadlock_predictor.cpp                             ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-04-13 04:31:42                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-13 20:37:26                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            search_highlighter.h                               ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-04-13 04:19:34                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-13 20:25:56                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

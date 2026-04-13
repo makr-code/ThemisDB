@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            crdt_types.h                                       ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-04-13 04:19:12                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-13 20:25:35                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

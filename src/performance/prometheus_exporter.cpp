@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            prometheus_exporter.cpp                            ║
-  Version:         0.0.38                                             ║
-  Last Modified:   2026-04-13 04:27:54                                ║
+  Version:         0.0.39                                             ║
+  Last Modified:   2026-04-13 20:33:54                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_distributed_vector_index.cpp                  ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-13 04:33:33                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-13 20:39:10                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

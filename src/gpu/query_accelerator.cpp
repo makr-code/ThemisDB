@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            query_accelerator.cpp                              ║
-  Version:         0.0.38                                             ║
-  Last Modified:   2026-04-13 04:25:32                                ║
+  Version:         0.0.39                                             ║
+  Last Modified:   2026-04-13 20:31:38                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

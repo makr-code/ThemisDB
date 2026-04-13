@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            utils_interfaces.h                                 ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-04-13 04:22:18                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-04-13 20:28:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

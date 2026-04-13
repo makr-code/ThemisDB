@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_gpu_mig_manager.cpp                           ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-13 04:39:13                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-13 20:44:34                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

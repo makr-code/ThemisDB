@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            task_result_store.h                                ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-13 04:19:23                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-13 20:25:46                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

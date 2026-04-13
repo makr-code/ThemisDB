@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            negative_keyword_filter.cpp                        ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-04-13 04:29:33                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-13 20:35:26                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

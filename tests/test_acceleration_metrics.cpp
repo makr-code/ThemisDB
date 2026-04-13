@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_acceleration_metrics.cpp                      ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-13 04:34:33                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-13 20:40:06                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

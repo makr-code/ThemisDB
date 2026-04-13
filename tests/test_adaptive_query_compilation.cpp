@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_adaptive_query_compilation.cpp                ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-04-13 04:34:44                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-13 20:40:17                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

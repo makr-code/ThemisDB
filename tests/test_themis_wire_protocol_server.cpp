@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_themis_wire_protocol_server.cpp               ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-13 04:47:15                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-13 20:52:17                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

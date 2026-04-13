@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            arc_cache.h                                        ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-13 04:14:04                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 20:20:43                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

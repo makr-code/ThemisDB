@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_schema_version_dryrun.cpp                     ║
-  Version:         0.0.38                                             ║
-  Last Modified:   2026-04-13 04:46:03                                ║
+  Version:         0.0.39                                             ║
+  Last Modified:   2026-04-13 20:51:08                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

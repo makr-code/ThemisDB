@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            temporal_index.cpp                                 ║
-  Version:         0.0.38                                             ║
-  Last Modified:   2026-04-13 04:31:11                                ║
+  Version:         0.0.39                                             ║
+  Last Modified:   2026-04-13 20:36:58                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

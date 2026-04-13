@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            schema_registry.h                                  ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-13 04:14:32                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-13 20:21:09                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

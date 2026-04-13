@@ -3,17 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            process_model_manager.cpp                          ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-04-13 04:28:06                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-13 20:34:05                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     760                                            ║
+    • Total Lines:     881                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • dd319b9918  2026-04-13  Add CI/CD workflows and scripts for release management ║
+    • e8953e1175  2026-04-13  docs(aql): Close all remaining ROADMAP items — Doxygen, L... ║
     • 3fea6d6b51  2026-03-12  refactor: clean up includes and remove unused transaction... ║
     • f56652abf2  2026-03-12  audit(process): focused tests, ProcessNotation enum fix, ... ║
     • 7f7a272409  2026-03-12  feat(process): add ProcessLinker, ProcessGraphRag, and mo... ║

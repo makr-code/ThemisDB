@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_aql_lora_finetuner.cpp                        ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-13 04:35:08                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-13 20:40:40                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_api_security_audit.cpp                        ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-13 04:34:59                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-13 20:40:30                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

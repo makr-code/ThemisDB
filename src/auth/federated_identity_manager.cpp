@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            federated_identity_manager.cpp                     ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-13 04:23:51                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-13 20:30:02                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

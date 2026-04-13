@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_acceleration_regression.cpp                   ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-13 04:34:34                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-13 20:40:07                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

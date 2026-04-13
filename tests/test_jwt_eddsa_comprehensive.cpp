@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_jwt_eddsa_comprehensive.cpp                   ║
-  Version:         0.0.38                                             ║
-  Last Modified:   2026-04-13 04:40:43                                ║
+  Version:         0.0.39                                             ║
+  Last Modified:   2026-04-13 20:46:01                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

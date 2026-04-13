@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cross_lingual_search.cpp                      ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-13 04:37:24                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-13 20:42:50                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

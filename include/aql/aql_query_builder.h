@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            aql_query_builder.h                                ║
-  Version:         0.0.30                                             ║
-  Last Modified:   2026-04-13 04:13:40                                ║
+  Version:         0.0.31                                             ║
+  Last Modified:   2026-04-13 20:20:19                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

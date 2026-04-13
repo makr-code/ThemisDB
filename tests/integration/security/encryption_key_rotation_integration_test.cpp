@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            encryption_key_rotation_integration_test.cpp       ║
-  Version:         0.0.38                                             ║
-  Last Modified:   2026-04-13 04:33:44                                ║
+  Version:         0.0.39                                             ║
+  Last Modified:   2026-04-13 20:39:20                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

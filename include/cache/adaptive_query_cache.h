@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            adaptive_query_cache.h                             ║
-  Version:         0.0.38                                             ║
-  Last Modified:   2026-04-13 04:14:03                                ║
+  Version:         0.0.39                                             ║
+  Last Modified:   2026-04-13 20:20:42                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

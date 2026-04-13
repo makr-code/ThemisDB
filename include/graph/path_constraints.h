@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            path_constraints.h                                 ║
-  Version:         0.0.38                                             ║
-  Last Modified:   2026-04-13 04:15:31                                ║
+  Version:         0.0.39                                             ║
+  Last Modified:   2026-04-13 20:22:05                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

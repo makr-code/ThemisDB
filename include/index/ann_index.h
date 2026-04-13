@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ann_index.h                                        ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-13 04:16:00                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-13 20:22:33                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

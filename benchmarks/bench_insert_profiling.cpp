@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_insert_profiling.cpp                         ║
-  Version:         0.0.38                                             ║
-  Last Modified:   2026-04-13 04:11:50                                ║
+  Version:         0.0.39                                             ║
+  Last Modified:   2026-04-13 20:18:34                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

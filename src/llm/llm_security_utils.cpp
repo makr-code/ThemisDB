@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llm_security_utils.cpp                             ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-13 04:26:41                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-13 20:32:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

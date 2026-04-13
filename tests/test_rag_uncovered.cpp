@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_rag_uncovered.cpp                             ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-13 04:45:08                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-13 20:50:16                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

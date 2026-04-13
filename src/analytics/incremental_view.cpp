@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            incremental_view.cpp                               ║
-  Version:         0.0.23                                             ║
-  Last Modified:   2026-04-13 04:23:31                                ║
+  Version:         0.0.24                                             ║
+  Last Modified:   2026-04-13 20:29:40                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

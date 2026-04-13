@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_zero_trust_auth_verifier.cpp                  ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-13 04:48:55                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-13 20:53:54                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

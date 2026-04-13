@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cte_correlated_subquery.cpp                   ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-04-13 04:37:40                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-13 20:43:05                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

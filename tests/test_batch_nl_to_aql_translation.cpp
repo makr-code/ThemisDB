@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_batch_nl_to_aql_translation.cpp               ║
-  Version:         0.0.30                                             ║
-  Last Modified:   2026-04-13 04:35:38                                ║
+  Version:         0.0.31                                             ║
+  Last Modified:   2026-04-13 20:41:10                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_zero_trust_policy_enforcer.cpp                ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-13 04:48:57                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-13 20:53:55                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

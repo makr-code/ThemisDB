@@ -1,48 +1,27 @@
-#!/usr/bin/env python3
 """
 ╔═════════════════════════════════════════════════════════════════════╗
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            perf_coverage_top10_audit.py                       ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-04-13                                         ║
-  Author:          Copilot                                            ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-04-13 20:54:46                                ║
+  Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
+    • Maturity Level:  🟠 BETA                                         ║
+    • Quality Score:   58.0/100                                       ║
+    • Total Lines:     1052                                           ║
+    • Open Issues:     TODOs: 1, Stubs: 11                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
+  Revision History:                                                   ║
+    • 1071f1d20f  2026-04-13  feat(governance): Disabled-Stub-Policy für Benchmarks ein... ║
+    • 68ce40a2f9  2026-04-13  feat: automated §1.5 root-cause audit for PERFORMANCE_EXP... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: 🔧 In Progress                                               ║
 ╚═════════════════════════════════════════════════════════════════════╝
-
-ThemisDB Performance Coverage Top-10 Measures Audit (§1.4)
-============================================================
-
-Verifies the status of the Top-10 benchmark coverage measures defined in
-``PERFORMANCE_EXPECTATIONS.md §1.4`` against the actual source code, build
-system and CI configuration.
-
-Exit codes
-----------
-    0   All FAIL-class checks pass (may include WARN / INFO).
-    1   At least one FAIL: a measure that should be DONE is provably NOT done,
-        or a measure that should NOT regress has regressed.
-    2   Internal error / bad arguments.
-
-Usage
------
-    python3 tools/perf_coverage_top10_audit.py [OPTIONS]
-
-Options
--------
-    --repo-root DIR       Repository root (default: auto-detect from script location)
-    --perf-doc PATH       Path to PERFORMANCE_EXPECTATIONS.md (relative to repo-root)
-    --output-dir DIR      Directory for report artefacts (relative to repo-root)
-    --format {json,text,both}  Output format (default: both)
-    --no-color            Disable ANSI colour output
-    -q, --quiet           Suppress per-finding detail; only print summary
 """
 
+#!/usr/bin/env python3
 from __future__ import annotations
 
 import argparse

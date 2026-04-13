@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            voice_audio_storage.cpp                            ║
-  Version:         0.0.33                                             ║
-  Last Modified:   2026-04-13 04:32:23                                ║
+  Version:         0.0.34                                             ║
+  Last Modified:   2026-04-13 20:38:04                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

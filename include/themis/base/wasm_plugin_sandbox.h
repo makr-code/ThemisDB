@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            wasm_plugin_sandbox.h                              ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-13 04:21:06                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-13 20:27:23                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
