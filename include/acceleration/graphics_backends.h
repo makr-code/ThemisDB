@@ -180,6 +180,10 @@ private:
 };
 
 // OpenGL Compute Shaders backend (OpenGL 4.3+ compute shader acceleration)
+//
+// supportsAsync = false: all compute dispatch calls (computeDistances,
+// batchKnnSearch) are fully synchronous — glMemoryBarrier + readback happen
+// on the calling thread before the function returns.
 class OpenGLVectorBackend : public IVectorBackend {
 public:
     OpenGLVectorBackend();
@@ -216,6 +220,100 @@ private:
     bool initialized_ = false;
     class OpenGLVectorBackendImpl;
     std::unique_ptr<OpenGLVectorBackendImpl> impl_;
+};
+
+// OpenGL Geospatial Compute backend (OpenGL 4.3+ compute shader acceleration)
+//
+// Implements the IGeoBackend interface using GLSL 4.30 compute shaders for
+// Haversine distance and point-in-polygon operations. Provides a CPU fallback
+// (identical algorithm to VulkanGeoBackend) when no EGL/OpenGL 4.3 driver is
+// available, so initialize() always succeeds on the current platform.
+//
+// supportsAsync = false: all dispatch is synchronous (glMemoryBarrier + readback
+// on the calling thread).
+class OpenGLGeoBackend : public IGeoBackend {
+public:
+    OpenGLGeoBackend();
+    ~OpenGLGeoBackend() override;
+
+    const char* name() const noexcept override { return "OpenGLGeo"; }
+    BackendType type() const noexcept override { return BackendType::OPENGL; }
+    bool isAvailable() const noexcept override;
+
+    BackendCapabilities getCapabilities() const override;
+    bool initialize() override;
+    void shutdown() override;
+
+    std::vector<float> batchDistances(
+        const double* latitudes1,
+        const double* longitudes1,
+        const double* latitudes2,
+        const double* longitudes2,
+        size_t count,
+        bool useHaversine = true
+    ) override;
+
+    std::vector<bool> batchPointInPolygon(
+        const double* pointLats,
+        const double* pointLons,
+        size_t numPoints,
+        const double* polygonCoords,
+        size_t numPolygonVertices
+    ) override;
+
+private:
+    bool initialized_ = false;
+    class OpenGLGeoBackendImpl;
+    std::unique_ptr<OpenGLGeoBackendImpl> impl_;
+};
+
+// OpenGL Graph Compute backend (OpenGL 4.3+ compute shader acceleration)
+//
+// Implements the IGraphBackend interface using GLSL 4.30 compute shaders for
+// breadth-first search (wavefront-parallel BFS) and shortest-path computation
+// (parallel Bellman-Ford). Adjacency is an N×N dense matrix stored in an SSBO.
+// Falls back to CPU implementations when no EGL/OpenGL 4.3 driver is present.
+//
+// supportsAsync = false: all dispatch is synchronous.
+class OpenGLGraphBackend : public IGraphBackend {
+public:
+    OpenGLGraphBackend();
+    ~OpenGLGraphBackend() override;
+
+    const char* name() const noexcept override { return "OpenGLGraph"; }
+    BackendType type() const noexcept override { return BackendType::OPENGL; }
+    bool isAvailable() const noexcept override;
+
+    BackendCapabilities getCapabilities() const override;
+    bool initialize() override;
+    void shutdown() override;
+
+    // Batch BFS: returns reachable vertex lists (up to maxDepth hops) for each
+    // start vertex. adjacency is an N×N dense matrix (adj[u*N+v] != 0 ⟹ edge u→v).
+    std::vector<std::vector<uint32_t>> batchBFS(
+        const uint32_t* adjacency,
+        size_t numVertices,
+        const uint32_t* startVertices,
+        size_t numStarts,
+        uint32_t maxDepth
+    ) override;
+
+    // Batch shortest path via Bellman-Ford. Returns vertex-sequence paths from
+    // startVertices[i] to endVertices[i]; empty if unreachable.
+    // weights is an N×N matrix (weight[u*N+v] for edge u→v).
+    std::vector<std::vector<uint32_t>> batchShortestPath(
+        const uint32_t* adjacency,
+        const float* weights,
+        size_t numVertices,
+        const uint32_t* startVertices,
+        const uint32_t* endVertices,
+        size_t numPairs
+    ) override;
+
+private:
+    bool initialized_ = false;
+    class OpenGLGraphBackendImpl;
+    std::unique_ptr<OpenGLGraphBackendImpl> impl_;
 };
 
 } // namespace acceleration

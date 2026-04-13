@@ -341,15 +341,16 @@ and `L2 | INNER_PRODUCT` metric bits. Tests in `tests/test_faiss_gpu_backend.cpp
 ### OpenGL Compute Shader Backend: Complete 5 Remaining Stubs
 **Priority:** Low
 **Target Version:** v2.0.0
+**Status:** ✅ IMPLEMENTED
 
-`graphics_backends.cpp` header comment (line 14) and status banner (line 23) explicitly note *"OpenGL stub remaining"* and records *"Stubs: 5 (OpenGL only)"*. Specifically, `OpenGLVectorBackend::batchKnnSearch()`, `batchBFS()`, `batchShortestPaths()`, `batchPointInPolygon()`, and `batchHaversineDistance()` all return `{}` (lines 1781–1823). The Vulkan equivalents of all five operations are fully implemented in SPIR-V; the OpenGL path is intended as a fallback for platforms with OpenGL 4.3+ but no Vulkan ICD.
+`graphics_backends.cpp` header comment and status banner updated to *"Stubs: 0"*. All five stubs are now implemented across three OpenGL backend classes.
 
 **Implementation Notes:**
-- `[ ]` Implement `OpenGLVectorBackend::batchKnnSearch()` using the existing EGL + compute-shader infrastructure from `computeDistances()` (line 1766): dispatch the L2/cosine GLSL shader, read back distances, perform top-K on CPU with `std::nth_element`, return `std::vector<std::vector<std::pair<uint32_t,float>>>`.
-- `[ ]` Implement `batchBFS()` and `batchShortestPaths()` using GLSL compute shaders equivalent to the Vulkan `batch_search.comp` and `topk_selection.comp`; store adjacency list in an SSBO.
-- `[ ]` Implement `batchPointInPolygon()` and `batchHaversineDistance()` porting the Vulkan `point_in_polygon.comp` and `haversine_distance.comp` shaders to GLSL 4.30 (minimal changes — both shaders are already GLSL-compatible).
-- `[ ]` Update the status banner comment to *"Stubs: 0"* and maturity to `🟢 PRODUCTION-READY` once all five are complete.
-- `[ ]` Mark `OpenGLVectorBackend::getCapabilities().supportsAsync = false` remains accurate; document it in the header.
+- `[x]` Implemented `OpenGLVectorBackend::batchKnnSearch()` using the existing EGL + compute-shader infrastructure from `computeDistances()`: dispatches the L2/cosine GLSL shader, reads back distances, performs top-K on CPU with `std::partial_sort`, returns `std::vector<std::vector<std::pair<uint32_t,float>>>`.
+- `[x]` Implemented `OpenGLGraphBackend::batchBFS()` and `batchShortestPath()` in the new `OpenGLGraphBackend` class (implements `IGraphBackend`) using GLSL 4.30 compute shaders (wavefront-parallel BFS with two ping-pong frontier SSBOs; parallel Bellman-Ford with init + relax shaders); CPU fallback BFS queue and Bellman-Ford when EGL unavailable.
+- `[x]` Implemented `OpenGLGeoBackend::batchDistances()` (Haversine) and `batchPointInPolygon()` (ray-casting) in the new `OpenGLGeoBackend` class (implements `IGeoBackend`) using GLSL 4.30 compute shaders ported from the Vulkan GLSL-compatible equivalents; CPU fallback uses the same algorithms as `VulkanGeoBackend`.
+- `[x]` Updated the status banner comment to *"Stubs: 0"*.
+- `[x]` `OpenGLVectorBackend::getCapabilities().supportsAsync = false` remains accurate and is documented in `graphics_backends.h`. Both new backends (`OpenGLGeoBackend`, `OpenGLGraphBackend`) also set `supportsAsync = false`.
 
 ---
 
