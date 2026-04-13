@@ -35,6 +35,7 @@
 #include "llm/multi_lora_manager.h"
 #include "llm/shared_worker_pool.h"
 #include "llm/speculative_decoder.h"
+#include "llm/adapter_registry.h"
 #include <memory>
 #include <mutex>
 #include <vector>
@@ -227,6 +228,23 @@ public:
     std::vector<std::string> getAvailableModels() const;
 
     /**
+     * @brief Attach an adapter registry for DRAFT model auto-discovery.
+     *
+     * When speculative decoding is enabled and @c Config::speculative_draft_model_id
+     * is empty, the engine will call
+     * @c AdapterRegistry::findDraftAdapterForFamily() with the target model's
+     * architecture/family string each time it selects a target model.  The
+     * first DRAFT adapter whose architecture matches the target model's family
+     * is used as the draft model for that request, provided its adapter_id is
+     * also registered as a model via @c registerModel().
+     *
+     * Thread-safe: the registry reference is stored under @c models_mutex_.
+     *
+     * @param registry Non-null adapter registry to query for DRAFT adapters.
+     */
+    void setAdapterRegistry(std::shared_ptr<AdapterRegistry> registry);
+
+    /**
      * @brief Hot-swap the plugin for a registered model without restarting the engine.
      *
      * Atomically replaces the plugin associated with @p model_id.  In-flight
@@ -414,6 +432,12 @@ private:
     // nullptr when enable_speculative_decoding == false.
     std::unique_ptr<SpeculativeDecoder> speculative_decoder_;
 
+    // Optional adapter registry for DRAFT model auto-discovery.
+    // When set and speculative_draft_model_id is empty, the engine queries
+    // this registry via findDraftAdapterForFamily() to auto-select the draft
+    // model based on the target model's architecture/family.
+    std::shared_ptr<AdapterRegistry> adapter_registry_;
+
     // Content-based / metadata-tag model router (Phase 3).
     // Evaluated in selectModel() before load-balancing strategies.
     ModelRouter model_router_;
@@ -517,6 +541,14 @@ private:
         std::shared_ptr<ILLMPlugin> draft_plugin,
         InferenceResponse&         response
     );
+
+    // Resolve the draft model ID for a given target model.
+    // Returns config_.speculative_draft_model_id when non-empty.
+    // Otherwise, if adapter_registry_ is set, queries it for a DRAFT adapter
+    // matching the target model's family (architecture field); returns the
+    // matching adapter_id when the corresponding model is registered, or
+    // an empty string when no suitable draft model is found.
+    std::string resolveDraftModelId(const std::string& target_model_id) const;
     
     // Helper methods
     std::string generateRequestId();

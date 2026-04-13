@@ -538,3 +538,181 @@ TEST(SpeculativeDecoderIntegrationTest, SpeculativeStatsInDetailedMetrics) {
 
     engine.shutdown();
 }
+
+// ═══════════════════════════════════════════════════════════
+// Test 14: AdapterRegistry DRAFT role — listAdaptersByRole
+// ═══════════════════════════════════════════════════════════
+
+#include "llm/adapter_registry.h"
+
+TEST(AdapterRegistryDraftRoleTest, ListAdaptersByRoleDraftAndGeneral) {
+    AdapterRegistry registry(nullptr);
+
+    // Register one GENERAL adapter
+    AdapterMetadata general;
+    general.adapter_id    = "general-adapter";
+    general.base_model_name = "llama-7b";
+    general.architecture  = "llama";
+    general.role          = AdapterRole::GENERAL;
+    registry.registerAdapter(general);
+
+    // Register one DRAFT adapter
+    AdapterMetadata draft;
+    draft.adapter_id    = "draft-adapter";
+    draft.base_model_name = "llama-0.5b";
+    draft.architecture  = "llama";
+    draft.role          = AdapterRole::DRAFT;
+    registry.registerAdapter(draft);
+
+    auto drafts   = registry.listAdaptersByRole(AdapterRole::DRAFT);
+    auto generals = registry.listAdaptersByRole(AdapterRole::GENERAL);
+
+    ASSERT_EQ(drafts.size(), 1u)   << "Exactly one DRAFT adapter should be found";
+    ASSERT_EQ(generals.size(), 1u) << "Exactly one GENERAL adapter should be found";
+    EXPECT_EQ(drafts[0].adapter_id,   "draft-adapter");
+    EXPECT_EQ(generals[0].adapter_id, "general-adapter");
+}
+
+// ═══════════════════════════════════════════════════════════
+// Test 15: AdapterRegistry — findDraftAdapterForFamily
+// ═══════════════════════════════════════════════════════════
+
+TEST(AdapterRegistryDraftRoleTest, FindDraftAdapterForFamilyMatchesArchitecture) {
+    AdapterRegistry registry(nullptr);
+
+    AdapterMetadata draft;
+    draft.adapter_id    = "llama-draft";
+    draft.base_model_name = "llama-0.5b";
+    draft.architecture  = "llama";
+    draft.role          = AdapterRole::DRAFT;
+    draft.status        = AdapterMetadata::Status::DEPLOYED;
+    registry.registerAdapter(draft);
+
+    // Exact match
+    auto found = registry.findDraftAdapterForFamily("llama");
+    ASSERT_TRUE(found.has_value()) << "Should find DRAFT adapter for 'llama' family";
+    EXPECT_EQ(found->adapter_id, "llama-draft");
+}
+
+TEST(AdapterRegistryDraftRoleTest, FindDraftAdapterForFamilyCaseInsensitive) {
+    AdapterRegistry registry(nullptr);
+
+    AdapterMetadata draft;
+    draft.adapter_id  = "mistral-draft";
+    draft.architecture = "Mistral";  // Mixed-case in registry
+    draft.role        = AdapterRole::DRAFT;
+    registry.registerAdapter(draft);
+
+    // Query with different case
+    auto found = registry.findDraftAdapterForFamily("mistral");
+    ASSERT_TRUE(found.has_value()) << "Match should be case-insensitive";
+    EXPECT_EQ(found->adapter_id, "mistral-draft");
+}
+
+TEST(AdapterRegistryDraftRoleTest, FindDraftAdapterForFamilyReturnsNulloptWhenNoneMatch) {
+    AdapterRegistry registry(nullptr);
+
+    AdapterMetadata draft;
+    draft.adapter_id  = "llama-draft";
+    draft.architecture = "llama";
+    draft.role        = AdapterRole::DRAFT;
+    registry.registerAdapter(draft);
+
+    // Unrelated family
+    auto found = registry.findDraftAdapterForFamily("gpt");
+    EXPECT_FALSE(found.has_value())
+        << "Should return nullopt when no DRAFT adapter for the family exists";
+}
+
+TEST(AdapterRegistryDraftRoleTest, FindDraftAdapterForFamilyIgnoresGeneralAdapters) {
+    AdapterRegistry registry(nullptr);
+
+    AdapterMetadata general;
+    general.adapter_id  = "llama-general";
+    general.architecture = "llama";
+    general.role        = AdapterRole::GENERAL;  // Not a DRAFT
+    registry.registerAdapter(general);
+
+    auto found = registry.findDraftAdapterForFamily("llama");
+    EXPECT_FALSE(found.has_value())
+        << "GENERAL adapters must not be returned by findDraftAdapterForFamily";
+}
+
+TEST(AdapterRegistryDraftRoleTest, FindDraftAdapterForFamilyPrefersDeployed) {
+    AdapterRegistry registry(nullptr);
+
+    // Register two DRAFT adapters: one TRAINED, one DEPLOYED
+    AdapterMetadata trained_draft;
+    trained_draft.adapter_id  = "llama-draft-trained";
+    trained_draft.architecture = "llama";
+    trained_draft.role        = AdapterRole::DRAFT;
+    trained_draft.status      = AdapterMetadata::Status::TRAINED;
+    trained_draft.version     = {1, 0, 0};
+    registry.registerAdapter(trained_draft);
+
+    AdapterMetadata deployed_draft;
+    deployed_draft.adapter_id  = "llama-draft-deployed";
+    deployed_draft.architecture = "llama";
+    deployed_draft.role        = AdapterRole::DRAFT;
+    deployed_draft.status      = AdapterMetadata::Status::DEPLOYED;
+    deployed_draft.version     = {1, 0, 0};
+    registry.registerAdapter(deployed_draft);
+
+    auto found = registry.findDraftAdapterForFamily("llama");
+    ASSERT_TRUE(found.has_value());
+    EXPECT_EQ(found->adapter_id, "llama-draft-deployed")
+        << "DEPLOYED adapter should be preferred over TRAINED adapter";
+}
+
+// ═══════════════════════════════════════════════════════════
+// Test 16: InferenceEngineEnhanced — setAdapterRegistry +
+//          auto draft model selection
+// ═══════════════════════════════════════════════════════════
+
+TEST(SpeculativeDecoderIntegrationTest, AutoDraftModelViaAdapterRegistry) {
+    // Build an engine with enable_speculative_decoding but NO explicit draft ID.
+    InferenceEngineEnhanced::Config cfg;
+    cfg.enable_speculative_decoding = true;
+    cfg.speculative_draft_tokens    = 3;
+    cfg.speculative_draft_model_id  = "";  // Use auto-discovery
+    cfg.num_worker_threads          = 1;
+    cfg.enable_context_caching      = false;
+    cfg.batch_timeout_ms            = 50;
+
+    InferenceEngineEnhanced engine(cfg);
+
+    // Register both models before attaching the registry.
+    engine.registerModel("llama-7b",   std::make_shared<MockPlugin>("llama-7b",   5));
+    engine.registerModel("llama-0.5b", std::make_shared<MockPlugin>("llama-0.5b", 2));
+
+    // Build an adapter registry that maps "llama" family → "llama-0.5b" draft model.
+    auto registry = std::make_shared<AdapterRegistry>(nullptr);
+    AdapterMetadata draft_meta;
+    draft_meta.adapter_id  = "llama-0.5b";  // Must match a registered model ID
+    draft_meta.architecture = "llama";
+    draft_meta.role        = AdapterRole::DRAFT;
+    draft_meta.status      = AdapterMetadata::Status::DEPLOYED;
+    registry->registerAdapter(draft_meta);
+
+    engine.setAdapterRegistry(registry);
+    engine.start();
+
+    InferenceEngineEnhanced::EnhancedInferenceRequest req;
+    req.request_id              = "auto_draft_test";
+    req.base_request.prompt     = "Auto-discovered draft model test";
+    req.base_request.max_tokens = 20;
+    req.allow_caching           = false;
+    req.preferred_model_id      = "llama-7b";
+
+    auto handle   = engine.submit(req);
+    auto response = handle.get();
+
+    EXPECT_FALSE(response.text.empty());
+
+    // Speculative stats: the engine should have found the draft model.
+    auto stats = engine.getStatistics();
+    EXPECT_GE(stats.speculative_steps, 1u)
+        << "Speculative decoding steps should be recorded when draft model is auto-discovered";
+
+    engine.shutdown();
+}
