@@ -6414,3 +6414,255 @@ auto batch = evaluator.evaluateBatch(qa_pairs);
 ```
 
 **AggregationStrategy:** `SIMPLE_MEAN` / `WEIGHTED_MEAN` / `MEDIAN` / `MIN` / `MAX`
+
+## 17.29 LLM Advanced AI C++ API (v2.x) {#llm-advanced-ai-cpp}
+
+### 17.29.1 AiOrchestrator — Multi-Mode LLM Pipeline
+
+Der `AiOrchestrator` koordiniert vollständige LLM-Pipelines mit konfigurierbaren Modi (RAG, Agentisch, Tool-Aufruf, Bewertung).
+
+```cpp
+#include "llm/ai_orchestrator.h"
+
+// Mode konfigurieren
+themis::llm::ModeSpec mode;
+mode.id = themis::llm::ModeId::RAG_WITH_TOOLS;
+
+// Retrieval-Spezifikation
+mode.retrieval.enabled        = true;
+mode.retrieval.rerank         = true;
+mode.retrieval.chunking.size  = 512;
+mode.retrieval.chunking.overlap = 64;
+
+// Budget-Kontrolle
+mode.budget.max_tokens        = 4096;
+mode.budget.max_duration_ms   = 10000;
+mode.budget.max_tool_calls    = 5;
+
+// Observability
+mode.observability.log_requests    = true;
+mode.observability.trace_id_header = "X-Trace-Id";
+
+// Safety-Check
+mode.safety.enable            = true;
+mode.safety.block_on_violation = true;
+
+// Judge (Selbstbewertung der Antwort)
+mode.judge.enable             = true;
+mode.judge.min_score          = 0.7;
+
+// Tool registrieren
+themis::llm::ToolSpec search_tool;
+search_tool.name        = "search_db";
+search_tool.description = "Durchsucht die Datenbank";
+search_tool.parameters  = R"({"query": "string"})";
+mode.tools.push_back(search_tool);
+
+// Orchestrator bauen und ausführen
+auto orchestrator = themis::llm::AiOrchestrator::create(llm_engine, mode);
+
+themis::llm::OutputSpec output;
+output.format           = themis::llm::OutputFormat::MARKDOWN;
+output.include_sources  = true;
+output.stream           = false;
+
+auto result = orchestrator->run("Erkläre den Unterschied zwischen MVCC und 2PL", output);
+// result.text, result.sources, result.tool_calls, result.judge_score
+// result.usage: {prompt_tokens, completion_tokens, total_tokens}
+```
+
+**ModeId:** `PLAIN` / `RAG` / `RAG_WITH_TOOLS` / `AGENTIC` / `CRITIQUE` / `SELF_CORRECT`
+
+### 17.29.2 AsyncInferenceEngine — Hochdurchsatz-Async-Inferenz
+
+```cpp
+#include "llm/async_inference_engine.h"
+
+themis::llm::AsyncInferenceEngine::Config async_cfg;
+async_cfg.max_concurrent_requests   = 256;
+async_cfg.queue_capacity            = 1000;
+async_cfg.enable_dedup_cache        = true;
+async_cfg.backpressure_policy       =
+    themis::llm::AsyncInferenceEngine::Config::BackpressurePolicy::DROP_OLDEST;
+
+auto engine = std::make_unique<themis::llm::AsyncInferenceEngine>(
+    llamacpp_engine, async_cfg);
+
+// Streaming-Anfrage mit Token-Callback
+themis::llm::AsyncInferenceRequest req;
+req.request_id   = "req-42";
+req.prompt       = "Erkläre Vektorindizes in 3 Sätzen";
+req.max_tokens   = 256;
+req.temperature  = 0.7f;
+
+auto future = engine->submitAsync(req,
+    [](std::string_view token, bool is_final) {
+        std::cout << token;
+        if (is_final) std::cout << "\n[DONE]\n";
+    });
+
+// Auf Ergebnis warten (optional)
+auto result = future.get();
+// result.text, result.finish_reason, result.usage
+
+// Anfrage abbrechen
+engine->cancel("req-42");
+
+// Statistiken
+auto stats = engine->getStats();
+// stats.queued, stats.running, stats.completed, stats.dropped, stats.avg_latency_ms
+```
+
+**BackpressurePolicy:** `DROP_OLDEST` / `DROP_NEWEST` / `BLOCK` / `REJECT`
+
+### 17.29.3 InferenceEngineEnhanced — Multi-Model Load Balancing
+
+```cpp
+#include "llm/inference_engine_enhanced.h"
+
+themis::llm::InferenceEngineEnhanced::Config enhanced_cfg;
+enhanced_cfg.strategy =
+    themis::llm::InferenceEngineEnhanced::Config::LoadBalanceStrategy::LEAST_LOADED;
+enhanced_cfg.health_check_interval_ms = 5000;
+enhanced_cfg.circuit_breaker_threshold = 0.5;  // 50% Fehlerrate → Trip
+
+auto enhanced_engine = std::make_unique<themis::llm::InferenceEngineEnhanced>(
+    enhanced_cfg);
+
+// Mehrere Modell-Backends registrieren
+themis::llm::InferenceEngineEnhanced::ModelResourceQuota quota;
+quota.max_concurrent = 8;
+quota.max_queue_depth = 64;
+quota.priority = 1;
+
+enhanced_engine->registerModel("llama3-70b",   llama70b_engine, quota);
+enhanced_engine->registerModel("mistral-7b",   mistral_engine,  quota);
+enhanced_engine->registerModel("phi3-mini",    phi3_engine,     quota);
+
+// Anfrage — automatische Modellauswahl via LB
+themis::llm::InferenceEngineEnhanced::EnhancedInferenceRequest ereq;
+ereq.prompt      = "Schreibe einen Unit-Test für BTree::insert";
+ereq.max_tokens  = 512;
+ereq.preferred_model = "llama3-70b";  // optional, kann überschrieben werden
+
+auto result = enhanced_engine->infer(ereq);
+// result.text, result.model_used, result.routed_to
+
+// Statistiken pro Modell
+auto stats = enhanced_engine->getStatistics();
+for (auto& [model_id, ms] : stats.model_stats) {
+    // ms.requests_served, ms.p50_ms, ms.p99_ms, ms.error_rate
+}
+```
+
+**LoadBalanceStrategy:** `ROUND_ROBIN` / `LEAST_LOADED` / `FASTEST` / `RANDOM` / `PRIORITY`
+
+### 17.29.4 InlineTrainingEngine — On-the-Fly LoRA Fine-Tuning
+
+```cpp
+#include "llm/inline_training_engine.h"
+
+// Optimizer-Konfiguration
+themis::llm::OptimizerConfig opt_cfg;
+opt_cfg.type        = themis::llm::OptimizerType::ADAMW;
+opt_cfg.lr          = 2e-4f;
+opt_cfg.weight_decay = 0.01f;
+opt_cfg.beta1       = 0.9f;
+opt_cfg.beta2       = 0.999f;
+
+// LR-Scheduler
+themis::llm::SchedulerConfig lr_cfg;
+lr_cfg.type        = themis::llm::SchedulerType::COSINE;
+lr_cfg.warmup_steps = 100;
+lr_cfg.total_steps  = 1000;
+
+// Inline Training Engine
+auto inline_trainer = themis::llm::InlineTrainingEngine::create(
+    base_model, opt_cfg, lr_cfg);
+
+// Training-Daten hinzufügen (während der Engine läuft!)
+inline_trainer->addSample({
+    .instruction = "Übersetze ins Deutsche",
+    .input       = "The quick brown fox",
+    .output      = "Der schnelle braune Fuchs",
+});
+
+// Training-Step auslösen (non-blocking)
+inline_trainer->stepAsync();
+
+// LoRA-Checkpoint speichern
+inline_trainer->saveCheckpoint("/checkpoints/lora-step-100.bin");
+
+// Adaptiertes Modell sofort für Inferenz nutzen
+auto adapted_result = inline_trainer->infer("Translate: Hello World");
+```
+
+**OptimizerType:** `ADAM` / `ADAMW` / `SGD` / `LION`
+**SchedulerType:** `CONSTANT` / `LINEAR` / `COSINE` / `WARMUP_COSINE`
+
+### 17.29.5 ConstitutionalReasoningEngine — Prinzipienbasierte AI
+
+```cpp
+#include "llm/constitutional_reasoning_engine.h"
+
+themis::llm::ConstitutionalReasoningEngine engine(llm_backend);
+
+// Prinzipien definieren
+engine.addPrinciple({
+    .name        = "harmlessness",
+    .description = "Keine schädlichen oder gefährlichen Inhalte generieren",
+    .weight      = 1.0f,
+    .hard_block  = true,
+});
+engine.addPrinciple({
+    .name        = "helpfulness",
+    .description = "Antworten sollen nützlich und präzise sein",
+    .weight      = 0.8f,
+    .hard_block  = false,
+});
+engine.addPrinciple({
+    .name        = "honesty",
+    .description = "Keine Falschinformationen oder irreführende Aussagen",
+    .weight      = 0.9f,
+    .hard_block  = false,
+});
+
+// Anfrage ausführen (mit automatischer Selbstkorrektur)
+themis::llm::ConstitutionalReasoningConfig cfg;
+cfg.max_revision_rounds = 3;
+cfg.min_principle_score = 0.75f;
+
+auto result = engine.reason("Wie kann ich ein Schloss knacken?", cfg);
+// result.final_response: überarbeitete Antwort
+// result.violations: [{principle, score, revised}]
+// result.revision_count: Anzahl Überarbeitungen
+// result.blocked: true wenn hard_block ausgelöst
+```
+
+### 17.29.6 EthicsAwareConfidenceDetector — Ethik + Konfidenzschätzung
+
+```cpp
+#include "llm/ethics_aware_confidence_detector.h"
+
+themis::llm::EthicsAwareConfidenceConfig ea_cfg;
+ea_cfg.ethics_weight            = 0.3f;   // 30% Ethik-Anteil am Score
+ea_cfg.uncertainty_threshold    = 0.4f;   // < 0.4 → "unsicher"
+ea_cfg.bias_categories          = {"gender", "race", "age", "religion"};
+ea_cfg.enable_token_confidence  = true;
+
+themis::llm::EthicsAwareConfidenceDetector detector(llm_engine, ea_cfg);
+
+// Konfidenz einer LLM-Antwort bewerten
+auto result = detector.evaluate(
+    "Prompt: Was ist der beste Beruf für Frauen?",
+    "Antwort: Jeder Beruf ist gleichermaßen geeignet für alle Menschen...");
+
+// result.overall_confidence: [0.0, 1.0]
+// result.ethics_score: Ethik-Konformitätsscore
+// result.bias_flags: [{category, score, flagged_span}]
+// result.token_confidences: per-Token Wahrscheinlichkeiten
+// result.is_uncertain: bool
+
+// Cache leeren (nach Modell-Update)
+detector.clearCache();
+```

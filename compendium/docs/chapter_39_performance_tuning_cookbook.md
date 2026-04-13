@@ -1601,3 +1601,162 @@ while (buf.tryPop(item)) {
 // Dropped-Counter (Overflow-Diagnose)
 size_t dropped = buf.dropped_count();
 ```
+
+## 39.14 Acceleration-Internals C++ API (v1.x) {#acceleration-internals-cpp}
+
+### 39.14.1 ComputeBackend — Abstrakte GPU/NPU/CPU-Schicht
+
+```cpp
+#include "acceleration/compute_backend.h"
+
+// Backend-Fähigkeiten abfragen
+themis::acceleration::BackendCapabilities caps =
+    themis::acceleration::getBackendCapabilities(
+        themis::acceleration::BackendType::CUDA);
+
+// caps.max_batch_size, caps.supports_fp16, caps.supports_int8
+// caps.supports_int4, caps.vram_bytes, caps.compute_units
+
+// Kernel ausführen
+themis::acceleration::KernelConfig kconfig;
+kconfig.batch_size    = 1024;
+kconfig.precision     = themis::acceleration::PrecisionMode::FP16;
+kconfig.max_latency_ms = 10;
+
+themis::acceleration::BatchDescriptor batch;
+batch.data     = input_ptr;
+batch.count    = 1024;
+batch.dim      = 768;
+
+auto kernel_result = backend->executeSimilarityKernel(batch, kconfig);
+// kernel_result.distances: float[], kernel_result.duration_ms
+
+// Gesundheitsstatus
+auto health = backend->getHealth();
+// health.status: HEALTHY / DEGRADED / FAILED
+// health.error_message, health.consecutive_failures
+```
+
+**BackendType:** `CPU` / `CUDA` / `HIP` / `VULKAN` / `OPENCL` / `DIRECTX`
+**PrecisionMode:** `FP32` / `FP16` / `BF16` / `INT8` / `INT4` / `W4A8`
+
+### 39.14.2 KernelFallbackDispatcher — Automatischer Fallback
+
+```cpp
+#include "acceleration/kernel_fallback_dispatcher.h"
+
+// ANN (Approximate Nearest Neighbor) Kernel mit Fallback-Kette
+themis::acceleration::ANNKernelFallbackDispatcher ann_dispatcher;
+// Fallback-Kette: CUDA → HIP → Vulkan → CPU
+
+ann_dispatcher.setRetryPolicy({
+    .max_attempts       = 3,
+    .backoff_ms         = 100,
+    .fallback_to_cpu    = true,
+});
+
+auto ann_result = ann_dispatcher.search(query_vector, index, k);
+// ann_result.ids: top-k Index-IDs
+// ann_result.distances: entsprechende Distanzen
+// ann_result.backend_used: "CUDA" / "CPU_FALLBACK"
+
+// Geo-Kernel mit Fallback
+themis::acceleration::GeoKernelFallbackDispatcher geo_dispatcher;
+auto geo_result = geo_dispatcher.computeDistancesBatch(
+    origin_points, target_points, themis::geo::DistanceMode::HAVERSINE);
+// geo_result.distances_m: [{origin_idx, target_idx, distance_m}]
+```
+
+### 39.14.3 VecKnnPipeline — Hochperformante Vektorsucheals Pipeline
+
+```cpp
+#include "acceleration/vec_knn.h"
+
+themis::acceleration::VecKnnPipelineConfig knn_cfg;
+knn_cfg.backend       = themis::acceleration::BackendType::CUDA;
+knn_cfg.precision     = themis::acceleration::PrecisionMode::FP16;
+knn_cfg.nprobe        = 64;      // IVF-Suchtiefe
+knn_cfg.use_cache     = true;
+knn_cfg.cache_ttl_ms  = 5000;
+knn_cfg.ef_search     = 200;     // HNSW ef
+
+// Pipeline aufbauen (VectorIndex → Acceleration Backend)
+auto knn_pipeline = themis::acceleration::VecKnnPipeline::create(
+    vector_index, knn_cfg);
+
+// K-Nearest-Neighbor-Suche
+auto results = knn_pipeline->search(
+    query_embedding,   // std::vector<float>
+    /*k=*/ 10,
+    filter_expr        // optional: AQL-Filter
+);
+
+// results: [{doc_id, score, distance}] sortiert nach Score
+for (auto& r : results) {
+    std::cout << r.doc_id << " score=" << r.score << "\n";
+}
+
+// Batch-Suche (mehrere Queries gleichzeitig)
+auto batch_results = knn_pipeline->searchBatch(
+    {query1, query2, query3}, /*k=*/ 5);
+// batch_results[i]: Ergebnisse für query i
+
+// Distanz-Cache leeren
+knn_pipeline->clearCache();
+```
+
+### 39.14.4 DeviceManager — Multi-GPU-Verwaltung
+
+```cpp
+#include "acceleration/device_manager.h"
+
+themis::acceleration::DeviceManager& dev_mgr =
+    themis::acceleration::DeviceManager::instance();
+
+// GPU-Erkennung
+if (dev_mgr.hasGPU()) {
+    dev_mgr.logDeviceInfo();
+    // Gibt aus: GPU-Modell, VRAM, Compute Capability
+}
+
+// Alle verfügbaren Devices
+auto devices = dev_mgr.getDevices();
+for (auto& d : devices) {
+    // d.type: CPU/CUDA/HIP
+    // d.name: "NVIDIA A100 80GB"
+    // d.vram_bytes, d.compute_units
+}
+
+// Metriken abrufen
+#include "acceleration/metrics/metrics_collector.h"
+auto& acc_metrics = themis::acceleration::MetricsCollector::instance();
+// Prometheus-Counter/Gauge für:
+// - acceleration_kernel_duration_ms
+// - acceleration_fallback_count
+// - acceleration_cache_hit_ratio
+```
+
+### 39.14.5 RAII-Ressourcenverwaltung
+
+```cpp
+#include "acceleration/raii/cuda_raii.h"
+#include "acceleration/raii/vulkan_raii.h"
+
+// CUDA-Buffer mit RAII (automatische Freigabe)
+{
+    themis::acceleration::CudaBuffer<float> gpu_buf(1024 * 768);
+    // Daten hochladen
+    gpu_buf.upload(cpu_data.data(), cpu_data.size());
+    // Kernel ausführen
+    run_similarity_kernel(gpu_buf.ptr(), k);
+    // Daten herunterladen
+    gpu_buf.download(result_data.data());
+}  // GPU-Speicher wird hier automatisch freigegeben
+
+// Vulkan-Buffer analog
+{
+    themis::acceleration::VulkanBuffer<float> vk_buf(device, 512);
+    vk_buf.upload(cpu_data.data(), cpu_data.size());
+    // ...
+}  // automatische vkDestroyBuffer
+```

@@ -1894,3 +1894,196 @@ mv.startSync(); // Live-Sync via Changefeed
 | `POST` | `/cdc/{feed}/redact` | GDPR-Redaktion |
 | `GET` | `/cdc/{feed}/watermarks` | Watermark-Status |
 | `GET` | `/cdc/{feed}/stats` | Metriken |
+
+## 11.11 Content-Modul — Multi-Format Ingestion & Pipeline C++ API (v1.x) {#content-module-cpp}
+
+### 11.11.1 ContentManager — 10-stufige Verarbeitungs-Pipeline
+
+```cpp
+#include "content/content_manager.h"
+#include "content/content_policy.h"
+
+// Content-Policy konfigurieren
+themis::content::ContentPolicy policy;
+policy.enable_deduplication   = true;
+policy.ocr_enabled            = true;
+policy.max_file_size_bytes    = 100 * 1024 * 1024;  // 100 MB
+policy.allowed_mime_types     = {"image/*", "application/pdf",
+                                  "text/*", "audio/*", "video/*"};
+
+// ContentManager instanziieren
+themis::content::ContentManager mgr(rocksdb, llm_engine, policy);
+
+// Rohes Blob ingieren (MIME-Auto-Erkennung)
+themis::content::ContentManager::IngestResult result =
+    mgr.ingestRawBlob("document.pdf", pdf_bytes, {
+        .collection     = "legal_docs",
+        .tenant_id      = "acme-corp",
+        .generate_embedding = true,
+        .auto_tag       = true,
+    });
+
+// Pipelineergebnisse prüfen
+if (result.success) {
+    // result.content_id: eindeutige ID
+    // result.chunks: [{chunk_id, text, embedding_id}]
+    // result.metadata: {mime_type, language, page_count, ...}
+    for (auto& s : result.stage_outcomes) {
+        // s.stage_name, s.duration_ms, s.ok, s.message
+    }
+} else {
+    std::cerr << result.error_message << "\n";
+}
+
+// Prozessor-Chain für eigene Typen registrieren
+mgr.registerProcessor(
+    std::make_unique<themis::content::PDFProcessor>());
+mgr.registerProcessor(
+    std::make_unique<themis::content::AudioProcessor>());
+
+// Stats abfragen
+auto stats = mgr.getStats();
+// stats.ingested_total, stats.failed_total, stats.avg_duration_ms
+```
+
+**Pipeline-Stufen (in Reihenfolge):**
+1. MIME-Detection
+2. Virus/Malware-Scan
+3. Duplikat-Check (pHash/MinHash)
+4. Text-Extraktion (PDF, DOCX, HTML, OCR)
+5. Chunking
+6. Embedding-Generierung
+7. Metadaten-Extraktion (Geo, Medien, Sprache)
+8. LLM-Anreicherung (Summary, Tags, Kategorie)
+9. Policy-Validation
+10. Persistenz (RocksDB + Vector Index)
+
+### 11.11.2 EmbeddingPipeline — Batch-Embedding-Generierung
+
+```cpp
+#include "content/embedding_pipeline.h"
+
+themis::content::EmbeddingPipelineConfig ep_cfg;
+ep_cfg.model_name       = "nomic-embed-text-v1.5";
+ep_cfg.batch_size       = 32;
+ep_cfg.max_seq_len      = 512;
+ep_cfg.normalize        = true;
+ep_cfg.device           = "cuda:0";
+
+themis::content::EmbeddingPipeline embed_pipeline(ep_cfg, llm_engine);
+
+if (!embed_pipeline.isEnabled()) {
+    std::cerr << "Kein Embedding-Modell konfiguriert\n";
+}
+
+// Batch-Embedding
+std::vector<std::string> texts = {
+    "ThemisDB supports MVCC transactions",
+    "Vector indices enable semantic search",
+};
+auto embeddings = embed_pipeline.embed(texts);
+// embeddings: [{text_id, vector<float>, model_name}]
+
+// Fehlerbehandlung via Failure-Notification
+embed_pipeline.setFailureCallback([](const std::string& error) {
+    alert("EmbeddingPipeline failure: " + error);
+});
+```
+
+### 11.11.3 AsyncIngestionWorker — Hintergrund-Ingestion
+
+```cpp
+#include "content/async_ingestion_worker.h"
+
+themis::content::AsyncIngestionConfig worker_cfg;
+worker_cfg.queue_capacity       = 5000;
+worker_cfg.worker_threads       = 4;
+worker_cfg.retry_on_failure     = true;
+worker_cfg.max_retries          = 3;
+worker_cfg.retry_delay_ms       = 1000;
+worker_cfg.verbose_logging      = false;
+
+themis::content::AsyncIngestionWorker worker(content_mgr, worker_cfg);
+worker.start();
+
+// Ingestion-Job einreihen
+themis::content::IngestionJob job;
+job.type          = themis::content::IngestionJobType::FILE;
+job.source_path   = "/data/documents/report.pdf";
+job.collection    = "reports";
+job.priority      = 1;
+
+auto job_id = worker.enqueue(job);
+// job_id: eindeutige Job-ID für Status-Abfragen
+
+// Status prüfen
+auto status = worker.getJobStatus(job_id);
+// status: QUEUED / RUNNING / COMPLETED / FAILED / RETRYING
+
+// Auf Abschluss warten (optional)
+worker.waitForJob(job_id, std::chrono::seconds(30));
+
+// Alle ausstehenden Jobs abwarten und stoppen
+worker.stop();
+```
+
+**IngestionJobType:** `FILE` / `URL` / `S3_OBJECT` / `KAFKA_MESSAGE` / `RAW_BYTES`
+**IngestionJobStatus:** `QUEUED` / `RUNNING` / `COMPLETED` / `FAILED` / `RETRYING`
+
+### 11.11.4 ContentSecurity — Malware-Scan und Sicherheitsprüfung
+
+```cpp
+#include "content/content_security.h"
+
+themis::content::ContentSecurityConfig sec_cfg;
+sec_cfg.enable_malware_scan     = true;
+sec_cfg.block_on_malware        = true;
+sec_cfg.block_on_abuse          = false;
+sec_cfg.enable_zip_bomb_check   = true;
+sec_cfg.max_decompressed_ratio  = 100;  // max 100:1 Dekompression
+sec_cfg.sanitize_error_messages = true;
+sec_cfg.hide_internal_paths     = true;
+
+themis::content::ContentSecurityManager sec(sec_cfg);
+
+auto scan_result = sec.scan(file_bytes, file_mime_type);
+// scan_result.safe: bool
+// scan_result.threats: [{type: MALWARE/ZIP_BOMB/ABUSE, name, confidence}]
+// scan_result.sanitized_error: keine internen Pfade in Fehlermeldungen
+
+if (!scan_result.safe && sec_cfg.block_on_malware) {
+    quarantine(file_bytes, scan_result.threats);
+    return;
+}
+```
+
+### 11.11.5 IContentProcessor — Plugin-Interface für eigene Dateitypen
+
+```cpp
+#include "content/content_processor.h"
+
+// Eigenen Prozessor für proprietäres Format implementieren
+class MyXmlProcessor : public themis::content::IContentProcessor {
+public:
+    std::string mimeType() const override {
+        return "application/x-my-xml";
+    }
+
+    themis::content::ExtractionResult extract(
+        const std::vector<uint8_t>& bytes,
+        const themis::content::ContentMeta& meta) override
+    {
+        themis::content::ExtractionResult result;
+        // XML parsen und Felder befüllen:
+        result.text     = parse_xml_to_text(bytes);
+        result.language = "de";
+        result.geo_data = extract_coordinates(bytes);
+        return result;
+    }
+};
+
+// Registrieren
+mgr.registerProcessor(std::make_unique<MyXmlProcessor>());
+```
+
+**ExtractionResult-Felder:** `text` / `language` / `page_count` / `geo_data` / `media_data` / `cad_data`

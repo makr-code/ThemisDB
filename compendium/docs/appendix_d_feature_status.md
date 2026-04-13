@@ -938,3 +938,49 @@ Die folgenden Komponenten wurden mit dem v1.9.x-Release (Commit 2026-04-12) in d
 | `TaskAnomalyDetector::analyzeTask()` | `scheduler/task_anomaly_detector.h` | ✅ GA | Frequenz/Pattern/Resource/Failure-Rate-Erkennung; Callback |
 | `TaskAuditManager::query()` / `exportTo()` | `scheduler/task_audit_manager.h` | ✅ GA | Vollständiger Audit-Trail; JSON/CSV/Parquet-Export; 90-Tage-Retention |
 | `HybridRetentionManager::startAsync()` | `scheduler/hybrid_retention_manager.h` | ✅ GA | 3-Stufen: Gorilla (0–7d) + Downsampling (7–365d) + Tages-Agg (>365d) |
+
+## Implementierungsstatus — LLM Advanced AI, Replication, Content Module, Acceleration (2026-04-13 session 6)
+
+### LLM Advanced AI (v2.x)
+
+| Feature | Header | Status | Beschreibung |
+|---------|--------|--------|-------------|
+| `AiOrchestrator::run()` | `llm/ai_orchestrator.h` | ✅ GA | Multi-Mode Pipeline: RAG/AGENTIC/CRITIQUE; ModeSpec, BudgetSpec, SafetySpec, JudgeSpec |
+| `AsyncInferenceEngine::submitAsync()` | `llm/async_inference_engine.h` | ✅ GA | Streaming Token-Callback; DROP_OLDEST/BLOCK Backpressure; Dedup-Cache |
+| `InferenceEngineEnhanced` | `llm/inference_engine_enhanced.h` | ✅ GA | Multi-Model LB (ROUND_ROBIN/LEAST_LOADED/FASTEST); Circuit Breaker; ModelResourceQuota |
+| `InlineTrainingEngine::stepAsync()` | `llm/inline_training_engine.h` | ✅ GA | On-the-Fly LoRA Fine-Tuning; AdamW/LION Optimizer; Cosine LR Scheduler |
+| `ConstitutionalReasoningEngine::reason()` | `llm/constitutional_reasoning_engine.h` | ✅ GA | Prinzipienbasiert; max_revision_rounds; hard_block; HHH-Prinzipien |
+| `EthicsAwareConfidenceDetector::evaluate()` | `llm/ethics_aware_confidence_detector.h` | ✅ GA | Bias-Kategorien; Token-Konfidenz; Ethics + Uncertainty Combined Score |
+
+### Replication Multi-Master & CRDT (v1.x)
+
+| Feature | Header | Status | Beschreibung |
+|---------|--------|--------|-------------|
+| `ReplicationManager::addReplica()` | `replication/replication_manager.h` | ✅ GA | PRIMARY/SECONDARY/ARBITER; SYNC/ASYNC/SEMI_SYNC; Lag-Monitoring |
+| `VectorClock::happensBefore()` / `isConcurrent()` | `replication/multi_master_replication.h` | ✅ GA | Kausalordnung; Nebenläufigkeitserkennung; merge() |
+| `HybridLogicalClock::now()` | `replication/multi_master_replication.h` | ✅ GA | Wall + Logical Timestamp; TrueTime-ähnlich |
+| `ConflictResolver::resolve()` | `replication/multi_master_replication.h` | ✅ GA | LWW/FWW/MERGE/CUSTOM; CONCURRENT_WRITE/DELETE_UPDATE/SCHEMA_CONFLICT |
+| `GrowOnlyCounter` / `PNCounter` / `MVRegister` (CRDT) | `replication/crdt_types.h` | ✅ GA | Kommutative CRDT-Merge; G-Counter, PN-Counter, Multi-Value Register |
+| `ReplicationSlot::advance()` / `drop()` | `replication/replication_slot.h` | ✅ GA | Persistent WAL-Slots; LSN-Fortschritt; PAUSE/RESUME |
+
+### Content-Modul (v1.x)
+
+| Feature | Header | Status | Beschreibung |
+|---------|--------|--------|-------------|
+| `ContentManager::ingestRawBlob()` Pipeline 10 Stages | `content/content_manager.h` | ✅ GA | MIME-Auto, Malware-Scan, pHash-Dedup, OCR, Chunking, Embed, LLM-Tagging |
+| `EmbeddingPipeline::embed()` | `content/embedding_pipeline.h` | ✅ GA | Batch-Embedding; normalize; Failure-Callback; Device-Auswahl |
+| `AsyncIngestionWorker::enqueue()` | `content/async_ingestion_worker.h` | ✅ GA | 4 Worker-Threads; QUEUED/RUNNING/FAILED/RETRYING; Priority-Queue |
+| `ContentSecurity::scan()` | `content/content_security.h` | ✅ GA | Malware/ZIP-Bomb/Abuse; sanitize_error_messages; block_on_malware |
+| `IContentProcessor` Plugin-Interface | `content/content_processor.h` | ✅ GA | Eigene MIME-Typen; ExtractionResult (text/language/geo_data/media_data) |
+| `ContentPolicy` MIME-Whitelist/Blacklist | `content/content_policy.h` | ✅ GA | allowed_mime_types; enable_deduplication; ocr_enabled; isAllowed() |
+
+### Acceleration-Internals (v1.x)
+
+| Feature | Header | Status | Beschreibung |
+|---------|--------|--------|-------------|
+| `ComputeBackend::executeSimilarityKernel()` | `acceleration/compute_backend.h` | ✅ GA | FP32/FP16/BF16/INT8/INT4; CUDA/HIP/Vulkan/OpenCL/DirectX; Health-Status |
+| `ANNKernelFallbackDispatcher::search()` | `acceleration/kernel_fallback_dispatcher.h` | ✅ GA | Fallback-Kette CUDA→HIP→Vulkan→CPU; RetryPolicy; backend_used |
+| `GeoKernelFallbackDispatcher::computeDistancesBatch()` | `acceleration/kernel_fallback_dispatcher.h` | ✅ GA | Haversine/Vincenty Batch; GPU-Fallback auf CPU |
+| `VecKnnPipeline::search()` / `searchBatch()` | `acceleration/vec_knn.h` | ✅ GA | IVF nprobe + HNSW ef_search; Distance-Cache; AQL-Filter |
+| `DeviceManager::getDevices()` | `acceleration/device_manager.h` | ✅ GA | Multi-GPU-Inventar; VRAM/Compute-Units; hasGPU(); logDeviceInfo() |
+| `CudaBuffer<T>` / `VulkanBuffer<T>` RAII | `acceleration/raii/cuda_raii.h` | ✅ GA | Automatische GPU-Speicherfreigabe; upload/download |

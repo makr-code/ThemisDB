@@ -1490,3 +1490,143 @@ auto stats = dr_manager.getStatistics();
 
 **Nächstes Kapitel:** [Kapitel 19: Monitoring & Observability](chapter_19_monitoring.md)  
 **Vorheriges Kapitel:** [Kapitel 17: Horizontal Scaling](chapter_17_scaling.md)
+
+## 18.12 Replikation — Multi-Master & CRDT C++ API (v1.x) {#replication-multimaster-cpp}
+
+### 18.12.1 ReplicationManager — Überblick und Konfiguration
+
+```cpp
+#include "replication/replication_manager.h"
+
+// Konfiguration
+themis::replication::ReplicationConfig cfg;
+cfg.role            = themis::replication::ReplicationRole::PRIMARY;
+cfg.mode            = themis::replication::ReplicationMode::SYNCHRONOUS;
+cfg.conflict_resolution = themis::replication::ConflictResolution::LAST_WRITE_WINS;
+cfg.read_preference = themis::replication::ReadPreference::PRIMARY_PREFERRED;
+cfg.wal_segment_size_mb = 64;
+cfg.compression     = true;  // Zstd für WAL-Segmente
+cfg.replica_lag_threshold_ms = 5000;
+
+auto mgr = std::make_unique<themis::replication::ReplicationManager>(wal, cfg);
+
+// Replikat hinzufügen
+themis::replication::ReplicaInfo replica;
+replica.node_id         = "replica-eu-west-1";
+replica.endpoint        = "10.0.1.5:8766";
+replica.is_voting_member = true;
+replica.priority        = 1;
+
+mgr->addReplica(replica);
+mgr->start();
+
+// Gesundheitsstatus prüfen
+auto health = mgr->getHealthStatus();
+// health: {overall: HEALTHY/DEGRADED/CRITICAL, replicas: [...]}
+
+for (auto& r : health.replicas) {
+    // r.node_id, r.lag_ms, r.status (SYNCING/IN_SYNC/LAGGING/DISCONNECTED)
+    // r.last_applied_lsn
+}
+```
+
+**ReplicationRole:** `PRIMARY` / `SECONDARY` / `ARBITER`
+**ReplicationMode:** `SYNCHRONOUS` / `ASYNCHRONOUS` / `SEMI_SYNC`
+**ConflictResolution:** `LAST_WRITE_WINS` / `FIRST_WRITE_WINS` / `MERGE` / `CUSTOM`
+
+### 18.12.2 MultiMasterReplication — Active-Active mit CRDT/Vektortakten
+
+```cpp
+#include "replication/multi_master_replication.h"
+
+// VectorClock — Kausalordnung zwischen Knoten
+themis::replication::VectorClock vc;
+vc.increment("node-1");  // lokales Ereignis
+
+// Mit anderem Knoten mergen
+themis::replication::VectorClock remote_vc = receive_clock();
+vc.merge(remote_vc);
+
+// Kausalordnung prüfen
+if (vc_a.happensBefore(vc_b)) {
+    // a ist eindeutig vor b
+} else if (vc_a.isConcurrent(vc_b)) {
+    // Nebenläufiger Schreibzugriff → Konflikterkennung nötig
+}
+
+// HybridLogicalClock — TrueTime-ähnlich (Wall + Logical)
+themis::replication::HybridLogicalClock hlc;
+auto ts = hlc.now();
+// ts.wall_ms: Wanduhrzeit, ts.logical: monotoner Zähler
+
+// ConflictResolver — Multi-Master Konflikte
+themis::replication::ConflictResolver resolver(cfg.conflict_resolution);
+auto resolved = resolver.resolve(op_a, op_b, context);
+// resolved.winner, resolved.conflict_type, resolved.merge_result
+
+// CRDT-basierter CRDTMerger
+themis::replication::CRDTMerger crdt_merger;
+// Automatisches Merge von kommutativen Datenstrukturen
+```
+
+**ConflictType:** `CONCURRENT_WRITE` / `DELETE_UPDATE` / `SCHEMA_CONFLICT`
+**MMNodeState:** `LEADER` / `FOLLOWER` / `CANDIDATE` / `PARTITIONED`
+
+### 18.12.3 CRDT-Typen — Konfliktfreie Datenstrukturen
+
+```cpp
+#include "replication/crdt_types.h"
+
+// GrowOnlyCounter (G-Counter) — nur Inkrement
+themis::replication::GrowOnlyCounter g_counter("node-1");
+g_counter.increment(5);
+g_counter.increment(10);
+auto val = g_counter.value();  // 15
+
+// Mit Replikat mergen
+themis::replication::GrowOnlyCounter remote_counter = receive_counter();
+g_counter.merge(remote_counter);  // CRDT-Merge: max pro Node
+
+// PNCounter (Positiv-Negativ-Counter) — Inkrement + Dekrement
+themis::replication::PNCounter pn_counter("node-1");
+pn_counter.increment(10);
+pn_counter.decrement(3);
+auto net = pn_counter.value();  // 7
+
+// MVRegister (Multi-Value Register) — Gleichzeitige Schreibzugriffe
+themis::replication::MVRegister<std::string> mv_reg;
+mv_reg.write("value-A", vc_a);
+mv_reg.write("value-B", vc_b);  // nebenläufig mit A
+
+auto values = mv_reg.read();
+// values: {"value-A", "value-B"} — beide sichtbar bis aufgelöst
+mv_reg.resolve("value-B", vc_merge);  // explizite Auflösung
+```
+
+### 18.12.4 ReplicationSlot — Persistent WAL-Empfänger-Slots
+
+```cpp
+#include "replication/replication_slot.h"
+
+// Replikations-Slot anlegen und verwalten
+auto slot = themis::replication::ReplicationSlot::create({
+    .slot_name      = "analytics-consumer",
+    .plugin         = "themis_decodev2",
+    .database       = "production",
+    .output_plugin_options = {{"include-schemas", "true"}},
+});
+
+// Slot-Status
+auto state = slot.getState();
+// state.confirmed_lsn, state.restart_lsn, state.status
+
+// Slot pausieren/fortsetzen
+slot.pause();
+slot.resume();
+
+// LSN bestätigen (Daten wurden verarbeitet)
+slot.advance(last_processed_lsn);
+
+// Slot entfernen (wenn Consumer weg)
+slot.drop();
+```
