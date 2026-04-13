@@ -134,6 +134,17 @@ struct QualityMetrics {
     static QualityMetrics fromJson(const nlohmann::json& j);
 };
 
+/// Adapter role within the inference pipeline.
+///
+/// GENERAL  – standard task/domain fine-tuning adapter (default).
+/// DRAFT    – small speculative-decoding draft model registered alongside a
+///            larger target model.  Registered with a quantized (INT4) weight
+///            set; @see AdaptiveVRAMAllocator::calculateDualModelAllocation().
+enum class AdapterRole {
+    GENERAL,  ///< Default: task/domain LoRA adapter.
+    DRAFT,    ///< Speculative-decoding draft model adapter.
+};
+
 /// Adapter metadata - Complete information about a LoRA adapter
 struct AdapterMetadata {
     // Identification
@@ -142,6 +153,12 @@ struct AdapterMetadata {
     std::string task_type;           // e.g., "question-answering", "summarization"
     std::string domain;              // e.g., "legal", "medical", "general"
     std::string language = "en";
+
+    /// Role of this adapter in the inference pipeline.
+    /// Set to AdapterRole::DRAFT when registering a speculative-decoding draft
+    /// model so that InferenceEngineEnhanced can auto-discover it via
+    /// AdapterRegistry::findDraftAdapterForFamily().
+    AdapterRole role = AdapterRole::GENERAL;
     
     // Model compatibility
     std::string base_model_name;     // e.g., "mistral-7b", "llama-3-8b"
@@ -214,6 +231,27 @@ public:
     
     /// List adapters for a specific domain
     std::vector<AdapterMetadata> listAdaptersByDomain(const std::string& domain);
+
+    /// List all adapters with a specific role.
+    ///
+    /// Useful for discovering registered DRAFT adapters:
+    /// @code
+    ///   auto drafts = registry.listAdaptersByRole(AdapterRole::DRAFT);
+    /// @endcode
+    std::vector<AdapterMetadata> listAdaptersByRole(AdapterRole role);
+
+    /// Find the best DRAFT adapter for a given model family (architecture).
+    ///
+    /// Searches adapters whose role == DRAFT and whose `architecture` field
+    /// contains @p model_family (case-insensitive substring match).  Among
+    /// multiple candidates the adapter in DEPLOYED status is preferred; ties
+    /// are broken by the highest version number.
+    ///
+    /// @param model_family  Model family string, e.g. "llama", "mistral".
+    /// @return              Matching DRAFT adapter metadata, or std::nullopt
+    ///                      when no DRAFT adapter for the family is registered.
+    std::optional<AdapterMetadata> findDraftAdapterForFamily(
+        const std::string& model_family);
     
     // Compatibility Validation
     
