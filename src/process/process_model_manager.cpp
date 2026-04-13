@@ -38,6 +38,7 @@
 #include "process/llm_process_descriptor.h"
 #include "process/vcc_vpb_importer.h"
 #include "index/inverted_index.h"
+#include "index/vector_index.h"
 #include "storage/rocksdb_wrapper.h"
 #include "utils/logger.h"
 
@@ -268,6 +269,11 @@ void ProcessModelManager::setInvertedIndex(
     }
 }
 
+void ProcessModelManager::setVectorIndex(std::shared_ptr<VectorIndexManager> vi)
+{
+    vector_index_ = std::move(vi);
+}
+
 std::string ProcessModelManager::makeKey_(std::string_view model_id) const {
     return "proc:def:" + std::string(model_id);
 }
@@ -345,6 +351,9 @@ json ProcessModelManager::buildNormalizedGraph_(
 
         if (n.timeout) {
             jn["timeout_ms"] = n.timeout->count();
+        }
+        if (!n.metadata.is_null() && !n.metadata.empty()) {
+            jn["metadata"] = n.metadata;
         }
         jnodes.push_back(std::move(jn));
     }
@@ -491,6 +500,19 @@ ProcessModelResult ProcessModelManager::save(const ProcessModelRecord& record) {
         }
     }
 
+    // Upsert into HNSW vector index when wired and embedding is available.
+    if (vector_index_ && !to_save.embedding.empty()) {
+        BaseEntity ve = BaseEntity::fromFields(to_save.id, {{"id", to_save.id}});
+        // Store the embedding under the "embedding" field expected by VectorIndexManager.
+        nlohmann::json emb_json(to_save.embedding);
+        ve.setField("embedding", emb_json.dump());
+        auto vst = vector_index_->addEntity(ve, "embedding");
+        if (!vst.ok) {
+            // Update path: if add fails (e.g. duplicate), try update.
+            vector_index_->updateEntity(ve, "embedding");
+        }
+    }
+
     SPDLOG_INFO("[process] saved model '{}' rev={}", record.id, next_revision);
     return ProcessModelResult::success(record.id);
 }
@@ -524,6 +546,11 @@ ProcessModelResult ProcessModelManager::remove(std::string_view model_id) {
     if (fts_index_) {
         fts_index_->deindex("process_definitions", "text",
                             existing->id, /*text=*/"");
+    }
+
+    // Remove from HNSW vector index.
+    if (vector_index_) {
+        vector_index_->removeByPk(existing->id);
     }
 
     // Soft-delete: mark as ARCHIVED
@@ -626,6 +653,26 @@ std::vector<std::pair<ProcessModelRecord, float>> ProcessModelManager::findSimil
 
     std::vector<std::pair<ProcessModelRecord, float>> candidates;
 
+    // Fast path: HNSW index when wired.
+    if (vector_index_) {
+        const size_t search_k = (k > 0) ? k * 4 : 40; // over-fetch for min_similarity filter
+        auto [vst, hits] = vector_index_->searchKnn(query_embedding, search_k);
+        if (vst.ok) {
+            for (const auto& hit : hits) {
+                // VectorIndexManager returns distance (1 - cosine for COSINE metric).
+                const float sim = 1.0f - hit.distance;
+                if (sim < min_similarity) continue;
+                auto rec = load(hit.pk);
+                if (!rec) continue;
+                candidates.emplace_back(std::move(*rec), sim);
+                if (k > 0 && candidates.size() >= k) break;
+            }
+            return candidates; // already ordered by distance ascending → sim descending
+        }
+        // Fall through to linear scan if HNSW search failed.
+    }
+
+    // Fallback: linear cosine scan over all stored embeddings.
     db_.scanPrefix("proc:def:", [&](std::string_view /*key*/, std::string_view value) -> bool {
         try {
             auto doc = json::parse(std::string(value));

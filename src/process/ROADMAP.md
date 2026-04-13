@@ -63,7 +63,7 @@ Beta-ready for core process modelling (BPMN, EPK, VCC-VPB), process linking, and
   - Perf: < 50 ms for search over 10,000 models
   - Tests: recall ≥ 0.85 on a 50-query benchmark over the VCC-VPB model library
 
-- [ ] BPMN BPMNDI layout import (Target: Q2 2026)
+- [x] BPMN BPMNDI layout import (Target: Q2 2026)
   - Affected: `bpmn_serializer.cpp`
   - Expected: import graphical `x`/`y` positions from BPMNDI section; store as `node.metadata.layout`
   - Tests: round-trip check on BPMNDI sample files
@@ -132,7 +132,7 @@ Beta-ready for core process modelling (BPMN, EPK, VCC-VPB), process linking, and
 - [~] Embedding storage and retrieval for process models (`proc:inst_emb:`)
 - [x] Auto-generation of embeddings via LLM module on import (Target: Q2 2026)
 - [x] Full-text inverted index integration (Target: Q2 2026)
-- [~] HNSW-based process model similarity search (Target: Q2 2026)
+- [x] HNSW-based process model similarity search (Target: Q2 2026)
 - [ ] AgenticRAG integration for iterative Q&A (Target: Q3 2026)
 
 ### Phase 5: Advanced Features (Status: Planned)

@@ -31,9 +31,10 @@
  *
  * Implementation note: we use a minimal hand-written XML parser for import
  * (no external XML library dependency) and produce standards-compliant XML on
- * export.  BPMNDI (diagram interchange) data is intentionally ignored on import
- * and not emitted on export because ThemisDB stores processes as graph data,
- * not as graphical diagrams.
+ * export.  BPMNDI (diagram interchange) BPMNShape bounds (x/y/width/height)
+ * are parsed on import and stored in ProcessNodeInfo::metadata["layout"].
+ * BPMNDI data is not emitted on export because ThemisDB stores processes as
+ * graph data, not as graphical diagrams.
  */
 
 #include "process/bpmn_serializer.h"
@@ -378,6 +379,14 @@ BpmnSerializer::ImportResult BpmnSerializer::importXml(std::string_view bpmn_xml
     bool        in_cond_expr{false};
     std::string sf_id, sf_src, sf_tgt, sf_name, cond_text;
 
+    // ── BPMNDI state ──────────────────────────────────────────────────────
+    // Track BPMNShape elements: bpmnElement → {x, y, width, height}
+    struct BpmnBounds { float x{0}, y{0}, width{0}, height{0}; };
+    std::unordered_map<std::string, BpmnBounds> shape_bounds;
+    bool in_bpmndi{false};         ///< Inside BPMNDiagram element
+    bool in_shape{false};          ///< Inside BPMNShape element
+    std::string shape_elem_ref;    ///< bpmnElement attr of current BPMNShape
+
     // Deduplication guard (duplicate IDs can appear in sub-process copies).
     std::unordered_set<std::string> seen_node_ids;
 
@@ -403,6 +412,9 @@ BpmnSerializer::ImportResult BpmnSerializer::importXml(std::string_view bpmn_xml
                 cond_text.clear();
             }
             if (tn == "conditionExpression") in_cond_expr = false;
+            // ── BPMNDI closing tags ───────────────────────────────────────
+            if (tn == "BPMNDiagram" || tn == "BPMNPlane") in_bpmndi = false;
+            if (tn == "BPMNShape") { in_shape = false; shape_elem_ref.clear(); }
             return;
         }
 
@@ -412,6 +424,37 @@ BpmnSerializer::ImportResult BpmnSerializer::importXml(std::string_view bpmn_xml
                 in_cond_expr = true;
                 cond_text.clear();
             }
+            return;
+        }
+
+        // ── BPMNDI: BPMNDiagram / BPMNPlane / BPMNShape / Bounds ─────────
+        if (tn == "BPMNDiagram" || tn == "BPMNPlane") { in_bpmndi = true; return; }
+
+        if (tn == "BPMNShape" && in_bpmndi) {
+            in_shape = false;
+            shape_elem_ref.clear();
+            auto it = t.attrs.find("bpmnElement");
+            if (it != t.attrs.end() && !it->second.empty()) {
+                in_shape       = true;
+                shape_elem_ref = it->second;
+            }
+            return;
+        }
+
+        // <dc:Bounds x="…" y="…" width="…" height="…" /> inside BPMNShape
+        if (in_shape && (tn == "Bounds" || tn == "bounds") &&
+            !shape_elem_ref.empty()) {
+            BpmnBounds b;
+            auto parseAttr = [&](const char* key) -> float {
+                auto it = t.attrs.find(key);
+                if (it == t.attrs.end()) return 0.f;
+                try { return std::stof(it->second); } catch (...) { return 0.f; }
+            };
+            b.x      = parseAttr("x");
+            b.y      = parseAttr("y");
+            b.width  = parseAttr("width");
+            b.height = parseAttr("height");
+            shape_bounds[shape_elem_ref] = b;
             return;
         }
 
@@ -529,11 +572,32 @@ BpmnSerializer::ImportResult BpmnSerializer::importXml(std::string_view bpmn_xml
         if (in_cond_expr) cond_text += std::string(txt);
     };
 
+    // Post-pass: apply BPMNDI layout hints after parsing is complete.
+    // (shape_bounds is populated by the BPMNDI callbacks above before nodes
+    //  are pushed; this lambda runs after tokenizeXml returns.)
+    auto applyBpmndiLayout = [&]() {
+        if (shape_bounds.empty()) return;
+        for (auto& node : result.nodes) {
+            auto it = shape_bounds.find(node.node_id);
+            if (it == shape_bounds.end()) continue;
+            const auto& b = it->second;
+            nlohmann::json layout;
+            layout["x"]      = b.x;
+            layout["y"]      = b.y;
+            layout["width"]  = b.width;
+            layout["height"] = b.height;
+            node.metadata["layout"] = std::move(layout);
+        }
+    };
+
     if (!tokenizeXml(bpmn_xml, tag_cb, text_cb)) {
         result.ok      = false;
         result.message = "BPMN XML exceeds maximum allowed size (10 MiB)";
         return result;
     }
+
+    // Apply BPMNDI graphical layout hints (x/y/width/height) to nodes.
+    applyBpmndiLayout();
 
     if (result.process_id.empty()) {
         result.process_id   = "imported_process";

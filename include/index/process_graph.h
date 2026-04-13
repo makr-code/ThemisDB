@@ -317,6 +317,11 @@ struct ProcessNodeInfo {
     std::optional<std::string> location_constraint;   ///< WKT geofence where task can be executed
     std::optional<double> max_distance_km;            ///< Max distance from location
     std::optional<std::string> region;                ///< Geographic region code
+
+    // ===== Layout / Diagram Interchange =====
+    /// Optional graphical layout hints populated from BPMNDI (BPMNShape) on import.
+    /// Schema: { "x": float, "y": float, "width": float, "height": float }
+    nlohmann::json metadata;  ///< Extended key-value metadata (e.g. layout)
 };
 
 /**

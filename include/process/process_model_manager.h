@@ -37,6 +37,7 @@
 namespace themis {
 class RocksDBWrapper;
 namespace index { class InvertedIndex; }
+class VectorIndexManager;
 
 namespace process {
 
@@ -388,10 +389,26 @@ public:
      */
     void setInvertedIndex(std::shared_ptr<index::InvertedIndex> fts);
 
+    /**
+     * @brief Wire a VectorIndexManager for HNSW-based findSimilar().
+     *
+     * When set, findSimilar() delegates to the HNSW index for O(log n)
+     * approximate nearest-neighbour search instead of a linear cosine scan.
+     * save() upserts the model embedding; remove() deletes it from the index.
+     *
+     * The index must be initialised for the object name "process_models"
+     * with the correct embedding dimension before the first save() call.
+     *
+     * @param vi  Shared pointer to an initialised VectorIndexManager (may be
+     *            null to disable).
+     */
+    void setVectorIndex(std::shared_ptr<VectorIndexManager> vi);
+
 private:
     ::themis::RocksDBWrapper& db_;
     std::function<std::vector<float>(std::string_view)> embedder_;
     std::shared_ptr<index::InvertedIndex> fts_index_;
+    std::shared_ptr<VectorIndexManager> vector_index_;
 
     // Helpers
     std::string makeKey_(std::string_view model_id) const;
