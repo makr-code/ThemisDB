@@ -282,13 +282,14 @@ A fixed block size of 256 is a reasonable default for NVIDIA sm_86 and AMD RDNA2
 ### BackendRegistry: O(n²) Backend Selection Index
 **Priority:** Low
 **Target Version:** v1.9.0
+**Status:** ✅ Implemented
 
 The `selectTyped<T>()` helper in `backend_registry.cpp:223–233` iterates the entire `kFallbackOrder` vector (13 entries) and for each entry scans all registered backends in `backends_`. In the current implementation with ~15 backends this is negligible, but it is called for every query that needs backend selection (`selectVectorBackendFor`, `selectGraphBackendFor`, `selectGeoBackendFor`, `selectMatrixBackendFor`, `getBestVectorBackend`, etc.). More importantly, the nested loop requires O(|kFallbackOrder| × |backends_|) `dynamic_cast` calls per selection.
 
 **Implementation Notes:**
-- `[ ]` At the end of `initializeRuntime()`, build a `std::unordered_map<BackendType, IComputeBackend*>` index from `backends_`; replace the nested loop in `selectTyped<T>()` with a single map lookup per priority level.
-- `[ ]` Pre-compute and cache `getBestVectorBackend()` / `getBestGraphBackend()` / `getBestGeoBackend()` results into `selectedVectorBackend_` etc. as is already partially done; ensure `getBackend(type)` also uses the map.
-- `[ ]` Avoid `dynamic_cast` in the hot path: store typed pointers (`IVectorBackend*`, `IGraphBackend*`, `IGeoBackend*`) alongside the `IComputeBackend*` in a `RegisteredBackend` struct at `registerBackend()` time (one `dynamic_cast` per registration, not per query).
+- `[x]` At the end of `initializeRuntime()`, build a `std::unordered_map<BackendType, IComputeBackend*>` index from `backends_`; replace the nested loop in `selectTyped<T>()` with a single map lookup per priority level. — `typeIndex_` (`unordered_map<BackendType, RegisteredBackend>`) is populated in `registerBackend()` and used by `selectTyped<T>()` for O(|kFallbackOrder|) typed selection; `getBackend()` also uses the map for O(1) lookup.
+- `[x]` Pre-compute and cache `getBestVectorBackend()` / `getBestGraphBackend()` / `getBestGeoBackend()` results into `selectedVectorBackend_` etc. as is already partially done; ensure `getBackend(type)` also uses the map. — `getBestVectorBackend/GraphBackend/GeoBackend/MatrixBackend()` iterate `kFallbackOrder` and look up `typeIndex_` for O(|kFallbackOrder|) with no dynamic_cast; `getBackend()` uses `typeIndex_` for O(1).
+- `[x]` Avoid `dynamic_cast` in the hot path: store typed pointers (`IVectorBackend*`, `IGraphBackend*`, `IGeoBackend*`) alongside the `IComputeBackend*` in a `RegisteredBackend` struct at `registerBackend()` time (one `dynamic_cast` per registration, not per query). — `RegisteredBackend` struct in `compute_backend.h` holds `base`, `vectorPtr`, `graphPtr`, `geoPtr`, `matrixPtr`; all casts done once in `registerBackend()`.
 
 ---
 

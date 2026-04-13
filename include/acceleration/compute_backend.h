@@ -28,6 +28,7 @@
 
 #include <string>
 #include <vector>
+#include <unordered_map>
 #include <memory>
 #include <cstdint>
 #include <atomic>
@@ -566,6 +567,19 @@ public:
     virtual MatrixKernelDispatch populateMatrixDispatch() const { return {}; }
 };
 
+/// Per-type backend aggregation stored in BackendRegistry::typeIndex_.
+/// One instance exists per distinct BackendType in the registry.  The typed
+/// interface pointer fields are set once by registerBackend() (one
+/// dynamic_cast per interface per registration) and are then used in the hot
+/// query path without further dynamic_cast calls.
+struct RegisteredBackend {
+    IComputeBackend* base      = nullptr;  ///< First registered backend of this type
+    IVectorBackend*  vectorPtr = nullptr;  ///< First IVectorBackend of this type, or nullptr
+    IGraphBackend*   graphPtr  = nullptr;  ///< First IGraphBackend of this type, or nullptr
+    IGeoBackend*     geoPtr    = nullptr;  ///< First IGeoBackend of this type, or nullptr
+    IMatrixBackend*  matrixPtr = nullptr;  ///< First IMatrixBackend of this type, or nullptr
+};
+
 // Forward declaration
 class PluginLoader;
 
@@ -732,6 +746,7 @@ private:
     mutable std::shared_mutex registryMutex_;
 
     std::vector<std::unique_ptr<IComputeBackend>> backends_;
+    std::unordered_map<BackendType, RegisteredBackend> typeIndex_;
     std::unique_ptr<PluginLoader> pluginLoader_;
 
     // Backends selected at the last initializeRuntime() call (nullptr until
