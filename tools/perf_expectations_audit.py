@@ -19,8 +19,47 @@ from __future__ import annotations
 
 #!/usr/bin/env python3
 """
+
+Orchestrates the checks defined in ``PERFORMANCE_EXPECTATIONS.md`` §1.4
+(Top-10 Maßnahmen zur Vollabdeckung).  Each check maps to a numbered
+*Maßnahme* and returns one of:
+
+    STATUS_PASS  – criterion satisfied; no action required
+    STATUS_WARN  – non-blocking advisory; action recommended
+    STATUS_FAIL  – hard failure; CI must not pass
+
+Current checks
+--------------
+    Check 8a  (Maßnahme #8)
+        Verify that every ``bench_*.cpp`` in ``benchmarks/`` is covered by a
+        CMake target.  A source is covered when it has an explicit
+        ``add_executable()`` entry OR when the auto-registration block
+        (``THEMIS_AUTO_REGISTER_ELIGIBLE_BENCHMARKS``) is present in
+        ``benchmarks/CMakeLists.txt``.
+
+        **Status: STATUS_FAIL** – CI hard-fails when orphaned_sources != [].
+
+    Check 8b  (Maßnahme #8)
+        Verify that the external standalone guard
+        (``tools/check_bench_targets.py``) exists in the repository so that
+        developers can run the check locally and as a pre-commit hook.
+
+        **Status: STATUS_FAIL** – CI hard-fails when the guard script is absent.
+
+Exit codes
+----------
+    0  All STATUS_FAIL checks passed.
+    1  At least one STATUS_FAIL check failed.
+    2  Internal error / bad arguments.
+
+Usage
+-----
+    python3 tools/perf_expectations_audit.py [--benchmarks-dir DIR]
+                                              [--cmake-file FILE]
+                                              [--format {text,json}]
+                                              [--no-color]
+                                              [-q]
 ThemisDB Performance Expectations Audit Tool
-=============================================
 
 Reads PERFORMANCE_EXPECTATIONS.md section 1.4 and verifies the evidence
 for each of the Top-10 measures. Produces a JSON report and an optional
