@@ -4341,6 +4341,20 @@ if(THEMIS_BUILD_TESTS)
         CONFIGURATIONS Release Debug
     )
 
+    add_executable(test_knowledge_gap_retrieval_callback
+        ${THEMIS_ROOT_DIR}/tests/test_knowledge_gap_retrieval_callback.cpp
+        ${THEMIS_ROOT_DIR}/src/rag/knowledge_gap_detector.cpp
+    )
+    target_link_libraries(test_knowledge_gap_retrieval_callback
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(test_knowledge_gap_retrieval_callback
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_knowledge_gap_retrieval_callback>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+    )
+
     add_executable(test_bitemporal_join
         ${THEMIS_ROOT_DIR}/tests/test_bitemporal_join.cpp
     )
