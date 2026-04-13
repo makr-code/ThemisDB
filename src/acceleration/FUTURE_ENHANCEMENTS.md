@@ -199,7 +199,7 @@ This means any GPU plugin with a revoked code-signing certificate will pass secu
 ### CUDA HNSW Kernel: Visited Array Memory Scaling
 **Priority:** Medium
 **Target Version:** v1.9.0
-**Status:** ✅ Partially implemented (1-bit-per-node bitset adopted; per-invocation malloc remains)
+**Status:** ✅ Production Ready
 
 `cuda/cuda_hnsw_kernels.cu` previously allocated `num_queries × num_nodes × sizeof(uint8_t)` bytes per kernel launch — 5 GB for 512 queries × 10M nodes.
 
@@ -207,11 +207,15 @@ This means any GPU plugin with a revoked code-signing certificate will pass secu
 - `[x]` Switched from `uint8_t` per-node to 1-bit-per-node bitset: allocation is now `ceil(num_nodes / 8)` bytes per query (10M nodes → 1.25 MB per query, 512 queries → 640 MB — 8× reduction).
 - `[x]` Kernel updated to use bitset read (`visited[nb >> 3] & (1u << (nb & 7u))`) and write (`visited[nb >> 3] |= (1u << (nb & 7u))`) operations.
 - `[x]` Initialisation loop reduced from `num_nodes` to `ceil(num_nodes/8)` iterations.
-- `[ ]` Replace per-invocation `cudaMalloc` / `cudaFree` with a persistent pre-allocated pool (eliminates per-launch allocation overhead; ≥ 15% speedup for repeated fixed-batch queries).
-- `[ ]` Chunked batch processing for graphs where even the bitset exceeds budget.
+- `[x]` Replace per-invocation `cudaMalloc` / `cudaFree` with a persistent pre-allocated pool owned by `CudaHnswTraversalEngine::Impl::d_visited_pool`; allocated once in `buildIndex()` at `maxBatchSize × ceil(numNodes/8)` bytes; eliminates per-launch allocation overhead.
+- `[x]` Chunked batch processing for graphs where bitset pool cannot cover all queries: `batchSearch()` splits `numQueries` into sub-batches of at most `pool_capacity` queries, processes them serially, and concatenates results on the host.
+- `[x]` Exposed `CudaHnswTraversalEngine::setMaxBatchSize(size_t n)` and `CUDAVectorBackend::setMaxBatchSize(size_t n)` so callers can tune pool allocation.
+- `[x]` Pool allocation failure surfaces as `BackendHealthStatus::makeDegraded()` via `setError()` in `CUDAVectorBackend::buildHnswAnnIndex()`.
+- `[x]` Pool size is clamped to 90% of `BackendCapabilities::maxMemoryBytes` during `buildHnswAnnIndex()`.
 
 **Performance Targets:**
 - Pool allocation must not exceed `BackendCapabilities::maxMemoryBytes` at construction time.
+- Per-query `cudaMalloc`/`cudaFree` round trips eliminated; visited-pool reuse reduces HNSW launch overhead by ≥ 15% for repeated fixed-batch queries.
 
 ---
 
