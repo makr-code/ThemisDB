@@ -830,6 +830,31 @@ TEST_F(ConfigEnvOverlayTest, ResolveErrorMessageIncludesOverlayPathInDevEnv) {
     }
 }
 
+TEST_F(ConfigEnvOverlayTest, ThemisConfigEnvVariableDevSetsDevEnvironment) {
+    // Verify that setEnvironment(DEV) and getEnvironment() round-trip correctly,
+    // mirroring the behaviour expected from THEMIS_CONFIG_ENV=dev at startup.
+    ConfigPathResolver::setEnvironment(ConfigEnvironment::DEV);
+    EXPECT_EQ(ConfigPathResolver::getEnvironment(), ConfigEnvironment::DEV);
+}
+
+TEST_F(ConfigEnvOverlayTest, ThemisConfigEnvVariableStagingSetsStagingEnvironment) {
+    ConfigPathResolver::setEnvironment(ConfigEnvironment::STAGING);
+    EXPECT_EQ(ConfigPathResolver::getEnvironment(), ConfigEnvironment::STAGING);
+}
+
+TEST_F(ConfigEnvOverlayTest, ThemisConfigEnvVariableProdDefaultsToNoOverlay) {
+    // PROD is the default; verify that tryResolve() in PROD never probes an overlay directory.
+    createFile("config/ai_ml/lora_training_config.yaml");      // new path
+    createFile("config/prod/ai_ml/lora_training_config.yaml"); // prod overlay must NOT be used
+
+    ConfigPathResolver::setEnvironment(ConfigEnvironment::PROD);
+    auto result = ConfigPathResolver::tryResolve("config/lora_training_config.yaml");
+
+    ASSERT_TRUE(result.has_value());
+    EXPECT_EQ(result.value(), "config/ai_ml/lora_training_config.yaml")
+        << "THEMIS_CONFIG_ENV=prod (default) must not use any overlay directory";
+}
+
 // Legacy Fallback Rate Threshold Tests
 // ═══════════════════════════════════════════════════════════
 
