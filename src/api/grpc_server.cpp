@@ -39,6 +39,15 @@
 #  include <grpcpp/ext/proto_server_reflection_plugin.h>
 #endif
 
+// Optional YAML config support for loading grpc.max_message_size_mb from
+// config/networking/grpc.yaml at initialize() time.
+#if __has_include(<yaml-cpp/yaml.h>)
+#  include <yaml-cpp/yaml.h>
+#  define THEMIS_GRPC_HAS_YAML 1
+#else
+#  define THEMIS_GRPC_HAS_YAML 0
+#endif
+
 namespace themis {
 namespace api {
 
@@ -73,6 +82,34 @@ bool GrpcApiServer::initialize(const GrpcServerConfig& config) {
 
     config_         = config;
     server_address_ = config_.host + ":" + std::to_string(config_.port);
+
+    // Try to load grpc.max_message_size_mb from config/networking/grpc.yaml so
+    // that operators can tune the limit without recompiling.  The caller-
+    // supplied struct value is used as a fallback when the file is absent or
+    // the key is not present.
+#if THEMIS_GRPC_HAS_YAML
+    {
+        const std::string cfg_path = "config/networking/grpc.yaml";
+        try {
+            YAML::Node node = YAML::LoadFile(cfg_path);
+            if (node["grpc"] && node["grpc"]["max_message_size_mb"]) {
+                const int mb = node["grpc"]["max_message_size_mb"].as<int>();
+                if (mb > 0) {
+                    config_.max_message_size_bytes = mb * 1024 * 1024;
+                    THEMIS_INFO("GrpcApiServer: max_message_size_bytes overridden to " +
+                                std::to_string(config_.max_message_size_bytes) +
+                                " bytes from " + cfg_path);
+                }
+            }
+        } catch (const std::exception& ex) {
+            // Config file absent or unreadable – silently fall back to the
+            // struct default so that the server still starts correctly.
+            THEMIS_DEBUG("GrpcApiServer: could not load " + cfg_path +
+                         " (" + ex.what() + "); using default max_message_size_bytes=" +
+                         std::to_string(config_.max_message_size_bytes));
+        }
+    }
+#endif
 
     THEMIS_INFO("GrpcApiServer initialized, will listen on " + server_address_);
     return true;
@@ -180,7 +217,7 @@ bool GrpcApiServer::start() {
 // ---------------------------------------------------------------------------
 
 void GrpcApiServer::stop() {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::mutex> lock(mutex_);
 
     if (!running_ || !server_) {
         return;
@@ -188,12 +225,20 @@ void GrpcApiServer::stop() {
 
     THEMIS_INFO("GrpcApiServer: shutting down " + server_address_);
 
-    // Apply a 30-second hard deadline so stop() never blocks indefinitely
-    // when a misbehaving RPC handler stalls (ROADMAP Phase 4).
-    const auto deadline = std::chrono::system_clock::now() + std::chrono::seconds(30);
-    server_->Shutdown(deadline);
-    server_.reset();
+    // Mark as stopped and extract the server handle while the lock is held so
+    // that concurrent calls to isRunning() immediately see the stopped state.
     running_ = false;
+    std::unique_ptr<grpc::Server> local_server = std::move(server_);
+
+    // Release the mutex before calling Shutdown() so that other threads
+    // invoking isRunning() or stop() are not deadlocked for the full
+    // 30-second drain window (ROADMAP Phase 4 requirement).
+    lock.unlock();
+
+    // Apply a 30-second hard deadline so stop() never blocks indefinitely
+    // when a misbehaving RPC handler stalls.
+    const auto deadline = std::chrono::system_clock::now() + std::chrono::seconds(30);
+    local_server->Shutdown(deadline);
     THEMIS_INFO("GrpcApiServer stopped");
 }
 

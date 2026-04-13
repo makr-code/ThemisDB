@@ -85,6 +85,12 @@ inline std::string versionKey(const std::string& storage_key) {
     return "__ver/" + storage_key;
 }
 
+/// Hard upper bound on the number of items in a single BatchWrite or BatchRead
+/// request (upserts + deletes for BatchWrite; keys for BatchRead).  Requests
+/// that exceed this limit are rejected with RESOURCE_EXHAUSTED to prevent
+/// unbounded memory allocation on the server.
+static constexpr int kMaxBatchItems = 10'000;
+
 } // namespace
 
 namespace themis {
@@ -298,6 +304,14 @@ private:
             const BatchWriteRequest*   req,
             BatchWriteResponse*        resp
         ) override {
+            // Reject oversized batches before allocating any per-item resources.
+            if (req->upserts_size() + req->deletes_size() > kMaxBatchItems) {
+                return grpc::Status(
+                    grpc::StatusCode::RESOURCE_EXHAUSTED,
+                    "batch exceeds maximum of " + std::to_string(kMaxBatchItems) + " items; "
+                    "split the request into smaller batches");
+            }
+
             int upserted = 0;
             int deleted  = 0;
             bool all_ok  = true;
@@ -340,6 +354,14 @@ private:
             const BatchReadRequest*   req,
             BatchReadResponse*        resp
         ) override {
+            // Reject oversized key lists before allocating any per-item resources.
+            if (req->keys_size() > kMaxBatchItems) {
+                return grpc::Status(
+                    grpc::StatusCode::RESOURCE_EXHAUSTED,
+                    "batch exceeds maximum of " + std::to_string(kMaxBatchItems) + " keys; "
+                    "split the request into smaller batches");
+            }
+
             for (const auto& key : req->keys()) {
                 const std::string storage_key = req->collection() + "/" + key;
                 std::string body;
