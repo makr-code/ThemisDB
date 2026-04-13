@@ -46,18 +46,18 @@ Beta-ready for core process modelling (BPMN, EPK, VCC-VPB), process linking, and
 
 ### Short-term (Next 3–6 months)
 
-- [ ] Auto-generate and persist process model embeddings via LLM module on import (Target: Q2 2026)
+- [x] Auto-generate and persist process model embeddings via LLM module on import (Target: Q2 2026)
   - Affected: `ProcessModelManager::save()`, `llm_process_descriptor.cpp`, LLM module API
   - Expected: call configured LLM embedding endpoint after each `importBpmn()`/`importEpk()`/`importVccVpb()`; store result in `ProcessModelRecord::embedding`
   - Tests: embedding round-trip + cosine similarity regression test
   - Perf: embedding call must not block import pipeline (async dispatch)
 
-- [ ] Auto-generate and persist process instance embeddings after state change (Target: Q2 2026)
+- [x] Auto-generate and persist process instance embeddings after state change (Target: Q2 2026)
   - Affected: `ProcessGraphManager` (post-execution hook), `ProcessGraphRag::findSimilarCases()`
   - Expected: on instance COMPLETED/FAILED, compute embedding of summary JSON; store under `proc:inst_emb:<id>`
   - Tests: similarity ranking correctness vs ground-truth labelled case pairs
 
-- [ ] Full-text inverted index over process model descriptions (Target: Q2 2026)
+- [x] Full-text inverted index over process model descriptions (Target: Q2 2026)
   - Affected: `ProcessModelManager::search()`, `include/index/inverted_index.h`
   - Expected: TF-IDF ranked search across all process node names, descriptions, and compliance tags
   - Perf: < 50 ms for search over 10,000 models
@@ -130,9 +130,9 @@ Beta-ready for core process modelling (BPMN, EPK, VCC-VPB), process linking, and
 ### Phase 4: Semantic Search (Status: In Progress 🚧)
 
 - [~] Embedding storage and retrieval for process models (`proc:inst_emb:`)
-- [ ] Auto-generation of embeddings via LLM module on import (Target: Q2 2026)
-- [ ] Full-text inverted index integration (Target: Q2 2026)
-- [ ] HNSW-based process model similarity search (Target: Q2 2026)
+- [x] Auto-generation of embeddings via LLM module on import (Target: Q2 2026)
+- [x] Full-text inverted index integration (Target: Q2 2026)
+- [~] HNSW-based process model similarity search (Target: Q2 2026)
 - [ ] AgenticRAG integration for iterative Q&A (Target: Q3 2026)
 
 ### Phase 5: Advanced Features (Status: Planned)

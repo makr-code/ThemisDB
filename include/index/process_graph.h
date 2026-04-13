@@ -512,6 +512,19 @@ public:
 
     explicit ProcessGraphManager(RocksDBWrapper& db);
 
+    /**
+     * @brief Wire a text-embedding function for auto-generating process embeddings.
+     *
+     * When set, registerProcess() automatically computes and persists an embedding
+     * for the process name (and BPMN description if available) so that
+     * findSimilarProcesses() / semanticSearchProcesses() work without manual
+     * pre-computation.
+     *
+     * @param embedder  `(std::string_view text) → std::vector<float>`.
+     *                  Pass an empty function to disable.
+     */
+    void setEmbedder(std::function<std::vector<float>(std::string_view)> embedder);
+
     // ===== Process Model Management =====
     
     /**
@@ -868,6 +881,7 @@ public:
 
 private:
     RocksDBWrapper& db_;
+    std::function<std::vector<float>(std::string_view)> embedder_;
     
     // Internal helpers
     std::string makeProcessKey_(std::string_view process_id) const;

@@ -380,6 +380,12 @@ bool evaluateCondition(const std::string& condition, const nlohmann::json& varia
 
 ProcessGraphManager::ProcessGraphManager(RocksDBWrapper& db) : db_(db) {}
 
+void ProcessGraphManager::setEmbedder(
+    std::function<std::vector<float>(std::string_view)> embedder)
+{
+    embedder_ = std::move(embedder);
+}
+
 std::string ProcessGraphManager::makeProcessKey_(std::string_view process_id) const {
     return std::string("process:def:") + std::string(process_id);
 }
@@ -429,6 +435,25 @@ ProcessGraphManager::Status ProcessGraphManager::registerProcess(
     if (!bpmn_xml.empty()) {
         fields["bpmn_xml"] = std::string(bpmn_xml);
     }
+
+    // Auto-generate description embedding when an embedder is wired.
+    if (embedder_) {
+        const std::string embed_text =
+            std::string(name) + (bpmn_xml.empty() ? "" : " " + std::string(bpmn_xml).substr(
+                0, std::min<size_t>(bpmn_xml.size(), 2048u)));
+        try {
+            std::vector<float> emb = embedder_(embed_text);
+            if (!emb.empty()) {
+                // Serialise as JSON array string.
+                nlohmann::json ja(emb);
+                fields["embedding"] = ja.dump();
+            }
+        } catch (const std::exception& e) {
+            THEMIS_WARN("ProcessGraph: embedding generation failed for '{}': {}",
+                        process_id, e.what());
+        }
+    }
+
     BaseEntity processEntity = BaseEntity::fromFields(std::string(process_id), fields);
 
     std::string key = makeProcessKey_(process_id);
@@ -976,7 +1001,60 @@ ProcessGraphManager::Status ProcessGraphManager::advanceToken(
         
         std::string tokenKey = makeTokenKey_(instance_id, token_id);
         db_.put(tokenKey, tokenEntity.serialize());
-        
+
+        // Check whether ALL tokens in the instance have now completed and, if so,
+        // mark the instance COMPLETED and persist a summary embedding.
+        const bool all_done = std::all_of(
+            instance.tokens.begin(), instance.tokens.end(),
+            [](const ProcessToken& t) {
+                return t.state == ProcessToken::State::COMPLETED ||
+                       t.state == ProcessToken::State::FAILED;
+            });
+
+        if (all_done) {
+            // Persist instance state as COMPLETED.
+            std::string instanceKey = makeInstanceKey_(instance_id);
+            auto instBlob = db_.get(instanceKey);
+            if (instBlob) {
+                BaseEntity instEntity = BaseEntity::deserialize(
+                    std::string(instance_id), *instBlob);
+                instEntity.setField("state", "COMPLETED");
+                instEntity.setField("completed_at",
+                    static_cast<int64_t>(*token->completed_at_ms));
+                db_.put(instanceKey, instEntity.serialize());
+            }
+
+            // Auto-generate instance embedding when an embedder is wired.
+            if (embedder_) {
+                // Build a compact summary text from visited nodes and variables.
+                nlohmann::json summary;
+                summary["instance_id"] = std::string(instance_id);
+                summary["process_id"]  = instance.process_definition_id;
+                std::vector<std::string> visited_all;
+                for (const auto& t : instance.tokens) {
+                    for (const auto& n : t.visited_nodes) {
+                        visited_all.push_back(n);
+                    }
+                }
+                summary["visited_nodes"] = visited_all;
+                summary["variables"]     = instance.process_variables;
+
+                try {
+                    std::vector<float> emb = embedder_(summary.dump());
+                    if (!emb.empty()) {
+                        nlohmann::json ja(emb);
+                        // Store under a dedicated key so it can be scanned
+                        // by findSimilarTasks / ProcessGraphRag::findSimilarCases().
+                        std::string embKey = "proc:inst_emb:" + std::string(instance_id);
+                        db_.put(embKey, ja.dump());
+                    }
+                } catch (const std::exception& e) {
+                    THEMIS_WARN("ProcessGraph: instance embedding failed for '{}': {}",
+                                instance_id, e.what());
+                }
+            }
+        }
+
         return Status::OK();
     }
 

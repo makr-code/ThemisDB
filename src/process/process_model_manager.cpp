@@ -37,6 +37,7 @@
 #include "process/epk_serializer.h"
 #include "process/llm_process_descriptor.h"
 #include "process/vcc_vpb_importer.h"
+#include "index/inverted_index.h"
 #include "storage/rocksdb_wrapper.h"
 #include "utils/logger.h"
 
@@ -245,6 +246,28 @@ ProcessModelManager::ProcessModelManager(::themis::RocksDBWrapper& db) : db_(db)
 
 ProcessModelManager::~ProcessModelManager() = default;
 
+void ProcessModelManager::setEmbedder(
+    std::function<std::vector<float>(std::string_view)> embedder)
+{
+    embedder_ = std::move(embedder);
+}
+
+void ProcessModelManager::setInvertedIndex(
+    std::shared_ptr<index::InvertedIndex> fts)
+{
+    fts_index_ = std::move(fts);
+    // Ensure the logical index exists.
+    if (fts_index_) {
+        if (!fts_index_->exists("process_definitions", "text")) {
+            index::InvertedIndex::Config cfg;
+            cfg.stemming_enabled  = false;
+            cfg.language          = "none";
+            cfg.stopwords_enabled = false;
+            fts_index_->create("process_definitions", "text", cfg);
+        }
+    }
+}
+
 std::string ProcessModelManager::makeKey_(std::string_view model_id) const {
     return "proc:def:" + std::string(model_id);
 }
@@ -432,6 +455,19 @@ ProcessModelResult ProcessModelManager::save(const ProcessModelRecord& record) {
         to_save.created_at_ms = to_save.updated_at_ms;
     }
 
+    // Auto-generate embedding when an embedder is wired and the record
+    // doesn't already carry one.
+    if (to_save.embedding.empty() && embedder_) {
+        const std::string embed_text =
+            to_save.name + " " + to_save.description + " " + to_save.long_description;
+        try {
+            to_save.embedding = embedder_(embed_text);
+        } catch (const std::exception& e) {
+            SPDLOG_WARN("[process] embedding generation failed for '{}': {}",
+                        to_save.id, e.what());
+        }
+    }
+
     auto key  = makeKey_(record.id);
     auto doc  = to_save.toDocument();
     auto jstr = doc.dump();
@@ -439,6 +475,20 @@ ProcessModelResult ProcessModelManager::save(const ProcessModelRecord& record) {
     if (!db_.put(key, jstr)) {
         return ProcessModelResult::failure(
             "DB write failed for process model '" + record.id + "'");
+    }
+
+    // Update full-text index.
+    if (fts_index_) {
+        const std::string fts_text =
+            to_save.name + " " + to_save.name_en + " " +
+            to_save.description + " " + to_save.description_en + " " +
+            to_save.long_description;
+        auto st = fts_index_->index("process_definitions", "text",
+                                    to_save.id, fts_text);
+        if (!st.ok) {
+            SPDLOG_WARN("[process] FTS index update failed for '{}': {}",
+                        to_save.id, st.message);
+        }
     }
 
     SPDLOG_INFO("[process] saved model '{}' rev={}", record.id, next_revision);
@@ -468,6 +518,12 @@ ProcessModelResult ProcessModelManager::remove(std::string_view model_id) {
     if (!existing) {
         return ProcessModelResult::failure(
             "Process model '" + std::string(model_id) + "' not found");
+    }
+
+    // Remove from full-text index before archiving.
+    if (fts_index_) {
+        fts_index_->deindex("process_definitions", "text",
+                            existing->id, /*text=*/"");
     }
 
     // Soft-delete: mark as ARCHIVED
@@ -513,6 +569,25 @@ std::vector<ProcessModelRecord> ProcessModelManager::search(
     std::string_view query,
     size_t           limit) const
 {
+    // If an InvertedIndex is wired, use BM25 search and resolve PKs.
+    if (fts_index_) {
+        auto [st, hits] = fts_index_->search(
+            "process_definitions", "text", query,
+            limit > 0 ? limit : 1000u);
+
+        std::vector<ProcessModelRecord> results;
+        results.reserve(hits.size());
+        for (const auto& hit : hits) {
+            auto rec = load(hit.pk);
+            if (rec) {
+                results.push_back(std::move(*rec));
+            }
+            if (limit > 0 && results.size() >= limit) break;
+        }
+        return results;
+    }
+
+    // Fallback: linear keyword scan.
     std::string q_lower(query);
     std::transform(q_lower.begin(), q_lower.end(), q_lower.begin(), ::tolower);
 
@@ -524,7 +599,6 @@ std::vector<ProcessModelRecord> ProcessModelManager::search(
             if (!doc.contains("id")) return true;
             auto r = ProcessModelRecord::fromDocument(doc);
 
-            // Simple keyword match against name, description
             auto match_field = [&](const std::string& field) {
                 std::string f_lower = field;
                 std::transform(f_lower.begin(), f_lower.end(), f_lower.begin(), ::tolower);
