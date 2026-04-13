@@ -114,6 +114,8 @@ ThemisDB is organised into 55 source modules under `src/`, grouped into four log
 | [CHANGELOG.md](CHANGELOG.md) | Release notes (Keep a Changelog format) |
 | [PERFORMANCE_EXPECTATIONS.md](PERFORMANCE_EXPECTATIONS.md) | Benchmarks and performance targets |
 | [SOP.md](SOP.md) | Standard operating procedures (release, hotfix, incident) |
+| [GOVERNANCE.md](GOVERNANCE.md) | Project governance: roles, decision-making, contribution policy |
+| [MAINTAINERS.md](MAINTAINERS.md) | Maintainer roster and module ownership |
 | [SECURITY.md](SECURITY.md) | Security policy and vulnerability reporting |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | How to contribute |
 | [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) | Community guidelines |

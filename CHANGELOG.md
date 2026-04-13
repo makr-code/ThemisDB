@@ -14,7 +14,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `QUICKSTART.md` added: Docker, Dev Container, and build-from-source quick start guide with first-query examples
   - `VERSIONING.md` added: dedicated versioning policy (SemVer, release types, cadence, EOL table, deprecation policy, breaking-change rules)
   - `SOP.md` added: Standard Operating Procedures for stable release, hotfix, RC promotion, rollback, security response, dependency update, contributor onboarding, and incident response
-  <!-- changelog-updater: root-docs-overhaul-2026-04-13 -->
+  - `MAINTAINERS.md` added: maintainer roster and module ownership
+  - `GOVERNANCE.md` added: project governance model (roles, decision-making, contribution policy)
+  - `.github/CODEOWNERS` expanded: now covers all 46 source modules, include/ headers, tests, docs, deployment, and root docs
+  - `.github/pull_request_template.md` updated: added Linked Issues field, Breaking Change checklist, CHANGELOG reminder
+  - `INDEX.md` updated: VERSIONING.md, SOP.md, GOVERNANCE.md, MAINTAINERS.md added to important documents section
+  <!-- changelog-updater: root-docs-phase2-2026-04-13 -->
 
 - **Module-Docs Sync 📚 — 2026-04-13**
   - 56 Module indexiert; 754 Primary-Markdown-Dateien in `src/` und `include/`
