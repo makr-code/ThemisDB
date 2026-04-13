@@ -94,6 +94,29 @@ class MaintenanceScheduleStore;
 using HealthProbe = std::function<ModuleHealthSignal()>;
 
 // ---------------------------------------------------------------------------
+// TenantMaintenanceConfig
+// ---------------------------------------------------------------------------
+
+/**
+ * @brief Per-tenant maintenance configuration overrides.
+ *
+ * When a schedule has a non-empty tenant_id and a TenantMaintenanceConfig is
+ * registered for that tenant via setTenantMaintenanceConfig(), the orchestrator
+ * applies these overrides instead of (or in addition to) the per-schedule values.
+ */
+struct TenantMaintenanceConfig {
+    /// When true, the tenant-level window [window_start_hour, window_end_hour)
+    /// takes precedence over the per-schedule window.
+    bool enforce_window       = false;
+    int  window_start_hour    = 0;    ///< Inclusive start (0–23, UTC)
+    int  window_end_hour      = 23;   ///< Exclusive end (0–23, UTC)
+
+    /// Maximum number of concurrently RUNNING maintenance jobs for this tenant.
+    /// 0 means unlimited.
+    int  max_concurrent_jobs  = 0;
+};
+
+// ---------------------------------------------------------------------------
 // DatabaseMaintenanceOrchestrator
 // ---------------------------------------------------------------------------
 
@@ -201,10 +224,15 @@ public:
     Result<MaintenanceScheduleEntry> getSchedule(const std::string& id) const;
 
     /**
-     * @brief List all schedules (enabled and disabled).
-     * @return Vector of all stored schedule entries.
+     * @brief List schedules, optionally filtered by tenant.
+     *
+     * @param tenant_id_filter  When non-empty, only schedules whose tenant_id
+     *                          equals this value are returned.  An empty string
+     *                          returns all schedules (global + all tenants).
+     * @return Vector of matching schedule entries.
      */
-    std::vector<MaintenanceScheduleEntry> listSchedules() const;
+    std::vector<MaintenanceScheduleEntry> listSchedules(
+        const std::string& tenant_id_filter = "") const;
 
     /**
      * @brief Full-replace update of a schedule (PUT semantics).
@@ -309,6 +337,34 @@ public:
      */
     MaintenanceHealthReport getHealthReport() const;
 
+    /**
+     * @brief Register or update per-tenant maintenance configuration.
+     *
+     * Affects all schedules whose tenant_id matches @p tenant_id:
+     *   - If config.enforce_window is true, the tenant-level window overrides
+     *     the per-schedule window during executeSchedule().
+     *   - If config.max_concurrent_jobs > 0, the orchestrator enforces the
+     *     quota in executeSchedule() and SKIPs the job when the limit is reached.
+     *
+     * Call with a default-constructed TenantMaintenanceConfig (enforce_window=false,
+     * max_concurrent_jobs=0) to effectively remove constraints for a tenant.
+     *
+     * @param tenant_id  Tenant identifier.  Must not be empty.
+     * @param config     Configuration to apply for this tenant.
+     */
+    void setTenantMaintenanceConfig(const std::string& tenant_id,
+                                    TenantMaintenanceConfig config);
+
+    /**
+     * @brief Retrieve the per-tenant maintenance configuration.
+     *
+     * @param tenant_id  Tenant identifier.
+     * @return The registered TenantMaintenanceConfig, or a default-constructed one
+     *         (enforce_window=false, max_concurrent_jobs=0) if none is registered.
+     */
+    TenantMaintenanceConfig getTenantMaintenanceConfig(
+        const std::string& tenant_id) const;
+
     // ---- Module integration -----------------------------------------------
 
     /**
@@ -403,6 +459,10 @@ private:
     // Registered task handlers (keyed by MaintenanceTaskType cast to int)
     mutable std::mutex                                              handlers_mutex_;
     std::map<int, std::shared_ptr<IMaintenanceTaskHandler>>         task_handlers_;
+
+    // Per-tenant maintenance configuration overrides
+    mutable std::mutex                                       tenant_configs_mutex_;
+    std::map<std::string, TenantMaintenanceConfig>           tenant_configs_;
 
     std::atomic<bool>                                        running_{false};
     mutable std::atomic<uint64_t>                            id_counter_{0};
