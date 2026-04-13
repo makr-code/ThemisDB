@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            chaos_framework.h                                  ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-04-06 04:06:03                                ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-04-13 04:14:33                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   91.0/100                                       ║
-    • Total Lines:     163                                            ║
+    • Quality Score:   99.0/100                                       ║
+    • Total Lines:     217                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 1f070f992b  2026-04-12  chaos: Phase 4+5 — configurable scheduler tick/wake strat... ║
     • 5bee4e8e41  2026-04-03  Implement Disaster Recovery Manager and associated tests ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║

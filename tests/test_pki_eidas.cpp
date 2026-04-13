@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_pki_eidas.cpp                                 ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:32:14                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:43:18                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            task_scheduler.cpp                                 ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:19:48                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:29:25                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   99.0/100                                       ║
-    • Total Lines:     2696                                           ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     2873                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • ed0fb65444  2026-04-12  feat(scheduler): register 10 missing focused test targets... ║
     • 5e4a201cc9  2026-03-21  docs(scheduler): update FUTURE_ENHANCEMENTS, CHANGELOG, R... ║
     • c8aa401935  2026-03-15  feat(scheduler): propagate authenticated user context to ... ║
     • 592b543821  2026-03-15  fix(scheduler,acceleration): remove stale TODOs, add VLLM... ║
     • c97360e579  2026-03-15  fix(auth,scheduler): JWT scope enforcement, Kerberos role... ║
-    • 646fb7bd6d  2026-03-10  feat(scheduler): build-system audit – register sources, a... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

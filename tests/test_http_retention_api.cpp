@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_http_retention_api.cpp                        ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:29:20                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:40:05                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

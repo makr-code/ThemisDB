@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llm_bench.cpp                                      ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-06 04:04:12                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-13 04:12:27                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

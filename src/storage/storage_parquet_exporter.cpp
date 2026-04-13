@@ -3,19 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            storage_parquet_exporter.cpp                       ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-04-09                                         ║
-  Author:          copilot                                            ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-04-13 04:31:02                                ║
+  Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  Issue:           ROADMAP v2.0.0 – Native Parquet export from        ║
-                   ColumnarFormat                                     ║
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     546                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  Implementation:                                                     ║
-    • With ARROW_ENABLED: Apache Arrow / Parquet C++ library path     ║
-      (typed columns, optional SNAPPY / ZSTD compression).            ║
-    • Without ARROW_ENABLED: portable Parquet v2 binary writer using  ║
-      the same Thrift helpers as src/exporters/parquet_exporter.cpp.  ║
-      All columns stored as BYTE_ARRAY / PLAIN / UNCOMPRESSED.        ║
+  Revision History:                                                   ║
+    • 1e700420b4  2026-04-11  feat(storage): port SIMD filter + parquet exporter scope ... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 

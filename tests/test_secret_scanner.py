@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_secret_scanner.py                             ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-06 04:34:46                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-13 04:46:10                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

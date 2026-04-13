@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_content_policy_manual.cpp                     ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:26:45                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:37:09                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -5121,3 +5121,272 @@ Die Konzepte und Best Practices in diesem Kapitel basieren auf wissenschaftliche
     - Best Practices für Containerization, Service Mesh, Observability
 
 Vollständige Literaturliste und erweiterte Referenzen: [Anhang A: Literaturverzeichnis](appendix_literatur.md)
+
+---
+
+## 25.11 Cluster-Update-Management (v1.8.0)
+
+<!-- Source: include/updates/ — cluster_update_manager.h, canary_rollout.h, hot_reload_engine.h, in_place_schema_migrator.h, blue_green_deployment.h -->
+
+> **Neu in v1.8.0** – Das Update-Modul bietet fünf aufeinander abgestimmte Komponenten für zero-downtime Cluster-Updates: Rolling-Updates mit Health-Checks, Canary-Rollout mit Metriken-basierten Gates, Zero-Downtime Hot-Reload, Online-Schema-Migration und Blue/Green-Deployments.
+
+### 25.11.1 ClusterUpdateManager — Rolling Cluster-Updates
+
+`ClusterUpdateManager` koordiniert cluster-weite Rolling-Updates mit konfigurierbarem Parallelismus, automatischem Rollback und Leader-Last-Policy.
+
+**Node-Zustandsmaschine:**
+
+```
+PENDING → DRAINING → APPLYING → HEALTH_CHECK → REJOINING → COMPLETED
+                                      │
+                                      ▼ (Fehler)
+                                    FAILED → ROLLED_BACK
+```
+
+**API-Nutzung:**
+
+```cpp
+#include "updates/cluster_update_manager.h"
+
+using namespace themis::updates;
+
+// Cluster-Nodes definieren
+std::vector<ClusterNode> nodes = {
+    {"node-1", "10.0.1.1:8766", false, "1.7.2"},  // Follower
+    {"node-2", "10.0.1.2:8766", false, "1.7.2"},  // Follower
+    {"node-3", "10.0.1.3:8766", true,  "1.7.2"},  // Leader (wird zuletzt aktualisiert)
+};
+
+ClusterUpdateManager::Config cfg;
+cfg.target_version      = "1.8.0";
+cfg.max_parallel_nodes  = 1;       // Rolling: einen Node nach dem anderen
+cfg.health_check_timeout = std::chrono::seconds(30);
+cfg.drain_timeout        = std::chrono::seconds(60);
+cfg.auto_rollback        = true;   // Automatischer Rollback bei Fehler
+
+ClusterUpdateManager mgr(cfg, nodes);
+
+// Update-Funktion pro Node
+mgr.setUpdateFn([](const ClusterNode& node) -> bool {
+    return download_and_install_update(node.address, "1.8.0");
+});
+
+// Health-Check-Funktion pro Node
+mgr.setHealthCheckFn([](const ClusterNode& node) -> bool {
+    return http_health_check("http://" + node.address + "/health");
+});
+
+// Rollback-Funktion (bei auto_rollback)
+mgr.setRollbackFn([](const ClusterNode& node) -> bool {
+    return rollback_to_previous_version(node.address);
+});
+
+// Update starten
+auto result = mgr.runUpdate();
+// result.success, result.failed_nodes, result.rolled_back_nodes
+// result.total_duration_ms, result.nodes_updated
+
+// Live-Status überwachen
+mgr.setStatusCallback([](const ClusterUpdateStatus& s) {
+    printf("[%s] %s: %s (%.1f%%)\n",
+        s.timestamp.c_str(), s.node_id.c_str(),
+        to_string(s.state).c_str(), s.percent_complete);
+});
+```
+
+**Leader-Last-Policy:**
+
+Nodes mit `is_leader = true` werden immer als letztes aktualisiert, um RAFT-Leadership-Wechsel während des Updates zu minimieren.
+
+---
+
+### 25.11.2 CanaryRollout — Stufenweiser Rollout mit Metriken-Gates
+
+`CanaryRollout` führt Updates schrittweise auf einer wachsenden Prozentzahl von Nodes durch und überprüft bei jedem Schritt konfigurierbare Gesundheitsmetriken.
+
+```cpp
+#include "updates/canary_rollout.h"
+
+CanaryRolloutConfig canary_cfg;
+canary_cfg.target_version = "1.8.0";
+
+// Rollout-Stufen
+canary_cfg.stages = {
+    {.name = "canary",     .percentage = 10, .soak_minutes = 30},
+    {.name = "early",      .percentage = 25, .soak_minutes = 60},
+    {.name = "half",       .percentage = 50, .soak_minutes = 120},
+    {.name = "full",       .percentage = 100, .soak_minutes = 0}
+};
+
+// Metriken-basiertes Rollout-Gate
+canary_cfg.health_gates = {
+    {.metric = "error_rate",    .threshold = 0.01,  .comparison = "lt"},
+    {.metric = "p99_latency_ms",.threshold = 500.0, .comparison = "lt"},
+    {.metric = "cpu_percent",   .threshold = 80.0,  .comparison = "lt"},
+    {.metric = "memory_percent",.threshold = 85.0,  .comparison = "lt"}
+};
+
+canary_cfg.auto_promote     = true;   // Automatisch zur nächsten Stufe
+canary_cfg.auto_rollback    = true;   // Rollback wenn Gate versagt
+
+CanaryRollout rollout(canary_cfg, hot_reload_engine);
+rollout.setMetricsFn([](const std::string& metric) -> double {
+    return prometheus_query(metric);
+});
+
+auto result = rollout.run(all_nodes);
+// result.current_stage, result.promoted_count, result.rolled_back
+```
+
+**Deterministische Node-Auswahl:**
+
+Nodes werden deterministisch per Hash-Funktion `hash(node_id + version)` ausgewählt – dieselbe Node erscheint stets in allen Stufen, die sie einschließen.
+
+---
+
+### 25.11.3 HotReloadEngine — Zero-Downtime Updates
+
+`HotReloadEngine` lädt neue Binärdateien ohne Server-Neustart herunter, validiert SHA-256-Prüfsummen und führt automatisch ein Rollback durch, wenn der Post-Update-Health-Check fehlschlägt.
+
+```cpp
+#include "updates/hot_reload_engine.h"
+
+HotReloadEngine::Config hre_cfg;
+hre_cfg.download_dir       = "/tmp/themis-updates";
+hre_cfg.install_dir        = "/opt/themis/bin";
+hre_cfg.backup_dir         = "/opt/themis/bin.prev";
+hre_cfg.health_check_url   = "http://localhost:8080/health";
+hre_cfg.health_check_timeout = std::chrono::seconds(30);
+hre_cfg.verify_signature   = true;  // RSA-SHA256 Verifizierung
+
+HotReloadEngine engine(hre_cfg, manifest_db, history_logger);
+
+// Verfügbare Updates prüfen
+auto available = engine.checkForUpdates();
+// available.version, available.release_notes, available.size_bytes
+
+// Update herunterladen und validieren
+auto download = engine.download(available.version);
+// download.success, download.download_path, download.manifest
+
+// Update anwenden (mit Auto-Rollback)
+engine.setHealthCheckFn([](const std::string& version) -> bool {
+    return run_smoke_tests();
+});
+
+auto apply_result = engine.apply(download.manifest);
+// apply_result.success, apply_result.previous_version
+// apply_result.rolled_back  (true wenn Health-Check fehlschlug)
+
+// Update-Historie
+auto history = engine.getHistory();
+```
+
+**Update-Protokoll (history_logger):**
+
+Jedes Update wird persistent protokolliert:
+
+```json
+{
+  "timestamp": "2026-04-13T04:00:00Z",
+  "from_version": "1.7.2",
+  "to_version": "1.8.0",
+  "result": "SUCCESS",
+  "duration_ms": 12340,
+  "applied_by": "auto-updater",
+  "health_check_passed": true
+}
+```
+
+---
+
+### 25.11.4 InPlaceSchemaMigrator — Online-Schema-Migration
+
+`InPlaceSchemaMigrator` führt additive Schema-Migrationen (neue Spalten) ohne Downtime durch und integriert sich in den `SchemaVersionManager` für Versions-Tracking.
+
+```cpp
+#include "updates/in_place_schema_migrator.h"
+
+InPlaceSchemaMigrator migrator(schema_manager, schema_version_manager);
+
+// Vorschau (Dry-Run)
+auto preview = migrator.preview(from_schema, to_schema);
+// preview.added_columns    → ["last_login_at", "preferences"]
+// preview.modified_columns → [{name:"email", old_type:"TEXT", new_type:"VARCHAR(255)"}]
+// preview.breaking_changes → ["Column 'status' type change: INT→BOOLEAN (BREAKING)"]
+
+// Nur wenn keine Breaking Changes
+if (preview.breaking_changes.empty()) {
+    auto result = migrator.migrate(from_schema, to_schema);
+    // result.success, result.added_columns, result.schema_version
+}
+```
+
+**Unterstützte Operationen (Online, kein Downtime):**
+
+| Operation | Unterstützt | Anmerkung |
+|-----------|-------------|-----------|
+| Spalte hinzufügen (nullable) | ✅ | Online, sofort |
+| Spalte hinzufügen (NOT NULL + Default) | ✅ | Online, backfill im Hintergrund |
+| Index hinzufügen | ✅ | Online, concurrent build |
+| Spaltentyp ändern (breaking) | ❌ | Erfordert klassische Migration |
+| Spalte umbenennen | ❌ | Schema-Compatibility-Prozess |
+
+---
+
+### 25.11.5 BlueGreenDeployment — Slot-basiertes Deployment
+
+`BlueGreenDeployment` verwaltet zwei Deployment-Slots (BLUE/GREEN). Genau ein Slot ist aktiv (bedient Traffic), der andere ist Standby (empfängt neues Update). Automatischer Rollback bei Metriken-Verstoß.
+
+```cpp
+#include "updates/blue_green_deployment.h"
+
+BlueGreenConfig bg_cfg;
+bg_cfg.initial_active_slot    = DeploymentSlot::BLUE;
+bg_cfg.error_rate_threshold   = 0.02;   // 2% Fehlerrate → Rollback
+bg_cfg.latency_threshold_ms   = 500;
+bg_cfg.observation_window     = std::chrono::minutes(10);
+bg_cfg.auto_rollback_enabled  = true;
+
+BlueGreenDeployment bg(bg_cfg, hot_reload_engine);
+
+// Welcher Slot ist aktiv?
+auto active = bg.activeSlot();  // DeploymentSlot::BLUE
+
+// Update auf Standby-Slot deployen
+auto result = bg.deployToStandby("1.8.0");
+// result.success, result.standby_slot, result.new_version
+
+// Traffic-Umschaltung nach Validierung
+bg.switchTraffic();
+// Jetzt ist GREEN aktiv, BLUE ist Standby
+
+// Rollback (falls nötig)
+bg.rollback();
+// Wieder BLUE aktiv
+
+// Metriken-basiertes Auto-Rollback überwachen
+bg.startHealthMonitor([](const std::string& metric) -> double {
+    return prometheus_query(metric);
+});
+```
+
+### 25.11.6 Update-Komponenten-Matrix (v1.8.0)
+
+| Komponente | Strategy | Downtime | Rollback | Status |
+|------------|---------|---------|---------|--------|
+| `ClusterUpdateManager` | Rolling (Leader-Last) | < 5s (drain) | ✅ Auto | ✅ Production-Ready |
+| `CanaryRollout` | Stufenweise % | 0 | ✅ Metriken-Gate | ✅ Production-Ready |
+| `HotReloadEngine` | In-Place | 0 | ✅ Health-Check | ✅ Production-Ready |
+| `InPlaceSchemaMigrator` | Online (additive) | 0 | ❌ (additive only) | ✅ Production-Ready |
+| `BlueGreenDeployment` | Slot-Swap | 0 | ✅ Slot-Switch | ✅ Production-Ready |
+
+**Entscheidungs-Matrix:**
+
+| Szenario | Empfohlene Strategie |
+|---------|---------------------|
+| Routine-Patch (Single-Node) | `HotReloadEngine` |
+| Cluster-Upgrade (kein Risiko) | `ClusterUpdateManager` Rolling |
+| Neues Feature mit Risiko | `CanaryRollout` 10% → 100% |
+| Schema-Änderung (additive) | `InPlaceSchemaMigrator` |
+| Kritische Umgebung (sofort rollback) | `BlueGreenDeployment` |

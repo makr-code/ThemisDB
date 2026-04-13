@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            hot_reload_manager_integration_test.cpp            ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-06 04:23:43                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-13 04:33:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

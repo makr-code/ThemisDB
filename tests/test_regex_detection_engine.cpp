@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_regex_detection_engine.cpp                    ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-04-06 04:34:02                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-13 04:45:19                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

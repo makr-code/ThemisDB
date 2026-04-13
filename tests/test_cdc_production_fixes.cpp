@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cdc_production_fixes.cpp                      ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:26:10                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:36:28                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            module_loader_linux.cpp                            ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-04-06 04:21:23                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-04-13 04:31:18                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

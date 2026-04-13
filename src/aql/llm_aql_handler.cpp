@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llm_aql_handler.cpp                                ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:14:25                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:23:48                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1797                                           ║
+    • Total Lines:     1717                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 3a758b465a  2026-04-12  feat(aql): AQL module enhancements — Features 8, 10, 12, ... ║
     • 2e566adfce  2026-03-14  fix(aql): bounded worker pool - fix dangling ref, unbound... ║
     • db5df3fde9  2026-03-14  feat(aql): parallel execution of translateBatchNLToAQL() ... ║
     • 1d10fc7b3f  2026-03-13  feat(build): add redis_cache and AQL components to build ... ║
     • c28ecfee98  2026-03-13  feat(aql): accurate token-count estimation - TiktokenEsti... ║
-    • f5c74c7e83  2026-03-13  fix(aql): add mock chat executor injection + AC#5 integra... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

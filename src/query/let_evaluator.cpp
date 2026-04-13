@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            let_evaluator.cpp                                  ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:19:00                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:28:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            arrow_export.h                                     ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:04:51                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:13:10                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

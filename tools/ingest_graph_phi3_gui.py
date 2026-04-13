@@ -1,3 +1,25 @@
+"""
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            ingest_graph_phi3_gui.py                           ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-04-13 04:49:42                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     229                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3db23979ed  2026-04-06  feat: Enable HTTP server by default + LLM API routing + c... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+"""
+
 #!/usr/bin/env python3
 """Tkinter GUI for ingest_graph_phi3 library with live process feedback."""
 

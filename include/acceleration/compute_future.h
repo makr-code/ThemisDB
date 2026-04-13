@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            compute_future.h                                   ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-04-06 04:04:44                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-04-13 04:13:02                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

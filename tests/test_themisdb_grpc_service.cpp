@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_themisdb_grpc_service.cpp                     ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-06 04:35:44                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-13 04:47:17                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🔴 ALPHA                                        ║
     • Quality Score:   32.0/100                                       ║
-    • Total Lines:     202                                            ║
+    • Total Lines:     241                                            ║
     • Open Issues:     TODOs: 0, Stubs: 17                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 02a975f292  2026-04-07  fix(api): AQL identifier injection, BatchWrite partial-fa... ║
     • 6a26e097b8  2026-03-25  fix(api): address code review – AQL injection escaping, t... ║
     • 97cd900111  2026-03-25  feat(api): gRPC Phase 4 – mutex fix, deadline, RPC stubs,... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║

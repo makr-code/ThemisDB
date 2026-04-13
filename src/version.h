@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            version.h                                          ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:22:18                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:32:21                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -1,3 +1,27 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            sd_generator.h                                     ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-04-13 04:20:36                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   85.0/100                                       ║
+    • Total Lines:     382                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 6                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • b66a69c598  2026-04-12  feat(stable_diffusion): implement SDCppGenerator, real PN... ║
+    • 75af53c598  2026-04-11  feat(stable_diffusion): v2.1.0 — batch generation, img2im... ║
+    • 1e348484ec  2026-04-07  feat(plugins): add stable_diffusion + llama_cpp plugins, ... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include "plugins/image_generation_interface.h"

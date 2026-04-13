@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            task_scheduler.h                                   ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:10:30                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:19:23                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     741                                            ║
+    • Total Lines:     790                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • ed0fb65444  2026-04-12  feat(scheduler): register 10 missing focused test targets... ║
     • 971a3c49d5  2026-03-20  Build/test fixes and auth role mapping refactor ║
     • c8aa401935  2026-03-15  feat(scheduler): propagate authenticated user context to ... ║
     • c97360e579  2026-03-15  fix(auth,scheduler): JWT scope enforcement, Kerberos role... ║
     • 3d8fa93133  2026-03-09  feat(scheduler): dynamic task scaling based on queue dept... ║
-    • a64247126f  2026-03-08  Refactor code structure for improved readability and main... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

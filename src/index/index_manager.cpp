@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            index_manager.cpp                                  ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:17:00                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:26:13                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     769                                            ║
+    • Total Lines:     845                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 9f5c953436  2026-04-07  feat(config): Introduce new hierarchical configuration st... ║
+    • dd49fe5493  2026-04-07  fix(index): tenant key separator injection – validate col... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 49aa9b0586  2026-03-02  Add modules, extraction retries, and test fixes ║
     • bb886db939  2026-02-28  feat(index): implement SecondaryIndexAdapter for partial/... ║
-    • 0ed251f658  2026-02-28  feat(index): implement VectorIndexAdapter to resolve IVec... ║
-    • 92ff271635  2026-02-26  feat(index): implement multi-tenancy index isolation with... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

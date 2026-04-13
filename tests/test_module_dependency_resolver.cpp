@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_module_dependency_resolver.cpp                ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-06 04:31:01                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-13 04:41:58                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

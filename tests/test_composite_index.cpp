@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_composite_index.cpp                           ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:26:25                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:36:46                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

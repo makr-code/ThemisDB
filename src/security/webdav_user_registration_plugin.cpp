@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            webdav_user_registration_plugin.cpp                ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:20:09                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:29:50                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

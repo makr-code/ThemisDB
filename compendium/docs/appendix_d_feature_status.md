@@ -889,3 +889,80 @@ Dieser Appendix bietet eine vollständige, strukturierte Übersicht aller Themis
 **Version History:**
 - 1.4.0-alpha (2026-01-06): 25 neue Alpha-Features (LLM, Performance, HA, Monitoring, Protocol)
 - 1.3.0 (2025-12-30): Umfassendes Update mit allen Features bis Dez 2025
+
+---
+
+## Neue Dokumentations-Abschnitte v1.8.0 (2026-04-13)
+
+### Auth — Kapitel 21.10: Erweiterte Authentifizierungskomponenten
+
+| Komponente | Header | Status | Standard |
+|------------|--------|--------|---------|
+| `JWTValidator` | `auth/jwt_validator.h` | ✅ Production-Ready | RFC 7519 / RS256 / ES256 |
+| `OAuth2PkceFlow` | `auth/oauth_pkce_flow.h` | ✅ Production-Ready | RFC 7636 |
+| `SAMLAuthenticator` | `auth/saml_authenticator.h` | ✅ Production-Ready | SAML 2.0 |
+| `WebAuthnAuthenticator` | `auth/webauthn_authenticator.h` | ✅ Production-Ready | W3C WebAuthn Level 2 |
+| `LDAPAuthenticator` | `auth/ldap_authenticator.h` | ✅ Production-Ready | RFC 4511 + AD |
+| `MFAAuthenticator` | `auth/mfa_authenticator.h` | ✅ Production-Ready | RFC 6238 TOTP |
+| `SessionManager` | `auth/session_manager.h` | ✅ Production-Ready | Intern |
+| `PasswordPolicy` | `auth/password_policy.h` | ✅ Production-Ready | NIST SP 800-63B |
+| `FederatedIdentityManager` | `auth/federated_identity_manager.h` | ✅ Production-Ready | OIDC + RFC 8693 |
+
+### BiTemporal — Kapitel 9.11: SQL:2011-Bi-Temporalität
+
+| Komponente | Header | Status | Standard |
+|------------|--------|--------|---------|
+| `BiTemporalTable` | `temporal/bi_temporal.h` | ✅ Production-Ready | SQL:2011 |
+| `BiTemporalJoin` | `temporal/bitemporal_join.h` | ✅ Production-Ready | SQL:2011 §T005 |
+| `TemporalQueryEngine` | `temporal/temporal_query_engine.h` | ✅ Production-Ready | SQL:2011 AS OF |
+| `SnapshotManager` | `temporal/snapshot_manager.h` | ✅ Production-Ready | Snapshot-Isolation |
+
+### Storage — Kapitel 20.11: Erweiterte Storage & Recovery Services
+
+| Komponente | Header | Status | Feature |
+|------------|--------|--------|---------|
+| `BackupManager` | `storage/backup_manager.h` | ✅ Production-Ready | RAID0/1/5/6/10 |
+| `PITRManager` | `storage/pitr_manager.h` | ✅ Production-Ready | Point-in-Time Recovery |
+| `TieredStorageManager` | `storage/tiered_storage.h` | ✅ Production-Ready | Hot→Warm→Cold |
+
+### Training — Kapitel 16.11: Erweiterte Training-Pipeline
+
+| Komponente | Header | Status | Feature |
+|------------|--------|--------|---------|
+| `TrainingPipeline` | `training/training_pipeline.h` | ✅ Production-Ready | End-to-End-Orchestrator |
+| `IncrementalLoRATrainer` | `training/incremental_lora_trainer.h` | ✅ Production-Ready | QLoRA + Multi-GPU |
+| `AutoLabeler` | `training/auto_labeler.h` | ✅ Production-Ready | LLM-gestütztes Labeling |
+| `LoRACheckpointManager` | `training/lora_checkpoint_manager.h` | ✅ Production-Ready | SHA-256-Checkpoints |
+| `ProvenanceTracker` | `training/provenance_tracker.h` | ✅ Production-Ready | DSGVO-Provenance |
+
+### CDC — Kapitel 11.10: CDC-Infrastruktur
+
+| Komponente | Header | Status | Feature |
+|------------|--------|--------|---------|
+| `Changefeed` | `cdc/changefeed.h` | ✅ Production-Ready | Sequence-based CDC |
+| `CdcMaterializedView` | `cdc/cdc_materialized_view.h` | ✅ Production-Ready | Inkrementelle Views |
+| `CdcAdmin` | `cdc/cdc_admin.h` | ✅ Production-Ready | Retention + GDPR |
+| `ConsumerGroup` | `cdc/consumer_group.h` | ✅ Production-Ready | Kafka-ähnliche Offsets |
+
+### Updates — Kapitel 25.11: Cluster-Update-Management
+
+| Komponente | Header | Status | Strategy |
+|------------|--------|--------|----------|
+| `ClusterUpdateManager` | `updates/cluster_update_manager.h` | ✅ Production-Ready | Rolling (Leader-Last) |
+| `CanaryRollout` | `updates/canary_rollout.h` | ✅ Production-Ready | Stufenweise % |
+| `HotReloadEngine` | `updates/hot_reload_engine.h` | ✅ Production-Ready | Zero-Downtime |
+| `InPlaceSchemaMigrator` | `updates/in_place_schema_migrator.h` | ✅ Production-Ready | Online (additive) |
+| `BlueGreenDeployment` | `updates/blue_green_deployment.h` | ✅ Production-Ready | Slot-Swap |
+
+### LLM-Infrastruktur — Kapitel 17.24–17.27: Paged Attention & Routing
+
+| Komponente | Header | Status | §  |
+|------------|--------|--------|----|
+| `PagedKVCache` | `llm/paged_kv_cache.h` | ✅ Production-Ready | §17.24 |
+| `PagedBlockManager` | `llm/paged_block_manager.h` | ✅ Production-Ready | §17.24 |
+| `ContinuousBatchScheduler` | `llm/continuous_batch_scheduler.h` | ✅ Production-Ready | §17.25 |
+| `SpeculativeDecoder` | `llm/speculative_decoder.h` | ✅ Production-Ready | §17.26 |
+| `OpenAICompatAdapter` | `llm/openai_compat_adapter.h` | ✅ Production-Ready | §17.27 |
+| `LoRARouter` | `llm/lora_router.h` | ✅ Production-Ready | §17.27 |
+| `AdapterRegistry` | `llm/adapter_registry.h` | ✅ Production-Ready | §17.27 |
+| `ModelRouter` | `llm/model_router.h` | ✅ Production-Ready | §17.27 |

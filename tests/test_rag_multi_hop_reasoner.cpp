@@ -1,3 +1,25 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_rag_multi_hop_reasoner.cpp                    ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-04-13 04:44:57                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
+    • Quality Score:   75.0/100                                       ║
+    • Total Lines:     257                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 10                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 5f8c6f5fe6  2026-04-12  feat(rag): implement MultiHopReasoner and AdaptiveRetriev... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ⚠️  Needs Work                                              ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file test_rag_multi_hop_reasoner.cpp
  * @brief Unit tests for MultiHopReasoner (multi-hop reasoning, Phase 7).

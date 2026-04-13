@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            directx_context.h                                  ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:08:09                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:16:35                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

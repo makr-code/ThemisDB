@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            hsm_provider.h                                     ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:10:42                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:19:38                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

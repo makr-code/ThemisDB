@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            api_key_authenticator.cpp                          ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-06 04:14:26                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-13 04:23:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

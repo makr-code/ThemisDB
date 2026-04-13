@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ethics_ai_types.cpp                                ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-04-06 04:15:39                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-04-13 04:24:47                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

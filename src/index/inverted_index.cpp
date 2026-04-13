@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            inverted_index.cpp                                 ║
-  Version:         0.0.16                                             ║
-  Last Modified:   2026-04-06 04:17:01                                ║
+  Version:         0.0.17                                             ║
+  Last Modified:   2026-04-13 04:26:13                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 39ac8c3efe  2026-03-20  Split default-arg constructors into overloads ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 4fc3321fa9  2026-02-21  fix(index): audit — fix fuzzy-search key parser and upser... ║
-    • d80551ba82  2026-02-21  feat(index): implement standalone InvertedIndex class for... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

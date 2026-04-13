@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_opengl_backend.cpp                            ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-04-06 04:31:44                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-04-13 04:42:45                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            mtls_authenticator.h                               ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-06 04:05:30                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-13 04:13:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

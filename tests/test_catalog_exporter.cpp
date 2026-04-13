@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_catalog_exporter.cpp                          ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-06 04:25:47                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-13 04:36:01                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

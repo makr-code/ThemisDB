@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            mtls_connection_pool.cpp                           ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:20:53                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:30:36                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

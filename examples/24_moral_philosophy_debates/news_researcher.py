@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            news_researcher.py                                 ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:04:34                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:12:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

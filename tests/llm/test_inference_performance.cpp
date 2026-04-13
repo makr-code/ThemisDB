@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_inference_performance.cpp                     ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:23:50                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:33:51                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

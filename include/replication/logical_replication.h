@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            logical_replication.h                              ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-04-06 04:10:21                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-04-13 04:19:13                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

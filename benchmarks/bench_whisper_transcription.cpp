@@ -1,3 +1,25 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            bench_whisper_transcription.cpp                    ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-04-13 04:12:22                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟠 BETA                                         ║
+    • Quality Score:   48.0/100                                       ║
+    • Total Lines:     218                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 11                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 4c802da514  2026-04-12  feat(benchmarks): add 9 missing benchmark suites for util... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: 🔧 In Progress                                               ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file bench_whisper_transcription.cpp
  * @brief Whisper transcription benchmark — plugin overhead and CLI parity harness

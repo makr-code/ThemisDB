@@ -2,21 +2,21 @@
 ╔═════════════════════════════════════════════════════════════════════╗
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_metadata_encryption_provider.cpp             ║
-  Version:         1.0.0                                             ║
-  Last Modified:   2026-04-09                                        ║
-  Author:          ThemisDB Contributors                             ║
+  File:            test_metadata_encryption_provider.cpp              ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-04-13 04:41:41                                ║
+  Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                   ║
-    • Maturity Level:  🟢 PRODUCTION-READY                            ║
-    • Quality Score:   100.0/100                                     ║
-    • Total Lines:     274                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                            ║
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     274                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                  ║
-    • initial       2026-04-09  feat(tests): add v1.7.0 encryption   ║
+  Revision History:                                                   ║
+    • 728a90d70a  2026-04-12  [WIP] Update documentation and sources for module metadat... ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                         ║
+  Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 

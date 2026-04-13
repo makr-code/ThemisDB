@@ -3,17 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_query_future_interfaces.cpp                   ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-04-09                                         ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-04-13 04:44:20                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  Query module – focused tests for new interfaces (v2.0.0)            ║
-  Covers:                                                             ║
-    • QueryRewritePipeline + all 5 built-in rewrite rules             ║
-    • QueryProfiler / NullQueryProfiler                               ║
-    • ApproximateCountDistinct (HyperLogLog)                          ║
-    • ApproximatePercentile (t-Digest)                                ║
-    • SamplingAggregator (reservoir)                                  ║
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     623                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • d8c296b8a5  2026-04-11  feat(query): port v2.0.0 rewrite/profiler/approx-aggregat... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 

@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            audit_logger.cpp                                   ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:22:07                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:32:09                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   98.0/100                                       ║
-    • Total Lines:     1661                                           ║
+    • Total Lines:     1693                                           ║
     • Open Issues:     TODOs: 1, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 40456a3c45  2026-04-11  perf(audit): reduce hash-chain writer overhead in benchmarks ║
+    • b55d2d72cc  2026-04-11  perf(index): reduce secondary-index write-path overhead (... ║
     • 79f0815052  2026-03-28  Add test statistics documentation and collection script ║
     • 33f9fb7774  2026-03-14  feat(sharding): implement adaptive shard rebalancer with ... ║
     • ac6890aa58  2026-03-11  fix(exporters): EXPORT_DENIED severity MEDIUM, authorizat... ║
-    • 2dba947651  2026-03-11  feat(exporters): PolicyEngine export authorization with a... ║
-    • eea8f803ba  2026-03-09  feat(utils): implement HashChainAuditWriter/AuditLogVerif... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            i_logger.h                                         ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:06:32                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:14:51                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 86c25566ca  2026-02-24  fix(core): resolve logStructured() stub — inject trace ID... ║
     • a629043ab2  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-    • 7f17c52b69  2026-02-21  feat(core): structured log correlation — span_id in Trace... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

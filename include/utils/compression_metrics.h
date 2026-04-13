@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            compression_metrics.h                              ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:12:55                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:22:08                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_gpu_backends.cpp                             ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:03:35                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:11:46                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,15 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            temporal_migrator.h                                ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-04-09                                         ║
-  Author:          ThemisDB Contributors                              ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-04-13 04:21:01                                ║
+  Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     ~330                                           ║
+    • Total Lines:     372                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • df1d0fdf21  2026-04-12  [WIP] Update developer documentation for module synchroni... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

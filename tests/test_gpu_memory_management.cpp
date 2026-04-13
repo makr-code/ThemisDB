@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_gpu_memory_management.cpp                     ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:28:33                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:39:12                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

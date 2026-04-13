@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cuda_geo_backend.cpp                          ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-06 04:27:15                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-13 04:37:42                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

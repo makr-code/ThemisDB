@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bpmn_serializer.cpp                                ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-04-06 04:18:35                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-04-13 04:28:02                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     434                                            ║
+    • Total Lines:     691                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • b18a0735c6  2026-04-12  fix(process): replace regex BPMN parser with state-machin... ║
     • 3fea6d6b51  2026-03-12  refactor: clean up includes and remove unused transaction... ║
     • 7f7a272409  2026-03-12  feat(process): add ProcessLinker, ProcessGraphRag, and mo... ║
 ╠═════════════════════════════════════════════════════════════════════╣

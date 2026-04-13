@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            password_policy.h                                  ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-06 04:05:33                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-13 04:13:56                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

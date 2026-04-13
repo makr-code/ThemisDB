@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            pii_redaction_policy.cpp                           ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:20:01                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:29:42                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

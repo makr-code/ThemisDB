@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            plugin_manager.h                                   ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:09:16                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:17:57                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     412                                            ║
+    • Total Lines:     451                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • a217820d8f  2026-04-12  feat(plugins): implement runtime capability escalation bl... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 18598257eb  2026-03-01  feat(plugins): add OciRegistryClient and loadPluginFromOc... ║
     • 3d4510f1ac  2026-02-28  fix(plugins): mark runtime plugin capability negotiation ... ║
     • 88c2ff1ef7  2026-02-28  feat(plugins): integrate PluginHealthMonitor into PluginM... ║
-    • d7e3e58b0d  2026-02-28  feat(plugins): implement PluginManager::negotiateCapabili... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

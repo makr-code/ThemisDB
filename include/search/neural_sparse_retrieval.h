@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            neural_sparse_retrieval.h                          ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-06 04:10:36                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-13 04:19:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

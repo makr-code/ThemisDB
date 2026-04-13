@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_acceleration_dispatch.cpp                     ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-06 04:24:28                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-13 04:34:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

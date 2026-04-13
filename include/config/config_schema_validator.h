@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            config_schema_validator.h                          ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-06 04:15:24                                ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-04-13 04:14:38                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • aeb43de031  2026-04-12  feat(config): create include/config/ public header direct... ║
     • 64c72611d4  2026-03-22  feat(config): implement `not` JSON Schema keyword, upgrad... ║
     • ee59cce514  2026-03-11  docs(config): update ARCHITECTURE.md and header metadata ... ║
     • ec0d1bcbc8  2026-03-11  feat(config): add validateFromString API for in-memory YA... ║
     • a8886b55e9  2026-03-11  feat(config): add loadAsJson(content, is_yaml) overload t... ║
-    • 2e93674fba  2026-03-11  feat(config): add format and uniqueItems JSON Schema keyw... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

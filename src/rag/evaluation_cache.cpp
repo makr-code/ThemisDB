@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            evaluation_cache.cpp                               ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-04-06 04:19:23                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-04-13 04:28:56                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

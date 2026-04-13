@@ -1,4 +1,26 @@
 /*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_chaos_stress.cpp                              ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-04-13 04:36:37                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     434                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 1f070f992b  2026-04-12  chaos: Phase 4+5 — configurable scheduler tick/wake strat... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+/*
  * ThemisDB — Chaos Module: Scheduler Jitter and Stress Tests (Phase 4)
  *
  * File:    tests/test_chaos_stress.cpp

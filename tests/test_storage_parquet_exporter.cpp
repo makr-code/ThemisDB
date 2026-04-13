@@ -3,30 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_storage_parquet_exporter.cpp                  ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-04-09                                         ║
-  Author:          copilot                                            ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-04-13 04:46:53                                ║
+  Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  Issue:           ROADMAP v2.0.0 – Native Parquet export from        ║
-                   ColumnarFormat                                     ║
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     387                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  Coverage:                                                           ║
-    PE-1  – exportToBuffer: output starts with PAR1 magic and ends    ║
-            with PAR1 magic                                           ║
-    PE-2  – exportToBuffer: INT32 single-segment round-trip size      ║
-    PE-3  – exportToBuffer: INT64 single-segment round-trip size      ║
-    PE-4  – exportToBuffer: FLOAT32 single-segment round-trip size    ║
-    PE-5  – exportToBuffer: FLOAT64 single-segment round-trip size    ║
-    PE-6  – exportToBuffer: BOOL single-segment round-trip size       ║
-    PE-7  – exportToBuffer: multi-column table (INT32 + FLOAT64)      ║
-    PE-8  – exportToBuffer: empty column_segments → config invalid    ║
-    PE-9  – exportToBuffer: column_segments.size() != cols → invalid  ║
-    PE-10 – exportToBuffer: zero-row segment is tolerated             ║
-    PE-11 – exportToBuffer: stats populated after export              ║
-    PE-12 – exportToFile: writes to disk and file is non-empty        ║
-    PE-13 – exportToFile: bad path returns ERR_EXPORT_IO_ERROR        ║
-    PE-14 – exportToBuffer: metadata length field is plausible        ║
-    PE-15 – exportToBuffer: multiple row-group segments per column    ║
+  Revision History:                                                   ║
+    • 1e700420b4  2026-04-11  feat(storage): port SIMD filter + parquet exporter scope ... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 

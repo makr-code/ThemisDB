@@ -3,9 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_temporal_migrator.cpp                         ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-04-09                                         ║
-  Author:          ThemisDB Contributors                              ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-04-13 04:34:28                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     556                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • df1d0fdf21  2026-04-12  [WIP] Update developer documentation for module synchroni... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_access_control.cpp                            ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:24:30                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:34:34                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

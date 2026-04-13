@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            auto_failover_manager.h                            ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-04-06 04:06:53                                ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-04-13 04:15:12                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     252                                            ║
+    • Total Lines:     287                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 296263aa37  2026-04-12  [MODULE] failover: Phase 4 chaos tests + Phase 5 queue-pr... ║
     • 5bee4e8e41  2026-04-03  Implement Disaster Recovery Manager and associated tests ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║

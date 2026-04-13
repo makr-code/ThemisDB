@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cross_module_index_matryoshka.cpp             ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-04-06 04:27:05                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-04-13 04:37:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

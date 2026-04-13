@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            maintenance_schedule_store.h                       ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-04-06 04:08:26                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-04-13 04:16:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_model_loader_async.cpp                        ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:30:58                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:41:55                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

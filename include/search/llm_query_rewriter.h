@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llm_query_rewriter.h                               ║
-  Version:         0.0.8                                              ║
-  Last Modified:   2026-04-06 04:10:33                                ║
+  Version:         0.0.9                                              ║
+  Last Modified:   2026-04-13 04:19:28                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

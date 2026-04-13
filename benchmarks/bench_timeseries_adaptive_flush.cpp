@@ -1,4 +1,28 @@
 /*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            bench_timeseries_adaptive_flush.cpp                ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-04-13 04:12:17                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   96.0/100                                       ║
+    • Total Lines:     428                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 9c9ead9b4f  2026-04-09  Implement feature X to enhance user experience and optimi... ║
+    • 5ca94cf31c  2026-04-09  fix(benchmarks): address code review - rename cfg, named ... ║
+    • 49f71dee43  2026-04-09  feat(benchmarks): add bench_timeseries_adaptive_flush for... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+/*
  * bench_timeseries_adaptive_flush.cpp
  *
  * Benchmark suite for TSAutoBuffer adaptive batch flush (PERF-D1).

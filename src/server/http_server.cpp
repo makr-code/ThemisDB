@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            http_server.cpp                                    ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-06 04:20:23                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 04:30:05                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
-    • Total Lines:     10740                                          ║
+    • Total Lines:     11513                                          ║
     • Open Issues:     TODOs: 1, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 490de27f06  2026-03-26  fix: implement all P0/P1 blockers - QueryEngine, RAG, eth... ║
-    • 80ae5c5d3e  2026-03-15  fix(storage/audit): remove dead dsm.setRocksDBSize() call... ║
-    • 9f9d86ceb0  2026-03-15  feat(storage): implement proper size calculation in Rocks... ║
-    • c9b1433946  2026-03-15  feat(server): inject live ShardingManager into HttpServer... ║
-    • 2fed5b1c69  2026-03-15  fix(cdc): wire ConsumerGroupManager into WebSocket server... ║
+    • 040083b025  2026-04-12  feat: StreamingIngestManager, TsStreamCursor, LZ4 compres... ║
+    • 9f5c953436  2026-04-07  feat(config): Introduce new hierarchical configuration st... ║
+    • fc0c65a058  2026-04-07  feat(api/aql): AQL-GraphQL integration – cost model bridg... ║
+    • 2b2fd4812b  2026-04-06  llm: kv-cache clear + mutex fix + crash protection for ge... ║
+    • 306525b1e8  2026-04-06  feat: Add /api/v1/llm/rag and /api/v1/llm/lora/adapters H... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
