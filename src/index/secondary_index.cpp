@@ -1034,20 +1034,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::put(std::string_view table,
 	if (pk.empty()) return Status::Error("put: Entity hat keinen Primary Key");
 	if (!db_.isOpen()) return Status::Error("put: Datenbank ist nicht geöffnet");
 
-	// Bestehende Entity laden, um alte Indexeinträge bereinigen zu können
-	const std::string relKey = KeySchema::makeRelationalKey(table, pk);
-	std::optional<std::vector<uint8_t>> oldBlob = db_.get(relKey);
-	std::unique_ptr<BaseEntity> oldEntity;
-	if (oldBlob) {
-		try {
-			oldEntity = std::make_unique<BaseEntity>(BaseEntity::deserialize(pk, *oldBlob));
-		} catch (...) {
-			// Wenn Deserialisierung fehlschlägt, loggen und fahren fort (wir überschreiben anyway)
-			THEMIS_WARN("put: Konnte alte Entity für PK={} nicht deserialisieren", pk);
-		}
-	}
-
-	// Atomare Batch-Operation
+	// Atomare Batch-Operation (old-entity read is done inside put(batch) for index cleanup)
 	auto batch = db_.createWriteBatch();
 	if (!batch) return Status::Error("put: Konnte WriteBatch nicht erstellen");
 	auto st = put(table, entity, *batch);
@@ -1061,17 +1048,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::erase(std::string_view tabl
 	if (pk.empty()) return Status::Error("erase: pk darf nicht leer sein");
 	if (!db_.isOpen()) return Status::Error("erase: Datenbank ist nicht geöffnet");
 
-	const std::string relKey = KeySchema::makeRelationalKey(table, pk);
-	std::optional<std::vector<uint8_t>> oldBlob = db_.get(relKey);
-	std::unique_ptr<BaseEntity> oldEntity;
-	if (oldBlob) {
-		try {
-			oldEntity = std::make_unique<BaseEntity>(BaseEntity::deserialize(std::string(pk), *oldBlob));
-		} catch (...) {
-			THEMIS_WARN("erase: Konnte alte Entity für PK={} nicht deserialisieren", pk);
-		}
-	}
-
+	// old-entity read is done inside erase(batch) for index cleanup
 	auto batch = db_.createWriteBatch();
 	if (!batch) return Status::Error("erase: Konnte WriteBatch nicht erstellen");
 	auto st = erase(table, pk, *batch);
@@ -1231,7 +1208,40 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(std::s
 			metadata.partial_predicates[col] = pred;
 			metadata.partial_unique[col] = isPartialIndexUnique_(table, col);
 		}
-		
+
+		// v1.3.5: cache per-column TTL seconds to avoid db.get on every insert
+		for (const auto& tcol : metadata.ttl_indexes) {
+			metadata.ttl_seconds[tcol] = getTTLSeconds_(table, tcol);
+		}
+
+		// v1.3.5: cache per-column fulltext config to avoid db.get + JSON parse on every insert
+		for (const auto& fcol : metadata.fulltext_indexes) {
+			auto cfg = getFulltextConfig(table, fcol).value_or(FulltextConfig{});
+			SecondaryIndexMetadataCache::IndexMetadata::CachedFulltextConfig cached;
+			cached.stemming_enabled  = cfg.stemming_enabled;
+			cached.language          = cfg.language;
+			cached.stopwords_enabled = cfg.stopwords_enabled;
+			cached.stopwords         = cfg.stopwords;
+			cached.normalize_umlauts = cfg.normalize_umlauts;
+			metadata.fulltext_configs[fcol] = std::move(cached);
+		}
+
+		// v1.3.5: cache composite unique flags to avoid db.get per composite insert
+		for (const auto& col : metadata.regular_indexes) {
+			if (col.find('+') != std::string::npos) {
+				std::vector<std::string> columns;
+				columns.reserve(std::count(col.begin(), col.end(), '+') + 1);
+				size_t start = 0;
+				while (start < col.size()) {
+					size_t pos = col.find('+', start);
+					if (pos == std::string::npos) { columns.push_back(col.substr(start)); break; }
+					columns.push_back(col.substr(start, pos - start));
+					start = pos + 1;
+				}
+				metadata.composite_unique[col] = isUniqueCompositeIndex_(table, columns);
+			}
+		}
+
 		cache.set(table, metadata);
 		indexedColsPtr = &indexedColsMiss;
 		rangeColsPtr   = &rangeColsMiss;
@@ -1320,7 +1330,15 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(std::s
 			if (!allPresent) continue; // Skip wenn nicht alle Felder vorhanden
 			
 			// Unique-Constraint prüfen für Composite Index
-			if (isUniqueCompositeIndex_(table, columns)) {
+			// Use cache to avoid db.get per composite insert; fall back to DB on cache miss.
+			bool compositeUnique = false;
+			if (cachedMetadata) {
+				auto it = cachedMetadata->composite_unique.find(col);
+				compositeUnique = (it != cachedMetadata->composite_unique.end()) && it->second;
+			} else {
+				compositeUnique = isUniqueCompositeIndex_(table, columns);
+			}
+			if (compositeUnique) {
 				// Prüfe ob bereits ein anderer PK mit dieser Wertekombination existiert
 				std::string prefix = makeCompositeIndexPrefix(table, columns, values);
 				bool conflict = false;
@@ -1458,7 +1476,14 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(std::s
 	for (const auto& tcol : ttlCols) {
 		auto maybeValue = newEntity.extractField(tcol);
 		if (!maybeValue) continue;
-		int64_t ttlSeconds = getTTLSeconds_(table, tcol);
+		// Use cached TTL seconds to avoid db.get on every insert (v1.3.5)
+		int64_t ttlSeconds = 0;
+		if (cachedMetadata) {
+			auto it = cachedMetadata->ttl_seconds.find(tcol);
+			if (it != cachedMetadata->ttl_seconds.end()) ttlSeconds = it->second;
+		} else {
+			ttlSeconds = getTTLSeconds_(table, tcol);
+		}
 		if (ttlSeconds <= 0) continue;
 		
 		int64_t expireTimestamp = currentTimestamp + ttlSeconds;
@@ -1478,8 +1503,21 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(std::s
 		auto maybeText = newEntity.extractField(fcol);
 		if (!maybeText || isNullOrEmpty_(maybeText)) continue;
 		
-		// Get index config and tokenize with stemming if enabled
-		auto config = getFulltextConfig(table, fcol).value_or(FulltextConfig{});
+		// Use cached fulltext config to avoid db.get + JSON parse on every insert (v1.3.5)
+		FulltextConfig config;
+		if (cachedMetadata) {
+			auto it = cachedMetadata->fulltext_configs.find(fcol);
+			if (it != cachedMetadata->fulltext_configs.end()) {
+				const auto& c = it->second;
+				config.stemming_enabled  = c.stemming_enabled;
+				config.language          = c.language;
+				config.stopwords_enabled = c.stopwords_enabled;
+				config.stopwords         = c.stopwords;
+				config.normalize_umlauts = c.normalize_umlauts;
+			}
+		} else {
+			config = getFulltextConfig(table, fcol).value_or(FulltextConfig{});
+		}
 		auto tokens = tokenize(*maybeText, config);
 		
 		std::unordered_map<std::string, uint32_t> tf;
@@ -1785,8 +1823,21 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(std
 			auto maybeText = oldEntityOpt->extractField(fcol);
 			if (!maybeText || isNullOrEmpty_(maybeText)) continue;
 			
-			// Get index config and tokenize with same settings as index
-			auto config = getFulltextConfig(table, fcol).value_or(FulltextConfig{});
+			// Use cached fulltext config to avoid db.get + JSON parse on every upsert/delete (v1.3.5)
+			FulltextConfig config;
+			if (cachedMetadata) {
+				auto it = cachedMetadata->fulltext_configs.find(fcol);
+				if (it != cachedMetadata->fulltext_configs.end()) {
+					const auto& c = it->second;
+					config.stemming_enabled  = c.stemming_enabled;
+					config.language          = c.language;
+					config.stopwords_enabled = c.stopwords_enabled;
+					config.stopwords         = c.stopwords;
+					config.normalize_umlauts = c.normalize_umlauts;
+				}
+			} else {
+				config = getFulltextConfig(table, fcol).value_or(FulltextConfig{});
+			}
 			auto tokens = tokenize(*maybeText, config);
 			
 			std::unordered_set<std::string> uniqueTokens(tokens.begin(), tokens.end());
@@ -3817,6 +3868,39 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 			metadata.partial_unique[col] = isPartialIndexUnique_(table, col);
 		}
 
+
+		// v1.3.5: cache per-column TTL seconds to avoid db.get on every insert
+		for (const auto& tcol : metadata.ttl_indexes) {
+			metadata.ttl_seconds[tcol] = getTTLSeconds_(table, tcol);
+		}
+
+		// v1.3.5: cache per-column fulltext config to avoid db.get + JSON parse on every insert
+		for (const auto& fcol : metadata.fulltext_indexes) {
+			auto cfg = getFulltextConfig(table, fcol).value_or(FulltextConfig{});
+			SecondaryIndexMetadataCache::IndexMetadata::CachedFulltextConfig cached;
+			cached.stemming_enabled  = cfg.stemming_enabled;
+			cached.language          = cfg.language;
+			cached.stopwords_enabled = cfg.stopwords_enabled;
+			cached.stopwords         = cfg.stopwords;
+			cached.normalize_umlauts = cfg.normalize_umlauts;
+			metadata.fulltext_configs[fcol] = std::move(cached);
+		}
+
+		// v1.3.5: cache composite unique flags to avoid db.get per composite insert
+		for (const auto& col : metadata.regular_indexes) {
+			if (col.find('+') != std::string::npos) {
+				std::vector<std::string> columns;
+				columns.reserve(std::count(col.begin(), col.end(), '+') + 1);
+				size_t start = 0;
+				while (start < col.size()) {
+					size_t pos = col.find('+', start);
+					if (pos == std::string::npos) { columns.push_back(col.substr(start)); break; }
+					columns.push_back(col.substr(start, pos - start));
+					start = pos + 1;
+				}
+				metadata.composite_unique[col] = isUniqueCompositeIndex_(table, columns);
+			}
+		}
 		cache.set(table, metadata);
 		indexedColsPtr = &indexedColsMiss;
 		rangeColsPtr   = &rangeColsMiss;
@@ -3913,7 +3997,15 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 			if (!allPresent) continue; // Skip wenn nicht alle Felder vorhanden
 			
 			// Unique-Constraint prüfen für Composite Index
-			if (isUniqueCompositeIndex_(table, columns)) {
+			// Use cache to avoid db.get per composite insert; fall back to DB on cache miss.
+			bool compositeUnique = false;
+			if (cachedMetadata) {
+				auto it = cachedMetadata->composite_unique.find(col);
+				compositeUnique = (it != cachedMetadata->composite_unique.end()) && it->second;
+			} else {
+				compositeUnique = isUniqueCompositeIndex_(table, columns);
+			}
+			if (compositeUnique) {
 				// Fix Concurrent-Unique-Lücke (ACID): lock a composite sentinel key
 				// derived from (table, columns, values) to serialize concurrent writes
 				// of the same unique composite value across transactions.
@@ -4059,11 +4151,17 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 		auto maybeValue = newEntity.extractField(tcol);
 		if (!maybeValue) continue;
 		
-		// Calculate expire timestamp: now + TTL seconds
+		// Calculate expire timestamp: now + TTL seconds (use cached TTL to avoid db.get, v1.3.5)
 		auto now = std::chrono::system_clock::now();
 		auto epoch = now.time_since_epoch();
 		int64_t currentTimestamp = std::chrono::duration_cast<std::chrono::seconds>(epoch).count();
-		int64_t ttlSeconds = getTTLSeconds_(table, tcol);
+		int64_t ttlSeconds = 0;
+		if (cachedMetadata) {
+			auto it = cachedMetadata->ttl_seconds.find(tcol);
+			if (it != cachedMetadata->ttl_seconds.end()) ttlSeconds = it->second;
+		} else {
+			ttlSeconds = getTTLSeconds_(table, tcol);
+		}
 		if (ttlSeconds <= 0) continue;
 		
 		int64_t expireTimestamp = currentTimestamp + ttlSeconds;
@@ -4084,8 +4182,21 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 		auto maybeText = newEntity.extractField(fcol);
 		if (!maybeText || isNullOrEmpty_(maybeText)) continue;
 		
-		// Get index config and tokenize with stemming if enabled
-		auto config = getFulltextConfig(table, fcol).value_or(FulltextConfig{});
+		// Use cached fulltext config to avoid db.get + JSON parse on every insert (v1.3.5)
+		FulltextConfig config;
+		if (cachedMetadata) {
+			auto it = cachedMetadata->fulltext_configs.find(fcol);
+			if (it != cachedMetadata->fulltext_configs.end()) {
+				const auto& c = it->second;
+				config.stemming_enabled  = c.stemming_enabled;
+				config.language          = c.language;
+				config.stopwords_enabled = c.stopwords_enabled;
+				config.stopwords         = c.stopwords;
+				config.normalize_umlauts = c.normalize_umlauts;
+			}
+		} else {
+			config = getFulltextConfig(table, fcol).value_or(FulltextConfig{});
+		}
 		auto tokens = tokenize(*maybeText, config);
 		
 		std::unordered_map<std::string, uint32_t> tf;
@@ -4392,8 +4503,21 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(
 			auto maybeText = oldEntityOpt->extractField(fcol);
 			if (!maybeText || isNullOrEmpty_(maybeText)) continue;
 			
-			// Get index config and tokenize with same settings as index
-			auto config = getFulltextConfig(table, fcol).value_or(FulltextConfig{});
+			// Use cached fulltext config to avoid db.get + JSON parse on every upsert/delete (v1.3.5)
+			FulltextConfig config;
+			if (cachedMetadata) {
+				auto it = cachedMetadata->fulltext_configs.find(fcol);
+				if (it != cachedMetadata->fulltext_configs.end()) {
+					const auto& c = it->second;
+					config.stemming_enabled  = c.stemming_enabled;
+					config.language          = c.language;
+					config.stopwords_enabled = c.stopwords_enabled;
+					config.stopwords         = c.stopwords;
+					config.normalize_umlauts = c.normalize_umlauts;
+				}
+			} else {
+				config = getFulltextConfig(table, fcol).value_or(FulltextConfig{});
+			}
 			auto tokens = tokenize(*maybeText, config);
 			
 			std::unordered_set<std::string> uniqueTokens(tokens.begin(), tokens.end());
