@@ -174,6 +174,17 @@ private:
  *       LoRATrainingService when actual GPU training is desired; in test
  *       environments the service runs in simulation mode.
  *
+ * @note **Compile guards:** The LoRA framework has no dedicated
+ *       `THEMIS_ENABLE_LORA` flag.  CPU-only components
+ *       (`lora_training_service`, `aql_lora_finetuner`, `llama_lora_adapter`,
+ *       etc.) are always compiled as part of `THEMIS_CORE_SOURCES`.
+ *       GPU-accelerated components (`gpu_lora_layers`, `vram_allocator`,
+ *       `multi_gpu_trainer`, `multi_gpu_lora_layer`, etc.) are additionally
+ *       compiled only when `THEMIS_ENABLE_GPU=ON` (default `ON`).
+ *       Use `cmake … -DTHEMIS_ENABLE_GPU=OFF` to build a CPU-only ThemisDB
+ *       image that still includes the full AQL LoRA fine-tuning API but
+ *       delegates to the simulation mode of LoRATrainingService.
+ *
  * Thread safety: all public methods are thread-safe.
  */
 class AQLLoRAFinetuner {

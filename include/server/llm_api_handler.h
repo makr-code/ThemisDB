@@ -50,6 +50,9 @@ class JWTValidator;
 namespace governance {
 class PolicyEngine;
 }
+namespace query {
+class QueryEngine;
+}
 namespace server {
 class LoRAApiHandler;
 }
@@ -145,23 +148,13 @@ public:
     void setPolicyEngine(governance::PolicyEngine* policy_engine);
 
     /**
-     * @brief Attach a VectorIndexManager for real vector search in RAG requests.
+     * @brief Wire a QueryEngine for RAG vector retrieval.
      *
-     * When set, @c handleRAG() embeds the incoming query via
-     * @c LLMPluginManager::embed(), executes a K-NN search via
-     * @c VectorIndexManager::searchKnn(), and populates
-     * @c RAGContext::documents before calling @c generateRAG().
-     * If FLARE is enabled on the gap detector, the same search path is also
-     * wired as the FLARE re-retrieval callback so the detector can
-     * autonomously request more context mid-loop.
-     *
-     * Pass @c nullptr to detach (disables vector search; falls back to empty
-     * context — same behaviour as before this call).
-     *
-     * @param vim  Pointer to VectorIndexManager (non-owning). Must outlive this handler.
-     * @param db   Pointer to RocksDBWrapper used to resolve entity content (non-owning).
+     * When set, handleRAG() embeds the user query via the LLM plugin and
+     * executes a filtered vector search on the named collection before
+     * forwarding the retrieved documents to LLMPluginManager::generateRAG().
      */
-    void setVectorIndex(VectorIndexManager* vim, RocksDBWrapper* db);
+    void setQueryEngine(std::shared_ptr<query::QueryEngine> query_engine);
     
     /**
      * @brief Handle LLM API request
@@ -285,10 +278,8 @@ private:
     /// Optional governance policy engine for /v1/chat/completions permission checks.
     /// Raw non-owning pointer; nullptr when not configured.
     governance::PolicyEngine* policy_engine_ = nullptr;
-    /// Optional vector index for RAG vector search (non-owning, may be nullptr).
-    VectorIndexManager* vector_index_ = nullptr;
-    /// RocksDB instance associated with vector_index_ for entity content retrieval.
-    RocksDBWrapper* rag_db_ = nullptr;
+    /// Optional query engine for RAG vector retrieval.
+    std::shared_ptr<query::QueryEngine> query_engine_;
 };
 
 } // namespace themis::server

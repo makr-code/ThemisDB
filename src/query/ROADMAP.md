@@ -105,8 +105,8 @@ Production-ready multi-model query engine supporting relational, document, graph
 
 ### Short-term (v1.9.0, Q2 2026)
 
-- [ ] Edge-type filtering in graph traversal (`TraversalQuery` struct extension) (Target: v1.9.0) — ✅ implemented: `executeGeneralTraversal()` now accepts optional `edgeTypeFilter` parameter
-- [ ] `QueryFederation` shard-key routing (see In Progress above) (Target: v1.9.0) — ✅ already completed (v1.9.0)
+- [x] Edge-type filtering in graph traversal (`TraversalQuery` struct extension) (Target: v1.9.0) — ✅ implemented: `executeGeneralTraversal()` now accepts optional `edgeTypeFilter` parameter
+- [x] `QueryFederation` shard-key routing (see In Progress above) (Target: v1.9.0) — ✅ already completed (v1.9.0)
   - Inputs: AQL query with shard-key predicate; `ShardingManager` interface
   - Outputs: routed plan executing on ≤ N relevant shards
   - Errors: shard unreachable → skip with `WARN`; no shard-key predicate → broadcast + `WARN` if > 10 shards
@@ -115,7 +115,7 @@ Production-ready multi-model query engine supporting relational, document, graph
   - Inputs: `TraversalQuery::edge_type_filter` (string set)
   - Outputs: traversal restricted to matching edge types
   - Tests: unit tests asserting only matching edges are followed
-- [ ] `QueryEngine::createDefault()` wired — inject `RocksDBWrapper` + `SecondaryIndexManager` concrete implementations (Target: v1.9.0)
+- [x] `QueryEngine::createDefault()` wired — inject `RocksDBWrapper` + `SecondaryIndexManager` concrete implementations (Target: v1.9.0)
   - Depends on: `storage::RocksDBWrapper` and `index::SecondaryIndexManager` adapting to `IStorageEngine`/`IIndexManager`
   - Tests: smoke test creating default engine and executing a simple AQL query
 

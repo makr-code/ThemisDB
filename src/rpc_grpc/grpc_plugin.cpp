@@ -89,6 +89,7 @@ bool GRPCServer::start() {
         
         if (server_) {
             running_ = true;
+            start_time_ = std::chrono::steady_clock::now();
             std::cout << "gRPC server listening on " << server_address_ << std::endl;
             
             // Update stats
@@ -123,6 +124,11 @@ bool GRPCServer::isRunning() const {
 
 RPCServerStats GRPCServer::getStats() const {
     std::lock_guard<std::mutex> lock(stats_mutex_);
+    if (running_) {
+        const auto now = std::chrono::steady_clock::now();
+        stats_.uptime_seconds = static_cast<uint64_t>(
+            std::chrono::duration_cast<std::chrono::seconds>(now - start_time_).count());
+    }
     return stats_;
 }
 

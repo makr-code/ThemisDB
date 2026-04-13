@@ -45,7 +45,7 @@ Advanced features (health service, interceptors, streaming helpers) are planned.
 - [x] Unit tests: `initialize`, `start` (insecure), `stop`, `registerService` (Target: Q3 2026)
 - [x] Fail-closed TLS test: start() returns false on bad cert path (Target: Q3 2026)
 - [ ] Integration tests: mTLS round-trip with real gRPC service (Target: Q3 2026)
-- [ ] `RPCServerStats::uptime_seconds` incremental tracking with `std::chrono` (Target: Q3 2026)
+- [x] `RPCServerStats::uptime_seconds` incremental tracking with `std::chrono` (Target: Q3 2026)
 
 ### v0.2.0 — Health and Observability (Target: Q4 2026)
 
