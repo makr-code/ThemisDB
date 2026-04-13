@@ -113,6 +113,10 @@ public:
     ModelCacheStats getStats() const;
     json getDetailedStats() const;
 
+    // Path traversal protection: returns false if path contains "..", null bytes,
+    // or shell metacharacters that could be used for injection attacks.
+    static bool isSafeModelPath(const std::string& path);
+
 private:
     ModelCacheConfig config_;
     mutable std::mutex mutex_;

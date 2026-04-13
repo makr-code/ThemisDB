@@ -61,30 +61,45 @@ inline constexpr uint32_t BACKEND_CONTRACT_VERSION = 100; // v1.0
 
 // Backend types for hardware acceleration
 enum class BackendType {
-    CPU,        // CPU-only (fallback)
-    CUDA,       // NVIDIA CUDA
-    ZLUDA,      // AMD ZLUDA (CUDA compatibility for AMD GPUs)
-    HIP,        // AMD HIP (Heterogeneous-computing Interface for Portability)
-    ROCM,       // AMD ROCm
-    DIRECTX,    // DirectX Compute Shaders (Windows)
-    VULKAN,     // Vulkan Compute (cross-platform)
-    OPENGL,     // OpenGL Compute Shaders (legacy support)
-    METAL,      // Apple Metal
-    ONEAPI,     // Intel OneAPI/SYCL (cross-platform)
-    OPENCL,     // OpenCL (generic)
-    WEBGPU,     // WebGPU (browser-based, future)
-    MULTI_GPU,  // Multi-GPU sharding (distributes across N devices)
-    AUTO        // Auto-detect best available
+    CPU,            // CPU-only (fallback)
+    CUDA,           // NVIDIA CUDA
+    ZLUDA,          // AMD ZLUDA (CUDA compatibility for AMD GPUs)
+    HIP,            // AMD HIP (Heterogeneous-computing Interface for Portability)
+    ROCM,           // AMD ROCm
+    DIRECTX,        // DirectX Compute Shaders (Windows)
+    VULKAN,         // Vulkan Compute (cross-platform)
+    OPENGL,         // OpenGL Compute Shaders (legacy support)
+    METAL,          // Apple Metal (GPU)
+    ONEAPI,         // Intel OneAPI/SYCL (cross-platform)
+    OPENCL,         // OpenCL (generic)
+    WEBGPU,         // WebGPU (browser-based, future)
+    MULTI_GPU,      // Multi-GPU sharding (distributes across N devices)
+    // ── AI-specific accelerator backends ─────────────────────────────────────
+    // Dedicated AI/inference hardware with dedicated low-power neural engines.
+    // All AI backends expose graceful CPU fallback via AiHardwareDispatcher.
+    NPU_APPLE,      // Apple Neural Engine (Core ML / Metal Performance Shaders)
+    NPU_INTEL,      // Intel NPU (OpenVINO / iGPU tile)
+    NPU_QUALCOMM,   // Qualcomm QNN / Hexagon DSP / Snapdragon NPU
+    NPU_ARM,        // ARM Ethos-N / Mali AI extensions
+    NNAPI,          // Android Neural Networks API (delegates to best available)
+    ONNX_RUNTIME,   // ONNX Runtime (universal AI inference, selects EP at runtime)
+    AUTO            // Auto-detect best available
 };
 
 // Floating-point and quantisation precision modes.
 // Values are stable bitmask flags; combine with bitwise OR.
 enum class PrecisionMode : uint32_t {
-    NONE = 0,
-    FP32 = 1u << 0,   ///< 32-bit IEEE 754 single precision (always required)
-    FP16 = 1u << 1,   ///< 16-bit IEEE 754 half precision
-    BF16 = 1u << 2,   ///< bfloat16
-    INT8 = 1u << 3,   ///< 8-bit integer quantisation
+    NONE  = 0,
+    FP32  = 1u << 0,   ///< 32-bit IEEE 754 single precision (always required)
+    FP16  = 1u << 1,   ///< 16-bit IEEE 754 half precision
+    BF16  = 1u << 2,   ///< bfloat16
+    INT8  = 1u << 3,   ///< 8-bit integer quantisation (symmetric / asymmetric)
+    // ── AI / LLM quantisation modes ─────────────────────────────────────────
+    // Used by NPU and dedicated AI inference engines.
+    INT4  = 1u << 4,   ///< 4-bit integer (GPTQ / AWQ / NF4 schemes)
+    FP4   = 1u << 5,   ///< 4-bit float (e.g. NF4, FP4-E2M1)
+    W4A8  = 1u << 6,   ///< 4-bit weights, 8-bit activations (Qualcomm AI Engine)
+    W8A8  = 1u << 7,   ///< 8-bit weights and 8-bit activations (symmetric INT8)
 };
 
 inline constexpr PrecisionMode operator|(PrecisionMode a, PrecisionMode b) noexcept {
@@ -129,9 +144,19 @@ struct DeviceCapabilityInfo {
     bool        is_healthy        = true;    ///< false when the device reported an error
     std::string error_message;              ///< Non-empty when is_healthy == false
 
-    // Derived precision support flags
+    // Derived precision support flags (GPU / CPU backends)
     bool        supports_fp16     = false;   ///< true for CUDA sm_70+ / ROCm gfx900+
     bool        supports_bf16     = false;   ///< true for CUDA sm_80+ (Ampere and newer)
+
+    // ── AI / NPU-specific fields ──────────────────────────────────────────────
+    bool        is_npu            = false;   ///< true when this is a dedicated neural engine
+    uint32_t    npu_tops          = 0;       ///< Reported NPU peak throughput in TOPS (0 = unknown)
+    bool        supports_int4     = false;   ///< 4-bit inference (GPTQ/AWQ/NF4)
+    bool        supports_w4a8     = false;   ///< W4A8 mixed-precision (Qualcomm AI Engine, etc.)
+    std::string onnx_ep;                     ///< Preferred ONNX Runtime execution provider name
+                                             ///<  ("CUDAExecutionProvider", "CoreMLExecutionProvider",
+                                             ///<   "QNNExecutionProvider", "OpenVINOExecutionProvider",
+                                             ///<   "CPUExecutionProvider" …)
 };
 
 // Capability contract for a compute backend.
@@ -144,6 +169,7 @@ struct BackendCapabilities {
     bool supportsMatrixOps = false;    ///< FP16/BF16 matrix multiply via Tensor Core
     bool supportsBatchProcessing = false;
     bool supportsAsync = false;
+    bool supportsAiInference = false;  ///< Dedicated AI inference path (NPU / ONNX Runtime)
 
     // Precision feature matrix: OR of PrecisionMode flags.
     // Must include at least PrecisionMode::FP32 for any vector or geo backend.
@@ -160,6 +186,10 @@ struct BackendCapabilities {
     // Vendor name for GPU/hardware identification (e.g. "NVIDIA", "AMD", "Intel", "ARM")
     // Empty string means unknown or CPU backend.
     std::string vendorName;
+
+    // ── AI / NPU-specific ────────────────────────────────────────────────────
+    uint32_t    npuTops           = 0;    ///< Reported peak throughput in TOPS (0 = unknown)
+    std::string preferredOnnxEP;          ///< ONNX Runtime execution provider (empty = CPU)
 };
 
 // Backend health status — returned by IComputeBackend::getHealthStatus()

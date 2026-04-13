@@ -130,7 +130,7 @@ v1.x – Production-grade ACID transaction engine built on RocksDB. MVCC, SAGA p
 - [x] `TransactionManager` integration: `setDeadlockPredictor`, `predictDeadlockProbability`,
   `recommendLockOrder`, `recommendTimeout`
 - [x] Automatic training: `recordTransaction` on commit/rollback; `recordDeadlock` on cycle resolution
-- [x] Tests: `tests/test_adaptive_deadlock_prevention.cpp` (`AdaptiveDeadlockPreventionFocusedTests`)
+- [x] Tests: `tests/test_adaptive_deadlock_prevention.cpp` (34 tests, `AdaptiveDeadlockPreventionFocusedTests`)
 - [x] CI: `.github/workflows/adaptive-deadlock-prevention-ci.yml`
 
 ### Phase 6: Distributed Transaction Coordinator (2PC) (Status: Completed ✅)
@@ -148,7 +148,7 @@ v1.x – Production-grade ACID transaction engine built on RocksDB. MVCC, SAGA p
 - [x] Participant crash: prepare exception treated as ABORT vote (safe conservative choice)
 - [x] Configurable timeouts: `prepare_timeout`, `commit_timeout`, `default_txn_timeout`
 - [x] Statistics: `getStatistics()` returns committed/aborted/timeout_aborts/recovered/in_doubt counts
-- [x] Tests: `tests/test_transaction_distributed_2pc.cpp` (32 tests, `TransactionDistributed2PCFocusedTests`)
+- [x] Tests: `tests/test_transaction_distributed_2pc.cpp` (32 tests, `DistributedTxnManagerTest`; 43 total after PERF-D4)
 - [x] CI: `.github/workflows/transaction-distributed-2pc-ci.yml`
 
 ### Phase 6b: PERF-D4 – Batched Prepare & Lock-Free Coordination (Status: Completed ✅)

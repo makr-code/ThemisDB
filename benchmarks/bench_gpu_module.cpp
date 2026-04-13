@@ -40,6 +40,20 @@
 #include "themis/gpu/config.h"
 #include "themis/gpu/admin_api.h"
 
+#ifndef THEMIS_ENABLE_GPU
+
+static void BM_GPUModule_GPUDisabled(benchmark::State& state) {
+    for (auto _ : state) {
+        state.SkipWithError("GPU module benchmarks are disabled in this build");
+        break;
+    }
+}
+BENCHMARK(BM_GPUModule_GPUDisabled);
+
+BENCHMARK_MAIN();
+
+#else
+
 using namespace themis::gpu;
 
 // ============================================================================
@@ -93,13 +107,17 @@ BENCHMARK(BM_MemoryManager_GetStats)->Unit(benchmark::kNanosecond);
 static void BM_MemoryPool_Acquire_Release(benchmark::State& state) {
     const size_t slab_size = 256ULL * 1024 * 1024;  // 256 MB slabs
     const size_t num_slabs = 4;
-    GPUMemoryPool pool(slab_size, num_slabs);
+    GPUMemoryPool pool(slab_size * num_slabs, slab_size, num_slabs);
 
     const uint64_t alloc_size = static_cast<uint64_t>(state.range(0)) * 1024;
     for (auto _ : state) {
-        auto handle = pool.acquire(alloc_size, "bench");
-        benchmark::DoNotOptimize(handle);
-        if (handle.valid) pool.release(handle);
+        uint64_t offset = 0;
+        bool acquired = pool.tryAcquire(alloc_size, "bench", offset);
+        benchmark::DoNotOptimize(acquired);
+        benchmark::DoNotOptimize(offset);
+        if (acquired) {
+            pool.release(offset);
+        }
     }
     state.SetItemsProcessed(state.iterations());
     state.SetBytesProcessed(static_cast<int64_t>(state.iterations()) *
@@ -113,7 +131,7 @@ BENCHMARK(BM_MemoryPool_Acquire_Release)
     ->Unit(benchmark::kNanosecond);
 
 static void BM_MemoryPool_Stats(benchmark::State& state) {
-    GPUMemoryPool pool(256ULL * 1024 * 1024, 2);
+    GPUMemoryPool pool(512ULL * 1024 * 1024, 256ULL * 1024 * 1024, 2);
     for (auto _ : state) {
         auto s = pool.getStats();
         benchmark::DoNotOptimize(s);
@@ -266,3 +284,5 @@ BENCHMARK(BM_MemoryManager_ConcurrentAlloc)
 // ============================================================================
 
 BENCHMARK_MAIN();
+
+#endif  // THEMIS_ENABLE_GPU

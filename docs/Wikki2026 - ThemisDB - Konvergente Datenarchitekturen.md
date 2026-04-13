@@ -113,5 +113,110 @@ J. Kapuriya, M. Kaushik, D. Ganguly und S. Bhatia, „Exploring the Role of Dive
 [15] 
 T. Musatoiu, „Enhance your prompts with meta prompting,“ https://developers.openai.com/cookbook/examples/enhance_your_prompts_with_meta_prompting/. 
 
+Anhang
 
+Anlage 1 – AQL.txt: Vollständige RAG-Pipeline-Abfrage (ThemisDB AQL)
 
+Die folgende AQL-Abfrage implementiert den im Abschnitt 4 (Architektur) beschriebenen 5-Schritt-Prozess: Embedding-Kodierung der Nutzeranfrage, relationale Vorfilterung, graphbasierter Berechtigungs-Filter, Vektor-Ähnlichkeitsberechnung und LLM-Prompt-Generierung. Der vollständige kommentierte Quelltext ist in der Datei Anlage_1_AQL.txt (beiliegend) enthalten.
+
+```aql
+// Bindungsparameter:
+//   @user_query  – Nutzerfrage (String)
+//   @user_id     – Kennung des Sachbearbeiters (String)
+//   @legal_area  – Rechtsgebiet, z. B. "BauordnungsR" (String)
+//   @topics      – Themenfelder (Array of String)
+
+// Schritt 1: Embedding-Kodierung der Nutzeranfrage
+LET q_emb = EMBED('text-embedding-3-small', @user_query)
+
+// Schritt 3 (Vorbereitung): Erlaubte Regionen via Graph-Traversierung
+LET allowed_regions = (
+    FOR v IN 0..2 OUTBOUND CONCAT('users/', @user_id) region_access
+        RETURN v._id
+)
+
+// Schritte 2–4: Kostenoptimierte Filterung + Vektor-Ranking
+LET ranked_docs = (
+    FOR doc IN documents
+        FILTER doc.legal_area  == @legal_area          // relational (günstig)
+        FILTER @topics         ALL IN doc.topics        // relational (günstig)
+        FILTER doc.status      == 'active'              // relational (günstig)
+        FILTER doc.valid_until >= DATE_NOW()            // relational (günstig)
+        FILTER doc.region      IN allowed_regions       // graph     (mittelmäßig)
+        LET sim = COSINE_SIMILARITY(doc.embedding, q_emb)  // vektor (teuer)
+        FILTER sim >= 0.70
+        SORT sim DESC
+        LIMIT 50
+        RETURN { title:      doc.title,
+                 context:    CONCAT(doc.title, "\n", SUBSTRING(doc.content, 0, 200)),
+                 similarity: sim }
+)
+
+// Schritt 5: Kontext-Aufbereitung und LLM-Prompt
+LET context_str = CONCAT_SEPARATOR("\n---\n", ranked_docs[*].context)
+
+RETURN PROMPT('gpt-4',
+    CONCAT('Beantworte die folgende Frage auf Basis der Dokumente:\n\n',
+           context_str, '\n\nFrage: ', @user_query),
+    { max_tokens: 512, temperature: 0.1 })
+```
+
+Anlage 2 – Rohdaten: Performance Matrix ThemisDB v1.4.0 (Messbericht)
+
+Messprotokoll v1.4.0 – ThemisDB Comprehensive Benchmark Suite
+Ausgeführt: 2025-12-18, 21:13:51 UTC+1
+Plattform: Intel Core i9-12900K, 20 Kerne @ 3.696 GHz, 64 GB DDR5-RAM, 2 TB NVMe PCIe 4.0 SSD
+Betriebssystem: Windows x64
+Compiler: MSVC 14.44, Release-Build
+Benchmark-Framework: Google Benchmark v1.9.x
+Methodik: Warmup-Durchläufe vor Messung; Ergebnis = Median mehrerer Iterationen; real_time = Wall-Clock-Zeit.
+Quelldatei: benchmarks/results_analysis_reports/BENCHMARK_RESULTS.md
+
+Tabelle A2-1 – Kernkennzahlen (entspricht Tabelle 2 des Artikels)
+
+| Metrik | Workload / Benchmark | v1.4.0 Gemessen | Zeit/Op | Faktor vs. v1.0.0 |
+|--------|----------------------|-----------------|---------|-------------------|
+| Durchsatz (RAG) | LLMInferencingBench/RAG_Search_Retrieve_Top50 | 7,17 M ops/s | 140 ns | 5,975× |
+| Durchsatz (Graph) | GraphOperationsBench/GraphTraversal_BFS_Depth3 | 9,56 M ops/s | 105 ns | 10,622× |
+| Durchsatz (Rel.) | AQLQueryBench/SimpleSelect_WhereClause | 3,43 M ops/s | 291 ns | 13,346× |
+| Latenz (Point, P50) | In-Process Point-Read (BM_PointReadP99-Ableitung) | 0,008 ms | 8 µs | 461× |
+
+Tabelle A2-2 – Vollständige Benchmark-Ergebnisse ThemisDB v1.4.0
+
+| Benchmark | Durchsatz (ops/s) | Zeit/Op |
+|-----------|-------------------|---------|
+| RAG Search Top-50 | 7.170.000 | 140 ns |
+| Graph BFS Traversal (Depth-3) | 9.560.000 | 105 ns |
+| AQL Simple WHERE | 3.430.000 | 291 ns |
+| AQL Complex Conditions | 3.350.000 | 298 ns |
+| AQL JOIN (Users-Posts) | 10.200.000 | 98 ns |
+| Dense Graph Neighbor Query | 8.960.000 | 112 ns |
+| Binary Blob Retrieval (100 KB Batch) | 49.000.000 | 20 ns |
+| RGB KNN Search (Top-10) | 59.700.000 | 16,7 ns |
+| Sparse Graph Edge Addition | 1.260.000 | 793 ns |
+| 384D Embedding Insert | 411.000 | 2,4 µs |
+| 1536D LLM Batch Insert | 116.000 | 8,6 µs |
+| 1MB Document Storage | 741 | 1,39 ms |
+
+Tabelle A2-3 – v1.0.0 Basismessungen (HTTP-API-Ebene, Referenzwerte)
+
+Messprotokoll v1.0.0
+Ausgeführt: 2025-12-04, 21:22:20 UTC
+Plattform: Intel Core i9-10900K, 10 physische / 20 logische Kerne @ 3.696 GHz, 31,3 GB RAM
+Betriebssystem: Linux WSL2 5.15.167.4
+Client: Python 3.12 HTTP-Client, Endpunkt http://localhost:8765
+Quelldatei: benchmarks/results_analysis_reports/scientific_benchmarks_20251204_212220/summary.csv
+
+| Test | Mittlere Latenz (ms) | StdAbw (ms) | 95%-KI-Unten | 95%-KI-Oben | Durchsatz (ops/s) | CV (%) |
+|------|----------------------|-------------|--------------|-------------|-------------------|--------|
+| INSERT 1 KB | 1,317 | 0,089 | 1,309 | 1,324 | 759 | 6,72 |
+| READ 1 KB | 1,204 | 0,145 | 1,191 | 1,216 | 834 | 12,02 |
+| UPDATE 1 KB | 1,240 | 0,085 | 1,233 | 1,248 | 806 | 6,81 |
+| INSERT 10 KB | 1,959 | 0,130 | 1,923 | 1,995 | 510 | 6,62 |
+| INSERT 100 KB | 7,913 | 0,514 | 7,770 | 8,055 | 126 | 6,49 |
+| INSERT 1 MB | 61,402 | 1,592 | 60,961 | 61,843 | 16 | 2,59 |
+| Concurrent 1 Client | 1,281 | 0,014 | 1,269 | 1,293 | 776 | 1,07 |
+| Concurrent 5 Clients | 6,800 | 0,169 | 6,652 | 6,949 | 721 | 2,49 |
+| Concurrent 50 Clients | 60,317 | 22,973 | 40,180 | 80,454 | 948 | 38,09 |
+
+Hinweis zur Vergleichbarkeit: Die v1.0.0-Messungen erfolgten auf HTTP-API-Ebene (Netzwerk-Roundtrip enthalten) auf abweichender Hardware (Linux WSL2, i9-10900K). Die v1.4.0-Werte sind In-Process-Messungen (kein Netzwerk-Overhead) auf Windows x64 (i9-12900K). Der Leistungssprung in Tabelle 2 und A2-1 resultiert daher aus der kombinierten Wirkung der Architekturänderung (In-Process-Integration ab v1.1) und der Parallelisierungsoptimierungen durch Intel TBB (ab v1.3).

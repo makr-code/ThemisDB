@@ -29,6 +29,8 @@
 #include <cctype>
 #include <sstream>
 #include <regex>
+#include <set>
+#include <unordered_map>
 
 namespace themis {
 namespace aql {
@@ -315,6 +317,150 @@ ValidationResult AQLQueryValidator::validate(const AQLQueryBuilder& builder) con
         checkMissingReturn(current_query, result);
         checkMissingLimit(current_query, result);
     }
+
+    return result;
+}
+
+// ============================================================================
+// AQLQueryValidator::checkUnknownCollections (private)
+// ============================================================================
+
+void AQLQueryValidator::checkUnknownCollections(
+    const std::string& query,
+    const std::vector<CollectionMetadata>& schema,
+    ValidationResult& result
+) const {
+    if (schema.empty()) return;
+
+    // Extract collection names from FOR x IN <collection> clauses
+    static const std::regex for_in_re(
+        R"(\bFOR\s+[A-Za-z_][A-Za-z0-9_]*\s+IN\s+([A-Za-z_][A-Za-z0-9_]*))",
+        std::regex::icase
+    );
+
+    std::sregex_iterator it(query.begin(), query.end(), for_in_re);
+    std::sregex_iterator end_it;
+
+    for (; it != end_it; ++it) {
+        std::string collection_name = (*it)[1].str();
+
+        // Check if the collection exists in the schema (case-insensitive)
+        bool found = std::any_of(schema.begin(), schema.end(),
+            [&collection_name](const CollectionMetadata& meta) {
+                std::string a = meta.name, b = collection_name;
+                std::transform(a.begin(), a.end(), a.begin(), ::tolower);
+                std::transform(b.begin(), b.end(), b.begin(), ::tolower);
+                return a == b;
+            });
+
+        if (!found) {
+            result.issues.push_back({
+                ValidationIssue::Severity::WARNING,
+                "Collection '" + collection_name + "' is not present in the schema",
+                "FOR"
+            });
+        }
+    }
+}
+
+// ============================================================================
+// AQLQueryValidator::checkUnknownFields (private)
+// ============================================================================
+
+void AQLQueryValidator::checkUnknownFields(
+    const std::string& query,
+    const std::vector<CollectionMetadata>& schema,
+    ValidationResult& result
+) const {
+    if (schema.empty()) return;
+
+    // Build a map: FOR variable -> collection name
+    static const std::regex for_in_re(
+        R"(\bFOR\s+([A-Za-z_][A-Za-z0-9_]*)\s+IN\s+([A-Za-z_][A-Za-z0-9_]*))",
+        std::regex::icase
+    );
+    std::unordered_map<std::string, std::string> var_to_collection;
+    {
+        std::sregex_iterator it(query.begin(), query.end(), for_in_re);
+        std::sregex_iterator end_it;
+        for (; it != end_it; ++it) {
+            std::string var   = (*it)[1].str();
+            std::string col   = (*it)[2].str();
+            std::transform(var.begin(), var.end(), var.begin(), ::tolower);
+            std::transform(col.begin(), col.end(), col.begin(), ::tolower);
+            var_to_collection[var] = col;
+        }
+    }
+
+    if (var_to_collection.empty()) return;
+
+    // Build a map: collection name (lower) -> set of known field names (lower)
+    std::unordered_map<std::string, std::vector<std::string>> collection_fields;
+    for (const auto& meta : schema) {
+        std::string col_lower = meta.name;
+        std::transform(col_lower.begin(), col_lower.end(), col_lower.begin(), ::tolower);
+        for (const auto& f : meta.fields) {
+            std::string field_lower = f.name;
+            std::transform(field_lower.begin(), field_lower.end(), field_lower.begin(), ::tolower);
+            collection_fields[col_lower].push_back(field_lower);
+        }
+    }
+
+    // Extract <var>.<field> accesses
+    static const std::regex field_access_re(
+        R"(\b([A-Za-z_][A-Za-z0-9_]*)\.([A-Za-z_][A-Za-z0-9_]*))",
+        std::regex::icase
+    );
+    std::sregex_iterator it(query.begin(), query.end(), field_access_re);
+    std::sregex_iterator end_it;
+
+    std::set<std::string> already_warned; // avoid duplicate warnings
+
+    for (; it != end_it; ++it) {
+        std::string var_orig   = (*it)[1].str();
+        std::string field_orig = (*it)[2].str();
+
+        std::string var   = var_orig;
+        std::string field = field_orig;
+        std::transform(var.begin(),   var.end(),   var.begin(),   ::tolower);
+        std::transform(field.begin(), field.end(), field.begin(), ::tolower);
+
+        auto var_it = var_to_collection.find(var);
+        if (var_it == var_to_collection.end()) continue; // not a known loop variable
+
+        const std::string& col = var_it->second;
+        auto col_it = collection_fields.find(col);
+        if (col_it == collection_fields.end()) continue; // collection not in schema
+
+        const auto& known_fields = col_it->second;
+        if (std::find(known_fields.begin(), known_fields.end(), field) == known_fields.end()) {
+            std::string warn_key = var + "." + field;
+            if (already_warned.insert(warn_key).second) {
+                result.issues.push_back({
+                    ValidationIssue::Severity::WARNING,
+                    "Field '" + field_orig + "' is not a known field of collection '"
+                        + var_it->second + "' (accessed as '" + var_orig + "." + field_orig + "')",
+                    "FILTER"
+                });
+            }
+        }
+    }
+}
+
+// ============================================================================
+// AQLQueryValidator::validate(string, schema)
+// ============================================================================
+
+ValidationResult AQLQueryValidator::validate(
+    const std::string& query,
+    const std::vector<CollectionMetadata>& schema
+) const {
+    // Run all standard structural checks first
+    ValidationResult result = validate(query);
+
+    // Then apply schema-aware checks
+    checkUnknownCollections(query, schema, result);
+    checkUnknownFields(query, schema, result);
 
     return result;
 }

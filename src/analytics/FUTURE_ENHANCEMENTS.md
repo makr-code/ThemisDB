@@ -499,8 +499,8 @@ capabilities needed for production deployments.
 - `[x]` `IncrementalView::applyChanges()` micro-batch lock release (section 6)
 
 ### Phase 4 — Tests (2027 Q1)
-- `[ ]` Concurrency stress test for `StreamingAnomalyDetector` (8 threads, 100 kHz, P99 ≤ 1 ms)
-- `[ ]` OLAP cache eviction test: assert bounded memory growth under 10 000 unique queries
+- `[x]` Concurrency stress test for `StreamingAnomalyDetector` (8 threads, 100 kHz, P99 ≤ 1 ms) — `tests/analytics/test_anomaly_detection.cpp` `StreamingConcurrencyStress::EightProducersP99Latency` (run with `THEMIS_RUN_PERF_TESTS=1`)
+- `[x]` OLAP cache eviction test: assert bounded memory growth under 10 000 unique queries — `tests/analytics/test_olap_lru_cache.cpp` `OLAPLRUCache::BoundedMemoryGrowthUnder10kUniqueQueries` (Linux RSS assertion + cross-platform functional variant)
 - `[x]` `CEPEngine::stop()` latency test: returns within 100 ms regardless of `metrics_interval`
 - `[x]` `IVM` reader-latency test: P99 ≤ 10 ms during 10 000-row batch apply
 - `[x]` `KNNRegressorModel` regression accuracy test on `y = 2x`
@@ -515,7 +515,7 @@ capabilities needed for production deployments.
 ### Phase 6 — Documentation and Sign-off (2027 Q2)
 - `[ ]` Update `README.md` performance numbers after Phase 5 benchmarks
 - `[x]` Document all resolved TODOs in `streaming_window.cpp` header (TODO #6 resolved)
-- `[ ]` Update `include/analytics/FUTURE_ENHANCEMENTS.md` to reflect new public API additions
+- `[x]` Update `include/analytics/FUTURE_ENHANCEMENTS.md` to reflect new public API additions (v1.8.0–v1.9.0 APIs; completed feature statuses)
 - `[ ]` Add Windows CI job and set stub-count CI gate to 0 for non-Windows builds (section 12)
 
 ---

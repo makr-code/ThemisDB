@@ -45,6 +45,7 @@ v2.0.0 – Full lifecycle management for LLM prompt templates is production-read
 
 ## In Progress 🚧
 - [x] Token counting and context-window budget enforcement (Target: Q2 2026)
+- [x] Typed template DSL (`PromptTemplateCompiler`, `CompiledPromptTemplate`, `IPromptTemplate`) (Target: Q2 2026)
 
 ## Planned Features 📋
 
@@ -75,8 +76,8 @@ v2.0.0 – Full lifecycle management for LLM prompt templates is production-read
 - [x] A/B testing with statistical significance (p-value)
 - [x] Prometheus-compatible metrics export
 
-### Phase 2: Typed DSL & Context Budget (Status: In Progress 🚧)
-- [?] Typed template DSL with compile-time placeholder validation (Target: Q2 2026)
+### Phase 2: Typed DSL & Context Budget (Status: Completed ✅)
+- [x] **Typed Template DSL** – `PromptTemplateCompiler`, `IPromptTemplate`, `CompiledPromptTemplate`, `PromptTemplateValidator`, `PromptContextValue` (Target: Q2 2026)
 - [x] Context window budget manager – enforce token limits before dispatch (Target: Q2 2026)
 - [x] Prompt injection attack detection layer (Target: Q2 2026)
 - [x] Multi-modal prompt support (image descriptions alongside text) (Target: Q3 2026)

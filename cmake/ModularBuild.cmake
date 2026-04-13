@@ -270,6 +270,8 @@ set(THEMIS_STORAGE_SOURCES
     ../src/storage/key_schema.cpp
     ../src/storage/backup_manager.cpp
     ../src/storage/columnar_format.cpp
+    ../src/storage/simd_filter.cpp
+    ../src/storage/storage_parquet_exporter.cpp
     ../src/storage/batch_write_optimizer.cpp
     # ../src/storage/pitr_manager.cpp  # Temporarily disabled - needs transaction module
     ../src/storage/blob_redundancy_manager.cpp
@@ -379,6 +381,9 @@ set(THEMIS_STORAGE_SOURCES
     # perf_event_open is unavailable (containers, non-Linux).  The actual PMU
     # paths are gated by the THEMIS_ENABLE_PMU_COUNTERS compile definition.
     ../src/performance/phase4/pmu_counters.cpp
+    ../src/performance/numa_memory_manager.cpp
+    ../src/performance/advanced_cache_manager.cpp
+    ../src/performance/workload_adaptive_optimizer.cpp
     
     # Storage enhancements
     ../src/cache/semantic_cache.cpp
@@ -954,6 +959,8 @@ set(THEMIS_LLM_SOURCES
     ../src/prompt_engineering/tree_of_thoughts.cpp
     ../src/prompt_engineering/protegi_optimizer.cpp
     ../src/prompt_engineering/dspy_module.cpp
+    ../src/prompt_engineering/prompt_template_validator.cpp
+    ../src/prompt_engineering/prompt_template_compiler.cpp
     ../src/llm/block_table.cpp
     ../src/llm/paged_block_manager.cpp
     ../src/llm/paged_kv_cache.cpp
@@ -1086,6 +1093,7 @@ set(THEMIS_LLM_SOURCES
     ../src/rag/prompt_templates.cpp
     ../src/rag/response_parser.cpp
     ../src/training/lora_data_selection.cpp
+    ../src/training/adapter_serving.cpp
     ../src/rag/faithfulness_evaluator.cpp
     ../src/rag/relevance_evaluator.cpp
     ../src/rag/completeness_evaluator.cpp
@@ -1253,6 +1261,9 @@ set(THEMIS_TIMESERIES_SOURCES
     ../src/timeseries/ts_auto_buffer_adaptive.cpp
     ../src/timeseries/encrypted_chunk_store.cpp
     ../src/timeseries/ts_encrypted_key_rotation.cpp
+    ../src/timeseries/compression_selector.cpp
+    ../src/timeseries/anomaly_detection.cpp
+    ../src/timeseries/gap_fill.cpp
 )
 
 set(THEMIS_INGESTION_SOURCES
@@ -1444,6 +1455,7 @@ set(THEMIS_NETWORK_SOURCES
     ../src/network/wire_protocol_performance.cpp
     ../src/network/wire_protocol_zero_copy.cpp
     ../src/network/wire_protocol_batch.cpp
+    ../src/network/io_uring_batcher.cpp
     ../src/network/connection_compression.cpp
     $<$<BOOL:${THEMIS_ENABLE_HTTP3}>:../src/network/quic_transport.cpp>
     $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/network/grpc_transport.cpp>

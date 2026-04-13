@@ -27,6 +27,7 @@
  */
 
 #include <gtest/gtest.h>
+#include "timeseries/timeseries.h"
 #include "timeseries/retention.h"
 #include "timeseries/tsstore.h"
 #include "storage/rocksdb_wrapper.h"
@@ -338,6 +339,46 @@ TEST_F(RetentionFixture, AsyncRunsApplyInBackground) {
 
     // The async cycle counter should have incremented
     EXPECT_GE(mgr.getStats().async_cycle_count.load(), 1u);
+}
+
+TEST(TimeSeriesStoreRegression, RangeQueryUsesDefaultColumnFamilyWhenNullptrWasPassed) {
+    const auto db_path = makeTempPath("simple_store");
+
+    RocksDBWrapper::Config cfg;
+    cfg.db_path = db_path;
+    cfg.enable_blobdb = false;
+
+    auto db = std::make_unique<RocksDBWrapper>(cfg);
+    ASSERT_TRUE(db->open()) << "Failed to open RocksDB at " << db_path;
+
+    TimeSeriesStore store(db->getRawDB(), nullptr);
+
+    const std::string metric = "temperature";
+    const std::string entity = "sensor_1";
+    const int64_t base_ts = 1700000000000LL;
+
+    for (int i = 0; i < 10; ++i) {
+        TimeSeriesStore::DataPoint point;
+        point.timestamp_ms = base_ts + (i * 1000);
+        point.value = 20.0 + static_cast<double>(i);
+        ASSERT_TRUE(store.put(metric, entity, point));
+    }
+
+    TimeSeriesStore::RangeQuery query;
+    query.from_ms = base_ts;
+    query.to_ms = base_ts + (60 * 1000);
+
+    const auto points = store.query(metric, entity, query);
+    ASSERT_EQ(points.size(), 10u);
+    EXPECT_DOUBLE_EQ(points.front().value, 20.0);
+    EXPECT_DOUBLE_EQ(points.back().value, 29.0);
+
+    const auto latest = store.getLatest(metric, entity);
+    ASSERT_TRUE(latest.has_value());
+    EXPECT_EQ(latest->timestamp_ms, base_ts + (9 * 1000));
+
+    db.reset();
+    std::filesystem::remove_all(db_path);
 }
 
 } // namespace

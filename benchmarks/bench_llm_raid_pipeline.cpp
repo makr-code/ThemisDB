@@ -109,9 +109,6 @@ protected:
 
 BENCHMARK_F(RAIDLoRAPipelineFixture, BM_ModelLoadSingleShard)
 (benchmark::State& state) {
-    LLMPluginManager mgr;
-    mgr.registerPlugin("llama", std::make_unique<std::remove_pointer_t<decltype(mgr.getDefaultPlugin())>>());
-    
     for (auto _ : state) {
         LLMPluginManager mgr_iter;
         // Simulate model load
@@ -206,7 +203,7 @@ BENCHMARK_F(RAIDLoRAPipelineFixture, BM_LoRA_SwitchingLatency)
 BENCHMARK_F(RAIDLoRAPipelineFixture, BM_Inference_WithoutLoRA)
 (benchmark::State& state) {
     LLMPluginManager mgr;
-    mgr.loadModel(model_dir_ + "/base.gguf");
+    mgr.loadModel("base", model_dir_ + "/base.gguf");
     
     size_t counter = 0;
     for (auto _ : state) {
@@ -229,7 +226,7 @@ BENCHMARK_F(RAIDLoRAPipelineFixture, BM_Inference_WithoutLoRA)
 BENCHMARK_F(RAIDLoRAPipelineFixture, BM_Inference_WithSingleLoRA)
 (benchmark::State& state) {
     LLMPluginManager mgr;
-    mgr.loadModel(model_dir_ + "/base.gguf");
+    mgr.loadModel("base", model_dir_ + "/base.gguf");
     mgr.loadLoRA("legal", lora_dir_ + "/legal.bin", "base");
     
     size_t counter = 0;
@@ -254,7 +251,7 @@ BENCHMARK_F(RAIDLoRAPipelineFixture, BM_Inference_WithSingleLoRA)
 BENCHMARK_F(RAIDLoRAPipelineFixture, BM_Inference_WithLoRASwitching)
 (benchmark::State& state) {
     LLMPluginManager mgr;
-    mgr.loadModel(model_dir_ + "/base.gguf");
+    mgr.loadModel("base", model_dir_ + "/base.gguf");
     mgr.loadLoRA("legal", lora_dir_ + "/legal.bin", "base");
     mgr.loadLoRA("medical", lora_dir_ + "/medical.bin", "base");
     mgr.loadLoRA("finance", lora_dir_ + "/finance.bin", "base");
@@ -283,14 +280,14 @@ BENCHMARK_F(RAIDLoRAPipelineFixture, BM_Inference_WithLoRASwitching)
 // Benchmark: Multi-Shard Concurrent Inference
 // ═══════════════════════════════════════════════════════════
 
-BENCHMARK_F(RAIDLoRAPipelineFixture, BM_MultiShard_ConcurrentInference)
+BENCHMARK_DEFINE_F(RAIDLoRAPipelineFixture, BM_MultiShard_ConcurrentInference)
 (benchmark::State& state) {
     const int num_shards = state.range(0);
     std::vector<LLMPluginManager> shard_mgrs(num_shards);
     
     // Initialize all shards
     for (int i = 0; i < num_shards; i++) {
-        shard_mgrs[i].loadModel(model_dir_ + "/base.gguf");
+        shard_mgrs[i].loadModel("base", model_dir_ + "/base.gguf");
         shard_mgrs[i].loadLoRA("legal", lora_dir_ + "/legal.bin", "base");
     }
     
@@ -311,7 +308,7 @@ BENCHMARK_F(RAIDLoRAPipelineFixture, BM_MultiShard_ConcurrentInference)
     state.counters["num_shards"] = num_shards;
     state.counters["total_requests"] = num_shards;
 }
-BENCHMARK_F(RAIDLoRAPipelineFixture, BM_MultiShard_ConcurrentInference)
+BENCHMARK_REGISTER_F(RAIDLoRAPipelineFixture, BM_MultiShard_ConcurrentInference)
     ->Arg(1)
     ->Arg(3)
     ->Arg(5)
@@ -321,7 +318,7 @@ BENCHMARK_F(RAIDLoRAPipelineFixture, BM_MultiShard_ConcurrentInference)
 // Benchmark: Cross-Shard Data Distribution
 // ═══════════════════════════════════════════════════════════
 
-BENCHMARK_F(RAIDLoRAPipelineFixture, BM_DataDistribution_RAIDStriping)
+BENCHMARK_DEFINE_F(RAIDLoRAPipelineFixture, BM_DataDistribution_RAIDStriping)
 (benchmark::State& state) {
     const int num_shards = state.range(0);
     const int num_records = state.range(1);
@@ -360,7 +357,7 @@ BENCHMARK_F(RAIDLoRAPipelineFixture, BM_DataDistribution_RAIDStriping)
     state.counters["num_records"] = num_records;
     state.counters["records_per_sec"] = num_records / state.iterations();
 }
-BENCHMARK_F(RAIDLoRAPipelineFixture, BM_DataDistribution_RAIDStriping)
+BENCHMARK_REGISTER_F(RAIDLoRAPipelineFixture, BM_DataDistribution_RAIDStriping)
     ->Args({1, 1000})
     ->Args({3, 3000})
     ->Args({5, 5000})
@@ -384,7 +381,7 @@ BENCHMARK_F(RAIDLoRAPipelineFixture, BM_CompletePipeline_EndToEnd)
         
         // Load model on all shards
         for (auto& shard : shards) {
-            shard.loadModel(model_dir_ + "/base.gguf");
+            shard.loadModel("base", model_dir_ + "/base.gguf");
         }
         
         // Load LoRAs on all shards

@@ -5,7 +5,7 @@
 
 ## Current Status
 
-v2.3.0 — production. Distributed hybrid search with mTLS + RRF, negative keyword filter, search highlighting, LLM rewriting/reranking, neural sparse retrieval, multi-modal search, cross-lingual search, and analytics are all operational.
+v2.4.0 — production. Distributed hybrid search with mTLS + RRF, negative keyword filter, search highlighting, LLM rewriting/reranking, neural sparse retrieval, multi-modal search, cross-lingual search, and analytics are all operational. v2.4.0 adds Phase 5 interfaces: `ConversationalSearch` (multi-turn context), `FederatedSearch` (tenant-isolated indexes), and `SearchResultStream` (streaming pagination).
 
 ## Completed
 
@@ -22,6 +22,9 @@ v2.3.0 — production. Distributed hybrid search with mTLS + RRF, negative keywo
 - [x] `SearchHighlighter` inline spans and contextual snippets
 - [x] `NegativeKeywordFilter` NOT/minus-prefix
 - [x] `DistributedHybridSearch` mTLS + RRF with `SearchStats`
+- [x] `ConversationalSearch` multi-turn context-aware search (v2.4.0)
+- [x] `FederatedSearch` tenant-isolated indexes with per-tenant weighting (v2.4.0)
+- [x] `SearchResultStream` cursor-based streaming pagination (v2.4.0)
 
 ## Implementation Phases
 
@@ -45,9 +48,10 @@ v2.3.0 — production. Distributed hybrid search with mTLS + RRF, negative keywo
 - [x] SearchHighlighter spans + snippets
 
 ### Phase 5 — Future Enhancements (Planned)
+- [x] Conversational search (multi-turn query context) (`ConversationalSearch`, v2.4.0)
+- [x] Federated search across isolated tenant indexes (`FederatedSearch`, v2.4.0)
+- [x] Streaming result delivery for large result sets (`SearchResultStream`, v2.4.0)
 - [ ] Voice search (speech-to-query) via `MultiModalSearch` (Target: Q3 2026)
-- [ ] Federated search across isolated tenant indexes (Target: Q4 2026)
-- [ ] Conversational search (multi-turn query context) (Target: Q4 2026)
 
 ### Phase 6 — Documentation & Acceptance ✅
 - [x] All 17 headers documented
@@ -58,4 +62,7 @@ v2.3.0 — production. Distributed hybrid search with mTLS + RRF, negative keywo
 - [x] DistributedHybridSearch tested across 16-shard cluster
 - [x] NegativeKeywordFilter validated with TREC adversarial query set
 - [x] SearchHighlighter output validated for HTML injection safety
+- [x] ConversationalSearch validated with multi-turn session tests
+- [x] FederatedSearch validated with multi-tenant isolation tests
+- [x] SearchResultStream validated with cursor/pagination tests
 - [ ] Voice search integration (Target: Q3 2026)

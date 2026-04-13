@@ -427,6 +427,21 @@ public:
         /// Snapshot: reads from transaction snapshot
         std::optional<std::vector<uint8_t>> get(std::string_view key);
         
+        /// Acquire an exclusive write lock on a key for this transaction.
+        ///
+        /// Uses RocksDB GetForUpdate internally. The exclusive lock is held until the
+        /// transaction commits or rolls back, preventing any other concurrent transaction
+        /// from acquiring a conflicting lock on the same key.
+        ///
+        /// Primary use-case: serializing unique-constraint checks in the secondary-index
+        /// write path so that two concurrent transactions cannot both pass the check and
+        /// then both commit with the same unique value (the "Concurrent-Unique-Lücke").
+        ///
+        /// Returns true  – lock acquired (key may or may not exist in the DB).
+        /// Returns false – lock acquisition failed (e.g. write-write conflict, timeout).
+        ///                 Caller should roll back and return an error.
+        bool getForUpdate(std::string_view key);
+
         /// Put key-value pair (visible only after commit)
         bool put(std::string_view key, const std::vector<uint8_t>& value);
         

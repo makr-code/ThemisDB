@@ -46,14 +46,14 @@
 - [x] UUID v7 implementation (`generate_uuid_v7()`, RFC 9562)
 
 ### Phase 3 — Error Handling & Edge Cases
-- [ ] `zstd_codec.h`: enforce max decompression output size
+- [ ] `zstd_codec.h`: max decompression output enforced via `max_output_bytes` parameter in `zstd_decompress_stream()`
 - [ ] `pii_detector.h`: ReDoS-safe regex audit and replacements
 - [ ] `rate_limiter.h`: handle backend (Redis) unavailability gracefully
 
 ### Phase 4 — Tests
 - [ ] Property-based tests for `safe_arithmetic.h` overflow boundaries
 - [ ] Fuzz testing for `pii_detector.h` regex patterns
-- [ ] Load tests for `thread_pool_manager.h` under saturation
+- [x] Load tests for `thread_pool_manager.h` under saturation (`bench_thread_pool_saturation.cpp`)
 
 ### Phase 5 — Performance / Hardening
 - [ ] SIMD distance GPU path benchmarks

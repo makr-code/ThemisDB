@@ -7,6 +7,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Documentation
+
+- **Milestone- und Release-Sync - 2026-04-11**
+  - Referenzierte offene Sub-Issue-PRs mit Versionsbezug auf ihre Ziel-Milestones ausgerichtet und abgeschlossen.
+  - Konfliktbehaftete Alt-PRs #4507 und #4515 durch Port-Ersatz-PRs #4569 und #4570 ersetzt.
+  - Release-Dokumentation fuer v1.9.0, v1.9.1, v1.10.0 und v2.0.0 in `docs/de/releases/` synchronisiert.
+  <!-- changelog-updater: milestone-release-sync-2026-04-11 -->
+
+- **Module-Docs Sync 📚 — 2026-04-11**
+  - 56 Module indexiert; 747 Primary-Markdown-Dateien in `src/` und `include/`
+  - 6 Module ohne Sekundärdokumentation erkannt; Issues erzeugt
+  - Sekundärdokumentation aktualisiert in `docs/de/` und `docs/en/`
+  - Tool: `tools/module_docs_builder.py` v1.0.0
+  <!-- changelog-updater: module-docs-sync-2026-04-11 -->
+
+- **Module-Docs Sync 📚 — 2026-04-10**
+  - 57 Module indexiert; 761 Primary-Markdown-Dateien in `src/` und `include/`
+  - 7 Module ohne Sekundärdokumentation erkannt; Issues erzeugt
+  - Sekundärdokumentation aktualisiert in `docs/de/` und `docs/en/`
+  - Tool: `tools/module_docs_builder.py` v1.0.0
+  <!-- changelog-updater: module-docs-sync-2026-04-10 -->
+
 ## [1.8.1-rc2] - 2026-04-08
 
 ### Fixed — Hotfix: Docker image SIGSEGV on startup (`Exit 139`)

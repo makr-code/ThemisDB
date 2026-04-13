@@ -1,13 +1,13 @@
 {
   "meta": {
-    "generated_at": "2026-03-09T15:41:17Z",
+    "generated_at": "2026-04-09T09:18:00Z",
     "module": "llm",
     "source_paths": [
       "src/llm/",
       "include/llm/"
     ],
     "validated_branch": "develop",
-    "audit_note": "Reality-check performed during PR copilot/update-documentation-reality-check (2026-03-09)."
+    "audit_note": "Reality-check updated 2026-04-09: LLM-MISSING-002/003/004 marked resolved (PRs merged 2026-03-11). 4 previously undocumented source files added to inventory (embedded_llm_stub.cpp, lora_certificate_store.cpp, multi_perspective_generator.cpp, production_validator.cpp). Original audit: copilot/update-documentation-reality-check (2026-03-09)."
   },
   "missing_implementations": [
     {
@@ -58,6 +58,18 @@
         "file_header_todos": 3,
         "pr_evidence": "none"
       },
+      "status": "resolved",
+      "resolution": {
+        "resolved_at": "2026-03-11",
+        "pr_branch": "copilot/implement-kv-cache-prewarming",
+        "modified_files": [
+          "include/llm/llm_prefix_cache.h",
+          "src/llm/llm_prefix_cache.cpp",
+          "include/llm/inference_engine_enhanced.h",
+          "src/llm/inference_engine_enhanced.cpp"
+        ],
+        "description": "prewarmCache() computes real embeddings via computeEmbeddingForCache(), estimates token IDs, and stores entries in LLMPrefixCache keyed by prompt text. checkCache() uses prompt as key + real embedding → HNSW fuzzy matching. updateCache() stores prompt key, real embedding, and response.text as generated_text. 3 new tests (Tests 21–23) added in tests/test_inference_engine_enhanced.cpp."
+      },
       "roadmap_status": "not_tracked_separately",
       "roadmap_marker": null,
       "issue_number": null,
@@ -78,6 +90,13 @@
         "file_header_todos": 1,
         "pr_evidence": "none"
       },
+      "status": "resolved",
+      "resolution": {
+        "resolved_at": "2026-03-11",
+        "pr_branch": "develop",
+        "modified_files": ["src/llm/docs_assistant.cpp"],
+        "description": "generateAnswer() now calls THEMIS_LLM_GENERATE(prompt.str()) when THEMIS_ENABLE_LLM is set and EmbeddedLLMManager::instance().isInitialized() is true. Returns a meaningful error string otherwise instead of '[LLM completion placeholder]'. Evidence: src/llm/docs_assistant.cpp lines 249-256."
+      },
       "roadmap_status": "not_tracked",
       "roadmap_marker": null,
       "issue_number": null,
@@ -97,6 +116,13 @@
         "todo_lines": "line 373 (// TODO: Properly encode RAG context in request)",
         "file_header_todos": 1,
         "pr_evidence": "none"
+      },
+      "status": "resolved",
+      "resolution": {
+        "resolved_at": "2026-03-11",
+        "pr_branch": "develop",
+        "modified_files": ["src/llm/async_inference_engine.cpp"],
+        "description": "Structured XML-tag format implemented: <system>, <context><document index=\"N\" source=\"...\" relevance=\"...\">, <question>, <answer> — compatible with modern instruction-tuned models. Custom context_template with {{CONTEXT}}/{{QUERY}} placeholders also supported. Evidence: src/llm/async_inference_engine.cpp lines 369-428."
       },
       "roadmap_status": "not_tracked",
       "roadmap_marker": null,
@@ -128,19 +154,19 @@
   ],
   "summary": {
     "total_findings": 5,
-    "resolved_findings": 1,
+    "resolved_findings": 4,
     "by_criticality": {
       "high": 0,
-      "medium": 2,
-      "low": 3
+      "medium": 0,
+      "low": 1
     },
     "by_type": {
       "stub": 0,
-      "todo": 2,
-      "placeholder": 1,
+      "todo": 0,
+      "placeholder": 0,
       "not_implemented": 1,
-      "resolved": 1
+      "resolved": 4
     },
-    "note": "LLM-MISSING-001 resolved (2026-03-11): ActiveVRAMAllocator implemented with real GPU allocation, LRU eviction, defragmentation and CPU spilling. All other ROADMAP entries are backed by present implementation files in develop. No stub exists in the critical inference execution path (AsyncInferenceEngine, InferenceEngineEnhanced, LlamaWrapper, grammar, LoRA hot-loading, speculative decoding, streaming)."
+    "note": "LLM-MISSING-001 resolved (2026-03-11): ActiveVRAMAllocator implemented with real GPU allocation, LRU eviction, defragmentation and CPU spilling. LLM-MISSING-002 resolved (2026-03-11): prewarmCache/checkCache/updateCache use real embeddings via HNSW fuzzy matching. LLM-MISSING-003 resolved (2026-03-11): DocsAssistant::generateAnswer() wired to THEMIS_LLM_GENERATE. LLM-MISSING-004 resolved (2026-03-11): structured XML-tag RAG context encoding. LLM-MISSING-005 (federated inference, Issue #1928) remains the only open finding — planned, not yet implemented. No stub exists in the critical inference execution path."
   }
 }

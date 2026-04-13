@@ -1,0 +1,77 @@
+// Anlage 1 – ThemisDB RAG-Pipeline: Vollständige AQL-Abfragesequenz
+// Quelle: Wikki2026 – Konvergente Datenarchitekturen für souveräne KI-Systeme
+// Plattform: ThemisDB v1.4.0 (Advanced Query Language, AQL)
+//
+// Diese Query illustriert den im Artikel (Abschnitt 4) beschriebenen 5-Schritt-Prozess:
+// (1) Embedding-Kodierung der Nutzeranfrage
+// (2) Kostenoptimierte relationale Vorfilterung (80–95 % Reduktion)
+// (3) Graphbasierter Berechtigungs-Filter (Zuständigkeitsregionen)
+// (4) Vektor-Ähnlichkeitsberechnung auf reduziertem Kandidatenset
+// (5) LLM-Prompt-Generierung mit aufbereitetem Kontext
+//
+// Bindungsparameter:
+//   @user_query  – Nutzerfrage (String)
+//   @user_id     – Kennung des anfragenden Sachbearbeiters (String)
+//   @legal_area  – Rechtsgebiet, z. B. "BauordnungsR", "DSGVO" (String)
+//   @topics      – Themenfelder (Array of String)
+
+// ── Schritt 1: Embedding-Kodierung ────────────────────────────────────────────
+LET q_emb = EMBED('text-embedding-3-small', @user_query)
+
+// ── Schritt 3 (Vorbereitung): Erlaubte Regionen via Graph-Traversierung ────────
+// Traversiert den Zuständigkeitsgraphen bis Tiefe 2 (Abteilung → Amt → Region)
+LET allowed_regions = (
+    FOR v IN 0..2 OUTBOUND CONCAT('users/', @user_id) region_access
+        RETURN v._id
+)
+
+// ── Hauptabfrage: Filterung + Ranking + Kontext-Aufbereitung ──────────────────
+LET ranked_docs = (
+    FOR doc IN documents
+
+        // Schritt 2a: Relationale Filter – sehr kostengünstig (Index-Lookup)
+        FILTER doc.legal_area    == @legal_area
+        FILTER @topics           ALL IN doc.topics
+        FILTER doc.status        == 'active'
+        FILTER doc.valid_until   >= DATE_NOW()
+
+        // Schritt 2b: Graph-Filter – nach relationaler Vorfilterung
+        FILTER doc.region IN allowed_regions
+
+        // Schritt 4: Vektor-Ähnlichkeit – teuer, daher nach den Vorfiltern
+        LET sim = COSINE_SIMILARITY(doc.embedding, q_emb)
+        FILTER sim >= 0.70
+
+        SORT sim DESC
+        LIMIT 50
+
+        RETURN {
+            title:      doc.title,
+            context:    CONCAT(doc.title, "\n", SUBSTRING(doc.content, 0, 200)),
+            similarity: sim,
+            region:     doc.region,
+            doc_id:     doc._id
+        }
+)
+
+// ── Schritt 5: Kontext-Konstruktion und LLM-Prompt ────────────────────────────
+LET context_str = CONCAT_SEPARATOR(
+    "\n---\n",
+    ranked_docs[*].context
+)
+
+RETURN PROMPT(
+    'gpt-4',
+    CONCAT(
+        'Du bist ein Sachbearbeiter-Assistent der deutschen Verwaltung.\n',
+        'Beantworte die folgende Frage ausschließlich auf Basis der bereitgestellten Dokumente.\n',
+        'Wenn die Dokumente keine ausreichende Antwort erlauben, antworte mit: ',
+        '"Auf Grundlage der verfügbaren Akten kann keine abschließende Aussage getroffen werden."\n\n',
+        'Dokumente:\n', context_str,
+        '\n\nFrage: ', @user_query
+    ),
+    {
+        max_tokens:  512,
+        temperature: 0.1
+    }
+)

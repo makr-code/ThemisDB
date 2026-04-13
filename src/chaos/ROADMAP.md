@@ -17,16 +17,16 @@
 ### Phase 3: Error Handling & Edge Cases
 - [x] Validate node id and probability bounds in `injectFault` (Target: Q2 2026)
 ### Phase 4: Tests
-- [ ] Add module-level dedicated stress tests for scheduler jitter (Target: Q3 2026)
+- [x] Add module-level dedicated stress tests for scheduler jitter (Target: Q3 2026)
 ### Phase 5: Performance/Hardening
-- [ ] Add configurable scheduler tick and wake strategy (Target: Q3 2026)
+- [x] Add configurable scheduler tick and wake strategy (Target: Q3 2026)
 ### Phase 6: Documentation & Acceptance
 - [x] Baseline module documentation created (Target: Q2 2026)
 
 ## Production Readiness Checklist
 - [x] Public headers and implementation aligned
 - [x] No TODO/stub markers in core implementation
-- [ ] Extended stress benchmark coverage
+- [x] Extended stress benchmark coverage
 
 ## Known Issues & Limitations
 - In-process simulation only; no direct process/network sabotage.

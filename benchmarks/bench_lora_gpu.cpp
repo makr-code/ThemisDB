@@ -26,6 +26,20 @@
 #include "llm/lora_framework/lora_layers.h"
 #include <chrono>
 
+#ifndef THEMIS_ENABLE_GPU
+
+static void BM_LoRAGPU_Disabled(benchmark::State& state) {
+    for (auto _ : state) {
+        state.SkipWithError("LoRA GPU benchmarks are disabled in this build");
+        break;
+    }
+}
+BENCHMARK(BM_LoRAGPU_Disabled);
+
+BENCHMARK_MAIN();
+
+#else
+
 using namespace themis::llm::lora;
 
 // Benchmark configurations
@@ -367,3 +381,5 @@ BENCHMARK(BM_TrainingStep_CPU)->Arg(MEDIUM_SIZE);
 BENCHMARK(BM_TrainingStep_CUDA)->Arg(MEDIUM_SIZE);
 
 BENCHMARK_MAIN();
+
+#endif  // THEMIS_ENABLE_GPU

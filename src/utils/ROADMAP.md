@@ -34,6 +34,14 @@ v1.5.0 – Comprehensive shared utilities library. Logging, audit trail, PII det
 - [x] TimestampUtils – ISO 8601 / RFC 3339 parse + format (ms, timezone offsets), `formatDuration`, Unix-ms helpers
 - [x] HashChainAuditWriter – standalone tamper-evident audit writer (SHA-256 chain, persisted head, HKDF-seedable genesis)
 - [x] AuditLogVerifier – standalone chain replay verifier; detects first tampered or missing link
+- [x] **UUID v7** — `generate_uuid_v7()` in `include/utils/uuid.h` (Issue: #4582) (2026-04-12)
+  - RFC 9562 compliant: 48-bit Unix-ms timestamp + 18-bit monotonic seq (thread_local, `std::mutex`, 0x3FFFFU mask) + 56-bit random (thread_local MT19937-64)
+  - Monotonicity guaranteed within the same millisecond via `seq_state` bump
+  - 20 focused tests (UV7-01…UV7-20) in `tests/test_uuid_v7.cpp`
+- [x] **Streaming ZSTD** — `zstd_compress_stream` + `zstd_decompress_stream` in `zstd_codec.h/cpp` (Issue: #4583) (2026-04-12)
+  - `ZSTD_CStream`/`ZSTD_DStream` with `Source: std::function<pair<const uint8_t*,size_t>()>` + `Sink: std::function<bool(...)>`
+  - `max_output_bytes` DoS-guard (default = `MAX_DECOMPRESSED_SIZE` = 4 GB); raises error on overflow
+  - 10 focused tests (ZS-01…ZS-10) in `tests/test_zstd_compression_security.cpp`
 
 ## In Progress 🚧
 - [?] Structured log query API (search logs like data) (Target: Q2 2026)
