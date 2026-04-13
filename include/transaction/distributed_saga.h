@@ -439,7 +439,7 @@ public:
      */
     bool forceComplete(const std::string& saga_id);
 
-
+    // ── Status / Metrics ─────────────────────────────────────────────────────
 
     /**
      * @brief Retrieve the execution report for a previously executed SAGA.
