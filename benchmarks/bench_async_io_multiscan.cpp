@@ -30,5 +30,6 @@ static void BM_AsyncIO_Multiscan_Disabled(benchmark::State& state) {
     }
 }
 
+// Disabled: async I/O multiscan pending API update | Deadline: v1.9.0 | Issue: #5
 BENCHMARK(BM_AsyncIO_Multiscan_Disabled);
 BENCHMARK_MAIN();

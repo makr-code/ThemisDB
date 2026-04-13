@@ -437,6 +437,7 @@ static void BM_YCSB_Disabled(benchmark::State& state) {
     }
 }
 
+// Disabled: full YCSB stub superseded by YCSBLiteFixture profile | Deadline: v1.9.0 | Issue: #5
 BENCHMARK(BM_YCSB_Disabled)->Unit(benchmark::kMillisecond);
 BENCHMARK_MAIN();
 #endif

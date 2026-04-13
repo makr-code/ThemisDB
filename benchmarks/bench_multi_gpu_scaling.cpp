@@ -39,6 +39,7 @@ static void BM_MultiGPUScaling_GPUDisabled(benchmark::State& state) {
         break;
     }
 }
+// Disabled: multi-GPU scaling requires multi-GPU CUDA runner | Deadline: v1.9.0 | Issue: #5
 BENCHMARK(BM_MultiGPUScaling_GPUDisabled);
 
 BENCHMARK_MAIN();

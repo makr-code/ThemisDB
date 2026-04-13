@@ -192,14 +192,15 @@ All inbound requests must carry or receive a `X-Correlation-ID` header that prop
 ### GraphQL Response Cache — Pattern-Based Invalidation
 **Priority:** Medium
 **Target Version:** v2.0.0
+**Status:** ✅ Implemented
 
-`include/api/graphql_cache.h::ResponseCache::invalidatePattern()` contains a `TODO: Implement pattern-based invalidation` comment. The current implementation nukes the entire cache on any collection change, causing unnecessary cache misses for queries targeting unrelated collections.
+`include/api/graphql_cache.h::ResponseCache::invalidatePattern()` previously contained a `TODO: Implement pattern-based invalidation` comment. The implementation now performs selective eviction.
 
 **Implementation Notes:**
-- `[ ]` **`ResponseCache::invalidatePattern()` always clears entire cache** (`graphql_cache.h:290`): the method receives a `pattern` argument (e.g., the collection name `"orders"`) but ignores it and calls `cache_.clear()`, invalidating all cached responses regardless of which collection they reference. Implement selective eviction: at cache insertion time, tag each `CachedResponse` with the set of collections it reads (extracted from the resolved query fields). In `invalidatePattern(collection)`, iterate the cache and evict only entries whose tag set contains `collection`. This requires extending `CachedResponse` with a `std::unordered_set<std::string> collections` field.
+- `[x]` **`ResponseCache::invalidatePattern()` always clears entire cache** (`graphql_cache.h:290`): the method now iterates the cache and evicts only entries whose `collections` tag set contains the given pattern. `CachedResponse` has been extended with a `std::unordered_set<std::string> collections` field. The generic `Cache<T>` template gained an `eraseIf(pred)` method for O(n) selective eviction.
 
 **Performance Targets:**
-- Targeted invalidation of a single collection evicts ≤ 10% of cached entries when 10 distinct collections are active.
+- Targeted invalidation of a single collection evicts ≤ 10% of cached entries when 10 distinct collections are active. ✅ Verified by `GraphQLCache.InvalidatePatternPerformanceTarget` test.
 
 ---
 
@@ -210,8 +211,8 @@ All inbound requests must carry or receive a `X-Correlation-ID` header that prop
 `include/api/audit_logger.h::AuditLogger::log()` holds `mutex_` for the entire duration of calling all registered handlers. Handlers may write to disk, push to a network audit sink, or run regex matching — all while the mutex is held.
 
 **Implementation Notes:**
-- `[ ]` **`AuditLogger::log()` holds `mutex_` during handler callbacks** (`audit_logger.h::log()`): a `std::lock_guard<std::mutex> lock(mutex_)` is held for the entire body of `log()`, including the inner `for (const auto& handler : handlers_) { handler(entry); }` loop. File-writing or network-sending handlers will stall every concurrent API thread that tries to emit an audit entry. Decouple: copy the handlers vector under the lock (O(n) pointer copies), release the lock, then invoke the handlers outside the critical section. The buffer append (also inside the lock) is already fast and should remain protected.
-- `[ ]` **In-memory audit buffer is not persistent** (`audit_logger.h`): `buffer_` (a circular in-memory vector) is lost on process restart. Add an optional file-backed `AuditLogHandler` that appends newline-delimited JSON audit entries to a configurable path, and register it by default when `config/audit.yaml` specifies `persistence: file`.
+- `[x]` **`AuditLogger::log()` holds `mutex_` during handler callbacks** (`audit_logger.h::log()`): a `std::lock_guard<std::mutex> lock(mutex_)` is held for the entire body of `log()`, including the inner `for (const auto& handler : handlers_) { handler(entry); }` loop. File-writing or network-sending handlers will stall every concurrent API thread that tries to emit an audit entry. Decouple: copy the handlers vector under the lock (O(n) pointer copies), release the lock, then invoke the handlers outside the critical section. The buffer append (also inside the lock) is already fast and should remain protected. (**Fixed** — `log()` now copies `handlers_` under a scoped lock, releases the lock, then invokes each handler; buffer append and stats update remain protected by a second scoped lock.)
+- `[x]` **In-memory audit buffer is not persistent** (`audit_logger.h`): `buffer_` (a circular in-memory vector) is lost on process restart. Add an optional file-backed `AuditLogHandler` that appends newline-delimited JSON audit entries to a configurable path, and register it by default when `config/audit.yaml` specifies `persistence: file`. (**Implemented** — `FileAuditLogHandler` class added to `audit_logger.h`; `AuditLogger::addFileHandler(path)` convenience method registers a JSONL-appending handler; `config/audit.yaml` now contains a `persistence:` section with `backend: none|file` and `file_path` settings.)
 
 ---
 

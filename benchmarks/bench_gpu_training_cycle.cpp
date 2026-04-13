@@ -39,6 +39,7 @@ static void BM_GPUTrainingCycle_GPUDisabled(benchmark::State& state) {
         break;
     }
 }
+// Disabled: GPU training cycle requires CUDA runner | Deadline: v1.9.0 | Issue: #5
 BENCHMARK(BM_GPUTrainingCycle_GPUDisabled);
 
 BENCHMARK_MAIN();

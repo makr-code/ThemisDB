@@ -50,6 +50,7 @@ static void BM_LegalLoRAPipeline_Disabled(benchmark::State& state) {
         break;
     }
 }
+// Disabled: legal LoRA pipeline requires model artifacts not available in CI | Deadline: v1.9.0 | Issue: #5
 BENCHMARK(BM_LegalLoRAPipeline_Disabled);
 
 BENCHMARK_MAIN();

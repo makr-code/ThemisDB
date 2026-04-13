@@ -3,17 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            faiss_gpu_backend.h                                ║
-  Version:         0.0.38                                             ║
-  Last Modified:   2026-04-13 04:13:03                                ║
+  Version:         0.0.39                                             ║
+  Last Modified:   2026-04-13 07:57:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     195                                            ║
+    • Total Lines:     230                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 2026-04-13  feat: IVF_SQ8 + HNSW_FLAT index types, input validation,
+                  default: branches, getCapabilities() metrics/precision  ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • a629043ab2  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
 ╠═════════════════════════════════════════════════════════════════════╣
@@ -24,6 +26,7 @@
 #pragma once
 
 #include "acceleration/compute_backend.h"
+#include "acceleration/error_context.h"
 #include <memory>
 #include <vector>
 #include <string>
@@ -31,17 +34,20 @@
 #ifdef THEMIS_ENABLE_CUDA
 // Forward declarations to avoid including Faiss headers in this header
 namespace faiss {
+    class Index;
     class IndexFlatL2;
     class IndexFlatIP;
     class IndexIVFFlat;
     struct IndexIVFPQ;
-    class gpu::GpuResources;
-    class gpu::StandardGpuResources;
+    class IndexHNSWFlat;
     namespace gpu {
+        class GpuResources;
+        class StandardGpuResources;
         class GpuIndexFlatL2;
         class GpuIndexFlatIP;
         class GpuIndexIVFFlat;
         class GpuIndexIVFPQ;
+        class GpuIndexIVFScalarQuantizer;
     }
 }
 #endif
@@ -53,8 +59,19 @@ namespace acceleration {
 
 /**
  * FAISS GPU Vector Backend
- * Production-grade GPU vector search using Facebook's FAISS library
- * 
+ * Production-grade GPU vector search using Facebook's FAISS library.
+ *
+ * Supported index types:
+ *   FLAT_L2  – Exact brute-force L2 (GPU)
+ *   FLAT_IP  – Exact brute-force inner-product (GPU)
+ *   IVF_FLAT – Inverted-file with flat quantizer (GPU, fast approximate)
+ *   IVF_PQ   – Inverted-file + product quantizer (GPU, memory-efficient approx)
+ *   IVF_SQ8  – Inverted-file + 8-bit scalar quantizer (GPU, higher recall than PQ
+ *               at equivalent memory)
+ *   HNSW_FLAT– Hierarchical Navigable Small World flat graph (CPU-side FAISS HNSW;
+ *               use when low-latency single-query search is needed without a GPU
+ *               at query time — same IVectorBackend interface)
+ *
  * @sources
  * - Library: FAISS (Facebook AI Similarity Search)
  * - Repository: https://github.com/facebookresearch/faiss
@@ -63,33 +80,35 @@ namespace acceleration {
  *          "Billion-scale similarity search with GPUs"
  *          IEEE Transactions on Big Data, 7(3), 535-547
  * - arXiv: https://arxiv.org/abs/1702.08734
- * - Index Types Used: IndexFlatL2, IndexFlatIP, IndexIVFFlat, IndexIVFPQ
  * - ThemisDB Integration: Multi-backend GPU support wrapper, integrated with
  *   RocksDB persistence and ACID transaction system
  */
 class FaissGPUVectorBackend : public IVectorBackend {
 public:
     enum class IndexType {
-        FLAT_L2,        // Exact search, L2 distance
-        FLAT_IP,        // Exact search, Inner Product
-        IVF_FLAT,       // Inverted file with flat quantizer (fast approx)
-        IVF_PQ          // Inverted file with product quantizer (memory efficient)
+        FLAT_L2,        // Exact search, L2 distance (GPU)
+        FLAT_IP,        // Exact search, Inner Product (GPU)
+        IVF_FLAT,       // Inverted file with flat quantizer (GPU, fast approx)
+        IVF_PQ,         // Inverted file with product quantizer (GPU, memory efficient)
+        IVF_SQ8,        // Inverted file with 8-bit scalar quantizer (GPU, better recall than PQ)
+        HNSW_FLAT,      // HNSW graph with flat storage (CPU-side FAISS HNSW)
     };
-    
+
     struct Config {
         IndexType indexType = IndexType::IVF_FLAT;
         int dimension = 128;
-        int nlist = 100;           // Number of clusters for IVF
-        int nprobe = 10;           // Number of clusters to search
-        int m = 8;                 // Number of sub-quantizers (PQ)
-        int nbits = 8;             // Bits per sub-quantizer (PQ)
+        int nlist = 100;           // Number of clusters for IVF indices
+        int nprobe = 10;           // Number of clusters to search at query time
+        int m = 8;                 // Sub-quantizers for IVF_PQ
+        int nbits = 8;             // Bits per sub-quantizer for IVF_PQ
+        int hnswM = 32;            // Connections per HNSW node (HNSW_FLAT only)
         size_t maxMemoryMB = 8192; // Max GPU memory in MB
         int deviceId = 0;          // CUDA device ID
     };
     
     FaissGPUVectorBackend();
     ~FaissGPUVectorBackend() override;
-    
+
     // IComputeBackend interface
     const char* name() const noexcept override { return "Faiss GPU"; }
     BackendType type() const noexcept override { return BackendType::CUDA; }
@@ -97,6 +116,7 @@ public:
     BackendCapabilities getCapabilities() const override;
     bool initialize() override;
     void shutdown() override;
+    ErrorContext getLastError() const override { return lastError_; }
     
     // IVectorBackend interface
     std::vector<float> computeDistances(
@@ -175,18 +195,22 @@ public:
 private:
     bool initialized_ = false;
     Config config_;
-    
-    // GPU resources
+    mutable ErrorContext lastError_;
+
+    // GPU resources (null for CPU-only index types such as HNSW_FLAT)
     std::unique_ptr<faiss::gpu::StandardGpuResources> gpuResources_;
-    
-    // Faiss index (one of the types)
-    void* index_ = nullptr;  // Actual type depends on config
-    IndexType currentIndexType_;
-    
+
+    // Faiss index (concrete type depends on config_.indexType)
+    void* index_ = nullptr;
+    IndexType currentIndexType_ = IndexType::IVF_FLAT;
+
     // Helper methods
     void* createIndex(IndexType type, int dimension);
     void destroyIndex();
     bool transferIndexToGPU();
+
+    void setError(AccelerationErrorCode code, const std::string& msg,
+                  const std::string& hint = "") const;
 };
 
 #endif // THEMIS_ENABLE_CUDA

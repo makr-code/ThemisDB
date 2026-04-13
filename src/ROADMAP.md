@@ -97,8 +97,8 @@ See: <Detail link>
 | 🟡 Medium | 105 |
 | 🟢 Low | 43 |
 | **Total** | **276** |
-| ✅ Completed (in table) | 2 |
-| **Open** | **274** |
+| ✅ Completed (in table) | 4 |
+| **Open** | **272** |
 
 | Target Version | Open Items |
 |---|---|
@@ -308,7 +308,7 @@ See: <Detail link>
 | 163 | chimera | Adapter Configuration Validation | v1.2.0 | `correctness`, `module:chimera` | #3994 | [→ Detail](chimera/FUTURE_ENHANCEMENTS.md#adapter-configuration-validation) |
 | 164 | config | `ConfigEncryptedStore` Read-Path Lock Upgrade | v1.8.0 | `thread-safety`, `module:config` | #3995 | [→ Detail](config/FUTURE_ENHANCEMENTS.md#configencryptedstore-read-path-lock-upgrade) |
 | 165 | config | Configurable LRU Cache Size and TTL via Environment Variables | v1.7.0 | `dx`, `module:config` | #3996 | [→ Detail](config/FUTURE_ENHANCEMENTS.md#configurable-lru-cache-size-and-ttl-via-environment-variables) |
-| 166 | config | Multi-Environment Config Overlay (dev/staging/prod) | v1.9.0 | `dx`, `module:config` | #3997 | [→ Detail](config/FUTURE_ENHANCEMENTS.md#multi-environment-config-overlay-devstatingprod) |
+| 166 | config | Multi-Environment Config Overlay (dev/staging/prod) | ~~v1.9.0~~ ✅ done | `dx`, `module:config` | #3997 ✅ | [→ Detail](config/FUTURE_ENHANCEMENTS.md#multi-environment-config-overlay-devstatingprod) |
 | 167 | content | `AsyncIngestionWorker`: YAML Config Loading and User Context | v1.8.0 | `correctness`, `module:content` | #3998 | [→ Detail](content/FUTURE_ENHANCEMENTS.md#asyncingestionworker-yaml-config-loading-and-user-context) |
 | 168 | content | Content Deduplication via Perceptual Hashing | v1.8.0 | `feature`, `module:content` | #3999 | [→ Detail](content/FUTURE_ENHANCEMENTS.md#content-deduplication-via-perceptual-hashing) |
 | 169 | exporters | HuggingFace Hub Client: HTTP 429 Back-Off | v1.8.0 | `reliability`, `module:exporters` | #4000 | [→ Detail](exporters/FUTURE_ENHANCEMENTS.md#huggingface-hub-client-http-rate-limit-handling-429-back-off) |
@@ -370,12 +370,12 @@ See: <Detail link>
 
 | # | Module | Title | Target | Labels | Issue | Detail |
 | --- | --- | --- | --- | --- | --- | --- |
-| 219 | acceleration | CUDA HNSW Kernel: Visited Array Memory Scaling | v1.9.0 | `gpu`, `memory`, `module:acceleration` | #4050 | [→ Detail](acceleration/FUTURE_ENHANCEMENTS.md#cuda-hnsw-kernel-visited-array-memory-scaling) |
+| 219 | acceleration | CUDA HNSW Kernel: Visited Array Memory Scaling | ~~v1.9.0~~ ✅ done | `gpu`, `memory`, `module:acceleration` | #4050 | [→ Detail](acceleration/FUTURE_ENHANCEMENTS.md#cuda-hnsw-kernel-visited-array-memory-scaling) |
 | 220 | acceleration | TensorCore Matmul: INT8 Quantized Precision Path | v1.9.0 | `gpu`, `ml`, `module:acceleration` | #4051 | [→ Detail](acceleration/FUTURE_ENHANCEMENTS.md#tensorcore-matmul-int8-quantized-precision-path) |
-| 221 | acceleration | FAISS GPU Backend: HNSW and ScalarQuantizer Index Types | v1.9.0 | `gpu`, `module:acceleration` | #4052 | [→ Detail](acceleration/FUTURE_ENHANCEMENTS.md#faiss-gpu-backend-hnsw-and-scalarquantizer-index-types) |
+| 221 | acceleration | FAISS GPU Backend: HNSW and ScalarQuantizer Index Types | ~~v1.9.0~~ ✅ done | `gpu`, `module:acceleration` | #4052 | [→ Detail](acceleration/FUTURE_ENHANCEMENTS.md#faiss-gpu-backend-hnsw-and-scalarquantizer-index-types) |
 | 222 | acceleration | Multi-GPU Sharding for Large Embedding Datasets | v1.9.0 | `gpu`, `distributed`, `module:acceleration` | #4053 | [→ Detail](acceleration/FUTURE_ENHANCEMENTS.md#multi-gpu-sharding-for-large-embedding-datasets) |
 | 223 | analytics | Forecasting: Batch Prediction, Streaming Update, SIMD Fit | v1.9.0 | `ml`, `module:analytics` | #4054 | [→ Detail](analytics/FUTURE_ENHANCEMENTS.md#16--forecasting-batch-prediction-streaming-update-simd-fit) |
-| 224 | config | Multi-Environment Config Overlay (dev/staging/prod) | v1.9.0 | `dx`, `module:config` | #3997 | [→ Detail](config/FUTURE_ENHANCEMENTS.md#multi-environment-config-overlay-devstatingprod) |
+| 224 | config | Multi-Environment Config Overlay (dev/staging/prod) | ~~v1.9.0~~ ✅ done | `dx`, `module:config` | #3997 ✅ | [→ Detail](config/FUTURE_ENHANCEMENTS.md#multi-environment-config-overlay-devstatingprod) |
 | 225 | llm | Speculative Decoding for Latency Reduction | v1.9.0 | `performance`, `module:llm` | #4055 | [→ Detail](llm/FUTURE_ENHANCEMENTS.md#speculative-decoding-for-latency-reduction) |
 | 226 | network | QUIC Protocol Support | v2.0.0 | `network`, `module:network` | #4056 | [→ Detail](network/FUTURE_ENHANCEMENTS.md#quic-protocol-support) |
 | 227 | network | Kernel Bypass (DPDK/io_uring) | v1.9.0 | `performance`, `network`, `module:network` | #4057 | [→ Detail](network/FUTURE_ENHANCEMENTS.md#kernel-bypass-dpdk--io_uring) |

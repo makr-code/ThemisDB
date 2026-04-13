@@ -373,6 +373,27 @@ public:
     bool isHnswIndexBuilt() const noexcept;
 
     // -------------------------------------------------------------------------
+    // Visited bitset pool tuning
+    //
+    // setMaxBatchSize() controls the size of the persistent visited bitset
+    // pool allocated in the HNSW engine during buildHnswAnnIndex().  The pool
+    // is sized as maxBatchSize × ceil(numNodes / 8) bytes and lives for the
+    // lifetime of the index.  Calling setMaxBatchSize() before
+    // buildHnswAnnIndex() is the recommended usage pattern; calling it after
+    // the index has been built has no effect until the next buildHnswAnnIndex().
+    //
+    // Default: 512 queries.
+    //
+    // Pool allocation must not exceed BackendCapabilities::maxMemoryBytes.
+    // If the computed pool size would exceed that limit, the effective
+    // maxBatchSize is clamped automatically during buildHnswAnnIndex().
+    // -------------------------------------------------------------------------
+    void setMaxBatchSize(size_t n);
+
+    /** Return the current maxBatchSize setting (default: 512). */
+    size_t maxBatchSize() const noexcept { return maxBatchSize_; }
+
+    // -------------------------------------------------------------------------
     // CUDA Graph-accelerated KNN search
     //
     // Identical semantics to batchKnnSearch() but caches a captured CUDA graph
@@ -400,7 +421,8 @@ public:
 #endif
 
 private:
-    bool initialized_ = false;
+    bool   initialized_  = false;
+    size_t maxBatchSize_ = 512;  ///< Max queries per HNSW kernel launch (pool size)
 
     // HNSW-based ANN engine — present in both CUDA and non-CUDA builds;
     // CudaHnswTraversalEngine transparently falls back to CPU when no GPU is

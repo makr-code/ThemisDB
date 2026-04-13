@@ -35,6 +35,7 @@ static void BM_FusedLoRAKernels_GPUDisabled(benchmark::State& state) {
     }
 }
 
+// Disabled: fused LoRA CUDA/HIP kernels require GPU runner | Deadline: v1.9.0 | Issue: #5
 BENCHMARK(BM_FusedLoRAKernels_GPUDisabled);
 BENCHMARK_MAIN();
 

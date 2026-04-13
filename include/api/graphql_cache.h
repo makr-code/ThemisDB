@@ -28,6 +28,7 @@
 #include <string>
 #include <list>
 #include <unordered_map>
+#include <unordered_set>
 #include <chrono>
 #include <mutex>
 #include <memory>
@@ -139,6 +140,23 @@ public:
         }
     }
     
+    /**
+     * @brief Erase all entries for which the predicate returns true
+     * @param pred Callable with signature `bool(const T& value)`
+     */
+    template<typename Predicate>
+    void eraseIf(Predicate pred) {
+        std::lock_guard<std::mutex> lock(mutex_);
+        for (auto it = cache_.begin(); it != cache_.end(); ) {
+            if (pred(it->second.first.value)) {
+                lru_order_.erase(it->second.second);
+                it = cache_.erase(it);
+            } else {
+                ++it;
+            }
+        }
+    }
+
     /**
      * @brief Clear all cache entries
      */
@@ -262,6 +280,7 @@ public:
         std::string data;           // Serialized response data
         std::string etag;           // ETag for conditional requests
         std::chrono::steady_clock::time_point last_modified;
+        std::unordered_set<std::string> collections;  // Collections read by this query
     };
     
     static ResponseCache& instance() {
@@ -285,11 +304,14 @@ public:
     
     /**
      * @brief Invalidate responses for a specific collection/type
+     *
+     * Only evicts entries whose tag set includes @p pattern, leaving
+     * responses that reference other collections untouched.
      */
     void invalidatePattern(const std::string& pattern) {
-        // TODO: Implement pattern-based invalidation
-        // For now, just clear the entire cache
-        cache_.clear();
+        cache_.eraseIf([&pattern](const CachedResponse& response) {
+            return response.collections.count(pattern) > 0;
+        });
     }
     
     /**

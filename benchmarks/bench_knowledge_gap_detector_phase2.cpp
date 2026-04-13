@@ -369,6 +369,7 @@ static void BM_FLARE_Disabled(benchmark::State& state) {
     
     state.SetLabel("FLARE disabled");
 }
+// Disabled: FLARE retrieval engine requires external service | Deadline: v1.9.0 | Issue: #5
 BENCHMARK(BM_FLARE_Disabled);
 
 static void BM_FLARE_SingleRound(benchmark::State& state) {

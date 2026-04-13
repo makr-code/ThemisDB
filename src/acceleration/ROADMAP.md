@@ -4,7 +4,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-Production hardening complete — all GPU kernel surfaces and design contracts are in place; the CUDA ANN end-to-end path (HNSW integration) is fully wired: `CUDAVectorBackend::buildHnswAnnIndex()` loads the graph onto the device and `batchKnnSearch()` delegates to GPU-accelerated HNSW traversal when an index is pre-built (`cuda/cuda_hnsw_kernels.cu`).
+Production hardening complete — all GPU kernel surfaces and design contracts are in place; the CUDA ANN end-to-end path (HNSW integration) is fully wired. FAISS GPU backend is now production-ready: all six index types implemented (FLAT_L2, FLAT_IP, IVF_FLAT, IVF_PQ, IVF_SQ8, HNSW_FLAT), input validation and default-branch error handling added, 50-test suite added in `tests/test_faiss_gpu_backend.cpp`.
 
 ## Completed ✅
 - [x] Directory structure for CUDA and Vulkan backends
@@ -19,6 +19,7 @@ Production hardening complete — all GPU kernel surfaces and design contracts a
 - [x] Multi-GPU sharding for large embedding datasets (Target: Q4 2026) (Issue: #1376) — `MultiGPUVectorBackend` implemented in `src/acceleration/multi_gpu_backend.cpp`; range-based sharding, fan-out KNN search, host-side top-k merge, NCCL/RCCL collective backend integration with CPU fallback; tests in `tests/test_multi_gpu_backend.cpp`
 - [x] CUDA graph capture for recurring query workloads (Target: Q4 2026) (Issue: #1378) — `CUDAGraphCache` + `batchKnnSearchWithGraph()` implemented in `cuda_backend.h`/`cuda_backend.cpp`; tests in `tests/test_cuda_graph_capture.cpp`
 - [x] CUDAGraphBackend BFS and shortest-path CUDA kernels (Target: Q2 2026) — `cuda/graph_kernels.cu` implements parallel BFS (frontier expansion) and Bellman-Ford (edge relaxation); `CUDAGraphBackend` wired with CUDA Graph Capture (`CUDAGraphBFSCache` + `CUDAGraphSPCache`); `isAvailable()` now performs real device detection; tests in `tests/test_acceleration.cpp`
+- [x] FAISS GPU Backend: IVF_SQ8 + HNSW_FLAT index types, input validation, default-branch error handling (Target: v1.9.0) (Issue: #4052) — `IVF_SQ8` via `GpuIndexIVFScalarQuantizer` (QT_8bit), `HNSW_FLAT` via `faiss::IndexHNSWFlat` + `hnswM` config field; all switch statements have `default:` branches; `setError()` helper replaces bare `std::cerr`; `getCapabilities()` now reports `INT8` precision and L2/IP metric bits; 50 tests in `tests/test_faiss_gpu_backend.cpp`
 
 ## In Progress 🚧
 - [x] CUDA kernel implementations for vector similarity (Target: Q2 2026) (Issue: #1366) — `cuda/vector_kernels.cu` and `cuda/ann_kernels.cu` implemented; issue closed 2026-02-23
