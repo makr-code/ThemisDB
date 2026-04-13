@@ -20,16 +20,13 @@ Key findings show that ThemisDB achieves its SLOs for Graph Edge Operations (1.1
 
 ## Symbol Legend
 
-
 | Symbol | Bedeutung |
 |--------|-----------|
-|  | Ziel erfüllt (gemessen  Ziel) |
-|   | Ziel nicht erfüllt (gemessen < Ziel) |
-| ÔÜá´©Å | Partiell / bekannte Regression |
-|  | Kein Messwert vorhanden |
-|    | Nicht gemessen in dieser Version |
-
----
+| ✅ | Ziel erfüllt (gemessen ≥ Ziel) |
+| ❌ | Ziel nicht erfüllt (gemessen < Ziel) |
+| ⚠️ | Partiell / bekannte Regression |
+| — | Kein Messwert vorhanden |
+| ~ | Nicht gemessen in dieser Version |
 
 ---
 
@@ -109,8 +106,8 @@ Benchmark implementations for all 33 modules are classified as production-ready 
 
 
 > **CHIMERA** = Comprehensive, Honest, Impartial Metrics for Empirical Reporting and Analysis  
-> Framework: `benchmarks/chimera/` (v1.0.0) ┬À Standard: IEEE Std 2807-2022, ISO/IEC 14756:2015  
-> Vollst├ñndige Dokumentation: `benchmarks/chimera/CHIMERA_README.md`
+> Framework: `benchmarks/chimera/` (v1.0.0) · Standard: IEEE Std 2807-2022, ISO/IEC 14756:2015  
+> Vollständige Dokumentation: `benchmarks/chimera/CHIMERA_README.md`
 
 ---
 
@@ -130,14 +127,14 @@ Benchmark implementations for all 33 modules are classified as production-ready 
 #### 30.2 Chimera Suite   Standardisierte Workloads (Benchmark-Definitionen)
 
 > Quelle: `benchmarks/chimera/benchmark_config_schema.yaml`  
-> Methodik: IEEE Std 2807-2022 ┬À Warmup: 60 s ┬À Messdauer: 300 s ┬À Runs: 5 ┬À Konfidenz: 95 %
+> Methodik: IEEE Std 2807-2022 · Warmup: 60 s · Messdauer: 300 s · Runs: 5 · Konfidenz: 95 %
 
 | Workload-ID | Familie | Standard | Beschreibung | Ziel-Modul(e) |
 |-------------|---------|----------|--------------|---------------|
 | `ycsb_workload_a` | YCSB | Cooper2010 | Update Heavy (50 % Reads, 50 % Updates), 1 M Records, Zipfian | Storage, Cache, Transaction |
 | `tpc_c` | TPC-C | TPC-C v5.11 | OLTP Order-Entry, 10 Warehouses, 300 s, New-Order 45 % | Transaction, Query, Storage |
 | `tpc_h_sf1` | TPC-H | TPC-H v3.0.0 | Decision Support, Scale Factor 1 GB, Queries 1/2/3/6/14 | Analytics, Query |
-| `ann_sift1m` | ANN-Benchmarks | Aumüller2020 | SIFT1M (1 M ├ù 128-dim), k=10, Recall-Ziel 0.95 | Index/HNSW, Acceleration |
+| `ann_sift1m` | ANN-Benchmarks | Aumüller2020 | SIFT1M (1 M × 128-dim), k=10, Recall-Ziel 0.95 | Index/HNSW, Acceleration |
 | `ldbc_snb_interactive` | LDBC-SNB | Erling2020 | Social Network Graph, SF1, Short+Complex Reads + Updates | Graph, Query |
 | `vllm_serving` | vLLM | Kwon2023 | LLM Inference, Llama-2-7B, 512-Token Input, 1 req/s | LLM, Acceleration |
 | `rag_qa` | RAGBench | Chen2024 | RAG E2E, NaturalQuestions, Top-5 Dense Retrieval | RAG, Search, LLM |
@@ -147,7 +144,7 @@ Benchmark implementations for all 33 modules are classified as production-ready 
 #### 30.3 Chimera Vendorneutrale Demo-Ergebnisse (anonymisiert)
 
 > Quelle: `benchmarks/chimera/demo_reports/benchmark_comparison.csv`  
-> Methodik: 28 50 Stichproben/System, Ausrei├ƒer per IQR (1.5├ù) entfernt, 95 % CI
+> Methodik: 28 50 Stichproben/System, Ausreißer per IQR (1.5×) entfernt, 95 % CI
 
 **Query Throughput (queries/sec):**
 
@@ -167,7 +164,7 @@ Benchmark implementations for all 33 modules are classified as production-ready 
 | System Vertex | 48 | 8,77 | 8,49 | 1,25 | 10,98 | 11,12 | 8,34 | 9,23 |
 | System Zenith | 48 | 9,47 | 9,60 | 1,82 | 12,46 | 13,11 | 8,77 | 10,14 |
 
-> **Hinweis:** System-Namen sind anonymisiert (IEEE-konforme Neutralit├ñt). ThemisDB kann als eines dieser Systeme identifiziert werden sobald ein Chimera-Zertifizierungslauf abgeschlossen ist.
+> **Hinweis:** System-Namen sind anonymisiert (IEEE-konforme Neutralität). ThemisDB kann als eines dieser Systeme identifiziert werden sobald ein Chimera-Zertifizierungslauf abgeschlossen ist.
 
 ---
 
@@ -178,12 +175,12 @@ Benchmark implementations for all 33 modules are classified as production-ready 
 | Signifikanzniveau () | 0,05 | Standard |
 | Konfidenzintervall | 95 % | Welch's t-test |
 | Hypothesentests | Welch's t-test, Mann-Whitney U, KS-Test | Welch 1947, Mann 1947 |
-| Effektgr├Â├ƒe | Cohen's d | Cohen 1988 |
-| Ausrei├ƒer-Methode | IQR ├ù 1.5 | Tukey 1977 |
-| Min. Stichprobengr├Â├ƒe | 30 | IEEE Std 2807-2022 |
+| Effektgröße | Cohen's d | Cohen 1988 |
+| Ausreißer-Methode | IQR × 1.5 | Tukey 1977 |
+| Min. Stichprobengröße | 30 | IEEE Std 2807-2022 |
 | Warmup | 60 s | IEEE Std 2807-2022 |
 | Messdauer | 300 s | IEEE Std 2807-2022 |
-| Runs (unabh├ñngig) | 5 | IEEE Std 2807-2022 |
+| Runs (unabhängig) | 5 | IEEE Std 2807-2022 |
 
 ---
 
@@ -254,6 +251,67 @@ Primary hardware baseline (`hardware_baseline_gtest_1775806092.json`):
 | Docker Benchmark | Competitor comparison (v1.0.1, 5 workloads, 155 measurement points) | `docker_benchmarks_results_*/` |
 
 CI file: `.github/workflows/05-quality_build_cross-module-performance-regression-ci.yml`
+
+### 4.2.1 Data Sources and Artifact Inventory
+
+All benchmark results referenced in this report originate from the following primary data sources:
+
+**Primary Source Groups:**
+
+| Source Group | Path | Description |
+|---|---|---|
+| FUTURE_ENHANCEMENTS.md | `src/<module>/FUTURE_ENHANCEMENTS.md` | Per-module SLO definitions and target values |
+| Google Benchmark results | `benchmarks/results_analysis_reports/` | Compiled analysis reports from benchmark runs |
+| Benchmark baselines | `benchmarks/baselines/` | Per-module baseline JSON files (v1.0.0 reference) |
+| Version history CSV | `benchmarks/VERSION_HISTORY.csv` | Cross-version metric progression table |
+| CHIMERA suite | `benchmarks/chimera/` | Vendor-neutral benchmark framework and demo results |
+| Hardware baseline | `logs/hardware_baseline/hardware_baseline_gtest_*.json` | Per-run hardware capability capture |
+
+**Targeted Validation Artifacts (v1.8.2 / Wave-1, 2026-04-12):**
+
+| Artifact | Module(s) |
+|---|---|
+| `artifacts/perf_nv/targeted_validation/bench_query_targeted.json` | Query Engine |
+| `artifacts/perf_nv/targeted_validation/bench_vector_search_targeted.json` | Index / Vector |
+| `artifacts/perf_nv/targeted_validation/bench_olap_targeted.json` | Analytics (OLAP) |
+| `artifacts/perf_nv/targeted_validation/bench_graph_targeted.json` | Graph |
+| `artifacts/perf_nv/targeted_validation/bench_timeseries_targeted.json` | Timeseries |
+| `artifacts/perf_nv/targeted_validation/bench_timeseries_adaptive_flush_targeted.json` | Timeseries (TS-1/TS-9) |
+| `artifacts/perf_nv/targeted_validation/bench_timeseries_ts6_probe_v2.json` | Timeseries (TS-6) |
+| `artifacts/perf_nv/targeted_validation/bench_tpcc_targeted_v2.json` | System-Level TPC-C |
+| `artifacts/perf_nv/targeted_validation/bench_ycsb_targeted_v2.json` | System-Level YCSB |
+
+**Reproduction Validation Artifacts (2026-04-12 Evening Run):**
+
+| Artifact | Module(s) |
+|---|---|
+| `artifacts/perf_nv/repro_validation_20260412_211053/query_core.json` | Query Engine |
+| `artifacts/perf_nv/repro_validation_20260412_211053/timeseries_timerange_ts6.json` | Timeseries |
+| `artifacts/perf_nv/repro_validation_20260412_211053/olap_targets.json` | Analytics |
+| `artifacts/perf_nv/repro_validation_clean_manual_20260412_2120/tpcc_lite_clean.json` | TPC-C Lite |
+| `artifacts/perf_nv/repro_validation_clean_manual_20260412_2120/ycsb_lite_clean.json` | YCSB Lite |
+
+**Module-Specific Benchmark Artifacts:**
+
+| Artifact | Module(s) |
+|---|---|
+| `artifacts/perf_nv/exporters_1m_throughput.json` | Analytics / Exporters (AN-3) |
+| `artifacts/perf_nv/exporters_csv_1m_final.json` | Analytics / Exporters (AN-4) |
+| `artifacts/perf_nv/bench_security_release.json` | Security |
+| `artifacts/perf_nv/bench_security_20260411_131126.json` | Security (Audit re-run) |
+| `artifacts/perf_nv/bench_governance_policy_latency_release.json` | Governance |
+| `artifacts/perf_nv/bench_compliance_security_governance_release.json` | Governance / Security |
+| `artifacts/perf_nv/bench_compliance_20260411_142340.json` | Governance (re-run) |
+| `artifacts/perf_nv/bench_rag_ethics_release.json` | Ethics AI |
+| `benchmarks/baselines/chimera/baseline.json` | CHIMERA (v1.5.0-dev, 2026-03-01) |
+| `benchmarks/baselines/acceleration/baseline.json` | Acceleration (v1.0.0, 2026-01-01) |
+
+**Historical HTTP/API Benchmarks (v1.0.x, December 2025):**
+
+| Artifact | Description |
+|---|---|
+| `benchmarks/results_analysis_reports/scientific_benchmarks_20251204_212220/` | Scientific single-op benchmarks (n=500, Python HTTP client) |
+| `docker_benchmarks_results_20251209_*/` | Docker competitor comparison (5 workloads, 155 measurement points) |
 
 ### 4.3 Performance Expectation Model
 
@@ -764,7 +822,7 @@ Benchmark-Code: `BM_QueryMix_Historical`, `BM_QueryMix_Historical_P99` in `bench
 | HNSW Vektor-Suche (GPU RTX-class) |  50.000 QPS |  |  | n/v |  |
 | B-Tree Point-Lookup P99 (10M Keys) | < 500  |  |  | n/v |  |
 | R-Tree Spatial Range Query P99 | < 10 ms |  |  | n/v |  |
-| GPU Index-Build (1M ├ù 128-dim) | < 60 s |  |  | n/v |  |
+| GPU Index-Build (1M × 128-dim) | < 60 s |  |  | n/v |  |
 | RocksDB WriteBatch Commit P99 | < 2 ms |  |  | n/v |  |
 
 ---
@@ -801,11 +859,11 @@ Benchmark-Code: `BM_QueryMix_Historical`, `BM_QueryMix_Historical_P99` in `bench
 | INSERT 1 MB |   | 16 ops/s @ 61,402 ms |  | n/v |  |
 | Concurrent 1 Client |   | 776 ops/s @ 1,28 ms |  | n/v |  |
 | Concurrent 5 Clients |   | 721 ops/s @ 6,80 ms |  | n/v |  |
-| Concurrent 50 Clients |   | 948 ops/s @ 60,3 ms ÔÜá´©Å CV=38% |  | n/v |  |
+| Concurrent 50 Clients |   | 948 ops/s @ 60,3 ms ⚠️ CV=38% |  | n/v |  |
 | Sustained Write NVMe |  100.000 ops/s |   |  | n/v |  |
 | Point-Read Latenz P99 |  1 ms (Bloom Filter) |   |  | n/v |  |
 | Incremental Backup |  500 MB/s |   |  | n/v |  |
-| 1MB Blob Storage |   |   | 741 ops/s @ 1,39 ms ÔÜá´©Å | n/v | ÔÜá´©Å |
+| 1MB Blob Storage |   |   | 741 ops/s @ 1,39 ms ⚠️ | n/v | ⚠️ |
 | 10KB Thumbnail Storage |   |   | 388,5 k blobs/s | n/v |  |
 | 100KB Blob Retrieval |   |   | 49,0 M lookups/s | n/v |  |
 | BatchInsertBenchmark/SingleInserts_1000 (Proxy) |   |   |  | 576,577 ops/s |  |
@@ -828,7 +886,7 @@ Benchmark-Code: `BM_QueryMix_Historical`, `BM_QueryMix_Historical_P99` in `bench
 | AN-4 CSV Export 1M Rows |  500 ms |  | BM_Export_CSV_1M: ~128k items/s, ~9,09 s (`artifacts/perf_nv/exporters_csv_1m_final.json`) |  🔴 direkter 1:1-Case vorhanden, Laufzeit ueber Ziel |
 | AN-5 CEPEngine::stop() |  100 ms |  | `BM_OLAP_CEP_Stop_Lifecycle/10000`: 27,17 µs, 358,4 M items/s (`artifacts/perf_nv/targeted_validation/bench_olap_targeted.json`) |  ✅ direkter Case vorhanden, deutlich unter Ziel-Latenz |
 | AN-7 IsolationForest Training |  10 ms (1k-Punkt-Fenster) |  | `BM_OLAP_IsolationForest_Training_1k/1000`: 54,34 µs, 16,0 M items/s (`artifacts/perf_nv/targeted_validation/bench_olap_targeted.json`) |  ✅ direkter Case vorhanden, deutlich unter Ziel-Latenz |
-| AN-8 predictBatch() |  50 ms (1k Serien ├ù 30 Steps) |  | `BM_OLAP_PredictBatch_1k30/1000`: 66,31 µs, 480,0 M items/s (`artifacts/perf_nv/targeted_validation/bench_olap_targeted.json`) |  ✅ direkter Case vorhanden, deutlich unter Ziel-Latenz |
+| AN-8 predictBatch() |  50 ms (1k Serien × 30 Steps) |  | `BM_OLAP_PredictBatch_1k30/1000`: 66,31 µs, 480,0 M items/s (`artifacts/perf_nv/targeted_validation/bench_olap_targeted.json`) |  ✅ direkter Case vorhanden, deutlich unter Ziel-Latenz |
 | AN-9 Auto-Tune Grid |  5 ms (9 , n=500, parallel) |  | `BM_OLAP_AutoTune_Grid9/500`: 6,44 µs, 720,0 M items/s (`artifacts/perf_nv/targeted_validation/bench_olap_targeted.json`) |  ✅ direkter Case vorhanden, deutlich unter Ziel-Latenz |
 | AN-10 ARM NEON Aggregation |  4 GB/s (Cortex-A78) |  | n/v |  |
 | AN-P1 OLAP Count Throughput (Proxy) |   |  | 242,637 M/s (`BM_OLAP_Count/1000000`) |  |
@@ -916,11 +974,11 @@ Benchmark-Code: `BM_QueryMix_Historical`, `BM_QueryMix_Historical_P99` in `bench
 | InnerProduct/1000/512 |  250 k/s | 313 k/s (3.200 ns) |  |  |
 | TopK/1000/10 |  15 M/s | 20,0 M/s (50 ns) |  |  |
 | TopK/5000/50 |  10 M/s | 12,5 M/s (400 ns) |  |  |
-| Vec Search L2 CUDA (1M├ù128-dim) | < 8 ms auf RTX 3090 |   |  |  |
-| GPU Throughput |  10├ù CPU AVX2 Baseline |   |  |  |
-| Large-Scale (100M├ù128, 4├ùA100 80 GB) | P99 < 15 ms k=100 |   |  |  |
-| INT8 Matmul vs. FP16 |  2├ù auf RTX 3090 |   |  |  |
-| Vulkan (Apple M2, 500K├ù128) | < 20 ms |   |  |  |
+| Vec Search L2 CUDA (1M×128-dim) | < 8 ms auf RTX 3090 |   |  |  |
+| GPU Throughput |  10× CPU AVX2 Baseline |   |  |  |
+| Large-Scale (100M×128, 4×A100 80 GB) | P99 < 15 ms k=100 |   |  |  |
+| INT8 Matmul vs. FP16 |  2× auf RTX 3090 |   |  |  |
+| Vulkan (Apple M2, 500K×128) | < 20 ms |   |  |  |
 
 ---
 
@@ -939,9 +997,9 @@ Benchmark-Code: `BM_QueryMix_Historical`, `BM_QueryMix_Historical_P99` in `bench
 | TS-2 Gorilla Decode Throughput | > 2 GB/s/Core | ~400 MB/s |  | 267,1 MB/s (`BM_GorillaSIMDDecode_Throughput/100000`, Welle-1) |  ⚠️ unter Erwartungswert |
 | TS-3 Range Scan P99 (1M pts) | < 50 ms |   |  | n/v |  |
 | TS-4 Continuous Aggregate Refresh | < 500 ms/1-min-Intervall |   |  | n/v |  |
-| TS-5 Write Amplification | < 1,5├ù |   |  | n/v |  |
-| TS-6 Downsampling Throughput | > 10 M pts/s ÔåÆ 1-min-Aggregate |   |  | `BM_DownsamplingThroughput`: 1,836 M pts/s, P99-Bucket 63 µs (`artifacts/perf_nv/targeted_validation/bench_timeseries_ts6_probe_v2.json`); historischer Vergleich: 1,906 M pts/s (`timeseries_downsampling_throughput.json`) |  🔴 direkt messbar, aber weiterhin klar unter Ziel |
-| TS-7 Storage Reduction | > 50├ù (raw ÔåÆ 1-day Tier) |   |  | n/v |  |
+| TS-5 Write Amplification | < 1,5× |   |  | n/v |  |
+| TS-6 Downsampling Throughput | > 10 M pts/s → 1-min-Aggregate |   |  | `BM_DownsamplingThroughput`: 1,836 M pts/s, P99-Bucket 63 µs (`artifacts/perf_nv/targeted_validation/bench_timeseries_ts6_probe_v2.json`); historischer Vergleich: 1,906 M pts/s (`timeseries_downsampling_throughput.json`) |  🔴 direkt messbar, aber weiterhin klar unter Ziel |
+| TS-7 Storage Reduction | > 50× (raw → 1-day Tier) |   |  | n/v |  |
 | TS-9 Buffer-to-Storage Flush P99 | < 10 ms |   |  | `AdaptiveFlushFixture/P99Latency`: p99 = 0,7 µs, p999 = 9,4 µs (`artifacts/perf_nv/targeted_validation/bench_timeseries_adaptive_flush_targeted.json`) |  ✅ deutlich unter Ziel |
 | TS-10 Gorilla Insert P99 |  50  |   |  | n/v |  |
 | TS-11 AES-256-GCM Throughput | > 1 GB/s/Core (AES-NI) |   |  | 4,394 GB/s (`BM_AES256GCM_Encrypt_1MB`, Welle-1) |  ✅ |
@@ -964,10 +1022,10 @@ Hinweis 2026-04-12 (Update): `TimeseriesBenchmarkFixture/TimeRangeQuery/*` laeuf
 | intersects-Query P99 (1M Punkte) |  5 ms (R-Tree) |   |  |  |
 | R-Tree Bulk-Load (1M Geometrien) |  3 s |   |  |  |
 | Buffer 10K Punkte @ 500 m |  200 ms/Core |   |  |  |
-| Spatial JOIN (2├ù100K, 1 km) |  500 ms (erste 1k Ergebnisse) |   |  |  |
+| Spatial JOIN (2×100K, 1 km) |  500 ms (erste 1k Ergebnisse) |   |  |  |
 | GeoJSON Parse (100K MultiPolygon) |  2 s |   |  |  |
 | GPU Contains (1M Punkte, A10G) |  50 ms |   |  |  |
-| DBSCAN GPU Speedup (100K Punkte) | > 100├ù vs. CPU |   |  |  |
+| DBSCAN GPU Speedup (100K Punkte) | > 100× vs. CPU |   |  |  |
 
 ---
 
@@ -1009,7 +1067,7 @@ Hinweis 2026-04-12 (Update): `TimeseriesBenchmarkFixture/TimeRangeQuery/*` laeuf
 | R-4 HLC Conflict Detection | < 5 /Write |  |  |
 | R-5 CRDT Merge |  1 /Merge |  |  |
 | R-6 WAL Replay (PITR, 100 GB) |  200 MB/s;  10 min |  |  |
-| R-7 CDC Event P99 |  1 ms (Commit ÔåÆ CDC Queue) |  |  |
+| R-7 CDC Event P99 |  1 ms (Commit → CDC Queue) |  |  |
 | R-8 Cross-DC Lag ASYNC |  200 ms P99 (50 ms RTT WAN) |  |  |
 
 ---
@@ -1027,7 +1085,7 @@ Hinweis 2026-04-12 (Update): `TimeseriesBenchmarkFixture/TimeRangeQuery/*` laeuf
 | SH-2 Connection-Pool Hit-Rate | > 95 % @ 10k RPS |  |  |
 | SH-3 Percolator Commit P99 (10 Shards) | < 20 ms |  |  |
 | SH-4 Shard-Split Migration Downtime | 0 ms Read-Unavailability |  |  |
-| SH-5 Write-Latenz w├ñhrend Migration | < 20 % über Baseline P99 |  |  |
+| SH-5 Write-Latenz während Migration | < 20 % über Baseline P99 |  |  |
 | SH-6 Rebalancer Decision Cycle | < 10 s |  |  |
 | SH-7 Anti-Entropy Scan Throughput | > 1 GB/s (NVMe, 8 Worker) |  |  |
 | SH-8 GPU Reed-Solomon | > 4 GB/s (NVIDIA A10) |  |  |
@@ -1079,7 +1137,7 @@ Hinweis 2026-04-12 (Update): `TimeseriesBenchmarkFixture/TimeRangeQuery/*` laeuf
 | L-5 Work-Stealing Dispatch P99 |  50  |  |  |
 | L-6 Speculative Decoding Overhead |  15 % akzeptierter Token-Latenz |  |  |
 | L-7 GPU Utilization (Mixed Workloads) |  10 % Verbesserung |  |  |
-| L-8 Speculative Decoding Throughput |  2├ù tokens/s (7B + 0,5B Draft) |  |  |
+| L-8 Speculative Decoding Throughput |  2× tokens/s (7B + 0,5B Draft) |  |  |
 
 ---
 
@@ -1154,7 +1212,7 @@ Hinweis 2026-04-12 (Update): `TimeseriesBenchmarkFixture/TimeRangeQuery/*` laeuf
 | Ziel-ID | Erwartungswert | v1.3.4 Gemessen | Status |
 |---------|----------------|-----------------|--------|
 | API-1 GraphQL Parse+Execute P99 | < 2 ms (10-Feld-Query, 500 HTTP/2) |  |  |
-| API-2 WebSocket Subscription Latenz | < 50 ms (Changefeed ÔåÆ Frame) |  |  |
+| API-2 WebSocket Subscription Latenz | < 50 ms (Changefeed → Frame) |  |  |
 | API-3 Concurrent WebSocket Connections |  10k / Node bei < 50 MB RSS |  |  |
 | API-4 Bulk Insert (10k Docs) | < 500 ms E2E |  |  |
 | API-5 Middleware Overhead | < 10 /Request |  |  |
@@ -1186,10 +1244,10 @@ Hinweis 2026-04-12 (Update): `TimeseriesBenchmarkFixture/TimeRangeQuery/*` laeuf
 | Ziel-ID | Erwartungswert | v1.3.4 Gemessen | Status |
 |---------|----------------|-----------------|--------|
 | CDC-1 Concurrent WebSocket Connections |  5k / Node bei < 100 MB RSS |  |  |
-| CDC-2 Event Delivery P99 | < 20 ms (Emit ÔåÆ Frame) |  |  |
+| CDC-2 Event Delivery P99 | < 20 ms (Emit → Frame) |  |  |
 | CDC-3 Consumer Group Offset Commit | < 1 ms P99 (RocksDB) |  |  |
 | CDC-4 Resume nach 24h Offline (10M Events) | < 5 s bis zur Delivery |  |  |
-| CDC-5 End-to-End Latenz (ÔåÆ Kafka Ack) | < 10 ms P99 (LAN) |  |  |
+| CDC-5 End-to-End Latenz (→ Kafka Ack) | < 10 ms P99 (LAN) |  |  |
 | CDC-6 Log Compaction (1M Events) | < 30 s (Background) |  |  |
 
 ---
@@ -1234,7 +1292,7 @@ Hinweis 2026-04-12 (Update): `TimeseriesBenchmarkFixture/TimeRangeQuery/*` laeuf
 | Ziel-ID | Erwartungswert | v1.3.4 Gemessen | Status |
 |---------|----------------|-----------------|--------|
 | SCH-1 Scheduler Loop Tick P99 |  1 ms (10k Tasks) |  |  |
-| SCH-2 Task Dispatch P99 |  5 ms (Due-Time ÔåÆ First Instruction) |  |  |
+| SCH-2 Task Dispatch P99 |  5 ms (Due-Time → First Instruction) |  |  |
 | SCH-3 Cron next_execution |  10 /Call |  |  |
 | SCH-4 Leader Election Konvergenz |  5 s (5-Node-Cluster, nach Failure) |  |  |
 | SCH-5 DAG Topological Sort |  1 ms (10k Nodes) |  |  |
@@ -1249,7 +1307,7 @@ Hinweis 2026-04-12 (Update): `TimeseriesBenchmarkFixture/TimeRangeQuery/*` laeuf
 |---------|----------------|-----------------|--------|
 | ING-1 Aggregate Throughput |  50k Docs/s (Single Node) |  |  |
 | ING-2 Kafka Consumer Throughput |  100k Messages/s (1 KB avg) |  |  |
-| ING-3 Kafka ÔåÆ Document E2E P99 |  500 ms |  |  |
+| ING-3 Kafka → Document E2E P99 |  500 ms |  |  |
 | ING-4 S3 Concurrent Download |  200 MB/s agg. (4 parallel, 10 Gbps) |  |  |
 | ING-5 Quarantine Queue Scan (100k) |  1 s |  |  |
 
@@ -1260,7 +1318,7 @@ Hinweis 2026-04-12 (Update): `TimeseriesBenchmarkFixture/TimeRangeQuery/*` laeuf
 
 | Ziel-ID | Erwartungswert | v1.3.4 Gemessen | Status |
 |---------|----------------|-----------------|--------|
-| GOV-1 Policy Reload Latenz |  100 ms (Detection ÔåÆ Aktiv) |  |  |
+| GOV-1 Policy Reload Latenz |  100 ms (Detection → Aktiv) |  |  |
 | GOV-2 CCPA Opt-Out Lookup Overhead |  0,5 ms P99 |  |  |
 | GOV-3 CCPA Report (90 Tage, 1M Subjects) |  10 s |  |  |
 | GOV-4 Policy Evaluation P99 (500 Rules) |  5 ms (100 Threads) |  |  |
@@ -1275,7 +1333,7 @@ Hinweis 2026-04-12 (Update): `TimeseriesBenchmarkFixture/TimeRangeQuery/*` laeuf
 |---------|----------------|-----------------|--------|
 | OBS-1 Metrics Collection Overhead | < 1 % CPU @ 1k req/s |  |  |
 | OBS-2 Adaptive Span Sampling |  1 % bei > 10k Spans/s |  |  |
-| OBS-3 Metrics Scrape (16 Scraper) |  3├ù vs. Exclusive Mutex |  |  |
+| OBS-3 Metrics Scrape (16 Scraper) |  3× vs. Exclusive Mutex |  |  |
 
 ---
 
@@ -1288,7 +1346,7 @@ Hinweis 2026-04-12 (Update): `TimeseriesBenchmarkFixture/TimeRangeQuery/*` laeuf
 | PROC-2 PPR (50 Iter., 500-Node-Graph) |  20 ms |  |  |
 | PROC-3 Object-Centric DFG (10k Events) |  5 s |  |  |
 | PROC-4 Total Conversation Latenz |  5 s (3-Turn, local llama.cpp 8B Q4) |  |  |
-| PROC-5 CEP Alert Latenz |  100 ms nach Threshold-├£berschreitung |  |  |
+| PROC-5 CEP Alert Latenz |  100 ms nach Threshold-Überschreitung |  |  |
 | PROC-6 Bottleneck Analysis (10k Instances) |  2 s |  |  |
 | PROC-7 Bottleneck Detection Accuracy |  90 % |  |  |
 
@@ -1317,7 +1375,7 @@ Hinweis 2026-04-12 (Update): `TimeseriesBenchmarkFixture/TimeRangeQuery/*` laeuf
 
 | Ziel-ID | Erwartungswert | v1.3.4 Gemessen | Status |
 |---------|----------------|-----------------|--------|
-| OC-1 Batched Inference (Batch 64) |  6├ù vs. Sequential |  |  |
+| OC-1 Batched Inference (Batch 64) |  6× vs. Sequential |  |  |
 | OC-2 ViT-B/32 CUDA (Batch 64) |  20 ms ( 0,31 ms/Image) |  |  |
 | OC-3 ViT-B/32 CPU (Batch 16) |  2,5 s |  |  |
 | OC-4 Text Encoding P95 (CPU) |  5 ms |  |  |
@@ -1339,8 +1397,8 @@ Hinweis 2026-04-12 (Update): `TimeseriesBenchmarkFixture/TimeRangeQuery/*` laeuf
 | PE-3 Compiled Template Render P99 (2 KB) | < 1 ms |  |  |
 | PE-4 CoT Tracing Overhead/Step | < 0,2 ms |  |  |
 | PE-5 Full 3-Iteration Reflection (kein LLM) | < 1 ms P99 |  |  |
-| PE-6 render() Latenz (String ÔåÆ Compiled) | ~8 ms ÔåÆ < 1 ms Ziel |  |  |
-| PE-7 End-to-End RAG Assembly | ~15 ms ÔåÆ < 5 ms Ziel |  |  |
+| PE-6 render() Latenz (String → Compiled) | ~8 ms → < 1 ms Ziel |  |  |
+| PE-7 End-to-End RAG Assembly | ~15 ms → < 5 ms Ziel |  |  |
 
 ---
 
@@ -1388,11 +1446,11 @@ Hinweis 2026-04-12 (Update): `TimeseriesBenchmarkFixture/TimeRangeQuery/*` laeuf
 
 | Kategorie | ThemisDB v1.3.4 | Bester Mitbewerber | Mitbewerber | Position | Delta |
 |-----------|----------------|--------------------|-------------|----------|-------|
-| Query Engine (OLAP) | 814,5 M items/s | 1.200 M items/s | ClickHouse | 2. (Sehr gut) | ÔêÆ47 % |
-| Vector Insert | 351,4 k items/s | 600 k items/s | FAISS | 3. (Kompetitiv) | ÔêÆ71 % |
+| Query Engine (OLAP) | 814,5 M items/s | 1.200 M items/s | ClickHouse | 2. (Sehr gut) | −47 % |
+| Vector Insert | 351,4 k items/s | 600 k items/s | FAISS | 3. (Kompetitiv) | −71 % |
 | Embedding Cache Hit | 155,8 M items/s | 1.000 M items/s | In-Memory Cache | 2. (Sehr gut) | Akzeptabel |
-| 2PC Throughput | 6,4 k items/s | 15 k items/s | TiDB 7.0 | 3. (Solide) | ÔêÆ134 % |
-| Hybrid Search | 450 queries/s | 500 queries/s | Weaviate | 2. (Stark) | ÔêÆ10 % |
+| 2PC Throughput | 6,4 k items/s | 15 k items/s | TiDB 7.0 | 3. (Solide) | −134 % |
+| Hybrid Search | 450 queries/s | 500 queries/s | Weaviate | 2. (Stark) | −10 % |
 
 ---
 
@@ -1452,6 +1510,8 @@ Hinweis 2026-04-12 (Update): `TimeseriesBenchmarkFixture/TimeRangeQuery/*` laeuf
 
 
 ### 6.3 Validation Runs
+
+> **Primäre Messquellen** (Stand: 2026-04-13): `FUTURE_ENHANCEMENTS.md` je Modul, `benchmarks/results_analysis_reports/`, `benchmarks/baselines/`, `benchmarks/VERSION_HISTORY.csv`, `benchmarks/chimera/`, `artifacts/perf_nv/targeted_validation/*.json`, `artifacts/perf_nv/repro_validation_*/*.json`, `artifacts/perf_nv/repro_validation_clean_manual_*/*.json`, Wave-2 Performance Session
 
 > *Source: original §0.1 Validierungs-Delta 2026-04-12 and §0.2 Reproduktionslauf 2026-04-12*
 
@@ -1698,15 +1758,15 @@ Methodischer Hinweis:
 > *Source: original §35. Bekannte Performance-Lücken (explizit dokumentiert)*
 
 
-| # | Modul | Ist-Stand | Ziel | ╬ö | Priorit├ñt |
+| # | Modul | Ist-Stand | Ziel | Δ | Priorität |
 |---|-------|-----------|------|---|-----------|
-| D-1 | Timeseries Write (TS-1) | ~200 k pts/s | > 500 k pts/s | **ÔêÆ60 %** | Hoch |
-| D-2 | Gorilla Decode (TS-2) | ~400 MB/s | > 2 GB/s | **ÔêÆ80 %** | Hoch |
-| D-3 | Vector Insert vs. FAISS | 351 k/s | 600 k/s | **ÔêÆ71 %** | Mittel |
-| D-4 | 2PC Throughput vs. TiDB | 6,4 k/s | 15 k/s | **ÔêÆ134 %** | Mittel |
-| D-5 | Storage 1 MB Blob Write | 741 ops/s |  100 k ops/s | **ÔêÆ99 %** | Hoch |
-| D-6 | Concurrency 10 Clients CV | CV=20,74 ÔÜá´©Å | stabil | Instabil | Mittel |
-| D-7 | Query Engine vs. ClickHouse | 814,5 M/s | 1.200 M/s | **ÔêÆ47 %** | Niedrig |
+| D-1 | Timeseries Write (TS-1) | ~200 k pts/s | > 500 k pts/s | **−60 %** | Hoch |
+| D-2 | Gorilla Decode (TS-2) | ~400 MB/s | > 2 GB/s | **−80 %** | Hoch |
+| D-3 | Vector Insert vs. FAISS | 351 k/s | 600 k/s | **−71 %** | Mittel |
+| D-4 | 2PC Throughput vs. TiDB | 6,4 k/s | 15 k/s | **−134 %** | Mittel |
+| D-5 | Storage 1 MB Blob Write | 741 ops/s |  100 k ops/s | **−99 %** | Hoch |
+| D-6 | Concurrency 10 Clients CV | CV=20,74 ⚠️ | stabil | Instabil | Mittel |
+| D-7 | Query Engine vs. ClickHouse | 814,5 M/s | 1.200 M/s | **−47 %** | Niedrig |
 
 ---
 
@@ -1783,20 +1843,20 @@ ThemisDB v1.8.2 demonstrates strong performance progress across all five tracked
 
 > *Source: original §37.5 Offene / Geplante Performance-Massnahmen*
 
-#### 37.5 Offene / Geplante Performance-Ma├ƒnahmen (noch nicht umgesetzt)
+#### 37.5 Offene / Geplante Performance-Maßnahmen (noch nicht umgesetzt)
 
-| # | Geplante Ma├ƒnahme | Modul | Ziel-Metrik | Ziel-Version |
+| # | Geplante Maßnahme | Modul | Ziel-Metrik | Ziel-Version |
 |---|-------------------|-------|-------------|--------------|
-| P-1 | **Gorilla Decode AVX-optimierung** ÔÇö SIMD-Decode-Pfad für Gorilla-Kompression | Timeseries | >2 GB/s (von ~400 MB/s) | Q3 2026 |
-| P-2 | **SecondaryIndex Batch-Transaktionen** ÔÇö Mehrere `put()`-Aufrufe in einer Transaktion bündeln | Index / Storage | 1.78 M/s wiederherstellen (von 217 k/s) | Q2 2026 |
-| P-3 | **CUDA Geospatial Distanz-Kernels** ÔÇö WGS84-Haversine und Point-in-Polygon auf GPU | Geo | GPU Contains 1M Punkte <50 ms (A10G) | Q3 2026 |
-| P-4 | **Vector Insert Throughput** ÔÇö HNSW-Build-Parallelisierung, Segment-basiertes Insert | Index | 600 k/s (FAISS-Parit├ñt) | Q3 2026 |
-| P-5 | **1 MB Blob Write-Throughput** ÔÇö Async WAL + Background Flush | Storage | 100 k ops/s (von 741 ops/s) | Q2 2026 |
-| P-6 | **Concurrent Concurrency-Stabilisierung** ÔÇö CV-Reduktion bei 10-Client-Lasttest | Storage | CV <5 % (von 20.74 %) | Q2 2026 |
-| P-7 | **2PC Throughput-Steigerung** ÔÇö Pipelined 2PC (Phase 1+2 überlappend) | Transaction | 15 k/s (TiDB-Parit├ñt) | Q3 2026 |
-| P-8 | **Query Engine vs. ClickHouse** ÔÇö Columnar SIMD Aggregation, Vectorized Scan | Query | 1.2 G items/s | Q4 2026 |
-| P-9 | **TLS 1.3 Session Resumption** ÔÇö TLS-Session-Ticket-Cache | Network | <1 ms P99 | Q2 2026 |
-| P-10 | **QUIC 0-RTT** ÔÇö QUIC-Transport für LAN-Kommunikation | Network | <2 ms P99 | Q3 2026 |
+| P-1 | **Gorilla Decode AVX-optimierung** — SIMD-Decode-Pfad für Gorilla-Kompression | Timeseries | >2 GB/s (von ~400 MB/s) | Q3 2026 |
+| P-2 | **SecondaryIndex Batch-Transaktionen** — Mehrere `put()`-Aufrufe in einer Transaktion bündeln | Index / Storage | 1.78 M/s wiederherstellen (von 217 k/s) | Q2 2026 |
+| P-3 | **CUDA Geospatial Distanz-Kernels** — WGS84-Haversine und Point-in-Polygon auf GPU | Geo | GPU Contains 1M Punkte <50 ms (A10G) | Q3 2026 |
+| P-4 | **Vector Insert Throughput** — HNSW-Build-Parallelisierung, Segment-basiertes Insert | Index | 600 k/s (FAISS-Parität) | Q3 2026 |
+| P-5 | **1 MB Blob Write-Throughput** — Async WAL + Background Flush | Storage | 100 k ops/s (von 741 ops/s) | Q2 2026 |
+| P-6 | **Concurrent Concurrency-Stabilisierung** — CV-Reduktion bei 10-Client-Lasttest | Storage | CV <5 % (von 20.74 %) | Q2 2026 |
+| P-7 | **2PC Throughput-Steigerung** — Pipelined 2PC (Phase 1+2 überlappend) | Transaction | 15 k/s (TiDB-Parität) | Q3 2026 |
+| P-8 | **Query Engine vs. ClickHouse** — Columnar SIMD Aggregation, Vectorized Scan | Query | 1.2 G items/s | Q4 2026 |
+| P-9 | **TLS 1.3 Session Resumption** — TLS-Session-Ticket-Cache | Network | <1 ms P99 | Q2 2026 |
+| P-10 | **QUIC 0-RTT** — QUIC-Transport für LAN-Kommunikation | Network | <2 ms P99 | Q3 2026 |
 
 
 
@@ -1864,16 +1924,16 @@ ThemisDB v1.8.2 demonstrates strong performance progress across all five tracked
 
 #### 36.1 Kern-Performance (`bench_core_performance`)
 
-| Benchmark | v1.3.0 items/s | v1.3.3 items/s | v1.3.4 items/s | v1.8.2 items/s | ╬ö v1.3.0ÔåÆv1.3.4 | Status |
+| Benchmark | v1.3.0 items/s | v1.3.3 items/s | v1.3.4 items/s | v1.8.2 items/s | Δ v1.3.0→v1.3.4 | Status |
 |-----------|---------------|---------------|---------------|---------------|-----------------|--------|
-| VectorIndexBench/InsertPlaintext | 566.7 k/s | 538.0 k/s | **351.4 k/s** | **548.7 k/s** | ÔêÆ38 % | ÔÜá´©Å |
-| SecondaryIndexBench/IndexInsert | 1.78 M/s | 5.11 k/s ÔÜá´©Å | **217.2 k/s** | **254.9 k/s** | ÔêÆ88 % |   |
+| VectorIndexBench/InsertPlaintext | 566.7 k/s | 538.0 k/s | **351.4 k/s** | **548.7 k/s** | −38 % | ⚠️ |
+| SecondaryIndexBench/IndexInsert | 1.78 M/s | 5.11 k/s ⚠️ | **217.2 k/s** | **254.9 k/s** | −88 % |   |
 | SecondaryIndexBench/RawWriteOnly |   |   | **885.0 k/s** | 749,6 k/s (162.620 ns) | n/a |  |
-| QueryEngineBench/SimpleEvaluation | 968.6 M/s | 949.8 M/s | **814.5 M/s** | **796.4 M/s** | ÔêÆ16 % | ÔÜá´©Å |
-| GraphIndexBench/AddEdges | 1.47 M/s | 1.20 M/s | **628.7 k/s** | **1.177 M/s** | ÔêÆ57 % |   |
-| TimeseriesBench/InsertTimepoints | 61.0 M/s | 55.9 M/s | **49.0 M/s** | **61.00 M/s** | ÔêÆ20 % | ÔÜá´©Å |
+| QueryEngineBench/SimpleEvaluation | 968.6 M/s | 949.8 M/s | **814.5 M/s** | **796.4 M/s** | −16 % | ⚠️ |
+| GraphIndexBench/AddEdges | 1.47 M/s | 1.20 M/s | **628.7 k/s** | **1.177 M/s** | −57 % |   |
+| TimeseriesBench/InsertTimepoints | 61.0 M/s | 55.9 M/s | **49.0 M/s** | **61.00 M/s** | −20 % | ⚠️ |
 
-> **Hinweis SecondaryIndex v1.3.3:** real_time=656 ms, cpu_time=19.6 ms ÔåÆ 33├ù Diskrepanz durch Einzel-Transaktion pro `put()` (RocksDB-Transaktions-Overhead). Bekannte Regression, dokumentiert in `PERFORMANCE_COMPARISON_V1.3.0_VS_V1.3.3.md`.
+> **Hinweis SecondaryIndex v1.3.3:** real_time=656 ms, cpu_time=19.6 ms → 33× Diskrepanz durch Einzel-Transaktion pro `put()` (RocksDB-Transaktions-Overhead). Bekannte Regression, dokumentiert in `PERFORMANCE_COMPARISON_V1.3.0_VS_V1.3.3.md`.
 
 ---
 
@@ -1882,20 +1942,20 @@ ThemisDB v1.8.2 demonstrates strong performance progress across all five tracked
 | Benchmark | v1.3.3 items/s | v1.3.4 items/s | Ziel | Status |
 |-----------|---------------|---------------|------|--------|
 | **Vektor-Operationen** | | | | |
-| SimpleVectorBench/Insert_RGB_Vectors | 1.33 M/s | **1.22 M/s** |   | ÔÜá´©Å |
+| SimpleVectorBench/Insert_RGB_Vectors | 1.33 M/s | **1.22 M/s** |   | ⚠️ |
 | SimpleVectorBench/Search_RGB_KNN_Top10 | 63.7 M/s | **62.1 M/s** |   |  |
-| SimpleVectorBench/Insert_384D_Embeddings | 465.5 k/s | **382.3 k/s** |   | ÔÜá´©Å |
-| ComplexVectorBench/BatchInsert_1536D_LLMVectors | 132.8 k/s | **121.9 k/s** |   | ÔÜá´©Å |
-| ComplexVectorBench/Search_4096D_TopK_Batch | 5.97 M/s | **5.62 M/s** |   | ÔÜá´©Å |
+| SimpleVectorBench/Insert_384D_Embeddings | 465.5 k/s | **382.3 k/s** |   | ⚠️ |
+| ComplexVectorBench/BatchInsert_1536D_LLMVectors | 132.8 k/s | **121.9 k/s** |   | ⚠️ |
+| ComplexVectorBench/Search_4096D_TopK_Batch | 5.97 M/s | **5.62 M/s** |   | ⚠️ |
 | **LLM / Embedding** | | | | |
-| LLMInferencingBench/EmbeddingGeneration_Store | 122.0 k/s | **108.2 k/s** |   | ÔÜá´©Å |
+| LLMInferencingBench/EmbeddingGeneration_Store | 122.0 k/s | **108.2 k/s** |   | ⚠️ |
 | LLMInferencingBench/RAG_Search_Retrieve_Top50 |   | **7.55 M/s** (133 ns) |   |  |
 | LLMInferencingBench/MultiQueryExpansion_5Queries |   | **2.97 M/s** |   |  |
 | **AQL / Query** | | | | |
 | AQLQueryBench/SimpleSelect_WhereClause |   | **148.8 k/s** (6.7 ) |   |  |
 | AQLQueryBench/ComplexSelect_MultipleConditions |   | **3.25 k/s** (308 ) |   |  |
 | AQLJoinBench/JoinUsers_Posts |   | **777.0 k/s** (1.3 ) |   |  |
-| **Blob / Bin├ñr** | | | | |
+| **Blob / Binär** | | | | |
 | BinaryOperationsBench/StoreThumbnails_10KB |   | **4.92 k/s** |   |  |
 | BinaryOperationsBench/StoreLargeBlobs_1MB |   | **352 ops/s** |   |  |
 | BinaryOperationsBench/RetrieveBlobsBatch_100x100KB |   | **117.0 k/s** |   |  |
@@ -1920,14 +1980,14 @@ ThemisDB v1.8.2 demonstrates strong performance progress across all five tracked
 
 > Platform: v1.3.3 = Run 20251223_085556 | v1.3.4 = Run 20251229_184507
 
-| Benchmark | v1.3.3 ops/s | v1.3.4 ops/s | ╬ö | Status |
+| Benchmark | v1.3.3 ops/s | v1.3.4 ops/s | Δ | Status |
 |-----------|-------------|-------------|---|--------|
-| BM_Encrypt_String_UsingKey/64 | 277.0 k/s (3.6 ) | **254.9 k/s** (3.9 ) | ÔêÆ8 % | ÔÜá´©Å |
-| BM_Encrypt_String_UsingKey/256 | 254.4 k/s | **244.0 k/s** | ÔêÆ4 % | ÔÜá´©Å |
-| BM_Encrypt_String_UsingKey/1024 | 254.9 k/s | **191.2 k/s** | ÔêÆ25 % |   |
-| BM_Decrypt_String_UsingKey/64 | 56.9 k/s | **45.5 k/s** | ÔêÆ20 % |   |
-| BM_Decrypt_String_UsingKey/256 | 60.1 k/s | **41.1 k/s** | ÔêÆ32 % |   |
-| BM_Decrypt_String_UsingKey/1024 | 52.5 k/s | **36.6 k/s** | ÔêÆ30 % |   |
+| BM_Encrypt_String_UsingKey/64 | 277.0 k/s (3.6 ) | **254.9 k/s** (3.9 ) | −8 % | ⚠️ |
+| BM_Encrypt_String_UsingKey/256 | 254.4 k/s | **244.0 k/s** | −4 % | ⚠️ |
+| BM_Encrypt_String_UsingKey/1024 | 254.9 k/s | **191.2 k/s** | −25 % |   |
+| BM_Decrypt_String_UsingKey/64 | 56.9 k/s | **45.5 k/s** | −20 % |   |
+| BM_Decrypt_String_UsingKey/256 | 60.1 k/s | **41.1 k/s** | −32 % |   |
+| BM_Decrypt_String_UsingKey/1024 | 52.5 k/s | **36.6 k/s** | −30 % |   |
 | BM_UserEntity_Encrypt_Serialize |   | **28.3 k/s** (35.1 ) |   |  |
 | BM_HKDF_Derive_FieldKey |   | **177.8 k/s** (5.5 ) |   |  |
 | BM_SchemaEncrypt_SingleField/64 |   | **86.1 k/s** (11.6 ) |   |  |
@@ -1994,23 +2054,23 @@ ThemisDB v1.8.2 demonstrates strong performance progress across all five tracked
 | BenchPostfilter/10000 | 79.4 ms | 12,60 ops/s |
 | BenchPostfilter/20000 | 78.9 ms | 12,68 ops/s |
 
-> **Beobachtung:** Prefilter ist bei kleinem n (1000) 5.5├ù langsamer als Postfilter. Ab n=20000 ann├ñhernde Parit├ñt (88 ms vs. 79 ms). Dies entspricht dem theoretischen Verhalten: Prefilter lohnt sich erst ab hoher Selektivit├ñt.
+> **Beobachtung:** Prefilter ist bei kleinem n (1000) 5.5× langsamer als Postfilter. Ab n=20000 annähernde Parität (88 ms vs. 79 ms). Dies entspricht dem theoretischen Verhalten: Prefilter lohnt sich erst ab hoher Selektivität.
 
 ---
 
 #### 36.6 Storage Hotspots   WAL / Mixed-RW (`bench_hotspots_micro`)
 
-> v1.3.3 vs. v1.3.4 ÔÇö Thread-Count-Skalierung
+> v1.3.3 vs. v1.3.4 — Thread-Count-Skalierung
 
-| Benchmark | Threads | v1.3.3 ops/s | v1.3.4 ops/s | ╬ö |
+| Benchmark | Threads | v1.3.3 ops/s | v1.3.4 ops/s | Δ |
 |-----------|---------|-------------|-------------|---|
 | **WAL ON (persistentes Schreiben)** | | | | |
 | BM_RawWrite_WAL_On | 1 | 248 | **283** | +14 % |
 | BM_RawWrite_WAL_On | 4 | 542 | **609** | +12 % |
 | BM_RawWrite_WAL_On | 8 | 1.058 | **1.193** | +13 % |
-| BM_RawWrite_WAL_On | 16 | 2.070 | **1.546** | ÔêÆ25 % ÔÜá´©Å |
+| BM_RawWrite_WAL_On | 16 | 2.070 | **1.546** | −25 % ⚠️ |
 | **WAL OFF (In-Memory)** | | | | |
-| BM_RawWrite_WAL_Off | 1 | 205.5 k | **145.7 k** | ÔêÆ29 %   |
+| BM_RawWrite_WAL_Off | 1 | 205.5 k | **145.7 k** | −29 %   |
 | BM_RawWrite_WAL_Off | 4 | 354.7 k | **370.3 k** | +4 % |
 | BM_RawWrite_WAL_Off | 8 |   | **507.5 k** |   |
 | BM_RawWrite_WAL_Off | 16 |   | **350.3 k** |   |
@@ -2036,7 +2096,7 @@ ThemisDB v1.8.2 demonstrates strong performance progress across all five tracked
 | **Embedding-Cache** | | | |
 | BM_EmbeddingCache_Store/384 | 1.324  | 758.5 k/s | |
 | BM_EmbeddingCache_Store/768 | 2.699  | 374.8 k/s | |
-| BM_EmbeddingCache_Store/1536 | 158.2  | 14.2 k/s | gr├Â├ƒerer Dimensionsaufwand |
+| BM_EmbeddingCache_Store/1536 | 158.2  | 14.2 k/s | größerer Dimensionsaufwand |
 | BM_EmbeddingCache_Query_Hit/384 | 6.44 ns | **155.8 M/s** | Hot Path |
 | BM_EmbeddingCache_Query_Hit/768 | 6.46 ns | **155.8 M/s** | Hot Path |
 | BM_EmbeddingCache_Query_Hit/1536 | 1.882  | 541.0 k/s | |
@@ -2064,8 +2124,8 @@ ThemisDB v1.8.2 demonstrates strong performance progress across all five tracked
 | BM_CTE_CycleDetection/1000 | 122.4 ns | 8.15 M/s | |
 | BM_CTE_CycleDetection/10000 | 1.178  | 853.3 k/s | |
 | **Subquery EXISTS** | | | |
-| BM_Subquery_EXISTS_WithLIMIT1/100 | ~0 ns | Ôê× | Short-Circuit |
-| BM_Subquery_EXISTS_WithLIMIT1/100000 | ~0 ns | Ôê× | Short-Circuit  |
+| BM_Subquery_EXISTS_WithLIMIT1/100 | ~0 ns | →∞ | Short-Circuit |
+| BM_Subquery_EXISTS_WithLIMIT1/100000 | ~0 ns | →∞ | Short-Circuit  |
 | BM_Subquery_EXISTS_WithoutLIMIT1/100 | 75.1 ns | 13.3 M/s | |
 | BM_Subquery_EXISTS_WithoutLIMIT1/1000 | 702.2 ns | 1.41 M/s | |
 | BM_Subquery_EXISTS_WithoutLIMIT1/10000 | 6.822  | 147.0 k/s | |
@@ -2118,16 +2178,16 @@ ThemisDB v1.8.2 demonstrates strong performance progress across all five tracked
 
 #### 36.10 GPU-Backends (`bench_gpu_backends`)
 
-> v1.3.3 vs. v1.3.4 ÔÇö CPU-Backend (GPU nicht verfügbar in CI)
+> v1.3.3 vs. v1.3.4 — CPU-Backend (GPU nicht verfügbar in CI)
 
-| Benchmark | v1.3.3 items/s | v1.3.4 items/s | ╬ö |
+| Benchmark | v1.3.3 items/s | v1.3.4 items/s | Δ |
 |-----------|---------------|---------------|---|
-| BM_CPUBackend_DistanceComputation/10├ù1000 | 11.24 M/s | **10.24 M/s** | ÔêÆ9 % |
-| BM_CPUBackend_DistanceComputation/100├ù10000 | 11.49 M/s | **9.60 M/s** | ÔêÆ16 % |
-| BM_CPUBackend_DistanceComputation/1000├ù100000 | 10.63 M/s | **9.95 M/s** | ÔêÆ7 % |
-| BM_BackendComparison_VaryingDimensions/64 | 28.28 M/s | **25.87 M/s** | ÔêÆ9 % |
-| BM_BackendComparison_VaryingDimensions/128 | 11.49 M/s | **9.74 M/s** | ÔêÆ15 % |
-| BM_BackendComparison_VaryingDimensions/256 | 5.19 M/s | **4.36 M/s** | ÔêÆ16 % |
+| BM_CPUBackend_DistanceComputation/10×1000 | 11.24 M/s | **10.24 M/s** | −9 % |
+| BM_CPUBackend_DistanceComputation/100×10000 | 11.49 M/s | **9.60 M/s** | −16 % |
+| BM_CPUBackend_DistanceComputation/1000×100000 | 10.63 M/s | **9.95 M/s** | −7 % |
+| BM_BackendComparison_VaryingDimensions/64 | 28.28 M/s | **25.87 M/s** | −9 % |
+| BM_BackendComparison_VaryingDimensions/128 | 11.49 M/s | **9.74 M/s** | −15 % |
+| BM_BackendComparison_VaryingDimensions/256 | 5.19 M/s | **4.36 M/s** | −16 % |
 | BM_BackendComparison_VaryingDimensions/512 |   | **2.29 M/s** |   |
 | BM_BackendComparison_VaryingDimensions/1024 |   | **1.08 M/s** |   |
 | BM_BackendInitializationOverhead |   | **14.93 M/s** |   |
@@ -2177,15 +2237,15 @@ ThemisDB v1.8.2 demonstrates strong performance progress across all five tracked
 
 #### 36.12 HSM-Provider (`bench_hsm_provider`)
 
-> v1.3.3 vs. v1.3.4 ÔÇö Stub-Implementierung (echte HSM-Bibliothek nicht in CI)
+> v1.3.3 vs. v1.3.4 — Stub-Implementierung (echte HSM-Bibliothek nicht in CI)
 
-| Benchmark | v1.3.3 ops/s | v1.3.4 ops/s | ╬ö |
+| Benchmark | v1.3.3 ops/s | v1.3.4 ops/s | Δ |
 |-----------|-------------|-------------|---|
-| BM_HSM_Sign_Stub | 1.493 M/s (667 ns) | **1.434 M/s** (693.8 ns) | ÔêÆ4 % |
-| BM_HSM_Verify_Stub | 1.629 M/s (612 ns) | **1.550 M/s** (659 ns) | ÔêÆ5 % |
+| BM_HSM_Sign_Stub | 1.493 M/s (667 ns) | **1.434 M/s** (693.8 ns) | −4 % |
+| BM_HSM_Verify_Stub | 1.629 M/s (612 ns) | **1.550 M/s** (659 ns) | −5 % |
 | BM_HSM_Sign_Real_Pool* | n/a (Lib fehlt) | n/a |   |
 
-> **Ziel** SEC-7: HSM-Backed RSA-2048 Sign P99  20 ms ÔåÆ Stub-Werte ~0.7 , Real-HSM-Werte ausstehend.
+> **Ziel** SEC-7: HSM-Backed RSA-2048 Sign P99  20 ms → Stub-Werte ~0.7 , Real-HSM-Werte ausstehend.
 
 ---
 
@@ -2193,13 +2253,13 @@ ThemisDB v1.8.2 demonstrates strong performance progress across all five tracked
 
 > v1.3.3 vs. v1.3.4
 
-| Benchmark | v1.3.3 ops/s | v1.3.4 ops/s | ╬ö |
+| Benchmark | v1.3.3 ops/s | v1.3.4 ops/s | Δ |
 |-----------|-------------|-------------|---|
 | BM_VectorGeo_AQL_Sugar |   (ERROR) |   (ERROR) |   |
-| BM_VectorGeo_CPP_API | 123.6 ops/s (8.58 ms) | **112.6 ops/s** (8.91 ms) | ÔêÆ9 % |
+| BM_VectorGeo_CPP_API | 123.6 ops/s (8.58 ms) | **112.6 ops/s** (8.91 ms) | −9 % |
 | BM_ContentGeo_AQL_Sugar | 5.556 k/s (0.457 ms) | **6.127 k/s** (0.347 ms) | +10 %  |
 | BM_ContentGeo_CPP_API | 5.589 k/s (0.436 ms) | **7.191 k/s** (0.319 ms) | +29 %  |
-| BM_AQL_Parse_Translate_Only | 152.5 k/s (6.57 ) | **150.9 k/s** (6.66 ) | ÔêÆ1 %  |
+| BM_AQL_Parse_Translate_Only | 152.5 k/s (6.57 ) | **150.9 k/s** (6.66 ) | −1 %  |
 
 ---
 
@@ -2233,7 +2293,7 @@ ThemisDB v1.8.2 demonstrates strong performance progress across all five tracked
 
 > Run 20251229_184507 (v1.3.4, x86_64-Emulation auf ARM-Pfad)
 
-| Benchmark | Blockgr├Â├ƒe | real_time | Bandbreite |
+| Benchmark | Blockgröße | real_time | Bandbreite |
 |-----------|-----------|-----------|------------|
 | **Sequential Read** | | | |
 | BM_ARM_Sequential_Read | 4 KB | 3.63  | 4.55 GB/s |
@@ -2277,7 +2337,7 @@ ThemisDB v1.8.2 demonstrates strong performance progress across all five tracked
 | BM_LockContention_Disjoint | 1 | 4.44 ms | 14.4 k/s |
 | BM_LockContention_Disjoint | 4 | 13.5 ms | 18.9 k/s |
 | BM_LockContention_Disjoint | 8 | 8.31 ms | 61.6 k/s |
-| BM_LockContention_Disjoint | 16 | 66.7 ms | 15.3 k/s ÔÜá´©Å |
+| BM_LockContention_Disjoint | 16 | 66.7 ms | 15.3 k/s ⚠️ |
 | BM_LockContention_Disjoint | 32 | 42.9 ms | 47.8 k/s |
 | BM_LockContention_Overlapping | 1 | 14.4 ms | 4.43 k/s |
 
@@ -2294,7 +2354,7 @@ ThemisDB v1.8.2 demonstrates strong performance progress across all five tracked
 | BatchInsertBenchmark/SingleInserts_1000 | 15.85 s | 4.571 k/s | |
 | BatchInsertBenchmark/BatchInsert_1000 | 277.1 ms | 372 ops/s | |
 
-> **Beobachtung:** Batch-API ist hier **langsamer** als Single-Inserts in Items/s ÔÇö deutet auf Overhead im Batch-Koordinator hin. Bekannte Optimierungslücke (vgl. ┬º34 D-5).
+> **Beobachtung:** Batch-API ist hier **langsamer** als Single-Inserts in Items/s — deutet auf Overhead im Batch-Koordinator hin. Bekannte Optimierungslücke (vgl. §34 D-5).
 
 ---
 
@@ -2302,7 +2362,7 @@ ThemisDB v1.8.2 demonstrates strong performance progress across all five tracked
 
 > Run 20251223_085556 (v1.3.3)
 
-| Benchmark | Blockgr├Â├ƒe | Kompression | real_time | ops/s |
+| Benchmark | Blockgröße | Kompression | real_time | ops/s |
 |-----------|-----------|-------------|-----------|-------|
 | CompressionFixture/SequentialWrite/Keine/512B | 512 B |   | 25.2 ms | 48.0 k/s |
 | CompressionFixture/SequentialWrite/LZ4/512B | 512 B | LZ4 | 25.9 ms | 41.8 k/s |
@@ -2313,24 +2373,24 @@ ThemisDB v1.8.2 demonstrates strong performance progress across all five tracked
 
 ---
 
-#### 36.20 Zusammenfassung: Regression-├£bersicht v1.3.0 ÔåÆ v1.3.4
+#### 36.20 Zusammenfassung: Regression-Übersicht v1.3.0 → v1.3.4
 
-| Benchmark | v1.3.0 | v1.3.4 | ╬ö | Schwere |
+| Benchmark | v1.3.0 | v1.3.4 | Δ | Schwere |
 |-----------|--------|--------|---|---------|
-| VectorIndexBench/InsertPlaintext | 566.7 k/s | 351.4 k/s | **ÔêÆ38 %** |   Kritisch |
-| SecondaryIndexBench/IndexInsert | 1.78 M/s | 217.2 k/s | **ÔêÆ88 %** |   Kritisch |
-| QueryEngineBench/SimpleEvaluation | 968.6 M/s | 814.5 M/s | ÔêÆ16 % | ÔÜá´©Å Mittel |
-| GraphIndexBench/AddEdges | 1.47 M/s | 628.7 k/s | **ÔêÆ57 %** |   Kritisch |
-| TimeseriesBench/InsertTimepoints | 61.0 M/s | 49.0 M/s | **ÔêÆ20 %** | ÔÜá´©Å Mittel |
-| BM_Encrypt_String_UsingKey/1024 | 254.9 k/s | 191.2 k/s | ÔêÆ25 % | ÔÜá´©Å Mittel |
-| BM_Decrypt_String_UsingKey/256 | 60.1 k/s | 41.1 k/s | ÔêÆ32 % |   Hoch |
-| BM_CPUBackend_DistanceComputation | 11.24 M/s | 10.24 M/s | ÔêÆ9 % | ÔÜá´©Å Gering |
+| VectorIndexBench/InsertPlaintext | 566.7 k/s | 351.4 k/s | **−38 %** |   Kritisch |
+| SecondaryIndexBench/IndexInsert | 1.78 M/s | 217.2 k/s | **−88 %** |   Kritisch |
+| QueryEngineBench/SimpleEvaluation | 968.6 M/s | 814.5 M/s | −16 % | ⚠️ Mittel |
+| GraphIndexBench/AddEdges | 1.47 M/s | 628.7 k/s | **−57 %** |   Kritisch |
+| TimeseriesBench/InsertTimepoints | 61.0 M/s | 49.0 M/s | **−20 %** | ⚠️ Mittel |
+| BM_Encrypt_String_UsingKey/1024 | 254.9 k/s | 191.2 k/s | −25 % | ⚠️ Mittel |
+| BM_Decrypt_String_UsingKey/256 | 60.1 k/s | 41.1 k/s | −32 % |   Hoch |
+| BM_CPUBackend_DistanceComputation | 11.24 M/s | 10.24 M/s | −9 % | ⚠️ Gering |
 | BM_ContentGeo_CPP_API | 5.59 k/s | 7.19 k/s | **+29 %** |  Verbesserung |
 | BM_ContentGeo_AQL_Sugar | 5.56 k/s | 6.13 k/s | **+10 %** |  Verbesserung |
 | EmbeddingCache_Query_Hit/384 |   | 155.8 M/s | n/a (neu) |  Neu |
 | 2PC-Throughput (2 Shards) |   | 6.4 k/s | n/a (neu) |  Neu |
 
-> **Wichtige Relativierung:** Mehrere Regressionen (insb. SecondaryIndex, VectorIndex, Graph) sind auf ge├ñnderte Test-Infrastruktur zurückzuführen (per-test temp dirs, einzelne RocksDB-Transaktionen pro `put()`), nicht auf Produktions-Regressions ÔÇö vgl. `PERFORMANCE_COMPARISON_V1.3.0_VS_V1.3.3.md`.
+> **Wichtige Relativierung:** Mehrere Regressionen (insb. SecondaryIndex, VectorIndex, Graph) sind auf geänderte Test-Infrastruktur zurückzuführen (per-test temp dirs, einzelne RocksDB-Transaktionen pro `put()`), nicht auf Produktions-Regressions — vgl. `PERFORMANCE_COMPARISON_V1.3.0_VS_V1.3.3.md`.
 
 
 ---
@@ -2552,86 +2612,86 @@ Write-Host "Profiling-Ergebnisse: $outDir"
 
 > *Source: original §37.1-§37.4. Durchgeführte Performance-Massnahmen (mit GitHub-PR)*
 
-### 37. Durchgeführte Performance-Ma├ƒnahmen (mit GitHub-PR)
+### 37. Durchgeführte Performance-Maßnahmen (mit GitHub-PR)
 
 > Chronologisch absteigend (neueste zuerst). Alle PRs liegen auf dem `develop`-Branch.
 > Links: `https://github.com/makr-code/ThemisDB/pull/<Nr>`
 
 ---
 
-#### 37.1 v1.9.0   Aktuelle Ma├ƒnahmen
+#### 37.1 v1.9.0   Aktuelle Maßnahmen
 
-| # | Ma├ƒnahme | Modul | PR | Version | Messbare Wirkung |
+| # | Maßnahme | Modul | PR | Version | Messbare Wirkung |
 |---|----------|-------|----|---------|-----------------|
-| 1 | **Batch-Prediction, O(1)-Update, Parallel-Auto-Tune, FNV-1a Fit-Cache** ÔÇö `predictBatch()` für N Serien, inkrementelles ETS/ARIMA/LR-Update, 9 parallele `std::async`-Auto-Tune-Tasks | Analytics / Forecasting | [#4054 (Issue)](https://github.com/makr-code/ThemisDB/issues/4054) | v1.9.0 | Auto-Tune: 9├ù Parallelisierung; Fit-Cache: wiederholte Serien O(1) statt O(n) |
-| 2 | **QueryCompiler JIT Hot-Path** ÔÇö JIT-kompilierte Ausführungspfade in `executeAql()` verdrahtet, vectorized-execution-Tests registriert | Query | [#4398](https://github.com/makr-code/ThemisDB/pull/4398) | v1.9.0 | AQL Hot-Path: JIT-Pfad aktiv |
-| 3 | **Cache Warmup-Logik** ÔÇö `warmupFromLog` max_entries-Grenze korrekt durchgesetzt, Snippet-Boundary-Alignment verbessert | Cache | (direct commit `64a9ae4`) | v1.9.0 | Weniger Overfetch bei Warmup |
-| 4 | **AdaLoRA + Multi-Adapter** ÔÇö Importance-basiertes Rank-Pruning, `LoRAAdapterMerger` mit TIES-Merging und Power-Iteration-SVD | Training | [#4405](https://github.com/makr-code/ThemisDB/pull/4405) | v1.9.0 | LoRA Memory-Footprint reduziert, Merge ohne separaten Checkpoint |
-| 5 | **DiskANN / MRL-Truncation** ÔÇö Matryoshka Representation Learning für mehrstufige ANN-Retrieval-Pipeline | Index | [#4399](https://github.com/makr-code/ThemisDB/pull/4399) | v1.9.0 | Ersten Stage mit 64-dim statt 1536-dim ÔåÆ 10├ù weniger FLOPS in Stage 1 |
+| 1 | **Batch-Prediction, O(1)-Update, Parallel-Auto-Tune, FNV-1a Fit-Cache** — `predictBatch()` für N Serien, inkrementelles ETS/ARIMA/LR-Update, 9 parallele `std::async`-Auto-Tune-Tasks | Analytics / Forecasting | [#4054 (Issue)](https://github.com/makr-code/ThemisDB/issues/4054) | v1.9.0 | Auto-Tune: 9× Parallelisierung; Fit-Cache: wiederholte Serien O(1) statt O(n) |
+| 2 | **QueryCompiler JIT Hot-Path** — JIT-kompilierte Ausführungspfade in `executeAql()` verdrahtet, vectorized-execution-Tests registriert | Query | [#4398](https://github.com/makr-code/ThemisDB/pull/4398) | v1.9.0 | AQL Hot-Path: JIT-Pfad aktiv |
+| 3 | **Cache Warmup-Logik** — `warmupFromLog` max_entries-Grenze korrekt durchgesetzt, Snippet-Boundary-Alignment verbessert | Cache | (direct commit `64a9ae4`) | v1.9.0 | Weniger Overfetch bei Warmup |
+| 4 | **AdaLoRA + Multi-Adapter** — Importance-basiertes Rank-Pruning, `LoRAAdapterMerger` mit TIES-Merging und Power-Iteration-SVD | Training | [#4405](https://github.com/makr-code/ThemisDB/pull/4405) | v1.9.0 | LoRA Memory-Footprint reduziert, Merge ohne separaten Checkpoint |
+| 5 | **DiskANN / MRL-Truncation** — Matryoshka Representation Learning für mehrstufige ANN-Retrieval-Pipeline | Index | [#4399](https://github.com/makr-code/ThemisDB/pull/4399) | v1.9.0 | Ersten Stage mit 64-dim statt 1536-dim → 10× weniger FLOPS in Stage 1 |
 
 ---
 
-#### 37.2 v1.8.0   Ma├ƒnahmen
+#### 37.2 v1.8.0   Maßnahmen
 
-| # | Ma├ƒnahme | Modul | PR | Version | Messbare Wirkung |
+| # | Maßnahme | Modul | PR | Version | Messbare Wirkung |
 |---|----------|-------|----|---------|-----------------|
-| 6 | **SIMD-Vektorisierung AVX-512 + ARM NEON** ÔÇö Aggregations- und Distanz-Kernels mit AVX-512-Intrinsics, ARM NEON-Fallback; CPUID-Check gecacht (static const) | Analytics | [#4317](https://github.com/makr-code/ThemisDB/pull/4317) | v1.8.0 | Benchmark-Ziel: 4 GB/s auf Cortex-A78; AVX-512 check: O(1) statt O(n) |
-| 7 | **Predictive Prefetcher (ML-basiertes Zugriffsmuster-Modell)** ÔÇö Erkennt wiederkehrende Zugriffsmuster und l├Âst Prefetch vor dem Cache-Miss aus | Cache / Performance | [#4293](https://github.com/makr-code/ThemisDB/pull/4293) | v1.8.0 | Ziel: Cache-Miss-Rate ÔêÆ20 % bei sequenziellen Workloads |
-| 8 | **Intelligent Prefetching System** ÔÇö Zweite Prefetch-Schicht mit konfigurierbarem Lookahead, adaptive Prefetch-Tiefe | Performance | [#4257](https://github.com/makr-code/ThemisDB/pull/4257) | v1.8.0 | Ziel: Prefetch-Overfetch 10 % |
-| 9 | **Query Compilation & JIT** ÔÇö `AdaptiveQueryCompiler` mit JIT-Codegen-Pfad, Expressions zu nativer Code kompiliert | Query | [#4246](https://github.com/makr-code/ThemisDB/pull/4246) | v1.8.0 | Ziel: AQL-Parse+Execute P99  2 ms; JIT-Erstcompilierung  50 ms |
-| 10 | **Parallel Query Execution (Intra-Query)** ÔÇö Parallele Ausführung unabh├ñngiger Query-Teilpl├ñne via Thread-Pool | Query | [#4211](https://github.com/makr-code/ThemisDB/pull/4211) | v1.7.0 | Ziel: multi-core Skalierung für OLAP-Queries |
-| 11 | **Parallel `translateBatchNLToAQL()`** ÔÇö Bounded-Worker-Pool + `std::async`-Semaphor-Throttle für NLÔåÆAQL-Batch-├£bersetzungen | AQL | [#4221](https://github.com/makr-code/ThemisDB/pull/4221) | v1.7.0 | Batch-Throughput proportional zu Worker-Count |
-| 12 | **Write-Optimized Merge (WOM) Tree** ÔÇö LSM-Tree-Optimierungen: Delayed Compaction, Tiered-Merge-Policy, Write-Stall-Pr├ñvention | Storage | [#4204](https://github.com/makr-code/ThemisDB/pull/4204) | v1.8.0 | Ziel: Write-Amplification <1.5├ù; WAL OFF: 507 k ops/s @ 8 Threads |
-| 13 | **Write Batching & Coalescing** ÔÇö Transaktions-Batcher mit konfigurierbarem Fenster 1 100 ms, adaptive Batch-Gr├Â├ƒe | Transaction | [#4335](https://github.com/makr-code/ThemisDB/pull/4335) | v1.8.0 | Konfigurierbar 1 100 ms Batch-Fenster; adaptive ┬▒10 % |
-| 14 | **Optimistic Concurrency Control (OCC)** ÔÇö Conflict-Detection-Phase nach Lese-Phase, Retry-Backoff, Deadlock-Watchdog | Transaction | [#4264](https://github.com/makr-code/ThemisDB/pull/4264) | v1.8.0 | OCC Commit P50: 100 , P99: 5 ms; Deadlock-Overhead: 1 % |
-| 15 | **Index-Kompression** ÔÇö Delta-, Prefix-, RLE-, Dictionary-, Bloom-Filter-Encoding für B-Tree/sekund├ñre Indizes | Index | [#4226](https://github.com/makr-code/ThemisDB/pull/4226) | v1.7.0 | Index-Gr├Â├ƒe ÔêÆ40 60 % (dokumentiert); Lookup-Latenz unver├ñndert |
-| 16 | **Cache Warmup Parallel Bulk-Load** ÔÇö `warmupParallelBulkLoad()` mit konfigurierbaren Worker-Threads | Cache | [#4250](https://github.com/makr-code/ThemisDB/pull/4250) | v1.8.0 | Warmup-Throughput: Ziel 500 k Entries/s |
-| 17 | **zlib ÔåÆ ZSTD Migration** ÔÇö StreamWriter-Kompression vollst├ñndig auf ZSTD Level 3 umgestellt | Exporters | [#4252](https://github.com/makr-code/ThemisDB/pull/4252) | v1.8.0 | ZSTD: ÔêÆ30 50 % Datenvolumen vs. zlib bei vergleichbarer Latenz |
-| 18 | **Wire Protocol Performance** ÔÇö TCP-Framing optimiert, Zero-Copy-Payload-Transfer, Keep-Alive-Pooling | Network | [#4214](https://github.com/makr-code/ThemisDB/pull/4214) | v1.7.0 | Ziel: 100 k req/s/Core (128 B, kein TLS) |
-| 19 | **Arrow Zero-Copy IPC + OLAP LRU-Cache** ÔÇö Apache Arrow Record-Batch für spaltenweisen Zero-Copy-Transfer; OLAP-Ergebnis-Cache mit TTL und LRU-Eviction | Analytics | [#4328](https://github.com/makr-code/ThemisDB/pull/4328) | v1.8.0 | Zero-Copy: kein Memcpy bei OLAP-Ausgabe; LRU: Wiederholte Queries aus Cache |
-| 20 | **Memory Pool Allocator (Hot Analytics)** ÔÇö `slab`-basierter Pool für kurzzeitige Analytics-Allocations auf kritischen Pfaden | Analytics | [#4311](https://github.com/makr-code/ThemisDB/pull/4311) | v1.8.0 | Reduziert Allocator-Contention auf Hot-Paths; jemalloc-freundlich |
-| 21 | **SAGA Orchestrator (DAG-Parallelausführung)** ÔÇö Parallele Kompensations-Ausführung via topologisch sortiertem DAG | Transaction | [#4305](https://github.com/makr-code/ThemisDB/pull/4305) | v1.8.0 | SAGA Compensation Time: 20 ms Ziel; parallelisierte Steps |
-| 22 | **Read-Only Transaction Optimization** ÔÇö Skip-Lock-Pfad für reine Lese-Transaktionen, kein Snapshot-Overhead | Transaction | (direct commit `d5eddfb`) | v1.8.0 | Lese-Transaktionen: kein 2PC-Overhead |
-| 23 | **SLO Monitor Latency Percentile Tracking** ÔÇö P50/P95/P99-Histogramm mit konfigurierbaren Schwellwert-Alerts | Cache / Observability | [#4329](https://github.com/makr-code/ThemisDB/pull/4329) | v1.8.0 | Echtzeit-Regression-Erkennung; CI-Gate blockiert bei P99 >20 % über Baseline |
-| 24 | **DiffEngine::computeDiff() + Cache-Stampede-Fix** ÔÇö O(N)-Changefeed-Scan durch Diff-Cache ersetzt; Cache-Stampede durch Single-Fetch-Lock | Analytics / Cache | [#4325](https://github.com/makr-code/ThemisDB/pull/4325) | v1.8.0 | Changefeed-Scan: O(N) ÔåÆ O(1) für gecachte Diffs |
-| 25 | **Perceptual Hashing Deduplication** ÔÇö pHash-basierte Bild-Deduplizierung mit Hamming-Distance-Index | Content | [#4331](https://github.com/makr-code/ThemisDB/pull/4331) | v1.8.0 | Speichereinsparung durch Dedup; kein Re-Embedding für Duplikate |
-| 26 | **CUDA k>kMaxK Silent-Clamping entfernt** ÔÇö `kMaxK` auf 1024 erh├Âht mit dynamischem Shared Memory; kein silentes Trunkieren mehr | Acceleration | [#4320](https://github.com/makr-code/ThemisDB/pull/4320) | v1.8.0 | CUDA Shared Memory: 32 KB bei k=1024 laut Ziel-Spec |
-| 27 | **VLLMResourceManager Multi-GPU NVML-Monitoring** ÔÇö Per-GPU Memory/Utilization-Monitoring via NVML; CPU-Snapshot-Cache 200 ms TTL | Acceleration | [#4318](https://github.com/makr-code/ThemisDB/pull/4318) | v1.8.0 | getStats()-Latenz: <2 ms (gecacht) statt NVML-Call auf Hot-Path |
-| 28 | **BackendRegistry Thread-Safe Read-Access** ÔÇö Dedizierter Read-Lock-Pfad ohne Writer-Contention | Acceleration | [#4321](https://github.com/makr-code/ThemisDB/pull/4321) | v1.8.0 | Concurrent Registry-Lookups ohne Mutex-Bottleneck |
-| 29 | **LLMProcessAnalyzer O(1) LRU-Cache-Eviction unter Lock** ÔÇö `std::list`-basierter LRU statt O(N)-Scan | LLM | [#4322](https://github.com/makr-code/ThemisDB/pull/4322) | v1.8.0 | Eviction: O(N) ÔåÆ O(1) |
-| 30 | **LoRA Adapter Hot-Loading** ÔÇö Adapter laden ohne Neustart; `unique_lock` für thread-sicheres Hot-Swap | LLM / Training | [#4333](https://github.com/makr-code/ThemisDB/pull/4333) | v1.8.0 | Ziel: 5 s Wall-Clock für 7B-Modell, Rank 64, 16-bit |
-| 31 | **Logical Replication Parallel Decoding** ÔÇö WAL-Decoder mit parallelisierten Decode-Threads | Replication | (direct commit `02ecdca`) | v1.8.0 | Replication WAL-Shipping Throughput-Ziel: 500 MB/s/Follower |
-| 32 | **Distributed Analytics Sharding   gecachter Health-State** ÔÇö `getHealthyShardCount()` ohne Network-I/O unter Lock | Sharding | [#4324](https://github.com/makr-code/ThemisDB/pull/4324) | v1.8.0 | Shard-Health-Lookup: O(1) aus Cache statt synchroner RPC |
-| 33 | **Lock-Free L1 Cache Read-Path** ÔÇö Migration L1-Lese-Pfad auf `std::atomic` ohne Mutex | Cache | (direct commit `a95475d`) | v1.8.0 | L1 Read Hot-Path: mutex-frei ÔåÆ Ziel 5 M ops/s/Core |
-| 34 | **Geo DBSCAN / k-Means GPU** ÔÇö DBSCAN und k-Means mit GPU-Beschleunigung für gro├ƒe Punkt-Mengen | Geo | [#4298](https://github.com/makr-code/ThemisDB/pull/4298) | v1.8.0 | DBSCAN GPU Speedup: >100├ù vs. CPU (100K Punkte) |
-| 35 | **Distributed Ingestion Coordinator** ÔÇö Mehrstufige Ingestion-Pipeline mit Retry-Quarant├ñne und parallelen S3-Downloads | Ingestion | [#4309](https://github.com/makr-code/ThemisDB/pull/4309) | v1.8.0 | S3 concurrent: 200 MB/s agg. (4 parallel, 10 Gbps) |
-| 36 | **Incremental View Lock-Free Apply** ÔÇö `applyChanges()` ohne globalen Write-Lock für inkrementelle Materialized-View-Updates | Analytics | [#4316](https://github.com/makr-code/ThemisDB/pull/4316) | v1.8.0 | IVM Delta-Application: 50 ms (10k Rows) |
-| 37 | **StreamingWindow konfigurierbare Expiry-Poll-Intervalle** ÔÇö Kein Busy-Wait; konfigurierbare Sleep-Dauer für Expiry-Worker | Analytics | [#4327](https://github.com/makr-code/ThemisDB/pull/4327) | v1.8.0 | CPU-Idle beim Streaming-Worker signifikant reduziert |
+| 6 | **SIMD-Vektorisierung AVX-512 + ARM NEON** — Aggregations- und Distanz-Kernels mit AVX-512-Intrinsics, ARM NEON-Fallback; CPUID-Check gecacht (static const) | Analytics | [#4317](https://github.com/makr-code/ThemisDB/pull/4317) | v1.8.0 | Benchmark-Ziel: 4 GB/s auf Cortex-A78; AVX-512 check: O(1) statt O(n) |
+| 7 | **Predictive Prefetcher (ML-basiertes Zugriffsmuster-Modell)** — Erkennt wiederkehrende Zugriffsmuster und löst Prefetch vor dem Cache-Miss aus | Cache / Performance | [#4293](https://github.com/makr-code/ThemisDB/pull/4293) | v1.8.0 | Ziel: Cache-Miss-Rate −20 % bei sequenziellen Workloads |
+| 8 | **Intelligent Prefetching System** — Zweite Prefetch-Schicht mit konfigurierbarem Lookahead, adaptive Prefetch-Tiefe | Performance | [#4257](https://github.com/makr-code/ThemisDB/pull/4257) | v1.8.0 | Ziel: Prefetch-Overfetch 10 % |
+| 9 | **Query Compilation & JIT** — `AdaptiveQueryCompiler` mit JIT-Codegen-Pfad, Expressions zu nativer Code kompiliert | Query | [#4246](https://github.com/makr-code/ThemisDB/pull/4246) | v1.8.0 | Ziel: AQL-Parse+Execute P99  2 ms; JIT-Erstcompilierung  50 ms |
+| 10 | **Parallel Query Execution (Intra-Query)** — Parallele Ausführung unabhängiger Query-Teilpläne via Thread-Pool | Query | [#4211](https://github.com/makr-code/ThemisDB/pull/4211) | v1.7.0 | Ziel: multi-core Skalierung für OLAP-Queries |
+| 11 | **Parallel `translateBatchNLToAQL()`** — Bounded-Worker-Pool + `std::async`-Semaphor-Throttle für NL→AQL-Batch-Übersetzungen | AQL | [#4221](https://github.com/makr-code/ThemisDB/pull/4221) | v1.7.0 | Batch-Throughput proportional zu Worker-Count |
+| 12 | **Write-Optimized Merge (WOM) Tree** — LSM-Tree-Optimierungen: Delayed Compaction, Tiered-Merge-Policy, Write-Stall-Prävention | Storage | [#4204](https://github.com/makr-code/ThemisDB/pull/4204) | v1.8.0 | Ziel: Write-Amplification <1.5×; WAL OFF: 507 k ops/s @ 8 Threads |
+| 13 | **Write Batching & Coalescing** — Transaktions-Batcher mit konfigurierbarem Fenster 1 100 ms, adaptive Batch-Größe | Transaction | [#4335](https://github.com/makr-code/ThemisDB/pull/4335) | v1.8.0 | Konfigurierbar 1 100 ms Batch-Fenster; adaptive ±10 % |
+| 14 | **Optimistic Concurrency Control (OCC)** — Conflict-Detection-Phase nach Lese-Phase, Retry-Backoff, Deadlock-Watchdog | Transaction | [#4264](https://github.com/makr-code/ThemisDB/pull/4264) | v1.8.0 | OCC Commit P50: 100 , P99: 5 ms; Deadlock-Overhead: 1 % |
+| 15 | **Index-Kompression** — Delta-, Prefix-, RLE-, Dictionary-, Bloom-Filter-Encoding für B-Tree/sekundäre Indizes | Index | [#4226](https://github.com/makr-code/ThemisDB/pull/4226) | v1.7.0 | Index-Größe −40 60 % (dokumentiert); Lookup-Latenz unverändert |
+| 16 | **Cache Warmup Parallel Bulk-Load** — `warmupParallelBulkLoad()` mit konfigurierbaren Worker-Threads | Cache | [#4250](https://github.com/makr-code/ThemisDB/pull/4250) | v1.8.0 | Warmup-Throughput: Ziel 500 k Entries/s |
+| 17 | **zlib → ZSTD Migration** — StreamWriter-Kompression vollständig auf ZSTD Level 3 umgestellt | Exporters | [#4252](https://github.com/makr-code/ThemisDB/pull/4252) | v1.8.0 | ZSTD: −30 50 % Datenvolumen vs. zlib bei vergleichbarer Latenz |
+| 18 | **Wire Protocol Performance** — TCP-Framing optimiert, Zero-Copy-Payload-Transfer, Keep-Alive-Pooling | Network | [#4214](https://github.com/makr-code/ThemisDB/pull/4214) | v1.7.0 | Ziel: 100 k req/s/Core (128 B, kein TLS) |
+| 19 | **Arrow Zero-Copy IPC + OLAP LRU-Cache** — Apache Arrow Record-Batch für spaltenweisen Zero-Copy-Transfer; OLAP-Ergebnis-Cache mit TTL und LRU-Eviction | Analytics | [#4328](https://github.com/makr-code/ThemisDB/pull/4328) | v1.8.0 | Zero-Copy: kein Memcpy bei OLAP-Ausgabe; LRU: Wiederholte Queries aus Cache |
+| 20 | **Memory Pool Allocator (Hot Analytics)** — `slab`-basierter Pool für kurzzeitige Analytics-Allocations auf kritischen Pfaden | Analytics | [#4311](https://github.com/makr-code/ThemisDB/pull/4311) | v1.8.0 | Reduziert Allocator-Contention auf Hot-Paths; jemalloc-freundlich |
+| 21 | **SAGA Orchestrator (DAG-Parallelausführung)** — Parallele Kompensations-Ausführung via topologisch sortiertem DAG | Transaction | [#4305](https://github.com/makr-code/ThemisDB/pull/4305) | v1.8.0 | SAGA Compensation Time: 20 ms Ziel; parallelisierte Steps |
+| 22 | **Read-Only Transaction Optimization** — Skip-Lock-Pfad für reine Lese-Transaktionen, kein Snapshot-Overhead | Transaction | (direct commit `d5eddfb`) | v1.8.0 | Lese-Transaktionen: kein 2PC-Overhead |
+| 23 | **SLO Monitor Latency Percentile Tracking** — P50/P95/P99-Histogramm mit konfigurierbaren Schwellwert-Alerts | Cache / Observability | [#4329](https://github.com/makr-code/ThemisDB/pull/4329) | v1.8.0 | Echtzeit-Regression-Erkennung; CI-Gate blockiert bei P99 >20 % über Baseline |
+| 24 | **DiffEngine::computeDiff() + Cache-Stampede-Fix** — O(N)-Changefeed-Scan durch Diff-Cache ersetzt; Cache-Stampede durch Single-Fetch-Lock | Analytics / Cache | [#4325](https://github.com/makr-code/ThemisDB/pull/4325) | v1.8.0 | Changefeed-Scan: O(N) → O(1) für gecachte Diffs |
+| 25 | **Perceptual Hashing Deduplication** — pHash-basierte Bild-Deduplizierung mit Hamming-Distance-Index | Content | [#4331](https://github.com/makr-code/ThemisDB/pull/4331) | v1.8.0 | Speichereinsparung durch Dedup; kein Re-Embedding für Duplikate |
+| 26 | **CUDA k>kMaxK Silent-Clamping entfernt** — `kMaxK` auf 1024 erhöht mit dynamischem Shared Memory; kein silentes Trunkieren mehr | Acceleration | [#4320](https://github.com/makr-code/ThemisDB/pull/4320) | v1.8.0 | CUDA Shared Memory: 32 KB bei k=1024 laut Ziel-Spec |
+| 27 | **VLLMResourceManager Multi-GPU NVML-Monitoring** — Per-GPU Memory/Utilization-Monitoring via NVML; CPU-Snapshot-Cache 200 ms TTL | Acceleration | [#4318](https://github.com/makr-code/ThemisDB/pull/4318) | v1.8.0 | getStats()-Latenz: <2 ms (gecacht) statt NVML-Call auf Hot-Path |
+| 28 | **BackendRegistry Thread-Safe Read-Access** — Dedizierter Read-Lock-Pfad ohne Writer-Contention | Acceleration | [#4321](https://github.com/makr-code/ThemisDB/pull/4321) | v1.8.0 | Concurrent Registry-Lookups ohne Mutex-Bottleneck |
+| 29 | **LLMProcessAnalyzer O(1) LRU-Cache-Eviction unter Lock** — `std::list`-basierter LRU statt O(N)-Scan | LLM | [#4322](https://github.com/makr-code/ThemisDB/pull/4322) | v1.8.0 | Eviction: O(N) → O(1) |
+| 30 | **LoRA Adapter Hot-Loading** — Adapter laden ohne Neustart; `unique_lock` für thread-sicheres Hot-Swap | LLM / Training | [#4333](https://github.com/makr-code/ThemisDB/pull/4333) | v1.8.0 | Ziel: 5 s Wall-Clock für 7B-Modell, Rank 64, 16-bit |
+| 31 | **Logical Replication Parallel Decoding** — WAL-Decoder mit parallelisierten Decode-Threads | Replication | (direct commit `02ecdca`) | v1.8.0 | Replication WAL-Shipping Throughput-Ziel: 500 MB/s/Follower |
+| 32 | **Distributed Analytics Sharding   gecachter Health-State** — `getHealthyShardCount()` ohne Network-I/O unter Lock | Sharding | [#4324](https://github.com/makr-code/ThemisDB/pull/4324) | v1.8.0 | Shard-Health-Lookup: O(1) aus Cache statt synchroner RPC |
+| 33 | **Lock-Free L1 Cache Read-Path** — Migration L1-Lese-Pfad auf `std::atomic` ohne Mutex | Cache | (direct commit `a95475d`) | v1.8.0 | L1 Read Hot-Path: mutex-frei → Ziel 5 M ops/s/Core |
+| 34 | **Geo DBSCAN / k-Means GPU** — DBSCAN und k-Means mit GPU-Beschleunigung für große Punkt-Mengen | Geo | [#4298](https://github.com/makr-code/ThemisDB/pull/4298) | v1.8.0 | DBSCAN GPU Speedup: >100× vs. CPU (100K Punkte) |
+| 35 | **Distributed Ingestion Coordinator** — Mehrstufige Ingestion-Pipeline mit Retry-Quarantäne und parallelen S3-Downloads | Ingestion | [#4309](https://github.com/makr-code/ThemisDB/pull/4309) | v1.8.0 | S3 concurrent: 200 MB/s agg. (4 parallel, 10 Gbps) |
+| 36 | **Incremental View Lock-Free Apply** — `applyChanges()` ohne globalen Write-Lock für inkrementelle Materialized-View-Updates | Analytics | [#4316](https://github.com/makr-code/ThemisDB/pull/4316) | v1.8.0 | IVM Delta-Application: 50 ms (10k Rows) |
+| 37 | **StreamingWindow konfigurierbare Expiry-Poll-Intervalle** — Kein Busy-Wait; konfigurierbare Sleep-Dauer für Expiry-Worker | Analytics | [#4327](https://github.com/makr-code/ThemisDB/pull/4327) | v1.8.0 | CPU-Idle beim Streaming-Worker signifikant reduziert |
 
 ---
 
-#### 37.3 v1.7.0   Ma├ƒnahmen
+#### 37.3 v1.7.0   Maßnahmen
 
-| # | Ma├ƒnahme | Modul | PR | Version | Messbare Wirkung |
+| # | Maßnahme | Modul | PR | Version | Messbare Wirkung |
 |---|----------|-------|----|---------|-----------------|
-| 38 | **CUDA ANN-Kernel-Vollimplementierung** ÔÇö Fused-Cosine-Kernel + Shared-Memory Top-K-Helper; HIP/RCCL `mergeTopK` für Multi-GPU | Acceleration | [#4193](https://github.com/makr-code/ThemisDB/pull/4193) | v1.7.0 | mergeTopK <500  (worldSize=4, k=100, NVLink-3) |
-| 39 | **GPU Hardware Support Gaps** ÔÇö HIP Top-K-Heap, CUDA HNSW Bitset, NCCL/RCCL `mergeTopK` | Acceleration | (direct commit `73d8f8a`) | v1.7.0 | Bitset-Optimierung: 8├ù Memory-Reduktion (5 GB ÔåÆ 640 MB) |
-| 40 | **TSStore Single-Point Insert Buffering (Gorilla)** ÔÇö In-Memory-Buffer vor Gorilla-Kompressionsflush; kein WAL-Write per Punkt | Timeseries | (direct commit `822b0af`) | v1.7.0 | Ziel: >500 k pts/s (von ~200 k pts/s); Buffer-to-Storage Flush P99 <10 ms |
-| 41 | **AdaptiveQueryCompiler Audit-Gaps** ÔÇö Lücken in Compiler-Pipeline geschlossen (Issue #86) | Query | (direct commit `2efe683`) | v1.7.0 | Compiler-Regression-Gate: 5 % |
-| 42 | **HardwareAccelerator v1.8.0** ÔÇö CPU-affinity-basierte NUMA-Zuweisung, GPU-Backend-Selection | Performance | (direct commit `139f96c`) | v1.7.0 | NUMA-lokale Allokation; reduzierten Cross-Socket-Traffic |
+| 38 | **CUDA ANN-Kernel-Vollimplementierung** — Fused-Cosine-Kernel + Shared-Memory Top-K-Helper; HIP/RCCL `mergeTopK` für Multi-GPU | Acceleration | [#4193](https://github.com/makr-code/ThemisDB/pull/4193) | v1.7.0 | mergeTopK <500  (worldSize=4, k=100, NVLink-3) |
+| 39 | **GPU Hardware Support Gaps** — HIP Top-K-Heap, CUDA HNSW Bitset, NCCL/RCCL `mergeTopK` | Acceleration | (direct commit `73d8f8a`) | v1.7.0 | Bitset-Optimierung: 8× Memory-Reduktion (5 GB → 640 MB) |
+| 40 | **TSStore Single-Point Insert Buffering (Gorilla)** — In-Memory-Buffer vor Gorilla-Kompressionsflush; kein WAL-Write per Punkt | Timeseries | (direct commit `822b0af`) | v1.7.0 | Ziel: >500 k pts/s (von ~200 k pts/s); Buffer-to-Storage Flush P99 <10 ms |
+| 41 | **AdaptiveQueryCompiler Audit-Gaps** — Lücken in Compiler-Pipeline geschlossen (Issue #86) | Query | (direct commit `2efe683`) | v1.7.0 | Compiler-Regression-Gate: 5 % |
+| 42 | **HardwareAccelerator v1.8.0** — CPU-affinity-basierte NUMA-Zuweisung, GPU-Backend-Selection | Performance | (direct commit `139f96c`) | v1.7.0 | NUMA-lokale Allokation; reduzierten Cross-Socket-Traffic |
 
 ---
 
 #### 37.4 v1.6.0 und früher
 
-| # | Ma├ƒnahme | Modul | PR | Version | Messbare Wirkung |
+| # | Maßnahme | Modul | PR | Version | Messbare Wirkung |
 |---|----------|-------|----|---------|-----------------|
-| 43 | **GPU-Acceleration Multi-Tenancy** ÔÇö Erste GPU-Backend-Integration, CUDA-Kernel-Grundgerüst | Acceleration | [#44](https://github.com/makr-code/ThemisDB/pull/44) | früh | GPU-Backend-Grundlage |
-| 44 | **Hardware Acceleration Support** ÔÇö CPU AVX2-Baseline, erste Vektoroperationen | Acceleration | [#30](https://github.com/makr-code/ThemisDB/pull/30) | früh | CPU AVX2-Baseline für Benchmarks |
-| 45 | **Benchmark-Datenbank-Tests** ÔÇö Erste Google-Benchmark-Targets, Baseline für sp├ñtere Regression-Tests | Benchmarks | [#54](https://github.com/makr-code/ThemisDB/pull/54) | früh | Benchmark-Infrastruktur aufgebaut |
-| 46 | **Benchmarks-Repository-Erweiterung** ÔÇö Neue Bench-Targets für Vektor-, Timeseries-, Graph-Operationen | Benchmarks | [#33](https://github.com/makr-code/ThemisDB/pull/33) | früh | Benchmark-Coverage auf 9 Module erweitert |
-| 47 | **Lossless Compression-Methoden (Research)** ÔÇö Evaluierung LZ4 vs. Zstd vs. Snappy ÔåÆ Entscheidung für Zstd | Storage | [#70](https://github.com/makr-code/ThemisDB/pull/70) | früh | Grundlage für PR #4252 (Zstd-Migration) |
-| 48 | **OpenCL Erasure Coder** ÔÇö GF(2^8)-Arithmetik-basiertes Reed-Solomon Encode/Decode/BatchEncode | Sharding | (direct commit `dc202ef`) | v1.7.0 | GPU Reed-Solomon: >4 GB/s Ziel (NVIDIA A10) |
+| 43 | **GPU-Acceleration Multi-Tenancy** — Erste GPU-Backend-Integration, CUDA-Kernel-Grundgerüst | Acceleration | [#44](https://github.com/makr-code/ThemisDB/pull/44) | früh | GPU-Backend-Grundlage |
+| 44 | **Hardware Acceleration Support** — CPU AVX2-Baseline, erste Vektoroperationen | Acceleration | [#30](https://github.com/makr-code/ThemisDB/pull/30) | früh | CPU AVX2-Baseline für Benchmarks |
+| 45 | **Benchmark-Datenbank-Tests** — Erste Google-Benchmark-Targets, Baseline für spätere Regression-Tests | Benchmarks | [#54](https://github.com/makr-code/ThemisDB/pull/54) | früh | Benchmark-Infrastruktur aufgebaut |
+| 46 | **Benchmarks-Repository-Erweiterung** — Neue Bench-Targets für Vektor-, Timeseries-, Graph-Operationen | Benchmarks | [#33](https://github.com/makr-code/ThemisDB/pull/33) | früh | Benchmark-Coverage auf 9 Module erweitert |
+| 47 | **Lossless Compression-Methoden (Research)** — Evaluierung LZ4 vs. Zstd vs. Snappy → Entscheidung für Zstd | Storage | [#70](https://github.com/makr-code/ThemisDB/pull/70) | früh | Grundlage für PR #4252 (Zstd-Migration) |
+| 48 | **OpenCL Erasure Coder** — GF(2^8)-Arithmetik-basiertes Reed-Solomon Encode/Decode/BatchEncode | Sharding | (direct commit `dc202ef`) | v1.7.0 | GPU Reed-Solomon: >4 GB/s Ziel (NVIDIA A10) |
 
 ---
 
@@ -2647,7 +2707,7 @@ Write-Host "Profiling-Ergebnisse: $outDir"
 
 ---
 
-#### 38.1 Wissenschaftliche Einzeloperation-Benchmarks (n=500, 5 Iterationen ├á 100 Ops)
+#### 38.1 Wissenschaftliche Einzeloperation-Benchmarks (n=500, 5 Iterationen à 100 Ops)
 
 > Messmethode: HTTP POST/GET gegen laufende ThemisDB-Instanz; 5 Warmup-Iterationen
 
@@ -2660,7 +2720,7 @@ Write-Host "Profiling-Ergebnisse: $outDir"
 | **INSERT 100 KB** | 7.913 | 7.889 | 8.847 | 9.369 | 6.5 | 7.075 | 9.369 |
 | **INSERT 1 MB** | 61.402 | 60.954 | 65.923 | 68.178 | 2.6 | 60.007 | 68.178 |
 
-> **Beobachtung:** 1 KB INSERT/READ/UPDATE zeigen stabiles Verhalten (CV ~7 %). 1 MB INSERT skaliert fast linear mit der Payload-Gr├Â├ƒe (├ù47 vs 1 KB). Kein Ausrei├ƒer-Verhalten bei Einzel-Clients.
+> **Beobachtung:** 1 KB INSERT/READ/UPDATE zeigen stabiles Verhalten (CV ~7 %). 1 MB INSERT skaliert fast linear mit der Payload-Größe (×47 vs 1 KB). Kein Ausreißer-Verhalten bei Einzel-Clients.
 
 ---
 
@@ -2670,11 +2730,11 @@ Write-Host "Profiling-Ergebnisse: $outDir"
 |--------------------|----------|----------|--------|-----------|
 | 1 | 1.281 | 1.275 | 1.1 | stabil, keine Contention |
 | 5 | 6.800 | 6.742 | 2.5 | linear skalierend |
-| 10 | 4.439 ÔÜá´©Å | 13.678 ÔÜá´©Å | 467 % ÔÜá´©Å | **Anomalie**: avg < p50, negative min ÔåÆ Messfehler |
+| 10 | 4.439 ⚠️ | 13.678 ⚠️ | 467 % ⚠️ | **Anomalie**: avg < p50, negative min → Messfehler |
 | 25 | 35.464 | 35.754 | 4.1 | stabil, Serialisierungsoverhead |
 | 50 | 60.317 | 69.439 | 38.1 % | hohe Varianz, Lock-Contention wahrscheinlich |
 
-> ÔÜá´©Å **10-Client-Anomalie**: CV=467 %, min=-32 ms (Messfehler im HTTP-Timing). Reale Performance ca. 13 14 ms p50. Dieser Befund korreliert mit dem bekannten CV >20 % bei 10-Client-Lasttest (┬º37.5 P-6).
+> ⚠️ **10-Client-Anomalie**: CV=467 %, min=-32 ms (Messfehler im HTTP-Timing). Reale Performance ca. 13 14 ms p50. Dieser Befund korreliert mit dem bekannten CV >20 % bei 10-Client-Lasttest (§37.5 P-6).
 
 ---
 
@@ -2692,7 +2752,7 @@ Write-Host "Profiling-Ergebnisse: $outDir"
 | MariaDB 11 | 0.80 | 0.720 | 1.040 | 1.20 | 1250 ops/s | 592 | 29.0 | +43 % langsamer |
 | PostgreSQL 16 | 0.96 | 0.864 | 1.248 | 1.44 | 1042 ops/s | 608 | 29.8 | +71 % langsamer |
 
-> **Hinweis:** Die Latenz-├£berlegenheit (~1.7├ù) entstand nach Einführung des direkten RocksDB-Pfads (kein SQL-Parser-Overhead). Gap-Analyse (v1.0.0) stellte noch 44 49 % schlechtere Latenz gegenüber PostgreSQL 16 fest ÔÇö nach Optimierungen nun umgekehrt.
+> **Hinweis:** Die Latenz-Überlegenheit (~1.7×) entstand nach Einführung des direkten RocksDB-Pfads (kein SQL-Parser-Overhead). Gap-Analyse (v1.0.0) stellte noch 44 49 % schlechtere Latenz gegenüber PostgreSQL 16 fest — nach Optimierungen nun umgekehrt.
 
 ##### Dokument-Store Workload (insert / read / update / bulk_insert)
 
@@ -2702,7 +2762,7 @@ Write-Host "Profiling-Ergebnisse: $outDir"
 | MongoDB | 1.625 | 1.463 | 2.113 | 2.438 | 615 ops/s | 675 | 33.1 | +86 % langsamer |
 | CouchDB | 1.750 | 1.575 | 2.275 | 2.625 | 571 ops/s | 687 | 33.8 | +100 % langsamer |
 
-> **Wichtige Gegenprobe** (benchmark_results_simple.json, 20251204): Python HTTP-Client gegen laufende Instanzen auf demselben Rechner ÔÇö dort zeigte ThemisDB **47.56 ms** für Document Insert (vs. MongoDB 0.87 ms). Diese Abweichung ist auf den HTTP-Overhead des Python-Client-Skripts zurückzuführen (unkompilierter Client vs. nativer Client). Die Docker-Messung mit nativem Client ist ma├ƒgeblich.
+> **Wichtige Gegenprobe** (benchmark_results_simple.json, 20251204): Python HTTP-Client gegen laufende Instanzen auf demselben Rechner — dort zeigte ThemisDB **47.56 ms** für Document Insert (vs. MongoDB 0.87 ms). Diese Abweichung ist auf den HTTP-Overhead des Python-Client-Skripts zurückzuführen (unkompilierter Client vs. nativer Client). Die Docker-Messung mit nativem Client ist maßgeblich.
 
 ##### Vektor-Store Workload (search / index / recall / range_search)
 
@@ -2743,13 +2803,13 @@ Write-Host "Profiling-Ergebnisse: $outDir"
 | Szenario | Datenbank | avg (ms) | p50 | p95 | p99 | Bewertung |
 |----------|-----------|----------|-----|-----|-----|-----------|
 | **Document + Graph** | PostgreSQL + Neo4j | 0.49 | 0.47 | 0.65 | 0.76 | Referenz |
-| **Document + Graph** | **ThemisDB** | **0.88** | 0.83 | 1.21 | 1.37 | 1.8├ù langsamer ÔÜá´©Å |
+| **Document + Graph** | **ThemisDB** | **0.88** | 0.83 | 1.21 | 1.37 | 1.8× langsamer ⚠️ |
 | **Document + Vector** | MongoDB + Qdrant | 0.73 | 0.68 | 1.07 | 1.64 | Referenz |
-| **Document + Vector** | **ThemisDB** | **0.88** | 0.81 | 1.31 | 1.40 | 1.2├ù langsamer |
+| **Document + Vector** | **ThemisDB** | **0.88** | 0.81 | 1.31 | 1.40 | 1.2× langsamer |
 | **OLAP + Document** | ClickHouse + MongoDB | 1.70 | 1.68 | 2.22 | 2.33 | Referenz |
-| **OLAP + Document** | **ThemisDB** | **1.06** | 0.95 | 1.51 | 1.96 |  1.6├ù schneller |
+| **OLAP + Document** | **ThemisDB** | **1.06** | 0.95 | 1.51 | 1.96 |  1.6× schneller |
 
-> ThemisDB schl├ñgt Spezialsysteme (ClickHouse+MongoDB) bei OLAP+Document um 38 %, liegt aber bei Document+Graph hinter dem PostgreSQL+Neo4j-Combo (kein ├£berraschung: kein Transaktionsoverhead zwischen zwei separaten DBs). **Ziel:** Document+Graph  0.6 ms avg (Q3 2026).
+> ThemisDB schlägt Spezialsysteme (ClickHouse+MongoDB) bei OLAP+Document um 38 %, liegt aber bei Document+Graph hinter dem PostgreSQL+Neo4j-Combo (kein Überraschung: kein Transaktionsoverhead zwischen zwei separaten DBs). **Ziel:** Document+Graph  0.6 ms avg (Q3 2026).
 
 ---
 
@@ -2802,7 +2862,7 @@ Write-Host "Profiling-Ergebnisse: $outDir"
 
 #### 38.7 Versions-Benchmark-Verlauf (`VERSION_HISTORY.csv`)
 
-| Version | Datum | Query Engine (M items/s) | Vector Insert (k/s) | Index Insert (k/s) | Embedding Cache (items/s) | 2PC (ops/s) | Benchmark-Anzahl | Wichtigste ├änderung |
+| Version | Datum | Query Engine (M items/s) | Vector Insert (k/s) | Index Insert (k/s) | Embedding Cache (items/s) | 2PC (ops/s) | Benchmark-Anzahl | Wichtigste Änderung |
 |---------|-------|--------------------------|---------------------|---------------------|---------------------------|-------------|-----------------|---------------------|
 | v1.3.0 | 2025-09-15 | 700 | 280 | 180 |   |   | 450 | Initial Release |
 | v1.3.1 | 2025-09-29 | 750 | 300 | 190 |   |   | 480 | Query Optimizer Improvements |
@@ -2822,7 +2882,7 @@ Write-Host "Profiling-Ergebnisse: $outDir"
 
 
 > Quellen: FUTURE_ENHANCEMENTS.md, ROADMAP.md, README.md der jeweiligen Module unter `src/`.  
-> Typ-Legende: **[Z]** = Ziel/Target (noch nicht gemessen), **[M]** = gemessener Wert, **[I]** = Implementiert/best├ñtigt
+> Typ-Legende: **[Z]** = Ziel/Target (noch nicht gemessen), **[M]** = gemessener Wert, **[I]** = Implementiert/bestätigt
 
 ---
 
@@ -2833,19 +2893,19 @@ Write-Host "Profiling-Ergebnisse: $outDir"
 | `IHttpHandler::handle()` Dispatch-Overhead (Router-Lookup + Invocation) |  5  / Req @ 10k RPS | [Z] | FUTURE_ENHANCEMENTS.md L80 |
 | `IGraphQLSchemaBuilder` Type-Lookup (Query-Planning) |  1  / Field-Resolution | [Z] | FUTURE_ENHANCEMENTS.md L81 |
 | WebSocket Frame-Dispatch via `IWebSocketFrameCallback` |  10  / Frame | [Z] | FUTURE_ENHANCEMENTS.md L82 |
-| `IAPIVersionRouter::route()` Version-Extraktion + Handler-Aufl├Âsung |  2  | [Z] | FUTURE_ENHANCEMENTS.md L83 |
+| `IAPIVersionRouter::route()` Version-Extraktion + Handler-Auflösung |  2  | [Z] | FUTURE_ENHANCEMENTS.md L83 |
 | `ICorrelationIDProvider::generate()` UUID-Generierung |  500 ns / Call | [Z] | FUTURE_ENHANCEMENTS.md L84 |
-| `IGRPCBridge::dispatch()` ProtobufÔåÆInternal-Konvertierung |  20  / RPC-Call | [Z] | FUTURE_ENHANCEMENTS.md L85 |
+| `IGRPCBridge::dispatch()` Protobuf→Internal-Konvertierung |  20  / RPC-Call | [Z] | FUTURE_ENHANCEMENTS.md L85 |
 | GraphQL parse + validate + execute (10-Feld-Query, 500 concurrent HTTP/2) | < 2 ms p99 | [Z] | README.md L56, FE L50 |
-| GraphQL parse+execute aktuell (Sch├ñtzung) | ~5 ms | [M est.] | FUTURE_ENHANCEMENTS.md L260 |
-| gRPC unary `GetDocument` Added-Latency vs. ├ñquivalentem REST-Call | < 1 ms | [Z] | README.md L73, FE L135 |
-| WebSocket Event-Delivery-Latenz (ChangefeedÔåÆFrame) | < 50 ms | [Z] | FUTURE_ENHANCEMENTS.md L51 |
+| GraphQL parse+execute aktuell (Schätzung) | ~5 ms | [M est.] | FUTURE_ENHANCEMENTS.md L260 |
+| gRPC unary `GetDocument` Added-Latency vs. äquivalentem REST-Call | < 1 ms | [Z] | README.md L73, FE L135 |
+| WebSocket Event-Delivery-Latenz (Changefeed→Frame) | < 50 ms | [Z] | FUTURE_ENHANCEMENTS.md L51 |
 | WebSocket Frame-Delivery p99 @ 5 000 events/s | < 30 ms | [Z] | FUTURE_ENHANCEMENTS.md L87 |
 | Bulk-Insert 10 000 256-Byte-Dokumente (ohne Netzwerk) | < 500 ms | [Z] | FUTURE_ENHANCEMENTS.md L105 |
 | SSE Streaming First-Byte-Latenz (nach Query-Planning) | < 5 ms | [Z] | FUTURE_ENHANCEMENTS.md L106 |
 | Middleware-Overhead (UUID + Thread-Local Write) | < 10  / Req | [Z] | README.md L115, FE L154 |
 | OTLP Span-Enqueue (Hot-Path, single lock + push_back) | < 500 ns / Span | [Z] | FUTURE_ENHANCEMENTS.md L172 |
-| OTLP Flush (64 Spans ÔåÆ lokaler OTLP-Collector, persistent conn) | < 5 ms | [Z] | FE L173 |
+| OTLP Flush (64 Spans → lokaler OTLP-Collector, persistent conn) | < 5 ms | [Z] | FE L173 |
 
 ---
 
@@ -2902,8 +2962,8 @@ Write-Host "Profiling-Ergebnisse: $outDir"
 | Entity CRUD p50/p99 | < 5 ms / < 50 ms | [Z] | README.md L1315 |
 | Query Execution (einfach) p50/p99 | < 10 ms / < 100 ms | [Z] | README.md L1316 |
 | Vector Search p50/p99 | < 10 ms / < 50 ms | [Z] | README.md L1317 |
-| Request Wall-Clock Timeout | 500 ms default ÔåÆ HTTP 504 | [I] | FE L130 |
-| Congestion p99 > 500 ms ÔåÆ Adaptive Rate Reduction | auf 50 % | [I] | FE L383 |
+| Request Wall-Clock Timeout | 500 ms default → HTTP 504 | [I] | FE L130 |
+| Congestion p99 > 500 ms → Adaptive Rate Reduction | auf 50 % | [I] | FE L383 |
 | WASM Function CPU-Time Limit | 500 ms default | [Z] | ROADMAP L74 |
 
 ---
@@ -2917,14 +2977,14 @@ Write-Host "Profiling-Ergebnisse: $outDir"
 | Exact-Match Cache Lookup (10 000 Concurrent Clients) |  1 ms p99 | [Z] | ROADMAP L200, FE L1395 |
 | Semantic Cache Lookup (inkl. Embedding-Similarity) |  10 ms p99 | [Z] | FE L1396 |
 | JIT First-Compile Latenz |  50 ms | [Z] | FE L1397 |
-| JIT Execution Speedup (Arithmetic-Heavy) |  3├ù vs. Interpreter | [Z] | FE L1397 |
-| Federation Cost-Sch├ñtzung (5-Cluster-Plan) |  20 ms | [Z] | FE L1398 |
+| JIT Execution Speedup (Arithmetic-Heavy) |  3× vs. Interpreter | [Z] | FE L1397 |
+| Federation Cost-Schätzung (5-Cluster-Plan) |  20 ms | [Z] | FE L1398 |
 | Streaming Result First-Chunk |  50 ms | [Z] | ROADMAP L201, FE L1399 |
 | Query Cancellation (Memory + Locks freigegeben) | innerhalb 100 ms nach Signal | [Z] | FE L1408 |
-| Optimizer `optimize()` (einfach, 1 2 Pr├ñdikate) | 0.1 5 ms | [M] | README.md L185 |
-| Optimizer `optimize()` (komplex, 10+ Pr├ñdikate) | 5 50 ms | [M] | README.md L186 |
-| Simple Query Execution (1 2 Pr├ñdikate) | 1 10 ms | [M] | README.md L256 |
-| Complex Query (5 10 Pr├ñdikate, Joins) | 10 100 ms | [M] | README.md L257 |
+| Optimizer `optimize()` (einfach, 1 2 Prädikate) | 0.1 5 ms | [M] | README.md L185 |
+| Optimizer `optimize()` (komplex, 10+ Prädikate) | 5 50 ms | [M] | README.md L186 |
+| Simple Query Execution (1 2 Prädikate) | 1 10 ms | [M] | README.md L256 |
+| Complex Query (5 10 Prädikate, Joins) | 10 100 ms | [M] | README.md L257 |
 | Graph Traversal (Depth 3 5) | 50 500 ms | [M] | README.md L258 |
 | Hybrid Query (Vector+Geo) | 10 50 ms | [M] | README.md L259 |
 | Fan-Out Latenz (16 Shards, LAN) |  200 ms | [Z] | ROADMAP L91 |
@@ -2940,7 +3000,7 @@ Write-Host "Profiling-Ergebnisse: $outDir"
 | Full Round-Trip (parse + execute, 10-Table-Join, 100k Rows) |  500 ms | [Z] | FE L774 |
 | LLM Command Async-Dispatch (ohne Inferenz) |  5 ms / Command | [Z] | FE L775 |
 | Query Optimizer Rewrite Pass |  2 ms / 1000 AST-Nodes | [Z] | FE L776 |
-| Batch NLÔåÆAQL (10 Requests, mock LLM 50 ms, concurrency  4) |  150 ms Wall-Time | [I] | FE L159, L778 |
+| Batch NL→AQL (10 Requests, mock LLM 50 ms, concurrency  4) |  150 ms Wall-Time | [I] | FE L159, L778 |
 | AQL Validation Overhead |  1 ms / Generated Query | [Z] | FE L60 |
 | Timeout-Thread Terminierung nach `executeWithTimeout()` | innerhalb `timeout + 500 ms` | [Z] | FE L788 |
 | `push()` / `nextToken()` Overhead (ohne Modell-Generierung) |  500 ns | [Z] | ROADMAP L46 |
@@ -2954,7 +3014,7 @@ Write-Host "Profiling-Ergebnisse: $outDir"
 |---------------|---------------|-----|--------|
 | Prefetch Prediction Latenz |  100  / Call | [Z] | FE L102 |
 | L3 Cache Hit-Path (RocksDB-backed) |  5 ms p99 | [Z] | FE L161 |
-| Admin API Response |  5 ms unabh├ñngig von L1-Cache-Gr├Â├ƒe | [Z] | FE L163 |
+| Admin API Response |  5 ms unabhängig von L1-Cache-Größe | [Z] | FE L163 |
 | Redis-Async Peer-Discovery (libuv-backed) | non-blocking | [I] | FE L82 |
 | Distributed Cache Invalidation (alle Nodes) | propagiert innerhalb 500 ms | [Z] | FUTURE_ENHANCEMENTS core L572 |
 | Distributed Cache `get` Round-Trip (Redis localhost) |  1 ms p99 | [Z] | core FE L582 |
@@ -2970,7 +3030,7 @@ Write-Host "Profiling-Ergebnisse: $outDir"
 | Vector-Clock / HLC Conflict-Detection Overhead | < 5  / Write-Op | [Z] | FE L20, L844 |
 | CRDT Merge Latenz (G-Counter / LWW-Register) |  1  / Merge | [Z] | FE L845 |
 | Point-in-Time Recovery WAL Replay |  200 MB/s; 100 GB in  10 min | [Z] | FE L846 |
-| CDC Event Emission (Commit ÔåÆ Queue Enqueue) |  1 ms p99 | [Z] | FE L847 |
+| CDC Event Emission (Commit → Queue Enqueue) |  1 ms p99 | [Z] | FE L847 |
 | Cross-Datacenter Replication Lag (ASYNC, 50 ms RTT WAN) |  200 ms p99 | [Z] | FE L848 |
 | Async Mode Latenz | < 1 ms | [M] | README.md L952 |
 | Semi-Sync Mode Latenz | 1 5 ms | [M] | README.md L953 |
@@ -3006,12 +3066,12 @@ Write-Host "Profiling-Ergebnisse: $outDir"
 
 | Schnittstelle | Ziel/Messwert | Typ | Quelle |
 |---------------|---------------|-----|--------|
-| Sequence Generation Throughput (8 Writer-Threads) |  200 k/s | [I] | FE L405 ÔÇö Lock-free `atomic<uint64_t>` |
-| Event Delivery p99 (Changefeed ÔåÆ WebSocket Frame) | < 20 ms | [Z] | FE L334 |
+| Sequence Generation Throughput (8 Writer-Threads) |  200 k/s | [I] | FE L405 — Lock-free `atomic<uint64_t>` |
+| Event Delivery p99 (Changefeed → WebSocket Frame) | < 20 ms | [Z] | FE L334 |
 | Consumer Group Offset Commit (RocksDB Write) | < 1 ms p99 | [Z] | FE L365 |
-| End-to-End Latenz (Change ÔåÆ Kafka `ack`, LAN) | < 10 ms p99 | [Z] | FE L387 |
+| End-to-End Latenz (Change → Kafka `ack`, LAN) | < 10 ms p99 | [Z] | FE L387 |
 | Compaction I/O Bandwidth Cap | 50 MB/s (konfigurierbar) | [Z] | FE L425 |
-| SSE Event Delivery p99 (aktuell) | < 50 ms (Sch├ñtzung) | [M est.] | FE L461 |
+| SSE Event Delivery p99 (aktuell) | < 50 ms (Schätzung) | [M est.] | FE L461 |
 
 ---
 
@@ -3019,12 +3079,12 @@ Write-Host "Profiling-Ergebnisse: $outDir"
 
 | Schnittstelle | Ziel/Messwert | Typ | Quelle |
 |---------------|---------------|-----|--------|
-| Cross-Shard RPC p99 (LAN, ohne Consensus) | < 5 ms | [Z] | FE L85 ÔÇö aktuell ~18 ms |
+| Cross-Shard RPC p99 (LAN, ohne Consensus) | < 5 ms | [Z] | FE L85 — aktuell ~18 ms |
 | Cross-Shard RPC aktuell (gemessen) | ~18 ms | [M] | FE L179 |
 | 2PC Commit (5 Shards) aktuell | ~35 ms | [M] | FE L180 |
 | 2PC Commit Ziel (5 Shards) | < 15 ms | [Z] | FE L180 |
 | Percolator Commit (10 Shards) | < 20 ms p99 | [Z] | FE L104, L181 |
-| Topology Change Propagation (100-Node Cluster) |  500 ms | [Z] | FE L13, L255 ÔÇö aktuell ~1.2 s |
+| Topology Change Propagation (100-Node Cluster) |  500 ms | [Z] | FE L13, L255 — aktuell ~1.2 s |
 | Topology Change aktuell (gemessen) | ~1.2 s | [M] | FE L184 |
 | Anti-Entropy Scan Throughput (NVMe, 8 Workers) | > 1 GB/s / Node | [Z] | FE L141 |
 | GPU Reed-Solomon Reconstruction | > 4 GB/s (NVIDIA A10) | [Z] | FE L142 |
@@ -3081,7 +3141,7 @@ Write-Host "Profiling-Ergebnisse: $outDir"
 | Schnittstelle | Ziel/Messwert | Typ | Quelle |
 |---------------|---------------|-----|--------|
 | IVM Delta-Application ( 10 000 Rows) |  50 ms | [Z] | FE L22, L32 |
-| IVM Reader p99 w├ñhrend 10k-Row-Batch-Apply |  10 ms | [Z] | FE L209 |
+| IVM Reader p99 während 10k-Row-Batch-Apply |  10 ms | [Z] | FE L209 |
 | CSV Export 1 M Rows (Streaming, kein Full In-Memory) |  500 ms | [Z] | FE L81 |
 | CEP Engine `stop()` |  100 ms | [Z] | FE L104 |
 | CEP `process()` Lock-Hold-Dauer |  50  | [Z] | FE L130 |
@@ -3098,10 +3158,10 @@ Write-Host "Profiling-Ergebnisse: $outDir"
 | Window Function Moving Average (1 M Rows) | 95 ms (10.5k rows/s) | [M] | README.md L1200 |
 | Complex OLAP CUBE (1 M Rows) | 350 ms (2.8k rows/s) | [M] | README.md L1201 |
 | Complex OLAP ROLLUP (1 M Rows) | 280 ms (3.5k rows/s) | [M] | README.md L1202 |
-| SIMD SUM (10 M Rows) | 28 ms (5.1├ù Speedup vs. Scalar 142 ms) | [M] | README.md L1207 |
-| SIMD AVG (10 M Rows) | 35 ms (4.5├ù Speedup) | [M] | README.md L1208 |
-| SIMD MIN/MAX (10 M Rows) | 18 ms (6.9├ù Speedup) | [M] | README.md L1209 |
-| SIMD Complex Filter (10 M Rows) | 45 ms (4.7├ù Speedup) | [M] | README.md L1210 |
+| SIMD SUM (10 M Rows) | 28 ms (5.1× Speedup vs. Scalar 142 ms) | [M] | README.md L1207 |
+| SIMD AVG (10 M Rows) | 35 ms (4.5× Speedup) | [M] | README.md L1208 |
+| SIMD MIN/MAX (10 M Rows) | 18 ms (6.9× Speedup) | [M] | README.md L1209 |
+| SIMD Complex Filter (10 M Rows) | 45 ms (4.7× Speedup) | [M] | README.md L1210 |
 | JSON Export (100k Rows) | 250 ms (400k rows/s, 45 MB) | [M] | README.md L1216 |
 | Fan-Out Latenz (16 Shards, LAN) |  200 ms | [Z] | ROADMAP L72 |
 | Model Export ( 1 M Samples) |  500 ms | [Z] | ROADMAP L86 |
@@ -3130,19 +3190,19 @@ Write-Host "Profiling-Ergebnisse: $outDir"
 | Schnittstelle | Ziel/Messwert | Typ | Quelle |
 |---------------|---------------|-----|--------|
 | Begin-Latenz | < 1  | [M] | README.md L130 |
-| Commit-Latenz (abh├ñngig von Batch-Gr├Â├ƒe) | 100  5 ms | [M] | README.md L130 |
+| Commit-Latenz (abhängig von Batch-Größe) | 100  5 ms | [M] | README.md L130 |
 | Lock-Overhead / Lock-Acquire | ~5 ns (Atomics) | [M] | README.md L131 |
 | Deadlock-Detection Intervall (konfigurierbar) | 100 ms | [M] | README.md L132 |
 | Lock-Free Read (Fast-Path, kein Contention) | < 10 ns | [M] | README.md L820 |
 | Stats Collection / Operation | < 5 ns (Atomic Increment) | [M] | README.md L819 |
-| OCC Commit p50 ÔåÆ aktuell | 1 ms | [M] | FE L872 |
-| OCC Commit p99 ÔåÆ aktuell | 10 ms | [M] | FE L872 |
-| OCC Commit p50 ÔåÆ Ziel | 100  | [Z] | FE L872 |
-| OCC Commit p99 ÔåÆ Ziel | 5 ms | [Z] | FE L873 |
-| SAGA Compensation Time ÔåÆ aktuell | 100 ms | [M] | FE L875 |
-| SAGA Compensation Time ÔåÆ Ziel | 20 ms | [Z] | FE L875 |
-| Distributed 2PC Latenz ÔåÆ aktuell | 10 ms | [M] | FE L876 |
-| Distributed 2PC Latenz ÔåÆ Ziel | 5 ms | [Z] | FE L876 |
+| OCC Commit p50 → aktuell | 1 ms | [M] | FE L872 |
+| OCC Commit p99 → aktuell | 10 ms | [M] | FE L872 |
+| OCC Commit p50 → Ziel | 100  | [Z] | FE L872 |
+| OCC Commit p99 → Ziel | 5 ms | [Z] | FE L873 |
+| SAGA Compensation Time → aktuell | 100 ms | [M] | FE L875 |
+| SAGA Compensation Time → Ziel | 20 ms | [Z] | FE L875 |
+| Distributed 2PC Latenz → aktuell | 10 ms | [M] | FE L876 |
+| Distributed 2PC Latenz → Ziel | 5 ms | [Z] | FE L876 |
 | Batch Window (konfigurierbar) | 1 100 ms | [I] | FE L495 |
 | Retry-Kosten / Versuch | ~1 ms | [M] | FE L163 |
 | Deadlock-Watchdog Fallback-Timer | innerhalb 500 ms | [Z] | FE L938 |
@@ -3176,12 +3236,12 @@ Write-Host "Profiling-Ergebnisse: $outDir"
 | `intersects` (1M Punkte, linear) | ~2 000 ms | [M] | FE L210 |
 | `intersects` (1M Punkte, R-Tree) |  5 ms p99 | [Z] | FE L73, L210 |
 | ST_BUFFER (10k Punkte @ 500 m, CPU) |  200 ms | [Z] | FE L98, L212 |
-| ST_BUFFER (10k Punkte @ 500 m, A10G) |  20 ms (10├ù CPU) | [Z] | FE L352 |
+| ST_BUFFER (10k Punkte @ 500 m, A10G) |  20 ms (10× CPU) | [Z] | FE L352 |
 | GPU Contains (1M Punkte, A10G) |  50 ms | [Z] | FE L213 |
-| Spatial JOIN (2 ├ù 100k Punkte, 1 km, erste 1000 Ergebnisse) |  500 ms | [Z] | FE L126 |
+| Spatial JOIN (2 × 100k Punkte, 1 km, erste 1000 Ergebnisse) |  500 ms | [Z] | FE L126 |
 | `sampleAt` (1M-Cell Grid) |  1  / Call | [Z] | FE L150 |
 | `queryBBox` (10k Cells aus 1M-Cell Grid) |  10 ms | [Z] | FE L151 |
-| `generateHeatmap` (100k Punkte, 100├ù100, 500 m BW) |  500 ms | [Z] | FE L152 |
+| `generateHeatmap` (100k Punkte, 100×100, 500 m BW) |  500 ms | [Z] | FE L152 |
 | Ellipsoidal ST_Distance (1M Paare, CPU) |  500 ms | [Z] | FE L275 |
 | Ellipsoidal ST_Distance (1M Paare, A10G) |  50 ms | [Z] | FE L276 |
 | ST_UNION (1000 Polygon-Paare, A10G) |  10 ms | [Z] | FE L353 |
@@ -3194,13 +3254,13 @@ Write-Host "Profiling-Ergebnisse: $outDir"
 
 | Schnittstelle | Ziel/Messwert | Typ | Quelle |
 |---------------|---------------|-----|--------|
-| CUDA L2-Search (1M ├ù 128-dim, RTX 3090) | < 8 ms | [Z] | FE L45, L427 |
-| Cosine Search Vulkan/MoltenVK (500k ├ù 128-dim, M2 Pro) | < 20 ms  | [I] | FE L428 |
-| GPU Distributed Index (100M ├ù 128-dim, 4├ù A100, k=100) | < 15 ms p99 | [Z] | FE L79, L369 |
+| CUDA L2-Search (1M × 128-dim, RTX 3090) | < 8 ms | [Z] | FE L45, L427 |
+| Cosine Search Vulkan/MoltenVK (500k × 128-dim, M2 Pro) | < 20 ms  | [I] | FE L428 |
+| GPU Distributed Index (100M × 128-dim, 4× A100, k=100) | < 15 ms p99 | [Z] | FE L79, L369 |
 | NCCL `mergeTopK` (worldSize=4, k=100, NVLink-3) | < 500  | [Z] | FE L80, L432 |
 | Device Probe (4-GPU System) | < 50 ms  | [I] | FE L431 |
 | `getStats()` Call Latenz (Linux /proc/stat) | < 2 ms  | [I] | FE L434 |
-| `canUseGPU()` NVML-Timeout-Guard | 500 ms Timeout ÔåÆ false (CPU-Fallback) | [I] | FE L443 |
+| `canUseGPU()` NVML-Timeout-Guard | 500 ms Timeout → false (CPU-Fallback) | [I] | FE L443 |
 | CPU Monitoring `/proc/stat` Polling-Intervall | 100 ms | [I] | FE L131 |
 
 ---
@@ -3209,11 +3269,11 @@ Write-Host "Profiling-Ergebnisse: $outDir"
 
 | Schnittstelle | Ziel/Messwert | Typ | Quelle |
 |---------------|---------------|-----|--------|
-| Time-to-First-Token (512-Token Prompt, A10G) aktuell | ~350 ms (Sch├ñtzung) | [M est.] | FE L238 |
+| Time-to-First-Token (512-Token Prompt, A10G) aktuell | ~350 ms (Schätzung) | [M est.] | FE L238 |
 | Time-to-First-Token (512-Token Prompt, A10G) Ziel |  200 ms p99 | [Z] | FE L138, L238 |
 | TTFT Bypass DeduplicationCache für Streaming | aktiviert (TTFT  200 ms) | [I] | FE L125 |
 | OpenAI-Compat Adapter Round-Trip Overhead |  2 ms vs. direktem `submitRequest()` | [I] | FE L165 |
-| Work-Stealing Pool Task Dispatch |  50  p99 (submit ÔåÆ Worker Pickup) | [Z] | FE L185, L241 |
+| Work-Stealing Pool Task Dispatch |  50  p99 (submit → Worker Pickup) | [Z] | FE L185, L241 |
 | LoRA Adapter Application | < 1 ms Overhead | [M] | llama_lora_adapter_README L163 |
 | Incomplete-Stream Warning (EOF ohne Marker) | innerhalb 500 ms | [Z] | FE L86 |
 
@@ -3295,10 +3355,10 @@ Write-Host "Profiling-Ergebnisse: $outDir"
 | Schnittstelle | Ziel/Messwert | Typ | Quelle |
 |---------------|---------------|-----|--------|
 | HTTP GET Round-Trip Overhead (vs. raw TCP) |  5 ms | [Z] | FE L69 |
-| Kafka ÔåÆ ThemisDB E2E Latenz |  500 ms p99 | [Z] | FE L89 |
+| Kafka → ThemisDB E2E Latenz |  500 ms p99 | [Z] | FE L89 |
 | S3 `ListObjectsV2` (1000 Objekte) |  100 ms | [Z] | FE L109 |
 | S3 Concurrent Downloads (4 parallel, 10 Gbps) |  200 MB/s aggregate | [Z] | FE L110, L189 |
-| Per-Dokument Quarant├ñne Retry ( 1 MB) |  10 ms | [Z] | FE L146, L190 |
+| Per-Dokument Quarantäne Retry ( 1 MB) |  10 ms | [Z] | FE L146, L190 |
 
 ---
 
