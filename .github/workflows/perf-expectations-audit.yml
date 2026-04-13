@@ -1,0 +1,124 @@
+name: Perf Expectations Audit – Check 7a (Benchmark Target Mapping)
+
+# Validates that every Ziel-ID documented in PERFORMANCE_EXPECTATIONS.md §1.2
+# has exactly one primary benchmark case in
+# benchmarks/benchmark_target_mapping.json.
+#
+# • Runs on every push and pull-request that touches the mapping file,
+#   PERFORMANCE_EXPECTATIONS.md, benchmark sources, or this workflow.
+# • Also runs on a weekly schedule to catch silent drift.
+# • CI gate: fails (exit 1) when the mapping file is missing, malformed,
+#   has entries pointing to non-existent symbols/files, or any Ziel-ID from
+#   §1.2 tables is unmapped.
+
+on:
+  push:
+    paths:
+      - 'benchmarks/benchmark_target_mapping.json'
+      - 'tools/verify_benchmark_mapping.py'
+      - 'PERFORMANCE_EXPECTATIONS.md'
+      - 'benchmarks/bench_*.cpp'
+      - '.github/workflows/perf-expectations-audit.yml'
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'benchmarks/benchmark_target_mapping.json'
+      - 'tools/verify_benchmark_mapping.py'
+      - 'PERFORMANCE_EXPECTATIONS.md'
+      - 'benchmarks/bench_*.cpp'
+      - '.github/workflows/perf-expectations-audit.yml'
+  schedule:
+    - cron: '0 4 * * 1'   # Weekly on Monday at 04:00 UTC
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # Check 7a – Ziel-ID-zu-Benchmark-Mapping
+  # ---------------------------------------------------------------------------
+  check-7a-benchmark-mapping:
+    name: Check 7a – Benchmark Target Mapping
+    runs-on: ubuntu-22.04
+
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run verify_benchmark_mapping.py
+        id: verify
+        run: |
+          python3 tools/verify_benchmark_mapping.py \
+            2>&1 | tee /tmp/check7a_output.txt
+          echo "exit_code=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
+
+      - name: Write job summary
+        if: always()
+        run: |
+          echo "## 📋 Perf Expectations Audit – Check 7a" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Parameter | Value |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-----------|-------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Event** | \`${{ github.event_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Branch** | \`${{ github.ref_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Commit** | \`${{ github.sha }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Triggered by** | ${{ github.actor }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          if [ -f /tmp/check7a_output.txt ]; then
+            echo "### Verification Output" >> "$GITHUB_STEP_SUMMARY"
+            echo "\`\`\`" >> "$GITHUB_STEP_SUMMARY"
+            cat /tmp/check7a_output.txt >> "$GITHUB_STEP_SUMMARY"
+            echo "\`\`\`" >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Gate – fail on mapping errors
+        if: steps.verify.outputs.exit_code != '0'
+        run: |
+          echo "::error::Check 7a FAILED – benchmark_target_mapping.json is missing, malformed, or has unmapped Ziel-IDs."
+          echo "::error::Run 'python3 tools/verify_benchmark_mapping.py' locally to see details."
+          exit 1
+
+  # ---------------------------------------------------------------------------
+  # Gate job
+  # ---------------------------------------------------------------------------
+  audit-gate:
+    name: Perf Expectations Audit Gate
+    needs: check-7a-benchmark-mapping
+    if: always()
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Check audit status
+        shell: bash
+        run: |
+          result="${{ needs.check-7a-benchmark-mapping.result }}"
+          if [[ "$result" == "success" ]]; then
+            echo "perf_audit check 7a: PASS"
+          elif [[ "$result" == "skipped" ]]; then
+            echo "perf_audit check 7a: SKIPPED (no relevant changes)"
+          else
+            echo "perf_audit check 7a: FAIL"
+            exit 1
+          fi
+
+      - name: Write gate summary
+        if: always()
+        run: |
+          result="${{ needs.check-7a-benchmark-mapping.result }}"
+          echo "## 🔒 Perf Expectations Audit – Gate" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Check | Result |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-------|--------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Check 7a (Benchmark Target Mapping) | \`${result}\` |" >> "$GITHUB_STEP_SUMMARY"
