@@ -168,7 +168,15 @@ void OtlpExporter::start()
 #endif
 
     stop_.store(false, std::memory_order_relaxed);
-    flush_thread_ = std::thread(&OtlpExporter::flushLoop, this);
+    try {
+        flush_thread_ = std::thread(&OtlpExporter::flushLoop, this);
+    } catch (...) {
+        // Thread creation failed; clean up curl resources and re-throw.
+        if (curl_headers_) { curl_slist_free_all(curl_headers_); curl_headers_ = nullptr; }
+        if (curl_handle_)  { curl_easy_cleanup(curl_handle_);    curl_handle_  = nullptr; }
+        THEMIS_ERROR("OtlpExporter: failed to create flush thread — exporter disabled");
+        throw;
+    }
     THEMIS_INFO("OtlpExporter: started (endpoint={})", config_.endpoint);
 }
 
