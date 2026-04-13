@@ -266,6 +266,7 @@ def check_measure_3(root: pathlib.Path) -> dict[str, Any]:
         ("benchmarks/bench_security.cpp", "bench_security"),
         ("benchmarks/bench_compliance_security_governance.cpp", "bench_compliance_security_governance"),
         ("benchmarks/bench_governance_policy_latency.cpp", "bench_governance_policy_latency"),
+        ("benchmarks/bench_policy_evaluation.cpp", "bench_policy_evaluation"),
     ]
 
     for idx, (rel_path, cmake_target) in enumerate(required_files, start=1):
@@ -573,7 +574,7 @@ def check_measure_9(root: pathlib.Path) -> dict[str, Any]:
     violations: list[str] = []
     found_disabled: list[str] = []
 
-    for src in sorted(bench_dir.glob("bench_*.cpp")):
+    for src in sorted(bench_dir.rglob("*.cpp")):
         text = _read_text(src)
         # Find lines with BENCHMARK(BM_..._Disabled) or BENCHMARK(BM_OLAP_Disabled)
         for match in re.finditer(
@@ -611,12 +612,14 @@ def check_measure_9(root: pathlib.Path) -> dict[str, Any]:
     return {
         "id": 9,
         "title": "Disabled-Stub-Policy einführen (max. 1 Release, danach Pflichtticket)",
-        "erledigt": False,
+        "erledigt": ok_policy,
         "status": STATUS_PASS if ok_policy else STATUS_WARN,
         "checks": checks,
         "evidence": evidence,
-        "notes": "Measure noch offen. Policy-Compliance wird geprüft "
-                 "(WARN solange Measure nicht ERLEDIGT ist).",
+        "notes": "Policy-Dokument: docs/governance/DISABLED_STUB_POLICY.md. "
+                 "CI-Guard: tools/check_disabled_stubs.py. "
+                 + ("Alle Disabled-Stubs sind policy-konform." if ok_policy
+                    else "WARN: Policy-Compliance nicht vollständig hergestellt."),
     }
 
 

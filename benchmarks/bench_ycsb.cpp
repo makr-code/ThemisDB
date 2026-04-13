@@ -3,20 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_ycsb.cpp                                     ║
-  Version:         0.0.38                                             ║
-  Last Modified:   2026-04-13 04:12:22                                ║
+  Version:         0.1.0                                              ║
+  Last Modified:   2026-04-13                                         ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     441                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 3043a1a008  2026-04-12  docs(perf): aktualisiere Performance-Erwartungswerte und ... ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab2  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -34,12 +28,12 @@
 #include <unordered_set>
 
 /**
- * YCSB (Yahoo! Cloud Serving Benchmark) for ThemisDB
- * 
+ * YCSB (Yahoo! Cloud Serving Benchmark) Lite for ThemisDB
+ *
  * Based on "Benchmarking Cloud Serving Systems with YCSB"
  * Cooper et al., SoCC 2010
  * https://research.yahoo.com/files/ycsb.pdf
- * 
+ *
  * Implements the 6 core YCSB workloads:
  * - Workload A: Update heavy (50% read, 50% update)
  * - Workload B: Read mostly (95% read, 5% update)
@@ -47,11 +41,19 @@
  * - Workload D: Read latest (95% read, 5% insert)
  * - Workload E: Short ranges (95% scan, 5% insert)
  * - Workload F: Read-modify-write (50% read, 50% read-modify-write)
- * 
+ *
+ * Dataset / Warmup parameters:
+ * - Arg(0): record_count (e.g. 10000, 100000, 1000000)
+ * - Warmup: full dataset loaded in SetUp() before measurement starts.
+ * - Each record: 10 fields × 100 bytes = ~1 KB.
+ *
  * Performance targets (8-core, 32GB RAM, NVMe):
  * - Workload A: 100,000-150,000 ops/sec
  * - Workload B: 150,000-200,000 ops/sec
  * - Workload C: 200,000-300,000 ops/sec
+ *
+ * CI artifacts: exported via --benchmark_out=<file> --benchmark_out_format=json
+ * Baseline reference: artifacts/perf_nv/targeted_validation/bench_ycsb_targeted_v2.json
  */
 
 namespace {
@@ -122,11 +124,18 @@ namespace {
 }
 
 /**
- * YCSB Benchmark Fixture
- * 
+ * YCSB Lite Benchmark Fixture
+ *
  * Loads initial dataset and provides workload implementations.
+ *
+ * Benchmark parameter:
+ *   state.range(0) = record_count
+ *     10,000   = quick CI validation
+ *    100,000   = standard benchmark
+ *  1,000,000   = full-scale (matches "YCSBLiteFixture/WorkloadC_ReadOnly/1000000"
+ *                in PERFORMANCE_EXPECTATIONS.md §5.8)
  */
-class YCSBFixture : public benchmark::Fixture {
+class YCSBLiteFixture : public benchmark::Fixture {
 public:
     void SetUp(const ::benchmark::State& state) override {
         db_path_ = "bench_ycsb_db";
@@ -255,13 +264,13 @@ protected:
 
 /**
  * YCSB Workload A: Update Heavy
- * 
+ *
  * 50% reads, 50% updates
  * Application: Session store recording recent actions
- * 
+ *
  * Expected: 100,000-150,000 ops/sec
  */
-BENCHMARK_DEFINE_F(YCSBFixture, WorkloadA)(benchmark::State& state) {
+BENCHMARK_DEFINE_F(YCSBLiteFixture, WorkloadA)(benchmark::State& state) {
     std::uniform_int_distribution<int> op_dist(0, 99);
     
     for (auto _ : state) {
@@ -279,13 +288,13 @@ BENCHMARK_DEFINE_F(YCSBFixture, WorkloadA)(benchmark::State& state) {
 
 /**
  * YCSB Workload B: Read Mostly
- * 
+ *
  * 95% reads, 5% updates
  * Application: Photo tagging; add a tag is an update, but most operations are to read tags
- * 
+ *
  * Expected: 150,000-200,000 ops/sec
  */
-BENCHMARK_DEFINE_F(YCSBFixture, WorkloadB)(benchmark::State& state) {
+BENCHMARK_DEFINE_F(YCSBLiteFixture, WorkloadB)(benchmark::State& state) {
     std::uniform_int_distribution<int> op_dist(0, 99);
     
     for (auto _ : state) {
@@ -303,13 +312,31 @@ BENCHMARK_DEFINE_F(YCSBFixture, WorkloadB)(benchmark::State& state) {
 
 /**
  * YCSB Workload C: Read Only
- * 
+ *
  * 100% reads
  * Application: User profile cache, where profiles are constructed elsewhere
- * 
+ *
  * Expected: 200,000-300,000 ops/sec (highest throughput)
  */
-BENCHMARK_DEFINE_F(YCSBFixture, WorkloadC)(benchmark::State& state) {
+BENCHMARK_DEFINE_F(YCSBLiteFixture, WorkloadC)(benchmark::State& state) {
+    for (auto _ : state) {
+        std::string key = getKeyZipfian();
+        doRead(key);
+    }
+    
+    state.SetItemsProcessed(state.iterations());
+}
+
+/**
+ * YCSB Workload C Read-Only (canonical CI configuration)
+ *
+ * Matches the reference entry "YCSBLiteFixture/WorkloadC_ReadOnly/1000000" in
+ * PERFORMANCE_EXPECTATIONS.md §5.8.  Pure read path, Zipfian key distribution.
+ * Arg(0): record_count (1,000,000 for the canonical CI reference).
+ *
+ * Expected: ~200,000-300,000 ops/sec
+ */
+BENCHMARK_DEFINE_F(YCSBLiteFixture, WorkloadC_ReadOnly)(benchmark::State& state) {
     for (auto _ : state) {
         std::string key = getKeyZipfian();
         doRead(key);
@@ -320,14 +347,14 @@ BENCHMARK_DEFINE_F(YCSBFixture, WorkloadC)(benchmark::State& state) {
 
 /**
  * YCSB Workload D: Read Latest
- * 
+ *
  * 95% reads, 5% inserts
  * New records are inserted, and the most recently inserted records are the most popular
  * Application: User status updates; people want to read the latest statuses
- * 
+ *
  * Expected: Similar to Workload B
  */
-BENCHMARK_DEFINE_F(YCSBFixture, WorkloadD)(benchmark::State& state) {
+BENCHMARK_DEFINE_F(YCSBLiteFixture, WorkloadD)(benchmark::State& state) {
     std::uniform_int_distribution<int> op_dist(0, 99);
     int64_t insert_key = record_count_;
     
@@ -345,13 +372,13 @@ BENCHMARK_DEFINE_F(YCSBFixture, WorkloadD)(benchmark::State& state) {
 
 /**
  * YCSB Workload E: Short Ranges
- * 
+ *
  * 95% scans, 5% inserts
  * Application: Threaded conversations, where each scan is for the posts in a given thread
- * 
+ *
  * Expected: Lower throughput due to scan cost
  */
-BENCHMARK_DEFINE_F(YCSBFixture, WorkloadE)(benchmark::State& state) {
+BENCHMARK_DEFINE_F(YCSBLiteFixture, WorkloadE)(benchmark::State& state) {
     std::uniform_int_distribution<int> op_dist(0, 99);
     std::uniform_int_distribution<int> scan_len_dist(1, 100);
     int64_t insert_key = record_count_;
@@ -371,13 +398,13 @@ BENCHMARK_DEFINE_F(YCSBFixture, WorkloadE)(benchmark::State& state) {
 
 /**
  * YCSB Workload F: Read-Modify-Write
- * 
+ *
  * 50% reads, 50% read-modify-write
  * Application: User database, where user records are read and modified by the user or to record user activity
- * 
+ *
  * Expected: Similar to Workload A but slightly lower due to RMW overhead
  */
-BENCHMARK_DEFINE_F(YCSBFixture, WorkloadF)(benchmark::State& state) {
+BENCHMARK_DEFINE_F(YCSBLiteFixture, WorkloadF)(benchmark::State& state) {
     std::uniform_int_distribution<int> op_dist(0, 99);
     
     for (auto _ : state) {
@@ -393,34 +420,43 @@ BENCHMARK_DEFINE_F(YCSBFixture, WorkloadF)(benchmark::State& state) {
     state.SetItemsProcessed(state.iterations());
 }
 
-// Register all workloads with different dataset sizes
+// ─────────────────────────── Registration ────────────────────────────────────
 // Arg(0): Number of records
-BENCHMARK_REGISTER_F(YCSBFixture, WorkloadA)
+//   10,000  = quick CI validation
+//  100,000  = standard benchmark
+// 1,000,000 = full-scale (canonical CI reference for WorkloadC_ReadOnly)
+
+BENCHMARK_REGISTER_F(YCSBLiteFixture, WorkloadA)
     ->Arg(10000)
     ->Arg(100000)
     ->Unit(benchmark::kMicrosecond);
 
-BENCHMARK_REGISTER_F(YCSBFixture, WorkloadB)
+BENCHMARK_REGISTER_F(YCSBLiteFixture, WorkloadB)
     ->Arg(10000)
     ->Arg(100000)
     ->Unit(benchmark::kMicrosecond);
 
-BENCHMARK_REGISTER_F(YCSBFixture, WorkloadC)
+BENCHMARK_REGISTER_F(YCSBLiteFixture, WorkloadC)
     ->Arg(10000)
     ->Arg(100000)
     ->Unit(benchmark::kMicrosecond);
 
-BENCHMARK_REGISTER_F(YCSBFixture, WorkloadD)
+// Canonical CI reference point (matches PERFORMANCE_EXPECTATIONS.md §5.8):
+BENCHMARK_REGISTER_F(YCSBLiteFixture, WorkloadC_ReadOnly)
+    ->Arg(1000000)
+    ->Unit(benchmark::kMicrosecond);
+
+BENCHMARK_REGISTER_F(YCSBLiteFixture, WorkloadD)
     ->Arg(10000)
     ->Arg(100000)
     ->Unit(benchmark::kMicrosecond);
 
-BENCHMARK_REGISTER_F(YCSBFixture, WorkloadE)
+BENCHMARK_REGISTER_F(YCSBLiteFixture, WorkloadE)
     ->Arg(10000)
     ->Arg(100000)
     ->Unit(benchmark::kMicrosecond);
 
-BENCHMARK_REGISTER_F(YCSBFixture, WorkloadF)
+BENCHMARK_REGISTER_F(YCSBLiteFixture, WorkloadF)
     ->Arg(10000)
     ->Arg(100000)
     ->Unit(benchmark::kMicrosecond);
@@ -428,16 +464,3 @@ BENCHMARK_REGISTER_F(YCSBFixture, WorkloadF)
 BENCHMARK_MAIN();
 #endif
 
-#if 0
-#include <benchmark/benchmark.h>
-
-static void BM_YCSB_Disabled(benchmark::State& state) {
-    for (auto _ : state) {
-        benchmark::DoNotOptimize(state.iterations());
-    }
-}
-
-// Disabled: full YCSB stub superseded by YCSBLiteFixture profile | Deadline: v1.9.0 | Issue: #5
-BENCHMARK(BM_YCSB_Disabled)->Unit(benchmark::kMillisecond);
-BENCHMARK_MAIN();
-#endif

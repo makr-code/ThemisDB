@@ -1646,6 +1646,53 @@ else()
     message(STATUS "Security benchmark not found at ${CMAKE_CURRENT_SOURCE_DIR}/bench_security.cpp")
 endif()
 
+# ============================================================================
+# Policy Evaluation Benchmarks (Issue #1779)
+# Measures RBAC/ABAC rule evaluation performance with varying policy set sizes.
+# Uses a self-contained mock PolicyEngine (no external library dependencies).
+#
+# Test matrix: simple rules, nested rules, large policy sets (10/50/100),
+# conflict detection, and evaluation throughput.
+# Targets: evaluate() p99 < 0.5 ms (consistent with bench_security RBAC target).
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_policy_evaluation.cpp")
+    message(STATUS "Adding policy evaluation benchmarks")
+
+    add_executable(bench_policy_evaluation
+        bench_policy_evaluation.cpp
+    )
+
+    target_link_libraries(bench_policy_evaluation PRIVATE
+        ${BENCHMARK_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_policy_evaluation PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(bench_policy_evaluation PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_policy_evaluation
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  Policy Evaluation: simple/nested/large rule sets, RBAC/ABAC throughput, conflict detection")
+else()
+    message(STATUS "Policy evaluation benchmark not found at ${CMAKE_CURRENT_SOURCE_DIR}/bench_policy_evaluation.cpp")
+endif()
+
 # ConfigPathResolver Performance Benchmarks (Issue #1675)
 # Measures cache hit rate and resolution latency for config path resolution.
 #
