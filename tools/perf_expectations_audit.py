@@ -573,7 +573,7 @@ def check_measure_9(root: pathlib.Path) -> dict[str, Any]:
     violations: list[str] = []
     found_disabled: list[str] = []
 
-    for src in sorted(bench_dir.glob("bench_*.cpp")):
+    for src in sorted(bench_dir.rglob("*.cpp")):
         text = _read_text(src)
         # Find lines with BENCHMARK(BM_..._Disabled) or BENCHMARK(BM_OLAP_Disabled)
         for match in re.finditer(

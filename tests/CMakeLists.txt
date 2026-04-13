@@ -1015,15 +1015,15 @@ endif()
 
 # CHIMERA adapter sources (no external library dependencies ÔÇô run in simulation mode)
 target_sources(themis_tests PRIVATE
-    ../src/chimera/adapter_factory.cpp
-    ../src/chimera/mongodb_adapter.cpp
-    ../src/chimera/postgresql_adapter.cpp
+    ../external/chimera/src/chimera/adapter_factory.cpp
+    ../external/chimera/src/chimera/mongodb_adapter.cpp
+    ../external/chimera/src/chimera/postgresql_adapter.cpp
     ../src/chimera/themisdb_adapter.cpp
-    ../src/chimera/weaviate_adapter.cpp
-    ../src/chimera/qdrant_adapter.cpp
-    ../src/chimera/pinecone_adapter.cpp
-    ../src/chimera/elasticsearch_adapter.cpp
-    ../src/chimera/neo4j_adapter.cpp
+    ../external/chimera/src/chimera/weaviate_adapter.cpp
+    ../external/chimera/src/chimera/qdrant_adapter.cpp
+    ../external/chimera/src/chimera/pinecone_adapter.cpp
+    ../external/chimera/src/chimera/elasticsearch_adapter.cpp
+    ../external/chimera/src/chimera/neo4j_adapter.cpp
 )
 
 set(_themis_test_core_libs)
@@ -13552,30 +13552,37 @@ endif()
 
 # Common list of all CHIMERA adapter source files shared by every focused target.
 set(CHIMERA_ADAPTER_SOURCES
-    ${CMAKE_SOURCE_DIR}/src/chimera/adapter_factory.cpp
+    ${CMAKE_SOURCE_DIR}/external/chimera/src/chimera/adapter_factory.cpp
     ${CMAKE_SOURCE_DIR}/src/chimera/themisdb_adapter.cpp
-    ${CMAKE_SOURCE_DIR}/src/chimera/mongodb_adapter.cpp
-    ${CMAKE_SOURCE_DIR}/src/chimera/postgresql_adapter.cpp
-    ${CMAKE_SOURCE_DIR}/src/chimera/elasticsearch_adapter.cpp
-    ${CMAKE_SOURCE_DIR}/src/chimera/pinecone_adapter.cpp
-    ${CMAKE_SOURCE_DIR}/src/chimera/qdrant_adapter.cpp
-    ${CMAKE_SOURCE_DIR}/src/chimera/weaviate_adapter.cpp
-    ${CMAKE_SOURCE_DIR}/src/chimera/neo4j_adapter.cpp
+    ${CMAKE_SOURCE_DIR}/external/chimera/src/chimera/mongodb_adapter.cpp
+    ${CMAKE_SOURCE_DIR}/external/chimera/src/chimera/postgresql_adapter.cpp
+    ${CMAKE_SOURCE_DIR}/external/chimera/src/chimera/elasticsearch_adapter.cpp
+    ${CMAKE_SOURCE_DIR}/external/chimera/src/chimera/pinecone_adapter.cpp
+    ${CMAKE_SOURCE_DIR}/external/chimera/src/chimera/qdrant_adapter.cpp
+    ${CMAKE_SOURCE_DIR}/external/chimera/src/chimera/weaviate_adapter.cpp
+    ${CMAKE_SOURCE_DIR}/external/chimera/src/chimera/neo4j_adapter.cpp
 )
 
 # Helper function to create a focused chimera test executable.
 function(add_chimera_focused_test target_name test_src test_name labels description)
-    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${test_src}")
+    set(_chimera_test_src "${CMAKE_CURRENT_SOURCE_DIR}/${test_src}")
+    if(NOT EXISTS "${_chimera_test_src}")
+        set(_chimera_test_src "${CMAKE_SOURCE_DIR}/external/chimera/tests/${test_src}")
+    endif()
+
+    if(EXISTS "${_chimera_test_src}")
         message(STATUS "Adding CHIMERA focused test: ${target_name}")
 
         add_executable(${target_name}
-            ${test_src}
+            ${_chimera_test_src}
             ${CHIMERA_ADAPTER_SOURCES}
         )
 
         target_include_directories(${target_name} PRIVATE
             ${CMAKE_SOURCE_DIR}/include
             ${CMAKE_SOURCE_DIR}/tests/chimera
+            ${CMAKE_SOURCE_DIR}/external/chimera/include
+            ${CMAKE_SOURCE_DIR}/external/chimera/tests/chimera
         )
 
         target_link_libraries(${target_name} PRIVATE
@@ -13608,7 +13615,7 @@ function(add_chimera_focused_test target_name test_src test_name labels descript
 
         message(STATUS "  ${description}")
     else()
-        message(STATUS "CHIMERA focused test not found: ${CMAKE_CURRENT_SOURCE_DIR}/${test_src}")
+        message(STATUS "CHIMERA focused test not found: ${test_src}")
     endif()
 endfunction()
 

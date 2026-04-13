@@ -1217,7 +1217,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(std::s
 		// v1.3.5: cache per-column fulltext config to avoid db.get + JSON parse on every insert
 		for (const auto& fcol : metadata.fulltext_indexes) {
 			auto cfg = getFulltextConfig(table, fcol).value_or(FulltextConfig{});
-			SecondaryIndexMetadataCache::IndexMetadata::CachedFulltextConfig cached;
+			SecondaryIndexMetadataCache::CachedFulltextConfig cached;
 			cached.stemming_enabled  = cfg.stemming_enabled;
 			cached.language          = cfg.language;
 			cached.stopwords_enabled = cfg.stopwords_enabled;
@@ -3877,7 +3877,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 		// v1.3.5: cache per-column fulltext config to avoid db.get + JSON parse on every insert
 		for (const auto& fcol : metadata.fulltext_indexes) {
 			auto cfg = getFulltextConfig(table, fcol).value_or(FulltextConfig{});
-			SecondaryIndexMetadataCache::IndexMetadata::CachedFulltextConfig cached;
+			SecondaryIndexMetadataCache::CachedFulltextConfig cached;
 			cached.stemming_enabled  = cfg.stemming_enabled;
 			cached.language          = cfg.language;
 			cached.stopwords_enabled = cfg.stopwords_enabled;

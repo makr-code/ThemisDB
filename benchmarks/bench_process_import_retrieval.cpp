@@ -49,7 +49,9 @@
 #include <filesystem>
 #include <sstream>
 #include <string>
-#include <unistd.h>
+#ifndef _WIN32
+#  include <unistd.h>
+#endif
 #include <vector>
 
 namespace fs = std::filesystem;

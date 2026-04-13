@@ -1120,7 +1120,7 @@ std::string LLMAQLHandler::stripMarkdownFences(std::string raw) {
 }
 
 void LLMAQLHandler::logAnnotations(
-    const std::vector<AQLSyntaxHighlighter::Annotation>& annotations,
+    const std::vector<AQLAnnotation>& annotations,
     const std::string& query_preview,
     const std::string& function_name
 ) {
