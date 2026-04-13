@@ -289,7 +289,7 @@ private:
     
     // Gradient computation
     void computeGradients(
-        const std::vector<TrainingSample>& batch,
+        const std::vector<TrainingDataIterator::TrainingSample>& batch,
         std::vector<float>& gradients
     );
     
