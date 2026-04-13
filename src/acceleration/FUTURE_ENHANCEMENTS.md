@@ -373,15 +373,17 @@ and `L2 | INNER_PRODUCT` metric bits. Tests in `tests/test_faiss_gpu_backend.cpp
 ### Multi-GPU Sharding for Large Embedding Datasets
 **Priority:** Medium
 **Target Version:** v1.9.0
+**Status:** ✅ Implemented
 
-`nccl_vector_backend.cpp` and `rccl_vector_backend.cpp` stub NCCL/RCCL collective operations. Implement a sharding strategy in `BackendRegistry` that partitions an embedding index across N GPUs and scatters queries using NCCL `ncclBcast` + `ncclAllGather`. The tensor-parallel all-reduce communication pattern follows the Megatron-LM approach \[7\].
+`MultiGPUVectorBackend` in `multi_gpu_backend.cpp` implements range-based sharding across N GPUs with NCCL/RCCL collective operations for distributed top-k merge, falling back to host-side merge when collectives are unavailable. Registered in `BackendRegistry::autoDetect()` when `detectGPUCount() >= 2`.
 
 **Implementation Notes:**
 - `[x]` Introduce `MultiGPUVectorBackend` in `multi_gpu_backend.cpp`; register it in `BackendRegistry` when `cudaGetDeviceCount() > 1`.
 - `[x]` Shard by contiguous vector-ID ranges; store shard metadata in a `std::vector<ShardDescriptor>` on the host.
-- `[~]` Use `ncclGroupStart` / `ncclGroupEnd` to batch cross-GPU transfers. (NCCL/RCCL backends initialized; actual group-call wiring pending `mergeTopK` implementation above.)
+- `[x]` Use `ncclGroupStart` / `ncclGroupEnd` to batch cross-GPU transfers. Both `NCCLVectorBackend::mergeTopK()` and `RCCLVectorBackend::mergeTopK()` bracket the `AllGather` pair and the `Bcast` pair inside `ncclGroupStart`/`ncclGroupEnd` (and `rcclGroupStart`/`rcclGroupEnd`) respectively.
 - `[x]` RCCL mirror: `rccl_vector_backend.cpp` exposes the same `IVectorBackend` interface; `BackendRegistry` selects NCCL vs RCCL at runtime via `cudaGetDeviceProperties`.
 - `[x]` Graceful degradation: if NCCL init fails, fall back to single-GPU or CPU backend.
+- `[x]` Integration tests in `tests/acceleration/test_nccl_merge_topk.cpp` (registered as `NCCLMergeTopKFocusedTests`): 13 CPU-side merge simulation tests + 6 NCCL single-rank device tests + 6 RCCL single-rank device tests.
 
 **Performance Targets:**
 - 100M × 128-dim index distributed across 4× A100 80GB; query latency < 15 ms @ 99th percentile for k=100.
