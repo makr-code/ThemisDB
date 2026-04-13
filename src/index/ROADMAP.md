@@ -35,7 +35,7 @@ v1.x – Production-grade indexing infrastructure. HNSW vector indexing, B-tree/
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [I] Index statistics export to metadata module (Issue: #1866)
+- [x] Index statistics export to metadata module (Issue: #1866)
 - [P] Online index rebuild with minimal read impact (Issue: #1868)
 - [P] Configurable GPU memory budget per index (Issue: #1869)
 

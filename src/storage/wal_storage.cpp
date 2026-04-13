@@ -366,6 +366,17 @@ Result<uint64_t> WALStorage::appendEntry(EntryType type,
     // Rotate first so we never start a new segment half-way through an entry.
     if (auto r = rotateIfNeeded(); !r) return Err<uint64_t>(r.error().code(), r.error().context());
 
+    auto res = appendEntryLocked(type, key, value);
+    if (!res) return res;
+
+    syncIfRequired();
+    return res;
+}
+
+// Write one entry to fd_ WITHOUT locking or syncing.  Caller holds mutex_.
+Result<uint64_t> WALStorage::appendEntryLocked(EntryType type,
+                                                 std::string_view key,
+                                                 std::string_view value) {
     uint64_t seq  = next_seq_++;
     uint32_t klen = static_cast<uint32_t>(key.size());
     uint32_t vlen = static_cast<uint32_t>(value.size());
@@ -397,8 +408,6 @@ Result<uint64_t> WALStorage::appendEntry(EntryType type,
                                  " bytes)");
     }
     segment_bytes_ += static_cast<uint64_t>(total);
-
-    syncIfRequired();
     return Ok(seq);
 }
 
@@ -419,6 +428,33 @@ Result<uint64_t> WALStorage::appendPut(std::string_view key,
 
 Result<uint64_t> WALStorage::appendDelete(std::string_view key) {
     return appendEntry(EntryType::DEL, key, {});
+}
+
+Result<uint64_t> WALStorage::appendBatch(std::vector<BatchEntry> entries) {
+    if (entries.empty()) {
+        return Err<uint64_t>(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
+                             "WAL appendBatch: empty batch");
+    }
+
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    uint64_t last_seq = 0;
+
+    for (const auto& e : entries) {
+        // Rotate if needed before each entry so no entry straddles a segment boundary.
+        if (auto r = rotateIfNeeded(); !r) {
+            return Err<uint64_t>(r.error().code(), r.error().context());
+        }
+
+        auto res = appendEntryLocked(e.type, e.key, e.value);
+        if (!res) return res;
+        last_seq = *res;
+    }
+
+    // Single fsync for the entire batch — the key advantage over N individual
+    // appendEntry() calls when fsync_on_write is enabled.
+    syncIfRequired();
+    return Ok(last_seq);
 }
 
 Result<uint64_t> WALStorage::checkpoint(bool delete_old_segments) {

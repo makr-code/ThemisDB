@@ -284,3 +284,111 @@ TEST(IndexManagerDI, GetSecondaryIndex_NotFound_ReturnsError) {
     EXPECT_EQ(result.error().code(), errors::ErrorCode::ERR_INDEX_NOT_FOUND);
 }
 
+// ===========================================================================
+// exportIndexStats (Issue #1866)
+// ===========================================================================
+
+TEST(IndexManagerDI, ExportIndexStats_NoRocksDB_ReturnsEmpty) {
+    // Without a wired RocksDB the secondary manager is absent –
+    // exportIndexStats must return an empty vector rather than crashing.
+    auto mgr = IndexManager::createDefault();
+    auto stats = mgr->exportIndexStats("users");
+    EXPECT_TRUE(stats.empty());
+}
+
+TEST(IndexManagerDI, ExportIndexStats_NoIndexes_ReturnsEmpty) {
+    auto [db, mgr] = makeIndexManager(makeTempDbPath("idx_export_empty_"));
+    ASSERT_NE(db, nullptr);
+
+    // No indexes created for "orders" → stats must be empty.
+    auto stats = mgr->exportIndexStats("orders");
+    EXPECT_TRUE(stats.empty());
+}
+
+TEST(IndexManagerDI, ExportIndexStats_SingleIndex_ReturnsOne) {
+    auto [db, mgr] = makeIndexManager(makeTempDbPath("idx_export_single_"));
+    ASSERT_NE(db, nullptr);
+
+    ASSERT_TRUE(mgr->createSecondaryIndex("products", "name").has_value());
+
+    auto stats = mgr->exportIndexStats("products");
+    ASSERT_EQ(stats.size(), 1u);
+    EXPECT_EQ(stats[0].table, "products");
+    EXPECT_EQ(stats[0].column, "name");
+    EXPECT_FALSE(stats[0].type.empty());
+}
+
+TEST(IndexManagerDI, ExportIndexStats_MultipleIndexes_ReturnsAll) {
+    auto [db, mgr] = makeIndexManager(makeTempDbPath("idx_export_multi_"));
+    ASSERT_NE(db, nullptr);
+
+    ASSERT_TRUE(mgr->createSecondaryIndex("employees", "email").has_value());
+    ASSERT_TRUE(mgr->createSecondaryIndex("employees", "department").has_value());
+
+    auto stats = mgr->exportIndexStats("employees");
+    EXPECT_EQ(stats.size(), 2u);
+
+    bool found_email = false, found_dept = false;
+    for (const auto& s : stats) {
+        EXPECT_EQ(s.table, "employees");
+        if (s.column == "email")      found_email = true;
+        if (s.column == "department") found_dept  = true;
+    }
+    EXPECT_TRUE(found_email);
+    EXPECT_TRUE(found_dept);
+}
+
+TEST(IndexManagerDI, ExportIndexStats_WrongTable_ReturnsEmpty) {
+    auto [db, mgr] = makeIndexManager(makeTempDbPath("idx_export_wrong_"));
+    ASSERT_NE(db, nullptr);
+
+    ASSERT_TRUE(mgr->createSecondaryIndex("invoices", "status").has_value());
+
+    // Stats for a table that has no indexes must be empty.
+    auto stats = mgr->exportIndexStats("shipments");
+    EXPECT_TRUE(stats.empty());
+}
+
+TEST(IndexManagerDI, ExportIndexStats_EntryCountReflectsInserts) {
+    auto [db, mgr] = makeIndexManager(makeTempDbPath("idx_export_count_"));
+    ASSERT_NE(db, nullptr);
+
+    auto result = mgr->createSecondaryIndex("events", "type");
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    auto* idx = *result;
+    ASSERT_NE(idx, nullptr);
+
+    // Before any inserts the entry count must be 0.
+    {
+        auto stats = mgr->exportIndexStats("events");
+        ASSERT_EQ(stats.size(), 1u);
+        EXPECT_EQ(stats[0].entry_count, 0u);
+    }
+
+    // Insert a few entries.
+    ASSERT_TRUE(idx->insert("click", "evt-1"));
+    ASSERT_TRUE(idx->insert("view",  "evt-2"));
+    ASSERT_TRUE(idx->insert("click", "evt-3"));
+
+    // After inserts the entry count must reflect the stored entries.
+    {
+        auto stats = mgr->exportIndexStats("events");
+        ASSERT_EQ(stats.size(), 1u);
+        EXPECT_GE(stats[0].entry_count, 2u);
+    }
+}
+
+TEST(IndexManagerDI, ExportIndexStats_PartialIndex_TypeContainsPartial) {
+    auto [db, mgr] = makeIndexManager(makeTempDbPath("idx_export_partial_"));
+    ASSERT_NE(db, nullptr);
+
+    ASSERT_TRUE(createSecondaryIndexWithConfig(
+        mgr, "articles", "category", "partial:published = '1'").has_value());
+
+    auto stats = mgr->exportIndexStats("articles");
+    ASSERT_EQ(stats.size(), 1u);
+    // The SecondaryIndexManager must report the index type as "partial".
+    EXPECT_NE(stats[0].type.find("partial"), std::string::npos);
+}
+
+

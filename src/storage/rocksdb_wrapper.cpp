@@ -376,7 +376,15 @@ void RocksDBWrapper::configureOptions() {
     // options_->allow_unordered_write = config_.allow_unordered_write;  // Not available in this version
     
     // WAL Configuration
-    write_options_->sync = config_.enable_wal;
+    // NOTE: write_options_->sync controls per-write fsync, NOT whether the WAL is written.
+    // enable_wal only controls whether the WAL is disabled entirely (via disableWAL).
+    // Linking sync to enable_wal was a bug: it forced an fsync on every write whenever
+    // enable_wal=true (the default), capping sustained throughput at disk IOPS (~1-3 k/s).
+    // Now sync is only set by force_sync_on_write (handled below).  The WAL is still
+    // written to the kernel buffer on every write, ensuring crash-recovery after process
+    // faults.  For full power-loss durability also enable force_sync_on_write or
+    // wal_bytes_per_sync.
+    write_options_->sync = false;
     write_options_->disableWAL = config_.disable_wal_for_benchmark;  // Phase 2F: Benchmark optimization
     if (!config_.wal_dir.empty()) {
         options_->wal_dir = config_.wal_dir;
@@ -490,6 +498,12 @@ void RocksDBWrapper::configureOptions() {
     // Recommended for financial data or critical writes
     if (config_.force_sync_on_write) {
         write_options_->sync = true;
+    }
+
+    // Periodic background WAL flush (wal_bytes_per_sync > 0)
+    // Provides a bounded durability window without per-write fsync overhead.
+    if (config_.wal_bytes_per_sync > 0) {
+        options_->wal_bytes_per_sync = config_.wal_bytes_per_sync;
     }
     
     // Disable memory-mapped I/O to prevent silent errors

@@ -41,6 +41,7 @@ v1.x – Production-grade ACID transaction engine built on RocksDB. MVCC, SAGA p
 - [x] Write Batching and Coalescing – `TransactionBatcher` with configurable batch window (1–100 ms), per-table/per-key policies, fair FIFO scheduling, adaptive batch sizing, and aggregate stats (Target: v1.8.0)
 - [x] Read-Only Transaction Optimization – `Transaction::setReadOnly()`, `isReadOnly()`, `hasWrites()` with write-guard on all mutation paths and no-op WAL commit fast-path (Target: v1.8.0)
 - [x] Transaction Audit Trail – `TransactionAuditor` with append-only in-memory log, `enableAuditing()`, `record()`, `queryAuditLog()` (filters: user_id, start/end time, limit), `size()`, `clear()`, thread-safe concurrent recording; `exportToKafka()` / `exportToS3()` stubs (Target: v1.8.0)
+- [x] Distributed SAGA Coordinator – multi-cluster orchestration (`RemoteStep` + `executeDistributed()`), crash recovery (`recoverInProgressSAGAs()`), SAGA visualization (`visualize()`), manual intervention (`forceCompensate()` / `forceComplete()`), pluggable `RemoteStepExecutor` transport (Target: v1.9.0) (Issue: #124)
 
 ## In Progress 🚧
 > All Phase 3, Phase 4, Phase 5, Phase 6, and Phase 7 items are now complete.
@@ -83,6 +84,14 @@ v1.x – Production-grade ACID transaction engine built on RocksDB. MVCC, SAGA p
   concurrent recording; `exportToKafka()` / `exportToS3()` placeholder stubs; 25 tests in
   `tests/test_transaction_auditor.cpp` (`TransactionAuditorFocusedTests`);
   CI: `.github/workflows/transaction-audit-trail-ci.yml`
+- [x] Distributed SAGA Coordinator (Target: v1.9.0) (Issue: #124)
+  — extended `DistributedSagaCoordinator` with:
+  `executeDistributed()` (multi-cluster via `RemoteStep` + `RemoteStepExecutor`),
+  `recoverInProgressSAGAs()` (journal-based crash recovery),
+  `getDistributedStatus()` (cross-cluster status query),
+  `visualize()` (Graphviz DOT + text-summary SAGA graph),
+  `forceCompensate()` / `forceComplete()` (manual intervention API);
+  tests added in `tests/test_distributed_saga.cpp`
 
 ## Implementation Phases
 
@@ -202,9 +211,25 @@ v1.x – Production-grade ACID transaction engine built on RocksDB. MVCC, SAGA p
 - [x] Tests: `tests/test_transaction_auditor.cpp` (25 tests, `TransactionAuditorFocusedTests`)
 - [x] CI: `.github/workflows/transaction-audit-trail-ci.yml`
 
+### Phase 9: Distributed SAGA Coordinator (Status: Completed ✅)
+- [x] Multi-cluster orchestration via `RemoteStep` + `DistributedSAGADefinition` structs (Target: v1.9.0) (Issue: #124)
+  — implemented in `include/transaction/distributed_saga.h`, `src/transaction/distributed_saga.cpp`
+- [x] `RemoteStep` – per-step record with `service_endpoint`, `operation`, `params`, `compensate_operation`, `compensate_params`, dependency DAG, per-step timeouts/retries
+- [x] `DistributedSAGADefinition` – saga_id + vector of `RemoteStep` + shared `context` map
+- [x] `RemoteStepExecutor` – pluggable transport `std::function<DistributedSagaStatus(endpoint, op, params)>`; nil = no-op (test mode)
+- [x] `executeDistributed(DistributedSAGADefinition)` – converts remote steps to local steps via `remoteStepToLocal()` then delegates to `execute()`
+- [x] `getDistributedStatus(saga_id)` – alias for `getReport()` for cross-cluster status queries
+- [x] `recoverInProgressSAGAs()` – journal-based crash recovery: parses JSON-lines journal, identifies SAGAs with STARTED/COMPENSATING but no terminal entry, creates synthetic FAILED reports; logs RECOVERED event
+- [x] `SagaVisualization` – Graphviz DOT graph + plain-text summary; nodes colour-coded by step phase (green=DONE, red=FAILED, yellow=COMPENSATED, blue=in-progress)
+- [x] `visualize(DistributedSagaDefinition)` – generates DOT + text for both pre-execution (dependency structure) and post-execution (annotated with phase, attempts, errors)
+- [x] `forceCompensate(saga_id)` – manual intervention: marks report as COMPENSATED without executing compensation; returns false if unknown
+- [x] `forceComplete(saga_id)` – manual intervention: marks report as COMPLETED; returns false if unknown
+- [x] `remote_executor` field added to `DistributedSagaCoordinatorConfig`
+- [x] Tests: `tests/test_distributed_saga.cpp` — 15+ new tests covering `DistributedSagaDistributedTest`, `DistributedSagaStatusTest`, `DistributedSagaRecoveryTest`, and new `DistributedSagaTest` cases for visualize/forceCompensate/forceComplete
+
 ## Production Readiness Checklist
 - [x] Unit tests coverage > 80% (Verified: Q1 2026) — Primary: `tests/test_savepoints.cpp` (20 savepoint tests); bulk API: `tests/test_transaction_bulk.cpp` (12 tests); SagaOperation: `tests/test_saga_operation.cpp` (8 tests covering `indexPutWithCompensation`, `graphAddWithCompensation`, `putEntityWithCompensation`, `deleteEntityWithCompensation`, `vectorAddWithCompensation`); supplementary: `tests/test_transaction_isolation_levels.cpp`, `tests/test_transaction_manager.cpp`, `tests/test_postgres_transactions.cpp`; standalone focused targets: `TransactionManagerFocusedTests`, `TransactionIsolationLevelsFocusedTests`, `SAGALoggerFocusedTests`, `SAGACompactorFocusedTests`, `ShardingTransactionWALFocusedTests`, `MultiShardTransactionFocusedTests`, `DistributedTransactionsFocusedTests`, `PostgresTransactionFocusedTests`, `AQLMultiStatementTransactionFocusedTests`, `DbTransactionIsolationFocusedTests`, `TransactionDistributed2PCFocusedTests`, `TransactionBatcherFocusedTests`, `TransactionAuditorFocusedTests`
-- [x] Integration tests (commit, rollback, SAGA compensation, deadlock detection) — savepoint+SAGA integration covered in `test_savepoints.cpp`; bulk API atomicity in `test_transaction_bulk.cpp`; DistributedSAGA in `test_distributed_saga.cpp` (631 lines, DAG execution, retry, compensation ordering, metrics); concurrent SAGA in `test_saga_concurrent_execution.cpp`; 2PC coordinator in `test_transaction_distributed_2pc.cpp` (concurrent transactions, partial commit rollback, prepare timeout)
+- [x] Integration tests (commit, rollback, SAGA compensation, deadlock detection) — savepoint+SAGA integration covered in `test_savepoints.cpp`; bulk API atomicity in `test_transaction_bulk.cpp`; DistributedSAGA in `test_distributed_saga.cpp` (DAG execution, retry, compensation ordering, metrics, executeDistributed, recoverInProgressSAGAs, visualize, forceCompensate, forceComplete); concurrent SAGA in `test_saga_concurrent_execution.cpp`; 2PC coordinator in `test_transaction_distributed_2pc.cpp` (concurrent transactions, partial commit rollback, prepare timeout)
 - [x] Performance benchmarks (TPS, lock contention, MVCC overhead) — `OccOptimisticPut`, `OccReadVersionAndUpdate`, `OccOptimisticErase`, `SavepointCreateAndRollback`, `SavepointNested`, `SavepointRelease` in `benchmarks/bench_transaction_throughput.cpp`
 - [x] Security audit (transaction isolation boundary, SAGA compensating action safety) — isolation boundary enforced via `LockManager` (EXCLUSIVE locks block SHARED readers; shrinking-phase enforcement prevents new lock acquisitions after first release, tested in `TransactionIsolationLevelsFocusedTests`); SAGA compensation safety verified via idempotent compensating functions in `test_saga_operation.cpp` and `test_distributed_saga.cpp`
 - [x] Documentation complete — named savepoint API documented in `src/transaction/README.md`; bulk API documented in `include/transaction/transaction_manager.h`; time-travel query API documented in `include/transaction/transaction_manager.h`; 2PC coordinator API documented in `include/transaction/distributed_transaction_manager.h`; `TransactionBatcher` API documented in `include/transaction/transaction_batcher.h`; `TransactionAuditor` API documented in `include/transaction/transaction_auditor.h`; read-only optimization documented in `include/transaction/transaction_manager.h`; `FUTURE_ENHANCEMENTS.md` updated; `ROADMAP.md` updated

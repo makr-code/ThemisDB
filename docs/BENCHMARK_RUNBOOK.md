@@ -3307,6 +3307,104 @@ tools/
 
 ---
 
+## 🤖 LLM/LoRA Model Setup
+
+> **Relevant für:** `bench_llm_*.cpp`, `bench_lora_framework.cpp`, `bench_llm_raid_pipeline.cpp`  
+> **Maßnahme #6** (PERFORMANCE_EXPECTATIONS.md §1.4) – Artifact-Vorbereitung standardisieren
+
+### Übersicht
+
+LLM- und LoRA-Benchmarks benötigen Modell-Artefakte (gguf-Dateien, LoRA-Adapter) im Dateisystem.
+Diese Sektion beschreibt, wie die Artefakte für CI-Runner und lokale Benchmark-Läufe bereitgestellt werden.
+
+---
+
+### Konfigurationsdatei
+
+`benchmarks/llm_bench_config.json` enthält alle Modellpfade, Adapter-Definitionen und Benchmark-Profile.
+
+Wichtige Felder:
+
+| Feld | Beschreibung |
+|------|-------------|
+| `model_dir_env` | Umgebungsvariable, die das Basis-Modellverzeichnis angibt (`THEMIS_MODEL_DIR`) |
+| `stub_models_cmake_var` | CMake-Variable `THEMIS_LLM_STUB_MODELS` (ON = CI-Stub-Modus) |
+| `models.*.is_stub_model` | `true` = Minimal-Stub für CI; `false` = echtes Produktionsmodell |
+| `benchmark_profiles.ci_stub` | Profil für CI-Runner ohne GPU (TinyLlama Q4, kein VRAM nötig) |
+| `benchmark_profiles.gpu_full` | Profil für vollständige GPU-Benchmarks (Llama-3 8B, ≥8 GB VRAM) |
+
+---
+
+### Artefakt-Vorbereitung
+
+#### Automatisch (empfohlen)
+
+```bash
+# CI-Modus: Stub-Modell verwenden (kein echtes Modell erforderlich)
+./scripts/prepare_llm_bench_artifacts.sh --stub-only
+
+# Lokaler Lauf: echte Modelle aus THEMIS_MODEL_DIR
+export THEMIS_MODEL_DIR=/data/models/themis
+./scripts/prepare_llm_bench_artifacts.sh
+
+# Modellverzeichnis explizit angeben
+./scripts/prepare_llm_bench_artifacts.sh --model-dir /opt/models/themis
+```
+
+Das Skript:
+1. Liest `benchmarks/llm_bench_config.json`
+2. Erstellt die benötigte Verzeichnisstruktur unter `THEMIS_MODEL_DIR`
+3. Lädt den TinyLlama-Stub-Modell falls nötig (wget/curl)
+4. Generiert ein minimales LoRA-Stub-Adapter-Binary für CI
+5. Gibt einen Fehler (Exit 1) aus, wenn kein Modell verfügbar und kein Stub konfiguriert ist
+
+#### Manuell
+
+```bash
+# Stub-Modell manuell platzieren:
+mkdir -p "${THEMIS_MODEL_DIR}/gguf"
+cp tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf "${THEMIS_MODEL_DIR}/gguf/"
+
+# Echtes Llama-3 8B Modell:
+mkdir -p "${THEMIS_MODEL_DIR}/gguf"
+cp Meta-Llama-3-8B-Instruct.Q4_K_M.gguf "${THEMIS_MODEL_DIR}/gguf/"
+```
+
+---
+
+### Umgebungsvariablen
+
+| Variable | Default | Beschreibung |
+|----------|---------|--------------|
+| `THEMIS_MODEL_DIR` | `~/.local/share/themis/models` | Basis-Verzeichnis für Modell-Artefakte |
+| `THEMIS_LLM_STUB_MODELS` | `OFF` | `ON` = Stub-Modus (CI); `OFF` = echte Modelle erwarten |
+
+---
+
+### CMake-Integration
+
+```cmake
+# CMakeLists.txt – LLM-Stub-Modus für CI aktivieren
+option(THEMIS_LLM_STUB_MODELS "Use minimal stub models for LLM benchmarks (CI mode)" ON)
+
+if(THEMIS_LLM_STUB_MODELS)
+    target_compile_definitions(bench_llm_inference_performance PRIVATE THEMIS_LLM_STUB_MODELS=1)
+endif()
+```
+
+---
+
+### Troubleshooting
+
+| Problem | Lösung |
+|---------|--------|
+| `artifact not found` Fehler im CI-Log | `./scripts/prepare_llm_bench_artifacts.sh --stub-only` ausführen |
+| `THEMIS_MODEL_DIR` nicht gesetzt | `export THEMIS_MODEL_DIR=/pfad/zu/modellen` |
+| Download schlägt fehl (kein Netzwerk) | Modell manuell in `$THEMIS_MODEL_DIR/gguf/` platzieren |
+| Unzureichend VRAM | `--stub-only` Modus nutzen oder `gpu_full`-Profil mit GPU ≥8 GB VRAM |
+
+---
+
 ### Changelog & Version History
 
 **Version 2.0.0** (2026-02-02):

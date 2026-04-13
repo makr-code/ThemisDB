@@ -29,6 +29,7 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <unordered_set>
 #include <chrono>
 #include <shared_mutex>
 #include <optional>
@@ -44,6 +45,16 @@ namespace themis {
 ///
 class SecondaryIndexMetadataCache {
 public:
+    /// Mirrors SecondaryIndexManager::FulltextConfig — stored here to avoid a
+    /// circular include dependency between this header and secondary_index.h.
+    struct CachedFulltextConfig {
+        bool stemming_enabled   = false;
+        std::string language    = "none";
+        bool stopwords_enabled  = false;
+        std::vector<std::string> stopwords;
+        bool normalize_umlauts  = false;
+    };
+
     struct IndexMetadata {
         std::vector<std::string> regular_indexes;       // Equality indexes
         std::vector<std::string> range_indexes;         // Range indexes
@@ -64,6 +75,12 @@ public:
         // every cache hit.
         std::unordered_set<std::string> regular_indexes_set;
         std::unordered_set<std::string> range_indexes_set;
+
+        // Per-column config/metadata cached to eliminate extra db.get() calls on
+        // every insert/upsert in the hot write path (v1.3.5 optimization).
+        std::unordered_map<std::string, CachedFulltextConfig> fulltext_configs; // column -> config
+        std::unordered_map<std::string, int64_t>              ttl_seconds;      // column -> TTL value
+        std::unordered_map<std::string, bool>                 composite_unique; // "c1+c2" -> unique flag
     };
 
     /// Singleton instance

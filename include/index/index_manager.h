@@ -42,11 +42,13 @@
 #include "themis/base/interfaces/index_interface.h"
 #include "themis/base/interfaces/query_interface.h"
 #include "themis/base/interfaces/storage_interface.h"
+#include "index/secondary_index.h"
 #include "utils/expected.h"
 #include <memory>
 #include <string>
 #include <unordered_map>
 #include <mutex>
+#include <vector>
 
 namespace themis {
 
@@ -127,6 +129,29 @@ public:
     std::vector<std::string> listIndexes() const override;
     
     Result<IndexType> getIndexType(std::string_view name) const override;
+
+    // -------------------------------------------------------------------------
+    // Index statistics export (Issue #1866)
+    //
+    // Collect per-index statistics from the underlying SecondaryIndexManager so
+    // that the metadata module's StatisticsCollector can import them via
+    // StatisticsCollector::importIndexStats().  The returned structs are in the
+    // SecondaryIndexManager::IndexStats format; callers that need the
+    // metadata::IndexStats representation should convert trivially by copying
+    // the same-named fields and setting last_updated = system_clock::now().
+    // -------------------------------------------------------------------------
+
+    /// @brief Collect all secondary-index statistics for a given table.
+    ///
+    /// Returns one entry per (table, column) secondary index registered in the
+    /// SecondaryIndexManager that was built around the same RocksDB instance.
+    /// If no SecondaryIndexManager has been wired (i.e. setRocksDB was never
+    /// called) an empty vector is returned rather than throwing.
+    ///
+    /// @param table_name  Table/collection whose index statistics to export.
+    /// @return            Vector of per-index statistics (may be empty).
+    std::vector<SecondaryIndexManager::IndexStats>
+        exportIndexStats(std::string_view table_name) const;
 
     // -------------------------------------------------------------------------
     // Multi-tenancy index isolation (RocksDB key-prefix based)

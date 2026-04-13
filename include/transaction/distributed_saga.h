@@ -3,19 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            distributed_saga.h                                 ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-13 04:21:43                                ║
+  Version:         0.1.0                                              ║
+  Last Modified:   2026-04-13 06:30:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     339                                            ║
+    • Total Lines:     520                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • ffeccdf868  2026-03-01  feat(transaction): implement DistributedSagaCoordinator f... ║
+    • 2026-04-13  feat(transaction): add multi-cluster orchestration, ║
+                  crash recovery, visualization, intervention API      ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/... ║
+    • ffeccdf868  2026-03-01  feat(transaction): implement DSAGA       ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -35,6 +37,7 @@
 #include <future>
 #include <unordered_map>
 #include <vector>
+#include <nlohmann/json.hpp>
 
 namespace themis {
 
@@ -170,9 +173,102 @@ struct DistributedSagaReport {
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
+// Remote step (for multi-cluster / service-mesh orchestration)
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * @brief A step executed against a remote service endpoint.
+ *
+ * Used by executeDistributed() to orchestrate cross-cluster SAGAs where each
+ * step is an RPC/HTTP call to a distinct microservice.
+ */
+struct RemoteStep {
+    /// HTTP/gRPC endpoint of the target service (e.g. "http://inventory:8080").
+    std::string service_endpoint;
+
+    /// Forward operation path (e.g. "/reserve").
+    std::string operation;
+
+    /// Parameters forwarded to the remote service.
+    nlohmann::json params;
+
+    /// Compensating operation path (e.g. "/release").
+    std::string compensate_operation;
+
+    /// Parameters forwarded during compensation.
+    nlohmann::json compensate_params;
+
+    /// Logical name of the step (used for dependency declarations).
+    std::string name;
+
+    /// Names of other remote steps that must complete before this one.
+    std::set<std::string> depends_on;
+
+    /// Per-step timeout for the forward call.
+    std::chrono::milliseconds forward_timeout{std::chrono::milliseconds(5000)};
+
+    /// Per-step timeout for the compensating call.
+    std::chrono::milliseconds compensate_timeout{std::chrono::milliseconds(10000)};
+
+    /// Maximum retry attempts on transient failure.
+    size_t max_retries{3};
+
+    /// Initial backoff between retries (doubled each attempt, capped at 30 s).
+    std::chrono::milliseconds retry_backoff{std::chrono::milliseconds(100)};
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Distributed SAGA definition (multi-cluster / remote-step variant)
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * @brief A complete distributed SAGA expressed as a set of remote service calls.
+ */
+struct DistributedSAGADefinition {
+    /// Globally unique identifier for this SAGA instance.
+    std::string saga_id;
+
+    /// Remote steps to execute.
+    std::vector<RemoteStep> steps;
+
+    /// Arbitrary shared context propagated to all remote calls.
+    std::map<std::string, std::string> context;
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SAGA visualization output
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * @brief Result of visualize() — contains both a machine-readable DOT graph
+ *        and a human-readable text summary.
+ */
+struct SagaVisualization {
+    /// Graphviz DOT source describing the SAGA execution graph.
+    std::string dot_graph;
+
+    /// Human-readable plain-text execution summary.
+    std::string text_summary;
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
 // Coordinator configuration (defined outside the class so it can be used as a
 // default argument in the constructor declaration)
 // ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * @brief Pluggable transport for executing a single remote step.
+ *
+ * Signature: (endpoint, operation, params) → DistributedSagaStatus
+ *
+ * The default implementation (nullptr) performs a no-op that always succeeds;
+ * production deployments inject an HTTP or gRPC client here.
+ */
+using RemoteStepExecutor =
+    std::function<DistributedSagaStatus(
+        const std::string& /*endpoint*/,
+        const std::string& /*operation*/,
+        const nlohmann::json& /*params*/)>;
 
 /**
  * @brief Configuration for DistributedSagaCoordinator.
@@ -193,6 +289,10 @@ struct DistributedSagaCoordinatorConfig {
 
     /// Default step compensate timeout.
     std::chrono::milliseconds default_compensate_timeout{std::chrono::milliseconds(10000)};
+
+    /// Pluggable transport for remote step execution.
+    /// When nullptr, executeDistributed() will invoke remote steps as no-ops (useful for testing).
+    RemoteStepExecutor remote_executor;
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -258,6 +358,86 @@ public:
      * @return OK() on success, Error(...) with description on failure.
      */
     DistributedSagaStatus validate(const DistributedSagaDefinition& saga) const;
+
+    // ── Remote / Multi-cluster API ────────────────────────────────────────────
+
+    /**
+     * @brief Execute a distributed SAGA expressed as remote service calls.
+     *
+     * Each RemoteStep is converted to a DistributedSagaStep whose forward and
+     * compensate actions invoke the pluggable remote_executor from the config.
+     * The SAGA then runs through the same DAG-based execution engine as execute().
+     *
+     * @param saga  Remote SAGA definition.
+     * @return      Execution report with final state and per-step records.
+     */
+    DistributedSagaReport executeDistributed(const DistributedSAGADefinition& saga);
+
+    /**
+     * @brief Query the current execution state of a distributed SAGA.
+     *
+     * @return Report if a SAGA with this ID is known, nullopt otherwise.
+     */
+    std::optional<DistributedSagaReport> getDistributedStatus(
+        const std::string& saga_id) const;
+
+    // ── Crash Recovery API ────────────────────────────────────────────────────
+
+    /**
+     * @brief Recover SAGAs that were left in RUNNING or COMPENSATING state.
+     *
+     * Reads the journal file (config_.journal_path) and for each SAGA that
+     * has a STARTED entry but no terminal entry (COMPLETED / COMPENSATED /
+     * FAILED), records a synthetic FAILED recovery report so callers can
+     * inspect them and re-execute or force-compensate as needed.
+     *
+     * This provides the foundation for automatic crash recovery:
+     * after a coordinator restart, call this method before accepting new work
+     * to identify and handle orphaned SAGAs.
+     *
+     * @return List of saga_ids that were recovered (found in inconsistent state).
+     */
+    std::vector<std::string> recoverInProgressSAGAs();
+
+    // ── Visualization & Debugging API ─────────────────────────────────────────
+
+    /**
+     * @brief Generate a visualization of a SAGA definition.
+     *
+     * Returns a Graphviz DOT representation of the step dependency graph plus
+     * a human-readable plain-text summary.  If an execution report exists for
+     * the given saga_id the nodes are annotated with their final phase.
+     *
+     * @param saga   SAGA definition to visualize.
+     * @return       Visualization containing dot_graph and text_summary fields.
+     */
+    SagaVisualization visualize(const DistributedSagaDefinition& saga) const;
+
+    // ── Manual Intervention API ───────────────────────────────────────────────
+
+    /**
+     * @brief Force a stuck SAGA into the COMPENSATED state.
+     *
+     * Intended for manual intervention on SAGAs that have been left in an
+     * inconsistent state (e.g. after a partial coordinator crash).  Marks the
+     * report for the given saga_id as COMPENSATED without executing any
+     * compensation actions.  Returns false if the saga_id is not known.
+     *
+     * @param saga_id  ID of the SAGA to force-compensate.
+     * @return         true on success, false if saga_id is unknown.
+     */
+    bool forceCompensate(const std::string& saga_id);
+
+    /**
+     * @brief Force a stuck SAGA into the COMPLETED state.
+     *
+     * Marks the report for the given saga_id as COMPLETED without executing
+     * any further steps.  Returns false if the saga_id is not known.
+     *
+     * @param saga_id  ID of the SAGA to force-complete.
+     * @return         true on success, false if saga_id is unknown.
+     */
+    bool forceComplete(const std::string& saga_id);
 
     // ── Status / Metrics ─────────────────────────────────────────────────────
 
@@ -334,6 +514,9 @@ private:
     /// Append a JSON entry to the journal file (no-op when journal_path is empty).
     void journalWrite(const std::string& saga_id, const std::string& event,
                       const std::string& detail = {});
+
+    /// Convert a RemoteStep into a DistributedSagaStep using the configured executor.
+    DistributedSagaStep remoteStepToLocal(const RemoteStep& remote) const;
 };
 
 } // namespace themis

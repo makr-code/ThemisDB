@@ -3915,6 +3915,48 @@ else()
 endif()
 
 # ============================================================================
+# IndexManager DI + exportIndexStats Tests (Issue #1866)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_index_manager_di.cpp")
+    message(STATUS "Adding IndexManager DI unit tests (incl. exportIndexStats Issue #1866)")
+
+    add_executable(test_index_manager_di
+        test_index_manager_di.cpp
+        ${CMAKE_SOURCE_DIR}/src/index/index_manager.cpp
+        ${CMAKE_SOURCE_DIR}/src/index/secondary_index.cpp
+        ${CMAKE_SOURCE_DIR}/src/index/vector_index.cpp
+        ${CMAKE_SOURCE_DIR}/src/index/graph_index.cpp
+        ${CMAKE_SOURCE_DIR}/src/index/index_compression.cpp
+        ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
+    )
+
+    target_link_libraries(test_index_manager_di PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_index_manager_di PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME IndexManagerDITests COMMAND test_index_manager_di)
+
+    set_tests_properties(IndexManagerDITests PROPERTIES
+        LABELS "index;index_manager;di;stats;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  IndexManagerDI: create/drop, partial index, exportIndexStats")
+else()
+    message(STATUS "IndexManagerDI tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_index_manager_di.cpp")
+endif()
+
+# ============================================================================
 # Fulltext Phrase and Fuzzy Search Tests
 # ============================================================================
 
