@@ -301,6 +301,7 @@ wiki/
 artifacts/docs/
 artifacts/perf_nv/
 artifacts/perf_expectations_rootcause_audit/
+artifacts/perf_coverage_top10_audit/
 
 # Docker / containers
 docker-compose.override.yml
