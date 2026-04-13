@@ -30,6 +30,9 @@ if(THEMIS_ENABLE_LLM)
         # Adapter Registry - Adapter lifecycle management
         ../src/llm/adapter_registry.cpp
         
+        # Inline Training Engine - on-the-fly LoRA fine-tuning without JSONL export
+        ../src/llm/inline_training_engine.cpp
+
         # Distributed Training Coordinator (cross-shard, federated, fault-tolerant)
         ../src/llm/distributed_training_coordinator.cpp
         
