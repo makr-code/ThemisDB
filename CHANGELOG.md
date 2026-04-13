@@ -19,7 +19,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `.github/CODEOWNERS` expanded: now covers all 46 source modules, include/ headers, tests, docs, deployment, and root docs
   - `.github/pull_request_template.md` updated: added Linked Issues field, Breaking Change checklist, CHANGELOG reminder
   - `INDEX.md` updated: VERSIONING.md, SOP.md, GOVERNANCE.md, MAINTAINERS.md added to important documents section
-  <!-- changelog-updater: root-docs-phase2-2026-04-13 -->
+  - `compendium/docs/appendix_d_feature_status.md` overhauled: updated from v1.5.0-dev to v1.8.0; now covers all 46 modules with per-class feature tables, section references, version history, and v1.9/v2.0 planned items
+  - `compendium/docs/index.md` updated: version bumped from 1.4.0-alpha to 1.8.0; full 7-part structured TOC added covering all 44 chapters and 7 appendices
+  - `docs/migration/v1.7-to-v1.8.md` added: comprehensive migration guide for the three breaking changes in v1.8.0 (unversioned HTTP 301 redirects, zlib→ZSTD StreamWriter, CI workflow relocation)
+  - `docs/migration/README.md` updated: v1.7→v1.8 guide linked; full version path updated
+  <!-- changelog-updater: compendium-phase1-2026-04-13 -->
 
 - **Module-Docs Sync 📚 — 2026-04-13**
   - 56 Module indexiert; 754 Primary-Markdown-Dateien in `src/` und `include/`
