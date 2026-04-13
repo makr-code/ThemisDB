@@ -380,7 +380,7 @@ See: <Detail link>
 | 226 | network | QUIC Protocol Support | v2.0.0 | `network`, `module:network` | #4056 | [→ Detail](network/FUTURE_ENHANCEMENTS.md#quic-protocol-support) |
 | 227 | network | Kernel Bypass (DPDK/io_uring) | v1.9.0 | `performance`, `network`, `module:network` | #4057 | [→ Detail](network/FUTURE_ENHANCEMENTS.md#kernel-bypass-dpdk--io_uring) |
 | 228 | performance | NUMA-Aware Memory Management | v1.9.0 | `performance`, `memory`, `module:performance` | #4058 | [→ Detail](performance/FUTURE_ENHANCEMENTS.md#numa-aware-memory-management) |
-| 229 | performance | Advanced Cache Optimization | v1.9.0 | `performance`, `module:performance` | #4059 | [→ Detail](performance/FUTURE_ENHANCEMENTS.md#advanced-cache-optimization) |
+| 229 | performance | Advanced Cache Optimization | ~~v1.9.0~~ ✅ done | `performance`, `module:performance` | #4059 ✅ | [→ Detail](performance/FUTURE_ENHANCEMENTS.md#advanced-cache-optimization) |
 | 230 | performance | Workload-Adaptive Optimization | v1.9.0 | `performance`, `ml`, `module:performance` | #4060 | [→ Detail](performance/FUTURE_ENHANCEMENTS.md#workload-adaptive-optimization) |
 | 231 | storage | Zero-Copy Blob Transfers | v1.7.0 | `performance`, `io`, `module:storage` | #4061 | [→ Detail](storage/FUTURE_ENHANCEMENTS.md#zero-copy-blob-transfers) |
 | 232 | transaction | Transaction Savepoints | v1.8.0 | `feature`, `transactions`, `module:transaction` | #4062 | [→ Detail](transaction/FUTURE_ENHANCEMENTS.md#transaction-savepoints) |
