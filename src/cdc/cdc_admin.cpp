@@ -26,10 +26,13 @@
 
 #include "cdc/cdc_admin.h"
 #include "cdc/cdc_error.h"
+#include "cdc/icdc_transport.h"
 #include "cdc/tenant_buffer_manager.h"
+#include "storage/rocksdb_wrapper.h"
 #include "utils/logger.h"
 #include <algorithm>
 #include <limits>
+#include <rocksdb/utilities/transaction_db.h>
 
 namespace themis {
 namespace cdc {
@@ -340,6 +343,68 @@ GDPRRedactionResult CDCAdmin::redactByKeyPrefix(
                 tenant_id, key_prefix,
                 result.events_scanned, result.events_redacted,
                 result.elapsed_time_ms, operator_id);
+
+    // ── Audit log ────────────────────────────────────────────────────────────
+    // Write an immutable audit record to the 'cdc_redactions' column family so
+    // the operation is traceable even if it partially fails.
+    if (audit_storage_) {
+        auto cf_result = audit_storage_->getOrCreateColumnFamily("cdc_redactions");
+        if (cf_result.has_value()) {
+            rocksdb::ColumnFamilyHandle* audit_cf = cf_result.value();
+            // Key: "<timestamp_ms>:<key_prefix>" ensures chronological ordering.
+            const std::string audit_key =
+                std::to_string(now_ms) + ":" + key_prefix;
+            const nlohmann::json audit_entry = {
+                {"key_prefix",      key_prefix},
+                {"redacted_count",  result.events_redacted},
+                {"timestamp_ms",    now_ms},
+                {"operator",        operator_id},
+                {"tenant_id",       tenant_id}
+            };
+            rocksdb::WriteOptions write_opts;
+            auto* raw_db = audit_storage_->getDB();
+            if (raw_db) {
+                rocksdb::Status s =
+                    raw_db->Put(write_opts, audit_cf, audit_key, audit_entry.dump());
+                if (!s.ok()) {
+                    THEMIS_WARN("CDC Admin: failed to write GDPR audit log entry: {}",
+                                s.ToString());
+                } else {
+                    THEMIS_INFO("CDC Admin: GDPR audit log entry written for key_prefix='{}'",
+                                key_prefix);
+                }
+            }
+        } else {
+            THEMIS_WARN("CDC Admin: could not obtain 'cdc_redactions' column family for audit log");
+        }
+    }
+
+    // ── Kafka tombstone propagation ──────────────────────────────────────────
+    // For each distinct affected key, publish a tombstone (EVENT_DELETE with
+    // null value) so that downstream Kafka consumers observe the erasure.
+    if (transport_ && !inner.affected_keys.empty()) {
+        // Deduplicate keys so each key gets exactly one tombstone.
+        std::vector<std::string> unique_keys = inner.affected_keys;
+        std::sort(unique_keys.begin(), unique_keys.end());
+        unique_keys.erase(std::unique(unique_keys.begin(), unique_keys.end()),
+                          unique_keys.end());
+
+        for (const auto& affected_key : unique_keys) {
+            Changefeed::ChangeEvent tombstone;
+            tombstone.type       = Changefeed::ChangeEventType::EVENT_DELETE;
+            tombstone.key        = affected_key;
+            tombstone.value      = std::nullopt;  // null payload — Kafka tombstone
+            tombstone.redacted   = true;
+            tombstone.timestamp_ms = now_ms;
+
+            if (!transport_->publish(tombstone)) {
+                THEMIS_WARN("CDC Admin: failed to publish tombstone for key='{}'",
+                            affected_key);
+            }
+        }
+        THEMIS_INFO("CDC Admin: published {} tombstone(s) for key_prefix='{}'",
+                    unique_keys.size(), key_prefix);
+    }
 
     return result;
 }
