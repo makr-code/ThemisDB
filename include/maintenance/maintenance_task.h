@@ -163,6 +163,7 @@ inline std::string jobStateToString(MaintenanceJobState s) {
 struct OrchestratorJob {
     std::string          id;           ///< Unique job identifier (UUID)
     std::string          schedule_id;  ///< Parent schedule that spawned this job ("" = ad-hoc)
+    std::string          tenant_id;    ///< Tenant that owns this job (from schedule; "" = global)
     MaintenanceTaskType  task_type;    ///< Which operation is being performed
     MaintenanceJobState  state = MaintenanceJobState::PENDING;
     std::string          error_message;
@@ -176,6 +177,7 @@ struct OrchestratorJob {
         nlohmann::json j;
         j["id"]             = id;
         j["schedule_id"]    = schedule_id;
+        j["tenant_id"]      = tenant_id;
         j["task_type"]      = taskTypeToString(task_type);
         j["state"]          = jobStateToString(state);
         j["error_message"]  = error_message;

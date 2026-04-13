@@ -133,10 +133,18 @@ In a multi-node cluster, each node independently schedules and fires maintenance
 All schedules currently share a single global namespace and window. In a SaaS deployment, different tenants need independent maintenance windows and quotas.
 
 **Implementation Notes:**
-- `[ ]` Add `MaintenanceScheduleEntry::tenant_id` (optional; empty = global/system schedule).
-- `[ ]` Per-tenant window enforcement: tenant's schedule fires only when the current hour is within that tenant's configured maintenance window, loaded from the tenant config.
-- `[ ]` Per-tenant quota: max N concurrent running maintenance jobs per tenant; enforced in `executeSchedule()`.
-- `[ ]` Admin API: `GET /api/v1/maintenance/schedules?tenant_id={id}` filters by tenant.
+- `[x]` Add `MaintenanceScheduleEntry::tenant_id` (optional; empty = global/system schedule).
+- `[x]` Per-tenant window enforcement: tenant's schedule fires only when the current hour is within that tenant's configured maintenance window, loaded from the tenant config.
+- `[x]` Per-tenant quota: max N concurrent running maintenance jobs per tenant; enforced in `executeSchedule()`.
+- `[x]` Admin API: `GET /api/v1/maintenance/schedules?tenant_id={id}` filters by tenant.
+
+**Implementation Details:**
+- `TenantMaintenanceConfig` struct added to `database_maintenance_orchestrator.h`: `enforce_window`, `window_start_hour`, `window_end_hour`, `max_concurrent_jobs`.
+- `DatabaseMaintenanceOrchestrator::setTenantMaintenanceConfig(tenant_id, config)` / `getTenantMaintenanceConfig(tenant_id)` — thread-safe via `tenant_configs_mutex_`.
+- `listSchedules(tenant_id_filter = "")` — empty filter returns all, non-empty returns only matching tenant.
+- `MaintenanceApiHandler::listSchedules(tenant_id = "")` — API handler passes filter to orchestrator.
+- `OrchestratorJob::tenant_id` populated from parent schedule in `triggerNow()` and `registerWithScheduler()`.
+- 15 unit tests (MT-01..MT-15) in `test_database_maintenance_orchestrator.cpp`.
 
 ---
 
