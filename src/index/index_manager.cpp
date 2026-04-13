@@ -638,6 +638,23 @@ Result<IndexType> IndexManager::getIndexType(std::string_view name) const {
 }
 
 // =============================================================================
+// Index statistics export (Issue #1866)
+// =============================================================================
+
+std::vector<SecondaryIndexManager::IndexStats>
+IndexManager::exportIndexStats(std::string_view table_name) const {
+    if (!secondary_manager_) {
+        THEMIS_WARN("IndexManager::exportIndexStats: SecondaryIndexManager not initialized"
+                    " (call setRocksDB first) – returning empty stats for '{}'", table_name);
+        return {};
+    }
+    auto stats = secondary_manager_->getAllIndexStats(std::string(table_name));
+    THEMIS_INFO("IndexManager::exportIndexStats: exported {} index stat(s) for '{}'",
+                stats.size(), table_name);
+    return stats;
+}
+
+// =============================================================================
 // Multi-tenancy index isolation
 // =============================================================================
 
