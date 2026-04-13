@@ -25,13 +25,22 @@
 
 #include <string>
 #include <string_view>
+#include <deque>
 #include <vector>
 #include <unordered_map>
+#include <memory>
 #include <thread>
 #include <mutex>
 #include <condition_variable>
 #include <atomic>
 #include <cstdint>
+
+#include <curl/curl.h>
+
+#ifdef THEMIS_HAS_PROMETHEUS
+#include <prometheus/counter.h>
+#include <prometheus/registry.h>
+#endif
 
 namespace themis {
 namespace api {
@@ -170,6 +179,21 @@ public:
     /// Return the current configuration.
     const OtlpExporterConfig& config() const noexcept { return config_; }
 
+#ifdef THEMIS_HAS_PROMETHEUS
+    /**
+     * @brief Register OTLP span counters in a Prometheus registry.
+     *
+     * Must be called before start().  Registers:
+     *  - `otlp_spans_exported_total`
+     *  - `otlp_spans_dropped_total`
+     *
+     * No-op when Prometheus support is not compiled in.
+     *
+     * @param registry  Shared Prometheus registry instance.
+     */
+    void setPrometheusRegistry(std::shared_ptr<prometheus::Registry> registry);
+#endif
+
 private:
     void flushLoop();
     void flushBatch(std::vector<SpanData>& batch);
@@ -179,7 +203,7 @@ private:
 
     OtlpExporterConfig      config_;
 
-    std::vector<SpanData>   queue_;
+    std::deque<SpanData>    queue_;
     mutable std::mutex      queue_mutex_;
     std::condition_variable queue_cv_;
 
@@ -187,6 +211,16 @@ private:
     std::atomic<bool>       stop_{false};
     std::atomic<uint64_t>   exported_count_{0};
     std::atomic<uint64_t>   dropped_count_{0};
+
+    // Persistent libcurl handle — created once in start(), reused per flush batch.
+    CURL*              curl_handle_  = nullptr;
+    struct curl_slist* curl_headers_ = nullptr;
+
+#ifdef THEMIS_HAS_PROMETHEUS
+    std::shared_ptr<prometheus::Registry> prom_registry_;
+    prometheus::Counter* prom_exported_{nullptr};
+    prometheus::Counter* prom_dropped_{nullptr};
+#endif
 };
 
 } // namespace api

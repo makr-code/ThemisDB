@@ -32,6 +32,13 @@
 #include <iomanip>
 #include <thread>
 
+#ifdef THEMIS_HAS_PROMETHEUS
+#include <prometheus/counter.h>
+#include <prometheus/registry.h>
+#include <prometheus/family.h>
+#include <prometheus/builder.h>
+#endif
+
 namespace themis {
 namespace api {
 
@@ -105,6 +112,61 @@ void OtlpExporter::start()
     if (!config_.enabled) return;
     if (flush_thread_.joinable()) return; // already running
 
+    // -----------------------------------------------------------------------
+    // Initialise a persistent libcurl handle so TCP connections are reused
+    // across flush batches (avoids a new TCP/TLS handshake per batch).
+    // -----------------------------------------------------------------------
+    curl_handle_ = curl_easy_init();
+    if (curl_handle_) {
+        curl_easy_setopt(curl_handle_, CURLOPT_URL,           config_.endpoint.c_str());
+        curl_easy_setopt(curl_handle_, CURLOPT_TIMEOUT_MS,    static_cast<long>(config_.timeout_ms));
+        curl_easy_setopt(curl_handle_, CURLOPT_FOLLOWLOCATION, 1L);
+        curl_easy_setopt(curl_handle_, CURLOPT_FORBID_REUSE,  0L); // allow connection reuse
+        curl_easy_setopt(curl_handle_, CURLOPT_TCP_KEEPALIVE, 1L); // keep TCP alive
+
+        // TLS settings
+        if (!config_.tls_ca_cert.empty())
+            curl_easy_setopt(curl_handle_, CURLOPT_CAINFO,  config_.tls_ca_cert.c_str());
+        if (!config_.tls_client_cert.empty())
+            curl_easy_setopt(curl_handle_, CURLOPT_SSLCERT, config_.tls_client_cert.c_str());
+        if (!config_.tls_client_key.empty())
+            curl_easy_setopt(curl_handle_, CURLOPT_SSLKEY,  config_.tls_client_key.c_str());
+
+        // Build static headers once (Content-Type, optional auth/custom headers)
+        curl_headers_ = curl_slist_append(curl_headers_, "Content-Type: application/json");
+        if (!config_.auth_header.empty()) {
+            const std::string auth = "Authorization: Bearer " + config_.auth_header;
+            curl_headers_ = curl_slist_append(curl_headers_, auth.c_str());
+        }
+        for (const auto& [k, v] : config_.extra_headers) {
+            const std::string hdr = k + ": " + v;
+            curl_headers_ = curl_slist_append(curl_headers_, hdr.c_str());
+        }
+        curl_easy_setopt(curl_handle_, CURLOPT_HTTPHEADER, curl_headers_);
+        curl_easy_setopt(curl_handle_, CURLOPT_WRITEFUNCTION, curlWriteCallback);
+    } else {
+        THEMIS_WARN("OtlpExporter: curl_easy_init() failed at start — will retry per batch");
+    }
+
+    // -----------------------------------------------------------------------
+    // Register Prometheus counters (if a registry was provided).
+    // -----------------------------------------------------------------------
+#ifdef THEMIS_HAS_PROMETHEUS
+    if (prom_registry_) {
+        auto& exp_family = prometheus::BuildCounter()
+            .Name("otlp_spans_exported_total")
+            .Help("Total number of spans successfully exported to the OTLP collector.")
+            .Register(*prom_registry_);
+        prom_exported_ = &exp_family.Add({{"service", config_.service_name}});
+
+        auto& drop_family = prometheus::BuildCounter()
+            .Name("otlp_spans_dropped_total")
+            .Help("Total number of spans dropped due to a full queue or export failure.")
+            .Register(*prom_registry_);
+        prom_dropped_ = &drop_family.Add({{"service", config_.service_name}});
+    }
+#endif
+
     stop_.store(false, std::memory_order_relaxed);
     flush_thread_ = std::thread(&OtlpExporter::flushLoop, this);
     THEMIS_INFO("OtlpExporter: started (endpoint={})", config_.endpoint);
@@ -120,6 +182,17 @@ void OtlpExporter::stop()
     }
     queue_cv_.notify_all();
     flush_thread_.join();
+
+    // Clean up persistent curl resources after the background thread has exited.
+    if (curl_headers_) {
+        curl_slist_free_all(curl_headers_);
+        curl_headers_ = nullptr;
+    }
+    if (curl_handle_) {
+        curl_easy_cleanup(curl_handle_);
+        curl_handle_ = nullptr;
+    }
+
     THEMIS_INFO("OtlpExporter: stopped (exported={}, dropped={})",
                 exported_count_.load(), dropped_count_.load());
 }
@@ -135,9 +208,12 @@ void OtlpExporter::enqueue(SpanData span)
     {
         std::lock_guard<std::mutex> lk(queue_mutex_);
         if (queue_.size() >= config_.max_queue_size) {
-            // Drop the oldest span to make room
-            queue_.erase(queue_.begin());
+            // Drop the oldest span to make room (O(1) with std::deque)
+            queue_.pop_front();
             dropped_count_.fetch_add(1, std::memory_order_relaxed);
+#ifdef THEMIS_HAS_PROMETHEUS
+            if (prom_dropped_) prom_dropped_->Increment(1.0);
+#endif
             THEMIS_WARN("OtlpExporter: queue full ({}) — oldest span dropped",
                         config_.max_queue_size);
         }
@@ -157,6 +233,17 @@ uint64_t OtlpExporter::exportedSpanCount() const noexcept {
 uint64_t OtlpExporter::droppedSpanCount() const noexcept {
     return dropped_count_.load(std::memory_order_relaxed);
 }
+
+// ---------------------------------------------------------------------------
+// Prometheus registry
+// ---------------------------------------------------------------------------
+
+#ifdef THEMIS_HAS_PROMETHEUS
+void OtlpExporter::setPrometheusRegistry(std::shared_ptr<prometheus::Registry> registry)
+{
+    prom_registry_ = std::move(registry);
+}
+#endif
 
 // ---------------------------------------------------------------------------
 // Background flush loop
@@ -197,7 +284,9 @@ void OtlpExporter::flushLoop()
             std::vector<SpanData> remaining;
             {
                 std::lock_guard<std::mutex> lk(queue_mutex_);
-                remaining.swap(queue_);
+                remaining.assign(std::make_move_iterator(queue_.begin()),
+                                 std::make_move_iterator(queue_.end()));
+                queue_.clear();
             }
             if (!remaining.empty()) {
                 flushBatch(remaining);
@@ -243,6 +332,47 @@ void OtlpExporter::flushBatch(std::vector<SpanData>& batch)
     const int max_attempts = 1 + std::max(0, config_.max_export_retries);
     int delay_ms = std::max(1, config_.retry_initial_delay_ms);
 
+    // Fall back to a temporary handle if the persistent one was not initialised
+    // (e.g. start() was not called or curl_easy_init() failed at start time).
+    CURL* curl = curl_handle_;
+    bool  owns_handle = false;
+    struct curl_slist* tmp_headers = nullptr;
+    if (!curl) {
+        curl = curl_easy_init();
+        owns_handle = true;
+        if (!curl) {
+            THEMIS_ERROR("OtlpExporter: curl_easy_init() failed — {} spans lost", batch.size());
+            const auto n = static_cast<uint64_t>(batch.size());
+            dropped_count_.fetch_add(n, std::memory_order_relaxed);
+#ifdef THEMIS_HAS_PROMETHEUS
+            if (prom_dropped_) prom_dropped_->Increment(static_cast<double>(n));
+#endif
+            return;
+        }
+        // Set required options on the temporary handle (same as in start())
+        curl_easy_setopt(curl, CURLOPT_URL,           config_.endpoint.c_str());
+        curl_easy_setopt(curl, CURLOPT_TIMEOUT_MS,    static_cast<long>(config_.timeout_ms));
+        curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
+        if (!config_.tls_ca_cert.empty())
+            curl_easy_setopt(curl, CURLOPT_CAINFO,  config_.tls_ca_cert.c_str());
+        if (!config_.tls_client_cert.empty())
+            curl_easy_setopt(curl, CURLOPT_SSLCERT, config_.tls_client_cert.c_str());
+        if (!config_.tls_client_key.empty())
+            curl_easy_setopt(curl, CURLOPT_SSLKEY,  config_.tls_client_key.c_str());
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curlWriteCallback);
+
+        tmp_headers = curl_slist_append(tmp_headers, "Content-Type: application/json");
+        if (!config_.auth_header.empty()) {
+            const std::string auth = "Authorization: Bearer " + config_.auth_header;
+            tmp_headers = curl_slist_append(tmp_headers, auth.c_str());
+        }
+        for (const auto& [k, v] : config_.extra_headers) {
+            const std::string hdr = k + ": " + v;
+            tmp_headers = curl_slist_append(tmp_headers, hdr.c_str());
+        }
+        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, tmp_headers);
+    }
+
     for (int attempt = 0; attempt < max_attempts; ++attempt) {
         if (attempt > 0) {
             THEMIS_INFO("OtlpExporter: retry attempt {}/{} after {}ms back-off",
@@ -251,58 +381,29 @@ void OtlpExporter::flushBatch(std::vector<SpanData>& batch)
             delay_ms *= 2;
         }
 
-        CURL* curl = curl_easy_init();
-        if (!curl) {
-            THEMIS_ERROR("OtlpExporter: curl_easy_init() failed — {} spans lost", batch.size());
-            dropped_count_.fetch_add(static_cast<uint64_t>(batch.size()),
-                                     std::memory_order_relaxed);
-            return;
-        }
-
-        struct curl_slist* headers = nullptr;
-        headers = curl_slist_append(headers, "Content-Type: application/json");
-
-        if (!config_.auth_header.empty()) {
-            const std::string auth = "Authorization: Bearer " + config_.auth_header;
-            headers = curl_slist_append(headers, auth.c_str());
-        }
-        for (const auto& [k, v] : config_.extra_headers) {
-            const std::string hdr = k + ": " + v;
-            headers = curl_slist_append(headers, hdr.c_str());
-        }
-
         std::string response_body;
 
-        curl_easy_setopt(curl, CURLOPT_URL,            config_.endpoint.c_str());
-        curl_easy_setopt(curl, CURLOPT_HTTPHEADER,      headers);
-        curl_easy_setopt(curl, CURLOPT_POST,            1L);
-        curl_easy_setopt(curl, CURLOPT_POSTFIELDS,      payload.c_str());
-        curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE,   static_cast<long>(payload.size()));
-        curl_easy_setopt(curl, CURLOPT_TIMEOUT_MS,      static_cast<long>(config_.timeout_ms));
-        curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION,  1L);
-        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION,   curlWriteCallback);
-        curl_easy_setopt(curl, CURLOPT_WRITEDATA,       &response_body);
-
-        // TLS settings
-        if (!config_.tls_ca_cert.empty())
-            curl_easy_setopt(curl, CURLOPT_CAINFO, config_.tls_ca_cert.c_str());
-        if (!config_.tls_client_cert.empty())
-            curl_easy_setopt(curl, CURLOPT_SSLCERT, config_.tls_client_cert.c_str());
-        if (!config_.tls_client_key.empty())
-            curl_easy_setopt(curl, CURLOPT_SSLKEY, config_.tls_client_key.c_str());
+        curl_easy_setopt(curl, CURLOPT_POST,          1L);
+        curl_easy_setopt(curl, CURLOPT_POSTFIELDS,    payload.c_str());
+        curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, static_cast<long>(payload.size()));
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA,     &response_body);
 
         const CURLcode res = curl_easy_perform(curl);
 
         long http_code = 0;
         curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
 
-        curl_slist_free_all(headers);
-        curl_easy_cleanup(curl);
-
         if (res == CURLE_OK && http_code >= 200 && http_code < 300) {
-            exported_count_.fetch_add(static_cast<uint64_t>(batch.size()),
-                                      std::memory_order_relaxed);
+            const auto n = static_cast<uint64_t>(batch.size());
+            exported_count_.fetch_add(n, std::memory_order_relaxed);
+#ifdef THEMIS_HAS_PROMETHEUS
+            if (prom_exported_) prom_exported_->Increment(static_cast<double>(n));
+#endif
             THEMIS_DEBUG("OtlpExporter: exported {} spans (HTTP {})", batch.size(), http_code);
+            if (owns_handle) {
+                if (tmp_headers) curl_slist_free_all(tmp_headers);
+                curl_easy_cleanup(curl);
+            }
             return;
         }
 
@@ -324,8 +425,16 @@ void OtlpExporter::flushBatch(std::vector<SpanData>& batch)
         }
     }
 
-    dropped_count_.fetch_add(static_cast<uint64_t>(batch.size()),
-                             std::memory_order_relaxed);
+    if (owns_handle) {
+        if (tmp_headers) curl_slist_free_all(tmp_headers);
+        curl_easy_cleanup(curl);
+    }
+
+    const auto n = static_cast<uint64_t>(batch.size());
+    dropped_count_.fetch_add(n, std::memory_order_relaxed);
+#ifdef THEMIS_HAS_PROMETHEUS
+    if (prom_dropped_) prom_dropped_->Increment(static_cast<double>(n));
+#endif
 }
 
 // ---------------------------------------------------------------------------
