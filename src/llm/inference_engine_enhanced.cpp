@@ -91,14 +91,16 @@ InferenceEngineEnhanced::InferenceEngineEnhanced(const Config& config)
 
     // Initialise speculative decoder when requested.
     if (config_.enable_speculative_decoding) {
+        SpeculativeDecoder::Config sd_cfg;
+        sd_cfg.k = config_.speculative_draft_tokens;
+        speculative_decoder_ = std::make_unique<SpeculativeDecoder>(sd_cfg);
+
         if (config_.speculative_draft_model_id.empty()) {
-            spdlog::warn("Speculative decoding requested but speculative_draft_model_id "
-                         "is empty — disabling speculative decoding");
-            config_.enable_speculative_decoding = false;
+            spdlog::info("Speculative decoder initialised: k={}, draft_model=auto-discover "
+                         "(call setAdapterRegistry() with a DRAFT adapter registered to "
+                         "enable family-based draft model selection)",
+                         sd_cfg.k);
         } else {
-            SpeculativeDecoder::Config sd_cfg;
-            sd_cfg.k = config_.speculative_draft_tokens;
-            speculative_decoder_ = std::make_unique<SpeculativeDecoder>(sd_cfg);
             spdlog::info("Speculative decoder initialised: k={}, draft_model={}",
                          sd_cfg.k, config_.speculative_draft_model_id);
         }
@@ -204,6 +206,14 @@ void InferenceEngineEnhanced::swapModel(
 // ═══════════════════════════════════════════════════════════
 // LoRA Adapter Hot-Loading
 // ═══════════════════════════════════════════════════════════
+
+void InferenceEngineEnhanced::setAdapterRegistry(
+    std::shared_ptr<AdapterRegistry> registry
+) {
+    std::lock_guard<std::mutex> lock(models_mutex_);
+    adapter_registry_ = std::move(registry);
+    spdlog::info("InferenceEngineEnhanced: adapter registry attached for DRAFT model discovery");
+}
 
 void InferenceEngineEnhanced::loadLoRAAdapter(
     const std::string& adapter_id,
@@ -1062,15 +1072,18 @@ void InferenceEngineEnhanced::processBatch(
 
             if (speculative_decoder_ && !grammar_active) {
                 // speculative_decoder_ is non-null only when
-                // enable_speculative_decoding == true and
-                // speculative_draft_model_id is non-empty (enforced in
-                // the constructor), so those two conditions are redundant here.
+                // enable_speculative_decoding == true.
+                // Resolve the draft model ID dynamically: use the explicit
+                // config value when set, otherwise auto-discover via the
+                // adapter registry (DRAFT role, matching model family).
+
+                const std::string draft_model_id = resolveDraftModelId(model_id);
 
                 // Retrieve the draft model plugin.
                 std::shared_ptr<ILLMPlugin> draft_plugin;
-                {
+                if (!draft_model_id.empty()) {
                     std::lock_guard<std::mutex> lock(models_mutex_);
-                    auto it = models_.find(config_.speculative_draft_model_id);
+                    auto it = models_.find(draft_model_id);
                     if (it != models_.end() && it->second.is_available) {
                         draft_plugin = it->second.plugin;
                     }
@@ -1082,7 +1095,8 @@ void InferenceEngineEnhanced::processBatch(
                 } else {
                     spdlog::debug("Draft model '{}' not available; falling back to "
                                   "standard generation for request {}",
-                                  config_.speculative_draft_model_id, req.request_id);
+                                  draft_model_id.empty() ? "(none resolved)" : draft_model_id,
+                                  req.request_id);
                 }
             }
 
@@ -1667,6 +1681,85 @@ std::vector<RoutingRule> InferenceEngineEnhanced::getRoutingRules() const {
 
 void InferenceEngineEnhanced::clearRoutingRules() {
     model_router_.clearRules();
+}
+
+// ═══════════════════════════════════════════════════════════
+// Draft-model resolution via AdapterRegistry
+// ═══════════════════════════════════════════════════════════
+
+std::string InferenceEngineEnhanced::resolveDraftModelId(
+    const std::string& target_model_id
+) const {
+    // Fast path: explicit draft model ID wins.
+    if (!config_.speculative_draft_model_id.empty()) {
+        return config_.speculative_draft_model_id;
+    }
+
+    // No registry attached → nothing to discover.
+    if (!adapter_registry_) {
+        return {};
+    }
+
+    // Determine the family/architecture of the target model.
+    // First try the ModelInfo metadata (architecture tag); if absent fall
+    // back to a simple heuristic of splitting the model_id on hyphens and
+    // using the first token as the family (e.g. "llama-7b" → "llama").
+    std::string family;
+    {
+        std::lock_guard<std::mutex> lock(models_mutex_);
+        auto it = models_.find(target_model_id);
+        if (it != models_.end() && it->second.plugin) {
+            auto info = it->second.plugin->getModelInfo();
+            if (info) {
+                // Prefer the architecture field from model metadata when present.
+                if (!info->architecture.empty()) {
+                    family = info->architecture;
+                } else if (!info->name.empty()) {
+                    // Fall back to first component of the model name.
+                    family = info->name;
+                    const auto pos = family.find('-');
+                    if (pos != std::string::npos) {
+                        family = family.substr(0, pos);
+                    }
+                }
+            }
+        }
+    }
+
+    if (family.empty()) {
+        // Last resort: derive from the model ID itself.
+        family = target_model_id;
+        const auto pos = family.find('-');
+        if (pos != std::string::npos) {
+            family = family.substr(0, pos);
+        }
+    }
+
+    // Query the registry for a DRAFT adapter matching this family.
+    auto draft_opt = adapter_registry_->findDraftAdapterForFamily(family);
+    if (!draft_opt.has_value()) {
+        return {};
+    }
+
+    const std::string& draft_id = draft_opt->adapter_id;
+
+    // Only use the draft adapter if its adapter_id is registered as a model
+    // in this engine instance (so the engine can call plugin->generate()).
+    {
+        std::lock_guard<std::mutex> lock(models_mutex_);
+        if (models_.count(draft_id) && models_.at(draft_id).is_available) {
+            spdlog::debug(
+                "InferenceEngineEnhanced: auto-selected DRAFT model '{}' for target '{}'",
+                draft_id, target_model_id);
+            return draft_id;
+        }
+    }
+
+    spdlog::debug(
+        "InferenceEngineEnhanced: DRAFT adapter '{}' found in registry but not registered "
+        "as a model — skipping auto-selection for target '{}'",
+        draft_id, target_model_id);
+    return {};
 }
 
 } // namespace llm

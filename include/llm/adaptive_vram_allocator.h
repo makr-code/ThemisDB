@@ -123,6 +123,40 @@ public:
     );
 
     /**
+     * @brief Calculate allocation for target + draft model simultaneously.
+     *
+     * Reserves VRAM for both models as required by speculative decoding:
+     *   - Target model is allocated with its own @p target_config.
+     *   - Draft model shares the same GPU; its weights are added on top of the
+     *     target allocation.  The draft model is quantized to INT4 by default
+     *     (precision_bytes = 0) to minimise footprint — pass a @p draft_config
+     *     with a non-zero precision_bytes to override.
+     *
+     * The returned plan's @c total and @c fits_in_vram fields account for both
+     * models.  The @c model_weights field reflects the combined weight footprint;
+     * @c draft_model_weights provides the draft-only contribution.
+     *
+     * @param target_config Target model architecture parameters.
+     * @param draft_config  Draft model architecture parameters.
+     *                      If @c precision_bytes == 0 the draft is treated as
+     *                      INT4 (0.5 bytes per parameter).
+     * @param hw            Hardware capabilities (total/available VRAM).
+     * @param config        Shared inference configuration (batch size, etc.).
+     * @return              Combined allocation plan with @c draft_model_weights set.
+     */
+    struct DualModelAllocationPlan : AllocationPlan {
+        size_t draft_model_weights = 0;   ///< Draft model weight footprint (bytes).
+        int    draft_precision_bytes = 0; ///< Effective bytes per parameter for draft (0 = INT4 = 0.5).
+    };
+
+    DualModelAllocationPlan calculateDualModelAllocation(
+        const ModelConfig&   target_config,
+        const ModelConfig&   draft_config,
+        const HardwareInfo&  hw,
+        const InferenceConfig& config
+    );
+
+    /**
      * @brief Fragmentation-aware allocation
      * 
      * Allocates memory using block-based strategy to minimize fragmentation.
