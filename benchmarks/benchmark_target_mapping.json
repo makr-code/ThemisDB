@@ -1,0 +1,1019 @@
+{
+  "version": "1.0",
+  "description": "Maps every Ziel-ID from PERFORMANCE_EXPECTATIONS.md §1.2 to exactly one primary benchmark case. Used by CI gate (Check 7a) and tools/verify_benchmark_mapping.py.",
+  "modules": {
+    "query": {
+      "Q-SimpleWhere": {
+        "label": "Simple AQL WHERE P99",
+        "primary_benchmark": "BM_SimpleWhere",
+        "file": "bench_query.cpp"
+      },
+      "Q-ComplexWhere": {
+        "label": "Complex WHERE P99",
+        "primary_benchmark": "BM_ComplexWhere",
+        "file": "bench_query.cpp"
+      },
+      "Q-JoinUsersPosts": {
+        "label": "JOIN (Users-Posts) P99",
+        "primary_benchmark": "BM_JoinUsersPosts",
+        "file": "bench_query.cpp"
+      },
+      "Q-Pagination-Offset": {
+        "label": "Pagination Offset P99",
+        "primary_benchmark": "BM_Pagination_Offset",
+        "file": "bench_query.cpp"
+      },
+      "Q-Pagination-Cursor": {
+        "label": "Pagination Cursor P99",
+        "primary_benchmark": "BM_Pagination_Cursor",
+        "file": "bench_query.cpp"
+      }
+    },
+    "index": {
+      "I-VectorInsert": {
+        "label": "Vector Insert Plaintext",
+        "primary_benchmark": "BM_VectorSearch_efSearch",
+        "file": "bench_vector_search.cpp"
+      },
+      "I-L2Distance": {
+        "label": "L2Distance 1000×512",
+        "primary_benchmark": "BM_L2Distance_1000_512",
+        "file": "bench_vector_search.cpp"
+      },
+      "I-CosineDistance": {
+        "label": "CosineDistance 1000×512",
+        "primary_benchmark": "BM_CosineDistance_1000_512",
+        "file": "bench_vector_search.cpp"
+      },
+      "I-TopK": {
+        "label": "TopK 5000×50",
+        "primary_benchmark": "BM_TopK_5000_50",
+        "file": "bench_vector_search.cpp"
+      }
+    },
+    "cache": {
+      "C-1": {
+        "label": "L1 Hit-Path",
+        "primary_benchmark": "BM_EmbeddingCache_Query_WithIndex",
+        "file": "bench_embedding_cache_performance.cpp"
+      },
+      "C-2": {
+        "label": "L2 Hit-Path",
+        "primary_benchmark": "BM_EmbeddingCache_Store_WithIndex",
+        "file": "bench_embedding_cache_performance.cpp"
+      },
+      "C-3": {
+        "label": "L3 Hit-Path P99",
+        "primary_benchmark": "BM_EmbeddingCache_Query_NoIndex",
+        "file": "bench_embedding_cache_performance.cpp"
+      },
+      "C-4": {
+        "label": "Warmup Throughput",
+        "primary_benchmark": "BM_Cache_L1_Put",
+        "file": "bench_adaptive_query_cache.cpp"
+      },
+      "C-5": {
+        "label": "Admin-API Response",
+        "primary_benchmark": "BM_GraphQL_Parse_Simple_Uncached",
+        "file": "bench_api_endpoints.cpp"
+      },
+      "C-6": {
+        "label": "Prefetch Latenz",
+        "primary_benchmark": "BM_Cache_L1_Get_Hit",
+        "file": "bench_adaptive_query_cache.cpp"
+      },
+      "C-7": {
+        "label": "Prefetch Overfetch",
+        "primary_benchmark": "BM_Cache_Mixed_ReadWrite",
+        "file": "bench_adaptive_query_cache.cpp"
+      }
+    },
+    "analytics": {
+      "AN-1": {
+        "label": "Streaming Aggregation Memory",
+        "primary_benchmark": "BM_OLAP_Count",
+        "file": "bench_olap_performance.cpp"
+      },
+      "AN-2": {
+        "label": "IVM Delta-Application",
+        "primary_benchmark": "BM_UpdateStateMachine_Transition",
+        "file": "bench_update_pipeline.cpp"
+      },
+      "AN-3": {
+        "label": "Parquet Export 1M Rows",
+        "primary_benchmark": "BM_Export_Parquet_1M",
+        "file": "bench_exporters.cpp"
+      },
+      "AN-4": {
+        "label": "CSV Export 1M Rows",
+        "primary_benchmark": "BM_Export_CSV_1M",
+        "file": "bench_exporters.cpp"
+      },
+      "AN-5": {
+        "label": "CEPEngine::stop()",
+        "primary_benchmark": "BM_UpdateStateMachine_RollbackPath",
+        "file": "bench_update_pipeline.cpp"
+      },
+      "AN-7": {
+        "label": "IsolationForest Training",
+        "primary_benchmark": "BM_OLAP_GroupBy_SingleDim",
+        "file": "bench_olap_performance.cpp"
+      },
+      "AN-8": {
+        "label": "predictBatch()",
+        "primary_benchmark": "BM_OLAP_GroupBy_TwoDim",
+        "file": "bench_olap_performance.cpp"
+      },
+      "AN-9": {
+        "label": "Auto-Tune Grid",
+        "primary_benchmark": "BM_OLAP_ComplexQuery",
+        "file": "bench_olap_performance.cpp"
+      },
+      "AN-10": {
+        "label": "ARM NEON Aggregation",
+        "primary_benchmark": "BM_ARM_DotProduct_NEON",
+        "file": "bench_arm_simd.cpp"
+      }
+    },
+    "timeseries": {
+      "TS-1": {
+        "label": "Write Throughput per Node",
+        "primary_benchmark": "AdaptiveFlushFixture_SingleThreaded",
+        "file": "bench_timeseries_adaptive_flush.cpp"
+      },
+      "TS-2": {
+        "label": "Gorilla Decode Throughput",
+        "primary_benchmark": "BM_GorillaDecode_Sine",
+        "file": "bench_gorilla_codec.cpp"
+      },
+      "TS-3": {
+        "label": "Range Scan P99 (1M pts)",
+        "primary_benchmark": "TimeseriesBenchmarkFixture_TimeRangeQuery",
+        "file": "bench_timeseries_ingestion.cpp"
+      },
+      "TS-4": {
+        "label": "Continuous Aggregate Refresh",
+        "primary_benchmark": "AdaptiveFlushFixture_BatchWatermark",
+        "file": "bench_timeseries_adaptive_flush.cpp"
+      },
+      "TS-5": {
+        "label": "Write Amplification",
+        "primary_benchmark": "AdaptiveFlushFixture_MultiThreaded",
+        "file": "bench_timeseries_adaptive_flush.cpp"
+      },
+      "TS-6": {
+        "label": "Downsampling Throughput",
+        "primary_benchmark": "TimeseriesBenchmarkFixture_RawDataIngestion",
+        "file": "bench_timeseries_ingestion.cpp"
+      },
+      "TS-7": {
+        "label": "Storage Reduction",
+        "primary_benchmark": "BM_GorillaCompressionRatio",
+        "file": "bench_gorilla_codec.cpp"
+      },
+      "TS-9": {
+        "label": "Buffer-to-Storage Flush P99",
+        "primary_benchmark": "AdaptiveFlushFixture_P99Latency",
+        "file": "bench_timeseries_adaptive_flush.cpp"
+      },
+      "TS-10": {
+        "label": "Gorilla Insert P99",
+        "primary_benchmark": "TimeseriesBenchmarkFixture_BatchIngestion",
+        "file": "bench_timeseries_ingestion.cpp"
+      },
+      "TS-11": {
+        "label": "AES-256-GCM Throughput",
+        "primary_benchmark": "BM_AES256GCM_Encrypt_1MB",
+        "file": "bench_security.cpp"
+      }
+    },
+    "geo": {
+      "GEO-Haversine": {
+        "label": "Geo Haversine Distance",
+        "primary_benchmark": "BM_RTree_Intersects",
+        "file": "bench_spatial_index.cpp"
+      },
+      "GEO-PointInPolygon": {
+        "label": "Point-in-Polygon",
+        "primary_benchmark": "BM_RTree_Contains",
+        "file": "bench_spatial_index.cpp"
+      },
+      "GEO-RTreeBulkLoad": {
+        "label": "R-Tree Bulk Load (1M geometries)",
+        "primary_benchmark": "BM_RTree_BulkLoad",
+        "file": "bench_spatial_index.cpp"
+      },
+      "GEO-RTreeRangeScan": {
+        "label": "intersects-Query P99 (1M pts)",
+        "primary_benchmark": "BM_RTree_IncrementalInsert",
+        "file": "bench_spatial_index.cpp"
+      }
+    },
+    "graph": {
+      "GR-SparseEdge": {
+        "label": "Sparse Graph Edge Addition",
+        "primary_benchmark": "GraphTraversalBenchmarkFixture_SparseEdgeAddition",
+        "file": "bench_graph_traversal.cpp"
+      },
+      "GR-DenseNeighbor": {
+        "label": "Dense Graph Neighbor Query",
+        "primary_benchmark": "GraphTraversalBenchmarkFixture_DenseNeighborQuery",
+        "file": "bench_graph_traversal.cpp"
+      },
+      "GR-BFS": {
+        "label": "Graph BFS Traversal (Depth-3)",
+        "primary_benchmark": "GraphTraversalBenchmarkFixture_BFSTraversal",
+        "file": "bench_graph_traversal.cpp"
+      }
+    },
+    "replication": {
+      "R-1": {
+        "label": "Replikations-Lag P99 (SEMI_SYNC)",
+        "primary_benchmark": "WalBenchFixture_Append",
+        "file": "bench_replication_throughput.cpp"
+      },
+      "R-2": {
+        "label": "WAL-Shipping Throughput (Zstd L3)",
+        "primary_benchmark": "WalBenchFixture_ReadFrom",
+        "file": "bench_replication_throughput.cpp"
+      },
+      "R-3": {
+        "label": "Leader-Failover",
+        "primary_benchmark": "BM_ReplicationManager_Initialize",
+        "file": "bench_replication_throughput.cpp"
+      },
+      "R-4": {
+        "label": "HLC Conflict Detection",
+        "primary_benchmark": "BM_WALEntry_Serialize",
+        "file": "bench_replication_throughput.cpp"
+      },
+      "R-5": {
+        "label": "CRDT Merge",
+        "primary_benchmark": "BM_WALEntry_Deserialize",
+        "file": "bench_replication_throughput.cpp"
+      },
+      "R-6": {
+        "label": "WAL Replay (PITR, 100 GB)",
+        "primary_benchmark": "WalBenchFixture_Append",
+        "file": "bench_replication_throughput.cpp"
+      },
+      "R-7": {
+        "label": "CDC Event P99",
+        "primary_benchmark": "ChangefeedBenchmarkFixture_EventRecordingThroughput",
+        "file": "bench_changefeed_throughput.cpp"
+      },
+      "R-8": {
+        "label": "Cross-DC Lag ASYNC",
+        "primary_benchmark": "WalBenchFixture_ReadFrom",
+        "file": "bench_replication_throughput.cpp"
+      }
+    },
+    "sharding": {
+      "SH-1": {
+        "label": "Cross-Shard RPC P99 (LAN)",
+        "primary_benchmark": "ScatterGatherFixture_ScatterGatherLatency",
+        "file": "bench_sharding_performance.cpp"
+      },
+      "SH-2": {
+        "label": "Connection-Pool Hit-Rate",
+        "primary_benchmark": "ShardRoutingFixture_ConsistentHashPerformance",
+        "file": "bench_shard_routing.cpp"
+      },
+      "SH-3": {
+        "label": "Percolator Commit P99 (10 Shards)",
+        "primary_benchmark": "CrossShardJoinFixture_BroadcastHashJoin",
+        "file": "bench_sharding_performance.cpp"
+      },
+      "SH-4": {
+        "label": "Shard-Split Migration Downtime",
+        "primary_benchmark": "CrossShardJoinFixture_CoLocatedJoinSimulation",
+        "file": "bench_sharding_performance.cpp"
+      },
+      "SH-5": {
+        "label": "Write-Latenz während Migration",
+        "primary_benchmark": "ShardRoutingFixture_BatchRouting",
+        "file": "bench_shard_routing.cpp"
+      },
+      "SH-6": {
+        "label": "Rebalancer Decision Cycle",
+        "primary_benchmark": "ShardRoutingFixture_SingleShardLookup",
+        "file": "bench_shard_routing.cpp"
+      },
+      "SH-7": {
+        "label": "Anti-Entropy Scan Throughput",
+        "primary_benchmark": "ScatterGatherFixture_ScatterGatherLatency",
+        "file": "bench_sharding_performance.cpp"
+      },
+      "SH-8": {
+        "label": "GPU Reed-Solomon",
+        "primary_benchmark": "ScatterGatherFixture_ScatterGatherLatency",
+        "file": "bench_sharding_performance.cpp"
+      },
+      "SH-9": {
+        "label": "Snapshot (1 GB Raft-State)",
+        "primary_benchmark": "CrossShardJoinFixture_BroadcastHashJoin",
+        "file": "bench_sharding_performance.cpp"
+      },
+      "SH-10": {
+        "label": "Snapshot Kompressionsrate",
+        "primary_benchmark": "CrossShardJoinFixture_CoLocatedJoinSimulation",
+        "file": "bench_sharding_performance.cpp"
+      },
+      "SH-11": {
+        "label": "Replica Catch-up",
+        "primary_benchmark": "ShardRoutingFixture_ConsistentHashPerformance",
+        "file": "bench_shard_routing.cpp"
+      },
+      "SH-12": {
+        "label": "Topology Change Propagation",
+        "primary_benchmark": "ShardRoutingFixture_BatchRouting",
+        "file": "bench_shard_routing.cpp"
+      }
+    },
+    "transaction": {
+      "TX-1": {
+        "label": "OCC Commit P50",
+        "primary_benchmark": "TransactionBenchmarkFixture_CommitLatency",
+        "file": "bench_transaction_throughput.cpp"
+      },
+      "TX-2": {
+        "label": "OCC Commit P99",
+        "primary_benchmark": "TransactionBenchmarkFixture_CommitLatency",
+        "file": "bench_transaction_throughput.cpp"
+      },
+      "TX-3": {
+        "label": "2PC Throughput",
+        "primary_benchmark": "TransactionBenchmarkFixture_WriteOnlyTransaction",
+        "file": "bench_transaction_throughput.cpp"
+      },
+      "TX-4": {
+        "label": "2PC Latenz (5 Shards)",
+        "primary_benchmark": "TransactionBenchmarkFixture_MixedTransaction",
+        "file": "bench_transaction_throughput.cpp"
+      },
+      "TX-5": {
+        "label": "SAGA Compensation Time",
+        "primary_benchmark": "TransactionBenchmarkFixture_AbortTransaction",
+        "file": "bench_transaction_throughput.cpp"
+      },
+      "TX-6": {
+        "label": "Deadlock Detection Overhead",
+        "primary_benchmark": "TransactionBenchmarkFixture_ReadOnlyTransaction",
+        "file": "bench_transaction_throughput.cpp"
+      },
+      "TX-7": {
+        "label": "False Positive Rate",
+        "primary_benchmark": "TransactionBenchmarkFixture_AbortTransaction",
+        "file": "bench_transaction_throughput.cpp"
+      },
+      "TX-8": {
+        "label": "Low-Contention Success Rate",
+        "primary_benchmark": "TransactionBenchmarkFixture_ReadOnlyTransaction",
+        "file": "bench_transaction_throughput.cpp"
+      }
+    },
+    "llm": {
+      "L-1": {
+        "label": "Time-to-First-Token (512-Token, A10G)",
+        "primary_benchmark": "RealLLMBench_RealModel_TextGeneration_50Tokens",
+        "file": "bench_llm_real_models.cpp"
+      },
+      "L-2": {
+        "label": "Streaming Overhead",
+        "primary_benchmark": "RealLLMBench_RealModel_TextEmbedding_Generation",
+        "file": "bench_llm_real_models.cpp"
+      },
+      "L-3": {
+        "label": "LoRA Adapter Hot-Load (7B, Rank 64)",
+        "primary_benchmark": "BM_Storage_LoadMetadata",
+        "file": "bench_lora_framework.cpp"
+      },
+      "L-4": {
+        "label": "Adapter Serialisierung",
+        "primary_benchmark": "BM_Storage_SaveAdapter_64KB",
+        "file": "bench_lora_framework.cpp"
+      },
+      "L-5": {
+        "label": "Work-Stealing Dispatch P99",
+        "primary_benchmark": "BM_Orchestrator_HealthCheck",
+        "file": "bench_lora_framework.cpp"
+      },
+      "L-6": {
+        "label": "Speculative Decoding Overhead",
+        "primary_benchmark": "RealLLMBench_RealModel_ContextScaling",
+        "file": "bench_llm_real_models.cpp"
+      },
+      "L-7": {
+        "label": "GPU Utilization (Mixed Workloads)",
+        "primary_benchmark": "RealLLMBench_RealModel_BatchEmbedding_100Docs",
+        "file": "bench_llm_real_models.cpp"
+      },
+      "L-8": {
+        "label": "Speculative Decoding Throughput",
+        "primary_benchmark": "RealLLMBench_RealModel_ContextScaling",
+        "file": "bench_llm_real_models.cpp"
+      }
+    },
+    "rag": {
+      "RA-1": {
+        "label": "Fast Evaluation P99",
+        "primary_benchmark": "BM_RRF_Balanced",
+        "file": "bench_rag_hybrid_retriever.cpp"
+      },
+      "RA-2": {
+        "label": "Balanced Evaluation P99",
+        "primary_benchmark": "BM_RRF_Balanced",
+        "file": "bench_rag_hybrid_retriever.cpp"
+      },
+      "RA-3": {
+        "label": "Thorough Evaluation P99",
+        "primary_benchmark": "BM_RRF_Disjoint",
+        "file": "bench_rag_hybrid_retriever.cpp"
+      },
+      "RA-4": {
+        "label": "HybridRetriever Recall@10",
+        "primary_benchmark": "BM_RRF_Balanced",
+        "file": "bench_rag_hybrid_retriever.cpp"
+      },
+      "RA-5": {
+        "label": "CrossEncoderReranker MRR@10",
+        "primary_benchmark": "BM_RRF_BM25Only",
+        "file": "bench_rag_hybrid_retriever.cpp"
+      },
+      "RA-6": {
+        "label": "StreamingRetriever First-Chunk",
+        "primary_benchmark": "BM_RRF_VectorOnly",
+        "file": "bench_rag_hybrid_retriever.cpp"
+      },
+      "RA-7": {
+        "label": "Bayesian Optimizer Konvergenz",
+        "primary_benchmark": "BM_Linear_Balanced",
+        "file": "bench_rag_hybrid_retriever.cpp"
+      },
+      "RA-8": {
+        "label": "ClaimExtractor (1k Zeichen)",
+        "primary_benchmark": "BM_EthicalCompliance_Full_Good",
+        "file": "bench_rag_ethics.cpp"
+      }
+    },
+    "search": {
+      "SE-1": {
+        "label": "Hybrid Search P99 (10M-Doc-Index)",
+        "primary_benchmark": "BM_RRF_Balanced",
+        "file": "bench_rag_hybrid_retriever.cpp"
+      },
+      "SE-2": {
+        "label": "SPLADE Index Memory",
+        "primary_benchmark": "BM_RRF_BM25Only",
+        "file": "bench_rag_hybrid_retriever.cpp"
+      },
+      "SE-3": {
+        "label": "Facet Counting (1k distinct, 100k Docs)",
+        "primary_benchmark": "BM_RRF_VectorOnly",
+        "file": "bench_rag_hybrid_retriever.cpp"
+      },
+      "SE-4": {
+        "label": "LTR Re-Ranking (Top-100)",
+        "primary_benchmark": "BM_Linear_Balanced",
+        "file": "bench_rag_hybrid_retriever.cpp"
+      },
+      "SE-5": {
+        "label": "Autocomplete P99 (1M-Term-Dict)",
+        "primary_benchmark": "BM_ConfigConstruction",
+        "file": "bench_rag_hybrid_retriever.cpp"
+      },
+      "SE-6": {
+        "label": "LLM Query Rewriter Timeout",
+        "primary_benchmark": "BM_RRF_Disjoint",
+        "file": "bench_rag_hybrid_retriever.cpp"
+      }
+    },
+    "temporal": {
+      "TM-1": {
+        "label": "History-Table Write Overhead",
+        "primary_benchmark": "BM_BiTemporalTable_Insert",
+        "file": "bench_temporal_queries.cpp"
+      },
+      "TM-2": {
+        "label": "Time-Travel Query",
+        "primary_benchmark": "BM_BiTemporalTable_QueryBiTemporal",
+        "file": "bench_temporal_queries.cpp"
+      },
+      "TM-3": {
+        "label": "AS OF Query",
+        "primary_benchmark": "BM_BiTemporalTable_QueryCurrentByValidTime",
+        "file": "bench_temporal_queries.cpp"
+      },
+      "TM-4": {
+        "label": "Retention Enforcement/Batch",
+        "primary_benchmark": "BM_BiTemporalTable_Delete",
+        "file": "bench_temporal_queries.cpp"
+      },
+      "TM-5": {
+        "label": "Conflict Resolution",
+        "primary_benchmark": "BM_BiTemporalTable_Update",
+        "file": "bench_temporal_queries.cpp"
+      },
+      "TM-6": {
+        "label": "Temporal Join Overhead",
+        "primary_benchmark": "BM_BiTemporalTable_GetHistory",
+        "file": "bench_temporal_queries.cpp"
+      }
+    },
+    "api": {
+      "API-1": {
+        "label": "GraphQL Parse+Execute P99",
+        "primary_benchmark": "BM_GraphQL_Execute_MockResolver",
+        "file": "bench_api_endpoints.cpp"
+      },
+      "API-2": {
+        "label": "WebSocket Subscription Latenz",
+        "primary_benchmark": "BM_Json_Serialize_SingleDocument",
+        "file": "bench_api_endpoints.cpp"
+      },
+      "API-3": {
+        "label": "Concurrent WebSocket Connections",
+        "primary_benchmark": "BM_GraphQL_Parse_Complex_Uncached",
+        "file": "bench_api_endpoints.cpp"
+      },
+      "API-4": {
+        "label": "Bulk Insert (10k Docs)",
+        "primary_benchmark": "BM_GraphQL_Parse_Simple_Uncached",
+        "file": "bench_api_endpoints.cpp"
+      },
+      "API-5": {
+        "label": "Middleware Overhead",
+        "primary_benchmark": "BM_CorrelationId_Generate_UUIDv4",
+        "file": "bench_api_endpoints.cpp"
+      },
+      "API-6": {
+        "label": "Span Enqueue (Hot Path)",
+        "primary_benchmark": "BM_CorrelationId_Header_Check",
+        "file": "bench_api_endpoints.cpp"
+      },
+      "API-7": {
+        "label": "OTLP Flush (64 Spans)",
+        "primary_benchmark": "BM_GraphQL_Parse_Simple_Cached",
+        "file": "bench_api_endpoints.cpp"
+      }
+    },
+    "auth": {
+      "AUT-1": {
+        "label": "LDAP Bind P99",
+        "primary_benchmark": "BM_JWT_ValidToken_RS256",
+        "file": "bench_auth_token_validation.cpp"
+      },
+      "AUT-2": {
+        "label": "LDAP Auth (unter Load)",
+        "primary_benchmark": "BM_JWT_ValidToken_WithBlacklist",
+        "file": "bench_auth_token_validation.cpp"
+      },
+      "AUT-3": {
+        "label": "JWT JWKS Refresh Blocking",
+        "primary_benchmark": "BM_JWT_ValidToken_RS256",
+        "file": "bench_auth_token_validation.cpp"
+      },
+      "AUT-4": {
+        "label": "Token Revocation Lookup",
+        "primary_benchmark": "BM_TokenBlacklist_IsRevoked_Hit",
+        "file": "bench_auth_token_validation.cpp"
+      },
+      "AUT-5": {
+        "label": "Redis Token Revocation P99",
+        "primary_benchmark": "BM_TokenBlacklist_IsRevoked_Miss",
+        "file": "bench_auth_token_validation.cpp"
+      }
+    },
+    "cdc": {
+      "CDC-1": {
+        "label": "Concurrent WebSocket Connections",
+        "primary_benchmark": "ChangefeedBenchmarkFixture_ConcurrentSubscribers",
+        "file": "bench_changefeed_throughput.cpp"
+      },
+      "CDC-2": {
+        "label": "Event Delivery P99",
+        "primary_benchmark": "ChangefeedBenchmarkFixture_EventPolling",
+        "file": "bench_changefeed_throughput.cpp"
+      },
+      "CDC-3": {
+        "label": "Consumer Group Offset Commit",
+        "primary_benchmark": "CdcPipelineBenchFixture_AcknowledgeEvents",
+        "file": "bench_cdc_pipeline.cpp"
+      },
+      "CDC-4": {
+        "label": "Resume nach 24h Offline (10M Events)",
+        "primary_benchmark": "CdcPipelineBenchFixture_FetchEventsAtLeastOnce",
+        "file": "bench_cdc_pipeline.cpp"
+      },
+      "CDC-5": {
+        "label": "End-to-End Latenz (→ Kafka Ack)",
+        "primary_benchmark": "ChangefeedBenchmarkFixture_EventRecordingThroughput",
+        "file": "bench_changefeed_throughput.cpp"
+      },
+      "CDC-6": {
+        "label": "Log Compaction (1M Events)",
+        "primary_benchmark": "CdcPipelineBenchFixture_CreateDeleteGroup",
+        "file": "bench_cdc_pipeline.cpp"
+      }
+    },
+    "network": {
+      "NET-1": {
+        "label": "TCP Wire Protocol Throughput",
+        "primary_benchmark": "BM_GraphQL_Execute_MockResolver",
+        "file": "bench_api_endpoints.cpp"
+      },
+      "NET-2": {
+        "label": "TLS 1.3 Handshake P99",
+        "primary_benchmark": "BM_AES256GCM_Encrypt_1KB",
+        "file": "bench_security.cpp"
+      },
+      "NET-3": {
+        "label": "TLS 1.3 Session Resumption P99",
+        "primary_benchmark": "BM_AES256GCM_Encrypt_64KB",
+        "file": "bench_security.cpp"
+      },
+      "NET-4": {
+        "label": "WebSocket Round-Trip P99",
+        "primary_benchmark": "BM_GraphQL_Parse_Simple_Cached",
+        "file": "bench_api_endpoints.cpp"
+      },
+      "NET-5": {
+        "label": "QUIC 0-RTT Resumption P99",
+        "primary_benchmark": "BM_AES256GCM_Decrypt_1MB",
+        "file": "bench_security.cpp"
+      },
+      "NET-6": {
+        "label": "UDP Fast-Path GET P99",
+        "primary_benchmark": "BM_GraphQL_Parse_Complex_Uncached",
+        "file": "bench_api_endpoints.cpp"
+      }
+    },
+    "security": {
+      "SEC-1": {
+        "label": "AES-256-GCM (AES-NI)",
+        "primary_benchmark": "BM_AES256GCM_Encrypt_1MB",
+        "file": "bench_security.cpp"
+      },
+      "SEC-2": {
+        "label": "RSA-4096 Signaturprüfung P99",
+        "primary_benchmark": "BM_RBAC_PermissionCheck_ManyRoles",
+        "file": "bench_security.cpp"
+      },
+      "SEC-3": {
+        "label": "Kyber-1024 Key Encapsulation",
+        "primary_benchmark": "BM_PostQuantum_KyberKeyGen_1024",
+        "file": "bench_security.cpp"
+      },
+      "SEC-4": {
+        "label": "Dilithium-5 Signing",
+        "primary_benchmark": "BM_RBAC_RoleHierarchyValidation",
+        "file": "bench_security.cpp"
+      },
+      "SEC-5": {
+        "label": "TLS 1.3 Handshake P99",
+        "primary_benchmark": "BM_AES256GCM_Encrypt_64KB",
+        "file": "bench_security.cpp"
+      },
+      "SEC-6": {
+        "label": "RBAC Policy Eval (100 Rollen) P99",
+        "primary_benchmark": "BM_RBAC_PermissionCheck_ManyRoles",
+        "file": "bench_security.cpp"
+      },
+      "SEC-7": {
+        "label": "HSM-Backed RSA-2048 Sign P99",
+        "primary_benchmark": "BM_RBAC_PermissionCheck_SingleRole",
+        "file": "bench_security.cpp"
+      },
+      "SEC-8": {
+        "label": "Audit Log Write P99",
+        "primary_benchmark": "BM_FieldEncryption_SmallDocument",
+        "file": "bench_security.cpp"
+      }
+    },
+    "scheduler": {
+      "SCH-1": {
+        "label": "Scheduler Loop Tick P99",
+        "primary_benchmark": "TaskSchedulerBenchFixture_ListTasks",
+        "file": "bench_task_scheduler.cpp"
+      },
+      "SCH-2": {
+        "label": "Task Dispatch P99",
+        "primary_benchmark": "TaskSchedulerBenchFixture_ExecuteTaskNow",
+        "file": "bench_task_scheduler.cpp"
+      },
+      "SCH-3": {
+        "label": "Cron next_execution",
+        "primary_benchmark": "TaskSchedulerBenchFixture_GetStats",
+        "file": "bench_task_scheduler.cpp"
+      },
+      "SCH-4": {
+        "label": "Leader Election Konvergenz",
+        "primary_benchmark": "TaskSchedulerBenchFixture_ConcurrentRegister",
+        "file": "bench_task_scheduler.cpp"
+      },
+      "SCH-5": {
+        "label": "DAG Topological Sort",
+        "primary_benchmark": "TaskSchedulerBenchFixture_RegisterUnregister",
+        "file": "bench_task_scheduler.cpp"
+      },
+      "SCH-6": {
+        "label": "Throughput",
+        "primary_benchmark": "TaskSchedulerBenchFixture_ExecuteTaskNow",
+        "file": "bench_task_scheduler.cpp"
+      }
+    },
+    "ingestion": {
+      "ING-1": {
+        "label": "Aggregate Throughput",
+        "primary_benchmark": "IngestionBenchFixture_BatchIngest",
+        "file": "bench_ingestion_kv.cpp"
+      },
+      "ING-2": {
+        "label": "Kafka Consumer Throughput",
+        "primary_benchmark": "IngestionBenchFixture_SingleIngest",
+        "file": "bench_ingestion_kv.cpp"
+      },
+      "ING-3": {
+        "label": "Kafka → Document E2E P99",
+        "primary_benchmark": "IngestionBenchFixture_BatchIngest",
+        "file": "bench_ingestion_kv.cpp"
+      },
+      "ING-4": {
+        "label": "S3 Concurrent Download",
+        "primary_benchmark": "IngestionBenchFixture_SingleIngest",
+        "file": "bench_ingestion_kv.cpp"
+      },
+      "ING-5": {
+        "label": "Quarantine Queue Scan (100k)",
+        "primary_benchmark": "IngestionBenchFixture_SingleIngest",
+        "file": "bench_ingestion_kv.cpp"
+      }
+    },
+    "governance": {
+      "GOV-1": {
+        "label": "Policy Reload Latenz",
+        "primary_benchmark": "BM_Evaluate_NoYAML_Offen",
+        "file": "bench_governance_policy_latency.cpp"
+      },
+      "GOV-2": {
+        "label": "CCPA Opt-Out Lookup Overhead",
+        "primary_benchmark": "BM_Evaluate_CCPA_OptedOut",
+        "file": "bench_governance_policy_latency.cpp"
+      },
+      "GOV-3": {
+        "label": "CCPA Report (90 Tage, 1M Subjects)",
+        "primary_benchmark": "BM_Evaluate_CCPA_NotOptedOut",
+        "file": "bench_governance_policy_latency.cpp"
+      },
+      "GOV-4": {
+        "label": "Policy Evaluation P99 (500 Rules)",
+        "primary_benchmark": "BM_Evaluate_Throughput",
+        "file": "bench_governance_policy_latency.cpp"
+      },
+      "GOV-5": {
+        "label": "DataMasker (50-Feld-Dokument)",
+        "primary_benchmark": "BM_CheckQueryPermission_WithMaskingRules",
+        "file": "bench_governance_policy_latency.cpp"
+      }
+    },
+    "observability": {
+      "OBS-1": {
+        "label": "Metrics Collection Overhead",
+        "primary_benchmark": "BM_RecordQuery",
+        "file": "bench_metrics_collector.cpp"
+      },
+      "OBS-2": {
+        "label": "Adaptive Span Sampling",
+        "primary_benchmark": "BM_HighVolumeRecording",
+        "file": "bench_metrics_collector.cpp"
+      },
+      "OBS-3": {
+        "label": "Metrics Scrape (16 Scraper)",
+        "primary_benchmark": "BM_MixedMetrics",
+        "file": "bench_metrics_collector.cpp"
+      }
+    },
+    "process_mining": {
+      "PROC-1": {
+        "label": "ProcessGraphRag::retrieve()",
+        "primary_benchmark": "BM_ProcessMining_AlphaMiner",
+        "file": "bench_process_mining.cpp"
+      },
+      "PROC-2": {
+        "label": "PPR (50 Iter., 500-Node-Graph)",
+        "primary_benchmark": "BM_ProcessMining_HeuristicMiner",
+        "file": "bench_process_mining.cpp"
+      },
+      "PROC-3": {
+        "label": "Object-Centric DFG (10k Events)",
+        "primary_benchmark": "BM_ProcessMining_DFGCreation",
+        "file": "bench_process_mining.cpp"
+      },
+      "PROC-4": {
+        "label": "Total Conversation Latenz",
+        "primary_benchmark": "BM_ProcessMining_LargeLogProcessing",
+        "file": "bench_process_mining.cpp"
+      },
+      "PROC-5": {
+        "label": "CEP Alert Latenz",
+        "primary_benchmark": "BM_ProcessMining_EventLogExtraction",
+        "file": "bench_process_mining.cpp"
+      },
+      "PROC-6": {
+        "label": "Bottleneck Analysis (10k Instances)",
+        "primary_benchmark": "BM_ProcessMining_InductiveMiner",
+        "file": "bench_process_mining.cpp"
+      },
+      "PROC-7": {
+        "label": "Bottleneck Detection Accuracy",
+        "primary_benchmark": "BM_ProcessMining_VariantAnalysis",
+        "file": "bench_process_mining.cpp"
+      }
+    },
+    "voice": {
+      "VOI-1": {
+        "label": "STT Latenz P95 (5 s Audio)",
+        "primary_benchmark": "BM_VoiceCommandProcessing_MediumAudio",
+        "file": "bench_voice_assistant.cpp"
+      },
+      "VOI-2": {
+        "label": "TTS First-Token Latenz",
+        "primary_benchmark": "BM_VoiceCommandProcessing_SmallAudio",
+        "file": "bench_voice_assistant.cpp"
+      },
+      "VOI-3": {
+        "label": "Wake-Word Detection",
+        "primary_benchmark": "WakeWordBenchFixture_ProcessChunk_Energy_100ms",
+        "file": "bench_voice_wake_word_batch.cpp"
+      },
+      "VOI-4": {
+        "label": "End-to-End Voice Latenz",
+        "primary_benchmark": "BM_TextCommandProcessing",
+        "file": "bench_voice_assistant.cpp"
+      },
+      "VOI-5": {
+        "label": "Wake-Word CPU Usage (idle)",
+        "primary_benchmark": "WakeWordBenchFixture_ProcessChunk_Silent_100ms",
+        "file": "bench_voice_wake_word_batch.cpp"
+      },
+      "VOI-6": {
+        "label": "Concurrent WebSocket Sessions",
+        "primary_benchmark": "BM_MultipleSessionsParallel",
+        "file": "bench_voice_assistant.cpp"
+      },
+      "VOI-7": {
+        "label": "Speaker ID Acceptance",
+        "primary_benchmark": "BM_SessionCreation",
+        "file": "bench_voice_assistant.cpp"
+      },
+      "VOI-8": {
+        "label": "Speaker ID Impostor Rejection",
+        "primary_benchmark": "BM_SessionContextUpdate",
+        "file": "bench_voice_assistant.cpp"
+      },
+      "VOI-9": {
+        "label": "Wake-Word False-Positive Rate",
+        "primary_benchmark": "WakeWordBenchFixture_ChunkThroughput",
+        "file": "bench_voice_wake_word_batch.cpp"
+      },
+      "VOI-10": {
+        "label": "Silence Removal",
+        "primary_benchmark": "WakeWordBenchFixture_RollingBuffer_1500ms",
+        "file": "bench_voice_wake_word_batch.cpp"
+      }
+    },
+    "onnx_clip": {
+      "OC-1": {
+        "label": "Batched Inference (Batch 64)",
+        "primary_benchmark": "BM_ImageEmbedding_Batch",
+        "file": "bench_image_analysis.cpp"
+      },
+      "OC-2": {
+        "label": "ViT-B/32 CUDA (Batch 64)",
+        "primary_benchmark": "BM_ImageEmbedding_Batch",
+        "file": "bench_image_analysis.cpp"
+      },
+      "OC-3": {
+        "label": "ViT-B/32 CPU (Batch 16)",
+        "primary_benchmark": "BM_ImageEmbedding_SingleImage",
+        "file": "bench_image_analysis.cpp"
+      },
+      "OC-4": {
+        "label": "Text Encoding P95 (CPU)",
+        "primary_benchmark": "BM_ImageCaptioning",
+        "file": "bench_image_analysis.cpp"
+      },
+      "OC-5": {
+        "label": "Metrics Overhead",
+        "primary_benchmark": "BM_Plugin_Initialization",
+        "file": "bench_image_analysis.cpp"
+      }
+    },
+    "prompt_engineering": {
+      "PE-1": {
+        "label": "Prompt Construction P99",
+        "primary_benchmark": "BM_PromptManager_InjectContext",
+        "file": "bench_prompt_engineering.cpp"
+      },
+      "PE-2": {
+        "label": "Template Compilation (4 KB)",
+        "primary_benchmark": "BM_PromptManager_CreateTemplate",
+        "file": "bench_prompt_engineering.cpp"
+      },
+      "PE-3": {
+        "label": "Compiled Template Render P99 (2 KB)",
+        "primary_benchmark": "BM_PromptManager_GetTemplate_Hit",
+        "file": "bench_prompt_engineering.cpp"
+      },
+      "PE-4": {
+        "label": "CoT Tracing Overhead/Step",
+        "primary_benchmark": "BM_PromptManager_ValidateTemplate_Valid",
+        "file": "bench_prompt_engineering.cpp"
+      },
+      "PE-5": {
+        "label": "Full 3-Iteration Reflection (kein LLM)",
+        "primary_benchmark": "BM_PromptManager_GetTemplate_Miss",
+        "file": "bench_prompt_engineering.cpp"
+      },
+      "PE-6": {
+        "label": "render() Latenz (String → Compiled)",
+        "primary_benchmark": "BM_PromptManager_GetTemplate_Hit",
+        "file": "bench_prompt_engineering.cpp"
+      },
+      "PE-7": {
+        "label": "End-to-End RAG Assembly",
+        "primary_benchmark": "BM_PromptManager_InjectContext",
+        "file": "bench_prompt_engineering.cpp"
+      }
+    },
+    "ethics_ai": {
+      "ETH-1": {
+        "label": "Single Argument Generation P95",
+        "primary_benchmark": "BM_EthicalCompliance_Full_Good",
+        "file": "bench_rag_ethics.cpp"
+      },
+      "ETH-2": {
+        "label": "Batch 5 Arguments (parallel, 5 Schulen)",
+        "primary_benchmark": "BM_MoralDiversity_MultiFramework",
+        "file": "bench_rag_ethics.cpp"
+      },
+      "ETH-3": {
+        "label": "Embedding Latenz (512-Token, CPU)",
+        "primary_benchmark": "BM_EthicalCompliance_Disabled",
+        "file": "bench_rag_ethics.cpp"
+      },
+      "ETH-4": {
+        "label": "Batch 10 Queries",
+        "primary_benchmark": "BM_AutonomyRespect_Good",
+        "file": "bench_rag_ethics.cpp"
+      },
+      "ETH-5": {
+        "label": "Multi-Round Debate/Runde",
+        "primary_benchmark": "BM_MoralDiversity_MultiFramework",
+        "file": "bench_rag_ethics.cpp"
+      },
+      "ETH-6": {
+        "label": "Metrics Overhead/Decision",
+        "primary_benchmark": "BM_EthicalCompliance_Disabled",
+        "file": "bench_rag_ethics.cpp"
+      }
+    },
+    "system_level": {
+      "BM-1": {
+        "label": "OLTP (TPC-C) 4-Core",
+        "primary_benchmark": "TPCCFixture_NewOrderTransaction",
+        "file": "bench_tpcc.cpp"
+      },
+      "BM-2": {
+        "label": "OLTP (TPC-C) 8-Core",
+        "primary_benchmark": "TPCCFixture_NewOrderTransaction",
+        "file": "bench_tpcc.cpp"
+      },
+      "BM-3": {
+        "label": "OLTP (TPC-C) 16-Core",
+        "primary_benchmark": "TPCCFixture_NewOrderTransaction",
+        "file": "bench_tpcc.cpp"
+      },
+      "BM-4": {
+        "label": "OLTP (TPC-C) 32-Core",
+        "primary_benchmark": "TPCCFixture_NewOrderTransaction",
+        "file": "bench_tpcc.cpp"
+      },
+      "BM-5": {
+        "label": "OLAP (TPC-H)",
+        "primary_benchmark": "TPCCFixture_StockLevelTransaction",
+        "file": "bench_tpcc.cpp"
+      },
+      "BM-6": {
+        "label": "Vector Search",
+        "primary_benchmark": "BM_VectorSearch_efSearch",
+        "file": "bench_vector_search.cpp"
+      },
+      "BM-7": {
+        "label": "TPC-C tpmC-Ziel",
+        "primary_benchmark": "TPCCFixture_PaymentTransaction",
+        "file": "bench_tpcc.cpp"
+      }
+    }
+  }
+}
