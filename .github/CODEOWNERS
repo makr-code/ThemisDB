@@ -1,28 +1,231 @@
 # CODEOWNERS
 # Each line is a file pattern followed by one or more owners.
 # Order matters – the last matching pattern takes the highest precedence.
+# See: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
 
-# Core Storage
-/src/storage/ @makr-code
-/src/mvcc/ @makr-code
+# Global fallback — Project Lead reviews everything not covered below
+* @makr-code
 
-# Query Engine & AQL
-/src/query/ @makr-code
-/src/aql/ @makr-code
+# ── Root documentation ────────────────────────────────────────────────────────
+/README.md @makr-code
+/QUICKSTART.md @makr-code
+/SETUP.md @makr-code
+/ARCHITECTURE.md @makr-code
+/VERSIONING.md @makr-code
+/CHANGELOG.md @makr-code
+/RELEASE_STRATEGY.md @makr-code
+/SOP.md @makr-code
+/GOVERNANCE.md @makr-code
+/MAINTAINERS.md @makr-code
+/SECURITY.md @makr-code
+/CONTRIBUTING.md @makr-code
+/CODE_OF_CONDUCT.md @makr-code
+/SUPPORT.md @makr-code
+/LICENSE @makr-code
+/roadmap.md @makr-code
 
-# CUDA Acceleration
-/src/cuda/ @makr-code
-
-# Vector DB
-/src/vector/ @makr-code
-
-# Graph DB
-/src/graph/ @makr-code
-
-# RAG Integration
-/src/rag/ @makr-code
-
-# Build & Infrastructure
+# ── Build & Infrastructure ────────────────────────────────────────────────────
 /cmake/ @makr-code
+/CMakeLists.txt @makr-code
+/CMakePresets.json @makr-code
+/CMakeUserPresets.json @makr-code
+/vcpkg.json @makr-code
+/vcpkg-configuration.json @makr-code
 /.github/ @makr-code
-CMakeLists.txt @makr-code
+/.devcontainer/ @makr-code
+/Dockerfile @makr-code
+/Dockerfile.* @makr-code
+/docker-compose*.yml @makr-code
+/docker/ @makr-code
+
+# ── Source modules ─────────────────────────────────────────────────────────────
+/src/acceleration/ @makr-code
+/include/acceleration/ @makr-code
+
+/src/analytics/ @makr-code
+/include/analytics/ @makr-code
+
+/src/api/ @makr-code
+/include/api/ @makr-code
+
+/src/aql/ @makr-code
+/include/aql/ @makr-code
+
+/src/auth/ @makr-code
+/include/auth/ @makr-code
+
+/src/base/ @makr-code
+/include/base/ @makr-code
+
+/src/cache/ @makr-code
+/include/cache/ @makr-code
+
+/src/cdc/ @makr-code
+/include/cdc/ @makr-code
+
+/src/chaos/ @makr-code
+/include/chaos/ @makr-code
+
+/src/chimera/ @makr-code
+/include/chimera/ @makr-code
+
+/src/config/ @makr-code
+/include/config/ @makr-code
+
+/src/content/ @makr-code
+/include/content/ @makr-code
+
+/src/core/ @makr-code
+/include/core/ @makr-code
+
+/src/ethics_ai/ @makr-code
+/include/ethics_ai/ @makr-code
+
+/src/exporters/ @makr-code
+/include/exporters/ @makr-code
+
+/src/failover/ @makr-code
+/include/failover/ @makr-code
+
+/src/geo/ @makr-code
+/include/geo/ @makr-code
+
+/src/governance/ @makr-code
+/include/governance/ @makr-code
+
+/src/gpu/ @makr-code
+/include/gpu/ @makr-code
+
+/src/graph/ @makr-code
+/include/graph/ @makr-code
+
+/src/importers/ @makr-code
+/include/importers/ @makr-code
+
+/src/index/ @makr-code
+/include/index/ @makr-code
+
+/src/ingestion/ @makr-code
+/include/ingestion/ @makr-code
+
+/src/llama_cpp/ @makr-code
+/include/llama_cpp/ @makr-code
+
+/src/llm/ @makr-code
+/include/llm/ @makr-code
+
+/src/maintenance/ @makr-code
+/include/maintenance/ @makr-code
+
+/src/metadata/ @makr-code
+/include/metadata/ @makr-code
+
+/src/network/ @makr-code
+/include/network/ @makr-code
+
+/src/observability/ @makr-code
+/include/observability/ @makr-code
+
+/src/onnx_clip/ @makr-code
+/include/onnx_clip/ @makr-code
+
+/src/performance/ @makr-code
+/include/performance/ @makr-code
+
+/src/plugins/ @makr-code
+/include/plugins/ @makr-code
+
+/src/process/ @makr-code
+/include/process/ @makr-code
+
+/src/prompt_engineering/ @makr-code
+/include/prompt_engineering/ @makr-code
+
+/src/query/ @makr-code
+/include/query/ @makr-code
+
+/src/rag/ @makr-code
+/include/rag/ @makr-code
+
+/src/replication/ @makr-code
+/include/replication/ @makr-code
+
+/src/rpc_grpc/ @makr-code
+/include/rpc_grpc/ @makr-code
+
+/src/scheduler/ @makr-code
+/include/scheduler/ @makr-code
+
+/src/search/ @makr-code
+/include/search/ @makr-code
+
+/src/security/ @makr-code
+/include/security/ @makr-code
+
+/src/server/ @makr-code
+/include/server/ @makr-code
+
+/src/sharding/ @makr-code
+/include/sharding/ @makr-code
+
+/src/stable_diffusion/ @makr-code
+/include/stable_diffusion/ @makr-code
+
+/src/storage/ @makr-code
+/include/storage/ @makr-code
+
+/src/temporal/ @makr-code
+/include/temporal/ @makr-code
+
+/src/themis/ @makr-code
+/include/themis/ @makr-code
+
+/src/timeseries/ @makr-code
+/include/timeseries/ @makr-code
+
+/src/training/ @makr-code
+/include/training/ @makr-code
+
+/src/transaction/ @makr-code
+/include/transaction/ @makr-code
+
+/src/updates/ @makr-code
+/include/updates/ @makr-code
+
+/src/utils/ @makr-code
+/include/utils/ @makr-code
+
+/src/voice/ @makr-code
+/include/voice/ @makr-code
+
+/src/whisper/ @makr-code
+/include/whisper/ @makr-code
+
+# ── Tests & Benchmarks ────────────────────────────────────────────────────────
+/tests/ @makr-code
+/benchmarks/ @makr-code
+/fuzz/ @makr-code
+
+# ── Documentation ─────────────────────────────────────────────────────────────
+/docs/ @makr-code
+/compendium/ @makr-code
+
+# ── Client SDKs ───────────────────────────────────────────────────────────────
+/clients/ @makr-code
+/sdks/ @makr-code
+
+# ── Deployment ────────────────────────────────────────────────────────────────
+/deploy/ @makr-code
+/helm/ @makr-code
+/operator/ @makr-code
+/packaging/ @makr-code
+
+# ── Security-sensitive files (require extra scrutiny) ─────────────────────────
+/src/security/ @makr-code
+/include/security/ @makr-code
+/src/auth/ @makr-code
+/include/auth/ @makr-code
+/.gitleaks.toml @makr-code
+/.secret-scan-allowlist.txt @makr-code
+/certs/ @makr-code
+

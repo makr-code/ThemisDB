@@ -1313,3 +1313,292 @@ dr_datacenter: enabled
 
 **Nächstes Kapitel:** [Kapitel 19: Monitoring & Observability](chapter_19_monitoring.md)  
 **Vorheriges Kapitel:** [Kapitel 17: Horizontal Scaling](chapter_17_scaling.md)
+
+---
+
+## 18.10 WAL-Archivierung & Logische Replikation {#chapter_18_10_wal_archival}
+
+### 18.10.1 WALArchivalManager
+
+**Header:** `include/replication/replication_manager.h`  
+**Status:** ✅ Production-Ready  
+
+`WALArchivalManager` archiviert WAL-Segmente kontinuierlich mit Zstd-Kompression und AES-256-GCM-Verschlüsselung auf konfigurierbaren Object-Storage-Backends (S3, GCS, Azure Blob). Storage-Tier-Lifecycle steuert den automatischen Übergang von Standard → Cold → Glacier.
+
+```cpp
+#include "replication/replication_manager.h"
+
+ArchivalConfig cfg;
+cfg.compression    = ArchivalCompression::ZSTD_LEVEL_3;
+cfg.encryption_key = key_manager.getDEK("wal-archival-key");
+cfg.backend        = std::make_shared<S3ArchivalBackend>(
+    "us-east-1", "themisdb-wal-archive", "wal/");
+cfg.lifecycle = {
+    .standard_days = 7,
+    .cold_days     = 30,
+    .glacier_days  = 90,
+};
+cfg.upload_parallelism = 4;
+cfg.segment_size_mb    = 64;
+
+WALArchivalManager archiver(cfg);
+archiver.start();                         // Hintergrund-Thread startet
+
+// WAL-Segment manuell auslösen (für Tests)
+archiver.flushCurrentSegment();
+
+// Archiv-Metadaten abfragen
+auto segments = archiver.listSegments(start_lsn, end_lsn);
+// segments[0].lsn_start, segments[0].lsn_end, segments[0].tier, segments[0].url
+
+// Segment für PITR herunterladen
+archiver.restoreSegment(lsn, "/tmp/wal_restore/");
+```
+
+**Lifecycle-Tiers:**
+
+| Tier | Zugriff | Kosten | Transition |
+|------|---------|--------|-----------|
+| Standard | < 100ms | €€€ | Tag 0 |
+| Cold (IA) | < 1s | €€ | Tag 7 |
+| Glacier | Minuten | € | Tag 30 |
+| Deep Archive | Stunden | ¢ | Tag 90 |
+
+---
+
+### 18.10.2 LogicalReplicationManager
+
+**Header:** `include/replication/logical_replication.h`  
+**Status:** ✅ Production-Ready  
+
+Logische Replikation auf Statement-/Row-Ebene mit schema-aware Replication Slots, Row-Filter, DDL-Capture und Cross-Version-Transforms. Parallel-Decoding über mehrere Worker ermöglicht >100K Events/s.
+
+```cpp
+#include "replication/logical_replication.h"
+
+LogicalReplicationConfig lr_cfg;
+lr_cfg.slot_name       = "replica_slot_1";
+lr_cfg.output_plugin   = OutputPlugin::PGOUTPUT;
+lr_cfg.publication     = "all_tables";
+lr_cfg.row_filter      = "tenant_id = 'acme'";      // Tenant-Isolation
+lr_cfg.include_ddl     = true;
+lr_cfg.worker_threads  = 8;
+lr_cfg.transform       = [](const RowChange& change) {
+    // Cross-version field rename
+    if (change.table == "orders" && change.has("customer_id"))
+        change.rename("customer_id", "user_id");
+    return change;
+};
+
+LogicalReplicationManager lrm(lr_cfg);
+
+// Subscription starten
+lrm.subscribe([](const RowChange& change) {
+    if (change.type == ChangeType::INSERT) {
+        downstream_db.insert(change.table, change.new_row);
+    } else if (change.type == ChangeType::UPDATE) {
+        downstream_db.update(change.table, change.old_key, change.new_row);
+    } else {
+        downstream_db.remove(change.table, change.old_key);
+    }
+});
+
+lrm.start();
+
+// Lag überwachen
+ReplicationStats stats = lrm.getStats();
+std::cout << "Lag: " << stats.replication_lag_ms << "ms\n";
+std::cout << "Events/s: " << stats.events_per_second << "\n";
+```
+
+---
+
+## 18.11 Chaos Engineering & Disaster Recovery {#chapter_18_11_chaos_dr}
+
+### 18.11.1 FaultInjector
+
+**Header:** `include/chaos/chaos_framework.h`  
+**Status:** ✅ Production-Ready  
+
+`FaultInjector` injiziert kontrollierte Fehler in laufende ThemisDB-Cluster für Resilienz-Tests nach dem Chaos-Engineering-Prinzip (Chaos Monkey, Gremlin). Unterstützt zeitlich begrenzte Injektionen mit konfigurierbarer Wahrscheinlichkeit.
+
+```cpp
+#include "chaos/chaos_framework.h"
+
+FaultInjector injector;
+
+// Knoten-Ausfall simulieren (30 Sekunden, 100% Wahrscheinlichkeit)
+injector.inject(FaultType::NODE_FAILURE, {
+    .target_node_id  = "node-3",
+    .duration        = std::chrono::seconds{30},
+    .probability     = 1.0,
+});
+
+// Netzwerk-Partition zwischen zwei Regionen
+injector.inject(FaultType::NETWORK_PARTITION, {
+    .source_nodes    = {"node-1", "node-2"},
+    .target_nodes    = {"node-3", "node-4"},
+    .duration        = std::chrono::seconds{60},
+    .probability     = 1.0,
+    .packet_loss_pct = 100,
+});
+
+// Disk-Slow (Latenz-Injektion auf Storage I/O)
+injector.inject(FaultType::DISK_FAILURE, {
+    .target_node_id  = "node-2",
+    .duration        = std::chrono::seconds{10},
+    .probability     = 0.5,       // 50% der I/O-Operationen betroffen
+    .extra_latency_ms = 500,
+});
+
+// Aktive Faults auflisten
+auto active = injector.getActiveFaults();
+for (auto& f : active) {
+    std::cout << f.type_name << " on " << f.target
+              << " (remaining: " << f.remaining_ms << "ms)\n";
+}
+
+// Alle Faults stoppen
+injector.clearAll();
+```
+
+**Fault-Typen:**
+
+| `FaultType` | Beschreibung |
+|-------------|-------------|
+| `NODE_FAILURE` | Prozess auf Ziel-Node beendet, kein Graceful Shutdown |
+| `NETWORK_PARTITION` | iptables-Regeln blockieren Traffic zwischen Node-Sets |
+| `LEADER_CRASH` | Nur auf dem aktuellen Raft-Leader appliziert |
+| `DISK_FAILURE` | I/O-Latenz + Fehler-Injektion via LD_PRELOAD |
+| `RANDOM` | Zufällige Auswahl aus allen Fault-Typen |
+
+---
+
+### 18.11.2 ChaosScheduler
+
+**Header:** `include/chaos/chaos_framework.h`  
+**Status:** ✅ Production-Ready  
+
+`ChaosScheduler` plant Fault-Injektionen nach Cron-Schedule oder Event-getriggert. Sinnvoll für kontinuierliche Resilienz-Tests in Staging-Umgebungen.
+
+```cpp
+#include "chaos/chaos_framework.h"
+
+ChaosScheduler scheduler;
+
+// Jeden Montag 02:00 UTC: zufälligen Node-Ausfall für 2 Minuten
+scheduler.schedule(ChaosJob{
+    .cron_expression = "0 2 * * 1",    // Montags 02:00
+    .fault_type      = FaultType::RANDOM,
+    .parameters      = {.duration = std::chrono::minutes{2}, .probability = 0.8},
+    .label           = "weekly-chaos-monday",
+});
+
+// Auf hohe Last reagieren: bei CPU > 80% Netzwerk-Delay injecten
+scheduler.scheduleOnEvent(
+    EventTrigger::CPU_HIGH,
+    FaultType::NETWORK_PARTITION,
+    {.duration = std::chrono::seconds{15}, .probability = 0.3}
+);
+
+scheduler.start();
+
+// Job-History
+for (auto& run : scheduler.getHistory(24h)) {
+    std::cout << run.label << ": " << run.status
+              << " at " << run.executed_at_utc << "\n";
+}
+```
+
+---
+
+### 18.11.3 DisasterRecoveryManager
+
+**Header:** `include/failover/disaster_recovery_manager.h`  
+**Status:** ✅ Production-Ready  
+
+`DisasterRecoveryManager` orchestriert den vollständigen Disaster-Recovery-Prozess in 7 definierten Schritten. Jeder Schritt kann mit Pre/Post-Hooks erweitert werden. `dry_run`-Modus validiert alle Voraussetzungen ohne tatsächliche Änderungen.
+
+```cpp
+#include "failover/disaster_recovery_manager.h"
+
+DRConfig dr_cfg;
+dr_cfg.target_cluster   = "cluster-eu-failover";
+dr_cfg.rpo_target_secs  = 60;      // Max. tolerierbarer Datenverlust
+dr_cfg.rto_target_secs  = 300;     // Max. tolerierbare Ausfallzeit
+dr_cfg.dry_run          = false;   // true = nur simulieren
+
+DisasterRecoveryManager drm(dr_cfg);
+
+// Hooks für jeden Schritt registrieren
+drm.onStep(DRStep::VALIDATE_SNAPSHOT, [](const StepContext& ctx) {
+    LOG_INFO("Snapshot {} validated, LSN: {}", ctx.snapshot_id, ctx.lsn);
+});
+drm.onStep(DRStep::SHIFT_TRAFFIC, [](const StepContext& ctx) {
+    dns_provider.updateRecord("db.example.com", ctx.new_primary_ip);
+});
+
+// Recovery starten
+auto result = drm.execute();
+if (!result.success) {
+    LOG_ERROR("DR failed at step {}: {}", result.failed_step_name, result.error);
+    drm.rollback();
+}
+
+// Statistiken
+DRStats stats = drm.getStats();
+std::cout << "Total time: " << stats.total_elapsed_secs << "s\n";
+std::cout << "Data loss: " << stats.data_loss_secs << "s\n";
+std::cout << "RTO achieved: " << (stats.total_elapsed_secs <= dr_cfg.rto_target_secs) << "\n";
+```
+
+**DR-Schritte:**
+
+| Step | Beschreibung | Typische Dauer |
+|------|-------------|---------------|
+| `PRECHECKS` | Konnektivität, Disk-Space, Credentials prüfen | 5–15 s |
+| `VALIDATE_SNAPSHOT` | Letzten validen Snapshot identifizieren | 10–30 s |
+| `EPOCH_FENCING` | Alten Primary aus Cluster ausschließen | 2–5 s |
+| `RESTORE` | Snapshot auf DR-Cluster anwenden | 30–120 s |
+| `CATCHUP` | WAL-Replay bis aktueller LSN | 10–60 s |
+| `SHIFT_TRAFFIC` | DNS/Load-Balancer auf DR-Cluster umschalten | 5–10 s |
+| `VERIFY` | End-to-End Health-Check auf neuem Primary | 15–30 s |
+
+---
+
+### 18.11.4 AutoFailoverManager
+
+**Header:** `include/failover/auto_failover_manager.h`  
+**Status:** ✅ Production-Ready  
+
+Automatisches Failover ohne manuelle Intervention. Raft-basierte Leader-Erkennung, konfigurierbare Failover-Schwellwerte und Quorum-Anforderungen.
+
+```cpp
+#include "failover/auto_failover_manager.h"
+
+AutoFailoverConfig afo_cfg;
+afo_cfg.health_check_interval = std::chrono::seconds{5};
+afo_cfg.failure_threshold     = 3;          // 3 aufeinanderfolgende Fehler → Failover
+afo_cfg.election_timeout_ms   = 1500;
+afo_cfg.min_quorum_size       = 2;          // Von 3 Nodes
+afo_cfg.notify_url            = "https://pagerduty.example.com/webhook/themis";
+
+AutoFailoverManager afo(nodes, afo_cfg);
+afo.start();
+
+// Failover-Events subscriben
+afo.onFailover([](const FailoverEvent& evt) {
+    LOG_WARN("Failover: {} → {} (reason: {})",
+             evt.old_primary, evt.new_primary, evt.reason);
+    metrics.increment("themis.failover.count");
+});
+
+// Manuelles Failover
+afo.triggerManualFailover("node-2",
+    ManualFailoverOptions{.force = false, .drain_connections = true});
+```
+
+---
+
+**Nächstes Kapitel:** [Kapitel 19: Monitoring & Observability](chapter_19_monitoring.md)  
+**Vorheriges Kapitel:** [Kapitel 17: Horizontal Scaling](chapter_17_scaling.md)

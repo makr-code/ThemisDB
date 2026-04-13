@@ -2,9 +2,9 @@
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
-**Version:** 2.0  
-**Last Updated:** 2026-04-06  
-**Scope:** Aggregated roadmap across all 46 modules in `src/`
+**Version:** 2.1  
+**Last Updated:** 2026-04-13  
+**Scope:** Aggregated roadmap across all 55 modules in `src/`
 
 > For module-specific details see each module's `src/<module>/ROADMAP.md`.
 
@@ -15,7 +15,7 @@
 ThemisDB is a high-performance multi-model database with native AI/LLM integration. This top-level roadmap aggregates the status and planned work across all 46 source modules. The project follows a phased approach: stabilise core infrastructure first, then harden distributed and AI layers, and finally deliver operational excellence at hyperscale.
 
 **Overall Timeline:** Q1 2026 – Q4 2027  
-**Current Release:** v1.8.0-rc1
+**Current Release:** v1.8.1-rc2
 
 ---
 
@@ -23,7 +23,7 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 
 | Module | Status | Individual Roadmap |
 |--------|--------|--------------------|
-| **acceleration** | 🚧 Pre-production hardening | [src/acceleration/ROADMAP.md](src/acceleration/ROADMAP.md) |
+| **acceleration** | ✅ Production-ready (v1.8.0) — AiHardwareDispatcher v1.0 (NPU priority chain), NCCL/RCCL mergeTopK, CUDA ANN/geospatial kernels, Vulkan compute pipeline; AC-4 filter operator and HardwareAccelerator tests complete | [src/acceleration/ROADMAP.md](src/acceleration/ROADMAP.md) |
 | **analytics** | ✅ Production-ready | [src/analytics/ROADMAP.md](src/analytics/ROADMAP.md) |
 | **api** | ✅ Production-ready — REST/gRPC/WebSocket/OpenAPI 3.x complete; GraphQL v1.x limitations version-gated | [src/api/ROADMAP.md](src/api/ROADMAP.md) |
 | **aql** | ✅ Production-ready | [src/aql/ROADMAP.md](src/aql/ROADMAP.md) |
@@ -31,11 +31,14 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 | **base** | ✅ Production-ready | [src/base/ROADMAP.md](src/base/ROADMAP.md) |
 | **cache** | ✅ Production-ready | [src/cache/ROADMAP.md](src/cache/ROADMAP.md) |
 | **cdc** | ✅ Production-ready | [src/cdc/ROADMAP.md](src/cdc/ROADMAP.md) |
+| **chaos** | ✅ Production-ready — FaultInjector (5 fault types), ChaosScheduler (cron + event trigger), deterministic chaos scheduling | [src/chaos/ROADMAP.md](src/chaos/ROADMAP.md) |
 | **chimera** | 🔴 Alpha — ThemisDB adapter functional; vendor adapters planned | [src/chimera/ROADMAP.md](src/chimera/ROADMAP.md) |
 | **config** | ✅ Production-ready | [src/config/ROADMAP.md](src/config/ROADMAP.md) |
 | **content** | ✅ Production-ready — 13 format processors with >80% coverage; benchmark thresholds met; security hardening (zip-bomb, path, upload) verified | [src/content/ROADMAP.md](src/content/ROADMAP.md) |
 | **core** | ✅ Production-ready — ConcernsContext DI, pluggable adapters, tracing/metrics/cache/secrets/feature-flags operational | [src/core/ROADMAP.md](src/core/ROADMAP.md) |
+| **ethics_ai** | ✅ Production-ready (v0.2.0) — PhilosophyLoader (YAML rich thesis objects), EthicsEvaluator (configurable weights), ChainVisualizer (DOT/Mermaid export) | [src/ethics_ai/ROADMAP.md](src/ethics_ai/ROADMAP.md) |
 | **exporters** | ✅ Production-ready | [src/exporters/ROADMAP.md](src/exporters/ROADMAP.md) |
+| **failover** | ✅ Production-ready — AutoFailoverManager (Raft-based, quorum), DisasterRecoveryManager (7-step DR plan with step hooks and dry_run) | [src/failover/ROADMAP.md](src/failover/ROADMAP.md) |
 | **geo** | ✅ Production-ready — CPU spatial queries stable; GPU dispatch with documented CPU fallback; WGS-84 boundaries explicitly documented | [src/geo/ROADMAP.md](src/geo/ROADMAP.md) |
 | **governance** | ✅ Production-ready — Policy engine incl. GDPR/HIPAA/CCPA/PCI/SOC2, OPA integration, model governance operational | [src/governance/ROADMAP.md](src/governance/ROADMAP.md) |
 | **gpu** | ✅ Production-ready — Device management, P2P transfer, NVLink topology-aware scheduling complete; hardware capability benchmarks verified | [src/gpu/ROADMAP.md](src/gpu/ROADMAP.md) |
@@ -43,11 +46,13 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 | **importers** | ✅ Production-ready (v2.1) — Multi-source import pipeline incl. FK-preserving PostgreSQL importer and v1.x production-ready adapters | [src/importers/ROADMAP.md](src/importers/ROADMAP.md) |
 | **index** | ✅ Production-ready | [src/index/ROADMAP.md](src/index/ROADMAP.md) |
 | **ingestion** | ✅ Production-ready | [src/ingestion/ROADMAP.md](src/ingestion/ROADMAP.md) |
+| **llama_cpp** | ✅ Production-ready (v2.2.0) — `LlamaWrapper` real inference (generate/embed/exportLoRA/importLoRA), streaming, batch inference, PluginManager hot-plug registrar | [src/llama_cpp/ROADMAP.md](src/llama_cpp/ROADMAP.md) |
 | **llm** | ✅ Production-ready (v1.16.0) | [src/llm/ROADMAP.md](src/llm/ROADMAP.md) |
 | **maintenance** | ✅ Production-ready (v1.1.0) — Orchestration, schedule persistence, window enforcement, health aggregation complete | [src/maintenance/ROADMAP.md](src/maintenance/ROADMAP.md) |
 | **metadata** | ✅ Production-ready | [src/metadata/ROADMAP.md](src/metadata/ROADMAP.md) |
 | **network** | ✅ Production-ready | [src/network/ROADMAP.md](src/network/ROADMAP.md) |
 | **observability** | ✅ Production-ready | [src/observability/ROADMAP.md](src/observability/ROADMAP.md) |
+| **onnx_clip** | 🟡 Beta (v0.0.2) — `ONNXClipPlugin` multi-backend (CPU/CUDA/DirectML/TensorRT/AUTO), pImpl isolation; native batch path in progress | [src/onnx_clip/ROADMAP.md](src/onnx_clip/ROADMAP.md) |
 | **performance** | ✅ Production-ready | [src/performance/ROADMAP.md](src/performance/ROADMAP.md) |
 | **plugins** | ✅ Production-ready | [src/plugins/ROADMAP.md](src/plugins/ROADMAP.md) |
 | **process** | ✅ Production-ready — BPMN/EPK/VCC-VPB import, Graph-RAG, ProcessLinker, HNSW + full-text retrieval operational; LLM embedding auto-generation documented as external dependency | [src/process/ROADMAP.md](src/process/ROADMAP.md) |
@@ -55,11 +60,13 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 | **query** | ✅ Production-ready | [src/query/ROADMAP.md](src/query/ROADMAP.md) |
 | **rag** | ✅ Production-ready | [src/rag/ROADMAP.md](src/rag/ROADMAP.md) |
 | **replication** | ✅ Production-ready | [src/replication/ROADMAP.md](src/replication/ROADMAP.md) |
+| **rpc_grpc** | ✅ Production-ready (v0.0.2) — `GRPCServer` + `GRPCPlugin` fully functional gRPC server; service registry integration | [src/rpc_grpc/ROADMAP.md](src/rpc_grpc/ROADMAP.md) |
 | **scheduler** | ✅ Production-ready (v1.5.0) | [src/scheduler/ROADMAP.md](src/scheduler/ROADMAP.md) |
 | **search** | ✅ Production-ready (v1.2.0+) | [src/search/ROADMAP.md](src/search/ROADMAP.md) |
 | **security** | ✅ Production-ready | [src/security/ROADMAP.md](src/security/ROADMAP.md) |
 | **server** | ✅ Production-ready | [src/server/ROADMAP.md](src/server/ROADMAP.md) |
 | **sharding** | ✅ Production-ready — mTLS RPC integration, WAL/consensus recovery, consistent-hash routing (>10K ops/s), chaos-engineering suite all verified | [src/sharding/ROADMAP.md](src/sharding/ROADMAP.md) |
+| **stable_diffusion** | ✅ Production-ready (v2.2.0) — `SDCppGenerator` (stable-diffusion.cpp C API), real PNG encoder (IDAT/CRC32/Adler32), img2img, batch generation, thread-safe | [src/stable_diffusion/ROADMAP.md](src/stable_diffusion/ROADMAP.md) |
 | **storage** | ✅ Production-ready (v1.8.0) — RocksDB-based persistent storage incl. MVCC/WAL/backup-PITR/NVMe/erasure coding/2PC | [src/storage/ROADMAP.md](src/storage/ROADMAP.md) |
 | **temporal** | ✅ Production-ready (v1.2.0 C++ engine) — System-versioned + bi-temporal queries, time-travel, temporal joins, index acceleration | [src/temporal/ROADMAP.md](src/temporal/ROADMAP.md) |
 | **themis** | ✅ Production-ready — All core components migrated to `src/themis/`; Wire Protocol V2 delivered; integration tests added (v1.8.0) | [src/themis/ROADMAP.md](src/themis/ROADMAP.md) |
@@ -68,9 +75,11 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 | **transaction** | ✅ Production-ready | [src/transaction/ROADMAP.md](src/transaction/ROADMAP.md) |
 | **updates** | ✅ Production-ready | [src/updates/ROADMAP.md](src/updates/ROADMAP.md) |
 | **utils** | ✅ Production-ready | [src/utils/ROADMAP.md](src/utils/ROADMAP.md) |
+| **user_storage_encrypted** | ✅ Production-ready (v0.1.0) — Argon2id KDF, gocryptfs backend, AES-256-GCM encrypted user storage; stdin key delivery | [src/user_storage_encrypted/ROADMAP.md](src/user_storage_encrypted/ROADMAP.md) |
 | **voice** | ✅ Production-ready | [src/voice/ROADMAP.md](src/voice/ROADMAP.md) |
+| **whisper** | ✅ Production-ready (v2.1.0) — Thread-safe; FFmpeg audio chunk reader (MP3/OGG); CompositeAudioChunkReader; 36 tests | [src/whisper/ROADMAP.md](src/whisper/ROADMAP.md) |
 
-**Legend:** ✅ Production-ready · 🟡 Beta · 🔴 Alpha · 🚧 In active hardening
+**Legend:** ✅ Production-ready · 🟡 Beta · 🔴 Alpha · 🚧 In active hardening · *(55 modules total)*
 
 ---
 
@@ -172,9 +181,9 @@ Key PRs and features included in v1.8.0:
 
 ---
 
-## Milestone Delta (2026-04-11)
+## Milestone Delta (2026-04-13)
 
-Recently merged PRs aligned to their target milestones:
+Recently merged PRs and documentation aligned to their target milestones:
 
 | Milestone | PR | Scope |
 |---|---|---|
@@ -189,10 +198,78 @@ Recently merged PRs aligned to their target milestones:
 | v2.1.0 | [#4556](https://github.com/makr-code/ThemisDB/pull/4556) | llama_cpp - streaming, batch inference, PluginManager hot-plug registrar |
 | v2.4.0 | [#4511](https://github.com/makr-code/ThemisDB/pull/4511) | search - conversational/federated/streaming search interfaces |
 
+Selected 2026-04-12/13 production items (target: v1.9.0 unless noted):
+
+| Module | Item |
+|--------|------|
+| cache | `RequestCoalescer` Singleflight (promise/shared_future inflight map, 14 tests RC-01…RC-14) |
+| analytics | `IStreamingJoin` / `HashJoin` / `IntervalJoin` (composite-key hash table, inner/left-outer, LRU pruning, 15 tests SJ-01…SJ-15) |
+| storage | `StreamingIngestManager` (ring-buffer + flush-thread, ≥1 M events/s), `ColumnarCache` (LRU + PinGuard RAII) |
+| timeseries | `TsStreamCursor` (lazy paginated iterator, page_size=4 096), `TSStore::putBatch` (zero-copy via single `WriteBatch`) |
+| temporal | `TemporalCompressor` LZ4 support |
+| performance | `LockFreeHistogram<T>` header-only (atomic buckets, P50/P90/P99), LIRS/RCU fixes |
+| acceleration | `AiHardwareDispatcher` v1.0 (NPU priority chain), NCCL/RCCL `mergeTopK` |
+| network | `IoUringBatchedSender` (single `io_uring_enter()` for N WireProtocolBatcher flushes) |
+| utils | UUID v7 (RFC 9562), streaming ZSTD (`zstd_compress_stream`/`zstd_decompress_stream`) |
+| maintenance | MVCC_CLEANUP + STORAGE_COMPACTION wired in `http_server.cpp` |
+| index | Concurrent-unique sentinel locking fix, `SecondaryIndexMetadataCache` |
+| stable_diffusion | `SDCppGenerator` v2.2.0 (real PNG encoder, img2img, 51 tests A-Q) |
+| whisper | `WhisperPlugin` v2.1.0 (thread-safe, `FfmpegAudioChunkReader`, `CompositeAudioChunkReader`, 36 tests A-L) |
+| sharding | Paxos WAL durability (`handlePrepare`/`handleAccept`→`wal_->logPromise()`/`logAccept()`, 10 tests PSR-01…PSR-10); `ShardRPCClient::writeEntity()` gRPC cross-shard writes |
+| process | `ProcessLinker` hard-delete + secondary index; `BpmnSerializer` state-machine tokenizer (no-regex, 11 tests PM-01…PM-11) |
+| ethics_ai | `PhilosophyLoader` rich YAML, `EthicsEvaluator::Config` weights, `ChainVisualizer` DOT/Mermaid, 8 tests CV-01…CV-08 |
+
 Superseded PR mapping:
 
 - [#4507](https://github.com/makr-code/ThemisDB/pull/4507) superseded by [#4569](https://github.com/makr-code/ThemisDB/pull/4569)
 - [#4515](https://github.com/makr-code/ThemisDB/pull/4515) superseded by [#4570](https://github.com/makr-code/ThemisDB/pull/4570)
+
+---
+
+## Milestone: v1.9.0
+
+> **Target:** Q2 2026 · **Status:** 🚧 In Progress  
+> **Issues:** Tracked per-module in individual `src/<module>/CHANGELOG.md [Unreleased]` sections
+
+Key features planned and partially shipped for v1.9.0:
+
+| Feature | Module | Status | Notes |
+|---------|--------|--------|-------|
+| `RequestCoalescer` Singleflight | cache | ✅ Shipped | promise/shared_future inflight map; 14 tests RC-01…RC-14 |
+| `IStreamingJoin` / `HashJoin` / `IntervalJoin` | analytics | ✅ Shipped | Composite-key hash table, inner/left-outer, LRU pruning; 15 tests SJ-01…SJ-15 |
+| `StreamingIngestManager` | storage | ✅ Shipped | Ring-buffer + flush-thread, ≥1 M events/s |
+| `ColumnarCache` | storage | ✅ Shipped | LRU + PinGuard RAII |
+| `TsStreamCursor` | timeseries | ✅ Shipped | Lazy paginated iterator, page_size=4 096 |
+| `TSStore::putBatch` | timeseries | ✅ Shipped | Zero-copy batch write via single `WriteBatch` |
+| `TemporalCompressor` LZ4 | temporal | ✅ Shipped | |
+| `LockFreeHistogram<T>` | performance | ✅ Shipped | Header-only, atomic buckets, P50/P90/P99 |
+| LIRS / RCU race fixes | performance | ✅ Shipped | |
+| `AiHardwareDispatcher` v1.0 | acceleration | ✅ Shipped | NPU priority chain |
+| NCCL/RCCL `mergeTopK` | acceleration | ✅ Shipped | |
+| `IoUringBatchedSender` | network | ✅ Shipped | Single `io_uring_enter()` for N WireProtocolBatcher flushes |
+| UUID v7 (RFC 9562) | utils | ✅ Shipped | `generate_uuid_v7()` |
+| Streaming ZSTD | utils | ✅ Shipped | `zstd_compress_stream`/`zstd_decompress_stream` |
+| MVCC_CLEANUP + STORAGE_COMPACTION | maintenance | ✅ Shipped | Wired in `http_server.cpp` |
+| Concurrent-unique sentinel lock | index | ✅ Shipped | |
+| `SecondaryIndexMetadataCache` | index | ✅ Shipped | |
+| Paxos WAL durability | sharding | ✅ Shipped | `logPromise()`/`logAccept()`; 10 tests PSR-01…PSR-10 |
+| `ShardRPCClient::writeEntity()` | sharding | ✅ Shipped | gRPC `ReplicateData` RPC for cross-shard writes |
+| `ProcessLinker` hard-delete + secondary index | process | ✅ Shipped | Hard-delete via `db_.del()`, `obj_idx` prefix scan |
+| `BpmnSerializer` state-machine tokenizer | process | ✅ Shipped | No-regex, CDATA, 11 tests PM-01…PM-11 |
+| Typed DSL for structured prompt authoring | prompt_engineering | 🚧 In progress | Token budget manager, context-window enforcement |
+| `MqttClientService` + `MqttCDCTransport` | server | 🚧 In progress | Boost.Asio async I/O, RPCServiceRegistry |
+| ISO 27001 + HIPAA compliance evaluators | governance | ✅ Shipped (#4484) | |
+| Chimera streaming result sets | chimera | ✅ Shipped (#4478) | Prepared statements, connection pool adapter interfaces |
+| MQTT client TLS support | server | 🚧 In progress (#4512, targets v1.10.0) | |
+
+**Breaking changes planned for v1.9.0:** None anticipated; minor API additions only.
+
+**v1.9.0 Acceptance Criteria:**
+- All items marked `✅ Shipped` in the table above merged and green in CI
+- `MqttClientService` integration tests passing
+- `prompt_engineering` token budget enforcer unit tests ≥ 90% coverage
+- No P0/P1 open bugs against the milestone
+- Release notes and migration guide updated
 
 ---
 
@@ -455,7 +532,7 @@ Focus: Developer experience, official SDKs, and community ecosystem.
 | # | Module(s) | Description | Status |
 |---|-----------|-------------|--------|
 | 1 | acceleration | L2 distance consistency across CUDA/HIP/Vulkan/CPU backends | ✅ Fixed |
-| 2 | acceleration | Vulkan compute shaders (distance kernels) not yet implemented | 🚧 In progress |
+| 2 | acceleration | Vulkan compute shaders (distance kernels) not yet implemented | ✅ Fixed (v1.8.0) |
 | 3 | chimera | Only ThemisDB self-benchmark adapter; third-party adapters pending | 📋 Planned |
 | 4 | content | PDF extraction and OCR require optional third-party libraries | 📋 Planned |
 | 5 | ingestion | libcurl stubs not yet replaced with real perform calls in `api_connector.cpp` | 🚧 In progress |

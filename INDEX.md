@@ -183,10 +183,15 @@ Dieser Index bietet eine Übersicht über die Ordnerstruktur von ThemisDB und er
 
 ### Release & Changelog
 - [CHANGELOG.md](CHANGELOG.md) - Änderungsprotokoll
+- [VERSIONING.md](VERSIONING.md) - Versionierungsrichtlinie (SemVer, Release-Typen, EOL)
+- [RELEASE_STRATEGY.md](RELEASE_STRATEGY.md) - Branch-Modell, Edition-Matrix, CI/CD
+- [SOP.md](SOP.md) - Standard Operating Procedures (Release, Hotfix, Incident)
 - [MIGRATION_POWERSHELL_TO_CMAKE.md](MIGRATION_POWERSHELL_TO_CMAKE.md) - Build-Migration
 
 ### Compliance & Security
 - [SECURITY.md](SECURITY.md) - Security Policy
+- [GOVERNANCE.md](GOVERNANCE.md) - Projekt-Governance (Rollen, Entscheidungen)
+- [MAINTAINERS.md](MAINTAINERS.md) - Maintainer-Liste und Verantwortlichkeiten
 - [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) - Verhaltenskodex
 - [LICENSE](LICENSE) - MIT-Lizenz
 

@@ -728,3 +728,224 @@ In diesem Kapitel haben wir ein umfassendes Framework für Data Governance und C
 
 **Kapitel 40 vollständig überarbeitet nach wissenschaftlichen Standards.**  
 **Wortanzahl:** ~4200 | **Quellen:** 8 | **Code-Beispiele:** 15+ | **Diagramme:** 2 | **Querverweise:** 6
+
+---
+
+## 40.11 Production API Reference — Governance Classes {#chapter_40_11_api_reference}
+
+Dieser Abschnitt dokumentiert die produktionsreifen C++-Klassen des `governance`-Moduls (v1.8.0). Alle Klassen sind im Namespace `themis::governance` implementiert.
+
+### 40.11.1 PolicyEngine
+
+**Header:** `include/governance/policy_engine.h`  
+**Status:** ✅ Production-Ready  
+
+`PolicyEngine` ist die zentrale Bewertungsinstanz für alle Zugriffsrichtlinien in ThemisDB. Sie unterstützt OPA (Open Policy Agent) als Fallback, hot-reload von Policy-Dateien ohne Neustart und simulierte Entscheidungen für Audit-Zwecke.
+
+```cpp
+#include "governance/policy_engine.h"
+
+PolicyEngineConfig pe_cfg;
+pe_cfg.policy_dir     = "/etc/themisdb/policies";
+pe_cfg.opa_url        = "http://opa:8181";   // Fallback
+pe_cfg.cache_size     = 50000;
+pe_cfg.reload_on_change = true;              // inotify-basiertes Hot-Reload
+
+PolicyEngine engine(pe_cfg);
+
+// Query-Berechtigung prüfen
+PolicyContext ctx;
+ctx.principal_id = "user-alice";
+ctx.roles        = {"analyst"};
+ctx.tenant_id    = "acme";
+ctx.resource     = "orders";
+ctx.action       = "SELECT";
+ctx.attributes   = {{"classification", "confidential"}};
+
+PolicyDecision decision = engine.evaluate(ctx);
+if (decision.effect == PolicyEffect::DENY) {
+    throw PermissionDeniedException(decision.reason);
+}
+
+// Inference-Berechtigung (für LLM-Abfragen)
+PolicyDecision inf_dec = engine.checkInferencePermission(ctx, "model-gpt4-fine");
+
+// Entscheidung simulieren (Dry-Run für Audit)
+SimulationResult sim = engine.simulateDecision(ctx);
+std::cout << "Would be: " << sim.effect_name
+          << " because of rule: " << sim.matched_rule << "\n";
+
+// Policies hot-reloaden (z.B. nach Policy-Datei-Änderung)
+engine.reloadPolicies();
+```
+
+---
+
+### 40.11.2 DataMasker
+
+**Header:** `include/governance/data_masker.h`  
+**Status:** ✅ Production-Ready  
+
+Feldweise Maskierung sensitiver Daten beim Lesen. Unterstützt REDACT (Löschen), HASH (SHA-256/FNV), TRUNCATE (Zeichenbegrenzung), TOKENIZE (reversibles Token) und ENCRYPT (AES-256-GCM).
+
+```cpp
+#include "governance/data_masker.h"
+
+MaskingConfig mask_cfg;
+mask_cfg.rules = {
+    MaskingRule{
+        .field    = "credit_card",
+        .strategy = MaskingStrategy::TOKENIZE,
+        .key_id   = "tokenization-key-v2",
+    },
+    MaskingRule{
+        .field    = "email",
+        .strategy = MaskingStrategy::HASH,
+        .salt     = "per-tenant-salt",
+    },
+    MaskingRule{
+        .field        = "phone",
+        .strategy     = MaskingStrategy::TRUNCATE,
+        .keep_prefix  = 3,      // "+49..." → "+49*****"
+        .replace_with = "*",
+    },
+    MaskingRule{
+        .field         = "ssn",
+        .strategy      = MaskingStrategy::REDACT,
+        .redact_value  = "[REDACTED-PII]",
+    },
+};
+
+DataMasker masker(mask_cfg);
+
+// Row beim Lesen maskieren
+QueryResult result = db.execute("SELECT * FROM customers");
+masker.maskResult(result, user_roles);  // Maskierung abhängig von Rollen
+
+// Einzelfeld tokenisieren (für spätere Detokenisierung)
+std::string token   = masker.tokenize("4532015112830366", "credit_card");
+std::string original = masker.detokenize(token, "credit_card");  // Admin only
+```
+
+---
+
+### 40.11.3 DataLineageTracker
+
+**Header:** `include/governance/data_lineage.h`  
+**Status:** ✅ Production-Ready  
+
+Append-only Lineage-Store: Jede Datentransformation (Query, Import, Export, Inference) wird als unveränderlicher Event protokolliert. Unterstützt Graph-basierte Herkunfts-Nachverfolgung (WHO created WHAT from WHERE WHEN HOW).
+
+```cpp
+#include "governance/data_lineage.h"
+
+DataLineageConfig dl_cfg;
+dl_cfg.backend        = LineageBackend::ROCKSDB;
+dl_cfg.rocksdb_path   = "/var/themisdb/lineage";
+dl_cfg.retention_days = 730;    // 2 Jahre
+
+DataLineageTracker tracker(dl_cfg);
+
+// Lineage-Event aufzeichnen
+LineageEvent evt;
+evt.event_type    = LineageEventType::TRANSFORMATION;
+evt.source_table  = "orders_raw";
+evt.target_table  = "orders_summary";
+evt.operation     = "GROUP BY customer_id, SUM(total)";
+evt.principal_id  = "job-etl-daily";
+evt.timestamp     = SystemClock::now();
+
+tracker.record(evt);
+
+// Herkunft einer Tabelle abfragen
+auto lineage = tracker.getLineage("orders_summary", LineageDirection::UPSTREAM);
+for (auto& node : lineage.nodes) {
+    std::cout << node.table << " ← " << node.operation
+              << " (by " << node.principal_id << ")\n";
+}
+
+// Impact-Analyse: Welche Tabellen sind betroffen wenn 'orders_raw' ändert?
+auto impact = tracker.getDownstream("orders_raw");
+```
+
+---
+
+### 40.11.4 ComplianceReporter
+
+**Header:** `include/governance/compliance_reporter.h`  
+**Status:** ✅ Production-Ready  
+
+Generiert Compliance-Berichte für GDPR, HIPAA, CCPA, PCI-DSS, SOC 2 und ISO 27001. Berichte sind JSON/PDF-exportierbar und enthalten Finding-Level (PASS/WARN/FAIL) mit Evidenz-Links.
+
+```cpp
+#include "governance/compliance_reporter.h"
+
+ComplianceConfig cr_cfg;
+cr_cfg.frameworks     = {
+    ComplianceFramework::GDPR,
+    ComplianceFramework::HIPAA,
+    ComplianceFramework::SOC2_TYPE2,
+};
+cr_cfg.evidence_store = std::make_shared<RocksDBEvidenceStore>(db_path);
+cr_cfg.report_dir     = "/var/reports/compliance";
+
+ComplianceReporter reporter(cr_cfg);
+
+// Vollständigen Compliance-Report generieren
+ComplianceReport report = reporter.generate(ComplianceFramework::GDPR);
+
+for (auto& control : report.controls) {
+    std::cout << control.id    << " "
+              << control.title << ": "
+              << control.status_name;  // PASS / WARN / FAIL
+    if (control.status == ControlStatus::FAIL) {
+        std::cout << " → " << control.finding;
+    }
+    std::cout << "\n";
+}
+
+// Bericht als PDF exportieren
+reporter.exportPDF(report, "/var/reports/compliance/gdpr-2026-Q1.pdf");
+
+// GDPR Data-Subject-Auskunft (Art. 15 DSGVO)
+auto subject_data = reporter.subjectAccessRequest("user-alice@example.com");
+```
+
+---
+
+### 40.11.5 PolicyManager (Hot-Reload)
+
+**Header:** `include/governance/policy_manager.h`  
+**Status:** ✅ Production-Ready  
+
+Ab v1.8.0 unterstützt `PolicyManager` atomisches Hot-Reload via Double-Buffer-Swap. `PolicyValidator` prüft neue Policies vor dem Swap auf syntaktische und semantische Korrektheit.
+
+```cpp
+#include "governance/policy_manager.h"
+
+PolicyManager pm("/etc/themisdb/policies");
+
+// Validierung vor Deployment
+PolicyValidator validator;
+auto validation = validator.validate("/etc/themisdb/policies/new_policy.rego");
+if (!validation.ok) {
+    LOG_ERROR("Policy validation failed: {}", validation.errors[0]);
+    return;
+}
+
+// Atomisches Reload
+pm.reloadPolicies();  // Double-Buffer-Swap, zero downtime
+
+// OPA-Adapter für externe Policy-Delegation
+OPAAdapter opa("http://opa:8181/v1/data/themis");
+bool allowed = opa.query("authz/allow", {
+    {"user",     "alice"},
+    {"resource", "financial_reports"},
+    {"action",   "read"},
+});
+```
+
+---
+
+**Kapitel 40 vollständig überarbeitet nach wissenschaftlichen Standards.**  
+**Wortanzahl:** ~5400 | **Quellen:** 8 | **Code-Beispiele:** 20+ | **Querverweise:** 8
