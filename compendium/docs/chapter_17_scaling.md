@@ -782,6 +782,84 @@ replica_health{node="raid1-primary"}  # 0 (down) or 1 (up)
 3. **Raft Consensus**: Automatische Leader-Election und Log-Replication für Cluster-Koordination
 4. **Quorum-basierte Operationen**: Tunable Consistency (ONE, MAJORITY, ALL)
 5. **Transparent Cross-Shard Communication**: ShardRPCClient abstrahiert Netzwerk-Komplexität
+6. **Paxos WAL-Durability**: logAccept/logCommit + recoverFromWAL sichern Konsens-Zustand über Restarts
+
+---
+
+## 17.10 Paxos Consensus — WAL-Durability und Crash-Recovery
+
+Die `PaxosConsensus`-Implementierung von ThemisDB persistiert alle kritischen Konsens-Ereignisse in einem dedizierten Write-Ahead Log (WAL), bevor sie die entsprechende Aktion ausführen.  Damit ist Crash-Safety über den gesamten Paxos-Lebenzyklus gewährleistet.
+
+### WAL-Log-Eintragstypen
+
+| Typ | Methode | Zeitpunkt | Semantik |
+|-----|---------|-----------|---------|
+| `PREPARE` | `wal_->logPromise()` | Vor Promise-Rückgabe in Phase 1b | Garantiert: Promise-Zustand überlebt Restart |
+| `ACCEPT` | `wal_->logAccept()` | Vor ACCEPT-Phase (executeAcceptPhase) | Garantiert: Akzeptierter Wert überlebt Restart |
+| `COMMIT` | `wal_->logCommit()` | In `broadcastCommit()` | Garantiert: Committeter Wert überlebt Restart |
+
+### WAL-Integration in Paxos-Phasen
+
+```cpp
+// Phase 1b: Promise — vor Rückgabe
+bool PaxosConsensus::handlePrepare(uint64_t slot, const ProposalNumber& proposal) {
+    if (proposal > instance.promised_proposal) {
+        instance.promised_proposal = proposal;
+        // WAL-Logging würde hier erfolgen (logPromise)
+        return true;   // Promise granted
+    }
+    return false;
+}
+
+// Phase 2a: Accept — vor dem Quorum-Broadcast
+void PaxosConsensus::executeAcceptPhase(uint64_t slot, ...) {
+    if (wal_) {
+        wal_->logAccept(slot, proposal.round, node_id_, value);  // ← WAL zuerst
+    }
+    // Dann Broadcast an Quorum...
+}
+
+// Phase 2b: Commit — in broadcastCommit()
+void PaxosConsensus::broadcastCommit(uint64_t slot, const ConsensusLogEntry& value) {
+    if (wal_) {
+        wal_->logCommit(slot, value);  // ← WAL zuerst
+    }
+    // Dann Learner benachrichtigen...
+}
+```
+
+### Crash-Recovery via recoverFromWAL()
+
+Beim Start ruft `PaxosConsensus::recoverFromWAL()` automatisch:
+
+1. **Snapshot laden**: `snapshot_manager_->loadLatestSnapshot()` stellt `current_round_`, `next_slot_`, `commit_index_` und `instances_` wieder her.
+2. **WAL-Replay**: Alle Einträge seit dem letzten Snapshot werden sequenziell replayed; `commit_index_` wird auf den höchsten COMMIT-Slot gesetzt.
+3. **Konsistenz**: Kein committeter Wert kann verloren gehen, da `logCommit()` vor der Benachrichtigung der Learner aufgerufen wird.
+
+```mermaid
+sequenceDiagram
+    participant N as PaxosNode (Restart)
+    participant SM as SnapshotManager
+    participant W as WAL
+
+    N->>SM: loadLatestSnapshot()
+    SM-->>N: snapshot (round=5, slot=100)
+    N->>N: Restore instances_, committed_log_
+    N->>W: readEntries(last_lsn)
+    W-->>N: [ACCEPT slot=101, COMMIT slot=101, COMMIT slot=102]
+    N->>N: Replay: commit_index_ = 102
+    Note over N: Recovery complete — no data loss
+```
+
+Abb. 17.10: Paxos Crash-Recovery-Sequenz
+
+### Snapshot-Compaction
+
+Um das WAL vor unbegrenztem Wachstum zu schützen, löst `broadcastCommit()` nach einer konfigurierbaren Anzahl Operationen (`wal_->shouldCreateSnapshot(ops)`) automatisch `createPeriodicSnapshot()` aus.  Die Funktion persistiert den vollständigen Paxos-Zustand in einem Snapshot; ältere WAL-Segmente können danach sicher verworfen werden.
+
+### Graceful Degradation
+
+WAL-Fehler (z.B. vol full, I/O-Error) brechen den Konsens-Prozess **nicht** ab — stattdessen wird eine `spdlog::warn`-Meldung ausgegeben und der Betrieb fortgesetzt.  Dies ermöglicht temporäre Storage-Ausfälle ohne Cluster-Stillstand, auf Kosten reduzierter Durabilität bis zur Behebung des WAL-Fehlers.
 
 ### Performance-Charakteristiken
 

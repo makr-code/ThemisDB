@@ -2425,6 +2425,174 @@ Abb. 24.8: Transparency-Reporting-Flow
 
 ---
 
+## 24.9 Ethics AI Plugin — Technische Implementierung
+
+Das Ethics AI Plugin (`src/ethics_ai/`) ist das zentrale C++-Modul, das die in diesem Kapitel beschriebenen ethischen Prüfmechanismen implementiert.  Es besteht aus fünf produktionsreifen Komponenten und ist über die `IThemisPlugin`-Schnittstelle in den Server-Lifecycle integriert.
+
+### Komponentenarchitektur
+
+```
+EthicsAiPlugin (IThemisPlugin)
+    ├── EthicalDiscourseEngine   — orchestriert Debatten
+    │       ├── PhilosophyLoader — lädt YAML-Profile
+    │       ├── ArgumentStore    — persistiert Argumente via BaseEntity
+    │       └── RAGContextEngine — 7 AQL-Abfragemuster für Kontext
+    └── EthicsEvaluator          — 5-Dimensions-Scoring
+```
+
+### EthicsEvaluator — 5-dimensionale Entscheidungsbewertung
+
+`EthicsEvaluator::evaluateDecision()` bewertet eine Entscheidung über fünf normierte Dimensionen:
+
+| Dimension | Beschreibung |
+|-----------|-------------|
+| Decision Quality | Wie gut begründet ist die Entscheidung? |
+| Consistency | Stimmt sie mit früheren Entscheidungen überein? |
+| Fairness | Ist sie für alle Betroffenen gerecht? |
+| Alignment | Entspricht sie den Werten des Nutzers/Systems? |
+| Transparency | Ist die Begründung nachvollziehbar? |
+
+```cpp
+#include "ethics_ai/ethics_evaluator.h"
+
+themis::plugins::ethics::EthicsEvaluator evaluator;
+
+auto result_or_err = evaluator.evaluateDecision(decision, arguments);
+if (auto* result = std::get_if<EthicsEvaluationResult>(&result_or_err)) {
+    double overall = result->overall_score;     // 0.0–1.0
+    double fairness = result->fairness_score;
+    double transparency = result->transparency_score;
+}
+```
+
+### PhilosophyLoader — YAML-Profilmanagement
+
+`PhilosophyLoader` lädt Philosophie-Schulen aus YAML-Dateien und stellt sie über eine typsichere API bereit.  Unterstützt werden komplexe YAML-Objekte (verschachtelte `decision_framework`-Strukturen, `point`-schlüsselte `strengths`/`weaknesses`).
+
+```cpp
+#include "ethics_ai/philosophy_loader.h"
+
+themis::plugins::ethics::PhilosophyLoader loader;
+
+// Alle Profile aus Verzeichnis laden
+auto count_or_err = loader.loadFromDirectory("/etc/themisdb/philosophies");
+if (auto* n = std::get_if<size_t>(&count_or_err)) {
+    // *n Profile erfolgreich geladen
+}
+
+// Einzelne Schule abrufen
+auto profile_or_err = loader.getProfile("utilitarianism");
+if (auto* profile = std::get_if<PhilosophyProfile>(&profile_or_err)) {
+    // profile->school_id, profile->strengths, profile->decision_framework
+}
+
+// Verfügbare Schulen abfragen
+std::vector<std::string> ids = loader.getSchoolIds();
+```
+
+**Unterstützte Philosophieschulen (Beispiele):**
+
+| `school_id` | Schule |
+|-------------|-------|
+| `utilitarianism` | Utilitarismus (Mill, Bentham) |
+| `deontology` | Kantische Deontologie |
+| `virtue_ethics` | Tugendethik (Aristoteles) |
+| `care_ethics` | Fürsorgeethik |
+| `contractualism` | Kontraktualismus (Rawls) |
+
+### EthicalDiscourseEngine — Debatten und Entscheidungen
+
+`EthicalDiscourseEngine` orchestriert Debatten zwischen mehreren Philosophieschulen und synthetisiert eine konsolidierte Entscheidung.
+
+```cpp
+#include "ethics_ai/discourse_engine.h"
+
+auto engine = std::make_unique<EthicalDiscourseEngine>(
+    std::make_shared<PhilosophyLoader>(),
+    std::make_shared<ArgumentStore>(rocksdb_wrapper),
+    std::make_shared<RAGContextEngine>(db_connection)
+);
+
+// Debatte initialisieren
+auto debate_or_err = engine->initializeDebate(
+    "Soll Algorithmus X für Personalentscheidungen eingesetzt werden?",
+    {"utilitarianism", "deontology", "virtue_ethics"},
+    "employment_decision"
+);
+
+// Entscheidung treffen (mit RAG-Kontext aus Vorjahresfällen)
+auto decision_or_err = engine->makeDecision(
+    "Soll Algorithmus X für Personalentscheidungen eingesetzt werden?",
+    {"utilitarianism", "deontology", "virtue_ethics"},
+    "employment_decision",
+    /*use_rag=*/true
+);
+
+if (auto* decision = std::get_if<EthicalDecision>(&decision_or_err)) {
+    // decision->recommendation, decision->confidence, decision->consensus_level
+    // decision->supporting_arguments (Liste von EthicalArgument)
+}
+```
+
+### ArgumentStore — BaseEntity-basierte Persistenz
+
+`ArgumentStore` speichert `EthicalArgument`-Objekte als ThemisDB `BaseEntity`-Einträge in RocksDB.  Im Standalone-Modus (ohne RocksDB) wird ein In-Memory-Store verwendet — geeignet für Tests und Einzel-Prozess-Szenarien.
+
+```cpp
+#include "ethics_ai/argument_store.h"
+
+// Produktionsmodus (RocksDB-backend)
+auto store = std::make_shared<ArgumentStore>(rocksdb_wrapper);
+
+// Standalone-Modus (kein RocksDB benötigt)
+auto store_standalone = std::make_shared<ArgumentStore>();  // Default-Ctor
+
+// Argument persistieren
+EthicalArgument arg;
+arg.type     = ArgumentType::PRO;
+arg.strength = ArgumentStrength::STRONG;
+arg.content  = "Erhöht die Gesamtwohlfahrt signifikant";
+arg.school_id = "utilitarianism";
+
+auto saved_or_err = store->saveArgument(arg);
+```
+
+### RAGContextEngine — 7 AQL-Abfragemuster
+
+Die `RAGContextEngine` stellt 7 optimierte AQL-Abfragemuster für die Kontextgewinnung aus der Wissensbasis bereit:
+
+| Methode | AQL-Muster | Einsatz |
+|---------|------------|---------|
+| `semanticSearch()` | Vector-Similarity | Semantisch ähnliche Argumente |
+| `filterBySchool()` | `FILTER doc.school_id` | Schulspezifische Argumente |
+| `filterByCategory()` | `FILTER doc.category` | Kategoriefilter |
+| `filterByStrength()` | `FILTER doc.strength >=` | Mindest-Stärkefilter |
+| `getRecentArguments()` | `SORT doc.created_at DESC LIMIT` | Aktuellste Argumente |
+| `getByDecisionId()` | `FILTER doc.decision_id` | Alle Argumente zu einer Entscheidung |
+| `getConsensusArguments()` | `FILTER doc.consensus >=` | Hochkonsensuelle Argumente |
+
+### Konfiguration (themisdb.yaml)
+
+```yaml
+plugins:
+  ethics_ai:
+    enabled: true
+    philosophy_dir: "/etc/themisdb/philosophies"
+    standalone_mode: false       # true = In-Memory ohne RocksDB
+    evaluator:
+      weights:
+        decision_quality: 0.25
+        consistency:      0.20
+        fairness:         0.25
+        alignment:        0.15
+        transparency:     0.15
+    rag:
+      enabled: true
+      max_context_results: 10
+```
+
+---
+
 ## Weiterführende Ressourcen
 
 ### Dokumentation

@@ -1266,3 +1266,155 @@ Output:
 - Connection Pool Utilization < 80%
 - QPS: 10,000+ für Read-Heavy Workloads
 - Write Throughput: 5,000+ WPS
+
+---
+
+## 21.1 Neue Performance-Infrastruktur (v1.9.x)
+
+### 21.1.1 LockFreeHistogram — Latenz-Tracking ohne Sperren
+
+`LockFreeHistogram<T>` ist eine header-only, vollständig lock-freie Histogramm-Implementierung für Low-Overhead-Latenzmessungen im Hot-Path.
+
+**Design-Ziele:**
+- `record(value)` ≤ 20 ns pro Aufruf (ein einziger `atomic::fetch_add`)
+- `percentile(p)` ist wait-free aus jedem Thread
+- Kein Heap-Allocation nach Konstruktion
+- Unterstützt **Exponential** und **Linear** Bucket-Modi
+
+```cpp
+#include "performance/lockfree_histogram.h"
+
+// Latenz-Histogramm (µs, exponential buckets, 32 Buckets)
+themis::performance::LatencyHistogram hist;  // alias für LockFreeHistogram<double, 32>
+
+// Im Hot-Path (Thread-safe, lock-free)
+auto t0 = now_us();
+processRequest();
+hist.record(now_us() - t0);
+
+// Metriken exportieren (z.B. für Prometheus)
+double p50 = hist.percentile(0.50);
+double p95 = hist.percentile(0.95);
+double p99 = hist.percentile(0.99);
+size_t total = hist.count();
+
+// Reset (nur wenn keine concurrent records aktiv sind)
+hist.reset();
+```
+
+**Vordefinierte Aliasse:**
+
+| Alias | Buckets | Modus | Einsatzgebiet |
+|-------|---------|-------|--------------|
+| `LatencyHistogram` | 32 | Exponential | Request-Latenzen (µs) |
+| `WideHistogram` | 64 | Exponential | Breite Werteverteilungen |
+
+**Bucket-Modi:**
+
+| Modus | Bucket-Berechnung | Geeignet für |
+|-------|------------------|--------------|
+| `Exponential` | Bucket `i` = `[2^(i-1), 2^i)` | Latenzprofile (Clustering bei niedrigen Werten) |
+| `Linear` | Uniform `max_value / N` | Gleichverteilte Wertebereiche |
+
+---
+
+### 21.1.2 RequestCoalescer — Singleflight-Thundering-Herd-Schutz
+
+`RequestCoalescer` eliminiert den Thundering-Herd-Effekt bei Cache-Misses: Wenn mehrere Threads gleichzeitig `Do(key, fn)` mit demselben Key aufrufen, wird `fn()` genau **einmal** ausgeführt.  Alle anderen Threads warten auf das Ergebnis des ersten Aufrufs und erhalten es als `shared_ptr<Result>`.
+
+```cpp
+#include "cache/request_coalescer.h"
+
+themis::cache::RequestCoalescer<std::string> coalescer;
+
+// Alle parallelen Aufrufe mit demselben Key teilen eine fn()-Ausführung
+auto result = coalescer.Do("user:42", [&]() -> std::string {
+    return db->fetch("user:42");  // teurer DB-Call — nur einmal ausgeführt
+});
+
+if (result->success) {
+    return result->value;  // alle Threads erhalten dasselbe Ergebnis
+} else {
+    log_error(result->error);
+}
+```
+
+**Verhalten:**
+- `fn()` wird exakt einmal pro "Flug" (in-flight-Key) aufgerufen.
+- Das `Result` wird per Kopie an alle wartenden Threads verteilt.
+- Wirft `fn()` eine Exception, erhalten **alle** Wartenden `Result{success=false, error=<message>}`.
+- Nach Abschluss des Fluges wird der Key entfernt; neue Aufrufe starten einen neuen Flug.
+
+**Thread-Safety:** Alle Methoden sind vollständig thread-safe.  Der Hot-Path-Mutex wird nur für Insert/Lookup des in-flight-Eintrags gehalten, **nicht** während der Ausführung von `fn()`.
+
+---
+
+### 21.1.3 IoUringBatchedSender — Batched Network I/O
+
+`IoUringBatchedSender` reduziert den Syscall-Overhead bei vielen gleichzeitigen Verbindungen von O(N) auf O(1) pro Runde:  Statt einem `writev(2)` pro `WireProtocolBatcher`-Flush sammelt der Sender alle SQEs und übermittelt sie in einem einzigen `io_uring_enter()`-Aufruf.
+
+```cpp
+#include "network/io_uring_batcher.h"
+
+// Erstellen (Queue-Tiefe 256 für bis zu 256 gleichzeitige Verbindungen)
+themis::network::IoUringBatchedSender sender(256);
+
+if (!sender.isAvailable()) {
+    // Kernel < 5.1 oder THEMIS_ENABLE_IO_URING nicht definiert
+    // → automatischer Fallback auf synchrones writev(2)
+}
+
+// Pro Event-Loop-Iteration:
+for (auto& batcher : active_batchers) {
+    sender.enqueue(batcher);
+}
+sender.submitAndWait();  // EIN io_uring_enter() für alle SQEs
+
+// Statistiken
+auto s = sender.lastStats();
+// s.sqes_submitted, s.cqes_reaped, s.bytes_sent, s.errors, s.rounds
+```
+
+**Plattform-Guard:**
+
+| Bedingung | Verhalten |
+|-----------|-----------|
+| Linux + Kernel ≥ 5.1 + `THEMIS_ENABLE_IO_URING` | Echter io_uring-Pfad |
+| Sonst | Transparenter Fallback auf `writev(2)` |
+
+**Performance:** Reduziert Syscall-Anzahl von `N_connections` auf `1` pro Submit-Runde; relevant bei ≥ 1 000 gleichzeitigen Verbindungen.
+
+---
+
+### 21.1.4 LIRS-Cache und RCU — Thread-Safety-Verbesserungen
+
+Im Zuge des v1.9.x-Releases wurden zwei kritische Concurrency-Bugs behoben:
+
+#### LIRS-Cache: TOCTOU-Race-Condition beseitigt
+
+Die `get()`-Methode verwendet nun `unique_lock` (statt `shared_lock`) um eine TOCTOU-Racecondition beim Anfassen des LIR/HIR-Status zu eliminieren.  Read-only-Operationen (`contains()`, `size()`, `get_lir_count()`, `get_hir_count()`) nutzen weiterhin `shared_lock` für maximale parallele Leseleistung.
+
+| Methode | Lock-Typ | Begründung |
+|---------|---------|-----------|
+| `get()` | `unique_lock` | Modifiziert LIR/HIR-Zustand (TOCTOU-sicher) |
+| `put()`, `clear()` | `unique_lock` | Schreiboperation |
+| `contains()`, `size()` | `shared_lock` | Read-only, höchste Parallelität |
+
+#### RCU: Globaler Reader-Counter
+
+Der globale atomare `g_rcu_reader_count` (`atomic<int64_t>`) wird nun von `ReadLock` korrekt inkrementiert/dekrementiert.  `readers_active()` liest den Counter (war zuvor immer `false`).
+
+```cpp
+#include "performance/rcu.h"
+
+{
+    themis::performance::ReadLock rlock;  // ++g_rcu_reader_count
+    // sicherer Lesezugriff auf gemeinsame Daten
+}  // --g_rcu_reader_count (RAII)
+
+// Writer wartet, bis alle aktiven Leser fertig sind
+while (themis::performance::readers_active()) {
+    std::this_thread::yield();
+}
+// jetzt sicheres Update möglich
+```

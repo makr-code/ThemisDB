@@ -795,218 +795,514 @@ ThemisDB ist bestens geeignet für Time-Series & IoT-Anwendungen durch:
 4. Materialized Views für Dashboards
 5. Down-Sample alte Daten automatisch
 
+## 9.11 Hochleistungs-API (v1.9.x)
+
+Mit Release 1.9.x wurden drei neue native Hochleistungs-APIs für Time-Series-Workloads in ThemisDB eingeführt:  **TSStore::putBatch**, **TsStreamCursor** und **LZ4-Kompression** im TemporalCompressor.  Alle drei Komponenten sind vollständig thread-safe und für Produktions-SLOs ausgelegt.
+
+### 9.11.1 TSStore::putBatch — Zero-Copy Batch Write
+
+`TSStore::putBatch(std::span<const TSRow>)` schreibt eine Sequenz von Messpunkten in einem einzigen atomaren `rocksdb::WriteBatch`-Commit.  Damit entfällt der Pro-Row-Overhead von Einzelaufrufen und ermöglicht ≥ 1 M Schreibvorgänge/s auf einem 8-Core-Knoten.
+
+**Datentypen:**
+
+```cpp
+struct TSRow {
+    std::string_view metric;   // z.B. "cpu_usage"
+    int64_t          timestamp_ms;
+    double           value;
+    std::string_view entity_id; // optional, kann leer bleiben
+};
+
+struct BatchWriteResult {
+    size_t ok_count     = 0;
+    size_t failed_count = 0;
+    std::vector<std::pair<size_t, std::string>> row_errors; // (index, message)
+};
+```
+
+**Beispiel:**
+
+```cpp
+std::vector<themis::timeseries::TSStore::TSRow> rows;
+rows.reserve(10'000);
+for (int i = 0; i < 10'000; ++i) {
+    rows.push_back({"cpu_usage", now_ms() + i, 0.5 + 0.01 * i, "server-01"});
+}
+
+auto result = ts_store->putBatch(rows);
+// result.ok_count == 10000, result.failed_count == 0
+```
+
+**Interne Routing-Logik:**
+- Wenn Gorilla-Kompression aktiv ist, werden Datenpunkte über den Gorilla-Pfad geschrieben.
+- Andernfalls erfolgt ein Raw-Write direkt in RocksDB.
+- Alle Rows eines Batches landen in **einem** `WriteBatch`-Commit → atomare Durability-Garantie.
+
 ---
 
-## 9.11 Bi-Temporale Datenbanken: SQL:2011-Unterstützung (v1.8.0)
+### 9.11.2 TsStreamCursor — Lazy Paginated Cursor
 
-<!-- Source: include/temporal/ — bi_temporal.h, bitemporal_join.h, temporal_query_engine.h, snapshot_manager.h -->
+`TsStreamCursor` ist ein lazy, paginierter Row-Iterator über `TSStore::query()`.  Große Zeitreihen-Abfragen können damit gestreamt werden, ohne das gesamte Ergebnis in den Hauptspeicher zu laden.
 
-> **Eingeführt in v1.6.0 · Production-Ready seit v1.8.0** – Das Temporal-Modul von ThemisDB implementiert SQL:2011-Bi-Temporalität nativ: jede Zeile trägt sowohl eine **System-Time-Periode** (wann sie gespeichert wurde) als auch eine **Valid-Time-Periode** (wann die Tatsache in der modellierten Realität gilt). Dies ermöglicht vollständige Zeitreise-Abfragen in beiden Dimensionen.
+**Kernkonzept:**  Der Cursor fetcht Ergebnisse in Seiten der Größe `page_size` (Standard: **4 096** Datenpunkte).  Die nächste Seite wird erst angefordert, wenn die aktuelle erschöpft ist — natürliche Backpressure ohne Thread-Blocking.
 
-### 9.11.1 Bi-Temporales Datenmodell
+```cpp
+TSStore::QueryOptions opts;
+opts.metric          = "cpu_usage";
+opts.from_timestamp_ms = start_ms;
+opts.to_timestamp_ms   = end_ms;
 
-Ein bi-temporaler Datensatz besitzt zwei unabhängige Zeitachsen:
+auto cursor = themis::timeseries::TsStreamCursor::open(*ts_store, opts);
+while (cursor->valid()) {
+    const auto& dp = cursor->current();
+    process(dp.timestamp_ms, dp.value);
 
-```
-Zeit-Achsen:
-┌─────────────────────────────────────────────────────────┐
-│  Valid-Time  │ „Wann gilt die Tatsache in der Realität?" │
-│              │ → contract_start … contract_end           │
-├─────────────────────────────────────────────────────────┤
-│  System-Time │ „Wann wurde der Datensatz gespeichert?"   │
-│              │ → transaction_time_start … _end           │
-└─────────────────────────────────────────────────────────┘
-```
+    if (auto err = cursor->advance(); !err) {
+        log_error(err.error());
+        break;
+    }
+}
+cursor->close();
 
-**Anwendungsfall – Vertragsmanagement:**
-
-```
-Zeile 1: Gehalt = 80.000 €
-  valid_time:  [2020-01-01, 2022-06-30)   ← Im Arbeitsvertrag
-  system_time: [2019-12-15, 2022-06-01)   ← In DB erfasst
-
-Zeile 2: Gehalt = 90.000 €  (rückwirkende Korrektur)
-  valid_time:  [2021-01-01, ∞)
-  system_time: [2022-06-01, ∞)            ← Jetzt in DB aktuell
+// Observability
+uint64_t rows  = cursor->rowsConsumed();  // Gesamtzahl konsumierter Datenpunkte
+uint64_t pages = cursor->pagesFetched();  // Anzahl Backend-Roundtrips
 ```
 
-### 9.11.2 BiTemporalTable — API
+**Konfiguration:**
+
+| Parameter    | Standard | Beschreibung |
+|-------------|---------|-------------|
+| `page_size` | 4 096   | Datenpunkte pro Backend-Fetch |
+
+**Performance-Ziel:**  ≥ 500 MB/s Scan-Durchsatz auf NVMe-Storage.
+
+**Fehlerbehandlung:**  Gibt `CursorInvalidated` zurück, wenn ein concurrent Chunk-Rotation das Cursor-Fenster ungültig macht.
+
+---
+
+### 9.11.3 TemporalCompressor — LZ4-Kompression
+
+Der `TemporalCompressor` unterstützt neben ZSTD nun auch **LZ4-Block-Kompression** (`CompressionAlgorithm::LZ4`).  LZ4 ist auf den High-Throughput / Low-Latency-Pfad ausgelegt und geeignet für heiße Datenbereiche mit vielen Lese-/Schreibzugriffen.
+
+**Drahtformat (Wire Format):**
+
+```json
+{
+  "__compressed": "lz4",
+  "__original_size": 4096,
+  "__data": "<Base64-kodiertes LZ4-Payload>"
+}
+```
+
+**API:**
+
+```cpp
+#include "temporal/temporal_compressor.h"
+
+TemporalCompressor compressor(CompressionAlgorithm::LZ4);
+
+// Komprimieren
+std::string compressed = compressor.compressHistory(history_json);
+
+// Dekomprimieren
+auto result = compressor.decompress(compressed);
+// result enthält das originale JSON-Objekt
+```
+
+**Algorithmus-Auswahl:**
+
+| Algorithmus | Ratio | Kompressionsgeschw. | Dekompressionsgeschw. | Einsatzgebiet |
+|------------|-------|--------------------|-----------------------|--------------|
+| `LZ4`      | ~1.5–2x | sehr hoch (GB/s)  | sehr hoch (GB/s)      | Heiße Daten, Low-Latency |
+| `ZSTD`     | ~3–5x   | mittel             | hoch                  | Kalte Daten, Archiv |
+
+**Konfiguration in `themisdb.yaml`:**
+
+```yaml
+timeseries:
+  temporal_compressor:
+    algorithm: lz4   # oder: zstd
+```
+
+## 9.12 Bi-Temporal-Modul — SQL:2011 C++ API (v1.x) {#bitemporal-module}
+
+Das Temporal-Modul (`include/temporal/`) implementiert vollständiges SQL:2011-Bi-Temporale Datenhaltung mit System-Zeit und Gültigkeits-Zeit.
+
+### 9.12.1 BiTemporalTable — Zwei-Zeitachsen-Tabelle
 
 ```cpp
 #include "temporal/bi_temporal.h"
+#include "temporal/temporal_types.h"
 
-namespace t = themisdb::temporal;
+// Bi-temporale Tabelle erstellen
+auto db = std::make_shared<RocksDBWrapper>("/var/db/orders");
+themisdb::temporal::BiTemporalTable orders(db, "orders");
 
-t::BiTemporalTable employees_history("employees");
+// Eintrag mit Gültigkeits-Zeitraum einfügen
+themisdb::temporal::TimeRange valid_time{1000, 2000};  // Unix-Timestamps
+orders.insertWithValidTime("order-42", payload_json, valid_time);
 
-// Zeile einfügen mit expliziter Valid-Time
-t::BiTemporalRow row;
-row.key = "emp_42";
-row.payload = {{"name","Alice"}, {"salary", 90000}};
-row.valid_time = {
-    t::Timestamp(1640995200000LL),   // 2022-01-01
-    t::kUntilChanged                 // open-ended
-};
-employees_history.insert(row);
+// Gültigkeits-Zeitraum aktualisieren (erzeugt neue Version)
+orders.updateForValidTime("order-42", new_payload, {1500, 2500});
 
-// Zeitreise: Stand am 2021-06-15, so wie er am 2021-06-15 bekannt war
-auto rows = employees_history.asOf(
-    t::Timestamp(1623715200000LL),   // Valid-Time AS OF
-    t::Timestamp(1623715200000LL)    // System-Time AS OF
-);
+// Aktuellen Zustand lesen (System-Zeit = jetzt, Valid-Zeit = jetzt)
+auto row = orders.queryCurrentState("order-42");
 
-// Alle historischen Versionen einer Entität
-auto history = employees_history.history("emp_42");
+// Zum bestimmten Zeit-Punkt lesen (AS OF)
+auto historical = orders.queryAsOf("order-42",
+    system_time, valid_time_point);
 
-// Aktuelle Sicht
-auto current = employees_history.currentRows();
+// Lücken-Erkennung
+auto gaps = orders.detectGaps("order-42");
+
+// Eindeutigkeits-Prüfung
+bool conflict = orders.hasUniquenessConflict("order-42", valid_time);
 ```
 
-**Referenzielle Integrität:**
+**Temporal Foreign Key (Referentielle Integrität über Zeitraum):**
 
 ```cpp
-// Temporal Foreign Key: Mitarbeiter muss in übergeordneter Tabelle existieren
-t::TemporalForeignKey fk{"departments"};
-bool ok = fk.validate(dept_table, "dept_engineering", emp_row.valid_time);
+themisdb::temporal::TemporalForeignKey fk;
+fk.parent_table = &employees;
+fk.referenced_key = "emp_42";
+
+// Validierung: Kind-Zeitraum muss im Eltern-Zeitraum liegen
+bool ok = fk.validate(employees, "emp_42", {1000, 2000});
 ```
 
-### 9.11.3 BiTemporalJoin — SQL:2011 §T005
-
-`BiTemporalJoin` korreliert zwei versionierte Tabellen sowohl auf der System-Time- als auch auf der Valid-Time-Achse. Fünf Join-Modi werden unterstützt:
-
-| Modus | Prädikat | Verwendung |
-|-------|---------|------------|
-| `SEQUENCED` | `valid_time_L ∩ valid_time_R ≠ ∅` | Überlappende Gültigkeitszeiträume |
-| `NON_SEQUENCED` | Ignoriert Zeitachsen | Einfacher Equi-Join |
-| `CURRENT` | Beide Zeilen aktuell zu `as_of_time` | Aktuelle Sicht |
-| `CONTAINED_IN` | `valid_time_L ⊆ valid_time_R` | Vollständige Einbettung |
-| `SNAPSHOT` | Beide Tabellen am gleichen System-Time-Snapshot | Konsistente Zeitpunkt-Sicht |
+### 9.12.2 BiTemporalJoin — SEQUENCED / NON-SEQUENCED
 
 ```cpp
 #include "temporal/bitemporal_join.h"
 
-using namespace themisdb::temporal;
+// Alle Zeilen aus beiden Tabellen mit überlappenden Zeiträumen laden
+std::vector<themisdb::temporal::BiTemporalRow> contracts = ...;
+std::vector<themisdb::temporal::BiTemporalRow> employees = ...;
 
-// SEQUENCED JOIN: Mitarbeiter und Abteilung zur gleichen Gültigkeitszeit
-BiTemporalJoinConfig cfg;
-cfg.mode           = JoinMode::SEQUENCED;
-cfg.join_key_left  = "dept_id";
-cfg.join_key_right = "id";
+themisdb::temporal::BiTemporalJoin::Config jcfg;
+jcfg.mode = themisdb::temporal::BiTemporalJoin::JoinMode::SEQUENCED;
+// Alternativen: NON_SEQUENCED, CURRENT
 
-BiTemporalJoin join(left_rows, right_rows, cfg);
-auto results = join.execute();
-// results: Zeilen mit überlappenden Valid-Time-Perioden
+themisdb::temporal::BiTemporalJoin join(contracts, employees, jcfg);
 
-// SNAPSHOT JOIN: Konsistente DB-Sicht zu einem bestimmten Zeitpunkt
-BiTemporalJoinConfig snap_cfg;
-snap_cfg.mode       = JoinMode::SNAPSHOT;
-snap_cfg.as_of_time = Timestamp(1706745600000LL); // 2024-02-01
+join.forEach([](const themisdb::temporal::BiTemporalJoinResult& r) -> bool {
+    // r.left_row, r.right_row, r.overlap_valid_time, r.overlap_sys_time
+    process(r);
+    return true;  // false = abbrechen
+});
 ```
 
-### 9.11.4 TemporalQueryEngine — Time-Travel Query Engine
+| JoinMode | Semantik |
+|----------|----------|
+| `SEQUENCED` | Überschneidung von Gültigkeits-Zeit | 
+| `NON_SEQUENCED` | Alle Kombinationen (kein Zeitfilter) |
+| `CURRENT` | Nur aktuell gültige Zeilen (Spezialfall) |
 
-`TemporalQueryEngine` führt SQL:2011-Zeitreise-Abfragen über `SystemVersionedTable`-Sammlungen aus und unterstützt alle vier SQL:2011-Temporal-Klauseln.
-
-**Temporal-Klauseln:**
-
-| Klausel | Semantik |
-|---------|---------|
-| `FOR SYSTEM_TIME AS OF t` | Zeigt den DB-Zustand zum Zeitpunkt `t` |
-| `FOR SYSTEM_TIME FROM t1 TO t2` | Alle Versionen im System-Time-Intervall |
-| `FOR SYSTEM_TIME BETWEEN t1 AND t2` | Inklusive beider Grenzen |
-| `FOR SYSTEM_TIME ALL` | Vollständige Versionshistorie |
+### 9.12.3 TemporalQueryEngine
 
 ```cpp
 #include "temporal/temporal_query_engine.h"
 
-TemporalQueryEngine engine;
-engine.registerTable("employees", emp_table);
-engine.registerTable("salaries",  sal_table);
+themisdb::temporal::TemporalQueryEngine engine(db);
 
-// Zeitreise-Abfrage: Wie sah die DB am 2023-01-01 aus?
-TemporalQuerySpec spec;
-spec.table_name      = "employees";
-spec.semantics       = TemporalSemantics::SYSTEM_TIME;
-spec.op              = TemporalOperator::AS_OF;
-spec.time_point      = Timestamp(1672531200000LL);
+// Query-Spec aufbauen
+themisdb::temporal::TemporalQuerySpec spec;
+spec.table_name       = "orders";
+spec.clause           = themisdb::temporal::TemporalClause::FOR_VALID_TIME;
+spec.semantics        = themisdb::temporal::TemporalSemantics::AS_OF;
+spec.as_of_time       = 1_000_000_000;
+spec.include_deleted  = false;
 
-auto snapshot = engine.execute(spec);
+// Filter
+spec.filters.push_back({themisdb::temporal::TemporalOperator::EQUALS, "status", "ACTIVE"});
 
-// AQL-Äquivalent
+auto results = engine.execute(spec);
+// results: std::vector<VersionedDocument> mit valid_time + sys_time
+
+// BETWEEN … AND … Abfrage
+spec.clause     = themisdb::temporal::TemporalClause::FOR_VALID_TIME;
+spec.semantics  = themisdb::temporal::TemporalSemantics::FROM_TO;
+spec.from_time  = 1_000_000_000;
+spec.to_time    = 2_000_000_000;
+auto period = engine.execute(spec);
 ```
 
-**AQL-Integration:**
-
-```aql
-// Zeitreise über AQL
-FOR emp IN employees
-  FOR ALL SYSTEM_TIME AS OF "2023-01-01T00:00:00Z"
-  FILTER emp.department == "Engineering"
-  RETURN {
-    name: emp.name,
-    salary: emp.salary,
-    valid_from: emp.valid_time_start,
-    recorded_at: emp.system_time_start
-  }
-```
-
-**QueryCache:** Der `TemporalQueryEngine` besitzt einen eingebauten LRU-Query-Cache für wiederholte Zeitreise-Abfragen auf dieselben Zeitpunkte.
-
-### 9.11.5 SnapshotManager — Konsistente Punkt-in-Zeit-Isolation
-
-`SnapshotManager` erzeugt und verwaltet konsistente Snapshots über mehrere `SystemVersionedTable`-Instanzen für Snapshot-Isolation-Reads.
+### 9.12.4 TemporalSnapshotManager
 
 ```cpp
 #include "temporal/snapshot_manager.h"
 
-SnapshotManager mgr;
-mgr.registerTable("employees", emp_table);
-mgr.registerTable("salaries",  sal_table);
-mgr.registerTable("projects",  proj_table);
+themisdb::temporal::TemporalSnapshotManager snap_mgr(db);
 
-// Konsistenten Snapshot aller registrierten Tabellen anlegen
-auto handle = mgr.createSnapshot({"employees", "salaries", "projects"});
-// handle.snapshot_id     → eindeutige UUID
-// handle.creation_time   → Zeitstempel des Snapshots
-// handle.version_number  → monoton steigend
+// Snapshot nehmen
+auto handle = snap_mgr.takeSnapshot("orders");
+// handle.snapshot_id, handle.system_time
 
-// Snapshot für Lesezugriff öffnen
-auto snapshot_data = mgr.openSnapshot(handle.snapshot_id);
+// Snapshot-Handle für PITR verwenden
+auto meta = snap_mgr.getMetadata(handle);
+// meta.is_valid, meta.row_count, meta.size_bytes
 
-// Snapshot nach Verwendung freigeben
-mgr.releaseSnapshot(handle.snapshot_id);
+// Alter Handle freigeben (GC)
+snap_mgr.releaseSnapshot(handle);
 
-// Alle aktiven Snapshots auflisten
-auto active = mgr.listSnapshots();
+// Alle lebenden Snapshots
+auto all = snap_mgr.listAlive();
 ```
 
-**Anwendungsfall: Audit-Reports**
+### 9.12.5 SystemVersionedTable
 
-Snapshots ermöglichen konsistente Audit-Berichte, die nicht durch parallele Schreiboperationen beeinflusst werden. Typischer Einsatz:
+```cpp
+#include "temporal/system_versioned_table.h"
 
-1. Snapshot vor dem Monatsabschluss anlegen
-2. Berichte asynchron generieren (ohne globalen Lock)
-3. Snapshot nach Berichtserstellung freigeben
+// Automatische System-Zeit-Verwaltung (SQL:2011 §4.11)
+themisdb::temporal::SystemVersionedTable svt(db, "contracts");
 
-### 9.11.6 Leistungs-Kennzahlen (v1.8.0)
+// Nur schreiben — System setzt Zeitstempel automatisch
+svt.insert("c-1", payload);
+svt.update("c-1", new_payload);
+svt.deleteRow("c-1");  // Logisches Löschen (Zeitraum geschlossen)
 
-| Metrik | Wert |
-|--------|------|
-| Bi-Temporal Insert | < 2 ms / Zeile |
-| AS OF Query (1M Zeilen) | < 100 ms |
-| BiTemporalJoin SEQUENCED (10K × 10K) | < 500 ms |
-| Snapshot-Erstellung (5 Tabellen) | < 10 ms |
-| QueryCache-Hit-Rate | > 80% |
+// History-Abfrage
+auto history = svt.getHistory("c-1");
+// Jeder Eintrag trägt: sys_time_start, sys_time_end, payload
+```
 
-### 9.11.7 Zusammenfassung
+## 9.13 Timeseries-Internals C++ API (v1.9.x) {#timeseries-internals-cpp}
 
-ThemisDB implementiert SQL:2011-Bi-Temporalität produktionsreif:
+### 9.13.1 TimeSeriesStore — Core-Speicher
 
-✅ **BiTemporalTable**: Zwei unabhängige Zeitachsen, TemporalForeignKey  
-✅ **BiTemporalJoin**: 5 Join-Modi (SEQUENCED, NON_SEQUENCED, CURRENT, CONTAINED_IN, SNAPSHOT)  
-✅ **TemporalQueryEngine**: SQL:2011 AS OF / FROM / BETWEEN / ALL + LRU-QueryCache  
-✅ **SnapshotManager**: Konsistente Multi-Table-Snapshots für Snapshot-Isolation  
+```cpp
+#include "timeseries/timeseries.h"
 
-**Weiterführende Ressourcen:**
-- [Kapitel 18: MVCC & HLC](chapter_mvcc_hlc.md)
-- [Kapitel 20: Backup & Recovery](chapter_20_backup.md) — PITR-Integration
+// TimeSeriesStore konstruieren (RocksDB-Backend)
+themis::timeseries::TimeSeriesStore ts_store(rocksdb, cf_handle);
+
+// Datenpunkt schreiben
+ts_store.put("cpu.usage", timestamp_ns, 72.4);
+
+// Batch-Schreiben (hochperformant)
+std::vector<themis::timeseries::TimeSeriesStore::DataPoint> batch;
+batch.push_back({"cpu.usage",  t1_ns, 70.1});
+batch.push_back({"mem.bytes",  t1_ns, 8589934592});
+ts_store.putBatch(batch);
+
+// Range-Query
+themis::timeseries::TimeSeriesStore::RangeQuery q;
+q.metric     = "cpu.usage";
+q.start_ns   = start_ns;
+q.end_ns     = end_ns;
+q.max_points = 10000;
+
+auto points = ts_store.query(q);
+// points: [{timestamp_ns, value}, ...]
+
+// Aggregation
+themis::timeseries::TimeSeriesStore::Aggregation agg;
+agg.metric       = "cpu.usage";
+agg.start_ns     = start_ns;
+agg.end_ns       = end_ns;
+agg.window_ns    = 60 * 1e9;  // 1-Minuten-Fenster
+agg.func         = themis::timeseries::AggFunc::Avg;
+
+auto agg_result = ts_store.aggregate(agg);
+// agg_result: [{window_start_ns, value}, ...]
+```
+
+### 9.13.2 Hypertable — Automatische Zeitpartitionierung
+
+```cpp
+#include "timeseries/hypertable.h"
+
+themis::timeseries::Hypertable::Config cfg;
+cfg.chunk_interval_ms  = 7 * 24 * 3600 * 1000LL;  // 7-Tage-Chunks
+cfg.compression        = true;                     // Gorilla + zstd
+cfg.replication_factor = 3;
+
+themis::timeseries::Hypertable ht("metrics", rocksdb, cfg);
+
+// Datenpunkte einfügen
+ht.insert(timestamp_ms, payload_bytes);
+
+// Batch-Insert
+std::vector<std::pair<int64_t, std::string>> entries = { /* ... */ };
+ht.insertBatch(entries);
+
+// Chunk-Info abfragen (für Monitoring)
+auto chunks = ht.getChunks();
+for (auto& chunk : chunks) {
+    // chunk.start_ms, chunk.end_ms, chunk.is_compressed, chunk.size_bytes
+    std::cout << "Chunk " << chunk.start_ms << " - " << chunk.end_ms
+              << " compressed=" << chunk.is_compressed << "\n";
+}
+
+// Alten Chunk komprimieren
+ht.compressChunk(chunk_id);
+```
+
+### 9.13.3 ContinuousAgg — Inkrementelle Materialisierung
+
+```cpp
+#include "timeseries/continuous_agg.h"
+
+// Aggregations-Konfiguration
+themis::timeseries::AggConfig agg_cfg;
+agg_cfg.id         = "hourly_cpu";
+agg_cfg.metric     = "cpu.usage";
+agg_cfg.func       = themis::timeseries::AggFunc::Avg;
+agg_cfg.window_ms  = 3600 * 1000LL;  // 1-Stunden-Fenster
+agg_cfg.retention_days = 90;
+
+// Hierarchisches Rollup (z.B. minute → hour → day)
+themis::timeseries::RollupHierarchy hierarchy;
+hierarchy.levels = {
+    {.interval_ms = 60'000,         .func = AggFunc::Avg},   // 1min
+    {.interval_ms = 3600'000,       .func = AggFunc::Avg},   // 1h
+    {.interval_ms = 86400'000,      .func = AggFunc::Avg},   // 1d
+};
+
+// Verteilter Aggregations-Koordinator
+themis::timeseries::DistributedAggregateCoordinator coord(nodes);
+coord.registerAgg(agg_cfg);
+
+// Watermark-Management (verhindert Doppelberechnung)
+themis::timeseries::ContinuousAggWatermarkStore watermark_store(rocksdb);
+watermark_store.setWatermark("hourly_cpu", last_processed_ms);
+auto wm = watermark_store.getWatermark("hourly_cpu");
+```
+
+**AggFunc:** `Min` / `Max` / `Avg` / `Sum` / `Count`
+
+### 9.13.4 GorillaCodec — Zeitreihen-Kompression
+
+```cpp
+#include "timeseries/gorilla.h"
+
+// Encoding (Facebook Gorilla-Algorithmus, delta-of-delta + XOR)
+themis::timeseries::BitWriter writer;
+int64_t prev_ts = 0;
+double  prev_val = 0.0;
+
+for (auto& dp : data_points) {
+    writer.writeZigZag64(dp.timestamp_ns - prev_ts);  // Delta
+    // XOR-encoded double für Value
+    uint64_t val_bits;
+    memcpy(&val_bits, &dp.value, 8);
+    writer.writeBits(val_bits, 64);
+    prev_ts = dp.timestamp_ns;
+}
+writer.alignToByte();
+auto compressed = writer.getBytes();
+
+// Decoding
+themis::timeseries::BitReader reader(compressed.data(), compressed.size());
+while (!reader.done()) {
+    int64_t delta = reader.readZigZag64();
+    uint64_t val_bits = reader.readBits(64);
+    double value;
+    memcpy(&value, &val_bits, 8);
+    // ...
+}
+```
+
+### 9.13.5 DownsamplingPipeline — Mehrstufiges Downsampling
+
+```cpp
+#include "timeseries/downsampling.h"
+
+themis::timeseries::DownsamplingPipeline pipeline(ts_store);
+
+// Stufe 1: 1-Minuten-Aggregate (raw → 1min)
+themis::timeseries::DownsamplingPolicy p1;
+p1.source_resolution_ms  = 1'000;      // 1s raw
+p1.target_resolution_ms  = 60'000;     // 1min
+p1.func                  = themis::timeseries::AggFunc::Avg;
+p1.retention_days        = 7;
+
+// Stufe 2: 1-Stunden-Aggregate
+themis::timeseries::DownsamplingPolicy p2;
+p2.source_resolution_ms  = 60'000;
+p2.target_resolution_ms  = 3'600'000;
+p2.func                  = themis::timeseries::AggFunc::Max;
+p2.retention_days        = 365;
+
+pipeline.addPolicy(p1);
+pipeline.addPolicy(p2);
+pipeline.run("cpu.usage", start_ms, end_ms);
+```
+
+### 9.13.6 RetentionManager — Automatisches Löschen
+
+```cpp
+#include "timeseries/retention.h"
+
+themis::timeseries::RetentionPolicy policy;
+policy.metric          = "cpu.usage";
+policy.max_age_ms      = 30LL * 24 * 3600 * 1000;  // 30 Tage
+
+themis::timeseries::StagedDeletionPolicy staged;
+staged.soft_delete_after_ms  = 7LL  * 24 * 3600 * 1000;  // 7 Tage: soft
+staged.hard_delete_after_ms  = 30LL * 24 * 3600 * 1000;  // 30 Tage: hard
+
+themis::timeseries::RetentionManager mgr(ts_store, rocksdb);
+mgr.registerPolicy(policy);
+mgr.registerStagedPolicy(staged);
+
+// Hintergrund-Thread starten
+mgr.startAsync(std::chrono::hours(1));
+
+// Statistiken
+auto stats = mgr.getStats();
+// stats.deleted_points, stats.freed_bytes, stats.last_run_ms
+```
+
+### 9.13.7 TsStreamCursor — Streaming-Iteration
+
+```cpp
+#include "timeseries/ts_stream_cursor.h"
+
+themis::timeseries::TsStreamCursor::Config cur_cfg;
+cur_cfg.metric     = "cpu.usage";
+cur_cfg.start_ns   = start_ns;
+cur_cfg.end_ns     = end_ns;
+cur_cfg.batch_size = 5000;
+
+themis::timeseries::TsStreamCursor cursor(ts_store, cur_cfg);
+
+while (cursor.valid()) {
+    auto batch = cursor.nextBatch();
+    for (auto& dp : batch) {
+        // dp.timestamp_ns, dp.value
+        process(dp);
+    }
+}
+cursor.close();
+```
+
+### 9.13.8 PrometheusRemoteWrite — Prometheus-Kompatibilität
+
+```cpp
+#include "timeseries/prometheus_remote_write.h"
+
+// Prometheus Remote Write Request verarbeiten
+themis::timeseries::PromWriteRequest req;
+req.timeseries.push_back({
+    .labels  = {{"__name__", "cpu_usage"}, {"host", "node-1"}},
+    .samples = {
+        {.timestamp_ms = now_ms, .value = 72.4},
+        {.timestamp_ms = now_ms + 15000, .value = 74.1},
+    }
+});
+
+// In ThemisDB-TimeSeriesStore schreiben
+auto writer = themis::timeseries::PrometheusRemoteWriteHandler(ts_store);
+writer.handle(req);
+
+// Remote-Read beantworten (für Grafana)
+auto read_resp = writer.read({
+    .metric      = "cpu_usage",
+    .start_ms    = start_ms,
+    .end_ms      = end_ms,
+    .label_match = {{"host", "node-1"}},
+});
+```

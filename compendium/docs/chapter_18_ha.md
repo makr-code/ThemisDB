@@ -1311,9 +1311,189 @@ dr_datacenter: enabled
 
 ---
 
+## 18.10 Replikations-Erweiterungen C++ API (v1.6)
+
+### 18.10.1 WALArchivalManager — Cloud-Archivierung mit AES-256-GCM
+
+`WALArchivalManager` (`include/replication/replication_manager.h`) archiviert abgeschlossene WAL-Segmente mit optionaler Zstd-Kompression und AES-256-GCM-Verschlüsselung in lokale oder Cloud-Backends (S3/GCS/Azure via `IArchivalBackend`). Lifecycle-Management transitiert Segmente automatisch in kältere Storage-Tier.
+
+```cpp
+#include "replication/replication_manager.h"
+
+themis::WALArchivalManager::ArchivalConfig cfg;
+cfg.wal_directory            = "/data/wal";
+cfg.archive_directory        = "/archive/wal";
+
+// Cloud-Backend (optional)
+cfg.storage_type             = "s3";
+cfg.bucket_name              = "my-cluster-wal";
+cfg.prefix                   = "production/wal/";
+
+// Archivierungs-Policy
+cfg.archive_after_segments   = 100;
+cfg.local_retention_segments = 10;
+cfg.compress_before_archive  = true;
+cfg.delete_after_days        = 365;
+
+// AES-256-GCM Verschlüsselung
+cfg.encrypt_at_rest          = true;
+cfg.encryption_key_hex       = "deadbeef...";  // 64-Hex-Zeichen = 32 Byte
+
+// Lifecycle: Standard → Cold → Glacier
+cfg.transition_to_cold_after_days = 90;
+
+auto s3_backend = std::make_shared<S3ArchivalBackend>(aws_config);
+themis::WALArchivalManager archiver(cfg, s3_backend);
+
+// WAL-Segmente archivieren
+auto archived_count = archiver.archiveSegments(segment_paths);
+
+// Segmente für PITR abrufen
+auto segments = archiver.listSegments();
+// ArchivedSegment: segment_id, start_sequence, end_sequence,
+//                  size_bytes, compressed, encrypted,
+//                  archived_at, archive_path, storage_tier
+
+// PITR-Wiederherstellung (Segment entschlüsseln + dekomprimieren)
+auto raw_bytes = archiver.retrieveSegment(segment.segment_id);
+```
+
+**Storage-Tiers:**
+
+| Tier | Beschreibung | Übergang |
+|------|-------------|---------|
+| `standard` | Aktuell, schneller Zugriff | Standard |
+| `cold` | Günstigerer Speicher, langsamerer Zugriff | nach `transition_to_cold_after_days` Tagen |
+| `glacier` | Archiv-Tier, sehr günstiger Speicher | via `setStorageTier()` |
+
+### 18.10.2 LogicalReplicationManager — Schema-aware Logical Slots
+
+`LogicalReplicationManager` (`include/replication/logical_replication.h`) implementiert PostgreSQL-ähnliche Logical Replication Slots mit Collection-Filtern, Row-Prädikaten, DDL-Streaming, Cross-Version-Transforms und parallelem Decoding.
+
+```cpp
+#include "replication/logical_replication.h"
+
+themis::LogicalReplicationManager::Config lr_cfg;
+lr_cfg.wal_directory    = "/data/wal";
+lr_cfg.parallel_decoding = true;
+lr_cfg.transform        = [](themis::LogicalChange& change) {
+    // Optionale Transformation per Change (z.B. Feld-Mapping)
+};
+
+themis::LogicalReplicationManager lr_mgr(wal_manager, lr_cfg);
+
+// ── Slot erstellen mit Filter ─────────────────────────────────────────
+themis::LogicalReplicationManager::ReplicationFilter filter;
+filter.include_collections   = { "orders", "customers" };
+filter.row_filter_expression = "tenant_id == 'acme'";
+filter.replicate_ddl         = true;
+
+auto slot = lr_mgr.createSlot("acme-slot", "json_changes", filter, /*initial_sync=*/true);
+// slot.slot_name, slot.restart_lsn, slot.confirmed_flush_lsn
+
+// ── Änderungen lesen ──────────────────────────────────────────────────
+auto changes = lr_mgr.readChanges("acme-slot", /*max_changes=*/1000);
+// changes[i]: collection, operation (INSERT/UPDATE/DELETE), old_data, new_data
+
+// ── LSN-Fortschritt bestätigen ────────────────────────────────────────
+lr_mgr.advanceSlot("acme-slot", confirmed_lsn);
+
+// ── Statistiken ───────────────────────────────────────────────────────
+auto stats = lr_mgr.getStats();
+// stats.changes_enqueued, stats.ddl_enqueued, stats.filtered_out
+```
+
+---
+
+## 18.11 Chaos Engineering und Failover — C++ API
+
+### 18.11.1 FaultInjector + ChaosScheduler
+
+```cpp
+#include "chaos/chaos_framework.h"
+
+themis::chaos::FaultInjector injector("test-cluster");
+
+// Zeitlich begrenzter NODE_FAILURE
+injector.injectFault({
+    .type           = themis::chaos::FaultType::NODE_FAILURE,
+    .target_node_id = "shard-2",
+    .duration       = std::chrono::seconds(30),
+    .description    = "Simulate node crash for DR drill"
+});
+
+// Netzwerk-Partition mit Wiederherstellung
+injector.injectFault({
+    .type           = themis::chaos::FaultType::NETWORK_PARTITION,
+    .target_node_id = "shard-3",
+    .duration       = std::chrono::seconds(10)
+});
+
+// Zufälliger Fehler (5% Wahrscheinlichkeit, permanent bis recoverFault)
+injector.injectFault({
+    .type        = themis::chaos::FaultType::RANDOM_FAILURE,
+    .target_node_id = "shard-1",
+    .probability = 0.05
+});
+
+// Status prüfen
+bool active = injector.isFaultActive("shard-2");
+auto faults = injector.getActiveFaults();   // Liste aller aktiven Fehler
+
+// Manuell wiederherstellen
+injector.recoverFault("shard-2");
+injector.clearAllFaults();
+
+// Callback bei Inject/Recover Events
+injector.registerEventCallback([](const auto& spec, bool injected) {
+    LOG(INFO) << (injected ? "Injected" : "Recovered") << ": " << spec.description;
+});
+```
+
+**FaultTypes:** NODE_FAILURE, NETWORK_PARTITION, LEADER_CRASH, DELAYED_RESPONSE, DISK_FAILURE, RANDOM_FAILURE, DISASTER_RECOVERY_DRILL
+
+### 18.11.2 DisasterRecoveryManager — Automatisierter DR-Plan
+
+```cpp
+#include "failover/disaster_recovery_manager.h"
+
+themis::failover::DisasterRecoveryConfig dr_cfg;
+dr_cfg.max_catchup_wait_sec = 120;
+dr_cfg.dry_run              = false;
+
+themis::failover::DisasterRecoveryManager dr_manager(
+    dr_cfg, replication_mgr, fencing_mgr
+);
+
+// Schrittweise Hooks (z.B. für Custom Traffic-Shifter)
+dr_manager.setStepHook(themis::failover::DisasterRecoveryStep::SHIFT_TRAFFIC,
+    [](const auto& plan, std::string& err) {
+        return dns_router.switchTo(plan.target_region);
+    });
+
+// DR-Plan ausführen
+themis::failover::DisasterRecoveryPlan plan;
+plan.snapshot_id        = "snap-2026-04-01-00:00";
+plan.target_region      = "eu-west-1";
+plan.validate_restored  = true;
+
+auto result = dr_manager.executePlan(plan);
+// result.success, result.steps_completed, result.duration_ms
+// result.failed_step (falls Fehler)
+
+// Statistiken
+auto stats = dr_manager.getStatistics();
+// stats.total_runs, .successful_runs, .average_duration
+```
+
+---
+
 **Nächstes Kapitel:** [Kapitel 19: Monitoring & Observability](chapter_19_monitoring.md)  
 **Vorheriges Kapitel:** [Kapitel 17: Horizontal Scaling](chapter_17_scaling.md)
 
+## 18.12 Replikation — Multi-Master & CRDT C++ API (v1.x) {#replication-multimaster-cpp}
+
+### 18.12.1 ReplicationManager — Überblick und Konfiguration
 ---
 
 ## 18.10 WAL-Archivierung & Logische Replikation {#chapter_18_10_wal_archival}
@@ -1328,277 +1508,135 @@ dr_datacenter: enabled
 ```cpp
 #include "replication/replication_manager.h"
 
-ArchivalConfig cfg;
-cfg.compression    = ArchivalCompression::ZSTD_LEVEL_3;
-cfg.encryption_key = key_manager.getDEK("wal-archival-key");
-cfg.backend        = std::make_shared<S3ArchivalBackend>(
-    "us-east-1", "themisdb-wal-archive", "wal/");
-cfg.lifecycle = {
-    .standard_days = 7,
-    .cold_days     = 30,
-    .glacier_days  = 90,
-};
-cfg.upload_parallelism = 4;
-cfg.segment_size_mb    = 64;
+// Konfiguration
+themis::replication::ReplicationConfig cfg;
+cfg.role            = themis::replication::ReplicationRole::PRIMARY;
+cfg.mode            = themis::replication::ReplicationMode::SYNCHRONOUS;
+cfg.conflict_resolution = themis::replication::ConflictResolution::LAST_WRITE_WINS;
+cfg.read_preference = themis::replication::ReadPreference::PRIMARY_PREFERRED;
+cfg.wal_segment_size_mb = 64;
+cfg.compression     = true;  // Zstd für WAL-Segmente
+cfg.replica_lag_threshold_ms = 5000;
 
-WALArchivalManager archiver(cfg);
-archiver.start();                         // Hintergrund-Thread startet
+auto mgr = std::make_unique<themis::replication::ReplicationManager>(wal, cfg);
 
-// WAL-Segment manuell auslösen (für Tests)
-archiver.flushCurrentSegment();
+// Replikat hinzufügen
+themis::replication::ReplicaInfo replica;
+replica.node_id         = "replica-eu-west-1";
+replica.endpoint        = "10.0.1.5:8766";
+replica.is_voting_member = true;
+replica.priority        = 1;
 
-// Archiv-Metadaten abfragen
-auto segments = archiver.listSegments(start_lsn, end_lsn);
-// segments[0].lsn_start, segments[0].lsn_end, segments[0].tier, segments[0].url
+mgr->addReplica(replica);
+mgr->start();
 
-// Segment für PITR herunterladen
-archiver.restoreSegment(lsn, "/tmp/wal_restore/");
-```
+// Gesundheitsstatus prüfen
+auto health = mgr->getHealthStatus();
+// health: {overall: HEALTHY/DEGRADED/CRITICAL, replicas: [...]}
 
-**Lifecycle-Tiers:**
-
-| Tier | Zugriff | Kosten | Transition |
-|------|---------|--------|-----------|
-| Standard | < 100ms | €€€ | Tag 0 |
-| Cold (IA) | < 1s | €€ | Tag 7 |
-| Glacier | Minuten | € | Tag 30 |
-| Deep Archive | Stunden | ¢ | Tag 90 |
-
----
-
-### 18.10.2 LogicalReplicationManager
-
-**Header:** `include/replication/logical_replication.h`  
-**Status:** ✅ Production-Ready  
-
-Logische Replikation auf Statement-/Row-Ebene mit schema-aware Replication Slots, Row-Filter, DDL-Capture und Cross-Version-Transforms. Parallel-Decoding über mehrere Worker ermöglicht >100K Events/s.
-
-```cpp
-#include "replication/logical_replication.h"
-
-LogicalReplicationConfig lr_cfg;
-lr_cfg.slot_name       = "replica_slot_1";
-lr_cfg.output_plugin   = OutputPlugin::PGOUTPUT;
-lr_cfg.publication     = "all_tables";
-lr_cfg.row_filter      = "tenant_id = 'acme'";      // Tenant-Isolation
-lr_cfg.include_ddl     = true;
-lr_cfg.worker_threads  = 8;
-lr_cfg.transform       = [](const RowChange& change) {
-    // Cross-version field rename
-    if (change.table == "orders" && change.has("customer_id"))
-        change.rename("customer_id", "user_id");
-    return change;
-};
-
-LogicalReplicationManager lrm(lr_cfg);
-
-// Subscription starten
-lrm.subscribe([](const RowChange& change) {
-    if (change.type == ChangeType::INSERT) {
-        downstream_db.insert(change.table, change.new_row);
-    } else if (change.type == ChangeType::UPDATE) {
-        downstream_db.update(change.table, change.old_key, change.new_row);
-    } else {
-        downstream_db.remove(change.table, change.old_key);
-    }
-});
-
-lrm.start();
-
-// Lag überwachen
-ReplicationStats stats = lrm.getStats();
-std::cout << "Lag: " << stats.replication_lag_ms << "ms\n";
-std::cout << "Events/s: " << stats.events_per_second << "\n";
-```
-
----
-
-## 18.11 Chaos Engineering & Disaster Recovery {#chapter_18_11_chaos_dr}
-
-### 18.11.1 FaultInjector
-
-**Header:** `include/chaos/chaos_framework.h`  
-**Status:** ✅ Production-Ready  
-
-`FaultInjector` injiziert kontrollierte Fehler in laufende ThemisDB-Cluster für Resilienz-Tests nach dem Chaos-Engineering-Prinzip (Chaos Monkey, Gremlin). Unterstützt zeitlich begrenzte Injektionen mit konfigurierbarer Wahrscheinlichkeit.
-
-```cpp
-#include "chaos/chaos_framework.h"
-
-FaultInjector injector;
-
-// Knoten-Ausfall simulieren (30 Sekunden, 100% Wahrscheinlichkeit)
-injector.inject(FaultType::NODE_FAILURE, {
-    .target_node_id  = "node-3",
-    .duration        = std::chrono::seconds{30},
-    .probability     = 1.0,
-});
-
-// Netzwerk-Partition zwischen zwei Regionen
-injector.inject(FaultType::NETWORK_PARTITION, {
-    .source_nodes    = {"node-1", "node-2"},
-    .target_nodes    = {"node-3", "node-4"},
-    .duration        = std::chrono::seconds{60},
-    .probability     = 1.0,
-    .packet_loss_pct = 100,
-});
-
-// Disk-Slow (Latenz-Injektion auf Storage I/O)
-injector.inject(FaultType::DISK_FAILURE, {
-    .target_node_id  = "node-2",
-    .duration        = std::chrono::seconds{10},
-    .probability     = 0.5,       // 50% der I/O-Operationen betroffen
-    .extra_latency_ms = 500,
-});
-
-// Aktive Faults auflisten
-auto active = injector.getActiveFaults();
-for (auto& f : active) {
-    std::cout << f.type_name << " on " << f.target
-              << " (remaining: " << f.remaining_ms << "ms)\n";
-}
-
-// Alle Faults stoppen
-injector.clearAll();
-```
-
-**Fault-Typen:**
-
-| `FaultType` | Beschreibung |
-|-------------|-------------|
-| `NODE_FAILURE` | Prozess auf Ziel-Node beendet, kein Graceful Shutdown |
-| `NETWORK_PARTITION` | iptables-Regeln blockieren Traffic zwischen Node-Sets |
-| `LEADER_CRASH` | Nur auf dem aktuellen Raft-Leader appliziert |
-| `DISK_FAILURE` | I/O-Latenz + Fehler-Injektion via LD_PRELOAD |
-| `RANDOM` | Zufällige Auswahl aus allen Fault-Typen |
-
----
-
-### 18.11.2 ChaosScheduler
-
-**Header:** `include/chaos/chaos_framework.h`  
-**Status:** ✅ Production-Ready  
-
-`ChaosScheduler` plant Fault-Injektionen nach Cron-Schedule oder Event-getriggert. Sinnvoll für kontinuierliche Resilienz-Tests in Staging-Umgebungen.
-
-```cpp
-#include "chaos/chaos_framework.h"
-
-ChaosScheduler scheduler;
-
-// Jeden Montag 02:00 UTC: zufälligen Node-Ausfall für 2 Minuten
-scheduler.schedule(ChaosJob{
-    .cron_expression = "0 2 * * 1",    // Montags 02:00
-    .fault_type      = FaultType::RANDOM,
-    .parameters      = {.duration = std::chrono::minutes{2}, .probability = 0.8},
-    .label           = "weekly-chaos-monday",
-});
-
-// Auf hohe Last reagieren: bei CPU > 80% Netzwerk-Delay injecten
-scheduler.scheduleOnEvent(
-    EventTrigger::CPU_HIGH,
-    FaultType::NETWORK_PARTITION,
-    {.duration = std::chrono::seconds{15}, .probability = 0.3}
-);
-
-scheduler.start();
-
-// Job-History
-for (auto& run : scheduler.getHistory(24h)) {
-    std::cout << run.label << ": " << run.status
-              << " at " << run.executed_at_utc << "\n";
+for (auto& r : health.replicas) {
+    // r.node_id, r.lag_ms, r.status (SYNCING/IN_SYNC/LAGGING/DISCONNECTED)
+    // r.last_applied_lsn
 }
 ```
 
----
+**ReplicationRole:** `PRIMARY` / `SECONDARY` / `ARBITER`
+**ReplicationMode:** `SYNCHRONOUS` / `ASYNCHRONOUS` / `SEMI_SYNC`
+**ConflictResolution:** `LAST_WRITE_WINS` / `FIRST_WRITE_WINS` / `MERGE` / `CUSTOM`
 
-### 18.11.3 DisasterRecoveryManager
-
-**Header:** `include/failover/disaster_recovery_manager.h`  
-**Status:** ✅ Production-Ready  
-
-`DisasterRecoveryManager` orchestriert den vollständigen Disaster-Recovery-Prozess in 7 definierten Schritten. Jeder Schritt kann mit Pre/Post-Hooks erweitert werden. `dry_run`-Modus validiert alle Voraussetzungen ohne tatsächliche Änderungen.
+### 18.12.2 MultiMasterReplication — Active-Active mit CRDT/Vektortakten
 
 ```cpp
-#include "failover/disaster_recovery_manager.h"
+#include "replication/multi_master_replication.h"
 
-DRConfig dr_cfg;
-dr_cfg.target_cluster   = "cluster-eu-failover";
-dr_cfg.rpo_target_secs  = 60;      // Max. tolerierbarer Datenverlust
-dr_cfg.rto_target_secs  = 300;     // Max. tolerierbare Ausfallzeit
-dr_cfg.dry_run          = false;   // true = nur simulieren
+// VectorClock — Kausalordnung zwischen Knoten
+themis::replication::VectorClock vc;
+vc.increment("node-1");  // lokales Ereignis
 
-DisasterRecoveryManager drm(dr_cfg);
+// Mit anderem Knoten mergen
+themis::replication::VectorClock remote_vc = receive_clock();
+vc.merge(remote_vc);
 
-// Hooks für jeden Schritt registrieren
-drm.onStep(DRStep::VALIDATE_SNAPSHOT, [](const StepContext& ctx) {
-    LOG_INFO("Snapshot {} validated, LSN: {}", ctx.snapshot_id, ctx.lsn);
-});
-drm.onStep(DRStep::SHIFT_TRAFFIC, [](const StepContext& ctx) {
-    dns_provider.updateRecord("db.example.com", ctx.new_primary_ip);
-});
-
-// Recovery starten
-auto result = drm.execute();
-if (!result.success) {
-    LOG_ERROR("DR failed at step {}: {}", result.failed_step_name, result.error);
-    drm.rollback();
+// Kausalordnung prüfen
+if (vc_a.happensBefore(vc_b)) {
+    // a ist eindeutig vor b
+} else if (vc_a.isConcurrent(vc_b)) {
+    // Nebenläufiger Schreibzugriff → Konflikterkennung nötig
 }
 
-// Statistiken
-DRStats stats = drm.getStats();
-std::cout << "Total time: " << stats.total_elapsed_secs << "s\n";
-std::cout << "Data loss: " << stats.data_loss_secs << "s\n";
-std::cout << "RTO achieved: " << (stats.total_elapsed_secs <= dr_cfg.rto_target_secs) << "\n";
+// HybridLogicalClock — TrueTime-ähnlich (Wall + Logical)
+themis::replication::HybridLogicalClock hlc;
+auto ts = hlc.now();
+// ts.wall_ms: Wanduhrzeit, ts.logical: monotoner Zähler
+
+// ConflictResolver — Multi-Master Konflikte
+themis::replication::ConflictResolver resolver(cfg.conflict_resolution);
+auto resolved = resolver.resolve(op_a, op_b, context);
+// resolved.winner, resolved.conflict_type, resolved.merge_result
+
+// CRDT-basierter CRDTMerger
+themis::replication::CRDTMerger crdt_merger;
+// Automatisches Merge von kommutativen Datenstrukturen
 ```
 
-**DR-Schritte:**
+**ConflictType:** `CONCURRENT_WRITE` / `DELETE_UPDATE` / `SCHEMA_CONFLICT`
+**MMNodeState:** `LEADER` / `FOLLOWER` / `CANDIDATE` / `PARTITIONED`
 
-| Step | Beschreibung | Typische Dauer |
-|------|-------------|---------------|
-| `PRECHECKS` | Konnektivität, Disk-Space, Credentials prüfen | 5–15 s |
-| `VALIDATE_SNAPSHOT` | Letzten validen Snapshot identifizieren | 10–30 s |
-| `EPOCH_FENCING` | Alten Primary aus Cluster ausschließen | 2–5 s |
-| `RESTORE` | Snapshot auf DR-Cluster anwenden | 30–120 s |
-| `CATCHUP` | WAL-Replay bis aktueller LSN | 10–60 s |
-| `SHIFT_TRAFFIC` | DNS/Load-Balancer auf DR-Cluster umschalten | 5–10 s |
-| `VERIFY` | End-to-End Health-Check auf neuem Primary | 15–30 s |
-
----
-
-### 18.11.4 AutoFailoverManager
-
-**Header:** `include/failover/auto_failover_manager.h`  
-**Status:** ✅ Production-Ready  
-
-Automatisches Failover ohne manuelle Intervention. Raft-basierte Leader-Erkennung, konfigurierbare Failover-Schwellwerte und Quorum-Anforderungen.
+### 18.12.3 CRDT-Typen — Konfliktfreie Datenstrukturen
 
 ```cpp
-#include "failover/auto_failover_manager.h"
+#include "replication/crdt_types.h"
 
-AutoFailoverConfig afo_cfg;
-afo_cfg.health_check_interval = std::chrono::seconds{5};
-afo_cfg.failure_threshold     = 3;          // 3 aufeinanderfolgende Fehler → Failover
-afo_cfg.election_timeout_ms   = 1500;
-afo_cfg.min_quorum_size       = 2;          // Von 3 Nodes
-afo_cfg.notify_url            = "https://pagerduty.example.com/webhook/themis";
+// GrowOnlyCounter (G-Counter) — nur Inkrement
+themis::replication::GrowOnlyCounter g_counter("node-1");
+g_counter.increment(5);
+g_counter.increment(10);
+auto val = g_counter.value();  // 15
 
-AutoFailoverManager afo(nodes, afo_cfg);
-afo.start();
+// Mit Replikat mergen
+themis::replication::GrowOnlyCounter remote_counter = receive_counter();
+g_counter.merge(remote_counter);  // CRDT-Merge: max pro Node
 
-// Failover-Events subscriben
-afo.onFailover([](const FailoverEvent& evt) {
-    LOG_WARN("Failover: {} → {} (reason: {})",
-             evt.old_primary, evt.new_primary, evt.reason);
-    metrics.increment("themis.failover.count");
-});
+// PNCounter (Positiv-Negativ-Counter) — Inkrement + Dekrement
+themis::replication::PNCounter pn_counter("node-1");
+pn_counter.increment(10);
+pn_counter.decrement(3);
+auto net = pn_counter.value();  // 7
 
-// Manuelles Failover
-afo.triggerManualFailover("node-2",
-    ManualFailoverOptions{.force = false, .drain_connections = true});
+// MVRegister (Multi-Value Register) — Gleichzeitige Schreibzugriffe
+themis::replication::MVRegister<std::string> mv_reg;
+mv_reg.write("value-A", vc_a);
+mv_reg.write("value-B", vc_b);  // nebenläufig mit A
+
+auto values = mv_reg.read();
+// values: {"value-A", "value-B"} — beide sichtbar bis aufgelöst
+mv_reg.resolve("value-B", vc_merge);  // explizite Auflösung
 ```
 
----
+### 18.12.4 ReplicationSlot — Persistent WAL-Empfänger-Slots
 
-**Nächstes Kapitel:** [Kapitel 19: Monitoring & Observability](chapter_19_monitoring.md)  
-**Vorheriges Kapitel:** [Kapitel 17: Horizontal Scaling](chapter_17_scaling.md)
+```cpp
+#include "replication/replication_slot.h"
+
+// Replikations-Slot anlegen und verwalten
+auto slot = themis::replication::ReplicationSlot::create({
+    .slot_name      = "analytics-consumer",
+    .plugin         = "themis_decodev2",
+    .database       = "production",
+    .output_plugin_options = {{"include-schemas", "true"}},
+});
+
+// Slot-Status
+auto state = slot.getState();
+// state.confirmed_lsn, state.restart_lsn, state.status
+
+// Slot pausieren/fortsetzen
+slot.pause();
+slot.resume();
+
+// LSN bestätigen (Daten wurden verarbeitet)
+slot.advance(last_processed_lsn);
+
+// Slot entfernen (wenn Consumer weg)
+slot.drop();
+```

@@ -1578,6 +1578,105 @@ def get_channel_members(channel_id):
     """, {"channel_id": channel_id})
 ```
 
+## 11.8 StreamingIngestManager — Hochdurchsatz-Ingest-Engine (v1.9.x)
+
+Neben CDC-basierten Downstream-Konsumenten benötigen viele Anwendungen auch einen schnellen, backpressure-fähigen **Eingangskanal** für hochvolumige Event-Ströme.  Der `StreamingIngestManager` implementiert genau dies: ein Ring-Buffer-basierter In-Memory-Buffer, der von einem dedizierten Flush-Thread kontinuierlich nach RocksDB drainiert wird.
+
+### Architektur
+
+```
+Producer Thread(s)
+      │  ingest(key, value)
+      ▼
+┌─────────────────────────────┐
+│  Ring Buffer (in-memory)    │  max_buffer_events = 1 000 000
+│  OverflowPolicy: BLOCK/DROP │
+└─────────────┬───────────────┘
+              │  alle flush_interval = 10 ms
+              ▼
+┌─────────────────────────────┐
+│  Flush Thread               │  max_batch_size = 65 536
+│  rocksdb::WriteBatch        │  WAL-sync optional
+└─────────────┬───────────────┘
+              │
+              ▼
+          RocksDB
+```
+
+**Durability-Garantie:** Jedes Event wird in den WAL geschrieben, bevor `ingest()` zurückkehrt (`sync_wal = true`, Standard).  Der RocksDB-Commit erfolgt asynchron durch den Flush-Thread.
+
+**Performance-Ziel:** ≥ 1 M Events/s bei End-to-End-Latenz ≤ 50 ms auf einem 8-Core-Knoten.
+
+### Schnellstart
+
+```cpp
+#include "storage/streaming_ingest_manager.h"
+
+// Konfiguration
+themis::StreamingIngestManager::Config cfg;
+cfg.flush_interval      = std::chrono::milliseconds(10);
+cfg.max_buffer_events   = 1'000'000;
+cfg.max_batch_size      = 65'536;
+cfg.overflow_policy     = themis::StreamingIngestManager::OverflowPolicy::BLOCK;
+cfg.sync_wal            = true;
+
+// Instanz erstellen und starten
+auto mgr = themis::StreamingIngestManager::create(rocksdb_wrapper, cfg);
+mgr->start();
+
+// Einzelnes Event einreihen
+mgr->ingest("metrics:cpu:server-01", "0.72");
+
+// Effizienteres Batch-Einreihen (Mutex nur einmal)
+std::vector<themis::StreamingIngestManager::Event> batch;
+for (auto& row : sensor_rows) {
+    batch.push_back({row.key, row.payload});
+}
+auto result = mgr->ingestBatch(std::move(batch));
+// result.value() == Anzahl erfolgreich eingereihter Events
+
+// Manueller sofortiger Flush (z.B. für Tests / Graceful Shutdown)
+mgr->flush();
+
+// Statistiken
+auto s = mgr->stats();
+// s.events_ingested   – Gesamtanzahl akzeptierter Events
+// s.events_flushed    – In RocksDB persistierte Events
+// s.backpressure_waits – Wie oft ingest() auf Pufferplatz warten musste
+// s.dropped_events    – Verworfene Events (nur bei OVERFLOW_DROP)
+
+mgr->stop();  // Drainiert den Buffer, beendet den Flush-Thread
+```
+
+### Konfigurationsparameter
+
+| Parameter | Standard | Beschreibung |
+|-----------|---------|-------------|
+| `flush_interval` | 10 ms | Flush-Frequenz des Background-Threads |
+| `max_buffer_events` | 1 000 000 | Pufferkapazität; bei Überschreitung greift `overflow_policy` |
+| `max_batch_size` | 65 536 | Max. Events pro RocksDB-WriteBatch |
+| `backpressure_timeout` | 0 (unbegrenzt) | Timeout für `BLOCK`-Policy; 0 = ewig warten |
+| `overflow_policy` | `BLOCK` | `BLOCK` blockiert den Aufrufer; `DROP` verwirft Events |
+| `sync_wal` | `true` | Synchroner WAL-Flush pro Batch |
+
+### OverflowPolicy
+
+- **BLOCK:** Der Aufrufer wartet, bis Pufferplatz vorhanden ist (subject to `backpressure_timeout`).  Bei Ablauf des Timeouts wird `ERR_STORAGE_LOG_FULL` zurückgegeben.
+- **DROP:** Das Event wird verworfen, `dropped_events`-Counter wird erhöht; kein Fehler.
+
+### Integration mit CDC
+
+StreamingIngestManager und CDC ergänzen sich:  Während CDC Downstream-Consumer über Änderungen informiert, ist StreamingIngestManager die Upstream-Schnittstelle für hochvolumige Schreibquellen wie IoT-Sensoren, Log-Aggregatoren oder Metriken-Exporteure.
+
+```mermaid
+graph LR
+    Sensors -->|"ingest(key, value)"| SIM[StreamingIngestManager]
+    SIM -->|WriteBatch| RDB[(RocksDB)]
+    RDB -->|CDC Events| Consumers[Analytics / Alerting]
+```
+
+Abb. 11.8: StreamingIngestManager als Upstream-Ingest-Pipeline
+
 ## Zusammenfassung
 
 In diesem Kapitel haben Sie gelernt:
@@ -1590,6 +1689,7 @@ In diesem Kapitel haben Sie gelernt:
 6. **Kanban Board**: Collaborative Drag & Drop mit Sync
 7. **Best Practices**: Connection Management, Rate Limiting, Monitoring
 8. **Performance**: Batching, Pooling, Caching
+9. **StreamingIngestManager**: Hochdurchsatz-Ingest ≥ 1 M Events/s mit Backpressure
 
 Realtime-Anwendungen mit ThemisDB sind einfach zu implementieren dank:
 - Integriertem CDC-System
@@ -1868,3 +1968,379 @@ cdc_group:{group_id}:offset  → "1_523_447"  (decimal, committed sequence)
 8. **Live-Poll**: Echtzeit-Abstimmungssystem mit automatischen Updates
 9. **Activity-Feed**: Timeline aller Aktivitäten im System
 10. **Realtime-Search**: Live-Search-Results während dem Tippen
+
+---
+
+## 11.9 Ingestion-Modul — Multi-Source Daten-Intake (v1.5)
+
+Das Ingestion-Modul (`include/ingestion/`, `src/ingestion/`) implementiert eine produktionsreife, mehrquellen-fähige Daten-Intake-Pipeline: Kafka, S3/GCS/Azure, REST-API, HuggingFace-Datasets, Filesystem, WebCrawler, CDC (PostgreSQL), JDBC/ODBC und ein Plugin-API für eigene Konnektoren.
+
+### 11.9.1 IngestionBuilder — Fluent API
+
+```cpp
+#include "ingestion/ingestion_manager.h"
+
+auto manager = themis::ingestion::IngestionBuilder("themisdb://localhost:8765")
+    // ── HuggingFace Dataset ───────────────────────────────────────────
+    .withHuggingFaceSource("hf-legal", "lexlms/ger_legal_data",
+        { {"split", "train"}, {"token", hf_token} }, /*priority=*/8)
+
+    // ── Filesystem (HTML/XML via pugixml) ─────────────────────────────
+    .withFilesystemSource("fs-docs", "/data/documents",
+        { {"recursive", "true"}, {"format", "html"} })
+
+    // ── REST API (cursor-based pagination) ────────────────────────────
+    .withApiSource("api-contracts", "https://api.example.com/contracts",
+        { {"api_key", api_key}, {"pagination_mode", "cursor"},
+          {"cursor_param", "next_cursor"}, {"page_size", "200"} })
+
+    // ── Kafka Consumer ────────────────────────────────────────────────
+    .withKafkaSource("kafka-orders", kafka_config,
+        { {"group_id", "themis-ingestor"}, {"topic", "orders"} })
+
+    // ── Object Storage (S3/GCS/Azure Blob) ───────────────────────────
+    .withObjectStorageSource("s3-docs", s3_config,
+        { {"bucket", "my-documents"}, {"prefix", "legal/2026/"} })
+
+    // ── PostgreSQL CDC (Logical Replication) ──────────────────────────
+    .withCdcSource("pg-cdc", cdc_config,
+        { {"slot_name", "themis_slot"}, {"publication", "all_tables"} })
+
+    // ── Globale Konfiguration ─────────────────────────────────────────
+    .withRateLimitConfig({ .tokens_per_second = 500 })
+    .withDryRun(false)
+    .withSchemaValidation("hf-legal", legal_schema_json)
+    .build();
+
+// Ingestion starten
+manager->start();
+
+// Prometheus-Metriken exportieren
+auto metrics = manager->exportMetrics();
+// docs_processed, errors, throughput_per_sec, quarantine_queue_size
+
+// Quelle pausieren/fortsetzen
+manager->pauseSource("kafka-orders");
+manager->resumeSource("kafka-orders");
+```
+
+### 11.9.2 Quarantine + Retry
+
+```
+Dokument schlägt fehl →
+  Quarantine Queue (Exponentielles Back-off: 1s→2s→4s→... max 10 Versuche)
+  ↓ nach max_retries
+  Dead-Letter-Speicherung + Prometheus-Alert
+```
+
+**Checkpoint-basierte Incremental Ingestion:** Der Fortschritt wird pro Quelle persistiert. Neustart setzt ab letztem Checkpoint fort – kein Re-Processing.
+
+## 11.10 CDC-Modul — Changefeed & Change Data Capture (v1.x) {#cdc-module}
+
+Das CDC-Modul (`include/cdc/`) bietet eine robuste Change-Data-Capture-Infrastruktur direkt über RocksDB TransactionDB.
+
+### 11.10.1 Changefeed — Kernklasse
+
+```cpp
+#include "cdc/changefeed.h"
+
+// Changefeed an eine RocksDB TransactionDB binden
+auto feed = std::make_shared<themis::Changefeed>(txn_db, cf_handle);
+
+// Seitenweise Events abrufen (long-poll)
+themis::Changefeed::ListOptions opts;
+opts.key_prefix    = "orders/";
+opts.since_seq     = 0;
+opts.limit         = 200;
+opts.timeout_ms    = 5000;  // Long-Polling-Timeout
+
+auto events = feed->listEvents(opts);
+// events[i].type   (INSERT/UPDATE/DELETE/MERGE/TRUNCATE)
+// events[i].key    (Schlüssel)
+// events[i].value  (neuer Wert als JSON)
+// events[i].seq    (monotone Sequenznummer)
+// events[i].ts     (Zeitstempel)
+// events[i].redacted
+```
+
+**ChangeEventType:**
+
+| Typ | Bedeutung |
+|-----|-----------|
+| `INSERT` | Neuer Eintrag |
+| `UPDATE` | Wert geändert |
+| `DELETE` | Eintrag gelöscht |
+| `MERGE` | Atomarer Merge-Operator |
+| `TRUNCATE` | Collection geleert |
+
+### 11.10.2 Subscription (Push-Modus)
+
+```cpp
+// Push-Subscription mit Filter
+themis::Changefeed::SubscriptionFilter filter;
+filter.key_prefix = "invoices/";
+filter.types      = {themis::Changefeed::ChangeEventType::INSERT,
+                     themis::Changefeed::ChangeEventType::UPDATE};
+
+auto handle = feed->subscribe(filter, [](const themis::Changefeed::ChangeEvent& ev) {
+    std::cout << "key=" << ev.key << " type=" << static_cast<int>(ev.type) << "\n";
+});
+
+// Subscription beenden
+handle.cancel();
+```
+
+### 11.10.3 Retention & Compaction
+
+```cpp
+// Retention Policy konfigurieren
+themis::Changefeed::RetentionPolicy rp;
+rp.max_age_seconds = 7 * 24 * 3600;  // 7 Tage
+rp.max_events      = 1'000'000;
+
+feed->updateRetentionPolicy(rp);
+feed->startRetentionCleanup();
+
+// Manuelle Kompaktierung nach Schlüssel
+auto cr = feed->compactByKey();
+// cr.removed_count, cr.bytes_freed
+
+// GDPR-Redaktion (alle Events mit Key-Präfix anonymisieren)
+auto rr = feed->redactByKeyPrefix("users/eu/");
+// rr.scanned_count, rr.redacted_count
+```
+
+### 11.10.4 Watermarks & Stats
+
+```cpp
+auto wm = feed->watermarks();
+// wm.min_seq, wm.max_seq, wm.consumer_lag
+
+auto stats = feed->stats();
+// stats.total_events, stats.total_bytes,
+// stats.subscription_count, stats.compaction_runs
+```
+
+### 11.10.5 CDC Admin & Materialized Views
+
+```cpp
+#include "cdc/cdc_admin.h"
+#include "cdc/cdc_materialized_view.h"
+
+// Admin: Changefeed-Liste, Reset, Export
+themis::cdc::CdcAdmin admin(db);
+admin.listFeeds();
+admin.resetFeed("orders");
+
+// Materialized View über CDC
+themis::cdc::CdcMaterializedView mv(feed, "order_totals_mv");
+mv.onInsert([](const auto& ev) { /* update MV */ });
+mv.onUpdate([](const auto& ev) { /* update MV */ });
+mv.build();     // Initial-Snapshot
+mv.startSync(); // Live-Sync via Changefeed
+```
+
+### 11.10.6 REST-Endpunkte
+
+| Methode | Pfad | Beschreibung |
+|---------|------|--------------|
+| `GET` | `/cdc/{feed}/events` | Events abrufen (long-poll) |
+| `POST` | `/cdc/{feed}/subscribe` | WebSocket-Subscription |
+| `DELETE` | `/cdc/{feed}/events` | Events löschen (Retention) |
+| `POST` | `/cdc/{feed}/compact` | Manuelle Kompaktierung |
+| `POST` | `/cdc/{feed}/redact` | GDPR-Redaktion |
+| `GET` | `/cdc/{feed}/watermarks` | Watermark-Status |
+| `GET` | `/cdc/{feed}/stats` | Metriken |
+
+## 11.11 Content-Modul — Multi-Format Ingestion & Pipeline C++ API (v1.x) {#content-module-cpp}
+
+### 11.11.1 ContentManager — 10-stufige Verarbeitungs-Pipeline
+
+```cpp
+#include "content/content_manager.h"
+#include "content/content_policy.h"
+
+// Content-Policy konfigurieren
+themis::content::ContentPolicy policy;
+policy.enable_deduplication   = true;
+policy.ocr_enabled            = true;
+policy.max_file_size_bytes    = 100 * 1024 * 1024;  // 100 MB
+policy.allowed_mime_types     = {"image/*", "application/pdf",
+                                  "text/*", "audio/*", "video/*"};
+
+// ContentManager instanziieren
+themis::content::ContentManager mgr(rocksdb, llm_engine, policy);
+
+// Rohes Blob ingieren (MIME-Auto-Erkennung)
+themis::content::ContentManager::IngestResult result =
+    mgr.ingestRawBlob("document.pdf", pdf_bytes, {
+        .collection     = "legal_docs",
+        .tenant_id      = "acme-corp",
+        .generate_embedding = true,
+        .auto_tag       = true,
+    });
+
+// Pipelineergebnisse prüfen
+if (result.success) {
+    // result.content_id: eindeutige ID
+    // result.chunks: [{chunk_id, text, embedding_id}]
+    // result.metadata: {mime_type, language, page_count, ...}
+    for (auto& s : result.stage_outcomes) {
+        // s.stage_name, s.duration_ms, s.ok, s.message
+    }
+} else {
+    std::cerr << result.error_message << "\n";
+}
+
+// Prozessor-Chain für eigene Typen registrieren
+mgr.registerProcessor(
+    std::make_unique<themis::content::PDFProcessor>());
+mgr.registerProcessor(
+    std::make_unique<themis::content::AudioProcessor>());
+
+// Stats abfragen
+auto stats = mgr.getStats();
+// stats.ingested_total, stats.failed_total, stats.avg_duration_ms
+```
+
+**Pipeline-Stufen (in Reihenfolge):**
+1. MIME-Detection
+2. Virus/Malware-Scan
+3. Duplikat-Check (pHash/MinHash)
+4. Text-Extraktion (PDF, DOCX, HTML, OCR)
+5. Chunking
+6. Embedding-Generierung
+7. Metadaten-Extraktion (Geo, Medien, Sprache)
+8. LLM-Anreicherung (Summary, Tags, Kategorie)
+9. Policy-Validation
+10. Persistenz (RocksDB + Vector Index)
+
+### 11.11.2 EmbeddingPipeline — Batch-Embedding-Generierung
+
+```cpp
+#include "content/embedding_pipeline.h"
+
+themis::content::EmbeddingPipelineConfig ep_cfg;
+ep_cfg.model_name       = "nomic-embed-text-v1.5";
+ep_cfg.batch_size       = 32;
+ep_cfg.max_seq_len      = 512;
+ep_cfg.normalize        = true;
+ep_cfg.device           = "cuda:0";
+
+themis::content::EmbeddingPipeline embed_pipeline(ep_cfg, llm_engine);
+
+if (!embed_pipeline.isEnabled()) {
+    std::cerr << "Kein Embedding-Modell konfiguriert\n";
+}
+
+// Batch-Embedding
+std::vector<std::string> texts = {
+    "ThemisDB supports MVCC transactions",
+    "Vector indices enable semantic search",
+};
+auto embeddings = embed_pipeline.embed(texts);
+// embeddings: [{text_id, vector<float>, model_name}]
+
+// Fehlerbehandlung via Failure-Notification
+embed_pipeline.setFailureCallback([](const std::string& error) {
+    alert("EmbeddingPipeline failure: " + error);
+});
+```
+
+### 11.11.3 AsyncIngestionWorker — Hintergrund-Ingestion
+
+```cpp
+#include "content/async_ingestion_worker.h"
+
+themis::content::AsyncIngestionConfig worker_cfg;
+worker_cfg.queue_capacity       = 5000;
+worker_cfg.worker_threads       = 4;
+worker_cfg.retry_on_failure     = true;
+worker_cfg.max_retries          = 3;
+worker_cfg.retry_delay_ms       = 1000;
+worker_cfg.verbose_logging      = false;
+
+themis::content::AsyncIngestionWorker worker(content_mgr, worker_cfg);
+worker.start();
+
+// Ingestion-Job einreihen
+themis::content::IngestionJob job;
+job.type          = themis::content::IngestionJobType::FILE;
+job.source_path   = "/data/documents/report.pdf";
+job.collection    = "reports";
+job.priority      = 1;
+
+auto job_id = worker.enqueue(job);
+// job_id: eindeutige Job-ID für Status-Abfragen
+
+// Status prüfen
+auto status = worker.getJobStatus(job_id);
+// status: QUEUED / RUNNING / COMPLETED / FAILED / RETRYING
+
+// Auf Abschluss warten (optional)
+worker.waitForJob(job_id, std::chrono::seconds(30));
+
+// Alle ausstehenden Jobs abwarten und stoppen
+worker.stop();
+```
+
+**IngestionJobType:** `FILE` / `URL` / `S3_OBJECT` / `KAFKA_MESSAGE` / `RAW_BYTES`
+**IngestionJobStatus:** `QUEUED` / `RUNNING` / `COMPLETED` / `FAILED` / `RETRYING`
+
+### 11.11.4 ContentSecurity — Malware-Scan und Sicherheitsprüfung
+
+```cpp
+#include "content/content_security.h"
+
+themis::content::ContentSecurityConfig sec_cfg;
+sec_cfg.enable_malware_scan     = true;
+sec_cfg.block_on_malware        = true;
+sec_cfg.block_on_abuse          = false;
+sec_cfg.enable_zip_bomb_check   = true;
+sec_cfg.max_decompressed_ratio  = 100;  // max 100:1 Dekompression
+sec_cfg.sanitize_error_messages = true;
+sec_cfg.hide_internal_paths     = true;
+
+themis::content::ContentSecurityManager sec(sec_cfg);
+
+auto scan_result = sec.scan(file_bytes, file_mime_type);
+// scan_result.safe: bool
+// scan_result.threats: [{type: MALWARE/ZIP_BOMB/ABUSE, name, confidence}]
+// scan_result.sanitized_error: keine internen Pfade in Fehlermeldungen
+
+if (!scan_result.safe && sec_cfg.block_on_malware) {
+    quarantine(file_bytes, scan_result.threats);
+    return;
+}
+```
+
+### 11.11.5 IContentProcessor — Plugin-Interface für eigene Dateitypen
+
+```cpp
+#include "content/content_processor.h"
+
+// Eigenen Prozessor für proprietäres Format implementieren
+class MyXmlProcessor : public themis::content::IContentProcessor {
+public:
+    std::string mimeType() const override {
+        return "application/x-my-xml";
+    }
+
+    themis::content::ExtractionResult extract(
+        const std::vector<uint8_t>& bytes,
+        const themis::content::ContentMeta& meta) override
+    {
+        themis::content::ExtractionResult result;
+        // XML parsen und Felder befüllen:
+        result.text     = parse_xml_to_text(bytes);
+        result.language = "de";
+        result.geo_data = extract_coordinates(bytes);
+        return result;
+    }
+};
+
+// Registrieren
+mgr.registerProcessor(std::make_unique<MyXmlProcessor>());
+```
+
+**ExtractionResult-Felder:** `text` / `language` / `page_count` / `geo_data` / `media_data` / `cad_data`

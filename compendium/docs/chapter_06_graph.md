@@ -1667,156 +1667,73 @@ Im nächsten Kapitel schauen wir uns **Dokument-Speicherung** an - flexibles, sc
 
 ---
 
-## 6.10 Production API Reference — Graph Classes {#chapter_06_10_api_reference}
+## 6.10 Graph-Modul — Erweiterte C++ API (v1.x)
 
-Dieser Abschnitt dokumentiert die produktionsreifen C++-Klassen des `graph`-Moduls (v1.8.0).
+### 6.10.1 GraphQueryOptimizer — Cost-Based Algorithm-Selektion
 
-### 6.10.1 GraphQueryOptimizer
-
-**Header:** `include/graph/graph_query_optimizer.h`  
-**Status:** ✅ Production-Ready  
-
-`GraphQueryOptimizer` übersetzt Graph-Traversal-Queries in optimierte Ausführungspläne. Der kostenbasierte Optimierer wählt zwischen BFS, DFS, bidirektionaler BFS, A* und Dijkstra-Algorithmus. EMA-basiertes adaptives Kostenmodell lernt aus historischen Query-Kosten.
+`GraphQueryOptimizer` (`include/graph/graph_query_optimizer.h`) wählt automatisch den optimalen Traversierungs-Algorithmus anhand von Graph-Statistiken und Query-Constraints.
 
 ```cpp
 #include "graph/graph_query_optimizer.h"
 
-GraphQueryOptimizerConfig go_cfg;
-go_cfg.max_depth            = 10;
-go_cfg.timeout_ms           = 5000;
-go_cfg.parallel_workers     = 8;
-go_cfg.adaptive_cost_alpha  = 0.1;    // EMA-Lernrate
-go_cfg.plan_cache_size      = 1000;
+themis::graph::GraphQueryOptimizer optimizer;
 
-GraphQueryOptimizer optimizer(go_cfg);
+// Graph-Statistiken aktualisieren (für Kostenmodell)
+themis::graph::GraphQueryOptimizer::GraphStatistics stats;
+stats.vertex_count         = 1_000_000;
+stats.edge_count           = 5_000_000;
+stats.avg_degree           = 10.0;
+stats.avg_branching_factor = 8.0;
+optimizer.updateStatistics(stats);
 
-// Query planen
-GraphQuery query;
-query.start_node     = "user:alice";
-query.end_node       = "product:42";
-query.edge_types     = {"PURCHASED", "RECOMMENDED_BY"};
-query.max_hops       = 4;
-query.constraints    = PathConstraints{
-    .required_properties = {{"status", "active"}},
-    .excluded_node_types = {"deleted_user"},
-};
+// Query-Plan erzeugen
+themis::graph::GraphQueryOptimizer::QueryConstraints constraints;
+constraints.max_depth         = 4;
+constraints.edge_type         = "FOLLOWS";
+constraints.unique_vertices   = true;
+constraints.enable_parallel   = true;   // Parallele Frontier-Expansion
+constraints.num_threads       = 8;
+constraints.timeout_ms        = 500;
 
-QueryPlan plan = optimizer.plan(query);
-std::cout << "Algorithm: " << plan.algorithm_name << "\n";
-std::cout << "Est. cost: " << plan.estimated_cost << "\n";
-std::cout << "Est. hops: " << plan.estimated_avg_hops << "\n";
+auto plan = optimizer.optimize(
+    themis::graph::GraphQueryOptimizer::QueryPattern::K_HOP_NEIGHBORS,
+    constraints
+);
+// plan.algorithm: BFS / DFS / BIDIRECTIONAL / ASTAR / DIJKSTRA
+// plan.cost_estimate, plan.index_usage, plan.cache_usage
 
-// Plan ausführen
-GraphResult result = optimizer.execute(plan);
-for (auto& path : result.paths) {
-    for (auto& node : path.nodes) {
-        std::cout << node.id << " → ";
-    }
-    std::cout << "(cost: " << path.total_cost << ")\n";
-}
-
-// EXPLAIN
-QueryExplanation explain = optimizer.explain(query);
-std::cout << explain.format_tree();
+// Constrained Path Finding
+auto path_plan = optimizer.optimize(
+    themis::graph::GraphQueryOptimizer::QueryPattern::SHORTEST_PATH,
+    { .max_depth = 6, .required_vertices = { "intermediary-X" },
+      .forbidden_vertices = { "blacklisted-node" } }
+);
 ```
 
-**Unterstützte Traversal-Algorithmen:**
+**Adaptive Kostenmodell:** EMA-basiertes Lernen aus Ausführungsfeedback — der Optimizer kalibriert seine Kostenschätzungen anhand tatsächlicher Laufzeiten.
 
-| Algorithmus | Wann gewählt | Stärke |
-|-------------|-------------|--------|
-| `BFS` | Kürzester Hop-Pfad, ungewichteter Graph | Vollständigkeit |
-| `DFS` | Tiefe Traversal, geringe Breitenausdehnung | Speichereffizient |
-| `BIDIRECTIONAL_BFS` | Bekanntes Start- und Ziel-Node | Bis zu 10x schneller als BFS |
-| `A_STAR` | Heuristik verfügbar (geografische Distanz) | Optimal mit zulässiger Heuristik |
-| `DIJKSTRA` | Gewichtete Kanten, kürzester Pfad | Optimale Kosten |
-
----
-
-### 6.10.2 DistributedGraphManager
-
-**Header:** `include/graph/distributed_graph.h`  
-**Status:** ✅ Production-Ready  
-
-`DistributedGraphManager` koordiniert shard-übergreifende Graph-Queries über mehrere Knoten mit mTLS-gesicherter Kommunikation. Unterstützt EXPLAIN, Streaming-Results und adaptives Shard-Routing.
+### 6.10.2 DistributedGraphManager — Shard-übergreifende Graph-Queries
 
 ```cpp
 #include "graph/distributed_graph.h"
 
-DistributedGraphConfig dg_cfg;
-dg_cfg.shards = {
-    ShardInfo{"shard-1", "node1:8766", ShardRange{0, 1000000}},
-    ShardInfo{"shard-2", "node2:8766", ShardRange{1000001, 2000000}},
-    ShardInfo{"shard-3", "node3:8766", ShardRange{2000001, 3000000}},
-};
-dg_cfg.mtls_cert   = "/etc/themisdb/tls/client.crt";
-dg_cfg.mtls_key    = "/etc/themisdb/tls/client.key";
-dg_cfg.mtls_ca     = "/etc/themisdb/tls/ca.crt";
-dg_cfg.timeout_ms  = 10000;
+themis::graph::DistributedGraphManager::Config dg_cfg;
+dg_cfg.local_shard_id     = "shard-0";
+dg_cfg.shard_timeout_ms   = 2000;
+dg_cfg.enable_streaming   = true;  // Large path-set streaming
 
-DistributedGraphManager dgm(dg_cfg);
+themis::graph::DistributedGraphManager dist_graph(shard_clients, dg_cfg);
 
-// Shard-übergreifende Traversal-Query
-DistributedGraphQuery dq;
-dq.aql = R"(
-    FOR v, e, p IN 1..5 OUTBOUND 'users/alice'
-        GRAPH 'social_network'
-        FILTER v.active == true
-        RETURN DISTINCT v
-)";
-
-// Synchron mit vollständigem Ergebnis
-auto result = dgm.execute(dq);
-
-// Streaming (für große Ergebnismengen)
-dgm.executeStreaming(dq, [](const GraphNode& node) {
-    process_node(node);
+// Distributed K-Hop Query
+auto results = dist_graph.kHopNeighbors("user:alice", /*k=*/3, {
+    .edge_type = "KNOWS",
+    .max_results = 1000
 });
 
-// EXPLAIN (zeigt Shard-Distribution und Execution-Plan)
-auto explain = dgm.explain(dq);
-std::cout << explain.shard_distribution.format();
-std::cout << "Cross-shard hops: " << explain.cross_shard_hops << "\n";
+// EXPLAIN Endpunkt (Dry-Run)
+auto explain = dist_graph.explain({
+    .from = "user:alice", .to = "user:bob",
+    .pattern = QueryPattern::SHORTEST_PATH
+});
+// explain.plan, explain.estimated_shards, explain.estimated_cost
 ```
-
----
-
-### 6.10.3 Gesamtbild: Graph-Query-Pipeline
-
-```
-AQL Graph-Query
-       │
-       ▼
-GraphQueryOptimizer
-  ├─ Kostenmodell (EMA)
-  ├─ Algorithmus-Auswahl (BFS/DFS/A*/Dijkstra)
-  ├─ Parallel Frontier Expansion
-  └─ Plan-Cache (LRU 1000 Einträge)
-       │
-       ▼
-DistributedGraphManager
-  ├─ Shard-Routing (Consistent Hash / Range)
-  ├─ Cross-Shard Koordination (mTLS)
-  ├─ Partial-Result Merge
-  └─ Streaming Output
-       │
-       ▼
-GraphResult / Stream
-```
-
----
-
-### 6.10.4 Performance-Referenz
-
-| Operation | Graph-Größe | P50 | P99 |
-|-----------|-------------|-----|-----|
-| BFS (1 Hop) | 10M Nodes | 2 ms | 8 ms |
-| BFS (3 Hops) | 10M Nodes | 15 ms | 60 ms |
-| Dijkstra (50K Edges) | 10M Nodes | 45 ms | 180 ms |
-| Cross-Shard (3 Shards, 4 Hops) | 30M Nodes | 80 ms | 250 ms |
-| Streaming (10K Paths) | 10M Nodes | — | < 2s gesamt |
-
-- 📖 `examples/06_graph_social_network/` - Vollständiger Code
-- 📖 `examples/19_recommendation_engine/` - Recommendation System
-- 📖 `docs/de/features/features_property_graph.md` - Graph-Features
-- 📖 NetworkX Documentation - Graph-Visualisierung
-- 📖 "Graph Algorithms" (Mark Needham, Amy E. Hodler) - Tiefere Algorithmen

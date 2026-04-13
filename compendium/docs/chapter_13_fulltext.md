@@ -957,3 +957,106 @@ Im nächsten Kapitel behandeln wir **Geo-Spatial Features** - für standortbasie
 **Aufgabe 4:** Erstellen Sie eine mehrsprachige Suche mit automatischer Language-Detection und sprachspezifischen Indexen.
 
 **Aufgabe 5:** Optimieren Sie eine langsame Volltext-Query durch Analyse der Index-Statistiken und Query-Rewriting.
+
+---
+
+## 13.12 Search-Modul — Erweiterte C++ API (v2.4)
+
+Das Search-Modul (`include/search/`, `src/search/`) implementiert Hybrid-Suche (BM25 + Vector RRF), verteilte Sharding-Suche, Konversationssuche, Federated Search, Cursor-Streaming, Highlight/Snippet-Generierung und Learning-to-Rank.
+
+### 13.12.1 HybridSearch — BM25 + Vector RRF Fusion
+
+```cpp
+#include "search/hybrid_search.h"
+
+themis::search::HybridSearch::Config cfg;
+cfg.bm25_weight      = 0.4;
+cfg.vector_weight    = 0.6;
+cfg.k                = 20;           // Finale Ergebnisse
+cfg.k_bm25           = 100;          // BM25 Kandidaten
+cfg.k_vector         = 100;          // Vektor-Kandidaten
+cfg.use_rrf          = true;
+cfg.rrf_k            = 60.0;         // RRF-Konstante
+cfg.normalize_scores = true;
+
+themis::search::HybridSearch search(&fulltext_index, &vector_index, cfg);
+
+auto [results, stats] = search.search("BPMN workflow optimization", query_vec);
+// results[i].document_id, results[i].hybrid_score
+// results[i].bm25_score, results[i].vector_score, results[i].content
+// stats.bm25_ok, stats.vector_ok, stats.partial_result
+```
+
+### 13.12.2 DistributedHybridSearch — Shard-übergreifende Suche
+
+```cpp
+#include "search/distributed_hybrid_search.h"
+
+themis::search::DistributedHybridSearch::Config dist_cfg;
+dist_cfg.k                    = 20;
+dist_cfg.rrf_k                = 60.0;
+dist_cfg.shard_timeout_ms     = 5000;
+dist_cfg.max_concurrent_shards = 10;
+dist_cfg.skip_failed_shards   = true;   // degradierter Modus bei Shard-Fehler
+dist_cfg.local_shard_id       = "shard-0";
+dist_cfg.search_endpoint      = "/search/hybrid";
+
+// Shard-Endpunkte registrieren (mTLS gesichert)
+themis::search::DistributedHybridSearch dist_search(
+    local_hybrid_search, shard_clients, dist_cfg
+);
+
+auto [merged_results, dist_stats] = dist_search.search("Baurecht §34", query_vec);
+// dist_stats.shards_queried, .shards_succeeded, .shards_failed, .partial_result
+```
+
+### 13.12.3 SearchHighlighter und SearchResultStream
+
+```cpp
+#include "search/search_highlighter.h"
+#include "search/search_result_stream.h"
+
+// ── Highlight + Snippet ───────────────────────────────────────────────
+themis::search::SearchHighlighter::Config hl_cfg;
+hl_cfg.highlight_open  = "<mark>";
+hl_cfg.highlight_close = "</mark>";
+hl_cfg.max_snippet_len = 300;
+
+themis::search::SearchHighlighter highlighter(hl_cfg);
+
+std::string highlighted = highlighter.highlight(doc_text, { "workflow", "BPMN" });
+std::string snippet     = highlighter.snippet(doc_text, { "workflow", "BPMN" });
+
+// ── Cursor-basiertes Streaming (große Ergebnismengen) ────────────────
+themis::search::SearchResultStream::Config stream_cfg;
+stream_cfg.total_k   = 1000;
+stream_cfg.page_size = 100;
+
+themis::search::SearchResultStream result_stream(&hybrid_search, stream_cfg);
+result_stream.open("BPMN optimization", query_vec);
+
+while (result_stream.hasMore()) {
+    auto page = result_stream.nextPage();
+    for (auto& r : page) { /* verarbeiten */ }
+}
+```
+
+### 13.12.4 ConversationalSearch — Multi-Turn Kontext
+
+```cpp
+#include "search/conversational_search.h"
+
+themis::search::ConversationalSearch::Config conv_cfg;
+conv_cfg.context_window = 3;    // Letzte 3 Turns als Kontext
+conv_cfg.max_history    = 50;
+
+themis::search::ConversationalSearch conv_search(&hybrid_search, conv_cfg);
+
+// Turn 1
+auto [r1, t1] = conv_search.search("Was ist BPMN?", vec1);
+// Turn 2 — automatische Kontext-Anreicherung: "Was ist BPMN? Gateways ..."
+auto [r2, t2] = conv_search.search("Erkläre Gateways", vec2);
+// t2.reformulated_query: kontextangereicherte Query
+
+conv_search.clearHistory();  // Neue Sitzung
+```

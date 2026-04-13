@@ -1227,4 +1227,78 @@ Bauen Sie ein System mit mehreren Collections:
 
 ---
 
+## 8.11 GPU-Vector-Index — Erweiterte C++ API (v1.x)
+
+### 8.11.1 GPUVectorIndex mit Memory-Oversubscription
+
+`GPUVectorIndex` (`include/index/gpu_vector_index.h`) unterstützt Datasets, die größer als das verfügbare VRAM sind, über eine **Partitions-basierte Oversubscription**: Hot-Partitionen verbleiben im GPU-VRAM, Cold-Partitionen werden bei Bedarf aus dem Host-RAM gestreamt.
+
+```cpp
+#include "index/gpu_vector_index.h"
+
+themis::index::GPUVectorIndex::Config cfg;
+cfg.dimension           = 1536;
+cfg.max_elements        = 10000000;        // 10 Mio Vektoren
+cfg.metric              = themis::DistanceMetric::COSINE;
+cfg.gpu_device_id       = 0;
+
+// ── Oversubscription (VRAM > Dataset) ────────────────────────────────
+cfg.enable_oversubscription = true;
+cfg.vram_budget_mb          = 8192;        // 8 GB VRAM-Budget
+cfg.prefetch_strategy       = themis::index::PrefetchStrategy::LRU;
+// PrefetchStrategy: NONE | LRU | MRU | SEQUENTIAL
+
+themis::index::GPUVectorIndex gpu_index(cfg);
+gpu_index.addVectors(vectors, ids);
+
+// ── Suche ─────────────────────────────────────────────────────────────
+auto results = gpu_index.search(query_vec, /*top_k=*/10);
+
+// ── Oversubscription-Statistiken ─────────────────────────────────────
+auto stats = gpu_index.getOversubscriptionStats();
+// stats.oversubEvictions    — LRU-Evictions
+// stats.page_hits           — VRAM-Treffer
+// stats.page_misses         — Host-RAM-Streaming nötig
+// stats.hot_partitions      — Aktive GPU-Partitionen
+```
+
+**Prefetch-Strategien:**
+
+| Strategie | Beschreibung | Optimal für |
+|-----------|-------------|------------|
+| `NONE` | Nur On-Demand-Loading | Unvorhersehbare Zugriffsmuster |
+| `LRU` | Cold-Partition nächste LRU-evicted vorausladen | Wiederholende Muster (Standard) |
+| `MRU` | Zuletzt genutzte Partition vorausladen | Häufig wiederverwendete Hot-Daten |
+| `SEQUENTIAL` | Nächste Partition in Insertions-Reihenfolge | Sequentielle Scan-Workloads |
+
+### 8.11.2 GPUMemoryOversubscriptionManager — Direkte Nutzung
+
+```cpp
+#include "index/gpu_memory_oversubscription.h"
+
+themis::index::GPUMemoryOversubscriptionManager::Config ocfg;
+ocfg.enable_oversubscription = true;
+ocfg.vram_budget_mb          = 8192;
+ocfg.host_ram_budget_mb      = 0;             // unbegrenzt
+ocfg.partition_vectors       = 65536;         // Vektoren pro Partition
+ocfg.prefetch_strategy       = themis::index::PrefetchStrategy::SEQUENTIAL;
+ocfg.use_unified_memory      = true;          // cudaMallocManaged / hipMallocManaged
+
+themis::index::GPUMemoryOversubscriptionManager mgr(ocfg);
+
+// Partition hinzufügen
+mgr.addPartition(partition_id, vectors, /*dimension=*/1536);
+
+// Partition für Suche aktivieren (lädt ggf. aus Host-RAM)
+mgr.ensureHot(partition_id);
+
+// Statistiken
+auto info = mgr.getPartitionInfo(partition_id);
+// info.num_vectors, info.dimension, info.is_hot, info.last_accessed_ms
+```
+
+> **CPU-Fallback:** Wenn weder `THEMIS_ENABLE_CUDA` noch `THEMIS_ENABLE_HIP` definiert ist, verwendet der Manager Heap-Memory. Alle API-Calls funktionieren; keine echte GPU-Migration, aber vollständige LRU/Prefetch-Logik testbar.
+
+---
+
 **Ende Kapitel 8** | [➡️ Weiter zu Kapitel 9: Time-Series](chapter_09_timeseries.md)

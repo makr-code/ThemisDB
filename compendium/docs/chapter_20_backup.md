@@ -756,237 +756,165 @@ def monitored_backup(backup_type):
 - [ ] Monitoring aktiviert
 - [ ] Team geschult
 
----
+## 20.11 Storage/Backup C++ API — BackupManager, PITR, Tiered Storage (v1.x) {#backup-cpp-api}
 
-## 20.11 Erweiterte Storage & Recovery Services (v1.8.0)
+Dieses Kapitel dokumentiert die C++-Produktions-API des Storage-Moduls (`include/storage/`).
 
-<!-- Source: include/storage/ — backup_manager.h, pitr_manager.h, tiered_storage.h -->
-
-> **Neu in v1.8.0** – Das Storage-Modul erweitert das klassische Backup-Konzept um drei hochintegrierte Komponenten: `BackupManager` mit RAID-Awareness, `PITRManager` für Git-artige Point-in-Time Recovery und `TieredStorageManager` für automatisches Hot→Warm→Cold-Lifecycle-Management.
-
-### 20.11.1 BackupManager — RAID-aware Backup & Restore
-
-`BackupManager` erkennt die RAID-Konfiguration der Cluster-Umgebung automatisch aus Umgebungsvariablen und koordiniert RAID-übergreifende Backup-Operationen.
-
-**Unterstützte RAID-Modi:**
-
-| RAID-Modus | Beschreibung | Redundanz |
-|------------|-------------|-----------|
-| `NONE` | Single-Node, keine Redundanz | 0 |
-| `RAID0` | Striping (Performance) | 0 Parität |
-| `RAID1` | Mirroring (volle Kopie) | N-1 Nodes |
-| `RAID5` | Striping + verteilte Parität | 1 Node |
-| `RAID6` | Striping + doppelte Parität | 2 Nodes |
-| `RAID10` | Striping + Mirroring | N/2 Nodes |
-
-**API-Nutzung:**
+### 20.11.1 BackupManager — RAID-aware Backup
 
 ```cpp
 #include "storage/backup_manager.h"
 
-// BackupManager mit RocksDB-Instanz erstellen
-auto manager = std::make_shared<BackupManager>(rocksdb_wrapper);
+// RAID-Konfiguration
+themis::RAIDConfig raid;
+raid.mode = themis::RAIDMode::RAID5;
+raid.shards = {
+    {"shard-0", "node1:8766", false, 0},
+    {"shard-1", "node2:8766", false, 1},
+    {"shard-2", "node3:8766", true,  2},  // Parity-Shard
+};
 
-// RAID-Konfiguration erkennen (aus ENV: THEMIS_RAID_MODE, THEMIS_SHARD_*)
-auto raid_cfg = manager->detectRAIDConfiguration();
-// raid_cfg.mode, raid_cfg.shards, raid_cfg.data_shards, raid_cfg.parity_shards
+themis::BackupManager bm(db_wrapper, raid);
 
 // Vollständiges Backup
-BackupOptions opts;
-opts.destination    = "/backups/themisdb_2026-04-13";
-opts.compress       = CompressionType::ZSTD;
-opts.encrypt        = true;
-opts.encryption_key = vault.getKey("backup-master");
-opts.verify_after   = true;
-opts.parallel_shards = 4;
+themis::BackupOptions opts;
+opts.encrypt             = true;   // AES-256-GCM
+opts.verify_after_backup = true;
+opts.compression         = themis::CompressionType::ZSTD;
 
-auto result = manager->createBackup(opts);
-// result.backup_id, result.size_bytes, result.duration_ms, result.checksum
+std::error_code ec;
+bm.createFullBackup("/backups/full-2026-04-13", ec, opts);
 
-// Scheduling: Backup alle 6 Stunden
-BackupSchedule schedule;
-schedule.interval_hours = 6;
-schedule.retention_days = 30;
-manager->setSchedule(schedule);
+// Inkrementelles Backup (seit letztem Full/Incremental)
+bm.createIncrementalBackup("/backups/incr-2026-04-13", ec, opts);
+
+// Differenzielles Backup (seit letztem Full)
+bm.createDifferentialBackup("/backups/diff-2026-04-13", ec, opts);
+
+// WAL archivieren (für PITR)
+bm.archiveWAL("/wal-archive/2026-04-13", ec);
 ```
 
-**RAID5-Koordination:**
+**RAID-Modi:**
 
+| Modus | Beschreibung |
+|-------|-------------|
+| `NONE` | Kein Redundanz |
+| `RAID0` | Striping (Performance) |
+| `RAID1` | Mirroring (Verfügbarkeit) |
+| `RAID5` | Striping + verteilte Parität |
+| `RAID6` | Striping + doppelte Parität |
+| `RAID10` | Striping + Mirroring |
+
+### 20.11.2 BackupManager — Restore & Verifikation
+
+```cpp
+// Vollständiges Restore (RAID-Shard-Rekonstruktion automatisch)
+bm.restoreFromBackup("/backups/full-2026-04-13", ec);
+
+// Einzelne Collections selektiv wiederherstellen
+bm.restoreCollections("/backups/full-2026-04-13",
+    {"orders", "invoices"}, ec);
+
+// Backup-Integrität prüfen
+bool valid = bm.isBackupComplete("/backups/full-2026-04-13", ec);
+
+// RAID-Shards im Backup verifizieren
+bool raid_ok = bm.verifyRAIDShardsInBackup("/backups/full-2026-04-13", ec);
+
+// Scheduled Backup einrichten (cron-ähnlich)
+bm.scheduleBackup("/backups/scheduled", "0 2 * * *", opts);  // Täglich 02:00
 ```
-Node 0 (data)   ──┐
-Node 1 (data)   ──┤──► BackupManager::coordinatedBackup()
-Node 2 (data)   ──┤         │
-Node 3 (parity) ──┘         ▼
-                    RAID5-übergreifendes Backup
-                    (alle Shards synchron gesichert)
-```
 
-**Backup-Statusüberwachung:**
-
-```aql
-// Backup-Status in AQL abfragen
-FOR backup IN _backups
-  FILTER backup.created_at > DATE_SUBTRACT(DATE_NOW(), 1, "day")
-  SORT backup.created_at DESC
-  RETURN {
-    id:       backup._id,
-    size_mb:  ROUND(backup.size_bytes / 1048576, 2),
-    compress: backup.compression,
-    status:   backup.verify_status,
-    duration: backup.duration_ms
-  }
-```
-
----
-
-### 20.11.2 PITRManager — Point-in-Time Recovery (Git-artig)
-
-`PITRManager` ermöglicht die Wiederherstellung der Datenbank zu einem beliebigen vergangenen Zustand über Sequence-Number, Named-Snapshot oder Timestamp. Die Implementierung basiert auf dem `Changefeed`-System: Änderungen werden rückwärts replayed (PUT→DELETE, DELETE→PUT).
-
-**Recovery-Optionen:**
+### 20.11.3 PITRManager — Point-in-Time Recovery
 
 ```cpp
 #include "storage/pitr_manager.h"
 
-PITRManager pitr(rocksdb_wrapper, snapshot_manager, changefeed);
+themis::PITRManager pitr(db_wrapper, snap_manager);
 
-// --- Option 1: Recovery zu einer Sequence-Nummer ---
-PITRManager::RestoreOptions opts;
-opts.target_sequence = 1_250_000;  // Gewünschte LSN
-opts.dry_run         = true;        // Vorschau ohne Anwendung
-opts.create_backup   = true;        // Auto-Backup vor Recovery
-opts.progress_callback = [](size_t applied, size_t total) {
-    printf("PITR: %zu/%zu Änderungen zurückgespielt\n", applied, total);
+// Restore-Vorschau (ohne Änderungen)
+themis::PITRManager::RestoreOptions ropts;
+ropts.target_time = std::chrono::system_clock::time_point{...};  // Ziel-Zeitpunkt
+
+auto preview = pitr.previewRestore(ropts);
+// preview.estimated_duration_ms, preview.wal_segments_to_apply
+
+// Fortschritts-Callback
+ropts.progress_callback = [](const themis::PITRManager::RestoreProgress& p) {
+    std::cout << "Phase=" << static_cast<int>(p.phase)
+              << " " << p.percent_complete << "%\n";
 };
 
-auto preview = pitr.restoreToSequence(opts);
-// preview.events_to_replay, preview.estimated_duration_ms, preview.affected_tables
-
-// Ohne dry_run: tatsächliche Wiederherstellung
-opts.dry_run = false;
-auto result = pitr.restoreToSequence(opts);
-
-// --- Option 2: Recovery zu einem Named-Snapshot ---
-auto snap_opts = PITRManager::RestoreOptions{};
-snap_opts.target_snapshot = "before-migration-2026-04-01";
-pitr.restoreToSnapshot(snap_opts);
-
-// --- Option 3: Recovery zu einem Zeitstempel ---
-auto ts_opts = PITRManager::RestoreOptions{};
-ts_opts.target_timestamp = "2026-04-13T03:00:00Z";
-pitr.restoreToTimestamp(ts_opts);
-
-// --- Option 4: Selektive Wiederherstellung (nur bestimmte Tabellen) ---
-auto sel_opts = PITRManager::RestoreOptions{};
-sel_opts.target_sequence = 1_200_000;
-sel_opts.tables_filter   = {"users", "orders"};  // Nur diese Tabellen
-pitr.restoreToSequence(sel_opts);
+// PITR durchführen
+auto status = pitr.restore(ropts);
+// status.ok, status.message, status.restored_to_time
 ```
 
-**Sicherheitsmechanismen:**
+**RestoreProgress::Phase:**
 
-| Feature | Beschreibung |
-|---------|-------------|
-| Auto-Backup vor Recovery | Vollständiges Backup vor jeder Wiederherstellung |
-| Dry-Run-Modus | Detaillierte Vorschau ohne Datenmutation |
-| Auto-Rollback | Automatischer Rückfall bei Fehlern |
-| Progress-Tracking | Callback für lange Recovery-Operationen |
-| Table-Filter | Selektive Recovery einzelner Collections |
+| Phase | Bedeutung |
+|-------|-----------|
+| `VALIDATING` | Snapshot + WAL-Archiv prüfen |
+| `RESTORING_SNAPSHOT` | Basis-Snapshot einspielen |
+| `APPLYING_WAL` | WAL-Segmente replay |
+| `VERIFYING` | Konsistenz prüfen |
+| `DONE` | Abgeschlossen |
 
-**Anwendungsfälle:**
-
-- **Disaster Recovery**: Wiederherstellung nach Datenbeschädigung
-- **Schema-Migration-Rollback**: Rückgängigmachen fehlgeschlagener Migrationen
-- **Compliance**: Wiederherstellung zu historischen Audit-Punkten
-- **Testing**: Reset auf bekannt-guten Zustand
-
----
-
-### 20.11.3 TieredStorageManager — Automatisches Hot→Warm→Cold-Lifecycle
-
-`TieredStorageManager` migriert Daten automatisch zwischen drei Storage-Tiers basierend auf Alter und Zugriffsfrequenz.
-
-**Tier-Architektur:**
-
-```
-Tier 1: HOT  (NVMe SSD)    ← Aktive Daten, < 30 Tage
-    │    │
-    │    └─ Migration: age > hot_to_warm_days ODER
-    │                  zero reads > hot_zero_access_days
-    ▼
-Tier 2: WARM (SATA SSD)    ← Warme Daten, 30–90 Tage
-    │    │
-    │    └─ Migration: age > warm_to_cold_days ODER
-    │                  zero reads > warm_zero_access_days
-    ▼
-Tier 3: COLD (S3/GCS/Azure) ← Archivdaten, > 90 Tage
-```
-
-**Konfiguration:**
+### 20.11.4 TieredStorageManager
 
 ```cpp
 #include "storage/tiered_storage.h"
 
-namespace ts = themis::storage;
+// 3-Tier-Konfiguration: HOT → WARM → COLD
+themis::TieredStorageConfig tcfg;
+tcfg.hot_tier_max_bytes  = 10ULL * 1024 * 1024 * 1024;  // 10 GB
+tcfg.warm_tier_max_bytes = 100ULL * 1024 * 1024 * 1024; // 100 GB
+tcfg.cold_backend        = "s3://themis-cold-archive";
 
-ts::TieredStorageConfig cfg;
-// Tier-Pfade
-cfg.hot_tier_path  = "/nvme/data/hot";
-cfg.warm_tier_path = "/sata/data/warm";
-cfg.cold_tier_path = "s3://company-archive/themisdb/";
+themis::TieredStorageManager tsm(tcfg);
 
-// Altersbasierte Migration
-cfg.hot_to_warm_days  = 30;   // Hot→Warm nach 30 Tagen ohne Schreibzugriff
-cfg.warm_to_cold_days = 90;   // Warm→Cold nach 90 Tagen
+// Schreiben (landet in HOT)
+tsm.put("orders/2026-04", data);
 
-// Zugriffsfrequenz-basierte Migration
-cfg.hot_zero_access_days  = 14;  // Hot→Warm ohne Lesezugriff für 14 Tage
-cfg.warm_zero_access_days = 30;  // Warm→Cold ohne Lesezugriff für 30 Tage
+// Lesen (transparenter Abruf aus aktuellem Tier)
+auto val = tsm.get("orders/2024-01");  // ggf. aus COLD
 
-// Migrations-Worker
-cfg.migration_check_interval = std::chrono::hours(6);
-cfg.migration_batch_size     = 1000;  // Keys pro Migration-Batch
+// Manuell migrieren
+tsm.promoteToHot("orders/2025-12");  // WARM → HOT
+tsm.demoteToCold("orders/2023-01");  // HOT/WARM → COLD
 
-ts::TieredStorageManager tiered(cfg);
-
-// Daten lesen (transparente Tier-Auflösung)
-auto value = tiered.get("user:42");
-
-// Daten schreiben (immer in Hot-Tier)
-tiered.put("user:42", serialized_user);
-
-// Manuelle Migration erzwingen
-tiered.migrateToTier("sensor-data:old-prefix", ts::StorageTierLevel::COLD);
-
-// Status abfragen
-auto stats = tiered.getStats();
-// stats.hot_size_bytes, stats.warm_size_bytes, stats.cold_size_bytes
-// stats.migrations_last_24h, stats.hot_access_rate
+// Access-Statistiken
+auto stats = tsm.accessStats("orders/2026-04");
+// stats.read_count, stats.last_access, stats.current_tier
 ```
 
-**Monitoring-Integration:**
+**StorageTierLevel:**
+
+| Tier | Typ | Latenz |
+|------|-----|--------|
+| `HOT` | NVMe/SSD (lokal) | < 1 ms |
+| `WARM` | SSD (netzwerk) | 1–10 ms |
+| `COLD` | Objekt-Storage S3/GCS/Azure | 50–500 ms |
+
+### 20.11.5 AdaptiveCompaction
 
 ```cpp
-// Prometheus-Metriken werden automatisch gemeldet:
-// themis_storage_tier_hot_bytes
-// themis_storage_tier_warm_bytes
-// themis_storage_tier_cold_bytes
-// themis_storage_migrations_total{direction="hot_to_warm"}
-// themis_storage_migrations_total{direction="warm_to_cold"}
+#include "storage/adaptive_compaction.h"
+
+// Automatische Kompaktierungs-Strategie basierend auf Write/Read-Amplification
+themis::AdaptiveCompactionManager comp(rocksdb_wrapper);
+
+// Statistiken abfragen
+auto stats = comp.currentStats();
+// stats.write_amplification, stats.read_amplification,
+// stats.space_amplification, stats.pending_compactions
+
+// Manuelle Kompaktierung mit Strategie auswählen
+comp.compact(themis::CompactionStrategy::LEVELED);
+// Strategien: LEVELED, UNIVERSAL, FIFO, TIERED
+
+// Hintergrund-Kompaktierung konfigurieren
+comp.setTargetWriteAmplification(10.0);
+comp.enableAutoCompaction(true);
 ```
-
-### 20.11.4 Kosten-Nutzen-Analyse: Tiered Storage
-
-| Szenario | Ohne Tiering | Mit Tiering | Kosteneinsparung |
-|----------|-------------|------------|-----------------|
-| 10 TB Gesamtdaten | 10 TB NVMe | 2 TB NVMe + 3 TB SATA + 5 TB S3 | ~70 % |
-| 1 TB / Monat Wachstum | +1 TB NVMe/Monat | +50 GB NVMe + Rest archiviert | ~85 % |
-| Compliance-Archivierung | Teuer on-premise | Günstig in Object-Storage | ~90 % |
-
-### 20.11.5 Gesamtübersicht: Storage & Recovery (v1.8.0)
-
-| Komponente | Funktion | Status | Performance |
-|------------|---------|--------|-------------|
-| `BackupManager` | RAID-aware Backup (RAID0/1/5/6/10) | ✅ Production-Ready | 500 MB/s (ZSTD) |
-| `PITRManager` | Git-artige Point-in-Time Recovery | ✅ Production-Ready | < 1 min / 1M Events |
-| `TieredStorageManager` | Automatisches Hot→Warm→Cold | ✅ Production-Ready | Transparent < 1 ms overhead |

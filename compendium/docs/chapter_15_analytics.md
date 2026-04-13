@@ -1230,3 +1230,270 @@ ThemisDB bietet umfassende Analytics-Funktionen:
 - **Reporting:** PDF/CSV-Export und Visualisierung
 
 Im nächsten Kapitel behandeln wir Machine Learning Integration für erweiterte Analysen.
+
+---
+
+## 15.13 Hochleistungs-Analytics-Infrastruktur (v1.9.x)
+
+### 15.13.1 ColumnarCache — LRU-basierter Spaltensegment-Cache
+
+`ColumnarCache` speichert vorberechnete Spaltensegmente (`ColumnSegment`) aus Breit-Tabellen-Scans in einem LRU-In-Memory-Store.  Da die gecachten Daten bereits im spaltenorientierten Layout des Analytics-Engines (`ColumnBatch`) vorliegen, entfällt jede Deserialisierungsarbeit — ein direkter Zugriff auf gecachte Spalten ist **Zero-Copy**.
+
+**Kernkonzept:**
+- Jedes `ColumnSegment` deckt eine feste Anzahl Rows `[segment_id × rows_per_segment, (segment_id+1) × rows_per_segment)` einer Spalte ab.
+- Aktiv gelesene Segmente können **gepinnt** werden (`PinGuard` RAII), um Eviction zu verhindern.
+- Unpinnierte Segmente werden **LRU-seitig** verdrängt, wenn `max_bytes` überschritten ist.
+
+**Performance-Ziele:**
+
+| Operation | Ziel |
+|-----------|------|
+| `get()` (Cache-Hit) | ≤ 500 ns |
+| `put()` (≤ 64 KB Segment) | ≤ 1 µs |
+| Eviction | O(1) amortisiert |
+| Durchsatz-Speedup vs. Row-Cache | ≥ 10× bei Breit-Tabellen |
+
+**Schnellstart:**
+
+```cpp
+#include "storage/columnar_cache.h"
+
+themis::storage::ColumnarCache cache({
+    .max_bytes = 256ULL * 1024 * 1024  // 256 MB
+});
+
+// Segment aus einem Storage-Scan einfügen
+cache.put(segment);
+
+// Lese-Seite — PinGuard verhindert Eviction während der Nutzung
+auto guard = cache.get(key);
+if (guard) {
+    // guard.segment().asColumn() → Zero-Copy für ColumnBatch
+    batch.addColumn(guard.segment().asColumn());
+}
+// guard geht out-of-scope → Pin wird automatisch freigegeben
+
+// Statistiken
+size_t hits   = cache.hits();
+size_t misses = cache.misses();
+```
+
+**Konfigurationsparameter:**
+
+| Parameter | Beschreibung |
+|-----------|-------------|
+| `max_bytes` | Maximale Cache-Größe in Bytes |
+| `on_evict` | Optionaler Eviction-Callback (z.B. für Metriken) |
+
+**Datentypen (SegmentDType):**
+
+| Typ | C++-Äquivalent | Beschreibung |
+|-----|---------------|-------------|
+| `Int64` | `int64_t` | Ganzzahlen |
+| `Double` | `double` | Gleitkommazahlen |
+| `String` | `std::string` | Zeichenketten |
+| `Bool` | `bool` | Boolesche Werte |
+
+---
+
+### 15.13.2 IStreamingJoin — HashJoin und IntervalJoin
+
+Das `IStreamingJoin`-Interface bietet zwei konkrete Streaming-Join-Strategien auf Basis des `ColumnBatch`-Datenmodells:
+
+#### HashJoin — Equi-Join auf Schlüsselspalten
+
+`HashJoin` baut eine Hash-Tabelle aus der "Build-Seite" (typischerweise die kleinere Dimension-Relation) und probt sie mit jedem "Probe-Batch".  Beide **Inner** und **Left-Outer** Join-Semantiken werden unterstützt.
+
+```cpp
+#include "analytics/streaming_join.h"
+
+themisdb::analytics::HashJoin join({
+    .join_keys    = {"user_id"},
+    .join_type    = themisdb::analytics::JoinType::Inner,
+    .build_select = {"user_id", "name"},
+    .probe_select = {"user_id", "event"},
+    .max_build_rows = 10'000'000,  // Sicherheitslimit
+});
+
+// Build-Phase (Dimensionstabelle einlesen)
+join.build(dimension_batches.begin(), dimension_batches.end());
+
+// Probe-Phase (Faktentabelle streamen)
+themisdb::analytics::ColumnBatch result = join.probe(fact_batch);
+```
+
+**Konfigurationsparameter HashJoin:**
+
+| Parameter | Beschreibung |
+|-----------|-------------|
+| `join_keys` | Spalten für den Equi-Join (composite keys möglich) |
+| `join_type` | `Inner` oder `LeftOuter` |
+| `build_select` | Spalten, die aus der Build-Seite in das Ergebnis übernommen werden |
+| `probe_select` | Spalten, die aus der Probe-Seite in das Ergebnis übernommen werden |
+| `max_build_rows` | Sicherheitslimit; bricht Build ab, wenn überschritten |
+
+#### IntervalJoin — Zeitbasierter Event-Join
+
+`IntervalJoin` verknüpft Rows zweier Streams, deren Ereigniszeit-Spalten innerhalb eines konfigurierbaren Zeitfensters `[probe_time - before_ms, probe_time + after_ms]` liegen.  Typischer Einsatz: CEP-Event-Korrelation (z.B. "Clicks" mit "Impressions" innerhalb ±5 Sekunden joinen).
+
+```cpp
+themisdb::analytics::IntervalJoin join({
+    .join_keys   = {"session_id"},
+    .time_column = "event_time_ms",
+    .before_ms   = 5000,   // 5 Sekunden vor dem Probe-Event
+    .after_ms    = 5000,   // 5 Sekunden nach dem Probe-Event
+    .slack_ms    = 100,    // Toleranz für Clock-Skew
+    .join_type   = themisdb::analytics::JoinType::Inner,
+});
+
+// Build-Events (linker Stream) einfügen
+join.addBuildEvent(left_batch);
+
+// Probe-Batch (rechter Stream) joinen
+themisdb::analytics::ColumnBatch result = join.probe(right_batch);
+```
+
+**Konfigurationsparameter IntervalJoin:**
+
+| Parameter | Standard | Beschreibung |
+|-----------|---------|-------------|
+| `join_keys` | — | Partitionierungsschlüssel |
+| `time_column` | — | Spaltenname mit Event-Zeit (ms) |
+| `before_ms` | 0 | Fenstergröße nach links |
+| `after_ms` | 0 | Fenstergröße nach rechts |
+| `slack_ms` | 0 | Toleranz für leichte Clock-Skews |
+| `join_type` | `Inner` | Join-Semantik |
+
+**Speicherverwaltung:** IntervalJoin nutzt LRU-Pruning, um veraltete Build-Events automatisch zu entfernen und den Speicherverbrauch zu begrenzen.
+
+#### Typische Streaming-Join-Pipeline
+
+```mermaid
+graph LR
+    S1[Stream: Clicks] -->|addBuildEvent| IJ[IntervalJoin]
+    S2[Stream: Impressions] -->|probe| IJ
+    IJ --> R[Result: Matched Pairs ±5s]
+```
+
+Abb. 15.13: IntervalJoin für Event-Korrelation zwischen zwei Streams
+
+---
+
+## 15.14 Analytics-Modul — Erweiterte C++ API (v1.9)
+
+### 15.14.1 OLAPEngine — GPU-beschleunigte OLAP-Abfragen
+
+```cpp
+#include "analytics/olap.h"
+
+themisdb::analytics::OLAPEngine::Config olap_cfg;
+olap_cfg.enable_gpu               = true;
+olap_cfg.gpu_device_id            = 0;
+olap_cfg.gpu_memory_limit         = 4ULL * 1024 * 1024 * 1024;  // 4 GB
+olap_cfg.gpu_threshold_rows       = 10000;
+olap_cfg.result_cache_max_entries = 1000;
+olap_cfg.result_cache_ttl_ms      = 60000;
+
+themisdb::analytics::OLAPEngine olap(olap_cfg);
+
+// ── CUBE (alle Dimensionskombinationen) ───────────────────────────────
+auto cube_cells = olap.executeCube(
+    "sales",
+    { {"region"}, {"product"}, {"quarter"} },
+    { {.function="SUM", .field="revenue"} }
+);
+
+// ── ROLLUP (hierarchische Aggregation) ───────────────────────────────
+auto rollup_rows = olap.executeRollup(
+    "sales",
+    { {"country"}, {"region"}, {"city"} },
+    { {.function="COUNT"}, {.function="SUM", .field="amount"} }
+);
+
+// ── Window Functions ──────────────────────────────────────────────────
+auto win_results = olap.evaluateWindowFunctions(
+    data_rows,
+    { {.function="ROW_NUMBER"}, {.function="SUM", .field="revenue"} },
+    window_spec
+);
+```
+
+**Unterstützte Aggregationsfunktionen:** COUNT, SUM, AVG, MIN, MAX, STDDEV, VARIANCE, MEDIAN, PERCENTILE  
+**Window-Typen:** ROWS BETWEEN, RANGE BETWEEN, SLIDING, TUMBLING
+
+### 15.14.2 CEPEngine — Complex Event Processing mit EPL
+
+`CEPEngine` (`include/analytics/cep_engine.h`) implementiert NFA-basiertes Pattern Matching, einen vollständigen EPL (Event Processing Language) Parser und MPMC Lock-Free Ring Buffer für die Event-Queue.
+
+```cpp
+#include "analytics/cep_engine.h"
+
+auto& cep = themisdb::analytics::CEPEngine::getInstance();
+cep.initialize(cep_config);
+
+// ── Event Stream erstellen ─────────────────────────────────────────────
+auto stream = cep.createStream({ .id = "orders_stream", .retention_ms = 60000 });
+
+// ── EPL-Regel (Event Processing Language) ────────────────────────────
+// Syntax: CREATE RULE <name> AS SELECT <agg> FROM <stream>
+//         WINDOW(5 minutes) GROUP BY <field> PATTERN WITHIN 30 seconds
+//         ACTION alert(...)
+cep.addRule({
+    .name = "high-value-alert",
+    .epl  = R"(
+        CREATE RULE high_value AS
+        SELECT SUM(amount) AS total, COUNT(*) AS cnt, customer_id
+        FROM orders_stream
+        WINDOW(5 minutes)
+        GROUP BY customer_id
+        HAVING SUM(amount) > 10000
+        ACTION alert('High-value customer detected', severity='HIGH')
+    )"
+});
+
+// ── CDC-Event senden ──────────────────────────────────────────────────
+auto ev = themisdb::analytics::CEPEngine::createCDCEvent(
+    themisdb::analytics::EventType::DOCUMENT_INSERT,
+    "orders", doc_id, fields
+);
+cep.submitEvent(ev);
+```
+
+**EPL-Features:** SELECT aggregations (COUNT/SUM/AVG/MIN/MAX/FIRST/LAST/STDDEV/PERCENTILE/TOPN/COLLECT), GROUP BY, WINDOW mit Zeit-Einheiten (ms/s/minutes/hours), PATTERN WITHIN, ACTION (alert/webhook/db_write/log/slack/kafka/email)
+
+### 15.14.3 AnomalyDetector — Echtzeit-Anomalie-Erkennung
+
+```cpp
+#include "analytics/anomaly_detection.h"
+
+themisdb::analytics::AnomalyDetector::Config ad_cfg;
+ad_cfg.algorithm          = themisdb::analytics::AnomalyAlgorithm::ISOLATION_FOREST;
+ad_cfg.contamination      = 0.05;  // 5% erwartete Ausreißer
+ad_cfg.window_size        = 1000;
+ad_cfg.alert_threshold    = 0.8;
+
+themisdb::analytics::AnomalyDetector detector(ad_cfg);
+
+// Training + Erkennung
+detector.fit(training_data);
+auto results = detector.detect(new_data_points);
+// results[i].is_anomaly, results[i].score, results[i].explanation
+```
+
+### 15.14.4 ModelServingEngine — Online Inference Pipeline
+
+```cpp
+#include "analytics/model_serving.h"
+
+themisdb::analytics::ModelServingEngine serving;
+serving.loadModel("churn-predictor-v2", model_bytes, /*format=*/"onnx");
+
+// Inference
+auto prediction = serving.predict("churn-predictor-v2", feature_vector);
+// prediction.scores, prediction.label, prediction.confidence
+// prediction.latency_ms, prediction.model_version
+
+// Batch Inference (async)
+auto future = serving.predictBatch("churn-predictor-v2", feature_matrix);
+auto batch_result = future.get();
+```

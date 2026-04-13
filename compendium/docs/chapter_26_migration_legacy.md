@@ -2496,3 +2496,93 @@ FOR slow IN slow_queries
 - **T-0 Tag:** Cutover, Monitoring intensivieren
 - **T+24h:** Green vollständig Live, Blue Redundanz
 - **T+1 Woche:** Blue abschalten
+
+---
+
+## 26.8 Importers-Modul — C++ Produktions-API (v2.1)
+
+Das Importers-Modul (`include/importers/`, `src/importers/`) implementiert eine produktionsreife Multi-Source-Import-Pipeline mit Foreign-Key-Preservation, Schema-Inference, Audit-Trail und Plugin-API.
+
+### 26.8.1 IImporter Interface und unterstützte Quellen
+
+```cpp
+#include "importers/importer_interface.h"
+#include "importers/postgres_importer.h"
+#include "importers/mysql_importer.h"
+#include "importers/mongo_importer.h"
+#include "importers/flatfile_importer.h"
+
+// ── PostgreSQL v2.1 (mit FK-Preservation) ────────────────────────────
+themis::importers::PostgresImporter pg_importer;
+pg_importer.initialize(R"({"connection": "postgresql://localhost/mydb"})");
+
+themis::importers::ImportOptions opts;
+opts.batch_size      = 5000;
+opts.include_tables  = { "orders", "customers", "products" };
+opts.dry_run         = false;
+opts.preserve_fks    = true;   // ForeignKeyConstraint in Entity-JSON
+
+auto stats = pg_importer.importData("/path/to/pg_dump.sql", opts,
+    [](size_t processed, size_t total, const std::string& current_table) {
+        // progress callback
+    });
+// stats.rows_imported, stats.tables_imported, stats.fk_constraints_found
+// stats.errors, stats.skipped, stats.duration_ms
+
+// ── Schema abrufen (FK-Metadaten eingebettet) ─────────────────────────
+auto schema = pg_importer.getSourceSchema("/path/to/pg_dump.sql");
+// schema.tables[i].foreign_keys[j].referenced_table
+// schema.tables[i].foreign_keys[j].on_delete, .on_update
+
+// ── Streaming-Import (low memory) ────────────────────────────────────
+pg_importer.importDataStreaming("/path/to/pg_dump.sql", opts,
+    [&](const std::string& table, const nlohmann::json& entity) -> bool {
+        db.put(entity);  // direkt schreiben — kein vollständiges Einlesen
+        return true;     // false = vorzeitiger Abbruch
+    });
+```
+
+**Unterstützte Quellsysteme:**
+
+| Klasse | Quelle | Besonderheiten |
+|--------|--------|---------------|
+| `PostgresImporter` v2.1 | PostgreSQL pg_dump | FK-Preservation, CHECK/EXCLUDE/GENERATED Constraints |
+| `MySQLImporter` | MySQL/MariaDB | Batch-Import; Charset-Mapping |
+| `MongoImporter` | MongoDB | BSON→JSON; _id Preservation |
+| `OracleImporter` | Oracle DB | DDL + Data Export |
+| `SqliteImporter` | SQLite | Lightweight; kein Server nötig |
+| `FlatFileImporter` | CSV/TSV/Parquet | Auto-Type-Detection; Parquet-Kompression |
+| `KafkaImporter` | Apache Kafka | Consumer-Group; Offset-Tracking |
+| `S3Importer` | S3-compatible | Prefix-Filter; Multipart-Download |
+
+### 26.8.2 Schema Inference Engine
+
+```cpp
+#include "importers/schema_inference.h"
+
+themis::importers::SchemaInferenceEngine inference;
+auto inferred = inference.inferSchema(raw_data_samples);
+// inferred.tables[i].name, .columns[j].name, .columns[j].inferred_type
+// inferred.implicit_fks (semantisch erkannte FK-Kandidaten)
+// inferred.cardinality_estimates
+```
+
+### 26.8.3 AuditedImporter + Plugin API
+
+```cpp
+#include "importers/audit_trail.h"
+#include "importers/importer_plugin_api.h"
+
+// Audit-umhüllter Importer
+themis::importers::AuditedImporter audited(&pg_importer, audit_logger);
+audited.importData(source, opts);
+// Jede importierte Zeile + Schema-Änderung wird in den Audit-Trail geschrieben
+
+// Custom Plugin implementieren
+class MyImporter : public themis::importers::ImporterPluginBase {
+public:
+    const char* getName() const override { return "my-format"; }
+    std::vector<std::string> getSupportedTypes() const override { return {"myformat"}; }
+    // …
+};
+```

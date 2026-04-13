@@ -1645,3 +1645,213 @@ auth:
 
 **Nächstes Kapitel:** [Kapitel 22: Encryption](chapter_22_encryption.md)  
 **Vorheriges Kapitel:** [Kapitel 20: Performance Tuning](chapter_20_performance.md)
+
+## 21.10 Auth-Modul — C++ Produktions-API (v1.x) {#auth-module-cpp}
+
+Das Auth-Modul (`include/auth/`) liefert eine vollständige Authentifizierungs- und Session-Management-Bibliothek in C++.
+
+### 21.10.1 JWTValidator — RS256/ES256/EdDSA
+
+```cpp
+#include "auth/jwt_validator.h"
+
+themis::auth::JWTValidatorConfig cfg;
+cfg.issuer              = "https://auth.example.com";
+cfg.audience            = "themisdb";
+cfg.clock_skew_seconds  = 30;
+
+themis::auth::JWTValidator validator(cfg);
+
+// RS256 Public Key laden
+validator.loadPublicKeyPEM(pubkey_pem);
+
+// Token validieren (RS256, ES256, EdDSA werden erkannt)
+auto claims = validator.validate(token);
+// claims.sub, claims.exp, claims.roles, claims.scopes
+
+// KID-Revokation
+validator.revokeKid("kid-2026-01-01");
+
+// Token-Blacklist (z.B. bei Logout)
+validator.setTokenBlacklist(&blacklist);
+```
+
+### 21.10.2 OAuth2-PKCE-Flow
+
+```cpp
+#include "auth/oauth_pkce_flow.h"
+
+themis::auth::OAuthPKCEFlow::Config ocfg;
+ocfg.authorization_endpoint = "https://auth.example.com/oauth/authorize";
+ocfg.token_endpoint         = "https://auth.example.com/oauth/token";
+ocfg.client_id              = "themisdb-client";
+ocfg.redirect_uri           = "http://localhost:8080/callback";
+
+themis::auth::OAuthPKCEFlow pkce(ocfg);
+
+// Schritt 1: PKCE-Challenge erstellen + Auth-URL bauen
+auto challenge = pkce.generateChallenge();
+auto url = pkce.buildAuthorizationUrl(challenge, "csrf-state-token");
+
+// Schritt 2: Nach Redirect — Code gegen Token tauschen
+auto tokens = pkce.exchangeCode(code, challenge.code_verifier);
+// tokens.access_token, tokens.refresh_token, tokens.scope
+```
+
+### 21.10.3 SAML 2.0 — ServiceProvider
+
+```cpp
+#include "auth/saml_authenticator.h"
+
+themis::auth::SAMLConfig scfg;
+scfg.sp_entity_id       = "https://db.example.com/sp";
+scfg.idp_sso_url        = "https://idp.example.com/sso";
+scfg.idp_entity_id      = "https://idp.example.com";
+scfg.idp_certificate    = "/etc/themis/idp.crt";
+scfg.attribute_map["email"]  = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress";
+scfg.attribute_map["groups"] = "http://schemas.xmlsoap.org/claims/Group";
+
+themis::auth::SAMLAuthenticator saml(scfg);
+saml.loadIdPCertificate();
+
+// SAML-Response aus IdP verarbeiten (base64-encoded XML)
+auto result = saml.validateResponse(saml_response_b64);
+// result.success, result.claims.subject, result.claims.attributes
+```
+
+### 21.10.4 WebAuthn (FIDO2)
+
+```cpp
+#include "auth/webauthn_authenticator.h"
+
+themis::auth::WebAuthnAuthenticator::RelyingParty rp;
+rp.id   = "db.example.com";
+rp.name = "ThemisDB";
+
+themis::auth::WebAuthnAuthenticator webauthn(rp);
+
+// Registrierung
+auto creation_opts = webauthn.beginRegistration(user);
+// → JSON an Client senden
+auto reg_result = webauthn.finishRegistration(credential_json);
+// reg_result.credential_id, reg_result.public_key
+
+// Authentifizierung
+auto req_opts = webauthn.beginAuthentication(user_id);
+auto assert_result = webauthn.finishAuthentication(assertion_json, stored_credential);
+// assert_result.success, assert_result.sign_count
+```
+
+### 21.10.5 LDAP-Authentifizierung
+
+```cpp
+#include "auth/ldap_authenticator.h"
+
+themis::auth::LDAPConfig lcfg;
+lcfg.server_url        = "ldaps://ldap.corp.example.com:636";
+lcfg.bind_dn           = "cn=themis-svc,ou=services,dc=example,dc=com";
+lcfg.bind_password     = secret_from_vault;
+lcfg.user_base_dn      = "ou=users,dc=example,dc=com";
+lcfg.user_filter       = "(uid={username})";
+lcfg.enable_group_search = true;
+lcfg.group_base_dn     = "ou=groups,dc=example,dc=com";
+
+themis::auth::LDAPAuthenticator ldap;
+ldap.configure(lcfg);
+ldap.connect();
+
+auto r = ldap.authenticate("alice", "secret");
+// r.success, r.dn, r.groups, r.attributes
+```
+
+### 21.10.6 MFA-Authenticator (TOTP/Recovery)
+
+```cpp
+#include "auth/mfa_authenticator.h"
+
+themis::auth::MFAAuthenticator mfa;
+
+// TOTP-Enrollment
+auto enroll = mfa.beginEnrollment("alice");
+// enroll.totp_secret (Base32), enroll.qr_uri (für Authenticator-App)
+mfa.confirmEnrollment("alice", user_provided_totp);
+
+// Validierung
+bool ok = mfa.validateTOTP("alice", "123456");
+
+// Recovery-Code validieren (einmalig)
+bool rok = mfa.validateRecoveryCode("alice", "ABCD-EFGH-1234");
+```
+
+### 21.10.7 SessionManager
+
+```cpp
+#include "auth/session_manager.h"
+
+themis::auth::SessionManager::SessionLimits limits;
+limits.idle_timeout     = std::chrono::hours(8);
+limits.absolute_timeout = std::chrono::hours(24 * 30);
+limits.max_sessions_per_user = 5;
+
+themis::auth::SessionManager sessions(limits);
+
+// Session erstellen
+auto sid = sessions.createSession("alice", device_fingerprint, ip, ua);
+
+// Session validieren (automatisch refresh idle timeout)
+auto vr = sessions.validateAndRefresh(sid);
+// vr.valid, vr.session.user_id, vr.session.last_accessed_at
+
+// Session beenden
+sessions.terminateSession(sid);
+
+// Alle Sessions eines Users beenden (z.B. Passwort-Reset)
+sessions.terminateAllUserSessions("alice");
+```
+
+### 21.10.8 PasswordPolicy
+
+```cpp
+#include "auth/password_policy.h"
+
+themis::auth::PasswordPolicy::Config pcfg;
+pcfg.min_length       = 12;
+pcfg.require_uppercase = true;
+pcfg.require_digit     = true;
+pcfg.require_special   = true;
+pcfg.min_entropy_bits  = 50.0;
+pcfg.max_history       = 10;
+pcfg.check_haveibeenpwned = true;
+
+themis::auth::PasswordPolicy policy(pcfg);
+
+auto result = policy.validate("MyP@ssw0rd2026!");
+// result.valid, result.score (0-100), result.reasons
+
+// Password-Hash (bcrypt, intern)
+auto hash = policy.hashPassword("cleartext");
+bool match = policy.verifyPassword("cleartext", hash);
+```
+
+### 21.10.9 FederatedIdentityManager (OIDC Multi-Realm)
+
+```cpp
+#include "auth/federated_identity_manager.h"
+
+themis::auth::OIDCProviderConfig realm;
+realm.issuer_url  = "https://accounts.google.com";
+realm.client_id   = "themisdb-google";
+realm.client_secret = vault_secret;
+
+themis::auth::FederatedIdentityManager fed;
+fed.addRealm(realm);
+fed.addRealm(azure_realm);
+
+// Token aus beliebigem Realm validieren
+auto vr = fed.validateToken(bearer_token);
+// vr.success, vr.subject, vr.claims, vr.realm
+
+// Token-Exchange (z.B. externe → interne Tokens)
+auto tx = fed.exchangeToken(external_token, "target-audience");
+// tx.token, tx.expires_in
+```

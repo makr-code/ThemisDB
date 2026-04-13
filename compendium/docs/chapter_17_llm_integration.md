@@ -827,6 +827,161 @@ Gesamt-Latenz: 100.000ms + 500ms + 200ms + 10ms = ~100.710ms
 
 ---
 
+### 17.3.5 RAG v2 — C++ Produktionskomponenten
+
+Release v2.0 des RAG-Moduls (`include/rag/`, `src/rag/`) bringt 27 Implementierungs-Dateien mit Multi-Judge-Orchestration, Hybrid-Retrieval, konfigurierbarem Dokumenten-Splitting, LRU-Evaluation-Cache, RLAIF-Training und Online-Feedback-Learning. Die zentralen Klassen sind über den Namespace `themis::rag` erreichbar.
+
+#### RAGJudge — Multi-dimensionale Evaluierung
+
+`RAGJudge` (`include/rag/rag_judge.h`) ist die zentrale Evaluierungskomponente. Sie bewertet generierte RAG-Antworten über fünf Dimensionen und unterstützt drei Evaluierungsmodi (Fast/Balanced/Thorough).
+
+```cpp
+#include "rag/rag_judge.h"
+
+themis::rag::judge::RAGJudgeConfig cfg;
+cfg.mode                       = themis::rag::judge::EvaluationMode::BALANCED;
+cfg.faithfulness_weight        = 0.35;
+cfg.relevance_weight           = 0.25;
+cfg.completeness_weight        = 0.15;
+cfg.coherence_weight           = 0.10;
+cfg.ethical_compliance_weight  = 0.15;
+cfg.enable_ethical_evaluation  = true;
+cfg.ethical_veto_power         = true;   // Ethical-Failure → Gesamt-FAIL
+cfg.quality_threshold          = 0.70;
+cfg.faithfulness_threshold     = 0.80;
+cfg.use_nli_verifier           = true;   // NLI-Entailment-Verifikation
+cfg.use_geval_scoring          = false;  // G-Eval (Liu et al. 2023)
+
+themis::rag::judge::RAGJudge judge(cfg);
+
+// ── Einzelevaluierung ────────────────────────────────────────────────────
+std::vector<themis::rag::judge::RetrievedDocument> docs = {
+    { .id = "d1", .content = "Bauordnung §34 BauGB ...", .similarity_score = 0.92 }
+};
+auto result = judge.evaluate("Welche Voraussetzungen gelten für §34 BauGB?", docs, answer);
+
+// result.overall_score             0.0–1.0
+// result.faithfulness_score        Faktengenauigkeit
+// result.ethical_compliance_score  Autonomie, Meinungsvielfalt, Zitierqualität
+// result.verified_claims           von Dokumenten gestützte Behauptungen
+// result.ethical_violations        erkannte ethische Probleme
+// result.passed_quality_threshold  true/false
+// result.evaluation_time           std::chrono::milliseconds
+// result.confidence                Judge-Konfidenz
+
+// ── Paarweiser Vergleich ─────────────────────────────────────────────────
+auto cmp = judge.compare(query, docs, answer_a, answer_b);
+// cmp.winner: ANSWER_A | ANSWER_B | TIE
+```
+
+**Evaluierungsdimensionen:**
+
+| Dimension | Gewicht (Standard) | Beschreibung |
+|-----------|-------------------|-------------|
+| `FAITHFULNESS` | 35% | Antwort durch Dokumente belegt |
+| `RELEVANCE` | 25% | Antwort adressiert die Query |
+| `COMPLETENESS` | 15% | Alle Query-Aspekte abgedeckt |
+| `COHERENCE` | 10% | Logisch strukturiert |
+| `ETHICAL_COMPLIANCE` | 15% | Autonomie, Meinungsvielfalt, Zitat-Qualität |
+
+**Evaluierungsmodi:**
+
+| Modus | Latenz | Beschreibung |
+|-------|--------|-------------|
+| `FAST` | ~100 ms | Schnelle Einzel-Dimensions-Prüfung |
+| `BALANCED` | ~500 ms | Multi-Dimensions (Standard) |
+| `THOROUGH` | ~2 s | Vollständig + CoT + NLI-Verifikation |
+
+#### HybridRetriever — BM25 + Vector Fusion
+
+`HybridRetriever` (`include/rag/hybrid_retriever.h`) fusioniert BM25-Sparse- und Vector-Dense-Kandidaten mittels **Reciprocal Rank Fusion (RRF)** oder linearer Kombination.
+
+```cpp
+#include "rag/hybrid_retriever.h"
+
+// ── Factory-Konstruktoren ────────────────────────────────────────────────
+auto retriever = themis::rag::HybridRetrieverFactory::createBalanced(10);
+// Alternativ:
+auto retriever = themis::rag::HybridRetrieverFactory::createSemanticFocused(10);
+// (bm25_weight=0.3, vector_weight=0.7)
+
+// ── Manuelle Konfiguration ────────────────────────────────────────────────
+themis::rag::HybridRetrieverConfig rcfg;
+rcfg.bm25_weight   = 0.4;
+rcfg.vector_weight = 0.6;
+rcfg.use_rrf       = true;   // RRF (empfohlen)
+rcfg.rrf_k         = 60.0;   // RRF-Glattheits-Konstante
+rcfg.top_k         = 15;
+
+themis::rag::HybridRetriever retriever(rcfg);
+
+// ── Fusion ────────────────────────────────────────────────────────────────
+auto fusion_result = retriever.fuse(bm25_candidates, vector_candidates);
+// fusion_result.documents: nach absteigendem Hybrid-Score sortiert
+// fusion_result.bm25_contribution / vector_contribution: Anteilswerte
+```
+
+**RRF-Formel:** `score(d) = bm25_w × Σ(1/(k+rank_bm25(d))) + vec_w × Σ(1/(k+rank_vec(d)))`
+
+#### DocumentSplitter — Konfigurierbares Chunking
+
+```cpp
+#include "rag/document_splitter.h"
+
+themis::rag::DocumentSplitterConfig dcfg;
+dcfg.strategy    = themis::rag::SplitStrategy::SEMANTIC;  // FIXED/SENTENCE/SEMANTIC/RECURSIVE
+dcfg.chunk_size  = 512;
+dcfg.chunk_overlap = 64;
+dcfg.separator   = "\n\n";
+
+themis::rag::DocumentSplitter splitter(dcfg);
+auto chunks = splitter.split(document_text);
+// chunks: vector<DocumentChunk> mit {text, start_offset, end_offset, metadata}
+```
+
+#### BatchEvaluator — Parallele Massenevaluierung
+
+```cpp
+#include "rag/batch_evaluator.h"
+
+themis::rag::BatchEvaluatorConfig bcfg;
+bcfg.worker_threads = 8;
+bcfg.async_mode     = true;
+
+themis::rag::BatchEvaluator evaluator(judge, bcfg);
+auto results = evaluator.evaluate(test_cases);
+// results.individual_results, results.aggregated_stats
+// results.pass_rate, results.avg_faithfulness, results.avg_overall
+```
+
+#### EvaluationCache — LRU-Cache mit TTL
+
+```cpp
+#include "rag/evaluation_cache.h"
+
+themis::rag::EvaluationCacheConfig ccfg;
+ccfg.max_size  = 1000;
+ccfg.ttl_ms    = 3600000;  // 1 h
+
+themis::rag::EvaluationCache cache(ccfg);
+cache.put(cache_key, eval_result);
+auto cached = cache.get(cache_key);  // std::optional<EvaluationResult>
+auto stats = cache.getStats();       // hits, misses, evictions
+```
+
+#### HallucinationDashboard — Rolling-Window-Metriken
+
+```cpp
+#include "rag/hallucination_dashboard.h"
+
+themis::rag::HallucinationDashboard dashboard(/*window_size=*/100);
+dashboard.record(eval_result);
+auto rate = dashboard.getHallucinationRate();   // 0.0–1.0
+auto trend = dashboard.getTrend();              // IMPROVING/STABLE/DEGRADING
+```
+
+---
+
 ## 17.4 Prompt Engineering Best Practices
 
 ### 17.4.1 Chain-of-Thought Prompting
@@ -5517,461 +5672,1023 @@ Die Integration von LLMs direkt in die Datenbankebene reduziert Latenz, vereinfa
 
 ---
 
+## 17.24 LLM Produktionskomponenten — C++ API (v1.0)
+
+Dieser Abschnitt dokumentiert die drei produktionsreifen C++ Schlüsselkomponenten des LLM-Moduls: **LlamaWrapper** (Multi-Modal Inference), **MultiLoRAManager** (vLLM-inspiriertes LoRA-Management) und **ProductionValidator** (End-to-End Validierungsrahmen).
+
+### 17.24.1 LlamaWrapper — llama.cpp Integration mit Vision-Support
+
+`LlamaWrapper` (`include/llm/llama_wrapper.h`) ist der zentrale Inference-Adapter, der die llama.cpp-API in die ThemisDB-Abstraktionsschicht einbettet. Neben Standardinferenz (Text, Embeddings, Streaming) unterstützt er Multi-Modal Inference über eine integrierte CLIP Vision-Encoder-Pipeline.
+
+```cpp
+#include "llm/llama_wrapper.h"
+
+// ── Konfiguration ───────────────────────────────────────────────────────────
+themis::llm::LlamaWrapper::Config cfg;
+cfg.model_path          = "/models/mistral-7b-instruct.gguf";
+cfg.n_ctx               = 4096;
+cfg.n_gpu_layers        = 35;
+cfg.n_threads           = 8;
+
+// Vision (Multi-Modal / LLaVA) aktivieren
+cfg.enable_vision       = true;
+cfg.clip_model_path     = "/models/mmproj-model-f16.gguf";
+cfg.vision_threads      = 4;
+cfg.preload_vision      = true;
+
+// RoPE Scaling für erweiterten Kontext (4K → 32K)
+cfg.rope_scaling.enabled    = true;
+cfg.rope_scaling.method     = RopeScalingMethod::YARN;
+cfg.rope_scaling.max_context = 32768;
+
+// Multi-LoRA (vLLM-Stil)
+cfg.multi_lora_config.max_loras = 8;
+
+// Output-Validierung
+cfg.enable_output_validation = true;
+
+// Request-Timeout
+cfg.request_timeout_ms = 30000;
+
+auto wrapper = std::make_shared<themis::llm::LlamaWrapper>(cfg);
+wrapper->loadModel(cfg.model_path);
+
+// ── Text-Inferenz ────────────────────────────────────────────────────────────
+themis::llm::InferenceRequest req;
+req.prompt      = "Erkläre Paxos-Konsens in zwei Sätzen.";
+req.max_tokens  = 200;
+req.temperature = 0.7f;
+
+auto resp = wrapper->generate(req);
+// resp.text, resp.tokens_generated, resp.latency_ms
+
+// ── Vision / Multi-Modal (LLaVA) ─────────────────────────────────────────────
+#ifdef THEMIS_ENABLE_VISION
+themis::llm::VisionRequest vreq;
+vreq.text_prompt   = "Was ist auf diesem Bild zu sehen?";
+vreq.image_path    = "/data/bauzeichnung.png";
+vreq.max_tokens    = 300;
+vreq.temperature   = 0.5f;
+
+auto vresp = wrapper->generateVision(vreq);
+// vresp.success, vresp.text
+// vresp.inference_time_ms, vresp.image_encoding_time_ms
+// vresp.tokens_generated
+#endif
+
+// ── Embeddings ───────────────────────────────────────────────────────────────
+auto embeddings = wrapper->embed("Bauantrag vollständig einzureichen");
+// std::vector<float>
+
+// ── Statistiken ─────────────────────────────────────────────────────────────
+auto perf_stats = wrapper->getPerformanceStats();  // nlohmann::json
+auto mem_stats  = wrapper->getMemoryStats();        // nlohmann::json
+```
+
+**Vision Request/Response Felder:**
+
+| Feld | Typ | Beschreibung |
+|------|-----|-------------|
+| `text_prompt` | string | Text-Frage / Prompt |
+| `image_path` | string | Pfad zum Einzelbild |
+| `image_paths` | vector\<string\> | Mehrere Bilder |
+| `max_tokens` | int | Max. Tokens (Standard: 256) |
+| `temperature` | float | Sampling-Temperatur (Standard: 0.7) |
+| `use_image_start_end` | bool | `<image>`-Token einfügen |
+| **`text`** | string | Generierter Text (Response) |
+| **`image_encoding_time_ms`** | int64 | CLIP-Encoding-Zeit |
+| **`inference_time_ms`** | int64 | LLM-Inferenzzeit |
+
+**LlamaWrapper-Config-Übersicht (wichtigste Felder):**
+
+| Feld | Standard | Beschreibung |
+|------|---------|-------------|
+| `enable_vision` | false | Vision/Multi-Modal aktivieren |
+| `clip_model_path` | — | Pfad zum CLIP-Modell (GGUF) |
+| `rope_scaling.enabled` | false | RoPE-Kontextfenster-Extension |
+| `rope_scaling.method` | YARN | LINEAR / NTK / YARN / DYNAMIC |
+| `rope_scaling.max_context` | 32768 | Ziel-Kontextlänge |
+| `enable_response_cache` | false | Persistenter Response-Cache (RocksDB) |
+| `enable_output_validation` | true | Output-Validierung (UTF-8, Kohärenz) |
+| `request_timeout_ms` | 0 | Timeout pro Request (0 = unbegrenzt) |
+
+### 17.24.2 MultiLoRAManager — vLLM-inspiriertes LoRA-Management
+
+`MultiLoRAManager` (`include/llm/multi_lora_manager.h`) implementiert dynamisches, paralleles LoRA-Adapter-Management analog zu vLLMs Konzept: mehrere Adapter können gleichzeitig geladen sein, verschiedene Requests können verschiedene Adapter nutzen, und Quantisierung (INT8/INT4) reduziert den VRAM-Verbrauch.
+
+```cpp
+#include "llm/multi_lora_manager.h"
+
+themis::llm::MultiLoRAManager::Config lora_cfg;
+lora_cfg.max_loras            = 8;
+lora_cfg.quantization.enabled = true;
+lora_cfg.quantization.mode    = QuantizationMode::INT8;
+lora_cfg.multi_gpu.enabled    = true;
+lora_cfg.multi_gpu.devices    = {0, 1};
+lora_cfg.multi_gpu.strategy   = MultiGPUStrategy::ROUND_ROBIN;
+
+themis::llm::MultiLoRAManager manager(llama_ctx, lora_cfg);
+
+// ── LoRA laden ─────────────────────────────────────────────────────────────
+bool ok = manager.loadLoRA(
+    "legal-de",                     // ID
+    "/adapters/legal_de.bin",       // Pfad
+    "mistral-7b",                   // Basis-Modell
+    /*quantize=*/true,
+    /*scale=*/1.0f
+);
+
+// ── LoRA für Inferenz aktivieren ─────────────────────────────────────────
+manager.activateLoRA("legal-de", llama_ctx);
+
+// ── LoRA entladen ────────────────────────────────────────────────────────
+manager.unloadLoRA("legal-de");
+
+// ── VRAM-Nutzung abfragen ────────────────────────────────────────────────
+auto stats = manager.getLoRAStats("legal-de");
+// stats.vram_bytes, stats.is_quantized, stats.quantization_mode
+```
+
+**Quantisierungsmethoden:**
+
+| Modus | VRAM-Reduktion | Qualitätsverlust | Beschreibung |
+|-------|--------------|-----------------|-------------|
+| `NONE` | 0% | — | Keine Quantisierung (FP32) |
+| `INT8` | ~50% | Minimal (<1%) | 8-Bit Gewichte (symmetrisch) |
+| `INT4` | ~75% | Gering (1-2%) | 4-Bit Gewichte (gepackt, Nibble-Format) |
+
+**Multi-GPU-Strategien:**
+
+| Strategie | Beschreibung |
+|-----------|-------------|
+| `NONE` | Einzel-GPU |
+| `ROUND_ROBIN` | LoRAs gleichmäßig verteilt |
+| `DATA_PARALLEL` | Adapter auf alle GPUs repliziert |
+| `MODEL_PARALLEL` | Große Adapter über GPUs aufgeteilt |
+
+### 17.24.3 ProductionValidator & IntegrationTestSuite
+
+`ProductionValidator` (`include/llm/production_validator.h`) ist das Produktionsvalidierungs-Framework für das LLM-Modul. Es umfasst End-to-End-Tests, 72-Stunden-Stresstests, Lastprofile und Qualitätsmessungen.
+
+```cpp
+#include "llm/production_validator.h"
+
+themis::llm::testing::ProductionValidator::ValidationConfig val_cfg;
+val_cfg.stress_test_duration         = std::chrono::hours(72);
+val_cfg.concurrent_requests          = 100;
+val_cfg.requests_per_second          = 50;
+val_cfg.max_latency_ms               = 100.0;
+val_cfg.max_p99_latency_ms           = 200.0;
+val_cfg.min_throughput_tokens_per_sec = 1000.0;
+val_cfg.max_error_rate_pct           = 0.1;
+val_cfg.max_memory_growth_mb_per_hour = 10.0;
+val_cfg.max_regression_pct           = 1.0;
+
+themis::llm::testing::ProductionValidator validator(val_cfg);
+
+// ── End-to-End Tests ──────────────────────────────────────────────────────
+auto e2e_result = validator.runEndToEndTests();
+// e2e_result.passed, e2e_result.avg_latency_ms, e2e_result.p99_latency_ms
+
+// ── Performance-Benchmark ────────────────────────────────────────────────
+// 100 Requests variierender Länge; P50/P95/P99; Speicherverbrauch
+auto metrics = validator.benchmarkInference("mistral-7b");
+// metrics.avg_latency_ms, metrics.tokens_per_second, metrics.memory_mb
+
+// ── Modell-Qualitäts-Validierung (≥80% erforderlich) ────────────────────
+bool quality_ok = validator.validateQuality("mistral-7b");
+
+// ── Einzelne Test-Kategorien ─────────────────────────────────────────────
+bool model_load_ok    = validator.testModelLoading();
+bool inference_ok     = validator.testInferencePipeline();
+bool batch_ok         = validator.testBatchScheduling();
+bool memory_ok        = validator.testMemoryManagement();
+bool quantize_ok      = validator.testQuantization();
+bool cb_ok            = validator.testContinuousBatching();
+bool kernel_ok        = validator.testKernelFusion();
+
+// ── Live-Statistiken (während Stresstest) ───────────────────────────────
+validator.startStressTest();
+auto live = validator.getLiveStats();
+// live.active_requests, live.current_latency_ms, live.memory_mb
+validator.stopStressTest();
+
+// ── Regressionsprüfung ────────────────────────────────────────────────────
+auto regression = validator.checkPerformanceRegression("/data/baseline.json");
+```
+
+**IntegrationTestSuite — 14 Szenarien:**
+
+```cpp
+themis::llm::testing::IntegrationTestSuite suite;
+
+// Komponentenintegration
+suite.testLazyLoaderWithGPUMemory();
+suite.testSchedulerWithPagedAttention();
+suite.testKernelFusionWithInference();
+suite.testFullPipelineE2E();
+
+// Multi-Modell
+suite.testMultiModelServing();
+suite.testModelSwitching();
+suite.testLoRAAdapterManagement();
+
+// Fehlerszenarien
+suite.testGPUOutOfMemory();
+suite.testModelLoadFailure();
+suite.testRequestCancellation();
+suite.testPreemption();
+
+// Performance
+suite.testHighConcurrency();
+suite.testLongRunningRequests();
+suite.testBurstTraffic();
+
+// Alle Tests ausführen
+auto results = suite.runAllTests();
+for (const auto& r : results) {
+    // r.test_name, r.passed, r.duration_ms, r.error_message
+}
+```
+
+**SLA-Schwellenwerte (ProductionValidator-Defaults):**
+
+| Metrik | Schwellenwert | Beschreibung |
+|--------|--------------|-------------|
+| Durchschnittliche Latenz | ≤ 100 ms | Über alle Request-Typen |
+| P99-Latenz | ≤ 200 ms | 99. Perzentil |
+| Durchsatz | ≥ 1 000 Token/s | Minimaler Durchsatz |
+| Fehlerrate | ≤ 0,1 % | Maximale Fehlerrate |
+| Speicherwachstum | ≤ 10 MB/h | VRAM-Wachstum (OOM-Prüfung) |
+| Fragmentierung | ≤ 15 % | VRAM-Fragmentierung |
+| Performance-Regression | ≤ 1 % | Max. Regressionstoleranz |
+
+---
+
 **Nächstes Kapitel:** [Kapitel 18: Machine Learning Integration](chapter_18_ml.md)  
 **Vorheriges Kapitel:** [Kapitel 16: Machine Learning](chapter_16_ml.md)
 
 ---
 
-## 17.24 Paged Attention: PagedKVCache & PagedBlockManager (v1.8.0)
+## 17.25 Prompt-Engineering-Modul — C++ Produktions-API (v2.0)
 
-<!-- Source: include/llm/paged_kv_cache.h, include/llm/paged_block_manager.h, include/llm/block_table.h -->
+Das Prompt-Engineering-Modul (`include/prompt_engineering/`, `src/prompt_engineering/`) implementiert vollständigen Lifecycle-Management für LLM-Prompt-Templates: Versionskontrolle (Git-ähnlich), A/B-Testing, Feedback-Analyse, Self-Improvement-Orchestrierung, Chain-of-Thought, Tree-of-Thoughts, ProTeGi-Textual-Gradient-Optimierung und DSPy-kompatibler Deklarations-Layer.
 
-> **Eingeführt in v1.5.0 · Production-Ready seit v1.8.0** – ThemisDB implementiert das vLLM-PagedAttention-Konzept: Der KV-Cache wird in nicht-zusammenhängende Blöcke fester Größe (standard: 16 Tokens/Block) aufgeteilt. Damit entfällt die Notwendigkeit, zusammenhängenden VRAM für jede Sequenz zu reservieren — und die Speicherauslastung sinkt um bis zu 80%.
-
-### 17.24.1 Konzept: Block-basiertes KV-Cache-Management
-
-**Herkömmlicher KV-Cache (zusammenhängend):**
-
-```
-Sequenz 1: [████████████████] 2048 Tokens → 2 GB VRAM (reserviert, ggf. kaum genutzt)
-Sequenz 2: [████] 512 Tokens  → 512 MB VRAM (Verschwendung: 1.5 GB)
-Sequenz 3: Kein VRAM mehr → OOM
-```
-
-**Paged KV-Cache (Block-basiert, vLLM-Stil):**
-
-```
-Block-Pool: [B0][B1][B2][B3]...[B4095]   (4096 × 16 Tokens = 65536 Token-Slots)
-Sequenz 1:  B0, B3, B7, B12  (dynamisch zugeteilt, nur so viele Blöcke wie nötig)
-Sequenz 2:  B1, B5          (eigene disjunkte Blöcke)
-Sequenz 3:  B2, B9          (weitere Sequenz problemlos möglich)
-
-→ 5x mehr concurrent requests möglich (gleicher VRAM)
-```
-
-**Prefix-Sharing (Copy-on-Write):**
-
-```
-System-Prompt "Du bist ein hilfreicher Assistent..." → Block B0 (shared)
-Anfrage 1: B0 (shared) + B4, B8 (privat)
-Anfrage 2: B0 (shared) + B5, B9 (privat)
-→ System-Prompt nur 1x im VRAM gespeichert
-```
-
-### 17.24.2 PagedKVCache — API
+### 17.25.1 PromptManager — Template-CRUD mit RocksDB-Persistenz
 
 ```cpp
-#include "llm/paged_kv_cache.h"
-#include "llm/paged_block_manager.h"
+#include "prompt_engineering/prompt_manager.h"
 
-// Block-Manager konfigurieren
-PagedBlockManager::Config bm_cfg;
-bm_cfg.num_blocks  = 4096;    // Gesamt-Blöcke im Pool
-bm_cfg.block_size  = 16;      // Tokens pro Block
-auto block_mgr = std::make_shared<PagedBlockManager>(bm_cfg);
+// RocksDB-backed (persistent)
+themis::prompt_engineering::PromptManager mgr(&rocks_db, cf_handle);
 
-// KV-Cache erstellen
-PagedKVCache::Config kvc_cfg;
-kvc_cfg.num_blocks           = 4096;
-kvc_cfg.block_size           = 16;
-kvc_cfg.num_layers           = 32;     // Transformer-Layer
-kvc_cfg.head_dim             = 128;    // Attention-Head-Dimension
-kvc_cfg.num_kv_heads         = 8;      // GQA: KV-Heads
-kvc_cfg.enable_prefix_caching = true;  // Prefix-Sharing aktivieren
+// ── Template erstellen ────────────────────────────────────────────────
+themis::prompt_engineering::PromptManager::PromptTemplate tmpl;
+tmpl.name    = "rag-answer-de";
+tmpl.version = "v2.0";
+tmpl.content = "Beantworte die Frage auf Basis der Dokumente.\n\nFrage: {query}\n\nDokumente:\n{context}\n\nAntwort:";
 
-PagedKVCache kv_cache(kvc_cfg, block_mgr);
+// Validierung (vor Persistenz)
+auto vr = themis::prompt_engineering::PromptManager::validateTemplate(tmpl);
+// vr.valid, vr.errors, vr.warnings
 
-// KV-Daten für Sequenz speichern
-kv_cache.store(sequence_id=42, layer_id=0, kv_data);
+auto created = mgr.createTemplate(tmpl);
+// created.id (generiert), created.name, created.version
 
-// KV-Daten abrufen
-auto cached_kv = kv_cache.retrieve(sequence_id=42, layer_id=0);
+// ── Context-Injektion ─────────────────────────────────────────────────
+std::unordered_map<std::string, std::string> ctx = {
+    { "query", "Was gilt für §34 BauGB?" },
+    { "context", "Dokument A: ..." }
+};
+auto prompt = mgr.getPromptWithContext(created.id, ctx);
 
-// Prefix teilen (Copy-on-Write)
-kv_cache.sharePrefix(
-    new_sequence_id=43,
-    parent_sequence_id=42,
-    prefix_length=256      // Erste 256 Tokens teilen
-);
+// ── Multi-Modal Prompt ────────────────────────────────────────────────
+themis::prompt_engineering::PromptManager::PromptTemplate mm_tmpl;
+mm_tmpl.content = "Beschreibe das Bild: {alt_text}";
+mm_tmpl.images  = {{ .url = "https://...", .alt_text = "Bauplan", .mime_type = "image/png" }};
+auto mm_prompt = themis::prompt_engineering::PromptManager::buildMultiModalPrompt(mm_tmpl, ctx);
 
-// Sequenz-Cleanup
-kv_cache.removeSequence(42);
-
-// Statistiken
-auto stats = kv_cache.getStats();
-// stats.blocks_used, stats.blocks_free
-// stats.fragmentation_rate, stats.prefix_sharing_ratio
+// ── YAML Bulk-Load ────────────────────────────────────────────────────
+size_t loaded = mgr.loadFromYAML("/etc/themisdb/prompts.yaml");
 ```
 
-**Performance-Ziele:**
+### 17.25.2 FeedbackCollector — Feedback-Analyse + Anomalie-Erkennung
 
-| Metrik | Wert |
-|--------|------|
-| Concurrent Requests (Llama-7B, 16GB VRAM) | 5x mehr vs. standard |
-| KV-Cache-Speicher-Reduktion | 70–80% |
-| Prefix-Sharing-Ratio (typisch) | 40–60% |
-| Block-Allokation | < 1 μs |
+```cpp
+#include "prompt_engineering/feedback_collector.h"
+
+themis::prompt_engineering::FeedbackCollector collector;
+
+// Feedback-Typen: POSITIVE, NEGATIVE, NEUTRAL, HALLUCINATION, INCOMPLETE,
+//                 IRRELEVANT, BIASED, OUTDATED, TOO_VERBOSE, TOO_BRIEF
+collector.addFeedback(template_id, themis::prompt_engineering::FeedbackType::HALLUCINATION,
+                      "Behauptung nicht durch Dokumente gestützt");
+
+// Statistiken + Anomalie-Erkennung
+auto stats = collector.getStats(template_id);
+// stats.total, stats.positive_rate, stats.failure_patterns
+// stats.hallucination_count, stats.audit_checksum (FNV-1a)
+
+// Paginierter Zugriff (für große Feedback-Mengen)
+auto page = collector.getFeedbackPaged(template_id, /*offset=*/0, /*limit=*/100);
+
+// Z-Score Outlier-Erkennung
+auto outliers = collector.detectOutliers(template_id);
+```
+
+### 17.25.3 SelfImprovementOrchestrator + ProTeGi + Tree-of-Thoughts
+
+```cpp
+#include "prompt_engineering/self_improvement_orchestrator.h"
+#include "prompt_engineering/protegi_optimizer.h"
+#include "prompt_engineering/tree_of_thoughts.h"
+
+// ── Self-Improvement: automatische Optimierung bei Feedback-Verschlechterung ─
+themis::prompt_engineering::SelfImprovementOrchestrator orchestrator(
+    &mgr, &collector, &prompt_optimizer
+);
+orchestrator.start();                        // Hintergrund-Worker
+
+// ── Tree-of-Thoughts: Multi-Pfad-Reasoning ────────────────────────────
+auto tot_result = themis::prompt_engineering::TreeOfThoughtsBuilder()
+    .withQuery("Wie optimiere ich eine HNSW-Konfiguration?")
+    .withMaxDepth(3)
+    .withBeamWidth(5)
+    .withEvaluator(llm_evaluator)
+    .build()
+    .search();
+// tot_result.best_path, tot_result.reasoning_trace, tot_result.confidence
+
+// ── ProTeGi: Textual Gradient Optimization ────────────────────────────
+themis::prompt_engineering::ProTeGiOptimizer::Config pg_cfg;
+pg_cfg.max_iterations    = 10;
+pg_cfg.population_size   = 8;
+pg_cfg.improvement_threshold = 0.05;
+
+themis::prompt_engineering::ProTeGiOptimizer optimizer(llm_provider, pg_cfg);
+auto opt_prompt = optimizer.optimize(initial_prompt, eval_function);
+// opt_prompt.text: verbesserter Prompt
+// opt_prompt.score_history: Verbesserungsverlauf
+```
 
 ---
 
-## 17.25 ContinuousBatchScheduler — vLLM-style Dynamic Batching (v1.8.0)
+## 17.26 Voice-Modul — C++ Produktions-API (v1.1)
 
-<!-- Source: include/llm/continuous_batch_scheduler.h -->
+Das Voice-Modul (`include/voice/`, `src/voice/`) implementiert einen vollständigen Voice-Assistant-Stack: STT (Whisper), LLM (LlamaWrapper), TTS, Session-Management, Meeting-Protokoll-Generierung, Voice-Biometrie, Wake-Word-Detektion, Browser-WebSocket-Streaming und SIP/WebRTC-Telefonie-Bridge.
 
-> **Production-Ready** – Der `ContinuousBatchScheduler` implementiert iteratives Batching: neue Anfragen werden dynamisch in den aktiven Batch integriert, sobald Positionen frei werden — ohne auf das Ende eines kompletten Batch-Durchlaufs warten zu müssen. Ergebnis: 176% höherer Durchsatz bei gleicher Hardware.
+### 17.26.1 VoiceAssistant — Vollständiger Voice-Stack
 
-### 17.25.1 Prinzip: Iteratives vs. Statisches Batching
+```cpp
+#include "voice/voice_assistant.h"
 
-**Statisches Batching (konventionell):**
+themis::voice::VoiceAssistant::Config va_cfg;
+va_cfg.stt_model_path        = "/models/ggml-base.bin";
+va_cfg.stt_language          = "de";
+va_cfg.llm_model_path        = "/models/mistral-7b.gguf";
+va_cfg.llm_n_ctx             = 8192;
+va_cfg.llm_n_gpu_layers      = 40;
+va_cfg.tts_model_path        = "/models/piper-de.onnx";
+va_cfg.enable_voice_auth     = true;       // Biometrische Stimm-Authentifizierung
+va_cfg.enable_wake_word      = true;       // "Hey Themis" Wake-Word
+va_cfg.wake_words            = { {"hey-themis", "hey themis"} };
+va_cfg.storage_path          = "/data/voice-sessions";
+va_cfg.compress_audio        = true;
+va_cfg.audio_format          = "ogg";
 
+themis::voice::VoiceAssistant assistant(va_cfg);
+assistant.initialize();
+
+// ── Sprach-Kommando verarbeiten ───────────────────────────────────────
+auto response_audio = assistant.processVoiceCommand(audio_bytes, session_id);
+
+// ── Meeting-Protokoll generieren ──────────────────────────────────────
+auto protocol = assistant.generateMeetingProtocol(
+    transcript,
+    { .include_action_items = true, .language = "de" }
+);
+// protocol["summary"], protocol["action_items"], protocol["participants"]
+
+// ── Key Points extrahieren ────────────────────────────────────────────
+auto key_points = assistant.extractKeyPoints(transcript);
+// key_points["points"], key_points["topics"]
 ```
-Batch:  [Req1: 100 Tokens] [Req2: 800 Tokens] [Req3: 50 Tokens]
-Status: Req1 + Req3 fertig, warten auf Req2 (Padding: 80% Verschwendung)
+
+### 17.26.2 Voice-Biometrie, Telephonie und Browser-Streaming
+
+```cpp
+#include "voice/voice_auth.h"
+#include "voice/voice_telephony.h"
+#include "voice/voice_browser_streaming.h"
+
+// ── Voice Biometric Authenticator ────────────────────────────────────
+themis::voice::VoiceBiometricAuthenticator auth(auth_cfg);
+auth.enrollSpeaker("alice", reference_audio_samples);
+auto result = auth.authenticate(test_audio);
+// result.verified, result.confidence_score, result.speaker_id
+
+// ── TelephonyBridge (SIP/WebRTC) ─────────────────────────────────────
+themis::voice::TelephonyBridge telephony(telephony_cfg);
+telephony.transcribeCall(call_recording, {
+    .diarize       = true,    // Sprecher-Segmentierung
+    .timestamps    = true,    // Zeitstempel pro Wort
+    .language      = "de"
+});
+
+// ── Real-Time Browser WebSocket Streaming ────────────────────────────
+// Streaming-Endpunkt: ws://server:8080/voice/stream
+// Audio-Chunks werden live transkribiert + geantwortet
 ```
 
-**Continuous Batching (vLLM-Stil):**
+## 17.27 LLM-Infrastruktur — vLLM-Architektur C++ API (v1.x) {#llm-infrastructure}
 
-```
-Iteration 1: Req1(100T), Req2(100T), Req3(100T)  ← alle gleichzeitig
-Iteration 2: Req1(fertig→herausnehmen), Req2(200T), Req3(50T), Req4(NEU!)
-Iteration 3: Req2(300T), Req3(fertig), Req5(NEU!), Req6(NEU!)
-→ GPU-Auslastung konstant ~95%
+Dieses Kapitel dokumentiert die fortgeschrittene LLM-Infrastruktur des `include/llm/`-Moduls: PagedKVCache, ContinuousBatchScheduler, SpeculativeDecoder, OpenAICompatAdapter, LoRARouter und AdapterRegistry.
+
+### 17.27.1 PagedKVCache — vLLM-inspiriertes KV-Cache-Management
+
+```cpp
+#include "llm/paged_kv_cache.h"
+
+themis::llm::PagedKVCache::Config kcfg;
+kcfg.num_layers     = 32;
+kcfg.block_size     = 16;        // Tokens pro Block
+kcfg.max_blocks     = 4096;
+kcfg.device_id      = 0;         // CUDA-Device
+
+themis::llm::PagedKVCache kv_cache(kcfg);
+
+// KV-Daten für eine Sequence speichern
+kv_cache.store(sequence_id, layer_id, kv_tensor);
+
+// Prefix-Sharing: Neues Request teilt Prompt-Prefix
+kv_cache.sharePrefix(new_seq_id, parent_seq_id, prefix_token_count);
+
+// Sequence freigeben (Blöcke werden wiederverwendet)
+kv_cache.removeSequence(sequence_id);
+
+// Cache-Statistiken
+auto stats = kv_cache.getStats();
+// stats.used_blocks, stats.free_blocks, stats.hit_rate, stats.evictions
 ```
 
-### 17.25.2 API-Nutzung
+### 17.27.2 ContinuousBatchScheduler
 
 ```cpp
 #include "llm/continuous_batch_scheduler.h"
 
-ContinuousBatchScheduler::Config sched_cfg;
-sched_cfg.max_batch_size       = 64;     // Max. parallele Sequenzen
-sched_cfg.max_tokens_per_batch = 8192;   // Max. Tokens im Batch
-sched_cfg.max_queue_size       = 1000;   // Max. wartende Anfragen
-sched_cfg.preemption_policy    = PreemptionPolicy::SWAP_TO_CPU; // OOM-Handling
-sched_cfg.memory_pressure_threshold = 0.90;  // 90% VRAM → Preemption
+themis::llm::ContinuousBatchScheduler::SchedulerConfig scfg;
+scfg.max_batch_size            = 64;
+scfg.enable_preemption         = true;
+scfg.enable_priority_scheduling = true;
+scfg.enable_continuous_batching = true;
+scfg.max_tokens_per_step       = 2048;
 
-ContinuousBatchScheduler scheduler(sched_cfg, paged_kv_cache, metrics);
+themis::llm::ContinuousBatchScheduler scheduler(kv_cache, scfg);
 
-// Anfrage einreihen
-InferenceRequest req;
-req.request_id     = "req_42";
-req.prompt         = "Erkläre mir Quantenmechanik in einem Satz.";
-req.max_new_tokens = 200;
-req.temperature    = 0.7f;
+// Request einreihen
+themis::llm::ContinuousBatchScheduler::ScheduledRequest req;
+req.request_id    = "req-1";
+req.prompt_tokens = tokens;
+req.priority      = themis::llm::ContinuousBatchScheduler::RequestPriority::HIGH;
+req.max_new_tokens = 512;
 scheduler.enqueue(req);
 
-// Batch-Iteration (wird von InferenceEngine aufgerufen)
-auto batch = scheduler.nextBatch();
-// batch.requests[] → aktuelle Batch-Mitglieder
-// batch.kv_block_tables[] → Block-Tables für Paged Attention
-
-// Abgeschlossene Anfragen verarbeiten
-for (auto& completed : batch.completed) {
-    deliver_response(completed.request_id, completed.output_text);
-    scheduler.markCompleted(completed.request_id);
+// Einen Decode-Schritt ausführen (alle aktuell aktiven Requests)
+auto outputs = scheduler.step();
+for (auto& out : outputs) {
+    // out.request_id, out.new_tokens, out.finished
 }
-
-// Metriken
-auto metrics = scheduler.getMetrics();
-// metrics.queue_length, metrics.active_sequences
-// metrics.ttft_ms_p50, metrics.ttft_ms_p99   (Time-to-First-Token)
-// metrics.tps_mean                            (Tokens per Second)
-// metrics.gpu_utilization
 ```
 
-**Performance-Kennzahlen:**
+**RequestPriority:** `LOW` / `NORMAL` / `HIGH` / `REALTIME`
 
-| Metrik | Ohne Continuous Batching | Mit Continuous Batching |
-|--------|------------------------|------------------------|
-| GPU-Auslastung | 40–60% | 90–95% |
-| Durchsatz (Tokens/s) | 1× | 2,76× |
-| P99 Latenz | hoch (warten auf Batch-Ende) | niedrig (iterativ) |
-| Concurrent Requests | 16 | 64+ |
-
----
-
-## 17.26 SpeculativeDecoder — Spekulatives Dekodieren (v1.8.0)
-
-<!-- Source: include/llm/speculative_decoder.h -->
-
-> **Production-Ready** – `SpeculativeDecoder` implementiert das Leviathan et al. (ICML 2023) Algorithmus für spekulatives Dekodieren. Ein kleines Draft-Modell generiert K Kandidaten-Token; das große Ziel-Modell verifiziert sie in einem einzigen Forward-Pass. Akzeptanzrate ~80% → 2-3× Speedup.
-
-### 17.26.1 Algorithmus
-
-```
-Draft-Modell (klein, schnell):
-    Schlägt K Token vor: [t̃₁, t̃₂, t̃₃, t̃₄] mit Wahrscheinlichkeiten q(tᵢ)
-
-Ziel-Modell (groß, langsam):
-    Evaluiert Positionen 1…K+1 in EINEM Forward-Pass (keine K separaten Passes)
-    Gibt Wahrscheinlichkeiten p(tᵢ) für jede Position zurück
-
-Akzeptanz-Regel (stochastisch):
-    Für Token t̃ᵢ:
-      r ~ Uniform(0,1)
-      if r ≤ p(t̃ᵢ) / q(t̃ᵢ):  → Akzeptieren (fast immer wenn Draft gut)
-      else:                       → Korrektur-Token aus max(0, p−q) samplen; stoppen
-    Falls alle K akzeptiert: → 1 zusätzliches Token aus p samplen
-
-Ergebnis: 1 Forward-Pass des großen Modells erzeugt 1+K Token
-```
-
-### 17.26.2 API-Nutzung
+### 17.27.3 SpeculativeDecoder — Draft-Model-Beschleunigung
 
 ```cpp
 #include "llm/speculative_decoder.h"
 
-SpeculativeDecoder::Config dec_cfg;
-dec_cfg.k                       = 4;     // Draft-Tokens pro Schritt
-dec_cfg.min_acceptance_threshold = 0.0f; // 0 = rein stochastisch
-dec_cfg.rng_seed                = 42;    // 0 = zufällig
+themis::llm::SpeculativeDecoder::Config sdcfg;
+sdcfg.draft_model_path     = "/models/draft-7b.gguf";
+sdcfg.speculation_length   = 5;   // 5 Draft-Tokens je Schritt
+sdcfg.acceptance_threshold = 0.85;
 
-SpeculativeDecoder decoder(dec_cfg);
+themis::llm::SpeculativeDecoder spec_decoder(target_model, sdcfg);
 
-// Verifizierung einer Draft-Sequenz
-std::vector<int32_t> draft_tokens = {1234, 5678, 9012, 3456};
-
-// q: Draft-Modell-Wahrscheinlichkeiten
-std::vector<std::vector<float>> q_probs = { /* k × vocab */ };
-
-// p: Ziel-Modell-Wahrscheinlichkeiten (ein Forward-Pass)
-std::vector<std::vector<float>> p_probs = { /* (k+1) × vocab */ };
-
-auto result = decoder.verify(draft_tokens, q_probs, p_probs);
-// result.accepted_tokens  → die akzeptierten Token
-// result.num_accepted     → wie viele von K akzeptiert wurden
-// result.correction_token → Korrektur-Token (wenn nicht alle akzeptiert)
+// Tokens mit Draft-Modell vorschlagen + Hauptmodell verifizieren
+auto result = spec_decoder.decode(prompt_tokens, max_new_tokens);
+// result.tokens, result.draft_accepted_count, result.speedup_factor
 
 // Statistiken
-auto stats = decoder.getStatistics();
-// stats.total_drafts_proposed
-// stats.total_tokens_accepted
-// stats.acceptance_rate   → typisch 0.75–0.85
-// stats.speedup_factor    → typisch 2.0–3.0
+auto stats = spec_decoder.getStatistics();
+// stats.total_steps, stats.acceptance_rate, stats.mean_speedup
 ```
 
-**Performance-Erwartungen:**
-
-| Modell-Kombination | Akzeptanzrate | Speedup |
-|-------------------|--------------|---------|
-| Llama-7B (draft) + Llama-70B (target) | ~80% | 2,5× |
-| CodeLlama-7B + CodeLlama-34B | ~85% | 3,0× |
-| Falcon-7B + Falcon-40B | ~75% | 2,2× |
-
----
-
-## 17.27 LLM-Routing: OpenAICompat, LoRARouter, AdapterRegistry, ModelRouter (v1.8.0)
-
-<!-- Source: include/llm/ — openai_compat_adapter.h, lora_router.h, adapter_registry.h, model_router.h -->
-
-> **Production-Ready** – Das Routing-Layer von ThemisDB macht die LLM-Infrastruktur für externe Clients transparent nutzbar: OpenAI-kompatible API, semantisch-basiertes Adapter-Routing, versioniertes Adapter-Registry mit Hot-Load und content-basiertes Model-Routing.
-
-### 17.27.1 OpenAICompatAdapter — Drop-in OpenAI-API
-
-`OpenAICompatAdapter` übersetzt `/v1/chat/completions`-Requests von LangChain, LlamaIndex oder dem OpenAI Python SDK direkt in ThemisDB-`InferenceRequest`-Objekte.
+### 17.27.4 OpenAICompatAdapter
 
 ```cpp
 #include "llm/openai_compat_adapter.h"
 
-// Request-Parsing
-nlohmann::json body = {
-    {"model", "llama-2-7b-legal"},
-    {"messages", {{{"role", "user"}, {"content", "Erkläre §242 BGB"}}}},
-    {"temperature", 0.7},
-    {"max_tokens", 500},
-    {"stream", false},
-    {"stop", {"[END]", "\n\n"}}
-};
+// Drop-in OpenAI API Kompatibilität
+themis::llm::OpenAICompatAdapter oa(llama_wrapper, scheduler);
 
-auto parse_result = OpenAICompatAdapter::parseRequest(body);
-if (std::holds_alternative<std::string>(parse_result)) {
-    // Fehler: std::get<std::string>(parse_result)
-} else {
-    auto& req = std::get<InferenceRequest>(parse_result);
-    // req.model_id, req.prompt, req.system_prompt
-    // req.temperature, req.max_tokens, req.stop_sequences
+// HTTP-Handler (in Server integrieren)
+server.post("/v1/chat/completions", [&](const Request& req) {
+    return oa.handleChatCompletion(req.body_json());
+});
 
-    auto response = inference_engine.infer(req);
+server.post("/v1/completions", [&](const Request& req) {
+    return oa.handleCompletion(req.body_json());
+});
 
-    // Response-Serialisierung (OpenAI-Format)
-    auto json_response = OpenAICompatAdapter::serializeResponse(response);
-    // json_response: {"id":"chatcmpl-...", "choices":[{"message":...}], "usage":{...}}
-}
+server.post("/v1/embeddings", [&](const Request& req) {
+    return oa.handleEmbeddings(req.body_json());
+});
+
+// Streaming-Support (Server-Sent Events)
+server.post("/v1/chat/completions/stream", [&](const Request& req, StreamWriter& w) {
+    oa.handleChatCompletionStream(req.body_json(), w);
+});
 ```
 
-**Unterstützte Felder:**
-
-| OpenAI-Feld | ThemisDB-Mapping |
-|-------------|-----------------|
-| `model` | `InferenceRequest::model_id` |
-| `messages[system]` | `InferenceRequest::system_prompt` |
-| `messages[user]` | `InferenceRequest::prompt` |
-| `temperature` | `InferenceRequest::temperature` |
-| `max_tokens` | `InferenceRequest::max_tokens` |
-| `stream` | `InferenceRequest::stream_callback` |
-| `stop` | `InferenceRequest::stop_sequences` |
-| `tools` | `InferenceRequest::tools` (serialisiert) |
-
-### 17.27.2 LoRARouter — Semantisches Adapter-Routing
-
-`LoRARouter` wählt automatisch den optimalen LoRA-Adapter für eine Anfrage basierend auf semantischer Ähnlichkeit, GPU-Last und konfigurierten A/B-Test-Experimenten.
+### 17.27.5 LoRARouter — A/B-Testing und Rollout
 
 ```cpp
 #include "llm/lora_router.h"
 
-LoRARouter::Config router_cfg;
-router_cfg.policy                = RoutingPolicy::LOAD_AWARE;
-router_cfg.embedding_model       = "sentence-transformers/all-MiniLM-L6-v2";
-router_cfg.similarity_threshold  = 0.75f;
-router_cfg.fallback_adapter_id   = "general-assistant-v2";
+// A/B-Testing: 20 % Traffic auf neuen Adapter
+themis::llm::ABTestConfig ab;
+ab.enabled         = true;
+ab.variant_a       = "legal-v1.0";
+ab.variant_b       = "legal-v1.1";
+ab.variant_b_pct   = 0.20;  // 20 % auf B
 
-LoRARouter router(router_cfg, adapter_load_balancer, multi_lora_mgr, adapter_registry);
+// Canary-Rollout: schrittweise erhöhen
+themis::llm::RolloutConfig rollout;
+rollout.enabled     = true;
+rollout.adapter_id  = "legal-v1.1";
+rollout.start_pct   = 0.05;
+rollout.target_pct  = 1.00;
+rollout.step_pct    = 0.10;
 
-// Routing-Policies:
-// SEMANTIC     → Semantische Ähnlichkeit der Anfrage zu Adapter-Beschreibungen
-// LOAD_AWARE   → Semantik + GPU-Auslastung (bevorzugt weniger ausgelastete GPU)
-// AB_TEST      → Traffic-Split zwischen Adaptern für Experimente
-// ROLLOUT      → Schrittweiser Rollout (1% → 5% → 20% → 100%)
-// FALLBACK     → Immer der konfigurierte Fallback-Adapter
+themis::llm::FallbackConfig fallback;
+fallback.enable_fallback  = true;
+fallback.fallback_adapter = "legal-v1.0";
+fallback.error_threshold  = 0.02;  // > 2 % Fehlerrate → Fallback
 
-// Adapter-Routing
-auto selected = router.route(request_text, metadata);
-// selected.adapter_id, selected.gpu_id, selected.routing_reason
+themis::llm::LoRARouter router(adapter_registry, ab, rollout, fallback);
 
-// A/B-Test einrichten
-ABTestConfig ab_cfg;
-ab_cfg.adapter_ids    = {"legal-v1", "legal-v2"};
-ab_cfg.traffic_splits = {0.8f, 0.2f};   // 80% v1, 20% v2
-ab_cfg.experiment_id  = "legal-adapter-ab-test-2026-04";
-router.setABTest(ab_cfg);
+// Adapter für einen Request auswählen
+auto decision = router.route("tenant-acme", request_context);
+// decision.adapter_id, decision.reason (AB_TEST/ROLLOUT/FALLBACK/DEFAULT)
+
+// Metriken
+auto metrics = router.getMetrics();
+// metrics.requests_per_adapter, metrics.error_rates
 ```
 
-### 17.27.3 AdapterRegistry — Versioniertes Adapter-Repository
-
-`AdapterRegistry` verwaltet alle LoRA-Adapter mit semantischer Versionierung (SemVer), RSA-SHA256-Signaturverifikation, Hot-Load-Unterstützung und Provenance-Tracking.
+### 17.27.6 AdapterRegistry — Versionierter Adapter-Store
 
 ```cpp
 #include "llm/adapter_registry.h"
 
-AdapterRegistry registry(security_sig_mgr, provenance_store);
+themis::llm::AdapterRegistry registry(db);
 
 // Adapter registrieren
-AdapterMetadata meta;
-meta.adapter_id      = "legal-assistant";
-meta.version         = AdapterVersion{1, 4, 2};  // "1.4.2"
-meta.base_model      = "llama-2-7b-q4_k_m";
-meta.domain_tags     = {"legal", "german-law", "BGB"};
-meta.description     = "Deutsche Rechtstexte — BGB, StGB, DSGVO";
-meta.weights_path    = "/models/adapters/legal-1.4.2.bin";
-meta.rsa_signature   = sign_with_key(weights_sha256, signing_key);
-registry.registerAdapter(meta);
+themis::llm::AdapterMetadata meta;
+meta.adapter_id      = "legal-v1.1";
+meta.base_model      = "mistral-7b";
+meta.version         = {1, 1, 0};
+meta.status          = themis::llm::AdapterMetadata::Status::PRODUCTION;
+meta.quality.accuracy = 0.91;
+meta.training_config.dataset = "legal_docs_2026";
 
-// Adapter abrufen (mit Signaturverifikation)
-auto adapter = registry.getAdapter("legal-assistant", "1.4.2");
-// adapter.metadata, adapter.weights_path
+registry.registerAdapter(meta, "/models/adapters/legal-v1.1.bin");
 
-// Neueste Version
-auto latest = registry.getLatest("legal-assistant");
+// Laden + Kompatibilitätsprüfung
+auto loaded = registry.loadAdapter("legal-v1.1");
+bool compat = loaded->isCompatibleWith("mistral-7b", "mistral-7b-v0.1");
 
-// Hot-Load: Neuer Adapter ohne Neustart (Observer benachrichtigt InferenceEngine)
-registry.hotLoad("legal-assistant", "1.4.3", new_weights_path);
+// Alle Produktions-Adapter auflisten
+auto all = registry.listByStatus(themis::llm::AdapterMetadata::Status::PRODUCTION);
 
-// Observer registrieren (z.B. für InferenceEngine-Cache-Invalidierung)
-registry.addHotLoadObserver([](const std::string& adapter_id, const AdapterMetadata& new_meta) {
-    inference_engine.invalidateCache(adapter_id);
-    inference_engine.preloadAdapter(adapter_id, new_meta.weights_path);
-});
-
-// Alle verfügbaren Adapter auflisten
-auto all_adapters = registry.listAdapters();
+// Provenance: Welche Trainingsdaten wurden verwendet?
+auto prov = registry.getProvenance("legal-v1.1");
+// prov.dataset, prov.pipeline_run, prov.base_model_hash
 ```
 
-### 17.27.4 ModelRouter — Content-basiertes Modell-Routing
+**AdapterMetadata::Status:** `EXPERIMENTAL` / `STAGING` / `PRODUCTION` / `DEPRECATED` / `ROLLBACK`
 
-`ModelRouter` leitet Anfragen basierend auf Prompt-Inhalt (Regex) und Metadaten-Tags an das geeignete Basismodell weiter.
+### 17.27.7 ModelRouter — Request-basiertes Model-Routing
 
 ```cpp
 #include "llm/model_router.h"
 
-// Routing-Regeln (sortiert nach Priorität, höher = bevorzugt)
-std::vector<RoutingRule> rules = {
-    {
-        .target_model_id  = "codellama-34b-q4",
-        .prompt_patterns  = {R"(```[a-z]+)", R"(\bdef \w+\()", R"(\bclass \w+:)"},
-        .metadata_tags    = {"code", "programming"},
-        .priority         = 100,
-        .match_mode       = MatchMode::ANY,
-        .description      = "Code-Anfragen → CodeLlama-34B"
-    },
-    {
-        .target_model_id  = "llama-2-7b-legal",
-        .prompt_patterns  = {R"(\b(BGB|StGB|DSGVO|GmbHG)\b)", R"(\bParagraph \d+\b)"},
-        .metadata_tags    = {"legal"},
-        .priority         = 90,
-        .match_mode       = MatchMode::ANY,
-        .description      = "Rechts-Anfragen → Legal-7B"
-    },
-    {
-        .target_model_id  = "llama-2-70b-q4",
-        .prompt_patterns  = {},
-        .metadata_tags    = {},
-        .priority         = 0,
-        .match_mode       = MatchMode::ANY,
-        .description      = "Fallback → Llama-70B"
-    }
+// Routing-Regel: Lange Kontexte → größeres Modell
+themis::llm::RoutingRule rule_long_ctx;
+rule_long_ctx.id         = "long-context";
+rule_long_ctx.match_mode = themis::llm::RoutingRule::MatchMode::THRESHOLD;
+rule_long_ctx.field      = "context_length";
+rule_long_ctx.threshold  = 4096;
+rule_long_ctx.target_model = "mixtral-8x7b";
+
+// Routing-Regel: Tenant-basiert
+themis::llm::RoutingRule rule_tenant;
+rule_tenant.id           = "enterprise-tenant";
+rule_tenant.match_mode   = themis::llm::RoutingRule::MatchMode::EXACT;
+rule_tenant.field        = "tenant_id";
+rule_tenant.value        = "acme-corp";
+rule_tenant.target_model = "llama-70b";
+
+themis::llm::ModelRouter router;
+router.addRule(rule_long_ctx);
+router.addRule(rule_tenant);
+
+auto result = router.route(request_context);
+// result.matched, result.target_model, result.rule_id
+```
+
+## 17.28 RAG Advanced C++ API (v2.x) {#rag-advanced}
+
+Dieses Kapitel dokumentiert die fortgeschrittenen RAG-Komponenten (`include/rag/`): AgenticRAG, MultiStepRAG, MultiModalRAG, RAGContextAssembler und DistributedRAGEvaluator.
+
+### 17.28.1 AgenticRAG — Iterativer Retrieval-Agent
+
+`AgenticRAG` führt eine adaptive Retrieve-then-Reason Schleife aus: bis die Qualitäts-Schwelle erreicht ist oder `max_iterations` überschritten werden.
+
+```cpp
+#include "rag/agentic_rag.h"
+
+themis::rag::AgenticRAGConfig cfg;
+cfg.max_iterations        = 5;
+cfg.quality_threshold     = 0.85;
+cfg.accumulate_documents  = true;  // alle Iterationen → ein Kontext
+cfg.timeout_ms            = 10000;
+
+themis::rag::AgenticRAG agent(retriever, judge, llm);
+agent.setConfig(cfg);
+
+auto result = agent.run("Welche Kunden haben Rechnungen > 10.000 €?");
+// result.answer, result.iterations, result.quality_satisfied, result.stop_reason
+
+// Fortschritts-Callback (pro Iteration)
+agent.setIterationCallback([](const themis::rag::IterationRecord& r) {
+    std::cout << "Iter " << r.iteration
+              << " quality=" << r.quality_score << "\n";
+});
+
+// Abbruch (thread-safe)
+agent.cancel();
+```
+
+**StopReason:** `QUALITY_REACHED` / `MAX_ITERATIONS` / `TIMEOUT` / `CANCELLED`
+
+### 17.28.2 MultiStepRAGOrchestrator — Decompose-then-Retrieve
+
+```cpp
+#include "rag/multi_step_rag.h"
+
+themis::rag::MultiStepRAGConfig mscfg;
+mscfg.max_steps            = 4;
+mscfg.use_llm_decomposition = true;
+mscfg.merge_strategy       = themis::rag::MultiStepRAGConfig::MergeStrategy::RANKED;
+
+themis::rag::MultiStepRAGOrchestrator orchestrator(retriever, llm);
+orchestrator.setConfig(mscfg);
+
+auto result = orchestrator.run("Vergleiche Umsatz Q1-2025 mit Q1-2026 je Region");
+// result.final_answer
+// result.steps: [{sub_query, retrieved_docs, sub_answer}, ...]
+// result.total_documents_retrieved
+```
+
+**MergeStrategy:** `SEQUENTIAL` / `RANKED` / `SUMMARIZE`
+
+### 17.28.3 MultiModalRAG — Bild + Text + Tabellen
+
+```cpp
+#include "rag/multimodal_rag.h"
+
+themis::rag::MultiModalRAGConfig mmcfg;
+mmcfg.enable_image_retrieval = true;
+mmcfg.enable_table_qa        = true;
+mmcfg.enable_ocr             = true;  // Bild → Text via OCR
+
+themis::rag::MultiModalRAG mmrag(text_retriever, image_retriever, llm);
+mmrag.setConfig(mmcfg);
+
+// Query mit Bild-Anhang
+themis::rag::MultiModalQuery q;
+q.text = "Was zeigt dieses Diagramm?";
+q.images.push_back({"chart.png", image_bytes, "image/png"});
+q.sources = {themis::rag::Modality::TEXT,
+             themis::rag::Modality::IMAGE};
+
+auto r = mmrag.query(q);
+// r.answer, r.source_modalities, r.retrieved_images, r.retrieved_texts
+```
+
+**Modality:** `TEXT` / `IMAGE` / `TABLE` / `CODE` / `AUDIO`
+
+### 17.28.4 RAGContextAssembler — Token-Budget-Management
+
+```cpp
+#include "rag/rag_context_assembler.h"
+
+themis::rag::RAGContextAssemblerConfig acfg;
+acfg.max_tokens            = 4096;
+acfg.allow_partial_chunk   = true;
+acfg.dedup_strategy        = themis::rag::RAGContextAssemblerConfig::DedupStrategy::HASH;
+acfg.ordering              = themis::rag::RAGContextAssemblerConfig::Ordering::BY_SCORE;
+
+themis::rag::RAGContextAssembler assembler(tokenizer);
+assembler.setConfig(acfg);
+
+// Dokumente in Token-Budget einpassen
+auto ctx = assembler.assemble(retrieved_docs);
+// ctx.context_text       — vollständiger Kontext für LLM
+// ctx.used_tokens        — tatsächlich verwendete Tokens
+// ctx.was_truncated      — true wenn Budget erschöpft
+// ctx.included_doc_count — wie viele Docs eingeflossen sind
+```
+
+### 17.28.5 DistributedRAGEvaluator — Parallele Multi-Judge-Evaluierung
+
+```cpp
+#include "rag/distributed_rag_evaluator.h"
+
+// Worker-Konfigurationen (z.B. Shard-Knoten)
+std::vector<themis::rag::JudgeWorkerConfig> workers = {
+    {"judge-node-1", 8772, "token-a"},
+    {"judge-node-2", 8772, "token-b"},
+    {"judge-node-3", 8772, "token-c"},
 };
 
-ModelRouter router(rules);
+themis::rag::DistributedEvaluatorConfig dcfg;
+dcfg.aggregation_strategy = themis::rag::AggregationStrategy::WEIGHTED_MEAN;
+dcfg.skip_failed_judges   = true;
+dcfg.quorum               = 2;  // mind. 2 Judges müssen antworten
 
-// Routing einer Anfrage
-InferenceRequest req;
-req.prompt   = "Erkläre §242 BGB — Treu und Glauben";
-req.metadata = {{"tags", {"legal"}}};
+themis::rag::DistributedRAGEvaluator evaluator(workers, dcfg);
 
-auto model_id = router.route(req.prompt, req.metadata);
-// → "llama-2-7b-legal"
+// Bewertung einer RAG-Antwort
+themis::rag::EvaluationResult score = evaluator.evaluate(question, answer, retrieved_docs);
+// score.faithfulness, score.relevance, score.completeness
+// score.coherence, score.ethics_score, score.overall_score
 
-// Match-Details
-auto match = router.routeWithDetails(req.prompt, req.metadata);
-// match.matched_model, match.matched_rule_description
-// match.matched_pattern, match.matched_tag
+// Batch-Bewertung
+auto batch = evaluator.evaluateBatch(qa_pairs);
 ```
 
-### 17.27.5 LLM-Routing-Architektur: Gesamtbild
+**AggregationStrategy:** `SIMPLE_MEAN` / `WEIGHTED_MEAN` / `MEDIAN` / `MIN` / `MAX`
 
+## 17.29 LLM Advanced AI C++ API (v2.x) {#llm-advanced-ai-cpp}
+
+### 17.29.1 AiOrchestrator — Multi-Mode LLM Pipeline
+
+Der `AiOrchestrator` koordiniert vollständige LLM-Pipelines mit konfigurierbaren Modi (RAG, Agentisch, Tool-Aufruf, Bewertung).
+
+```cpp
+#include "llm/ai_orchestrator.h"
+
+// Mode konfigurieren
+themis::llm::ModeSpec mode;
+mode.id = themis::llm::ModeId::RAG_WITH_TOOLS;
+
+// Retrieval-Spezifikation
+mode.retrieval.enabled        = true;
+mode.retrieval.rerank         = true;
+mode.retrieval.chunking.size  = 512;
+mode.retrieval.chunking.overlap = 64;
+
+// Budget-Kontrolle
+mode.budget.max_tokens        = 4096;
+mode.budget.max_duration_ms   = 10000;
+mode.budget.max_tool_calls    = 5;
+
+// Observability
+mode.observability.log_requests    = true;
+mode.observability.trace_id_header = "X-Trace-Id";
+
+// Safety-Check
+mode.safety.enable            = true;
+mode.safety.block_on_violation = true;
+
+// Judge (Selbstbewertung der Antwort)
+mode.judge.enable             = true;
+mode.judge.min_score          = 0.7;
+
+// Tool registrieren
+themis::llm::ToolSpec search_tool;
+search_tool.name        = "search_db";
+search_tool.description = "Durchsucht die Datenbank";
+search_tool.parameters  = R"({"query": "string"})";
+mode.tools.push_back(search_tool);
+
+// Orchestrator bauen und ausführen
+auto orchestrator = themis::llm::AiOrchestrator::create(llm_engine, mode);
+
+themis::llm::OutputSpec output;
+output.format           = themis::llm::OutputFormat::MARKDOWN;
+output.include_sources  = true;
+output.stream           = false;
+
+auto result = orchestrator->run("Erkläre den Unterschied zwischen MVCC und 2PL", output);
+// result.text, result.sources, result.tool_calls, result.judge_score
+// result.usage: {prompt_tokens, completion_tokens, total_tokens}
 ```
-Client-Request (HTTP / WebSocket)
-         │
-         ▼
-OpenAICompatAdapter::parseRequest()    ← Drop-in OpenAI-API
-         │
-         ▼
-ModelRouter::route()                   ← Welches Basismodell?
-         │  (Regex + Tags)
-         ▼
-LoRARouter::route()                    ← Welcher LoRA-Adapter?
-         │  (Semantisch + Load-aware)
-         ▼
-AdapterRegistry::getAdapter()          ← Adapter-Weights laden (Hot-Load-fähig)
-         │
-         ▼
-ContinuousBatchScheduler::enqueue()   ← Batch-Scheduling
-         │
-         ▼
-InferenceEngine + PagedKVCache        ← Inferenz mit Paged Attention
-         │
-         ▼
-OpenAICompatAdapter::serializeResponse() ← OpenAI-Format zurück
-         │
-         ▼
-Client-Response
+
+**ModeId:** `PLAIN` / `RAG` / `RAG_WITH_TOOLS` / `AGENTIC` / `CRITIQUE` / `SELF_CORRECT`
+
+### 17.29.2 AsyncInferenceEngine — Hochdurchsatz-Async-Inferenz
+
+```cpp
+#include "llm/async_inference_engine.h"
+
+themis::llm::AsyncInferenceEngine::Config async_cfg;
+async_cfg.max_concurrent_requests   = 256;
+async_cfg.queue_capacity            = 1000;
+async_cfg.enable_dedup_cache        = true;
+async_cfg.backpressure_policy       =
+    themis::llm::AsyncInferenceEngine::Config::BackpressurePolicy::DROP_OLDEST;
+
+auto engine = std::make_unique<themis::llm::AsyncInferenceEngine>(
+    llamacpp_engine, async_cfg);
+
+// Streaming-Anfrage mit Token-Callback
+themis::llm::AsyncInferenceRequest req;
+req.request_id   = "req-42";
+req.prompt       = "Erkläre Vektorindizes in 3 Sätzen";
+req.max_tokens   = 256;
+req.temperature  = 0.7f;
+
+auto future = engine->submitAsync(req,
+    [](std::string_view token, bool is_final) {
+        std::cout << token;
+        if (is_final) std::cout << "\n[DONE]\n";
+    });
+
+// Auf Ergebnis warten (optional)
+auto result = future.get();
+// result.text, result.finish_reason, result.usage
+
+// Anfrage abbrechen
+engine->cancel("req-42");
+
+// Statistiken
+auto stats = engine->getStats();
+// stats.queued, stats.running, stats.completed, stats.dropped, stats.avg_latency_ms
 ```
 
-### 17.27.6 Routing-Komponenten-Matrix (v1.8.0)
+**BackpressurePolicy:** `DROP_OLDEST` / `DROP_NEWEST` / `BLOCK` / `REJECT`
 
-| Komponente | Status | Aufgabe | Performance |
-|------------|--------|---------|-------------|
-| `OpenAICompatAdapter` | ✅ Production-Ready | Drop-in OpenAI API | < 0,1 ms overhead |
-| `LoRARouter` | ✅ Production-Ready | Semantisches Adapter-Routing | < 5 ms (embed+route) |
-| `AdapterRegistry` | ✅ Production-Ready | Versionierter Adapter-Store | < 1 ms lookup |
-| `ModelRouter` | ✅ Production-Ready | Content-basiertes Modell-Routing | < 0,5 ms (Regex) |
+### 17.29.3 InferenceEngineEnhanced — Multi-Model Load Balancing
+
+```cpp
+#include "llm/inference_engine_enhanced.h"
+
+themis::llm::InferenceEngineEnhanced::Config enhanced_cfg;
+enhanced_cfg.strategy =
+    themis::llm::InferenceEngineEnhanced::Config::LoadBalanceStrategy::LEAST_LOADED;
+enhanced_cfg.health_check_interval_ms = 5000;
+enhanced_cfg.circuit_breaker_threshold = 0.5;  // 50% Fehlerrate → Trip
+
+auto enhanced_engine = std::make_unique<themis::llm::InferenceEngineEnhanced>(
+    enhanced_cfg);
+
+// Mehrere Modell-Backends registrieren
+themis::llm::InferenceEngineEnhanced::ModelResourceQuota quota;
+quota.max_concurrent = 8;
+quota.max_queue_depth = 64;
+quota.priority = 1;
+
+enhanced_engine->registerModel("llama3-70b",   llama70b_engine, quota);
+enhanced_engine->registerModel("mistral-7b",   mistral_engine,  quota);
+enhanced_engine->registerModel("phi3-mini",    phi3_engine,     quota);
+
+// Anfrage — automatische Modellauswahl via LB
+themis::llm::InferenceEngineEnhanced::EnhancedInferenceRequest ereq;
+ereq.prompt      = "Schreibe einen Unit-Test für BTree::insert";
+ereq.max_tokens  = 512;
+ereq.preferred_model = "llama3-70b";  // optional, kann überschrieben werden
+
+auto result = enhanced_engine->infer(ereq);
+// result.text, result.model_used, result.routed_to
+
+// Statistiken pro Modell
+auto stats = enhanced_engine->getStatistics();
+for (auto& [model_id, ms] : stats.model_stats) {
+    // ms.requests_served, ms.p50_ms, ms.p99_ms, ms.error_rate
+}
+```
+
+**LoadBalanceStrategy:** `ROUND_ROBIN` / `LEAST_LOADED` / `FASTEST` / `RANDOM` / `PRIORITY`
+
+### 17.29.4 InlineTrainingEngine — On-the-Fly LoRA Fine-Tuning
+
+```cpp
+#include "llm/inline_training_engine.h"
+
+// Optimizer-Konfiguration
+themis::llm::OptimizerConfig opt_cfg;
+opt_cfg.type        = themis::llm::OptimizerType::ADAMW;
+opt_cfg.lr          = 2e-4f;
+opt_cfg.weight_decay = 0.01f;
+opt_cfg.beta1       = 0.9f;
+opt_cfg.beta2       = 0.999f;
+
+// LR-Scheduler
+themis::llm::SchedulerConfig lr_cfg;
+lr_cfg.type        = themis::llm::SchedulerType::COSINE;
+lr_cfg.warmup_steps = 100;
+lr_cfg.total_steps  = 1000;
+
+// Inline Training Engine
+auto inline_trainer = themis::llm::InlineTrainingEngine::create(
+    base_model, opt_cfg, lr_cfg);
+
+// Training-Daten hinzufügen (während der Engine läuft!)
+inline_trainer->addSample({
+    .instruction = "Übersetze ins Deutsche",
+    .input       = "The quick brown fox",
+    .output      = "Der schnelle braune Fuchs",
+});
+
+// Training-Step auslösen (non-blocking)
+inline_trainer->stepAsync();
+
+// LoRA-Checkpoint speichern
+inline_trainer->saveCheckpoint("/checkpoints/lora-step-100.bin");
+
+// Adaptiertes Modell sofort für Inferenz nutzen
+auto adapted_result = inline_trainer->infer("Translate: Hello World");
+```
+
+**OptimizerType:** `ADAM` / `ADAMW` / `SGD` / `LION`
+**SchedulerType:** `CONSTANT` / `LINEAR` / `COSINE` / `WARMUP_COSINE`
+
+### 17.29.5 ConstitutionalReasoningEngine — Prinzipienbasierte AI
+
+```cpp
+#include "llm/constitutional_reasoning_engine.h"
+
+themis::llm::ConstitutionalReasoningEngine engine(llm_backend);
+
+// Prinzipien definieren
+engine.addPrinciple({
+    .name        = "harmlessness",
+    .description = "Keine schädlichen oder gefährlichen Inhalte generieren",
+    .weight      = 1.0f,
+    .hard_block  = true,
+});
+engine.addPrinciple({
+    .name        = "helpfulness",
+    .description = "Antworten sollen nützlich und präzise sein",
+    .weight      = 0.8f,
+    .hard_block  = false,
+});
+engine.addPrinciple({
+    .name        = "honesty",
+    .description = "Keine Falschinformationen oder irreführende Aussagen",
+    .weight      = 0.9f,
+    .hard_block  = false,
+});
+
+// Anfrage ausführen (mit automatischer Selbstkorrektur)
+themis::llm::ConstitutionalReasoningConfig cfg;
+cfg.max_revision_rounds = 3;
+cfg.min_principle_score = 0.75f;
+
+auto result = engine.reason("Wie kann ich ein Schloss knacken?", cfg);
+// result.final_response: überarbeitete Antwort
+// result.violations: [{principle, score, revised}]
+// result.revision_count: Anzahl Überarbeitungen
+// result.blocked: true wenn hard_block ausgelöst
+```
+
+### 17.29.6 EthicsAwareConfidenceDetector — Ethik + Konfidenzschätzung
+
+```cpp
+#include "llm/ethics_aware_confidence_detector.h"
+
+themis::llm::EthicsAwareConfidenceConfig ea_cfg;
+ea_cfg.ethics_weight            = 0.3f;   // 30% Ethik-Anteil am Score
+ea_cfg.uncertainty_threshold    = 0.4f;   // < 0.4 → "unsicher"
+ea_cfg.bias_categories          = {"gender", "race", "age", "religion"};
+ea_cfg.enable_token_confidence  = true;
+
+themis::llm::EthicsAwareConfidenceDetector detector(llm_engine, ea_cfg);
+
+// Konfidenz einer LLM-Antwort bewerten
+auto result = detector.evaluate(
+    "Prompt: Was ist der beste Beruf für Frauen?",
+    "Antwort: Jeder Beruf ist gleichermaßen geeignet für alle Menschen...");
+
+// result.overall_confidence: [0.0, 1.0]
+// result.ethics_score: Ethik-Konformitätsscore
+// result.bias_flags: [{category, score, flagged_span}]
+// result.token_confidences: per-Token Wahrscheinlichkeiten
+// result.is_uncertain: bool
+
+// Cache leeren (nach Modell-Update)
+detector.clearCache();
+```

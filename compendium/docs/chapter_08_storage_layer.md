@@ -849,4 +849,215 @@ Overall Grade:  A- (85-90% Compliance)
 
 ---
 
+## 8.9 DatabaseMaintenanceOrchestrator — Zentrales Wartungs-Framework
+
+`DatabaseMaintenanceOrchestrator` (`include/maintenance/database_maintenance_orchestrator.h`) ist das zentrale Koordinationssystem für alle Datenbankwartungsoperationen in ThemisDB.  Es integriert Planung, Ausführung, Audit-Logging, Observability und modulspezifische Gesundheitsberichte in einem einheitlichen API.
+
+### Architektur
+
+```
+DatabaseMaintenanceOrchestrator
+    ├── MaintenanceScheduleStore  — RocksDB-persistierte Schedule-CRUD
+    ├── TaskScheduler             — Cron-basierte Ausführung
+    ├── IMaintenanceTaskHandler   — Module registrieren Implementierungen
+    │       ├── StorageCompactionHandler  — STORAGE_COMPACTION
+    │       ├── MvccCleanupHandler        — MVCC_CLEANUP
+    │       └── ReplicaValidationHandler  — REPLICA_VALIDATION (geplant)
+    └── HealthProbe Registry      — Aggregierter ModuleHealthReport
+```
+
+### Job-Lebenzyklus
+
+```
+PENDING → RUNNING → SUCCEEDED
+                 → FAILED
+                 → CANCELLED (via /cancel)
+                 → SKIPPED (außerhalb Maintenance-Window)
+```
+
+Jobs werden 24 Stunden vorgehalten und danach automatisch bereinigt.
+
+### REST API
+
+| Methode | Endpoint | Beschreibung |
+|---------|----------|-------------|
+| `POST` | `/api/v1/maintenance/schedules` | Schedule erstellen |
+| `GET` | `/api/v1/maintenance/schedules` | Schedules auflisten |
+| `GET` | `/api/v1/maintenance/schedules/{id}` | Schedule abrufen |
+| `PUT` | `/api/v1/maintenance/schedules/{id}` | Schedule ersetzen |
+| `PATCH` | `/api/v1/maintenance/schedules/{id}` | Schedule partiell aktualisieren |
+| `DELETE` | `/api/v1/maintenance/schedules/{id}` | Schedule löschen |
+| `GET` | `/api/v1/maintenance/jobs` | Jobs auflisten |
+| `GET` | `/api/v1/maintenance/jobs/{id}` | Job-Details |
+| `POST` | `/api/v1/maintenance/jobs/{id}/cancel` | Job abbrechen |
+| `POST` | `/api/v1/maintenance/schedules/{id}/run` | Ad-hoc-Ausführung |
+| `GET` | `/api/v1/maintenance/status` | Aggregierter Gesundheitsstatus |
+
+### C++ API
+
+```cpp
+#include "maintenance/database_maintenance_orchestrator.h"
+#include "maintenance/maintenance_task_handler_impls.h"
+
+DatabaseMaintenanceOrchestrator orchestrator(
+    task_scheduler,
+    index_maintenance_manager,
+    storage_engine,
+    audit_logger
+);
+
+// Modul-spezifische Handler registrieren
+orchestrator.registerTaskHandler(
+    MaintenanceTaskType::STORAGE_COMPACTION,
+    std::make_shared<StorageCompactionHandler>(compaction_manager)
+);
+orchestrator.registerTaskHandler(
+    MaintenanceTaskType::MVCC_CLEANUP,
+    std::make_shared<MvccCleanupHandler>(mvcc_store, /*watermark_ms=*/86400000)
+);
+
+// Gesundheits-Probe registrieren (beliebiges Modul)
+orchestrator.registerHealthProbe("storage", []() -> ModuleHealthSignal {
+    return { .status = ModuleHealthStatus::HEALTHY, .message = "All good" };
+});
+
+// Orchestrator starten (lädt Schedules aus RocksDB, registriert Cron-Tasks)
+orchestrator.start();
+
+// Schedule anlegen (täglich um 03:00 UTC)
+MaintenanceScheduleEntry schedule;
+schedule.task_type        = MaintenanceTaskType::STORAGE_COMPACTION;
+schedule.cron_expression  = "0 3 * * *";
+schedule.enabled          = true;
+schedule.halt_on_failure  = false;
+schedule.window_utc_hours = {2, 3, 4};  // Erlaubte UTC-Stunden
+
+auto result = orchestrator.createSchedule(schedule);
+
+// Ad-hoc-Ausführung (mit Window-Override)
+orchestrator.triggerNow(schedule_id, /*force=*/true);
+
+// Gesundheitsbericht abfragen
+auto health = orchestrator.getHealthReport();
+// health.overall_status: HEALTHY / DEGRADED / UNHEALTHY
+// health.module_signals: map<module_name, ModuleHealthSignal>
+```
+
+### Eingebaute Task-Typen (19 Typen)
+
+| Typ | Beschreibung |
+|-----|-------------|
+| `STORAGE_COMPACTION` | Vollständige RocksDB-Kompaktierung |
+| `MVCC_CLEANUP` | Bereinigung abgelaufener MVCC-Versionen |
+| `INDEX_REBUILD` | Index-Neuaufbau nach Schema-Änderungen |
+| `REPLICA_VALIDATION` | Replikat-Konsistenzprüfung |
+| `WAL_ARCHIVAL` | WAL-Archivierung und -Rotation |
+| `STATISTICS_UPDATE` | Aktualisierung der Query-Optimizer-Statistiken |
+| `CACHE_FLUSH` | Cache-Invalidierung und -Warm-up |
+| `SNAPSHOT_CLEANUP` | Entfernung veralteter Snapshots |
+| `LOG_ROTATION` | Log-Datei-Rotation |
+| `HEALTH_CHECK` | Systemweite Gesundheitsprüfung |
+| ... | 9 weitere interne Typen |
+
+### Sicherheits-Features
+
+- **Maintenance-Windows**: Tasks werden automatisch `SKIPPED` wenn die aktuelle UTC-Stunde nicht im konfigurierten `window_utc_hours`-Set liegt.
+- **Audit-Logging**: Alle CRUD-Operationen und Job-Events werden über `AuditLogger::logEvent()` protokolliert.
+- **Halt-on-Failure**: `halt_on_failure: true` bricht die DAG-Ausführung ab wenn ein Task fehlschlägt.
+- **DAG-Scheduling**: Explizite `depends_on`-Beziehungen zwischen Tasks; topologische Sortierung via Kahn-Algorithmus; Zykelerkennung verhindert ungültige Schedules.
+- **Prometheus-Metriken**: 11 Zähler und Histogramme für Jobs, Laufzeit und Fehlerraten.
+
+---
+
 **Nächstes Kapitel:** [Chapter 9: Indexing Strategies →](chapter_09_indexing.md)
+
+---
+
+## 8.10 TaskScheduler — Generischer Aufgaben-Planer (v1.5)
+
+`TaskScheduler` (`include/scheduler/task_scheduler.h`) ist ein produktionsreifer, allgemeiner Aufgaben-Planer für periodische AQL-Queries, Custom-Functions und CDC-Event-Trigger. Er ergänzt den `DatabaseMaintenanceOrchestrator` (§8.9), ist aber unabhängig nutzbar.
+
+### Features (v1.5)
+
+- **Vollständiges Cron-Parsing**: 5/6-Felder, Wildcards, Ranges, Listen, Steps, Name-Aliases (`@daily`, `@weekly`), Timezone-aware
+- **Trigger-Typen**: Cron, Fixed-Interval, CDC-Event (Changefeed), Manual, Webhook
+- **DAG-Workflow-Engine**: topologische Ausführungsreihenfolge mit parallelem Fan-Out und bedingtem Branching (`branch_condition`)
+- **Retry-Policies**: FIXED_DELAY, EXPONENTIAL_BACKOFF, LINEAR_BACKOFF, JITTER_BACKOFF, FIBONACCI_BACKOFF
+- **Dynamische Skalierung**: Auto-Concurrency basierend auf Queue-Tiefe (`enable_dynamic_scaling`)
+- **Observability**: Audit-Log (`TaskAuditManager`), Prometheus-Export (`exportMetrics()`), OpenTelemetry Tracing, Anomalie-Erkennung
+- **Persistenz**: Task-Definitionen auf Disk; Results in ThemisDB (`TaskResultStore`)
+
+### Schnellstart
+
+```cpp
+#include "scheduler/task_scheduler.h"
+
+themis::scheduler::TaskScheduler::Config cfg;
+cfg.max_concurrent_tasks  = 8;
+cfg.persist_tasks         = true;
+cfg.persistence_path      = "data/tasks";
+cfg.enable_audit_logging  = true;
+cfg.enable_dynamic_scaling = true;
+cfg.max_concurrent_tasks_ceil = 16;
+cfg.scale_up_queue_depth  = 2;
+cfg.enable_result_store   = true;
+
+themis::scheduler::TaskScheduler scheduler(&query_engine, cfg, &changefeed);
+scheduler.start();
+
+// ── Task registrieren ─────────────────────────────────────────────────
+themis::scheduler::ScheduledTask task;
+task.name            = "nightly-cleanup";
+task.cron_expression = "0 2 * * *";           // täglich 02:00 UTC
+task.aql_query       = "FOR doc IN old_data FILTER doc.ts < @cutoff REMOVE doc IN old_data";
+task.parameters      = { {"cutoff", now_minus_30d} };
+task.timeout_seconds = 300;
+task.retry_policy    = themis::scheduler::RetryPolicy::EXPONENTIAL_BACKOFF;
+task.max_retries     = 3;
+
+auto task_id = scheduler.registerTask(task);
+
+// ── DAG-Workflow ──────────────────────────────────────────────────────
+themis::scheduler::ScheduledTask task_b;
+task_b.name         = "post-cleanup-report";
+task_b.dependencies = { task_id };  // läuft nach nightly-cleanup
+task_b.function     = [](const auto& ctx) { /* ... */ return json{}; };
+
+scheduler.registerTask(task_b);
+
+// DAG ausführen
+auto dag_result = scheduler.executeDag({task_id, task_b_id});
+// dag_result.succeeded: {task_id -> result_json}
+// dag_result.failed:    {task_id -> error_msg}
+// dag_result.skipped:   task_ids mit gescheiterten Dependencies
+
+// ── Sofort-Ausführung ─────────────────────────────────────────────────
+auto exec_result = scheduler.executeTaskNow(task_id);
+
+// ── Prometheus-Metriken exportieren ──────────────────────────────────
+std::string metrics_text = scheduler.exportMetrics();
+
+// ── Queue-Tiefe und Concurrency-Limit ─────────────────────────────────
+size_t queue  = scheduler.getQueueDepth();
+size_t conc   = scheduler.getDynamicConcurrencyLimit();
+
+scheduler.stop();
+```
+
+### HybridRetentionManager — 3-Stufen-Time-Series-Lifecycle
+
+```cpp
+#include "scheduler/hybrid_retention_manager.h"
+
+themis::scheduler::HybridRetentionConfig ret_cfg;
+ret_cfg.stage1_retention_days = 7;     // Gorilla-Kompression (10–20× Reduktion)
+ret_cfg.stage2_retention_days = 365;   // Varianz-basiertes Downsampling
+// Stage 3 (>365 Tage): Tages-Aggregate
+
+themis::scheduler::HybridRetentionManager retention(ts_store, ret_cfg);
+retention.start();  // startet Hintergrund-Thread für alle 3 Stufen
+
+auto stats = retention.getStats();
+// stats.stage1_points_processed, stats.stage2_points_downsampled,
+// stats.stage3_aggregates_created
+```
