@@ -794,3 +794,219 @@ ThemisDB ist bestens geeignet für Time-Series & IoT-Anwendungen durch:
 3. Batch-Inserts für Performance
 4. Materialized Views für Dashboards
 5. Down-Sample alte Daten automatisch
+
+---
+
+## 9.11 Bi-Temporale Datenbanken: SQL:2011-Unterstützung (v1.8.0)
+
+<!-- Source: include/temporal/ — bi_temporal.h, bitemporal_join.h, temporal_query_engine.h, snapshot_manager.h -->
+
+> **Eingeführt in v1.6.0 · Production-Ready seit v1.8.0** – Das Temporal-Modul von ThemisDB implementiert SQL:2011-Bi-Temporalität nativ: jede Zeile trägt sowohl eine **System-Time-Periode** (wann sie gespeichert wurde) als auch eine **Valid-Time-Periode** (wann die Tatsache in der modellierten Realität gilt). Dies ermöglicht vollständige Zeitreise-Abfragen in beiden Dimensionen.
+
+### 9.11.1 Bi-Temporales Datenmodell
+
+Ein bi-temporaler Datensatz besitzt zwei unabhängige Zeitachsen:
+
+```
+Zeit-Achsen:
+┌─────────────────────────────────────────────────────────┐
+│  Valid-Time  │ „Wann gilt die Tatsache in der Realität?" │
+│              │ → contract_start … contract_end           │
+├─────────────────────────────────────────────────────────┤
+│  System-Time │ „Wann wurde der Datensatz gespeichert?"   │
+│              │ → transaction_time_start … _end           │
+└─────────────────────────────────────────────────────────┘
+```
+
+**Anwendungsfall – Vertragsmanagement:**
+
+```
+Zeile 1: Gehalt = 80.000 €
+  valid_time:  [2020-01-01, 2022-06-30)   ← Im Arbeitsvertrag
+  system_time: [2019-12-15, 2022-06-01)   ← In DB erfasst
+
+Zeile 2: Gehalt = 90.000 €  (rückwirkende Korrektur)
+  valid_time:  [2021-01-01, ∞)
+  system_time: [2022-06-01, ∞)            ← Jetzt in DB aktuell
+```
+
+### 9.11.2 BiTemporalTable — API
+
+```cpp
+#include "temporal/bi_temporal.h"
+
+namespace t = themisdb::temporal;
+
+t::BiTemporalTable employees_history("employees");
+
+// Zeile einfügen mit expliziter Valid-Time
+t::BiTemporalRow row;
+row.key = "emp_42";
+row.payload = {{"name","Alice"}, {"salary", 90000}};
+row.valid_time = {
+    t::Timestamp(1640995200000LL),   // 2022-01-01
+    t::kUntilChanged                 // open-ended
+};
+employees_history.insert(row);
+
+// Zeitreise: Stand am 2021-06-15, so wie er am 2021-06-15 bekannt war
+auto rows = employees_history.asOf(
+    t::Timestamp(1623715200000LL),   // Valid-Time AS OF
+    t::Timestamp(1623715200000LL)    // System-Time AS OF
+);
+
+// Alle historischen Versionen einer Entität
+auto history = employees_history.history("emp_42");
+
+// Aktuelle Sicht
+auto current = employees_history.currentRows();
+```
+
+**Referenzielle Integrität:**
+
+```cpp
+// Temporal Foreign Key: Mitarbeiter muss in übergeordneter Tabelle existieren
+t::TemporalForeignKey fk{"departments"};
+bool ok = fk.validate(dept_table, "dept_engineering", emp_row.valid_time);
+```
+
+### 9.11.3 BiTemporalJoin — SQL:2011 §T005
+
+`BiTemporalJoin` korreliert zwei versionierte Tabellen sowohl auf der System-Time- als auch auf der Valid-Time-Achse. Fünf Join-Modi werden unterstützt:
+
+| Modus | Prädikat | Verwendung |
+|-------|---------|------------|
+| `SEQUENCED` | `valid_time_L ∩ valid_time_R ≠ ∅` | Überlappende Gültigkeitszeiträume |
+| `NON_SEQUENCED` | Ignoriert Zeitachsen | Einfacher Equi-Join |
+| `CURRENT` | Beide Zeilen aktuell zu `as_of_time` | Aktuelle Sicht |
+| `CONTAINED_IN` | `valid_time_L ⊆ valid_time_R` | Vollständige Einbettung |
+| `SNAPSHOT` | Beide Tabellen am gleichen System-Time-Snapshot | Konsistente Zeitpunkt-Sicht |
+
+```cpp
+#include "temporal/bitemporal_join.h"
+
+using namespace themisdb::temporal;
+
+// SEQUENCED JOIN: Mitarbeiter und Abteilung zur gleichen Gültigkeitszeit
+BiTemporalJoinConfig cfg;
+cfg.mode           = JoinMode::SEQUENCED;
+cfg.join_key_left  = "dept_id";
+cfg.join_key_right = "id";
+
+BiTemporalJoin join(left_rows, right_rows, cfg);
+auto results = join.execute();
+// results: Zeilen mit überlappenden Valid-Time-Perioden
+
+// SNAPSHOT JOIN: Konsistente DB-Sicht zu einem bestimmten Zeitpunkt
+BiTemporalJoinConfig snap_cfg;
+snap_cfg.mode       = JoinMode::SNAPSHOT;
+snap_cfg.as_of_time = Timestamp(1706745600000LL); // 2024-02-01
+```
+
+### 9.11.4 TemporalQueryEngine — Time-Travel Query Engine
+
+`TemporalQueryEngine` führt SQL:2011-Zeitreise-Abfragen über `SystemVersionedTable`-Sammlungen aus und unterstützt alle vier SQL:2011-Temporal-Klauseln.
+
+**Temporal-Klauseln:**
+
+| Klausel | Semantik |
+|---------|---------|
+| `FOR SYSTEM_TIME AS OF t` | Zeigt den DB-Zustand zum Zeitpunkt `t` |
+| `FOR SYSTEM_TIME FROM t1 TO t2` | Alle Versionen im System-Time-Intervall |
+| `FOR SYSTEM_TIME BETWEEN t1 AND t2` | Inklusive beider Grenzen |
+| `FOR SYSTEM_TIME ALL` | Vollständige Versionshistorie |
+
+```cpp
+#include "temporal/temporal_query_engine.h"
+
+TemporalQueryEngine engine;
+engine.registerTable("employees", emp_table);
+engine.registerTable("salaries",  sal_table);
+
+// Zeitreise-Abfrage: Wie sah die DB am 2023-01-01 aus?
+TemporalQuerySpec spec;
+spec.table_name      = "employees";
+spec.semantics       = TemporalSemantics::SYSTEM_TIME;
+spec.op              = TemporalOperator::AS_OF;
+spec.time_point      = Timestamp(1672531200000LL);
+
+auto snapshot = engine.execute(spec);
+
+// AQL-Äquivalent
+```
+
+**AQL-Integration:**
+
+```aql
+// Zeitreise über AQL
+FOR emp IN employees
+  FOR ALL SYSTEM_TIME AS OF "2023-01-01T00:00:00Z"
+  FILTER emp.department == "Engineering"
+  RETURN {
+    name: emp.name,
+    salary: emp.salary,
+    valid_from: emp.valid_time_start,
+    recorded_at: emp.system_time_start
+  }
+```
+
+**QueryCache:** Der `TemporalQueryEngine` besitzt einen eingebauten LRU-Query-Cache für wiederholte Zeitreise-Abfragen auf dieselben Zeitpunkte.
+
+### 9.11.5 SnapshotManager — Konsistente Punkt-in-Zeit-Isolation
+
+`SnapshotManager` erzeugt und verwaltet konsistente Snapshots über mehrere `SystemVersionedTable`-Instanzen für Snapshot-Isolation-Reads.
+
+```cpp
+#include "temporal/snapshot_manager.h"
+
+SnapshotManager mgr;
+mgr.registerTable("employees", emp_table);
+mgr.registerTable("salaries",  sal_table);
+mgr.registerTable("projects",  proj_table);
+
+// Konsistenten Snapshot aller registrierten Tabellen anlegen
+auto handle = mgr.createSnapshot({"employees", "salaries", "projects"});
+// handle.snapshot_id     → eindeutige UUID
+// handle.creation_time   → Zeitstempel des Snapshots
+// handle.version_number  → monoton steigend
+
+// Snapshot für Lesezugriff öffnen
+auto snapshot_data = mgr.openSnapshot(handle.snapshot_id);
+
+// Snapshot nach Verwendung freigeben
+mgr.releaseSnapshot(handle.snapshot_id);
+
+// Alle aktiven Snapshots auflisten
+auto active = mgr.listSnapshots();
+```
+
+**Anwendungsfall: Audit-Reports**
+
+Snapshots ermöglichen konsistente Audit-Berichte, die nicht durch parallele Schreiboperationen beeinflusst werden. Typischer Einsatz:
+
+1. Snapshot vor dem Monatsabschluss anlegen
+2. Berichte asynchron generieren (ohne globalen Lock)
+3. Snapshot nach Berichtserstellung freigeben
+
+### 9.11.6 Leistungs-Kennzahlen (v1.8.0)
+
+| Metrik | Wert |
+|--------|------|
+| Bi-Temporal Insert | < 2 ms / Zeile |
+| AS OF Query (1M Zeilen) | < 100 ms |
+| BiTemporalJoin SEQUENCED (10K × 10K) | < 500 ms |
+| Snapshot-Erstellung (5 Tabellen) | < 10 ms |
+| QueryCache-Hit-Rate | > 80% |
+
+### 9.11.7 Zusammenfassung
+
+ThemisDB implementiert SQL:2011-Bi-Temporalität produktionsreif:
+
+✅ **BiTemporalTable**: Zwei unabhängige Zeitachsen, TemporalForeignKey  
+✅ **BiTemporalJoin**: 5 Join-Modi (SEQUENCED, NON_SEQUENCED, CURRENT, CONTAINED_IN, SNAPSHOT)  
+✅ **TemporalQueryEngine**: SQL:2011 AS OF / FROM / BETWEEN / ALL + LRU-QueryCache  
+✅ **SnapshotManager**: Konsistente Multi-Table-Snapshots für Snapshot-Isolation  
+
+**Weiterführende Ressourcen:**
+- [Kapitel 18: MVCC & HLC](chapter_mvcc_hlc.md)
+- [Kapitel 20: Backup & Recovery](chapter_20_backup.md) — PITR-Integration

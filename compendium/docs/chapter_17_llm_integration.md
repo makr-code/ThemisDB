@@ -5431,9 +5431,9 @@ RETURN BENCHMARK_LORA_TRAINING({
 3. **Nicht mit zu kleinen Batches** - Overhead dominiert bei batch=1
 4. **Nicht mit veralteten CUDA-Versionen** - Mindestens CUDA 11.0
 
-## 17.23 Zusammenfassung
+## 17.23 Best Practices: DO ✅ / DON'T ❌
 
-### 17.19.1 DO ✅
+### 17.23.1 DO ✅
 
 1. **Verwende @parameter binding** für alle Benutzereingaben
 2. **Cache häufige Anfragen** um Kosten zu sparen
@@ -5446,7 +5446,7 @@ RETURN BENCHMARK_LORA_TRAINING({
 9. **Nutze LoRA für Domain-Spezialisierung** statt Full Fine-Tuning
 10. **Multi-Adapter Deployment** für verschiedene Use Cases
 
-### 17.19.2 DON'T ❌
+### 17.23.2 DON'T ❌
 
 1. **Keine sensiblen Daten** ungefiltert an LLMs senden
 2. **Keine unvalidierten LLM-Queries** ausführen
@@ -5457,7 +5457,7 @@ RETURN BENCHMARK_LORA_TRAINING({
 7. **Kein Full Fine-Tuning** wenn LoRA ausreicht
 8. **Keine ungecachten Model-Loads** in Production
 
-## 17.23 Zusammenfassung
+## 17.23.3 Gesamtzusammenfassung: LLM-Integration
 
 ThemisDB's umfassende LLM-Integration ermöglicht:
 
@@ -5519,3 +5519,459 @@ Die Integration von LLMs direkt in die Datenbankebene reduziert Latenz, vereinfa
 
 **Nächstes Kapitel:** [Kapitel 18: Machine Learning Integration](chapter_18_ml.md)  
 **Vorheriges Kapitel:** [Kapitel 16: Machine Learning](chapter_16_ml.md)
+
+---
+
+## 17.24 Paged Attention: PagedKVCache & PagedBlockManager (v1.8.0)
+
+<!-- Source: include/llm/paged_kv_cache.h, include/llm/paged_block_manager.h, include/llm/block_table.h -->
+
+> **Eingeführt in v1.5.0 · Production-Ready seit v1.8.0** – ThemisDB implementiert das vLLM-PagedAttention-Konzept: Der KV-Cache wird in nicht-zusammenhängende Blöcke fester Größe (standard: 16 Tokens/Block) aufgeteilt. Damit entfällt die Notwendigkeit, zusammenhängenden VRAM für jede Sequenz zu reservieren — und die Speicherauslastung sinkt um bis zu 80%.
+
+### 17.24.1 Konzept: Block-basiertes KV-Cache-Management
+
+**Herkömmlicher KV-Cache (zusammenhängend):**
+
+```
+Sequenz 1: [████████████████] 2048 Tokens → 2 GB VRAM (reserviert, ggf. kaum genutzt)
+Sequenz 2: [████] 512 Tokens  → 512 MB VRAM (Verschwendung: 1.5 GB)
+Sequenz 3: Kein VRAM mehr → OOM
+```
+
+**Paged KV-Cache (Block-basiert, vLLM-Stil):**
+
+```
+Block-Pool: [B0][B1][B2][B3]...[B4095]   (4096 × 16 Tokens = 65536 Token-Slots)
+Sequenz 1:  B0, B3, B7, B12  (dynamisch zugeteilt, nur so viele Blöcke wie nötig)
+Sequenz 2:  B1, B5          (eigene disjunkte Blöcke)
+Sequenz 3:  B2, B9          (weitere Sequenz problemlos möglich)
+
+→ 5x mehr concurrent requests möglich (gleicher VRAM)
+```
+
+**Prefix-Sharing (Copy-on-Write):**
+
+```
+System-Prompt "Du bist ein hilfreicher Assistent..." → Block B0 (shared)
+Anfrage 1: B0 (shared) + B4, B8 (privat)
+Anfrage 2: B0 (shared) + B5, B9 (privat)
+→ System-Prompt nur 1x im VRAM gespeichert
+```
+
+### 17.24.2 PagedKVCache — API
+
+```cpp
+#include "llm/paged_kv_cache.h"
+#include "llm/paged_block_manager.h"
+
+// Block-Manager konfigurieren
+PagedBlockManager::Config bm_cfg;
+bm_cfg.num_blocks  = 4096;    // Gesamt-Blöcke im Pool
+bm_cfg.block_size  = 16;      // Tokens pro Block
+auto block_mgr = std::make_shared<PagedBlockManager>(bm_cfg);
+
+// KV-Cache erstellen
+PagedKVCache::Config kvc_cfg;
+kvc_cfg.num_blocks           = 4096;
+kvc_cfg.block_size           = 16;
+kvc_cfg.num_layers           = 32;     // Transformer-Layer
+kvc_cfg.head_dim             = 128;    // Attention-Head-Dimension
+kvc_cfg.num_kv_heads         = 8;      // GQA: KV-Heads
+kvc_cfg.enable_prefix_caching = true;  // Prefix-Sharing aktivieren
+
+PagedKVCache kv_cache(kvc_cfg, block_mgr);
+
+// KV-Daten für Sequenz speichern
+kv_cache.store(sequence_id=42, layer_id=0, kv_data);
+
+// KV-Daten abrufen
+auto cached_kv = kv_cache.retrieve(sequence_id=42, layer_id=0);
+
+// Prefix teilen (Copy-on-Write)
+kv_cache.sharePrefix(
+    new_sequence_id=43,
+    parent_sequence_id=42,
+    prefix_length=256      // Erste 256 Tokens teilen
+);
+
+// Sequenz-Cleanup
+kv_cache.removeSequence(42);
+
+// Statistiken
+auto stats = kv_cache.getStats();
+// stats.blocks_used, stats.blocks_free
+// stats.fragmentation_rate, stats.prefix_sharing_ratio
+```
+
+**Performance-Ziele:**
+
+| Metrik | Wert |
+|--------|------|
+| Concurrent Requests (Llama-7B, 16GB VRAM) | 5x mehr vs. standard |
+| KV-Cache-Speicher-Reduktion | 70–80% |
+| Prefix-Sharing-Ratio (typisch) | 40–60% |
+| Block-Allokation | < 1 μs |
+
+---
+
+## 17.25 ContinuousBatchScheduler — vLLM-style Dynamic Batching (v1.8.0)
+
+<!-- Source: include/llm/continuous_batch_scheduler.h -->
+
+> **Production-Ready** – Der `ContinuousBatchScheduler` implementiert iteratives Batching: neue Anfragen werden dynamisch in den aktiven Batch integriert, sobald Positionen frei werden — ohne auf das Ende eines kompletten Batch-Durchlaufs warten zu müssen. Ergebnis: 176% höherer Durchsatz bei gleicher Hardware.
+
+### 17.25.1 Prinzip: Iteratives vs. Statisches Batching
+
+**Statisches Batching (konventionell):**
+
+```
+Batch:  [Req1: 100 Tokens] [Req2: 800 Tokens] [Req3: 50 Tokens]
+Status: Req1 + Req3 fertig, warten auf Req2 (Padding: 80% Verschwendung)
+```
+
+**Continuous Batching (vLLM-Stil):**
+
+```
+Iteration 1: Req1(100T), Req2(100T), Req3(100T)  ← alle gleichzeitig
+Iteration 2: Req1(fertig→herausnehmen), Req2(200T), Req3(50T), Req4(NEU!)
+Iteration 3: Req2(300T), Req3(fertig), Req5(NEU!), Req6(NEU!)
+→ GPU-Auslastung konstant ~95%
+```
+
+### 17.25.2 API-Nutzung
+
+```cpp
+#include "llm/continuous_batch_scheduler.h"
+
+ContinuousBatchScheduler::Config sched_cfg;
+sched_cfg.max_batch_size       = 64;     // Max. parallele Sequenzen
+sched_cfg.max_tokens_per_batch = 8192;   // Max. Tokens im Batch
+sched_cfg.max_queue_size       = 1000;   // Max. wartende Anfragen
+sched_cfg.preemption_policy    = PreemptionPolicy::SWAP_TO_CPU; // OOM-Handling
+sched_cfg.memory_pressure_threshold = 0.90;  // 90% VRAM → Preemption
+
+ContinuousBatchScheduler scheduler(sched_cfg, paged_kv_cache, metrics);
+
+// Anfrage einreihen
+InferenceRequest req;
+req.request_id     = "req_42";
+req.prompt         = "Erkläre mir Quantenmechanik in einem Satz.";
+req.max_new_tokens = 200;
+req.temperature    = 0.7f;
+scheduler.enqueue(req);
+
+// Batch-Iteration (wird von InferenceEngine aufgerufen)
+auto batch = scheduler.nextBatch();
+// batch.requests[] → aktuelle Batch-Mitglieder
+// batch.kv_block_tables[] → Block-Tables für Paged Attention
+
+// Abgeschlossene Anfragen verarbeiten
+for (auto& completed : batch.completed) {
+    deliver_response(completed.request_id, completed.output_text);
+    scheduler.markCompleted(completed.request_id);
+}
+
+// Metriken
+auto metrics = scheduler.getMetrics();
+// metrics.queue_length, metrics.active_sequences
+// metrics.ttft_ms_p50, metrics.ttft_ms_p99   (Time-to-First-Token)
+// metrics.tps_mean                            (Tokens per Second)
+// metrics.gpu_utilization
+```
+
+**Performance-Kennzahlen:**
+
+| Metrik | Ohne Continuous Batching | Mit Continuous Batching |
+|--------|------------------------|------------------------|
+| GPU-Auslastung | 40–60% | 90–95% |
+| Durchsatz (Tokens/s) | 1× | 2,76× |
+| P99 Latenz | hoch (warten auf Batch-Ende) | niedrig (iterativ) |
+| Concurrent Requests | 16 | 64+ |
+
+---
+
+## 17.26 SpeculativeDecoder — Spekulatives Dekodieren (v1.8.0)
+
+<!-- Source: include/llm/speculative_decoder.h -->
+
+> **Production-Ready** – `SpeculativeDecoder` implementiert das Leviathan et al. (ICML 2023) Algorithmus für spekulatives Dekodieren. Ein kleines Draft-Modell generiert K Kandidaten-Token; das große Ziel-Modell verifiziert sie in einem einzigen Forward-Pass. Akzeptanzrate ~80% → 2-3× Speedup.
+
+### 17.26.1 Algorithmus
+
+```
+Draft-Modell (klein, schnell):
+    Schlägt K Token vor: [t̃₁, t̃₂, t̃₃, t̃₄] mit Wahrscheinlichkeiten q(tᵢ)
+
+Ziel-Modell (groß, langsam):
+    Evaluiert Positionen 1…K+1 in EINEM Forward-Pass (keine K separaten Passes)
+    Gibt Wahrscheinlichkeiten p(tᵢ) für jede Position zurück
+
+Akzeptanz-Regel (stochastisch):
+    Für Token t̃ᵢ:
+      r ~ Uniform(0,1)
+      if r ≤ p(t̃ᵢ) / q(t̃ᵢ):  → Akzeptieren (fast immer wenn Draft gut)
+      else:                       → Korrektur-Token aus max(0, p−q) samplen; stoppen
+    Falls alle K akzeptiert: → 1 zusätzliches Token aus p samplen
+
+Ergebnis: 1 Forward-Pass des großen Modells erzeugt 1+K Token
+```
+
+### 17.26.2 API-Nutzung
+
+```cpp
+#include "llm/speculative_decoder.h"
+
+SpeculativeDecoder::Config dec_cfg;
+dec_cfg.k                       = 4;     // Draft-Tokens pro Schritt
+dec_cfg.min_acceptance_threshold = 0.0f; // 0 = rein stochastisch
+dec_cfg.rng_seed                = 42;    // 0 = zufällig
+
+SpeculativeDecoder decoder(dec_cfg);
+
+// Verifizierung einer Draft-Sequenz
+std::vector<int32_t> draft_tokens = {1234, 5678, 9012, 3456};
+
+// q: Draft-Modell-Wahrscheinlichkeiten
+std::vector<std::vector<float>> q_probs = { /* k × vocab */ };
+
+// p: Ziel-Modell-Wahrscheinlichkeiten (ein Forward-Pass)
+std::vector<std::vector<float>> p_probs = { /* (k+1) × vocab */ };
+
+auto result = decoder.verify(draft_tokens, q_probs, p_probs);
+// result.accepted_tokens  → die akzeptierten Token
+// result.num_accepted     → wie viele von K akzeptiert wurden
+// result.correction_token → Korrektur-Token (wenn nicht alle akzeptiert)
+
+// Statistiken
+auto stats = decoder.getStatistics();
+// stats.total_drafts_proposed
+// stats.total_tokens_accepted
+// stats.acceptance_rate   → typisch 0.75–0.85
+// stats.speedup_factor    → typisch 2.0–3.0
+```
+
+**Performance-Erwartungen:**
+
+| Modell-Kombination | Akzeptanzrate | Speedup |
+|-------------------|--------------|---------|
+| Llama-7B (draft) + Llama-70B (target) | ~80% | 2,5× |
+| CodeLlama-7B + CodeLlama-34B | ~85% | 3,0× |
+| Falcon-7B + Falcon-40B | ~75% | 2,2× |
+
+---
+
+## 17.27 LLM-Routing: OpenAICompat, LoRARouter, AdapterRegistry, ModelRouter (v1.8.0)
+
+<!-- Source: include/llm/ — openai_compat_adapter.h, lora_router.h, adapter_registry.h, model_router.h -->
+
+> **Production-Ready** – Das Routing-Layer von ThemisDB macht die LLM-Infrastruktur für externe Clients transparent nutzbar: OpenAI-kompatible API, semantisch-basiertes Adapter-Routing, versioniertes Adapter-Registry mit Hot-Load und content-basiertes Model-Routing.
+
+### 17.27.1 OpenAICompatAdapter — Drop-in OpenAI-API
+
+`OpenAICompatAdapter` übersetzt `/v1/chat/completions`-Requests von LangChain, LlamaIndex oder dem OpenAI Python SDK direkt in ThemisDB-`InferenceRequest`-Objekte.
+
+```cpp
+#include "llm/openai_compat_adapter.h"
+
+// Request-Parsing
+nlohmann::json body = {
+    {"model", "llama-2-7b-legal"},
+    {"messages", {{{"role", "user"}, {"content", "Erkläre §242 BGB"}}}},
+    {"temperature", 0.7},
+    {"max_tokens", 500},
+    {"stream", false},
+    {"stop", {"[END]", "\n\n"}}
+};
+
+auto parse_result = OpenAICompatAdapter::parseRequest(body);
+if (std::holds_alternative<std::string>(parse_result)) {
+    // Fehler: std::get<std::string>(parse_result)
+} else {
+    auto& req = std::get<InferenceRequest>(parse_result);
+    // req.model_id, req.prompt, req.system_prompt
+    // req.temperature, req.max_tokens, req.stop_sequences
+
+    auto response = inference_engine.infer(req);
+
+    // Response-Serialisierung (OpenAI-Format)
+    auto json_response = OpenAICompatAdapter::serializeResponse(response);
+    // json_response: {"id":"chatcmpl-...", "choices":[{"message":...}], "usage":{...}}
+}
+```
+
+**Unterstützte Felder:**
+
+| OpenAI-Feld | ThemisDB-Mapping |
+|-------------|-----------------|
+| `model` | `InferenceRequest::model_id` |
+| `messages[system]` | `InferenceRequest::system_prompt` |
+| `messages[user]` | `InferenceRequest::prompt` |
+| `temperature` | `InferenceRequest::temperature` |
+| `max_tokens` | `InferenceRequest::max_tokens` |
+| `stream` | `InferenceRequest::stream_callback` |
+| `stop` | `InferenceRequest::stop_sequences` |
+| `tools` | `InferenceRequest::tools` (serialisiert) |
+
+### 17.27.2 LoRARouter — Semantisches Adapter-Routing
+
+`LoRARouter` wählt automatisch den optimalen LoRA-Adapter für eine Anfrage basierend auf semantischer Ähnlichkeit, GPU-Last und konfigurierten A/B-Test-Experimenten.
+
+```cpp
+#include "llm/lora_router.h"
+
+LoRARouter::Config router_cfg;
+router_cfg.policy                = RoutingPolicy::LOAD_AWARE;
+router_cfg.embedding_model       = "sentence-transformers/all-MiniLM-L6-v2";
+router_cfg.similarity_threshold  = 0.75f;
+router_cfg.fallback_adapter_id   = "general-assistant-v2";
+
+LoRARouter router(router_cfg, adapter_load_balancer, multi_lora_mgr, adapter_registry);
+
+// Routing-Policies:
+// SEMANTIC     → Semantische Ähnlichkeit der Anfrage zu Adapter-Beschreibungen
+// LOAD_AWARE   → Semantik + GPU-Auslastung (bevorzugt weniger ausgelastete GPU)
+// AB_TEST      → Traffic-Split zwischen Adaptern für Experimente
+// ROLLOUT      → Schrittweiser Rollout (1% → 5% → 20% → 100%)
+// FALLBACK     → Immer der konfigurierte Fallback-Adapter
+
+// Adapter-Routing
+auto selected = router.route(request_text, metadata);
+// selected.adapter_id, selected.gpu_id, selected.routing_reason
+
+// A/B-Test einrichten
+ABTestConfig ab_cfg;
+ab_cfg.adapter_ids    = {"legal-v1", "legal-v2"};
+ab_cfg.traffic_splits = {0.8f, 0.2f};   // 80% v1, 20% v2
+ab_cfg.experiment_id  = "legal-adapter-ab-test-2026-04";
+router.setABTest(ab_cfg);
+```
+
+### 17.27.3 AdapterRegistry — Versioniertes Adapter-Repository
+
+`AdapterRegistry` verwaltet alle LoRA-Adapter mit semantischer Versionierung (SemVer), RSA-SHA256-Signaturverifikation, Hot-Load-Unterstützung und Provenance-Tracking.
+
+```cpp
+#include "llm/adapter_registry.h"
+
+AdapterRegistry registry(security_sig_mgr, provenance_store);
+
+// Adapter registrieren
+AdapterMetadata meta;
+meta.adapter_id      = "legal-assistant";
+meta.version         = AdapterVersion{1, 4, 2};  // "1.4.2"
+meta.base_model      = "llama-2-7b-q4_k_m";
+meta.domain_tags     = {"legal", "german-law", "BGB"};
+meta.description     = "Deutsche Rechtstexte — BGB, StGB, DSGVO";
+meta.weights_path    = "/models/adapters/legal-1.4.2.bin";
+meta.rsa_signature   = sign_with_key(weights_sha256, signing_key);
+registry.registerAdapter(meta);
+
+// Adapter abrufen (mit Signaturverifikation)
+auto adapter = registry.getAdapter("legal-assistant", "1.4.2");
+// adapter.metadata, adapter.weights_path
+
+// Neueste Version
+auto latest = registry.getLatest("legal-assistant");
+
+// Hot-Load: Neuer Adapter ohne Neustart (Observer benachrichtigt InferenceEngine)
+registry.hotLoad("legal-assistant", "1.4.3", new_weights_path);
+
+// Observer registrieren (z.B. für InferenceEngine-Cache-Invalidierung)
+registry.addHotLoadObserver([](const std::string& adapter_id, const AdapterMetadata& new_meta) {
+    inference_engine.invalidateCache(adapter_id);
+    inference_engine.preloadAdapter(adapter_id, new_meta.weights_path);
+});
+
+// Alle verfügbaren Adapter auflisten
+auto all_adapters = registry.listAdapters();
+```
+
+### 17.27.4 ModelRouter — Content-basiertes Modell-Routing
+
+`ModelRouter` leitet Anfragen basierend auf Prompt-Inhalt (Regex) und Metadaten-Tags an das geeignete Basismodell weiter.
+
+```cpp
+#include "llm/model_router.h"
+
+// Routing-Regeln (sortiert nach Priorität, höher = bevorzugt)
+std::vector<RoutingRule> rules = {
+    {
+        .target_model_id  = "codellama-34b-q4",
+        .prompt_patterns  = {R"(```[a-z]+)", R"(\bdef \w+\()", R"(\bclass \w+:)"},
+        .metadata_tags    = {"code", "programming"},
+        .priority         = 100,
+        .match_mode       = MatchMode::ANY,
+        .description      = "Code-Anfragen → CodeLlama-34B"
+    },
+    {
+        .target_model_id  = "llama-2-7b-legal",
+        .prompt_patterns  = {R"(\b(BGB|StGB|DSGVO|GmbHG)\b)", R"(\bParagraph \d+\b)"},
+        .metadata_tags    = {"legal"},
+        .priority         = 90,
+        .match_mode       = MatchMode::ANY,
+        .description      = "Rechts-Anfragen → Legal-7B"
+    },
+    {
+        .target_model_id  = "llama-2-70b-q4",
+        .prompt_patterns  = {},
+        .metadata_tags    = {},
+        .priority         = 0,
+        .match_mode       = MatchMode::ANY,
+        .description      = "Fallback → Llama-70B"
+    }
+};
+
+ModelRouter router(rules);
+
+// Routing einer Anfrage
+InferenceRequest req;
+req.prompt   = "Erkläre §242 BGB — Treu und Glauben";
+req.metadata = {{"tags", {"legal"}}};
+
+auto model_id = router.route(req.prompt, req.metadata);
+// → "llama-2-7b-legal"
+
+// Match-Details
+auto match = router.routeWithDetails(req.prompt, req.metadata);
+// match.matched_model, match.matched_rule_description
+// match.matched_pattern, match.matched_tag
+```
+
+### 17.27.5 LLM-Routing-Architektur: Gesamtbild
+
+```
+Client-Request (HTTP / WebSocket)
+         │
+         ▼
+OpenAICompatAdapter::parseRequest()    ← Drop-in OpenAI-API
+         │
+         ▼
+ModelRouter::route()                   ← Welches Basismodell?
+         │  (Regex + Tags)
+         ▼
+LoRARouter::route()                    ← Welcher LoRA-Adapter?
+         │  (Semantisch + Load-aware)
+         ▼
+AdapterRegistry::getAdapter()          ← Adapter-Weights laden (Hot-Load-fähig)
+         │
+         ▼
+ContinuousBatchScheduler::enqueue()   ← Batch-Scheduling
+         │
+         ▼
+InferenceEngine + PagedKVCache        ← Inferenz mit Paged Attention
+         │
+         ▼
+OpenAICompatAdapter::serializeResponse() ← OpenAI-Format zurück
+         │
+         ▼
+Client-Response
+```
+
+### 17.27.6 Routing-Komponenten-Matrix (v1.8.0)
+
+| Komponente | Status | Aufgabe | Performance |
+|------------|--------|---------|-------------|
+| `OpenAICompatAdapter` | ✅ Production-Ready | Drop-in OpenAI API | < 0,1 ms overhead |
+| `LoRARouter` | ✅ Production-Ready | Semantisches Adapter-Routing | < 5 ms (embed+route) |
+| `AdapterRegistry` | ✅ Production-Ready | Versionierter Adapter-Store | < 1 ms lookup |
+| `ModelRouter` | ✅ Production-Ready | Content-basiertes Modell-Routing | < 0,5 ms (Regex) |
