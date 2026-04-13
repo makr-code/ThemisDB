@@ -9,6 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Documentation
 
+- **Root documentation overhaul — 2026-04-13**
+  - `README.md` rewritten: project description, feature table, quick start, edition matrix, architecture overview, full link index
+  - `QUICKSTART.md` added: Docker, Dev Container, and build-from-source quick start guide with first-query examples
+  - `VERSIONING.md` added: dedicated versioning policy (SemVer, release types, cadence, EOL table, deprecation policy, breaking-change rules)
+  - `SOP.md` added: Standard Operating Procedures for stable release, hotfix, RC promotion, rollback, security response, dependency update, contributor onboarding, and incident response
+  <!-- changelog-updater: root-docs-overhaul-2026-04-13 -->
+
 - **Module-Docs Sync 📚 — 2026-04-13**
   - 56 Module indexiert; 754 Primary-Markdown-Dateien in `src/` und `include/`
   - 6 Module ohne Sekundärdokumentation erkannt; Issues erzeugt
