@@ -421,7 +421,7 @@ nlohmann::json LoraSimilarFunction::execute(
         
         return results;
         
-    } catch (const std::exception& e) {
+    } catch (const std::exception&) {
         json error = json::array();
         return error;
     }
@@ -468,6 +468,7 @@ nlohmann::json LoraPathFunction::execute(
         std::string start_model = args[0].get<std::string>();
         std::string end_model = args[1].get<std::string>();
         int max_depth = args.size() > 2 ? args[2].get<int>() : 5;
+        (void)max_depth;
         
         // Build adaptation path
         // This is a placeholder - would integrate with actual graph traversal
@@ -499,7 +500,7 @@ nlohmann::json LoraPathFunction::execute(
         
         return path;
         
-    } catch (const std::exception& e) {
+    } catch (const std::exception&) {
         json error = json::array();
         return error;
     }
@@ -766,7 +767,7 @@ nlohmann::json LoraLineageFunction::execute(
         
         return lineage;
         
-    } catch (const std::exception& e) {
+    } catch (const std::exception&) {
         json error = json::array();
         return error;
     }

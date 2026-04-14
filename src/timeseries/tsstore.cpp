@@ -243,7 +243,7 @@ Result<void> TSStore::putDataPoint(const DataPoint& point) {
         s = db_->Put(write_opts, key, value);
     }
     
-    auto latency = std::chrono::duration<double, std::milli>(
+    [[maybe_unused]] auto latency = std::chrono::duration<double, std::milli>(
         std::chrono::steady_clock::now() - start_time).count();
     
     if (!s.ok()) {
@@ -400,7 +400,7 @@ Result<void> TSStore::putDataPoints(const std::vector<DataPoint>& points) {
         rocksdb::WriteOptions write_opts;
         rocksdb::Status s = db_->Write(write_opts, &batch);
         
-        auto latency = std::chrono::duration<double, std::milli>(
+        [[maybe_unused]] auto latency = std::chrono::duration<double, std::milli>(
             std::chrono::steady_clock::now() - start_time).count();
         
         if (!s.ok()) {
@@ -458,7 +458,7 @@ Result<void> TSStore::putDataPoints(const std::vector<DataPoint>& points) {
     rocksdb::WriteOptions write_opts;
     rocksdb::Status s = db_->Write(write_opts, &batch);
     
-    auto latency = std::chrono::duration<double, std::milli>(
+    [[maybe_unused]] auto latency = std::chrono::duration<double, std::milli>(
         std::chrono::steady_clock::now() - start_time).count();
     
     if (!s.ok()) {
@@ -883,9 +883,9 @@ TSStore::query(const QueryOptions& options) const {
                                              fmt::format("Scan failed: {}", it->status().ToString()));
     }
     
-    auto latency = std::chrono::duration<double, std::milli>(
+    [[maybe_unused]] auto latency = std::chrono::duration<double, std::milli>(
         std::chrono::steady_clock::now() - start_time).count();
-    int64_t time_range = options.to_timestamp_ms - options.from_timestamp_ms;
+    [[maybe_unused]] int64_t time_range = options.to_timestamp_ms - options.from_timestamp_ms;
     
     THEMIS_DEBUG("Query returned {} data points for metric={}", results.size(), options.metric);
     return Ok(std::move(results));
