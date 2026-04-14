@@ -353,7 +353,7 @@ public:
     // Phase 6: Graph traversal helpers
     // -------------------------------------------------------------------------
     std::vector<std::string> findRelatedProvisions(const std::string& document_id,
-                                                    size_t max_results) {
+                                                    [[maybe_unused]] size_t max_results) {
         std::vector<std::string> provisions;
 
         if (document_id.empty()) return provisions;
@@ -364,27 +364,26 @@ public:
         //   FOR provision IN 1..@depth OUTBOUND doc references
         //   LIMIT @max_results RETURN provision._key
         //   (max_results bound as @max_results in production AQL query)
-        (void)max_results; // bound as @max_results in production AQL query
+        // bound as @max_results in production AQL query
 
         // Check custom query override
         auto it = custom_queries_.find("find_provisions");
-        (void)it; // used when database is connected
+        // used when database is connected
 
         // Return empty in test environment (no database)
         return provisions;
     }
 
     std::vector<std::string> findRelatedCaseLaw(const std::string& document_id,
-                                                 size_t max_results) {
+                                                 [[maybe_unused]] size_t max_results) {
         std::vector<std::string> case_law;
 
         if (document_id.empty()) return case_law;
 
         // Phase 6: AQL traversal for case law (graph_aql::RELATED_CASE_LAW)
         // (max_results bound as @max_results in production AQL query)
-        (void)max_results; // bound as @max_results in production AQL query
+        // bound as @max_results in production AQL query
         auto it = custom_queries_.find("find_case_law");
-        (void)it;
 
         return case_law;
     }
@@ -397,9 +396,8 @@ public:
 
         // Phase 6: AQL traversal for internal guidance (graph_aql::RELATED_GUIDANCE)
         // (max_results bound as @max_results in production AQL query)
-        (void)max_results; // bound as @max_results in production AQL query
+        // bound as @max_results in production AQL query
         auto it = custom_queries_.find("find_guidance");
-        (void)it;
 
         return guidance;
     }
@@ -415,7 +413,6 @@ public:
         // Check custom query override (AQL path – used when a query executor
         // is connected rather than a VectorIndexManager)
         auto it = custom_queries_.find("find_similar");
-        (void)it;
 
         // In production builds, a VectorIndexManager must be injected via
         // setVectorIndex() before requesting similarity search.  Returning an
@@ -532,10 +529,9 @@ private:
     }
 
     // Phase 6: Resolve the source document ID for a given sample
-    std::string resolveSourceDocumentId(const std::string& sample_id) const {
+    std::string resolveSourceDocumentId([[maybe_unused]] const std::string& sample_id) const {
         // In production: FOR s IN @@collection FILTER s._key == @id RETURN s.source_doc_id
         // In test environment: return empty (no document to enrich)
-        (void)sample_id;
         return "";
     }
 
@@ -546,7 +542,6 @@ private:
         // Phase 6: AQL update (graph_aql::UPDATE_SAMPLE_CONTEXT)
         // Compute a quality score based on how much context was found
         double quality = computeContextQuality(context);
-        (void)quality;
         // In production: execute UPDATE_SAMPLE_CONTEXT binding @context, @quality_score
     }
 

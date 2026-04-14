@@ -88,7 +88,6 @@ bool NagleController::setMode(Mode mode) noexcept {
         if (setSockOptInt(fd_, IPPROTO_TCP, TCP_NOPUSH, &on) != 0) return false;
 #else
         // Platform has neither TCP_CORK nor TCP_NOPUSH; cork is a no-op.
-        (void)on;
         return false;
 #endif
         mode_ = Mode::CORK;
@@ -126,7 +125,6 @@ bool NagleController::uncork() noexcept {
 #else
     // Platform has neither TCP_CORK nor TCP_NOPUSH; cork/uncork is a no-op.
     // Return false to signal that the operation had no effect.
-    (void)off;
     return false;
 #endif
     mode_ = Mode::DEFAULT;

@@ -1069,11 +1069,9 @@ void ColumnSegment::buildZoneMap() {
 
 CompressionCodec ColumnSegment::selectOptimalCodec(
     ColumnType type,
-    const void* data,
-    size_t row_count
+    [[maybe_unused]] const void* data,
+    [[maybe_unused]] size_t row_count
 ) {
-    (void)data;
-    (void)row_count;
     // Simple heuristic-based codec selection
     switch (type) {
         case ColumnType::INT32:

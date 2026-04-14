@@ -397,12 +397,10 @@ std::vector<float> VecKnnInsertPipeline::computeDistances(
 // insertBatch – the main parallel insertion entry point
 // ---------------------------------------------------------------------------
 VecKnnInsertResult VecKnnInsertPipeline::insertBatch(
-    VectorIndexManager&            index,
+    [[maybe_unused]] VectorIndexManager&            index,
     const std::vector<BaseEntity>& entities,
-    std::string_view               vectorField)
+    [[maybe_unused]] std::string_view               vectorField)
 {
-    (void)index;
-    (void)vectorField;
 
     VecKnnInsertResult result;
     if (entities.empty()) return result;

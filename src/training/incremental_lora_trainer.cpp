@@ -332,7 +332,6 @@ public:
             if (!validation_samples.empty()) {
                 double total_loss = 0.0;
                 for (const auto& s : validation_samples) {
-                    (void)s;
                     total_loss += 0.45;
                 }
                 result.validation_loss = total_loss / validation_samples.size();

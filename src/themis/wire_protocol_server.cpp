@@ -300,7 +300,6 @@ void WireProtocolSession::async_read_payload(const WireFrameHeader& header) {
         // Dispatch with empty payload inline (captures `this`).
         const OpCode opcode = header.get_opcode();
 #if !defined(THEMIS_WIRE_V1_PROTO_AVAILABLE) || !THEMIS_WIRE_V1_PB_HEADER_FOUND
-        (void)opcode;
         send_error(0xFF, "Protobuf not compiled in this build");
 #else
         switch (opcode) {
@@ -537,8 +536,6 @@ void WireProtocolSession::async_read_payload(const WireFrameHeader& header) {
                     break;
             }
 #else
-            (void)opcode;
-            (void)isz;
             send_error(0xFF, "Protobuf not compiled in this build");
 #endif
             async_read_header();
@@ -594,8 +591,6 @@ void WireProtocolSession::async_write_response(
             ++messages_sent_;
         });
 #else
-    (void)opcode;
-    (void)message;
     send_error(0xFF, "Protobuf not compiled in this build");
 #endif
 }
@@ -682,15 +677,13 @@ bool WireProtocolSession::verify_checksum(
 }
 
 std::vector<uint8_t> WireProtocolSession::decompress_lz4(
-    const std::vector<uint8_t>& compressed) {
+    [[maybe_unused]] const std::vector<uint8_t>& compressed) {
     // LZ4 decompression deferred until dependency is unconditionally available.
-    (void)compressed;
     return {};
 }
 
 std::vector<uint8_t> WireProtocolSession::compress_lz4(
-    const std::vector<uint8_t>& data) {
-    (void)data;
+    [[maybe_unused]] const std::vector<uint8_t>& data) {
     return {};
 }
 

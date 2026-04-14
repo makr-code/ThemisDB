@@ -117,14 +117,10 @@ std::string PIIRedactionPolicy::applyRedaction(const std::string& text) const {
 namespace themis::utils {
 
 void AuditLogger::logSecurityEvent(
-    SecurityEventType event_type,
-    const std::string& user_id,
-    const std::string& resource,
-    const nlohmann::json& details) {
-    (void)event_type;
-    (void)user_id;
-    (void)resource;
-    (void)details;
+    [[maybe_unused]] SecurityEventType event_type,
+    [[maybe_unused]] const std::string& user_id,
+    [[maybe_unused]] const std::string& resource,
+    [[maybe_unused]] const nlohmann::json& details) {
 }
 
 } // namespace themis::utils

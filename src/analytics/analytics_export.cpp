@@ -513,9 +513,9 @@ public:
 
     std::string exportToString(
         const ArrowRecordBatch& batch,
-        const ExportOptions& options) override {
+        [[maybe_unused]] const ExportOptions& options) override {
 
-        (void)options;  // format is implicitly FMT_ARROW_IPC for this exporter
+        // format is implicitly FMT_ARROW_IPC for this exporter
         try {
             auto arrow_batch_result = convertToArrowRecordBatch(batch);
             if (!arrow_batch_result.ok()) {
@@ -870,9 +870,9 @@ public:
 
     std::string exportToString(
         const ArrowRecordBatch& batch,
-        const ExportOptions& options) override {
+        [[maybe_unused]] const ExportOptions& options) override {
 
-        (void)options;  // format is implicitly FMT_ARROW_FEATHER for this exporter
+        // format is implicitly FMT_ARROW_FEATHER for this exporter
         try {
             auto arrow_batch_result = convertToArrowRecordBatch(batch);
             if (!arrow_batch_result.ok()) {

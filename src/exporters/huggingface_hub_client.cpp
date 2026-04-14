@@ -233,7 +233,6 @@ std::pair<int, std::string> HuggingFaceHubClient::httpPost(
     const std::string& bearer_token) const
 {
 #ifndef CURL_ENABLED
-    (void)url; (void)json_body; (void)bearer_token;
     return {0, "CURL_ENABLED is not defined; Hub upload requires libcurl"};
 #else
     CURL* curl = curl_easy_init();
@@ -276,8 +275,6 @@ int HuggingFaceHubClient::httpPutBytes(
     std::string* retry_after_out) const
 {
 #ifndef CURL_ENABLED
-    (void)url; (void)data; (void)size; (void)bearer_token; (void)progress_cb;
-    (void)retry_after_out;
     return 0;
 #else
     CURL* curl = curl_easy_init();
@@ -337,8 +334,6 @@ int HuggingFaceHubClient::httpPutFile(
     std::string* retry_after_out) const
 {
 #ifndef CURL_ENABLED
-    (void)url; (void)file_path; (void)bearer_token; (void)progress_cb;
-    (void)retry_after_out;
     return 0;
 #else
     std::ifstream f(file_path, std::ios::binary | std::ios::ate);

@@ -55,7 +55,6 @@ struct HTTPMetricsClient::Impl {
             http_client->set_compress(true);
         }
         
-        (void)config;
     }
 };
 

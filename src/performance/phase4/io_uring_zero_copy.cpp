@@ -357,7 +357,6 @@ bool IoUringZeroCopyIO::register_fd(int fd) noexcept {
     return true;
 #endif
 #endif
-    (void)fd;
     return false;
 }
 

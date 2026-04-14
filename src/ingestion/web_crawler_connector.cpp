@@ -609,7 +609,6 @@ private:
         if (res != CURLE_OK) return {0, {}};
         return {static_cast<int>(http_code), std::move(response_body)};
 #else
-        (void)url;
         return {0, {}};
 #endif
     }

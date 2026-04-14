@@ -294,8 +294,8 @@ bool SignedRequestVerifier::verifyTimestamp(uint64_t timestamp_ms) const {
     return time_diff <= config_.max_time_skew_ms;
 }
 
-bool SignedRequestVerifier::verifyNonce(uint64_t nonce, uint64_t timestamp_ms) {
-    (void)timestamp_ms; // Future: implement timestamp-based nonce expiry
+bool SignedRequestVerifier::verifyNonce(uint64_t nonce, [[maybe_unused]] uint64_t timestamp_ms) {
+    // Future: implement timestamp-based nonce expiry
     std::lock_guard<std::mutex> lock(nonce_mutex_);
     
     // Check if nonce was seen before

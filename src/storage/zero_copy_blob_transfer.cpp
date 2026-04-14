@@ -162,7 +162,7 @@ MmapBlobView::MmapBlobView(const std::string& file_path, bool sequential_hint) {
         ::madvise(ptr, size_, MADV_SEQUENTIAL);
     }
 #else
-    (void)sequential_hint;  // hint unused on non-POSIX platforms
+    // hint unused on non-POSIX platforms
     // Non-POSIX: fall back to reading the file into a heap buffer.
     // The "zero-copy" goal is not met, but correctness is preserved.
     try {
@@ -554,10 +554,6 @@ Result<ZeroCopyTransferStats> ZeroCopyBlobTransfer::s3MultipartUpload(
     return Ok(std::move(stats));
 
 #else // !THEMIS_ZERO_COPY_S3_AVAILABLE
-    (void)bucket;
-    (void)s3_key;
-    (void)source_path;
-    (void)blob_id;
     return Err<ZeroCopyTransferStats>(
         errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
         "s3MultipartUpload: AWS SDK not available; "

@@ -122,7 +122,6 @@ http::response<http::string_body> ExportApiHandler::handleExportJsonlLlm(
             // AqlPredicateFilter construction parses the expression; any syntax error throws.
             try {
                 exporters::AqlPredicateFilter syntax_check(filter_expr);
-                (void)syntax_check;
             } catch (const exporters::AqlPredicateFilterException& e) {
                 return errorResponse(http::status::bad_request,
                     std::string("Invalid AQL filter expression: ") + e.what());

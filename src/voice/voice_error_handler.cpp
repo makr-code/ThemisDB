@@ -188,24 +188,22 @@ json VoiceRetryHandler::getStats() const {
 // ---- VoiceFallbackStrategy ----
 
 VoiceFallbackStrategy::FallbackResult VoiceFallbackStrategy::sttFallback(
-    const std::string& error_context)
+    [[maybe_unused]] const std::string& error_context)
 {
     FallbackResult res;
     res.used_fallback  = true;
     res.fallback_type  = "stt_empty_transcript";
     res.result         = "";
-    (void)error_context;
     return res;
 }
 
 VoiceFallbackStrategy::FallbackResult VoiceFallbackStrategy::ttsFallback(
-    const std::string& error_context)
+    [[maybe_unused]] const std::string& error_context)
 {
     FallbackResult res;
     res.used_fallback  = true;
     res.fallback_type  = "tts_silent_audio";
     res.result         = "";
-    (void)error_context;
     return res;
 }
 

@@ -930,7 +930,6 @@ void VulkanVectorBackend::setWorkgroupSizeL2(uint32_t wgX, uint32_t wgY) noexcep
         impl_->wgL2Y = wgY;
     }
 #else
-    (void)wgX; (void)wgY;
 #endif
 }
 
@@ -945,7 +944,6 @@ void VulkanVectorBackend::setWorkgroupSizeBatchSearch(uint32_t wgX) noexcept {
         impl_->wgBatchSearchX = wgX;
     }
 #else
-    (void)wgX;
 #endif
 }
 
@@ -1736,7 +1734,6 @@ static void* openLib(const char* name) {
 #elif defined(_WIN32)
     return static_cast<void*>(LoadLibraryA(name));
 #else
-    (void)name;
     return nullptr;
 #endif
 }
@@ -1757,7 +1754,6 @@ static void* libSym(void* lib, const char* sym) {
 #elif defined(_WIN32)
     return reinterpret_cast<void*>(GetProcAddress(static_cast<HMODULE>(lib), sym));
 #else
-    (void)sym;
     return nullptr;
 #endif
 }

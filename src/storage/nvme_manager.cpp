@@ -280,7 +280,6 @@ NVMeCapabilities NVMeManager::detectCapabilities() const {
         }
 #else
         // Non-Linux: all capabilities unavailable
-        (void)config_;
 #endif  // __linux__
 
         THEMIS_INFO("NVMeManager: capabilities: io_uring={} zns={} direct_io={} hw_queues={} "
@@ -433,7 +432,6 @@ int NVMeManager::pollCompletions(std::vector<NVMeIOResult>& results,
     }
 #  endif
 #endif
-    (void)min_complete;
     return 0;  // No async I/O active; completions are synchronous
 }
 
@@ -466,7 +464,6 @@ bool NVMeManager::resetZone(uint64_t zone_offset) {
     }
     return true;
 #else
-    (void)zone_offset;
     return false;
 #endif
 }
@@ -495,7 +492,6 @@ bool NVMeManager::finishZone(uint64_t zone_offset) {
     }
     return true;
 #else
-    (void)zone_offset;
     return false;
 #endif
 }
@@ -528,7 +524,6 @@ uint64_t NVMeManager::getZoneWritePointer(uint64_t zone_offset) const {
     }
     return report->zones[0].wp * SECTOR_SIZE;
 #else
-    (void)zone_offset;
     return UINT64_MAX;
 #endif
 }

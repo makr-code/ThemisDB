@@ -193,7 +193,6 @@ void SagaOperation::putEntityWithCompensation(
     const std::vector<uint8_t>& value,
     Saga& saga
 ) {
-    (void)value;
     // Check if key exists (for idempotency)
     auto existing = db.get(key);
     
@@ -240,10 +239,9 @@ void SagaOperation::indexPutWithCompensation(
     SecondaryIndexManager& idx,
     const std::string& table,
     const BaseEntity& entity,
-    RocksDBWrapper::WriteBatchWrapper& batch,
+    [[maybe_unused]] RocksDBWrapper::WriteBatchWrapper& batch,
     Saga& saga
 ) {
-    (void)batch;
     const std::string& pk = entity.getPrimaryKey();
     
     // Compensating action: remove from secondary index
@@ -260,10 +258,9 @@ void SagaOperation::indexPutWithCompensation(
 void SagaOperation::graphAddWithCompensation(
     GraphIndexManager& graph,
     const BaseEntity& edge,
-    RocksDBWrapper::WriteBatchWrapper& batch,
+    [[maybe_unused]] RocksDBWrapper::WriteBatchWrapper& batch,
     Saga& saga
 ) {
-    (void)batch;
     std::string edge_id = edge.getPrimaryKey();
     
     // Compensating action: delete graph edge
@@ -280,11 +277,10 @@ void SagaOperation::graphAddWithCompensation(
 void SagaOperation::vectorAddWithCompensation(
     VectorIndexManager& vec,
     const BaseEntity& entity,
-    RocksDBWrapper::WriteBatchWrapper& batch,
-    const std::string& vectorField,
+    [[maybe_unused]] RocksDBWrapper::WriteBatchWrapper& batch,
+    [[maybe_unused]] const std::string& vectorField,
     Saga& saga
 ) {
-    (void)batch; (void)vectorField;
     const std::string& pk = entity.getPrimaryKey();
     
     // Compensating action: remove from vector cache and HNSW

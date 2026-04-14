@@ -206,7 +206,6 @@ std::vector<TSStore::DataPoint> LinearInterpolationGapFiller::fill(
                           static_cast<double>(t1 - t0);
             interp_val = v0 + frac * (v1 - v0);
         }
-        (void)gap;
 
         result.push_back(makeSynthetic(*prev_it, target_ts, interp_val));
     }

@@ -84,8 +84,7 @@ public:
     }
     
     // Error metrics
-    void recordError(const std::string& error_code) {
-        (void)error_code;
+    void recordError([[maybe_unused]] const std::string& error_code) {
         if (errors_total_) errors_total_->increment();
         // Could add per-error-code counters here
     }

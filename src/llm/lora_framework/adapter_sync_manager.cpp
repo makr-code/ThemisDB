@@ -226,7 +226,6 @@ public:
         recordSyncMetrics(success, duration, bytes);
         updateMetricsGauges();
     #else
-        (void)duration;
     #endif
         
         return success;

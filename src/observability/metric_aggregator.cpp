@@ -266,7 +266,6 @@ std::vector<AggregationRule> MetricAggregator::getRules() const {
     std::vector<AggregationRule> out;
     out.reserve(rules_.size());
     for (const auto& [name, rule] : rules_) {
-        (void)name;
         out.push_back(rule);
     }
     return out;

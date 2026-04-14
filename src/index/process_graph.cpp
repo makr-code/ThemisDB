@@ -2014,7 +2014,7 @@ ProcessGraphManager::aggregateByField(
     const std::string pid(process_id);
     const std::string gf(group_field);
     const std::string af(agg_field);
-    const std::string fn(agg_function);
+    [[maybe_unused]] const std::string fn(agg_function);
 
     struct GroupAcc {
         size_t count = 0;
@@ -2068,7 +2068,7 @@ ProcessGraphManager::aggregateByField(
         ar.avg       = acc.count > 0 ? acc.sum / static_cast<double>(acc.count) : 0.0;
         ar.min       = acc.count > 0 && !af.empty() ? acc.min : 0.0;
         ar.max       = acc.count > 0 && !af.empty() ? acc.max : 0.0;
-        (void)fn; // agg_function selects which field to surface; all are computed
+        // agg_function selects which field to surface; all are computed
         result.push_back(std::move(ar));
     }
 
@@ -2218,7 +2218,7 @@ ProcessGraphManager::findSimilarTasks(
         const auto emb = parseEmbeddingJson(*embStr);
         if (emb.empty()) return true;
 
-        const float sim = computeCosineSimilarity(queryEmb, emb);
+        [[maybe_unused]] const float sim = computeCosineSimilarity(queryEmb, emb);
 
         ProcessToken token;
         token.token_id            = tid;
@@ -2235,7 +2235,6 @@ ProcessGraphManager::findSimilarTasks(
     if (candidates.size() > k) candidates.resize(k);
     result.reserve(candidates.size());
     for (auto& [sim, tok] : candidates) {
-        (void)sim;
         result.push_back(std::move(tok));
     }
 
@@ -3000,11 +2999,10 @@ ProcessGraphManager::Status ProcessGraphManager::createToken_(
 }
 
 ProcessGraphManager::Status ProcessGraphManager::moveToken_(
-    ProcessInstance& instance,
+    [[maybe_unused]] ProcessInstance& instance,
     ProcessToken& token,
     std::string_view target_node
 ) {
-    (void)instance;
     token.current_node = std::string(target_node);
     token.visited_nodes.push_back(std::string(target_node));
     token.visit_timestamps[std::string(target_node)] = std::chrono::system_clock::now();
@@ -3012,12 +3010,10 @@ ProcessGraphManager::Status ProcessGraphManager::moveToken_(
 }
 
 std::vector<std::string> ProcessGraphManager::evaluateGateway_(
-    const ProcessNodeInfo& gateway,
-    const ProcessToken& token,
+    [[maybe_unused]] const ProcessNodeInfo& gateway,
+    [[maybe_unused]] const ProcessToken& token,
     const std::vector<ProcessEdgeInfo>& outgoing_edges
 ) const {
-    (void)gateway;
-    (void)token;
     
     std::vector<std::string> targets;
     for (const auto& edge : outgoing_edges) {

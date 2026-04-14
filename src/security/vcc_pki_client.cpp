@@ -484,7 +484,7 @@ bool VCCPKIClient::validateCertChain(const X509Certificate& cert) const {
         const char* error_string = X509_verify_cert_error_string(error);
         // Note: In production, log this error for debugging
         // For now, we just fail silently to maintain minimal changes
-        (void)error_string; // Suppress unused variable warning
+        // Suppress unused variable warning
     }
     
     // Clean up

@@ -74,15 +74,13 @@ void AdvancedCacheManager::BloomFilter::clear() noexcept {
 // ---------------------------------------------------------------------------
 
 std::string AdvancedCacheManager::compress(const std::string& val,
-                                            CompressionAlgorithm algo) {
+                                            [[maybe_unused]] CompressionAlgorithm algo) {
     // In production: call lz4_compress / snappy::Compress / ZSTD_compress
-    (void)algo;
     return val;
 }
 
 std::string AdvancedCacheManager::decompress(const std::string& val,
-                                              CompressionAlgorithm algo) {
-    (void)algo;
+                                              [[maybe_unused]] CompressionAlgorithm algo) {
     return val;
 }
 

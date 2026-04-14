@@ -381,8 +381,6 @@ ArchiveExtractionResult ArchiveProcessor::extractZip(const std::string& blob, co
     result.success = false;
 
 #ifndef THEMIS_HAVE_LIBZIP
-    (void)blob;
-    (void)password;
     result.error_message = "ZIP extraction unavailable: libzip not found at build time";
     return result;
 #else

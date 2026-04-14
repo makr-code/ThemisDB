@@ -453,9 +453,8 @@ std::string WebRtcCallSession::processOffer(const std::string& sdp_offer) {
     return impl_->negotiated_sdp;
 }
 
-void WebRtcCallSession::addIceCandidate(const std::string& candidate_json) {
+void WebRtcCallSession::addIceCandidate([[maybe_unused]] const std::string& candidate_json) {
     // In production: forward to the WebRTC ICE stack
-    (void)candidate_json;
     THEMIS_INFO("WebRtcCallSession: addIceCandidate call_id={}", impl_->call_id);
 }
 

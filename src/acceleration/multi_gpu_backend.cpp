@@ -391,7 +391,7 @@ public:
 #endif
             case CommBackend::CPU:
             default:
-                (void)deviceIds;  // unused when NCCL/RCCL are not compiled in
+                // unused when NCCL/RCCL are not compiled in
                 activeComm = CommBackend::CPU;
                 success = true;
                 break;

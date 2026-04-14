@@ -237,8 +237,8 @@ PluginCapabilities GRPCPlugin::getCapabilities() const {
     return caps;
 }
 
-bool GRPCPlugin::initialize(const char* config_json) {
-    (void)config_json; // unused
+bool GRPCPlugin::initialize([[maybe_unused]] const char* config_json) {
+    // unused
     // Parse config if needed
     // For now, just mark as initialized
     initialized_ = true;

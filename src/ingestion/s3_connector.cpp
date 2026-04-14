@@ -181,7 +181,6 @@ static std::string extractViaFileSystemIngester(const fs::path& tmp_dir,
         // wired here (we're just using it as a parser), so we read the file
         // ourselves through FileSystemIngester's public path.
         // Simpler: just read the temp file raw for formats we understand.
-        (void)sub_stats;
         // Re-read the temp file content (FileSystemIngester is a pipeline
         // connector; its ingest() drives a write path we don't have here).
         // Instead, open the file and return the raw content as the "extracted

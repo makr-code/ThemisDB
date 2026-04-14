@@ -177,7 +177,7 @@ void ContinuousLearningOrchestrator::triggerLearningIteration() {
             if (sel_result.success) {
                 impl_->last_selection_time = std::chrono::system_clock::now();
             }
-            (void)sel_result; // consumed by retraining in full impl
+            // consumed by retraining in full impl
         }
     }
 
@@ -474,7 +474,7 @@ void ContinuousLearningOrchestrator::runLoRARetraining() {
                 if (sel_result.success) {
                     impl_->last_selection_time = std::chrono::system_clock::now();
                 }
-                (void)sel_result; // selected_samples fed to trainer in full impl
+                // selected_samples fed to trainer in full impl
 
                 // Apply adaptive threshold rules using current monitoring metrics
                 if (impl_->si_module) {

@@ -225,10 +225,9 @@ Result<void> WALStorage::openOrCreate(RecoveryCallback& on_recover) {
     if (on_recover) {
         for (uint64_t sid : segments_) {
             auto path = config_.dir + "/" + segmentName(sid);
-            auto res = replaySegment(path, on_recover);
+            [[maybe_unused]] auto res = replaySegment(path, on_recover);
             if (!res) {
                 // Log but continue – partial entries at end of file are tolerated.
-                (void)res;
             }
         }
     } else {

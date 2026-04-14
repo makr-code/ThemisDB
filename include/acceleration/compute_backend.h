@@ -352,9 +352,8 @@ public:
     // -------------------------------------------------------------------------
     virtual ComputeFuture<SimilarityKernelResult>
     submitSimilarityKernel(const BatchDescriptor& batch,
-                           const KernelConfig&    config,
+                           [[maybe_unused]] const KernelConfig&    config,
                            CancellationToken       token = {}) {
-        (void)config;
         // Default CPU fallback: brute-force L2 / cosine / inner-product search.
         SimilarityKernelResult result;
         result.metric_used    = config.metric;

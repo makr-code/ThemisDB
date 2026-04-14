@@ -205,7 +205,6 @@ std::unique_ptr<WasmHostAPI> loadWasmPlugin(
     // 3. Runtime instantiation (placeholder — link against Wasmtime/WasmEdge)
     //    When THEMIS_WASM_SUPPORT is defined but the runtime library is not yet
     //    linked, this block documents the integration point.
-    (void)runtime;
 
     // TODO(wasm): replace with actual Wasmtime/WasmEdge instantiation.
     //   Wasmtime example:

@@ -353,7 +353,7 @@ public:
         return stats;
     }
 
-    std::vector<TrainingSample> getLowConfidenceSamples(float min_confidence) {
+    std::vector<TrainingSample> getLowConfidenceSamples([[maybe_unused]] float min_confidence) {
         // Phase 1: AQL query to fetch low-confidence samples
         // Production query (aql_templates::FETCH_LOW_CONFIDENCE):
         //   FOR sample IN @@collection
@@ -362,14 +362,14 @@ public:
         //   (min_confidence bound as @min_confidence)
         //
         // Returns empty list when no database is connected (test environment)
-        (void)min_confidence; // bound as @min_confidence in production AQL query
+        // bound as @min_confidence in production AQL query
         std::vector<TrainingSample> samples;
         return samples;
     }
 
     void updateSampleConfidence(const std::string& sample_id,
                                 float new_confidence,
-                                const std::string& reviewed_by) {
+                                [[maybe_unused]] const std::string& reviewed_by) {
         if (sample_id.empty()) {
             return;
         }
@@ -379,7 +379,6 @@ public:
         // Phase 1: AQL update query (aql_templates::UPDATE_SAMPLE_CONFIDENCE)
         // Production: UPDATE @sample_id WITH {confidence, reviewed_by, ...} IN @@collection
         // No-op in test environment (no database connection)
-        (void)reviewed_by;
     }
 
     // Phase 1: Statistics accessors

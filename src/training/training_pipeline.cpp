@@ -47,9 +47,8 @@ struct PipelineMetrics {
     std::chrono::steady_clock::time_point stage_start;
     std::map<std::string, double> stage_durations_sec;
 
-    void beginStage(const std::string& name) {
+    void beginStage([[maybe_unused]] const std::string& name) {
         stage_start = std::chrono::steady_clock::now();
-        (void)name;
     }
 
     void endStage(const std::string& name) {
@@ -107,8 +106,7 @@ public:
             metrics.beginStage("labeling");
             if (callback) callback("labeling", 0, "Starting auto-labeling stage");
 
-            LabelingStats ls = labeler_->labelAll([&](size_t proc, size_t total, const std::string& msg) {
-                (void)total;
+            LabelingStats ls = labeler_->labelAll([&](size_t proc, [[maybe_unused]] size_t total, const std::string& msg) {
                 if (callback) callback("labeling", proc, msg);
             });
 
@@ -149,8 +147,7 @@ public:
             metrics.beginStage("enrichment");
             if (callback) callback("enrichment", 0, "Starting graph enrichment stage");
 
-            EnrichmentStats es = enricher_->enrichAll([&](size_t proc, size_t total, const std::string& msg) {
-                (void)total;
+            EnrichmentStats es = enricher_->enrichAll([&](size_t proc, [[maybe_unused]] size_t total, const std::string& msg) {
                 if (callback) callback("enrichment", proc, msg);
             });
 
@@ -235,8 +232,7 @@ public:
             if (callback) callback("training", 0, "Starting LoRA training stage");
 
             TrainingResult tr = trainer_->train(TrainingMode::INITIAL,
-                [&](size_t epoch, size_t step, double loss, const std::string& msg) {
-                    (void)epoch; (void)loss;
+                [&]([[maybe_unused]] size_t epoch, size_t step, double loss, const std::string& msg) {
                     if (callback) callback("training", step, msg);
                 });
 
@@ -307,7 +303,7 @@ public:
     // -------------------------------------------------------------------------
     // Phase 7: Data-quality checks
     // -------------------------------------------------------------------------
-    DataQualityReport checkDataQuality(float min_confidence) {
+    DataQualityReport checkDataQuality([[maybe_unused]] float min_confidence) {
         DataQualityReport report;
 
         // In production: AQL query to fetch all samples and validate fields
@@ -318,7 +314,7 @@ public:
         //     low_conf = SUM(sample.confidence < @min_confidence ? 1 : 0)
         //   RETURN {missing_input, missing_output, low_conf}
         //   (min_confidence bound as @min_confidence in production AQL query)
-        (void)min_confidence; // bound as @min_confidence in production AQL query
+        // bound as @min_confidence in production AQL query
 
         // In test environment: return a clean report
         report.total_samples    = 0;
@@ -335,7 +331,7 @@ public:
     // -------------------------------------------------------------------------
     // Phase 7: Label-drift detection
     // -------------------------------------------------------------------------
-    DriftReport detectLabelDrift(const std::vector<std::string>& reference_samples) {
+    DriftReport detectLabelDrift([[maybe_unused]] const std::vector<std::string>& reference_samples) {
         DriftReport report;
 
         // In production: compare category distribution of reference samples
@@ -351,7 +347,6 @@ public:
         report.drift_score    = 0.0;
         report.summary = "No label drift detected";
 
-        (void)reference_samples;
         return report;
     }
 
