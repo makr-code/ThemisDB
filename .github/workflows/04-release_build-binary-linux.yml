@@ -104,11 +104,13 @@ jobs:
 
           # Patch: some historic tags carry MSVC-only per-source flags in cmake/CMakeLists.txt.
           # On Linux/GCC these appear as invalid file arguments (/O1, /bigobj, /Bt+).
-          CMAKE_FILE="cmake/CMakeLists.txt"
-          if [ -f "$CMAKE_FILE" ]; then
-            sed -i '/set_source_files_properties(src\/query\/aql_parser.cpp PROPERTIES COMPILE_OPTIONS "\/O1;\/bigobj;\/Bt+")/d' "$CMAKE_FILE"
-            sed -i '/set_source_files_properties(src\/query\/aql_parser_json.cpp PROPERTIES COMPILE_OPTIONS "\/O1;\/bigobj")/d' "$CMAKE_FILE"
-            echo "Patched $CMAKE_FILE: removed MSVC-only per-source compile flags for Linux build"
+          mapfile -t CMAKE_FILES < <(grep -RIl '/O1;/bigobj' . --include='CMakeLists.txt' || true)
+          if [ ${#CMAKE_FILES[@]} -gt 0 ]; then
+            for CMAKE_FILE in "${CMAKE_FILES[@]}"; do
+              sed -i '/aql_parser.cpp PROPERTIES COMPILE_OPTIONS.*\/O1;\/bigobj.*\/Bt+/d' "$CMAKE_FILE"
+              sed -i '/aql_parser_json.cpp PROPERTIES COMPILE_OPTIONS.*\/O1;\/bigobj/d' "$CMAKE_FILE"
+              echo "Patched $CMAKE_FILE: removed MSVC-only per-source compile flags for Linux build"
+            done
           fi
 
       - name: Install system dependencies
