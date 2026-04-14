@@ -49,7 +49,7 @@ TransactionRetryManager::TransactionRetryManager(const TransactionRetryConfig& c
 TransactionRetryManager::~TransactionRetryManager() = default;
 
 RetryStatistics TransactionRetryManager::getStatistics() const {
-    std::lock_guard<std::mutex> lock(stats_mutex_);
+    std::shared_lock<std::shared_mutex> lock(stats_mutex_);
     return stats_;
 }
 
@@ -73,7 +73,7 @@ CircuitState TransactionRetryManager::getCircuitState() const {
 }
 
 void TransactionRetryManager::resetStatistics() {
-    std::lock_guard<std::mutex> lock(stats_mutex_);
+    std::unique_lock<std::shared_mutex> lock(stats_mutex_);
     stats_ = RetryStatistics();
 }
 

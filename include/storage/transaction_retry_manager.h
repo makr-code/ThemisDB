@@ -35,6 +35,7 @@
 #include <string>
 #include <atomic>
 #include <mutex>
+#include <shared_mutex>
 #include <thread>
 #include <unordered_map>
 
@@ -388,7 +389,7 @@ private:
     std::uniform_real_distribution<double> jitter_dist_;
     
     // Stats mutex
-    mutable std::mutex stats_mutex_;
+    mutable std::shared_mutex stats_mutex_;
     
     // Alert callback
     AlertCallback alert_callback_;
