@@ -27,6 +27,7 @@
 #include <chrono>
 #include <functional>
 #include <mutex>
+#include <shared_mutex>
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -216,7 +217,7 @@ private:
 
     Config config_;
 
-    mutable std::mutex tenants_mutex_;
+    mutable std::shared_mutex tenants_mutex_;
     std::unordered_map<std::string, TenantState> tenants_;
 
     std::atomic<uint64_t> total_requests_{0};

@@ -197,7 +197,7 @@ HTTPResponse HTTPMetricsClient::requestWithRetry(
             std::this_thread::sleep_for(std::chrono::milliseconds(backoff_ms));
             
             {
-                std::lock_guard<std::mutex> lock(stats_mutex_);
+                std::unique_lock<std::shared_mutex> lock(stats_mutex_);
                 stats_.retries_attempted++;
             }
             
@@ -225,7 +225,7 @@ HTTPResponse HTTPMetricsClient::requestWithRetry(
             std::this_thread::sleep_for(std::chrono::milliseconds(backoff_ms));
             
             {
-                std::lock_guard<std::mutex> lock(stats_mutex_);
+                std::unique_lock<std::shared_mutex> lock(stats_mutex_);
                 stats_.retries_attempted++;
             }
             
@@ -258,12 +258,12 @@ bool HTTPMetricsClient::isEndpointHealthy() {
 }
 
 HTTPMetricsClient::Statistics HTTPMetricsClient::getStatistics() const {
-    std::lock_guard<std::mutex> lock(stats_mutex_);
+    std::shared_lock<std::shared_mutex> lock(stats_mutex_);
     return stats_;
 }
 
 void HTTPMetricsClient::resetStatistics() {
-    std::lock_guard<std::mutex> lock(stats_mutex_);
+    std::unique_lock<std::shared_mutex> lock(stats_mutex_);
     stats_ = Statistics();
 }
 
@@ -272,7 +272,7 @@ void HTTPMetricsClient::setRequestCallback(RequestCallback callback) {
 }
 
 void HTTPMetricsClient::updateStatistics(const HTTPResponse& response, size_t metrics_count) {
-    std::lock_guard<std::mutex> lock(stats_mutex_);
+    std::unique_lock<std::shared_mutex> lock(stats_mutex_);
     
     stats_.requests_sent++;
     stats_.metrics_sent += metrics_count;
