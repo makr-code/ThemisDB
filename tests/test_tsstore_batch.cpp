@@ -94,7 +94,7 @@ struct TSBatchFixture : ::testing::Test {
 TEST_F(TSBatchFixture, TB01_EmptySpanOk) {
     std::vector<TSStore::TSRow> rows;
     auto res = store->putBatch(rows);
-    ASSERT_TRUE(res.ok());
+    ASSERT_TRUE(res.has_value());
     EXPECT_EQ(res->ok_count,     0u);
     EXPECT_EQ(res->failed_count, 0u);
     EXPECT_TRUE(res->all_ok());
@@ -108,7 +108,7 @@ TEST_F(TSBatchFixture, TB02_SingleRow) {
         makeRow("cpu", "host01", BASE_MS, 42.0)
     };
     auto res = store->putBatch(rows);
-    ASSERT_TRUE(res.ok());
+    ASSERT_TRUE(res.has_value());
     EXPECT_TRUE(res->all_ok());
     EXPECT_EQ(res->ok_count, 1u);
 
@@ -116,7 +116,7 @@ TEST_F(TSBatchFixture, TB02_SingleRow) {
     q.metric = "cpu";
     q.entity = "host01";
     auto qr = store->query(q);
-    ASSERT_TRUE(qr.ok());
+    ASSERT_TRUE(qr.has_value());
     ASSERT_EQ(qr->size(), 1u);
     EXPECT_DOUBLE_EQ((*qr)[0].value, 42.0);
     EXPECT_EQ((*qr)[0].timestamp_ms, BASE_MS);
@@ -135,7 +135,7 @@ TEST_F(TSBatchFixture, TB03_MultiRowSingleSeries) {
                                static_cast<double>(i)));
     }
     auto res = store->putBatch(rows);
-    ASSERT_TRUE(res.ok());
+    ASSERT_TRUE(res.has_value());
     EXPECT_EQ(res->ok_count,     N);
     EXPECT_EQ(res->failed_count, 0u);
 
@@ -144,7 +144,7 @@ TEST_F(TSBatchFixture, TB03_MultiRowSingleSeries) {
     q.entity = "sensor1";
     q.limit  = N + 10;
     auto qr = store->query(q);
-    ASSERT_TRUE(qr.ok());
+    ASSERT_TRUE(qr.has_value());
     EXPECT_EQ(qr->size(), N);
 }
 
@@ -159,7 +159,7 @@ TEST_F(TSBatchFixture, TB04_MultiMetricMultiEntity) {
         makeRow("disk", "host03", BASE_MS + 1000,   40.0),
     };
     auto res = store->putBatch(rows);
-    ASSERT_TRUE(res.ok());
+    ASSERT_TRUE(res.has_value());
     EXPECT_TRUE(res->all_ok());
     EXPECT_EQ(res->ok_count, 4u);
 
@@ -167,7 +167,7 @@ TEST_F(TSBatchFixture, TB04_MultiMetricMultiEntity) {
     TSStore::QueryOptions q;
     q.metric = "mem"; q.entity = "host01";
     auto qr = store->query(q);
-    ASSERT_TRUE(qr.ok());
+    ASSERT_TRUE(qr.has_value());
     ASSERT_EQ(qr->size(), 1u);
     EXPECT_DOUBLE_EQ((*qr)[0].value, 30.0);
 }
@@ -182,7 +182,7 @@ TEST_F(TSBatchFixture, TB05_EmptyMetricPartialFailure) {
         makeRow("mem",  "host01", BASE_MS + 2000, 3.0),
     };
     auto res = store->putBatch(rows);
-    ASSERT_TRUE(res.ok());
+    ASSERT_TRUE(res.has_value());
     EXPECT_EQ(res->failed_count, 1u);
     EXPECT_EQ(res->ok_count,     2u);
     ASSERT_EQ(res->row_errors.size(), 1u);
@@ -198,7 +198,7 @@ TEST_F(TSBatchFixture, TB06_EmptyEntityPartialFailure) {
         makeRow("cpu", "host01", BASE_MS + 100,  6.0),
     };
     auto res = store->putBatch(rows);
-    ASSERT_TRUE(res.ok());
+    ASSERT_TRUE(res.has_value());
     EXPECT_EQ(res->failed_count, 1u);
     ASSERT_EQ(res->row_errors.size(), 1u);
     EXPECT_EQ(res->row_errors[0].first, 0u);
@@ -212,14 +212,14 @@ TEST_F(TSBatchFixture, TB07_AllOkFlag) {
         makeRow("x", "y", BASE_MS, 1.0)
     };
     auto r1 = store->putBatch(good);
-    ASSERT_TRUE(r1.ok());
+    ASSERT_TRUE(r1.has_value());
     EXPECT_TRUE(r1->all_ok());
 
     std::vector<TSStore::TSRow> bad = {
         makeRow("", "y", BASE_MS, 1.0)
     };
     auto r2 = store->putBatch(bad);
-    ASSERT_TRUE(r2.ok());
+    ASSERT_TRUE(r2.has_value());
     EXPECT_FALSE(r2->all_ok());
 }
 
@@ -239,14 +239,14 @@ TEST_F(TSBatchFixture, TB08_GorillaRoundTrip) {
                                static_cast<double>(i) * 0.1));
     }
     auto res = gstore->putBatch(rows);
-    ASSERT_TRUE(res.ok()) << res.error().message();
+    ASSERT_TRUE(res.has_value()) << res.error().message();
     EXPECT_TRUE(res->all_ok());
     EXPECT_EQ(res->ok_count, 10u);
 
     TSStore::QueryOptions q;
     q.metric = "load"; q.entity = "box1"; q.limit = 20;
     auto qr = gstore->query(q);
-    ASSERT_TRUE(qr.ok());
+    ASSERT_TRUE(qr.has_value());
     EXPECT_EQ(qr->size(), 10u);
     for (size_t i = 0; i < qr->size(); ++i) {
         EXPECT_NEAR((*qr)[i].value, static_cast<double>(i) * 0.1, 1e-9);
@@ -267,7 +267,7 @@ TEST_F(TSBatchFixture, TB09_GorillaPartialFailure) {
         makeRow("sig", "s1", BASE_MS + 2000, 3.0),
     };
     auto res = gstore->putBatch(rows);
-    ASSERT_TRUE(res.ok());
+    ASSERT_TRUE(res.has_value());
     EXPECT_EQ(res->failed_count, 1u);
     EXPECT_EQ(res->row_errors[0].first, 1u);
 }
@@ -285,14 +285,14 @@ TEST_F(TSBatchFixture, TB10_LateArrivalRejection) {
     std::vector<TSStore::TSRow> seed = {
         makeRow("cpu", "host99", BASE_MS + 100000, 1.0)
     };
-    ASSERT_TRUE(la_store->putBatch(seed).ok());
+    ASSERT_TRUE(la_store->putBatch(seed).has_value());
 
     // Now send a row that is older than (watermark - 5000)
     std::vector<TSStore::TSRow> late = {
         makeRow("cpu", "host99", BASE_MS, 2.0)  // way too old
     };
     auto res = la_store->putBatch(late);
-    ASSERT_TRUE(res.ok());
+    ASSERT_TRUE(res.has_value());
     EXPECT_EQ(res->failed_count, 1u);
     EXPECT_FALSE(res->row_errors.empty());
 }
@@ -309,7 +309,7 @@ TEST_F(TSBatchFixture, TB11_RowErrorIndex) {
         makeRow("",  "e", BASE_MS + 400, 5.0),  // index 4 is bad
     };
     auto res = store->putBatch(rows);
-    ASSERT_TRUE(res.ok());
+    ASSERT_TRUE(res.has_value());
     EXPECT_EQ(res->failed_count, 2u);
     EXPECT_EQ(res->ok_count,     3u);
     ASSERT_EQ(res->row_errors.size(), 2u);
@@ -330,7 +330,7 @@ TEST_F(TSBatchFixture, TB12_LargeBatch1000Rows) {
                                static_cast<double>(i)));
     }
     auto res = store->putBatch(rows);
-    ASSERT_TRUE(res.ok()) << res.error().message();
+    ASSERT_TRUE(res.has_value()) << res.error().message();
     EXPECT_EQ(res->ok_count,     N);
     EXPECT_EQ(res->failed_count, 0u);
 }
@@ -344,20 +344,20 @@ TEST_F(TSBatchFixture, TB13_CoexistsWithPutDataPoints) {
     dp.entity       = "psu1";
     dp.timestamp_ms = BASE_MS;
     dp.value        = 12.0;
-    ASSERT_TRUE(store->putDataPoint(dp).ok());
+    ASSERT_TRUE(store->putDataPoint(dp).has_value());
 
     std::vector<TSStore::TSRow> rows = {
         makeRow("voltage", "psu1", BASE_MS + 1000, 12.1),
         makeRow("voltage", "psu1", BASE_MS + 2000, 12.2),
     };
     auto res = store->putBatch(rows);
-    ASSERT_TRUE(res.ok());
+    ASSERT_TRUE(res.has_value());
     EXPECT_EQ(res->ok_count, 2u);
 
     TSStore::QueryOptions q;
     q.metric = "voltage"; q.entity = "psu1"; q.limit = 10;
     auto qr = store->query(q);
-    ASSERT_TRUE(qr.ok());
+    ASSERT_TRUE(qr.has_value());
     EXPECT_EQ(qr->size(), 3u);  // dp + 2 batch rows
 }
 
@@ -372,7 +372,7 @@ TEST_F(TSBatchFixture, TB14_SpanFromArray) {
         makeRow("io", "disk0", BASE_MS + 2000, 300.0),
     }};
     auto res = store->putBatch(std::span<const TSStore::TSRow>(arr));
-    ASSERT_TRUE(res.ok()) << res.error().message();
+    ASSERT_TRUE(res.has_value()) << res.error().message();
     EXPECT_EQ(res->ok_count, 3u);
 }
 
