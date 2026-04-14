@@ -414,7 +414,8 @@ def _m06_llm_model_artifact_preparation(repo_root: Path) -> List[Finding]:
     fid, label = "M06", "LLM/LoRA/gguf model artifact preparation"
     findings: List[Finding] = []
 
-    # Check for setup scripts
+    # Check for setup scripts (canonical names checked by this audit +
+    # the ThemisDB implementation script)
     setup_patterns = [
         "scripts/download_models.sh",
         "scripts/setup_llm_models.sh",
@@ -424,8 +425,15 @@ def _m06_llm_model_artifact_preparation(repo_root: Path) -> List[Finding]:
         "scripts/setup_benchmarks.sh",
         "scripts/model_setup.sh",
         "scripts/model_setup.py",
+        # ThemisDB implementation script (Maßnahme #6)
+        "scripts/prepare_llm_bench_artifacts.sh",
     ]
     found_scripts = [p for p in setup_patterns if _file_exists(repo_root, p)]
+
+    # Also check for the standardised C++ preflight header
+    has_preflight_header = _file_exists(
+        repo_root, "benchmarks/benchmark_artifact_preflight.h"
+    )
 
     # Check for LLM benchmark docs mentioning setup
     llm_doc_paths = [
@@ -447,7 +455,7 @@ def _m06_llm_model_artifact_preparation(repo_root: Path) -> List[Finding]:
     if workflows_dir.is_dir():
         for wf in workflows_dir.glob("*.yml"):
             c = _read_file(wf)
-            if c and re.search(r"gguf|download.*model|model.*download|benchmark.*model", c, re.IGNORECASE):
+            if c and re.search(r"gguf|download.*model|model.*download|benchmark.*model|download_models|prepare_llm_bench", c, re.IGNORECASE):
                 model_setup_wf.append(wf.name)
 
     if found_scripts:
@@ -471,6 +479,19 @@ def _m06_llm_model_artifact_preparation(repo_root: Path) -> List[Finding]:
             "LLM/RAG/LoRA benchmarks will fail with missing-artifact errors in a clean CI environment.",
             evidence="Benchmark files: bench_llm_inference_performance.cpp, "
                      "bench_lora_framework.cpp, bench_multi_lora_fusion.cpp etc.",
+        ))
+
+    if has_preflight_header:
+        findings.append(Finding(
+            fid, label, "OK", "benchmark_preflight_header_found",
+            "benchmarks/benchmark_artifact_preflight.h present – "
+            "benchmarks can call LLMArtifactPreflight::create() for clear error messages.",
+        ))
+    else:
+        findings.append(Finding(
+            fid, label, "WARN", "benchmark_preflight_header_missing",
+            "benchmarks/benchmark_artifact_preflight.h not found. "
+            "Without it, benchmarks may fail with opaque errors when artefacts are absent.",
         ))
 
     if model_setup_wf:

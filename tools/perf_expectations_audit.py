@@ -451,16 +451,33 @@ def check_measure_6(root: pathlib.Path) -> dict[str, Any]:
     if ok_lora:
         evidence.append("benchmarks/bench_lora_framework.cpp")
 
+    # Check for standardised preflight header (Maßnahme #6 – benchmark-level
+    # artefact checks with clear error messages)
+    ok_preflight = (root / "benchmarks" / "benchmark_artifact_preflight.h").is_file()
+    checks.append({"id": "6d",
+                   "description": "benchmarks/benchmark_artifact_preflight.h exists "
+                                  "(standardised preflight-check utility)",
+                   "result": STATUS_PASS if ok_preflight else STATUS_WARN,
+                   "detail": "Present" if ok_preflight else "Not found – create benchmarks/benchmark_artifact_preflight.h"})
+    if ok_preflight:
+        evidence.append("benchmarks/benchmark_artifact_preflight.h")
+
     has_fail = any(c["result"] == STATUS_FAIL for c in checks)
-    all_warn_or_pass = all(c["result"] in (STATUS_PASS, STATUS_WARN) for c in checks)
+    erledigt = ok_prep and ok_preflight
     return {
         "id": 6,
         "title": "Modell-/Artefakt-Vorbereitung (LLM, LoRA, gguf) standardisieren",
-        "erledigt": False,
-        "status": STATUS_FAIL if has_fail else (STATUS_WARN if not ok_prep else STATUS_PASS),
+        "erledigt": erledigt,
+        "status": STATUS_FAIL if has_fail else (STATUS_PASS if erledigt else STATUS_WARN),
         "checks": checks,
         "evidence": evidence,
-        "notes": "Measure noch offen. Standardisiertes Setup-Skript oder Config-Datei wird erwartet.",
+        "notes": (
+            "Maßnahme erledigt: scripts/download_models.sh + benchmarks/benchmark_artifact_preflight.h "
+            "vorhanden; CI-Workflow ruft download_models.sh --stub-only auf."
+            if erledigt else
+            "Maßnahme noch offen. Benötigt: scripts/download_models.sh (oder äquivalent) "
+            "UND benchmarks/benchmark_artifact_preflight.h."
+        ),
     }
 
 
