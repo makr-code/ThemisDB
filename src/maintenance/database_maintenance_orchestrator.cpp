@@ -719,7 +719,7 @@ void DatabaseMaintenanceOrchestrator::registerTaskHandler(
                      taskTypeToString(task_type));
         return;
     }
-    std::lock_guard<std::mutex> lock(handlers_mutex_);
+    std::unique_lock<std::shared_mutex> lock(handlers_mutex_);
     task_handlers_[static_cast<int>(task_type)] = std::move(handler);
 }
 
@@ -733,7 +733,7 @@ void DatabaseMaintenanceOrchestrator::setDistributedLock(
 std::map<std::string, std::string>
 DatabaseMaintenanceOrchestrator::listTaskHandlers() const
 {
-    std::lock_guard<std::mutex> lock(handlers_mutex_);
+    std::shared_lock<std::shared_mutex> lock(handlers_mutex_);
     std::map<std::string, std::string> result;
     for (const auto& [key, handler] : task_handlers_) {
         const auto task_type_str = taskTypeToString(static_cast<MaintenanceTaskType>(key));
@@ -757,7 +757,7 @@ void DatabaseMaintenanceOrchestrator::setTenantMaintenanceConfig(
         spdlog::warn("setTenantMaintenanceConfig: tenant_id must not be empty; ignored");
         return;
     }
-    std::lock_guard<std::mutex> lock(tenant_configs_mutex_);
+    std::unique_lock<std::shared_mutex> lock(tenant_configs_mutex_);
     tenant_configs_[tenant_id] = std::move(config);
     spdlog::info("TenantMaintenanceConfig set for tenant '{}'", tenant_id);
 }
@@ -765,7 +765,7 @@ void DatabaseMaintenanceOrchestrator::setTenantMaintenanceConfig(
 TenantMaintenanceConfig DatabaseMaintenanceOrchestrator::getTenantMaintenanceConfig(
     const std::string& tenant_id) const
 {
-    std::lock_guard<std::mutex> lock(tenant_configs_mutex_);
+    std::shared_lock<std::shared_mutex> lock(tenant_configs_mutex_);
     auto it = tenant_configs_.find(tenant_id);
     if (it != tenant_configs_.end()) {
         return it->second;
@@ -1308,7 +1308,7 @@ void DatabaseMaintenanceOrchestrator::executeTask(
             // Look for a registered handler for this task type.
             std::shared_ptr<IMaintenanceTaskHandler> handler;
             {
-                std::lock_guard<std::mutex> lock(handlers_mutex_);
+                std::shared_lock<std::shared_mutex> lock(handlers_mutex_);
                 auto it = task_handlers_.find(static_cast<int>(task_type));
                 if (it != task_handlers_.end()) {
                     handler = it->second;

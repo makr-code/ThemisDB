@@ -332,7 +332,7 @@ Result<ISecondaryIndex*> IndexManager::createSecondaryIndex(
     span.setAttribute("index.field", std::string(field_name));
     span.setAttribute("index.config", config);
     
-    std::lock_guard<std::mutex> lock(registry_mutex_);
+    std::unique_lock<std::shared_mutex> lock(registry_mutex_);
     
     if (!secondary_manager_) {
         THEMIS_ERROR("IndexManager::createSecondaryIndex: Secondary manager not initialized");
@@ -420,7 +420,7 @@ Result<IVectorIndex*> IndexManager::createVectorIndex(
     span.setAttribute("index.config", config);
     
     (void)config;
-    std::lock_guard<std::mutex> lock(registry_mutex_);
+    std::unique_lock<std::shared_mutex> lock(registry_mutex_);
     
     if (!vector_manager_) {
         THEMIS_ERROR("IndexManager::createVectorIndex: Vector manager not initialized");
@@ -476,7 +476,7 @@ Result<IGraphIndex*> IndexManager::createGraphIndex(
     const std::string& config) {
     
     (void)config;
-    std::lock_guard<std::mutex> lock(registry_mutex_);
+    std::unique_lock<std::shared_mutex> lock(registry_mutex_);
     
     if (!graph_manager_) {
         THEMIS_ERROR("IndexManager::createGraphIndex: Graph manager not initialized");
@@ -501,7 +501,7 @@ Result<IGraphIndex*> IndexManager::createGraphIndex(
 }
 
 Result<ISecondaryIndex*> IndexManager::getSecondaryIndex(std::string_view name) const {
-    std::lock_guard<std::mutex> lock(registry_mutex_);
+    std::shared_lock<std::shared_mutex> lock(registry_mutex_);
     
     std::string name_str(name);
     auto it = secondary_indices_.find(name_str);
@@ -515,7 +515,7 @@ Result<ISecondaryIndex*> IndexManager::getSecondaryIndex(std::string_view name) 
 }
 
 Result<IVectorIndex*> IndexManager::getVectorIndex(std::string_view name) const {
-    std::lock_guard<std::mutex> lock(registry_mutex_);
+    std::shared_lock<std::shared_mutex> lock(registry_mutex_);
     
     std::string name_str(name);
     auto it = vector_indices_.find(name_str);
@@ -529,7 +529,7 @@ Result<IVectorIndex*> IndexManager::getVectorIndex(std::string_view name) const 
 }
 
 Result<IGraphIndex*> IndexManager::getGraphIndex(std::string_view name) const {
-    std::lock_guard<std::mutex> lock(registry_mutex_);
+    std::shared_lock<std::shared_mutex> lock(registry_mutex_);
     
     std::string name_str(name);
     auto it = graph_indices_.find(name_str);
@@ -543,7 +543,7 @@ Result<IGraphIndex*> IndexManager::getGraphIndex(std::string_view name) const {
 }
 
 Result<void> IndexManager::dropIndex(std::string_view name) {
-    std::lock_guard<std::mutex> lock(registry_mutex_);
+    std::unique_lock<std::shared_mutex> lock(registry_mutex_);
     
     std::string name_str(name);
     
@@ -612,7 +612,7 @@ Result<void> IndexManager::dropIndex(std::string_view name) {
 }
 
 std::vector<std::string> IndexManager::listIndexes() const {
-    std::lock_guard<std::mutex> lock(registry_mutex_);
+    std::shared_lock<std::shared_mutex> lock(registry_mutex_);
     
     std::vector<std::string> indices;
     indices.reserve(index_types_.size());
@@ -625,7 +625,7 @@ std::vector<std::string> IndexManager::listIndexes() const {
 }
 
 Result<IndexType> IndexManager::getIndexType(std::string_view name) const {
-    std::lock_guard<std::mutex> lock(registry_mutex_);
+    std::shared_lock<std::shared_mutex> lock(registry_mutex_);
     
     std::string name_str(name);
     auto it = index_types_.find(name_str);
@@ -805,7 +805,7 @@ Result<void> IndexManager::dropTenantIndexes(std::string_view tenant_id) {
     // Collect all keys belonging to this tenant under lock, then drop each one.
     std::vector<std::string> to_drop;
     {
-        std::lock_guard<std::mutex> lock(registry_mutex_);
+        std::unique_lock<std::shared_mutex> lock(registry_mutex_);
         for (const auto& [key, _] : index_types_) {
             if (key.starts_with(prefix)) {
                 to_drop.push_back(key);
@@ -832,7 +832,7 @@ std::vector<std::string> IndexManager::listIndexes(
     std::string_view tenant_id) const {
 
     const std::string prefix = fmt::format("tenant:{}:", tenant_id);
-    std::lock_guard<std::mutex> lock(registry_mutex_);
+    std::shared_lock<std::shared_mutex> lock(registry_mutex_);
 
     std::vector<std::string> result;
     for (const auto& [key, _] : index_types_) {

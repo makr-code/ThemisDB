@@ -29,6 +29,7 @@
 #include <map>
 #include <memory>
 #include <mutex>
+#include <shared_mutex>
 #include <chrono>
 #include <unordered_set>
 #include <nlohmann/json.hpp>
@@ -271,7 +272,7 @@ private:
 
     // In-memory registry of indexes that already exist.
     // Key format: "<collection>:<field>"
-    mutable std::mutex existingIndexesMutex_;
+    mutable std::shared_mutex existingIndexesMutex_;
     std::unordered_set<std::string> existingIndexes_;
     
     double calculateScore(const QueryPatternTracker::QueryPattern& pattern,

@@ -48,6 +48,7 @@
 #include <string>
 #include <unordered_map>
 #include <mutex>
+#include <shared_mutex>
 #include <vector>
 
 namespace themis {
@@ -227,7 +228,7 @@ private:
     std::shared_ptr<GraphIndexManager> graph_manager_;
     
     // Index registry
-    mutable std::mutex registry_mutex_;
+    mutable std::shared_mutex registry_mutex_;
     std::unordered_map<std::string, ISecondaryIndex*> secondary_indices_;
     std::unordered_map<std::string, IVectorIndex*> vector_indices_;
     std::unordered_map<std::string, IGraphIndex*> graph_indices_;
