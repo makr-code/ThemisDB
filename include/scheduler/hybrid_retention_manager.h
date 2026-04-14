@@ -47,6 +47,8 @@
 #include "timeseries/gorilla.h"
 #include <string>
 #include <memory>
+#include <mutex>
+#include <shared_mutex>
 #include <chrono>
 #include <nlohmann/json.hpp>
 
@@ -208,7 +210,7 @@ private:
     HybridRetentionConfig config_;
     
     bool running_ = false;
-    mutable std::mutex mutex_;
+    mutable std::shared_mutex mutex_;
     
     // Task IDs for cleanup
     std::string stage1_task_id_;

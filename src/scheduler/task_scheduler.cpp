@@ -2681,12 +2681,12 @@ std::optional<scheduler::TaskExecutionResult> TaskScheduler::getLatestTaskResult
 // ===== Alertmanager Integration =====
 
 void TaskScheduler::setAlertmanager(std::shared_ptr<observability::Alertmanager> alertmanager) {
-    std::lock_guard<std::mutex> lock(alert_mutex_);
+    std::unique_lock<std::shared_mutex> lock(alert_mutex_);
     alertmanager_ = std::move(alertmanager);
 }
 
 std::shared_ptr<observability::Alertmanager> TaskScheduler::getAlertmanager() const {
-    std::lock_guard<std::mutex> lock(alert_mutex_);
+    std::shared_lock<std::shared_mutex> lock(alert_mutex_);
     return alertmanager_;
 }
 
@@ -2700,7 +2700,7 @@ void TaskScheduler::fireTaskFailureAlert(const ScheduledTask& task, const std::s
     // before calling sendAlert() to avoid holding the mutex during potentially blocking I/O.
     std::shared_ptr<observability::Alertmanager> am;
     {
-        std::lock_guard<std::mutex> lock(alert_mutex_);
+        std::unique_lock<std::shared_mutex> lock(alert_mutex_);
         am = alertmanager_;
     }
     if (!am) {
@@ -2731,7 +2731,7 @@ void TaskScheduler::fireTaskFailureAlert(const ScheduledTask& task, const std::s
     // sendAlert() may involve network I/O; called outside the lock
     auto result = am->sendAlert(alert);
     if (result) {
-        std::lock_guard<std::mutex> lock(alert_mutex_);
+        std::unique_lock<std::shared_mutex> lock(alert_mutex_);
         active_failure_alert_ids_[task.id] = alert_id;
         THEMIS_WARN("Task failure alert fired for task {} ({}): {}", task.id, task.name, error);
     } else {
@@ -2749,7 +2749,7 @@ void TaskScheduler::fireTaskSlaBreachAlert(const ScheduledTask& task, double ela
     // before calling sendAlert() to avoid holding the mutex during potentially blocking I/O.
     std::shared_ptr<observability::Alertmanager> am;
     {
-        std::lock_guard<std::mutex> lock(alert_mutex_);
+        std::unique_lock<std::shared_mutex> lock(alert_mutex_);
         am = alertmanager_;
     }
     if (!am) {
@@ -2797,7 +2797,7 @@ void TaskScheduler::resolveTaskFailureAlert(const std::string& task_id) {
     std::shared_ptr<observability::Alertmanager> am;
     std::string alert_id;
     {
-        std::lock_guard<std::mutex> lock(alert_mutex_);
+        std::unique_lock<std::shared_mutex> lock(alert_mutex_);
         if (!alertmanager_) {
             return;
         }

@@ -42,6 +42,7 @@
 #include <vector>
 #include <optional>
 #include <mutex>
+#include <shared_mutex>
 #include <cstdint>
 #include <nlohmann/json.hpp>
 
@@ -128,7 +129,7 @@ public:
 private:
     RocksDBWrapper& storage_;
     size_t          max_per_task_;
-    mutable std::mutex mutex_;
+    mutable std::shared_mutex mutex_;
 
     /// Build the full RocksDB key for a result record.
     static std::string makeKey(const std::string& task_id, int64_t timestamp_ms);
