@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            parallel_traversal.h                               ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-14 06:51:57                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-14 11:24:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

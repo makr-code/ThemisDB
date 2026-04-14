@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            mdm_audit_trail.h                                  ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-14 06:52:11                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-14 11:24:57                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

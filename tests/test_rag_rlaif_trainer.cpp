@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_rag_rlaif_trainer.cpp                         ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-14 07:19:55                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-14 11:50:34                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

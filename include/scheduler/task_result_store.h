@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            task_result_store.h                                ║
-  Version:         0.0.8                                              ║
-  Last Modified:   2026-04-14 06:55:37                                ║
+  Version:         0.0.9                                              ║
+  Last Modified:   2026-04-14 11:28:09                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     144                                            ║
+    • Total Lines:     142                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • f79e072b99  2026-02-23  feat(scheduler): implement scheduled task output persiste... ║
 ╠═════════════════════════════════════════════════════════════════════╣

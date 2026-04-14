@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_metadata_encryption_provider.cpp              ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-04-14 07:16:40                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-04-14 11:47:33                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

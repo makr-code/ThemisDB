@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            check_disabled_stubs.py                            ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-04-14 07:24:13                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-04-14 11:54:34                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

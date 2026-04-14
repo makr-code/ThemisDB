@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_search_future_interfaces.cpp                  ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-04-14 07:20:52                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-04-14 11:51:27                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

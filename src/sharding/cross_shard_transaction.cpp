@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cross_shard_transaction.cpp                        ║
-  Version:         0.0.40                                             ║
-  Last Modified:   2026-04-14 07:06:07                                ║
+  Version:         0.0.41                                             ║
+  Last Modified:   2026-04-14 11:37:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
     • Quality Score:   73.0/100                                       ║
-    • Total Lines:     2757                                           ║
+    • Total Lines:     2734                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
     • f719463696  2026-03-15  fix(sharding): remove dead-code `operations` var + fix in... ║
     • 7157149482  2026-03-15  feat(sharding): fix coordinator ID + implement SAGA compe... ║
     • 57edae2d81  2026-03-14  fix: address all PR review comments on Percolator coordin... ║
     • 7a60ba06cb  2026-03-14  refactor: address code review feedback - extract helper, ... ║
-    • 2bbac9e442  2026-03-14  feat: implement Percolator-style distributed transaction ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ⚠️  Needs Work                                              ║
 ╚═════════════════════════════════════════════════════════════════════╝

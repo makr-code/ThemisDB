@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_rag_calibration_manager.cpp                   ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-14 07:19:31                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-14 11:50:12                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

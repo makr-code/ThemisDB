@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            auth_worker_thread_pool.h                          ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-14 06:50:19                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-14 11:23:12                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

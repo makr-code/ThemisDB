@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            slo_monitor.h                                      ║
-  Version:         0.0.40                                             ║
-  Last Modified:   2026-04-14 06:56:44                                ║
+  Version:         0.0.41                                             ║
+  Last Modified:   2026-04-14 11:29:12                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     262                                            ║
+    • Total Lines:     259                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
     • 096960f501  2026-03-13  feat(sharding): implement Reed-Solomon repair engine para... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 92608937d0  2026-02-26  fix: GCC default-arg error in 18 headers - add ::defaults... ║

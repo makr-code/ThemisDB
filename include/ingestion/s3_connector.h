@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            s3_connector.h                                     ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-14 06:52:43                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-14 11:25:26                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

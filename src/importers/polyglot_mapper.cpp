@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            polyglot_mapper.cpp                                ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-14 07:01:53                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-14 11:33:57                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

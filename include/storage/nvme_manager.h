@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            nvme_manager.h                                     ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-14 06:56:56                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-14 11:29:24                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

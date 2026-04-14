@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            metrics_stream_server.cpp                          ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-14 07:03:21                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-14 11:35:20                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

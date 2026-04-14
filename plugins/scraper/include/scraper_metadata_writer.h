@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            scraper_metadata_writer.h                          ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-04-14 06:58:35                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-14 11:30:58                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

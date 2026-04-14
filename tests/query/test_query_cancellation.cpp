@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_query_cancellation.cpp                        ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-14 07:09:34                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-14 11:41:02                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

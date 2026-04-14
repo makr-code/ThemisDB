@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llm_token_estimator.h                              ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-14 06:50:16                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-14 11:23:09                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

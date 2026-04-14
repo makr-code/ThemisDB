@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            module_loader.cpp                                  ║
-  Version:         0.0.40                                             ║
-  Last Modified:   2026-04-14 07:00:08                                ║
+  Version:         0.0.41                                             ║
+  Last Modified:   2026-04-14 11:32:21                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   80.0/100                                       ║
-    • Total Lines:     1947                                           ║
+    • Total Lines:     1960                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
     • e2d71ace58  2026-03-12  fix: address review feedback — thread-safe tests, insert_... ║
     • db4d733c21  2026-03-12  fix: remove explicit mutex unlock before unregisterModule... ║
     • c2e0a8ff71  2026-03-12  feat: O(1) module lookup — replace loadedModules_ vector ... ║
     • 6675793bcf  2026-03-11  fix(base): fix data race in watchdog stats access, clean ... ║
-    • 00e3b5dafd  2026-03-11  fix(base): address code review feedback - clarify locking... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

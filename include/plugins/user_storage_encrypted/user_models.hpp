@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            user_models.hpp                                    ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-14 06:54:19                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-14 11:26:57                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

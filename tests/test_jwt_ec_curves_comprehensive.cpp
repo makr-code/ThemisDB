@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_jwt_ec_curves_comprehensive.cpp               ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-14 07:15:43                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-14 11:46:41                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

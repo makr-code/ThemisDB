@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_adapter_sync.cpp                              ║
-  Version:         0.0.40                                             ║
-  Last Modified:   2026-04-14 07:09:57                                ║
+  Version:         0.0.41                                             ║
+  Last Modified:   2026-04-14 11:41:22                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

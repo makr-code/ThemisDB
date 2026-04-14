@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            workload_predictor.cpp                             ║
-  Version:         0.0.8                                              ║
-  Last Modified:   2026-04-14 07:03:44                                ║
+  Version:         0.0.9                                              ║
+  Last Modified:   2026-04-14 11:35:41                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,6 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 326d6a2d59  2026-02-25  fix(performance): code audit fixes for workload predictor ║
     • d7e7aa9599  2026-02-25  feat(performance): add ML-based workload predictor for pr... ║

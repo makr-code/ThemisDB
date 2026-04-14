@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            huggingface_ingestion_plugin.cpp                   ║
-  Version:         0.0.40                                             ║
-  Last Modified:   2026-04-14 07:03:44                                ║
+  Version:         0.0.41                                             ║
+  Last Modified:   2026-04-14 11:35:41                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

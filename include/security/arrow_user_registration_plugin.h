@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            arrow_user_registration_plugin.h                   ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-14 06:55:49                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-14 11:28:20                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            rpc_plugin_interface.h                             ║
-  Version:         0.0.40                                             ║
-  Last Modified:   2026-04-14 06:54:17                                ║
+  Version:         0.0.41                                             ║
+  Last Modified:   2026-04-14 11:26:55                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

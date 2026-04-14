@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_paxos_persistence_recovery.cpp                ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-04-14 07:17:56                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-04-14 11:48:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cross_module_query_sharding.cpp               ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-14 07:12:42                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-14 11:43:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

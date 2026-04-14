@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            UsbAdminLicense.cs                                 ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-14 07:24:05                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-14 11:54:26                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

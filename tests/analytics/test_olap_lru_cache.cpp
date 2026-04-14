@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_olap_lru_cache.cpp                            ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-14 07:08:17                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-14 11:39:52                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

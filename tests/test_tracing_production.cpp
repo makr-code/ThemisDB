@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_tracing_production.cpp                        ║
-  Version:         0.0.38                                             ║
-  Last Modified:   2026-04-14 07:22:09                                ║
+  Version:         0.0.39                                             ║
+  Last Modified:   2026-04-14 11:52:38                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

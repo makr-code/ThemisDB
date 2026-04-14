@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_ingestion_manager_adapter.cpp                 ║
-  Version:         0.0.40                                             ║
-  Last Modified:   2026-04-14 07:15:28                                ║
+  Version:         0.0.41                                             ║
+  Last Modified:   2026-04-14 11:46:26                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

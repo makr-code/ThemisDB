@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            gpu_compression.cpp                                ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-14 07:06:30                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-14 11:38:14                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

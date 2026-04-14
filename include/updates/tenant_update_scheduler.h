@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            tenant_update_scheduler.h                          ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-14 06:58:09                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-14 11:30:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

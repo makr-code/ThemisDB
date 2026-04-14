@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_temporal_migrator.cpp                         ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-04-14 07:09:48                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-04-14 11:41:14                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

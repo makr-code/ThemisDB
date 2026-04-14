@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            response_parser.cpp                                ║
-  Version:         0.0.40                                             ║
-  Last Modified:   2026-04-14 07:04:53                                ║
+  Version:         0.0.41                                             ║
+  Last Modified:   2026-04-14 11:36:45                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

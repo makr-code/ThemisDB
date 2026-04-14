@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            shader_integrity.cpp                               ║
-  Version:         0.0.17                                             ║
-  Last Modified:   2026-04-14 06:59:26                                ║
+  Version:         0.0.18                                             ║
+  Last Modified:   2026-04-14 11:31:43                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

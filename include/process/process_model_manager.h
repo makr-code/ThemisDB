@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            process_model_manager.h                            ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-14 06:54:24                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-14 11:27:01                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

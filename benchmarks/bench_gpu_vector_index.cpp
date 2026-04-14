@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_gpu_vector_index.cpp                         ║
-  Version:         0.0.40                                             ║
-  Last Modified:   2026-04-14 06:48:22                                ║
+  Version:         0.0.41                                             ║
+  Last Modified:   2026-04-14 11:21:24                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

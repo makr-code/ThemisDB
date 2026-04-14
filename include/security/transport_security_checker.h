@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            transport_security_checker.h                       ║
-  Version:         0.0.40                                             ║
-  Last Modified:   2026-04-14 06:55:58                                ║
+  Version:         0.0.41                                             ║
+  Last Modified:   2026-04-14 11:28:28                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

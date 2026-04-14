@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_gpu_unified_memory.cpp                        ║
-  Version:         0.0.8                                              ║
-  Last Modified:   2026-04-14 07:14:29                                ║
+  Version:         0.0.9                                              ║
+  Last Modified:   2026-04-14 11:45:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

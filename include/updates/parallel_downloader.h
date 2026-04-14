@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            parallel_downloader.h                              ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-14 06:58:05                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-14 11:30:28                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

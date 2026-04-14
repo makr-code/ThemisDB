@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_governance_policy_hot_reload.cpp              ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-14 07:14:05                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-14 11:45:09                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

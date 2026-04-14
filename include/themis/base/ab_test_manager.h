@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ab_test_manager.h                                  ║
-  Version:         0.0.8                                              ║
-  Last Modified:   2026-04-14 06:57:10                                ║
+  Version:         0.0.9                                              ║
+  Last Modified:   2026-04-14 11:29:37                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

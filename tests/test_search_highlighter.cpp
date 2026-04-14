@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_search_highlighter.cpp                        ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-14 07:20:54                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-14 11:51:29                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

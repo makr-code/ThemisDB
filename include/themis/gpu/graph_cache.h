@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            graph_cache.h                                      ║
-  Version:         0.0.8                                              ║
-  Last Modified:   2026-04-14 06:57:21                                ║
+  Version:         0.0.9                                              ║
+  Last Modified:   2026-04-14 11:29:47                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

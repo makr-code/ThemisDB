@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_process_mining.cpp                           ║
-  Version:         0.0.40                                             ║
-  Last Modified:   2026-04-14 06:48:36                                ║
+  Version:         0.0.41                                             ║
+  Last Modified:   2026-04-14 11:21:37                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

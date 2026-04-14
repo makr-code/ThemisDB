@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_user_storage_features.cpp                     ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-14 06:58:46                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-14 11:31:08                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

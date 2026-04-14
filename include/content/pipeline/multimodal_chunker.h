@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            multimodal_chunker.h                               ║
-  Version:         0.0.40                                             ║
-  Last Modified:   2026-04-14 06:51:13                                ║
+  Version:         0.0.41                                             ║
+  Last Modified:   2026-04-14 11:24:02                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

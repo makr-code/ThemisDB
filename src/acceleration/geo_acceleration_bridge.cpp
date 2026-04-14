@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            geo_acceleration_bridge.cpp                        ║
-  Version:         0.0.8                                              ║
-  Last Modified:   2026-04-14 06:59:23                                ║
+  Version:         0.0.9                                              ║
+  Last Modified:   2026-04-14 11:31:41                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

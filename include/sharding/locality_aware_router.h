@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            locality_aware_router.h                            ║
-  Version:         0.0.40                                             ║
-  Last Modified:   2026-04-14 06:56:37                                ║
+  Version:         0.0.41                                             ║
+  Last Modified:   2026-04-14 11:29:06                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

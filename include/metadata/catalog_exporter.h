@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            catalog_exporter.h                                 ║
-  Version:         0.0.8                                              ║
-  Last Modified:   2026-04-14 06:53:17                                ║
+  Version:         0.0.9                                              ║
+  Last Modified:   2026-04-14 11:25:58                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

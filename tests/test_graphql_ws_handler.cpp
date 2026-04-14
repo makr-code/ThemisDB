@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_graphql_ws_handler.cpp                        ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-14 07:14:42                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-14 11:45:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

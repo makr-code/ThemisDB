@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_ingestion_checkpoint.cpp                      ║
-  Version:         0.0.40                                             ║
-  Last Modified:   2026-04-14 07:15:21                                ║
+  Version:         0.0.41                                             ║
+  Last Modified:   2026-04-14 11:46:20                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

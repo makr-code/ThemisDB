@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            flash_attention_hip.h                              ║
-  Version:         0.0.40                                             ║
-  Last Modified:   2026-04-14 06:52:48                                ║
+  Version:         0.0.41                                             ║
+  Last Modified:   2026-04-14 11:25:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            security_level.hpp                                 ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-14 06:58:11                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-14 11:30:34                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

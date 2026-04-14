@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_geo_gpu_backend.cpp                           ║
-  Version:         0.0.40                                             ║
-  Last Modified:   2026-04-14 07:13:54                                ║
+  Version:         0.0.41                                             ║
+  Last Modified:   2026-04-14 11:45:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

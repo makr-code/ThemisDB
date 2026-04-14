@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cypher_parser.h                                    ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-14 06:54:45                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-14 11:27:20                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

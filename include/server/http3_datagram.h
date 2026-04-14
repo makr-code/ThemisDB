@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            http3_datagram.h                                   ║
-  Version:         0.0.8                                              ║
-  Last Modified:   2026-04-14 06:56:12                                ║
+  Version:         0.0.9                                              ║
+  Last Modified:   2026-04-14 11:28:42                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

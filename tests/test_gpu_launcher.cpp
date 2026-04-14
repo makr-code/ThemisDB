@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_gpu_launcher.cpp                              ║
-  Version:         0.0.40                                             ║
-  Last Modified:   2026-04-14 07:14:16                                ║
+  Version:         0.0.41                                             ║
+  Last Modified:   2026-04-14 11:45:20                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

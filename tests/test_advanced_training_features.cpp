@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_advanced_training_features.cpp                ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-14 07:10:06                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-14 11:41:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

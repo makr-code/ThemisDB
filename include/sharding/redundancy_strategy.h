@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            redundancy_strategy.h                              ║
-  Version:         0.0.40                                             ║
-  Last Modified:   2026-04-14 06:56:41                                ║
+  Version:         0.0.41                                             ║
+  Last Modified:   2026-04-14 11:29:09                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

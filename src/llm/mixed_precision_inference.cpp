@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            mixed_precision_inference.cpp                      ║
-  Version:         0.0.40                                             ║
-  Last Modified:   2026-04-14 07:02:41                                ║
+  Version:         0.0.41                                             ║
+  Last Modified:   2026-04-14 11:34:43                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

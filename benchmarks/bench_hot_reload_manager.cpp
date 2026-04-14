@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_hot_reload_manager.cpp                       ║
-  Version:         0.0.14                                             ║
-  Last Modified:   2026-04-14 06:48:24                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-14 11:21:25                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

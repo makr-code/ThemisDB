@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            schema_version_manager.h                           ║
-  Version:         0.0.40                                             ║
-  Last Modified:   2026-04-14 06:53:25                                ║
+  Version:         0.0.41                                             ║
+  Last Modified:   2026-04-14 11:26:06                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

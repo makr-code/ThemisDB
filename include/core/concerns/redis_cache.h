@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            redis_cache.h                                      ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-14 06:51:23                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-14 11:24:12                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

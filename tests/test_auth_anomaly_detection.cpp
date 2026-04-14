@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_auth_anomaly_detection.cpp                    ║
-  Version:         0.0.8                                              ║
-  Last Modified:   2026-04-14 07:10:45                                ║
+  Version:         0.0.9                                              ║
+  Last Modified:   2026-04-14 11:42:07                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            er_diagram_exporter.h                              ║
-  Version:         0.0.8                                              ║
-  Last Modified:   2026-04-14 06:53:19                                ║
+  Version:         0.0.9                                              ║
+  Last Modified:   2026-04-14 11:26:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

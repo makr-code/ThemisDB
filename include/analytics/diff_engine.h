@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            diff_engine.h                                      ║
-  Version:         0.0.40                                             ║
-  Last Modified:   2026-04-14 06:49:49                                ║
+  Version:         0.0.41                                             ║
+  Last Modified:   2026-04-14 11:22:45                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     329                                            ║
+    • Total Lines:     326                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
     • 197320301a  2026-03-28  Implement SequenceU64Increment merge operator for RocksDB... ║
     • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
     • a6b60b3e3d  2026-03-18  Changes before error encountered        ║
     • 1df049d481  2026-03-18  audit: add opt-in perf tests, fix getenv null-check, depr... ║
-    • 5083e3481d  2026-03-18  Changes before error encountered        ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

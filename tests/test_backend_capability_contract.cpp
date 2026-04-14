@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_backend_capability_contract.cpp               ║
-  Version:         0.0.20                                             ║
-  Last Modified:   2026-04-14 07:10:52                                ║
+  Version:         0.0.21                                             ║
+  Last Modified:   2026-04-14 11:42:13                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

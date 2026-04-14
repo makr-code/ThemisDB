@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            module_docs_builder.py                             ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-14 07:24:25                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-14 11:54:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

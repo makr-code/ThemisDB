@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            signed_plugin_repository.cpp                       ║
-  Version:         0.0.8                                              ║
-  Last Modified:   2026-04-14 07:03:46                                ║
+  Version:         0.0.9                                              ║
+  Last Modified:   2026-04-14 11:35:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

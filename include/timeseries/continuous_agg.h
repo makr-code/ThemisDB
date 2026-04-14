@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            continuous_agg.h                                   ║
-  Version:         0.0.40                                             ║
-  Last Modified:   2026-04-14 06:57:33                                ║
+  Version:         0.0.41                                             ║
+  Last Modified:   2026-04-14 11:29:58                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     450                                            ║
+    • Total Lines:     447                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
     • 13e4bb2974  2026-03-26  Enhance GraphQL Performance Tests and Saga Operation Comp... ║
     • 96f1f1fd7c  2026-03-24  Changes before error encountered        ║
     • 4dbd7efdea  2026-03-13  feat(timeseries): incremental continuous aggregation with... ║

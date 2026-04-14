@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            token_blacklist.h                                  ║
-  Version:         0.0.40                                             ║
-  Last Modified:   2026-04-14 06:50:32                                ║
+  Version:         0.0.41                                             ║
+  Last Modified:   2026-04-14 11:23:24                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

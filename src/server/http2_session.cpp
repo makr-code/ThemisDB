@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            http2_session.cpp                                  ║
-  Version:         0.0.40                                             ║
-  Last Modified:   2026-04-14 07:05:42                                ║
+  Version:         0.0.41                                             ║
+  Last Modified:   2026-04-14 11:37:29                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

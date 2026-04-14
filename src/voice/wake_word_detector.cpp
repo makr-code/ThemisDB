@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            wake_word_detector.cpp                             ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-14 07:07:57                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-14 11:39:34                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

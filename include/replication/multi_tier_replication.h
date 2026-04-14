@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            multi_tier_replication.h                           ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-14 06:55:30                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-14 11:28:02                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

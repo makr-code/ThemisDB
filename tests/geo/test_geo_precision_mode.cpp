@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_geo_precision_mode.cpp                        ║
-  Version:         0.0.8                                              ║
-  Last Modified:   2026-04-14 07:08:41                                ║
+  Version:         0.0.9                                              ║
+  Last Modified:   2026-04-14 11:40:13                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

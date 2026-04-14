@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            jaeger_tracer_adapter.h                            ║
-  Version:         0.0.8                                              ║
-  Last Modified:   2026-04-14 06:51:21                                ║
+  Version:         0.0.9                                              ║
+  Last Modified:   2026-04-14 11:24:09                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,6 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 2826fa9ccd  2026-04-14  fix(build): eliminate remaining MSVC warnings in clean re... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 52726f0a2c  2026-02-26  feat(core): add Jaeger and Zipkin tracing backend adapters ║
 ╠═════════════════════════════════════════════════════════════════════╣

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            serialization.cpp                                  ║
-  Version:         0.0.40                                             ║
-  Last Modified:   2026-04-14 07:07:46                                ║
+  Version:         0.0.41                                             ║
+  Last Modified:   2026-04-14 11:39:24                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

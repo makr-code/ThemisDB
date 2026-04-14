@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cross_collection_stream.h                          ║
-  Version:         0.0.8                                              ║
-  Last Modified:   2026-04-14 06:50:48                                ║
+  Version:         0.0.9                                              ║
+  Last Modified:   2026-04-14 11:23:39                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

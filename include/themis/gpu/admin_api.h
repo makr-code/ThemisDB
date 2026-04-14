@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            admin_api.h                                        ║
-  Version:         0.0.40                                             ║
-  Last Modified:   2026-04-14 06:57:15                                ║
+  Version:         0.0.41                                             ║
+  Last Modified:   2026-04-14 11:29:42                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

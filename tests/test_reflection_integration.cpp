@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_reflection_integration.cpp                    ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-14 07:20:06                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-14 11:50:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

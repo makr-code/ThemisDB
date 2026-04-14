@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cdc_connector.h                                    ║
-  Version:         0.0.8                                              ║
-  Last Modified:   2026-04-14 06:52:36                                ║
+  Version:         0.0.9                                              ║
+  Last Modified:   2026-04-14 11:25:20                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
