@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            gpu_module.h                                       ║
-  Version:         0.0.40                                             ║
-  Last Modified:   2026-04-14 06:57:20                                ║
+  Version:         0.0.41                                             ║
+  Last Modified:   2026-04-14 11:29:46                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -66,6 +66,8 @@ namespace gpu {
  */
 class GPUModule {
 public:
+  GPUModule() = default;
+
     // -----------------------------------------------------------------------
     // Initialisation result
     // -----------------------------------------------------------------------
@@ -190,8 +192,6 @@ public:
     std::vector<GPUAuditLog::Event> getAuditLog(size_t last_n = 64) const;
 
 private:
-    GPUModule() = default;
-
     bool         initialized_ = false;
     GPUConfig    config_;
     GPUPolicy    policy_;

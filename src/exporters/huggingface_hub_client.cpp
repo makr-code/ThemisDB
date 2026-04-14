@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            huggingface_hub_client.cpp                         ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-14 07:00:51                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-14 11:33:01                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

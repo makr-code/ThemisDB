@@ -278,10 +278,14 @@ endif()
 set(THEMIS_ROOT_DIR "${CMAKE_CURRENT_SOURCE_DIR}" CACHE PATH "ThemisDB root directory")
 
 
-# CHIMERA Adapters (optional, vendor-neutral)
-option(BUILD_CHIMERA_ADAPTERS "Build CHIMERA database adapters" OFF)
+# CHIMERA Suite (optional, vendor-neutral)
+option(THEMIS_BUILD_CHIMERA "Build CHIMERA adapters, focused tests, and benchmark integration" OFF)
+option(BUILD_CHIMERA_ADAPTERS "Deprecated alias for THEMIS_BUILD_CHIMERA" OFF)
 if(BUILD_CHIMERA_ADAPTERS)
-    add_subdirectory(adapters/chimera)
+    message(DEPRECATION "BUILD_CHIMERA_ADAPTERS is deprecated; use THEMIS_BUILD_CHIMERA instead.")
+    if(NOT THEMIS_BUILD_CHIMERA)
+        set(THEMIS_BUILD_CHIMERA ON CACHE BOOL "Build CHIMERA adapters, focused tests, and benchmark integration" FORCE)
+    endif()
 endif()
 
 # Enable CTest infrastructure at root level so `ctest --preset` can find tests

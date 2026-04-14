@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_parallel_file_downloads.cpp                   ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-14 07:17:52                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-14 11:48:39                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            health_monitor.h                                   ║
-  Version:         0.0.40                                             ║
-  Last Modified:   2026-04-14 06:56:37                                ║
+  Version:         0.0.41                                             ║
+  Last Modified:   2026-04-14 11:29:05                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -91,11 +91,32 @@ jobs:
           submodules: false
           fetch-depth: 0
 
+      - name: Apply compatibility patches
+        run: |
+          # Patch: secondary_index_metadata_cache.h in older tags (< current) may lack
+          # an explicit '#include <mutex>' despite using std::unique_lock.
+          # GCC does not include it transitively via <shared_mutex>.
+          HDR="include/index/secondary_index_metadata_cache.h"
+          if [ -f "$HDR" ] && grep -q '<shared_mutex>' "$HDR" && ! grep -q '<mutex>' "$HDR"; then
+            sed -i 's|#include <shared_mutex>|#include <shared_mutex>\n#include <mutex>|' "$HDR"
+            echo "Patched $HDR: added #include <mutex>"
+          fi
+
+          # Patch: some historic tags carry MSVC-only per-source flags in cmake/CMakeLists.txt.
+          # On Linux/GCC these appear as invalid file arguments (/O1, /bigobj, /Bt+).
+          CMAKE_FILE="cmake/CMakeLists.txt"
+          if [ -f "$CMAKE_FILE" ]; then
+            sed -i '/set_source_files_properties(src\/query\/aql_parser.cpp PROPERTIES COMPILE_OPTIONS "\/O1;\/bigobj;\/Bt+")/d' "$CMAKE_FILE"
+            sed -i '/set_source_files_properties(src\/query\/aql_parser_json.cpp PROPERTIES COMPILE_OPTIONS "\/O1;\/bigobj")/d' "$CMAKE_FILE"
+            echo "Patched $CMAKE_FILE: removed MSVC-only per-source compile flags for Linux build"
+          fi
+
       - name: Install system dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends \
             build-essential cmake ninja-build pkg-config \
+            ccache \
             libssl-dev \
             libcurl4-openssl-dev \
             librocksdb-dev \
@@ -115,8 +136,23 @@ jobs:
           key: vcpkg-linux-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json') }}
           restore-keys: vcpkg-linux-
 
+      - name: Cache vcpkg binary archives
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/vcpkg/archives
+          key: vcpkg-bin-linux-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json') }}
+          restore-keys: vcpkg-bin-linux-
+
+      - name: Prime ccache stats
+        run: |
+          ccache --zero-stats || true
+          ccache --show-config || true
+          ccache --show-stats || true
+
       - name: Setup vcpkg
         run: |
+          export VCPKG_DEFAULT_BINARY_CACHE="$HOME/.cache/vcpkg/archives"
+          mkdir -p "$VCPKG_DEFAULT_BINARY_CACHE"
           if [ ! -x "vcpkg/bootstrap-vcpkg.sh" ]; then
             rm -rf vcpkg
             git clone https://github.com/microsoft/vcpkg.git vcpkg
@@ -128,6 +164,8 @@ jobs:
         run: |
           cmake -S . -B build -G Ninja \
             -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} \
+            -DCMAKE_C_COMPILER_LAUNCHER=ccache \
+            -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
             -DCMAKE_INSTALL_PREFIX=/usr/local \
             -DCMAKE_TOOLCHAIN_FILE="${GITHUB_WORKSPACE}/vcpkg/scripts/buildsystems/vcpkg.cmake" \
             -DTHEMIS_BUILD_TESTS=OFF \
@@ -138,6 +176,10 @@ jobs:
 
       - name: Build
         run: cmake --build build --config ${{ env.BUILD_TYPE }} -j $(nproc)
+
+      - name: Show ccache stats
+        if: always()
+        run: ccache --show-stats || true
 
       - name: Package with CPack (TGZ + DEB + RPM)
         working-directory: build

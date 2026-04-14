@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_vec_knn_insert.cpp                            ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-04-14 07:08:04                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-04-14 11:39:41                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

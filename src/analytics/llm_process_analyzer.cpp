@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llm_process_analyzer.cpp                           ║
-  Version:         0.0.40                                             ║
-  Last Modified:   2026-04-14 06:59:33                                ║
+  Version:         0.0.41                                             ║
+  Last Modified:   2026-04-14 11:31:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -418,7 +418,7 @@ std::string LLMProcessAnalyzer::generatePrompt(
 
 std::string LLMProcessAnalyzer::callLLM(
     const std::string& prompt,
-    const std::map<std::string, [[maybe_unused]] std::string>& params
+    [[maybe_unused]] const std::map<std::string, std::string>& params
 ) {
     // When THEMIS_ENABLE_LLM_API is defined, delegate to the configured provider
     // (OpenAI, Anthropic, or a local model served over HTTP).

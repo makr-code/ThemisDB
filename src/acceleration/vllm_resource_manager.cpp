@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            vllm_resource_manager.cpp                          ║
-  Version:         0.0.40                                             ║
-  Last Modified:   2026-04-14 06:59:27                                ║
+  Version:         0.0.41                                             ║
+  Last Modified:   2026-04-14 11:31:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

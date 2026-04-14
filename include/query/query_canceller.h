@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            query_canceller.h                                  ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-14 06:54:55                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-14 11:27:30                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

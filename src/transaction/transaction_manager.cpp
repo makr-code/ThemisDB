@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            transaction_manager.cpp                            ║
-  Version:         0.0.40                                             ║
-  Last Modified:   2026-04-14 07:07:21                                ║
+  Version:         0.0.41                                             ║
+  Last Modified:   2026-04-14 11:39:01                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            spatial_backend.h                                  ║
-  Version:         0.0.40                                             ║
-  Last Modified:   2026-04-14 06:51:42                                ║
+  Version:         0.0.41                                             ║
+  Last Modified:   2026-04-14 11:24:30                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

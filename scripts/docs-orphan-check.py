@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            docs-orphan-check.py                               ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-04-14 06:59:03                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-04-14 11:31:24                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

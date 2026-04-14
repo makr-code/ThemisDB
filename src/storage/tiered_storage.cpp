@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            tiered_storage.cpp                                 ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-14 07:06:38                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-14 11:38:22                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

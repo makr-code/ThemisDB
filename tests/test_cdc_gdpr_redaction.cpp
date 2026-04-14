@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cdc_gdpr_redaction.cpp                        ║
-  Version:         0.0.8                                              ║
-  Last Modified:   2026-04-14 07:11:37                                ║
+  Version:         0.0.9                                              ║
+  Last Modified:   2026-04-14 11:42:54                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -34,6 +34,7 @@
 #include "storage/rocksdb_wrapper.h"
 #include "cdc/cdc_error.h"
 #include <rocksdb/options.h>
+#include <rocksdb/utilities/transaction_db.h>
 #include <filesystem>
 #include <thread>
 

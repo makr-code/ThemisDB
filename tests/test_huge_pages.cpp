@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_huge_pages.cpp                                ║
-  Version:         0.0.40                                             ║
-  Last Modified:   2026-04-14 07:15:10                                ║
+  Version:         0.0.41                                             ║
+  Last Modified:   2026-04-14 11:46:10                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -25,6 +25,7 @@
 
 #include <performance/huge_pages.h>
 #include <gtest/gtest.h>
+#include <chrono>
 #include <cstring>
 #include <iostream>
 

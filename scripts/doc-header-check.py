@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            doc-header-check.py                                ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-14 06:59:02                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-14 11:31:23                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_active_vram_allocator.cpp                    ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-14 06:48:04                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-14 11:21:06                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

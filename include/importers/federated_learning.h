@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            federated_learning.h                               ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-14 06:52:05                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-14 11:24:51                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

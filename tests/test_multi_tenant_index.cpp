@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_multi_tenant_index.cpp                        ║
-  Version:         0.0.8                                              ║
-  Last Modified:   2026-04-14 07:17:13                                ║
+  Version:         0.0.9                                              ║
+  Last Modified:   2026-04-14 11:48:03                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            rocksdb_token_blacklist.cpp                        ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-14 07:00:03                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-14 11:32:16                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

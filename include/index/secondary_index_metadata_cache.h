@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            secondary_index_metadata_cache.h                   ║
-  Version:         0.0.40                                             ║
-  Last Modified:   2026-04-14 06:52:33                                ║
+  Version:         0.0.41                                             ║
+  Last Modified:   2026-04-14 11:25:17                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

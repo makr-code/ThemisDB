@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            load_wikipedia_dataset.py                          ║
-  Version:         0.0.40                                             ║
-  Last Modified:   2026-04-14 06:49:05                                ║
+  Version:         0.0.41                                             ║
+  Last Modified:   2026-04-14 11:22:03                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

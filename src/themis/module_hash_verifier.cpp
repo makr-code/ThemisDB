@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            module_hash_verifier.cpp                           ║
-  Version:         0.0.8                                              ║
-  Last Modified:   2026-04-14 07:06:49                                ║
+  Version:         0.0.9                                              ║
+  Last Modified:   2026-04-14 11:38:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_process_discovery_conformance.cpp             ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-14 07:08:18                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-14 11:39:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            audio_processor.h                                  ║
-  Version:         0.0.40                                             ║
-  Last Modified:   2026-04-14 06:51:08                                ║
+  Version:         0.0.41                                             ║
+  Last Modified:   2026-04-14 11:23:58                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

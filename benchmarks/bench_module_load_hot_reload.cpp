@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_module_load_hot_reload.cpp                   ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-04-14 06:48:32                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-04-14 11:21:33                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

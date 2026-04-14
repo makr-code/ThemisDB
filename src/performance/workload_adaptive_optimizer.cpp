@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            workload_adaptive_optimizer.cpp                    ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-04-14 07:03:43                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-04-14 11:35:40                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     235                                            ║
+    • Total Lines:     236                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
     • f0fea9a7b5  2026-04-12  feat(performance): add NUMAMemoryManager — Issue #228 (pa... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║

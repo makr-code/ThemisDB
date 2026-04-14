@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            index_compression.h                                ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-14 06:52:29                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-14 11:25:14                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

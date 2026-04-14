@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            database_maintenance_orchestrator.h                ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-14 06:53:12                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-14 11:25:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
     • 53b0c36537  2026-04-13  feat(maintenance): Distributed Maintenance Coordination v... ║
     • 12bb69b756  2026-04-13  feat(maintenance): multi-tenant schedule isolation (v2.0.... ║
     • 717093f9bc  2026-03-12  feat: implement IMaintenanceTaskHandler registry for main... ║
     • 0a16483a8a  2026-03-12  feat(maintenance): upgrade schedules_mutex_ and jobs_mute... ║
-    • e434e1c0ff  2026-03-12  Apply review feedback: validate task refs, stable orderin... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

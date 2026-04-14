@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            validate_research_metadata.py                      ║
-  Version:         0.0.17                                             ║
-  Last Modified:   2026-04-14 06:59:19                                ║
+  Version:         0.0.18                                             ║
+  Last Modified:   2026-04-14 11:31:37                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 407096bd9d  2026-02-22  fix: add workflow permissions and clarify bilingual field... ║
-    • 52c525ba36  2026-02-22  feat: implement research & knowledge management system in... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

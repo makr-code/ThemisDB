@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ldap_export.py                                     ║
-  Version:         0.0.40                                             ║
-  Last Modified:   2026-04-14 07:24:23                                ║
+  Version:         0.0.41                                             ║
+  Last Modified:   2026-04-14 11:54:43                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

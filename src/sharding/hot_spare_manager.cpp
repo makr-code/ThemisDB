@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            hot_spare_manager.cpp                              ║
-  Version:         0.0.40                                             ║
-  Last Modified:   2026-04-14 07:06:11                                ║
+  Version:         0.0.41                                             ║
+  Last Modified:   2026-04-14 11:37:57                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

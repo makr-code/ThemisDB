@@ -7,6 +7,11 @@
       "displayName": "VS Code: Windows Release (Default)",
       "description": "Default VS Code preset - MSVC + Ninja Release with tests and vcpkg",
       "hidden": false,
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Windows"
+      },
       "inherits": "msvc-ninja-release",
       "cacheVariables": {
         "THEMIS_BUILD_TESTS": "OFF",
@@ -22,6 +27,11 @@
       "displayName": "VS Code: Windows Debug",
       "description": "VS Code preset for debug builds with vcpkg",
       "hidden": false,
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Windows"
+      },
       "inherits": "msvc-ninja-debug",
       "cacheVariables": {
         "THEMIS_BUILD_TESTS": "ON",
@@ -34,6 +44,11 @@
       "displayName": "Hyperscaler Edition: Full Build with all Tests & Benchmarks",
       "description": "Complete Hyperscaler build with all enterprise modules, tests, benchmarks, and every feature enabled",
       "hidden": false,
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Windows"
+      },
       "inherits": "windows-base",
       "binaryDir": "${sourceDir}/build-hyperscaler-full",
       "cacheVariables": {
@@ -51,6 +66,7 @@
         "THEMIS_EDITION": "HYPERSCALER",
         "THEMIS_BUILD_TESTS": "ON",
         "THEMIS_BUILD_BENCHMARKS": "ON",
+        "THEMIS_BUILD_CHIMERA": "ON",
         "THEMIS_BUILD_MODULAR": "ON",
         "THEMIS_ENABLE_LLM": "ON",
         "THEMIS_ENABLE_GPU": "ON",
@@ -60,6 +76,83 @@
         "THEMIS_ENABLE_DISTRIBUTED_TRAINING": "ON",
         "THEMIS_ENABLE_CYCLE_METRICS": "ON",
         "THEMIS_BUILD_ENTERPRISE_PLUGINS": "ON"
+      }
+    },
+    {
+      "name": "vscode-wsl-release",
+      "displayName": "VS Code: WSL Release (Linux/GCC)",
+      "description": "WSL/Linux Release build with GCC+Ninja — mirrors Docker production environment, no MSVC dependencies",
+      "hidden": false,
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Linux"
+      },
+      "inherits": "linux-base",
+      "environment": {
+        "VCPKG_POWERSHELL_PATH": "",
+        "Z_VCPKG_POWERSHELL_PATH": "",
+        "Z_VCPKG_PWSH_PATH": ""
+      },
+      "binaryDir": "${sourceDir}/build-wsl-release",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "THEMIS_EDITION": "COMMUNITY",
+        "THEMIS_BUILD_TESTS": "OFF",
+        "THEMIS_ENABLE_LLM": "ON",
+        "THEMIS_ENABLE_GPU": "OFF",
+        "VCPKG_INSTALLED_DIR": "${sourceDir}/vcpkg_installed_linux"
+      }
+    },
+    {
+      "name": "vscode-wsl-bench",
+      "displayName": "VS Code: WSL Benchmark (Linux/GCC perf)",
+      "description": "WSL/Linux Performance build — -O3 Release, benchmarks only, no tests, mirrors linux-ninja-perf",
+      "hidden": false,
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Linux"
+      },
+      "inherits": "linux-ninja-perf",
+      "environment": {
+        "VCPKG_POWERSHELL_PATH": "",
+        "Z_VCPKG_POWERSHELL_PATH": "",
+        "Z_VCPKG_PWSH_PATH": ""
+      },
+      "binaryDir": "${sourceDir}/build-wsl-bench",
+      "cacheVariables": {
+        "THEMIS_EDITION": "COMMUNITY",
+        "THEMIS_BUILD_TESTS": "OFF",
+        "THEMIS_BUILD_BENCHMARKS": "ON",
+        "THEMIS_BUILD_CHIMERA": "ON",
+        "VCPKG_INSTALLED_DIR": "${sourceDir}/vcpkg_installed_linux"
+      }
+    },
+    {
+      "name": "vscode-wsl-debug",
+      "displayName": "VS Code: WSL Debug (Linux/GCC)",
+      "description": "WSL/Linux Debug build with GCC+Ninja — mirrors Docker production environment, no MSVC dependencies",
+      "hidden": false,
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Linux"
+      },
+      "inherits": "linux-base",
+      "environment": {
+        "VCPKG_POWERSHELL_PATH": "",
+        "Z_VCPKG_POWERSHELL_PATH": "",
+        "Z_VCPKG_PWSH_PATH": ""
+      },
+      "binaryDir": "${sourceDir}/build-wsl-debug",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "THEMIS_EDITION": "COMMUNITY",
+        "THEMIS_BUILD_TESTS": "ON",
+        "THEMIS_ENABLE_LLM": "ON",
+        "THEMIS_ENABLE_GPU": "OFF",
+        "VCPKG_INSTALLED_DIR": "${sourceDir}/vcpkg_installed_linux"
       }
     }
   ],
@@ -236,6 +329,33 @@
       "configurePreset": "hyperscaler-full-build",
       "targets": [],
       "jobs": 8
+    },
+    {
+      "name": "vscode-wsl-release",
+      "displayName": "Build: WSL Release (Linux/GCC)",
+      "configurePreset": "vscode-wsl-release",
+      "targets": ["themis_server"],
+      "jobs": 8
+    },
+    {
+      "name": "vscode-wsl-debug",
+      "displayName": "Build: WSL Debug (Linux/GCC)",
+      "configurePreset": "vscode-wsl-debug",
+      "targets": ["themis_tests"],
+      "jobs": 4
+    },
+    {
+      "name": "vscode-wsl-bench",
+      "displayName": "Build: WSL Benchmark (Linux/GCC perf)",
+      "configurePreset": "vscode-wsl-bench",
+      "targets": [
+        "bench_storage_performance",
+        "bench_vector_search",
+        "bench_graph_traversal",
+        "bench_graph_query_optimizer",
+        "bench_metrics_collector"
+      ],
+      "jobs": 8
     }
   ],
   "testPresets": [
@@ -372,6 +492,29 @@
       },
       "output": {
         "outputOnFailure": true
+      }
+    },
+    {
+      "name": "vscode-wsl-release",
+      "displayName": "VS Code: WSL Release Tests (Linux/GCC)",
+      "configurePreset": "vscode-wsl-release",
+      "environment": {
+        "LD_LIBRARY_PATH": "${sourceDir}/build-wsl-release/lib:${sourceDir}/build-wsl-release/bin:$penv{LD_LIBRARY_PATH}"
+      },
+      "output": {
+        "outputOnFailure": true
+      }
+    },
+    {
+      "name": "vscode-wsl-debug",
+      "displayName": "VS Code: WSL Debug Tests (Linux/GCC)",
+      "configurePreset": "vscode-wsl-debug",
+      "environment": {
+        "LD_LIBRARY_PATH": "${sourceDir}/build-wsl-debug/lib:${sourceDir}/build-wsl-debug/bin:$penv{LD_LIBRARY_PATH}"
+      },
+      "output": {
+        "outputOnFailure": true,
+        "verbosity": "verbose"
       }
     }
   ]

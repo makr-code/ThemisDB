@@ -83,6 +83,7 @@ jobs:
 
       - name: Create artifact directories
         run: |
+          rm -rf "$FOCUSED_BUILD_DIR" build/nightly
           mkdir -p "$GTEST_DIR" "$BENCH_DIR" "$FOCUSED_BUILD_DIR"
 
       - name: Configure and build focused AI test binaries

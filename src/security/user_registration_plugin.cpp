@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            user_registration_plugin.cpp                       ║
-  Version:         0.0.40                                             ║
-  Last Modified:   2026-04-14 07:05:29                                ║
+  Version:         0.0.41                                             ║
+  Last Modified:   2026-04-14 11:37:18                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

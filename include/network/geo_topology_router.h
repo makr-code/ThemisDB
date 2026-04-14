@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            geo_topology_router.h                              ║
-  Version:         0.0.8                                              ║
-  Last Modified:   2026-04-14 06:53:30                                ║
+  Version:         0.0.9                                              ║
+  Last Modified:   2026-04-14 11:26:10                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

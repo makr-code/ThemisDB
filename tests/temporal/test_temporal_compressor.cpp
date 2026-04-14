@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_temporal_compressor.cpp                       ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-14 07:09:47                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-14 11:41:13                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -199,9 +199,8 @@ TEST_F(TemporalCompressorTest, TCLZ4_03_DecompressRoundTrip) {
     ASSERT_TRUE(stored.contains("__compressed")) << "Expected compressed payload";
     EXPECT_EQ(stored["__compressed"].get<std::string>(), "lz4");
 
-    auto decoded = compressor.decompress(stored);
-    ASSERT_TRUE(decoded) << decoded.error().message();
-    EXPECT_EQ(*decoded, payload);
+    const auto decoded = TemporalCompressor::decompress(stored);
+    EXPECT_EQ(decoded, payload);
 }
 
 TEST_F(TemporalCompressorTest, TCLZ4_04_CompressionRatioPositive) {

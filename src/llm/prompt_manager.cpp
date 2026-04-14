@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            prompt_manager.cpp                                 ║
-  Version:         0.0.40                                             ║
-  Last Modified:   2026-04-14 07:02:47                                ║
+  Version:         0.0.41                                             ║
+  Last Modified:   2026-04-14 11:34:48                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

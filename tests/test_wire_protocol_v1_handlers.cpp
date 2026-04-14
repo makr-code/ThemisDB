@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_wire_protocol_v1_handlers.cpp                 ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-14 07:23:21                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-14 11:53:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            training_data_iterator.h                           ║
-  Version:         0.0.40                                             ║
-  Last Modified:   2026-04-14 06:53:11                                ║
+  Version:         0.0.41                                             ║
+  Last Modified:   2026-04-14 11:25:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

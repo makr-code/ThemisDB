@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_utils_future_interfaces.cpp                   ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-04-14 07:22:44                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-04-14 11:53:10                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -158,7 +158,10 @@ TEST_F(LZ4CodecTests, LZ4_01_RoundTrip) {
 }
 
 TEST_F(LZ4CodecTests, LZ4_02_EmptyInputReturnsEmpty) {
-    const auto compressed = lz4_compress(nullptr, 0);
+    const auto compressed = lz4_compress(
+        static_cast<const uint8_t*>(nullptr),
+        static_cast<size_t>(0),
+        lz4_compression::DEFAULT_ACCELERATION);
     EXPECT_TRUE(compressed.empty());
 }
 

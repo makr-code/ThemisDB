@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            benchmark_image_analysis.cpp                       ║
-  Version:         0.0.40                                             ║
-  Last Modified:   2026-04-14 06:48:57                                ║
+  Version:         0.0.41                                             ║
+  Last Modified:   2026-04-14 11:21:56                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

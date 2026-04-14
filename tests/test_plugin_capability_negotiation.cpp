@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_plugin_capability_negotiation.cpp             ║
-  Version:         0.0.8                                              ║
-  Last Modified:   2026-04-14 07:18:13                                ║
+  Version:         0.0.9                                              ║
+  Last Modified:   2026-04-14 11:49:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

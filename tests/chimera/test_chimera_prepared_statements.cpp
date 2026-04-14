@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_chimera_prepared_statements.cpp               ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-04-14 07:08:21                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-04-14 11:39:55                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -56,7 +56,6 @@
  */
 
 #include <gtest/gtest.h>
-#include "chimera/database_adapter.hpp"
 #include "chimera/themisdb_adapter.hpp"
 
 #include <algorithm>

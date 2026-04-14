@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bulk_upload_interface.cpp                          ║
-  Version:         0.0.40                                             ║
-  Last Modified:   2026-04-14 07:00:36                                ║
+  Version:         0.0.41                                             ║
+  Last Modified:   2026-04-14 11:32:47                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     113                                            ║
+    • Total Lines:     114                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║

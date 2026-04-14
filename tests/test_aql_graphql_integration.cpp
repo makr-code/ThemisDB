@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_aql_graphql_integration.cpp                   ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-04-14 07:10:24                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-04-14 11:41:47                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

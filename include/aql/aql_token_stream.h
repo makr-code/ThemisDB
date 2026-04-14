@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            aql_token_stream.h                                 ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-14 06:50:14                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-14 11:23:08                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

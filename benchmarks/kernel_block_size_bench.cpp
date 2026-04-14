@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            kernel_block_size_bench.cpp                        ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-04-14 06:49:01                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-04-14 11:21:59                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

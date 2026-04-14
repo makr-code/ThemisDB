@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            delta_update_engine.cpp                            ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-04-14 07:07:26                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-14 11:39:05                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

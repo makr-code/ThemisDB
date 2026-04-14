@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            aql_predicate_filter.h                             ║
-  Version:         0.0.8                                              ║
-  Last Modified:   2026-04-14 06:51:28                                ║
+  Version:         0.0.9                                              ║
+  Last Modified:   2026-04-14 11:24:16                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

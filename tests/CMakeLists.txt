@@ -534,6 +534,9 @@ get_target_property(_themis_tests_sources themis_tests SOURCES)
 if(_themis_tests_sources)
     list(FILTER _themis_tests_sources EXCLUDE REGEX ".*[\\/]test_feature_flags\\.cpp$")
     list(FILTER _themis_tests_sources EXCLUDE REGEX ".*[\\/]test_vulkan_compute_equivalents\\.cpp$")
+    list(FILTER _themis_tests_sources EXCLUDE REGEX ".*[\\/]chimera[\\/]test_themisdb_adapter\\.cpp$")
+    list(FILTER _themis_tests_sources EXCLUDE REGEX ".*[\\/]chimera[\\/]test_chimera_prepared_statements\\.cpp$")
+    list(FILTER _themis_tests_sources EXCLUDE REGEX ".*[\\/]chimera[\\/]test_chimera_streaming\\.cpp$")
     # Prevent duplicate protobuf descriptor registration at runtime:
     # themis_wire_v1.pb.cc is provided via themis_network; compiling it again
     # into themis_tests causes FATAL "File already exists in database".
@@ -1013,19 +1016,6 @@ if(NOT THEMIS_ENABLE_VOICE_ASSISTANT)
     )
 endif()
 
-# CHIMERA adapter sources (no external library dependencies ÔÇô run in simulation mode)
-target_sources(themis_tests PRIVATE
-    ../external/chimera/src/chimera/adapter_factory.cpp
-    ../external/chimera/src/chimera/mongodb_adapter.cpp
-    ../external/chimera/src/chimera/postgresql_adapter.cpp
-    ../src/chimera/themisdb_adapter.cpp
-    ../external/chimera/src/chimera/weaviate_adapter.cpp
-    ../external/chimera/src/chimera/qdrant_adapter.cpp
-    ../external/chimera/src/chimera/pinecone_adapter.cpp
-    ../external/chimera/src/chimera/elasticsearch_adapter.cpp
-    ../external/chimera/src/chimera/neo4j_adapter.cpp
-)
-
 set(_themis_test_core_libs)
 if(THEMIS_BUILD_MODULAR)
     if(DEFINED THEMIS_CORE_SOURCES AND THEMIS_CORE_SOURCES)
@@ -1248,6 +1238,8 @@ get_target_property(_themis_tests_sources_final themis_tests SOURCES)
 if(_themis_tests_sources_final)
     list(FILTER _themis_tests_sources_final EXCLUDE REGEX ".*[\\/]test_feature_flags\\.cpp$")
     list(FILTER _themis_tests_sources_final EXCLUDE REGEX ".*[\\/]test_vulkan_compute_equivalents\\.cpp$")
+    list(FILTER _themis_tests_sources_final EXCLUDE REGEX ".*[\\/]chimera[\\/]test_chimera_prepared_statements\\.cpp$")
+    list(FILTER _themis_tests_sources_final EXCLUDE REGEX ".*[\\/]chimera[\\/]test_chimera_streaming\\.cpp$")
     list(FILTER _themis_tests_sources_final EXCLUDE REGEX ".*[\\/]proto_generated[\\/]themis_wire_v1\\.pb\\.cc$")
     if(NOT THEMIS_ENABLE_GPU)
         list(FILTER _themis_tests_sources_final EXCLUDE REGEX ".*[\\/]test_cpu_gpu_parity\\.cpp$")
@@ -13550,18 +13542,10 @@ endif()
 # mode ÔÇô no live database server required.
 # ============================================================================
 
+if(THEMIS_BUILD_CHIMERA)
+
 # Common list of all CHIMERA adapter source files shared by every focused target.
-set(CHIMERA_ADAPTER_SOURCES
-    ${CMAKE_SOURCE_DIR}/external/chimera/src/chimera/adapter_factory.cpp
-    ${CMAKE_SOURCE_DIR}/src/chimera/themisdb_adapter.cpp
-    ${CMAKE_SOURCE_DIR}/external/chimera/src/chimera/mongodb_adapter.cpp
-    ${CMAKE_SOURCE_DIR}/external/chimera/src/chimera/postgresql_adapter.cpp
-    ${CMAKE_SOURCE_DIR}/external/chimera/src/chimera/elasticsearch_adapter.cpp
-    ${CMAKE_SOURCE_DIR}/external/chimera/src/chimera/pinecone_adapter.cpp
-    ${CMAKE_SOURCE_DIR}/external/chimera/src/chimera/qdrant_adapter.cpp
-    ${CMAKE_SOURCE_DIR}/external/chimera/src/chimera/weaviate_adapter.cpp
-    ${CMAKE_SOURCE_DIR}/external/chimera/src/chimera/neo4j_adapter.cpp
-)
+set(CHIMERA_ADAPTER_SOURCES ${THEMIS_CHIMERA_SOURCES})
 
 # Helper function to create a focused chimera test executable.
 function(add_chimera_focused_test target_name test_src test_name labels description)
@@ -13730,6 +13714,8 @@ add_chimera_focused_test(
     "chimera;adapter;async;future;unit"
     "Async/Promise-Based API: execute_query_async, batch_insert_async, search_vectors_async, cancel_async, concurrent fan-out"
 )
+
+endif()
 
 # ============================================================================
 # Exporters Focused Test Targets

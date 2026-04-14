@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            in_place_schema_migrator.h                         ║
-  Version:         0.0.8                                              ║
-  Last Modified:   2026-04-14 06:58:03                                ║
+  Version:         0.0.9                                              ║
+  Last Modified:   2026-04-14 11:30:26                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

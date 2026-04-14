@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_aql_query_validator.cpp                       ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-04-14 07:10:33                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-04-14 11:41:55                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -679,7 +679,7 @@ TEST(DocsAssistantDegradedTest, IsFullyReadyFalseWhenNotReady) {
 TEST(StripMarkdownFencesTest, NoFenceReturnedUnchanged) {
     // Access via public translateNLToAQL with a mock executor that returns plain text
     LLMAQLHandler handler;
-    handler.setChatExecutor([](const std::vector<llm::ChatMessage>&) {
+    handler.setChatExecutor([](const std::vector<themis::llm::ChatMessage>&) {
         return "FOR u IN users RETURN u";
     });
     auto result = handler.translateNLToAQL("find all users");
@@ -688,7 +688,7 @@ TEST(StripMarkdownFencesTest, NoFenceReturnedUnchanged) {
 
 TEST(StripMarkdownFencesTest, AQLFenceStripped) {
     LLMAQLHandler handler;
-    handler.setChatExecutor([](const std::vector<llm::ChatMessage>&) {
+    handler.setChatExecutor([](const std::vector<themis::llm::ChatMessage>&) {
         return "```aql\nFOR u IN users RETURN u\n```";
     });
     auto result = handler.translateNLToAQL("find all users");
@@ -697,7 +697,7 @@ TEST(StripMarkdownFencesTest, AQLFenceStripped) {
 
 TEST(StripMarkdownFencesTest, PlainFenceStripped) {
     LLMAQLHandler handler;
-    handler.setChatExecutor([](const std::vector<llm::ChatMessage>&) {
+    handler.setChatExecutor([](const std::vector<themis::llm::ChatMessage>&) {
         return "```\nFOR u IN users RETURN u\n```";
     });
     auto result = handler.translateNLToAQL("find all users");

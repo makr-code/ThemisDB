@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            raft_mvcc_bridge.h                                 ║
-  Version:         0.0.40                                             ║
-  Last Modified:   2026-04-14 06:56:57                                ║
+  Version:         0.0.41                                             ║
+  Last Modified:   2026-04-14 11:29:25                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

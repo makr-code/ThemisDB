@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ethics_base_entity_adapter.h                       ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-14 06:54:14                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-14 11:26:52                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

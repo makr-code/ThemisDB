@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            quic_server.h                                      ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-04-14 06:53:34                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-04-14 11:26:14                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

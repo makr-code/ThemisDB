@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            hipaa_rules.cpp                                    ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-04-14 07:01:12                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-04-14 11:33:20                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

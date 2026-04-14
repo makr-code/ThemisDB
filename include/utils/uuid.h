@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            uuid.h                                             ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-14 06:58:22                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-14 11:30:45                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -155,3 +155,18 @@ inline std::string generate_uuid_v7() {
 }
 
 } // namespace utils
+
+namespace themis {
+namespace utils {
+
+// Compatibility bridge: keep UUID helpers available under themis::utils.
+inline std::string generate_uuid_v4() {
+    return ::utils::generate_uuid_v4();
+}
+
+inline std::string generate_uuid_v7() {
+    return ::utils::generate_uuid_v7();
+}
+
+} // namespace utils
+} // namespace themis

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            themis_profiler.py                                 ║
-  Version:         0.0.40                                             ║
-  Last Modified:   2026-04-14 07:24:30                                ║
+  Version:         0.0.41                                             ║
+  Last Modified:   2026-04-14 11:54:50                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

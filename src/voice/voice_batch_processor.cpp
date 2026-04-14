@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            voice_batch_processor.cpp                          ║
-  Version:         0.0.35                                             ║
-  Last Modified:   2026-04-14 07:07:52                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-04-14 11:39:29                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

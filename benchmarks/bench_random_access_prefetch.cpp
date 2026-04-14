@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_random_access_prefetch.cpp                   ║
-  Version:         0.0.40                                             ║
-  Last Modified:   2026-04-14 06:48:42                                ║
+  Version:         0.0.41                                             ║
+  Last Modified:   2026-04-14 11:21:42                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

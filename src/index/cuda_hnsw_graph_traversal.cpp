@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cuda_hnsw_graph_traversal.cpp                      ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-14 07:02:01                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-14 11:34:05                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            plugin_hot_plug_monitor.cpp                        ║
-  Version:         0.0.40                                             ║
-  Last Modified:   2026-04-14 07:03:45                                ║
+  Version:         0.0.41                                             ║
+  Last Modified:   2026-04-14 11:35:42                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

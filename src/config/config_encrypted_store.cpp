@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            config_encrypted_store.cpp                         ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-14 07:00:26                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-14 11:32:38                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            flash_attention_vulkan.h                           ║
-  Version:         0.0.40                                             ║
-  Last Modified:   2026-04-14 06:52:49                                ║
+  Version:         0.0.41                                             ║
+  Last Modified:   2026-04-14 11:25:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_system_prompt_manager.cpp                     ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-14 07:21:44                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-14 11:52:14                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

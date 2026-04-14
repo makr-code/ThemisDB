@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cron_parser.cpp                                    ║
-  Version:         0.0.40                                             ║
-  Last Modified:   2026-04-14 07:07:40                                ║
+  Version:         0.0.41                                             ║
+  Last Modified:   2026-04-14 11:39:18                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

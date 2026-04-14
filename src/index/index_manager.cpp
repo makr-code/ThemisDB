@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            index_manager.cpp                                  ║
-  Version:         0.0.40                                             ║
-  Last Modified:   2026-04-14 07:02:05                                ║
+  Version:         0.0.41                                             ║
+  Last Modified:   2026-04-14 11:34:09                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 7e8c588d0f  2026-04-14  ci(release): enforce canonical naming scheme and repair t... ║
+    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
     • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
     • e823c7d48e  2026-04-13  feat(index): add IndexManager::exportIndexStats for metad... ║
     • 9f5c953436  2026-04-07  feat(config): Introduce new hierarchical configuration st... ║
-    • dd49fe5493  2026-04-07  fix(index): tenant key separator injection – validate col... ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

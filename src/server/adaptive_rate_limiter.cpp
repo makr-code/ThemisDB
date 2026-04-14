@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            adaptive_rate_limiter.cpp                          ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-14 07:05:32                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-14 11:37:20                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,6 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
     • b09d74434e  2026-03-13  fix(server): address all code review comments on rate lim... ║
     • 855ed0268a  2026-03-13  feat(server): add adaptive and cost-based rate limiters f... ║
 ╠═════════════════════════════════════════════════════════════════════╣

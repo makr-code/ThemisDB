@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_observability_hardening.cpp                   ║
-  Version:         0.0.40                                             ║
-  Last Modified:   2026-04-14 07:17:30                                ║
+  Version:         0.0.41                                             ║
+  Last Modified:   2026-04-14 11:48:20                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

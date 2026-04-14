@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            process_graph_rag.h                                ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-14 06:54:22                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-14 11:26:59                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

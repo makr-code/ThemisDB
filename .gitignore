@@ -59,6 +59,7 @@ Makefile
 
 # vcpkg (local installs - 163k+ files!)
 vcpkg_installed/
+vcpkg_installed_linux/
 .vcpkg/
 .vcpkg-cache/
 vcpkg/

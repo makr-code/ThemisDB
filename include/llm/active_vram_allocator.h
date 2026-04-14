@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            active_vram_allocator.h                            ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-14 06:52:46                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-14 11:25:29                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

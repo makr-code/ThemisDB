@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            sse_connection_manager.cpp                         ║
-  Version:         0.0.40                                             ║
-  Last Modified:   2026-04-14 07:06:02                                ║
+  Version:         0.0.41                                             ║
+  Last Modified:   2026-04-14 11:37:48                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,6 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • b006db51fb  2026-02-23  Implement CDC event filtering by operation type (INSERT/U... ║
 ╠═════════════════════════════════════════════════════════════════════╣

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_streaming_window.cpp                          ║
-  Version:         0.0.25                                             ║
-  Last Modified:   2026-04-14 07:08:19                                ║
+  Version:         0.0.26                                             ║
+  Last Modified:   2026-04-14 11:39:54                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

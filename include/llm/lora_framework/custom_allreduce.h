@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            custom_allreduce.h                                 ║
-  Version:         0.0.40                                             ║
-  Last Modified:   2026-04-14 06:52:57                                ║
+  Version:         0.0.41                                             ║
+  Last Modified:   2026-04-14 11:25:40                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            task_scheduler.h                                   ║
-  Version:         0.0.40                                             ║
-  Last Modified:   2026-04-14 06:55:37                                ║
+  Version:         0.0.41                                             ║
+  Last Modified:   2026-04-14 11:28:09                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     790                                            ║
+    • Total Lines:     788                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
     • ed0fb65444  2026-04-12  feat(scheduler): register 10 missing focused test targets... ║
     • 971a3c49d5  2026-03-20  Build/test fixes and auth role mapping refactor ║
     • c8aa401935  2026-03-15  feat(scheduler): propagate authenticated user context to ... ║
     • c97360e579  2026-03-15  fix(auth,scheduler): JWT scope enforcement, Kerberos role... ║
-    • 3d8fa93133  2026-03-09  feat(scheduler): dynamic task scaling based on queue dept... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

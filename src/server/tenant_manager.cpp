@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            tenant_manager.cpp                                 ║
-  Version:         0.0.40                                             ║
-  Last Modified:   2026-04-14 07:06:02                                ║
+  Version:         0.0.41                                             ║
+  Last Modified:   2026-04-14 11:37:48                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

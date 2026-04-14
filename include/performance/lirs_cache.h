@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            lirs_cache.h                                       ║
-  Version:         0.0.40                                             ║
-  Last Modified:   2026-04-14 06:54:02                                ║
+  Version:         0.0.41                                             ║
+  Last Modified:   2026-04-14 11:26:40                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

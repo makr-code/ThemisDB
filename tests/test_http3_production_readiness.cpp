@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_http3_production_readiness.cpp                ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-14 07:15:01                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-14 11:46:01                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

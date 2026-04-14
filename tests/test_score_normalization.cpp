@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_score_normalization.cpp                       ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-04-14 07:20:49                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-14 11:51:25                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

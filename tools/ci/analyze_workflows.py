@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            analyze_workflows.py                               ║
-  Version:         0.0.40                                             ║
-  Last Modified:   2026-04-14 07:24:13                                ║
+  Version:         0.0.41                                             ║
+  Last Modified:   2026-04-14 11:54:34                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

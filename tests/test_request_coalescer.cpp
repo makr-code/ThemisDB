@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_request_coalescer.cpp                         ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-04-14 07:20:15                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-04-14 11:50:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -39,6 +39,7 @@
 #include <gtest/gtest.h>
 #include "cache/request_coalescer.h"
 
+#include <array>
 #include <atomic>
 #include <chrono>
 #include <memory>

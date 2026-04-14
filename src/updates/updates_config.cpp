@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            updates_config.cpp                                 ║
-  Version:         0.0.40                                             ║
-  Last Modified:   2026-04-14 07:07:35                                ║
+  Version:         0.0.41                                             ║
+  Last Modified:   2026-04-14 11:39:13                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

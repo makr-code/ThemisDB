@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            multi_level_storage.cpp                            ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-14 07:07:38                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-14 11:39:16                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

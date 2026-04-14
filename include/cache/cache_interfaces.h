@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cache_interfaces.h                                 ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-14 06:50:37                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-14 11:23:28                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

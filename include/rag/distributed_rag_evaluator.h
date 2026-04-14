@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            distributed_rag_evaluator.h                        ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-14 06:55:09                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-14 11:27:43                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

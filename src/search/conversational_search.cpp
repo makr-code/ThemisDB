@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            conversational_search.cpp                          ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-04-14 07:05:08                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-04-14 11:36:58                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_structured_log_correlation.cpp                ║
-  Version:         0.0.17                                             ║
-  Last Modified:   2026-04-14 07:21:39                                ║
+  Version:         0.0.18                                             ║
+  Last Modified:   2026-04-14 11:52:10                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • eaa0026578  2026-02-21  fix(core): restore setLevel() in SpdlogLoggerAdapter; fix... ║
-    • 7f17c52b69  2026-02-21  feat(core): structured log correlation — span_id in Trace... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

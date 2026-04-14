@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llama_lora_adapter.cpp                             ║
-  Version:         0.0.40                                             ║
-  Last Modified:   2026-04-14 07:02:30                                ║
+  Version:         0.0.41                                             ║
+  Last Modified:   2026-04-14 11:34:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

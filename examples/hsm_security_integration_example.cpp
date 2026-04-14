@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            hsm_security_integration_example.cpp               ║
-  Version:         0.0.40                                             ║
-  Last Modified:   2026-04-14 06:49:26                                ║
+  Version:         0.0.41                                             ║
+  Last Modified:   2026-04-14 11:22:24                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            preflight_health_check.h                           ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-14 06:58:06                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-14 11:30:29                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

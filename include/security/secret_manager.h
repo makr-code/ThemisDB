@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            secret_manager.h                                   ║
-  Version:         0.0.40                                             ║
-  Last Modified:   2026-04-14 06:55:56                                ║
+  Version:         0.0.41                                             ║
+  Last Modified:   2026-04-14 11:28:27                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

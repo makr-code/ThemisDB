@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            alerting_engine.h                                  ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-14 06:53:44                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-14 11:26:23                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

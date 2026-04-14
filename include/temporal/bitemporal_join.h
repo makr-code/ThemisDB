@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bitemporal_join.h                                  ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-14 06:57:04                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-14 11:29:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

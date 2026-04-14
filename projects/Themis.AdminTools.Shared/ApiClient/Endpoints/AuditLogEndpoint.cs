@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            AuditLogEndpoint.cs                                ║
-  Version:         0.0.40                                             ║
-  Last Modified:   2026-04-14 06:58:47                                ║
+  Version:         0.0.41                                             ║
+  Last Modified:   2026-04-14 11:31:08                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

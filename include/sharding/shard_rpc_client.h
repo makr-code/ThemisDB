@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            shard_rpc_client.h                                 ║
-  Version:         0.0.40                                             ║
-  Last Modified:   2026-04-14 06:56:42                                ║
+  Version:         0.0.41                                             ║
+  Last Modified:   2026-04-14 11:29:10                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

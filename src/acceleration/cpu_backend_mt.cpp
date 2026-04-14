@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cpu_backend_mt.cpp                                 ║
-  Version:         0.0.40                                             ║
-  Last Modified:   2026-04-14 06:59:22                                ║
+  Version:         0.0.41                                             ║
+  Last Modified:   2026-04-14 11:31:39                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

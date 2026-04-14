@@ -179,7 +179,8 @@ endif()
 
 # Build options
 option(THEMIS_BUILD_TESTS "Build unit tests" ON)
-option(THEMIS_BUILD_BENCHMARKS "Build performance benchmarks" ON)
+option(THEMIS_BUILD_BENCHMARKS "Build performance benchmarks" OFF)
+option(THEMIS_BUILD_CHIMERA "Build CHIMERA adapters, focused tests, and benchmark integration" OFF)
 
 # GPU and LLM defaults (can be overridden via -D flags)
 # GPU acceleration includes FAISS, OpenBLAS, LAPACK via vcpkg
@@ -1541,10 +1542,8 @@ set(THEMIS_CORE_SOURCES
     ../src/performance/numa_topology.cpp
     ../src/performance/workload_predictor.cpp
     ../src/performance/async_metrics_exporter.cpp
-    ../src/performance/chimera_exporter.cpp
     ../src/performance/prometheus_exporter.cpp
     ../src/performance/prometheus_exporter.cpp
-    ../src/performance/chimera_exporter.cpp
     ../src/performance/async_metrics_exporter.cpp
     
     ../src/config/config_path_resolver.cpp
@@ -2549,7 +2548,12 @@ include(${CMAKE_CURRENT_SOURCE_DIR}/ContentProcessors.cmake)
 include(${CMAKE_CURRENT_SOURCE_DIR}/LLMIntegration.cmake)
 include(${CMAKE_CURRENT_SOURCE_DIR}/LegalTraining.cmake)
 include(${CMAKE_CURRENT_SOURCE_DIR}/DistributedTraining.cmake)
-include(${CMAKE_CURRENT_SOURCE_DIR}/ChimeraAdapters.cmake)
+if(THEMIS_BUILD_CHIMERA)
+    list(APPEND THEMIS_CORE_SOURCES
+        ${CMAKE_SOURCE_DIR}/src/performance/chimera_exporter.cpp
+    )
+    include(${CMAKE_CURRENT_SOURCE_DIR}/ChimeraAdapters.cmake)
+endif()
 include(${CMAKE_CURRENT_SOURCE_DIR}/VoiceAssistant.cmake)
 include(${CMAKE_CURRENT_SOURCE_DIR}/BlobStorage.cmake)
 include(${CMAKE_CURRENT_SOURCE_DIR}/BufferManagement.cmake)

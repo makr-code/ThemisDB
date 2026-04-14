@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            shader_integrity.h                                 ║
-  Version:         0.0.17                                             ║
-  Last Modified:   2026-04-14 06:49:41                                ║
+  Version:         0.0.18                                             ║
+  Last Modified:   2026-04-14 11:22:37                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • a629043ab2  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-    • 326c1184f7  2026-02-21  feat(acceleration): Phase 4.1 — ShaderIntegrityVerifier S... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

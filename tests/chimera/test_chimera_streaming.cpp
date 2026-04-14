@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_chimera_streaming.cpp                         ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-04-14 07:08:22                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-04-14 11:39:56                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -46,7 +46,6 @@
  */
 
 #include <gtest/gtest.h>
-#include "chimera/database_adapter.hpp"
 #include "chimera/themisdb_adapter.hpp"
 
 #include <algorithm>

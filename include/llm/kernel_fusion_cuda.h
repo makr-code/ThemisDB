@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            kernel_fusion_cuda.h                               ║
-  Version:         0.0.40                                             ║
-  Last Modified:   2026-04-14 06:52:53                                ║
+  Version:         0.0.41                                             ║
+  Last Modified:   2026-04-14 11:25:35                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

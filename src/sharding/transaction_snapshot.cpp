@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            transaction_snapshot.cpp                           ║
-  Version:         0.0.40                                             ║
-  Last Modified:   2026-04-14 07:06:18                                ║
+  Version:         0.0.41                                             ║
+  Last Modified:   2026-04-14 11:38:03                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

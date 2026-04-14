@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            opentelemetry_tracer.h                             ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-14 06:53:53                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-14 11:26:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

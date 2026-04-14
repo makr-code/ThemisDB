@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            shard_failure_injector.h                           ║
-  Version:         0.0.40                                             ║
-  Last Modified:   2026-04-14 07:23:39                                ║
+  Version:         0.0.41                                             ║
+  Last Modified:   2026-04-14 11:54:01                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

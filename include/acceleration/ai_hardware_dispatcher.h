@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ai_hardware_dispatcher.h                           ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-04-14 06:49:33                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-04-14 11:22:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     259                                            ║
+    • Total Lines:     260                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
     • 040083b025  2026-04-12  feat: StreamingIngestManager, TsStreamCursor, LZ4 compres... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
@@ -160,7 +161,8 @@ struct AiHardwareCapability {
  *   req.preferred_precision = PrecisionMode::FP16;
  *
  *   AiInferenceResult res = d.run(req);
- *   if (res.success) { /* use res.output */ }
+ *   if (res.success) { // use res.output
+ *   }
  * @endcode
  */
 class AiHardwareDispatcher {

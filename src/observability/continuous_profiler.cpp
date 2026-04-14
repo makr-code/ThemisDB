@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            continuous_profiler.cpp                            ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-14 07:03:15                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-14 11:35:14                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

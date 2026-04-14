@@ -374,7 +374,7 @@ set(THEMIS_STORAGE_SOURCES
     ../src/performance/phase3/feature_flags.cpp
     ../src/performance/numa_topology.cpp
     ../src/performance/prometheus_exporter.cpp
-    ../src/performance/chimera_exporter.cpp
+        $<$<BOOL:${THEMIS_BUILD_CHIMERA}>:../src/performance/chimera_exporter.cpp>
     ../src/performance/async_metrics_exporter.cpp
     ../src/performance/phase3/memory_pressure.cpp
     ../src/performance/phase3/adaptive_batch_tuner.cpp
@@ -510,7 +510,7 @@ set(THEMIS_QUERY_SOURCES
     ../src/performance/cycle_metrics.cpp
     ../src/performance/workload_predictor.cpp
     ../src/performance/async_metrics_exporter.cpp
-    ../src/performance/chimera_exporter.cpp
+        $<$<BOOL:${THEMIS_BUILD_CHIMERA}>:../src/performance/chimera_exporter.cpp>
     ../src/performance/prometheus_exporter.cpp
     ../src/performance/phase3/per_query_cost_model.cpp
     ../src/cache/cache_replication.cpp

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_blob_streaming.cpp                            ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-04-14 07:11:02                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-04-14 11:42:22                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

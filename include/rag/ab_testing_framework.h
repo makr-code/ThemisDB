@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ab_testing_framework.h                             ║
-  Version:         0.0.40                                             ║
-  Last Modified:   2026-04-14 06:55:03                                ║
+  Version:         0.0.41                                             ║
+  Last Modified:   2026-04-14 11:27:37                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

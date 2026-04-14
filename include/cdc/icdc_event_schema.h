@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            icdc_event_schema.h                                ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-14 06:50:53                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-14 11:23:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

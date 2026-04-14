@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            zero_copy_blob_transfer.h                          ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-14 06:57:03                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-14 11:29:30                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

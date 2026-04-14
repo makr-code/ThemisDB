@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            gov_source_catalog.h                               ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-04-14 06:58:32                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-14 11:30:55                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

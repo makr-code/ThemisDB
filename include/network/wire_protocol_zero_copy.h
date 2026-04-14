@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            wire_protocol_zero_copy.h                          ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-14 06:53:42                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-14 11:26:21                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,6 +14,8 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 7e8c588d0f  2026-04-14  ci(release): enforce canonical naming scheme and repair t... ║
+    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
     • 354c97d283  2026-03-16  feat: Add new erasure coding backend and related components ║
     • 543f66e654  2026-03-14  feat(network): implement wire protocol performance optimi... ║
 ╠═════════════════════════════════════════════════════════════════════╣

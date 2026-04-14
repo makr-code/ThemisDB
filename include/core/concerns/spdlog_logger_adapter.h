@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            spdlog_logger_adapter.h                            ║
-  Version:         0.0.40                                             ║
-  Last Modified:   2026-04-14 06:51:23                                ║
+  Version:         0.0.41                                             ║
+  Last Modified:   2026-04-14 11:24:12                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     302                                            ║
+    • Total Lines:     301                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║

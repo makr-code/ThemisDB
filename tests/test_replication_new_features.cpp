@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_replication_new_features.cpp                  ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-14 07:20:11                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-14 11:50:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

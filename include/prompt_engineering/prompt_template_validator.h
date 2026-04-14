@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            prompt_template_validator.h                        ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-14 06:54:35                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-14 11:27:11                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

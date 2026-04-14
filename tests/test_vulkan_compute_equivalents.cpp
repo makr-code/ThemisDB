@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_vulkan_compute_equivalents.cpp                ║
-  Version:         0.0.8                                              ║
-  Last Modified:   2026-04-14 07:23:03                                ║
+  Version:         0.0.9                                              ║
+  Last Modified:   2026-04-14 11:53:28                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

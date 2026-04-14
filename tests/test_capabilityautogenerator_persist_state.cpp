@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_capabilityautogenerator_persist_state.cpp     ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-14 07:11:16                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-14 11:42:34                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            irotation_store.hpp                                ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-14 06:58:10                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-14 11:30:33                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

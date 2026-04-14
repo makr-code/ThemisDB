@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            aql_conversation_context.cpp                       ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-04-14 06:59:42                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-04-14 11:31:58                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     366                                            ║
+    • Total Lines:     367                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
     • f38c013cdc  2026-03-29  Enhance various components with improvements and fixes ║
     • 67965456c8  2026-03-22  Add constructors with default config for various classes ... ║
     • d630135feb  2026-03-13  fix(aql): address PR review comments on bounded conversat... ║
     • d231050f3c  2026-03-13  feat(aql): bounded conversation history with context-wind... ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
