@@ -106,7 +106,10 @@ jobs:
       - name: Setup vcpkg
         shell: pwsh
         run: |
-          if (-Not (Test-Path "vcpkg")) {
+          if (-Not (Test-Path "vcpkg/bootstrap-vcpkg.bat")) {
+            if (Test-Path "vcpkg") {
+              Remove-Item -Recurse -Force "vcpkg"
+            }
             git clone https://github.com/microsoft/vcpkg.git vcpkg
           }
           .\vcpkg\bootstrap-vcpkg.bat -disableMetrics
