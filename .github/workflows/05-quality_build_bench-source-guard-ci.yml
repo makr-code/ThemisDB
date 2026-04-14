@@ -7,6 +7,8 @@ name: Bench-Source CI Guard
 #
 #   Check 8a – every bench_*.cpp in benchmarks/ is covered by a CMake target
 #              (explicit add_executable() OR auto-registration block present).
+#              Allowlisted sources (tools/bench_source_allowlist.toml) are
+#              excluded from failure reporting.
 #              STATUS_FAIL when orphaned_sources != [].
 #
 #   Check 8b – tools/check_bench_targets.py (standalone guard) exists.
@@ -15,6 +17,12 @@ name: Bench-Source CI Guard
 # The job fails (exit-code 1) if either check returns STATUS_FAIL, blocking
 # the PR merge.  This prevents new bench_*.cpp files from being silently
 # stranded without a build target.
+#
+# Allowlist
+#   tools/bench_source_allowlist.toml contains bench stems that are
+#   intentionally absent from the standard build profile (GPU-only,
+#   platform-specific, third-party dependencies).  See
+#   docs/ci-cd/workflows/05-quality/bench-source-guard-ci.md for details.
 #
 # Triggers:
 #   • pull_request  – on any change to benchmarks/ sources or CI guard tools
@@ -29,6 +37,7 @@ on:
       - 'benchmarks/bench_*.cpp'
       - 'benchmarks/CMakeLists.txt'
       - 'tools/check_bench_targets.py'
+      - 'tools/bench_source_allowlist.toml'
       - 'tools/perf_expectations_audit.py'
       - '.github/workflows/05-quality_build_bench-source-guard-ci.yml'
   push:
@@ -39,6 +48,7 @@ on:
       - 'benchmarks/bench_*.cpp'
       - 'benchmarks/CMakeLists.txt'
       - 'tools/check_bench_targets.py'
+      - 'tools/bench_source_allowlist.toml'
       - 'tools/perf_expectations_audit.py'
   schedule:
     - cron: '0 1 * * *'   # Nightly at 01:00 UTC
@@ -67,6 +77,8 @@ jobs:
 
       # Run the standalone guard first so the error message is immediately
       # visible even without the full audit context.
+      # The allowlist (tools/bench_source_allowlist.toml) is loaded automatically
+      # when present.  Each orphaned source is reported with its Grundkategorie.
       - name: Run standalone bench-target guard (check_bench_targets.py)
         id: guard
         run: |
@@ -93,6 +105,23 @@ jobs:
           echo "audit_json<<EOF" >> "$GITHUB_OUTPUT"
           cat /tmp/perf_audit_results.json >> "$GITHUB_OUTPUT"
           echo "EOF" >> "$GITHUB_OUTPUT"
+
+      - name: Export guard JSON results for step summary
+        if: always()
+        id: guard_json
+        run: |
+          python3 tools/check_bench_targets.py \
+            --no-color \
+            --format json \
+            > /tmp/guard_results.json 2>&1 || true
+
+      - name: Upload guard results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bench-guard-results-${{ github.sha }}
+          path: /tmp/guard_results.json
+          retention-days: 14
 
       - name: Upload audit results
         if: always()
@@ -126,7 +155,41 @@ jobs:
           echo "| 8b | Externer Guard (check_bench_targets.py) vorhanden | \`${{ steps.audit.outcome }}\` |" \
             >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
+          if [ -f /tmp/guard_results.json ]; then
+            echo "### Guard Results (bench_*.cpp vs CMake targets)" >> "$GITHUB_STEP_SUMMARY"
+            python3 - <<'PYEOF' >> "$GITHUB_STEP_SUMMARY"
+import json, sys
+try:
+    with open("/tmp/guard_results.json") as f:
+        d = json.load(f)
+except Exception as e:
+    print(f"> ⚠️ Could not parse guard results: {e}")
+    sys.exit(0)
+counts = d.get("counts", {})
+print("| Metric | Count |")
+print("|--------|-------|")
+print(f"| Orphaned (no CMake target, not allowlisted) | {counts.get('orphaned', 0)} |")
+print(f"| Auto-registration covered | {counts.get('auto_reg_covered', 0)} |")
+print(f"| Binary missing (--build-dir mode) | {counts.get('binary_missing', 0)} |")
+print(f"| Allowlisted (permitted absences) | {counts.get('allowlisted', 0)} |")
+if d.get("orphaned_sources"):
+    print()
+    print("#### Orphaned Sources")
+    print("| Source | Category |")
+    print("|--------|----------|")
+    for entry in d["orphaned_sources"]:
+        print(f"| `{entry['stem']}.cpp` | {entry['category']} |")
+if d.get("allowlisted_sources"):
+    print()
+    print("#### Allowlisted Sources (permitted absences)")
+    print("| Source | Category | Reason |")
+    print("|--------|----------|--------|")
+    for entry in d["allowlisted_sources"]:
+        print(f"| `{entry['stem']}.cpp` | {entry['category']} | {entry.get('reason','')} |")
+PYEOF
+          fi
           if [ -f /tmp/perf_audit_results.json ]; then
+            echo "" >> "$GITHUB_STEP_SUMMARY"
             echo "### Audit JSON" >> "$GITHUB_STEP_SUMMARY"
             echo "\`\`\`json" >> "$GITHUB_STEP_SUMMARY"
             cat /tmp/perf_audit_results.json >> "$GITHUB_STEP_SUMMARY"
